@@ -1,0 +1,64 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
+
+  <!-- ROOT -->
+  <url>
+    <loc>https://zqhwebpro.github.io/portfolio/</loc>
+    <lastmod>2026-04-14</lastmod>
+    <priority>1.00</priority>
+  </url>
+
+  <!-- INTERACTIVE INFOGRAPHICS -->
+  <url><loc>https://zqhwebpro.github.io/portfolio/Interactive%20Infographics/</loc><priority>0.90</priority></url>
+
+  <url><loc>https://zqhwebpro.github.io/portfolio/Interactive%20Infographics/camping-across-america/</loc><priority>0.80</priority></url>
+  <url><loc>https://zqhwebpro.github.io/portfolio/Interactive%20Infographics/digital-safety/</loc><priority>0.80</priority></url>
+  <url><loc>https://zqhwebpro.github.io/portfolio/Interactive%20Infographics/guitarfella-map/</loc><priority>0.80</priority></url>
+  <url><loc>https://zqhwebpro.github.io/portfolio/Interactive%20Infographics/harvesting-guide/</loc><priority>0.80</priority></url>
+  <url><loc>https://zqhwebpro.github.io/portfolio/Interactive%20Infographics/history-corvettes/</loc><priority>0.80</priority></url>
+  <url><loc>https://zqhwebpro.github.io/portfolio/Interactive%20Infographics/keto_calc/</loc><priority>0.80</priority></url>
+  <url><loc>https://zqhwebpro.github.io/portfolio/Interactive%20Infographics/mom-family-map/</loc><priority>0.80</priority></url>
+  <url><loc>https://zqhwebpro.github.io/portfolio/Interactive%20Infographics/name-gen-fidosfavorite/</loc><priority>0.80</priority></url>
+  <url><loc>https://zqhwebpro.github.io/portfolio/Interactive%20Infographics/oilherbremedy/</loc><priority>0.80</priority></url>
+  <url><loc>https://zqhwebpro.github.io/portfolio/Interactive%20Infographics/plumbing-info/</loc><priority>0.80</priority></url>
+  <url><loc>https://zqhwebpro.github.io/portfolio/Interactive%20Infographics/Renewable%20Energy%20in%20America%20-%20blue%20(full%20page)/</loc><priority>0.80</priority></url>
+  <url><loc>https://zqhwebpro.github.io/portfolio/Interactive%20Infographics/Renewable%20Energy%20in%20America%20-%20red%20(small)/</loc><priority>0.80</priority></url>
+  <url><loc>https://zqhwebpro.github.io/portfolio/Interactive%20Infographics/trail-map-wildernesstoday/</loc><priority>0.80</priority></url>
+  <url><loc>https://zqhwebpro.github.io/portfolio/Interactive%20Infographics/travel-safety/</loc><priority>0.80</priority></url>
+  <url><loc>https://zqhwebpro.github.io/portfolio/Interactive%20Infographics/trek-bible/</loc><priority>0.80</priority></url>
+  <url><loc>https://zqhwebpro.github.io/portfolio/Interactive%20Infographics/usa-authority-map/</loc><priority>0.80</priority></url>
+  <url><loc>https://zqhwebpro.github.io/portfolio/Interactive%20Infographics/wilderness-today-map/</loc><priority>0.80</priority></url>
+
+  <!-- WEB PROJECTS -->
+  <url><loc>https://zqhwebpro.github.io/portfolio/web/</loc><priority>0.90</priority></url>
+
+  <url><loc>https://zqhwebpro.github.io/portfolio/web/begin-lessons-site/</loc><priority>0.70</priority></url>
+  <url><loc>https://zqhwebpro.github.io/portfolio/web/beilerprinting/</loc><priority>0.70</priority></url>
+  <url><loc>https://zqhwebpro.github.io/portfolio/web/buckland-insurance-agency/</loc><priority>0.70</priority></url>
+  <url><loc>https://zqhwebpro.github.io/portfolio/web/compass/</loc><priority>0.70</priority></url>
+  <url><loc>https://zqhwebpro.github.io/portfolio/web/deltagrp/</loc><priority>0.70</priority></url>
+  <url><loc>https://zqhwebpro.github.io/portfolio/web/express-crossfit/</loc><priority>0.70</priority></url>
+  <url><loc>https://zqhwebpro.github.io/portfolio/web/grace-lutheran/</loc><priority>0.70</priority></url>
+  <url><loc>https://zqhwebpro.github.io/portfolio/web/hopewell/</loc><priority>0.70</priority></url>
+  <url><loc>https://zqhwebpro.github.io/portfolio/web/insurancechoices/</loc><priority>0.70</priority></url>
+  <url><loc>https://zqhwebpro.github.io/portfolio/web/jquery-source/</loc><priority>0.40</priority></url>
+  <url><loc>https://zqhwebpro.github.io/portfolio/web/jquery-source-2/</loc><priority>0.40</priority></url>
+  <url><loc>https://zqhwebpro.github.io/portfolio/web/kennies/</loc><priority>0.70</priority></url>
+  <url><loc>https://zqhwebpro.github.io/portfolio/web/marimedic/</loc><priority>0.70</priority></url>
+  <url><loc>https://zqhwebpro.github.io/portfolio/web/martins/</loc><priority>0.70</priority></url>
+  <url><loc>https://zqhwebpro.github.io/portfolio/web/mock_demo/</loc><priority>0.30</priority></url>
+  <url><loc>https://zqhwebpro.github.io/portfolio/web/new-castle-insurance/</loc><priority>0.70</priority></url>
+  <url><loc>https://zqhwebpro.github.io/portfolio/web/new-guru/</loc><priority>0.70</priority></url>
+  <url><loc>https://zqhwebpro.github.io/portfolio/web/no-call-centers/</loc><priority>0.70</priority></url>
+  <url><loc>https://zqhwebpro.github.io/portfolio/web/old-portfolio/</loc><priority>0.50</priority></url>
+  <url><loc>https://zqhwebpro.github.io/portfolio/web/paradise-brewery/</loc><priority>0.70</priority></url>
+  <url><loc>https://zqhwebpro.github.io/portfolio/web/regionalinsurance/</loc><priority>0.70</priority></url>
+  <url><loc>https://zqhwebpro.github.io/portfolio/web/roclyksbbq/</loc><priority>0.70</priority></url>
+  <url><loc>https://zqhwebpro.github.io/portfolio/web/rodney-cole-insurance/</loc><priority>0.70</priority></url>
+  <url><loc>https://zqhwebpro.github.io/portfolio/web/scottandwilson/</loc><priority>0.70</priority></url>
+  <url><loc>https://zqhwebpro.github.io/portfolio/web/stictlyfitness/</loc><priority>0.70</priority></url>
+  <url><loc>https://zqhwebpro.github.io/portfolio/web/thecookiesale/</loc><priority>0.70</priority></url>
+  <url><loc>https://zqhwebpro.github.io/portfolio/web/theosborneins/</loc><priority>0.70</priority></url>
+  <url><loc>https://zqhwebpro.github.io/portfolio/web/ufc-news/</loc><priority>0.70</priority></url>
+
+</urlset>
