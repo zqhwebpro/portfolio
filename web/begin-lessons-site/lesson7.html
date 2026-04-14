@@ -1,0 +1,240 @@
+<!doctype html>
+<html><head>
+<meta charset="utf-8">
+<title>123:CODE</title>
+<link href="lib/css/styles.css" rel="stylesheet" type="text/css">
+<link href='http://fonts.googleapis.com/css?family=Bangers' rel='stylesheet' type='text/css'>
+<link href='http://fonts.googleapis.com/css?family=Yanone+Kaffeesatz:400,700,300,200' rel='stylesheet' type='text/css'>
+<link href='http://fonts.googleapis.com/css?family=Open+Sans:400,300' rel='stylesheet' type='text/css'>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/prettify/r298/run_prettify.js"></script>
+<link href='https://cdnjs.cloudflare.com/ajax/libs/prettify/r298/prettify.min.css' rel=
+'stylesheet' type='text/css'>
+</head>
+
+<body>
+
+<SCRIPT language="JavaScript"
+        type="text/javascript">
+<!--
+//
+// Documentation:
+//   http://chami.com/tips/javascript/
+//
+function checkAnswer(quizForm,
+                     theAnswer,
+                     urlRight,
+                     urlWrong)
+{
+  var s = "?";
+
+  // go through the "current choices"
+  // to find the selected choice.
+  // radio boxes pointing to choices
+  // must be named "cc"
+  // change if necessary
+  //
+  var i = 0;
+  for(;i<quizForm.elements.length;i++)
+  {
+    if(("cc" ==
+        quizForm.elements[i].name) &&
+       (quizForm.elements[i].checked))
+    {
+      s = quizForm.elements[i].value;
+    }
+  }
+
+  // no choice was selected
+  //
+  if("?" == s)
+  {
+    alert("Please make a selection.");
+    return false;
+  }
+
+  // check if we have the correct
+  // choice selected
+  //
+  if(s == theAnswer)
+  {
+    alert("'"+s+"' is correct!");
+    if(urlRight)
+    {
+    document.location.href = urlRight;
+    }
+  }
+  else
+  {
+    alert("'"+s+"' is incorrect.");
+    if( urlWrong )
+    {
+    document.location.href = urlWrong;
+    }
+  }
+
+  // return "false" to indicate not to
+  // submit the form.
+  // change this to "true" if the form
+  // "action" is valid,
+  // i.e. points to a valid CGI script
+  //
+  return false;
+}
+//-->
+</SCRIPT>
+
+<div id="header-container"></div>
+
+<div id="sitewrapper">
+	<div id="header">
+    <h1><span class="redtype">[123]</span>&nbsp;CODE</h1>
+	</div>
+<ul>
+	<li><a href="lessonland.html">LESSONS</a></li>
+	<li><a href="index.html">HOME</a></li>
+</ul>
+<div id="body_c">
+	<div id="container-position"></div>
+		<div id="container-lessons">
+<div id="lessonnav">
+        	<ul>
+            	<li><a href="lesson1.html">1</a></li>
+              	<li><a href="lesson2.html">2</a></li>
+                <li><a href="lesson3.html">3</a></li>
+                <li><a href="lesson4.html">4</a></li>
+                <li><a href="lesson5.html">5</a></li>
+                <li><a href="lesson6.html">6</a></li>
+                <li><a href="lesson7.html">7</a></li>
+                <li><a href="lesson8.html">8</a></li>
+        	</ul>
+        </div>
+<h1>Lesson 7 - CSS  Properties</h1>
+<p class="margbot">Objective: The basics are done, the box model has been learned, so our next step is now, ta da da da... CSS Properties. We won't learn the complete list of all of the CSS properties available but we will learn the most used properties.</p>
+<h3 class="margbot">CSS Resets:</h3>
+<h4>Why resets?</h4>
+<p class="margbot">Brosers do not have consistent default properties therefor a CSS Reset must be used in order to fix cross-browser look inconsistencies. A CSS Reset is used to give everything a default look and value. It make be tweaked to fit your needs but it's best to have one in place. You can view a couple default CSS Reset's below.</p>
+	<p><a href="http://meyerweb.com/eric/tools/css/reset/">http://meyerweb.com/eric/tools/css/reset/</a></p>
+	<p><a href="http://yui.yahooapis.com/3.2.0/build/cssreset/reset.css">http://yui.yahooapis.com/3.2.0/build/cssreset/reset.css</a></p><br/>
+<br/>
+<h3 class="margbot">Text Properties</h3>
+<h4>font-family</h4>
+<p class="margbot">With font-family you can change the font completely. For example, you can switch the default to Arial or make certain strings of code Veranda.</p>
+<h4>font-size</h4>
+<p class="margbot">In order to set the size of the font, use the font-size tag.</p>
+<h4>font-weight</h4>
+<p class="margbot">Fonts come in multiple weights meaning with a font weight you can set a paticular font to be thinner or bolder and wider with the font-weight tag.</p>
+<h4>font-style</h4>
+<p class="margbot">Some fonts also come with multiple styles meaning certain fonts you can change into a more decorated version of the font or quite possibly a style that offers more kerning. It depends on the font you chose which possibly styles are attached..</p>
+<h4>color</h4>
+<p class="margbot">To change the default color use the color property. You can set colors by using generic terms like #white and #blue. Or you can set the hex web color like this for white: #FFFFFF and blue like this: #0000FF.</p>
+<h4>text-decoration</h4>
+<p class="margbot">There are a few text decorations. For instance, a link by default as a text-decoration of underline. Other text decorations are things like line-through, overline, blink, and inherit. (inherit takes the value of it's parent element, not compatable with the internet explorer browser.</p>
+<h4>letter-spacing</h4>
+<p class="margbot">Letter-spacing adjust the kerning of the paragraph information you input.</p>
+<h4>line-height</h4>
+<p class="margbot">Line-height alters the space between new strings of text in a paragraph.</p>
+<h4>text-transform</h4>
+<p class="margbot">With the text-transform property you can use uppercase, lowercase, or capitilzation to change the entire case composure of the paragraph.</p>
+<h4>word-spacing</h4>
+<p class="margbot">Instead of changing the spacing of the kerning like letter-space would word spacing only changes the distance between one word and the next.</p>
+<h4>text-align</h4>
+<p class="margbot">Text-align is a tag that acts like the paragraph justify would in a standard word document program. You can justfy the text to be on the left, the center, and the right.</p>
+<h4>text-indent</h4>
+<p class="margbot">With this tags you can specify how much spacing you went to indent text from the begining perimeters of it's paragraph tag settings.</p>
+<br/>
+<h3 class="margbot">General Properties:</h3>
+<h4>outline</h4>
+<p class="margbot">Outline functions just like border functions. With the outline property you can set the color, a style, and the width. The styles are the same as border is: none, dotted, dashed, solid, double, groove, ridge, inset, outset, and inherit. Outline creates a line right outside of the border element on content.</p>
+<h4>display</h4>
+<p class="margbot">Display handles the visibility of content and how it functions as an element in CSS. Meaning with display you can set an item to block or inline or you can set the display to be visible or not.</p>
+<h4>background-color</h4>
+<p class="margbot">Background-color sets the whole background of the content you are applying the property to just like color but it instead effects the entire elements background.</p>
+<h4>background-image</h4>
+<p class="margbot">This tag will set the background to an image by loading the image of choice to fill the content settings.</p>
+<h4>background-repeat</h4>
+<p class="margbot">This will repeat the image that you have set so that you can create patterns with an image.</p>
+<h4>background-attachment</h4>
+<p class="margbot">Background-attatchment will set the background in certain ways. It alters the style of what you set and places it according to the property you set. These properties include: scroll, fixed, local, initial, and inherit.</p>
+<h4>background-position</h4>
+<p class="margbot">In order to set the exact position of your image you are required to use the background-position element. You can set the position in terms of justify quadrants, x%/y%, xpos/ypos, initial, and inherit.</p>
+<h4>background</h4>
+<p class="margbot">To set the aforementioned properties with one setting you can use this tag which is the shorthand version of typing each individual property out. </p>
+<br/><br/>
+
+
+<h4>♪ The more you know.</h4>  <br/>
+<hr>
+
+
+<p>What property would you use to change the color of a font?</p>
+<br/>
+<FORM method="POST"
+      onSubmit="return checkAnswer(this,'C');"
+>
+
+<INPUT TYPE="RADIO" VALUE="A" NAME="cc">
+A. font-color<br/>
+
+<INPUT TYPE="RADIO" VALUE="B" NAME="cc">
+B. background-color<br/>
+
+<INPUT TYPE="RADIO" VALUE="C" NAME="cc">
+C. color<br/>
+<br/>
+
+<INPUT TYPE="SUBMIT" VALUE="Submit Answer">
+
+</FORM>
+
+<p>What property would I have to use to set an element to be :block?</p>
+<br/>
+<FORM method="POST"
+      onSubmit="return checkAnswer(this,'A');"
+>
+
+<INPUT TYPE="RADIO" VALUE="A" NAME="cc">
+A. display<br/>
+
+<INPUT TYPE="RADIO" VALUE="B" NAME="cc">
+B. position<br/>
+
+<INPUT TYPE="RADIO" VALUE="C" NAME="cc">
+C. align<br/>
+<br/>
+
+<INPUT TYPE="SUBMIT" VALUE="Submit Answer">
+
+</FORM>
+
+<p>How do you change the kerning of text with HTML?</p>
+<br/>
+<FORM method="POST"
+      onSubmit="return checkAnswer(this,'C');"
+>
+
+<INPUT TYPE="RADIO" VALUE="A" NAME="cc">
+A. kerning<br/>
+
+<INPUT TYPE="RADIO" VALUE="B" NAME="cc">
+B. font-style<br/>
+
+<INPUT TYPE="RADIO" VALUE="C" NAME="cc">
+C. letter-spacing<br/>
+<br/>
+
+<INPUT TYPE="SUBMIT" VALUE="Submit Answer">
+
+</FORM>
+
+    </div>
+	<div id="footer-cont"></div>
+</div>
+
+
+<div id="footer"></div>
+<div id="footerfix"></div>
+
+</div>
+
+</body>
+</html>

@@ -1,0 +1,128 @@
+[
+    {
+        "Header": "2014 CASE IH MAGNUM 260",
+        "Price": "$160,500",
+        "Image": "21P10039-L.jpg",
+        "Year": 2014,
+        "Manufacturer": "CASE IH",
+        "Model": "MAGNUM 260",
+        "SerialNumber": "ZDRD09115",
+        "Condition": "Used",
+        "StockNumber": "21P10039-L",
+        "Hours": "856",
+        "Horsepower": 257,
+        "Drive": "MFWD",
+        "Link": "https://www.delta-grp.com/equipment/used-equipment/2014-case-ih-magnum-260",
+        "CompanyID": "3458662",
+        "Images": [
+        ]
+    },
+    {
+        "Header": "2007 CASE IH MAGNUM 275",
+        "Price": "$82,500",
+        "Image": "2U106755-L.jpg",
+        "Year": 2006,
+        "Manufacturer": "CASE IH",
+        "Model": "MAGNUM 275",
+        "SerialNumber": "Z6RZ04390",
+        "Condition": "Used",
+        "StockNumber": "2U106755-L",
+        "Hours": "5,446",
+        "Horsepower": 275,
+        "Drive": "PRWD",
+        "Link": "https://www.delta-grp.com/equipment/used-equipment/2007-case-ih-magnum-275",
+        "CompanyID": "3458734",
+        "Images": [
+        ]
+    },
+    {
+      "Header": "2011 CASE IH 2152",
+      "Price": "$35,000",
+      "Image": "22Q08556.jpg",
+      "Year": 2011,
+      "Manufacturer": "CASE IH",
+      "Model": "2152",
+      "SerialNumber": "YBZN07619",
+      "Condition": "Used",
+      "StockNumber": "22Q08556",
+      "Hours": "",
+      "Horsepower": 0,
+      "Drive": "MFWD",
+      "Link": "https://www.delta-grp.com/equipment/used-equipment/2011-case-ih-2152",
+      "CompanyID": "3458662",
+      "Images": [
+      ]
+  },
+  {
+      "Header": "2013 CASE IH PUMA 215",
+      "Price": "$165,000",
+      "Image": "81O01221.jpg",
+      "Year": 2013,
+      "Manufacturer": "CASE IH",
+      "Model": "PUMA 215",
+      "SerialNumber": "ZDBS19137",
+      "Condition": "Used",
+      "StockNumber": "81O01221",
+      "Hours": "413",
+      "Horsepower": 180,
+      "Drive": "MFWD",
+      "Link": "https://www.delta-grp.com/equipment/used-equipment/2013-case-ih-puma-215",
+      "CompanyID": "3458656",
+      "Images": [
+      ]
+  },
+    {
+      "Header": "2006 CASE IH CPX620",
+      "Price": "$75,000",
+      "Image": "2U606587-L.jpg",
+      "Year": 2006,
+      "Manufacturer": "CASE IH",
+      "Model": "CPX620",
+      "SerialNumber": "UNKNOWN",
+      "Condition": "Used",
+      "StockNumber": "2U606587-L",
+      "Hours": "",
+      "Horsepower": 0,
+      "Drive": "MFWD",
+      "Link": "https://www.delta-grp.com/equipment/used-equipment/2006-case-ih-cpx620",
+      "CompanyID": "3458662",
+      "Images": [
+      ]
+  },
+  {
+      "Header": "2011 CASE IH MAGNUM 290",
+      "Price": "$140,000",
+      "Image": "91Q01143-GW.jpg",
+      "Year": 2011,
+      "Manufacturer": "CASE IH",
+      "Model": "MAGNUM 290",
+      "SerialNumber": "ZBRD02704",
+      "Condition": "Used",
+      "StockNumber": "91Q01143-GW",
+      "Hours": "1,373",
+      "Horsepower": 290,
+      "Drive": "4 WD",
+      "Link": "https://www.delta-grp.com/equipment/used-equipment/2011-case-ih-magnum-290",
+      "CompanyID": "3458662",
+      "Images": [
+      ]
+  },
+  {
+        "Header": "2013 CASE IH 8230",
+        "Price": "$259,000",
+        "Image": "42F04992.jpg",
+        "Year": 2013,
+        "Manufacturer": "CASE IH",
+        "Model": "8230",
+        "SerialNumber": "YDG219161",
+        "Condition": "Used",
+        "StockNumber": "42F04992",
+        "Hours": "919",
+        "Horsepower": 0,
+        "Drive": "",
+        "Link": "https://www.delta-grp.com/equipment/used-equipment/2013-case-8230",
+        "CompanyID": "3458662",
+        "Images": [
+        ]
+    }
+]

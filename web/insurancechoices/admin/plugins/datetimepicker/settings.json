@@ -1,0 +1,11 @@
+{
+    "active":false,
+    "hooks":{
+        "css":[
+            {"file":"bootstrap-datetimepicker.min.css", "type":"link"}
+        ],
+        "javascript":[
+            {"file":"bootstrap-datetimepicker.min.js", "type":"script"}
+        ]
+    }
+}

@@ -1,0 +1,95 @@
+<!doctype html>
+<html>
+<head>
+<meta charset="utf-8">
+<title>jQuery-source: your source for everything jquery.</title>
+<link href="lib/css/styles.css" rel="stylesheet" type="text/css">
+<link href='http://fonts.googleapis.com/css?family=Yanone+Kaffeesatz:400,700,300,200' rel='stylesheet' type='text/css'>
+<link href='http://fonts.googleapis.com/css?family=Oxygen:400,700,300' rel='stylesheet' type='text/css'>
+<script src="https://google-code-prettify.googlecode.com/svn/loader/run_prettify.js"></script>
+<script type="text/javascript" src="lib/scripts/jquery-1.11.1.min.js"></script>
+<script type="text/javascript" src="lib/scripts/alertpopup.js"></script>
+<script type="text/javascript" src="http://arrow.scrolltotop.com/arrow27.js"></script>
+</head>
+
+<body>
+
+<div id="wrapper">
+
+<div id="headerwrapper">
+<div id="header">
+	<h1><img id="header-logo" src="lib/img/jqlogo.png" alt="jQuery-source" /></h1>
+    <h3><img id="tagline" src="lib/img/tagline.png" alt="jqsource tagline" /></h3>
+</div>
+</div>
+
+<div id="menuwrapper">
+	<div id="menu">
+		<ul>
+        	<li><a href="index.html">HOME</a></li>
+			<li><a href="#">LESSONS</a>
+            	<ul>
+                	<li><a href="lesson1_1.html">Lesson 1</a></li>
+                    <li><a href="lesson2_1.html">Lesson 2</a></li>
+                    <li><a href="lesson3_1.html">Lesson 3</a></li>
+                    <li><a href="lesson4_1.html">Lesson 4</a></li>
+                    <li><a href="lesson5_1.html">Lesson 5</a></li>
+                    <li><a href="lesson6_1.html">Lesson 6</a></li>
+                 </ul>
+            </li>
+        	<li><a href="contact.html">CONTACT</a></li>	
+		</ul>
+	</div>
+</div>
+
+<div id="container">
+<div id="lessonmenu">
+	<ul>
+		<li class="lessonmenufont">Lesson 1:</li>
+        <li><a href="lesson1_1.html">101</a></li>
+        <li><a href="lesson1_2.html">102</a></li>
+        <li><a href="lesson1_3.html">103</a></li>
+    </ul>
+</div>
+
+<div id="bcontainerl">
+	<h1>Lesson 103 - Alert!</h1>
+	<p>In this lesson, we will discover the alert function. By  initiating an alert function to find and use the first paragraph as the pop-up declaration. </p>
+<hr>
+    
+<h2>HTML Markup:</h2>
+<pre class="prettyprint linenums">
+&lt;!--First you must declare the text you wish to display in the pop-up alert with use of a 
+paragraph function for this demonstration-->
+
+&lt;p>In this lesson, we will discover the alert function. By initiating an alert function to 
+find and use the first paragraph as the pop-up decleration.&lt;/p>
+</pre><br/>
+
+<h2>CSS Markup:</h2>
+<pre class="prettyprint linenums">
+/* CSS is not required for this paticular lesson. */
+</pre><br/>
+
+<h2>jQuery Markup:</h2>
+<pre class="prettyprint linenums">
+$(document).ready(function(){ // document is ready to function
+
+	alert($('p:first').text()); // alert is activated to call the text using 
+the first paragraph tag in the HTML
+
+}); //end of function
+</pre>
+
+</div>
+</div>
+</div>
+
+<hr class="line">
+
+<div id="bcontainer3">
+	<p>jQuery-source © 2014 - Zach Heindel.</p>
+</div>
+
+</body>
+</html>

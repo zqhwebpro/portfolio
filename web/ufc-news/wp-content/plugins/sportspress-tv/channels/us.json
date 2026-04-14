@@ -1,0 +1,121 @@
+{
+	"NFL" : {
+		"Football News" : "1u5w8xo4r6ze91ip2d8q3rrcy7"
+	},
+	"Baseball" : {
+		"MLB" : "1lh9hex1ojno81l3qqpgkdtrj0"
+	},
+	"Basketball" : {
+		"NBA (US)" : "13ay1ml17yvpm1095pcsfjdgqx",
+		"LiveBasketball.TV - FIBA (US)" : "tb26gmukamyt1gnatm26bjtx2",
+		"More Basketball" : "1vugiuj7igiuq1771nf2ujmixu",
+		"WNBA" : "1dpkkrgnzbi841xpkl56px6cdx"
+	},
+	"Hockey" : {
+		"NHL" : "1kejbfwfcadit1xx8k8kvrelcz"
+	},
+	"College Sports" : {
+		"College Football" : "967w4fdabfay1pk4jymlb2n9z",
+		"College Basketball" : "1aa5ak69qcxmx11q1jp3xnbt6g",
+		"Big Ten" : "i8kbhn6zihhj1p09b856uodn4",
+		"Editor's Picks" : "1cvfn69o04ltq1f88spwgguexs"
+	},
+	"Soccer" : {
+		"German Soccer Highlight (US)" : "1sy7im5tiucav14diczttcg8ra",
+		"Club World Cup" : "ct3dcuqakypv10n98kc2za7kt",
+		"UEFA Champions League (US)" : "bt6v5yb6c05310j57xkdmuwsl",
+		"Euro 2012 News (UK)" : "13vdv73pizqj81ip6swzsj2sms",
+		"Concacaf Champions League" : "1fldhgflzb3wn1ugpkdpd781wm",
+		"Premier League News" : "covdghvxuchb1ps4zha981u7z",
+		"Europa League" : "e7zd5k2585u6177pqfygr5dkb",
+		"European Soccer News" : "tf2aw1e6iwl81l2hyvxhkl88u",
+		"South American Soccer News" : "28vh8yygui9z182lrbkape5v1",
+		"Asian Soccer News" : "1qldw7vd2wbhm1dfmg6skjorzm",
+		"International Soccer News" : "ennz7vbu2dc51kx62q7anuaxz",
+		"World Cup News" : "z9jfvdcz2t5f1nsnwhg4cz64h"
+	},
+	"Golfing World" : {
+		"LPGA" : "1bmlgvonp26341e5jmko89smk1",
+		"Asian Tour" : "1uu7dzkupy6g41dm52gm9oqnl4",
+		"Golfing World (UK)" : "1fso4kpbunl9l1q5b71907erqj",
+		"European Tour (UK)" : "5rxmd85iafau17lgv40hjmluj"
+	},
+	"PGA Tour" : {
+		"PGA Tour (US)" : "1f3jmpgkoygtw1idcqhpzmyj4o"
+	},
+	"Tennis" : {
+		"ATP World Tour(US)" : "18uzoon3racas1x2buity5flbb",
+		"WTA Tour(US)" : "1py59ajz7qzo112x8qm6x8ectc",
+		"Tennis News UK" : "zwl0e4oeun091fu2k9lr84774",
+		"Australian Open (US)" : "1xfbf6ls0xpduz3m3aq1y6cdl"
+	},
+	"UFC" : {
+		"UFC" : "4qn44fxx9ouz1iuqci3polxoo"
+	},
+	"Boxing" : {
+		"Boxing Highlights &amp; News" : "1okc1vo7ezc8y1ozurswj4nqgc"
+	},
+	"Cycling" : {
+		"Cycling News" : "76sv4miwq8b21jzt8ccgkmw70"
+	},
+	"Motorsport" : {
+		"Motorsport News" : "1w5fcpwdjjb3q1pwvym1bb56jp"
+	},
+	"Athletics" : {
+		"IAAF Athletics" : "ylxkfwiio1lk1mmdrlzxnj865",
+		"IPC Athletics" : "tn4dwy5arnbnzqi1rsg4fj6z"
+	},
+	"Wintersports" : {
+		"FIS Wintersports" : "1i2pdk2woc0s51cjl0pvs77fon",
+		"Sochi Winter Olympics News" : "v165zvsn9b6s1czyv3xwo9x4a"
+	},
+	"Sporting News" : {
+		"Covering the Bases" : "1j9fgv0yq5dfh1sm69a8j1cmlj",
+		"First-and-10" : "1el2t0y141dr41uy22a44vbyro",
+		"Hot Reads with Troy Aikman" : "1217twzowhqcx1lstnyrkq3xvf",
+		"Fantasy Waiver Wire" : "1fa2r7lvzt5uc11i8tjejopl37",
+		"Starting Five" : "1112gkgt92vo310rf9u7yn7rde",
+		"Daily Dish" : "1mw2ktsvn4s9b1d6f6anmn1f9y",
+		"MLB News" : "d6ymaa2vqgha1pvx1q7o7u54d",
+		"NHL News" : "1bn7c6knxvkva13wlg2uor0fc6",
+		"NASCAR News" : "l7l34784ik5b1f5qlfw90x5bz",
+		"NCAA Football News" : "urcf00zb3d9x1tzjno9li66c4",
+		"NCAA Basketball News" : "1hfdp15n97ifc1isus0rvyi8e8",
+		"NBA News" : "1iiodotnmd2y51an678r511ksj",
+		"Soccer News" : "1291xxhx1rktk19w6pcz4lxtaj",
+		"SN Updates" : "119ktzg6uqf6q1drg8pf7t3bt1",
+		"Sporting News Campaign 1" : "19s5qo70bpra017yvepfmglyuv",
+		"Sporting News Campaign 2" : "1xdik2enudo2d11sr24ixj9bfg",
+		"Sporting News Campaign 3" : "q1onkl8dasku1febm9gl3ux48",
+		"Sporting News Campaign 4" : "18njeu5gqdtg81b7ko3cr7ymjr",
+		"Sporting News Campaign 5" : "6leyo9m5vm131cyvf4qcjx751",
+		"Sporting News Campaign 6" : "o46gik94o9b41nfuvyy6a2ypk",
+		"Sporting News Campaign 7" : "6upvik5nkw5e1owssqbrn562g",
+		"Sporting News Campaign 8" : "ambaydq91jgw10e4gvhs64143",
+		"Sporting News Campaign 9" : "1uettmv0nrtpi13rwt4svknqc0",
+		"Sporting News Campaign 10" : "6yg26pdqxo2t11gxuerxw8hev",
+		"Sporting News Campaign 11" : "u37g9fq8viaz1onkhb9xkwq0b",
+		"Sporting News Campaign 12" : "agw5a6p8he571x74rgjqjmqau",
+		"Sporting News Campaign 13" : "2paac9ygpotv1f9cgc0kgfnbe",
+		"Sporting News Campaign 14" : "sne6er4qzdl01o1sqgzhxcllm",
+		"Sporting News Campaign 15" : "kjjae3bxysr71i95hmgqzg73k"
+	},
+	"MMA" : {
+		"Bellator" : "1ar5x4l75ppzq1w1ph35wbasr3"
+	},
+	"Lacrosse" : {
+		"MLL" : "y407avvavud312ic47so149cq"
+	},
+	"Poker" : {
+		"GPI Poker" : "1krrpriyu4gi71k5cb9fh4zzs5"
+	},
+	"News" : {
+		"The Blaze" : "z49jphheeevj11pqxnr41temx"
+	},
+	"Business" : {
+		"Business News" : "1dzhhz6dk34fa1degmcvg2su02"
+	},
+	"Entertainment" : {
+		"Celebrity News" : "1w85i8grhmw6z1buute6q9lofx"
+	}
+}

@@ -1,0 +1,74 @@
+[
+    {
+        "Header": "2013 CASE IH 8230",
+        "Price": "$289,500",
+        "Image": "22R09797-L.jpg",
+        "Year": 2013,
+        "Manufacturer": "CASE IH",
+        "Model": "8230",
+        "SerialNumber": "YDG220082",
+        "Condition": "Used",
+        "StockNumber": "22R09797-L",
+        "Hours": "586",
+        "Horsepower": 348,
+        "Drive": "PRWD",
+        "Link": "https://www.delta-grp.com/equipment/used-equipment/case-ih-8230",
+        "CompanyID": "3458662",
+        "Images": [
+        ]
+    },
+    {
+        "Header": "2014 MAC DON D65",
+        "Price": "$55,000",
+        "Image": "248606.jpg",
+        "Year": 2014,
+        "Manufacturer": "MAC DON",
+        "Model": "D65",
+        "SerialNumber": "248606",
+        "Condition": "Used",
+        "StockNumber": "",
+        "Hours": "200",
+        "Horsepower": 290,
+        "Drive": "MFWD",
+        "Link": "https://www.delta-grp.com/equipment/used-equipment/2014-mac-don-d65",
+        "CompanyID": "3458660",
+        "Images": [
+        ]
+    },
+    {
+        "Header": "2014 CASE IH PUMA 170",
+        "Price": "$120,000",
+        "Image": "41M05288.jpg",
+        "Year": 2007,
+        "Manufacturer": "CASE IH",
+        "Model": "PUMA 170",
+        "SerialNumber": "ZEBS01316",
+        "Condition": "Used",
+        "StockNumber": "41M05288",
+        "Hours": "1,100",
+        "Horsepower": 170,
+        "Drive": "MFWD",
+        "Link": "https://www.delta-grp.com/equipment/used-equipment/2014-case-ih-puma-170",
+        "CompanyID": "3458734",
+        "Images": [
+        ]
+    },
+    {
+          "Header": "2012 CASE IH MAXXUM 125",
+          "Price": "$69,000",
+          "Image": "91H01441.jpg",
+          "Year": 2012,
+          "Manufacturer": "CASE IH",
+          "Model": "MAXXUM 125",
+          "SerialNumber": "ZCBE11613",
+          "Condition": "Used",
+          "StockNumber": "91H01441",
+          "Hours": "1,029",
+          "Horsepower": 125,
+          "Drive": "MFWD",
+          "Link": "https://www.delta-grp.com/equipment/used-equipment/2012-case-ih-maxxum-125",
+          "CompanyID": "3458662",
+          "Images": [
+          ]
+        }
+]

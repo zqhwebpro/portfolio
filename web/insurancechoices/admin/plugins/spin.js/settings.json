@@ -1,0 +1,9 @@
+{
+    "active":false,
+    "hooks":{
+        "javascript":[
+            {"file":"spin.min.js", "type":"script"},
+            {"file":"jquery.spin.min.js", "type":"script"}
+        ]
+    }
+}

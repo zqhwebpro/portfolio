@@ -1,0 +1,235 @@
+/*
+Quantum Dash - A modular foundation for building admin panels
+Copyright (C) 2017  Alex Mayer and Jonathan Gingrich
+
+This program is free software: you can redistribute it and/or modify
+it under the terms of the GNU General Public License as published by
+the Free Software Foundation, either version 3 of the License, or
+(at your option) any later version.
+
+This program is distributed in the hope that it will be useful,
+but WITHOUT ANY WARRANTY; without even the implied warranty of
+MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+GNU General Public License for more details.
+
+You should have received a copy of the GNU General Public License
+along with this program.  If not, see <http://www.gnu.org/licenses/>.
+*/
+
+@qd-blue: #0866c6;
+@qd-green: #5cb85c;
+@qd-text: #333;
+@nav-bar-background: #333;
+@nav-bar-text: #eee;
+@body-background: #ddd;
+@panel-color: @qd-blue;
+@panel-red-color: #d9534f;
+@panel-yellow-color: #f0ad4e;
+@panel-green-color: #5cb85c;
+@panel-text: #fff;
+@qd-slider-background: #ddd;
+@qd-menu-hover: #d3d3d3;
+
+// import fonts from google
+@import (css) "https://fonts.googleapis.com/css?family=Roboto+Condensed:400,700|Roboto:400|Lato:400";
+
+.box-shadow(@style, @c) when (iscolor(@c)) {
+    -moz-box-shadow: @style @c;
+    -webkit-box-shadow: @style @c;
+    box-shadow: @style @c;
+}
+.box-shadow(@style, @alpha: 50%) when (isnumber(@alpha)) {
+    .box-shadow(@style, rgba(0, 0, 0, @alpha));
+}
+
+/* Toaster Overrides */
+#toast-container {
+    margin-top: 50px;
+    > div {
+    	opacity: 0.95;
+    	-ms-filter: progid:DXImageTransform.Microsoft.Alpha(Opacity=95);
+    	filter: alpha(opacity=95);
+        .box-shadow(0 0 12px, #000);
+    }
+}
+
+/* Bootstrap Overrides */
+.btn {
+    font-family: "Roboto", sans-serif;
+}
+// nav bar
+.navbar-fixed-top {
+    border: none;
+    .box-shadow(5px 0px 10px, 50%);
+}
+.navbar-default{
+    color: @nav-bar-text;
+    background-color: @nav-bar-background;
+    line-height: 50px;
+    font-family: "Roboto Condenced", sans-serif;
+}
+
+// panels
+.panel {
+    border: none;
+}
+.panel-heading {
+    font-family: "Roboto Condenced", sans-serif;
+    font-size: 1.25em;
+}
+.content-fluid, .content {
+    .panel-body {
+        min-height: 100px;
+    }
+}
+.panel-default,
+.panel-primary,
+.panel-success,
+.panel-info,
+.panel-warning,
+.panel-danger,
+.panel-red,
+.panel-yellow,
+.panel-green {
+    .box-shadow(5px 2px 15px, 25%);
+}
+.panel-default {
+    > .panel-heading {
+        color: @panel-text;
+        background-color: @panel-color;
+        border-color: @panel-color;
+    }
+}
+.panel-red {
+    > .panel-heading {
+        color: @panel-text;
+        background-color: @panel-red-color;
+        border-color: @panel-red-color;
+    }
+}
+.panel-yellow {
+    > .panel-heading {
+        color: @panel-text;
+        background-color: @panel-yellow-color;
+        border-color: @panel-yellow-color;
+    }
+}
+.panel-green {
+    > .panel-heading {
+        color: @panel-text;
+        background-color: @panel-green-color;
+        border-color: @panel-green-color;
+    }
+}
+
+/* QD Specific */
+body {
+    color: @qd-text;
+    padding-top: 75px;
+    background-color: @body-background;
+    // font-family: "Roboto", sans-serif;
+    font-family: "Lato", sans-serif;
+}
+
+ul li, ol li {
+    color: @qd-blue;
+    p {
+        color: @qd-text;
+    }
+}
+
+// title bar
+.qd-page-title {
+    font-size: 20px;
+    white-space: nowrap;
+    > .glyphicon {
+        padding-right: 6px;
+    }
+}
+.qd-username {
+    padding-right: 10px;
+}
+
+// nav slideout
+.qd-slider {
+	position: fixed;
+	left: -250px;
+	width: 250px;
+	top: 50px;
+	bottom: 0;
+	background: @qd-slider-background;
+	z-index: 10;
+    &.open {
+        .box-shadow(7px 0px 15px, 25%);
+    }
+    > .qd-version {
+        color: @nav-bar-background;
+        text-align: right;
+        padding-right: 15px;
+    }
+    .panel-heading {
+        cursor: pointer;
+    }
+}
+.qd-slider-toggle {
+    font-size: 20px;
+    white-space: nowrap;
+    padding: 0px;
+    cursor: pointer;
+    > .glyphicon {
+        font-size: .80em;
+        @media (max-width: 767px) {
+            font-size: 1em;
+        }
+    }
+}
+
+// nav menu items
+.panel-group .panel-heading+.panel-collapse>.panel-body {
+    border: none;
+}
+.panel-group .panel-nav {
+    color: @qd-blue;
+    background-color: transparent;
+    border-radius: 0px;
+    box-shadow: none;
+    .panel-heading {
+        color: #fff;
+        background-color: @qd-green;
+        font-weight: 700;
+        border-top-left-radius: 0px;
+        border-top-right-radius: 0px;
+        border: none;
+        &:hover {
+            background-color: darken(@qd-green, 10%);
+        }
+        .qd-menu-arrow {
+            display: inline-block;
+            float: right;
+        }
+    }
+    .panel-body {
+        background-color: lighten(@qd-slider-background, 5%);
+        padding: 0px;
+        border: none;
+        a {
+            color: @qd-blue;
+            &:hover {
+                text-decoration: none;
+            }
+            .qd-nav-page {
+                border-top: 1px solid darken(@qd-menu-hover, 5%);
+                padding-left: 37px;
+                line-height: 42px;
+                // padding-top: 10px;
+                height: 42px;
+                &:hover, &.active {
+                    background-color: @qd-menu-hover;
+                }
+            }
+        }
+    }
+    &+.panel-nav {
+        margin-top: 0px;
+    }
+}

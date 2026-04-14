@@ -1,0 +1,292 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta content="text/html; charset=utf-8" http-equiv="Content-Type">
+	<title>Newguru Web-Based Training</title>
+	<link href='http://fonts.googleapis.com/css?family=Open+Sans:300italic,700,400' rel='stylesheet' type='text/css'>
+	<link href="lib/css/styles.css" rel="stylesheet" type="text/css">
+	<script src="https://google-code-prettify.googlecode.com/svn/loader/run_prettify.js" type="text/javascript">
+	</script>
+	<script src="http://arrow.scrolltotop.com/arrow27.js" type="text/javascript">
+	</script>
+	<script src='https://www.google.com/reCAPTCHA/api.js' type="text/javascript">
+	</script>
+</head>
+<body>
+	<div id="vis_site_cont">
+		<div id="header"><img alt="New//Guru" class="center_img" src="lib/img/newguru.png"></div>
+		<div class="nav_border_top"></div>
+		<div id="vis_nav_cont">
+			<div id="nav">
+				<ul>
+					<li><a href="index.html">Home</a></li>
+					<li>
+						<a href="#">Lessons</a>
+						<ul>
+							<li><a href="lesson1.html">HTML5 Semantics Tags</a></li>
+							<li><a href="lesson2.html">icomoon.io and fontawesome.io</a></li>
+							<li><a href="lesson3.html">Media Queries</a></li>
+							<li><a href="lesson4.html">Google reCAPTCHA</a></li>
+							<li><a href="lesson5.html">CSS3 In Motion</a></li>
+							<li><a href="lesson6.html">Microformats</a></li>
+							<li><a href="lesson7.html">SEO Basics</a></li>
+							<li><a href="lesson8.html">CSS3 Adv Selectors</a></li>
+							<li><a href="lesson9.html">Responsive HTML Email</a></li>
+						</ul>
+					</li>
+					<li><a href="contact.html">Contact</a></li>
+				</ul>
+			</div>
+		</div>
+		<div class="nav_border_bottom"></div>
+		<div id="vis_body">
+			<div id="vis_body_cont">
+				<div id="tip_box">
+					<h3>CSS Animation Links:</h3>
+					<hr>
+					<ul>
+						<li><a href="http://codepen.io/pieterbeulque/pen/lmyCq" target="_blank">Advanced CSS3 Animation</a></li>
+						<li><a href="http://webdeveloperjuice.com/demos/css/css3effects.html" target="_blank">Demo of concepts</a></li>
+					</ul>
+				</div>
+				<h1 class="marg_bot">CSS3 In Motion</h1>
+				<h2 id="vis_breaker">Objective:</h2>
+				<p class="marg_bot">The way that this module is designed is to completely educate on the topic of CSS3 different animations and more. -webkit- must be called upon AND -ms- to make this website function best on IE9, Chrome, etc. to correct any errors. Continue to sub-objectives to learn how.</p>
+				<h2 id="vis_breaker">Sub-objectives:</h2>
+				<p>New-guru will teach you how to do things like know different CSS types of animation, transformations, transition, and other examples.</p>
+				<p class="marg_bot">You will also learn how to use different styles to make the CSS more motion based.</p>
+				<h2 id="vis_breaker">Prerequisites:</h2>
+				<p class="marg_bot">With this lesson you will become a CSS3 good to advanced user. A static boring website can be refreshed with a little bit of action and with a little bit more movement the website can go through transformations. It gives the basics more umph.</p><br>
+				<h2 id="vis_breaker">Animation Examples</h2>
+				<p class="marg_bot">Follow along as I demonstrate alternatives to javascript using only CSS. Javascript creates a lot of movement on a webpage but there are ways to code it completely in CSS. This will cause less initial scripts to be necessary to run and quicker load times.</p>
+				<h3>Wooow! Fade block!</h3><br>
+				<div class="block" id="phase">
+					Test this out, wooow!, It fades.
+				</div><br>
+				<br>
+				<p class="marg_bot">To make a block fade with have to call out both an id and a class on a div. The opacity property will alter the fade when set at 0 to be fully transparent. When we hover over it, it will disappear under the cursor. It's a few CSS callouts to set something up on your website like this. It goes likes this:</p>
+				<pre class="prettyprint linenums">
+/*--IN CSS--*/
+
+#phase {
+    opacity: 1;
+    transition: opacity 1s linear 0s;
+}
+
+.block {
+    border: 6px solid #ccc;
+    padding: 11px;
+}
+
+#phase:hover {
+    opacity: 0;
+}
+</pre><br>
+				<p class="marg_bot">That will basically set up the div to go to 0 in opacity on hover. You just set up the HTML to callout both functions and it will phase out.</p>
+				<h3>Second effect: Pulsation Hover</h3><br>
+				<div class="block" id="pulsate">
+					Pulsating block div.
+				</div><br>
+				<br>
+				<p class="marg_bot">The pulsating div block works like magic to draw attention to important information. By calling on a -webkit-keyframe property I was able to animate the pulsation effect. It goes likes this:</p>
+				<pre class="prettyprint linenums">
+/*--IN CSS--*/
+
+#pulsate {
+    height: 110px;
+    width: 110px;
+}
+
+#pulsate:hover {
+    -webkit-animation-name: pulsate;
+    -webkit-animation-duration: 10s;
+    -webkit-animation-timing-function: ease-in-out;
+
+    -moz-animation-name: pulsate;
+    -moz-animation-duration: 10s;
+    -moz-animation-timing-function: ease-in-out;
+
+    -o-animation-name: pulsate;
+    -o-animation-duration: 10s;
+    -o-animation-timing-function: ease-in-out;
+}
+
+@-webkit-keyframes pulsate {
+    0% { width:150px;}
+    5% { width:160px; left:-1px;}
+    10% { width:150px; left:0px;}
+    15% { width:160px; left:1px;}
+    20% { width:150px; left:0px;}
+    40% { width:160px;}
+    45% { width:150px; left:-1px;}
+    50% { width:160px; left:0px;}
+    55% { width:150px; left:1px;}
+    60% { width:160px; left:0px;}
+    80% { width:150px;}
+    100% { width:160px;}
+}
+</pre><br>
+				<p class="marg_bot">Now, most, if not all, browsers will active a pulsate function.</p>
+				<h3>Third effect: Nudge</h3><br>
+				<div class="block" id="nudge">
+					Please don't mouse over me and nudge me!
+				</div><br>
+				<br>
+				<p class="marg_bot">Nudge uses a transition property and duration, so it has to hover that initiates it's change. It goes likes this:</p>
+				<pre class="prettyprint linenums">
+/*--IN CSS--*/
+
+#nudge{
+        -webkit-transition-property:color,background-color,padding-left;
+        -webkit-transition-duration:230ms,230ms,2300ms;
+
+        -moz-transition-property:color,background-color,padding-left;
+        -moz-transition-duration:230ms,230ms,2300ms;
+
+        -o-transition-property:color,background-color,padding-left;
+        -o-transition-duration:230ms,230ms,2300ms;
+}
+
+#nudge:hover{background-color:#333;color:white;padding-left:230px}
+</pre><br>
+				<p class="marg_bot">Things have been nudged.</p>
+				<h3>4th: The Expanding Block</h3><br>
+				<div class="block" id="expand">
+					I expand if touched.
+				</div><br>
+				<br>
+				<p class="marg_bot">It's the same concept. For the HTML, the id will be changed to control the expand. It goes likes this:</p>
+				<pre class="prettyprint linenums">
+/*--IN CSS--*/
+
+#expand {
+    background-color: #e7e7e7;
+    border: 8px solid black;
+    transition: all 230ms linear 0s;
+}
+
+#expand:hover{
+    border:30px solid #366
+}
+</pre><br>
+				<p class="marg_bot">Transition all in timeframe of 230ms in a linear (won direction) quality and on expand transition with hover. That's basically what that line of code represents.</p>
+				<h3>Effect Five: Bounce</h3><br>
+				<div class="block" id="bounce">
+					All Bouncyfun Palaces, 50%off!
+				</div><br>
+				<br>
+				<p class="marg_bot">Margin was used for the bounce keyframe query causing the information below it to change along with it in this case. And it goes something like this:</p>
+				<pre class="prettyprint linenums">
+/*--IN CSS--*/
+
+#bounce{
+    width:600px;
+}
+
+#bounce:hover {
+        -webkit-animation-name:bounce;
+        -webkit-animation-duration:2s;
+        -webkit-animation-iteration-count:3;
+        -webkit-animation-direction:alternate;
+        -moz-animation-name:bounce;
+        -moz-animation-duration:2s;
+        -moz-animation-iteration-count:3;
+        -moz-animation-direction:alternate;
+        -o-animation-name:bounce;
+        -o-animation-duration:2s;
+        -o-animation-iteration-count:3;
+        -o-animation-direction:alternate;
+    }
+
+@-webkit-keyframes bounce   {
+    from{margin-bottom:0px;}
+    to{margin-bottom:20px;}
+}
+/*--Like before but in a different way we are creating a bounce id, a hover for it that should work cross browsers the same, and a queried keyframe change.--*/
+</pre><br>
+				<p class="marg_bot">With a timed duration, iteration, and direction the bounce hover now keyframes to our specifics.</p>
+				<h3>#6: The Spin Block</h3><br>
+				<div class="block" id="spinblock">
+					On sale today!
+				</div><br>
+				<br>
+				<p class="marg_bot">The spin block creates a rotation style of animation transforming onto your website. It's a great way to accentuate important features. It goes like this:</p>
+				<pre class="prettyprint linenums">
+/*--IN CSS--*/
+
+#spinblock {
+    -webkit-transition: -webkit-transform 7s ease-in;
+}
+
+#spinblock:hover {
+    -webkit-transform:rotate(360deg)
+}
+</pre><br>
+				<p class="marg_bot">-webkit- Browsers will compute the transform and transition to make it ease-in to a full circle rotation.</p>
+				<h3>Effect 7: Drop-down Paragraph Menu</h3><br>
+				<div class="accordion" id="accordion">
+					<a href="#aminortheory">A Minor Theory</a>
+					<div id="aminortheory">
+						<p>When running an a minor scale don't be afraid to drop out of the box. Think outwards from the dimension of the scale but keep rhythm, metric, and key. Stretch your fingers for higher notes.</p>
+					</div><a href="#ftheory">F Theory</a>
+					<div id="ftheory">
+						<p>If travelling to the next step and landing on F, don't be inclined not to ride it out. Sometimes a music breakdown comes in many chords but at one destination. Destination F step, from there you can minor, 7th, diminish, or whatever you want.</p>
+					</div><a href="#dopentheory">D Open Theory</a>
+					<div id="dopentheory">
+						<p>When travelling to D Open on chord progression you have to find your specific style, strumming pattern, and creative outlook on the entire thing.</p>
+					</div>
+				</div><br>
+				<br>
+				<p class="marg_bot">In order to create an accordion effect set the id. Then use CSS to change it to your will. Mine goes like this:</p>
+				<pre class="prettyprint linenums">
+/*--THE CSS--*/
+
+#accordion div{
+    height:0;overflow:hidden;
+    -webkit-transition:height 230ms ease;
+}
+
+#accordion div:target {
+    height:140px;
+}
+
+.accordion a {
+    display:block;
+    padding:5px 10px;
+    background-color:#333;
+    color:#eee;
+    text-decoration:none;
+    }
+
+.accordion a:hover {
+    background-color:#999;
+}
+
+.accordion div {
+    background-color:#ccc;
+    color:#222;
+}
+
+.accordion div p {
+    padding:20px;
+}
+
+</pre><br>
+				<p class="marg_bot">Setting the id and class give you a lot of control over your menu structures, animation, and CSS3 in general.</p>
+				<h2>Further Details: Animation</h2>
+				<p class="marg_bot">No need for javascript or flash, CSS can do simple animations that can be the firework that sparks a calling. Animation creates motion and motion drives certain users closer to details</p>
+				<h2>Further Details: Transform</h2>
+				<p class="marg_bot">A unit that transforms does so out of the third dimension, so therefore, in CSS3 you can code your own 2D website that mimics all of 3D's properties closely. To be able to control 3D is remarkable considering the future of technology so it's not a bad hobby to understand. Still, however, it does add a z-line factor.</p>
+				<h2>Further Details: Transitions</h2>
+				<p class="marg_bot">Using the transition property as a change will make an object morph from one thing to another. If the id and class is fully manipulated to function with a full stack of animations a website can be coded to have exciting movement with just the use of CSS3, no extensions necessary.</p><a class="pad_bot" href="lesson5_quiz.html" id="button">Do you have what it takes to beat the quiz master?</a>
+			</div>
+		</div>
+		<div class="nav_border_top"></div>
+		<div id="vis_footer_cont">
+			<div id="footer">
+				<p>New-Guru Web-Based Training is a teaching module trained by Zach Heindel. Student of The York Art Institute, 2015. Sophomore year.</p>
+			</div>
+		</div>
+	</div>
+</body>
+</html>

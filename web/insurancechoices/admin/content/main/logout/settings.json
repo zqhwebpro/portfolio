@@ -1,0 +1,12 @@
+{
+    "groups":null,
+    "menu":{
+        "sort":9,
+        "title":"Logout"
+    },
+    "hooks":{
+        "top":[
+            {"file":"top.php", "type":"include"}
+        ]
+    }
+}

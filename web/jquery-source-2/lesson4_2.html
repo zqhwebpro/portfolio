@@ -1,0 +1,185 @@
+<!doctype html>
+<html>
+<head>
+<meta charset="utf-8">
+<title>jQuery-source: your source for everything jquery.</title>
+<link href="lib/css/styles.css" rel="stylesheet" type="text/css">
+<link href='http://fonts.googleapis.com/css?family=Yanone+Kaffeesatz:400,700,300,200' rel='stylesheet' type='text/css'>
+<link href='http://fonts.googleapis.com/css?family=Oxygen:400,700,300' rel='stylesheet' type='text/css'>
+<script src="https://google-code-prettify.googlecode.com/svn/loader/run_prettify.js"></script>
+<script type="text/javascript" src="lib/scripts/jquery-1.11.1.min.js"></script>
+<script type="text/javascript" src="lib/scripts/jquery-ui-1.8.17.custom.min.js"></script>
+<script type="text/javascript" src="lib/scripts/jquery.color.js"></script>
+<script type="text/javascript" src="lib/scripts/jquery.innerfade.js"></script>
+<script type="text/javascript" src="lib/scripts/jquery-1.7.1.min.js"></script>
+<script type="text/javascript" src="lib/scripts/simpletabs.js"></script>
+<script type="text/javascript" src="http://arrow.scrolltotop.com/arrow27.js"></script>
+</head>
+
+<body>
+
+<div id="wrapper">
+
+<div id="headerwrapper">
+<div id="header">
+	<h1><img id="header-logo" src="lib/img/jqlogo.png" alt="jQuery-source" /></h1>
+    <h3><img id="tagline" src="lib/img/tagline.png" alt="jqsource tagline" /></h3>
+</div>
+</div>
+
+<div id="menuwrapper">
+	<div id="menu">
+		<ul>
+        	<li><a href="index.html">HOME</a></li>
+			<li><a href="#">LESSONS</a>
+            	<ul>
+                	<li><a href="lesson1_1.html">Lesson 1</a></li>
+                    <li><a href="lesson2_1.html">Lesson 2</a></li>
+                    <li><a href="lesson3_1.html">Lesson 3</a></li>
+                    <li><a href="lesson4_1.html">Lesson 4</a></li>
+                    <li><a href="lesson5_1.html">Lesson 5</a></li>
+                    <li><a href="lesson6_1.html">Lesson 6</a></li>
+                 </ul>
+            </li>
+        	<li><a href="contact.html">CONTACT</a></li>	
+		</ul>
+	</div>
+</div>
+
+<div id="container">
+<div id="lessonmenu">
+	<ul>
+		<li class="lessonmenufont">Lesson 4:</li>
+    	<li><a href="lesson4_1.html">401</a></li>
+        <li><a href="lesson4_2.html">402</a></li>
+        <li><a href="lesson4_3.html">403</a></li>
+    </ul>
+</div>
+<div id="bcontainerl">
+<h1>Lesson 402 - Tab Menu</h1>
+<p>
+A tabbed menu is the ultimate tool for neatly organizing paragraph content. With tabs we can seperate the information in categories in a stylish way.
+</p>
+<hr>
+<h2>Example:</h2>
+      <ul id="info-nav">
+        <li><a href="#intro">jQuery-source</a></li>
+        <li><a href="#about">The Team</a></li>
+        <li><a href="#disclaimer">Site Disclaimer</a></li>
+      </ul>
+<div id="info">
+  			<p id="intro">
+  				Welcome to <strong>jQuery-source</strong> a jquery learning module
+                site. This website is designed to teach you jquery with a
+                progressive series of lessons. This is a great source for begining 
+                web developers looking to add a little bit extra to their website.  		
+  			</p>
+        	<p id="about">
+              The theam consist of me, Zach Heindel. I designed this website
+              to meat a requirement of a course. During the course I received high
+              marks and afterwards I moved on to more advanced material. Showcased
+              in other pieces of my portfolio.
+        	</p>
+        <p id="disclaimer">
+  				This material is copyright me. I used the book jQuery Ninja: From 
+                Begininer to Advanced to help me teach the content.
+  			</p>
+</div>
+<br/>
+<h2>HTML Markup:</h2>
+<pre class="prettyprint linenums">
+&lt;!-- In HTML I have designed a series of paragraphs to tab through -->
+
+&lt;div id="info">
+	&lt;p id="intro">
+		Welcome to &lt;strong>jQuery-source&lt;/strong> a jquery learning module
+		site. This website is designed to teach you jquery with a
+		progressive series of lessons. This is a great source for begining 
+		web developers looking to add a little bit extra to their website. &lt;/p>
+	&lt;p id="about">
+		The theam consist of me, Zach Heindel. I designed this website
+		to meat a requirement of a course. During the course I received high
+		marks and afterwards I moved on to more advanced material. Showcased
+		in other pieces of my portfolio. &lt;/p>
+	&lt;p id="disclaimer">
+		This material is copyright me. I used the book jQuery Ninja: From 
+		Begininer to Advanced to help me teach the content. &lt;/p>
+&lt;/div>
+</pre>
+<br/>
+<h2>CSS Markup:</h2>
+<pre class="prettyprint linenums">
+/* Our info needs to be styled into a box with some extra hover capabilities */
+
+#info{
+	width: 780px;
+	border: 1px solid #999;
+	padding: 0 10px;
+}
+
+#info p {
+	width: inherit;
+	background-color: inherit;
+}
+
+#info-nav{
+	margin: 0;
+	padding: 3px 0;
+	width: 100%;
+	list-style: none;
+}
+
+#info-nav li{
+	display: inline;
+	background: #ccc;
+	border: 1px solid #888;
+	border-bottom: 0;
+	margin-right:2px;
+	padding: 3px;
+}
+
+#info-nav li a:hover{
+	color:#d15600;
+}
+
+#info-nav li.current{ 
+	background: #fff;
+	padding-bottom: 4px;
+  
+}
+
+#celebs {
+	clear: both;
+}
+</pre>
+<br/>
+<h2>jQuery Markup:</h2>
+<pre class="prettyprint linenums">
+$(document).ready(function(){ // document is ready
+
+  $('#info p:not(:first)').hide(); // hide all p within selcted element but not first one
+  $('#info-nav li').click(function(event) { //add click event to li's og selected element
+    event.preventDefault(); // method stops the default action of element from happening
+    $('#info p').hide();// hide all p tags
+    $('#info-nav .current').removeClass("current"); // remove class
+    $(this).addClass('current');// add class of 'current'
+    
+    var clicked = $(this).find('a:first').attr('href'); // set var name add attr to href
+    $('#info ' + clicked).fadeIn('fast'); // add animation of fadeIn fast to the var and div
+  }).eq(0).addClass('current'); // selector selects an element 
+
+}); // end the function
+
+</pre>
+</div>
+</div>
+</div>
+
+<hr class="line">
+
+<div id="bcontainer3">
+	<p>jQuery-source © 2014 - Zach Heindel.</p>
+</div>
+
+</body>
+</html>

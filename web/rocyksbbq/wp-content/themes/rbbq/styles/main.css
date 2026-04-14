@@ -1,0 +1,598 @@
+@charset "UTF-8";
+/* CSS Document */
+
+@font-face {
+	font-family: "Landgon";
+    src:url(../font/Langdon.otf) format("OpenType");
+}
+
+
+@font-face {
+	font-family: "NexaRustExtras";
+	src:url(../font/NexaRustExtras-Free.otf) format("OpenType");
+}
+
+@font-face {
+	font-family: "NexaRustScript";
+	src:url(../font/NexaRustScriptL-0.otf) format("OpenType");
+}
+
+@font-face {
+	font-family: "NexaRustSlab";
+	src:url(../font/NexaRustSlab-BlackShadow01.otf) format("OpenType");
+}
+
+/* Adding a font face */
+
+#rbbq-header{
+	background-color: white;
+	width: 100%;
+	height: 100%;
+	margin: 0 auto;
+   box-shadow: 0 2px 0px black;
+}
+
+.wrap{
+    clear: both;
+    margin: 0 auto;
+    padding: 0;
+    text-align: center;
+    width: 70%;
+}
+
+.main_nav{
+	width:100%;
+}
+
+.main_nav ul{
+	    width: 100%;
+	}
+
+.main_nav ul li{
+	float: left;
+    list-style: outside none none;
+	margin-right: 14%;
+}
+
+.main_nav ul li:nth-child(6){
+    margin-right: 0;
+}
+
+.main_nav ul li a{
+    font-family: "Landgon";
+    font-size: 20px;
+    text-decoration: none;
+	color:black;
+	text-transform:uppercase;
+}
+
+.main_nav ul li a:hover{
+    border-top: 2px solid;
+    color: #7d200d;
+    padding-top: 7px;
+}
+
+
+
+li#menu-item-12{
+    margin-right: 3%;
+	float:right !important;
+}
+
+#ph-num{
+    float: left;
+    font-family: Myriad Pro;
+    font-size: 19px;
+    font-weight: bold;
+ 	margin: 29px 0 0 19px;
+}
+
+#ph-img {
+    float: left;
+    margin: 39px 0 0 34px;
+    width: 14px;
+}
+
+#soc-med{
+	margin-top: 7%;
+	text-align: right;
+}
+
+.sm{
+	margin-left: 4%;
+	width: 6%;
+}
+
+#logo-pos {
+	width: 430px;
+}
+
+#logo-pos-2{
+	width: 430px;
+	margin-bottom: 20px;	
+}
+
+body{
+	text-align:center;
+	overflow-y: scroll;
+	overflow-x: hidden;
+}
+
+#bbq_splash{
+	width:100%;
+	height:100%;
+}
+
+#bbq_splash_1{
+    position: fixed;
+    right: 0;
+    top: 0;
+    width: 12%;
+    z-index: 10;
+}
+
+#bbq_splash_2{
+    bottom: 0;
+    left: 0;
+    position: fixed;
+    width: 14%;
+}
+
+.sect_1_wrap_r{
+	width:100%;	
+	background-color: #7d200d;
+	height: 100%;
+	padding: 2% 0;
+
+background-image: url("https://www.transparenttextures.com/patterns/dark-wood.png");
+/* This is mostly intended for prototyping; please download the pattern and re-host for production environments. Thank you! */
+}
+
+
+
+.sect_1_wrap_r p{
+	color:yellow !important;
+}
+
+.sect_2_wrap_w{
+	-webkit-border-image: url(http://www.zqhdesign.com/rockysbbq/wp-content/uploads/2016/09/fire_border.png) 30 round; /* Safari 3.1-5 */
+    -o-border-image: url(http://www.zqhdesign.com/rockysbbq/wp-content/uploads/2016/09/fire_border.png) 30 round; /* Opera 11-12.1 */
+    border-image: url(http://www.zqhdesign.com/rockysbbq/wp-content/uploads/2016/09/fire_border.png) 30 round;
+	border-bottom: 10px solid transparent;
+	width:100%;	
+	background-color: white;
+	height: 100%;
+	padding: 2% 0;
+}
+
+.sect_2_wrap_w_about{
+	width:100%;	
+	background-color: white;
+	height: 100%;
+	padding: 2% 0;
+	background-image:url(http://www.zqhdesign.com/rockysbbq/wp-content/uploads/2016/09/chef_bg.png);
+	background-position:left center;
+	background-size:cover;
+}
+
+.sect_3_wrap_b{
+    background-color: black;
+    font-size: 60px;
+	height: 100%;
+    width: 100%;
+	padding: .6% 0;
+	background-color: #000000;
+background-image: url("https://www.transparenttextures.com/patterns/dark-circles.png");
+/* This is mostly intended for prototyping; please download the pattern and re-host for production environments. Thank you! */
+}
+
+.sect_3_wrap_b_footer{
+	background-color: black;
+	height: 100%;
+	width: 100%;
+}
+
+.i_r{
+    width: 100%;
+	float:left;	
+}
+
+.menu-menu-1-container{
+	width:100%;
+}
+
+h1{
+	 font-family: "NexaRustSlab";	
+	 color:#ffd200;
+}
+
+h2{	
+	color:black;
+	font-family:"Langdon";
+	font-size: 54px;
+}
+
+h3{
+    font-family: "Myriad Pro";
+    color: white;
+    font-size: 56px;
+}
+
+.price:before {
+   content: "$";
+}
+
+.menu h2{
+    font-family: "NexaRustSlab";
+    color: white;
+    margin-left: 40px;
+    background-color: black;
+    padding: 45px 0;
+
+}
+
+
+
+.item-name{
+    color: #7d200d;
+    font-family: "Langdon";
+    font-size: 34px;
+    text-transform: uppercase;
+}
+
+.item-desc{
+    width: 60%;
+    display: block;
+    margin: 0 auto;
+}
+
+.item-desc p{
+    font-family: "Myriad Pro";
+    color: black;
+    font-size: 18px;
+    line-height: 28px;
+    margin-top: 3px;
+}
+
+.price{
+	font-family: "Langdon";
+    color: black;
+    font-size: 28px;
+    margin-bottom: 60px;
+    display: block;
+    margin-top: -15px;	
+}
+
+h4{
+	color:black;
+	font-family:"Langdon";
+	font-size: 34px;
+}
+
+h5{
+	font-family: "Myriad Pro";
+	color:white;
+	font-size: 19px;	
+}
+
+p{
+	font-family: "Myriad Pro";
+	color: black;
+	font-size: 22px;
+	line-height: 35px;
+}
+
+.widow_85{
+	width: 70%;
+	margin: 0 auto;	
+}
+
+h6{
+	font-family: "NexaRustExtras";
+}
+
+.f_l{
+	float:left;
+}
+
+.f_r{
+	float:right;
+}
+
+.hr_marg{
+	margin: 50px 0 40px;
+}
+.nexa_red{
+	font-family: "NexaRustSlab";
+	color:#7d200d;	
+}
+
+.red{
+	color:#7d200d;
+}
+
+.cater_marg{
+	margin-bottom:100px;	
+}
+
+#burst_1{
+	margin-top: -20px;
+	position: absolute;
+	width: 7%;
+	z-index: 3;
+	margin-left: -50px;
+}
+
+#p_align_1{
+	margin: -6px;
+}
+
+#p_align_2{
+	margin: -6px;
+}
+
+#hl-1{
+    width: 100%;
+    margin:0 auto;
+    display: block;
+    text-align: center;
+		padding:1px;
+}
+
+#hl-img1{
+	   width: 100%;
+    margin-top: 11%;
+    display: block;
+    text-align: center;
+	padding:1px;
+}
+
+#hl-2{
+    width: 100%;
+    margin:0 auto;
+    display: block;
+    text-align: center;
+		padding:1px;
+}
+
+#hl-img2{
+	   width: 100%;
+    margin-top: 6%;
+    display: block;
+    text-align: center;
+	padding:1px;
+}
+
+#gma{
+	width:30%;
+	float:left;
+}
+
+#bbqi{
+	width:30%;
+	float: right;
+}
+
+.border_top_b{
+	border-top:1px solid white;
+	margin:1% 0;	
+}
+
+.border_top_b{
+	border-top:1px solid black;
+	margin:1% 0;	
+}
+
+/*  SECTIONS  */
+.section {
+	clear: both;
+}
+
+/*  COLUMN SETUP  */
+.col {
+	display: block;
+	float:left;
+	margin: 1% 0 1% 1.6%;
+}
+.col:first-child { margin-left: 0; }
+
+/*  GROUPING  */
+.group:before,
+.group:after { content:""; display:table; }
+.group:after { clear:both;}
+.group { zoom:1; /* For IE 6/7 */ }
+
+/*  GRID OF SIX  */
+.span_6_of_6 {
+	width: 100%;
+}
+
+.span_5_of_6 {
+  	width: 83.06%;
+}
+
+.span_4_of_6 {
+  	width: 66.13%;
+}
+
+.span_3_of_6 {
+  	width: 49.2%;
+}
+
+.span_2_of_6 {
+  	width: 32.26%;
+}
+
+.span_1_of_6 {
+  	width: 15.33%;
+}
+
+.img-responsive{
+	width:100%;
+}
+
+.wpcf7-form p{
+	font-family: "Landgon";
+	text-transform:uppercase;
+	color:#7d200d;
+}
+
+li{
+	list-style: none;	
+}
+
+.about_us_blurb{
+	    text-align: left;
+    font-family: "Myriad Pro";
+    color: black;
+    font-size: 22px;
+    line-height: 47px;
+    width: 56%;
+    float: right;
+}
+
+.catering_info{
+	float:left;
+}
+
+.wpcf7-form{
+	float: right;
+    border: 1px solid black;
+    padding: 20px 150px;
+}
+
+.wpcf7-submit{
+	background-color:black;
+	font-family: "NexaRustSlab";
+	color:white;
+	padding: 5px 30px;
+	cursor:pointer;
+	display: inline-block;
+    vertical-align: middle;
+    -webkit-transform: translateZ(0);
+    transform: translateZ(0);
+    box-shadow: 0 0 1px rgba(0, 0, 0, 0);
+    -webkit-backface-visibility: hidden;
+    backface-visibility: hidden;
+    -moz-osx-font-smoothing: grayscale;
+}
+
+.wpcf7-submit:hover, .wpcf7-submit:active, .wpcf7-submit:focus{
+	-webkit-transform: scale(1.1);
+    transform: scale(1.1);
+	background-color:#7d200d;
+}
+
+.calendar-head{
+	background:#7d200d !important;	
+}
+
+.ecwd_calendar_view_tabs .filter-container  ul{
+	background:#451207 !important;
+	    height: 49px;
+}
+
+.ecwd-search button, .ecwd-search button:hover {
+    background: #7d200d !important;
+}
+
+.ecwd_calendar .filter-arrow-right, .ecwd_calendar .filter-arrow-left {
+    background: #7d200d !important;
+}
+
+@media only screen and (max-width: 768px)
+.ecwd-page-full table.cal_blue.ecwd_calendar_container .has-events:after {
+	{
+    	background-color: #7d200d !important;
+	}
+}
+
+.ecwd_calendar{
+	    font-family: "Myriad Pro";
+
+	
+}
+
+.calendar-head .current-month {
+    font-size: 28px;
+    border-left: 1px solid white !important;
+    border-right: 1px solid white !important;
+	    font-weight: 700;
+}
+
+.ecwd-search button, .ecwd-search button:hover {
+    background: #7d200d;
+}
+
+table.cal_blue.ecwd_calendar_container .current-day .day-number {
+    background: #7d200d !important;
+}
+
+.calendar-head .previous {
+    border-right: 1px solid white;
+}
+
+.calendar-head .next{
+	border-left: 1px solid white;
+}
+	
+
+table.cal_blue.ecwd_calendar_container .current-day .day-number {
+    background: #7d200d;
+}
+
+.sect_2_wrap_w  li{
+    font-family: "Myriad Pro";
+    color: black;
+    font-size: 18px;
+    line-height: 35px;
+    border-top: 1px solid black;
+    padding-top: 65px;
+}
+
+button, input, select, textarea {
+	font-family: "Myriad Pro";
+	font-size:20px;
+	text-transform:uppercase;
+}
+
+.wpcf7-list-item-label{
+	font-family: "Myriad Pro";
+	font-size:16px;	
+	text-transform:capitalize;
+}
+
+.contactimg{
+	    float: left;
+    margin-top: 57px;
+    width: 42.7%;
+    height: auto;
+}
+
+.wp-image-171{
+	float: left;
+    /* margin-right: 9%; */
+    width: 34%;
+    height: auto;
+    margin-top: 36px;
+}
+
+.wp-image-179{
+    float: left;
+    width: 40%;
+    height: auto;
+}
+
+.fire{
+	-webkit-border-image: url(http://www.zqhdesign.com/rockysbbq/wp-content/uploads/2016/09/fire_border.png) 30 round; /* Safari 3.1-5 */
+    -o-border-image: url(http://www.zqhdesign.com/rockysbbq/wp-content/uploads/2016/09/fire_border.png) 30 round; /* Opera 11-12.1 */
+    border-image: url(http://www.zqhdesign.com/rockysbbq/wp-content/uploads/2016/09/fire_border.png) 30 round;
+	border-bottom: 10px solid transparent;
+}
+
+
+/*  GO FULL WIDTH BELOW 480 PIXELS */
+@media only screen and (max-width: 480px) {
+	.col {  margin: 1% 0 1% 0%; }
+	.span_1_of_6, .span_2_of_6, .span_3_of_6, .span_4_of_6, .span_5_of_6, .span_6_of_6 { width: 100%; }
+}

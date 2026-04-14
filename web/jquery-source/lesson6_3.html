@@ -1,0 +1,285 @@
+
+<!doctype html>
+<html>
+<head>
+<meta charset="utf-8">
+<link href='http://fonts.googleapis.com/css?family=Open+Sans:400,700' rel='stylesheet' type='text/css'>
+<link href="lib/css/styles.css" rel="stylesheet" type="text/css">
+  <script src="https://cdn.rawgit.com/google/code-prettify/master/loader/run_prettify.js"></script>
+<script src="lib/script/jquery-1.7.1.min.js"></script>
+<script src="lib/script/jquery-ui-1.8.17.custom.min.js"></script>
+<script src="lib/script/sorts.js"></script>
+<link href='http://fonts.googleapis.com/css?family=Bree+Serif' rel='stylesheet' type='text/css'>
+<link href="lib/css/jquery-ui-1.8.17.custom.css" rel="stylesheet" type="text/css">
+<title>jQsource - a beginners jQuery training module :: sortables</title>
+</head>
+
+<body id="jq_site">
+
+<div id="testing">
+	<div id="headerwrap">
+    <header>
+      <div id="logo">
+         <a href="index.html"><img alt="jQ-Source" src="lib/img/jqlogo.png" class="logo_top"></a>
+      </div>
+
+      <nav id="cssmenu">
+        <ul>
+          <li>
+            <a href='index.html'><span>HOME</span></a>
+          </li>
+
+          <li class='active has-sub'>
+            <a href='#'><span>LESSONS</span></a>
+
+            <ul>
+              <li class='has-sub'>
+                <a href='#'><span>Lesson 1</span></a>
+
+                <ul>
+                  <li>
+                    <a href='lesson1_1.html'><span>Doc Ready</span></a>
+                  </li>
+
+                  <li>
+                    <a href='lesson1_2.html'><span>Slide Toggle</span></a>
+                  </li>
+
+                  <li class='last'>
+                    <a href='lesson1_3.html'><span>Hover Action</span></a>
+                  </li>
+                </ul>
+              </li>
+
+              <li class='has-sub'>
+                <a href='#'><span>Lesson 2</span></a>
+
+                <ul>
+                  <li>
+                    <a href='lesson2_1.html'><span>Fadeout</span></a>
+                  </li>
+
+                  <li>
+                    <a href='lesson2_2.html'><span>Color Animation</span></a>
+                  </li>
+
+                  <li class='last'>
+                    <a href='lesson2_3.html'><span>Animation Queue</span></a>
+                  </li>
+                </ul>
+              </li>
+
+              <li class='has-sub'>
+                <a href='#'><span>Lesson 3</span></a>
+
+                <ul>
+                  <li>
+                    <a href='lesson3_1.html'><span>Rollover</span></a>
+                  </li>
+
+                  <li>
+                    <a href='lesson3_2.html'><span>Slideshow Fade</span></a>
+                  </li>
+
+                  <li class='last'>
+                    <a href='lesson3_3.html'><span>Innerfade</span></a>
+                  </li>
+                </ul>
+              </li>
+
+              <li class='has-sub'>
+                <a href='#'><span>Lesson 4</span></a>
+
+                <ul>
+                  <li>
+                    <a href='lesson4_1.html'><span>Accordion</span></a>
+                  </li>
+
+                  <li>
+                    <a href='lesson4_2.html'><span>Login Panel</span></a>
+                  </li>
+
+                  <li class='last'>
+                    <a href='lesson4_3.html'><span>Sliding Overlay</span></a>
+                  </li>
+                </ul>
+              </li>
+
+              <li class='has-sub'>
+                <a href='#'><span>Lesson 5</span></a>
+
+                <ul>
+                  <li>
+                    <a href='lesson5_1.html'><span>Client Side Temp...</span></a>
+                  </li>
+
+                  <li>
+                    <a href='lesson5_2.html'><span>Load w/Selector</span></a>
+                  </li>
+
+                  <li class='last'>
+                    <a href='lesson5_3.html'><span>getJSON</span></a>
+                  </li>
+                </ul>
+              </li>
+
+              <li class='has-sub'>
+                <a href='#'><span>Lesson 6</span></a>
+
+                <ul>
+                  <li>
+                    <a href='lesson6_1.html'><span>Submit Event</span></a>
+                  </li>
+
+                  <li>
+                    <a href='lesson6_2.html'><span>Check All</span></a>
+                  </li>
+
+                  <li class='last'>
+                    <a href='lesson6_3.html'><span>Sortables</span></a>
+                  </li>
+                </ul>
+              </li>
+
+              <li class='has-sub'>
+                <a href='#'><span>Lesson 7</span></a>
+
+                <ul>
+                  <li>
+                    <a href='lesson7_1.html'><span>Star Ratings</span></a>
+                  </li>
+
+                  <li class='last'>
+                    <a href='lesson7_2.html'><span>Date Picker</span></a>
+                  </li>
+                </ul>
+              </li>
+
+
+            </ul>
+          </li>
+
+          <li>
+            <a href='contact.html'><span>CONTACT</span></a>
+          </li>
+        </ul>
+      </nav>
+    </header>
+    </div>
+
+    <div id="dkbluebg">
+    </div>
+    	<div id="page_nav_cont">
+       		<div id="page_nav">
+                    <ul>
+                        <li id="notselect2"><a href="lesson6_1.html">Submit Event</a></li>
+                        <li id="notselect1"><a href="lesson6_2.html">Check All</a></li>
+                        <li id="select"><a href="lesson6_3.html">Sortables</a></li>
+                     </ul>
+             </div>
+         </div>
+    <div id="contentwrap">
+       	<div id="content">
+      <h3>Add to your favorite vacation spots and TransPure will get you there:</h3><hr />
+      <h3>Your Picks</h3>
+
+      <ul id="your-picks" class="connected">
+      <li><a href="#">Paris, France</a></li>
+      </ul><br />
+      <h3>Other Vacation Packages</h3>
+      <ul id="other-picks" class="connected">
+         <li><a href="#">New York, New York</a></li>
+         <li><a href="#">Rome, Italy</a></li>
+         <li><a href="#">Cancun, Mexico</a></li>
+         <li><a href="#">London, England</a></li>
+         <li><a href="#">Miami, Florida</a></li>
+         <li><a href="#">Orlando, Florida</a></li>
+         <li><a href="#">San Francisco, New York</a></li>
+      </ul><p>&nbsp;</p>
+
+<h1 class="marg_bot">Vacation Spot $(<span style="color:#333;">Sortable Links</span>)</h1>
+<p>&nbsp;</p>
+
+
+                         <h2 class="marg_bot">The Scenario:</h2>
+                         <p class="marg_bot_help">A client has come to you to build a vacation services website. On one page in paticular, the client would like for the users to pick from multiple vacation packages. In order to acheive this effect, we will be coding a Sortable link script.</p>
+                         <p class="marg_bot_help">By creating a script that removes and adds HTML placeholder elements in javascript HTML will respond by populating the information on user interaction; thus creating the sortable link list.</p>
+
+          <h2 class="marg_bot">HTML:</h2>
+          <p class="marg_bot">Required of this lesson will be the necessary jquery scipts and an additional css script. After those have been called out in the head, in the body of the website we will code an unordered list to make sortable.</p>
+	          <pre class="prettyprint linenums">
+&lt;head>
+	&lt;script src="lib/script/sorts.js">&lt;/script>
+    &lt;link href="lib/css/jquery-ui-1.8.17.custom.css" rel="stylesheet" type="text/css">
+    &lt;script src="lib/script/jquery-1.7.1.min.js">&lt;/script>
+	&lt;script src="lib/script/jquery-ui-1.8.17.custom.min.js">&lt;/script>
+&lt;/head>
+
+&lt;p>Pick your favorite vacation spots and TransPire will get you there!&lt;/p>&lt;hr />
+      &lt;h3>Your Picks&lt;/h3>
+
+      &lt;ul id="your-picks" class="connected">
+      &lt;li>&lt;a href="#">Paris, France&lt;/a>&lt;/li>
+      &lt;/ul>&lt;br />
+      &lt;h3>Other Vacation Packages&lt;/h3>
+      &lt;ul id="other-picks" class="connected">
+         &lt;li>&lt;a href="#">New York, New York&lt;/a>&lt;/li>
+         &lt;li>&lt;a href="#">Rome, Italy&lt;/a>&lt;/li>
+         &lt;li>&lt;a href="#">Cancun, Mexico&lt;/a>&lt;/li>
+         &lt;li>&lt;a href="#">London, England&lt;/a>&lt;/li>
+         &lt;li>&lt;a href="#">Miami, Florida&lt;/a>&lt;/li>
+         &lt;li>&lt;a href="#">Orlando, Florida&lt;/a>&lt;/li>
+         &lt;li>&lt;a href="#">San Francisco, New York&lt;/a>&lt;/li>
+      &lt;/ul>
+</pre>
+<p>&nbsp;</p>
+                    <h2 class="marg_bot">CSS:</h2>
+                    <p class="marg_bot_help">There is some styling you can do with CSS for this lesson, however, none was needed for this example. There is, however, a CSS library called on in the head. It is compatible with it's companion jquery script and creates CSS/jQuery interaction. The link that you will need can be located here:</p>
+                      <p class="marg_bot"><a href="https://jqueryui.com/download/all/">jQuery UI Downloads Page</a></p>
+                      <p class="marg_bot_help">Find the file required for the lesson, download it, and save it to your CSS folder. No additional CSS code is required.</p>
+
+<pre class="prettyprint linenums">
+</pre>
+<p>&nbsp;</p>
+	<h2 class="marg_bot">jQuery:</h2>
+          <p class="marg_bot_help">This script uses the ul id's to adopt and orphan classes. What this does for the code is creates a placeholder spot for the link to go. One is associated with the first group of links, and the other for the second group of links.</p>
+<pre class="prettyprint linenums">
+$(document).ready(function(){ // doc ready
+  $('#your-picks, #other-picks').sortable({ // action of sortable on these two id's
+    connectWith: '.connected', // connects the data that has a class of connted
+    placeholder: 'ui-state-highlight', // a placeholder ui-state is shown
+    receive: function(event,ui) { adopt(this); }, // receive the function on an adopt(this) element
+    remove: function(event,ui) { orphan(this); } // remove the function on an orphan(this) element
+  }).disableSelection(); // disable the ability for it to be a selection
+}); // close sortable selector
+
+function adopt(which) { // create a function of adopot(which)
+  if ($(which).hasClass('empty')) { // if it has a class
+    $(which).removeClass('empty').find('.empty').remove(); // remove the class
+  } // closes has class selector
+} // close adpot function
+
+function orphan(which) { // create a function of ophan(which)
+  if ($(which).children().length == 0) { // the parent item searchs through children elements
+    $(which).append($('&lt;li class="empty">empty&lt;/li>')).addClass('empty'); // it does this to append a
+    li class of empty, adds the class
+  } // closes ophan function
+} // close doc
+</pre><p>&nbsp;</p>
+
+<h2 class="marg_bot">Vacation Spot Sortable Links:</h2>
+<p class="marg_bot_help">With our script and the CSS library a sortable function was able to generate li elements that the user could order themselves. This was possible with the adopt and orphan meth   <p>&nbsp;</p>
+
+        <p>&nbsp;</p>
+
+       <a href="#"><img src="lib/img/arrow_up.png" class="arrow_adjust" alt="to the top" /><img src="lib/img/arrow_curl.png" class="arrow_adjust_curl" alt="top the top" /></a>
+    </div>
+  </div>
+
+<div id="footerwrap">
+    <footer>
+    	<a href="index.html"><img alt="jQ-Source" src="lib/img/jqlogo.png" id="logo_f"></a><p>Website built and copyright 2015, Zach Heindel.</p>
+    </footer>
+  </div>
+</body>
+</html>

@@ -1,0 +1,161 @@
+<!doctype html>
+<html>
+<head>
+<meta charset="utf-8">
+<title>jQuery-source: your source for everything jquery.</title>
+<link href="lib/css/styles.css" rel="stylesheet" type="text/css">
+<link href='http://fonts.googleapis.com/css?family=Yanone+Kaffeesatz:400,700,300,200' rel='stylesheet' type='text/css'>
+<link href='http://fonts.googleapis.com/css?family=Oxygen:400,700,300' rel='stylesheet' type='text/css'>
+<script src="https://google-code-prettify.googlecode.com/svn/loader/run_prettify.js"></script>
+<script type="text/javascript" src="lib/scripts/jquery-1.7.1.min.js"></script>
+<script type="text/javascript" src="lib/scripts/jquery-ui-1.8.17.custom.min.js"></script>
+<script type="text/javascript" src="lib/scripts/formval.js"></script>
+<script type="text/javascript" src="http://arrow.scrolltotop.com/arrow27.js"></script>
+</head>
+
+<body>
+
+<div id="wrapper">
+
+<div id="headerwrapper">
+<div id="header">
+	<h1><img id="header-logo" src="lib/img/jqlogo.png" alt="jQuery-source" /></h1>
+    <h3><img id="tagline" src="lib/img/tagline.png" alt="jqsource tagline" /></h3>
+</div>
+</div>
+
+<div id="menuwrapper">
+	<div id="menu">
+		<ul>
+        	<li><a href="index.html">HOME</a></li>
+			<li><a href="#">LESSONS</a>
+            	<ul>
+                	<li><a href="lesson1_1.html">Lesson 1</a></li>
+                    <li><a href="lesson2_1.html">Lesson 2</a></li>
+                    <li><a href="lesson3_1.html">Lesson 3</a></li>
+                    <li><a href="lesson4_1.html">Lesson 4</a></li>
+                    <li><a href="lesson5_1.html">Lesson 5</a></li>
+                    <li><a href="lesson6_1.html">Lesson 6</a></li>
+                 </ul>
+            </li>
+        	<li><a href="contact.html">CONTACT</a></li>	
+		</ul>
+	</div>
+</div>
+
+<div id="container">
+<div id="lessonmenu">
+	<ul>
+		<li class="lessonmenufont">Lesson 5:</li>
+    	<li><a href="lesson5_1.html">501</a></li>
+        <li><a href="lesson5_2.html">502</a></li>
+        <li><a href="lesson5_3.html">503</a></li>
+    </ul>
+</div>
+<div id="bcontainerl">
+<h1>Lesson 501 - Comment Box</h1>
+<p>
+In this comment box lesson we will create a form designed for comments, if information is left out of the form before a use submits the information it will highlight red. This will inform the user that there submission request has not gone through and they will have to entire all of the data required.
+</p>
+<hr>
+<h2>Example:</h2>
+
+        <h3>Leave us a Comment</h3>  
+        <form action="" id="myform">
+          <div id="form1">
+            <label for="name">Name:</label>
+            <input name="name" id="name" type="text"/>
+          </div>
+          <div id="form1">
+            <label for="email">Email:</label>
+            <input name="email" id="email" type="text"/>
+          </div>
+          <div id="form1">
+            <label for="website">Web site:</label>
+            <input name="website" id="website" type="text"/>
+          </div>      
+          <div id="form1">
+            <label for="comment-text">Comment:</label>
+            <textarea rows="10" cols="50" name="comment-text" id="comment-text"></textarea>
+          </div>    
+          <div id="form1">
+          	<input type="submit" value="Submit" />
+        	</div>
+        </form>
+        
+<br/>
+<h2>HTML Markup:</h2>
+<pre class="prettyprint linenums">
+&lt;!-- In HTML we will use a form to function as the comment box -->
+
+&lt;h3>Leave us a Comment&lt;/h3>  
+	&lt;form action="" id="myform">
+		&lt;div>
+			&lt;label for="name">Name:&lt;/label>
+            &lt;input name="name" id="name" type="text"/>
+		&lt;/div>
+		&lt;div>
+			&lt;label for="email">Email:&lt;/label>
+            &lt;input name="email" id="email" type="text"/>
+		&lt;/div>
+		&lt;div>
+            &lt;label for="website">Web site:&lt;/label>
+            &lt;input name="website" id="website" type="text"/>
+		&lt;/div>      
+		&lt;div>
+            &lt;label for="comment-text">Comment:&lt;/label>
+            &lt;textarea rows="10" cols="50" name="comment-text" id="comment-text">&lt;/textarea>
+		&lt;/div>    
+		&lt;div>
+          	&lt;input type="submit" value="Submit" />
+        	&lt;/div>
+	&lt;/form>
+</pre>
+<br/>
+<h2>CSS Markup:</h2>
+<pre class="prettyprint linenums">
+/* We will use CSS to add some space around the comment box and it's inner content */
+
+form div {
+	margin: 0 0 10px 160px;
+}
+
+form div label {
+	width: 140px;
+	float: left;
+	text-align: right;
+	margin: 5px 20px 0 -160px;
+}
+</pre>
+<br/>
+<h2>jQuery Markup:</h2>
+<pre class="prettyprint linenums">
+$(document).ready(function(){ // document ready
+
+  $('#myform').bind('submit', function(event) { // function start myform to bind a submit to event
+    $('[type=text]').each(function() { // start type=text for each property
+
+      if(!$(this).val().length) {	// this occurs 1st of value length default check
+	    event.preventDefault(); // the event to occur we prevent the form submission with a default
+
+        $(this).css('border', '2px solid red'); // css style border red around form input boxes
+      } // end this 2 css
+
+    }); // end this 1 length
+
+  }); // end .bind function
+
+}); // end the document
+</pre>
+</div>
+</div>
+</div>
+
+<hr class="line">
+
+<div id="bcontainer3">
+	<p>jQuery-source © 2014 - Zach Heindel.</p>
+</div>
+
+</body>
+</html>

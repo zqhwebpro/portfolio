@@ -1,0 +1,18 @@
+{
+    "groups":null,
+    "menu":{
+        "sort":2,
+        "title":"Account Settings"
+    },
+    "hooks":{
+        "top":[
+            {"file":"top.php", "type":"include"}
+        ],
+        "javascript":[
+            {"file":"modal.js", "type":"script"}
+        ],
+        "modal":[
+            {"file":"modal.php","type":"include"}
+        ]
+    }
+}

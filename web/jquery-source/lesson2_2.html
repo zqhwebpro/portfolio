@@ -1,0 +1,272 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <link href='http://fonts.googleapis.com/css?family=Open+Sans:400,700' rel='stylesheet' type='text/css'>
+  <link href="lib/css/styles.css" rel="stylesheet" type="text/css">
+  <script src="https://cdn.rawgit.com/google/code-prettify/master/loader/run_prettify.js"></script>
+  <script src="lib/script/jquery-1.7.1.min.js"></script>
+  <script src="lib/script/jquery-ui-1.8.17.custom.min.js"></script>
+  <script src="lib/script/coloranimation.js"></script>
+  <link href='http://fonts.googleapis.com/css?family=Bree+Serif' rel='stylesheet' type='text/css'>
+
+  <title>jQuery-source</title>
+</head>
+
+<body id="jq_site">
+  <div id="testing">
+    <div id="headerwrap">
+      <header>
+        <div id="logo">
+           <a href="index.html"><img alt="jQ-Source" src="lib/img/jqlogo.png" class="logo_top"></a>
+        </div>
+
+        <nav id="cssmenu">
+          <ul>
+            <li>
+              <a href='index.html'><span>HOME</span></a>
+            </li>
+
+            <li class='active has-sub'>
+              <a href='#'><span>LESSONS</span></a>
+
+              <ul>
+                <li class='has-sub'>
+                  <a href='#'><span>Lesson 1</span></a>
+
+                  <ul>
+                    <li>
+                      <a href='lesson1_1.html'><span>Doc Ready</span></a>
+                    </li>
+
+                    <li>
+                      <a href='lesson1_2.html'><span>Slide Toggle</span></a>
+                    </li>
+
+                    <li class='last'>
+                      <a href='lesson1_3.html'><span>Hover Action</span></a>
+                    </li>
+                  </ul>
+                </li>
+
+                <li class='has-sub'>
+                  <a href='#'><span>Lesson 2</span></a>
+
+                  <ul>
+                    <li>
+                      <a href='lesson2_1.html'><span>Fadeout</span></a>
+                    </li>
+
+                    <li>
+                      <a href='lesson2_2.html'><span>Color Animation</span></a>
+                    </li>
+
+                    <li class='last'>
+                      <a href='lesson2_3.html'><span>Animation Queue</span></a>
+                    </li>
+                  </ul>
+                </li>
+
+                <li class='has-sub'>
+                  <a href='#'><span>Lesson 3</span></a>
+
+                  <ul>
+                    <li>
+                      <a href='lesson3_1.html'><span>Rollover</span></a>
+                    </li>
+
+                    <li>
+                      <a href='lesson3_2.html'><span>Slideshow Fade</span></a>
+                    </li>
+
+                    <li class='last'>
+                      <a href='lesson3_3.html'><span>Innerfade</span></a>
+                    </li>
+                  </ul>
+                </li>
+
+                <li class='has-sub'>
+                  <a href='#'><span>Lesson 4</span></a>
+
+                  <ul>
+                    <li>
+                      <a href='lesson4_1.html'><span>Accordion</span></a>
+                    </li>
+
+                    <li>
+                      <a href='lesson4_2.html'><span>Login Panel</span></a>
+                    </li>
+
+                    <li class='last'>
+                      <a href='lesson4_3.html'><span>Sliding Overlay</span></a>
+                    </li>
+                  </ul>
+                </li>
+
+                <li class='has-sub'>
+                  <a href='#'><span>Lesson 5</span></a>
+
+                  <ul>
+                    <li>
+                      <a href='lesson5_1.html'><span>Client Side Temp...</span></a>
+                    </li>
+
+                    <li>
+                      <a href='lesson5_2.html'><span>Load w/Selector</span></a>
+                    </li>
+
+                    <li class='last'>
+                      <a href='lesson5_3.html'><span>getJSON</span></a>
+                    </li>
+                  </ul>
+                </li>
+
+                <li class='has-sub'>
+                  <a href='#'><span>Lesson 6</span></a>
+
+                  <ul>
+                    <li>
+                      <a href='lesson6_1.html'><span>Submit Event</span></a>
+                    </li>
+
+                    <li>
+                      <a href='lesson6_2.html'><span>Check All</span></a>
+                    </li>
+
+                    <li class='last'>
+                      <a href='lesson6_3.html'><span>Sortables</span></a>
+                    </li>
+                  </ul>
+                </li>
+
+                <li class='has-sub'>
+                  <a href='#'><span>Lesson 7</span></a>
+
+                  <ul>
+                    <li>
+                      <a href='lesson7_1.html'><span>Star Ratings</span></a>
+                    </li>
+
+                    <li class='last'>
+                      <a href='lesson7_2.html'><span>Date Picker</span></a>
+                    </li>
+                  </ul>
+                </li>
+
+
+              </ul>
+            </li>
+
+            <li>
+              <a href='contact.html'><span>CONTACT</span></a>
+            </li>
+          </ul>
+        </nav>
+      </header>
+    </div>
+
+    <div id="dkbluebg"></div>
+
+    <div id="page_nav_cont">
+      <div id="page_nav">
+        <ul>
+          <li id="notselect1">
+            <a href="lesson2_1.html">Fadeout</a>
+          </li>
+
+          <li id="select">
+            <a href="lesson2_2.html">Color Animation</a>
+          </li>
+
+          <li id="notselect2">
+            <a href="lesson2_3.html">Animation Queue</a>
+          </li>
+        </ul>
+      </div>
+    </div>
+
+    <div id="contentwrap">
+      <div id="content">
+      <h3>Today Only</h3>
+        <p id="demo2">ON SALE: $10.99</p>
+
+        <p>&nbsp;</p>
+
+        <h1 class="marg_bot">On Sale $(<span style="color:#333;">Color Animation</span>)</h1>
+
+        <p>&nbsp;</p>
+
+        <h2 class="marg_bot">The Scenario:</h2>
+
+        <p class="marg_bot_help">A client needs you to figure out how to highlight a sales tag in a cool and interesting way! The client says that it has to a red color and it must be animated. The solution: Using a background color animate trigger we will be able to acheive the effect the client desires.</p>
+
+        <p class="marg_bot_help">Color animation will require a certain library for the website to load so keep that in mind. This will run an animate function of background color and executed the code for on load.</p>
+
+        <h2 class="marg_bot">HTML:</h2>
+
+        <p class="marg_bot">In HTML we will define the sale content that has a class. Also, we will have to tell our website to load a new jQuery UI which you can locate here:</p>
+
+        <p class="marg_bot"><a href="https://code.google.com/p/svg-edit/source/browse/trunk/editor/jquery-ui/jquery-ui-1.8.17.custom.min.js?r=2052">jquery-ui-1.8.17.custom.min.js External Link</a></p>
+
+        <p class="marg_bot">You must save that to your scripts library or call upon it externally. Also, I am running a google fonts script because of the CSS that is set up so we have to make sure to do that too.</p>
+        <pre class="prettyprint linenums">
+&lt;!--Load the new script into the head--&gt;
+
+&lt;head&gt;
+        &lt;link href='http://fonts.googleapis.com/css?family=Bree+Serif' rel='stylesheet' type='text/css'&gt;
+        &lt;script src="lib/script/jquery-ui-1.8.17.custom.min.js"&gt;&lt;/script&gt;
+        &lt;script src="lib/script/jquery-1.7.1.min.js"&gt;&lt;/script&gt;
+    &lt;script src="lib/script/coloranimation.js"&gt;&lt;/script&gt;
+&lt;/head&gt;
+
+
+&lt;!--Load the text with an id on it--&gt;
+
+&lt;p id="demo2"&gt;ON SALE: $10.99&lt;/p&gt;
+</pre>
+
+        <p>&nbsp;</p>
+
+        <h2 class="marg_bot">CSS:</h2>
+
+        <p class="marg_bot_help">The class that is set up has custimization on it like our Google Font, padding, and a size: for emphasis.</p>
+        <pre class="prettyprint linenums">
+#demo2 {<br>  font-family: 'Bree Serif', serif;<br>   padding:20px;<br>   font-size:17px;<br>}
+
+</pre>
+
+        <p>&nbsp;</p>
+
+        <h2 class="marg_bot">jQuery:</h2>
+
+        <p class="marg_bot_help">HTML has loaded our script, now, we have to input the code to make it fadeOut with the timing we customized. It looks like this.</p>
+        <pre class="prettyprint linenums">
+$(document).ready(function(){ //ready function
+ $('#demo2').animate({'backgroundColor':'#bd7c70;'}, 10000); //the id of demo2 will
+ animate a background color to a red type of hue
+}); //end ready
+
+</pre>
+
+        <p>&nbsp;</p>
+
+        <h2 class="marg_bot">Lesson 2: Demonstration 2 - Color Animation:</h2>
+
+        <p class="marg_bot_help">In order to draw a unique place of emphasis on a sales price we learned how to use the color animation feature in jQuery. After accessing the web to find a Google Font and running that script to we were able to customize our content further. Ready for the next challenge? Click the easing button below.</p>
+
+   <p>&nbsp;</p>
+
+        <p>&nbsp;</p>
+
+
+       <a href="#"><img src="lib/img/arrow_up.png" class="arrow_adjust" alt="to the top" /><img src="lib/img/arrow_curl.png" class="arrow_adjust_curl" alt="top the top" /></a>
+    </div>
+  </div>
+
+<div id="footerwrap">
+    <footer>
+    	<a href="index.html"><img alt="jQ-Source" src="lib/img/jqlogo.png" id="logo_f"></a><p>Website built and copyright 2015, Zach Heindel.</p>
+    </footer>
+  </div>
+</body>
+</html>

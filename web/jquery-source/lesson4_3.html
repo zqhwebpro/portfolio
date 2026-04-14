@@ -1,0 +1,325 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <link href='http://fonts.googleapis.com/css?family=Open+Sans:400,700' rel='stylesheet' type='text/css'>
+  <link href="lib/css/styles.css" rel="stylesheet" type="text/css">
+    <script src="https://cdn.rawgit.com/google/code-prettify/master/loader/run_prettify.js"></script>
+  <script src="lib/script/jquery-1.7.1.min.js"></script>
+  <script src="lib/script/jquery-ui-1.8.17.custom.min.js"></script>
+  <script src="lib/script/slideoverlay.js"></script>
+  <link href='http://fonts.googleapis.com/css?family=Bree+Serif' rel='stylesheet' type='text/css'>
+
+  <title>jQsource - a beginners jQuery training module :: sliding overlay</title>
+</head>
+
+<body id="jq_site">
+  <div id="testing">
+    <div id="headerwrap">
+      <header>
+        <div id="logo">
+           <a href="index.html"><img alt="jQ-Source" src="lib/img/jqlogo.png" class="logo_top"></a>
+        </div>
+
+        <nav id="cssmenu">
+          <ul>
+            <li>
+              <a href='index.html'><span>HOME</span></a>
+            </li>
+
+            <li class='active has-sub'>
+              <a href='#'><span>LESSONS</span></a>
+
+              <ul>
+                <li class='has-sub'>
+                  <a href='#'><span>Lesson 1</span></a>
+
+                  <ul>
+                    <li>
+                      <a href='lesson1_1.html'><span>Doc Ready</span></a>
+                    </li>
+
+                    <li>
+                      <a href='lesson1_2.html'><span>Slide Toggle</span></a>
+                    </li>
+
+                    <li class='last'>
+                      <a href='lesson1_3.html'><span>Hover Action</span></a>
+                    </li>
+                  </ul>
+                </li>
+
+                <li class='has-sub'>
+                  <a href='#'><span>Lesson 2</span></a>
+
+                  <ul>
+                    <li>
+                      <a href='lesson2_1.html'><span>Fadeout</span></a>
+                    </li>
+
+                    <li>
+                      <a href='lesson2_2.html'><span>Color Animation</span></a>
+                    </li>
+
+                    <li class='last'>
+                      <a href='lesson2_3.html'><span>Animation Queue</span></a>
+                    </li>
+                  </ul>
+                </li>
+
+                <li class='has-sub'>
+                  <a href='#'><span>Lesson 3</span></a>
+
+                  <ul>
+                    <li>
+                      <a href='lesson3_1.html'><span>Rollover</span></a>
+                    </li>
+
+                    <li>
+                      <a href='lesson3_2.html'><span>Slideshow Fade</span></a>
+                    </li>
+
+                    <li class='last'>
+                      <a href='lesson3_3.html'><span>Innerfade</span></a>
+                    </li>
+                  </ul>
+                </li>
+
+                <li class='has-sub'>
+                  <a href='#'><span>Lesson 4</span></a>
+
+                  <ul>
+                    <li>
+                      <a href='lesson4_1.html'><span>Accordion</span></a>
+                    </li>
+
+                    <li>
+                      <a href='lesson4_2.html'><span>Login Panel</span></a>
+                    </li>
+
+                    <li class='last'>
+                      <a href='lesson4_3.html'><span>Sliding Overlay</span></a>
+                    </li>
+                  </ul>
+                </li>
+
+                <li class='has-sub'>
+                  <a href='#'><span>Lesson 5</span></a>
+
+                  <ul>
+                    <li>
+                      <a href='lesson5_1.html'><span>Client Side Temp...</span></a>
+                    </li>
+
+                    <li>
+                      <a href='lesson5_2.html'><span>Load w/Selector</span></a>
+                    </li>
+
+                    <li class='last'>
+                      <a href='lesson5_3.html'><span>getJSON</span></a>
+                    </li>
+                  </ul>
+                </li>
+
+                <li class='has-sub'>
+                  <a href='#'><span>Lesson 6</span></a>
+
+                  <ul>
+                    <li>
+                      <a href='lesson6_1.html'><span>Submit Event</span></a>
+                    </li>
+
+                    <li>
+                      <a href='lesson6_2.html'><span>Check All</span></a>
+                    </li>
+
+                    <li class='last'>
+                      <a href='lesson6_3.html'><span>Sortables</span></a>
+                    </li>
+                  </ul>
+                </li>
+
+                <li class='has-sub'>
+                  <a href='#'><span>Lesson 7</span></a>
+
+                  <ul>
+                    <li>
+                      <a href='lesson7_1.html'><span>Star Ratings</span></a>
+                    </li>
+
+                    <li class='last'>
+                      <a href='lesson7_2.html'><span>Date Picker</span></a>
+                    </li>
+                  </ul>
+                </li>
+
+
+              </ul>
+            </li>
+
+            <li>
+              <a href='contact.html'><span>CONTACT</span></a>
+            </li>
+          </ul>
+        </nav>
+      </header>
+    </div>
+
+    <div id="dkbluebg"></div>
+
+    <div id="page_nav_cont">
+      <div id="page_nav">
+        <ul>
+          <li id="notselect1">
+            <a href="lesson4_1.html">Accordion</a>
+          </li>
+
+          <li id="notselect2">
+            <a href="lesson4_2.html">Login Panel</a>
+          </li>
+
+          <li id="select">
+            <a href="lesson3_4.html">Sliding Overlay</a>
+          </li>
+        </ul>
+      </div>
+    </div>
+
+    <div id="contentwrap">
+      <div id="content">
+        <div id="datingcontent">
+          <div class="dating">
+            <h3>Mouseover to find out if Amy liked your profile.</h3><a><img alt="just me :) b n goofy" height="329" src="lib/img/b.jpg" width="256"></a>
+          </div>
+        </div>
+
+        <p>&nbsp;</p>
+
+        <h1 class="marg_bot">Dating Site $(<span style="color:#333;">Sliding Overlay</span>)</h1>
+
+        <p>&nbsp;</p>
+
+        <h2 class="marg_bot">The Scenario:</h2>
+
+        <p class="marg_bot_help">A client is creating a dating website but they want it to do be quick and easy to use. The client wishes there was a way where you can mouseover a picture and be prompted to talk to special picks. Sliding overlay is a great way to acheive this effect.</p>
+
+        <p class="marg_bot_help">With a sliding overlay we can popup content anywhere on this page without it being annoying, you know? Like those annoying popups that get in the way of our clicks. We can position and style it the way we want so that it does not interfere with our users browsing experience and it looks nice too.</p>
+
+        <h2 class="marg_bot">HTML:</h2>
+
+        <p class="marg_bot">Just the 1.7.1.min.js library is needed for this one but we will need to add a div and some content within that div for the script to interact with. What I have done looks like this:</p>
+        <pre class="prettyprint linenums">
+&lt;div id="datingcontent"&gt;
+    &lt;div class="dating"&gt;
+        &lt;p&gt;Mouseover to find out if she's into you.&lt;/p&gt;
+        &lt;a&gt;&lt;img src="lib/img/b.jpg" alt="just me :) b n goofy"
+        width="256" height="329" /&gt;&lt;/a&gt;
+    &lt;/div&gt;
+&lt;/div&gt;
+</pre>
+
+        <p>&nbsp;</p>
+
+        <h2 class="marg_bot">CSS:</h2>
+
+        <p class="marg_bot_help">In CSS we will set up positions and style our overlay. The overlay will be styled for our purposes to drop down from the top of the page. That code looks like this:</p>
+        <pre class="prettyprint linenums">
+#datingcontent {
+  position: relative;
+}
+
+.dating a {
+}
+
+.dating a:hover, .dating-hover {
+  width:105%;
+  height:105%;
+}
+
+#overlay {
+    position: absolute;
+    width: 100%;
+    height: 100px;
+    top: 0;
+    left: 0;
+    color: #fff;
+    background-color: #000;
+    display: none;
+    text-align: center;
+}
+
+#overlay h1 {
+    font-weight: 700;
+    font-family: 'Open Sans', sans-serif;
+    color:white;
+    font-size:28px;
+    margin-top:30px;
+}
+
+#overlay p {
+    margin-top:22px;
+}
+
+#overlay p a {
+    font-weight: 700;
+    font-family: 'Open Sans', sans-serif;
+    color:white;
+    font-size:18px;
+}
+</pre>
+
+        <p>&nbsp;</p>
+
+        <h2 class="marg_bot">jQuery:</h2>
+
+        <p class="marg_bot_help">The innerfade library is loaded therefor we can call upon it's action and specify different functions for it. The ticker we are setting up is set to be a random sequence of headlines that will slide over one another.</p>
+        <pre class="prettyprint linenums">
+$(document).ready(function(){ // doc ready
+  $('&lt;div&gt;&lt;/div&gt;') // call upon and create an empty div element
+    .attr('id', 'overlay') // give it the attribute of id="overlay"
+    .css('opacity', 0.65) // in css change the opacity property to 0.65 instead of 0
+    .hover(function(){ // hover event listener function beings here
+      $(this).addClass('active'); // this adds the class of active
+    }, function() { // next function
+      $(this).removeClass('active'); // this removes class of active
+      setTimeout(function(){ // setTimeout function
+        $('#overlay:not(.active)').slideUp(function(){ // when active = not it will slideUp
+          $('a.dating-hover').removeClass('dating-hover'); // remove the dating-class
+          on the hover
+        }); // end setTimeout funtion
+      }, 800); // slideUp speed of 800 milliseconds
+    }).appendTo('body'); // appends the overlay to the body tag
+
+  $('.dating a').mouseover(function(){ // on mouse over of the dating a id
+    $(this).addClass('dating-hover'); // this will add class of dating-hover
+    $('#overlay:not(:animated)') // function for when overlay is not animated
+      .addClass('active') // add a class of active
+      .html('&lt;h1&gt;Shes into you dude!&lt;/h1&gt;&lt;p&gt;&lt;a href="#"&gt;Send a wink.&lt;/a&gt;
+      &lt;a href="#"&gt;Email her now.&lt;/a&gt;&lt;/p&gt;') // add this html to the overlay
+      .slideDown(); // the overlay slidesDown here
+  }); // close dating a function
+
+}); // end doc ready
+</pre>
+
+        <p>&nbsp;</p>
+
+        <h2 class="marg_bot">Dating Site Sliding Overlay:</h2>
+
+        <p class="marg_bot_help">Thanks to the sliding overlay solution the client has noticed an increase in site traffic by 25% and their mom got married to somebody they found on the site after sending a wink. Way to go.</p>
+
+   <p>&nbsp;</p>
+
+        <p>&nbsp;</p>
+
+       <a href="#"><img src="lib/img/arrow_up.png" class="arrow_adjust" alt="to the top" /><img src="lib/img/arrow_curl.png" class="arrow_adjust_curl" alt="top the top" /></a>
+    </div>
+  </div>
+
+<div id="footerwrap">
+    <footer>
+    	<a href="index.html"><img alt="jQ-Source" src="lib/img/jqlogo.png" id="logo_f"></a><p>Website built and copyright 2015, Zach Heindel.</p>
+    </footer>
+  </div>
+</body>
+</html>

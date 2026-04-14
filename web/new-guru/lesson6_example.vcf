@@ -1,0 +1,12 @@
+BEGIN:VCARD
+VERSION:3.0
+N:Man;Example
+FN:Example Man
+ORG:Example Design Agency
+TITLE:Cool Dude
+PHOTO;VALUE=URL;TYPE=JPG:http://www.example.com/employee_photos/exampleman.jpg
+TEL;TYPE=WORK,VOICE:(717) 818-4455
+ADR;TYPE=WORK:;;654 Example Rd;Example;PA;17406;United States of America
+LABEL;TYPE=WORK:654 Example Rd\nExample, PA 17406\nUnited States of America
+EMAIL;TYPE=PREF,INTERNET:exampleman@example.com
+END:VCARD

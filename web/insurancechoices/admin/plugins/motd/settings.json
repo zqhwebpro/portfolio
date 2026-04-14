@@ -1,0 +1,8 @@
+{
+    "active":true,
+    "hooks":{
+        "home_screen":[
+            {"file":"box.php", "type":"include"}
+        ]
+    }
+}

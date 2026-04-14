@@ -1,0 +1,249 @@
+<!doctype html>
+<html>
+<head>
+<meta charset="utf-8">
+<title>123:CODE</title>
+<link href="lib/css/styles.css" rel="stylesheet" type="text/css">
+<link href='http://fonts.googleapis.com/css?family=Bangers' rel='stylesheet' type='text/css'>
+<link href='http://fonts.googleapis.com/css?family=Yanone+Kaffeesatz:400,700,300,200' rel='stylesheet' type='text/css'>
+<link href='http://fonts.googleapis.com/css?family=Open+Sans:400,300' rel='stylesheet' type='text/css'>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/prettify/r298/run_prettify.js"></script>
+<link href='https://cdnjs.cloudflare.com/ajax/libs/prettify/r298/prettify.min.css' rel=
+'stylesheet' type='text/css'>
+</head>
+
+<body>
+<SCRIPT language="JavaScript"
+        type="text/javascript">
+<!--
+//
+// Documentation:
+//   http://chami.com/tips/javascript/
+//
+function checkAnswer(quizForm,
+                     theAnswer,
+                     urlRight,
+                     urlWrong)
+{
+  var s = "?";
+
+  // go through the "current choices"
+  // to find the selected choice.
+  // radio boxes pointing to choices
+  // must be named "cc"
+  // change if necessary
+  //
+  var i = 0;
+  for(;i<quizForm.elements.length;i++)
+  {
+    if(("cc" ==
+        quizForm.elements[i].name) &&
+       (quizForm.elements[i].checked))
+    {
+      s = quizForm.elements[i].value;
+    }
+  }
+
+  // no choice was selected
+  //
+  if("?" == s)
+  {
+    alert("Please make a selection.");
+    return false;
+  }
+
+  // check if we have the correct
+  // choice selected
+  //
+  if(s == theAnswer)
+  {
+    alert("'"+s+"' is correct!");
+    if(urlRight)
+    {
+    document.location.href = urlRight;
+    }
+  }
+  else
+  {
+    alert("'"+s+"' is incorrect.");
+    if( urlWrong )
+    {
+    document.location.href = urlWrong;
+    }
+  }
+
+  // return "false" to indicate not to
+  // submit the form.
+  // change this to "true" if the form
+  // "action" is valid,
+  // i.e. points to a valid CGI script
+  //
+  return false;
+}
+//-->
+</SCRIPT>
+
+<div id="header-container"></div>
+
+<div id="sitewrapper">
+	<div id="header">
+    <h1><span class="redtype">[123]</span>&nbsp;CODE</h1>
+	</div>
+<ul>
+	<li><a href="lessonland.html">LESSONS</a></li>
+	<li><a href="index.html">HOME</a></li>
+</ul>
+<div id="body_c">
+	<div id="container-position"></div>
+		<div id="container-lessons">
+<div id="lessonnav">
+        	<ul>
+            	<li><a href="lesson1.html">1</a></li>
+              	<li><a href="lesson2.html">2</a></li>
+                <li><a href="lesson3.html">3</a></li>
+                <li><a href="lesson4.html">4</a></li>
+                <li><a href="lesson5.html">5</a></li>
+                <li><a href="lesson6.html">6</a></li>
+                <li><a href="lesson7.html">7</a></li>
+                <li><a href="lesson8.html">8</a></li>
+        	</ul>
+        </div>
+<h1>Lesson 2 - Block Elements & Inline Elements</h1>
+<p class="margbot">Objective: Now we know the basics of HTML. Let's explore further. The point of lesson 1 is to explain what a block/inline element is and how to use various block/inline element tags. Examples of each will be provided for user to use as reference. Learn on budding web developers.</p>
+<h3>What are block elements?</h3>
+<p class="margbot">Block elements span the entire area of its space. A block-display element breaks the flow of design and the space it accompanies is reserved primarily for its attribute.</p>
+<h4>div</h4>
+<p class="margbot">div is short for division so in essence a div is section or block of HTML used to structure pages, add properties to elements, and group blocks of content.</p>
+<p class="margbot">Lets use a div to alter the color of our text. If we type into our html editing softare this string of code:</p>
+<pre class="prettyprint linenums">
+&lt;div style="color:#1039D7">>
+	&lt;h5>This h5 text has changed style! Thanks example!&lt;/h5>
+&lt;/div>
+</pre>
+<br/>
+<p class="margbot">That, and only that &lt;h5> text will change color. (note: it changed font too. That's because of my style.css, more on that later!)</p>
+<div style="color:#1039D7">
+	<h5 class="margbot">This h5 text has changed style! Thanks example!</h5>
+</div>
+<h4>h1-h6</h4>
+<p class="margbot">h1-h6 are headline tags and there size decreases the higher the number.</p>
+<h1>h1</h1>
+<h2>h2</h2>
+<h3>h3</h3>
+<h4>h4</h4>
+<h5>h5</h5>
+<h6 class="margbot">h6</h6>
+<h4>ol</h4>
+<p class="margbot">an &lt;ol> tag is an ordered list that uses numbers to label the list.</p>
+<ol>
+	<li>1. Bread</li>
+    <li>2. Milk</li>
+    <li>3. Peanut Butter</li>
+    <li class="margbot">4. Cereal</li>
+</ol>
+<h4>ul</h4>
+<p class="margbot">an &lt;ul> tag is an unordered list that uses bullets to label the list.</p>
+<ol>
+	<li>• Bread</li>
+    <li>• Milk</li>
+    <li>• Peanut Butter</li>
+    <li class="margbot">• Cereal</li>
+</ol>
+<h4>p</h4>
+<p class="margbot">a paragraph tag is used for blocks of text. &lt;---- I've been using &lt;p> tags this whole time.</p>
+<h4>li</h4>
+<p>a &lt;li> tag is a list tag, list tags are used with either &lt;ol> or &lt;ul> tags to define the list categories</p>
+<p class="margbot">To create the ordered list and unordered list from above I used a li tag for the bread, milk, peanut butter, and cereal part.</p>
+<h4>hr</h4>
+<hr>
+<p class="margbot">a hr tag is a tag used to separate content by use of a line.</p>
+
+<h3>What are inline elements?</h3>
+<p class="margbot">Inline elements are elements that do not break the flow of your websites content. They happen inline therefor you can design around their function.</p>
+<h4>a</h4>
+<p class="margbot">a tags create links to other webpages. <a href="http://www.w3schools.com/html/" target="_blank">W3 Schools is a GREAT Resource</a></p>
+<h4>br</h4>
+<p class="margbot">the br tag is a line break tag and will add an extra space below it. </p>
+<br/>
+<h4>em</h4>
+<p class="margbot">em stands for <em>emphasize</em> so this tag adds italics to the text closed within it.</p>
+<h4>strong</h4>
+<p class="margbot">strong is used to make content <strong>bold.</strong></p>
+<h4>img</h4>
+<p class="margbot">short for image, this tag adds a picture to your website.</p>
+<img src="lib/img/internetguide.jpg" alt="Amazing Pixels" />
+<br/><br/>
+<h4>span</h4>
+<p class="margbot">span tags allow you to add <span style="color:blue">inline styles</span> without breaking the flow of text. (inline styles was created using the span tag.)</p>
+<h4>♪ The more you know.</h4>  <br/>
+<hr>
+
+<p>How many headline tags are there?</p>
+<br/>
+<FORM method="POST"
+      onSubmit="return checkAnswer(this,'C');"
+>
+
+<INPUT TYPE="RADIO" VALUE="A" NAME="cc">
+A. One<br/>
+
+<INPUT TYPE="RADIO" VALUE="B" NAME="cc">
+B. Four<br/>
+
+<INPUT TYPE="RADIO" VALUE="C" NAME="cc">
+C. Six<br/><br/>
+
+<INPUT TYPE="SUBMIT" VALUE="Submit Answer">
+
+</FORM>
+
+<p>Which tag creates a link?</p>
+<br/>
+<FORM method="POST"
+      onSubmit="return checkAnswer(this,'C');"
+>
+
+<INPUT TYPE="RADIO" VALUE="A" NAME="cc">
+A. &lt;link><br/>
+
+<INPUT TYPE="RADIO" VALUE="B" NAME="cc">
+B. &lt;em><br/>
+
+<INPUT TYPE="RADIO" VALUE="C" NAME="cc">
+C. &lt;a><br/><br/>
+
+<INPUT TYPE="SUBMIT" VALUE="Submit Answer">
+
+</FORM>
+
+<p>Is a &lt;div> an inline or block element?</p>
+<br/>
+<FORM method="POST"
+      onSubmit="return checkAnswer(this,'C');"
+>
+
+<INPUT TYPE="RADIO" VALUE="A" NAME="cc">
+A. Inline<br/>
+
+<INPUT TYPE="RADIO" VALUE="B" NAME="cc">
+B. It's a trick question<br/>
+
+<INPUT TYPE="RADIO" VALUE="C" NAME="cc">
+C. Block<br/><br/>
+
+<INPUT TYPE="SUBMIT" VALUE="Submit Answer">
+
+</FORM>
+        </div>
+	<div id="footer-cont"></div>
+</div>
+
+
+<div id="footer"></div>
+<div id="footerfix"></div>
+
+</div>
+
+
+</body>
+</html>

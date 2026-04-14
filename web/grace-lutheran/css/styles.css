@@ -1,0 +1,965 @@
+@charset  "UTF-8";
+/* CSS Document */
+/* 
+html5doctor.com Reset Stylesheet
+v1.6.1
+Last Updated: 2010-09-17
+Author: Richard Clark - http://richclarkdesign.com 
+Twitter: @rich_clark
+*/
+html,body,div,span,object,iframe,h1,h2,h3,h4,h5,h6,p,blockquote,pre,abbr,address,cite,code,del,dfn,em,img,ins,kbd,q,samp,small,strong,sub,sup,var,b,i,dl,dt,dd,ol,ul,li,fieldset,form,label,legend,table,caption,tbody,tfoot,thead,tr,th,td,article,aside,canvas,details,figcaption,figure,footer,header,hgroup,menu,nav,section,summary,time,mark,audio,video {
+	margin: 0;
+	padding: 0;
+	border: 0;
+	outline: 0;
+	font-size: 100%;
+	vertical-align: baseline;
+	background: transparent;
+}
+
+.donate_box {
+    background: #f9f9f9;
+    background: -moz-linear-gradient(top, #f9f9f9 0%, #e2e2e2 100%);
+    background: -webkit-linear-gradient(top, #f9f9f9 0%,#e2e2e2 100%);
+    background: linear-gradient(to bottom, #f9f9f9 0%,#e2e2e2 100%);
+    filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#f9f9f9', endColorstr='#e2e2e2',GradientType=0 );
+    width: 31%;
+height: 100%;
+    margin-right: 3%;
+    float: left;
+    border-radius: 39px;
+    box-shadow: 0px 0px 4px #CCC;
+}
+
+.donate_box p{
+	color:#666
+	}
+
+
+.price{
+	font-size:45px;
+	font-family: 'Lora', serif;
+	    margin-top: 14%;
+}
+
+.donation{
+font-size: 35px;
+    font-family: 'Lora', serif;
+    margin-top: 5%;
+	
+}
+
+.cta{
+        font-size: 14px;
+    font-family: 'Open Sans', sans-serif;
+    line-height: 25px;
+    margin-top: 13%;
+}
+
+.donate{
+font-size: 45px;
+    font-family: 'Lora', serif;
+    border-top: 1px solid black;
+    margin-top: 9%;
+    padding-top: 8%;
+    padding-bottom: 13%;
+	 -o-transition:.5s;
+  -ms-transition:.5s;
+  -moz-transition:.5s;
+  -webkit-transition:.5s;
+  /* ...and now for the proper property */
+  transition:.5s;
+}
+
+.donate:hover{
+    color:black;
+}
+
+
+.donate_box:nth-child(3){
+	margin-right:0;	
+}
+
+body {
+
+}
+
+article,aside,details,figcaption,figure,footer,header,hgroup,menu,nav,section {
+	display: block;
+}
+
+nav ul {
+	list-style: none;
+}
+
+blockquote,q {
+	quotes: none;
+}
+
+blockquote:before,blockquote:after,q:before,q:after {
+	content: '';
+	content: none;
+}
+
+a {
+	margin: 0;
+	padding: 0;
+	font-size: 100%;
+	vertical-align: baseline;
+	background: transparent;
+	/* reset add */
+	text-decoration:none;
+}
+
+/* change colours to suit your needs */
+ins {
+	background-color: #ff9;
+	color: #000;
+	text-decoration: none;
+}
+
+/* change colours to suit your needs */
+mark {
+	background-color: #ff9;
+	color: #000;
+	font-style: italic;
+	font-weight: 700;
+}
+
+del {
+	text-decoration: line-through;
+}
+
+abbr[title],dfn[title] {
+	border-bottom: 1px dotted;
+	cursor: help;
+}
+
+table {
+	border-collapse: collapse;
+	border-spacing: 0;
+}
+
+/* change border colour to suit your needs */
+hr {
+	display: block;
+	height: 1px;
+	border: 0;
+	border-top: 1px solid #ccc;
+	margin: 1em 0;
+	padding: 0;
+}
+
+input,select {
+	vertical-align: middle;
+}
+
+/*=================================== RESPONSIVE GRID ====================================*/
+.wrap {
+	max-width: 1200px;
+	width: 92%;
+	margin: 0 auto;
+	position: relative;
+}
+
+/*  GROUPING  */
+.group:before,.group:after {
+	content: "";
+	display: table;
+}
+
+.group:after {
+	clear: both;
+}
+
+/*  GRID OF SIX  */
+.grid_1_of_6,.grid_2_of_6,.grid_3_of_6,.grid_4_of_6,.grid_5_of_6,.grid_6_of_6 {
+	display: block;
+	float: left;
+	margin: 1% 0 1% 1.6%;
+}
+
+.grid_1_of_6:first-child,.grid_2_of_6:first-child,.grid_3_of_6:first-child,.grid_4_of_6:first-child,.grid_5_of_6:first-child,.grid_6_of_6:first-child {
+	margin-left: 0;
+}
+
+.grid_6_of_6 {
+	width: 100%;
+}
+
+.grid_5_of_6 {
+	width: 83.06%;
+}
+
+.grid_4_of_6 {
+	width: 66.13%;
+}
+
+.grid_3_of_6 {
+	width: 49.2%;
+}
+
+.grid_2_of_6 {
+	width: 32.26%;
+}
+
+.grid_1_of_6 {
+	width: 15.33%;
+}
+
+/* Styles */
+
+#gl_wrap{
+	margin: 0 auto;
+}
+
+#gl_header_wrap{
+	background-color: #330000;
+}
+
+#glh_welcome_wrap{
+	background-image: url(../img/sky.jpg);
+	background-size: cover;
+	text-align: center;
+	margin-top: -40px;
+}
+
+.hrish{
+	border-top:black 2px solid;	
+	width: 50%;
+	margin: 0 auto;
+}
+    
+#glh_service_wrap{
+	width:100%;
+	background-color:white;
+	text-align:center;
+	
+	}
+	
+	#glh_thefaith_wrap{
+	width:100%;
+	background-color:white;
+	text-align:center;
+	background-image:url(../img/sky_readtext.jpg);
+	background-size:cover;
+	background-position: center center;
+	}
+    
+#glh_extra_wrap{
+	width:100%;
+	color:gray;
+	text-align:center;
+}
+
+#glh_event_wrap{
+	background-color:#330000;
+    padding-top: 30px;
+    text-align: center;
+    width: 100%;	
+}
+
+#glh_event_wrap h3{
+	color:white;	
+}
+
+#glh_event_wrap p{
+	color:white;
+}
+    
+#glh_meet_wrap{
+    background-color: white;
+    margin-left: 25%;
+    padding-top: 40px;
+    width: 50%;
+}
+
+#glh_meet_wrap2{
+    background-color: white;
+    padding-top: 40px;
+    width: 100%;
+}
+
+#glh_meet_wrap p{
+	color:black;
+}
+  
+#glh_meet_wrap h3{
+	color: black;
+}
+  
+    
+#gl_footer_wrap{
+    background-color: #330000;
+    color: white;
+    padding-bottom: 80px;
+    padding-top: 80px;
+    text-align: left;
+    width: 100%;
+}
+
+#gl_footer_wrap p{
+	color:white;
+	text-align:left;
+	font-size:16px;
+}
+
+.gl_button{
+	background-color: #330000;
+    margin-left: 17%;
+    transition: all 0.2s ease-in 0s;
+    width: 35%;
+}
+
+.gl_button:hover{
+	background-color:black;
+	transition: all 0.2s ease-in 0s;
+}
+
+a .gl_button{
+   color: white;
+    font-family: "Open Sans",sans-serif;
+    font-size: 24px;
+    font-style: italic;
+    font-weight: 600;
+    margin-bottom: 10%;
+    padding: 1%;
+    text-align: center;
+	margin-top: 5%;
+	margin-left: 31%;
+
+}
+
+.gl_button_x:hover{
+		background-color:black;
+}
+
+.gl_button_x{
+    background-color: #330000;
+    margin-left: -0.5%;
+    transition: all 0.2s ease-in 0s;
+    width: 32%;
+	color: white;
+    font-family: "Open Sans",sans-serif;
+    font-size: 24px;
+    font-style: italic;
+    font-weight: 600;
+    padding: 1%;
+    text-align: center;
+}
+
+
+
+
+.gl_button_xy:hover{
+		background-color:black;
+}
+
+.gl_button_xy{
+    background-color: #330000;
+    margin: 0 auto;
+    transition: all 0.2s ease-in 0s;
+    width: 32%;
+}
+
+a .gl_button_xy{
+	color: white;
+    font-family: "Open Sans",sans-serif;
+    font-size: 24px;
+    font-style: italic;
+    font-weight: 600;
+    padding: 1%;
+    text-align: center;
+}
+
+.gl_button_y:hover{
+	/* Permalink - use to edit and share this gradient: http://colorzilla.com/gradient-editor/#cecece+0,adadad+100 */
+	background: #cecece; /* Old browsers */
+	background: -moz-linear-gradient(top, #cecece 0%, #adadad 100%); /* FF3.6-15 */
+	background: -webkit-linear-gradient(top, #cecece 0%,#adadad 100%); /* Chrome10-25,Safari5.1-6 */
+	background: linear-gradient(to bottom, #cecece 0%,#adadad 100%); /* W3C, IE10+, FF16+, Chrome26+, Opera12+, Safari7+ */
+	filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#cecece', endColorstr='#adadad',GradientType=0 ); /* IE6-9 */
+	color:black;
+	transition: all 0.2s ease-in 0s;
+}
+
+.gl_button_y{
+	background: rgba(0, 0, 0, 0) linear-gradient(to bottom, #f9f9f9 0%, #e2e2e2 100%) repeat scroll 0 0;
+    transition: all 0.2s ease-in 0s;
+    width: 25%;
+}
+
+a .gl_button_y{
+    color: #330000;
+    font-family: "Open Sans",sans-serif;
+    font-size: 18px;
+    font-style: italic;
+    font-weight: 600;
+    float:right;
+	margin-top: 25%;
+    padding: 3% 7%;
+    text-align: center;
+	width: 100%;
+}
+
+.twopush{
+	margin-bottom:2%;
+}
+
+.mintwopush{
+	margin-top:2%;
+}
+
+.sixty_squeeze{
+	width:50%;
+	margin: 0 auto;
+}
+
+h1{
+	font-size: 48px;
+	font-family: 'Lora', serif;
+	color:#330000;
+	line-height: 80px;
+}
+
+h2{
+	font-size: 40px;
+	font-family: 'Lora', serif;
+	color:#330000;
+}
+
+h3{
+    color: #330000;
+    font-family: "Lora",serif;
+    font-size: 30px;
+    line-height: 45px;
+}
+
+h4{
+	font-family: 'Lora', serif;
+	font-size: 21px;
+}
+
+p{
+	font-family: 'Open Sans', sans-serif;
+	color:#03002f;
+	font-size:17px;
+	line-height: 36px;
+	font-style: italic;
+}
+
+.gl_logo{
+    float: left;
+    width: 350px;
+    margin-left: 15%;
+    margin-top: 1%;
+}
+
+a{
+	pointer:cursor;
+}
+
+#gl_nav{
+    margin-top: 3.4%;
+}
+
+
+#gl_nav ul{
+margin-right: 10%;
+}
+
+#gl_nav ul li{
+	float: right;
+    margin-left: 5.1%;
+}
+
+#gl_nav ul li a{
+    color: white;
+    font-size: 19px;
+	    padding: 15px 30px;
+}
+
+#gl_nav ul li a:hover{
+	background-color:#220000;
+	transition: all 0.2s ease-in 0s;	
+	padding: 15px 30px;
+
+}
+
+#gl_nav ul li a:active{
+	color:#e6e6e6;
+}
+
+#gl_nav_2{
+ 
+ }
+
+#gl_nav_2 ul{
+	margin-right: 7%;
+}
+
+#gl_nav_2 ul li{
+    float: right;
+}
+
+#gl_nav_2 ul li a{
+	font-family: 'Open Sans', sans-serif;
+	color: black;
+	font-size: 14px;
+	padding: 0px 20px;
+}
+
+#gl_nav_2 ul li a:hover{
+	/* Permalink - use to edit and share this gradient: http://colorzilla.com/gradient-editor/#7a7a7a+0,c9c9c9+100 */
+	background: #7a7a7a; /* Old browsers */
+	background: -moz-linear-gradient(top,  #7a7a7a 0%, #c9c9c9 100%); /* FF3.6-15 */
+	background: -webkit-linear-gradient(top,  #7a7a7a 0%,#c9c9c9 100%); /* Chrome10-25,Safari5.1-6 */
+	background: linear-gradient(to bottom,  #7a7a7a 0%,#c9c9c9 100%); /* W3C, IE10+, FF16+, Chrome26+, Opera12+, Safari7+ */
+	filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#7a7a7a', endColorstr='#c9c9c9',GradientType=0 ); /* IE6-9 */
+	opacity:.9;
+	padding-top:2px;
+}
+
+.glh_sm{
+    margin: 3% 2% 5%;
+    width: 6%;
+}
+
+.glh_ht{
+}
+
+.glh_church{
+	   width: 69%;	
+}
+
+.gl_gry_bar_x{
+	height:20px;
+	width:100%;
+	margin-top: -27px;
+	/* Permalink - use to edit and share this gradient: http://colorzilla.com/gradient-editor/#f9f9f9+0,e2e2e2+100 */
+	background: #f9f9f9; /* Old browsers */
+	background: -moz-linear-gradient(top, #f9f9f9 0%, #e2e2e2 100%); /* FF3.6-15 */
+	background: -webkit-linear-gradient(top, #f9f9f9 0%,#e2e2e2 100%); /* Chrome10-25,Safari5.1-6 */
+	background: linear-gradient(to bottom, #f9f9f9 0%,#e2e2e2 100%); /* W3C, IE10+, FF16+, Chrome26+, Opera12+, Safari7+ */
+	filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#f9f9f9', endColorstr='#e2e2e2',GradientType=0 ); /* IE6-9 */	
+}
+
+.gl_gry_bar{
+	height:20px;
+	width:100%;
+	/* Permalink - use to edit and share this gradient: http://colorzilla.com/gradient-editor/#f9f9f9+0,e2e2e2+100 */
+	background: #f9f9f9; /* Old browsers */
+	background: -moz-linear-gradient(top, #f9f9f9 0%, #e2e2e2 100%); /* FF3.6-15 */
+	background: -webkit-linear-gradient(top, #f9f9f9 0%,#e2e2e2 100%); /* Chrome10-25,Safari5.1-6 */
+	background: linear-gradient(to bottom, #f9f9f9 0%,#e2e2e2 100%); /* W3C, IE10+, FF16+, Chrome26+, Opera12+, Safari7+ */
+	filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#f9f9f9', endColorstr='#e2e2e2',GradientType=0 ); /* IE6-9 */	
+}
+
+hr{
+	width:70%;
+	border-color:#03002f;
+	border-width:1px;
+	margin:0 auto;	
+}
+
+.glh_top{	
+ 
+    margin-top: 2%;
+
+    margin-bottom: 2%;
+}
+	
+#glh_service_bar{
+    background-color: #330000;
+    color: white;
+    margin-top: -1%;
+    padding: 2% 0;
+    width: 100%;
+	    margin-bottom: 1%;
+}
+
+#glh_extra_bar{
+    background-color: #330000;
+    color: white;
+    margin-top: -1%;
+    padding: 2% 0;
+    width: 100%;
+	margin-bottom: 1%;
+}
+
+#p_align{
+	margin: 0 auto;
+    max-width: 75%;
+}
+
+#service_l{
+	margin-left:5%;
+}
+
+#service_r{
+	margin-right:5%;
+}
+
+.u2400{
+    font-size: 19px;
+    margin-top: 19%;
+	color:white;
+}
+
+#event_slider{
+	margin-bottom:7%;	
+}
+
+#event_slider p{
+    line-height: 3px;
+    margin-bottom: 7%;
+}
+
+#event_slider p{
+	margin-bottom:7%;	
+}
+
+.glh_meet1{
+    margin: 0 auto;
+    text-align: left;
+}
+
+.glh_meet2{
+    text-align: left;
+}
+.glh_meet3{
+    text-align: center;
+	    margin-bottom: 60px;
+
+}
+
+.glh_meet_p1{
+	margin-bottom: 50px;
+	line-height: 44px;	
+}
+
+
+
+.glh_meet_p2{
+    line-height: 44px;
+    margin-bottom: 50px;
+}
+
+
+
+.glh_pastor{
+    margin-left: 56%;
+	margin-top: -19.5%;
+	width: 19%;
+}
+
+.glh_footer_box1{
+	margin-left: 15%;
+}
+
+.glh_footer_box2{
+	margin-right: 15%;
+	float: right;
+}
+
+.footer_shift{
+	margin-bottom: 5%;	
+}
+
+.cross {
+    margin-left: 44.5%;
+}
+
+/*label{
+	font-family: 'Open Sans', sans-serif;
+	font-size: 15px;
+	margin-top: 20px;
+	margin-right: 20px;
+}
+
+#contact-form{
+	
+}
+
+input{
+     border: 1px solid #afafaf;
+    border-radius: 1px;
+    box-sizing: border-box;
+    display: inline-block;
+    margin: 7px 33px;
+    padding: 7px 21px;
+}
+
+.form_item_pos{
+	margin-bottom:25px;
+	
+}
+
+
+textarea {
+    border: 1px solid #afafaf;
+    border-radius: 1px;
+    box-sizing: border-box;
+    display: inline-block;
+    margin: 7px 33px;
+    padding: 7px 21px;
+}
+*/
+
+#search_in{
+    width: 45.5%;
+}
+
+#search_in input{
+	width:100%;
+	margin-bottom:10px;
+		
+}
+
+.form_item_pos{
+	margin-bottom: 25px;
+
+    margin-top: 10px;
+    font-size: 12px;
+}
+
+form {
+	/* Center form */
+	margin: 0 auto;
+	width:600px;
+	padding:20px;
+	border: 1px solid #CCC;
+}
+
+form:after {
+	content:"";
+	display:table;
+	clear:both;
+}
+
+form div{
+	float:left;
+	margin:0 40px 0 0;
+}
+
+label{
+	font-family: 'Open Sans', sans-serif;	
+		font-size:15px;
+}
+
+input, textarea{
+	/* Fields save font */
+
+
+	width:280px;
+	-moz-box-sizing: border-box;
+	box-sizing: border-box;
+	border: 1px solid #999;
+	margin: 0 0 10px 0;
+}
+
+form div:nth-child(even) {
+	margin: 0 0 0 0;
+}
+
+textarea{
+	width:600px;
+}
+
+input:focus, textarea:focus{
+	/*Highlight fx */
+	border-color: #000;
+}
+
+textarea{
+	vertical-align:top;
+	height:5em;
+	resize: vertical;
+}
+
+button {
+	background-color: #330000;
+    border: medium none;
+    cursor: pointer;
+    font-family: "Open Sans",sans-serif;
+    font-size: 14px;
+    margin: 5px 0;
+    padding: 20px;
+    width: 600px;
+	color:white;
+}
+
+button:hover{
+	background-color:black;
+}
+
+#sbtbtn{
+	padding: 7px 0px;
+	background: rgba(0, 0, 0, 0) linear-gradient(to bottom, #f9f9f9 0%, #e2e2e2 100%) repeat scroll 0 0;
+	transition: all 0.2s ease-in 0s;
+	font-family: 'Open Sans', sans-serif;
+	font-size: 14px;
+	margin-top: 40px;
+    margin-bottom: 40px;
+}
+
+a #sbtbtn{
+	color: #330000;
+	font-family: "Open Sans",sans-serif;
+	font-size: 18px;
+	font-style: italic;
+	font-weight: 600;
+	margin-left: -14.5%;
+	margin-top: 9%;
+	padding: 3% 7%;
+	text-align: center;
+}
+
+#sbtbtn:hover{
+	/* Permalink - use to edit and share this gradient: http://colorzilla.com/gradient-editor/#cecece+0,adadad+100 */
+	background: #cecece; /* Old browsers */
+	background: -moz-linear-gradient(top, #cecece 0%, #adadad 100%); /* FF3.6-15 */
+	background: -webkit-linear-gradient(top, #cecece 0%,#adadad 100%); /* Chrome10-25,Safari5.1-6 */
+	background: linear-gradient(to bottom, #cecece 0%,#adadad 100%); /* W3C, IE10+, FF16+, Chrome26+, Opera12+, Safari7+ */
+	filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#cecece', endColorstr='#adadad',GradientType=0 ); /* IE6-9 */
+	color:black;
+	transition: all 0.2s ease-in 0s;
+}
+
+.fa{
+	margin-right:10px;
+}
+
+.yell{
+	color:black;
+	margin-bottom:2%;
+	text-align: center;
+}
+
+.gree{
+	color:#360;
+	maring-bottom:2%;	
+	text-align: center;
+}
+
+.blue{
+	color:#006;
+	margin-bottom:2%;	
+	text-align: center;
+}
+
+#yt_movie{
+	margin:0 auto;
+}
+
+#vidbar{
+	background-color:#330000;
+	padding-top: 50px;
+}
+
+@media screen and (max-width: 480px) {
+	.grid_1_of_6,.grid_2_of_6,.grid_3_of_6,.grid_4_of_6,.grid_5_of_6,.grid_6_of_6 {
+		width: 100%; 
+		margin: 0%;
+	}
+
+	ul li {
+		margin: 0%;
+	}
+	
+	.gl_logo{
+		width:100%;
+	}	
+}
+
+.gallery_box{
+    background-color: #ececec;
+    border-radius: 24px;
+    float: left;
+    margin-bottom: 5%;
+    margin-left: 3.5%;
+    padding: 5%;
+    width: 83%;
+}
+
+.gallery_img{
+  	float: left;
+	height: auto;
+	margin-left: 4.7%;
+	margin-top: 5%;
+	width: 27%;
+}
+
+#tog{
+	width:100%;	
+}
+
+.img100{
+	width:100%;
+}
+
+.news-img{
+    background-color: black;
+    float: left;
+    height: 260px;
+    margin-right: 70px;
+    width: 260px;
+	margin-bottom:60px;
+}
+
+.news-hl{
+    margin: 20px 0 5px;
+    text-align: center;
+    width: 100%;
+}
+
+.news-date{
+	text-align:center;
+	margin-bottom:5px;
+	    width: 100%;
+}
+
+.news-sum{
+    text-align: center;
+        width: 100%;
+}
+
+.news-content{
+	border-bottom: 1px solid #03002f;
+    padding-bottom: 10px;
+    width: 100%;
+    height: 100%;
+    clear: both;
+}
+
+#tac{
+	padding: 1% 2%;
+	background-color: #330000;	
+}
+
+#tac a{
+	color:white;
+}
+
+#tac: hover{
+	background-color:black;	
+}
+
+.fourpush{
+	margin:2% 0;	
+}
+
+.text_break{
+    padding: 17px 7px;
+	background-color:#330000	;
+	color:white;
+	margin: 1% 0 2%;
+}
+
+.vr_r{
+	border-right:1px solid #1485CC;
+}
+
+.vr_l{
+	border-left:1px solid #1485CC;
+}

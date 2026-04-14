@@ -1,0 +1,8 @@
+{
+    "active":false,
+    "hooks":{
+        "javascript":[
+            {"file":"moment.min.js", "type":"script"}
+        ]
+    }
+}

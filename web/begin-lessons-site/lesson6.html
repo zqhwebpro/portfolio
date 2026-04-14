@@ -1,0 +1,282 @@
+<!doctype html>
+<html><head>
+<meta charset="utf-8">
+<title>123:CODE</title>
+<link href="lib/css/styles.css" rel="stylesheet" type="text/css">
+<link href='http://fonts.googleapis.com/css?family=Bangers' rel='stylesheet' type='text/css'>
+<link href='http://fonts.googleapis.com/css?family=Yanone+Kaffeesatz:400,700,300,200' rel='stylesheet' type='text/css'>
+<link href='http://fonts.googleapis.com/css?family=Open+Sans:400,300' rel='stylesheet' type='text/css'>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/prettify/r298/run_prettify.js"></script>
+<link href='https://cdnjs.cloudflare.com/ajax/libs/prettify/r298/prettify.min.css' rel=
+'stylesheet' type='text/css'>
+</head>
+
+<body>
+
+<SCRIPT language="JavaScript"
+        type="text/javascript">
+<!--
+//
+// Documentation:
+//   http://chami.com/tips/javascript/
+//
+function checkAnswer(quizForm,
+                     theAnswer,
+                     urlRight,
+                     urlWrong)
+{
+  var s = "?";
+
+  // go through the "current choices"
+  // to find the selected choice.
+  // radio boxes pointing to choices
+  // must be named "cc"
+  // change if necessary
+  //
+  var i = 0;
+  for(;i<quizForm.elements.length;i++)
+  {
+    if(("cc" ==
+        quizForm.elements[i].name) &&
+       (quizForm.elements[i].checked))
+    {
+      s = quizForm.elements[i].value;
+    }
+  }
+
+  // no choice was selected
+  //
+  if("?" == s)
+  {
+    alert("Please make a selection.");
+    return false;
+  }
+
+  // check if we have the correct
+  // choice selected
+  //
+  if(s == theAnswer)
+  {
+    alert("'"+s+"' is correct!");
+    if(urlRight)
+    {
+    document.location.href = urlRight;
+    }
+  }
+  else
+  {
+    alert("'"+s+"' is incorrect.");
+    if( urlWrong )
+    {
+    document.location.href = urlWrong;
+    }
+  }
+
+  // return "false" to indicate not to
+  // submit the form.
+  // change this to "true" if the form
+  // "action" is valid,
+  // i.e. points to a valid CGI script
+  //
+  return false;
+}
+//-->
+</SCRIPT>
+
+<div id="header-container"></div>
+
+<div id="sitewrapper">
+	<div id="header">
+    <h1><span class="redtype">[123]</span>&nbsp;CODE</h1>
+	</div>
+<ul>
+	<li><a href="lessonland.html">LESSONS</a></li>
+	<li><a href="index.html">HOME</a></li>
+</ul>
+<div id="body_c">
+	<div id="container-position"></div>
+		<div id="container-lessons">
+<div id="lessonnav">
+        	<ul>
+            	<li><a href="lesson1.html">1</a></li>
+              	<li><a href="lesson2.html">2</a></li>
+                <li><a href="lesson3.html">3</a></li>
+                <li><a href="lesson4.html">4</a></li>
+                <li><a href="lesson5.html">5</a></li>
+                <li><a href="lesson6.html">6</a></li>
+                <li><a href="lesson7.html">7</a></li>
+                <li><a href="lesson8.html">8</a></li>
+        	</ul>
+</div>
+<h1>Lesson 6 - Box Modeling Properties</h1>
+<p class="margbot">Objective: Alright, so now we can style a webpage with some basic CSS tags but lets get more in depth. Have you ever heard of the box model? In this lesson we will explore the box model and it's characterstics.</p>
+<h3 class="margbot">The Box Model:</h3>
+<h4>It's easiest if I just to show you:</h4>
+<br/><div id="boxmod"><img src="lib/img/boxmod.jpg" alt="Box Model" width="766" /></div>
+<br/>
+<p>So it's simple your content is in the middle, around it an invisable layer of padding, you can put a border around all the content, then around that is a invisible layer of margin. You can use this to adjust the positions of your layouts as well as add interesting style to your content.</p>
+<br/>
+<h3 class="margbot">Specific CSS Properties:</h3>
+<h4>CSS Width and Height:</h4>
+<p>Width and height properties adjust the content. Their are multiple settings to keep in mind when using width and height in css.</p>
+<p>auto; set width or height to auto and the browser will calculate their algorhythm automatically.</p>
+<p class="margbot">inherit; the value is passed from the parent element of the content. (*this property is not supported by Internet Explorer)</p>
+<h4>CSS Padding:</h4>
+<p class="margbot">To add padding to the whole area around content the only thing you have to do is add the code:</p>
+<pre class="prettyprint linenums">
+div_id{
+	padding:10px;
+}
+</pre>
+<p class="margbot">To add padding just to one side of the content your code would look like this:</p>
+<pre class="prettyprint linenums">
+div_id{
+	padding-top:10px;
+}
+
+div_id{
+    padding-right:9px;
+}
+
+div_id{
+    padding-bottom:8px;
+}
+
+div_id{
+    padding-left:7px;
+}
+
+or you can group it all in one just by knowing it sets properties clockwise starting from the top:
+
+div_id{
+	padding:10px 9px 8px 7px
+}
+</pre>
+<p class="margbot">Also, you can shorthand padding because it groups together unwritten proporties:</p>
+<pre class="prettyprint linenums">
+div_id{
+	padding:10px 5px;
+}
+
+(the top and bottom will now of a 10px padding and the right and left a 5px) or
+
+div_id{
+	padding:10px 2px 5px;
+}
+
+(the top will have a padding of 10px, the right and left 2px, and then the bottom 5px)
+</pre><br/>
+<h4>CSS Border:</h4>
+<p>Border has multiple properties you can set because it isn't just the invisable edge creating the layout of a web space. It's a literal border and it is highly customizable.</p>
+<p>Different border properties:</p>
+<p>border-width: creates border width making the border more or less bold.</p>
+<p>border-style: creates the style of a border their are multiple styles they are solid, dashed, dotted, double, groove, ridge, inset, and outset.</p>
+<p class="margbot">Note: The border works like the padding property in a few specific ways, let's take a peek.</p>
+<pre class="prettyprint linenums">
+div_id{
+	border-top: 15px;
+    border-right: 5px;
+    border-bottom: 5px;
+    border-left: 5px;
+}
+
+(in that example there is a much heavier border on the top) also,
+you can set the styles of each side seperately
+
+div_id{
+	border-top-style:inset;
+    border-right-style:dashed;
+    border-bottom-style:solid;
+    border-left-style:dotted;
+}
+
+(each side is set to have a different border style) also,
+you can do shorthand in border
+
+div_id{
+	border:5px dashed red;
+}
+
+(our example border is 5pxs bold, it is dashed, and it is red. Border shorthand must  be done in that order)
+</pre><br/>
+<h4>CSS Margin:</h4>
+<p>Margin is easy. It works just like padding does except it's the area around the padding and border. Therefor, it is coded just the same. You only have to replace padding with margin and walha.</p>
+<br/>
+<br/>
+
+<h4>♪ The more you know.</h4>  <br/>
+<hr>
+
+<p>What's the layer of the box model first around the content?</p>
+<br/>
+<FORM method="POST"
+      onSubmit="return checkAnswer(this,'C');"
+>
+
+<INPUT TYPE="RADIO" VALUE="A" NAME="cc">
+A. Margin<br/>
+
+<INPUT TYPE="RADIO" VALUE="B" NAME="cc">
+B. Border<br/>
+
+<INPUT TYPE="RADIO" VALUE="C" NAME="cc">
+C. Padding<br/>
+<br/>
+
+<INPUT TYPE="SUBMIT" VALUE="Submit Answer">
+
+</FORM>
+
+<p>How would you assign an automatic default pick for a form input property?</p>
+<br/>
+<FORM method="POST"
+      onSubmit="return checkAnswer(this,'A');"
+>
+
+<INPUT TYPE="RADIO" VALUE="A" NAME="cc">
+A. Selected<br/>
+
+<INPUT TYPE="RADIO" VALUE="B" NAME="cc">
+B. Value<br/>
+
+<INPUT TYPE="RADIO" VALUE="C" NAME="cc">
+C. Select<br/>
+<br/>
+
+<INPUT TYPE="SUBMIT" VALUE="Submit Answer">
+
+</FORM>
+
+<p>What inline tag would bold text?</p>
+<br/>
+<FORM method="POST"
+      onSubmit="return checkAnswer(this,'C');"
+>
+
+<INPUT TYPE="RADIO" VALUE="A" NAME="cc">
+A. &lt;bold><br/>
+
+<INPUT TYPE="RADIO" VALUE="B" NAME="cc">
+B. &lt;em><br/>
+
+<INPUT TYPE="RADIO" VALUE="C" NAME="cc">
+C. &lt;strong><br/>
+<br/>
+
+<INPUT TYPE="SUBMIT" VALUE="Submit Answer">
+
+</FORM>
+        </div>
+	<div id="footer-cont"></div>
+</div>
+
+
+<div id="footer"></div>
+<div id="footerfix"></div>
+
+</div>
+
+
+
+</body>
+</html>

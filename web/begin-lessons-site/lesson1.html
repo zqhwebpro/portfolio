@@ -1,0 +1,234 @@
+<!doctype html>
+<html>
+<head>
+<meta charset="utf-8">
+<title>123:CODE</title>
+<link href="lib/css/styles.css" rel="stylesheet" type="text/css">
+<link href='http://fonts.googleapis.com/css?family=Bangers' rel='stylesheet' type='text/css'>
+<link href='http://fonts.googleapis.com/css?family=Yanone+Kaffeesatz:400,700,300,200' rel='stylesheet' type='text/css'>
+<link href='http://fonts.googleapis.com/css?family=Open+Sans:400,300' rel='stylesheet' type='text/css'>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/prettify/r298/run_prettify.js"></script>
+<link href='https://cdnjs.cloudflare.com/ajax/libs/prettify/r298/prettify.min.css' rel=
+'stylesheet' type='text/css'>
+</head>
+
+<body>
+
+<SCRIPT language="JavaScript"
+        type="text/javascript">
+<!--
+//
+// Documentation:
+//   http://chami.com/tips/javascript/
+//
+function checkAnswer(quizForm,
+                     theAnswer,
+                     urlRight,
+                     urlWrong)
+{
+  var s = "?";
+
+  // go through the "current choices"
+  // to find the selected choice.
+  // radio boxes pointing to choices
+  // must be named "cc"
+  // change if necessary
+  //
+  var i = 0;
+  for(;i<quizForm.elements.length;i++)
+  {
+    if(("cc" ==
+        quizForm.elements[i].name) &&
+       (quizForm.elements[i].checked))
+    {
+      s = quizForm.elements[i].value;
+    }
+  }
+
+  // no choice was selected
+  //
+  if("?" == s)
+  {
+    alert("Please make a selection.");
+    return false;
+  }
+
+  // check if we have the correct
+  // choice selected
+  //
+  if(s == theAnswer)
+  {
+    alert("'"+s+"' is correct!");
+    if(urlRight)
+    {
+    document.location.href = urlRight;
+    }
+  }
+  else
+  {
+    alert("'"+s+"' is incorrect.");
+    if( urlWrong )
+    {
+    document.location.href = urlWrong;
+    }
+  }
+
+  // return "false" to indicate not to
+  // submit the form.
+  // change this to "true" if the form
+  // "action" is valid,
+  // i.e. points to a valid CGI script
+  //
+  return false;
+}
+//-->
+</SCRIPT>
+
+<div id="header-container"></div>
+
+<div id="sitewrapper">
+	<div id="header">
+    <h1><span class="redtype">[123]</span>&nbsp;CODE</h1>
+	</div>
+<ul>
+	<li><a href="lessonland.html">LESSONS</a></li>
+	<li><a href="index.html">HOME</a></li>
+</ul>
+<div id="body_c">
+	<div id="container-position"></div>
+		<div id="container-lessons">
+<div id="lessonnav">
+        	<ul>
+            	<li><a href="lesson1.html">1</a></li>
+              	<li><a href="lesson2.html">2</a></li>
+                <li><a href="lesson3.html">3</a></li>
+                <li><a href="lesson4.html">4</a></li>
+                <li><a href="lesson5.html">5</a></li>
+                <li><a href="lesson6.html">6</a></li>
+                <li><a href="lesson7.html">7</a></li>
+                <li><a href="lesson8.html">8</a></li>
+        	</ul>
+        </div>
+<h1>Lesson 1 - The Basics: What is HTML?</h1>
+<p class="margbot">Objective: Teach basic HTML concepts to beginning learners. In this lesson we're going to discover the coding language HTML! Trust me, it's fun.</p>
+
+<h3>What is HTML?</h3>
+<p class="margbot">HTML stands for Hyper Text Markup Language. Hyper Text Markup Language is essentially the building block language used to code websites to be displayed for the World Wide Web.</p>
+
+<h3>What is the role of the browser?</h3>
+<p class="margbot">A browser is a software application created for receiving, displaying, and communicating data across the World Wide Web. There are different types of browsers as you might be aware. From mobile, to PCs, to Macs: a browser is used for accessing the internet world.</p>
+
+<h3 class="margbot">What are the requirements of HTML tags?</h3>
+
+<h4>1.	Tags must be opened and closed:</h4>
+<p>Open the html tag: &lt;html> ...and your html content goes here.</p>
+<p class="margbot">Then... you MUST close the html tag like this: &lt;/html></p>
+
+<h4>2.	HTML is written in all lowercase</h4>
+<p>Correct: &lt;bold>Hi World!&lt;/bold></p>
+<p>Incorrect: &lt;Bold>Hi World!&lt;/Bold></p>
+<p class="margbot">Web Developers only ever using lowercase so you should to. It's quicker and it's the standard, there is no other.</p>
+
+<h4>3.	Proper nesting is required of all tags.</h4>
+
+<p>Correctly done tag b's content fit nicely inside of tag a's with no error:</p>
+		<p>&nbsp;&nbsp;&nbsp;&nbsp;&lt;tag_a></p>
+		<p>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&lt;tag_b></p>
+		<p>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&lt;/tag_b></p>
+		<p>&nbsp;&nbsp;&nbsp;&nbsp;&lt;/tag_a></p>
+  		<p class="margbot">Within &lt;tag_a> is nested &lt;tag_b> and everything will function.</p>
+<p>Incorrectly done, errors will happen:</p>
+		<p>&nbsp;&nbsp;&nbsp;&nbsp;&lt;tag_a></p>
+		<p>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&lt;tag_b></p>
+		<p>&nbsp;&nbsp;&nbsp;&nbsp;&lt;/tag_a></p>
+		<p>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&lt;/tag_b></p>
+       <p class="margbot">&lt;tag_b> is NOT nested properlly within &lt;tag_a>! An error will occur.</p>
+
+<h4>4.	Call out attributes in double quotes</h4>
+<p>&lt;img src=”attribute” alt=”attribute” width=”attribute” height=”attribute” /></p>
+<p class="margbot">In the &lt;img> tag the alt attribute that you apply would be a rollover explaination of the image, if it's a basket full of kittens then within alt put "Basket Full of Kittens!". Width and height can, but do not have to, be attributed. If an image is by default 1900 x 1280 and you need it to be smaller you can change the properties using width and height. Here's an example, mouseover the image to see the &quot;alt&quot; tag happen.</p>
+<img class="margbot" src="lib/img/meowmeow.jpg" alt="Basket Full of Kittens!" />
+
+<h3>What are the requirements of an HTML page?</h3>
+<p>All HTML documents must always have these tags: HTML tag, head tag, body tag, title tag.</p>
+
+<p class="margbot">Now, let's code our first website together. Open up a notepad document, save it as index.html and type the following:</p>
+<pre class="prettyprint linenums">&lt;html>
+&lt;head>
+&lt;title>Document Title&lt;/title>
+&lt;/head>
+
+&lt;body>
+&lt;h1>Hello World! (headline 1 tag)&lt;/h1>
+&lt;p>How's it goin'? (paragraph tag)&lt;/p>
+&lt;/body>
+&lt;/html></pre>
+
+<p class="margbot">If you drag that document to your browers and open it it should look like this:</p>
+<img src="lib/img/simplesitesample.jpg" alt="Very Basic Site Example" />
+<br/><br/><br/>
+<h3 class="margbot">Dreamweaver defaults:</h3>
+<h4>Doctypes (strict vs. transitional)</h4>
+<p>A doctype defines the documentation type. It’s declared before the &lt;html> tag however, it is not an HTML tag itself. A common Doctype tag would look like this:</p>
+<p>&lt;!DOCTYPE html></p>
+<p>A strict tag contains all HTML elements and attributes but does not include presentational or deprecated elements (like fonts). Framesets are not allowed.</p>
+<p>&lt;!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd"></p>
+
+<p>A strict tag contains all HTML elements and attributes and does include presentational or deprecated elements (like fonts). Framesets are not allowed.</p>
+<p class="margbot">&lt;!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd"></p>
+
+<h4>Meta tags (character sets)</h4>
+<p class="margbot">Meta tags are used to provide metadata to the document. Metadata is not displayed on the website but instead is used for keywords, page descriptions, and things of that nature.</p>
+<h4>♪ The more you know.</h4>  <br/>
+<hr>
+<p>What does HTML stand for?</p>
+<br/>
+
+<FORM method="POST"
+      onSubmit="return checkAnswer(this,'A');"
+>
+
+<INPUT TYPE="RADIO" VALUE="A" NAME="cc">
+A. Hyper Text Markup Language<br/>
+
+<INPUT TYPE="RADIO" VALUE="B" NAME="cc">
+B. Happy Tacky Merry Lovers<br/>
+
+<INPUT TYPE="RADIO" VALUE="C" NAME="cc">
+C. Hyper Text Made-up Lingo<br/><br/>
+
+<INPUT TYPE="SUBMIT" VALUE="Submit Answer">
+
+</FORM>
+
+<p>How does one nest tags?</p>
+<br/>
+<FORM method="POST"
+      onSubmit="return checkAnswer(this,'B');"
+>
+
+<INPUT TYPE="RADIO" VALUE="A" NAME="cc">
+A. &lt;tag_a>&lt;/tag_a>&lt;tag_b>&lt;/tag_b><br/>
+
+<INPUT TYPE="RADIO" VALUE="B" NAME="cc">
+B. &lt;tag_a>&lt;tag_b>&lt;/tag_b>&lt;/tag_a><br/>
+
+<INPUT TYPE="RADIO" VALUE="C" NAME="cc">
+C. &lt;tag_a>&lt;/tag_b><br/><br/>
+
+<INPUT TYPE="SUBMIT" VALUE="Submit Answer">
+
+</FORM>
+
+        </div>
+	<div id="footer-cont"></div>
+</div>
+
+
+<div id="footer"></div>
+<div id="footerfix"></div>
+
+</div>
+
+</body>
+</html>

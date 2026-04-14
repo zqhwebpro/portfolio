@@ -1,0 +1,241 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="utf-8">
+		<script src="lib/scripts/classie.js" type="text/javascript">
+		</script>
+		<script>
+					function init() {
+					  window.addEventListener('scroll', function(e){
+						  var distanceY = window.pageYOffset || document.documentElement.scrollTop,
+							  shrinkOn = 300,
+							  header = document.querySelector("header");
+						  if (distanceY > shrinkOn) {
+							  classie.add(header,"smaller");
+						  } else {
+							  if (classie.has(header,"smaller")) {
+								  classie.remove(header,"smaller");
+							  }
+						  }
+					  });
+					}
+					window.onload = init();
+		</script>
+		<link href="https://maxcdn.bootstrapcdn.com/font-awesome/4.4.0/css/font-awesome.min.css" rel="stylesheet">
+		<title>
+			compass.com - pointing you the right way home
+		</title>
+		<link href='https://fonts.googleapis.com/css?family=Montserrat:400,700|Hind' rel='stylesheet' type='text/css'>
+		<link href="lib/css/styles.css" rel="stylesheet" type="text/css">
+	</head>
+	<body>
+		<div class="fp_contain">
+			<header>
+				<a href="#"><img alt="compass, pointing you the right way home" id="imgfloat" src="lib/imgs/compasslogo.png"></a>
+				<nav>
+					<ul>
+						<li>
+							<a href="index.html">home</a>
+						</li>
+						<li>
+							<a href="getpreapproved.html">get pre-approved</a>
+						</li>
+						<li>
+							<a href="sellyourhome.html">sell</a>
+						</li>
+						<li>
+							<a href="investors.html">investors</a>
+						</li>
+						<li>
+							<a href="faq.html">faq</a>
+						</li>
+						<li>
+							<a href="testimonials.html">testimonials</a>
+						</li>
+						<li>
+							<a href="signup.php">sign up</a>
+						</li>
+						<li>
+							<a href="login.php">login</a>
+						</li>
+						<li>
+							<a href="contact.php">contact</a>
+						</li>
+					</ul>
+				</nav>
+			</header>
+			<div class="ezsearch_contain">
+				<div class="ezsearch_box">
+					<h2 class="ezhl" id="fontcolorwhite">
+						Pointing you the right way home.
+					</h2>
+					<div id="homehr"></div>
+					<form class="formpos">
+						<div>
+							<select name="propertytype">
+								<option value="propertytype">
+									Property Type
+								</option>
+								<option value="cabin/bungalow">
+									Cabin/Bungalow
+								</option>
+								<option value="capecod">
+									Cape Cod
+								</option>
+							</select>
+						</div>
+						<div class="formpos1">
+							<label for="zipcode"></label> <input id="zipcode" placeholder="Enter Zipcode" type="text">
+						</div>
+						<div class="formpos2">
+							<select name="pricerange">
+								<option value="pricerange">
+									Select Price Range
+								</option>
+								<option value="under">
+									Under $160,000
+								</option>
+								<option value="over">
+									Over $160,000
+								</option>
+							</select>
+						</div>
+					</form><a class="gopos" href="#">GO</a>
+				</div>
+			</div>
+			<div class="scs_contain">
+				<div id="scs">
+					<a href="#"><img alt="Search Compass.com" id="imgcent" src="lib/imgs/searchicon.png"></a>
+					<div class="scs1">
+						<h1>
+							SEARCH
+						</h1>
+						<p>
+							Lorem ipsum dolor sit amet, consectetur adipiscing elit. Mauris augue nisl, volutpat vel finibus ut, auctor in nisi. Duis pellentesque tincidunt magna, sed bibendum ipsum porta sit amet. In
+							hac habitasse platea dictumst.
+						</p><a href="#">
+						<div class="checkherebtn_marg">
+							<p>
+								Search
+							</p>
+						</div></a>
+					</div>
+					<hr size="600" width="1">
+				</div>
+				<div id="scs">
+					<a href="#"><img alt="Search Compass.com" id="imgcent" src="lib/imgs/compareicon.png"></a>
+					<div class="scs2">
+						<h1>
+							COMPARE
+						</h1>
+						<p>
+							Maecenas et elementum odio, at ultrices eros. Sed vel ex elit. Aliquam mollis arcu non leo vestibulum, in semper tellus ullamcorper. Aenean imperdiet, nunc a pulvinar fermentum.
+						</p><a href="#">
+						<div class="checkherebtn_marg">
+							<p>
+								Compare
+							</p>
+						</div></a>
+					</div>
+					<hr size="600" width="1">
+				</div>
+				<div id="scs">
+					<a href="contact.php"><img alt="Search Compass.com" id="imgcent" src="lib/imgs/scheduleicon.png"></a>
+					<div class="scs3">
+						<h1>
+							SCHEDULE
+						</h1>
+						<p>
+							Nam finibus nisi a nulla finibus laoreet. Suspendisse potenti. Aliquam eget arcu est. Pellentesque eget erat eget nunc pharetra porta. Sed commodo malesuada augue vitae dapibus.
+						</p><a href="contact.php">
+						<div class="checkherebtn_marg">
+							<p>
+								Schedule
+							</p>
+						</div></a>
+					</div>
+				</div>
+			</div>
+			<div class="featured_contain">
+				<div id="featured">
+					<div class="featured_homes">
+						<h3>
+							Featured Listing:
+						</h3><img alt="house" height="209" id="featlistimg" src="lib/imgs/14393153228_205eaae93c_z.jpg" width="279">
+						<p id="fontcenter">
+							Little House on the Prairie
+						</p>
+						<h3 id="fontcenter">
+							$84,000
+						</h3><a href="contact.html">
+						<div id="checkherebtn">
+							<p>
+								View
+							</p>
+						</div></a>
+					</div>
+					<div class="featured_test">
+						<h3>
+							Testimonials:
+						</h3><img alt="John Dep" height="182" id="testfellow" src="lib/imgs/Nat-Head-Shot-22.jpg" width="145">
+						<p id="testmarg">
+							"Just wanted to say thanks for everything Compass.com. I would not be in my own home if it wasn't for Jack and Wade. A Grateful Compass.com Customer" - John Dep
+						</p>
+					</div>
+				</div>
+				<div id="featured">
+					<div class="teamcontain">
+						<a href="contact.html">
+						<div class="teambut">
+							Say Hello!
+						</div></a> <a href="contact.php"><img alt="Here to help you find your home" id="imgresize" src="lib/imgs/teampic.png"></a>
+					</div>
+				</div>
+			</div>
+			<div class="tool_contain">
+				<img alt="Real Estate Tools Ahead" height="488" id="ezret" src="lib/imgs/apps-for-real-estate-agents.png" width="799">
+				<div class="tool_text">
+					<h2 id="fontcolordkblue">
+						Need help purchasing a new home?
+					</h2>
+					<p id="fontcolorblue">
+						Nam finibus nisi a nulla finibus laoreet. Suspendisse potenti. Aliquam eget arcu est. Pellentesque eget erat eget nunc pharetra porta. Sed commodo malesuada augue vitae dapibus.
+					</p><a class="ulcolor" href="#">
+					<div class="checkherebtn_marg">
+						<p>
+							Check it out here!
+						</p>
+					</div></a>
+				</div>
+			</div>
+			<div class="ezcontact_contain">
+				<div class="ezcontact_text">
+					<h2 id="fontcolorwhite">
+						Home finding made easy.
+					</h2>
+					<p id="fontcolorwhite">
+						Maecenas et elementum odio, at ultrices eros. Sed vel ex elit. Aliquam mollis arcu non leo vestibulum, in semper tellus ullamcorper. Aenean imperdiet, nunc a pulvinar fermentum.
+					</p>
+
+                    <a href="contact.php" class="whitebar">
+						Contact Today!
+					</a>
+				</div><img alt="Contact Us!" class="erasebg" src="lib/imgs/erasebg_after2.png">
+			</div>
+			<div class="footer_contain">
+				<div class="termscontain">
+					<h3 id="fontcolordkblue">
+						Terms & conditions and privacy policy
+					</h3>
+					<p id="copyp">
+						©zqhdesign.com. 2015. Made at York, AI.
+					</p>
+				</div>
+			</div>
+			<div class="smcont">
+				<a href="#"><i class="fa fa-twitter fa-3x"></i></a> <a href="#"><i class="fa fa-linkedin-square fa-3x"></i></a> <a href="#"><i class="fa fa-facebook-official fa-3x"></i></a>
+			</div>
+			<div class="footer_bot"></div>
+		</div>
+	</body>
+</html>

@@ -1,0 +1,9 @@
+{
+    "active":false,
+    "hooks":{
+        "javascript":[
+            {"file":"tinymce/tinymce.min.js", "type":"script"},
+            {"file":"start_tinymce.js", "type":"script"}
+        ]
+    }
+}

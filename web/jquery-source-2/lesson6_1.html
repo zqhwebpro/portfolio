@@ -1,0 +1,146 @@
+<!doctype html>
+<html>
+<head>
+<meta charset="utf-8">
+<title>jQuery-source: your source for everything jquery.</title>
+<link href="lib/css/styles.css" rel="stylesheet" type="text/css">
+<link href='http://fonts.googleapis.com/css?family=Yanone+Kaffeesatz:400,700,300,200' rel='stylesheet' type='text/css'>
+<link href='http://fonts.googleapis.com/css?family=Oxygen:400,700,300' rel='stylesheet' type='text/css'>
+<script src="https://google-code-prettify.googlecode.com/svn/loader/run_prettify.js"></script>
+<script type="text/javascript" src="lib/scripts/jquery-1.7.1.min.js"></script>
+<script type="text/javascript" src="lib/scripts/jquery-ui-1.8.17.custom.min.js"></script>
+<script type="text/javascript" src="lib/scripts/sortlist.js"></script>
+<script type="text/javascript" src="http://arrow.scrolltotop.com/arrow27.js"></script>
+</head>
+
+<body>
+
+<div id="wrapper">
+
+<div id="headerwrapper">
+<div id="header">
+	<h1><img id="header-logo" src="lib/img/jqlogo.png" alt="jQuery-source" /></h1>
+    <h3><img id="tagline" src="lib/img/tagline.png" alt="jqsource tagline" /></h3>
+</div>
+</div>
+
+<div id="menuwrapper">
+	<div id="menu">
+		<ul>
+        	<li><a href="index.html">HOME</a></li>
+			<li><a href="#">LESSONS</a>
+            	<ul>
+                	<li><a href="lesson1_1.html">Lesson 1</a></li>
+                    <li><a href="lesson2_1.html">Lesson 2</a></li>
+                    <li><a href="lesson3_1.html">Lesson 3</a></li>
+                    <li><a href="lesson4_1.html">Lesson 4</a></li>
+                    <li><a href="lesson5_1.html">Lesson 5</a></li>
+                    <li><a href="lesson6_1.html">Lesson 6</a></li>
+                 </ul>
+            </li>
+        	<li><a href="contact.html">CONTACT</a></li>	
+		</ul>
+	</div>
+</div>
+
+<div id="container">
+<div id="lessonmenu">
+	<ul>
+		<li class="lessonmenufont">Lesson 6:</li>
+    	<li><a href="lesson6_1.html">601</a></li>
+        <li><a href="lesson6_2.html">602</a></li>
+    </ul>
+</div>
+<div id="bcontainerl">
+<h1>Lesson 601 - Ascending and Descending List</h1>
+<p>
+The ascending and descending list function is a cool way of orginizing  lists of links so that they can be reordered. It's a good way to sort information automatically by the users specification so that they can quickly view the list the way they want to.
+</p>
+<hr>
+<h2>Example:</h2>
+<p>League Players:</p>
+<ul class="sortable">
+	<li><a href="#">Bly</a></li>
+	<li><a href="#">Madlibs</a></li>
+	<li><a href="#">blunT</a></li>
+	<li><a href="#">Haste</a></li>
+	<li><a href="#">PK Action Barbie</a></li>
+</ul>        
+	<button id="ascending">Ascending</button>
+	<button id="descending">Descending</button>
+<br/><br/><br/>
+<h2>HTML Markup:</h2>
+<pre class="prettyprint linenums">
+&lt;!-- For this lesson HTML will be used to set up an unordered list 
+as well as add buttons -->
+
+&lt;p>League Players:</p>
+&lt;ul class="sortable">
+	&lt;li>&lt;a href="#">Bly&lt;/a>&lt;/li>
+	&lt;li>&lt;a href="#">Madlibs&lt;/a>&lt;/li>
+	&lt;li>&lt;a href="#">blunT&lt;/a>&lt;/li>
+	&lt;li>&lt;a href="#">Haste&lt;/a>&lt;/li>
+	&lt;li>&lt;a href="#">PK Action Barbie&lt;/a>&lt;/li>
+&lt;/ul>        
+	&lt;button id="ascending">Ascending&lt;/button>
+	&lt;button id="descending">Descending&lt;/button>
+</pre>
+<br/>
+<h2>CSS Markup:</h2>
+<pre class="prettyprint linenums">
+/* Only minor CSS is needed to fine tune layout */
+
+.sortable li{
+	margin-bottom:15px;
+}
+</pre>
+<br/>
+<h2>jQuery Markup:</h2>
+<pre class="prettyprint linenums">
+$(document).ready(function() { //document is ready
+
+  $('#ascending').click(function() { //select ascending click function
+    SORTER.sort('.sortable'); //sort initiates as class sortable
+  }); //end function ascending click function
+
+  $('#descending').click(function() { //selects descending click function 
+    SORTER.sort('.sortable', 'desc'); //sort initiates as class sortable desc
+  }); //end function descending click function
+}); //end entire function
+
+var SORTER = {}; //creating a sorter variable
+SORTER.sort = function(which, dir) { //adding a method to the value 
+  SORTER.dir = (dir == "desc") ? -1 : 1; //new property of SORTER.dir of if
+  // simple terms will be an if/else statement
+  //if statement then -1 else 1
+  //if the direction equals des then place at -1 value
+  //else then place at 1 value
+
+  $(which).each(function() {
+	// which = .sortable
+    // Find the list items and sort them
+    var sorted = $(this).find("> li").sort(function(a, b) {
+			//create a new variable of sorted.
+			//when (this) happens, it wil find all the first-level child elements,
+			//then apply the sort function
+      return $(a).text().toLowerCase() > $(b).text().toLowerCase() ? SORTER.dir : -SORTER.dir; 
+	  //return, toLowerCase -
+    });
+
+    $(this).append(sorted);
+	//append to the element that trigger the event to the sorted variable
+  });
+};
+</pre>
+</div>
+</div>
+</div>
+
+<hr class="line">
+
+<div id="bcontainer3">
+	<p>jQuery-source © 2014 - Zach Heindel.</p>
+</div>
+
+</body>
+</html>

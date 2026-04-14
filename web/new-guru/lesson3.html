@@ -1,0 +1,220 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta content="text/html; charset=utf-8" http-equiv="Content-Type">
+	<title>Newguru Web-Based Training</title>
+	<link href='http://fonts.googleapis.com/css?family=Open+Sans:300italic,700,400' rel='stylesheet' type='text/css'>
+	<link href="lib/css/styles.css" rel="stylesheet" type="text/css">
+	<script src="https://google-code-prettify.googlecode.com/svn/loader/run_prettify.js">
+	</script>
+	<script src="http://arrow.scrolltotop.com/arrow27.js" type="text/javascript">
+	</script>
+	<script src="lib/script/jqueryquiz.js" type="text/javascript">
+	</script>
+	<script src="lib/script/results.js" type="text/javascript">
+	</script>
+</head>
+<body>
+	<div id="vis_site_cont">
+		<div id="header"><img alt="New//Guru" class="center_img" src="lib/img/newguru.png"></div>
+		<div class="nav_border_top"></div>
+		<div id="vis_nav_cont">
+			<div id="nav">
+				<ul>
+					<li><a href="index.html">Home</a></li>
+					<li>
+						<a href="#">Lessons</a>
+						<ul>
+							<li><a href="lesson1.html">HTML5 Semantics Tags</a></li>
+							<li><a href="lesson2.html">icomoon.io and fontawesome.io</a></li>
+							<li><a href="lesson3.html">Media Queries</a></li>
+							<li><a href="lesson4.html">Google reCAPTCHA</a></li>
+							<li><a href="lesson5.html">CSS3 In Motion</a></li>
+							<li><a href="lesson6.html">Microformats</a></li>
+							<li><a href="lesson7.html">SEO Basics</a></li>
+							<li><a href="lesson8.html">CSS3 Adv Selectors</a></li>
+							<li><a href="lesson9.html">Responsive HTML Email</a></li>
+						</ul>
+					</li>
+					<li><a href="contact.html">Contact</a></li>
+				</ul>
+			</div>
+		</div>
+		<div class="nav_border_bottom"></div>
+		<div id="vis_body">
+			<div id="vis_body_cont">
+				<div id="pos_fix">
+					<div id="tip_box">
+						<h3>MQ Links:</h3>
+						<hr>
+						<ul>
+							<li><a href="https://developer.mozilla.org/en-US/docs/Web/Guide/CSS/Media_queries" target="_blank">Mozilla: Media Queries</a></li>
+							<li><a href="http://www.lgloss.com/tutorials/learnmod2/mediaqueries.php" target="_blank">Lacey Gloss: Media Queries</a></li>
+						</ul>
+					</div>
+				</div>
+				<h1 class="marg_bot">Media Queries</h1>
+				<h2 id="vis_breaker">Objective:</h2>
+				<p class="marg_bot">In this tutorial you will learn what media queries are, their benifit to the web industry, and how to effectively use them.</p>
+				<h2 id="vis_breaker">Prerequisites:</h2>
+				<p class="marg_bot">In order to fully comprehend this lesson it is recommended that you have intermediate skill with both HTML and CSS. CSS is especially beneficial considering the topic for this lesson.</p>
+				<h2>Logical operators you will learn:</h2>
+				<p>not</p>
+				<p>only</p>
+				<p>and</p>
+				<p class="marg_bot">or</p>
+				<h2>Media features you will learn:</h2>
+				<p>min-width</p>
+				<p>max-width</p>
+				<p>min-device-width</p>
+				<p>max-device-width</p>
+				<p>min-height</p>
+				<p>max-height</p>
+				<p>min-device-height</p>
+				<p class="marg_bot">max-device-height</p>
+				<h2 id="vis_breaker">What are media queries and why do web designers use them?</h2>
+				<p class="marg_bot">Media queries are a CSS command that acts exactly as it sounds. We are basically starting a media response command. CSS with initiate the command in a user’s automatically depending on different variables which will be discussed later in this lesson. Web designers needed to adapt to the change in device resolutions. As new technologies immerged a growing market demand that the online presence for these devices was satisfied appropriately. Coders added the media query command to CSS to be a way to automatically adjust window sizes accordingly.</p>
+				<h3>@media not (property: value)</h3>
+				<p class="marg_bot">the not operator will do anything except the lines of code following it.</p>
+				<h3>@media only (property: value)</h3>
+				<p class="marg_bot">the only operator will only do the lines of code following it and nothing else.</p>
+				<h3>@media and (property: value)</h3>
+				<p class="marg_bot">the and operator will do both the line of code proceeding it and following it.</p>
+				<h3>@media or (property: value)</h3>
+				<p class="marg_bot">the or will do either what is proceeding it or following it depending on the conditions.</p>
+				<h3>@media (min-width: value)</h3>
+				<p class="marg_bot">min-width refers to the minimum width of browser window size before the media query executes.</p>
+				<h3>@media (max-width: value)</h3>
+				<p class="marg_bot">max-width refers to the maximum width of browser window size before the media query executes.</p>
+				<h3>@media (min-device-width: value)</h3>
+				<p class="marg_bot">min-device-width refers to the minimum width of device size before the media query executes.</p>
+				<h3>@media (max-device-width: value)</h3>
+				<p class="marg_bot">max-device-width refers to the maximum width of device size before the media query executes.</p>
+				<h3>@media (min-height: value)</h3>
+				<p class="marg_bot">min-height refers to the minumum height of browser window size before the media query executes.</p>
+				<h3>@media (max-height: value)</h3>
+				<p class="marg_bot">max-height refers to the maximum height of browser window size before the media query executes.</p>
+				<h3>@media (min-device-height: value)</h3>
+				<p class="marg_bot">min-device-height refers to the minimum height of device size before the media query executes.</p>
+				<h3>@media (max-device-height: value)</h3>
+				<p class="marg_bot">max-device-height refers to the maximum width of device size before the media query executes.</p>
+				<h2>Media query in action:</h2>
+				<p>So lets say we want a computer screen to adjust our web content properties when the Browsers window size reaches a specific variable. That specific line of code would like like so:</p><br>
+				<pre class="prettyprint linenums">
+@media only screen and (min-width:800px) {
+    #media_box{
+        background-color:white
+    }
+</pre><br>
+				<p>Test it, bring the right side of your browser window closer to the left side until the bar turns white.</p><br>
+				<div id="media_box">
+					<p></p>
+				</div><br>
+				<p>So here is how that works. In CSS we call out a media query with @media.</p>
+				<p class="marg_bot">Next we add or logical operators so next is only screen. That means "screen" is the only thing effected. Then we call out and. This signifies what only the screen will do. Next we add media feature with a property and a value. So when the screen reaches a minimum of 800px. The next CSS property will continue. Add a CSS command for the parameters to change to and that's it! Next, apply what you've learned with the following tutorial.</p>
+				<h1 class="marg_bot" id="vis_breaker">Media query tutorial:</h1>
+				<h3>Step 1.</h3>
+				<p class="marg_bot">Begin by creating 6-12 squares in HTML. Need help? Try my code!</p>
+				<pre class="prettyprint linenums">
+&lt;!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+"http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd"&gt;
+&lt;html xmlns="http://www.w3.org/1999/xhtml"&gt;
+&lt;head&gt;
+&lt;meta http-equiv="Content-Type" content="text/html; charset=UTF-8" /&gt;
+&lt;title&gt;Media Queries Blocks
+&lt;link href="tutorial_lesson_3.css" rel="stylesheet" type="text/css"/&gt;
+&lt;/head&gt;
+
+&lt;body&gt;
+    &lt;div id="wrapper"&gt;
+        &lt;p&gt;Resize the window to see the changes Media Queries makes.&lt;/p&gt;
+        &lt;div id="container"&gt;
+        &lt;div class="media_block" id="mb1"&gt;1&lt;/div&gt;
+        &lt;div class="media_block" id="mb2"&gt;2&lt;/div&gt;
+        &lt;div class="media_block" id="mb3"&gt;3&lt;/div&gt;
+        &lt;div class="media_block" id="mb4"&gt;4&lt;/div&gt;
+        &lt;div class="media_block" id="mb5"&gt;5&lt;/div&gt;
+        &lt;div class="media_block" id="mb6"&gt;6&lt;/div&gt;
+        &lt;div class="media_block" id="mb7"&gt;7&lt;/div&gt;
+        &lt;div class="media_block" id="mb8"&gt;8&lt;/div&gt;
+        &lt;div class="media_block" id="mb9"&gt;9&lt;/div&gt;
+        &lt;div class="media_block" id="mb10"&gt;10&lt;/div&gt;
+        &lt;div class="media_block" id="mb11"&gt;11&lt;/div&gt;
+    &lt;/div&gt;
+&lt;/div&gt;
+&lt;/body&gt;
+&lt;/html&gt;
+</pre><br>
+				<h3>Step 2.</h3>
+				<p class="marg_bot">Next we will need some basic CSS to go with our new HTML file.</p>
+				<pre class="prettyprint linenums">
+@charset "UTF-8";
+
+* { margin: 0px; padding: 0px;}
+
+#wrapper, #container{
+    margin:0 auto;
+    width:768px;
+}
+
+#container{
+    position:relative;
+    min-height:84px;
+    width:672px;
+    margin-top:40px;
+    overflow:hidden;
+}
+
+.media_block{
+    float:left;
+    margin:12px 12px;
+    background:#CCC;
+    width:60px;
+    height:120px;
+    text-align:center;
+    line-height:60px;
+}
+
+p{
+    position:relative;
+    top:25px;
+    text-align:center;
+    padding:0 50px;
+    font-size:16px;
+    font-family:Verdana, Geneva, sans-serif;
+}
+</pre><br>
+				<h3>Step 3.</h3>
+				<p class="marg_bot">Now we will have to add our Media Queries to the CSS we have already created.</p>
+				<pre class="prettyprint linenums">
+/*Media Queries*/
+
+@media only screen and (min-width: 1042px) {
+    #wrapper{width:1042px;}
+    #container{width:972px;}
+}
+
+@media only screen and (max-width: 968px) and (min-width: 800px) {
+    #wrapper{width:480px;}
+    #container{width:420px;}
+
+}
+
+@media only screen and (max-width: 799px) {
+    #wrapper{width:320px;}
+    #container{width:252px;}
+    .media_block{width:40px; height:40px; margin:5px; background:white; line-height:36px;}
+</pre><br>
+				<p class="marg_bot">Your website should look something like this: <a href="tutoriallesson3.html">Tutorial Lesson 3</a> Try experimenting to see what else you can accomplish!</p><a class="pad_bot" href="lesson3_quiz.html" id="button">Do you have what it takes to beat the quiz master?</a>
+			</div>
+		</div>
+		<div class="nav_border_top"></div>
+		<div id="vis_footer_cont">
+			<div id="footer">
+				<p>New//Guru Web-Based Training is a teaching module trained by Zach Heindel. Student of The York Art Institute, 2015. Sophomore year.</p>
+			</div>
+		</div>
+		<div class="nav_border_bottom"></div>
+	</div>
+</body>
+</html>

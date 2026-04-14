@@ -1,0 +1,185 @@
+<!doctype html>
+<html>
+<head>
+<meta charset="utf-8">
+<title>jQuery-source: your source for everything jquery.</title>
+<link href="lib/css/styles.css" rel="stylesheet" type="text/css">
+ <link rel="stylesheet" href="../../css/sunny/jquery-ui-1.8.17.custom.css" type="text/css" media="screen" charset="utf-8" />
+<link href='http://fonts.googleapis.com/css?family=Yanone+Kaffeesatz:400,700,300,200' rel='stylesheet' type='text/css'>
+<link href='http://fonts.googleapis.com/css?family=Oxygen:400,700,300' rel='stylesheet' type='text/css'>
+<script src="https://google-code-prettify.googlecode.com/svn/loader/run_prettify.js"></script>
+<script type="text/javascript" src="lib/scripts/jquery-1.11.1.min.js"></script>
+<script src="../../lib/jquery-1.7.1.min.js" type="text/javascript" charset="utf-8"></script>
+<script type="text/javascript" src="lib/scripts/jquery-ui-1.8.17.custom.min.js"></script>
+<script type="text/javascript" src="lib/scripts/jquery.color.js"></script>
+<script type="text/javascript" src="lib/scripts/splitter.js"></script>
+<script type="text/javascript" src="http://arrow.scrolltotop.com/arrow27.js"></script>
+</head>
+
+<body>
+
+<div id="wrapper">
+
+<div id="headerwrapper">
+<div id="header">
+	<h1><img id="header-logo" src="lib/img/jqlogo.png" alt="jQuery-source" /></h1>
+    <h3><img id="tagline" src="lib/img/tagline.png" alt="jqsource tagline" /></h3>
+</div>
+</div>
+
+<div id="menuwrapper">
+	<div id="menu">
+		<ul>
+        	<li><a href="index.html">HOME</a></li>
+			<li><a href="#">LESSONS</a>
+            	<ul>
+                	<li><a href="lesson1_1.html">Lesson 1</a></li>
+                    <li><a href="lesson2_1.html">Lesson 2</a></li>
+                    <li><a href="lesson3_1.html">Lesson 3</a></li>
+                    <li><a href="lesson4_1.html">Lesson 4</a></li>
+                    <li><a href="lesson5_1.html">Lesson 5</a></li>
+                    <li><a href="lesson6_1.html">Lesson 6</a></li>
+                 </ul>
+            </li>
+        	<li><a href="contact.html">CONTACT</a></li>	
+		</ul>
+	</div>
+</div>
+
+<div id="container">
+<div id="lessonmenu">
+	<ul>
+		<li class="lessonmenufont">Lesson 2:</li>
+        <li><a href="lesson2_1.html">201</a></li>
+        <li><a href="lesson2_2.html">202</a></li>
+        <li><a href="lesson2_3.html">203</a></li>
+    </ul>
+</div>
+<div id="bcontainerl">
+<h1>Lesson 203 - Splitter</h1>
+<p>
+Splitter is a highly organized method of detailing information in a limited amount of space. The function neatly seperates two strings of data and places a scroll bar within it's contents to keep large paragraphs of text highly condensed.
+</p>
+<hr>
+<h2>Example:</h2>
+
+<div id="splitter">
+	<div class="pane" id="tocPane">
+	<div class="inner">
+		<ol>
+			<li class="splitter-li"><a href="#">Splitter in Depth</a></li>
+			<li class="splitter-li"><a href="#html-split">HTML</a></li>
+			<li class="splitter-li"><a href="#css-split">CSS</a></li>
+			<li class="splitter-li"><a href="#jquery-split">jQuery</a></li>
+		</ol>
+	</div>   
+	</div>
+	<div class="pane" id="contentPane">
+	<div class="inner">
+		<p>Splitter in Depth</p>
+		<p>Splitter is a highly organized method of detailing information in a limited amount of space. The function neatly seperates two strings of data and places a scroll bar within it's contents to keep large paragraphs of text highly condensed.</p>
+	</div>
+	</div>
+</div>
+<br/>
+
+<h2 id="html-split">HTML Markup:</h2>
+<pre class="prettyprint linenums">
+&lt;div id="splitter">
+	&lt;div class="pane" id="tocPane">
+	&lt;div class="inner">
+		&lt;ol>
+			&lt;li>&lt;a href="#">Splitter in Depth&lt;/a>&lt;/li>
+			&lt;li>&lt;a href="#">HTML&lt;/a>&lt;/li>
+			&lt;li>&lt;a href="#">CSS&lt;/a>&lt;/li>
+			&lt;li>&lt;a href="#">jQuery&lt;/a>&lt;/li>
+		&lt;/ol>
+	&lt;/div> 
+    &lt;/div>
+    	&lt;div class="pane" id="contentPane">
+		&lt;div class="inner">
+        	&lt;p>Splitter in Depth&lt/p>
+        	&lt;p>Splitter is a highly organized method of detailing information 
+            in a limited amount of space. The function neatly seperates two 
+            strings of data and places a scroll bar within it's contents to keep 
+            large paragraphs of text highly condensed.&lt;/p>
+        &lt;/div>
+        &lt;/div>
+&lt;/div>
+</pre>
+<br/>
+
+<h2 id="css-split">CSS Markup:</h2>
+<pre class="prettyprint linenums">
+/* In CSS specify your splitters properties and dimensions */
+
+#splitter {
+    height:150px;
+    margin-top:30px;
+    margin-bottom:50px;
+}
+#splitter .pane {
+    width:50%;
+    height:100%;
+    float:left;
+}
+
+#splitter h2 { 
+  margin-bottom:0; 
+  padding-bottom:0;
+}
+
+#tocPane { 
+    overflow: hidden;
+    background:#d6dde5 url(handle.png) no-repeat right center;
+}
+
+#tocPane .inner { 
+    width: 300px; 
+}
+
+#contentPane {
+    overflow: auto;
+}
+
+#contentPane .inner {
+    padding: 0 5px;
+}
+
+.splitter-li{
+	padding:10px 20px;
+}
+</pre>
+<br/>
+
+<h2 id="jquery-split">jQuery Markup:</h2>
+<pre class="prettyprint linenums">
+$(document).ready(function(){ //begin function
+	$('#splitter > div:first').resizable({ //first splitter div is resizable and called upon
+		handles: 'e',  //icon property of resize call out
+		minWidth : '100', //min width of sizable content
+		maxWidth : '400', //max width of sizable content
+		resize: function() { //resize function begins
+        
+		var remainingSpace = $(this).parent().width() - $(this).outerWidth(); //the following are the dimentions 
+		and properties of the resize function of the splitter
+		var divTwo = $(this).next();
+		var divTwoWidth = remainingSpace - (divTwo.outerWidth() - divTwo.width());
+		divTwo.css('width', divTwoWidth + 'px');
+    } //end resize function
+  }); //end splitter function
+}); //end ready function
+</pre>
+
+</div>
+</div>
+</div>
+
+<hr class="line">
+
+<div id="bcontainer3">
+	<p>jQuery-source © 2014 - Zach Heindel.</p>
+</div>
+
+</body>
+</html>

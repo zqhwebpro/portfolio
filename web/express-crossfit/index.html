@@ -1,0 +1,279 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta charset="UTF-8">
+	<meta content="width=device-width, initial-scale=1" name="viewport">
+	<title>Express CrossFit</title>
+	<link href="css/styles.css" rel="stylesheet" type="text/css">
+	<link href='https://fonts.googleapis.com/css?family=Open+Sans+Condensed:300,700' rel='stylesheet' type='text/css'>
+	<link href='https://fonts.googleapis.com/css?family=Yantramanav:900' rel='stylesheet' type='text/css'>
+	<link href='https://fonts.googleapis.com/css?family=Raleway:400,900' rel='stylesheet' type='text/css'>
+	<script src="http://code.jquery.com/jquery-1.9.1.min.js">
+	</script>
+	<script>
+	               $(window).scroll(function() {
+
+	                  if ($(this).scrollTop()>0)
+	                   {
+	                      $('.fade').fadeOut( "fast" );
+	                   }
+	                  else
+	                   {
+	                    $('.fade').fadeIn( "fast" );
+	                   }
+	               });
+	</script>
+	<style>
+	.mobile__button p {
+	 display: block;
+	 }
+	 @media screen and (min-width: 1350px) {
+	   .mobile__button p {
+	     display: none; } }
+
+	 @media screen and (max-width: 1350px) {
+	    #main-nav{
+	        display:none;
+	    }
+	 }
+
+	.mobile__nav {
+	 display: none; }
+	 .mobile__nav a {
+	   -webkit-transition: 0.2s ease-in-out;
+	   -moz-transition: 0.2s ease-in-out;
+	   -o-transition: 0.2s ease-in-out;
+	   transition: 0.2s ease-in-out; }
+	   .mobile__nav a:hover,
+	   .mobile__nav a:focus {
+	     }
+	 @media screen and (min-width: 1350px) {
+	   .mobile__nav {
+	     display: none; } }
+	</style>
+</head>
+<body>
+	<div class="wrap">
+	<div class="group" id="header_group">
+		<div class="grid_2_of_6"><img alt="Express Crossfit - Get Built" id="ec_headerlogo" src="img/expressfit.png"></div>
+		<div class="grid_4_of_6" id="address_group">
+			<p class="f_r_8">7018 E. Road. • York, PA</p><br>
+			<div class="marg_bot_sm"></div>
+			<p class="f_r_8"><a href="tel:717-854-4831">717-854-4831</a></p>
+		</div>
+	</div>
+	<nav class="group" id="ec_nav">
+		<div class="grid_6_of_6" id="main-nav">
+			<ul>
+				<li>
+					<a href="index.html">HOME</a>
+				</li>
+				<li>
+					<a href="about.html">ABOUT</a>
+				</li>
+				<li>
+					<a href="trainers.html">TRAINERS</a>
+				</li>
+				<li>
+					<a href="membership.html">MEMBERSHIP</a>
+				</li>
+				<li>
+					<a href="schedule.html">SCHEDULE</a>
+				</li>
+				<li>
+					<a href="contact.php">CONTACT</a>
+				</li>
+			</ul>
+		</div>
+		<div class="mobile-nav">
+			<div class="mobile__button">
+				<p>Menu <span>☰</span></p>
+			</div>
+			<nav class="mobile__nav">
+				<ul>
+					<li>
+						<a href="index.html">HOME</a>
+					</li>
+					<li>
+						<a href="about.html">ABOUT</a>
+					</li>
+					<li>
+						<a href="trainers.html">TRAINERS</a>
+					</li>
+					<li>
+						<a href="membership.html">MEMBERSHIP</a>
+					</li>
+					<li>
+						<a href="schedule.html">SCHEDULE</a>
+					</li>
+					<li>
+						<a href="contact.php">CONTACT</a>
+					</li>
+				</ul>
+			</nav>
+		</div>
+	</nav>
+	<div id="homeimgslider_group">
+		<div class="group">
+			<div class="grid_6_of_6">
+				<h1>GET FIT</h1>
+			</div>
+		</div>
+		<div class="group">
+			<div class="grid_6_of_6">
+				<h1 id="_h1">WITH EXPRESS CROSSFIT!</h1>
+			</div>
+		</div>
+		<div class="group">
+			<div class="grid_6_of_6"><img alt="Get strong - Express CrossFit" class="c_weight" src="img/imgslider_weight.png"></div>
+		</div>
+	</div>
+	<div id="homeabout_group">
+		<div class="group">
+			<div class="grid_6_of_6">
+				<h2 class="t_b_c_marg_hl">Express CrossFit - Get Tough, Fast</h2>
+			</div>
+		</div>
+		<div class="group">
+			<div class="grid_6_of_6">
+				<p class="t_b_c_marg">Join our <em>world-class state-of-the-art</em> CrossFit center and put yourself to the test. Express CrossFit is designed to optimize your body’s potential and we have all of the tools available for everyone. Our trained team of body-builders, nutritionist, and instructors are personable and here to help you achieve any CrossFit goal imaginable. A community of CrossFit enthusiast work together to create one of the most comfortable CrossFit milieus you've ever dreamed of: <em>voted by you,</em> the people.</p>
+			</div>
+		</div>
+		<div class="group">
+			<div class="grid_6_of_6">
+				<p class="t_b_c_marg"><em>Just take a look around.</em> You won't find a better groupof trainers, as much equipment, or near the amount of reputation in the York, PA Area.</p>
+			</div>
+		</div>
+	</div>
+	<div id="hometrainers_group">
+		<div class="group">
+			<div class="grid_6_of_6">
+				<h2 class="t_b_c_marg_hl">How does CrossFit <em style="color:#cf3f42">optimize</em> the human body?</h2>
+			</div>
+		</div>
+		<div class="group">
+			<div class="grid_2_of_6">
+				<img alt="test" class="c_c" src="img/opti_graph.png">
+				<p class="t_b_c_marg">Functional movements in combination with heavy lifting power-up the body. By pushing the body to heavy limits a noticeable steady increase of muscle mass is achieved through vigorous goal planning.</p>
+			</div>
+			<div class="grid_2_of_6">
+				<img alt="target point" class="c_c" src="img/opti_target.png">
+				<p class="t_b_c_marg">Targeting key point muscles will ensure your whole body intensifies together keeping you in a better working condition. Our team of professionals are here to train you in proper form.</p>
+			</div>
+			<div class="grid_2_of_6">
+				<img alt="bpm" class="c_c" src="img/opti_hearth.png">
+				<p class="t_b_c_marg">Variety and repetition induce states of achievement throughout the body which will intensify yourheart strength by pushing past the limits of normal capabilities.</p>
+			</div>
+		</div>
+		<div class="group">
+			<div class="grid_6_of_6">
+				<h3 class="t_b_c_marg">Scientifically proven methods in cooridation with our team of trainers will give you the best results imaginable.</h3><a href="about.html">
+				<div class="gry_btn" id="home_gry_btn">
+					Learn more
+				</div></a>
+			</div>
+		</div>
+	</div>
+	<div id="homeschedule_group">
+		<div class="group">
+			<div class="grid_6_of_6">
+				<h2 class="t_b_c_marg_hl">The Workout-of-the-Day: Push Yourself</h2>
+				<h3 class="t_b_c_marg_hl">Beyhold the Power of the Filthy 50</h3>
+			</div>
+		</div>
+		<div class="group">
+			<div class="grid_1_of_6"></div>
+			<div class="grid_4_of_6">
+				<iframe allowfullscreen class="wod" frameborder="0" height="315" src="https://www.youtube.com/embed/BpPi_8Df63k" width="560"></iframe>
+			</div>
+			<div class="grid_1_of_6"></div>
+		</div>
+		<div class="group">
+			<div class="grid_6_of_6">
+				<p class="t_b_c_marg">A CrossFit staple, the Filthy 50 is a brutal series of taxing exercises that’s likely to seem endless if you’ve never done it before. The circuit includes 50 reps of 10 different exercises, all done as quickly as possible.</p>
+			</div>
+		</div>
+		<div class="group">
+			<div class="grid_3_of_6">
+				<p class="t_b_c_marg_z">&bull; 50 box jumps with a 24-inch box<br>
+				&bull; 50 jumping pullups<br>
+				&bull; 50 kettlebell swings<br>
+				&bull; 50 walking lunge steps<br>
+				&bull; 50 reps of push press - 45 lbs.<br></p>
+			</div>
+			<div class="grid_3_of_6">
+				<p class="t_b_c_marg_z">&bull; 50 back extensions<br>
+				&bull; 50 wallballs using a 20-pound ball<br>
+				&bull; 50 burpees (dropping to the floor)<br>
+				&bull; 50 double-unders<br>
+				&bull; 50 knees to elbows<br></p>
+			</div>
+		</div>
+	</div>
+	<div id="homemembership_group">
+		<div class="group">
+			<div class="grid_6_of_6">
+				<h2 class="t_b_c_marg_hl">Apply For Fantastic Membership Deals</h2>
+			</div>
+		</div>
+		<div class="group">
+			<div class="grid_3_of_6">
+				<div class="home_sch_wrap">
+					<h3 class="t_b_c_marg">Month-To-Month<br>
+					For Only $39.99</h3>
+					<p class="t_b_c_marg"><strong>Membership Packages Includes:</strong></p><br>
+					<br>
+					<p class="t_b_c_marg_x">&bull; Sign Up Registration Package<br>
+					&bull; Unlimited Sessions/Month<br>
+					&bull; Nutritional Guidance & Support<br>
+					&bull; Members Only Invitations to Socials<br>
+					&bull; Community Events & Competitions<br></p><br>
+				</div>
+			</div>
+			<div class="grid_3_of_6">
+				<div class="home_sch_wrap">
+					<h3 class="t_b_c_marg">Yearly +VIP Access<br>
+					For Only $319.99</h3>
+					<p class="t_b_c_marg"><strong>Membership Package Includes:</strong></p><br>
+					<br>
+					<p class="t_b_c_marg_x">&bull; Sign Up Registration Package<br>
+					&bull; Unlimited Sessions/Month<br>
+					&bull; Nutritional Guidance & Support<br>
+					&bull; Members Only Invitations to Socials<br>
+					&bull; Community Events & Competitions<br>
+					&bull; PLUS VIP Center Access<br></p>
+				</div>
+				<div class="marg_bot_lg"></div>
+			</div>
+		</div>
+		<div class="group">
+			<div class="grid_4_of_6">
+				<h3 class="t_b_c_marg_hl">Still looking for more information?</h3>
+				<p class="t_b_c_marg">Get in contact with one of our CrossFit trainers and we will be more than happy to discuss our plans, schedules, specific membership benefits, and the Express CrossFit.</p>
+				<div class="marg_bot_med"></div><a href="contact.php">
+				<div class="gry_btn" id="home_gry_btn2">
+					Contact Us Today
+				</div></a>
+			</div>
+			<div class="grid_2_of_6"><img alt="Get In Contact For More Information - Express CrossFit" class="mem_img" src="img/memberships_1.png"></div>
+		</div>
+	</div>
+	<div class="group" id="footer_group">
+		<div class="grid_2_of_6" id="footer_addr">
+			<h4 class="t_b_c_marg_y">7018 E. Road. • York, PA</h4><br>
+			<h4 class="t_b_c_marg_y"><a href="tel:717-854-4831">717-854-4831</a></h4><br>
+			<h4 class="t_b_c_marg_y"><a href="mailto:train@expresscrossfit.com">train@expresscrossfit.com</a></h4><br>
+		</div>
+		<div class="grid_2_of_6" id="footer_sm">
+			<h5 class="t_b_c_marg_y">Get in touch.</h5><a href="#"><img alt="FB" src="img/sm_facebook.png"></a> <a href="#"><img alt="Tw" src="img/sm_twitter.png"></a> <a href="#"><img alt="Li" src="img/sm_linked.png"></a> <a href="#"><img alt="Yt" src="img/sm_youtube.png"></a>
+		</div>
+		<div class="grid_2_of_6" id="footer_map">
+			<a href="https://www.google.com/maps/dir//Semper+Fitness+24%2F7,+178+Leader+Heights+Rd,+York,+PA+17402/@39.9099313,-76.7689479,12z/data=!3m1!4b1!4m8!4m7!1m0!1m5!1m1!1s0x406fe2e83d552ff5:0xdbbba6fc5b3ab9b2!2m2!1d-76.6989079!2d39.9099524" target="_blank"><img alt="Click For More Info!" class="t_b_c_marg_z rotate-center" id="footer_map_select" height="171" src="img/horizonmap_ec.jpg" width="171"></a>
+		</div>
+	</div><img alt="placeholder" class="fade" id="pos_bot_l" src="img/splash_front_l.png"> <img alt="placterhold" class="fade" id="pos_bot_r" src="img/splash_front_r.png"></div>
+	<script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.3/jquery.min.js">
+	</script>
+	<script src="script/mobile_nav.js">
+	</script>
+</body>
+</html>

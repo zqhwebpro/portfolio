@@ -1,0 +1,338 @@
+<!doctype html>
+<html>
+<head>
+<meta charset="utf-8">
+<title>jQuery-source: your source for everything jquery..</title>
+<link href="lib/css/styles.css" rel="stylesheet" type="text/css">
+<link href='http://fonts.googleapis.com/css?family=Yanone+Kaffeesatz:400,700,300,200' rel='stylesheet' type='text/css'>
+<link href='http://fonts.googleapis.com/css?family=Oxygen:400,700,300' rel='stylesheet' type='text/css'>
+<script src="https://google-code-prettify.googlecode.com/svn/loader/run_prettify.js"></script>
+<script type="text/javascript" src="lib/scripts/jquery-1.7.1.min.js"></script>
+<script type="text/javascript" src="lib/scripts/jquery-ui-1.8.17.custom.min.js"></script>
+<script type="text/javascript" src="lib/scripts/tablecels.js"></script>
+<script type="text/javascript" src="http://arrow.scrolltotop.com/arrow27.js"></script>
+</head>
+
+<body>
+
+<div id="wrapper">
+
+<div id="headerwrapper">
+<div id="header">
+	<h1><img id="header-logo" src="lib/img/jqlogo.png" alt="jQuery-source" /></h1>
+    <h3><img id="tagline" src="lib/img/tagline.png" alt="jqsource tagline" /></h3>
+</div>
+</div>
+
+<div id="menuwrapper">
+	<div id="menu">
+		<ul>
+        	<li><a href="index.html">HOME</a></li>
+			<li><a href="#">LESSONS</a>
+            	<ul>
+                	<li><a href="lesson1_1.html">Lesson 1</a></li>
+                    <li><a href="lesson2_1.html">Lesson 2</a></li>
+                    <li><a href="lesson3_1.html">Lesson 3</a></li>
+                    <li><a href="lesson4_1.html">Lesson 4</a></li>
+                    <li><a href="lesson5_1.html">Lesson 5</a></li>
+                    <li><a href="lesson6_1.html">Lesson 6</a></li>
+                 </ul>
+            </li>
+        	<li><a href="contact.html">CONTACT</a></li>	
+		</ul>
+	</div>
+</div>
+
+<div id="container">
+<div id="lessonmenu">
+	<ul>
+		<li class="lessonmenufont">Lesson 6:</li>
+    	<li><a href="lesson5_1.html">601</a></li>
+        <li><a href="lesson5_2.html">602</a></li>
+    </ul>
+</div>
+<div id="bcontainerl">
+<h1>Lesson 602 - Editable Tables</h1>
+<p>
+For the final lesson in this learning module I will be teaching you how to design an editable table. This table is designed so that anyone can change the information.
+</p>
+<hr>
+<h2>Example:</h2>
+     <form action="null" method="post">     
+				<table id="my_league">
+					<thead>
+						<tr>
+							<th>League ID #</th>
+							<th>In Game Name</th>
+							<th>Role</th>
+							<th>Primary Station</th>
+							<th>TCP</th>
+						</tr>
+					</thead>
+					<tbody>
+						<tr>
+							<td>456747</td>
+							<td>Bly</td>
+							<td>Commander</td>
+							<td>Shadow Dungeon</td>
+							<td>1</td>
+						</tr>
+						<tr>
+							<td>822462</td>
+							<td>Madlibs</td>
+							<td>Archer</td>
+							<td>Shadow Dungeon</td>
+							<td>2</td>
+						</tr>
+						<tr>
+							<td>923178</td>
+							<td>blunT</td>
+							<td>Wizard</td>
+							<td>Fizzle</td>
+							<td>3</td>
+						</tr>
+						<tr>
+							<td>920831</td>
+							<td>Haste</td>
+							<td>Healer</td>
+							<td>Shadow Dungeon</td>
+							<td>4</td>
+						</tr>
+						<tr>
+							<td>323704</td>
+							<td>PK Action Barbie</td>
+							<td>Necromancer</td>
+							<td>Wall of Weird</td>
+							<td>5</td>
+						</tr>
+						<tr>
+							<td>6274797</td>
+							<td>Token Ranger</td>
+							<td>Blade Master</td>
+							<td>Yhuleavale</td>
+							<td>6</td>
+						</tr>
+					</tbody>
+				</table>
+			</form>
+        
+<br/>
+<h2>HTML Markup:</h2>
+<pre class="prettyprint linenums">
+&lt;!-- In HTML a news id has to be set up for the innerfade function -->
+
+&lt;form action="null" method="post">     
+	&lt;table id="my_league">
+		&lt;thead>
+			&lt;tr>
+				&lt;th>League ID #&lt;/th>
+				&lt;th>In Game Name&lt;/th>
+				&lt;th>Role&lt;/th>
+				&lt;th>Primary Station&lt;/th>
+				&lt;th>TCP&lt;/th>
+			&lt;/tr>
+		&lt;/thead>
+			&lt;tbody>
+				&lt;tr>
+					&lt;td>456747&lt;/td>
+					&lt;td>Bly&lt;/td>
+					&lt;td>Commander&lt;/td>
+					&lt;td>Shadow Dungeon&lt;/td>
+					&lt;td>1&lt;/td>
+				&lt;/tr>
+				&lt;tr>
+					&lt;td>822462&lt;/td>
+					&lt;td>Madlibs&lt;/td>
+					&lt;td>Archer&lt;/td>
+					&lt;td>Shadow Dungeon&lt;/td>
+					&lt;td>2&lt;/td>
+				&lt;/tr>
+				&lt;tr>
+					&lt;td>923178&lt;/td>
+					&lt;td>blunT&lt;/td>
+					&lt;td>Wizard&lt;/td>
+					&lt;td>Fizzle&lt;/td>
+					&lt;td>3&lt;/td>
+				&lt;/tr>
+				&lt;tr>
+					&lt;td>920831&lt;/td>
+					&lt;td>Haste&lt;/td>
+					&lt;td>Healer&lt;/td>
+					&lt;td>Shadow Dungeon&lt;/td>
+					&lt;td>4&lt;/td>
+				&lt;/tr>
+				&lt;tr>
+					&lt;td>323704&lt;/td>
+					&lt;td>PK Action Barbie&lt;/td>
+					&lt;td>Necromancer&lt;/td>
+					&lt;td>Wall of Weird&lt;/td>
+					&lt;td>5&lt;/td>
+				&lt;/tr>
+				&lt;tr>
+					&lt;td>6274797&lt;/td>
+					&lt;td>Token Ranger&lt;/td>
+					&lt;td>Blade Master&lt;/td>
+					&lt;td>Yhuleavale&lt;/td>
+					&lt;td>6&lt;/td>
+				&lt;/tr>
+			&lt;/tbody>
+		&lt;/table>
+&lt;/form>
+</pre>
+<br/>
+<h2>CSS Markup:</h2>
+<pre class="prettyprint linenums">
+/* CSS in needed to perfect the table layout */
+
+.table-wrapper {
+	width: 520px;
+}
+
+.wrapper-paging {
+	display: none;
+}
+
+.wrapper-paging ul,
+.wrapper-paging li {
+	float: left;
+	margin: 0;
+	padding: 0;
+}
+
+.wrapper-paging ul {
+	float: left;
+	list-style-type: none;
+	text-align: left;
+}
+
+.wrapper-paging a {
+	border: 2px solid #FFFFFF;
+	border-radius: 3px;
+	-moz-border-radius: 3px;
+	-webkit-border-radius: 3px;
+	display: inline-block;
+	color: #015287;
+	cursor: pointer;
+	margin-right: 3px;
+	padding: 3px 7px;
+	text-decoration: none;
+}
+
+.wrapper-paging .paging-this {
+	cursor: default;
+	padding: 3px 0;
+}
+
+.wrapper-paging a:hover {
+	background-color: #015287;
+	color: #FFFFFF;
+}
+
+.wrapper-paging .paging-back,
+.wrapper-paging .paging-next {
+	border-color: #015287;
+}
+
+.wrapper-paging .paging-this:hover {
+	background-color: #FFFFFF;
+	color: #015287;
+}
+
+.wrapper-paging .paging-this b {
+	font-weight: normal;
+}
+
+.wrapper-paging .paging-disabled,
+.wrapper-paging .paging-disabled:hover {
+	background-color: #FFFFFF;
+	border-color: grey;
+	color: grey;
+	cursor: default;
+}
+</pre>
+<br/>
+<h2>jQuery Markup:</h2>
+<pre class="prettyprint linenums">
+
+$(document).ready(function() {
+  TABLE.formwork('#celebs');// creating form for the table var (below) and adding an id
+});
+
+var TABLE = {}; // the variable TABLE = the function contained in {}
+
+TABLE.formwork = function(table) {
+  var $tables = $(table); // creating a function for the table and taking table var
+  
+  $tables.each(function () {
+    var _table = $(this);
+    _table.find('thead tr').append($('&lt;th class="edit">&nbsp;&lt;/th>'));
+	// find table head and row and attach thme to a class
+    _table.find('tbody tr').append($('&lt;td class="edit">
+    &lt;input type="button" value="Edit"/>&lt;/td>'))
+	// find table body and row add/append to the table
+  });
+  
+  $tables.find('.edit :button').on('click', function(e) {
+		// find the edit button and add a click function after selecting tables
+    TABLE.editable(this);
+    e.preventDefault(); // prevents from executing
+  });
+}
+
+TABLE.editable = function(button) {
+  var $button = $(button);
+  var $row = $button.parents('tbody tr');
+  var $cells = $row.children('td').not('.edit');
+  // making tables editable equal to a var button
+  // tr or rows are going to be the parents elements
+  // cells or td the children except things with the edit class
+  
+  if ($row.data('flag')) { // in edit mode, move back to table
+    // cell methods
+    $cells.each(function () {
+      var _cell = $(this);
+      _cell.html(_cell.find('input').val());
+    });
+    
+    $row.data('flag',false);
+	// false = not in edit mode
+    $button.val('Edit');
+	// apply 'Edit' value to the button
+  } 
+  else { // in table mode, move to edit mode 
+    // cell methods
+    $cells.each(function() {
+		// add loop function to all the cells
+      var _cell = $(this);
+      _cell.data('text', _cell.html()).html('');
+	 	// allow the user to enter any text in the edit table field
+      
+      var $input = $('&lt;input type="text" />')
+	  // creating the input field
+        .val(_cell.data('text'))
+		// set the value of the input field to allow text
+        .width(_cell.width() - 16);
+		// adding texting type to the input field
+		// text can be less than 16 characters
+			_cell.append($input);
+			// attaches or append to the input field to the var _cell 
+    });
+    
+    $row.data('flag', true);
+    $button.val('Save');
+	// the value on the button say save after it has been clicked 
+  }
+}
+</pre>
+</div>
+</div>
+</div>
+
+<hr class="line">
+
+<div id="bcontainer3">
+	<p>jQuery-source © 2014 - Zach Heindel.</p>
+</div>
+
+</body>
+</html>

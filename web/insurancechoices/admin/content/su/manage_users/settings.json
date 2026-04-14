@@ -1,0 +1,17 @@
+{
+    "groups":null,
+    "menu":{
+        "sort":3,
+        "title":"Users"
+    },
+    "hooks":{
+        "javascript":[
+            {"file":"load.js", "type":"script"},
+            {"file":"modal.js", "type":"script"}
+        ],
+        "modal":[
+            {"file":"modal.php","type":"include"}
+        ]
+    },
+    "plugins":["spin.js"]
+}

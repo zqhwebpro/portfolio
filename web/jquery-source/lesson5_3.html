@@ -1,0 +1,253 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <link href='http://fonts.googleapis.com/css?family=Open+Sans:400,700' rel='stylesheet' type='text/css'>
+  <link href="lib/css/styles.css" rel="stylesheet" type="text/css">
+    <script src="https://cdn.rawgit.com/google/code-prettify/master/loader/run_prettify.js"></script>
+  <script src="lib/script/jquery-1.7.1.min.js"></script>
+  <script src="lib/script/jquery-ui-1.8.17.custom.min.js"></script>
+  <script src="lib/script/getjson.js"></script>
+  <link href='http://fonts.googleapis.com/css?family=Bree+Serif' rel='stylesheet' type='text/css'>
+
+  <title>jQsource - a beginners jQuery training module :: getJSON</title>
+</head>
+
+<body id="jq_site">
+  <div id="testing">
+    <div id="headerwrap">
+      <header>
+        <div id="logo">
+           <a href="index.html"><img alt="jQ-Source" src="lib/img/jqlogo.png" class="logo_top"></a>
+        </div>
+
+        <nav id="cssmenu">
+          <ul>
+            <li>
+              <a href='index.html'><span>HOME</span></a>
+            </li>
+
+            <li class='active has-sub'>
+              <a href='#'><span>LESSONS</span></a>
+
+              <ul>
+                <li class='has-sub'>
+                  <a href='#'><span>Lesson 1</span></a>
+
+                  <ul>
+                    <li>
+                      <a href='lesson1_1.html'><span>Doc Ready</span></a>
+                    </li>
+
+                    <li>
+                      <a href='lesson1_2.html'><span>Slide Toggle</span></a>
+                    </li>
+
+                    <li class='last'>
+                      <a href='lesson1_3.html'><span>Hover Action</span></a>
+                    </li>
+                  </ul>
+                </li>
+
+                <li class='has-sub'>
+                  <a href='#'><span>Lesson 2</span></a>
+
+                  <ul>
+                    <li>
+                      <a href='lesson2_1.html'><span>Fadeout</span></a>
+                    </li>
+
+                    <li>
+                      <a href='lesson2_2.html'><span>Color Animation</span></a>
+                    </li>
+
+                    <li class='last'>
+                      <a href='lesson2_3.html'><span>Animation Queue</span></a>
+                    </li>
+                  </ul>
+                </li>
+
+                <li class='has-sub'>
+                  <a href='#'><span>Lesson 3</span></a>
+
+                  <ul>
+                    <li>
+                      <a href='lesson3_1.html'><span>Rollover</span></a>
+                    </li>
+
+                    <li>
+                      <a href='lesson3_2.html'><span>Slideshow Fade</span></a>
+                    </li>
+
+                    <li class='last'>
+                      <a href='lesson3_3.html'><span>Innerfade</span></a>
+                    </li>
+                  </ul>
+                </li>
+
+                <li class='has-sub'>
+                  <a href='#'><span>Lesson 4</span></a>
+
+                  <ul>
+                    <li>
+                      <a href='lesson4_1.html'><span>Accordion</span></a>
+                    </li>
+
+                    <li>
+                      <a href='lesson4_2.html'><span>Login Panel</span></a>
+                    </li>
+
+                    <li class='last'>
+                      <a href='lesson4_3.html'><span>Sliding Overlay</span></a>
+                    </li>
+                  </ul>
+                </li>
+
+                <li class='has-sub'>
+                  <a href='#'><span>Lesson 5</span></a>
+
+                  <ul>
+                    <li>
+                      <a href='lesson5_1.html'><span>Client Side Temp...</span></a>
+                    </li>
+
+                    <li>
+                      <a href='lesson5_2.html'><span>Load w/Selector</span></a>
+                    </li>
+
+                    <li class='last'>
+                      <a href='lesson5_3.html'><span>getJSON</span></a>
+                    </li>
+                  </ul>
+                </li>
+
+                <li class='has-sub'>
+                  <a href='#'><span>Lesson 6</span></a>
+
+                  <ul>
+                    <li>
+                      <a href='lesson6_1.html'><span>Submit Event</span></a>
+                    </li>
+
+                    <li>
+                      <a href='lesson6_2.html'><span>Check All</span></a>
+                    </li>
+
+                    <li class='last'>
+                      <a href='lesson6_3.html'><span>Sortables</span></a>
+                    </li>
+                  </ul>
+                </li>
+
+                <li class='has-sub'>
+                  <a href='#'><span>Lesson 7</span></a>
+
+                  <ul>
+                    <li>
+                      <a href='lesson7_1.html'><span>Star Ratings</span></a>
+                    </li>
+
+                    <li class='last'>
+                      <a href='lesson7_2.html'><span>Date Picker</span></a>
+                    </li>
+                  </ul>
+                </li>
+
+
+              </ul>
+            </li>
+
+            <li>
+              <a href='contact.html'><span>CONTACT</span></a>
+            </li>
+          </ul>
+        </nav>
+      </header>
+    </div>
+
+    <div id="dkbluebg"></div>
+
+    <div id="page_nav_cont">
+      <div id="page_nav">
+        <ul>
+          <li id="notselect1">
+            <a href="lesson5_1.html">Client-side Temp...</a>
+          </li>
+
+          <li id="notselect2">
+            <a href="lesson5_2.html">Load with Selector</a>
+          </li>
+
+          <li id="select">
+            <a href="lesson5_4.html">getJSON</a>
+          </li>
+        </ul>
+      </div>
+    </div>
+
+    <div id="contentwrap">
+      <div id="content">
+        <p>&nbsp;</p>
+
+        <h1 class="marg_bot">Server-side &amp; $(<span style="color:#333;">getJSON</span>)</h1>
+
+        <p>&nbsp;</p>
+
+        <h2 class="marg_bot">The Scenario:</h2>
+
+        <p class="marg_bot_help">A client has come to you hoping that you could create a webpage that would loaded with server side data. The alert from before was an example of the webpage using a getJSON data request. The get request locates it and JSON... well, "JSON" is short for JavaScript Object Notation, it's an easy to understand, conscice storage code bank. Lesson explaination.</p>
+
+        <p class="marg_bot_help">With "JSON" we are able to integrate "Ajax" (short for asynchronous javascript and xml) and output XML data exchanges. It requires a bit more then this example, this is just an introduction.</p>
+
+        <h2 class="marg_bot">HTML:</h2>
+
+        <p class="marg_bot">For this lesson, only the head javascript script is required.</p>
+        <pre class="prettyprint linenums">
+&lt;head&gt;
+    &lt;script src="lib/script/getjson.js"&gt;&lt;/script&gt;
+&lt;/head&gt;
+</pre>
+
+        <p>&nbsp;</p>
+
+        <h2 class="marg_bot">CSS:</h2>
+
+        <p class="marg_bot_help">No CSS is required of this lesson.</p>
+        <pre class="prettyprint linenums">
+</pre>
+
+        <p>&nbsp;</p>
+
+        <h2 class="marg_bot">jQuery:</h2>
+
+        <p class="marg_bot_help">What I am doing in this series of code is is opening a getJSON request to load a url, a function is intiated with a selector of data, an alert is initiated of the function length from the request, and it is all closed up. It looks like this:</p>
+        <pre class="prettyprint linenums">
+$(document).ready(function() { // doc ready
+  $.getJSON('http://feeds.delicious.com/v2/json/tag/celebs?callback=?',  // open a getJSON requirest
+    function(data) { // function of data
+      alert('Loaded ' + data.length + ' item.'); // responds with data.length from .getJSON request
+    }); // close data function
+}); // close doc
+</pre>
+
+        <p>&nbsp;</p>
+
+        <h2 class="marg_bot">Server Side getJSON:</h2>
+
+        <p class="marg_bot_help">Remember that the server side request loaded directly from server response to retreive data. JSON is a simple storage code method and AJAX synchronizes it with XML to open up functionallity and possibilities.</p>
+
+   <p>&nbsp;</p>
+
+        <p>&nbsp;</p>
+
+       <a href="#"><img src="lib/img/arrow_up.png" class="arrow_adjust" alt="to the top" /><img src="lib/img/arrow_curl.png" class="arrow_adjust_curl" alt="top the top" /></a>
+    </div>
+  </div>
+
+<div id="footerwrap">
+    <footer>
+    	<a href="index.html"><img alt="jQ-Source" src="lib/img/jqlogo.png" id="logo_f"></a><p>Website built and copyright 2015, Zach Heindel.</p>
+    </footer>
+  </div>
+</body>
+</html>

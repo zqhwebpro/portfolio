@@ -1,0 +1,191 @@
+<!doctype html>
+<html>
+<head>
+<meta charset="utf-8">
+<title>jQuery-source: your source for everything jquery.</title>
+<link href="lib/css/styles.css" rel="stylesheet" type="text/css">
+<link href='http://fonts.googleapis.com/css?family=Yanone+Kaffeesatz:400,700,300,200' rel='stylesheet' type='text/css'>
+<link href='http://fonts.googleapis.com/css?family=Oxygen:400,700,300' rel='stylesheet' type='text/css'>
+<script src="https://google-code-prettify.googlecode.com/svn/loader/run_prettify.js"></script>
+<script type="text/javascript" src="lib/scripts/jquery-1.11.1.min.js"></script>
+<script type="text/javascript" src="lib/scripts/jquery-ui-1.8.17.custom.min.js"></script>
+<script type="text/javascript" src="lib/scripts/jquery.color.js"></script>
+<script type="text/javascript" src="lib/scripts/jquery.innerfade.js"></script>
+<script type="text/javascript" src="lib/scripts/jquery-1.7.1.min.js"></script>
+<script type="text/javascript" src="lib/scripts/expandarrow.js"></script>
+<script type="text/javascript" src="http://arrow.scrolltotop.com/arrow27.js"></script>
+</head>
+
+<body>
+
+<div id="wrapper">
+
+<div id="headerwrapper">
+<div id="header">
+	<h1><img id="header-logo" src="lib/img/jqlogo.png" alt="jQuery-source" /></h1>
+    <h3><img id="tagline" src="lib/img/tagline.png" alt="jqsource tagline" /></h3>
+</div>
+</div>
+
+<div id="menuwrapper">
+	<div id="menu">
+		<ul>
+        	<li><a href="index.html">HOME</a></li>
+			<li><a href="#">LESSONS</a>
+            	<ul>
+                	<li><a href="lesson1_1.html">Lesson 1</a></li>
+                    <li><a href="lesson2_1.html">Lesson 2</a></li>
+                    <li><a href="lesson3_1.html">Lesson 3</a></li>
+                    <li><a href="lesson4_1.html">Lesson 4</a></li>
+                    <li><a href="lesson5_1.html">Lesson 5</a></li>
+                    <li><a href="lesson6_1.html">Lesson 6</a></li>
+                 </ul>
+            </li>
+        	<li><a href="contact.html">CONTACT</a></li>	
+		</ul>
+	</div>
+</div>
+
+<div id="container">
+<div id="lessonmenu">
+	<ul>
+		<li class="lessonmenufont">Lesson 4:</li>
+    	<li><a href="lesson4_1.html">401</a></li>
+        <li><a href="lesson4_2.html">402</a></li>
+        <li><a href="lesson4_3.html">403</a></li>
+    </ul>
+</div>
+<div id="bcontainerl">
+<h1>Lesson 401 - Expandable Menu</h1>
+<p>
+By using drop down arrow graphics on links we can create a stylized expandable menu to show case our navigation menu.
+</p>
+<hr>
+<h2>Example:</h2>
+<nav role="navigation">
+	<ul id="menu401">
+	  	<li><a href="#">Need help?</a>
+	    	<ul class="active">
+	      		<li><a href="#">Look here</a></li>
+		     	<li><a href="#">Or here</a></li>
+		  	</ul>
+	      </li>
+	      <li><a href="#">Other Links</a>
+		  	<ul>
+		    	<li><a href="#">Link 1</a></li>
+		      	<li><a href="#">Link 2</a></li>
+		  	</ul>
+	      </li>
+	      	<li><a href="#">About</a>
+		  		<ul>
+		      		<li><a href="#">The who</a></li>
+		      		<li><a href="#">The what</a></li>
+		      		<li><a href="#">The why</a></li>
+		  		</ul>
+	      </li>
+	  </ul>
+</nav>
+<br/><br/><br/><br/><br/><br/>
+<h2>HTML Markup:</h2>
+<pre class="prettyprint linenums">
+&lt;!-- In HTML we have to set a navigation list -->
+     
+&lt;nav role="navigation">
+	&lt;ul id="menu401">
+		&lt;li>&lt;a href="#">Need help?&lt;/a>
+			&lt;ul class="active">
+	      		&lt;li>&lt;a href="#">Look here&lt;/a>&lt;/li>
+		     	&lt;li>&lt;a href="#">Or here&lt;/a>&lt;/li>
+		  	&lt;/ul>
+	      &lt;/li>
+	      &lt;li>&lt;a href="#">Other Links&lt;/a>
+		  	&lt;ul>
+		    	&lt;li>&lt;a href="#">Link 1&lt;/a>&lt;/li>
+		      	&lt;li>&lt;a href="#">Link 2&lt;/a>&lt;/li>
+		  	&lt;/ul>
+	      &lt;/li>
+	      	&lt;li>&lt;a href="#">About&lt;/a>
+		  		&lt;ul>
+		      		&lt;li>&lt;a href="#">The who&lt;/a>&lt;/li>
+		      		&lt;li>&lt;a href="#">The what&lt;/a>&lt;/li>
+		      		&lt;li>&lt;a href="#">The why&lt;/a>&lt;/li>
+		  		&lt;/ul>
+	      &lt;/li>
+	  &lt;/ul>
+&lt;/nav>
+</pre>
+<br/>
+<h2>CSS Markup:</h2>
+<pre class="prettyprint linenums">
+/* Our ID menu must be styled in CSS, Don't forget to add your own arrow.png image*/
+
+#menu401 { 
+	float: left;
+  	width:200px;
+  	position:absolute;
+  	background-color:white;
+}
+
+#menu401, #menu401 ul{
+  	list-style-type: none;
+  	padding: 0;
+  	margin: 0;
+}
+
+#menu401 li { 
+  	cursor:pointer;
+  	background-image:url(../img/arrows.png);
+  	border-bottom:1px solid #444;
+  	background-repeat: no-repeat;
+}
+
+#menu401 li a {
+  	text-decoration: none;
+}
+
+#menu401>li>a { 
+    padding: 2px 35px;
+	font-weight: bold;
+}
+
+#menu401 li li{ 
+  	cursor:auto;
+  	border:0;
+  	padding:0 14px;
+  	background-color:#fff;
+  	background-image: none;
+}
+</pre>
+<br/>
+<h2>jQuery Markup:</h2>
+<pre class="prettyprint linenums">
+$(document).ready(function(){ // start the function
+$( '#menu401 > li > ul' ) // on menu li ul properties to function
+	.hide() // begin with inner information hidden
+	.click(function( e ){ // on click
+		e.stopPropagation(); // open menu
+	}); // end function on menu li ul property
+	
+  $('#menu401 > li').toggle(function(){  // begin menu li toggle function
+	  $(this) // on this happening
+      .css('background-position', 'right -20px') // css bg-pos will look like this
+      .find('ul').slideDown(); // find ul so that we can slide it down
+  }, function(){ // close primary function, begin secondary function
+  	$( this ) // on this happening
+      .css('background-position', 'right top') // css bg-pos will now look as so
+      .find('ul').slideUp(); // find ul so that we can slide it back up
+  }); // end function on menu li
+}); //end full function
+</pre>
+</div>
+</div>
+</div>
+
+<hr class="line">
+
+<div id="bcontainer3">
+	<p>jQuery-source © 2014 - Zach Heindel.</p>
+</div>
+
+</body>
+</html>

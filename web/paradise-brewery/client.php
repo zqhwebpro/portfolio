@@ -1,0 +1,123 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta charset="utf-8">
+	<title>Paradise Brewery :: Client</title>
+	<link href="https://fonts.googleapis.com/css?family=Dosis" rel="stylesheet" type="text/css">
+	<link href="https://fonts.googleapis.com/css?family=Permanent+Marker" rel="stylesheet" type="text/css">
+	<link href="lib/css/styles.css" rel="stylesheet" type="text/css">
+</head>
+<body>
+	<div id="pb_sitewrap">
+		<div class="group" id="pb_navwrap">
+			<div class="grid_2_of_6">
+				<div class="pb_nav_l">
+					<ul>
+						<li>
+							<a href="index.html">Home</a>
+						</li>
+						<li>
+							<a href="about.html">About</a>
+						</li>
+					</ul>
+				</div>
+			</div>
+			<div class="grid_2_of_6">
+				<a href="index.html"><img alt="changeme" class="logo_pos" src="lib/imgs/placeholderlogo.png"></a>
+			</div>
+			<div class="grid_2_of_6">
+				<div class="pb_nav_r">
+					<ul>
+						<li>
+							<a href="contact.php">Contact</a>
+						</li>
+						<li>
+							<a href="products.html">Products</a>
+						</li>
+					</ul>
+				</div>
+			</div>
+		</div>
+		<div id="pb_body">
+			<img alt=" " class="torn_edges" src="lib/imgs/ripped_paper.png">
+			<div class="body_1">
+				<div class="group">
+					<div class="grid_4_of_6" id="hl_top">
+						<h1>Log In to shop!</h1>
+					</div>
+					<div class="grid_2_of_6">
+						<div id="ecom_cta">
+							<ul>
+								<li>
+									<a href="#">E-commerce CTA</a>
+								</li>
+							</ul>
+						</div>
+					</div>
+				</div>
+				<div class="group">
+					<div class="grid_6_of_6">
+						<h4 class="h4_pos_log">Login or Signup For Some Serious Benifits</h4>
+						<p class="p_pos_log">Bacon ipsum dolor amet pork belly ham hock pastrami cow bacon pig chuck short ribs biltong
+						beef ribs chicken ham t-bone. Kevin shankle sirloin cow capicola frankfurter. Chuck ball tip corned beef turkey
+						hamburger short loin rump. Kevin tri-tip t-bone kielbasa cupim, pork chop ham chuck.</p>
+					</div>
+				</div>
+				<div class="group">
+					<div class="grid_1_of_6"></div>
+					<div class="grid_4_of_6" id="login_box">
+						<form action="" class="loginform" id="login" method="post" name="login">
+							<div>
+								<label for="email">Email:</label> <input id="" name="email" type="text">
+							</div>
+							<div>
+								<label for="password">Password:</label> <input id="" name="password" type="password">
+							</div>
+							<p>Not a member? <a href="signup.html">Sign-up here.</a></p>
+							<div>
+								<input class="submit_btn" name="submit" type="submit" value="Log In">
+							</div>
+						</form>
+					</div>
+					<div class="grid_1_of_6" id="login_fix"></div>
+				</div>
+			</div>
+		</div>
+		<div id="pb_footerwrap">
+			<div class="group">
+				<div class="grid_2_of_6">
+					<div class="pb_nav_l">
+						<ul>
+							<li>
+								<a href="faq.html">FAQ</a>
+							</li>
+							<li>
+								<a href="project.html">The Project</a>
+							</li>
+						</ul>
+					</div>
+				</div>
+				<div class="grid_2_of_6">
+					<a href="index.html"><img alt="changeme" class="logo_pos_2" src="lib/imgs/placeholderlogo.png"></a>
+				</div>
+				<div class="grid_2_of_6">
+					<div class="pb_nav_r">
+						<ul>
+							<li>
+								<a href="signup.html">Create an Account</a>
+							</li>
+							<li>
+								<a href="login.html">Login</a>
+							</li>
+							<li><img alt="Accepted Payment Forms" id="footer_cc" src="lib/imgs/Credit_Card_Icons.png"></li>
+						</ul>
+					</div>
+				</div>
+			</div>
+			<div class="group" id="x_nav">
+				<div class="grid_6_of_6"></div>
+			</div>
+		</div>
+	</div>
+</body>
+</html>

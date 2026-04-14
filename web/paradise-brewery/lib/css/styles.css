@@ -1,0 +1,1101 @@
+@charset  "UTF-8";
+/* CSS Document */
+/* 
+html5doctor.com Reset Stylesheet
+v1.6.1
+Last Updated: 2010-09-17
+Author: Richard Clark - http://richclarkdesign.com 
+Twitter: @rich_clark
+*/
+html,body,div,span,object,iframe,h1,h2,h3,h4,h5,h6,p,blockquote,pre,abbr,address,cite,code,del,dfn,em,img,ins,kbd,q,samp,small,strong,sub,sup,var,b,i,dl,dt,dd,ol,ul,li,fieldset,form,label,legend,table,caption,tbody,tfoot,thead,tr,th,td,article,aside,canvas,details,figcaption,figure,footer,header,hgroup,menu,nav,section,summary,time,mark,audio,video {
+	margin: 0;
+	padding: 0;
+	border: 0;
+	outline: 0;
+	font-size: 100%;
+	vertical-align: baseline;
+	background: transparent;
+}
+
+body {
+	line-height: 1;
+}
+
+article,aside,details,figcaption,figure,footer,header,hgroup,menu,nav,section {
+	display: block;
+}
+
+nav ul {
+	list-style: none;
+}
+
+blockquote,q {
+	quotes: none;
+}
+
+blockquote:before,blockquote:after,q:before,q:after {
+	content: '';
+	content: none;
+}
+
+a {
+	margin: 0;
+	padding: 0;
+	font-size: 100%;
+	vertical-align: baseline;
+	background: transparent;
+}
+
+/* change colours to suit your needs */
+ins {
+	background-color: #ff9;
+	color: #000;
+	text-decoration: none;
+}
+
+/* change colours to suit your needs */
+mark {
+	background-color: #ff9;
+	color: #000;
+	font-style: italic;
+	font-weight: 700;
+}
+
+del {
+	text-decoration: line-through;
+}
+
+abbr[title],dfn[title] {
+	border-bottom: 1px dotted;
+	cursor: help;
+}
+
+table {
+	border-collapse: collapse;
+	border-spacing: 0;
+}
+
+/* change border colour to suit your needs */
+hr {
+	display: block;
+	height: 1px;
+	border: 0;
+	border-top: 1px solid #ccc;
+	margin: 1em 0;
+	padding: 0;
+}
+
+input,select {
+	vertical-align: middle;
+}
+
+/*=================================== RESPONSIVE GRID ====================================*/
+.wrap {
+	max-width: 1200px;
+	width: 92%;
+	margin: 0 auto;
+	position: relative;
+}
+
+/*  GROUPING  */
+.group:before,.group:after {
+	content: "";
+	display: table;
+}
+
+.group:after {
+	clear: both;
+}
+
+/*  GRID OF SIX  */
+.grid_1_of_6,.grid_2_of_6,.grid_3_of_6,.grid_4_of_6,.grid_5_of_6,.grid_6_of_6 {
+	display: block;
+	float: left;
+	margin: 1% 0 1% 1.6%;
+}
+
+.grid_1_of_6:first-child,.grid_2_of_6:first-child,.grid_3_of_6:first-child,.grid_4_of_6:first-child,.grid_5_of_6:first-child,.grid_6_of_6:first-child {
+	margin-left: 0;
+}
+
+.grid_6_of_6 {
+	width: 100%;
+}
+
+.grid_5_of_6 {
+	width: 83.06%;
+}
+
+.grid_4_of_6 {
+	width: 66.13%;
+}
+
+.grid_3_of_6 {
+	width: 49.2%;
+}
+
+.grid_2_of_6 {
+	width: 32.26%;
+}
+
+.grid_1_of_6 {
+	width: 15.33%;
+}
+
+/*-------------------MY STYLES----------------------------------*/
+ul {
+	list-style: none;
+}
+
+ul li {
+	display: inline-block;
+	margin: 2% 5% 0 0;
+}
+
+.grid_1_of_6 {
+	height: 100%;
+	color: #FFF;
+}
+
+.grid_2_of_6 {
+	height: 100%;
+	color: #FFF;
+}
+
+.grid_3_of_6 {
+	height: 100%;
+	color: #FFF;
+}
+
+.grid_4_of_6 {
+	height: 100%;
+	color: #FFF;
+}
+
+.grid_5_of_6 {
+	height: 100%;
+	color: #FFF;
+	font-size: 22px;
+}
+
+.grid_6_of_6 {
+	height: 100%;
+	color: #FFF;
+	font-size: 22px;
+	font-family: Impact,Haettenschweiler,"Franklin Gothic Bold","Arial Black",sans-serif;
+}
+
+/*  GO FULL WIDTH BELOW 480 PIXELS */
+@media only screen and (max-width: 480px) {
+	.grid_1_of_6,.grid_2_of_6,.grid_3_of_6,.grid_4_of_6,.grid_5_of_6,.grid_6_of_6 {
+		width: 100%;
+		margin: 1% 0;
+	}
+
+	ul li {
+		margin: 4% 1%;
+	}
+}
+
+/* My Styles */
+body {
+	background: url(../imgs/pb_bg.jpg) no-repeat center center fixed;
+	-webkit-background-size: cover;
+	-moz-background-size: cover;
+	-o-background-size: cover;
+	background-size: cover;
+	background-color: #000;
+}
+
+#pb_sitewrap {
+	width: 1110px;
+	height: 100%;
+	margin: 0 auto;
+}
+
+#pb_navwrap {
+	width: 100%;
+	height: 100%;
+	padding-top: 50px;
+}
+
+#pb_body {
+	width: 100%;
+	height: 100%;
+	background-repeat: repeat;
+	margin-top: 18px;
+	background-color: #f2e0d2;
+}
+
+.body_1{
+	padding:20px;
+}
+
+#pb_footerwrap {
+	width: 100%;
+	height: 100%;
+}
+
+.pb_nav_l {
+	font-family: 'Permanent Marker',cursive;
+}
+
+.pb_nav_l ul {
+}
+
+.pb_nav_l ul li {
+	float: left;
+	margin-right: 31%;
+}
+
+.pb_nav_l ul li a {
+	color: #fff;
+	font-size: 20px;
+	line-height: 30px;
+	text-decoration: none;
+}
+
+.pb_nav_r {
+	font-family: 'Permanent Marker',cursive;
+}
+
+.pb_nav_r ul {
+}
+
+.pb_nav_r ul li {
+	float: right;
+	margin-left: 14%;
+}
+
+.pb_nav_r ul li a {
+	color: #fff;
+	text-decoration: none;
+	font-size: 20px;
+	line-height: 30px;
+}
+
+.pb_nav_r ul li a:hover {
+	text-decoration: underline;
+	font-size: 20px;
+	line-height: 30px;
+}
+
+.pb_nav_l ul li a:hover {
+	text-decoration: underline;
+	font-size: 20px;
+	line-height: 30px;
+}
+
+#footer_cc {
+	float: right;
+	margin-top: 12px;
+	width: 80%;
+}
+
+/* .pb_nav_2 {
+	font-family: 'Permanent Marker',cursive;
+	position: relative;
+	z-index: 5;
+	top: -141px;
+	right: 29px;
+	transform: rotate(4deg);
+	-ms-transform: rotate(4deg);
+	-webkit-transform: rotate(4deg);
+}
+
+.pb_nav_2 ul {
+}
+
+.pb_nav_2 ul li {
+	float: right;
+	margin-left: 3%;
+}
+
+.pb_nav_2 ul li a {
+	color: #000;
+	text-decoration: none;
+	font-size: 26px;
+}
+
+.pb_nav_2 ul li a:hover {
+	text-shadow: 1px 1px 2px black, 0 0 25px #CCC, 0 0 5px #fff;
+}
+*/
+
+
+.logo_pos {
+    margin-left: 9%;
+    position: relative;
+    top: -72px;
+    width: 76%;
+	/* Firefox */
+	-moz-transition: all 1s ease;
+	/* WebKit */
+	-webkit-transition: all 1s ease;
+	/* Opera */
+	-o-transition: all 1s ease;
+	/* Standard */
+	transition: all 1s ease;
+}
+
+.logo_pos:hover {
+    width:78%;
+	/* Firefox */
+	-moz-transform: rotate(2deg);
+	/* WebKit */
+	-webkit-transform: rotate(2deg);
+	/* Opera */
+	-o-transform: rotate(2deg);
+	/* Standard */
+	transform: rotate(2deg);
+	position:relative;
+}
+
+.logo_pos_2 {
+	margin-left: 4%;
+	position: relative;
+	top: -11px;
+	width: 90%;
+	margin-bottom: 10%;
+}
+
+.torn_edges {
+    height: 145px;
+    margin-top: -140px;
+    position: relative;
+    width: 100%;
+}
+
+.img_slider {
+       margin-left: 2%;
+    margin-top: -440px;
+    position: relative;
+    width: 98%;
+    z-index: 10;
+    margin-bottom: -100px;
+}
+
+h1 {
+	font-family: 'Permanent Marker',cursive;
+	font-size: 64px;
+	color: #2d494b;
+	-ms-transform: rotate(-7deg);
+	-webkit-transform: rotate(-7deg);
+	transform: rotate(-7deg);
+	margin-left: 10%;
+}
+
+h2 {
+	color: #2d494b;
+	float: right;
+	font-family: "Permanent Marker",cursive;
+	font-size: 40px;
+	margin-right: 14%;
+	transform: rotate(4deg);
+}
+
+h3 {
+	font-family: 'Permanent Marker',cursive;
+	font-size: 32px;
+	color: #2d494b;
+	-ms-transform: rotate(-4deg);
+	-webkit-transform: rotate(-4deg);
+	transform: rotate(-4deg);
+	float: left;
+	margin-top: 15%;
+}
+
+.ml{
+	margin-left:15%;	
+}
+
+h4 {
+	color: #000;
+	font-family: "Dosis",sans-serif;
+	font-size: 20px;
+	margin-bottom: 20px;
+}
+
+#h4_pos {
+    margin: 1% 7.4% 8%;
+}
+
+#hl_top {
+    margin-top: -15px;
+}
+
+#hl_mid {
+	margin-top: -37px;
+}
+
+#hl_bot {
+	margin-top: -37px;
+}
+
+.beer_flavors {
+	border: 1px dotted;
+	height: 370px;
+	margin-top: 20px;
+	    text-align: center;
+}
+
+#g_map {
+    margin-top: 20px;
+    position: relative;
+    /* right: 71px; */
+    top: -150px;
+    width: 100%;
+}
+
+#g_map2 {
+    width: 97%;
+
+}
+
+#b_cellar {
+	margin-top: 30px;
+	position: relative;
+	right: 71px;
+	top: 28px;
+	width: 102%;
+}
+
+#brewery_contact_home {
+	margin-bottom: 120px;
+	margin-left: 16%;
+	margin-top: -23%;
+	position: relative;
+	width: 68%;
+}
+
+p {
+	color: #000;
+	font-family: 'Dosis',sans-serif;
+	font-size: 17px;
+	line-height: 40px;
+}
+
+#throttle {
+	position: relative;
+	margin-top: -12px;
+}
+
+.f_f {
+	font-family: 'Dosis',sans-serif;
+	color: #fff;
+	padding-bottom: 350%;
+	font-size: 19px;
+}
+
+.paint_btn1 {
+	left: 114px;
+	position: absolute;
+	top: -34px;
+	width: 88%;
+	z-index: -1;
+}
+
+#cart {
+    width: 36%;
+    /* position: absolute; */
+    top: 13px;
+    right: 242px;
+}
+
+#login {
+	height: 100%;
+	margin-bottom: 40px;
+	margin-top: 40px;
+    border: 1px solid #2d494b;
+	background-color: white;
+	padding: 45px;
+}
+
+.loginform {
+	color: #000;
+	font-family: 'Dosis',sans-serif;
+	font-size: 17px;
+	line-height: 40px;
+}
+
+
+.loginform p {
+}
+
+.loginform label {
+}
+
+.side_nav {
+	margin-left: 84px;
+	width: 37%;
+	    margin-top: -320px;
+}
+
+.side_nav ul {
+}
+
+.side_nav ul li {
+	float: left;
+}
+
+.side_nav ul li a {
+	color: #2d494b;
+	font-family: 'Dosis',sans-serif;
+	font-size: 17px;
+	line-height: 40px;
+}
+
+#usertable {
+	color: #000;
+	font-family: 'Dosis',sans-serif;
+	font-size: 17px;
+	line-height: 40px;
+	width: 100%;
+	margin-bottom: 360px;
+}
+
+#usertable th {
+	display: block;
+	float: left;
+	margin-left: 6%;
+}
+
+#producttable {
+	color: #000;
+	font-family: 'Dosis',sans-serif;
+	font-size: 17px;
+	line-height: 40px;
+	width: 100%;
+	margin-bottom: 360px;
+}
+
+#producttable th {
+	display: block;
+	float: left;
+	margin-left: 6%;
+}
+
+
+#login_box {
+    z-index: 15;
+}
+
+
+#login_fix {
+	height: 810px;
+}
+
+.h3_log {
+	position: relative;
+	right: -47px;
+	top: -60px;
+	width: 100%;
+}
+
+input {
+vertical-align: middle;
+width: 100%;
+}
+
+.center{
+	text-align:center;
+}
+
+.alert{
+	color: black;
+	text-align: center;
+	margin: 2% 0px;
+	font-family: 'Dosis',sans-serif;
+	font-size: 17px;
+	line-height: 40px;	
+}
+
+.1{
+	color: black;
+	text-align: center;
+	margin: 2% 0px;
+	font-family: 'Dosis',sans-serif;
+	font-size: 17px;
+	line-height: 40px;	
+}
+
+.2{
+	color: black;
+	text-align: center;
+	margin: 2% 0px;
+	font-family: 'Dosis',sans-serif;
+	font-size: 17px;
+	line-height: 40px;	
+}
+
+.3{
+	color: black;
+	text-align: center;
+	margin: 2% 0px;
+	font-family: 'Dosis',sans-serif;
+	font-size: 17px;
+	line-height: 40px;	
+}
+
+.4{
+	color: black;
+	text-align: center;
+	margin: 2% 0px;
+	font-family: 'Dosis',sans-serif;
+	font-size: 17px;
+	line-height: 40px;	
+}
+
+.center2 {
+	vertical-align: middle;
+	width: 60%;
+	margin: 0 auto;
+	display: block;
+}
+
+.submit_btn {
+	    background-color: #2d494b;
+    color: white;
+    font-family: "Dosis",sans-serif;
+    font-size: 18px;
+    margin-bottom: 70px;
+    margin-top: 40px;
+    padding: 5px 16px;
+}
+
+.submit_btn:hover {
+	background-color:white;
+	color:#2d494b;
+}
+
+label {
+	display: block;
+	letter-spacing: 2px;
+}
+
+textarea {
+	width:100%;
+	    height: 330px;
+}
+
+
+/* Centre the form within the page
+form {
+	margin: 0 auto;
+	width: 459px;
+}
+
+input,textarea {
+	width: 439px;
+	height: 27px;
+	background: #efefef;
+	border: 1px solid #dedede;
+	padding: 10px;
+	margin-top: 3px;
+	font-size: .9em;
+	color: #3a3a3a;
+}
+
+textarea {
+	height: 213px;
+	background: url(images/textarea-bg.jpg) right no-repeat #efefef;
+}
+
+input,textarea {
+	width: 439px;
+	height: 27px;
+	background: #efefef;
+	border: 1px solid #dedede;
+	padding: 10px;
+	margin-top: 3px;
+	font-size: .9em;
+	color: #3a3a3a;
+	-moz-border-radius: 5px;
+	-webkit-border-radius: 5px;
+	border-radius: 5px;
+}
+
+#submit {
+	width: 127px;
+	height: 38px;
+	background-color:black;
+	text-indent: -9999px;
+	border: none;
+	margin-top: 20px;
+	cursor: pointer;
+}
+
+#submit:hover {
+	opacity: .9;
+}
+
+ */
+
+#about_mid{
+	margin-left: 2%;
+}
+
+#about_mid h2{
+	margin-bottom: 3%;
+}
+
+#about_hb {
+    margin-left: 4%;
+    width: 51%;
+}
+
+#about_bot {
+    margin: 5% 7.6% 10%;
+}
+
+#about_bot {
+    margin: 5% 7.6% 10%;
+}
+
+div.img_g {
+    margin: -50px 5px 50px;
+    border: 1px solid #ccc;
+    float: left;
+    width: 164px;
+    background-color: black;
+}
+
+div.img_g2{
+	 margin: 5px;
+    border: 1px solid #ccc;
+    float: left;
+    width: 164px;
+    background-color: black;	
+}
+
+div.img_g2 img{
+	 width: 100%;
+    height: auto;
+	margin-bottom:20px;
+}
+
+div.img_g img {
+    width: 100%;
+    height: auto;
+}
+
+.h4_pos_faq{
+    margin: 3% 7.4% 4%;
+}
+
+.h4_pos_log{
+    margin: 5% 7.4% 0%;
+}
+
+.p_pos_log{
+    margin: 2% 7.4% 0;
+}
+
+.p_pos_faq{
+	margin: 2% 7.4% 2%;	
+}
+
+.p_mid_pos_faq{
+	margin: 2% 7.4% 2%;		
+}
+
+
+.push_top_20{
+	margin-top:20px;		
+}
+
+.push_bot_20{
+	margin-top:20px;		
+}
+
+#contact {
+	height: 100%;
+	margin-bottom: 40px;
+	margin-top: 40px;
+}
+
+.contactform {
+    color: #000;
+    font-family: "Dosis",sans-serif;
+    font-size: 17px;
+    line-height: 40px;
+    margin-left: 11%;
+    width: 75%;
+}
+
+.cont_h4{
+	margin: 2% 7.4% 2%;	
+}
+
+.cont_p{
+	margin: 2% 7.4% 6%;	
+}
+
+
+
+#ecom_cta {
+    position: relative;
+    top: -415px;
+    z-index: 5;
+    transform: rotate(5deg);
+    right: -69px;
+}
+
+#ecom_cta ul{
+
+}
+
+#ecom_cta ul li {
+    margin-left: 6%;
+    margin-top: -1%;
+}
+
+#ecom_cta ul li a{
+	font-family: 'Permanent Marker',cursive;
+	font-size: 26px;
+	color: #000;
+	text-decoration: none;
+    transition-duration: .5s;
+    transition-timing-function: linear;
+    transition-delay: .3s;
+}
+
+#ecom_cta ul li a:hover{
+	    color: #2d494b;
+		text-decoration:underline;
+}
+
+#cta_shift{
+	position: relative;
+    top: -81px;
+    z-index: 5;
+    transform: rotate(5deg);
+    right: 41px;
+    width: 145%;
+}
+
+#cta_shift_back{
+    position: relative;
+    top: -325px;
+    transform: rotate(-1deg);
+    right: -61px;
+    width: 105%;
+    z-index: -4;
+}
+
+#pb_nav_sb{
+	font-family: "Dosis",sans-serif;
+}
+
+#pb_nav_sb ul{
+		
+}
+
+#pb_nav_sb ul li{
+ 	float: right;
+    margin-top: 40px;
+    width: 260px;		
+}
+
+#pb_nav_sb ul li a{
+	color: #2d494b;
+	text-decoration: none;
+	font-size: 20px;
+	line-height: 30px;	
+	   margin-right: 110px;
+	   float:right;
+}
+
+.top_bot{
+    margin-top: -410px;
+	margin-bottom:30px;	
+}
+
+.bot{
+	margin-bottom:100px;
+}
+
+#pb_nav_ecom{
+      height: 60px;
+    width: 15%;
+    background-color: #2d494b;
+	float:right;
+	    margin-top: 0px;
+}
+
+#pb_nav_ecom ul{
+	
+}
+
+#pb_nav_ecom ul li{
+
+}
+
+#pb_nav_ecom ul li a{
+	color: white;
+    font-family: "Dosis",sans-serif;
+    font-size: 11pt;
+    text-decoration: none;	
+}
+
+#remove_top{
+ margin-top: -350px;	
+}
+
+#remove_top_contact{
+	position: relative;
+    top: -340px;
+}
+
+#faq_pos{
+    top: -360px;
+    position: relative;
+}
+
+#pos_mid{
+	    margin-left: -8%;
+}
+
+#pos_bot{
+	 margin-top: -77px;
+    margin-left: -8%;
+}
+
+#adjusted_faq {
+    position: relative;
+    top: -470px;
+}
+
+#adjusted_login {
+    position: relative;
+    top: -390px;
+
+}
+
+#adjusted_deats {
+    position: relative;
+    top: -390px;
+  
+}
+
+#adjusted_join {
+    position: relative;
+    top: -390px;
+   
+}
+
+#adjusted_contact {
+	position: relative;
+    top: -300px;
+}
+
+#adjusted_admin {
+    position: relative;
+    top: -390px;
+	   
+}
+
+#adjusted_search {
+    position: relative;
+    top: -210px;
+}
+
+.prod_box{
+	float: left;
+    height: 320px;
+    margin-bottom: 30px;
+    margin-left: 6.82%;
+    width: 231px;
+    border: black solid 1px;
+    padding: 5% 10% 7% 8%;
+    background-color: white;
+	text-align: center;
+}
+
+.prod_box h4{
+	font-size:26px;
+	color:#2d494b;
+	margin-top: 33px;
+}
+
+.prod_box p{
+	font-family: "Dosis",sans-serif;
+	font-size:30px;
+	margin-bottom: 20px;
+}
+
+.prod_box a {
+    background-color: #2d494b;
+    color: white;
+    font-family: "Dosis",sans-serif;
+    font-size: 18px;
+    padding: 5px 16px;
+    text-decoration: none;
+}
+
+.prod_box img{
+    border-bottom: 1px solid black;
+    height: 170px;
+    max-height: 100%;
+    max-width: 100%;
+    width: 100%;
+}
+
+#prod_align{
+	
+}
+
+.prod_bump{
+text-align:center;
+}
+
+#searchic{
+	width: 9%;
+    margin-right: 9px;
+}
+
+.home_shop{
+	width:100%;	
+	margin-bottom:10px;
+}
+
+.beer_flavors a{
+    background-color: #2d494b;
+    color: white;
+    font-family: "Dosis",sans-serif;
+    font-size: 18px;
+    margin-top: 10px;
+    padding: 5px 16px;
+    text-decoration: none;
+}
+
+.beer_flavors a:hover{
+	background-color:white;
+	color:#2d494b;
+}
+
+.beer_flavors p{
+        margin-bottom: 15px;
+    margin-top: 15px;
+}
+
+.beer_flavors h4{
+    margin-bottom: 10px;
+    margin-top: 26px;
+    text-align: center;
+}
+
+.cont_btn{
+    background-color: #2d494b;
+    color: white;
+    font-family: "Dosis",sans-serif;
+    font-size: 18px;
+    margin-bottom: 70px;
+    margin-top: 40px;
+    padding: 5px 16px;
+}
+
+.cont_btn:hover{
+	background-color:white;
+	color:#2d494b;
+}

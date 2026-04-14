@@ -1,0 +1,135 @@
+<!doctype html>
+<html>
+<head>
+<meta charset="utf-8">
+<title>jQuery-source: your source for everything jquery.</title>
+<link href="lib/css/styles.css" rel="stylesheet" type="text/css">
+<link href='http://fonts.googleapis.com/css?family=Yanone+Kaffeesatz:400,700,300,200' rel='stylesheet' type='text/css'>
+<link href='http://fonts.googleapis.com/css?family=Oxygen:400,700,300' rel='stylesheet' type='text/css'>
+<script src="https://google-code-prettify.googlecode.com/svn/loader/run_prettify.js"></script>
+<script type="text/javascript" src="lib/scripts/jquery-1.11.1.min.js"></script>
+<script type="text/javascript" src="lib/scripts/jquery-ui-1.8.17.custom.min.js"></script>
+<script type="text/javascript" src="lib/scripts/jquery.color.js"></script>
+<script type="text/javascript" src="lib/scripts/jquery.innerfade.js"></script>
+<script type="text/javascript" src="lib/scripts/innerfade.js"></script>
+<script type="text/javascript" src="http://arrow.scrolltotop.com/arrow27.js"></script>
+</head>
+
+<body>
+
+<div id="wrapper">
+
+<div id="headerwrapper">
+<div id="header">
+	<h1><img id="header-logo" src="lib/img/jqlogo.png" alt="jQuery-source" /></h1>
+    <h3><img id="tagline" src="lib/img/tagline.png" alt="jqsource tagline" /></h3>
+</div>
+</div>
+
+<div id="menuwrapper">
+	<div id="menu">
+		<ul>
+        	<li><a href="index.html">HOME</a></li>
+			<li><a href="#">LESSONS</a>
+            	<ul>
+                	<li><a href="lesson1_1.html">Lesson 1</a></li>
+                    <li><a href="lesson2_1.html">Lesson 2</a></li>
+                    <li><a href="lesson3_1.html">Lesson 3</a></li>
+                    <li><a href="lesson4_1.html">Lesson 4</a></li>
+                    <li><a href="lesson5_1.html">Lesson 5</a></li>
+                    <li><a href="lesson6_1.html">Lesson 6</a></li>
+                 </ul>
+            </li>
+        	<li><a href="contact.html">CONTACT</a></li>	
+		</ul>
+	</div>
+</div>
+
+<div id="container">
+<div id="lessonmenu">
+	<ul>
+		<li class="lessonmenufont">Lesson 3:</li>
+    	<li><a href="lesson3_1.html">301</a></li>
+        <li><a href="lesson3_2.html">302</a></li>
+        <li><a href="lesson3_3.html">303</a></li>
+    </ul>
+</div>
+<div id="bcontainerl">
+<h1>Lesson 303 - Innerfade</h1>
+<p>
+Lesson 303 will demonstrate the innerfade function. Innerfade is a great jQuery technique you can use when you have a ton of constantly updating content. Think of it as a news ticker or an animated list of links that can connect you to content from all over the web.
+</p>
+<hr>
+<h2>Example:</h2>
+     <div id="news">
+        <h4>Spirit Cellar News:</h4>
+        <ul>
+        	<li><a href="#">Bring your Pets to Church</a></li>
+        	<li><a href="#">Fundraising for the Missionaries</a></li>					
+        	<li><a href="#">Friday Faith Day</a></li>
+        	<li><a href="#">Sunday Service - Calling on God</a></li>
+        </ul>
+      </div>
+<br/><br/>
+<h2>HTML Markup:</h2>
+<pre class="prettyprint linenums">
+&lt;!-- In HTML a news id has to be set up for the innerfade function -->
+
+&lt;div id="news">
+	&lt;h4>Spirit Cellar News&lt;/h4>&lt
+		&lt;ul>
+        	&lt;li>&lt;a href="#">Bring your Pets to Church&lt;/a>&lt;/li>
+        	&lt;li>&lt;a href="#">Fundraising for the Missionaries&lt;/a>&lt;/li>					
+        	&lt;li>&lt;a href="#">Friday Faith Day&lt;/a>&lt;/li>
+        	&lt;li>&lt;a href="#">Sunday Service - Calling on God&lt;/a>&lt;/li>
+        &lt;/ul>
+&lt;/div>
+</pre>
+<br/>
+<h2>CSS Markup:</h2>
+<pre class="prettyprint linenums">
+/* Our ID must be styled */
+
+#news {
+  display: block;
+  height: 48px;
+}
+
+#news h4{
+	font-size:20px;
+	font-family:'Yanone Kaffeesatz', sans-serif;
+	font-weight:400;
+	color:black;
+	margin-bottom:10px;
+}
+
+#news ul {
+  list-style-type: none;
+}
+</pre>
+<br/>
+<h2>jQuery Markup:</h2>
+<pre class="prettyprint linenums">
+$(document).ready(function() { // document is ready
+
+  $('#news ul').innerfade({ // the ul of the news id will innerfade
+    animationtype: 'slide', // animation is set to slide
+    speed: 750, // animation time is set
+    timeout: 3000, // animation timeout is set
+    type: 'random' // a random property random picks through ul lists
+  }); // function over
+  
+}); // document completed, full function over
+</pre>
+</div>
+</div>
+</div>
+
+<hr class="line">
+
+<div id="bcontainer3">
+	<p>jQuery-source © 2014 - Zach Heindel.</p>
+</div>
+
+</body>
+</html>

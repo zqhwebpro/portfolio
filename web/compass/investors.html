@@ -1,0 +1,137 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="utf-8">
+		<script src="lib/scripts/classie.js" type="text/javascript">
+		</script>
+		<script>
+			  function init() {
+				window.addEventListener('scroll', function(e){
+					var distanceY = window.pageYOffset || document.documentElement.scrollTop,
+						shrinkOn = 300,
+						header = document.querySelector("header");
+					if (distanceY > shrinkOn) {
+						classie.add(header,"smaller");
+					} else {
+						if (classie.has(header,"smaller")) {
+							classie.remove(header,"smaller");
+						}
+					}
+				});
+			  }
+			  window.onload = init();
+		</script>
+		<link href="https://maxcdn.bootstrapcdn.com/font-awesome/4.4.0/css/font-awesome.min.css" rel="stylesheet">
+		<title>
+			compass.com - pointing you the right way home
+		</title>
+		<link href='https://fonts.googleapis.com/css?family=Montserrat:400,700|Hind' rel='stylesheet' type='text/css'>
+		<link href="lib/css/styles.css" rel="stylesheet" type="text/css">
+	</head>
+	<body>
+		<div class="fp_contain">
+			<header>
+				<a href="#"><img alt="compass, pointing you the right way home" id="imgfloat" src="lib/imgs/compasslogo.png"></a>
+				<nav>
+					<ul>
+						<li>
+							<a href="index.html">home</a>
+						</li>
+						<li>
+							<a href="getpreapproved.html">get pre-approved</a>
+						</li>
+						<li>
+							<a href="sellyourhome.html">sell</a>
+						</li>
+						<li>
+							<a href="investors.html">investors</a>
+						</li>
+						<li>
+							<a href="faq.html">faq</a>
+						</li>
+						<li>
+							<a href="testimonials.html">testimonials</a>
+						</li>
+						<li>
+							<a href="signup.php">sign up</a>
+						</li>
+						<li>
+							<a href="login.php">login</a>
+						</li>
+						<li>
+							<a href="contact.php">contact</a>
+						</li>
+					</ul>
+				</nav>
+			</header>
+			<div class="investor_contain">
+				<div class="investor">
+					<h1 id="fontcenter">
+						compass.com Investors
+					</h1>
+					<p>
+						Whether you are just starting your real estate investing endeavors or you are a seasoned investor, register below to view our exclusive deeply discounted properties. Most real estate investors
+						don't have the time or money to chase down good deals. Our exclusive relationships and extensive marketing program position us to be the first to know about the best deals on the market. We
+						also have access to private money lenders when funds are tight and a great deal is right in front of you.
+					</p><br>
+					<br>
+					<p>
+						We keep the prices on these houses low so you, the next investor, have plenty of equity in the property. We are looking for investors who have the ability to make quick decisions about a
+						property and have access to funds to settle quickly, typically in 2 weeks or less. These are just a few of the reasons why our wholesale properties are priced at such incredibly great values.
+						Register below to start exploring our inventory of phenomenal deals.
+					</p>
+					<div class="investform1">
+						<form action="signup_inv.php" method="get">
+							<div>
+								<label for="firstname">Name*:</label> <input id="name" type="text">
+							</div>
+							<div>
+								<label for="lastname">Last Name*:</label> <input id="name" type="text">
+							</div>
+							<div>
+								<label for="email">E-mail*:</label> <input id="mail" type="text">
+							</div>
+							<div>
+								<label for="password">Password*:</label> <input type="text">
+							</div>
+						</form>
+						<div class="checkherebtn_marg">
+							<p>
+								Sign Up
+							</p>
+						</div>
+					</div>
+					<div class="investform2">
+						<form action="signin_inv.php" method="get">
+							<div>
+								<label for="email">E-mail*:</label> <input id="mail" type="text">
+							</div>
+							<div>
+								<label for="password">Password*:</label> <input type="text">
+							</div>
+						</form>
+						<div class="checkherebtn_marg">
+							<p>
+								Login
+							</p>
+						</div>
+					</div>
+				</div>
+			</div>
+			<div class="footer_contain">
+				<div class="termscontain">
+					<h3 id="fontcolordkblue">
+						Terms & conditions and privacy policy
+					</h3>
+					<p id="copyp">
+						©zqhdesign.com. 2015. Made at York, AI.
+					</p>
+				</div>
+			</div>
+			<div class="smcont">
+				<a href="#"><i class="fa fa-twitter fa-3x"></i></a> <a href="#"><i class="fa fa-linkedin-square fa-3x"></i></a> <a href="#"><i class="fa fa-facebook-official fa-3x"></i></a>
+			</div>
+			<div class="footer_bot"></div>
+		</div>
+	</body>
+</html>

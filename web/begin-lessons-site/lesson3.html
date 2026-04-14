@@ -1,0 +1,274 @@
+<!doctype html>
+<html>
+<head>
+<meta charset="utf-8">
+<title>123:CODE</title>
+<link href="lib/css/styles.css" rel="stylesheet" type="text/css">
+<link href='http://fonts.googleapis.com/css?family=Bangers' rel='stylesheet' type='text/css'>
+<link href='http://fonts.googleapis.com/css?family=Yanone+Kaffeesatz:400,700,300,200' rel='stylesheet' type='text/css'>
+<link href='http://fonts.googleapis.com/css?family=Open+Sans:400,300' rel='stylesheet' type='text/css'>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/prettify/r298/prettify.js"></script>
+<link href="https://cdnjs.cloudflare.com/ajax/libs/prettify/r298/prettify.css" rel='stylesheet' type='text/css'>
+</head>
+
+<body>
+
+<SCRIPT language="JavaScript"
+        type="text/javascript">
+<!--
+//
+// Documentation:
+//   http://chami.com/tips/javascript/
+//
+function checkAnswer(quizForm,
+                     theAnswer,
+                     urlRight,
+                     urlWrong)
+{
+  var s = "?";
+
+  // go through the "current choices"
+  // to find the selected choice.
+  // radio boxes pointing to choices
+  // must be named "cc"
+  // change if necessary
+  //
+  var i = 0;
+  for(;i<quizForm.elements.length;i++)
+  {
+    if(("cc" ==
+        quizForm.elements[i].name) &&
+       (quizForm.elements[i].checked))
+    {
+      s = quizForm.elements[i].value;
+    }
+  }
+
+  // no choice was selected
+  //
+  if("?" == s)
+  {
+    alert("Please make a selection.");
+    return false;
+  }
+
+  // check if we have the correct
+  // choice selected
+  //
+  if(s == theAnswer)
+  {
+    alert("'"+s+"' is correct!");
+    if(urlRight)
+    {
+    document.location.href = urlRight;
+    }
+  }
+  else
+  {
+    alert("'"+s+"' is incorrect.");
+    if( urlWrong )
+    {
+    document.location.href = urlWrong;
+    }
+  }
+
+  // return "false" to indicate not to
+  // submit the form.
+  // change this to "true" if the form
+  // "action" is valid,
+  // i.e. points to a valid CGI script
+  //
+  return false;
+}
+//-->
+</SCRIPT>
+
+<div id="header-container"></div>
+
+<div id="sitewrapper">
+	<div id="header">
+    <h1><span class="redtype">[123]</span>&nbsp;CODE</h1>
+	</div>
+<ul>
+	<li><a href="lessonland.html">LESSONS</a></li>
+	<li><a href="index.html">HOME</a></li>
+</ul>
+<div id="body_c">
+	<div id="container-position"></div>
+		<div id="container-lessons">
+<div id="lessonnav">
+        	<ul>
+            	<li><a href="lesson1.html">1</a></li>
+              	<li><a href="lesson2.html">2</a></li>
+                <li><a href="lesson3.html">3</a></li>
+                <li><a href="lesson4.html">4</a></li>
+                <li><a href="lesson5.html">5</a></li>
+                <li><a href="lesson6.html">6</a></li>
+                <li><a href="lesson7.html">7</a></li>
+                <li><a href="lesson8.html">8</a></li>
+        	</ul>
+        </div>
+<h1>Lesson 3 - Advanced Block Elements & Inline Elements</h1>
+<p class="margbot">Objective: Let's get a little bit more techinical. Next I will explain advanced block/inline element is and how to use various advanced block/inline element tags. Gear up for knowledge my beautiful webbies!</p>
+<h3 class="margbot">Block Elements</h3>
+<h4>blockquote</h4>
+<p class="margbot">a block element that indents a paragraph of text, used primarily for quotations.</p>
+<blockquote>I am a blockquote. This is an example.</blockquote>
+<h4>dl</h4>
+<p>used to define a definition list.</p>
+<p>For the next three elements we will reference this example:</p>
+<dl>
+	<dt>Car</dt>
+	<dd>Travels by land goes vroom vroom.</dd>
+	<dt>Boat</dt>
+	<dd>Travels by sea goes fbruuuhn.</dd>
+</dl>
+<pre class="prettyprint linenums">
+&lt;dl>  &lt;--- begins the definition list
+  &lt;dt>Car&lt;/dt>
+ 	 &lt;dd>Travels by land goes vroom vroom.&lt;/dd>
+  &lt;dt>Boat&lt;/dt>
+ 	 &lt;dd class="margbot">Travels by sea goes fbruuuhn.&lt;/dd>
+&lt;/dl>  &lt;--- ends the definition list
+</pre><br/>
+<br/>
+<h4>dt</h4>
+<p class="margbot">define an item in a definition list.</p>
+<pre class="prettyprint linenums">
+&lt;dl>
+  &lt;dt>Car&lt;/dt>  &lt;--- item one
+ 	 &lt;dd>Travels by land goes vroom vroom.&lt;/dd>
+  &lt;dt>Boat&lt;/dt>  &lt;--- item two
+ 	 &lt;dd class="margbot">Travels by sea goes fbruuuhn.&lt;/dd>
+&lt;/dl>
+</pre><br/><br/>
+<h4>dd</h4>
+<p class="margbot">used to explain the item of a definition list.</p>
+<pre class="prettyprint linenums">
+&lt;dl>  &lt;--- begins the definition list
+  &lt;dt>Car&lt;/dt>
+ 	 &lt;dd>Travels by land goes vroom vroom.&lt;/dd>  &lt;--- definition of the term
+  &lt;dt>Boat&lt;/dt>
+ 	 &lt;dd class="margbot">Travels by sea goes fbruuuhn.%&lt;/dd>  &lt;--- definition of the term
+&lt;/dl>
+</pre><br/><br/>
+<h4>pre</h4>
+<p class="margbot">everything inside the pre tag appears exactly the way it is written, indents and all. Also it is important to note that the pre tag is loaded with a default font.</p>
+<pre>
+Everything
+inside the pre tag
+	appears exactly
+    			how I input it
+      in to my html editing
+software.
+</pre><br/>
+<h3 class="margbot">Inline Elements</h3>
+<h4>abbr</h4>
+<p class="margbot">using the abbr tag around an abbreviation will cause a mouse over effect of what the abbreviation stands for.</p>
+<p class="margbot">But you can call me <abbr title="Mister">Mr.</abbr> Right. (hover your mouse over Mr. to see)</p>
+<h4>acronym</h4>
+<p>using the acronym tag around an acronym will cause a mouse over effect of what the acronym stands for.</p>
+<p class="margbot">It was so funny I had to <abbr title="Laugh Out Loud">LOL</abbr>. (hover your mouse over LOL to see)</p>
+<h4>cite</h4>
+<p>a citation tag that makes text that you tag italic.</p>
+<p class="margbot">Bernini's <cite>Ecstasy of Saint Teresa</cite> is a timeless masterpiece.</p>
+<h4>code</h4>
+<p class="margbot">a code tag makes that text appear like techy computer text.</p>
+<code>0101001 001010 01010 10 1001000101001</code><br/><br/><br/>
+<h4>q</h4>
+<p>used to put quotations around text.</p>
+<p class="margbot">After a long dramatic pause Elizabeth spoke, <q>The world doesn't belong to us anymore.</q></p>
+<h4>sub</h4>
+<p class="margbot">creates <sub>subscript</sub> text little text below the base line of the rest of text.</p>
+<h4>sup</h4>
+<p class="margbot">creates <sup>superscript</sup> text little text above the top line of the rest of text.</p>
+<h4>♪ The more you know.</h4>  <br/>
+<hr>
+
+<p>What does the &lt;pre> tag do?</p>
+<br/>
+<FORM method="POST"
+      onSubmit="return checkAnswer(this,'B');"
+>
+
+<INPUT TYPE="RADIO" VALUE="A" NAME="cc">
+A. It creates colum paragraphs.<br/>
+
+<INPUT TYPE="RADIO" VALUE="B" NAME="cc">
+B. It leaves information you type as is. Spacing, tabs, and returns; it's all left the same.<br/>
+
+<INPUT TYPE="RADIO" VALUE="C" NAME="cc">
+C. It is the tag you put before any div.<br/><br/>
+
+<INPUT TYPE="SUBMIT" VALUE="Submit Answer">
+
+</FORM>
+
+<p>What tags are required of a definition list?</p>
+<br/>
+<FORM method="POST"
+      onSubmit="return checkAnswer(this,'C');"
+>
+
+<INPUT TYPE="RADIO" VALUE="A" NAME="cc">
+A. &lt;dl>&lt;dc>&lt;dp><br/>
+
+<INPUT TYPE="RADIO" VALUE="B" NAME="cc">
+B. &lt;dl>&lt;db>&lt;de><br/>
+
+<INPUT TYPE="RADIO" VALUE="C" NAME="cc">
+C. &lt;dl>&lt;dt>&lt;dd><br/><br/>
+
+<INPUT TYPE="SUBMIT" VALUE="Submit Answer">
+
+</FORM>
+
+<p>Which tag is best for this: <abbr title="Doctor of Philosophy">PhD</abbr>?</p>
+<br/>
+<FORM method="POST"
+      onSubmit="return checkAnswer(this,'A');"
+>
+
+<INPUT TYPE="RADIO" VALUE="A" NAME="cc">
+A. &lt;abbr><br/>
+
+<INPUT TYPE="RADIO" VALUE="B" NAME="cc">
+B. &lt;acronym><br/>
+
+<INPUT TYPE="RADIO" VALUE="C" NAME="cc">
+C. &lt;blockquote><br/><br/>
+
+<INPUT TYPE="SUBMIT" VALUE="Submit Answer">
+
+</FORM>
+
+<p>In which manner is html coded?</p>
+<br/>
+<FORM method="POST"
+      onSubmit="return checkAnswer(this,'C');"
+>
+
+<INPUT TYPE="RADIO" VALUE="A" NAME="cc">
+A. Sentencecase<br/>
+
+<INPUT TYPE="RADIO" VALUE="B" NAME="cc">
+B. Uppercase<br/>
+
+<INPUT TYPE="RADIO" VALUE="C" NAME="cc">
+C. Lowercase<br/><br/>
+
+<INPUT TYPE="SUBMIT" VALUE="Submit Answer">
+
+</FORM>
+        </div>
+	<div id="footer-cont"></div>
+</div>
+
+
+<div id="footer"></div>
+<div id="footerfix"></div>
+
+</div>
+
+</body>
+</html>

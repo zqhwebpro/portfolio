@@ -1,0 +1,11 @@
+{
+    "active":true,
+    "hooks":{
+        "top":[
+            {"file":"top.php", "type":"include"}
+        ],
+        "home_screen":[
+            {"file":"box.php", "type":"include"}
+        ]
+    }
+}

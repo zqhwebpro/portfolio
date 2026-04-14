@@ -1,0 +1,159 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="utf-8">
+		<script src="lib/scripts/classie.js" type="text/javascript">
+		</script>
+		<script>
+		function init() {
+		  window.addEventListener('scroll', function(e){
+			  var distanceY = window.pageYOffset || document.documentElement.scrollTop,
+				  shrinkOn = 300,
+				  header = document.querySelector("header");
+			  if (distanceY > shrinkOn) {
+				  classie.add(header,"smaller");
+			  } else {
+				  if (classie.has(header,"smaller")) {
+					  classie.remove(header,"smaller");
+				  }
+			  }
+		  });
+		}
+		window.onload = init();
+		</script>
+		<link href=
+		"https://maxcdn.bootstrapcdn.com/font-awesome/4.4.0/css/font-awesome.min.css"
+		rel="stylesheet">
+		<title>
+			compass.com - pointing you the right way home
+		</title>
+		<link href='https://fonts.googleapis.com/css?family=Montserrat:400,700|Hind'
+		rel='stylesheet' type='text/css'>
+		<link href="lib/css/styles.css" rel="stylesheet" type="text/css">
+	</head>
+	<body>
+		<div class="fp_contain">
+			<header>
+				<a href="#"><img alt="compass, pointing you the right way home" id=
+				"imgfloat" src="lib/imgs/compasslogo.png"></a>
+				<nav>
+					<ul>
+						<li>
+							<a href="index.html">home</a>
+						</li>
+                        <li>
+							<a href="getpreapproved.html">get pre-approved</a>
+						</li>
+						<li>
+							<a href="sellyourhome.html">sell</a>
+						</li>
+						<li>
+							<a href="investors.html">investors</a>
+						</li>
+						<li>
+							<a href="faq.html">faq</a>
+						</li>
+						<li>
+							<a href="testimonials.html">testimonials</a>
+						</li>
+						<li>
+							<a href="signup.php">sign up</a>
+						</li>
+						<li>
+							<a href="login.php">login</a>
+						</li>
+                        <li>
+							<a href="contact.php">contact</a>
+						</li>
+					</ul>
+				</nav>
+			</header>
+			<div class="testimonial_contain">
+				<div class="testimonial">
+					<h1 id="fontcenter">
+						Hear what others have to say.
+					</h1>
+					<p>
+						We would like to take this opportunity to express our gratitude to Mr.
+						Jack Lehr at Compass.com. We were able to purchase our dream home from
+						Compass.com last month. Although purchasing a home may be stressful,
+						Compass.com was able to make it a STRESS FREE process from start to
+						finish. Not only was Mr. Lehr available when needed, he was willing to
+						make accommodations to meet our family's needs. I highly recommend doing
+						business with Compass.com. Thank you Jack Lehr! - Keith & Cheri Roehm
+					</p><br>
+					<br>
+					<div id="testhr"></div><br>
+					<br>
+					<p>
+						We fell in love with the house and decided to make an offer. It wasn't
+						smooth sailing as we had hurdles to overcome. Thanks to Compass.com’s
+						faith in us and the true desire to help us find our perfect home we were
+						able to purchase a home. There were times when I thought that we would
+						lose the house because of lending obstacles, but I held on and kept
+						believing that God wanted us to have this house. I would like to thank
+						Compass.com for all the help they gave my family and me in getting us
+						into the house. I would definitely recommend Compass.com to my family and
+						friends to call you if they want to buy a house. I thank you again for
+						everything - BJ Meckley & PA Spoonire
+					</p><br>
+					<br>
+					<div id="testhr"></div><br>
+					<br>
+					<p>
+						Just wanted to say thanks for everything Compass.com. I would not be in
+						my own home if it wasn't for Jack and Wade. A Grateful Compass.com
+						Customer - John Dep
+					</p><br>
+					<br>
+					<div id="testhr"></div><br>
+					<br>
+					<p>
+						Thank you for all you have done to make purchasing my new home a truly
+						unique and enjoyable experience. Your expertise was so helpful in all
+						stages from working out the financing to make sure I was comfortable with
+						the payments, to picking and choosing the right look and feel of the
+						interior, and of course patiently answering all my questions in areas
+						where I was unsure. Your attention to detail made an ordinary house into
+						my ultimate dream home. I will gladly recommend you and your team to
+						anyone in the market to purchase a home. It has truly been a pleasure
+						doing business with you. - Wendy Newell from Dover, PA
+					</p><br>
+					<br>
+					<div id="testhr"></div><br>
+					<br>
+					<p>
+						Just wanted to say thanks for everything Compass.com. I would not be in
+						my own home if it wasn't for Jack and Wade. A Grateful Compass.com
+						Customer - Paula Kreiser
+					</p><br>
+					<br>
+					<div id="testhr"></div><br>
+					<br>
+					<p>
+						I live by the simple rule to always give people more than they expect to
+						receive and Compass.com did just that! Their professionalism and
+						thoroughness during my home search far exceeded my expectations -
+						Compass.com, the name says it all. - Donovan Allen
+					</p>
+				</div>
+			</div>
+			<div class="footer_contain">
+				<div class="termscontain">
+					<h3 id="fontcolordkblue">
+						Terms & conditions and privacy policy
+					</h3>
+					<p id="copyp">
+						©zqhdesign.com. 2015. Made at York, AI.
+					</p>
+				</div>
+			</div>
+			<div class="smcont">
+				<a href="#"><i class="fa fa-twitter fa-3x"></i></a> <a href="#"><i class=
+				"fa fa-linkedin-square fa-3x"></i></a> <a href="#"><i class=
+				"fa fa-facebook-official fa-3x"></i></a>
+			</div>
+			<div class="footer_bot"></div>
+		</div>
+	</body>
+</html>

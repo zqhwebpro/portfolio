@@ -1,0 +1,166 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta charset="utf-8">
+	<title>New//Guru Web-Based Training</title>
+	<link href='http://fonts.googleapis.com/css?family=Open+Sans:300italic,700,400' rel='stylesheet' type='text/css'>
+	<link href="lib/css/styles.css" rel="stylesheet" type="text/css">
+	<script src="https://google-code-prettify.googlecode.com/svn/loader/run_prettify.js" type="text/javascript">
+	</script>
+	<script src="http://arrow.scrolltotop.com/arrow27.js" type="text/javascript">
+	</script>
+	<script src='https://www.google.com/reCAPTCHA/api.js' type="text/javascript">
+	</script>
+</head>
+<body>
+	<div id="vis_site_cont">
+		<div id="header"><img alt="New//Guru" class="center_img" src="lib/img/newguru.png"></div>
+		<div class="nav_border_top"></div>
+		<div id="vis_nav_cont">
+			<div id="nav">
+				<ul>
+					<li>
+						<a href="index.html">Home</a>
+					</li>
+					<li>
+						<a href="#">Lessons</a>
+						<ul>
+							<li>
+								<a href="lesson1.html">HTML5 Semantics Tags</a>
+							</li>
+							<li>
+								<a href="lesson2.html">icomoon.io and fontawesome.io</a>
+							</li>
+							<li>
+								<a href="lesson3.html">Media Queries</a>
+							</li>
+							<li>
+								<a href="lesson4.html">Google reCAPTCHA</a>
+							</li>
+							<li>
+								<a href="lesson5.html">CSS3 In Motion</a>
+							</li>
+							<li>
+								<a href="lesson6.html">Microformats</a>
+							</li>
+							<li>
+								<a href="lesson7.html">SEO Basics</a>
+							</li>
+							<li>
+								<a href="lesson8.html">CSS3 Adv Selectors</a>
+							</li>
+							<li>
+								<a href="lesson9.html">Responsive HTML Email</a>
+							</li>
+						</ul>
+					</li>
+					<li>
+						<a href="contact.html">Contact</a>
+					</li>
+				</ul>
+			</div>
+		</div>
+		<div class="nav_border_bottom"></div>
+		<div id="vis_body">
+			<div id="vis_body_cont">
+				<div id="tip_box">
+					<h3>CSS3 Adv Links:</h3>
+					<hr>
+					<ul>
+						<li>
+							<a href="http://code.tutsplus.com/tutorials/the-30-css-selectors-you-must-memorize--net-16048" target="_blank">Codetuts 30 CSS3 Selectors</a>
+						</li>
+						<li>
+							<a href="http://www.w3schools.com/cssref/css_selectors.asp" target="_blank">W3 Schools CSS3 Advanced Selectors</a>
+						</li>
+					</ul>
+				</div>
+				<h1 class="marg_bot">CSS3 Advanced Selectors</h1>
+				<h2 id="vis_breaker">Objective:</h2>
+				<p class="marg_bot">In this lesson I will teach you a few key CSS3 selectors and how to use them to make your websites look amazing and be more functionally structured.</p>
+				<h2 id="vis_breaker">Sub-objectives:</h2>
+				<p>Understand the CSS3 Attribute Selectors: a, ~, |, $</p>
+				<p class="marg_bot">Learn the CSS3 Psuedo-Selectors: :first-child, :nth-child, :before, & :after</p>
+				<h2 id="vis_breaker">Prerequisites:</h2>
+				<p class="marg_bot">For this lesson you will learn the best if you have prior advanced CSS3 knowledge and HTML5 will come in handy in putting the CSS into effects.</p><br>
+				<h3>*</h3>
+				<p class="marg_bot">* selects all elements that it targets. Let's take a deeper look:</p>
+				<pre class="prettyprint linenums">
+*p //selects all of the p elements
+</pre><br>
+				<a href="http://www.w3schools.com/cssref/tryit.asp?filename=trycss_sel_all" target="_blank">Try * for yourself!</a><br>
+				<br>
+				<h3>~</h3>
+				<p class="marg_bot">~ will initiate a search call-out. Let's take a deeper look:</p>
+				<pre class="prettyprint linenums">
+[title~=cat] {
+    background-color: red;
+}
+</pre><br>
+				<a href="http://www.w3schools.com/cssref/tryit.asp?filename=trycss_sel_attribute_value_contains" target="_blank">Try ~ for yourself!</a><br>
+				<br>
+				<h3>|</h3>
+				<p class="marg_bot">| will find anything that has the class input called upon. Let's take a deeper look:</p>
+				<pre class="prettyprint linenums">
+[lang|=en] //finds all of the elements assigned to call out the language of English
+</pre><br>
+				<a href="http://www.w3schools.com/cssref/tryit.asp?filename=trycss_sel_attribute_value_lang" target="_blank">Try * for yourself!</a><br>
+				<br>
+				<h3>$</h3>
+				<p class="marg_bot">$ will find matches. Let's take a deeper look:</p>
+				<pre class="prettyprint linenums">
+a[href$=".jpg"] //finds all the .jpg's in your document
+</pre><br>
+				<a href="http://www.w3schools.com/cssref/tryit.asp?filename=trycss3_attr_end" target="_blank">Try | for yourself!</a><br>
+				<br>
+				<h3>:first-child & second-child</h3>
+				<p class="marg_bot">first child changes the FIRST child in the callout function. That is, without any exception, a call-out that will initiate the FIRST child of ANY parent! Let's take a deeper look:</p>
+				<pre class="prettyprint linenums">
+p:first-child {
+    background-color:yellow; //highlights in yellow starting from the first child of p
+}
+
+p:second-child {
+    background-color:yellow; //highlights in yellow starting from the second child of p
+}
+</pre><br>
+				<a href="http://www.w3schools.com/cssref/tryit.asp?filename=trycss_sel_firstchild" target="_blank">Try first-child for yourself!</a><br>
+				<br>
+				<h3>nth-child</h3>
+				<p class="marg_bot">nth works like the first child except you have to input the nth of the parent. The standardized equation for nth goes like this (xn+y) x=the multiple property of n + y which = a plus factor. Let's take a deeper look:</p>
+				<pre class="prettyprint linenums">
+p:nth-child(4) {
+    background-color:yellow; //highlights from every four children
+}
+</pre><br>
+				<a href="http://www.w3schools.com/cssref/tryit.asp?filename=trycss3_nth-child" target="_blank">Try nth-child for yourself!</a><br>
+				<br>
+				<h3>::before ::after</h3>
+				<p class="marg_bot">before and after insert content before or after an element. Let's take a deeper look:</p>
+				<pre class="prettyprint linenums">
+a:before {
+    width:100px;
+    height:100px;
+    background-color:blue;
+}
+
+a:after {
+    width:100px;
+    height:100px;
+    background-color:blue;
+}
+</pre><br>
+				<a href="http://www.w3schools.com/cssref/tryit.asp?filename=trycss_sel_before" target="_blank">Try ::before and ::after for yourself!</a><br>
+				<br>
+				<a class="pad_bot" href="lesson8_quiz.html" id="button">Do you have what it takes to beat the quiz master?</a>
+			</div>
+		</div>
+		<div class="nav_border_top"></div>
+		<div id="vis_footer_cont">
+			<div id="footer">
+				<p>New//Guru Web-Based Training is a teaching module trained by Zach Heindel. Student of The York Art Institute, 2015. Sophomore year.</p>
+			</div>
+		</div>
+	</div>
+</body>
+</html>

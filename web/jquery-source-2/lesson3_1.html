@@ -1,0 +1,119 @@
+<!doctype html>
+<html>
+<head>
+<meta charset="utf-8">
+<title>jQuery-source: your source for everything jquery.</title>
+<link href="lib/css/styles.css" rel="stylesheet" type="text/css">
+<link href='http://fonts.googleapis.com/css?family=Yanone+Kaffeesatz:400,700,300,200' rel='stylesheet' type='text/css'>
+<link href='http://fonts.googleapis.com/css?family=Oxygen:400,700,300' rel='stylesheet' type='text/css'>
+<script src="https://google-code-prettify.googlecode.com/svn/loader/run_prettify.js"></script>
+<script type="text/javascript" src="lib/scripts/jquery-1.7.1.min.js"></script>
+<script type="text/javascript" src="lib/scripts/jquery-ui-1.8.17.custom.min.js"></script>
+<script type="text/javascript" src="lib/scripts/jquery.color.js"></script>
+<script type="text/javascript" src="lib/scripts/rollover.js"></script>
+<script type="text/javascript" src="http://arrow.scrolltotop.com/arrow27.js"></script>
+</head>
+
+<body>
+
+<div id="wrapper">
+
+<div id="headerwrapper">
+<div id="header">
+	<h1><img id="header-logo" src="lib/img/jqlogo.png" alt="jQuery-source" /></h1>
+    <h3><img id="tagline" src="lib/img/tagline.png" alt="jqsource tagline" /></h3>
+</div>
+</div>
+
+<div id="menuwrapper">
+	<div id="menu">
+		<ul>
+        	<li><a href="index.html">HOME</a></li>
+			<li><a href="#">LESSONS</a>
+            	<ul>
+                	<li><a href="lesson1_1.html">Lesson 1</a></li>
+                    <li><a href="lesson2_1.html">Lesson 2</a></li>
+                    <li><a href="lesson3_1.html">Lesson 3</a></li>
+                    <li><a href="lesson4_1.html">Lesson 4</a></li>
+                    <li><a href="lesson5_1.html">Lesson 5</a></li>
+                    <li><a href="lesson6_1.html">Lesson 6</a></li>
+                 </ul>
+            </li>
+        	<li><a href="contact.html">CONTACT</a></li>	
+		</ul>
+	</div>
+</div>
+
+<div id="container">
+<div id="lessonmenu">
+	<ul>
+		<li class="lessonmenufont">Lesson 3:</li>
+    	<li><a href="lesson3_1.html">301</a></li>
+        <li><a href="lesson3_2.html">302</a></li>
+        <li><a href="lesson3_3.html">303</a></li>
+    </ul>
+</div>
+<div id="bcontainerl">
+<h1>Lesson 301 - Rollover</h1>
+<p>
+Need an image to change on a mouse over hover? Think about, you can display a dingy house in a before picture and then call attention to the user to hover over that said image. Then BLAMO! A beautiful after shot of that same house after an awesome remodel. It would be a great technique to involve people with your website but how...? Rollover is a jQuery function where we can do that very tactic. Let's get to coding!
+</p>
+<hr>
+<h2>Example:</h2>
+<p>Roll over this image to see what the girl from the ring looks like without her makeup.</p><br/>
+<span id="fader">
+	<img id="ring" src="lib/img/ringbefore.jpg" alt="Ring Girl" />
+	<img class ="to" src="lib/img/ringafter.jpg" alt="Girl from Ring" />
+</span>
+<br/><br/>
+<h2>HTML Markup:</h2>
+<pre class="prettyprint linenums">
+&lt;!-- HTML consist of a span with ID and 2 images for our jQuery fade -->
+
+&lt;span id="fader">
+	&lt;img id="ring" src="lib/img/ringbefore.jpg" alt="Ring Girl" />
+	&lt;class ="to" src="lib/img/ringafter.jpg" alt="Girl from Ring" />
+&lt;/span>
+</pre>
+<br/>
+<h2>CSS Markup:</h2>
+<pre class="prettyprint linenums">
+/* Our span class needs some properties defined for our jQuery markup to work */
+
+#fader {
+  position: relative;
+}
+
+#fader .to {
+  display: none;
+  position: absolute;
+  left: 0;
+}
+</pre>
+<br/>
+<h2>jQuery Markup:</h2>
+<pre class="prettyprint linenums">
+$(document).ready(function() { // BEGIN 'ZE FUNCTION!
+
+  $('#fader').hover(function() { // setting hover effect to an id
+
+    $(this).find('img:eq(1)').stop(true,true).fadeIn(); // when first image is moused over fadeIn next.
+  }, function() { // begin
+
+    $(this).find('img:eq(1)').fadeOut(); // image fadeOut on hover
+  }) // end hover
+
+}); // END 'ZE FUNCTION!
+</pre>
+</div>
+</div>
+</div>
+
+<hr class="line">
+
+<div id="bcontainer3">
+	<p>jQuery-source © 2014 - Zach Heindel.</p>
+</div>
+
+</body>
+</html>

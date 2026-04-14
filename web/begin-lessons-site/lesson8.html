@@ -1,0 +1,228 @@
+<!doctype html>
+<html><head>
+<meta charset="utf-8">
+<title>123:CODE</title>
+<link href="lib/css/styles.css" rel="stylesheet" type="text/css">
+<link href='http://fonts.googleapis.com/css?family=Bangers' rel='stylesheet' type='text/css'>
+<link href='http://fonts.googleapis.com/css?family=Yanone+Kaffeesatz:400,700,300,200' rel='stylesheet' type='text/css'>
+<link href='http://fonts.googleapis.com/css?family=Open+Sans:400,300' rel='stylesheet' type='text/css'>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/prettify/r298/run_prettify.js"></script>
+<link href='https://cdnjs.cloudflare.com/ajax/libs/prettify/r298/prettify.min.css' rel=
+'stylesheet' type='text/css'>
+</head>
+
+<body>
+
+<SCRIPT language="JavaScript"
+        type="text/javascript">
+<!--
+//
+// Documentation:
+//   http://chami.com/tips/javascript/
+//
+function checkAnswer(quizForm,
+                     theAnswer,
+                     urlRight,
+                     urlWrong)
+{
+  var s = "?";
+
+  // go through the "current choices"
+  // to find the selected choice.
+  // radio boxes pointing to choices
+  // must be named "cc"
+  // change if necessary
+  //
+  var i = 0;
+  for(;i<quizForm.elements.length;i++)
+  {
+    if(("cc" ==
+        quizForm.elements[i].name) &&
+       (quizForm.elements[i].checked))
+    {
+      s = quizForm.elements[i].value;
+    }
+  }
+
+  // no choice was selected
+  //
+  if("?" == s)
+  {
+    alert("Please make a selection.");
+    return false;
+  }
+
+  // check if we have the correct
+  // choice selected
+  //
+  if(s == theAnswer)
+  {
+    alert("'"+s+"' is correct!");
+    if(urlRight)
+    {
+    document.location.href = urlRight;
+    }
+  }
+  else
+  {
+    alert("'"+s+"' is incorrect.");
+    if( urlWrong )
+    {
+    document.location.href = urlWrong;
+    }
+  }
+
+  // return "false" to indicate not to
+  // submit the form.
+  // change this to "true" if the form
+  // "action" is valid,
+  // i.e. points to a valid CGI script
+  //
+  return false;
+}
+//-->
+</SCRIPT>
+
+<div id="header-container"></div>
+
+<div id="sitewrapper">
+	<div id="header">
+    <h1><span class="redtype">[123]</span>&nbsp;CODE</h1>
+	</div>
+<ul>
+	<li><a href="lessonland.html">LESSONS</a></li>
+	<li><a href="index.html">HOME</a></li>
+</ul>
+<div id="body_c">
+	<div id="container-position"></div>
+		<div id="container-lessons">
+<div id="lessonnav">
+        	<ul>
+            	<li><a href="lesson1.html">1</a></li>
+              	<li><a href="lesson2.html">2</a></li>
+                <li><a href="lesson3.html">3</a></li>
+                <li><a href="lesson4.html">4</a></li>
+                <li><a href="lesson5.html">5</a></li>
+                <li><a href="lesson6.html">6</a></li>
+                <li><a href="lesson7.html">7</a></li>
+                <li><a href="lesson8.html">8</a></li>
+        	</ul>
+        </div>
+<h1>Lesson 8 - CSS  Positioning</h1>
+<p class="margbot">Objective: Lesson 8 is about CSS position and how to manipulate to do exactly what you want. Positioning is extremely important for layout without it you will not be able to create the website of your dreams.</p>
+<h4>Static</h4>
+<p class="margbot">By default items are placed in HTML using the static positioning system. Static positioning will order elements with the normal flow of the website and they are not affected by the top, bottom, right, left, or z-index properties. The primary use of setting position to static is to override another positioning element.</p>
+<h4>Fixed</h4>
+<p class="margbot">Setting an item to a position of fixed will cause that specific item to ignore all of positioning and overlap everything. A fixed positioned element will also scroll with the screen. It stays exactly where you set it to stay.</p>
+<h4>Relative</h4>
+<p class="margbot">Relative positioning also overlaps elements however, it instead searches for the parent element and places itself in terms of the parent elements. In it's spot it leaves it's area open and blank where it otherwise took up the position priority.</p>
+<h4>Absolute</h4>
+<p class="margbot">Absolute positioning works like relative where it positions from the parent element. However, it does not leave it's spot behind. It is instead removed from normal flow and placed exactly to the set perimeters.</p>
+<h3 class="margbot">Float Positioning</h3>
+<h4>Float Left & Right</h4>
+<p class="margbot">Float breaks the flow of the static positioning by "floating" an item to the left or the right. It then takes up the space there and moves all other content around it. Floats are perfect for creating website with multiple colums that need seperated; it is the best way to go about creating that layout.</p>
+<h4>Clear:Both</h4>
+<p class="margbot">In order to clear the float property you must use the clear:both; function. This will force the element to stop floating by clearing the direction of the float around a floated construct.</p>
+<h4>Overflow:Auto</h4>
+<p class="margbot">The alternate to using the clear:both function is overflow:auto. By setting this property to a container all of the floated elements within the container then become children. This forces them to act as if they are in the normal flow of the document even through they are not. Around the container you can do whatever you would like with your positioning.</p>
+<h4>z-index Positioning</h4>
+<p class="margbot">Outside of normal flow items might overlap one another. If this is your intent there is a way to prioritize what items are on top with z-index. By default all content on the website has a z-index of 0, if you set a positivie z-index it will appear above the elements, if you set a negative z-index: it will appear below the elements.</p>
+<br/><br/>
+
+
+<h4>♪ The more you know.</h4>  <br/>
+<hr>
+
+<p>Absolute position is set to a black div to the top of the web page. If you scroll down, what happens to the div?</p>
+<br/>
+<FORM method="POST"
+      onSubmit="return checkAnswer(this,'B');"
+>
+
+<INPUT TYPE="RADIO" VALUE="A" NAME="cc">
+A. The div scrolls down too<br/>
+
+<INPUT TYPE="RADIO" VALUE="B" NAME="cc">
+B. The div will remain at the top<br/>
+
+<INPUT TYPE="RADIO" VALUE="C" NAME="cc">
+C. The div will go behind the content that scrolls upwards<br/>
+<br/>
+
+<INPUT TYPE="SUBMIT" VALUE="Submit Answer">
+
+</FORM>
+
+<p>What tag does the &quot;alt&quot; correspond with?</p>
+<br/>
+<FORM method="POST"
+      onSubmit="return checkAnswer(this,'C');"
+>
+
+<INPUT TYPE="RADIO" VALUE="A" NAME="cc">
+A. Form tag<br/>
+
+<INPUT TYPE="RADIO" VALUE="B" NAME="cc">
+B. Table tag<br/>
+
+<INPUT TYPE="RADIO" VALUE="C" NAME="cc">
+C. Image tag<br/>
+<br/>
+
+<INPUT TYPE="SUBMIT" VALUE="Submit Answer">
+
+</FORM>
+
+
+<p>Red block is z-index of 1, blue block is z-index of 2, and yellow block is z-index of 0, which block is on top?</p>
+<br/>
+<FORM method="POST"
+      onSubmit="return checkAnswer(this,'B');"
+>
+
+<INPUT TYPE="RADIO" VALUE="A" NAME="cc">
+A. Yellow<br/>
+
+<INPUT TYPE="RADIO" VALUE="B" NAME="cc">
+B. Blue<br/>
+
+<INPUT TYPE="RADIO" VALUE="C" NAME="cc">
+C. Red<br/>
+<br/>
+
+<INPUT TYPE="SUBMIT" VALUE="Submit Answer">
+
+</FORM>
+
+<p>Which is an example of a browser?</p>
+<br/>
+<FORM method="POST"
+      onSubmit="return checkAnswer(this,'B');"
+>
+
+<INPUT TYPE="RADIO" VALUE="A" NAME="cc">
+A. World Wide Web<br/>
+
+<INPUT TYPE="RADIO" VALUE="B" NAME="cc">
+B. Mozilla Firefox<br/>
+
+<INPUT TYPE="RADIO" VALUE="C" NAME="cc">
+C. Window Shopper<br/>
+<br/>
+
+<INPUT TYPE="SUBMIT" VALUE="Submit Answer">
+
+</FORM>
+
+    </div>
+	<div id="footer-cont"></div>
+</div>
+
+
+<div id="footer"></div>
+<div id="footerfix"></div>
+
+</div>
+
+</body>
+</html>

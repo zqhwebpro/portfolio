@@ -1,0 +1,252 @@
+RewriteEngine ON Options -Indexes
+RewriteBase /
+
+# error documents
+ErrorDocument 404 /404.php
+
+# set index.php's to slash
+RewriteRule ^(.*)index\.php$ /$1 [R=301,NC,NS,L]
+
+# redirect http://example.com to http://www.example.com
+RewriteCond %{HTTP_HOST} !^(www|proof)\. [NC]
+RewriteRule ^ http://www.%{HTTP_HOST}%{REQUEST_URI} [R=301,NC,L]
+
+# redirect old site links
+RewriteRule ^(.*)root/system/our-agency(/)?$ http://www.insurancechoices.com/ [R=301,NC,L]
+RewriteRule ^(.*)products/financial-services(/)?$ http://www.insurancechoices.com/ [R=301,NC,L]
+RewriteRule ^(.*)products/financial-services/401k(/)?$ http://www.insurancechoices.com/ [R=301,NC,L]
+RewriteRule ^(.*)products/financial-services/annuities(/)?$ http://www.insurancechoices.com/ [R=301,NC,L]
+RewriteRule ^(.*)products/financial-services/financial-planning(/)?$ http://www.insurancechoices.com/ [R=301,NC,L]
+RewriteRule ^(.*)products/financial-services/mutual-funds(/)?$ http://www.insurancechoices.com/ [R=301,NC,L]
+RewriteRule ^(.*)products/financial-services/pension-plans(/)?$ http://www.insurancechoices.com/ [R=301,NC,L]
+RewriteRule ^(.*)products/financial-services/profit-sharing-plans(/)?$ http://www.insurancechoices.com/ [R=301,NC,L]
+RewriteRule ^(.*)products/financial-services/retirement-plans(/)?$ http://www.insurancechoices.com/ [R=301,NC,L]
+RewriteRule ^(.*)products/financial-services/traditional-roth-iras(/)?$ http://www.insurancechoices.com/ [R=301,NC,L]
+RewriteRule ^(.*)products/additional-insurance-services(/)?$ http://www.insurancechoices.com/products/ [R=301,NC,L]
+RewriteRule ^(.*)products/additional-insurance-services/other-services(/)?$ http://www.insurancechoices.com/products/ [R=301,NC,L]
+RewriteRule ^(.*)products/additional-insurance-services/special-event-insurance(/)?$ http://www.insurancechoices.com/products/ [R=301,NC,L]
+RewriteRule ^(.*)products/other-personal-insurance(/)?$ http://www.insurancechoices.com/products/ [R=301,NC,L]
+RewriteRule ^(.*)products/other-personal-insurance/identity-theft(/)?$ http://www.insurancechoices.com/products/ [R=301,NC,L]
+RewriteRule ^(.*)products/other-personal-insurance/personal-umbrella-insurance(/)?$ http://www.insurancechoices.com/products/ [R=301,NC,L]
+RewriteRule ^(.*)products/home-insurance/condo-insurance(/)?$ http://www.insurancechoices.com/products/home-insurance/ [R=301,NC,L]
+RewriteRule ^(.*)products/home-insurance/homeowners-liability(/)?$ http://www.insurancechoices.com/products/home-insurance/ [R=301,NC,L]
+RewriteRule ^(.*)products/home-insurance/landlords-insurance(/)?$ http://www.insurancechoices.com/products/home-insurance/ [R=301,NC,L]
+RewriteRule ^(.*)products/home-insurance/mobile-home-insurance(/)?$ http://www.insurancechoices.com/products/home-insurance/ [R=301,NC,L]
+RewriteRule ^(.*)products/home-insurance/property-insurance(/)?$ http://www.insurancechoices.com/products/home-insurance/ [R=301,NC,L]
+RewriteRule ^(.*)products/home-insurance/renters-insurance(/)?$ http://www.insurancechoices.com/products/home-insurance/ [R=301,NC,L]
+RewriteRule ^(.*)products/home-insurance/scheduled-property-insurance(/)?$ http://www.insurancechoices.com/products/home-insurance/ [R=301,NC,L]
+RewriteRule ^(.*)products/recreational-vehicle-insurance(/)?$ http://www.insurancechoices.com/products/auto-insurance/ [R=301,NC,L]
+RewriteRule ^(.*)products/auto-insurance/collision-coverage(/)?$ http://www.insurancechoices.com/products/auto-insurance/ [R=301,NC,L]
+RewriteRule ^(.*)products/auto-insurance/comprehensive-coverage(/)?$ http://www.insurancechoices.com/products/auto-insurance/ [R=301,NC,L]
+RewriteRule ^(.*)products/auto-insurance/liability-coverage(/)?$ http://www.insurancechoices.com/products/auto-insurance/ [R=301,NC,L]
+RewriteRule ^(.*)products/auto-insurance/personal-injury-protection-pip(/)?$ http://www.insurancechoices.com/products/auto-insurance/ [R=301,NC,L]
+RewriteRule ^(.*)products/auto-insurance/rental-reimbursement(/)?$ http://www.insurancechoices.com/products/auto-insurance/ [R=301,NC,L]
+RewriteRule ^(.*)products/auto-insurance/roadside-assistance(/)?$ http://www.insurancechoices.com/products/auto-insurance/ [R=301,NC,L]
+RewriteRule ^(.*)products/auto-insurance/towing(/)?$ http://www.insurancechoices.com/products/auto-insurance/ [R=301,NC,L]
+RewriteRule ^(.*)products/auto-insurance/uninsured-underinsured-motorist-coverage(/)?$ http://www.insurancechoices.com/products/auto-insurance/ [R=301,NC,L]
+RewriteRule ^(.*)products/recreational-vehicle-insurance/atv-insurance(/)?$ http://www.insurancechoices.com/products/auto-insurance/ [R=301,NC,L]
+RewriteRule ^(.*)products/recreational-vehicle-insurance/boat-insurance(/)?$ http://www.insurancechoices.com/products/auto-insurance/ [R=301,NC,L]
+RewriteRule ^(.*)products/recreational-vehicle-insurance/motorcycle-insurance(/)?$ http://www.insurancechoices.com/products/auto-insurance/ [R=301,NC,L]
+RewriteRule ^(.*)products/recreational-vehicle-insurance/motorhome-insurance(/)?$ http://www.insurancechoices.com/products/auto-insurance/ [R=301,NC,L]
+RewriteRule ^(.*)products/health-insurance/child-health-insurance(/)?$ http://www.insurancechoices.com/products/health-insurance/ [R=301,NC,L]
+RewriteRule ^(.*)products/health-insurance/dental-coverage(/)?$ http://www.insurancechoices.com/products/health-insurance/ [R=301,NC,L]
+RewriteRule ^(.*)products/health-insurance/disability-insurance(/)?$ http://www.insurancechoices.com/products/health-insurance/ [R=301,NC,L]
+RewriteRule ^(.*)products/health-insurance/group-health-insurance(/)?$ http://www.insurancechoices.com/products/health-insurance/ [R=301,NC,L]
+RewriteRule ^(.*)products/health-insurance/hsas(/)?$ http://www.insurancechoices.com/products/health-insurance/ [R=301,NC,L]
+RewriteRule ^(.*)products/health-insurance/individual-family-health-insurance(/)?$ http://www.insurancechoices.com/products/health-insurance/ [R=301,NC,L]
+RewriteRule ^(.*)products/health-insurance/long-term-care-insurance(/)?$ http://www.insurancechoices.com/products/health-insurance/ [R=301,NC,L]
+RewriteRule ^(.*)products/health-insurance/medical-expense-insurance(/)?$ http://www.insurancechoices.com/products/health-insurance/ [R=301,NC,L]
+RewriteRule ^(.*)products/health-insurance/supplemental-insurance(/)?$ http://www.insurancechoices.com/products/health-insurance/ [R=301,NC,L]
+RewriteRule ^(.*)products/health-insurance/temporary-health-insurance(/)?$ http://www.insurancechoices.com/products/health-insurance/ [R=301,NC,L]
+RewriteRule ^(.*)products/health-insurance/vision-coverage(/)?$ http://www.insurancechoices.com/products/health-insurance/ [R=301,NC,L]
+RewriteRule ^(.*)products/home-auto-insurance(/)?$ http://www.insurancechoices.com/products/health-insurance/ [R=301,NC,L]
+RewriteRule ^(.*)products/life-insurance/disability-insurance(/)?$ http://www.insurancechoices.com/products/life-insurance/ [R=301,NC,L]
+RewriteRule ^(.*)products/life-insurance/group-life-insurance(/)?$ http://www.insurancechoices.com/products/life-insurance/ [R=301,NC,L]
+RewriteRule ^(.*)products/life-insurance/individual-life-insurance(/)?$ http://www.insurancechoices.com/products/life-insurance/ [R=301,NC,L]
+RewriteRule ^(.*)products/life-insurance/key-person-key-men-insurance(/)?$ http://www.insurancechoices.com/products/life-insurance/ [R=301,NC,L]
+RewriteRule ^(.*)products/life-insurance/long-term-care-insurance(/)?$ http://www.insurancechoices.com/products/life-insurance/ [R=301,NC,L]
+RewriteRule ^(.*)products/life-insurance/mortgage-protection-insurance(/)?$ http://www.insurancechoices.com/products/life-insurance/ [R=301,NC,L]
+RewriteRule ^(.*)products/life-insurance/second-to-die-policy(/)?$ http://www.insurancechoices.com/products/life-insurance/ [R=301,NC,L]
+RewriteRule ^(.*)products/farm-insurance/equine-insurance(/)?$ http://www.insurancechoices.com/commercial-products/farm-insurance/ [R=301,NC,L]
+RewriteRule ^(.*)products/farm-insurance/farm-auto-insurance(/)?$ http://www.insurancechoices.com/commercial-products/farm-insurance/ [R=301,NC,L]
+RewriteRule ^(.*)products/farm-insurance/farm-dwelling-insurance(/)?$ http://www.insurancechoices.com/commercial-products/farm-insurance/ [R=301,NC,L]
+RewriteRule ^(.*)products/farm-insurance/farm-equipment-insurance(/)?$ http://www.insurancechoices.com/commercial-products/farm-insurance/ [R=301,NC,L]
+RewriteRule ^(.*)products/farm-insurance/farm-liability-insurance(/)?$ http://www.insurancechoices.com/commercial-products/farm-insurance/ [R=301,NC,L]
+RewriteRule ^(.*)products/farm-insurance/farm-livestock-insurance(/)?$ http://www.insurancechoices.com/commercial-products/farm-insurance/ [R=301,NC,L]
+RewriteRule ^(.*)products/farm-insurance/farm-owners-insurance(/)?$ http://www.insurancechoices.com/commercial-products/farm-insurance/ [R=301,NC,L]
+RewriteRule ^(.*)products/farm-insurance/farm-structures-insurance(/)?$ http://www.insurancechoices.com/commercial-products/farm-insurance/ [R=301,NC,L]
+RewriteRule ^(.*)products/farm-insurance/farm-umbrella-insurance(/)?$ http://www.insurancechoices.com/commercial-products/farm-insurance/ [R=301,NC,L]
+RewriteRule ^(.*)commercial-products/coverage-for-your-business(/)?$ http://www.insurancechoices.com/commercial-products/ [R=301,NC,L]
+RewriteRule ^(.*)commercial-products/coverage-for-your-business/bonds(/)?$ http://www.insurancechoices.com/commercial-products/ [R=301,NC,L]
+RewriteRule ^(.*)commercial-products/coverage-for-your-business/business-owners-policy-bop(/)?$ http://www.insurancechoices.com/commercial-products/ [R=301,NC,L]
+RewriteRule ^(.*)commercial-products/coverage-for-your-business/commercial-umbrella-insurance(/)?$ http://www.insurancechoices.com/commercial-products/ [R=301,NC,L]
+RewriteRule ^(.*)commercial-products/coverage-for-your-business/crime-insurance(/)?$ http://www.insurancechoices.com/commercial-products/ [R=301,NC,L]
+RewriteRule ^(.*)commercial-products/coverage-for-your-business/fidelity-bonds(/)?$ http://www.insurancechoices.com/commercial-products/ [R=301,NC,L]
+RewriteRule ^(.*)commercial-products/coverage-for-your-business/inland-marine-insurance(/)?$ http://www.insurancechoices.com/commercial-products/ [R=301,NC,L]
+RewriteRule ^(.*)commercial-products/coverage-for-your-business/leave-management(/)?$ http://www.insurancechoices.com/commercial-products/ [R=301,NC,L]
+RewriteRule ^(.*)commercial-products/coverage-for-your-business/loss-control-insurance(/)?$ http://www.insurancechoices.com/commercial-products/ [R=301,NC,L]
+RewriteRule ^(.*)commercial-products/coverage-for-your-business/marine-insurance(/)?$ http://www.insurancechoices.com/commercial-products/ [R=301,NC,L]
+RewriteRule ^(.*)commercial-products/coverage-for-your-business/professional-liability(/)?$ http://www.insurancechoices.com/commercial-products/ [R=301,NC,L]
+RewriteRule ^(.*)commercial-products/coverage-for-your-business/surety-bonds(/)?$ http://www.insurancechoices.com/commercial-products/ [R=301,NC,L]
+RewriteRule ^(.*)commercial-products/coverage-for-specific-industries(/)?$ http://www.insurancechoices.com/commercial-products/ [R=301,NC,L]
+RewriteRule ^(.*)commercial-products/coverage-for-specific-industries/accounting-firm-insurance(/)?$ http://www.insurancechoices.com/commercial-products/ [R=301,NC,L]
+RewriteRule ^(.*)commercial-products/coverage-for-specific-industries/alarm-contractors-insurance(/)?$ http://www.insurancechoices.com/commercial-products/ [R=301,NC,L]
+RewriteRule ^(.*)commercial-products/coverage-for-specific-industries/construction-insurance(/)?$ http://www.insurancechoices.com/commercial-products/ [R=301,NC,L]
+RewriteRule ^(.*)commercial-products/coverage-for-specific-industries/consulting-firm-insurance(/)?$ http://www.insurancechoices.com/commercial-products/ [R=301,NC,L]
+RewriteRule ^(.*)commercial-products/coverage-for-specific-industries/craft-brewery-insurance(/)?$ http://www.insurancechoices.com/commercial-products/ [R=301,NC,L]
+RewriteRule ^(.*)commercial-products/coverage-for-specific-industries/educational-facility-insurance(/)?$ http://www.insurancechoices.com/commercial-products/ [R=301,NC,L]
+RewriteRule ^(.*)commercial-products/coverage-for-specific-industries/financial-institution-insurance(/)?$ http://www.insurancechoices.com/commercial-products/ [R=301,NC,L]
+RewriteRule ^(.*)commercial-products/coverage-for-specific-industries/healthcare-facility-insurance(/)?$ http://www.insurancechoices.com/commercial-products/ [R=301,NC,L]
+RewriteRule ^(.*)commercial-products/coverage-for-specific-industries/healthcare-practice-insurance(/)?$ http://www.insurancechoices.com/commercial-products/ [R=301,NC,L]
+RewriteRule ^(.*)commercial-products/coverage-for-specific-industries/insurance-for-arborists(/)?$ http://www.insurancechoices.com/commercial-products/ [R=301,NC,L]
+RewriteRule ^(.*)commercial-products/coverage-for-specific-industries/law-firm-insurance(/)?$ http://www.insurancechoices.com/commercial-products/ [R=301,NC,L]
+RewriteRule ^(.*)commercial-products/coverage-for-specific-industries/limousine-services-insurance(/)?$ http://www.insurancechoices.com/commercial-products/ [R=301,NC,L]
+RewriteRule ^(.*)commercial-products/coverage-for-specific-industries/maintenance-contractors-insurance(/)?$ http://www.insurancechoices.com/commercial-products/ [R=301,NC,L]
+RewriteRule ^(.*)commercial-products/coverage-for-specific-industries/manufacturing-insurance(/)?$ http://www.insurancechoices.com/commercial-products/ [R=301,NC,L]
+RewriteRule ^(.*)commercial-products/coverage-for-specific-industries/maritime-employers-insurance(/)?$ http://www.insurancechoices.com/commercial-products/ [R=301,NC,L]
+RewriteRule ^(.*)commercial-products/coverage-for-specific-industries/media--advertising-insurance(/)?$ http://www.insurancechoices.com/commercial-products/ [R=301,NC,L]
+RewriteRule ^(.*)commercial-products/coverage-for-specific-industries/orthotics--prosthetics-insurance(/)?$ http://www.insurancechoices.com/commercial-products/ [R=301,NC,L]
+RewriteRule ^(.*)commercial-products/coverage-for-specific-industries/pool--spa-insurance(/)?$ http://www.insurancechoices.com/commercial-products/ [R=301,NC,L]
+RewriteRule ^(.*)commercial-products/coverage-for-specific-industries/printers--publishers-insurance(/)?$ http://www.insurancechoices.com/commercial-products/ [R=301,NC,L]
+RewriteRule ^(.*)commercial-products/coverage-for-specific-industries/railroad-contractors-insurance(/)?$ http://www.insurancechoices.com/commercial-products/ [R=301,NC,L]
+RewriteRule ^(.*)commercial-products/coverage-for-specific-industries/real-estate-businesses-insurance(/)?$ http://www.insurancechoices.com/commercial-products/ [R=301,NC,L]
+RewriteRule ^(.*)commercial-products/coverage-for-specific-industries/retail-insurance(/)?$ http://www.insurancechoices.com/commercial-products/ [R=301,NC,L]
+RewriteRule ^(.*)commercial-products/coverage-for-specific-industries/school-bus-contractors-insurance(/)?$ http://www.insurancechoices.com/commercial-products/ [R=301,NC,L]
+RewriteRule ^(.*)commercial-products/coverage-for-specific-industries/scrap-metal-insurance(/)?$ http://www.insurancechoices.com/commercial-products/ [R=301,NC,L]
+RewriteRule ^(.*)commercial-products/coverage-for-specific-industries/security-guards-insurance(/)?$ http://www.insurancechoices.com/commercial-products/ [R=301,NC,L]
+RewriteRule ^(.*)commercial-products/coverage-for-specific-industries/self-storage-insurance(/)?$ http://www.insurancechoices.com/commercial-products/ [R=301,NC,L]
+RewriteRule ^(.*)commercial-products/coverage-for-specific-industries/septic-contractors-insurance(/)?$ http://www.insurancechoices.com/commercial-products/ [R=301,NC,L]
+RewriteRule ^(.*)commercial-products/coverage-for-specific-industries/specialized-truck-equipment-insurance(/)?$ http://www.insurancechoices.com/commercial-products/ [R=301,NC,L]
+RewriteRule ^(.*)commercial-products/coverage-for-specific-industries/specialty-trade-contractors-insurance(/)?$ http://www.insurancechoices.com/commercial-products/ [R=301,NC,L]
+RewriteRule ^(.*)commercial-products/coverage-for-specific-industries/technology-services-insurance(/)?$ http://www.insurancechoices.com/commercial-products/ [R=301,NC,L]
+RewriteRule ^(.*)commercial-products/coverage-for-specific-industries/tow-trucks-insurance(/)?$ http://www.insurancechoices.com/commercial-products/ [R=301,NC,L]
+RewriteRule ^(.*)commercial-products/coverage-for-specific-industries/water-well-drillers-insurance(/)?$ http://www.insurancechoices.com/commercial-products/ [R=301,NC,L]
+RewriteRule ^(.*)commercial-products/coverage-for-your-employees(/)?$ http://www.insurancechoices.com/commercial-products/for-employees/ [R=301,NC,L]
+RewriteRule ^(.*)commercial-products/coverage-for-your-employees/disability-insurance(/)?$ http://www.insurancechoices.com/commercial-products/for-employees/ [R=301,NC,L]
+RewriteRule ^(.*)commercial-products/coverage-for-your-employees/employer-sponsored-retirement(/)?$ http://www.insurancechoices.com/commercial-products/for-employees/ [R=301,NC,L]
+RewriteRule ^(.*)commercial-products/coverage-for-your-employees/group-benefits(/)?$ http://www.insurancechoices.com/commercial-products/for-employees/ [R=301,NC,L]
+RewriteRule ^(.*)commercial-products/coverage-for-your-employees/group-disability-insurance(/)?$ http://www.insurancechoices.com/commercial-products/for-employees/ [R=301,NC,L]
+RewriteRule ^(.*)commercial-products/coverage-for-your-employees/group-health-insurance(/)?$ http://www.insurancechoices.com/commercial-products/for-employees/ [R=301,NC,L]
+RewriteRule ^(.*)commercial-products/coverage-for-your-employees/individual-life-insurance(/)?$ http://www.insurancechoices.com/commercial-products/for-employees/ [R=301,NC,L]
+RewriteRule ^(.*)commercial-products/coverage-for-your-employees/retiree-health-coverage(/)?$ http://www.insurancechoices.com/commercial-products/for-employees/ [R=301,NC,L]
+RewriteRule ^(.*)commercial-products/coverage-for-your-employees/small-business-retirement-plans(/)?$ http://www.insurancechoices.com/commercial-products/for-employees/ [R=301,NC,L]
+RewriteRule ^(.*)commercial-products/coverage-for-your-employees/voluntary-benefits(/)?$ http://www.insurancechoices.com/commercial-products/for-employees/ [R=301,NC,L]
+RewriteRule ^(.*)commercial-products/coverage-for-your-business/commercial-general-liability(/)?$ http://www.insurancechoices.com/commercial-products/liability/ [R=301,NC,L]
+RewriteRule ^(.*)commercial-products/coverage-for-your-business/commercial-property-insurance(/)?$ http://www.insurancechoices.com/commercial-products/property-auto/ [R=301,NC,L]
+RewriteRule ^(.*)commercial-products/coverage-for-your-business/commercial-auto-insurance(/)?$ http://www.insurancechoices.com/commercial-products/property-auto/ [R=301,NC,L]
+RewriteRule ^(.*)commercial-products/workers-compensation(/)?$ http://www.insurancechoices.com/commercial-products/workers-comp/ [R=301,NC,L]
+RewriteRule ^(.*)commercial-products/coverage-for-your-business/workers-compensation(/)?$ http://www.insurancechoices.com/commercial-products/workers-comp/ [R=301,NC,L]
+RewriteRule ^(.*)about(/)?$ http://www.insurancechoices.com/about-us/ [R=301,NC,L]
+RewriteRule ^(.*)about/management-team(/)?$ http://www.insurancechoices.com/about [R=301,NC,L]
+RewriteRule ^(.*)about/our-locations(/)?$ http://www.insurancechoices.com/about [R=301,NC,L]
+RewriteRule ^(.*)about/our-staff(/)?$ http://www.insurancechoices.com/about [R=301,NC,L]
+RewriteRule ^(.*)carriers(/)?$ http://www.insurancechoices.com/ [R=301,NC,L]
+RewriteRule ^(.*)contact-us/location-1(/)?$ http://www.insurancechoices.com/contact-us/ [R=301,NC,L]
+RewriteRule ^(.*)contact-us/location-2(/)?$ http://www.insurancechoices.com/contact-us/ [R=301,NC,L]
+RewriteRule ^(.*)contact-us/location-3(/)?$ http://www.insurancechoices.com/contact-us/ [R=301,NC,L]
+RewriteRule ^(.*)contact-us/location-4(/)?$ http://www.insurancechoices.com/contact-us/ [R=301,NC,L]
+RewriteRule ^(.*)contact-us/location-5(/)?$ http://www.insurancechoices.com/contact-us/ [R=301,NC,L]
+RewriteRule ^(.*)make-a-payment(/)?$ http://www.insurancechoices.com/ [R=301,NC,L]
+RewriteRule ^(.*)request-a-quote(/)?$ http://www.insurancechoices.com/request-consultation/ [R=301,NC,L]
+RewriteRule ^(.*)privacy-policy(/)?$ http://www.insurancechoices.com/privacy/ [R=301,NC,L]
+RewriteRule ^(.*)sitemap(/)?$ http://www.insurancechoices.com/site-map/ [R=301,NC,L]
+## EXPIRES CACHING ##
+<IfModule mod_expires.c>
+ExpiresActive On
+ExpiresByType image/jpg "access 1 week"
+ExpiresByType image/jpeg "access 1 week"
+ExpiresByType image/gif "access 1 week"
+ExpiresByType image/png "access 1 week"
+ExpiresByType text/css "access 1 week"
+ExpiresByType text/html "access 1 week"
+ExpiresByType application/pdf "access 1 week"
+ExpiresByType text/x-javascript "access 1 week"
+ExpiresByType application/x-shockwave-flash "access 1 week"
+ExpiresByType image/x-icon "access 1 week"
+ExpiresDefault "access 1 week"
+</IfModule>
+## EXPIRES CACHING ##
+
+# ----------------------------------------------------------------------
+# | Compression                                                        |
+# ----------------------------------------------------------------------
+
+<IfModule mod_deflate.c>
+
+    # Force compression for mangled `Accept-Encoding` request headers
+    # https://developer.yahoo.com/blogs/ydn/pushing-beyond-gzipping-25601.html
+
+    <IfModule mod_setenvif.c>
+        <IfModule mod_headers.c>
+            SetEnvIfNoCase ^(Accept-EncodXng|X-cept-Encoding|X{15}|~{15}|-{15})$ ^((gzip|deflate)\s*,?\s*)+|[X~-]{4,13}$ HAVE_Accept-Encoding
+            RequestHeader append Accept-Encoding "gzip,deflate" env=HAVE_Accept-Encoding
+        </IfModule>
+    </IfModule>
+
+    # - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+
+    # Compress all output labeled with one of the following media types.
+    #
+    # (!) For Apache versions below version 2.3.7 you don't need to
+    # enable `mod_filter` and can remove the `<IfModule mod_filter.c>`
+    # and `</IfModule>` lines as `AddOutputFilterByType` is still in
+    # the core directives.
+    #
+    # https://httpd.apache.org/docs/current/mod/mod_filter.html#addoutputfilterbytype
+
+    <IfModule mod_filter.c>
+        AddOutputFilterByType DEFLATE "application/atom+xml" \
+                                      "application/javascript" \
+                                      "application/json" \
+                                      "application/ld+json" \
+                                      "application/manifest+json" \
+                                      "application/rdf+xml" \
+                                      "application/rss+xml" \
+                                      "application/schema+json" \
+                                      "application/vnd.geo+json" \
+                                      "application/vnd.ms-fontobject" \
+                                      "application/x-font-ttf" \
+                                      "application/x-javascript" \
+                                      "application/x-web-app-manifest+json" \
+                                      "application/xhtml+xml" \
+                                      "application/xml" \
+                                      "font/eot" \
+                                      "font/opentype" \
+                                      "image/bmp" \
+                                      "image/svg+xml" \
+                                      "image/vnd.microsoft.icon" \
+                                      "image/x-icon" \
+                                      "text/cache-manifest" \
+                                      "text/css" \
+                                      "text/html" \
+                                      "text/javascript" \
+                                      "text/plain" \
+                                      "text/vcard" \
+                                      "text/vnd.rim.location.xloc" \
+                                      "text/vtt" \
+                                      "text/x-component" \
+                                      "text/x-cross-domain-policy" \
+                                      "text/xml"
+
+    </IfModule>
+
+    # - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+
+    # Map the following filename extensions to the specified
+    # encoding type in order to make Apache serve the file types
+    # with the appropriate `Content-Encoding` response header
+    # (do note that this will NOT make Apache compress them!).
+    #
+    # If these files types would be served without an appropriate
+    # `Content-Enable` response header, client applications (e.g.:
+    # browsers) wouldn't know that they first need to uncompress
+    # the response, and thus, wouldn't be able to understand the
+    # content.
+    #
+    # https://httpd.apache.org/docs/current/mod/mod_mime.html#addencoding
+
+    <IfModule mod_mime.c>
+        AddEncoding gzip              svgz
+    </IfModule>
+
+</IfModule>

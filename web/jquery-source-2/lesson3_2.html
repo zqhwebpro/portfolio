@@ -1,0 +1,121 @@
+<!doctype html>
+<html>
+<head>
+<meta charset="utf-8">
+<title>jQuery-source: your source for everything jquery.</title>
+<link href="lib/css/styles.css" rel="stylesheet" type="text/css">
+<link href='http://fonts.googleapis.com/css?family=Yanone+Kaffeesatz:400,700,300,200' rel='stylesheet' type='text/css'>
+<link href='http://fonts.googleapis.com/css?family=Oxygen:400,700,300' rel='stylesheet' type='text/css'>
+<script src="https://google-code-prettify.googlecode.com/svn/loader/run_prettify.js"></script>
+<script type="text/javascript" src="lib/scripts/jquery-1.11.1.min.js"></script>
+<script type="text/javascript" src="lib/scripts/jquery-ui-1.8.17.custom.min.js"></script>
+<script type="text/javascript" src="lib/scripts/jquery-1.7.1.min.js"></script>
+<script type="text/javascript" src="lib/scripts/jquery.color.js"></script>
+<script type="text/javascript" src="lib/scripts/jquery.cycle.all.min.js"></script>
+<script type="text/javascript" src="lib/scripts/cycle.js"></script>
+<script type="text/javascript" src="http://arrow.scrolltotop.com/arrow27.js"></script>
+</head>
+
+<body>
+
+<div id="wrapper">
+
+<div id="headerwrapper">
+<div id="header">
+	<h1><img id="header-logo" src="lib/img/jqlogo.png" alt="jQuery-source" /></h1>
+    <h3><img id="tagline" src="lib/img/tagline.png" alt="jqsource tagline" /></h3>
+</div>
+</div>
+
+<div id="menuwrapper">
+	<div id="menu">
+		<ul>
+        	<li><a href="index.html">HOME</a></li>
+			<li><a href="#">LESSONS</a>
+            	<ul>
+                	<li><a href="lesson1_1.html">Lesson 1</a></li>
+                    <li><a href="lesson2_1.html">Lesson 2</a></li>
+                    <li><a href="lesson3_1.html">Lesson 3</a></li>
+                    <li><a href="lesson4_1.html">Lesson 4</a></li>
+                    <li><a href="lesson5_1.html">Lesson 5</a></li>
+                    <li><a href="lesson6_1.html">Lesson 6</a></li>
+                 </ul>
+            </li>
+        	<li><a href="contact.html">CONTACT</a></li>	
+		</ul>
+	</div>
+</div>
+
+<div id="container">
+<div id="lessonmenu">
+	<ul>
+		<li class="lessonmenufont">Lesson 3:</li>
+    	<li><a href="lesson3_1.html">301</a></li>
+        <li><a href="lesson3_2.html">302</a></li>
+        <li><a href="lesson3_3.html">303</a></li>
+    </ul>
+</div>
+<div id="bcontainerl">
+<h1>Lesson 302 - Cycle Fade</h1>
+<p>
+I know you've seen this cycling images before. Occasional, websites will display image content below headers that go from one picture to the next. It's a great way to use changing images to maintain user interest! Cycle is just the trick to do that very thing. Cycle is capable of doing multiple transitions including fade, shuffle, zoom, curtainX, and many more! The various styles of transition effects can be located here: <a href="http://jquery.malsup.com/cycle/">http://jquery.malsup.com/cycle/</a>.
+</p>
+<hr>
+<h2>Example:</h2>
+<p>Come to see the sights and wonders of Egypt!</p><br/>
+	  <div id="photose">
+        <img alt="Pyramid" src="lib/img/egypt1.jpg" />
+        <img alt="Camel" src="lib/img/egypt2.jpg" />
+        <img alt="Sphynx" src="lib/img/egypt3.jpg" />
+        <img alt="Temple" src="lib/img/egypt4.jpg" />
+        <img alt="Dark Sea Dive" src="lib/img/egypt5.jpg" />
+     </div>
+<br/><br/>
+<h2>HTML Markup:</h2>
+<pre class="prettyprint linenums">
+&lt;!-- Create a div of photose and within it place our cycling images -->
+
+&lt;div id="photose">
+	&lt;img alt="Pyramid" src="lib/img/egypt1.jpg" />
+	&lt;img alt="Camel" src="lib/img/egypt2.jpg" />
+	&lt;img alt="Sphynx" src="lib/img/egypt3.jpg" />
+	&lt;img alt="Temple" src="lib/img/egypt4.jpg" />
+	&lt;img alt="Dark Sea Dive" src="lib/img/egypt5.jpg" />
+&lt;/div>
+</pre>
+<br/>
+<h2>CSS Markup:</h2>
+<pre class="prettyprint linenums">
+/* Set a size constraint in CSS for layout purposes */
+
+#photose:
+	height: 400px;
+}
+
+</pre>
+<br/>
+<h2>jQuery Markup:</h2>
+<pre class="prettyprint linenums">
+$(document).ready(function(){ // document is read
+
+  $('#photose').cycle({ // adding cycle to the photos div id
+    fx: 'shuffle' // setting the effect fade 
+  }); // end cycle
+
+}); // end document
+
+
+
+</pre>
+</div>
+</div>
+</div>
+
+<hr class="line">
+
+<div id="bcontainer3">
+	<p>jQuery-source © 2014 - Zach Heindel.</p>
+</div>
+
+</body>
+</html>

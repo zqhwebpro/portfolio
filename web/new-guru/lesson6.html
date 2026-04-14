@@ -1,0 +1,167 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta content="text/html; charset=utf-8" http-equiv="Content-Type">
+	<title>New//Guru Web-Based Training</title>
+	<link href='http://fonts.googleapis.com/css?family=Open+Sans:300italic,700,400' rel='stylesheet' type='text/css'>
+	<link href="lib/css/styles.css" rel="stylesheet" type="text/css">
+	<script src="https://google-code-prettify.googlecode.com/svn/loader/run_prettify.js" type="text/javascript">
+	</script>
+	<script src="http://arrow.scrolltotop.com/arrow27.js" type="text/javascript">
+	</script>
+	<script src='https://www.google.com/reCAPTCHA/api.js' type="text/javascript">
+	</script>
+</head>
+<body>
+	<div id="vis_site_cont">
+		<div id="header"><img alt="New//Guru" class="center_img" src="lib/img/newguru.png"></div>
+		<div class="nav_border_top"></div>
+		<div id="vis_nav_cont">
+			<div id="nav">
+				<ul>
+					<li><a href="index.html">Home</a></li>
+					<li>
+						<a href="#">Lessons</a>
+						<ul>
+							<li><a href="lesson1.html">HTML5 Semantics Tags</a></li>
+							<li><a href="lesson2.html">icomoon.io and fontawesome.io</a></li>
+							<li><a href="lesson3.html">Media Queries</a></li>
+							<li><a href="lesson4.html">Google reCAPTCHA</a></li>
+							<li><a href="lesson5.html">CSS3 In Motion</a></li>
+							<li><a href="lesson6.html">Microformats</a></li>
+							<li><a href="lesson7.html">SEO Basics</a></li>
+							<li><a href="lesson8.html">CSS3 Adv Selectors</a></li>
+							<li><a href="lesson9.html">Responsive HTML Email</a></li>
+						</ul>
+					</li>
+					<li><a href="contact.html">Contact</a></li>
+				</ul>
+			</div>
+		</div>
+		<div class="nav_border_bottom"></div>
+		<div id="vis_body">
+			<div id="vis_body_cont">
+				<div id="tip_box">
+					<h3>Microformat Links:</h3>
+					<hr>
+					<ul>
+						<li><a href="http://microformats.org/wiki/about" target="_blank">Microformats.org Info</a></li>
+						<li><a href="http://www.sitepoint.com/microformats-meaning-markup/" target="_blank">Sitepoint Microformats</a></li>
+						<li><a href="http://en.wikipedia.org/wiki/VCard" target="_blank">vcard Properties</a></li>
+						<li><a href="http://en.wikipedia.org/wiki/HCalendar" target="_blank">hcalendar Properties</a></li>
+					</ul>
+				</div>
+				<h1 class="marg_bot">Microformats</h1>
+				<h2 id="vis_breaker">Objective:</h2>
+				<p class="marg_bot">The primary goal of this lesson is to explain in depth what microformats are, how to use them, and how to make one.</p>
+				<h2 id="vis_breaker">Sub-objectives:</h2>
+				<p>Explain what a vCard is and its uses.</p>
+				<p>Explain what a hcard is and its uses.</p>
+				<p>Explain what an vcalendar is and its uses.</p>
+				<p class="marg_bot">Explain what an iCal is and its uses.</p>
+				<h2 id="vis_breaker">Prerequisites:</h2>
+				<p class="marg_bot">In order to benefit from this lesson it is important to have an intermediate skill coding using HTML alongside with a decent understanding of CSS.</p><br>
+				<h2 id="vis_breaker">Microformats</h2>
+				<p class="marg_bot">In a nutshell, microformats are encoded HTML markup used to organize important data on a website. For instance, microformats can be used as business cards, event data, and other types of important data to be extracted from the HTML code and plugged into other types of software or apps. So that business card can be viewable by search engines, the event data can be sync'd to a calendar, and other important data even though not completely important is associated with the webpage.</p>
+				<h3>vCard</h3><br>
+				<p class="marg_bot">vCard is a format best used for transferring contact information. In the industry, web developers use vCard to exchange electronic business cards and email signatures.</p>
+				<h4>Example:</h4>
+				<pre class="prettyprint linenums">
+BEGIN:VCARD
+VERSION:3.0
+N:Man;Example
+FN:Example Man
+ORG:Example Design Agency
+TITLE:Cool Dude
+PHOTO;VALUE=URL;TYPE=JPG:http://www.example.com/employee_photos/exampleman.jpg
+TEL;TYPE=WORK,VOICE:(717) 818-4455
+ADR;TYPE=WORK:;;654 Example Rd;Example;PA;17406;United States of America
+LABEL;TYPE=WORK:654 Example Rd\nExample, PA 17406\nUnited States of America
+EMAIL;TYPE=PREF,INTERNET:exampleman@example.com
+END:VCARD
+</pre><br>
+				<p class="marg_bot">After we save that file as a .vcf or a .vcard file then it will be set up to transfer key contact details from your webpage to another source.</p>
+				<h3>hcard</h3><br>
+				<p class="marg_bot">hcards embed data in HTML to easily add contacts, save event dates, and other more advanced contact details like that.</p>
+				<h4>Example:</h4>
+				<pre class="prettyprint linenums">
+&lt;div class="vcard"&gt;
+    &lt;a class="fn org url" href="www.example.org" &gt;Example &lt;/a&gt;
+        &lt;div class="adr"&gt;
+            &lt;span class="type"&gt;Work &lt;/span&gt;
+            &lt;abbr class="region" title="New York"&gt;NY&lt;/abbr&gt;
+        &lt;/div&gt;
+        &lt;div class="tel"&gt;
+            &lt;span class="type"&gt;Work &lt;/span&gt; 1-717-818-4455
+        &lt;/div&gt;
+&lt;/div&gt;
+    </pre><br>
+				<p class="marg_bot">By using HTML embedded data I have created an hcard explaining some generic work details to inform search engines, users, or other third-party attributes. I was able to do this by calling a vcard class and then using vcard properties for the embedded information from <a href="http://microformats.org/wiki/hcard-cheatsheet" target="_blank">Microformats.org, a great link to bookmark!</a></p>
+				<h3>ical</h3><br>
+				<p class="marg_bot">ical transfers meeting request, event times, or things of that nature. It helps plan dates and times and is supported by many calendar setups on the World Wide Web.</p>
+				<h4>Example:</h4>
+				<pre class="prettyprint linenums">
+BEGIN:VCALENDAR
+VERSION:2.0
+PRODID:-//hacksw/handcal//NONSGML v1.0//EN
+BEGIN:VEVENT
+UID:uid1@example.com
+DTSTAMP:20150304T3000Z
+ORGANIZER;CN=Example Man:MAILTO:exampleman@example.com
+DTSTART: 20150304T12000Z
+DTEND:20150304T16000Z
+SUMMARY:Tom Dick Harry's Birthday Celebration
+END:VEVENT
+END:VCALENDAR
+    </pre><br>
+				<p class="marg_bot">Calling the vcalendar function allows me to set a date time for a birthday celebration to share with the intended attendees so that everyone can make plans accordingly.</p>
+				<h3>vcalendar</h3><br>
+				<p class="marg_bot">vcalendar is like ical however, it utilizes HTML to create transferable calendar data. It is like the hcard to the vcard. There is more customization available in concerning embedded HTML information but it serves its own separate purpose for that very same reason.</p>
+				<h4>Example:</h4>
+				<pre class="prettyprint linenums">
+&lt;p class="vevent"&gt;
+    The &lt;span class="summary"&gt;Tom Dick Harry's Birthday Celebration&lt;/span&gt;
+    on the 4th of March 2015 begining
+    &lt;abbr class="dtstart" title="2015-03-15T14:00:00+012:00"&gt;12&lt;/abbr&gt;am and ending at
+    &lt;abbr class="dtend" title="2015-03-15T14:00:00+016:00"&gt;4&lt;/abbr&gt;pm. Located at
+    &lt;span class="location"&gt;Chucky Cheese&lt;/span&gt;!
+&lt;/p&gt;
+    </pre><br>
+				<p class="marg_bot">That is the same series of information from the ical example reformatted for specific vcalendar requirements. More properties for the event vcalendar class can be located at <a href="http://en.wikipedia.org/wiki/HCalendar" target="_blank">A Wikipedia list of calendar properties.</a></p>
+				<h2 id="vis_breaker">Make your own vCard business card! Step-by-step Tutorial.</h2><br>
+				<h3>Step 1 - File New!</h3>
+				<p class="marg_bot">Begin by creating a new file in the .html software of your choice.</p>
+				<h3>Step 2 - Code your Vcard!</h3>
+				<p>Begin by calling the Vcard element by typing BEGIN: VCARD and hit return. Next goto <a href="http://en.wikipedia.org/wiki/VCard" target="_blank">this vcard wikipedia website</a> and add the properties to your code that you want to add to this digital business card. I'll share my example:</p>
+				<pre class="prettyprint linenums">
+BEGIN:VCARD
+VERSION:3.0
+N:Man;Example
+FN:Example Man
+ORG:Example Design Agency
+TITLE:Cool Dude
+PHOTO;VALUE=URL;TYPE=JPG:http://www.example.com/employee_photos/exampleman.jpg
+TEL;TYPE=WORK,VOICE:(717) 818-4455
+ADR;TYPE=WORK:;;654 Example Rd;Example;PA;17406;United States of America
+LABEL;TYPE=WORK:654 Example Rd\nExample, PA 17406\nUnited States of America
+EMAIL;TYPE=PREF,INTERNET:exampleman@example.com
+END:VCARD
+</pre><br>
+				<p class="marg_bot">That which I had wished to include has been called out in that string of code. Everything I include will show up on my vcard.</p>
+				<h3>Step 3 - File Save</h3>
+				<p class="marg_bot">Save your file AS you pick.VCF to let browsers know it is a vcf file.</p>
+				<h3>Step 4 - Upload Vcard</h3>
+				<p class="marg_bot">Upload the vcard to a Web server so that it can be viewable by all that you share it to on the internet.</p>
+				<h3>Step 5 - Add the Vcard</h3>
+				<p class="marg_bot"><a href="lesson6_example.vcf">Mine is viewable at this link!</a> Feel free to share yours. :)</p><a class="pad_bot" href="lesson6_quiz.html" id="button">Do you have what it takes to beat the quiz master?</a>
+			</div>
+		</div>
+		<div class="nav_border_top"></div>
+		<div id="vis_footer_cont">
+			<div id="footer">
+				<p>New//Guru Web-Based Training is a teaching module trained by Zach Heindel. Student of The York Art Institute, 2015. Sophomore year.</p>
+			</div>
+		</div>
+	</div>
+</body>
+</html>

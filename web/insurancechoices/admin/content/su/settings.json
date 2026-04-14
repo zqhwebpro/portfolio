@@ -1,0 +1,8 @@
+{
+    "groups":["xUS"],
+    "menu":{
+        "sort":8,
+        "title":"Quantum Dash",
+        "icon":"cog"
+    }
+}

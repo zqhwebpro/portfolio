@@ -1,0 +1,914 @@
+/* http://meyerweb.com/eric/tools/css/reset/ 
+   v2.0 | 20110126
+   License: none (public domain)
+*/
+
+html, body, div, span, applet, object, iframe,
+h1, h2, h3, h4, h5, h6, p, blockquote, pre,
+a, abbr, acronym, address, big, cite, code,
+del, dfn, em, img, ins, kbd, q, s, samp,
+small, strike, strong, sub, sup, tt, var,
+b, u, i, center,
+dl, dt, dd, ol, ul, li,
+fieldset, form, label, legend,
+table, caption, tbody, tfoot, thead, tr, th, td,
+article, aside, canvas, details, embed, 
+figure, figcaption, footer, header, hgroup, 
+menu, nav, output, ruby, section, summary,
+time, mark, audio, video {
+	margin: 0;
+	padding: 0;
+	border: 0;
+	font-size: 100%;
+	font: inherit;
+	vertical-align: baseline;
+}
+/* HTML5 display-role reset for older browsers */
+article, aside, details, figcaption, figure, 
+footer, header, hgroup, menu, nav, section {
+	display: block;
+}
+body {
+	line-height: 1;
+	background-image:url(../img/site_background.jpg);
+    background-size: 100%;
+    background-repeat: no-repeat;
+}
+ol, ul {
+	list-style: none;
+}
+blockquote, q {
+	quotes: none;
+}
+blockquote:before, blockquote:after,
+q:before, q:after {
+	content: '';
+	content: none;
+}
+table {
+	border-collapse: collapse;
+	border-spacing: 0;
+}
+
+/*--My Styles--*/
+
+#wrapper{
+	width:100%;
+	margin:0 auto;
+}
+
+#headerwrapper{
+	background-color:#FF4F00;
+}
+
+#header{
+	width:960px;
+	height: 75px;
+	margin:0 auto;
+	padding:40px 0px;
+}
+
+#header h1{
+	float:left;
+	font-family:'Yanone Kaffeesatz', sans-serif;
+	font-weight:600;
+	font-size:58px;
+	color:#FFFFFF;
+}
+
+#header h2{
+	float:left;
+	font-family:'Yanone Kaffeesatz', sans-serif;
+	font-weight:300;
+	font-size:58px;
+}
+
+#header h3{
+	float:right;
+	font-family:'Yanone Kaffeesatz', sans-serif;
+	font-size:20px;
+	display:block;
+	color:#FFFFFF;
+}
+
+
+#header-logo {
+    margin-top: 3px;
+    width: 71%;
+}
+
+#tagline{
+    margin-top: 18px;
+}
+
+#menuwrapper {
+    background-color: #272727;
+    height: 33px;
+    margin: 0 auto;
+    position: relative;
+    width: 100%;
+    z-index: 1;
+	    border-bottom: 1px solid black;
+}
+
+#menu{
+	width:960px; 
+	margin:0 auto;
+}
+
+#menu ul{
+	float:right;
+}
+
+#menu ul li{
+    border-left: 1px solid #272727;
+    float: left;
+    line-height: 22px;
+    text-align: center;
+    width: 140px;
+}
+
+#menu ul li a{
+    background-color: #4c4c4c;;
+    color: #cacaca;
+    display: block;
+    font-family: "Oxygen",sans-serif;
+    font-size: 14px;
+    padding: 5px 10px;
+    text-align: center;
+    text-decoration: none;
+    border-top: 1px solid #101010;
+}
+	
+#menu ul li a:hover{
+    background-color: #202020;
+    color: #fff;
+}
+
+
+#menu ul li ul{
+	display:none;
+}
+
+.hand{
+	cursor: pointer;
+}
+
+
+#menu ul li:hover ul{
+	display:block;
+	position: absolute;
+	width:100px;
+}
+
+#container{
+	margin:0 auto;
+	width:960px;
+	height:100%;
+	box-shadow: 0px 0px 7px #E1E1E1;
+	margin:0 auto;
+	background-color:#FFF;
+}
+
+#bcontainer1{
+	margin:0 auto;
+	width:800px;
+	height:175px;
+	margin:0 auto;
+	padding:60px;
+}
+
+#bcontainer1 h1{
+	font-size:30px;
+	font-family:'Yanone Kaffeesatz', sans-serif;
+	font-weight:400;
+	color:#FF4F00;
+}
+
+#bcontainer1 h2{
+	font-size:30px;
+	font-family:'Yanone Kaffeesatz', sans-serif;
+	font-weight:400;
+	color:#FF4F00;
+}
+
+#bcontainer1 h3{
+	font-size:30px;
+	font-family:'Yanone Kaffeesatz', sans-serif;
+	font-weight:400;
+	color:#FF4F00;
+}
+
+
+#bcontainer1_add{
+	margin:0 auto;
+	width:800px;
+	height:205px;
+	margin:0 auto;
+	padding:60px;
+}
+
+#bcontainer1_add h1{
+	font-size:30px;
+	font-family:'Yanone Kaffeesatz', sans-serif;
+	font-weight:400;
+	color:#FF4F00;
+}
+
+#bcontainer1_add h2{
+	font-size:30px;
+	font-family:'Yanone Kaffeesatz', sans-serif;
+	font-weight:400;
+	color:#FF4F00;
+}
+
+#bcontainer1_add h3{
+	font-size:30px;
+	font-family:'Yanone Kaffeesatz', sans-serif;
+	font-weight:400;
+	color:#FF4F00;
+}
+
+#bcontainer1_add p{
+	font-size:14px;
+	font-family: 'Oxygen', sans-serif;
+	font-weight:400;
+	line-height:30px;
+	margin:20px 0px 20px 0px;
+}
+
+#news h4{
+	font-size:20px;
+	font-family:'Yanone Kaffeesatz', sans-serif;
+	font-weight:400;
+	color:#FF4F00;
+	margin-bottom:5px;
+}
+
+#bcontainer1 p{
+	font-size:14px;
+	font-family: 'Oxygen', sans-serif;
+	font-weight:400;
+	line-height:30px;
+	margin:20px 0px 20px 0px;
+}
+
+#bcontainer2{
+	margin:0 auto;
+	width:800px;
+	height:250px;
+	padding:60px;
+}
+
+.lessonbox1{
+	width:160px;
+    height: 91px;
+	background-color:#FF4F00;
+	float:left;
+	text-align:center;
+    border: 5px ridge #fff;
+	box-shadow: 0px 0px 7px #CACACA;
+	margin-bottom:40px;
+	background-image: url(../img/l1.jpg);
+}
+
+.lessonbox1:hover{
+    opacity: 0.9;
+    filter: alpha(opacity=90); /* For IE8 and earlier */
+}
+
+.lessonbox2{
+	width:160px;
+    height: 91px;
+	background-color:#FF4F00;
+	float:left;
+	margin-left:40px;
+	text-align:center;
+    border: 5px ridge #fff;
+	box-shadow: 0px 0px 7px #CACACA;
+	margin-bottom:40px;
+		background-image:url(../img/l2.jpg);
+}
+
+.lessonbox2:hover{
+    opacity: 0.9;
+    filter: alpha(opacity=90); /* For IE8 and earlier */
+}
+
+.lessonbox3{
+	width:160px;
+    height: 91px;
+	background-color:#FF4F00;
+	float:left;
+	margin-left:40px;
+	text-align:center;
+    border: 5px ridge #fff;
+	box-shadow: 0px 0px 7px #CACACA;
+	margin-bottom:40px;
+		background-image:url(../img/l3.jpg);
+}
+
+.lessonbox3:hover{
+    opacity: 0.9;
+    filter: alpha(opacity=90); /* For IE8 and earlier */
+}
+
+.lessonbox4{
+	width:160px;
+    height: 91px;
+	background-color:#FF4F00;
+	float:left;
+	margin-left:40px;
+	text-align:center;
+    border: 5px ridge #fff;
+	box-shadow: 0px 0px 7px #CACACA;
+	margin-bottom:40px;
+		background-image:url(../img/l4.jpg);
+}
+
+.lessonbox4:hover{
+    opacity: 0.9;
+    filter: alpha(opacity=90); /* For IE8 and earlier */
+}
+
+.lessonbox5{
+	width:160px;
+    height: 91px;
+	background-color:#FF4F00;
+	float:left;
+	text-align:center;
+    border: 5px ridge #fff;
+	box-shadow: 0px 0px 7px #CACACA;
+	margin-bottom:40px;
+	background-image:url(../img/l5.jpg);
+}
+
+.lessonbox5:hover{
+    opacity: 0.9;
+    filter: alpha(opacity=90); /* For IE8 and earlier */
+}
+
+.lessonbox6{
+	width:160px;
+    height: 91px;
+	background-color:#FF4F00;
+	float:left;
+	margin-left:40px;
+	text-align:center;
+    border: 5px ridge #fff;
+	box-shadow: 0px 0px 7px #CACACA;
+	margin-bottom:40px;
+	background-image:url(../img/l6.jpg);
+}
+
+.lessonbox6:hover{
+    opacity: 0.9;
+    filter: alpha(opacity=90); /* For IE8 and earlier */
+}
+
+.ltext{
+	display:block;
+	padding:5px;
+	font-family: 'Oxygen', sans-serif;
+	font-weight:700;
+	color:#FFF;
+	background-color:#272727;
+	margin-top:65px;
+}
+
+.ltext a{
+	display:block;
+	padding:5px;
+	font-family: 'Oxygen', sans-serif;
+	font-weight:700;
+	color:#FFF;
+	background-color:#272727;
+}
+
+.ltext a:hover{
+	font-size:115%;
+}
+
+.ltext2{
+	margin-top:20px;
+}
+
+#bcontainer3{
+	margin:0 auto;
+	width:800px;
+	height:30px;
+	padding:60px;
+}
+
+#bcontainer3 p{
+	font-size:12px;
+	font-family: 'Oxygen', sans-serif;
+	font-weight:400;
+	color:#454545;
+	text-align:center;
+}
+
+#bcontainer3 a:hover{
+	color:#003;	
+}
+
+.line{
+	margin:0 auto;
+	width:800px;
+	color:#ADADAD;
+}
+
+/* lesson 101 */
+
+.slidedemo{
+	padding:15px;
+	background-color:#1a8cff;
+	border-radius: 10px;
+	-moz-border-radius: 10px;
+	-webkit-border-radius: 10px;
+}
+
+#slidetext{
+    color: white;
+    font-size: 16px;
+    text-align: left;
+}
+
+/*lesson 102*/
+
+table {
+	border-collapse:collapse;
+	font-size:12px;
+	margin:0 20px 20px 20px;
+	border-top:2px solid #015287;
+	width:480px;
+}
+
+th {
+	border-bottom: 2px solid #015287;
+	color: #D15600;
+	font-size: 14px;
+	font-weight: normal;
+	text-align: left;
+	padding: 3px 8px;
+}
+
+td {
+	padding: 6px;
+}
+
+/* x */
+
+#bcontainerl{
+	margin:0 auto;
+	width:800px;
+	height:100%;
+	margin:0 auto;
+	padding:60px;
+}
+
+#bcontainerl h1{
+	font-size:30px;
+	font-family:'Yanone Kaffeesatz', sans-serif;
+	font-weight:400;
+	color:#FF4F00;
+}
+
+#bcontainer1 p{
+	font-size:14px;
+	font-family: 'Oxygen', sans-serif;
+	font-weight:400;
+	line-height:30px;
+	margin:20px 0px 20px 0px;
+}
+
+#bcontainerl h2{
+	font-size:30px;
+	font-family:'Yanone Kaffeesatz', sans-serif;
+	font-weight:400;
+	color:#FF4F00;
+	margin-bottom:30px;
+}
+
+p{
+	font-size:14px;
+	font-family: 'Oxygen', sans-serif;
+	font-weight:400;
+	line-height:30px;
+	margin:20px 0px 20px 0px;
+}
+
+#lessonmenu ul{
+	float:right;
+	margin:30px 10px 0px 0px;
+}
+
+#lessonmenu ul li{
+	float:left;
+	display:block;
+	text-align:center;
+	line-height:21px;
+}
+
+#lessonmenu ul li a{
+	padding:3px 10px;
+	color:#FF4F00;
+	text-decoration:none;	
+	font-size:14px;
+	font-family:'Yanone Kaffeesatz', sans-serif;
+	font-weight:700;
+}
+
+.lessonmenufont{
+	color:#333;
+	text-decoration:none;	
+	font-size:14px;
+	font-family:'Yanone Kaffeesatz', sans-serif;
+	font-weight:700;
+	padding-right:8px;
+}
+
+/* Lesson 202 */
+
+#ptext201 {
+	padding-left:20px;
+}
+
+/* Lesson 203 */
+
+#splitter {
+    height:150px;
+    margin-top:30px;
+    margin-bottom:50px;
+}
+#splitter .pane {
+    width:50%;
+    height:100%;
+    float:left;
+}
+
+#splitter h2 { 
+  margin-bottom:0; 
+  padding-bottom:0;
+}
+
+#tocPane { 
+    overflow: hidden;
+    background:#d6dde5 url(handle.png) no-repeat right center;
+}
+
+#tocPane .inner { 
+    width: 300px; 
+}
+
+#contentPane {
+    overflow: auto;
+}
+
+#contentPane .inner {
+    padding: 0 5px;
+}
+
+.splitter-li{
+	padding:10px 20px;
+}
+
+/* Lesson 301 */
+
+#fader {
+  position: relative;
+}
+
+#fader .to {
+  display: none;
+  position: absolute;
+  left: 0;
+}
+
+/* Lessons 303 */
+
+#news {
+  display: block;
+  height: 48px;
+}
+
+#news h4{
+	font-size:20px;
+	font-family:'Yanone Kaffeesatz', sans-serif;
+	font-weight:400;
+	color:black;
+	margin-bottom:10px;
+}
+
+#news ul {
+  list-style-type: none;
+}
+
+/* header img */
+
+#photose{
+	height: 400px;
+}
+
+/*lesson 401 */
+
+#menu401 { 
+  float: left;
+  width:200px;
+  position:absolute;
+  background-color:white;
+}
+
+#menu401, #menu401 ul{
+  list-style-type: none;
+  padding: 0;
+  margin: 0;
+}
+
+#menu401 li { 
+  cursor:pointer;
+  background-image:url(../img/arrows.png);
+  border-bottom:1px solid #444;
+  background-repeat: no-repeat;
+  background-color: #9af1e4;
+}
+
+#menu401 li a {
+  text-decoration: none;
+}
+
+#menu401>li>a { 
+    padding: 2px 35px;
+	font-weight: bold;
+}
+
+#menu401 li li{ 
+  cursor:auto;
+  border:0;
+  padding:0 14px;
+  background-color:#fff;
+  background-image: none;
+}
+
+#disclaimer, #intro {
+  width: 400px;
+}
+
+/*lesson 402*/
+
+#info{
+	width: 780px;
+	border: 1px solid #999;
+	padding: 0 10px;
+}
+
+#info p {
+	width: inherit;
+	background-color: inherit;
+}
+
+#info-nav{
+	margin: 0;
+	padding: 3px 0;
+	width: 100%;
+	list-style: none;
+}
+
+#info-nav li{
+	display: inline;
+	background: #ccc;
+	border: 1px solid #888;
+	border-bottom: 0;
+	margin-right:2px;
+	padding: 3px;
+}
+
+#info-nav li a:hover{
+	color:#d15600;
+}
+
+#info-nav li.current{ 
+	background: #fff;
+	padding-bottom: 4px;
+  
+}
+
+#celebs {
+	clear: both;
+}
+
+/*lesson 403*/
+
+#login {
+  background: #9AF1E4;
+  padding: 5px;
+  -moz-border-radius: 4px;
+	width: 335px;
+}
+
+#login form {
+  margin-top: 10px;
+}
+
+#login form label, #login form input {
+  display: block;
+}
+
+#login form button {
+  float: right;
+  margin-top: 10px;
+}
+
+#login a {
+  display: block;
+  text-decoration: none;
+  color:black;
+  font-size: 130%;
+  font-weight: bold;
+  height: 20px;
+  padding: 0 20px 0 5px;
+  background-image:url(../img/links.png);
+  background-position: right -20px;
+  background-repeat: no-repeat;
+}
+
+#login a.active {
+  background-position: right 0;
+}
+
+/*lesson 501*/
+
+#form1  {
+	margin: 0 0 10px 160px;
+}
+
+
+#form1 label {
+	width: 140px;
+	float: left;
+	text-align: right;
+	margin: 5px 20px 0 -160px;
+}
+
+/*lesson 503*/
+
+.ui-datepicker-trigger {
+  margin-top: 3px;
+}
+
+/* Lesson 601 */
+
+.sortable li{
+	margin-bottom:15px;
+}
+	
+/*Lesson 602*/
+
+.table-wrapper {
+	width: 520px;
+}
+
+.wrapper-paging {
+	display: none;
+}
+
+.wrapper-paging ul,
+.wrapper-paging li {
+	float: left;
+	margin: 0;
+	padding: 0;
+}
+
+.wrapper-paging ul {
+	float: left;
+	list-style-type: none;
+	text-align: left;
+}
+
+.wrapper-paging a {
+	border: 2px solid #FFFFFF;
+	border-radius: 3px;
+	-moz-border-radius: 3px;
+	-webkit-border-radius: 3px;
+	display: inline-block;
+	color: #015287;
+	cursor: pointer;
+	margin-right: 3px;
+	padding: 3px 7px;
+	text-decoration: none;
+}
+
+.wrapper-paging .paging-this {
+	cursor: default;
+	padding: 3px 0;
+}
+
+.wrapper-paging a:hover {
+	background-color: #015287;
+	color: #FFFFFF;
+}
+
+.wrapper-paging .paging-back,
+.wrapper-paging .paging-next {
+	border-color: #015287;
+}
+
+.wrapper-paging .paging-this:hover {
+	background-color: #FFFFFF;
+	color: #015287;
+}
+
+.wrapper-paging .paging-this b {
+	font-weight: normal;
+}
+
+.wrapper-paging .paging-disabled,
+.wrapper-paging .paging-disabled:hover {
+	background-color: #FFFFFF;
+	border-color: grey;
+	color: grey;
+	cursor: default;
+}
+
+/* Link Hover */
+
+.selection{
+    float: right;
+	margin: 32px 0 10px 50px;
+}
+
+.selection li a{
+    background-color: snow;
+    border: 1px outset saddlebrown;
+    color: #ff4f00;
+    font-family: "Oxygen",sans-serif;
+    padding: 8px 14px;
+    text-decoration: none;
+	    border-radius: 8px;
+}
+
+.selection li a:hover{
+    background-color:#272727;
+	color:white;
+}
+
+.selection li p{
+	color:white;	
+	font-family: "Oxygen",sans-serif;
+    text-decoration: none;
+}
+
+.button{
+    border: 1px solid black;
+    border-radius: 4px;
+    color: black;
+    letter-spacing: 1px;
+    margin-left: 10px;
+    padding: 2px 24px;
+}
+
+.button:hover{
+	background-color:#272727;
+	color:	white;
+	letter-spacing:10px;
+}
+
+
+.linenums {
+    line-height: 30px;
+    padding: 16px;
+}
+
+
+#lessonmenu ul li a:hover{
+	color:black;	
+}
+
+#hide-button{
+    background-color: white;
+    border: 1px solid black;
+    border-radius: 6px;
+    margin-right: 1%;
+    padding: 8px 12px;
+	cursor:pointer;
+}
+
+#hide-button:hover{
+    background-color: yellow;
+    border: 1px solid blue;
+	cursor:pointer;
+}
+
+#show-button{
+    background-color: white;
+    border: 1px solid black;
+    border-radius: 6px;
+    padding: 8px 12px;
+		cursor:pointer;
+}
+
+#show-button:hover{
+    background-color: yellow;
+    border: 1px solid blue;
+		cursor:pointer;
+}

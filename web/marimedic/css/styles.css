@@ -1,0 +1,288 @@
+@charset "utf-8";
+/* mmDesign.com CSS Document */
+
+/* http://meyerweb.com/eric/tools/css/reset/ 
+   v2.0 | 20110126
+   License: none (public domain)
+*/
+
+html, body, div, span, applet, object, iframe,
+h1, h2, h3, h4, h5, h6, p, blockquote, pre,
+a, abbr, acronym, address, big, cite, code,
+del, dfn, em, img, ins, kbd, q, s, samp,
+small, strike, strong, sub, sup, tt, var,
+b, u, i, center,
+dl, dt, dd, ol, ul, li,
+fieldset, form, label, legend,
+table, caption, tbody, tfoot, thead, tr, th, td,
+article, aside, canvas, details, embed, 
+figure, figcaption, footer, header, hgroup, 
+menu, nav, output, ruby, section, summary,
+time, mark, audio, video {
+	margin: 0;
+	padding: 0;
+	border: 0;
+	font-size: 100%;
+	font: inherit;
+	vertical-align: baseline;
+}
+/* HTML5 display-role reset for older browsers */
+article, aside, details, figcaption, figure, 
+footer, header, hgroup, menu, nav, section {
+	display: block;
+}
+body {
+	line-height: 1;
+}
+ol, ul {
+	list-style: none;
+}
+blockquote, q {
+	quotes: none;
+}
+blockquote:before, blockquote:after,
+q:before, q:after {
+	content: '';
+	content: none;
+}
+table {
+	border-collapse: collapse;
+	border-spacing: 0;
+}
+
+/*  SECTIONS  */
+.section {
+	clear: both;
+	padding: 0px;
+	margin: 0px;
+}
+
+/*  COLUMN SETUP  */
+.col {
+	display: block;
+	float:left;
+	margin: 1% 0 1% 1.6%;
+}
+.col:first-child { margin-left: 0; }
+
+/*  GROUPING  */
+.group:before,
+.group:after { content:""; display:table; }
+.group:after { clear:both;}
+/*  GRID OF SIX  */
+.span_6_of_6 {
+	width: 100%;
+}
+
+.span_5_of_6 {
+  	width: 83.06%;
+}
+
+.span_4_of_6 {
+  	width: 66.13%;
+}
+
+.span_3_of_6 {
+  	width: 49.2%;
+}
+
+.span_2_of_6 {
+  	width: 32.26%;
+}
+
+.span_1_of_6 {
+  	width: 15.33%;
+}
+
+/*  GO FULL WIDTH BELOW 480 PIXELS */
+@media only screen and (max-width: 480px) {
+	.col {  margin: 1% 0 1% 0%; }
+	.span_1_of_6, .span_2_of_6, .span_3_of_6, .span_4_of_6, .span_5_of_6, .span_6_of_6 { width: 100%; }
+}
+
+/* 
+#1F352F rgba(31,53,47,x); dk_gr
+#345146 rgba(52,81,70,x); dklt_gr
+#828C51 rgba(130,140,81,x); gr
+#A6C36F rgba(166,195,111,x); ltdk_gr
+#C0DD9C rgba(192,221,156,x); lt_gr
+#464547 rgba(70,69,71,x); dk_grey
+#D5D7D8 rgba(213,215,216,x); lt_grey
+
+font-family: 'Montserrat', sans-serif;
+font-family: 'Istok Web', sans-serif;
+*/
+
+body{
+	background-color: rgba(31,53,47,1);	
+	background-image: url("https://www.transparenttextures.com/patterns/diagmonds.png");
+/* This is mostly intended for prototyping; please download the pattern and re-host for production environments. Thank you! */
+}
+
+#mmwrapper{
+	width:100%;	
+	text-align: center;
+}
+
+#mmhead{
+	height:120px;
+	background-color:white;
+	border-bottom:solid 1px black;
+	width:100%;
+
+}
+
+#head_logo{
+	width: 185px;
+	margin-top: 17px;	
+}
+
+.mmnav{
+	font-family: 'Istok Web';
+	font-size: 1em;
+	width: 100%;
+	color:#828C51;
+}
+
+.mmnav ul{
+	width: 100%;
+	text-align: right;
+}
+
+.mmnav ul li{
+	display: inline-block;
+	padding: 4.9% 2%;
+}
+
+.mmnav ul li a{
+	text-decoration:none;
+	color: #464547;
+	padding: .53px 3px;
+}
+
+.mmnav ul li a:hover{
+	border: 1px dotted;
+	color: #1F352F;
+}
+
+#mmsubnav{
+	height: 20px;
+	background-color: black;
+	border-bottom: solid 1px white;
+	width: 100%;
+	z-index:500;
+	margin-bottom: 30px;
+}
+
+.mmsubnav{
+	font-family: 'Istok Web';
+	font-size: .75em;
+	width: 100%;
+	color:white;	
+}
+
+.mmsubnav ul{
+	width: 100%;
+	text-align: right	
+}
+
+.mmsubnav ul li{
+	display: inline-block;	
+}
+
+.mmsubnav ul li a{
+	text-decoration:none;
+	color: white;
+	padding: .53px 3px;
+}
+
+.mmsubnav ul li a:hover{
+	border: 1px dotted;
+	color: #1F352F;
+}
+
+#mmsamples{
+	height: 795px;
+}
+
+.box_diag{
+	width: 100%;
+	height: 460px;
+	background: linear-gradient(135deg, transparent 100px, #fff 0) top left, linear-gradient(0deg, transparent 10px, #fff 0) top right, linear-gradient(365deg, transparent 10px, #fff 0) bottom right, linear-gradient(-10deg,transparent 10px, #fff 0) bottom left;
+	margin-top: 115px;
+	box-shadow: 5px 5px 35px #242c2a;
+	border: 10px solid white;
+	margin-left: -10px;
+}
+
+#mmdesign{
+	height: 1540px;
+}
+
+#mmmission{
+	height:620px;	
+}
+
+#mmservices{
+	height:720px;	
+}
+
+#mmconnect{
+	height:280px;	
+}
+
+#mmfooter{
+	height:280px;
+}
+
+.colorphase{
+	height: 610px;
+	width:100%;
+}
+
+.white_bg{
+	height:100%;
+	width:100%;
+	background-color:white;
+}
+
+.clear_bg{
+	height:100%;
+	width:100%;
+}
+
+.innerpad{
+	padding: 5% 16%;
+}
+
+.innerpad:first-child{
+	padding: 0% 16%;
+}
+
+.mmshopbox{
+	background-color: white;
+	height: 297px;
+	width: 297px;
+	float: left;
+	margin: 1% 1%;
+}
+
+h1{
+	font-family: 'Montserrat', sans-serif;
+	font-size:28px;
+}
+
+h2{
+	font-family: 'Montserrat', sans-serif;
+	font-size:22px;
+}
+
+p{
+	font-size: 16px;
+	line-height: 22px;
+	font-family: 'Istok Web';	
+}
+
+.20pushdown{
+	margin-bottom:20px;	
+}

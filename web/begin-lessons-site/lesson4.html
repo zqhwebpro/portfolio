@@ -1,0 +1,342 @@
+<!doctype html>
+<html>
+<head>
+<meta charset="utf-8">
+<title>123:CODE</title>
+<link href="lib/css/styles.css" rel="stylesheet" type="text/css">
+<link href='http://fonts.googleapis.com/css?family=Bangers' rel='stylesheet' type='text/css'>
+<link href='http://fonts.googleapis.com/css?family=Yanone+Kaffeesatz:400,700,300,200' rel='stylesheet' type='text/css'>
+<link href='http://fonts.googleapis.com/css?family=Open+Sans:400,300' rel='stylesheet' type='text/css'>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/prettify/r298/run_prettify.js"></script>
+<link href='https://cdnjs.cloudflare.com/ajax/libs/prettify/r298/prettify.min.css' rel=
+'stylesheet' type='text/css'>
+</head>
+
+<body>
+
+<SCRIPT language="JavaScript"
+        type="text/javascript">
+<!--
+//
+// Documentation:
+//   http://chami.com/tips/javascript/
+//
+function checkAnswer(quizForm,
+                     theAnswer,
+                     urlRight,
+                     urlWrong)
+{
+  var s = "?";
+
+  // go through the "current choices"
+  // to find the selected choice.
+  // radio boxes pointing to choices
+  // must be named "cc"
+  // change if necessary
+  //
+  var i = 0;
+  for(;i<quizForm.elements.length;i++)
+  {
+    if(("cc" ==
+        quizForm.elements[i].name) &&
+       (quizForm.elements[i].checked))
+    {
+      s = quizForm.elements[i].value;
+    }
+  }
+
+  // no choice was selected
+  //
+  if("?" == s)
+  {
+    alert("Please make a selection.");
+    return false;
+  }
+
+  // check if we have the correct
+  // choice selected
+  //
+  if(s == theAnswer)
+  {
+    alert("'"+s+"' is correct!");
+    if(urlRight)
+    {
+    document.location.href = urlRight;
+    }
+  }
+  else
+  {
+    alert("'"+s+"' is incorrect.");
+    if( urlWrong )
+    {
+    document.location.href = urlWrong;
+    }
+  }
+
+  // return "false" to indicate not to
+  // submit the form.
+  // change this to "true" if the form
+  // "action" is valid,
+  // i.e. points to a valid CGI script
+  //
+  return false;
+}
+//-->
+</SCRIPT>
+
+<div id="header-container"></div>
+
+<div id="sitewrapper">
+	<div id="header">
+    <h1><span class="redtype">[123]</span>&nbsp;CODE</h1>
+	</div>
+<ul>
+	<li><a href="lessonland.html">LESSONS</a></li>
+	<li><a href="index.html">HOME</a></li>
+</ul>
+<div id="body_c">
+	<div id="container-position"></div>
+		<div id="container-lessons">
+<div id="lessonnav">
+        	<ul>
+            	<li><a href="lesson1.html">1</a></li>
+              	<li><a href="lesson2.html">2</a></li>
+                <li><a href="lesson3.html">3</a></li>
+                <li><a href="lesson4.html">4</a></li>
+                <li><a href="lesson5.html">5</a></li>
+                <li><a href="lesson6.html">6</a></li>
+                <li><a href="lesson7.html">7</a></li>
+                <li><a href="lesson8.html">8</a></li>
+        	</ul>
+        </div>
+<h1>Lesson 4 - Forms</h1>
+<p class="margbot">Objective: Block and inline elements mastered, check. Now let me explain what forms are and describe the various properties a developer would need. You've seen forms all over the web. Put password here, what's your gender, type a comment here: all forms of forms. Pump yourself up for more conquesting as this learning adventure continues!</p>
+<h3 class="margbot">Form Tags:</h3>
+<h4>&lt;form></h4>
+<p>the form tag is used to create forms. You can use a variety of types of forms to input data to be sent to the website and processed.</p><br/>
+<form>
+I am form-ma-tron. Please input data:<br/>
+<input type="text" name="data">
+</form>
+<p class="margbot">The above form is the form-ma-tron concept of forms. It lacks a method and get function so the data can not be processed. It still can be typed in to the box, so it is in fact a working form.</p>
+<h4>&lt;fieldset></h4>
+<p class="margbot">fieldset tag is used to draw a box around an element in a form.</p>
+<form>
+	<fieldset>
+I am form-ma-tron. Please input data:<br/>
+		<input type="text" name="data">
+	</fieldset>
+</form>
+<p class="margbot">Check it out, our form has been field set.., TO THE MAX.</p>
+<h4>&lt;legend></h4>
+
+<p class="margbot">legend defines the caption for the fieldset element.</p>
+<form>
+	<fieldset>
+  		<legend>Form-ma-tron Bot</legend>
+I am form-ma-tron. Please input data:<br/>
+		<input type="text" name="data">
+	</fieldset>
+</form>
+<p class="margbot">Now that the legend is there, our form is starting to look awesome.</p>
+<h4>&lt;label></h4>
+<p class="margbot">this tag is used to improve usability of input elements.</p>
+<form>
+	<fieldset>
+  		<legend>Form-ma-tron Bot</legend>
+I am form-ma-tron. Please input data:<br/>
+		<input type="text" name="data"><br/><br/>
+        <label for="yes">Yes</label>
+	</fieldset>
+</form>
+<p class="margbot">A label has been added but it lacks an input so let's find him a buddy.</p>
+<h4>&lt;input></h4>
+<p class="margbot">this tag defines what a user chooses from a sites input method.</p>
+<form>
+	<fieldset>
+  		<legend>Form-ma-tron Bot</legend>
+I am form-ma-tron. Please input data:<br/>
+		<input type="text" name="data"><br/><br/>
+       <input type="radio" name="data" id="yes" value="yes"> <label for="yes">Yes</label><br>
+	</fieldset>
+</form>
+<p class="margbot">I used text as the input type for the please input table, and now I've used a radio input type for label of Yes.</p>
+<h4>&lt;textarea></h4>
+<p class="margbot">this tag provides a text box for users to edit.</p>
+<form>
+	<fieldset>
+  		<legend>Form-ma-tron Bot</legend>
+I am form-ma-tron. Please input data:<br/>
+		<input type="text" name="data"><br/><br/>
+       <input type="radio" name="data" id="yes1" value="yes"> <label for="yes">Yes</label><br/><br/>
+        <textarea rows="4" cols="75">Form-ma-tron is a new tech systematic data eating bot that doesn't really do anything at all.</textarea>
+	</fieldset>
+</form>
+<p class="margbot">I used text as the input type for the please input table, and now I've used a radio input type for label of Yes.</p>
+<h4>&lt;select></h4>
+<p class="margbot">a tag used to create a dropdown type of list.</p>
+<form>
+	<fieldset>
+  		<legend>Form-ma-tron Bot</legend>
+I am form-ma-tron. Please input data:<br/>
+		<input type="text" name="data"><br/><br/>
+       <input type="radio" name="data" id="yes2" value="yes"> <label for="yes">Yes</label><br/><br/>
+        <textarea rows="4" cols="75">Form-ma-tron is a new tech systematic data eating bot that doesn't really do anything at all.</textarea> <br/><br/>
+        <select>
+
+  </select><br/><br/>
+	</fieldset>
+</form>
+<p class="margbot">This form has it all data input, radio buttons, text entry, and a dropdown list. Wait a tic, where are the options for our select menu?.</p>
+<h4>&lt;option></h4>
+<p class="margbot">nested inside of the select tag option is a developers choice of options for the users to choose from.</p>
+<form>
+	<fieldset>
+  		<legend>Form-ma-tron Bot</legend>
+I am form-ma-tron. Please input data:<br/>
+		<input type="text" name="data"><br/><br/>
+       <input type="radio" name="data" id="yes3" value="yes"> <label for="yes">Yes</label><br/><br/>
+        <textarea rows="4" cols="75">Form-ma-tron is a new tech systematic data eating bot that doesn't really do anything at all.</textarea> <br/><br/>
+        <select>
+  			<option value="form">Form</option>
+  			<option value="ma">Ma</option>
+            <option value="tron">Tron</option>
+  </select><br/><br/>
+	</fieldset>
+</form>
+<p class="margbot">That's better.</p>
+<h4>&lt;optgroup></h4>
+<p class="margbot">a tag used to group together options of a list.</p>
+<form>
+	<fieldset>
+  		<legend>Form-ma-tron Bot</legend>
+I am form-ma-tron. Please input data:<br/>
+		<input type="text" name="data"><br/><br/>
+       <input type="radio" name="data" id="yes4" value="yes"> <label for="yes">Yes</label><br/><br/>
+        <textarea rows="4" cols="75">Form-ma-tron is a new tech systematic data eating bot that doesn't really do anything at all.</textarea> <br/><br/>
+        <select>
+        <optgroup label="Form-ma-tron">
+  			<option value="form">Form</option>
+  			<option value="ma">Ma</option>
+            <option value="tron">Tron</option>
+         </optgroup>
+         <optgroup label="Not Form-ma-tron">
+         </optgroup>
+  </select><br/><br/>
+	</fieldset>
+</form>
+<p>If you click the drop down menu again you can see it is labeled with optgroups.</p>
+<p class="margbot">The end result of our crazy form is as so:</p>
+<pre class="prettyprint linenums">
+&lt;form>
+	&lt;fieldset>
+  		&lt;legend>Form-ma-tron Bot&lt;/legend>
+I am form-ma-tron. Please input data:&lt;br/>
+		&lt;input type="text" name="data">&lt;br/>&lt;br/>
+       &lt;input type="radio" name="data" id="yes" value="yes"> &lt;label for="yes">Yes&lt;/label>&lt;br/>&lt;br/>
+       &lt;textarea rows="4" cols="75">Form-ma-tron is a new tech systematic data eating bot that doesn't really
+		do anything at all.&lt;/textarea> &lt;br/>&lt;br/>
+        &lt;select>
+       		&lt;optgroup label="Form-ma-tron">
+  				&lt;option value="form">Form&lt;/option>
+  				&lt;option value="ma">Ma&lt;/option>
+            	&lt;option value="tron">Tron&lt;/option>
+         	&lt;/optgroup>
+         	&lt;optgroup label="Not Form-ma-tron">
+         	&lt;/optgroup>
+  		 &lt;/select>&lt;br/>&lt;br/>
+	&lt;/fieldset>
+&lt;/form>
+</pre>
+<p class="margbot">And that, my friends, is a form. And what a form!</p>
+<h3 class="margbot">Properties:</h3>
+<h4>id</h4>
+<p class="margbot">specifies a unique id for an element.</p>
+<h4>name</h4>
+<p class="margbot">name is an input method asking for data identified by the developers form.</p>
+<h4>type</h4>
+<p class="margbot">an input type including text, password, radio, checkbox, and submit.</p>
+<h4>for</h4>
+<p class="margbot">used by the label tag to be a connector to a specific input id.</p>
+<h4>label</h4>
+<p class="margbot">places an identifier for the optgroup tag.</p>
+<h4>value</h4>
+<p class="margbot">a value of an input element.</p>
+<h4>checked</h4>
+<p class="margbot">a pre-checked checkbox property</p>
+<h4>selected</h4>
+<p class="margbot">pre-selected option on a list.</p>
+<h4>♪ The more you know.</h4>  <br/>
+<hr>
+
+<p>What is the purpose of a legend?</p>
+<br/>
+<FORM method="POST"
+      onSubmit="return checkAnswer(this,'C');"
+>
+
+<INPUT TYPE="RADIO" VALUE="A" NAME="cc">
+A. To protect the world<br/>
+
+<INPUT TYPE="RADIO" VALUE="B" NAME="cc">
+B. Define the footer of a form<br/>
+
+<INPUT TYPE="RADIO" VALUE="C" NAME="cc">
+C. Define a caption for a form<br/><br/>
+
+<INPUT TYPE="SUBMIT" VALUE="Submit Answer">
+
+</FORM>
+
+<p>Which property is best to create a radio button for your form?</p>
+<br/>
+<FORM method="POST"
+      onSubmit="return checkAnswer(this,'A');"
+>
+
+<INPUT TYPE="RADIO" VALUE="A" NAME="cc">
+A. Type<br/>
+
+<INPUT TYPE="RADIO" VALUE="B" NAME="cc">
+B. Radio<br/>
+
+<INPUT TYPE="RADIO" VALUE="C" NAME="cc">
+C. Option<br/>
+<br/>
+
+<INPUT TYPE="SUBMIT" VALUE="Submit Answer">
+
+</FORM>
+
+<p>What is a blockline element?</p>
+<br/>
+<FORM method="POST"
+      onSubmit="return checkAnswer(this,'C');"
+>
+
+<INPUT TYPE="RADIO" VALUE="A" NAME="cc">
+A. An element that spans the width of the content and breaks the flow of design.<br/>
+
+<INPUT TYPE="RADIO" VALUE="B" NAME="cc">
+B. An element that you doesn't disrupt the flow of your content<br/>
+
+<INPUT TYPE="RADIO" VALUE="C" NAME="cc">
+C. An element that creates a colored block<br/>
+<br/>
+
+<INPUT TYPE="SUBMIT" VALUE="Submit Answer">
+
+</FORM>
+
+        </div>
+	<div id="footer-cont"></div>
+</div>
+
+
+<div id="footer"></div>
+<div id="footerfix"></div>
+
+</div>
+
+</body>
+</html>

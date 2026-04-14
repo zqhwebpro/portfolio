@@ -1,0 +1,4 @@
+[04-Dec-2017 16:44:14 UTC] PHP Warning:  mysqli_connect(): (HY000/1045): Access denied for user 'zqhdesig'@'localhost' (using password: YES) in /home1/zqhwebpr/public_html/portfolio/web/compass/lib/inc/session.php on line 2
+[04-Dec-2017 17:17:17 UTC] PHP Warning:  mysqli_connect(): (HY000/1045): Access denied for user 'zqhdesig'@'localhost' (using password: YES) in /home1/zqhwebpr/public_html/portfolio/web/compass/lib/inc/session.php on line 2
+[21-Dec-2017 02:54:27 UTC] PHP Warning:  mysqli_connect(): (HY000/1045): Access denied for user 'zqhdesig'@'localhost' (using password: YES) in /home1/zqhwebpr/public_html/portfolio/web/compass/lib/inc/session.php on line 2
+[21-Dec-2017 04:10:56 UTC] PHP Warning:  mysqli_connect(): (HY000/1045): Access denied for user 'zqhdesig'@'localhost' (using password: YES) in /home1/zqhwebpr/public_html/portfolio/web/compass/lib/inc/session.php on line 2

@@ -1,0 +1,164 @@
+<!doctype html>
+<html>
+<head>
+<meta charset="utf-8">
+<title>jQuery-source: your source for everything jquery.</title>
+<link href="lib/css/styles.css" rel="stylesheet" type="text/css">
+<link href='http://fonts.googleapis.com/css?family=Yanone+Kaffeesatz:400,700,300,200' rel='stylesheet' type='text/css'>
+<link href='http://fonts.googleapis.com/css?family=Oxygen:400,700,300' rel='stylesheet' type='text/css'>
+<script src="https://google-code-prettify.googlecode.com/svn/loader/run_prettify.js"></script>
+<script type="text/javascript" src="lib/scripts/jquery-1.11.1.min.js"></script>
+<script type="text/javascript" src="lib/scripts/zebra.js"></script>
+<script type="text/javascript" src="http://arrow.scrolltotop.com/arrow27.js"></script>
+</head>
+
+<body>
+
+<div id="wrapper">
+
+<div id="headerwrapper">
+<div id="header">
+	<h1><img id="header-logo" src="lib/img/jqlogo.png" alt="jQuery-source" /></h1>
+    <h3><img id="tagline" src="lib/img/tagline.png" alt="jqsource tagline" /></h3>
+</div>
+</div>
+
+<div id="menuwrapper">
+	<div id="menu">
+		<ul>
+        	<li><a href="index.html">HOME</a></li>
+			<li><a href="#">LESSONS</a>
+            	<ul>
+                	<li><a href="lesson1_1.html">Lesson 1</a></li>
+                    <li><a href="lesson2_1.html">Lesson 2</a></li>
+                    <li><a href="lesson3_1.html">Lesson 3</a></li>
+                    <li><a href="lesson4_1.html">Lesson 4</a></li>
+                    <li><a href="lesson5_1.html">Lesson 5</a></li>
+                    <li><a href="lesson6_1.html">Lesson 6</a></li>
+                 </ul>
+            </li>
+        	<li><a href="contact.html">CONTACT</a></li>	
+		</ul>
+	</div>
+</div>
+
+<div id="container">
+<div id="lessonmenu">
+	<ul>
+		<li class="lessonmenufont">Lesson 1:</li>
+        <li><a href="lesson1_1.html">101</a></li>
+        <li><a href="lesson1_2.html">102</a></li>
+        <li><a href="lesson1_3.html">103</a></li>
+    </ul>
+</div>
+<div id="bcontainerl">
+<h1>Lesson 102 - Zebra Striping</h1>
+<p>Zebra striping allows you to add style to your HTML table roles. In this demonstration I will show you how to combine HTML, with CSS, and jQuery to create a Zebra Stripped table!</p>
+<hr>
+<h2>Example:</h2>
+
+<table class="mustbclass" id="mustbid">
+	<thead>
+    	<tr>
+        	<th>Music Artist</th>
+            <th>Favorite Song</th>
+            <th>From The Album</th>
+        </tr>
+    </thead>
+	<tbody>
+    	<tr>
+    		<td>Slipknot</td>
+        	<td>XIX</td>
+        	<td>.5: The Gray Chapter</td>
+    	</tr>
+   		<tr>
+    		<td>Milky Chance</td>
+        	<td>Stolen Dance</td>
+        	<td>Sadnecessary</td>
+    	</tr>
+    	<tr>
+    		<td>Hozier</td>
+        	<td>Take Me To Church</td>
+        	<td>Take Me To Church EP</td>
+    	</tr>
+       
+	</tbody>
+</table>
+
+<h2>HTML Markup:</h2>
+<pre class="prettyprint linenums">
+&lt;!--In HTML we will make our table!-->
+
+&lt;table class="mustbclass" id="mustbeid">
+	&lt;thead>
+    	&lt;tr>
+        	&lt;th>Music Artist&lt;/th>
+            &lt;th>Favorite Song&lt;/th>
+            &lt;th>From The Album&lt;/th>
+        &lt;/tr>
+    &lt;/thead>
+	&lt;tbody>
+		&lt;tr>
+    		&lt;td>Slipknot&lt;/td>
+        	&lt;td>XIX&lt;/td>
+        	&lt;td>.5: The Gray Chapter&lt;/td>
+    	&lt;/tr>
+   		&lt;tr>
+    		&lt;td>Milky Chance&lt;/td>
+        	&lt;td>Stolen Dance&lt;/td>
+        	&lt;td>Sadnecessary&lt;/td>
+    	&lt;/tr>
+    	&lt;tr>
+    		&lt;td>Hozier&lt;/td>
+        	&lt;td>Take Me To Church&lt;/td>
+        	&lt;td>Take Me To Church EP&lt;/td>
+    	&lt;/tr>
+	&lt;/tbody>
+&lt;/table>
+</pre><br/>
+
+<h2>CSS Markup:</h2>
+<pre class="prettyprint linenums">
+/* In CSS we will style our tables so our content fits better within our specifications */
+
+table {
+	border-collapse:collapse;
+	font-size:12px;
+	margin:0 20px 20px 20px;
+	border-top:2px solid #015287;
+	width:480px;
+}
+
+th {
+	border-bottom: 2px solid #015287;
+	color: #D15600;
+	font-size: 14px;
+	font-weight: normal;
+	text-align: left;
+	padding: 3px 8px;
+}
+
+td {
+	padding: 6px;
+}
+</pre>
+<br/>
+<h2>jQuery Markup:</h2>
+<pre class="prettyprint linenums">
+$(document).ready(function(){ //this function is to ready // document is ready to function
+
+$('#mustbid tbody tr:even').css('background-color','#dddddd') // add color of #ddd to the table body even rows
+</pre>
+</div>
+
+</div>
+</div>
+
+<hr class="line">
+
+<div id="bcontainer3">
+	<p>jQuery-source © 2014 - Zach Heindel.</p>
+</div>
+
+</body>
+</html>

@@ -1,0 +1,99 @@
+{
+	"Fußball" : {
+		"Sky Bundesliga" : "1nj8nzlcs2ppe1fa3u6ud5rawz",
+		"Bundesliga (DE)" : "1uv16jwj68f9a15f4rwgnenn5a",
+		"2. Liga" : "1gcz0lny952601mx8331cs958p",
+		"3. Liga" : "1dtjsis5d3q0s1ajjgjctulybc",
+		"Sky DFB-Pokal" : "fvn69rsn7kzf1m87tq4ujj620",
+		"DFB-Pokal" : "vc6dupa7wvgs13yr6thvz3r8u",
+		"Champions League" : "114dadbfk6hhv1rd5fx8571ajt",
+		"Europa League (DE)" : "1wtq6b119kjuc1cl4n6af8zloj",
+		"DFB-Team" : "c1ioawcc71iv125i2smotex0v",
+		"Landerspiele" : "3n7uym6rhmzq1kwczfrvhptvu",
+		"Sky Premier League" : "1nz008rnhx4uo17lfx70ox36j1",
+		"Premier League" : "15jz5vc5clr861iyiro8wkuh29",
+		"Primera Division" : "15n30u8gpgid71ilei1r30iukn",
+		"Serie A (DE)" : "q4bvqrs5l37n1wjbp7kvdmr31",
+		"Ligue 1" : "16hqdipub8k9w1febxbs6zqrwq",
+		"Eredivisie" : "e9magu9ef8b113fafpts6mjlz",
+		"Liga Sagres" : "jiyscq1tawcuzxrnci81210d",
+		"MLS (De)" : "1ezzw9ofj3ecu16en72j0aa0q4",
+		"Fußball International" : "1q3c0mz8ky6671inwjnvvd3r09",
+		"Fußball Südamerika" : "1ry43ikqyx14r1b1jkd7b70li3",
+		"Fußball Asien" : "2qt9vk752d2j17bmdnmu9bkz8",
+		"Club World Cup (DE)" : "9ckorhx6hldm1begab8zkyjcz",
+		"Stollenstrolche" : "9506rm1vs4du1pbqh6zp7r8a5"
+	},
+	"Tennis" : {
+		"ATP World Tour (De)" : "1m2r5onofpzmu1vlgtklydxzgi",
+		"WTA (De)" : "szuukdezu6at1et492w3m0qr5",
+		"Tennis Nachrichten" : "1ipafhgpl2j951f90c0toju13q"
+	},
+	"Basketball" : {
+		"NBA TV (De)" : "1bm6qb7oq86g81k69lty73qjwo",
+		"LiveBasketball.TV - Euroleague (DE)" : "1en1sckkepu3o1d2r99gphwlkm",
+		"LiveBasketball.TV - FIBA (De)" : "jeixc6jh4b54171dsdo77i9qu",
+		"Basketball Weltweit" : "1kza3zs2fak5h1o9do8mx8w7et"
+	},
+	"Wintersport" : {
+		"Sochi" : "erz5tfbla6ua1gdhi971c5nng",
+		"FIS Alpine Skiing (De)" : "1p9tum6bz652k1mao90a4hjh19",
+		"Wintersport" : "g2flamw29y0k16zopd1hnek0z",
+		"Freestyle World Cup (De)" : "1hl4yga6cvuo51k0fffoc83g3s",
+		"Snowboard World Cup (De)" : "tx6kp2ik9kii1ecxp8g9lylu8"
+	},
+	"Golfing World" : {
+		"LPGA(De)" : "1hbbdbboqgzty1f40xnol4j32v",
+		"PGA Tour(De)" : "j1ctd67xzozi1qpzr7pshp30p",
+		"Golfing World (DE)" : "1c645myqmhnzw14g8o58n6yvw7",
+		"PGA European Tour" : "svnx4umm6b6q1t2uxlgxkispw"
+	},
+	"Motorsport" : {
+		"Autosport TV (De)" : "camj7rad0db01migj39816pgl",
+		"DTM (de)" : "42ee54zdwll91453n6hs71n0x",
+		"Sky Formel 1" : "1hq6s317ysxes1aq71xdmpa0zn",
+		"Superbike" : "1pui3v3o7eu241kpaj7rao3giu"
+	},
+	"Handball" : {
+		"Handball" : "qb14kdhxef5e1teztdilrf2r8"
+	},
+	"Eishockey" : {
+		"Eishockey" : "1w4plm99gjeeg13cekdu3uf9tv"
+	},
+	"Leichtathletik" : {
+		"IAAF" : "kae8kq7vo1s018r719hh1onfu"
+	},
+	"Radsport" : {
+		"Radsport Weltweit" : "164g3fmnm3nos1ajdq3os6n7ym"
+	},
+	"Rugby" : {
+		"Aviva Premiership Rugby" : "1x4r73j4melfb178htr4xcs5rb",
+		"Super League" : "ex7brlxezj3q15kbs4qouw554",
+		"RFU TV" : "6zcfux0e1ah31oa091ic2d0jm",
+		"Rugby Nachrichten" : "1izk8qjlixhzf1fs5gn9ymhx5q"
+	},
+	"Cricket" : {
+		"ECBtv" : "18uywee54vtea1c9fsx3zrituk"
+	},
+	"Pferdesport" : {
+		"FEI TV" : "1piapn7rnawfk1tn1r4a8z8raa"
+	},
+	"Sportnachrichten" : {
+		"Sky Sport News HD (De)" : "102djkaadvkxu1furl2xzghxys",
+		"Sportnachrichten" : "t1sz3g3vbzhz1ayrdnl6d1ruv"
+	},
+	"Spox" : {
+		"Mercedes-Benz und der Sport" : "1fwshf8v1j0qc1c54xvch6wbsf",
+		"Hyundai" : "gvunzuhkaq2t1c08qix3fyflm",
+		"Alfa Romeo" : "1d6zdpk47ytn51onvxt13mfoih"
+	},
+	"NFL" : {
+		"NFL" : "lunvnkfltcdc1i9eofumi0qky"
+	},
+	"Webshow" : {
+		"Webshow" : "10ul9vf0165ie1uird6n56fr1a"
+	},
+	"European Games" : {
+		"Baku 2015 (German)" : "1jvszys4ftjig12b305ibkknse"
+	}
+}

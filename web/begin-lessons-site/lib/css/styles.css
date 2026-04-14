@@ -1,0 +1,427 @@
+/* font-family: 'Yanone Kaffeesatz', sans-serif; */
+
+/* http://meyerweb.com/eric/tools/css/reset/
+   v2.0 | 20110126
+   License: none (public domain)
+*/
+
+html, body, div, span, applet, object, iframe,
+h1, h2, h3, h4, h5, h6, p, pre,
+a, abbr, acronym, address, big, code,
+del, dfn, em, img, ins, kbd, q, s, samp,
+small, strike, strong, sub, sup, tt, var,
+b, u, i, center,
+ol, ul, li, form, label, legend,
+table, caption, tbody, tfoot, thead, tr, th, td,
+article, aside, canvas, details, embed,
+figure, figcaption, footer, header, hgroup,
+menu, nav, output, ruby, section, summary,
+time, mark, audio, video {
+	margin: 0;
+	padding: 0;
+	border: 0;
+	font-size: 100%;
+	font: inherit;
+	vertical-align: baseline;
+}
+/* HTML5 display-role reset for older browsers */
+article, aside, details, figcaption, figure,
+footer, header, hgroup, menu, nav, section {
+	display: block;
+}
+
+body {
+	line-height: 1;
+	overflow-x: hidden;
+	/* Permalink - use to edit and share this gradient: http://colorzilla.com/gradient-editor/#cf9c36+1,f0d700+100 */
+	background: #cf9c36; /* Old browsers */
+	background: -moz-linear-gradient(top, #cf9c36 1%, #f0d700 100%); /* FF3.6-15 */
+	background: -webkit-linear-gradient(top, #cf9c36 1%,#f0d700 100%); /* Chrome10-25,Safari5.1-6 */
+	background: linear-gradient(to bottom, #cf9c36 1%,#f0d700 100%); /* W3C, IE10+, FF16+, Chrome26+, Opera12+, Safari7+ */
+	filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#cf9c36', endColorstr='#f0d700',GradientType=0 ); /* IE6-9 */
+}
+ol, ul {
+	list-style: none;
+}
+
+table {
+	border-collapse: collapse;
+	border-spacing: 0;
+}
+
+/*--My Styles--*/
+
+#sitewrapper{
+	width:1024px;
+	margin:0 auto;
+}
+
+#sitewrapper2{
+	width:1024px;
+	margin:0 auto;
+}
+
+#header{
+	float:left;
+	-ms-transform: rotate(-3deg); /* IE 9 */
+    -webkit-transform: rotate(-3deg); /* Chrome, Safari, Opera */
+	transform: rotate(-3deg);
+}
+
+#header h1{
+    background-color: black;
+    color: white;
+    font-family: "Bangers",cursive;
+    font-size: 65px;
+	margin-top: -30px;
+}
+
+.redtype{
+	color:red;
+}
+
+#header-container {
+	background-color: black;
+	 height: 244px;
+	left: -1%;
+	position: absolute;
+	top: -115px;
+	transform: rotate(-3deg);
+	width: 101%;
+   box-shadow: 0 4px 5px #000000;
+	border: thick solid black;
+}
+
+#sitewrapper ul{
+	-ms-transform: rotate(-3deg); /* IE 9 */
+    -webkit-transform: rotate(-3deg); /* Chrome, Safari, Opera */
+	transform: rotate(-3deg);
+}
+
+#sitewrapper ul li{
+	margin-top: -20px;
+	float:right;
+
+}
+
+#sitewrapper ul li a{
+    font-family: "Bangers",cursive;
+    font-size: 24px;
+    padding: 10px 28px;
+    text-decoration: none;
+	color: #fff;
+}
+
+.selected{
+	color:#cf9c36;
+}
+
+#sitewrapper ul li a:hover {
+	text-decoration:underline;
+}
+
+#pageselect {
+	color:#FFF;
+}
+
+#body_c{
+	width: 920px;
+	background-color: #FFF;
+	margin-top: 105px;
+	margin-left: 25px;
+}
+
+#body_c2{
+	width: 920px;
+	background-color:#FFF;
+	margin-left: 25px;
+	padding-top: 20px;
+}
+
+#container-position{
+	width: 770px;
+	margin:0 auto;
+    height: 110px;
+}
+
+#container1{
+	width: 770px;
+	margin:0 auto;
+	height: 185px;
+}
+
+#container1 h1{
+	font-size:34px;
+	font-family:'Yanone Kaffeesatz', sans-serif;
+	color:red;
+}
+
+#container-lessons h2{
+	font-size:30px;
+	font-family:'Yanone Kaffeesatz', sans-serif;
+	color:red;
+}
+
+#container1 p{
+	margin-top:20px;
+	font-size:16px;
+	font-family: 'Open Sans', sans-serif;
+	font-weight:300;
+	line-height:26px;
+}
+
+#container2{
+	width: 770px;
+	margin:0 auto;
+	height: 490px;
+}
+
+#container2 h2{
+	font-size:20px;
+	font-family:'Yanone Kaffeesatz', sans-serif;
+	color:black;
+}
+
+#container2 p{
+	margin-top:20px;
+	font-size:16px;
+	font-family: 'Open Sans', sans-serif;
+	font-weight:300;
+	line-height:26px;
+}
+
+#container3{
+    margin: 0 auto;
+    width: 770px;
+	height: 380px;
+}
+
+#container3 h3{
+	font-size:26px;
+	font-family:'Yanone Kaffeesatz', sans-serif;
+	color:red;
+}
+
+#container3 p{
+	margin-top:40px;
+	font-size:16px;
+	font-family: 'Open Sans', sans-serif;
+	font-weight:300;
+	line-height:26px;
+}
+
+#container3 h5{
+	font-size:12px;
+	font-family:'Yanone Kaffeesatz', sans-serif;
+	font-weight:300;
+	color:black;
+	text-align:center;
+	margin-bottom:30px;
+}
+
+#container3 h4{
+	font-size:20px;
+	font-family:'Yanone Kaffeesatz', sans-serif;
+	color:black;
+}
+
+#att_bar{
+	background-color:red;
+	height:50px;
+	position: relative;
+    width: 970px;
+}
+
+#att_bar h2{
+	padding-top:11px;
+	text-align:center;
+	display:block;
+	font-size:24px;
+	font-family:'Yanone Kaffeesatz', sans-serif;
+	color:white;
+}
+
+#att_bar h2:before {
+    border-color: #860002 transparent transparent;
+    border-style: solid;
+    border-width: 0.5em 0 0 1em;
+    bottom: -0.5em;
+    content: "";
+    display: block;
+    left: 0;
+    position: absolute;
+}
+
+#att_bar h2:after {
+    border-color: #860002 transparent transparent;
+    border-style: solid;
+    border-width: 0.5em 1em 0 0;
+    bottom: -0.5em;
+    content: "";
+    display: block;
+    position: absolute;
+    right: 0;
+}
+
+.hrc{
+	color:#FF0004;
+	margin-top:40px;
+}
+
+#lessonnav{
+	background-color: #f00;
+	float: right;
+	height: 259px;
+	position: relative;
+	right: -94px;
+	top: -34px;
+	width: 59px;
+	z-index: 15;
+}
+
+#lessonnav ul{
+	-ms-transform: rotate(0deg); /* IE 9 */
+    -webkit-transform: rotate(0deg); /* Chrome, Safari, Opera */
+	transform: rotate(0deg);
+}
+
+#lessonnav ul li {
+	display: block;
+	margin-right: -7px;
+	margin-top: -9px;
+	padding: 9px 0;
+}
+
+#lessonnav ul li a{
+	font-size:16px;
+	font-family:'Yanone Kaffeesatz', sans-serif;
+	color:white;
+	text-decoration:none;
+	display:block;
+	padding: 4px 33px;
+	font-weight:700;
+}
+
+#lessonnav ul:after {
+    border-color: #860002 transparent transparent;
+    border-style: solid;
+    border-width: 1.3em 1.2em 0 0;
+    bottom: -17.5em;
+    content: "";
+    display: block;
+    position: absolute;
+    right: 0;
+}
+
+#container-lessons{
+	width: 770px;
+	margin:0 auto;
+	height: 100%;
+	padding-bottom:25px;
+}
+
+#container-lessons h1{
+	font-size:34px;
+	font-family:'Yanone Kaffeesatz', sans-serif;
+	color:red;
+}
+
+#container-lessons p{
+	margin-top:20px;
+	font-size:16px;
+	font-family: 'Open Sans', sans-serif;
+	font-weight:300;
+	line-height:26px;
+}
+
+#container-lessons h3{
+	font-size:26px;
+	font-family:'Yanone Kaffeesatz', sans-serif;
+	color:red;
+}
+
+#container-lessons h4{
+	font-size:20px;
+	font-family:'Yanone Kaffeesatz', sans-serif;
+	color:black;
+}
+
+.margbot{
+	margin-bottom:30px;
+}
+
+.examplefont{
+	font-family:Verdana, Geneva, sans-serif;
+	color:blue;
+}
+
+#boxmod{
+	margin:0 auto;
+	border:2px #000 dashed;
+}
+
+#footer-cont{
+   background-color: white;
+    height: 70px;
+    margin: 0 auto;
+    position: absolute;
+    width: 800px;
+    z-index: -1;
+}
+
+#footer{
+    background-color: black;
+    height: 160px;
+    left: -1%;
+    position: absolute;
+    transform: rotate(-3deg);
+    width: 102%;
+}
+
+#footerfix{
+	background-color: black;
+    height: 150px;
+    position: absolute;
+    right: 0;
+    width: 100%;
+	margin-top: 80px;
+}
+
+/* Landing Nav */
+
+#landing-nav
+{
+}
+
+#landing-nav ul{
+	-ms-transform: rotate(0deg); /* IE 9 */
+    -webkit-transform: rotate(0deg); /* Chrome, Safari, Opera */
+	transform: rotate(0deg);
+}
+
+#landing-nav ul li {
+	float:left;
+}
+
+#landing-nav ul li a{
+	font-size:26px;
+	font-family:'Yanone Kaffeesatz', sans-serif;
+	color:red;
+	text-decoration:underline;
+}
+
+#landing-nav li a:hover{
+	font-weight:900;
+}
+
+
+#lessonnav {
+    background-color: #f00;
+    float: right;
+    height: 260px;
+    position: relative;
+    right: -94px;
+    top: -34px;
+    width: 70px;
+    z-index: 15;
+}

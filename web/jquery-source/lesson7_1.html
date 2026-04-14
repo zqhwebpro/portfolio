@@ -1,0 +1,362 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <link href='http://fonts.googleapis.com/css?family=Open+Sans:400,700' rel='stylesheet' type='text/css'>
+  <link href="lib/css/styles.css" rel="stylesheet" type="text/css">
+    <script src="https://cdn.rawgit.com/google/code-prettify/master/loader/run_prettify.js"></script>
+  <script src="lib/script/jquery-1.7.1.min.js" type="text/javascript"></script>
+  <script src="lib/script/starrating.js"></script>
+
+  <title>jQsource - a beginners jQuery training module :: star rating</title>
+</head>
+
+<body id="jq_site">
+  <div id="headerwrap">
+    <header>
+      <div id="logo">
+         <a href="index.html"><img alt="jQ-Source" src="lib/img/jqlogo.png" class="logo_top"></a>
+      </div>
+
+      <nav id="cssmenu">
+        <ul>
+          <li>
+            <a href='index.html'><span>HOME</span></a>
+          </li>
+
+          <li class='active has-sub'>
+            <a href='#'><span>LESSONS</span></a>
+
+            <ul>
+              <li class='has-sub'>
+                <a href='#'><span>Lesson 1</span></a>
+
+                <ul>
+                  <li>
+                    <a href='lesson1_1.html'><span>Doc Ready</span></a>
+                  </li>
+
+                  <li>
+                    <a href='lesson1_2.html'><span>Slide Toggle</span></a>
+                  </li>
+
+                  <li class='last'>
+                    <a href='lesson1_3.html'><span>Hover Action</span></a>
+                  </li>
+                </ul>
+              </li>
+
+              <li class='has-sub'>
+                <a href='#'><span>Lesson 2</span></a>
+
+                <ul>
+                  <li>
+                    <a href='lesson2_1.html'><span>Fadeout</span></a>
+                  </li>
+
+                  <li>
+                    <a href='lesson2_2.html'><span>Color Animation</span></a>
+                  </li>
+
+                  <li class='last'>
+                    <a href='lesson2_3.html'><span>Animation Queue</span></a>
+                  </li>
+                </ul>
+              </li>
+
+              <li class='has-sub'>
+                <a href='#'><span>Lesson 3</span></a>
+
+                <ul>
+                  <li>
+                    <a href='lesson3_1.html'><span>Rollover</span></a>
+                  </li>
+
+                  <li>
+                    <a href='lesson3_2.html'><span>Slideshow Fade</span></a>
+                  </li>
+
+                  <li class='last'>
+                    <a href='lesson3_3.html'><span>Innerfade</span></a>
+                  </li>
+                </ul>
+              </li>
+
+              <li class='has-sub'>
+                <a href='#'><span>Lesson 4</span></a>
+
+                <ul>
+                  <li>
+                    <a href='lesson4_1.html'><span>Accordion</span></a>
+                  </li>
+
+                  <li>
+                    <a href='lesson4_2.html'><span>Login Panel</span></a>
+                  </li>
+
+                  <li class='last'>
+                    <a href='lesson4_3.html'><span>Sliding Overlay</span></a>
+                  </li>
+                </ul>
+              </li>
+
+              <li class='has-sub'>
+                <a href='#'><span>Lesson 5</span></a>
+
+                <ul>
+                  <li>
+                    <a href='lesson5_1.html'><span>Client Side Temp...</span></a>
+                  </li>
+
+                  <li>
+                    <a href='lesson5_2.html'><span>Load w/Selector</span></a>
+                  </li>
+
+                  <li class='last'>
+                    <a href='lesson5_3.html'><span>getJSON</span></a>
+                  </li>
+                </ul>
+              </li>
+
+              <li class='has-sub'>
+                <a href='#'><span>Lesson 6</span></a>
+
+                <ul>
+                  <li>
+                    <a href='lesson6_1.html'><span>Submit Event</span></a>
+                  </li>
+
+                  <li>
+                    <a href='lesson6_2.html'><span>Check All</span></a>
+                  </li>
+
+                  <li class='last'>
+                    <a href='lesson6_3.html'><span>Sortables</span></a>
+                  </li>
+                </ul>
+              </li>
+
+              <li class='has-sub'>
+                <a href='#'><span>Lesson 7</span></a>
+
+                <ul>
+                  <li>
+                    <a href='lesson7_1.html'><span>Star Ratings</span></a>
+                  </li>
+
+                  <li class='last'>
+                    <a href='lesson7_2.html'><span>Date Picker</span></a>
+                  </li>
+                </ul>
+              </li>
+
+
+            </ul>
+          </li>
+
+          <li>
+            <a href='contact.html'><span>CONTACT</span></a>
+          </li>
+        </ul>
+      </nav>
+    </header>
+  </div>
+
+  <div id="dkbluebg"></div>
+
+  <div id="page_nav_cont">
+    <div id="page_nav">
+      <ul>
+        <li id="select">
+          <a href="lesson7_1.html">Star Ratings</a>
+        </li>
+
+        <li id="notselect1">
+          <a href="lesson7_2.html">Date Picker</a>
+        </li>
+      </ul>
+    </div>
+  </div>
+
+  <div id="contentwrap">
+    <div id="content">
+      <h3>How many stars would you like to rate the app?</h3><br>
+
+      <form action="">
+        <div class="stars">
+          <label for="rating-1"><input id="rating-1" name="rating" type="radio" value="1">0.5 Stars</label> <label for="rating-2"><input id="rating-2" name="rating" type="radio" value="2">1 Star</label> <label for="rating-3"><input id="rating-3" name="rating" type="radio" value="3">1.5 Stars</label> <label for="rating-4"><input id="rating-4" name="rating" type="radio" value="4">2 Stars</label> <label for="rating-5"><input id="rating-5" name="rating" type="radio" value="5">2.5 Stars</label> <label for="rating-6"><input id="rating-6" name="rating" type="radio" value="6">3 Stars</label> <label for="rating-7"><input id="rating-7" name="rating" type="radio" value="7">3.5 Stars</label> <label for="rating-8"><input id="rating-8" name="rating" type="radio" value="8">4 Stars</label>
+        </div>
+
+        <div>
+          <input type="submit" value="Submit Rating">
+        </div>
+      </form>
+
+      <p>&nbsp;</p>
+
+      <h1 class="marg_bot_help">Rate My App $(<span style="color:#333;">Star Rating</span>)</h1>
+
+      <h2 class="marg_bot">The Scenario:</h2>
+
+      <p class="marg_bot">An app developer comes to you with the task of creating a rating section on his person website. For this we will need a sprite, which is a computer graphic that can be put into motion on screen with just one graphic file. For this lesson, we will be using the famous star sprite, you can use whatever you would like.</p>
+
+      <p class="marg_bot_help">In order to move this sprite on screen on our client's website, we will be using a jQuery script called Star Rating. This script is coding to allow the user to hover over the stars and light them in color. By using number increments our jQuery code will pull the right part of the sprite at the right section.</p>
+
+      <h2 class="marg_bot">HTML:</h2>
+
+      <p class="marg_bot">With HTML we will be setting up a form. Within this form is a div, the div will allow extra functionality to be implemented to the code within it. The form properties are typed within the div using labels and addition setup. The properties added will allow the sprite to show in place of theform. *Note: the script in the head again.</p>
+      <pre class="prettyprint linenums">
+&lt;head&gt;
+    &lt;script src="lib/script/starrating.js"&gt;&lt;/script&gt;
+&lt;/head&gt;
+
+&lt;h3&gt;What did you think of the app?&lt;/h3&gt;&lt;br&gt;
+      &lt;form action=""&gt;
+        &lt;div class="starrate"&gt;
+          &lt;label for="rating-1"&gt;&lt;input id="rating-1" name="rating" type="radio" value="1"/&gt;0.5 Stars&lt;/label&gt;
+          &lt;label for="rating-2"&gt;&lt;input id="rating-2" name="rating" type="radio" value="2"/&gt;1 Star&lt;/label&gt;
+          &lt;label for="rating-3"&gt;&lt;input id="rating-3" name="rating" type="radio" value="3"/&gt;1.5 Stars&lt;/label&gt;
+          &lt;label for="rating-4"&gt;&lt;input id="rating-4" name="rating" type="radio" value="4"/&gt;2 Stars&lt;/label&gt;
+          &lt;label for="rating-5"&gt;&lt;input id="rating-5" name="rating" type="radio" value="5"/&gt;2.5 Stars&lt;/label&gt;
+          &lt;label for="rating-6"&gt;&lt;input id="rating-6" name="rating" type="radio" value="6"/&gt;3 Stars&lt;/label&gt;
+          &lt;label for="rating-7"&gt;&lt;input id="rating-7" name="rating" type="radio" value="7"/&gt;3.5 Stars&lt;/label&gt;
+          &lt;label for="rating-8"&gt;&lt;input id="rating-8" name="rating" type="radio" value="8"/&gt;4 Stars&lt;/label&gt;
+        &lt;/div&gt;
+        &lt;div&gt;
+          &lt;input type="submit" value="Submit Rating" /&gt;
+        &lt;/div&gt;
+      &lt;/form&gt;
+</pre>
+
+      <p>&nbsp;</p>
+
+      <p>&nbsp;</p>
+
+      <h2 class="marg_bot">CSS:</h2>
+
+      <p class="marg_bot_help">In CSS we are using the div that we created to load our image and hide the form. Also, that div will be used to create the positioning of the sprites that were previously called out in out HTML.</p>
+      <pre class="prettyprint linenums">
+.stars div a {
+  background: transparent url:url(../img/sprite_rate.png) 0 0 no-repeat;
+  display: inline-block;
+  height: 23px;
+  width: 12px;
+  text-indent: -999em;
+  overflow: hidden;
+}
+
+.stars a.rating-right {
+  background-position: 0 -23px;
+  padding-right: 6px;
+}
+
+.stars a.rating-over {
+  background-position: 0 -46px;
+}
+
+.stars a.rating-over.rating-right {
+  background-position: 0 -69px;
+}
+
+.stars a.rating {
+  background-position: 0 -92px;
+}
+
+.stars a.rating.rating-right {
+  background-position: 0 -115px;
+}
+</pre>
+
+      <p>&nbsp;</p>
+
+      <p>&nbsp;</p>
+
+      <h2 class="marg_bot">jQuery:</h2>
+
+      <p class="marg_bot_help">In this script a submit event request will be checking for errors to populate on the form. If a user fails to fill out each box of the form the script will alert them of the misses.</p>
+      <pre class="prettyprint linenums">
+$(document).ready(function(){ // doc ready
+ starRating.create('.stars'); // calling upon the function to create target the div stars
+}); // close doc
+
+// Run the widget
+var starRating = { // create variable
+  create: function(selector) { // create a function of selector
+    // loop over every element matching the selector
+    $(selector).each(function() { // run selecter on each
+      var $list = $('&lt;div>&lt;/div>
+'); // create a variable list of the HTML open then close div
+      // loop over every radio button in each container
+      $(this) // this now runs
+        .find('input:radio') // find the radio input from what's inside the div
+        .each(function(i) { // find the (i) index of each element in the function
+          var rating = $(this).parent().text(); // on a variable of rating run this on the parent text
+          var $item = $('&lt;a href="#"></a>') // on the variable of $item equate an a tag
+            .attr('title', rating) // find the attribute 'title, rating
+            .addClass(i % 2 == 1 ? 'rating-right' : '') // add class with a ration of i % 2==1 if unknown rating-right
+            .text(rating); // changing the text of rating
+
+          starRating.addHandlers($item); // add a handlers (controller) of $item starRating
+          $list.append($item); // ready a list with append of $item then
+
+          if($(this).is(':checked')) { // if not this than this if
+            $item.prevAll().andSelf().addClass('rating'); // prevent everything on $item with andSelf()
+// we'll target the selector if it was already running, then add the class of 'rating'
+          } // close if
+        }); // close this
+        // Hide the original radio buttons
+        $(this).append($list).find('label').hide(); // this appends a list, finds the label, then hides it
+    }); // close this
+  }, // close selector each function
+  addHandlers: function(item) { // add handlers of a function on item
+    $(item).click(function(e) { // ready up item with a click function
+      // Handle Star click
+      var $star = $(this); // variable of stars will do this
+      var $allLinks = $(this).parent(); // variable of allLinks will do this to the parent
+
+      // Set the radio button value
+      $allLinks // on all links
+        .parent() // parent
+        .find('input:radio[value=' + $star.text() + ']') // find this input
+        .attr('checked', true); // market it as checked true
+
+      // Set the ratings
+      $allLinks.children().removeClass('rating'); // removes the class of rating to links
+      $star.prevAll().andSelf().addClass('rating'); // adds the class of rating to stars
+
+      // prevent default link click
+      e.preventDefault();
+
+    }).hover(function() {
+      // Handle star mouse over
+      $(this).prevAll().andSelf().addClass('rating-over');
+    }, function() {
+      // Handle star mouse out
+      $(this).siblings().andSelf().removeClass('rating-over')
+    }); // closes the function of star mouse out
+  } // closes hover
+
+} // closes variable/the starRating widget
+</pre>
+
+      <p>&nbsp;</p>
+
+      <h2 class="marg_bot">Star Rating</h2>
+
+      <p class="marg_bot_help">By manipulating CSS positioning and calling out a starRating Widget. A div tag and jQuery hover functions caused the radio buttons in the form to be replaced by parts of the sprite.</p>
+
+   <p>&nbsp;</p>
+
+        <p>&nbsp;</p>
+
+       <a href="#"><img src="lib/img/arrow_up.png" class="arrow_adjust" alt="to the top" /><img src="lib/img/arrow_curl.png" class="arrow_adjust_curl" alt="top the top" /></a>
+    </div>
+  </div>
+
+  <div id="footerwrap">
+    <footer>
+    	<a href="index.html"><img alt="jq_inquiry" src="lib/img/jq_inquiry.png" id="logo_f"></a>          <p>Website built and copyright 2015, Zach Heindel.</p>
+    </footer>
+  </div>
+</body>
+</html>
