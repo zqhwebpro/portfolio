@@ -1,0 +1,65 @@
+{
+  "TRAIL": [
+    "AMERICAN DISCOVERY TRAIL",
+    "THE GREAT DIVIDE TRAIL",
+    "PACIFIC CREST TRAIL",
+    "CONTINENTAL DIVIDE TRAIL ",
+    "GREAT WESTERN LOOP",
+    "APPALACHIAN TRAIL",
+    "NORTH COUNTRY TRAIL"
+  ],
+  "HP": [
+    "Argentine Pass 13,207 ft [4,025 m]",
+    "8,500 ft [2,590m]",
+    "Highest point: Forester Pass: 13,153 ft [4,009km]",
+    "Grays Peak, CO - 14,278 ft [4,352m]",
+    "Mt. Whitney - 14,505 ft | 4,421 m",
+    "Clingman’s Dome - 6,643 ft [2,025m]",
+    "Unknown."
+  ],
+  "LP": [
+    "California Delta between Isleton and Antioch [-17 ft | -5.2m]",
+    "Old Fort Point trailhead [3,541 ft | 1,055 m]",
+    "Cascade Locks: 140 ft [43m]",
+    "Columbus, NM - 3,900 ft [1,189m]",
+    "Unknown.",
+    "Bear Mt Park - 124 ft [38m]",
+    "Unknown."
+  ],
+  "DIS": [
+    "6,800 miles | 10,944 km",
+    "702 miles | 1,130 km",
+    "2,653 miles | 4,270 km",
+    "3,100 miles | 4,989 km",
+    "6,875 miles | 11,064 km",
+    "2,200 miles | 3,500 km",
+    "4,600 miles | 7,400 km"
+  ],
+  "DISBLURB": [
+    "Starts on the Delmarva Peninsula on the Atlantic to end on the N. California Coast",
+    "702 miles | 1,130 km",
+    "From California ending in British Columbia in Canada.",
+    "The trail starts in northern Montana and ends in New Mexico.",
+    "There is no “true” starting or ending terminus for the Great Western Loop. Rather it passes through several western States forming a great loop.",
+    "The AT stretches from Georgia’s Springer Mountain to Maine’s Mount Katahdin.",
+    "The beginning terminus is from Crown Point [909 ft | 277 miles] in eastern New York state Ends at Lake Sakakawea State Park [1,890 ft | 580 m] in the middle of N. Dakota."
+  ],
+  "FACT": [
+    "First person to backpack the entire 6,800 miles (including both Northern and Southern sections) in one continuous hike was Mike \"Lion King\" Daniel. He started from Cape Henlopen State Park on June 17, 2007, and ended at Point Reyes, California on November 5, 2008.",
+    "Unknown.",
+    "SPEED RECORDS\n\n Karel Sabbe, a 27-year-old dentist from Ghent, Belgium. He covered the distance in a total time of 52 days, 8 hours, and 25 minutes, averaging over 50 miles a day\n\nAGE RECORDS\n\n The youngest person to hike the trail is Christian Thomas Geiger, who at the age of 6 completed the trail with his parents Andrea Rego and Dion Pagonis.",
+    "The youngest person to thru-hike the trail is Reed Gjonnes at the age of 13, who hiked the trail with her father, Eric Gjonnes, from April 15, 2013, to September 6, 2013, in one continuous northbound hike.",
+    "Andrew Skurka, a professional backpacker, was the first to complete the Great Western Loop. On April 9, 2007, Skurka began the route from the Grand Canyon. Averaging 33 miles (53 km) per day, Skurka arrived back at the Grand Canyon on November 3, 2007, 208 days after he began.",
+    "SPEED RECORDS\n\nJoe McConaughy completed the trail northbound on August 31, 2017, in 45 days, 12 hours and 15 minutes.\n\nHeather Anderson completed the trail southbound on September 24, 2015, in 54 days, 7 hours and 48 minutes\n\nAGE RECORD\n\nOn October 26, 2017, Dale \"Grey Beard\" Sanders became the oldest person to hike the entire Appalachian Trail at age 82.",
+    "Carolyn Hoffman was the first woman to thru-hike the North County Trail in a single season in 1974.\n\nEd Talone was the first man to complete the North County Trail in a single season in 1994."
+  ],
+  "RECORD": [
+    "6 people to date have completed the entire trail to date: \n\n∙ Marcia and Ken Powers \n\n∙ Peter and Joyce Cottrell \n\n∙ Brian Stark \n\n∙ Mike Daniel\n\nNo physical maps exist of the entire trail, instead, the entirety of the trail is comprised of GPX files for use with GPS devices.",
+    "While there is no official record how many hikers have completed an end-to-end hike of the GDT, on average fewer than 30 people attempt to thru-hike the entire trail. \n\nJim Thorsell developed the first GDT guide, entitled the Provisional Trail Guide and Map for the Proposed Great Divide Trail in 1970.",
+    "A total of 2,607 people have completed the entire Pacific Crest Trail\n\nCatherine Montogomery was the first known recorded proposal of a trail that ran through Washington, Oregon, and California.",
+    "About 3,000 people have completed the trail\n\nThe Continental Divide Trail recognizes communities, calling them “gateway communities”,  that bring a unique economic and cultural value. The towns are responsible for educating local residents, advocate for continued access to public lands, and make services accessible to hikers.",
+    "Two people have only completed the loop to date, Andrew Skurka and Jeff Garmire\n\nThe Great Western Loop encompasses the Sonoran Desert, the Mojave Desert, 75 wilderness areas, and 12 national parks.",
+    "An estimated 12,000 people have completed the AT since its “founding” in 1937.\n\nThe AT finally became federal protected in 1968 when it was signed by President Johnson in 1968.",
+    "The North County Trail includes more than 57 state parks and state historic areas, 47 state forests, 22 state game areas, 7 state water conservation districts and at least 10 county forests and parks.\n\nThere is no complete single map that exists and portions of the full map can be downloaded as GPX files for use with GPS devices."
+  ]
+}

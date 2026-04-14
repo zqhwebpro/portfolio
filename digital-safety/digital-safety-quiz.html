@@ -1,0 +1,249 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <!-- Required meta tags -->
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <link rel="shortcut icon" href="images/favicontoberound.png">
+    <!-- Bootstrap CSS -->
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+    <link href="https://fonts.googleapis.com/css?family=Montserrat:400,700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+    <!-- Custom CSS -->
+    <link rel="stylesheet" type="text/css" href="css/style.css">
+    <link rel="stylesheet" type="text/css" href="css/animations.css">
+    <title>Parents Guide to the Internet</title>
+    <style>
+      .upper-nav {
+        color: #FFF;
+        font-size: 50px;
+        font-weight: 600;
+      }
+      .fixed-top .top {
+        padding: 0;
+      }
+      .fixed-top .top img {
+        width: 100%;
+        height: 5px;
+      }
+      .btn-block {
+        width: 50%;
+        margin: auto;
+      }
+       .modal-correct, .modal-wrong {
+            padding: 80px 50px 50px;
+        }
+        .modal-correct h3 {
+            color: #1B9D39;
+            font-weight: bold;
+            text-shadow: 3px 3px 0px rgba(0, 0, 0, 0.25);
+            font-size: 50px;
+            margin-bottom: 30px;
+        }
+        .modal-correct p, .modal-wrong p {
+          font-size: 20px;
+          color: #000;
+          margin-bottom: 30px;
+        }
+        .modal-correct button, .modal-wrong button {
+            background: #EBEBEB;
+            border: none;
+            color: #000;
+        }
+        .modal-wrong h3 {
+            color: #C00010;
+            font-weight: bold;
+            text-shadow: 3px 3px 0px rgba(0, 0, 0, 0.25);
+            font-size: 50px;
+            margin-bottom: 30px;
+        }
+        .passed-modal .modal-content, .failed-modal .modal-content {
+            background: url('images/bg-gg.png');
+            width: 100%;
+            padding: 80px 50px 50px;
+            background-repeat: no-repeat;
+            background-size: cover;
+        }
+        .passed-modal h3, .failed-modal h3 {
+            font-size: 35px;
+            color: #FFF;
+            font-weight: bold;
+            margin-bottom: 30px;
+        }
+        .passed-modal p, .failed-modal p {
+            color: #FFF;
+            margin-bottom: 50px;
+        }
+        .passed-modal .btn-block, .failed-modal .btn-block {
+            width: 30%;
+        }
+        .ol-indicators {
+          display: flex;
+          justify-content: center;
+        }
+        .back-guide-btn {
+          width: 20%;
+          right: 5%;
+          position: absolute;
+        }
+        .back-guide-btn button {
+          margin: 0 10px;
+        }
+        .back-guide-btn .btn-guide {
+          background: #003444;
+          color: #FFF;
+          font-weight: 600;
+          width: 60%;
+          height: 45px;
+        }
+        @media only screen and (max-width: 1089px) {
+          .back-guide-btn .btn-guide { width: 70%;}
+        }
+        @media only screen and (max-width: 991px) {
+          .passed-modal h3, .failed-modal h3 { font-size: 30px;}
+          .passed-modal p br, .failed-modal p br { display: none;}
+          .passed-modal .btn-block, .failed-modal .btn-block { width: 50%;}
+        }
+        @media only screen and (max-width: 934px) {
+          .back-guide-btn .btn-guide { width: 80%;}
+        }
+        @media only screen and (max-width: 817px) {
+          .back-guide-btn .btn-guide { width: 90%;}
+        }
+        @media only screen and (max-width: 726px) {
+          .back-guide-btn { position: relative; margin: auto; width: 100%; right: 0;}
+          .ol-indicators { display: grid;}
+          .quiz-wrap .indicators { padding: 0;}
+        }
+        @media only screen and (max-width : 620px) {
+          .choices-wrap { padding: 0;}
+          .modal-correct h3, .modal-wrong h3 { text-shadow: 4px 4px 0px rgba(0, 0, 0, 0.1); font-size: 30px;}
+          .modal-correct p, .modal-wrong p { font-size: 15px;}
+        }
+        @media only screen and (max-width: 600px) {
+          .upper-nav { font-size: 40px;}
+        }
+        @media only screen and (max-width: 500px) {
+          .upper-nav { font-size: 30px;}
+          .passed-modal .modal-content, .failed-modal .modal-content { width: 80%; margin: auto;}
+          .passed-modal h3, .failed-modal h3 { font-size: 20px;}
+          .passed-modal p, .failed-modal p { font-size: 13px;}
+          .passed-modal .btn-block, .failed-modal .btn-block { width: 75%; font-size: 15px;}
+        }
+        @media only screen and (max-width: 445px) {
+          .indicators li { height: 15px !important; width: 15px !important; margin: 5px;}
+          .modal-correct, .modal-wrong { padding: 20px;}
+        }
+        @media only screen and (max-width: 420px) {
+          .quiz-wrap { padding-top: 100px;}
+          .quiz-wrap #question { text-transform: initial; font-size: 16px;}
+          .quiz-wrap .separator { margin: 30px auto;}
+          .back-guide-btn { right: 5%;}
+          .ol-indicators { display: grid; position: absolute; bottom: 30px; left: 110px;}
+          .upper-nav {font-size: 24px;}
+          .choices-wrap button.btn { font-size: 14px; color: #000; margin: 0 0 20px; padding: 10px; width: 100%!important;}
+          .mb-5, .my-5 { margin: 0 !important;}
+          .back-guide-btn .btn-guide { width: 100%;}
+        }
+        @media only screen and (max-width: 375px) {
+          .ol-indicators { left: 90px;}
+        }
+        @media only screen and (max-width: 360px) {
+          .ol-indicators { left: 80px;}
+        }
+        @media only screen and (max-width: 320px) {
+          .ol-indicators { left: 60px;}
+        }
+
+    </style>
+  </head>
+  <body>
+    <div class="slide-in-top">
+      <div class="fixed-top">
+        <div class="upper-nav">DIGITAL SAFETY QUIZ</div>
+        <div class="top navbar">
+            <img src="images/top.png">
+        </div>
+        </div>
+    </div>
+    <div class="quiz-wrap">
+      <div class="content">
+          <p id="question"></p>
+          <div class="separator w-50"></div>
+          <div class="choices-wrap mb-5">
+            <button class="btn w-75" id="btn-choice0"><span id="choice0"></span></button>
+            <button class="btn w-75" id="btn-choice1"><span id="choice1"></span></button>
+            <button class="btn w-75" id="btn-choice2"><span id="choice2"></span></button>
+            <button class="btn w-75" id="btn-choice3"><span id="choice3"></span></button>
+            <button class="btn w-75" id="btn-choice4"><span id="choice4"></span></button>
+            <button class="btn w-75" id="btn-choice5"><span id="choice5"></span></button>
+          </div>
+          <div class="ol-indicators">
+              <ol class="indicators">
+                  <li id="question0" ></li>
+                  <li id="question1" ></li>
+                  <li id="question2" ></li>
+                  <li id="question3" ></li>
+                  <li id="question4" ></li>
+                  <li id="question5" ></li>
+                  <li id="question6" ></li>
+              </ol>
+              <div class="back-guide-btn">
+                  <button type="button" class="btn btn-guide">VIEW GUIDE</button>
+              </div>
+          </div>
+      </div>
+    </div>
+    <!-- Modal CORRECT -->
+    <div class="modal fade" id="correct-modal" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered" role="document">
+            <div class="modal-content shadow">
+                <div class="content modal-correct">
+                    <h3 class="text-center">CORRECT!</h3>
+                    <p class="text-center" id="explain"></p>
+                    <button type="button" class="btn btn-secondary btn-lg btn-block continue-btn" data-dismiss="modal" aria-label="Close">Continue</button>
+                </div>
+            </div>
+        </div>
+      </div>
+      <!-- Modal WRONG -->
+        <div class="modal fade" id="wrong-modal" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+          <div class="modal-dialog modal-dialog-centered" role="document">
+              <div class="modal-content shadow">
+                  <div class="content modal-wrong">
+                      <h3 class="text-center">INCORRECT!</h3>
+                      <p class="text-center" id="explain"></p>
+                      <button type="button" class="btn btn-secondary btn-lg btn-block continue-btn" data-dismiss="modal" aria-label="Close">Continue</button>
+                  </div>
+              </div>
+          </div>
+        </div>
+        <!-- Modal Done and Passed -->
+        <div class="modal fade bd-example-modal-lg passed-modal" id="done-passed-modal" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel" aria-hidden="true">
+          <div class="modal-dialog modal-lg modal-dialog-centered">
+              <div class="modal-content">
+                <h3 class="text-center">CONGRATULATIONS, YOU DID GREAT!</h3>
+                <p class="text-center">The internet and social platforms are changing every day, and<br> we need to keep learning. View our digital safety guide to stay<br> informed about your kid’s online actives. </p>
+                <button type="button" class="btn btn-secondary btn-lg btn-block guide-btn">View our Guide</button>
+              </div>
+          </div>
+        </div>
+         <!-- Modal Done and Failed -->
+        <div class="modal fade bd-example-modal-lg failed-modal" id="done-failed-modal" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel" aria-hidden="true">
+        <div class="modal-dialog modal-lg modal-dialog-centered">
+            <div class="modal-content">
+            <h3 class="text-center">THERE IS ALWAYS MORE TO LEARN</h3>
+            <p class="text-center">The internet and social platforms are changing every day, and<br> we need to keep learning. View our digital safety guide to stay<br> informed about your kid’s online actives. </p>
+            <button type="button" class="btn btn-secondary btn-lg btn-block guide-btn">View our Guide</button>
+            </div>
+        </div>
+        </div>
+  </div>
+    <!-- Optional JavaScript -->
+    <!-- jQuery first, then Popper.js, then Bootstrap JS -->
+    <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js" integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1" crossorigin="anonymous"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js" integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM" crossorigin="anonymous"></script>
+    <script type="text/javascript" src="js/digital-safety-quiz.js"></script>
+  </body>
+</html>

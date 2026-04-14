@@ -1,0 +1,164 @@
+<!DOCTYPE html>
+<!--[if lte IE 6]><html class="preIE7 preIE8 preIE9"><![endif]-->
+<!--[if IE 7]><html class="preIE8 preIE9"><![endif]-->
+<!--[if IE 8]><html class="preIE9"><![endif]-->
+<!--[if gte IE 9]><!-->
+<html>
+<!--<![endif]-->
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+    <meta name="viewport" content="width=device-width,initial-scale=1">
+    <title>Keto Calculator Cleaned</title>
+    <!--styles -->
+    <link rel="stylesheet" href="css/stylesheet.css" type="text/css">
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css"
+        integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+    <link href="css/toastr.css" rel="stylesheet" />
+    <link href="https://stackpath.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css" rel="stylesheet" />
+
+    <script>
+        function editName(number) {
+            document.getElementById('name' + number).readOnly = false;
+        };
+        function toResults() { $('html,body').animate({ scrollTop: $("#ketoResults").offset().top }, 'slow'); };
+    </script>
+
+</head>
+
+<body>
+    <div class="keto-container-wrapper">
+        <form id="keto-container" method="post" action="">
+            <div class="container-fluid">
+                <h1 class="text-center">Keto Calculator 2.0</h1>
+                <hr>
+                <h6 class="text-center">Brought to you by:</h6>
+                <h6><img src="https://lifetrimmers.com/wp-content/uploads/2018/05/lifetrimmers_logo.png"
+                        alt="Lifetimmers" class="form-logo" /></h6>
+                <hr>
+                <h2 class="keto-h2">Gender</h2>
+                <div class="row">
+                    <div class="col">
+                        <label class="keto-label keto-radio green-hover js-css-choice-gender" for="male">
+                            <input class="ketoGender keto-input" type="radio" name="gender" id="male" value="male"><i
+                                class="fa fa-mars" aria-hidden="true"></i> Male
+                        </label>
+                    </div>
+                    <div class="col">
+                        <label class="keto-label keto-radio yellow-hover js-css-choice-gender" for="female">
+                            <input class="ketoGender keto-input" type="radio" name="gender" id="female"
+                                value="female"><i class="fa fa-venus" aria-hidden="true"></i> Female</label>
+                    </div>
+                </div>
+                <h2 class="keto-h2">Age</h2>
+                <div>
+                    <input class="keto-input ketoAge" type="number" placeholder="Age"><label
+                        class="keto-label">&nbsp;years old</label>
+                </div>
+                <h2 class="keto-h2">Height</h2>
+                <div>
+                    <input name="heightft" class="keto-input ketoHeightft" type="number" placeholder="Feet"><label
+                        class="keto-label" style="margin-right: 10px;">&nbsp;ft</label>
+                    <input name="heightin" class="keto-input ketoHeightin" type="number" placeholder="Inches"><label
+                        class="keto-label">&nbsp;in</label>
+                </div>
+                <h2 class="keto-h2">Weight</h2>
+                <div>
+                    <input name="weight" class="keto-input ketoWeight" type="number" placeholder="Weight"><label
+                        class="keto-label">&nbsp;lb</label>
+                </div>
+                <img src="images/keto-pad.png" class="keto-pad-image"
+                    alt="Keto written on writing pad with body tape measure" />
+                <h2 class="keto-h2">Body Fat Percentage</h2>
+                <img src="images/bfp.png" alt="Body Fat Percentage Chart" class="bfp-image" />
+                <div class="row">
+                    <input name="bfp" class="keto-input ketoBodyFatPercentage keto-input-100" type="number"
+                        placeholder="Body Fat %">
+                </div>
+
+                <h2 class="keto-h2">Activity Level</h2>
+                <div>
+                    <div class="keto-range-images slide-a"></div>
+                    <input name="activity" class="keto-range ketoActivity" type="range" min="1.2" max="1.9" step=".175"
+                        value="1.2">
+                </div>
+                <div class="row keto-marg-top">
+                    <div class="col">
+                        <h2 class="keto-h2">Protein Ratio</h2>
+                        <p class="keto-p">Recommended 0.6g-1.2g:</p>
+                        <div class="input-group mb-3">
+                            <input name="proteinratio" class="keto-input form-control ketoProteinGrams" type="number"
+                                id="name1" value=".8" step="any" readonly>
+                            <div class="input-group-append">
+                                <button class="btn btn-outline-secondary" type="button"
+                                    onclick="editName(1)">Edit</button>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col">
+                        <h2 class="keto-h2">Net Carb Intake</h2>
+                        <p class="keto-p">About 20g net carbs a day is recommended on a ketogenic diet.</p>
+                        <div class="input-group mb-3">
+                            <input name="totalcarbs" class="ketoCarbs keto-input form-control" type="number" id="name2"
+                                value="20" readonly>
+                            <div class="input-group-append">
+                                <button class="btn btn-outline-secondary" type="button"
+                                    onclick="editName(2)">Edit</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <hr>
+                <h2 class="keto-h2">Weight Goal</h2>
+                <div class="row">
+                    <div class="col">
+                        <input class="keto-input ketoWeightChoice" type="radio" id="weightGoalLose"
+                            name="weightGoal"><label class="keto-label keto-radio green-hover js-css-choice-weight"
+                            for="weightGoalLose">Lose</label>
+
+                    </div>
+                    <div class="col">
+                        <input class="keto-input ketoWeightChoice" type="radio" id="weightGoalMaintain"
+                            name="weightGoal"><label class="keto-label keto-radio orange-hover js-css-choice-weight"
+                            for="weightGoalMaintain">Maintain</label>
+                    </div>
+                    <div class="col">
+                        <input class="keto-input ketoWeightChoice" type="radio" id="weightGoalGain"
+                            name="weightGoal"><label class="keto-label keto-radio yellow-hover js-css-choice-weight"
+                            for="weightGoalGain">Gain</label>
+                    </div>
+                </div>
+
+                <hr>
+                <div>
+                    <input type="Submit" class="btn btn-keto keto-darkgreen-bg btn-submit btn-center">
+                </div>
+            </div>
+    </div>
+    </div>
+    </form>
+    <div id="ketoResults" class="container-fluid">
+
+    </div>
+    </div><!-- keto-container-wrapper -->
+
+    <!-- Scripts -->
+    <script src="https://code.jquery.com/jquery-3.4.1.min.js"
+        integrity="sha256-CSXorXvZcTkaix6Yvo6HppcZGetbYMGWSFlBw8HfCJo=" crossorigin="anonymous"></script>
+    <script src="https://code.jquery.com/ui/1.12.0/jquery-ui.min.js"
+        integrity="sha256-eGE6blurk5sHj+rmkfsGYeKyZx3M4bG+ZlFyA7Kns7E=" crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js"
+        integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1"
+        crossorigin="anonymous"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"
+        integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM"
+        crossorigin="anonymous"></script>
+    <script src="js/validate-plugin-1.7.js"></script>
+    <script src="js/toastr.js"></script>
+    <script src="js/validate.js"></script>
+    <script src="js/css.js"></script>
+
+</body>
+
+</html>

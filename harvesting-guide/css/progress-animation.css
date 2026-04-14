@@ -1,0 +1,432 @@
+/* 20% progress animataion*/
+@keyframes progressSix {
+    0% {
+        width: 0%;
+    }
+    100% {
+        width: 6%;
+    }
+}
+/* 7% progress animataion*/
+@keyframes progressSeven {
+    0% {
+        width: 0%;
+    }
+    100% {
+        width: 7%;
+    }
+}
+/* 20% progress animataion*/
+@keyframes progressTen {
+    0% {
+        width: 0%;
+    }
+    100% {
+        width: 10%;
+    }
+}
+/* 20% progress animataion*/
+@keyframes progressEleven {
+    0% {
+        width: 0%;
+    }
+    100% {
+        width: 11%;
+    }
+}
+/* 20% progress animataion*/
+@keyframes progressTwelve {
+    0% {
+        width: 0%;
+    }
+    100% {
+        width: 12%;
+    }
+}
+/* 20% progress animataion*/
+@keyframes progressThirteen {
+    0% {
+        width: 0%;
+    }
+    100% {
+        width: 13%;
+    }
+}
+/* 20% progress animataion*/
+@keyframes progressFourteen {
+    0% {
+        width: 0%;
+    }
+    100% {
+        width: 14%;
+    }
+}
+/* 20% progress animataion*/
+@keyframes progressFifteen {
+    0% {
+        width: 0%;
+    }
+    100% {
+        width: 15%;
+    }
+}
+/* 20% progress animataion*/
+@keyframes progressSixteen {
+    0% {
+        width: 0%;
+    }
+    100% {
+        width: 16%;
+    }
+}
+/* 20% progress animataion*/
+@keyframes progressSeventeen {
+    0% {
+        width: 0%;
+    }
+    100% {
+        width: 17%;
+    }
+}
+/* 20% progress animataion*/
+@keyframes progressEighteen {
+    0% {
+        width: 0%;
+    }
+    100% {
+        width: 18%;
+    }
+}
+/* 20% progress animataion*/
+@keyframes progressNineteen {
+    0% {
+        width: 0%;
+    }
+    100% {
+        width: 19%;
+    }
+}
+
+/* 20% progress animataion*/
+@keyframes progressTwenty {
+    0% {
+        width: 0%;
+    }
+    100% {
+        width: 20%;
+    }
+}
+/* 21% progress animataion*/
+@keyframes progressTwentyOne {
+    0% {
+        width: 0%;
+    }
+    100% {
+        width: 21%;
+    }
+}
+/* 22% progress animataion*/
+@keyframes progressTwentyTwo {
+    0% {
+        width: 0%;
+    }
+    100% {
+        width: 22%;
+    }
+}
+/* 23% progress animataion*/
+@keyframes progressTwentyThree {
+    0% {
+        width: 0%;
+    }
+    100% {
+        width: 23%;
+    }
+}
+/* 23% progress animataion*/
+@keyframes progressTwentyFour {
+    0% {
+        width: 0%;
+    }
+    100% {
+        width: 24%;
+    }
+}
+
+/* 23% progress animataion*/
+@keyframes progressTwentynine {
+    0% {
+        width: 0%;
+    }
+    100% {
+        width: 29%;
+    }
+}
+
+
+/* ThirtyFive*/
+@keyframes progressThirtyfive {
+    0% {
+        width: 0%;
+    }
+    100% {
+        width: 35%;
+    }
+}
+
+/* ThirtySeven*/
+@keyframes progressThirtyseven {
+    0% {
+        width: 0%;
+    }
+    100% {
+        width: 37%;
+    }
+}
+
+/*fortyone */
+@keyframes progressFortyone {
+    0% {
+        width: 0%;
+    }
+    100% {
+        width: 41%;
+    }
+}
+
+/*fortyfive*/
+@keyframes progressFortyfive {
+    0% {
+        width: 0%;
+    }
+    100% {
+        width: 46%;
+    }
+}
+
+/*fortysix*/
+@keyframes progressFortysix {
+    0% {
+        width: 0%;
+    }
+    100% {
+        width: 46%;
+    }
+}
+
+/*progressFiftythree*/
+@keyframes progressFiftythree {
+    0% {
+      width: 0%;
+  }
+  100% {
+      width: 53%;
+  }
+}
+
+/*progressFiftynine*/
+@keyframes progressFiftynine {
+      0% {
+        width: 0%;
+    }
+    100% {
+        width: 59%;
+    }
+}
+
+/*sixty eight*/
+@keyframes progressSixtyeight {
+    0% {
+       width: 0%;
+   }
+   100% {
+       width: 68%;
+   }
+}
+
+/*sixty nine*/
+@keyframes progressSixtynine {
+    0% {
+       width: 0%;
+   }
+   100% {
+       width: 69%;
+   }
+}
+
+/*71%*/
+@keyframes progressSeventyone {
+    0% {
+       width: 0%;
+   }
+   100% {
+       width: 71%;
+   }
+}
+
+/*80%*/
+@keyframes progressEighty {
+    0% {
+       width: 0%;
+   }
+   100% {
+       width: 80%;
+   }
+}
+
+/*100*/
+@keyframes progressOnehundred {
+    0% {
+       width: 0%;
+   }
+   100% {
+       width: 100%;
+   }
+}
+
+/*===========================================
+           DECIMAL PROGRESS BAR
+============================================*/
+@keyframes progressFiveSix {
+    0% {
+       width: 0%;
+   }
+   100% {
+       width: 5.6%;
+   }
+}
+
+@keyframes progressElevenfour {
+    0% {
+       width: 0%;
+   }
+   100% {
+       width: 11.4%;
+   }
+}
+
+@keyframes progressElevensix {
+    0% {
+       width: 0%;
+   }
+   100% {
+       width: 11.6%;
+   }
+}
+
+@keyframes progressElevenSeven {
+    0% {
+       width: 0%;
+   }
+   100% {
+       width: 11.7%;
+   }
+}
+
+@keyframes progressElevenNinenine {
+    0% {
+       width: 0%;
+   }
+   100% {
+       width: 11.99%;
+   }
+}
+
+@keyframes progressFourteenseven {
+    0% {
+       width: 0%;
+   }
+   100% {
+       width: 14.7%;
+   }
+}
+
+@keyframes progressTwentythreeseven {
+    0% {
+       width: 0%;
+   }
+   100% {
+       width: 23.7%;
+   }
+}
+
+@keyframes progressTwentyeightnine {
+    0% {
+       width: 0%;
+   }
+   100% {
+       width: 28.9%;
+   }
+}
+
+@keyframes progressFiftyeightnine {
+    0% {
+       width: 0%;
+   }
+   100% {
+       width: 58.9%;
+   }
+}
+
+@keyframes progressSeventeentwo {
+    0% {
+       width: 0%;
+   }
+   100% {
+       width: 17.2%;
+   }
+}
+
+@keyframes progressSeventeensix {
+    0% {
+       width: 0%;
+   }
+   100% {
+       width: 17.7%;
+   }
+}
+
+@keyframes progressSeventeenseven {
+    0% {
+       width: 0%;
+   }
+   100% {
+       width: 17.7%;
+   }
+}
+
+@keyframes progressTwentythreeSix {
+    0% {
+       width: 0%;
+   }
+   100% {
+       width: 23.6%;
+   }
+}
+
+@keyframes progressTwentytwoeight {
+    0% {
+       width: 0%;
+   }
+   100% {
+       width: 22.8%;
+   }
+}
+
+@keyframes progressTwentythreeeight {
+    0% {
+       width: 0%;
+   }
+   100% {
+       width: 23.8%;
+   }
+}
+
+@keyframes progressFortysixseven {
+    0% {
+       width: 0%;
+   }
+   100% {
+       width: 46.7%;
+   }
+}

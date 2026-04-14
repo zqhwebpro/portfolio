@@ -1,0 +1,450 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <!-- Required meta tags -->
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <link rel="shortcut icon" href="images/favicontoberound.png">
+    <!-- Bootstrap CSS -->
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+    <link href="https://fonts.googleapis.com/css?family=Montserrat:400,700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+    <!-- Custom CSS -->
+    <link rel="stylesheet" type="text/css" href="css/style.css">
+    <link rel="stylesheet" type="text/css" href="css/animations.css">
+    <link rel="stylesheet" href="css/svg-animations.css">
+    <title>Parents Guide to the Internet</title>
+    <style>
+      /* Gaming */
+      .gaming-wrap {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+      }
+      .gaming-watch-svg,
+      .gaming-recommended-svg,
+      .gaming-reputation-svg {
+        position: absolute;
+      }
+      .gaming-svg-text {
+        padding-top: 20px;
+      }
+      .gaming-svg-text h3 {
+        font-size: 40px;
+        color: #0a495f;
+      }
+      .gaming-svgs {
+        padding-top: 20px;
+      }
+      .online-risk-wrap .title {
+        padding-bottom: 20px;
+      }
+      .online-risk-wrap .outer-div {
+        display: flex;
+      }
+      .online-risk-wrap .left-cyberbully {
+        background: #0999cc;
+        width: 50px;
+        height: 50px;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        border-radius: 10px 0 0 10px;
+      }
+      .online-risk-wrap .right-cyberbully {
+        background: #0a495f;
+        height: 50px;
+        width: 220px;
+        border-radius: 0 10px 10px 0;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+      }
+      .online-risk-wrap .right-cyberbully h3 {
+        color: #fff;
+        font-size: 18px;
+        margin: 0;
+      }
+      .online-risk-wrap .col-md-4 .outer-div {
+        display: flex;
+        justify-content: center;
+        margin: auto;
+        padding: 15px 0;
+      }
+      .online-risk-wrap .game-console img {
+        width: 95%;
+        padding: 20px 0;
+      }
+      @media only screen and (max-width: 767px) {
+        .online-risk-wrap .game-console img {
+          width: 60%;
+        }
+        .game-console {
+          text-align: center;
+        }
+      }
+      @media only screen and (max-width: 450px) {
+        .online-risk-wrap .game-console img {
+          width: 80%;
+        }
+      }
+    </style>
+  </head>
+  <body>
+    <div class="slide-in-top">
+      <div class="fixed-top">
+        <div class="upper-nav">
+          <h3 class="digital-title">PARENTS GUIDE TO THE INTERNET</h3>
+          <div class="parent-logo">
+              <a href="https://parent.guide"><img src="images/parent-guide-logo.png"></a>
+          </div>
+        </div>
+          <nav id="main-menu" class="navbar navbar-expand-lg navbar-dark bg-dark">
+                  <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbar10">
+                      <span class="navbar-toggler-icon"></span>
+                  </button>
+                  <div class="navbar-collapse collapse" id="navbar10">
+                      <ul class="navbar-nav nav-fill w-100">
+                          <li class="nav-item hvr-underline-from-center red">
+                              <a class="nav-link" href="https://parent.guide/to-the-internet/access/">ACCESS</a>
+                          </li>
+                          <li class="nav-item hvr-underline-from-center orange">
+                              <a class="nav-link" href="https://parent.guide/to-the-internet/safety/">SAFETY</a>
+                          </li>
+                          <li class="nav-item hvr-underline-from-center y-green">
+                              <a class="nav-link" href="https://parent.guide/to-the-internet/social-media/">SOCIAL MEDIA</a>
+                          </li>
+                          <li class="nav-item hvr-underline-from-center light-blue">
+                              <a class="nav-link" href="https://parent.guide/to-the-internet/gaming/">GAMING</a>
+                          </li>
+                          <li class="nav-item hvr-underline-from-center dark-blue">
+                              <a class="nav-link" href="https://parent.guide/to-the-internet/cyber-security/">CYBER SECURITY</a>
+                          </li>
+                      </ul>
+                  </div>
+          </nav>
+        </div>
+    </div>
+    <!-- Main Content -->
+    <div class="gaming-section-wrap">
+      <div class="content">
+        <h1 class="content-title">ONLINE GAMING SAFETY TIPS PARENTS NEED TO KNOW</h1>
+        <hr>
+      </div>
+    </div>
+    <div class="gaming-content-wrap">
+      <div class="content">
+        <h3 class="title text-center black-box black-box--parent">PARENTAL SUPERVISION</h3>
+        <hr class="light-grey-line">
+        <div class="row gaming-svgs">
+          <div class="col-md-4">
+            <div class="gaming-wrap">
+              <canvas id="gaming-watch-graph"></canvas>
+              <div class="gaming-watch-svg">
+                  <svg id="svg-watch" xmlns="http://www.w3.org/2000/svg" width="100" height="50" viewBox="0 0 136.581 66.557">
+                    <g id="Group_1108" data-name="Group 1108" transform="translate(0.513 0.5)">
+                      <path id="Path_2352" data-name="Path 2352" d="M132.177,36.18a3.391,3.391,0,0,1-2.405-1C111.735,17.147,89.143,6.8,67.788,6.8S23.84,17.147,5.8,35.183a3.4,3.4,0,0,1-4.81-4.81A115.525,115.525,0,0,1,15.721,17.908a105.38,105.38,0,0,1,16.37-9.573A91.617,91.617,0,0,1,49.615,2.18a76.844,76.844,0,0,1,36.346,0,91.592,91.592,0,0,1,17.524,6.155,105.381,105.381,0,0,1,16.37,9.573,115.562,115.562,0,0,1,14.727,12.465,3.4,3.4,0,0,1-2.405,5.806Z" transform="translate(-0.01)" fill="#0a495f" stroke="#0a495f" stroke-width="1" class="gaming-recommended-svg-1"></path>
+                      <path id="Path_2353" data-name="Path 2353" d="M67.778,1107.184A78.76,78.76,0,0,1,49.6,1105a91.593,91.593,0,0,1-17.524-6.155,105.377,105.377,0,0,1-16.37-9.573A115.575,115.575,0,0,1,.984,1076.811a3.4,3.4,0,0,1,4.81-4.81c18.037,18.036,40.629,28.381,61.984,28.381s43.948-10.344,61.984-28.381a3.4,3.4,0,0,1,4.81,4.81,115.546,115.546,0,0,1-14.727,12.465,105.377,105.377,0,0,1-16.37,9.573A91.616,91.616,0,0,1,85.951,1105,78.756,78.756,0,0,1,67.778,1107.184Z" transform="translate(0 -1041.628)" fill="#0a495f" stroke="#0a495f" stroke-width="1" class="gaming-recommended-svg-2"></path>
+                      <path id="Path_2354" data-name="Path 2354" d="M1309.208,65.557a32.643,32.643,0,0,1-18.329-5.6,32.863,32.863,0,0,1-11.872-14.419,32.741,32.741,0,0,1,3.023-31.089,32.862,32.862,0,0,1,14.419-11.872A32.742,32.742,0,0,1,1327.538,5.6a32.862,32.862,0,0,1,11.872,14.419,32.741,32.741,0,0,1-3.023,31.089,32.863,32.863,0,0,1-14.419,11.872A32.585,32.585,0,0,1,1309.208,65.557Zm0-58.754a25.976,25.976,0,1,0,25.976,25.976A26,26,0,0,0,1309.208,6.8Z" transform="translate(-1241.43)" fill="#0a495f" stroke="#0a495f" stroke-width="1" class="gaming-recommended-svg-3"></path>
+                      <path id="Path_2355" data-name="Path 2355" d="M1890.727,592.259a16.831,16.831,0,0,0-22.038-8.947q-.537.227-1.055.49a4.483,4.483,0,0,1,2.946,1.343c2.033,2.144,1.392,6.053-1.432,8.73s-6.761,3.111-8.794.967a4.217,4.217,0,0,1-.967-1.668,16.815,16.815,0,1,0,31.341-.915Z" transform="translate(-1807.456 -566.026)" fill="#0a495f" stroke="#0a495f" stroke-width="1" class="gaming-recommended-svg-4"></path>
+                    </g>
+                  </svg>                                 
+              </div>
+            </div>
+            <div class="gaming-svg-text text-center">
+              <h3>57%</h3>
+              <p>of parents watch or <br>play the content first</p>
+            </div>
+          </div>
+          <div class="col-md-4">
+            <div class="gaming-wrap">
+              <canvas id="gaming-recommended-graph"></canvas>
+              <div class="gaming-recommended-svg">
+                  <svg id="svg-recommended" xmlns="http://www.w3.org/2000/svg" width="80" height="120" viewBox="0 0 95.958 120.727">
+                    <g id="Group_1133" data-name="Group 1133" transform="translate(1 1)">
+                      <path id="Path_2356" data-name="Path 2356" d="M555.572,2117.124H534.6a28.392,28.392,0,0,1-16.143-5.58,2.041,2.041,0,0,1,2.538-3.2c.057.044,6.056,4.695,13.606,4.695h20.972a2.041,2.041,0,0,1,0,4.083Z" transform="translate(-491.27 -2000.349)" fill="#0a495f" stroke="#0a495f" stroke-width="2" class="gaming-watch-svg-1"></path>
+                      <g id="Group_1115" data-name="Group 1115" transform="translate(26.415 30.742)">
+                        <path id="Path_2357" data-name="Path 2357" d="M519.729,644.241a2.041,2.041,0,0,1-1.409-3.517c.144-.138,14.493-13.854,17.629-18.606,2.529-3.833,1.893-7.191,1.331-10.153a11.483,11.483,0,0,1-.232-5.08c.53-1.969,2.025-3.291,4.57-4.042,3.232-.953,6.685.041,9.724,2.8a21.724,21.724,0,0,1,6.237,19.332c0,.019-.007.037-.012.056-.587,2.638-3.119,7.43-4.913,10.614h17.558a2.041,2.041,0,0,1,0,4.082h-21.1a2.041,2.041,0,0,1-1.749-3.094c1.515-2.517,5.575-9.645,6.216-12.462a17.7,17.7,0,0,0-4.979-15.507c-1.125-1.022-3.38-2.629-5.824-1.908-1.59.469-1.731.991-1.784,1.188a9.327,9.327,0,0,0,.3,3.259c.636,3.353,1.507,7.946-1.935,13.161-3.388,5.135-17.614,18.734-18.217,19.311A2.037,2.037,0,0,1,519.729,644.241Z" transform="translate(-517.688 -602.49)" fill="#0a495f" stroke="#0a495f" stroke-width="2" class="gaming-watch-svg-2"></path>
+                      </g>
+                      <g id="Group_1116" data-name="Group 1116" transform="translate(26.415 92.211)">
+                        <path id="Path_2358" data-name="Path 2358" d="M519.721,1813.85a2.041,2.041,0,0,1-2.041-2.041v-2.6a2.041,2.041,0,1,1,4.082,0v2.6A2.041,2.041,0,0,1,519.721,1813.85Z" transform="translate(-517.68 -1807.17)" fill="#0a495f" stroke="#0a495f" stroke-width="2" class="gaming-watch-svg-3"></path>
+                      </g>
+                      <g id="Group_1117" data-name="Group 1117" transform="translate(0 62.162)">
+                        <path id="Path_2359" data-name="Path 2359" d="M28.456,1245.914a2.041,2.041,0,0,1-2.041-2.041v-21.521H4.082v5.722a2.041,2.041,0,1,1-4.082,0v-7.763a2.041,2.041,0,0,1,2.041-2.041H28.456a2.041,2.041,0,0,1,2.041,2.041v23.562A2.041,2.041,0,0,1,28.456,1245.914Z" transform="translate(0 -1218.27)" fill="#0a495f" stroke="#0a495f" stroke-width="2" class="gaming-watch-svg-4"></path>
+                      </g>
+                      <g id="Group_1118" data-name="Group 1118" transform="translate(0 82.886)">
+                        <path id="Path_2360" data-name="Path 2360" d="M28.456,1660.261H2.041A2.041,2.041,0,0,1,0,1658.22v-31.759a2.041,2.041,0,1,1,4.082,0v29.718H26.415v-8.112a2.041,2.041,0,1,1,4.082,0v10.153A2.041,2.041,0,0,1,28.456,1660.261Z" transform="translate(0 -1624.42)" fill="#0a495f" stroke="#0a495f" stroke-width="2" class="gaming-watch-svg-5"></path>
+                      </g>
+                      <g id="Group_1119" data-name="Group 1119" transform="translate(13.207 100.982)">
+                        <path id="Path_2361" data-name="Path 2361" d="M264.391,1990.162a2.041,2.041,0,1,1,0-4.082,1.469,1.469,0,1,0-1.469-1.469,2.041,2.041,0,0,1-4.082,0,5.551,5.551,0,1,1,5.551,5.551Z" transform="translate(-258.84 -1979.06)" fill="#0a495f" stroke="#0a495f" stroke-width="2" class="gaming-watch-svg-6"></path>
+                      </g>
+                      <g id="Group_1120" data-name="Group 1120" transform="translate(74.178 63.897)">
+                        <path id="Path_2362" data-name="Path 2362" d="M1456.123,1268.409c-.126,0-.254,0-.382-.006a2.041,2.041,0,0,1,.061-4.081h.063c1.288.037,4.371-.207,5.117-3.324a4.645,4.645,0,0,0-.579-3.808,2.238,2.238,0,0,0-1.88-.839,2.041,2.041,0,1,1,0-4.082,6.325,6.325,0,0,1,5.086,2.394,8.591,8.591,0,0,1,1.343,7.287C1463.991,1265.961,1460.625,1268.409,1456.123,1268.409Z" transform="translate(-1453.761 -1252.27)" fill="#0a495f" stroke="#0a495f" stroke-width="2" class="gaming-watch-svg-7"></path>
+                      </g>
+                      <g id="Group_1121" data-name="Group 1121" transform="translate(71.902 75.949)">
+                        <path id="Path_2363" data-name="Path 2363" d="M1411.511,1504.61c-.128,0-.256,0-.385-.006a2.041,2.041,0,0,1,.117-4.081c1.966.058,4.45-.472,5.119-3.315a4.819,4.819,0,0,0-.4-3.711,3.153,3.153,0,0,0-2.545-.946,2.041,2.041,0,0,1,.04-4.082h.042a6.971,6.971,0,0,1,5.688,2.525c1.958,2.523,1.454,5.839,1.146,7.147C1419.379,1502.214,1416.094,1504.61,1411.511,1504.61Z" transform="translate(-1409.143 -1488.47)" fill="#0a495f" stroke="#0a495f" stroke-width="2" class="gaming-watch-svg-8"></path>
+                      </g>
+                      <g id="Group_1122" data-name="Group 1122" transform="translate(69.627 88.004)">
+                        <path id="Path_2364" data-name="Path 2364" d="M1366.893,1741.154c-.116,0-.233,0-.35-.005a2.041,2.041,0,1,1,.12-4.08,4.8,4.8,0,0,0,5.159-3.468,4.416,4.416,0,0,0-.281-3.769,3.1,3.1,0,0,0-2.663-1.03,2.041,2.041,0,0,1,0-4.082,6.938,6.938,0,0,1,5.958,2.7,8.329,8.329,0,0,1,.875,7.417A8.809,8.809,0,0,1,1366.893,1741.154Z" transform="translate(-1364.562 -1724.72)" fill="#0a495f" stroke="#0a495f" stroke-width="2" class="gaming-watch-svg-9"></path>
+                      </g>
+                      <g id="Group_1123" data-name="Group 1123" transform="translate(62.262 100.351)">
+                        <path id="Path_2365" data-name="Path 2365" d="M1222.278,1983.122h-.018a2.041,2.041,0,0,1,0-4.082.058.058,0,0,1,.015,0c7.362,0,8.662-2.019,9.362-4.087a3.658,3.658,0,0,0-.159-3.084,2.621,2.621,0,0,0-2.066-1.1,2.041,2.041,0,1,1,.426-4.06,6.673,6.673,0,0,1,5.077,2.957,7.63,7.63,0,0,1,.588,6.6C1233.458,1982.3,1227.673,1983.122,1222.278,1983.122Z" transform="translate(-1220.22 -1966.698)" fill="#0a495f" stroke="#0a495f" stroke-width="2" class="gaming-watch-svg-10"></path>
+                      </g>
+                      <g id="Group_1125" data-name="Group 1125" transform="translate(67.883 11.194)">
+                        <g id="Group_1124" data-name="Group 1124">
+                          <path id="Path_2366" data-name="Path 2366" d="M1332.426,234.266a2.041,2.041,0,0,1-1.443-3.484l10.8-10.8a2.041,2.041,0,0,1,2.887,2.887l-10.8,10.8A2.035,2.035,0,0,1,1332.426,234.266Z" transform="translate(-1330.385 -219.385)" fill="#0a495f" stroke="#0a495f" stroke-width="2" class="gaming-watch-svg-11"></path>
+                        </g>
+                      </g>
+                      <g id="Group_1127" data-name="Group 1127" transform="translate(24.631 11.195)">
+                        <g id="Group_1126" data-name="Group 1126">
+                          <path id="Path_2367" data-name="Path 2367" d="M495.565,234.276a2.034,2.034,0,0,1-1.443-.6l-10.8-10.8a2.041,2.041,0,0,1,2.886-2.886l10.8,10.8a2.041,2.041,0,0,1-1.443,3.484Z" transform="translate(-482.725 -219.395)" fill="#0a495f" stroke="#0a495f" stroke-width="2" class="gaming-watch-svg-12"></path>
+                        </g>
+                      </g>
+                      <g id="Group_1130" data-name="Group 1130" transform="translate(13.437 38.22)">
+                        <g id="Group_1128" data-name="Group 1128">
+                          <path id="Path_2368" data-name="Path 2368" d="M280.653,753.122H265.381a2.041,2.041,0,1,1,0-4.082h15.272a2.041,2.041,0,1,1,0,4.082Z" transform="translate(-263.34 -749.04)" fill="#0a495f" stroke="#0a495f" stroke-width="2" class="gaming-watch-svg-13"></path>
+                        </g>
+                        <g id="Group_1129" data-name="Group 1129" transform="translate(61.167)">
+                          <path id="Path_2369" data-name="Path 2369" d="M1479.423,753.122h-15.272a2.041,2.041,0,1,1,0-4.082h15.272a2.041,2.041,0,1,1,0,4.082Z" transform="translate(-1462.11 -749.04)" fill="#0a495f" stroke="#0a495f" stroke-width="2" class="gaming-watch-svg-14"></path>
+                        </g>
+                      </g>
+                      <g id="Group_1132" data-name="Group 1132" transform="translate(51.657)">
+                        <g id="Group_1131" data-name="Group 1131">
+                          <path id="Path_2370" data-name="Path 2370" d="M1014.421,19.354a2.041,2.041,0,0,1-2.041-2.041V2.041a2.041,2.041,0,1,1,4.082,0V17.313A2.041,2.041,0,0,1,1014.421,19.354Z" transform="translate(-1012.38)" fill="#0a495f" stroke="#0a495f" stroke-width="2" class="gaming-watch-svg-15"></path>
+                        </g>
+                      </g>
+                    </g>
+                  </svg> 
+              </div>
+            </div>
+            <div class="gaming-svg-text text-center">
+              <h3>34%</h3>
+              <p>parents listen to recommendations <br>from friends</p>
+            </div>
+          </div>
+          <div class="col-md-4">
+            <div class="gaming-wrap">
+              <canvas id="gaming-reputation-graph"></canvas>
+              <div class="gaming-reputation-svg">
+                  <svg id="NewGroupe0_1_" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" width="100" height="100" viewBox="0 0 110.78 110.995">
+                    <defs>
+                      <clipPath id="clip-path">
+                        <rect id="Rectangle_148" data-name="Rectangle 148" width="110.78" height="110.995" fill="#0a495f" stroke="#0a495f" stroke-width="1" class="gaming-reputation-svg-1"></rect>
+                      </clipPath>
+                    </defs>
+                    <g id="NewGroup10-0_1_">
+                      <g id="Group_1137" data-name="Group 1137">
+                        <path id="Path_2371" data-name="Path 2371" d="M85.348,118.647a33.3,33.3,0,1,1,33.3-33.3,33.3,33.3,0,0,1-33.3,33.3Zm0-72.147A38.848,38.848,0,1,0,124.2,85.348,38.85,38.85,0,0,0,85.348,46.5Z" transform="translate(-29.851 -29.851)" fill="#0a495f" stroke="#0a495f" stroke-width="1" class="gaming-reputation-svg-2"></path>
+                        <g id="Group_1136" data-name="Group 1136">
+                          <g id="Group_1134" data-name="Group 1134" clip-path="url(#clip-path)">
+                            <path id="Path_2372" data-name="Path 2372" d="M122.927,114.993a2.767,2.767,0,0,0-.752,2.385l1.371,8.418-7-3.874a2.782,2.782,0,0,0-2.689,0l-7,3.874,1.371-8.418a2.767,2.767,0,0,0-.752-2.385l-5.94-6.09,8.081-1.235A2.756,2.756,0,0,0,111.7,106.1l3.495-7.44,3.5,7.44a2.764,2.764,0,0,0,2.091,1.565l8.081,1.235-5.94,6.09Zm12.113-10.759-11.955-1.83-5.378-11.447a2.882,2.882,0,0,0-5.016,0L107.316,102.4l-11.955,1.83a2.77,2.77,0,0,0-1.565,4.68l8.729,8.951-2.066,12.675a2.774,2.774,0,0,0,4.082,2.875l10.659-5.893,10.659,5.893a2.776,2.776,0,0,0,4.082-2.875l-2.066-12.675,8.729-8.951a2.77,2.77,0,0,0-1.565-4.68Z" transform="translate(-59.703 -57.451)" fill="#0a495f" stroke="#0a495f" stroke-width="1" class="gaming-reputation-svg-3"></path>
+                          </g>
+                          <g id="Group_1135" data-name="Group 1135" clip-path="url(#clip-path)">
+                            <path id="Path_2373" data-name="Path 2373" d="M103.737,71a3.279,3.279,0,0,1-.286.165l-5.718,2.954a9.28,9.28,0,0,0-4.988,8.64l.3,6.423a3.66,3.66,0,0,1-1.085,2.782,3.523,3.523,0,0,1-2.775,1.078l-6.427-.3a9.369,9.369,0,0,0-8.64,4.988l-2.954,5.714a3.65,3.65,0,0,1-2.324,1.873,3.7,3.7,0,0,1-2.95-.458l-5.414-3.469a9.267,9.267,0,0,0-9.972,0L45.1,104.861a3.7,3.7,0,0,1-2.95.458,3.656,3.656,0,0,1-2.324-1.869l-2.954-5.714a9.254,9.254,0,0,0-8.64-4.988l-6.427.3a3.424,3.424,0,0,1-2.775-1.074,3.66,3.66,0,0,1-1.085-2.782l.3-6.434a9.269,9.269,0,0,0-4.988-8.633L7.541,71.169a3.7,3.7,0,0,1-1.575-4.984c.05-.1.107-.193.165-.286L9.6,60.481a9.274,9.274,0,0,0,0-9.975L6.13,45.1A3.7,3.7,0,0,1,7.254,39.99a3.282,3.282,0,0,1,.286-.165l5.718-2.954a9.28,9.28,0,0,0,4.988-8.64l-.3-6.423a3.66,3.66,0,0,1,1.085-2.782A3.386,3.386,0,0,1,21.8,17.952l6.427.3a9.293,9.293,0,0,0,8.64-4.988l2.954-5.714A3.688,3.688,0,0,1,44.8,5.961c.1.054.2.111.3.172L50.506,9.6a9.267,9.267,0,0,0,9.972,0l5.414-3.469a3.694,3.694,0,0,1,5.1,1.121,2.966,2.966,0,0,1,.168.294l2.954,5.714a9.212,9.212,0,0,0,8.64,4.988l6.427-.3a3.508,3.508,0,0,1,2.775,1.074,3.657,3.657,0,0,1,1.085,2.778l-.3,6.434a9.269,9.269,0,0,0,4.988,8.633l5.718,2.954a3.7,3.7,0,0,1,1.575,4.984c-.05.1-.107.193-.165.286l-3.473,5.417a9.274,9.274,0,0,0,0,9.975l3.473,5.41a3.686,3.686,0,0,1-1.117,5.1Zm2.993-35.683A8.285,8.285,0,0,0,106,34.9l-5.714-2.954a3.716,3.716,0,0,1-1.994-3.448l.3-6.431a9.255,9.255,0,0,0-2.7-6.964,9.456,9.456,0,0,0-6.96-2.7l-6.427.3a3.688,3.688,0,0,1-3.448-1.987L76.1,4.995A9.247,9.247,0,0,0,63.64,1.038c-.251.129-.5.272-.734.422L57.492,4.93a3.7,3.7,0,0,1-3.989,0L48.086,1.461a9.248,9.248,0,0,0-12.772,2.8A8.445,8.445,0,0,0,34.888,5l-2.95,5.714A3.8,3.8,0,0,1,28.49,12.7l-6.427-.3A9.411,9.411,0,0,0,15.106,15.1a9.268,9.268,0,0,0-2.7,6.968l.3,6.423a3.715,3.715,0,0,1-1.994,3.452L5,34.9a9.24,9.24,0,0,0-3.964,12.46c.129.251.272.494.426.734L4.938,53.5a3.712,3.712,0,0,1,0,3.985L1.461,62.905a9.245,9.245,0,0,0,2.8,12.772c.24.154.483.294.734.422l5.718,2.954A3.723,3.723,0,0,1,12.707,82.5l-.3,6.431a9.237,9.237,0,0,0,8.8,9.657,8.457,8.457,0,0,0,.852,0l6.427-.3a3.753,3.753,0,0,1,3.448,1.987L34.888,106a9.242,9.242,0,0,0,12.46,3.96c.251-.129.5-.272.738-.426l5.414-3.469a3.7,3.7,0,0,1,3.989,0l5.414,3.469a9.245,9.245,0,0,0,12.772-2.8,8.444,8.444,0,0,0,.426-.741l2.954-5.714A3.916,3.916,0,0,1,82.5,98.284l6.427.3a9.239,9.239,0,0,0,9.657-8.8,8.523,8.523,0,0,0,0-.856l-.3-6.42a3.715,3.715,0,0,1,1.994-3.452l5.714-2.954a9.224,9.224,0,0,0,4.78-6.241V65.917a9.188,9.188,0,0,0-.824-2.281c-.129-.251-.272-.5-.422-.734l-3.473-5.41a3.712,3.712,0,0,1,0-3.985l3.473-5.417a9.153,9.153,0,0,0,1.246-3V41.136a9.165,9.165,0,0,0-4.042-5.818Z" transform="translate(0 0)" fill="#0a495f" stroke="#0a495f" stroke-width="1" class="gaming-reputation-svg-4"></path>
+                          </g>
+                        </g>
+                      </g>
+                    </g>
+                  </svg>                  
+              </div>
+            </div>
+            <div class="gaming-svg-text text-center">
+              <h3>31%</h3>
+              <p>parents rely on the <br>reputation of the company</p>
+            </div>
+          </div>
+        </div>
+       <!-- end row -->
+      </div>
+    </div>
+    <div class="animatedParent">
+      <div class="online-gaming-wrap animated fadeIn slow">
+        <div class="content">
+          <h3 class="title text-center">ONLINE GAMING</h3>
+          <hr class="light-grey-line">
+          <div class="row">
+            <div class="col-12 col-sm-4 img states">
+              <div class="states-img">
+                <img src="images/map.png">
+              </div>
+              <h3 class="title">64%</h3>
+              <p>of the general<br>population of US are gamers</p>
+            </div>
+            <div class="col-12 col-sm-4 img console">
+              <div class="console-img imgg">
+                <img src="images/game-controller.png">
+              </div>
+              <h3 class="title">60%</h3>
+              <p>of children prefer<br>playing games on a console</p>
+            </div>
+            <div class="col-12 col-sm-4 img mobile">
+              <div class="mobile-img imgg">
+                <img src="images/smartphone.png">
+              </div>
+              <h3 class="title">63%</h3>
+              <p>of children access mobile<br>devices which they use to play games</p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <!-- ONLINE RISKS WRAP -->
+    <div class="online-risk-wrap animatedParent">
+      <div class="content">
+        <h3 class="title text-center">ONLINE GAMING RISKS</h3>
+        <hr class="light-grey-line">
+        <div class="row">
+          <div class="col-md-4">
+            <div class="outer-div">
+              <div class="left-cyberbully left-div">
+                <div class="gaming-risks-svg">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="30" height="30" viewBox="0 0 58.072 58.07">
+                      <g id="NewGroupe0_1_" transform="translate(0.5 0.5)">
+                        <g id="NewGroup12-0_1_">
+                          <g id="Group_1139" data-name="Group 1139">
+                            <path id="Path_2379" data-name="Path 2379" d="M55.156,32.488l-5.349,1.763a.953.953,0,0,0-.611.624A21.537,21.537,0,0,1,47.6,38.7a.949.949,0,0,0-.02.854l2.3,4.857a26.669,26.669,0,0,1-5.525,5.511l-4.852-2.312a.949.949,0,0,0-.854.018,21.429,21.429,0,0,1-3.827,1.583.953.953,0,0,0-.626.609l-1.778,5.345-7.841-.009-1.763-5.349a.953.953,0,0,0-.624-.611A21.628,21.628,0,0,1,18.372,47.6a.949.949,0,0,0-.854-.02l-4.859,2.3a26.678,26.678,0,0,1-5.512-5.525L9.459,39.5a.949.949,0,0,0-.018-.854,21.4,21.4,0,0,1-1.583-3.827.946.946,0,0,0-.609-.626L1.9,32.421l.009-7.841,5.349-1.763a.952.952,0,0,0,.58-.537L9.5,18.288a.951.951,0,0,0-.018-.773l-2.3-4.859a26.678,26.678,0,0,1,5.525-5.512l4.852,2.312a.951.951,0,0,0,.773.02l4-1.653a.957.957,0,0,0,.539-.578L24.647,1.9l7.841.009,1.763,5.349a.952.952,0,0,0,.537.58L38.78,9.5a.951.951,0,0,0,.773-.018l4.859-2.3a26.678,26.678,0,0,1,5.512,5.525l-2.312,4.854a.951.951,0,0,0-.02.773l1.653,4a.949.949,0,0,0,.578.537l5.343,1.78-.011,7.841Zm1.261-9.429L50.832,21.2,49.507,18,51.88,13.02a.95.95,0,0,0-.083-.959,28.518,28.518,0,0,0-6.733-6.749.946.946,0,0,0-.959-.087l-4.988,2.36-3.2-1.333L34.078.664a.948.948,0,0,0-.9-.653L23.962,0a.952.952,0,0,0-.9.652L21.2,6.236,18,7.561,13.02,5.187a.955.955,0,0,0-.959.085A28.526,28.526,0,0,0,5.31,12a.946.946,0,0,0-.085.959l2.36,4.986-1.333,3.2L.664,22.99a.949.949,0,0,0-.653.9L0,33.106a.952.952,0,0,0,.652.9L6.186,35.85a23.405,23.405,0,0,0,1.353,3.263L5.189,44.05a.95.95,0,0,0,.083.959A28.518,28.518,0,0,0,12,51.758a.955.955,0,0,0,.959.087L17.9,49.505a23.478,23.478,0,0,0,3.261,1.36l1.828,5.54a.951.951,0,0,0,.9.653l9.214.011a.952.952,0,0,0,.9-.652l1.841-5.535a23.238,23.238,0,0,0,3.263-1.353l4.936,2.35a.95.95,0,0,0,.959-.083,28.587,28.587,0,0,0,6.749-6.733.946.946,0,0,0,.085-.959l-2.339-4.942a23.422,23.422,0,0,0,1.36-3.261l5.54-1.828a.947.947,0,0,0,.653-.9l.011-9.214a.96.96,0,0,0-.655-.9Z" fill="#fff" stroke="#fff" stroke-width="1" class="gaming-risk-svg-1"></path>
+                            <path id="Path_2380" data-name="Path 2380" d="M101.235,74.87a58.837,58.837,0,0,1-12.692,8.408l-1.1.539-1.1-.543a58.835,58.835,0,0,1-12.67-8.439L73.7,59.371a34.981,34.981,0,0,0,13.184-8.284l.606-.613.6.615A35,35,0,0,0,101.254,59.4l-.018,15.466ZM88.245,48.223a1.091,1.091,0,0,0-1.509,0L85.375,49.6a32.955,32.955,0,0,1-13.068,8.01,1.062,1.062,0,0,0-.727,1l-.02,16.7a1.062,1.062,0,0,0,.355.793,60.929,60.929,0,0,0,13.5,9.068l1.564.775a1.047,1.047,0,0,0,.469.11,1.028,1.028,0,0,0,.469-.11l1.566-.771A61.03,61.03,0,0,0,103,76.144a1.059,1.059,0,0,0,.355-.793l.02-16.7a1.061,1.061,0,0,0-.723-1.007A32.958,32.958,0,0,1,89.6,49.6l-1.36-1.38Z" transform="translate(-58.389 -39.099)" fill="#fff" stroke="#fff" stroke-width="1" class="gaming-risk-svg-2"></path>
+                            <path id="Path_2381" data-name="Path 2381" d="M141.133,96.032l-1.9,9.431-1.876-9.437,3.773.006Zm-5.884-1.739a1.054,1.054,0,0,0-.221.88l3.16,15.9a1.059,1.059,0,0,0,2.078,0l3.2-15.893a1.06,1.06,0,0,0-1.038-1.268l-6.359-.007a1.048,1.048,0,0,0-.819.383Z" transform="translate(-110.159 -76.625)" fill="#fff" stroke="#fff" stroke-width="1" class="gaming-risk-svg-3"></path>
+                            <path id="Path_2382" data-name="Path 2382" d="M148.424,203.435a1.9,1.9,0,1,1-1.9-1.9,1.9,1.9,0,0,1,1.9,1.9Z" transform="translate(-118.002 -164.437)" fill="#fff" stroke="#fff" stroke-width="1" class="gaming-risk-svg-4"></path>
+                          </g>
+                        </g>
+                      </g>
+                    </svg>                    
+                </div>
+              </div>
+              <div class="right-cyberbully right-div">
+                <h3 class="text-center">CYBER BULLYING</h3>
+              </div>
+            </div>
+            <div class="outer-div">
+              <div class="left-cyberbully left-div" style="background: #0A495F;">
+                <div class="gaming-risks-svg">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="30" height="30" viewBox="0 0 58.072 58.07">
+                      <g id="NewGroupe0_1_" transform="translate(0.5 0.5)">
+                        <g id="NewGroup12-0_1_">
+                          <g id="Group_1139" data-name="Group 1139">
+                            <path id="Path_2379" data-name="Path 2379" d="M55.156,32.488l-5.349,1.763a.953.953,0,0,0-.611.624A21.537,21.537,0,0,1,47.6,38.7a.949.949,0,0,0-.02.854l2.3,4.857a26.669,26.669,0,0,1-5.525,5.511l-4.852-2.312a.949.949,0,0,0-.854.018,21.429,21.429,0,0,1-3.827,1.583.953.953,0,0,0-.626.609l-1.778,5.345-7.841-.009-1.763-5.349a.953.953,0,0,0-.624-.611A21.628,21.628,0,0,1,18.372,47.6a.949.949,0,0,0-.854-.02l-4.859,2.3a26.678,26.678,0,0,1-5.512-5.525L9.459,39.5a.949.949,0,0,0-.018-.854,21.4,21.4,0,0,1-1.583-3.827.946.946,0,0,0-.609-.626L1.9,32.421l.009-7.841,5.349-1.763a.952.952,0,0,0,.58-.537L9.5,18.288a.951.951,0,0,0-.018-.773l-2.3-4.859a26.678,26.678,0,0,1,5.525-5.512l4.852,2.312a.951.951,0,0,0,.773.02l4-1.653a.957.957,0,0,0,.539-.578L24.647,1.9l7.841.009,1.763,5.349a.952.952,0,0,0,.537.58L38.78,9.5a.951.951,0,0,0,.773-.018l4.859-2.3a26.678,26.678,0,0,1,5.512,5.525l-2.312,4.854a.951.951,0,0,0-.02.773l1.653,4a.949.949,0,0,0,.578.537l5.343,1.78-.011,7.841Zm1.261-9.429L50.832,21.2,49.507,18,51.88,13.02a.95.95,0,0,0-.083-.959,28.518,28.518,0,0,0-6.733-6.749.946.946,0,0,0-.959-.087l-4.988,2.36-3.2-1.333L34.078.664a.948.948,0,0,0-.9-.653L23.962,0a.952.952,0,0,0-.9.652L21.2,6.236,18,7.561,13.02,5.187a.955.955,0,0,0-.959.085A28.526,28.526,0,0,0,5.31,12a.946.946,0,0,0-.085.959l2.36,4.986-1.333,3.2L.664,22.99a.949.949,0,0,0-.653.9L0,33.106a.952.952,0,0,0,.652.9L6.186,35.85a23.405,23.405,0,0,0,1.353,3.263L5.189,44.05a.95.95,0,0,0,.083.959A28.518,28.518,0,0,0,12,51.758a.955.955,0,0,0,.959.087L17.9,49.505a23.478,23.478,0,0,0,3.261,1.36l1.828,5.54a.951.951,0,0,0,.9.653l9.214.011a.952.952,0,0,0,.9-.652l1.841-5.535a23.238,23.238,0,0,0,3.263-1.353l4.936,2.35a.95.95,0,0,0,.959-.083,28.587,28.587,0,0,0,6.749-6.733.946.946,0,0,0,.085-.959l-2.339-4.942a23.422,23.422,0,0,0,1.36-3.261l5.54-1.828a.947.947,0,0,0,.653-.9l.011-9.214a.96.96,0,0,0-.655-.9Z" fill="#fff" stroke="#fff" stroke-width="1" class="gaming-risk-svg-1"></path>
+                            <path id="Path_2380" data-name="Path 2380" d="M101.235,74.87a58.837,58.837,0,0,1-12.692,8.408l-1.1.539-1.1-.543a58.835,58.835,0,0,1-12.67-8.439L73.7,59.371a34.981,34.981,0,0,0,13.184-8.284l.606-.613.6.615A35,35,0,0,0,101.254,59.4l-.018,15.466ZM88.245,48.223a1.091,1.091,0,0,0-1.509,0L85.375,49.6a32.955,32.955,0,0,1-13.068,8.01,1.062,1.062,0,0,0-.727,1l-.02,16.7a1.062,1.062,0,0,0,.355.793,60.929,60.929,0,0,0,13.5,9.068l1.564.775a1.047,1.047,0,0,0,.469.11,1.028,1.028,0,0,0,.469-.11l1.566-.771A61.03,61.03,0,0,0,103,76.144a1.059,1.059,0,0,0,.355-.793l.02-16.7a1.061,1.061,0,0,0-.723-1.007A32.958,32.958,0,0,1,89.6,49.6l-1.36-1.38Z" transform="translate(-58.389 -39.099)" fill="#fff" stroke="#fff" stroke-width="1" class="gaming-risk-svg-2"></path>
+                            <path id="Path_2381" data-name="Path 2381" d="M141.133,96.032l-1.9,9.431-1.876-9.437,3.773.006Zm-5.884-1.739a1.054,1.054,0,0,0-.221.88l3.16,15.9a1.059,1.059,0,0,0,2.078,0l3.2-15.893a1.06,1.06,0,0,0-1.038-1.268l-6.359-.007a1.048,1.048,0,0,0-.819.383Z" transform="translate(-110.159 -76.625)" fill="#fff" stroke="#fff" stroke-width="1" class="gaming-risk-svg-3"></path>
+                            <path id="Path_2382" data-name="Path 2382" d="M148.424,203.435a1.9,1.9,0,1,1-1.9-1.9,1.9,1.9,0,0,1,1.9,1.9Z" transform="translate(-118.002 -164.437)" fill="#fff" stroke="#fff" stroke-width="1" class="gaming-risk-svg-4"></path>
+                          </g>
+                        </g>
+                      </g>
+                    </svg>                    
+                </div>
+              </div>
+              <div class="right-cyberbully right-div" style="background: #0999CC;">
+                <h3 class="text-center">AGE RESTRICTION</h3>
+              </div>
+            </div>
+            <div class="outer-div">
+              <div class="left-cyberbully left-div">
+                <div class="gaming-risks-svg">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="30" height="30" viewBox="0 0 58.072 58.07">
+                      <g id="NewGroupe0_1_" transform="translate(0.5 0.5)">
+                        <g id="NewGroup12-0_1_">
+                          <g id="Group_1139" data-name="Group 1139">
+                            <path id="Path_2379" data-name="Path 2379" d="M55.156,32.488l-5.349,1.763a.953.953,0,0,0-.611.624A21.537,21.537,0,0,1,47.6,38.7a.949.949,0,0,0-.02.854l2.3,4.857a26.669,26.669,0,0,1-5.525,5.511l-4.852-2.312a.949.949,0,0,0-.854.018,21.429,21.429,0,0,1-3.827,1.583.953.953,0,0,0-.626.609l-1.778,5.345-7.841-.009-1.763-5.349a.953.953,0,0,0-.624-.611A21.628,21.628,0,0,1,18.372,47.6a.949.949,0,0,0-.854-.02l-4.859,2.3a26.678,26.678,0,0,1-5.512-5.525L9.459,39.5a.949.949,0,0,0-.018-.854,21.4,21.4,0,0,1-1.583-3.827.946.946,0,0,0-.609-.626L1.9,32.421l.009-7.841,5.349-1.763a.952.952,0,0,0,.58-.537L9.5,18.288a.951.951,0,0,0-.018-.773l-2.3-4.859a26.678,26.678,0,0,1,5.525-5.512l4.852,2.312a.951.951,0,0,0,.773.02l4-1.653a.957.957,0,0,0,.539-.578L24.647,1.9l7.841.009,1.763,5.349a.952.952,0,0,0,.537.58L38.78,9.5a.951.951,0,0,0,.773-.018l4.859-2.3a26.678,26.678,0,0,1,5.512,5.525l-2.312,4.854a.951.951,0,0,0-.02.773l1.653,4a.949.949,0,0,0,.578.537l5.343,1.78-.011,7.841Zm1.261-9.429L50.832,21.2,49.507,18,51.88,13.02a.95.95,0,0,0-.083-.959,28.518,28.518,0,0,0-6.733-6.749.946.946,0,0,0-.959-.087l-4.988,2.36-3.2-1.333L34.078.664a.948.948,0,0,0-.9-.653L23.962,0a.952.952,0,0,0-.9.652L21.2,6.236,18,7.561,13.02,5.187a.955.955,0,0,0-.959.085A28.526,28.526,0,0,0,5.31,12a.946.946,0,0,0-.085.959l2.36,4.986-1.333,3.2L.664,22.99a.949.949,0,0,0-.653.9L0,33.106a.952.952,0,0,0,.652.9L6.186,35.85a23.405,23.405,0,0,0,1.353,3.263L5.189,44.05a.95.95,0,0,0,.083.959A28.518,28.518,0,0,0,12,51.758a.955.955,0,0,0,.959.087L17.9,49.505a23.478,23.478,0,0,0,3.261,1.36l1.828,5.54a.951.951,0,0,0,.9.653l9.214.011a.952.952,0,0,0,.9-.652l1.841-5.535a23.238,23.238,0,0,0,3.263-1.353l4.936,2.35a.95.95,0,0,0,.959-.083,28.587,28.587,0,0,0,6.749-6.733.946.946,0,0,0,.085-.959l-2.339-4.942a23.422,23.422,0,0,0,1.36-3.261l5.54-1.828a.947.947,0,0,0,.653-.9l.011-9.214a.96.96,0,0,0-.655-.9Z" fill="#fff" stroke="#fff" stroke-width="1" class="gaming-risk-svg-1"></path>
+                            <path id="Path_2380" data-name="Path 2380" d="M101.235,74.87a58.837,58.837,0,0,1-12.692,8.408l-1.1.539-1.1-.543a58.835,58.835,0,0,1-12.67-8.439L73.7,59.371a34.981,34.981,0,0,0,13.184-8.284l.606-.613.6.615A35,35,0,0,0,101.254,59.4l-.018,15.466ZM88.245,48.223a1.091,1.091,0,0,0-1.509,0L85.375,49.6a32.955,32.955,0,0,1-13.068,8.01,1.062,1.062,0,0,0-.727,1l-.02,16.7a1.062,1.062,0,0,0,.355.793,60.929,60.929,0,0,0,13.5,9.068l1.564.775a1.047,1.047,0,0,0,.469.11,1.028,1.028,0,0,0,.469-.11l1.566-.771A61.03,61.03,0,0,0,103,76.144a1.059,1.059,0,0,0,.355-.793l.02-16.7a1.061,1.061,0,0,0-.723-1.007A32.958,32.958,0,0,1,89.6,49.6l-1.36-1.38Z" transform="translate(-58.389 -39.099)" fill="#fff" stroke="#fff" stroke-width="1" class="gaming-risk-svg-2"></path>
+                            <path id="Path_2381" data-name="Path 2381" d="M141.133,96.032l-1.9,9.431-1.876-9.437,3.773.006Zm-5.884-1.739a1.054,1.054,0,0,0-.221.88l3.16,15.9a1.059,1.059,0,0,0,2.078,0l3.2-15.893a1.06,1.06,0,0,0-1.038-1.268l-6.359-.007a1.048,1.048,0,0,0-.819.383Z" transform="translate(-110.159 -76.625)" fill="#fff" stroke="#fff" stroke-width="1" class="gaming-risk-svg-3"></path>
+                            <path id="Path_2382" data-name="Path 2382" d="M148.424,203.435a1.9,1.9,0,1,1-1.9-1.9,1.9,1.9,0,0,1,1.9,1.9Z" transform="translate(-118.002 -164.437)" fill="#fff" stroke="#fff" stroke-width="1" class="gaming-risk-svg-4"></path>
+                          </g>
+                        </g>
+                      </g>
+                    </svg>                    
+                </div>
+              </div>
+              <div class="right-cyberbully right-div">
+                <h3 class="text-center">ADDICTION</h3>
+              </div>
+            </div>
+          </div>
+          <div class="col-md-4">
+            <div class="game-console">
+              <img src="images/gaming-console.png">
+            </div>
+          </div>
+          <div class="col-md-4">
+            <div class="outer-div">
+              <div class="left-cyberbully left-div">
+                <div class="gaming-risks-svg">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="30" height="30" viewBox="0 0 58.072 58.07">
+                      <g id="NewGroupe0_1_" transform="translate(0.5 0.5)">
+                        <g id="NewGroup12-0_1_">
+                          <g id="Group_1139" data-name="Group 1139">
+                            <path id="Path_2379" data-name="Path 2379" d="M55.156,32.488l-5.349,1.763a.953.953,0,0,0-.611.624A21.537,21.537,0,0,1,47.6,38.7a.949.949,0,0,0-.02.854l2.3,4.857a26.669,26.669,0,0,1-5.525,5.511l-4.852-2.312a.949.949,0,0,0-.854.018,21.429,21.429,0,0,1-3.827,1.583.953.953,0,0,0-.626.609l-1.778,5.345-7.841-.009-1.763-5.349a.953.953,0,0,0-.624-.611A21.628,21.628,0,0,1,18.372,47.6a.949.949,0,0,0-.854-.02l-4.859,2.3a26.678,26.678,0,0,1-5.512-5.525L9.459,39.5a.949.949,0,0,0-.018-.854,21.4,21.4,0,0,1-1.583-3.827.946.946,0,0,0-.609-.626L1.9,32.421l.009-7.841,5.349-1.763a.952.952,0,0,0,.58-.537L9.5,18.288a.951.951,0,0,0-.018-.773l-2.3-4.859a26.678,26.678,0,0,1,5.525-5.512l4.852,2.312a.951.951,0,0,0,.773.02l4-1.653a.957.957,0,0,0,.539-.578L24.647,1.9l7.841.009,1.763,5.349a.952.952,0,0,0,.537.58L38.78,9.5a.951.951,0,0,0,.773-.018l4.859-2.3a26.678,26.678,0,0,1,5.512,5.525l-2.312,4.854a.951.951,0,0,0-.02.773l1.653,4a.949.949,0,0,0,.578.537l5.343,1.78-.011,7.841Zm1.261-9.429L50.832,21.2,49.507,18,51.88,13.02a.95.95,0,0,0-.083-.959,28.518,28.518,0,0,0-6.733-6.749.946.946,0,0,0-.959-.087l-4.988,2.36-3.2-1.333L34.078.664a.948.948,0,0,0-.9-.653L23.962,0a.952.952,0,0,0-.9.652L21.2,6.236,18,7.561,13.02,5.187a.955.955,0,0,0-.959.085A28.526,28.526,0,0,0,5.31,12a.946.946,0,0,0-.085.959l2.36,4.986-1.333,3.2L.664,22.99a.949.949,0,0,0-.653.9L0,33.106a.952.952,0,0,0,.652.9L6.186,35.85a23.405,23.405,0,0,0,1.353,3.263L5.189,44.05a.95.95,0,0,0,.083.959A28.518,28.518,0,0,0,12,51.758a.955.955,0,0,0,.959.087L17.9,49.505a23.478,23.478,0,0,0,3.261,1.36l1.828,5.54a.951.951,0,0,0,.9.653l9.214.011a.952.952,0,0,0,.9-.652l1.841-5.535a23.238,23.238,0,0,0,3.263-1.353l4.936,2.35a.95.95,0,0,0,.959-.083,28.587,28.587,0,0,0,6.749-6.733.946.946,0,0,0,.085-.959l-2.339-4.942a23.422,23.422,0,0,0,1.36-3.261l5.54-1.828a.947.947,0,0,0,.653-.9l.011-9.214a.96.96,0,0,0-.655-.9Z" fill="#fff" stroke="#fff" stroke-width="1" class="gaming-risk-svg-1"></path>
+                            <path id="Path_2380" data-name="Path 2380" d="M101.235,74.87a58.837,58.837,0,0,1-12.692,8.408l-1.1.539-1.1-.543a58.835,58.835,0,0,1-12.67-8.439L73.7,59.371a34.981,34.981,0,0,0,13.184-8.284l.606-.613.6.615A35,35,0,0,0,101.254,59.4l-.018,15.466ZM88.245,48.223a1.091,1.091,0,0,0-1.509,0L85.375,49.6a32.955,32.955,0,0,1-13.068,8.01,1.062,1.062,0,0,0-.727,1l-.02,16.7a1.062,1.062,0,0,0,.355.793,60.929,60.929,0,0,0,13.5,9.068l1.564.775a1.047,1.047,0,0,0,.469.11,1.028,1.028,0,0,0,.469-.11l1.566-.771A61.03,61.03,0,0,0,103,76.144a1.059,1.059,0,0,0,.355-.793l.02-16.7a1.061,1.061,0,0,0-.723-1.007A32.958,32.958,0,0,1,89.6,49.6l-1.36-1.38Z" transform="translate(-58.389 -39.099)" fill="#fff" stroke="#fff" stroke-width="1" class="gaming-risk-svg-2"></path>
+                            <path id="Path_2381" data-name="Path 2381" d="M141.133,96.032l-1.9,9.431-1.876-9.437,3.773.006Zm-5.884-1.739a1.054,1.054,0,0,0-.221.88l3.16,15.9a1.059,1.059,0,0,0,2.078,0l3.2-15.893a1.06,1.06,0,0,0-1.038-1.268l-6.359-.007a1.048,1.048,0,0,0-.819.383Z" transform="translate(-110.159 -76.625)" fill="#fff" stroke="#fff" stroke-width="1" class="gaming-risk-svg-3"></path>
+                            <path id="Path_2382" data-name="Path 2382" d="M148.424,203.435a1.9,1.9,0,1,1-1.9-1.9,1.9,1.9,0,0,1,1.9,1.9Z" transform="translate(-118.002 -164.437)" fill="#fff" stroke="#fff" stroke-width="1" class="gaming-risk-svg-4"></path>
+                          </g>
+                        </g>
+                      </g>
+                    </svg>                    
+                </div>
+              </div>
+              <div class="right-cyberbully right-div">
+                <h3 class="text-center">IDENTITY THEFT</h3>
+              </div>
+            </div>
+            <div class="outer-div">
+              <div class="left-cyberbully left-div" style="background: #0A495F;">
+                <div class="gaming-risks-svg">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="30" height="30" viewBox="0 0 58.072 58.07">
+                      <g id="NewGroupe0_1_" transform="translate(0.5 0.5)">
+                        <g id="NewGroup12-0_1_">
+                          <g id="Group_1139" data-name="Group 1139">
+                            <path id="Path_2379" data-name="Path 2379" d="M55.156,32.488l-5.349,1.763a.953.953,0,0,0-.611.624A21.537,21.537,0,0,1,47.6,38.7a.949.949,0,0,0-.02.854l2.3,4.857a26.669,26.669,0,0,1-5.525,5.511l-4.852-2.312a.949.949,0,0,0-.854.018,21.429,21.429,0,0,1-3.827,1.583.953.953,0,0,0-.626.609l-1.778,5.345-7.841-.009-1.763-5.349a.953.953,0,0,0-.624-.611A21.628,21.628,0,0,1,18.372,47.6a.949.949,0,0,0-.854-.02l-4.859,2.3a26.678,26.678,0,0,1-5.512-5.525L9.459,39.5a.949.949,0,0,0-.018-.854,21.4,21.4,0,0,1-1.583-3.827.946.946,0,0,0-.609-.626L1.9,32.421l.009-7.841,5.349-1.763a.952.952,0,0,0,.58-.537L9.5,18.288a.951.951,0,0,0-.018-.773l-2.3-4.859a26.678,26.678,0,0,1,5.525-5.512l4.852,2.312a.951.951,0,0,0,.773.02l4-1.653a.957.957,0,0,0,.539-.578L24.647,1.9l7.841.009,1.763,5.349a.952.952,0,0,0,.537.58L38.78,9.5a.951.951,0,0,0,.773-.018l4.859-2.3a26.678,26.678,0,0,1,5.512,5.525l-2.312,4.854a.951.951,0,0,0-.02.773l1.653,4a.949.949,0,0,0,.578.537l5.343,1.78-.011,7.841Zm1.261-9.429L50.832,21.2,49.507,18,51.88,13.02a.95.95,0,0,0-.083-.959,28.518,28.518,0,0,0-6.733-6.749.946.946,0,0,0-.959-.087l-4.988,2.36-3.2-1.333L34.078.664a.948.948,0,0,0-.9-.653L23.962,0a.952.952,0,0,0-.9.652L21.2,6.236,18,7.561,13.02,5.187a.955.955,0,0,0-.959.085A28.526,28.526,0,0,0,5.31,12a.946.946,0,0,0-.085.959l2.36,4.986-1.333,3.2L.664,22.99a.949.949,0,0,0-.653.9L0,33.106a.952.952,0,0,0,.652.9L6.186,35.85a23.405,23.405,0,0,0,1.353,3.263L5.189,44.05a.95.95,0,0,0,.083.959A28.518,28.518,0,0,0,12,51.758a.955.955,0,0,0,.959.087L17.9,49.505a23.478,23.478,0,0,0,3.261,1.36l1.828,5.54a.951.951,0,0,0,.9.653l9.214.011a.952.952,0,0,0,.9-.652l1.841-5.535a23.238,23.238,0,0,0,3.263-1.353l4.936,2.35a.95.95,0,0,0,.959-.083,28.587,28.587,0,0,0,6.749-6.733.946.946,0,0,0,.085-.959l-2.339-4.942a23.422,23.422,0,0,0,1.36-3.261l5.54-1.828a.947.947,0,0,0,.653-.9l.011-9.214a.96.96,0,0,0-.655-.9Z" fill="#fff" stroke="#fff" stroke-width="1" class="gaming-risk-svg-1"></path>
+                            <path id="Path_2380" data-name="Path 2380" d="M101.235,74.87a58.837,58.837,0,0,1-12.692,8.408l-1.1.539-1.1-.543a58.835,58.835,0,0,1-12.67-8.439L73.7,59.371a34.981,34.981,0,0,0,13.184-8.284l.606-.613.6.615A35,35,0,0,0,101.254,59.4l-.018,15.466ZM88.245,48.223a1.091,1.091,0,0,0-1.509,0L85.375,49.6a32.955,32.955,0,0,1-13.068,8.01,1.062,1.062,0,0,0-.727,1l-.02,16.7a1.062,1.062,0,0,0,.355.793,60.929,60.929,0,0,0,13.5,9.068l1.564.775a1.047,1.047,0,0,0,.469.11,1.028,1.028,0,0,0,.469-.11l1.566-.771A61.03,61.03,0,0,0,103,76.144a1.059,1.059,0,0,0,.355-.793l.02-16.7a1.061,1.061,0,0,0-.723-1.007A32.958,32.958,0,0,1,89.6,49.6l-1.36-1.38Z" transform="translate(-58.389 -39.099)" fill="#fff" stroke="#fff" stroke-width="1" class="gaming-risk-svg-2"></path>
+                            <path id="Path_2381" data-name="Path 2381" d="M141.133,96.032l-1.9,9.431-1.876-9.437,3.773.006Zm-5.884-1.739a1.054,1.054,0,0,0-.221.88l3.16,15.9a1.059,1.059,0,0,0,2.078,0l3.2-15.893a1.06,1.06,0,0,0-1.038-1.268l-6.359-.007a1.048,1.048,0,0,0-.819.383Z" transform="translate(-110.159 -76.625)" fill="#fff" stroke="#fff" stroke-width="1" class="gaming-risk-svg-3"></path>
+                            <path id="Path_2382" data-name="Path 2382" d="M148.424,203.435a1.9,1.9,0,1,1-1.9-1.9,1.9,1.9,0,0,1,1.9,1.9Z" transform="translate(-118.002 -164.437)" fill="#fff" stroke="#fff" stroke-width="1" class="gaming-risk-svg-4"></path>
+                          </g>
+                        </g>
+                      </g>
+                    </svg>                    
+                </div>
+              </div>
+              <div class="right-cyberbully right-div" style="background: #0999CC;">
+                <h3 class="text-center">WEBCAM HACKING</h3>
+              </div>
+            </div>
+            <div class="outer-div">
+              <div class="left-cyberbully left-div">
+                <div class="gaming-risks-svg">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="30" height="30" viewBox="0 0 58.072 58.07">
+                      <g id="NewGroupe0_1_" transform="translate(0.5 0.5)">
+                        <g id="NewGroup12-0_1_">
+                          <g id="Group_1139" data-name="Group 1139">
+                            <path id="Path_2379" data-name="Path 2379" d="M55.156,32.488l-5.349,1.763a.953.953,0,0,0-.611.624A21.537,21.537,0,0,1,47.6,38.7a.949.949,0,0,0-.02.854l2.3,4.857a26.669,26.669,0,0,1-5.525,5.511l-4.852-2.312a.949.949,0,0,0-.854.018,21.429,21.429,0,0,1-3.827,1.583.953.953,0,0,0-.626.609l-1.778,5.345-7.841-.009-1.763-5.349a.953.953,0,0,0-.624-.611A21.628,21.628,0,0,1,18.372,47.6a.949.949,0,0,0-.854-.02l-4.859,2.3a26.678,26.678,0,0,1-5.512-5.525L9.459,39.5a.949.949,0,0,0-.018-.854,21.4,21.4,0,0,1-1.583-3.827.946.946,0,0,0-.609-.626L1.9,32.421l.009-7.841,5.349-1.763a.952.952,0,0,0,.58-.537L9.5,18.288a.951.951,0,0,0-.018-.773l-2.3-4.859a26.678,26.678,0,0,1,5.525-5.512l4.852,2.312a.951.951,0,0,0,.773.02l4-1.653a.957.957,0,0,0,.539-.578L24.647,1.9l7.841.009,1.763,5.349a.952.952,0,0,0,.537.58L38.78,9.5a.951.951,0,0,0,.773-.018l4.859-2.3a26.678,26.678,0,0,1,5.512,5.525l-2.312,4.854a.951.951,0,0,0-.02.773l1.653,4a.949.949,0,0,0,.578.537l5.343,1.78-.011,7.841Zm1.261-9.429L50.832,21.2,49.507,18,51.88,13.02a.95.95,0,0,0-.083-.959,28.518,28.518,0,0,0-6.733-6.749.946.946,0,0,0-.959-.087l-4.988,2.36-3.2-1.333L34.078.664a.948.948,0,0,0-.9-.653L23.962,0a.952.952,0,0,0-.9.652L21.2,6.236,18,7.561,13.02,5.187a.955.955,0,0,0-.959.085A28.526,28.526,0,0,0,5.31,12a.946.946,0,0,0-.085.959l2.36,4.986-1.333,3.2L.664,22.99a.949.949,0,0,0-.653.9L0,33.106a.952.952,0,0,0,.652.9L6.186,35.85a23.405,23.405,0,0,0,1.353,3.263L5.189,44.05a.95.95,0,0,0,.083.959A28.518,28.518,0,0,0,12,51.758a.955.955,0,0,0,.959.087L17.9,49.505a23.478,23.478,0,0,0,3.261,1.36l1.828,5.54a.951.951,0,0,0,.9.653l9.214.011a.952.952,0,0,0,.9-.652l1.841-5.535a23.238,23.238,0,0,0,3.263-1.353l4.936,2.35a.95.95,0,0,0,.959-.083,28.587,28.587,0,0,0,6.749-6.733.946.946,0,0,0,.085-.959l-2.339-4.942a23.422,23.422,0,0,0,1.36-3.261l5.54-1.828a.947.947,0,0,0,.653-.9l.011-9.214a.96.96,0,0,0-.655-.9Z" fill="#fff" stroke="#fff" stroke-width="1" class="gaming-risk-svg-1"></path>
+                            <path id="Path_2380" data-name="Path 2380" d="M101.235,74.87a58.837,58.837,0,0,1-12.692,8.408l-1.1.539-1.1-.543a58.835,58.835,0,0,1-12.67-8.439L73.7,59.371a34.981,34.981,0,0,0,13.184-8.284l.606-.613.6.615A35,35,0,0,0,101.254,59.4l-.018,15.466ZM88.245,48.223a1.091,1.091,0,0,0-1.509,0L85.375,49.6a32.955,32.955,0,0,1-13.068,8.01,1.062,1.062,0,0,0-.727,1l-.02,16.7a1.062,1.062,0,0,0,.355.793,60.929,60.929,0,0,0,13.5,9.068l1.564.775a1.047,1.047,0,0,0,.469.11,1.028,1.028,0,0,0,.469-.11l1.566-.771A61.03,61.03,0,0,0,103,76.144a1.059,1.059,0,0,0,.355-.793l.02-16.7a1.061,1.061,0,0,0-.723-1.007A32.958,32.958,0,0,1,89.6,49.6l-1.36-1.38Z" transform="translate(-58.389 -39.099)" fill="#fff" stroke="#fff" stroke-width="1" class="gaming-risk-svg-2"></path>
+                            <path id="Path_2381" data-name="Path 2381" d="M141.133,96.032l-1.9,9.431-1.876-9.437,3.773.006Zm-5.884-1.739a1.054,1.054,0,0,0-.221.88l3.16,15.9a1.059,1.059,0,0,0,2.078,0l3.2-15.893a1.06,1.06,0,0,0-1.038-1.268l-6.359-.007a1.048,1.048,0,0,0-.819.383Z" transform="translate(-110.159 -76.625)" fill="#fff" stroke="#fff" stroke-width="1" class="gaming-risk-svg-3"></path>
+                            <path id="Path_2382" data-name="Path 2382" d="M148.424,203.435a1.9,1.9,0,1,1-1.9-1.9,1.9,1.9,0,0,1,1.9,1.9Z" transform="translate(-118.002 -164.437)" fill="#fff" stroke="#fff" stroke-width="1" class="gaming-risk-svg-4"></path>
+                          </g>
+                        </g>
+                      </g>
+                    </svg>                    
+                </div>
+              </div>
+              <div class="right-cyberbully right-div">
+                <h3 class="text-center">CHILD PREDATORS</h3>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="sticky-test-btn gaming-btn">
+        <a href="https://parent.guide/to-the-internet/digital-safety-quiz/"><span> TEST YOUR KNOWLEDGE </span></a>
+    </div>
+    <div class="top-gaming">
+        <a href="#" id="scroll" style="display: none;"><span></span></a>
+    </div>
+    <!-- Optional JavaScript -->
+    <!-- jQuery first, then Popper.js, then Bootstrap JS -->
+    <script src="https://code.jquery.com/jquery-3.4.1.js" integrity="sha256-WpOohJOqMqqyKL9FccASB9O0KwACQJpFTUBLTYOVvVU=" crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js" integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1" crossorigin="anonymous"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js" integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM" crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.8.0/Chart.min.js"></script>
+    <script type="text/javascript" src="js/js-2.js"></script>
+    <script type="text/javascript" src="js/css3-animate-it.js"></script>
+  </body>
+</html>

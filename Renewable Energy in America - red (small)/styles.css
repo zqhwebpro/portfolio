@@ -1,0 +1,260 @@
+/* Font from Google */
+@import url("https://fonts.googleapis.com/css?family=Montserrat:400,600,900");
+
+/* Interactive Infographic */
+
+html,
+body {
+  height: 100vh;
+}
+
+.montserrat {
+  font-family: "Montserrat", sans-serif;
+}
+
+.fat {
+  font-weight: 900;
+}
+p{
+  font-size: 19px;
+}
+.grey-highlight{
+  background-color: #eaeaea;
+  font-weight: 600;
+  border-bottom: #c11515 2px solid;
+}
+.or-text {
+  position: relative;
+  top: -37px;
+  padding: 10px;
+  background-color: white;
+  display: inline-block;
+  border-radius: 100px;
+}
+.or-line{
+  width: 50%;
+}
+.margin-forty{
+  margin: 40px 0px;
+}
+.re-h1 {
+  font-size: 3.2vw;
+}
+
+.re-h2 {
+  font-size: 1.45rem;
+}
+
+.re-h3 {
+  font-size: 2.5rem;
+}
+
+.re-h4 {
+  font-size: 0.75rem;
+}
+
+svg#Map {
+  width: 100%;
+  height: 64vh;
+  margin-top: 4vh;
+  stroke-linejoin: round;
+  stroke: #c11515;
+  fill: white;
+  left: -40px;
+  position: relative;
+}
+
+path:hover {
+  fill: #f98a8a;
+  cursor: pointer;
+}
+
+path:active {
+  fill: #48bef9;
+}
+
+path.active {
+  fill: #262626;
+}
+
+.white {
+  color: white;
+}
+
+.red-bg {
+  background-color: #c11515;
+}
+
+.dark-grey {
+  color: #262626;
+}
+.dark-grey-bg{
+  background-color: #262626;
+}
+.white-bg{
+  background-color: white;
+}
+.dark-red-bg {
+  background-color: #262626;
+}
+.green-bg {
+  background-color: #48bef9;
+}
+.light-red-bg {
+  background-color: #cbebfe;
+}
+
+.padding-all-left {
+  padding: 5vh 5vw;
+}
+
+.padding-remove {
+  padding-left: 0px;
+  padding-right: 0px;
+}
+
+.col-md-3.light-red-bg.text-center.padding-remove {
+  border-left: 6px solid #262626;
+}
+
+.state-right {
+  width: 100%;
+  padding: 20px 0px 15px;
+}
+
+.money-bag-wrapper {
+  height: 100%;
+  display: block;
+}
+
+.money-text {
+  position: relative;
+  left: 0%;
+}
+
+.money-bag {
+  height: 2.5rem;
+  float: left;
+  position: relative;
+  left: 15%;
+}
+
+.budget-right {
+  width: 100%;
+}
+
+.facts-right {
+  width: 100%;
+}
+
+.spacers {
+  padding: 5vh 15vw;;
+  display: block;
+}
+
+.re-map-hr {
+  margin: 0px;
+}
+
+.db-fill {
+  fill: #48bef9;
+  -webkit-animation: fill-ani .9s cubic-bezier(0.250, 0.460, 0.450, 0.940) both;
+  animation: fill-ani .9s cubic-bezier(0.250, 0.460, 0.450, 0.940) both;
+}
+
+.db-fill:hover {
+  fill: #48bef9 !important;
+}
+
+@-webkit-keyframes fill-ani {
+  0% {
+    opacity: 0.5;
+  }
+
+  100% {
+    opacity: 1;
+  }
+}
+
+@keyframes fill-ani {
+  0% {
+    opacity: 0.5;
+  }
+
+  100% {
+    opacity: 1;
+  }
+}
+
+.data-ani {
+  -webkit-animation: data-ani .2s linear both;
+  animation: data-ani .2s linear both;
+}
+
+@-webkit-keyframes data-ani {
+  0% {
+    -webkit-filter: blur(1px);
+    filter: blur(1px);
+    opacity: 0;
+  }
+
+  100% {
+    -webkit-filter: blur(0px);
+    filter: blur(0px);
+    opacity: 1;
+  }
+}
+
+@keyframes data-ani {
+  0% {
+    -webkit-filter: blur(1px);
+    filter: blur(1px);
+    opacity: 0;
+  }
+
+  100% {
+    -webkit-filter: blur(0px);
+    filter: blur(0px);
+    opacity: 1;
+  }
+}
+
+@media only screen and (max-width: 996px) {
+  .money-bag {
+    float: none;
+    left: 0;
+  }
+}
+
+@media only screen and (max-width: 768px) {
+  .re-h1 {
+    font-size: 42px;
+  }
+
+  svg#Map {
+    margin-top: 0px;
+  }
+}
+
+
+@media only screen and (max-width: 576px) {
+  svg#Map {
+    margin-top: -10vh;
+    margin-bottom: -10vh;
+  }
+
+  .re-h1 {
+    font-size: 32px;
+  }
+
+  .re-h2 {
+    font-size: 21px;
+  }
+}
+
+@media only screen and (max-width: 500px) {
+  svg#Map {
+    margin-top: -14vh;
+    margin-bottom: -14vh;
+  }
+}

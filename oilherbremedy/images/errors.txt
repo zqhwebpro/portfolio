@@ -1,0 +1,2 @@
+[2019-4-17 12:28:34] layer "Rose-BG.jpg": Duplicate path: Rose-BG.jpg
+[2019-4-17 12:28:34] layer "Birch -BG.jpg": Duplicate path: Birch -BG.jpg

@@ -1,0 +1,1221 @@
+@import url("https://fonts.googleapis.com/css?family=Maven+Pro:400,700|Old+Standard+TT:400,400i,700");
+html {
+  scroll-behavior: smooth;
+}
+
+body {
+  overflow-y: scroll;
+  scroll-snap-type: y mandatory;
+  background-color: #f5f5f7;
+}
+
+h2 {
+  color: white !important;
+}
+
+.sticky-stick {
+  scroll-snap-align: start;
+}
+.container-fake {
+  width: 100%;
+}
+
+/*-- Header Page --*/
+
+button:hover {
+  background-color: #f7f7f7 !important;
+}
+
+.nav-primary {
+  padding: 0px;
+}
+
+.site-header {
+  margin: 50px auto 0px !important;
+}
+
+.header-image .title-area {
+  margin-top: 20px;
+}
+
+.header-pad {
+  padding: 10vh 20vw;
+  color: rgba(0, 0, 0, 0.87);
+}
+#nav-stick {
+  position: fixed;
+  top: 0px;
+}
+.center-pad {
+  text-align: center;
+  margin-top: 6vh !important;
+  margin-bottom: 6vh !important;
+  font-weight: 700;
+  color: rgba(0, 0, 0, 0.87);
+}
+
+p.old-standard.alt-hl.center-pad {
+  font-size: 22px;
+}
+
+.arrow-pad {
+  text-align: center;
+  color: rgba(0, 0, 0, 0.87);
+}
+
+.row.header-pad p {
+  font-size: 15px;
+  line-height: 19px;
+}
+
+.remove-padding {
+  padding-left: 0px;
+  padding-right: 0px;
+}
+
+.ui.category.search > .results .category > .name {
+  vertical-align: middle;
+  text-align: center;
+  border-bottom: 0px;
+}
+
+.transbo {
+  visibility: hidden;
+}
+
+.nav-option {
+  position: fixed;
+  bottom: 0px;
+  right: 30px;
+  background-color: white;
+  border-top-left-radius: 7px;
+  border-top-right-radius: 7px;
+  padding: 8px 16px;
+  scroll-behavior: smooth;
+}
+
+.nav-option a img {
+  max-width: 150px;
+}
+
+.spacer {
+  height: 100vh;
+  width: 100%;
+}
+
+h1.old-standard {
+  text-align: center;
+  margin-bottom: 8vh !important;
+  color: rgba(0, 0, 0, 0.87);
+}
+
+.bottom-space {
+  padding: 4vh 0vw;
+}
+
+.p-contents {
+  font-size: 13.5px;
+  line-height: 24px;
+}
+
+/*-- end --*/
+
+h2 {
+  font-size: 1.4rem;
+}
+
+h3 {
+  margin: 20px 0px 5px !important;
+}
+
+p {
+  margin-bottom: 0px;
+}
+
+ul {
+  margin-bottom: 0px;
+  padding: 0px;
+  list-style: none;
+}
+
+li:first-child {
+  margin-top: 10px;
+}
+
+li {
+  margin-top: 5px;
+}
+
+.display-none {
+  display: none;
+}
+
+.alt-hl {
+  font-size: 18px;
+}
+
+hr {
+  border-top: 2px solid #eeefee;
+  margin: 6px 0px 0px;
+}
+
+.maven {
+  font-family: "Maven Pro", sans-serif;
+}
+
+.old-standard {
+  font-family: "Old Standard TT", serif;
+}
+
+.container-nav {
+  background-color: white;
+  box-shadow: 0px 0px 10px #ccc;
+  z-index: 500;
+  transition: all 0.5s ease-in;
+  width: 100%;
+  position: relative;
+}
+
+.pos-fixed {
+  position: fixed;
+  top: 0px;
+  z-index: 200;
+}
+
+nav {
+  width: 100%;
+  padding: 10px 35px;
+}
+
+.flex-item-l {
+  flex-basis: 80%;
+}
+
+.flex-item-r {
+  flex-basis: 20%;
+}
+
+.nav-text-vert-align {
+  display: contents;
+}
+
+.nav-burger-wrap {
+  text-align: center;
+  display: block;
+}
+
+.nav-burger-contain {
+  display: none;
+}
+
+.nav-burger {
+  position: relative;
+  top: 10px;
+  border-radius: 50px;
+  padding: 6px;
+}
+
+.nav-burger div {
+  margin: 3px;
+  background-color: #eeefee;
+  width: 20px;
+  height: 3px;
+}
+
+.nav-burger-hide {
+  margin-top: -230px;
+}
+
+i.fa.fa-search {
+  position: absolute;
+  margin-top: 13.5px;
+  margin-left: 11px;
+  z-index: 10;
+}
+
+.filtr-container {
+  transition: all 0.5s ease-in;
+}
+
+.filtr-container-hide {
+  top: 45px !important;
+}
+
+.btn-group {
+  width: 250px;
+  margin: 0px 10px;
+}
+
+.btn-group > .btn:focus {
+  background-color: #f4f8fc;
+}
+
+.btn-oh {
+  background-color: #f5f6f7;
+  text-align: left;
+  padding: 10px 15px;
+}
+
+.nav-mobile-line {
+  width: 100%;
+  border: 0.75px solid #f5f6f7 !important;
+  display: none;
+  margin: 19px 0px 10px 0px;
+}
+
+li.dropdown-item {
+  cursor: pointer;
+  color: #afafaf;
+}
+
+.activated {
+  color: #212529 !important;
+  padding-left: 30px;
+  background-color: #f9f8f9;
+}
+
+.herbsoils {
+  font-weight: 700;
+  color: #dcdbdd;
+  padding: 0px 0px 0px 9px;
+}
+
+.search-group {
+  height: 100%;
+  display: flex;
+  display: -webkit-box;
+  display: -moz-box;
+  display: -ms-flexbox;
+  display: -webkit-flex;
+}
+
+.form-control {
+  padding: 0.375rem 0.75rem 0.375rem 2.15rem;
+  background-color: #f5f6f7;
+  border-radius: 3px;
+  border: none;
+  height: 100%;
+}
+
+.form-control:focus {
+  background-color: #f4f8fc;
+  border-color: #685090;
+  box-shadow: 0 0 0 0.2rem rgba(104, 80, 144, 0.25);
+}
+
+.menu-text {
+  text-transform: uppercase;
+  font-size: 15px;
+  color: #afafaf;
+  display: flex;
+  display: -webkit-box;
+  display: -moz-box;
+  display: -ms-flexbox;
+  display: -webkit-flex;
+}
+
+.form-control:hover {
+  color: #212529;
+  cursor: pointer;
+}
+
+.dropdown-menu.show {
+  max-height: 260px;
+  overflow-y: scroll;
+  transform: translate3d(0px, 0px, 0px) !important;
+}
+
+.dropdown-toggle::after {
+  float: right;
+  position: relative;
+  top: 8px;
+}
+
+.content-wrapper {
+  padding: 12% 0px 21% 0px;
+  float: right;
+  width: 100%;
+}
+
+.info-box-wrapper {
+  margin: 0 auto;
+  max-width: 920px;
+}
+
+.info-box-intro {
+  width: 175px;
+  padding: 25px;
+  height: 210px;
+  float: left;
+  position: relative;
+  top: 67px;
+}
+
+.corner {
+  position: absolute;
+  width: 32px;
+  height: 32px;
+  opacity: 0.35;
+  background-image: url(../images/corners.png);
+}
+
+.topLeft {
+  top: -1px;
+  left: -1px;
+}
+
+.topRight {
+  top: -1px;
+  right: -1px;
+  background-position: -32px 0;
+}
+
+.bottomLeft {
+  bottom: -1px;
+  left: -1px;
+  background-position: 0 -32px;
+}
+
+.bottomRight {
+  bottom: -1px;
+  right: -1px;
+  background-position: -32px -32px;
+}
+
+.info-box-container {
+  width: 740px;
+  float: left;
+  height: 350px;
+  background-color: white;
+}
+
+.info-box {
+  width: 100%;
+  padding: 50px 40px;
+  height: 100%;
+}
+
+.info-box-l {
+  float: left;
+  padding: 0px 10px;
+  width: 340px;
+}
+
+.info-inner-l {
+  float: left;
+  width: 50%;
+}
+
+.info-inner-r {
+  float: left;
+  width: 50%;
+}
+
+.info-box-r {
+  float: right;
+  padding: 1px 10px 0px;
+  width: 290px;
+}
+
+.info-box-bottom {
+  padding: 15px 40px 30px;
+  float: left;
+  background-color: #eeefee;
+}
+
+.highlight {
+  font-size: 19px;
+  padding: 1px 5px;
+}
+
+/* --- Lazy Background --- */
+
+.lazy-bg {
+  background-size: cover;
+  background-position: center;
+}
+
+/* Search */
+
+.ui.category.search .results {
+  width: 23em;
+}
+
+.ui.search {
+  float: left;
+  width: 100%;
+}
+
+.ui.search > .results .result .title {
+  font-size: 0.9em;
+}
+
+.ui.category.search > .results .category > .name {
+  font-size: 0.9em;
+}
+
+.ui.search > .results {
+  left: 0%;
+}
+
+.ui.category.search .results {
+  width: 100%;
+}
+
+.ui.input > input:focus {
+  background: #f5f6f7 !important;
+  border: #f5f6f7 !important;
+}
+
+.ui.search .prompt {
+  background-color: #f5f6f7;
+  text-align: left;
+  padding: 10px 15px;
+  border: none;
+  border-radius: 3px !important;
+}
+
+input::placeholder {
+  color: #afafaf;
+}
+
+input:hover::placeholder {
+  color: #212529;
+}
+
+input:focus::placeholder {
+  color: #212529;
+}
+
+.ui.icon.input > input {
+  padding-left: 35px;
+  width: 100%;
+}
+
+.ui.input {
+  height: 100%;
+  width: 100%;
+}
+
+.ui.input > input:hover {
+  background: #f7f7f7;
+  cursor: pointer;
+}
+
+.ui.input > input:focus {
+  background: #f5f6f7;
+}
+
+input::placeholder {
+  text-transform: uppercase;
+  font-size: 15px;
+  color: #afafaf;
+}
+
+.fa-search {
+  font-size: 15px;
+  color: #afafaf;
+  margin-top: 15px;
+  margin-left: 12px;
+}
+
+.all-button {
+  margin-top: 0px !important;
+}
+
+.all-button i {
+  color: #afafaf;
+  border-radius: 3px;
+  background-color: #f5f6f7;
+  float: right;
+  padding: 14px;
+  margin-left: 10px;
+}
+
+.all-button:hover {
+  cursor: pointer;
+}
+
+.all-button i:hover {
+  color: #212529;
+  background-color: #f7f7f7;
+}
+
+/* --- Media Queries --- */
+
+@media screen and (max-width: 1033px) {
+  .btn-group {
+    width: 140px;
+  }
+}
+
+@media screen and (max-width: 960px) {
+  .info-box-wrapper {
+    max-width: 100%;
+  }
+  .info-box-intro {
+    width: 20%;
+  }
+  .info-box-container {
+    width: 80%;
+  }
+  .info-box-l {
+    width: 50%;
+  }
+  .info-box-r {
+    width: 50%;
+  }
+  .flex-item-r {
+    flex-basis: inherit;
+  }
+}
+
+@media screen and (max-width: 768px) and (max-width: 1024px) {
+  .content-wrapper {
+    padding: 37% 0px 57%;
+  }
+}
+
+@media screen and (max-width: 815px) {
+  .info-box-wrapper {
+    display: block;
+  }
+  .info-box-intro {
+    height: 100%;
+    top: 0;
+    width: 100%;
+    text-align: center;
+    padding: 30px;
+  }
+  .info-inner-l {
+    float: none;
+    width: 100%;
+  }
+  .info-inner-r {
+    float: none;
+    width: 100%;
+  }
+  .info-box-container {
+    width: 100%;
+  }
+  nav {
+    display: inline-block;
+  }
+  .nav-burger-contain {
+    display: inline-block;
+  }
+  .nav-mobile-line {
+    display: inline-block;
+  }
+  .search-group {
+    margin: 0px;
+    width: 100%;
+  }
+  .btn-group {
+    width: 100%;
+    margin: 0px;
+  }
+  .content-wrapper {
+    padding: 40px 20px;
+    height: 100vh;
+  }
+  .form-control {
+    height: 43px;
+  }
+  .info-box {
+    padding: 40px 30px;
+  }
+  .info-box-l {
+    float: none;
+    width: 100%;
+  }
+  .info-box-r {
+    float: none;
+    margin-top: 40px;
+    width: 100%;
+  }
+  nav {
+    padding: 15px 10px;
+  }
+  .info-box-container {
+    height: auto;
+  }
+  .info-box-bottom {
+    clear: both;
+  }
+  .highlight {
+    font-size: 17px;
+  }
+  li {
+    font-size: 15px;
+  }
+  p {
+    font-size: 15px;
+  }
+  .info-box-intro {
+    padding: 20px;
+  }
+  .info-box {
+    padding: 20px;
+  }
+  .info-box-bottom {
+    padding: 20px;
+  }
+  .menu-text {
+    display: block;
+  }
+  .header-pad {
+    padding: 5vh 10vw;
+  }
+  p.old-standard.alt-hl.center-pad {
+    font-size: 17px;
+    line-height: 23px;
+  }
+}
+
+/* --- Different Herb/Oil Colors --- */
+
+.box-broa {
+  background-color: #67ad76;
+  color: white;
+}
+
+.secondary-broad {
+  background-color: #c2ae9d;
+}
+
+.lavender {
+  background-color: #565675;
+  color: white;
+}
+
+.secondary-lavender {
+  background-color: #c4cfaf;
+}
+
+.peppermint {
+  background-color: #83c1aa;
+  color: white;
+}
+
+.secondary-peppermint {
+  background-color: #e3b4a9;
+}
+
+.valerian {
+  background-color: #7f3578;
+  color: white;
+}
+
+.secondary-valerian {
+  background-color: #9dc2b6;
+}
+
+.milk-thistle {
+  background-color: #e87ad1;
+  color: white;
+}
+
+.secondary-milk-thistle {
+  background-color: #fcf3b6;
+}
+
+.broadleaf-plantain {
+  background-color: #67ad76;
+  color: white;
+}
+
+.secondary-broadleaf-plantain {
+  background-color: #c2ae9d;
+}
+
+.sage {
+  background-color: #a7b2a3;
+  color: white;
+}
+
+.secondary-sage {
+  background-color: #b3a4b1;
+}
+
+.fenugreek {
+  background-color: #456c9f;
+  color: white;
+}
+
+.secondary-fenugreek {
+  background-color: #f5c383;
+}
+
+.pot-marigold {
+  background-color: #e57941;
+  color: white;
+}
+
+.secondary-pot-marigold {
+  background-color: #aff9f4;
+}
+
+.mountain-mint {
+  background-color: #bdb4bf;
+  color: white;
+}
+
+.secondary-mountain-mint {
+  background-color: #abccc1;
+}
+
+.elderberry {
+  background-color: #60396a;
+  color: white;
+}
+
+.secondary-elderberry {
+  background-color: #b3c19c;
+}
+
+.rosemary {
+  background-color: #576d59;
+  color: white;
+}
+
+.secondary-rosemary {
+  background-color: #bcc8d3;
+}
+
+.thyme {
+  background-color: #607349;
+  color: white;
+}
+
+.secondary-thyme {
+  background-color: #f7ce55;
+}
+
+.witch-hazel {
+  background-color: #5e5d4d;
+  color: white;
+}
+
+.secondary-witch-hazel {
+  background-color: #ffec6a;
+}
+
+.aloe-vera {
+  background-color: #7bacba;
+  color: white;
+}
+
+.secondary-aloe-vera {
+  background-color: #b7d8c4;
+}
+
+.st-johns-wort {
+  background-color: #7f2d17;
+  color: white;
+}
+
+.secondary-st-johns-wort {
+  background-color: #ceae3b;
+}
+
+.catnip {
+  background-color: #4d585e;
+  color: white;
+}
+
+.secondary-catnip {
+  background-color: #d69c59;
+}
+
+.chamomile {
+  background-color: #eea31e;
+  color: white;
+}
+
+.secondary-chamomile {
+  background-color: #6dbcc6;
+}
+
+.garlic {
+  background-color: #b18573;
+  color: white;
+}
+
+.secondary-garlic {
+  background-color: #f4e3ba;
+}
+
+.ginkgo {
+  background-color: #688251;
+  color: white;
+}
+
+.secondary-ginkgo {
+  background-color: #cf8b76;
+}
+
+.dandelion {
+  background-color: #d8ad04;
+  color: white;
+}
+
+.secondary-dandelion {
+  background-color: #8eae49;
+}
+
+.turmeric {
+  background-color: #e56410;
+  color: white;
+}
+
+.secondary-turmeric {
+  background-color: #fd883c;
+}
+
+.ginseng {
+  background-color: #ad846c;
+  color: white;
+}
+
+.secondary-ginseng {
+  background-color: #8fba86;
+}
+
+.saw-palmetto {
+  background-color: #38572e;
+  color: white;
+}
+
+.secondary-saw-palmetto {
+  background-color: #cab68b;
+}
+
+.calendula {
+  background-color: #4ebbac;
+  color: white;
+}
+
+.secondary-calendula {
+  background-color: #f5b71b;
+}
+
+.marshmallow {
+  background-color: #8aad60;
+  color: white;
+}
+
+.secondary-marshmallow {
+  background-color: #fa977d;
+}
+
+.ashwagandha {
+  background-color: #cf4b32;
+  color: white;
+}
+
+.secondary-ashwagandha {
+  background-color: #f6f1a6;
+}
+
+.echinacea {
+  background-color: #ca6091;
+  color: white;
+}
+
+.secondary-echinacea {
+  background-color: #bfbfd1;
+}
+
+.mullein {
+  background-color: #e88975;
+  color: white;
+}
+
+.secondary-mullein {
+  background-color: #c0c8ba;
+}
+
+.licorice {
+  background-color: #56544e;
+  color: white;
+}
+
+.secondary-licorice {
+  background-color: #d0cfea;
+}
+
+.goldenseal {
+  background-color: #cc0720;
+  color: white;
+}
+
+.secondary-goldenseal {
+  background-color: #6bbef8;
+}
+
+.lemon {
+  background-color: #e0c12a;
+  color: white;
+}
+
+.secondary-lemon {
+  background-color: #6de5f7;
+}
+
+.cinnamon {
+  background-color: #461c0d;
+  color: white;
+}
+
+.secondary-cinnamon {
+  background-color: #f5e49b;
+}
+
+.feverfew {
+  background-color: #443921;
+  color: white;
+}
+
+.secondary-feverfew {
+  background-color: #e5e4e0;
+}
+
+.tea-tree {
+  background-color: #157f8f;
+  color: white;
+}
+
+.secondary-tea-tree {
+  background-color: #feb884;
+}
+
+.lemongrass {
+  background-color: #8ba176;
+  color: white;
+}
+
+.secondary-lemongrass {
+  background-color: #ffcf3b;
+}
+
+.clary-sage {
+  background-color: #684f90;
+  color: white;
+}
+
+.secondary-clary-sage {
+  background-color: #a2d3e5;
+}
+
+.eucalyptus {
+  background-color: #354c42;
+  color: white;
+}
+
+.secondary-eucalyptus {
+  background-color: #ddd6d3;
+}
+
+.oregano {
+  background-color: #95a95e;
+  color: white;
+}
+
+.secondary-oregano {
+  background-color: #fb9e85;
+}
+
+.yarrow {
+  background-color: #dab165;
+  color: white;
+}
+
+.secondary-yarrow {
+  background-color: #97c1f7;
+}
+
+.marjoram {
+  background-color: #7299c8;
+  color: white;
+}
+
+.secondary-marjoram {
+  background-color: #acbd59;
+}
+
+.frankincense {
+  background-color: #da9d26;
+  color: white;
+}
+
+.secondary-frankincense {
+  background-color: #8a9fbf;
+}
+
+.wintergreen {
+  background-color: #506a45;
+  color: white;
+}
+
+.secondary-wintergreen {
+  background-color: #fb7f7f;
+}
+
+.clove {
+  background-color: #bb4f1a;
+  color: white;
+}
+
+.secondary-clove {
+  background-color: #40e1d6;
+}
+
+.grapefruit {
+  background-color: #f88056;
+  color: white;
+}
+
+.secondary-grapefruit {
+  background-color: #f8e388;
+}
+
+.birch {
+  background-color: #e6b94d;
+  color: white;
+}
+
+.secondary-birch {
+  background-color: #c8e1f1;
+}
+
+.rose {
+  background-color: #a86c75;
+  color: white;
+}
+
+.secondary-rose {
+  background-color: #e9cbc6;
+}
+
+.ginger {
+  background-color: #bb5724;
+  color: white;
+}
+
+.secondary-ginger {
+  background-color: #dee58f;
+}
+
+.thieves {
+  background-color: #7a4543;
+  color: white;
+}
+
+.secondary-thieves {
+  background-color: #faf5a1;
+}
+
+.sweet-orange {
+  background-color: #eea430;
+  color: white;
+}
+
+.secondary-sweet-orange {
+  background-color: #91f9b8;
+}
+
+.vanilla {
+  background-color: #7b8797;
+  color: white;
+}
+
+.secondary-vanilla {
+  background-color: #c59b96;
+}
+
+.cypress {
+  background-color: #6e8a30;
+  color: white;
+}
+
+.secondary-cypress {
+  background-color: #fed179;
+}
+
+.sandalwood {
+  background-color: #ae4124;
+  color: white;
+}
+
+.secondary-sandalwood {
+  background-color: #a0c6ba;
+}
+
+.jojoba {
+  background-color: #cb6c92;
+  color: white;
+}
+
+.secondary-jojoba {
+  background-color: #b1d2a4;
+}
+
+/* CSS Animations */
+
+.slide-in-top {
+  -webkit-animation: slide-in-top 0.5s cubic-bezier(0.25, 0.46, 0.45, 0.94) both;
+  animation: slide-in-top 0.5s cubic-bezier(0.25, 0.46, 0.45, 0.94) both;
+}
+
+@-webkit-keyframes slide-in-top {
+  0% {
+    -webkit-transform: translateY(-1000px);
+    transform: translateY(-1000px);
+    opacity: 0;
+  }
+  100% {
+    -webkit-transform: translateY(0);
+    transform: translateY(0);
+    opacity: 1;
+  }
+}
+
+@keyframes slide-in-top {
+  0% {
+    -webkit-transform: translateY(-1000px);
+    transform: translateY(-1000px);
+    opacity: 0;
+  }
+  100% {
+    -webkit-transform: translateY(0);
+    transform: translateY(0);
+    opacity: 1;
+  }
+}
+
+.info-inner-vl {
+  width: 1px;
+  height: 100%;
+  float: left;
+  background-color: #ddd;
+  display: block;
+  z-index: 100;
+  position: relative;
+  left: 14px;
+}
+
+@media screen and (max-width: 961px) {
+  .info-inner-vl {
+    display: none;
+  }
+}
+
+@media screen and (max-width: 815px) {
+  .info-inner-vl {
+    width: 100%;
+    height: 1px;
+    margin-top: 38px;
+    background-color: #ddd;
+  }
+}

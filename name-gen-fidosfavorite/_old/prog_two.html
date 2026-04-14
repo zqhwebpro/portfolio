@@ -1,0 +1,113 @@
+<html>
+  <head>
+    <title>Randomize JSON Array Demo</title>
+	
+	<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+	<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.0/jquery.min.js"></script>
+	<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+	
+  </head>
+  <body>
+    <div class="container">
+		<div class="row">
+			<div class="col-md-6 col-md-offset-3">
+				<h2 class="text-center" style="color:#337ab7;"><u>Randomize JSON Array Demo</u></h2>
+				<form  id="form" method="POST" >
+					<div class="form-group">
+						<label for="inputName" class="control-label">Numbers</label>
+						<input type="text" id="numbers" pattern="[1-9]{1,3}"  class="form-control"  placeholder="Enter Any 3 Numbers From 1 to 9" required/>
+					</div>
+					<button class="btn btn-block btn-primary"  type="submit" name="submit">Submit</button>
+				</form>
+				<h2 class="text-center" style="color:#337ab7;" id="output">
+				</h2>
+				<table class="table table-bordered table-striped text-center">
+					<thead>
+						<tr>
+							<th  class="text-center">Number</th>
+							<th  class="text-center">Values</th>
+						</tr>
+					</thead>
+					<tbody>
+						<tr>
+							<td>1</td>
+							<td>A B C</td>
+						</tr>
+						<tr>
+							<td>2</td>
+							<td>D E F</td>
+						</tr>
+						<tr>
+							<td>3</td>
+							<td>G H I</td>
+						</tr>
+						<tr>
+							<td>4</td>
+							<td>J K L</td>
+						</tr>
+						<tr>
+							<td>5</td>
+							<td>M N O</td>
+						</tr>
+						<tr>
+							<td>6</td>
+							<td>P Q R</td>
+						</tr>
+						<tr>
+							<td>7</td>
+							<td>S T Q</td>
+						</tr>
+						<tr>
+							<td>8</td>
+							<td>V W X</td>
+						</tr>
+						<tr>
+							<td>9</td>
+							<td>Y Z</td>
+						</tr>
+					</tbody>
+				  </table>
+				
+			</div>
+		</div>
+		
+	<br>
+	</div>
+	<script>
+	 $(function(){ // Shortform for $(document).ready(function(){});
+		var data = {
+			"1": ["A", "B", "C"],
+			"2": ["D", "E", "F"],
+			"3": ["G", "H", "I"],
+			"4": ["J", "K", "L"],
+			"5": ["M", "N", "O"],
+			"6": ["P", "Q", "R"],
+			"7": ["S", "T", "U"],
+			"8": ["V", "W", "X"],
+			"9": ["Y", "Z"]
+		};
+				
+        $('#form').on('submit', function (e) {
+            e.preventDefault();         
+			var input = $("#numbers").val();
+            var input_array = input.split('');
+			var alphabet_array = [];
+			var output_array = [];
+
+			$.each(input_array, function( index, number ) {				
+				
+				$.each(data[number], function( index, alphabet ) {
+					alphabet_array.push(alphabet);
+				});
+				
+				output_array.push(alphabet_array[Math.floor(Math.random()*alphabet_array.length)]);
+				
+				alphabet_array =  [];
+			});
+			$("#output").html(output_array);
+        });
+    });	
+	</script>
+	
+  </body>
+</html>

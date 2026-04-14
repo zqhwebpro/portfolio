@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=\, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <title>Document</title>
+  <script
+    src="https://code.jquery.com/jquery-3.4.1.min.js"
+    integrity="sha256-CSXorXvZcTkaix6Yvo6HppcZGetbYMGWSFlBw8HfCJo="
+    crossorigin="anonymous">
+  </script>
+
+  <script>
+    const words = ['spray', 'limit', 'elite', 'exuberant', 'destruction', 'present'];
+
+    const result = words.filter(word => word.length > 6);
+    
+    $(document).on('click', 'input', function(){
+      // add .val() to words array
+      words.push($(this).val());
+    })
+    
+    $(document).on('click', 'button', function(){
+      console.log(words);
+      console.log(result);
+    })
+
+    var colors = ["red","blue","car","green"];
+    var carIndex = colors.indexOf("car");//get  "car" index
+    //remove car from the colors array
+    colors.splice(carIndex, 1); // colors = ["red","blue","green"]
+
+  </script>
+</head>
+<body>
+    <input name="gender" type="radio" value="sourpuss" />
+    <button>Check</button>
+    <script>
+  //  store data
+  //  appendNameToList(savedName);
+  //  const list = get('namesList', []);
+  //  list.push(savedName);
+  //  set('namesList', list);
+  
+  //const list = get('namesList', []);
+//console.dir(list)
+//for (const name of list) {
+//  appendNameToList(name);
+//}
+//function get(key, def) {
+//  let ret;
+//  try {
+//    ret = JSON.parse(localStorage.getItem(key));
+//  } catch (e) {
+//    console.log('Error saving to local storage. If you refresh your browser you will have to recompile your');
+//  }
+//  if (!ret && def) {
+//    ret = set(key, def);
+//  }
+//  return ret;
+//}
+//function set(key, value) {
+//  localStorage.setItem(key, JSON.stringify(value));
+//  return value;
+//}
+//function appendNameToList(name) {
+//  $(".fredoka--li").append('<li>' + name + '</li>');
+//}
+
+  </script>
+</body>
+</html>
