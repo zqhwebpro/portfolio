@@ -8,26 +8,26 @@
     <priority>1.00</priority>
   </url>
 
-  <!-- INTERACTIVE INFOGRAPHICS -->
-  <url><loc>https://zqhwebpro.github.io/portfolio/Interactive%20Infographics/</loc><priority>0.90</priority></url>
+  <!-- iNTERACTiVE iNFOGRAPHiCS -->
+  <url><loc>https://zqhwebpro.github.io/portfolio/interactive%20infographics/</loc><priority>0.90</priority></url>
 
-  <url><loc>https://zqhwebpro.github.io/portfolio/Interactive%20Infographics/camping-across-america/</loc><priority>0.80</priority></url>
-  <url><loc>https://zqhwebpro.github.io/portfolio/Interactive%20Infographics/digital-safety/</loc><priority>0.80</priority></url>
-  <url><loc>https://zqhwebpro.github.io/portfolio/Interactive%20Infographics/guitarfella-map/</loc><priority>0.80</priority></url>
-  <url><loc>https://zqhwebpro.github.io/portfolio/Interactive%20Infographics/harvesting-guide/</loc><priority>0.80</priority></url>
-  <url><loc>https://zqhwebpro.github.io/portfolio/Interactive%20Infographics/history-corvettes/</loc><priority>0.80</priority></url>
-  <url><loc>https://zqhwebpro.github.io/portfolio/Interactive%20Infographics/keto_calc/</loc><priority>0.80</priority></url>
-  <url><loc>https://zqhwebpro.github.io/portfolio/Interactive%20Infographics/mom-family-map/</loc><priority>0.80</priority></url>
-  <url><loc>https://zqhwebpro.github.io/portfolio/Interactive%20Infographics/name-gen-fidosfavorite/</loc><priority>0.80</priority></url>
-  <url><loc>https://zqhwebpro.github.io/portfolio/Interactive%20Infographics/oilherbremedy/</loc><priority>0.80</priority></url>
-  <url><loc>https://zqhwebpro.github.io/portfolio/Interactive%20Infographics/plumbing-info/</loc><priority>0.80</priority></url>
-  <url><loc>https://zqhwebpro.github.io/portfolio/Interactive%20Infographics/Renewable%20Energy%20in%20America%20-%20blue%20(full%20page)/</loc><priority>0.80</priority></url>
-  <url><loc>https://zqhwebpro.github.io/portfolio/Interactive%20Infographics/Renewable%20Energy%20in%20America%20-%20red%20(small)/</loc><priority>0.80</priority></url>
-  <url><loc>https://zqhwebpro.github.io/portfolio/Interactive%20Infographics/trail-map-wildernesstoday/</loc><priority>0.80</priority></url>
-  <url><loc>https://zqhwebpro.github.io/portfolio/Interactive%20Infographics/travel-safety/</loc><priority>0.80</priority></url>
-  <url><loc>https://zqhwebpro.github.io/portfolio/Interactive%20Infographics/trek-bible/</loc><priority>0.80</priority></url>
-  <url><loc>https://zqhwebpro.github.io/portfolio/Interactive%20Infographics/usa-authority-map/</loc><priority>0.80</priority></url>
-  <url><loc>https://zqhwebpro.github.io/portfolio/Interactive%20Infographics/wilderness-today-map/</loc><priority>0.80</priority></url>
+  <url><loc>https://zqhwebpro.github.io/portfolio/interactive%20infographics/camping-across-america/</loc><priority>0.80</priority></url>
+  <url><loc>https://zqhwebpro.github.io/portfolio/interactive%20infographics/digital-safety/</loc><priority>0.80</priority></url>
+  <url><loc>https://zqhwebpro.github.io/portfolio/interactive%20infographics/guitarfella-map/</loc><priority>0.80</priority></url>
+  <url><loc>https://zqhwebpro.github.io/portfolio/interactive%20infographics/harvesting-guide/</loc><priority>0.80</priority></url>
+  <url><loc>https://zqhwebpro.github.io/portfolio/interactive%20infographics/history-corvettes/</loc><priority>0.80</priority></url>
+  <url><loc>https://zqhwebpro.github.io/portfolio/interactive%20infographics/keto_calc/</loc><priority>0.80</priority></url>
+  <url><loc>https://zqhwebpro.github.io/portfolio/interactive%20infographics/mom-family-map/</loc><priority>0.80</priority></url>
+  <url><loc>https://zqhwebpro.github.io/portfolio/interactive%20infographics/name-gen-fidosfavorite/</loc><priority>0.80</priority></url>
+  <url><loc>https://zqhwebpro.github.io/portfolio/interactive%20infographics/oilherbremedy/</loc><priority>0.80</priority></url>
+  <url><loc>https://zqhwebpro.github.io/portfolio/interactive%20infographics/plumbing-info/</loc><priority>0.80</priority></url>
+  <url><loc>https://zqhwebpro.github.io/portfolio/interactive%20infographics/Renewable%20Energy%20in%20America%20-%20blue%20(full%20page)/</loc><priority>0.80</priority></url>
+  <url><loc>https://zqhwebpro.github.io/portfolio/interactive%20infographics/Renewable%20Energy%20in%20America%20-%20red%20(small)/</loc><priority>0.80</priority></url>
+  <url><loc>https://zqhwebpro.github.io/portfolio/interactive%20infographics/trail-map-wildernesstoday/</loc><priority>0.80</priority></url>
+  <url><loc>https://zqhwebpro.github.io/portfolio/interactive%20infographics/travel-safety/</loc><priority>0.80</priority></url>
+  <url><loc>https://zqhwebpro.github.io/portfolio/interactive%20infographics/trek-bible/</loc><priority>0.80</priority></url>
+  <url><loc>https://zqhwebpro.github.io/portfolio/interactive%20infographics/usa-authority-map/</loc><priority>0.80</priority></url>
+  <url><loc>https://zqhwebpro.github.io/portfolio/interactive%20infographics/wilderness-today-map/</loc><priority>0.80</priority></url>
 
   <!-- WEB PROJECTS -->
   <url><loc>https://zqhwebpro.github.io/portfolio/web/</loc><priority>0.90</priority></url>
