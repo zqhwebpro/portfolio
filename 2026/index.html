@@ -1,12 +1,14 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
   <!-- SEO -->
   <title>Zach Heindel | Web Designer & Developer Portfolio</title>
-  <meta name="description" content="Zach Heindel - Web Designer & Developer specializing in modern, responsive, and high-performing websites. View projects, experience, and contact info.">
+  <meta name="description"
+    content="Zach Heindel - Web Designer & Developer specializing in modern, responsive, and high-performing websites. View projects, experience, and contact info.">
   <meta name="keywords" content="Zach Heindel, web developer, web designer, portfolio, UI UX, frontend developer">
   <meta name="author" content="Zach Heindel">
 
@@ -39,52 +41,42 @@
       padding: 40px;
     }
 
-    h1 { font-size: 3rem; margin-bottom: 10px; }
-    h2 { font-size: 2.2rem; margin-bottom: 10px; }
-    p { font-size: 1.1rem; max-width: 600px; margin: auto; }
+    h1 {
+      font-size: 3rem;
+      margin-bottom: 10px;
+    }
+
+    h2 {
+      font-size: 2.2rem;
+      margin-bottom: 10px;
+    }
+
+    p {
+      font-size: 1.1rem;
+      max-width: 600px;
+      margin: auto;
+    }
 
     /* Section Colors */
-#hero {
-  position: relative;
-  height: 100vh;
-  overflow: hidden;
-  color: white;
-}
+    #hero {
+      position: relative;
+      height: 100vh;
+      overflow: hidden;
+      color: white;
+      background: #111;
+    }
 
-.video-bg {
-  position: absolute;
-  top: 50%;
-  left: 50%;
-  width: 177.77vh; /* 16:9 ratio */
-  height: 100vh;
-  transform: translate(-50%, -50%);
-  z-index: 0;
-}
+    #about {
+      background: #f5f5f5;
+    }
 
-.video-bg iframe {
-  width: 100%;
-  height: 100%;
-  pointer-events: none; /* prevents clicking */
-}
+    #projects {
+      background: #eaeaea;
+    }
 
-.hero-content {
-  position: relative;
-  z-index: 1;
-  text-align: center;
-}
-
-/* Optional dark overlay for readability */
-#hero::after {
-  content: "";
-  position: absolute;
-  inset: 0;
-  background: rgba(0,0,0,0.5);
-  z-index: 1;
-}
-
-    #about { background: #f5f5f5; }
-    #projects { background: #eaeaea; }
-    #contact { background: #ddd; }
+    #contact {
+      background: #ddd;
+    }
 
     /* Left Navigation Dots */
     .nav-dots {
@@ -119,143 +111,142 @@
 
     /* Responsive */
     @media (max-width: 768px) {
-      h1 { font-size: 2.2rem; }
-      h2 { font-size: 1.6rem; }
+      h1 {
+        font-size: 2.2rem;
+      }
+
+      h2 {
+        font-size: 1.6rem;
+      }
+
       .nav-dots {
         left: 10px;
       }
     }
 
     .cta-a {
-        text-align: center;
-        font-size: 125%;
+      text-align: center;
+      font-size: 125%;
     }
-
-
   </style>
 </head>
 
 <body>
 
-<!-- Navigation Dots -->
-<nav class="nav-dots">
-  <ul>
-    <li><a href="#hero" class="dot active"></a></li>
-    <li><a href="#about" class="dot"></a></li>
-    <li><a href="#projects" class="dot"></a></li>
-    <li><a href="#contact" class="dot"></a></li>
-  </ul>
-</nav>
+  <!-- Navigation Dots -->
+  <nav class="nav-dots">
+    <ul>
+      <li><a href="#hero" class="dot active"></a></li>
+      <li><a href="#about" class="dot"></a></li>
+      <li><a href="#projects" class="dot"></a></li>
+      <li><a href="#contact" class="dot"></a></li>
+    </ul>
+  </nav>
 
-<!-- Sections -->
-<section id="hero">
-  <div class="video-bg">
-    <iframe 
-      src="https://zqhwebpro.github.io/portfolio/2026/media/desgvid.mp4"
-      frameborder="0"
-      allow="autoplay; fullscreen"
-      allowfullscreen>
-    </iframe>
-  </div>
+  <!-- Sections -->
+  <section id="hero">
 
-  <div class="hero-content">
-    <h1>Zach Heindel</h1>
-    <p>Web Designer & Developer creating high-performance, modern digital experiences.</p>
-    <a class="cta-a" target="_blank" href="https://zqhwebpro.github.io/portfolio/sitemap/sitemap.xml">GitHub Collection ➤</a>
-  </div>
 
-</section>
+    <div class="hero-content">
+      <h1>Zach Heindel</h1>
+      <p>Web Designer & Developer creating high-performance, modern digital experiences.</p>
+      <a class="cta-a" target="_blank" href="https://zqhwebpro.github.io/portfolio/sitemap/sitemap.xml">GitHub
+        Collection ➤</a>
+    </div>
 
-<section id="about">
-  <div>
-    <h2>About Me</h2>
-    <p>
-      I specialize in building responsive, conversion-focused websites using modern technologies.
-      Experienced in UI/UX design, WordPress development, and performance optimization.
-    </p>
-  </div>
-</section>
+  </section>
 
-<section id="projects">
-  <div>
-    <h2>Projects</h2>
-    <p>
-      A collection of web design, development, and interactive experiences built for real-world impact.
-    </p>
-  </div>
-</section>
+  <section id="about">
+    <div>
+      <h2>About Me</h2>
+      <p>
+        I specialize in building responsive, conversion-focused websites using modern technologies.
+        Experienced in UI/UX design, WordPress development, and performance optimization.
+      </p>
+    </div>
+  </section>
 
-<section id="contact">
-  <div>
-    <h2>Contact</h2>
-    <p>
-      Let’s connect. Available for freelance and full-time opportunities.
-    </p>
-  </div>
-</section>
+  <section id="projects">
+    <div>
+      <h2>Projects</h2>
+      <p>
+        A collection of web design, development, and interactive experiences built for real-world impact.
+      </p>
+    </div>
+  </section>
 
-<!-- JavaScript -->
-<script>
-  const sections = document.querySelectorAll("section");
-  const dots = document.querySelectorAll(".dot");
+  <section id="contact">
+    <div>
+      <h2>Contact</h2>
+      <p>
+        Let’s connect. Available for freelance and full-time opportunities.
+      </p>
+    </div>
+  </section>
 
-  let currentSection = 0;
-  let isScrolling = false;
+  <!-- JavaScript -->
+  <script>
+    const sections = document.querySelectorAll("section");
+    const dots = document.querySelectorAll(".dot");
 
-  function scrollToSection(index) {
-    if (index < 0 || index >= sections.length) return;
+    let currentSection = 0;
+    let isScrolling = false;
 
-    isScrolling = true;
-    currentSection = index;
+    function scrollToSection(index) {
+      if (index < 0 || index >= sections.length) return;
 
-    window.scrollTo({
-      top: sections[index].offsetTop,
-      behavior: "smooth"
-    });
+      isScrolling = true;
+      currentSection = index;
 
-    updateDots();
+      window.scrollTo({
+        top: sections[index].offsetTop,
+        behavior: "smooth"
+      });
 
-    setTimeout(() => {
-      isScrolling = false;
-    }, 700);
-  }
+      updateDots();
 
-  function updateDots() {
-    dots.forEach((dot, i) => {
-      dot.classList.toggle("active", i === currentSection);
-    });
-  }
-
-  // Mouse Wheel Scroll
-  window.addEventListener("wheel", (e) => {
-    if (isScrolling) return;
-
-    if (e.deltaY > 0) {
-      scrollToSection(currentSection + 1);
-    } else {
-      scrollToSection(currentSection - 1);
+      setTimeout(() => {
+        isScrolling = false;
+      }, 700);
     }
-  });
 
-  // Dot Navigation Click
-  dots.forEach((dot, index) => {
-    dot.addEventListener("click", (e) => {
-      e.preventDefault();
-      scrollToSection(index);
-    });
-  });
-
-  // Keyboard Support
-  window.addEventListener("keydown", (e) => {
-    if (isScrolling) return;
-
-    if (e.key === "ArrowDown") {
-      scrollToSection(currentSection + 1);
-    } else if (e.key === "ArrowUp") {
-      scrollToSection(currentSection - 1);
+    function updateDots() {
+      dots.forEach((dot, i) => {
+        dot.classList.toggle("active", i === currentSection);
+      });
     }
-  });
-</script>
+
+    // Mouse Wheel Scroll
+    window.addEventListener("wheel", (e) => {
+      if (isScrolling) return;
+
+      if (e.deltaY > 0) {
+        scrollToSection(currentSection + 1);
+      } else {
+        scrollToSection(currentSection - 1);
+      }
+    });
+
+    // Dot Navigation Click
+    dots.forEach((dot, index) => {
+      dot.addEventListener("click", (e) => {
+        e.preventDefault();
+        scrollToSection(index);
+      });
+    });
+
+    // Keyboard Support
+    window.addEventListener("keydown", (e) => {
+      if (isScrolling) return;
+
+      if (e.key === "ArrowDown") {
+        scrollToSection(currentSection + 1);
+      } else if (e.key === "ArrowUp") {
+        scrollToSection(currentSection - 1);
+      }
+    });
+  </script>
 
 </body>
+
 </html>
