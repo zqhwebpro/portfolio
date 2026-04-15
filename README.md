@@ -6,12 +6,7 @@
 
 ## 🔗 Portfolio Links
 
-Both portfolios are actively being updated — check back often for new work.
-
-| Portfolio | Link | Status |
-|---|---|---|
 | 🌐 **Web Portfolio** | [zqhwebpro.github.io/portfolio](https://zqhwebpro.github.io/portfolio/sitemap/sitemap.xml) | 🚧 In Progress |
-| 🎨 **Designer Portfolio (Behance)** | [behance.net/zqhwebpro](https://www.behance.net/zqhwebpro) | 🔄 Being Updated |
 
 ---
 
