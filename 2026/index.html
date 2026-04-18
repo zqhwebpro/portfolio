@@ -5,80 +5,88 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-  <!-- SEO -->
   <title>Zach Heindel | Web Designer & Developer Portfolio</title>
-  <meta name="description"
-    content="Zach Heindel - Web Designer & Developer specializing in modern, responsive, and high-performing websites. View projects, experience, and contact info.">
+  <meta name="description" content="Zach Heindel - Web Designer & Developer specializing in modern, responsive, and high-performing websites.">
   <meta name="keywords" content="Zach Heindel, web developer, web designer, portfolio, UI UX, frontend developer">
   <meta name="author" content="Zach Heindel">
 
-  <!-- Open Graph (for sharing) -->
   <meta property="og:title" content="Zach Heindel Portfolio">
   <meta property="og:description" content="Modern web design and development portfolio">
   <meta property="og:type" content="website">
 
-  <!-- Styles -->
+  <!-- Favicon -->
+  <link rel="icon" type="image/png" href="zqh-portfolio.png">
+
   <style>
+    :root {
+      --amber: #F5A623;
+      --red-orange: #E8442A;
+      --dark: #1a1a1a;
+      --dark-mid: #222;
+      --light: #f0f0f0;
+      --text-light: #e8e8e8;
+      --text-muted: #999;
+    }
+
     * {
       margin: 0;
       padding: 0;
       box-sizing: border-box;
+    }
+
+    html {
       scroll-behavior: smooth;
     }
 
     body {
-      font-family: -apple-system, BlinkMacSystemFont, sans-serif;
+      font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif;
       overflow: hidden;
-      color: #111;
+      color: var(--text-light);
+      background: #000;
     }
 
+    /* ─── VIDEO BACKGROUND ─── */
+    #bg-video {
+      position: fixed;
+      top: 0; left: 0;
+      width: 100%; height: 100%;
+      object-fit: cover;
+      z-index: -2;
+      pointer-events: none;
+    }
+
+    /* ─── SECTION OVERLAYS ─── */
     section {
+      position: relative;
       height: 100vh;
       display: flex;
+      flex-direction: column;
       justify-content: center;
       align-items: center;
       text-align: center;
-      padding: 40px;
-    }
-
-    h1 {
-      font-size: 3rem;
-      margin-bottom: 10px;
-    }
-
-    h2 {
-      font-size: 2.2rem;
-      margin-bottom: 10px;
-    }
-
-    p {
-      font-size: 1.1rem;
-      max-width: 600px;
-      margin: auto;
-    }
-
-    /* Section Colors */
-    #hero {
-      position: relative;
-      height: 100vh;
+      padding: 60px 40px 40px;
       overflow: hidden;
-      color: white;
-      background: #111;
     }
 
-    #about {
-      background: #f5f5f5;
+    section::before {
+      content: '';
+      position: absolute;
+      inset: 0;
+      z-index: 0;
+      pointer-events: none;
     }
 
-    #projects {
-      background: #eaeaea;
+    #hero::before   { background: rgba(17,17,17, 0.00); }
+    #about::before  { background: rgba(17,17,17, 0.10); }
+    #projects::before { background: rgba(17,17,17, 0.20); }
+    #contact::before  { background: rgba(17,17,17, 0.30); }
+
+    section > * {
+      position: relative;
+      z-index: 1;
     }
 
-    #contact {
-      background: #ddd;
-    }
-
-    /* Left Navigation Dots */
+    /* ─── NAV DOTS ─── */
     .nav-dots {
       position: fixed;
       left: 20px;
@@ -87,51 +95,514 @@
       z-index: 1000;
     }
 
-    .nav-dots ul {
-      list-style: none;
-    }
-
-    .nav-dots li {
-      margin: 10px 0;
-    }
+    .nav-dots ul { list-style: none; }
+    .nav-dots li { margin: 10px 0; }
 
     .nav-dots a {
       display: block;
-      width: 12px;
-      height: 12px;
+      width: 10px;
+      height: 10px;
       border-radius: 50%;
-      background: #999;
+      background: rgba(255,255,255,0.35);
+      border: 1px solid rgba(255,255,255,0.2);
       transition: all 0.3s ease;
     }
 
     .nav-dots a.active {
-      background: #000;
-      transform: scale(1.4);
+      background: var(--amber);
+      border-color: var(--amber);
+      transform: scale(1.5);
     }
 
-    /* Responsive */
+    /* ─── SECTION LABELS ─── */
+    .section-label {
+      font-size: 0.65rem;
+      letter-spacing: 0.25em;
+      text-transform: uppercase;
+      color: var(--amber);
+      margin-bottom: 12px;
+      font-weight: 600;
+    }
+
+    /* ─── HERO ─── */
+    #hero {
+      justify-content: space-between;
+      padding-top: 0;
+    }
+
+    .hero-top {
+      width: 100%;
+      display: flex;
+      justify-content: space-between;
+      align-items: flex-start;
+      padding: 32px 48px 0;
+    }
+
+    .hero-logo {
+      font-size: 0.75rem;
+      letter-spacing: 0.3em;
+      text-transform: uppercase;
+      color: var(--text-muted);
+    }
+
+    .hero-logo span {
+      color: var(--amber);
+    }
+
+    .hero-nav-links {
+      display: flex;
+      gap: 28px;
+      list-style: none;
+    }
+
+    .hero-nav-links a {
+      font-size: 0.7rem;
+      letter-spacing: 0.2em;
+      text-transform: uppercase;
+      color: var(--text-muted);
+      text-decoration: none;
+      transition: color 0.2s;
+    }
+
+    .hero-nav-links a:hover { color: var(--amber); }
+
+    .hero-center {
+      flex: 1;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+      width: 100%;
+    }
+
+    .hero-name {
+      font-size: clamp(3rem, 8vw, 7rem);
+      font-weight: 800;
+      letter-spacing: -0.03em;
+      line-height: 1;
+      color: #fff;
+      margin-bottom: 16px;
+    }
+
+    .hero-name em {
+      color: var(--amber);
+      font-style: normal;
+    }
+
+    .hero-sub {
+      font-size: clamp(0.85rem, 1.5vw, 1.05rem);
+      color: var(--text-muted);
+      letter-spacing: 0.08em;
+      margin-bottom: 36px;
+    }
+
+    .hero-cta {
+      display: inline-flex;
+      align-items: center;
+      gap: 10px;
+      padding: 13px 28px;
+      background: var(--amber);
+      color: #111;
+      font-size: 0.78rem;
+      font-weight: 700;
+      letter-spacing: 0.18em;
+      text-transform: uppercase;
+      text-decoration: none;
+      border: none;
+      cursor: pointer;
+      transition: background 0.2s, transform 0.2s;
+      clip-path: polygon(8px 0%, 100% 0%, calc(100% - 8px) 100%, 0% 100%);
+    }
+
+    .hero-cta:hover {
+      background: var(--red-orange);
+      color: #fff;
+      transform: translateY(-2px);
+    }
+
+    .hero-bottom {
+      width: 100%;
+      display: flex;
+      justify-content: space-between;
+      align-items: flex-end;
+      padding: 0 48px 32px;
+    }
+
+    .hero-status {
+      font-size: 0.65rem;
+      letter-spacing: 0.2em;
+      text-transform: uppercase;
+      color: var(--text-muted);
+    }
+
+    .hero-status-dot {
+      display: inline-block;
+      width: 7px; height: 7px;
+      border-radius: 50%;
+      background: #4ade80;
+      margin-right: 7px;
+      animation: pulse 2s infinite;
+    }
+
+    @keyframes pulse {
+      0%, 100% { opacity: 1; }
+      50% { opacity: 0.3; }
+    }
+
+    .hero-scroll {
+      font-size: 0.65rem;
+      letter-spacing: 0.2em;
+      text-transform: uppercase;
+      color: var(--text-muted);
+    }
+
+    /* ─── SKILLS GRID (10 boxes, 5x2) ─── */
+    .skills-grid {
+      display: grid;
+      grid-template-columns: repeat(5, 1fr);
+      gap: 12px;
+      width: 100%;
+      max-width: 900px;
+      margin-top: 28px;
+    }
+
+    .skill-box {
+      background: rgba(255,255,255,0.04);
+      border: 1px solid rgba(255,255,255,0.08);
+      border-bottom: 2px solid var(--amber);
+      padding: 20px 12px;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 8px;
+      transition: background 0.2s, border-color 0.2s, transform 0.2s;
+      cursor: default;
+    }
+
+    .skill-box:hover {
+      background: rgba(245,166,35,0.08);
+      border-bottom-color: var(--red-orange);
+      transform: translateY(-3px);
+    }
+
+    .skill-box .skill-icon {
+      font-size: 1.6rem;
+    }
+
+    .skill-box .skill-name {
+      font-size: 0.65rem;
+      letter-spacing: 0.15em;
+      text-transform: uppercase;
+      color: var(--text-muted);
+      font-weight: 600;
+    }
+
+    /* ─── ABOUT SECTION ─── */
+    #about {
+      gap: 0;
+    }
+
+    .about-header {
+      margin-bottom: 32px;
+    }
+
+    .about-header h2 {
+      font-size: clamp(1.8rem, 4vw, 3rem);
+      font-weight: 800;
+      letter-spacing: -0.03em;
+      color: #fff;
+    }
+
+    .about-header p {
+      font-size: 0.95rem;
+      color: var(--text-muted);
+      max-width: 480px;
+      margin: 12px auto 0;
+      line-height: 1.7;
+    }
+
+    /* Experience boxes (5 boxes) */
+    .exp-grid {
+      display: grid;
+      grid-template-columns: repeat(5, 1fr);
+      gap: 12px;
+      width: 100%;
+      max-width: 980px;
+    }
+
+    .exp-box {
+      background: rgba(255,255,255,0.04);
+      border: 1px solid rgba(255,255,255,0.06);
+      border-top: 3px solid var(--red-orange);
+      padding: 24px 16px;
+      text-align: left;
+      transition: background 0.2s, transform 0.2s;
+    }
+
+    .exp-box:nth-child(odd) {
+      border-top-color: var(--amber);
+    }
+
+    .exp-box:hover {
+      background: rgba(255,255,255,0.07);
+      transform: translateY(-4px);
+    }
+
+    .exp-box .exp-years {
+      font-size: 0.6rem;
+      letter-spacing: 0.2em;
+      text-transform: uppercase;
+      color: var(--amber);
+      margin-bottom: 8px;
+    }
+
+    .exp-box .exp-company {
+      font-size: 0.85rem;
+      font-weight: 700;
+      color: #fff;
+      margin-bottom: 4px;
+    }
+
+    .exp-box .exp-role {
+      font-size: 0.68rem;
+      color: var(--text-muted);
+      letter-spacing: 0.05em;
+    }
+
+    /* ─── PROJECTS SECTION ─── */
+    #projects {
+      gap: 0;
+    }
+
+    .projects-header {
+      margin-bottom: 28px;
+    }
+
+    .projects-header h2 {
+      font-size: clamp(1.8rem, 4vw, 3rem);
+      font-weight: 800;
+      letter-spacing: -0.03em;
+      color: #fff;
+    }
+
+    /* 3 categories, each with 4 sub-boxes */
+    .project-cats {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 16px;
+      width: 100%;
+      max-width: 960px;
+    }
+
+    .project-cat {
+      background: rgba(255,255,255,0.03);
+      border: 1px solid rgba(255,255,255,0.07);
+      padding: 20px;
+    }
+
+    .project-cat-label {
+      font-size: 0.6rem;
+      letter-spacing: 0.25em;
+      text-transform: uppercase;
+      color: var(--amber);
+      margin-bottom: 14px;
+      font-weight: 700;
+      text-align: left;
+    }
+
+    .project-sub-grid {
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: 8px;
+    }
+
+    .project-sub-box {
+      background: rgba(255,255,255,0.04);
+      border: 1px solid rgba(255,255,255,0.06);
+      padding: 14px 12px;
+      text-align: left;
+      transition: background 0.2s, border-color 0.2s;
+      cursor: default;
+    }
+
+    .project-sub-box:hover {
+      background: rgba(245,166,35,0.07);
+      border-color: rgba(245,166,35,0.3);
+    }
+
+    .project-sub-title {
+      font-size: 0.72rem;
+      font-weight: 700;
+      color: #fff;
+      margin-bottom: 4px;
+    }
+
+    .project-sub-desc {
+      font-size: 0.6rem;
+      color: var(--text-muted);
+      line-height: 1.5;
+    }
+
+    /* ─── CONTACT / GALLERY SECTION ─── */
+    #contact {
+      flex-direction: column;
+      justify-content: flex-start;
+      padding-top: 60px;
+      gap: 0;
+    }
+
+    .contact-header {
+      margin-bottom: 24px;
+    }
+
+    .contact-header h2 {
+      font-size: clamp(1.8rem, 4vw, 3rem);
+      font-weight: 800;
+      letter-spacing: -0.03em;
+      color: #fff;
+    }
+
+    .contact-header p {
+      font-size: 0.9rem;
+      color: var(--text-muted);
+      margin-top: 8px;
+    }
+
+    /* Gallery: 10 across */
+    .gallery-grid {
+      display: grid;
+      grid-template-columns: repeat(10, 1fr);
+      gap: 6px;
+      width: 100%;
+      max-width: 1100px;
+      margin-bottom: 28px;
+    }
+
+    .gallery-item {
+      aspect-ratio: 1;
+      background: rgba(255,255,255,0.04);
+      border: 1px solid rgba(255,255,255,0.06);
+      position: relative;
+      overflow: hidden;
+      cursor: pointer;
+      transition: transform 0.2s;
+    }
+
+    .gallery-item::after {
+      content: '';
+      position: absolute;
+      inset: 0;
+      background: linear-gradient(135deg, var(--amber), var(--red-orange));
+      opacity: 0;
+      transition: opacity 0.25s;
+    }
+
+    .gallery-item:nth-child(3n+1)::before {
+      content: '';
+      position: absolute;
+      inset: 0;
+      background: linear-gradient(135deg, rgba(232,68,42,0.15), transparent);
+    }
+
+    .gallery-item:nth-child(3n+2)::before {
+      content: '';
+      position: absolute;
+      inset: 0;
+      background: linear-gradient(135deg, rgba(245,166,35,0.12), transparent);
+    }
+
+    .gallery-item:hover {
+      transform: scale(1.05);
+      z-index: 2;
+    }
+
+    .gallery-item:hover::after {
+      opacity: 0.35;
+    }
+
+    /* Contact info row */
+    .contact-info-row {
+      display: flex;
+      gap: 24px;
+      flex-wrap: wrap;
+      justify-content: center;
+      margin-top: 8px;
+    }
+
+    .contact-chip {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      padding: 10px 20px;
+      background: rgba(255,255,255,0.05);
+      border: 1px solid rgba(255,255,255,0.08);
+      font-size: 0.75rem;
+      letter-spacing: 0.08em;
+      color: var(--text-light);
+      text-decoration: none;
+      transition: background 0.2s, border-color 0.2s;
+    }
+
+    .contact-chip:hover {
+      background: rgba(245,166,35,0.1);
+      border-color: var(--amber);
+      color: var(--amber);
+    }
+
+    .contact-chip-icon { color: var(--amber); font-size: 1rem; }
+
+    /* ─── ACCENT LINE ─── */
+    .accent-line {
+      display: inline-flex;
+      align-items: center;
+      gap: 12px;
+      margin-bottom: 8px;
+    }
+
+    .accent-line::before,
+    .accent-line::after {
+      content: '';
+      display: block;
+      height: 1px;
+      width: 40px;
+      background: var(--amber);
+      opacity: 0.5;
+    }
+
+    /* ─── RESPONSIVE ─── */
+    @media (max-width: 1024px) {
+      .gallery-grid { grid-template-columns: repeat(5, 1fr); }
+    }
+
     @media (max-width: 768px) {
-      h1 {
-        font-size: 2.2rem;
-      }
-
-      h2 {
-        font-size: 1.6rem;
-      }
-
-      .nav-dots {
-        left: 10px;
-      }
+      .skills-grid { grid-template-columns: repeat(3, 1fr); }
+      .exp-grid { grid-template-columns: repeat(2, 1fr); }
+      .project-cats { grid-template-columns: 1fr; gap: 10px; }
+      .project-sub-grid { grid-template-columns: repeat(4, 1fr); }
+      .gallery-grid { grid-template-columns: repeat(5, 1fr); }
+      .hero-top, .hero-bottom { padding-left: 20px; padding-right: 20px; }
+      .hero-nav-links { display: none; }
     }
 
-    .cta-a {
-      text-align: center;
-      font-size: 125%;
+    @media (max-width: 540px) {
+      .skills-grid { grid-template-columns: repeat(2, 1fr); }
+      .exp-grid { grid-template-columns: 1fr 1fr; }
+      .project-sub-grid { grid-template-columns: repeat(2, 1fr); }
+      .gallery-grid { grid-template-columns: repeat(4, 1fr); }
+    }
+
+    @media (max-width: 380px) {
+      .gallery-grid { grid-template-columns: repeat(3, 1fr); }
     }
   </style>
 </head>
 
 <body>
+
+  <!-- Full-screen Video Background -->
+  <video id="bg-video" autoplay muted loop playsinline>
+    <source src="desgvid.mp4" type="video/mp4">
+  </video>
 
   <!-- Navigation Dots -->
   <nav class="nav-dots">
@@ -143,49 +614,213 @@
     </ul>
   </nav>
 
-  <!-- Sections -->
+  <!-- ─── SECTION 1: HERO ─── -->
   <section id="hero">
 
+    <div class="hero-top">
+      <div class="hero-logo">ZQH<span>.</span>WEBPRO</div>
+      <ul class="hero-nav-links">
+        <li><a href="#about">About</a></li>
+        <li><a href="#projects">Work</a></li>
+        <li><a href="#contact">Contact</a></li>
+      </ul>
+    </div>
 
-    <div class="hero-content">
-      <h1>Zach Heindel</h1>
-      <p>Web Designer & Developer creating high-performance, modern digital experiences.</p>
-      <a class="cta-a" target="_blank" href="https://zqhwebpro.github.io/portfolio/sitemap/sitemap.xml">GitHub
-        Collection ➤</a>
+    <div class="hero-center">
+      <div class="section-label">Web Developer &amp; UI/UX Designer</div>
+      <h1 class="hero-name">Zach <em>Heindel</em></h1>
+      <p class="hero-sub">High-performance digital experiences · York, PA</p>
+      <a class="hero-cta" href="https://zqhwebpro.github.io/portfolio" target="_blank">
+        View GitHub Collection ➤
+      </a>
+
+      <!-- Skills Grid: 10 boxes, 5 per row -->
+      <div class="skills-grid">
+        <div class="skill-box"><span class="skill-icon">🌐</span><span class="skill-name">HTML/CSS</span></div>
+        <div class="skill-box"><span class="skill-icon">⚡</span><span class="skill-name">JavaScript</span></div>
+        <div class="skill-box"><span class="skill-icon">⚛️</span><span class="skill-name">React</span></div>
+        <div class="skill-box"><span class="skill-icon">🐘</span><span class="skill-name">PHP</span></div>
+        <div class="skill-box"><span class="skill-icon">🎨</span><span class="skill-name">UI/UX</span></div>
+        <div class="skill-box"><span class="skill-icon">🔷</span><span class="skill-name">WordPress</span></div>
+        <div class="skill-box"><span class="skill-icon">🛒</span><span class="skill-name">WooCommerce</span></div>
+        <div class="skill-box"><span class="skill-icon">🔍</span><span class="skill-name">SEO/CRO</span></div>
+        <div class="skill-box"><span class="skill-icon">🤖</span><span class="skill-name">AI Tools</span></div>
+        <div class="skill-box"><span class="skill-icon">🎭</span><span class="skill-name">Adobe CC</span></div>
+      </div>
+    </div>
+
+    <div class="hero-bottom">
+      <div class="hero-status">
+        <span class="hero-status-dot"></span>Available for opportunities
+      </div>
+      <div class="hero-scroll">Scroll ↓</div>
     </div>
 
   </section>
 
+  <!-- ─── SECTION 2: ABOUT ─── -->
   <section id="about">
-    <div>
-      <h2>About Me</h2>
-      <p>
-        I specialize in building responsive, conversion-focused websites using modern technologies.
-        Experienced in UI/UX design, WordPress development, and performance optimization.
-      </p>
+
+    <div class="about-header">
+      <div class="accent-line">
+        <span class="section-label">About Me</span>
+      </div>
+      <h2>Design Thinking.<br>Technical Execution.</h2>
+      <p>Specializing in responsive, conversion-focused websites. Experienced in UI/UX, WordPress, and performance optimization — with 15+ years building across agencies and studios.</p>
     </div>
+
+    <!-- 5 Experience Boxes -->
+    <div class="exp-grid">
+      <div class="exp-box">
+        <div class="exp-years">2020 – 2026</div>
+        <div class="exp-company">EZMarketing</div>
+        <div class="exp-role">Web Developer / Designer</div>
+      </div>
+      <div class="exp-box">
+        <div class="exp-years">2018 – 2019</div>
+        <div class="exp-company">Income Store</div>
+        <div class="exp-role">Front-End Web Developer</div>
+      </div>
+      <div class="exp-box">
+        <div class="exp-years">2017 – 2018</div>
+        <div class="exp-company">Weber Adv.</div>
+        <div class="exp-role">Web Developer / Graphic Designer</div>
+      </div>
+      <div class="exp-box">
+        <div class="exp-years">2014 – 2017</div>
+        <div class="exp-company">MarketSource</div>
+        <div class="exp-role">Sales Representative</div>
+      </div>
+      <div class="exp-box">
+        <div class="exp-years">2007 – 2013</div>
+        <div class="exp-company">Clipper Magazine</div>
+        <div class="exp-role">Graphic Designer</div>
+      </div>
+    </div>
+
   </section>
 
+  <!-- ─── SECTION 3: PROJECTS ─── -->
   <section id="projects">
-    <div>
-      <h2>Projects</h2>
-      <p>
-        A collection of web design, development, and interactive experiences built for real-world impact.
-      </p>
+
+    <div class="projects-header">
+      <div class="accent-line">
+        <span class="section-label">Work</span>
+      </div>
+      <h2>Projects &amp; Capabilities</h2>
     </div>
+
+    <!-- 3 categories × 4 sub-boxes -->
+    <div class="project-cats">
+
+      <div class="project-cat">
+        <div class="project-cat-label">⬡ Web Development</div>
+        <div class="project-sub-grid">
+          <div class="project-sub-box">
+            <div class="project-sub-title">WordPress Sites</div>
+            <div class="project-sub-desc">ACF, WooCommerce, LearnDash builds</div>
+          </div>
+          <div class="project-sub-box">
+            <div class="project-sub-title">Custom Code</div>
+            <div class="project-sub-desc">HTML/CSS/JS/PHP from scratch</div>
+          </div>
+          <div class="project-sub-box">
+            <div class="project-sub-title">eCommerce</div>
+            <div class="project-sub-desc">$100K+/mo revenue stores</div>
+          </div>
+          <div class="project-sub-box">
+            <div class="project-sub-title">Performance</div>
+            <div class="project-sub-desc">Core Web Vitals & SEO tuning</div>
+          </div>
+        </div>
+      </div>
+
+      <div class="project-cat">
+        <div class="project-cat-label">◈ UI/UX Design</div>
+        <div class="project-sub-grid">
+          <div class="project-sub-box">
+            <div class="project-sub-title">Brand Systems</div>
+            <div class="project-sub-desc">Logos, palettes, identity</div>
+          </div>
+          <div class="project-sub-box">
+            <div class="project-sub-title">Landing Pages</div>
+            <div class="project-sub-desc">Conversion-optimized layouts</div>
+          </div>
+          <div class="project-sub-box">
+            <div class="project-sub-title">Infographics</div>
+            <div class="project-sub-desc">Interactive data assets</div>
+          </div>
+          <div class="project-sub-box">
+            <div class="project-sub-title">Print/Digital</div>
+            <div class="project-sub-desc">Ads, banners, flyers, posters</div>
+          </div>
+        </div>
+      </div>
+
+      <div class="project-cat">
+        <div class="project-cat-label">◎ Automation & AI</div>
+        <div class="project-sub-grid">
+          <div class="project-sub-box">
+            <div class="project-sub-title">Custom GPTs</div>
+            <div class="project-sub-desc">AI training & integration</div>
+          </div>
+          <div class="project-sub-box">
+            <div class="project-sub-title">Zapier Flows</div>
+            <div class="project-sub-desc">No-code workflow automation</div>
+          </div>
+          <div class="project-sub-box">
+            <div class="project-sub-title">DevOps</div>
+            <div class="project-sub-desc">Process & deployment automation</div>
+          </div>
+          <div class="project-sub-box">
+            <div class="project-sub-title">CRO Systems</div>
+            <div class="project-sub-desc">Lead gen & conversion strategy</div>
+          </div>
+        </div>
+      </div>
+
+    </div>
+
   </section>
 
+  <!-- ─── SECTION 4: CONTACT / GALLERY ─── -->
   <section id="contact">
-    <div>
-      <h2>Contact</h2>
-      <p>
-        Let’s connect. Available for freelance and full-time opportunities.
-      </p>
+
+    <div class="contact-header">
+      <div class="accent-line">
+        <span class="section-label">Gallery &amp; Contact</span>
+      </div>
+      <h2>Let's Build Something.</h2>
+      <p>Available for freelance and full-time opportunities.</p>
     </div>
+
+    <!-- Gallery: 10 across -->
+    <div class="gallery-grid" id="gallery"></div>
+
+    <div class="contact-info-row">
+      <a class="contact-chip" href="mailto:zqhwebpro@gmail.com">
+        <span class="contact-chip-icon">✉</span> zqhwebpro@gmail.com
+      </a>
+      <a class="contact-chip" href="tel:7178184455">
+        <span class="contact-chip-icon">☎</span> 717-818-4455
+      </a>
+      <a class="contact-chip" href="https://zqhwebpro.github.io/portfolio" target="_blank">
+        <span class="contact-chip-icon">⬡</span> Portfolio
+      </a>
+    </div>
+
   </section>
 
-  <!-- JavaScript -->
   <script>
+    // ─── Generate Gallery Items ───
+    const gallery = document.getElementById('gallery');
+    for (let i = 0; i < 20; i++) {
+      const div = document.createElement('div');
+      div.className = 'gallery-item';
+      gallery.appendChild(div);
+    }
+
+    // ─── Section Scroll ───
     const sections = document.querySelectorAll("section");
     const dots = document.querySelectorAll(".dot");
 
@@ -194,59 +829,41 @@
 
     function scrollToSection(index) {
       if (index < 0 || index >= sections.length) return;
-
       isScrolling = true;
       currentSection = index;
-
-      window.scrollTo({
-        top: sections[index].offsetTop,
-        behavior: "smooth"
-      });
-
+      window.scrollTo({ top: sections[index].offsetTop, behavior: "smooth" });
       updateDots();
-
-      setTimeout(() => {
-        isScrolling = false;
-      }, 700);
+      setTimeout(() => { isScrolling = false; }, 800);
     }
 
     function updateDots() {
-      dots.forEach((dot, i) => {
-        dot.classList.toggle("active", i === currentSection);
-      });
+      dots.forEach((dot, i) => dot.classList.toggle("active", i === currentSection));
     }
 
-    // Mouse Wheel Scroll
     window.addEventListener("wheel", (e) => {
       if (isScrolling) return;
-
-      if (e.deltaY > 0) {
-        scrollToSection(currentSection + 1);
-      } else {
-        scrollToSection(currentSection - 1);
-      }
+      scrollToSection(currentSection + (e.deltaY > 0 ? 1 : -1));
     });
 
-    // Dot Navigation Click
     dots.forEach((dot, index) => {
-      dot.addEventListener("click", (e) => {
-        e.preventDefault();
-        scrollToSection(index);
-      });
+      dot.addEventListener("click", (e) => { e.preventDefault(); scrollToSection(index); });
     });
 
-    // Keyboard Support
     window.addEventListener("keydown", (e) => {
       if (isScrolling) return;
+      if (e.key === "ArrowDown") scrollToSection(currentSection + 1);
+      if (e.key === "ArrowUp") scrollToSection(currentSection - 1);
+    });
 
-      if (e.key === "ArrowDown") {
-        scrollToSection(currentSection + 1);
-      } else if (e.key === "ArrowUp") {
-        scrollToSection(currentSection - 1);
-      }
+    // Touch support
+    let touchStartY = 0;
+    window.addEventListener('touchstart', (e) => { touchStartY = e.touches[0].clientY; });
+    window.addEventListener('touchend', (e) => {
+      if (isScrolling) return;
+      const delta = touchStartY - e.changedTouches[0].clientY;
+      if (Math.abs(delta) > 40) scrollToSection(currentSection + (delta > 0 ? 1 : -1));
     });
   </script>
 
 </body>
-
 </html>
