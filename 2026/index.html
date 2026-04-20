@@ -1,42 +1,23 @@
 <!DOCTYPE html>
 <html lang="en">
-
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-
   <title>Zach Heindel | Web Designer & Developer Portfolio</title>
   <meta name="description" content="Zach Heindel - Web Designer & Developer specializing in modern, responsive, and high-performing websites.">
-  <meta name="keywords" content="Zach Heindel, web developer, web designer, portfolio, UI UX, frontend developer">
   <meta name="author" content="Zach Heindel">
-
-  <meta property="og:title" content="Zach Heindel Portfolio">
-  <meta property="og:description" content="Modern web design and development portfolio">
-  <meta property="og:type" content="website">
-
-  <!-- Favicon -->
   <link rel="icon" type="image/png" href="media/zqh-portfolio.png">
 
   <style>
     :root {
       --amber: #F5A623;
       --red-orange: #E8442A;
-      --dark: #1a1a1a;
-      --dark-mid: #222;
-      --light: #f0f0f0;
       --text-light: #e8e8e8;
       --text-muted: #999;
     }
 
-    * {
-      margin: 0;
-      padding: 0;
-      box-sizing: border-box;
-    }
-
-    html {
-      scroll-behavior: smooth;
-    }
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+    html { scroll-behavior: smooth; }
 
     body {
       font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif;
@@ -55,7 +36,7 @@
       pointer-events: none;
     }
 
-    /* ─── SECTION OVERLAYS ─── */
+    /* ─── SECTIONS ─── */
     section {
       position: relative;
       height: 100vh;
@@ -76,15 +57,14 @@
       pointer-events: none;
     }
 
-    #hero::before   { background: rgba(17,17,17, 0.00); }
-    #about::before  { background: rgba(17,17,17, 0.10); }
-    #projects::before { background: rgba(17,17,17, 0.20); }
-    #contact::before  { background: rgba(17,17,17, 0.30); }
+    #hero::before       { background: rgba(10,10,10,0.10); }
+    #webdev::before     { background: rgba(10,10,10,0.60); }
+    #design::before     { background: rgba(10,10,10,0.65); }
+    #mktg::before       { background: rgba(10,10,10,0.68); }
+    #experience::before { background: rgba(10,10,10,0.72); }
+    #contact::before    { background: rgba(10,10,10,0.78); }
 
-    section > * {
-      position: relative;
-      z-index: 1;
-    }
+    section > * { position: relative; z-index: 1; }
 
     /* ─── NAV DOTS ─── */
     .nav-dots {
@@ -94,27 +74,130 @@
       transform: translateY(-50%);
       z-index: 1000;
     }
-
     .nav-dots ul { list-style: none; }
     .nav-dots li { margin: 10px 0; }
-
     .nav-dots a {
       display: block;
-      width: 10px;
-      height: 10px;
+      width: 10px; height: 10px;
       border-radius: 50%;
       background: rgba(255,255,255,0.35);
       border: 1px solid rgba(255,255,255,0.2);
       transition: all 0.3s ease;
     }
-
     .nav-dots a.active {
       background: var(--amber);
       border-color: var(--amber);
       transform: scale(1.5);
     }
 
-    /* ─── SECTION LABELS ─── */
+    /* ─── HAMBURGER BUTTON ─── */
+    .hamburger-btn {
+      position: fixed;
+      top: 28px;
+      right: 32px;
+      z-index: 2000;
+      width: 42px;
+      height: 42px;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+      gap: 5px;
+      cursor: pointer;
+      background: rgba(0,0,0,0.45);
+      border: 1px solid rgba(255,255,255,0.1);
+      padding: 10px;
+      transition: border-color 0.2s;
+    }
+    .hamburger-btn:hover { border-color: var(--amber); }
+    .hamburger-btn span {
+      display: block;
+      width: 22px;
+      height: 1.5px;
+      background: var(--text-muted);
+      transition: all 0.3s ease;
+      transform-origin: center;
+    }
+    .hamburger-btn.open span:nth-child(1) {
+      transform: translateY(6.5px) rotate(45deg);
+      background: var(--amber);
+    }
+    .hamburger-btn.open span:nth-child(2) {
+      opacity: 0;
+      transform: scaleX(0);
+    }
+    .hamburger-btn.open span:nth-child(3) {
+      transform: translateY(-6.5px) rotate(-45deg);
+      background: var(--amber);
+    }
+
+    /* ─── NAV OVERLAY ─── */
+    .nav-overlay {
+      position: fixed;
+      inset: 0;
+      z-index: 1900;
+      background: rgba(0,0,0,0.97);
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+      opacity: 0;
+      pointer-events: none;
+      transition: opacity 0.35s ease;
+    }
+    .nav-overlay.open {
+      opacity: 1;
+      pointer-events: all;
+    }
+
+    .nav-overlay-logo {
+      position: absolute;
+      top: 32px;
+      left: 40px;
+      font-size: 0.75rem;
+      letter-spacing: 0.3em;
+      text-transform: uppercase;
+      color: var(--text-muted);
+    }
+    .nav-overlay-logo span { color: var(--amber); }
+
+    .nav-overlay-links {
+      list-style: none;
+      text-align: center;
+    }
+    .nav-overlay-links li { overflow: hidden; }
+    .nav-overlay-links a {
+      display: block;
+      padding: 12px 0;
+      font-size: clamp(1.8rem, 4vw, 3.2rem);
+      font-weight: 800;
+      letter-spacing: -0.02em;
+      color: rgba(255,255,255,0.2);
+      text-decoration: none;
+      text-transform: uppercase;
+      transition: color 0.2s;
+      line-height: 1;
+    }
+    .nav-overlay-links a:hover { color: var(--amber); }
+    .nav-num {
+      font-size: 0.58rem;
+      letter-spacing: 0.2em;
+      color: var(--amber);
+      vertical-align: super;
+      margin-right: 10px;
+      font-weight: 400;
+    }
+
+    .nav-overlay-footer {
+      position: absolute;
+      bottom: 32px;
+      font-size: 0.6rem;
+      letter-spacing: 0.2em;
+      text-transform: uppercase;
+      color: rgba(255,255,255,0.15);
+    }
+
+    /* ─── SHARED ─── */
     .section-label {
       font-size: 0.65rem;
       letter-spacing: 0.25em;
@@ -123,8 +206,23 @@
       margin-bottom: 12px;
       font-weight: 600;
     }
+    .accent-line {
+      display: inline-flex;
+      align-items: center;
+      gap: 12px;
+      margin-bottom: 8px;
+    }
+    .accent-line::before, .accent-line::after {
+      content: '';
+      display: block;
+      height: 1px; width: 40px;
+      background: var(--amber);
+      opacity: 0.5;
+    }
 
-    /* ─── HERO ─── */
+    /* ════════════════════════
+       SECTION 1: HERO
+    ════════════════════════ */
     #hero {
       justify-content: space-between;
       padding-top: 0;
@@ -144,27 +242,7 @@
       text-transform: uppercase;
       color: var(--text-muted);
     }
-
-    .hero-logo span {
-      color: var(--amber);
-    }
-
-    .hero-nav-links {
-      display: flex;
-      gap: 28px;
-      list-style: none;
-    }
-
-    .hero-nav-links a {
-      font-size: 0.7rem;
-      letter-spacing: 0.2em;
-      text-transform: uppercase;
-      color: var(--text-muted);
-      text-decoration: none;
-      transition: color 0.2s;
-    }
-
-    .hero-nav-links a:hover { color: var(--amber); }
+    .hero-logo span { color: var(--amber); }
 
     .hero-center {
       flex: 1;
@@ -181,13 +259,9 @@
       letter-spacing: -0.03em;
       line-height: 1;
       color: #fff;
-      margin-bottom: 16px;
+      margin-bottom: 12px;
     }
-
-    .hero-name em {
-      color: var(--amber);
-      font-style: normal;
-    }
+    .hero-name em { color: var(--amber); font-style: normal; }
 
     .hero-sub {
       font-size: clamp(0.85rem, 1.5vw, 1.05rem);
@@ -196,28 +270,45 @@
       margin-bottom: 36px;
     }
 
-    .hero-cta {
-      display: inline-flex;
-      align-items: center;
-      gap: 10px;
-      padding: 13px 28px;
-      background: var(--amber);
-      color: #111;
-      font-size: 0.78rem;
-      font-weight: 700;
-      letter-spacing: 0.18em;
-      text-transform: uppercase;
-      text-decoration: none;
-      border: none;
-      cursor: pointer;
-      transition: background 0.2s, transform 0.2s;
-      clip-path: polygon(8px 0%, 100% 0%, calc(100% - 8px) 100%, 0% 100%);
+    /* 3 Service Boxes */
+    .hero-service-boxes {
+      display: flex;
+      gap: 16px;
     }
 
-    .hero-cta:hover {
-      background: var(--red-orange);
+    .service-box {
+      width: 200px;
+      padding: 28px 20px;
+      background: rgba(255,255,255,0.04);
+      border: 1px solid rgba(255,255,255,0.08);
+      border-bottom: 3px solid rgba(255,255,255,0.15);
+      text-decoration: none;
+      color: inherit;
+      cursor: pointer;
+      transition: background 0.2s, border-color 0.2s, transform 0.2s;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 10px;
+    }
+    .service-box:hover {
+      background: rgba(255,255,255,0.07);
+      border-bottom-color: var(--amber);
+      transform: translateY(-5px);
+    }
+
+    .service-box-icon { font-size: 1.8rem; }
+    .service-box-title {
+      font-size: 0.78rem;
+      font-weight: 700;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
       color: #fff;
-      transform: translateY(-2px);
+    }
+    .service-box-arrow {
+      font-size: 0.62rem;
+      color: var(--text-muted);
+      letter-spacing: 0.1em;
     }
 
     .hero-bottom {
@@ -227,14 +318,12 @@
       align-items: flex-end;
       padding: 0 48px 32px;
     }
-
     .hero-status {
       font-size: 0.65rem;
       letter-spacing: 0.2em;
       text-transform: uppercase;
       color: var(--text-muted);
     }
-
     .hero-status-dot {
       display: inline-block;
       width: 7px; height: 7px;
@@ -243,12 +332,10 @@
       margin-right: 7px;
       animation: pulse 2s infinite;
     }
-
     @keyframes pulse {
       0%, 100% { opacity: 1; }
       50% { opacity: 0.3; }
     }
-
     .hero-scroll {
       font-size: 0.65rem;
       letter-spacing: 0.2em;
@@ -256,230 +343,36 @@
       color: var(--text-muted);
     }
 
-    /* ─── SKILLS GRID (10 boxes, 5x2) ─── */
-    .skills-grid {
-      display: grid;
-      grid-template-columns: repeat(5, 1fr);
-      gap: 12px;
-      width: 100%;
-      max-width: 900px;
-      margin-top: 28px;
-    }
-
-    .skill-box {
-      background: rgba(255,255,255,0.04);
-      border: 1px solid rgba(255,255,255,0.08);
-      border-bottom: 2px solid var(--amber);
-      padding: 20px 12px;
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      gap: 8px;
-      transition: background 0.2s, border-color 0.2s, transform 0.2s;
-      cursor: default;
-    }
-
-    .skill-box:hover {
-      background: rgba(245,166,35,0.08);
-      border-bottom-color: var(--red-orange);
-      transform: translateY(-3px);
-    }
-
-    .skill-box .skill-icon {
-      font-size: 1.6rem;
-    }
-
-    .skill-box .skill-name {
-      font-size: 0.65rem;
-      letter-spacing: 0.15em;
-      text-transform: uppercase;
-      color: var(--text-muted);
-      font-weight: 600;
-    }
-
-    /* ─── ABOUT SECTION ─── */
-    #about {
-      gap: 0;
-    }
-
-    .about-header {
-      margin-bottom: 32px;
-    }
-
-    .about-header h2 {
+    /* ════════════════════════
+       SECTIONS 2–3: GALLERY
+    ════════════════════════ */
+    .page-header { margin-bottom: 20px; }
+    .page-header h2 {
       font-size: clamp(1.8rem, 4vw, 3rem);
       font-weight: 800;
       letter-spacing: -0.03em;
       color: #fff;
+      margin-bottom: 10px;
     }
-
-    .about-header p {
-      font-size: 0.95rem;
+    .page-header p {
+      font-size: 0.88rem;
       color: var(--text-muted);
-      max-width: 480px;
-      margin: 12px auto 0;
+      max-width: 560px;
+      margin: 0 auto;
       line-height: 1.7;
     }
 
-    /* Experience boxes (5 boxes) */
-    .exp-grid {
-      display: grid;
-      grid-template-columns: repeat(5, 1fr);
-      gap: 12px;
-      width: 100%;
-      max-width: 980px;
-    }
-
-    .exp-box {
-      background: rgba(255,255,255,0.04);
-      border: 1px solid rgba(255,255,255,0.06);
-      border-top: 3px solid var(--red-orange);
-      padding: 24px 16px;
-      text-align: left;
-      transition: background 0.2s, transform 0.2s;
-    }
-
-    .exp-box:nth-child(odd) {
-      border-top-color: var(--amber);
-    }
-
-    .exp-box:hover {
-      background: rgba(255,255,255,0.07);
-      transform: translateY(-4px);
-    }
-
-    .exp-box .exp-years {
-      font-size: 0.6rem;
-      letter-spacing: 0.2em;
-      text-transform: uppercase;
-      color: var(--amber);
-      margin-bottom: 8px;
-    }
-
-    .exp-box .exp-company {
-      font-size: 0.85rem;
-      font-weight: 700;
-      color: #fff;
-      margin-bottom: 4px;
-    }
-
-    .exp-box .exp-role {
-      font-size: 0.68rem;
-      color: var(--text-muted);
-      letter-spacing: 0.05em;
-    }
-
-    /* ─── PROJECTS SECTION ─── */
-    #projects {
-      gap: 0;
-    }
-
-    .projects-header {
-      margin-bottom: 28px;
-    }
-
-    .projects-header h2 {
-      font-size: clamp(1.8rem, 4vw, 3rem);
-      font-weight: 800;
-      letter-spacing: -0.03em;
-      color: #fff;
-    }
-
-    /* 3 categories, each with 4 sub-boxes */
-    .project-cats {
-      display: grid;
-      grid-template-columns: repeat(3, 1fr);
-      gap: 16px;
-      width: 100%;
-      max-width: 960px;
-    }
-
-    .project-cat {
-      background: rgba(255,255,255,0.03);
-      border: 1px solid rgba(255,255,255,0.07);
-      padding: 20px;
-    }
-
-    .project-cat-label {
-      font-size: 0.6rem;
-      letter-spacing: 0.25em;
-      text-transform: uppercase;
-      color: var(--amber);
-      margin-bottom: 14px;
-      font-weight: 700;
-      text-align: left;
-    }
-
-    .project-sub-grid {
-      display: grid;
-      grid-template-columns: repeat(2, 1fr);
-      gap: 8px;
-    }
-
-    .project-sub-box {
-      background: rgba(255,255,255,0.04);
-      border: 1px solid rgba(255,255,255,0.06);
-      padding: 14px 12px;
-      text-align: left;
-      transition: background 0.2s, border-color 0.2s;
-      cursor: default;
-    }
-
-    .project-sub-box:hover {
-      background: rgba(245,166,35,0.07);
-      border-color: rgba(245,166,35,0.3);
-    }
-
-    .project-sub-title {
-      font-size: 0.72rem;
-      font-weight: 700;
-      color: #fff;
-      margin-bottom: 4px;
-    }
-
-    .project-sub-desc {
-      font-size: 0.6rem;
-      color: var(--text-muted);
-      line-height: 1.5;
-    }
-
-    /* ─── CONTACT / GALLERY SECTION ─── */
-    #contact {
-      flex-direction: column;
-      justify-content: flex-start;
-      padding-top: 60px;
-      gap: 0;
-    }
-
-    .contact-header {
-      margin-bottom: 24px;
-    }
-
-    .contact-header h2 {
-      font-size: clamp(1.8rem, 4vw, 3rem);
-      font-weight: 800;
-      letter-spacing: -0.03em;
-      color: #fff;
-    }
-
-    .contact-header p {
-      font-size: 0.9rem;
-      color: var(--text-muted);
-      margin-top: 8px;
-    }
-
-    /* Gallery: 10 across */
     .gallery-grid {
       display: grid;
-      grid-template-columns: repeat(10, 1fr);
-      gap: 6px;
+      grid-template-columns: repeat(5, 1fr);
+      gap: 8px;
       width: 100%;
-      max-width: 1100px;
-      margin-bottom: 28px;
+      max-width: 960px;
+      margin-bottom: 20px;
     }
 
     .gallery-item {
-      aspect-ratio: 1;
+      aspect-ratio: 4/3;
       background: rgba(255,255,255,0.04);
       border: 1px solid rgba(255,255,255,0.06);
       position: relative;
@@ -487,7 +380,6 @@
       cursor: pointer;
       transition: transform 0.2s;
     }
-
     .gallery-item::after {
       content: '';
       position: absolute;
@@ -496,156 +388,450 @@
       opacity: 0;
       transition: opacity 0.25s;
     }
-
     .gallery-item:nth-child(3n+1)::before {
       content: '';
       position: absolute;
       inset: 0;
-      background: linear-gradient(135deg, rgba(232,68,42,0.15), transparent);
+      background: linear-gradient(135deg, rgba(232,68,42,0.10), transparent);
     }
-
     .gallery-item:nth-child(3n+2)::before {
       content: '';
       position: absolute;
       inset: 0;
-      background: linear-gradient(135deg, rgba(245,166,35,0.12), transparent);
+      background: linear-gradient(135deg, rgba(245,166,35,0.08), transparent);
     }
-
-    .gallery-item:hover {
-      transform: scale(1.05);
-      z-index: 2;
-    }
-
-    .gallery-item:hover::after {
-      opacity: 0.35;
-    }
-
-    /* Contact info row */
-    .contact-info-row {
+    .gallery-item .gallery-ph {
+      position: absolute;
+      inset: 0;
       display: flex;
-      gap: 24px;
+      align-items: center;
+      justify-content: center;
+      font-size: 0.55rem;
+      letter-spacing: 0.15em;
+      text-transform: uppercase;
+      color: rgba(255,255,255,0.12);
+      z-index: 1;
+    }
+    .gallery-item:hover { transform: scale(1.04); z-index: 2; }
+    .gallery-item:hover::after { opacity: 0.28; }
+
+    /* Tags — all grey, no accent */
+    .tag-row {
+      display: flex;
+      gap: 8px;
       flex-wrap: wrap;
       justify-content: center;
-      margin-top: 8px;
     }
-
-    .contact-chip {
-      display: flex;
-      align-items: center;
-      gap: 8px;
-      padding: 10px 20px;
+    .tag {
+      padding: 5px 14px;
       background: rgba(255,255,255,0.05);
-      border: 1px solid rgba(255,255,255,0.08);
-      font-size: 0.75rem;
-      letter-spacing: 0.08em;
-      color: var(--text-light);
-      text-decoration: none;
-      transition: background 0.2s, border-color 0.2s;
+      border: 1px solid rgba(255,255,255,0.09);
+      font-size: 0.6rem;
+      letter-spacing: 0.15em;
+      text-transform: uppercase;
+      color: var(--text-muted);
     }
 
-    .contact-chip:hover {
-      background: rgba(245,166,35,0.1);
-      border-color: var(--amber);
+    /* ════════════════════════
+       SECTION 4: MARKETING
+    ════════════════════════ */
+    #mktg { gap: 0; }
+
+    .mktg-inner {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 48px;
+      max-width: 920px;
+      width: 100%;
+      text-align: left;
+      align-items: start;
+    }
+
+    .mktg-left h2 {
+      font-size: clamp(1.6rem, 3vw, 2.6rem);
+      font-weight: 800;
+      letter-spacing: -0.03em;
+      color: #fff;
+      line-height: 1.1;
+      margin-bottom: 14px;
+    }
+    .mktg-left h2 em { color: var(--amber); font-style: normal; }
+
+    .mktg-left p {
+      font-size: 0.85rem;
+      color: var(--text-muted);
+      line-height: 1.8;
+      margin-bottom: 18px;
+    }
+
+    .mktg-stats {
+      display: flex;
+      gap: 24px;
+      margin-bottom: 22px;
+    }
+    .mktg-stat-num {
+      font-size: 1.5rem;
+      font-weight: 800;
       color: var(--amber);
+      line-height: 1;
+      display: block;
+    }
+    .mktg-stat-label {
+      font-size: 0.58rem;
+      letter-spacing: 0.14em;
+      text-transform: uppercase;
+      color: var(--text-muted);
     }
 
-    .contact-chip-icon { color: var(--amber); font-size: 1rem; }
-
-    /* ─── ACCENT LINE ─── */
-    .accent-line {
+    .mktg-cta {
       display: inline-flex;
       align-items: center;
+      gap: 10px;
+      padding: 12px 24px;
+      background: transparent;
+      border: 1px solid rgba(255,255,255,0.15);
+      font-size: 0.7rem;
+      font-weight: 700;
+      letter-spacing: 0.18em;
+      text-transform: uppercase;
+      color: var(--text-muted);
+      text-decoration: none;
+      cursor: pointer;
+      transition: border-color 0.2s, color 0.2s;
+    }
+    .mktg-cta:hover { border-color: var(--amber); color: var(--amber); }
+
+    .mktg-right {
+      display: flex;
+      flex-direction: column;
       gap: 12px;
-      margin-bottom: 8px;
     }
 
-    .accent-line::before,
-    .accent-line::after {
-      content: '';
-      display: block;
-      height: 1px;
-      width: 40px;
-      background: var(--amber);
-      opacity: 0.5;
+    .cap-block {
+      padding: 16px 18px;
+      background: rgba(255,255,255,0.03);
+      border: 1px solid rgba(255,255,255,0.07);
+      border-left: 2px solid rgba(255,255,255,0.12);
+      text-align: left;
+    }
+    .cap-block-title {
+      font-size: 0.68rem;
+      font-weight: 700;
+      letter-spacing: 0.14em;
+      text-transform: uppercase;
+      color: #fff;
+      margin-bottom: 6px;
+    }
+    .cap-block-desc {
+      font-size: 0.74rem;
+      color: var(--text-muted);
+      line-height: 1.65;
+    }
+
+    /* ════════════════════════
+       SECTION 5: EXPERIENCE
+    ════════════════════════ */
+    #experience { gap: 0; text-align: left; }
+
+    .exp-layout {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 40px;
+      max-width: 980px;
+      width: 100%;
+      align-items: start;
+    }
+
+    .exp-col h3 {
+      font-size: 0.6rem;
+      letter-spacing: 0.25em;
+      text-transform: uppercase;
+      color: var(--amber);
+      margin-bottom: 14px;
+      padding-bottom: 8px;
+      border-bottom: 1px solid rgba(255,255,255,0.07);
+    }
+
+    .job { margin-bottom: 16px; }
+    .job-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: baseline;
+      margin-bottom: 2px;
+    }
+    .job-company {
+      font-size: 0.8rem;
+      font-weight: 700;
+      color: #fff;
+    }
+    .job-years {
+      font-size: 0.57rem;
+      letter-spacing: 0.1em;
+      color: var(--text-muted);
+    }
+    .job-role {
+      font-size: 0.63rem;
+      color: var(--amber);
+      letter-spacing: 0.07em;
+      margin-bottom: 6px;
+    }
+    .job-bullets {
+      list-style: none;
+      display: flex;
+      flex-direction: column;
+      gap: 3px;
+    }
+    .job-bullets li {
+      font-size: 0.7rem;
+      color: var(--text-muted);
+      line-height: 1.5;
+      padding-left: 12px;
+      position: relative;
+    }
+    .job-bullets li::before {
+      content: '—';
+      position: absolute;
+      left: 0;
+      color: rgba(245,166,35,0.35);
+      font-size: 0.58rem;
+    }
+
+    .add-exp-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 6px;
+      margin-top: 4px;
+    }
+    .add-exp-item {
+      padding: 9px 11px;
+      background: rgba(255,255,255,0.03);
+      border: 1px solid rgba(255,255,255,0.06);
+    }
+    .add-exp-company {
+      font-size: 0.7rem;
+      font-weight: 700;
+      color: rgba(255,255,255,0.65);
+      margin-bottom: 2px;
+    }
+    .add-exp-meta {
+      font-size: 0.57rem;
+      color: var(--text-muted);
+    }
+
+    .skills-block { margin-top: 0; }
+    .skills-block-label {
+      font-size: 0.62rem;
+      color: var(--text-muted);
+      margin-bottom: 6px;
+      font-weight: 600;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+    }
+    .skills-tag-wrap {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 5px;
+      margin-bottom: 12px;
+    }
+    .s-tag {
+      padding: 3px 9px;
+      background: rgba(255,255,255,0.04);
+      border: 1px solid rgba(255,255,255,0.08);
+      font-size: 0.57rem;
+      letter-spacing: 0.09em;
+      text-transform: uppercase;
+      color: var(--text-muted);
+    }
+
+    .edu-item { margin-bottom: 9px; }
+    .edu-degree {
+      font-size: 0.72rem;
+      font-weight: 600;
+      color: rgba(255,255,255,0.8);
+      margin-bottom: 2px;
+    }
+    .edu-school {
+      font-size: 0.6rem;
+      color: var(--text-muted);
+    }
+
+    /* ════════════════════════
+       SECTION 6: CONTACT
+    ════════════════════════ */
+    #contact { justify-content: center; gap: 28px; }
+
+    .contact-header h2 {
+      font-size: clamp(1.8rem, 4vw, 3rem);
+      font-weight: 800;
+      letter-spacing: -0.03em;
+      color: #fff;
+      margin-bottom: 8px;
+    }
+    .contact-header p {
+      font-size: 0.9rem;
+      color: var(--text-muted);
+    }
+
+    .contact-cards {
+      display: flex;
+      gap: 16px;
+      flex-wrap: wrap;
+      justify-content: center;
+    }
+
+    .contact-card {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 10px;
+      padding: 32px 28px;
+      background: rgba(255,255,255,0.04);
+      border: 1px solid rgba(255,255,255,0.08);
+      border-bottom: 3px solid rgba(255,255,255,0.15);
+      text-decoration: none;
+      color: inherit;
+      min-width: 180px;
+      transition: background 0.2s, transform 0.2s, border-color 0.2s;
+    }
+    .contact-card:first-child  { border-bottom-color: var(--amber); }
+    .contact-card:nth-child(2) { border-bottom-color: var(--red-orange); }
+    /* 3rd card (GitHub) stays grey */
+
+    .contact-card:hover {
+      background: rgba(255,255,255,0.07);
+      border-bottom-color: var(--amber);
+      transform: translateY(-5px);
+    }
+
+    .contact-card-icon { font-size: 1.8rem; }
+    .contact-card-label {
+      font-size: 0.58rem;
+      letter-spacing: 0.2em;
+      text-transform: uppercase;
+      color: var(--amber);
+    }
+    .contact-card-value {
+      font-size: 0.8rem;
+      color: var(--text-light);
+      font-weight: 600;
+      text-align: center;
+    }
+
+    .contact-availability {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      font-size: 0.65rem;
+      letter-spacing: 0.18em;
+      text-transform: uppercase;
+      color: var(--text-muted);
+      padding: 12px 24px;
+      border: 1px solid rgba(255,255,255,0.07);
+    }
+    .contact-availability-dot {
+      width: 7px; height: 7px;
+      border-radius: 50%;
+      background: #4ade80;
+      animation: pulse 2s infinite;
+    }
+
+    .contact-footer {
+      font-size: 0.58rem;
+      letter-spacing: 0.15em;
+      text-transform: uppercase;
+      color: rgba(255,255,255,0.15);
     }
 
     /* ─── RESPONSIVE ─── */
-    @media (max-width: 1024px) {
-      .gallery-grid { grid-template-columns: repeat(5, 1fr); }
+    @media (max-width: 900px) {
+      .mktg-inner { grid-template-columns: 1fr; gap: 20px; }
+      .exp-layout { grid-template-columns: 1fr; gap: 20px; }
+      .service-box { width: 160px; padding: 22px 14px; }
     }
-
     @media (max-width: 768px) {
-      .skills-grid { grid-template-columns: repeat(3, 1fr); }
-      .exp-grid { grid-template-columns: repeat(2, 1fr); }
-      .project-cats { grid-template-columns: 1fr; gap: 10px; }
-      .project-sub-grid { grid-template-columns: repeat(4, 1fr); }
-      .gallery-grid { grid-template-columns: repeat(5, 1fr); }
-      .hero-top, .hero-bottom { padding-left: 20px; padding-right: 20px; }
-      .hero-nav-links { display: none; }
-    }
-
-    @media (max-width: 540px) {
-      .skills-grid { grid-template-columns: repeat(2, 1fr); }
-      .exp-grid { grid-template-columns: 1fr 1fr; }
-      .project-sub-grid { grid-template-columns: repeat(2, 1fr); }
       .gallery-grid { grid-template-columns: repeat(4, 1fr); }
+      .hero-top, .hero-bottom { padding-left: 20px; padding-right: 20px; }
+      .hamburger-btn { right: 20px; }
     }
-
-    @media (max-width: 380px) {
+    @media (max-width: 540px) {
       .gallery-grid { grid-template-columns: repeat(3, 1fr); }
+      .hero-service-boxes { flex-direction: column; align-items: center; }
+      .service-box { width: 220px; }
+      .contact-cards { flex-direction: column; align-items: center; }
+      .add-exp-grid { grid-template-columns: 1fr; }
     }
   </style>
 </head>
-
 <body>
 
-  <!-- Full-screen Video Background -->
   <video id="bg-video" autoplay muted loop playsinline>
     <source src="media/desgvid.mp4" type="video/mp4">
   </video>
 
-  <!-- Navigation Dots -->
+  <!-- NAV DOTS -->
   <nav class="nav-dots">
     <ul>
-      <li><a href="#hero" class="dot active"></a></li>
-      <li><a href="#about" class="dot"></a></li>
-      <li><a href="#projects" class="dot"></a></li>
-      <li><a href="#contact" class="dot"></a></li>
+      <li><a href="#hero"       class="dot active" title="Home"></a></li>
+      <li><a href="#webdev"     class="dot" title="Web Dev"></a></li>
+      <li><a href="#design"     class="dot" title="Design"></a></li>
+      <li><a href="#mktg"       class="dot" title="Marketing"></a></li>
+      <li><a href="#experience" class="dot" title="Experience"></a></li>
+      <li><a href="#contact"    class="dot" title="Contact"></a></li>
     </ul>
   </nav>
 
-  <!-- ─── SECTION 1: HERO ─── -->
+  <!-- HAMBURGER BUTTON -->
+  <button class="hamburger-btn" id="hamburger" aria-label="Open menu">
+    <span></span>
+    <span></span>
+    <span></span>
+  </button>
+
+  <!-- NAV OVERLAY -->
+  <div class="nav-overlay" id="nav-overlay">
+    <div class="nav-overlay-logo">ZQH<span>.</span>WEBPRO</div>
+    <ul class="nav-overlay-links">
+      <li><a href="#hero"       class="nav-link"><span class="nav-num">01</span>Home</a></li>
+      <li><a href="#webdev"     class="nav-link"><span class="nav-num">02</span>Web Development</a></li>
+      <li><a href="#design"     class="nav-link"><span class="nav-num">03</span>Design</a></li>
+      <li><a href="#mktg"       class="nav-link"><span class="nav-num">04</span>Marketing</a></li>
+      <li><a href="#experience" class="nav-link"><span class="nav-num">05</span>Experience</a></li>
+      <li><a href="#contact"    class="nav-link"><span class="nav-num">06</span>Contact</a></li>
+    </ul>
+    <div class="nav-overlay-footer">York, PA · Remote Available · zqhwebpro@gmail.com</div>
+  </div>
+
+
+  <!-- ══════════════════════════════
+       SECTION 1: HERO
+  ══════════════════════════════ -->
   <section id="hero">
 
     <div class="hero-top">
       <div class="hero-logo">ZQH<span>.</span>WEBPRO</div>
-      <ul class="hero-nav-links">
-        <li><a href="#about">About</a></li>
-        <li><a href="#projects">Work</a></li>
-        <li><a href="#contact">Contact</a></li>
-      </ul>
     </div>
 
     <div class="hero-center">
       <div class="section-label">Web Developer &amp; UI/UX Designer</div>
       <h1 class="hero-name">Zach <em>Heindel</em></h1>
       <p class="hero-sub">High-performance digital experiences · York, PA</p>
-      <a class="hero-cta" href="https://zqhwebpro.github.io/portfolio/sitemap/sitemap.xml" target="_blank">
-        View GitHub Collection ➤
-      </a>
 
-      <!-- Skills Grid: 10 boxes, 5 per row -->
-      <div class="skills-grid">
-        <div class="skill-box"><span class="skill-icon">🌐</span><span class="skill-name">HTML/CSS</span></div>
-        <div class="skill-box"><span class="skill-icon">⚡</span><span class="skill-name">JavaScript</span></div>
-        <div class="skill-box"><span class="skill-icon">⚛️</span><span class="skill-name">React</span></div>
-        <div class="skill-box"><span class="skill-icon">🐘</span><span class="skill-name">PHP</span></div>
-        <div class="skill-box"><span class="skill-icon">🎨</span><span class="skill-name">UI/UX</span></div>
-        <div class="skill-box"><span class="skill-icon">🔷</span><span class="skill-name">WordPress</span></div>
-        <div class="skill-box"><span class="skill-icon">🛒</span><span class="skill-name">WooCommerce</span></div>
-        <div class="skill-box"><span class="skill-icon">🔍</span><span class="skill-name">SEO/CRO</span></div>
-        <div class="skill-box"><span class="skill-icon">🤖</span><span class="skill-name">AI Tools</span></div>
-        <div class="skill-box"><span class="skill-icon">🎭</span><span class="skill-name">Adobe CC</span></div>
+      <div class="hero-service-boxes">
+        <a class="service-box" href="#webdev" data-section="1">
+          <span class="service-box-icon">🌐</span>
+          <span class="service-box-title">Web Development</span>
+          <span class="service-box-arrow">Explore Work ➤</span>
+        </a>
+        <a class="service-box" href="#design" data-section="2">
+          <span class="service-box-icon">🎨</span>
+          <span class="service-box-title">Design</span>
+          <span class="service-box-arrow">Explore Work ➤</span>
+        </a>
+        <a class="service-box" href="#mktg" data-section="3">
+          <span class="service-box-icon">📈</span>
+          <span class="service-box-title">Marketing</span>
+          <span class="service-box-arrow">Learn More ➤</span>
+        </a>
       </div>
     </div>
 
@@ -658,124 +844,241 @@
 
   </section>
 
-  <!-- ─── SECTION 2: ABOUT ─── -->
-  <section id="about">
 
-    <div class="about-header">
-      <div class="accent-line">
-        <span class="section-label">About Me</span>
-      </div>
-      <h2>Design Thinking.<br>Technical Execution.</h2>
-      <p>Specializing in responsive, conversion-focused websites. Experienced in UI/UX, WordPress, and performance optimization — with 15+ years building across agencies and studios.</p>
+  <!-- ══════════════════════════════
+       SECTION 2: WEB DEVELOPMENT
+  ══════════════════════════════ -->
+  <section id="webdev">
+    <div class="page-header">
+      <div class="accent-line"><span class="section-label">Web Development</span></div>
+      <h2>Custom-Built Digital Experiences</h2>
+      <p>From WordPress to custom-coded solutions — high-performance, responsive builds engineered for speed, conversion, and scale. Supporting eCommerce stores generating $100K+/month in revenue.</p>
+    </div>
+    <div class="gallery-grid" id="webdev-gallery"></div>
+    <div class="tag-row">
+      <span class="tag">WordPress</span>
+      <span class="tag">WooCommerce</span>
+      <span class="tag">React</span>
+      <span class="tag">PHP</span>
+      <span class="tag">HTML / CSS / JS</span>
+      <span class="tag">Core Web Vitals</span>
+      <span class="tag">SEO</span>
+      <span class="tag">ACF / LearnDash</span>
+      <span class="tag">eCommerce</span>
+      <span class="tag">Performance</span>
+    </div>
+  </section>
+
+
+  <!-- ══════════════════════════════
+       SECTION 3: DESIGN
+  ══════════════════════════════ -->
+  <section id="design">
+    <div class="page-header">
+      <div class="accent-line"><span class="section-label">Design</span></div>
+      <h2>Visuals That Communicate.</h2>
+      <p>UI/UX, brand systems, landing pages, and print collateral — every pixel intentional. 15+ years crafting design for agencies, studios, and direct clients across industries.</p>
+    </div>
+    <div class="gallery-grid" id="design-gallery"></div>
+    <div class="tag-row">
+      <span class="tag">UI / UX</span>
+      <span class="tag">Brand Identity</span>
+      <span class="tag">Adobe CC</span>
+      <span class="tag">Landing Pages</span>
+      <span class="tag">Print</span>
+      <span class="tag">Infographics</span>
+      <span class="tag">Logos</span>
+      <span class="tag">Ad Creative</span>
+      <span class="tag">Web Banners</span>
+      <span class="tag">Canva</span>
+    </div>
+  </section>
+
+
+  <!-- ══════════════════════════════
+       SECTION 4: MARKETING
+  ══════════════════════════════ -->
+  <section id="mktg">
+
+    <div style="text-align:center; margin-bottom: 24px;">
+      <div class="accent-line"><span class="section-label">Marketing &amp; Strategy</span></div>
     </div>
 
-    <!-- 5 Experience Boxes -->
-    <div class="exp-grid">
-      <div class="exp-box">
-        <div class="exp-years">2020 – 2026</div>
-        <div class="exp-company">EZMarketing</div>
-        <div class="exp-role">Web Developer / Designer</div>
+    <div class="mktg-inner">
+      <div class="mktg-left">
+        <h2>Strategy That<br>Moves the <em>Needle.</em></h2>
+        <p>I combine conversion-rate optimization, SEO, automation, and content strategy to build marketing engines — not just websites. Every deliverable is tied to a measurable outcome.</p>
+
+        <div class="mktg-stats">
+          <div>
+            <span class="mktg-stat-num">$100K+</span>
+            <span class="mktg-stat-label">Monthly Revenue Driven</span>
+          </div>
+          <div>
+            <span class="mktg-stat-num">2,000+</span>
+            <span class="mktg-stat-label">Sites Scaled</span>
+          </div>
+          <div>
+            <span class="mktg-stat-num">15+</span>
+            <span class="mktg-stat-label">Years Experience</span>
+          </div>
+        </div>
+
+        <a class="mktg-cta" href="#contact" data-section="5">Get In Touch ➤</a>
       </div>
-      <div class="exp-box">
-        <div class="exp-years">2018 – 2019</div>
-        <div class="exp-company">Income Store</div>
-        <div class="exp-role">Front-End Web Developer</div>
-      </div>
-      <div class="exp-box">
-        <div class="exp-years">2017 – 2018</div>
-        <div class="exp-company">Weber Adv.</div>
-        <div class="exp-role">Web Developer / Graphic Designer</div>
-      </div>
-      <div class="exp-box">
-        <div class="exp-years">2014 – 2017</div>
-        <div class="exp-company">MarketSource</div>
-        <div class="exp-role">Sales Representative</div>
-      </div>
-      <div class="exp-box">
-        <div class="exp-years">2007 – 2013</div>
-        <div class="exp-company">Clipper Magazine</div>
-        <div class="exp-role">Graphic Designer</div>
+
+      <div class="mktg-right">
+        <div class="cap-block">
+          <div class="cap-block-title">SEO &amp; Core Web Vitals</div>
+          <div class="cap-block-desc">Improved performance, UX, and SEO across large site networks to increase visibility and organic conversions.</div>
+        </div>
+        <div class="cap-block">
+          <div class="cap-block-title">CRO &amp; Lead Generation</div>
+          <div class="cap-block-desc">Orchestrated collaboration between CRO and design publishing teams, driving measurable increases in qualified leads.</div>
+        </div>
+        <div class="cap-block">
+          <div class="cap-block-title">AI &amp; Workflow Automation</div>
+          <div class="cap-block-desc">Leveraged AI tools and Zapier automation to streamline workflows, reduce manual work, and increase team efficiency — including custom GPT training and DevOps process automation.</div>
+        </div>
+        <div class="cap-block">
+          <div class="cap-block-title">Content &amp; Campaign Strategy</div>
+          <div class="cap-block-desc">Created digital and print advertisements aligned with brand strategy for local and SMB clients. Developed interactive infographics to increase user engagement.</div>
+        </div>
       </div>
     </div>
 
   </section>
 
-  <!-- ─── SECTION 3: PROJECTS ─── -->
-  <section id="projects">
 
-    <div class="projects-header">
-      <div class="accent-line">
-        <span class="section-label">Work</span>
-      </div>
-      <h2>Projects &amp; Capabilities</h2>
+  <!-- ══════════════════════════════
+       SECTION 5: SKILLS & EXPERIENCE
+  ══════════════════════════════ -->
+  <section id="experience">
+
+    <div style="text-align:center; margin-bottom: 18px;">
+      <div class="accent-line"><span class="section-label">Skills &amp; Experience</span></div>
     </div>
 
-    <!-- 3 categories × 4 sub-boxes -->
-    <div class="project-cats">
+    <div class="exp-layout">
 
-      <div class="project-cat">
-        <div class="project-cat-label">⬡ Web Development</div>
-        <div class="project-sub-grid">
-          <div class="project-sub-box">
-            <div class="project-sub-title">WordPress Sites</div>
-            <div class="project-sub-desc">ACF, WooCommerce, LearnDash builds</div>
+      <!-- LEFT: Work History -->
+      <div class="exp-col">
+        <h3>Work History</h3>
+
+        <div class="job">
+          <div class="job-header">
+            <span class="job-company">EZMarketing</span>
+            <span class="job-years">2020 – 2026</span>
           </div>
-          <div class="project-sub-box">
-            <div class="project-sub-title">Custom Code</div>
-            <div class="project-sub-desc">HTML/CSS/JS/PHP from scratch</div>
+          <div class="job-role">Web Developer / Designer</div>
+          <ul class="job-bullets">
+            <li>Built WordPress sites with ACF, LearnDash &amp; WooCommerce — supporting $100K+/mo revenue</li>
+            <li>Improved performance, UX, and SEO to increase visibility and conversions</li>
+            <li>Managed WordPress plugin maintenance and front-end stability across a large site network</li>
+            <li>Leveraged AI tools and automation to streamline workflows and reduce manual work</li>
+            <li>Architected and delivered custom web solutions using modern technologies</li>
+            <li>Collaborated remotely with clients to align goals, budgets, and strategy</li>
+          </ul>
+        </div>
+
+        <div class="job">
+          <div class="job-header">
+            <span class="job-company">Income Store</span>
+            <span class="job-years">2018 – 2019</span>
           </div>
-          <div class="project-sub-box">
-            <div class="project-sub-title">eCommerce</div>
-            <div class="project-sub-desc">$100K+/mo revenue stores</div>
+          <div class="job-role">Front-End Web Developer</div>
+          <ul class="job-bullets">
+            <li>Led a design team creating and scaling content for 2,000+ websites</li>
+            <li>Automated internal DevOps processes improving operational efficiency</li>
+            <li>Orchestrated CRO and design publishing collaboration to increase lead generation</li>
+            <li>Developed interactive infographics and media assets to boost engagement</li>
+          </ul>
+        </div>
+
+        <div class="job">
+          <div class="job-header">
+            <span class="job-company">Weber Advertising &amp; Marketing</span>
+            <span class="job-years">2017 – 2018</span>
           </div>
-          <div class="project-sub-box">
-            <div class="project-sub-title">Performance</div>
-            <div class="project-sub-desc">Core Web Vitals & SEO tuning</div>
+          <div class="job-role">Web Developer / Graphic Designer</div>
+          <ul class="job-bullets">
+            <li>Designed and developed custom websites for commercial Insurance Agency clients</li>
+            <li>Created digital and print ads aligned with brand strategy for SMBs</li>
+            <li>Improved website functionality and UX through design and performance updates</li>
+          </ul>
+        </div>
+
+        <h3 style="margin-top:14px;">Additional Experience</h3>
+        <div class="add-exp-grid">
+          <div class="add-exp-item">
+            <div class="add-exp-company">Clipper Magazine</div>
+            <div class="add-exp-meta">Graphic Designer · 2007–2013</div>
+          </div>
+          <div class="add-exp-item">
+            <div class="add-exp-company">MarketSource Inc.</div>
+            <div class="add-exp-meta">Sales Representative · 2014–2017</div>
+          </div>
+          <div class="add-exp-item">
+            <div class="add-exp-company">D.E Gemmill, Inc.</div>
+            <div class="add-exp-meta">Graphic Designer · 2006–2007</div>
+          </div>
+          <div class="add-exp-item">
+            <div class="add-exp-company">Staples Print Center</div>
+            <div class="add-exp-meta">Copy &amp; Print · 2005–2006</div>
           </div>
         </div>
       </div>
 
-      <div class="project-cat">
-        <div class="project-cat-label">◈ UI/UX Design</div>
-        <div class="project-sub-grid">
-          <div class="project-sub-box">
-            <div class="project-sub-title">Brand Systems</div>
-            <div class="project-sub-desc">Logos, palettes, identity</div>
-          </div>
-          <div class="project-sub-box">
-            <div class="project-sub-title">Landing Pages</div>
-            <div class="project-sub-desc">Conversion-optimized layouts</div>
-          </div>
-          <div class="project-sub-box">
-            <div class="project-sub-title">Infographics</div>
-            <div class="project-sub-desc">Interactive data assets</div>
-          </div>
-          <div class="project-sub-box">
-            <div class="project-sub-title">Print/Digital</div>
-            <div class="project-sub-desc">Ads, banners, flyers, posters</div>
+      <!-- RIGHT: Skills + Education -->
+      <div class="exp-col">
+        <h3>Technical Skills</h3>
+
+        <div class="skills-block">
+          <div class="skills-block-label">Development</div>
+          <div class="skills-tag-wrap">
+            <span class="s-tag">HTML</span><span class="s-tag">CSS</span><span class="s-tag">JavaScript</span>
+            <span class="s-tag">PHP</span><span class="s-tag">React</span><span class="s-tag">MySQL</span>
+            <span class="s-tag">REST APIs</span><span class="s-tag">Git</span><span class="s-tag">npm</span>
+            <span class="s-tag">cPanel</span><span class="s-tag">Bootstrap</span><span class="s-tag">Python</span>
           </div>
         </div>
-      </div>
 
-      <div class="project-cat">
-        <div class="project-cat-label">◎ Automation & AI</div>
-        <div class="project-sub-grid">
-          <div class="project-sub-box">
-            <div class="project-sub-title">Custom GPTs</div>
-            <div class="project-sub-desc">AI training & integration</div>
+        <div class="skills-block">
+          <div class="skills-block-label">WordPress &amp; CMS</div>
+          <div class="skills-tag-wrap">
+            <span class="s-tag">WooCommerce</span><span class="s-tag">ACF</span><span class="s-tag">LearnDash</span>
+            <span class="s-tag">Yoast</span><span class="s-tag">WPMU</span><span class="s-tag">Page Builders</span>
           </div>
-          <div class="project-sub-box">
-            <div class="project-sub-title">Zapier Flows</div>
-            <div class="project-sub-desc">No-code workflow automation</div>
+        </div>
+
+        <div class="skills-block">
+          <div class="skills-block-label">Design &amp; Creative</div>
+          <div class="skills-tag-wrap">
+            <span class="s-tag">Adobe Creative Suite</span><span class="s-tag">Canva</span>
+            <span class="s-tag">Branding</span><span class="s-tag">Logo Design</span>
+            <span class="s-tag">Infographics</span><span class="s-tag">Web Banners</span>
+            <span class="s-tag">Print</span><span class="s-tag">UI / UX</span>
           </div>
-          <div class="project-sub-box">
-            <div class="project-sub-title">DevOps</div>
-            <div class="project-sub-desc">Process & deployment automation</div>
+        </div>
+
+        <div class="skills-block">
+          <div class="skills-block-label">Automation &amp; Marketing</div>
+          <div class="skills-tag-wrap">
+            <span class="s-tag">Zapier</span><span class="s-tag">Custom GPT Training</span>
+            <span class="s-tag">AI Generation</span><span class="s-tag">DevOps Automation</span>
+            <span class="s-tag">CRO</span><span class="s-tag">SEO</span>
           </div>
-          <div class="project-sub-box">
-            <div class="project-sub-title">CRO Systems</div>
-            <div class="project-sub-desc">Lead gen & conversion strategy</div>
-          </div>
+        </div>
+
+        <h3 style="margin-top:18px;">Education</h3>
+
+        <div class="edu-item">
+          <div class="edu-degree">Bachelor of Web Design &amp; Interactive Media</div>
+          <div class="edu-school">Art Institute of York – Pennsylvania · 2013–2016</div>
+        </div>
+        <div class="edu-item">
+          <div class="edu-degree">Associates of Science, Media Arts &amp; Animation</div>
+          <div class="edu-school">Art Institute of York – Pennsylvania · 2005–2007</div>
         </div>
       </div>
 
@@ -783,47 +1086,75 @@
 
   </section>
 
-  <!-- ─── SECTION 4: CONTACT / GALLERY ─── -->
+
+  <!-- ══════════════════════════════
+       SECTION 6: CONTACT
+  ══════════════════════════════ -->
   <section id="contact">
 
     <div class="contact-header">
-      <div class="accent-line">
-        <span class="section-label">Gallery &amp; Contact</span>
-      </div>
+      <div class="accent-line"><span class="section-label">Get In Touch</span></div>
       <h2>Let's Build Something.</h2>
-      <p>Available for freelance and full-time opportunities.</p>
+      <p>Available for freelance contracts and full-time opportunities.</p>
     </div>
 
-    <!-- Gallery: 10 across -->
-    <div class="gallery-grid" id="gallery"></div>
-
-    <div class="contact-info-row">
-      <a class="contact-chip" href="mailto:zqhwebpro@gmail.com">
-        <span class="contact-chip-icon">✉</span> zqhwebpro@gmail.com
+    <div class="contact-cards">
+      <a class="contact-card" href="mailto:zqhwebpro@gmail.com">
+        <span class="contact-card-icon">✉</span>
+        <span class="contact-card-label">Email</span>
+        <span class="contact-card-value">zqhwebpro@gmail.com</span>
       </a>
-      <a class="contact-chip" href="tel:7178184455">
-        <span class="contact-chip-icon">☎</span> 717-818-4455
+      <a class="contact-card" href="tel:7178184455">
+        <span class="contact-card-icon">☎</span>
+        <span class="contact-card-label">Phone</span>
+        <span class="contact-card-value">717-818-4455</span>
       </a>
-      <a class="contact-chip" href="https://zqhwebpro.github.io/portfolio/sitemap/sitemap.xml" target="_blank">
-        <span class="contact-chip-icon">⬡</span> Portfolio
+      <a class="contact-card" href="https://zqhwebpro.github.io/portfolio/sitemap/sitemap.xml" target="_blank">
+        <span class="contact-card-icon">⬡</span>
+        <span class="contact-card-label">Portfolio</span>
+        <span class="contact-card-value">GitHub Collection</span>
       </a>
     </div>
+
+    <div class="contact-availability">
+      <span class="contact-availability-dot"></span>
+      Currently Available — York, PA &amp; Remote
+    </div>
+
+    <div class="contact-footer">ZQH.WEBPRO · Web Development &amp; Design · © 2026</div>
 
   </section>
 
+
   <script>
-    // ─── Generate Gallery Items ───
-    const gallery = document.getElementById('gallery');
-    for (let i = 0; i < 20; i++) {
-      const div = document.createElement('div');
-      div.className = 'gallery-item';
-      gallery.appendChild(div);
+    // ─── Gallery builders ───
+    function buildGallery(id, count) {
+      const grid = document.getElementById(id);
+      for (let i = 0; i < count; i++) {
+        const div = document.createElement('div');
+        div.className = 'gallery-item';
+        const ph = document.createElement('span');
+        ph.className = 'gallery-ph';
+        ph.textContent = 'Project ' + (i + 1);
+        div.appendChild(ph);
+        grid.appendChild(div);
+      }
     }
+    buildGallery('webdev-gallery', 10);
+    buildGallery('design-gallery', 10);
+
+    // ─── Hamburger / Overlay ───
+    const hamburger = document.getElementById('hamburger');
+    const navOverlay = document.getElementById('nav-overlay');
+
+    hamburger.addEventListener('click', () => {
+      hamburger.classList.toggle('open');
+      navOverlay.classList.toggle('open');
+    });
 
     // ─── Section Scroll ───
-    const sections = document.querySelectorAll("section");
-    const dots = document.querySelectorAll(".dot");
-
+    const sections = document.querySelectorAll('section');
+    const dots = document.querySelectorAll('.dot');
     let currentSection = 0;
     let isScrolling = false;
 
@@ -831,35 +1162,59 @@
       if (index < 0 || index >= sections.length) return;
       isScrolling = true;
       currentSection = index;
-      window.scrollTo({ top: sections[index].offsetTop, behavior: "smooth" });
+      window.scrollTo({ top: sections[index].offsetTop, behavior: 'smooth' });
       updateDots();
-      setTimeout(() => { isScrolling = false; }, 800);
+      setTimeout(() => { isScrolling = false; }, 900);
     }
 
     function updateDots() {
-      dots.forEach((dot, i) => dot.classList.toggle("active", i === currentSection));
+      dots.forEach((dot, i) => dot.classList.toggle('active', i === currentSection));
     }
 
-    window.addEventListener("wheel", (e) => {
-      if (isScrolling) return;
+    // Nav overlay links
+    document.querySelectorAll('.nav-link').forEach(link => {
+      link.addEventListener('click', (e) => {
+        e.preventDefault();
+        hamburger.classList.remove('open');
+        navOverlay.classList.remove('open');
+        const target = link.getAttribute('href');
+        const idx = Array.from(sections).findIndex(s => '#' + s.id === target);
+        if (idx !== -1) scrollToSection(idx);
+      });
+    });
+
+    // Service box clicks
+    document.querySelectorAll('[data-section]').forEach(el => {
+      el.addEventListener('click', (e) => {
+        e.preventDefault();
+        scrollToSection(parseInt(el.dataset.section));
+      });
+    });
+
+    // Nav dot clicks
+    dots.forEach((dot, index) => {
+      dot.addEventListener('click', (e) => { e.preventDefault(); scrollToSection(index); });
+    });
+
+    window.addEventListener('wheel', (e) => {
+      if (isScrolling || navOverlay.classList.contains('open')) return;
       scrollToSection(currentSection + (e.deltaY > 0 ? 1 : -1));
     });
 
-    dots.forEach((dot, index) => {
-      dot.addEventListener("click", (e) => { e.preventDefault(); scrollToSection(index); });
+    window.addEventListener('keydown', (e) => {
+      if (e.key === 'Escape') {
+        hamburger.classList.remove('open');
+        navOverlay.classList.remove('open');
+      }
+      if (isScrolling || navOverlay.classList.contains('open')) return;
+      if (e.key === 'ArrowDown') scrollToSection(currentSection + 1);
+      if (e.key === 'ArrowUp') scrollToSection(currentSection - 1);
     });
 
-    window.addEventListener("keydown", (e) => {
-      if (isScrolling) return;
-      if (e.key === "ArrowDown") scrollToSection(currentSection + 1);
-      if (e.key === "ArrowUp") scrollToSection(currentSection - 1);
-    });
-
-    // Touch support
     let touchStartY = 0;
     window.addEventListener('touchstart', (e) => { touchStartY = e.touches[0].clientY; });
     window.addEventListener('touchend', (e) => {
-      if (isScrolling) return;
+      if (isScrolling || navOverlay.classList.contains('open')) return;
       const delta = touchStartY - e.changedTouches[0].clientY;
       if (Math.abs(delta) > 40) scrollToSection(currentSection + (delta > 0 ? 1 : -1));
     });
