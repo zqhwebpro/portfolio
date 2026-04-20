@@ -1,10 +1,12 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Zach Heindel | Web Designer & Developer Portfolio</title>
-  <meta name="description" content="Zach Heindel - Web Designer & Developer specializing in modern, responsive, and high-performing websites.">
+  <meta name="description"
+    content="Zach Heindel - Web Designer & Developer specializing in modern, responsive, and high-performing websites.">
   <meta name="author" content="Zach Heindel">
   <link rel="icon" type="image/png" href="media/zqh-portfolio.png">
 
@@ -16,8 +18,15 @@
       --text-muted: #999;
     }
 
-    * { margin: 0; padding: 0; box-sizing: border-box; }
-    html { scroll-behavior: smooth; }
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    html {
+      scroll-behavior: smooth;
+    }
 
     body {
       font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif;
@@ -29,8 +38,10 @@
     /* ─── VIDEO BACKGROUND ─── */
     #bg-video {
       position: fixed;
-      top: 0; left: 0;
-      width: 100%; height: 100%;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
       object-fit: cover;
       z-index: -2;
       pointer-events: none;
@@ -57,14 +68,34 @@
       pointer-events: none;
     }
 
-    #hero::before       { background: rgba(10,10,10,0.10); }
-    #webdev::before     { background: rgba(10,10,10,0.60); }
-    #design::before     { background: rgba(10,10,10,0.65); }
-    #mktg::before       { background: rgba(10,10,10,0.68); }
-    #experience::before { background: rgba(10,10,10,0.72); }
-    #contact::before    { background: rgba(10,10,10,0.78); }
+    #hero::before {
+      background: rgba(10, 10, 10, 0.10);
+    }
 
-    section > * { position: relative; z-index: 1; }
+    #webdev::before {
+      background: rgba(10, 10, 10, 0.60);
+    }
+
+    #design::before {
+      background: rgba(10, 10, 10, 0.65);
+    }
+
+    #mktg::before {
+      background: rgba(10, 10, 10, 0.68);
+    }
+
+    #experience::before {
+      background: rgba(10, 10, 10, 0.72);
+    }
+
+    #contact::before {
+      background: rgba(10, 10, 10, 0.78);
+    }
+
+    section>* {
+      position: relative;
+      z-index: 1;
+    }
 
     /* ─── NAV DOTS ─── */
     .nav-dots {
@@ -74,16 +105,25 @@
       transform: translateY(-50%);
       z-index: 1000;
     }
-    .nav-dots ul { list-style: none; }
-    .nav-dots li { margin: 10px 0; }
+
+    .nav-dots ul {
+      list-style: none;
+    }
+
+    .nav-dots li {
+      margin: 10px 0;
+    }
+
     .nav-dots a {
       display: block;
-      width: 10px; height: 10px;
+      width: 10px;
+      height: 10px;
       border-radius: 50%;
-      background: rgba(255,255,255,0.35);
-      border: 1px solid rgba(255,255,255,0.2);
+      background: rgba(255, 255, 255, 0.35);
+      border: 1px solid rgba(255, 255, 255, 0.2);
       transition: all 0.3s ease;
     }
+
     .nav-dots a.active {
       background: var(--amber);
       border-color: var(--amber);
@@ -104,12 +144,16 @@
       align-items: center;
       gap: 5px;
       cursor: pointer;
-      background: rgba(0,0,0,0.45);
-      border: 1px solid rgba(255,255,255,0.1);
+      background: rgba(0, 0, 0, 0.45);
+      border: 1px solid rgba(255, 255, 255, 0.1);
       padding: 10px;
       transition: border-color 0.2s;
     }
-    .hamburger-btn:hover { border-color: var(--amber); }
+
+    .hamburger-btn:hover {
+      border-color: var(--amber);
+    }
+
     .hamburger-btn span {
       display: block;
       width: 22px;
@@ -118,14 +162,17 @@
       transition: all 0.3s ease;
       transform-origin: center;
     }
+
     .hamburger-btn.open span:nth-child(1) {
       transform: translateY(6.5px) rotate(45deg);
       background: var(--amber);
     }
+
     .hamburger-btn.open span:nth-child(2) {
       opacity: 0;
       transform: scaleX(0);
     }
+
     .hamburger-btn.open span:nth-child(3) {
       transform: translateY(-6.5px) rotate(-45deg);
       background: var(--amber);
@@ -136,7 +183,7 @@
       position: fixed;
       inset: 0;
       z-index: 1900;
-      background: rgba(0,0,0,0.97);
+      background: rgba(0, 0, 0, 0.97);
       display: flex;
       flex-direction: column;
       justify-content: center;
@@ -145,6 +192,7 @@
       pointer-events: none;
       transition: opacity 0.35s ease;
     }
+
     .nav-overlay.open {
       opacity: 1;
       pointer-events: all;
@@ -159,26 +207,37 @@
       text-transform: uppercase;
       color: var(--text-muted);
     }
-    .nav-overlay-logo span { color: var(--amber); }
+
+    .nav-overlay-logo span {
+      color: var(--amber);
+    }
 
     .nav-overlay-links {
       list-style: none;
       text-align: center;
     }
-    .nav-overlay-links li { overflow: hidden; }
+
+    .nav-overlay-links li {
+      overflow: hidden;
+    }
+
     .nav-overlay-links a {
       display: block;
       padding: 12px 0;
       font-size: clamp(1.8rem, 4vw, 3.2rem);
       font-weight: 800;
       letter-spacing: -0.02em;
-      color: rgba(255,255,255,0.2);
+      color: rgba(255, 255, 255, 0.2);
       text-decoration: none;
       text-transform: uppercase;
       transition: color 0.2s;
       line-height: 1;
     }
-    .nav-overlay-links a:hover { color: var(--amber); }
+
+    .nav-overlay-links a:hover {
+      color: var(--amber);
+    }
+
     .nav-num {
       font-size: 0.58rem;
       letter-spacing: 0.2em;
@@ -194,7 +253,7 @@
       font-size: 0.6rem;
       letter-spacing: 0.2em;
       text-transform: uppercase;
-      color: rgba(255,255,255,0.15);
+      color: rgba(255, 255, 255, 0.15);
     }
 
     /* ─── SHARED ─── */
@@ -206,16 +265,20 @@
       margin-bottom: 12px;
       font-weight: 600;
     }
+
     .accent-line {
       display: inline-flex;
       align-items: center;
       gap: 12px;
       margin-bottom: 8px;
     }
-    .accent-line::before, .accent-line::after {
+
+    .accent-line::before,
+    .accent-line::after {
       content: '';
       display: block;
-      height: 1px; width: 40px;
+      height: 1px;
+      width: 40px;
       background: var(--amber);
       opacity: 0.5;
     }
@@ -242,7 +305,10 @@
       text-transform: uppercase;
       color: var(--text-muted);
     }
-    .hero-logo span { color: var(--amber); }
+
+    .hero-logo span {
+      color: var(--amber);
+    }
 
     .hero-center {
       flex: 1;
@@ -261,7 +327,11 @@
       color: #fff;
       margin-bottom: 12px;
     }
-    .hero-name em { color: var(--amber); font-style: normal; }
+
+    .hero-name em {
+      color: var(--amber);
+      font-style: normal;
+    }
 
     .hero-sub {
       font-size: clamp(0.85rem, 1.5vw, 1.05rem);
@@ -279,9 +349,9 @@
     .service-box {
       width: 200px;
       padding: 28px 20px;
-      background: rgba(255,255,255,0.04);
-      border: 1px solid rgba(255,255,255,0.08);
-      border-bottom: 3px solid rgba(255,255,255,0.15);
+      background: rgba(255, 255, 255, 0.04);
+      border: 1px solid rgba(255, 255, 255, 0.08);
+      border-bottom: 3px solid rgba(255, 255, 255, 0.15);
       text-decoration: none;
       color: inherit;
       cursor: pointer;
@@ -291,13 +361,17 @@
       align-items: center;
       gap: 10px;
     }
+
     .service-box:hover {
-      background: rgba(255,255,255,0.07);
+      background: rgba(255, 255, 255, 0.07);
       border-bottom-color: var(--amber);
       transform: translateY(-5px);
     }
 
-    .service-box-icon { font-size: 1.8rem; }
+    .service-box-icon {
+      font-size: 1.8rem;
+    }
+
     .service-box-title {
       font-size: 0.78rem;
       font-weight: 700;
@@ -305,6 +379,7 @@
       text-transform: uppercase;
       color: #fff;
     }
+
     .service-box-arrow {
       font-size: 0.62rem;
       color: var(--text-muted);
@@ -318,24 +393,36 @@
       align-items: flex-end;
       padding: 0 48px 32px;
     }
+
     .hero-status {
       font-size: 0.65rem;
       letter-spacing: 0.2em;
       text-transform: uppercase;
       color: var(--text-muted);
     }
+
     .hero-status-dot {
       display: inline-block;
-      width: 7px; height: 7px;
+      width: 7px;
+      height: 7px;
       border-radius: 50%;
       background: #4ade80;
       margin-right: 7px;
       animation: pulse 2s infinite;
     }
+
     @keyframes pulse {
-      0%, 100% { opacity: 1; }
-      50% { opacity: 0.3; }
+
+      0%,
+      100% {
+        opacity: 1;
+      }
+
+      50% {
+        opacity: 0.3;
+      }
     }
+
     .hero-scroll {
       font-size: 0.65rem;
       letter-spacing: 0.2em;
@@ -346,7 +433,10 @@
     /* ════════════════════════
        SECTIONS 2–3: GALLERY
     ════════════════════════ */
-    .page-header { margin-bottom: 20px; }
+    .page-header {
+      margin-bottom: 20px;
+    }
+
     .page-header h2 {
       font-size: clamp(1.8rem, 4vw, 3rem);
       font-weight: 800;
@@ -354,6 +444,7 @@
       color: #fff;
       margin-bottom: 10px;
     }
+
     .page-header p {
       font-size: 0.88rem;
       color: var(--text-muted);
@@ -373,13 +464,14 @@
 
     .gallery-item {
       aspect-ratio: 4/3;
-      background: rgba(255,255,255,0.04);
-      border: 1px solid rgba(255,255,255,0.06);
+      background: rgba(255, 255, 255, 0.04);
+      border: 1px solid rgba(255, 255, 255, 0.06);
       position: relative;
       overflow: hidden;
       cursor: pointer;
       transition: transform 0.2s;
     }
+
     .gallery-item::after {
       content: '';
       position: absolute;
@@ -388,18 +480,21 @@
       opacity: 0;
       transition: opacity 0.25s;
     }
+
     .gallery-item:nth-child(3n+1)::before {
       content: '';
       position: absolute;
       inset: 0;
-      background: linear-gradient(135deg, rgba(232,68,42,0.10), transparent);
+      background: linear-gradient(135deg, rgba(232, 68, 42, 0.10), transparent);
     }
+
     .gallery-item:nth-child(3n+2)::before {
       content: '';
       position: absolute;
       inset: 0;
-      background: linear-gradient(135deg, rgba(245,166,35,0.08), transparent);
+      background: linear-gradient(135deg, rgba(245, 166, 35, 0.08), transparent);
     }
+
     .gallery-item .gallery-ph {
       position: absolute;
       inset: 0;
@@ -409,11 +504,18 @@
       font-size: 0.55rem;
       letter-spacing: 0.15em;
       text-transform: uppercase;
-      color: rgba(255,255,255,0.12);
+      color: rgba(255, 255, 255, 0.12);
       z-index: 1;
     }
-    .gallery-item:hover { transform: scale(1.04); z-index: 2; }
-    .gallery-item:hover::after { opacity: 0.28; }
+
+    .gallery-item:hover {
+      transform: scale(1.04);
+      z-index: 2;
+    }
+
+    .gallery-item:hover::after {
+      opacity: 0.28;
+    }
 
     /* Tags — all grey, no accent */
     .tag-row {
@@ -422,10 +524,11 @@
       flex-wrap: wrap;
       justify-content: center;
     }
+
     .tag {
       padding: 5px 14px;
-      background: rgba(255,255,255,0.05);
-      border: 1px solid rgba(255,255,255,0.09);
+      background: rgba(255, 255, 255, 0.05);
+      border: 1px solid rgba(255, 255, 255, 0.09);
       font-size: 0.6rem;
       letter-spacing: 0.15em;
       text-transform: uppercase;
@@ -435,7 +538,9 @@
     /* ════════════════════════
        SECTION 4: MARKETING
     ════════════════════════ */
-    #mktg { gap: 0; }
+    #mktg {
+      gap: 0;
+    }
 
     .mktg-inner {
       display: grid;
@@ -455,7 +560,11 @@
       line-height: 1.1;
       margin-bottom: 14px;
     }
-    .mktg-left h2 em { color: var(--amber); font-style: normal; }
+
+    .mktg-left h2 em {
+      color: var(--amber);
+      font-style: normal;
+    }
 
     .mktg-left p {
       font-size: 0.85rem;
@@ -469,6 +578,7 @@
       gap: 24px;
       margin-bottom: 22px;
     }
+
     .mktg-stat-num {
       font-size: 1.5rem;
       font-weight: 800;
@@ -476,6 +586,7 @@
       line-height: 1;
       display: block;
     }
+
     .mktg-stat-label {
       font-size: 0.58rem;
       letter-spacing: 0.14em;
@@ -489,7 +600,7 @@
       gap: 10px;
       padding: 12px 24px;
       background: transparent;
-      border: 1px solid rgba(255,255,255,0.15);
+      border: 1px solid rgba(255, 255, 255, 0.15);
       font-size: 0.7rem;
       font-weight: 700;
       letter-spacing: 0.18em;
@@ -499,7 +610,11 @@
       cursor: pointer;
       transition: border-color 0.2s, color 0.2s;
     }
-    .mktg-cta:hover { border-color: var(--amber); color: var(--amber); }
+
+    .mktg-cta:hover {
+      border-color: var(--amber);
+      color: var(--amber);
+    }
 
     .mktg-right {
       display: flex;
@@ -509,11 +624,12 @@
 
     .cap-block {
       padding: 16px 18px;
-      background: rgba(255,255,255,0.03);
-      border: 1px solid rgba(255,255,255,0.07);
-      border-left: 2px solid rgba(255,255,255,0.12);
+      background: rgba(255, 255, 255, 0.03);
+      border: 1px solid rgba(255, 255, 255, 0.07);
+      border-left: 2px solid rgba(255, 255, 255, 0.12);
       text-align: left;
     }
+
     .cap-block-title {
       font-size: 0.68rem;
       font-weight: 700;
@@ -522,6 +638,7 @@
       color: #fff;
       margin-bottom: 6px;
     }
+
     .cap-block-desc {
       font-size: 0.74rem;
       color: var(--text-muted);
@@ -531,7 +648,10 @@
     /* ════════════════════════
        SECTION 5: EXPERIENCE
     ════════════════════════ */
-    #experience { gap: 0; text-align: left; }
+    #experience {
+      gap: 0;
+      text-align: left;
+    }
 
     .exp-layout {
       display: grid;
@@ -549,38 +669,46 @@
       color: var(--amber);
       margin-bottom: 14px;
       padding-bottom: 8px;
-      border-bottom: 1px solid rgba(255,255,255,0.07);
+      border-bottom: 1px solid rgba(255, 255, 255, 0.07);
     }
 
-    .job { margin-bottom: 16px; }
+    .job {
+      margin-bottom: 16px;
+    }
+
     .job-header {
       display: flex;
       justify-content: space-between;
       align-items: baseline;
       margin-bottom: 2px;
     }
+
     .job-company {
       font-size: 0.8rem;
       font-weight: 700;
       color: #fff;
     }
+
     .job-years {
       font-size: 0.57rem;
       letter-spacing: 0.1em;
       color: var(--text-muted);
     }
+
     .job-role {
       font-size: 0.63rem;
       color: var(--amber);
       letter-spacing: 0.07em;
       margin-bottom: 6px;
     }
+
     .job-bullets {
       list-style: none;
       display: flex;
       flex-direction: column;
       gap: 3px;
     }
+
     .job-bullets li {
       font-size: 0.7rem;
       color: var(--text-muted);
@@ -588,11 +716,12 @@
       padding-left: 12px;
       position: relative;
     }
+
     .job-bullets li::before {
       content: '—';
       position: absolute;
       left: 0;
-      color: rgba(245,166,35,0.35);
+      color: rgba(245, 166, 35, 0.35);
       font-size: 0.58rem;
     }
 
@@ -602,23 +731,29 @@
       gap: 6px;
       margin-top: 4px;
     }
+
     .add-exp-item {
       padding: 9px 11px;
-      background: rgba(255,255,255,0.03);
-      border: 1px solid rgba(255,255,255,0.06);
+      background: rgba(255, 255, 255, 0.03);
+      border: 1px solid rgba(255, 255, 255, 0.06);
     }
+
     .add-exp-company {
       font-size: 0.7rem;
       font-weight: 700;
-      color: rgba(255,255,255,0.65);
+      color: rgba(255, 255, 255, 0.65);
       margin-bottom: 2px;
     }
+
     .add-exp-meta {
       font-size: 0.57rem;
       color: var(--text-muted);
     }
 
-    .skills-block { margin-top: 0; }
+    .skills-block {
+      margin-top: 0;
+    }
+
     .skills-block-label {
       font-size: 0.62rem;
       color: var(--text-muted);
@@ -627,29 +762,35 @@
       letter-spacing: 0.08em;
       text-transform: uppercase;
     }
+
     .skills-tag-wrap {
       display: flex;
       flex-wrap: wrap;
       gap: 5px;
       margin-bottom: 12px;
     }
+
     .s-tag {
       padding: 3px 9px;
-      background: rgba(255,255,255,0.04);
-      border: 1px solid rgba(255,255,255,0.08);
+      background: rgba(255, 255, 255, 0.04);
+      border: 1px solid rgba(255, 255, 255, 0.08);
       font-size: 0.57rem;
       letter-spacing: 0.09em;
       text-transform: uppercase;
       color: var(--text-muted);
     }
 
-    .edu-item { margin-bottom: 9px; }
+    .edu-item {
+      margin-bottom: 9px;
+    }
+
     .edu-degree {
       font-size: 0.72rem;
       font-weight: 600;
-      color: rgba(255,255,255,0.8);
+      color: rgba(255, 255, 255, 0.8);
       margin-bottom: 2px;
     }
+
     .edu-school {
       font-size: 0.6rem;
       color: var(--text-muted);
@@ -658,7 +799,10 @@
     /* ════════════════════════
        SECTION 6: CONTACT
     ════════════════════════ */
-    #contact { justify-content: center; gap: 28px; }
+    #contact {
+      justify-content: center;
+      gap: 28px;
+    }
 
     .contact-header h2 {
       font-size: clamp(1.8rem, 4vw, 3rem);
@@ -667,6 +811,7 @@
       color: #fff;
       margin-bottom: 8px;
     }
+
     .contact-header p {
       font-size: 0.9rem;
       color: var(--text-muted);
@@ -685,31 +830,42 @@
       align-items: center;
       gap: 10px;
       padding: 32px 28px;
-      background: rgba(255,255,255,0.04);
-      border: 1px solid rgba(255,255,255,0.08);
-      border-bottom: 3px solid rgba(255,255,255,0.15);
+      background: rgba(255, 255, 255, 0.04);
+      border: 1px solid rgba(255, 255, 255, 0.08);
+      border-bottom: 3px solid rgba(255, 255, 255, 0.15);
       text-decoration: none;
       color: inherit;
       min-width: 180px;
       transition: background 0.2s, transform 0.2s, border-color 0.2s;
     }
-    .contact-card:first-child  { border-bottom-color: var(--amber); }
-    .contact-card:nth-child(2) { border-bottom-color: var(--red-orange); }
+
+    .contact-card:first-child {
+      border-bottom-color: var(--amber);
+    }
+
+    .contact-card:nth-child(2) {
+      border-bottom-color: var(--red-orange);
+    }
+
     /* 3rd card (GitHub) stays grey */
 
     .contact-card:hover {
-      background: rgba(255,255,255,0.07);
+      background: rgba(255, 255, 255, 0.07);
       border-bottom-color: var(--amber);
       transform: translateY(-5px);
     }
 
-    .contact-card-icon { font-size: 1.8rem; }
+    .contact-card-icon {
+      font-size: 1.8rem;
+    }
+
     .contact-card-label {
       font-size: 0.58rem;
       letter-spacing: 0.2em;
       text-transform: uppercase;
       color: var(--amber);
     }
+
     .contact-card-value {
       font-size: 0.8rem;
       color: var(--text-light);
@@ -726,10 +882,12 @@
       text-transform: uppercase;
       color: var(--text-muted);
       padding: 12px 24px;
-      border: 1px solid rgba(255,255,255,0.07);
+      border: 1px solid rgba(255, 255, 255, 0.07);
     }
+
     .contact-availability-dot {
-      width: 7px; height: 7px;
+      width: 7px;
+      height: 7px;
       border-radius: 50%;
       background: #4ade80;
       animation: pulse 2s infinite;
@@ -739,29 +897,69 @@
       font-size: 0.58rem;
       letter-spacing: 0.15em;
       text-transform: uppercase;
-      color: rgba(255,255,255,0.15);
+      color: rgba(255, 255, 255, 0.15);
     }
 
     /* ─── RESPONSIVE ─── */
     @media (max-width: 900px) {
-      .mktg-inner { grid-template-columns: 1fr; gap: 20px; }
-      .exp-layout { grid-template-columns: 1fr; gap: 20px; }
-      .service-box { width: 160px; padding: 22px 14px; }
+      .mktg-inner {
+        grid-template-columns: 1fr;
+        gap: 20px;
+      }
+
+      .exp-layout {
+        grid-template-columns: 1fr;
+        gap: 20px;
+      }
+
+      .service-box {
+        width: 160px;
+        padding: 22px 14px;
+      }
     }
+
     @media (max-width: 768px) {
-      .gallery-grid { grid-template-columns: repeat(4, 1fr); }
-      .hero-top, .hero-bottom { padding-left: 20px; padding-right: 20px; }
-      .hamburger-btn { right: 20px; }
+      .gallery-grid {
+        grid-template-columns: repeat(4, 1fr);
+      }
+
+      .hero-top,
+      .hero-bottom {
+        padding-left: 20px;
+        padding-right: 20px;
+      }
+
+      .hamburger-btn {
+        right: 20px;
+      }
     }
+
     @media (max-width: 540px) {
-      .gallery-grid { grid-template-columns: repeat(3, 1fr); }
-      .hero-service-boxes { flex-direction: column; align-items: center; }
-      .service-box { width: 220px; }
-      .contact-cards { flex-direction: column; align-items: center; }
-      .add-exp-grid { grid-template-columns: 1fr; }
+      .gallery-grid {
+        grid-template-columns: repeat(3, 1fr);
+      }
+
+      .hero-service-boxes {
+        flex-direction: column;
+        align-items: center;
+      }
+
+      .service-box {
+        width: 220px;
+      }
+
+      .contact-cards {
+        flex-direction: column;
+        align-items: center;
+      }
+
+      .add-exp-grid {
+        grid-template-columns: 1fr;
+      }
     }
   </style>
 </head>
+
 <body>
 
   <video id="bg-video" autoplay muted loop playsinline>
@@ -771,12 +969,12 @@
   <!-- NAV DOTS -->
   <nav class="nav-dots">
     <ul>
-      <li><a href="#hero"       class="dot active" title="Home"></a></li>
-      <li><a href="#webdev"     class="dot" title="Web Dev"></a></li>
-      <li><a href="#design"     class="dot" title="Design"></a></li>
-      <li><a href="#mktg"       class="dot" title="Marketing"></a></li>
+      <li><a href="#hero" class="dot active" title="Home"></a></li>
+      <li><a href="#webdev" class="dot" title="Web Dev"></a></li>
+      <li><a href="#design" class="dot" title="Design"></a></li>
+      <li><a href="#mktg" class="dot" title="Marketing"></a></li>
       <li><a href="#experience" class="dot" title="Experience"></a></li>
-      <li><a href="#contact"    class="dot" title="Contact"></a></li>
+      <li><a href="#contact" class="dot" title="Contact"></a></li>
     </ul>
   </nav>
 
@@ -791,12 +989,12 @@
   <div class="nav-overlay" id="nav-overlay">
     <div class="nav-overlay-logo">ZQH<span>.</span>WEBPRO</div>
     <ul class="nav-overlay-links">
-      <li><a href="#hero"       class="nav-link"><span class="nav-num">01</span>Home</a></li>
-      <li><a href="#webdev"     class="nav-link"><span class="nav-num">02</span>Web Development</a></li>
-      <li><a href="#design"     class="nav-link"><span class="nav-num">03</span>Design</a></li>
-      <li><a href="#mktg"       class="nav-link"><span class="nav-num">04</span>Marketing</a></li>
+      <li><a href="#hero" class="nav-link"><span class="nav-num">01</span>Home</a></li>
+      <li><a href="#webdev" class="nav-link"><span class="nav-num">02</span>Web Development</a></li>
+      <li><a href="#design" class="nav-link"><span class="nav-num">03</span>Design</a></li>
+      <li><a href="#mktg" class="nav-link"><span class="nav-num">04</span>Strategy</a></li>
       <li><a href="#experience" class="nav-link"><span class="nav-num">05</span>Experience</a></li>
-      <li><a href="#contact"    class="nav-link"><span class="nav-num">06</span>Contact</a></li>
+      <li><a href="#contact" class="nav-link"><span class="nav-num">06</span>Contact</a></li>
     </ul>
     <div class="nav-overlay-footer">York, PA · Remote Available · zqhwebpro@gmail.com</div>
   </div>
@@ -829,7 +1027,7 @@
         </a>
         <a class="service-box" href="#mktg" data-section="3">
           <span class="service-box-icon">📈</span>
-          <span class="service-box-title">Marketing</span>
+          <span class="service-box-title">Strategy</span>
           <span class="service-box-arrow">Learn More ➤</span>
         </a>
       </div>
@@ -852,21 +1050,10 @@
     <div class="page-header">
       <div class="accent-line"><span class="section-label">Web Development</span></div>
       <h2>Custom-Built Digital Experiences</h2>
-      <p>From WordPress to custom-coded solutions — high-performance, responsive builds engineered for speed, conversion, and scale. Supporting eCommerce stores generating $100K+/month in revenue.</p>
+      <p>From WordPress to custom-coded solutions — high-performance, responsive builds engineered for speed,
+        conversion, and scale. Supporting eCommerce stores generating $100K+/month in revenue.</p>
     </div>
     <div class="gallery-grid" id="webdev-gallery"></div>
-    <div class="tag-row">
-      <span class="tag">WordPress</span>
-      <span class="tag">WooCommerce</span>
-      <span class="tag">React</span>
-      <span class="tag">PHP</span>
-      <span class="tag">HTML / CSS / JS</span>
-      <span class="tag">Core Web Vitals</span>
-      <span class="tag">SEO</span>
-      <span class="tag">ACF / LearnDash</span>
-      <span class="tag">eCommerce</span>
-      <span class="tag">Performance</span>
-    </div>
   </section>
 
 
@@ -877,26 +1064,15 @@
     <div class="page-header">
       <div class="accent-line"><span class="section-label">Design</span></div>
       <h2>Visuals That Communicate.</h2>
-      <p>UI/UX, brand systems, landing pages, and print collateral — every pixel intentional. 15+ years crafting design for agencies, studios, and direct clients across industries.</p>
+      <p>UI/UX, brand systems, landing pages, and print collateral — every pixel intentional. 15+ years crafting design
+        for agencies, studios, and direct clients across industries.</p>
     </div>
     <div class="gallery-grid" id="design-gallery"></div>
-    <div class="tag-row">
-      <span class="tag">UI / UX</span>
-      <span class="tag">Brand Identity</span>
-      <span class="tag">Adobe CC</span>
-      <span class="tag">Landing Pages</span>
-      <span class="tag">Print</span>
-      <span class="tag">Infographics</span>
-      <span class="tag">Logos</span>
-      <span class="tag">Ad Creative</span>
-      <span class="tag">Web Banners</span>
-      <span class="tag">Canva</span>
-    </div>
   </section>
 
 
   <!-- ══════════════════════════════
-       SECTION 4: MARKETING
+       SECTION 4: Strategy
   ══════════════════════════════ -->
   <section id="mktg">
 
@@ -906,43 +1082,48 @@
 
     <div class="mktg-inner">
       <div class="mktg-left">
-        <h2>Strategy That<br>Moves the <em>Needle.</em></h2>
-        <p>I combine conversion-rate optimization, SEO, automation, and content strategy to build marketing engines — not just websites. Every deliverable is tied to a measurable outcome.</p>
-
-        <div class="mktg-stats">
-          <div>
-            <span class="mktg-stat-num">$100K+</span>
-            <span class="mktg-stat-label">Monthly Revenue Driven</span>
-          </div>
-          <div>
-            <span class="mktg-stat-num">2,000+</span>
-            <span class="mktg-stat-label">Sites Scaled</span>
-          </div>
-          <div>
-            <span class="mktg-stat-num">15+</span>
-            <span class="mktg-stat-label">Years Experience</span>
-          </div>
+        <div class="cap-block">
+          <div class="cap-block-title">SEO &amp; Core Web Vitals</div>
+          <div class="cap-block-desc">Improved performance, UX, and SEO across large site networks to increase
+            visibility and organic conversions.</div>
         </div>
-
-        <a class="mktg-cta" href="#contact" data-section="5">Get In Touch ➤</a>
+        <div class="cap-block">
+          <div class="cap-block-title">CRO &amp; Lead Generation</div>
+          <div class="cap-block-desc">Orchestrated collaboration between CRO and design publishing teams, driving
+            measurable increases in qualified leads.</div>
+        </div>
+        <div class="cap-block">
+          <div class="cap-block-title">AI &amp; Workflow Automation</div>
+          <div class="cap-block-desc">Leveraged AI tools and Zapier automation to streamline workflows, reduce manual
+            work, and increase team efficiency — including custom GPT training and DevOps process automation.</div>
+        </div>
+        <div class="cap-block">
+          <div class="cap-block-title">Content &amp; Campaign Strategy</div>
+          <div class="cap-block-desc">Created digital and print advertisements aligned with brand strategy for local and
+            SMB clients. Developed interactive infographics to increase user engagement.</div>
+        </div>
       </div>
 
       <div class="mktg-right">
         <div class="cap-block">
           <div class="cap-block-title">SEO &amp; Core Web Vitals</div>
-          <div class="cap-block-desc">Improved performance, UX, and SEO across large site networks to increase visibility and organic conversions.</div>
+          <div class="cap-block-desc">Improved performance, UX, and SEO across large site networks to increase
+            visibility and organic conversions.</div>
         </div>
         <div class="cap-block">
           <div class="cap-block-title">CRO &amp; Lead Generation</div>
-          <div class="cap-block-desc">Orchestrated collaboration between CRO and design publishing teams, driving measurable increases in qualified leads.</div>
+          <div class="cap-block-desc">Orchestrated collaboration between CRO and design publishing teams, driving
+            measurable increases in qualified leads.</div>
         </div>
         <div class="cap-block">
           <div class="cap-block-title">AI &amp; Workflow Automation</div>
-          <div class="cap-block-desc">Leveraged AI tools and Zapier automation to streamline workflows, reduce manual work, and increase team efficiency — including custom GPT training and DevOps process automation.</div>
+          <div class="cap-block-desc">Leveraged AI tools and Zapier automation to streamline workflows, reduce manual
+            work, and increase team efficiency — including custom GPT training and DevOps process automation.</div>
         </div>
         <div class="cap-block">
           <div class="cap-block-title">Content &amp; Campaign Strategy</div>
-          <div class="cap-block-desc">Created digital and print advertisements aligned with brand strategy for local and SMB clients. Developed interactive infographics to increase user engagement.</div>
+          <div class="cap-block-desc">Created digital and print advertisements aligned with brand strategy for local and
+            SMB clients. Developed interactive infographics to increase user engagement.</div>
         </div>
       </div>
     </div>
@@ -961,124 +1142,69 @@
 
     <div class="exp-layout">
 
-      <!-- LEFT: Work History -->
-      <div class="exp-col">
-        <h3>Work History</h3>
 
-        <div class="job">
-          <div class="job-header">
-            <span class="job-company">EZMarketing</span>
-            <span class="job-years">2020 – 2026</span>
-          </div>
-          <div class="job-role">Web Developer / Designer</div>
-          <ul class="job-bullets">
-            <li>Built WordPress sites with ACF, LearnDash &amp; WooCommerce — supporting $100K+/mo revenue</li>
-            <li>Improved performance, UX, and SEO to increase visibility and conversions</li>
-            <li>Managed WordPress plugin maintenance and front-end stability across a large site network</li>
-            <li>Leveraged AI tools and automation to streamline workflows and reduce manual work</li>
-            <li>Architected and delivered custom web solutions using modern technologies</li>
-            <li>Collaborated remotely with clients to align goals, budgets, and strategy</li>
-          </ul>
-        </div>
+      <h3>Work History</h3>
 
-        <div class="job">
-          <div class="job-header">
-            <span class="job-company">Income Store</span>
-            <span class="job-years">2018 – 2019</span>
-          </div>
-          <div class="job-role">Front-End Web Developer</div>
-          <ul class="job-bullets">
-            <li>Led a design team creating and scaling content for 2,000+ websites</li>
-            <li>Automated internal DevOps processes improving operational efficiency</li>
-            <li>Orchestrated CRO and design publishing collaboration to increase lead generation</li>
-            <li>Developed interactive infographics and media assets to boost engagement</li>
-          </ul>
+      <div class="job">
+        <div class="job-header">
+          <span class="job-company">EZMarketing</span>
+          <span class="job-years">2020 – 2026</span>
         </div>
-
-        <div class="job">
-          <div class="job-header">
-            <span class="job-company">Weber Advertising &amp; Marketing</span>
-            <span class="job-years">2017 – 2018</span>
-          </div>
-          <div class="job-role">Web Developer / Graphic Designer</div>
-          <ul class="job-bullets">
-            <li>Designed and developed custom websites for commercial Insurance Agency clients</li>
-            <li>Created digital and print ads aligned with brand strategy for SMBs</li>
-            <li>Improved website functionality and UX through design and performance updates</li>
-          </ul>
-        </div>
-
-        <h3 style="margin-top:14px;">Additional Experience</h3>
-        <div class="add-exp-grid">
-          <div class="add-exp-item">
-            <div class="add-exp-company">Clipper Magazine</div>
-            <div class="add-exp-meta">Graphic Designer · 2007–2013</div>
-          </div>
-          <div class="add-exp-item">
-            <div class="add-exp-company">MarketSource Inc.</div>
-            <div class="add-exp-meta">Sales Representative · 2014–2017</div>
-          </div>
-          <div class="add-exp-item">
-            <div class="add-exp-company">D.E Gemmill, Inc.</div>
-            <div class="add-exp-meta">Graphic Designer · 2006–2007</div>
-          </div>
-          <div class="add-exp-item">
-            <div class="add-exp-company">Staples Print Center</div>
-            <div class="add-exp-meta">Copy &amp; Print · 2005–2006</div>
-          </div>
-        </div>
+        <div class="job-role">Web Developer / Designer</div>
+        <ul class="job-bullets">
+          <li>Built WordPress sites with ACF, LearnDash &amp; WooCommerce — supporting $100K+/mo revenue</li>
+          <li>Improved performance, UX, and SEO to increase visibility and conversions</li>
+          <li>Managed WordPress plugin maintenance and front-end stability across a large site network</li>
+          <li>Leveraged AI tools and automation to streamline workflows and reduce manual work</li>
+          <li>Architected and delivered custom web solutions using modern technologies</li>
+          <li>Collaborated remotely with clients to align goals, budgets, and strategy</li>
+        </ul>
       </div>
 
-      <!-- RIGHT: Skills + Education -->
-      <div class="exp-col">
-        <h3>Technical Skills</h3>
-
-        <div class="skills-block">
-          <div class="skills-block-label">Development</div>
-          <div class="skills-tag-wrap">
-            <span class="s-tag">HTML</span><span class="s-tag">CSS</span><span class="s-tag">JavaScript</span>
-            <span class="s-tag">PHP</span><span class="s-tag">React</span><span class="s-tag">MySQL</span>
-            <span class="s-tag">REST APIs</span><span class="s-tag">Git</span><span class="s-tag">npm</span>
-            <span class="s-tag">cPanel</span><span class="s-tag">Bootstrap</span><span class="s-tag">Python</span>
-          </div>
+      <div class="job">
+        <div class="job-header">
+          <span class="job-company">Income Store</span>
+          <span class="job-years">2018 – 2019</span>
         </div>
+        <div class="job-role">Front-End Web Developer</div>
+        <ul class="job-bullets">
+          <li>Led a design team creating and scaling content for 2,000+ websites</li>
+          <li>Automated internal DevOps processes improving operational efficiency</li>
+          <li>Orchestrated CRO and design publishing collaboration to increase lead generation</li>
+          <li>Developed interactive infographics and media assets to boost engagement</li>
+        </ul>
+      </div>
 
-        <div class="skills-block">
-          <div class="skills-block-label">WordPress &amp; CMS</div>
-          <div class="skills-tag-wrap">
-            <span class="s-tag">WooCommerce</span><span class="s-tag">ACF</span><span class="s-tag">LearnDash</span>
-            <span class="s-tag">Yoast</span><span class="s-tag">WPMU</span><span class="s-tag">Page Builders</span>
-          </div>
+      <div class="job">
+        <div class="job-header">
+          <span class="job-company">Weber Advertising &amp; Marketing</span>
+          <span class="job-years">2017 – 2018</span>
         </div>
+        <div class="job-role">Web Developer / Graphic Designer</div>
+        <ul class="job-bullets">
+          <li>Designed and developed custom websites for commercial Insurance Agency clients</li>
+          <li>Created digital and print ads aligned with brand strategy for SMBs</li>
+          <li>Improved website functionality and UX through design and performance updates</li>
+        </ul>
+      </div>
 
-        <div class="skills-block">
-          <div class="skills-block-label">Design &amp; Creative</div>
-          <div class="skills-tag-wrap">
-            <span class="s-tag">Adobe Creative Suite</span><span class="s-tag">Canva</span>
-            <span class="s-tag">Branding</span><span class="s-tag">Logo Design</span>
-            <span class="s-tag">Infographics</span><span class="s-tag">Web Banners</span>
-            <span class="s-tag">Print</span><span class="s-tag">UI / UX</span>
-          </div>
+      <h3 style="margin-top:14px;">Additional Experience</h3>
+      <div class="add-exp-grid">
+        <div class="add-exp-item">
+          <div class="add-exp-company">Clipper Magazine</div>
+          <div class="add-exp-meta">Graphic Designer · 2007–2013</div>
         </div>
-
-        <div class="skills-block">
-          <div class="skills-block-label">Automation &amp; Marketing</div>
-          <div class="skills-tag-wrap">
-            <span class="s-tag">Zapier</span><span class="s-tag">Custom GPT Training</span>
-            <span class="s-tag">AI Generation</span><span class="s-tag">DevOps Automation</span>
-            <span class="s-tag">CRO</span><span class="s-tag">SEO</span>
-          </div>
+        <div class="add-exp-item">
+          <div class="add-exp-company">MarketSource Inc.</div>
+          <div class="add-exp-meta">Sales Representative · 2014–2017</div>
         </div>
-
-        <h3 style="margin-top:18px;">Education</h3>
-
-        <div class="edu-item">
-          <div class="edu-degree">Bachelor of Web Design &amp; Interactive Media</div>
-          <div class="edu-school">Art Institute of York – Pennsylvania · 2013–2016</div>
+        <div class="add-exp-item">
+          <div class="add-exp-company">D.E Gemmill, Inc.</div>
+          <div class="add-exp-meta">Graphic Designer · 2006–2007</div>
         </div>
-        <div class="edu-item">
-          <div class="edu-degree">Associates of Science, Media Arts &amp; Animation</div>
-          <div class="edu-school">Art Institute of York – Pennsylvania · 2005–2007</div>
+        <div class="add-exp-item">
+          <div class="add-exp-company">Staples Print Center</div>
+          <div class="add-exp-meta">Copy &amp; Print · 2005–2006</div>
         </div>
       </div>
 
@@ -1109,11 +1235,22 @@
         <span class="contact-card-label">Phone</span>
         <span class="contact-card-value">717-818-4455</span>
       </a>
+      <a class="contact-card" href="https://zqhwebpro.github.io/portfolio/media/zach_heindel_resume.pdf"
+        target="_blank">
+        <span class="contact-card-icon">⬡</span>
+        <span class="contact-card-label">Resume</span>
+        <span class="contact-card-value">Download</span>
+      </a>
+
+      <!--
       <a class="contact-card" href="https://zqhwebpro.github.io/portfolio/sitemap/sitemap.xml" target="_blank">
         <span class="contact-card-icon">⬡</span>
         <span class="contact-card-label">Portfolio</span>
         <span class="contact-card-value">GitHub Collection</span>
       </a>
+-->
+
+
     </div>
 
     <div class="contact-availability">
@@ -1221,4 +1358,5 @@
   </script>
 
 </body>
+
 </html>
