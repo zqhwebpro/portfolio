@@ -484,6 +484,7 @@
       margin-bottom: 20px;
     }
 
+    /* ─── GALLERY ITEM BASE ─── */
     .gallery-item {
       aspect-ratio: 4/3;
       background: rgba(255, 255, 255, 0.04);
@@ -537,6 +538,86 @@
 
     .gallery-item:hover::after {
       opacity: 0.28;
+    }
+
+    /* ─── REAL PROJECT GALLERY ITEMS ─── */
+
+    /* Anchor wrapper — fills the gallery cell */
+    .gallery-item-link {
+      display: block;
+      position: absolute;
+      inset: 0;
+      text-decoration: none;
+      z-index: 3;
+    }
+
+    /* Thumbnail image fills the cell */
+    .gallery-thumb {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      object-position: top center;
+      display: block;
+      transition: transform 0.35s ease;
+    }
+
+    .gallery-item:hover .gallery-thumb {
+      transform: scale(1.06);
+    }
+
+    /* Overlay label — sits at top of the cell */
+    .gallery-overlay {
+      position: absolute;
+      top: 0;
+      left: 0;
+      right: 0;
+      z-index: 4;
+      padding: 6px 8px 8px;
+      /* default tint — overridden per-project via inline style */
+      background: rgba(0, 0, 0, 0.55);
+      backdrop-filter: blur(2px);
+      pointer-events: none;
+      transition: background 0.25s;
+    }
+
+    .gallery-item:hover .gallery-overlay {
+      background: rgba(0, 0, 0, 0.72);
+    }
+
+    .gallery-overlay-title {
+      display: block;
+      font-size: 0.68rem;
+      font-weight: 800;
+      letter-spacing: 0.04em;
+      text-transform: uppercase;
+      line-height: 1.15;
+      /* color set per-project inline */
+    }
+
+    .gallery-overlay-sub {
+      display: block;
+      font-size: 0.48rem;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      margin-top: 2px;
+      color: rgba(255, 255, 255, 0.55);
+      font-weight: 400;
+    }
+
+    /* External link badge — bottom-right corner on hover */
+    .gallery-item-link::after {
+      content: '↗';
+      position: absolute;
+      bottom: 6px;
+      right: 7px;
+      font-size: 0.7rem;
+      color: rgba(255, 255, 255, 0.6);
+      opacity: 0;
+      transition: opacity 0.2s;
+    }
+
+    .gallery-item:hover .gallery-item-link::after {
+      opacity: 1;
     }
 
     /* Tags — all grey, no accent */
@@ -885,8 +966,6 @@
       border-bottom-color: var(--red-orange);
     }
 
-    /* 3rd card (GitHub) stays grey */
-
     .contact-card:hover {
       background: rgba(255, 255, 255, 0.07);
       border-bottom-color: var(--amber);
@@ -1081,6 +1160,8 @@
   <section id="webdev">
     <div class="page-header">
       <div class="accent-line" style="text-align:center; margin-bottom: 24px;"><span class="section-label">Development</span></div>
+      <p><a href="https://zqhwebpro.github.io/portfolio/sitemap/sitemap.xml" target="_blank">In Progress, Small Example Teaser</a></p>
+      <br>
       <ul class="skills-list">
         <li>HTML</li>
         <li>CSS</li>
@@ -1185,83 +1266,6 @@
 
 
   <!-- ══════════════════════════════
-       SECTION 5: SKILLS & EXPERIENCE
-  <section id="experience">
-
-    <div style="text-align:center; margin-bottom: 18px;">
-      <div class="accent-line"><span class="section-label">Skills &amp; Experience</span></div>
-    </div>
-
-    <div class="exp-layout">
-     <div class="job">
-        <div class="job-header">
-          <span class="job-company">EZMarketing</span>
-          <span class="job-years">2020 – 2026</span>
-        </div>
-        <div class="job-role">Web Developer / Designer</div>
-        <ul class="job-bullets">
-          <li>Built WordPress sites with ACF, LearnDash &amp; WooCommerce — supporting $100K+/mo revenue</li>
-          <li>Improved performance, UX, and SEO to increase visibility and conversions</li>
-          <li>Managed WordPress plugin maintenance and front-end stability across a large site network</li>
-          <li>Leveraged AI tools and automation to streamline workflows and reduce manual work</li>
-          <li>Architected and delivered custom web solutions using modern technologies</li>
-          <li>Collaborated remotely with clients to align goals, budgets, and strategy</li>
-        </ul>
-      </div>
-
-      <div class="job">
-        <div class="job-header">
-          <span class="job-company">Income Store</span>
-          <span class="job-years">2018 – 2019</span>
-        </div>
-        <div class="job-role">Front-End Web Developer</div>
-        <ul class="job-bullets">
-          <li>Led a design team creating and scaling content for 2,000+ websites</li>
-          <li>Automated internal DevOps processes improving operational efficiency</li>
-          <li>Orchestrated CRO and design publishing collaboration to increase lead generation</li>
-          <li>Developed interactive infographics and media assets to boost engagement</li>
-        </ul>
-      </div>
-
-      <div class="job">
-        <div class="job-header">
-          <span class="job-company">Weber Advertising &amp; Marketing</span>
-          <span class="job-years">2017 – 2018</span>
-        </div>
-        <div class="job-role">Web Developer / Graphic Designer</div>
-        <ul class="job-bullets">
-          <li>Designed and developed custom websites for commercial Insurance Agency clients</li>
-          <li>Created digital and print ads aligned with brand strategy for SMBs</li>
-          <li>Improved website functionality and UX through design and performance updates</li>
-        </ul>
-      </div>
-
-      <div class="add-exp-grid">
-        <div class="add-exp-item">
-          <div class="add-exp-company">Clipper Magazine</div>
-          <div class="add-exp-meta">Graphic Designer · 2007–2013</div>
-        </div>
-        <div class="add-exp-item">
-          <div class="add-exp-company">MarketSource Inc.</div>
-          <div class="add-exp-meta">Sales Representative · 2014–2017</div>
-        </div>
-        <div class="add-exp-item">
-          <div class="add-exp-company">D.E Gemmill, Inc.</div>
-          <div class="add-exp-meta">Graphic Designer · 2006–2007</div>
-        </div>
-        <div class="add-exp-item">
-          <div class="add-exp-company">Staples Print Center</div>
-          <div class="add-exp-meta">Copy &amp; Print · 2005–2006</div>
-        </div>
-      </div>
-
-    </div>
-
-  </section>
-  ══════════════════════════════ -->
-
-
-  <!-- ══════════════════════════════
        SECTION 6: CONTACT
   ══════════════════════════════ -->
   <section id="contact">
@@ -1302,21 +1306,95 @@
 
 
   <script>
-    // ─── Gallery builders ───
-    function buildGallery(id, count) {
-      const grid = document.getElementById(id);
-      for (let i = 0; i < count; i++) {
-        const div = document.createElement('div');
-        div.className = 'gallery-item';
-        const ph = document.createElement('span');
-        ph.className = 'gallery-ph';
-        ph.textContent = 'Project ' + (i + 1);
-        div.appendChild(ph);
-        grid.appendChild(div);
+    // ─────────────────────────────────────────────────
+    // REAL PROJECT DEFINITIONS
+    // Add future projects here — the builder handles the rest.
+    // Each entry maps to one gallery cell (index 0 = first cell).
+    // ─────────────────────────────────────────────────
+    const webdevProjects = [
+      {
+        img: 'https://zqhwebpro.github.io/portfolio/2026/media/oilandherbremedy.jpg',          // path relative to index.html
+        href: 'https://zqhwebpro.github.io/portfolio/interactive%20infographics/oilherbremedy/',
+        sub: 'Custom Programmed Sorter',
+        // Overlay tint color (any CSS color — rgba recommended for transparency)
+        overlayColor: 'rgba(30, 90, 60, 0.68)',
+        // Title text color — pick something that pops against the overlay
+        titleColor: '#a8ffcb',
+      },
+      // ── Slot 2: paste your next project here ──────────────────────
+      // {
+      //   img: 'project2-thumb.jpg',
+      //   href: 'https://...',
+      //   title: 'Project Two',
+      //   sub: 'Sub-label here',
+      //   overlayColor: 'rgba(60, 20, 90, 0.65)',
+      //   titleColor: '#e4baff',
+      // },
+    ];
+
+    // ─────────────────────────────────────────────────
+    // GALLERY BUILDER
+    // ─────────────────────────────────────────────────
+    function buildGallery(containerId, totalCount, projects) {
+      const grid = document.getElementById(containerId);
+
+      for (let i = 0; i < totalCount; i++) {
+        const project = projects[i] || null;
+
+        const cell = document.createElement('div');
+        cell.className = 'gallery-item';
+
+        if (project) {
+          // ── Real project cell ──────────────────────
+          const link = document.createElement('a');
+          link.className = 'gallery-item-link';
+          link.href = project.href;
+          link.target = '_blank';
+          link.rel = 'noopener noreferrer';
+          link.title = project.title;
+
+          const img = document.createElement('img');
+          img.className = 'gallery-thumb';
+          img.src = project.img;
+          img.alt = project.title;
+          img.loading = 'lazy';
+
+          const overlay = document.createElement('div');
+          overlay.className = 'gallery-overlay';
+          overlay.style.background = project.overlayColor;
+
+          const titleEl = document.createElement('span');
+          titleEl.className = 'gallery-overlay-title';
+          titleEl.textContent = project.title;
+          titleEl.style.color = project.titleColor;
+
+          overlay.appendChild(titleEl);
+
+          if (project.sub) {
+            const subEl = document.createElement('span');
+            subEl.className = 'gallery-overlay-sub';
+            subEl.textContent = project.sub;
+            overlay.appendChild(subEl);
+          }
+
+          link.appendChild(img);
+          cell.appendChild(overlay);
+          cell.appendChild(link);
+
+        } else {
+          // ── Placeholder cell (existing style preserved) ──
+          const ph = document.createElement('span');
+          ph.className = 'gallery-ph';
+          ph.textContent = 'Project ' + (i + 1);
+          cell.appendChild(ph);
+        }
+
+        grid.appendChild(cell);
       }
     }
-    buildGallery('webdev-gallery', 10);
-    buildGallery('design-gallery', 10);
+
+    buildGallery('webdev-gallery', 10, webdevProjects);
+    buildGallery('design-gallery', 10, []);
 
     // ─── Hamburger / Overlay ───
     const hamburger = document.getElementById('hamburger');
@@ -1346,7 +1424,6 @@
       dots.forEach((dot, i) => dot.classList.toggle('active', i === currentSection));
     }
 
-    // Nav overlay links
     document.querySelectorAll('.nav-link').forEach(link => {
       link.addEventListener('click', (e) => {
         e.preventDefault();
@@ -1358,7 +1435,6 @@
       });
     });
 
-    // Service box clicks
     document.querySelectorAll('[data-section]').forEach(el => {
       el.addEventListener('click', (e) => {
         e.preventDefault();
@@ -1366,7 +1442,6 @@
       });
     });
 
-    // Nav dot clicks
     dots.forEach((dot, index) => {
       dot.addEventListener('click', (e) => { e.preventDefault(); scrollToSection(index); });
     });
