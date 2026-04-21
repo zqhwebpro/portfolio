@@ -453,6 +453,33 @@
       line-height: 1.7;
     }
 
+    /* ─── SKILLS LIST ─── */
+    .skills-list {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 6px;
+      justify-content: center;
+      max-width: 720px;
+      margin: 0 auto;
+      list-style: none;
+    }
+
+    .skills-list li {
+      padding: 4px 12px;
+      background: rgba(255, 255, 255, 0.05);
+      border: 1px solid rgba(255, 255, 255, 0.09);
+      font-size: 0.62rem;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      color: var(--text-muted);
+      transition: border-color 0.2s, color 0.2s;
+    }
+
+    .skills-list li:hover {
+      border-color: var(--amber);
+      color: var(--amber);
+    }
+
     .gallery-grid {
       display: grid;
       grid-template-columns: repeat(5, 1fr);
@@ -616,7 +643,8 @@
       color: var(--amber);
     }
 
-    .mktg-right, .mktg-left {
+    .mktg-right,
+    .mktg-left {
       display: flex;
       flex-direction: column;
       gap: 12px;
@@ -839,6 +867,14 @@
       transition: background 0.2s, transform 0.2s, border-color 0.2s;
     }
 
+    .hero-service-boxes .service-box:first-child {
+      border-bottom-color: var(--amber);
+    }
+
+    .hero-service-boxes .service-box:nth-child(2) {
+      border-bottom-color: var(--red-orange);
+    }
+
     .contact-card:first-child {
       border-bottom-color: var(--amber);
     }
@@ -1014,17 +1050,14 @@
 
       <div class="hero-service-boxes">
         <a class="service-box" href="#webdev" data-section="1">
-          <span class="service-box-icon">🌐</span>
           <span class="service-box-title">Web Development</span>
           <span class="service-box-arrow">Explore Work ➤</span>
         </a>
         <a class="service-box" href="#design" data-section="2">
-          <span class="service-box-icon">🎨</span>
-          <span class="service-box-title">Design</span>
+          <span class="service-box-title">Web Design</span>
           <span class="service-box-arrow">Explore Work ➤</span>
         </a>
         <a class="service-box" href="#mktg" data-section="3">
-          <span class="service-box-icon">📈</span>
           <span class="service-box-title">Strategy</span>
           <span class="service-box-arrow">Learn More ➤</span>
         </a>
@@ -1048,8 +1081,28 @@
     <div class="page-header">
       <div class="accent-line"><span class="section-label">Web Development</span></div>
       <h2>Custom-Built Digital Experiences</h2>
-      <p>From WordPress to custom-coded solutions — high-performance, responsive builds engineered for speed,
-        conversion, and scale. Supporting eCommerce stores generating $100K+/month in revenue.</p>
+      <ul class="skills-list">
+        <li>HTML</li>
+        <li>CSS</li>
+        <li>JavaScript</li>
+        <li>PHP</li>
+        <li>React</li>
+        <li>MySQL</li>
+        <li>REST APIs</li>
+        <li>WordPress</li>
+        <li>WooCommerce</li>
+        <li>ACF</li>
+        <li>LearnDash</li>
+        <li>Yoast</li>
+        <li>WPMU</li>
+        <li>Modern Page Builders</li>
+        <li>Git</li>
+        <li>npm</li>
+        <li>cPanel</li>
+        <li>Bootstrap</li>
+        <li>Zapier</li>
+        <li>Python</li>
+      </ul>
     </div>
     <div class="gallery-grid" id="webdev-gallery"></div>
   </section>
@@ -1060,10 +1113,21 @@
   ══════════════════════════════ -->
   <section id="design">
     <div class="page-header">
-      <div class="accent-line"><span class="section-label">Design</span></div>
+      <div class="accent-line"><span class="section-label">Web Design</span></div>
       <h2>Visuals That Communicate.</h2>
-      <p>UI/UX, brand systems, landing pages, and print collateral — every pixel intentional. 15+ years crafting design
-        for agencies, studios, and direct clients across industries.</p>
+      <ul class="skills-list">
+        <li>Adobe Creative Suite</li>
+        <li>Canva</li>
+        <li>UI / UX Design</li>
+        <li>Branding</li>
+        <li>Logo Design</li>
+        <li>Infographics</li>
+        <li>Flyers &amp; Posters</li>
+        <li>Web Banners</li>
+        <li>Print Collateral</li>
+        <li>AI Generation</li>
+        <li>Custom GPT Training</li>
+      </ul>
     </div>
     <div class="gallery-grid" id="design-gallery"></div>
   </section>
@@ -1081,47 +1145,39 @@
     <div class="mktg-inner">
       <div class="mktg-left">
         <div class="cap-block">
-          <div class="cap-block-title">SEO &amp; Core Web Vitals</div>
-          <div class="cap-block-desc">Improved performance, UX, and SEO across large site networks to increase
-            visibility and organic conversions.</div>
+          <div class="cap-block-title">WordPress Development</div>
+          <div class="cap-block-desc">Built WordPress websites using ACF, LearnDash, and WooCommerce, supporting sites generating $100K+/month in revenue.</div>
         </div>
         <div class="cap-block">
-          <div class="cap-block-title">CRO &amp; Lead Generation</div>
-          <div class="cap-block-desc">Orchestrated collaboration between CRO and design publishing teams, driving
-            measurable increases in qualified leads.</div>
+          <div class="cap-block-title">Performance &amp; SEO</div>
+          <div class="cap-block-desc">Improved performance, UX, and SEO to increase visibility and conversions across a large network of client sites.</div>
+        </div>
+        <div class="cap-block">
+          <div class="cap-block-title">Site Network Management</div>
+          <div class="cap-block-desc">Managed WordPress updates and plugin maintenance, troubleshooting front-end issues and ensuring stability across a large network of sites.</div>
         </div>
         <div class="cap-block">
           <div class="cap-block-title">AI &amp; Workflow Automation</div>
-          <div class="cap-block-desc">Leveraged AI tools and Zapier automation to streamline workflows, reduce manual
-            work, and increase team efficiency — including custom GPT training and DevOps process automation.</div>
-        </div>
-        <div class="cap-block">
-          <div class="cap-block-title">Content &amp; Campaign Strategy</div>
-          <div class="cap-block-desc">Created digital and print advertisements aligned with brand strategy for local and
-            SMB clients. Developed interactive infographics to increase user engagement.</div>
+          <div class="cap-block-desc">Leveraged AI tools and automation to streamline workflows, reduce manual work, and increase team efficiency — including custom GPT training and DevOps process automation.</div>
         </div>
       </div>
 
       <div class="mktg-right">
         <div class="cap-block">
-          <div class="cap-block-title">SEO &amp; Core Web Vitals</div>
-          <div class="cap-block-desc">Improved performance, UX, and SEO across large site networks to increase
-            visibility and organic conversions.</div>
+          <div class="cap-block-title">Custom Web Solutions</div>
+          <div class="cap-block-desc">Architected and delivered custom web solutions using modern technologies to meet diverse client requirements across industries.</div>
+        </div>
+        <div class="cap-block">
+          <div class="cap-block-title">Client Strategy &amp; Collaboration</div>
+          <div class="cap-block-desc">Collaborated with clients in a remote environment to align business goals, budgets, and strategy through results-driven meetings.</div>
         </div>
         <div class="cap-block">
           <div class="cap-block-title">CRO &amp; Lead Generation</div>
-          <div class="cap-block-desc">Orchestrated collaboration between CRO and design publishing teams, driving
-            measurable increases in qualified leads.</div>
-        </div>
-        <div class="cap-block">
-          <div class="cap-block-title">AI &amp; Workflow Automation</div>
-          <div class="cap-block-desc">Leveraged AI tools and Zapier automation to streamline workflows, reduce manual
-            work, and increase team efficiency — including custom GPT training and DevOps process automation.</div>
+          <div class="cap-block-desc">Orchestrated collaboration between CRO and design publishing teams, driving measurable increases in qualified leads.</div>
         </div>
         <div class="cap-block">
           <div class="cap-block-title">Content &amp; Campaign Strategy</div>
-          <div class="cap-block-desc">Created digital and print advertisements aligned with brand strategy for local and
-            SMB clients. Developed interactive infographics to increase user engagement.</div>
+          <div class="cap-block-desc">Created digital and print advertisements aligned with brand strategy for local and SMB clients. Developed interactive infographics to increase user engagement.</div>
         </div>
       </div>
     </div>
@@ -1234,16 +1290,6 @@
         <span class="contact-card-label">Resume</span>
         <span class="contact-card-value">Download</span>
       </a>
-
-      <!--
-      <a class="contact-card" href="https://zqhwebpro.github.io/portfolio/sitemap/sitemap.xml" target="_blank">
-        <span class="contact-card-icon">⬡</span>
-        <span class="contact-card-label">Portfolio</span>
-        <span class="contact-card-value">GitHub Collection</span>
-      </a>
--->
-
-
     </div>
 
     <div class="contact-availability">
