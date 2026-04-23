@@ -606,7 +606,7 @@
       margin-top: 9px;
     }
 
-    .email-blast-link {
+    .email-blast-link, .landing-page-link {
       display: inline-flex;
       align-items: center;
       gap: 7px;
@@ -623,19 +623,19 @@
       width: fit-content;
     }
 
-    .email-blast-link:hover {
+    .email-blast-link:hover, .landing-page-link:hover {
       color: var(--amber);
       border-color: var(--amber);
       background: rgba(245, 166, 35, 0.1);
     }
 
-    .email-blast-link svg {
+    .email-blast-link svg, .landing-page-link svg {
       flex-shrink: 0;
       opacity: 0.7;
       transition: opacity 0.2s;
     }
 
-    .email-blast-link:hover svg { opacity: 1; }
+    .email-blast-link:hover svg, .landing-page-link:hover svg { opacity: 1; }
 
     /* ════════════════════════
        IFRAME POPUP MODAL
@@ -959,12 +959,12 @@
     <div class="email-modal">
       <div class="email-modal-header">
         <div>
-          <div class="email-modal-title" id="modalTitle">Email Blast Preview</div>
-          <div class="email-modal-label">Weber Advertising — Email Programming</div>
+          <div class="email-modal-title" id="modalTitle">Preview</div>
+          <div class="email-modal-label" id="modalLabel">Weber Advertising</div>
         </div>
         <button class="email-modal-close" id="modalClose" aria-label="Close">✕</button>
       </div>
-      <iframe class="email-modal-iframe" id="modalIframe" src="" title="Email Blast Preview" sandbox="allow-same-origin allow-scripts"></iframe>
+      <iframe class="email-modal-iframe" id="modalIframe" src="" title="Content Preview" sandbox="allow-same-origin allow-scripts"></iframe>
     </div>
   </div>
 
@@ -1047,7 +1047,7 @@
   <section id="mktg">
 
     <div style="text-align:center; margin-bottom: 20px;">
-      <div class="accent-line"><span class="section-label">Experience</span></div>
+      <div class="accent-line"><span class="section-label">Addt. Experience</span></div>
     </div>
 
     <div class="mktg-inner">
@@ -1068,14 +1068,14 @@
             <div class="cap-block-title">Email Programming</div>
             <div class="cap-block-desc">Custom-coded HTML email templates at Weber Advertising, built to pixel-perfect brand standards — responsive, cross-client compatible, and hand-crafted for each campaign.</div>
             <div class="cap-block-links">
-              <a class="email-blast-link" data-url="https://tshirtonatshirt.com/wp-content/uploads/weber/deltagrp/110817.php" data-title="Delta Group — Email Blast Example">
+              <a class="email-blast-link" data-url="https://tshirtonatshirt.com/wp-content/uploads/weber/deltagrp/110817.php" data-title="Delta Group — Email Blast Example" data-label="Weber Advertising — Email Programming">
                 <svg width="12" height="12" viewBox="0 0 12 12" fill="none" xmlns="http://www.w3.org/2000/svg">
                   <rect x="1" y="1" width="10" height="10" rx="1" stroke="currentColor" stroke-width="1.2"/>
                   <path d="M4 6h4M6 4v4" stroke="currentColor" stroke-width="1.2" stroke-linecap="round"/>
                 </svg>
                 Delta Group — Email Blast Example
               </a>
-              <a class="email-blast-link" data-url="https://tshirtonatshirt.com/wp-content/uploads/weber/martins/20170831.php" data-title="Martin's — Email Blast Example">
+              <a class="email-blast-link" data-url="https://tshirtonatshirt.com/wp-content/uploads/weber/martins/20170831.php" data-title="Martin's — Email Blast Example" data-label="Weber Advertising — Email Programming">
                 <svg width="12" height="12" viewBox="0 0 12 12" fill="none" xmlns="http://www.w3.org/2000/svg">
                   <rect x="1" y="1" width="10" height="10" rx="1" stroke="currentColor" stroke-width="1.2"/>
                   <path d="M4 6h4M6 4v4" stroke="currentColor" stroke-width="1.2" stroke-linecap="round"/>
@@ -1097,6 +1097,15 @@
           <div class="cap-block-body">
             <div class="cap-block-title">WordPress Development</div>
             <div class="cap-block-desc">Built WordPress websites using ACF, LearnDash, and WooCommerce, supporting sites generating $100K+/month in revenue.</div>
+            <div class="cap-block-links">
+              <a class="landing-page-link" data-url="https://tshirtonatshirt.com/wp-content/uploads/weber/no-call-centers/" data-title="Donegal Insurance — Landing Page" data-label="Weber Advertising — Custom Landing Pages">
+                <svg width="12" height="12" viewBox="0 0 12 12" fill="none" xmlns="http://www.w3.org/2000/svg">
+                  <rect x="1" y="1" width="10" height="10" rx="1" stroke="currentColor" stroke-width="1.2"/>
+                  <path d="M4 6h4M6 4v4" stroke="currentColor" stroke-width="1.2" stroke-linecap="round"/>
+                </svg>
+                Donegal Insurance — Landing Page
+              </a>
+            </div>
           </div>
         </div>
 
@@ -1309,16 +1318,31 @@
     buildGallery('webdev-gallery', 10, webdevProjects);
     buildGallery('design-gallery', 10, designProjects);
 
-    // ─── Email blast modal ───
+    // ─── Modal functionality for both email blasts and landing pages ───
     const modal = document.getElementById('emailModal');
     const modalIframe = document.getElementById('modalIframe');
     const modalTitle = document.getElementById('modalTitle');
+    const modalLabel = document.getElementById('modalLabel');
     const modalClose = document.getElementById('modalClose');
 
+    // Handle email blast links
     document.querySelectorAll('.email-blast-link').forEach(link => {
       link.addEventListener('click', (e) => {
         e.preventDefault();
         modalTitle.textContent = link.dataset.title;
+        modalLabel.textContent = link.dataset.label;
+        modalIframe.src = link.dataset.url;
+        modal.classList.add('open');
+        document.body.style.overflow = 'hidden';
+      });
+    });
+
+    // Handle landing page links
+    document.querySelectorAll('.landing-page-link').forEach(link => {
+      link.addEventListener('click', (e) => {
+        e.preventDefault();
+        modalTitle.textContent = link.dataset.title;
+        modalLabel.textContent = link.dataset.label;
         modalIframe.src = link.dataset.url;
         modal.classList.add('open');
         document.body.style.overflow = 'hidden';
