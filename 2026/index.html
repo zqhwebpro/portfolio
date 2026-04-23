@@ -632,6 +632,8 @@
     ════════════════════════ */
     #mktg {
       gap: 0;
+      overflow-y: auto;
+      -webkit-overflow-scrolling: touch;
     }
 
     .mktg-inner {
@@ -1193,6 +1195,20 @@
 
     /* ─── RESPONSIVE ─── */
     @media (max-width: 900px) {
+
+      #mktg {
+        justify-content: flex-start;
+        padding-top: 80px;
+        padding-bottom: 40px;
+        height: 100vh;
+        overflow-y: auto;
+      }
+
+      .mktg-inner {
+        grid-template-columns: 1fr;
+        gap: 8px;
+      }
+
       .mktg-inner {
         grid-template-columns: 1fr;
         gap: 8px;
@@ -1246,6 +1262,29 @@
 
       .add-exp-grid {
         grid-template-columns: 1fr;
+      }
+
+      #mktg {
+        padding-top: 70px;
+        padding-left: 16px;
+        padding-right: 16px;
+      }
+
+      .email-blast-link,
+      .landing-page-link,
+      .infographic-link,
+      .download-link {
+        white-space: normal;
+        word-break: break-word;
+        font-size: 0.58rem;
+      }
+
+      .cap-block-links {
+        gap: 4px;
+      }
+
+      .cap-block-desc {
+        font-size: 0.68rem;
       }
     }
   </style>
@@ -1556,10 +1595,6 @@
               <a class="infographic-link"
                 data-url="https://zqhwebpro.github.io/portfolio/2026/media/layout design/2suncatch.jpg"
                 data-title="Suncatch">Suncatch</a>
-
-              <a class="infographic-link"
-                data-url="https://zqhwebpro.github.io/portfolio/2026/media/layout design/3unclou.jpg"
-                data-title="Uncle Louie G">Uncle Louie G</a>
 
               <a class="infographic-link"
                 data-url="https://zqhwebpro.github.io/portfolio/2026/media/layout design/4innovative.jpg"
