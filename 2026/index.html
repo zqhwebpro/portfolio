@@ -11,6 +11,40 @@
   <link rel="icon" type="image/png" href="media/zqh-portfolio.png">
 
   <style>
+    .infographic-link {
+      display: inline-flex;
+      align-items: center;
+      gap: 7px;
+      font-size: 0.62rem;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      color: rgba(74, 222, 128, 0.6); /* Green color */
+      text-decoration: none;
+      border: 1px solid rgba(74, 222, 128, 0.2);
+      padding: 5px 10px;
+      background: rgba(74, 222, 128, 0.05);
+      cursor: pointer;
+      transition: color 0.2s, border-color 0.2s, background 0.2s;
+      width: fit-content;
+    }
+
+    .infographic-link:hover {
+      color: #4ade80; /* Bright green on hover */
+      border-color: #4ade80;
+      background: rgba(74, 222, 128, 0.12);
+    }
+
+    .infographic-link svg {
+      flex-shrink: 0;
+      opacity: 0.7;
+      transition: opacity 0.2s;
+    }
+
+    .infographic-link:hover svg {
+      opacity: 1;
+    }
+
+
     :root {
       --amber: #F5A623;
       --red-orange: #E8442A;
@@ -1467,116 +1501,113 @@
       <!-- RIGHT COLUMN -->
       <div style="display:flex; flex-direction:column; gap:8px;">
 
-        <!-- Graphic Design & Infographics -->
-        <div class="cap-block">
-          <div class="cap-block-icon">
-            <svg width="18" height="18" viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg">
-              <rect x="2" y="2" width="7" height="7" rx="1" stroke="#F5A623" stroke-width="1.4" />
-              <rect x="11" y="2" width="7" height="7" rx="1" stroke="#F5A623" stroke-width="1.4" />
-              <rect x="2" y="11" width="7" height="7" rx="1" stroke="#F5A623" stroke-width="1.4" />
-              <circle cx="14.5" cy="14.5" r="3" stroke="#F5A623" stroke-width="1.4" />
-            </svg>
-          </div>
-          <div class="cap-block-body">
-            <div class="cap-block-title">Graphic Design &amp; Infographics</div>
-            <div class="cap-block-desc">Developed publication-ready designs for Clipper Magazine's national print
-              distribution using Adobe InDesign, Illustrator, and Photoshop — then transitioned to creating viral
-              infographics for Income Store's SEO linkbait campaigns, combining data visualization with strategic
-              content marketing.</div>
-            <div class="cap-block-links">
-              <a class="infographic-link"
-                data-url="https://zqhwebpro.github.io/portfolio/interactive%20infographics/oilherbremedy/"
-                data-title="Oil & Herb Remedy Guide" data-label="Income Store — Interactive Infographics">
-                <svg width="12" height="12" viewBox="0 0 12 12" fill="none" xmlns="http://www.w3.org/2000/svg">
-                  <rect x="1" y="1" width="10" height="10" rx="1" stroke="currentColor" stroke-width="1.2" />
-                  <path d="M4 6h4M6 4v4" stroke="currentColor" stroke-width="1.2" stroke-linecap="round" />
-                </svg>
-                Oil & Herb Remedy Guide
-              </a>
-              <a class="infographic-link"
-                data-url="https://zqhwebpro.github.io/portfolio/interactive%20infographics/plumbing-info/"
-                data-title="Plumbing Information Guide" data-label="Income Store — Interactive Infographics">
-                <svg width="12" height="12" viewBox="0 0 12 12" fill="none" xmlns="http://www.w3.org/2000/svg">
-                  <rect x="1" y="1" width="10" height="10" rx="1" stroke="currentColor" stroke-width="1.2" />
-                  <path d="M4 6h4M6 4v4" stroke="currentColor" stroke-width="1.2" stroke-linecap="round" />
-                </svg>
-                Plumbing Information Guide
-              </a>
-              <a class="infographic-link"
-                data-url="https://zqhwebpro.github.io/portfolio/interactive%20infographics/camping-across-america/"
-                data-title="Camping Across America" data-label="Income Store — Interactive Infographics">
-                <svg width="12" height="12" viewBox="0 0 12 12" fill="none" xmlns="http://www.w3.org/2000/svg">
-                  <rect x="1" y="1" width="10" height="10" rx="1" stroke="currentColor" stroke-width="1.2" />
-                  <path d="M4 6h4M6 4v4" stroke="currentColor" stroke-width="1.2" stroke-linecap="round" />
-                </svg>
-                Camping Across America
-              </a>
-              <a class="infographic-link"
-                data-url="https://zqhwebpro.github.io/portfolio/interactive%20infographics/harvesting-guide/"
-                data-title="Harvest Guide" data-label="Income Store — Interactive Infographics">
-                <svg width="12" height="12" viewBox="0 0 12 12" fill="none" xmlns="http://www.w3.org/2000/svg">
-                  <rect x="1" y="1" width="10" height="10" rx="1" stroke="currentColor" stroke-width="1.2" />
-                  <path d="M4 6h4M6 4v4" stroke="currentColor" stroke-width="1.2" stroke-linecap="round" />
-                </svg>
-                Harvest Guide
-              </a>
-              <a class="infographic-link"
-                data-url="https://zqhwebpro.github.io/portfolio/interactive%20infographics/history-corvettes/"
-                data-title="History of Corvettes" data-label="Income Store — Interactive Infographics">
-                <svg width="12" height="12" viewBox="0 0 12 12" fill="none" xmlns="http://www.w3.org/2000/svg">
-                  <rect x="1" y="1" width="10" height="10" rx="1" stroke="currentColor" stroke-width="1.2" />
-                  <path d="M4 6h4M6 4v4" stroke="currentColor" stroke-width="1.2" stroke-linecap="round" />
-                </svg>
-                History of Corvettes
-              </a>
-              <a class="infographic-link"
-                data-url="https://zqhwebpro.github.io/portfolio/interactive%20infographics/name-gen-fidosfavorite/"
-                data-title="Fido's Favorite Name Generator" data-label="Income Store — Interactive Infographics">
-                <svg width="12" height="12" viewBox="0 0 12 12" fill="none" xmlns="http://www.w3.org/2000/svg">
-                  <rect x="1" y="1" width="10" height="10" rx="1" stroke="currentColor" stroke-width="1.2" />
-                  <path d="M4 6h4M6 4v4" stroke="currentColor" stroke-width="1.2" stroke-linecap="round" />
-                </svg>
-                Fido's Favorite Name Generator
-              </a>
-              <a class="infographic-link"
-                data-url="https://zqhwebpro.github.io/portfolio/interactive%20infographics/digital-safety/"
-                data-title="Digital Safety Guide" data-label="Income Store — Interactive Infographics">
-                <svg width="12" height="12" viewBox="0 0 12 12" fill="none" xmlns="http://www.w3.org/2000/svg">
-                  <rect x="1" y="1" width="10" height="10" rx="1" stroke="currentColor" stroke-width="1.2" />
-                  <path d="M4 6h4M6 4v4" stroke="currentColor" stroke-width="1.2" stroke-linecap="round" />
-                </svg>
-                Digital Safety Guide
-              </a>
-              <a class="infographic-link"
-                data-url="https://zqhwebpro.github.io/portfolio/interactive%20infographics/trail-map-wildernesstoday/"
-                data-title="Wilderness Trail Map" data-label="Income Store — Interactive Infographics">
-                <svg width="12" height="12" viewBox="0 0 12 12" fill="none" xmlns="http://www.w3.org/2000/svg">
-                  <rect x="1" y="1" width="10" height="10" rx="1" stroke="currentColor" stroke-width="1.2" />
-                  <path d="M4 6h4M6 4v4" stroke="currentColor" stroke-width="1.2" stroke-linecap="round" />
-                </svg>
-                Wilderness Trail Map
-              </a>
-              <a class="infographic-link"
-                data-url="https://zqhwebpro.github.io/portfolio/interactive%20infographics/keto_calc/"
-                data-title="Keto Calculator" data-label="Income Store — Interactive Infographics">
-                <svg width="12" height="12" viewBox="0 0 12 12" fill="none" xmlns="http://www.w3.org/2000/svg">
-                  <rect x="1" y="1" width="10" height="10" rx="1" stroke="currentColor" stroke-width="1.2" />
-                  <path d="M4 6h4M6 4v4" stroke="currentColor" stroke-width="1.2" stroke-linecap="round" />
-                </svg>
-                Keto Calculator
-              </a>
-              <a class="infographic-link"
-                data-url="https://zqhwebpro.github.io/portfolio/interactive%20infographics/travel-safety/"
-                data-title="Travel Safety Guide" data-label="Income Store — Interactive Infographics">
-                <svg width="12" height="12" viewBox="0 0 12 12" fill="none" xmlns="http://www.w3.org/2000/svg">
-                  <rect x="1" y="1" width="10" height="10" rx="1" stroke="currentColor" stroke-width="1.2" />
-                  <path d="M4 6h4M6 4v4" stroke="currentColor" stroke-width="1.2" stroke-linecap="round" />
-                </svg>
-                Travel Safety Guide
-              </a>
-            </div>
-          </div>
-        </div>
+    <!-- Graphic Design & Infographics -->
+<div class="cap-block">
+  <div class="cap-block-icon">
+    <svg width="18" height="18" viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg">
+      <rect x="2" y="2" width="7" height="7" rx="1" stroke="#F5A623" stroke-width="1.4"/>
+      <rect x="11" y="2" width="7" height="7" rx="1" stroke="#F5A623" stroke-width="1.4"/>
+      <rect x="2" y="11" width="7" height="7" rx="1" stroke="#F5A623" stroke-width="1.4"/>
+      <circle cx="14.5" cy="14.5" r="3" stroke="#F5A623" stroke-width="1.4"/>
+    </svg>
+  </div>
+  <div class="cap-block-body">
+    <div class="cap-block-title">Graphic Design &amp; Infographics</div>
+    <div class="cap-block-desc">Developed publication-ready designs for Clipper Magazine's national print distribution using Adobe InDesign, Illustrator, and Photoshop — then transitioned to creating viral infographics for Income Store's SEO linkbait campaigns, combining data visualization with strategic content marketing.</div>
+    <div class="cap-block-links">
+      <a class="infographic-link" 
+        data-url="https://zqhwebpro.github.io/portfolio/2026/media/infographics/layout_design/1apljs.jpg" 
+        data-title="Infographic Layout Design 1" 
+        data-label="Income Store — Interactive Infographics">
+        <svg width="12" height="12" viewBox="0 0 12 12" fill="none" xmlns="http://www.w3.org/2000/svg">
+          <rect x="1" y="1" width="10" height="10" rx="1" stroke="currentColor" stroke-width="1.2"/>
+          <path d="M4 6h4M6 4v4" stroke="currentColor" stroke-width="1.2" stroke-linecap="round"/>
+        </svg>
+        Layout Design 1
+      </a>
+      <a class="infographic-link" 
+        data-url="https://zqhwebpro.github.io/portfolio/2026/media/infographics/layout_design/2suncatch.jpg" 
+        data-title="Infographic Layout Design 2" 
+        data-label="Income Store — Interactive Infographics">
+        <svg width="12" height="12" viewBox="0 0 12 12" fill="none" xmlns="http://www.w3.org/2000/svg">
+          <rect x="1" y="1" width="10" height="10" rx="1" stroke="currentColor" stroke-width="1.2"/>
+          <path d="M4 6h4M6 4v4" stroke="currentColor" stroke-width="1.2" stroke-linecap="round"/>
+        </svg>
+        Layout Design 2
+      </a>
+      <a class="infographic-link" 
+        data-url="https://zqhwebpro.github.io/portfolio/2026/media/infographics/layout_design/3undou.jpg" 
+        data-title="Infographic Layout Design 3" 
+        data-label="Income Store — Interactive Infographics">
+        <svg width="12" height="12" viewBox="0 0 12 12" fill="none" xmlns="http://www.w3.org/2000/svg">
+          <rect x="1" y="1" width="10" height="10" rx="1" stroke="currentColor" stroke-width="1.2"/>
+          <path d="M4 6h4M6 4v4" stroke="currentColor" stroke-width="1.2" stroke-linecap="round"/>
+        </svg>
+        Layout Design 3
+      </a>
+      <a class="infographic-link" 
+        data-url="https://zqhwebpro.github.io/portfolio/2026/media/infographics/layout_design/4innovative.jpg" 
+        data-title="Infographic Layout Design 4" 
+        data-label="Income Store — Interactive Infographics">
+        <svg width="12" height="12" viewBox="0 0 12 12" fill="none" xmlns="http://www.w3.org/2000/svg">
+          <rect x="1" y="1" width="10" height="10" rx="1" stroke="currentColor" stroke-width="1.2"/>
+          <path d="M4 6h4M6 4v4" stroke="currentColor" stroke-width="1.2" stroke-linecap="round"/>
+        </svg>
+        Layout Design 4
+      </a>
+      <a class="infographic-link" 
+        data-url="https://zqhwebpro.github.io/portfolio/2026/media/infographics/layout_design/5ConcordsColonial1831_SPEC_4286ZH.jpg" 
+        data-title="Concords Colonial Design" 
+        data-label="Income Store — Interactive Infographics">
+        <svg width="12" height="12" viewBox="0 0 12 12" fill="none" xmlns="http://www.w3.org/2000/svg">
+          <rect x="1" y="1" width="10" height="10" rx="1" stroke="currentColor" stroke-width="1.2"/>
+          <path d="M4 6h4M6 4v4" stroke="currentColor" stroke-width="1.2" stroke-linecap="round"/>
+        </svg>
+        Concords Colonial
+      </a>
+      <a class="infographic-link" 
+        data-url="https://zqhwebpro.github.io/portfolio/2026/media/infographics/layout_design/6AndoraSouthHills124175_4286ZH_LT.jpg" 
+        data-title="Andora South Hills Design" 
+        data-label="Income Store — Interactive Infographics">
+        <svg width="12" height="12" viewBox="0 0 12 12" fill="none" xmlns="http://www.w3.org/2000/svg">
+          <rect x="1" y="1" width="10" height="10" rx="1" stroke="currentColor" stroke-width="1.2"/>
+          <path d="M4 6h4M6 4v4" stroke="currentColor" stroke-width="1.2" stroke-linecap="round"/>
+        </svg>
+        Andora South Hills
+      </a>
+      <a class="infographic-link" 
+        data-url="https://zqhwebpro.github.io/portfolio/2026/media/infographics/BicycleTuneupChecklist.jpg" 
+        data-title="Bicycle Tuneup Checklist" 
+        data-label="Income Store — Interactive Infographics">
+        <svg width="12" height="12" viewBox="0 0 12 12" fill="none" xmlns="http://www.w3.org/2000/svg">
+          <rect x="1" y="1" width="10" height="10" rx="1" stroke="currentColor" stroke-width="1.2"/>
+          <path d="M4 6h4M6 4v4" stroke="currentColor" stroke-width="1.2" stroke-linecap="round"/>
+        </svg>
+        Bicycle Tuneup Checklist
+      </a>
+      <a class="infographic-link" 
+        data-url="https://zqhwebpro.github.io/portfolio/2026/media/infographics/caregiver-stats-caregiverconnections-inf.jpg" 
+        data-title="Caregiver Statistics" 
+        data-label="Income Store — Interactive Infographics">
+        <svg width="12" height="12" viewBox="0 0 12 12" fill="none" xmlns="http://www.w3.org/2000/svg">
+          <rect x="1" y="1" width="10" height="10" rx="1" stroke="currentColor" stroke-width="1.2"/>
+          <path d="M4 6h4M6 4v4" stroke="currentColor" stroke-width="1.2" stroke-linecap="round"/>
+        </svg>
+        Caregiver Statistics
+      </a>
+      <a class="infographic-link" 
+        data-url="https://zqhwebpro.github.io/portfolio/2026/media/infographics/Misconceptions_and_Mental_Illness.jpg" 
+        data-title="Mental Illness Misconceptions" 
+        data-label="Income Store — Interactive Infographics">
+        <svg width="12" height="12" viewBox="0 0 12 12" fill="none" xmlns="http://www.w3.org/2000/svg">
+          <rect x="1" y="1" width="10" height="10" rx="1" stroke="currentColor" stroke-width="1.2"/>
+          <path d="M4 6h4M6 4v4" stroke="currentColor" stroke-width="1.2" stroke-linecap="round"/>
+        </svg>
+        Mental Illness Misconceptions
+      </a>
+    </div>
+  </div>
+</div>
 
         <!-- close wrappers -->
       </div>
@@ -1716,6 +1747,18 @@
 
     // Handle landing page links
     document.querySelectorAll('.landing-page-link').forEach(link => {
+      link.addEventListener('click', (e) => {
+        e.preventDefault();
+        modalTitle.textContent = link.dataset.title;
+        modalLabel.textContent = link.dataset.label;
+        modalIframe.src = link.dataset.url;
+        modal.classList.add('open');
+        document.body.style.overflow = 'hidden';
+      });
+    });
+
+    // Handle infographic links (add to your existing script section)
+    document.querySelectorAll('.infographic-link').forEach(link => {
       link.addEventListener('click', (e) => {
         e.preventDefault();
         modalTitle.textContent = link.dataset.title;
