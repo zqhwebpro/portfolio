@@ -561,7 +561,7 @@
 
     .gallery-overlay {
       position: absolute;
-      bottom: 40%;
+      top: 0;
       left: 0;
       right: 0;
       z-index: 4;
@@ -570,12 +570,11 @@
       backdrop-filter: blur(2px);
       pointer-events: none;
       transition: background 0.25s;
-      opacity: 0;
     }
 
     .gallery-item:hover .gallery-overlay {
       background: rgba(0, 0, 0, 0.72);
-      opacity: 1;
+      opacity: .8;
     }
 
     .gallery-overlay-title {
