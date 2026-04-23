@@ -1665,212 +1665,247 @@
 
 
   <script>
-    const webdevProjects = [
-      { img: 'https://zqhwebpro.github.io/portfolio/2026/media/oilandherbremedy.jpg', href: 'https://zqhwebpro.github.io/portfolio/interactive%20infographics/oilherbremedy/', sub: 'Custom Programmed Sorter', titleColor: '#FFFFFF' },
-      { img: 'https://zqhwebpro.github.io/portfolio/2026/media/plumbing_info.jpg', href: 'https://zqhwebpro.github.io/portfolio/interactive%20infographics/plumbing-info/', sub: 'Parallax Effects', titleColor: '#FFFFFF' },
-      { img: 'https://zqhwebpro.github.io/portfolio/2026/media/cammping-across-america.jpg', href: 'https://zqhwebpro.github.io/portfolio/interactive%20infographics/camping-across-america/', sub: 'Animated Transitions', titleColor: '#FFFFFF' },
-      { img: 'https://zqhwebpro.github.io/portfolio/2026/media/harvest-guide.jpg', href: 'https://zqhwebpro.github.io/portfolio/interactive%20infographics/harvesting-guide/', sub: 'Data Presentation', titleColor: '#FFFFFF' },
-      { img: 'https://zqhwebpro.github.io/portfolio/2026/media/corvette-dreamer.jpg', href: 'https://zqhwebpro.github.io/portfolio/interactive%20infographics/history-corvettes/', sub: 'Scroll Into Window', titleColor: '#FFFFFF' },
-      { img: 'https://zqhwebpro.github.io/portfolio/2026/media/fidos-favorite.jpg', href: 'https://zqhwebpro.github.io/portfolio/interactive%20infographics/name-gen-fidosfavorite/', sub: 'Custom Filters', titleColor: '#FFFFFF' },
-      { img: 'https://zqhwebpro.github.io/portfolio/2026/media/parents-dot-guide.jpg', href: 'https://zqhwebpro.github.io/portfolio/interactive%20infographics/digital-safety/', sub: 'Chart / Custom Quiz', titleColor: '#FFFFFF' },
-      { img: 'https://zqhwebpro.github.io/portfolio/2026/media/wilders-today-map-2.jpg', href: 'https://zqhwebpro.github.io/portfolio/interactive%20infographics/trail-map-wildernesstoday/', sub: 'SVG Click Map', titleColor: '#FFFFFF' },
-      { img: 'https://zqhwebpro.github.io/portfolio/2026/media/keto-calculator.jpg', href: 'https://zqhwebpro.github.io/portfolio/interactive%20infographics/keto_calc/', sub: 'Custom Calculator', titleColor: '#FFFFFF' },
-      { img: 'https://zqhwebpro.github.io/portfolio/2026/media/trek-bible.jpg', href: 'https://zqhwebpro.github.io/portfolio/interactive%20infographics/travel-safety/', sub: 'Interactive UI', titleColor: '#FFFFFF' },
-    ];
+  const webdevProjects = [
+    { img: 'https://zqhwebpro.github.io/portfolio/2026/media/oilandherbremedy.jpg', href: 'https://zqhwebpro.github.io/portfolio/interactive%20infographics/oilherbremedy/', sub: 'Custom Programmed Sorter', titleColor: '#FFFFFF' },
+    { img: 'https://zqhwebpro.github.io/portfolio/2026/media/plumbing_info.jpg', href: 'https://zqhwebpro.github.io/portfolio/interactive%20infographics/plumbing-info/', sub: 'Parallax Effects', titleColor: '#FFFFFF' },
+    { img: 'https://zqhwebpro.github.io/portfolio/2026/media/cammping-across-america.jpg', href: 'https://zqhwebpro.github.io/portfolio/interactive%20infographics/camping-across-america/', sub: 'Animated Transitions', titleColor: '#FFFFFF' },
+    { img: 'https://zqhwebpro.github.io/portfolio/2026/media/harvest-guide.jpg', href: 'https://zqhwebpro.github.io/portfolio/interactive%20infographics/harvesting-guide/', sub: 'Data Presentation', titleColor: '#FFFFFF' },
+    { img: 'https://zqhwebpro.github.io/portfolio/2026/media/corvette-dreamer.jpg', href: 'https://zqhwebpro.github.io/portfolio/interactive%20infographics/history-corvettes/', sub: 'Scroll Into Window', titleColor: '#FFFFFF' },
+    { img: 'https://zqhwebpro.github.io/portfolio/2026/media/fidos-favorite.jpg', href: 'https://zqhwebpro.github.io/portfolio/interactive%20infographics/name-gen-fidosfavorite/', sub: 'Custom Filters', titleColor: '#FFFFFF' },
+    { img: 'https://zqhwebpro.github.io/portfolio/2026/media/parents-dot-guide.jpg', href: 'https://zqhwebpro.github.io/portfolio/interactive%20infographics/digital-safety/', sub: 'Chart / Custom Quiz', titleColor: '#FFFFFF' },
+    { img: 'https://zqhwebpro.github.io/portfolio/2026/media/wilders-today-map-2.jpg', href: 'https://zqhwebpro.github.io/portfolio/interactive%20infographics/trail-map-wildernesstoday/', sub: 'SVG Click Map', titleColor: '#FFFFFF' },
+    { img: 'https://zqhwebpro.github.io/portfolio/2026/media/keto-calculator.jpg', href: 'https://zqhwebpro.github.io/portfolio/interactive%20infographics/keto_calc/', sub: 'Custom Calculator', titleColor: '#FFFFFF' },
+    { img: 'https://zqhwebpro.github.io/portfolio/2026/media/trek-bible.jpg', href: 'https://zqhwebpro.github.io/portfolio/interactive%20infographics/travel-safety/', sub: 'Interactive UI', titleColor: '#FFFFFF' },
+  ];
 
-    const designProjects = [
-      { img: 'https://zqhwebpro.github.io/portfolio/2026/media/stermer-brothers.jpg', href: 'https://www.stermerbrothers.com/', sub: 'Full Site Build', titleColor: '#FFFFFF' },
-      { img: 'https://zqhwebpro.github.io/portfolio/2026/media/phillips-paint.jpg', href: 'https://www.phillipspaint.com/', sub: 'Full Site Build', titleColor: '#FFFFFF' },
-      { img: 'https://zqhwebpro.github.io/portfolio/2026/media/fox-sheds.jpg', href: 'https://www.foxsheds.com/', sub: 'Full Site Build', titleColor: '#FFFFFF' },
-      { img: 'https://zqhwebpro.github.io/portfolio/2026/media/us-commercial.jpg', href: 'https://www.uscommercialrealty.net/', sub: 'Full Site Build', titleColor: '#FFFFFF' },
-      { img: 'https://zqhwebpro.github.io/portfolio/2026/media/hempfield-foundation.jpg', href: 'https://www.hempfieldfoundation.org/', sub: 'Full Site Build', titleColor: '#FFFFFF' },
-      { img: 'https://zqhwebpro.github.io/portfolio/2026/media/boose-aluminum.jpg', href: 'https://www.boosealum.com/', sub: 'Full Site Build', titleColor: '#FFFFFF' },
-      { img: 'https://zqhwebpro.github.io/portfolio/2026/media/apex-capital-one.jpg', href: 'https://www.financewithapex.com/', sub: 'Full Site Build', titleColor: '#FFFFFF' },
-      { img: 'https://zqhwebpro.github.io/portfolio/2026/media/turbo-draft.jpg', href: 'https://www.turbodraft.net/', sub: 'Full Site Build', titleColor: '#FFFFFF' },
-      { img: 'https://zqhwebpro.github.io/portfolio/2026/media/taj-mahal.jpg', href: 'https://tajlancaster.com/', sub: 'Full Site Build', titleColor: '#FFFFFF' },
-      { img: 'https://zqhwebpro.github.io/portfolio/2026/media/hammel-architect.jpg', href: 'https://www.hammelarch.com/', sub: 'Full Site Build', titleColor: '#FFFFFF' },
-    ];
+  const designProjects = [
+    { img: 'https://zqhwebpro.github.io/portfolio/2026/media/stermer-brothers.jpg', href: 'https://www.stermerbrothers.com/', sub: 'Full Site Build', titleColor: '#FFFFFF' },
+    { img: 'https://zqhwebpro.github.io/portfolio/2026/media/phillips-paint.jpg', href: 'https://www.phillipspaint.com/', sub: 'Full Site Build', titleColor: '#FFFFFF' },
+    { img: 'https://zqhwebpro.github.io/portfolio/2026/media/fox-sheds.jpg', href: 'https://www.foxsheds.com/', sub: 'Full Site Build', titleColor: '#FFFFFF' },
+    { img: 'https://zqhwebpro.github.io/portfolio/2026/media/us-commercial.jpg', href: 'https://www.uscommercialrealty.net/', sub: 'Full Site Build', titleColor: '#FFFFFF' },
+    { img: 'https://zqhwebpro.github.io/portfolio/2026/media/hempfield-foundation.jpg', href: 'https://www.hempfieldfoundation.org/', sub: 'Full Site Build', titleColor: '#FFFFFF' },
+    { img: 'https://zqhwebpro.github.io/portfolio/2026/media/boose-aluminum.jpg', href: 'https://www.boosealum.com/', sub: 'Full Site Build', titleColor: '#FFFFFF' },
+    { img: 'https://zqhwebpro.github.io/portfolio/2026/media/apex-capital-one.jpg', href: 'https://www.financewithapex.com/', sub: 'Full Site Build', titleColor: '#FFFFFF' },
+    { img: 'https://zqhwebpro.github.io/portfolio/2026/media/turbo-draft.jpg', href: 'https://www.turbodraft.net/', sub: 'Full Site Build', titleColor: '#FFFFFF' },
+    { img: 'https://zqhwebpro.github.io/portfolio/2026/media/taj-mahal.jpg', href: 'https://tajlancaster.com/', sub: 'Full Site Build', titleColor: '#FFFFFF' },
+    { img: 'https://zqhwebpro.github.io/portfolio/2026/media/hammel-architect.jpg', href: 'https://www.hammelarch.com/', sub: 'Full Site Build', titleColor: '#FFFFFF' },
+  ];
 
-    function buildGallery(containerId, totalCount, projects) {
-      const grid = document.getElementById(containerId);
-      for (let i = 0; i < totalCount; i++) {
-        const project = projects[i] || null;
-        const cell = document.createElement('div');
-        cell.className = 'gallery-item';
-        if (project) {
-          const link = document.createElement('a');
-          link.className = 'gallery-item-link';
-          link.href = project.href;
-          link.target = '_blank';
-          link.rel = 'noopener noreferrer';
-          link.title = project.title;
-          const img = document.createElement('img');
-          img.className = 'gallery-thumb';
-          img.src = project.img;
-          img.alt = project.title;
-          img.loading = 'lazy';
-          const overlay = document.createElement('div');
-          overlay.className = 'gallery-overlay';
-          overlay.style.background = project.overlayColor;
-          const titleEl = document.createElement('span');
-          titleEl.className = 'gallery-overlay-title';
-          titleEl.textContent = project.title;
-          titleEl.style.color = project.titleColor;
-          overlay.appendChild(titleEl);
-          if (project.sub) {
-            const subEl = document.createElement('span');
-            subEl.className = 'gallery-overlay-sub';
-            subEl.textContent = project.sub;
-            overlay.appendChild(subEl);
-          }
-          link.appendChild(img);
-          cell.appendChild(overlay);
-          cell.appendChild(link);
-        } else {
-          const ph = document.createElement('span');
-          ph.className = 'gallery-ph';
-          ph.textContent = 'Project ' + (i + 1);
-          cell.appendChild(ph);
+  function buildGallery(containerId, totalCount, projects) {
+    const grid = document.getElementById(containerId);
+    for (let i = 0; i < totalCount; i++) {
+      const project = projects[i] || null;
+      const cell = document.createElement('div');
+      cell.className = 'gallery-item';
+      if (project) {
+        const link = document.createElement('a');
+        link.className = 'gallery-item-link';
+        link.href = project.href;
+        link.target = '_blank';
+        link.rel = 'noopener noreferrer';
+        link.title = project.title;
+        const img = document.createElement('img');
+        img.className = 'gallery-thumb';
+        img.src = project.img;
+        img.alt = project.title;
+        img.loading = 'lazy';
+        const overlay = document.createElement('div');
+        overlay.className = 'gallery-overlay';
+        overlay.style.background = project.overlayColor;
+        const titleEl = document.createElement('span');
+        titleEl.className = 'gallery-overlay-title';
+        titleEl.textContent = project.title;
+        titleEl.style.color = project.titleColor;
+        overlay.appendChild(titleEl);
+        if (project.sub) {
+          const subEl = document.createElement('span');
+          subEl.className = 'gallery-overlay-sub';
+          subEl.textContent = project.sub;
+          overlay.appendChild(subEl);
         }
-        grid.appendChild(cell);
+        link.appendChild(img);
+        cell.appendChild(overlay);
+        cell.appendChild(link);
+      } else {
+        const ph = document.createElement('span');
+        ph.className = 'gallery-ph';
+        ph.textContent = 'Project ' + (i + 1);
+        cell.appendChild(ph);
       }
+      grid.appendChild(cell);
     }
+  }
 
-    buildGallery('webdev-gallery', 10, webdevProjects);
-    buildGallery('design-gallery', 10, designProjects);
+  buildGallery('webdev-gallery', 10, webdevProjects);
+  buildGallery('design-gallery', 10, designProjects);
 
-    // ─── Modal functionality for both email blasts and landing pages ───
-    const modal = document.getElementById('emailModal');
-    const modalIframe = document.getElementById('modalIframe');
-    const modalTitle = document.getElementById('modalTitle');
-    const modalLabel = document.getElementById('modalLabel');
-    const modalClose = document.getElementById('modalClose');
+  // ─── Modal functionality for email blasts, landing pages, AND infographics ───
+  const modal = document.getElementById('emailModal');
+  const modalIframe = document.getElementById('modalIframe');
+  const modalTitle = document.getElementById('modalTitle');
+  const modalLabel = document.getElementById('modalLabel');
+  const modalClose = document.getElementById('modalClose');
 
-    // Handle email blast links
-    document.querySelectorAll('.email-blast-link').forEach(link => {
-      link.addEventListener('click', (e) => {
-        e.preventDefault();
-        modalTitle.textContent = link.dataset.title;
-        modalLabel.textContent = link.dataset.label;
-        modalIframe.src = link.dataset.url;
-        modal.classList.add('open');
-        document.body.style.overflow = 'hidden';
-      });
+  // Handle email blast links (iframe)
+  document.querySelectorAll('.email-blast-link').forEach(link => {
+    link.addEventListener('click', (e) => {
+      e.preventDefault();
+      modalTitle.textContent = link.dataset.title;
+      modalLabel.textContent = link.dataset.label;
+      
+      // Hide image, show iframe
+      const imgElement = document.getElementById('modalImage');
+      if (imgElement) imgElement.style.display = 'none';
+      modalIframe.style.display = 'block';
+      modalIframe.src = link.dataset.url;
+      
+      modal.classList.add('open');
+      document.body.style.overflow = 'hidden';
     });
+  });
 
-    // Handle landing page links
-    document.querySelectorAll('.landing-page-link').forEach(link => {
-      link.addEventListener('click', (e) => {
-        e.preventDefault();
-        modalTitle.textContent = link.dataset.title;
-        modalLabel.textContent = link.dataset.label;
-        modalIframe.src = link.dataset.url;
-        modal.classList.add('open');
-        document.body.style.overflow = 'hidden';
-      });
+  // Handle landing page links (iframe)
+  document.querySelectorAll('.landing-page-link').forEach(link => {
+    link.addEventListener('click', (e) => {
+      e.preventDefault();
+      modalTitle.textContent = link.dataset.title;
+      modalLabel.textContent = link.dataset.label;
+      
+      // Hide image, show iframe
+      const imgElement = document.getElementById('modalImage');
+      if (imgElement) imgElement.style.display = 'none';
+      modalIframe.style.display = 'block';
+      modalIframe.src = link.dataset.url;
+      
+      modal.classList.add('open');
+      document.body.style.overflow = 'hidden';
     });
+  });
 
-    // Handle infographic links (add to your existing script section)
-    document.querySelectorAll('.infographic-link').forEach(link => {
-      link.addEventListener('click', (e) => {
-        e.preventDefault();
-        modalTitle.textContent = link.dataset.title;
-        modalLabel.textContent = link.dataset.label;
-        modalIframe.src = link.dataset.url;
-        modal.classList.add('open');
-        document.body.style.overflow = 'hidden';
-      });
-    });
-
-    function closeModal() {
-      modal.classList.remove('open');
-      modalIframe.src = '';
-      document.body.style.overflow = '';
-    }
-
-    modalClose.addEventListener('click', closeModal);
-
-    modal.addEventListener('click', (e) => {
-      if (e.target === modal) closeModal();
-    });
-
-    document.addEventListener('keydown', (e) => {
-      if (e.key === 'Escape') closeModal();
-    });
-
-    // ─── Hamburger / Overlay ───
-    const hamburger = document.getElementById('hamburger');
-    const navOverlay = document.getElementById('nav-overlay');
-
-    hamburger.addEventListener('click', () => {
-      hamburger.classList.toggle('open');
-      navOverlay.classList.toggle('open');
-    });
-
-    // ─── Section Scroll ───
-    const sections = document.querySelectorAll('section');
-    const dots = document.querySelectorAll('.dot');
-    let currentSection = 0;
-    let isScrolling = false;
-
-    function scrollToSection(index) {
-      if (index < 0 || index >= sections.length) return;
-      isScrolling = true;
-      currentSection = index;
-      window.scrollTo({ top: sections[index].offsetTop, behavior: 'smooth' });
-      updateDots();
-      setTimeout(() => { isScrolling = false; }, 900);
-    }
-
-    function updateDots() {
-      dots.forEach((dot, i) => dot.classList.toggle('active', i === currentSection));
-    }
-
-    document.querySelectorAll('.nav-link').forEach(link => {
-      link.addEventListener('click', (e) => {
-        e.preventDefault();
-        hamburger.classList.remove('open');
-        navOverlay.classList.remove('open');
-        const target = link.getAttribute('href');
-        const idx = Array.from(sections).findIndex(s => '#' + s.id === target);
-        if (idx !== -1) scrollToSection(idx);
-      });
-    });
-
-    document.querySelectorAll('[data-section]').forEach(el => {
-      el.addEventListener('click', (e) => {
-        e.preventDefault();
-        scrollToSection(parseInt(el.dataset.section));
-      });
-    });
-
-    dots.forEach((dot, index) => {
-      dot.addEventListener('click', (e) => { e.preventDefault(); scrollToSection(index); });
-    });
-
-    window.addEventListener('wheel', (e) => {
-      if (isScrolling || navOverlay.classList.contains('open') || modal.classList.contains('open')) return;
-      scrollToSection(currentSection + (e.deltaY > 0 ? 1 : -1));
-    });
-
-    window.addEventListener('keydown', (e) => {
-      if (e.key === 'Escape') {
-        hamburger.classList.remove('open');
-        navOverlay.classList.remove('open');
+  // Handle infographic links (direct image display - NOT iframe)
+  document.querySelectorAll('.infographic-link').forEach(link => {
+    link.addEventListener('click', (e) => {
+      e.preventDefault();
+      const url = link.dataset.url;
+      
+      modalTitle.textContent = link.dataset.title;
+      modalLabel.textContent = link.dataset.label;
+      
+      // Hide iframe, show image
+      modalIframe.style.display = 'none';
+      
+      // Create or reuse image element
+      let imgElement = document.getElementById('modalImage');
+      if (!imgElement) {
+        imgElement = document.createElement('img');
+        imgElement.id = 'modalImage';
+        imgElement.style.cssText = 'width: 100%; height: auto; max-height: 100%; object-fit: contain; display: block; background: #fff;';
+        modalIframe.parentNode.appendChild(imgElement);
       }
-      if (isScrolling || navOverlay.classList.contains('open') || modal.classList.contains('open')) return;
-      if (e.key === 'ArrowDown') scrollToSection(currentSection + 1);
-      if (e.key === 'ArrowUp') scrollToSection(currentSection - 1);
+      
+      imgElement.src = url;
+      imgElement.style.display = 'block';
+      
+      modal.classList.add('open');
+      document.body.style.overflow = 'hidden';
     });
+  });
 
-    let touchStartY = 0;
-    window.addEventListener('touchstart', (e) => { touchStartY = e.touches[0].clientY; });
-    window.addEventListener('touchend', (e) => {
-      if (isScrolling || navOverlay.classList.contains('open') || modal.classList.contains('open')) return;
-      const delta = touchStartY - e.changedTouches[0].clientY;
-      if (Math.abs(delta) > 40) scrollToSection(currentSection + (delta > 0 ? 1 : -1));
+  function closeModal() {
+    modal.classList.remove('open');
+    modalIframe.src = '';
+    const imgElement = document.getElementById('modalImage');
+    if (imgElement) {
+      imgElement.src = '';
+      imgElement.style.display = 'none';
+    }
+    modalIframe.style.display = 'block';
+    document.body.style.overflow = '';
+  }
+
+  modalClose.addEventListener('click', closeModal);
+
+  modal.addEventListener('click', (e) => {
+    if (e.target === modal) closeModal();
+  });
+
+  document.addEventListener('keydown', (e) => {
+    if (e.key === 'Escape') closeModal();
+  });
+
+  // ─── Hamburger / Overlay ───
+  const hamburger = document.getElementById('hamburger');
+  const navOverlay = document.getElementById('nav-overlay');
+
+  hamburger.addEventListener('click', () => {
+    hamburger.classList.toggle('open');
+    navOverlay.classList.toggle('open');
+  });
+
+  // ─── Section Scroll ───
+  const sections = document.querySelectorAll('section');
+  const dots = document.querySelectorAll('.dot');
+  let currentSection = 0;
+  let isScrolling = false;
+
+  function scrollToSection(index) {
+    if (index < 0 || index >= sections.length) return;
+    isScrolling = true;
+    currentSection = index;
+    window.scrollTo({ top: sections[index].offsetTop, behavior: 'smooth' });
+    updateDots();
+    setTimeout(() => { isScrolling = false; }, 900);
+  }
+
+  function updateDots() {
+    dots.forEach((dot, i) => dot.classList.toggle('active', i === currentSection));
+  }
+
+  document.querySelectorAll('.nav-link').forEach(link => {
+    link.addEventListener('click', (e) => {
+      e.preventDefault();
+      hamburger.classList.remove('open');
+      navOverlay.classList.remove('open');
+      const target = link.getAttribute('href');
+      const idx = Array.from(sections).findIndex(s => '#' + s.id === target);
+      if (idx !== -1) scrollToSection(idx);
     });
-  </script>
+  });
+
+  document.querySelectorAll('[data-section]').forEach(el => {
+    el.addEventListener('click', (e) => {
+      e.preventDefault();
+      scrollToSection(parseInt(el.dataset.section));
+    });
+  });
+
+  dots.forEach((dot, index) => {
+    dot.addEventListener('click', (e) => { e.preventDefault(); scrollToSection(index); });
+  });
+
+  window.addEventListener('wheel', (e) => {
+    if (isScrolling || navOverlay.classList.contains('open') || modal.classList.contains('open')) return;
+    scrollToSection(currentSection + (e.deltaY > 0 ? 1 : -1));
+  });
+
+  window.addEventListener('keydown', (e) => {
+    if (e.key === 'Escape') {
+      hamburger.classList.remove('open');
+      navOverlay.classList.remove('open');
+    }
+    if (isScrolling || navOverlay.classList.contains('open') || modal.classList.contains('open')) return;
+    if (e.key === 'ArrowDown') scrollToSection(currentSection + 1);
+    if (e.key === 'ArrowUp') scrollToSection(currentSection - 1);
+  });
+
+  let touchStartY = 0;
+  window.addEventListener('touchstart', (e) => { touchStartY = e.touches[0].clientY; });
+  window.addEventListener('touchend', (e) => {
+    if (isScrolling || navOverlay.classList.contains('open') || modal.classList.contains('open')) return;
+    const delta = touchStartY - e.changedTouches[0].clientY;
+    if (Math.abs(delta) > 40) scrollToSection(currentSection + (delta > 0 ? 1 : -1));
+  });
+</script>
 
 </body>
 
