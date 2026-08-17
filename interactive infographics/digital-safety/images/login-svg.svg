@@ -1,0 +1,22 @@
+<svg xmlns="https://www.w3.org/2000/svg" xmlns:xlink="https://www.w3.org/1999/xlink" width="86" height="462" viewBox="0 0 86 462">
+  <defs>
+    <filter id="Rectangle_51" x="2" y="0" width="75" height="462" filterUnits="userSpaceOnUse">
+      <feOffset dy="3" input="SourceAlpha"/>
+      <feGaussianBlur stdDeviation="3" result="blur"/>
+      <feFlood flood-opacity="0.161"/>
+      <feComposite operator="in" in2="blur"/>
+      <feComposite in="SourceGraphic"/>
+    </filter>
+  </defs>
+  <g id="Group_766" data-name="Group 766" transform="translate(-1404 -421)">
+    <g transform="matrix(1, 0, 0, 1, 1404, 421)" filter="url(#Rectangle_51)">
+      <g id="Rectangle_51-2" data-name="Rectangle 51" transform="translate(11 6)" fill="#f2f2f2" stroke="#e3e3e3" stroke-width="3">
+        <rect width="57" height="444" rx="28.5" stroke="none"/>
+        <rect x="1.5" y="1.5" width="54" height="441" rx="27" fill="none"/>
+      </g>
+    </g>
+    <rect id="Rectangle_52" data-name="Rectangle 52" width="57" height="250" rx="28.5" transform="translate(1415 621)" fill="#0093b5"/>
+    <circle id="Ellipse_30" data-name="Ellipse 30" cx="43" cy="43" r="43" transform="translate(1404 578)" fill="#003444"/>
+    <text id="_55_" data-name="55%" transform="translate(1415 634)" fill="#fff" font-size="35" font-family="Montserrat-Medium, Montserrat" font-weight="500"><tspan x="0" y="0">55%</tspan></text>
+  </g>
+</svg>
