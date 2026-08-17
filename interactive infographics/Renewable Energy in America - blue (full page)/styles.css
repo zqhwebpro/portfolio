@@ -1,0 +1,245 @@
+/* Font from Google */
+@import url("https://fonts.googleapis.com/css?family=Montserrat:400,900");
+
+/* Interactive Infographic */
+
+.montserrat {
+  font-family: "Montserrat", sans-serif;
+}
+
+.fat {
+  font-weight: 900;
+}
+
+.re-h1 {
+  font-size: 3.6vw;
+}
+
+.re-h2 {
+  font-size: 1.45rem;
+}
+
+.re-h3 {
+  font-size: 2.5rem;
+}
+
+.re-h4 {
+  font-size: 0.75rem;
+}
+
+svg#Map {
+  width: 108%;
+  height: 82vh;
+  margin-top: -1vh;
+  stroke-linejoin: round;
+  stroke: #67c4ff;
+  fill: #fff;
+  left: -70px;
+  position: relative;
+}
+
+path:hover {
+  fill: #c9fb8e;
+  cursor: pointer;
+}
+
+path:active {
+  fill: #90da40;
+}
+
+path.active {
+  fill: #243b4a;
+}
+
+.white {
+  color: white;
+}
+
+.blue-bg {
+  background-color: #67c4ff;
+}
+
+.dark-blue {
+  color: #243b4a;
+}
+
+.dark-blue-bg {
+  background-color: #243b4a;
+}
+
+.green-bg {
+  background-color: #90da40;
+}
+
+.light-blue-bg {
+  background-color: #cbebfe;
+}
+
+.padding-all-left {
+  padding: 5vh 5vw;
+}
+
+.padding-remove {
+  padding-left: 0px;
+  padding-right: 0px;
+}
+
+.col-md-3.light-blue-bg.text-center.padding-remove {
+  border-left: 6px solid #243b4a;
+}
+
+.state-right {
+  width: 100%;
+  padding: 20px 0px 15px;
+}
+
+.state-right:after {
+  content: "";
+  position: absolute;
+  left: 42.5%;
+  width: 0;
+  height: 0;
+  border-left: 25px solid transparent;
+  border-right: 25px solid transparent;
+  border-top: 25px solid #243b4a;
+  clear: both;
+}
+
+.money-bag-wrapper {
+  height: 100%;
+  display: block;
+}
+
+.money-text {
+  position: relative;
+  left: 0%;
+}
+
+.money-bag {
+  height: 2.5rem;
+  float: left;
+  position: relative;
+  left: 4%;
+}
+
+.budget-right {
+  width: 100%;
+  background-color: #90da40;
+}
+
+.facts-right {
+  width: 100%;
+  background-color: #cbebfe;
+}
+
+.spacers {
+  padding: 8.3vh 2vw;
+  display: block;
+}
+
+.re-map-hr {
+  margin: 0px;
+}
+
+.db-fill {
+  fill: #243b4a;
+  -webkit-animation: fill-ani .9s cubic-bezier(0.250, 0.460, 0.450, 0.940) both;
+  animation: fill-ani .9s cubic-bezier(0.250, 0.460, 0.450, 0.940) both;
+}
+
+.db-fill:hover {
+  fill: #243b4a !important;
+}
+
+@-webkit-keyframes fill-ani {
+  0% {
+    opacity: 0.5;
+  }
+
+  100% {
+    opacity: 1;
+  }
+}
+
+@keyframes fill-ani {
+  0% {
+    opacity: 0.5;
+  }
+
+  100% {
+    opacity: 1;
+  }
+}
+
+.data-ani {
+  -webkit-animation: data-ani .2s linear both;
+  animation: data-ani .2s linear both;
+}
+
+@-webkit-keyframes data-ani {
+  0% {
+    -webkit-filter: blur(1px);
+    filter: blur(1px);
+    opacity: 0;
+  }
+
+  100% {
+    -webkit-filter: blur(0px);
+    filter: blur(0px);
+    opacity: 1;
+  }
+}
+
+@keyframes data-ani {
+  0% {
+    -webkit-filter: blur(1px);
+    filter: blur(1px);
+    opacity: 0;
+  }
+
+  100% {
+    -webkit-filter: blur(0px);
+    filter: blur(0px);
+    opacity: 1;
+  }
+}
+
+@media only screen and (max-width: 996px) {
+  .money-bag {
+    float: none;
+    left: 0;
+  }
+}
+
+@media only screen and (max-width: 768px) {
+  .re-h1 {
+    font-size: 42px;
+  }
+
+  svg#Map {
+    margin-top: 0px;
+  }
+}
+
+
+@media only screen and (max-width: 576px) {
+  svg#Map {
+    margin-top: -10vh;
+    margin-bottom: -10vh;
+  }
+
+  .re-h1 {
+    font-size: 32px;
+  }
+
+  .re-h2 {
+    font-size: 21px;
+  }
+}
+
+@media only screen and (max-width: 500px) {
+  svg#Map {
+    margin-top: -14vh;
+    margin-bottom: -14vh;
+  }
+}

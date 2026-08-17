@@ -1,0 +1,3902 @@
+html,
+body {
+  padding: 0;
+  margin: 0;
+  height: 100%;
+  width: 100%;
+  overflow-x: hidden !important;
+  font-family: "Roboto", sans-serif;
+  font-weight: normal;
+}
+hr {
+  margin: 1px;
+}
+.container {
+  max-width: 1200px;
+}
+.slide-in-right {
+  position: relative;
+  animation: animateright 1s ease-in forwards;
+}
+@keyframes animateright {
+  from {
+    right: -300px;
+    opacity: 0;
+  }
+  to {
+    right: 0;
+    opacity: 1;
+  }
+}
+.color-background {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding: 35px;
+}
+.row {
+  margin-right: 0;
+  margin-left: 0;
+}
+#scroll {
+  position: fixed;
+  right: 25px;
+  bottom: 10px;
+  cursor: pointer;
+  width: 130px;
+  height: 50px;
+  background-color: rgba(56, 56, 56);
+  display: none;
+  text-decoration: none;
+  padding: 10px !important;
+  border-radius: 10px;
+  color: #fff;
+  cursor: pointer;
+  text-align: right;
+}
+#scroll span {
+  position: absolute;
+  top: 50%;
+  left: 15%;
+  margin-left: -8px;
+  margin-top: -12px;
+  height: 0;
+  width: 0;
+  border: 8px solid transparent;
+  border-bottom-color: #ffffff;
+  color: #ffffff;
+}
+#scroll:hover {
+  background-color: #000;
+  transform: translateY(-6px);
+}
+.title-content-bigger {
+  font-family: "Slabo 27px", serif;
+  font-size: 50px;
+  padding: 50px 0;
+  margin: 0;
+}
+.title-content {
+  font-family: "Slabo 27px", serif;
+  font-size: 40px;
+  padding: 50px 0;
+  margin: 0;
+}
+.box-title {
+  font-family: "Slabo 27px", serif;
+  font-size: 25px;
+}
+/* ---------------------------------------------------
+    MAIN LAUNCH STYLE
+----------------------------------------------------- */
+.main-launch {
+  background-image: url("../images/main-launch.jpg");
+  height: 100vh;
+  width: 100vw;
+  background-position: center center;
+  background-attachment: fixed;
+  background-repeat: no-repeat;
+  background-size: cover;
+  position: relative;
+}
+.main-launch .center-content {
+  background: rgba(255, 255, 255, 0.8);
+  text-align: center;
+  height: 100%;
+  width: 100%;
+  padding: 20px;
+}
+.main-launch .inner-box {
+  border: #d1a96d solid 3px;
+  height: 100%;
+  width: 100%;
+}
+.main-launch .content h3 {
+  font-size: 55px;
+}
+.main-launch .content .btn {
+  font-size: 25px;
+  border: #a5cfd7 solid 3px;
+  padding: 5px 45px;
+  color: #383838;
+}
+.main-launch .btn:hover {
+  background: #a5cfd7;
+  color: #fff;
+  transform: scale(1.05);
+}
+/* ---------------------------------------------------
+    MAIN HEADER TRAVEL-DANGERS STYLE
+----------------------------------------------------- */
+.main-header {
+  background-color: #fff;
+  overflow: hidden;
+}
+.main-header .figure {
+  width: 100%;
+  float: left;
+  background: url("../images/main-banner.png");
+  background-size: cover;
+  background-position: center;
+  background-attachment: fixed;
+  background-repeat: no-repeat;
+  position: relative;
+  height: 100vh;
+}
+.main-header .figure .color-background {
+  position: relative;
+  background-color: white;
+  opacity: 0.8;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+}
+.main-header .inner-content p {
+  color: rgb(10, 10, 10);
+  opacity: 1;
+  font-size: 18px;
+}
+/* ---------------------------------------------------
+    MODE OF TRANSPORT STYLE
+----------------------------------------------------- */
+.mode-of-transport .content-wrap {
+  margin-left: auto;
+  padding: 0 20px 0 100px;
+  float: left;
+  width: 55%;
+  background: #fff;
+}
+.mode-of-transport p {
+  font-size: 16px;
+}
+.mode-of-transport img {
+  width: 100%;
+}
+.mode-of-transport .img-wrap {
+  float: left;
+  width: 45%;
+}
+.mode-of-transport .transport-graph-wrap {
+  margin-top: 50px;
+}
+.mode-of-transport .transport-graph-wrap .boxi {
+  padding-right: 50px;
+}
+.mode-of-transport .transport-graph-wrap .box {
+  background-color: #d1a96d;
+  margin: 40% auto;
+  max-width: 400px;
+  color: white;
+  position: relative;
+  padding: 20px;
+}
+.mode-of-transport .transport-graph-wrap .box p {
+  font-family: "Slabo 27px", serif;
+  text-align: center;
+  font-size: 20px;
+  font-weight: 100;
+  padding: 0;
+  margin: 0;
+}
+.mode-of-transport .box .inner-box {
+  border: 3px solid #fff;
+  padding: 40px 10px;
+}
+.mode-of-transport .chartfatal {
+  padding-left: 50px;
+}
+.mode-of-transport #chartfatal {
+  max-height: 500px !important;
+}
+.mode-of-transport .chartfatal h3 {
+  font-size: 20px;
+  font-weight: bold;
+}
+.mode-of-transport .chartfatal p {
+  font-family: "Roboto", sans-serif;
+  font-size: 16px;
+  padding: 0;
+  text-align: center;
+}
+/* ---------------------------------------------------
+    DESTINATION STYLE
+----------------------------------------------------- */
+.destinations-wrap {
+  padding: 0 100px;
+  background-color: #f0f0f0;
+  padding-bottom: 50px;
+}
+.destinations-wrap .title-content {
+  padding: 50px 0 40px !important;
+}
+.destinations-wrap p {
+  font-size: 16px;
+}
+.destinations-wrap h5 {
+  font-size: 16px;
+  font-weight: bold;
+  padding-bottom: 10px;
+}
+.destinations-wrap .left {
+  padding-left: 0;
+}
+.destinations-wrap .right {
+  padding-top: 60px;
+  padding-left: 60px;
+}
+.destinations-wrap .box {
+  display: inline-block;
+  height: 13px;
+  width: 80px;
+  margin-right: 10px;
+}
+.destinations-wrap span {
+  font-size: 16px;
+}
+.destinations-wrap .blue {
+  background-color: blue;
+}
+.destinations-wrap .yellow {
+  background-color: yellow;
+}
+.destinations-wrap .orange {
+  background-color: orange;
+}
+.destinations-wrap .red {
+  background-color: red;
+}
+/* ---------------------------------------------------
+    DURATION-SEASON STYLE
+----------------------------------------------------- */
+.duration-season-wrap .weather {
+  width: 100%;
+  position: relative;
+  margin-bottom: 50px;
+}
+.duration-season-wrap .weather img {
+  width: 65%;
+}
+.duration-season-wrap .weather .box {
+  position: absolute;
+  top: 20%;
+  left: 50%;
+  color: white;
+  padding: 20px;
+  max-width: 450px;
+}
+.duration-season-wrap .weather .box .inner-box {
+  border: white solid 3px;
+  font-size: 16px;
+  padding: 30px;
+}
+.duration-season-wrap .box.brown-lighter {
+  background: #d1a96d;
+}
+.duration-season-wrap .length-time {
+  float: right;
+  width: 100%;
+  position: relative;
+}
+.duration-season-wrap .length-time img {
+  width: 65%;
+  float: right;
+}
+.duration-season-wrap .length-time .box {
+  position: absolute;
+  top: 20%;
+  right: 50%;
+  color: white;
+  padding: 20px;
+  max-width: 450px;
+}
+.duration-season-wrap .length-time .box .inner-box {
+  border: white solid 3px;
+  font-size: 16px;
+  padding: 30px;
+}
+.duration-season-wrap .box.bluegreen {
+  background: #a5cfd7;
+}
+/* ---------------------------------------------------
+    TRAVEL NUMBERS STYLE
+----------------------------------------------------- */
+.travel-numbers {
+  width: 100%;
+  background-color: #f0f0f0;
+  padding: 0 100px;
+  padding-bottom: 100px;
+}
+.travel-numbers .text-title {
+  font-size: 20px;
+  font-weight: bold;
+  padding: 0 0 30px;
+}
+.travel-numbers .legend-wrap {
+  padding: 50px 200px;
+  text-align: center;
+}
+.travel-numbers .legend-wrap span {
+  font-size: 16px;
+}
+.travel-numbers .box {
+  display: inline-block;
+  height: 13px;
+  width: 13px;
+  margin-right: 10px;
+}
+.travel-numbers .Gen-z {
+  background: #3b6167;
+}
+.travel-numbers .Millenials {
+  background: #5b8a8f;
+}
+.travel-numbers .Gen-x {
+  background: #94c4ce;
+}
+.travel-numbers .Boomers {
+  background: #bfe5ec;
+}
+.doughnut-graph {
+  padding: 20px 0;
+}
+.pie-graph-wrap {
+  max-width: 950px;
+  margin: 0 auto;
+  padding: 20px 0;
+}
+.pie-chart {
+  position: relative;
+  padding: 0;
+}
+.pie-chart canvas {
+  position: relative;
+}
+.pie-chart .inner-text {
+  position: absolute;
+  text-align: center;
+  height: 100%;
+  top: 25%;
+  margin: 0 auto;
+  left: 30%;
+}
+.pie-chart h3 {
+  font-size: 50px;
+  font-weight: bold;
+}
+.pie-chart p {
+  font-size: 18px;
+}
+/* ---------------------------------------------------
+    PURPOSE OF TRAVEL STYLE
+----------------------------------------------------- */
+.purpose-travel-wrap .pleasure {
+  width: 100%;
+  position: relative;
+  color: white;
+  margin-bottom: 50px;
+}
+.purpose-travel-wrap .pleasure img {
+  width: 65%;
+}
+.purpose-travel-wrap .pleasure .box {
+  position: absolute;
+  top: 20%;
+  left: 50%;
+  padding: 20px;
+  max-width: 450px;
+  background: #d1a96d;
+}
+.purpose-travel-wrap .pleasure .inner-box {
+  border: white solid 3px;
+  font-size: 16px;
+  padding: 30px;
+}
+.purpose-travel-wrap .business {
+  float: right;
+  width: 100%;
+  position: relative;
+  color: white;
+}
+.purpose-travel-wrap .business img {
+  float: right;
+  width: 65%;
+}
+.purpose-travel-wrap .business .box {
+  position: absolute;
+  top: 20%;
+  right: 50%;
+  color: white;
+  padding: 20px;
+  max-width: 450px;
+  background: #94c4ce;
+}
+.purpose-travel-wrap .business .inner-box {
+  border: white solid 3px;
+  font-size: 16px;
+  padding: 30px;
+}
+/* ---------------------------------------------------
+    STANDARD ACCOMM FOOD SANITATION STYLE
+----------------------------------------------------- */
+.safs-wrap {
+  background: #f0f0f0;
+}
+.safs-wrap .title-content {
+  padding-left: 100px;
+  text-align: left;
+}
+.safs-wrap .stay-wrap {
+  width: 100%;
+  position: relative;
+  color: white;
+  margin-bottom: 50px;
+}
+.safs-wrap .stay-wrap img {
+  width: 65%;
+}
+.safs-wrap .stay-wrap .box {
+  position: absolute;
+  top: 20%;
+  left: 50%;
+  padding: 20px;
+  max-width: 450px;
+  background: #d1a96d;
+}
+.safs-wrap .stay-wrap .inner-box {
+  border: white solid 3px;
+  font-size: 16px;
+  padding: 30px;
+}
+.safs-wrap .food-wrap {
+  float: right;
+  width: 100%;
+  position: relative;
+  color: white;
+  margin-bottom: 50px;
+}
+.safs-wrap .food-wrap img {
+  float: right;
+  width: 65%;
+}
+.safs-wrap .food-wrap .box {
+  position: absolute;
+  top: 10%;
+  right: 50%;
+  color: white;
+  padding: 20px;
+  max-width: 450px;
+  background: #94c4ce;
+}
+.safs-wrap .food-wrap .inner-box {
+  border: white solid 3px;
+  font-size: 16px;
+  padding: 30px;
+}
+.safs-wrap .sanitation-wrap {
+  float: left;
+  width: 100%;
+  position: relative;
+  color: white;
+  margin: 30px 0px;
+}
+.safs-wrap .sanitation-wrap img {
+  width: 65%;
+}
+.safs-wrap .sanitation-wrap .box {
+  position: absolute;
+  top: 20%;
+  left: 50%;
+  padding: 20px;
+  max-width: 450px;
+  background: #d1a96d;
+}
+.safs-wrap .sanitation-wrap .inner-box {
+  border: white solid 3px;
+  font-size: 16px;
+  padding: 30px;
+}
+/* ---------------------------------------------------
+    BEHAVIOR STYLE
+----------------------------------------------------- */
+.behavior-wrap .img-wrap {
+  padding: 30px 0px 30px 0px;
+  position: relative;
+}
+.behavior-wrap .img-wrap .text-content {
+  margin-top: -68px;
+  width: 100%;
+  background: rgba(196, 196, 196, 0.8);
+  color: white;
+  z-index: 100;
+  position: relative;
+}
+.behavior-wrap .img-wrap p {
+  font-style: normal;
+  font-weight: normal;
+  margin: 0;
+  padding: 10px;
+}
+.behavior-wrap .img-wrap img {
+  width: 100%;
+  height: auto;
+  z-index: -1;
+  position: relative;
+}
+.behavior-wrap .bigger-box {
+  background: #d1a96d;
+  padding: 15px;
+  margin: 0 20px;
+}
+.behavior-wrap .box {
+  color: white;
+  font-size: 14 px;
+  background: #d1a96d;
+  border: white solid 1px;
+  padding: 10px;
+}
+.behavior-wrap .right-wrap h3 {
+  font-size: 20px;
+  padding: 50px 15px 0 0;
+}
+.behavior-wrap .box p {
+  margin: 0;
+}
+.behavior-wrap canvas {
+  padding: -1px 15px 0 0;
+  max-height: 310px !important;
+}
+/* ---------------------------------------------------
+    HEALTH OF TRAVELER STYLE
+----------------------------------------------------- */
+.health-traveler-wrap {
+  background: #f0f0f0;
+  padding-bottom: 30px;
+}
+.health-traveler-wrap .title-content {
+  padding-left: 100px;
+  text-align: left;
+}
+.health-traveler-wrap .top-wrap {
+  width: 100%;
+}
+.health-traveler-wrap .img-wrap {
+  float: left;
+  width: 45%;
+}
+.health-traveler-wrap .img-wrap img {
+  padding: 0;
+  width: 100%;
+}
+.health-traveler-wrap .desc-wrap .health-title {
+  font-family: "Slabo 27px", serif;
+  font-size: 30px;
+}
+.health-traveler-wrap .desc-wrap {
+  float: left;
+  width: 50%;
+  margin: auto;
+  padding: 0 50px;
+}
+.health-traveler-wrap .desc-wrap p {
+  font-size: 16px;
+  font-weight: normal;
+}
+.health-traveler-wrap .bottom-wrap .health-title {
+  font-family: "Slabo 27px", serif;
+  font-size: 40px;
+  padding: 40px 0;
+  margin: 0;
+}
+.health-traveler-wrap .bottom-wrap .item {
+  padding: 15px;
+}
+.health-traveler-wrap .bottom-wrap .img-wrap {
+  position: relative;
+  overflow-y: hidden;
+  height: 100%;
+  width: 100%;
+}
+.health-traveler-wrap .bottom-wrap .row {
+  padding: 0 60px;
+}
+.health-traveler-wrap .bottom-wrap .box {
+  background: rgba(148, 196, 206, 0.8);
+  position: absolute;
+  left: 0;
+  top: 0;
+  padding: 30px;
+  width: 100%;
+  height: 100%;
+}
+.health-traveler-wrap .bottom-wrap .inner-box {
+  border: #fff solid 2px;
+  margin: auto;
+  height: 100%;
+  width: 100%;
+}
+.health-traveler-wrap .bottom-wrap .inner-box h4 {
+  color: #fff;
+  text-align: center;
+  font-size: 35px;
+}
+/* ---------------------------------------------------
+    LANGUAGE-BARRIERS STYLE
+----------------------------------------------------- */
+.language-barriers-wrap {
+  background-color: #fff;
+  overflow: hidden;
+}
+.language-barriers-wrap .figure {
+  width: 100%;
+  float: left;
+  background: url("../images/language-banner.png");
+  background-size: cover;
+  background-position: center;
+  position: relative;
+  height: 100vh;
+  background-attachment: fixed;
+  background-repeat: no-repeat;
+}
+.language-barriers-wrap .figure .color-background {
+  position: relative;
+  background-color: white;
+  opacity: 0.8;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+}
+.language-barriers-wrap .inner-content p {
+  color: rgb(10, 10, 10);
+  opacity: 1;
+  font-size: 18px;
+}
+.LB-content-wrap {
+  padding: 50px 65px;
+}
+.LB-content-wrap .left {
+  padding: 0;
+}
+.LB-content-wrap .left .row {
+  padding: 25px 0;
+  align-items: center;
+}
+.LB-content .img-wrap {
+  height: 160px;
+}
+.LB-content-wrap .left .img-wrap img {
+  width: 120%;
+  border: #d1a96d solid;
+  border-radius: 50%;
+  padding: 5px;
+}
+.LB-content-wrap .left .desc-wrap {
+  padding-left: 75px;
+}
+.LB-content-wrap .left .desc-wrap h5 {
+  font-weight: bold;
+  font-size: 20px;
+  padding-top: 10px;
+  margin: 0;
+}
+.LB-content-wrap .left .desc-wrap p {
+  font-size: 16px;
+}
+.LB-content-wrap .right {
+  padding: 0;
+}
+.LB-content-wrap .right .row {
+  padding: 25px 0;
+  align-items: center;
+}
+.LB-content-wrap .right .img-wrap img {
+  width: 120%;
+  border: #d1a96d solid;
+  border-radius: 50%;
+  padding: 5px;
+}
+.LB-content-wrap .right .desc-wrap {
+  padding-left: 75px;
+}
+.LB-content-wrap .right .desc-wrap h5 {
+  font-weight: bold;
+  font-size: 20px;
+  padding-top: 10px;
+  margin: 0;
+}
+.LB-content-wrap .right .desc-wrap p {
+  font-size: 16px;
+}
+/* ---------------------------------------------------
+    SAFETY TIPS STYLE
+----------------------------------------------------- */
+.safety-tips-wrap {
+  background-color: #fff;
+  overflow: hidden;
+}
+.safety-tips-wrap .figure {
+  width: 100%;
+  float: left;
+  background: url("../images/safety-tips/safety-header.jpg");
+  background-size: cover;
+  background-position: center;
+  position: relative;
+  height: 100vh;
+  background-attachment: fixed;
+  background-repeat: no-repeat;
+}
+.safety-tips-wrap .figure .color-background {
+  position: relative;
+  background-color: white;
+  opacity: 0.8;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+}
+.safety-tips-wrap .inner-content p {
+  color: rgb(10, 10, 10);
+  opacity: 1;
+  font-size: 18px;
+}
+.ST-content-wrap {
+  padding: 75px 50px 50px;
+}
+.ST-content-wrap .ro {
+  margin-top: 105px;
+  padding-bottom: 90px;
+}
+.ST-content-wrap .content-wrap {
+  width: 100%;
+  float: left;
+  position: relative;
+}
+.ST-content-wrap .content-wrap .photo img {
+  width: 100%;
+}
+.ST-content-wrap .content-wrap .photoleft-wrap {
+  left: 10%;
+  top: -30%;
+  width: 47%;
+  position: absolute;
+}
+.ST-content-wrap .content-wrap .photoleftt-wrap {
+  width: 50%;
+  float: right;
+}
+.ST-content-wrap .words-wrap .left {
+  font-family: "Slabo 27px", serif;
+  font-size: 60px;
+  padding: 0;
+  color: #f0f0f0;
+  font-weight: lighter;
+}
+.ST-content-wrap .words-wrap .right {
+  padding: 0 15px;
+}
+.ST-content-wrap .words-wrap .right h3 {
+  font-size: 20px;
+  font-weight: bold;
+  margin: 0;
+}
+.ST-content-wrap .words-wrap .right p {
+  font-size: 16px;
+}
+/* ---------------------------------------------------
+    DANGEROUS-PLACE STYLE
+----------------------------------------------------- */
+.dangerous-places-wrap {
+  background-color: #fff;
+  overflow: hidden;
+}
+.dangerous-places-wrap .figure {
+  width: 100%;
+  float: left;
+  background: url("../images/danger-country-tourism/Dangerous-Header.png");
+  background-size: cover;
+  background-position: center;
+  position: relative;
+  height: 100vh;
+  background-attachment: fixed;
+  background-repeat: no-repeat;
+}
+.dangerous-places-wrap .figure .color-background {
+  position: relative;
+  background-color: white;
+  opacity: 0.8;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+}
+.dangerous-places-wrap .inner-content p {
+  color: rgb(10, 10, 10);
+  opacity: 1;
+  font-size: 18px;
+}
+.countries {
+  padding: 50px 50px 20px;
+}
+.countries .card {
+  border-radius: 20px;
+  border: none;
+  box-shadow: 0 0.125rem 0.25rem rgba(0, 0, 0, 16%) !important;
+}
+.countries .card .card-img-top {
+  height: 260px;
+  background-position: center;
+  border-radius: 20px 20px 0 0;
+}
+.countries .card .card-title {
+  margin: 0;
+  font-size: 15px;
+}
+.countries .card h5 {
+  font-size: 15px;
+}
+.countries .card .level {
+  padding-left: 34px;
+}
+.countries .card .card-title img {
+  height: 30px;
+  padding: 0 10px 5px 0;
+}
+.countries .col-md-4 {
+  padding: 15px;
+}
+.countries .modal .modal-title img {
+  height: 45px;
+  padding: 0 10px 5px 0;
+}
+.countries .modal .modal-title {
+  padding: 0 70px 0 50px;
+}
+.countries .modal .modal-footer h5 {
+  font-size: 15px;
+}
+.countries .modal .modal-footer img {
+  height: 25px;
+  margin: 10px;
+}
+.countries .modal .left-safe {
+  padding-right: 0;
+}
+.countries .modal .left-safe p {
+  padding: 0 70px 0 50px;
+}
+.countries .modal .left-safe hr {
+  padding: 0 60px;
+  margin: 0 50px;
+  width: 50%;
+}
+
+.countries .modal .row {
+  align-items: center;
+}
+.countries .modal .right-safe img {
+  height: 201px;
+}
+.countries .modal .right-safe .photo-01 {
+  border-radius: 0 5px 0 0;
+  border-bottom: #fff solid 3px;
+}
+.countries .modal .right-safe .photo-02 {
+  border-radius: 0 0 5px 0;
+  border-top: #fff solid 3px;
+}
+.countries .card .card-text {
+  font-size: 13px;
+  padding-left: 34px;
+}
+.countries .card button {
+  background: #f0f0f0;
+  height: 35px;
+  border-radius: 5px;
+  border: none;
+  color: #6e6e6e;
+}
+.countries .card button:hover {
+  background: #dedede;
+  transform: scale(1.05);
+  -webkit-transform: scale(1.05);
+  -webkit-transition-timing-function: cubic-bezier(0.47, 2.02, 0.31, -0.36);
+  transition-timing-function: cubic-bezier(0.47, 2.02, 0.31, -0.36);
+}
+.countries .letter-advisory {
+  display: inline-flex;
+  position: absolute;
+  float: right;
+  bottom: 25%;
+  right: 13px;
+}
+.countries .letter-advisory .letter:hover {
+  border: #996415 solid 3px;
+  transform: scale(1.05);
+}
+.countries .letter-advisory .letter {
+  border: #d1a96d solid 2px;
+  border-radius: 50%;
+  display: flex;
+  justify-content: center;
+  width: 25px;
+  height: 25px;
+  margin: 0 2px;
+}
+.countries .letter-advisory .letter h5 {
+  margin: auto 0;
+}
+/* ---------------------------------------------------
+    SAFE-PALCES STYLE
+----------------------------------------------------- */
+.safe-places-wrap {
+  background-color: #fff;
+  overflow: hidden;
+}
+.safe-places-wrap .figure {
+  width: 100%;
+  float: left;
+  background: url("../images/Safe-header.png");
+  background-size: cover;
+  background-position: center;
+  position: relative;
+  height: 100vh;
+  background-attachment: fixed;
+  background-repeat: no-repeat;
+}
+.safe-places-wrap .figure .color-background {
+  position: relative;
+  background-color: white;
+  opacity: 0.8;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+}
+.safe-places-wrap .inner-content p {
+  color: rgb(10, 10, 10);
+  opacity: 1;
+  font-size: 18px;
+}
+.countries .safe-countries .close {
+  visibility: hidden;
+}
+/* ---------------------------------------------------
+    SAFE-PALCES STYLE
+----------------------------------------------------- */
+.checklist-wrap {
+  background-color: #fff;
+  overflow: hidden;
+}
+.checklist-wrap .figure {
+  width: 100%;
+  float: left;
+  background: url("../images/whatdo-header.jpg");
+  background-size: cover;
+  background-position: center;
+  position: relative;
+  height: 100vh;
+  background-attachment: fixed;
+  background-repeat: no-repeat;
+}
+.checklist-wrap .figure .color-background {
+  position: relative;
+  background-color: white;
+  opacity: 0.8;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+}
+.checklist-wrap .inner-content p {
+  color: rgb(10, 10, 10);
+  opacity: 1;
+  font-size: 17.5px;
+}
+.checklist-content-wrap {
+  padding: 50px 50px 0;
+}
+.checklist-content-wrap .box {
+  margin: 30px auto;
+  top: 20%;
+  right: 50%;
+  color: white;
+  padding: 20px;
+  max-width: 100%;
+  height: 280px;
+  background: #a5cfd7;
+}
+.checklist-content-wrap .inner-box {
+  border: white solid 3px;
+  height: 240px;
+  font-size: 16px;
+  padding: 30px;
+}
+.checklist-content-wrap .icon {
+  background: #a5cfd7;
+  position: absolute;
+  padding: 15px;
+  margin: -38px 39%;
+  border-radius: 50%;
+}
+.ver-2 {
+  background-color: #fff;
+  overflow: hidden;
+}
+.ver-2 .figure {
+  width: 100%;
+  float: left;
+  background: url("../images/SafetyTIPS-header.png");
+  background-size: cover;
+  background-position: center;
+  position: relative;
+  height: 100vh;
+  background-attachment: fixed;
+  background-repeat: no-repeat;
+}
+.ver-2 .figure .color-background {
+  position: relative;
+  opacity: 0.8;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+}
+.ver-2 .inner-content p {
+  color: rgb(10, 10, 10);
+  opacity: 1;
+  font-size: 17.5px;
+}
+.conclusion {
+  padding: 0;
+}
+.conclusion .box {
+  background-color: #94c3cd;
+  color: #fff;
+  padding: 20px;
+}
+.conclusion h5 {
+  font-family: "Slabo 27px", serif;
+  font-size: 30px;
+}
+.conclusion .box p {
+  font-family: "Slabo 27px", serif;
+  text-align: center;
+  font-size: 23px;
+  font-weight: 100;
+  padding: 0;
+  margin: 0;
+}
+.conclusion .box .inner-box {
+  border: 3px solid #fff;
+  padding: 32px;
+}
+.dotted-content {
+  position: relative;
+  width: 100%;
+  height: 100%;
+  padding: 50px 300px;
+}
+.checklist-wrap {
+  height: 100%;
+  width: 100%;
+}
+.dotted-content ul {
+  list-style: none;
+}
+.dotted-content ul li {
+  padding: 50px 0;
+  height: 200px;
+}
+.dotted-content a {
+  text-decoration: none;
+  color: #000;
+  display: flex;
+}
+.dotted-content .icon {
+  border: #a5cfd7 solid;
+  padding: 10px;
+  border-radius: 50%;
+  height: 25px;
+  width: 25px;
+  margin: 0 80px 0 0;
+}
+.design {
+  background: #a5cfd7;
+  transform: scale(1.2);
+  border: #87aeb5 solid !important;
+}
+.design::after {
+  content: "";
+  display: block;
+  width: 3px !important;
+  height: 145px !important;
+  margin: 13px auto 0;
+  background-color: #a5cfd7;
+}
+.dotted-content .icon::after {
+  content: "";
+  display: block;
+  width: 3px;
+  height: 175px;
+  margin: 13px auto 0;
+  background-color: #a5cfd7;
+}
+.dotted-content .last-icon::after {
+  display: none;
+}
+.dotted-content h5 {
+  font-size: 25px;
+  font-weight: bold;
+  margin-bottom: 10px;
+}
+.dotted-content p {
+  font-size: 16px;
+}
+/* ---------------------------------------------------
+    SIDEBAR STYLE
+----------------------------------------------------- */
+.main-wrapper {
+  display: flex;
+  width: 100%;
+  display: none;
+}
+#sidebar {
+  width: 160px;
+  position: fixed;
+  top: 0;
+  left: 0;
+  height: 100vh;
+  z-index: 999;
+  background: #d1a96d;
+  color: #fff;
+  transition: all 0.3s;
+}
+.trekbible-logo {
+  width: 95%;
+  padding-bottom: 20px;
+}
+.trekbible-logo:hover {
+  cursor: pointer;
+}
+#sidebar h3.title {
+  color: #fff;
+  font-size: 18px;
+  font-weight: bold;
+  text-align: center;
+  padding: 5px;
+  margin: 0;
+}
+#sidebar .mCSB_container {
+  height: 100%;
+  padding: 10px;
+}
+#sidebar .bottom-wrap {
+  position: absolute;
+  bottom: 0;
+  padding: 10px 10px 20px 15px;
+  text-align: center;
+  font-size: 12px;
+}
+#sidebar.active {
+  margin-right: -150px;
+}
+.social-media-btn {
+  text-align: center;
+  margin: 0 auto;
+}
+.social-media-btn a {
+  display: inline-block;
+  border-radius: 50%;
+  text-align: center;
+  padding: 7px;
+  border: 1px solid #fff;
+}
+.social-media-btn a:hover {
+  border: 1px solid #b3700c;
+}
+.social-media-btn img {
+  width: 20px;
+}
+#homeSubmenu {
+  margin: 0;
+  padding: 0;
+  height: 100%;
+}
+#homeSubmenu li {
+  width: 100%;
+  /*margin: 17px 0;*/
+  text-decoration: none;
+  list-style-type: none;
+}
+#homeSubmenu .item {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  position: relative;
+  text-align: center;
+  width: 80%;
+  height: 80%;
+  border-radius: 50%;
+  border: 1px solid #fff;
+  margin: 0 auto;
+  padding: "20px";
+}
+#homeSubmenu .item:hover {
+  border: 1px solid #b3700c;
+  cursor: pointer;
+  transform: translateX(6px);
+}
+#homeSubmenu .item img {
+  width: 80%;
+  height: 80%;
+}
+.tooltip.bs-tooltip-left .tooltip-inner {
+  background: #d1a96d;
+  padding: 20px 50px 20px 20px;
+  font-size: 15px;
+  font-weight: bold;
+  height: 100px;
+  justify-content: center;
+  align-items: center;
+  display: flex;
+  opacity: 1;
+  filter: alpha(opacity=100);
+}
+.tooltip.bs-tooltip-bottom .tooltip-inner {
+  background: #d1a96d;
+  padding: 10px;
+  font-size: 13px;
+  text-align: left;
+}
+.tooltip.bs-tooltip-top .tooltip-inner {
+  background: #d1a96d;
+  padding: 10px;
+  font-size: 13px;
+  text-align: left;
+}
+.tooltip.bs-tooltip-left .arrow:before {
+  display: none;
+}
+.tooltip.bs-tooltip-top .arrow:before {
+  border-top-color: #d1a96d !important;
+}
+.tooltip.bs-tooltip-bottom .arrow:before {
+  border-bottom-color: #d1a96d !important;
+}
+.tooltip.show {
+  opacity: 1 !important;
+}
+/* ---------------------------------------------------
+    CONTENT STYLE
+----------------------------------------------------- */
+#content {
+  width: calc(100% - 160px);
+  min-height: 100vh;
+  transition: all 0.3s;
+  position: absolute;
+  top: 0;
+  right: 0;
+}
+#content.active {
+  width: 100%;
+}
+#content .btn {
+  border-radius: 50%;
+  float: right;
+  border: 1px #fff solid;
+  background: #d1a96d;
+  color: white;
+}
+#content .navbar .container-fluid {
+  padding: 5px;
+  background-color: #d1a96d;
+}
+#content .navbar .container-fluid h3.title {
+  color: #fff;
+  font-size: 20px;
+  font-weight: bold;
+  text-align: center;
+}
+#content .navbar {
+  padding: 0;
+}
+.mainCollapseMenuWrap ul {
+  margin: 0;
+  padding: 0;
+  margin: 0 auto;
+  text-align: center;
+}
+.mainCollapseMenuWrap ul li {
+  width: 60px;
+  margin: 10px 0;
+  text-decoration: none;
+  list-style-type: none;
+  position: relative;
+  display: inline-block;
+}
+.mainCollapseMenuWrap ul .item {
+  width: 50px;
+  height: 50px;
+  border-radius: 50%;
+  border: 1px solid #fff;
+  margin: 0 auto;
+}
+.mainCollapseMenuWrap ul .item:hover {
+  border: 1px solid #b3700c;
+  cursor: pointer;
+  transform: translateX(6px);
+}
+.mainCollapseMenuWrap ul .item img {
+  width: 25px;
+  height: 25px;
+  margin: 10px 0px 0px 0px;
+}
+.mainCollapseMenuWrap .bottom-wrap {
+  padding: 10px;
+  text-align: center;
+  font-size: 12px;
+  color: #fff;
+}
+
+@mixin clearfix() {
+  &::after {
+    display: block;
+    content: "";
+    clear: both;
+  }
+}
+.element {
+  @include clearfix;
+}
+/* Zach Style Fix - Too Many Breakpoints, make new one */
+@media (max-width: 950px) {
+  .safs-wrap .stay-wrap {
+    margin-bottom: 150px;
+  }
+  .safs-wrap .food-wrap {
+    margin-bottom: 150px;
+  }
+}
+/*
+####################################################
+M E D I A  Q U E R I E S
+####################################################
+*/
+@media (min-width: 1600px) and (max-width: 1700px) {
+  .LB-content-wrap .left .img-wrap img,
+  .LB-content-wrap .right .img-wrap img {
+    width: 110%;
+  }
+  .LB-content-wrap .right .desc-wrap,
+  .LB-content-wrap .left .desc-wrap {
+    padding-left: 55px;
+  }
+  .LB-content-wrap .right .desc-wrap h5,
+  .LB-content-wrap .left .desc-wrap h5 {
+    font-size: 25px;
+  }
+  .LB-content-wrap .right .desc-wrap p,
+  .LB-content-wrap .left .desc-wrap p {
+    font-size: 15px;
+  }
+}
+@media (min-width: 1300px) and (max-width: 1400px) {
+  .travel-numbers .legend-wrap {
+    padding: 50px 100px;
+  }
+}
+@media (max-width: 1280px) {
+  .mode-of-transport .transport-graph-wrap .boxi {
+    padding-right: 15px;
+  }
+  .mode-of-transport .chartfatal {
+    padding-left: 15px;
+  }
+  .travel-numbers .legend-wrap {
+    padding: 50px;
+  }
+  .dotted-content {
+    padding: 50px 180px;
+  }
+}
+@media (max-width: 1200px) {
+  .container {
+    max-width: 90%;
+  }
+  #sidebar .bottom-wrap {
+    padding: 10px 10px 10px 15px;
+  }
+  .trekbible-logo {
+    padding-bottom: 10px;
+  }
+  .must-margin {
+    margin-top: 20px;
+  }
+  .danger .card-body {
+    padding-top: 30px;
+  }
+  .countries .letter-advisory {
+    bottom: 28%;
+  }
+}
+@media (max-width: 1150px) {
+  .duration-season-wrap .weather .box {
+    left: 45%;
+  }
+  .duration-season-wrap .length-time .box {
+    right: 45%;
+  }
+  .purpose-travel-wrap .pleasure .box {
+    left: 45%;
+  }
+  .purpose-travel-wrap .business .box {
+    right: 45%;
+  }
+  .purpose-travel-wrap .box {
+    top: 10% !important;
+  }
+  .safs-wrap .stay-wrap .box {
+    left: 45%;
+    top: 10%;
+  }
+  .safs-wrap .food-wrap .box {
+    right: 45%;
+    top: -1%;
+  }
+  .safs-wrap .sanitation-wrap .box {
+    left: 45%;
+    top: 10%;
+  }
+  .duration-season-wrap .box {
+    top: 10% !important;
+  }
+  .health-traveler-wrap .desc-wrap {
+    padding: 0 150px 0 80px;
+  }
+  .health-traveler-wrap .desc-wrap {
+    top: 23px;
+    left: 23px;
+  }
+  .mode-of-transport .content-wrap {
+    padding: 0 35px;
+  }
+  .LB-content-wrap .left .row {
+    padding: 20px 0;
+  }
+  .LB-content-wrap .right .row {
+    padding: 24px 0;
+  }
+  .countries .letter-advisory .letter {
+    width: 21px;
+    height: 21px;
+  }
+  .countries .letter-advisory {
+    bottom: 32%;
+  }
+  .countries .card .card-text {
+    font-size: 12px;
+  }
+  .countries .card .card-img-top {
+    height: 220px;
+  }
+  .dotted-content p {
+    font-size: 11px;
+  }
+  .dotted-content {
+    padding: 50px 100px;
+  }
+  .health-traveler-wrap .bottom-wrap .inner-box h4 {
+    font-size: 20px;
+  }
+}
+@media (max-width: 1100px) {
+  .trekbible-logo {
+    padding-bottom: 20px;
+  }
+  .container {
+    max-width: 95%;
+  }
+  .travel-numbers .text-title {
+    font-size: 15px;
+  }
+  .travel-numbers .legend-wrap {
+    padding: 50px 0;
+  }
+  .duration-season-wrap .box {
+    padding: 10px !important;
+  }
+  .duration-season-wrap .inner-box {
+    padding: 15px !important;
+  }
+  .pie-chart h3 {
+    font-size: 30px;
+    margin: 0;
+  }
+  .pie-chart p {
+    font-size: 16px;
+  }
+  .pie-chart .millenial {
+    left: 25%;
+  }
+  .purpose-travel-wrap .box {
+    padding: 10px !important;
+  }
+  .purpose-travel-wrap .inner-box {
+    padding: 15px !important;
+  }
+  .safs-wrap .box {
+    padding: 10px !important;
+  }
+  .safs-wrap .inner-box {
+    padding: 15px !important;
+  }
+  .safs-wrap .food-wrap .box {
+    top: 0;
+  }
+  .behavior-wrap .right-wrap h3 {
+    font-size: 15px;
+  }
+  .behavior-wrap .img-wrap .text-content {
+    margin-top: -92px;
+    top: 0;
+  }
+  .health-traveler-wrap .desc-wrap {
+    padding: 5px 20px;
+  }
+  .health-traveler-wrap .desc-wrap .health-title {
+    font-size: 25px;
+  }
+  .health-traveler-wrap .desc-wrap p {
+    font-size: 16px;
+  }
+  .mode-of-transport #chartfatal {
+    max-height: 400px !important;
+  }
+  .behavior-wrap .img-wrap .text-content {
+    top: 25px;
+  }
+  .checklist-wrap .inner-content p {
+    font-size: 18px;
+  }
+  .ST-content-wrap .content-wrap .photoleft-wrap {
+    top: -10%;
+  }
+  .ST-content-wrap .ro {
+    margin-top: 10px;
+  }
+  .health-traveler-wrap .bottom-wrap .box {
+    padding: 20px;
+  }
+  .LB-content-wrap .left .desc-wrap {
+    padding-left: 40px;
+  }
+  .LB-content-wrap .right .desc-wrap {
+    padding-left: 40px;
+  }
+  .LB-content-wrap .left .img-wrap img,
+  .LB-content-wrap .right .img-wrap img {
+    width: 125%;
+    padding: 3px;
+  }
+}
+@media (max-width: 1050px) {
+  .destinations-wrap .box {
+    width: 13px;
+  }
+  .destinations-wrap .right {
+    padding-left: 20px;
+  }
+  .behavior-wrap .img-wrap .text-content {
+    top: 0;
+  }
+  .countries {
+    padding: 10px;
+  }
+  .danger .card-body {
+    padding: 30px 10px 10px;
+  }
+  .countries .letter-advisory {
+    bottom: 30%;
+  }
+  .safe-places-wrap .inner-content p {
+    padding: 10px;
+  }
+  .countries .modal .left-safe p {
+    padding: 0 50px 0 50px;
+  }
+  .checklist-wrap .inner-content p {
+    padding: 20px;
+  }
+  .dotted-content p {
+    font-size: 16px;
+  }
+  .main-header .inner-content p br,
+  .language-barriers-wrap .inner-content p br,
+  .dangerous-places-wrap .inner-content p br {
+    display: none !important;
+  }
+}
+@media (max-width: 1024px) and (max-height: 1400px) {
+  .main-header .figure,
+  .language-barriers-wrap .figure,
+  .safety-tips-wrap .figure,
+  .dangerous-places-wrap .figure,
+  .safe-places-wrap .figure,
+  .checklist-wrap .figure,
+  .ver-2 .figure {
+    height: 50vh;
+  }
+  .safe-places-wrap .inner-content p br,
+  .checklist-wrap .inner-content p br,
+  .ver-2 .inner-content p br {
+    display: none;
+  }
+  .countries .col-md-4 {
+    padding: 14px;
+  }
+  .ver-2 .inner-content p {
+    padding: 0 20px;
+  }
+}
+@media (max-width: 1024px) and (max-height: 800px) {
+  .main-header .figure,
+  .language-barriers-wrap .figure,
+  .safety-tips-wrap .figure,
+  .dangerous-places-wrap .figure,
+  .safe-places-wrap .figure,
+  .checklist-wrap .figure,
+  .ver-2 .figure {
+    height: 100vh;
+  }
+  .safe-places-wrap .inner-content p {
+    padding: 0 50px;
+  }
+}
+@media (max-width: 1024px) and (min-height: 800px) {
+  .main-launch .content .btn {
+    font-size: 40px;
+  }
+  #sidebar .mCSB_container {
+    padding: 10px;
+  }
+  #sidebar .bottom-wrap {
+    padding: 10px 10px;
+  }
+  .trekbible-logo {
+    width: 100%;
+  }
+  .mode-of-transport .chartfatal {
+    padding-left: 15px;
+  }
+  .mode-of-transport .transport-graph-wrap .boxi {
+    padding-right: 15px;
+  }
+  .title-content {
+    padding: 50px 0;
+  }
+  .destinations-wrap .right {
+    padding-left: 20px;
+  }
+  .destinations-wrap .box {
+    width: 13px;
+  }
+  .safs-wrap .title-content {
+    text-align: center;
+    padding-left: 0;
+  }
+  .danger .card-body {
+    padding: 40px 20px 20px;
+  }
+  .countries .letter-advisory {
+    bottom: 32%;
+  }
+  .safe-places-wrap .inner-content p,
+  .checklist-wrap .inner-content p {
+    padding: 0 100px;
+  }
+  .dotted-content p {
+    font-size: 16px;
+  }
+  .dotted-content p br {
+    display: none;
+  }
+}
+@media (min-width: 993px) and (max-width: 1018px) {
+  .destinations-wrap .right {
+    padding-left: 5px;
+  }
+  .travel-numbers .graph-right .text-title {
+    padding-bottom: 50px;
+  }
+}
+@media (min-width: 1001px) and (max-width: 1023px) {
+  .danger .card-body {
+    padding: 20px;
+  }
+  .countries .letter-advisory {
+    bottom: 35%;
+  }
+}
+@media (max-width: 1000px) {
+  .main-header .figure,
+  .language-barriers-wrap .figure,
+  .safety-tips-wrap .figure,
+  .dangerous-places-wrap .figure,
+  .safe-places-wrap .figure,
+  .checklist-wrap .figure,
+  .ver-2 .figure {
+    height: 100vh !important;
+  }
+  .main-launch .title-content {
+    padding: 50px 0 20px;
+  }
+  .main-launch .content .btn {
+    font-size: 35px;
+  }
+  #sidebar .mCSB_container {
+    padding: 10px;
+  }
+  #sidebar .bottom-wrap {
+    padding: 10px;
+  }
+  .LB-content-wrap .left .desc-wrap p,
+  .LB-content-wrap .right .desc-wrap p {
+    font-size: 16px;
+  }
+  .LB-content-wrap .left .img-wrap img,
+  .LB-content-wrap .right .img-wrap img {
+    width: 125%;
+  }
+  .dangerous-places-wrap .inner-content p {
+    padding: 0 15px;
+  }
+  .countries,
+  .countries .col-md-4 {
+    padding: 10px;
+  }
+  .safs-wrap .title-content {
+    padding: 20px;
+    text-align: center;
+  }
+  .countries .modal .left-safe p {
+    padding: 5px;
+  }
+}
+@media (max-width: 1001px) {
+}
+/* Pixel 2 XL Landscape */
+@media (min-width: 811px) and (max-width: 849px) {
+  #homeSubmenu .item:hover,
+  #homeSubmenu .item.clicked {
+    transform: none;
+  }
+  .main-header .title-content-bigger,
+  .language-barriers-wrap .title-content-bigger,
+  .safety-tips-wrap .title-content-bigger,
+  .dangerous-places-wrap .title-content-bigger {
+    padding: 50px 10px 20px;
+  }
+  .checklist-wrap .title-content-bigger {
+    padding: 50px 20px 10px;
+  }
+  .dotted-content p br {
+    display: none;
+  }
+  .safe-places-wrap .title-content-bigger,
+  .ver-2 .title-content-bigger {
+    padding: 30px 10px 20px;
+  }
+  .main-launch .content .btn {
+    font-size: 30px;
+  }
+  #sidebar .mCSB_container {
+    padding: 0 10px;
+  }
+  #homeSubmenu li {
+    width: 90%;
+  }
+  .trekbible-logo {
+    padding: 0;
+  }
+  .mode-of-transport .content-wrap {
+    padding-left: 40px;
+    width: 100%;
+  }
+  .mode-of-transport .img-wrap {
+    width: 100%;
+  }
+  .mode-of-transport .transport-graph-wrap .box {
+    margin: auto;
+  }
+  .transport-graph-wrap .col-md-5 {
+    flex: 0 0 100% !important;
+    max-width: 100% !important;
+  }
+  .transport-graph-wrap .col-md-7 {
+    padding: 50px 0 0;
+    flex: 0 0 100% !important;
+    max-width: 100% !important;
+  }
+  .destinations-wrap {
+    padding: 0 40px;
+  }
+  .destinations-wrap .right {
+    padding: 20px;
+  }
+  .destinations-wrap .left,
+  .destinations-wrap .right {
+    flex: 0 0 100% !important;
+    max-width: 100% !important;
+  }
+  .destinations-wrap .title-content {
+    padding: 50px 0 20px !important;
+  }
+  .duration-season-wrap .box .inner-box {
+    font-size: 12px !important;
+  }
+  .duration-season-wrap .box {
+    top: 12% !important;
+  }
+  .duration-season-wrap .weather img {
+    width: 100% !important;
+  }
+  .duration-season-wrap .length-time img {
+    width: 100% !important;
+    float: none;
+  }
+  .duration-season-wrap .box {
+    position: relative !important;
+    margin: 0 auto !important;
+    left: 0 !important;
+    margin-top: -70px !important;
+  }
+  .purpose-travel-wrap .pleasure img {
+    width: 100%;
+  }
+  .purpose-travel-wrap .business img {
+    width: 100%;
+    float: none;
+  }
+  .purpose-travel-wrap .box {
+    position: relative !important;
+    margin: 0 auto !important;
+    left: 0 !important;
+    margin-top: -70px !important;
+  }
+  .safs-wrap .title-content {
+    padding: 20px;
+    text-align: center;
+  }
+  .safs-wrap .stay-wrap img {
+    width: 100%;
+  }
+  .safs-wrap .food-wrap img {
+    width: 100%;
+    float: none;
+  }
+  .safs-wrap .sanitation-wrap img {
+    width: 100%;
+  }
+  .safs-wrap .box {
+    position: relative !important;
+    margin: 0 auto !important;
+    left: 0 !important;
+    margin-top: -70px !important;
+  }
+  .travel-numbers .graph-left,
+  .travel-numbers .graph-right {
+    flex: 0 0 100%;
+    max-width: 100%;
+  }
+  .travel-numbers .graph-right {
+    padding-top: 20px;
+  }
+  .travel-numbers {
+    padding: 0 50px;
+  }
+  .pie-chart .inner-text {
+    top: 22%;
+  }
+  .pie-chart .inner-text {
+    left: 30%;
+  }
+  .pie-chart .millenial {
+    left: 23%;
+  }
+  .behavior-wrap .img-wrap .text-content {
+    top: 24px;
+  }
+  .behavior-wrap .title-content {
+    padding: 50px 0 20px;
+  }
+  .health-traveler-wrap .title-content {
+    padding: 10px;
+    text-align: center;
+  }
+  .health-traveler-wrap .img-wrap {
+    width: 100%;
+    float: none;
+  }
+  .health-traveler-wrap .bottom-wrap .box {
+    padding: 10px;
+  }
+  .health-traveler-wrap .desc-wrap {
+    width: 100%;
+  }
+  .health-traveler-wrap .desc-wrap .health-title {
+    text-align: center;
+    padding: 10px;
+  }
+  .countries .col-md-4 {
+    flex: 0 0 50%;
+    max-width: 50%;
+  }
+  .countries .letter-advisory {
+    bottom: 25%;
+  }
+  .danger .card-body {
+    padding: 10px;
+  }
+  .must-margin {
+    margin-top: 20px;
+  }
+  .safe-places-wrap .inner-content p {
+    padding: 0 50px;
+  }
+  .dotted-content {
+    padding: 50px;
+  }
+  .ST-content-wrap .ro {
+    padding: 0;
+  }
+  .countries .modal .left-safe hr {
+    padding: 0 !important;
+    margin: 0 !important;
+    width: 100%;
+  }
+  .countries .safe-countries .close {
+    position: absolute;
+    top: 5%;
+    left: 92%;
+    visibility: visible;
+  }
+  .countries .right-safe,
+  .countries .modal .left-safe {
+    flex: 0 0 100% !important;
+    max-width: 100% !important;
+  }
+  .countries .right-safe {
+    text-align: center;
+    padding-bottom: 10px !important;
+    padding: 0;
+  }
+  .countries .modal .right-safe .photo-01,
+  .countries .modal .right-safe .photo-02 {
+    margin: 8px !important;
+    border-radius: 5px;
+  }
+}
+@media (max-width: 815px) {
+  #homeSubmenu li {
+    flex: 0 0 100%;
+    max-width: 100%;
+  }
+  #sidebar .bottom-wrap {
+    padding: 5px 7px;
+  }
+  .danger .card-body {
+    padding: 20px;
+  }
+  .countries .letter-advisory {
+    bottom: 25%;
+  }
+  .dotted-content p br {
+    display: none;
+  }
+  .ver-2 .title-content-bigger {
+    padding: 10px 10px 20px;
+  }
+}
+@media (min-width: 850px) and (max-width: 999px) {
+  .main-launch .content .btn {
+    font-size: 30px;
+  }
+  #sidebar .mCSB_container {
+    padding: 10px;
+  }
+  .main-launch .content h3 {
+    font-size: 40px;
+  }
+  .duration-season-wrap .box .inner-box {
+    font-size: 12px !important;
+  }
+  .duration-season-wrap .box {
+    top: 12% !important;
+  }
+  .behavior-wrap .img-wrap .text-content {
+    top: 24px;
+  }
+  .destinations-wrap .right {
+    padding-top: 20px;
+  }
+  .travel-numbers .graph-left,
+  .travel-numbers .graph-right {
+    flex: 0 0 100%;
+    max-width: 100%;
+  }
+  .travel-numbers .graph-right {
+    padding-top: 20px;
+  }
+  .pie-chart h3 {
+    font-size: 25px;
+    margin: 0;
+  }
+  .health-traveler-wrap .title-content {
+    padding: 30px;
+    text-align: center;
+  }
+  .health-traveler-wrap .img-wrap {
+    width: 100%;
+    float: none;
+  }
+  .health-traveler-wrap .desc-wrap {
+    margin: 0;
+    float: none;
+    padding: 30px 50px;
+    width: 100%;
+  }
+  .health-traveler-wrap .bottom-wrap .inner-box h4 {
+    font-size: 16px;
+  }
+  .ST-content-wrap .content-wrap {
+    margin-top: 50px;
+  }
+  .countries {
+    padding: 10px;
+  }
+  .countries .safe-countries .close {
+    position: absolute;
+    top: 5%;
+    left: 92%;
+    visibility: visible;
+  }
+  .safe-countries .modal-content {
+    max-width: 630px;
+  }
+  .countries .modal .left-safe {
+    padding: 0;
+  }
+  .countries .right-safe {
+    text-align: center;
+    padding-bottom: 10px !important;
+    padding: 0;
+  }
+  .countries .modal .right-safe .photo-01,
+  .countries .modal .right-safe .photo-02 {
+    margin: 8px !important;
+    border-radius: 5px;
+  }
+  .countries .modal .right-safe img {
+    height: 160px;
+    margin: 0 !important;
+  }
+  .countries .modal .modal-title {
+    padding: 5px 20px;
+  }
+  .countries .modal .left-safe hr {
+    padding: 0 !important;
+    margin: 0 !important;
+    width: 100%;
+  }
+  .countries .modal .left-safe p {
+    padding: 10px !important;
+  }
+  .dotted-content {
+    padding: 10px;
+  }
+  .destinations-wrap .col-sm-5,
+  .destinations-wrap .col-sm-7 {
+    flex: 0 0 100% !important;
+    max-width: 100% !important;
+  }
+  .countries .letter-advisory {
+    bottom: 35%;
+  }
+  .countries .car-letter {
+    bottom: 37%;
+  }
+}
+@media (max-width: 991px) {
+  .ST-content-wrap .ro {
+    padding: 0;
+  }
+}
+@media (min-width: 768px) and (max-width: 810px) {
+  .countries .letter-advisory {
+    bottom: 32%;
+  }
+  .title-content {
+    padding: 50px 0 20px;
+  }
+  .mode-of-transport .content-wrap {
+    padding-left: 40px;
+    width: 100%;
+  }
+  .mode-of-transport .img-wrap {
+    width: 100%;
+  }
+  .mode-of-transport .transport-graph-wrap .box {
+    margin: auto;
+  }
+  .transport-graph-wrap .col-md-5,
+  .destinations-wrap .left,
+  .destinations-wrap .right,
+  .countries .modal .left-safe,
+  .countries .right-safe {
+    flex: 0 0 100% !important;
+    max-width: 100% !important;
+  }
+  .transport-graph-wrap .row {
+    justify-content: center;
+  }
+  .transport-graph-wrap .col-md-7 {
+    padding: 50px 0 0;
+    flex: 0 0 100% !important;
+    max-width: 100% !important;
+  }
+  .duration-season-wrap .box .inner-box {
+    font-size: 12px !important;
+  }
+  .duration-season-wrap .box {
+    top: 12% !important;
+  }
+  .behavior-wrap .right-wrap {
+    padding-top: 50px;
+  }
+  .pie-chart .inner-text {
+    left: 33%;
+    top: 32%;
+  }
+  .destinations-wrap .title-content {
+    padding: 50px 0 20px !important;
+  }
+  .behavior-wrap .img-wrap .text-content {
+    top: 25px;
+  }
+  .ver-2 .title-content-bigger {
+    padding: 10px;
+  }
+  .travel-numbers {
+    padding-bottom: 30px;
+  }
+  .destinations-wrap {
+    padding: 0 40px;
+  }
+  .destinations-wrap .right {
+    padding: 20px;
+  }
+  .bar-graph .graph-left,
+  .bar-graph .graph-right {
+    flex: 0 0 100%;
+    max-width: 100%;
+  }
+  .pie-chart {
+    flex: 0 0 50%;
+    max-width: 50%;
+    padding: 10px;
+  }
+  .pie-chart h3 {
+    font-size: 40px;
+  }
+  .behavior-wrap .img-wrap {
+    padding: 0;
+  }
+  .health-traveler-wrap .title-content {
+    padding: 30px;
+  }
+  .health-traveler-wrap .desc-wrap .health-title {
+    text-align: center;
+  }
+  .health-traveler-wrap .bottom-wrap .inner-box h4 {
+    font-size: 16px;
+  }
+  .health-traveler-wrap .desc-wrap {
+    width: 100%;
+  }
+  .language-barriers-wrap .title-content-bigger {
+    padding: 20px;
+  }
+  .LB-content-wrap .left .img-wrap img,
+  .LB-content-wrap .right .img-wrap img {
+    width: 120%;
+  }
+  .LB-content-wrap .left .desc-wrap h5,
+  .LB-content-wrap .right .desc-wrap h5 {
+    font-size: 20px !important;
+  }
+  .LB-content-wrap .left .desc-wrap,
+  .LB-content-wrap .right .desc-wrap {
+    padding-left: 30px;
+  }
+  .safety-tips-wrap .title-content-bigger,
+  .dangerous-places-wrap .title-content-bigger,
+  .safe-places-wrap .title-content-bigger,
+  .checklist-wrap .title-content-bigger {
+    padding: 50px 0 20px;
+  }
+  .dangerous-places-wrap .inner-content p,
+  .safe-places-wrap .inner-content p {
+    padding: 0 20px;
+  }
+  .dangerous-places-wrap .inner-content .d-none {
+    display: none !important;
+  }
+  .countries .col-md-4 {
+    flex: 0 0 50%;
+    max-width: 50%;
+  }
+  .countries .safe-countries .close {
+    position: absolute;
+    top: 5%;
+    left: 92%;
+    visibility: visible;
+  }
+  .countries .right-safe {
+    flex: 0 0 100% !important;
+    max-width: 100% !important;
+  }
+  .countries .modal .right-safe img {
+    height: 160px;
+  }
+  .countries .modal .right-safe .photo-01,
+  .countries .modal .right-safe .photo-02 {
+    margin: 8px !important;
+    border-radius: 5px;
+  }
+  .dotted-content {
+    padding: 20px;
+  }
+  .danger .card-body {
+    padding: 20px 20px !important;
+  }
+  .dotted-content p {
+    font-size: 13px;
+  }
+  .ver-2 .inner-content p {
+    padding: 0 30px;
+  }
+  .duration-season-wrap .weather img {
+    width: 100%;
+  }
+  .duration-season-wrap .box,
+  .purpose-travel-wrap .box,
+  .safs-wrap .box {
+    position: relative !important;
+    margin: 0 auto !important;
+    left: 0 !important;
+    margin-top: -70px !important;
+    top: 12% !important;
+  }
+  .duration-season-wrap .length-time img {
+    width: 100%;
+    float: none;
+  }
+  .duration-season-wrap .length-time .box {
+    right: 45%;
+  }
+  .purpose-travel-wrap .pleasure img,
+  .purpose-travel-wrap .business img,
+  .safs-wrap .stay-wrap img,
+  .safs-wrap .food-wrap img,
+  .safs-wrap .sanitation-wrap img {
+    width: 100%;
+  }
+  .purpose-travel-wrap .pleasure .box,
+  .purpose-travel-wrap .business .box,
+  .safs-wrap .stay-wrap .box,
+  .safs-wrap .sanitation-wrap .box {
+    width: 80% !important;
+  }
+  .purpose-travel-wrap .business img,
+  .safs-wrap .food-wrap img {
+    float: none;
+  }
+  .purpose-travel-wrap .business .box,
+  .safs-wrap .food-wrap .box {
+    right: 45%;
+  }
+  .safs-wrap .stay-wrap .box,
+  .safs-wrap .sanitation-wrap .box {
+    top: 10%;
+  }
+  .safs-wrap .food-wrap .box {
+    top: 0;
+  }
+  .health-traveler-wrap .desc-wrap {
+    margin: 0;
+    float: none;
+  }
+  .health-traveler-wrap .desc-wrap {
+    width: 100%;
+  }
+  .health-traveler-wrap .img-wrap {
+    width: 100%;
+    float: none;
+  }
+  .ST-content-wrap .ro {
+    padding: 0;
+  }
+  .must-margin {
+    margin-top: 20px;
+  }
+}
+@media (max-width: 767px) {
+  .trekbible-logo {
+    width: 20%;
+    margin-left: 20px;
+    padding-bottom: 10px;
+  }
+  .main-launch .content .btn {
+    font-size: 20px;
+  }
+  .main-header .figure {
+    width: 100% !important;
+  }
+  .main-header .title-content-bigger,
+  .safety-tips-wrap .title-content-bigger,
+  .dangerous-places-wrap .title-content-bigger,
+  .safe-places-wrap .title-content-bigger,
+  .checklist-wrap .title-content-bigger {
+    padding: 50px 0 20px;
+  }
+  #sidebar {
+    display: none;
+  }
+  #content {
+    width: 100%;
+  }
+  #content.active {
+    width: calc(100% - 150px);
+  }
+  #sidebarCollapse span {
+    display: none;
+  }
+  .title-content {
+    font-size: 35px;
+    padding: 30px 0;
+  }
+  .destinations-wrap {
+    padding: 0 50px;
+  }
+  .destinations-wrap .left,
+  .destinations-wrap .right {
+    flex: 0 0 100% !important;
+    max-width: 100% !important;
+  }
+  .destinations-wrap .right {
+    padding-top: 10px;
+    padding-bottom: 50px;
+  }
+  .destinations-wrap p {
+    font-size: 16px;
+  }
+  .destinations-wrap span {
+    font-size: 16px;
+  }
+  .travel-numbers {
+    padding: 0 35px;
+  }
+  .travel-numbers .legend-wrap span {
+    font-size: 11px;
+  }
+  .health-traveler-wrap .bottom-wrap .row {
+    padding: 0 45px;
+  }
+  .dangerous-places-wrap .inner-content p {
+    padding: 0 15px;
+  }
+  .safe-places-wrap .inner-content p {
+    padding: 0 20px;
+  }
+  .mode-of-transport .content-wrap {
+    width: 100%;
+    padding-bottom: 15px;
+  }
+  .mode-of-transport .img-wrap {
+    width: 100%;
+  }
+  .duration-season-wrap .box {
+    width: 80% !important;
+  }
+  .purpose-travel-wrap .business .box {
+    width: 80% !important;
+  }
+  .purpose-travel-wrap .pleasure .box {
+    width: 80% !important;
+  }
+  .safs-wrap .title-content {
+    padding: 20px;
+    text-align: center;
+  }
+  .safs-wrap .stay-wrap .box {
+    width: 80% !important;
+  }
+  .safs-wrap .food-wrap .box {
+    width: 80% !important;
+  }
+  .safs-wrap .sanitation-wrap .box {
+    width: 80% !important;
+  }
+  .mode-of-transport .transport-graph-wrap {
+    margin-top: 0px;
+  }
+  .behavior-wrap .img-wrap {
+    padding: 0;
+  }
+  .behavior-wrap .img-wrap .text-content {
+    top: 24px;
+  }
+  .behavior-wrap .bigger-box {
+    margin: 40px 20px 0;
+  }
+  .behavior-wrap .title-content {
+    padding: 10px 20px;
+  }
+  .mode-of-transport .transport-graph-wrap .box {
+    width: 90% !important;
+    margin: 0 auto;
+    margin-top: 50px;
+    max-width: 90%;
+    margin-bottom: 50px;
+  }
+  .pie-chart .genz,
+  .genx,
+  .boomers {
+    top: 30%;
+    left: 38%;
+  }
+  .pie-chart .millenial {
+    top: 30%;
+    left: 29%;
+  }
+  #content .navbar .container-fluid {
+    visibility: visible;
+  }
+  .main-launch .content h3 {
+    font-size: 35px;
+  }
+  .health-traveler-wrap .bottom-wrap .inner-box h4 {
+    font-size: 30px;
+  }
+  .health-traveler-wrap .bottom-wrap .health-title {
+    padding: 40px 20px;
+  }
+  .LB-content-wrap .left .img-wrap img,
+  .LB-content-wrap .right .img-wrap img {
+    width: 125%;
+  }
+  .LB-content-wrap .left .desc-wrap {
+    padding-left: 50px;
+  }
+  .LB-content-wrap .right .desc-wrap {
+    padding-left: 50px;
+  }
+  .ST-content-wrap .content-wrap {
+    margin-top: 30px;
+  }
+  .countries .letter-advisory {
+    bottom: 26%;
+  }
+  .countries .modal .left-safe p {
+    padding: -1px 70px 0 50px;
+  }
+  .checklist-wrap .inner-content p {
+    font-size: 18px;
+  }
+  .health-traveler-wrap .desc-wrap .health-title {
+    text-align: center;
+  }
+  .duration-season-wrap .weather img {
+    width: 100%;
+  }
+  .duration-season-wrap .box,
+  .purpose-travel-wrap .box,
+  .safs-wrap .box {
+    position: relative !important;
+    margin: 0 auto !important;
+    left: 0 !important;
+    margin-top: -70px !important;
+    top: 12% !important;
+  }
+  .duration-season-wrap .length-time img {
+    width: 100%;
+    float: none;
+  }
+  .duration-season-wrap .length-time .box {
+    right: 45%;
+  }
+  .purpose-travel-wrap .pleasure img,
+  .purpose-travel-wrap .business img,
+  .safs-wrap .stay-wrap img,
+  .safs-wrap .food-wrap img,
+  .safs-wrap .sanitation-wrap img {
+    width: 100%;
+  }
+  .purpose-travel-wrap .pleasure .box,
+  .purpose-travel-wrap .business .box,
+  .safs-wrap .stay-wrap .box,
+  .safs-wrap .sanitation-wrap .box {
+    width: 80% !important;
+  }
+  .purpose-travel-wrap .business img,
+  .safs-wrap .food-wrap img {
+    float: none;
+  }
+  .purpose-travel-wrap .business .box,
+  .safs-wrap .food-wrap .box {
+    right: 45%;
+  }
+  .safs-wrap .stay-wrap .box,
+  .safs-wrap .sanitation-wrap .box {
+    top: 10%;
+  }
+  .safs-wrap .food-wrap .box {
+    top: 0;
+  }
+  .health-traveler-wrap .desc-wrap {
+    margin: 0;
+    float: none;
+  }
+  .health-traveler-wrap .desc-wrap {
+    width: 100%;
+  }
+  .health-traveler-wrap .img-wrap {
+    width: 100%;
+    float: none;
+  }
+  .ST-content-wrap .ro {
+    padding: 0;
+  }
+}
+@media (min-width: 730px) and (max-width: 750px) {
+  .main-header .title-content-bigger,
+  .language-barriers-wrap .title-content-bigger,
+  .safety-tips-wrap .title-content-bigger,
+  .dangerous-places-wrap .title-content-bigger,
+  .safe-places-wrap .title-content-bigger,
+  .checklist-wrap .title-content-bigger,
+  .ver-2 .title-content-bigger {
+    padding: 50px 0 20px;
+  }
+  .travel-numbers .graph-right .text-title {
+    padding-bottom: 50px;
+  }
+  .pie-chart .genz,
+  .pie-chart .genx {
+    top: 25%;
+    left: 35%;
+  }
+  .pie-chart .millenial {
+    top: 25%;
+    left: 28%;
+  }
+  .pie-chart .boomers {
+    top: 25%;
+    left: 31%;
+  }
+  .safs-wrap .title-content {
+    padding: 10px;
+    text-align: center;
+  }
+  .behavior-wrap .img-wrap .text-content {
+    top: 24px;
+  }
+  .behavior-wrap .bigger-box {
+    margin: 30px;
+  }
+  .LB-content-wrap .left .img-wrap img,
+  .LB-content-wrap .right .img-wrap img {
+    width: 125%;
+  }
+  .countries .modal .left-safe p {
+    padding: 10px !important;
+  }
+  .transport-graph-wrap .col-md-5,
+  .destinations-wrap .left,
+  .destinations-wrap .right,
+  .countries .modal .left-safe,
+  .countries .right-safe {
+    flex: 0 0 100% !important;
+    max-width: 100% !important;
+  }
+  .countries .right-safe {
+    text-align: center;
+    padding-bottom: 10px !important;
+    padding: 0;
+  }
+  .countries .modal .left-safe hr {
+    padding: 0 !important;
+    margin: 0 !important;
+    width: 100%;
+  }
+  .countries .safe-countries .close {
+    position: absolute;
+    top: 5%;
+    left: 92%;
+    visibility: visible;
+  }
+  .countries .modal .right-safe img {
+    height: 160px;
+  }
+  .countries .modal .right-safe .photo-01,
+  .countries .modal .right-safe .photo-02 {
+    margin: 8px !important;
+    border-radius: 5px;
+  }
+}
+@media (max-width: 700px) {
+  .destinations-wrap span {
+    font-size: 16px;
+  }
+  .behavior-wrap .img-wrap .text-content {
+    top: 24px;
+  }
+  .behavior-wrap .bigger-box {
+    margin: 30px;
+  }
+  .dangerous-places-wrap .inner-content p,
+  .dangerous-places-wrap .title-content-bigger,
+  .safe-places-wrap .title-content-bigger {
+    padding: 20px;
+  }
+  .safe-places-wrap .inner-content p {
+    padding: 0 20px;
+  }
+  .dotted-content p br {
+    display: none;
+  }
+  .travel-numbers .graph-right .text-title {
+    padding-bottom: 50px;
+  }
+  .legend-wrap .col-sm-3 {
+    padding: 0 5px;
+  }
+  .pie-chart .genz,
+  .genx,
+  .boomers {
+    top: 25%;
+    left: 31%;
+  }
+  .pie-chart .millenial {
+    top: 25%;
+    left: 24%;
+  }
+}
+@media (min-width: 650px) and (max-width: 680px) {
+  .travel-numbers .graph-right .text-title {
+    padding-bottom: 50px;
+  }
+  .pie-chart .genz,
+  .pie-chart .genx {
+    top: 27%;
+    left: 32%;
+  }
+  .pie-chart .millenial {
+    top: 27%;
+    left: 25%;
+  }
+  .pie-chart .boomers {
+    top: 27%;
+    left: 30%;
+  }
+  .health-traveler-wrap .title-content {
+    padding: 20px;
+    text-align: center;
+  }
+  .LB-content-wrap .left .img-wrap img,
+  .LB-content-wrap .right .img-wrap img {
+    width: 120%;
+  }
+  .countries .safe-countries .close {
+    position: absolute;
+    top: 3%;
+    left: 90%;
+    visibility: visible;
+  }
+  .countries .modal .left-safe {
+    padding: 0;
+  }
+  .countries .right-safe {
+    text-align: center;
+    padding-bottom: 10px !important;
+    padding: 0;
+  }
+  .dotted-content ul {
+    padding: 0 !important;
+  }
+  .countries .modal .right-safe .photo-01,
+  .countries .modal .right-safe .photo-02 {
+    border-radius: 5px;
+    margin: 8px !important;
+  }
+  .countries .modal .left-safe,
+  .countries .right-safe {
+    flex: 0 0 100%;
+    max-width: 100%;
+  }
+  .countries .modal .left-safe hr {
+    padding: 0 !important;
+    margin: 0 !important;
+    width: 100%;
+  }
+  .countries .modal .right-safe img {
+    height: 160px;
+  }
+  .ver-2 .title-content-bigger {
+    padding: 30px 10px 10px;
+  }
+}
+@media (max-width: 640px) and (max-height: 360px) {
+  .main-launch .content .btn {
+    font-size: 20px;
+  }
+  .main-header .title-content-bigger,
+  .language-barriers-wrap .title-content-bigger,
+  .ver-2 .title-content-bigger {
+    padding: 50px 0 20px;
+  }
+  .destinations-wrap .left,
+  .destinations-wrap .right {
+    flex: 0 0 100% !important;
+    max-width: 100% !important;
+  }
+  .destinations-wrap .right {
+    padding-bottom: 50px;
+    padding-top: 20px;
+  }
+  .destinations-wrap .title-content {
+    padding: 50px 0 20px !important;
+  }
+  .health-traveler-wrap .desc-wrap .health-title {
+    text-align: center;
+  }
+  .pie-chart h3 {
+    margin: 0;
+  }
+  .health-traveler-wrap .title-content {
+    padding: 20px;
+    text-align: center;
+  }
+  .pie-chart .genz,
+  .pie-chart .genx {
+    top: 25%;
+    left: 30%;
+  }
+  .pie-chart .millenial {
+    top: 24%;
+    left: 24%;
+  }
+  .pie-chart .boomers {
+    top: 25%;
+    left: 29%;
+  }
+  .safs-wrap .title-content {
+    padding: 10px;
+    text-align: center;
+  }
+  .LB-content-wrap .left .img-wrap img,
+  .LB-content-wrap .right .img-wrap img {
+    width: 125%;
+  }
+  .dangerous-places-wrap .inner-content p,
+  .safe-places-wrap .title-content-bigger {
+    padding: 0 20px;
+  }
+  .safe-places-wrap .inner-content p {
+    font-size: 16px;
+  }
+  .checklist-wrap .title-content-bigger {
+    padding: 50px 0 20px;
+  }
+  .checklist-wrap .inner-content p {
+    font-size: 18px;
+  }
+  .ver-2 .inner-content p {
+    font-size: 15px;
+  }
+  .trekbible-logo {
+    padding-bottom: 0;
+  }
+  .duration-season-wrap .weather img {
+    width: 100%;
+  }
+  .duration-season-wrap .box,
+  .purpose-travel-wrap .box,
+  .safs-wrap .box {
+    position: relative !important;
+    margin: 0 auto !important;
+    left: 0 !important;
+    margin-top: -70px !important;
+    top: 12% !important;
+  }
+  .duration-season-wrap .length-time img {
+    width: 100%;
+    float: none;
+  }
+  .duration-season-wrap .length-time .box {
+    right: 45%;
+  }
+  .purpose-travel-wrap .pleasure img,
+  .purpose-travel-wrap .business img,
+  .safs-wrap .stay-wrap img,
+  .safs-wrap .food-wrap img,
+  .safs-wrap .sanitation-wrap img {
+    width: 100%;
+  }
+  .purpose-travel-wrap .pleasure .box,
+  .purpose-travel-wrap .business .box,
+  .safs-wrap .stay-wrap .box,
+  .safs-wrap .sanitation-wrap .box {
+    width: 80% !important;
+  }
+  .purpose-travel-wrap .business img,
+  .safs-wrap .food-wrap img {
+    float: none;
+  }
+  .purpose-travel-wrap .business .box,
+  .safs-wrap .food-wrap .box {
+    right: 45%;
+  }
+  .safs-wrap .stay-wrap .box,
+  .safs-wrap .sanitation-wrap .box {
+    top: 10%;
+  }
+  .safs-wrap .food-wrap .box {
+    top: 0;
+  }
+  .health-traveler-wrap .desc-wrap {
+    margin: 0;
+    float: none;
+  }
+  .health-traveler-wrap .desc-wrap {
+    width: 100%;
+  }
+  .health-traveler-wrap .img-wrap {
+    width: 100%;
+    float: none;
+  }
+  .countries .modal .left-safe p {
+    padding: 10px !important;
+  }
+  .transport-graph-wrap .col-md-5,
+  .destinations-wrap .left,
+  .destinations-wrap .right,
+  .countries .modal .left-safe,
+  .countries .right-safe {
+    flex: 0 0 100% !important;
+    max-width: 100% !important;
+  }
+  .countries .right-safe {
+    text-align: center;
+    padding-bottom: 10px !important;
+    padding: 0;
+  }
+  .countries .modal .left-safe hr {
+    padding: 0 !important;
+    margin: 0 !important;
+    width: 100%;
+  }
+  .countries .safe-countries .close {
+    position: absolute;
+    top: 5%;
+    left: 92%;
+    visibility: visible;
+  }
+  .countries .modal .right-safe img {
+    height: 160px;
+  }
+  .countries .modal .right-safe .photo-01,
+  .countries .modal .right-safe .photo-02 {
+    margin: 8px !important;
+    border-radius: 5px;
+  }
+  .dotted-content {
+    padding: 50px;
+  }
+}
+@media (max-width: 600px) {
+  .checklist-wrap .inner-content p {
+    font-size: 13px;
+  }
+  .safe-places-wrap .inner-content p,
+  .checklist-wrap .inner-content p {
+    padding: 0 10px;
+  }
+  .main-launch .content .btn {
+    font-size: 20px;
+  }
+  .trekbible-logo {
+    padding: 0;
+    width: 25%;
+  }
+  .destinations-wrap .title-content {
+    padding: 20px 0;
+  }
+  .destinations-wrap span {
+    font-size: 16px;
+  }
+  .safs-wrap .title-content {
+    padding-left: 0;
+    text-align: center;
+    padding: 30px;
+  }
+  .LB-content-wrap {
+    padding: 30px;
+  }
+  .LB-content-wrap .left .desc-wrap,
+  .LB-content-wrap .right .desc-wrap {
+    padding-left: 30px;
+  }
+  .LB-content-wrap .left .desc-wrap h5,
+  .LB-content-wrap .right .desc-wrap h5 {
+    font-size: 20px;
+  }
+  .LB-content-wrap .left .desc-wrap p,
+  .LB-content-wrap .right .desc-wrap p {
+    font-size: 12px;
+  }
+  .dangerous-places-wrap .inner-content p {
+    padding: 0 20px;
+  }
+  .countries .col-md-4 {
+    flex: 0 0 100%;
+    max-width: 100%;
+    padding: 20px 45px;
+  }
+  .dotted-content p {
+    padding-right: 40px;
+  }
+  .dotted-content p br {
+    display: none;
+  }
+  .travel-numbers .graph-right .text-title {
+    padding-bottom: 30px;
+  }
+  .legend-wrap .col-sm-3 {
+    padding: 0 5px;
+  }
+}
+@media (min-width: 560px) and (max-width: 580px) {
+  .main-header .title-content-bigger,
+  .language-barriers-wrap .title-content-bigger,
+  .safety-tips-wrap .title-content-bigger,
+  .dangerous-places-wrap .title-content-bigger,
+  .safe-places-wrap .title-content-bigger,
+  .checklist-wrap .title-content-bigger,
+  .ver-2 .title-content-bigger {
+    font-size: 35px;
+  }
+  .main-header .inner-content p,
+  .language-barriers-wrap .inner-content p,
+  .safety-tips-wrap .inner-content p,
+  .dangerous-places-wrap .inner-content p,
+  .safe-places-wrap .inner-content p,
+  .checklist-wrap .inner-content p {
+    font-size: 15px;
+  }
+  .dotted-content {
+    padding: 25px;
+  }
+  .ver-2 .inner-content p {
+    font-size: 13px;
+    padding: 10px;
+  }
+  .pie-chart .genz {
+    top: 29%;
+    left: 35%;
+  }
+  .pie-chart .millenial {
+    top: 29%;
+    left: 29%;
+  }
+  .pie-chart .genx {
+    top: 35%;
+    left: 34%;
+  }
+  .pie-chart .boomers {
+    top: 35%;
+    left: 33%;
+  }
+  #pie-chart3,
+  #pie-chart4 {
+    margin-top: 20px;
+  }
+  .pie-chart h3 {
+    font-size: 40px;
+  }
+  .pie-chart p {
+    font-size: 20px;
+  }
+  .safs-wrap .title-content {
+    text-align: center;
+  }
+}
+@media (max-width: 480px) {
+  .mode-of-transport .transport-graph-wrap .boxi {
+    padding-right: 15px;
+  }
+  .mode-of-transport .chartfatal {
+    padding-left: 15px;
+  }
+  .destinations-wrap .title-content {
+    padding: 20px 0 !important;
+  }
+  .destinations-wrap .box {
+    width: 13px;
+  }
+  .destinations-wrap .right {
+    padding: 0 20px 20px;
+  }
+  .main-launch .content h3 {
+    font-size: 45px;
+  }
+  .trekbible-logo {
+    width: 30%;
+    padding-bottom: 0;
+  }
+  #content .btn {
+    margin: 10px 20px;
+  }
+  .destinations-wrap span {
+    font-size: 12px;
+  }
+  .travel-numbers .text-title {
+    font-size: 16px;
+  }
+  .travel-numbers .graph-right {
+    padding-top: 30px;
+  }
+  .pie-chart p {
+    font-size: 15px;
+  }
+  .safs-wrap .title-content {
+    padding-left: 0;
+    text-align: center;
+    padding: 20px;
+  }
+  .behavior-wrap .img-wrap .text-content {
+    margin-top: -67px;
+  }
+  .health-traveler-wrap .title-content {
+    text-align: center;
+    padding-left: 0;
+  }
+  .LB-content-wrap {
+    padding: 20px;
+  }
+  .LB-content-wrap .left .img-wrap img {
+    width: 147%;
+  }
+  .LB-content-wrap .left .desc-wrap {
+    padding-left: 35px;
+  }
+  .LB-content-wrap .left .desc-wrap h5 {
+    font-size: 20px;
+  }
+  .LB-content-wrap .left .desc-wrap p {
+    font-size: 12px;
+  }
+  .LB-content-wrap .right .img-wrap img {
+    width: 147%;
+  }
+  .LB-content-wrap .right .desc-wrap {
+    padding-left: 35px;
+  }
+  .LB-content-wrap .right .desc-wrap h5 {
+    font-size: 20px;
+  }
+  .LB-content-wrap .right .desc-wrap p {
+    font-size: 12px;
+  }
+  .safe-places-wrap .inner-content p,
+  .checklist-wrap .inner-content p {
+    padding: 0 10px;
+  }
+  .safe-places-wrap .title-content-bigger {
+    padding: 50px 20px;
+  }
+  .countries .card .card-text {
+    font-size: 11px;
+    padding-left: 20px;
+  }
+  .countries .modal .modal-title {
+    padding: 5px 20px;
+  }
+  .countries .modal .left-safe hr {
+    padding: 0 !important;
+    margin: 0 !important;
+    width: 100%;
+  }
+  .countries .modal .left-safe p {
+    padding: 10px !important;
+  }
+  .dotted-content {
+    padding: 20px;
+  }
+  .dotted-content ul {
+    padding-left: 10px !important;
+  }
+  .dotted-content .icon {
+    margin: 0 30px 0 0;
+  }
+  .dotted-content p {
+    font-size: 13px;
+  }
+  .ver-2 .title-content-bigger {
+    padding: 10px 0;
+  }
+}
+@media (max-width: 450px) {
+  .pie-chart p {
+    font-size: 12px;
+  }
+  .main-launch .content h3 {
+    font-size: 40px;
+  }
+  .main-launch .content .btn {
+    font-size: 20px;
+  }
+  .behavior-wrap {
+    overflow: hidden;
+  }
+  .behavior-wrap .right-wrap {
+    padding-top: 15px;
+  }
+  .health-traveler-wrap .img-wrap img {
+    float: none;
+    display: block;
+    margin: 0 auto;
+  }
+  .health-traveler-wrap .desc-wrap {
+    text-align: center;
+    padding: 0 20px;
+  }
+  .countries .right-safe {
+    padding: 20px;
+  }
+  .dotted-content {
+    padding: 15px;
+  }
+  .dotted-content h5 {
+    font-size: 20px;
+  }
+  .destinations-wrap .right {
+    padding: 20px;
+  }
+  .pie-chart h3 {
+    font-size: 30px;
+  }
+  .health-traveler-wrap .desc-wrap .health-title {
+    margin-top: 5%;
+  }
+  .ST-content-wrap {
+    padding: 30px;
+  }
+  .countries {
+    padding: 20px;
+  }
+}
+@media (max-width: 414px) {
+  .behavior-wrap .img-wrap .text-content {
+    top: 0;
+  }
+  .trekbible-logo {
+    width: 32%;
+    padding: 0;
+    margin-left: 5px;
+  }
+  #content .btn {
+    margin: 1px !important;
+  }
+  .mode-of-transport .transport-graph-wrap .boxi {
+    padding-right: 15px;
+  }
+  .mode-of-transport .chartfatal {
+    padding-left: 0;
+  }
+  .pie-chart h3 {
+    font-size: 30px;
+  }
+  .destinations-wrap .title-content {
+    padding: 20px 0 !important;
+  }
+  .destinations-wrap p {
+    margin: 0;
+  }
+  .destinations-wrap .box {
+    width: 13px;
+  }
+  .destinations-wrap span {
+    font-size: 12px;
+  }
+  .travel-numbers .graph-right {
+    padding: 30px 15px 0;
+  }
+  .travel-numbers .text-title {
+    font-size: 16px;
+  }
+  .behavior-wrap .bigger-box {
+    margin: 0 auto 20px;
+  }
+  .health-traveler-wrap .title-content {
+    padding: 20px;
+    text-align: center;
+  }
+  .health-traveler-wrap .desc-wrap {
+    padding: 20px 20px 0;
+  }
+  .mode-of-transport .content-wrap {
+    padding: 20px;
+  }
+  .language-barriers-wrap .title-content-bigger {
+    padding-top: 30vw;
+  }
+  .LB-content-wrap {
+    padding: 10px;
+  }
+  .LB-content-wrap .left .row {
+    padding: 0;
+  }
+  .ST-content-wrap .words-wrap .left {
+    margin: 0 10px;
+  }
+  .countries .safe-countries .close {
+    position: absolute;
+    top: 3%;
+    left: 90%;
+    visibility: visible;
+  }
+  .countries .modal .left-safe {
+    padding: 0;
+  }
+  .countries .right-safe {
+    text-align: center;
+    padding-bottom: 10px !important;
+    padding: 0;
+  }
+  .dotted-content ul {
+    padding: 0 !important;
+  }
+  .countries .modal .right-safe .photo-01,
+  .countries .modal .right-safe .photo-02 {
+    border-radius: 5px;
+  }
+  .main-launch .content h3 {
+    font-size: 35px;
+  }
+  .main-launch .content .btn {
+    font-size: 25px;
+  }
+  .LB-content-wrap .left .img-wrap img,
+  .LB-content-wrap .right .img-wrap img {
+    width: 150% !important;
+  }
+  .ST-content-wrap,
+  .countries {
+    padding: 10px;
+  }
+  .safe-places-wrap .inner-content p,
+  .dangerous-places-wrap .inner-content p {
+    padding: 0 10px;
+  }
+  .dotted-content p {
+    font-size: 13px;
+    padding-right: 10px;
+  }
+  .dotted-content p br {
+    display: none;
+  }
+  .mainCollapseMenuWrap ul li {
+    width: 40px;
+  }
+  .mainCollapseMenuWrap ul .item img {
+    height: 23px;
+    width: 23px;
+    margin: 7px 0 0 0;
+  }
+  .mainCollapseMenuWrap ul .item {
+    width: 40px !important;
+    height: 40px !important;
+  }
+  .pie-chart .genz {
+    top: 31%;
+    left: 35%;
+  }
+  .pie-chart .genx {
+    top: 40%;
+    left: 35%;
+  }
+  .pie-chart .millenial {
+    top: 31%;
+    left: 30%;
+  }
+  .pie-chart .boomers {
+    top: 40%;
+    left: 33%;
+  }
+  #pie-chart3,
+  #pie-chart4 {
+    margin-top: 25px;
+  }
+}
+@media (min-width: 410px) and (max-width: 413px) {
+  .main-header .title-content-bigger,
+  .safety-tips-wrap .title-content-bigger,
+  .safe-places-wrap .title-content-bigger,
+  .checklist-wrap .title-content-bigger {
+    padding: 50px 0 20px;
+  }
+  .behavior-wrap .img-wrap .text-content {
+    top: -24px;
+  }
+  .main-launch .content h3 {
+    font-size: 35px;
+  }
+  .modal-body p {
+    font-size: 12px;
+  }
+  .conclusion .box p {
+    font-size: 15px;
+  }
+  .danger .card-body {
+    padding: 10px;
+  }
+  .countries .letter-advisory {
+    bottom: 25%;
+  }
+  .checklist-wrap .inner-content p {
+    padding: 0 10px;
+    font-size: 18px;
+  }
+  .ver-2 .title-content-bigger {
+    padding: 50px 0 20px;
+  }
+  .ver-2 .inner-content p {
+    padding: 0 20px;
+  }
+}
+@media (min-width: 360px) and (max-width: 400px) {
+  .mainCollapseMenuWrap ul li {
+    width: 40px;
+  }
+  .mainCollapseMenuWrap ul .item img {
+    height: 23px;
+    width: 23px;
+    margin: 7px 0 0 0;
+  }
+  .title-content-bigger {
+    font-size: 35px;
+  }
+  .main-launch .content .btn {
+    font-size: 20px;
+  }
+  .main-header .inner-content p,
+  .mode-of-transport .transport-graph-wrap .box p {
+    font-size: 15px;
+  }
+  .main-header .title-content-bigger,
+  .language-barriers-wrap .title-content-bigger {
+    padding: 50px 0 20px;
+  }
+  .mode-of-transport p {
+    font-size: 12px;
+  }
+  .mode-of-transport .box .inner-box {
+    padding: 25px 10px;
+  }
+  .mode-of-transport .chartfatal {
+    padding: 15px 0 0;
+  }
+  .transport-graph-wrap .container {
+    padding: 0;
+  }
+  .destinations-wrap p {
+    font-size: 12px;
+  }
+  .destinations-wrap {
+    padding: 0 20px;
+  }
+  .duration-season-wrap .weather img {
+    width: 100%;
+  }
+  .duration-season-wrap .box,
+  .purpose-travel-wrap .box,
+  .safs-wrap .box {
+    position: relative !important;
+    margin: 0 auto !important;
+    left: 0 !important;
+    margin-top: -70px !important;
+    top: 12% !important;
+  }
+  .duration-season-wrap .length-time img {
+    width: 100%;
+    float: none;
+  }
+  .duration-season-wrap .length-time .box {
+    right: 45%;
+  }
+  .purpose-travel-wrap .pleasure img,
+  .purpose-travel-wrap .business img,
+  .safs-wrap .stay-wrap img,
+  .safs-wrap .food-wrap img,
+  .safs-wrap .sanitation-wrap img {
+    width: 100%;
+  }
+  .purpose-travel-wrap .pleasure .box,
+  .purpose-travel-wrap .business .box,
+  .safs-wrap .stay-wrap .box,
+  .safs-wrap .sanitation-wrap .box {
+    width: 80% !important;
+  }
+  .purpose-travel-wrap .business img,
+  .safs-wrap .food-wrap img {
+    float: none;
+  }
+  .purpose-travel-wrap .business .box,
+  .safs-wrap .food-wrap .box {
+    right: 45%;
+  }
+  .safs-wrap .stay-wrap .box,
+  .safs-wrap .sanitation-wrap .box {
+    top: 10%;
+  }
+  .safs-wrap .food-wrap .box {
+    top: 0;
+  }
+  .safs-wrap .title-content {
+    padding: 10px 20px;
+  }
+  .health-traveler-wrap .desc-wrap {
+    margin: 0;
+    float: none;
+  }
+  .health-traveler-wrap .desc-wrap {
+    width: 100%;
+  }
+  .health-traveler-wrap .img-wrap {
+    width: 100%;
+    float: none;
+  }
+  .travel-numbers {
+    padding: 0 20px;
+  }
+  .behavior-wrap .img-wrap p {
+    font-size: 12px;
+  }
+  .behavior-wrap .right-wrap {
+    padding-top: 0;
+  }
+  .behavior-wrap .bigger-box {
+    margin: 20px auto;
+  }
+  .behavior-wrap .box {
+    font-size: 12px;
+  }
+  .behavior-wrap .right-wrap h3 {
+    font-weight: bold;
+  }
+  .language-barriers-wrap .inner-content p {
+    font-size: 15px;
+  }
+  .LB-content-wrap .left .desc-wrap {
+    flex: 0 0 100%;
+    max-width: 100%;
+  }
+  .safety-tips-wrap .inner-content p,
+  .dangerous-places-wrap .inner-content p,
+  .safe-places-wrap .inner-content p {
+    font-size: 15px;
+  }
+  .danger .card-body {
+    padding: 10px;
+  }
+  .countries .letter-advisory {
+    bottom: 25%;
+  }
+  .countries {
+    padding: 10px;
+  }
+  .countries .modal .left-safe p {
+    padding: 0 20px;
+    font-size: 16px;
+  }
+  .countries .modal .right-safe .photo-01,
+  .countries .modal .right-safe .photo-02 {
+    width: 90%;
+  }
+  .dotted-content p {
+    font-size: 12px;
+  }
+  .ver-2 .title-content-bigger {
+    padding: 0 0 50px;
+  }
+  .pie-chart h3 {
+    font-size: 27px;
+  }
+  .pie-chart p {
+    font-size: 11px;
+  }
+  .health-traveler-wrap .bottom-wrap .row {
+    padding: 0 20px;
+  }
+  .pie-chart p {
+    font-size: 11px;
+  }
+  .ST-content-wrap .words-wrap .right p {
+    font-size: 12px;
+  }
+  .LB-content-wrap .left .desc-wrap,
+  .LB-content-wrap .right .desc-wrap {
+    padding-left: 20px;
+  }
+  .safe-places-wrap .title-content-bigger {
+    padding: 50px 20px 20px;
+  }
+  .checklist-wrap .title-content-bigger {
+    padding: 50px 0 20px;
+  }
+  .checklist-wrap .inner-content p {
+    font-size: 15px;
+  }
+  .LB-content-wrap .img-wrap {
+    display: none;
+  }
+  .LB-content-wrap .right .desc-wrap {
+    flex: 0 0 100%;
+    max-width: 100%;
+  }
+  .LB-content-wrap {
+    padding: 30px;
+  }
+  .ver-2 .title-content-bigger {
+    padding: 10px;
+  }
+  .pie-chart h3 {
+    font-size: 25px;
+  }
+  .ver-2 .inner-content p {
+    font-size: 15px;
+  }
+  .main-launch .content .btn {
+    font-size: 20px;
+  }
+  .main-launch .content h3 {
+    padding: 10px;
+  }
+  .trekbible-logo {
+    margin-bottom: 5px;
+  }
+  .destinations-wrap .right {
+    padding: 10px 0 20px;
+  }
+  #pie-chart3,
+  #pie-chart4 {
+    margin-top: 25px;
+  }
+  .pie-chart .millenial {
+    top: 33%;
+    left: 31%;
+  }
+  .pie-chart .genz {
+    top: 33%;
+    left: 36%;
+  }
+  .pie-chart .genx {
+    top: 40%;
+    left: 36%;
+  }
+  .pie-chart .boomers {
+    top: 40%;
+    left: 35%;
+  }
+  .countries .col-md-4 {
+    padding: 20px;
+  }
+  .destinations-wrap {
+    padding: 0 25px;
+  }
+  .behavior-wrap .img-wrap .text-content {
+    top: 5%;
+  }
+  .pie-chart h3 {
+    font-size: 25px;
+  }
+  .ST-content-wrap {
+    padding: 5px;
+  }
+  .checklist-wrap .inner-content p {
+    font-size: 18px;
+  }
+  .safe-places-wrap .title-content-bigger {
+    padding: 10px;
+  }
+}
+@media (max-width: 320px) {
+  .main-launch .content h3 {
+    font-size: 30px;
+  }
+  .main-header .figure {
+    width: 100% !important;
+  }
+  .mainCollapseMenuWrap ul li {
+    width: 40px;
+  }
+  .mainCollapseMenuWrap ul .item img {
+    margin: 8px 0 0 0;
+  }
+  .mainCollapseMenuWrap ul .item {
+    width: 43px;
+    height: 43px;
+  }
+  #sidebar {
+    display: none;
+  }
+  #content {
+    width: 100%;
+  }
+  #content.active {
+    width: calc(100% - 150px);
+  }
+  #sidebarCollapse span {
+    display: none;
+  }
+  .trekbible-logo {
+    width: 35%;
+    padding-bottom: 0;
+    margin-left: 0;
+  }
+  .mode-of-transport .transport-graph-wrap .box p {
+    font-size: 13px;
+  }
+  .mode-of-transport .transport-graph-wrap .boxi {
+    padding-right: 15px;
+  }
+  .mode-of-transport .transport-graph-wrap .box {
+    margin: 10% auto;
+  }
+  .mode-of-transport #chartfatal {
+    max-height: 300px !important;
+    width: 260px;
+    height: 285px;
+  }
+  .mode-of-transport .chartfatal {
+    padding-left: 0;
+  }
+  .transport-graph-wrap .container {
+    padding: 0 !important;
+  }
+  .destinations-wrap .title-content {
+    padding: 10px 0 10px !important;
+  }
+  .destinations-wrap {
+    padding: 0 10px;
+  }
+  .box-title {
+    font-size: 20px;
+  }
+  .duration-season-wrap .weather .box .inner-box {
+    font-size: 10px !important;
+  }
+  .duration-season-wrap .length-time .box .inner-box {
+    font-size: 10px !important;
+  }
+  .travel-numbers {
+    padding: 0 10px;
+  }
+  .title-content-bigger {
+    font-size: 40px;
+  }
+  .main-header .inner-content p {
+    font-size: 16px;
+  }
+  .destinations-wrap .box {
+    width: 13px;
+  }
+  .travel-numbers {
+    overflow-x: hidden !important;
+    overflow-y: hidden !important;
+  }
+  .navbar button {
+    margin: 5px 10px !important;
+  }
+  .behavior-wrap .img-wrap .text-content {
+    top: 16px;
+  }
+  .behavior-wrap .right-wrap {
+    padding-top: 30px;
+  }
+  .behavior-wrap .img-wrap p {
+    font-size: 11px;
+  }
+  .pie-chart h3 {
+    font-size: 25px;
+  }
+  .pie-chart p {
+    font-size: 12px;
+  }
+  .purpose-travel-wrap .pleasure .inner-box {
+    font-size: 10px !important;
+  }
+  .purpose-travel-wrap .business .inner-box {
+    font-size: 10px !important;
+  }
+  .safs-wrap .stay-wrap .inner-box {
+    font-size: 10px !important;
+  }
+  .safs-wrap .food-wrap .inner-box {
+    font-size: 10px !important;
+  }
+  .safs-wrap .sanitation-wrap .inner-box {
+    font-size: 10px !important;
+  }
+  .safs-wrap .title-content {
+    padding-left: 30px;
+  }
+  .countries .col-md-4 {
+    padding: 20px 3px;
+  }
+  .countries {
+    padding: 40px 10px 20px;
+  }
+  .conclusion .box h5 {
+    font-size: 25px;
+  }
+  .conclusion .box p {
+    font-size: 12px;
+  }
+  .health-traveler-wrap .title-content {
+    padding-left: 20px;
+  }
+  .health-traveler-wrap .bottom-wrap .health-title {
+    padding: 0;
+    font-size: 25px;
+  }
+  .health-traveler-wrap .bottom-wrap .row {
+    padding: 0 30px;
+  }
+  .language-barriers-wrap .title-content-bigger {
+    padding-top: 15vw;
+  }
+  .LB-content-wrap .left .row {
+    padding: 0;
+  }
+  .LB-content-wrap .right .row {
+    padding: 0;
+  }
+  .ST-content-wrap .words-wrap .right {
+    padding: 0 25px;
+  }
+  .ST-content-wrap .words-wrap .right h3 {
+    font-size: 15px;
+  }
+  .ST-content-wrap .words-wrap .right p {
+    font-size: 9px;
+  }
+  .dangerous-places-wrap .inner-content p {
+    font-size: 16px;
+  }
+  .dangerous-places-wrap .title-content-bigger {
+    padding-top: 20vw;
+  }
+  .countries .modal .modal-title img {
+    height: 30px;
+  }
+  .countries .modal .modal-title {
+    font-size: 15px;
+    padding-right: 50px !important;
+    padding: 0;
+  }
+  .countries .modal p {
+    font-size: 12px;
+  }
+  .safe-places-wrap .title-content-bigger {
+    padding: 0;
+  }
+  .safe-places-wrap .inner-content p {
+    font-size: 16px;
+  }
+  .countries .modal .left-safe p {
+    padding: 0 0 0 10px;
+  }
+  .countries .modal .left-safe hr {
+    padding: 0px 15px;
+  }
+  .countries .modal .left-safe {
+    padding: 10px;
+  }
+  .countries .modal .right-safe .photo-01 {
+    border-radius: 0;
+  }
+  .countries .modal .right-safe .photo-02 {
+    border-radius: 0;
+  }
+  .dotted-content .icon {
+    margin: 0 40px 0 0;
+  }
+  .dotted-content {
+    padding: 10px 15px;
+  }
+  .dotted-content p {
+    font-size: 12px;
+  }
+  .dotted-content ul {
+    padding: 0;
+  }
+  .checklist-wrap .title-content-bigger {
+    padding: 0;
+    font-size: 35px;
+  }
+  .ver-2 .inner-content p {
+    font-size: 13px;
+  }
+  .LB-content-wrap .left .desc-wrap,
+  .LB-content-wrap .right .desc-wrap {
+    flex: 0 0 100%;
+    max-width: 100%;
+  }
+  .LB-content-wrap .img-wrap {
+    display: none;
+  }
+  .pie-chart .millenial {
+    top: 33%;
+    left: 29%;
+  }
+  .pie-chart .genz {
+    top: 33%;
+    left: 35%;
+  }
+  .pie-chart .genx {
+    top: 35%;
+    left: 33%;
+  }
+  .pie-chart .boomers {
+    top: 35%;
+    left: 33%;
+  }
+  #pie-chart3,
+  #pie-chart4 {
+    margin-top: 10px;
+  }
+}
+
+.topvh {
+  top: 33%;
+  position: relative;
+}
+
+@media only screen and (max-height: 600px) {
+  .topvh {
+    top: 15vh;
+  }
+}
