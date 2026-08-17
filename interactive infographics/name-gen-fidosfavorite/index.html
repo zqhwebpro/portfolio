@@ -1,0 +1,158 @@
+<!DOCTYPE html>
+<!--[if lte IE 6]><html class="preIE7 preIE8 preIE9"><![endif]-->
+<!--[if IE 7]><html class="preIE8 preIE9"><![endif]-->
+<!--[if IE 8]><html class="preIE9"><![endif]-->
+<!--[if gte IE 9]><!--><html><!--<![endif]-->
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
+    <meta name="viewport" content="width=device-width,initial-scale=1" />
+    <title>Puppy Name Generator</title>
+    <meta name="author" content="name" />
+    <meta name="description" content="description here" />
+    <meta name="keywords" content="keywords,here" />
+    <link
+      rel="shortcut icon"
+      href="favicon.ico"
+      type="image/vnd.microsoft.icon"
+    />
+    <link rel="stylesheet" href="css/styles.css" type="text/css" />
+    <link href="css/all.css" rel="stylesheet" />
+  </head>
+  <body>
+    <div class="pup-landing full-screen-div white text-shadow flex flex-center">
+      <div class="pup-container">
+        <img
+          src="images/FidosFavorite.png"
+          class="logo-top"
+          alt="Fidos Favorite"
+        />
+        <h1 class="lucky uppercase text-center">Puppy Name Generator</h1>
+        <button class="fredoka red btn-main btn--hover uppercase text-center get-started">
+          Get Started!
+        </button>
+      </div>
+    </div>
+    <div class="pup-options fredoka--input full-screen-div flex flex-center">
+      <div class="pup-container">
+        <i class="fas fa-times fa-2x fa-times--filter"></i>
+        <div class="flex">
+          <div class="flex-item-2--gen">
+            <p class="fredoka white text-shadow">Gender</p>
+            <label class="radio-buttons"
+              ><input type="radio" name="gender" value="maleNames" class="radio-buttons--gender" /> Male</label
+            >
+            <label class="radio-buttons"
+              ><input type="radio" name="gender" value="femaleNames" class="radio-buttons--gender" /> Female</label
+            >
+            <label class="radio-buttons"
+              ><input type="radio" name="gender" value="" class="radio-buttons--gender" /> Both</label
+            >
+          </div>
+          <div class="flex-item-2--cat">
+            <p class="fredoka white text-shadow">Category</p>
+            <label class="radio-buttons"
+              ><input type="radio" name="category" value="Popular" class="radio-buttons--names" />
+              Popular</label
+            >
+            <label class="radio-buttons"
+              ><input type="radio" name="category" value="Funny" class="radio-buttons--names" /> Funny</label
+            >
+            <label class="radio-buttons"
+              ><input type="radio" name="category" value="Human" class="radio-buttons--names" /> Human</label
+            >
+            <label class="radio-buttons"
+              ><input type="radio" name="category" value="Unique" class="radio-buttons--names" />
+              Unique</label
+            >
+          </div>
+        </div>
+        <p class="fredoka white text-shadow pup-options--p">Starts With</p>
+        <div>
+          <span class="radio-no-radio">
+            <label><input type="radio" name="letter" value="A" class="radio-buttons--letter"/> A</label>
+            <label><input type="radio" name="letter" value="B" class="radio-buttons--letter"/> B</label>
+            <label><input type="radio" name="letter" value="C" class="radio-buttons--letter"/> C</label>
+            <label><input type="radio" name="letter" value="D" class="radio-buttons--letter"/> D</label>
+            <label><input type="radio" name="letter" value="E" class="radio-buttons--letter"/> E</label>
+            <label><input type="radio" name="letter" value="F" class="radio-buttons--letter"/> F</label>
+            <label><input type="radio" name="letter" value="G" class="radio-buttons--letter"/> G</label>
+            <label><input type="radio" name="letter" value="H" class="radio-buttons--letter"/> H</label>
+            <label><input type="radio" name="letter" value="I" class="radio-buttons--letter"/> I</label>
+            <label><input type="radio" name="letter" value="J" class="radio-buttons--letter"/> J</label>
+            <label><input type="radio" name="letter" value="K" class="radio-buttons--letter"/> K</label>
+            <label><input type="radio" name="letter" value="L" class="radio-buttons--letter"/> L</label>
+            <label><input type="radio" name="letter" value="M" class="radio-buttons--letter"/> M</label>
+            <label><input type="radio" name="letter" value="N" class="radio-buttons--letter"/> N</label>
+            <label><input type="radio" name="letter" value="O" class="radio-buttons--letter"/> O</label>
+            <label><input type="radio" name="letter" value="P" class="radio-buttons--letter"/> P</label>
+            <label><input type="radio" name="letter" value="Q" class="radio-buttons--letter"/> Q</label>
+            <label><input type="radio" name="letter" value="R" class="radio-buttons--letter"/> R</label>
+            <label><input type="radio" name="letter" value="S" class="radio-buttons--letter"/> S</label>
+            <label><input type="radio" name="letter" value="T" class="radio-buttons--letter"/> T</label>
+            <label><input type="radio" name="letter" value="U" class="radio-buttons--letter"/> U</label>
+            <label><input type="radio" name="letter" value="V" class="radio-buttons--letter"/> V</label>
+            <label><input type="radio" name="letter" value="W" class="radio-buttons--letter"/> W</label>
+            <label><input type="radio" name="letter" value="X" class="radio-buttons--letter"/> X</label>
+            <label><input type="radio" name="letter" value="Y" class="radio-buttons--letter"/> Y</label>
+            <label><input type="radio" name="letter" value="Z" class="radio-buttons--letter"/> Z</label>
+          </span>
+          <label class="radio-buttons"><input type="radio" name="all" value="" />All</label>
+        </div>   
+        <button class="btn-med btn--hover yellow fredoka show-me generate">SHOW ME</button>
+      </div>
+    </div>
+    <div class="pup-name pup-name--bg full-screen-div flex flex-center">
+      <div class="pup-container">
+        <img
+          src="images/FidosFavorite.png"
+          class="logo-mid"
+          alt="Fidos Favorite"
+        />
+        <p class="fredoka my-list text-shadow my-list-link">My List</p>
+        <p class="lucky text-center text-shadow name blue random-name">Jetpack</p>
+        <button class="btn-med btn--hover fredoka blue uppercase try-again generate">
+          Try Again <i class="fas fa-sync-alt"></i>
+        </button>
+        <div class="flex pup-name-button-marg">
+          <button class="btn-small btn--hover--color--dark fredoka blue-bg white flex-item-2 filter">
+            Filters
+          </button>
+          <button class="btn-small btn--hover--color fredoka green-bg white flex-item-2 add-to-list">
+            Add to List
+          </button>
+        </div>
+      </div>
+    </div>
+      <div class="pup-list full-screen-div flex flex-center">
+        <div class="pup-container">
+          <i class="fas fa-times fa-2x fa-times--list"></i>
+          <p class="white text-center fredoka text-shadow">My List</p>
+          <ul class="fredoka--li">
+          </ul>
+          <button class="btn-med btn--hover yellow fredoka uppercase social-share">SHARE</button>  
+        </div>
+      </div>
+      <div class="modal-container">
+        <div class="social-share-modal">
+         <i class="modal-close fas fa-times fa-1x fa-times--share"></i>
+          <p class="fredoka lines-around">Share this page with friends</p>
+          <div class="social-media-container">
+            <a href="https://www.facebook.com/sharer/sharer.php?u=www.fidosfavorite.com"><i class="fab fa-4x fa-facebook-square"></i></a>
+            <a href="https://twitter.com/home?status=www.fidosfavorite.com I just generated an aaauahhmazing Pet Names list here, how fun!"><i class="fab fa-4x fa-twitter-square"></i></a>
+            <a href="mailto:info@example.com?&subject=&body=www.fidosfavorite.com I just generated an aaauahhmazing Pet Names list here, how fun!"><i class="fas fa-4x fa-envelope-square"></i></a>
+            <a href="https://pinterest.com/pin/create/button/?url=www.fidosfavorite.com&media=&description=I just generated an aaauahhmazing Pet Names list here, how fun!"><i class="fab fa-4x fa-pinterest-square"></i></a>
+          </div>
+        </div>
+      </div>
+    <script
+      src="https://code.jquery.com/jquery-3.4.1.min.js"
+      integrity="sha256-CSXorXvZcTkaix6Yvo6HppcZGetbYMGWSFlBw8HfCJo="
+      crossorigin="anonymous"></script>
+    <script
+      src="https://code.jquery.com/ui/1.12.1/jquery-ui.min.js"
+      integrity="sha256-VazP97ZCwtekAsvgPBSUwPFKdrwD3unUfSGVYrahUqU="
+      crossorigin="anonymous"></script>
+    <script src="scripts/scripts.js" type="text/javascript"></script>
+  </body>
+</html>

@@ -1,0 +1,543 @@
+/* toastr rewrite */
+
+#toast-container>.toast-error {
+    background-image: transparent;
+}
+
+.toast-error {
+    background-color: #db4c00;
+    max-width: 220px;
+    font-size: 15px;
+    padding: 7px;
+}
+
+/* CSS CALC */
+
+.form-logo {
+    margin: 0 auto;
+    max-width: 200px;
+    display: block;
+}
+
+.keto-p {
+    margin: 10px 0px;
+    font-size: 14px;
+}
+
+.keto-pad-image {
+    position: relative;
+    margin-top: -300px;
+    float: right;
+    margin-right: -45px;
+}
+
+.keto-container-wrapper {
+    max-width: 960px;
+    margin: 0 auto;
+    z-index: 10;
+}
+
+#keto-container {
+    background-color: white;
+    box-shadow: 0px 0px 15px rgba(230, 225, 237, 0.55);
+    padding: 30px 30px;
+    margin: 0 auto;
+    border-radius: 15px;
+}
+
+.keto-marg-top {
+    margin-top: 30px;
+}
+
+label.keto-label.keto-radio.yellow-hover {
+    border-radius: 7px;
+}
+
+.spacer {
+    margin: 40px 0px;
+}
+
+.keto-h2 {
+    font-size: 19px;
+    font-weight: 700;
+    margin-top: 30px;
+    margin-bottom: 10px;
+}
+
+.keto-h2:first-child {
+    margin-top: 0px;
+}
+
+.keto-darkgreen {
+    color: #5bbea0;
+}
+
+.keto-darkgreen-bg {
+    background-color: #5bbea0 !important;
+    margin-top: 30px;
+    transition: background-color .6s;
+    color: white !important;
+    border-radius: 7px !important;
+}
+
+.keto-darkgreen-bg:hover {
+    background-color: #70d3b4 !important;
+    animation: scaleIn .2s ease-in forwards;
+}
+
+.ketoClicked {
+    background-color: blue !important;
+}
+
+input[type="radio"] {
+    display: none;
+}
+
+.keto-green {
+    color: #85b135;
+}
+
+.active {
+    box-shadow: 0px 0px 1px 1px #88d8c0 !important;
+    background-color: #88d8c0 !important;
+    color: white !important;
+}
+
+.keto-yellow {
+    color: #e4c800;
+}
+
+.keto-orange {
+    color: #ffc1a0;
+}
+
+label.keto-label.keto-radio.green-hover {
+    border-radius: 7px;
+}
+
+.keto-darkorange {
+    color: #ffc1a0;
+}
+
+label.keto-label.keto-radio.orange-hover {
+    border-radius: 7px;
+}
+
+.darkgreen-hover:hover {
+    background-color: #20916f;
+    color: black;
+}
+
+.green-hover:hover {
+    background-color: #88d8c0;
+    color: black;
+}
+
+.yellow-hover:hover {
+    background-color: #ffcb7a;
+    color: black;
+}
+
+.orange-hover:hover {
+    background-color: #ffc1a0;
+    color: black;
+}
+
+.darkorange-hover:hover {
+    background-color: #ffc1a0;
+    color: black;
+}
+
+.keto-grey {
+    color: #999;
+}
+
+.keto-label {
+    color: #999;
+    font-size: 16px;
+}
+
+.keto-input {
+    border: 1px solid #ddd;
+    padding: 8px;
+    font-size: 13px;
+    border-radius: 3.5px;
+}
+
+.keto-input:hover {
+    border: 1px solid #CCC;
+    box-shadow: 0px 0px 3px #eee;
+}
+
+.keto-input:focus {
+    box-shadow: none;
+}
+
+.btn-center {
+    display: block !important;
+    margin: 40px auto 10px !important;
+    padding: .75rem 3.25rem !important;
+    font-size: 1.25rem !important;
+    border: transparent !important;
+}
+
+.form-control[readonly] {
+    background-color: white;
+}
+
+/* The container */
+
+.keto-radio {
+    display: block;
+    position: relative;
+    padding-left: 0px;
+    margin-bottom: 12px;
+    cursor: pointer;
+    font-size: 15px;
+    background-color: #eee;
+    padding: 10px 20px;
+    text-align: center;
+    margin-right: 20px;
+    transition: background-color 0.7s;
+}
+
+.keto-radio:hover {
+    animation: scaleIn 0.1s ease-in forwards;
+}
+
+.keto-radio:active {
+    background-color: #bbb;
+    box-shadow: inset 0px 0px 2px #666;
+}
+
+@keyframes scaleIn {
+    from {
+        transform: scale(1);
+    }
+    to {
+        transform: scale(1.05);
+    }
+}
+
+.keto-radio input {
+    cursor: pointer;
+}
+
+.keto-range {
+    width: 100%;
+}
+
+.keto-range-images {
+    position: relative;
+    top: -15px;
+    height: 50px;
+}
+
+input[type="range"] {
+    -webkit-appearance: none;
+    margin: 10px 0;
+    width: 100%;
+}
+
+.slide-a {
+    background-image: url(../images/1.2.png);
+    background-repeat: no-repeat;
+    background-size: contain;
+    background-position: center;
+}
+
+.slide-a:after {
+    content: 'Not Very Active';
+    position: relative;
+    width: 100%;
+    display: block;
+    text-align: center;
+    top: 48px;
+}
+
+.slide-b {
+    background-image: url(../images/1.375.png);
+    background-repeat: no-repeat;
+    background-size: contain;
+    background-position: center;
+}
+
+.slide-b:after {
+    content: 'Slightly Active';
+    position: relative;
+    width: 100%;
+    display: block;
+    text-align: center;
+    top: 48px;
+}
+
+.slide-c {
+    background-image: url(../images/1.55.png);
+    background-repeat: no-repeat;
+    background-size: contain;
+    background-position: center;
+}
+
+.slide-c:after {
+    content: 'Active';
+    position: relative;
+    width: 100%;
+    display: block;
+    text-align: center;
+    top: 48px;
+}
+
+.slide-d {
+    background-image: url(../images/1.725.png);
+    background-repeat: no-repeat;
+    background-size: contain;
+    background-position: center;
+}
+
+.slide-d:after {
+    content: 'Very Active';
+    position: relative;
+    width: 100%;
+    display: block;
+    text-align: center;
+    top: 48px;
+}
+
+.slide-e {
+    background-image: url(../images/1.9.png);
+    background-repeat: no-repeat;
+    background-size: contain;
+    background-position: center;
+}
+
+.slide-e:after {
+    content: 'Extremely Active';
+    position: relative;
+    width: 100%;
+    display: block;
+    text-align: center;
+    top: 48px;
+}
+
+input[type="range"]:focus {
+    outline: none;
+}
+
+input[type="range"]::-webkit-slider-runnable-track {
+    width: 100%;
+    height: 8px;
+    cursor: pointer;
+    box-shadow: 0px 0px 0px #000000, 0px 0px 0px #0d0d0d;
+    background: #ffcb7a;
+    border-radius: 25px;
+    border: 0px solid #000101;
+}
+
+input[type="range"]::-webkit-slider-thumb {
+    border: 1px solid #bbb;
+    height: 20px;
+    width: 39px;
+    border-radius: 7px;
+    background: white;
+    cursor: pointer;
+    -webkit-appearance: none;
+    margin-top: -3.6px;
+}
+
+input[type="range"]:focus::-webkit-slider-runnable-track {
+    background: #ffcb7a;
+}
+
+input[type="range"]::-moz-range-track {
+    width: 100%;
+    height: 12.8px;
+    cursor: pointer;
+    box-shadow: 0px 0px 0px #000000, 0px 0px 0px #0d0d0d;
+    background: #ffcb7a;
+    border-radius: 25px;
+    border: 0px solid #000101;
+}
+
+input[type="range"]::-moz-range-thumb {
+    box-shadow: 0px 0px 4px #ddd;
+    border: 1px solid #bbb;
+    height: 20px;
+    width: 39px;
+    border-radius: 7px;
+    background: white;
+    cursor: pointer;
+}
+
+input[type="range"]::-ms-track {
+    width: 100%;
+    height: 12.8px;
+    cursor: pointer;
+    background: transparent;
+    border-color: transparent;
+    border-width: 39px 0;
+    color: transparent;
+}
+
+input[type="range"]::-ms-fill-lower {
+    background: #ffcb7a;
+    border: 0px solid #000101;
+    border-radius: 50px;
+    box-shadow: 0px 0px 0px #000000, 0px 0px 0px #0d0d0d;
+}
+
+input[type="range"]::-ms-fill-upper {
+    background: #ffcb7a;
+    border: 0px solid #000101;
+    border-radius: 50px;
+    box-shadow: 0px 0px 0px #000000, 0px 0px 0px #0d0d0d;
+}
+
+input[type="range"]::-ms-thumb {
+    box-shadow: 0px 0px 0px #000000, 0px 0px 0px #0d0d0d;
+    border: 0px solid #000000;
+    height: 20px;
+    width: 39px;
+    border-radius: 7px;
+    background: #ffcb7a;
+    cursor: pointer;
+}
+
+input[type="range"]:focus::-ms-fill-lower {
+    background: grey;
+}
+
+input[type="range"]:focus::-ms-fill-upper {
+    background: grey;
+}
+
+.bfp-image {
+    width: 100%;
+    max-width: 700px;
+    margin: 10px auto 20px;
+    display: block;
+}
+
+.keto-input-100 {
+    width: 100%;
+}
+
+/* RESULTS */
+
+.net-carbs-box {
+    border-radius: 10px;
+    padding: 13px;
+    text-align: center;
+    margin-right: 5px;
+    border: 4px solid #32ccbc;
+    background-color: #cbf4f0;
+}
+
+.protein-box {
+    border-radius: 10px;
+    padding: 13px;
+    text-align: center;
+    margin: 0px 5px;
+    border: 4px solid #eda987;
+    background-color: #f4dfd4;
+}
+
+.net-fat-box {
+    border-radius: 10px;
+    padding: 13px;
+    text-align: center;
+    margin: 0px 5px;
+    border: 4px solid #d3b80a;
+    background-color: #f4efcd;
+}
+
+.net-cal-box {
+    background-color: white;
+    border-radius: 10px;
+    padding: 13px;
+    text-align: center;
+    margin-left: 5px;
+    border: 4px solid #ab87d3;
+    background-color: #e6e1ed;
+}
+
+#ketoResults {
+    margin: 0px;
+    padding: 0px;
+    animation: dropDown .8s ease-in forwards;
+}
+
+#ketoTableResults {
+    margin: 60px 0px;
+    border-radius: 15px;
+    border: 1px solid rgba(230, 225, 237, 0.75);
+    padding: 20px 20px 50px 20px;
+}
+
+.ketoTable {
+    border-collapse: collapse;
+    width: 100%;
+    border: 1px solid rgba(230, 225, 237, 0.75);
+    margin-top: 20px;
+}
+
+.tableHeadline {
+    margin: 10px 0px;
+    padding: 10px;
+    color: #5bbea0;
+}
+
+.ketoTH {
+    padding: 10px;
+    text-transform: uppercase;
+    font-size: 13px;
+}
+
+.ketoTD, .ketoTh {
+    border: 1px solid rgba(230, 225, 237, 0.55);
+    text-align: left;
+    padding: 10px;
+    font-size: 15px;
+}
+
+.ketoTR:nth-child(even) {
+    background-color: rgba(230, 225, 237, 0.35);
+}
+
+.ketoTR:nth-child(odd) {
+    background-color: rgba(230, 225, 237, 0.15);
+}
+
+.keto-disclaimer {
+    margin-top: 25px;
+    border-radius: 7px;
+    border: 1px solid #CCC;
+    background-color: #F7F7F7;
+    padding: 15px 15px 0px 15px;
+    box-shadow: inset 0px 0px 7px #D7D7D7;
+    font-size: 13px;
+}
+
+@media (min-width: 768px) {
+    .col-md-3 {
+        flex: 0 0 18.25%;
+        max-width: 18.25%;
+    }
+}
+
+@media (max-width: 768px) {
+    .net-carbs-box {
+        margin: 10px;
+    }
+    .protein-box {
+        margin: 10px;
+    }
+    .net-fat-box {
+        margin: 10px;
+    }
+    .net-cal-box {
+        margin: 10px;
+    }
+    .keto-pad-image {
+        display: none;
+    }
+}
