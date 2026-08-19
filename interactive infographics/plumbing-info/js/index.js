@@ -16,7 +16,7 @@ $(document).ready(function () {
         const mainScene = document.getElementById('scene');
         if (mainScene) new Parallax(mainScene);
 
-        for (let i = 1; i <= 24; i++) {
+        for (let i = 1; i <= 30; i++) {
             const sceneId = i < 10 ? `scene-0${i}` : `scene-${i}`;
             const sceneEl = document.getElementById(sceneId);
             if (sceneEl) {

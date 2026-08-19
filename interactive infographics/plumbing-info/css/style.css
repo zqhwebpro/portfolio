@@ -215,10 +215,18 @@ ul {
   background: url('../images/18-century.png');
   background-size: cover;
 }
-/* #sidebar #picture.five {
+#sidebar #picture.five {
+  background: url('../images/hygiene-bg.png');
+  background-size: cover;
+}
+#sidebar #picture.six {
+  background: url('../images/Dark-Ages-BG.jpg');
+  background-size: cover;
+}
+#sidebar #picture.seven {
   background: url('../images/18-century.png');
   background-size: cover;
-} */
+}
 #sidebar .menu-list ul {
   width: 100%;
   justify-content: center;
@@ -982,14 +990,14 @@ background: #000;
   top: 1000px !important;
 } */
 /*    HYGIENE AS A CONCEPT SECTION    */
-.hac-section-wrap .btn-next {
+.hac-section-wrap .btn-next, .psp-section-wrap .btn-next, .hpsfd-section-wrap .btn-next {
   position: absolute;
   bottom: 5%;
   left: 48%;
   border: none;
   background: none;
 }
-.hac-section-wrap .btn-next:hover {
+.hac-section-wrap .btn-next:hover, .psp-section-wrap .btn-next:hover, .hpsfd-section-wrap .btn-next:hover {
   -webkit-animation-name: hvr-icon-down;
   animation-name: hvr-icon-down;
   -webkit-animation-duration: 1s;
@@ -997,7 +1005,7 @@ background: #000;
   -webkit-animation-timing-function: ease-out;
   animation-timing-function: ease-out;
 }
-.hac-section-wrap .wrapper, .psp-section-wrap .wrapper {
+.hac-section-wrap .wrapper, .psp-section-wrap .wrapper, .hpsfd-section-wrap .wrapper, .cshc-section-wrap .wrapper {
   width: 100%;
   height: 100vh;
   position: relative;
@@ -1246,21 +1254,75 @@ background: #000;
 }
 /*    PLUMBING, SANITATION AND PANDEMICS SECTION    */
 .container-psp {
-  padding: 50px;
+  padding: 0 50px;
+  overflow: hidden;
   background: url("../images/hygiene-bg.png") !important;
 }
 .psp-text {
   position: absolute !important;
   left: 15% !important;
-  top: 150px !important;
+  top: 180px !important;
 }
-.psp-text hr {
+.psp-hr {
   border: #000 solid 1px;
   width: 50%;
-  margin: auto 0 60px;
+  margin: auto 0 40px;
 }
-/*    HOW PLUMBING SAVED AS FROM DISEASES SECTION    */
+.psp-text-wrapper {
+  padding: 0 450px 0 0;
+}
+
+/*    HOW PLUMBING SAVED US FROM DISEASES SECTION    */
+.container-hpsfd {
+  padding: 0 50px;
+  overflow: hidden;
+  background: url("../images/Dark-Ages-BG.jpg") !important;
+}
+.hpsfd-text {
+  position: absolute !important;
+  left: 15% !important;
+  top: 180px !important;
+}
+.hpsfd-hr {
+  border: #000 solid 1px;
+  width: 50%;
+  margin: auto 0 40px;
+}
+.hpsfd-text-wrapper {
+  padding: 0 450px 0 0;
+}
+.container-hpsfd .top-hac, .container-hpsfd .century-text, .container-hpsfd .hpsfd-text h3 {
+  color: #000;
+}
+.container-hpsfd .top-hac strong, .container-hpsfd .hpsfd-text strong, .container-hpsfd .century-text strong {
+  color: #E9222D;
+}
+
 /*    CONTEMPORARY SANITATION AND HEALTH CRISIS SECTION    */
+.container-cshc {
+  padding: 0 50px;
+  overflow: hidden;
+  background: url("../images/18-century.png") !important;
+}
+.cshc-text {
+  position: absolute !important;
+  left: 15% !important;
+  top: 180px !important;
+}
+.cshc-hr {
+  border: #000 solid 1px;
+  width: 50%;
+  margin: auto 0 40px;
+}
+.cshc-text-wrapper {
+  padding: 0 450px 0 0;
+}
+.container-cshc .top-hac, .container-cshc .century-text, .container-cshc .cshc-text h3 {
+  color: #000;
+}
+.container-cshc .top-hac strong, .container-cshc .cshc-text strong, .container-cshc .century-text strong {
+  color: #E9222D;
+}
 
 /* @media (min-width : 1600px) {
   #sidebar { width: 230px;}
@@ -1283,6 +1345,7 @@ background: #000;
     .cholera { left: 60% !important; }
     .container-hac-05 .hac-text-wrapper { padding: 0 175px 0 0 }
     .hac-03-text .hac-text-wrapper { padding: 0 700px 0 0 }
+    .psp-text-wrapper, .hpsfd-text-wrapper, .cshc-text-wrapper { padding: 0 500px 0 0 }
 }
 @media (max-width: 1200px) {
     .landing-text-wrapper { padding: 0 275px; }
@@ -1304,6 +1367,7 @@ background: #000;
     .hac-03-text { left: 10% !important; }
     .london-bg img { width: 700px; }
     .hac-03-text { top: 150px !important; }
+    .psp-text-wrapper, .hpsfd-text-wrapper, .cshc-text-wrapper { padding: 0 250px 0 0 }
 }
 
 @media (max-width: 992px) {
@@ -1362,8 +1426,8 @@ background: #000;
     .hac-text { top: 175px !important; }
     .london-bg { left: 0 !important; top: 600px !important; }
     .scene-top-hac { font-size: 16px; }
-    .psp-text { left: 10% !important; }
-    .psp-text { left: 10% !important; }
+    .psp-text, .hpsfd-text, .cshc-text { left: 8% !important; top: 140px !important; }
+    .psp-text-wrapper, .hpsfd-text-wrapper, .cshc-text-wrapper { padding: 0 60px 0 0; }
     .container-hac-05 .century-text strong { font-size: 30px }
     .container-subhac-02 .quote { left: 10% !important; }
     .container-subhac-02 .cogan { left: 55% !important; }
@@ -1390,6 +1454,8 @@ background: #000;
     #scene-12 { padding: 0 }
     .hac-text { left: 8% !important; }
     .hac-text-wrapper, .container-hac-04 .hac-text-wrapper { padding: 0 50px 0 0; }
+    .psp-text, .hpsfd-text, .cshc-text { left: 6% !important; top: 120px !important; }
+    .psp-text-wrapper, .hpsfd-text-wrapper, .cshc-text-wrapper { padding: 0 40px 0 0; }
     .container-subhac-01 .text { left: 13% !important; }
     .subhac-text-wrapper { padding: 0 125px 0 0; }
     .semmelweis { z-index: -1; top: 700px !important;}
@@ -1433,7 +1499,8 @@ background: #000;
     .container-hac-05 .century-text strong { font-size: 22px; }
     .semmelweis { top: 600px !important; }
     .london-bg { top: 500px !important; left: 8% !important }
-    .psp-text { top: 50px !important; left: 20px !important;  }
+    .psp-text, .hpsfd-text, .cshc-text { top: 70px !important; left: 20px !important; }
+    .psp-text-wrapper, .hpsfd-text-wrapper, .cshc-text-wrapper { padding: 0 20px 0 0; }
     .container-subhac-02 .close { padding: 10px; left: 80% !important; }
 
 }
@@ -1487,7 +1554,8 @@ background: #000;
     .drinker, .semmelweis { display: none !important; }
     .container-submas-01 .sidepop p i, .container-submas-01 .sidepop p { font-size: 10px }
     .container-submas-01 .sidepop { padding: 0 30px; width: 100%; }
-    /*.hac-section-wrap .wrapper, .psp-section-wrap .wrapper { height: 100%; }*/
+    .psp-text, .hpsfd-text, .cshc-text { top: 50px !important; left: 0 !important; }
+    .psp-text-wrapper, .hpsfd-text-wrapper, .cshc-text-wrapper { padding: 0 15px 0 0; }
 }
 
 
