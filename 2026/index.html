@@ -643,7 +643,7 @@
       max-width: 960px;
       width: 100%;
       text-align: left;
-      align-items: start;
+      align-items: stretch;
     }
 
     /* ── NEW ICON-LEFT CAP BLOCK ── */
@@ -656,6 +656,8 @@
       display: flex;
       align-items: flex-start;
       gap: 14px;
+      box-sizing: border-box;
+      height: 100%;
       transition: background 0.2s, border-color 0.2s, border-left-color 0.2s;
       cursor: default;
     }
@@ -1417,165 +1419,75 @@
 
     <div class="mktg-inner">
 
-      <!-- LEFT COLUMN -->
-      <div style="display:flex; flex-direction:column; gap:8px;">
-
-        <!-- Custom Development at Weber Advertising -->
-        <div class="cap-block">
-          <div class="cap-block-icon">
-            <svg width="18" height="18" viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg">
-              <path d="M6 7l-3 3 3 3M14 7l3 3-3 3" stroke="#F5A623" stroke-width="1.4" stroke-linecap="round"
-                stroke-linejoin="round" />
-              <path d="M11.5 5l-3 10" stroke="#F5A623" stroke-width="1.4" stroke-linecap="round" />
-            </svg>
-          </div>
-          <div class="cap-block-body">
-            <div class="cap-block-title">Custom Web Development</div>
-            <div class="cap-block-desc">Hand-coded custom landing pages, email campaigns, and interactive forms for
-              national marketing initiatives — mastering responsive HTML/CSS, cross-client email compatibility, PHP form
-              processing, and pixel-perfect brand execution across diverse client campaigns.</div>
-            <div class="cap-block-links">
-              <a class="landing-page-link"
-                data-url="https://tshirtonatshirt.com/wp-content/uploads/weber/beilerprinting/"
-                data-title="Beiler Printing" data-label="Weber Advertising — Custom Development">
-                <svg width="12" height="12" viewBox="0 0 12 12" fill="none" xmlns="http://www.w3.org/2000/svg">
-                  <rect x="1" y="1" width="10" height="10" rx="1" stroke="currentColor" stroke-width="1.2" />
-                  <path d="M4 6h4M6 4v4" stroke="currentColor" stroke-width="1.2" stroke-linecap="round" />
-                </svg>
-                Beiler Printing
-              </a>
-              <a class="landing-page-link"
-                data-url="https://tshirtonatshirt.com/wp-content/uploads/weber/buckland-insurance-agency/"
-                data-title="Buckland Insurance Agency — Landing Page"
-                data-label="Weber Advertising — Custom Development">
-                <svg width="12" height="12" viewBox="0 0 12 12" fill="none" xmlns="http://www.w3.org/2000/svg">
-                  <rect x="1" y="1" width="10" height="10" rx="1" stroke="currentColor" stroke-width="1.2" />
-                  <path d="M4 6h4M6 4v4" stroke="currentColor" stroke-width="1.2" stroke-linecap="round" />
-                </svg>
-                Buckland Insurance Agency — Landing Page
-              </a>
-              <a class="email-blast-link"
-                data-url="https://tshirtonatshirt.com/wp-content/uploads/weber/deltagrp/110817.php"
-                data-title="Delta Group — Email Campaign" data-label="Weber Advertising — Custom Development">
-                <svg width="12" height="12" viewBox="0 0 12 12" fill="none" xmlns="http://www.w3.org/2000/svg">
-                  <rect x="1" y="1" width="10" height="10" rx="1" stroke="currentColor" stroke-width="1.2" />
-                  <path d="M4 6h4M6 4v4" stroke="currentColor" stroke-width="1.2" stroke-linecap="round" />
-                </svg>
-                Delta Group — Email Campaign
-              </a>
-            </div>
-          </div>
+      <!-- Front-End & UI Development -->
+      <div class="cap-block">
+        <div class="cap-block-icon">
+          <svg width="18" height="18" viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <path d="M6 7l-3 3 3 3M14 7l3 3-3 3" stroke="#F5A623" stroke-width="1.4" stroke-linecap="round"
+              stroke-linejoin="round" />
+            <path d="M11.5 5l-3 10" stroke="#F5A623" stroke-width="1.4" stroke-linecap="round" />
+          </svg>
         </div>
-
-        <!-- Layout Design -->
-        <div class="cap-block">
-          <div class="cap-block-icon">
-            <svg width="12" height="12" viewBox="0 0 12 12" fill="none" xmlns="http://www.w3.org/2000/svg">
-              <rect x="1" y="1" width="10" height="10" rx="1" stroke="#F5A623" stroke-width="1.2" />
-              <line x1="4" y1="1.5" x2="4" y2="10.5" stroke="#F5A623" stroke-width="1" />
-              <line x1="8" y1="1.5" x2="8" y2="10.5" stroke="#F5A623" stroke-width="1" />
-              <line x1="1.5" y1="5" x2="10.5" y2="5" stroke="#F5A623" stroke-width="1" />
-              <line x1="1.5" y1="8" x2="10.5" y2="8" stroke="#F5A623" stroke-width="1" />
-            </svg>
-          </div>
-          <div class="cap-block-body">
-            <div class="cap-block-title">Layout Design</div>
-            <div class="cap-block-desc">
-              Designed publication-ready layouts for national print distribution with Clipper Magazine, using Adobe
-              InDesign, Illustrator, and Photoshop.
-            </div>
-
-            <div class="cap-block-links">
-              <a class="infographic-link"
-                data-url="https://zqhwebpro.github.io/portfolio/2026/media/layout design/1aplus.png"
-                data-title="APlus Storage">
-                <svg width="12" height="12" viewBox="0 0 12 12" fill="none" xmlns="http://www.w3.org/2000/svg">
-                  <rect x="1" y="1" width="10" height="10" rx="1" stroke="currentColor" stroke-width="1.2" />
-                  <path d="M4 6h4M6 4v4" stroke="currentColor" stroke-width="1.2" stroke-linecap="round" />
-                </svg> APlus Storage
-              </a>
-              <a class="infographic-link"
-                data-url="https://zqhwebpro.github.io/portfolio/2026/media/layout design/2suncatch.jpg"
-                data-title="Suncatch">
-                <svg width="12" height="12" viewBox="0 0 12 12" fill="none" xmlns="http://www.w3.org/2000/svg">
-                  <rect x="1" y="1" width="10" height="10" rx="1" stroke="currentColor" stroke-width="1.2" />
-                  <path d="M4 6h4M6 4v4" stroke="currentColor" stroke-width="1.2" stroke-linecap="round" />
-                </svg> Suncatch
-              </a>
-              <a class="infographic-link"
-                data-url="https://zqhwebpro.github.io/portfolio/2026/media/layout design/4innovative.jpg"
-                data-title="Innovative">
-                <svg width="12" height="12" viewBox="0 0 12 12" fill="none" xmlns="http://www.w3.org/2000/svg">
-                  <rect x="1" y="1" width="10" height="10" rx="1" stroke="currentColor" stroke-width="1.2" />
-                  <path d="M4 6h4M6 4v4" stroke="currentColor" stroke-width="1.2" stroke-linecap="round" />
-                </svg> Innovative
-              </a>
-            </div>
-          </div>
-        </div>
-
-      </div>
-
-      <!-- RIGHT COLUMN -->
-      <div style="display:flex; flex-direction:column; gap:8px;">
-
-        <!-- Consolidated Optimization, Infrastructure & Engineering -->
-        <div class="cap-block">
-          <div class="cap-block-icon">
-            <svg width="18" height="18" viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg">
-              <rect x="3" y="3" width="6" height="6" rx="1" stroke="#F5A623" stroke-width="1.4" />
-              <rect x="11" y="3" width="6" height="6" rx="1" stroke="#F5A623" stroke-width="1.4" />
-              <rect x="3" y="11" width="6" height="6" rx="1" stroke="#F5A623" stroke-width="1.4" />
-              <rect x="11" y="11" width="6" height="6" rx="1" stroke="#F5A623" stroke-width="1.4" />
-              <path d="M6 9v2M14 9v2M9 6h2M9 14h2" stroke="#F5A623" stroke-width="1.2" stroke-linecap="round" />
-            </svg>
-          </div>
-          <div class="cap-block-body">
-            <div class="cap-block-title">Optimization, Infrastructure &amp; Engineering</div>
-            <div class="cap-block-desc">
-              <ul style="list-style: none; padding-left: 0; display: flex; flex-direction: column; gap: 8px;">
-                <li style="position: relative; padding-left: 12px;">
-                  <span style="position: absolute; left: 0; color: var(--amber);">&bull;</span>
-                  Engineered enterprise .NET web applications and RESTful APIs, integrating robust backend services with
-                  modern front-end architectures to deliver high-performance, scalable client solutions.
-                </li>
-                <li style="position: relative; padding-left: 12px;">
-                  <span style="position: absolute; left: 0; color: var(--amber);">&bull;</span>
-                  Architected a custom CSS framework plugin and real-time monitoring dashboard tracking core performance
-                  and CRO metrics across 2,000+ live client sites.
-                </li>
-                <li style="position: relative; padding-left: 12px;">
-                  <span style="position: absolute; left: 0; color: var(--amber);">&bull;</span>
-                  Led CRO initiatives and design teams through data-backed A/B testing and performance design, driving
-                  conversion rate gains from 2% up to 4,521%.
-                </li>
-                <li style="position: relative; padding-left: 12px;">
-                  <span style="position: absolute; left: 0; color: var(--amber);">&bull;</span>
-                  Optimized Core Web Vitals (LCP, CLS, INP) across client portfolios, accelerating load times to
-                  measurably boost search visibility, retention, and lead conversion.
-                </li>
-                <li style="position: relative; padding-left: 12px;">
-                  <span style="position: absolute; left: 0; color: var(--amber);">&bull;</span>
-                  Automated end-to-end DevOps CI/CD pipelines across cross-functional teams, reducing manual deployment
-                  overhead and eliminating production releases friction.
-                </li>
-                <li style="position: relative; padding-left: 12px;">
-                  <span style="position: absolute; left: 0; color: var(--amber);">&bull;</span>
-                  Managed cPanel/DNS environments, server security protocols, and core updates across expansive
-                  WordPress networks to maintain high uptime.
-                </li>
-                <li style="position: relative; padding-left: 12px;">
-                  <span style="position: absolute; left: 0; color: var(--amber);">&bull;</span>
-                  Integrated AI-driven developer tooling and workflow automation via Zapier, accelerating internal
-                  operations and boosting team productivity.
-                </li>
-              </ul>
-            </div>
-          </div>
+        <div class="cap-block-body">
+          <div class="cap-block-title">Front-End &amp; UI Development</div>
+          <div class="cap-block-desc">HTML5/CSS3, Sass/SCSS, CSS Frameworks, JavaScript (ES6+), React, Next.js,
+            TypeScript, Responsive Web Design, Liquid, JSON, XML</div>
         </div>
       </div>
 
-    </div>
+      <!-- Back-End, CMS & E-Commerce -->
+      <div class="cap-block">
+        <div class="cap-block-icon">
+          <svg width="18" height="18" viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <ellipse cx="10" cy="5" rx="7" ry="2.5" stroke="#F5A623" stroke-width="1.4" />
+            <path d="M3 5v5c0 1.38 3.134 2.5 7 2.5s7-1.12 7-2.5V5" stroke="#F5A623" stroke-width="1.4" />
+            <path d="M3 10v5c0 1.38 3.134 2.5 7 2.5s7-1.12 7-2.5v-5" stroke="#F5A623" stroke-width="1.4" />
+          </svg>
+        </div>
+        <div class="cap-block-body">
+          <div class="cap-block-title">Back-End, CMS &amp; E-Commerce</div>
+          <div class="cap-block-desc">PHP, Custom WordPress Themes &amp; Plugins, ACF (Advanced Custom Fields),
+            WooCommerce, LearnDash, Elementor, Shopify, Webflow, REST APIs, SQL, Node.js</div>
+        </div>
+      </div>
+
+      <!-- DevOps, Hosting & Strategy -->
+      <div class="cap-block">
+        <div class="cap-block-icon">
+          <svg width="18" height="18" viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <rect x="2.5" y="3" width="15" height="5.5" rx="1.5" stroke="#F5A623" stroke-width="1.4" />
+            <rect x="2.5" y="11.5" width="15" height="5.5" rx="1.5" stroke="#F5A623" stroke-width="1.4" />
+            <circle cx="5.5" cy="5.75" r="0.75" fill="#F5A623" />
+            <circle cx="8" cy="5.75" r="0.75" fill="#F5A623" />
+            <circle cx="5.5" cy="14.25" r="0.75" fill="#F5A623" />
+            <circle cx="8" cy="14.25" r="0.75" fill="#F5A623" />
+            <path d="M13 5.75h2.5M13 14.25h2.5" stroke="#F5A623" stroke-width="1.2" stroke-linecap="round" />
+          </svg>
+        </div>
+        <div class="cap-block-body">
+          <div class="cap-block-title">DevOps, Hosting &amp; Strategy</div>
+          <div class="cap-block-desc">Git, Hosting &amp; DNS Admin, Apache/Nginx, Cloudflare, Plesk, AWS, CI/CD, CRO,
+            A/B Testing</div>
+        </div>
+      </div>
+
+      <!-- Design & Brand Strategy -->
+      <div class="cap-block">
+        <div class="cap-block-icon">
+          <svg width="18" height="18" viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <path d="M13.5 3.5l3 3L6.5 16.5 3 17l.5-3.5 10-10z" stroke="#F5A623" stroke-width="1.4"
+              stroke-linecap="round" stroke-linejoin="round" />
+            <circle cx="6.5" cy="13.5" r="0.75" fill="#F5A623" />
+          </svg>
+        </div>
+        <div class="cap-block-body">
+          <div class="cap-block-title">Design &amp; Brand Strategy</div>
+          <div class="cap-block-desc">UI/UX &amp; Graphic Design, Wireframing, Figma, Adobe Creative Cloud, Canva, Brand
+            Identity &amp; Logo Design, Brand Guidelines, Web Ads &amp; Banners, Marketing Collateral, Print &amp;
+            Commercial Signage</div>
+        </div>
+      </div>
+
     </div>
 
   </section>
