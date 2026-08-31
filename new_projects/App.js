@@ -18,14 +18,12 @@ function App() {
         let animationFrameId;
         let currentScore = 0;
 
-        // Plunger start position inside the right-hand lane
         const ball = { x: 365, y: 520, vx: 0, vy: 0, radius: 6, inPlunger: true };
 
-        // Smaller, compact flippers with an open drain gap between them
         const leftFlipper = {
-            x: 75,
+            x: 30,
             y: 510,
-            length: 80,
+            length: 100,
             angle: 0.35,
             restAngle: 0.35,
             activeAngle: -0.35,
@@ -35,9 +33,9 @@ function App() {
         };
 
         const rightFlipper = {
-            x: 305,
+            x: 350,
             y: 510,
-            length: 80,
+            length: 100,
             angle: Math.PI - 0.35,
             restAngle: Math.PI - 0.35,
             activeAngle: Math.PI + 0.35,
@@ -46,11 +44,11 @@ function App() {
             tipRadius: 4
         };
 
-        // Smaller gold bumpers (Radius reduced to 8)
+        // Smaller gold bumpers (Radius reduced to 6) spread much farther apart across the board
         const bumpers = [
-            { x: 130, y: 150, r: 8, score: 100, color: '#ffd700' },
-            { x: 250, y: 150, r: 8, score: 100, color: '#ffd700' },
-            { x: 190, y: 220, r: 9, score: 200, color: '#ffae00' },
+            { x: 90, y: 120, r: 6, score: 100, color: '#ffd700' },
+            { x: 290, y: 120, r: 6, score: 100, color: '#ffd700' },
+            { x: 190, y: 240, r: 6, score: 200, color: '#ffae00' },
         ];
 
         const handleKeyDown = (e) => {
@@ -73,23 +71,20 @@ function App() {
                 ball.x = 365;
                 ball.y = 520;
                 if (keys.space) {
-                    // Launches upward with a steady leftward bias for a smooth lob arc
-                    ball.vy = -11.0;
-                    ball.vx = -1.2;
+                    ball.vy = -14.5;
+                    ball.vx = -1.0;
                     ball.inPlunger = false;
                 }
             } else {
-                // High-lob curving guide as it travels up the lane and enters the playfield
-                if (ball.x > 340 && ball.y < 120) {
-                    ball.vx -= 0.15; // Smooth continuous leftward arc curve into playfield
+                if (ball.x > 340 && ball.y < 150) {
+                    ball.vx -= 0.12;
                 }
 
-                ball.vy += 0.06; // Floatier gravity
-                ball.x += ball.vx * 0.75;
-                ball.y += ball.vy * 0.75;
+                ball.vy += 0.05;
+                ball.x += ball.vx * 0.7;
+                ball.y += ball.vy * 0.7;
             }
 
-            // Flipper controls
             if (keys.controlLeft) {
                 leftFlipper.angle = Math.max(leftFlipper.activeAngle, leftFlipper.angle - leftFlipper.speed);
             } else {
@@ -102,33 +97,27 @@ function App() {
                 rightFlipper.angle = Math.max(rightFlipper.restAngle, rightFlipper.angle - rightFlipper.speed);
             }
 
-            // Outer walls
             if (ball.x - ball.radius < 30) { ball.x = 30 + ball.radius; ball.vx *= -0.6; }
-
-            // Allow ball to crossover into main board near the top
             if (ball.x + ball.radius > 350 && ball.y > 70 && !ball.inPlunger) {
                 ball.x = 350 - ball.radius;
                 ball.vx *= -0.6;
             }
-
             if (ball.x + ball.radius > 380) { ball.x = 380 - ball.radius; ball.vx *= -0.6; }
             if (ball.y - ball.radius < 30) { ball.y = 30 + ball.radius; ball.vy *= -0.6; }
 
-            // Bumpers
             bumpers.forEach((b) => {
                 const dx = ball.x - b.x;
                 const dy = ball.y - b.y;
                 const dist = Math.sqrt(dx * dx + dy * dy);
                 if (dist < ball.radius + b.r) {
                     const angle = Math.atan2(dy, dx);
-                    ball.vx = Math.cos(angle) * 3.8;
-                    ball.vy = Math.sin(angle) * 3.8;
+                    ball.vx = Math.cos(angle) * 3.2;
+                    ball.vy = Math.sin(angle) * 3.2;
                     currentScore += b.score;
                     setScore(currentScore);
                 }
             });
 
-            // Compact flippers collision
             const checkFlipper = (f, isLeft) => {
                 const tipX = f.x + Math.cos(f.angle) * f.length;
                 const tipY = f.y + Math.sin(f.angle) * f.length;
@@ -138,15 +127,15 @@ function App() {
                 const dist = Math.sqrt((ball.x - (f.x + t * fx)) ** 2 + (ball.y - (f.y + t * fy)) ** 2);
 
                 if (dist < ball.radius + f.baseRadius) {
-                    ball.vy = (isLeft && keys.controlLeft) || (!isLeft && keys.controlRight) ? -5.5 : -2.2;
-                    ball.vx += isLeft ? 1.5 : -1.5;
+                    const isFlipping = (isLeft && keys.controlLeft) || (!isLeft && keys.controlRight);
+                    ball.vy = isFlipping ? -7.8 : -3.5;
+                    ball.vx = isLeft ? 1.2 : -1.2;
                 }
             };
 
             checkFlipper(leftFlipper, true);
             checkFlipper(rightFlipper, false);
 
-            // Drain
             if (ball.y > 570) {
                 setGameOver(true);
                 ball.inPlunger = true;
@@ -210,7 +199,6 @@ function App() {
                 ctx.beginPath(); ctx.moveTo(0, y); ctx.lineTo(canvas.width, y); ctx.stroke();
             }
 
-            // Playfield Outer Frame
             ctx.shadowBlur = 8;
             ctx.shadowColor = '#00f0ff';
             ctx.strokeStyle = '#00f0ff';
@@ -218,7 +206,6 @@ function App() {
 
             ctx.strokeRect(30, 30, 320, 540);
 
-            // Plunger Lane
             ctx.beginPath();
             ctx.moveTo(350, 70);
             ctx.lineTo(380, 70);
@@ -226,23 +213,15 @@ function App() {
             ctx.lineTo(350, 570);
             ctx.stroke();
 
-            // Drain Pit
             ctx.fillStyle = '#110022';
             ctx.fillRect(155, 540, 70, 40);
             ctx.strokeStyle = '#ff0055';
             ctx.strokeRect(155, 540, 70, 40);
 
-            // Drain Slopes
-            ctx.strokeStyle = '#00f0ff';
-            ctx.beginPath();
-            ctx.moveTo(30, 470); ctx.lineTo(110, 535);
-            ctx.moveTo(350, 470); ctx.lineTo(270, 535);
-            ctx.stroke();
-
-            // Smaller Bumpers
+            // Render smaller, wider-spread bumpers
             bumpers.forEach((b) => {
                 ctx.save();
-                ctx.shadowBlur = 12;
+                ctx.shadowBlur = 10;
                 ctx.shadowColor = b.color;
 
                 const grad = ctx.createRadialGradient(b.x, b.y, 1, b.x, b.y, b.r);
@@ -260,17 +239,14 @@ function App() {
                 ctx.restore();
             });
 
-            // Paddles
             drawStylizedFlipper(leftFlipper);
             drawStylizedFlipper(rightFlipper);
 
-            // Pixel Ball
             ctx.shadowBlur = 10;
             ctx.shadowColor = '#ffffff';
             ctx.fillStyle = '#ffffff';
             ctx.fillRect(ball.x - ball.radius, ball.y - ball.radius, ball.radius * 2, ball.radius * 2);
 
-            // CRT Scanlines
             ctx.shadowBlur = 0;
             ctx.fillStyle = 'rgba(0, 0, 0, 0.2)';
             for (let i = 0; i < canvas.height; i += 4) {
