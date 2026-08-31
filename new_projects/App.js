@@ -1,6 +1,6 @@
-import React, { useState, useRef, useEffect } from 'react';
+const { useState, useRef, useEffect } = React;
 
-export default function App() {
+function App() {
     const canvasRef = useRef(null);
     const [score, setScore] = useState(0);
     const [gameOver, setGameOver] = useState(false);
@@ -296,6 +296,8 @@ export default function App() {
         </div>
     );
 }
+
+window.App = App;
 
 const styles = {
     container: {
