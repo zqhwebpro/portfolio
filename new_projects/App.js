@@ -53,10 +53,11 @@ function App() {
             tipRadius: 4
         };
 
+        // Bumpers moved higher up on the table (y: 180 and 230)
         const bumpers = [
-            { x: 130, y: 280, r: 8, score: 100, color: '#ffd700' },
-            { x: 270, y: 280, r: 8, score: 100, color: '#ffd700' },
-            { x: 200, y: 330, r: 8, score: 200, color: '#ffae00' },
+            { x: 130, y: 180, r: 8, score: 100, color: '#ffd700' },
+            { x: 270, y: 180, r: 8, score: 100, color: '#ffd700' },
+            { x: 200, y: 230, r: 8, score: 200, color: '#ffae00' },
         ];
 
         const handleKeyDown = (e) => {
@@ -85,8 +86,9 @@ function App() {
                 ball.x = 365;
                 ball.y = 520;
                 if (keys.space) {
+                    // High launch force with strong leftward arc
                     ball.vy = -26.0;
-                    ball.vx = -1.5;
+                    ball.vx = -3.5;
                     ball.inPlunger = false;
                     setScore(0);
                 }
@@ -95,9 +97,10 @@ function App() {
                     ball.vx -= 0.12;
                 }
 
-                ball.vy += 0.05;
-                ball.x += ball.vx * 0.7;
-                ball.y += ball.vy * 0.7;
+                // Lower gravity and lower step multiplier for slower ball movement
+                ball.vy += 0.025;
+                ball.x += ball.vx * 0.45;
+                ball.y += ball.vy * 0.45;
             }
 
             if (keys.controlLeft) {
@@ -112,6 +115,7 @@ function App() {
                 rightFlipper.angle = Math.max(rightFlipper.restAngle, rightFlipper.angle - rightFlipper.speed);
             }
 
+            // Boundaries
             if (ball.x - ball.radius < 30) { ball.x = 30 + ball.radius; ball.vx *= -0.6; }
             if (ball.x + ball.radius > 350 && ball.y > 70 && !ball.inPlunger) {
                 ball.x = 350 - ball.radius;
@@ -126,8 +130,8 @@ function App() {
                 const dist = Math.sqrt(dx * dx + dy * dy);
                 if (dist < ball.radius + b.r) {
                     const angle = Math.atan2(dy, dx);
-                    ball.vx = Math.cos(angle) * 2.2;
-                    ball.vy = Math.sin(angle) * 2.2;
+                    ball.vx = Math.cos(angle) * 1.8;
+                    ball.vy = Math.sin(angle) * 1.8;
                     setScore((prev) => prev + b.score);
                 }
             });
@@ -142,8 +146,9 @@ function App() {
 
                 if (dist < ball.radius + f.baseRadius) {
                     const isFlipping = (isLeft && keys.controlLeft) || (!isLeft && keys.controlRight);
-                    ball.vy = isFlipping ? -13.5 : -3.5;
-                    ball.vx = isLeft ? 1.2 : -1.2;
+                    // Reduced flipper launch velocity (-7.5) to keep hits aimed toward bumper height
+                    ball.vy = isFlipping ? -7.5 : -2.5;
+                    ball.vx = isLeft ? 1.5 : -1.5;
                 }
             };
 
@@ -218,11 +223,6 @@ function App() {
             ctx.strokeStyle = '#00f0ff';
             ctx.lineWidth = 4;
             ctx.strokeRect(30, 30, 320, 540);
-
-            ctx.fillStyle = '#110022';
-            ctx.fillRect(132, 540, 136, 40);
-            ctx.strokeStyle = '#ff0055';
-            ctx.strokeRect(132, 540, 136, 40);
 
             bumpers.forEach((b) => {
                 ctx.save();
@@ -384,5 +384,4 @@ const styles = {
     },
 };
 
-// Make App globally available on window so index.js can see it
 window.App = App;
