@@ -5,7 +5,6 @@ export default function App() {
     const [score, setScore] = useState(0);
     const [gameOver, setGameOver] = useState(false);
 
-    // Auto-hide game over banner after 2.5 seconds
     useEffect(() => {
         if (gameOver) {
             const timer = setTimeout(() => setGameOver(false), 2500);
@@ -47,14 +46,14 @@ export default function App() {
             tipRadius: 4
         };
 
+        // Bumpers positioned closer together near the middle center of the board
         const bumpers = [
-            { x: 90, y: 120, r: 12, score: 100, color: '#ffd700' },
-            { x: 290, y: 120, r: 12, score: 100, color: '#ffd700' },
-            { x: 190, y: 240, r: 12, score: 200, color: '#ffae00' },
+            { x: 160, y: 160, r: 12, score: 100, color: '#ffd700' },
+            { x: 240, y: 160, r: 12, score: 100, color: '#ffd700' },
+            { x: 200, y: 220, r: 12, score: 200, color: '#ffae00' },
         ];
 
         const handleKeyDown = (e) => {
-            // Prevent default browser shortcuts (like Ctrl+R refresh or Space scroll)
             if (['Space', 'ControlLeft', 'ControlRight', 'ArrowLeft', 'ArrowRight'].includes(e.code)) {
                 e.preventDefault();
             }
@@ -80,8 +79,9 @@ export default function App() {
                 ball.x = 365;
                 ball.y = 520;
                 if (keys.space) {
-                    ball.vy = -14.5;
-                    ball.vx = -1.0;
+                    // Launch lob power (-19.0 vy)
+                    ball.vy = -19.0;
+                    ball.vx = -1.5;
                     ball.inPlunger = false;
                 }
             } else {
@@ -94,7 +94,6 @@ export default function App() {
                 ball.y += ball.vy * 0.7;
             }
 
-            // Flipper rotation physics
             if (keys.controlLeft) {
                 leftFlipper.angle = Math.max(leftFlipper.activeAngle, leftFlipper.angle - leftFlipper.speed);
             } else {
@@ -107,7 +106,7 @@ export default function App() {
                 rightFlipper.angle = Math.max(rightFlipper.restAngle, rightFlipper.angle - rightFlipper.speed);
             }
 
-            // Boundary bounce checks
+            // Boundary collision handling
             if (ball.x - ball.radius < 30) { ball.x = 30 + ball.radius; ball.vx *= -0.6; }
             if (ball.x + ball.radius > 350 && ball.y > 70 && !ball.inPlunger) {
                 ball.x = 350 - ball.radius;
@@ -116,20 +115,19 @@ export default function App() {
             if (ball.x + ball.radius > 380) { ball.x = 380 - ball.radius; ball.vx *= -0.6; }
             if (ball.y - ball.radius < 30) { ball.y = 30 + ball.radius; ball.vy *= -0.6; }
 
-            // Bumper collision handling using functional state update
             bumpers.forEach((b) => {
                 const dx = ball.x - b.x;
                 const dy = ball.y - b.y;
                 const dist = Math.sqrt(dx * dx + dy * dy);
                 if (dist < ball.radius + b.r) {
                     const angle = Math.atan2(dy, dx);
-                    ball.vx = Math.cos(angle) * 3.2;
-                    ball.vy = Math.sin(angle) * 3.2;
+                    // Reduced bounce power from 3.5 down to 1.8 so it doesn't shoot up as high
+                    ball.vx = Math.cos(angle) * 1.8;
+                    ball.vy = Math.sin(angle) * 1.8;
                     setScore((prevScore) => prevScore + b.score);
                 }
             });
 
-            // Flipper collision detection
             const checkFlipper = (f, isLeft) => {
                 const tipX = f.x + Math.cos(f.angle) * f.length;
                 const tipY = f.y + Math.sin(f.angle) * f.length;
@@ -148,7 +146,6 @@ export default function App() {
             checkFlipper(leftFlipper, true);
             checkFlipper(rightFlipper, false);
 
-            // Ball out-of-bounds / Game Over
             if (ball.y > 570) {
                 setGameOver(true);
                 ball.inPlunger = true;
@@ -203,7 +200,6 @@ export default function App() {
             ctx.fillStyle = '#05030a';
             ctx.fillRect(0, 0, canvas.width, canvas.height);
 
-            // Background Grid
             ctx.strokeStyle = 'rgba(255, 0, 128, 0.06)';
             ctx.lineWidth = 1;
             for (let x = 0; x < canvas.width; x += 20) {
@@ -213,20 +209,18 @@ export default function App() {
                 ctx.beginPath(); ctx.moveTo(0, y); ctx.lineTo(canvas.width, y); ctx.stroke();
             }
 
-            // Outer Frame
             ctx.shadowBlur = 8;
             ctx.shadowColor = '#00f0ff';
             ctx.strokeStyle = '#00f0ff';
             ctx.lineWidth = 4;
             ctx.strokeRect(30, 30, 320, 540);
 
-            // Outlane Drain Area
+            // Expanded drain hole to match the full gap between flippers (width: 120px, x: 140)
             ctx.fillStyle = '#110022';
-            ctx.fillRect(155, 540, 70, 40);
+            ctx.fillRect(140, 540, 120, 40);
             ctx.strokeStyle = '#ff0055';
-            ctx.strokeRect(155, 540, 70, 40);
+            ctx.strokeRect(140, 540, 120, 40);
 
-            // Bumpers
             bumpers.forEach((b) => {
                 ctx.save();
                 ctx.shadowBlur = 10;
@@ -247,17 +241,14 @@ export default function App() {
                 ctx.restore();
             });
 
-            // Flippers
             drawStylizedFlipper(leftFlipper);
             drawStylizedFlipper(rightFlipper);
 
-            // Ball
             ctx.shadowBlur = 10;
             ctx.shadowColor = '#ffffff';
             ctx.fillStyle = '#ffffff';
             ctx.fillRect(ball.x - ball.radius, ball.y - ball.radius, ball.radius * 2, ball.radius * 2);
 
-            // Scanlines Effect
             ctx.shadowBlur = 0;
             ctx.fillStyle = 'rgba(0, 0, 0, 0.2)';
             for (let i = 0; i < canvas.height; i += 4) {
