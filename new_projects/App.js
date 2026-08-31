@@ -36,7 +36,7 @@ function App() {
             angle: 0.35,
             restAngle: 0.35,
             activeAngle: -0.35,
-            speed: 0.18,
+            speed: 0.22,
             baseRadius: 9,
             tipRadius: 4
         };
@@ -48,15 +48,15 @@ function App() {
             angle: Math.PI - 0.35,
             restAngle: Math.PI - 0.35,
             activeAngle: Math.PI + 0.35,
-            speed: 0.18,
+            speed: 0.22,
             baseRadius: 9,
             tipRadius: 4
         };
 
         const bumpers = [
-            { x: 120, y: 220, r: 6, score: 100, color: '#ffd700' },
-            { x: 280, y: 220, r: 6, score: 100, color: '#ffd700' },
-            { x: 200, y: 260, r: 6, score: 200, color: '#ffae00' },
+            { x: 120, y: 220, r: 12, score: 100, color: '#ffd700' },
+            { x: 280, y: 220, r: 12, score: 100, color: '#ffd700' },
+            { x: 200, y: 160, r: 14, score: 200, color: '#ffae00' },
         ];
 
         const handleKeyDown = (e) => {
@@ -85,21 +85,24 @@ function App() {
                 ball.x = 365;
                 ball.y = 520;
                 if (keys.space) {
-                    // High plunger lob up the right launcher lane and across the top
-                    ball.vy = -28.0;
-                    ball.vx = -5.0;
+                    // 1.5x higher launch power than the max flipper bounce (-14.5 * 1.5 = -21.75)
+                    ball.vy = -21.75;
+                    ball.vx = -4.5;
                     ball.inPlunger = false;
                     setScore(0);
                 }
             } else {
-                // Outer Arch Curve Guide: channels high plunger shots over into play
+                // Outer Arch Curve Guide
                 if (ball.x > 330 && ball.y < 120) {
-                    ball.vx -= 0.3;
+                    ball.vx -= 0.45;
                 }
 
-                ball.vy += 0.05;
-                ball.x += ball.vx * 0.7;
-                ball.y += ball.vy * 0.7;
+                // 85% steep downward slope gravity simulation
+                ball.vy += 0.28;
+
+                // Speed step multiplier for overall faster gameplay
+                ball.x += ball.vx * 1.2;
+                ball.y += ball.vy * 1.2;
             }
 
             if (keys.controlLeft) {
@@ -123,18 +126,20 @@ function App() {
             if (ball.x + ball.radius > 380) { ball.x = 380 - ball.radius; ball.vx *= -0.6; }
             if (ball.y - ball.radius < 30) { ball.y = 30 + ball.radius; ball.vy *= -0.4; }
 
+            // Bumpers
             bumpers.forEach((b) => {
                 const dx = ball.x - b.x;
                 const dy = ball.y - b.y;
                 const dist = Math.sqrt(dx * dx + dy * dy);
                 if (dist < ball.radius + b.r) {
                     const angle = Math.atan2(dy, dx);
-                    ball.vx = Math.cos(angle) * 2.5;
-                    ball.vy = Math.sin(angle) * 2.5;
+                    ball.vx = Math.cos(angle) * 6.5;
+                    ball.vy = Math.sin(angle) * 6.5;
                     setScore((prev) => prev + b.score);
                 }
             });
 
+            // Flipper Collision & Bounce Calculation
             const checkFlipper = (f, isLeft) => {
                 const tipX = f.x + Math.cos(f.angle) * f.length;
                 const tipY = f.y + Math.sin(f.angle) * f.length;
@@ -145,9 +150,9 @@ function App() {
 
                 if (dist < ball.radius + f.baseRadius) {
                     const isFlipping = (isLeft && keys.controlLeft) || (!isLeft && keys.controlRight);
-                    // Gentle flipper hit: prevents ball from flying back into the upper plunger loop
-                    ball.vy = isFlipping ? -3.5 : -1.5;
-                    ball.vx = isLeft ? 1.8 : -1.8;
+                    // Higher flipper impulse to launch ball up into bumper territory
+                    ball.vy = isFlipping ? -14.5 : -5.0;
+                    ball.vx = isLeft ? 3.5 : -3.5;
                 }
             };
 
