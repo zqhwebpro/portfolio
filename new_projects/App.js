@@ -32,9 +32,9 @@ function App() {
         const ball = { x: 365, y: 520, vx: 0, vy: 0, radius: 6, inPlunger: true };
 
         const leftFlipper = {
-            x: 32,
+            x: 42,
             y: 510,
-            length: 100,
+            length: 95,
             angle: 0.35,
             restAngle: 0.35,
             activeAngle: -0.35,
@@ -44,9 +44,9 @@ function App() {
         };
 
         const rightFlipper = {
-            x: 348,
+            x: 332, // Shifted left to prevent wedging against tube wall
             y: 510,
-            length: 100,
+            length: 95,
             angle: Math.PI - 0.35,
             restAngle: Math.PI - 0.35,
             activeAngle: Math.PI + 0.35,
@@ -55,7 +55,6 @@ function App() {
             tipRadius: 4
         };
 
-        // Smaller Bumpers
         const bumpers = [
             { x: 120, y: 220, r: 7, score: 100, color: '#ffd700' },
             { x: 280, y: 220, r: 7, score: 100, color: '#ffd700' },
@@ -70,7 +69,7 @@ function App() {
             if (e.code === 'Space' && ball.inPlunger) {
                 ball.inPlunger = false;
                 ball.vx = 0;
-                ball.vy = -24.0; // Slower launch speed
+                ball.vy = -24.0;
                 setScore(0);
                 setGameOver(false);
             }
@@ -122,12 +121,12 @@ function App() {
                 ball.x += (ball.vx * 0.9) / steps;
                 ball.y += (ball.vy * 0.9) / steps;
 
-                // Curve left when ball reaches the top of the launcher arch
+                // Smooth launcher arch top curve
                 if (ball.x > 340 && ball.y < 70) {
                     ball.vx = -7.0;
                 }
 
-                // Random angular flux jitter outside launch tube
+                // Random variance flux physics outside launch tube
                 if (ball.y > 110 && ball.x < 340) {
                     const speed = Math.sqrt(ball.vx * ball.vx + ball.vy * ball.vy);
                     if (speed > 0.1) {
@@ -144,33 +143,44 @@ function App() {
                     }
                 }
 
-                // Playfield Boundaries
+                // Left Boundary
                 if (ball.x - ball.radius < 30) {
                     ball.x = 30 + ball.radius;
                     ball.vx *= -0.6;
                 }
 
-                if (ball.x - ball.radius < 350 && ball.x + ball.radius > 340 && ball.y > 70) {
-                    if (ball.x > 345) {
+                // One-Way Launcher Tube Wall Collision
+                // Only block balls inside the tube going up; deflect balls coming from the playfield outwards
+                if (ball.x > 344 && ball.y > 70 && ball.y < 460) {
+                    if (ball.x < 350) {
+                        // Push away from tube into playfield
+                        ball.x = 344 - ball.radius;
+                        ball.vx = -Math.abs(ball.vx) - 2.0;
+                    } else if (ball.x > 350 && ball.x < 356) {
+                        // Keep inside tube
                         ball.x = 350 + ball.radius;
                         ball.vx = Math.abs(ball.vx) * 0.2;
-                    } else {
-                        ball.x = 350 - ball.radius;
-                        ball.vx = -Math.abs(ball.vx) * 0.6;
                     }
                 }
 
+                // Angled Corner Deflection Wedge above right flipper (prevents dead zone)
+                if (ball.x > 330 && ball.y > 460 && ball.y < 490) {
+                    ball.vx -= 0.8; // Force ball left away from right wall pocket
+                }
+
+                // Outer Tube Right Wall
                 if (ball.x + ball.radius > 380) {
                     ball.x = 380 - ball.radius;
                     ball.vx *= -0.4;
                 }
 
+                // Top Arch Ceiling Boundary
                 if (ball.y - ball.radius < 30) {
                     ball.y = 30 + ball.radius;
                     ball.vy = Math.abs(ball.vy) * 0.3;
                 }
 
-                // Smaller Bumpers Collision
+                // Bumpers
                 bumpers.forEach((b) => {
                     const dx = ball.x - b.x;
                     const dy = ball.y - b.y;
@@ -183,7 +193,7 @@ function App() {
                     }
                 });
 
-                // Flipper Collisions & 0.5s Slope Roll-Off Logic
+                // Flippers
                 const checkFlipper = (f, isLeft) => {
                     const tipX = f.x + Math.cos(f.angle) * f.length;
                     const tipY = f.y + Math.sin(f.angle) * f.length;
@@ -200,15 +210,14 @@ function App() {
                             ball.vy = -14.0;
                             ball.vx = isLeft ? 4.0 : -4.0;
                         } else {
-                            // Bounce dampening
                             ball.vy = -2.5;
                             ball.vx = isLeft ? 1.5 : -1.5;
 
-                            // Roll down slope if resting (> 0.5 seconds)
+                            // Roll down slope if resting (> 0.5s)
                             if (flipperRestTimer > 30) {
                                 const slideDir = isLeft ? Math.cos(f.angle) : -Math.cos(f.angle);
-                                ball.vx += slideDir * 1.8;
-                                ball.vy += Math.sin(f.angle) * 1.2;
+                                ball.vx += slideDir * 2.0;
+                                ball.vy += Math.sin(f.angle) * 1.5;
                             }
                         }
                     }
@@ -218,7 +227,6 @@ function App() {
                 checkFlipper(rightFlipper, false);
             }
 
-            // Track time spent touching flipper (~60 frames = 1s, 30 frames = 0.5s)
             if (isTouchingFlipper && Math.abs(ball.vx) < 1.0 && Math.abs(ball.vy) < 1.0) {
                 flipperRestTimer++;
             } else {
@@ -278,8 +286,13 @@ function App() {
 
             ctx.fillStyle = '#ff00ff';
 
-            ctx.fillRect(350, 70, 30, 500);
+            // Main Tube Body (Ends cleanly at y = 470)
+            ctx.fillRect(350, 70, 30, 400);
 
+            // Plunger Base Lane Accent
+            ctx.fillRect(350, 500, 30, 70);
+
+            // Upper Arch Canopy Fill
             ctx.beginPath();
             ctx.arc(320, 70, 60, Math.PI * 1.5, Math.PI * 2);
             ctx.lineTo(380, 70);
@@ -288,16 +301,27 @@ function App() {
             ctx.closePath();
             ctx.fill();
 
+            // Accent Stripe
             ctx.fillStyle = '#a000a0';
-            ctx.fillRect(362, 70, 6, 500);
+            ctx.fillRect(362, 70, 6, 400);
+            ctx.fillRect(362, 500, 6, 70);
 
+            // Deflection Wedge Graphic (prevents corner traps)
+            ctx.beginPath();
+            ctx.moveTo(350, 460);
+            ctx.lineTo(338, 490);
+            ctx.lineTo(350, 490);
+            ctx.closePath();
+            ctx.fill();
+
+            // Tube Framing Strokes
             ctx.shadowBlur = 12;
             ctx.shadowColor = '#ff00ff';
             ctx.strokeStyle = '#ffffff';
             ctx.lineWidth = 3;
 
             ctx.beginPath();
-            ctx.moveTo(350, 570);
+            ctx.moveTo(350, 470);
             ctx.lineTo(350, 70);
             ctx.arc(320, 70, 30, 0, Math.PI * 1.5, true);
             ctx.stroke();
@@ -308,12 +332,13 @@ function App() {
             ctx.arc(320, 70, 60, 0, Math.PI * 1.5, true);
             ctx.stroke();
 
+            // Arrow LEDs
             ctx.strokeStyle = '#ffffff';
             ctx.lineWidth = 2;
             const offset = (animTime * 40) % 40;
-            for (let y = 520; y > 60; y -= 40) {
+            for (let y = 460; y > 60; y -= 40) {
                 const drawY = y - offset;
-                if (drawY > 70 && drawY < 530) {
+                if (drawY > 70 && drawY < 460) {
                     ctx.beginPath();
                     ctx.moveTo(358, drawY + 6);
                     ctx.lineTo(365, drawY);
@@ -331,6 +356,7 @@ function App() {
             ctx.fillStyle = '#05030a';
             ctx.fillRect(0, 0, canvas.width, canvas.height);
 
+            // Playfield Grid
             ctx.strokeStyle = 'rgba(255, 0, 128, 0.06)';
             ctx.lineWidth = 1;
             for (let x = 0; x < canvas.width; x += 20) {
@@ -372,7 +398,6 @@ function App() {
             }
             ctx.stroke();
 
-            // Smaller Bumpers
             bumpers.forEach((b) => {
                 ctx.save();
                 ctx.shadowBlur = 10;
