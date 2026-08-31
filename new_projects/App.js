@@ -1,9 +1,9 @@
-export default function PinballGame() {
-    const canvasRef = useRef(null);
-    const [score, setScore] = useState(0);
-    const [gameOver, setGameOver] = useState(false);
+function App() {
+    const canvasRef = React.useRef(null);
+    const [score, setScore] = React.useState(0);
+    const [gameOver, setGameOver] = React.useState(false);
 
-    useEffect(() => {
+    React.useEffect(() => {
         const canvas = canvasRef.current;
         const ctx = canvas.getContext('2d');
 
@@ -261,7 +261,7 @@ export default function PinballGame() {
     );
 }
 
-// NES Arcade Machine CSS Styles
+// Inline CSS Styles for Arcade Machine
 const styles = {
     container: {
         display: 'flex',

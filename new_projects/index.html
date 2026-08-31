@@ -3,23 +3,20 @@
 
 <head>
     <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Hello World</title>
+    <title>Pinball Game</title>
 
-    <!-- React & ReactDOM CDNs -->
+    <!-- React CDNs -->
     <script src="https://unpkg.com/react@18/umd/react.production.min.js" crossorigin></script>
     <script src="https://unpkg.com/react-dom@18/umd/react-dom.production.min.js" crossorigin></script>
-
-    <!-- Babel standalone CDN -->
     <script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
 </head>
 
 <body>
     <div id="root"></div>
 
-    <!-- App.js must load FIRST so App is defined -->
+    <!-- App.js MUST load first -->
     <script type="text/babel" src="./App.js"></script>
-    <!-- index.js loads SECOND to render App into #root -->
+    <!-- index.js MUST load second -->
     <script type="text/babel" src="./index.js"></script>
 </body>
 
