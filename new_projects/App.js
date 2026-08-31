@@ -53,7 +53,6 @@ function App() {
             tipRadius: 4
         };
 
-        // Bumpers moved lower down (y: 220, 260), kept small (r: 6) & spread out
         const bumpers = [
             { x: 120, y: 220, r: 6, score: 100, color: '#ffd700' },
             { x: 280, y: 220, r: 6, score: 100, color: '#ffd700' },
@@ -86,20 +85,18 @@ function App() {
                 ball.x = 365;
                 ball.y = 520;
                 if (keys.space) {
-                    // High vertical lob up the launcher lane
                     ball.vy = -42.0;
                     ball.vx = 0.0;
                     ball.inPlunger = false;
                     setScore(0);
                 }
             } else {
-                // Top curved guide wall: redirects the high launch around the top left arch
+                // Invisible trajectory guide: turns the ball into the field at the top
                 if (ball.y < 90 && ball.x > 250) {
                     ball.vx -= 0.45;
                     ball.vy += 0.1;
                 }
 
-                // Increased gravity & velocity multiplier for fast gameplay
                 ball.vy += 0.06;
                 ball.x += ball.vx * 0.75;
                 ball.y += ball.vy * 0.75;
@@ -148,9 +145,9 @@ function App() {
 
                 if (dist < ball.radius + f.baseRadius) {
                     const isFlipping = (isLeft && keys.controlLeft) || (!isLeft && keys.controlRight);
-                    // Controlled upward bounce so flippers direct ball toward bumpers without launching too high
-                    ball.vy = isFlipping ? -10.5 : -3.5;
-                    ball.vx = isLeft ? 2.2 : -2.2;
+                    // Flipper impulse power (-42.0) now matches the plunger launch height
+                    ball.vy = isFlipping ? -42.0 : -4.0;
+                    ball.vx = isLeft ? 3.0 : -3.0;
                 }
             };
 
@@ -232,15 +229,6 @@ function App() {
             ctx.beginPath();
             ctx.moveTo(350, 70);
             ctx.lineTo(350, 570);
-            ctx.stroke();
-
-            // Left Side Entrance Track / Top Arch Guide Line
-            ctx.shadowBlur = 10;
-            ctx.shadowColor = '#ff00aa';
-            ctx.strokeStyle = '#ff00aa';
-            ctx.lineWidth = 3;
-            ctx.beginPath();
-            ctx.arc(280, 80, 70, Math.PI * 1.5, Math.PI, true);
             ctx.stroke();
 
             // Pinball Spring Plunger Rendering
