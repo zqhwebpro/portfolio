@@ -1,5 +1,4 @@
-import React from 'react';
-
+// App.js
 function App() {
     return (
         <div style={{ textAlign: 'center', marginTop: '50px', fontFamily: 'sans-serif' }}>
@@ -8,5 +7,3 @@ function App() {
         </div>
     );
 }
-
-export default App;

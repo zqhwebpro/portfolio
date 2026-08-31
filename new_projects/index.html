@@ -3,19 +3,24 @@
 
 <head>
     <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Hello World</title>
-    <!-- Load React & Babel CDNs -->
-    <script src="https://unpkg.com/react@18/umd/react.development.js"></script>
-    <script src="https://unpkg.com/react-dom@18/umd/react-dom.development.js"></script>
-    <script src="https://unpkg.com/babel-standalone@6/babel.min.js"></script>
+
+    <!-- React & ReactDOM CDNs -->
+    <script src="https://unpkg.com/react@18/umd/react.production.min.js" crossorigin></script>
+    <script src="https://unpkg.com/react-dom@18/umd/react-dom.production.min.js" crossorigin></script>
+
+    <!-- Babel standalone CDN -->
+    <script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
 </head>
 
 <body>
     <div id="root"></div>
 
-    <!-- Load App and index scripts with JSX Babel compilation -->
-    <script type="text/babel" src="App.js"></script>
-    <script type="text/babel" src="index.js"></script>
+    <!-- App.js must load FIRST so App is defined -->
+    <script type="text/babel" src="./App.js"></script>
+    <!-- index.js loads SECOND to render App into #root -->
+    <script type="text/babel" src="./index.js"></script>
 </body>
 
 </html>
