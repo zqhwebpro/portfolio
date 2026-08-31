@@ -18,37 +18,39 @@ function App() {
         let animationFrameId;
         let currentScore = 0;
 
-        // Plunger lane is at x: 365 (inside the smaller side rectangle on the right)
-        const ball = { x: 365, y: 520, vx: 0, vy: 0, radius: 7, inPlunger: true };
+        // Plunger start position inside the right-hand lane
+        const ball = { x: 365, y: 520, vx: 0, vy: 0, radius: 6, inPlunger: true };
 
+        // Smaller, compact flippers with an open drain gap between them
         const leftFlipper = {
-            x: 55,
+            x: 75,
             y: 510,
-            length: 110,
+            length: 80,
             angle: 0.35,
             restAngle: 0.35,
             activeAngle: -0.35,
             speed: 0.15,
-            baseRadius: 12,
-            tipRadius: 5
+            baseRadius: 9,
+            tipRadius: 4
         };
 
         const rightFlipper = {
-            x: 325,
+            x: 305,
             y: 510,
-            length: 110,
+            length: 80,
             angle: Math.PI - 0.35,
             restAngle: Math.PI - 0.35,
             activeAngle: Math.PI + 0.35,
             speed: 0.15,
-            baseRadius: 12,
-            tipRadius: 5
+            baseRadius: 9,
+            tipRadius: 4
         };
 
+        // Smaller gold bumpers (Radius reduced to 8)
         const bumpers = [
-            { x: 130, y: 150, r: 12, score: 100, color: '#ffd700' },
-            { x: 250, y: 150, r: 12, score: 100, color: '#ffd700' },
-            { x: 190, y: 220, r: 14, score: 200, color: '#ffae00' },
+            { x: 130, y: 150, r: 8, score: 100, color: '#ffd700' },
+            { x: 250, y: 150, r: 8, score: 100, color: '#ffd700' },
+            { x: 190, y: 220, r: 9, score: 200, color: '#ffae00' },
         ];
 
         const handleKeyDown = (e) => {
@@ -71,24 +73,23 @@ function App() {
                 ball.x = 365;
                 ball.y = 520;
                 if (keys.space) {
-                    // Straight launch up the entire plunger lane
-                    ball.vy = -14.0;
-                    ball.vx = 0;
+                    // Launches upward with a steady leftward bias for a smooth lob arc
+                    ball.vy = -11.0;
+                    ball.vx = -1.2;
                     ball.inPlunger = false;
                 }
             } else {
-                // Once ball hits top of plunger lane (y < 70), curve into top-right of main rectangle
-                if (ball.x > 340 && ball.y < 70) {
-                    ball.vx = -3.5;
-                    ball.vy = -0.5;
+                // High-lob curving guide as it travels up the lane and enters the playfield
+                if (ball.x > 340 && ball.y < 120) {
+                    ball.vx -= 0.15; // Smooth continuous leftward arc curve into playfield
                 }
 
-                ball.vy += 0.06;
+                ball.vy += 0.06; // Floatier gravity
                 ball.x += ball.vx * 0.75;
                 ball.y += ball.vy * 0.75;
             }
 
-            // Flipper movement
+            // Flipper controls
             if (keys.controlLeft) {
                 leftFlipper.angle = Math.max(leftFlipper.activeAngle, leftFlipper.angle - leftFlipper.speed);
             } else {
@@ -101,10 +102,10 @@ function App() {
                 rightFlipper.angle = Math.max(rightFlipper.restAngle, rightFlipper.angle - rightFlipper.speed);
             }
 
-            // Boundary Collisions
+            // Outer walls
             if (ball.x - ball.radius < 30) { ball.x = 30 + ball.radius; ball.vx *= -0.6; }
 
-            // Allow ball to pass into main rectangle only at the top (y < 70)
+            // Allow ball to crossover into main board near the top
             if (ball.x + ball.radius > 350 && ball.y > 70 && !ball.inPlunger) {
                 ball.x = 350 - ball.radius;
                 ball.vx *= -0.6;
@@ -113,7 +114,7 @@ function App() {
             if (ball.x + ball.radius > 380) { ball.x = 380 - ball.radius; ball.vx *= -0.6; }
             if (ball.y - ball.radius < 30) { ball.y = 30 + ball.radius; ball.vy *= -0.6; }
 
-            // Bumper Collisions
+            // Bumpers
             bumpers.forEach((b) => {
                 const dx = ball.x - b.x;
                 const dy = ball.y - b.y;
@@ -127,7 +128,7 @@ function App() {
                 }
             });
 
-            // Flipper Collision
+            // Compact flippers collision
             const checkFlipper = (f, isLeft) => {
                 const tipX = f.x + Math.cos(f.angle) * f.length;
                 const tipY = f.y + Math.sin(f.angle) * f.length;
@@ -145,7 +146,7 @@ function App() {
             checkFlipper(leftFlipper, true);
             checkFlipper(rightFlipper, false);
 
-            // Drain Hole
+            // Drain
             if (ball.y > 570) {
                 setGameOver(true);
                 ball.inPlunger = true;
@@ -160,7 +161,7 @@ function App() {
             const angleNormal = f.angle + Math.PI / 2;
 
             ctx.save();
-            ctx.shadowBlur = 12;
+            ctx.shadowBlur = 10;
             ctx.shadowColor = '#ff2255';
 
             const p1X = f.x + Math.cos(angleNormal) * f.baseRadius;
@@ -175,7 +176,7 @@ function App() {
 
             ctx.fillStyle = grad;
             ctx.strokeStyle = '#ffffff';
-            ctx.lineWidth = 2;
+            ctx.lineWidth = 1.5;
 
             ctx.beginPath();
             ctx.arc(f.x, f.y, f.baseRadius, angleNormal, angleNormal + Math.PI);
@@ -209,16 +210,15 @@ function App() {
                 ctx.beginPath(); ctx.moveTo(0, y); ctx.lineTo(canvas.width, y); ctx.stroke();
             }
 
-            // Playfield Borders
+            // Playfield Outer Frame
             ctx.shadowBlur = 8;
             ctx.shadowColor = '#00f0ff';
             ctx.strokeStyle = '#00f0ff';
             ctx.lineWidth = 4;
 
-            // Main playfield box
             ctx.strokeRect(30, 30, 320, 540);
 
-            // Plunger side channel (open at y < 70 to let the ball exit into top right of main area)
+            // Plunger Lane
             ctx.beginPath();
             ctx.moveTo(350, 70);
             ctx.lineTo(380, 70);
@@ -226,7 +226,7 @@ function App() {
             ctx.lineTo(350, 570);
             ctx.stroke();
 
-            // Drain Hole
+            // Drain Pit
             ctx.fillStyle = '#110022';
             ctx.fillRect(155, 540, 70, 40);
             ctx.strokeStyle = '#ff0055';
@@ -239,13 +239,13 @@ function App() {
             ctx.moveTo(350, 470); ctx.lineTo(270, 535);
             ctx.stroke();
 
-            // Bumpers
+            // Smaller Bumpers
             bumpers.forEach((b) => {
                 ctx.save();
-                ctx.shadowBlur = 15;
+                ctx.shadowBlur = 12;
                 ctx.shadowColor = b.color;
 
-                const grad = ctx.createRadialGradient(b.x, b.y, 2, b.x, b.y, b.r);
+                const grad = ctx.createRadialGradient(b.x, b.y, 1, b.x, b.y, b.r);
                 grad.addColorStop(0, '#ffffff');
                 grad.addColorStop(0.4, b.color);
                 grad.addColorStop(1, '#996600');
@@ -255,22 +255,22 @@ function App() {
                 ctx.arc(b.x, b.y, b.r, 0, Math.PI * 2);
                 ctx.fill();
                 ctx.strokeStyle = '#ffffff';
-                ctx.lineWidth = 1.5;
+                ctx.lineWidth = 1;
                 ctx.stroke();
                 ctx.restore();
             });
 
-            // Flippers
+            // Paddles
             drawStylizedFlipper(leftFlipper);
             drawStylizedFlipper(rightFlipper);
 
-            // Ball
+            // Pixel Ball
             ctx.shadowBlur = 10;
             ctx.shadowColor = '#ffffff';
             ctx.fillStyle = '#ffffff';
             ctx.fillRect(ball.x - ball.radius, ball.y - ball.radius, ball.radius * 2, ball.radius * 2);
 
-            // Scanlines
+            // CRT Scanlines
             ctx.shadowBlur = 0;
             ctx.fillStyle = 'rgba(0, 0, 0, 0.2)';
             for (let i = 0; i < canvas.height; i += 4) {
@@ -297,9 +297,7 @@ function App() {
         <div style={styles.container}>
             <div style={styles.arcadeBox}>
                 <div style={styles.marquee}>
-                    <span style={{ color: '#00ffff', textShadow: '2px 2px #ff0077' }}>REACT </span>
-                    <span style={{ color: '#ff0077', textShadow: '2px 2px #00ffff' }}>PIXEL </span>
-                    <span style={{ color: '#ffd700', textShadow: '2px 2px #ff0055' }}>PINBALL</span>
+                    <span style={{ color: '#ffd700', textShadow: '2px 2px #ff8800' }}>REACT PIXEL PINBALL</span>
                 </div>
 
                 <div style={styles.screenFrame}>
@@ -341,15 +339,15 @@ const styles = {
         alignItems: 'center',
     },
     marquee: {
-        fontSize: '18px',
+        fontSize: '16px',
         fontWeight: 'bold',
         letterSpacing: '1px',
         marginBottom: '16px',
         padding: '8px 16px',
         backgroundColor: '#0d0718',
-        border: '4px solid #ff0077',
+        border: '4px solid #ffd700',
         borderRadius: '4px',
-        boxShadow: '0 0 12px #ff0077',
+        boxShadow: '0 0 12px #ffd700',
     },
     screenFrame: {
         backgroundColor: '#000',
