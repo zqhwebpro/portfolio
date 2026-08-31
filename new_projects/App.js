@@ -65,11 +65,10 @@ function App() {
                 e.preventDefault();
             }
 
-            // Direct KeyDown Launch Trigger
             if (e.code === 'Space' && ball.inPlunger) {
                 ball.inPlunger = false;
                 ball.vx = 0;
-                ball.vy = -32.0; // Explosive upward velocity
+                ball.vy = -38.0; // Launches straight up
                 setScore(0);
                 setGameOver(false);
             }
@@ -89,7 +88,6 @@ function App() {
         const update = () => {
             animTime += 0.05;
 
-            // Flipper Angle Updates
             if (keys.controlLeft) {
                 leftFlipper.angle = Math.max(leftFlipper.activeAngle, leftFlipper.angle - leftFlipper.speed);
             } else {
@@ -110,7 +108,6 @@ function App() {
                 return;
             }
 
-            // Continuous sub-stepping for reliable collision checks
             const steps = 4;
             for (let step = 0; step < steps; step++) {
                 // Gravity
@@ -120,9 +117,9 @@ function App() {
                 ball.x += (ball.vx * 0.9) / steps;
                 ball.y += (ball.vy * 0.9) / steps;
 
-                // High Launch Channel Guidance (Top Arch curve over bumpers)
-                if (ball.x > 340 && ball.y < 100) {
-                    ball.vx = -8.0; // Force ball left into the main playfield
+                // ONLY curve left when the ball reaches the VERY TOP of the launcher tube
+                if (ball.x > 340 && ball.y < 70) {
+                    ball.vx = -10.0;
                 }
 
                 // Random angular flux jitter outside the launch tube
@@ -142,28 +139,36 @@ function App() {
                     }
                 }
 
-                // Left Playfield Boundary
+                // Left Boundary
                 if (ball.x - ball.radius < 30) {
                     ball.x = 30 + ball.radius;
                     ball.vx *= -0.6;
                 }
-                // Middle Wall (Launcher Channel Separator - open at y < 110)
-                if (ball.x + ball.radius > 350 && ball.y > 110 && !ball.inPlunger) {
-                    ball.x = 350 - ball.radius;
-                    ball.vx *= -0.6;
+
+                // Launcher Tube Inner Wall (Keeps ball inside the tube until reaching the arch top)
+                if (ball.x - ball.radius < 350 && ball.x + ball.radius > 340 && ball.y > 70) {
+                    if (ball.x > 345) {
+                        ball.x = 350 + ball.radius;
+                        ball.vx = Math.abs(ball.vx) * 0.2; // Keep in tube
+                    } else {
+                        ball.x = 350 - ball.radius;
+                        ball.vx = -Math.abs(ball.vx) * 0.6; // Reject back to field
+                    }
                 }
-                // Right Wall
+
+                // Outer Tube Right Wall
                 if (ball.x + ball.radius > 380) {
                     ball.x = 380 - ball.radius;
-                    ball.vx *= -0.6;
+                    ball.vx *= -0.4;
                 }
-                // Top Ceiling Boundary
+
+                // Top Arch Ceiling Boundary
                 if (ball.y - ball.radius < 30) {
                     ball.y = 30 + ball.radius;
                     ball.vy = Math.abs(ball.vy) * 0.3;
                 }
 
-                // Bumpers Collisions
+                // Bumpers
                 bumpers.forEach((b) => {
                     const dx = ball.x - b.x;
                     const dy = ball.y - b.y;
@@ -176,7 +181,7 @@ function App() {
                     }
                 });
 
-                // Flippers Collisions
+                // Flippers
                 const checkFlipper = (f, isLeft) => {
                     const tipX = f.x + Math.cos(f.angle) * f.length;
                     const tipY = f.y + Math.sin(f.angle) * f.length;
@@ -196,7 +201,6 @@ function App() {
                 checkFlipper(rightFlipper, false);
             }
 
-            // Bottom Drain (Game Over)
             if (ball.y > 570) {
                 setGameOver(true);
                 ball.inPlunger = true;
@@ -248,26 +252,25 @@ function App() {
         const drawOpaqueMagentaLauncher = () => {
             ctx.save();
 
-            // 100% Solid Opaque Magenta Fill for Lane & Upper Canopy
             ctx.fillStyle = '#ff00ff';
 
-            // Vertical Tube
-            ctx.fillRect(350, 90, 30, 480);
+            // Vertical Launcher Body
+            ctx.fillRect(350, 70, 30, 500);
 
             // Upper Arch Canopy Fill
             ctx.beginPath();
-            ctx.arc(320, 90, 60, Math.PI * 1.5, Math.PI * 2);
-            ctx.lineTo(380, 90);
-            ctx.lineTo(350, 90);
-            ctx.arc(320, 90, 30, Math.PI * 2, Math.PI * 1.5, true);
+            ctx.arc(320, 70, 60, Math.PI * 1.5, Math.PI * 2);
+            ctx.lineTo(380, 70);
+            ctx.lineTo(350, 70);
+            ctx.arc(320, 70, 30, Math.PI * 2, Math.PI * 1.5, true);
             ctx.closePath();
             ctx.fill();
 
-            // Solid Secondary Metallic Stripe
+            // Metallic Stripe Accent
             ctx.fillStyle = '#a000a0';
-            ctx.fillRect(362, 90, 6, 480);
+            ctx.fillRect(362, 70, 6, 500);
 
-            // Thick Outline Framing
+            // Framing Strokes
             ctx.shadowBlur = 12;
             ctx.shadowColor = '#ff00ff';
             ctx.strokeStyle = '#ffffff';
@@ -275,23 +278,23 @@ function App() {
 
             ctx.beginPath();
             ctx.moveTo(350, 570);
-            ctx.lineTo(350, 90);
-            ctx.arc(320, 90, 30, 0, Math.PI * 1.5, true);
+            ctx.lineTo(350, 70);
+            ctx.arc(320, 70, 30, 0, Math.PI * 1.5, true);
             ctx.stroke();
 
             ctx.beginPath();
             ctx.moveTo(380, 570);
-            ctx.lineTo(380, 90);
-            ctx.arc(320, 90, 60, 0, Math.PI * 1.5, true);
+            ctx.lineTo(380, 70);
+            ctx.arc(320, 70, 60, 0, Math.PI * 1.5, true);
             ctx.stroke();
 
-            // Dynamic White LED Arrows Inside Tube
+            // Arrow LEDs
             ctx.strokeStyle = '#ffffff';
             ctx.lineWidth = 2;
             const offset = (animTime * 40) % 40;
-            for (let y = 520; y > 80; y -= 40) {
+            for (let y = 520; y > 60; y -= 40) {
                 const drawY = y - offset;
-                if (drawY > 90 && drawY < 530) {
+                if (drawY > 70 && drawY < 530) {
                     ctx.beginPath();
                     ctx.moveTo(358, drawY + 6);
                     ctx.lineTo(365, drawY);
@@ -319,7 +322,7 @@ function App() {
                 ctx.beginPath(); ctx.moveTo(0, y); ctx.lineTo(canvas.width, y); ctx.stroke();
             }
 
-            // Draw Solid Opaque Magenta Launcher Tube
+            // Draw Launcher
             drawOpaqueMagentaLauncher();
 
             // Outer Playfield Frame
@@ -387,7 +390,7 @@ function App() {
             ctx.arc(ball.x, ball.y, ball.radius, 0, Math.PI * 2);
             ctx.fill();
 
-            // Scanlines Overlay
+            // Scanlines
             ctx.shadowBlur = 0;
             ctx.fillStyle = 'rgba(0, 0, 0, 0.2)';
             for (let i = 0; i < canvas.height; i += 4) {
