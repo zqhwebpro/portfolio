@@ -3,7 +3,14 @@ const { useState, useRef, useEffect } = React;
 function App() {
     const canvasRef = useRef(null);
     const [score, setScore] = useState(0);
+    const [highScore, setHighScore] = useState(0);
     const [gameOver, setGameOver] = useState(false);
+
+    useEffect(() => {
+        if (score > highScore) {
+            setHighScore(score);
+        }
+    }, [score, highScore]);
 
     useEffect(() => {
         if (gameOver) {
@@ -46,11 +53,10 @@ function App() {
             tipRadius: 4
         };
 
-        // Bumpers positioned closer together near the middle center of the board
         const bumpers = [
-            { x: 160, y: 160, r: 12, score: 100, color: '#ffd700' },
-            { x: 240, y: 160, r: 12, score: 100, color: '#ffd700' },
-            { x: 200, y: 220, r: 12, score: 200, color: '#ffae00' },
+            { x: 130, y: 280, r: 8, score: 100, color: '#ffd700' },
+            { x: 270, y: 280, r: 8, score: 100, color: '#ffd700' },
+            { x: 200, y: 330, r: 8, score: 200, color: '#ffae00' },
         ];
 
         const handleKeyDown = (e) => {
@@ -79,10 +85,10 @@ function App() {
                 ball.x = 365;
                 ball.y = 520;
                 if (keys.space) {
-                    // Launch lob power (-19.0 vy)
-                    ball.vy = -19.0;
+                    ball.vy = -26.0;
                     ball.vx = -1.5;
                     ball.inPlunger = false;
+                    setScore(0);
                 }
             } else {
                 if (ball.x > 340 && ball.y < 150) {
@@ -106,14 +112,13 @@ function App() {
                 rightFlipper.angle = Math.max(rightFlipper.restAngle, rightFlipper.angle - rightFlipper.speed);
             }
 
-            // Boundary collision handling
             if (ball.x - ball.radius < 30) { ball.x = 30 + ball.radius; ball.vx *= -0.6; }
             if (ball.x + ball.radius > 350 && ball.y > 70 && !ball.inPlunger) {
                 ball.x = 350 - ball.radius;
                 ball.vx *= -0.6;
             }
             if (ball.x + ball.radius > 380) { ball.x = 380 - ball.radius; ball.vx *= -0.6; }
-            if (ball.y - ball.radius < 30) { ball.y = 30 + ball.radius; ball.vy *= -0.6; }
+            if (ball.y - ball.radius < 30) { ball.y = 30 + ball.radius; ball.vy *= -0.35; }
 
             bumpers.forEach((b) => {
                 const dx = ball.x - b.x;
@@ -121,10 +126,9 @@ function App() {
                 const dist = Math.sqrt(dx * dx + dy * dy);
                 if (dist < ball.radius + b.r) {
                     const angle = Math.atan2(dy, dx);
-                    // Reduced bounce power from 3.5 down to 1.8 so it doesn't shoot up as high
-                    ball.vx = Math.cos(angle) * 1.8;
-                    ball.vy = Math.sin(angle) * 1.8;
-                    setScore((prevScore) => prevScore + b.score);
+                    ball.vx = Math.cos(angle) * 2.2;
+                    ball.vy = Math.sin(angle) * 2.2;
+                    setScore((prev) => prev + b.score);
                 }
             });
 
@@ -215,11 +219,10 @@ function App() {
             ctx.lineWidth = 4;
             ctx.strokeRect(30, 30, 320, 540);
 
-            // Expanded drain hole to match the full gap between flippers (width: 120px, x: 140)
             ctx.fillStyle = '#110022';
-            ctx.fillRect(140, 540, 120, 40);
+            ctx.fillRect(132, 540, 136, 40);
             ctx.strokeStyle = '#ff0055';
-            ctx.strokeRect(140, 540, 120, 40);
+            ctx.strokeRect(132, 540, 136, 40);
 
             bumpers.forEach((b) => {
                 ctx.save();
@@ -280,7 +283,7 @@ function App() {
 
                 <div style={styles.screenFrame}>
                     <div style={styles.hud}>
-                        <span>HIGH SCORE: 999900</span>
+                        <span>HIGH SCORE: {highScore.toString().padStart(6, '0')}</span>
                         <span>SCORE: {score.toString().padStart(6, '0')}</span>
                     </div>
                     {gameOver && <div style={styles.gameOverBanner}>GAME OVER</div>}
@@ -296,8 +299,6 @@ function App() {
         </div>
     );
 }
-
-window.App = App;
 
 const styles = {
     container: {
@@ -382,3 +383,6 @@ const styles = {
         boxShadow: '0 0 6px #ff0077',
     },
 };
+
+// Make App globally available on window so index.js can see it
+window.App = App;
