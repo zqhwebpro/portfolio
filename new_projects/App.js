@@ -11,13 +11,35 @@ function App() {
         let animationFrameId;
         let currentScore = 0;
 
-        const ball = { x: 365, y: 500, vx: 0, vy: 0, radius: 8, inPlunger: true };
-        const leftFlipper = { x: 130, y: 520, length: 60, angle: 0.3, restAngle: 0.3, activeAngle: -0.4, speed: 0.2 };
-        const rightFlipper = { x: 250, y: 520, length: 60, angle: Math.PI - 0.3, restAngle: Math.PI - 0.3, activeAngle: Math.PI + 0.4, speed: 0.2 };
+        // Ball: Enlarged radius from 8 -> 14
+        const ball = { x: 365, y: 500, vx: 0, vy: 0, radius: 14, inPlunger: true };
+
+        // Left Flipper: Moved x to border (30), lengthened to 85
+        const leftFlipper = {
+            x: 30,
+            y: 520,
+            length: 85,
+            angle: 0.35,
+            restAngle: 0.35,
+            activeAngle: -0.35,
+            speed: 0.15
+        };
+
+        // Right Flipper: Moved x to inner border (350), lengthened to 85
+        const rightFlipper = {
+            x: 350,
+            y: 520,
+            length: 85,
+            angle: Math.PI - 0.35,
+            restAngle: Math.PI - 0.35,
+            activeAngle: Math.PI + 0.35,
+            speed: 0.15
+        };
+
         const bumpers = [
-            { x: 150, y: 180, r: 20, score: 100, color: '#f00' },
-            { x: 230, y: 180, r: 20, score: 100, color: '#0f0' },
-            { x: 190, y: 250, r: 20, score: 200, color: '#ff0' },
+            { x: 150, y: 180, r: 22, score: 100, color: '#f00' },
+            { x: 230, y: 180, r: 22, score: 100, color: '#0f0' },
+            { x: 190, y: 250, r: 22, score: 200, color: '#ff0' },
         ];
 
         const handleKeyDown = (e) => {
@@ -40,12 +62,14 @@ function App() {
                 ball.x = 365;
                 ball.y = 520;
                 if (keys.space) {
-                    ball.vy = -16;
-                    ball.vx = -1.5;
+                    // Reduced plunger launch speed
+                    ball.vy = -11;
+                    ball.vx = -1.2;
                     ball.inPlunger = false;
                 }
             } else {
-                ball.vy += 0.25;
+                // Reduced gravity from 0.25 -> 0.15 for slower movement
+                ball.vy += 0.15;
                 ball.x += ball.vx;
                 ball.y += ball.vy;
             }
@@ -56,19 +80,21 @@ function App() {
             if (keys.controlRight) rightFlipper.angle = Math.min(rightFlipper.activeAngle, rightFlipper.angle + rightFlipper.speed);
             else rightFlipper.angle = Math.max(rightFlipper.restAngle, rightFlipper.angle - rightFlipper.speed);
 
-            if (ball.x - ball.radius < 30) { ball.x = 30 + ball.radius; ball.vx *= -0.7; }
-            if (ball.x + ball.radius > 350 && !ball.inPlunger) { ball.x = 350 - ball.radius; ball.vx *= -0.7; }
-            if (ball.x + ball.radius > 380) { ball.x = 380 - ball.radius; ball.vx *= -0.7; }
-            if (ball.y - ball.radius < 30) { ball.y = 30 + ball.radius; ball.vy *= -0.7; }
+            // Wall Collisions adjusted for larger ball radius
+            if (ball.x - ball.radius < 30) { ball.x = 30 + ball.radius; ball.vx *= -0.65; }
+            if (ball.x + ball.radius > 350 && !ball.inPlunger) { ball.x = 350 - ball.radius; ball.vx *= -0.65; }
+            if (ball.x + ball.radius > 380) { ball.x = 380 - ball.radius; ball.vx *= -0.65; }
+            if (ball.y - ball.radius < 30) { ball.y = 30 + ball.radius; ball.vy *= -0.65; }
 
+            // Bumper Collisions (Toned down force)
             bumpers.forEach((b) => {
                 const dx = ball.x - b.x;
                 const dy = ball.y - b.y;
                 const dist = Math.sqrt(dx * dx + dy * dy);
                 if (dist < ball.radius + b.r) {
                     const angle = Math.atan2(dy, dx);
-                    ball.vx = Math.cos(angle) * 12;
-                    ball.vy = Math.sin(angle) * 12;
+                    ball.vx = Math.cos(angle) * 8;
+                    ball.vy = Math.sin(angle) * 8;
                     currentScore += b.score;
                     setScore(currentScore);
                 }
@@ -82,9 +108,9 @@ function App() {
                 let t = Math.max(0, Math.min(1, ((ball.x - f.x) * fx + (ball.y - f.y) * fy) / fLenSq));
                 const dist = Math.sqrt((ball.x - (f.x + t * fx)) ** 2 + (ball.y - (f.y + t * fy)) ** 2);
 
-                if (dist < ball.radius + 6) {
-                    ball.vy = (isLeft && keys.controlLeft) || (!isLeft && keys.controlRight) ? -12 : -5;
-                    ball.vx += isLeft ? 2 : -2;
+                if (dist < ball.radius + 8) {
+                    ball.vy = (isLeft && keys.controlLeft) || (!isLeft && keys.controlRight) ? -9 : -4;
+                    ball.vx += isLeft ? 1.5 : -1.5;
                 }
             };
 
@@ -109,27 +135,29 @@ function App() {
             ctx.strokeRect(30, 30, 320, 540);
             ctx.strokeRect(350, 100, 30, 470);
 
+            // Bumpers: White stroke removed
             bumpers.forEach((b) => {
                 ctx.fillStyle = b.color;
                 ctx.beginPath();
                 ctx.arc(b.x, b.y, b.r, 0, Math.PI * 2);
                 ctx.fill();
-                ctx.strokeStyle = '#fff';
-                ctx.stroke();
             });
 
+            // Left Flipper
             ctx.strokeStyle = '#ff0055';
-            ctx.lineWidth = 8;
+            ctx.lineWidth = 10;
             ctx.beginPath();
             ctx.moveTo(leftFlipper.x, leftFlipper.y);
             ctx.lineTo(leftFlipper.x + Math.cos(leftFlipper.angle) * leftFlipper.length, leftFlipper.y + Math.sin(leftFlipper.angle) * leftFlipper.length);
             ctx.stroke();
 
+            // Right Flipper
             ctx.beginPath();
             ctx.moveTo(rightFlipper.x, rightFlipper.y);
             ctx.lineTo(rightFlipper.x + Math.cos(rightFlipper.angle) * rightFlipper.length, rightFlipper.y + Math.sin(rightFlipper.angle) * rightFlipper.length);
             ctx.stroke();
 
+            // Larger Ball
             ctx.fillStyle = '#ffffff';
             ctx.beginPath();
             ctx.arc(ball.x, ball.y, ball.radius, 0, Math.PI * 2);
@@ -154,8 +182,9 @@ function App() {
     return (
         <div style={{ display: 'flex', justifyContent: 'center', alignItems: 'center', minHeight: '100vh', backgroundColor: '#0a0a0c', fontFamily: 'monospace' }}>
             <div style={{ backgroundColor: '#383838', border: '12px solid #222', borderRadius: '20px', padding: '20px', display: 'flex', flexDirection: 'column', alignItems: 'center' }}>
+                {/* Header changed to React Pinball */}
                 <div style={{ backgroundColor: '#d82800', color: '#fff', fontSize: '24px', fontWeight: 'bold', padding: '8px 40px', borderRadius: '4px', marginBottom: '15px', border: '4px solid #fff' }}>
-                    NES PINBALL
+                    REACT PINBALL
                 </div>
                 <div style={{ backgroundColor: '#000', border: '6px solid #888', borderRadius: '10px', padding: '10px' }}>
                     <div style={{ color: '#00ff00', fontSize: '18px', fontWeight: 'bold', marginBottom: '8px', display: 'flex', justifyContent: 'space-between' }}>
