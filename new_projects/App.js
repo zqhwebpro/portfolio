@@ -53,11 +53,11 @@ function App() {
             tipRadius: 4
         };
 
-        // Bumpers moved higher up on the table (y: 180 and 230)
+        // Smaller (r: 6), spread wider apart (x: 100, 300), and positioned higher up (y: 120, 160)
         const bumpers = [
-            { x: 130, y: 180, r: 8, score: 100, color: '#ffd700' },
-            { x: 270, y: 180, r: 8, score: 100, color: '#ffd700' },
-            { x: 200, y: 230, r: 8, score: 200, color: '#ffae00' },
+            { x: 100, y: 120, r: 6, score: 100, color: '#ffd700' },
+            { x: 300, y: 120, r: 6, score: 100, color: '#ffd700' },
+            { x: 200, y: 160, r: 6, score: 200, color: '#ffae00' },
         ];
 
         const handleKeyDown = (e) => {
@@ -86,21 +86,21 @@ function App() {
                 ball.x = 365;
                 ball.y = 520;
                 if (keys.space) {
-                    // High launch force with strong leftward arc
-                    ball.vy = -26.0;
-                    ball.vx = -3.5;
+                    // Strong upward force up the right lane, nudged into the outer wall curve
+                    ball.vy = -34.0;
+                    ball.vx = 0.8;
                     ball.inPlunger = false;
                     setScore(0);
                 }
             } else {
-                if (ball.x > 340 && ball.y < 150) {
-                    ball.vx -= 0.12;
+                // Curved arch guide at top right to steer the ball up over the top left
+                if (ball.x > 330 && ball.y < 120) {
+                    ball.vx -= 0.25;
                 }
 
-                // Lower gravity and lower step multiplier for slower ball movement
-                ball.vy += 0.025;
-                ball.x += ball.vx * 0.45;
-                ball.y += ball.vy * 0.45;
+                ball.vy += 0.02; // Gentle gravity for floaty movement
+                ball.x += ball.vx * 0.4;
+                ball.y += ball.vy * 0.4;
             }
 
             if (keys.controlLeft) {
@@ -122,7 +122,7 @@ function App() {
                 ball.vx *= -0.6;
             }
             if (ball.x + ball.radius > 380) { ball.x = 380 - ball.radius; ball.vx *= -0.6; }
-            if (ball.y - ball.radius < 30) { ball.y = 30 + ball.radius; ball.vy *= -0.35; }
+            if (ball.y - ball.radius < 30) { ball.y = 30 + ball.radius; ball.vy *= -0.3; }
 
             bumpers.forEach((b) => {
                 const dx = ball.x - b.x;
@@ -130,8 +130,8 @@ function App() {
                 const dist = Math.sqrt(dx * dx + dy * dy);
                 if (dist < ball.radius + b.r) {
                     const angle = Math.atan2(dy, dx);
-                    ball.vx = Math.cos(angle) * 1.8;
-                    ball.vy = Math.sin(angle) * 1.8;
+                    ball.vx = Math.cos(angle) * 1.6;
+                    ball.vy = Math.sin(angle) * 1.6;
                     setScore((prev) => prev + b.score);
                 }
             });
@@ -146,8 +146,7 @@ function App() {
 
                 if (dist < ball.radius + f.baseRadius) {
                     const isFlipping = (isLeft && keys.controlLeft) || (!isLeft && keys.controlRight);
-                    // Reduced flipper launch velocity (-7.5) to keep hits aimed toward bumper height
-                    ball.vy = isFlipping ? -7.5 : -2.5;
+                    ball.vy = isFlipping ? -7.0 : -2.5;
                     ball.vx = isLeft ? 1.5 : -1.5;
                 }
             };
