@@ -85,24 +85,42 @@ function App() {
                 ball.x = 365;
                 ball.y = 520;
                 if (keys.space) {
-                    // 1.5x higher launch power than the max flipper bounce (-14.5 * 1.5 = -21.75)
-                    ball.vy = -21.75;
-                    ball.vx = -4.5;
+                    ball.vy = -38.0;
+                    ball.vx = -1.8;
                     ball.inPlunger = false;
                     setScore(0);
                 }
             } else {
-                // Outer Arch Curve Guide
-                if (ball.x > 330 && ball.y < 120) {
-                    ball.vx -= 0.45;
+                if (ball.x > 280 && ball.y < 100) {
+                    ball.vx -= 0.35;
                 }
 
-                // 85% steep downward slope gravity simulation
+                // Base gravity acceleration (85% slope baseline)
                 ball.vy += 0.28;
 
-                // Speed step multiplier for overall faster gameplay
-                ball.x += ball.vx * 1.2;
-                ball.y += ball.vy * 1.2;
+                // --- ANGULAR VARIANCE FLUX PHYSICS ---
+                const speed = Math.sqrt(ball.vx * ball.vx + ball.vy * ball.vy);
+                if (speed > 0.1) {
+                    let currentAngle = Math.atan2(ball.vy, ball.vx);
+
+                    // Baseline slope jitter (+/- 5 degrees = +/- 0.087 radians)
+                    let angleVariation = (Math.random() - 0.5) * (10 * Math.PI / 180);
+
+                    // 3% chance for large spike (+/- 20 degrees = +/- 0.349 radians)
+                    if (Math.random() < 0.03) {
+                        angleVariation += (Math.random() - 0.5) * (40 * Math.PI / 180);
+                    }
+
+                    currentAngle += angleVariation;
+
+                    // Reconstruct velocity components with new randomized angle
+                    ball.vx = Math.cos(currentAngle) * speed;
+                    ball.vy = Math.sin(currentAngle) * speed;
+                }
+
+                // Apply frame step multiplier
+                ball.x += ball.vx * 0.9;
+                ball.y += ball.vy * 0.9;
             }
 
             if (keys.controlLeft) {
@@ -124,22 +142,28 @@ function App() {
                 ball.vx *= -0.6;
             }
             if (ball.x + ball.radius > 380) { ball.x = 380 - ball.radius; ball.vx *= -0.6; }
-            if (ball.y - ball.radius < 30) { ball.y = 30 + ball.radius; ball.vy *= -0.4; }
 
-            // Bumpers
+            // Top Arch Boundary Bounce
+            if (ball.y - ball.radius < 30) {
+                ball.y = 30 + ball.radius;
+                ball.vy = Math.abs(ball.vy) * 0.4;
+                if (ball.x > 200) ball.vx -= 1.5;
+            }
+
+            // Bumpers Collision
             bumpers.forEach((b) => {
                 const dx = ball.x - b.x;
                 const dy = ball.y - b.y;
                 const dist = Math.sqrt(dx * dx + dy * dy);
                 if (dist < ball.radius + b.r) {
                     const angle = Math.atan2(dy, dx);
-                    ball.vx = Math.cos(angle) * 6.5;
-                    ball.vy = Math.sin(angle) * 6.5;
+                    ball.vx = Math.cos(angle) * 5.5;
+                    ball.vy = Math.sin(angle) * 5.5;
                     setScore((prev) => prev + b.score);
                 }
             });
 
-            // Flipper Collision & Bounce Calculation
+            // Flipper Collision & Bounce
             const checkFlipper = (f, isLeft) => {
                 const tipX = f.x + Math.cos(f.angle) * f.length;
                 const tipY = f.y + Math.sin(f.angle) * f.length;
@@ -150,8 +174,7 @@ function App() {
 
                 if (dist < ball.radius + f.baseRadius) {
                     const isFlipping = (isLeft && keys.controlLeft) || (!isLeft && keys.controlRight);
-                    // Higher flipper impulse to launch ball up into bumper territory
-                    ball.vy = isFlipping ? -14.5 : -5.0;
+                    ball.vy = isFlipping ? -15.5 : -5.0;
                     ball.vx = isLeft ? 3.5 : -3.5;
                 }
             };
