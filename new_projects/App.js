@@ -1,27 +1,30 @@
-function App() {
-    const canvasRef = React.useRef(null);
-    const [score, setScore] = React.useState(0);
-    const [gameOver, setGameOver] = React.useState(false);
+import React, { useState, useRef, useEffect } from 'react';
 
-    React.useEffect(() => {
+export default function App() {
+    const canvasRef = useRef(null);
+    const [score, setScore] = useState(0);
+    const [gameOver, setGameOver] = useState(false);
+
+    // Auto-hide game over banner after 2.5 seconds
+    useEffect(() => {
         if (gameOver) {
             const timer = setTimeout(() => setGameOver(false), 2500);
             return () => clearTimeout(timer);
         }
     }, [gameOver]);
 
-    React.useEffect(() => {
+    useEffect(() => {
         const canvas = canvasRef.current;
+        if (!canvas) return;
         const ctx = canvas.getContext('2d');
 
         const keys = { space: false, controlLeft: false, controlRight: false };
         let animationFrameId;
-        let currentScore = 0;
 
         const ball = { x: 365, y: 520, vx: 0, vy: 0, radius: 6, inPlunger: true };
 
         const leftFlipper = {
-            x: 30,
+            x: 32,
             y: 510,
             length: 100,
             angle: 0.35,
@@ -33,7 +36,7 @@ function App() {
         };
 
         const rightFlipper = {
-            x: 350,
+            x: 348,
             y: 510,
             length: 100,
             angle: Math.PI - 0.35,
@@ -44,17 +47,23 @@ function App() {
             tipRadius: 4
         };
 
-        // Smaller gold bumpers (Radius reduced to 6) spread much farther apart across the board
         const bumpers = [
-            { x: 90, y: 120, r: 6, score: 100, color: '#ffd700' },
-            { x: 290, y: 120, r: 6, score: 100, color: '#ffd700' },
-            { x: 190, y: 240, r: 6, score: 200, color: '#ffae00' },
+            { x: 90, y: 120, r: 12, score: 100, color: '#ffd700' },
+            { x: 290, y: 120, r: 12, score: 100, color: '#ffd700' },
+            { x: 190, y: 240, r: 12, score: 200, color: '#ffae00' },
         ];
 
         const handleKeyDown = (e) => {
+            // Prevent default browser shortcuts (like Ctrl+R refresh or Space scroll)
+            if (['Space', 'ControlLeft', 'ControlRight', 'ArrowLeft', 'ArrowRight'].includes(e.code)) {
+                e.preventDefault();
+            }
+
             if (e.code === 'Space') keys.space = true;
             if (e.code === 'ControlLeft') keys.controlLeft = true;
             if (e.code === 'ControlRight') keys.controlRight = true;
+
+            setGameOver(false);
         };
 
         const handleKeyUp = (e) => {
@@ -85,6 +94,7 @@ function App() {
                 ball.y += ball.vy * 0.7;
             }
 
+            // Flipper rotation physics
             if (keys.controlLeft) {
                 leftFlipper.angle = Math.max(leftFlipper.activeAngle, leftFlipper.angle - leftFlipper.speed);
             } else {
@@ -97,6 +107,7 @@ function App() {
                 rightFlipper.angle = Math.max(rightFlipper.restAngle, rightFlipper.angle - rightFlipper.speed);
             }
 
+            // Boundary bounce checks
             if (ball.x - ball.radius < 30) { ball.x = 30 + ball.radius; ball.vx *= -0.6; }
             if (ball.x + ball.radius > 350 && ball.y > 70 && !ball.inPlunger) {
                 ball.x = 350 - ball.radius;
@@ -105,6 +116,7 @@ function App() {
             if (ball.x + ball.radius > 380) { ball.x = 380 - ball.radius; ball.vx *= -0.6; }
             if (ball.y - ball.radius < 30) { ball.y = 30 + ball.radius; ball.vy *= -0.6; }
 
+            // Bumper collision handling using functional state update
             bumpers.forEach((b) => {
                 const dx = ball.x - b.x;
                 const dy = ball.y - b.y;
@@ -113,11 +125,11 @@ function App() {
                     const angle = Math.atan2(dy, dx);
                     ball.vx = Math.cos(angle) * 3.2;
                     ball.vy = Math.sin(angle) * 3.2;
-                    currentScore += b.score;
-                    setScore(currentScore);
+                    setScore((prevScore) => prevScore + b.score);
                 }
             });
 
+            // Flipper collision detection
             const checkFlipper = (f, isLeft) => {
                 const tipX = f.x + Math.cos(f.angle) * f.length;
                 const tipY = f.y + Math.sin(f.angle) * f.length;
@@ -128,7 +140,7 @@ function App() {
 
                 if (dist < ball.radius + f.baseRadius) {
                     const isFlipping = (isLeft && keys.controlLeft) || (!isLeft && keys.controlRight);
-                    ball.vy = isFlipping ? -7.8 : -3.5;
+                    ball.vy = isFlipping ? -13.5 : -3.5;
                     ball.vx = isLeft ? 1.2 : -1.2;
                 }
             };
@@ -136,6 +148,7 @@ function App() {
             checkFlipper(leftFlipper, true);
             checkFlipper(rightFlipper, false);
 
+            // Ball out-of-bounds / Game Over
             if (ball.y > 570) {
                 setGameOver(true);
                 ball.inPlunger = true;
@@ -190,6 +203,7 @@ function App() {
             ctx.fillStyle = '#05030a';
             ctx.fillRect(0, 0, canvas.width, canvas.height);
 
+            // Background Grid
             ctx.strokeStyle = 'rgba(255, 0, 128, 0.06)';
             ctx.lineWidth = 1;
             for (let x = 0; x < canvas.width; x += 20) {
@@ -199,26 +213,20 @@ function App() {
                 ctx.beginPath(); ctx.moveTo(0, y); ctx.lineTo(canvas.width, y); ctx.stroke();
             }
 
+            // Outer Frame
             ctx.shadowBlur = 8;
             ctx.shadowColor = '#00f0ff';
             ctx.strokeStyle = '#00f0ff';
             ctx.lineWidth = 4;
-
             ctx.strokeRect(30, 30, 320, 540);
 
-            ctx.beginPath();
-            ctx.moveTo(350, 70);
-            ctx.lineTo(380, 70);
-            ctx.lineTo(380, 570);
-            ctx.lineTo(350, 570);
-            ctx.stroke();
-
+            // Outlane Drain Area
             ctx.fillStyle = '#110022';
             ctx.fillRect(155, 540, 70, 40);
             ctx.strokeStyle = '#ff0055';
             ctx.strokeRect(155, 540, 70, 40);
 
-            // Render smaller, wider-spread bumpers
+            // Bumpers
             bumpers.forEach((b) => {
                 ctx.save();
                 ctx.shadowBlur = 10;
@@ -239,14 +247,17 @@ function App() {
                 ctx.restore();
             });
 
+            // Flippers
             drawStylizedFlipper(leftFlipper);
             drawStylizedFlipper(rightFlipper);
 
+            // Ball
             ctx.shadowBlur = 10;
             ctx.shadowColor = '#ffffff';
             ctx.fillStyle = '#ffffff';
             ctx.fillRect(ball.x - ball.radius, ball.y - ball.radius, ball.radius * 2, ball.radius * 2);
 
+            // Scanlines Effect
             ctx.shadowBlur = 0;
             ctx.fillStyle = 'rgba(0, 0, 0, 0.2)';
             for (let i = 0; i < canvas.height; i += 4) {
