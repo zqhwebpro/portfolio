@@ -28,14 +28,13 @@ function App() {
         let animationFrameId;
         let animTime = 0;
         let flipperRestTimer = 0;
-        let flipperHitBoost = 1.0; // Progressive velocity multiplier
 
         const ball = { x: 365, y: 520, vx: 0, vy: 0, radius: 6, inPlunger: true };
 
         const leftFlipper = {
-            x: 42,
+            x: 32,
             y: 510,
-            length: 95,
+            length: 100,
             angle: 0.35,
             restAngle: 0.35,
             activeAngle: -0.35,
@@ -45,9 +44,9 @@ function App() {
         };
 
         const rightFlipper = {
-            x: 332,
+            x: 348,
             y: 510,
-            length: 95,
+            length: 100,
             angle: Math.PI - 0.35,
             restAngle: Math.PI - 0.35,
             activeAngle: Math.PI + 0.35,
@@ -70,8 +69,7 @@ function App() {
             if (e.code === 'Space' && ball.inPlunger) {
                 ball.inPlunger = false;
                 ball.vx = 0;
-                ball.vy = -16.5; // Slower, smooth initial launch
-                flipperHitBoost = 1.0; // Reset speed boost on launch
+                ball.vy = -24.0;
                 setScore(0);
                 setGameOver(false);
             }
@@ -116,19 +114,15 @@ function App() {
             const steps = 4;
 
             for (let step = 0; step < steps; step++) {
-                // Gravity
                 ball.vy += 0.28 / steps;
 
-                // Move ball (scaling with flipper progressive hit boost)
-                ball.x += (ball.vx * 0.9 * flipperHitBoost) / steps;
-                ball.y += (ball.vy * 0.9 * flipperHitBoost) / steps;
+                ball.x += (ball.vx * 0.9) / steps;
+                ball.y += (ball.vy * 0.9) / steps;
 
-                // Smooth launcher arch top curve
                 if (ball.x > 340 && ball.y < 70) {
-                    ball.vx = -6.0;
+                    ball.vx = -7.0;
                 }
 
-                // Random variance flux physics outside launch tube
                 if (ball.y > 110 && ball.x < 340) {
                     const speed = Math.sqrt(ball.vx * ball.vx + ball.vy * ball.vy);
                     if (speed > 0.1) {
@@ -145,24 +139,19 @@ function App() {
                     }
                 }
 
-                // Playfield Outer Boundary Collisions
                 if (ball.x - ball.radius < 30) {
                     ball.x = 30 + ball.radius;
                     ball.vx *= -0.6;
                 }
 
-                if (ball.x > 344 && ball.y > 70 && ball.y < 460) {
-                    if (ball.x < 350) {
-                        ball.x = 344 - ball.radius;
-                        ball.vx = -Math.abs(ball.vx) - 2.0;
-                    } else if (ball.x > 350 && ball.x < 356) {
-                        ball.x = 350 + ball.radius;
+                if (ball.x - ball.radius < 350 && ball.x + ball.radius > 345 && ball.y > 70) {
+                    if (ball.x > 347) {
+                        ball.x = 347 + ball.radius;
                         ball.vx = Math.abs(ball.vx) * 0.2;
+                    } else {
+                        ball.x = 345 - ball.radius;
+                        ball.vx = -Math.abs(ball.vx) * 0.6;
                     }
-                }
-
-                if (ball.x > 330 && ball.y > 460 && ball.y < 490) {
-                    ball.vx -= 0.8;
                 }
 
                 if (ball.x + ball.radius > 380) {
@@ -175,7 +164,6 @@ function App() {
                     ball.vy = Math.abs(ball.vy) * 0.3;
                 }
 
-                // Bumpers
                 bumpers.forEach((b) => {
                     const dx = ball.x - b.x;
                     const dy = ball.y - b.y;
@@ -188,7 +176,6 @@ function App() {
                     }
                 });
 
-                // Flippers & Progressive Speed Acceleration
                 const checkFlipper = (f, isLeft) => {
                     const tipX = f.x + Math.cos(f.angle) * f.length;
                     const tipY = f.y + Math.sin(f.angle) * f.length;
@@ -202,21 +189,16 @@ function App() {
                         const isFlipping = (isLeft && keys.controlLeft) || (!isLeft && keys.controlRight);
 
                         if (isFlipping) {
-                            ball.vy = -13.5;
-                            ball.vx = isLeft ? 3.8 : -3.8;
-
-                            // Increase ball speed by 8% per flipper hit (max 2.0x boost)
-                            if (step === 0) {
-                                flipperHitBoost = Math.min(2.0, flipperHitBoost + 0.08);
-                            }
+                            ball.vy = -14.0;
+                            ball.vx = isLeft ? 4.0 : -4.0;
                         } else {
                             ball.vy = -2.5;
                             ball.vx = isLeft ? 1.5 : -1.5;
 
                             if (flipperRestTimer > 30) {
                                 const slideDir = isLeft ? Math.cos(f.angle) : -Math.cos(f.angle);
-                                ball.vx += slideDir * 2.0;
-                                ball.vy += Math.sin(f.angle) * 1.5;
+                                ball.vx += slideDir * 1.8;
+                                ball.vy += Math.sin(f.angle) * 1.2;
                             }
                         }
                     }
@@ -237,7 +219,6 @@ function App() {
                 ball.inPlunger = true;
                 ball.vx = 0;
                 ball.vy = 0;
-                flipperHitBoost = 1.0;
             }
         };
 
@@ -281,69 +262,50 @@ function App() {
             ctx.restore();
         };
 
-        const drawUnifiedPlayfieldAndLauncher = () => {
+        const drawOpaqueMagentaLauncher = () => {
             ctx.save();
 
-            // Opaque Magenta Fill (Conjoined cleanly to inner corner, not extending into top left field)
-            ctx.fillStyle = '#ff00ff';
+            // Dark backing channel inside the tube
+            ctx.fillStyle = '#1a001a';
+            ctx.fillRect(345, 60, 40, 510);
 
-            // Vertical Tube
-            ctx.fillRect(350, 60, 30, 410);
-            ctx.fillRect(350, 500, 30, 70);
+            // Opaque Solid Magenta Lane Container
+            ctx.fillStyle = '#ff00aa';
 
-            // Upper Arch Corner Fill (conjoined with top cyan boundary line)
-            ctx.beginPath();
-            ctx.moveTo(350, 60);
-            ctx.arc(320, 60, 60, 0, Math.PI * 1.5, true);
-            ctx.lineTo(350, 30);
-            ctx.arc(320, 60, 30, Math.PI * 1.5, 0, false);
-            ctx.closePath();
-            ctx.fill();
+            // Left Wall Frame
+            ctx.fillRect(341, 60, 4, 510);
 
-            // Accent Metallic Stripe inside tube
-            ctx.fillStyle = '#a000a0';
-            ctx.fillRect(362, 60, 6, 410);
+            // Right Wall Frame
+            ctx.fillRect(385, 60, 4, 510);
 
-            // Deflection Wedge
-            ctx.beginPath();
-            ctx.moveTo(350, 460);
-            ctx.lineTo(338, 490);
-            ctx.lineTo(350, 490);
-            ctx.closePath();
-            ctx.fill();
+            // Top Arch Guide (Keeps rectangular profile while smoothly redirecting top)
+            ctx.fillRect(341, 56, 48, 8);
 
-            // Outer Bounds Frame Line
+            // Inner Shadow/Glow Accents for Solid 3D Aesthetic
+            ctx.fillStyle = '#d40088';
+            ctx.fillRect(345, 60, 2, 510);
+            ctx.fillRect(383, 60, 2, 510);
+
+            // High-contrast Edge Highlights
             ctx.shadowBlur = 8;
-            ctx.shadowColor = '#00f0ff';
-            ctx.strokeStyle = '#00f0ff';
-            ctx.lineWidth = 4;
-
-            // Main Playfield Cyan Border conjoined to launcher inner wall
-            ctx.beginPath();
-            ctx.moveTo(350, 570);
-            ctx.lineTo(350, 60);
-            ctx.lineTo(30, 60);
-            ctx.lineTo(30, 570);
-            ctx.stroke();
-
-            // Outer Wall Tube Stroke
-            ctx.shadowColor = '#ff00ff';
-            ctx.strokeStyle = '#ffffff';
-            ctx.lineWidth = 3;
-
-            ctx.beginPath();
-            ctx.moveTo(380, 570);
-            ctx.lineTo(380, 60);
-            ctx.arc(320, 60, 60, 0, Math.PI * 1.5, true);
-            ctx.stroke();
-
-            // Arrow LEDs Inside Launcher
+            ctx.shadowColor = '#ff00aa';
             ctx.strokeStyle = '#ffffff';
             ctx.lineWidth = 2;
+
+            ctx.beginPath();
+            ctx.moveTo(345, 570);
+            ctx.lineTo(345, 60);
+            ctx.lineTo(385, 60);
+            ctx.lineTo(385, 570);
+            ctx.stroke();
+
+            // Animated Directional Lane Arrows
+            ctx.strokeStyle = '#ffff00';
+            ctx.lineWidth = 2;
             const offset = (animTime * 40) % 40;
-            for (let y = 460; y > 50; y -= 40) {
+            for (let y = 520; y > 60; y -= 40) {
                 const drawY = y - offset;
-                if (drawY > 40 && drawY < 460) {
+                if (drawY > 65 && drawY < 530) {
                     ctx.beginPath();
                     ctx.moveTo(358, drawY + 6);
                     ctx.lineTo(365, drawY);
@@ -361,7 +323,6 @@ function App() {
             ctx.fillStyle = '#05030a';
             ctx.fillRect(0, 0, canvas.width, canvas.height);
 
-            // Playfield Grid
             ctx.strokeStyle = 'rgba(255, 0, 128, 0.06)';
             ctx.lineWidth = 1;
             for (let x = 0; x < canvas.width; x += 20) {
@@ -371,9 +332,14 @@ function App() {
                 ctx.beginPath(); ctx.moveTo(0, y); ctx.lineTo(canvas.width, y); ctx.stroke();
             }
 
-            drawUnifiedPlayfieldAndLauncher();
+            drawOpaqueMagentaLauncher();
 
-            // Spring Plunger
+            ctx.shadowBlur = 8;
+            ctx.shadowColor = '#00f0ff';
+            ctx.strokeStyle = '#00f0ff';
+            ctx.lineWidth = 4;
+            ctx.strokeRect(30, 30, 315, 540);
+
             const springTopY = ball.inPlunger ? 530 : 550;
             ctx.shadowBlur = 6;
             ctx.shadowColor = '#ff0055';
@@ -421,7 +387,6 @@ function App() {
             drawStylizedFlipper(leftFlipper);
             drawStylizedFlipper(rightFlipper);
 
-            // Ball
             ctx.shadowBlur = 12;
             ctx.shadowColor = '#ffffff';
             ctx.fillStyle = '#ffffff';
@@ -429,7 +394,6 @@ function App() {
             ctx.arc(ball.x, ball.y, ball.radius, 0, Math.PI * 2);
             ctx.fill();
 
-            // Scanlines
             ctx.shadowBlur = 0;
             ctx.fillStyle = 'rgba(0, 0, 0, 0.2)';
             for (let i = 0; i < canvas.height; i += 4) {
