@@ -1,51 +1,74 @@
-function App() {
-    const canvasRef = React.useRef(null);
-    const [score, setScore] = React.useState(0);
-    const [gameOver, setGameOver] = React.useState(false);
+const { useState, useRef, useEffect } = React;
 
-    React.useEffect(() => {
+function App() {
+    const canvasRef = useRef(null);
+    const [score, setScore] = useState(0);
+    const [highScore, setHighScore] = useState(0);
+    const [gameOver, setGameOver] = useState(false);
+
+    useEffect(() => {
+        if (score > highScore) {
+            setHighScore(score);
+        }
+    }, [score, highScore]);
+
+    useEffect(() => {
+        if (gameOver) {
+            const timer = setTimeout(() => setGameOver(false), 2500);
+            return () => clearTimeout(timer);
+        }
+    }, [gameOver]);
+
+    useEffect(() => {
         const canvas = canvasRef.current;
+        if (!canvas) return;
         const ctx = canvas.getContext('2d');
 
         const keys = { space: false, controlLeft: false, controlRight: false };
         let animationFrameId;
-        let currentScore = 0;
 
-        // Ball: Radius reduced to 9 for a tighter feel
-        const ball = { x: 365, y: 520, vx: 0, vy: 0, radius: 9, inPlunger: true };
+        const ball = { x: 365, y: 520, vx: 0, vy: 0, radius: 6, inPlunger: true };
 
-        // Flippers: Enlarged (length 110) to easily cover the drain gap
         const leftFlipper = {
-            x: 30,
-            y: 520,
-            length: 110,
+            x: 32,
+            y: 510,
+            length: 100,
             angle: 0.35,
             restAngle: 0.35,
             activeAngle: -0.35,
-            speed: 0.1
+            speed: 0.22,
+            baseRadius: 9,
+            tipRadius: 4
         };
 
         const rightFlipper = {
-            x: 350,
-            y: 520,
-            length: 110,
+            x: 348,
+            y: 510,
+            length: 100,
             angle: Math.PI - 0.35,
             restAngle: Math.PI - 0.35,
             activeAngle: Math.PI + 0.35,
-            speed: 0.1
+            speed: 0.22,
+            baseRadius: 9,
+            tipRadius: 4
         };
 
-        // Bumpers: Reduced radius to 18 and placed in a high arc configuration
         const bumpers = [
-            { x: 100, y: 160, r: 18, score: 100, color: '#f00', glow: '#ff0055' },
-            { x: 280, y: 160, r: 18, score: 100, color: '#0f0', glow: '#00ff66' },
-            { x: 190, y: 220, r: 18, score: 200, color: '#ff0', glow: '#ffff00' },
+            { x: 120, y: 220, r: 12, score: 100, color: '#ffd700' },
+            { x: 280, y: 220, r: 12, score: 100, color: '#ffd700' },
+            { x: 200, y: 160, r: 14, score: 200, color: '#ffae00' },
         ];
 
         const handleKeyDown = (e) => {
+            if (['Space', 'ControlLeft', 'ControlRight', 'ArrowLeft', 'ArrowRight'].includes(e.code)) {
+                e.preventDefault();
+            }
+
             if (e.code === 'Space') keys.space = true;
             if (e.code === 'ControlLeft') keys.controlLeft = true;
             if (e.code === 'ControlRight') keys.controlRight = true;
+
+            setGameOver(false);
         };
 
         const handleKeyUp = (e) => {
@@ -62,51 +85,61 @@ function App() {
                 ball.x = 365;
                 ball.y = 520;
                 if (keys.space) {
-                    // Controlled initial launch velocity upwards
-                    ball.vy = -7.5;
-                    ball.vx = 0;
+                    // 1.5x higher launch power than the max flipper bounce (-14.5 * 1.5 = -21.75)
+                    ball.vy = -21.75;
+                    ball.vx = -4.5;
                     ball.inPlunger = false;
+                    setScore(0);
                 }
             } else {
-                // High-curving trajectory: smooth arch toward top left over the bumpers
-                if (ball.x > 340 && ball.y < 80) {
-                    ball.vx = -1.8;
-                    ball.vy *= 0.85; // Decelerate upward push so it floats over top bumpers
+                // Outer Arch Curve Guide
+                if (ball.x > 330 && ball.y < 120) {
+                    ball.vx -= 0.45;
                 }
 
-                // Very floaty, slow gravity for floaty physics
-                ball.vy += 0.08;
-                ball.x += ball.vx;
-                ball.y += ball.vy;
+                // 85% steep downward slope gravity simulation
+                ball.vy += 0.28;
+
+                // Speed step multiplier for overall faster gameplay
+                ball.x += ball.vx * 1.2;
+                ball.y += ball.vy * 1.2;
             }
 
-            if (keys.controlLeft) leftFlipper.angle = Math.max(leftFlipper.activeAngle, leftFlipper.angle - leftFlipper.speed);
-            else leftFlipper.angle = Math.min(leftFlipper.restAngle, leftFlipper.angle + leftFlipper.speed);
+            if (keys.controlLeft) {
+                leftFlipper.angle = Math.max(leftFlipper.activeAngle, leftFlipper.angle - leftFlipper.speed);
+            } else {
+                leftFlipper.angle = Math.min(leftFlipper.restAngle, leftFlipper.angle + leftFlipper.speed);
+            }
 
-            if (keys.controlRight) rightFlipper.angle = Math.min(rightFlipper.activeAngle, rightFlipper.angle - rightFlipper.speed);
-            else rightFlipper.angle = Math.max(rightFlipper.restAngle, rightFlipper.angle + rightFlipper.speed);
+            if (keys.controlRight) {
+                rightFlipper.angle = Math.min(rightFlipper.activeAngle, rightFlipper.angle + rightFlipper.speed);
+            } else {
+                rightFlipper.angle = Math.max(rightFlipper.restAngle, rightFlipper.angle - rightFlipper.speed);
+            }
 
-            // Outer Walls Collision
-            if (ball.x - ball.radius < 30) { ball.x = 30 + ball.radius; ball.vx *= -0.55; }
-            if (ball.x + ball.radius > 350 && ball.y > 100 && !ball.inPlunger) { ball.x = 350 - ball.radius; ball.vx *= -0.55; }
-            if (ball.x + ball.radius > 380) { ball.x = 380 - ball.radius; ball.vx *= -0.55; }
-            if (ball.y - ball.radius < 30) { ball.y = 30 + ball.radius; ball.vy *= -0.55; }
+            // Outer Bounds
+            if (ball.x - ball.radius < 30) { ball.x = 30 + ball.radius; ball.vx *= -0.6; }
+            if (ball.x + ball.radius > 350 && ball.y > 70 && !ball.inPlunger) {
+                ball.x = 350 - ball.radius;
+                ball.vx *= -0.6;
+            }
+            if (ball.x + ball.radius > 380) { ball.x = 380 - ball.radius; ball.vx *= -0.6; }
+            if (ball.y - ball.radius < 30) { ball.y = 30 + ball.radius; ball.vy *= -0.4; }
 
-            // Bumper Collisions
+            // Bumpers
             bumpers.forEach((b) => {
                 const dx = ball.x - b.x;
                 const dy = ball.y - b.y;
                 const dist = Math.sqrt(dx * dx + dy * dy);
                 if (dist < ball.radius + b.r) {
                     const angle = Math.atan2(dy, dx);
-                    ball.vx = Math.cos(angle) * 4.5;
-                    ball.vy = Math.sin(angle) * 4.5;
-                    currentScore += b.score;
-                    setScore(currentScore);
+                    ball.vx = Math.cos(angle) * 6.5;
+                    ball.vy = Math.sin(angle) * 6.5;
+                    setScore((prev) => prev + b.score);
                 }
             });
 
-            // Flipper Collisions
+            // Flipper Collision & Bounce Calculation
             const checkFlipper = (f, isLeft) => {
                 const tipX = f.x + Math.cos(f.angle) * f.length;
                 const tipY = f.y + Math.sin(f.angle) * f.length;
@@ -115,16 +148,18 @@ function App() {
                 let t = Math.max(0, Math.min(1, ((ball.x - f.x) * fx + (ball.y - f.y) * fy) / fLenSq));
                 const dist = Math.sqrt((ball.x - (f.x + t * fx)) ** 2 + (ball.y - (f.y + t * fy)) ** 2);
 
-                if (dist < ball.radius + 8) {
-                    ball.vy = (isLeft && keys.controlLeft) || (!isLeft && keys.controlRight) ? -6 : -2.5;
-                    ball.vx += isLeft ? 1 : -1;
+                if (dist < ball.radius + f.baseRadius) {
+                    const isFlipping = (isLeft && keys.controlLeft) || (!isLeft && keys.controlRight);
+                    // Higher flipper impulse to launch ball up into bumper territory
+                    ball.vy = isFlipping ? -14.5 : -5.0;
+                    ball.vx = isLeft ? 3.5 : -3.5;
                 }
             };
 
             checkFlipper(leftFlipper, true);
             checkFlipper(rightFlipper, false);
 
-            if (ball.y > 600) {
+            if (ball.y > 570) {
                 setGameOver(true);
                 ball.inPlunger = true;
                 ball.vx = 0;
@@ -132,59 +167,137 @@ function App() {
             }
         };
 
+        const drawStylizedFlipper = (f) => {
+            const tipX = f.x + Math.cos(f.angle) * f.length;
+            const tipY = f.y + Math.sin(f.angle) * f.length;
+            const angleNormal = f.angle + Math.PI / 2;
+
+            ctx.save();
+            ctx.shadowBlur = 10;
+            ctx.shadowColor = '#ff2255';
+
+            const p1X = f.x + Math.cos(angleNormal) * f.baseRadius;
+            const p1Y = f.y + Math.sin(angleNormal) * f.baseRadius;
+            const p3X = tipX - Math.cos(angleNormal) * f.tipRadius;
+            const p3Y = tipY - Math.sin(angleNormal) * f.tipRadius;
+
+            const grad = ctx.createLinearGradient(f.x, f.y, tipX, tipY);
+            grad.addColorStop(0, '#ff0055');
+            grad.addColorStop(0.5, '#ff5500');
+            grad.addColorStop(1, '#ffff00');
+
+            ctx.fillStyle = grad;
+            ctx.strokeStyle = '#ffffff';
+            ctx.lineWidth = 1.5;
+
+            ctx.beginPath();
+            ctx.arc(f.x, f.y, f.baseRadius, angleNormal, angleNormal + Math.PI);
+            ctx.lineTo(p3X, p3Y);
+            ctx.arc(tipX, tipY, f.tipRadius, angleNormal + Math.PI, angleNormal);
+            ctx.lineTo(p1X, p1Y);
+            ctx.closePath();
+            ctx.fill();
+            ctx.stroke();
+
+            ctx.beginPath();
+            ctx.arc(f.x, f.y, f.baseRadius * 0.4, 0, Math.PI * 2);
+            ctx.fillStyle = '#ffffff';
+            ctx.fill();
+
+            ctx.restore();
+        };
+
         const render = () => {
             ctx.clearRect(0, 0, canvas.width, canvas.height);
-            ctx.fillStyle = '#080810';
+
+            ctx.fillStyle = '#05030a';
             ctx.fillRect(0, 0, canvas.width, canvas.height);
 
-            // --- LIGHTING FX (Glow Effects) ---
+            // Grid Lines
+            ctx.strokeStyle = 'rgba(255, 0, 128, 0.06)';
+            ctx.lineWidth = 1;
+            for (let x = 0; x < canvas.width; x += 20) {
+                ctx.beginPath(); ctx.moveTo(x, 0); ctx.lineTo(x, canvas.height); ctx.stroke();
+            }
+            for (let y = 0; y < canvas.height; y += 20) {
+                ctx.beginPath(); ctx.moveTo(0, y); ctx.lineTo(canvas.width, y); ctx.stroke();
+            }
 
-            // Neon Outer Walls
-            ctx.shadowBlur = 12;
-            ctx.shadowColor = '#00ffff';
-            ctx.strokeStyle = '#00ffff';
+            // Outer Bounds Frame
+            ctx.shadowBlur = 8;
+            ctx.shadowColor = '#00f0ff';
+            ctx.strokeStyle = '#00f0ff';
             ctx.lineWidth = 4;
             ctx.strokeRect(30, 30, 320, 540);
-            ctx.strokeRect(350, 70, 30, 500);
 
-            // Glowing Bumpers
+            // Right Plunger Lane Wall
+            ctx.beginPath();
+            ctx.moveTo(350, 70);
+            ctx.lineTo(350, 570);
+            ctx.stroke();
+
+            // Spring Plunger
+            const springTopY = keys.space && ball.inPlunger ? 550 : 530;
+            ctx.shadowBlur = 6;
+            ctx.shadowColor = '#ff0055';
+            ctx.strokeStyle = '#ffffff';
+            ctx.lineWidth = 3;
+
+            ctx.beginPath();
+            ctx.moveTo(365, springTopY);
+            ctx.lineTo(365, 570);
+            ctx.stroke();
+
+            ctx.strokeStyle = '#ff0055';
+            ctx.lineWidth = 2;
+            ctx.beginPath();
+            const coils = 6;
+            const springLen = 570 - springTopY;
+            for (let i = 0; i <= coils; i++) {
+                const currY = springTopY + (i / coils) * springLen;
+                const offsetX = (i % 2 === 0 ? -6 : 6);
+                if (i === 0) ctx.moveTo(365, currY);
+                else ctx.lineTo(365 + offsetX, currY);
+            }
+            ctx.stroke();
+
+            // Bumpers
             bumpers.forEach((b) => {
-                ctx.shadowBlur = 20;
-                ctx.shadowColor = b.glow;
-                ctx.fillStyle = b.color;
+                ctx.save();
+                ctx.shadowBlur = 10;
+                ctx.shadowColor = b.color;
+
+                const grad = ctx.createRadialGradient(b.x, b.y, 1, b.x, b.y, b.r);
+                grad.addColorStop(0, '#ffffff');
+                grad.addColorStop(0.4, b.color);
+                grad.addColorStop(1, '#996600');
+
+                ctx.fillStyle = grad;
                 ctx.beginPath();
                 ctx.arc(b.x, b.y, b.r, 0, Math.PI * 2);
                 ctx.fill();
+                ctx.strokeStyle = '#ffffff';
+                ctx.lineWidth = 1;
+                ctx.stroke();
+                ctx.restore();
             });
 
-            // Glowing Flippers
-            ctx.shadowBlur = 15;
-            ctx.shadowColor = '#ff0055';
-            ctx.strokeStyle = '#ff0055';
-            ctx.lineWidth = 12;
+            // Flippers
+            drawStylizedFlipper(leftFlipper);
+            drawStylizedFlipper(rightFlipper);
 
-            // Left Flipper
-            ctx.beginPath();
-            ctx.moveTo(leftFlipper.x, leftFlipper.y);
-            ctx.lineTo(leftFlipper.x + Math.cos(leftFlipper.angle) * leftFlipper.length, leftFlipper.y + Math.sin(leftFlipper.angle) * leftFlipper.length);
-            ctx.stroke();
-
-            // Right Flipper
-            ctx.beginPath();
-            ctx.moveTo(rightFlipper.x, rightFlipper.y);
-            ctx.lineTo(rightFlipper.x + Math.cos(rightFlipper.angle) * rightFlipper.length, rightFlipper.y + Math.sin(rightFlipper.angle) * rightFlipper.length);
-            ctx.stroke();
-
-            // Glowing White Ball
-            ctx.shadowBlur = 18;
+            // Ball
+            ctx.shadowBlur = 10;
             ctx.shadowColor = '#ffffff';
             ctx.fillStyle = '#ffffff';
-            ctx.beginPath();
-            ctx.arc(ball.x, ball.y, ball.radius, 0, Math.PI * 2);
-            ctx.fill();
+            ctx.fillRect(ball.x - ball.radius, ball.y - ball.radius, ball.radius * 2, ball.radius * 2);
 
-            // Reset shadow blur so text stays sharp
+            // Scanlines
             ctx.shadowBlur = 0;
+            ctx.fillStyle = 'rgba(0, 0, 0, 0.2)';
+            for (let i = 0; i < canvas.height; i += 4) {
+                ctx.fillRect(0, i, canvas.width, 2);
+            }
         };
 
         const gameLoop = () => {
@@ -203,24 +316,113 @@ function App() {
     }, []);
 
     return (
-        <div style={{ display: 'flex', justifyContent: 'center', alignItems: 'center', minHeight: '100vh', backgroundColor: '#0a0a0c', fontFamily: 'monospace' }}>
-            <div style={{ backgroundColor: '#282828', border: '12px solid #1a1a1a', borderRadius: '20px', padding: '20px', display: 'flex', flexDirection: 'column', alignItems: 'center', boxShadow: '0 0 30px #000' }}>
-                <div style={{ backgroundColor: '#d82800', color: '#fff', fontSize: '24px', fontWeight: 'bold', padding: '8px 40px', borderRadius: '4px', marginBottom: '15px', border: '4px solid #fff', boxShadow: '0 0 10px #d82800' }}>
-                    REACT PINBALL
+        <div style={styles.container}>
+            <div style={styles.arcadeBox}>
+                <div style={styles.marquee}>
+                    <span style={{ color: '#ffd700', textShadow: '2px 2px #ff8800' }}>REACT PIXEL PINBALL</span>
                 </div>
-                <div style={{ backgroundColor: '#000', border: '6px solid #666', borderRadius: '10px', padding: '10px' }}>
-                    <div style={{ color: '#00ff00', fontSize: '18px', fontWeight: 'bold', marginBottom: '8px', display: 'flex', justifyContent: 'space-between' }}>
+
+                <div style={styles.screenFrame}>
+                    <div style={styles.hud}>
+                        <span>HIGH SCORE: {highScore.toString().padStart(6, '0')}</span>
                         <span>SCORE: {score.toString().padStart(6, '0')}</span>
-                        {gameOver && <span style={{ color: '#ff0055' }}> GAME OVER</span>}
                     </div>
-                    <canvas ref={canvasRef} width={400} height={580} style={{ border: '2px solid #222', backgroundColor: '#080810', display: 'block' }} />
+                    {gameOver && <div style={styles.gameOverBanner}>GAME OVER</div>}
+                    <canvas ref={canvasRef} width={400} height={580} style={styles.canvas} />
                 </div>
-                <div style={{ marginTop: '15px', display: 'flex', gap: '15px', color: '#aaa', fontSize: '12px' }}>
-                    <div><span style={{ backgroundColor: '#d82800', color: '#fff', padding: '2px 6px', borderRadius: '3px', fontWeight: 'bold' }}>CTRL L</span> Left Paddle</div>
-                    <div><span style={{ backgroundColor: '#d82800', color: '#fff', padding: '2px 6px', borderRadius: '3px', fontWeight: 'bold' }}>SPACE</span> Launch Ball</div>
-                    <div><span style={{ backgroundColor: '#d82800', color: '#fff', padding: '2px 6px', borderRadius: '3px', fontWeight: 'bold' }}>CTRL R</span> Right Paddle</div>
+
+                <div style={styles.controls}>
+                    <div style={styles.keyLabel}><span style={styles.key}>CTRL L</span> LEFT FLIPPER</div>
+                    <div style={styles.keyLabel}><span style={styles.key}>SPACE</span> LAUNCH</div>
+                    <div style={styles.keyLabel}><span style={styles.key}>CTRL R</span> RIGHT FLIPPER</div>
                 </div>
             </div>
         </div>
     );
 }
+
+const styles = {
+    container: {
+        display: 'flex',
+        justifyContent: 'center',
+        alignItems: 'center',
+        minHeight: '100vh',
+        backgroundColor: '#0a0512',
+        fontFamily: '"Press Start 2P", "Courier New", monospace',
+    },
+    arcadeBox: {
+        backgroundColor: '#1b112c',
+        border: '8px solid #00f0ff',
+        borderRadius: '16px',
+        padding: '24px',
+        boxShadow: '0 0 30px #ff00aa, inset 0 0 15px #00f0ff',
+        display: 'flex',
+        flexDirection: 'column',
+        alignItems: 'center',
+    },
+    marquee: {
+        fontSize: '16px',
+        fontWeight: 'bold',
+        letterSpacing: '1px',
+        marginBottom: '16px',
+        padding: '8px 16px',
+        backgroundColor: '#0d0718',
+        border: '4px solid #ffd700',
+        borderRadius: '4px',
+        boxShadow: '0 0 12px #ffd700',
+    },
+    screenFrame: {
+        backgroundColor: '#000',
+        border: '6px solid #ff00aa',
+        borderRadius: '8px',
+        padding: '8px',
+        position: 'relative',
+        boxShadow: 'inset 0 0 20px rgba(0,240,255,0.4)',
+    },
+    hud: {
+        color: '#33ff00',
+        fontSize: '11px',
+        marginBottom: '8px',
+        display: 'flex',
+        justifyContent: 'space-between',
+        textShadow: '0 0 5px #33ff00',
+    },
+    gameOverBanner: {
+        position: 'absolute',
+        top: '45%',
+        left: '50%',
+        transform: 'translate(-50%, -50%)',
+        color: '#ff0055',
+        fontSize: '20px',
+        fontWeight: 'bold',
+        textShadow: '3px 3px #000, 0 0 10px #ff0055',
+        zIndex: 10,
+        pointerEvents: 'none',
+    },
+    canvas: {
+        border: '2px solid #00f0ff',
+        display: 'block',
+    },
+    controls: {
+        marginTop: '16px',
+        display: 'flex',
+        gap: '12px',
+    },
+    keyLabel: {
+        color: '#88aaff',
+        fontSize: '10px',
+        display: 'flex',
+        alignItems: 'center',
+        gap: '6px',
+    },
+    key: {
+        backgroundColor: '#ff0077',
+        color: '#fff',
+        padding: '4px 8px',
+        borderRadius: '4px',
+        border: '2px solid #fff',
+        boxShadow: '0 0 6px #ff0077',
+    },
+};
+
+window.App = App;
