@@ -26,6 +26,7 @@ function App() {
 
         const keys = { space: false, controlLeft: false, controlRight: false };
         let animationFrameId;
+        let animTime = 0;
 
         const ball = { x: 365, y: 520, vx: 0, vy: 0, radius: 6, inPlunger: true };
 
@@ -81,44 +82,40 @@ function App() {
         window.addEventListener('keyup', handleKeyUp);
 
         const update = () => {
+            animTime += 0.05;
+
             if (ball.inPlunger) {
                 ball.x = 365;
                 ball.y = 520;
                 if (keys.space) {
-                    ball.vy = -38.0;
-                    ball.vx = -1.8;
+                    ball.vy = -55.0;
+                    ball.vx = 0;
                     ball.inPlunger = false;
                     setScore(0);
                 }
             } else {
-                if (ball.x > 280 && ball.y < 100) {
-                    ball.vx -= 0.35;
+                if (ball.x > 340 && ball.y < 90) {
+                    ball.vx = -12.0;
                 }
 
-                // Base gravity acceleration (85% slope baseline)
                 ball.vy += 0.28;
 
-                // --- ANGULAR VARIANCE FLUX PHYSICS ---
                 const speed = Math.sqrt(ball.vx * ball.vx + ball.vy * ball.vy);
-                if (speed > 0.1) {
+                if (speed > 0.1 && ball.y > 100) {
                     let currentAngle = Math.atan2(ball.vy, ball.vx);
 
-                    // Baseline slope jitter (+/- 5 degrees = +/- 0.087 radians)
                     let angleVariation = (Math.random() - 0.5) * (10 * Math.PI / 180);
 
-                    // 3% chance for large spike (+/- 20 degrees = +/- 0.349 radians)
                     if (Math.random() < 0.03) {
                         angleVariation += (Math.random() - 0.5) * (40 * Math.PI / 180);
                     }
 
                     currentAngle += angleVariation;
 
-                    // Reconstruct velocity components with new randomized angle
                     ball.vx = Math.cos(currentAngle) * speed;
                     ball.vy = Math.sin(currentAngle) * speed;
                 }
 
-                // Apply frame step multiplier
                 ball.x += ball.vx * 0.9;
                 ball.y += ball.vy * 0.9;
             }
@@ -137,7 +134,7 @@ function App() {
 
             // Outer Bounds
             if (ball.x - ball.radius < 30) { ball.x = 30 + ball.radius; ball.vx *= -0.6; }
-            if (ball.x + ball.radius > 350 && ball.y > 70 && !ball.inPlunger) {
+            if (ball.x + ball.radius > 350 && ball.y > 90 && !ball.inPlunger) {
                 ball.x = 350 - ball.radius;
                 ball.vx *= -0.6;
             }
@@ -146,11 +143,9 @@ function App() {
             // Top Arch Boundary Bounce
             if (ball.y - ball.radius < 30) {
                 ball.y = 30 + ball.radius;
-                ball.vy = Math.abs(ball.vy) * 0.4;
-                if (ball.x > 200) ball.vx -= 1.5;
+                ball.vy = Math.abs(ball.vy) * 0.3;
             }
 
-            // Bumpers Collision
             bumpers.forEach((b) => {
                 const dx = ball.x - b.x;
                 const dy = ball.y - b.y;
@@ -163,7 +158,6 @@ function App() {
                 }
             });
 
-            // Flipper Collision & Bounce
             const checkFlipper = (f, isLeft) => {
                 const tipX = f.x + Math.cos(f.angle) * f.length;
                 const tipY = f.y + Math.sin(f.angle) * f.length;
@@ -230,6 +224,72 @@ function App() {
             ctx.restore();
         };
 
+        const drawLauncherTube = () => {
+            ctx.save();
+
+            // Tube Interior Glow Background
+            const tubeGrad = ctx.createLinearGradient(350, 0, 380, 0);
+            tubeGrad.addColorStop(0, 'rgba(0, 240, 255, 0.05)');
+            tubeGrad.addColorStop(0.5, 'rgba(0, 240, 255, 0.20)');
+            tubeGrad.addColorStop(1, 'rgba(0, 240, 255, 0.05)');
+            ctx.fillStyle = tubeGrad;
+            ctx.fillRect(350, 30, 30, 540);
+
+            // Directional Tube Arrow LEDs
+            ctx.strokeStyle = 'rgba(0, 240, 255, 0.5)';
+            ctx.lineWidth = 2;
+            const offset = (animTime * 40) % 40;
+            for (let y = 520; y > 80; y -= 40) {
+                const drawY = y - offset;
+                if (drawY > 80 && drawY < 530) {
+                    ctx.beginPath();
+                    ctx.moveTo(358, drawY + 6);
+                    ctx.lineTo(365, drawY);
+                    ctx.lineTo(372, drawY + 6);
+                    ctx.stroke();
+                }
+            }
+
+            // Top Arch Canopy Guide (Curves path above playfield)
+            ctx.shadowBlur = 12;
+            ctx.shadowColor = '#00f0ff';
+            ctx.strokeStyle = '#00f0ff';
+            ctx.lineWidth = 3;
+
+            ctx.beginPath();
+            ctx.moveTo(380, 110);
+            ctx.quadraticCurveTo(380, 30, 300, 30);
+            ctx.stroke();
+
+            ctx.beginPath();
+            ctx.moveTo(350, 110);
+            ctx.quadraticCurveTo(350, 60, 300, 60);
+            ctx.stroke();
+
+            // Lane Divider Walls with Neon Highlights
+            ctx.lineWidth = 3;
+            ctx.beginPath();
+            ctx.moveTo(350, 110);
+            ctx.lineTo(350, 570);
+            ctx.stroke();
+
+            ctx.beginPath();
+            ctx.moveTo(380, 110);
+            ctx.lineTo(380, 570);
+            ctx.stroke();
+
+            // Inner Dashed Track Lines
+            ctx.setLineDash([6, 6]);
+            ctx.strokeStyle = 'rgba(255, 0, 170, 0.4)';
+            ctx.lineWidth = 1;
+            ctx.beginPath();
+            ctx.moveTo(365, 90);
+            ctx.lineTo(365, 530);
+            ctx.stroke();
+
+            ctx.restore();
+        };
+
         const render = () => {
             ctx.clearRect(0, 0, canvas.width, canvas.height);
 
@@ -246,18 +306,15 @@ function App() {
                 ctx.beginPath(); ctx.moveTo(0, y); ctx.lineTo(canvas.width, y); ctx.stroke();
             }
 
+            // Draw Graphic Launcher Tube & Arch
+            drawLauncherTube();
+
             // Outer Bounds Frame
             ctx.shadowBlur = 8;
             ctx.shadowColor = '#00f0ff';
             ctx.strokeStyle = '#00f0ff';
             ctx.lineWidth = 4;
             ctx.strokeRect(30, 30, 320, 540);
-
-            // Right Plunger Lane Wall
-            ctx.beginPath();
-            ctx.moveTo(350, 70);
-            ctx.lineTo(350, 570);
-            ctx.stroke();
 
             // Spring Plunger
             const springTopY = keys.space && ball.inPlunger ? 550 : 530;
