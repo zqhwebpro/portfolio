@@ -36,7 +36,7 @@ function App() {
             angle: 0.35,
             restAngle: 0.35,
             activeAngle: -0.35,
-            speed: 0.15,
+            speed: 0.18,
             baseRadius: 9,
             tipRadius: 4
         };
@@ -48,16 +48,16 @@ function App() {
             angle: Math.PI - 0.35,
             restAngle: Math.PI - 0.35,
             activeAngle: Math.PI + 0.35,
-            speed: 0.15,
+            speed: 0.18,
             baseRadius: 9,
             tipRadius: 4
         };
 
-        // Smaller (r: 6), spread wider apart (x: 100, 300), and positioned higher up (y: 120, 160)
+        // Bumpers moved lower down (y: 220, 260), kept small (r: 6) & spread out
         const bumpers = [
-            { x: 100, y: 120, r: 6, score: 100, color: '#ffd700' },
-            { x: 300, y: 120, r: 6, score: 100, color: '#ffd700' },
-            { x: 200, y: 160, r: 6, score: 200, color: '#ffae00' },
+            { x: 120, y: 220, r: 6, score: 100, color: '#ffd700' },
+            { x: 280, y: 220, r: 6, score: 100, color: '#ffd700' },
+            { x: 200, y: 260, r: 6, score: 200, color: '#ffae00' },
         ];
 
         const handleKeyDown = (e) => {
@@ -86,21 +86,23 @@ function App() {
                 ball.x = 365;
                 ball.y = 520;
                 if (keys.space) {
-                    // Strong upward force up the right lane, nudged into the outer wall curve
-                    ball.vy = -34.0;
-                    ball.vx = 0.8;
+                    // High vertical lob up the launcher lane
+                    ball.vy = -42.0;
+                    ball.vx = 0.0;
                     ball.inPlunger = false;
                     setScore(0);
                 }
             } else {
-                // Curved arch guide at top right to steer the ball up over the top left
-                if (ball.x > 330 && ball.y < 120) {
-                    ball.vx -= 0.25;
+                // Top curved guide wall: redirects the high launch around the top left arch
+                if (ball.y < 90 && ball.x > 250) {
+                    ball.vx -= 0.45;
+                    ball.vy += 0.1;
                 }
 
-                ball.vy += 0.02; // Gentle gravity for floaty movement
-                ball.x += ball.vx * 0.4;
-                ball.y += ball.vy * 0.4;
+                // Increased gravity & velocity multiplier for fast gameplay
+                ball.vy += 0.06;
+                ball.x += ball.vx * 0.75;
+                ball.y += ball.vy * 0.75;
             }
 
             if (keys.controlLeft) {
@@ -115,14 +117,14 @@ function App() {
                 rightFlipper.angle = Math.max(rightFlipper.restAngle, rightFlipper.angle - rightFlipper.speed);
             }
 
-            // Boundaries
+            // Outer Bounds Collision
             if (ball.x - ball.radius < 30) { ball.x = 30 + ball.radius; ball.vx *= -0.6; }
             if (ball.x + ball.radius > 350 && ball.y > 70 && !ball.inPlunger) {
                 ball.x = 350 - ball.radius;
                 ball.vx *= -0.6;
             }
             if (ball.x + ball.radius > 380) { ball.x = 380 - ball.radius; ball.vx *= -0.6; }
-            if (ball.y - ball.radius < 30) { ball.y = 30 + ball.radius; ball.vy *= -0.3; }
+            if (ball.y - ball.radius < 30) { ball.y = 30 + ball.radius; ball.vy *= -0.5; }
 
             bumpers.forEach((b) => {
                 const dx = ball.x - b.x;
@@ -130,8 +132,8 @@ function App() {
                 const dist = Math.sqrt(dx * dx + dy * dy);
                 if (dist < ball.radius + b.r) {
                     const angle = Math.atan2(dy, dx);
-                    ball.vx = Math.cos(angle) * 1.6;
-                    ball.vy = Math.sin(angle) * 1.6;
+                    ball.vx = Math.cos(angle) * 3.2;
+                    ball.vy = Math.sin(angle) * 3.2;
                     setScore((prev) => prev + b.score);
                 }
             });
@@ -146,8 +148,9 @@ function App() {
 
                 if (dist < ball.radius + f.baseRadius) {
                     const isFlipping = (isLeft && keys.controlLeft) || (!isLeft && keys.controlRight);
-                    ball.vy = isFlipping ? -7.0 : -2.5;
-                    ball.vx = isLeft ? 1.5 : -1.5;
+                    // Controlled upward bounce so flippers direct ball toward bumpers without launching too high
+                    ball.vy = isFlipping ? -10.5 : -3.5;
+                    ball.vx = isLeft ? 2.2 : -2.2;
                 }
             };
 
@@ -208,6 +211,7 @@ function App() {
             ctx.fillStyle = '#05030a';
             ctx.fillRect(0, 0, canvas.width, canvas.height);
 
+            // Background Grid Lines
             ctx.strokeStyle = 'rgba(255, 0, 128, 0.06)';
             ctx.lineWidth = 1;
             for (let x = 0; x < canvas.width; x += 20) {
@@ -217,12 +221,56 @@ function App() {
                 ctx.beginPath(); ctx.moveTo(0, y); ctx.lineTo(canvas.width, y); ctx.stroke();
             }
 
+            // Outer Frame Boundary
             ctx.shadowBlur = 8;
             ctx.shadowColor = '#00f0ff';
             ctx.strokeStyle = '#00f0ff';
             ctx.lineWidth = 4;
             ctx.strokeRect(30, 30, 320, 540);
 
+            // Plunger Lane Divider Wall
+            ctx.beginPath();
+            ctx.moveTo(350, 70);
+            ctx.lineTo(350, 570);
+            ctx.stroke();
+
+            // Left Side Entrance Track / Top Arch Guide Line
+            ctx.shadowBlur = 10;
+            ctx.shadowColor = '#ff00aa';
+            ctx.strokeStyle = '#ff00aa';
+            ctx.lineWidth = 3;
+            ctx.beginPath();
+            ctx.arc(280, 80, 70, Math.PI * 1.5, Math.PI, true);
+            ctx.stroke();
+
+            // Pinball Spring Plunger Rendering
+            const springTopY = keys.space && ball.inPlunger ? 550 : 530;
+            ctx.shadowBlur = 6;
+            ctx.shadowColor = '#ff0055';
+            ctx.strokeStyle = '#ffffff';
+            ctx.lineWidth = 3;
+
+            // Plunger Tip Rod
+            ctx.beginPath();
+            ctx.moveTo(365, springTopY);
+            ctx.lineTo(365, 570);
+            ctx.stroke();
+
+            // Spring Coil Loop
+            ctx.strokeStyle = '#ff0055';
+            ctx.lineWidth = 2;
+            ctx.beginPath();
+            const coils = 6;
+            const springLen = 570 - springTopY;
+            for (let i = 0; i <= coils; i++) {
+                const currY = springTopY + (i / coils) * springLen;
+                const offsetX = (i % 2 === 0 ? -6 : 6);
+                if (i === 0) ctx.moveTo(365, currY);
+                else ctx.lineTo(365 + offsetX, currY);
+            }
+            ctx.stroke();
+
+            // Bumpers
             bumpers.forEach((b) => {
                 ctx.save();
                 ctx.shadowBlur = 10;
@@ -243,14 +291,17 @@ function App() {
                 ctx.restore();
             });
 
+            // Flippers
             drawStylizedFlipper(leftFlipper);
             drawStylizedFlipper(rightFlipper);
 
+            // Ball
             ctx.shadowBlur = 10;
             ctx.shadowColor = '#ffffff';
             ctx.fillStyle = '#ffffff';
             ctx.fillRect(ball.x - ball.radius, ball.y - ball.radius, ball.radius * 2, ball.radius * 2);
 
+            // CRT Scanline Overlay
             ctx.shadowBlur = 0;
             ctx.fillStyle = 'rgba(0, 0, 0, 0.2)';
             for (let i = 0; i < canvas.height; i += 4) {
