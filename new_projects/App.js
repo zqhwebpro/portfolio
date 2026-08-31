@@ -11,36 +11,41 @@ function App() {
         let animationFrameId;
         let currentScore = 0;
 
-        const ball = { x: 365, y: 520, vx: 0, vy: 0, radius: 8, inPlunger: true };
+        // Ball: Pixel radius 7 for tight mechanics
+        const ball = { x: 365, y: 520, vx: 0, vy: 0, radius: 7, inPlunger: true };
 
-        // Paddles resized & repositioned to leave a center drain hole
+        // Flippers: Enlarged (length 95) with rounded pinball paddle geometry
         const leftFlipper = {
-            x: 30,
+            x: 35,
             y: 510,
-            length: 80,
-            angle: 0.4,
-            restAngle: 0.4,
+            length: 95,
+            angle: 0.35,
+            restAngle: 0.35,
             activeAngle: -0.3,
-            speed: 0.18
+            speed: 0.18,
+            baseRadius: 10,
+            tipRadius: 5
         };
 
         const rightFlipper = {
-            x: 350,
+            x: 345,
             y: 510,
-            length: 80,
-            angle: Math.PI - 0.4,
-            restAngle: Math.PI - 0.4,
+            length: 95,
+            angle: Math.PI - 0.35,
+            restAngle: Math.PI - 0.35,
             activeAngle: Math.PI + 0.3,
-            speed: 0.18
+            speed: 0.18,
+            baseRadius: 10,
+            tipRadius: 5
         };
 
-        // Bumpers: Reduced radius to 12
+        // Bumpers: Reduced to radius 8
         const bumpers = [
-            { x: 100, y: 160, r: 12, score: 100, color: '#ff0055' },
-            { x: 280, y: 160, r: 12, score: 100, color: '#00ffcc' },
-            { x: 190, y: 220, r: 12, score: 200, color: '#ffcc00' },
-            { x: 140, y: 120, r: 12, score: 150, color: '#ff00ff' },
-            { x: 240, y: 120, r: 12, score: 150, color: '#00ff00' },
+            { x: 100, y: 160, r: 8, score: 100, color: '#ff0055' },
+            { x: 280, y: 160, r: 8, score: 100, color: '#00ffcc' },
+            { x: 190, y: 220, r: 8, score: 200, color: '#ffcc00' },
+            { x: 140, y: 120, r: 8, score: 150, color: '#ff00ff' },
+            { x: 240, y: 120, r: 8, score: 150, color: '#00ff00' },
         ];
 
         const handleKeyDown = (e) => {
@@ -63,20 +68,25 @@ function App() {
                 ball.x = 365;
                 ball.y = 520;
                 if (keys.space) {
-                    ball.vy = -13.5;
+                    // Strong vertical launch up the right plunger lane
+                    ball.vy = -16.0;
                     ball.vx = 0;
                     ball.inPlunger = false;
                 }
             } else {
-                if (ball.x > 340 && ball.y < 75) {
-                    ball.vx = -3.2;
+                // Curve Guide at top right: Once ball reaches top of plunger lane (y < 65), apply high upward curve
+                if (ball.x > 340 && ball.y < 65) {
+                    ball.vx = -1.8;
+                    ball.vy = -2.5; // Keeps ball moving up over top of bumpers before dropping
                 }
 
-                ball.vy += 0.12;
+                // Standard floaty gravity
+                ball.vy += 0.11;
                 ball.x += ball.vx;
                 ball.y += ball.vy;
             }
 
+            // Flipper Movement Controls
             if (keys.controlLeft) {
                 leftFlipper.angle = Math.max(leftFlipper.activeAngle, leftFlipper.angle - leftFlipper.speed);
             } else {
@@ -89,9 +99,9 @@ function App() {
                 rightFlipper.angle = Math.max(rightFlipper.restAngle, rightFlipper.angle - rightFlipper.speed);
             }
 
-            // Wall Collisions
+            // Playfield Wall Collisions
             if (ball.x - ball.radius < 30) { ball.x = 30 + ball.radius; ball.vx *= -0.6; }
-            if (ball.x + ball.radius > 350 && ball.y > 100 && !ball.inPlunger) { ball.x = 350 - ball.radius; ball.vx *= -0.6; }
+            if (ball.x + ball.radius > 350 && ball.y > 70 && !ball.inPlunger) { ball.x = 350 - ball.radius; ball.vx *= -0.6; }
             if (ball.x + ball.radius > 380) { ball.x = 380 - ball.radius; ball.vx *= -0.6; }
             if (ball.y - ball.radius < 30) { ball.y = 30 + ball.radius; ball.vy *= -0.6; }
 
@@ -109,7 +119,7 @@ function App() {
                 }
             });
 
-            // Flipper Collisions
+            // Pinball Paddle Collision Detection (Capsule Line)
             const checkFlipper = (f, isLeft) => {
                 const tipX = f.x + Math.cos(f.angle) * f.length;
                 const tipY = f.y + Math.sin(f.angle) * f.length;
@@ -118,22 +128,68 @@ function App() {
                 let t = Math.max(0, Math.min(1, ((ball.x - f.x) * fx + (ball.y - f.y) * fy) / fLenSq));
                 const dist = Math.sqrt((ball.x - (f.x + t * fx)) ** 2 + (ball.y - (f.y + t * fy)) ** 2);
 
-                if (dist < ball.radius + 6) {
+                if (dist < ball.radius + f.baseRadius) {
                     ball.vy = (isLeft && keys.controlLeft) || (!isLeft && keys.controlRight) ? -7.5 : -3;
-                    ball.vx += isLeft ? 1.8 : -1.8;
+                    ball.vx += isLeft ? 2.0 : -2.0;
                 }
             };
 
             checkFlipper(leftFlipper, true);
             checkFlipper(rightFlipper, false);
 
-            // Drain Hole Condition (Passes between paddles)
+            // Drain Hole Condition
             if (ball.y > 580) {
                 setGameOver(true);
                 ball.inPlunger = true;
                 ball.vx = 0;
                 ball.vy = 0;
             }
+        };
+
+        // Helper to render realistic tapered pinball flippers
+        const drawPinballFlipper = (f) => {
+            const tipX = f.x + Math.cos(f.angle) * f.length;
+            const tipY = f.y + Math.sin(f.angle) * f.length;
+
+            ctx.save();
+            ctx.shadowBlur = 10;
+            ctx.shadowColor = '#ff0055';
+            ctx.fillStyle = '#ff0055';
+            ctx.strokeStyle = '#ffffff';
+            ctx.lineWidth = 2;
+
+            // Base circle
+            ctx.beginPath();
+            ctx.arc(f.x, f.y, f.baseRadius, 0, Math.PI * 2);
+            ctx.fill();
+            ctx.stroke();
+
+            // Tip circle
+            ctx.beginPath();
+            ctx.arc(tipX, tipY, f.tipRadius, 0, Math.PI * 2);
+            ctx.fill();
+            ctx.stroke();
+
+            // Connecting tapered body
+            const angleNormal = f.angle + Math.PI / 2;
+            const p1X = f.x + Math.cos(angleNormal) * f.baseRadius;
+            const p1Y = f.y + Math.sin(angleNormal) * f.baseRadius;
+            const p2X = tipX + Math.cos(angleNormal) * f.tipRadius;
+            const p2Y = tipY + Math.sin(angleNormal) * f.tipRadius;
+            const p3X = tipX - Math.cos(angleNormal) * f.tipRadius;
+            const p3Y = tipY - Math.sin(angleNormal) * f.tipRadius;
+            const p4X = f.x - Math.cos(angleNormal) * f.baseRadius;
+            const p4Y = f.y - Math.sin(angleNormal) * f.baseRadius;
+
+            ctx.beginPath();
+            ctx.moveTo(p1X, p1Y);
+            ctx.lineTo(p2X, p2Y);
+            ctx.lineTo(p3X, p3Y);
+            ctx.lineTo(p4X, p4Y);
+            ctx.closePath();
+            ctx.fill();
+            ctx.stroke();
+            ctx.restore();
         };
 
         const render = () => {
@@ -143,7 +199,7 @@ function App() {
             ctx.fillStyle = '#05030a';
             ctx.fillRect(0, 0, canvas.width, canvas.height);
 
-            // Grid background effect (Pixel art vibe)
+            // Grid background effect
             ctx.strokeStyle = 'rgba(255, 0, 128, 0.08)';
             ctx.lineWidth = 1;
             for (let x = 0; x < canvas.width; x += 20) {
@@ -153,7 +209,7 @@ function App() {
                 ctx.beginPath(); ctx.moveTo(0, y); ctx.lineTo(canvas.width, y); ctx.stroke();
             }
 
-            // Neon Walls (Neon Cyan Pixel Lines)
+            // Neon Walls
             ctx.shadowBlur = 8;
             ctx.shadowColor = '#00f0ff';
             ctx.strokeStyle = '#00f0ff';
@@ -161,13 +217,18 @@ function App() {
             ctx.strokeRect(30, 30, 320, 540);
             ctx.strokeRect(350, 70, 30, 500);
 
-            // Drain Guide Walls leading to the hole
+            // Top Plunger Arch Guide Line
+            ctx.beginPath();
+            ctx.arc(320, 70, 30, Math.PI * 1.5, Math.PI * 2);
+            ctx.stroke();
+
+            // Drain Guide Walls
             ctx.beginPath();
             ctx.moveTo(30, 480); ctx.lineTo(100, 560);
             ctx.moveTo(350, 480); ctx.lineTo(280, 560);
             ctx.stroke();
 
-            // Smaller Bumpers
+            // Bumpers (Extra Small Radius: 8)
             bumpers.forEach((b) => {
                 ctx.shadowBlur = 12;
                 ctx.shadowColor = b.color;
@@ -177,21 +238,9 @@ function App() {
                 ctx.fill();
             });
 
-            // Neon Flippers
-            ctx.shadowBlur = 10;
-            ctx.shadowColor = '#ff0055';
-            ctx.strokeStyle = '#ff0055';
-            ctx.lineWidth = 10;
-
-            ctx.beginPath();
-            ctx.moveTo(leftFlipper.x, leftFlipper.y);
-            ctx.lineTo(leftFlipper.x + Math.cos(leftFlipper.angle) * leftFlipper.length, leftFlipper.y + Math.sin(leftFlipper.angle) * leftFlipper.length);
-            ctx.stroke();
-
-            ctx.beginPath();
-            ctx.moveTo(rightFlipper.x, rightFlipper.y);
-            ctx.lineTo(rightFlipper.x + Math.cos(rightFlipper.angle) * rightFlipper.length, rightFlipper.y + Math.sin(rightFlipper.angle) * rightFlipper.length);
-            ctx.stroke();
+            // Pinball Paddles Render
+            drawPinballFlipper(leftFlipper);
+            drawPinballFlipper(rightFlipper);
 
             // Pixelated Ball
             ctx.shadowBlur = 12;
@@ -199,7 +248,7 @@ function App() {
             ctx.fillStyle = '#ffffff';
             ctx.fillRect(ball.x - ball.radius, ball.y - ball.radius, ball.radius * 2, ball.radius * 2);
 
-            // Scanline Effect Overlay
+            // CRT Scanline Overlay
             ctx.shadowBlur = 0;
             ctx.fillStyle = 'rgba(0, 0, 0, 0.25)';
             for (let i = 0; i < canvas.height; i += 4) {
@@ -225,13 +274,11 @@ function App() {
     return (
         <div style={styles.container}>
             <div style={styles.arcadeBox}>
-                {/* Retro Header Marquee */}
                 <div style={styles.marquee}>
                     <span style={{ color: '#ff0077', textShadow: '2px 2px #00ffff' }}>PIXEL</span>
                     <span style={{ color: '#00ffff', textShadow: '2px 2px #ff0077' }}> PINBALL</span>
                 </div>
 
-                {/* Screen Frame */}
                 <div style={styles.screenFrame}>
                     <div style={styles.hud}>
                         <span>HIGH SCORE: 999900</span>
@@ -241,7 +288,6 @@ function App() {
                     <canvas ref={canvasRef} width={400} height={580} style={styles.canvas} />
                 </div>
 
-                {/* Arcade Cabinet Control Legend */}
                 <div style={styles.controls}>
                     <div style={styles.keyLabel}><span style={styles.key}>CTRL L</span> LEFT FLIPPER</div>
                     <div style={styles.keyLabel}><span style={styles.key}>SPACE</span> LAUNCH</div>
@@ -252,7 +298,6 @@ function App() {
     );
 }
 
-// Retro Pixel Art Arcade UI Styling
 const styles = {
     container: {
         display: 'flex',
