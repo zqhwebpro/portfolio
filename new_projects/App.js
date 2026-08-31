@@ -24,7 +24,7 @@ function App() {
         if (!canvas) return;
         const ctx = canvas.getContext('2d');
 
-        const keys = { space: false, controlLeft: false, controlRight: false };
+        const keys = { controlLeft: false, controlRight: false };
         let animationFrameId;
         let animTime = 0;
 
@@ -65,15 +65,20 @@ function App() {
                 e.preventDefault();
             }
 
-            if (e.code === 'Space') keys.space = true;
+            // Direct KeyDown Launch Trigger
+            if (e.code === 'Space' && ball.inPlunger) {
+                ball.inPlunger = false;
+                ball.vx = 0;
+                ball.vy = -32.0; // Explosive upward velocity
+                setScore(0);
+                setGameOver(false);
+            }
+
             if (e.code === 'ControlLeft') keys.controlLeft = true;
             if (e.code === 'ControlRight') keys.controlRight = true;
-
-            setGameOver(false);
         };
 
         const handleKeyUp = (e) => {
-            if (e.code === 'Space') keys.space = false;
             if (e.code === 'ControlLeft') keys.controlLeft = false;
             if (e.code === 'ControlRight') keys.controlRight = false;
         };
@@ -100,16 +105,12 @@ function App() {
             if (ball.inPlunger) {
                 ball.x = 365;
                 ball.y = 520;
-                if (keys.space) {
-                    ball.vy = -34.0;
-                    ball.vx = 0;
-                    ball.inPlunger = false;
-                    setScore(0);
-                }
+                ball.vx = 0;
+                ball.vy = 0;
                 return;
             }
 
-            // Sub-stepping to prevent high-velocity tunnel bugs through walls
+            // Continuous sub-stepping for reliable collision checks
             const steps = 4;
             for (let step = 0; step < steps; step++) {
                 // Gravity
@@ -119,13 +120,13 @@ function App() {
                 ball.x += (ball.vx * 0.9) / steps;
                 ball.y += (ball.vy * 0.9) / steps;
 
-                // Trajectory guidance in magenta arch zone
-                if (ball.x > 340 && ball.y < 90) {
-                    ball.vx = -7.0;
+                // High Launch Channel Guidance (Top Arch curve over bumpers)
+                if (ball.x > 340 && ball.y < 100) {
+                    ball.vx = -8.0; // Force ball left into the main playfield
                 }
 
-                // Random variance flux physics outside tube
-                if (ball.y > 100 && ball.x < 340) {
+                // Random angular flux jitter outside the launch tube
+                if (ball.y > 110 && ball.x < 340) {
                     const speed = Math.sqrt(ball.vx * ball.vx + ball.vy * ball.vy);
                     if (speed > 0.1) {
                         let currentAngle = Math.atan2(ball.vy, ball.vx);
@@ -141,13 +142,13 @@ function App() {
                     }
                 }
 
-                // Left Wall
+                // Left Playfield Boundary
                 if (ball.x - ball.radius < 30) {
                     ball.x = 30 + ball.radius;
                     ball.vx *= -0.6;
                 }
-                // Middle Wall (Launcher Separator)
-                if (ball.x + ball.radius > 350 && ball.y > 90 && !ball.inPlunger) {
+                // Middle Wall (Launcher Channel Separator - open at y < 110)
+                if (ball.x + ball.radius > 350 && ball.y > 110 && !ball.inPlunger) {
                     ball.x = 350 - ball.radius;
                     ball.vx *= -0.6;
                 }
@@ -156,13 +157,13 @@ function App() {
                     ball.x = 380 - ball.radius;
                     ball.vx *= -0.6;
                 }
-                // Ceiling
+                // Top Ceiling Boundary
                 if (ball.y - ball.radius < 30) {
                     ball.y = 30 + ball.radius;
                     ball.vy = Math.abs(ball.vy) * 0.3;
                 }
 
-                // Bumpers
+                // Bumpers Collisions
                 bumpers.forEach((b) => {
                     const dx = ball.x - b.x;
                     const dy = ball.y - b.y;
@@ -175,7 +176,7 @@ function App() {
                     }
                 });
 
-                // Flippers
+                // Flippers Collisions
                 const checkFlipper = (f, isLeft) => {
                     const tipX = f.x + Math.cos(f.angle) * f.length;
                     const tipY = f.y + Math.sin(f.angle) * f.length;
@@ -195,6 +196,7 @@ function App() {
                 checkFlipper(rightFlipper, false);
             }
 
+            // Bottom Drain (Game Over)
             if (ball.y > 570) {
                 setGameOver(true);
                 ball.inPlunger = true;
@@ -243,14 +245,16 @@ function App() {
             ctx.restore();
         };
 
-        const drawLauncherTube = () => {
+        const drawOpaqueMagentaLauncher = () => {
             ctx.save();
 
-            // Opaque Magenta Solid Fill Tube Body
-            ctx.fillStyle = '#ff00a0';
+            // 100% Solid Opaque Magenta Fill for Lane & Upper Canopy
+            ctx.fillStyle = '#ff00ff';
+
+            // Vertical Tube
             ctx.fillRect(350, 90, 30, 480);
 
-            // Opaque Magenta Top Canopy Arch
+            // Upper Arch Canopy Fill
             ctx.beginPath();
             ctx.arc(320, 90, 60, Math.PI * 1.5, Math.PI * 2);
             ctx.lineTo(380, 90);
@@ -259,17 +263,16 @@ function App() {
             ctx.closePath();
             ctx.fill();
 
-            // Inner Tube Accent Stripes
-            ctx.fillStyle = '#cc0080';
+            // Solid Secondary Metallic Stripe
+            ctx.fillStyle = '#a000a0';
             ctx.fillRect(362, 90, 6, 480);
 
-            // Neon Border Frame
-            ctx.shadowBlur = 10;
-            ctx.shadowColor = '#ff00a0';
+            // Thick Outline Framing
+            ctx.shadowBlur = 12;
+            ctx.shadowColor = '#ff00ff';
             ctx.strokeStyle = '#ffffff';
             ctx.lineWidth = 3;
 
-            // Outer Launcher Tube Wall
             ctx.beginPath();
             ctx.moveTo(350, 570);
             ctx.lineTo(350, 90);
@@ -282,7 +285,7 @@ function App() {
             ctx.arc(320, 90, 60, 0, Math.PI * 1.5, true);
             ctx.stroke();
 
-            // Directional Arrow LEDs
+            // Dynamic White LED Arrows Inside Tube
             ctx.strokeStyle = '#ffffff';
             ctx.lineWidth = 2;
             const offset = (animTime * 40) % 40;
@@ -306,7 +309,7 @@ function App() {
             ctx.fillStyle = '#05030a';
             ctx.fillRect(0, 0, canvas.width, canvas.height);
 
-            // Grid Lines
+            // Playfield Grid
             ctx.strokeStyle = 'rgba(255, 0, 128, 0.06)';
             ctx.lineWidth = 1;
             for (let x = 0; x < canvas.width; x += 20) {
@@ -316,10 +319,10 @@ function App() {
                 ctx.beginPath(); ctx.moveTo(0, y); ctx.lineTo(canvas.width, y); ctx.stroke();
             }
 
-            // Draw Opaque Magenta Launcher Tube
-            drawLauncherTube();
+            // Draw Solid Opaque Magenta Launcher Tube
+            drawOpaqueMagentaLauncher();
 
-            // Outer Bounds Frame
+            // Outer Playfield Frame
             ctx.shadowBlur = 8;
             ctx.shadowColor = '#00f0ff';
             ctx.strokeStyle = '#00f0ff';
@@ -327,7 +330,7 @@ function App() {
             ctx.strokeRect(30, 30, 320, 540);
 
             // Spring Plunger
-            const springTopY = keys.space && ball.inPlunger ? 550 : 530;
+            const springTopY = ball.inPlunger ? 530 : 550;
             ctx.shadowBlur = 6;
             ctx.shadowColor = '#ff0055';
             ctx.strokeStyle = '#ffffff';
@@ -377,12 +380,14 @@ function App() {
             drawStylizedFlipper(rightFlipper);
 
             // Ball
-            ctx.shadowBlur = 10;
+            ctx.shadowBlur = 12;
             ctx.shadowColor = '#ffffff';
             ctx.fillStyle = '#ffffff';
-            ctx.fillRect(ball.x - ball.radius, ball.y - ball.radius, ball.radius * 2, ball.radius * 2);
+            ctx.beginPath();
+            ctx.arc(ball.x, ball.y, ball.radius, 0, Math.PI * 2);
+            ctx.fill();
 
-            // Scanlines
+            // Scanlines Overlay
             ctx.shadowBlur = 0;
             ctx.fillStyle = 'rgba(0, 0, 0, 0.2)';
             for (let i = 0; i < canvas.height; i += 4) {
