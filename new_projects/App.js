@@ -84,42 +84,7 @@ function App() {
         const update = () => {
             animTime += 0.05;
 
-            if (ball.inPlunger) {
-                ball.x = 365;
-                ball.y = 520;
-                if (keys.space) {
-                    ball.vy = -55.0;
-                    ball.vx = 0;
-                    ball.inPlunger = false;
-                    setScore(0);
-                }
-            } else {
-                if (ball.x > 340 && ball.y < 90) {
-                    ball.vx = -12.0;
-                }
-
-                ball.vy += 0.28;
-
-                const speed = Math.sqrt(ball.vx * ball.vx + ball.vy * ball.vy);
-                if (speed > 0.1 && ball.y > 100) {
-                    let currentAngle = Math.atan2(ball.vy, ball.vx);
-
-                    let angleVariation = (Math.random() - 0.5) * (10 * Math.PI / 180);
-
-                    if (Math.random() < 0.03) {
-                        angleVariation += (Math.random() - 0.5) * (40 * Math.PI / 180);
-                    }
-
-                    currentAngle += angleVariation;
-
-                    ball.vx = Math.cos(currentAngle) * speed;
-                    ball.vy = Math.sin(currentAngle) * speed;
-                }
-
-                ball.x += ball.vx * 0.9;
-                ball.y += ball.vy * 0.9;
-            }
-
+            // Flipper Angle Updates
             if (keys.controlLeft) {
                 leftFlipper.angle = Math.max(leftFlipper.activeAngle, leftFlipper.angle - leftFlipper.speed);
             } else {
@@ -132,49 +97,103 @@ function App() {
                 rightFlipper.angle = Math.max(rightFlipper.restAngle, rightFlipper.angle - rightFlipper.speed);
             }
 
-            // Outer Bounds
-            if (ball.x - ball.radius < 30) { ball.x = 30 + ball.radius; ball.vx *= -0.6; }
-            if (ball.x + ball.radius > 350 && ball.y > 90 && !ball.inPlunger) {
-                ball.x = 350 - ball.radius;
-                ball.vx *= -0.6;
-            }
-            if (ball.x + ball.radius > 380) { ball.x = 380 - ball.radius; ball.vx *= -0.6; }
-
-            // Top Arch Boundary Bounce
-            if (ball.y - ball.radius < 30) {
-                ball.y = 30 + ball.radius;
-                ball.vy = Math.abs(ball.vy) * 0.3;
+            if (ball.inPlunger) {
+                ball.x = 365;
+                ball.y = 520;
+                if (keys.space) {
+                    ball.vy = -34.0;
+                    ball.vx = 0;
+                    ball.inPlunger = false;
+                    setScore(0);
+                }
+                return;
             }
 
-            bumpers.forEach((b) => {
-                const dx = ball.x - b.x;
-                const dy = ball.y - b.y;
-                const dist = Math.sqrt(dx * dx + dy * dy);
-                if (dist < ball.radius + b.r) {
-                    const angle = Math.atan2(dy, dx);
-                    ball.vx = Math.cos(angle) * 5.5;
-                    ball.vy = Math.sin(angle) * 5.5;
-                    setScore((prev) => prev + b.score);
+            // Sub-stepping to prevent high-velocity tunnel bugs through walls
+            const steps = 4;
+            for (let step = 0; step < steps; step++) {
+                // Gravity
+                ball.vy += 0.28 / steps;
+
+                // Move ball
+                ball.x += (ball.vx * 0.9) / steps;
+                ball.y += (ball.vy * 0.9) / steps;
+
+                // Trajectory guidance in magenta arch zone
+                if (ball.x > 340 && ball.y < 90) {
+                    ball.vx = -7.0;
                 }
-            });
 
-            const checkFlipper = (f, isLeft) => {
-                const tipX = f.x + Math.cos(f.angle) * f.length;
-                const tipY = f.y + Math.sin(f.angle) * f.length;
-                const fx = tipX - f.x, fy = tipY - f.y;
-                const fLenSq = fx * fx + fy * fy;
-                let t = Math.max(0, Math.min(1, ((ball.x - f.x) * fx + (ball.y - f.y) * fy) / fLenSq));
-                const dist = Math.sqrt((ball.x - (f.x + t * fx)) ** 2 + (ball.y - (f.y + t * fy)) ** 2);
+                // Random variance flux physics outside tube
+                if (ball.y > 100 && ball.x < 340) {
+                    const speed = Math.sqrt(ball.vx * ball.vx + ball.vy * ball.vy);
+                    if (speed > 0.1) {
+                        let currentAngle = Math.atan2(ball.vy, ball.vx);
+                        let angleVariation = (Math.random() - 0.5) * (10 * Math.PI / 180) / steps;
 
-                if (dist < ball.radius + f.baseRadius) {
-                    const isFlipping = (isLeft && keys.controlLeft) || (!isLeft && keys.controlRight);
-                    ball.vy = isFlipping ? -15.5 : -5.0;
-                    ball.vx = isLeft ? 3.5 : -3.5;
+                        if (Math.random() < (0.03 / steps)) {
+                            angleVariation += (Math.random() - 0.5) * (40 * Math.PI / 180);
+                        }
+
+                        currentAngle += angleVariation;
+                        ball.vx = Math.cos(currentAngle) * speed;
+                        ball.vy = Math.sin(currentAngle) * speed;
+                    }
                 }
-            };
 
-            checkFlipper(leftFlipper, true);
-            checkFlipper(rightFlipper, false);
+                // Left Wall
+                if (ball.x - ball.radius < 30) {
+                    ball.x = 30 + ball.radius;
+                    ball.vx *= -0.6;
+                }
+                // Middle Wall (Launcher Separator)
+                if (ball.x + ball.radius > 350 && ball.y > 90 && !ball.inPlunger) {
+                    ball.x = 350 - ball.radius;
+                    ball.vx *= -0.6;
+                }
+                // Right Wall
+                if (ball.x + ball.radius > 380) {
+                    ball.x = 380 - ball.radius;
+                    ball.vx *= -0.6;
+                }
+                // Ceiling
+                if (ball.y - ball.radius < 30) {
+                    ball.y = 30 + ball.radius;
+                    ball.vy = Math.abs(ball.vy) * 0.3;
+                }
+
+                // Bumpers
+                bumpers.forEach((b) => {
+                    const dx = ball.x - b.x;
+                    const dy = ball.y - b.y;
+                    const dist = Math.sqrt(dx * dx + dy * dy);
+                    if (dist < ball.radius + b.r) {
+                        const angle = Math.atan2(dy, dx);
+                        ball.vx = Math.cos(angle) * 5.5;
+                        ball.vy = Math.sin(angle) * 5.5;
+                        setScore((prev) => prev + b.score);
+                    }
+                });
+
+                // Flippers
+                const checkFlipper = (f, isLeft) => {
+                    const tipX = f.x + Math.cos(f.angle) * f.length;
+                    const tipY = f.y + Math.sin(f.angle) * f.length;
+                    const fx = tipX - f.x, fy = tipY - f.y;
+                    const fLenSq = fx * fx + fy * fy;
+                    let t = Math.max(0, Math.min(1, ((ball.x - f.x) * fx + (ball.y - f.y) * fy) / fLenSq));
+                    const dist = Math.sqrt((ball.x - (f.x + t * fx)) ** 2 + (ball.y - (f.y + t * fy)) ** 2);
+
+                    if (dist < ball.radius + f.baseRadius) {
+                        const isFlipping = (isLeft && keys.controlLeft) || (!isLeft && keys.controlRight);
+                        ball.vy = isFlipping ? -15.5 : -5.0;
+                        ball.vx = isLeft ? 3.5 : -3.5;
+                    }
+                };
+
+                checkFlipper(leftFlipper, true);
+                checkFlipper(rightFlipper, false);
+            }
 
             if (ball.y > 570) {
                 setGameOver(true);
@@ -227,21 +246,49 @@ function App() {
         const drawLauncherTube = () => {
             ctx.save();
 
-            // Tube Interior Glow Background
-            const tubeGrad = ctx.createLinearGradient(350, 0, 380, 0);
-            tubeGrad.addColorStop(0, 'rgba(0, 240, 255, 0.05)');
-            tubeGrad.addColorStop(0.5, 'rgba(0, 240, 255, 0.20)');
-            tubeGrad.addColorStop(1, 'rgba(0, 240, 255, 0.05)');
-            ctx.fillStyle = tubeGrad;
-            ctx.fillRect(350, 30, 30, 540);
+            // Opaque Magenta Solid Fill Tube Body
+            ctx.fillStyle = '#ff00a0';
+            ctx.fillRect(350, 90, 30, 480);
 
-            // Directional Tube Arrow LEDs
-            ctx.strokeStyle = 'rgba(0, 240, 255, 0.5)';
+            // Opaque Magenta Top Canopy Arch
+            ctx.beginPath();
+            ctx.arc(320, 90, 60, Math.PI * 1.5, Math.PI * 2);
+            ctx.lineTo(380, 90);
+            ctx.lineTo(350, 90);
+            ctx.arc(320, 90, 30, Math.PI * 2, Math.PI * 1.5, true);
+            ctx.closePath();
+            ctx.fill();
+
+            // Inner Tube Accent Stripes
+            ctx.fillStyle = '#cc0080';
+            ctx.fillRect(362, 90, 6, 480);
+
+            // Neon Border Frame
+            ctx.shadowBlur = 10;
+            ctx.shadowColor = '#ff00a0';
+            ctx.strokeStyle = '#ffffff';
+            ctx.lineWidth = 3;
+
+            // Outer Launcher Tube Wall
+            ctx.beginPath();
+            ctx.moveTo(350, 570);
+            ctx.lineTo(350, 90);
+            ctx.arc(320, 90, 30, 0, Math.PI * 1.5, true);
+            ctx.stroke();
+
+            ctx.beginPath();
+            ctx.moveTo(380, 570);
+            ctx.lineTo(380, 90);
+            ctx.arc(320, 90, 60, 0, Math.PI * 1.5, true);
+            ctx.stroke();
+
+            // Directional Arrow LEDs
+            ctx.strokeStyle = '#ffffff';
             ctx.lineWidth = 2;
             const offset = (animTime * 40) % 40;
             for (let y = 520; y > 80; y -= 40) {
                 const drawY = y - offset;
-                if (drawY > 80 && drawY < 530) {
+                if (drawY > 90 && drawY < 530) {
                     ctx.beginPath();
                     ctx.moveTo(358, drawY + 6);
                     ctx.lineTo(365, drawY);
@@ -249,43 +296,6 @@ function App() {
                     ctx.stroke();
                 }
             }
-
-            // Top Arch Canopy Guide (Curves path above playfield)
-            ctx.shadowBlur = 12;
-            ctx.shadowColor = '#00f0ff';
-            ctx.strokeStyle = '#00f0ff';
-            ctx.lineWidth = 3;
-
-            ctx.beginPath();
-            ctx.moveTo(380, 110);
-            ctx.quadraticCurveTo(380, 30, 300, 30);
-            ctx.stroke();
-
-            ctx.beginPath();
-            ctx.moveTo(350, 110);
-            ctx.quadraticCurveTo(350, 60, 300, 60);
-            ctx.stroke();
-
-            // Lane Divider Walls with Neon Highlights
-            ctx.lineWidth = 3;
-            ctx.beginPath();
-            ctx.moveTo(350, 110);
-            ctx.lineTo(350, 570);
-            ctx.stroke();
-
-            ctx.beginPath();
-            ctx.moveTo(380, 110);
-            ctx.lineTo(380, 570);
-            ctx.stroke();
-
-            // Inner Dashed Track Lines
-            ctx.setLineDash([6, 6]);
-            ctx.strokeStyle = 'rgba(255, 0, 170, 0.4)';
-            ctx.lineWidth = 1;
-            ctx.beginPath();
-            ctx.moveTo(365, 90);
-            ctx.lineTo(365, 530);
-            ctx.stroke();
 
             ctx.restore();
         };
@@ -306,7 +316,7 @@ function App() {
                 ctx.beginPath(); ctx.moveTo(0, y); ctx.lineTo(canvas.width, y); ctx.stroke();
             }
 
-            // Draw Graphic Launcher Tube & Arch
+            // Draw Opaque Magenta Launcher Tube
             drawLauncherTube();
 
             // Outer Bounds Frame
