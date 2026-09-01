@@ -1,4 +1,5 @@
-import React, { useState, useRef, useEffect } from 'react';
+// Destructure directly from the global React object (NO import keyword)
+const { useState, useRef, useEffect } = React;
 
 function App() {
     const canvasRef = useRef(null);
@@ -34,18 +35,17 @@ function App() {
         }
     }, [gameOver]);
 
-    // Handle dynamic responsiveness scaling to fit any screen resolution perfectly
+    // Handle dynamic responsiveness scaling
     useEffect(() => {
         const updateScale = () => {
             const mobileCheck = window.innerWidth <= 768;
             setIsMobile(mobileCheck);
 
-            // Responsive padding allowance
             const verticalPadding = mobileCheck ? 12 : 64;
             const horizontalPadding = mobileCheck ? 12 : 32;
 
-            const targetWidth = 432;  // Total unscaled pixel width of arcadeBox
-            const targetHeight = 740; // Total unscaled pixel height of arcadeBox
+            const targetWidth = 432;
+            const targetHeight = 740;
 
             const availableWidth = window.innerWidth - horizontalPadding;
             const availableHeight = window.innerHeight - verticalPadding;
@@ -53,7 +53,6 @@ function App() {
             const scaleX = availableWidth / targetWidth;
             const scaleY = availableHeight / targetHeight;
 
-            // Constrain scale so the cabinet always fits vertically & horizontally
             const newScale = Math.min(scaleX, scaleY, 1.1);
             setScale(Math.max(newScale, 0.40));
         };
@@ -105,7 +104,6 @@ function App() {
             { x: 200, y: 160, r: 8, score: 200, color: '#ffae00' },
         ];
 
-        // --- Keyboard Controls ---
         const handleKeyDown = (e) => {
             if (['Space', 'ControlLeft', 'ControlRight', 'ArrowLeft', 'ArrowRight'].includes(e.code)) {
                 e.preventDefault();
@@ -134,11 +132,9 @@ function App() {
         window.addEventListener('keydown', handleKeyDown);
         window.addEventListener('keyup', handleKeyUp);
 
-        // --- Physics Update Loop ---
         const update = () => {
             animTime += 0.05;
 
-            // Handle Ball Launch Trigger
             if (inputsRef.current.launchTriggered) {
                 if (ball.inPlunger) {
                     ball.inPlunger = false;
@@ -150,7 +146,6 @@ function App() {
                 inputsRef.current.launchTriggered = false;
             }
 
-            // Flipper Rotation Motion
             if (inputsRef.current.leftFlipper) {
                 leftFlipper.angle = Math.max(leftFlipper.activeAngle, leftFlipper.angle - leftFlipper.speed);
             } else {
@@ -163,7 +158,6 @@ function App() {
                 rightFlipper.angle = Math.max(rightFlipper.restAngle, rightFlipper.angle - rightFlipper.speed);
             }
 
-            // Ball Resting state in Plunger
             if (ball.inPlunger) {
                 ball.x = 365;
                 ball.y = 520;
@@ -467,7 +461,6 @@ function App() {
         };
     }, []);
 
-    // Multi-touch handler routing
     const handleTouchStart = (e) => {
         if (!canvasRef.current) return;
         const rect = canvasRef.current.getBoundingClientRect();
@@ -510,7 +503,6 @@ function App() {
             ...styles.container,
             padding: isMobile ? '6px' : '32px 16px'
         }}>
-            {/* Embedded style tag for responsive media query */}
             <style>{`
                 @media (max-width: 768px) {
                     .portfolio-btn {
@@ -519,7 +511,6 @@ function App() {
                 }
             `}</style>
 
-            {/* Bottom Left Portfolio Button */}
             <a
                 href="https://zqhwebpro.github.io/portfolio/2026/"
                 target="_blank"
@@ -559,7 +550,6 @@ function App() {
                     </div>
                 </div>
 
-                {/* Touch-Ready On-Screen Control Buttons */}
                 <div style={styles.controls}>
                     <button
                         style={{ ...styles.button, ...styles.leftButton }}
@@ -597,7 +587,7 @@ function App() {
 const styles = {
     container: {
         display: 'flex',
-        justify: 'center',
+        justifyContent: 'center',
         alignItems: 'center',
         width: '100vw',
         height: '100dvh',
@@ -728,4 +718,5 @@ const styles = {
     },
 };
 
-export default App;
+// Explicitly bind to window scope for browser execution
+window.App = App;
