@@ -106,6 +106,10 @@ function App() {
             { x: 200, y: 160, r: 8, score: 200, color: '#ffae00' },
         ];
 
+        useEffect(() => {
+            document.body.style.margin = '0';
+        }, []);
+
         // --- Keyboard Controls ---
         const handleKeyDown = (e) => {
             if (['Space', 'ControlLeft', 'ControlRight', 'ArrowLeft', 'ArrowRight'].includes(e.code)) {
