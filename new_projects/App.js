@@ -521,32 +521,6 @@ function App() {
                 See Portfolio
             </a>
 
-            {/* Floating Magenta Help Button */}
-            <button
-                style={styles.floatingHelpBtn}
-                onClick={() => setShowHelp(!showHelp)}
-                title="Controls & Instructions"
-            >
-                ?
-            </button>
-
-            {/* Pixelated Help Controls Popup Modal */}
-            {showHelp && (
-                <div style={styles.modalOverlay} onClick={() => setShowHelp(false)}>
-                    <div style={styles.modalContent} onClick={(e) => e.stopPropagation()}>
-                        <div style={styles.modalHeader}>
-                            <span>CONTROLS</span>
-                            <button style={styles.closeBtn} onClick={() => setShowHelp(false)}>X</button>
-                        </div>
-                        <ul style={styles.controlsList}>
-                            <li><span style={styles.keyTag}>SPACE</span> Launch Ball</li>
-                            <li><span style={styles.keyTag}>LEFT / CTRL</span> Left Flipper</li>
-                            <li><span style={styles.keyTag}>RIGHT / CTRL</span> Right Flipper</li>
-                        </ul>
-                    </div>
-                </div>
-            )}
-
             <div
                 ref={containerRef}
                 style={{
