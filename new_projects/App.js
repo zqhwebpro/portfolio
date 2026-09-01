@@ -2,16 +2,30 @@ const { useState, useRef, useEffect } = React;
 
 function App() {
     const canvasRef = useRef(null);
+    const containerRef = useRef(null);
+
     const [score, setScore] = useState(0);
     const [highScore, setHighScore] = useState(0);
     const [gameOver, setGameOver] = useState(false);
 
+    // Dynamic scaling state for mobile responsiveness
+    const [scale, setScale] = useState(1);
+
+    // Shared input refs to prevent closure stale states inside requestAnimationFrame
+    const inputsRef = useRef({
+        leftFlipper: false,
+        rightFlipper: false,
+        launchTriggered: false
+    });
+
+    // Handle high score tracking
     useEffect(() => {
         if (score > highScore) {
             setHighScore(score);
         }
     }, [score, highScore]);
 
+    // Game over timer reset
     useEffect(() => {
         if (gameOver) {
             const timer = setTimeout(() => setGameOver(false), 2500);
@@ -19,12 +33,35 @@ function App() {
         }
     }, [gameOver]);
 
+    // Handle dynamic responsiveness scaling to fit any screen resolution
+    useEffect(() => {
+        const updateScale = () => {
+            const padding = 32; // Screen margins
+            const targetWidth = 400;
+            const targetHeight = 680; // Total height including HUD, canvas, and controls
+
+            const windowWidth = window.innerWidth - padding;
+            const windowHeight = window.innerHeight - padding;
+
+            const scaleX = windowWidth / targetWidth;
+            const scaleY = windowHeight / targetHeight;
+
+            // Fit aspect ratio cleanly within viewport limits
+            const newScale = Math.min(scaleX, scaleY, 1.25);
+            setScale(Math.max(newScale, 0.45));
+        };
+
+        updateScale();
+        window.addEventListener('resize', updateScale);
+        return () => window.removeEventListener('resize', updateScale);
+    }, []);
+
+    // Main Canvas Game Loop & Inputs
     useEffect(() => {
         const canvas = canvasRef.current;
         if (!canvas) return;
         const ctx = canvas.getContext('2d');
 
-        const keys = { controlLeft: false, controlRight: false };
         let animationFrameId;
         let animTime = 0;
         let flipperRestTimer = 0;
@@ -61,46 +98,65 @@ function App() {
             { x: 200, y: 160, r: 8, score: 200, color: '#ffae00' },
         ];
 
+        // --- Keyboard Controls ---
         const handleKeyDown = (e) => {
             if (['Space', 'ControlLeft', 'ControlRight', 'ArrowLeft', 'ArrowRight'].includes(e.code)) {
                 e.preventDefault();
             }
 
-            if (e.code === 'Space' && ball.inPlunger) {
-                ball.inPlunger = false;
-                ball.vx = 0;
-                ball.vy = -24.0;
-                setScore(0);
-                setGameOver(false);
+            if (e.code === 'Space') {
+                inputsRef.current.launchTriggered = true;
             }
-
-            if (e.code === 'ControlLeft') keys.controlLeft = true;
-            if (e.code === 'ControlRight') keys.controlRight = true;
+            if (e.code === 'ControlLeft' || e.code === 'ArrowLeft') {
+                inputsRef.current.leftFlipper = true;
+            }
+            if (e.code === 'ControlRight' || e.code === 'ArrowRight') {
+                inputsRef.current.rightFlipper = true;
+            }
         };
 
         const handleKeyUp = (e) => {
-            if (e.code === 'ControlLeft') keys.controlLeft = false;
-            if (e.code === 'ControlRight') keys.controlRight = false;
+            if (e.code === 'ControlLeft' || e.code === 'ArrowLeft') {
+                inputsRef.current.leftFlipper = false;
+            }
+            if (e.code === 'ControlRight' || e.code === 'ArrowRight') {
+                inputsRef.current.rightFlipper = false;
+            }
         };
 
         window.addEventListener('keydown', handleKeyDown);
         window.addEventListener('keyup', handleKeyUp);
 
+        // --- Physics Update Loop ---
         const update = () => {
             animTime += 0.05;
 
-            if (keys.controlLeft) {
+            // Handle Ball Launch Trigger
+            if (inputsRef.current.launchTriggered) {
+                if (ball.inPlunger) {
+                    ball.inPlunger = false;
+                    ball.vx = 0;
+                    ball.vy = -24.0;
+                    setScore(0);
+                    setGameOver(false);
+                }
+                inputsRef.current.launchTriggered = false;
+            }
+
+            // Flipper Rotation Motion
+            if (inputsRef.current.leftFlipper) {
                 leftFlipper.angle = Math.max(leftFlipper.activeAngle, leftFlipper.angle - leftFlipper.speed);
             } else {
                 leftFlipper.angle = Math.min(leftFlipper.restAngle, leftFlipper.angle + leftFlipper.speed);
             }
 
-            if (keys.controlRight) {
+            if (inputsRef.current.rightFlipper) {
                 rightFlipper.angle = Math.min(rightFlipper.activeAngle, rightFlipper.angle + rightFlipper.speed);
             } else {
                 rightFlipper.angle = Math.max(rightFlipper.restAngle, rightFlipper.angle - rightFlipper.speed);
             }
 
+            // Ball Resting state in Plunger
             if (ball.inPlunger) {
                 ball.x = 365;
                 ball.y = 520;
@@ -186,7 +242,7 @@ function App() {
 
                     if (dist < ball.radius + f.baseRadius) {
                         isTouchingFlipper = true;
-                        const isFlipping = (isLeft && keys.controlLeft) || (!isLeft && keys.controlRight);
+                        const isFlipping = (isLeft && inputsRef.current.leftFlipper) || (!isLeft && inputsRef.current.rightFlipper);
 
                         if (isFlipping) {
                             ball.vy = -14.0;
@@ -264,29 +320,18 @@ function App() {
 
         const drawOpaqueMagentaLauncher = () => {
             ctx.save();
-
-            // Dark backing channel inside the tube
             ctx.fillStyle = '#1a001a';
             ctx.fillRect(345, 60, 40, 510);
 
-            // Opaque Solid Magenta Lane Container
             ctx.fillStyle = '#ff00aa';
-
-            // Left Wall Frame
             ctx.fillRect(341, 60, 4, 510);
-
-            // Right Wall Frame
             ctx.fillRect(385, 60, 4, 510);
-
-            // Top Arch Guide (Keeps rectangular profile while smoothly redirecting top)
             ctx.fillRect(341, 56, 48, 8);
 
-            // Inner Shadow/Glow Accents for Solid 3D Aesthetic
             ctx.fillStyle = '#d40088';
             ctx.fillRect(345, 60, 2, 510);
             ctx.fillRect(383, 60, 2, 510);
 
-            // High-contrast Edge Highlights
             ctx.shadowBlur = 8;
             ctx.shadowColor = '#ff00aa';
             ctx.strokeStyle = '#ffffff';
@@ -299,7 +344,6 @@ function App() {
             ctx.lineTo(385, 570);
             ctx.stroke();
 
-            // Animated Directional Lane Arrows
             ctx.strokeStyle = '#ffff00';
             ctx.lineWidth = 2;
             const offset = (animTime * 40) % 40;
@@ -416,9 +460,57 @@ function App() {
         };
     }, []);
 
+    // Multi-touch handler routing (left screen, right screen, or launcher zone)
+    const handleTouchStart = (e) => {
+        if (!canvasRef.current) return;
+        const rect = canvasRef.current.getBoundingClientRect();
+
+        for (let i = 0; i < e.touches.length; i++) {
+            const touch = e.touches[i];
+            const touchX = (touch.clientX - rect.left) / scale;
+
+            if (touchX > 340) {
+                // Tapped inside plunger lane area
+                inputsRef.current.launchTriggered = true;
+            } else if (touchX < 200) {
+                // Tapped on left side of playfield
+                inputsRef.current.leftFlipper = true;
+            } else {
+                // Tapped on right side of playfield
+                inputsRef.current.rightFlipper = true;
+            }
+        }
+    };
+
+    const handleTouchEnd = (e) => {
+        if (!canvasRef.current) return;
+        const rect = canvasRef.current.getBoundingClientRect();
+
+        let leftActive = false;
+        let rightActive = false;
+
+        for (let i = 0; i < e.touches.length; i++) {
+            const touch = e.touches[i];
+            const touchX = (touch.clientX - rect.left) / scale;
+
+            if (touchX < 200) leftActive = true;
+            else if (touchX >= 200 && touchX <= 340) rightActive = true;
+        }
+
+        inputsRef.current.leftFlipper = leftActive;
+        inputsRef.current.rightFlipper = rightActive;
+    };
+
     return (
         <div style={styles.container}>
-            <div style={styles.arcadeBox}>
+            <div
+                ref={containerRef}
+                style={{
+                    ...styles.arcadeBox,
+                    transform: `scale(${scale})`,
+                    transformOrigin: 'center center'
+                }}
+            >
                 <div style={styles.marquee}>
                     <span style={{ color: '#ffd700', textShadow: '2px 2px #ff8800' }}>REACT PIXEL PINBALL</span>
                 </div>
@@ -429,13 +521,46 @@ function App() {
                         <span>SCORE: {score.toString().padStart(6, '0')}</span>
                     </div>
                     {gameOver && <div style={styles.gameOverBanner}>GAME OVER</div>}
-                    <canvas ref={canvasRef} width={400} height={580} style={styles.canvas} />
+
+                    <div
+                        style={styles.canvasWrapper}
+                        onTouchStart={handleTouchStart}
+                        onTouchEnd={handleTouchEnd}
+                        onTouchCancel={handleTouchEnd}
+                    >
+                        <canvas ref={canvasRef} width={400} height={580} style={styles.canvas} />
+                    </div>
                 </div>
 
+                {/* Touch-Ready On-Screen Control Buttons */}
                 <div style={styles.controls}>
-                    <div style={styles.keyLabel}><span style={styles.key}>CTRL L</span> LEFT FLIPPER</div>
-                    <div style={styles.keyLabel}><span style={styles.key}>SPACE</span> LAUNCH</div>
-                    <div style={styles.keyLabel}><span style={styles.key}>CTRL R</span> RIGHT FLIPPER</div>
+                    <button
+                        style={{ ...styles.button, ...styles.leftButton }}
+                        onTouchStart={(e) => { e.preventDefault(); inputsRef.current.leftFlipper = true; }}
+                        onTouchEnd={(e) => { e.preventDefault(); inputsRef.current.leftFlipper = false; }}
+                        onMouseDown={() => inputsRef.current.leftFlipper = true}
+                        onMouseUp={() => inputsRef.current.leftFlipper = false}
+                    >
+                        LEFT
+                    </button>
+
+                    <button
+                        style={{ ...styles.button, ...styles.launchButton }}
+                        onTouchStart={(e) => { e.preventDefault(); inputsRef.current.launchTriggered = true; }}
+                        onMouseDown={() => inputsRef.current.launchTriggered = true}
+                    >
+                        LAUNCH
+                    </button>
+
+                    <button
+                        style={{ ...styles.button, ...styles.rightButton }}
+                        onTouchStart={(e) => { e.preventDefault(); inputsRef.current.rightFlipper = true; }}
+                        onTouchEnd={(e) => { e.preventDefault(); inputsRef.current.rightFlipper = false; }}
+                        onMouseDown={() => inputsRef.current.rightFlipper = true}
+                        onMouseUp={() => inputsRef.current.rightFlipper = false}
+                    >
+                        RIGHT
+                    </button>
                 </div>
             </div>
         </div>
@@ -447,28 +572,33 @@ const styles = {
         display: 'flex',
         justifyContent: 'center',
         alignItems: 'center',
-        minHeight: '100vh',
+        width: '100vw',
+        height: '100vh',
         backgroundColor: '#0a0512',
         fontFamily: '"Press Start 2P", "Courier New", monospace',
+        overflow: 'hidden',
+        touchAction: 'none', // Prevents browser pull-to-refresh & pinch zooming
+        userSelect: 'none',
     },
     arcadeBox: {
         backgroundColor: '#1b112c',
         border: '8px solid #00f0ff',
         borderRadius: '16px',
-        padding: '24px',
+        padding: '16px',
         boxShadow: '0 0 30px #ff00aa, inset 0 0 15px #00f0ff',
         display: 'flex',
         flexDirection: 'column',
         alignItems: 'center',
+        touchAction: 'none',
     },
     marquee: {
-        fontSize: '16px',
+        fontSize: '14px',
         fontWeight: 'bold',
         letterSpacing: '1px',
-        marginBottom: '16px',
-        padding: '8px 16px',
+        marginBottom: '12px',
+        padding: '6px 12px',
         backgroundColor: '#0d0718',
-        border: '4px solid #ffd700',
+        border: '3px solid #ffd700',
         borderRadius: '4px',
         boxShadow: '0 0 12px #ffd700',
     },
@@ -500,29 +630,46 @@ const styles = {
         zIndex: 10,
         pointerEvents: 'none',
     },
+    canvasWrapper: {
+        position: 'relative',
+        touchAction: 'none',
+    },
     canvas: {
         border: '2px solid #00f0ff',
         display: 'block',
+        touchAction: 'none',
     },
     controls: {
-        marginTop: '16px',
+        marginTop: '14px',
         display: 'flex',
         gap: '12px',
+        width: '100%',
+        justifyContent: 'space-between',
     },
-    keyLabel: {
-        color: '#88aaff',
-        fontSize: '10px',
-        display: 'flex',
-        alignItems: 'center',
-        gap: '6px',
-    },
-    key: {
+    button: {
         backgroundColor: '#ff0077',
         color: '#fff',
-        padding: '4px 8px',
-        borderRadius: '4px',
+        padding: '12px 16px',
+        borderRadius: '6px',
         border: '2px solid #fff',
-        boxShadow: '0 0 6px #ff0077',
+        boxShadow: '0 0 8px #ff0077',
+        fontSize: '12px',
+        fontWeight: 'bold',
+        cursor: 'pointer',
+        touchAction: 'manipulation',
+        flex: 1,
+        fontFamily: 'inherit',
+    },
+    leftButton: {
+        backgroundColor: '#ff0055',
+    },
+    launchButton: {
+        backgroundColor: '#ffd700',
+        color: '#000',
+        boxShadow: '0 0 8px #ffd700',
+    },
+    rightButton: {
+        backgroundColor: '#ff0055',
     },
 };
 
