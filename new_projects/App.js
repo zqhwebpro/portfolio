@@ -7,6 +7,7 @@ function App() {
     const [score, setScore] = useState(0);
     const [highScore, setHighScore] = useState(0);
     const [gameOver, setGameOver] = useState(false);
+    const [showHelp, setShowHelp] = useState(false);
 
     // Dynamic scaling & viewport tracking state
     const [scale, setScale] = useState(1);
@@ -510,6 +511,32 @@ function App() {
             ...styles.container,
             padding: isMobile ? '6px' : '32px 16px'
         }}>
+            {/* Floating Magenta Help Button */}
+            <button
+                style={styles.floatingHelpBtn}
+                onClick={() => setShowHelp(!showHelp)}
+                title="Controls & Instructions"
+            >
+                ?
+            </button>
+
+            {/* Pixelated Help Controls Popup Modal */}
+            {showHelp && (
+                <div style={styles.modalOverlay} onClick={() => setShowHelp(false)}>
+                    <div style={styles.modalContent} onClick={(e) => e.stopPropagation()}>
+                        <div style={styles.modalHeader}>
+                            <span>CONTROLS</span>
+                            <button style={styles.closeBtn} onClick={() => setShowHelp(false)}>X</button>
+                        </div>
+                        <ul style={styles.controlsList}>
+                            <li><span style={styles.keyTag}>SPACE</span> Launch Ball</li>
+                            <li><span style={styles.keyTag}>LEFT / CTRL</span> Left Flipper</li>
+                            <li><span style={styles.keyTag}>RIGHT / CTRL</span> Right Flipper</li>
+                        </ul>
+                    </div>
+                </div>
+            )}
+
             <div
                 ref={containerRef}
                 style={{
@@ -587,6 +614,88 @@ const styles = {
         overflow: 'hidden',
         touchAction: 'none',
         userSelect: 'none',
+        position: 'relative',
+    },
+
+    floatingHelpBtn: {
+        position: 'fixed',
+        top: '16px',
+        right: '16px',
+        width: '42px',
+        height: '42px',
+        borderRadius: '50%',
+        backgroundColor: '#ff00aa',
+        color: '#ffffff',
+        border: '3px solid #ffffff',
+        boxShadow: '0 0 15px #ff00aa',
+        fontSize: '20px',
+        fontWeight: 'bold',
+        cursor: 'pointer',
+        zIndex: 100,
+        display: 'flex',
+        justifyContent: 'center',
+        alignItems: 'center',
+        fontFamily: 'inherit',
+    },
+
+    modalOverlay: {
+        position: 'fixed',
+        top: 0,
+        left: 0,
+        width: '100vw',
+        height: '100vh',
+        backgroundColor: 'rgba(10, 5, 18, 0.85)',
+        display: 'flex',
+        justifyContent: 'center',
+        alignItems: 'center',
+        zIndex: 200,
+    },
+
+    modalContent: {
+        backgroundColor: '#1b112c',
+        border: '4px solid #ff00aa',
+        borderRadius: '12px',
+        padding: '20px',
+        boxShadow: '0 0 25px #ff00aa',
+        color: '#ffffff',
+        maxWidth: '300px',
+        width: '80%',
+    },
+
+    modalHeader: {
+        display: 'flex',
+        justifyContent: 'space-between',
+        alignItems: 'center',
+        fontSize: '14px',
+        color: '#ffd700',
+        marginBottom: '16px',
+    },
+
+    closeBtn: {
+        backgroundColor: 'transparent',
+        border: 'none',
+        color: '#ff0055',
+        fontSize: '16px',
+        fontWeight: 'bold',
+        cursor: 'pointer',
+        fontFamily: 'inherit',
+    },
+
+    controlsList: {
+        listStyle: 'none',
+        padding: 0,
+        margin: 0,
+        fontSize: '10px',
+        lineHeight: '2.2',
+    },
+
+    keyTag: {
+        backgroundColor: '#0d0718',
+        border: '1px solid #00f0ff',
+        color: '#00f0ff',
+        padding: '2px 6px',
+        borderRadius: '4px',
+        marginRight: '8px',
     },
 
     arcadeBox: {
