@@ -1,17 +1,33 @@
+// Destructure directly from the global React object (NO import keyword)
 const { useState, useRef, useEffect } = React;
 
 function App() {
     const canvasRef = useRef(null);
+    const containerRef = useRef(null);
+
     const [score, setScore] = useState(0);
     const [highScore, setHighScore] = useState(0);
     const [gameOver, setGameOver] = useState(false);
 
+    // Dynamic scaling & viewport tracking state
+    const [scale, setScale] = useState(1);
+    const [isMobile, setIsMobile] = useState(false);
+
+    // Shared input refs to prevent closure stale states inside requestAnimationFrame
+    const inputsRef = useRef({
+        leftFlipper: false,
+        rightFlipper: false,
+        launchTriggered: false
+    });
+
+    // Handle high score tracking
     useEffect(() => {
         if (score > highScore) {
             setHighScore(score);
         }
     }, [score, highScore]);
 
+    // Game over timer reset
     useEffect(() => {
         if (gameOver) {
             const timer = setTimeout(() => setGameOver(false), 2500);
@@ -19,13 +35,42 @@ function App() {
         }
     }, [gameOver]);
 
+    // Handle dynamic responsiveness scaling
+    useEffect(() => {
+        const updateScale = () => {
+            const mobileCheck = window.innerWidth <= 768;
+            setIsMobile(mobileCheck);
+
+            const verticalPadding = mobileCheck ? 12 : 64;
+            const horizontalPadding = mobileCheck ? 12 : 32;
+
+            const targetWidth = 432;
+            const targetHeight = 740;
+
+            const availableWidth = window.innerWidth - horizontalPadding;
+            const availableHeight = window.innerHeight - verticalPadding;
+
+            const scaleX = availableWidth / targetWidth;
+            const scaleY = availableHeight / targetHeight;
+
+            const newScale = Math.min(scaleX, scaleY, 1.1);
+            setScale(Math.max(newScale, 0.40));
+        };
+
+        updateScale();
+        window.addEventListener('resize', updateScale);
+        return () => window.removeEventListener('resize', updateScale);
+    }, []);
+
+    // Main Canvas Game Loop & Inputs
     useEffect(() => {
         const canvas = canvasRef.current;
         if (!canvas) return;
         const ctx = canvas.getContext('2d');
 
-        const keys = { space: false, controlLeft: false, controlRight: false };
         let animationFrameId;
+        let animTime = 0;
+        let flipperRestTimer = 0;
 
         const ball = { x: 365, y: 520, vx: 0, vy: 0, radius: 6, inPlunger: true };
 
@@ -54,9 +99,9 @@ function App() {
         };
 
         const bumpers = [
-            { x: 120, y: 220, r: 12, score: 100, color: '#ffd700' },
-            { x: 280, y: 220, r: 12, score: 100, color: '#ffd700' },
-            { x: 200, y: 160, r: 14, score: 200, color: '#ffae00' },
+            { x: 120, y: 220, r: 7, score: 100, color: '#ffd700' },
+            { x: 280, y: 220, r: 7, score: 100, color: '#ffd700' },
+            { x: 200, y: 160, r: 8, score: 200, color: '#ffae00' },
         ];
 
         const handleKeyDown = (e) => {
@@ -64,100 +109,167 @@ function App() {
                 e.preventDefault();
             }
 
-            if (e.code === 'Space') keys.space = true;
-            if (e.code === 'ControlLeft') keys.controlLeft = true;
-            if (e.code === 'ControlRight') keys.controlRight = true;
-
-            setGameOver(false);
+            if (e.code === 'Space') {
+                inputsRef.current.launchTriggered = true;
+            }
+            if (e.code === 'ControlLeft' || e.code === 'ArrowLeft') {
+                inputsRef.current.leftFlipper = true;
+            }
+            if (e.code === 'ControlRight' || e.code === 'ArrowRight') {
+                inputsRef.current.rightFlipper = true;
+            }
         };
 
         const handleKeyUp = (e) => {
-            if (e.code === 'Space') keys.space = false;
-            if (e.code === 'ControlLeft') keys.controlLeft = false;
-            if (e.code === 'ControlRight') keys.controlRight = false;
+            if (e.code === 'ControlLeft' || e.code === 'ArrowLeft') {
+                inputsRef.current.leftFlipper = false;
+            }
+            if (e.code === 'ControlRight' || e.code === 'ArrowRight') {
+                inputsRef.current.rightFlipper = false;
+            }
         };
 
         window.addEventListener('keydown', handleKeyDown);
         window.addEventListener('keyup', handleKeyUp);
 
         const update = () => {
-            if (ball.inPlunger) {
-                ball.x = 365;
-                ball.y = 520;
-                if (keys.space) {
-                    // 1.5x higher launch power than the max flipper bounce (-14.5 * 1.5 = -21.75)
-                    ball.vy = -21.75;
-                    ball.vx = -4.5;
+            animTime += 0.05;
+
+            if (inputsRef.current.launchTriggered) {
+                if (ball.inPlunger) {
                     ball.inPlunger = false;
+                    ball.vx = 0;
+                    ball.vy = -24.0;
                     setScore(0);
+                    setGameOver(false);
                 }
-            } else {
-                // Outer Arch Curve Guide
-                if (ball.x > 330 && ball.y < 120) {
-                    ball.vx -= 0.45;
-                }
-
-                // 85% steep downward slope gravity simulation
-                ball.vy += 0.28;
-
-                // Speed step multiplier for overall faster gameplay
-                ball.x += ball.vx * 1.2;
-                ball.y += ball.vy * 1.2;
+                inputsRef.current.launchTriggered = false;
             }
 
-            if (keys.controlLeft) {
+            if (inputsRef.current.leftFlipper) {
                 leftFlipper.angle = Math.max(leftFlipper.activeAngle, leftFlipper.angle - leftFlipper.speed);
             } else {
                 leftFlipper.angle = Math.min(leftFlipper.restAngle, leftFlipper.angle + leftFlipper.speed);
             }
 
-            if (keys.controlRight) {
+            if (inputsRef.current.rightFlipper) {
                 rightFlipper.angle = Math.min(rightFlipper.activeAngle, rightFlipper.angle + rightFlipper.speed);
             } else {
                 rightFlipper.angle = Math.max(rightFlipper.restAngle, rightFlipper.angle - rightFlipper.speed);
             }
 
-            // Outer Bounds
-            if (ball.x - ball.radius < 30) { ball.x = 30 + ball.radius; ball.vx *= -0.6; }
-            if (ball.x + ball.radius > 350 && ball.y > 70 && !ball.inPlunger) {
-                ball.x = 350 - ball.radius;
-                ball.vx *= -0.6;
+            if (ball.inPlunger) {
+                ball.x = 365;
+                ball.y = 520;
+                ball.vx = 0;
+                ball.vy = 0;
+                flipperRestTimer = 0;
+                return;
             }
-            if (ball.x + ball.radius > 380) { ball.x = 380 - ball.radius; ball.vx *= -0.6; }
-            if (ball.y - ball.radius < 30) { ball.y = 30 + ball.radius; ball.vy *= -0.4; }
 
-            // Bumpers
-            bumpers.forEach((b) => {
-                const dx = ball.x - b.x;
-                const dy = ball.y - b.y;
-                const dist = Math.sqrt(dx * dx + dy * dy);
-                if (dist < ball.radius + b.r) {
-                    const angle = Math.atan2(dy, dx);
-                    ball.vx = Math.cos(angle) * 6.5;
-                    ball.vy = Math.sin(angle) * 6.5;
-                    setScore((prev) => prev + b.score);
+            let isTouchingFlipper = false;
+            const steps = 4;
+
+            for (let step = 0; step < steps; step++) {
+                ball.vy += 0.28 / steps;
+
+                ball.x += (ball.vx * 0.9) / steps;
+                ball.y += (ball.vy * 0.9) / steps;
+
+                if (ball.x > 340 && ball.y < 70) {
+                    ball.vx = -7.0;
                 }
-            });
 
-            // Flipper Collision & Bounce Calculation
-            const checkFlipper = (f, isLeft) => {
-                const tipX = f.x + Math.cos(f.angle) * f.length;
-                const tipY = f.y + Math.sin(f.angle) * f.length;
-                const fx = tipX - f.x, fy = tipY - f.y;
-                const fLenSq = fx * fx + fy * fy;
-                let t = Math.max(0, Math.min(1, ((ball.x - f.x) * fx + (ball.y - f.y) * fy) / fLenSq));
-                const dist = Math.sqrt((ball.x - (f.x + t * fx)) ** 2 + (ball.y - (f.y + t * fy)) ** 2);
+                if (ball.y > 110 && ball.x < 340) {
+                    const speed = Math.sqrt(ball.vx * ball.vx + ball.vy * ball.vy);
+                    if (speed > 0.1) {
+                        let currentAngle = Math.atan2(ball.vy, ball.vx);
+                        let angleVariation = (Math.random() - 0.5) * (10 * Math.PI / 180) / steps;
 
-                if (dist < ball.radius + f.baseRadius) {
-                    const isFlipping = (isLeft && keys.controlLeft) || (!isLeft && keys.controlRight);
-                    // Higher flipper impulse to launch ball up into bumper territory
-                    ball.vy = isFlipping ? -14.5 : -5.0;
-                    ball.vx = isLeft ? 3.5 : -3.5;
+                        if (Math.random() < (0.03 / steps)) {
+                            angleVariation += (Math.random() - 0.5) * (40 * Math.PI / 180);
+                        }
+
+                        currentAngle += angleVariation;
+                        ball.vx = Math.cos(currentAngle) * speed;
+                        ball.vy = Math.sin(currentAngle) * speed;
+                    }
                 }
-            };
 
-            checkFlipper(leftFlipper, true);
-            checkFlipper(rightFlipper, false);
+                if (ball.x - ball.radius < 30) {
+                    ball.x = 30 + ball.radius;
+                    ball.vx *= -0.6;
+                }
+
+                if (ball.x - ball.radius < 350 && ball.x + ball.radius > 345 && ball.y > 70) {
+                    if (ball.x > 347) {
+                        ball.x = 347 + ball.radius;
+                        ball.vx = Math.abs(ball.vx) * 0.2;
+                    } else {
+                        ball.x = 345 - ball.radius;
+                        ball.vx = -Math.abs(ball.vx) * 0.6;
+                    }
+                }
+
+                if (ball.x + ball.radius > 380) {
+                    ball.x = 380 - ball.radius;
+                    ball.vx *= -0.4;
+                }
+
+                if (ball.y - ball.radius < 30) {
+                    ball.y = 30 + ball.radius;
+                    ball.vy = Math.abs(ball.vy) * 0.3;
+                }
+
+                bumpers.forEach((b) => {
+                    const dx = ball.x - b.x;
+                    const dy = ball.y - b.y;
+                    const dist = Math.sqrt(dx * dx + dy * dy);
+                    if (dist < ball.radius + b.r) {
+                        const angle = Math.atan2(dy, dx);
+                        ball.vx = Math.cos(angle) * 5.5;
+                        ball.vy = Math.sin(angle) * 5.5;
+                        setScore((prev) => prev + b.score);
+                    }
+                });
+
+                const checkFlipper = (f, isLeft) => {
+                    const tipX = f.x + Math.cos(f.angle) * f.length;
+                    const tipY = f.y + Math.sin(f.angle) * f.length;
+                    const fx = tipX - f.x, fy = tipY - f.y;
+                    const fLenSq = fx * fx + fy * fy;
+                    let t = Math.max(0, Math.min(1, ((ball.x - f.x) * fx + (ball.y - f.y) * fy) / fLenSq));
+                    const dist = Math.sqrt((ball.x - (f.x + t * fx)) ** 2 + (ball.y - (f.y + t * fy)) ** 2);
+
+                    if (dist < ball.radius + f.baseRadius) {
+                        isTouchingFlipper = true;
+                        const isFlipping = (isLeft && inputsRef.current.leftFlipper) || (!isLeft && inputsRef.current.rightFlipper);
+
+                        if (isFlipping) {
+                            ball.vy = -14.0;
+                            ball.vx = isLeft ? 4.0 : -4.0;
+                        } else {
+                            ball.vy = -2.5;
+                            ball.vx = isLeft ? 1.5 : -1.5;
+
+                            if (flipperRestTimer > 30) {
+                                const slideDir = isLeft ? Math.cos(f.angle) : -Math.cos(f.angle);
+                                ball.vx += slideDir * 1.8;
+                                ball.vy += Math.sin(f.angle) * 1.2;
+                            }
+                        }
+                    }
+                };
+
+                checkFlipper(leftFlipper, true);
+                checkFlipper(rightFlipper, false);
+            }
+
+            if (isTouchingFlipper && Math.abs(ball.vx) < 1.0 && Math.abs(ball.vy) < 1.0) {
+                flipperRestTimer++;
+            } else {
+                flipperRestTimer = 0;
+            }
 
             if (ball.y > 570) {
                 setGameOver(true);
@@ -207,13 +319,55 @@ function App() {
             ctx.restore();
         };
 
+        const drawOpaqueMagentaLauncher = () => {
+            ctx.save();
+            ctx.fillStyle = '#1a001a';
+            ctx.fillRect(345, 60, 40, 510);
+
+            ctx.fillStyle = '#ff00aa';
+            ctx.fillRect(341, 60, 4, 510);
+            ctx.fillRect(385, 60, 4, 510);
+            ctx.fillRect(341, 56, 48, 8);
+
+            ctx.fillStyle = '#d40088';
+            ctx.fillRect(345, 60, 2, 510);
+            ctx.fillRect(383, 60, 2, 510);
+
+            ctx.shadowBlur = 8;
+            ctx.shadowColor = '#ff00aa';
+            ctx.strokeStyle = '#ffffff';
+            ctx.lineWidth = 2;
+
+            ctx.beginPath();
+            ctx.moveTo(345, 570);
+            ctx.lineTo(345, 60);
+            ctx.lineTo(385, 60);
+            ctx.lineTo(385, 570);
+            ctx.stroke();
+
+            ctx.strokeStyle = '#ffff00';
+            ctx.lineWidth = 2;
+            const offset = (animTime * 40) % 40;
+            for (let y = 520; y > 60; y -= 40) {
+                const drawY = y - offset;
+                if (drawY > 65 && drawY < 530) {
+                    ctx.beginPath();
+                    ctx.moveTo(358, drawY + 6);
+                    ctx.lineTo(365, drawY);
+                    ctx.lineTo(372, drawY + 6);
+                    ctx.stroke();
+                }
+            }
+
+            ctx.restore();
+        };
+
         const render = () => {
             ctx.clearRect(0, 0, canvas.width, canvas.height);
 
             ctx.fillStyle = '#05030a';
             ctx.fillRect(0, 0, canvas.width, canvas.height);
 
-            // Grid Lines
             ctx.strokeStyle = 'rgba(255, 0, 128, 0.06)';
             ctx.lineWidth = 1;
             for (let x = 0; x < canvas.width; x += 20) {
@@ -223,21 +377,15 @@ function App() {
                 ctx.beginPath(); ctx.moveTo(0, y); ctx.lineTo(canvas.width, y); ctx.stroke();
             }
 
-            // Outer Bounds Frame
+            drawOpaqueMagentaLauncher();
+
             ctx.shadowBlur = 8;
             ctx.shadowColor = '#00f0ff';
             ctx.strokeStyle = '#00f0ff';
             ctx.lineWidth = 4;
-            ctx.strokeRect(30, 30, 320, 540);
+            ctx.strokeRect(30, 30, 315, 540);
 
-            // Right Plunger Lane Wall
-            ctx.beginPath();
-            ctx.moveTo(350, 70);
-            ctx.lineTo(350, 570);
-            ctx.stroke();
-
-            // Spring Plunger
-            const springTopY = keys.space && ball.inPlunger ? 550 : 530;
+            const springTopY = ball.inPlunger ? 530 : 550;
             ctx.shadowBlur = 6;
             ctx.shadowColor = '#ff0055';
             ctx.strokeStyle = '#ffffff';
@@ -261,7 +409,6 @@ function App() {
             }
             ctx.stroke();
 
-            // Bumpers
             bumpers.forEach((b) => {
                 ctx.save();
                 ctx.shadowBlur = 10;
@@ -282,17 +429,16 @@ function App() {
                 ctx.restore();
             });
 
-            // Flippers
             drawStylizedFlipper(leftFlipper);
             drawStylizedFlipper(rightFlipper);
 
-            // Ball
-            ctx.shadowBlur = 10;
+            ctx.shadowBlur = 12;
             ctx.shadowColor = '#ffffff';
             ctx.fillStyle = '#ffffff';
-            ctx.fillRect(ball.x - ball.radius, ball.y - ball.radius, ball.radius * 2, ball.radius * 2);
+            ctx.beginPath();
+            ctx.arc(ball.x, ball.y, ball.radius, 0, Math.PI * 2);
+            ctx.fill();
 
-            // Scanlines
             ctx.shadowBlur = 0;
             ctx.fillStyle = 'rgba(0, 0, 0, 0.2)';
             for (let i = 0; i < canvas.height; i += 4) {
@@ -315,9 +461,74 @@ function App() {
         };
     }, []);
 
+    const handleTouchStart = (e) => {
+        if (!canvasRef.current) return;
+        const rect = canvasRef.current.getBoundingClientRect();
+
+        for (let i = 0; i < e.touches.length; i++) {
+            const touch = e.touches[i];
+            const touchX = (touch.clientX - rect.left) / scale;
+
+            if (touchX > 340) {
+                inputsRef.current.launchTriggered = true;
+            } else if (touchX < 200) {
+                inputsRef.current.leftFlipper = true;
+            } else {
+                inputsRef.current.rightFlipper = true;
+            }
+        }
+    };
+
+    const handleTouchEnd = (e) => {
+        if (!canvasRef.current) return;
+        const rect = canvasRef.current.getBoundingClientRect();
+
+        let leftActive = false;
+        let rightActive = false;
+
+        for (let i = 0; i < e.touches.length; i++) {
+            const touch = e.touches[i];
+            const touchX = (touch.clientX - rect.left) / scale;
+
+            if (touchX < 200) leftActive = true;
+            else if (touchX >= 200 && touchX <= 340) rightActive = true;
+        }
+
+        inputsRef.current.leftFlipper = leftActive;
+        inputsRef.current.rightFlipper = rightActive;
+    };
+
     return (
-        <div style={styles.container}>
-            <div style={styles.arcadeBox}>
+        <div style={{
+            ...styles.container,
+            padding: isMobile ? '6px' : '32px 16px'
+        }}>
+            <style>{`
+                @media (max-width: 768px) {
+                    .portfolio-btn {
+                        display: none !important;
+                    }
+                }
+            `}</style>
+
+            <a
+                href="https://zqhwebpro.github.io/portfolio/2026/"
+                target="_blank"
+                rel="noopener noreferrer"
+                className="portfolio-btn"
+                style={styles.portfolioBtn}
+            >
+                See Portfolio
+            </a>
+
+            <div
+                ref={containerRef}
+                style={{
+                    ...styles.arcadeBox,
+                    transform: `scale(${scale})`,
+                    transformOrigin: 'center center'
+                }}
+            >
                 <div style={styles.marquee}>
                     <span style={{ color: '#ffd700', textShadow: '2px 2px #ff8800' }}>REACT PIXEL PINBALL</span>
                 </div>
@@ -328,13 +539,45 @@ function App() {
                         <span>SCORE: {score.toString().padStart(6, '0')}</span>
                     </div>
                     {gameOver && <div style={styles.gameOverBanner}>GAME OVER</div>}
-                    <canvas ref={canvasRef} width={400} height={580} style={styles.canvas} />
+
+                    <div
+                        style={styles.canvasWrapper}
+                        onTouchStart={handleTouchStart}
+                        onTouchEnd={handleTouchEnd}
+                        onTouchCancel={handleTouchEnd}
+                    >
+                        <canvas ref={canvasRef} width={400} height={580} style={styles.canvas} />
+                    </div>
                 </div>
 
                 <div style={styles.controls}>
-                    <div style={styles.keyLabel}><span style={styles.key}>CTRL L</span> LEFT FLIPPER</div>
-                    <div style={styles.keyLabel}><span style={styles.key}>SPACE</span> LAUNCH</div>
-                    <div style={styles.keyLabel}><span style={styles.key}>CTRL R</span> RIGHT FLIPPER</div>
+                    <button
+                        style={{ ...styles.button, ...styles.leftButton }}
+                        onTouchStart={(e) => { e.preventDefault(); inputsRef.current.leftFlipper = true; }}
+                        onTouchEnd={(e) => { e.preventDefault(); inputsRef.current.leftFlipper = false; }}
+                        onMouseDown={() => inputsRef.current.leftFlipper = true}
+                        onMouseUp={() => inputsRef.current.leftFlipper = false}
+                    >
+                        CTRL + LEFT
+                    </button>
+
+                    <button
+                        style={{ ...styles.button, ...styles.launchButton }}
+                        onTouchStart={(e) => { e.preventDefault(); inputsRef.current.launchTriggered = true; }}
+                        onMouseDown={() => inputsRef.current.launchTriggered = true}
+                    >
+                        SPACE / LAUNCH
+                    </button>
+
+                    <button
+                        style={{ ...styles.button, ...styles.rightButton }}
+                        onTouchStart={(e) => { e.preventDefault(); inputsRef.current.rightFlipper = true; }}
+                        onTouchEnd={(e) => { e.preventDefault(); inputsRef.current.rightFlipper = false; }}
+                        onMouseDown={() => inputsRef.current.rightFlipper = true}
+                        onMouseUp={() => inputsRef.current.rightFlipper = false}
+                    >
+                        CTRL + RIGHT
+                    </button>
                 </div>
             </div>
         </div>
@@ -346,28 +589,61 @@ const styles = {
         display: 'flex',
         justifyContent: 'center',
         alignItems: 'center',
-        minHeight: '100vh',
+        width: '100vw',
+        height: '100dvh',
+        boxSizing: 'border-box',
         backgroundColor: '#0a0512',
         fontFamily: '"Press Start 2P", "Courier New", monospace',
+        overflow: 'hidden',
+        touchAction: 'none',
+        userSelect: 'none',
+        position: 'relative',
     },
+
+    portfolioBtn: {
+        position: 'fixed',
+        bottom: '16px',
+        left: '16px',
+        padding: '10px 14px',
+        backgroundColor: '#0d0718',
+        color: '#ffd700',
+        border: '2px solid #ffd700',
+        borderRadius: '6px',
+        boxShadow: '0 0 12px rgba(255, 215, 0, 0.6)',
+        fontSize: '10px',
+        fontWeight: 'bold',
+        textDecoration: 'none',
+        zIndex: 100,
+        display: 'flex',
+        justifyContent: 'center',
+        alignItems: 'center',
+        fontFamily: 'inherit',
+        letterSpacing: '0.5px',
+        cursor: 'pointer',
+        transition: 'all 0.2s ease-in-out',
+    },
+
     arcadeBox: {
         backgroundColor: '#1b112c',
         border: '8px solid #00f0ff',
         borderRadius: '16px',
-        padding: '24px',
+        padding: '16px',
         boxShadow: '0 0 30px #ff00aa, inset 0 0 15px #00f0ff',
         display: 'flex',
         flexDirection: 'column',
         alignItems: 'center',
+        touchAction: 'none',
+        boxSizing: 'border-box',
+        flexShrink: 0,
     },
     marquee: {
-        fontSize: '16px',
+        fontSize: '14px',
         fontWeight: 'bold',
         letterSpacing: '1px',
-        marginBottom: '16px',
-        padding: '8px 16px',
+        marginBottom: '12px',
+        padding: '6px 12px',
         backgroundColor: '#0d0718',
-        border: '4px solid #ffd700',
+        border: '3px solid #ffd700',
         borderRadius: '4px',
         boxShadow: '0 0 12px #ffd700',
     },
@@ -399,30 +675,48 @@ const styles = {
         zIndex: 10,
         pointerEvents: 'none',
     },
+    canvasWrapper: {
+        position: 'relative',
+        touchAction: 'none',
+    },
     canvas: {
         border: '2px solid #00f0ff',
         display: 'block',
+        touchAction: 'none',
     },
     controls: {
-        marginTop: '16px',
+        marginTop: '14px',
         display: 'flex',
         gap: '12px',
+        width: '100%',
+        justifyContent: 'space-between',
     },
-    keyLabel: {
-        color: '#88aaff',
-        fontSize: '10px',
-        display: 'flex',
-        alignItems: 'center',
-        gap: '6px',
-    },
-    key: {
+    button: {
         backgroundColor: '#ff0077',
         color: '#fff',
-        padding: '4px 8px',
-        borderRadius: '4px',
+        padding: '12px 10px',
+        borderRadius: '6px',
         border: '2px solid #fff',
-        boxShadow: '0 0 6px #ff0077',
+        boxShadow: '0 0 8px #ff0077',
+        fontSize: '10px',
+        fontWeight: 'bold',
+        cursor: 'pointer',
+        touchAction: 'manipulation',
+        flex: 1,
+        fontFamily: 'inherit',
+    },
+    leftButton: {
+        backgroundColor: '#ff0055',
+    },
+    launchButton: {
+        backgroundColor: '#ffd700',
+        color: '#000',
+        boxShadow: '0 0 8px #ffd700',
+    },
+    rightButton: {
+        backgroundColor: '#ff0055',
     },
 };
 
+// Explicitly bind to window scope for browser execution
 window.App = App;
