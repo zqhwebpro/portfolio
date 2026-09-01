@@ -1,4 +1,4 @@
-const { useState, useRef, useEffect } = React;
+import React, { useState, useRef, useEffect } from 'react';
 
 function App() {
     const canvasRef = useRef(null);
@@ -7,7 +7,6 @@ function App() {
     const [score, setScore] = useState(0);
     const [highScore, setHighScore] = useState(0);
     const [gameOver, setGameOver] = useState(false);
-    const [showHelp, setShowHelp] = useState(false);
 
     // Dynamic scaling & viewport tracking state
     const [scale, setScale] = useState(1);
@@ -468,7 +467,7 @@ function App() {
         };
     }, []);
 
-    // Multi-touch handler routing (left screen, right screen, or launcher zone)
+    // Multi-touch handler routing
     const handleTouchStart = (e) => {
         if (!canvasRef.current) return;
         const rect = canvasRef.current.getBoundingClientRect();
@@ -511,16 +510,25 @@ function App() {
             ...styles.container,
             padding: isMobile ? '6px' : '32px 16px'
         }}>
+            {/* Embedded style tag for responsive media query */}
+            <style>{`
+                @media (max-width: 768px) {
+                    .portfolio-btn {
+                        display: none !important;
+                    }
+                }
+            `}</style>
+
             {/* Bottom Left Portfolio Button */}
             <a
                 href="https://zqhwebpro.github.io/portfolio/2026/"
                 target="_blank"
                 rel="noopener noreferrer"
+                className="portfolio-btn"
                 style={styles.portfolioBtn}
             >
                 See Portfolio
             </a>
-
 
             <div
                 ref={containerRef}
@@ -589,10 +597,10 @@ function App() {
 const styles = {
     container: {
         display: 'flex',
-        justifyContent: 'center',
+        justify: 'center',
         alignItems: 'center',
         width: '100vw',
-        height: '100dvh', // Replaces min-height to fix canvas box overflow
+        height: '100dvh',
         boxSizing: 'border-box',
         backgroundColor: '#0a0512',
         fontFamily: '"Press Start 2P", "Courier New", monospace',
@@ -625,87 +633,6 @@ const styles = {
         transition: 'all 0.2s ease-in-out',
     },
 
-    floatingHelpBtn: {
-        position: 'fixed',
-        top: '16px',
-        right: '16px',
-        width: '42px',
-        height: '42px',
-        borderRadius: '50%',
-        backgroundColor: '#ff00aa',
-        color: '#ffffff',
-        border: '3px solid #ffffff',
-        boxShadow: '0 0 15px #ff00aa',
-        fontSize: '20px',
-        fontWeight: 'bold',
-        cursor: 'pointer',
-        zIndex: 100,
-        display: 'flex',
-        justifyContent: 'center',
-        alignItems: 'center',
-        fontFamily: 'inherit',
-    },
-
-    modalOverlay: {
-        position: 'fixed',
-        top: 0,
-        left: 0,
-        width: '100vw',
-        height: '100vh',
-        backgroundColor: 'rgba(10, 5, 18, 0.85)',
-        display: 'flex',
-        justifyContent: 'center',
-        alignItems: 'center',
-        zIndex: 200,
-    },
-
-    modalContent: {
-        backgroundColor: '#1b112c',
-        border: '4px solid #ff00aa',
-        borderRadius: '12px',
-        padding: '20px',
-        boxShadow: '0 0 25px #ff00aa',
-        color: '#ffffff',
-        maxWidth: '300px',
-        width: '80%',
-    },
-
-    modalHeader: {
-        display: 'flex',
-        justifyContent: 'space-between',
-        alignItems: 'center',
-        fontSize: '14px',
-        color: '#ffd700',
-        marginBottom: '16px',
-    },
-
-    closeBtn: {
-        backgroundColor: 'transparent',
-        border: 'none',
-        color: '#ff0055',
-        fontSize: '16px',
-        fontWeight: 'bold',
-        cursor: 'pointer',
-        fontFamily: 'inherit',
-    },
-
-    controlsList: {
-        listStyle: 'none',
-        padding: 0,
-        margin: 0,
-        fontSize: '10px',
-        lineHeight: '2.2',
-    },
-
-    keyTag: {
-        backgroundColor: '#0d0718',
-        border: '1px solid #00f0ff',
-        color: '#00f0ff',
-        padding: '2px 6px',
-        borderRadius: '4px',
-        marginRight: '8px',
-    },
-
     arcadeBox: {
         backgroundColor: '#1b112c',
         border: '8px solid #00f0ff',
@@ -717,7 +644,7 @@ const styles = {
         alignItems: 'center',
         touchAction: 'none',
         boxSizing: 'border-box',
-        flexShrink: 0, // Prevents flex container from distorting the arcade box aspect ratio
+        flexShrink: 0,
     },
     marquee: {
         fontSize: '14px',
@@ -801,4 +728,4 @@ const styles = {
     },
 };
 
-window.App = App;
+export default App;
