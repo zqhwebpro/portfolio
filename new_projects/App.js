@@ -511,6 +511,16 @@ function App() {
             ...styles.container,
             padding: isMobile ? '6px' : '32px 16px'
         }}>
+            {/* Bottom Left Portfolio Button */}
+            <a
+                href="https://zqhwebpro.github.io/portfolio/2026/"
+                target="_blank"
+                rel="noopener noreferrer"
+                style={styles.portfolioBtn}
+            >
+                See Portfolio
+            </a>
+
             {/* Floating Magenta Help Button */}
             <button
                 style={styles.floatingHelpBtn}
@@ -575,7 +585,7 @@ function App() {
                         onMouseDown={() => inputsRef.current.leftFlipper = true}
                         onMouseUp={() => inputsRef.current.leftFlipper = false}
                     >
-                        LEFT
+                        CTRL + LEFT
                     </button>
 
                     <button
@@ -583,7 +593,7 @@ function App() {
                         onTouchStart={(e) => { e.preventDefault(); inputsRef.current.launchTriggered = true; }}
                         onMouseDown={() => inputsRef.current.launchTriggered = true}
                     >
-                        LAUNCH
+                        SPACE / LAUNCH
                     </button>
 
                     <button
@@ -593,7 +603,7 @@ function App() {
                         onMouseDown={() => inputsRef.current.rightFlipper = true}
                         onMouseUp={() => inputsRef.current.rightFlipper = false}
                     >
-                        RIGHT
+                        CTRL + RIGHT
                     </button>
                 </div>
             </div>
@@ -615,6 +625,29 @@ const styles = {
         touchAction: 'none',
         userSelect: 'none',
         position: 'relative',
+    },
+
+    portfolioBtn: {
+        position: 'fixed',
+        bottom: '16px',
+        left: '16px',
+        padding: '10px 14px',
+        backgroundColor: '#0d0718',
+        color: '#ffd700',
+        border: '2px solid #ffd700',
+        borderRadius: '6px',
+        boxShadow: '0 0 12px rgba(255, 215, 0, 0.6)',
+        fontSize: '10px',
+        fontWeight: 'bold',
+        textDecoration: 'none',
+        zIndex: 100,
+        display: 'flex',
+        justifyContent: 'center',
+        alignItems: 'center',
+        fontFamily: 'inherit',
+        letterSpacing: '0.5px',
+        cursor: 'pointer',
+        transition: 'all 0.2s ease-in-out',
     },
 
     floatingHelpBtn: {
@@ -769,11 +802,11 @@ const styles = {
     button: {
         backgroundColor: '#ff0077',
         color: '#fff',
-        padding: '12px 16px',
+        padding: '12px 10px',
         borderRadius: '6px',
         border: '2px solid #fff',
         boxShadow: '0 0 8px #ff0077',
-        fontSize: '12px',
+        fontSize: '10px',
         fontWeight: 'bold',
         cursor: 'pointer',
         touchAction: 'manipulation',
