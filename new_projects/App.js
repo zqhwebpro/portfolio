@@ -8,8 +8,9 @@ function App() {
     const [highScore, setHighScore] = useState(0);
     const [gameOver, setGameOver] = useState(false);
 
-    // Dynamic scaling state for mobile responsiveness
+    // Dynamic scaling & viewport tracking state
     const [scale, setScale] = useState(1);
+    const [isMobile, setIsMobile] = useState(false);
 
     // Shared input refs to prevent closure stale states inside requestAnimationFrame
     const inputsRef = useRef({
@@ -33,22 +34,28 @@ function App() {
         }
     }, [gameOver]);
 
-    // Handle dynamic responsiveness scaling to fit any screen resolution
+    // Handle dynamic responsiveness scaling to fit any screen resolution perfectly
     useEffect(() => {
         const updateScale = () => {
-            const padding = 32; // Screen margins
-            const targetWidth = 400;
-            const targetHeight = 680; // Total height including HUD, canvas, and controls
+            const mobileCheck = window.innerWidth <= 768;
+            setIsMobile(mobileCheck);
 
-            const windowWidth = window.innerWidth - padding;
-            const windowHeight = window.innerHeight - padding;
+            // Responsive padding allowance
+            const verticalPadding = mobileCheck ? 12 : 64;
+            const horizontalPadding = mobileCheck ? 12 : 32;
 
-            const scaleX = windowWidth / targetWidth;
-            const scaleY = windowHeight / targetHeight;
+            const targetWidth = 432;  // Total unscaled pixel width of arcadeBox
+            const targetHeight = 740; // Total unscaled pixel height of arcadeBox
 
-            // Fit aspect ratio cleanly within viewport limits
-            const newScale = Math.min(scaleX, scaleY, 1.25);
-            setScale(Math.max(newScale, 0.45));
+            const availableWidth = window.innerWidth - horizontalPadding;
+            const availableHeight = window.innerHeight - verticalPadding;
+
+            const scaleX = availableWidth / targetWidth;
+            const scaleY = availableHeight / targetHeight;
+
+            // Constrain scale so the cabinet always fits vertically & horizontally
+            const newScale = Math.min(scaleX, scaleY, 1.1);
+            setScale(Math.max(newScale, 0.40));
         };
 
         updateScale();
@@ -470,13 +477,10 @@ function App() {
             const touchX = (touch.clientX - rect.left) / scale;
 
             if (touchX > 340) {
-                // Tapped inside plunger lane area
                 inputsRef.current.launchTriggered = true;
             } else if (touchX < 200) {
-                // Tapped on left side of playfield
                 inputsRef.current.leftFlipper = true;
             } else {
-                // Tapped on right side of playfield
                 inputsRef.current.rightFlipper = true;
             }
         }
@@ -502,7 +506,10 @@ function App() {
     };
 
     return (
-        <div style={styles.container}>
+        <div style={{
+            ...styles.container,
+            padding: isMobile ? '6px' : '32px 16px'
+        }}>
             <div
                 ref={containerRef}
                 style={{
@@ -573,13 +580,15 @@ const styles = {
         justifyContent: 'center',
         alignItems: 'center',
         width: '100vw',
-        height: '100vh',
+        height: '100dvh', // Replaces min-height to fix canvas box overflow
+        boxSizing: 'border-box',
         backgroundColor: '#0a0512',
         fontFamily: '"Press Start 2P", "Courier New", monospace',
         overflow: 'hidden',
-        touchAction: 'none', // Prevents browser pull-to-refresh & pinch zooming
+        touchAction: 'none',
         userSelect: 'none',
     },
+
     arcadeBox: {
         backgroundColor: '#1b112c',
         border: '8px solid #00f0ff',
@@ -590,6 +599,8 @@ const styles = {
         flexDirection: 'column',
         alignItems: 'center',
         touchAction: 'none',
+        boxSizing: 'border-box',
+        flexShrink: 0, // Prevents flex container from distorting the arcade box aspect ratio
     },
     marquee: {
         fontSize: '14px',
