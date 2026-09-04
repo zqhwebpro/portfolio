@@ -3,20 +3,180 @@
 
 <head>
     <meta charset="UTF-8" />
-    <title>Pinball Game</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="theme-color" content="#121212" />
 
-    <!-- React CDNs -->
-    <script src="https://unpkg.com/react@18/umd/react.production.min.js" crossorigin></script>
-    <script src="https://unpkg.com/react-dom@18/umd/react-dom.production.min.js" crossorigin></script>
-    <script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
+    <!-- Primary SEO Meta Tags -->
+    <title>Interactive React Projects & Web Apps Showcase</title>
+    <meta name="description"
+        content="Explore a collection of interactive React web applications, browser arcade games, and custom JavaScript experiments." />
+    <meta name="keywords"
+        content="React portfolio, web applications, JavaScript games, React Pinball, frontend web developer, interactive web design" />
+    <meta name="robots" content="index, follow" />
+    <link rel="canonical" href="https://zqhwebpro.github.io/portfolio/new_projects/" />
+
+    <!-- Open Graph / Facebook / LinkedIn -->
+    <meta property="og:type" content="website" />
+    <meta property="og:url" content="https://zqhwebpro.github.io/portfolio/new_projects/" />
+    <meta property="og:title" content="Interactive React Projects & Web Apps Showcase" />
+    <meta property="og:description"
+        content="Explore a portfolio of custom interactive React applications, browser arcade games, and frontend development projects." />
+    <meta property="og:image" content="https://zqhwebpro.github.io/portfolio/new_projects/og-preview.jpg" />
+    <meta property="og:site_name" content="Interactive Projects Showcase" />
+
+    <!-- Twitter Cards -->
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta name="twitter:title" content="Interactive React Projects & Web Apps Showcase" />
+    <meta name="twitter:description"
+        content="Explore a portfolio of custom interactive React applications and browser arcade games." />
+    <meta name="twitter:image" content="https://zqhwebpro.github.io/portfolio/new_projects/og-preview.jpg" />
+
+    <!-- Favicons -->
+    <link rel="icon" href="./favicon.ico" />
+
+    <!-- Structured Data (JSON-LD) -->
+    <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@type": "CollectionPage",
+      "name": "Interactive React Projects Showcase",
+      "url": "https://zqhwebpro.github.io/portfolio/new_projects/",
+      "description": "A gallery showcasing interactive web applications, React browser games, and frontend development projects.",
+      "hasPart": [
+        {
+          "@type": "SoftwareApplication",
+          "name": "React Pinball",
+          "url": "https://zqhwebpro.github.io/portfolio/new_projects/pinball/",
+          "applicationCategory": "GameApplication"
+        }
+      ]
+    }
+    </script>
+
+    <style>
+        :root {
+            --amber: #F5A623;
+            --red-orange: #E8442A;
+            --text-light: #e8e8e8;
+            --text-muted: #999;
+            --bg-dark: #121212;
+            --card-bg: #1c1c1c;
+            --border-color: #2a2a2a;
+        }
+
+        body {
+            background: var(--bg-dark);
+            color: var(--text-light);
+            font-family: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+            padding: 2rem;
+            margin: 0;
+            min-height: 100vh;
+        }
+
+        .header-container {
+            max-width: 1200px;
+            margin: 0 auto 2.5rem auto;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            flex-wrap: wrap;
+            gap: 1rem;
+        }
+
+        h1 {
+            margin: 0;
+            font-size: 2rem;
+            color: var(--text-light);
+        }
+
+        .back-link {
+            display: inline-block;
+            padding: 0.5rem 1rem;
+            color: var(--text-muted);
+            text-decoration: none;
+            font-size: 0.9rem;
+            border: 1px solid var(--border-color);
+            border-radius: 6px;
+            transition: all 0.2s ease;
+        }
+
+        .back-link:hover {
+            color: var(--amber);
+            border-color: var(--amber);
+        }
+
+        .gallery {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+            gap: 1.5rem;
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        .card {
+            background: var(--card-bg);
+            border-radius: 12px;
+            padding: 1.5rem;
+            text-decoration: none;
+            color: inherit;
+            border: 1px solid var(--border-color);
+            transition: transform 0.2s ease, border-color 0.2s ease, box-shadow 0.2s ease;
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+        }
+
+        .card:hover {
+            transform: translateY(-4px);
+            border-color: var(--amber);
+            box-shadow: 0 4px 20px rgba(245, 166, 35, 0.15);
+        }
+
+        .card h3 {
+            margin: 0 0 0.5rem 0;
+            color: var(--amber);
+            font-size: 1.25rem;
+            transition: color 0.2s ease;
+        }
+
+        .card:hover h3 {
+            color: var(--red-orange);
+        }
+
+        .card p {
+            margin: 0;
+            color: var(--text-muted);
+            font-size: 0.95rem;
+            line-height: 1.5;
+        }
+    </style>
 </head>
 
 <body>
-    <div id="root"></div>
+    <div class="header-container">
+        <h1>Interactive Projects</h1>
+        <a href="../2026/" class="back-link">← Main Portfolio</a>
+    </div>
 
-    <!-- index.html -->
-    <script type="text/babel" src="./App.js?v=2.2"></script>
-    <script type="text/babel" src="./index.js?v=2.2"></script>
+    <div class="gallery">
+
+        <!-- Pinball Card -->
+        <a href="./pinball/index.html" class="card">
+            <div>
+                <h3>React Pinball</h3>
+                <p>Custom 2D arcade pinball game built with React and browser physics.</p>
+            </div>
+        </a>
+
+        <!-- Template for Next Project 
+        <a href="./future-app/index.html" class="card">
+            <div>
+                <h3>Next Project</h3>
+                <p>Upcoming interactive React app demonstration.</p>
+            </div>
+        </a>-->
+
+    </div>
 </body>
 
 </html>

@@ -499,11 +499,13 @@ function App() {
     };
 
     return (
+
         <div style={{
             ...styles.container,
             padding: isMobile ? '6px' : '32px 16px'
         }}>
             <style>{`
+            body { margin: 0; padding: 0; }
                 @media (max-width: 768px) {
                     .portfolio-btn {
                         display: none !important;
@@ -717,6 +719,10 @@ const styles = {
         backgroundColor: '#ff0055',
     },
 };
+
+
+
+
 
 // Explicitly bind to window scope for browser execution
 window.App = App;

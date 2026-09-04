@@ -33,6 +33,52 @@
       overflow: hidden;
       color: var(--text-light);
       background: #000;
+      margin: 0;
+    }
+
+    .btn-projects {
+      /* Fixed position to scroll with the page */
+      position: fixed;
+      bottom: 2rem;
+      right: 2rem;
+      z-index: 9999;
+
+      /* Layout & Typography */
+      display: inline-flex;
+      align-items: center;
+      gap: 0.5rem;
+      padding: 0.4rem 0.75rem;
+      font-family: inherit;
+      font-size: 0.75rem;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 0.08em;
+      text-decoration: none;
+
+      /* Colors & Borders matching screenshot */
+      background-color: rgba(18, 18, 18, 0.85);
+      backdrop-filter: blur(4px);
+      color: var(--amber);
+      border: 1px solid var(--amber);
+      border-radius: 3px;
+      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.5);
+      transition: all 0.2s ease-in-out;
+    }
+
+    .btn-projects:hover {
+      background-color: var(--amber);
+      color: #121212;
+      border-color: var(--amber);
+      box-shadow: 0 0 12px rgba(245, 166, 35, 0.4);
+      transform: translateY(-2px);
+    }
+
+    .btn-projects:hover::before {
+      color: #121212;
+    }
+
+    .btn-projects:active {
+      transform: translateY(0);
     }
 
     /* ─── VIDEO BACKGROUND ─── */
@@ -1195,6 +1241,8 @@
       opacity: 1;
     }
 
+
+
     /* ─── RESPONSIVE ─── */
     @media (max-width: 900px) {
 
@@ -1381,12 +1429,11 @@
     </div>
     <div class="hero-bottom">
       <div class="hero-status">
-        <span class="hero-status-dot"></span>Available for opportunities
+        <a href="../new_projects/" class="btn-projects">View Interactive Projects</a>
+        <div class="hero-scroll">
+          Scroll ↓
+        </div>
       </div>
-      <div class="hero-scroll">
-        Scroll ↓
-      </div>
-    </div>
   </section><!-- ══════════════════════════════
        SECTION 2: WEB DEVELOPMENT
   ══════════════════════════════ -->

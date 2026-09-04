@@ -1,0 +1,394 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>HTML5 Canvas Pinball</title>
+    <style>
+        body {
+            background-color: #1a1a1a;
+            color: #ffffff;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            min-height: 100vh;
+            margin: 0;
+        }
+
+        .game-container {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            background: #2a2a2a;
+            padding: 20px;
+            border-radius: 12px;
+            box-shadow: 0 8px 24px rgba(0, 0, 0, 0.5);
+        }
+
+        .scoreboard {
+            font-size: 24px;
+            font-weight: bold;
+            margin-bottom: 10px;
+            color: #00e5ff;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+        }
+
+        canvas {
+            background-color: #0d0d1a;
+            border: 4px solid #33334d;
+            border-radius: 8px;
+        }
+
+        .controls-hint {
+            margin-top: 15px;
+            font-size: 14px;
+            color: #aaa;
+            text-align: center;
+        }
+
+        .key {
+            background: #444;
+            color: #fff;
+            padding: 2px 6px;
+            border-radius: 4px;
+            border: 1px solid #666;
+            font-family: monospace;
+        }
+    </style>
+</head>
+
+<body>
+
+    <div class="game-container">
+        <div class="scoreboard">Score: <span id="score">0</span></div>
+        <canvas id="pinball" width="450" height="600"></canvas>
+        <div class="controls-hint">
+            <span class="key">A</span> Left Flipper |
+            <span class="key">D</span> Right Flipper |
+            <span class="key">Space</span> Launch Ball
+        </div>
+    </div>
+
+    <script>
+        const canvas = document.getElementById('pinball');
+        const ctx = canvas.getContext('2d');
+        const scoreEl = document.getElementById('score');
+
+        let score = 0;
+
+        // Inputs
+        const keys = {
+            leftFlipper: false,
+            rightFlipper: false,
+            launch: false
+        };
+
+        // Physics Constants
+        const GRAVITY = 0.15;
+        const FRICTION = 0.995;
+
+        // Ball Object
+        const ball = {
+            x: 425,
+            y: 500,
+            vx: 0,
+            vy: 0,
+            radius: 10,
+            color: '#ffffff',
+            inPlungerLane: true,
+            reset: function () {
+                this.x = 425;
+                this.y = 500;
+                this.vx = 0;
+                this.vy = 0;
+                this.inPlungerLane = true;
+            }
+        };
+
+        // Bumpers (3 total)
+        const bumpers = [
+            { x: 150, y: 180, radius: 25, color: '#ff0055', hitTimer: 0 },
+            { x: 270, y: 180, radius: 25, color: '#ff0055', hitTimer: 0 },
+            { x: 210, y: 270, radius: 25, color: '#ff0055', hitTimer: 0 }
+        ];
+
+        // Flippers Setup
+        class Flipper {
+            constructor(x, y, length, baseAngle, maxAngle, isLeft) {
+                this.x = x;
+                this.y = y;
+                this.length = length;
+                this.baseAngle = baseAngle;
+                this.maxAngle = maxAngle;
+                this.angle = baseAngle;
+                this.isLeft = isLeft;
+                this.angularVelocity = 0;
+            }
+
+            update(active) {
+                const targetAngle = active ? this.maxAngle : this.baseAngle;
+                const speed = 0.25;
+
+                const previousAngle = this.angle;
+                if (this.isLeft) {
+                    if (active && this.angle > this.maxAngle) {
+                        this.angle -= speed;
+                    } else if (!active && this.angle < this.baseAngle) {
+                        this.angle += speed;
+                    }
+                } else {
+                    if (active && this.angle < this.maxAngle) {
+                        this.angle += speed;
+                    } else if (!active && this.angle > this.baseAngle) {
+                        this.angle -= speed;
+                    }
+                }
+                this.angularVelocity = this.angle - previousAngle;
+            }
+
+            draw() {
+                const tipX = this.x + Math.cos(this.angle) * this.length;
+                const tipY = this.y + Math.sin(this.angle) * this.length;
+
+                ctx.beginPath();
+                ctx.strokeStyle = '#00e5ff';
+                ctx.lineWidth = 12;
+                ctx.lineCap = 'round';
+                ctx.moveTo(this.x, this.y);
+                ctx.lineTo(tipX, tipY);
+                ctx.stroke();
+            }
+        }
+
+        const leftFlipper = new Flipper(120, 500, 70, Math.PI / 6, -Math.PI / 6, true);
+        const rightFlipper = new Flipper(280, 500, 70, Math.PI - Math.PI / 6, Math.PI + Math.PI / 6, false);
+
+        // Event Listeners
+        window.addEventListener('keydown', (e) => {
+            if (e.key === 'a' || e.key === 'A') keys.leftFlipper = true;
+            if (e.key === 'd' || e.key === 'D') keys.rightFlipper = true;
+            if (e.code === 'Space') keys.launch = true;
+        });
+
+        window.addEventListener('keyup', (e) => {
+            if (e.key === 'a' || e.key === 'A') keys.leftFlipper = false;
+            if (e.key === 'd' || e.key === 'D') keys.rightFlipper = false;
+            if (e.code === 'Space') keys.launch = false;
+        });
+
+        // Collision Handling
+        function handleWallCollisions() {
+            // Outer Boundaries
+            if (ball.x - ball.radius < 10) {
+                ball.x = 10 + ball.radius;
+                ball.vx *= -0.7;
+            }
+            if (ball.x + ball.radius > 390 && ball.y > 100) { // Main field right boundary
+                if (ball.inPlungerLane) {
+                    if (ball.x + ball.radius > 440) {
+                        ball.x = 440 - ball.radius;
+                        ball.vx *= -0.7;
+                    }
+                } else {
+                    ball.x = 390 - ball.radius;
+                    ball.vx *= -0.7;
+                }
+            }
+
+            // Top Arch Wall
+            if (ball.y - ball.radius < 10) {
+                ball.y = 10 + ball.radius;
+                ball.vy *= -0.7;
+            }
+
+            // Plunger Lane Divider
+            if (ball.x > 390 && ball.x < 400 && ball.y > 100) {
+                if (ball.vx < 0) {
+                    ball.x = 400 + ball.radius;
+                    ball.vx *= -0.7;
+                } else {
+                    ball.x = 390 - ball.radius;
+                    ball.vx *= -0.7;
+                }
+            }
+
+            // Slanted Lower Side Walls leading to flippers
+            if (ball.y > 380 && ball.y < 500) {
+                // Left slant
+                if (ball.x < 120 && (ball.y - 380) * 0.8 > (ball.x - 10)) {
+                    ball.vx += 0.5;
+                    ball.vy += 0.2;
+                }
+                // Right slant
+                if (ball.x > 280 && ball.x < 390 && (ball.y - 380) * 0.8 > (390 - ball.x)) {
+                    ball.vx -= 0.5;
+                    ball.vy += 0.2;
+                }
+            }
+
+            // Drain
+            if (ball.y > 620) {
+                ball.reset();
+            }
+        }
+
+        function handleBumperCollisions() {
+            bumpers.forEach(bumper => {
+                const dx = ball.x - bumper.x;
+                const dy = ball.y - bumper.y;
+                const distance = Math.hypot(dx, dy);
+
+                if (distance < ball.radius + bumper.radius) {
+                    // Calculate bounce angle
+                    const angle = Math.atan2(dy, dx);
+                    const force = 12; // Bumper impulse strength
+
+                    ball.vx = Math.cos(angle) * force;
+                    ball.vy = Math.sin(angle) * force;
+
+                    // Flash effect & score update
+                    bumper.hitTimer = 10;
+                    score += 100;
+                    scoreEl.textContent = score;
+                }
+            });
+        }
+
+        function handleFlipperCollision(flipper) {
+            const tipX = flipper.x + Math.cos(flipper.angle) * flipper.length;
+            const tipY = flipper.y + Math.sin(flipper.angle) * flipper.length;
+
+            // Vector representing line segment of flipper
+            const lineX = tipX - flipper.x;
+            const lineY = tipY - flipper.y;
+            const lineLenSq = lineX * lineX + lineY * lineY;
+
+            // Projection of ball onto flipper segment
+            let t = ((ball.x - flipper.x) * lineX + (ball.y - flipper.y) * lineY) / lineLenSq;
+            t = Math.max(0, Math.min(1, t));
+
+            const nearestX = flipper.x + t * lineX;
+            const nearestY = flipper.y + t * lineY;
+
+            const dx = ball.x - nearestX;
+            const dy = ball.y - nearestY;
+            const distance = Math.hypot(dx, dy);
+
+            if (distance < ball.radius + 6) { // 6 = half line-width of flipper
+                const normalAngle = Math.atan2(dy, dx);
+
+                // Push ball out of flipper collision
+                ball.x = nearestX + Math.cos(normalAngle) * (ball.radius + 6);
+                ball.y = nearestY + Math.sin(normalAngle) * (ball.radius + 6);
+
+                // Calculate bounce + force transfer from flipper stroke
+                const bounceForce = 5;
+                const impulse = flipper.angularVelocity * 25; // Add impulse if swinging
+
+                ball.vx = Math.cos(normalAngle) * (bounceForce + Math.abs(impulse));
+                ball.vy = Math.sin(normalAngle) * (bounceForce + Math.abs(impulse));
+
+                if (flipper.angularVelocity !== 0) {
+                    ball.vy -= Math.abs(impulse); // Send ball upward
+                }
+            }
+        }
+
+        // Game Loop
+        function update() {
+            // Plunger Logic
+            if (ball.inPlungerLane) {
+                if (keys.launch && ball.y >= 500) {
+                    ball.vy = -18; // Impulse force upwards
+                    ball.inPlungerLane = false;
+                }
+            } else {
+                // Apply Physics
+                ball.vy += GRAVITY;
+                ball.vx *= FRICTION;
+                ball.vy *= FRICTION;
+
+                ball.x += ball.vx;
+                ball.y += ball.vy;
+
+                // Check if back in plunger lane
+                if (ball.x > 390 && ball.y > 400) {
+                    ball.inPlungerLane = true;
+                }
+            }
+
+            // Update Flippers
+            leftFlipper.update(keys.leftFlipper);
+            rightFlipper.update(keys.rightFlipper);
+
+            // Collisions
+            handleWallCollisions();
+            handleBumperCollisions();
+            handleFlipperCollision(leftFlipper);
+            handleFlipperCollision(rightFlipper);
+        }
+
+        function draw() {
+            // Clear Screen
+            ctx.clearRect(0, 0, canvas.width, canvas.height);
+
+            // Draw Board Boundaries & Plunger Lane
+            ctx.strokeStyle = '#fff';
+            ctx.lineWidth = 3;
+            ctx.beginPath();
+            ctx.moveTo(390, 600);
+            ctx.lineTo(390, 100);
+            ctx.stroke();
+
+            // Draw Bumpers
+            bumpers.forEach(bumper => {
+                ctx.beginPath();
+                ctx.arc(bumper.x, bumper.y, bumper.radius, 0, Math.PI * 2);
+
+                if (bumper.hitTimer > 0) {
+                    ctx.fillStyle = '#ffffff';
+                    bumper.hitTimer--;
+                } else {
+                    ctx.fillStyle = bumper.color;
+                }
+
+                ctx.fill();
+                ctx.strokeStyle = '#ff99bb';
+                ctx.lineWidth = 4;
+                ctx.stroke();
+            });
+
+            // Draw Flippers
+            leftFlipper.draw();
+            rightFlipper.draw();
+
+            // Draw Ball
+            ctx.beginPath();
+            ctx.arc(ball.x, ball.y, ball.radius, 0, Math.PI * 2);
+            ctx.fillStyle = ball.color;
+            ctx.fill();
+            ctx.closePath();
+
+            // Draw Plunger / Spring Visual
+            if (ball.inPlungerLane) {
+                ctx.fillStyle = keys.launch ? '#ff3300' : '#00e5ff';
+                ctx.fillRect(410, 520, 30, 60);
+            }
+        }
+
+        function loop() {
+            update();
+            draw();
+            requestAnimationFrame(loop);
+        }
+
+        loop();
+    </script>
+
+</body>
+
+</html>
