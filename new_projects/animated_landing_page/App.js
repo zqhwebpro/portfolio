@@ -31,19 +31,19 @@ const WHY_REASONS = [
     }
 ];
 
-/* HERO FLYING STARS LAYER */
+/* SPARKLING HERO STARS LAYER */
 function HeroFlyingStars() {
     const stars = React.useMemo(() => {
-        return Array.from({ length: 85 }, (_, i) => ({
+        return Array.from({ length: 95 }, (_, i) => ({
             id: i,
             top: `${Math.random() * 100}%`,
             left: `${Math.random() * 100}%`,
-            size: `${Math.random() * 0.9 + 0.3}px`,
-            duration: `${Math.random() * 5 + 3}s`,
-            delay: `${Math.random() * 3}s`,
-            opacity: Math.random() * 0.3 + 0.6,
-            tx: `${(Math.random() - 0.5) * 60}px`,
-            ty: `${(Math.random() - 0.5) * 60}px`
+            size: `${Math.random() * 2 + 1}px`,
+            duration: `${Math.random() * 3 + 2}s`,
+            delay: `${Math.random() * 2}s`,
+            opacity: Math.random() * 0.4 + 0.6,
+            tx: `${(Math.random() - 0.5) * 40}px`,
+            ty: `${(Math.random() - 0.5) * 40}px`
         }));
     }, []);
 
@@ -52,15 +52,13 @@ function HeroFlyingStars() {
             {stars.map((s) => (
                 <div
                     key={s.id}
-                    className="hero-flying-star"
+                    className="hero-sparkle-star"
                     style={{
                         top: s.top,
                         left: s.left,
                         width: s.size,
                         height: s.size,
                         opacity: s.opacity,
-                        backgroundColor: '#ffffff',
-                        boxShadow: `0 0 4px #ffffff, 0 0 8px rgba(255, 255, 255, 0.9)`,
                         animationDuration: s.duration,
                         animationDelay: s.delay,
                         '--tx': s.tx,
@@ -105,17 +103,17 @@ function App() {
             const docH = document.documentElement.scrollHeight;
             const totalHeight = docH - winH;
 
-            const footerStart = totalHeight - 1300;
+            const footerStart = totalHeight - 1100;
             let progress = 0;
             if (current > footerStart) {
-                progress = Math.min(Math.max((current - footerStart) / 1100, 0), 1);
+                progress = Math.min(Math.max((current - footerStart) / 900, 0), 1);
             }
             setSolarProgress(progress);
 
-            if (progress > 0.65) {
+            if (progress > 0.55) {
                 document.body.classList.add('solar-lit-active');
                 document.body.classList.remove('solar-lit-preglow');
-            } else if (progress > 0.2) {
+            } else if (progress > 0.15) {
                 document.body.classList.add('solar-lit-preglow');
                 document.body.classList.remove('solar-lit-active');
             } else {
@@ -140,7 +138,7 @@ function App() {
         };
     }, []);
 
-    /* CANVAS PARALLAX */
+    /* CANVAS DYNAMIC SPARKLING PARALLAX */
     React.useEffect(() => {
         const canvas = canvasRef.current;
         if (!canvas) return;
@@ -154,28 +152,28 @@ function App() {
         resizeCanvas();
         window.addEventListener('resize', resizeCanvas);
 
-        const starsFar = Array.from({ length: 220 }, () => ({
+        const starsFar = Array.from({ length: 240 }, () => ({
             x: Math.random() * window.innerWidth,
             y: Math.random() * window.innerHeight * 3,
-            size: Math.random() * 0.4 + 0.2,
-            alpha: Math.random() * 0.35 + 0.55,
-            speed: Math.random() * 0.004 + 0.002
+            size: Math.random() * 0.6 + 0.3,
+            alpha: Math.random() * 0.4 + 0.5,
+            speed: Math.random() * 0.008 + 0.003
         }));
 
-        const starsMid = Array.from({ length: 160 }, () => ({
+        const starsMid = Array.from({ length: 170 }, () => ({
             x: Math.random() * window.innerWidth,
             y: Math.random() * window.innerHeight * 3,
-            size: Math.random() * 0.6 + 0.4,
-            alpha: Math.random() * 0.35 + 0.65,
-            speed: Math.random() * 0.006 + 0.003
+            size: Math.random() * 1.0 + 0.5,
+            alpha: Math.random() * 0.5 + 0.5,
+            speed: Math.random() * 0.012 + 0.005
         }));
 
-        const starsNear = Array.from({ length: 120 }, () => ({
+        const starsNear = Array.from({ length: 130 }, () => ({
             x: Math.random() * window.innerWidth,
             y: Math.random() * window.innerHeight * 3,
-            size: Math.random() * 0.9 + 0.5,
-            alpha: Math.random() * 0.25 + 0.75,
-            speed: Math.random() * 0.009 + 0.004
+            size: Math.random() * 1.6 + 0.8,
+            alpha: Math.random() * 0.4 + 0.6,
+            speed: Math.random() * 0.018 + 0.008
         }));
 
         const renderGalaxy = () => {
@@ -188,7 +186,7 @@ function App() {
             ctx.translate(mx * 0.04, my * 0.04 - sy * 0.15);
             starsFar.forEach((star) => {
                 star.alpha += star.speed;
-                if (star.alpha > 0.95 || star.alpha < 0.5) star.speed = -star.speed;
+                if (star.alpha > 0.95 || star.alpha < 0.4) star.speed = -star.speed;
                 ctx.fillStyle = '#ffffff';
                 ctx.globalAlpha = star.alpha;
                 ctx.beginPath();
@@ -201,11 +199,11 @@ function App() {
             ctx.translate(mx * 0.2, my * 0.2 - sy * 0.45);
             starsMid.forEach((star) => {
                 star.alpha += star.speed;
-                if (star.alpha > 0.98 || star.alpha < 0.6) star.speed = -star.speed;
-                ctx.fillStyle = '#ffffff';
+                if (star.alpha > 0.98 || star.alpha < 0.5) star.speed = -star.speed;
+                ctx.fillStyle = '#00f0ff';
                 ctx.globalAlpha = star.alpha;
-                ctx.shadowColor = '#ffffff';
-                ctx.shadowBlur = 3;
+                ctx.shadowColor = '#00f0ff';
+                ctx.shadowBlur = 6;
                 ctx.beginPath();
                 ctx.arc(star.x, star.y, star.size, 0, Math.PI * 2);
                 ctx.fill();
@@ -216,11 +214,11 @@ function App() {
             ctx.translate(mx * 0.55, my * 0.55 - sy * 0.9);
             starsNear.forEach((star) => {
                 star.alpha += star.speed;
-                if (star.alpha > 1.0 || star.alpha < 0.7) star.speed = -star.speed;
+                if (star.alpha > 1.0 || star.alpha < 0.6) star.speed = -star.speed;
                 ctx.fillStyle = '#ffffff';
                 ctx.globalAlpha = star.alpha;
                 ctx.shadowColor = '#ffffff';
-                ctx.shadowBlur = 6;
+                ctx.shadowBlur = 12;
                 ctx.beginPath();
                 ctx.arc(star.x, star.y, star.size, 0, Math.PI * 2);
                 ctx.fill();
@@ -249,7 +247,7 @@ function App() {
                     }
                 });
             },
-            { threshold: 0.15 }
+            { threshold: 0.12 }
         );
 
         const revealElements = document.querySelectorAll('.scroll-reveal');
@@ -294,7 +292,7 @@ function App() {
                     <div
                         className="glass-card-3d hero-glass-portal"
                         style={{
-                            transform: `rotateY(${mouse.x * 0.22}deg) rotateX(${-mouse.y * 0.22}deg) translate3d(0, ${smoothScroll * -0.18}px, 0)`
+                            transform: `rotateY(${mouse.x * 0.18}deg) rotateX(${-mouse.y * 0.18}deg)`
                         }}
                     >
                         <span className="section-tag">DIGITAL CRAFTSMANSHIP</span>
@@ -314,10 +312,7 @@ function App() {
             {/* ABOUT */}
             <section className="section-container">
                 <div className="glass-card-3d about-3d-container scroll-reveal">
-                    <div
-                        className="about-text-content reveal-content"
-                        style={{ transform: `translate3d(0, ${(smoothScroll - 400) * -0.08}px, 0)` }}
-                    >
+                    <div className="about-text-content reveal-content">
                         <span className="section-tag">ABOUT ME</span>
                         <h2 className="section-title">Who I Am</h2>
                         <p>
@@ -327,10 +322,7 @@ function App() {
                             Unlike traditional agencies that pass you between account managers, I partner directly with small business owners to engineer bespoke web systems that look extraordinary and generate real revenue[cite: 1].
                         </p>
                     </div>
-                    <div
-                        className="glass-card-3d experience-badge-3d reveal-content"
-                        style={{ transform: `translate3d(0, ${(smoothScroll - 400) * -0.12}px, 0)` }}
-                    >
+                    <div className="glass-card-3d experience-badge-3d reveal-content">
                         <div className="exp-number">10+</div>
                         <div style={{ marginTop: '0.5rem' }}>
                             Years of Hands-On Digital Experience[cite: 1]
@@ -341,22 +333,16 @@ function App() {
 
             {/* SERVICES */}
             <section className="section-container">
-                <div className="scroll-reveal">
+                <div className="scroll-reveal" style={{ marginBottom: '2.5rem' }}>
                     <div className="reveal-content">
                         <span className="section-tag">SERVICES</span>
                         <h2 className="section-title">What I Do For Small Businesses</h2>
                     </div>
                 </div>
 
-                <div className="services-staggered-grid">
+                <div className="unified-grid">
                     {SERVICES.map((s, idx) => (
-                        <div
-                            key={idx}
-                            className={`glass-card-3d service-box-3d staggered-box-${idx + 1} scroll-reveal`}
-                            style={{
-                                transform: `rotateY(${mouse.x * 0.12}deg) rotateX(${-mouse.y * 0.12}deg) translate3d(0, ${(smoothScroll - 1200) * (-0.05 * (idx + 1))}px, 0)`
-                            }}
-                        >
+                        <div key={idx} className="glass-card-3d service-box-3d scroll-reveal">
                             <div className="box-icon-3d reveal-content">{s.num}</div>
                             <h3 className="box-title reveal-content">{s.title}</h3>
                             <p className="box-copy reveal-content">{s.body}</p>
@@ -367,7 +353,7 @@ function App() {
 
             {/* LOCATION */}
             <section className="section-container">
-                <div className="scroll-reveal">
+                <div className="scroll-reveal" style={{ marginBottom: '2.5rem' }}>
                     <div className="reveal-content">
                         <span className="section-tag">LOCATION &amp; ADVANTAGE</span>
                         <h2 className="section-title">Based in York, PA — Serving Growth Worldwide</h2>
@@ -377,16 +363,10 @@ function App() {
                     </div>
                 </div>
 
-                <div className="why-staggered-grid">
+                <div className="unified-grid">
                     {WHY_REASONS.map((item, idx) => (
-                        <div
-                            key={idx}
-                            className={`glass-card-3d why-card staggered-why-${idx + 1} scroll-reveal`}
-                            style={{
-                                transform: `translate3d(0, ${Math.max(0, (smoothScroll - 2200) * (-0.03 * (idx + 1)))}px, 0)`
-                            }}
-                        >
-                            <h3 className="reveal-content" style={{ fontFamily: 'var(--font-3d)', fontSize: '1.4rem', marginBottom: '0.8rem', color: 'var(--neon-cyan)' }}>
+                        <div key={idx} className="glass-card-3d why-card scroll-reveal">
+                            <h3 className="reveal-content" style={{ fontFamily: 'var(--font-3d)', fontSize: '1.35rem', marginBottom: '0.8rem', color: 'var(--neon-cyan)' }}>
                                 {item.title}
                             </h3>
                             <p className="reveal-content" style={{ color: 'var(--text-sub)' }}>{item.body}</p>
@@ -424,7 +404,7 @@ function App() {
                     <div
                         className="giant-glowing-sun"
                         style={{
-                            transform: `translate3d(-50%, ${(1 - solarProgress) * 120}px, 0) scale(${0.8 + solarProgress * 0.45})`
+                            transform: `translate3d(-50%, ${(1 - solarProgress) * 100}px, 0) scale(${0.85 + solarProgress * 0.4})`
                         }}
                     ></div>
                 </div>
