@@ -72,55 +72,14 @@ function HeroFlyingStars() {
     );
 }
 
-/* STAR TUNNEL HYPERSPACE EFFECT */
-function StarTunnelDivider({ innerRef, progress = 0 }) {
-    const rays = React.useMemo(() => {
-        return Array.from({ length: 32 }, (_, i) => {
-            const angle = (i / 32) * 360;
-            const length = 120 + Math.random() * 180;
-            return { id: i, angle, length };
-        });
-    }, []);
-
-    return (
-        <div className="star-tunnel-container" ref={innerRef} aria-hidden="true">
-            <div
-                className="star-tunnel-stage"
-                style={{
-                    opacity: Math.sin(progress * Math.PI), // Smooth fade in and out during scroll passage
-                    transform: `scale(${0.6 + progress * 1.8})` // Zooms towards user on scroll
-                }}
-            >
-                {/* CORE WARP GLOW */}
-                <div className="tunnel-core-glow" />
-
-                {/* RADIAL STREAKS */}
-                {rays.map((r) => (
-                    <div
-                        key={r.id}
-                        className="tunnel-streak"
-                        style={{
-                            transform: `rotate(${r.angle}deg) translateY(-${r.length / 2}px)`,
-                            height: `${r.length}px`,
-                            opacity: 0.3 + progress * 0.7
-                        }}
-                    />
-                ))}
-            </div>
-        </div>
-    );
-}
-
 function App() {
     const [mouse, setMouse] = React.useState({ x: 0, y: 0 });
     const [submitted, setSubmitted] = React.useState(false);
 
     const [smoothScroll, setSmoothScroll] = React.useState(0);
     const [solarProgress, setSolarProgress] = React.useState(0);
-    const [tunnelProgress, setTunnelProgress] = React.useState(0);
 
     const canvasRef = React.useRef(null);
-    const tunnelRef = React.useRef(null);
     const mouseRef = React.useRef({ x: 0, y: 0 });
 
     const targetScrollRef = React.useRef(0);
@@ -161,16 +120,6 @@ function App() {
                 document.body.classList.remove('solar-lit-active');
             } else {
                 document.body.classList.remove('solar-lit-preglow', 'solar-lit-active');
-            }
-
-            if (tunnelRef.current) {
-                const rect = tunnelRef.current.getBoundingClientRect();
-                const startPoint = winH * 1.1;
-                const endPoint = -winH * 0.8;
-                const distanceScrolled = startPoint - rect.top;
-                const totalRange = startPoint - endPoint;
-                const p = Math.min(Math.max(distanceScrolled / totalRange, 0), 1);
-                setTunnelProgress(p);
             }
 
             animationFrameId = requestAnimationFrame(updatePhysics);
@@ -401,22 +350,17 @@ function App() {
 
                 <div className="services-staggered-grid">
                     {SERVICES.map((s, idx) => (
-                        <React.Fragment key={idx}>
-                            <div
-                                className={`glass-card-3d service-box-3d staggered-box-${idx + 1} scroll-reveal`}
-                                style={{
-                                    transform: `rotateY(${mouse.x * 0.12}deg) rotateX(${-mouse.y * 0.12}deg) translate3d(0, ${(smoothScroll - 1200) * (-0.05 * (idx + 1))}px, 0)`
-                                }}
-                            >
-                                <div className="box-icon-3d reveal-content">{s.num}</div>
-                                <h3 className="box-title reveal-content">{s.title}</h3>
-                                <p className="box-copy reveal-content">{s.body}</p>
-                            </div>
-
-                            {s.num === "03" && (
-                                <StarTunnelDivider innerRef={tunnelRef} progress={tunnelProgress} />
-                            )}
-                        </React.Fragment>
+                        <div
+                            key={idx}
+                            className={`glass-card-3d service-box-3d staggered-box-${idx + 1} scroll-reveal`}
+                            style={{
+                                transform: `rotateY(${mouse.x * 0.12}deg) rotateX(${-mouse.y * 0.12}deg) translate3d(0, ${(smoothScroll - 1200) * (-0.05 * (idx + 1))}px, 0)`
+                            }}
+                        >
+                            <div className="box-icon-3d reveal-content">{s.num}</div>
+                            <h3 className="box-title reveal-content">{s.title}</h3>
+                            <p className="box-copy reveal-content">{s.body}</p>
+                        </div>
                     ))}
                 </div>
             </section>

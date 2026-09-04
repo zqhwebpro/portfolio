@@ -175,8 +175,9 @@ body.solar-lit-active p {
     overflow-x: hidden !important;
 }
 
+/* TIGHTENED SECTION MARGINS & PADDING */
 .section-container {
-    padding: 16rem 3rem;
+    padding: 6rem 3rem;
     max-width: 1280px;
     margin: 0 auto;
 }
@@ -211,12 +212,12 @@ body.solar-lit-active p {
 
 /* HERO SECTION */
 .hero-3d-wrapper {
-    min-height: 95vh;
+    min-height: 85vh;
     display: flex;
     align-items: center;
     justify-content: center;
     position: relative;
-    padding: 14rem 3rem 16rem;
+    padding: 8rem 3rem 6rem;
     width: 100vw;
     left: 50%;
     right: 50%;
@@ -373,12 +374,12 @@ body.solar-lit-active p {
     margin-bottom: 2.8rem;
 }
 
-/* SERVICES STAGGERED GRID */
+/* TIGHTENED SERVICES STAGGERED GRID */
 .services-staggered-grid {
     display: flex;
     flex-direction: column;
-    gap: 8rem;
-    margin-top: 8rem;
+    gap: 3.5rem;
+    margin-top: 3.5rem;
     position: relative;
 }
 
@@ -455,12 +456,12 @@ body.solar-lit-active p {
     font-size: 4.5rem;
 }
 
-/* LOCATION STAGGERED GRID */
+/* TIGHTENED LOCATION STAGGERED GRID */
 .why-staggered-grid {
     display: flex;
     flex-direction: column;
-    gap: 8rem;
-    margin-top: 12rem;
+    gap: 3.5rem;
+    margin-top: 3.5rem;
 }
 
 .why-card {
@@ -480,53 +481,10 @@ body.solar-lit-active p {
     align-self: flex-end;
 }
 
-/* =========================================================
-   STAR TUNNEL HYPERSPACE EFFECT
-   ========================================================= */
-.star-tunnel-container {
-    position: relative;
-    width: 100%;
-    height: 450px;
-    margin: -4rem 0;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    pointer-events: none;
-    z-index: 5;
-}
-
-.star-tunnel-stage {
-    position: relative;
-    width: 400px;
-    height: 400px;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    will-change: transform, opacity;
-    transition: transform 0.1s linear, opacity 0.2s ease;
-}
-
-.tunnel-core-glow {
-    position: absolute;
-    width: 120px;
-    height: 120px;
-    border-radius: 50%;
-    background: radial-gradient(circle, #ffffff 0%, #ffea00 35%, #ff5500 70%, transparent 100%);
-    box-shadow: 0 0 60px rgba(255, 170, 0, 0.8);
-}
-
-.tunnel-streak {
-    position: absolute;
-    width: 2px;
-    background: linear-gradient(to bottom, #ffffff, #ffea00 40%, rgba(255, 85, 0, 0));
-    border-radius: 2px;
-    transform-origin: bottom center;
-}
-
 /* FOOTER & DYNAMIC GLOWING SUN HORIZON */
 .footer-contact-3d {
     position: relative;
-    padding: 16rem 3rem 18rem;
+    padding: 10rem 3rem 12rem;
     overflow: hidden !important;
 }
 
