@@ -5,14 +5,14 @@ const ENGAGEMENT_DATA_SET = [
         suffix: "%",
         decimals: 0,
         label: "Session Duration",
-        body: "Interactive scroll triggers and smooth motion loops hold active user attention significantly longer, increasing time spent on key conversion pages."
+        body: "Interactive scroll triggers and smooth motion loops hold active user attention significantly longer, increasing overall time spent across high-priority landing pages."
     },
     {
-        numeratorTarget: 3,
-        denominator: 4,
-        isFraction: true,
-        label: "User Preference",
-        body: "Three out of four web users pay direct visual attention to dynamic UI elements over static layouts, improving overall reading comprehension and CTA visibility."
+        target: 245,
+        suffix: "%",
+        decimals: 0,
+        label: "Attention Duration",
+        body: "Eye-tracking studies demonstrate that dynamic motion design holds visual attention up to 2.5 times longer than static layouts, generating significantly higher fixation counts and boosting initial feature discovery."
     },
     {
         target: 2.5,
@@ -40,7 +40,6 @@ function CountUpStat({ item }) {
                     const animate = (currentTime) => {
                         const elapsed = currentTime - startTime;
                         const progress = Math.min(elapsed / duration, 1);
-                        // Ease-out quad formula for smooth decelerating animation
                         const easeProgress = 1 - Math.pow(1 - progress, 2);
 
                         if (item.isFraction) {
@@ -85,8 +84,9 @@ function HeroFlyingStars() {
             id: i,
             top: `${Math.random() * 100}%`,
             left: `${Math.random() * 100}%`,
-            size: `${Math.random() * 1.5 + 0.5}px`,
-            duration: `${Math.random() * 6 + 6}s`
+            size: `${Math.random() * 2 + 1}px`,
+            duration: `${(Math.random() * 3 + 2).toFixed(2)}s`,
+            delay: `${(Math.random() * 4).toFixed(2)}s`
         }));
     }, []);
 
@@ -101,7 +101,8 @@ function HeroFlyingStars() {
                         left: s.left,
                         width: s.size,
                         height: s.size,
-                        animationDuration: s.duration
+                        animationDuration: s.duration,
+                        animationDelay: s.delay
                     }}
                 />
             ))}
@@ -151,7 +152,7 @@ function App() {
             const overallProgress = Math.min(Math.max(current / maxScroll, 0), 1);
             setSolarJourneyProgress(overallProgress);
 
-            if (overallProgress > 0.65) {
+            if (overallProgress > 0.82) {
                 document.body.classList.add('solar-lit-active');
             } else {
                 document.body.classList.remove('solar-lit-active');
@@ -184,7 +185,10 @@ function App() {
 
         const resizeCanvas = () => {
             canvas.width = window.innerWidth;
-            canvas.height = window.innerHeight;
+            canvas.height = Math.max(
+                document.documentElement.scrollHeight,
+                window.innerHeight
+            );
         };
         resizeCanvas();
         window.addEventListener('resize', resizeCanvas);
@@ -194,59 +198,44 @@ function App() {
                 x: Math.random() * window.innerWidth,
                 y: Math.random() * window.innerHeight * 4,
                 size: Math.random() * (maxSize - minSize) + minSize,
-                twinkleSpeed: Math.random() * 0.008 + 0.003,
+                twinkleSpeed: Math.random() * 0.08 + 0.02,
                 phase: Math.random() * Math.PI * 2
             }));
         };
 
-        const starsDeep = createStarLayer(300, 0.3, 0.8);
-        const starsMid = createStarLayer(200, 0.8, 1.4);
-        const starsNear = createStarLayer(100, 1.4, 2.2);
+        const starsDeep = createStarLayer(300, 0.4, 1.0);
+        const starsMid = createStarLayer(200, 1.0, 1.8);
+        const starsNear = createStarLayer(100, 1.8, 2.8);
 
         let time = 0;
 
         const renderGalaxy = () => {
-            time += 0.05;
+            time += 0.8;
             ctx.clearRect(0, 0, canvas.width, canvas.height);
             const mx = mouseRef.current.x;
             const my = mouseRef.current.y;
             const sy = currentScrollRef.current;
 
-            ctx.save();
-            ctx.translate(mx * 0.03, my * 0.03 - sy * 0.15);
-            starsDeep.forEach((star) => {
-                const alpha = Math.max(0, (Math.sin(time * star.twinkleSpeed + star.phase) + 1) / 2);
-                ctx.fillStyle = '#ffffff';
-                ctx.globalAlpha = alpha * 0.7;
-                ctx.beginPath();
-                ctx.arc(star.x, star.y, star.size, 0, Math.PI * 2);
-                ctx.fill();
-            });
-            ctx.restore();
+            const isLightActive = document.body.classList.contains('solar-lit-active');
+            const starFillColor = isLightActive ? '#3c2a1e' : '#ffffff';
 
-            ctx.save();
-            ctx.translate(mx * 0.1, my * 0.1 - sy * 0.4);
-            starsMid.forEach((star) => {
-                const alpha = Math.max(0, (Math.sin(time * star.twinkleSpeed + star.phase) + 1) / 2);
-                ctx.fillStyle = '#ffffff';
-                ctx.globalAlpha = alpha * 0.85;
-                ctx.beginPath();
-                ctx.arc(star.x, star.y, star.size, 0, Math.PI * 2);
-                ctx.fill();
-            });
-            ctx.restore();
+            const drawLayer = (stars, mxMult, myMult, syMult, alphaMult) => {
+                ctx.save();
+                ctx.translate(mx * mxMult, my * myMult - sy * syMult);
+                stars.forEach((star) => {
+                    const alpha = Math.max(0, (Math.sin(time * star.twinkleSpeed + star.phase) + 1) / 2);
+                    ctx.fillStyle = starFillColor;
+                    ctx.globalAlpha = alpha * alphaMult;
+                    ctx.beginPath();
+                    ctx.arc(star.x, star.y, star.size, 0, Math.PI * 2);
+                    ctx.fill();
+                });
+                ctx.restore();
+            };
 
-            ctx.save();
-            ctx.translate(mx * 0.22, my * 0.22 - sy * 0.75);
-            starsNear.forEach((star) => {
-                const alpha = Math.max(0, (Math.sin(time * star.twinkleSpeed + star.phase) + 1) / 2);
-                ctx.fillStyle = '#ffffff';
-                ctx.globalAlpha = alpha;
-                ctx.beginPath();
-                ctx.arc(star.x, star.y, star.size, 0, Math.PI * 2);
-                ctx.fill();
-            });
-            ctx.restore();
+            drawLayer(starsDeep, 0.03, 0.03, 0.15, isLightActive ? 0.35 : 0.7);
+            drawLayer(starsMid, 0.1, 0.1, 0.4, isLightActive ? 0.45 : 0.85);
+            drawLayer(starsNear, 0.22, 0.22, 0.75, isLightActive ? 0.6 : 1.0);
 
             animationFrameId = requestAnimationFrame(renderGalaxy);
         };
@@ -311,7 +300,7 @@ function App() {
 
             <div
                 className="solar-descent-glow"
-                style={{ opacity: Math.pow(solarJourneyProgress, 2) }}
+                style={{ opacity: Math.pow(solarJourneyProgress, 3.2) }}
                 aria-hidden="true"
             />
 
@@ -376,10 +365,8 @@ function App() {
 
             {/* MAIN CONTENT SECTION */}
             <main>
-                {/* SECTION 2: GRAPHIC ARTWORK (330x500 LIGHTBULB AT TOP, EXPANDED DOTTED MANHATTAN PATH, SMALLER MONITOR AT BOTTOM) */}
                 <section id="article" className="section-container">
                     <article className="glass-card-3d about-3d-container scroll-reveal">
-
                         <div className="graphic-art-container reveal-content">
                             <svg
                                 viewBox="0 0 330 500"
@@ -387,29 +374,26 @@ function App() {
                                 fill="none"
                                 xmlns="http://www.w3.org/2000/svg"
                             >
-                                {/* UNBOXED LIGHTBULB ICON (TOP) */}
                                 <g transform="translate(135, 15)">
                                     <path
                                         d="M30 10 C16 10 10 21 10 31 C10 40 20 45 20 53 L40 53 C40 45 50 40 50 31 C50 21 44 10 30 10 Z"
-                                        stroke="#00f0ff"
+                                        stroke="var(--svg-accent, #00f0ff)"
                                         strokeWidth="2.5"
                                         fill="rgba(0, 240, 255, 0.1)"
                                     />
-                                    <path d="M24 31 L28 23 L32 23 L36 31" stroke="#00f0ff" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round" fill="none" />
-                                    <line x1="21" y1="57" x2="39" y2="57" stroke="#00f0ff" strokeWidth="2.5" strokeLinecap="round" />
-                                    <line x1="23" y1="62" x2="37" y2="62" stroke="#00f0ff" strokeWidth="2.5" strokeLinecap="round" />
-                                    <path d="M26 66 C26 69 34 69 34 66 Z" fill="#00f0ff" />
+                                    <path d="M24 31 L28 23 L32 23 L36 31" stroke="var(--svg-accent, #00f0ff)" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round" fill="none" />
+                                    <line x1="21" y1="57" x2="39" y2="57" stroke="var(--svg-accent, #00f0ff)" strokeWidth="2.5" strokeLinecap="round" />
+                                    <line x1="23" y1="62" x2="37" y2="62" stroke="var(--svg-accent, #00f0ff)" strokeWidth="2.5" strokeLinecap="round" />
+                                    <path d="M26 66 C26 69 34 69 34 66 Z" fill="var(--svg-accent, #00f0ff)" />
 
-                                    {/* GLOW RAYS */}
-                                    <line x1="30" y1="2" x2="30" y2="-3" stroke="#00f0ff" strokeWidth="2" strokeLinecap="round" />
-                                    <line x1="5" y1="17" x2="0" y2="13" stroke="#00f0ff" strokeWidth="2" strokeLinecap="round" />
-                                    <line x1="55" y1="17" x2="60" y2="13" stroke="#00f0ff" strokeWidth="2" strokeLinecap="round" />
+                                    <line x1="30" y1="2" x2="30" y2="-3" stroke="var(--svg-accent, #00f0ff)" strokeWidth="2" strokeLinecap="round" />
+                                    <line x1="5" y1="17" x2="0" y2="13" stroke="var(--svg-accent, #00f0ff)" strokeWidth="2" strokeLinecap="round" />
+                                    <line x1="55" y1="17" x2="60" y2="13" stroke="var(--svg-accent, #00f0ff)" strokeWidth="2" strokeLinecap="round" />
                                 </g>
 
-                                {/* EXPANDED LEFT-RIGHT / UP-DOWN DOTTED CONNECTING PATH */}
                                 <path
                                     d="M 165 85 L 165 125 L 50 125 L 50 210 L 280 210 L 280 305 L 80 305 L 80 380 L 165 380 L 165 415"
-                                    stroke="#00f0ff"
+                                    stroke="var(--svg-accent, #00f0ff)"
                                     strokeWidth="4"
                                     strokeLinecap="round"
                                     strokeLinejoin="round"
@@ -417,12 +401,11 @@ function App() {
                                     className="dotted-line-path"
                                 />
 
-                                {/* SMALLER DESKTOP MONITOR (BOTTOM) */}
                                 <g transform="translate(133, 418) scale(0.82)">
-                                    <rect x="0" y="0" width="76" height="48" rx="6" stroke="#00f0ff" strokeWidth="2.5" fill="rgba(0, 240, 255, 0.08)" />
-                                    <line x1="8" y1="38" x2="68" y2="38" stroke="#00f0ff" strokeWidth="1.5" />
-                                    <path d="M30 48 L46 48 L50 60 L26 60 Z" stroke="#00f0ff" strokeWidth="2" fill="rgba(0, 240, 255, 0.12)" />
-                                    <line x1="18" y1="60" x2="58" y2="60" stroke="#00f0ff" strokeWidth="2.5" strokeLinecap="round" />
+                                    <rect x="0" y="0" width="76" height="48" rx="6" stroke="var(--svg-accent, #00f0ff)" strokeWidth="2.5" fill="rgba(0, 240, 255, 0.08)" />
+                                    <line x1="8" y1="38" x2="68" y2="38" stroke="var(--svg-accent, #00f0ff)" strokeWidth="1.5" />
+                                    <path d="M30 48 L46 48 L50 60 L26 60 Z" stroke="var(--svg-accent, #00f0ff)" strokeWidth="2" fill="rgba(0, 240, 255, 0.12)" />
+                                    <line x1="18" y1="60" x2="58" y2="60" stroke="var(--svg-accent, #00f0ff)" strokeWidth="2.5" strokeLinecap="round" />
                                 </g>
                             </svg>
                         </div>
@@ -436,11 +419,10 @@ function App() {
                                 Building these experiences requires balancing high-impact visual design with clean, high-performance code. Every scroll interaction on this page is engineered to remain smooth, accessible, and conversion-focused across device types.
                             </p>
                         </div>
-
                     </article>
                 </section>
 
-                {/* SECTION 3 & 4: DATA SETS WITH LEFT-ALIGNED BADGES & BALANCED HEIGHTS */}
+                {/* SECTION 3: DATA SETS WITH ANIMATED COUNTERS */}
                 <section className="section-container" aria-label="Page Engagement Data">
                     <div className="scroll-reveal" style={{ marginBottom: '4.5rem' }}>
                         <div className="reveal-content">
@@ -462,7 +444,7 @@ function App() {
                                     </span>
                                 </div>
 
-                                <p className="box-copy reveal-content" style={{ marginTop: '1.5rem' }}>
+                                <p className="box-copy reveal-content" style={{ marginTop: '1.25rem' }}>
                                     {post.body}
                                 </p>
                             </article>
@@ -471,7 +453,7 @@ function App() {
                 </section>
             </main>
 
-            {/* FOOTER & SUN ZOOM ANIMATION */}
+            {/* FOOTER & RE-CALIBRATED SUN ZOOM ANIMATION */}
             <footer id="contact" className="footer-contact-3d">
                 <div className="glass-card-3d contact-card-3d scroll-reveal">
                     <span className="section-tag reveal-content">Networking For Reach</span>
@@ -526,7 +508,7 @@ function App() {
                     <div
                         className="giant-glowing-sun"
                         style={{
-                            transform: `translate3d(-50%, ${(1 - solarJourneyProgress) * 500}px, 0) scale(${0.25 + solarJourneyProgress * 0.95})`
+                            transform: `translate3d(-50%, ${(1 - solarJourneyProgress) * 280}px, 0) scale(${0.4 + solarJourneyProgress * 0.8})`
                         }}
                     />
                 </div>
@@ -534,3 +516,5 @@ function App() {
         </div>
     );
 }
+
+window.App = App;
