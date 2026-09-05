@@ -8,11 +8,11 @@ const ENGAGEMENT_DATA_SET = [
         body: "Interactive scroll triggers and smooth motion loops hold active user attention significantly longer, increasing overall time spent across high-priority landing pages."
     },
     {
-        numeratorTarget: 3,
-        denominator: 4,
-        isFraction: true,
-        label: "User Preference",
-        body: "Three out of four web users pay direct visual attention to dynamic UI elements over static layouts, driving feature comprehension and CTA visibility."
+        target: 245,
+        suffix: "%",
+        decimals: 0,
+        label: "Attention Duration",
+        body: "Eye-tracking studies demonstrate that dynamic motion design holds visual attention up to 2.5 times longer than static layouts, generating significantly higher fixation counts and boosting initial feature discovery."
     },
     {
         target: 2.5,
