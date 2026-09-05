@@ -1,35 +1,83 @@
-const BLOG_POSTS = [
+const ENGAGEMENT_DATA_SET = [
     {
-        num: "01",
-        title: "Interactive Experience",
-        body: "Static pages leave users reading a list of specs. Scroll-triggered animations and fluid depth transform passive browsing into an active journey, guiding visitors naturally toward your main call-to-action."
+        target: 40,
+        prefix: "+",
+        suffix: "%",
+        decimals: 0,
+        label: "Session Duration",
+        body: "Interactive scroll triggers and smooth motion loops hold active user attention significantly longer, increasing time spent on key conversion pages."
     },
     {
-        num: "02",
-        title: "Motion That Guides, Not Distracts",
-        body: "Every animation and section layout follows an intentional narrative arc: hook attention early, build product clarity, and resolve with an intuitive next step for higher conversion rates."
+        numeratorTarget: 3,
+        denominator: 4,
+        isFraction: true,
+        label: "User Preference",
+        body: "Three out of four web users pay direct visual attention to dynamic UI elements over static layouts, improving overall reading comprehension and CTA visibility."
     },
     {
-        num: "03",
-        title: "Full-Stack Execution",
-        body: "With over a decade of hands-on web development experience, I take interactive prototypes and turn them into resilient, production-ready web applications that perform reliably under real traffic."
+        target: 2.5,
+        prefix: "",
+        suffix: "x",
+        decimals: 1,
+        label: "Brand Recall",
+        body: "Tactile micro-interactions create engaging feedback loops during exploration, driving higher ongoing brand recall and sustained long-session retention."
     }
 ];
 
-const CRAFTSMANSHIP_PILLARS = [
-    {
-        title: "Direct Collaboration",
-        body: "You work directly with the developer building your site. No account manager hand-offs, no lost requirements, and no agency overhead."
-    },
-    {
-        title: "10+ Years Industry Experience",
-        body: "A proven background spanning front-end engineering, UI/UX architecture, motion design, and performance optimization across live client launches."
-    },
-    {
-        title: "Complete End-to-End Build",
-        body: "From original layout concepts and motion physics to final deployment, hosting configuration, and ongoing performance tuning."
-    }
-];
+function CountUpStat({ item }) {
+    const [displayVal, setDisplayVal] = React.useState(item.isFraction ? "0/4" : `${item.prefix}0${item.suffix}`);
+    const ref = React.useRef(null);
+    const hasAnimated = React.useRef(false);
+
+    React.useEffect(() => {
+        const observer = new IntersectionObserver(
+            ([entry]) => {
+                if (entry.isIntersecting && !hasAnimated.current) {
+                    hasAnimated.current = true;
+                    const duration = 2000; // 2 seconds
+                    const startTime = performance.now();
+
+                    const animate = (currentTime) => {
+                        const elapsed = currentTime - startTime;
+                        const progress = Math.min(elapsed / duration, 1);
+                        // Ease-out quad formula for smooth decelerating animation
+                        const easeProgress = 1 - Math.pow(1 - progress, 2);
+
+                        if (item.isFraction) {
+                            const currentNum = (easeProgress * item.numeratorTarget).toFixed(1);
+                            setDisplayVal(`${currentNum}/${item.denominator}`);
+                        } else {
+                            const currentNum = (easeProgress * item.target).toFixed(item.decimals);
+                            setDisplayVal(`${item.prefix}${currentNum}${item.suffix}`);
+                        }
+
+                        if (progress < 1) {
+                            requestAnimationFrame(animate);
+                        } else {
+                            if (item.isFraction) {
+                                setDisplayVal(`${item.numeratorTarget}/${item.denominator}`);
+                            } else {
+                                setDisplayVal(`${item.prefix}${item.target}${item.suffix}`);
+                            }
+                        }
+                    };
+
+                    requestAnimationFrame(animate);
+                }
+            },
+            { threshold: 0.3 }
+        );
+
+        if (ref.current) observer.observe(ref.current);
+        return () => observer.disconnect();
+    }, [item]);
+
+    return (
+        <span ref={ref} className="stat-number-glow">
+            {displayVal}
+        </span>
+    );
+}
 
 function HeroFlyingStars() {
     const stars = React.useMemo(() => {
@@ -91,7 +139,7 @@ function App() {
         let animationFrameId;
 
         const updatePhysics = () => {
-            currentScrollRef.current += (targetScrollRef.current - currentScrollRef.current) * 0.1;
+            currentScrollRef.current += (targetScrollRef.current - currentScrollRef.current) * 0.05;
             const current = currentScrollRef.current;
 
             setSmoothScroll(current);
@@ -127,7 +175,7 @@ function App() {
         };
     }, []);
 
-    /* PARALLAX STARFIELD CANVAS WITH SLOWER TWINKLE */
+    /* PARALLAX STARFIELD CANVAS */
     React.useEffect(() => {
         const canvas = canvasRef.current;
         if (!canvas) return;
@@ -230,35 +278,6 @@ function App() {
         return () => observer.disconnect();
     }, []);
 
-    React.useEffect(() => {
-        document.title = "Interactive Web Development & Front-End Engineering | Portfolio";
-
-        const metaDescription = document.querySelector('meta[name="description"]') || document.createElement('meta');
-        metaDescription.name = "description";
-        metaDescription.content = "Custom interactive landing pages, web applications, and conversion-focused front-end engineering built with modern web technologies and 10+ years of experience.";
-        if (!document.querySelector('meta[name="description"]')) document.head.appendChild(metaDescription);
-
-        const schemaScript = document.createElement('script');
-        schemaScript.type = 'application/ld+json';
-        schemaScript.text = JSON.stringify({
-            "@context": "https://schema.org",
-            "@type": "ProfessionalService",
-            "name": "Interactive Web Development Services",
-            "description": "High-performance front-end engineering, motion design, and conversion-focused landing page development.",
-            "url": "https://zqhwebpro.github.io/portfolio/2026/",
-            "provider": {
-                "@type": "Person",
-                "name": "Web Developer & UI/UX Engineer",
-                "jobTitle": "Front-End Engineer"
-            }
-        });
-        document.head.appendChild(schemaScript);
-
-        return () => {
-            if (document.head.contains(schemaScript)) document.head.removeChild(schemaScript);
-        };
-    }, []);
-
     const handleSubmit = async (e) => {
         e.preventDefault();
         setIsSubmitting(true);
@@ -345,46 +364,69 @@ function App() {
                             transform: `rotateY(${mouse.x * 0.12}deg) rotateX(${-mouse.y * 0.12}deg)`
                         }}
                     >
-                        <span className="section-tag">Interactive Portfolio & Front-End Engineering</span>
                         <h1 className="hero-headline">
                             Bringing Static Sites to Life <span>Through Motion & Modern Code.</span>
                         </h1>
                         <a href="#contact" className="btn-3d-glow" title="Contact for Front-End Web Development">
-                            Get in Touch ↗
+                            Straight to Contact ↗
                         </a>
                     </div>
                 </div>
             </header>
 
-            {/* MAIN ESSAY SECTION */}
+            {/* MAIN CONTENT SECTION */}
             <main>
+                {/* SECTION 2: GRAPHIC ARTWORK (330x500 LIGHTBULB AT TOP, EXPANDED DOTTED MANHATTAN PATH, SMALLER MONITOR AT BOTTOM) */}
                 <section id="article" className="section-container">
                     <article className="glass-card-3d about-3d-container scroll-reveal">
 
-                        {/* CLEAN ROCKET ASCII (NO TRAILS OR TRAIL GRAPHICS) */}
-                        <div className="ascii-astronaut-container reveal-content">
-                            <pre className="ascii-astronaut" aria-hidden="true">
-                                {`         /\\
-        /  \\
-       / /\\ \\
-      | /  \\ |
-      | |  | |
-      | |  | |
-     /| |  | |\\
-    / | |  | | \\
-   |  | |__| |  |
-   |  |/    \\|  |
-   |  |      |  |
-   |  |______|  |
-   | /        \\ |
-   |/          \\|
-      /| || |\\
-     / | || | \\
-    /  |_||_|  \\`}
-                            </pre>
+                        <div className="graphic-art-container reveal-content">
+                            <svg
+                                viewBox="0 0 330 500"
+                                className="connecting-art-svg"
+                                fill="none"
+                                xmlns="http://www.w3.org/2000/svg"
+                            >
+                                {/* UNBOXED LIGHTBULB ICON (TOP) */}
+                                <g transform="translate(135, 15)">
+                                    <path
+                                        d="M30 10 C16 10 10 21 10 31 C10 40 20 45 20 53 L40 53 C40 45 50 40 50 31 C50 21 44 10 30 10 Z"
+                                        stroke="#00f0ff"
+                                        strokeWidth="2.5"
+                                        fill="rgba(0, 240, 255, 0.1)"
+                                    />
+                                    <path d="M24 31 L28 23 L32 23 L36 31" stroke="#00f0ff" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round" fill="none" />
+                                    <line x1="21" y1="57" x2="39" y2="57" stroke="#00f0ff" strokeWidth="2.5" strokeLinecap="round" />
+                                    <line x1="23" y1="62" x2="37" y2="62" stroke="#00f0ff" strokeWidth="2.5" strokeLinecap="round" />
+                                    <path d="M26 66 C26 69 34 69 34 66 Z" fill="#00f0ff" />
+
+                                    {/* GLOW RAYS */}
+                                    <line x1="30" y1="2" x2="30" y2="-3" stroke="#00f0ff" strokeWidth="2" strokeLinecap="round" />
+                                    <line x1="5" y1="17" x2="0" y2="13" stroke="#00f0ff" strokeWidth="2" strokeLinecap="round" />
+                                    <line x1="55" y1="17" x2="60" y2="13" stroke="#00f0ff" strokeWidth="2" strokeLinecap="round" />
+                                </g>
+
+                                {/* EXPANDED LEFT-RIGHT / UP-DOWN DOTTED CONNECTING PATH */}
+                                <path
+                                    d="M 165 85 L 165 125 L 50 125 L 50 210 L 280 210 L 280 305 L 80 305 L 80 380 L 165 380 L 165 415"
+                                    stroke="#00f0ff"
+                                    strokeWidth="4"
+                                    strokeLinecap="round"
+                                    strokeLinejoin="round"
+                                    fill="none"
+                                    className="dotted-line-path"
+                                />
+
+                                {/* SMALLER DESKTOP MONITOR (BOTTOM) */}
+                                <g transform="translate(133, 418) scale(0.82)">
+                                    <rect x="0" y="0" width="76" height="48" rx="6" stroke="#00f0ff" strokeWidth="2.5" fill="rgba(0, 240, 255, 0.08)" />
+                                    <line x1="8" y1="38" x2="68" y2="38" stroke="#00f0ff" strokeWidth="1.5" />
+                                    <path d="M30 48 L46 48 L50 60 L26 60 Z" stroke="#00f0ff" strokeWidth="2" fill="rgba(0, 240, 255, 0.12)" />
+                                    <line x1="18" y1="60" x2="58" y2="60" stroke="#00f0ff" strokeWidth="2.5" strokeLinecap="round" />
+                                </g>
+                            </svg>
                         </div>
 
-                        {/* TEXT CONTENT ON THE RIGHT */}
                         <div className="about-text-content reveal-content">
                             <h2 className="section-title">Why Motion Drives Higher Engagement</h2>
                             <p>
@@ -398,69 +440,42 @@ function App() {
                     </article>
                 </section>
 
-                {/* DEVELOPMENT FOCUS PILLARS */}
-                <section className="section-container" aria-label="Development Focus">
+                {/* SECTION 3 & 4: DATA SETS WITH LEFT-ALIGNED BADGES & BALANCED HEIGHTS */}
+                <section className="section-container" aria-label="Page Engagement Data">
                     <div className="scroll-reveal" style={{ marginBottom: '4.5rem' }}>
                         <div className="reveal-content">
-                            <span className="section-tag">Development Focus</span>
-                            <h2 className="section-title">What Makes an Animated Page Convert</h2>
+                            <span className="section-tag">What Keeps a User Engaged Longer with Motion?</span>
+                            <h2 className="section-title">Engaging Data Points</h2>
                         </div>
                     </div>
 
                     <div className="uniform-grid">
-                        {BLOG_POSTS.map((post, idx) => (
+                        {ENGAGEMENT_DATA_SET.map((post, idx) => (
                             <article
                                 key={idx}
                                 className="glass-card-3d standard-card scroll-reveal"
                             >
-                                <span className="ui-num-badge reveal-content">
-                                    {post.num}
-                                </span>
-                                <h3 className="box-title reveal-content">
-                                    {post.title}
-                                </h3>
-                                <p className="box-copy reveal-content">{post.body}</p>
+                                <div className="stat-callout-wrapper reveal-content">
+                                    <CountUpStat item={post} />
+                                    <span className="stat-label">
+                                        {post.label}
+                                    </span>
+                                </div>
+
+                                <p className="box-copy reveal-content" style={{ marginTop: '1.5rem' }}>
+                                    {post.body}
+                                </p>
                             </article>
-                        ))}
-                    </div>
-                </section>
-
-                {/* AUTHOR / DIRECT COLLABORATION */}
-                <section className="section-container" aria-label="Direct Technical Partnership">
-                    <div className="scroll-reveal" style={{ marginBottom: '4.5rem' }}>
-                        <div className="reveal-content">
-                            <span className="section-tag">Craftsmanship</span>
-                            <h2 className="section-title">Direct Technical Partnership</h2>
-                            <p style={{ maxWidth: '680px', fontSize: '1.1rem' }} className="location-intro-text">
-                                From initial interactive prototype to final production build, you work directly with a seasoned developer focused on clean code, strong performance, and measurable conversion gains.
-                            </p>
-                        </div>
-                    </div>
-
-                    <div className="uniform-grid">
-                        {CRAFTSMANSHIP_PILLARS.map((item, idx) => (
-                            <div
-                                key={idx}
-                                className="glass-card-3d standard-card scroll-reveal"
-                            >
-                                <h3 className="reveal-content why-card-title">
-                                    {item.title}
-                                </h3>
-                                <p className="reveal-content box-copy">{item.body}</p>
-                            </div>
                         ))}
                     </div>
                 </section>
             </main>
 
-            {/* FOOTER CTA & SECURE CONTACT FORM */}
+            {/* FOOTER & SUN ZOOM ANIMATION */}
             <footer id="contact" className="footer-contact-3d">
                 <div className="glass-card-3d contact-card-3d scroll-reveal">
-                    <span className="section-tag reveal-content">Start a Project</span>
-                    <h2 className="section-title reveal-content">Ready to Upgrade Your Web Experience?</h2>
-                    <p className="reveal-content box-copy" style={{ marginBottom: '1.5rem' }}>
-                        Send a direct message below to discuss interactive landing pages, custom web applications, or front-end engineering collaborations.
-                    </p>
+                    <span className="section-tag reveal-content">Networking For Reach</span>
+                    <h2 className="section-title reveal-content">Contact Me to Build Together</h2>
 
                     {submitted ? (
                         <div className="submitted-msg-box" role="alert">
@@ -489,7 +504,7 @@ function App() {
                             <textarea
                                 id="user-message"
                                 name="message"
-                                placeholder="Tell me about your project or web development goals..."
+                                placeholder="Contact me to find out more about what I can do for you..."
                                 required
                                 className="form-input-3d"
                                 rows="4"
@@ -511,7 +526,7 @@ function App() {
                     <div
                         className="giant-glowing-sun"
                         style={{
-                            transform: `translate3d(-50%, ${(1 - solarJourneyProgress) * 400}px, 0) scale(${0.7 + solarJourneyProgress * 0.5})`
+                            transform: `translate3d(-50%, ${(1 - solarJourneyProgress) * 500}px, 0) scale(${0.25 + solarJourneyProgress * 0.95})`
                         }}
                     />
                 </div>

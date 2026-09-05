@@ -39,7 +39,7 @@ body {
     background-color: var(--bg-dark);
     color: var(--text-main);
     line-height: 1.8;
-    transition: background-color 1.8s ease, color 1.5s ease;
+    transition: background-color 2.5s ease-in-out, color 2.2s ease-in-out;
 }
 
 /* FIXED DEEP SPACE GRADIENT */
@@ -67,7 +67,7 @@ body {
     pointer-events: none;
     z-index: 1;
     background: radial-gradient(circle at 50% 100%, rgba(255, 150, 20, 0.4) 0%, rgba(255, 80, 0, 0.2) 50%, transparent 85%);
-    transition: opacity 0.4s ease-out;
+    transition: opacity 1.2s ease-out;
 }
 
 .floating-brand-badge-bottom {
@@ -150,22 +150,11 @@ body.solar-lit-active .form-input-3d {
     color: #1a0800;
 }
 
-body.solar-lit-active .why-card-title {
-    color: #e65200 !important;
-}
-
-body.solar-lit-active .ui-num-badge {
+body.solar-lit-active .ui-num-badge-left {
     background: rgba(255, 119, 0, 0.12);
     border-color: rgba(230, 87, 0, 0.4);
     color: #e65200;
     box-shadow: inset 0 1px 1px rgba(255, 255, 255, 0.5), 0 4px 12px rgba(230, 80, 0, 0.15);
-}
-
-body.solar-lit-active .ascii-astronaut {
-    color: #e65200;
-    background: rgba(255, 245, 235, 0.9);
-    border-color: rgba(255, 120, 0, 0.35);
-    box-shadow: inset 0 0 20px rgba(255, 120, 0, 0.05), 0 10px 30px rgba(230, 80, 0, 0.1);
 }
 
 .btn-3d-glow {
@@ -252,13 +241,34 @@ body.solar-lit-active .ascii-astronaut {
     transition: color 0.8s ease;
 }
 
+/* SECTION 1: TWINKLE & SUBTLE GLOW ANIMATION FOR ALL CARDS */
+@keyframes cardTwinklePulse {
+    0% {
+        opacity: 0.82;
+        box-shadow: 0 20px 45px rgba(0, 0, 0, 0.4), 0 0 15px rgba(0, 240, 255, 0.1);
+        border-color: rgba(255, 255, 255, 0.12);
+    }
+
+    50% {
+        opacity: 1;
+        box-shadow: 0 30px 65px rgba(0, 0, 0, 0.5), 0 0 30px rgba(0, 240, 255, 0.35);
+        border-color: rgba(0, 240, 255, 0.45);
+    }
+
+    100% {
+        opacity: 0.82;
+        box-shadow: 0 20px 45px rgba(0, 0, 0, 0.4), 0 0 15px rgba(0, 240, 255, 0.1);
+        border-color: rgba(255, 255, 255, 0.12);
+    }
+}
+
 .glass-card-3d {
     background: var(--glass-surface);
     backdrop-filter: blur(28px);
     -webkit-backdrop-filter: blur(28px);
     border: 1px solid var(--glass-border);
     border-radius: 28px;
-    box-shadow: 0 30px 60px rgba(0, 0, 0, 0.4);
+    animation: cardTwinklePulse 6s ease-in-out infinite alternate;
     transition: border-color 0.8s ease, box-shadow 0.8s ease, background 0.8s ease, color 0.8s ease;
 }
 
@@ -327,7 +337,7 @@ body.solar-lit-active .ascii-astronaut {
     will-change: transform;
 }
 
-/* FULL LUNAR SURFACE WITH MARE & CRATERS */
+/* LUNAR CORE */
 .planet-lunar-core {
     position: relative;
     width: 100%;
@@ -341,7 +351,6 @@ body.solar-lit-active .ascii-astronaut {
     animation: pulseLunarGlow 5s ease-in-out infinite alternate;
 }
 
-/* LUNAR MARIA (DARK BASALTIC PLAINS) */
 .lunar-maria {
     position: absolute;
     background: rgba(55, 62, 70, 0.35);
@@ -372,7 +381,6 @@ body.solar-lit-active .ascii-astronaut {
     height: 90px;
 }
 
-/* SUBTLE LUNAR CRATERS WITH SOFT EMBOSSED RIM SHADOWS */
 .lunar-crater {
     position: absolute;
     border-radius: 50%;
@@ -436,7 +444,6 @@ body.solar-lit-active .ascii-astronaut {
     height: 14px;
 }
 
-/* 3D SPHERICAL TERMINATOR SHADOW OVERLAY */
 .lunar-shadow-overlay {
     position: absolute;
     inset: 0;
@@ -446,15 +453,11 @@ body.solar-lit-active .ascii-astronaut {
 
 @keyframes pulseLunarGlow {
     0% {
-        box-shadow:
-            0 0 35px rgba(230, 236, 242, 0.2),
-            0 0 70px rgba(0, 240, 255, 0.1);
+        box-shadow: 0 0 35px rgba(230, 236, 242, 0.2), 0 0 70px rgba(0, 240, 255, 0.1);
     }
 
     100% {
-        box-shadow:
-            0 0 55px rgba(230, 236, 242, 0.35),
-            0 0 110px rgba(0, 240, 255, 0.25);
+        box-shadow: 0 0 55px rgba(230, 236, 242, 0.35), 0 0 110px rgba(0, 240, 255, 0.25);
     }
 }
 
@@ -470,6 +473,38 @@ body.solar-lit-active .ascii-astronaut {
     100% {
         transform: rotate(360deg) scale(1);
     }
+}
+
+/* Base Dark Theme Rules */
+.stat-number-glow {
+    font-size: 5rem;
+    /* Increased size */
+    font-weight: 800;
+    line-height: 1;
+    display: block;
+    color: var(--stat-num-color, #00f0ff);
+    text-shadow: var(--stat-glow, 0 0 25px rgba(0, 240, 255, 0.4));
+    transition: color 0.5s ease, text-shadow 0.5s ease;
+}
+
+.stat-label {
+    font-size: 0.9rem;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 2px;
+    margin-top: 0.5rem;
+    display: block;
+    color: var(--stat-label-color, rgba(255, 255, 255, 0.8));
+    transition: color 0.5s ease;
+}
+
+/* Brightened Background Theme Adjustments */
+body.solar-lit-active {
+    --stat-num-color: #007b8a;
+    /* Deep, high-contrast cyan for light backgrounds */
+    --stat-glow: none;
+    --stat-label-color: #3c2a1e;
+    /* Dark rich brown/amber matching section tags */
 }
 
 .hero-flying-stars-container {
@@ -491,7 +526,6 @@ body.solar-lit-active .ascii-astronaut {
     animation: starPulse ease-in-out infinite alternate;
 }
 
-/* SLOWER TWINKLE ANIMATION */
 @keyframes starPulse {
     0% {
         opacity: 0.1;
@@ -567,42 +601,49 @@ body.solar-lit-active .ascii-astronaut {
     margin-bottom: 0;
 }
 
-/* ASCII CONTAINER & CENTERED ALIGNMENT */
-.ascii-astronaut-container {
+/* SECTION 2: 330x500 GRAPHIC CANVAS CONTAINER */
+.graphic-art-container {
+    width: 330px;
+    height: 500px;
     display: flex;
     justify-content: center;
     align-items: center;
-    flex-shrink: 0;
-    width: 100%;
-    max-width: 420px;
-    margin: 0 auto;
-}
-
-.ascii-astronaut {
-    font-family: 'Courier New', Courier, monospace;
-    font-size: 0.85rem;
-    line-height: 1.15;
-    color: var(--neon-cyan);
     background: rgba(4, 8, 18, 0.6);
     border: 1px solid rgba(0, 240, 255, 0.25);
     border-radius: 20px;
-    padding: 3.5rem 4rem;
-    white-space: pre;
-    text-align: center;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    margin: 0 auto;
+    padding: 1.5rem;
+    flex-shrink: 0;
     box-shadow: inset 0 0 25px rgba(0, 240, 255, 0.08), 0 12px 35px rgba(0, 0, 0, 0.5);
-    transition: all 0.8s ease;
+    margin: 0 auto;
 }
 
-/* CYAN UI BADGE FOR 01, 02, 03 */
-.ui-num-badge {
+.connecting-art-svg {
+    width: 100%;
+    height: 100%;
+}
+
+.dotted-line-path {
+    stroke-dasharray: 6, 10;
+    animation: pulseDottedPath 2.5s linear infinite;
+}
+
+@keyframes pulseDottedPath {
+    0% {
+        stroke-dashoffset: 160;
+    }
+
+    100% {
+        stroke-dashoffset: 0;
+    }
+}
+
+/* LEFT-ALIGNED BADGES */
+.ui-num-badge-left {
     display: inline-flex;
-    align-items: center;
-    justify-content: center;
-    padding: 0.35rem 0.85rem;
+    align-self: flex-start;
+    margin-right: auto;
+    width: auto;
+    padding: 0.35rem 0.95rem;
     border-radius: 8px;
     font-family: var(--font-3d);
     font-size: 0.85rem;
@@ -616,17 +657,28 @@ body.solar-lit-active .ascii-astronaut {
     transition: all 0.8s ease;
 }
 
-/* UNIFORM GRID */
+/* UNIFORM GRID & ALIGNED EQUAL HEIGHT BOXES */
 .uniform-grid {
     display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(340px, 1fr));
+    grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
     gap: 2.8rem;
     width: 100%;
+    align-items: stretch;
 }
 
 .standard-card {
     padding: 3.2rem;
     width: 100%;
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-start;
+    height: 100%;
+}
+
+.standard-card .box-copy {
+    flex-grow: 1;
+    font-size: 1.05rem;
+    line-height: 1.75;
 }
 
 .box-title {
@@ -648,15 +700,7 @@ body.solar-lit-active .ascii-astronaut {
     transition: color 0.8s ease;
 }
 
-.why-card-title {
-    font-family: var(--font-3d);
-    font-size: 1.5rem;
-    margin-bottom: 1rem;
-    color: var(--neon-cyan);
-    transition: color 0.8s ease;
-}
-
-/* FOOTER SUN HORIZON */
+/* FOOTER SUN HORIZON & ZOOM ANIMATION */
 .footer-contact-3d {
     position: relative;
     padding: 14rem 2.5rem 16rem;
@@ -682,6 +726,7 @@ body.solar-lit-active .ascii-astronaut {
     z-index: 1;
     will-change: transform;
     animation: pulseSunGlow 4.5s ease-in-out infinite alternate;
+    transition: transform 0.8s cubic-bezier(0.16, 1, 0.3, 1), box-shadow 1.2s ease-in-out;
 }
 
 @keyframes pulseSunGlow {
