@@ -31,19 +31,15 @@ const WHY_REASONS = [
     }
 ];
 
-/* SPARKLING HERO STARS LAYER */
 function HeroFlyingStars() {
     const stars = React.useMemo(() => {
-        return Array.from({ length: 95 }, (_, i) => ({
+        return Array.from({ length: 120 }, (_, i) => ({
             id: i,
             top: `${Math.random() * 100}%`,
             left: `${Math.random() * 100}%`,
-            size: `${Math.random() * 2 + 1}px`,
-            duration: `${Math.random() * 3 + 2}s`,
-            delay: `${Math.random() * 2}s`,
-            opacity: Math.random() * 0.4 + 0.6,
-            tx: `${(Math.random() - 0.5) * 40}px`,
-            ty: `${(Math.random() - 0.5) * 40}px`
+            size: `${Math.random() * 1.5 + 0.5}px`,
+            opacity: Math.random() * 0.5 + 0.5,
+            duration: `${Math.random() * 3 + 2}s`
         }));
     }, []);
 
@@ -52,17 +48,14 @@ function HeroFlyingStars() {
             {stars.map((s) => (
                 <div
                     key={s.id}
-                    className="hero-sparkle-star"
+                    className="hero-space-star twinkling-star"
                     style={{
                         top: s.top,
                         left: s.left,
                         width: s.size,
                         height: s.size,
                         opacity: s.opacity,
-                        animationDuration: s.duration,
-                        animationDelay: s.delay,
-                        '--tx': s.tx,
-                        '--ty': s.ty
+                        animationDuration: s.duration
                     }}
                 />
             ))}
@@ -75,7 +68,7 @@ function App() {
     const [submitted, setSubmitted] = React.useState(false);
 
     const [smoothScroll, setSmoothScroll] = React.useState(0);
-    const [solarProgress, setSolarProgress] = React.useState(0);
+    const [solarJourneyProgress, setSolarJourneyProgress] = React.useState(0);
 
     const canvasRef = React.useRef(null);
     const mouseRef = React.useRef({ x: 0, y: 0 });
@@ -84,8 +77,8 @@ function App() {
     const currentScrollRef = React.useRef(0);
 
     const handleMouseMove = (e) => {
-        const x = (e.clientX / window.innerWidth - 0.5) * 20;
-        const y = (e.clientY / window.innerHeight - 0.5) * 20;
+        const x = (e.clientX / window.innerWidth - 0.5) * 25;
+        const y = (e.clientY / window.innerHeight - 0.5) * 25;
         setMouse({ x, y });
         mouseRef.current = { x, y };
     };
@@ -94,30 +87,23 @@ function App() {
         let animationFrameId;
 
         const updatePhysics = () => {
-            currentScrollRef.current += (targetScrollRef.current - currentScrollRef.current) * 0.12;
+            currentScrollRef.current += (targetScrollRef.current - currentScrollRef.current) * 0.1;
             const current = currentScrollRef.current;
 
             setSmoothScroll(current);
 
             const winH = window.innerHeight;
             const docH = document.documentElement.scrollHeight;
-            const totalHeight = docH - winH;
+            const maxScroll = Math.max(1, docH - winH);
 
-            const footerStart = totalHeight - 1100;
-            let progress = 0;
-            if (current > footerStart) {
-                progress = Math.min(Math.max((current - footerStart) / 900, 0), 1);
-            }
-            setSolarProgress(progress);
+            const overallProgress = Math.min(Math.max(current / maxScroll, 0), 1);
+            setSolarJourneyProgress(overallProgress);
 
-            if (progress > 0.55) {
+            // Light Mode activates gradually when reaching the final sections & footer sun
+            if (overallProgress > 0.65) {
                 document.body.classList.add('solar-lit-active');
-                document.body.classList.remove('solar-lit-preglow');
-            } else if (progress > 0.15) {
-                document.body.classList.add('solar-lit-preglow');
-                document.body.classList.remove('solar-lit-active');
             } else {
-                document.body.classList.remove('solar-lit-preglow', 'solar-lit-active');
+                document.body.classList.remove('solar-lit-active');
             }
 
             animationFrameId = requestAnimationFrame(updatePhysics);
@@ -138,7 +124,7 @@ function App() {
         };
     }, []);
 
-    /* CANVAS DYNAMIC SPARKLING PARALLAX */
+    /* PARALLAX STARFIELD CANVAS */
     React.useEffect(() => {
         const canvas = canvasRef.current;
         if (!canvas) return;
@@ -152,43 +138,36 @@ function App() {
         resizeCanvas();
         window.addEventListener('resize', resizeCanvas);
 
-        const starsFar = Array.from({ length: 240 }, () => ({
-            x: Math.random() * window.innerWidth,
-            y: Math.random() * window.innerHeight * 3,
-            size: Math.random() * 0.6 + 0.3,
-            alpha: Math.random() * 0.4 + 0.5,
-            speed: Math.random() * 0.008 + 0.003
-        }));
+        const createStarLayer = (count, minSize, maxSize) => {
+            return Array.from({ length: count }, () => ({
+                x: Math.random() * window.innerWidth,
+                y: Math.random() * window.innerHeight * 4,
+                size: Math.random() * (maxSize - minSize) + minSize,
+                baseAlpha: Math.random() * 0.5 + 0.3,
+                twinkleSpeed: Math.random() * 0.03 + 0.01,
+                phase: Math.random() * Math.PI * 2
+            }));
+        };
 
-        const starsMid = Array.from({ length: 170 }, () => ({
-            x: Math.random() * window.innerWidth,
-            y: Math.random() * window.innerHeight * 3,
-            size: Math.random() * 1.0 + 0.5,
-            alpha: Math.random() * 0.5 + 0.5,
-            speed: Math.random() * 0.012 + 0.005
-        }));
+        const starsDeep = createStarLayer(300, 0.3, 0.8);
+        const starsMid = createStarLayer(200, 0.8, 1.4);
+        const starsNear = createStarLayer(100, 1.4, 2.2);
 
-        const starsNear = Array.from({ length: 130 }, () => ({
-            x: Math.random() * window.innerWidth,
-            y: Math.random() * window.innerHeight * 3,
-            size: Math.random() * 1.6 + 0.8,
-            alpha: Math.random() * 0.4 + 0.6,
-            speed: Math.random() * 0.018 + 0.008
-        }));
+        let time = 0;
 
         const renderGalaxy = () => {
+            time += 0.05;
             ctx.clearRect(0, 0, canvas.width, canvas.height);
             const mx = mouseRef.current.x;
             const my = mouseRef.current.y;
             const sy = currentScrollRef.current;
 
             ctx.save();
-            ctx.translate(mx * 0.04, my * 0.04 - sy * 0.15);
-            starsFar.forEach((star) => {
-                star.alpha += star.speed;
-                if (star.alpha > 0.95 || star.alpha < 0.4) star.speed = -star.speed;
+            ctx.translate(mx * 0.03, my * 0.03 - sy * 0.15);
+            starsDeep.forEach((star) => {
+                const alpha = star.baseAlpha + Math.sin(time * star.twinkleSpeed + star.phase) * 0.25;
                 ctx.fillStyle = '#ffffff';
-                ctx.globalAlpha = star.alpha;
+                ctx.globalAlpha = Math.max(0.1, Math.min(1, alpha));
                 ctx.beginPath();
                 ctx.arc(star.x, star.y, star.size, 0, Math.PI * 2);
                 ctx.fill();
@@ -196,14 +175,11 @@ function App() {
             ctx.restore();
 
             ctx.save();
-            ctx.translate(mx * 0.2, my * 0.2 - sy * 0.45);
+            ctx.translate(mx * 0.1, my * 0.1 - sy * 0.4);
             starsMid.forEach((star) => {
-                star.alpha += star.speed;
-                if (star.alpha > 0.98 || star.alpha < 0.5) star.speed = -star.speed;
-                ctx.fillStyle = '#00f0ff';
-                ctx.globalAlpha = star.alpha;
-                ctx.shadowColor = '#00f0ff';
-                ctx.shadowBlur = 6;
+                const alpha = star.baseAlpha + Math.sin(time * star.twinkleSpeed + star.phase) * 0.3;
+                ctx.fillStyle = '#ffffff';
+                ctx.globalAlpha = Math.max(0.15, Math.min(1, alpha));
                 ctx.beginPath();
                 ctx.arc(star.x, star.y, star.size, 0, Math.PI * 2);
                 ctx.fill();
@@ -211,14 +187,11 @@ function App() {
             ctx.restore();
 
             ctx.save();
-            ctx.translate(mx * 0.55, my * 0.55 - sy * 0.9);
+            ctx.translate(mx * 0.22, my * 0.22 - sy * 0.75);
             starsNear.forEach((star) => {
-                star.alpha += star.speed;
-                if (star.alpha > 1.0 || star.alpha < 0.6) star.speed = -star.speed;
+                const alpha = star.baseAlpha + Math.sin(time * star.twinkleSpeed + star.phase) * 0.35;
                 ctx.fillStyle = '#ffffff';
-                ctx.globalAlpha = star.alpha;
-                ctx.shadowColor = '#ffffff';
-                ctx.shadowBlur = 12;
+                ctx.globalAlpha = Math.max(0.2, Math.min(1, alpha));
                 ctx.beginPath();
                 ctx.arc(star.x, star.y, star.size, 0, Math.PI * 2);
                 ctx.fill();
@@ -247,7 +220,7 @@ function App() {
                     }
                 });
             },
-            { threshold: 0.12 }
+            { threshold: 0.1 }
         );
 
         const revealElements = document.querySelectorAll('.scroll-reveal');
@@ -263,6 +236,14 @@ function App() {
     return (
         <div className="canvas-wrapper">
             <div className="fixed-space-texture-bg" aria-hidden="true" />
+
+            {/* SOFT CONTINUOUS ATMOSPHERIC GLOW GRADIENT */}
+            <div
+                className="solar-descent-glow"
+                style={{ opacity: Math.pow(solarJourneyProgress, 2) }}
+                aria-hidden="true"
+            />
+
             <canvas ref={canvasRef} className="galaxy-canvas" />
 
             <a
@@ -279,11 +260,27 @@ function App() {
                 <div className="deep-space-nebula-container" aria-hidden="true">
                     <div className="nebula-swirl nebula-1"></div>
                     <div className="nebula-swirl nebula-2"></div>
-                    <div className="nebula-swirl nebula-3"></div>
-                    <div className="nebula-swirl nebula-4"></div>
 
-                    <div className="solar-system-planet-wrapper">
-                        <div className="planet-sun-core"></div>
+                    <div
+                        className="solar-system-planet-wrapper"
+                        style={{
+                            transform: `scale(${1 + solarJourneyProgress * 0.9}) translate3d(0, ${smoothScroll * 0.18}px, 0)`
+                        }}
+                    >
+                        <div className="planet-lunar-core">
+                            <div className="lunar-maria maria-1"></div>
+                            <div className="lunar-maria maria-2"></div>
+                            <div className="lunar-maria maria-3"></div>
+                            <div className="lunar-crater crater-1"></div>
+                            <div className="lunar-crater crater-2"></div>
+                            <div className="lunar-crater crater-3"></div>
+                            <div className="lunar-crater crater-4"></div>
+                            <div className="lunar-crater crater-5"></div>
+                            <div className="lunar-crater crater-6"></div>
+                            <div className="lunar-crater crater-7"></div>
+                            <div className="lunar-crater crater-8"></div>
+                            <div className="lunar-shadow-overlay"></div>
+                        </div>
                     </div>
                 </div>
 
@@ -292,7 +289,7 @@ function App() {
                     <div
                         className="glass-card-3d hero-glass-portal"
                         style={{
-                            transform: `rotateY(${mouse.x * 0.18}deg) rotateX(${-mouse.y * 0.18}deg)`
+                            transform: `rotateY(${mouse.x * 0.12}deg) rotateX(${-mouse.y * 0.12}deg)`
                         }}
                     >
                         <span className="section-tag">DIGITAL CRAFTSMANSHIP</span>
@@ -324,7 +321,7 @@ function App() {
                     </div>
                     <div className="glass-card-3d experience-badge-3d reveal-content">
                         <div className="exp-number">10+</div>
-                        <div style={{ marginTop: '0.5rem' }}>
+                        <div style={{ marginTop: '0.75rem', fontWeight: 500 }}>
                             Years of Hands-On Digital Experience[cite: 1]
                         </div>
                     </div>
@@ -333,16 +330,19 @@ function App() {
 
             {/* SERVICES */}
             <section className="section-container">
-                <div className="scroll-reveal" style={{ marginBottom: '2.5rem' }}>
+                <div className="scroll-reveal" style={{ marginBottom: '4.5rem' }}>
                     <div className="reveal-content">
                         <span className="section-tag">SERVICES</span>
                         <h2 className="section-title">What I Do For Small Businesses</h2>
                     </div>
                 </div>
 
-                <div className="unified-grid">
+                <div className="uniform-grid">
                     {SERVICES.map((s, idx) => (
-                        <div key={idx} className="glass-card-3d service-box-3d scroll-reveal">
+                        <div
+                            key={idx}
+                            className="glass-card-3d standard-card scroll-reveal"
+                        >
                             <div className="box-icon-3d reveal-content">{s.num}</div>
                             <h3 className="box-title reveal-content">{s.title}</h3>
                             <p className="box-copy reveal-content">{s.body}</p>
@@ -353,23 +353,26 @@ function App() {
 
             {/* LOCATION */}
             <section className="section-container">
-                <div className="scroll-reveal" style={{ marginBottom: '2.5rem' }}>
+                <div className="scroll-reveal" style={{ marginBottom: '4.5rem' }}>
                     <div className="reveal-content">
                         <span className="section-tag">LOCATION &amp; ADVANTAGE</span>
                         <h2 className="section-title">Based in York, PA — Serving Growth Worldwide</h2>
-                        <p style={{ maxWidth: '640px', color: 'var(--text-sub)' }}>
+                        <p style={{ maxWidth: '680px', fontSize: '1.1rem' }} className="location-intro-text">
                             Located in York, Pennsylvania, I offer local small businesses hands-on digital partnership combined with enterprise-grade web engineering.
                         </p>
                     </div>
                 </div>
 
-                <div className="unified-grid">
+                <div className="uniform-grid">
                     {WHY_REASONS.map((item, idx) => (
-                        <div key={idx} className="glass-card-3d why-card scroll-reveal">
-                            <h3 className="reveal-content" style={{ fontFamily: 'var(--font-3d)', fontSize: '1.35rem', marginBottom: '0.8rem', color: 'var(--neon-cyan)' }}>
+                        <div
+                            key={idx}
+                            className="glass-card-3d standard-card scroll-reveal"
+                        >
+                            <h3 className="reveal-content why-card-title">
                                 {item.title}
                             </h3>
-                            <p className="reveal-content" style={{ color: 'var(--text-sub)' }}>{item.body}</p>
+                            <p className="reveal-content box-copy">{item.body}</p>
                         </div>
                     ))}
                 </div>
@@ -380,12 +383,12 @@ function App() {
                 <div className="glass-card-3d contact-card-3d scroll-reveal">
                     <span className="section-tag reveal-content">GET IN TOUCH</span>
                     <h2 className="section-title reveal-content">Ready to Elevate Your Business?</h2>
-                    <p className="reveal-content" style={{ color: 'var(--text-sub)', marginBottom: '1rem' }}>
+                    <p className="reveal-content box-copy" style={{ marginBottom: '1.5rem' }}>
                         Send a message to discuss your web design, hosting, or business growth goals.
                     </p>
 
                     {submitted ? (
-                        <div style={{ padding: '2rem', background: 'rgba(255, 140, 0, 0.2)', borderRadius: '16px', marginTop: '2rem', color: '#ff6600', fontWeight: 'bold' }}>
+                        <div className="submitted-msg-box">
                             🚀 Message received! I'll get back to you shortly.
                         </div>
                     ) : (
@@ -400,13 +403,13 @@ function App() {
                     )}
                 </div>
 
-                <div className="footer-stage-wrapper" style={{ opacity: Math.min(solarProgress * 1.5, 1) }}>
+                <div className="footer-stage-wrapper">
                     <div
                         className="giant-glowing-sun"
                         style={{
-                            transform: `translate3d(-50%, ${(1 - solarProgress) * 100}px, 0) scale(${0.85 + solarProgress * 0.4})`
+                            transform: `translate3d(-50%, ${(1 - solarJourneyProgress) * 400}px, 0) scale(${0.7 + solarJourneyProgress * 0.5})`
                         }}
-                    ></div>
+                    />
                 </div>
             </footer>
         </div>

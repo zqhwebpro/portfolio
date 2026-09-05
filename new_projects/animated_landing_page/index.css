@@ -9,7 +9,7 @@
     --btn-purple-glow: rgba(224, 36, 195, 0.5);
 
     --glass-surface: rgba(255, 255, 255, 0.035);
-    --glass-border: rgba(255, 255, 255, 0.14);
+    --glass-border: rgba(255, 255, 255, 0.12);
 
     --text-main: #f0f4f8;
     --text-sub: #94a3b8;
@@ -38,11 +38,11 @@ body {
     font-family: var(--font-sans);
     background-color: var(--bg-dark);
     color: var(--text-main);
-    line-height: 1.7;
-    transition: background-color 1.2s var(--ease-smooth), color 0.8s ease;
+    line-height: 1.8;
+    transition: background-color 1.8s ease, color 1.5s ease;
 }
 
-/* FIXED FULL-WINDOW SPACE BACKGROUND */
+/* FIXED DEEP SPACE GRADIENT */
 .fixed-space-texture-bg {
     position: fixed;
     top: 0;
@@ -55,25 +55,38 @@ body {
         radial-gradient(circle at 50% 20%, rgba(14, 18, 48, 0.8) 0%, rgba(2, 3, 8, 1) 85%),
         radial-gradient(circle at 85% 75%, rgba(138, 43, 226, 0.1) 0%, transparent 50%),
         radial-gradient(circle at 15% 65%, rgba(0, 240, 255, 0.08) 0%, transparent 45%);
+    transition: opacity 1.8s ease;
+}
+
+/* CONTINUOUS GRADUAL ATMOSPHERIC SUN ATMOSPHERE */
+.solar-descent-glow {
+    position: fixed;
+    inset: 0;
+    width: 100vw;
+    height: 100vh;
+    pointer-events: none;
+    z-index: 1;
+    background: radial-gradient(circle at 50% 100%, rgba(255, 150, 20, 0.4) 0%, rgba(255, 80, 0, 0.2) 50%, transparent 85%);
+    transition: opacity 0.4s ease-out;
 }
 
 .floating-brand-badge-bottom {
     position: fixed;
-    top: 1.8rem;
-    left: 2rem;
+    top: 2.2rem;
+    left: 2.5rem;
     z-index: 1000;
-    padding: 0.55rem 1.2rem;
+    padding: 0.6rem 1.3rem;
     background: rgba(12, 16, 28, 0.55);
-    backdrop-filter: blur(12px);
-    -webkit-backdrop-filter: blur(12px);
-    border: 1px solid rgba(255, 255, 255, 0.12);
+    backdrop-filter: blur(14px);
+    -webkit-backdrop-filter: blur(14px);
+    border: 1px solid rgba(255, 255, 255, 0.15);
     color: var(--text-sub);
     border-radius: 100px;
-    font-size: 0.82rem;
+    font-size: 0.85rem;
     font-weight: 500;
     text-decoration: none;
     box-shadow: 0 6px 20px rgba(0, 0, 0, 0.3);
-    transition: transform 0.4s var(--ease-3d), border-color 0.4s ease, color 0.4s ease;
+    transition: all 0.6s ease;
 }
 
 .floating-brand-badge-bottom:hover {
@@ -83,41 +96,68 @@ body {
     color: var(--text-main);
 }
 
-/* SOLAR SUN LIT TRANSITIONS */
-body.solar-lit-preglow {
-    background-color: #1a0f24 !important;
+/* ELEGANT GRADUAL LIGHT MODE AS FOOTER SUN RISES */
+body.solar-lit-active {
+    background-color: #fffaf5 !important;
+    color: #1a0c02 !important;
 }
 
-body.solar-lit-active {
-    background-color: #2e1005 !important;
+body.solar-lit-active .fixed-space-texture-bg {
+    opacity: 0.1;
 }
 
 body.solar-lit-active .section-tag {
-    color: #ff8800 !important;
+    color: #d95200 !important;
 }
 
 body.solar-lit-active .section-title,
+body.solar-lit-active h1,
 body.solar-lit-active h2,
 body.solar-lit-active h3 {
-    color: #3b1200 !important;
+    color: #1a0800 !important;
 }
 
 body.solar-lit-active .btn-3d-glow {
-    background: linear-gradient(135deg, #ff8c00 0%, #ff3300 100%) !important;
-    box-shadow: 0 12px 30px rgba(255, 102, 0, 0.6) !important;
+    background: linear-gradient(135deg, #ff7700 0%, #e63900 100%) !important;
+    box-shadow: 0 14px 35px rgba(230, 57, 0, 0.35) !important;
     color: #ffffff !important;
 }
 
 body.solar-lit-active .glass-card-3d {
-    background: rgba(255, 248, 238, 0.96) !important;
-    border-color: #ff9900 !important;
-    box-shadow: 0 25px 70px rgba(255, 120, 0, 0.4) !important;
-    color: #1c0d02 !important;
+    background: rgba(255, 255, 255, 0.9) !important;
+    border-color: rgba(255, 120, 0, 0.3) !important;
+    box-shadow: 0 25px 60px rgba(230, 80, 0, 0.12) !important;
+    color: #2b1405 !important;
 }
 
 body.solar-lit-active .box-copy,
+body.solar-lit-active .hero-description,
+body.solar-lit-active .about-text-content,
+body.solar-lit-active .location-intro-text,
 body.solar-lit-active p {
-    color: #5c3214 !important;
+    color: #4a2711 !important;
+}
+
+body.solar-lit-active .floating-brand-badge-bottom {
+    background: rgba(255, 255, 255, 0.85);
+    border-color: rgba(255, 120, 0, 0.3);
+    color: #3b1600;
+}
+
+body.solar-lit-active .form-input-3d {
+    background: rgba(255, 245, 235, 0.95);
+    border-color: rgba(255, 140, 0, 0.3);
+    color: #1a0800;
+}
+
+body.solar-lit-active .why-card-title {
+    color: #e65200 !important;
+}
+
+body.solar-lit-active .box-icon-3d {
+    background: rgba(255, 120, 0, 0.12);
+    border-color: #ff6600;
+    color: #d94b00;
 }
 
 .btn-3d-glow {
@@ -128,12 +168,12 @@ body.solar-lit-active p {
     color: #ffffff;
     font-family: var(--font-3d);
     font-weight: 700;
-    font-size: 0.95rem;
-    padding: 1.1rem 2.4rem;
+    font-size: 1rem;
+    padding: 1.25rem 2.8rem;
     border-radius: 100px;
     text-decoration: none;
     box-shadow: 0 12px 30px var(--btn-purple-glow);
-    transition: transform 0.4s var(--ease-3d), box-shadow 0.4s ease;
+    transition: transform 0.4s var(--ease-3d), box-shadow 0.4s ease, background 0.8s ease;
     border: none;
     cursor: pointer;
 }
@@ -145,14 +185,13 @@ body.solar-lit-active p {
     width: 100vw;
     height: 100vh;
     pointer-events: none;
-    z-index: 1;
+    z-index: 0;
 }
 
-/* SCROLL REVEAL MOTION */
 .scroll-reveal {
     opacity: 0;
-    transform: translateY(30px);
-    transition: opacity 0.7s var(--ease-smooth), transform 0.7s var(--ease-smooth);
+    transform: translateY(40px);
+    transition: opacity 0.8s var(--ease-smooth), transform 0.8s var(--ease-smooth);
     will-change: transform, opacity;
 }
 
@@ -163,145 +202,72 @@ body.solar-lit-active p {
 
 .scroll-reveal .reveal-content {
     opacity: 0;
-    transform: translateY(12px);
-    transition: opacity 0.4s var(--ease-3d), transform 0.4s var(--ease-3d);
+    transform: translateY(16px);
+    transition: opacity 0.45s var(--ease-3d), transform 0.45s var(--ease-3d);
 }
 
 .scroll-reveal.reveal-active .reveal-content {
     opacity: 1;
     transform: translateY(0);
-    transition-delay: 0.12s;
+    transition-delay: 0.15s;
 }
 
 .canvas-wrapper {
     position: relative;
-    z-index: 2;
+    z-index: 3;
     width: 100%;
 }
 
-/* UNIFORM TIGHTENED SECTION LAYOUT */
 .section-container {
-    padding: 4rem 2rem;
-    max-width: 1200px;
+    padding: 10rem 2.5rem;
+    max-width: 1280px;
     margin: 0 auto;
 }
 
 .section-tag {
     display: inline-block;
     font-family: var(--font-3d);
-    font-size: 0.8rem;
+    font-size: 0.85rem;
     letter-spacing: 0.35em;
     text-transform: uppercase;
     color: var(--neon-cyan);
-    margin-bottom: 0.8rem;
+    margin-bottom: 1.2rem;
+    transition: color 0.8s ease;
 }
 
 .section-title {
     font-family: var(--font-3d);
-    font-size: clamp(2.2rem, 4vw, 3.2rem);
+    font-size: clamp(2.4rem, 4.2vw, 3.8rem);
     font-weight: 700;
     line-height: 1.15;
-    margin-bottom: 1.2rem;
+    margin-bottom: 1.8rem;
+    transition: color 0.8s ease;
 }
 
-/* SHIMMER GLASS CARDS */
 .glass-card-3d {
-    position: relative;
     background: var(--glass-surface);
-    backdrop-filter: blur(20px);
-    -webkit-backdrop-filter: blur(20px);
+    backdrop-filter: blur(28px);
+    -webkit-backdrop-filter: blur(28px);
     border: 1px solid var(--glass-border);
-    border-radius: 20px;
-    box-shadow: 0 20px 40px rgba(0, 0, 0, 0.4);
-    overflow: hidden;
-    transition: border-color 0.4s ease, box-shadow 0.4s ease, background 0.6s ease;
+    border-radius: 28px;
+    box-shadow: 0 30px 60px rgba(0, 0, 0, 0.4);
+    transition: border-color 0.8s ease, box-shadow 0.8s ease, background 0.8s ease, color 0.8s ease;
 }
 
-.glass-card-3d::after {
-    content: '';
-    position: absolute;
-    top: 0;
-    left: -100%;
-    width: 60%;
-    height: 100%;
-    background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.08), transparent);
-    transform: skewX(-20deg);
-    pointer-events: none;
-    animation: cardShimmer 6s infinite ease-in-out;
-}
-
-@keyframes cardShimmer {
-
-    0%,
-    70% {
-        left: -100%;
-    }
-
-    100% {
-        left: 200%;
-    }
-}
-
-/* UNIFORM GRID SYSTEM */
-.unified-grid {
-    display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(310px, 1fr));
-    gap: 1.8rem;
-    width: 100%;
-}
-
-.service-box-3d,
-.why-card {
-    padding: 2.5rem !important;
-    width: 100% !important;
-    display: flex;
-    flex-direction: column;
-}
-
-.box-icon-3d {
-    width: 48px;
-    height: 48px;
-    background: rgba(0, 240, 255, 0.1);
-    border: 1px solid var(--neon-cyan);
-    border-radius: 12px;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    font-family: var(--font-3d);
-    font-size: 1.2rem;
-    font-weight: 700;
-    color: var(--neon-cyan);
-    margin-bottom: 1.2rem;
-    box-shadow: 0 0 15px rgba(0, 240, 255, 0.2);
-}
-
-.box-title {
-    font-family: var(--font-3d);
-    font-size: 1.5rem;
-    font-weight: 700;
-    margin-bottom: 0.6rem;
-}
-
-.box-copy {
-    color: var(--text-sub);
-    font-size: 1rem;
-}
-
-/* HERO SECTION - CUTOFF PREVENTED */
+/* HERO SECTION */
 .hero-3d-wrapper {
-    min-height: 80vh;
+    min-height: 95vh;
     display: flex;
     align-items: center;
     justify-content: center;
     position: relative;
-    padding: 6rem 2rem 4rem;
+    padding: 12rem 2.5rem 10rem;
     width: 100%;
-    background: transparent;
 }
 
 .hero-content-inner {
     width: 100%;
-    max-width: 1100px;
+    max-width: 1200px;
     display: flex;
     align-items: center;
     position: relative;
@@ -320,15 +286,15 @@ body.solar-lit-active p {
 .nebula-swirl {
     position: absolute;
     border-radius: 50%;
-    filter: blur(100px);
-    opacity: 0.3;
+    filter: blur(110px);
+    opacity: 0.35;
 }
 
 .nebula-1 {
     top: -10%;
     left: 10%;
-    width: 600px;
-    height: 600px;
+    width: 750px;
+    height: 750px;
     background: radial-gradient(circle, rgba(138, 43, 226, 0.6) 0%, rgba(224, 36, 195, 0.2) 60%, transparent 100%);
     animation: rotateNebula 35s infinite linear;
 }
@@ -336,29 +302,152 @@ body.solar-lit-active p {
 .nebula-2 {
     top: 5%;
     right: 5%;
-    width: 700px;
-    height: 700px;
+    width: 800px;
+    height: 800px;
     background: radial-gradient(circle, rgba(0, 240, 255, 0.45) 0%, rgba(138, 43, 226, 0.2) 55%, transparent 100%);
     animation: rotateNebula 48s infinite linear reverse;
 }
 
 .solar-system-planet-wrapper {
     position: absolute;
-    top: 5%;
-    right: 8%;
-    width: 180px;
-    height: 180px;
+    top: 8%;
+    right: 10%;
+    width: 220px;
+    height: 220px;
     border-radius: 50%;
     opacity: 0.95;
+    will-change: transform;
 }
 
-.planet-sun-core {
+/* FULL LUNAR SURFACE WITH MARE & CRATERS */
+.planet-lunar-core {
+    position: relative;
     width: 100%;
     height: 100%;
     border-radius: 50%;
-    background: radial-gradient(circle at 35% 35%, #ffffff 0%, #ffea00 25%, #ff5500 65%, #990000 100%);
-    box-shadow: 0 0 60px rgba(255, 140, 0, 0.9), 0 0 120px rgba(255, 51, 0, 0.6);
-    animation: pulseSunGlow 4s ease-in-out infinite alternate;
+    background: radial-gradient(circle at 35% 35%, #e6ecf2 0%, #b0b8c1 45%, #6a737d 80%, #3a4046 100%);
+    box-shadow:
+        0 0 45px rgba(230, 236, 242, 0.25),
+        0 0 90px rgba(0, 240, 255, 0.15);
+    overflow: hidden;
+    animation: pulseLunarGlow 5s ease-in-out infinite alternate;
+}
+
+/* LUNAR MARIA (DARK BASALTIC PLAINS) */
+.lunar-maria {
+    position: absolute;
+    background: rgba(55, 62, 70, 0.35);
+    border-radius: 50%;
+    filter: blur(10px);
+}
+
+.maria-1 {
+    top: 22%;
+    left: 20%;
+    width: 85px;
+    height: 75px;
+    transform: rotate(-15deg);
+}
+
+.maria-2 {
+    top: 48%;
+    left: 15%;
+    width: 100px;
+    height: 65px;
+    transform: rotate(20deg);
+}
+
+.maria-3 {
+    top: 30%;
+    left: 50%;
+    width: 70px;
+    height: 90px;
+}
+
+/* SUBTLE LUNAR CRATERS WITH SOFT EMBOSSED RIM SHADOWS */
+.lunar-crater {
+    position: absolute;
+    border-radius: 50%;
+    background: radial-gradient(circle at 60% 60%, rgba(210, 215, 222, 0.3) 0%, rgba(130, 138, 145, 0.2) 65%, rgba(70, 75, 82, 0.45) 100%);
+    box-shadow: inset 1px 1.5px 2.5px rgba(0, 0, 0, 0.35), 0.5px 0.5px 1px rgba(255, 255, 255, 0.25);
+}
+
+.crater-1 {
+    top: 65%;
+    left: 58%;
+    width: 28px;
+    height: 28px;
+}
+
+.crater-2 {
+    top: 25%;
+    left: 68%;
+    width: 20px;
+    height: 20px;
+}
+
+.crater-3 {
+    top: 75%;
+    left: 35%;
+    width: 16px;
+    height: 16px;
+}
+
+.crater-4 {
+    top: 15%;
+    left: 38%;
+    width: 12px;
+    height: 12px;
+}
+
+.crater-5 {
+    top: 42%;
+    left: 78%;
+    width: 15px;
+    height: 15px;
+}
+
+.crater-6 {
+    top: 50%;
+    left: 45%;
+    width: 22px;
+    height: 22px;
+}
+
+.crater-7 {
+    top: 80%;
+    left: 55%;
+    width: 10px;
+    height: 10px;
+}
+
+.crater-8 {
+    top: 32%;
+    left: 28%;
+    width: 14px;
+    height: 14px;
+}
+
+/* 3D SPHERICAL TERMINATOR SHADOW OVERLAY */
+.lunar-shadow-overlay {
+    position: absolute;
+    inset: 0;
+    border-radius: 50%;
+    background: radial-gradient(circle at 30% 30%, transparent 40%, rgba(10, 12, 18, 0.65) 75%, rgba(2, 3, 8, 0.92) 100%);
+}
+
+@keyframes pulseLunarGlow {
+    0% {
+        box-shadow:
+            0 0 35px rgba(230, 236, 242, 0.2),
+            0 0 70px rgba(0, 240, 255, 0.1);
+    }
+
+    100% {
+        box-shadow:
+            0 0 55px rgba(230, 236, 242, 0.35),
+            0 0 110px rgba(0, 240, 255, 0.25);
+    }
 }
 
 @keyframes rotateNebula {
@@ -377,45 +466,48 @@ body.solar-lit-active p {
 
 .hero-flying-stars-container {
     position: absolute;
-    inset: -20px;
+    inset: -30px;
     pointer-events: none;
     z-index: 1;
     overflow: hidden;
 }
 
-.hero-sparkle-star {
+.hero-space-star {
     position: absolute;
     background: #ffffff;
     border-radius: 50%;
-    box-shadow: 0 0 6px #ffffff, 0 0 12px var(--neon-cyan);
-    animation: twinkleSparkle linear infinite alternate;
+    box-shadow: 0 0 5px #ffffff;
 }
 
-@keyframes twinkleSparkle {
+.twinkling-star {
+    animation: starPulse linear infinite alternate;
+}
+
+@keyframes starPulse {
     0% {
         opacity: 0.2;
-        transform: translate(0, 0) scale(0.6);
+        transform: scale(0.8);
     }
 
     100% {
         opacity: 1;
-        transform: translate(var(--tx), var(--ty)) scale(1.4);
+        transform: scale(1.3);
     }
 }
 
 .hero-glass-portal {
-    padding: 3.8rem;
-    max-width: 820px;
+    padding: 4.5rem;
+    max-width: 860px;
     position: relative;
     z-index: 2;
 }
 
 .hero-headline {
     font-family: var(--font-3d);
-    font-size: clamp(2.4rem, 5vw, 4rem);
+    font-size: clamp(2.5rem, 4.8vw, 4.2rem);
     font-weight: 700;
-    line-height: 1.1;
-    margin-bottom: 1.4rem;
+    line-height: 1.12;
+    margin-bottom: 1.8rem;
 }
 
 .hero-headline span {
@@ -425,46 +517,105 @@ body.solar-lit-active p {
 }
 
 .hero-description {
-    font-size: 1.1rem;
+    font-size: 1.15rem;
     color: var(--text-sub);
-    max-width: 620px;
-    margin-bottom: 2.2rem;
+    max-width: 660px;
+    margin-bottom: 2.8rem;
+    transition: color 0.8s ease;
 }
 
 /* ABOUT SECTION */
 .about-3d-container {
     display: grid;
     grid-template-columns: 1fr 1fr;
-    gap: 3rem;
+    gap: 4rem;
     align-items: center;
-    padding: 3.8rem;
+    padding: 4.5rem;
 }
 
 .about-text-content {
-    font-size: 1.05rem;
+    font-size: 1.1rem;
     color: var(--text-sub);
+    transition: color 0.8s ease;
 }
 
 .about-text-content p {
-    margin-bottom: 1.2rem;
+    margin-bottom: 1.6rem;
 }
 
 .experience-badge-3d {
-    padding: 3rem;
+    padding: 4rem;
     text-align: center;
 }
 
 .exp-number {
     font-family: var(--font-3d);
-    font-size: 4rem;
+    font-size: 4.5rem;
     color: var(--neon-cyan);
-    text-shadow: 0 0 20px rgba(0, 240, 255, 0.4);
+    transition: color 0.8s ease;
 }
 
-/* FOOTER & DYNAMIC GLOWING SUN HORIZON */
+/* UNIFORM GRID */
+.uniform-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(340px, 1fr));
+    gap: 2.8rem;
+    width: 100%;
+}
+
+.standard-card {
+    padding: 3.2rem;
+    width: 100%;
+}
+
+.box-icon-3d {
+    width: 56px;
+    height: 56px;
+    background: rgba(0, 240, 255, 0.1);
+    border: 1px solid var(--neon-cyan);
+    border-radius: 16px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-family: var(--font-3d);
+    font-size: 1.25rem;
+    font-weight: 700;
+    color: var(--neon-cyan);
+    margin-bottom: 1.5rem;
+    transition: all 0.8s ease;
+}
+
+.box-title {
+    font-family: var(--font-3d);
+    font-size: 1.6rem;
+    font-weight: 700;
+    margin-bottom: 1rem;
+    transition: color 0.8s ease;
+}
+
+.box-copy {
+    color: var(--text-sub);
+    font-size: 1.05rem;
+    transition: color 0.8s ease;
+}
+
+.location-intro-text {
+    color: var(--text-sub);
+    transition: color 0.8s ease;
+}
+
+.why-card-title {
+    font-family: var(--font-3d);
+    font-size: 1.5rem;
+    margin-bottom: 1rem;
+    color: var(--neon-cyan);
+    transition: color 0.8s ease;
+}
+
+/* FOOTER SUN HORIZON */
 .footer-contact-3d {
     position: relative;
-    padding: 8rem 2rem 10rem;
+    padding: 14rem 2.5rem 16rem;
     overflow: hidden !important;
 }
 
@@ -474,18 +625,18 @@ body.solar-lit-active p {
     pointer-events: none;
     z-index: 1;
     overflow: hidden !important;
-    transition: opacity 1.2s ease;
 }
 
 .giant-glowing-sun {
     position: absolute;
     left: 50%;
-    top: 480px;
-    width: 2100px;
-    height: 2100px;
+    top: 520px;
+    width: 2200px;
+    height: 2200px;
     border-radius: 50%;
     background: radial-gradient(circle, #ffffff 0%, #fff29c 18%, #ff8c00 48%, #ff1100 82%);
     z-index: 1;
+    will-change: transform;
     animation: pulseSunGlow 4.5s ease-in-out infinite alternate;
 }
 
@@ -495,14 +646,14 @@ body.solar-lit-active p {
     }
 
     100% {
-        box-shadow: 0 0 700px #ffea00, 0 0 1300px #ff1100;
+        box-shadow: 0 0 650px #ffea00, 0 0 1200px #ff1100;
     }
 }
 
 .contact-card-3d {
-    max-width: 680px;
+    max-width: 720px;
     margin: 0 auto;
-    padding: 4rem 3rem;
+    padding: 4.5rem 3.5rem;
     text-align: center;
     position: relative;
     z-index: 10;
@@ -511,41 +662,59 @@ body.solar-lit-active p {
 .contact-form {
     display: flex;
     flex-direction: column;
-    gap: 1.2rem;
-    margin-top: 2rem;
+    gap: 1.5rem;
+    margin-top: 2.5rem;
 }
 
 .form-input-3d {
     width: 100%;
     background: rgba(255, 255, 255, 0.05);
     border: 1px solid var(--glass-border);
-    padding: 1.1rem 1.4rem;
-    border-radius: 12px;
+    padding: 1.25rem 1.6rem;
+    border-radius: 14px;
     color: var(--text-main);
     font-family: var(--font-sans);
-    font-size: 1rem;
+    font-size: 1.05rem;
     outline: none;
-    transition: background 0.4s ease, border-color 0.4s ease;
+    transition: background 0.6s ease, border-color 0.6s ease, color 0.6s ease;
 }
 
 textarea.form-input-3d {
-    min-height: 130px;
+    min-height: 140px;
     resize: vertical;
 }
 
-@media (max-width: 850px) {
+.submitted-msg-box {
+    padding: 2rem;
+    background: rgba(255, 140, 0, 0.2);
+    border-radius: 16px;
+    margin-top: 2rem;
+    color: #ff6600;
+    font-weight: bold;
+}
+
+@media (max-width: 900px) {
+    .section-container {
+        padding: 6rem 1.5rem;
+    }
+
     .about-3d-container {
         grid-template-columns: 1fr;
+        padding: 2.8rem;
     }
 
     .hero-glass-portal {
-        padding: 2.5rem;
+        padding: 2.8rem;
+    }
+
+    .standard-card {
+        padding: 2.2rem;
     }
 
     .floating-brand-badge-bottom {
-        top: 1rem;
-        left: 1rem;
-        padding: 0.45rem 0.95rem;
-        font-size: 0.75rem;
+        top: 1.2rem;
+        left: 1.2rem;
+        padding: 0.48rem 1rem;
+        font-size: 0.78rem;
     }
 }
