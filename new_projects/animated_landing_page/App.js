@@ -9,6 +9,7 @@ const ENGAGEMENT_DATA_SET = [
     },
     {
         target: 245,
+        prefix: "",
         suffix: "%",
         decimals: 0,
         label: "Attention Duration",
@@ -193,24 +194,26 @@ function App() {
         resizeCanvas();
         window.addEventListener('resize', resizeCanvas);
 
+        // Store explicit pulse speeds and brightness ranges
         const createStarLayer = (count, minSize, maxSize) => {
             return Array.from({ length: count }, () => ({
                 x: Math.random() * window.innerWidth,
                 y: Math.random() * window.innerHeight * 4,
                 size: Math.random() * (maxSize - minSize) + minSize,
-                twinkleSpeed: Math.random() * 0.08 + 0.02,
-                phase: Math.random() * Math.PI * 2
+                pulseSpeed: Math.random() * 0.03 + 0.015, // Smooth frequency
+                phase: Math.random() * Math.PI * 2,
+                baseAlpha: Math.random() * 0.3 + 0.2 // Prevents completely blacking out
             }));
         };
 
-        const starsDeep = createStarLayer(300, 0.4, 1.0);
-        const starsMid = createStarLayer(200, 1.0, 1.8);
-        const starsNear = createStarLayer(100, 1.8, 2.8);
+        const starsDeep = createStarLayer(250, 0.8, 1.4);
+        const starsMid = createStarLayer(150, 1.4, 2.2);
+        const starsNear = createStarLayer(80, 2.2, 3.5);
 
         let time = 0;
 
         const renderGalaxy = () => {
-            time += 0.8;
+            time += 1; // Predictable frame step
             ctx.clearRect(0, 0, canvas.width, canvas.height);
             const mx = mouseRef.current.x;
             const my = mouseRef.current.y;
@@ -219,23 +222,28 @@ function App() {
             const isLightActive = document.body.classList.contains('solar-lit-active');
             const starFillColor = isLightActive ? '#3c2a1e' : '#ffffff';
 
-            const drawLayer = (stars, mxMult, myMult, syMult, alphaMult) => {
+            const drawLayer = (stars, mxMult, myMult, syMult, maxOpacity) => {
                 ctx.save();
                 ctx.translate(mx * mxMult, my * myMult - sy * syMult);
+
                 stars.forEach((star) => {
-                    const alpha = Math.max(0, (Math.sin(time * star.twinkleSpeed + star.phase) + 1) / 2);
+                    // Creates a clear 0.2 to 1.0 sine cycle
+                    const twinkle = (Math.sin(time * star.pulseSpeed + star.phase) + 1) / 2;
+                    const currentAlpha = (star.baseAlpha + twinkle * (1 - star.baseAlpha)) * maxOpacity;
+
                     ctx.fillStyle = starFillColor;
-                    ctx.globalAlpha = alpha * alphaMult;
+                    ctx.globalAlpha = Math.min(1, Math.max(0, currentAlpha));
                     ctx.beginPath();
                     ctx.arc(star.x, star.y, star.size, 0, Math.PI * 2);
                     ctx.fill();
                 });
+
                 ctx.restore();
             };
 
-            drawLayer(starsDeep, 0.03, 0.03, 0.15, isLightActive ? 0.35 : 0.7);
-            drawLayer(starsMid, 0.1, 0.1, 0.4, isLightActive ? 0.45 : 0.85);
-            drawLayer(starsNear, 0.22, 0.22, 0.75, isLightActive ? 0.6 : 1.0);
+            drawLayer(starsDeep, 0.03, 0.03, 0.15, isLightActive ? 0.4 : 0.65);
+            drawLayer(starsMid, 0.1, 0.1, 0.4, isLightActive ? 0.55 : 0.85);
+            drawLayer(starsNear, 0.22, 0.22, 0.75, isLightActive ? 0.7 : 1.0);
 
             animationFrameId = requestAnimationFrame(renderGalaxy);
         };
