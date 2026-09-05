@@ -154,10 +154,18 @@ body.solar-lit-active .why-card-title {
     color: #e65200 !important;
 }
 
-body.solar-lit-active .box-icon-3d {
-    background: rgba(255, 120, 0, 0.12);
-    border-color: #ff6600;
-    color: #d94b00;
+body.solar-lit-active .ui-num-badge {
+    background: rgba(255, 119, 0, 0.12);
+    border-color: rgba(230, 87, 0, 0.4);
+    color: #e65200;
+    box-shadow: inset 0 1px 1px rgba(255, 255, 255, 0.5), 0 4px 12px rgba(230, 80, 0, 0.15);
+}
+
+body.solar-lit-active .ascii-astronaut {
+    color: #e65200;
+    background: rgba(255, 245, 235, 0.9);
+    border-color: rgba(255, 120, 0, 0.35);
+    box-shadow: inset 0 0 20px rgba(255, 120, 0, 0.05), 0 10px 30px rgba(230, 80, 0, 0.1);
 }
 
 .btn-3d-glow {
@@ -476,22 +484,28 @@ body.solar-lit-active .box-icon-3d {
     position: absolute;
     background: #ffffff;
     border-radius: 50%;
-    box-shadow: 0 0 5px #ffffff;
+    box-shadow: 0 0 6px rgba(255, 255, 255, 0.9);
 }
 
 .twinkling-star {
-    animation: starPulse linear infinite alternate;
+    animation: starPulse ease-in-out infinite alternate;
 }
 
+/* SLOWER TWINKLE ANIMATION */
 @keyframes starPulse {
     0% {
-        opacity: 0.2;
-        transform: scale(0.8);
+        opacity: 0.1;
+        transform: scale(0.6);
+    }
+
+    50% {
+        opacity: 0.95;
+        transform: scale(1.1);
     }
 
     100% {
-        opacity: 1;
-        transform: scale(1.3);
+        opacity: 0.1;
+        transform: scale(0.6);
     }
 }
 
@@ -524,35 +538,82 @@ body.solar-lit-active .box-icon-3d {
     transition: color 0.8s ease;
 }
 
-/* ABOUT SECTION */
+/* ABOUT SECTION FLEX LAYOUT */
 .about-3d-container {
-    display: grid;
-    grid-template-columns: 1fr 1fr;
-    gap: 4rem;
+    display: flex !important;
+    flex-direction: row;
     align-items: center;
+    gap: 3.5rem;
     padding: 4.5rem;
+    width: 100%;
 }
 
 .about-text-content {
+    flex: 1;
     font-size: 1.1rem;
     color: var(--text-sub);
     transition: color 0.8s ease;
+}
+
+.about-text-content .section-title {
+    color: var(--text-main) !important;
 }
 
 .about-text-content p {
     margin-bottom: 1.6rem;
 }
 
-.experience-badge-3d {
-    padding: 4rem;
-    text-align: center;
+.about-text-content p:last-child {
+    margin-bottom: 0;
 }
 
-.exp-number {
-    font-family: var(--font-3d);
-    font-size: 4.5rem;
+/* ASCII CONTAINER & CENTERED ALIGNMENT */
+.ascii-astronaut-container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-shrink: 0;
+    width: 100%;
+    max-width: 420px;
+    margin: 0 auto;
+}
+
+.ascii-astronaut {
+    font-family: 'Courier New', Courier, monospace;
+    font-size: 0.85rem;
+    line-height: 1.15;
     color: var(--neon-cyan);
-    transition: color 0.8s ease;
+    background: rgba(4, 8, 18, 0.6);
+    border: 1px solid rgba(0, 240, 255, 0.25);
+    border-radius: 20px;
+    padding: 3.5rem 4rem;
+    white-space: pre;
+    text-align: center;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin: 0 auto;
+    box-shadow: inset 0 0 25px rgba(0, 240, 255, 0.08), 0 12px 35px rgba(0, 0, 0, 0.5);
+    transition: all 0.8s ease;
+}
+
+/* CYAN UI BADGE FOR 01, 02, 03 */
+.ui-num-badge {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    padding: 0.35rem 0.85rem;
+    border-radius: 8px;
+    font-family: var(--font-3d);
+    font-size: 0.85rem;
+    font-weight: 700;
+    letter-spacing: 0.08em;
+    background: rgba(0, 240, 255, 0.1);
+    border: 1px solid var(--neon-cyan);
+    box-shadow: inset 0 1px 1px rgba(255, 255, 255, 0.2), 0 4px 12px rgba(0, 240, 255, 0.15);
+    color: var(--neon-cyan);
+    margin-bottom: 1.25rem;
+    transition: all 0.8s ease;
 }
 
 /* UNIFORM GRID */
@@ -566,23 +627,6 @@ body.solar-lit-active .box-icon-3d {
 .standard-card {
     padding: 3.2rem;
     width: 100%;
-}
-
-.box-icon-3d {
-    width: 56px;
-    height: 56px;
-    background: rgba(0, 240, 255, 0.1);
-    border: 1px solid var(--neon-cyan);
-    border-radius: 16px;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    font-family: var(--font-3d);
-    font-size: 1.25rem;
-    font-weight: 700;
-    color: var(--neon-cyan);
-    margin-bottom: 1.5rem;
-    transition: all 0.8s ease;
 }
 
 .box-title {
@@ -699,7 +743,7 @@ textarea.form-input-3d {
     }
 
     .about-3d-container {
-        grid-template-columns: 1fr;
+        flex-direction: column;
         padding: 2.8rem;
     }
 
