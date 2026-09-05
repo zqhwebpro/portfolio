@@ -1,3 +1,5 @@
+import React from 'react';
+
 const ENGAGEMENT_DATA_SET = [
     {
         target: 40,
