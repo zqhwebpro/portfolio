@@ -1,5 +1,3 @@
-import React from 'react';
-
 const ENGAGEMENT_DATA_SET = [
     {
         target: 40,
@@ -112,7 +110,7 @@ function HeroFlyingStars() {
     );
 }
 
-export default function App() {
+function App() {
     const [mouse, setMouse] = React.useState({ x: 0, y: 0 });
     const [submitted, setSubmitted] = React.useState(false);
     const [isSubmitting, setIsSubmitting] = React.useState(false);
