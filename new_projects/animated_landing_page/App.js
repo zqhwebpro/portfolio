@@ -513,3 +513,5 @@ function App() {
         </div>
     );
 }
+
+window.App = App;
