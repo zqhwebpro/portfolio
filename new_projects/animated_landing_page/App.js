@@ -185,7 +185,10 @@ function App() {
 
         const resizeCanvas = () => {
             canvas.width = window.innerWidth;
-            canvas.height = window.innerHeight;
+            canvas.height = Math.max(
+                document.documentElement.scrollHeight,
+                window.innerHeight
+            );
         };
         resizeCanvas();
         window.addEventListener('resize', resizeCanvas);
@@ -195,7 +198,7 @@ function App() {
                 x: Math.random() * window.innerWidth,
                 y: Math.random() * window.innerHeight * 4,
                 size: Math.random() * (maxSize - minSize) + minSize,
-                twinkleSpeed: Math.random() * 0.012 + 0.004,
+                twinkleSpeed: Math.random() * 0.08 + 0.02,
                 phase: Math.random() * Math.PI * 2
             }));
         };
@@ -207,7 +210,7 @@ function App() {
         let time = 0;
 
         const renderGalaxy = () => {
-            time += 0.05;
+            time += 0.8;
             ctx.clearRect(0, 0, canvas.width, canvas.height);
             const mx = mouseRef.current.x;
             const my = mouseRef.current.y;
