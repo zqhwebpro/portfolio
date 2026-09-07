@@ -1,0 +1,145 @@
+<!-- index.html -->
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
+    <title>Workout Shuffler - Movement Engine</title>
+
+    <!-- Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    fontFamily: {
+                        heading: ['Impact', 'Trebuchet MS', '-apple-system', 'BlinkMacSystemFont', 'sans-serif'],
+                        body: ['-apple-system', 'BlinkMacSystemFont', 'Segoe UI', 'Roboto', 'Helvetica Neue', 'Arial', 'sans-serif'],
+                    },
+                    colors: {
+                        'neon-lime': '#CCFF00',
+                        'neon-red': '#FF2A2A',
+                        'raw-black': '#09090B',
+                        'carbon': '#121215',
+                        'panel-dark': '#18181C'
+                    }
+                }
+            }
+        }
+    </script>
+
+    <style>
+        * {
+            -webkit-tap-highlight-color: transparent;
+            box-sizing: border-box;
+        }
+
+        html,
+        body {
+            margin: 0;
+            padding: 0;
+            width: 100vw;
+            height: 100dvh;
+            overflow: hidden;
+            background-color: #09090B;
+            color: #F4F4F5;
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
+        }
+
+        .bg-carbon-pattern {
+            background-color: #09090B;
+            background-image: radial-gradient(#27272A 1px, transparent 1px), radial-gradient(#27272A 1px, #09090B 1px);
+            background-size: 20px 20px;
+            background-position: 0 0, 10px 10px;
+        }
+
+        .athletic-card {
+            background: linear-gradient(180deg, rgba(24, 24, 28, 0.95) 0%, rgba(15, 15, 18, 0.98) 100%);
+            border: 1px solid rgba(255, 255, 255, 0.08);
+            box-shadow: 0 10px 25px -5px rgba(0, 0, 0, 0.8);
+        }
+
+        .athletic-card-glow {
+            border: 1px solid rgba(204, 255, 0, 0.3);
+            box-shadow: 0 0 20px rgba(204, 255, 0, 0.12);
+        }
+
+        .btn-neon {
+            background: #CCFF00;
+            color: #000;
+            font-weight: 900;
+            text-transform: uppercase;
+            letter-spacing: 0.08em;
+            box-shadow: 0 0 20px rgba(204, 255, 0, 0.35);
+            transition: all 0.2s ease;
+        }
+
+        .btn-neon:hover {
+            background: #d8ff33;
+            box-shadow: 0 0 25px rgba(204, 255, 0, 0.55);
+            transform: translateY(-1px);
+        }
+
+        .btn-neon:active {
+            transform: scale(0.97);
+        }
+
+        @keyframes marquee {
+            0% {
+                transform: translateX(0%);
+            }
+
+            100% {
+                transform: translateX(-50%);
+            }
+        }
+
+        .animate-marquee {
+            display: inline-block;
+            white-space: nowrap;
+            animation: marquee 25s linear infinite;
+        }
+
+        ::-webkit-scrollbar {
+            width: 5px;
+            height: 5px;
+        }
+
+        ::-webkit-scrollbar-track {
+            background: rgba(0, 0, 0, 0.2);
+        }
+
+        ::-webkit-scrollbar-thumb {
+            background: #3F3F46;
+            border-radius: 4px;
+        }
+
+        ::-webkit-scrollbar-thumb:hover {
+            background: #CCFF00;
+        }
+
+        .no-scrollbar::-webkit-scrollbar {
+            display: none;
+        }
+
+        .no-scrollbar {
+            -ms-overflow-style: none;
+            scrollbar-width: none;
+        }
+    </style>
+
+    <!-- React & Babel -->
+    <script src="https://unpkg.com/react@18/umd/react.production.min.js" crossorigin></script>
+    <script src="https://unpkg.com/react-dom@18/umd/react-dom.production.min.js" crossorigin></script>
+    <script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
+</head>
+
+<body>
+    <div id="root" style="width: 100vw; height: 100dvh;"></div>
+
+    <script type="text/babel" src="./App.js?v=1461"></script>
+    <script type="text/babel" src="./index.js?v=1461"></script>
+</body>
+
+</html>

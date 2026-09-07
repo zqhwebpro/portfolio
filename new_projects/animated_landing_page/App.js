@@ -185,36 +185,49 @@ function App() {
         let animationFrameId;
 
         const resizeCanvas = () => {
-            canvas.width = window.innerWidth;
-            canvas.height = Math.max(
+            // Handle high-DPI/Retina screens for smooth circular arcs
+            const dpr = window.devicePixelRatio || 1;
+            const width = window.innerWidth;
+            const height = Math.max(
                 document.documentElement.scrollHeight,
                 window.innerHeight
             );
+
+            canvas.width = width * dpr;
+            canvas.height = height * dpr;
+            canvas.style.width = `${width}px`;
+            canvas.style.height = `${height}px`;
+
+            ctx.scale(dpr, dpr);
         };
         resizeCanvas();
         window.addEventListener('resize', resizeCanvas);
 
-        // Store explicit pulse speeds and brightness ranges
         const createStarLayer = (count, minSize, maxSize) => {
             return Array.from({ length: count }, () => ({
                 x: Math.random() * window.innerWidth,
                 y: Math.random() * window.innerHeight * 4,
                 size: Math.random() * (maxSize - minSize) + minSize,
-                pulseSpeed: Math.random() * 0.03 + 0.015, // Smooth frequency
+                pulseSpeed: Math.random() * 0.03 + 0.015,
                 phase: Math.random() * Math.PI * 2,
-                baseAlpha: Math.random() * 0.3 + 0.2 // Prevents completely blacking out
+                baseAlpha: Math.random() * 0.3 + 0.2
             }));
         };
 
-        const starsDeep = createStarLayer(250, 0.8, 1.4);
-        const starsMid = createStarLayer(150, 1.4, 2.2);
-        const starsNear = createStarLayer(80, 2.2, 3.5);
+        const starsDeep = createStarLayer(250, 1.0, 1.6);
+        const starsMid = createStarLayer(150, 1.6, 2.4);
+        const starsNear = createStarLayer(80, 2.4, 3.8);
 
         let time = 0;
 
         const renderGalaxy = () => {
-            time += 1; // Predictable frame step
+            time += 1;
             ctx.clearRect(0, 0, canvas.width, canvas.height);
+
+            // Enable maximum smoothing for smooth circular arcs
+            ctx.imageSmoothingEnabled = true;
+            ctx.imageSmoothingQuality = 'high';
+
             const mx = mouseRef.current.x;
             const my = mouseRef.current.y;
             const sy = currentScrollRef.current;
@@ -227,14 +240,16 @@ function App() {
                 ctx.translate(mx * mxMult, my * myMult - sy * syMult);
 
                 stars.forEach((star) => {
-                    // Creates a clear 0.2 to 1.0 sine cycle
                     const twinkle = (Math.sin(time * star.pulseSpeed + star.phase) + 1) / 2;
                     const currentAlpha = (star.baseAlpha + twinkle * (1 - star.baseAlpha)) * maxOpacity;
 
                     ctx.fillStyle = starFillColor;
                     ctx.globalAlpha = Math.min(1, Math.max(0, currentAlpha));
+
                     ctx.beginPath();
-                    ctx.arc(star.x, star.y, star.size, 0, Math.PI * 2);
+                    // Drawing with explicit arc parameters ensures perfect circles
+                    ctx.arc(star.x, star.y, star.size / 2, 0, Math.PI * 2, false);
+                    ctx.closePath();
                     ctx.fill();
                 });
 
@@ -275,31 +290,30 @@ function App() {
         return () => observer.disconnect();
     }, []);
 
-    const handleSubmit = async (e) => {
+    const handleSubmit = (e) => {
         e.preventDefault();
         setIsSubmitting(true);
-        const recipient = getDecodedEmail();
+
         const formData = new FormData(e.target);
+        const name = formData.get('name');
+        const email = formData.get('email');
+        const message = formData.get('message');
+        const recipient = getDecodedEmail();
 
-        try {
-            const response = await fetch(`https://formspree.io/f/xknkyqpg`, {
-                method: 'POST',
-                headers: { 'Accept': 'application/json' },
-                body: formData
-            });
+        // Construct structured mailto parameters
+        const subject = encodeURIComponent(`Portfolio Inquiry from ${name}`);
+        const body = encodeURIComponent(
+            `Name: ${name}\n` +
+            `Email: ${email}\n\n` +
+            `Message:\n${message}`
+        );
 
-            if (response.ok) {
-                setSubmitted(true);
-            } else {
-                window.location.href = `mailto:${recipient}?subject=Portfolio Contact&body=${encodeURIComponent(formData.get('message'))}`;
-                setSubmitted(true);
-            }
-        } catch (err) {
-            window.location.href = `mailto:${recipient}?subject=Portfolio Contact`;
-            setSubmitted(true);
-        } finally {
-            setIsSubmitting(false);
-        }
+        // Launch email client with pre-filled content
+        window.location.href = `mailto:${recipient}?subject=${subject}&body=${body}`;
+
+        // Mark form as submitted to update UI
+        setSubmitted(true);
+        setIsSubmitting(false);
     };
 
     return (
@@ -365,7 +379,7 @@ function App() {
                             Bringing Static Sites to Life <span>Through Motion & Modern Code.</span>
                         </h1>
                         <a href="#contact" className="btn-3d-glow" title="Contact for Front-End Web Development">
-                            Straight to Contact ↗
+                            Straight to Contact
                         </a>
                     </div>
                 </div>
@@ -464,8 +478,8 @@ function App() {
             {/* FOOTER & RE-CALIBRATED SUN ZOOM ANIMATION */}
             <footer id="contact" className="footer-contact-3d">
                 <div className="glass-card-3d contact-card-3d scroll-reveal">
-                    <span className="section-tag reveal-content">Networking For Reach</span>
-                    <h2 className="section-title reveal-content">Contact Me to Build Together</h2>
+                    <span className="section-tag reveal-content">Reach Out</span>
+                    <h2 className="section-title reveal-content">Contact Me About Opportunities</h2>
 
                     {submitted ? (
                         <div className="submitted-msg-box" role="alert">
