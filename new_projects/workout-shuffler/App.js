@@ -1,10 +1,10 @@
 // App.js
 const { useState, useEffect, useCallback, useRef } = React;
 
-// RapidAPI Muscle Visualizer API Configuration
 const RAPIDAPI_KEY = 'ddccbde598msh13bc8f6b42c23ebp14d5d8jsn7888afa48c9f';
 const RAPIDAPI_HOST = 'muscle-visualizer-api.p.rapidapi.com';
 
+const EXERCISE_BASE_RAW = 'https://raw.githubusercontent.com/yuhonas/free-exercise-db/main/exercises/';
 const EXERCISEDB_DIRECT_DATASET = 'https://raw.githubusercontent.com/yuhonas/free-exercise-db/main/dist/exercises.json';
 
 const AFFIRMATIONS = [
@@ -59,12 +59,15 @@ function MuscleVisualizerModule({ activeMuscle, secondaryMuscle }) {
 
     useEffect(() => {
         let isMounted = true;
+        let objectUrlToCleanup = null;
+
         const fetchVisualizer = async () => {
             setLoadingImg(true);
             const primary = mapMuscleToApi(activeMuscle);
             const secondary = secondaryMuscle ? mapMuscleToApi(secondaryMuscle) : 'BACK';
 
-            const endpoint = `https://${RAPIDAPI_HOST}/api/v1/visualize/workout?targetMuscles=${primary}&targetMusclesColor=%23CCFF00&secondaryMuscles=${secondary}&secondaryMusclesColor=%23FF2A2A&gender=male&background=transparent&size=small&format=png`;
+            // Clean Hex codes passed without # symbol to prevent HTTP 400 Bad Request errors
+            const endpoint = `https://${RAPIDAPI_HOST}/api/v1/visualize/workout?targetMuscles=${primary}&targetMusclesColor=CCFF00&secondaryMuscles=${secondary}&secondaryMusclesColor=FF2A2A&gender=male&background=transparent&size=small&format=png`;
 
             try {
                 const response = await fetch(endpoint, {
@@ -77,13 +80,13 @@ function MuscleVisualizerModule({ activeMuscle, secondaryMuscle }) {
 
                 if (response.ok) {
                     const blob = await response.blob();
-                    const objectUrl = URL.createObjectURL(blob);
-                    if (isMounted) setImageUrl(objectUrl);
+                    objectUrlToCleanup = URL.createObjectURL(blob);
+                    if (isMounted) setImageUrl(objectUrlToCleanup);
                 } else {
                     if (isMounted) setImageUrl(null);
                 }
             } catch (err) {
-                console.warn('Muscle Visualizer fetch failed:', err);
+                console.warn('Muscle Visualizer fetch error:', err);
                 if (isMounted) setImageUrl(null);
             } finally {
                 if (isMounted) setLoadingImg(false);
@@ -94,6 +97,7 @@ function MuscleVisualizerModule({ activeMuscle, secondaryMuscle }) {
 
         return () => {
             isMounted = false;
+            if (objectUrlToCleanup) URL.revokeObjectURL(objectUrlToCleanup);
         };
     }, [activeMuscle, secondaryMuscle]);
 
@@ -130,7 +134,6 @@ function MuscleVisualizerModule({ activeMuscle, secondaryMuscle }) {
     );
 }
 
-// Spotify Web Player Component
 function SpotifyModule() {
     const [activePlaylist, setActivePlaylist] = useState('BEAST MODE');
     const [isPlaying, setIsPlaying] = useState(false);
@@ -409,10 +412,11 @@ function App() {
         if (targetMuscle !== 'all') {
             const query = targetMuscle.toLowerCase();
             filtered = dataset.filter(ex => {
-                const target = (ex.target || '').toLowerCase();
-                const bodyPart = (ex.bodyPart || '').toLowerCase();
+                const primary = (ex.primaryMuscles || []).join(' ').toLowerCase();
+                const secondary = (ex.secondaryMuscles || []).join(' ').toLowerCase();
+                const category = (ex.category || '').toLowerCase();
                 const name = (ex.name || '').toLowerCase();
-                return target.includes(query) || bodyPart.includes(query) || name.includes(query);
+                return primary.includes(query) || secondary.includes(query) || category.includes(query) || name.includes(query);
             });
         }
         if (!filtered.length) filtered = dataset;
@@ -461,6 +465,18 @@ function App() {
     };
 
     const currentExercise = exercises[currentIndex];
+
+    // Construct dynamic exercise image path
+    const getExerciseImageUrl = (ex) => {
+        if (!ex) return null;
+        if (ex.gifUrl) return ex.gifUrl;
+        if (ex.images && ex.images.length > 0) {
+            return `${EXERCISE_BASE_RAW}${ex.images[0]}`;
+        }
+        return null;
+    };
+
+    const currentImageUrl = getExerciseImageUrl(currentExercise);
 
     const videoExternalUrl = currentExercise
         ? `https://www.youtube.com/results?search_query=${encodeURIComponent(currentExercise.name + ' exercise proper form tutorial')}`
@@ -564,7 +580,7 @@ function App() {
                                                 MOVEMENT {currentIndex + 1} / {exercises.length}
                                             </span>
                                             <span className="text-[10px] font-black text-slate-400 uppercase tracking-widest">
-                                                {currentExercise.bodyPart || 'FULL BODY'}
+                                                {currentExercise.category || currentExercise.bodyPart || 'FULL BODY'}
                                             </span>
                                         </div>
                                         <h2 className="text-xl md:text-2xl font-black text-white italic tracking-tight uppercase leading-none">
@@ -576,13 +592,13 @@ function App() {
                                         <div className="bg-black/60 p-2.5 rounded-xl border border-white/10 text-center">
                                             <span className="block text-[9px] font-extrabold text-slate-400 uppercase tracking-widest">TARGET</span>
                                             <span className="text-sm md:text-base font-black text-white capitalize truncate mt-0.5 block">
-                                                {toTitleCase(currentExercise.target)}
+                                                {toTitleCase((currentExercise.primaryMuscles || [currentExercise.target || 'Full Body'])[0])}
                                             </span>
                                         </div>
                                         <div className="bg-black/60 p-2.5 rounded-xl border border-white/10 text-center">
-                                            <span className="block text-[9px] font-extrabold text-[#CCFF00] uppercase tracking-widest">BODY PART</span>
+                                            <span className="block text-[9px] font-extrabold text-[#CCFF00] uppercase tracking-widest">CATEGORY</span>
                                             <span className="text-sm md:text-base font-black text-[#CCFF00] capitalize truncate mt-0.5 block">
-                                                {toTitleCase(currentExercise.bodyPart)}
+                                                {toTitleCase(currentExercise.category || currentExercise.bodyPart || 'General')}
                                             </span>
                                         </div>
                                         <div className="bg-black/60 p-2.5 rounded-xl border border-white/10 text-center">
@@ -599,7 +615,7 @@ function App() {
                                     <div className="lg:col-span-4 athletic-card rounded-2xl p-2 flex flex-col min-h-[160px] border border-white/10">
                                         <div className="flex items-center justify-between pb-1 mb-1 border-b border-white/10">
                                             <span className="text-[11px] font-black text-white tracking-wider uppercase italic">
-                                                ANIMATED DEMO
+                                                MOVEMENT DEMO
                                             </span>
                                             <a
                                                 href={videoExternalUrl}
@@ -611,22 +627,22 @@ function App() {
                                             </a>
                                         </div>
                                         <div className="flex-1 w-full h-full relative rounded-xl overflow-hidden bg-black border border-white/10 flex items-center justify-center p-1">
-                                            {currentExercise.gifUrl ? (
+                                            {currentImageUrl ? (
                                                 <img
-                                                    src={currentExercise.gifUrl}
+                                                    src={currentImageUrl}
                                                     alt={currentExercise.name}
                                                     className="max-h-full max-w-full object-contain rounded-lg filter drop-shadow-md"
                                                 />
                                             ) : (
-                                                <span className="text-xs text-slate-400 font-bold uppercase">NO ANIMATION</span>
+                                                <span className="text-xs text-slate-400 font-bold uppercase">NO DEMO AVAILABLE</span>
                                             )}
                                         </div>
                                     </div>
 
                                     <div className="lg:col-span-4 flex flex-col min-h-[160px]">
                                         <MuscleVisualizerModule
-                                            activeMuscle={currentExercise.target || currentExercise.bodyPart}
-                                            secondaryMuscle={currentExercise.secondaryMuscles ? currentExercise.secondaryMuscles[0] : null}
+                                            activeMuscle={(currentExercise.primaryMuscles || [currentExercise.target])[0]}
+                                            secondaryMuscle={(currentExercise.secondaryMuscles || [])[0]}
                                         />
                                     </div>
 

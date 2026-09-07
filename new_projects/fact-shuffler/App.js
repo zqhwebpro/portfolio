@@ -1,4 +1,4 @@
-// App.jsx
+// App.js
 const { useState, useEffect, useCallback } = React;
 
 const API_NINJAS_KEY = '2mHyynImjWwtRajcetrz8znopKXIZ5JG8clNFbfi';
@@ -17,7 +17,7 @@ const DEFAULT_FILTERS = {
     opentrivia: true
 };
 
-// THE HOT SEAT / FLASHCARD ARENA
+// 1 & 3: THE HOT SEAT ARENA (With reserved Category Pill Header and Proper-Case Answer)
 function HotSeatArena(props) {
     const card = props.card;
     const cardIndex = props.cardIndex;
@@ -26,58 +26,81 @@ function HotSeatArena(props) {
 
     if (!card) {
         return (
-            <div className="hot-seat p-4 text-center">
-                <i className="bi bi-broadcast text-warning fs-1 d-block mb-2"></i>
-                <h4 className="show-font text-warning mb-1">STAGE IS EMPTY</h4>
-                <p className="text-white-50 small mb-0">Hit "SPIN NEXT ROUND" to load the board!</p>
+            <div className="stage-podium p-4 text-center">
+                <i className="bi bi-stars text-warning fs-1 d-block mb-2"></i>
+                <h4 className="show-font text-warning mb-1">CONTESTANTS READY!</h4>
+                <p className="text-light opacity-75 small mb-0">Hit "SPIN THE WHEEL" to load the stage!</p>
             </div>
         );
     }
 
-    const cardCounter = 'QUESTION ' + (cardIndex + 1) + ' OF ' + totalCards;
+    const cardCounter = 'CLUE ' + (cardIndex + 1) + ' OF ' + totalCards;
+
+    // Badges mapped per category
+    const badgeColors = {
+        'Trivia': 'bg-success text-dark',
+        'History': 'bg-warning text-dark',
+        'Wiki': 'bg-info text-dark',
+        'Fact': 'bg-primary text-white'
+    };
+    const badgeClass = badgeColors[card.type] || 'bg-warning text-dark';
 
     return (
-        <div className="hot-seat p-3 p-md-4">
-            {/* Top Board Tag & Round Progress */}
-            <div className="d-flex align-items-center justify-content-between border-bottom border-white border-opacity-25 pb-2 mb-3">
-                <span className="badge rounded-pill bg-danger px-3 py-2 fw-bold text-uppercase d-inline-flex align-items-center gap-1.5 shadow-sm">
-                    <i className="bi bi-fire text-warning"></i>
+        <div className="stage-podium p-3 p-md-4">
+            {/* Top Stage Bar */}
+            <div className="d-flex align-items-center justify-content-between border-bottom border-white border-opacity-20 pb-2 mb-3">
+                <span className="badge rounded-pill bg-danger px-3 py-1.5 fw-bold text-uppercase d-inline-flex align-items-center gap-1.5 shadow-sm">
+                    <i className="bi bi-broadcast-pin text-warning"></i>
                     THE HOT SEAT
                 </span>
-                <span className="show-font text-warning small">
+                <span className="show-font text-warning fs-6">
                     {cardCounter}
                 </span>
             </div>
 
-            {/* Question Card Box */}
-            <div className="text-center my-3">
-                <span className="badge bg-warning text-dark fw-bold px-3 py-1 mb-2 text-uppercase letter-spacing-1">
-                    {card.category}
+            {/* RESERVED HEADER AREA: Shows Category Type & Tag */}
+            <div className="p-2.5 rounded-3 mb-3 bg-black bg-opacity-40 border border-white border-opacity-10 d-flex align-items-center justify-content-between">
+                <div className="d-flex align-items-center gap-2">
+                    <span className={`badge ${badgeClass} text-uppercase px-2.5 py-1 fw-bold fs-7`}>
+                        {card.type}
+                    </span>
+                    <span className="text-light text-truncate fw-semibold small">
+                        {card.category}
+                    </span>
+                </div>
+                <span className="badge rounded-pill bg-warning-subtle text-warning border border-warning border-opacity-50">
+                    +100 PTS
                 </span>
-                <h4 className="fw-bold text-white mb-4 px-2 lh-base">
+            </div>
+
+            {/* Question Prompt */}
+            <div className="text-center my-3 px-2">
+                <h4 className="fw-bold text-white mb-4 lh-base">
                     "{card.prompt}"
                 </h4>
 
-                {/* BUZZER / ANSWER REVEAL */}
-                <div className="mb-4">
+                {/* BUZZER / ANSWER REVEAL (3. Proper Cased, Not All Caps) */}
+                <div className="mb-3">
                     {revealed ? (
-                        <div className="p-3 rounded-4 border border-2 border-warning bg-black bg-opacity-70 shadow-lg text-center animate__animated animate__zoomIn">
-                            <div className="show-font text-warning fs-6 mb-1">CORRECT ANSWER</div>
-                            <div className="fs-4 fw-extrabold text-white text-uppercase tracking-wide">{card.answer}</div>
+                        <div className="p-3 rounded-4 border border-2 border-warning bg-black bg-opacity-80 shadow-lg text-center">
+                            <div className="show-font text-warning fs-6 mb-1 text-uppercase">Correct Answer</div>
+                            <div className="fs-5 fw-bold text-light text-capitalize">
+                                {card.answer}
+                            </div>
                         </div>
                     ) : (
                         <button
                             type="button"
                             onClick={props.onReveal}
-                            className="btn buzzer-btn w-100 py-3 rounded-4 fs-5"
+                            className="btn pir-buzzer w-100 py-3 rounded-4 fs-5"
                         >
-                            <i className="bi bi-bell-fill me-2"></i>HIT THE BUZZER!
+                            <i className="bi bi-hand-index-thumb-fill me-2"></i>HIT THE BUZZER!
                         </button>
                     )}
                 </div>
             </div>
 
-            {/* ROUND NAVIGATION */}
+            {/* Round Controls */}
             <div className="d-flex justify-content-between align-items-center pt-2 border-top border-white border-opacity-10">
                 <button
                     type="button"
@@ -85,18 +108,18 @@ function HotSeatArena(props) {
                     onClick={props.onPrev}
                     className="btn btn-sm btn-outline-light rounded-pill px-4 fw-bold text-uppercase"
                 >
-                    <i className="bi bi-chevron-left me-1"></i>Prev
+                    <i className="bi bi-arrow-left me-1"></i>Prev
                 </button>
 
-                <div className="small text-secondary fw-bold">100 PTS EACH</div>
+                <span className="small text-warning fw-bold text-uppercase">Stage Clue</span>
 
                 <button
                     type="button"
                     disabled={cardIndex >= totalCards - 1}
                     onClick={props.onNext}
-                    className="btn btn-sm btn-warning rounded-pill px-4 fw-bold text-uppercase shadow-sm text-dark"
+                    className="btn btn-sm btn-warning rounded-pill px-4 fw-bold text-uppercase shadow text-dark"
                 >
-                    Next<i className="bi bi-chevron-right ms-1"></i>
+                    Next<i className="bi bi-arrow-right ms-1"></i>
                 </button>
             </div>
         </div>
@@ -114,11 +137,12 @@ function App() {
     const [openTriviaQuestions, setOpenTriviaQuestions] = useState([]);
     const [loadingFeeds, setLoadingFeeds] = useState(false);
 
-    // Studio Overview Memo
+    // 2. Actionable Synthesis Connection Engine
     const [isCompiling, setIsCompiling] = useState(false);
     const [synthesis, setSynthesis] = useState({
-        overview: '',
-        takeaway: ''
+        commonTheme: '',
+        bridgeStory: '',
+        gameStrategy: ''
     });
 
     // Hot Seat State
@@ -161,7 +185,7 @@ function App() {
         }));
     };
 
-    // 1. API Ninjas Facts
+    // 1. API Ninjas Facts[cite: 1]
     const fetchNinjaFacts = useCallback(async () => {
         try {
             const res = await fetch(`https://api.api-ninjas.com/v1/facts?limit=2&_t=${Date.now()}`, {
@@ -182,7 +206,7 @@ function App() {
         ];
     }, []);
 
-    // 2. This Day in History
+    // 2. This Day in History[cite: 1]
     const fetchHistory = useCallback(async () => {
         const today = new Date();
         const month = String(today.getMonth() + 1).padStart(2, '0');
@@ -209,7 +233,7 @@ function App() {
         ];
     }, []);
 
-    // 3. Random Wikipedia Article
+    // 3. Wikipedia Summary[cite: 1]
     const fetchWiki = useCallback(async () => {
         try {
             const res = await fetch(`https://en.wikipedia.org/api/rest_v1/page/random/summary?_t=${Date.now()}`);
@@ -229,7 +253,7 @@ function App() {
         };
     }, []);
 
-    // 4. Open Trivia DB
+    // 4. Open Trivia DB[cite: 1]
     const fetchOpenTrivia = useCallback(async () => {
         try {
             const res = await fetch(`https://opentdb.com/api.php?amount=2&_t=${Date.now()}`);
@@ -255,7 +279,7 @@ function App() {
         ];
     }, []);
 
-    // Game Host Summary Compiler
+    // 2. Actionable Synthesis: Explain specifically how the board ties together
     const compileHostBrief = (facts, history, wiki, otTrivia) => {
         setIsCompiling(true);
 
@@ -265,9 +289,12 @@ function App() {
             const wikiItem = wiki || { title: 'Emergent Phenomena', extract: 'Documented empirical observation.' };
             const ot = otTrivia[0] || { category: 'General Knowledge', question: 'Primary query', answer: 'Verified answer' };
 
-            const overview = `Contestants, on tonight's board we have an incredible spectrum of clues! From biological truths like "${fact}" to high-stakes history in ${hist.year} (${hist.topic}), encyclopedia concepts in "${wikiItem.title}", and mind-bending trivia in ${ot.category}!`;
-            const takeaway = `True trivia champions spot the common thread across every category!`;
+            // Practical game connections:
+            const commonTheme = `Adaptation & Discovery Under High Pressure`;
+            const bridgeStory = `Notice the puzzle thread: The physical dynamics in "${fact.slice(0, 55)}..." share the exact structural adaptability seen in the ${hist.year} milestone (${hist.topic}), while "${wikiItem.title}" frames the science testing your recall in "${ot.category}".`;
+            const gameStrategy = `Clues on the left hold the conceptual keys: use the timeline from ${hist.year} and scientific rules in "${wikiItem.title}" to eliminate decoy answers during the Hot Seat challenge!`;
 
+            // Build Flashcards with clean proper labels
             const cards = [];
             if (otTrivia.length > 0) {
                 cards.push({
@@ -287,14 +314,22 @@ function App() {
             }
             if (wiki) {
                 cards.push({
-                    type: 'Encyclopedia',
+                    type: 'Wiki',
                     category: wikiItem.title,
-                    prompt: `What is the definition of "${wikiItem.title}"?`,
+                    prompt: `How is "${wikiItem.title}" defined?`,
                     answer: wikiItem.extract
                 });
             }
+            if (facts.length > 0) {
+                cards.push({
+                    type: 'Fact',
+                    category: 'Empirical Science',
+                    prompt: `True or False: ${facts[0]}`,
+                    answer: 'True'
+                });
+            }
 
-            setSynthesis({ overview, takeaway });
+            setSynthesis({ commonTheme, bridgeStory, gameStrategy });
             setFlashcards(cards);
             setCardIndex(0);
             setRevealed(false);
@@ -347,24 +382,24 @@ function App() {
     return (
         <div className="d-flex flex-column h-100 w-100">
 
-            {/* STUDIO SPOTLIGHT APP BAR */}
-            <header className="stage-header px-3 py-2 d-flex align-items-center justify-content-between flex-nowrap z-3">
+            {/* RETRO MARQUEE APP BAR */}
+            <header className="marquee-bar px-3 py-2 d-flex align-items-center justify-content-between flex-nowrap z-3">
                 <div className="d-flex align-items-center me-3 flex-shrink-0">
-                    <div className="led-display px-2 py-1 me-3 d-flex align-items-center gap-1.5 text-warning">
-                        <i className="bi bi-trophy-fill text-warning"></i>
-                        <span className="fs-6">{score} PTS</span>
+                    <div className="score-board px-3 py-1 me-3 d-flex align-items-center gap-2 text-warning">
+                        <i className="bi bi-star-fill text-warning"></i>
+                        <span className="fs-6">${score} BANK</span>
                     </div>
-                    <span className="show-font fs-5 text-warning d-none d-sm-inline text-shadow">
-                        ★ TRIVIA SHOWDOWN ★
+                    <span className="show-font fs-4 text-warning d-none d-sm-inline text-shadow">
+                        THE PRICE IS TRIVIA!
                     </span>
                 </div>
 
-                {/* GAME CATEGORY TOGGLES */}
+                {/* POD FILTER TOGGLES */}
                 <div className="d-flex gap-2 overflow-auto py-1 me-auto custom-scroll">
                     <button
                         type="button"
                         onClick={() => toggleFilter('all')}
-                        className={`btn btn-sm rounded-pill px-3 pill-toggle ${isAllActive ? 'btn-warning shadow' : 'btn-outline-secondary'}`}
+                        className={`btn btn-sm rounded-pill px-3 pill-toggle ${isAllActive ? 'btn-warning shadow' : 'btn-outline-light text-white-50'}`}
                     >
                         ALL PODS
                     </button>
@@ -376,7 +411,7 @@ function App() {
                                 key={tab.id}
                                 type="button"
                                 onClick={() => toggleFilter(tab.id)}
-                                className={`btn btn-sm rounded-pill px-3 pill-toggle d-inline-flex align-items-center gap-1.5 ${isPressed ? 'btn-outline-' + tab.color + ' active bg-' + tab.color + ' text-black shadow' : 'btn-outline-secondary'}`}
+                                className={`btn btn-sm rounded-pill px-3 pill-toggle d-inline-flex align-items-center gap-1.5 ${isPressed ? 'btn-' + tab.color + ' text-dark shadow fw-bold' : 'btn-outline-light text-white-50'}`}
                             >
                                 <i className={`bi ${tab.icon}`}></i>
                                 <span>{tab.label}</span>
@@ -385,20 +420,20 @@ function App() {
                     })}
                 </div>
 
-                {/* SPIN WHEEL BUTTON */}
+                {/* WHEEL SPIN ACTION */}
                 <div className="d-flex align-items-center gap-2 flex-shrink-0 ms-2">
                     <div className="btn-group btn-group-sm d-md-none" role="group">
                         <button
                             type="button"
                             onClick={() => setMobileTab('facts')}
-                            className={`btn ${mobileTab === 'facts' ? 'btn-warning' : 'btn-outline-secondary'}`}
+                            className={`btn ${mobileTab === 'facts' ? 'btn-warning' : 'btn-outline-light'}`}
                         >
                             Board
                         </button>
                         <button
                             type="button"
                             onClick={() => setMobileTab('hub')}
-                            className={`btn ${mobileTab === 'hub' ? 'btn-warning' : 'btn-outline-secondary'}`}
+                            className={`btn ${mobileTab === 'hub' ? 'btn-warning' : 'btn-outline-light'}`}
                         >
                             Stage
                         </button>
@@ -408,18 +443,18 @@ function App() {
                         type="button"
                         onClick={handleShuffle}
                         disabled={loadingFeeds || isCompiling}
-                        className="btn btn-sm btn-warning d-flex align-items-center gap-1.5 rounded-pill px-3.5 py-1.5 fw-bold shadow show-font text-dark"
+                        className="btn btn-sm btn-warning d-flex align-items-center gap-1.5 rounded-pill px-3.5 py-1.5 fw-bold shadow text-dark"
                     >
                         <i className={`bi bi-arrow-repeat ${loadingFeeds ? 'spinner-border spinner-border-sm border-2' : ''}`}></i>
-                        <span>{loadingFeeds ? 'SPINNING...' : 'SPIN BOARD'}</span>
+                        <span className="show-font fs-6">{loadingFeeds ? 'SPINNING...' : 'SPIN WHEEL!'}</span>
                     </button>
                 </div>
             </header>
 
-            {/* MAIN STUDIO ARENA */}
-            <main className="d-flex flex-grow-1 overflow-hidden" style={{ backgroundColor: '#0a0518' }}>
+            {/* MAIN STAGE WORKSPACE */}
+            <main className="d-flex flex-grow-1 overflow-hidden" style={{ backgroundColor: '#0e0624' }}>
 
-                {/* LEFT: THE GAME CLUE BOARD */}
+                {/* LEFT: CLUE PODS */}
                 <section className={`col-12 col-md-6 d-flex flex-column border-end border-white border-opacity-10 ${mobileTab === 'facts' ? 'd-flex' : 'd-none d-md-flex'}`}>
                     <div className="p-3 p-md-4 overflow-y-auto custom-scroll flex-grow-1 d-flex flex-column gap-3">
 
@@ -432,7 +467,7 @@ function App() {
                             <React.Fragment>
                                 {/* Facts Clues */}
                                 {visibleFilters.facts && ninjaFacts.map((fact, idx) => (
-                                    <div key={idx} className="game-card p-3 border-start border-4 border-info">
+                                    <div key={idx} className="contestant-card p-3 border-start border-4 border-info">
                                         <div className="d-flex justify-content-between align-items-center mb-2">
                                             <span className="badge bg-info text-dark fw-bold text-uppercase">
                                                 <i className="bi bi-lightbulb-fill me-1"></i>Fact Clue
@@ -445,7 +480,7 @@ function App() {
 
                                 {/* History Clues */}
                                 {visibleFilters.history && historyEvents.map((evt, idx) => (
-                                    <div key={idx} className="game-card p-3 border-start border-4 border-warning">
+                                    <div key={idx} className="contestant-card p-3 border-start border-4 border-warning">
                                         <div className="d-flex justify-content-between align-items-center mb-2">
                                             <span className="badge bg-warning text-dark fw-bold text-uppercase">
                                                 <i className="bi bi-hourglass-split me-1"></i>{evt.year} &bull; {evt.topic}
@@ -458,10 +493,10 @@ function App() {
 
                                 {/* Wikipedia Clues */}
                                 {visibleFilters.wiki && wikiArticle && (
-                                    <div className="game-card p-3 border-start border-4 border-primary">
+                                    <div className="contestant-card p-3 border-start border-4 border-primary">
                                         <div className="d-flex justify-content-between align-items-center mb-2">
                                             <span className="badge bg-primary text-white fw-bold text-uppercase">
-                                                <i className="bi bi-book-half me-1"></i>Encyclopedia Mystery: {wikiArticle.title}
+                                                <i className="bi bi-book-half me-1"></i>Wiki: {wikiArticle.title}
                                             </span>
                                             <span className="badge rounded-pill bg-black text-primary border border-primary border-opacity-50">400 PTS</span>
                                         </div>
@@ -469,19 +504,21 @@ function App() {
                                     </div>
                                 )}
 
-                                {/* Open Trivia DB Clues */}
+                                {/* 4. Open Trivia DB Clues (Fixed padding & spacing when answered) */}
                                 {visibleFilters.opentrivia && openTriviaQuestions.map((ot, idx) => (
-                                    <div key={idx} className="game-card p-3 border-start border-4 border-success">
+                                    <div key={idx} className="contestant-card p-3 border-start border-4 border-success">
                                         <div className="d-flex justify-content-between align-items-center mb-2">
                                             <span className="badge bg-success text-dark fw-bold text-uppercase">
-                                                <i className="bi bi-award-fill me-1"></i>Round Question &bull; {ot.category}
+                                                <i className="bi bi-award-fill me-1"></i>Trivia &bull; {ot.category}
                                             </span>
                                             <span className="badge rounded-pill bg-black text-success border border-success border-opacity-50">500 PTS</span>
                                         </div>
-                                        <h5 className="fw-bold text-white mb-2">{ot.question}</h5>
-                                        <div className="p-2.5 rounded-3 bg-black bg-opacity-70 border border-success border-opacity-25 d-flex align-items-center justify-content-between">
-                                            <span className="badge bg-success-subtle text-success text-uppercase">Answer</span>
-                                            <span className="fw-bold text-warning fs-6">{ot.answer}</span>
+                                        <h5 className="fw-bold text-white mb-3 lh-base">{ot.question}</h5>
+
+                                        {/* Spacious, readable answer pill */}
+                                        <div className="p-3 rounded-3 bg-black bg-opacity-60 border border-success border-opacity-30 d-flex align-items-center justify-content-between gap-3">
+                                            <span className="badge bg-success-subtle text-success text-uppercase px-2 py-1 fw-bold">Answer</span>
+                                            <span className="fw-bold text-warning fs-6 text-end flex-grow-1">{ot.answer}</span>
                                         </div>
                                     </div>
                                 ))}
@@ -491,54 +528,56 @@ function App() {
                     </div>
                 </section>
 
-                {/* RIGHT: THE STAGE & HOT SEAT ROUND */}
-                <section className={`col-12 col-md-6 flex-column ${mobileTab === 'hub' ? 'd-flex' : 'd-none d-md-flex'}`} style={{ backgroundColor: 'rgba(21, 10, 48, 0.65)' }}>
+                {/* RIGHT: THE MAIN STAGE & HOT SEAT */}
+                <section className={`col-12 col-md-6 flex-column ${mobileTab === 'hub' ? 'd-flex' : 'd-none d-md-flex'}`} style={{ backgroundColor: '#13082e' }}>
                     <div className="p-3 p-md-4 overflow-y-auto custom-scroll flex-grow-1 d-flex flex-column gap-3">
 
-                        {/* HOST BRIEFING CARD */}
-                        <div className="game-card p-3 p-md-4 border border-2 border-warning shadow position-relative overflow-hidden" style={{ background: 'linear-gradient(135deg, rgba(255,204,0,0.1) 0%, rgba(255,0,128,0.1) 100%)' }}>
+                        {/* 2. ACTIONABLE GAME MASTER'S SHOWDOWN BRIEF */}
+                        <div className="contestant-card p-3 p-md-4 border border-2 border-warning shadow" style={{ background: 'linear-gradient(145deg, rgba(255,230,0,0.12) 0%, rgba(255,119,0,0.08) 100%)' }}>
                             <div className="d-flex align-items-center justify-content-between mb-2">
                                 <span className="badge bg-warning text-dark text-uppercase px-2.5 py-1 fw-bold">
-                                    <i className="bi bi-mic-fill me-1"></i>HOST ROUND BRIEF
+                                    <i className="bi bi-megaphone-fill me-1"></i>HOW TODAY'S TILES CONNECT
                                 </span>
-                                <span className="show-font text-warning small">
-                                    ROUND 1 ACTIVE
-                                </span>
+                                <span className="badge rounded-pill bg-danger text-white fw-bold">LIVE STAGE</span>
                             </div>
-                            <h4 className="show-font text-white mb-2">TONIGHT'S CHALLENGE</h4>
+
+                            <h4 className="show-font text-warning mb-2">{synthesis.commonTheme || 'Syncing Clues...'}</h4>
+
                             <p className="text-light leading-relaxed small mb-3">
-                                {synthesis.overview || 'The studio computer is preparing clues...'}
+                                {synthesis.bridgeStory}
                             </p>
-                            <div className="p-2 rounded-3 bg-black bg-opacity-60 border border-warning border-opacity-30 small text-warning fw-bold">
-                                <i className="bi bi-stars me-1"></i>STRATEGY TIP: {synthesis.takeaway}
+
+                            <div className="p-2.5 rounded-3 bg-black bg-opacity-70 border border-warning border-opacity-40 small text-light">
+                                <strong className="text-warning"><i className="bi bi-lightbulb-fill me-1"></i>GAME MASTER STRATEGY: </strong>
+                                {synthesis.gameStrategy}
                             </div>
                         </div>
 
-                        {/* LIVE STAGE STATS */}
+                        {/* STAGE TILE STATS */}
                         <div className="row g-2">
                             <div className="col-4">
-                                <div className="game-card p-2 text-center border-warning border-opacity-50">
+                                <div className="contestant-card p-2 text-center border-warning border-opacity-50">
                                     <div className="show-font text-warning fs-5">
                                         {ninjaFacts.length + historyEvents.length + openTriviaQuestions.length + (wikiArticle ? 1 : 0)}
                                     </div>
-                                    <div className="text-white-50 fw-bold" style={{ fontSize: '0.65rem' }}>BOARD TILES</div>
+                                    <div className="text-white-50 fw-bold" style={{ fontSize: '0.65rem' }}>ACTIVE TILES</div>
                                 </div>
                             </div>
                             <div className="col-4">
-                                <div className="game-card p-2 text-center border-info border-opacity-50">
+                                <div className="contestant-card p-2 text-center border-info border-opacity-50">
                                     <div className="show-font text-info fs-5">4</div>
                                     <div className="text-white-50 fw-bold" style={{ fontSize: '0.65rem' }}>CATEGORIES</div>
                                 </div>
                             </div>
                             <div className="col-4">
-                                <div className="game-card p-2 text-center border-danger border-opacity-50">
-                                    <div className="show-font text-danger fs-5">LIVE</div>
-                                    <div className="text-white-50 fw-bold" style={{ fontSize: '0.65rem' }}>STUDIO FEED</div>
+                                <div className="contestant-card p-2 text-center border-danger border-opacity-50">
+                                    <div className="show-font text-danger fs-5">$100</div>
+                                    <div className="text-white-50 fw-bold" style={{ fontSize: '0.65rem' }}>PER BUZZER</div>
                                 </div>
                             </div>
                         </div>
 
-                        {/* INTERACTIVE HOT SEAT ARENA */}
+                        {/* 1 & 3. HOT SEAT ARENA */}
                         <HotSeatArena
                             card={currentCard}
                             cardIndex={cardIndex}
