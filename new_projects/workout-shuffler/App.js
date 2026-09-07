@@ -37,69 +37,28 @@ const MUSCLE_GROUPS = [
     { id: 'abs', label: 'ABS' }
 ];
 
-// Muscle Visualizer RapidAPI Component
+// RapidAPI Muscle Visualizer Direct Render Component
 function MuscleVisualizerModule({ activeMuscle, secondaryMuscle }) {
-    const [imageUrl, setImageUrl] = useState(null);
-    const [loadingImg, setLoadingImg] = useState(false);
-
     const mapMuscleToApi = (muscleStr) => {
-        if (!muscleStr) return 'CHEST';
-        const target = muscleStr.toUpperCase();
-        if (target.includes('CHEST') || target.includes('PECTORAL')) return 'CHEST';
-        if (target.includes('BICEP')) return 'BICEPS';
-        if (target.includes('TRICEP')) return 'TRICEPS';
-        if (target.includes('SHOULDER') || target.includes('DELTOID')) return 'SHOULDERS';
-        if (target.includes('BACK') || target.includes('LATS') || target.includes('TRAPS')) return 'BACK';
-        if (target.includes('QUAD') || target.includes('LEG')) return 'QUADRICEPS';
-        if (target.includes('HAMSTRING')) return 'HAMSTRINGS';
-        if (target.includes('CAL')) return 'CALVES';
-        if (target.includes('ABS') || target.includes('ABDOMINAL') || target.includes('WAIST')) return 'ABS';
-        return 'CHEST';
+        if (!muscleStr) return 'chest';
+        const target = muscleStr.toLowerCase();
+        if (target.includes('chest') || target.includes('pectoral')) return 'chest';
+        if (target.includes('bicep')) return 'biceps';
+        if (target.includes('tricep')) return 'triceps';
+        if (target.includes('shoulder') || target.includes('deltoid')) return 'shoulders';
+        if (target.includes('back') || target.includes('lat') || target.includes('trap')) return 'upper_back';
+        if (target.includes('quad') || target.includes('leg') || target.includes('adductor')) return 'quadriceps';
+        if (target.includes('hamstring') || target.includes('glute')) return 'hamstrings';
+        if (target.includes('cal')) return 'calves';
+        if (target.includes('abs') || target.includes('abdominal') || target.includes('waist')) return 'abs';
+        return 'chest';
     };
 
-    useEffect(() => {
-        let isMounted = true;
-        let objectUrlToCleanup = null;
+    const primary = mapMuscleToApi(activeMuscle);
+    const secondary = secondaryMuscle ? mapMuscleToApi(secondaryMuscle) : 'upper_back';
 
-        const fetchVisualizer = async () => {
-            setLoadingImg(true);
-            const primary = mapMuscleToApi(activeMuscle);
-            const secondary = secondaryMuscle ? mapMuscleToApi(secondaryMuscle) : 'BACK';
-
-            // Clean Hex codes passed without # symbol to prevent HTTP 400 Bad Request errors
-            const endpoint = `https://${RAPIDAPI_HOST}/api/v1/visualize/workout?targetMuscles=${primary}&targetMusclesColor=CCFF00&secondaryMuscles=${secondary}&secondaryMusclesColor=FF2A2A&gender=male&background=transparent&size=small&format=png`;
-
-            try {
-                const response = await fetch(endpoint, {
-                    method: 'GET',
-                    headers: {
-                        'x-rapidapi-host': RAPIDAPI_HOST,
-                        'x-rapidapi-key': RAPIDAPI_KEY
-                    }
-                });
-
-                if (response.ok) {
-                    const blob = await response.blob();
-                    objectUrlToCleanup = URL.createObjectURL(blob);
-                    if (isMounted) setImageUrl(objectUrlToCleanup);
-                } else {
-                    if (isMounted) setImageUrl(null);
-                }
-            } catch (err) {
-                console.warn('Muscle Visualizer fetch error:', err);
-                if (isMounted) setImageUrl(null);
-            } finally {
-                if (isMounted) setLoadingImg(false);
-            }
-        };
-
-        fetchVisualizer();
-
-        return () => {
-            isMounted = false;
-            if (objectUrlToCleanup) URL.revokeObjectURL(objectUrlToCleanup);
-        };
-    }, [activeMuscle, secondaryMuscle]);
+    // Formatted query URL for RapidAPI visualizer
+    const visualizerUrl = `https://${RAPIDAPI_HOST}/api/v1/visualize/workout?targetMuscles=${primary}&targetMusclesColor=CCFF00&secondaryMuscles=${secondary}&secondaryMusclesColor=FF2A2A&gender=male&background=transparent&size=small&format=png&rapidapi-key=${RAPIDAPI_KEY}`;
 
     return (
         <div className="athletic-card rounded-2xl p-3 border border-white/10 flex flex-col items-center justify-between h-full w-full relative overflow-hidden">
@@ -113,27 +72,21 @@ function MuscleVisualizerModule({ activeMuscle, secondaryMuscle }) {
             </div>
 
             <div className="flex-1 w-full flex items-center justify-center py-2 min-h-0 overflow-hidden relative">
-                {loadingImg ? (
-                    <div className="flex flex-col items-center gap-2">
-                        <div className="w-8 h-8 border-2 border-white/10 border-t-[#CCFF00] rounded-full animate-spin" />
-                        <span className="text-[10px] text-slate-400 font-bold uppercase">GENERATING ANATOMY...</span>
-                    </div>
-                ) : imageUrl ? (
-                    <img
-                        src={imageUrl}
-                        alt="Muscle Visualization"
-                        className="h-full w-auto max-h-[210px] object-contain filter drop-shadow-[0_0_12px_rgba(204,255,0,0.35)]"
-                    />
-                ) : (
-                    <div className="text-center p-2">
-                        <span className="text-xs text-slate-400 font-bold uppercase">ANATOMY MAP READY</span>
-                    </div>
-                )}
+                <img
+                    key={`${primary}-${secondary}`}
+                    src={visualizerUrl}
+                    alt="RapidAPI Anatomy Visualization"
+                    className="h-full w-auto max-h-[210px] object-contain filter drop-shadow-[0_0_12px_rgba(204,255,0,0.35)]"
+                    onError={(e) => {
+                        e.target.style.display = 'none';
+                    }}
+                />
             </div>
         </div>
     );
 }
 
+// Spotify Web Player Module (Intact)
 function SpotifyModule() {
     const [activePlaylist, setActivePlaylist] = useState('BEAST MODE');
     const [isPlaying, setIsPlaying] = useState(false);
@@ -466,7 +419,6 @@ function App() {
 
     const currentExercise = exercises[currentIndex];
 
-    // Construct dynamic exercise image path
     const getExerciseImageUrl = (ex) => {
         if (!ex) return null;
         if (ex.gifUrl) return ex.gifUrl;
@@ -477,10 +429,6 @@ function App() {
     };
 
     const currentImageUrl = getExerciseImageUrl(currentExercise);
-
-    const videoExternalUrl = currentExercise
-        ? `https://www.youtube.com/results?search_query=${encodeURIComponent(currentExercise.name + ' exercise proper form tutorial')}`
-        : 'https://www.youtube.com';
 
     const formatTime = (secs) => {
         const mins = Math.floor(secs / 60);
@@ -617,14 +565,6 @@ function App() {
                                             <span className="text-[11px] font-black text-white tracking-wider uppercase italic">
                                                 MOVEMENT DEMO
                                             </span>
-                                            <a
-                                                href={videoExternalUrl}
-                                                target="_blank"
-                                                rel="noreferrer"
-                                                className="text-[10px] text-[#CCFF00] hover:underline font-bold tracking-wider uppercase"
-                                            >
-                                                YOUTUBE ↗
-                                            </a>
                                         </div>
                                         <div className="flex-1 w-full h-full relative rounded-xl overflow-hidden bg-black border border-white/10 flex items-center justify-center p-1">
                                             {currentImageUrl ? (
