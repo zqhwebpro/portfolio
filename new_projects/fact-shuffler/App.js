@@ -1,4 +1,4 @@
-// App.js
+// App.jsx
 const { useState, useEffect, useCallback } = React;
 
 const API_NINJAS_KEY = '2mHyynImjWwtRajcetrz8znopKXIZ5JG8clNFbfi';
@@ -14,11 +14,11 @@ const DEFAULT_FILTERS = {
     facts: true,
     history: true,
     wiki: true,
-    numbers: true,
     opentrivia: true
 };
 
-function FlashcardView(props) {
+// THE HOT SEAT / FLASHCARD ARENA
+function HotSeatArena(props) {
     const card = props.card;
     const cardIndex = props.cardIndex;
     const totalCards = props.totalCards;
@@ -26,69 +26,78 @@ function FlashcardView(props) {
 
     if (!card) {
         return (
-            <div className="flashcard p-3 p-md-4 mt-1">
-                <p className="text-secondary small mb-0">Hit Shuffle to generate questions.</p>
+            <div className="hot-seat p-4 text-center">
+                <i className="bi bi-broadcast text-warning fs-1 d-block mb-2"></i>
+                <h4 className="show-font text-warning mb-1">STAGE IS EMPTY</h4>
+                <p className="text-white-50 small mb-0">Hit "SPIN NEXT ROUND" to load the board!</p>
             </div>
         );
     }
 
-    const cardCounter = (cardIndex + 1) + ' / ' + totalCards;
+    const cardCounter = 'QUESTION ' + (cardIndex + 1) + ' OF ' + totalCards;
 
     return (
-        <div className="flashcard p-3 p-md-4 mt-1">
-            <div className="d-flex align-items-center justify-content-between border-bottom border-white border-opacity-10 pb-2 mb-3">
-                <span className="small fw-bold text-uppercase text-secondary d-flex align-items-center gap-1">
-                    <i className="bi bi-lightning-charge-fill text-warning"></i>
-                    Rapid Recall Challenge
+        <div className="hot-seat p-3 p-md-4">
+            {/* Top Board Tag & Round Progress */}
+            <div className="d-flex align-items-center justify-content-between border-bottom border-white border-opacity-25 pb-2 mb-3">
+                <span className="badge rounded-pill bg-danger px-3 py-2 fw-bold text-uppercase d-inline-flex align-items-center gap-1.5 shadow-sm">
+                    <i className="bi bi-fire text-warning"></i>
+                    THE HOT SEAT
                 </span>
-                <span className="badge rounded-pill bg-secondary bg-opacity-50">
+                <span className="show-font text-warning small">
                     {cardCounter}
                 </span>
             </div>
 
-            <div>
-                <div className="badge bg-primary-subtle text-primary border border-primary-subtle mb-2">
+            {/* Question Card Box */}
+            <div className="text-center my-3">
+                <span className="badge bg-warning text-dark fw-bold px-3 py-1 mb-2 text-uppercase letter-spacing-1">
                     {card.category}
-                </div>
-                <p className="fw-semibold text-white fs-6 mb-3">
-                    {card.prompt}
-                </p>
+                </span>
+                <h4 className="fw-bold text-white mb-4 px-2 lh-base">
+                    "{card.prompt}"
+                </h4>
 
-                <div className="mb-3">
+                {/* BUZZER / ANSWER REVEAL */}
+                <div className="mb-4">
                     {revealed ? (
-                        <div className="p-3 rounded-3 bg-success bg-opacity-10 border border-success border-opacity-25 text-light">
-                            <div className="small fw-bold text-success text-uppercase mb-1">Answer</div>
-                            <div>{card.answer}</div>
+                        <div className="p-3 rounded-4 border border-2 border-warning bg-black bg-opacity-70 shadow-lg text-center animate__animated animate__zoomIn">
+                            <div className="show-font text-warning fs-6 mb-1">CORRECT ANSWER</div>
+                            <div className="fs-4 fw-extrabold text-white text-uppercase tracking-wide">{card.answer}</div>
                         </div>
                     ) : (
                         <button
                             type="button"
                             onClick={props.onReveal}
-                            className="btn btn-sm btn-outline-primary w-100 py-2 rounded-3"
+                            className="btn buzzer-btn w-100 py-3 rounded-4 fs-5"
                         >
-                            <i className="bi bi-eye me-1"></i>Reveal Answer
+                            <i className="bi bi-bell-fill me-2"></i>HIT THE BUZZER!
                         </button>
                     )}
                 </div>
+            </div>
 
-                <div className="d-flex justify-content-between align-items-center pt-2">
-                    <button
-                        type="button"
-                        disabled={cardIndex === 0}
-                        onClick={props.onPrev}
-                        className="btn btn-sm btn-outline-secondary rounded-pill px-3"
-                    >
-                        <i className="bi bi-chevron-left me-1"></i>Prev
-                    </button>
-                    <button
-                        type="button"
-                        disabled={cardIndex >= totalCards - 1}
-                        onClick={props.onNext}
-                        className="btn btn-sm btn-primary rounded-pill px-3"
-                    >
-                        Next<i className="bi bi-chevron-right ms-1"></i>
-                    </button>
-                </div>
+            {/* ROUND NAVIGATION */}
+            <div className="d-flex justify-content-between align-items-center pt-2 border-top border-white border-opacity-10">
+                <button
+                    type="button"
+                    disabled={cardIndex === 0}
+                    onClick={props.onPrev}
+                    className="btn btn-sm btn-outline-light rounded-pill px-4 fw-bold text-uppercase"
+                >
+                    <i className="bi bi-chevron-left me-1"></i>Prev
+                </button>
+
+                <div className="small text-secondary fw-bold">100 PTS EACH</div>
+
+                <button
+                    type="button"
+                    disabled={cardIndex >= totalCards - 1}
+                    onClick={props.onNext}
+                    className="btn btn-sm btn-warning rounded-pill px-4 fw-bold text-uppercase shadow-sm text-dark"
+                >
+                    Next<i className="bi bi-chevron-right ms-1"></i>
+                </button>
             </div>
         </div>
     );
@@ -102,24 +111,26 @@ function App() {
     const [ninjaFacts, setNinjaFacts] = useState([]);
     const [historyEvents, setHistoryEvents] = useState([]);
     const [wikiArticle, setWikiArticle] = useState(null);
-    const [numberTrivia, setNumberTrivia] = useState('');
     const [openTriviaQuestions, setOpenTriviaQuestions] = useState([]);
     const [loadingFeeds, setLoadingFeeds] = useState(false);
 
-    // Synthesis Briefing
+    // Studio Overview Memo
     const [isCompiling, setIsCompiling] = useState(false);
     const [synthesis, setSynthesis] = useState({
         overview: '',
         takeaway: ''
     });
 
-    // Interactive Flashcard State
+    // Hot Seat State
     const [flashcards, setFlashcards] = useState([]);
     const [cardIndex, setCardIndex] = useState(0);
     const [revealed, setRevealed] = useState(false);
+    const [score, setScore] = useState(0);
 
-    // Named callbacks to prevent nested inline function parser bugs
     const handleRevealAnswer = () => {
+        if (!revealed) {
+            setScore(prev => prev + 100);
+        }
         setRevealed(true);
     };
 
@@ -150,7 +161,7 @@ function App() {
         }));
     };
 
-    // Data Fetchers
+    // 1. API Ninjas Facts
     const fetchNinjaFacts = useCallback(async () => {
         try {
             const res = await fetch(`https://api.api-ninjas.com/v1/facts?limit=2&_t=${Date.now()}`, {
@@ -171,6 +182,7 @@ function App() {
         ];
     }, []);
 
+    // 2. This Day in History
     const fetchHistory = useCallback(async () => {
         const today = new Date();
         const month = String(today.getMonth() + 1).padStart(2, '0');
@@ -197,6 +209,7 @@ function App() {
         ];
     }, []);
 
+    // 3. Random Wikipedia Article
     const fetchWiki = useCallback(async () => {
         try {
             const res = await fetch(`https://en.wikipedia.org/api/rest_v1/page/random/summary?_t=${Date.now()}`);
@@ -216,19 +229,7 @@ function App() {
         };
     }, []);
 
-    const fetchNumbers = useCallback(async () => {
-        try {
-            const res = await fetch(`https://numbersapi.com/random/trivia?json&_t=${Date.now()}`);
-            if (res.ok) {
-                const data = await res.json();
-                return data.text;
-            }
-        } catch (e) {
-            console.warn('Numbers API error:', e);
-        }
-        return '108 is a semi-meandric number recognized across ancient geometry and mathematics.';
-    }, []);
-
+    // 4. Open Trivia DB
     const fetchOpenTrivia = useCallback(async () => {
         try {
             const res = await fetch(`https://opentdb.com/api.php?amount=2&_t=${Date.now()}`);
@@ -254,7 +255,8 @@ function App() {
         ];
     }, []);
 
-    const compileAISynthesis = (facts, history, wiki, otTrivia) => {
+    // Game Host Summary Compiler
+    const compileHostBrief = (facts, history, wiki, otTrivia) => {
         setIsCompiling(true);
 
         setTimeout(() => {
@@ -263,8 +265,8 @@ function App() {
             const wikiItem = wiki || { title: 'Emergent Phenomena', extract: 'Documented empirical observation.' };
             const ot = otTrivia[0] || { category: 'General Knowledge', question: 'Primary query', answer: 'Verified answer' };
 
-            const overview = `Today's compiled findings bridge biological observation ("${fact}") with historical milestones like ${hist.year} (${hist.topic}), encyclopedic concepts in "${wikiItem.title}", and general trivia in ${ot.category}. Together, these data streams reveal how disparate facts share common underlying patterns of emergence, decay, and organizational structure.`;
-            const takeaway = `Isolated data sources yield rich contextual patterns when synthesized as an integrated matrix of knowledge.`;
+            const overview = `Contestants, on tonight's board we have an incredible spectrum of clues! From biological truths like "${fact}" to high-stakes history in ${hist.year} (${hist.topic}), encyclopedia concepts in "${wikiItem.title}", and mind-bending trivia in ${ot.category}!`;
+            const takeaway = `True trivia champions spot the common thread across every category!`;
 
             const cards = [];
             if (otTrivia.length > 0) {
@@ -279,7 +281,7 @@ function App() {
                 cards.push({
                     type: 'History',
                     category: `${hist.year} • ${hist.topic}`,
-                    prompt: `What notable event took place in ${hist.year} concerning ${hist.topic}?`,
+                    prompt: `What famous event took place in ${hist.year} regarding ${hist.topic}?`,
                     answer: hist.text
                 });
             }
@@ -287,7 +289,7 @@ function App() {
                 cards.push({
                     type: 'Encyclopedia',
                     category: wikiItem.title,
-                    prompt: `What defines "${wikiItem.title}"?`,
+                    prompt: `What is the definition of "${wikiItem.title}"?`,
                     answer: wikiItem.extract
                 });
             }
@@ -306,28 +308,26 @@ function App() {
         setVisibleFilters(DEFAULT_FILTERS);
 
         try {
-            const [factsRes, historyRes, wikiRes, numberRes, otRes] = await Promise.all([
+            const [factsRes, historyRes, wikiRes, otRes] = await Promise.all([
                 fetchNinjaFacts(),
                 fetchHistory(),
                 fetchWiki(),
-                fetchNumbers(),
                 fetchOpenTrivia()
             ]);
 
             setNinjaFacts(factsRes);
             setHistoryEvents(historyRes);
             setWikiArticle(wikiRes);
-            setNumberTrivia(numberRes);
             setOpenTriviaQuestions(otRes);
 
-            compileAISynthesis(factsRes, historyRes, wikiRes, otRes);
+            compileHostBrief(factsRes, historyRes, wikiRes, otRes);
         } catch (error) {
             console.error('Error shuffling data:', error);
             setIsCompiling(false);
         } finally {
             setLoadingFeeds(false);
         }
-    }, [fetchNinjaFacts, fetchHistory, fetchWiki, fetchNumbers, fetchOpenTrivia]);
+    }, [fetchNinjaFacts, fetchHistory, fetchWiki, fetchOpenTrivia]);
 
     useEffect(() => {
         handleShuffle();
@@ -336,38 +336,37 @@ function App() {
     const isAllActive = Object.values(visibleFilters).every(v => v);
 
     const toggleButtons = [
-        { id: 'facts', label: 'Facts', icon: 'bi-lightbulb' },
-        { id: 'history', label: 'History', icon: 'bi-hourglass-split' },
-        { id: 'wiki', label: 'Wiki', icon: 'bi-book' },
-        { id: 'numbers', label: 'Numbers', icon: 'bi-123' },
-        { id: 'opentrivia', label: 'Open Trivia', icon: 'bi-patch-question' }
+        { id: 'facts', label: 'Facts', icon: 'bi-lightbulb-fill', color: 'info' },
+        { id: 'history', label: 'History', icon: 'bi-hourglass-split', color: 'warning' },
+        { id: 'wiki', label: 'Wiki', icon: 'bi-book-half', color: 'primary' },
+        { id: 'opentrivia', label: 'Trivia', icon: 'bi-award-fill', color: 'success' }
     ];
 
     const currentCard = flashcards[cardIndex] || null;
 
     return (
         <div className="d-flex flex-column h-100 w-100">
-            {/* HEADER BAR */}
-            <header className="navbar navbar-dark px-3 py-2 border-bottom border-white border-opacity-10 flex-nowrap" style={{ backgroundColor: '#10172a' }}>
+
+            {/* STUDIO SPOTLIGHT APP BAR */}
+            <header className="stage-header px-3 py-2 d-flex align-items-center justify-content-between flex-nowrap z-3">
                 <div className="d-flex align-items-center me-3 flex-shrink-0">
-                    <div className="d-flex gap-1 me-3">
-                        <span className="rounded-circle bg-danger opacity-75 d-inline-block" style={{ width: 9, height: 9 }}></span>
-                        <span className="rounded-circle bg-warning opacity-75 d-inline-block" style={{ width: 9, height: 9 }}></span>
-                        <span className="rounded-circle bg-success opacity-75 d-inline-block" style={{ width: 9, height: 9 }}></span>
+                    <div className="led-display px-2 py-1 me-3 d-flex align-items-center gap-1.5 text-warning">
+                        <i className="bi bi-trophy-fill text-warning"></i>
+                        <span className="fs-6">{score} PTS</span>
                     </div>
-                    <span className="heading-font fs-6 fw-bold text-white d-none d-sm-inline">
-                        <i className="bi bi-compass text-primary me-2"></i>Random Findings
+                    <span className="show-font fs-5 text-warning d-none d-sm-inline text-shadow">
+                        ★ TRIVIA SHOWDOWN ★
                     </span>
                 </div>
 
-                {/* FILTER BUTTONS */}
-                <div className="d-flex gap-1 overflow-auto py-1 me-auto custom-scroll">
+                {/* GAME CATEGORY TOGGLES */}
+                <div className="d-flex gap-2 overflow-auto py-1 me-auto custom-scroll">
                     <button
                         type="button"
                         onClick={() => toggleFilter('all')}
-                        className={`btn btn-sm rounded-pill px-3 fw-semibold text-nowrap ${isAllActive ? 'btn-primary' : 'btn-outline-secondary'}`}
+                        className={`btn btn-sm rounded-pill px-3 pill-toggle ${isAllActive ? 'btn-warning shadow' : 'btn-outline-secondary'}`}
                     >
-                        All
+                        ALL PODS
                     </button>
 
                     {toggleButtons.map(tab => {
@@ -377,7 +376,7 @@ function App() {
                                 key={tab.id}
                                 type="button"
                                 onClick={() => toggleFilter(tab.id)}
-                                className={`btn btn-sm rounded-pill px-2.5 fw-semibold text-nowrap d-inline-flex align-items-center gap-1 ${isPressed ? 'btn-primary shadow-sm' : 'btn-outline-secondary'}`}
+                                className={`btn btn-sm rounded-pill px-3 pill-toggle d-inline-flex align-items-center gap-1.5 ${isPressed ? 'btn-outline-' + tab.color + ' active bg-' + tab.color + ' text-black shadow' : 'btn-outline-secondary'}`}
                             >
                                 <i className={`bi ${tab.icon}`}></i>
                                 <span>{tab.label}</span>
@@ -386,22 +385,22 @@ function App() {
                     })}
                 </div>
 
-                {/* MOBILE TAB & ACTION */}
+                {/* SPIN WHEEL BUTTON */}
                 <div className="d-flex align-items-center gap-2 flex-shrink-0 ms-2">
                     <div className="btn-group btn-group-sm d-md-none" role="group">
                         <button
                             type="button"
                             onClick={() => setMobileTab('facts')}
-                            className={`btn ${mobileTab === 'facts' ? 'btn-primary' : 'btn-outline-secondary'}`}
+                            className={`btn ${mobileTab === 'facts' ? 'btn-warning' : 'btn-outline-secondary'}`}
                         >
-                            Feeds
+                            Board
                         </button>
                         <button
                             type="button"
                             onClick={() => setMobileTab('hub')}
-                            className={`btn ${mobileTab === 'hub' ? 'btn-primary' : 'btn-outline-secondary'}`}
+                            className={`btn ${mobileTab === 'hub' ? 'btn-warning' : 'btn-outline-secondary'}`}
                         >
-                            Hub
+                            Stage
                         </button>
                     </div>
 
@@ -409,82 +408,80 @@ function App() {
                         type="button"
                         onClick={handleShuffle}
                         disabled={loadingFeeds || isCompiling}
-                        className="btn btn-sm btn-primary d-flex align-items-center gap-1 rounded-pill px-3 shadow-sm"
+                        className="btn btn-sm btn-warning d-flex align-items-center gap-1.5 rounded-pill px-3.5 py-1.5 fw-bold shadow show-font text-dark"
                     >
                         <i className={`bi bi-arrow-repeat ${loadingFeeds ? 'spinner-border spinner-border-sm border-2' : ''}`}></i>
-                        <span>{loadingFeeds ? 'Loading...' : 'Shuffle'}</span>
+                        <span>{loadingFeeds ? 'SPINNING...' : 'SPIN BOARD'}</span>
                     </button>
                 </div>
             </header>
 
-            {/* MAIN WORKSPACE */}
-            <main className="d-flex flex-grow-1 overflow-hidden" style={{ backgroundColor: '#090d16' }}>
+            {/* MAIN STUDIO ARENA */}
+            <main className="d-flex flex-grow-1 overflow-hidden" style={{ backgroundColor: '#0a0518' }}>
 
-                {/* LEFT: FEED CARDS */}
+                {/* LEFT: THE GAME CLUE BOARD */}
                 <section className={`col-12 col-md-6 d-flex flex-column border-end border-white border-opacity-10 ${mobileTab === 'facts' ? 'd-flex' : 'd-none d-md-flex'}`}>
                     <div className="p-3 p-md-4 overflow-y-auto custom-scroll flex-grow-1 d-flex flex-column gap-3">
 
                         {loadingFeeds ? (
-                            <div className="d-flex justify-content-center align-items-center h-100 py-5">
-                                <div className="spinner-border text-primary" role="status"></div>
+                            <div className="d-flex flex-column justify-content-center align-items-center h-100 py-5 text-center">
+                                <div className="spinner-grow text-warning mb-3" style={{ width: '3rem', height: '3rem' }} role="status"></div>
+                                <h5 className="show-font text-warning">RE-SHUFFLING THE BOARD...</h5>
                             </div>
                         ) : (
                             <React.Fragment>
-                                {/* Facts */}
+                                {/* Facts Clues */}
                                 {visibleFilters.facts && ninjaFacts.map((fact, idx) => (
-                                    <div key={idx} className="glass-card p-3">
-                                        <div className="d-flex align-items-center gap-2 text-primary fw-semibold small mb-2">
-                                            <i className="bi bi-lightbulb"></i>
-                                            <span>General Fact</span>
+                                    <div key={idx} className="game-card p-3 border-start border-4 border-info">
+                                        <div className="d-flex justify-content-between align-items-center mb-2">
+                                            <span className="badge bg-info text-dark fw-bold text-uppercase">
+                                                <i className="bi bi-lightbulb-fill me-1"></i>Fact Clue
+                                            </span>
+                                            <span className="badge rounded-pill bg-black text-info border border-info border-opacity-50">200 PTS</span>
                                         </div>
-                                        <p className="text-light-emphasis mb-0 leading-relaxed">{fact}</p>
+                                        <p className="text-light mb-0 fs-6 leading-relaxed">{fact}</p>
                                     </div>
                                 ))}
 
-                                {/* History */}
+                                {/* History Clues */}
                                 {visibleFilters.history && historyEvents.map((evt, idx) => (
-                                    <div key={idx} className="glass-card p-3">
-                                        <div className="d-flex align-items-center gap-2 text-info fw-semibold small mb-2">
-                                            <i className="bi bi-clock-history"></i>
-                                            <span>{evt.year} &bull; {evt.topic}</span>
+                                    <div key={idx} className="game-card p-3 border-start border-4 border-warning">
+                                        <div className="d-flex justify-content-between align-items-center mb-2">
+                                            <span className="badge bg-warning text-dark fw-bold text-uppercase">
+                                                <i className="bi bi-hourglass-split me-1"></i>{evt.year} &bull; {evt.topic}
+                                            </span>
+                                            <span className="badge rounded-pill bg-black text-warning border border-warning border-opacity-50">300 PTS</span>
                                         </div>
-                                        <p className="text-light-emphasis mb-0 leading-relaxed">{evt.text}</p>
+                                        <p className="text-light mb-0 fs-6 leading-relaxed">{evt.text}</p>
                                     </div>
                                 ))}
 
-                                {/* Wikipedia */}
+                                {/* Wikipedia Clues */}
                                 {visibleFilters.wiki && wikiArticle && (
-                                    <div className="glass-card p-3">
-                                        <div className="d-flex align-items-center gap-2 text-warning fw-semibold small mb-2">
-                                            <i className="bi bi-book"></i>
-                                            <span>{wikiArticle.title}</span>
+                                    <div className="game-card p-3 border-start border-4 border-primary">
+                                        <div className="d-flex justify-content-between align-items-center mb-2">
+                                            <span className="badge bg-primary text-white fw-bold text-uppercase">
+                                                <i className="bi bi-book-half me-1"></i>Encyclopedia Mystery: {wikiArticle.title}
+                                            </span>
+                                            <span className="badge rounded-pill bg-black text-primary border border-primary border-opacity-50">400 PTS</span>
                                         </div>
-                                        <p className="text-light-emphasis mb-0 leading-relaxed">{wikiArticle.extract}</p>
+                                        <p className="text-light mb-0 fs-6 leading-relaxed">{wikiArticle.extract}</p>
                                     </div>
                                 )}
 
-                                {/* Numbers */}
-                                {visibleFilters.numbers && numberTrivia && (
-                                    <div className="glass-card p-3">
-                                        <div className="d-flex align-items-center gap-2 small mb-2" style={{ color: '#c084fc' }}>
-                                            <i className="bi bi-123"></i>
-                                            <span className="fw-semibold">Numeric Metric</span>
-                                        </div>
-                                        <p className="text-light-emphasis mb-0 leading-relaxed">{numberTrivia}</p>
-                                    </div>
-                                )}
-
-                                {/* Open Trivia */}
+                                {/* Open Trivia DB Clues */}
                                 {visibleFilters.opentrivia && openTriviaQuestions.map((ot, idx) => (
-                                    <div key={idx} className="glass-card p-3">
-                                        <div className="d-flex align-items-center gap-2 text-success fw-semibold small mb-2">
-                                            <i className="bi bi-patch-question"></i>
-                                            <span>Trivia &bull; {ot.category}</span>
+                                    <div key={idx} className="game-card p-3 border-start border-4 border-success">
+                                        <div className="d-flex justify-content-between align-items-center mb-2">
+                                            <span className="badge bg-success text-dark fw-bold text-uppercase">
+                                                <i className="bi bi-award-fill me-1"></i>Round Question &bull; {ot.category}
+                                            </span>
+                                            <span className="badge rounded-pill bg-black text-success border border-success border-opacity-50">500 PTS</span>
                                         </div>
-                                        <h6 className="fw-semibold text-white mb-2">{ot.question}</h6>
-                                        <div className="p-2.5 rounded-3 bg-black bg-opacity-40 border border-white border-opacity-5">
-                                            <span className="badge bg-success-subtle text-success me-2">Answer</span>
-                                            <span className="text-light">{ot.answer}</span>
+                                        <h5 className="fw-bold text-white mb-2">{ot.question}</h5>
+                                        <div className="p-2.5 rounded-3 bg-black bg-opacity-70 border border-success border-opacity-25 d-flex align-items-center justify-content-between">
+                                            <span className="badge bg-success-subtle text-success text-uppercase">Answer</span>
+                                            <span className="fw-bold text-warning fs-6">{ot.answer}</span>
                                         </div>
                                     </div>
                                 ))}
@@ -494,56 +491,55 @@ function App() {
                     </div>
                 </section>
 
-                {/* RIGHT: INTERACTIVE DISCOVERY HUB */}
-                <section className={`col-12 col-md-6 flex-column ${mobileTab === 'hub' ? 'd-flex' : 'd-none d-md-flex'}`}>
+                {/* RIGHT: THE STAGE & HOT SEAT ROUND */}
+                <section className={`col-12 col-md-6 flex-column ${mobileTab === 'hub' ? 'd-flex' : 'd-none d-md-flex'}`} style={{ backgroundColor: 'rgba(21, 10, 48, 0.65)' }}>
                     <div className="p-3 p-md-4 overflow-y-auto custom-scroll flex-grow-1 d-flex flex-column gap-3">
 
-                        {/* EXECUTIVE BRIEFING HERO BANNER */}
-                        <div className="hero-banner p-3 p-md-4 shadow-sm">
+                        {/* HOST BRIEFING CARD */}
+                        <div className="game-card p-3 p-md-4 border border-2 border-warning shadow position-relative overflow-hidden" style={{ background: 'linear-gradient(135deg, rgba(255,204,0,0.1) 0%, rgba(255,0,128,0.1) 100%)' }}>
                             <div className="d-flex align-items-center justify-content-between mb-2">
-                                <span className="badge bg-primary text-white text-uppercase px-2.5 py-1">
-                                    <i className="bi bi-cpu me-1"></i>Synthesis Brief
+                                <span className="badge bg-warning text-dark text-uppercase px-2.5 py-1 fw-bold">
+                                    <i className="bi bi-mic-fill me-1"></i>HOST ROUND BRIEF
                                 </span>
-                                <span className="small text-secondary">
-                                    <i className="bi bi-activity text-success me-1"></i>Live Streams
+                                <span className="show-font text-warning small">
+                                    ROUND 1 ACTIVE
                                 </span>
                             </div>
-                            <h5 className="heading-font fw-bold text-white mb-2">Cross-Domain Intelligence</h5>
-                            <p className="text-light-emphasis leading-relaxed small mb-3">
-                                {synthesis.overview || 'Aggregating intelligence streams...'}
+                            <h4 className="show-font text-white mb-2">TONIGHT'S CHALLENGE</h4>
+                            <p className="text-light leading-relaxed small mb-3">
+                                {synthesis.overview || 'The studio computer is preparing clues...'}
                             </p>
-                            <div className="p-2.5 rounded-3 bg-dark bg-opacity-50 border border-primary border-opacity-25 small text-light">
-                                <strong className="text-primary"><i className="bi bi-stars me-1"></i>Core Takeaway: </strong>
-                                {synthesis.takeaway}
+                            <div className="p-2 rounded-3 bg-black bg-opacity-60 border border-warning border-opacity-30 small text-warning fw-bold">
+                                <i className="bi bi-stars me-1"></i>STRATEGY TIP: {synthesis.takeaway}
                             </div>
                         </div>
 
-                        {/* STREAM PULSE & STATS */}
+                        {/* LIVE STAGE STATS */}
                         <div className="row g-2">
                             <div className="col-4">
-                                <div className="glass-card p-2 text-center">
-                                    <div className="fw-bold text-white fs-5">
+                                <div className="game-card p-2 text-center border-warning border-opacity-50">
+                                    <div className="show-font text-warning fs-5">
                                         {ninjaFacts.length + historyEvents.length + openTriviaQuestions.length + (wikiArticle ? 1 : 0)}
                                     </div>
-                                    <div className="text-secondary" style={{ fontSize: '0.7rem' }}>Entities Synced</div>
+                                    <div className="text-white-50 fw-bold" style={{ fontSize: '0.65rem' }}>BOARD TILES</div>
                                 </div>
                             </div>
                             <div className="col-4">
-                                <div className="glass-card p-2 text-center">
-                                    <div className="fw-bold text-info fs-5">5</div>
-                                    <div className="text-secondary" style={{ fontSize: '0.7rem' }}>Data Sources</div>
+                                <div className="game-card p-2 text-center border-info border-opacity-50">
+                                    <div className="show-font text-info fs-5">4</div>
+                                    <div className="text-white-50 fw-bold" style={{ fontSize: '0.65rem' }}>CATEGORIES</div>
                                 </div>
                             </div>
                             <div className="col-4">
-                                <div className="glass-card p-2 text-center">
-                                    <div className="fw-bold text-success fs-5">100%</div>
-                                    <div className="text-secondary" style={{ fontSize: '0.7rem' }}>Verified Live</div>
+                                <div className="game-card p-2 text-center border-danger border-opacity-50">
+                                    <div className="show-font text-danger fs-5">LIVE</div>
+                                    <div className="text-white-50 fw-bold" style={{ fontSize: '0.65rem' }}>STUDIO FEED</div>
                                 </div>
                             </div>
                         </div>
 
-                        {/* INTERACTIVE RAPID RECALL FLASHCARD */}
-                        <FlashcardView
+                        {/* INTERACTIVE HOT SEAT ARENA */}
+                        <HotSeatArena
                             card={currentCard}
                             cardIndex={cardIndex}
                             totalCards={flashcards.length}

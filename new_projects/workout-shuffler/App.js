@@ -1,7 +1,10 @@
 // App.js
 const { useState, useEffect, useCallback, useRef } = React;
 
-// Free open ExerciseDB dataset endpoint (supports direct browser CORS calls)
+// RapidAPI Muscle Visualizer API Configuration
+const RAPIDAPI_KEY = 'ddccbde598msh13bc8f6b42c23ebp14d5d8jsn7888afa48c9f';
+const RAPIDAPI_HOST = 'muscle-visualizer-api.p.rapidapi.com';
+
 const EXERCISEDB_DIRECT_DATASET = 'https://raw.githubusercontent.com/yuhonas/free-exercise-db/main/dist/exercises.json';
 
 const AFFIRMATIONS = [
@@ -34,30 +37,71 @@ const MUSCLE_GROUPS = [
     { id: 'abs', label: 'ABS' }
 ];
 
-function MuscleWikiDiagram({ activeMuscle }) {
-    const isTarget = (group) => {
-        if (!activeMuscle) return false;
-        const target = activeMuscle.toLowerCase();
-        if (group === 'chest' && target.includes('chest')) return true;
-        if (group === 'back' && (target.includes('back') || target.includes('lats') || target.includes('traps') || target.includes('upper back') || target.includes('lower back'))) return true;
-        if (group === 'biceps' && target.includes('bicep')) return true;
-        if (group === 'triceps' && target.includes('tricep')) return true;
-        if (group === 'shoulders' && (target.includes('shoulder') || target.includes('deltoid'))) return true;
-        if (group === 'quadriceps' && (target.includes('quad') || target.includes('leg'))) return true;
-        if (group === 'hamstrings' && target.includes('hamstring')) return true;
-        if (group === 'calves' && target.includes('cal')) return true;
-        if (group === 'abdominals' && (target.includes('abs') || target.includes('abdominal') || target.includes('waist'))) return true;
-        return false;
+// Muscle Visualizer RapidAPI Component
+function MuscleVisualizerModule({ activeMuscle, secondaryMuscle }) {
+    const [imageUrl, setImageUrl] = useState(null);
+    const [loadingImg, setLoadingImg] = useState(false);
+
+    const mapMuscleToApi = (muscleStr) => {
+        if (!muscleStr) return 'CHEST';
+        const target = muscleStr.toUpperCase();
+        if (target.includes('CHEST') || target.includes('PECTORAL')) return 'CHEST';
+        if (target.includes('BICEP')) return 'BICEPS';
+        if (target.includes('TRICEP')) return 'TRICEPS';
+        if (target.includes('SHOULDER') || target.includes('DELTOID')) return 'SHOULDERS';
+        if (target.includes('BACK') || target.includes('LATS') || target.includes('TRAPS')) return 'BACK';
+        if (target.includes('QUAD') || target.includes('LEG')) return 'QUADRICEPS';
+        if (target.includes('HAMSTRING')) return 'HAMSTRINGS';
+        if (target.includes('CAL')) return 'CALVES';
+        if (target.includes('ABS') || target.includes('ABDOMINAL') || target.includes('WAIST')) return 'ABS';
+        return 'CHEST';
     };
 
-    const getFill = (group) => isTarget(group) ? '#CCFF00' : '#27272A';
-    const getStroke = (group) => isTarget(group) ? '#FFFFFF' : '#52525B';
+    useEffect(() => {
+        let isMounted = true;
+        const fetchVisualizer = async () => {
+            setLoadingImg(true);
+            const primary = mapMuscleToApi(activeMuscle);
+            const secondary = secondaryMuscle ? mapMuscleToApi(secondaryMuscle) : 'BACK';
+
+            const endpoint = `https://${RAPIDAPI_HOST}/api/v1/visualize/workout?targetMuscles=${primary}&targetMusclesColor=%23CCFF00&secondaryMuscles=${secondary}&secondaryMusclesColor=%23FF2A2A&gender=male&background=transparent&size=small&format=png`;
+
+            try {
+                const response = await fetch(endpoint, {
+                    method: 'GET',
+                    headers: {
+                        'x-rapidapi-host': RAPIDAPI_HOST,
+                        'x-rapidapi-key': RAPIDAPI_KEY
+                    }
+                });
+
+                if (response.ok) {
+                    const blob = await response.blob();
+                    const objectUrl = URL.createObjectURL(blob);
+                    if (isMounted) setImageUrl(objectUrl);
+                } else {
+                    if (isMounted) setImageUrl(null);
+                }
+            } catch (err) {
+                console.warn('Muscle Visualizer fetch failed:', err);
+                if (isMounted) setImageUrl(null);
+            } finally {
+                if (isMounted) setLoadingImg(false);
+            }
+        };
+
+        fetchVisualizer();
+
+        return () => {
+            isMounted = false;
+        };
+    }, [activeMuscle, secondaryMuscle]);
 
     return (
         <div className="athletic-card rounded-2xl p-3 border border-white/10 flex flex-col items-center justify-between h-full w-full relative overflow-hidden">
             <div className="w-full flex items-center justify-between border-b border-white/10 pb-1.5 mb-1 shrink-0">
                 <span className="text-[11px] font-black tracking-wider text-white uppercase italic">
-                    MUSCLEWIKI ANATOMY MAP
+                    RAPIDAPI MUSCLE VISUALIZER
                 </span>
                 <span className="text-[10px] font-extrabold text-[#CCFF00] tracking-widest uppercase bg-[#CCFF00]/10 px-2.5 py-0.5 rounded border border-[#CCFF00]/30">
                     {activeMuscle || 'FULL BODY'}
@@ -65,28 +109,28 @@ function MuscleWikiDiagram({ activeMuscle }) {
             </div>
 
             <div className="flex-1 w-full flex items-center justify-center py-2 min-h-0 overflow-hidden relative">
-                <svg viewBox="0 0 200 240" className="h-full w-auto max-h-[210px] object-contain filter drop-shadow-[0_0_12px_rgba(204,255,0,0.35)]">
-                    <ellipse cx="100" cy="22" rx="14" ry="16" fill="#18181C" stroke="#3F3F46" strokeWidth="1.5" />
-                    <path d="M88 36 L112 36 L116 48 L84 48 Z" fill="#18181C" stroke="#3F3F46" strokeWidth="1.5" />
-                    <path d="M68 48 C55 50 50 66 58 80 C66 80 72 70 76 56 Z" fill={getFill('shoulders')} stroke={getStroke('shoulders')} strokeWidth="1.5" />
-                    <path d="M132 48 C145 50 150 66 142 80 C134 80 128 70 124 56 Z" fill={getFill('shoulders')} stroke={getStroke('shoulders')} strokeWidth="1.5" />
-                    <path d="M76 54 Q100 58 124 54 L120 86 Q100 94 80 86 Z" fill={getFill('chest')} stroke={getStroke('chest')} strokeWidth="1.5" />
-                    <path d="M56 82 C50 92 50 110 58 120 C64 116 66 100 62 82 Z" fill={getFill('biceps')} stroke={getStroke('biceps')} strokeWidth="1.5" />
-                    <path d="M144 82 C150 92 150 110 142 120 C136 116 134 100 138 82 Z" fill={getFill('biceps')} stroke={getStroke('biceps')} strokeWidth="1.5" />
-                    <path d="M50 84 C45 94 45 106 52 114 C55 110 55 96 52 84 Z" fill={getFill('triceps')} stroke={getStroke('triceps')} strokeWidth="1.5" />
-                    <path d="M150 84 C155 94 155 106 148 114 C145 110 145 96 148 84 Z" fill={getFill('triceps')} stroke={getStroke('triceps')} strokeWidth="1.5" />
-                    <path d="M80 88 Q100 92 120 88 L114 142 Q100 146 86 142 Z" fill={getFill('abdominals')} stroke={getStroke('abdominals')} strokeWidth="1.5" />
-                    <path d="M72 52 L128 52 L132 88 L68 88 Z" fill={getFill('back')} stroke={getStroke('back')} strokeWidth="1.5" opacity={isTarget('back') ? 1 : 0.2} />
-                    <path d="M78 146 C70 162 72 202 82 216 C92 216 96 182 96 146 Z" fill={getFill('quadriceps')} stroke={getStroke('quadriceps')} strokeWidth="1.5" />
-                    <path d="M122 146 C130 162 128 202 118 216 C108 216 104 182 104 146 Z" fill={getFill('quadriceps')} stroke={getStroke('quadriceps')} strokeWidth="1.5" />
-                    <path d="M78 220 C72 228 74 236 80 238 C86 238 88 230 88 220 Z" fill={getFill('calves')} stroke={getStroke('calves')} strokeWidth="1.5" />
-                    <path d="M122 220 C128 228 126 236 120 238 C114 238 112 230 112 220 Z" fill={getFill('calves')} stroke={getStroke('calves')} strokeWidth="1.5" />
-                </svg>
+                {loadingImg ? (
+                    <div className="flex flex-col items-center gap-2">
+                        <div className="w-8 h-8 border-2 border-white/10 border-t-[#CCFF00] rounded-full animate-spin" />
+                        <span className="text-[10px] text-slate-400 font-bold uppercase">GENERATING ANATOMY...</span>
+                    </div>
+                ) : imageUrl ? (
+                    <img
+                        src={imageUrl}
+                        alt="Muscle Visualization"
+                        className="h-full w-auto max-h-[210px] object-contain filter drop-shadow-[0_0_12px_rgba(204,255,0,0.35)]"
+                    />
+                ) : (
+                    <div className="text-center p-2">
+                        <span className="text-xs text-slate-400 font-bold uppercase">ANATOMY MAP READY</span>
+                    </div>
+                )}
             </div>
         </div>
     );
 }
 
+// Spotify Web Player Component
 function SpotifyModule() {
     const [activePlaylist, setActivePlaylist] = useState('BEAST MODE');
     const [isPlaying, setIsPlaying] = useState(false);
@@ -388,7 +432,7 @@ function App() {
                 setAllDatabase(data);
                 filterAndShuffle(data, 'all');
             } catch (err) {
-                setError('Unable to fetch exercise database. Check connection.');
+                setError('Unable to fetch exercise database.');
             } finally {
                 setLoading(false);
             }
@@ -447,7 +491,7 @@ function App() {
                         WORKOUT // SHUFFLER
                     </span>
                     <span className="hidden sm:inline-block text-[9px] px-2 py-0.5 rounded bg-[#CCFF00]/10 text-[#CCFF00] font-black uppercase tracking-widest border border-[#CCFF00]/30">
-                        EXERCISEDB ENGINE
+                        RAPIDAPI ENGINE
                     </span>
                 </div>
 
@@ -574,13 +618,16 @@ function App() {
                                                     className="max-h-full max-w-full object-contain rounded-lg filter drop-shadow-md"
                                                 />
                                             ) : (
-                                                <span className="text-xs text-slate-400 font-bold uppercase">NO ANIMATION AVAILABLE</span>
+                                                <span className="text-xs text-slate-400 font-bold uppercase">NO ANIMATION</span>
                                             )}
                                         </div>
                                     </div>
 
                                     <div className="lg:col-span-4 flex flex-col min-h-[160px]">
-                                        <MuscleWikiDiagram activeMuscle={currentExercise.target || currentExercise.bodyPart} />
+                                        <MuscleVisualizerModule
+                                            activeMuscle={currentExercise.target || currentExercise.bodyPart}
+                                            secondaryMuscle={currentExercise.secondaryMuscles ? currentExercise.secondaryMuscles[0] : null}
+                                        />
                                     </div>
 
                                     <div className="lg:col-span-4 flex flex-col gap-2 min-h-0 overflow-hidden">
