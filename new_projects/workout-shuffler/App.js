@@ -1,8 +1,9 @@
 // App.js
 const { useState, useEffect, useCallback, useRef } = React;
 
-// ExerciseDB Open API endpoint base
-const EXERCISEDB_API_BASE = 'https://exercisedb-api.vercel.app/api/v1';
+// ExerciseDB API with CORS Proxy wrapper
+const BASE_URL = 'https://exercisedb-api.vercel.app/api/v1';
+const CORS_PROXY = 'https://corsproxy.io/?';
 
 const AFFIRMATIONS = [
     "BREATHE, CENTER, EXECUTE.",
@@ -34,7 +35,6 @@ const MUSCLE_GROUPS = [
     { id: 'abs', label: 'ABS' }
 ];
 
-// MuscleWiki Anatomical Vector Visualizer (Zero-CORS Client Component)
 function MuscleWikiDiagram({ activeMuscle }) {
     const isTarget = (group) => {
         if (!activeMuscle) return false;
@@ -67,36 +67,19 @@ function MuscleWikiDiagram({ activeMuscle }) {
 
             <div className="flex-1 w-full flex items-center justify-center py-2 min-h-0 overflow-hidden relative">
                 <svg viewBox="0 0 200 240" className="h-full w-auto max-h-[210px] object-contain filter drop-shadow-[0_0_12px_rgba(204,255,0,0.35)]">
-                    {/* Head / Body Base */}
                     <ellipse cx="100" cy="22" rx="14" ry="16" fill="#18181C" stroke="#3F3F46" strokeWidth="1.5" />
                     <path d="M88 36 L112 36 L116 48 L84 48 Z" fill="#18181C" stroke="#3F3F46" strokeWidth="1.5" />
-
-                    {/* Shoulders / Deltoids */}
                     <path d="M68 48 C55 50 50 66 58 80 C66 80 72 70 76 56 Z" fill={getFill('shoulders')} stroke={getStroke('shoulders')} strokeWidth="1.5" />
                     <path d="M132 48 C145 50 150 66 142 80 C134 80 128 70 124 56 Z" fill={getFill('shoulders')} stroke={getStroke('shoulders')} strokeWidth="1.5" />
-
-                    {/* Chest / Pectorals */}
                     <path d="M76 54 Q100 58 124 54 L120 86 Q100 94 80 86 Z" fill={getFill('chest')} stroke={getStroke('chest')} strokeWidth="1.5" />
-
-                    {/* Biceps */}
                     <path d="M56 82 C50 92 50 110 58 120 C64 116 66 100 62 82 Z" fill={getFill('biceps')} stroke={getStroke('biceps')} strokeWidth="1.5" />
                     <path d="M144 82 C150 92 150 110 142 120 C136 116 134 100 138 82 Z" fill={getFill('biceps')} stroke={getStroke('biceps')} strokeWidth="1.5" />
-
-                    {/* Triceps */}
                     <path d="M50 84 C45 94 45 106 52 114 C55 110 55 96 52 84 Z" fill={getFill('triceps')} stroke={getStroke('triceps')} strokeWidth="1.5" />
                     <path d="M150 84 C155 94 155 106 148 114 C145 110 145 96 148 84 Z" fill={getFill('triceps')} stroke={getStroke('triceps')} strokeWidth="1.5" />
-
-                    {/* Abs / Core */}
                     <path d="M80 88 Q100 92 120 88 L114 142 Q100 146 86 142 Z" fill={getFill('abdominals')} stroke={getStroke('abdominals')} strokeWidth="1.5" />
-
-                    {/* Back / Lats */}
                     <path d="M72 52 L128 52 L132 88 L68 88 Z" fill={getFill('back')} stroke={getStroke('back')} strokeWidth="1.5" opacity={isTarget('back') ? 1 : 0.2} />
-
-                    {/* Quadriceps */}
                     <path d="M78 146 C70 162 72 202 82 216 C92 216 96 182 96 146 Z" fill={getFill('quadriceps')} stroke={getStroke('quadriceps')} strokeWidth="1.5" />
                     <path d="M122 146 C130 162 128 202 118 216 C108 216 104 182 104 146 Z" fill={getFill('quadriceps')} stroke={getStroke('quadriceps')} strokeWidth="1.5" />
-
-                    {/* Calves */}
                     <path d="M78 220 C72 228 74 236 80 238 C86 238 88 230 88 220 Z" fill={getFill('calves')} stroke={getStroke('calves')} strokeWidth="1.5" />
                     <path d="M122 220 C128 228 126 236 120 238 C114 238 112 230 112 220 Z" fill={getFill('calves')} stroke={getStroke('calves')} strokeWidth="1.5" />
                 </svg>
@@ -105,7 +88,6 @@ function MuscleWikiDiagram({ activeMuscle }) {
     );
 }
 
-// Spotify Web Player Component (Intact)
 function SpotifyModule() {
     const [activePlaylist, setActivePlaylist] = useState('BEAST MODE');
     const [isPlaying, setIsPlaying] = useState(false);
@@ -139,7 +121,6 @@ function SpotifyModule() {
 
     return (
         <div className="athletic-card rounded-2xl p-3 border border-white/10 flex flex-col gap-2.5 shrink-0 bg-black/40">
-            {/* Header / Status Bar */}
             <div className="flex items-center justify-between border-b border-white/10 pb-2">
                 <div className="flex items-center gap-2">
                     <span className="w-2.5 h-2.5 rounded-full bg-[#1DB954] animate-pulse" />
@@ -154,7 +135,6 @@ function SpotifyModule() {
                 </div>
             </div>
 
-            {/* Playlists Selection Bar */}
             <div className="flex items-center gap-1 overflow-x-auto no-scrollbar">
                 {playlists.map((pl) => (
                     <button
@@ -170,10 +150,8 @@ function SpotifyModule() {
                 ))}
             </div>
 
-            {/* Main Web Player UI */}
             <div className="w-full p-2.5 rounded-xl bg-black/80 border border-white/10 flex flex-col gap-2 relative overflow-hidden">
                 <div className="flex items-center gap-3">
-                    {/* Album Art Thumbnail */}
                     <div className="w-12 h-12 rounded-lg overflow-hidden shrink-0 border border-white/10 relative group">
                         <img src={currentTrack.cover} alt="Album Art" className="w-full h-full object-cover" />
                         {isPlaying && (
@@ -185,7 +163,6 @@ function SpotifyModule() {
                         )}
                     </div>
 
-                    {/* Track Info */}
                     <div className="flex-1 min-w-0 flex flex-col">
                         <span className="text-xs font-black text-white truncate uppercase tracking-tight">
                             {currentTrack.title}
@@ -195,7 +172,6 @@ function SpotifyModule() {
                         </span>
                     </div>
 
-                    {/* Media Controls */}
                     <div className="flex items-center gap-1.5 shrink-0">
                         <button className="text-slate-400 hover:text-white text-xs px-1 cursor-pointer">⏮</button>
                         <button
@@ -208,7 +184,6 @@ function SpotifyModule() {
                     </div>
                 </div>
 
-                {/* Scrubber / Progress Bar */}
                 <div className="w-full flex items-center gap-2 pt-1">
                     <span className="text-[8px] font-mono font-bold text-slate-400">1:12</span>
                     <div className="flex-1 h-1.5 bg-white/10 rounded-full overflow-hidden cursor-pointer relative">
@@ -224,7 +199,6 @@ function SpotifyModule() {
     );
 }
 
-// Joke of the Day Component
 function JokeOfTheDay() {
     const [jokeIndex, setJokeIndex] = useState(0);
 
@@ -386,25 +360,26 @@ function App() {
         }
     };
 
-    // ExerciseDB Fetch Logic Integration
     const fetchExercises = useCallback(async (targetMuscle = selectedMuscle) => {
         setLoading(true);
         setError(null);
         setCurrentIndex(0);
 
-        let url = `${EXERCISEDB_API_BASE}/exercises`;
+        let targetEndpoint = `${BASE_URL}/exercises`;
         if (targetMuscle !== 'all') {
-            url = `${EXERCISEDB_API_BASE}/exercises/target/${encodeURIComponent(targetMuscle)}`;
+            targetEndpoint = `${BASE_URL}/exercises/target/${encodeURIComponent(targetMuscle)}`;
         }
 
+        const proxiedUrl = `${CORS_PROXY}${encodeURIComponent(targetEndpoint)}`;
+
         try {
-            const response = await fetch(url);
-            if (!response.ok) throw new Error('Failed to load exercises from ExerciseDB server.');
+            const response = await fetch(proxiedUrl);
+            if (!response.ok) throw new Error('Failed to load exercises via CORS proxy.');
 
             const result = await response.json();
             const data = Array.isArray(result) ? result : (result.data || []);
 
-            if (!data || data.length === 0) throw new Error('No routines discovered for this target muscle group.');
+            if (!data || data.length === 0) throw new Error('No routines discovered for this muscle group.');
 
             setExercises(data.sort(() => 0.5 - Math.random()).slice(0, 8));
         } catch (err) {
@@ -439,7 +414,6 @@ function App() {
 
     const currentExercise = exercises[currentIndex];
 
-    // Fallback search and instructional visual mappings
     const videoExternalUrl = currentExercise
         ? `https://www.youtube.com/results?search_query=${encodeURIComponent(currentExercise.name + ' exercise proper form tutorial')}`
         : 'https://www.youtube.com';
@@ -463,7 +437,6 @@ function App() {
     return (
         <div className="w-screen h-[100dvh] flex flex-col bg-carbon-pattern text-slate-100 overflow-hidden select-none">
 
-            {/* ATHLETIC HEADER WITH AFFIRMATION MARQUEE */}
             <header className="shrink-0 bg-[#09090B]/95 border-b border-white/10 px-4 py-2.5 flex items-center justify-between gap-4 z-20">
                 <div className="flex items-center gap-3 shrink-0">
                     <span className="text-xl md:text-2xl font-black italic tracking-tighter text-[#CCFF00]">
@@ -474,7 +447,6 @@ function App() {
                     </span>
                 </div>
 
-                {/* Affirmation Marquee Strip */}
                 <div className="flex-1 overflow-hidden mx-4 hidden md:block border-x border-white/10 px-3 py-1 bg-black/40 rounded-full">
                     <div className="whitespace-nowrap overflow-hidden">
                         <div className="animate-marquee text-xs font-bold text-slate-300 italic tracking-wider">
@@ -497,11 +469,9 @@ function App() {
                 </div>
             </header>
 
-            {/* MAIN VIEWPORT */}
             <main className="flex-1 w-full min-h-0 p-2 md:p-4 overflow-hidden flex flex-col">
                 <div className="w-full h-full flex flex-col gap-2 md:gap-3 min-h-0">
 
-                    {/* MUSCLE SELECTOR STRIP */}
                     <div className="shrink-0 athletic-card rounded-2xl p-1.5 flex items-center gap-1 overflow-x-auto no-scrollbar border border-white/10">
                         <span className="text-[10px] font-black text-slate-400 px-2 shrink-0 italic uppercase">
                             TARGET:
@@ -520,7 +490,6 @@ function App() {
                         ))}
                     </div>
 
-                    {/* WORKOUT STAGE */}
                     <section className="flex-1 flex flex-col min-h-0 athletic-card athletic-card-glow rounded-3xl p-3 md:p-4 border border-white/10 relative overflow-hidden">
                         {loading ? (
                             <div className="flex-1 flex flex-col items-center justify-center gap-3">
@@ -540,7 +509,6 @@ function App() {
                         ) : currentExercise ? (
                             <div className="flex-1 flex flex-col min-h-0 justify-between gap-2.5">
 
-                                {/* METRICS HEADER */}
                                 <div className="shrink-0 flex flex-col md:flex-row md:items-center justify-between gap-2 pb-2 border-b border-white/10">
                                     <div>
                                         <div className="flex items-center gap-2 mb-0.5">
@@ -556,7 +524,6 @@ function App() {
                                         </h2>
                                     </div>
 
-                                    {/* TELEMETRY CARDS */}
                                     <div className="grid grid-cols-3 gap-2 shrink-0 md:min-w-[360px]">
                                         <div className="bg-black/60 p-2.5 rounded-xl border border-white/10 text-center">
                                             <span className="block text-[9px] font-extrabold text-slate-400 uppercase tracking-widest">TARGET</span>
@@ -579,10 +546,8 @@ function App() {
                                     </div>
                                 </div>
 
-                                {/* DASHBOARD GRID */}
                                 <div className="flex-1 grid grid-cols-1 lg:grid-cols-12 gap-3 min-h-0 overflow-hidden">
 
-                                    {/* ANIMATED GIF DEMO */}
                                     <div className="lg:col-span-4 athletic-card rounded-2xl p-2 flex flex-col min-h-[160px] border border-white/10">
                                         <div className="flex items-center justify-between pb-1 mb-1 border-b border-white/10">
                                             <span className="text-[11px] font-black text-white tracking-wider uppercase italic">
@@ -610,12 +575,10 @@ function App() {
                                         </div>
                                     </div>
 
-                                    {/* MUSCLEWIKI DIAGRAM */}
                                     <div className="lg:col-span-4 flex flex-col min-h-[160px]">
                                         <MuscleWikiDiagram activeMuscle={currentExercise.target || currentExercise.bodyPart} />
                                     </div>
 
-                                    {/* INSTRUCTIONS, SPOTIFY & JOKE OF THE DAY */}
                                     <div className="lg:col-span-4 flex flex-col gap-2 min-h-0 overflow-hidden">
                                         <SpotifyModule />
                                         <JokeOfTheDay />
@@ -656,7 +619,6 @@ function App() {
 
                                 </div>
 
-                                {/* BOTTOM REST TIMER & CONTROLS */}
                                 <div className="shrink-0 flex flex-col sm:flex-row items-center justify-between gap-2 pt-2 border-t border-white/10">
 
                                     <div className="athletic-card px-3 py-1.5 rounded-xl border border-white/10 flex items-center gap-3 w-full sm:w-auto justify-between sm:justify-start">
@@ -709,7 +671,6 @@ function App() {
                                         </div>
                                     </div>
 
-                                    {/* SHUFFLE CONTROLS */}
                                     <div className="flex items-center gap-2 w-full sm:w-auto">
                                         <button
                                             onClick={handlePrev}

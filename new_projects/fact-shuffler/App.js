@@ -15,9 +15,7 @@ const DEFAULT_FILTERS = {
     history: true,
     wiki: true,
     numbers: true,
-    opentrivia: true,
-    derived: true,
-    synopsis: true
+    opentrivia: true
 };
 
 function App() {
@@ -40,7 +38,6 @@ function App() {
         relevanceTogether: '',
         relevanceApart: ''
     });
-    const [triviaList, setTriviaList] = useState([]);
 
     // Toggle individual category filter
     const toggleFilter = (key) => {
@@ -183,38 +180,7 @@ function App() {
             const relevanceTogether = `Across all extracted data feeds—from scientific facts to historical events and trivias—there is a common thread of systemic progression. Observing "${wikiItem.title}" requires similar analytical tools to evaluating ${hist.topic} or solving "${ot.question}". Viewing these topics collectively reinforces how natural and human-designed systems follow reproducible patterns of growth and balance.`;
             const relevanceApart = `Independently, ${hist.year} highlights human strategic decision-making in high-stakes environments, whereas empirical facts like "${fact.slice(0, 40)}..." describe passive natural realities. Meanwhile, quantitative metrics and Open Trivia entries like "${ot.question}" test discrete recall. Each type of information serves a unique role in building a well-rounded mental model.`;
 
-            const trivia = [
-                {
-                    source: 'HISTORICAL MILESTONE',
-                    tag: `${hist.year} • ${hist.topic}`,
-                    question: `What occurred in ${hist.year} regarding ${hist.topic}?`,
-                    answer: hist.text
-                },
-                {
-                    source: 'EMPIRICAL SCIENCE',
-                    tag: 'Natural Fact',
-                    question: `What is the verified reality behind "${fact.slice(0, Math.floor(fact.length / 2))}..."?`,
-                    answer: fact
-                },
-                {
-                    source: 'ENCYCLOPEDIC REFERENCE',
-                    tag: wikiItem.title,
-                    question: `What defines "${wikiItem.title}"?`,
-                    answer: wikiItem.extract
-                }
-            ];
-
-            if (number) {
-                trivia.push({
-                    source: 'QUANTITATIVE DATA',
-                    tag: 'Mathematics',
-                    question: 'What numerical fact was extracted in this run?',
-                    answer: number
-                });
-            }
-
             setSynthesis({ overview, takeaway, relevanceTogether, relevanceApart });
-            setTriviaList(trivia);
             setIsCompiling(false);
         }, 250);
     };
@@ -259,9 +225,7 @@ function App() {
         { id: 'history', label: 'History' },
         { id: 'wiki', label: 'Wiki' },
         { id: 'numbers', label: 'Numbers' },
-        { id: 'opentrivia', label: 'Open Trivia' },
-        { id: 'derived', label: 'AI Q&A' },
-        { id: 'synopsis', label: 'AI Synopsis' }
+        { id: 'opentrivia', label: 'Open Trivia' }
     ];
 
     return (
@@ -317,7 +281,7 @@ function App() {
                             onClick={() => setMobileTab('summary')}
                             className={`btn ${mobileTab === 'summary' ? 'btn-primary' : 'btn-outline-secondary'}`}
                         >
-                            AI
+                            Analysis
                         </button>
                     </div>
 
@@ -336,7 +300,7 @@ function App() {
             {/* MAIN DUAL PANE */}
             <main className="d-flex flex-grow-1 overflow-hidden" style={{ backgroundColor: '#0a0e1a' }}>
 
-                {/* LEFT SIDE: RAW CARDS & DERIVED Q&A */}
+                {/* LEFT SIDE: RAW DATA CARDS */}
                 <section className={`col-12 col-md-6 d-flex flex-column border-end border-secondary border-opacity-25 ${mobileTab === 'facts' ? 'd-flex' : 'd-none d-md-flex'}`}>
                     <div className="p-3 p-md-4 overflow-y-auto custom-scroll flex-grow-1 d-flex flex-column gap-3">
 
@@ -390,24 +354,13 @@ function App() {
                                         </div>
                                     </div>
                                 ))}
-
-                                {/* Derived Q&A Items (Toggled via AI Q&A) */}
-                                {visibleFilters.derived && triviaList.map((item, idx) => (
-                                    <div key={idx} className="custom-card rounded-3 p-3">
-                                        <span className="badge bg-info-subtle text-info border border-info-subtle mb-2">{item.tag}</span>
-                                        <h6 className="fw-semibold text-light mb-2">{item.question}</h6>
-                                        <div className="p-2.5 rounded-2 bg-dark bg-opacity-75 border border-secondary border-opacity-25">
-                                            <p className="mb-0 text-light">{item.answer}</p>
-                                        </div>
-                                    </div>
-                                ))}
                             </>
                         )}
 
                     </div>
                 </section>
 
-                {/* RIGHT SIDE: AI SYNOPSIS (Toggled via AI Synopsis) */}
+                {/* RIGHT SIDE: SYNTHESIS SUMMARY */}
                 <section className={`col-12 col-md-6 flex-column ${mobileTab === 'summary' ? 'd-flex' : 'd-none d-md-flex'}`} style={{ backgroundColor: 'rgba(14, 20, 36, 0.4)' }}>
                     <div className="p-3 p-md-4 overflow-y-auto custom-scroll flex-grow-1 d-flex flex-column gap-3">
 
@@ -416,7 +369,7 @@ function App() {
                                 <div className="spinner-border text-primary mb-3" role="status"></div>
                                 <p className="text-secondary small mb-0">Compiling Contextual Intelligence...</p>
                             </div>
-                        ) : visibleFilters.synopsis ? (
+                        ) : (
                             <>
                                 {/* Executive Findings */}
                                 <div className="custom-card rounded-3 p-3 border-primary border-opacity-50">
@@ -457,11 +410,6 @@ function App() {
                                     </p>
                                 </div>
                             </>
-                        ) : (
-                            <div className="custom-card rounded-3 p-4 text-center my-auto">
-                                <i className="bi bi-eye-slash text-secondary fs-2 mb-2 d-block"></i>
-                                <p className="text-secondary small mb-0">AI Synopsis is currently toggled off.</p>
-                            </div>
                         )}
 
                     </div>
