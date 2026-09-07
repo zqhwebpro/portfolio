@@ -1,9 +1,8 @@
 // App.js
 const { useState, useEffect, useCallback, useRef } = React;
 
-// ExerciseDB API with CORS Proxy wrapper
-const BASE_URL = 'https://exercisedb-api.vercel.app/api/v1';
-const CORS_PROXY = 'https://corsproxy.io/?';
+// Free open ExerciseDB dataset endpoint (supports direct browser CORS calls)
+const EXERCISEDB_DIRECT_DATASET = 'https://raw.githubusercontent.com/yuhonas/free-exercise-db/main/dist/exercises.json';
 
 const AFFIRMATIONS = [
     "BREATHE, CENTER, EXECUTE.",
@@ -226,6 +225,7 @@ function JokeOfTheDay() {
 }
 
 function App() {
+    const [allDatabase, setAllDatabase] = useState([]);
     const [exercises, setExercises] = useState([]);
     const [currentIndex, setCurrentIndex] = useState(0);
     const [selectedMuscle, setSelectedMuscle] = useState('all');
@@ -360,42 +360,46 @@ function App() {
         }
     };
 
-    const fetchExercises = useCallback(async (targetMuscle = selectedMuscle) => {
-        setLoading(true);
-        setError(null);
-        setCurrentIndex(0);
-
-        let targetEndpoint = `${BASE_URL}/exercises`;
+    const filterAndShuffle = (dataset, targetMuscle) => {
+        let filtered = dataset;
         if (targetMuscle !== 'all') {
-            targetEndpoint = `${BASE_URL}/exercises/target/${encodeURIComponent(targetMuscle)}`;
+            const query = targetMuscle.toLowerCase();
+            filtered = dataset.filter(ex => {
+                const target = (ex.target || '').toLowerCase();
+                const bodyPart = (ex.bodyPart || '').toLowerCase();
+                const name = (ex.name || '').toLowerCase();
+                return target.includes(query) || bodyPart.includes(query) || name.includes(query);
+            });
         }
-
-        const proxiedUrl = `${CORS_PROXY}${encodeURIComponent(targetEndpoint)}`;
-
-        try {
-            const response = await fetch(proxiedUrl);
-            if (!response.ok) throw new Error('Failed to load exercises via CORS proxy.');
-
-            const result = await response.json();
-            const data = Array.isArray(result) ? result : (result.data || []);
-
-            if (!data || data.length === 0) throw new Error('No routines discovered for this muscle group.');
-
-            setExercises(data.sort(() => 0.5 - Math.random()).slice(0, 8));
-        } catch (err) {
-            setError(err.message || 'Unable to load workouts.');
-        } finally {
-            setLoading(false);
-        }
-    }, [selectedMuscle]);
+        if (!filtered.length) filtered = dataset;
+        const shuffled = [...filtered].sort(() => 0.5 - Math.random()).slice(0, 8);
+        setExercises(shuffled);
+        setCurrentIndex(0);
+    };
 
     useEffect(() => {
-        fetchExercises();
+        const loadInitialDataset = async () => {
+            setLoading(true);
+            setError(null);
+            try {
+                const response = await fetch(EXERCISEDB_DIRECT_DATASET);
+                if (!response.ok) throw new Error('Failed to load dataset.');
+                const data = await response.json();
+                setAllDatabase(data);
+                filterAndShuffle(data, 'all');
+            } catch (err) {
+                setError('Unable to fetch exercise database. Check connection.');
+            } finally {
+                setLoading(false);
+            }
+        };
+
+        loadInitialDataset();
     }, []);
 
     const handleMuscleChange = (muscleId) => {
         setSelectedMuscle(muscleId);
-        fetchExercises(muscleId);
+        filterAndShuffle(allDatabase, muscleId);
     };
 
     const handleNext = () => {
@@ -409,7 +413,7 @@ function App() {
     };
 
     const handleShuffle = () => {
-        fetchExercises(selectedMuscle);
+        filterAndShuffle(allDatabase, selectedMuscle);
     };
 
     const currentExercise = exercises[currentIndex];
@@ -500,7 +504,7 @@ function App() {
                             <div className="flex-1 flex flex-col items-center justify-center text-center p-6">
                                 <p className="text-sm text-[#FF2A2A] font-bold uppercase mb-4">{error}</p>
                                 <button
-                                    onClick={() => fetchExercises(selectedMuscle)}
+                                    onClick={() => handleMuscleChange(selectedMuscle)}
                                     className="px-5 py-2.5 btn-neon rounded text-xs"
                                 >
                                     RETRY CONNECTION
@@ -570,7 +574,7 @@ function App() {
                                                     className="max-h-full max-w-full object-contain rounded-lg filter drop-shadow-md"
                                                 />
                                             ) : (
-                                                <span className="text-xs text-slate-400 font-bold uppercase">NO ANIMATION</span>
+                                                <span className="text-xs text-slate-400 font-bold uppercase">NO ANIMATION AVAILABLE</span>
                                             )}
                                         </div>
                                     </div>
