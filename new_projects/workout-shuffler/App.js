@@ -37,8 +37,11 @@ const MUSCLE_GROUPS = [
     { id: 'abs', label: 'ABS' }
 ];
 
-// RapidAPI Muscle Visualizer Direct Render Component
+// RapidAPI Authenticated Muscle Visualizer Component
 function MuscleVisualizerModule({ activeMuscle, secondaryMuscle }) {
+    const [imgSrc, setImgSrc] = useState(null);
+    const [loading, setLoading] = useState(false);
+
     const mapMuscleToApi = (muscleStr) => {
         if (!muscleStr) return 'chest';
         const target = muscleStr.toLowerCase();
@@ -54,11 +57,49 @@ function MuscleVisualizerModule({ activeMuscle, secondaryMuscle }) {
         return 'chest';
     };
 
-    const primary = mapMuscleToApi(activeMuscle);
-    const secondary = secondaryMuscle ? mapMuscleToApi(secondaryMuscle) : 'upper_back';
+    useEffect(() => {
+        let isCancelled = false;
+        let blobUrl = null;
 
-    // Formatted query URL for RapidAPI visualizer
-    const visualizerUrl = `https://${RAPIDAPI_HOST}/api/v1/visualize/workout?targetMuscles=${primary}&targetMusclesColor=CCFF00&secondaryMuscles=${secondary}&secondaryMusclesColor=FF2A2A&gender=male&background=transparent&size=small&format=png&rapidapi-key=${RAPIDAPI_KEY}`;
+        const fetchMuscleImage = async () => {
+            setLoading(true);
+            const primary = mapMuscleToApi(activeMuscle);
+            const secondary = secondaryMuscle ? mapMuscleToApi(secondaryMuscle) : 'upper_back';
+
+            const endpoint = `https://${RAPIDAPI_HOST}/api/v1/visualize/workout?targetMuscles=${primary}&targetMusclesColor=CCFF00&secondaryMuscles=${secondary}&secondaryMusclesColor=FF2A2A&gender=male&background=transparent&size=small&format=png`;
+
+            try {
+                const res = await fetch(endpoint, {
+                    method: 'GET',
+                    headers: {
+                        'x-rapidapi-key': RAPIDAPI_KEY,
+                        'x-rapidapi-host': RAPIDAPI_HOST
+                    }
+                });
+
+                if (!res.ok) throw new Error('Visualizer API authentication or endpoint error.');
+
+                const blob = await res.blob();
+                blobUrl = URL.createObjectURL(blob);
+
+                if (!isCancelled) {
+                    setImgSrc(blobUrl);
+                }
+            } catch (err) {
+                console.warn('RapidAPI Fetch Warning:', err);
+                if (!isCancelled) setImgSrc(null);
+            } finally {
+                if (!isCancelled) setLoading(false);
+            }
+        };
+
+        fetchMuscleImage();
+
+        return () => {
+            isCancelled = true;
+            if (blobUrl) URL.revokeObjectURL(blobUrl);
+        };
+    }, [activeMuscle, secondaryMuscle]);
 
     return (
         <div className="athletic-card rounded-2xl p-3 border border-white/10 flex flex-col items-center justify-between h-full w-full relative overflow-hidden">
@@ -72,15 +113,20 @@ function MuscleVisualizerModule({ activeMuscle, secondaryMuscle }) {
             </div>
 
             <div className="flex-1 w-full flex items-center justify-center py-2 min-h-0 overflow-hidden relative">
-                <img
-                    key={`${primary}-${secondary}`}
-                    src={visualizerUrl}
-                    alt="RapidAPI Anatomy Visualization"
-                    className="h-full w-auto max-h-[210px] object-contain filter drop-shadow-[0_0_12px_rgba(204,255,0,0.35)]"
-                    onError={(e) => {
-                        e.target.style.display = 'none';
-                    }}
-                />
+                {loading ? (
+                    <div className="flex flex-col items-center gap-2">
+                        <div className="w-8 h-8 border-2 border-white/10 border-t-[#CCFF00] rounded-full animate-spin" />
+                        <span className="text-[10px] text-slate-400 font-bold uppercase">RENDERING ANATOMY...</span>
+                    </div>
+                ) : imgSrc ? (
+                    <img
+                        src={imgSrc}
+                        alt="RapidAPI Anatomy Visualization"
+                        className="h-full w-auto max-h-[210px] object-contain filter drop-shadow-[0_0_12px_rgba(204,255,0,0.35)]"
+                    />
+                ) : (
+                    <span className="text-xs text-slate-400 font-bold uppercase">NO VISUAL AVAILABLE</span>
+                )}
             </div>
         </div>
     );
