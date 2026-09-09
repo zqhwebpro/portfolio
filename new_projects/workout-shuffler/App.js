@@ -754,11 +754,51 @@ function App() {
             {/* Main Interactive Deck */}
             <main className="flex-1 w-full max-w-full p-2.5 md:p-3.5 flex flex-col gap-2.5 overflow-y-auto lg:overflow-hidden min-h-0 touch-pan-y">
 
-                {/* Top White Bar: Muscle Workout / Muscle Group Options */}
+                {/* Top White Bar: Action Controls on the Left, Muscle Groups on the Right */}
                 <div className="shrink-0 pf-card px-3.5 py-2.5 flex items-center justify-between w-full max-w-full overflow-hidden">
-                    <div className="flex items-center gap-2 overflow-x-auto no-scrollbar min-w-0 flex-1">
+
+                    {/* Left: Randomizer Action Button + Favorites */}
+                    <div className="flex items-center gap-2 shrink-0 pr-3 border-r-2 border-pf-border">
+                        <button
+                            type="button"
+                            onClick={handleShuffle}
+                            title="Randomize unlocked workouts"
+                            className="btn-pf-yellow h-9 px-4 flex items-center gap-2 text-xs uppercase"
+                        >
+                            <svg className="w-3.5 h-3.5 text-pf-blackblue" fill="currentColor" viewBox="0 0 24 24">
+                                <path d="M10.59 9.17L5.41 4 4 5.41l5.17 5.17 1.42-1.41zM14.5 4l2.04 2.04L4 18.59 5.41 20 17.96 7.46 20 9.5V4h-5.5zm.33 9.41l-1.41 1.41 3.13 3.13L14.5 20H20v-5.5l-2.04 2.04-3.13-3.13z" />
+                            </svg>
+                            <span className="hidden sm:inline">RANDOMIZE</span>
+                        </button>
+
+                        <button
+                            type="button"
+                            onClick={handleAddCurrentGroup}
+                            title="Save current routine"
+                            className="w-9 h-9 flex items-center justify-center font-extrabold text-base bg-white hover:bg-slate-100 text-pf-blue rounded-full border-2 border-pf-border shadow-xs active:scale-95 transition"
+                        >
+                            +
+                        </button>
+
+                        <button
+                            type="button"
+                            onClick={() => setIsFavoritesOpen(true)}
+                            title="Saved routines vault"
+                            className="w-9 h-9 flex items-center justify-center text-sm bg-pf-blue text-pf-yellow rounded-full relative active:scale-95 transition shadow-xs"
+                        >
+                            <span>♥</span>
+                            {favoriteGroups.length > 0 && (
+                                <span className="absolute -top-1 -right-1 bg-pf-yellow text-pf-blackblue text-[9px] font-black w-4 h-4 rounded-full flex items-center justify-center shadow-xs">
+                                    {favoriteGroups.length}
+                                </span>
+                            )}
+                        </button>
+                    </div>
+
+                    {/* Right: Muscle Group Selector Pills */}
+                    <div className="flex items-center gap-2 overflow-x-auto no-scrollbar min-w-0 flex-1 pl-3">
                         <span className="text-xs font-extrabold text-pf-blue uppercase tracking-wider shrink-0 select-none whitespace-nowrap pr-1">
-                            Muscle:
+                            Muscle Groups:
                         </span>
 
                         <div className="flex items-center gap-1.5 shrink-0">
@@ -781,52 +821,40 @@ function App() {
                         </div>
                     </div>
 
-                    <div className="flex items-center shrink-0 pl-3">
-                        <div className="h-6 w-[2px] bg-pf-border mx-2" />
-
-                        <div className="flex items-center gap-2">
-                            <button
-                                type="button"
-                                onClick={handleShuffle}
-                                title="Randomize unlocked workouts"
-                                className="btn-pf-yellow h-9 px-4 flex items-center gap-2 text-xs uppercase"
-                            >
-                                <svg className="w-3.5 h-3.5 text-pf-blackblue" fill="currentColor" viewBox="0 0 24 24">
-                                    <path d="M10.59 9.17L5.41 4 4 5.41l5.17 5.17 1.42-1.41zM14.5 4l2.04 2.04L4 18.59 5.41 20 17.96 7.46 20 9.5V4h-5.5zm.33 9.41l-1.41 1.41 3.13 3.13L14.5 20H20v-5.5l-2.04 2.04-3.13-3.13z" />
-                                </svg>
-                                <span className="hidden sm:inline">RANDOMIZE</span>
-                            </button>
-
-                            <button
-                                type="button"
-                                onClick={handleAddCurrentGroup}
-                                title="Save current routine"
-                                className="w-9 h-9 flex items-center justify-center font-extrabold text-base bg-white hover:bg-slate-100 text-pf-blue rounded-full border-2 border-pf-border shadow-xs active:scale-95 transition"
-                            >
-                                +
-                            </button>
-
-                            <button
-                                type="button"
-                                onClick={() => setIsFavoritesOpen(true)}
-                                title="Saved routines vault"
-                                className="w-9 h-9 flex items-center justify-center text-sm bg-pf-blue text-pf-yellow rounded-full relative active:scale-95 transition shadow-xs"
-                            >
-                                <span>♥</span>
-                                {favoriteGroups.length > 0 && (
-                                    <span className="absolute -top-1 -right-1 bg-pf-yellow text-pf-blackblue text-[9px] font-black w-4 h-4 rounded-full flex items-center justify-center shadow-xs">
-                                        {favoriteGroups.length}
-                                    </span>
-                                )}
-                            </button>
-                        </div>
-                    </div>
                 </div>
 
-                {/* Main Showcase Grid */}
-                <div className="flex-1 grid grid-cols-1 lg:grid-cols-12 gap-3 min-h-0 lg:overflow-hidden w-full max-w-full">
+                {/* Main Showcase Row: Includes Focus Column on the Left, Workout Center, and YouTube on the Right */}
+                <div className="flex-1 flex flex-col lg:flex-row gap-3 min-h-0 lg:overflow-hidden w-full max-w-full">
 
-                    <section className="lg:col-span-8 flex flex-col min-h-0 pf-card p-4 md:p-5 overflow-hidden">
+                    {/* Dedicated Skinny Focus Sidebar on the Left */}
+                    <aside className="shrink-0 w-full lg:w-32 pf-card p-3 flex flex-col bg-slate-50 border-2 border-pf-border overflow-hidden">
+                        <div className="pb-2 mb-2 border-b-2 border-pf-border flex items-center justify-between shrink-0">
+                            <span className="text-xs font-black text-pf-blue tracking-wider uppercase">
+                                FOCUS:
+                            </span>
+                        </div>
+                        <div className="flex-1 flex lg:flex-col gap-1.5 overflow-x-auto lg:overflow-y-auto no-scrollbar pr-0.5">
+                            {WORKOUT_STYLES.map(style => {
+                                const isSelected = selectedStyle === style.id;
+                                return (
+                                    <button
+                                        key={style.id}
+                                        type="button"
+                                        onClick={() => handleStyleButtonClick(style.id)}
+                                        className={`py-2 px-2 font-black text-[10px] leading-tight transition shrink-0 uppercase select-none rounded-xl text-center shadow-2xs ${isSelected
+                                                ? 'bg-pf-blue text-white shadow-xs'
+                                                : 'bg-white text-pf-blackblue border border-pf-border hover:border-pf-blue/60'
+                                            }`}
+                                    >
+                                        {style.label}
+                                    </button>
+                                );
+                            })}
+                        </div>
+                    </aside>
+
+                    {/* Center Instructional & Motion Protocol Column */}
+                    <section className="flex-1 flex flex-col min-h-0 pf-card p-4 md:p-5 overflow-hidden">
                         {loading ? (
                             <div className="flex-1 min-h-[300px] flex flex-col items-center justify-center gap-3 text-pf-blue">
                                 <div className="w-10 h-10 border-4 border-pf-blue border-t-pf-yellow rounded-full animate-spin" />
@@ -882,75 +910,46 @@ function App() {
                                     </div>
                                 </div>
 
-                                {/* Center Split: Motion Preview & Instructional Row with skinny Focus column */}
+                                {/* Center Split: Motion Preview Feed & Form Instructions */}
                                 <div className="flex-1 grid grid-cols-1 md:grid-cols-12 gap-3.5 min-h-0 lg:overflow-hidden">
 
-                                    {/* Motion Preview Feed */}
+                                    {/* Motion Feed */}
                                     <div className="md:col-span-6 min-h-0 flex flex-col h-full">
                                         <ExerciseMotionFeed exercise={currentExercise} />
                                     </div>
 
-                                    {/* Instructional Row (Skinny Focus Sidebar + Form Protocol & Cues) */}
+                                    {/* Instructions Box + Desktop Controls */}
                                     <div className="md:col-span-6 min-h-0 flex flex-col gap-2.5 overflow-hidden">
-                                        <div className="flex-1 min-h-[220px] flex flex-row gap-2 overflow-hidden">
-
-                                            {/* Skinny Focus Column to the left of the instructions */}
-                                            <div className="w-24 sm:w-28 shrink-0 pf-panel p-2 flex flex-col bg-slate-50 border-2 border-pf-border rounded-xl overflow-hidden">
-                                                <span className="text-[10px] font-black text-pf-blue tracking-wider uppercase mb-1.5 text-center shrink-0">
-                                                    FOCUS:
+                                        <div className="flex-1 min-h-[220px] pf-panel p-3.5 flex flex-col overflow-hidden bg-white border-2 border-pf-border rounded-xl">
+                                            <div className="pb-2 mb-2 border-b-2 border-pf-border flex items-center justify-between shrink-0">
+                                                <span className="text-xs font-black text-pf-blue tracking-wider uppercase">
+                                                    FORM PROTOCOL & CUES
                                                 </span>
-                                                <div className="flex-1 overflow-y-auto no-scrollbar flex flex-col gap-1 pr-0.5">
-                                                    {WORKOUT_STYLES.map(style => {
-                                                        const isSelected = selectedStyle === style.id;
-                                                        return (
-                                                            <button
-                                                                key={style.id}
-                                                                type="button"
-                                                                onClick={() => handleStyleButtonClick(style.id)}
-                                                                className={`w-full py-1.5 px-1 font-extrabold text-[9px] leading-tight transition shrink-0 uppercase select-none rounded-lg text-center ${isSelected
-                                                                        ? 'bg-pf-blue text-white shadow-xs'
-                                                                        : 'bg-white text-pf-blackblue border border-pf-border hover:border-pf-blue/60'
-                                                                    }`}
-                                                            >
-                                                                {style.label}
-                                                            </button>
-                                                        );
-                                                    })}
-                                                </div>
                                             </div>
-
-                                            {/* Form Protocol & Cues Box */}
-                                            <div className="flex-1 min-w-0 pf-panel p-3 flex flex-col overflow-hidden bg-white border-2 border-pf-border rounded-xl">
-                                                <div className="pb-2 mb-2 border-b-2 border-pf-border flex items-center justify-between shrink-0">
-                                                    <span className="text-xs font-black text-pf-blue tracking-wider uppercase">
-                                                        FORM PROTOCOL & CUES
-                                                    </span>
-                                                </div>
-                                                <div className="flex-1 overflow-y-auto text-xs leading-relaxed text-pf-charcoal pr-1 space-y-2 touch-pan-y">
-                                                    {Array.isArray(currentExercise.instructions) && currentExercise.instructions.length > 0 ? (
-                                                        currentExercise.instructions.map((step, idx) => (
-                                                            <div key={idx} className="flex items-start gap-2 p-1.5 rounded-lg bg-slate-50 border border-pf-border">
-                                                                <span className="text-[10px] font-black text-white bg-pf-blue px-1.5 py-0.2 rounded-full shrink-0 shadow-xs">
+                                            <div className="flex-1 overflow-y-auto text-xs leading-relaxed text-pf-charcoal pr-1 space-y-2.5 touch-pan-y">
+                                                {Array.isArray(currentExercise.instructions) && currentExercise.instructions.length > 0 ? (
+                                                    currentExercise.instructions.map((step, idx) => (
+                                                        <div key={idx} className="flex items-start gap-2.5 p-1.5 rounded-lg bg-slate-50 border border-pf-border">
+                                                            <span className="text-[10px] font-black text-white bg-pf-blue px-2 py-0.5 rounded-full shrink-0 shadow-xs">
+                                                                {idx + 1}
+                                                            </span>
+                                                            <p className="flex-1 text-pf-charcoal text-xs leading-relaxed font-medium">{step}</p>
+                                                        </div>
+                                                    ))
+                                                ) : typeof currentExercise.instructions === 'string' && currentExercise.instructions ? (
+                                                    currentExercise.instructions.split('. ').map((step, idx) => (
+                                                        step.trim() && (
+                                                            <div key={idx} className="flex items-start gap-2.5 p-1.5 rounded-lg bg-slate-50 border border-pf-border">
+                                                                <span className="text-[10px] font-black text-white bg-pf-blue px-2 py-0.5 rounded-full shrink-0 shadow-xs">
                                                                     {idx + 1}
                                                                 </span>
-                                                                <p className="flex-1 text-pf-charcoal text-[11px] leading-snug font-medium">{step}</p>
+                                                                <p className="flex-1 text-pf-charcoal text-xs leading-relaxed font-medium">{step.endsWith('.') ? step : `${step}.`}</p>
                                                             </div>
-                                                        ))
-                                                    ) : typeof currentExercise.instructions === 'string' && currentExercise.instructions ? (
-                                                        currentExercise.instructions.split('. ').map((step, idx) => (
-                                                            step.trim() && (
-                                                                <div key={idx} className="flex items-start gap-2 p-1.5 rounded-lg bg-slate-50 border border-pf-border">
-                                                                    <span className="text-[10px] font-black text-white bg-pf-blue px-1.5 py-0.2 rounded-full shrink-0 shadow-xs">
-                                                                        {idx + 1}
-                                                                    </span>
-                                                                    <p className="flex-1 text-pf-charcoal text-[11px] leading-snug font-medium">{step.endsWith('.') ? step : `${step}.`}</p>
-                                                                </div>
-                                                            )
-                                                        ))
-                                                    ) : (
-                                                        <p className="text-pf-slate text-xs font-medium">Breathe steadily and execute smooth, controlled repetitions.</p>
-                                                    )}
-                                                </div>
+                                                        )
+                                                    ))
+                                                ) : (
+                                                    <p className="text-pf-slate text-xs font-medium">Breathe steadily and execute smooth, controlled repetitions.</p>
+                                                )}
                                             </div>
                                         </div>
 
@@ -1004,7 +1003,8 @@ function App() {
                         ) : null}
                     </section>
 
-                    <aside className="lg:col-span-4 flex flex-col min-h-[360px] lg:h-full lg:min-h-0">
+                    {/* YouTube Video Tutorials on the Right Side of the Row */}
+                    <aside className="w-full lg:w-80 shrink-0 flex flex-col min-h-[360px] lg:h-full lg:min-h-0">
                         <YouTubeFormDeck exercise={currentExercise} />
                     </aside>
 
