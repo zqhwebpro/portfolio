@@ -1170,8 +1170,7 @@ function App() {
             {/* Fixed Bottom "See Portfolio" Tab */}
             <div className="fixed bottom-0 left-24 md:left-32 z-40 select-none pointer-events-auto">
                 <a
-                    href="https://zqhwebpro.github.io/portfolio/2026/"
-                    target="_blank"
+                    href="https://zqhwebpro.github.io/portfolio/new_projects/"
                     rel="noopener noreferrer"
                     className="bg-pf-blue text-white text-xs md:text-sm font-black tracking-wider uppercase px-5 py-2.5 rounded-t-lg rounded-b-none shadow-md hover:bg-pf-darkblue transition active:scale-95 flex items-center gap-2 border-t border-x border-white/20"
                 >
