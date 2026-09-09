@@ -1839,13 +1839,23 @@ function App() {
     const [shuffleCounter, setShuffleCounter] = useState(0);
     const [lastSynthesizedTime, setLastSynthesizedTime] = useState(null);
 
-    // Visual State: Digital Distortion & Continuous Color Shift (phases by default until distorted)
+    // Visual State: Digital Distortion & Continuous Color Shift (Still green by default until happy face is clicked)
     const [baseHue, setBaseHue] = useState(0);
-    const [isColorPhasing, setIsColorPhasing] = useState(true);
+    const [isColorPhasing, setIsColorPhasing] = useState(false);
     const [glitchKey, setGlitchKey] = useState(0);
     const [isGlitching, setIsGlitching] = useState(false);
     const [transitionTick, setTransitionTick] = useState(0);
     const glitchTimeoutRef = useRef(null);
+
+    // Live Real-Time Digital Clock for Center Top Bar
+    const [currentTime, setCurrentTime] = useState(() => new Date().toLocaleTimeString());
+
+    useEffect(() => {
+        const timer = setInterval(() => {
+            setCurrentTime(new Date().toLocaleTimeString());
+        }, 1000);
+        return () => clearInterval(timer);
+    }, []);
 
     // Quiz State (Default 5 facts)
     const [quizQuestions, setQuizQuestions] = useState([]);
@@ -1875,12 +1885,6 @@ function App() {
         // Trigger retro digital glitch sound
         playGlitchSound();
 
-        // Toggle / pause continuous color phasing when distortion button is pressed
-        setIsColorPhasing(prev => !prev);
-
-        // Shift base hue angle to a new distinct color
-        setBaseHue(prev => (prev + 80 + Math.floor(Math.random() * 95)) % 360);
-
         // Trigger / restart digital distortion glitch animation
         setIsGlitching(true);
         setGlitchKey(prev => prev + 1);
@@ -1888,6 +1892,16 @@ function App() {
         glitchTimeoutRef.current = setTimeout(() => {
             setIsGlitching(false);
         }, 440);
+
+        if (!isColorPhasing) {
+            // Change colors and begin slowly blending into other colors
+            setBaseHue(prev => (prev + 80 + Math.floor(Math.random() * 95)) % 360 || 90);
+            setIsColorPhasing(true);
+        } else {
+            // Return to green and still
+            setBaseHue(0);
+            setIsColorPhasing(false);
+        }
     };
 
     const handleSmileyHover = () => {
@@ -2050,20 +2064,21 @@ function App() {
                 display: 'flex',
                 justifyContent: 'space-between',
                 alignItems: 'center',
+                position: 'relative',
                 zIndex: 60,
                 background: 'rgba(3, 10, 5, 0.98)'
             }}>
-                <div style={{ display: 'flex', alignItems: 'center', gap: 16 }}>
-                    {/* Enlarged Pixel Smiley Button to the left of the Logo */}
+                <div style={{ display: 'flex', alignItems: 'center', gap: 14 }}>
+                    {/* Pixel Smiley Button to the left of the Logo */}
                     <button
                         type="button"
                         className="pixel-face-btn-circle"
                         onClick={handleSmileyClick}
                         onMouseEnter={handleSmileyHover}
-                        title={isColorPhasing ? "Laugh & Stop Color Phasing (Trigger Digital Distortion)" : "Laugh & Resume Color Phasing (Trigger Digital Distortion)"}
-                        style={{ width: '54px', height: '54px', flexShrink: 0 }}
+                        title={isColorPhasing ? "Reset to Static Green (Trigger Digital Distortion)" : "Trigger Digital Distortion & Color Blending"}
+                        style={{ width: '36px', height: '36px', flexShrink: 0 }}
                     >
-                        <svg width="30" height="30" viewBox="0 0 16 16" fill="none" xmlns="http://www.w3.org/2000/svg" style={{ shapeRendering: 'crispEdges' }}>
+                        <svg width="20" height="20" viewBox="0 0 16 16" fill="none" xmlns="http://www.w3.org/2000/svg" style={{ shapeRendering: 'crispEdges' }}>
                             {/* Eyes - No eyebrows */}
                             <rect x="4" y="5" width="2" height="2" fill="#33ff66" />
                             <rect x="10" y="5" width="2" height="2" fill="#33ff66" />
@@ -2082,6 +2097,39 @@ function App() {
                             Civilian Bunker Training Array // Scenario #{shuffleCounter} [100 Knowledge Directives]
                         </div>
                     </div>
+                </div>
+
+                {/* Real-Time Digital Clock in Center of Top Bar */}
+                <div style={{
+                    position: 'absolute',
+                    left: '50%',
+                    top: '50%',
+                    transform: 'translate(-50%, -50%)',
+                    display: 'flex',
+                    alignItems: 'center',
+                    gap: '8px',
+                    background: 'rgba(0, 20, 6, 0.85)',
+                    border: '1.5px solid var(--term-green-dim)',
+                    boxShadow: '0 0 12px rgba(51, 255, 102, 0.25), inset 0 0 6px rgba(51, 255, 102, 0.1)',
+                    padding: '4px 14px',
+                    borderRadius: '2px',
+                    fontFamily: "'Share Tech Mono', monospace",
+                    fontSize: '1.05rem',
+                    fontWeight: 700,
+                    letterSpacing: '0.12em',
+                    color: 'var(--term-green-bright)',
+                    textShadow: '0 0 6px rgba(51, 255, 102, 0.6)',
+                    pointerEvents: 'none'
+                }}>
+                    <span style={{
+                        width: '7px',
+                        height: '7px',
+                        borderRadius: '50%',
+                        background: 'var(--term-green-bright)',
+                        boxShadow: '0 0 8px var(--term-green-bright)',
+                        display: 'inline-block'
+                    }}></span>
+                    <span>{currentTime}</span>
                 </div>
 
                 <div style={{ display: 'flex', gap: 10, alignItems: 'stretch' }}>
