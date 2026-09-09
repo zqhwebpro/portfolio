@@ -6,7 +6,7 @@
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0" />
 
-    <title>WO Randomizer - Judgement Free Workout Engine</title>
+    <title>WO Randomizer - Athletic Routine Engine</title>
     <meta name="description" content="Generate balanced, randomized routines with cadence feeds and form guides." />
 
     <!-- Google Fonts: Poppins (Clean, approachable, athletic gym look) -->
@@ -27,16 +27,16 @@
                     },
                     colors: {
                         pf: {
-                            purple: '#5c2483',       /* PF Signature Royal Purple */
-                            darkpurple: '#3b1257',   /* PF Deep Plum */
-                            blackpurple: '#200730',  /* Header & Contrast Dark */
-                            yellow: '#ffb81c',       /* PF High-Voltage Yellow */
+                            blue: '#1d4ed8',         /* Signature Royal Blue */
+                            darkblue: '#1e40af',     /* Deep Navy Accent */
+                            blackblue: '#0f172a',    /* Dark Slate / Contrast Header */
+                            yellow: '#ffb81c',       /* High-Voltage Accent Yellow */
                             lightyellow: '#ffe396',
-                            canvas: '#f4f1f7',       /* Friendly Gym Floor Light Neutral */
+                            canvas: '#f1f5f9',       /* Clean Slate Light Neutral */
                             surface: '#ffffff',      /* Crisp White Surface */
-                            border: '#e4dcee',
-                            slate: '#54525d',
-                            charcoal: '#1c1b1f'
+                            border: '#cbd5e1',       /* Slate Border */
+                            slate: '#475569',
+                            charcoal: '#0f172a'
                         }
                     }
                 }
@@ -57,29 +57,29 @@
             width: 100%;
             min-height: 100%;
             overflow-x: hidden;
-            background-color: #f4f1f7;
-            color: #1c1b1f;
+            background-color: #f1f5f9;
+            color: #0f172a;
             font-family: 'Poppins', -apple-system, sans-serif;
         }
 
-        /* PF High-Energy Gym Cards */
+        /* High-Energy Gym Cards */
         .pf-card {
             background: #ffffff;
-            border: 2px solid #ede8f3;
+            border: 2px solid #e2e8f0;
             border-radius: 1.25rem;
-            box-shadow: 0 4px 16px -2px rgba(92, 36, 131, 0.08);
+            box-shadow: 0 4px 16px -2px rgba(29, 78, 216, 0.08);
         }
 
         .pf-panel {
-            background: #faf8fc;
-            border: 1.5px solid #e9e2f0;
+            background: #f8fafc;
+            border: 1.5px solid #e2e8f0;
             border-radius: 1rem;
         }
 
-        /* PF Signature Yellow Pill Button */
+        /* Yellow Pill Button */
         .btn-pf-yellow {
             background-color: #ffb81c;
-            color: #200730;
+            color: #0f172a;
             font-weight: 800;
             border-radius: 9999px;
             box-shadow: 0 4px 12px rgba(255, 184, 28, 0.35);
@@ -97,23 +97,23 @@
             transform: scale(0.97);
         }
 
-        /* PF Signature Purple Pill Button */
-        .btn-pf-purple {
-            background-color: #5c2483;
+        /* Royal Blue Pill Button */
+        .btn-pf-blue {
+            background-color: #1d4ed8;
             color: #ffffff;
             font-weight: 700;
             border-radius: 9999px;
-            box-shadow: 0 4px 14px rgba(92, 36, 131, 0.25);
+            box-shadow: 0 4px 14px rgba(29, 78, 216, 0.25);
             transition: all 0.15s ease;
             user-select: none;
         }
 
-        .btn-pf-purple:hover:not(:disabled) {
-            background-color: #4a1c6a;
+        .btn-pf-blue:hover:not(:disabled) {
+            background-color: #1e40af;
             transform: translateY(-1px);
         }
 
-        .btn-pf-purple:active:not(:disabled) {
+        .btn-pf-blue:active:not(:disabled) {
             transform: scale(0.97);
         }
 
@@ -139,12 +139,12 @@
         }
 
         ::-webkit-scrollbar-track {
-            background: #ede8f3;
+            background: #e2e8f0;
             border-radius: 6px;
         }
 
         ::-webkit-scrollbar-thumb {
-            background: #5c2483;
+            background: #1d4ed8;
             border-radius: 6px;
         }
 
@@ -167,8 +167,8 @@
 <body>
     <div id="root"></div>
 
-    <script type="text/babel" src="./App.js?v=5.000"></script>
-    <script type="text/babel" src="./index.js?v=5.000"></script>
+    <script type="text/babel" src="./App.js?v=5.100"></script>
+    <script type="text/babel" src="./index.js?v=5.100"></script>
 </body>
 
 </html>
