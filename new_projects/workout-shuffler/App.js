@@ -121,6 +121,84 @@ const formatImageUrl = (relativePath) => {
     return `${EXERCISE_BASE_RAW}${encoded}`;
 };
 
+function WoShuffleLogo({ className = "h-8 w-auto" }) {
+    return (
+        <svg viewBox="0 0 450 78" className={className} fill="none" xmlns="http://www.w3.org/2000/svg">
+            <defs>
+                <filter id="varsity-shadow" x="-10%" y="-10%" width="130%" height="130%">
+                    <feDropShadow dx="3" dy="4" stdDeviation="0" floodColor="#0f172a" floodOpacity="0.95" />
+                </filter>
+                <linearGradient id="white-core" x1="0%" y1="0%" x2="0%" y2="100%">
+                    <stop offset="0%" stopColor="#ffffff" />
+                    <stop offset="70%" stopColor="#ffffff" />
+                    <stop offset="100%" stopColor="#f1f5f9" />
+                </linearGradient>
+            </defs>
+            <text
+                x="222"
+                y="56"
+                textAnchor="middle"
+                fontFamily="'Graduate', 'Arial Black', Impact, sans-serif"
+                fontSize="58"
+                fontWeight="800"
+                letterSpacing="0.04em"
+                fill="#0f172a"
+                stroke="#0f172a"
+                strokeWidth="12"
+                strokeLinejoin="bevel"
+                filter="url(#varsity-shadow)"
+            >
+                WO Shuffle
+            </text>
+            <text
+                x="222"
+                y="56"
+                textAnchor="middle"
+                fontFamily="'Graduate', 'Arial Black', Impact, sans-serif"
+                fontSize="58"
+                fontWeight="800"
+                letterSpacing="0.04em"
+                fill="#1d4ed8"
+                stroke="#1d4ed8"
+                strokeWidth="8"
+                strokeLinejoin="bevel"
+            >
+                WO Shuffle
+            </text>
+            <text
+                x="222"
+                y="56"
+                textAnchor="middle"
+                fontFamily="'Graduate', 'Arial Black', Impact, sans-serif"
+                fontSize="58"
+                fontWeight="800"
+                letterSpacing="0.04em"
+                fill="none"
+                stroke="#ffb81c"
+                strokeWidth="3"
+                strokeLinejoin="bevel"
+            >
+                WO Shuffle
+            </text>
+            <text
+                x="222"
+                y="56"
+                textAnchor="middle"
+                fontFamily="'Graduate', 'Arial Black', Impact, sans-serif"
+                fontSize="58"
+                fontWeight="800"
+                letterSpacing="0.04em"
+                fill="url(#white-core)"
+                stroke="#ffffff"
+                strokeWidth="1.2"
+                strokeLinejoin="bevel"
+            >
+                WO Shuffle
+            </text>
+        </svg>
+    );
+}
+
 function RenderLockIcon({ locked = false, className = "w-4 h-4" }) {
     return locked ? (
         <svg viewBox="0 0 24 24" fill="currentColor" className={className}>
@@ -547,9 +625,7 @@ function App() {
             }
         }
 
-        if (matches.length === 0) return;
-
-        const shuffled = [...matches].sort(() => 0.5 - Math.random()).slice(0, 8);
+        const shuffled = matches.length > 0 ? [...matches].sort(() => 0.5 - Math.random()).slice(0, 8) : [];
 
         setRoutineDeck(prev => ({
             ...prev,
@@ -656,6 +732,9 @@ function App() {
     const currentExercise = currentMuscleList.length > 0 ? currentMuscleList[currentIndex] : null;
     const isCurrentLocked = !!lockedMuscles[selectedMuscle];
 
+    // Disable next/previous navigation whenever there are 1 or 0 exercises in current category/muscle pool
+    const isNavigationDisabled = loading || isCurrentLocked || currentMuscleList.length <= 1;
+
     const toTitleCase = (str) => {
         if (!str) return '';
         return str
@@ -696,12 +775,10 @@ function App() {
     return (
         <div className="w-screen min-h-screen lg:h-[100dvh] flex flex-col pb-28 md:pb-32 lg:pb-0 touch-pan-y overflow-x-hidden bg-pf-canvas">
 
-            {/* Signature Royal Blue Header Marquee */}
+            {/* Signature Royal Blue Header Marquee with scaled up WO Shuffle Varsity Logo */}
             <header className="shrink-0 bg-pf-blue text-white px-3 md:px-4 py-2 flex items-center z-20 sticky top-0 w-full overflow-hidden shadow-md">
-                <div className="flex items-center mr-4 shrink-0">
-                    <span className="text-xs font-black tracking-wider text-white uppercase font-sans whitespace-nowrap">
-                        WO RANDOMIZER
-                    </span>
+                <div className="flex items-center mr-4 shrink-0 h-10">
+                    <WoShuffleLogo className="h-9 md:h-10 w-auto" />
                 </div>
 
                 <div className="flex-1 whitespace-nowrap overflow-hidden py-0.5 cursor-default">
@@ -754,7 +831,7 @@ function App() {
             {/* Main Interactive Deck */}
             <main className="flex-1 w-full max-w-full p-2.5 md:p-3.5 flex flex-col gap-2.5 overflow-y-auto lg:overflow-hidden min-h-0 touch-pan-y">
 
-                {/* Top White Bar: Muscle Groups on Left, Controls Moved Back to the Right */}
+                {/* Top White Bar: Muscle Groups on Left, Controls on Right */}
                 <div className="shrink-0 pf-card px-3.5 py-2.5 flex items-center justify-between w-full max-w-full overflow-hidden">
 
                     {/* Left: Muscle Group Selector Pills */}
@@ -826,9 +903,9 @@ function App() {
                 {/* Main Showcase Row */}
                 <div className="flex-1 flex flex-col lg:flex-row gap-3 min-h-0 lg:overflow-hidden w-full max-w-full">
 
-                    {/* Dedicated Focus Sidebar (White card background & slightly wider) */}
-                    <aside className="shrink-0 w-full lg:w-40 pf-card p-3 flex flex-col bg-white overflow-hidden">
-                        <div className="pb-2 mb-2 border-b-2 border-pf-border flex items-center justify-between shrink-0">
+                    {/* Wider Focus Sidebar (w-48) */}
+                    <aside className="shrink-0 w-full lg:w-48 pf-card p-3.5 flex flex-col bg-white overflow-hidden">
+                        <div className="pb-2.5 mb-2 border-b-2 border-pf-border flex items-center justify-between shrink-0">
                             <span className="text-xs font-black text-pf-blue tracking-wider uppercase">
                                 FOCUS:
                             </span>
@@ -841,7 +918,7 @@ function App() {
                                         key={style.id}
                                         type="button"
                                         onClick={() => handleStyleButtonClick(style.id)}
-                                        className={`py-2.5 px-2.5 font-black text-[10px] leading-tight transition shrink-0 uppercase select-none rounded-xl text-center shadow-2xs ${isSelected
+                                        className={`py-2.5 px-3 font-black text-[10px] leading-tight transition shrink-0 uppercase select-none rounded-xl text-center shadow-2xs ${isSelected
                                                 ? 'bg-pf-blue text-white shadow-xs'
                                                 : 'bg-slate-50 text-pf-blackblue border border-pf-border hover:border-pf-blue/60 hover:bg-white'
                                             }`}
@@ -953,15 +1030,15 @@ function App() {
                                             </div>
                                         </div>
 
-                                        {/* Desktop Action Deck */}
+                                        {/* Desktop Action Deck: Disabled & greyed-out when pool size <= 1 or locked */}
                                         <div className="hidden lg:grid grid-cols-12 gap-2 pt-0.5 shrink-0 select-none items-center">
                                             <button
                                                 type="button"
                                                 onClick={handlePrev}
-                                                disabled={loading || isCurrentLocked || currentMuscleList.length <= 1}
-                                                className={`col-span-5 h-12 rounded-xl flex items-center justify-center gap-2 font-black text-xs uppercase transition ${isCurrentLocked
-                                                    ? 'bg-pf-border text-pf-slate/50 cursor-not-allowed'
-                                                    : 'btn-pf-blue'
+                                                disabled={isNavigationDisabled}
+                                                className={`col-span-5 h-12 rounded-xl flex items-center justify-center gap-2 font-black text-xs uppercase transition ${isNavigationDisabled
+                                                        ? 'bg-slate-200 text-slate-400 cursor-not-allowed border-transparent shadow-none'
+                                                        : 'btn-pf-blue'
                                                     }`}
                                             >
                                                 <span className="text-base leading-none">◀</span>
@@ -973,8 +1050,8 @@ function App() {
                                                 onClick={toggleLockCurrent}
                                                 title={isCurrentLocked ? "Unlock workout" : "Lock in workout"}
                                                 className={`col-span-2 h-12 rounded-xl flex flex-col items-center justify-center gap-0.5 cursor-pointer transition active:scale-95 border-2 ${isCurrentLocked
-                                                    ? 'bg-pf-yellow text-pf-blackblue border-pf-yellow shadow-md'
-                                                    : 'bg-white text-pf-blue border-pf-border hover:border-pf-blue'
+                                                        ? 'bg-pf-yellow text-pf-blackblue border-pf-yellow shadow-md'
+                                                        : 'bg-white text-pf-blue border-pf-border hover:border-pf-blue'
                                                     }`}
                                             >
                                                 <RenderLockIcon locked={isCurrentLocked} className="w-4 h-4" />
@@ -986,10 +1063,10 @@ function App() {
                                             <button
                                                 type="button"
                                                 onClick={handleNext}
-                                                disabled={loading || isCurrentLocked || currentMuscleList.length <= 1}
-                                                className={`col-span-5 h-12 rounded-xl flex items-center justify-center gap-2 font-black text-xs uppercase transition ${isCurrentLocked
-                                                    ? 'bg-pf-border text-pf-slate/50 cursor-not-allowed'
-                                                    : 'btn-pf-blue'
+                                                disabled={isNavigationDisabled}
+                                                className={`col-span-5 h-12 rounded-xl flex items-center justify-center gap-2 font-black text-xs uppercase transition ${isNavigationDisabled
+                                                        ? 'bg-slate-200 text-slate-400 cursor-not-allowed border-transparent shadow-none'
+                                                        : 'btn-pf-blue'
                                                     }`}
                                             >
                                                 <span>NEXT</span>
@@ -1003,8 +1080,8 @@ function App() {
                         ) : null}
                     </section>
 
-                    {/* YouTube Video Tutorials on the Right Side of the Row (Slightly wider) */}
-                    <aside className="w-full lg:w-96 shrink-0 flex flex-col min-h-[360px] lg:h-full lg:min-h-0">
+                    {/* Wider Video Tutorials Bar (w-[26rem]) */}
+                    <aside className="w-full lg:w-[26rem] shrink-0 flex flex-col min-h-[360px] lg:h-full lg:min-h-0">
                         <YouTubeFormDeck exercise={currentExercise} />
                     </aside>
 
@@ -1083,14 +1160,16 @@ function App() {
                 </div>
             </main>
 
-            {/* Mobile Fixed Bottom Controls */}
+            {/* Mobile Fixed Bottom Controls: Disabled & greyed-out when navigation unavailable */}
             <div className="lg:hidden fixed bottom-0 left-0 right-0 z-40 px-3 pt-2 pb-[max(0.75rem,env(safe-area-inset-bottom))] bg-white/95 backdrop-blur-md border-t-2 border-pf-border shadow-xl select-none">
                 <div className="max-w-md mx-auto grid grid-cols-12 gap-2 items-center">
                     <button
                         type="button"
                         onClick={handlePrev}
-                        disabled={loading || isCurrentLocked || currentMuscleList.length <= 1}
-                        className={`col-span-5 h-11 py-2 px-3 rounded-xl flex items-center justify-center gap-1.5 font-black text-xs uppercase leading-none shadow-sm ${isCurrentLocked ? 'bg-pf-border text-pf-slate/40' : 'btn-pf-blue'
+                        disabled={isNavigationDisabled}
+                        className={`col-span-5 h-11 py-2 px-3 rounded-xl flex items-center justify-center gap-1.5 font-black text-xs uppercase leading-none ${isNavigationDisabled
+                                ? 'bg-slate-200 text-slate-400 cursor-not-allowed border-transparent shadow-none'
+                                : 'btn-pf-blue shadow-sm'
                             }`}
                     >
                         <span className="text-sm leading-none">◀</span>
@@ -1114,8 +1193,10 @@ function App() {
                     <button
                         type="button"
                         onClick={handleNext}
-                        disabled={loading || isCurrentLocked || currentMuscleList.length <= 1}
-                        className={`col-span-5 h-11 py-2 px-3 rounded-xl flex items-center justify-center gap-1.5 font-black text-xs uppercase leading-none shadow-sm ${isCurrentLocked ? 'bg-pf-border text-pf-slate/40' : 'btn-pf-blue'
+                        disabled={isNavigationDisabled}
+                        className={`col-span-5 h-11 py-2 px-3 rounded-xl flex items-center justify-center gap-1.5 font-black text-xs uppercase leading-none ${isNavigationDisabled
+                                ? 'bg-slate-200 text-slate-400 cursor-not-allowed border-transparent shadow-none'
+                                : 'btn-pf-blue shadow-sm'
                             }`}
                     >
                         <span className="leading-none">NEXT</span>
