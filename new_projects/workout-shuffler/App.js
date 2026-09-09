@@ -35,7 +35,7 @@ const AFFIRMATIONS = [
 ];
 
 const WORKOUT_STYLES = [
-    { id: 'all', label: 'ALL CATEGORIES' },
+    { id: 'all', label: 'ALL' },
     { id: 'strength', label: 'STRENGTH' },
     { id: 'stretching', label: 'STRETCH' },
     { id: 'plyometrics', label: 'CARDIO & PLYO' },
@@ -754,11 +754,37 @@ function App() {
             {/* Main Interactive Deck */}
             <main className="flex-1 w-full max-w-full p-2.5 md:p-3.5 flex flex-col gap-2.5 overflow-y-auto lg:overflow-hidden min-h-0 touch-pan-y">
 
-                {/* Top White Bar: Action Controls on the Left, Muscle Groups on the Right */}
+                {/* Top White Bar: Muscle Groups on Left, Controls Moved Back to the Right */}
                 <div className="shrink-0 pf-card px-3.5 py-2.5 flex items-center justify-between w-full max-w-full overflow-hidden">
 
-                    {/* Left: Randomizer Action Button + Favorites */}
-                    <div className="flex items-center gap-2 shrink-0 pr-3 border-r-2 border-pf-border">
+                    {/* Left: Muscle Group Selector Pills */}
+                    <div className="flex items-center gap-2 overflow-x-auto no-scrollbar min-w-0 flex-1 pr-3">
+                        <span className="text-xs font-extrabold text-pf-blue uppercase tracking-wider shrink-0 select-none whitespace-nowrap pr-1">
+                            Muscle Groups:
+                        </span>
+
+                        <div className="flex items-center gap-1.5 shrink-0">
+                            {MUSCLE_GROUPS.map(muscle => {
+                                const isSelected = selectedMuscle === muscle.id;
+                                return (
+                                    <button
+                                        key={muscle.id}
+                                        type="button"
+                                        onClick={() => handleFocusChange(muscle.id)}
+                                        className={`px-3.5 py-1.5 font-bold text-xs tracking-wide transition shrink-0 uppercase select-none rounded-full ${isSelected
+                                            ? 'bg-pf-blue text-white shadow-sm'
+                                            : 'bg-slate-200/70 text-pf-blackblue hover:bg-pf-blue/20'
+                                            }`}
+                                    >
+                                        {muscle.label}
+                                    </button>
+                                );
+                            })}
+                        </div>
+                    </div>
+
+                    {/* Right: Randomizer Action Button + Favorites Vault */}
+                    <div className="flex items-center gap-2 shrink-0 pl-3 border-l-2 border-pf-border">
                         <button
                             type="button"
                             onClick={handleShuffle}
@@ -795,39 +821,13 @@ function App() {
                         </button>
                     </div>
 
-                    {/* Right: Muscle Group Selector Pills */}
-                    <div className="flex items-center gap-2 overflow-x-auto no-scrollbar min-w-0 flex-1 pl-3">
-                        <span className="text-xs font-extrabold text-pf-blue uppercase tracking-wider shrink-0 select-none whitespace-nowrap pr-1">
-                            Muscle Groups:
-                        </span>
-
-                        <div className="flex items-center gap-1.5 shrink-0">
-                            {MUSCLE_GROUPS.map(muscle => {
-                                const isSelected = selectedMuscle === muscle.id;
-                                return (
-                                    <button
-                                        key={muscle.id}
-                                        type="button"
-                                        onClick={() => handleFocusChange(muscle.id)}
-                                        className={`px-3.5 py-1.5 font-bold text-xs tracking-wide transition shrink-0 uppercase select-none rounded-full ${isSelected
-                                            ? 'bg-pf-blue text-white shadow-sm'
-                                            : 'bg-slate-200/70 text-pf-blackblue hover:bg-pf-blue/20'
-                                            }`}
-                                    >
-                                        {muscle.label}
-                                    </button>
-                                );
-                            })}
-                        </div>
-                    </div>
-
                 </div>
 
-                {/* Main Showcase Row: Includes Focus Column on the Left, Workout Center, and YouTube on the Right */}
+                {/* Main Showcase Row */}
                 <div className="flex-1 flex flex-col lg:flex-row gap-3 min-h-0 lg:overflow-hidden w-full max-w-full">
 
-                    {/* Dedicated Skinny Focus Sidebar on the Left */}
-                    <aside className="shrink-0 w-full lg:w-32 pf-card p-3 flex flex-col bg-slate-50 border-2 border-pf-border overflow-hidden">
+                    {/* Dedicated Focus Sidebar (White card background & slightly wider) */}
+                    <aside className="shrink-0 w-full lg:w-40 pf-card p-3 flex flex-col bg-white overflow-hidden">
                         <div className="pb-2 mb-2 border-b-2 border-pf-border flex items-center justify-between shrink-0">
                             <span className="text-xs font-black text-pf-blue tracking-wider uppercase">
                                 FOCUS:
@@ -841,9 +841,9 @@ function App() {
                                         key={style.id}
                                         type="button"
                                         onClick={() => handleStyleButtonClick(style.id)}
-                                        className={`py-2 px-2 font-black text-[10px] leading-tight transition shrink-0 uppercase select-none rounded-xl text-center shadow-2xs ${isSelected
+                                        className={`py-2.5 px-2.5 font-black text-[10px] leading-tight transition shrink-0 uppercase select-none rounded-xl text-center shadow-2xs ${isSelected
                                                 ? 'bg-pf-blue text-white shadow-xs'
-                                                : 'bg-white text-pf-blackblue border border-pf-border hover:border-pf-blue/60'
+                                                : 'bg-slate-50 text-pf-blackblue border border-pf-border hover:border-pf-blue/60 hover:bg-white'
                                             }`}
                                     >
                                         {style.label}
@@ -1003,8 +1003,8 @@ function App() {
                         ) : null}
                     </section>
 
-                    {/* YouTube Video Tutorials on the Right Side of the Row */}
-                    <aside className="w-full lg:w-80 shrink-0 flex flex-col min-h-[360px] lg:h-full lg:min-h-0">
+                    {/* YouTube Video Tutorials on the Right Side of the Row (Slightly wider) */}
+                    <aside className="w-full lg:w-96 shrink-0 flex flex-col min-h-[360px] lg:h-full lg:min-h-0">
                         <YouTubeFormDeck exercise={currentExercise} />
                     </aside>
 
