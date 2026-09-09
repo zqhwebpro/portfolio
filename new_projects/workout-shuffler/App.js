@@ -121,93 +121,88 @@ const formatImageUrl = (relativePath) => {
     return `${EXERCISE_BASE_RAW}${encoded}`;
 };
 
-/* Angular / Chamfered Block-Cut Athletic Logo */
+/* Angular / Clean Athletic Vector Logo */
 function WoShuffleLogo({ className = "h-7 w-auto" }) {
     return (
-        <svg viewBox="0 0 500 78" className={className} fill="none" xmlns="http://www.w3.org/2000/svg">
+        <svg viewBox="0 0 540 64" className={className} fill="none" xmlns="http://www.w3.org/2000/svg">
             <defs>
-                <filter id="angular-shadow" x="-10%" y="-10%" width="130%" height="130%">
-                    <feDropShadow dx="3" dy="4" stdDeviation="0" floodColor="#0f172a" floodOpacity="0.95" />
+                <filter id="clean-angular-shadow" x="-10%" y="-10%" width="130%" height="130%">
+                    <feDropShadow dx="2.5" dy="3" stdDeviation="0" floodColor="#0f172a" floodOpacity="0.95" />
                 </filter>
-                <linearGradient id="angular-white-core" x1="0%" y1="0%" x2="0%" y2="100%">
-                    <stop offset="0%" stopColor="#ffffff" />
-                    <stop offset="65%" stopColor="#ffffff" />
-                    <stop offset="100%" stopColor="#f1f5f9" />
-                </linearGradient>
             </defs>
 
-            {/* Layer 1: Navy Drop Shadow & Heavy Bevel Backing */}
+            {/* Layer 1: Exterior Navy Outline & Shadow */}
             <text
-                x="250"
-                y="58"
+                x="270"
+                y="48"
                 textAnchor="middle"
-                fontFamily="'Impact', 'Arial Black', sans-serif"
-                fontSize="55"
-                fontWeight="900"
+                fontFamily="'Teko', 'Rajdhani', 'Poppins', sans-serif"
+                fontSize="50"
+                fontWeight="700"
                 fontStyle="italic"
-                letterSpacing="0.08em"
+                letterSpacing="0.14em"
                 fill="#0f172a"
                 stroke="#0f172a"
-                strokeWidth="13"
+                strokeWidth="7"
                 strokeLinejoin="miter"
-                strokeMiterlimit="4"
-                filter="url(#angular-shadow)"
+                strokeMiterlimit="3"
+                style={{ paintOrder: 'stroke fill' }}
+                filter="url(#clean-angular-shadow)"
             >
                 WO SHUFFLE
             </text>
 
-            {/* Layer 2: Signature Royal Blue Angular Outer Border */}
+            {/* Layer 2: Deep Blue Stroke */}
             <text
-                x="250"
-                y="58"
+                x="270"
+                y="48"
                 textAnchor="middle"
-                fontFamily="'Impact', 'Arial Black', sans-serif"
-                fontSize="55"
-                fontWeight="900"
+                fontFamily="'Teko', 'Rajdhani', 'Poppins', sans-serif"
+                fontSize="50"
+                fontWeight="700"
                 fontStyle="italic"
-                letterSpacing="0.08em"
+                letterSpacing="0.14em"
                 fill="#1d4ed8"
                 stroke="#1d4ed8"
-                strokeWidth="8.5"
+                strokeWidth="4.5"
                 strokeLinejoin="miter"
-                strokeMiterlimit="4"
+                strokeMiterlimit="3"
+                style={{ paintOrder: 'stroke fill' }}
             >
                 WO SHUFFLE
             </text>
 
-            {/* Layer 3: High-Voltage Yellow Inset Geometric Contour */}
+            {/* Layer 3: Crisp Gold Accent Stroke */}
             <text
-                x="250"
-                y="58"
+                x="270"
+                y="48"
                 textAnchor="middle"
-                fontFamily="'Impact', 'Arial Black', sans-serif"
-                fontSize="55"
-                fontWeight="900"
+                fontFamily="'Teko', 'Rajdhani', 'Poppins', sans-serif"
+                fontSize="50"
+                fontWeight="700"
                 fontStyle="italic"
-                letterSpacing="0.08em"
-                fill="none"
+                letterSpacing="0.14em"
+                fill="#ffb81c"
                 stroke="#ffb81c"
-                strokeWidth="3.5"
+                strokeWidth="2"
                 strokeLinejoin="miter"
-                strokeMiterlimit="4"
+                strokeMiterlimit="3"
+                style={{ paintOrder: 'stroke fill' }}
             >
                 WO SHUFFLE
             </text>
 
-            {/* Layer 4: Dominant White Core Fill */}
+            {/* Layer 4: Pure White Legible Text Fill */}
             <text
-                x="250"
-                y="58"
+                x="270"
+                y="48"
                 textAnchor="middle"
-                fontFamily="'Impact', 'Arial Black', sans-serif"
-                fontSize="55"
-                fontWeight="900"
+                fontFamily="'Teko', 'Rajdhani', 'Poppins', sans-serif"
+                fontSize="50"
+                fontWeight="700"
                 fontStyle="italic"
-                letterSpacing="0.08em"
-                fill="url(#angular-white-core)"
-                stroke="#ffffff"
-                strokeWidth="1.2"
-                strokeLinejoin="miter"
+                letterSpacing="0.14em"
+                fill="#ffffff"
             >
                 WO SHUFFLE
             </text>
@@ -934,8 +929,8 @@ function App() {
                                         type="button"
                                         onClick={() => handleStyleButtonClick(style.id)}
                                         className={`py-3 px-3 font-black text-xs leading-tight transition shrink-0 uppercase select-none rounded-xl text-center shadow-2xs ${isSelected
-                                                ? 'bg-pf-blue text-white shadow-xs'
-                                                : 'bg-slate-50 text-pf-blackblue border border-pf-border hover:border-pf-blue/60 hover:bg-white'
+                                            ? 'bg-pf-blue text-white shadow-xs'
+                                            : 'bg-slate-50 text-pf-blackblue border border-pf-border hover:border-pf-blue/60 hover:bg-white'
                                             }`}
                                     >
                                         {style.label}
@@ -1052,8 +1047,8 @@ function App() {
                                                 onClick={handlePrev}
                                                 disabled={isNavigationDisabled}
                                                 className={`col-span-5 h-12 rounded-xl flex items-center justify-center gap-2 font-black text-xs uppercase transition ${isNavigationDisabled
-                                                        ? 'bg-slate-200 text-slate-400 cursor-not-allowed border-transparent shadow-none'
-                                                        : 'btn-pf-blue'
+                                                    ? 'bg-slate-200 text-slate-400 cursor-not-allowed border-transparent shadow-none'
+                                                    : 'btn-pf-blue'
                                                     }`}
                                             >
                                                 <span className="text-base leading-none">◀</span>
@@ -1065,8 +1060,8 @@ function App() {
                                                 onClick={toggleLockCurrent}
                                                 title={isCurrentLocked ? "Unlock workout" : "Lock in workout"}
                                                 className={`col-span-2 h-12 rounded-xl flex flex-col items-center justify-center gap-0.5 cursor-pointer transition active:scale-95 border-2 ${isCurrentLocked
-                                                        ? 'bg-pf-yellow text-pf-blackblue border-pf-yellow shadow-md'
-                                                        : 'bg-white text-pf-blue border-pf-border hover:border-pf-blue'
+                                                    ? 'bg-pf-yellow text-pf-blackblue border-pf-yellow shadow-md'
+                                                    : 'bg-white text-pf-blue border-pf-border hover:border-pf-blue'
                                                     }`}
                                             >
                                                 <RenderLockIcon locked={isCurrentLocked} className="w-4 h-4" />
@@ -1080,8 +1075,8 @@ function App() {
                                                 onClick={handleNext}
                                                 disabled={isNavigationDisabled}
                                                 className={`col-span-5 h-12 rounded-xl flex items-center justify-center gap-2 font-black text-xs uppercase transition ${isNavigationDisabled
-                                                        ? 'bg-slate-200 text-slate-400 cursor-not-allowed border-transparent shadow-none'
-                                                        : 'btn-pf-blue'
+                                                    ? 'bg-slate-200 text-slate-400 cursor-not-allowed border-transparent shadow-none'
+                                                    : 'btn-pf-blue'
                                                     }`}
                                             >
                                                 <span>NEXT</span>
@@ -1176,14 +1171,16 @@ function App() {
 
             </main>
 
-            {/* Fixed Bottom "See Portfolio" Tab: Shifted right from left-6 to left-24/left-32 */}
+            {/* Fixed Bottom "See Portfolio" Tab */}
             <div className="fixed bottom-0 left-24 md:left-32 z-40 select-none pointer-events-auto">
                 <a
-                    href="https://zqhwebpro.github.io/portfolio/new_projects/"
-                    className="bg-pf-blue text-white text-[11px] font-black tracking-wider uppercase px-3.5 py-1.5 rounded-t-lg rounded-b-none shadow-md hover:bg-pf-darkblue transition active:scale-95 flex items-center gap-1.5 border-t border-x border-white/20"
+                    href="https://zqhwebpro.github.io/portfolio/2026/"
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="bg-pf-blue text-white text-xs md:text-sm font-black tracking-wider uppercase px-5 py-2.5 rounded-t-lg rounded-b-none shadow-md hover:bg-pf-darkblue transition active:scale-95 flex items-center gap-2 border-t border-x border-white/20"
                 >
                     <span>See Portfolio</span>
-                    <span className="text-[10px] leading-none">↗</span>
+                    <span className="text-xs leading-none">↗</span>
                 </a>
             </div>
 
@@ -1195,8 +1192,8 @@ function App() {
                         onClick={handlePrev}
                         disabled={isNavigationDisabled}
                         className={`col-span-5 h-11 py-2 px-3 rounded-xl flex items-center justify-center gap-1.5 font-black text-xs uppercase leading-none ${isNavigationDisabled
-                                ? 'bg-slate-200 text-slate-400 cursor-not-allowed border-transparent shadow-none'
-                                : 'btn-pf-blue shadow-sm'
+                            ? 'bg-slate-200 text-slate-400 cursor-not-allowed border-transparent shadow-none'
+                            : 'btn-pf-blue shadow-sm'
                             }`}
                     >
                         <span className="text-sm leading-none">◀</span>
@@ -1207,8 +1204,8 @@ function App() {
                         type="button"
                         onClick={toggleLockCurrent}
                         className={`col-span-2 h-11 py-1 rounded-xl flex flex-col items-center justify-center gap-0.5 border-2 transition active:scale-95 leading-none shadow-xs ${isCurrentLocked
-                                ? 'bg-pf-yellow text-pf-blackblue border-pf-yellow'
-                                : 'bg-white text-pf-blue border-pf-border'
+                            ? 'bg-pf-yellow text-pf-blackblue border-pf-yellow'
+                            : 'bg-white text-pf-blue border-pf-border'
                             }`}
                     >
                         <RenderLockIcon locked={isCurrentLocked} className="w-3.5 h-3.5 shrink-0" />
@@ -1222,8 +1219,8 @@ function App() {
                         onClick={handleNext}
                         disabled={isNavigationDisabled}
                         className={`col-span-5 h-11 py-2 px-3 rounded-xl flex items-center justify-center gap-1.5 font-black text-xs uppercase leading-none ${isNavigationDisabled
-                                ? 'bg-slate-200 text-slate-400 cursor-not-allowed border-transparent shadow-none'
-                                : 'btn-pf-blue shadow-sm'
+                            ? 'bg-slate-200 text-slate-400 cursor-not-allowed border-transparent shadow-none'
+                            : 'btn-pf-blue shadow-sm'
                             }`}
                     >
                         <span className="leading-none">NEXT</span>
