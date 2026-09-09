@@ -514,9 +514,7 @@ function App() {
             `}</style>
 
             <a
-                href="https://zqhwebpro.github.io/portfolio/2026/"
-                target="_blank"
-                rel="noopener noreferrer"
+                href="https://zqhwebpro.github.io/portfolio/new_projects/"
                 className="portfolio-btn"
                 style={styles.portfolioBtn}
             >

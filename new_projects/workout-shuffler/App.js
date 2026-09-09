@@ -1179,9 +1179,7 @@ function App() {
             {/* Fixed Bottom "See Portfolio" Tab: Shifted right from left-6 to left-24/left-32 */}
             <div className="fixed bottom-0 left-24 md:left-32 z-40 select-none pointer-events-auto">
                 <a
-                    href="https://zqhwebpro.github.io/portfolio/2026/"
-                    target="_blank"
-                    rel="noopener noreferrer"
+                    href="https://zqhwebpro.github.io/portfolio/new_projects/"
                     className="bg-pf-blue text-white text-[11px] font-black tracking-wider uppercase px-3.5 py-1.5 rounded-t-lg rounded-b-none shadow-md hover:bg-pf-darkblue transition active:scale-95 flex items-center gap-1.5 border-t border-x border-white/20"
                 >
                     <span>See Portfolio</span>

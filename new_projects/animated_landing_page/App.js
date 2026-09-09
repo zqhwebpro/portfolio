@@ -329,9 +329,7 @@ function App() {
             <canvas ref={canvasRef} className="galaxy-canvas" />
 
             <a
-                href="https://zqhwebpro.github.io/portfolio/2026/"
-                target="_blank"
-                rel="noopener noreferrer"
+                href="https://zqhwebpro.github.io/portfolio/new_projects/"
                 className="floating-brand-badge-bottom"
                 title="View Full Interactive Portfolio"
             >

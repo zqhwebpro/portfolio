@@ -526,6 +526,31 @@ function App() {
                 </section>
             </main>
 
+            {/* Fixed "See Portfolio" Button */}
+            <a
+                href="https://zqhwebpro.github.io/portfolio/new_projects/"
+                className="term-btn"
+                style={{
+                    position: 'fixed',
+                    bottom: '16px',
+                    left: '16px',
+                    zIndex: 90,
+                    padding: '8px 16px',
+                    fontSize: '0.8rem',
+                    fontWeight: 700,
+                    textDecoration: 'none',
+                    borderRadius: '2px',
+                    letterSpacing: '0.08em',
+                    boxShadow: '0 0 12px rgba(51, 255, 102, 0.35)',
+                    display: 'inline-flex',
+                    alignItems: 'center',
+                    gap: '6px'
+                }}
+            >
+                <span>See Portfolio</span>
+                <span style={{ fontSize: '0.75rem' }}>↗</span>
+            </a>
+
             {/* MODAL */}
             {activeModal && (
                 <div className="modal-backdrop" onClick={() => setActiveModal(null)}>
