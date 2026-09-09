@@ -156,6 +156,16 @@
             -ms-overflow-style: none;
             scrollbar-width: none;
         }
+
+        .animate-marquee {
+            display: inline-block;
+            white-space: nowrap;
+            animation: marquee var(--marquee-speed, 35s) linear infinite;
+        }
+
+        .animate-marquee:hover {
+            animation-play-state: paused;
+        }
     </style>
 
     <!-- React & Babel -->

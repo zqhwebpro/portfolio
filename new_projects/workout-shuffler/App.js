@@ -11,7 +11,27 @@ const AFFIRMATIONS = [
     "PROGRESS OVER PERFECTION",
     "MAXIMUM ATHLETIC ENERGY",
     "EVERY REP COUNTS",
-    "MINDSET IS EVERYTHING"
+    "MINDSET IS EVERYTHING",
+    "CONSISTENCY CREATES CHAMPIONS",
+    "STRONGER THAN YESTERDAY",
+    "ONE REP AT A TIME",
+    "CRUSH YOUR LIMITS",
+    "UNSTOPPABLE DRIVE",
+    "EARNED NOT GIVEN",
+    "FOCUS ON THE FORM",
+    "TRUST THE PROCESS",
+    "SHOW UP FOR YOURSELF",
+    "SWEAT IS JUST WEAKNESS LEAVING THE BODY",
+    "BETTER TODAY THAN YESTERDAY",
+    "DISCIPLINE EQUALS FREEDOM",
+    "STRENGTH BEGINS IN THE MIND",
+    "ENERGY FLOWS WHERE ATTENTION GOES",
+    "DO NOT WISH FOR IT, WORK FOR IT",
+    "FUEL YOUR AMBITION",
+    "NO SHORTCUTS, ONLY DEDICATION",
+    "FINISH STRONGER THAN YOU STARTED",
+    "PROVE IT TO YOURSELF",
+    "LOCK IN AND EXECUTE"
 ];
 
 const WORKOUT_STYLES = [
@@ -382,8 +402,8 @@ function YouTubeFormDeck({ exercise }) {
                                     key={vid.id.videoId}
                                     onClick={() => setSelectedVideoId(vid.id.videoId)}
                                     className={`p-2.5 rounded-xl border-2 flex items-center gap-2.5 cursor-pointer transition ${isCurrent
-                                            ? 'bg-blue-50 border-pf-blue text-pf-blackblue shadow-xs'
-                                            : 'bg-white border-pf-border text-pf-charcoal hover:border-pf-blue/50'
+                                        ? 'bg-blue-50 border-pf-blue text-pf-blackblue shadow-xs'
+                                        : 'bg-white border-pf-border text-pf-charcoal hover:border-pf-blue/50'
                                         }`}
                                 >
                                     <div className="w-16 h-10 shrink-0 rounded-lg overflow-hidden bg-black relative">
@@ -424,6 +444,19 @@ function App() {
     const [lockedMuscles, setLockedMuscles] = useState({});
     const [loading, setLoading] = useState(true);
     const [error, setError] = useState(null);
+
+    // Marquee speed in seconds (smaller duration = faster)
+    const [marqueeSpeed, setMarqueeSpeed] = useState(38);
+
+    const handleSpeedFaster = (e) => {
+        if (e) e.stopPropagation();
+        setMarqueeSpeed(prev => Math.max(10, prev - 5));
+    };
+
+    const handleSpeedSlower = (e) => {
+        if (e) e.stopPropagation();
+        setMarqueeSpeed(prev => Math.min(90, prev + 5));
+    };
 
     const [favoriteGroups, setFavoriteGroups] = useState(() => {
         try {
@@ -497,7 +530,6 @@ function App() {
         loadInitialDataset();
     }, []);
 
-    // Only randomize / replace the currently active selected exercise
     const handleStyleButtonClick = (styleId) => {
         setSelectedStyle(styleId);
 
@@ -664,23 +696,58 @@ function App() {
     return (
         <div className="w-screen min-h-screen lg:h-[100dvh] flex flex-col pb-28 md:pb-32 lg:pb-0 touch-pan-y overflow-x-hidden bg-pf-canvas">
 
-            {/* Signature Royal Blue & Yellow Header Marquee */}
-            <header className="shrink-0 bg-pf-blue text-white px-4 py-2.5 flex items-center z-20 sticky top-0 w-full overflow-hidden shadow-md">
-                <div className="flex items-center mr-5 shrink-0 gap-2">
-                    <span className="w-3 h-3 bg-pf-yellow rounded-full shadow-sm" />
-                    <span className="text-xs font-black tracking-wider text-white uppercase font-sans">
+            {/* Signature Royal Blue Header Marquee with speed toggles & hover-pause */}
+            <header className="shrink-0 bg-pf-blue text-white px-3 md:px-4 py-2 flex items-center z-20 sticky top-0 w-full overflow-hidden shadow-md">
+                <div className="flex items-center mr-4 shrink-0">
+                    <span className="text-xs font-black tracking-wider text-white uppercase font-sans whitespace-nowrap">
                         WO RANDOMIZER
                     </span>
                 </div>
-                <div className="flex-1 whitespace-nowrap overflow-hidden">
-                    <div className="animate-marquee text-xs font-bold tracking-widest text-pf-lightyellow select-none">
+
+                <div className="flex-1 whitespace-nowrap overflow-hidden py-0.5 cursor-default">
+                    <div
+                        className="animate-marquee text-xs font-bold tracking-widest text-pf-lightyellow select-none"
+                        style={{ '--marquee-speed': `${marqueeSpeed}s`, animationDuration: `${marqueeSpeed}s` }}
+                        title="Hover to pause"
+                    >
                         {AFFIRMATIONS.map((text, i) => (
-                            <span key={i} className="inline-flex items-center">
+                            <span key={`a-${i}`} className="inline-flex items-center">
+                                <span className="text-white">{text}</span>
+                                <span className="mx-4 text-pf-yellow font-black">★</span>
+                            </span>
+                        ))}
+                        {AFFIRMATIONS.map((text, i) => (
+                            <span key={`b-${i}`} className="inline-flex items-center">
                                 <span className="text-white">{text}</span>
                                 <span className="mx-4 text-pf-yellow font-black">★</span>
                             </span>
                         ))}
                     </div>
+                </div>
+
+                {/* Marquee Speed Controls on Right Side */}
+                <div className="flex items-center gap-1 shrink-0 ml-3 pl-2.5 border-l border-white/25">
+                    <span className="text-[9px] font-black uppercase tracking-wider text-white/80 hidden sm:inline mr-1 select-none">
+                        Speed
+                    </span>
+                    <button
+                        type="button"
+                        onClick={handleSpeedSlower}
+                        title="Slower speed"
+                        aria-label="Slower marquee speed"
+                        className="w-6 h-6 rounded-md bg-white/15 hover:bg-white/30 text-white font-black text-sm flex items-center justify-center transition active:scale-95 leading-none select-none"
+                    >
+                        -
+                    </button>
+                    <button
+                        type="button"
+                        onClick={handleSpeedFaster}
+                        title="Faster speed"
+                        aria-label="Faster marquee speed"
+                        className="w-6 h-6 rounded-md bg-white/15 hover:bg-white/30 text-white font-black text-sm flex items-center justify-center transition active:scale-95 leading-none select-none"
+                    >
+                        +
+                    </button>
                 </div>
             </header>
 
@@ -703,8 +770,8 @@ function App() {
                                         type="button"
                                         onClick={() => handleStyleButtonClick(style.id)}
                                         className={`px-3.5 py-1.5 font-bold text-xs tracking-wide transition shrink-0 uppercase select-none rounded-full ${isSelected
-                                                ? 'bg-pf-blue text-white shadow-sm'
-                                                : 'bg-slate-200/70 text-pf-blackblue hover:bg-pf-blue/20'
+                                            ? 'bg-pf-blue text-white shadow-sm'
+                                            : 'bg-slate-200/70 text-pf-blackblue hover:bg-pf-blue/20'
                                             }`}
                                     >
                                         {style.label}
@@ -797,7 +864,6 @@ function App() {
                                         </h2>
                                     </div>
 
-                                    {/* 3 Metric Badges */}
                                     <div className="grid grid-cols-1 sm:grid-cols-3 gap-2 shrink-0 md:min-w-[420px] w-full md:w-auto">
                                         <AnatomyBadgeCard
                                             activeMuscle={activeRawMuscle}
@@ -816,7 +882,7 @@ function App() {
                                     </div>
                                 </div>
 
-                                {/* Center Split: Motion Preview & Form Protocol */}
+                                {/* Center Split */}
                                 <div className="flex-1 grid grid-cols-1 md:grid-cols-12 gap-3.5 min-h-0 lg:overflow-hidden">
                                     <div className="md:col-span-7 min-h-0 flex flex-col h-full">
                                         <ExerciseMotionFeed exercise={currentExercise} />
@@ -856,29 +922,28 @@ function App() {
                                             </div>
                                         </div>
 
-                                        {/* Desktop 3-Button Action Deck: PREV, Lock, NEXT */}
+                                        {/* Desktop Action Deck */}
                                         <div className="hidden lg:grid grid-cols-12 gap-2.5 pt-1 shrink-0 select-none items-center">
                                             <button
                                                 type="button"
                                                 onClick={handlePrev}
                                                 disabled={loading || isCurrentLocked || currentMuscleList.length <= 1}
                                                 className={`col-span-5 h-14 rounded-2xl flex items-center justify-center gap-2 font-black text-xs uppercase transition ${isCurrentLocked
-                                                        ? 'bg-pf-border text-pf-slate/50 cursor-not-allowed'
-                                                        : 'btn-pf-blue'
+                                                    ? 'bg-pf-border text-pf-slate/50 cursor-not-allowed'
+                                                    : 'btn-pf-blue'
                                                     }`}
                                             >
                                                 <span className="text-base leading-none">◀</span>
                                                 <span>PREV</span>
                                             </button>
 
-                                            {/* Lock Button */}
                                             <button
                                                 type="button"
                                                 onClick={toggleLockCurrent}
                                                 title={isCurrentLocked ? "Unlock workout" : "Lock in workout"}
                                                 className={`col-span-2 h-14 rounded-2xl flex flex-col items-center justify-center gap-0.5 cursor-pointer transition active:scale-95 border-2 ${isCurrentLocked
-                                                        ? 'bg-pf-yellow text-pf-blackblue border-pf-yellow shadow-md'
-                                                        : 'bg-white text-pf-blue border-pf-border hover:border-pf-blue'
+                                                    ? 'bg-pf-yellow text-pf-blackblue border-pf-yellow shadow-md'
+                                                    : 'bg-white text-pf-blue border-pf-border hover:border-pf-blue'
                                                     }`}
                                             >
                                                 <RenderLockIcon locked={isCurrentLocked} className="w-4 h-4" />
@@ -892,8 +957,8 @@ function App() {
                                                 onClick={handleNext}
                                                 disabled={loading || isCurrentLocked || currentMuscleList.length <= 1}
                                                 className={`col-span-5 h-14 rounded-2xl flex items-center justify-center gap-2 font-black text-xs uppercase transition ${isCurrentLocked
-                                                        ? 'bg-pf-border text-pf-slate/50 cursor-not-allowed'
-                                                        : 'btn-pf-blue'
+                                                    ? 'bg-pf-border text-pf-slate/50 cursor-not-allowed'
+                                                    : 'btn-pf-blue'
                                                     }`}
                                             >
                                                 <span>NEXT</span>
@@ -917,7 +982,7 @@ function App() {
                 <div className="shrink-0 pf-card p-3 flex flex-col gap-1.5 w-full max-w-full overflow-hidden box-border">
                     <div className="flex items-center justify-between px-1 shrink-0">
                         <span className="text-xs font-black tracking-wider text-pf-blue uppercase">
-                            ACTIVE WORKOUT STACK
+                            Active Workout
                         </span>
                         <span className="text-[10px] font-bold text-pf-slate uppercase">
                             Click to select & inspect target
@@ -935,10 +1000,10 @@ function App() {
                                         key={group.id}
                                         onClick={() => handleFocusChange(group.id)}
                                         className={`relative rounded-xl p-2 cursor-pointer transition flex items-center gap-2 min-w-0 border-2 ${isSelected
-                                                ? 'bg-blue-50/70 border-pf-blue shadow-sm -translate-y-0.5 ring-2 ring-pf-blue/20'
-                                                : isLocked
-                                                    ? 'bg-amber-50/60 border-pf-yellow'
-                                                    : 'bg-white border-pf-border hover:border-pf-blue/40'
+                                            ? 'bg-blue-50/70 border-pf-blue shadow-sm -translate-y-0.5 ring-2 ring-pf-blue/20'
+                                            : isLocked
+                                                ? 'bg-amber-50/60 border-pf-yellow'
+                                                : 'bg-white border-pf-border hover:border-pf-blue/40'
                                             }`}
                                     >
                                         <div className="w-9 h-9 rounded-lg bg-[#0f172a] overflow-hidden shrink-0 flex items-center justify-center border border-pf-border relative">
@@ -987,29 +1052,29 @@ function App() {
             </main>
 
             {/* Mobile Fixed Bottom Controls */}
-            <div className="lg:hidden fixed bottom-0 left-0 right-0 z-40 p-2.5 bg-white/95 backdrop-blur-md border-t-2 border-pf-border shadow-lg select-none">
-                <div className="max-w-xl mx-auto grid grid-cols-12 gap-2 items-center">
+            <div className="lg:hidden fixed bottom-0 left-0 right-0 z-40 px-3 pt-2 pb-[max(0.75rem,env(safe-area-inset-bottom))] bg-white/95 backdrop-blur-md border-t-2 border-pf-border shadow-xl select-none">
+                <div className="max-w-md mx-auto grid grid-cols-12 gap-2 items-center">
                     <button
                         type="button"
                         onClick={handlePrev}
                         disabled={loading || isCurrentLocked || currentMuscleList.length <= 1}
-                        className={`col-span-5 h-13 rounded-xl flex items-center justify-center gap-1.5 font-black text-xs uppercase ${isCurrentLocked ? 'bg-pf-border text-pf-slate/40' : 'btn-pf-blue'
+                        className={`col-span-5 h-11 py-2 px-3 rounded-xl flex items-center justify-center gap-1.5 font-black text-xs uppercase leading-none shadow-sm ${isCurrentLocked ? 'bg-pf-border text-pf-slate/40' : 'btn-pf-blue'
                             }`}
                     >
-                        <span className="text-base leading-none">◀</span>
-                        <span>PREV</span>
+                        <span className="text-sm leading-none">◀</span>
+                        <span className="leading-none">PREV</span>
                     </button>
 
                     <button
                         type="button"
                         onClick={toggleLockCurrent}
-                        className={`col-span-2 h-13 rounded-xl flex flex-col items-center justify-center gap-0.5 border-2 ${isCurrentLocked
+                        className={`col-span-2 h-11 py-1 rounded-xl flex flex-col items-center justify-center gap-0.5 border-2 transition active:scale-95 leading-none shadow-xs ${isCurrentLocked
                                 ? 'bg-pf-yellow text-pf-blackblue border-pf-yellow'
                                 : 'bg-white text-pf-blue border-pf-border'
                             }`}
                     >
-                        <RenderLockIcon locked={isCurrentLocked} className="w-3.5 h-3.5" />
-                        <span className="text-[8px] font-black uppercase">
+                        <RenderLockIcon locked={isCurrentLocked} className="w-3.5 h-3.5 shrink-0" />
+                        <span className="text-[8px] font-black uppercase leading-none">
                             {isCurrentLocked ? 'LOCKED' : 'LOCK'}
                         </span>
                     </button>
@@ -1018,11 +1083,11 @@ function App() {
                         type="button"
                         onClick={handleNext}
                         disabled={loading || isCurrentLocked || currentMuscleList.length <= 1}
-                        className={`col-span-5 h-13 rounded-xl flex items-center justify-center gap-1.5 font-black text-xs uppercase ${isCurrentLocked ? 'bg-pf-border text-pf-slate/40' : 'btn-pf-blue'
+                        className={`col-span-5 h-11 py-2 px-3 rounded-xl flex items-center justify-center gap-1.5 font-black text-xs uppercase leading-none shadow-sm ${isCurrentLocked ? 'bg-pf-border text-pf-slate/40' : 'btn-pf-blue'
                             }`}
                     >
-                        <span>NEXT</span>
-                        <span className="text-base leading-none">▶</span>
+                        <span className="leading-none">NEXT</span>
+                        <span className="text-sm leading-none">▶</span>
                     </button>
                 </div>
             </div>
