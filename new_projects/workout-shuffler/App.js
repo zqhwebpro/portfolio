@@ -139,61 +139,61 @@ function WoShuffleLogo({ className = "h-7 w-auto" }) {
                 y="56"
                 textAnchor="middle"
                 fontFamily="'Graduate', 'Arial Black', Impact, sans-serif"
-                fontSize="58"
+                fontSize="54"
                 fontWeight="800"
-                letterSpacing="0.04em"
+                letterSpacing="0.05em"
                 fill="#0f172a"
                 stroke="#0f172a"
                 strokeWidth="12"
                 strokeLinejoin="bevel"
                 filter="url(#varsity-shadow)"
             >
-                WO Shuffle
+                WO SHUFFLE
             </text>
             <text
                 x="222"
                 y="56"
                 textAnchor="middle"
                 fontFamily="'Graduate', 'Arial Black', Impact, sans-serif"
-                fontSize="58"
+                fontSize="54"
                 fontWeight="800"
-                letterSpacing="0.04em"
+                letterSpacing="0.05em"
                 fill="#1d4ed8"
                 stroke="#1d4ed8"
                 strokeWidth="8"
                 strokeLinejoin="bevel"
             >
-                WO Shuffle
+                WO SHUFFLE
             </text>
             <text
                 x="222"
                 y="56"
                 textAnchor="middle"
                 fontFamily="'Graduate', 'Arial Black', Impact, sans-serif"
-                fontSize="58"
+                fontSize="54"
                 fontWeight="800"
-                letterSpacing="0.04em"
+                letterSpacing="0.05em"
                 fill="none"
                 stroke="#ffb81c"
                 strokeWidth="3"
                 strokeLinejoin="bevel"
             >
-                WO Shuffle
+                WO SHUFFLE
             </text>
             <text
                 x="222"
                 y="56"
                 textAnchor="middle"
                 fontFamily="'Graduate', 'Arial Black', Impact, sans-serif"
-                fontSize="58"
+                fontSize="54"
                 fontWeight="800"
-                letterSpacing="0.04em"
+                letterSpacing="0.05em"
                 fill="url(#white-core)"
                 stroke="#ffffff"
                 strokeWidth="1.2"
                 strokeLinejoin="bevel"
             >
-                WO Shuffle
+                WO SHUFFLE
             </text>
         </svg>
     );
@@ -772,7 +772,7 @@ function App() {
     }, [routineDeck, groupIndices, lockedMuscles]);
 
     return (
-        <div className="w-screen min-h-screen lg:h-[100dvh] flex flex-col pb-28 md:pb-32 lg:pb-0 touch-pan-y overflow-x-hidden bg-pf-canvas">
+        <div className="w-screen min-h-screen lg:h-[100dvh] flex flex-col pb-28 md:pb-32 lg:pb-0 touch-pan-y overflow-x-hidden bg-pf-canvas relative">
 
             {/* Signature Royal Blue Header Marquee with Compact Logo */}
             <header className="shrink-0 bg-pf-blue text-white px-3 md:px-4 py-1.5 flex items-center z-20 sticky top-0 w-full overflow-hidden shadow-md">
@@ -902,8 +902,8 @@ function App() {
                 {/* Main Showcase Row */}
                 <div className="flex-1 flex flex-col lg:flex-row gap-3 min-h-0 lg:overflow-hidden w-full max-w-full">
 
-                    {/* Wider Focus Sidebar (w-48) */}
-                    <aside className="shrink-0 w-full lg:w-48 pf-card p-3.5 flex flex-col bg-white overflow-hidden">
+                    {/* Wider Focus Sidebar (w-56) */}
+                    <aside className="shrink-0 w-full lg:w-56 pf-card p-3.5 flex flex-col bg-white overflow-hidden">
                         <div className="pb-2.5 mb-2 border-b-2 border-pf-border flex items-center justify-between shrink-0">
                             <span className="text-xs font-black text-pf-blue tracking-wider uppercase">
                                 FOCUS:
@@ -917,7 +917,7 @@ function App() {
                                         key={style.id}
                                         type="button"
                                         onClick={() => handleStyleButtonClick(style.id)}
-                                        className={`py-2.5 px-3 font-black text-[10px] leading-tight transition shrink-0 uppercase select-none rounded-xl text-center shadow-2xs ${isSelected
+                                        className={`py-3 px-3 font-black text-xs leading-tight transition shrink-0 uppercase select-none rounded-xl text-center shadow-2xs ${isSelected
                                                 ? 'bg-pf-blue text-white shadow-xs'
                                                 : 'bg-slate-50 text-pf-blackblue border border-pf-border hover:border-pf-blue/60 hover:bg-white'
                                             }`}
@@ -929,8 +929,8 @@ function App() {
                         </div>
                     </aside>
 
-                    {/* Center Instructional & Motion Protocol Column */}
-                    <section className="flex-1 flex flex-col min-h-0 pf-card p-4 md:p-5 overflow-hidden">
+                    {/* Featured Center Column (Motion Preview Feed + Instructions Deck) */}
+                    <section className="flex-1 min-w-0 flex flex-col min-h-0 pf-card p-4 md:p-5 overflow-hidden">
                         {loading ? (
                             <div className="flex-1 min-h-[300px] flex flex-col items-center justify-center gap-3 text-pf-blue">
                                 <div className="w-10 h-10 border-4 border-pf-blue border-t-pf-yellow rounded-full animate-spin" />
@@ -1079,8 +1079,8 @@ function App() {
                         ) : null}
                     </section>
 
-                    {/* Wider Video Tutorials Bar */}
-                    <aside className="w-full lg:w-[26rem] shrink-0 flex flex-col min-h-[360px] lg:h-full lg:min-h-0">
+                    {/* Wider Video Tutorials Bar (Expanded to w-[30rem] / xl:w-[32rem]) */}
+                    <aside className="w-full lg:w-[30rem] xl:w-[32rem] shrink-0 flex flex-col min-h-[360px] lg:h-full lg:min-h-0">
                         <YouTubeFormDeck exercise={currentExercise} />
                     </aside>
 
@@ -1158,20 +1158,20 @@ function App() {
                     </div>
                 </div>
 
-                {/* Bottom Edge "See Portfolio" Tab: Rounded Top Corners, Straight Bottom */}
-                <div className="w-full flex justify-center -mt-2.5 pb-1 select-none">
-                    <a
-                        href="https://zqhwebpro.github.io/portfolio/2026/"
-                        target="_blank"
-                        rel="noopener noreferrer"
-                        className="bg-pf-blue text-white text-[10px] sm:text-xs font-black tracking-wider uppercase px-4 py-1.5 rounded-t-lg rounded-b-none shadow-sm hover:bg-pf-darkblue transition active:scale-95 flex items-center gap-1.5"
-                    >
-                        <span>See Portfolio</span>
-                        <span className="text-[10px] leading-none">↗</span>
-                    </a>
-                </div>
-
             </main>
+
+            {/* Fixed Bottom-Left "See Portfolio" Tab */}
+            <div className="fixed bottom-0 left-6 z-40 select-none pointer-events-auto">
+                <a
+                    href="https://zqhwebpro.github.io/portfolio/2026/"
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="bg-pf-blue text-white text-[11px] font-black tracking-wider uppercase px-3.5 py-1.5 rounded-t-lg rounded-b-none shadow-md hover:bg-pf-darkblue transition active:scale-95 flex items-center gap-1.5 border-t border-x border-white/20"
+                >
+                    <span>See Portfolio</span>
+                    <span className="text-[10px] leading-none">↗</span>
+                </a>
+            </div>
 
             {/* Mobile Fixed Bottom Controls */}
             <div className="lg:hidden fixed bottom-0 left-0 right-0 z-40 px-3 pt-2 pb-[max(0.75rem,env(safe-area-inset-bottom))] bg-white/95 backdrop-blur-md border-t-2 border-pf-border shadow-xl select-none">
