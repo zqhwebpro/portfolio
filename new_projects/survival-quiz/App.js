@@ -1765,15 +1765,13 @@ function PerspectiveCard({ item, index, onSelect }) {
     const [isHovered, setIsHovered] = useState(false);
 
     const tossStyle = useMemo(() => {
-        const angles = [-3.2, 2.5, -2.1, 3.1, -2.8, 1.8, -3.4, 2.4, -1.9, 2.7, 3.3, -2.2];
-        const xOffsets = [-6, 8, -5, 10, -8, 6, -7, 7, -4, 9, -10, 5];
-        const tapeOffsets = [24, 62, 38, 70, 28, 55, 32, 65, 45, 58, 30, 72];
-        const tapeAngles = [-5, 4, -3, 6, -4, 5, -2, 4, -3, 5, -6, 3];
+        const angles = [-2.2, 1.8, -1.5, 2.1, -1.9, 1.4, -2.4, 1.7, -1.3, 2.0, 2.2, -1.6];
+        const xOffsets = [-4, 6, -3, 7, -5, 4, -5, 5, -3, 6, -7, 4];
+        const tapeAngles = [-1.5, 1.2, -1.0, 1.6, -1.2, 1.0, -1.4, 1.3, -0.8, 1.5, -1.6, 0.9];
 
         return {
             baseRot: angles[index % angles.length],
             baseShiftX: xOffsets[index % xOffsets.length],
-            tapeLeft: tapeOffsets[index % tapeOffsets.length],
             tapeRot: tapeAngles[index % tapeAngles.length],
             zIndex: 10 + (index % 8)
         };
@@ -1817,9 +1815,9 @@ function PerspectiveCard({ item, index, onSelect }) {
             <div
                 className="archive-tape"
                 style={{
-                    left: `${tossStyle.tapeLeft}%`,
+                    left: '50%',
                     transform: `translateX(-50%) rotate(${tossStyle.tapeRot}deg) translateZ(14px)`,
-                    width: '76px'
+                    width: '84px'
                 }}
             ></div>
 
@@ -1841,8 +1839,9 @@ function App() {
     const [shuffleCounter, setShuffleCounter] = useState(0);
     const [lastSynthesizedTime, setLastSynthesizedTime] = useState(null);
 
-    // Visual State: Digital Distortion & Continuous Color Shift (starts from selected base hue)
+    // Visual State: Digital Distortion & Continuous Color Shift (phases by default until distorted)
     const [baseHue, setBaseHue] = useState(0);
+    const [isColorPhasing, setIsColorPhasing] = useState(true);
     const [glitchKey, setGlitchKey] = useState(0);
     const [isGlitching, setIsGlitching] = useState(false);
     const [transitionTick, setTransitionTick] = useState(0);
@@ -1876,8 +1875,11 @@ function App() {
         // Trigger retro digital glitch sound
         playGlitchSound();
 
-        // Shift base hue angle by significant step to jump to a fresh new starting color
-        setBaseHue(prev => (prev + 75 + Math.floor(Math.random() * 110)) % 360);
+        // Toggle / pause continuous color phasing when distortion button is pressed
+        setIsColorPhasing(prev => !prev);
+
+        // Shift base hue angle to a new distinct color
+        setBaseHue(prev => (prev + 80 + Math.floor(Math.random() * 95)) % 360);
 
         // Trigger / restart digital distortion glitch animation
         setIsGlitching(true);
@@ -2036,7 +2038,7 @@ function App() {
     return (
         <div
             key={`crt-screen-${glitchKey}`}
-            className={`crt-screen color-cycling ${isGlitching ? 'glitch-active' : ''}`}
+            className={`crt-screen ${isColorPhasing ? 'color-cycling' : ''} ${isGlitching ? 'glitch-active' : ''}`}
             style={{
                 '--start-hue': `${baseHue}deg`
             }}
@@ -2051,17 +2053,17 @@ function App() {
                 zIndex: 60,
                 background: 'rgba(3, 10, 5, 0.98)'
             }}>
-                <div style={{ display: 'flex', alignItems: 'center', gap: 14 }}>
-                    {/* Pixel Smiley Button to the left of the Logo */}
+                <div style={{ display: 'flex', alignItems: 'center', gap: 16 }}>
+                    {/* Enlarged Pixel Smiley Button to the left of the Logo */}
                     <button
                         type="button"
                         className="pixel-face-btn-circle"
                         onClick={handleSmileyClick}
                         onMouseEnter={handleSmileyHover}
-                        title="Laugh & Trigger Digital Glitch Color Shift"
-                        style={{ width: '40px', height: '40px', flexShrink: 0 }}
+                        title={isColorPhasing ? "Laugh & Stop Color Phasing (Trigger Digital Distortion)" : "Laugh & Resume Color Phasing (Trigger Digital Distortion)"}
+                        style={{ width: '54px', height: '54px', flexShrink: 0 }}
                     >
-                        <svg width="20" height="20" viewBox="0 0 16 16" fill="none" xmlns="http://www.w3.org/2000/svg" style={{ shapeRendering: 'crispEdges' }}>
+                        <svg width="30" height="30" viewBox="0 0 16 16" fill="none" xmlns="http://www.w3.org/2000/svg" style={{ shapeRendering: 'crispEdges' }}>
                             {/* Eyes - No eyebrows */}
                             <rect x="4" y="5" width="2" height="2" fill="#33ff66" />
                             <rect x="10" y="5" width="2" height="2" fill="#33ff66" />
