@@ -6,14 +6,33 @@
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0" />
 
-    <title>WO Randomizer - Athletic Routine Engine</title>
-    <meta name="description" content="Generate balanced, randomized routines with cadence feeds and form guides." />
+    <!-- Updated SEO & Meta Tags -->
+    <title>WO Shuffle - Athletic Workout Generator & Exercise Engine</title>
+    <meta name="title" content="WO Shuffle - Athletic Workout Generator & Exercise Engine" />
+    <meta name="description"
+        content="Generate randomized, balanced gym routines with target muscle isolation, instructional motion previews, and video form guides." />
+    <meta name="keywords"
+        content="WO Shuffle, workout generator, fitness visualizer, gym routines, exercise form guide, random workout" />
+    <meta name="author" content="Zach Heindel" />
+    <meta name="theme-color" content="#1d4ed8" />
+
+    <!-- Open Graph / Facebook -->
+    <meta property="og:type" content="website" />
+    <meta property="og:title" content="WO Shuffle - Athletic Workout Generator" />
+    <meta property="og:description"
+        content="Generate randomized, balanced gym routines with target muscle isolation, instructional motion previews, and video form guides." />
+
+    <!-- Twitter -->
+    <meta property="twitter:card" content="summary_large_image" />
+    <meta property="twitter:title" content="WO Shuffle - Athletic Workout Generator" />
+    <meta property="twitter:description"
+        content="Generate randomized, balanced gym routines with target muscle isolation, instructional motion previews, and video form guides." />
 
     <!-- Google Fonts: Poppins (Clean, approachable, athletic gym look) -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link
-        href="https://fonts.googleapis.com/css2?family=Poppins:ital,wght@0,500;0,600;0,700;0,800;0,900;1,700;1,800&display=swap"
+        href="https://fonts.googleapis.com/css2?family=Poppins:ital,wght@0,500;0,600;0,700;0,800;0,900;1,700;1,800&family=Graduate&display=swap"
         rel="stylesheet">
 
     <!-- Tailwind CSS -->
@@ -24,6 +43,7 @@
                 extend: {
                     fontFamily: {
                         sans: ['Poppins', '-apple-system', 'sans-serif'],
+                        varsity: ['Graduate', 'Arial Black', 'Impact', 'sans-serif']
                     },
                     colors: {
                         pf: {
@@ -130,7 +150,11 @@
         .animate-marquee {
             display: inline-block;
             white-space: nowrap;
-            animation: marquee 32s linear infinite;
+            animation: marquee var(--marquee-speed, 35s) linear infinite;
+        }
+
+        .animate-marquee:hover {
+            animation-play-state: paused;
         }
 
         ::-webkit-scrollbar {
@@ -156,16 +180,6 @@
             -ms-overflow-style: none;
             scrollbar-width: none;
         }
-
-        .animate-marquee {
-            display: inline-block;
-            white-space: nowrap;
-            animation: marquee var(--marquee-speed, 35s) linear infinite;
-        }
-
-        .animate-marquee:hover {
-            animation-play-state: paused;
-        }
     </style>
 
     <!-- React & Babel -->
@@ -177,8 +191,8 @@
 <body>
     <div id="root"></div>
 
-    <script type="text/babel" src="./App.js?v=5.100"></script>
-    <script type="text/babel" src="./index.js?v=5.100"></script>
+    <script type="text/babel" src="./App.js?v=6.000"></script>
+    <script type="text/babel" src="./index.js?v=6.000"></script>
 </body>
 
 </html>

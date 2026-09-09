@@ -121,7 +121,7 @@ const formatImageUrl = (relativePath) => {
     return `${EXERCISE_BASE_RAW}${encoded}`;
 };
 
-function WoShuffleLogo({ className = "h-8 w-auto" }) {
+function WoShuffleLogo({ className = "h-7 w-auto" }) {
     return (
         <svg viewBox="0 0 450 78" className={className} fill="none" xmlns="http://www.w3.org/2000/svg">
             <defs>
@@ -732,7 +732,6 @@ function App() {
     const currentExercise = currentMuscleList.length > 0 ? currentMuscleList[currentIndex] : null;
     const isCurrentLocked = !!lockedMuscles[selectedMuscle];
 
-    // Disable next/previous navigation whenever there are 1 or 0 exercises in current category/muscle pool
     const isNavigationDisabled = loading || isCurrentLocked || currentMuscleList.length <= 1;
 
     const toTitleCase = (str) => {
@@ -775,10 +774,10 @@ function App() {
     return (
         <div className="w-screen min-h-screen lg:h-[100dvh] flex flex-col pb-28 md:pb-32 lg:pb-0 touch-pan-y overflow-x-hidden bg-pf-canvas">
 
-            {/* Signature Royal Blue Header Marquee with scaled up WO Shuffle Varsity Logo */}
-            <header className="shrink-0 bg-pf-blue text-white px-3 md:px-4 py-2 flex items-center z-20 sticky top-0 w-full overflow-hidden shadow-md">
-                <div className="flex items-center mr-4 shrink-0 h-10">
-                    <WoShuffleLogo className="h-9 md:h-10 w-auto" />
+            {/* Signature Royal Blue Header Marquee with Compact Logo */}
+            <header className="shrink-0 bg-pf-blue text-white px-3 md:px-4 py-1.5 flex items-center z-20 sticky top-0 w-full overflow-hidden shadow-md">
+                <div className="flex items-center mr-3 shrink-0 h-8">
+                    <WoShuffleLogo className="h-6 md:h-7 w-auto" />
                 </div>
 
                 <div className="flex-1 whitespace-nowrap overflow-hidden py-0.5 cursor-default">
@@ -1030,7 +1029,7 @@ function App() {
                                             </div>
                                         </div>
 
-                                        {/* Desktop Action Deck: Disabled & greyed-out when pool size <= 1 or locked */}
+                                        {/* Desktop Action Deck */}
                                         <div className="hidden lg:grid grid-cols-12 gap-2 pt-0.5 shrink-0 select-none items-center">
                                             <button
                                                 type="button"
@@ -1080,7 +1079,7 @@ function App() {
                         ) : null}
                     </section>
 
-                    {/* Wider Video Tutorials Bar (w-[26rem]) */}
+                    {/* Wider Video Tutorials Bar */}
                     <aside className="w-full lg:w-[26rem] shrink-0 flex flex-col min-h-[360px] lg:h-full lg:min-h-0">
                         <YouTubeFormDeck exercise={currentExercise} />
                     </aside>
@@ -1158,9 +1157,23 @@ function App() {
                         </div>
                     </div>
                 </div>
+
+                {/* Bottom Edge "See Portfolio" Tab: Rounded Top Corners, Straight Bottom */}
+                <div className="w-full flex justify-center -mt-2.5 pb-1 select-none">
+                    <a
+                        href="https://zqhwebpro.github.io/portfolio/2026/"
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        className="bg-pf-blue text-white text-[10px] sm:text-xs font-black tracking-wider uppercase px-4 py-1.5 rounded-t-lg rounded-b-none shadow-sm hover:bg-pf-darkblue transition active:scale-95 flex items-center gap-1.5"
+                    >
+                        <span>See Portfolio</span>
+                        <span className="text-[10px] leading-none">↗</span>
+                    </a>
+                </div>
+
             </main>
 
-            {/* Mobile Fixed Bottom Controls: Disabled & greyed-out when navigation unavailable */}
+            {/* Mobile Fixed Bottom Controls */}
             <div className="lg:hidden fixed bottom-0 left-0 right-0 z-40 px-3 pt-2 pb-[max(0.75rem,env(safe-area-inset-bottom))] bg-white/95 backdrop-blur-md border-t-2 border-pf-border shadow-xl select-none">
                 <div className="max-w-md mx-auto grid grid-cols-12 gap-2 items-center">
                     <button
