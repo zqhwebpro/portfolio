@@ -121,77 +121,93 @@ const formatImageUrl = (relativePath) => {
     return `${EXERCISE_BASE_RAW}${encoded}`;
 };
 
+/* Angular / Chamfered Block-Cut Athletic Logo */
 function WoShuffleLogo({ className = "h-7 w-auto" }) {
     return (
-        <svg viewBox="0 0 450 78" className={className} fill="none" xmlns="http://www.w3.org/2000/svg">
+        <svg viewBox="0 0 500 78" className={className} fill="none" xmlns="http://www.w3.org/2000/svg">
             <defs>
-                <filter id="varsity-shadow" x="-10%" y="-10%" width="130%" height="130%">
+                <filter id="angular-shadow" x="-10%" y="-10%" width="130%" height="130%">
                     <feDropShadow dx="3" dy="4" stdDeviation="0" floodColor="#0f172a" floodOpacity="0.95" />
                 </filter>
-                <linearGradient id="white-core" x1="0%" y1="0%" x2="0%" y2="100%">
+                <linearGradient id="angular-white-core" x1="0%" y1="0%" x2="0%" y2="100%">
                     <stop offset="0%" stopColor="#ffffff" />
-                    <stop offset="70%" stopColor="#ffffff" />
+                    <stop offset="65%" stopColor="#ffffff" />
                     <stop offset="100%" stopColor="#f1f5f9" />
                 </linearGradient>
             </defs>
+
+            {/* Layer 1: Navy Drop Shadow & Heavy Bevel Backing */}
             <text
-                x="222"
-                y="56"
+                x="250"
+                y="58"
                 textAnchor="middle"
-                fontFamily="'Graduate', 'Arial Black', Impact, sans-serif"
-                fontSize="54"
-                fontWeight="800"
-                letterSpacing="0.05em"
+                fontFamily="'Impact', 'Arial Black', sans-serif"
+                fontSize="55"
+                fontWeight="900"
+                fontStyle="italic"
+                letterSpacing="0.08em"
                 fill="#0f172a"
                 stroke="#0f172a"
-                strokeWidth="12"
-                strokeLinejoin="bevel"
-                filter="url(#varsity-shadow)"
+                strokeWidth="13"
+                strokeLinejoin="miter"
+                strokeMiterlimit="4"
+                filter="url(#angular-shadow)"
             >
                 WO SHUFFLE
             </text>
+
+            {/* Layer 2: Signature Royal Blue Angular Outer Border */}
             <text
-                x="222"
-                y="56"
+                x="250"
+                y="58"
                 textAnchor="middle"
-                fontFamily="'Graduate', 'Arial Black', Impact, sans-serif"
-                fontSize="54"
-                fontWeight="800"
-                letterSpacing="0.05em"
+                fontFamily="'Impact', 'Arial Black', sans-serif"
+                fontSize="55"
+                fontWeight="900"
+                fontStyle="italic"
+                letterSpacing="0.08em"
                 fill="#1d4ed8"
                 stroke="#1d4ed8"
-                strokeWidth="8"
-                strokeLinejoin="bevel"
+                strokeWidth="8.5"
+                strokeLinejoin="miter"
+                strokeMiterlimit="4"
             >
                 WO SHUFFLE
             </text>
+
+            {/* Layer 3: High-Voltage Yellow Inset Geometric Contour */}
             <text
-                x="222"
-                y="56"
+                x="250"
+                y="58"
                 textAnchor="middle"
-                fontFamily="'Graduate', 'Arial Black', Impact, sans-serif"
-                fontSize="54"
-                fontWeight="800"
-                letterSpacing="0.05em"
+                fontFamily="'Impact', 'Arial Black', sans-serif"
+                fontSize="55"
+                fontWeight="900"
+                fontStyle="italic"
+                letterSpacing="0.08em"
                 fill="none"
                 stroke="#ffb81c"
-                strokeWidth="3"
-                strokeLinejoin="bevel"
+                strokeWidth="3.5"
+                strokeLinejoin="miter"
+                strokeMiterlimit="4"
             >
                 WO SHUFFLE
             </text>
+
+            {/* Layer 4: Dominant White Core Fill */}
             <text
-                x="222"
-                y="56"
+                x="250"
+                y="58"
                 textAnchor="middle"
-                fontFamily="'Graduate', 'Arial Black', Impact, sans-serif"
-                fontSize="54"
-                fontWeight="800"
-                letterSpacing="0.05em"
-                fill="url(#white-core)"
+                fontFamily="'Impact', 'Arial Black', sans-serif"
+                fontSize="55"
+                fontWeight="900"
+                fontStyle="italic"
+                letterSpacing="0.08em"
+                fill="url(#angular-white-core)"
                 stroke="#ffffff"
                 strokeWidth="1.2"
-                strokeLinejoin="bevel"
+                strokeLinejoin="miter"
             >
                 WO SHUFFLE
             </text>
@@ -774,7 +790,7 @@ function App() {
     return (
         <div className="w-screen min-h-screen lg:h-[100dvh] flex flex-col pb-28 md:pb-32 lg:pb-0 touch-pan-y overflow-x-hidden bg-pf-canvas relative">
 
-            {/* Signature Royal Blue Header Marquee with Compact Logo */}
+            {/* Signature Royal Blue Header Marquee with Angular Logo */}
             <header className="shrink-0 bg-pf-blue text-white px-3 md:px-4 py-1.5 flex items-center z-20 sticky top-0 w-full overflow-hidden shadow-md">
                 <div className="flex items-center mr-3 shrink-0 h-8">
                     <WoShuffleLogo className="h-6 md:h-7 w-auto" />
@@ -929,7 +945,7 @@ function App() {
                         </div>
                     </aside>
 
-                    {/* Featured Center Column (Motion Preview Feed + Instructions Deck) */}
+                    {/* Featured Center Column */}
                     <section className="flex-1 min-w-0 flex flex-col min-h-0 pf-card p-4 md:p-5 overflow-hidden">
                         {loading ? (
                             <div className="flex-1 min-h-[300px] flex flex-col items-center justify-center gap-3 text-pf-blue">
@@ -1079,7 +1095,7 @@ function App() {
                         ) : null}
                     </section>
 
-                    {/* Wider Video Tutorials Bar (Expanded to w-[30rem] / xl:w-[32rem]) */}
+                    {/* Wider Video Tutorials Bar */}
                     <aside className="w-full lg:w-[30rem] xl:w-[32rem] shrink-0 flex flex-col min-h-[360px] lg:h-full lg:min-h-0">
                         <YouTubeFormDeck exercise={currentExercise} />
                     </aside>
@@ -1160,8 +1176,8 @@ function App() {
 
             </main>
 
-            {/* Fixed Bottom-Left "See Portfolio" Tab */}
-            <div className="fixed bottom-0 left-6 z-40 select-none pointer-events-auto">
+            {/* Fixed Bottom "See Portfolio" Tab: Shifted right from left-6 to left-24/left-32 */}
+            <div className="fixed bottom-0 left-24 md:left-32 z-40 select-none pointer-events-auto">
                 <a
                     href="https://zqhwebpro.github.io/portfolio/2026/"
                     target="_blank"
