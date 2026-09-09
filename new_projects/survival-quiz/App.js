@@ -11,60 +11,81 @@ class FocusToneGenerator {
 
     start() {
         if (this.isPlaying) return;
-        const AudioCtx = window.AudioContext || window.webkitAudioContext;
-        this.ctx = new AudioCtx();
+        try {
+            const AudioCtx = window.AudioContext || window.webkitAudioContext;
+            this.ctx = new AudioCtx();
+            if (this.ctx.state === 'suspended') {
+                this.ctx.resume();
+            }
 
-        this.masterGain = this.ctx.createGain();
-        this.masterGain.gain.setValueAtTime(0.001, this.ctx.currentTime);
-        this.masterGain.gain.exponentialRampToValueAtTime(0.18, this.ctx.currentTime + 1.2);
-        this.masterGain.connect(this.ctx.destination);
+            this.masterGain = this.ctx.createGain();
+            this.masterGain.gain.setValueAtTime(0.001, this.ctx.currentTime);
+            this.masterGain.gain.linearRampToValueAtTime(0.22, this.ctx.currentTime + 0.5);
+            this.masterGain.connect(this.ctx.destination);
 
-        const freqs = [108, 216, 432];
-        this.oscillators = [];
+            // 432Hz harmonic triad: 108Hz, 216Hz, 432Hz
+            const harmonics = [
+                { freq: 108, gainVal: 0.35, type: 'triangle' },
+                { freq: 216, gainVal: 0.25, type: 'sine' },
+                { freq: 432, gainVal: 0.18, type: 'sine' }
+            ];
 
-        freqs.forEach((freq, idx) => {
-            const osc = this.ctx.createOscillator();
-            const oscGain = this.ctx.createGain();
-            osc.type = idx === 0 ? 'triangle' : 'sine';
-            osc.frequency.setValueAtTime(freq, this.ctx.currentTime);
+            this.oscillators = [];
 
-            const lfo = this.ctx.createOscillator();
-            lfo.frequency.setValueAtTime(0.15 + idx * 0.05, this.ctx.currentTime);
-            const lfoGain = this.ctx.createGain();
-            lfoGain.gain.setValueAtTime(0.8, this.ctx.currentTime);
-            lfo.connect(lfoGain);
-            lfoGain.connect(osc.frequency);
-            lfo.start();
+            harmonics.forEach(({ freq, gainVal, type }) => {
+                const osc = this.ctx.createOscillator();
+                const oscGain = this.ctx.createGain();
+                osc.type = type;
+                osc.frequency.setValueAtTime(freq, this.ctx.currentTime);
 
-            oscGain.gain.setValueAtTime(0.3 / (idx + 1), this.ctx.currentTime);
-            osc.connect(oscGain);
-            oscGain.connect(this.masterGain);
-            osc.start();
-            this.oscillators.push(osc, lfo);
-        });
+                oscGain.gain.setValueAtTime(gainVal, this.ctx.currentTime);
+                osc.connect(oscGain);
+                oscGain.connect(this.masterGain);
+                osc.start();
+                this.oscillators.push(osc);
+            });
 
-        this.isPlaying = true;
+            this.isPlaying = true;
+        } catch (e) {
+            console.warn("Audio Context error:", e);
+        }
     }
 
     stop() {
         if (!this.isPlaying) return;
-        if (this.masterGain && this.ctx) {
-            this.masterGain.gain.setTargetAtTime(0, this.ctx.currentTime, 0.4);
-            setTimeout(() => {
-                this.oscillators.forEach(osc => {
-                    try { osc.stop(); osc.disconnect(); } catch (e) { }
-                });
-                this.oscillators = [];
+        try {
+            if (this.masterGain && this.ctx) {
+                const now = this.ctx.currentTime;
+                this.masterGain.gain.setValueAtTime(this.masterGain.gain.value, now);
+                this.masterGain.gain.linearRampToValueAtTime(0.0001, now + 0.12);
+
+                setTimeout(() => {
+                    this.oscillators.forEach(osc => {
+                        try { osc.stop(); osc.disconnect(); } catch (e) { }
+                    });
+                    this.oscillators = [];
+                    if (this.ctx && this.ctx.state !== 'closed') {
+                        try { this.ctx.close(); } catch (e) { }
+                    }
+                    this.ctx = null;
+                    this.isPlaying = false;
+                }, 150);
+            } else {
                 this.isPlaying = false;
-            }, 500);
-        } else {
+            }
+        } catch (e) {
             this.isPlaying = false;
         }
     }
 
     toggle() {
-        this.isPlaying ? this.stop() : this.start();
-        return this.isPlaying;
+        if (this.isPlaying) {
+            this.stop();
+            return false;
+        } else {
+            this.start();
+            return true;
+        }
     }
 }
 
@@ -73,6 +94,7 @@ const playRetroLaugh = () => {
     try {
         const AudioCtx = window.AudioContext || window.webkitAudioContext;
         const ctx = new AudioCtx();
+        if (ctx.state === 'suspended') ctx.resume();
         const now = ctx.currentTime;
         const bursts = [
             { freq: 440, time: 0.00 },
@@ -114,6 +136,7 @@ const playBuzzerSound = () => {
     try {
         const AudioCtx = window.AudioContext || window.webkitAudioContext;
         const ctx = new AudioCtx();
+        if (ctx.state === 'suspended') ctx.resume();
         const now = ctx.currentTime;
 
         const osc = ctx.createOscillator();
@@ -142,16 +165,17 @@ const playVictoryFanfare = () => {
     try {
         const AudioCtx = window.AudioContext || window.webkitAudioContext;
         const ctx = new AudioCtx();
+        if (ctx.state === 'suspended') ctx.resume();
         const now = ctx.currentTime;
 
         const notes = [
-            { freq: 261.63, time: 0.00, dur: 0.09 }, // C4
-            { freq: 329.63, time: 0.09, dur: 0.09 }, // E4
-            { freq: 392.00, time: 0.18, dur: 0.09 }, // G4
-            { freq: 523.25, time: 0.27, dur: 0.22 }, // C5
-            { freq: 440.00, time: 0.52, dur: 0.09 }, // A4
-            { freq: 523.25, time: 0.61, dur: 0.09 }, // C5
-            { freq: 659.25, time: 0.70, dur: 0.45 }  // E5
+            { freq: 261.63, time: 0.00, dur: 0.09 },
+            { freq: 329.63, time: 0.09, dur: 0.09 },
+            { freq: 392.00, time: 0.18, dur: 0.09 },
+            { freq: 523.25, time: 0.27, dur: 0.22 },
+            { freq: 440.00, time: 0.52, dur: 0.09 },
+            { freq: 523.25, time: 0.61, dur: 0.09 },
+            { freq: 659.25, time: 0.70, dur: 0.45 }
         ];
 
         notes.forEach(({ freq, time, dur }) => {
@@ -180,6 +204,7 @@ const playSelectClick = () => {
     try {
         const AudioCtx = window.AudioContext || window.webkitAudioContext;
         const ctx = new AudioCtx();
+        if (ctx.state === 'suspended') ctx.resume();
         const now = ctx.currentTime;
         const osc = ctx.createOscillator();
         const gain = ctx.createGain();
@@ -196,7 +221,7 @@ const playSelectClick = () => {
     } catch (e) { }
 };
 
-// Civilian Emergency Life-Saving Knowledge Corpus
+// Post-Apocalyptic & Civilian Survival Knowledge Corpus (36 Directives)
 const CIVILIAN_EMERGENCY_CORPUS = [
     { num: 1, headline: "[TRAUMA] ARTERIAL TOURNIQUET APPLICATION", content: "Place commercial tourniquet 2–3 inches above bleeding wound (never on a joint). Twist windlass until bright red pulsing stops completely. Record time on forehead; tissue tolerates up to two hours safely." },
     { num: 2, headline: "[TRAUMA] JUNCTIONAL WOUND PACKING", content: "For arterial bleeding at the groin, armpit, or neck where tourniquets cannot fit, pack hemostatic gauze deep into the wound cavity until packed tight, then maintain constant direct two-handed pressure for 3 full minutes." },
@@ -221,10 +246,22 @@ const CIVILIAN_EMERGENCY_CORPUS = [
     { num: 21, headline: "[SIGNALING] REFLECTIVE FLASH TECHNIQUES", content: "A pocket mirror, polished phone screen, or car rearview mirror can project sunlight flashes visible to aircraft up to 20 miles away. Aim flash through a V-shaped sight between two outstretched fingers." },
     { num: 22, headline: "[MED] CARBON MONOXIDE CO SILENT HAZARD", content: "Running generators, camp stoves, or charcoal grills indoors produces colorless, odorless CO that binds to hemoglobin 200x faster than oxygen. Never run combustion engines within 20 feet of open home windows." },
     { num: 23, headline: "[PANIC] 4-4-4-4 BOX BREATHING", content: "Extreme situational panic causes tunnel vision and loss of fine motor skills. Inhale for 4 seconds, hold for 4 seconds, exhale for 4 seconds, and hold empty for 4 seconds to force down sympathetic heart rate." },
-    { num: 24, headline: "[OFF-GRID] SANITATION AND WASTE MANAGEMENT", content: "In prolonged grid failure, isolate human waste immediately to prevent cholera outbreaks. Line a 5-gallon bucket with heavy garbage bags and cover waste after each use with sawdust, cat litter, or ash." }
+    { num: 24, headline: "[OFF-GRID] SANITATION AND WASTE MANAGEMENT", content: "In prolonged grid failure, isolate human waste immediately to prevent cholera outbreaks. Line a 5-gallon bucket with heavy garbage bags and cover waste after each use with sawdust, cat litter, or ash." },
+    { num: 25, headline: "[FALLOUT] NUCLEAR GAMMA ATTENUATION", content: "To halve penetrating gamma radiation from nuclear fallout (half-value layer), interpose either 3 inches of solid lead, 12 inches of poured concrete, or 18 inches of packed soil." },
+    { num: 26, headline: "[FALLOUT] 7-10 RULE FOR RADIATION DECAY", content: "Nuclear fallout radioactivity follows the 7-10 rule: for every 7-fold increase in time post-detonation, radiation dose rates decay by 90% (e.g., at 7 hours radiation drops to 1/10th; at 49 hours to 1/100th)." },
+    { num: 27, headline: "[RADIATION] PERSONNEL DECONTAMINATION", content: "Removing contaminated outer garments and footwear eliminates up to 90% of radioactive fallout particles. Gently wash exposed skin and hair with warm water and soap without abrasive scrubbing." },
+    { num: 28, headline: "[WATER] IMPROVISED CHARCOAL SAND FILTER", content: "Layer crushed hardwood charcoal between fine sand, gravel, and clean cloth inside a cut plastic bottle to adsorb chemical contaminants, radioactive particulates, and organic toxins before boiling." },
+    { num: 29, headline: "[WATER] SOLAR CONDENSATION STILL", content: "In arid environments, dig a 3-foot pit with a central collection jar, line the pit with green non-toxic foliage, and seal with a clear plastic sheet weighted by a center stone to condense pure solar water." },
+    { num: 30, headline: "[EMP] FARADAY CAGE PROTECTION", content: "Protect sensitive electronics, two-way radios, and solar inverters from high-altitude EMP by storing them inside nested galvanized steel cans lined with non-conductive cardboard and sealed metal lids." },
+    { num: 31, headline: "[MED] POTASSIUM IODIDE (KI) PROTOCOL", content: "Take Potassium Iodide (KI) immediately upon verified radiological fallout alert to flood thyroid receptors with stable iodine, preventing uptake of carcinogenic radioactive Iodine-131." },
+    { num: 32, headline: "[FORAGING] UNIVERSAL EDIBILITY TEST", content: "Test unfamiliar plants sequentially over 8-hour intervals: rub plant sap on inner wrist, touch to lip corner, place on tongue tip, chew small leaf without swallowing, then ingest small bite if symptom-free." },
+    { num: 33, headline: "[FUEL] RECOVERY & JIGGLER SIPHON SAFETY", content: "Never mouth-siphon aged vehicle gasoline. Use an anti-static jiggler brass-ball siphon hose, and treat recovered fuel with chemical stabilizer to prevent carburetor varnishing." },
+    { num: 34, headline: "[ENERGY] 12V LEAD-ACID BATTERY REVIVAL", content: "Dead sulfated lead-acid car batteries can be reconditioned in off-grid survival by replacing dried electrolyte with warm distilled water saturated with Epsom salt (magnesium sulfate) before slow charging." },
+    { num: 35, headline: "[COMMS] EMERGENCY SOS FLASH CADENCE", content: "Broadcast visual or audio distress signals using the standardized SOS pattern: 3 short bursts, 3 long bursts, 3 short bursts (· · · — — — · · ·), followed by a 60-second silence before repeating." },
+    { num: 36, headline: "[COLD] TRENCH FOOT & IMMERSION PREVENTION", content: "Non-freezing cold immersion injury occurs when feet stay damp below 60°F (15°C) for over 12 hours. Vigorously dry feet daily, apply antiseptic powder, and rotate dry wool sock pairs." }
 ];
 
-// Comprehensive Question Bank for all 24 emergency directives
+// Comprehensive Question Bank for all 36 emergency directives
 const TRIVIA_QUESTION_BANK = {
     1: {
         question: "Where should an arterial tourniquet be placed relative to a bleeding wound?",
@@ -441,10 +478,116 @@ const TRIVIA_QUESTION_BANK = {
             "Pour boiling cooking oil into the bucket",
             "Flush repeatedly with drinking water"
         ]
+    },
+    25: {
+        question: "What thickness of packed earth is required to halve penetrating gamma radiation (half-value layer)?",
+        correct: "18 inches of packed earth (or 12 inches of poured concrete)",
+        distractors: [
+            "2 inches of dry sand",
+            "4 feet of aluminum siding",
+            "1 inch of wood paneling"
+        ]
+    },
+    26: {
+        question: "According to the nuclear fallout 7-10 rule, what is radiation intensity 49 hours after detonation?",
+        correct: "Decayed to 1/100th (1%) of its initial 1-hour intensity",
+        distractors: [
+            "Remains at 50% intensity for 2 weeks",
+            "Completely neutralized to 0 within 24 hours",
+            "Increases by a factor of 10"
+        ]
+    },
+    27: {
+        question: "What immediate action eliminates approximately 90% of external radioactive fallout contamination?",
+        correct: "Removing outer clothing garments and footwear gently",
+        distractors: [
+            "Scrubbing skin with abrasive wire brushes",
+            "Spraying hair with alcohol and petroleum jelly",
+            "Burning clothes while wearing them"
+        ]
+    },
+    28: {
+        question: "Why is crushed hardwood charcoal included in an emergency sand water filter?",
+        correct: "To chemically adsorb toxins, radioactive fallout particulates, and volatile organics",
+        distractors: [
+            "To heat the water to boiling automatically",
+            "To add carbonation for improved shelf life",
+            "To tint the water black for UV blocking"
+        ]
+    },
+    29: {
+        question: "How does an improvised solar condensation still collect potable drinking water?",
+        correct: "Solar heat evaporates ground moisture, condensing droplets onto angled plastic into a jar",
+        distractors: [
+            "By capturing electromagnetic rainwater charges",
+            "By filtering underground root sap through gravel",
+            "By condensing ambient smog through dry cloth"
+        ]
+    },
+    30: {
+        question: "How do you protect critical survival two-way radios and solar electronics from high-altitude EMP?",
+        correct: "Store inside nested galvanized steel cans lined with non-conductive cardboard",
+        distractors: [
+            "Wrap tightly in plastic grocery bags and submerge in water",
+            "Leave connected to main building wall outlets",
+            "Place on top of metal roof antennas"
+        ]
+    },
+    31: {
+        question: "What is the primary medical purpose of taking Potassium Iodide (KI) during nuclear fallout?",
+        correct: "Floods the thyroid gland with stable iodine to block radioactive Iodine-131",
+        distractors: [
+            "Cures full-body radiation sickness immediately",
+            "Protects skin from thermal burns and ultraviolet rays",
+            "Neutralizes radioactive cesium in the bloodstream"
+        ]
+    },
+    32: {
+        question: "In the Universal Edibility Test for unknown wild forage, what is done after a 15-minute lip test?",
+        correct: "Place a small piece on the tongue tip for 15 minutes without chewing",
+        distractors: [
+            "Boil and swallow 2 cups of the plant immediately",
+            "Feed the entire plant to small animals",
+            "Rub the plant into an open wound"
+        ]
+    },
+    33: {
+        question: "What is the safe procedure for recovering fuel from derelict vehicles post-collapse?",
+        correct: "Use an anti-static jiggler brass-ball siphon hose and fuel stabilizer",
+        distractors: [
+            "Suck hard on an open garden hose with mouth",
+            "Puncture the gas tank with a steel road flare",
+            "Mix gasoline with river water 50/50 before use"
+        ]
+    },
+    34: {
+        question: "How can a dead sulfated 12V lead-acid car battery be reconditioned for off-grid power?",
+        correct: "Flush cells with distilled water saturated with Epsom salt (magnesium sulfate)",
+        distractors: [
+            "Fill battery cells with household bleach and vinegar",
+            "Connect directly to high-voltage AC wall power",
+            "Submerge the entire battery in gasoline"
+        ]
+    },
+    35: {
+        question: "What is the universal international cadence for visual or auditory SOS distress signaling?",
+        correct: "3 short, 3 long, 3 short bursts (· · · — — — · · ·), pause 1 min, repeat",
+        distractors: [
+            "Continuous rapid flashing without any pause",
+            "1 long pulse followed by 5 quick clicks",
+            "4 rapid flashes every 10 seconds"
+        ]
+    },
+    36: {
+        question: "How do you prevent debilitating trench foot during prolonged damp cold survival conditions?",
+        correct: "Dry feet completely each day, apply antiseptic powder, and rotate dry wool socks",
+        distractors: [
+            "Keep wet boots on continuously for 7 days to preserve heat",
+            "Submerge feet in freezing stream water before sleeping",
+            "Coat feet with engine motor oil"
+        ]
     }
 };
-
-const HUE_STOPS = [0, 60, 120, 180, 240, 300];
 
 // Digital Confetti Canvas Component
 function DigitalConfetti() {
@@ -613,9 +756,12 @@ function App() {
     const [isAudioActive, setIsAudioActive] = useState(false);
     const [shuffleCounter, setShuffleCounter] = useState(0);
     const [lastSynthesizedTime, setLastSynthesizedTime] = useState(null);
-    const [hueIndex, setHueIndex] = useState(0);
 
-    // Quiz State
+    // Visual State: Glitch & Continuous Color Cycle
+    const [isGlitching, setIsGlitching] = useState(false);
+    const [isColorCycling, setIsColorCycling] = useState(false);
+
+    // Quiz State (Default 5 facts)
     const [quizQuestions, setQuizQuestions] = useState([]);
     const [userAnswers, setUserAnswers] = useState({});
     const [currentQuestionIdx, setCurrentQuestionIdx] = useState(0);
@@ -634,13 +780,18 @@ function App() {
 
     const handleToggleAudio = () => {
         if (toneGenRef.current) {
-            toneGenRef.current.toggle();
-            setIsAudioActive(toneGenRef.current.isPlaying);
+            const nowPlaying = toneGenRef.current.toggle();
+            setIsAudioActive(nowPlaying);
         }
     };
 
     const handleSmileyClick = () => {
-        setHueIndex((prev) => (prev + 1) % HUE_STOPS.length);
+        // Trigger digital distortion glitch animation
+        setIsGlitching(true);
+        setTimeout(() => setIsGlitching(false), 450);
+
+        // Toggle continuous color shift loop
+        setIsColorCycling(prev => !prev);
     };
 
     const handleSmileyHover = () => {
@@ -653,16 +804,15 @@ function App() {
         return selected.map((item, qIdx) => {
             const num = item.num;
             const bankData = TRIVIA_QUESTION_BANK[num] || {
-                question: `What is the critical life-saving protocol for ${item.headline}?`,
+                question: `What is the critical post-collapse survival directive for ${item.headline}?`,
                 correct: item.content.slice(0, 80) + '...',
                 distractors: [
-                    "Delay immediate action until external responders arrive on scene",
-                    "Do not perform triage without certified medical authorization",
-                    "Apply general first-aid procedures without specific directive"
+                    "Delay immediate action until external rescue arrives on scene",
+                    "Do not perform triage without certified institutional authorization",
+                    "Apply general obsolete procedures without specific directive"
                 ]
             };
 
-            // Combine and shuffle options
             const options = [
                 { text: bankData.correct, isCorrect: true },
                 ...bankData.distractors.map(d => ({ text: d, isCorrect: false }))
@@ -679,7 +829,8 @@ function App() {
         });
     }, []);
 
-    const sampleEmergencyDirectives = useCallback((targetCount = 8) => {
+    // Default to 5 facts
+    const sampleEmergencyDirectives = useCallback((targetCount = 5) => {
         const pool = [...CIVILIAN_EMERGENCY_CORPUS];
         const sampled = [];
         const shuffled = [...pool].sort(() => 0.5 - Math.random());
@@ -699,7 +850,7 @@ function App() {
         setLoading(true);
         setActiveModal(null);
 
-        const items = sampleEmergencyDirectives(8);
+        const items = sampleEmergencyDirectives(5);
         setTelemetryItems(items);
         setShuffleCounter(prev => prev + 1);
 
@@ -782,8 +933,7 @@ function App() {
 
     return (
         <div
-            className="crt-screen"
-            style={{ filter: `hue-rotate(${HUE_STOPS[hueIndex]}deg)` }}
+            className={`crt-screen ${isColorCycling ? 'color-cycling' : ''} ${isGlitching ? 'glitch-active' : ''}`}
         >
             {/* RETRO TOP BAR */}
             <header style={{
@@ -796,11 +946,11 @@ function App() {
                 background: 'rgba(3, 10, 5, 0.98)'
             }}>
                 <div>
-                    <div style={{ fontSize: '1.15rem', letterSpacing: '0.12em', fontWeight: 700, color: 'var(--term-green-bright)' }}>
-                        ZPR LLC (TM) Termalink Protocol
+                    <div style={{ fontSize: '1.12rem', letterSpacing: '0.12em', fontWeight: 700, color: 'var(--term-green-bright)' }}>
+                        ZPR LLC (TM) Termalink Protocol // POST-COLLAPSE SURVIVAL SIMULATOR
                     </div>
-                    <div className="uppercase-label" style={{ fontSize: '0.74rem', color: 'var(--term-text-dim)', marginTop: 2, letterSpacing: '0.05em' }}>
-                        Civilian Emergency Readiness Array // Run #{shuffleCounter}
+                    <div className="uppercase-label" style={{ fontSize: '0.72rem', color: 'var(--term-text-dim)', marginTop: 2, letterSpacing: '0.06em' }}>
+                        Civilian Bunker Training Array // Scenario #{shuffleCounter} [5 Active Modules]
                     </div>
                 </div>
 
@@ -828,16 +978,21 @@ function App() {
                             <line x1="15" y1="15" x2="21" y2="21" />
                             <line x1="4" y1="4" x2="9" y2="9" />
                         </svg>
-                        {loading ? "Re-filing..." : "Shuffle"}
+                        {loading ? "Re-filing Data..." : "New Data Set"}
                     </button>
 
                     <button
                         type="button"
                         onClick={handleToggleAudio}
                         className="term-btn"
-                        style={{ padding: '9px 24px', fontWeight: 700 }}
+                        style={{
+                            padding: '9px 24px',
+                            fontWeight: 700,
+                            background: isAudioActive ? 'var(--term-green)' : 'rgba(3, 15, 6, 0.85)',
+                            color: isAudioActive ? '#000' : 'var(--term-green-bright)'
+                        }}
                     >
-                        {isAudioActive ? "432Hz Hum: On" : "432Hz Hum: Off"}
+                        {isAudioActive ? "432Hz Drone: ON" : "432Hz Drone: OFF"}
                     </button>
                 </div>
             </header>
@@ -879,18 +1034,18 @@ function App() {
                     }}>
                         <div>
                             <span className="uppercase-label" style={{ fontSize: '0.96rem', letterSpacing: '0.12em', color: 'var(--term-green-bright)', fontWeight: 700 }}>
-                                Tactical Assessment // Life-Preservation Pop Quiz
+                                Tactical Assessment // Post-Collapse Training Simulator
                             </span>
                         </div>
 
                         {lastSynthesizedTime && (
                             <span className="uppercase-label" style={{ fontSize: '0.74rem', color: 'var(--term-text-dim)' }}>
-                                Generated: {lastSynthesizedTime}
+                                Simulator Cycle: {lastSynthesizedTime}
                             </span>
                         )}
                     </div>
 
-                    {/* Protocol Query Banner */}
+                    {/* Simulator Query Banner */}
                     <div style={{
                         background: 'rgba(0, 30, 10, 0.7)',
                         border: '1px solid var(--term-green-dim)',
@@ -912,10 +1067,10 @@ function App() {
                                 fontWeight: 800,
                                 fontSize: '0.74rem'
                             }}>
-                                ASSESSMENT
+                                SIMULATOR
                             </span>
                             <span style={{ color: 'var(--term-text-main)', fontSize: '0.98rem', letterSpacing: '0.04em' }}>
-                                5-Question Pop Quiz on Active Protocols (100% Accuracy Required)
+                                5-Stage Survival Assessment (100% Field Clearance Required)
                             </span>
                         </div>
 
@@ -940,9 +1095,9 @@ function App() {
                             zIndex: 25,
                             flex: 1
                         }}>
-                            Extracting generated emergency directives...<br />
-                            Formulating tactical multiple-choice pop quiz...<br />
-                            <span style={{ color: 'var(--term-green-bright)' }}>Loading assessment deck...</span>
+                            Loading recovered bunker telemetry...<br />
+                            Formulating 5-stage post-collapse survival simulation...<br />
+                            <span style={{ color: 'var(--term-green-bright)' }}>Initialising terminal diagnostic matrix...</span>
                         </div>
                     ) : (
                         <div className="dossier-animate" style={{
@@ -996,7 +1151,7 @@ function App() {
                                         </div>
 
                                         <div style={{ fontSize: '0.8rem', color: 'var(--term-text-dim)', letterSpacing: '0.05em' }}>
-                                            QUESTION [ 0{currentQuestionIdx + 1} / 05 ]
+                                            STAGE [ 0{currentQuestionIdx + 1} / 05 ]
                                         </div>
                                     </div>
 
@@ -1015,7 +1170,7 @@ function App() {
                                             marginBottom: 18
                                         }}>
                                             <div className="uppercase-label" style={{ fontSize: '0.75rem', color: 'var(--term-green-bright)', fontWeight: 800, marginBottom: 6, letterSpacing: '0.08em' }}>
-                                                // PROTOCOL: {currentQ.headline}
+                                                // SIMULATED DIRECTIVE: {currentQ.headline}
                                             </div>
                                             <div style={{
                                                 fontSize: '1.18rem',
@@ -1115,7 +1270,7 @@ function App() {
                                         marginBottom: 16
                                     }}>
                                         <div style={{
-                                            fontSize: '1.28rem',
+                                            fontSize: '1.24rem',
                                             fontWeight: 800,
                                             color: '#ff3344',
                                             letterSpacing: '0.08em',
@@ -1124,10 +1279,10 @@ function App() {
                                             alignItems: 'center',
                                             gap: 10
                                         }}>
-                                            <span>[ ! ] ASSESSMENT REJECTED: CRITICAL PROTOCOL BREACH</span>
+                                            <span>[ ! ] SIMULATION FAILED: CRITICAL CASUALTY DETECTED</span>
                                         </div>
                                         <div style={{ color: '#ff99aa', fontSize: '0.86rem', marginTop: 4 }}>
-                                            SCORE: {5 - quizErrorDetails.length} / 5 // CIVILIAN SURVIVABILITY REQUIRES 100% (5/5)
+                                            SCORE: {5 - quizErrorDetails.length} / 5 // POST-COLLAPSE SURVIVAL REQUIRES 100% ACCURACY (5/5)
                                         </div>
                                     </div>
 
@@ -1147,7 +1302,7 @@ function App() {
                                             fontSize: '0.94rem',
                                             lineHeight: 1.6
                                         }}>
-                                            In cascading disaster triage, a single procedural error can prove fatal. Review the failed directives below and retake the readiness assessment.
+                                            In hostile fallout and grid-down environments, one procedural misjudgment causes fatal failure. Study the breached protocols below before re-running the simulator.
                                         </div>
 
                                         <div style={{ display: 'flex', flexDirection: 'column', gap: 12 }}>
@@ -1190,7 +1345,7 @@ function App() {
                                             className="term-btn"
                                             style={{ padding: '10px 20px' }}
                                         >
-                                            Shuffle New Directives
+                                            New Data Set
                                         </button>
 
                                         <button
@@ -1199,7 +1354,7 @@ function App() {
                                             className="loser-btn"
                                             style={{ padding: '10px 26px' }}
                                         >
-                                            Retake Pop Quiz (Retry)
+                                            Retake Simulator Quiz (Retry)
                                         </button>
                                     </div>
                                 </div>
@@ -1223,7 +1378,7 @@ function App() {
                                         zIndex: 60
                                     }}>
                                         <div style={{
-                                            fontSize: '1.45rem',
+                                            fontSize: '1.4rem',
                                             fontWeight: 900,
                                             color: 'var(--term-green-bright)',
                                             letterSpacing: '0.08em',
@@ -1232,10 +1387,10 @@ function App() {
                                             alignItems: 'center',
                                             gap: 10
                                         }}>
-                                            <span>[ ★★★ ] CIVILIAN READINESS CLEARANCE GRANTED!</span>
+                                            <span>[ ★★★ ] SIMULATION COMPLETE: POST-APOCALYPTIC CLEARANCE GRANTED!</span>
                                         </div>
                                         <div style={{ color: 'var(--term-text-main)', fontSize: '0.94rem', marginTop: 4, letterSpacing: '0.04em' }}>
-                                            ASSESSMENT RESULT: 5 / 5 (100% ACCURACY) // DIRECTIVE MASTERY CERTIFIED
+                                            SIMULATOR RESULT: 5 / 5 (100% ACCURACY) // VAULT SURVIVALIST CERTIFIED
                                         </div>
                                     </div>
 
@@ -1261,7 +1416,7 @@ function App() {
                                                 fontWeight: 700,
                                                 marginBottom: 12
                                             }}>
-                                                CONGRATULATIONS: FLIGHT-READY OPERATIONAL DISASTER TRIAGE VALIDATED!
+                                                CONGRATULATIONS: BUNKER READINESS TRIAGE VALIDATED!
                                             </div>
                                             <p style={{
                                                 fontSize: '1.02rem',
@@ -1269,7 +1424,7 @@ function App() {
                                                 color: 'var(--term-text-main)',
                                                 margin: 0
                                             }}>
-                                                You achieved a perfect 5/5 score across all active civilian emergency knowledge modules. You have demonstrated immediate mastery of critical tourniquet hemorrhage control, airway protection, hazardous material sealing, and emergency grid survivability.
+                                                You achieved flawless 5/5 mastery across all active post-apocalyptic survival scenarios. You have demonstrated command over nuclear gamma shielding, trauma triage, off-grid water harvesting, and biological decontamination.
                                             </p>
                                         </div>
 
@@ -1313,7 +1468,7 @@ function App() {
                                             className="term-btn"
                                             style={{ padding: '10px 22px' }}
                                         >
-                                            Retake Pop Quiz
+                                            Retake Simulation Quiz
                                         </button>
 
                                         <button
@@ -1327,7 +1482,7 @@ function App() {
                                                 color: '#000'
                                             }}
                                         >
-                                            Shuffle New Directives & Quiz
+                                            Load New Data Set
                                         </button>
                                     </div>
                                 </div>
@@ -1363,34 +1518,28 @@ function App() {
                 <span style={{ fontSize: '0.75rem' }}>↗</span>
             </a>
 
-            {/* FIXED LOWER-RIGHT: Pixel Smiley Face Button */}
+            {/* FIXED LOWER-RIGHT: Small Circular Pixel Smiley Face Button with Subtle Glow */}
             <button
                 type="button"
-                className="pixel-face-btn"
+                className="pixel-face-btn-circle"
                 onClick={handleSmileyClick}
                 onMouseEnter={handleSmileyHover}
-                title="Laugh & Shift Color Hue"
+                title="Laugh & Toggle Color Shift Distortion"
                 style={{
                     position: 'fixed',
                     bottom: '16px',
                     right: '16px',
-                    zIndex: 90,
-                    background: 'rgba(3, 15, 6, 0.92)',
-                    border: '1.5px solid var(--term-green)',
-                    borderRadius: '4px',
-                    padding: '8px',
-                    boxShadow: '0 0 16px rgba(51, 255, 102, 0.4)',
-                    cursor: 'pointer',
-                    display: 'inline-flex',
-                    alignItems: 'center',
-                    justifyContent: 'center'
+                    zIndex: 90
                 }}
             >
-                <svg width="40" height="40" viewBox="0 0 16 16" fill="none" xmlns="http://www.w3.org/2000/svg" style={{ shapeRendering: 'crispEdges' }}>
-                    <path d="M5 2h6v1H5V2zm-2 2h2v1H3V4zm-1 3h1v2H2V7zm0 2h1v1H2V9zm1 3h2v1H3v-1zm2 1h6v1H5v-1zm6-1h2v1h-2v-1zm2-3h1v2h-1V9zm0-2h1v1h-1V7zm-1-3h2v1h-2V4z" fill="#00ff66" />
-                    <path d="M5 3h6v1H5V3zm-2 2h10v2H3V5zm-1 2h12v2H2V7zm0 2h12v2H2V9zm1 2h10v1H3v-1zm2 1h6v1H5v-1z" fill="#04200d" />
-                    <path d="M5 6h1v3H5V6zm-1 1h3v1H4V7zm6-1h1v3h-1V6zm-1 1h3v1h-3V7z" fill="#00ff66" />
-                    <path d="M3 8h1v3H3V8zm9 0h1v3h-1V8zm-8 3h1v1H4v-1zm7 0h1v1h-1v-1zm-6 1h6v1H5v-1z" fill="#00ff66" />
+                <svg width="22" height="22" viewBox="0 0 16 16" fill="none" xmlns="http://www.w3.org/2000/svg" style={{ shapeRendering: 'crispEdges' }}>
+                    {/* Eyes - No eyebrows */}
+                    <rect x="4" y="5" width="2" height="2" fill="#33ff66" />
+                    <rect x="10" y="5" width="2" height="2" fill="#33ff66" />
+                    {/* Smile curve */}
+                    <rect x="3" y="9" width="1" height="2" fill="#33ff66" />
+                    <rect x="12" y="9" width="1" height="2" fill="#33ff66" />
+                    <rect x="4" y="11" width="8" height="1.5" fill="#33ff66" />
                 </svg>
             </button>
 
