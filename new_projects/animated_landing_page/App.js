@@ -379,7 +379,7 @@ function App() {
                             Bringing Static Sites to Life <span>Through Motion & Modern Code.</span>
                         </h1>
                         <a href="#contact" className="btn-3d-glow" title="Contact for Front-End Web Development">
-                            Straight to Contact
+                            From Night to Day
                         </a>
                     </div>
                 </div>

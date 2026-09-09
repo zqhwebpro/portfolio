@@ -1,28 +1,32 @@
 // App.js
-const { useState, useEffect, useCallback, useRef } = React;
+const { useState, useEffect, useMemo } = React;
 
-// ExerciseDB Open API endpoint base
-const EXERCISEDB_API_BASE = 'https://exercisedb-api.vercel.app/api/v1';
+const YOUTUBE_API_KEY = "AIzaSyBihjoihZeQhF_QaCjg4vwg19ypqrA-wZQ";
+const EXERCISE_BASE_RAW = 'https://raw.githubusercontent.com/yuhonas/free-exercise-db/main/exercises/';
+const EXERCISEDB_DIRECT_DATASET = 'https://raw.githubusercontent.com/yuhonas/free-exercise-db/main/dist/exercises.json';
 
 const AFFIRMATIONS = [
-    "BREATHE, CENTER, EXECUTE.",
-    "CULTIVATE STRENGTH FROM INNER STILLNESS.",
-    "EVERY REP REFINES YOUR FOCUS AND FORM.",
-    "EFFORTLESS PRECISION IN EVERY MOTION.",
-    "QUIET THE NOISE, CONQUER THE WEIGHT.",
-    "POWER HARMONIZED WITH CONTROL."
+    "BREATHE, CENTER, AND EXECUTE WITH DISCIPLINE",
+    "STRENGTH ARISES FROM PATIENCE AND INTENT",
+    "EVERY REPETITION REFINES YOUR FORM",
+    "CONTROL UNDER CONTINUOUS TENSION",
+    "POWER EARNED THROUGH CONSISTENT ACTION",
+    "MIND AND MUSCLE IN TOTAL HARMONY"
 ];
 
-const FITNESS_JOKES = [
-    "Why don't bodybuilders play hide and seek? Because good luck hiding when you're always flexin'!",
-    "I asked my trainer if I could do cardio on my phone. He said 'Sure, if you run away from your responsibilities!'",
-    "Why did the dumbbell go to school? To get a little smarter before getting lifted!",
-    "My favorite machine at the gym is the vending machine. 100% rep completion!",
-    "Why did the squatter bring extra pencils? In case they needed to draw a deeper line!"
+const WORKOUT_STYLES = [
+    { id: 'all', label: 'ALL CATEGORIES' },
+    { id: 'strength', label: 'STRENGTH' },
+    { id: 'stretching', label: 'STRETCHING' },
+    { id: 'plyometrics', label: 'PLYOMETRICS' },
+    { id: 'strongman', label: 'STRONGMAN' },
+    { id: 'powerlifting', label: 'POWERLIFTING' },
+    { id: 'cardio', label: 'CARDIO' },
+    { id: 'olympic weightlifting', label: 'OLYMPIC' }
 ];
 
 const MUSCLE_GROUPS = [
-    { id: 'all', label: 'ALL TARGETS' },
+    { id: 'all', label: 'ALL' },
     { id: 'chest', label: 'CHEST' },
     { id: 'back', label: 'BACK' },
     { id: 'biceps', label: 'BICEPS' },
@@ -34,421 +38,592 @@ const MUSCLE_GROUPS = [
     { id: 'abs', label: 'ABS' }
 ];
 
-// MuscleWiki Anatomical Vector Visualizer (Zero-CORS Client Component)
-function MuscleWikiDiagram({ activeMuscle }) {
-    const isTarget = (group) => {
-        if (!activeMuscle) return false;
-        const target = activeMuscle.toLowerCase();
-        if (group === 'chest' && target.includes('chest')) return true;
-        if (group === 'back' && (target.includes('back') || target.includes('lats') || target.includes('traps') || target.includes('upper back') || target.includes('lower back'))) return true;
-        if (group === 'biceps' && target.includes('bicep')) return true;
-        if (group === 'triceps' && target.includes('tricep')) return true;
-        if (group === 'shoulders' && (target.includes('shoulder') || target.includes('deltoid'))) return true;
-        if (group === 'quadriceps' && (target.includes('quad') || target.includes('leg'))) return true;
-        if (group === 'hamstrings' && target.includes('hamstring')) return true;
-        if (group === 'calves' && target.includes('cal')) return true;
-        if (group === 'abdominals' && (target.includes('abs') || target.includes('abdominal') || target.includes('waist'))) return true;
-        return false;
-    };
+const MUSCLE_TAG_MAP = {
+    chest: ['chest', 'pectorals', 'pectoralis major', 'pectoralis minor'],
+    back: ['lats', 'latissimus dorsi', 'middle back', 'lower back', 'traps', 'trapezius', 'rhomboids'],
+    biceps: ['biceps', 'biceps brachii', 'brachialis'],
+    triceps: ['triceps', 'triceps brachii'],
+    shoulders: ['shoulders', 'deltoids', 'deltoid', 'anterior deltoids', 'lateral deltoids', 'posterior deltoids'],
+    quads: ['quadriceps', 'quads', 'rectus femoris', 'vastus lateralis', 'vastus medialis'],
+    hamstrings: ['hamstrings', 'biceps femoris'],
+    calves: ['calves', 'gastrocnemius', 'soleus'],
+    abs: ['abdominals', 'abs', 'rectus abdominis', 'obliques', 'transverse abdominis']
+};
 
-    const getFill = (group) => isTarget(group) ? '#CCFF00' : '#27272A';
-    const getStroke = (group) => isTarget(group) ? '#FFFFFF' : '#52525B';
+const isExerciseInMuscleGroup = (exercise, groupKey) => {
+    if (!exercise || groupKey === 'all') return true;
+    const validTags = MUSCLE_TAG_MAP[groupKey];
+    if (!validTags) return false;
+
+    const rawTargets = [
+        ...(Array.isArray(exercise.primaryMuscles) ? exercise.primaryMuscles : []),
+        exercise.target,
+        exercise.bodyPart
+    ].filter(Boolean).map(s => s.toLowerCase().trim());
+
+    if (rawTargets.length === 0) return false;
+
+    return rawTargets.some(raw => {
+        if (groupKey === 'triceps' && raw.includes('quadriceps')) return false;
+        return validTags.some(tag => {
+            const regex = new RegExp(`(^|\\b|_|\\s)${tag}(\\b|_|\\s|$)`, 'i');
+            return regex.test(raw);
+        });
+    });
+};
+
+const isExerciseInCategory = (exercise, categoryKey) => {
+    if (!exercise || categoryKey === 'all') return true;
+    const cat = (exercise.category || '').toLowerCase().trim();
+    return cat === categoryKey.toLowerCase();
+};
+
+const normalizeMuscleName = (muscleStr) => {
+    if (!muscleStr) return '';
+    const s = muscleStr.toLowerCase().trim();
+    if (s.includes('quadriceps') || s.includes('quad')) return 'quads';
+    if (s.includes('triceps')) return 'triceps';
+
+    for (const [groupKey, tags] of Object.entries(MUSCLE_TAG_MAP)) {
+        if (tags.some(tag => {
+            const regex = new RegExp(`(^|\\b|_|\\s)${tag}(\\b|_|\\s|$)`, 'i');
+            return regex.test(s);
+        })) {
+            return groupKey;
+        }
+    }
+    return s;
+};
+
+const formatImageUrl = (relativePath) => {
+    if (!relativePath) return null;
+    const encoded = relativePath.split('/').map(encodeURIComponent).join('/');
+    return `${EXERCISE_BASE_RAW}${encoded}`;
+};
+
+function RenderLockIcon({ locked = false, className = "w-4 h-4" }) {
+    return locked ? (
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.2" strokeLinecap="round" strokeLinejoin="round" className={className}>
+            <rect x="3" y="11" width="18" height="11" rx="2" />
+            <path d="M7 11V7a5 5 0 0 1 10 0v4" />
+        </svg>
+    ) : (
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.2" strokeLinecap="round" strokeLinejoin="round" className={className}>
+            <rect x="3" y="11" width="18" height="11" rx="2" />
+            <path d="M7 11V7a5 5 0 0 1 9.9-1" />
+        </svg>
+    );
+}
+
+function RenderIsolatedMusclePath({ muscleKey, fillColor = "#38bdf8", strokeColor = "#ffffff" }) {
+    switch (muscleKey) {
+        case 'shoulders':
+            return (
+                <g transform="translate(-10, 10)">
+                    <path d="M 40 40 C 30 46 24 60 30 72 C 34 76 38 74 40 68 C 42 60 41 50 40 40 Z" fill={fillColor} stroke={strokeColor} strokeWidth="1.2" />
+                    <path d="M 80 40 C 90 46 96 60 90 72 C 86 76 82 74 80 68 C 78 60 79 50 80 40 Z" fill={fillColor} stroke={strokeColor} strokeWidth="1.2" />
+                </g>
+            );
+        case 'chest':
+            return (
+                <g transform="translate(-10, 8)">
+                    <path d="M 44 42 C 54 41 61 44 62 54 C 62 68 48 72 42 70 C 38 62 40 48 44 42 Z" fill={fillColor} stroke={strokeColor} strokeWidth="1.2" />
+                    <path d="M 76 42 C 66 41 59 44 58 54 C 58 68 72 72 78 70 C 82 62 80 48 76 42 Z" fill={fillColor} stroke={strokeColor} strokeWidth="1.2" />
+                </g>
+            );
+        case 'biceps':
+            return (
+                <g transform="translate(-10, 0)">
+                    <path d="M 38 42 C 30 50 30 64 38 74 C 43 75 47 71 48 62 C 49 53 47 45 38 42 Z" fill={fillColor} stroke={strokeColor} strokeWidth="1.2" />
+                    <path d="M 82 42 C 90 50 90 64 82 74 C 77 75 73 71 72 62 C 71 53 73 45 82 42 Z" fill={fillColor} stroke={strokeColor} strokeWidth="1.2" />
+                </g>
+            );
+        case 'triceps':
+            return (
+                <g transform="translate(-10, 0)">
+                    <path d="M 36 40 C 28 52 30 70 38 78 C 43 78 46 72 47 62 C 47 52 44 44 36 40 Z" fill={fillColor} stroke={strokeColor} strokeWidth="1.2" />
+                    <path d="M 84 40 C 92 52 90 70 82 78 C 77 78 74 72 73 62 C 73 52 76 44 84 40 Z" fill={fillColor} stroke={strokeColor} strokeWidth="1.2" />
+                </g>
+            );
+        case 'back':
+            return (
+                <g transform="translate(-10, 6)">
+                    <path d="M 52 32 L 68 32 L 82 48 L 60 74 L 38 48 Z" fill={fillColor} stroke={strokeColor} strokeWidth="1.2" />
+                    <path d="M 40 52 C 32 68 35 92 45 104 C 48 96 49 84 49 72 Z" fill={fillColor} stroke={strokeColor} strokeWidth="1.2" />
+                    <path d="M 80 52 C 88 68 85 92 75 104 C 72 96 71 84 71 72 Z" fill={fillColor} stroke={strokeColor} strokeWidth="1.2" />
+                </g>
+            );
+        case 'abs':
+            return (
+                <g transform="translate(-10, 10)">
+                    <rect x="47" y="32" width="11" height="13" rx="2" fill={fillColor} stroke={strokeColor} strokeWidth="1.2" />
+                    <rect x="62" y="32" width="11" height="13" rx="2" fill={fillColor} stroke={strokeColor} strokeWidth="1.2" />
+                    <rect x="46" y="48" width="12" height="13" rx="2" fill={fillColor} stroke={strokeColor} strokeWidth="1.2" />
+                    <rect x="62" y="48" width="12" height="13" rx="2" fill={fillColor} stroke={strokeColor} strokeWidth="1.2" />
+                    <rect x="47" y="64" width="11" height="13" rx="2" fill={fillColor} stroke={strokeColor} strokeWidth="1.2" />
+                    <rect x="62" y="64" width="11" height="13" rx="2" fill={fillColor} stroke={strokeColor} strokeWidth="1.2" />
+                </g>
+            );
+        case 'quads':
+            return (
+                <g transform="translate(-10, 0)">
+                    <path d="M 46 36 C 36 54 34 84 42 110 C 49 114 58 112 58 104 C 60 80 58 54 46 36 Z" fill={fillColor} stroke={strokeColor} strokeWidth="1.2" />
+                    <path d="M 74 36 C 84 54 86 84 78 110 C 71 114 62 112 62 104 C 60 80 62 54 74 36 Z" fill={fillColor} stroke={strokeColor} strokeWidth="1.2" />
+                </g>
+            );
+        case 'hamstrings':
+            return (
+                <g transform="translate(-10, 0)">
+                    <path d="M 46 36 C 42 56 44 82 51 102 C 58 104 64 100 64 90 C 65 68 64 46 56 36 Z" fill={fillColor} stroke={strokeColor} strokeWidth="1.2" />
+                    <path d="M 74 36 C 78 56 76 82 69 102 C 62 104 56 100 56 90 C 55 68 56 46 64 36 Z" fill={fillColor} stroke={strokeColor} strokeWidth="1.2" />
+                </g>
+            );
+        case 'calves':
+            return (
+                <g transform="translate(-10, 0)">
+                    <path d="M 44 40 C 38 56 41 80 50 96 L 56 96 C 58 80 57 60 52 40 Z" fill={fillColor} stroke={strokeColor} strokeWidth="1.2" />
+                    <path d="M 76 40 C 82 56 79 80 70 96 L 64 96 C 62 80 63 60 68 40 Z" fill={fillColor} stroke={strokeColor} strokeWidth="1.2" />
+                </g>
+            );
+        default:
+            return (
+                <g transform="translate(-10, 0)">
+                    <circle cx="60" cy="50" r="14" fill={fillColor} stroke={strokeColor} strokeWidth="1.2" />
+                    <path d="M 45 70 Q 60 62 75 70 L 72 105 Q 60 108 48 105 Z" fill={fillColor} stroke={strokeColor} strokeWidth="1.2" />
+                </g>
+            );
+    }
+}
+
+function AnatomyBadgeCard({ activeMuscle, displayTargetName }) {
+    const pri = normalizeMuscleName(activeMuscle);
 
     return (
-        <div className="athletic-card rounded-2xl p-3 border border-white/10 flex flex-col items-center justify-between h-full w-full relative overflow-hidden">
-            <div className="w-full flex items-center justify-between border-b border-white/10 pb-1.5 mb-1 shrink-0">
-                <span className="text-[11px] font-black tracking-wider text-white uppercase italic">
-                    MUSCLEWIKI ANATOMY MAP
-                </span>
-                <span className="text-[10px] font-extrabold text-[#CCFF00] tracking-widest uppercase bg-[#CCFF00]/10 px-2.5 py-0.5 rounded border border-[#CCFF00]/30">
-                    {activeMuscle || 'FULL BODY'}
-                </span>
-            </div>
-
-            <div className="flex-1 w-full flex items-center justify-center py-2 min-h-0 overflow-hidden relative">
-                <svg viewBox="0 0 200 240" className="h-full w-auto max-h-[210px] object-contain filter drop-shadow-[0_0_12px_rgba(204,255,0,0.35)]">
-                    {/* Head / Body Base */}
-                    <ellipse cx="100" cy="22" rx="14" ry="16" fill="#18181C" stroke="#3F3F46" strokeWidth="1.5" />
-                    <path d="M88 36 L112 36 L116 48 L84 48 Z" fill="#18181C" stroke="#3F3F46" strokeWidth="1.5" />
-
-                    {/* Shoulders / Deltoids */}
-                    <path d="M68 48 C55 50 50 66 58 80 C66 80 72 70 76 56 Z" fill={getFill('shoulders')} stroke={getStroke('shoulders')} strokeWidth="1.5" />
-                    <path d="M132 48 C145 50 150 66 142 80 C134 80 128 70 124 56 Z" fill={getFill('shoulders')} stroke={getStroke('shoulders')} strokeWidth="1.5" />
-
-                    {/* Chest / Pectorals */}
-                    <path d="M76 54 Q100 58 124 54 L120 86 Q100 94 80 86 Z" fill={getFill('chest')} stroke={getStroke('chest')} strokeWidth="1.5" />
-
-                    {/* Biceps */}
-                    <path d="M56 82 C50 92 50 110 58 120 C64 116 66 100 62 82 Z" fill={getFill('biceps')} stroke={getStroke('biceps')} strokeWidth="1.5" />
-                    <path d="M144 82 C150 92 150 110 142 120 C136 116 134 100 138 82 Z" fill={getFill('biceps')} stroke={getStroke('biceps')} strokeWidth="1.5" />
-
-                    {/* Triceps */}
-                    <path d="M50 84 C45 94 45 106 52 114 C55 110 55 96 52 84 Z" fill={getFill('triceps')} stroke={getStroke('triceps')} strokeWidth="1.5" />
-                    <path d="M150 84 C155 94 155 106 148 114 C145 110 145 96 148 84 Z" fill={getFill('triceps')} stroke={getStroke('triceps')} strokeWidth="1.5" />
-
-                    {/* Abs / Core */}
-                    <path d="M80 88 Q100 92 120 88 L114 142 Q100 146 86 142 Z" fill={getFill('abdominals')} stroke={getStroke('abdominals')} strokeWidth="1.5" />
-
-                    {/* Back / Lats */}
-                    <path d="M72 52 L128 52 L132 88 L68 88 Z" fill={getFill('back')} stroke={getStroke('back')} strokeWidth="1.5" opacity={isTarget('back') ? 1 : 0.2} />
-
-                    {/* Quadriceps */}
-                    <path d="M78 146 C70 162 72 202 82 216 C92 216 96 182 96 146 Z" fill={getFill('quadriceps')} stroke={getStroke('quadriceps')} strokeWidth="1.5" />
-                    <path d="M122 146 C130 162 128 202 118 216 C108 216 104 182 104 146 Z" fill={getFill('quadriceps')} stroke={getStroke('quadriceps')} strokeWidth="1.5" />
-
-                    {/* Calves */}
-                    <path d="M78 220 C72 228 74 236 80 238 C86 238 88 230 88 220 Z" fill={getFill('calves')} stroke={getStroke('calves')} strokeWidth="1.5" />
-                    <path d="M122 220 C128 228 126 236 120 238 C114 238 112 230 112 220 Z" fill={getFill('calves')} stroke={getStroke('calves')} strokeWidth="1.5" />
+        <div className="steel-card flex items-stretch min-h-[64px] overflow-hidden">
+            <div className="w-14 bg-[#142033] border-r border-[#22324d] flex items-center justify-center p-1.5 shrink-0">
+                <svg viewBox="0 0 100 120" className="w-full h-full object-contain filter drop-shadow-[0_0_4px_rgba(56,189,248,0.5)]">
+                    <RenderIsolatedMusclePath muscleKey={pri} fillColor="#38bdf8" strokeColor="#ffffff" />
                 </svg>
             </div>
+            <div className="flex-1 px-3.5 py-2 flex flex-col justify-center text-left min-w-0">
+                <span className="text-[10px] font-bold text-slate-400 uppercase tracking-wider mb-0.5">
+                    Anatomy
+                </span>
+                <span className="text-sm font-athletic font-bold text-electric-sky uppercase tracking-wide truncate">
+                    {displayTargetName || 'Full Body'}
+                </span>
+            </div>
         </div>
     );
 }
 
-// Spotify Web Player Component (Intact)
-function SpotifyModule() {
-    const [activePlaylist, setActivePlaylist] = useState('BEAST MODE');
-    const [isPlaying, setIsPlaying] = useState(false);
-    const [progress, setProgress] = useState(35);
-    const [currentTrack, setCurrentTrack] = useState({
-        title: "Power Overload (130 BPM)",
-        artist: "Spotify Workout Mix",
-        cover: "https://images.unsplash.com/photo-1517838277536-f5f99be501cd?w=150&auto=format&fit=crop&q=80"
-    });
+function MetricCard({ label, value }) {
+    return (
+        <div className="steel-card px-3.5 py-2 flex flex-col justify-center text-left min-h-[64px]">
+            <span className="text-[10px] font-bold text-slate-400 uppercase tracking-wider mb-0.5">
+                {label}
+            </span>
+            <span className="text-sm font-athletic font-bold text-slate-100 uppercase tracking-wide truncate">
+                {value}
+            </span>
+        </div>
+    );
+}
 
-    const playlists = [
-        { name: 'BEAST MODE', track: 'Power Overload (130 BPM)', artist: 'Heavy Beats' },
-        { name: 'POWERLIFT', track: 'Iron Metal Cadence', artist: 'Strength Lab' },
-        { name: 'EDM WORKOUT', track: 'Neon Pump 140', artist: 'Electro Pulse' },
-        { name: 'HIP HOP PUMP', track: 'Heavy Bass Reps', artist: 'Urban Hype' }
-    ];
+function ExerciseMotionFeed({ exercise }) {
+    const [frameIndex, setFrameIndex] = useState(0);
+    const [imageError, setImageError] = useState(false);
+    const images = exercise?.images || [];
 
-    const handlePlaylistChange = (pl) => {
-        setActivePlaylist(pl.name);
-        setCurrentTrack(prev => ({
-            ...prev,
-            title: pl.track,
-            artist: pl.artist
-        }));
-        setIsPlaying(true);
-    };
+    useEffect(() => {
+        setFrameIndex(0);
+        setImageError(false);
+        if (images.length <= 1) return;
 
-    const togglePlay = () => {
-        setIsPlaying(!isPlaying);
-    };
+        const interval = setInterval(() => {
+            setFrameIndex(prev => (prev + 1) % images.length);
+        }, 850);
+
+        return () => clearInterval(interval);
+    }, [exercise?.name, images.length]);
+
+    const activeImageSrc = exercise?.gifUrl
+        ? exercise.gifUrl
+        : images.length > 0
+            ? formatImageUrl(images[frameIndex])
+            : null;
 
     return (
-        <div className="athletic-card rounded-2xl p-3 border border-white/10 flex flex-col gap-2.5 shrink-0 bg-black/40">
-            {/* Header / Status Bar */}
-            <div className="flex items-center justify-between border-b border-white/10 pb-2">
-                <div className="flex items-center gap-2">
-                    <span className="w-2.5 h-2.5 rounded-full bg-[#1DB954] animate-pulse" />
-                    <span className="text-[11px] font-black tracking-wider text-white uppercase italic">
-                        SPOTIFY WEB PLAYER
-                    </span>
-                </div>
-                <div className="flex items-center gap-1.5">
-                    <span className="text-[9px] font-extrabold text-[#1DB954] bg-[#1DB954]/10 border border-[#1DB954]/30 px-2 py-0.5 rounded tracking-widest uppercase">
-                        ONLINE
-                    </span>
-                </div>
+        <div className="steel-panel p-3 flex flex-col flex-1 h-full min-h-[300px]">
+            <div className="flex items-center justify-between pb-2 mb-2 border-b border-[#22324d] shrink-0">
+                <span className="text-xs font-athletic font-bold tracking-wider text-slate-200 uppercase">
+                    CADENCE MOTION FEED
+                </span>
+                <span className="text-[10px] font-bold font-athletic tracking-wide px-2 py-0.5 rounded bg-sky-500/20 text-electric-sky border border-sky-500/30">
+                    LIVE PREVIEW
+                </span>
+            </div>
+            <div className="flex-1 w-full h-full min-h-[260px] relative rounded-lg overflow-hidden bg-[#090e18] flex items-center justify-center border border-[#1e2c45]">
+                {activeImageSrc && !imageError ? (
+                    <img
+                        key={`${exercise?.name}-${frameIndex}`}
+                        src={activeImageSrc}
+                        alt={exercise?.name}
+                        onError={() => setImageError(true)}
+                        className="h-full w-full object-cover object-center"
+                    />
+                ) : (
+                    <div className="flex flex-col items-center gap-2 text-slate-500">
+                        <span className="text-3xl text-sky-400">⚡</span>
+                        <span className="text-[11px] font-athletic uppercase tracking-wider">MOTION FEED UNAVAILABLE</span>
+                    </div>
+                )}
+            </div>
+        </div>
+    );
+}
+
+function YouTubeFormDeck({ exercise }) {
+    const [videos, setVideos] = useState([]);
+    const [selectedVideoId, setSelectedVideoId] = useState(null);
+    const [loading, setLoading] = useState(false);
+    const [error, setError] = useState(null);
+
+    const cleanHtmlEntities = (str) => {
+        if (!str) return '';
+        const txt = document.createElement('textarea');
+        txt.innerHTML = str;
+        return txt.value;
+    };
+
+    const fetchYouTubeTutorials = async () => {
+        if (!exercise?.name) return;
+        setLoading(true);
+        setError(null);
+
+        const searchQuery = `${exercise.name} exercise tutorial proper form`;
+        const url = `https://www.googleapis.com/youtube/v3/search?part=snippet&maxResults=5&q=${encodeURIComponent(
+            searchQuery
+        )}&type=video&key=${YOUTUBE_API_KEY}`;
+
+        try {
+            const response = await fetch(url);
+            if (!response.ok) {
+                const errData = await response.json();
+                throw new Error(errData?.error?.message || `HTTP ${response.status}`);
+            }
+            const data = await response.json();
+            const items = data.items || [];
+            setVideos(items);
+            if (items.length > 0) {
+                setSelectedVideoId(items[0].id.videoId);
+            } else {
+                setSelectedVideoId(null);
+            }
+        } catch (err) {
+            setError(err.message || 'Tutorial search quota exceeded');
+        } finally {
+            setLoading(false);
+        }
+    };
+
+    useEffect(() => {
+        fetchYouTubeTutorials();
+    }, [exercise?.name]);
+
+    return (
+        <div className="steel-panel p-3 flex flex-col h-full min-h-[320px] overflow-hidden">
+            <div className="flex items-center justify-between border-b border-[#22324d] pb-2 mb-2 shrink-0">
+                <span className="text-xs font-athletic font-bold tracking-wider text-slate-200 uppercase">
+                    FORM TUTORIALS
+                </span>
             </div>
 
-            {/* Playlists Selection Bar */}
-            <div className="flex items-center gap-1 overflow-x-auto no-scrollbar">
-                {playlists.map((pl) => (
-                    <button
-                        key={pl.name}
-                        onClick={() => handlePlaylistChange(pl)}
-                        className={`text-[9px] font-black px-2.5 py-1 rounded shrink-0 transition cursor-pointer tracking-wider uppercase ${activePlaylist === pl.name
-                            ? 'bg-[#1DB954] text-black shadow-[0_0_10px_rgba(29,185,84,0.4)]'
-                            : 'bg-white/5 text-slate-400 hover:text-white'
-                            }`}
-                    >
-                        {pl.name}
-                    </button>
-                ))}
-            </div>
-
-            {/* Main Web Player UI */}
-            <div className="w-full p-2.5 rounded-xl bg-black/80 border border-white/10 flex flex-col gap-2 relative overflow-hidden">
-                <div className="flex items-center gap-3">
-                    {/* Album Art Thumbnail */}
-                    <div className="w-12 h-12 rounded-lg overflow-hidden shrink-0 border border-white/10 relative group">
-                        <img src={currentTrack.cover} alt="Album Art" className="w-full h-full object-cover" />
-                        {isPlaying && (
-                            <div className="absolute inset-0 bg-black/40 flex items-center justify-center gap-0.5">
-                                <span className="w-1 h-4 bg-[#1DB954] animate-bounce" style={{ animationDelay: '0ms' }} />
-                                <span className="w-1 h-4 bg-[#1DB954] animate-bounce" style={{ animationDelay: '150ms' }} />
-                                <span className="w-1 h-4 bg-[#1DB954] animate-bounce" style={{ animationDelay: '300ms' }} />
-                            </div>
-                        )}
-                    </div>
-
-                    {/* Track Info */}
-                    <div className="flex-1 min-w-0 flex flex-col">
-                        <span className="text-xs font-black text-white truncate uppercase tracking-tight">
-                            {currentTrack.title}
-                        </span>
-                        <span className="text-[10px] font-bold text-slate-400 truncate">
-                            {currentTrack.artist} • {activePlaylist}
-                        </span>
-                    </div>
-
-                    {/* Media Controls */}
-                    <div className="flex items-center gap-1.5 shrink-0">
-                        <button className="text-slate-400 hover:text-white text-xs px-1 cursor-pointer">⏮</button>
-                        <button
-                            onClick={togglePlay}
-                            className="w-8 h-8 rounded-full bg-[#1DB954] text-black flex items-center justify-center text-sm font-bold hover:scale-105 transition cursor-pointer shadow-[0_0_12px_rgba(29,185,84,0.4)]"
-                        >
-                            {isPlaying ? '❚❚' : '▶'}
-                        </button>
-                        <button className="text-slate-400 hover:text-white text-xs px-1 cursor-pointer">⏭</button>
-                    </div>
-                </div>
-
-                {/* Scrubber / Progress Bar */}
-                <div className="w-full flex items-center gap-2 pt-1">
-                    <span className="text-[8px] font-mono font-bold text-slate-400">1:12</span>
-                    <div className="flex-1 h-1.5 bg-white/10 rounded-full overflow-hidden cursor-pointer relative">
-                        <div
-                            className="h-full bg-[#1DB954] rounded-full transition-all duration-300"
-                            style={{ width: `${progress}%` }}
+            <div className="flex-1 min-h-0 flex flex-col gap-2 overflow-hidden">
+                <div className="w-full aspect-video bg-[#090e18] rounded-lg overflow-hidden border border-[#22324d] shrink-0 flex items-center justify-center">
+                    {selectedVideoId ? (
+                        <iframe
+                            key={selectedVideoId}
+                            className="w-full h-full"
+                            src={`https://www.youtube.com/embed/${selectedVideoId}?autoplay=0&rel=0`}
+                            title="Exercise Form Video"
+                            frameBorder="0"
+                            allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+                            allowFullScreen
                         />
-                    </div>
-                    <span className="text-[8px] font-mono font-bold text-slate-400">3:24</span>
+                    ) : (
+                        <div className="text-slate-400 text-xs font-athletic uppercase tracking-wider">
+                            {loading ? 'Searching Guides...' : 'No Video Selected'}
+                        </div>
+                    )}
+                </div>
+
+                <div className="flex-1 min-h-[140px] overflow-y-auto pr-1 space-y-2">
+                    {loading ? (
+                        <div className="h-full flex flex-col items-center justify-center gap-2 py-6 text-slate-400">
+                            <div className="w-6 h-6 border-2 border-sky-400 border-t-transparent rounded-full animate-spin" />
+                            <span className="text-[11px] font-athletic uppercase tracking-wider text-slate-300">
+                                Loading tutorials...
+                            </span>
+                        </div>
+                    ) : error ? (
+                        <div className="text-center py-6 text-xs text-slate-400 font-sans space-y-2 px-2">
+                            <p className="text-red-400 font-semibold">{error}</p>
+                            <button
+                                onClick={fetchYouTubeTutorials}
+                                className="px-3 py-1 bg-sky-600 hover:bg-sky-500 text-white rounded text-[10px] uppercase font-bold"
+                            >
+                                Retry Search
+                            </button>
+                        </div>
+                    ) : videos.length > 0 ? (
+                        videos.map((vid) => {
+                            const isCurrent = vid.id.videoId === selectedVideoId;
+                            return (
+                                <div
+                                    key={vid.id.videoId}
+                                    onClick={() => setSelectedVideoId(vid.id.videoId)}
+                                    className={`p-2 rounded-lg border flex items-center gap-2.5 cursor-pointer transition ${isCurrent
+                                            ? 'bg-[#1e2b44] border-sky-400 text-white'
+                                            : 'bg-[#101726] border-[#22324d] text-slate-300 hover:border-slate-500'
+                                        }`}
+                                >
+                                    <div className="w-16 h-10 shrink-0 rounded overflow-hidden bg-black relative border border-slate-700">
+                                        <img
+                                            src={vid.snippet.thumbnails?.medium?.url || vid.snippet.thumbnails?.default?.url}
+                                            alt={vid.snippet.title}
+                                            className="w-full h-full object-cover"
+                                        />
+                                    </div>
+                                    <div className="flex-1 min-w-0">
+                                        <p className="text-[11px] font-semibold line-clamp-2 leading-tight">
+                                            {cleanHtmlEntities(vid.snippet.title)}
+                                        </p>
+                                        <span className="text-[9px] text-slate-400 truncate block mt-0.5 font-athletic">
+                                            {vid.snippet.channelTitle}
+                                        </span>
+                                    </div>
+                                </div>
+                            );
+                        })
+                    ) : (
+                        <div className="text-center py-6 text-slate-500 text-xs font-athletic uppercase">
+                            No guides found for this exercise.
+                        </div>
+                    )}
                 </div>
             </div>
-        </div>
-    );
-}
-
-// Joke of the Day Component
-function JokeOfTheDay() {
-    const [jokeIndex, setJokeIndex] = useState(0);
-
-    const handleNextJoke = () => {
-        setJokeIndex(prev => (prev + 1) % FITNESS_JOKES.length);
-    };
-
-    return (
-        <div className="athletic-card rounded-2xl p-2.5 border border-white/10 flex items-center justify-between gap-3 shrink-0">
-            <div className="flex items-center gap-2 overflow-hidden">
-                <span className="text-base">🏋️‍♂️</span>
-                <div className="flex flex-col overflow-hidden">
-                    <span className="text-[10px] font-black text-[#CCFF00] uppercase italic tracking-wider">JOKE OF THE DAY</span>
-                    <p className="text-xs font-body font-normal text-slate-200 truncate">{FITNESS_JOKES[jokeIndex]}</p>
-                </div>
-            </div>
-            <button
-                onClick={handleNextJoke}
-                className="text-[9px] font-black px-2 py-1 rounded bg-white/5 hover:bg-white/10 text-slate-300 transition shrink-0 uppercase tracking-wider border border-white/10 cursor-pointer"
-            >
-                NEXT JOKE ↻
-            </button>
         </div>
     );
 }
 
 function App() {
-    const [exercises, setExercises] = useState([]);
-    const [currentIndex, setCurrentIndex] = useState(0);
+    const [allDatabase, setAllDatabase] = useState([]);
+    const [routineDeck, setRoutineDeck] = useState({});
+    const [groupIndices, setGroupIndices] = useState({});
+    const [selectedStyle, setSelectedStyle] = useState('all');
     const [selectedMuscle, setSelectedMuscle] = useState('all');
+    const [lockedMuscles, setLockedMuscles] = useState({});
     const [loading, setLoading] = useState(true);
     const [error, setError] = useState(null);
 
-    const [timerSeconds, setTimerSeconds] = useState(60);
-    const [timerInitial, setTimerInitial] = useState(60);
-    const [isTimerRunning, setIsTimerRunning] = useState(false);
-    const timerIntervalRef = useRef(null);
-
-    const [isPlayingNoise, setIsPlayingNoise] = useState(false);
-    const audioContextRef = useRef(null);
-    const gainNodeRef = useRef(null);
-    const oscillatorsRef = useRef([]);
-
-    const playTimerChime = useCallback(() => {
+    const [favoriteGroups, setFavoriteGroups] = useState(() => {
         try {
-            const AudioCtx = window.AudioContext || window.webkitAudioContext;
-            const ctx = new AudioCtx();
-            const osc = ctx.createOscillator();
-            const gain = ctx.createGain();
-            osc.type = 'sawtooth';
-            osc.frequency.setValueAtTime(880, ctx.currentTime);
-            osc.frequency.exponentialRampToValueAtTime(440, ctx.currentTime + 0.4);
-            gain.gain.setValueAtTime(0.4, ctx.currentTime);
-            gain.gain.exponentialRampToValueAtTime(0.001, ctx.currentTime + 0.4);
-            osc.connect(gain);
-            gain.connect(ctx.destination);
-            osc.start();
-            osc.stop(ctx.currentTime + 0.4);
+            const saved = localStorage.getItem('workout_favorite_groups');
+            return saved ? JSON.parse(saved) : [];
         } catch (e) {
-            console.warn('Audio chime error:', e);
+            return [];
         }
-    }, []);
+    });
+    const [isFavoritesOpen, setIsFavoritesOpen] = useState(false);
+    const [editingGroupId, setEditingGroupId] = useState(null);
+    const [editingTitle, setEditingTitle] = useState('');
 
     useEffect(() => {
-        if (isTimerRunning) {
-            timerIntervalRef.current = setInterval(() => {
-                setTimerSeconds(prev => {
-                    if (prev <= 1) {
-                        clearInterval(timerIntervalRef.current);
-                        setIsTimerRunning(false);
-                        playTimerChime();
-                        return 0;
-                    }
-                    return prev - 1;
-                });
-            }, 1000);
-        } else if (timerIntervalRef.current) {
-            clearInterval(timerIntervalRef.current);
-        }
-        return () => {
-            if (timerIntervalRef.current) clearInterval(timerIntervalRef.current);
-        };
-    }, [isTimerRunning, playTimerChime]);
-
-    const setPresetTimer = (seconds) => {
-        setIsTimerRunning(false);
-        setTimerInitial(seconds);
-        setTimerSeconds(seconds);
-    };
-
-    const toggleTimer = () => {
-        if (timerSeconds === 0) {
-            setTimerSeconds(timerInitial);
-        }
-        setIsTimerRunning(!isTimerRunning);
-    };
-
-    const resetTimer = () => {
-        setIsTimerRunning(false);
-        setTimerSeconds(timerInitial);
-    };
-
-    const toggleMeditationNoise = () => {
-        if (isPlayingNoise) {
-            if (gainNodeRef.current && audioContextRef.current) {
-                gainNodeRef.current.gain.setTargetAtTime(0, audioContextRef.current.currentTime, 0.4);
-                setTimeout(() => {
-                    oscillatorsRef.current.forEach(osc => {
-                        try { osc.stop(); osc.disconnect(); } catch (e) { }
-                    });
-                    oscillatorsRef.current = [];
-                    setIsPlayingNoise(false);
-                }, 500);
-            } else {
-                setIsPlayingNoise(false);
-            }
-        } else {
-            try {
-                const AudioCtx = window.AudioContext || window.webkitAudioContext;
-                const ctx = new AudioCtx();
-                audioContextRef.current = ctx;
-
-                const masterGain = ctx.createGain();
-                masterGain.gain.setValueAtTime(0.001, ctx.currentTime);
-                masterGain.gain.exponentialRampToValueAtTime(0.18, ctx.currentTime + 1.2);
-                masterGain.connect(ctx.destination);
-                gainNodeRef.current = masterGain;
-
-                const freqs = [108, 216, 432];
-                const oscList = [];
-
-                freqs.forEach((freq, idx) => {
-                    const osc = ctx.createOscillator();
-                    const oscGain = ctx.createGain();
-                    osc.type = idx === 0 ? 'triangle' : 'sine';
-                    osc.frequency.setValueAtTime(freq, ctx.currentTime);
-
-                    const lfo = ctx.createOscillator();
-                    lfo.frequency.setValueAtTime(0.15 + idx * 0.05, ctx.currentTime);
-                    const lfoGain = ctx.createGain();
-                    lfoGain.gain.setValueAtTime(0.8, ctx.currentTime);
-                    lfo.connect(lfoGain);
-                    lfoGain.connect(osc.frequency);
-                    lfo.start();
-
-                    oscGain.gain.setValueAtTime(0.3 / (idx + 1), ctx.currentTime);
-                    osc.connect(oscGain);
-                    oscGain.connect(masterGain);
-                    osc.start();
-                    oscList.push(osc, lfo);
-                });
-
-                oscillatorsRef.current = oscList;
-                setIsPlayingNoise(true);
-            } catch (err) {
-                console.warn('Audio Context start prevented:', err);
-                setIsPlayingNoise(false);
-            }
-        }
-    };
-
-    // ExerciseDB Fetch Logic Integration
-    const fetchExercises = useCallback(async (targetMuscle = selectedMuscle) => {
-        setLoading(true);
-        setError(null);
-        setCurrentIndex(0);
-
-        let url = `${EXERCISEDB_API_BASE}/exercises`;
-        if (targetMuscle !== 'all') {
-            url = `${EXERCISEDB_API_BASE}/exercises/target/${encodeURIComponent(targetMuscle)}`;
-        }
-
         try {
-            const response = await fetch(url);
-            if (!response.ok) throw new Error('Failed to load exercises from ExerciseDB server.');
-
-            const result = await response.json();
-            const data = Array.isArray(result) ? result : (result.data || []);
-
-            if (!data || data.length === 0) throw new Error('No routines discovered for this target muscle group.');
-
-            setExercises(data.sort(() => 0.5 - Math.random()).slice(0, 8));
-        } catch (err) {
-            setError(err.message || 'Unable to load workouts.');
-        } finally {
-            setLoading(false);
+            localStorage.setItem('workout_favorite_groups', JSON.stringify(favoriteGroups));
+        } catch (e) {
+            console.error('Failed to persist favorites', e);
         }
-    }, [selectedMuscle]);
+    }, [favoriteGroups]);
+
+    const generateNewWorkoutSession = (dataset, styleFilter = 'all') => {
+        if (!dataset || dataset.length === 0) return;
+
+        const newDeck = { ...routineDeck };
+        const newIndices = { ...groupIndices };
+
+        const pool = dataset.filter(ex => isExerciseInCategory(ex, styleFilter));
+
+        MUSCLE_GROUPS.forEach(group => {
+            if (lockedMuscles[group.id] && routineDeck[group.id]?.length > 0) {
+                return;
+            }
+
+            let matches = [];
+            if (group.id === 'all') {
+                matches = pool.length > 0 ? pool : dataset;
+            } else {
+                matches = pool.filter(ex => isExerciseInMuscleGroup(ex, group.id));
+                if (matches.length === 0) {
+                    matches = dataset.filter(ex => isExerciseInMuscleGroup(ex, group.id));
+                }
+            }
+
+            const shuffled = [...matches].sort(() => 0.5 - Math.random()).slice(0, 8);
+            newDeck[group.id] = shuffled;
+            newIndices[group.id] = 0;
+        });
+
+        setRoutineDeck(newDeck);
+        setGroupIndices(newIndices);
+    };
 
     useEffect(() => {
-        fetchExercises();
+        const loadInitialDataset = async () => {
+            setLoading(true);
+            setError(null);
+            try {
+                const response = await fetch(EXERCISEDB_DIRECT_DATASET);
+                if (!response.ok) throw new Error('Failed to load dataset.');
+                const data = await response.json();
+                setAllDatabase(data);
+                generateNewWorkoutSession(data, 'all');
+            } catch (err) {
+                setError('Unable to fetch exercise database.');
+            } finally {
+                setLoading(false);
+            }
+        };
+
+        loadInitialDataset();
     }, []);
 
-    const handleMuscleChange = (muscleId) => {
+    const handleStyleButtonClick = (styleId) => {
+        setSelectedStyle(styleId);
+
+        if (lockedMuscles[selectedMuscle]) return;
+
+        let pool = allDatabase.filter(ex => isExerciseInCategory(ex, styleId));
+        let matches = [];
+
+        if (selectedMuscle === 'all') {
+            matches = pool.length > 0 ? pool : allDatabase;
+        } else {
+            matches = pool.filter(ex => isExerciseInMuscleGroup(ex, selectedMuscle));
+            if (matches.length === 0) {
+                matches = allDatabase.filter(ex => isExerciseInMuscleGroup(ex, selectedMuscle));
+            }
+        }
+
+        if (matches.length === 0) return;
+
+        const shuffled = [...matches].sort(() => 0.5 - Math.random()).slice(0, 8);
+
+        setRoutineDeck(prev => ({
+            ...prev,
+            [selectedMuscle]: shuffled
+        }));
+        setGroupIndices(prev => ({
+            ...prev,
+            [selectedMuscle]: 0
+        }));
+    };
+
+    const handleFocusChange = (muscleId) => {
         setSelectedMuscle(muscleId);
-        fetchExercises(muscleId);
     };
 
-    const handleNext = () => {
-        if (!exercises.length) return;
-        setCurrentIndex(prev => (prev + 1) % exercises.length);
+    const toggleLockCurrent = (e) => {
+        if (e) e.stopPropagation();
+        setLockedMuscles(prev => ({
+            ...prev,
+            [selectedMuscle]: !prev[selectedMuscle]
+        }));
     };
 
-    const handlePrev = () => {
-        if (!exercises.length) return;
-        setCurrentIndex(prev => (prev - 1 + exercises.length) % exercises.length);
+    const handleNext = (e) => {
+        if (e) e.stopPropagation();
+        if (lockedMuscles[selectedMuscle]) return;
+
+        const activeList = routineDeck[selectedMuscle] || [];
+        if (activeList.length <= 1) return;
+
+        setGroupIndices(prev => ({
+            ...prev,
+            [selectedMuscle]: ((prev[selectedMuscle] || 0) + 1) % activeList.length
+        }));
     };
 
-    const handleShuffle = () => {
-        fetchExercises(selectedMuscle);
+    const handlePrev = (e) => {
+        if (e) e.stopPropagation();
+        if (lockedMuscles[selectedMuscle]) return;
+
+        const activeList = routineDeck[selectedMuscle] || [];
+        if (activeList.length <= 1) return;
+
+        setGroupIndices(prev => ({
+            ...prev,
+            [selectedMuscle]: ((prev[selectedMuscle] || 0) - 1 + activeList.length) % activeList.length
+        }));
     };
 
-    const currentExercise = exercises[currentIndex];
-
-    // Fallback search and instructional visual mappings
-    const videoExternalUrl = currentExercise
-        ? `https://www.youtube.com/results?search_query=${encodeURIComponent(currentExercise.name + ' exercise proper form tutorial')}`
-        : 'https://www.youtube.com';
-
-    const formatTime = (secs) => {
-        const mins = Math.floor(secs / 60);
-        const remSecs = secs % 60;
-        return `${mins}:${remSecs < 10 ? '0' : ''}${remSecs}`;
+    const handleShuffle = (e) => {
+        if (e) e.stopPropagation();
+        generateNewWorkoutSession(allDatabase, selectedStyle);
     };
+
+    const generateSerial = () => Math.floor(100000 + Math.random() * 900000).toString();
+
+    const handleAddCurrentGroup = (e) => {
+        if (e) e.stopPropagation();
+        const serial = generateSerial();
+        const newGroup = {
+            id: 'grp_' + Date.now() + '_' + serial,
+            serialCode: serial,
+            name: `Routine #${serial}`,
+            createdAt: new Date().toLocaleDateString(),
+            deck: JSON.parse(JSON.stringify(routineDeck))
+        };
+        setFavoriteGroups(prev => [newGroup, ...prev]);
+        setIsFavoritesOpen(true);
+    };
+
+    const handleDeleteGroup = (groupId, e) => {
+        if (e) e.stopPropagation();
+        setFavoriteGroups(prev => prev.filter(g => g.id !== groupId));
+    };
+
+    const handleStartRename = (group, e) => {
+        if (e) e.stopPropagation();
+        setEditingGroupId(group.id);
+        setEditingTitle(group.name);
+    };
+
+    const handleSaveRename = (groupId, e) => {
+        if (e) e.stopPropagation();
+        if (!editingTitle.trim()) return;
+        setFavoriteGroups(prev =>
+            prev.map(g => (g.id === groupId ? { ...g, name: editingTitle.trim() } : g))
+        );
+        setEditingGroupId(null);
+    };
+
+    const handleLoadGroup = (group, e) => {
+        if (e) e.stopPropagation();
+        if (group && group.deck) {
+            setRoutineDeck(group.deck);
+            const resetIndices = {};
+            MUSCLE_GROUPS.forEach(m => (resetIndices[m.id] = 0));
+            setGroupIndices(resetIndices);
+            setIsFavoritesOpen(false);
+        }
+    };
+
+    const currentMuscleList = routineDeck[selectedMuscle] || [];
+    const currentIndex = groupIndices[selectedMuscle] || 0;
+    const currentExercise = currentMuscleList.length > 0 ? currentMuscleList[currentIndex] : null;
+    const isCurrentLocked = !!lockedMuscles[selectedMuscle];
 
     const toTitleCase = (str) => {
         if (!str) return '';
@@ -460,288 +635,516 @@ function App() {
             .join(' ');
     };
 
-    return (
-        <div className="w-screen h-[100dvh] flex flex-col bg-carbon-pattern text-slate-100 overflow-hidden select-none">
+    const activeRawMuscle = useMemo(() => {
+        if (!currentExercise) return '';
+        return (currentExercise.primaryMuscles || [currentExercise.target])[0] || '';
+    }, [currentExercise]);
 
-            {/* ATHLETIC HEADER WITH AFFIRMATION MARQUEE */}
-            <header className="shrink-0 bg-[#09090B]/95 border-b border-white/10 px-4 py-2.5 flex items-center justify-between gap-4 z-20">
-                <div className="flex items-center gap-3 shrink-0">
-                    <span className="text-xl md:text-2xl font-black italic tracking-tighter text-[#CCFF00]">
-                        WORKOUT // SHUFFLER
-                    </span>
-                    <span className="hidden sm:inline-block text-[9px] px-2 py-0.5 rounded bg-[#CCFF00]/10 text-[#CCFF00] font-black uppercase tracking-widest border border-[#CCFF00]/30">
-                        EXERCISEDB ENGINE
+    const displayTargetName = useMemo(() => {
+        if (!activeRawMuscle) return '';
+        const mapped = normalizeMuscleName(activeRawMuscle);
+        return toTitleCase(mapped || activeRawMuscle);
+    }, [activeRawMuscle]);
+
+    const queriedMuscleCards = useMemo(() => {
+        return MUSCLE_GROUPS.map(group => {
+            const list = routineDeck[group.id] || [];
+            const idx = groupIndices[group.id] || 0;
+            const exercise = list[idx] || null;
+            const isLocked = !!lockedMuscles[group.id];
+            return {
+                group,
+                exercise,
+                total: list.length,
+                currentIndex: idx,
+                isLocked
+            };
+        });
+    }, [routineDeck, groupIndices, lockedMuscles]);
+
+    return (
+        <div className="w-screen min-h-screen lg:h-[100dvh] flex flex-col pb-28 md:pb-32 lg:pb-0 touch-pan-y overflow-x-hidden">
+
+            {/* Top Marquee Header */}
+            <header className="shrink-0 bg-[#0d1422] border-b border-[#22324d] text-slate-300 px-4 py-2 flex items-center z-20 sticky top-0 w-full overflow-hidden">
+                <div className="flex items-center mr-4 shrink-0 gap-2">
+                    <span className="w-2.5 h-2.5 bg-sky-400 rounded-sm" />
+                    <span className="text-xs font-athletic font-bold tracking-widest text-white uppercase">
+                        WO RANDOMIZER
                     </span>
                 </div>
+                <div className="flex-1 whitespace-nowrap overflow-hidden">
+                    <div className="animate-marquee text-xs font-medium tracking-wider text-slate-400 select-none">
+                        {AFFIRMATIONS.map((text, i) => (
+                            <span key={i} className="inline-flex items-center">
+                                <span>{text}</span>
+                                <span className="mx-4 text-sky-500 font-bold">/</span>
+                            </span>
+                        ))}
+                    </div>
+                </div>
+            </header>
 
-                {/* Affirmation Marquee Strip */}
-                <div className="flex-1 overflow-hidden mx-4 hidden md:block border-x border-white/10 px-3 py-1 bg-black/40 rounded-full">
-                    <div className="whitespace-nowrap overflow-hidden">
-                        <div className="animate-marquee text-xs font-bold text-slate-300 italic tracking-wider">
-                            {AFFIRMATIONS.join("   •   ")}   •   {AFFIRMATIONS.join("   •   ")}
+            {/* Main Application Container */}
+            <main className="flex-1 w-full max-w-full p-2 md:p-3 flex flex-col gap-2 overflow-y-auto lg:overflow-hidden min-h-0 touch-pan-y">
+
+                {/* Focus Bar */}
+                <div className="shrink-0 steel-panel px-3 py-2 flex items-center justify-between w-full max-w-full overflow-hidden">
+                    <div className="flex items-center gap-2 overflow-x-auto no-scrollbar min-w-0 flex-1">
+                        <span className="text-xs font-athletic font-bold text-slate-300 uppercase tracking-wider shrink-0 select-none whitespace-nowrap pr-1">
+                            Focus:
+                        </span>
+
+                        <div className="flex items-center gap-1.5 shrink-0">
+                            {WORKOUT_STYLES.map(style => {
+                                const isSelected = selectedStyle === style.id;
+                                return (
+                                    <button
+                                        key={style.id}
+                                        type="button"
+                                        onClick={() => handleStyleButtonClick(style.id)}
+                                        className={`px-3 py-1 font-athletic font-bold text-xs tracking-wider transition shrink-0 uppercase select-none rounded-md ${isSelected
+                                                ? 'bg-sky-600 text-white border border-sky-400 shadow-sm'
+                                                : 'bg-[#182438] text-slate-300 border border-[#2b3e61] hover:bg-[#20304a] hover:text-white'
+                                            }`}
+                                    >
+                                        {style.label}
+                                    </button>
+                                );
+                            })}
+                        </div>
+                    </div>
+
+                    <div className="flex items-center shrink-0 pl-3">
+                        <div className="h-5 w-[1px] bg-[#22324d] mx-2" />
+
+                        <div className="flex items-center gap-2">
+                            <button
+                                type="button"
+                                onClick={handleShuffle}
+                                title="Randomize Session"
+                                className="btn-action-primary h-8 px-3 flex items-center gap-1.5 text-xs font-athletic font-bold uppercase rounded-md select-none"
+                            >
+                                <svg className="w-3.5 h-3.5 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round">
+                                    <polyline points="16 3 21 3 21 8" />
+                                    <line x1="4" y1="20" x2="21" y2="3" />
+                                    <polyline points="21 16 21 21 16 21" />
+                                    <line x1="15" y1="15" x2="21" y2="21" />
+                                    <line x1="4" y1="4" x2="9" y2="9" />
+                                </svg>
+                                <span className="hidden sm:inline">RANDOMIZE</span>
+                            </button>
+
+                            <button
+                                type="button"
+                                onClick={handleAddCurrentGroup}
+                                title="Save current routine"
+                                className="w-8 h-8 flex items-center justify-center font-bold text-base bg-[#182438] hover:bg-[#20304a] text-slate-200 rounded-md border border-[#2b3e61] transition"
+                            >
+                                +
+                            </button>
+
+                            <button
+                                type="button"
+                                onClick={() => setIsFavoritesOpen(true)}
+                                title="Saved routines vault"
+                                className="w-8 h-8 flex items-center justify-center text-sm bg-[#182438] hover:bg-[#20304a] text-sky-400 rounded-md border border-[#2b3e61] relative transition"
+                            >
+                                <span>♥</span>
+                                {favoriteGroups.length > 0 && (
+                                    <span className="absolute -top-1 -right-1 bg-sky-500 text-white text-[9px] font-bold w-4 h-4 rounded-full flex items-center justify-center">
+                                        {favoriteGroups.length}
+                                    </span>
+                                )}
+                            </button>
                         </div>
                     </div>
                 </div>
 
-                <div className="flex items-center gap-2 shrink-0">
-                    <button
-                        onClick={toggleMeditationNoise}
-                        className={`flex items-center gap-2 px-3 py-1.5 rounded transition cursor-pointer border font-black text-xs uppercase tracking-wider ${isPlayingNoise
-                            ? 'bg-[#CCFF00] text-black border-[#CCFF00] shadow-[0_0_15px_rgba(204,255,0,0.5)]'
-                            : 'athletic-card border-white/10 text-slate-300 hover:text-white'
-                            }`}
-                    >
-                        <span>🧘</span>
-                        <span>{isPlayingNoise ? '432HZ ACTIVE' : 'FOCUS TONE'}</span>
-                    </button>
-                </div>
-            </header>
+                {/* Main Workspace */}
+                <div className="flex-1 grid grid-cols-1 lg:grid-cols-12 gap-2.5 min-h-0 lg:overflow-hidden w-full max-w-full">
 
-            {/* MAIN VIEWPORT */}
-            <main className="flex-1 w-full min-h-0 p-2 md:p-4 overflow-hidden flex flex-col">
-                <div className="w-full h-full flex flex-col gap-2 md:gap-3 min-h-0">
-
-                    {/* MUSCLE SELECTOR STRIP */}
-                    <div className="shrink-0 athletic-card rounded-2xl p-1.5 flex items-center gap-1 overflow-x-auto no-scrollbar border border-white/10">
-                        <span className="text-[10px] font-black text-slate-400 px-2 shrink-0 italic uppercase">
-                            TARGET:
-                        </span>
-                        {MUSCLE_GROUPS.map(muscle => (
-                            <button
-                                key={muscle.id}
-                                onClick={() => handleMuscleChange(muscle.id)}
-                                className={`px-3 py-1.5 rounded font-black text-xs tracking-wider transition shrink-0 cursor-pointer uppercase ${selectedMuscle === muscle.id
-                                    ? 'bg-[#CCFF00] text-black shadow-[0_0_12px_rgba(204,255,0,0.4)]'
-                                    : 'bg-white/5 text-slate-400 hover:text-white hover:bg-white/10'
-                                    }`}
-                            >
-                                {muscle.label}
-                            </button>
-                        ))}
-                    </div>
-
-                    {/* WORKOUT STAGE */}
-                    <section className="flex-1 flex flex-col min-h-0 athletic-card athletic-card-glow rounded-3xl p-3 md:p-4 border border-white/10 relative overflow-hidden">
+                    <section className="lg:col-span-8 flex flex-col min-h-0 steel-panel p-3.5 md:p-4 overflow-hidden">
                         {loading ? (
-                            <div className="flex-1 flex flex-col items-center justify-center gap-3">
-                                <div className="w-12 h-12 border-4 border-white/10 border-t-[#CCFF00] rounded-full animate-spin" />
-                                <span className="text-xs font-black tracking-widest text-[#CCFF00] uppercase">GENERATING MOVEMENT...</span>
+                            <div className="flex-1 min-h-[300px] flex flex-col items-center justify-center gap-3 text-slate-400">
+                                <div className="w-8 h-8 border-2 border-sky-400 border-t-transparent rounded-full animate-spin" />
+                                <span className="text-xs font-athletic tracking-wider uppercase">Loading routine...</span>
                             </div>
                         ) : error ? (
-                            <div className="flex-1 flex flex-col items-center justify-center text-center p-6">
-                                <p className="text-sm text-[#FF2A2A] font-bold uppercase mb-4">{error}</p>
+                            <div className="flex-1 min-h-[300px] flex flex-col items-center justify-center text-center p-6">
+                                <p className="text-sm text-red-400 font-bold uppercase mb-4">{error}</p>
                                 <button
-                                    onClick={() => fetchExercises(selectedMuscle)}
-                                    className="px-5 py-2.5 btn-neon rounded text-xs"
+                                    onClick={handleShuffle}
+                                    className="px-6 py-2 btn-action-primary text-xs font-bold rounded-md"
                                 >
-                                    RETRY CONNECTION
+                                    RETRY
                                 </button>
                             </div>
                         ) : currentExercise ? (
-                            <div className="flex-1 flex flex-col min-h-0 justify-between gap-2.5">
+                            <div className="flex-1 flex flex-col min-h-0 justify-between gap-3">
 
-                                {/* METRICS HEADER */}
-                                <div className="shrink-0 flex flex-col md:flex-row md:items-center justify-between gap-2 pb-2 border-b border-white/10">
-                                    <div>
-                                        <div className="flex items-center gap-2 mb-0.5">
-                                            <span className="text-[10px] font-black text-[#CCFF00] uppercase tracking-widest bg-[#CCFF00]/10 px-2 py-0.5 rounded border border-[#CCFF00]/20">
-                                                MOVEMENT {currentIndex + 1} / {exercises.length}
+                                {/* Exercise Header & 3 Metric Badges */}
+                                <div className="shrink-0 flex flex-col md:flex-row md:items-center justify-between gap-3 pb-3 border-b border-[#22324d]">
+                                    <div className="min-w-0 flex-1">
+                                        <div className="flex items-center gap-2 mb-1">
+                                            <span className="text-[10px] font-athletic font-bold uppercase tracking-wider px-2 py-0.5 rounded bg-sky-500/20 text-electric-sky border border-sky-500/30">
+                                                {currentExercise.category || currentExercise.bodyPart || 'STRENGTH'}
                                             </span>
-                                            <span className="text-[10px] font-black text-slate-400 uppercase tracking-widest">
-                                                {currentExercise.bodyPart || 'FULL BODY'}
-                                            </span>
+                                            {isCurrentLocked && (
+                                                <span className="inline-flex items-center gap-1 text-[10px] font-athletic font-bold uppercase tracking-wider px-2 py-0.5 rounded bg-sky-600 text-white shadow-xs">
+                                                    <RenderLockIcon locked={true} className="w-3 h-3" />
+                                                    LOCKED IN
+                                                </span>
+                                            )}
                                         </div>
-                                        <h2 className="text-xl md:text-2xl font-black text-white italic tracking-tight uppercase leading-none">
+                                        <h2 className="text-xl md:text-2xl font-athletic font-extrabold text-white tracking-wide uppercase leading-tight truncate">
                                             {currentExercise.name}
                                         </h2>
                                     </div>
 
-                                    {/* TELEMETRY CARDS */}
-                                    <div className="grid grid-cols-3 gap-2 shrink-0 md:min-w-[360px]">
-                                        <div className="bg-black/60 p-2.5 rounded-xl border border-white/10 text-center">
-                                            <span className="block text-[9px] font-extrabold text-slate-400 uppercase tracking-widest">TARGET</span>
-                                            <span className="text-sm md:text-base font-black text-white capitalize truncate mt-0.5 block">
-                                                {toTitleCase(currentExercise.target)}
-                                            </span>
-                                        </div>
-                                        <div className="bg-black/60 p-2.5 rounded-xl border border-white/10 text-center">
-                                            <span className="block text-[9px] font-extrabold text-[#CCFF00] uppercase tracking-widest">BODY PART</span>
-                                            <span className="text-sm md:text-base font-black text-[#CCFF00] capitalize truncate mt-0.5 block">
-                                                {toTitleCase(currentExercise.bodyPart)}
-                                            </span>
-                                        </div>
-                                        <div className="bg-black/60 p-2.5 rounded-xl border border-white/10 text-center">
-                                            <span className="block text-[9px] font-extrabold text-slate-300 uppercase tracking-widest">EQUIPMENT</span>
-                                            <span className="text-sm md:text-base font-black text-white capitalize truncate mt-0.5 block">
-                                                {toTitleCase(currentExercise.equipment || 'body weight')}
-                                            </span>
-                                        </div>
+                                    {/* 3 Metric Badges */}
+                                    <div className="grid grid-cols-1 sm:grid-cols-3 gap-2 shrink-0 md:min-w-[420px] w-full md:w-auto">
+                                        <AnatomyBadgeCard
+                                            activeMuscle={activeRawMuscle}
+                                            displayTargetName={displayTargetName}
+                                        />
+
+                                        <MetricCard
+                                            label="Equipment"
+                                            value={toTitleCase(currentExercise.equipment || 'body weight')}
+                                        />
+
+                                        <MetricCard
+                                            label="Level"
+                                            value={toTitleCase(currentExercise.level || 'Intermediate')}
+                                        />
                                     </div>
                                 </div>
 
-                                {/* DASHBOARD GRID */}
-                                <div className="flex-1 grid grid-cols-1 lg:grid-cols-12 gap-3 min-h-0 overflow-hidden">
-
-                                    {/* ANIMATED GIF DEMO */}
-                                    <div className="lg:col-span-4 athletic-card rounded-2xl p-2 flex flex-col min-h-[160px] border border-white/10">
-                                        <div className="flex items-center justify-between pb-1 mb-1 border-b border-white/10">
-                                            <span className="text-[11px] font-black text-white tracking-wider uppercase italic">
-                                                ANIMATED DEMO
-                                            </span>
-                                            <a
-                                                href={videoExternalUrl}
-                                                target="_blank"
-                                                rel="noreferrer"
-                                                className="text-[10px] text-[#CCFF00] hover:underline font-bold tracking-wider uppercase"
-                                            >
-                                                YOUTUBE ↗
-                                            </a>
-                                        </div>
-                                        <div className="flex-1 w-full h-full relative rounded-xl overflow-hidden bg-black border border-white/10 flex items-center justify-center p-1">
-                                            {currentExercise.gifUrl ? (
-                                                <img
-                                                    src={currentExercise.gifUrl}
-                                                    alt={currentExercise.name}
-                                                    className="max-h-full max-w-full object-contain rounded-lg filter drop-shadow-md"
-                                                />
-                                            ) : (
-                                                <span className="text-xs text-slate-400 font-bold uppercase">NO ANIMATION</span>
-                                            )}
-                                        </div>
+                                {/* Motion Feed & Instructions Protocol */}
+                                <div className="flex-1 grid grid-cols-1 md:grid-cols-12 gap-3 min-h-0 lg:overflow-hidden">
+                                    <div className="md:col-span-7 min-h-0 flex flex-col h-full">
+                                        <ExerciseMotionFeed exercise={currentExercise} />
                                     </div>
 
-                                    {/* MUSCLEWIKI DIAGRAM */}
-                                    <div className="lg:col-span-4 flex flex-col min-h-[160px]">
-                                        <MuscleWikiDiagram activeMuscle={currentExercise.target || currentExercise.bodyPart} />
-                                    </div>
-
-                                    {/* INSTRUCTIONS, SPOTIFY & JOKE OF THE DAY */}
-                                    <div className="lg:col-span-4 flex flex-col gap-2 min-h-0 overflow-hidden">
-                                        <SpotifyModule />
-                                        <JokeOfTheDay />
-
-                                        <div className="flex-1 athletic-card rounded-2xl p-3 flex flex-col min-h-[120px] overflow-hidden border border-white/10">
-                                            <div className="pb-1 mb-1 border-b border-white/10">
-                                                <span className="text-[11px] font-black text-white tracking-wider uppercase italic">
-                                                    EXECUTION STEPS
+                                    <div className="md:col-span-5 min-h-0 flex flex-col gap-2.5 overflow-hidden">
+                                        <div className="flex-1 min-h-[220px] steel-panel p-3 flex flex-col overflow-hidden bg-[#0e1624]">
+                                            <div className="pb-2 mb-2 border-b border-[#22324d] flex items-center justify-between shrink-0">
+                                                <span className="text-xs font-athletic font-bold text-slate-200 tracking-wider uppercase">
+                                                    FORM PROTOCOL & CUES
                                                 </span>
                                             </div>
-                                            <div className="flex-1 overflow-y-auto text-xs md:text-sm leading-relaxed text-slate-100 pr-1 select-text space-y-2 font-body font-normal">
+                                            <div className="flex-1 overflow-y-auto text-xs leading-relaxed text-slate-300 pr-1 space-y-2 touch-pan-y">
                                                 {Array.isArray(currentExercise.instructions) && currentExercise.instructions.length > 0 ? (
                                                     currentExercise.instructions.map((step, idx) => (
-                                                        <div key={idx} className="flex items-start gap-2">
-                                                            <span className="text-[10px] font-bold text-black bg-[#CCFF00] px-1.5 py-0.5 rounded mt-0.5 shrink-0 font-body">
+                                                        <div key={idx} className="flex items-start gap-2.5 p-1.5 rounded bg-[#131d2e] border border-[#1f2e47]">
+                                                            <span className="text-[10px] font-athletic font-bold text-white bg-sky-600 px-1.5 py-0.2 rounded shrink-0">
                                                                 {idx + 1}
                                                             </span>
-                                                            <p className="flex-1 font-body text-slate-200">{step}</p>
+                                                            <p className="flex-1 text-slate-200 text-xs leading-relaxed font-normal">{step}</p>
                                                         </div>
                                                     ))
                                                 ) : typeof currentExercise.instructions === 'string' && currentExercise.instructions ? (
                                                     currentExercise.instructions.split('. ').map((step, idx) => (
                                                         step.trim() && (
-                                                            <div key={idx} className="flex items-start gap-2">
-                                                                <span className="text-[10px] font-bold text-black bg-[#CCFF00] px-1.5 py-0.5 rounded mt-0.5 shrink-0 font-body">
+                                                            <div key={idx} className="flex items-start gap-2.5 p-1.5 rounded bg-[#131d2e] border border-[#1f2e47]">
+                                                                <span className="text-[10px] font-athletic font-bold text-white bg-sky-600 px-1.5 py-0.2 rounded shrink-0">
                                                                     {idx + 1}
                                                                 </span>
-                                                                <p className="flex-1 font-body text-slate-200">{step.endsWith('.') ? step : `${step}.`}</p>
+                                                                <p className="flex-1 text-slate-200 text-xs leading-relaxed font-normal">{step.endsWith('.') ? step : `${step}.`}</p>
                                                             </div>
                                                         )
                                                     ))
                                                 ) : (
-                                                    <p className="text-slate-400 font-body">Perform standard cadence and maintain controlled breathing.</p>
+                                                    <p className="text-slate-400 text-xs">Execute repetitions with continuous muscular tension and complete eccentric control.</p>
                                                 )}
                                             </div>
                                         </div>
-                                    </div>
 
-                                </div>
-
-                                {/* BOTTOM REST TIMER & CONTROLS */}
-                                <div className="shrink-0 flex flex-col sm:flex-row items-center justify-between gap-2 pt-2 border-t border-white/10">
-
-                                    <div className="athletic-card px-3 py-1.5 rounded-xl border border-white/10 flex items-center gap-3 w-full sm:w-auto justify-between sm:justify-start">
-                                        <div className="flex items-center gap-2">
-                                            <span className="text-[10px] font-black uppercase text-slate-400 italic">REST TIMER</span>
-                                            <span className={`font-mono text-base font-black px-2 py-0.5 rounded border ${isTimerRunning
-                                                ? 'text-[#CCFF00] bg-[#CCFF00]/10 border-[#CCFF00]/40 animate-pulse'
-                                                : 'text-white bg-black/60 border-white/10'
-                                                }`}>
-                                                {formatTime(timerSeconds)}
-                                            </span>
-                                        </div>
-
-                                        <div className="flex items-center gap-1">
-                                            {[
-                                                { label: '1M', sec: 60 },
-                                                { label: '3M', sec: 180 },
-                                                { label: '5M', sec: 300 }
-                                            ].map(preset => (
-                                                <button
-                                                    key={preset.sec}
-                                                    onClick={() => setPresetTimer(preset.sec)}
-                                                    className={`text-[10px] font-black px-2 py-0.5 rounded transition cursor-pointer ${timerInitial === preset.sec && !isTimerRunning
-                                                        ? 'bg-[#CCFF00] text-black'
-                                                        : 'bg-white/5 text-slate-400 hover:text-white'
-                                                        }`}
-                                                >
-                                                    {preset.label}
-                                                </button>
-                                            ))}
-                                        </div>
-
-                                        <div className="flex items-center gap-1">
+                                        {/* Action Bar: PREV, Lock, NEXT */}
+                                        <div className="hidden lg:grid grid-cols-12 gap-2 pt-1 shrink-0 select-none items-center">
                                             <button
-                                                onClick={toggleTimer}
-                                                className={`text-xs font-black px-3 py-1 rounded transition cursor-pointer uppercase ${isTimerRunning
-                                                    ? 'bg-[#FF2A2A] text-white'
-                                                    : 'bg-[#CCFF00] text-black'
+                                                type="button"
+                                                onClick={handlePrev}
+                                                disabled={loading || isCurrentLocked || currentMuscleList.length <= 1}
+                                                className={`col-span-5 btn-steel h-14 rounded-lg flex items-center justify-center gap-2 font-athletic font-bold text-sm tracking-wide transition ${isCurrentLocked ? 'opacity-30 cursor-not-allowed' : 'cursor-pointer'
                                                     }`}
                                             >
-                                                {isTimerRunning ? 'PAUSE' : 'START'}
+                                                <span>◀</span>
+                                                <span>PREV</span>
                                             </button>
+
+                                            {/* Machined Lock Button */}
                                             <button
-                                                onClick={resetTimer}
-                                                className="text-[10px] text-slate-400 hover:text-white px-1 cursor-pointer font-bold"
-                                                title="RESET TIMER"
+                                                type="button"
+                                                onClick={toggleLockCurrent}
+                                                title={isCurrentLocked ? "Unlock workout" : "Lock workout in place"}
+                                                className={`col-span-2 h-14 rounded-lg flex flex-col items-center justify-center gap-1 cursor-pointer transition active:scale-95 border ${isCurrentLocked
+                                                        ? 'bg-sky-600 text-white border-sky-400 shadow-[0_0_10px_rgba(56,189,248,0.4)]'
+                                                        : 'bg-[#182438] text-slate-300 border-[#2b3e61] hover:text-white hover:border-slate-400'
+                                                    }`}
                                             >
-                                                ↺
+                                                <RenderLockIcon locked={isCurrentLocked} className="w-4 h-4" />
+                                                <span className="text-[9px] font-athletic font-bold tracking-wider leading-none">
+                                                    {isCurrentLocked ? 'LOCKED' : 'LOCK'}
+                                                </span>
+                                            </button>
+
+                                            <button
+                                                type="button"
+                                                onClick={handleNext}
+                                                disabled={loading || isCurrentLocked || currentMuscleList.length <= 1}
+                                                className={`col-span-5 btn-steel h-14 rounded-lg flex items-center justify-center gap-2 font-athletic font-bold text-sm tracking-wide transition ${isCurrentLocked ? 'opacity-30 cursor-not-allowed' : 'cursor-pointer'
+                                                    }`}
+                                            >
+                                                <span>NEXT</span>
+                                                <span>▶</span>
                                             </button>
                                         </div>
                                     </div>
-
-                                    {/* SHUFFLE CONTROLS */}
-                                    <div className="flex items-center gap-2 w-full sm:w-auto">
-                                        <button
-                                            onClick={handlePrev}
-                                            disabled={loading || !exercises.length}
-                                            className="flex-1 sm:flex-initial py-2 px-4 rounded athletic-card hover:bg-white/10 border border-white/10 font-black text-xs text-slate-200 transition cursor-pointer disabled:opacity-50 uppercase tracking-wider"
-                                        >
-                                            ← PREV
-                                        </button>
-                                        <button
-                                            onClick={handleShuffle}
-                                            disabled={loading}
-                                            className="flex-1 sm:flex-initial py-2 px-6 rounded btn-neon font-black text-xs transition cursor-pointer disabled:opacity-50 uppercase tracking-widest"
-                                        >
-                                            ✦ SHUFFLE
-                                        </button>
-                                        <button
-                                            onClick={handleNext}
-                                            disabled={loading || !exercises.length}
-                                            className="flex-1 sm:flex-initial py-2 px-4 rounded athletic-card hover:bg-white/10 border border-white/10 font-black text-xs text-slate-200 transition cursor-pointer disabled:opacity-50 uppercase tracking-wider"
-                                        >
-                                            NEXT →
-                                        </button>
-                                    </div>
-
                                 </div>
 
                             </div>
                         ) : null}
                     </section>
 
+                    <aside className="lg:col-span-4 flex flex-col min-h-[360px] lg:h-full lg:min-h-0">
+                        <YouTubeFormDeck exercise={currentExercise} />
+                    </aside>
+
+                </div>
+
+                {/* Bottom Active Routine Deck */}
+                <div className="shrink-0 steel-panel p-2.5 flex flex-col gap-1.5 w-full max-w-full overflow-hidden box-border">
+                    <div className="flex items-center justify-between px-1 shrink-0">
+                        <span className="text-xs font-athletic font-bold tracking-wider text-slate-200 uppercase">
+                            ACTIVE STACK
+                        </span>
+                        <span className="text-[10px] text-slate-400 font-sans uppercase">
+                            Click to inspect target
+                        </span>
+                    </div>
+
+                    <div className="w-full max-w-full overflow-x-auto lg:overflow-x-hidden no-scrollbar py-0.5">
+                        <div className="grid grid-flow-col auto-cols-[145px] lg:auto-cols-auto lg:grid-flow-row lg:grid-cols-10 gap-2 w-full">
+                            {queriedMuscleCards.map(({ group, exercise, isLocked }) => {
+                                const isSelected = group.id === selectedMuscle;
+                                const previewImg = exercise?.gifUrl || (exercise?.images?.length ? formatImageUrl(exercise.images[0]) : null);
+
+                                return (
+                                    <div
+                                        key={group.id}
+                                        onClick={() => handleFocusChange(group.id)}
+                                        className={`relative rounded-lg p-2 cursor-pointer transition flex items-center gap-2 min-w-0 border ${isSelected
+                                                ? 'bg-[#1a283e] border-sky-400 shadow-sm -translate-y-0.5 ring-1 ring-sky-400/40'
+                                                : isLocked
+                                                    ? 'bg-[#131d2e] border-sky-600/70'
+                                                    : 'bg-[#111a29] border-[#22324d] hover:border-slate-500'
+                                            }`}
+                                    >
+                                        <div className="w-9 h-9 rounded bg-[#090e18] overflow-hidden shrink-0 flex items-center justify-center border border-[#1e2c45] relative">
+                                            {previewImg ? (
+                                                <img
+                                                    src={previewImg}
+                                                    alt={exercise?.name || group.label}
+                                                    className="w-full h-full object-cover"
+                                                    loading="lazy"
+                                                    onError={(e) => { e.currentTarget.style.display = 'none'; }}
+                                                />
+                                            ) : (
+                                                <span className="text-xs text-sky-400 font-athletic">⚡</span>
+                                            )}
+                                            {isLocked && (
+                                                <div className="absolute inset-0 bg-[#090e18]/80 flex items-center justify-center">
+                                                    <RenderLockIcon locked={true} className="w-3 h-3 text-sky-400" />
+                                                </div>
+                                            )}
+                                        </div>
+
+                                        <div className="min-w-0 flex-1">
+                                            <div className="flex items-center justify-between gap-0.5 leading-none mb-0.5">
+                                                <span className={`text-[9px] font-athletic font-bold uppercase tracking-wider truncate ${isSelected ? 'text-sky-400' : 'text-slate-400'}`}>
+                                                    {group.label}
+                                                </span>
+                                                {isLocked && (
+                                                    <span className="text-[7px] font-athletic font-bold bg-sky-600 text-white px-1 py-0.2 rounded uppercase">
+                                                        LOCKED
+                                                    </span>
+                                                )}
+                                            </div>
+                                            <div className="text-[11px] font-athletic font-bold text-white truncate leading-tight">
+                                                {exercise ? exercise.name : 'None'}
+                                            </div>
+                                            <div className="text-[8px] text-slate-400 capitalize truncate leading-none mt-0.5">
+                                                {exercise?.equipment || 'body weight'}
+                                            </div>
+                                        </div>
+                                    </div>
+                                );
+                            })}
+                        </div>
+                    </div>
                 </div>
             </main>
+
+            {/* Mobile Fixed Bottom Nav */}
+            <div className="lg:hidden fixed bottom-0 left-0 right-0 z-40 p-2.5 bg-[#0a0e17]/95 backdrop-blur-md border-t border-[#22324d] select-none">
+                <div className="max-w-xl mx-auto grid grid-cols-12 gap-2 items-center">
+                    <button
+                        type="button"
+                        onClick={handlePrev}
+                        disabled={loading || isCurrentLocked || currentMuscleList.length <= 1}
+                        className={`col-span-5 btn-steel h-12 rounded-lg flex items-center justify-center gap-1 font-athletic font-bold text-xs ${isCurrentLocked ? 'opacity-30' : ''
+                            }`}
+                    >
+                        <span>◀</span>
+                        <span>PREV</span>
+                    </button>
+
+                    <button
+                        type="button"
+                        onClick={toggleLockCurrent}
+                        className={`col-span-2 h-12 rounded-lg flex flex-col items-center justify-center gap-0.5 border ${isCurrentLocked
+                                ? 'bg-sky-600 text-white border-sky-400'
+                                : 'bg-[#182438] text-slate-300 border-[#2b3e61]'
+                            }`}
+                    >
+                        <RenderLockIcon locked={isCurrentLocked} className="w-3.5 h-3.5" />
+                        <span className="text-[8px] font-athletic font-bold uppercase">
+                            {isCurrentLocked ? 'LOCKED' : 'LOCK'}
+                        </span>
+                    </button>
+
+                    <button
+                        type="button"
+                        onClick={handleNext}
+                        disabled={loading || isCurrentLocked || currentMuscleList.length <= 1}
+                        className={`col-span-5 btn-steel h-12 rounded-lg flex items-center justify-center gap-1 font-athletic font-bold text-xs ${isCurrentLocked ? 'opacity-30' : ''
+                            }`}
+                    >
+                        <span>NEXT</span>
+                        <span>▶</span>
+                    </button>
+                </div>
+            </div>
+
+            {/* Routine Vault Modal */}
+            {isFavoritesOpen && (
+                <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/75 backdrop-blur-sm p-3 md:p-6">
+                    <div className="steel-panel bg-[#0d1422] w-full max-w-xl overflow-hidden flex flex-col max-h-[85vh] border-[#334b73]">
+                        <div className="px-5 py-3.5 border-b border-[#22324d] flex items-center justify-between">
+                            <h3 className="text-sm font-athletic font-bold text-white uppercase tracking-wider">
+                                Saved Routines Vault
+                            </h3>
+                            <div className="flex items-center gap-2">
+                                <button
+                                    type="button"
+                                    onClick={handleAddCurrentGroup}
+                                    className="btn-action-primary px-3 py-1 text-xs font-athletic font-bold rounded"
+                                >
+                                    + Save Current
+                                </button>
+                                <button
+                                    type="button"
+                                    onClick={() => setIsFavoritesOpen(false)}
+                                    className="w-7 h-7 rounded bg-[#182438] hover:bg-[#22324d] text-slate-300 flex items-center justify-center font-bold text-sm"
+                                >
+                                    ✕
+                                </button>
+                            </div>
+                        </div>
+
+                        <div className="p-4 overflow-y-auto space-y-2.5 flex-1">
+                            {favoriteGroups.length === 0 ? (
+                                <div className="text-center py-10 text-slate-500">
+                                    <span className="text-3xl block mb-2">📋</span>
+                                    <p className="text-sm font-athletic font-bold text-slate-300 uppercase">Vault is empty</p>
+                                    <p className="text-xs text-slate-500 mt-1">
+                                        Click + in the top bar to save your current routine.
+                                    </p>
+                                </div>
+                            ) : (
+                                favoriteGroups.map((group) => {
+                                    const isEditing = editingGroupId === group.id;
+                                    return (
+                                        <div
+                                            key={group.id}
+                                            className="p-3 rounded-lg bg-[#111a29] border border-[#22324d] flex flex-col gap-2"
+                                        >
+                                            <div className="flex items-center justify-between gap-2">
+                                                {isEditing ? (
+                                                    <div className="flex items-center gap-2 flex-1">
+                                                        <input
+                                                            type="text"
+                                                            value={editingTitle}
+                                                            onChange={(e) => setEditingTitle(e.target.value)}
+                                                            className="flex-1 bg-[#090e18] border border-sky-400 rounded px-2.5 py-1 text-sm text-white focus:outline-none"
+                                                            autoFocus
+                                                        />
+                                                        <button
+                                                            onClick={(e) => handleSaveRename(group.id, e)}
+                                                            className="btn-action-primary px-2.5 py-1 text-xs font-bold rounded"
+                                                        >
+                                                            Save
+                                                        </button>
+                                                        <button
+                                                            onClick={() => setEditingGroupId(null)}
+                                                            className="px-2 py-1 text-xs text-slate-400 hover:text-white"
+                                                        >
+                                                            Cancel
+                                                        </button>
+                                                    </div>
+                                                ) : (
+                                                    <div className="flex items-center gap-2 min-w-0">
+                                                        <span className="text-sm font-athletic font-bold text-white truncate">
+                                                            {group.name}
+                                                        </span>
+                                                        <span className="text-[10px] font-mono px-1.5 py-0.5 bg-[#182438] text-sky-400 rounded border border-[#22324d]">
+                                                            #{group.serialCode}
+                                                        </span>
+                                                    </div>
+                                                )}
+
+                                                <span className="text-[10px] text-slate-500 shrink-0">
+                                                    {group.createdAt}
+                                                </span>
+                                            </div>
+
+                                            <div className="flex items-center justify-between pt-1 border-t border-[#1a283e] text-xs">
+                                                <button
+                                                    type="button"
+                                                    onClick={(e) => handleLoadGroup(group, e)}
+                                                    className="btn-action-primary px-3 py-1 text-[11px] font-athletic font-bold rounded"
+                                                >
+                                                    Load Routine
+                                                </button>
+                                                <div className="flex items-center gap-2 font-sans text-xs">
+                                                    {!isEditing && (
+                                                        <button
+                                                            type="button"
+                                                            onClick={(e) => handleStartRename(group, e)}
+                                                            className="text-slate-400 hover:text-white underline cursor-pointer"
+                                                        >
+                                                            Rename
+                                                        </button>
+                                                    )}
+                                                    <button
+                                                        type="button"
+                                                        onClick={(e) => handleDeleteGroup(group.id, e)}
+                                                        className="text-red-400 hover:text-red-300 font-semibold cursor-pointer"
+                                                    >
+                                                        Delete
+                                                    </button>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    );
+                                })
+                            )}
+                        </div>
+                    </div>
+                </div>
+            )}
 
         </div>
     );

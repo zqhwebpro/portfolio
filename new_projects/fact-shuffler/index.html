@@ -1,78 +1,392 @@
 <!-- index.html -->
 <!DOCTYPE html>
-<html lang="en" data-bs-theme="dark">
+<html lang="en">
 
 <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
-    <title>Random Findings</title>
+    <title>ZPR LLC (TM) Termalink Protocol</title>
 
-    <!-- Bootstrap 5 CSS CDN -->
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet"
-        integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
-    <!-- Bootstrap Icons CDN -->
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
-
-    <!-- Google Fonts -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Share+Tech+Mono&display=swap" rel="stylesheet">
 
     <style>
+        :root {
+            --term-green: #33ff66;
+            --term-green-bright: #66ff8f;
+            --term-green-dim: rgba(51, 255, 102, 0.45);
+            --term-green-subtle: rgba(51, 255, 102, 0.12);
+            --term-bg: #030a05;
+            --term-text-main: #e6ffed;
+            --term-text-dim: #8affaa;
+
+            /* Bright CRT Monitor Rail Palette */
+            --crt-rail-bg: radial-gradient(ellipse at 40% 30%, #0d3816 0%, #08240e 55%, #031407 100%);
+            --digital-note-bg: #f5fff7;
+            --digital-note-border: #000000;
+            --digital-note-ink: #051408;
+            --digital-note-sub: #16361c;
+            --digital-tape-bg: rgba(235, 255, 240, 0.95);
+            --digital-tape-border: #000000;
+        }
+
+        * {
+            box-sizing: border-box;
+            user-select: none;
+        }
+
+        html,
         body {
-            font-family: 'Inter', sans-serif;
-            background-color: #0b0f19;
-            color: #f8fafc;
+            margin: 0;
+            padding: 0;
+            width: 100vw;
+            height: 100vh;
+            overflow: hidden;
+            background-color: #000;
+            font-family: 'Share Tech Mono', monospace;
+            color: var(--term-green);
+        }
+
+        .crt-screen {
+            position: relative;
+            width: 100vw;
+            height: 100vh;
+            display: flex;
+            flex-direction: column;
+            overflow: hidden;
+            background: #000;
+            transition: filter 0.4s ease;
+        }
+
+        .uppercase-label {
+            text-transform: uppercase;
+        }
+
+        .term-btn {
+            background: rgba(3, 15, 6, 0.85);
+            color: var(--term-green-bright);
+            border: 1.5px solid var(--term-green);
+            font-family: 'Share Tech Mono', monospace;
+            cursor: pointer;
+            text-transform: uppercase;
+            letter-spacing: 0.08em;
+            transition: all 0.12s ease;
+            box-shadow: 0 0 8px var(--term-green-subtle);
+            text-shadow: 0 0 3px rgba(51, 255, 102, 0.45);
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .term-btn:hover {
+            background: var(--term-green);
+            color: #011105;
+            box-shadow: 0 0 16px var(--term-green);
+            text-shadow: none;
+        }
+
+        .term-btn:disabled {
+            opacity: 0.35;
+            cursor: not-allowed;
+            background: transparent;
+            color: var(--term-green);
+        }
+
+        /* --- PIXEL SMILEY BUTTON STYLING --- */
+        .pixel-face-btn {
+            background: transparent;
+            border: none;
+            padding: 0;
+            margin: 0;
+            cursor: pointer;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            outline: none;
+            transition: transform 0.15s cubic-bezier(0.18, 0.89, 0.32, 1.25);
+            filter: drop-shadow(0 0 8px rgba(51, 255, 102, 0.5));
+        }
+
+        .pixel-face-btn:hover {
+            transform: scale(1.15) rotate(6deg);
+            filter: drop-shadow(0 0 16px rgba(102, 255, 143, 0.9));
+        }
+
+        .pixel-face-btn:active {
+            transform: scale(0.92) rotate(-6deg);
+        }
+
+        /* --- BRIGHT CRT RAIL (LEFT) --- */
+        .archive-rail {
+            background: var(--crt-rail-bg);
+            position: relative;
+            z-index: 50;
+            border-right: 2px solid var(--term-green-bright);
+            box-shadow: inset -5px 0 25px rgba(51, 255, 102, 0.25), 0 0 15px rgba(51, 255, 102, 0.15);
+            overflow-y: auto;
+            overflow-x: hidden;
+            perspective: 1200px;
+        }
+
+        .archive-rail::before {
+            content: " ";
+            display: block;
+            position: absolute;
+            inset: 0;
+            background: linear-gradient(rgba(10, 45, 18, 0) 50%, rgba(0, 0, 0, 0.38) 50%);
+            background-size: 100% 3px;
+            pointer-events: none;
+            z-index: 10;
+        }
+
+        .archive-rail::-webkit-scrollbar {
+            width: 8px;
+        }
+
+        .archive-rail::-webkit-scrollbar-track {
+            background: #021206;
+        }
+
+        .archive-rail::-webkit-scrollbar-thumb {
+            background: var(--term-green-dim);
+            border: 1px solid var(--term-green-bright);
+        }
+
+        @keyframes cardFlyIn {
+            0% {
+                opacity: 0;
+                transform: translateY(-26px) scale(0.88);
+                filter: brightness(2);
+            }
+
+            70% {
+                transform: translateY(4px) scale(1.02);
+            }
+
+            100% {
+                opacity: 1;
+                filter: brightness(1);
+            }
+        }
+
+        .archive-clipping {
+            position: relative;
+            background: var(--digital-note-bg);
+            color: var(--digital-note-ink);
+            border: 2px solid var(--digital-note-border);
+            padding: 18px 16px 14px 16px;
+            border-radius: 2px;
+            box-shadow: 0 6px 12px rgba(0, 0, 0, 0.55), 0 0 12px rgba(51, 255, 102, 0.18);
+            cursor: pointer;
+            transform-style: preserve-3d;
+            will-change: transform, box-shadow;
+            animation: cardFlyIn 0.5s cubic-bezier(0.18, 0.89, 0.32, 1.25) backwards;
+        }
+
+        .archive-clipping:hover {
+            box-shadow: 0 18px 36px rgba(0, 0, 0, 0.8), 0 0 28px rgba(51, 255, 102, 0.6);
+            z-index: 100 !important;
+        }
+
+        .archive-tape {
+            position: absolute;
+            top: -9px;
+            height: 15px;
+            background: var(--digital-tape-bg);
+            border: 1px dashed var(--digital-tape-border);
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.3);
+            pointer-events: none;
+            z-index: 20;
+        }
+
+        .archive-headline {
+            font-family: 'Share Tech Mono', monospace;
+            font-size: 0.98rem;
+            font-weight: 700;
+            line-height: 1.35;
+            color: var(--digital-note-ink);
+            margin: 4px 0 8px 0;
+            text-transform: uppercase;
+            letter-spacing: 0.04em;
+            border-bottom: 2px solid #000000;
+            padding-bottom: 6px;
+            transform: translateZ(10px);
+        }
+
+        .archive-body {
+            font-family: 'Share Tech Mono', monospace;
+            font-size: 0.88rem;
+            line-height: 1.5;
+            font-weight: 600;
+            color: var(--digital-note-sub);
+            margin: 0;
+            text-align: left;
+            display: -webkit-box;
+            -webkit-line-clamp: 5;
+            -webkit-box-orient: vertical;
+            overflow: hidden;
+            letter-spacing: -0.01em;
+            transform: translateZ(6px);
+        }
+
+        /* --- CRT MONITOR DECK (RIGHT) --- */
+        .retro-terminal-deck {
+            position: relative;
+            background: radial-gradient(ellipse at center, #07190b 0%, #030d06 70%, #000401 100%);
+            overflow-y: auto;
+        }
+
+        .retro-terminal-deck::before {
+            content: " ";
+            display: block;
+            position: absolute;
+            top: 0;
+            left: 0;
+            bottom: 0;
+            right: 0;
+            background: linear-gradient(rgba(18, 16, 16, 0) 50%, rgba(0, 0, 0, 0.28) 50%);
+            z-index: 20;
+            background-size: 100% 3px;
+            pointer-events: none;
+        }
+
+        .retro-terminal-deck::after {
+            content: " ";
+            display: block;
+            position: absolute;
+            top: 0;
+            left: 0;
+            bottom: 0;
+            right: 0;
+            background: radial-gradient(circle, transparent 75%, rgba(0, 0, 0, 0.7) 100%);
+            pointer-events: none;
+            z-index: 21;
+        }
+
+        .scan-bar {
+            width: 100%;
+            height: 90px;
+            background: linear-gradient(0deg, rgba(51, 255, 102, 0) 0%, rgba(51, 255, 102, 0.04) 50%, rgba(51, 255, 102, 0) 100%);
+            position: absolute;
+            top: -100px;
+            left: 0;
+            pointer-events: none;
+            z-index: 22;
+            animation: scanLine 9s linear infinite;
+        }
+
+        @keyframes scanLine {
+            0% {
+                top: -100px;
+            }
+
+            100% {
+                top: 105%;
+            }
+        }
+
+        .scroll-dark::-webkit-scrollbar {
+            width: 7px;
+        }
+
+        .scroll-dark::-webkit-scrollbar-track {
+            background: rgba(0, 0, 0, 0.6);
+        }
+
+        .scroll-dark::-webkit-scrollbar-thumb {
+            background: var(--term-green-dim);
+        }
+
+        .scroll-dark::-webkit-scrollbar-thumb:hover {
+            background: var(--term-green);
+        }
+
+        .dossier-animate {
+            position: relative;
+            z-index: 25;
+            animation: fadeIn 0.4s ease-out both;
+        }
+
+        .modal-backdrop {
+            position: fixed;
+            inset: 0;
+            width: 100vw;
+            height: 100vh;
+            background: rgba(1, 8, 3, 0.84);
+            backdrop-filter: blur(6px);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            z-index: 999;
+            padding: 24px;
+        }
+
+        .modal-box-crt {
+            position: relative;
+            width: 100%;
+            max-width: 680px;
+            padding: 28px 32px;
+            background: radial-gradient(ellipse at center, #08210d 0%, #030f06 70%, #010803 100%);
+            border: 1.5px solid var(--term-green-bright);
+            box-shadow: 0 0 35px rgba(51, 255, 102, 0.25), inset 0 0 20px rgba(51, 255, 102, 0.08);
+            font-family: 'Share Tech Mono', monospace;
+            color: var(--term-text-main);
+            transform-origin: center center;
+            animation: crtZoomIn 0.28s cubic-bezier(0.12, 0.9, 0.24, 1.25) forwards;
             overflow: hidden;
         }
 
-        .custom-card {
-            background-color: rgba(21, 29, 46, 0.7);
-            border: 1px solid rgba(255, 255, 255, 0.08);
-            backdrop-filter: blur(16px);
-            -webkit-backdrop-filter: blur(16px);
-            transition: border-color 0.2s ease, background-color 0.2s ease;
+        .modal-box-crt::before {
+            content: " ";
+            display: block;
+            position: absolute;
+            inset: 0;
+            background: linear-gradient(rgba(18, 16, 16, 0) 50%, rgba(0, 0, 0, 0.32) 50%);
+            background-size: 100% 3px;
+            pointer-events: none;
+            z-index: 10;
         }
 
-        .custom-card:hover {
-            border-color: rgba(255, 255, 255, 0.16);
-            background-color: rgba(255, 255, 255, 0.04);
+        @keyframes crtZoomIn {
+            0% {
+                opacity: 0;
+                transform: scale(0.04) rotateX(15deg);
+                filter: brightness(2.5);
+            }
+
+            70% {
+                transform: scale(1.03);
+                filter: brightness(1.2);
+            }
+
+            100% {
+                opacity: 1;
+                transform: scale(1) rotateX(0deg);
+                filter: brightness(1);
+            }
         }
 
-        .custom-scroll::-webkit-scrollbar {
-            width: 6px;
-        }
+        @keyframes fadeIn {
+            from {
+                opacity: 0;
+            }
 
-        .custom-scroll::-webkit-scrollbar-track {
-            background: transparent;
-        }
-
-        .custom-scroll::-webkit-scrollbar-thumb {
-            background: rgba(255, 255, 255, 0.12);
-            border-radius: 9999px;
-        }
-
-        .custom-scroll::-webkit-scrollbar-thumb:hover {
-            background: rgba(255, 255, 255, 0.25);
+            to {
+                opacity: 1;
+            }
         }
     </style>
 
-    <!-- React & Babel CDNs -->
     <script src="https://unpkg.com/react@18/umd/react.production.min.js" crossorigin></script>
     <script src="https://unpkg.com/react-dom@18/umd/react-dom.production.min.js" crossorigin></script>
     <script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
-    <!-- Bootstrap JS Bundle -->
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"
-        integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz"
-        crossorigin="anonymous"></script>
 </head>
 
-<body class="p-2 p-md-3 vh-100 vw-100 d-flex flex-column">
-    <div id="root"
-        class="h-100 w-100 rounded-4 overflow-hidden border border-secondary border-opacity-25 shadow-lg d-flex flex-column"
-        style="background-color: #0e1424;"></div>
-    <script type="text/babel" src="./App.js"></script>
-    <script type="text/babel" src="./index.js"></script>
+<body>
+    <div id="root"></div>
+    <script type="text/babel" src="./App.js?v=5.000"></script>
+    <script type="text/babel" src="./index.js?v=5.000"></script>
 </body>
 
 </html>

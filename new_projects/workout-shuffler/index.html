@@ -4,8 +4,18 @@
 
 <head>
     <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
-    <title>Workout Shuffler - Movement Engine</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0" />
+
+    <title>WO Randomizer - Athletic Routine Engine</title>
+    <meta name="description"
+        content="Intelligent athletic workout generator with form cues, motion feed, and exercise tutorials." />
+
+    <!-- Google Fonts: Inter & Barlow Condensed (Modern Athletic Pro Feel) -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link
+        href="https://fonts.googleapis.com/css2?family=Barlow+Condensed:ital,wght@0,600;0,700;0,800;1,700&family=Inter:wght@400;500;600;700&display=swap"
+        rel="stylesheet">
 
     <!-- Tailwind CSS -->
     <script src="https://cdn.tailwindcss.com"></script>
@@ -14,15 +24,18 @@
             theme: {
                 extend: {
                     fontFamily: {
-                        heading: ['Impact', 'Trebuchet MS', '-apple-system', 'BlinkMacSystemFont', 'sans-serif'],
-                        body: ['-apple-system', 'BlinkMacSystemFont', 'Segoe UI', 'Roboto', 'Helvetica Neue', 'Arial', 'sans-serif'],
+                        athletic: ['"Barlow Condensed"', 'sans-serif'],
+                        sans: ['Inter', '-apple-system', 'sans-serif']
                     },
                     colors: {
-                        'neon-lime': '#CCFF00',
-                        'neon-red': '#FF2A2A',
-                        'raw-black': '#09090B',
-                        'carbon': '#121215',
-                        'panel-dark': '#18181C'
+                        'base-dark': '#0a0e17',
+                        'card-dark': '#111827',
+                        'panel-dark': '#151f32',
+                        'panel-hover': '#1e2b45',
+                        'border-steel': '#26354f',
+                        'accent-blue': '#0284c7',
+                        'electric-sky': '#38bdf8',
+                        'glow-cyan': '#00f0ff'
                     }
                 }
             }
@@ -39,50 +52,58 @@
         body {
             margin: 0;
             padding: 0;
-            width: 100vw;
-            height: 100dvh;
-            overflow: hidden;
-            background-color: #09090B;
-            color: #F4F4F5;
-            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
+            width: 100%;
+            min-height: 100%;
+            overflow-x: hidden;
+            background-color: #0a0e17;
+            background-image:
+                radial-gradient(ellipse at 50% 0%, rgba(14, 116, 144, 0.15) 0%, transparent 60%),
+                radial-gradient(circle at 100% 100%, rgba(2, 132, 199, 0.08) 0%, transparent 50%);
+            color: #f1f5f9;
+            font-family: 'Inter', sans-serif;
         }
 
-        .bg-carbon-pattern {
-            background-color: #09090B;
-            background-image: radial-gradient(#27272A 1px, transparent 1px), radial-gradient(#27272A 1px, #09090B 1px);
-            background-size: 20px 20px;
-            background-position: 0 0, 10px 10px;
+        /* Athletic Steel Panels */
+        .steel-panel {
+            background: linear-gradient(180deg, #131d2e 0%, #0d1522 100%);
+            border: 1px solid #22324d;
+            border-top: 1px solid #334b73;
+            box-shadow: 0 4px 16px rgba(0, 0, 0, 0.4);
+            border-radius: 0.75rem;
         }
 
-        .athletic-card {
-            background: linear-gradient(180deg, rgba(24, 24, 28, 0.95) 0%, rgba(15, 15, 18, 0.98) 100%);
-            border: 1px solid rgba(255, 255, 255, 0.08);
-            box-shadow: 0 10px 25px -5px rgba(0, 0, 0, 0.8);
+        .steel-card {
+            background: #111a29;
+            border: 1px solid #22324d;
+            border-radius: 0.625rem;
         }
 
-        .athletic-card-glow {
-            border: 1px solid rgba(204, 255, 0, 0.3);
-            box-shadow: 0 0 20px rgba(204, 255, 0, 0.12);
+        /* Buttons */
+        .btn-action-primary {
+            background: linear-gradient(180deg, #0284c7 0%, #0369a1 100%);
+            color: #ffffff;
+            border: 1px solid #38bdf8;
+            box-shadow: 0 2px 8px rgba(2, 132, 199, 0.35);
+            transition: all 0.15s ease;
         }
 
-        .btn-neon {
-            background: #CCFF00;
-            color: #000;
-            font-weight: 900;
-            text-transform: uppercase;
-            letter-spacing: 0.08em;
-            box-shadow: 0 0 20px rgba(204, 255, 0, 0.35);
-            transition: all 0.2s ease;
-        }
-
-        .btn-neon:hover {
-            background: #d8ff33;
-            box-shadow: 0 0 25px rgba(204, 255, 0, 0.55);
+        .btn-action-primary:hover:not(:disabled) {
+            background: linear-gradient(180deg, #0ea5e9 0%, #0284c7 100%);
+            box-shadow: 0 0 14px rgba(56, 189, 248, 0.5);
             transform: translateY(-1px);
         }
 
-        .btn-neon:active {
-            transform: scale(0.97);
+        .btn-steel {
+            background: #162030;
+            border: 1px solid #2a3d5e;
+            color: #94a3b8;
+            transition: all 0.15s ease;
+        }
+
+        .btn-steel:hover:not(:disabled) {
+            background: #1e2c44;
+            border-color: #38bdf8;
+            color: #f1f5f9;
         }
 
         @keyframes marquee {
@@ -98,7 +119,7 @@
         .animate-marquee {
             display: inline-block;
             white-space: nowrap;
-            animation: marquee 25s linear infinite;
+            animation: marquee 30s linear infinite;
         }
 
         ::-webkit-scrollbar {
@@ -107,16 +128,16 @@
         }
 
         ::-webkit-scrollbar-track {
-            background: rgba(0, 0, 0, 0.2);
+            background: #0a0e17;
         }
 
         ::-webkit-scrollbar-thumb {
-            background: #3F3F46;
+            background: #22324d;
             border-radius: 4px;
         }
 
         ::-webkit-scrollbar-thumb:hover {
-            background: #CCFF00;
+            background: #0284c7;
         }
 
         .no-scrollbar::-webkit-scrollbar {
@@ -136,10 +157,10 @@
 </head>
 
 <body>
-    <div id="root" style="width: 100vw; height: 100dvh;"></div>
+    <div id="root"></div>
 
-    <script type="text/babel" src="./App.js?v=1461"></script>
-    <script type="text/babel" src="./index.js?v=1461"></script>
+    <script type="text/babel" src="./App.js?v=4.000"></script>
+    <script type="text/babel" src="./index.js?v=4.000"></script>
 </body>
 
 </html>
