@@ -121,10 +121,10 @@ const formatImageUrl = (relativePath) => {
     return `${EXERCISE_BASE_RAW}${encoded}`;
 };
 
-/* Angular / Clean Athletic Vector Logo */
+/* Angular / Clean Athletic Vector Logo (Upright) */
 function WoShuffleLogo({ className = "h-7 w-auto" }) {
     return (
-        <svg viewBox="0 0 540 64" className={className} fill="none" xmlns="http://www.w3.org/2000/svg">
+        <svg viewBox="0 0 500 78" className={className} fill="none" xmlns="http://www.w3.org/2000/svg">
             <defs>
                 <filter id="clean-angular-shadow" x="-10%" y="-10%" width="130%" height="130%">
                     <feDropShadow dx="2.5" dy="3" stdDeviation="0" floodColor="#0f172a" floodOpacity="0.95" />
@@ -133,13 +133,12 @@ function WoShuffleLogo({ className = "h-7 w-auto" }) {
 
             {/* Layer 1: Exterior Navy Outline & Shadow */}
             <text
-                x="270"
-                y="48"
+                x="250"
+                y="54"
                 textAnchor="middle"
                 fontFamily="'Teko', 'Rajdhani', 'Poppins', sans-serif"
-                fontSize="50"
+                fontSize="52"
                 fontWeight="700"
-                fontStyle="italic"
                 letterSpacing="0.14em"
                 fill="#0f172a"
                 stroke="#0f172a"
@@ -154,13 +153,12 @@ function WoShuffleLogo({ className = "h-7 w-auto" }) {
 
             {/* Layer 2: Deep Blue Stroke */}
             <text
-                x="270"
-                y="48"
+                x="250"
+                y="54"
                 textAnchor="middle"
                 fontFamily="'Teko', 'Rajdhani', 'Poppins', sans-serif"
-                fontSize="50"
+                fontSize="52"
                 fontWeight="700"
-                fontStyle="italic"
                 letterSpacing="0.14em"
                 fill="#1d4ed8"
                 stroke="#1d4ed8"
@@ -174,13 +172,12 @@ function WoShuffleLogo({ className = "h-7 w-auto" }) {
 
             {/* Layer 3: Crisp Gold Accent Stroke */}
             <text
-                x="270"
-                y="48"
+                x="250"
+                y="54"
                 textAnchor="middle"
                 fontFamily="'Teko', 'Rajdhani', 'Poppins', sans-serif"
-                fontSize="50"
+                fontSize="52"
                 fontWeight="700"
-                fontStyle="italic"
                 letterSpacing="0.14em"
                 fill="#ffb81c"
                 stroke="#ffb81c"
@@ -194,13 +191,12 @@ function WoShuffleLogo({ className = "h-7 w-auto" }) {
 
             {/* Layer 4: Pure White Legible Text Fill */}
             <text
-                x="270"
-                y="48"
+                x="250"
+                y="54"
                 textAnchor="middle"
                 fontFamily="'Teko', 'Rajdhani', 'Poppins', sans-serif"
-                fontSize="50"
+                fontSize="52"
                 fontWeight="700"
-                fontStyle="italic"
                 letterSpacing="0.14em"
                 fill="#ffffff"
             >
