@@ -122,9 +122,9 @@ const formatImageUrl = (relativePath) => {
 };
 
 /* Angular / Clean Athletic Vector Logo (Upright) */
-function WoShuffleLogo({ className = "h-7 w-auto" }) {
+function WoShufflerLogo({ className = "h-7 w-auto" }) {
     return (
-        <svg viewBox="0 0 500 78" className={className} fill="none" xmlns="http://www.w3.org/2000/svg">
+        <svg viewBox="0 0 540 78" className={className} fill="none" xmlns="http://www.w3.org/2000/svg">
             <defs>
                 <filter id="clean-angular-shadow" x="-10%" y="-10%" width="130%" height="130%">
                     <feDropShadow dx="2.5" dy="3" stdDeviation="0" floodColor="#0f172a" floodOpacity="0.95" />
@@ -133,13 +133,13 @@ function WoShuffleLogo({ className = "h-7 w-auto" }) {
 
             {/* Layer 1: Exterior Navy Outline & Shadow */}
             <text
-                x="250"
+                x="270"
                 y="54"
                 textAnchor="middle"
                 fontFamily="'Teko', 'Rajdhani', 'Poppins', sans-serif"
                 fontSize="52"
                 fontWeight="700"
-                letterSpacing="0.14em"
+                letterSpacing="0.12em"
                 fill="#0f172a"
                 stroke="#0f172a"
                 strokeWidth="7"
@@ -148,18 +148,18 @@ function WoShuffleLogo({ className = "h-7 w-auto" }) {
                 style={{ paintOrder: 'stroke fill' }}
                 filter="url(#clean-angular-shadow)"
             >
-                WO SHUFFLE
+                WO SHUFFLER
             </text>
 
             {/* Layer 2: Deep Blue Stroke */}
             <text
-                x="250"
+                x="270"
                 y="54"
                 textAnchor="middle"
                 fontFamily="'Teko', 'Rajdhani', 'Poppins', sans-serif"
                 fontSize="52"
                 fontWeight="700"
-                letterSpacing="0.14em"
+                letterSpacing="0.12em"
                 fill="#1d4ed8"
                 stroke="#1d4ed8"
                 strokeWidth="4.5"
@@ -167,18 +167,18 @@ function WoShuffleLogo({ className = "h-7 w-auto" }) {
                 strokeMiterlimit="3"
                 style={{ paintOrder: 'stroke fill' }}
             >
-                WO SHUFFLE
+                WO SHUFFLER
             </text>
 
             {/* Layer 3: Crisp Gold Accent Stroke */}
             <text
-                x="250"
+                x="270"
                 y="54"
                 textAnchor="middle"
                 fontFamily="'Teko', 'Rajdhani', 'Poppins', sans-serif"
                 fontSize="52"
                 fontWeight="700"
-                letterSpacing="0.14em"
+                letterSpacing="0.12em"
                 fill="#ffb81c"
                 stroke="#ffb81c"
                 strokeWidth="2"
@@ -186,25 +186,26 @@ function WoShuffleLogo({ className = "h-7 w-auto" }) {
                 strokeMiterlimit="3"
                 style={{ paintOrder: 'stroke fill' }}
             >
-                WO SHUFFLE
+                WO SHUFFLER
             </text>
 
             {/* Layer 4: Pure White Legible Text Fill */}
             <text
-                x="250"
+                x="270"
                 y="54"
                 textAnchor="middle"
                 fontFamily="'Teko', 'Rajdhani', 'Poppins', sans-serif"
                 fontSize="52"
                 fontWeight="700"
-                letterSpacing="0.14em"
+                letterSpacing="0.12em"
                 fill="#ffffff"
             >
-                WO SHUFFLE
+                WO SHUFFLER
             </text>
         </svg>
     );
 }
+const WoShuffleLogo = WoShufflerLogo;
 
 function RenderLockIcon({ locked = false, className = "w-4 h-4" }) {
     return locked ? (
@@ -784,7 +785,7 @@ function App() {
             {/* Signature Royal Blue Header Marquee with Angular Logo */}
             <header className="shrink-0 bg-pf-blue text-white px-3 md:px-4 py-1.5 flex items-center z-20 sticky top-0 w-full overflow-hidden shadow-md">
                 <div className="flex items-center mr-3 shrink-0 h-8">
-                    <WoShuffleLogo className="h-6 md:h-7 w-auto" />
+                    <WoShufflerLogo className="h-6 md:h-7 w-auto" />
                 </div>
 
                 <div className="flex-1 whitespace-nowrap overflow-hidden py-0.5 cursor-default">
