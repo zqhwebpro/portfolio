@@ -445,7 +445,7 @@ function App() {
     const [loading, setLoading] = useState(true);
     const [error, setError] = useState(null);
 
-    // Marquee speed in seconds (smaller duration = faster)
+    // Marquee speed in seconds
     const [marqueeSpeed, setMarqueeSpeed] = useState(38);
 
     const handleSpeedFaster = (e) => {
@@ -696,7 +696,7 @@ function App() {
     return (
         <div className="w-screen min-h-screen lg:h-[100dvh] flex flex-col pb-28 md:pb-32 lg:pb-0 touch-pan-y overflow-x-hidden bg-pf-canvas">
 
-            {/* Signature Royal Blue Header Marquee with speed toggles & hover-pause */}
+            {/* Signature Royal Blue Header Marquee */}
             <header className="shrink-0 bg-pf-blue text-white px-3 md:px-4 py-2 flex items-center z-20 sticky top-0 w-full overflow-hidden shadow-md">
                 <div className="flex items-center mr-4 shrink-0">
                     <span className="text-xs font-black tracking-wider text-white uppercase font-sans whitespace-nowrap">
@@ -754,27 +754,27 @@ function App() {
             {/* Main Interactive Deck */}
             <main className="flex-1 w-full max-w-full p-2.5 md:p-3.5 flex flex-col gap-2.5 overflow-y-auto lg:overflow-hidden min-h-0 touch-pan-y">
 
-                {/* Focus Bar */}
+                {/* Top White Bar: Muscle Workout / Muscle Group Options */}
                 <div className="shrink-0 pf-card px-3.5 py-2.5 flex items-center justify-between w-full max-w-full overflow-hidden">
                     <div className="flex items-center gap-2 overflow-x-auto no-scrollbar min-w-0 flex-1">
                         <span className="text-xs font-extrabold text-pf-blue uppercase tracking-wider shrink-0 select-none whitespace-nowrap pr-1">
-                            Focus:
+                            Muscle:
                         </span>
 
                         <div className="flex items-center gap-1.5 shrink-0">
-                            {WORKOUT_STYLES.map(style => {
-                                const isSelected = selectedStyle === style.id;
+                            {MUSCLE_GROUPS.map(muscle => {
+                                const isSelected = selectedMuscle === muscle.id;
                                 return (
                                     <button
-                                        key={style.id}
+                                        key={muscle.id}
                                         type="button"
-                                        onClick={() => handleStyleButtonClick(style.id)}
+                                        onClick={() => handleFocusChange(muscle.id)}
                                         className={`px-3.5 py-1.5 font-bold text-xs tracking-wide transition shrink-0 uppercase select-none rounded-full ${isSelected
                                             ? 'bg-pf-blue text-white shadow-sm'
                                             : 'bg-slate-200/70 text-pf-blackblue hover:bg-pf-blue/20'
                                             }`}
                                     >
-                                        {style.label}
+                                        {muscle.label}
                                     </button>
                                 );
                             })}
@@ -882,53 +882,85 @@ function App() {
                                     </div>
                                 </div>
 
-                                {/* Center Split */}
+                                {/* Center Split: Motion Preview & Instructional Row with skinny Focus column */}
                                 <div className="flex-1 grid grid-cols-1 md:grid-cols-12 gap-3.5 min-h-0 lg:overflow-hidden">
-                                    <div className="md:col-span-7 min-h-0 flex flex-col h-full">
+
+                                    {/* Motion Preview Feed */}
+                                    <div className="md:col-span-6 min-h-0 flex flex-col h-full">
                                         <ExerciseMotionFeed exercise={currentExercise} />
                                     </div>
 
-                                    <div className="md:col-span-5 min-h-0 flex flex-col gap-2.5 overflow-hidden">
-                                        <div className="flex-1 min-h-[220px] pf-panel p-3.5 flex flex-col overflow-hidden bg-white">
-                                            <div className="pb-2 mb-2 border-b-2 border-pf-border flex items-center justify-between shrink-0">
-                                                <span className="text-xs font-black text-pf-blue tracking-wider uppercase">
-                                                    FORM PROTOCOL & CUES
+                                    {/* Instructional Row (Skinny Focus Sidebar + Form Protocol & Cues) */}
+                                    <div className="md:col-span-6 min-h-0 flex flex-col gap-2.5 overflow-hidden">
+                                        <div className="flex-1 min-h-[220px] flex flex-row gap-2 overflow-hidden">
+
+                                            {/* Skinny Focus Column to the left of the instructions */}
+                                            <div className="w-24 sm:w-28 shrink-0 pf-panel p-2 flex flex-col bg-slate-50 border-2 border-pf-border rounded-xl overflow-hidden">
+                                                <span className="text-[10px] font-black text-pf-blue tracking-wider uppercase mb-1.5 text-center shrink-0">
+                                                    FOCUS:
                                                 </span>
+                                                <div className="flex-1 overflow-y-auto no-scrollbar flex flex-col gap-1 pr-0.5">
+                                                    {WORKOUT_STYLES.map(style => {
+                                                        const isSelected = selectedStyle === style.id;
+                                                        return (
+                                                            <button
+                                                                key={style.id}
+                                                                type="button"
+                                                                onClick={() => handleStyleButtonClick(style.id)}
+                                                                className={`w-full py-1.5 px-1 font-extrabold text-[9px] leading-tight transition shrink-0 uppercase select-none rounded-lg text-center ${isSelected
+                                                                        ? 'bg-pf-blue text-white shadow-xs'
+                                                                        : 'bg-white text-pf-blackblue border border-pf-border hover:border-pf-blue/60'
+                                                                    }`}
+                                                            >
+                                                                {style.label}
+                                                            </button>
+                                                        );
+                                                    })}
+                                                </div>
                                             </div>
-                                            <div className="flex-1 overflow-y-auto text-xs leading-relaxed text-pf-charcoal pr-1 space-y-2.5 touch-pan-y">
-                                                {Array.isArray(currentExercise.instructions) && currentExercise.instructions.length > 0 ? (
-                                                    currentExercise.instructions.map((step, idx) => (
-                                                        <div key={idx} className="flex items-start gap-2.5 p-1.5 rounded-lg bg-slate-50 border border-pf-border">
-                                                            <span className="text-[10px] font-black text-white bg-pf-blue px-2 py-0.5 rounded-full shrink-0 shadow-xs">
-                                                                {idx + 1}
-                                                            </span>
-                                                            <p className="flex-1 text-pf-charcoal text-xs leading-relaxed font-medium">{step}</p>
-                                                        </div>
-                                                    ))
-                                                ) : typeof currentExercise.instructions === 'string' && currentExercise.instructions ? (
-                                                    currentExercise.instructions.split('. ').map((step, idx) => (
-                                                        step.trim() && (
-                                                            <div key={idx} className="flex items-start gap-2.5 p-1.5 rounded-lg bg-slate-50 border border-pf-border">
-                                                                <span className="text-[10px] font-black text-white bg-pf-blue px-2 py-0.5 rounded-full shrink-0 shadow-xs">
+
+                                            {/* Form Protocol & Cues Box */}
+                                            <div className="flex-1 min-w-0 pf-panel p-3 flex flex-col overflow-hidden bg-white border-2 border-pf-border rounded-xl">
+                                                <div className="pb-2 mb-2 border-b-2 border-pf-border flex items-center justify-between shrink-0">
+                                                    <span className="text-xs font-black text-pf-blue tracking-wider uppercase">
+                                                        FORM PROTOCOL & CUES
+                                                    </span>
+                                                </div>
+                                                <div className="flex-1 overflow-y-auto text-xs leading-relaxed text-pf-charcoal pr-1 space-y-2 touch-pan-y">
+                                                    {Array.isArray(currentExercise.instructions) && currentExercise.instructions.length > 0 ? (
+                                                        currentExercise.instructions.map((step, idx) => (
+                                                            <div key={idx} className="flex items-start gap-2 p-1.5 rounded-lg bg-slate-50 border border-pf-border">
+                                                                <span className="text-[10px] font-black text-white bg-pf-blue px-1.5 py-0.2 rounded-full shrink-0 shadow-xs">
                                                                     {idx + 1}
                                                                 </span>
-                                                                <p className="flex-1 text-pf-charcoal text-xs leading-relaxed font-medium">{step.endsWith('.') ? step : `${step}.`}</p>
+                                                                <p className="flex-1 text-pf-charcoal text-[11px] leading-snug font-medium">{step}</p>
                                                             </div>
-                                                        )
-                                                    ))
-                                                ) : (
-                                                    <p className="text-pf-slate text-xs font-medium">Breathe steadily and execute smooth, controlled repetitions.</p>
-                                                )}
+                                                        ))
+                                                    ) : typeof currentExercise.instructions === 'string' && currentExercise.instructions ? (
+                                                        currentExercise.instructions.split('. ').map((step, idx) => (
+                                                            step.trim() && (
+                                                                <div key={idx} className="flex items-start gap-2 p-1.5 rounded-lg bg-slate-50 border border-pf-border">
+                                                                    <span className="text-[10px] font-black text-white bg-pf-blue px-1.5 py-0.2 rounded-full shrink-0 shadow-xs">
+                                                                        {idx + 1}
+                                                                    </span>
+                                                                    <p className="flex-1 text-pf-charcoal text-[11px] leading-snug font-medium">{step.endsWith('.') ? step : `${step}.`}</p>
+                                                                </div>
+                                                            )
+                                                        ))
+                                                    ) : (
+                                                        <p className="text-pf-slate text-xs font-medium">Breathe steadily and execute smooth, controlled repetitions.</p>
+                                                    )}
+                                                </div>
                                             </div>
                                         </div>
 
                                         {/* Desktop Action Deck */}
-                                        <div className="hidden lg:grid grid-cols-12 gap-2.5 pt-1 shrink-0 select-none items-center">
+                                        <div className="hidden lg:grid grid-cols-12 gap-2 pt-0.5 shrink-0 select-none items-center">
                                             <button
                                                 type="button"
                                                 onClick={handlePrev}
                                                 disabled={loading || isCurrentLocked || currentMuscleList.length <= 1}
-                                                className={`col-span-5 h-14 rounded-2xl flex items-center justify-center gap-2 font-black text-xs uppercase transition ${isCurrentLocked
+                                                className={`col-span-5 h-12 rounded-xl flex items-center justify-center gap-2 font-black text-xs uppercase transition ${isCurrentLocked
                                                     ? 'bg-pf-border text-pf-slate/50 cursor-not-allowed'
                                                     : 'btn-pf-blue'
                                                     }`}
@@ -941,7 +973,7 @@ function App() {
                                                 type="button"
                                                 onClick={toggleLockCurrent}
                                                 title={isCurrentLocked ? "Unlock workout" : "Lock in workout"}
-                                                className={`col-span-2 h-14 rounded-2xl flex flex-col items-center justify-center gap-0.5 cursor-pointer transition active:scale-95 border-2 ${isCurrentLocked
+                                                className={`col-span-2 h-12 rounded-xl flex flex-col items-center justify-center gap-0.5 cursor-pointer transition active:scale-95 border-2 ${isCurrentLocked
                                                     ? 'bg-pf-yellow text-pf-blackblue border-pf-yellow shadow-md'
                                                     : 'bg-white text-pf-blue border-pf-border hover:border-pf-blue'
                                                     }`}
@@ -956,7 +988,7 @@ function App() {
                                                 type="button"
                                                 onClick={handleNext}
                                                 disabled={loading || isCurrentLocked || currentMuscleList.length <= 1}
-                                                className={`col-span-5 h-14 rounded-2xl flex items-center justify-center gap-2 font-black text-xs uppercase transition ${isCurrentLocked
+                                                className={`col-span-5 h-12 rounded-xl flex items-center justify-center gap-2 font-black text-xs uppercase transition ${isCurrentLocked
                                                     ? 'bg-pf-border text-pf-slate/50 cursor-not-allowed'
                                                     : 'btn-pf-blue'
                                                     }`}
@@ -1124,7 +1156,7 @@ function App() {
                                     <span className="text-4xl block mb-2">📋</span>
                                     <p className="text-sm font-black text-pf-blackblue uppercase">No routines saved yet</p>
                                     <p className="text-xs text-pf-slate mt-1 font-medium">
-                                        Click + in the Focus bar to save your active workout deck.
+                                        Click + in the Muscle bar to save your active workout deck.
                                     </p>
                                 </div>
                             ) : (
