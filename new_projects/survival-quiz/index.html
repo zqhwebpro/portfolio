@@ -5,7 +5,7 @@
 <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
-    <title>ZPR LLC (TM) Termalink Protocol</title>
+    <title>Termalink Protocol - Survival Quiz</title>
 
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -25,10 +25,11 @@
             --crt-rail-bg: radial-gradient(ellipse at 40% 30%, #0d3816 0%, #08240e 55%, #031407 100%);
             --digital-note-bg: #f5fff7;
             --digital-note-border: #000000;
-            --digital-note-ink: #051408;
-            --digital-note-sub: #16361c;
+            --digital-note-ink: #000000;
+            --digital-note-sub: #000000;
             --digital-tape-bg: rgba(235, 255, 240, 0.95);
             --digital-tape-border: #000000;
+            --start-hue: 0deg;
         }
 
         * {
@@ -121,27 +122,53 @@
             transform: scale(0.92);
         }
 
-        /* --- DIGITAL DISTORTION & COLOR CYCLE LOOP --- */
-        @keyframes colorCycleLoop {
-            0% { filter: hue-rotate(0deg); }
-            100% { filter: hue-rotate(360deg); }
+        /* --- DIGITAL DISTORTION & CONTINUOUS SLOW PHASE COLOR CYCLE --- */
+        @keyframes slowPhaseCycle {
+            0% {
+                filter: hue-rotate(var(--start-hue, 0deg));
+            }
+            100% {
+                filter: hue-rotate(calc(var(--start-hue, 0deg) + 360deg));
+            }
         }
 
         .crt-screen.color-cycling {
-            animation: colorCycleLoop 10s linear infinite;
+            animation: slowPhaseCycle 24s linear infinite;
         }
 
-        @keyframes crtGlitch {
-            0% { transform: translate(0); }
-            20% { transform: translate(-3px, 2px) skewX(1deg); filter: hue-rotate(120deg) contrast(1.3); }
-            40% { transform: translate(3px, -2px) skewX(-1.5deg); filter: hue-rotate(240deg) brightness(1.25); }
-            60% { transform: translate(-2px, 1px) scale(1.004); }
-            80% { transform: translate(2px, -1px); }
-            100% { transform: translate(0); }
+        @keyframes digitalGlitchDistort {
+            0% {
+                transform: translate(0, 0) scale(1);
+                filter: hue-rotate(calc(var(--start-hue, 0deg) + 70deg)) contrast(1.6) brightness(1.3);
+                clip-path: inset(0 0 0 0);
+            }
+            15% {
+                transform: translate(-7px, 3px) skewX(2.5deg);
+                filter: hue-rotate(calc(var(--start-hue, 0deg) + 160deg)) contrast(2.2) brightness(1.7);
+                clip-path: polygon(0 12%, 100% 12%, 100% 36%, 0 36%, 0 62%, 100% 62%, 100% 86%, 0 86%);
+            }
+            30% {
+                transform: translate(7px, -4px) skewX(-3deg) scaleY(1.01);
+                filter: hue-rotate(calc(var(--start-hue, 0deg) + 260deg)) contrast(2.6) invert(0.12);
+                clip-path: polygon(0 0, 100% 0, 100% 100%, 0 100%);
+            }
+            50% {
+                transform: translate(-4px, 2px) skewX(1deg);
+                filter: hue-rotate(calc(var(--start-hue, 0deg) + 40deg)) contrast(1.4);
+            }
+            75% {
+                transform: translate(3px, -1px);
+                filter: contrast(1.2);
+            }
+            100% {
+                transform: translate(0, 0) scale(1);
+                filter: contrast(1);
+                clip-path: inset(0 0 0 0);
+            }
         }
 
         .glitch-active {
-            animation: crtGlitch 0.42s ease-out;
+            animation: digitalGlitchDistort 0.44s ease-out;
         }
 
         /* --- BRIGHT CRT RAIL (LEFT) --- */
@@ -200,7 +227,7 @@
         .archive-clipping {
             position: relative;
             background: var(--digital-note-bg);
-            color: var(--digital-note-ink);
+            color: #000000 !important;
             border: 2px solid var(--digital-note-border);
             padding: 18px 16px 14px 16px;
             border-radius: 2px;
@@ -230,9 +257,9 @@
         .archive-headline {
             font-family: 'Share Tech Mono', monospace;
             font-size: 0.98rem;
-            font-weight: 700;
+            font-weight: 800;
             line-height: 1.35;
-            color: var(--digital-note-ink);
+            color: #000000 !important;
             margin: 4px 0 8px 0;
             text-transform: uppercase;
             letter-spacing: 0.04em;
@@ -245,8 +272,8 @@
             font-family: 'Share Tech Mono', monospace;
             font-size: 0.88rem;
             line-height: 1.5;
-            font-weight: 600;
-            color: var(--digital-note-sub);
+            font-weight: 700;
+            color: #000000 !important;
             margin: 0;
             text-align: left;
             display: -webkit-box;
@@ -261,7 +288,7 @@
         .retro-terminal-deck {
             position: relative;
             background: radial-gradient(ellipse at center, #07190b 0%, #030d06 70%, #000401 100%);
-            overflow-y: auto;
+            overflow: hidden; /* Prevent scanline from creating any scrollbars */
         }
 
         .retro-terminal-deck::before {
@@ -296,21 +323,75 @@
             height: 90px;
             background: linear-gradient(0deg, rgba(51, 255, 102, 0) 0%, rgba(51, 255, 102, 0.04) 50%, rgba(51, 255, 102, 0) 100%);
             position: absolute;
-            top: -100px;
+            top: 0;
             left: 0;
             pointer-events: none;
             z-index: 22;
-            animation: scanLine 9s linear infinite;
+            animation: scanLine 8s linear infinite;
         }
 
         @keyframes scanLine {
             0% {
-                top: -100px;
+                transform: translateY(-100px);
             }
 
             100% {
-                top: 105%;
+                transform: translateY(100vh);
             }
+        }
+
+        /* --- 80's DIGITAL RETRO COMPUTER PAGE TRANSITION --- */
+        @keyframes retro80sPageAnim {
+            0% {
+                opacity: 0.05;
+                transform: translateY(-8px);
+                filter: brightness(2.6) contrast(1.5) drop-shadow(0 0 16px var(--term-green-bright));
+                clip-path: inset(0 0 95% 0);
+            }
+            25% {
+                opacity: 0.7;
+                clip-path: inset(0 0 60% 0);
+                filter: brightness(2.0) contrast(1.3);
+            }
+            50% {
+                opacity: 0.9;
+                clip-path: inset(0 0 25% 0);
+                filter: brightness(1.5) contrast(1.15);
+            }
+            75% {
+                opacity: 0.98;
+                clip-path: inset(0 0 0 0);
+                filter: brightness(1.15);
+                transform: translateY(0);
+            }
+            100% {
+                opacity: 1;
+                transform: translateY(0);
+                filter: brightness(1);
+                clip-path: inset(0 0 0 0);
+            }
+        }
+
+        .retro-80s-page-anim {
+            animation: retro80sPageAnim 0.34s cubic-bezier(0.1, 0.9, 0.2, 1) both;
+            position: relative;
+        }
+
+        @keyframes rasterSweepLine {
+            0% { top: 0%; opacity: 1; }
+            100% { top: 100%; opacity: 0; }
+        }
+
+        .raster-sweep-line {
+            position: absolute;
+            left: 0;
+            right: 0;
+            height: 4px;
+            background: #ffffff;
+            box-shadow: 0 0 10px #ffffff, 0 0 20px var(--term-green-bright);
+            pointer-events: none;
+            z-index: 50;
+            animation: rasterSweepLine 0.34s ease-out forwards;
         }
 
         .scroll-dark::-webkit-scrollbar {
@@ -546,8 +627,8 @@
 
 <body>
     <div id="root"></div>
-    <script type="text/babel" src="./App.js?v=5.000"></script>
-    <script type="text/babel" src="./index.js?v=5.000"></script>
+    <script type="text/babel" src="./App.js?v=6.000"></script>
+    <script type="text/babel" src="./index.js?v=6.000"></script>
 </body>
 
 </html>

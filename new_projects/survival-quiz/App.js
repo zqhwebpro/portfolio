@@ -221,6 +221,50 @@ const playSelectClick = () => {
     } catch (e) { }
 };
 
+// Retro 8-bit digital glitch audio blip
+const playGlitchSound = () => {
+    try {
+        const AudioCtx = window.AudioContext || window.webkitAudioContext;
+        const ctx = new AudioCtx();
+        if (ctx.state === 'suspended') ctx.resume();
+        const now = ctx.currentTime;
+        const osc = ctx.createOscillator();
+        const gain = ctx.createGain();
+        osc.type = 'sawtooth';
+        osc.frequency.setValueAtTime(880, now);
+        osc.frequency.linearRampToValueAtTime(140, now + 0.16);
+        gain.gain.setValueAtTime(0.18, now);
+        gain.gain.exponentialRampToValueAtTime(0.001, now + 0.16);
+        osc.connect(gain);
+        gain.connect(ctx.destination);
+        osc.start(now);
+        osc.stop(now + 0.16);
+        setTimeout(() => { try { ctx.close(); } catch (e) { } }, 250);
+    } catch (e) { }
+};
+
+// Retro 8-bit digital computer page switch beep
+const playPageTurnSound = () => {
+    try {
+        const AudioCtx = window.AudioContext || window.webkitAudioContext;
+        const ctx = new AudioCtx();
+        if (ctx.state === 'suspended') ctx.resume();
+        const now = ctx.currentTime;
+        const osc = ctx.createOscillator();
+        const gain = ctx.createGain();
+        osc.type = 'square';
+        osc.frequency.setValueAtTime(440, now);
+        osc.frequency.setValueAtTime(880, now + 0.04);
+        gain.gain.setValueAtTime(0.08, now);
+        gain.gain.exponentialRampToValueAtTime(0.001, now + 0.08);
+        osc.connect(gain);
+        gain.connect(ctx.destination);
+        osc.start(now);
+        osc.stop(now + 0.08);
+        setTimeout(() => { try { ctx.close(); } catch (e) { } }, 150);
+    } catch (e) { }
+};
+
 // Post-Apocalyptic & Civilian Survival Knowledge Corpus (36 Directives)
 const CIVILIAN_EMERGENCY_CORPUS = [
     { num: 1, headline: "[TRAUMA] ARTERIAL TOURNIQUET APPLICATION", content: "Place commercial tourniquet 2–3 inches above bleeding wound (never on a joint). Twist windlass until bright red pulsing stops completely. Record time on forehead; tissue tolerates up to two hours safely." },
@@ -739,10 +783,10 @@ function PerspectiveCard({ item, index, onSelect }) {
                 }}
             ></div>
 
-            <h2 className="archive-headline">
+            <h2 className="archive-headline" style={{ color: '#000000', margin: '4px 0 8px 0' }}>
                 {item.headline}
             </h2>
-            <p className="archive-body">
+            <p className="archive-body" style={{ color: '#000000' }}>
                 {item.content}
             </p>
         </article>
@@ -757,9 +801,12 @@ function App() {
     const [shuffleCounter, setShuffleCounter] = useState(0);
     const [lastSynthesizedTime, setLastSynthesizedTime] = useState(null);
 
-    // Visual State: Glitch & Continuous Color Cycle
+    // Visual State: Digital Distortion & Continuous Color Shift (starts from selected base hue)
+    const [baseHue, setBaseHue] = useState(0);
+    const [glitchKey, setGlitchKey] = useState(0);
     const [isGlitching, setIsGlitching] = useState(false);
-    const [isColorCycling, setIsColorCycling] = useState(false);
+    const [transitionTick, setTransitionTick] = useState(0);
+    const glitchTimeoutRef = useRef(null);
 
     // Quiz State (Default 5 facts)
     const [quizQuestions, setQuizQuestions] = useState([]);
@@ -786,12 +833,19 @@ function App() {
     };
 
     const handleSmileyClick = () => {
-        // Trigger digital distortion glitch animation
-        setIsGlitching(true);
-        setTimeout(() => setIsGlitching(false), 450);
+        // Trigger retro digital glitch sound
+        playGlitchSound();
 
-        // Toggle continuous color shift loop
-        setIsColorCycling(prev => !prev);
+        // Shift base hue angle by significant step to jump to a fresh new starting color
+        setBaseHue(prev => (prev + 75 + Math.floor(Math.random() * 110)) % 360);
+
+        // Trigger / restart digital distortion glitch animation
+        setIsGlitching(true);
+        setGlitchKey(prev => prev + 1);
+        if (glitchTimeoutRef.current) clearTimeout(glitchTimeoutRef.current);
+        glitchTimeoutRef.current = setTimeout(() => {
+            setIsGlitching(false);
+        }, 440);
     };
 
     const handleSmileyHover = () => {
@@ -874,7 +928,13 @@ function App() {
         }
     }, [handleFullShuffle]);
 
-    // Quiz Interactions
+    // Quiz Interactions with 80's Computer Transitions
+    const changeQuestionIdx = (newIdx) => {
+        playPageTurnSound();
+        setCurrentQuestionIdx(newIdx);
+        setTransitionTick(prev => prev + 1);
+    };
+
     const handleSelectOption = (qIdx, optionIdx) => {
         playSelectClick();
         setUserAnswers(prev => ({
@@ -884,8 +944,10 @@ function App() {
     };
 
     const handleRetakeQuiz = () => {
+        playPageTurnSound();
         setUserAnswers({});
         setCurrentQuestionIdx(0);
+        setTransitionTick(prev => prev + 1);
         setQuizStatus('in_progress');
         setQuizErrorDetails([]);
     };
@@ -933,7 +995,11 @@ function App() {
 
     return (
         <div
-            className={`crt-screen ${isColorCycling ? 'color-cycling' : ''} ${isGlitching ? 'glitch-active' : ''}`}
+            key={`crt-screen-${glitchKey}`}
+            className={`crt-screen color-cycling ${isGlitching ? 'glitch-active' : ''}`}
+            style={{
+                '--start-hue': `${baseHue}deg`
+            }}
         >
             {/* RETRO TOP BAR */}
             <header style={{
@@ -946,8 +1012,8 @@ function App() {
                 background: 'rgba(3, 10, 5, 0.98)'
             }}>
                 <div>
-                    <div style={{ fontSize: '1.12rem', letterSpacing: '0.12em', fontWeight: 700, color: 'var(--term-green-bright)' }}>
-                        ZPR LLC (TM) Termalink Protocol // POST-COLLAPSE SURVIVAL SIMULATOR
+                    <div style={{ fontSize: '1.18rem', letterSpacing: '0.14em', fontWeight: 800, color: 'var(--term-green-bright)' }}>
+                        TERMALINK PROTOCOL
                     </div>
                     <div className="uppercase-label" style={{ fontSize: '0.72rem', color: 'var(--term-text-dim)', marginTop: 2, letterSpacing: '0.06em' }}>
                         Civilian Bunker Training Array // Scenario #{shuffleCounter} [5 Active Modules]
@@ -1018,7 +1084,7 @@ function App() {
                 </section>
 
                 {/* RIGHT SECTION: RETRO TERMINAL DECK (TRIVIA POP QUIZ) */}
-                <section className="retro-terminal-deck scroll-dark" style={{ padding: '24px 36px', display: 'flex', flexDirection: 'column', position: 'relative' }}>
+                <section className="retro-terminal-deck" style={{ padding: '24px 36px', display: 'flex', flexDirection: 'column', position: 'relative', overflow: 'hidden' }}>
                     <div className="scan-bar"></div>
 
                     {/* Section Top Header */}
@@ -1109,17 +1175,23 @@ function App() {
 
                             {/* STATE 1: IN PROGRESS QUIZ */}
                             {quizStatus === 'in_progress' && currentQ && (
-                                <div style={{
-                                    border: '1.5px solid var(--term-green-bright)',
-                                    padding: '24px 28px',
-                                    background: 'rgba(20, 255, 87, 0.03)',
-                                    boxShadow: '0 0 25px rgba(51, 255, 102, 0.12), inset 0 0 20px rgba(51, 255, 102, 0.03)',
-                                    position: 'relative',
-                                    display: 'flex',
-                                    flexDirection: 'column',
-                                    flex: 1,
-                                    minHeight: 0
-                                }}>
+                                <div
+                                    key={`q-stage-${currentQuestionIdx}-${transitionTick}`}
+                                    className="retro-80s-page-anim"
+                                    style={{
+                                        border: '1.5px solid var(--term-green-bright)',
+                                        padding: '24px 28px',
+                                        background: 'rgba(20, 255, 87, 0.03)',
+                                        boxShadow: '0 0 25px rgba(51, 255, 102, 0.12), inset 0 0 20px rgba(51, 255, 102, 0.03)',
+                                        position: 'relative',
+                                        display: 'flex',
+                                        flexDirection: 'column',
+                                        flex: 1,
+                                        minHeight: 0
+                                    }}
+                                >
+                                    <div className="raster-sweep-line"></div>
+
                                     {/* Question Step Indicator */}
                                     <div style={{
                                         display: 'flex',
@@ -1141,7 +1213,7 @@ function App() {
                                                         key={idx}
                                                         type="button"
                                                         className={`step-dot ${isActive ? 'active' : ''} ${isAnswered ? 'answered' : ''}`}
-                                                        onClick={() => setCurrentQuestionIdx(idx)}
+                                                        onClick={() => changeQuestionIdx(idx)}
                                                         title={`Question ${idx + 1}`}
                                                     >
                                                         {idx + 1}
@@ -1217,7 +1289,7 @@ function App() {
                                                 type="button"
                                                 className="term-btn"
                                                 disabled={currentQuestionIdx === 0}
-                                                onClick={() => setCurrentQuestionIdx(prev => prev - 1)}
+                                                onClick={() => changeQuestionIdx(currentQuestionIdx - 1)}
                                                 style={{ padding: '8px 18px', fontSize: '0.84rem' }}
                                             >
                                                 ◀ Prev Stage
@@ -1228,7 +1300,7 @@ function App() {
                                                     <button
                                                         type="button"
                                                         className="term-btn"
-                                                        onClick={() => setCurrentQuestionIdx(prev => prev + 1)}
+                                                        onClick={() => changeQuestionIdx(currentQuestionIdx + 1)}
                                                         style={{ padding: '8px 22px', fontSize: '0.84rem', fontWeight: 700 }}
                                                     >
                                                         Next Stage ▶
