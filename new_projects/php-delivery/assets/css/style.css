@@ -1,0 +1,310 @@
+/* ==========================================================================
+   FORNO & GRATE // MODERN INDUSTRIAL PIZZERIA DESIGN SYSTEM
+   ========================================================================== */
+
+:root {
+  /* Palette */
+  --bg-base: #111215;
+  --bg-surface: #181A20;
+  --bg-surface-elevated: #22252E;
+  --bg-surface-hover: #2B2F3B;
+  --bg-paper: #FBF9F5;
+
+  --text-primary: #F3F4F6;
+  --text-secondary: #9CA3AF;
+  --text-muted: #6B7280;
+  --text-inverse: #111215;
+
+  /* Accents */
+  --ember-red: #D9381E;
+  --ember-red-glow: rgba(217, 56, 30, 0.25);
+  --basil-green: #1B8A5A;
+  --basil-green-glow: rgba(27, 138, 90, 0.25);
+  --honey-gold: #F5A623;
+  --honey-gold-glow: rgba(245, 166, 35, 0.2);
+  --charcoal-border: rgba(255, 255, 255, 0.08);
+  --charcoal-border-focus: rgba(255, 255, 255, 0.18);
+
+  /* Typography */
+  --font-sans: 'Plus Jakarta Sans', system-ui, -apple-system, sans-serif;
+  --font-mono: 'JetBrains Mono', monospace;
+  --font-display: 'Syne', 'Plus Jakarta Sans', sans-serif;
+
+  /* Geometry & Shadows */
+  --radius-sm: 8px;
+  --radius-md: 14px;
+  --radius-lg: 20px;
+  --radius-full: 9999px;
+  --shadow-card: 0 10px 30px -5px rgba(0, 0, 0, 0.5), 0 0 0 1px var(--charcoal-border);
+}
+
+*, *::before, *::after {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+body {
+  background-color: var(--bg-base);
+  color: var(--text-primary);
+  font-family: var(--font-sans);
+  line-height: 1.5;
+  min-height: 100vh;
+  -webkit-font-smoothing: antialiased;
+  background-image: 
+    radial-gradient(circle at 20% 10%, rgba(217, 56, 30, 0.04) 0%, transparent 40%),
+    radial-gradient(circle at 80% 80%, rgba(245, 166, 35, 0.03) 0%, transparent 40%);
+  background-attachment: fixed;
+}
+
+/* Custom Scrollbars */
+::-webkit-scrollbar {
+  width: 8px;
+  height: 8px;
+}
+::-webkit-scrollbar-track {
+  background: var(--bg-base);
+}
+::-webkit-scrollbar-thumb {
+  background: var(--bg-surface-elevated);
+  border-radius: 4px;
+}
+::-webkit-scrollbar-thumb:hover {
+  background: var(--text-muted);
+}
+
+/* Typography Utilities */
+.font-mono {
+  font-family: var(--font-mono);
+  font-feature-settings: 'tnum' on, 'zero' on;
+}
+
+.font-display {
+  font-family: var(--font-display);
+}
+
+.container {
+  width: 100%;
+  max-width: 1240px;
+  margin: 0 auto;
+  padding: 0 clamp(1rem, 3.5vw, 2.5rem);
+}
+
+/* Cards */
+.pizzeria-card {
+  background: var(--bg-surface);
+  border: 1px solid var(--charcoal-border);
+  border-radius: var(--radius-md);
+  box-shadow: var(--shadow-card);
+  position: relative;
+  transition: border-color 0.2s ease, box-shadow 0.2s ease;
+}
+
+.pizzeria-card-elevated {
+  background: var(--bg-surface-elevated);
+  border: 1px solid var(--charcoal-border);
+  border-radius: var(--radius-md);
+}
+
+/* Buttons */
+.btn-primary {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.5rem;
+  background: var(--ember-red);
+  color: #FFFFFF;
+  font-weight: 700;
+  font-size: 0.92rem;
+  padding: 0.75rem 1.4rem;
+  border-radius: var(--radius-sm);
+  border: none;
+  cursor: pointer;
+  box-shadow: 0 4px 14px var(--ember-red-glow);
+  transition: transform 0.12s ease, background 0.15s ease, box-shadow 0.15s ease;
+  text-decoration: none;
+}
+.btn-primary:hover {
+  background: #E5452B;
+  box-shadow: 0 6px 20px rgba(217, 56, 30, 0.4);
+  transform: translateY(-1px);
+}
+.btn-primary:active {
+  transform: scale(0.96);
+}
+
+.btn-secondary {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.5rem;
+  background: var(--bg-surface-elevated);
+  color: var(--text-primary);
+  font-weight: 600;
+  font-size: 0.85rem;
+  padding: 0.6rem 1.1rem;
+  border-radius: var(--radius-sm);
+  border: 1px solid var(--charcoal-border);
+  cursor: pointer;
+  transition: transform 0.12s ease, background 0.15s ease, border-color 0.15s ease;
+  text-decoration: none;
+}
+.btn-secondary:hover {
+  background: var(--bg-surface-hover);
+  border-color: var(--charcoal-border-focus);
+}
+.btn-secondary:active {
+  transform: scale(0.96);
+}
+
+.btn-outline-gold {
+  background: transparent;
+  color: var(--honey-gold);
+  border: 1px solid rgba(245, 166, 35, 0.4);
+}
+.btn-outline-gold:hover {
+  background: rgba(245, 166, 35, 0.1);
+  border-color: var(--honey-gold);
+}
+
+/* Badges */
+.badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.35rem;
+  font-family: var(--font-mono);
+  font-size: 0.72rem;
+  font-weight: 700;
+  padding: 0.25rem 0.6rem;
+  border-radius: var(--radius-full);
+  letter-spacing: 0.02em;
+  text-transform: uppercase;
+}
+
+.badge-red {
+  background: rgba(217, 56, 30, 0.15);
+  color: #FF5A43;
+  border: 1px solid rgba(217, 56, 30, 0.3);
+}
+
+.badge-green {
+  background: rgba(27, 138, 90, 0.15);
+  color: #34D399;
+  border: 1px solid rgba(27, 138, 90, 0.3);
+}
+
+.badge-gold {
+  background: rgba(245, 166, 35, 0.15);
+  color: #FBBF24;
+  border: 1px solid rgba(245, 166, 35, 0.3);
+}
+
+.badge-muted {
+  background: rgba(255, 255, 255, 0.06);
+  color: var(--text-secondary);
+  border: 1px solid var(--charcoal-border);
+}
+
+/* Animations */
+@keyframes ovenFlicker {
+  0%, 100% {
+    box-shadow: 0 0 20px rgba(217, 56, 30, 0.2), inset 0 0 15px rgba(245, 166, 35, 0.15);
+  }
+  50% {
+    box-shadow: 0 0 35px rgba(217, 56, 30, 0.45), inset 0 0 25px rgba(245, 166, 35, 0.3);
+  }
+}
+
+@keyframes pulseReady {
+  0%, 100% {
+    transform: scale(1);
+    box-shadow: 0 0 0 0 rgba(27, 138, 90, 0.5);
+  }
+  50% {
+    transform: scale(1.015);
+    box-shadow: 0 0 0 12px rgba(27, 138, 90, 0);
+  }
+}
+
+.animate-oven-active {
+  animation: ovenFlicker 3s infinite ease-in-out;
+}
+
+.animate-ready-pulse {
+  animation: pulseReady 2s infinite ease-in-out;
+}
+
+/* Two-column Dashboard Grid */
+.dashboard-grid {
+  display: grid;
+  grid-template-columns: 1.4fr 1fr;
+  gap: clamp(1.25rem, 3vw, 2.25rem);
+  align-items: start;
+}
+
+@media (max-width: 960px) {
+  .dashboard-grid {
+    grid-template-columns: 1fr;
+  }
+}
+
+/* Receipt Modal Styles */
+.modal-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: rgba(10, 11, 14, 0.8);
+  backdrop-filter: blur(8px);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 100;
+  padding: 1rem;
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity 0.2s ease;
+}
+
+.modal-overlay.active {
+  opacity: 1;
+  pointer-events: auto;
+}
+
+.receipt-paper {
+  background: #FFFFFF;
+  color: #111215;
+  width: 100%;
+  max-width: 420px;
+  border-radius: 8px;
+  padding: 2rem 1.75rem;
+  font-family: var(--font-mono);
+  box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.7);
+  position: relative;
+  max-height: 90vh;
+  overflow-y: auto;
+}
+
+.receipt-divider {
+  border-bottom: 2px dashed #D1D5DB;
+  margin: 1rem 0;
+}
+
+/* Print Stylesheet */
+@media print {
+  body * {
+    visibility: hidden;
+  }
+  .receipt-paper, .receipt-paper * {
+    visibility: visible;
+  }
+  .receipt-paper {
+    position: absolute;
+    left: 0;
+    top: 0;
+    width: 100%;
+    box-shadow: none;
+    border: none;
+  }
+}

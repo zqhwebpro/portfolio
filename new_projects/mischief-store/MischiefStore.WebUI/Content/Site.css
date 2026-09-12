@@ -1,0 +1,192 @@
+/* ==========================================================================
+   MISCHIEF & MAGIC CO. // VIBRANT CARNIVAL E-COMMERCE STYLESHEET
+   ========================================================================== */
+
+:root {
+  --carnival-purple: #4A154B;
+  --carnival-magenta: #E01E5A;
+  --magic-gold: #ECB22E;
+  --mischief-teal: #2EB67D;
+  --deep-slate: #1A1D20;
+  --surface-card: #FFFFFF;
+  --surface-bg: #F8F9FA;
+  --border-subtle: #E9ECEF;
+}
+
+body {
+  background-color: var(--surface-bg);
+  font-family: 'Plus Jakarta Sans', system-ui, -apple-system, sans-serif;
+  color: var(--deep-slate);
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+}
+
+/* Navbar */
+.navbar-mischief {
+  background: linear-gradient(135deg, var(--carnival-purple) 0%, #2E0854 100%);
+  border-bottom: 3px solid var(--magic-gold);
+  box-shadow: 0 4px 20px rgba(74, 21, 75, 0.25);
+}
+
+.brand-sparkle {
+  font-family: 'Syne', sans-serif;
+  font-weight: 900;
+  letter-spacing: -0.02em;
+  font-size: 1.5rem;
+  color: #FFFFFF !important;
+}
+
+.brand-badge {
+  background: var(--magic-gold);
+  color: #000;
+  font-size: 0.65rem;
+  font-weight: 800;
+  padding: 0.2rem 0.5rem;
+  border-radius: 20px;
+  vertical-align: middle;
+}
+
+/* Category Sidebar Pills */
+.list-group-mischief .list-group-item {
+  border: 1px solid var(--border-subtle);
+  font-weight: 600;
+  color: var(--deep-slate);
+  transition: all 0.2s ease;
+  margin-bottom: 0.35rem;
+  border-radius: 8px !important;
+}
+
+.list-group-mischief .list-group-item:hover {
+  background-color: #FFF3CD;
+  color: #856404;
+  transform: translateX(4px);
+}
+
+.list-group-mischief .list-group-item.active {
+  background: linear-gradient(135deg, var(--carnival-purple), var(--carnival-magenta));
+  border-color: transparent;
+  color: #FFFFFF;
+  box-shadow: 0 4px 12px rgba(224, 30, 90, 0.3);
+}
+
+/* Product Card */
+.product-card {
+  border: 1px solid var(--border-subtle);
+  border-radius: 12px;
+  background: #FFFFFF;
+  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.04);
+  transition: transform 0.2s ease, box-shadow 0.2s ease, border-color 0.2s ease;
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+  position: relative;
+  overflow: hidden;
+}
+
+.product-card:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 12px 25px rgba(74, 21, 75, 0.12);
+  border-color: var(--magic-gold);
+}
+
+.product-card .card-img-placeholder {
+  height: 140px;
+  background: linear-gradient(135deg, #F3E8FF, #FFE4E6);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 3rem;
+  color: var(--carnival-purple);
+}
+
+.product-price-badge {
+  background: var(--magic-gold);
+  color: #000;
+  font-weight: 900;
+  font-family: 'JetBrains Mono', monospace;
+  padding: 0.3rem 0.75rem;
+  border-radius: 20px;
+  box-shadow: 0 2px 6px rgba(0,0,0,0.1);
+}
+
+.category-tag {
+  background: #EEF2FF;
+  color: #4F46E5;
+  font-size: 0.75rem;
+  font-weight: 700;
+  padding: 0.2rem 0.5rem;
+  border-radius: 6px;
+  text-transform: uppercase;
+}
+
+/* Button & Action Styling */
+.btn-mischief-primary {
+  background: linear-gradient(135deg, var(--carnival-magenta) 0%, #C2185B 100%);
+  color: #FFFFFF;
+  font-weight: 700;
+  border: none;
+  box-shadow: 0 4px 12px rgba(224, 30, 90, 0.3);
+  transition: transform 0.12s ease, box-shadow 0.15s ease;
+}
+
+.btn-mischief-primary:hover {
+  background: linear-gradient(135deg, #E91E63 0%, #AD1457 100%);
+  color: #FFFFFF;
+  transform: translateY(-1px);
+  box-shadow: 0 6px 18px rgba(224, 30, 90, 0.45);
+}
+
+.btn-mischief-gold {
+  background: var(--magic-gold);
+  color: #111;
+  font-weight: 800;
+  border: none;
+}
+
+.btn-mischief-gold:hover {
+  background: #D9A020;
+  color: #000;
+}
+
+/* Cart Summary Floating Ribbon */
+.cart-summary-pill {
+  background: rgba(255, 255, 255, 0.15);
+  backdrop-filter: blur(8px);
+  border: 1px solid rgba(255, 255, 255, 0.25);
+  border-radius: 30px;
+  padding: 0.35rem 1rem;
+  color: #FFFFFF;
+  font-weight: 600;
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  text-decoration: none;
+}
+
+.cart-summary-pill:hover {
+  background: rgba(255, 255, 255, 0.25);
+  color: var(--magic-gold);
+}
+
+/* Pagination Customization */
+.page-link {
+  color: var(--carnival-purple);
+  border-radius: 8px !important;
+  margin: 0 3px;
+  border: 1px solid var(--border-subtle);
+}
+
+.page-item.active .page-link {
+  background: var(--carnival-purple);
+  border-color: var(--carnival-purple);
+  color: #FFFFFF;
+}
+
+/* Footer */
+footer.mischief-footer {
+  margin-top: auto;
+  background: var(--deep-slate);
+  color: #A0AEC0;
+  border-top: 3px solid var(--carnival-magenta);
+}

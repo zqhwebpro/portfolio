@@ -1,0 +1,110 @@
+@model MischiefStore.Domain.Entities.Product
+
+@{
+    ViewBag.Title = (Model.ProductID == 0 ? "Create New Prank / Magic Item" : "Edit - " + Model.Name);
+    Layout = "~/Views/Shared/_AdminLayout.cshtml";
+}
+
+<div class="row">
+    <div class="col-md-10 col-md-offset-1">
+        <div class="page-header" style="border-bottom: 2px solid var(--carnival-gold); margin-top: 10px;">
+            <h2>
+                <i class="glyphicon glyphicon-edit" style="color: var(--carnival-gold);"></i> 
+                @(Model.ProductID == 0 ? "Add New Prank / Magic Merchandise" : "Edit Merchandise: " + Model.Name)
+            </h2>
+            <p class="text-muted">Configure product specifications, pricing, categorization, and digital imagery.</p>
+        </div>
+
+        @using (Html.BeginForm("Edit", "Admin", FormMethod.Post, new { enctype = "multipart/form-data", @class = "form-horizontal", role = "form" }))
+        {
+            @Html.AntiForgeryToken()
+            @Html.HiddenFor(m => m.ProductID)
+
+            @Html.ValidationSummary(false, "Please fix the following validation errors before saving:", new { @class = "alert alert-danger" })
+
+            <div class="panel panel-default" style="border-radius: 12px; box-shadow: 0 4px 15px rgba(0,0,0,0.06); padding: 30px;">
+                
+                <div class="form-group">
+                    @Html.LabelFor(m => m.Name, new { @class = "col-sm-2 control-label" })
+                    <div class="col-sm-10">
+                        @Html.TextBoxFor(m => m.Name, new { @class = "form-control input-lg", placeholder = "e.g. Deluxe Squirting Flower 3000" })
+                        @Html.ValidationMessageFor(m => m.Name, "", new { @class = "text-danger" })
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    @Html.LabelFor(m => m.Category, new { @class = "col-sm-2 control-label" })
+                    <div class="col-sm-10">
+                        @Html.TextBoxFor(m => m.Category, new { @class = "form-control", placeholder = "e.g. Classic Gags, Office Mischief, Close-Up Magic, Stage Illusions" })
+                        @Html.ValidationMessageFor(m => m.Category, "", new { @class = "text-danger" })
+                        <span class="help-block" style="font-size: 12px;">Standard categories: <code>Classic Gags</code>, <code>Office Mischief</code>, <code>Close-Up Magic</code>, <code>Stage Illusions</code></span>
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    @Html.LabelFor(m => m.Description, new { @class = "col-sm-2 control-label" })
+                    <div class="col-sm-10">
+                        @Html.TextAreaFor(m => m.Description, new { @class = "form-control", rows = "5", placeholder = "Irreverent, entertaining, and informative product sales copy..." })
+                        @Html.ValidationMessageFor(m => m.Description, "", new { @class = "text-danger" })
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    @Html.LabelFor(m => m.Price, new { @class = "col-sm-2 control-label" })
+                    <div class="col-sm-4">
+                        <div class="input-group">
+                            <span class="input-group-addon">$</span>
+                            @Html.TextBoxFor(m => m.Price, "{0:F2}", new { @class = "form-control", placeholder = "19.99" })
+                        </div>
+                        @Html.ValidationMessageFor(m => m.Price, "", new { @class = "text-danger" })
+                    </div>
+                </div>
+
+                <hr style="margin: 30px 0;" />
+
+                <div class="form-group">
+                    <label class="col-sm-2 control-label">Product Image</label>
+                    <div class="col-sm-10">
+                        <div class="row">
+                            <div class="col-sm-4">
+                                @if (Model.ImageData != null)
+                                {
+                                    <div style="text-align: center; padding: 10px; border: 1px solid #ddd; border-radius: 8px; background: #fafafa;">
+                                        <p style="font-weight: 600; margin-bottom: 8px; font-size: 12px; color: #666;">Current Image:</p>
+                                        <img src="@Url.Action("GetImage", "Product", new { Model.ProductID })" 
+                                             alt="@Model.Name" 
+                                             class="img-responsive img-thumbnail" 
+                                             style="max-height: 140px; margin: 0 auto;" />
+                                    </div>
+                                }
+                                else
+                                {
+                                    <div style="text-align: center; padding: 30px 10px; border: 2px dashed #ddd; border-radius: 8px; background: #fafafa; color: #999;">
+                                        <i class="glyphicon glyphicon-picture" style="font-size: 32px;"></i>
+                                        <p style="margin-top: 5px; font-size: 12px;">No image uploaded yet</p>
+                                    </div>
+                                }
+                            </div>
+                            <div class="col-sm-8">
+                                <label style="font-weight: 600;">Upload New Image (JPEG, PNG, GIF, WebP):</label>
+                                <input type="file" name="image" class="form-control" style="padding-bottom: 35px;" accept="image/*" />
+                                <span class="help-block" style="font-size: 12px;">
+                                    Files are stored in the EF6 binary BLOB column or served via the <code>GetImage</code> action. Max recommended file size: 4MB.
+                                </span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="form-group" style="margin-top: 35px; margin-bottom: 0;">
+                    <div class="col-sm-offset-2 col-sm-10">
+                        <button type="submit" class="btn btn-carnival-gold btn-lg" style="padding: 12px 30px; font-weight: 700;">
+                            <i class="glyphicon glyphicon-floppy-disk"></i> Save Product
+                        </button>
+                        @Html.ActionLink("Cancel & Return to Catalog", "Index", null, new { @class = "btn btn-default btn-lg", style = "margin-left: 10px;" })
+                    </div>
+                </div>
+            </div>
+        }
+    </div>
+</div>

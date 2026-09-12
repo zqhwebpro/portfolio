@@ -1,0 +1,1926 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Mischief & Magic Co. — ASP.NET MVC 5 Architecture & Storefront</title>
+    <link href="https://fonts.googleapis.com/css2?family=Fredoka:wght@400;600;700;800&family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=Fira+Code:wght@400;500;600&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        :root {
+            --carnival-purple: #3A0CA3;
+            --carnival-purple-light: #4361EE;
+            --carnival-gold: #FF9F1C;
+            --carnival-red: #E63946;
+            --carnival-teal: #2EC4B6;
+            --bg-dark: #12121A;
+            --bg-card: #1C1C28;
+            --bg-light: #F8F9FD;
+            --text-dark: #1A1A2E;
+            --text-light: #F1F1F8;
+            --text-muted: #7E7E9A;
+            --border-color: #E2E8F0;
+            --card-shadow: 0 10px 30px -5px rgba(0, 0, 0, 0.08);
+            --carnival-shadow: 0 15px 35px -5px rgba(58, 12, 163, 0.2);
+            --radius-md: 12px;
+            --radius-lg: 18px;
+            --radius-xl: 24px;
+        }
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        body {
+            font-family: 'Plus Jakarta Sans', sans-serif;
+            background-color: var(--bg-light);
+            color: var(--text-dark);
+            line-height: 1.6;
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+        }
+
+        /* Top Enterprise Banner */
+        .arch-banner {
+            background: linear-gradient(90deg, #12121A 0%, #1e1b4b 100%);
+            color: #fff;
+            padding: 8px 24px;
+            font-size: 13px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+            position: sticky;
+            top: 0;
+            z-index: 1000;
+        }
+
+        .arch-badges {
+            display: flex;
+            gap: 8px;
+            align-items: center;
+            flex-wrap: wrap;
+        }
+
+        .badge-pill {
+            background: rgba(255, 255, 255, 0.12);
+            color: #E0E7FF;
+            padding: 3px 10px;
+            border-radius: 20px;
+            font-size: 11px;
+            font-weight: 600;
+            display: inline-flex;
+            align-items: center;
+            gap: 5px;
+            border: 1px solid rgba(255, 255, 255, 0.15);
+        }
+
+        .badge-pill.active {
+            background: var(--carnival-gold);
+            color: #000;
+            border-color: var(--carnival-gold);
+        }
+
+        .mode-nav {
+            display: flex;
+            gap: 6px;
+        }
+
+        .mode-btn {
+            background: transparent;
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            color: #fff;
+            padding: 4px 14px;
+            border-radius: 6px;
+            font-size: 12px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.2s;
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
+        }
+
+        .mode-btn:hover, .mode-btn.active {
+            background: var(--carnival-gold);
+            color: #12121A;
+            border-color: var(--carnival-gold);
+        }
+
+        /* Main Carnival Header */
+        header.store-header {
+            background: #fff;
+            border-bottom: 3px solid var(--carnival-gold);
+            padding: 18px 32px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            box-shadow: 0 4px 20px rgba(0,0,0,0.04);
+        }
+
+        .brand-box {
+            display: flex;
+            align-items: center;
+            gap: 16px;
+            cursor: pointer;
+            text-decoration: none;
+            color: inherit;
+        }
+
+        .brand-icon {
+            width: 52px;
+            height: 52px;
+            background: linear-gradient(135deg, var(--carnival-purple) 0%, var(--carnival-purple-light) 100%);
+            border-radius: 14px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 28px;
+            box-shadow: var(--carnival-shadow);
+            color: #fff;
+            transform: rotate(-4deg);
+            transition: transform 0.3s;
+        }
+
+        .brand-box:hover .brand-icon {
+            transform: rotate(6deg) scale(1.08);
+        }
+
+        .brand-title {
+            font-family: 'Fredoka', cursive;
+            font-size: 26px;
+            font-weight: 800;
+            color: var(--carnival-purple);
+            line-height: 1.1;
+        }
+
+        .brand-subtitle {
+            font-size: 12px;
+            color: var(--carnival-red);
+            font-weight: 700;
+            letter-spacing: 1px;
+            text-transform: uppercase;
+        }
+
+        .header-actions {
+            display: flex;
+            align-items: center;
+            gap: 16px;
+        }
+
+        .cart-widget-btn {
+            background: var(--carnival-purple);
+            color: #fff;
+            border: none;
+            padding: 10px 20px;
+            border-radius: 30px;
+            font-weight: 700;
+            font-size: 14px;
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            cursor: pointer;
+            box-shadow: var(--carnival-shadow);
+            transition: all 0.2s;
+        }
+
+        .cart-widget-btn:hover {
+            transform: translateY(-2px);
+            background: #2b0880;
+        }
+
+        .cart-badge {
+            background: var(--carnival-gold);
+            color: #12121A;
+            border-radius: 50%;
+            width: 24px;
+            height: 24px;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 12px;
+            font-weight: 800;
+        }
+
+        /* Container Layout */
+        .app-container {
+            max-width: 1300px;
+            margin: 0 auto;
+            padding: 30px 24px;
+            flex: 1;
+            width: 100%;
+        }
+
+        /* Hero Notice */
+        .store-hero {
+            background: linear-gradient(135deg, #3A0CA3 0%, #4361EE 50%, #7209B7 100%);
+            border-radius: var(--radius-lg);
+            padding: 30px 40px;
+            color: #fff;
+            margin-bottom: 30px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            position: relative;
+            overflow: hidden;
+            box-shadow: 0 15px 35px -10px rgba(67, 97, 238, 0.4);
+        }
+
+        .store-hero::before {
+            content: "🎪✨";
+            position: absolute;
+            right: 20px;
+            bottom: -20px;
+            font-size: 140px;
+            opacity: 0.15;
+            pointer-events: none;
+        }
+
+        .hero-text h1 {
+            font-family: 'Fredoka', cursive;
+            font-size: 32px;
+            font-weight: 800;
+            margin-bottom: 8px;
+            letter-spacing: -0.5px;
+        }
+
+        .hero-text p {
+            font-size: 15px;
+            color: #E0E7FF;
+            max-width: 680px;
+        }
+
+        /* Category Nav */
+        .category-pills {
+            display: flex;
+            gap: 10px;
+            flex-wrap: wrap;
+            margin-bottom: 25px;
+        }
+
+        .cat-pill {
+            background: #fff;
+            border: 2px solid var(--border-color);
+            padding: 10px 20px;
+            border-radius: 30px;
+            font-size: 14px;
+            font-weight: 700;
+            color: #4B5563;
+            cursor: pointer;
+            transition: all 0.2s;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .cat-pill:hover {
+            border-color: var(--carnival-purple-light);
+            color: var(--carnival-purple);
+            transform: translateY(-2px);
+        }
+
+        .cat-pill.active {
+            background: var(--carnival-purple);
+            border-color: var(--carnival-purple);
+            color: #fff;
+            box-shadow: 0 6px 15px rgba(58, 12, 163, 0.25);
+        }
+
+        /* Products Grid */
+        .product-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+            gap: 25px;
+            margin-bottom: 35px;
+        }
+
+        .product-card {
+            background: #fff;
+            border-radius: var(--radius-lg);
+            border: 1px solid #E9ECEF;
+            overflow: hidden;
+            box-shadow: var(--card-shadow);
+            transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+            display: flex;
+            flex-direction: column;
+            position: relative;
+        }
+
+        .product-card:hover {
+            transform: translateY(-6px);
+            box-shadow: 0 20px 35px -8px rgba(0, 0, 0, 0.12);
+            border-color: var(--carnival-gold);
+        }
+
+        .card-img-wrap {
+            height: 190px;
+            background: linear-gradient(135deg, #F8F9FA 0%, #EDF2F7 100%);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 72px;
+            position: relative;
+            border-bottom: 1px solid #F1F5F9;
+        }
+
+        .card-category-badge {
+            position: absolute;
+            top: 14px;
+            left: 14px;
+            background: rgba(255, 255, 255, 0.92);
+            backdrop-filter: blur(8px);
+            color: var(--carnival-purple);
+            font-size: 11px;
+            font-weight: 800;
+            padding: 4px 10px;
+            border-radius: 20px;
+            border: 1px solid rgba(58, 12, 163, 0.15);
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+
+        .card-body {
+            padding: 22px;
+            display: flex;
+            flex-direction: column;
+            flex: 1;
+        }
+
+        .card-title {
+            font-size: 18px;
+            font-weight: 800;
+            color: var(--text-dark);
+            margin-bottom: 8px;
+            line-height: 1.3;
+        }
+
+        .card-desc {
+            font-size: 13.5px;
+            color: #64748B;
+            margin-bottom: 18px;
+            flex: 1;
+            line-height: 1.5;
+        }
+
+        .card-footer {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding-top: 15px;
+            border-top: 1px dashed #E2E8F0;
+        }
+
+        .card-price {
+            font-size: 22px;
+            font-weight: 900;
+            color: var(--carnival-red);
+            font-family: 'Fredoka', cursive;
+        }
+
+        .btn-add-cart {
+            background: linear-gradient(135deg, var(--carnival-gold) 0%, #F77F00 100%);
+            color: #12121A;
+            border: none;
+            padding: 10px 16px;
+            border-radius: 10px;
+            font-weight: 800;
+            font-size: 13px;
+            cursor: pointer;
+            transition: all 0.2s;
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
+            box-shadow: 0 4px 12px rgba(255, 159, 28, 0.3);
+        }
+
+        .btn-add-cart:hover {
+            transform: scale(1.04);
+            box-shadow: 0 6px 18px rgba(255, 159, 28, 0.45);
+        }
+
+        /* Pagination Bar */
+        .pagination-container {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            gap: 8px;
+            margin-top: 20px;
+        }
+
+        .page-btn {
+            background: #fff;
+            border: 2px solid var(--border-color);
+            min-width: 42px;
+            height: 42px;
+            border-radius: 10px;
+            font-weight: 700;
+            font-size: 14px;
+            color: var(--text-dark);
+            cursor: pointer;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            transition: all 0.2s;
+        }
+
+        .page-btn:hover {
+            border-color: var(--carnival-purple-light);
+            color: var(--carnival-purple);
+        }
+
+        .page-btn.active {
+            background: var(--carnival-purple);
+            border-color: var(--carnival-purple);
+            color: #fff;
+            box-shadow: 0 4px 12px rgba(58, 12, 163, 0.25);
+        }
+
+        /* Modal & Cart Drawer */
+        .modal-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: rgba(18, 18, 26, 0.7);
+            backdrop-filter: blur(6px);
+            display: none;
+            justify-content: center;
+            align-items: center;
+            z-index: 2000;
+            padding: 20px;
+        }
+
+        .modal-overlay.open {
+            display: flex;
+        }
+
+        .modal-card {
+            background: #fff;
+            border-radius: var(--radius-xl);
+            width: 100%;
+            max-width: 760px;
+            max-height: 90vh;
+            overflow-y: auto;
+            box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.25);
+            display: flex;
+            flex-direction: column;
+            animation: modalPop 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+        }
+
+        @keyframes modalPop {
+            from { transform: scale(0.92); opacity: 0; }
+            to { transform: scale(1); opacity: 1; }
+        }
+
+        .modal-head {
+            padding: 22px 28px;
+            border-bottom: 1px solid var(--border-color);
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            background: #FAFBFC;
+            border-top-left-radius: var(--radius-xl);
+            border-top-right-radius: var(--radius-xl);
+        }
+
+        .modal-head h3 {
+            font-family: 'Fredoka', cursive;
+            font-size: 22px;
+            font-weight: 800;
+            color: var(--carnival-purple);
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .modal-close-btn {
+            background: transparent;
+            border: none;
+            font-size: 20px;
+            color: #94A3B8;
+            cursor: pointer;
+            padding: 6px;
+            border-radius: 8px;
+            transition: all 0.2s;
+        }
+
+        .modal-close-btn:hover {
+            color: var(--carnival-red);
+            background: #FEE2E2;
+        }
+
+        .modal-body {
+            padding: 28px;
+            flex: 1;
+        }
+
+        /* Cart Table */
+        .cart-table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-bottom: 24px;
+        }
+
+        .cart-table th {
+            text-align: left;
+            padding: 12px;
+            font-size: 12px;
+            text-transform: uppercase;
+            color: #64748B;
+            border-bottom: 2px solid var(--border-color);
+        }
+
+        .cart-table td {
+            padding: 14px 12px;
+            border-bottom: 1px solid #F1F5F9;
+            vertical-align: middle;
+        }
+
+        .qty-control {
+            display: inline-flex;
+            align-items: center;
+            border: 1px solid var(--border-color);
+            border-radius: 8px;
+            overflow: hidden;
+        }
+
+        .qty-btn {
+            background: #F8F9FA;
+            border: none;
+            width: 28px;
+            height: 28px;
+            cursor: pointer;
+            font-weight: 700;
+        }
+
+        .qty-btn:hover {
+            background: #E2E8F0;
+        }
+
+        .qty-val {
+            width: 34px;
+            text-align: center;
+            font-weight: 700;
+            font-size: 13px;
+        }
+
+        .cart-total-box {
+            background: #F8F9FD;
+            border-radius: var(--radius-md);
+            padding: 20px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 25px;
+            border: 1px dashed var(--carnival-gold);
+        }
+
+        /* Checkout Form Controls */
+        .form-grid {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 16px;
+            margin-bottom: 20px;
+        }
+
+        .form-group {
+            display: flex;
+            flex-direction: column;
+            gap: 6px;
+        }
+
+        .form-group.full {
+            grid-column: span 2;
+        }
+
+        .form-group label {
+            font-size: 13px;
+            font-weight: 700;
+            color: #334155;
+        }
+
+        .form-control {
+            padding: 11px 14px;
+            border: 1.5px solid var(--border-color);
+            border-radius: 8px;
+            font-size: 14px;
+            font-family: inherit;
+            transition: all 0.2s;
+        }
+
+        .form-control:focus {
+            outline: none;
+            border-color: var(--carnival-purple-light);
+            box-shadow: 0 0 0 3px rgba(67, 97, 238, 0.15);
+        }
+
+        .checkbox-group {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            cursor: pointer;
+            font-size: 14px;
+            font-weight: 600;
+            padding: 10px 14px;
+            background: #F8FAFC;
+            border-radius: 8px;
+            border: 1px solid var(--border-color);
+        }
+
+        /* Admin CRUD View */
+        .admin-view {
+            display: none;
+        }
+
+        .admin-view.active {
+            display: block;
+        }
+
+        .admin-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 24px;
+            flex-wrap: wrap;
+            gap: 15px;
+        }
+
+        .admin-table {
+            width: 100%;
+            background: #fff;
+            border-radius: var(--radius-lg);
+            overflow: hidden;
+            box-shadow: var(--card-shadow);
+            border-collapse: collapse;
+        }
+
+        .admin-table th {
+            background: #1E1B4B;
+            color: #fff;
+            padding: 16px;
+            font-size: 13px;
+            text-align: left;
+            font-weight: 700;
+        }
+
+        .admin-table td {
+            padding: 16px;
+            border-bottom: 1px solid #F1F5F9;
+            vertical-align: middle;
+            font-size: 14px;
+        }
+
+        .admin-table tr:hover {
+            background: #F8FAFC;
+        }
+
+        /* Architecture Explorer View */
+        .arch-view {
+            display: none;
+        }
+
+        .arch-view.active {
+            display: block;
+        }
+
+        .code-explorer {
+            display: grid;
+            grid-template-columns: 280px 1fr;
+            background: #1E1E2E;
+            border-radius: var(--radius-lg);
+            overflow: hidden;
+            box-shadow: 0 20px 40px rgba(0,0,0,0.25);
+            min-height: 600px;
+        }
+
+        .code-sidebar {
+            background: #181825;
+            border-right: 1px solid #313244;
+            padding: 20px 12px;
+            display: flex;
+            flex-direction: column;
+            gap: 6px;
+        }
+
+        .sidebar-heading {
+            font-size: 11px;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            color: #6C7086;
+            padding: 8px 12px 4px;
+            font-weight: 700;
+        }
+
+        .code-tab-btn {
+            background: transparent;
+            border: none;
+            color: #CDD6F4;
+            padding: 10px 14px;
+            border-radius: 8px;
+            font-size: 13px;
+            font-family: 'Fira Code', monospace;
+            text-align: left;
+            cursor: pointer;
+            transition: all 0.2s;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .code-tab-btn:hover {
+            background: #313244;
+            color: #89B4FA;
+        }
+
+        .code-tab-btn.active {
+            background: var(--carnival-purple);
+            color: #fff;
+            font-weight: 600;
+        }
+
+        .code-content {
+            padding: 24px;
+            overflow-x: auto;
+            color: #CDD6F4;
+            font-family: 'Fira Code', monospace;
+            font-size: 13.5px;
+            line-height: 1.65;
+            background: #1E1E2E;
+        }
+
+        .code-content pre {
+            margin: 0;
+            white-space: pre-wrap;
+        }
+
+        /* Toast notifications */
+        .toast {
+            position: fixed;
+            bottom: 30px;
+            right: 30px;
+            background: #1E1B4B;
+            color: #fff;
+            padding: 14px 22px;
+            border-radius: 12px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.3);
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            z-index: 3000;
+            transform: translateY(100px);
+            opacity: 0;
+            transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+            border-left: 5px solid var(--carnival-gold);
+            font-size: 14px;
+            font-weight: 600;
+        }
+
+        .toast.show {
+            transform: translateY(0);
+            opacity: 1;
+        }
+
+        /* Footer */
+        footer.store-footer {
+            background: #12121A;
+            color: #94A3B8;
+            padding: 40px 24px 25px;
+            border-top: 1px solid #1E293B;
+            margin-top: auto;
+        }
+
+        .footer-inner {
+            max-width: 1300px;
+            margin: 0 auto;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            flex-wrap: wrap;
+            gap: 20px;
+        }
+
+        /* Responsive */
+        @media (max-width: 768px) {
+            header.store-header {
+                flex-direction: column;
+                gap: 15px;
+                padding: 15px 20px;
+            }
+            .code-explorer {
+                grid-template-columns: 1fr;
+            }
+            .form-grid {
+                grid-template-columns: 1fr;
+            }
+            .form-group.full {
+                grid-column: span 1;
+            }
+        }
+    </style>
+</head>
+<body>
+
+    <!-- Top Architecture Bar -->
+    <div class="arch-banner">
+        <div class="arch-badges">
+            <span class="badge-pill active"><i class="fas fa-layer-group"></i> N-Tier C#</span>
+            <span class="badge-pill"><i class="fas fa-code"></i> ASP.NET MVC 5</span>
+            <span class="badge-pill"><i class="fas fa-database"></i> EF 6 Code-First</span>
+            <span class="badge-pill"><i class="fas fa-plug"></i> Ninject DI</span>
+            <span class="badge-pill"><i class="fas fa-cubes"></i> Custom Model Binder</span>
+        </div>
+        <div class="mode-nav">
+            <button class="mode-btn active" onclick="switchView('store')"><i class="fas fa-store"></i> Storefront</button>
+            <button class="mode-btn" onclick="switchView('admin')"><i class="fas fa-user-shield"></i> Backstage Admin</button>
+            <button class="mode-btn" onclick="switchView('arch')"><i class="fas fa-laptop-code"></i> C# Architecture</button>
+        </div>
+    </div>
+
+    <!-- Store Header -->
+    <header class="store-header">
+        <div class="brand-box" onclick="switchView('store')">
+            <div class="brand-icon">🎩</div>
+            <div>
+                <div class="brand-title">Mischief & Magic Co.</div>
+                <div class="brand-subtitle">Purveyors of Chaos & Illusion</div>
+            </div>
+        </div>
+
+        <div class="header-actions">
+            <button class="cart-widget-btn" onclick="openCartModal()">
+                <i class="fas fa-shopping-bag"></i>
+                <span>Cart of Chaos</span>
+                <span class="cart-badge" id="headerCartCount">0</span>
+                <span style="font-weight: 800; color: var(--carnival-gold);" id="headerCartTotal">$0.00</span>
+            </button>
+        </div>
+    </header>
+
+    <!-- Main Container -->
+    <main class="app-container">
+
+        <!-- ==================== VIEW 1: STOREFRONT ==================== -->
+        <div id="storeView">
+            <div class="store-hero">
+                <div class="hero-text">
+                    <h1>Ready to Deploy Maximum Mischief?</h1>
+                    <p>Welcome to our high-caliber gag & illusion armory. From shock pens and smoke bombs to professional vanishing decks, we engineer prime comedic chaos.</p>
+                </div>
+            </div>
+
+            <!-- Category Navigation -->
+            <div class="category-pills" id="categoryPills">
+                <button class="cat-pill active" onclick="filterCategory('All')">🎪 All Mischief (<span id="countAll">14</span>)</button>
+                <button class="cat-pill" onclick="filterCategory('Classic Gags')">💥 Classic Gags (<span id="countClassic">4</span>)</button>
+                <button class="cat-pill" onclick="filterCategory('Office Mischief')">📎 Office Mischief (<span id="countOffice">3</span>)</button>
+                <button class="cat-pill" onclick="filterCategory('Close-Up Magic')">🃏 Close-Up Magic (<span id="countCloseUp">4</span>)</button>
+                <button class="cat-pill" onclick="filterCategory('Stage Illusions')">🪄 Stage Illusions (<span id="countStage">3</span>)</button>
+            </div>
+
+            <!-- Products Grid -->
+            <div class="product-grid" id="productsGrid">
+                <!-- Injected dynamically via JS simulating Razor @Html.Partial("_ProductSummary") -->
+            </div>
+
+            <!-- Custom Pagination Links -->
+            <div class="pagination-container" id="paginationBar">
+                <!-- Injected dynamically simulating @Html.PageLinks -->
+            </div>
+        </div>
+
+        <!-- ==================== VIEW 2: BACKSTAGE ADMIN ==================== -->
+        <div id="adminView" class="admin-view">
+            <div class="admin-header">
+                <div>
+                    <h2 style="font-family: 'Fredoka', cursive; font-size: 28px; color: var(--carnival-purple);">
+                        <i class="fas fa-boxes"></i> Inventory & CRUD Back-Office
+                    </h2>
+                    <p style="color: var(--text-muted); font-size: 14px;">
+                        Manage product entries in Entity Framework 6 LocalDB with real-time in-memory persistence.
+                    </p>
+                </div>
+                <button class="btn-add-cart" style="padding: 12px 24px; font-size: 15px;" onclick="openNewProductModal()">
+                    <i class="fas fa-plus-circle"></i> + Create New Product
+                </button>
+            </div>
+
+            <div style="overflow-x: auto;">
+                <table class="admin-table">
+                    <thead>
+                        <tr>
+                            <th style="width: 70px;">ID</th>
+                            <th style="width: 80px;">Icon</th>
+                            <th>Product Name & Description</th>
+                            <th style="width: 170px;">Category</th>
+                            <th style="width: 120px; text-align: right;">Price</th>
+                            <th style="width: 160px; text-align: center;">Actions</th>
+                        </tr>
+                    </thead>
+                    <tbody id="adminTableBody">
+                        <!-- Populated dynamically via JS -->
+                    </tbody>
+                </table>
+            </div>
+        </div>
+
+        <!-- ==================== VIEW 3: C# ARCHITECTURE EXPLORER ==================== -->
+        <div id="archView" class="arch-view">
+            <div style="margin-bottom: 20px;">
+                <h2 style="font-family: 'Fredoka', cursive; font-size: 28px; color: var(--carnival-purple);">
+                    <i class="fas fa-cubes"></i> ASP.NET MVC 5 & Ninject Architecture Blueprints
+                </h2>
+                <p style="color: var(--text-muted); font-size: 14px;">
+                    Explore the clean N-Tier C# architecture, custom Model Binders, EF6 Code-First initializers, and Ninject Dependency Injection modules.
+                </p>
+            </div>
+
+            <div class="code-explorer">
+                <div class="code-sidebar">
+                    <div class="sidebar-heading">Domain Layer</div>
+                    <button class="code-tab-btn active" onclick="showCodeSnippet('Product')"><i class="fas fa-file-code"></i> Product.cs</button>
+                    <button class="code-tab-btn" onclick="showCodeSnippet('Cart')"><i class="fas fa-file-code"></i> Cart.cs</button>
+                    <button class="code-tab-btn" onclick="showCodeSnippet('ShippingDetails')"><i class="fas fa-file-code"></i> ShippingDetails.cs</button>
+                    <button class="code-tab-btn" onclick="showCodeSnippet('IProductRepository')"><i class="fas fa-file-code"></i> IProductRepo.cs</button>
+                    <button class="code-tab-btn" onclick="showCodeSnippet('EFProductRepository')"><i class="fas fa-file-code"></i> EFProductRepo.cs</button>
+                    <button class="code-tab-btn" onclick="showCodeSnippet('DatabaseInitializer')"><i class="fas fa-file-code"></i> Seeder.cs</button>
+
+                    <div class="sidebar-heading">WebUI Layer</div>
+                    <button class="code-tab-btn" onclick="showCodeSnippet('NinjectWebCommon')"><i class="fas fa-file-code"></i> NinjectDI.cs</button>
+                    <button class="code-tab-btn" onclick="showCodeSnippet('CartModelBinder')"><i class="fas fa-file-code"></i> CartBinder.cs</button>
+                    <button class="code-tab-btn" onclick="showCodeSnippet('PagingHelpers')"><i class="fas fa-file-code"></i> PagingHelpers.cs</button>
+                    <button class="code-tab-btn" onclick="showCodeSnippet('ProductController')"><i class="fas fa-file-code"></i> ProductCtrl.cs</button>
+                    <button class="code-tab-btn" onclick="showCodeSnippet('RouteConfig')"><i class="fas fa-file-code"></i> RouteConfig.cs</button>
+                </div>
+                <div class="code-content">
+                    <pre><code id="codeViewer"></code></pre>
+                </div>
+            </div>
+        </div>
+
+    </main>
+
+    <!-- ==================== CART MODAL ==================== -->
+    <div class="modal-overlay" id="cartModal">
+        <div class="modal-card">
+            <div class="modal-head">
+                <h3><i class="fas fa-shopping-cart" style="color: var(--carnival-red);"></i> Your Cart of Chaos</h3>
+                <button class="modal-close-btn" onclick="closeCartModal()"><i class="fas fa-times"></i></button>
+            </div>
+            <div class="modal-body" id="cartModalBody">
+                <!-- Injected dynamically -->
+            </div>
+        </div>
+    </div>
+
+    <!-- ==================== CHECKOUT MODAL ==================== -->
+    <div class="modal-overlay" id="checkoutModal">
+        <div class="modal-card" style="max-width: 680px;">
+            <div class="modal-head">
+                <h3><i class="fas fa-lock" style="color: var(--carnival-gold);"></i> Delivery Coordinates Protocol</h3>
+                <button class="modal-close-btn" onclick="closeCheckoutModal()"><i class="fas fa-times"></i></button>
+            </div>
+            <div class="modal-body">
+                <form id="checkoutForm" onsubmit="handleCheckoutSubmit(event)">
+                    <div class="form-grid">
+                        <div class="form-group full">
+                            <label>Recipient Name *</label>
+                            <input type="text" class="form-control" id="custName" required placeholder="e.g., Harry Houdini">
+                        </div>
+                        <div class="form-group full">
+                            <label>Email Address (For Dispatch Manifest) *</label>
+                            <input type="email" class="form-control" id="custEmail" required placeholder="e.g., prankster@mischief.io">
+                        </div>
+                        <div class="form-group full">
+                            <label>Street Address *</label>
+                            <input type="text" class="form-control" id="custLine1" required placeholder="123 Prank Way, Suite 404">
+                        </div>
+                        <div class="form-group">
+                            <label>City *</label>
+                            <input type="text" class="form-control" id="custCity" required placeholder="Gotham">
+                        </div>
+                        <div class="form-group">
+                            <label>State / Province *</label>
+                            <input type="text" class="form-control" id="custState" required placeholder="NY">
+                        </div>
+                        <div class="form-group">
+                            <label>Zip / Postal Code</label>
+                            <input type="text" class="form-control" id="custZip" placeholder="10001">
+                        </div>
+                        <div class="form-group">
+                            <label>Country *</label>
+                            <input type="text" class="form-control" id="custCountry" required value="United States">
+                        </div>
+                        <div class="form-group full">
+                            <label class="checkbox-group">
+                                <input type="checkbox" id="custGiftWrap" checked>
+                                <span>🎁 Disguise in decoy boring box (Gift Wrap)</span>
+                            </label>
+                        </div>
+                    </div>
+
+                    <div style="margin-top: 20px;">
+                        <button type="submit" class="btn-add-cart" style="width: 100%; justify-content: center; padding: 14px; font-size: 16px;">
+                            Abracadabra! Complete Order 🎩✨
+                        </button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+
+    <!-- ==================== ORDER CONFIRMED MODAL ==================== -->
+    <div class="modal-overlay" id="confirmedModal">
+        <div class="modal-card" style="max-width: 580px; text-align: center;">
+            <div class="modal-body" style="padding: 40px 30px;">
+                <div style="font-size: 64px; margin-bottom: 15px;">🎩✨🎉</div>
+                <h2 style="font-family: 'Fredoka', cursive; font-size: 30px; color: var(--carnival-purple); margin-bottom: 10px;">
+                    Order Confirmed!
+                </h2>
+                <p style="color: #4B5563; font-size: 15px; margin-bottom: 25px;">
+                    Our mischievous couriers have received your dispatch instructions! A mock manifest has been logged via <code>EmailOrderProcessor</code>.
+                </p>
+
+                <div style="background: #F1F5F9; border-radius: 12px; padding: 18px; text-align: left; font-family: 'Fira Code', monospace; font-size: 12px; margin-bottom: 25px; color: #334155;" id="dispatchReceipt">
+                    <!-- Injected -->
+                </div>
+
+                <button class="btn-add-cart" style="padding: 12px 30px; font-size: 15px; margin: 0 auto;" onclick="closeConfirmedModal()">
+                    Return to Prank Catalog
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <!-- ==================== ADMIN NEW / EDIT PRODUCT MODAL ==================== -->
+    <div class="modal-overlay" id="productFormModal">
+        <div class="modal-card" style="max-width: 600px;">
+            <div class="modal-head">
+                <h3 id="productFormTitle"><i class="fas fa-edit"></i> Edit Product</h3>
+                <button class="modal-close-btn" onclick="closeProductFormModal()"><i class="fas fa-times"></i></button>
+            </div>
+            <div class="modal-body">
+                <form id="adminProductForm" onsubmit="handleProductFormSubmit(event)">
+                    <input type="hidden" id="prodId" value="0">
+                    <div class="form-group" style="margin-bottom: 15px;">
+                        <label>Product Name *</label>
+                        <input type="text" class="form-control" id="prodName" required placeholder="e.g., Deluxe Squirting Flower">
+                    </div>
+                    <div class="form-group" style="margin-bottom: 15px;">
+                        <label>Category *</label>
+                        <select class="form-control" id="prodCategory">
+                            <option value="Classic Gags">Classic Gags</option>
+                            <option value="Office Mischief">Office Mischief</option>
+                            <option value="Close-Up Magic">Close-Up Magic</option>
+                            <option value="Stage Illusions">Stage Illusions</option>
+                        </select>
+                    </div>
+                    <div class="form-group" style="margin-bottom: 15px;">
+                        <label>Price ($) *</label>
+                        <input type="number" step="0.01" min="0.01" class="form-control" id="prodPrice" required placeholder="14.99">
+                    </div>
+                    <div class="form-group" style="margin-bottom: 15px;">
+                        <label>Emoji / Icon Avatar</label>
+                        <input type="text" class="form-control" id="prodEmoji" placeholder="e.g., 💨 or 🪄 or 🃏">
+                    </div>
+                    <div class="form-group" style="margin-bottom: 20px;">
+                        <label>Description *</label>
+                        <textarea class="form-control" id="prodDesc" rows="4" required placeholder="Irreverent, entertaining copy..."></textarea>
+                    </div>
+                    <button type="submit" class="btn-add-cart" style="width: 100%; justify-content: center; padding: 12px; font-size: 15px;">
+                        <i class="fas fa-save"></i> Save Product to Database
+                    </button>
+                </form>
+            </div>
+        </div>
+    </div>
+
+    <!-- Toast Component -->
+    <div class="toast" id="toast">
+        <i class="fas fa-magic" style="color: var(--carnival-gold); font-size: 18px;"></i>
+        <span id="toastMsg">Prank added to cart!</span>
+    </div>
+
+    <!-- Footer -->
+    <footer class="store-footer">
+        <div class="footer-inner">
+            <div>
+                <strong style="color: #fff; font-size: 16px;">Mischief & Magic Co.</strong>
+                <p style="font-size: 13px; margin-top: 4px;">Enterprise .NET 4.8 / ASP.NET MVC 5 Architecture Reference Implementation</p>
+            </div>
+            <div style="font-size: 13px;">
+                Built with C# 7+, EF6 Code-First, Ninject 3.3, and Custom Model Binders
+            </div>
+        </div>
+    </footer>
+
+    <!-- JavaScript Application Logic -->
+    <script>
+        // Seed Database matching DatabaseInitializer.cs
+        let products = [
+            { ProductID: 1, Name: "Acoustic Cushion of Resonant Embarrassment", Category: "Classic Gags", Price: 8.99, Emoji: "💨", Description: "Self-inflating stealth whoopee cushion with multi-frequency sonic dispersal. Guaranteed 100% awkward silence in boardroom meetings." },
+            { ProductID: 2, Name: "Shock-o-Matic 3000 Executive Ballpoint", Category: "Classic Gags", Price: 14.50, Emoji: "⚡", Description: "A polished chrome pen that delivers a harmless 12V jolt whenever a coworker attempts to steal your favorite stationery." },
+            { ProductID: 3, Name: "Billion-Dollar Fake Scratch-Off Lotteries (5-Pack)", Category: "Classic Gags", Price: 9.99, Emoji: "🎟️", Description: "Realistic gold-foil lottery tickets that inevitably reveal a $10,000,000 jackpot before tiny fine print reveals the hilarious truth." },
+            { ProductID: 4, Name: "The Inexplicable Squirting Lapel Carnation", Category: "Classic Gags", Price: 11.25, Emoji: "🌸", Description: "Vintage concealed bulb pump hidden under your blazer. Squirt pressurized water up to 15 feet across the carnival grounds." },
+            { ProductID: 5, Name: "Phantom Ultrasonic Cricket Chirper", Category: "Office Mischief", Price: 18.75, Emoji: "🦗", Description: "A micro-PCB that emits random cricket chirps every 7 to 18 minutes. Virtually impossible to triangulate in open-plan offices." },
+            { ProductID: 6, Name: "Spill-Proof Acrylic Espresso Decoy", Category: "Office Mischief", Price: 12.99, Emoji: "☕", Description: "Solid hyper-realistic spilled coffee puddle with submerged paperclip. Terrify colleagues by placing it atop their brand-new MacBooks." },
+            { ProductID: 7, Name: "Voice-Activated Coffee Machine Stickers (20pk)", Category: "Office Mischief", Price: 6.50, Emoji: "🗣️", Description: "Stick onto standard office appliances to watch colleagues shout commands like 'ESPRESSO DOUBLE SHOT PLEASE' at inanimate objects." },
+            { ProductID: 8, Name: "Bicycle Vanishing Deck (Instant Disappearance)", Category: "Close-Up Magic", Price: 19.99, Emoji: "🃏", Description: "Precision-engineered mechanical card box. Place a full 52-card deck inside, close the lid, and open it immediately empty." },
+            { ProductID: 9, Name: "Pro Soft Rubber Thumb Tip + Silk streamer", Category: "Close-Up Magic", Price: 13.50, Emoji: "🧣", Description: "The absolute cornerstone of close-up wizardry. Make crimson silk handkerchiefs vanish into thin air right before their eyes." },
+            { ProductID: 10, Name: "Pyrotechnic Nitrocellulose Flash Paper (20 Sheets)", Category: "Close-Up Magic", Price: 16.00, Emoji: "🔥", Description: "High-grade nitrocellulose sheets that ignite instantaneously with a blinding flash and zero ash or smoke residue." },
+            { ProductID: 11, Name: "Telekinetic Floating Dollar Matrix (Invisible Thread)", Category: "Close-Up Magic", Price: 22.50, Emoji: "💵", Description: "Make borrowed currency float effortlessly between your hands. Includes ultra-matte monofilament and instructional manual." },
+            { ProductID: 12, Name: "Cabinet of Inescapable Metamorphosis", Category: "Stage Illusions", Price: 899.99, Emoji: "📦", Description: "Collapsible hardwood illusion trunk allowing instant 2-second stage transpositions. Used by touring illusionists worldwide." },
+            { ProductID: 13, Name: "Suspended Animation Floating Assistant Rig", Category: "Stage Illusions", Price: 1450.00, Emoji: "🪄", Description: "Heavy-duty electromagnetic stage levitation harness tested up to 250 lbs. Full hoop-passing clearance." },
+            { ProductID: 14, Name: "Alchemist's Dragon Breath Geyser Machine", Category: "Stage Illusions", Price: 420.00, Emoji: "💨", Description: "DMX-controlled ultrasonic column fogger that blasts 20-foot illuminated smoke pillars on stage cues." }
+        ];
+
+        // State (Cart managed like ASP.NET Session + CartModelBinder)
+        let cart = {
+            lines: []
+        };
+
+        let currentCategory = "All";
+        let currentPage = 1;
+        const pageSize = 4; // Exactly as in ProductController.PageSize = 4
+
+        // Code snippets library for Architecture Explorer
+        const codeSnippets = {
+            Product: `namespace MischiefStore.Domain.Entities
+{
+    using System.ComponentModel.DataAnnotations;
+    using System.Web.Mvc;
+
+    public class Product
+    {
+        [HiddenInput(DisplayValue = false)]
+        public int ProductID { get; set; }
+
+        [Required(ErrorMessage = "Please enter a product name")]
+        [StringLength(100, MinimumLength = 3)]
+        public string Name { get; set; }
+
+        [DataType(DataType.MultilineText)]
+        [Required(ErrorMessage = "Please enter an entertaining product description")]
+        public string Description { get; set; }
+
+        [Required(ErrorMessage = "Please specify a catalog category")]
+        public string Category { get; set; }
+
+        [Required]
+        [Range(0.01, double.MaxValue, ErrorMessage = "Price must be greater than zero")]
+        public decimal Price { get; set; }
+
+        // EF6 BLOB storage for uploaded catalog images
+        public byte[] ImageData { get; set; }
+        public string ImageMimeType { get; set; }
+    }
+}`,
+            Cart: `namespace MischiefStore.Domain.Entities
+{
+    using System.Collections.Generic;
+    using System.Linq;
+
+    public class Cart
+    {
+        private List<CartLine> lineCollection = new List<CartLine>();
+
+        public IEnumerable<CartLine> Lines => lineCollection;
+
+        public void AddItem(Product product, int quantity)
+        {
+            CartLine line = lineCollection
+                .FirstOrDefault(p => p.Product.ProductID == product.ProductID);
+
+            if (line == null)
+            {
+                lineCollection.Add(new CartLine { Product = product, Quantity = quantity });
+            }
+            else
+            {
+                line.Quantity += quantity;
+            }
+        }
+
+        public void RemoveLine(Product product)
+        {
+            lineCollection.RemoveAll(l => l.Product.ProductID == product.ProductID);
+        }
+
+        public decimal ComputeTotalValue() => lineCollection.Sum(e => e.Product.Price * e.Quantity);
+
+        public void Clear() => lineCollection.Clear();
+    }
+
+    public class CartLine
+    {
+        public Product Product { get; set; }
+        public int Quantity { get; set; }
+    }
+}`,
+            ShippingDetails: `namespace MischiefStore.Domain.Entities
+{
+    using System.ComponentModel.DataAnnotations;
+
+    public class ShippingDetails
+    {
+        [Required(ErrorMessage = "Please enter your name")]
+        public string Name { get; set; }
+
+        [Required(ErrorMessage = "Please enter an email address")]
+        [DataType(DataType.EmailAddress)]
+        public string Email { get; set; }
+
+        [Required(ErrorMessage = "Please enter the first address line")]
+        [Display(Name = "Address Line 1")]
+        public string Line1 { get; set; }
+
+        public string Line2 { get; set; }
+        public string Line3 { get; set; }
+
+        [Required(ErrorMessage = "Please enter a city")]
+        public string City { get; set; }
+
+        [Required(ErrorMessage = "Please enter a state")]
+        public string State { get; set; }
+
+        public string Zip { get; set; }
+
+        [Required(ErrorMessage = "Please enter a country")]
+        public string Country { get; set; }
+
+        public bool GiftWrap { get; set; }
+    }
+}`,
+            IProductRepository: `namespace MischiefStore.Domain.Abstract
+{
+    using System.Linq;
+    using MischiefStore.Domain.Entities;
+
+    public interface IProductRepository
+    {
+        IQueryable<Product> Products { get; }
+        void SaveProduct(Product product);
+        Product DeleteProduct(int productID);
+    }
+}`,
+            EFProductRepository: `namespace MischiefStore.Domain.Concrete
+{
+    using System.Linq;
+    using MischiefStore.Domain.Abstract;
+    using MischiefStore.Domain.Entities;
+
+    public class EFProductRepository : IProductRepository
+    {
+        private EFDbContext context = new EFDbContext();
+
+        public IQueryable<Product> Products => context.Products;
+
+        public void SaveProduct(Product product)
+        {
+            if (product.ProductID == 0)
+            {
+                context.Products.Add(product);
+            }
+            else
+            {
+                Product dbEntry = context.Products.Find(product.ProductID);
+                if (dbEntry != null)
+                {
+                    dbEntry.Name = product.Name;
+                    dbEntry.Description = product.Description;
+                    dbEntry.Price = product.Price;
+                    dbEntry.Category = product.Category;
+                    if (product.ImageData != null)
+                    {
+                        dbEntry.ImageData = product.ImageData;
+                        dbEntry.ImageMimeType = product.ImageMimeType;
+                    }
+                }
+            }
+            context.SaveChanges();
+        }
+
+        public Product DeleteProduct(int productID)
+        {
+            Product dbEntry = context.Products.Find(productID);
+            if (dbEntry != null)
+            {
+                context.Products.Remove(dbEntry);
+                context.SaveChanges();
+            }
+            return dbEntry;
+        }
+    }
+}`,
+            DatabaseInitializer: `namespace MischiefStore.Domain.Concrete
+{
+    using System.Data.Entity;
+    using MischiefStore.Domain.Entities;
+
+    public class DatabaseInitializer : DropCreateDatabaseIfModelChanges<EFDbContext>
+    {
+        protected override void Seed(EFDbContext context)
+        {
+            context.Products.Add(new Product {
+                Name = "Acoustic Cushion of Resonant Embarrassment",
+                Description = "Self-inflating stealth whoopee cushion with multi-frequency dispersal.",
+                Category = "Classic Gags",
+                Price = 8.99m
+            });
+            // ... Seeds 14 initial prank & magic items across 4 categories
+            context.SaveChanges();
+        }
+    }
+}`,
+            NinjectWebCommon: `[assembly: WebActivatorEx.PreApplicationStartMethod(typeof(NinjectWebCommon), "Start")]
+
+namespace MischiefStore.WebUI.App_Start
+{
+    using Ninject;
+    using Ninject.Web.Common;
+    using MischiefStore.Domain.Abstract;
+    using MischiefStore.Domain.Concrete;
+
+    public static class NinjectWebCommon
+    {
+        private static void RegisterServices(IKernel kernel)
+        {
+            // Bind EF Repository to IProductRepository
+            kernel.Bind<IProductRepository>().To<EFProductRepository>();
+
+            // Bind SMTP Order Dispatcher
+            EmailSettings emailSettings = new EmailSettings { WriteAsFile = true };
+            kernel.Bind<IOrderProcessor>().To<EmailOrderProcessor>()
+                .WithConstructorArgument("settings", emailSettings);
+        }
+    }
+}`,
+            CartModelBinder: `namespace MischiefStore.WebUI.Infrastructure.Binders
+{
+    using System.Web.Mvc;
+    using MischiefStore.Domain.Entities;
+
+    // Registers in Global.asax.cs: ModelBinders.Binders.Add(typeof(Cart), new CartModelBinder());
+    public class CartModelBinder : IModelBinder
+    {
+        private const string sessionKey = "Cart";
+
+        public object BindModel(ControllerContext controllerContext, ModelBindingContext bindingContext)
+        {
+            Cart cart = null;
+            if (controllerContext.HttpContext.Session != null)
+            {
+                cart = (Cart)controllerContext.HttpContext.Session[sessionKey];
+            }
+
+            if (cart == null)
+            {
+                cart = new Cart();
+                if (controllerContext.HttpContext.Session != null)
+                {
+                    controllerContext.HttpContext.Session[sessionKey] = cart;
+                }
+            }
+
+            return cart;
+        }
+    }
+}`,
+            PagingHelpers: `namespace MischiefStore.WebUI.HtmlHelpers
+{
+    using System;
+    using System.Text;
+    using System.Web.Mvc;
+    using MischiefStore.WebUI.Models;
+
+    public static class PagingHelpers
+    {
+        // Invoked in Razor: @Html.PageLinks(Model.PagingInfo, x => Url.Action("List", new { page = x }))
+        public static MvcHtmlString PageLinks(this HtmlHelper html, PagingInfo pagingInfo, Func<int, string> pageUrl)
+        {
+            StringBuilder result = new StringBuilder();
+            for (int i = 1; i <= pagingInfo.TotalPages; i++)
+            {
+                TagBuilder tag = new TagBuilder("a");
+                tag.MergeAttribute("href", pageUrl(i));
+                tag.InnerHtml = i.ToString();
+                tag.AddCssClass("btn btn-default");
+                if (i == pagingInfo.CurrentPage)
+                {
+                    tag.AddCssClass("selected btn-primary");
+                }
+                result.Append(tag.ToString());
+            }
+            return MvcHtmlString.Create(result.ToString());
+        }
+    }
+}`,
+            ProductController: `namespace MischiefStore.WebUI.Controllers
+{
+    using System.Linq;
+    using System.Web.Mvc;
+    using MischiefStore.Domain.Abstract;
+    using MischiefStore.WebUI.Models;
+
+    public class ProductController : Controller
+    {
+        private IProductRepository repository;
+        public int PageSize = 4;
+
+        // Constructor Injection via Ninject
+        public ProductController(IProductRepository productRepository)
+        {
+            this.repository = productRepository;
+        }
+
+        public ViewResult List(string category, int page = 1)
+        {
+            ProductsListViewModel model = new ProductsListViewModel
+            {
+                Products = repository.Products
+                    .Where(p => category == null || p.Category == category)
+                    .OrderBy(p => p.ProductID)
+                    .Skip((page - 1) * PageSize)
+                    .Take(PageSize),
+                PagingInfo = new PagingInfo
+                {
+                    CurrentPage = page,
+                    ItemsPerPage = PageSize,
+                    TotalItems = category == null ? 
+                        repository.Products.Count() : 
+                        repository.Products.Count(e => e.Category == category)
+                },
+                CurrentCategory = category
+            };
+            return View(model);
+        }
+
+        public FileContentResult GetImage(int productID)
+        {
+            var prod = repository.Products.FirstOrDefault(p => p.ProductID == productID);
+            if (prod != null && prod.ImageData != null)
+            {
+                return File(prod.ImageData, prod.ImageMimeType);
+            }
+            return null;
+        }
+    }
+}`,
+            RouteConfig: `namespace MischiefStore.WebUI
+{
+    using System.Web.Mvc;
+    using System.Web.Routing;
+
+    public class RouteConfig
+    {
+        public static void RegisterRoutes(RouteCollection routes)
+        {
+            routes.IgnoreRoute("{resource}.axd/{*pathInfo}");
+
+            // / (Catalog Root)
+            routes.MapRoute(null, "", new { controller = "Product", action = "List", category = (string)null, page = 1 });
+
+            // /Page2
+            routes.MapRoute(null, "Page{page}", new { controller = "Product", action = "List", category = (string)null }, new { page = @"\\d+" });
+
+            // /Classic%20Gags
+            routes.MapRoute(null, "{category}", new { controller = "Product", action = "List", page = 1 });
+
+            // /Classic%20Gags/Page2
+            routes.MapRoute(null, "{category}/Page{page}", new { controller = "Product", action = "List" }, new { page = @"\\d+" });
+
+            routes.MapRoute(null, "{controller}/{action}");
+        }
+    }
+}`
+        };
+
+        // Initialize Storefront
+        function initStore() {
+            updateCategoryCounts();
+            renderCatalog();
+            updateHeaderCart();
+            showCodeSnippet('Product');
+        }
+
+        function updateCategoryCounts() {
+            document.getElementById('countAll').innerText = products.length;
+            document.getElementById('countClassic').innerText = products.filter(p => p.Category === 'Classic Gags').length;
+            document.getElementById('countOffice').innerText = products.filter(p => p.Category === 'Office Mischief').length;
+            document.getElementById('countCloseUp').innerText = products.filter(p => p.Category === 'Close-Up Magic').length;
+            document.getElementById('countStage').innerText = products.filter(p => p.Category === 'Stage Illusions').length;
+        }
+
+        function filterCategory(cat) {
+            currentCategory = cat;
+            currentPage = 1;
+            
+            // Update active button
+            const pills = document.querySelectorAll('.cat-pill');
+            pills.forEach(p => {
+                if ((cat === 'All' && p.innerText.includes('All Mischief')) || p.innerText.includes(cat)) {
+                    p.classList.add('active');
+                } else {
+                    p.classList.remove('active');
+                }
+            });
+
+            renderCatalog();
+        }
+
+        function renderCatalog() {
+            const filtered = currentCategory === 'All' ? 
+                products : 
+                products.filter(p => p.Category === currentCategory);
+
+            const totalPages = Math.ceil(filtered.length / pageSize) || 1;
+            if (currentPage > totalPages) currentPage = totalPages;
+
+            const startIndex = (currentPage - 1) * pageSize;
+            const pageItems = filtered.slice(startIndex, startIndex + pageSize);
+
+            const grid = document.getElementById('productsGrid');
+            if (pageItems.length === 0) {
+                grid.innerHTML = `<div style="grid-column: 1/-1; text-align: center; padding: 40px; color: #999;">No mischief items found in this category.</div>`;
+            } else {
+                grid.innerHTML = pageItems.map(p => `
+                    <div class="product-card">
+                        <div class="card-img-wrap">
+                            <span class="card-category-badge">${p.Category}</span>
+                            <span>${p.Emoji || '📦'}</span>
+                        </div>
+                        <div class="card-body">
+                            <h3 class="card-title">${p.Name}</h3>
+                            <p class="card-desc">${p.Description}</p>
+                            <div class="card-footer">
+                                <span class="card-price">$${p.Price.toFixed(2)}</span>
+                                <button class="btn-add-cart" onclick="addToCart(${p.ProductID})">
+                                    <i class="fas fa-cart-plus"></i> Add Prank
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                `).join('');
+            }
+
+            renderPagination(totalPages);
+        }
+
+        function renderPagination(totalPages) {
+            const bar = document.getElementById('paginationBar');
+            if (totalPages <= 1) {
+                bar.innerHTML = '';
+                return;
+            }
+
+            let html = '';
+            for (let i = 1; i <= totalPages; i++) {
+                html += `<button class="page-btn ${i === currentPage ? 'active' : ''}" onclick="goToPage(${i})">${i}</button>`;
+            }
+            bar.innerHTML = html;
+        }
+
+        function goToPage(p) {
+            currentPage = p;
+            renderCatalog();
+            window.scrollTo({ top: 120, behavior: 'smooth' });
+        }
+
+        // Cart Actions (Replicating CartController.cs)
+        function addToCart(productId) {
+            const prod = products.find(p => p.ProductID === productId);
+            if (!prod) return;
+
+            const existing = cart.lines.find(l => l.product.ProductID === productId);
+            if (existing) {
+                existing.quantity += 1;
+            } else {
+                cart.lines.push({ product: prod, quantity: 1 });
+            }
+
+            updateHeaderCart();
+            showToast(`Added "${prod.Name}" to your Cart of Chaos!`);
+        }
+
+        function updateQuantity(productId, delta) {
+            const line = cart.lines.find(l => l.product.ProductID === productId);
+            if (line) {
+                line.quantity += delta;
+                if (line.quantity <= 0) {
+                    cart.lines = cart.lines.filter(l => l.product.ProductID !== productId);
+                }
+            }
+            updateHeaderCart();
+            renderCartModal();
+        }
+
+        function removeFromCart(productId) {
+            cart.lines = cart.lines.filter(l => l.product.ProductID !== productId);
+            updateHeaderCart();
+            renderCartModal();
+            showToast("Item removed from cart.");
+        }
+
+        function updateHeaderCart() {
+            const count = cart.lines.reduce((acc, l) => acc + l.quantity, 0);
+            const total = cart.lines.reduce((acc, l) => acc + (l.product.Price * l.quantity), 0);
+
+            document.getElementById('headerCartCount').innerText = count;
+            document.getElementById('headerCartTotal').innerText = `$${total.toFixed(2)}`;
+        }
+
+        function openCartModal() {
+            renderCartModal();
+            document.getElementById('cartModal').classList.add('open');
+        }
+
+        function closeCartModal() {
+            document.getElementById('cartModal').classList.remove('open');
+        }
+
+        function renderCartModal() {
+            const body = document.getElementById('cartModalBody');
+            if (cart.lines.length === 0) {
+                body.innerHTML = `
+                    <div style="text-align: center; padding: 40px 20px;">
+                        <span style="font-size: 48px; display: block; margin-bottom: 12px;">🎩💨</span>
+                        <h4 style="font-weight: 700; color: var(--carnival-purple); margin-bottom: 6px;">Your cart vanished into thin air!</h4>
+                        <p style="color: #64748B; font-size: 14px; margin-bottom: 20px;">You have no pranks or magic supplies queued up for delivery.</p>
+                        <button class="btn-add-cart" style="margin: 0 auto;" onclick="closeCartModal()">Browse Prank Catalog</button>
+                    </div>
+                `;
+                return;
+            }
+
+            const total = cart.lines.reduce((acc, l) => acc + (l.product.Price * l.quantity), 0);
+
+            body.innerHTML = `
+                <table class="cart-table">
+                    <thead>
+                        <tr>
+                            <th>Prank / Magic Gear</th>
+                            <th style="width: 120px; text-align: center;">Qty</th>
+                            <th style="text-align: right; width: 100px;">Price</th>
+                            <th style="text-align: right; width: 100px;">Subtotal</th>
+                            <th style="text-align: center; width: 50px;"></th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        ${cart.lines.map(l => `
+                            <tr>
+                                <td>
+                                    <div style="font-weight: 700; color: var(--text-dark);">${l.product.Emoji || '📦'} ${l.product.Name}</div>
+                                    <span style="font-size: 11px; color: var(--carnival-purple); font-weight: 600;">${l.product.Category}</span>
+                                </td>
+                                <td style="text-align: center;">
+                                    <div class="qty-control">
+                                        <button class="qty-btn" onclick="updateQuantity(${l.product.ProductID}, -1)">-</button>
+                                        <span class="qty-val">${l.quantity}</span>
+                                        <button class="qty-btn" onclick="updateQuantity(${l.product.ProductID}, 1)">+</button>
+                                    </div>
+                                </td>
+                                <td style="text-align: right; font-weight: 600;">$${l.product.Price.toFixed(2)}</td>
+                                <td style="text-align: right; font-weight: 800; color: var(--carnival-red);">$${(l.product.Price * l.quantity).toFixed(2)}</td>
+                                <td style="text-align: center;">
+                                    <button onclick="removeFromCart(${l.product.ProductID})" style="background: transparent; border: none; color: #EF4444; cursor: pointer; padding: 4px;">
+                                        <i class="fas fa-trash-alt"></i>
+                                    </button>
+                                </td>
+                            </tr>
+                        `).join('')}
+                    </tbody>
+                </table>
+
+                <div class="cart-total-box">
+                    <span style="font-weight: 700; font-size: 16px;">Grand Total:</span>
+                    <span style="font-family: 'Fredoka', cursive; font-size: 24px; font-weight: 800; color: var(--carnival-red);">$${total.toFixed(2)}</span>
+                </div>
+
+                <div style="display: flex; justify-content: space-between; gap: 12px;">
+                    <button class="btn-add-cart" style="background: #F1F5F9; color: #475569; box-shadow: none;" onclick="closeCartModal()">
+                        ← Continue Shopping
+                    </button>
+                    <button class="btn-add-cart" onclick="startCheckout()">
+                        Proceed to Checkout 🎩➔
+                    </button>
+                </div>
+            `;
+        }
+
+        // Checkout Flow
+        function startCheckout() {
+            closeCartModal();
+            document.getElementById('checkoutModal').classList.add('open');
+        }
+
+        function closeCheckoutModal() {
+            document.getElementById('checkoutModal').classList.remove('open');
+        }
+
+        function handleCheckoutSubmit(e) {
+            e.preventDefault();
+            const name = document.getElementById('custName').value;
+            const email = document.getElementById('custEmail').value;
+            const line1 = document.getElementById('custLine1').value;
+            const city = document.getElementById('custCity').value;
+            const state = document.getElementById('custState').value;
+            const zip = document.getElementById('custZip').value;
+            const country = document.getElementById('custCountry').value;
+            const giftWrap = document.getElementById('custGiftWrap').checked;
+
+            const total = cart.lines.reduce((acc, l) => acc + (l.product.Price * l.quantity), 0);
+            const timestamp = new Date().toISOString();
+
+            // Mock EmailOrderProcessor Output
+            const manifest = `
+--- [MOCK DISPATCH MANIFEST - EmailOrderProcessor] ---
+Date: ${new Date().toLocaleString()}
+To: ${email}
+Subject: Mischief & Magic Co. - Order Confirmed!
+------------------------------------------------------
+Customer: ${name}
+Delivery Address:
+  ${line1}
+  ${city}, ${state} ${zip}
+  ${country}
+Stealth Decoy Packaging: ${giftWrap ? "YES (Boring decoy exterior)" : "Standard"}
+
+Payload Manifest:
+${cart.lines.map(l => `  • [x${l.quantity}] ${l.product.Name} ($${(l.product.Price * l.quantity).toFixed(2)})`).join('\n')}
+
+Order Total: $${total.toFixed(2)}
+------------------------------------------------------
+STATUS: Queued with carrier. No rabbits harmed.
+            `.trim();
+
+            document.getElementById('dispatchReceipt').innerText = manifest;
+            closeCheckoutModal();
+
+            // Clear Cart
+            cart.lines = [];
+            updateHeaderCart();
+
+            document.getElementById('confirmedModal').classList.add('open');
+        }
+
+        function closeConfirmedModal() {
+            document.getElementById('confirmedModal').classList.remove('open');
+        }
+
+        // Admin CRUD View
+        function renderAdminTable() {
+            const tbody = document.getElementById('adminTableBody');
+            tbody.innerHTML = products.map(p => `
+                <tr>
+                    <td style="font-weight: 700; color: #64748B;">#${p.ProductID}</td>
+                    <td style="font-size: 28px; text-align: center;">${p.Emoji || '📦'}</td>
+                    <td>
+                        <strong style="color: var(--carnival-purple); font-size: 15px;">${p.Name}</strong>
+                        <div style="color: #64748B; font-size: 12.5px; margin-top: 2px;">${p.Description}</div>
+                    </td>
+                    <td><span class="badge-pill" style="background: rgba(58, 12, 163, 0.1); color: var(--carnival-purple);">${p.Category}</span></td>
+                    <td style="text-align: right; font-weight: 800; color: var(--carnival-red);">$${p.Price.toFixed(2)}</td>
+                    <td style="text-align: center;">
+                        <button class="mode-btn" style="background: #3B82F6; color: #fff; border: none; padding: 4px 10px; margin-right: 4px;" onclick="openEditProductModal(${p.ProductID})">Edit</button>
+                        <button class="mode-btn" style="background: #EF4444; color: #fff; border: none; padding: 4px 10px;" onclick="deleteProduct(${p.ProductID})">Delete</button>
+                    </td>
+                </tr>
+            `).join('');
+        }
+
+        function openNewProductModal() {
+            document.getElementById('prodId').value = "0";
+            document.getElementById('productFormTitle').innerHTML = '<i class="fas fa-plus-circle"></i> Create New Product';
+            document.getElementById('prodName').value = '';
+            document.getElementById('prodCategory').value = 'Classic Gags';
+            document.getElementById('prodPrice').value = '';
+            document.getElementById('prodEmoji').value = '🎪';
+            document.getElementById('prodDesc').value = '';
+            document.getElementById('productFormModal').classList.add('open');
+        }
+
+        function openEditProductModal(id) {
+            const p = products.find(x => x.ProductID === id);
+            if (!p) return;
+
+            document.getElementById('prodId').value = p.ProductID;
+            document.getElementById('productFormTitle').innerHTML = `<i class="fas fa-edit"></i> Edit Product: ${p.Name}`;
+            document.getElementById('prodName').value = p.Name;
+            document.getElementById('prodCategory').value = p.Category;
+            document.getElementById('prodPrice').value = p.Price;
+            document.getElementById('prodEmoji').value = p.Emoji || '📦';
+            document.getElementById('prodDesc').value = p.Description;
+            document.getElementById('productFormModal').classList.add('open');
+        }
+
+        function closeProductFormModal() {
+            document.getElementById('productFormModal').classList.remove('open');
+        }
+
+        function handleProductFormSubmit(e) {
+            e.preventDefault();
+            const id = parseInt(document.getElementById('prodId').value);
+            const name = document.getElementById('prodName').value;
+            const category = document.getElementById('prodCategory').value;
+            const price = parseFloat(document.getElementById('prodPrice').value);
+            const emoji = document.getElementById('prodEmoji').value || '📦';
+            const desc = document.getElementById('prodDesc').value;
+
+            if (id === 0) {
+                const nextId = Math.max(...products.map(p => p.ProductID), 0) + 1;
+                products.unshift({
+                    ProductID: nextId,
+                    Name: name,
+                    Category: category,
+                    Price: price,
+                    Emoji: emoji,
+                    Description: desc
+                });
+                showToast(`Product "${name}" created successfully!`);
+            } else {
+                const p = products.find(x => x.ProductID === id);
+                if (p) {
+                    p.Name = name;
+                    p.Category = category;
+                    p.Price = price;
+                    p.Emoji = emoji;
+                    p.Description = desc;
+                    showToast(`Product "${name}" updated!`);
+                }
+            }
+
+            closeProductFormModal();
+            updateCategoryCounts();
+            renderCatalog();
+            renderAdminTable();
+        }
+
+        function deleteProduct(id) {
+            const p = products.find(x => x.ProductID === id);
+            if (!p) return;
+            if (confirm(`Are you sure you want to delete "${p.Name}" from the EF6 database?`)) {
+                products = products.filter(x => x.ProductID !== id);
+                updateCategoryCounts();
+                renderCatalog();
+                renderAdminTable();
+                showToast(`Deleted "${p.Name}".`);
+            }
+        }
+
+        // Architecture Code Snippets
+        function showCodeSnippet(key) {
+            const viewer = document.getElementById('codeViewer');
+            if (codeSnippets[key]) {
+                viewer.innerText = codeSnippets[key];
+            }
+
+            // Update tab styles
+            const btns = document.querySelectorAll('.code-tab-btn');
+            btns.forEach(b => {
+                if (b.innerText.toLowerCase().includes(key.toLowerCase().substring(0, 5))) {
+                    b.classList.add('active');
+                } else {
+                    b.classList.remove('active');
+                }
+            });
+        }
+
+        // View Switcher
+        function switchView(viewName) {
+            document.getElementById('storeView').style.display = viewName === 'store' ? 'block' : 'none';
+            document.getElementById('adminView').classList.toggle('active', viewName === 'admin');
+            document.getElementById('archView').classList.toggle('active', viewName === 'arch');
+
+            const modeBtns = document.querySelectorAll('.mode-btn');
+            modeBtns.forEach(b => {
+                if (b.innerText.toLowerCase().includes(viewName === 'store' ? 'store' : viewName === 'admin' ? 'admin' : 'arch')) {
+                    b.classList.add('active');
+                } else {
+                    b.classList.remove('active');
+                }
+            });
+
+            if (viewName === 'admin') {
+                renderAdminTable();
+            }
+            window.scrollTo({ top: 0, behavior: 'smooth' });
+        }
+
+        // Toast Helper
+        function showToast(msg) {
+            const toast = document.getElementById('toast');
+            document.getElementById('toastMsg').innerText = msg;
+            toast.classList.add('show');
+            setTimeout(() => {
+                toast.classList.remove('show');
+            }, 3000);
+        }
+
+        // Start app
+        document.addEventListener('DOMContentLoaded', initStore);
+    </script>
+</body>
+</html>

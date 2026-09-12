@@ -6,9 +6,9 @@
 
     --btn-purple-start: #8a2be2;
     --btn-purple-end: #e024c3;
-    --btn-purple-glow: rgba(224, 36, 195, 0.5);
+    --btn-purple-glow: rgba(224, 36, 195, 0.35);
 
-    --glass-surface: rgba(255, 255, 255, 0.035);
+    --glass-surface: rgba(18, 22, 34, 0.65);
     --glass-border: rgba(255, 255, 255, 0.12);
 
     --text-main: #f0f4f8;
@@ -25,24 +25,26 @@
     margin: 0;
     padding: 0;
     box-sizing: border-box;
+    -webkit-tap-highlight-color: transparent;
 }
 
 html,
 body {
     width: 100%;
     max-width: 100vw;
-    overflow-x: hidden !important;
+    overflow-x: hidden;
+    scroll-behavior: smooth;
 }
 
 body {
     font-family: var(--font-sans);
     background-color: var(--bg-dark);
     color: var(--text-main);
-    line-height: 1.8;
-    transition: background-color 2.5s ease-in-out, color 2.2s ease-in-out;
+    line-height: 1.7;
+    transition: background-color 0.8s ease, color 0.8s ease;
 }
 
-/* FIXED DEEP SPACE GRADIENT */
+/* FIXED BACKGROUND */
 .fixed-space-texture-bg {
     position: fixed;
     top: 0;
@@ -55,10 +57,9 @@ body {
         radial-gradient(circle at 50% 20%, rgba(14, 18, 48, 0.8) 0%, rgba(2, 3, 8, 1) 85%),
         radial-gradient(circle at 85% 75%, rgba(138, 43, 226, 0.1) 0%, transparent 50%),
         radial-gradient(circle at 15% 65%, rgba(0, 240, 255, 0.08) 0%, transparent 45%);
-    transition: opacity 1.8s ease;
+    will-change: opacity;
 }
 
-/* CONTINUOUS GRADUAL ATMOSPHERIC SUN ATMOSPHERE */
 .solar-descent-glow {
     position: fixed;
     inset: 0;
@@ -66,95 +67,77 @@ body {
     height: 100vh;
     pointer-events: none;
     z-index: 1;
-    background: radial-gradient(circle at 50% 100%, rgba(255, 150, 20, 0.4) 0%, rgba(255, 80, 0, 0.2) 50%, transparent 85%);
-    transition: opacity 1.2s ease-out;
+    background: radial-gradient(circle at 50% 100%, rgba(255, 150, 20, 0.35) 0%, rgba(255, 80, 0, 0.15) 50%, transparent 80%);
+    opacity: 0;
+    will-change: opacity;
 }
 
 .floating-brand-badge-bottom {
     position: fixed;
-    top: 2.2rem;
-    left: 2.5rem;
+    top: 2rem;
+    left: 2rem;
     z-index: 1000;
-    padding: 0.6rem 1.3rem;
-    background: rgba(12, 16, 28, 0.55);
-    backdrop-filter: blur(14px);
-    -webkit-backdrop-filter: blur(14px);
-    border: 1px solid rgba(255, 255, 255, 0.15);
+    padding: 0.55rem 1.25rem;
+    background: rgba(12, 16, 28, 0.75);
+    backdrop-filter: blur(10px);
+    -webkit-backdrop-filter: blur(10px);
+    border: 1px solid rgba(255, 255, 255, 0.18);
     color: var(--text-sub);
     border-radius: 100px;
     font-size: 0.85rem;
     font-weight: 500;
     text-decoration: none;
-    box-shadow: 0 6px 20px rgba(0, 0, 0, 0.3);
-    transition: all 0.6s ease;
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.3);
 }
 
-.floating-brand-badge-bottom:hover {
-    transform: translateY(-2px);
-    background: rgba(18, 24, 42, 0.85);
-    border-color: var(--neon-cyan);
-    color: var(--text-main);
-}
-
-/* ELEGANT GRADUAL LIGHT MODE AS FOOTER SUN RISES */
+/* SOLAR LIT ADAPTATIONS */
 body.solar-lit-active {
-    background-color: #fffaf5 !important;
-    color: #1a0c02 !important;
+    background-color: #fffaf5;
+    color: #1a0c02;
+    --stat-num-color: #007b8a;
+    --stat-glow: none;
+    --stat-label-color: #3c2a1e;
+    --star-color: #3c2a1e;
+    --star-glow: 0 0 4px rgba(60, 42, 30, 0.4);
+    --svg-accent: #007b8a;
 }
 
 body.solar-lit-active .fixed-space-texture-bg {
-    opacity: 0.1;
+    opacity: 0.08;
 }
 
 body.solar-lit-active .section-tag {
-    color: #d95200 !important;
+    color: #d95200;
 }
 
 body.solar-lit-active .section-title,
 body.solar-lit-active h1,
-body.solar-lit-active h2,
-body.solar-lit-active h3 {
-    color: #1a0800 !important;
+body.solar-lit-active h2 {
+    color: #1a0800;
 }
 
 body.solar-lit-active .btn-3d-glow {
-    background: linear-gradient(135deg, #ff7700 0%, #e63900 100%) !important;
-    box-shadow: 0 14px 35px rgba(230, 57, 0, 0.35) !important;
-    color: #ffffff !important;
+    background: linear-gradient(135deg, #ff7700 0%, #e63900 100%);
+    box-shadow: 0 10px 25px rgba(230, 57, 0, 0.3);
+    color: #ffffff;
 }
 
 body.solar-lit-active .glass-card-3d {
-    background: rgba(255, 255, 255, 0.9) !important;
-    border-color: rgba(255, 120, 0, 0.3) !important;
-    box-shadow: 0 25px 60px rgba(230, 80, 0, 0.12) !important;
-    color: #2b1405 !important;
+    background: rgba(255, 255, 255, 0.9);
+    border-color: rgba(255, 120, 0, 0.25);
+    box-shadow: 0 15px 35px rgba(230, 80, 0, 0.1);
+    color: #2b1405;
 }
 
 body.solar-lit-active .box-copy,
-body.solar-lit-active .hero-description,
-body.solar-lit-active .about-text-content,
-body.solar-lit-active .location-intro-text,
-body.solar-lit-active p {
-    color: #4a2711 !important;
-}
-
-body.solar-lit-active .floating-brand-badge-bottom {
-    background: rgba(255, 255, 255, 0.85);
-    border-color: rgba(255, 120, 0, 0.3);
-    color: #3b1600;
+body.solar-lit-active .about-text-content p {
+    color: #4a2711;
 }
 
 body.solar-lit-active .form-input-3d {
     background: rgba(255, 245, 235, 0.95);
     border-color: rgba(255, 140, 0, 0.3);
     color: #1a0800;
-}
-
-body.solar-lit-active .ui-num-badge-left {
-    background: rgba(255, 119, 0, 0.12);
-    border-color: rgba(230, 87, 0, 0.4);
-    color: #e65200;
-    box-shadow: inset 0 1px 1px rgba(255, 255, 255, 0.5), 0 4px 12px rgba(230, 80, 0, 0.15);
 }
 
 .btn-3d-glow {
@@ -166,13 +149,13 @@ body.solar-lit-active .ui-num-badge-left {
     font-family: var(--font-3d);
     font-weight: 700;
     font-size: 1rem;
-    padding: 1.25rem 2.8rem;
+    padding: 1.1rem 2.4rem;
     border-radius: 100px;
     text-decoration: none;
-    box-shadow: 0 12px 30px var(--btn-purple-glow);
-    transition: transform 0.4s var(--ease-3d), box-shadow 0.4s ease, background 0.8s ease;
+    box-shadow: 0 8px 20px var(--btn-purple-glow);
     border: none;
     cursor: pointer;
+    transform: translateZ(0);
 }
 
 .galaxy-canvas {
@@ -187,37 +170,35 @@ body.solar-lit-active .ui-num-badge-left {
 
 .scroll-reveal {
     opacity: 0;
-    transform: translateY(40px);
-    transition: opacity 0.8s var(--ease-smooth), transform 0.8s var(--ease-smooth);
-    will-change: transform, opacity;
+    transform: translate3d(0, 30px, 0);
+    transition: opacity 0.6s ease-out, transform 0.6s ease-out;
 }
 
 .scroll-reveal.reveal-active {
     opacity: 1;
-    transform: translateY(0);
+    transform: translate3d(0, 0, 0);
 }
 
 .scroll-reveal .reveal-content {
     opacity: 0;
-    transform: translateY(16px);
-    transition: opacity 0.45s var(--ease-3d), transform 0.45s var(--ease-3d);
+    transform: translate3d(0, 15px, 0);
+    transition: opacity 0.5s ease-out, transform 0.5s ease-out;
 }
 
 .scroll-reveal.reveal-active .reveal-content {
     opacity: 1;
-    transform: translateY(0);
-    transition-delay: 0.15s;
+    transform: translate3d(0, 0, 0);
 }
 
 .canvas-wrapper {
     position: relative;
-    z-index: 3;
+    z-index: 2;
     width: 100%;
 }
 
 .section-container {
-    padding: 10rem 2.5rem;
-    max-width: 1280px;
+    padding: 7rem 2rem;
+    max-width: 1200px;
     margin: 0 auto;
 }
 
@@ -225,67 +206,45 @@ body.solar-lit-active .ui-num-badge-left {
     display: inline-block;
     font-family: var(--font-3d);
     font-size: 0.85rem;
-    letter-spacing: 0.35em;
+    letter-spacing: 0.25em;
     text-transform: uppercase;
     color: var(--neon-cyan);
-    margin-bottom: 1.2rem;
-    transition: color 0.8s ease;
+    margin-bottom: 1rem;
 }
 
 .section-title {
     font-family: var(--font-3d);
-    font-size: clamp(2.4rem, 4.2vw, 3.8rem);
+    font-size: clamp(2rem, 3.8vw, 3.2rem);
     font-weight: 700;
-    line-height: 1.15;
-    margin-bottom: 1.8rem;
-    transition: color 0.8s ease;
-}
-
-/* SECTION 1: TWINKLE & SUBTLE GLOW ANIMATION FOR ALL CARDS */
-@keyframes cardTwinklePulse {
-    0% {
-        opacity: 0.82;
-        box-shadow: 0 20px 45px rgba(0, 0, 0, 0.4), 0 0 15px rgba(0, 240, 255, 0.1);
-        border-color: rgba(255, 255, 255, 0.12);
-    }
-
-    50% {
-        opacity: 1;
-        box-shadow: 0 30px 65px rgba(0, 0, 0, 0.5), 0 0 30px rgba(0, 240, 255, 0.35);
-        border-color: rgba(0, 240, 255, 0.45);
-    }
-
-    100% {
-        opacity: 0.82;
-        box-shadow: 0 20px 45px rgba(0, 0, 0, 0.4), 0 0 15px rgba(0, 240, 255, 0.1);
-        border-color: rgba(255, 255, 255, 0.12);
-    }
+    line-height: 1.2;
+    margin-bottom: 1.5rem;
 }
 
 .glass-card-3d {
     background: var(--glass-surface);
-    backdrop-filter: blur(28px);
-    -webkit-backdrop-filter: blur(28px);
+    backdrop-filter: blur(14px);
+    -webkit-backdrop-filter: blur(14px);
     border: 1px solid var(--glass-border);
-    border-radius: 28px;
-    animation: cardTwinklePulse 6s ease-in-out infinite alternate;
-    transition: border-color 0.8s ease, box-shadow 0.8s ease, background 0.8s ease, color 0.8s ease;
+    border-radius: 24px;
+    box-shadow: 0 15px 35px rgba(0, 0, 0, 0.35);
+    will-change: transform;
 }
 
 /* HERO SECTION */
 .hero-3d-wrapper {
-    min-height: 95vh;
+    min-height: 90vh;
     display: flex;
     align-items: center;
     justify-content: center;
     position: relative;
-    padding: 12rem 2.5rem 10rem;
+    padding: 8rem 2rem 6rem;
     width: 100%;
+    overflow: hidden;
 }
 
 .hero-content-inner {
     width: 100%;
-    max-width: 1200px;
+    max-width: 1100px;
     display: flex;
     align-items: center;
     position: relative;
@@ -304,144 +263,115 @@ body.solar-lit-active .ui-num-badge-left {
 .nebula-swirl {
     position: absolute;
     border-radius: 50%;
-    filter: blur(110px);
-    opacity: 0.35;
+    filter: blur(40px);
+    opacity: 0.3;
 }
 
 .nebula-1 {
-    top: -10%;
+    top: -5%;
     left: 10%;
-    width: 750px;
-    height: 750px;
-    background: radial-gradient(circle, rgba(138, 43, 226, 0.6) 0%, rgba(224, 36, 195, 0.2) 60%, transparent 100%);
-    animation: rotateNebula 35s infinite linear;
+    width: 500px;
+    height: 500px;
+    background: radial-gradient(circle, rgba(138, 43, 226, 0.5) 0%, rgba(224, 36, 195, 0.15) 60%, transparent 100%);
 }
 
 .nebula-2 {
-    top: 5%;
+    top: 10%;
     right: 5%;
-    width: 800px;
-    height: 800px;
-    background: radial-gradient(circle, rgba(0, 240, 255, 0.45) 0%, rgba(138, 43, 226, 0.2) 55%, transparent 100%);
-    animation: rotateNebula 48s infinite linear reverse;
+    width: 550px;
+    height: 550px;
+    background: radial-gradient(circle, rgba(0, 240, 255, 0.35) 0%, rgba(138, 43, 226, 0.15) 55%, transparent 100%);
 }
 
 .solar-system-planet-wrapper {
     position: absolute;
-    top: 8%;
-    right: 10%;
-    width: 220px;
-    height: 220px;
+    top: 12%;
+    right: 8%;
+    width: 170px;
+    height: 170px;
     border-radius: 50%;
     opacity: 0.95;
     will-change: transform;
 }
 
-/* LUNAR CORE */
 .planet-lunar-core {
     position: relative;
     width: 100%;
     height: 100%;
     border-radius: 50%;
     background: radial-gradient(circle at 35% 35%, #e6ecf2 0%, #b0b8c1 45%, #6a737d 80%, #3a4046 100%);
-    box-shadow:
-        0 0 45px rgba(230, 236, 242, 0.25),
-        0 0 90px rgba(0, 240, 255, 0.15);
+    box-shadow: 0 0 35px rgba(230, 236, 242, 0.25);
     overflow: hidden;
-    animation: pulseLunarGlow 5s ease-in-out infinite alternate;
 }
 
 .lunar-maria {
     position: absolute;
     background: rgba(55, 62, 70, 0.35);
     border-radius: 50%;
-    filter: blur(10px);
+    filter: blur(6px);
 }
 
 .maria-1 {
     top: 22%;
     left: 20%;
-    width: 85px;
-    height: 75px;
-    transform: rotate(-15deg);
+    width: 65px;
+    height: 55px;
 }
 
 .maria-2 {
     top: 48%;
     left: 15%;
-    width: 100px;
-    height: 65px;
-    transform: rotate(20deg);
+    width: 75px;
+    height: 50px;
 }
 
 .maria-3 {
     top: 30%;
     left: 50%;
-    width: 70px;
-    height: 90px;
+    width: 55px;
+    height: 70px;
 }
 
 .lunar-crater {
     position: absolute;
     border-radius: 50%;
-    background: radial-gradient(circle at 60% 60%, rgba(210, 215, 222, 0.3) 0%, rgba(130, 138, 145, 0.2) 65%, rgba(70, 75, 82, 0.45) 100%);
-    box-shadow: inset 1px 1.5px 2.5px rgba(0, 0, 0, 0.35), 0.5px 0.5px 1px rgba(255, 255, 255, 0.25);
+    background: rgba(130, 138, 145, 0.25);
+    box-shadow: inset 1px 1.5px 2px rgba(0, 0, 0, 0.35);
 }
 
 .crater-1 {
     top: 65%;
     left: 58%;
-    width: 28px;
-    height: 28px;
+    width: 22px;
+    height: 22px;
 }
 
 .crater-2 {
     top: 25%;
     left: 68%;
-    width: 20px;
-    height: 20px;
+    width: 16px;
+    height: 16px;
 }
 
 .crater-3 {
     top: 75%;
     left: 35%;
-    width: 16px;
-    height: 16px;
+    width: 12px;
+    height: 12px;
 }
 
 .crater-4 {
     top: 15%;
     left: 38%;
-    width: 12px;
-    height: 12px;
+    width: 10px;
+    height: 10px;
 }
 
 .crater-5 {
     top: 42%;
     left: 78%;
-    width: 15px;
-    height: 15px;
-}
-
-.crater-6 {
-    top: 50%;
-    left: 45%;
-    width: 22px;
-    height: 22px;
-}
-
-.crater-7 {
-    top: 80%;
-    left: 55%;
-    width: 10px;
-    height: 10px;
-}
-
-.crater-8 {
-    top: 32%;
-    left: 28%;
-    width: 14px;
-    height: 14px;
+    width: 12px;
+    height: 12px;
 }
 
 .lunar-shadow-overlay {
@@ -451,65 +381,28 @@ body.solar-lit-active .ui-num-badge-left {
     background: radial-gradient(circle at 30% 30%, transparent 40%, rgba(10, 12, 18, 0.65) 75%, rgba(2, 3, 8, 0.92) 100%);
 }
 
-@keyframes pulseLunarGlow {
-    0% {
-        box-shadow: 0 0 35px rgba(230, 236, 242, 0.2), 0 0 70px rgba(0, 240, 255, 0.1);
-    }
-
-    100% {
-        box-shadow: 0 0 55px rgba(230, 236, 242, 0.35), 0 0 110px rgba(0, 240, 255, 0.25);
-    }
-}
-
-@keyframes rotateNebula {
-    0% {
-        transform: rotate(0deg) scale(1);
-    }
-
-    50% {
-        transform: rotate(180deg) scale(1.15);
-    }
-
-    100% {
-        transform: rotate(360deg) scale(1);
-    }
-}
-
-/* Base Dark Theme Rules */
 .stat-number-glow {
-    font-size: 5rem;
-    /* Increased size */
+    font-size: clamp(3.2rem, 5vw, 4.4rem);
     font-weight: 800;
     line-height: 1;
     display: block;
     color: var(--stat-num-color, #00f0ff);
-    text-shadow: var(--stat-glow, 0 0 25px rgba(0, 240, 255, 0.4));
-    transition: color 0.5s ease, text-shadow 0.5s ease;
+    text-shadow: var(--stat-glow, 0 0 15px rgba(0, 240, 255, 0.35));
 }
 
 .stat-label {
-    font-size: 0.9rem;
+    font-size: 0.85rem;
     font-weight: 700;
     text-transform: uppercase;
     letter-spacing: 2px;
     margin-top: 0.5rem;
     display: block;
-    color: var(--stat-label-color, rgba(255, 255, 255, 0.8));
-    transition: color 0.5s ease;
-}
-
-/* Brightened Background Theme Adjustments */
-body.solar-lit-active {
-    --stat-num-color: #007b8a;
-    /* Deep, high-contrast cyan for light backgrounds */
-    --stat-glow: none;
-    --stat-label-color: #3c2a1e;
-    /* Dark rich brown/amber matching section tags */
+    color: var(--stat-label-color, rgba(255, 255, 255, 0.75));
 }
 
 .hero-flying-stars-container {
     position: absolute;
-    inset: -30px;
+    inset: 0;
     pointer-events: none;
     z-index: 1;
     overflow: hidden;
@@ -519,7 +412,6 @@ body.solar-lit-active {
     position: absolute;
     background: #ffffff;
     border-radius: 50%;
-    box-shadow: 0 0 6px rgba(255, 255, 255, 0.9);
 }
 
 .twinkling-star {
@@ -528,34 +420,28 @@ body.solar-lit-active {
 
 @keyframes starPulse {
     0% {
-        opacity: 0.1;
-        transform: scale(0.6);
-    }
-
-    50% {
-        opacity: 0.95;
-        transform: scale(1.1);
+        opacity: 0.2;
     }
 
     100% {
-        opacity: 0.1;
-        transform: scale(0.6);
+        opacity: 0.9;
     }
 }
 
 .hero-glass-portal {
-    padding: 4.5rem;
-    max-width: 860px;
+    padding: 3.5rem;
+    max-width: 780px;
     position: relative;
     z-index: 2;
+    transform: translateZ(0);
 }
 
 .hero-headline {
     font-family: var(--font-3d);
-    font-size: clamp(2.5rem, 4.8vw, 4.2rem);
+    font-size: clamp(2.2rem, 4.2vw, 3.8rem);
     font-weight: 700;
-    line-height: 1.12;
-    margin-bottom: 1.8rem;
+    line-height: 1.15;
+    margin-bottom: 1.5rem;
 }
 
 .hero-headline span {
@@ -564,56 +450,41 @@ body.solar-lit-active {
     -webkit-text-fill-color: transparent;
 }
 
-.hero-description {
-    font-size: 1.15rem;
-    color: var(--text-sub);
-    max-width: 660px;
-    margin-bottom: 2.8rem;
-    transition: color 0.8s ease;
-}
-
-/* ABOUT SECTION FLEX LAYOUT */
+/* ABOUT SECTION */
 .about-3d-container {
-    display: flex !important;
+    display: flex;
     flex-direction: row;
     align-items: center;
-    gap: 3.5rem;
-    padding: 4.5rem;
+    gap: 3rem;
+    padding: 3.5rem;
     width: 100%;
 }
 
 .about-text-content {
     flex: 1;
-    font-size: 1.1rem;
+    font-size: 1.05rem;
     color: var(--text-sub);
-    transition: color 0.8s ease;
-}
-
-.about-text-content .section-title {
-    color: var(--text-main) !important;
 }
 
 .about-text-content p {
-    margin-bottom: 1.6rem;
+    margin-bottom: 1.4rem;
 }
 
 .about-text-content p:last-child {
     margin-bottom: 0;
 }
 
-/* SECTION 2: 330x500 GRAPHIC CANVAS CONTAINER */
 .graphic-art-container {
-    width: 330px;
-    height: 500px;
+    width: 280px;
+    height: 420px;
     display: flex;
     justify-content: center;
     align-items: center;
     background: rgba(4, 8, 18, 0.6);
     border: 1px solid rgba(0, 240, 255, 0.25);
-    border-radius: 20px;
-    padding: 1.5rem;
+    border-radius: 18px;
+    padding: 1.2rem;
     flex-shrink: 0;
-    box-shadow: inset 0 0 25px rgba(0, 240, 255, 0.08), 0 12px 35px rgba(0, 0, 0, 0.5);
     margin: 0 auto;
 }
 
@@ -637,74 +508,34 @@ body.solar-lit-active {
     }
 }
 
-/* LEFT-ALIGNED BADGES */
-.ui-num-badge-left {
-    display: inline-flex;
-    align-self: flex-start;
-    margin-right: auto;
-    width: auto;
-    padding: 0.35rem 0.95rem;
-    border-radius: 8px;
-    font-family: var(--font-3d);
-    font-size: 0.85rem;
-    font-weight: 700;
-    letter-spacing: 0.08em;
-    background: rgba(0, 240, 255, 0.1);
-    border: 1px solid var(--neon-cyan);
-    box-shadow: inset 0 1px 1px rgba(255, 255, 255, 0.2), 0 4px 12px rgba(0, 240, 255, 0.15);
-    color: var(--neon-cyan);
-    margin-bottom: 1.25rem;
-    transition: all 0.8s ease;
-}
-
-/* UNIFORM GRID & ALIGNED EQUAL HEIGHT BOXES */
+/* GRID */
 .uniform-grid {
     display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
-    gap: 2.8rem;
+    grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+    gap: 2rem;
     width: 100%;
     align-items: stretch;
 }
 
 .standard-card {
-    padding: 3.2rem;
+    padding: 2.5rem;
     width: 100%;
     display: flex;
     flex-direction: column;
     justify-content: flex-start;
-    height: 100%;
-}
-
-.standard-card .box-copy {
-    flex-grow: 1;
-    font-size: 1.05rem;
-    line-height: 1.75;
-}
-
-.box-title {
-    font-family: var(--font-3d);
-    font-size: 1.6rem;
-    font-weight: 700;
-    margin-bottom: 1rem;
-    transition: color 0.8s ease;
 }
 
 .box-copy {
     color: var(--text-sub);
-    font-size: 1.05rem;
-    transition: color 0.8s ease;
+    font-size: 1rem;
+    line-height: 1.65;
 }
 
-.location-intro-text {
-    color: var(--text-sub);
-    transition: color 0.8s ease;
-}
-
-/* FOOTER SUN HORIZON & ZOOM ANIMATION */
+/* FOOTER SUN */
 .footer-contact-3d {
     position: relative;
-    padding: 14rem 2.5rem 16rem;
-    overflow: hidden !important;
+    padding: 10rem 2rem 12rem;
+    overflow: hidden;
 }
 
 .footer-stage-wrapper {
@@ -712,37 +543,74 @@ body.solar-lit-active {
     inset: 0;
     pointer-events: none;
     z-index: 1;
-    overflow: hidden !important;
+    overflow: hidden;
 }
 
 .giant-glowing-sun {
     position: absolute;
     left: 50%;
-    top: 520px;
-    width: 2200px;
-    height: 2200px;
+    top: 440px;
+    width: 1780px;
+    height: 1780px;
     border-radius: 50%;
-    background: radial-gradient(circle, #ffffff 0%, #fff29c 18%, #ff8c00 48%, #ff1100 82%);
+    background: radial-gradient(circle at 50% 18%,
+            #ffffff 0%,
+            #fff9e6 12%,
+            #ffe066 25%,
+            #ff9f1c 42%,
+            #ff5400 62%,
+            #d00000 80%,
+            rgba(157, 2, 8, 0.4) 92%,
+            transparent 100%);
+    box-shadow:
+        0 -15px 50px rgba(255, 255, 255, 0.7),
+        0 -30px 100px rgba(255, 210, 60, 0.75),
+        0 -60px 160px rgba(255, 130, 0, 0.55),
+        0 -100px 240px rgba(255, 60, 0, 0.35);
     z-index: 1;
-    will-change: transform;
-    animation: pulseSunGlow 4.5s ease-in-out infinite alternate;
-    transition: transform 0.8s cubic-bezier(0.16, 1, 0.3, 1), box-shadow 1.2s ease-in-out;
+    will-change: transform, opacity;
+    transform: translate3d(-50%, 0, 0);
+    opacity: 0;
+    filter: drop-shadow(0 0 60px rgba(255, 160, 20, 0.5));
 }
 
-@keyframes pulseSunGlow {
+.giant-glowing-sun::before {
+    content: '';
+    position: absolute;
+    inset: -40px;
+    border-radius: 50%;
+    background: radial-gradient(circle at 50% 25%, rgba(255, 245, 190, 0.4) 0%, rgba(255, 140, 0, 0.2) 45%, transparent 75%);
+    filter: blur(35px);
+    pointer-events: none;
+    animation: sunPulse 6s ease-in-out infinite alternate;
+}
+
+.giant-glowing-sun::after {
+    content: '';
+    position: absolute;
+    inset: -80px;
+    border-radius: 50%;
+    background: radial-gradient(circle at 50% 20%, rgba(255, 210, 60, 0.2) 0%, rgba(255, 70, 0, 0.12) 55%, transparent 80%);
+    filter: blur(60px);
+    pointer-events: none;
+}
+
+@keyframes sunPulse {
     0% {
-        box-shadow: 0 0 450px #ffbb00, 0 0 900px #ff3300;
+        transform: scale(0.98);
+        opacity: 0.85;
     }
 
     100% {
-        box-shadow: 0 0 650px #ffea00, 0 0 1200px #ff1100;
+        transform: scale(1.03);
+        opacity: 1;
     }
 }
 
 .contact-card-3d {
-    max-width: 720px;
+    max-width: 680px;
     margin: 0 auto;
-    padding: 4.5rem 3.5rem;
+    padding: 3.5rem 2.5rem;
     text-align: center;
     position: relative;
     z-index: 10;
@@ -751,144 +619,102 @@ body.solar-lit-active {
 .contact-form {
     display: flex;
     flex-direction: column;
-    gap: 1.5rem;
-    margin-top: 2.5rem;
+    gap: 1.25rem;
+    margin-top: 2rem;
 }
 
 .form-input-3d {
     width: 100%;
     background: rgba(255, 255, 255, 0.05);
     border: 1px solid var(--glass-border);
-    padding: 1.25rem 1.6rem;
-    border-radius: 14px;
+    padding: 1.1rem 1.4rem;
+    border-radius: 12px;
     color: var(--text-main);
     font-family: var(--font-sans);
-    font-size: 1.05rem;
+    font-size: 1rem;
     outline: none;
-    transition: background 0.6s ease, border-color 0.6s ease, color 0.6s ease;
 }
 
 textarea.form-input-3d {
-    min-height: 140px;
+    min-height: 120px;
     resize: vertical;
 }
 
 .submitted-msg-box {
-    padding: 2rem;
+    padding: 1.5rem;
     background: rgba(255, 140, 0, 0.2);
-    border-radius: 16px;
-    margin-top: 2rem;
+    border-radius: 14px;
+    margin-top: 1.5rem;
     color: #ff6600;
     font-weight: bold;
 }
 
-@media (max-width: 900px) {
+/* RESPONSIVENESS (IPAD & TABLET TUNING) */
+@media (max-width: 1024px) {
     .section-container {
-        padding: 6rem 1.5rem;
+        padding: 5.5rem 2rem;
+    }
+
+    .hero-3d-wrapper {
+        min-height: 80vh;
+        padding: 6.5rem 2rem 4.5rem;
     }
 
     .about-3d-container {
         flex-direction: column;
         padding: 2.8rem;
+        gap: 2.2rem;
     }
 
     .hero-glass-portal {
         padding: 2.8rem;
     }
 
-    .standard-card {
-        padding: 2.2rem;
+    .solar-system-planet-wrapper {
+        width: 130px;
+        height: 130px;
+        top: 6%;
+        right: 4%;
+    }
+
+    .giant-glowing-sun {
+        width: 1100px;
+        height: 1100px;
+        top: 400px;
+    }
+}
+
+@media (max-width: 640px) {
+    .section-container {
+        padding: 4rem 1.2rem;
+    }
+
+    .hero-glass-portal {
+        padding: 2rem 1.4rem;
+    }
+
+    .about-3d-container {
+        padding: 2rem 1.4rem;
+    }
+
+    .graphic-art-container {
+        width: 100%;
+        max-width: 260px;
+        height: 380px;
     }
 
     .floating-brand-badge-bottom {
-        top: 1.2rem;
-        left: 1.2rem;
-        padding: 0.48rem 1rem;
-        font-size: 0.78rem;
-    }
-}
-
-/* STAR TWINKLE ANIMATION & THEME ADAPTATION */
-.hero-flying-stars-container {
-    position: absolute;
-    inset: 0;
-    pointer-events: none;
-    overflow: hidden;
-    z-index: 1;
-}
-
-.hero-space-star {
-    position: absolute;
-    border-radius: 50%;
-    background-color: var(--star-color, #ffffff);
-    box-shadow: var(--star-glow, 0 0 6px rgba(255, 255, 255, 0.8));
-    animation-name: starTwinklePhase;
-    animation-iteration-count: infinite;
-    animation-timing-function: ease-in-out;
-    transition: background-color 0.6s ease, box-shadow 0.6s ease;
-}
-
-@keyframes starTwinklePhase {
-
-    0%,
-    100% {
-        opacity: 0.15;
-        transform: scale(0.7);
+        top: 1rem;
+        left: 1rem;
     }
 
-    50% {
-        opacity: 1;
-        transform: scale(1.25);
+    .solar-system-planet-wrapper {
+        display: none;
     }
-}
 
-/* STATISTIC CALLOUT & DYNAMIC THEME CONTRAST */
-.stat-callout-wrapper {
-    display: flex;
-    flex-direction: column;
-    align-items: flex-start;
-}
-
-.stat-number-glow {
-    font-size: 4.75rem;
-    font-weight: 800;
-    line-height: 1;
-    display: block;
-    color: var(--stat-num-color, #00f0ff);
-    text-shadow: var(--stat-glow, 0 0 25px rgba(0, 240, 255, 0.45));
-    transition: color 0.6s ease, text-shadow 0.6s ease;
-}
-
-.stat-label {
-    font-size: 0.85rem;
-    font-weight: 700;
-    text-transform: uppercase;
-    letter-spacing: 2px;
-    margin-top: 0.5rem;
-    display: block;
-    color: var(--stat-label-color, rgba(255, 255, 255, 0.75));
-    transition: color 0.6s ease;
-}
-
-/* BRIGHT SUN BACKGROUND CONTRAST OVERRIDES */
-body.solar-lit-active {
-    --stat-num-color: #007b8a;
-    --stat-glow: none;
-    --stat-label-color: #3c2a1e;
-    --star-color: #3c2a1e;
-    --star-glow: 0 0 4px rgba(60, 42, 30, 0.4);
-    --svg-accent: #007b8a;
-}
-
-/* GLOBAL SCROLL & THEME TRANSITIONS */
-body {
-    transition: background-color 0.8s cubic-bezier(0.25, 1, 0.5, 1), color 0.8s ease;
-}
-
-.solar-descent-glow {
-    transition: opacity 0.5s ease-out;
-}
-
-.giant-glowing-sun {
-    transition: transform 0.12s ease-out;
+    .giant-glowing-sun {
+        width: 800px;
+        height: 800px;
+        top: 380px;
+    }
 }

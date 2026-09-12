@@ -1,0 +1,101 @@
+@model IEnumerable<MischiefStore.Domain.Entities.Product>
+
+@{
+    ViewBag.Title = "Backstage Admin - Product Management";
+    Layout = "~/Views/Shared/_AdminLayout.cshtml";
+}
+
+<div class="row">
+    <div class="col-xs-12">
+        <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 25px; flex-wrap: wrap; gap: 15px;">
+            <div>
+                <h2 style="margin: 0; font-weight: 800; color: var(--carnival-purple); font-family: 'Fredoka', 'Montserrat', cursive;">
+                    <i class="glyphicon glyphicon-th-list"></i> Catalog Inventory Management
+                </h2>
+                <p class="text-muted" style="margin-top: 5px; margin-bottom: 0;">
+                    Manage active merchandise, upload custom product imagery, adjust pricing, and maintain stock.
+                </p>
+            </div>
+            <div>
+                @Html.ActionLink("+ Create New Product", "Create", "Admin", null, new { @class = "btn btn-carnival-gold btn-lg", style = "font-weight: 700; box-shadow: 0 4px 12px rgba(230, 81, 0, 0.25);" })
+            </div>
+        </div>
+
+        <div class="panel panel-default" style="border-radius: 12px; box-shadow: 0 4px 15px rgba(0,0,0,0.06); overflow: hidden;">
+            <div class="panel-heading" style="background: var(--bg-dark); color: #fff; padding: 15px 20px;">
+                <h3 class="panel-title" style="font-weight: 700;">
+                    <i class="glyphicon glyphicon-tags"></i> All Products in Database (@Model.Count() total)
+                </h3>
+            </div>
+            <div class="table-responsive">
+                <table class="table table-striped table-hover" style="margin-bottom: 0; vertical-align: middle;">
+                    <thead>
+                        <tr style="background: #f8f9fa;">
+                            <th style="width: 70px;" class="text-center">ID</th>
+                            <th style="width: 80px;" class="text-center">Preview</th>
+                            <th>Product Name & Description</th>
+                            <th style="width: 160px;">Category</th>
+                            <th style="width: 120px;" class="text-right">Price</th>
+                            <th style="width: 180px;" class="text-center">Actions</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @foreach (var item in Model)
+                        {
+                            <tr>
+                                <td class="text-center text-muted" style="vertical-align: middle; font-weight: 600;">
+                                    #@item.ProductID
+                                </td>
+                                <td class="text-center" style="vertical-align: middle;">
+                                    @if (item.ImageData != null)
+                                    {
+                                        <img src="@Url.Action("GetImage", "Product", new { item.ProductID })" 
+                                             alt="@item.Name" 
+                                             class="img-thumbnail" 
+                                             style="width: 48px; height: 48px; object-fit: cover;" />
+                                    }
+                                    else
+                                    {
+                                        <div style="width: 48px; height: 48px; background: #e9ecef; border-radius: 6px; display: inline-flex; align-items: center; justify-content: center; font-size: 18px;">
+                                            🎪
+                                        </div>
+                                    }
+                                </td>
+                                <td style="vertical-align: middle;">
+                                    <strong style="color: var(--carnival-purple); font-size: 16px;">@item.Name</strong>
+                                    <p class="text-muted" style="margin: 3px 0 0 0; font-size: 13px; max-width: 500px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis;">
+                                        @item.Description
+                                    </p>
+                                </td>
+                                <td style="vertical-align: middle;">
+                                    <span class="badge" style="background: var(--carnival-purple); font-size: 12px; padding: 5px 10px;">
+                                        @item.Category
+                                    </span>
+                                </td>
+                                <td class="text-right" style="vertical-align: middle; font-weight: 700; font-size: 15px; color: var(--carnival-red);">
+                                    @item.Price.ToString("c")
+                                </td>
+                                <td class="text-center" style="vertical-align: middle;">
+                                    @using (Html.BeginForm("Delete", "Admin", new { productId = item.ProductID }, FormMethod.Post, new { style = "display: inline;" }))
+                                    {
+                                        @Html.ActionLink("Edit", "Edit", new { item.ProductID }, new { @class = "btn btn-xs btn-primary", style = "margin-right: 5px; padding: 4px 10px; font-weight: 600;" })
+                                        <button type="submit" 
+                                                class="btn btn-xs btn-danger" 
+                                                style="padding: 4px 10px; font-weight: 600;" 
+                                                onclick="return confirm('Are you sure you want to delete @item.Name from the catalog?');">
+                                            Delete
+                                        </button>
+                                    }
+                                </td>
+                            </tr>
+                        }
+                    </tbody>
+                </table>
+            </div>
+        </div>
+
+        <div style="margin-top: 25px; margin-bottom: 40px;">
+            @Html.ActionLink("← View Public Storefront", "List", "Product", null, new { @class = "btn btn-default" })
+        </div>
+    </div>
+</div>

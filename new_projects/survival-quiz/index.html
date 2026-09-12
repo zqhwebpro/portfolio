@@ -4,12 +4,13 @@
 
 <head>
     <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover" />
     <title>Termalink Protocol - Survival Quiz</title>
 
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Share+Tech+Mono&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@700;800;900&family=Share+Tech+Mono&display=swap"
+        rel="stylesheet">
 
     <style>
         :root {
@@ -35,6 +36,7 @@
         * {
             box-sizing: border-box;
             user-select: none;
+            -webkit-tap-highlight-color: transparent;
         }
 
         html,
@@ -43,16 +45,19 @@
             padding: 0;
             width: 100vw;
             height: 100vh;
+            height: 100dvh;
             overflow: hidden;
             background-color: #000;
             font-family: 'Share Tech Mono', monospace;
             color: var(--term-green);
+            touch-action: manipulation;
         }
 
         .crt-screen {
             position: relative;
             width: 100vw;
             height: 100vh;
+            height: 100dvh;
             display: flex;
             flex-direction: column;
             overflow: hidden;
@@ -128,6 +133,7 @@
             0% {
                 filter: hue-rotate(var(--start-hue, 0deg));
             }
+
             100% {
                 filter: hue-rotate(calc(var(--start-hue, 0deg) + 360deg));
             }
@@ -143,24 +149,29 @@
                 filter: hue-rotate(calc(var(--start-hue, 0deg) + 70deg)) contrast(1.6) brightness(1.3);
                 clip-path: inset(0 0 0 0);
             }
+
             15% {
                 transform: translate(-7px, 3px) skewX(2.5deg);
                 filter: hue-rotate(calc(var(--start-hue, 0deg) + 160deg)) contrast(2.2) brightness(1.7);
                 clip-path: polygon(0 12%, 100% 12%, 100% 36%, 0 36%, 0 62%, 100% 62%, 100% 86%, 0 86%);
             }
+
             30% {
                 transform: translate(7px, -4px) skewX(-3deg) scaleY(1.01);
                 filter: hue-rotate(calc(var(--start-hue, 0deg) + 260deg)) contrast(2.6) invert(0.12);
                 clip-path: polygon(0 0, 100% 0, 100% 100%, 0 100%);
             }
+
             50% {
                 transform: translate(-4px, 2px) skewX(1deg);
                 filter: hue-rotate(calc(var(--start-hue, 0deg) + 40deg)) contrast(1.4);
             }
+
             75% {
                 transform: translate(3px, -1px);
                 filter: contrast(1.2);
             }
+
             100% {
                 transform: translate(0, 0) scale(1);
                 filter: contrast(1);
@@ -170,6 +181,209 @@
 
         .glitch-active {
             animation: digitalGlitchDistort 0.44s ease-out;
+        }
+
+        /* --- DIGITAL ALARM CLOCK --- */
+        @keyframes alarmColonFlash {
+
+            0%,
+            49% {
+                opacity: 1;
+                filter: drop-shadow(0 0 5px var(--term-green-bright));
+            }
+
+            50%,
+            100% {
+                opacity: 0.15;
+                filter: none;
+            }
+        }
+
+        @keyframes alarmGlowPulse {
+            0% {
+                box-shadow: inset 0 2px 6px rgba(0, 0, 0, 0.95), 0 0 10px rgba(51, 255, 102, 0.18), 0 3px 8px rgba(0, 0, 0, 0.6);
+            }
+
+            50% {
+                box-shadow: inset 0 2px 6px rgba(0, 0, 0, 0.95), 0 0 16px rgba(51, 255, 102, 0.28), 0 3px 8px rgba(0, 0, 0, 0.6);
+            }
+
+            100% {
+                box-shadow: inset 0 2px 6px rgba(0, 0, 0, 0.95), 0 0 10px rgba(51, 255, 102, 0.18), 0 3px 8px rgba(0, 0, 0, 0.6);
+            }
+        }
+
+        .vintage-alarm-clock-box {
+            position: absolute;
+            left: 50%;
+            top: 50%;
+            transform: translate(-50%, -50%);
+            border-radius: 0;
+            padding: 4px 16px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            pointer-events: none;
+            user-select: none;
+            animation: alarmGlowPulse 4s ease-in-out infinite;
+            z-index: 70;
+        }
+
+        .vintage-alarm-display {
+            position: relative;
+            border-radius: 0;
+            overflow: hidden;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .vintage-alarm-display::after {
+            content: " ";
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 45%;
+            background: linear-gradient(180deg, rgba(255, 255, 255, 0.07) 0%, rgba(255, 255, 255, 0) 100%);
+            pointer-events: none;
+        }
+
+        .vintage-alarm-ghost {
+            position: absolute;
+            inset: 0;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-family: 'Orbitron', 'Share Tech Mono', monospace;
+            font-size: 1.25rem;
+            font-weight: 900;
+            letter-spacing: 0.1em;
+            color: var(--term-green);
+            opacity: 0.05;
+            pointer-events: none;
+        }
+
+        .vintage-alarm-digits {
+            position: relative;
+            display: flex;
+            align-items: baseline;
+            justify-content: center;
+            font-family: 'Orbitron', 'Share Tech Mono', monospace;
+            font-size: 1.22rem;
+            font-weight: 800;
+            letter-spacing: 0.1em;
+            color: var(--term-green-bright);
+            text-shadow: 0 0 8px rgba(51, 255, 102, 0.85), 0 0 16px rgba(51, 255, 102, 0.45);
+            z-index: 5;
+            line-height: 1.1;
+        }
+
+        .alarm-colon {
+            animation: alarmColonFlash 1s infinite steps(1, start);
+            display: inline-block;
+            margin: 0 2px;
+            opacity: 1;
+            color: var(--term-green-bright);
+        }
+
+        .alarm-ampm-badge {
+            font-size: 0.65rem;
+            margin-left: 8px;
+            font-family: 'Orbitron', 'Share Tech Mono', monospace;
+            font-weight: 800;
+            letter-spacing: 0.08em;
+            color: var(--term-green-bright);
+            text-shadow: 0 0 6px rgba(51, 255, 102, 0.6);
+            align-self: center;
+            border-radius: 0;
+        }
+
+        /* --- TACTICAL VISUAL SCHEMATIC (RIGHT SIDE FACTS) --- */
+        .tactical-schematic-card {
+            background: radial-gradient(ellipse at center, rgba(3, 22, 9, 0.95) 0%, rgba(1, 10, 4, 0.98) 100%);
+            border: 1.5px solid var(--term-green-dim);
+            box-shadow: 0 0 16px rgba(51, 255, 102, 0.15), inset 0 0 14px rgba(51, 255, 102, 0.05);
+            border-radius: 2px;
+            padding: 10px 12px;
+            position: relative;
+            overflow: hidden;
+            display: flex;
+            flex-direction: column;
+            justifyContent: space-between;
+        }
+
+        .tactical-schematic-card::before {
+            content: " ";
+            position: absolute;
+            inset: 0;
+            background-image:
+                linear-gradient(rgba(51, 255, 102, 0.05) 1px, transparent 1px),
+                linear-gradient(90deg, rgba(51, 255, 102, 0.05) 1px, transparent 1px);
+            background-size: 14px 14px;
+            pointer-events: none;
+            z-index: 2;
+        }
+
+        .tactical-schematic-card::after {
+            content: " ";
+            position: absolute;
+            inset: 0;
+            background: linear-gradient(rgba(18, 16, 16, 0) 50%, rgba(0, 0, 0, 0.25) 50%);
+            background-size: 100% 3px;
+            pointer-events: none;
+            z-index: 3;
+        }
+
+        .schematic-corner-tl,
+        .schematic-corner-tr,
+        .schematic-corner-bl,
+        .schematic-corner-br {
+            position: absolute;
+            width: 8px;
+            height: 8px;
+            border-color: var(--term-green-bright);
+            pointer-events: none;
+            z-index: 10;
+        }
+
+        .schematic-corner-tl {
+            top: 2px;
+            left: 2px;
+            border-top: 2px solid;
+            border-left: 2px solid;
+        }
+
+        .schematic-corner-tr {
+            top: 2px;
+            right: 2px;
+            border-top: 2px solid;
+            border-right: 2px solid;
+        }
+
+        .schematic-corner-bl {
+            bottom: 2px;
+            left: 2px;
+            border-bottom: 2px solid;
+            border-left: 2px solid;
+        }
+
+        .schematic-corner-br {
+            bottom: 2px;
+            right: 2px;
+            border-bottom: 2px solid;
+            border-right: 2px solid;
+        }
+
+        .schematic-svg-canvas {
+            width: 100%;
+            height: 110px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            position: relative;
+            z-index: 5;
+            filter: drop-shadow(0 0 6px var(--term-green-bright));
         }
 
         /* --- BRIGHT CRT RAIL (LEFT) --- */
@@ -289,7 +503,8 @@
         .retro-terminal-deck {
             position: relative;
             background: radial-gradient(ellipse at center, #07190b 0%, #030d06 70%, #000401 100%);
-            overflow: hidden; /* Prevent scanline from creating any scrollbars */
+            overflow: hidden;
+            /* Prevent scanline from creating any scrollbars */
         }
 
         .retro-terminal-deck::before {
@@ -349,22 +564,26 @@
                 filter: brightness(2.6) contrast(1.5) drop-shadow(0 0 16px var(--term-green-bright));
                 clip-path: inset(0 0 95% 0);
             }
+
             25% {
                 opacity: 0.7;
                 clip-path: inset(0 0 60% 0);
                 filter: brightness(2.0) contrast(1.3);
             }
+
             50% {
                 opacity: 0.9;
                 clip-path: inset(0 0 25% 0);
                 filter: brightness(1.5) contrast(1.15);
             }
+
             75% {
                 opacity: 0.98;
                 clip-path: inset(0 0 0 0);
                 filter: brightness(1.15);
                 transform: translateY(0);
             }
+
             100% {
                 opacity: 1;
                 transform: translateY(0);
@@ -379,8 +598,15 @@
         }
 
         @keyframes rasterSweepLine {
-            0% { top: 0%; opacity: 1; }
-            100% { top: 100%; opacity: 0; }
+            0% {
+                top: 0%;
+                opacity: 1;
+            }
+
+            100% {
+                top: 100%;
+                opacity: 0;
+            }
         }
 
         .raster-sweep-line {
@@ -571,8 +797,13 @@
         }
 
         @keyframes loserPulse {
-            0% { box-shadow: 0 0 25px rgba(255, 51, 68, 0.35); }
-            100% { box-shadow: 0 0 45px rgba(255, 51, 68, 0.7); }
+            0% {
+                box-shadow: 0 0 25px rgba(255, 51, 68, 0.35);
+            }
+
+            100% {
+                box-shadow: 0 0 45px rgba(255, 51, 68, 0.7);
+            }
         }
 
         .loser-btn {
@@ -606,8 +837,13 @@
         }
 
         @keyframes victoryGlow {
-            0% { box-shadow: 0 0 30px rgba(51, 255, 102, 0.4); }
-            100% { box-shadow: 0 0 55px rgba(102, 255, 143, 0.85); }
+            0% {
+                box-shadow: 0 0 30px rgba(51, 255, 102, 0.4);
+            }
+
+            100% {
+                box-shadow: 0 0 55px rgba(102, 255, 143, 0.85);
+            }
         }
 
         /* Canvas Confetti Layer */
@@ -619,6 +855,335 @@
             pointer-events: none;
             z-index: 50;
         }
+
+        /* =========================================================
+           RESPONSIVE APP LAYOUT & MOBILE APP PARADIGM
+           ========================================================= */
+
+        .term-header {
+            padding: 12px 24px;
+            border-bottom: 1.5px solid var(--term-green-dim);
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            position: relative;
+            z-index: 60;
+            background: rgba(3, 10, 5, 0.98);
+            padding-top: max(12px, env(safe-area-inset-top));
+            flex-shrink: 0;
+        }
+
+        .desktop-header-controls {
+            display: flex;
+            gap: 10px;
+            align-items: stretch;
+        }
+
+        .desktop-alarm-center {
+            display: block;
+        }
+
+        .mobile-header-clock {
+            display: none;
+        }
+
+        .mobile-header-actions {
+            display: none;
+        }
+
+        .term-main-layout {
+            display: grid;
+            grid-template-columns: 430px 1fr;
+            flex: 1;
+            min-height: 0;
+            overflow: hidden;
+            position: relative;
+        }
+
+        .mobile-tab-bar {
+            display: none;
+        }
+
+        .quiz-directive-grid {
+            display: grid;
+            grid-template-columns: 1fr 270px;
+            gap: 16px;
+            margin-bottom: 18px;
+            align-items: stretch;
+        }
+
+        .mobile-hud-panel {
+            display: none;
+        }
+
+        .desktop-fixed-portfolio {
+            display: inline-flex;
+            position: fixed;
+            bottom: 16px;
+            left: 16px;
+            z-index: 90;
+            padding: 8px 16px;
+            font-size: 0.8rem;
+            font-weight: 700;
+            text-decoration: none;
+            border-radius: 2px;
+            letter-spacing: 0.08em;
+            box-shadow: 0 0 12px rgba(51, 255, 102, 0.35);
+            align-items: center;
+            gap: 6px;
+        }
+
+        /* Micro-interactions & Touch Active States */
+        .term-btn:active,
+        .loser-btn:active,
+        .quiz-option-btn:active,
+        .step-dot:active {
+            transform: scale(0.97);
+            filter: brightness(1.2);
+        }
+
+        /* --- TABLET LANDSCAPE BREAKPOINT (860px - 1080px) --- */
+        @media (min-width: 860px) and (max-width: 1080px) {
+            .term-main-layout {
+                grid-template-columns: 330px 1fr;
+            }
+
+            .term-header {
+                padding: 10px 16px;
+            }
+
+            .vintage-alarm-clock-box {
+                padding: 3px 10px;
+            }
+
+            .vintage-alarm-digits {
+                font-size: 1.05rem;
+            }
+
+            .retro-terminal-deck {
+                padding: 18px 20px !important;
+            }
+
+            .archive-rail {
+                padding: 18px 10px 60px 10px !important;
+            }
+
+            .quiz-directive-grid {
+                grid-template-columns: 1fr 230px;
+                gap: 12px;
+            }
+        }
+
+        /* --- MOBILE & TABLET PORTRAIT BREAKPOINT (< 860px) --- */
+        @media (max-width: 859px) {
+            .desktop-header-controls {
+                display: none !important;
+            }
+
+            .desktop-alarm-center {
+                display: none !important;
+            }
+
+            .desktop-fixed-portfolio {
+                display: none !important;
+            }
+
+            .mobile-header-clock {
+                display: flex;
+                align-items: center;
+                gap: 6px;
+                background: rgba(0, 20, 6, 0.8);
+                border: 1px solid var(--term-green-dim);
+                padding: 4px 8px;
+                border-radius: 2px;
+            }
+
+            .mobile-header-actions {
+                display: flex;
+                gap: 8px;
+                align-items: center;
+            }
+
+            .mobile-icon-btn {
+                background: rgba(3, 16, 7, 0.92);
+                color: var(--term-green-bright);
+                border: 1.5px solid var(--term-green);
+                width: 34px;
+                height: 34px;
+                padding: 0;
+                display: inline-flex;
+                align-items: center;
+                justify-content: center;
+                cursor: pointer;
+                border-radius: 2px;
+                transition: all 0.15s ease;
+                box-shadow: 0 0 8px var(--term-green-subtle);
+            }
+
+            .mobile-icon-btn:active {
+                transform: scale(0.92);
+                background: var(--term-green);
+                color: #000;
+            }
+
+            .mobile-icon-btn.active {
+                background: var(--term-green);
+                color: #000;
+                box-shadow: 0 0 14px var(--term-green-bright);
+            }
+
+            .term-header {
+                padding: max(8px, env(safe-area-inset-top)) 12px 8px 12px;
+            }
+
+            .term-main-layout {
+                display: flex;
+                flex-direction: column;
+                flex: 1;
+                min-height: 0;
+                overflow: hidden;
+                position: relative;
+            }
+
+            /* Tab Panels on Mobile */
+            .tab-content-panel {
+                display: none;
+                flex: 1;
+                min-height: 0;
+                overflow-y: auto;
+                flex-direction: column;
+            }
+
+            .tab-content-panel.active {
+                display: flex;
+            }
+
+            .archive-rail {
+                border-right: none !important;
+                border-bottom: none !important;
+                box-shadow: none !important;
+                padding: 14px 12px calc(76px + env(safe-area-inset-bottom)) 12px !important;
+                flex: 1;
+            }
+
+            .retro-terminal-deck {
+                padding: 14px 14px calc(76px + env(safe-area-inset-bottom)) 14px !important;
+                flex: 1;
+            }
+
+            .mobile-hud-panel {
+                padding: 16px 14px calc(76px + env(safe-area-inset-bottom)) 14px;
+                flex: 1;
+                overflow-y: auto;
+                background: radial-gradient(ellipse at center, #07190b 0%, #030d06 70%, #000401 100%);
+            }
+
+            .mobile-hud-panel.active {
+                display: flex;
+                flex-direction: column;
+                gap: 14px;
+            }
+
+            /* Bottom Tactical App Navigation Bar */
+            .mobile-tab-bar {
+                display: grid;
+                grid-template-columns: repeat(3, 1fr);
+                gap: 6px;
+                position: fixed;
+                bottom: 0;
+                left: 0;
+                right: 0;
+                background: rgba(2, 12, 5, 0.97);
+                border-top: 1.5px solid var(--term-green);
+                padding: 6px 8px max(8px, env(safe-area-inset-bottom)) 8px;
+                z-index: 95;
+                backdrop-filter: blur(12px);
+                box-shadow: 0 -4px 25px rgba(0, 0, 0, 0.9), 0 -1px 10px rgba(51, 255, 102, 0.3);
+            }
+
+            .nav-tab-btn {
+                background: rgba(3, 20, 8, 0.85);
+                border: 1px solid var(--term-green-dim);
+                color: var(--term-text-dim);
+                font-family: 'Share Tech Mono', monospace;
+                padding: 7px 4px;
+                font-size: 0.72rem;
+                cursor: pointer;
+                text-transform: uppercase;
+                letter-spacing: 0.04em;
+                display: flex;
+                flex-direction: column;
+                align-items: center;
+                justify-content: center;
+                gap: 3px;
+                border-radius: 2px;
+                transition: all 0.15s ease;
+                position: relative;
+                touch-action: manipulation;
+                outline: none;
+            }
+
+            .nav-tab-btn:active {
+                transform: scale(0.95);
+            }
+
+            .nav-tab-btn.active {
+                background: rgba(51, 255, 102, 0.22);
+                border-color: var(--term-green-bright);
+                color: var(--term-green-bright);
+                box-shadow: 0 0 14px rgba(51, 255, 102, 0.4), inset 0 0 10px rgba(51, 255, 102, 0.2);
+                font-weight: 800;
+            }
+
+            .nav-tab-badge {
+                position: absolute;
+                top: -4px;
+                right: 4px;
+                background: var(--term-green);
+                color: #000;
+                font-size: 0.6rem;
+                font-weight: 900;
+                padding: 1px 5px;
+                border-radius: 8px;
+                box-shadow: 0 0 6px var(--term-green-bright);
+            }
+
+            .quiz-directive-grid {
+                display: flex !important;
+                flex-direction: column !important;
+                gap: 12px !important;
+                margin-bottom: 14px !important;
+            }
+
+            .archive-clipping {
+                margin: 6px 2px !important;
+                padding: 14px 12px 12px 12px !important;
+            }
+
+            .quiz-option-btn {
+                font-size: 0.88rem !important;
+                padding: 10px 12px !important;
+                min-height: 48px;
+            }
+
+            .quiz-badge {
+                min-width: 24px !important;
+                font-size: 0.76rem !important;
+                padding: 2px 5px !important;
+            }
+
+            .step-dot {
+                width: 26px !important;
+                height: 26px !important;
+                font-size: 0.78rem !important;
+            }
+
+            .modal-box-crt {
+                padding: 18px 16px !important;
+                max-height: 85dvh !important;
+                overflow-y: auto !important;
+            }
+        }
     </style>
 
     <script src="https://unpkg.com/react@18/umd/react.production.min.js" crossorigin></script>
@@ -628,8 +1193,8 @@
 
 <body>
     <div id="root"></div>
-    <script type="text/babel" src="./App.js?v=10.000"></script>
-    <script type="text/babel" src="./index.js?v=10.000"></script>
+    <script type="text/babel" src="./App.js?v=13.000"></script>
+    <script type="text/babel" src="./index.js?v=13.000"></script>
 </body>
 
 </html>

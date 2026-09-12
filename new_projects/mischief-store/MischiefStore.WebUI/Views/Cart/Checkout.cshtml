@@ -1,0 +1,123 @@
+@model MischiefStore.Domain.Entities.ShippingDetails
+
+@{
+    ViewBag.Title = "Mischief & Magic Co. - Secure Checkout";
+}
+
+<div class="row">
+    <div class="col-md-8 col-md-offset-2">
+        <div class="page-header" style="border-bottom: 2px solid var(--carnival-purple); margin-top: 10px;">
+            <h2><i class="glyphicon glyphicon-lock" style="color: var(--carnival-gold);"></i> Secure Mischief Delivery Protocol</h2>
+            <p class="text-muted">Enter your coordinates below. We package our novelty and magic gear in discreet, anti-spoil boxes so the surprise stays intact!</p>
+        </div>
+
+        @using (Html.BeginForm("Checkout", "Cart", FormMethod.Post, new { @class = "form-horizontal", role = "form" }))
+        {
+            @Html.AntiForgeryToken()
+            
+            @Html.ValidationSummary(false, "Please correct the following delivery details before casting your order:", new { @class = "alert alert-danger" })
+
+            <div class="panel panel-default" style="border-radius: 12px; box-shadow: 0 4px 15px rgba(0,0,0,0.06); padding: 25px;">
+                <h4 style="color: var(--carnival-purple); font-weight: 700; margin-top: 0; margin-bottom: 20px;">
+                    <i class="glyphicon glyphicon-user"></i> Recipient Identification
+                </h4>
+
+                <div class="form-group">
+                    @Html.LabelFor(m => m.Name, new { @class = "col-sm-3 control-label" })
+                    <div class="col-sm-9">
+                        @Html.TextBoxFor(m => m.Name, new { @class = "form-control input-lg", placeholder = "e.g. Harry Houdini or John Doe" })
+                        @Html.ValidationMessageFor(m => m.Name, "", new { @class = "text-danger" })
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    @Html.LabelFor(m => m.Email, new { @class = "col-sm-3 control-label" })
+                    <div class="col-sm-9">
+                        @Html.TextBoxFor(m => m.Email, new { @class = "form-control input-lg", placeholder = "e.g. prankster@mischief.io", type = "email" })
+                        @Html.ValidationMessageFor(m => m.Email, "", new { @class = "text-danger" })
+                        <span class="help-block" style="font-size: 12px;">We will email an immediate mock dispatch manifest to this address.</span>
+                    </div>
+                </div>
+
+                <hr style="margin: 25px 0;" />
+                <h4 style="color: var(--carnival-purple); font-weight: 700; margin-top: 0; margin-bottom: 20px;">
+                    <i class="glyphicon glyphicon-map-marker"></i> Delivery Coordinates
+                </h4>
+
+                <div class="form-group">
+                    @Html.LabelFor(m => m.Line1, new { @class = "col-sm-3 control-label" })
+                    <div class="col-sm-9">
+                        @Html.TextBoxFor(m => m.Line1, new { @class = "form-control", placeholder = "Street address, P.O. Box, or secret lair" })
+                        @Html.ValidationMessageFor(m => m.Line1, "", new { @class = "text-danger" })
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    @Html.LabelFor(m => m.Line2, new { @class = "col-sm-3 control-label" })
+                    <div class="col-sm-9">
+                        @Html.TextBoxFor(m => m.Line2, new { @class = "form-control", placeholder = "Apartment, suite, unit, building, floor, etc. (optional)" })
+                        @Html.ValidationMessageFor(m => m.Line2, "", new { @class = "text-danger" })
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    @Html.LabelFor(m => m.City, new { @class = "col-sm-3 control-label" })
+                    <div class="col-sm-9">
+                        @Html.TextBoxFor(m => m.City, new { @class = "form-control", placeholder = "City or municipality" })
+                        @Html.ValidationMessageFor(m => m.City, "", new { @class = "text-danger" })
+                    </div>
+                </div>
+
+                <div class="row">
+                    <div class="col-sm-6">
+                        <div class="form-group" style="margin-left: 0; margin-right: 0;">
+                            @Html.LabelFor(m => m.State, new { @class = "control-label" })
+                            @Html.TextBoxFor(m => m.State, new { @class = "form-control", placeholder = "State / Province" })
+                            @Html.ValidationMessageFor(m => m.State, "", new { @class = "text-danger" })
+                        </div>
+                    </div>
+                    <div class="col-sm-6">
+                        <div class="form-group" style="margin-left: 0; margin-right: 0;">
+                            @Html.LabelFor(m => m.Zip, new { @class = "control-label" })
+                            @Html.TextBoxFor(m => m.Zip, new { @class = "form-control", placeholder = "Zip / Postal Code" })
+                            @Html.ValidationMessageFor(m => m.Zip, "", new { @class = "text-danger" })
+                        </div>
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    @Html.LabelFor(m => m.Country, new { @class = "col-sm-3 control-label" })
+                    <div class="col-sm-9">
+                        @Html.TextBoxFor(m => m.Country, new { @class = "form-control", placeholder = "Country" })
+                        @Html.ValidationMessageFor(m => m.Country, "", new { @class = "text-danger" })
+                    </div>
+                </div>
+
+                <hr style="margin: 25px 0;" />
+                <h4 style="color: var(--carnival-purple); font-weight: 700; margin-top: 0; margin-bottom: 20px;">
+                    <i class="glyphicon glyphicon-gift"></i> Stealth & Packaging Options
+                </h4>
+
+                <div class="form-group">
+                    <div class="col-sm-offset-3 col-sm-9">
+                        <div class="checkbox">
+                            <label style="font-weight: 600; cursor: pointer;">
+                                @Html.CheckBoxFor(m => m.GiftWrap)
+                                Disguise package with decoy boring label (Gift Wrapping / Sneaky Box)
+                            </label>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="text-center" style="margin-top: 35px;">
+                    <button type="submit" class="btn btn-carnival-gold btn-lg btn-block" style="padding: 15px; font-size: 18px; font-weight: 700;">
+                        Abracadabra! Complete Order & Dispatch 🎩✨
+                    </button>
+                    <p class="text-muted" style="margin-top: 10px; font-size: 13px;">
+                        <i class="glyphicon glyphicon-ok-sign text-success"></i> 100% Sneakiness Guaranteed. No live rabbits harmed.
+                    </p>
+                </div>
+            </div>
+        }
+    </div>
+</div>

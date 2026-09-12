@@ -1,0 +1,12 @@
+@model MischiefStore.Domain.Entities.Cart
+
+<a href="@Url.Action("Index", "Cart", new { returnUrl = Request.Url.PathAndQuery })" class="cart-summary-pill">
+    <i class="fa-solid fa-cart-shopping text-warning"></i>
+    <span class="d-none d-sm-inline">Prank Stash:</span>
+    <span class="badge badge-warning text-dark font-weight-bold">
+        @Model.ComputeTotalQuantity() items
+    </span>
+    <span class="font-weight-bold ml-1">
+        @Model.ComputeTotalValue().ToString("c")
+    </span>
+</a>

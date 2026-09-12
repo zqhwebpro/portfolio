@@ -1,0 +1,519 @@
+<!DOCTYPE html>
+<html lang="en" class="h-full bg-slate-950 text-slate-100">
+
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>OmniScale — Complete US Household Converter</title>
+    <meta name="description"
+        content="All-in-one US customary converter for home, kitchen, flooring, DIY dimensions, and temperatures." />
+
+    <!-- Tailwind CSS CDN -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+        tailwind.config = {
+            darkMode: 'class',
+            theme: {
+                extend: {
+                    colors: {
+                        brand: {
+                            400: '#fb923c',
+                            500: '#f97316',
+                            600: '#ea580c',
+                        },
+                        surface: {
+                            850: '#151b28',
+                            900: '#0d111a',
+                            950: '#070a0f',
+                        }
+                    },
+                    fontFamily: {
+                        sans: ['Plus Jakarta Sans', '-apple-system', 'BlinkMacSystemFont', 'sans-serif'],
+                        mono: ['Geist Mono', 'Fira Code', 'monospace'],
+                    }
+                }
+            }
+        }
+    </script>
+
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link
+        href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=Geist+Mono:wght@400;500;600;700&display=swap"
+        rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css" />
+</head>
+
+<body class="min-h-full flex flex-col font-sans selection:bg-brand-500 selection:text-white antialiased">
+
+    <!-- Header -->
+    <header class="border-b border-slate-800/80 bg-surface-900/80 backdrop-blur sticky top-0 z-50">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 h-16 flex items-center justify-between">
+            <div class="flex items-center gap-3">
+                <div
+                    class="h-10 w-10 rounded-xl bg-gradient-to-br from-brand-500 to-amber-600 flex items-center justify-center shadow-lg shadow-brand-500/20 text-white font-black text-xl tracking-wider">
+                    Ω
+                </div>
+                <div>
+                    <div class="flex items-center gap-2">
+                        <span class="font-extrabold text-lg tracking-tight text-white">OMNISCALE</span>
+                        <span
+                            class="px-2 py-0.5 text-[10px] font-bold uppercase tracking-wider rounded-full bg-brand-500/10 text-brand-400 border border-brand-500/20">US
+                            Home Matrix</span>
+                    </div>
+                    <p class="text-xs text-slate-400">Complete Household, Kitchen &amp; DIY Standards</p>
+                </div>
+            </div>
+
+            <div class="flex items-center gap-2.5">
+                <button onclick="resetAll()"
+                    class="px-3.5 py-1.5 rounded-lg text-xs font-semibold text-slate-400 hover:text-slate-100 hover:bg-slate-800 transition flex items-center gap-1.5 border border-transparent hover:border-slate-700">
+                    <i class="fa-solid fa-rotate-left"></i> Reset
+                </button>
+                <button onclick="copyManifest()"
+                    class="px-3.5 py-1.5 rounded-lg text-xs font-semibold bg-brand-600 hover:bg-brand-500 text-white transition flex items-center gap-1.5 shadow-md shadow-brand-600/25">
+                    <i class="fa-solid fa-copy"></i> Copy Matrix
+                </button>
+            </div>
+        </div>
+    </header>
+
+    <main class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8 flex-1 w-full space-y-8">
+
+        <!-- Quick Home Presets -->
+        <div
+            class="rounded-2xl border border-slate-800 bg-surface-900/60 p-4 sm:p-5 flex flex-wrap items-center justify-between gap-4">
+            <div class="flex items-center gap-2 text-xs font-semibold text-slate-400 uppercase tracking-wider">
+                <i class="fa-solid fa-bolt-lightning text-brand-400"></i> Home Presets:
+            </div>
+            <div class="flex flex-wrap gap-2">
+                <button onclick="applyPreset('vol', 'cup', 1)"
+                    class="px-3 py-1.5 rounded-lg bg-slate-900 border border-slate-800 hover:border-brand-500/50 hover:text-brand-400 text-xs font-medium text-slate-300 transition">
+                    1 Cup
+                </button>
+                <button onclick="applyPreset('vol', 'gallon', 1)"
+                    class="px-3 py-1.5 rounded-lg bg-slate-900 border border-slate-800 hover:border-brand-500/50 hover:text-brand-400 text-xs font-medium text-slate-300 transition">
+                    1 Gallon Paint/Milk
+                </button>
+                <button onclick="applyPreset('weight', 'lb', 1)"
+                    class="px-3 py-1.5 rounded-lg bg-slate-900 border border-slate-800 hover:border-brand-500/50 hover:text-brand-400 text-xs font-medium text-slate-300 transition">
+                    1.0 lb Meat
+                </button>
+                <button onclick="applyPreset('length', 'ft', 8)"
+                    class="px-3 py-1.5 rounded-lg bg-slate-900 border border-slate-800 hover:border-brand-500/50 hover:text-brand-400 text-xs font-medium text-slate-300 transition">
+                    8 ft Ceiling / Lumber
+                </button>
+                <button onclick="applyPreset('area', 'sq_ft', 120)"
+                    class="px-3 py-1.5 rounded-lg bg-slate-900 border border-slate-800 hover:border-brand-500/50 hover:text-brand-400 text-xs font-medium text-slate-300 transition">
+                    120 sq ft Bedroom
+                </button>
+                <button onclick="applyTempPreset(350)"
+                    class="px-3 py-1.5 rounded-lg bg-slate-900 border border-slate-800 hover:border-brand-500/50 hover:text-brand-400 text-xs font-medium text-slate-300 transition">
+                    350°F Oven
+                </button>
+            </div>
+        </div>
+
+        <!-- Category Grid -->
+        <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+
+            <!-- 1. Liquid & Dry Volume (Pantry & Home) -->
+            <section
+                class="bg-surface-900/90 rounded-2xl border border-slate-800 overflow-hidden flex flex-col shadow-xl">
+                <div class="px-5 py-4 border-b border-slate-800 bg-slate-900/50 flex items-center justify-between">
+                    <div class="flex items-center gap-2.5">
+                        <div class="p-2 rounded-lg bg-sky-500/10 text-sky-400 border border-sky-500/20">
+                            <i class="fa-solid fa-flask text-sm"></i>
+                        </div>
+                        <div>
+                            <h2 class="text-sm font-bold tracking-tight text-white uppercase">US Volume (Liquid & Dry)
+                            </h2>
+                            <p class="text-[11px] text-slate-400">Cooking, gallons, pantry measures</p>
+                        </div>
+                    </div>
+                    <span
+                        class="text-[10px] font-mono font-bold text-sky-400 bg-sky-950/60 px-2 py-0.5 rounded border border-sky-800/40">VOL</span>
+                </div>
+                <div class="p-5 space-y-3 flex-1" id="volGrid"></div>
+            </section>
+
+            <!-- 2. Weight & Mass -->
+            <section
+                class="bg-surface-900/90 rounded-2xl border border-slate-800 overflow-hidden flex flex-col shadow-xl">
+                <div class="px-5 py-4 border-b border-slate-800 bg-slate-900/50 flex items-center justify-between">
+                    <div class="flex items-center gap-2.5">
+                        <div class="p-2 rounded-lg bg-emerald-500/10 text-emerald-400 border border-emerald-500/20">
+                            <i class="fa-solid fa-scale-balanced text-sm"></i>
+                        </div>
+                        <div>
+                            <h2 class="text-sm font-bold tracking-tight text-white uppercase">US Weight &amp; Mass</h2>
+                            <p class="text-[11px] text-slate-400">Postal, butchery, luggage &amp; scales</p>
+                        </div>
+                    </div>
+                    <span
+                        class="text-[10px] font-mono font-bold text-emerald-400 bg-emerald-950/60 px-2 py-0.5 rounded border border-emerald-800/40">MASS</span>
+                </div>
+                <div class="p-5 space-y-3 flex-1" id="weightGrid"></div>
+            </section>
+
+            <!-- 3. Household Length & Dimensions -->
+            <section
+                class="bg-surface-900/90 rounded-2xl border border-slate-800 overflow-hidden flex flex-col shadow-xl">
+                <div class="px-5 py-4 border-b border-slate-800 bg-slate-900/50 flex items-center justify-between">
+                    <div class="flex items-center gap-2.5">
+                        <div class="p-2 rounded-lg bg-amber-500/10 text-amber-400 border border-amber-500/20">
+                            <i class="fa-solid fa-ruler-combined text-sm"></i>
+                        </div>
+                        <div>
+                            <h2 class="text-sm font-bold tracking-tight text-white uppercase">Length &amp; DIY
+                                Dimensions</h2>
+                            <p class="text-[11px] text-slate-400">Furniture, room layout &amp; lumber</p>
+                        </div>
+                    </div>
+                    <span
+                        class="text-[10px] font-mono font-bold text-amber-400 bg-amber-950/60 px-2 py-0.5 rounded border border-amber-800/40">LENGTH</span>
+                </div>
+                <div class="p-5 space-y-3 flex-1" id="lengthGrid"></div>
+            </section>
+
+            <!-- 4. Room & Yard Area (Square Footage) -->
+            <section
+                class="bg-surface-900/90 rounded-2xl border border-slate-800 overflow-hidden flex flex-col shadow-xl">
+                <div class="px-5 py-4 border-b border-slate-800 bg-slate-900/50 flex items-center justify-between">
+                    <div class="flex items-center gap-2.5">
+                        <div class="p-2 rounded-lg bg-indigo-500/10 text-indigo-400 border border-indigo-500/20">
+                            <i class="fa-solid fa-vector-square text-sm"></i>
+                        </div>
+                        <div>
+                            <h2 class="text-sm font-bold tracking-tight text-white uppercase">Flooring &amp; Yard Area
+                            </h2>
+                            <p class="text-[11px] text-slate-400">Flooring, lawn &amp; paint coverage</p>
+                        </div>
+                    </div>
+                    <span
+                        class="text-[10px] font-mono font-bold text-indigo-400 bg-indigo-950/60 px-2 py-0.5 rounded border border-indigo-800/40">AREA</span>
+                </div>
+                <div class="p-5 space-y-3 flex-1" id="areaGrid"></div>
+            </section>
+
+            <!-- 5. Thermal & Oven Temperatures -->
+            <section
+                class="bg-surface-900/90 rounded-2xl border border-slate-800 overflow-hidden flex flex-col shadow-xl">
+                <div class="px-5 py-4 border-b border-slate-800 bg-slate-900/50 flex items-center justify-between">
+                    <div class="flex items-center gap-2.5">
+                        <div class="p-2 rounded-lg bg-brand-500/10 text-brand-400 border border-brand-500/20">
+                            <i class="fa-solid fa-temperature-half text-sm"></i>
+                        </div>
+                        <div>
+                            <h2 class="text-sm font-bold tracking-tight text-white uppercase">Temperature &amp;
+                                Thermostat</h2>
+                            <p class="text-[11px] text-slate-400">HVAC, grilling &amp; baking</p>
+                        </div>
+                    </div>
+                    <span
+                        class="text-[10px] font-mono font-bold text-brand-400 bg-brand-950/60 px-2 py-0.5 rounded border border-brand-800/40">TEMP</span>
+                </div>
+                <div class="p-5 space-y-3 flex-1">
+                    <div class="flex items-center justify-between gap-3">
+                        <label class="text-xs font-medium text-slate-300">Fahrenheit (°F)</label>
+                        <input type="number" id="temp_f" value="350" oninput="handleTempInput('f', this.value)"
+                            class="w-36 bg-slate-950 border border-slate-800 focus:border-brand-500 focus:ring-1 focus:ring-brand-500 rounded-lg px-3 py-2 text-right font-mono text-sm font-bold text-slate-100 outline-none transition" />
+                    </div>
+                    <div class="flex items-center justify-between gap-3">
+                        <label class="text-xs font-medium text-slate-300">Celsius (°C)</label>
+                        <input type="number" id="temp_c" value="176.7" oninput="handleTempInput('c', this.value)"
+                            class="w-36 bg-slate-950 border border-slate-800 focus:border-brand-500 focus:ring-1 focus:ring-brand-500 rounded-lg px-3 py-2 text-right font-mono text-sm font-bold text-slate-100 outline-none transition" />
+                    </div>
+                    <div class="flex items-center justify-between gap-3">
+                        <label class="text-xs font-medium text-slate-300">Gas Mark</label>
+                        <input type="text" id="temp_gas" value="4 (Moderate)" readonly
+                            class="w-36 bg-slate-950/50 border border-slate-800/80 rounded-lg px-3 py-2 text-right font-mono text-xs font-semibold text-brand-400 outline-none select-none" />
+                    </div>
+                    <div
+                        class="mt-4 p-3 rounded-xl bg-slate-950/60 border border-slate-800/80 text-[11px] text-slate-400 space-y-1">
+                        <div><strong>Water Freezing:</strong> 32°F / 0°C</div>
+                        <div><strong>Comfort Thermostat:</strong> 68°F – 72°F</div>
+                        <div><strong>Water Boiling:</strong> 212°F / 100°C</div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- 6. Recipe / Quantity Batch Multiplier -->
+            <section
+                class="bg-surface-900/90 rounded-2xl border border-slate-800 overflow-hidden flex flex-col shadow-xl">
+                <div class="px-5 py-4 border-b border-slate-800 bg-slate-900/50 flex items-center justify-between">
+                    <div class="flex items-center gap-2.5">
+                        <div class="p-2 rounded-lg bg-purple-500/10 text-purple-400 border border-purple-500/20">
+                            <i class="fa-solid fa-calculator text-sm"></i>
+                        </div>
+                        <div>
+                            <h2 class="text-sm font-bold tracking-tight text-white uppercase">Batch &amp; Multiplier
+                                Scaler</h2>
+                            <p class="text-[11px] text-slate-400">Scale recipe &amp; project quantities</p>
+                        </div>
+                    </div>
+                    <span
+                        class="text-[10px] font-mono font-bold text-purple-400 bg-purple-950/60 px-2 py-0.5 rounded border border-purple-800/40">SCALER</span>
+                </div>
+                <div class="p-5 flex flex-col space-y-3 flex-1">
+                    <div class="grid grid-cols-5 gap-1">
+                        <button onclick="setMultiplier(0.5, this)"
+                            class="mult-btn py-1 rounded border border-slate-800 text-slate-300 font-mono text-xs hover:border-purple-500 transition">0.5×</button>
+                        <button onclick="setMultiplier(1.0, this)"
+                            class="mult-btn py-1 rounded border border-purple-500 bg-purple-500/20 text-purple-300 font-mono text-xs transition">1.0×</button>
+                        <button onclick="setMultiplier(1.5, this)"
+                            class="mult-btn py-1 rounded border border-slate-800 text-slate-300 font-mono text-xs hover:border-purple-500 transition">1.5×</button>
+                        <button onclick="setMultiplier(2.0, this)"
+                            class="mult-btn py-1 rounded border border-slate-800 text-slate-300 font-mono text-xs hover:border-purple-500 transition">2.0×</button>
+                        <button onclick="setMultiplier(3.0, this)"
+                            class="mult-btn py-1 rounded border border-slate-800 text-slate-300 font-mono text-xs hover:border-purple-500 transition">3.0×</button>
+                    </div>
+                    <textarea id="recipeInput" rows="3"
+                        class="w-full bg-slate-950 border border-slate-800 focus:border-purple-500 rounded-xl p-2.5 font-mono text-xs text-slate-200 outline-none resize-none"
+                        placeholder="2 cups paint&#10;1.5 lbs nails&#10;0.5 gallon cleaner"></textarea>
+                    <button onclick="scaleRecipe()"
+                        class="py-2 bg-purple-600 hover:bg-purple-500 text-white rounded-xl text-xs font-bold transition">
+                        Recalculate Batch
+                    </button>
+                    <pre id="recipeOutput"
+                        class="hidden bg-slate-950 border border-purple-900/40 rounded-xl p-2.5 font-mono text-[11px] text-emerald-400 overflow-x-auto whitespace-pre-wrap"></pre>
+                </div>
+            </section>
+
+        </div>
+    </main>
+
+    <div id="toast"
+        class="fixed bottom-6 right-6 translate-y-24 opacity-0 transition-all duration-300 pointer-events-none flex items-center gap-3 bg-slate-900 border border-slate-700 shadow-2xl px-4 py-3 rounded-xl z-50">
+        <div class="h-2 w-2 rounded-full bg-brand-400 animate-pulse"></div>
+        <span id="toastMsg" class="text-xs font-semibold text-slate-200">Values recalculated</span>
+    </div>
+
+    <footer class="border-t border-slate-900 py-6 text-center text-xs text-slate-600">
+        OMNISCALE // Comprehensive US Customary &amp; Metric Matrix • Realtime bi-directional local sync
+    </footer>
+
+    <script>
+        // 1. VOLUME (Base: Fluid Ounces)
+        const VOLUME_UNITS = [
+            { key: 'pinch', label: 'Pinch (1/16 tsp)', symbol: 'pinch', factor: (1.0 / 6.0) / 16.0 },
+            { key: 'tsp', label: 'Teaspoon', symbol: 'tsp', factor: 1.0 / 6.0 },
+            { key: 'tbsp', label: 'Tablespoon', symbol: 'Tbsp', factor: 0.5 },
+            { key: 'fl_oz', label: 'Fluid Ounce', symbol: 'fl oz', factor: 1.0 },
+            { key: 'cup', label: 'Standard Cup', symbol: 'cup', factor: 8.0 },
+            { key: 'pint', label: 'Liquid Pint', symbol: 'pt', factor: 16.0 },
+            { key: 'quart', label: 'Liquid Quart', symbol: 'qt', factor: 32.0 },
+            { key: 'gallon', label: 'US Gallon', symbol: 'gal', factor: 128.0 },
+            { key: 'ml', label: 'Milliliter', symbol: 'ml', factor: 0.033814 },
+            { key: 'liter', label: 'Liter', symbol: 'L', factor: 33.814 },
+        ];
+
+        // 2. WEIGHT (Base: Dry Ounces)
+        const WEIGHT_UNITS = [
+            { key: 'dry_oz', label: 'Ounce', symbol: 'oz', factor: 1.0 },
+            { key: 'lb', label: 'Pound', symbol: 'lb', factor: 16.0 },
+            { key: 'stone', label: 'Stone (US/UK)', symbol: 'st', factor: 224.0 },
+            { key: 'gram', label: 'Gram', symbol: 'g', factor: 0.035274 },
+            { key: 'kg', label: 'Kilogram', symbol: 'kg', factor: 35.274 },
+        ];
+
+        // 3. LENGTH (Base: Inches)
+        const LENGTH_UNITS = [
+            { key: 'in', label: 'Inch', symbol: 'in', factor: 1.0 },
+            { key: 'ft', label: 'Foot', symbol: 'ft', factor: 12.0 },
+            { key: 'yd', label: 'Yard', symbol: 'yd', factor: 36.0 },
+            { key: 'mi', label: 'Mile', symbol: 'mi', factor: 63360.0 },
+            { key: 'cm', label: 'Centimeter', symbol: 'cm', factor: 0.393701 },
+            { key: 'm', label: 'Meter', symbol: 'm', factor: 39.3701 },
+        ];
+
+        // 4. AREA (Base: Square Feet)
+        const AREA_UNITS = [
+            { key: 'sq_in', label: 'Square Inch', symbol: 'sq in', factor: 1.0 / 144.0 },
+            { key: 'sq_ft', label: 'Square Foot', symbol: 'sq ft', factor: 1.0 },
+            { key: 'sq_yd', label: 'Square Yard', symbol: 'sq yd', factor: 9.0 },
+            { key: 'acre', label: 'Acre (Lawn/Lot)', symbol: 'acre', factor: 43560.0 },
+            { key: 'sq_m', label: 'Square Meter', symbol: 'sq m', factor: 10.7639 },
+        ];
+
+        const UNIT_REGISTRY = {
+            vol: VOLUME_UNITS,
+            weight: WEIGHT_UNITS,
+            length: LENGTH_UNITS,
+            area: AREA_UNITS
+        };
+
+        let isUpdating = false;
+        let activeMultiplier = 1.0;
+
+        function renderUnitGrid(containerId, category, colorClass) {
+            const el = document.getElementById(containerId);
+            el.innerHTML = UNIT_REGISTRY[category].map(u => `
+        <div class="flex items-center justify-between gap-3 group">
+          <label class="text-xs font-medium text-slate-300 group-hover:text-white transition flex items-center gap-1.5">
+            <span>${u.label}</span>
+            <span class="text-[10px] font-mono text-slate-500">(${u.symbol})</span>
+          </label>
+          <input type="number" step="any" id="${category}_${u.key}" 
+            oninput="handleUnitInput('${category}', '${u.key}', this.value)" 
+            class="w-32 bg-slate-950 border border-slate-800 focus:border-${colorClass}-500 focus:ring-1 focus:ring-${colorClass}-500 rounded-lg px-3 py-1.5 text-right font-mono text-xs font-bold text-slate-100 outline-none transition" />
+        </div>
+      `).join('');
+        }
+
+        function formatNum(val) {
+            if (val === 0) return "0";
+            if (Math.abs(val) < 0.0001) return val.toFixed(5);
+            if (Math.abs(val - Math.round(val)) < 0.005) {
+                return Math.round(val).toString();
+            }
+            return parseFloat(val.toFixed(3)).toString();
+        }
+
+        function handleUnitInput(category, sourceKey, rawVal) {
+            if (isUpdating) return;
+            const num = parseFloat(rawVal);
+            if (isNaN(num)) return;
+
+            isUpdating = true;
+            try {
+                const units = UNIT_REGISTRY[category];
+                const sourceObj = units.find(u => u.key === sourceKey);
+                const baseValue = num * sourceObj.factor;
+
+                units.forEach(u => {
+                    if (u.key !== sourceKey) {
+                        const calculated = baseValue / u.factor;
+                        const input = document.getElementById(`${category}_${u.key}`);
+                        if (input) input.value = formatNum(calculated);
+                    }
+                });
+            } finally {
+                isUpdating = false;
+            }
+        }
+
+        function handleTempInput(type, rawVal) {
+            const val = parseFloat(rawVal);
+            if (isNaN(val)) return;
+
+            let f, c;
+            if (type === 'f') {
+                f = val;
+                c = (f - 32) * (5 / 9);
+                document.getElementById('temp_c').value = formatNum(c);
+            } else {
+                c = val;
+                f = (c * 9 / 5) + 32;
+                document.getElementById('temp_f').value = formatNum(f);
+            }
+
+            let gas = "—";
+            if (f < 250) gas = "1/4 (Very Slow)";
+            else if (f < 275) gas = "1/2 (Slow)";
+            else if (f < 325) gas = "1-2 (Cool)";
+            else if (f < 375) gas = "3-4 (Moderate)";
+            else if (f < 425) gas = "5-6 (Hot)";
+            else if (f >= 425) gas = "7+ (Searing / Broil)";
+            document.getElementById('temp_gas').value = gas;
+        }
+
+        function applyPreset(category, key, val) {
+            const el = document.getElementById(`${category}_${key}`);
+            if (el) {
+                el.value = val;
+                handleUnitInput(category, key, val);
+                triggerToast(`Applied ${val} ${key.replace('_', ' ')}`);
+            }
+        }
+
+        function applyTempPreset(f) {
+            const el = document.getElementById('temp_f');
+            el.value = f;
+            handleTempInput('f', f);
+            triggerToast(`Hearth set to ${f}°F`);
+        }
+
+        function resetAll() {
+            isUpdating = true;
+            Object.keys(UNIT_REGISTRY).forEach(cat => {
+                UNIT_REGISTRY[cat].forEach(u => {
+                    const el = document.getElementById(`${cat}_${u.key}`);
+                    if (el) el.value = '';
+                });
+            });
+            isUpdating = false;
+            triggerToast('All units cleared');
+        }
+
+        function setMultiplier(mult, btn) {
+            activeMultiplier = mult;
+            document.querySelectorAll('.mult-btn').forEach(b => {
+                b.className = "mult-btn py-1 rounded border border-slate-800 text-slate-300 font-mono text-xs hover:border-purple-500 transition";
+            });
+            btn.className = "mult-btn py-1 rounded border border-purple-500 bg-purple-500/20 text-purple-300 font-mono text-xs transition";
+            scaleRecipe();
+        }
+
+        function scaleRecipe() {
+            const text = document.getElementById('recipeInput').value.trim();
+            if (!text) return;
+
+            const lines = text.split('\n');
+            const scaled = lines.map(line => {
+                return line.replace(/^(\d+\/\d+|\d+(\.\d+)?)/, match => {
+                    let num = 0;
+                    if (match.includes('/')) {
+                        const [n, d] = match.split('/');
+                        num = parseFloat(n) / parseFloat(d);
+                    } else {
+                        num = parseFloat(match);
+                    }
+                    return formatNum(num * activeMultiplier);
+                });
+            });
+
+            const out = document.getElementById('recipeOutput');
+            out.textContent = `// Batch Scaled (${activeMultiplier}x):\n` + scaled.join('\n');
+            out.classList.remove('hidden');
+            triggerToast(`Scaled batch by ${activeMultiplier}x`);
+        }
+
+        function copyManifest() {
+            const summary = `OMNISCALE US HOUSEHOLD CONVERSIONS:
+- 1 Cup = ${document.getElementById('vol_cup')?.value || '1'} cups = ${document.getElementById('vol_tbsp')?.value || ''} tbsp = ${document.getElementById('vol_fl_oz')?.value || ''} fl oz
+- 1 Lb = ${document.getElementById('weight_lb')?.value || '1'} lbs = ${document.getElementById('weight_dry_oz')?.value || ''} oz
+- 1 Foot = ${document.getElementById('length_ft')?.value || '1'} ft = ${document.getElementById('length_in')?.value || ''} in
+- 1 Sq Ft = ${document.getElementById('area_sq_ft')?.value || '1'} sq ft = ${document.getElementById('area_sq_in')?.value || ''} sq in`;
+
+            navigator.clipboard.writeText(summary).then(() => {
+                triggerToast('Snapshot copied to clipboard!');
+            });
+        }
+
+        function triggerToast(msg) {
+            const toast = document.getElementById('toast');
+            document.getElementById('toastMsg').textContent = msg;
+            toast.classList.remove('translate-y-24', 'opacity-0');
+            toast.classList.add('translate-y-0', 'opacity-100');
+            setTimeout(() => {
+                toast.classList.add('translate-y-24', 'opacity-0');
+                toast.classList.remove('translate-y-0', 'opacity-100');
+            }, 2500);
+        }
+
+        document.addEventListener('DOMContentLoaded', () => {
+            renderUnitGrid('volGrid', 'vol', 'sky');
+            renderUnitGrid('weightGrid', 'weight', 'emerald');
+            renderUnitGrid('lengthGrid', 'length', 'amber');
+            renderUnitGrid('areaGrid', 'area', 'indigo');
+
+            applyPreset('vol', 'cup', 1);
+            applyPreset('weight', 'lb', 1);
+            applyPreset('length', 'ft', 1);
+            applyPreset('area', 'sq_ft', 100);
+        });
+    </script>
+</body>
+
+</html>

@@ -1,0 +1,35 @@
+@{
+    ViewBag.Title = "Mischief & Magic Co. - Order Confirmed!";
+}
+
+<div class="row">
+    <div class="col-md-8 col-md-offset-2">
+        <div class="jumbotron text-center" style="background: #ffffff; border: 2px dashed var(--carnival-gold); border-radius: 16px; padding: 40px; box-shadow: 0 10px 30px rgba(0,0,0,0.08); margin-top: 30px;">
+            <div style="font-size: 64px; margin-bottom: 20px; animation: bounce 1.5s infinite;">
+                🎩✨🎉
+            </div>
+            
+            <h1 style="font-family: 'Fredoka', 'Montserrat', cursive; color: var(--carnival-purple); font-weight: 800; font-size: 38px;">
+                Abracadabra! Order Confirmed!
+            </h1>
+            
+            <p class="lead" style="color: #495057; font-size: 20px; margin-top: 15px;">
+                Thanks for placing your order with <strong>Mischief & Magic Co.</strong>!
+            </p>
+            
+            <div class="alert alert-success" style="border-radius: 10px; font-size: 15px; margin: 25px auto; max-width: 550px; text-align: left;">
+                <i class="glyphicon glyphicon-envelope" style="font-size: 20px; float: left; margin-right: 12px; margin-top: 2px;"></i>
+                <strong>Dispatch In Flight:</strong><br />
+                Our mischievous delivery imps have received your payload instructions and will ship your prank & magic merchandise shortly. A dispatch confirmation receipt has been dispatched to your email!
+            </div>
+
+            <p style="color: #6c757d; margin-top: 20px;">
+                <em>"With great pranks comes great comedic responsibility."</em>
+            </p>
+
+            <div style="margin-top: 30px;">
+                @Html.ActionLink("Return to Prank Catalog", "List", "Product", null, new { @class = "btn btn-carnival-gold btn-lg", style = "padding: 12px 30px; font-weight: 700;" })
+            </div>
+        </div>
+    </div>
+</div>

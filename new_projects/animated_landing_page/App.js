@@ -35,13 +35,13 @@ function CountUpStat({ item }) {
             ([entry]) => {
                 if (entry.isIntersecting && !hasAnimated.current) {
                     hasAnimated.current = true;
-                    const duration = 2000; // 2 seconds
+                    const duration = 1800;
                     const startTime = performance.now();
 
                     const animate = (currentTime) => {
                         const elapsed = currentTime - startTime;
                         const progress = Math.min(elapsed / duration, 1);
-                        const easeProgress = 1 - Math.pow(1 - progress, 2);
+                        const easeProgress = 1 - Math.pow(1 - progress, 3);
 
                         if (item.isFraction) {
                             const currentNum = (easeProgress * item.numeratorTarget).toFixed(1);
@@ -65,7 +65,7 @@ function CountUpStat({ item }) {
                     requestAnimationFrame(animate);
                 }
             },
-            { threshold: 0.3 }
+            { threshold: 0.2 }
         );
 
         if (ref.current) observer.observe(ref.current);
@@ -80,14 +80,15 @@ function CountUpStat({ item }) {
 }
 
 function HeroFlyingStars() {
+    // Reduced count from 120 to 45 for mobile/tablet GPU efficiency
     const stars = React.useMemo(() => {
-        return Array.from({ length: 120 }, (_, i) => ({
+        return Array.from({ length: 45 }, (_, i) => ({
             id: i,
-            top: `${Math.random() * 100}%`,
-            left: `${Math.random() * 100}%`,
-            size: `${Math.random() * 2 + 1}px`,
-            duration: `${(Math.random() * 3 + 2).toFixed(2)}s`,
-            delay: `${(Math.random() * 4).toFixed(2)}s`
+            top: `${(Math.random() * 100).toFixed(1)}%`,
+            left: `${(Math.random() * 100).toFixed(1)}%`,
+            size: `${(Math.random() * 1.8 + 1).toFixed(1)}px`,
+            duration: `${(Math.random() * 2.5 + 2).toFixed(2)}s`,
+            delay: `${(Math.random() * 3).toFixed(2)}s`
         }));
     }, []);
 
@@ -112,16 +113,17 @@ function HeroFlyingStars() {
 }
 
 function App() {
-    const [mouse, setMouse] = React.useState({ x: 0, y: 0 });
     const [submitted, setSubmitted] = React.useState(false);
     const [isSubmitting, setIsSubmitting] = React.useState(false);
 
-    const [smoothScroll, setSmoothScroll] = React.useState(0);
-    const [solarJourneyProgress, setSolarJourneyProgress] = React.useState(0);
-
     const canvasRef = React.useRef(null);
-    const mouseRef = React.useRef({ x: 0, y: 0 });
+    const heroCardRef = React.useRef(null);
+    const planetWrapperRef = React.useRef(null);
+    const giantSunRef = React.useRef(null);
+    const solarDescentGlowRef = React.useRef(null);
 
+    const mouseRef = React.useRef({ x: 0, y: 0 });
+    const targetMouseRef = React.useRef({ x: 0, y: 0 });
     const targetScrollRef = React.useRef(0);
     const currentScrollRef = React.useRef(0);
 
@@ -130,33 +132,54 @@ function App() {
         return `${parts[0]}@${parts[1]}.${parts[2]}`;
     };
 
-    const handleMouseMove = (e) => {
-        const x = (e.clientX / window.innerWidth - 0.5) * 25;
-        const y = (e.clientY / window.innerHeight - 0.5) * 25;
-        setMouse({ x, y });
-        mouseRef.current = { x, y };
-    };
-
+    // Low-overhead physics loop: direct DOM transforms instead of state re-renders
     React.useEffect(() => {
         let animationFrameId;
+        let isLightActive = false;
 
         const updatePhysics = () => {
-            currentScrollRef.current += (targetScrollRef.current - currentScrollRef.current) * 0.05;
+            // Smooth scroll interpolation
+            currentScrollRef.current += (targetScrollRef.current - currentScrollRef.current) * 0.08;
             const current = currentScrollRef.current;
 
-            setSmoothScroll(current);
+            // Smooth mouse interpolation
+            mouseRef.current.x += (targetMouseRef.current.x - mouseRef.current.x) * 0.08;
+            mouseRef.current.y += (targetMouseRef.current.y - mouseRef.current.y) * 0.08;
 
             const winH = window.innerHeight;
             const docH = document.documentElement.scrollHeight;
             const maxScroll = Math.max(1, docH - winH);
+            const progress = Math.min(Math.max(current / maxScroll, 0), 1);
 
-            const overallProgress = Math.min(Math.max(current / maxScroll, 0), 1);
-            setSolarJourneyProgress(overallProgress);
+            // Mutate transforms directly to prevent React rendering cycle thrashing
+            if (planetWrapperRef.current) {
+                planetWrapperRef.current.style.transform = `scale(${1 + progress * 0.6}) translate3d(0, ${current * 0.15}px, 0)`;
+            }
 
-            if (overallProgress > 0.82) {
-                document.body.classList.add('solar-lit-active');
-            } else {
-                document.body.classList.remove('solar-lit-active');
+            if (giantSunRef.current) {
+                const sunOpacity = Math.min(1, Math.max(0, (progress - 0.25) / 0.65));
+                const sunRise = (1 - progress) * 280;
+                const sunScale = 0.3 + Math.pow(progress, 1.25) * 0.85;
+                giantSunRef.current.style.opacity = sunOpacity;
+                giantSunRef.current.style.transform = `translate3d(-50%, ${sunRise}px, 0) scale(${sunScale})`;
+            }
+
+            if (solarDescentGlowRef.current) {
+                solarDescentGlowRef.current.style.opacity = Math.pow(progress, 3);
+            }
+
+            if (heroCardRef.current) {
+                heroCardRef.current.style.transform = `rotateY(${mouseRef.current.x * 0.08}deg) rotateX(${-mouseRef.current.y * 0.08}deg)`;
+            }
+
+            const shouldBeLight = progress > 0.82;
+            if (shouldBeLight !== isLightActive) {
+                isLightActive = shouldBeLight;
+                if (shouldBeLight) {
+                    document.body.classList.add('solar-lit-active');
+                } else {
+                    document.body.classList.remove('solar-lit-active');
+                }
             }
 
             animationFrameId = requestAnimationFrame(updatePhysics);
@@ -166,67 +189,77 @@ function App() {
             targetScrollRef.current = window.scrollY;
         };
 
-        window.addEventListener('mousemove', handleMouseMove);
+        const handlePointerMove = (e) => {
+            const clientX = e.clientX ?? (e.touches && e.touches[0] ? e.touches[0].clientX : window.innerWidth / 2);
+            const clientY = e.clientY ?? (e.touches && e.touches[0] ? e.touches[0].clientY : window.innerHeight / 2);
+            targetMouseRef.current = {
+                x: (clientX / window.innerWidth - 0.5) * 25,
+                y: (clientY / window.innerHeight - 0.5) * 25
+            };
+        };
+
+        window.addEventListener('mousemove', handlePointerMove, { passive: true });
+        window.addEventListener('touchmove', handlePointerMove, { passive: true });
         window.addEventListener('scroll', handleScroll, { passive: true });
+
         updatePhysics();
 
         return () => {
-            window.removeEventListener('mousemove', handleMouseMove);
+            window.removeEventListener('mousemove', handlePointerMove);
+            window.removeEventListener('touchmove', handlePointerMove);
             window.removeEventListener('scroll', handleScroll);
             cancelAnimationFrame(animationFrameId);
         };
     }, []);
 
-    /* PARALLAX STARFIELD CANVAS */
+    /* VIEWPORT-ONLY PARALLAX CANVAS */
     React.useEffect(() => {
         const canvas = canvasRef.current;
         if (!canvas) return;
         const ctx = canvas.getContext('2d');
         let animationFrameId;
 
-        const resizeCanvas = () => {
-            // Handle high-DPI/Retina screens for smooth circular arcs
-            const dpr = window.devicePixelRatio || 1;
-            const width = window.innerWidth;
-            const height = Math.max(
-                document.documentElement.scrollHeight,
-                window.innerHeight
-            );
+        let width = window.innerWidth;
+        let height = window.innerHeight;
 
-            canvas.width = width * dpr;
-            canvas.height = height * dpr;
+        const resizeCanvas = () => {
+            // Cap DPR at 1.5 to prevent iPad Retina from exhausting GPU RAM
+            const dpr = Math.min(window.devicePixelRatio || 1, 1.5);
+            width = window.innerWidth;
+            height = window.innerHeight;
+
+            canvas.width = Math.floor(width * dpr);
+            canvas.height = Math.floor(height * dpr);
             canvas.style.width = `${width}px`;
             canvas.style.height = `${height}px`;
 
             ctx.scale(dpr, dpr);
         };
+
         resizeCanvas();
         window.addEventListener('resize', resizeCanvas);
 
         const createStarLayer = (count, minSize, maxSize) => {
             return Array.from({ length: count }, () => ({
-                x: Math.random() * window.innerWidth,
-                y: Math.random() * window.innerHeight * 4,
+                x: Math.random() * width,
+                y: Math.random() * height,
                 size: Math.random() * (maxSize - minSize) + minSize,
-                pulseSpeed: Math.random() * 0.03 + 0.015,
+                pulseSpeed: Math.random() * 0.02 + 0.01,
                 phase: Math.random() * Math.PI * 2,
                 baseAlpha: Math.random() * 0.3 + 0.2
             }));
         };
 
-        const starsDeep = createStarLayer(250, 1.0, 1.6);
-        const starsMid = createStarLayer(150, 1.6, 2.4);
-        const starsNear = createStarLayer(80, 2.4, 3.8);
+        // Scaled down counts for mobile/tablet efficiency
+        const starsDeep = createStarLayer(100, 1.0, 1.5);
+        const starsMid = createStarLayer(60, 1.5, 2.2);
+        const starsNear = createStarLayer(30, 2.2, 3.2);
 
         let time = 0;
 
         const renderGalaxy = () => {
             time += 1;
-            ctx.clearRect(0, 0, canvas.width, canvas.height);
-
-            // Enable maximum smoothing for smooth circular arcs
-            ctx.imageSmoothingEnabled = true;
-            ctx.imageSmoothingQuality = 'high';
+            ctx.clearRect(0, 0, width, height);
 
             const mx = mouseRef.current.x;
             const my = mouseRef.current.y;
@@ -237,28 +270,30 @@ function App() {
 
             const drawLayer = (stars, mxMult, myMult, syMult, maxOpacity) => {
                 ctx.save();
-                ctx.translate(mx * mxMult, my * myMult - sy * syMult);
+                ctx.translate(mx * mxMult, my * myMult);
 
                 stars.forEach((star) => {
-                    const twinkle = (Math.sin(time * star.pulseSpeed + star.phase) + 1) / 2;
+                    // Loop stars continuously within the visible viewport height
+                    const yPos = (star.y - sy * syMult) % height;
+                    const wrappedY = yPos < 0 ? yPos + height : yPos;
+
+                    const twinkle = (Math.sin(time * star.pulseSpeed + star.phase) + 1) * 0.5;
                     const currentAlpha = (star.baseAlpha + twinkle * (1 - star.baseAlpha)) * maxOpacity;
 
                     ctx.fillStyle = starFillColor;
                     ctx.globalAlpha = Math.min(1, Math.max(0, currentAlpha));
 
                     ctx.beginPath();
-                    // Drawing with explicit arc parameters ensures perfect circles
-                    ctx.arc(star.x, star.y, star.size / 2, 0, Math.PI * 2, false);
-                    ctx.closePath();
+                    ctx.arc(star.x, wrappedY, star.size / 2, 0, Math.PI * 2, false);
                     ctx.fill();
                 });
 
                 ctx.restore();
             };
 
-            drawLayer(starsDeep, 0.03, 0.03, 0.15, isLightActive ? 0.4 : 0.65);
-            drawLayer(starsMid, 0.1, 0.1, 0.4, isLightActive ? 0.55 : 0.85);
-            drawLayer(starsNear, 0.22, 0.22, 0.75, isLightActive ? 0.7 : 1.0);
+            drawLayer(starsDeep, 0.02, 0.02, 0.1, isLightActive ? 0.35 : 0.6);
+            drawLayer(starsMid, 0.05, 0.05, 0.25, isLightActive ? 0.5 : 0.8);
+            drawLayer(starsNear, 0.1, 0.1, 0.45, isLightActive ? 0.65 : 0.95);
 
             animationFrameId = requestAnimationFrame(renderGalaxy);
         };
@@ -277,8 +312,6 @@ function App() {
                 entries.forEach((entry) => {
                     if (entry.isIntersecting) {
                         entry.target.classList.add('reveal-active');
-                    } else {
-                        entry.target.classList.remove('reveal-active');
                     }
                 });
             },
@@ -300,7 +333,6 @@ function App() {
         const message = formData.get('message');
         const recipient = getDecodedEmail();
 
-        // Construct structured mailto parameters
         const subject = encodeURIComponent(`Portfolio Inquiry from ${name}`);
         const body = encodeURIComponent(
             `Name: ${name}\n` +
@@ -308,10 +340,7 @@ function App() {
             `Message:\n${message}`
         );
 
-        // Launch email client with pre-filled content
         window.location.href = `mailto:${recipient}?subject=${subject}&body=${body}`;
-
-        // Mark form as submitted to update UI
         setSubmitted(true);
         setIsSubmitting(false);
     };
@@ -319,12 +348,7 @@ function App() {
     return (
         <div className="canvas-wrapper">
             <div className="fixed-space-texture-bg" aria-hidden="true" />
-
-            <div
-                className="solar-descent-glow"
-                style={{ opacity: Math.pow(solarJourneyProgress, 3.2) }}
-                aria-hidden="true"
-            />
+            <div ref={solarDescentGlowRef} className="solar-descent-glow" aria-hidden="true" />
 
             <canvas ref={canvasRef} className="galaxy-canvas" />
 
@@ -342,12 +366,7 @@ function App() {
                     <div className="nebula-swirl nebula-1"></div>
                     <div className="nebula-swirl nebula-2"></div>
 
-                    <div
-                        className="solar-system-planet-wrapper"
-                        style={{
-                            transform: `scale(${1 + solarJourneyProgress * 0.9}) translate3d(0, ${smoothScroll * 0.18}px, 0)`
-                        }}
-                    >
+                    <div ref={planetWrapperRef} className="solar-system-planet-wrapper">
                         <div className="planet-lunar-core">
                             <div className="lunar-maria maria-1"></div>
                             <div className="lunar-maria maria-2"></div>
@@ -357,9 +376,6 @@ function App() {
                             <div className="lunar-crater crater-3"></div>
                             <div className="lunar-crater crater-4"></div>
                             <div className="lunar-crater crater-5"></div>
-                            <div className="lunar-crater crater-6"></div>
-                            <div className="lunar-crater crater-7"></div>
-                            <div className="lunar-crater crater-8"></div>
                             <div className="lunar-shadow-overlay"></div>
                         </div>
                     </div>
@@ -367,12 +383,7 @@ function App() {
 
                 <div className="hero-content-inner">
                     <HeroFlyingStars />
-                    <div
-                        className="glass-card-3d hero-glass-portal"
-                        style={{
-                            transform: `rotateY(${mouse.x * 0.12}deg) rotateX(${-mouse.y * 0.12}deg)`
-                        }}
-                    >
+                    <div ref={heroCardRef} className="glass-card-3d hero-glass-portal">
                         <h1 className="hero-headline">
                             Bringing Static Sites to Life <span>Through Motion & Modern Code.</span>
                         </h1>
@@ -444,7 +455,7 @@ function App() {
 
                 {/* SECTION 3: DATA SETS WITH ANIMATED COUNTERS */}
                 <section className="section-container" aria-label="Page Engagement Data">
-                    <div className="scroll-reveal" style={{ marginBottom: '4.5rem' }}>
+                    <div className="scroll-reveal" style={{ marginBottom: '4rem' }}>
                         <div className="reveal-content">
                             <span className="section-tag">What Keeps a User Engaged Longer with Motion?</span>
                             <h2 className="section-title">Engaging Data Points</h2>
@@ -473,7 +484,7 @@ function App() {
                 </section>
             </main>
 
-            {/* FOOTER & RE-CALIBRATED SUN ZOOM ANIMATION */}
+            {/* FOOTER */}
             <footer id="contact" className="footer-contact-3d">
                 <div className="glass-card-3d contact-card-3d scroll-reveal">
                     <span className="section-tag reveal-content">Reach Out</span>
@@ -525,12 +536,7 @@ function App() {
                 </div>
 
                 <div className="footer-stage-wrapper">
-                    <div
-                        className="giant-glowing-sun"
-                        style={{
-                            transform: `translate3d(-50%, ${(1 - solarJourneyProgress) * 280}px, 0) scale(${0.4 + solarJourneyProgress * 0.8})`
-                        }}
-                    />
+                    <div ref={giantSunRef} className="giant-glowing-sun" />
                 </div>
             </footer>
         </div>

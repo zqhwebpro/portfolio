@@ -1,0 +1,30 @@
+@model IEnumerable<string>
+
+<div class="list-group list-group-mischief">
+    <!-- All Products Link -->
+    @Html.RouteLink("★ All Mischief & Magic", new
+    {
+        controller = "Product",
+        action = "List",
+        category = (string)null,
+        page = 1
+    }, new
+    {
+        @class = "list-group-item list-group-item-action " + (ViewBag.SelectedCategory == null ? "active" : "")
+    })
+
+    <!-- Dynamic Category Links -->
+    @foreach (var link in Model)
+    {
+        @Html.RouteLink(link, new
+        {
+            controller = "Product",
+            action = "List",
+            category = link,
+            page = 1
+        }, new
+        {
+            @class = "list-group-item list-group-item-action " + (link == ViewBag.SelectedCategory ? "active" : "")
+        })
+    }
+</div>

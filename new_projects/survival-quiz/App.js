@@ -1304,7 +1304,7 @@ const TRIVIA_QUESTION_BANK = {
     },
     "60": {
         "question": "How do you protect skin from severe contact burns caused by residual radioactive beta particles?",
-        "correct": "Wear thick impermeable boots, heavy gloves, and tape trouser cuffs tightly",
+        "correct": "Wear thick boots, heavy gloves, wrap duct tape around trouser cuffs and wrists, and discard outer ponchos prior to entering bunker doors",
         "distractors": [
             "Walk barefoot to avoid trapping radioactive dust in socks",
             "Apply sun tanning lotion across all exposed skin",
@@ -1759,6 +1759,626 @@ function DigitalConfetti() {
     return <canvas ref={canvasRef} className="confetti-canvas" />;
 }
 
+// Category Detector for Emergency Directives (Comprehensive Direct Mapping)
+const getCategoryForDirective = (item) => {
+    const headline = ((item && item.headline) || '').toUpperCase();
+    const text = (headline + ' ' + ((item && item.content) || '') + ' ' + ((item && item.question) || '')).toUpperCase();
+
+    // 1. Direct Headline Tag Matching
+    if (headline.includes('[COLD]')) return 'COLD';
+    if (headline.includes('[HEAT]')) return 'HEAT';
+    if (headline.includes('[WEATHER]') || headline.includes('[EARTHQUAKE]')) return 'WEATHER';
+    if (headline.includes('[FLOOD]')) return 'FLOOD';
+    if (headline.includes('[SECURITY]') || headline.includes('[THREAT]')) return 'SECURITY';
+    if (headline.includes('[WATER]')) return 'WATER';
+    if (headline.includes('[FALLOUT]') || headline.includes('[RADIATION]')) return 'RADIATION';
+    if (headline.includes('[HAZMAT]') || headline.includes('[CBRN]') || headline.includes('[AIRWAY]') || headline.includes('[CHOKING]')) return 'BIOHAZARD';
+    if (headline.includes('[FIRE]')) return 'FIRE';
+    if (headline.includes('[TRAUMA]') || headline.includes('[MED]') || headline.includes('[PANIC]')) return 'TRAUMA';
+    if (headline.includes('[NAVIGATION]')) return 'NAVIGATION';
+    if (headline.includes('[COMMS]') || headline.includes('[SIGNALING]') || headline.includes('[EMP]')) return 'COMMS';
+    if (headline.includes('[FORAGING]') || headline.includes('[FOOD]')) return 'FORAGING';
+    if (headline.includes('[ENERGY]') || headline.includes('[FUEL]') || headline.includes('[BLACKOUT]')) return 'POWER';
+    if (headline.includes('[OFF-GRID]')) return 'SHELTER';
+
+    // 2. Keyword Fallback Matching
+    if (text.includes('COLD') || text.includes('FROST') || text.includes('FREEZ') || text.includes('BLIZZARD') || text.includes('SNOW') || text.includes('TRENCH FOOT') || text.includes('HYPOTHERMIA')) {
+        return 'COLD';
+    }
+    if (text.includes('HEAT') || text.includes('DESERT') || text.includes('HOT WATER') || text.includes('SWEAT')) {
+        return 'HEAT';
+    }
+    if (text.includes('TORNADO') || text.includes('EARTHQUAKE') || text.includes('STORM') || text.includes('BAROMETRIC') || text.includes('LIGHTNING') || text.includes('CUMULONIMBUS') || text.includes('WIND')) {
+        return 'WEATHER';
+    }
+    if (text.includes('FLOOD') || text.includes('SUBMERG') || text.includes('RISING WATER')) {
+        return 'FLOOD';
+    }
+    if (text.includes('SECURITY') || text.includes('BARRICADE') || text.includes('TRIPWIRE') || text.includes('INTRUSION') || text.includes('LIGHT DISCIPLINE') || text.includes('ATTACK')) {
+        return 'SECURITY';
+    }
+    if (text.includes('TRAUMA') || text.includes('TOURNIQUET') || text.includes('BLEEDING') || text.includes('WOUND') || text.includes('BURN') || text.includes('FRACTURE') || text.includes('SPLINT') || text.includes('SEAL') || text.includes('TRIAGE') || text.includes('HEMOSTASIS') || text.includes('ANAPHYLAXIS') || text.includes('SNAKEBITE') || text.includes('CHEST WOUND') || text.includes('CRUSH')) {
+        return 'TRAUMA';
+    }
+    if (text.includes('WATER') || text.includes('BOIL') || text.includes('BLEACH') || text.includes('DISTILL') || text.includes('SODIS') || text.includes('FILTER') || text.includes('RAINWATER') || text.includes('CHARCOAL') || text.includes('PURIFICATION') || text.includes('DESALIN')) {
+        return 'WATER';
+    }
+    if (text.includes('RADIATION') || text.includes('FALLOUT') || text.includes('GAMMA') || text.includes('GEIGER') || text.includes('IODIDE') || text.includes('HALF-VALUE') || text.includes('DECAY') || text.includes('7-10') || text.includes('SHIELDING') || text.includes('DOSIMETER') || text.includes('BETA PARTICLE')) {
+        return 'RADIATION';
+    }
+    if (text.includes('BIOHAZARD') || text.includes('AIRWAY') || text.includes('AIRLOCK') || text.includes('DECONTAMINATION') || text.includes('RESPIRATOR') || text.includes('GAS') || text.includes('MASK') || text.includes('CARBON MONOXIDE') || text.includes('CHEMICAL') || text.includes('CHOKING') || text.includes('NERVE AGENT') || text.includes('ATROPINE') || text.includes('CHLORINE')) {
+        return 'BIOHAZARD';
+    }
+    if (text.includes('FIRE') || text.includes('DAKOTA') || text.includes('BOW DRILL') || text.includes('FLINT') || text.includes('CHAR CLOTH') || text.includes('FERRO') || text.includes('SMOKE') || text.includes('KINDLING') || text.includes('SWEDISH')) {
+        return 'FIRE';
+    }
+    if (text.includes('NAV') || text.includes('POLARIS') || text.includes('COMPASS') || text.includes('SHADOW') || text.includes('AZIMUTH') || text.includes('STARS') || text.includes('WATCH') || text.includes('ORIENTATION') || text.includes('PACE COUNT') || text.includes('SOUTHERN CROSS') || text.includes('DECLINATION')) {
+        return 'NAVIGATION';
+    }
+    if (text.includes('COMM') || text.includes('MORSE') || text.includes('RADIO') || text.includes('VHF') || text.includes('SIGNAL') || text.includes('MIRROR') || text.includes('FARADAY') || text.includes('EMP') || text.includes('ANTENNA') || text.includes('WHISTLE') || text.includes('SOS') || text.includes('FLARE') || text.includes('GMRS')) {
+        return 'COMMS';
+    }
+    if (text.includes('FOOD') || text.includes('FORAG') || text.includes('SNARE') || text.includes('EDIBIL') || text.includes('PEMMICAN') || text.includes('JERKY') || text.includes('PLANT') || text.includes('TOXIN') || text.includes('CALORIE') || text.includes('NUTRITION') || text.includes('ACORN') || text.includes('FERMENTATION') || text.includes('DEHYDRAT') || text.includes('DANDELION')) {
+        return 'FORAGING';
+    }
+    if (text.includes('SHELTER') || text.includes('BLAST') || text.includes('BUNKER') || text.includes('LATRINE') || text.includes('WASTE') || text.includes('OVERBURDEN')) {
+        return 'SHELTER';
+    }
+    if (text.includes('POWER') || text.includes('BATTERY') || text.includes('ELECTRIC') || text.includes('SOLAR') || text.includes('VOLT') || text.includes('GENERATOR') || text.includes('FUEL') || text.includes('GASOLINE') || text.includes('DIESEL') || text.includes('MPPT') || text.includes('DIODE') || text.includes('GASIFICATION')) {
+        return 'POWER';
+    }
+
+    return 'TACTICAL';
+};
+
+// Tactical CRT Vector Schematics Renderer
+const renderSchematicSVG = (category, num = 1) => {
+    switch (category) {
+        case 'COLD':
+            return (
+                <svg viewBox="0 0 240 100" width="100%" height="100%" fill="none" xmlns="http://www.w3.org/2000/svg">
+                    {/* Thermometer Outline */}
+                    <rect x="30" y="16" width="16" height="52" rx="8" stroke="#33ff66" strokeWidth="2" fill="rgba(0,25,8,0.7)" />
+                    <circle cx="38" cy="74" r="14" stroke="#33ff66" strokeWidth="2" fill="rgba(0,25,8,0.7)" />
+                    {/* Sub-Zero Mercury Level */}
+                    <rect x="34" y="44" width="8" height="24" fill="#66ff8f" />
+                    <circle cx="38" cy="74" r="9" fill="#66ff8f" />
+                    {/* Tick Marks */}
+                    <line x1="49" y1="26" x2="55" y2="26" stroke="#33ff66" strokeWidth="1.5" />
+                    <line x1="49" y1="36" x2="53" y2="36" stroke="rgba(51,255,102,0.6)" strokeWidth="1.2" />
+                    <line x1="49" y1="46" x2="57" y2="46" stroke="#ff4455" strokeWidth="1.8" />
+                    <line x1="49" y1="56" x2="53" y2="56" stroke="rgba(51,255,102,0.6)" strokeWidth="1.2" />
+                    {/* Snowflake / Ice Crystal Vector */}
+                    <g transform="translate(95, 50)" stroke="#66ff8f" strokeWidth="1.8">
+                        <line x1="-22" y1="0" x2="22" y2="0" />
+                        <line x1="0" y1="-22" x2="0" y2="22" />
+                        <line x1="-15" y1="-15" x2="15" y2="15" />
+                        <line x1="-15" y1="15" x2="15" y2="-15" />
+                        <circle cx="0" cy="0" r="3" fill="#33ff66" />
+                    </g>
+                    {/* Telemetry Readouts */}
+                    <text x="135" y="30" fill="#33ff66" fontSize="8.5" fontFamily="Share Tech Mono" fontWeight="bold">SUB-ZERO THERMAL</text>
+                    <text x="135" y="44" fill="#8affaa" fontSize="7" fontFamily="Share Tech Mono">CORE REWARM PROTOCOL</text>
+                    <text x="135" y="58" fill="#ff4455" fontSize="7.5" fontFamily="Share Tech Mono" fontWeight="bold">T &lt; 60°F IMMERSION</text>
+                    <text x="135" y="72" fill="rgba(51,255,102,0.7)" fontSize="6.5" fontFamily="Share Tech Mono">CONDUCTIVE ISOLATION: OK</text>
+                </svg>
+            );
+        case 'HEAT':
+            return (
+                <svg viewBox="0 0 240 100" width="100%" height="100%" fill="none" xmlns="http://www.w3.org/2000/svg">
+                    {/* Radiating High-Temperature Sun */}
+                    <g transform="translate(48, 50)">
+                        <circle cx="0" cy="0" r="16" fill="rgba(255,180,0,0.25)" stroke="#ffcc00" strokeWidth="2" />
+                        <line x1="0" y1="-26" x2="0" y2="-19" stroke="#ff4455" strokeWidth="2" />
+                        <line x1="0" y1="19" x2="0" y2="26" stroke="#ff4455" strokeWidth="2" />
+                        <line x1="-26" y1="0" x2="-19" y2="0" stroke="#ff4455" strokeWidth="2" />
+                        <line x1="19" y1="0" x2="26" y2="0" stroke="#ff4455" strokeWidth="2" />
+                        <line x1="-18" y1="-18" x2="-13" y2="-13" stroke="#ffcc00" strokeWidth="1.6" />
+                        <line x1="13" y1="13" x2="18" y2="18" stroke="#ffcc00" strokeWidth="1.6" />
+                        <line x1="-18" y1="18" x2="-13" y2="13" stroke="#ffcc00" strokeWidth="1.6" />
+                        <line x1="13" y1="-13" x2="18" y2="-18" stroke="#ffcc00" strokeWidth="1.6" />
+                    </g>
+                    {/* Rapid Cooling Triad Nodes */}
+                    <rect x="90" y="24" width="34" height="18" rx="2" stroke="#66ff8f" strokeWidth="1.5" fill="rgba(0,30,10,0.7)" />
+                    <text x="94" y="36" fill="#33ff66" fontSize="7" fontFamily="Share Tech Mono" fontWeight="bold">GROIN</text>
+                    <rect x="90" y="46" width="34" height="18" rx="2" stroke="#66ff8f" strokeWidth="1.5" fill="rgba(0,30,10,0.7)" />
+                    <text x="94" y="58" fill="#33ff66" fontSize="7" fontFamily="Share Tech Mono" fontWeight="bold">AXILLA</text>
+                    <rect x="90" y="68" width="34" height="18" rx="2" stroke="#66ff8f" strokeWidth="1.5" fill="rgba(0,30,10,0.7)" />
+                    <text x="94" y="80" fill="#33ff66" fontSize="7" fontFamily="Share Tech Mono" fontWeight="bold">NECK</text>
+                    {/* Readouts */}
+                    <text x="135" y="32" fill="#ff4455" fontSize="8.5" fontFamily="Share Tech Mono" fontWeight="bold">HEAT STROKE ALERT</text>
+                    <text x="135" y="46" fill="#ffcc00" fontSize="7" fontFamily="Share Tech Mono">CORE TEMP &gt; 104°F</text>
+                    <text x="135" y="60" fill="#8affaa" fontSize="7" fontFamily="Share Tech Mono">RAPID COOLING PROTOCOL</text>
+                    <text x="135" y="74" fill="rgba(51,255,102,0.7)" fontSize="6.5" fontFamily="Share Tech Mono">WATER CONSERVATION ACTIVE</text>
+                </svg>
+            );
+        case 'WEATHER':
+            return (
+                <svg viewBox="0 0 240 100" width="100%" height="100%" fill="none" xmlns="http://www.w3.org/2000/svg">
+                    {/* Anvil / Squall Cumulonimbus Cloud */}
+                    <path d="M 18 36 L 85 36 C 88 28, 76 18, 62 20 C 56 14, 40 14, 34 22 C 22 20, 16 28, 18 36 Z" fill="rgba(51,255,102,0.2)" stroke="#33ff66" strokeWidth="1.8" />
+                    <path d="M 24 36 L 40 70 L 65 70 L 78 36" fill="rgba(51,255,102,0.08)" stroke="rgba(51,255,102,0.4)" strokeDasharray="2 2" />
+                    {/* Lightning Strike */}
+                    <polygon points="52,42 42,60 48,60 38,78 60,55 52,55" fill="#ffff33" stroke="#ffcc00" strokeWidth="1" />
+                    {/* Isobar Wave */}
+                    <path d="M 95 35 Q 110 22, 125 35 T 155 35" stroke="#66ff8f" strokeWidth="1.5" strokeDasharray="3 2" />
+                    <path d="M 95 55 Q 110 42, 125 55 T 155 55" stroke="#66ff8f" strokeWidth="1.5" strokeDasharray="3 2" />
+                    {/* Telemetry */}
+                    <text x="135" y="32" fill="#33ff66" fontSize="8.5" fontFamily="Share Tech Mono" fontWeight="bold">SEVERE ATMOSPHERIC</text>
+                    <text x="135" y="46" fill="#ffcc00" fontSize="7" fontFamily="Share Tech Mono">ΔP &gt; 3 mbar / 3 HRS</text>
+                    <text x="135" y="60" fill="#8affaa" fontSize="7" fontFamily="Share Tech Mono">TORNADO / SEISMIC REFUGE</text>
+                    <text x="135" y="74" fill="rgba(51,255,102,0.7)" fontSize="6.5" fontFamily="Share Tech Mono">LOWEST FLOOR // MATTRESS</text>
+                </svg>
+            );
+        case 'FLOOD':
+            return (
+                <svg viewBox="0 0 240 100" width="100%" height="100%" fill="none" xmlns="http://www.w3.org/2000/svg">
+                    {/* Vehicle Submersion Profile */}
+                    <path d="M 20 62 L 32 50 L 58 50 L 72 62 L 84 62 L 84 72 L 20 72 Z" fill="rgba(51,255,102,0.15)" stroke="#33ff66" strokeWidth="1.8" />
+                    <circle cx="34" cy="72" r="6" stroke="#33ff66" strokeWidth="1.5" />
+                    <circle cx="70" cy="72" r="6" stroke="#33ff66" strokeWidth="1.5" />
+                    {/* Rapid Water Vector Lines */}
+                    <path d="M 10 56 Q 30 52, 55 56 T 100 56 T 145 56" stroke="#66ff8f" strokeWidth="2" strokeDasharray="4 2" />
+                    <path d="M 10 68 Q 30 64, 55 68 T 100 68 T 145 68" stroke="#33ff66" strokeWidth="1.8" />
+                    <path d="M 10 80 Q 30 76, 55 80 T 100 80 T 145 80" stroke="rgba(51,255,102,0.6)" strokeWidth="1.5" />
+                    {/* Depth Gauge */}
+                    <line x1="100" y1="36" x2="100" y2="82" stroke="#ff4455" strokeWidth="2" />
+                    <line x1="96" y1="56" x2="104" y2="56" stroke="#ff4455" strokeWidth="2" />
+                    <text x="106" y="58" fill="#ff4455" fontSize="7" fontFamily="Share Tech Mono" fontWeight="bold">12 IN</text>
+                    {/* Telemetry */}
+                    <text x="135" y="32" fill="#33ff66" fontSize="8.5" fontFamily="Share Tech Mono" fontWeight="bold">RAPID WATER VECTOR</text>
+                    <text x="135" y="46" fill="#ff4455" fontSize="7" fontFamily="Share Tech Mono">VEHICLE DISPLACEMENT: CRIT</text>
+                    <text x="135" y="60" fill="#8affaa" fontSize="7" fontFamily="Share Tech Mono">WINDOW BREACH // ROOF EXIT</text>
+                    <text x="135" y="74" fill="rgba(51,255,102,0.7)" fontSize="6.5" fontFamily="Share Tech Mono">EVACUATION LINE: ACTIVE</text>
+                </svg>
+            );
+        case 'SECURITY':
+            return (
+                <svg viewBox="0 0 240 100" width="100%" height="100%" fill="none" xmlns="http://www.w3.org/2000/svg">
+                    {/* Reinforced Entryway Door Barrier Profile */}
+                    <rect x="25" y="16" width="46" height="70" stroke="#33ff66" strokeWidth="2" fill="rgba(0,30,10,0.8)" />
+                    {/* Heavy 2x4 Timber Crossbar */}
+                    <rect x="15" y="45" width="66" height="12" rx="2" fill="rgba(255,180,0,0.25)" stroke="#ffcc00" strokeWidth="2" />
+                    {/* Steel Anchor Stud Brackets */}
+                    <rect x="15" y="43" width="8" height="16" fill="#ff4455" stroke="#ff4455" />
+                    <rect x="73" y="43" width="8" height="16" fill="#ff4455" stroke="#ff4455" />
+                    {/* Perimeter Monofilament Tripwire Alarm Line */}
+                    <line x1="95" y1="72" x2="140" y2="72" stroke="#66ff8f" strokeWidth="1.2" strokeDasharray="3 2" />
+                    <rect x="125" y="60" width="10" height="14" rx="2" stroke="#33ff66" strokeWidth="1" fill="rgba(51,255,102,0.2)" />
+                    {/* Telemetry */}
+                    <text x="135" y="32" fill="#33ff66" fontSize="8.5" fontFamily="Share Tech Mono" fontWeight="bold">PERIMETER DEFENSE</text>
+                    <text x="135" y="46" fill="#8affaa" fontSize="7" fontFamily="Share Tech Mono">CROSSBAR TIMBER LOCK</text>
+                    <text x="135" y="60" fill="#ffcc00" fontSize="7" fontFamily="Share Tech Mono">TRIPWIRE ACOUSTIC CHOKE</text>
+                    <text x="135" y="74" fill="#ff4455" fontSize="6.5" fontFamily="Share Tech Mono">RED-FILTER ILLUMINATION</text>
+                </svg>
+            );
+        case 'TRAUMA':
+            return (
+                <svg viewBox="0 0 240 100" width="100%" height="100%" fill="none" xmlns="http://www.w3.org/2000/svg" style={{ overflow: 'visible' }}>
+                    {/* Artery & Vessel Line */}
+                    <path d="M 10 50 Q 30 35, 55 50 T 100 50 T 145 50 T 190 50 L 230 50" stroke="rgba(51,255,102,0.4)" strokeWidth="10" strokeLinecap="round" />
+                    <path d="M 10 50 Q 30 35, 55 50 T 100 50 T 145 50 T 190 50 L 230 50" stroke="#33ff66" strokeWidth="2" strokeDasharray="3 3" />
+                    {/* Occlusion Band */}
+                    <rect x="110" y="20" width="20" height="60" rx="3" fill="rgba(255,51,68,0.25)" stroke="#ff4455" strokeWidth="2" />
+                    {/* Windlass Rod */}
+                    <line x1="100" y1="18" x2="140" y2="42" stroke="#33ff66" strokeWidth="4" strokeLinecap="round" />
+                    <circle cx="120" cy="30" r="4" fill="#33ff66" />
+                    {/* Occlusion Arrows */}
+                    <path d="M 120 8 L 120 18 M 116 14 L 120 18 L 124 14" stroke="#ff4455" strokeWidth="2" />
+                    <path d="M 120 92 L 120 82 M 116 86 L 120 82 L 124 86" stroke="#ff4455" strokeWidth="2" />
+                    {/* Pulse Waveform */}
+                    <path d="M 15 24 L 35 24 L 40 12 L 45 36 L 50 16 L 55 24 L 75 24" stroke="#66ff8f" strokeWidth="1.8" fill="none" />
+                    {/* Measurement Target */}
+                    <circle cx="120" cy="50" r="28" stroke="rgba(51,255,102,0.3)" strokeWidth="1" strokeDasharray="2 2" />
+                    <line x1="120" y1="36" x2="120" y2="64" stroke="rgba(51,255,102,0.4)" strokeWidth="1" />
+                    <line x1="106" y1="50" x2="134" y2="50" stroke="rgba(51,255,102,0.4)" strokeWidth="1" />
+                    {/* Telemetry Text */}
+                    <text x="145" y="25" fill="#33ff66" fontSize="8" fontFamily="Share Tech Mono" fontWeight="bold">HEMOSTASIS LOCK</text>
+                    <text x="145" y="36" fill="rgba(51,255,102,0.7)" fontSize="7" fontFamily="Share Tech Mono">ΔP &gt; 320 mmHg</text>
+                    <text x="145" y="82" fill="#ff4455" fontSize="7.5" fontFamily="Share Tech Mono" fontWeight="bold">ARTERY OCCLUSION</text>
+                </svg>
+            );
+        case 'WATER':
+            return (
+                <svg viewBox="0 0 240 100" width="100%" height="100%" fill="none" xmlns="http://www.w3.org/2000/svg">
+                    {/* Filtration Cylinder */}
+                    <rect x="25" y="14" width="70" height="74" rx="2" stroke="#33ff66" strokeWidth="1.8" fill="rgba(0,25,8,0.7)" />
+                    {/* Strata 1: Gravel */}
+                    <rect x="27" y="16" width="66" height="20" fill="rgba(51,255,102,0.15)" stroke="rgba(51,255,102,0.4)" strokeDasharray="2 2" />
+                    <text x="32" y="29" fill="#8affaa" fontSize="7" fontFamily="Share Tech Mono">1. GRAVEL BED</text>
+                    {/* Strata 2: Active Charcoal */}
+                    <rect x="27" y="38" width="66" height="24" fill="rgba(51,255,102,0.3)" stroke="rgba(51,255,102,0.6)" />
+                    <text x="32" y="52" fill="#33ff66" fontSize="7" fontFamily="Share Tech Mono" fontWeight="bold">2. CHARCOAL</text>
+                    {/* Strata 3: Silica Sand */}
+                    <rect x="27" y="64" width="66" height="22" fill="rgba(51,255,102,0.08)" stroke="rgba(51,255,102,0.4)" strokeDasharray="2 2" />
+                    <text x="32" y="77" fill="#8affaa" fontSize="7" fontFamily="Share Tech Mono">3. FINE SAND</text>
+                    {/* Flow Vector */}
+                    <path d="M 60 4 L 60 12 M 57 9 L 60 12 L 63 9" stroke="#66ff8f" strokeWidth="2" />
+                    <path d="M 60 90 L 60 98 M 57 95 L 60 98 L 63 95" stroke="#33ff66" strokeWidth="2" />
+                    {/* Droplets & Ripples */}
+                    <circle cx="140" cy="55" r="16" stroke="rgba(51,255,102,0.3)" strokeWidth="1.2" strokeDasharray="2 2" />
+                    <circle cx="140" cy="55" r="28" stroke="rgba(51,255,102,0.15)" strokeWidth="1" strokeDasharray="3 3" />
+                    <path d="M 140 38 C 135 48, 132 54, 132 60 A 8 8 0 0 0 148 60 C 148 54, 145 48, 140 38 Z" fill="rgba(51,255,102,0.3)" stroke="#33ff66" strokeWidth="1.5" />
+                    {/* Solar SODIS UV Rays */}
+                    <line x1="175" y1="20" x2="195" y2="35" stroke="#ffcc00" strokeWidth="1.5" strokeDasharray="3 2" />
+                    <line x1="185" y1="15" x2="205" y2="30" stroke="#ffcc00" strokeWidth="1.5" strokeDasharray="3 2" />
+                    <text x="175" y="48" fill="#33ff66" fontSize="8" fontFamily="Share Tech Mono" fontWeight="bold">PURITY: 99.9%</text>
+                    <text x="175" y="60" fill="rgba(51,255,102,0.7)" fontSize="7" fontFamily="Share Tech Mono">BOIL: 100°C / 1M</text>
+                    <text x="175" y="72" fill="#8affaa" fontSize="7" fontFamily="Share Tech Mono">SODIS UV 400nm</text>
+                </svg>
+            );
+        case 'RADIATION':
+            return (
+                <svg viewBox="0 0 240 100" width="100%" height="100%" fill="none" xmlns="http://www.w3.org/2000/svg">
+                    {/* Radiation Trefoil Icon */}
+                    <g transform="translate(42, 50)">
+                        <circle cx="0" cy="0" r="7" fill="#ff4455" />
+                        <path d="M -16 -24 A 28 28 0 0 1 16 -24 L 7 -10 A 12 12 0 0 0 -7 -10 Z" fill="rgba(255,68,85,0.4)" stroke="#ff4455" strokeWidth="1.2" />
+                        <path d="M 28 0 A 28 28 0 0 1 14 26 L 6 12 A 12 12 0 0 0 12 0 Z" fill="rgba(255,68,85,0.4)" stroke="#ff4455" strokeWidth="1.2" transform="rotate(30)" />
+                        <path d="M 28 0 A 28 28 0 0 1 14 26 L 6 12 A 12 12 0 0 0 12 0 Z" fill="rgba(255,68,85,0.4)" stroke="#ff4455" strokeWidth="1.2" transform="rotate(150)" />
+                    </g>
+                    {/* Gamma Attenuation Shield Barrier */}
+                    <rect x="95" y="16" width="16" height="68" fill="rgba(51,255,102,0.25)" stroke="#33ff66" strokeWidth="2" />
+                    <rect x="115" y="16" width="22" height="68" fill="rgba(51,255,102,0.15)" stroke="rgba(51,255,102,0.6)" strokeWidth="1.5" />
+                    <rect x="141" y="16" width="30" height="68" fill="rgba(51,255,102,0.08)" stroke="rgba(51,255,102,0.4)" strokeDasharray="3 2" />
+                    {/* Gamma Incident Waves */}
+                    <path d="M 20 28 Q 28 22, 36 28 T 52 28 T 68 28 T 84 28 T 95 28" stroke="#ff4455" strokeWidth="1.5" />
+                    <path d="M 20 50 Q 28 44, 36 50 T 52 50 T 68 50 T 84 50 T 95 50" stroke="#ff4455" strokeWidth="1.5" />
+                    <path d="M 20 72 Q 28 66, 36 72 T 52 72 T 68 72 T 84 72 T 95 72" stroke="#ff4455" strokeWidth="1.5" />
+                    {/* Attenuated Waves */}
+                    <path d="M 95 50 Q 115 48, 135 50 T 175 50" stroke="#33ff66" strokeWidth="1" strokeDasharray="2 2" />
+                    {/* Telemetry Labels */}
+                    <text x="96" y="92" fill="#33ff66" fontSize="6.5" fontFamily="Share Tech Mono">LEAD</text>
+                    <text x="117" y="92" fill="#8affaa" fontSize="6.5" fontFamily="Share Tech Mono">CONC</text>
+                    <text x="144" y="92" fill="rgba(51,255,102,0.7)" fontSize="6.5" fontFamily="Share Tech Mono">EARTH</text>
+                    <text x="178" y="32" fill="#33ff66" fontSize="8" fontFamily="Share Tech Mono" fontWeight="bold">7:10 RULE</text>
+                    <text x="178" y="44" fill="#8affaa" fontSize="7" fontFamily="Share Tech Mono">-90% / 7 HRS</text>
+                    <text x="178" y="56" fill="#ff4455" fontSize="7" fontFamily="Share Tech Mono">KI: THYROID</text>
+                    <text x="178" y="68" fill="rgba(51,255,102,0.7)" fontSize="6.5" fontFamily="Share Tech Mono">R/HR DECAY</text>
+                </svg>
+            );
+        case 'BIOHAZARD':
+            return (
+                <svg viewBox="0 0 240 100" width="100%" height="100%" fill="none" xmlns="http://www.w3.org/2000/svg">
+                    {/* Double Door Airlock */}
+                    <rect x="25" y="16" width="100" height="68" stroke="rgba(51,255,102,0.4)" strokeWidth="1.5" strokeDasharray="3 2" />
+                    <line x1="45" y1="16" x2="45" y2="84" stroke="#33ff66" strokeWidth="3" />
+                    <line x1="105" y1="16" x2="105" y2="84" stroke="#33ff66" strokeWidth="3" />
+                    <rect x="58" y="30" width="34" height="40" rx="3" fill="rgba(51,255,102,0.15)" stroke="#66ff8f" strokeWidth="1.5" />
+                    <text x="62" y="54" fill="#33ff66" fontSize="7" fontFamily="Share Tech Mono" fontWeight="bold">AIRLOCK</text>
+                    {/* Respirator Filter Canister */}
+                    <rect x="150" y="24" width="36" height="52" rx="4" stroke="#33ff66" strokeWidth="2" fill="rgba(0,30,10,0.8)" />
+                    <line x1="150" y1="40" x2="186" y2="40" stroke="rgba(51,255,102,0.6)" strokeWidth="1.5" />
+                    <line x1="150" y1="56" x2="186" y2="56" stroke="rgba(51,255,102,0.6)" strokeWidth="1.5" />
+                    <circle cx="168" cy="32" r="4" fill="rgba(51,255,102,0.4)" stroke="#33ff66" strokeWidth="1" />
+                    {/* Airflow arrows */}
+                    <path d="M 136 50 L 146 50 M 142 46 L 146 50 L 142 54" stroke="#ff4455" strokeWidth="1.5" />
+                    <path d="M 190 50 L 200 50 M 196 46 L 200 50 L 196 54" stroke="#33ff66" strokeWidth="1.5" />
+                    {/* Readouts */}
+                    <text x="195" y="32" fill="#33ff66" fontSize="8" fontFamily="Share Tech Mono" fontWeight="bold">HEPA P100</text>
+                    <text x="195" y="44" fill="rgba(51,255,102,0.7)" fontSize="7" fontFamily="Share Tech Mono">99.97% EFF</text>
+                    <text x="195" y="68" fill="#8affaa" fontSize="7" fontFamily="Share Tech Mono">ΔP: -25 Pa</text>
+                    <text x="195" y="80" fill="#ff4455" fontSize="6.5" fontFamily="Share Tech Mono">DECON STG-2</text>
+                </svg>
+            );
+        case 'FIRE':
+            return (
+                <svg viewBox="0 0 240 100" width="100%" height="100%" fill="none" xmlns="http://www.w3.org/2000/svg">
+                    {/* Ground Surface Line */}
+                    <line x1="15" y1="36" x2="225" y2="36" stroke="rgba(51,255,102,0.7)" strokeWidth="2" />
+                    <line x1="15" y1="36" x2="225" y2="36" stroke="rgba(51,255,102,0.2)" strokeWidth="8" strokeDasharray="4 4" />
+                    {/* Dakota Fire Hole Profile */}
+                    {/* Combustion Chamber */}
+                    <path d="M 100 36 L 100 78 C 100 86, 140 86, 140 78 L 140 36" stroke="#33ff66" strokeWidth="2" fill="rgba(255,80,30,0.15)" />
+                    {/* Air Intake Draft Tunnel */}
+                    <path d="M 50 36 L 70 80 L 100 80" stroke="#33ff66" strokeWidth="2" strokeDasharray="2 2" fill="none" />
+                    {/* Cold Air Intake Arrow */}
+                    <path d="M 45 28 L 65 68 L 96 74" stroke="#66ff8f" strokeWidth="1.8" strokeDasharray="3 2" />
+                    <path d="M 90 71 L 96 74 L 91 78" stroke="#66ff8f" strokeWidth="1.8" fill="none" />
+                    {/* Flame Vector in Pit */}
+                    <path d="M 120 74 C 112 66, 110 52, 120 42 C 130 52, 128 66, 120 74 Z" fill="#ff4455" stroke="#ffcc00" strokeWidth="1.5" />
+                    <circle cx="120" cy="58" r="4" fill="#ffcc00" />
+                    {/* Smokeless Updraft Thermal Loop */}
+                    <path d="M 120 40 L 120 16 M 116 22 L 120 16 L 124 22" stroke="#ffcc00" strokeWidth="1.5" />
+                    {/* Telemetry Labels */}
+                    <text x="25" y="24" fill="#66ff8f" fontSize="7.5" fontFamily="Share Tech Mono">AIR DRAFT ➔</text>
+                    <text x="150" y="50" fill="#33ff66" fontSize="8" fontFamily="Share Tech Mono" fontWeight="bold">DAKOTA HOLE</text>
+                    <text x="150" y="62" fill="#ffcc00" fontSize="7" fontFamily="Share Tech Mono">SMOKELESS 90%</text>
+                    <text x="150" y="74" fill="rgba(51,255,102,0.7)" fontSize="7" fontFamily="Share Tech Mono">CHAR CLOTH 400°</text>
+                </svg>
+            );
+        case 'NAVIGATION':
+            return (
+                <svg viewBox="0 0 240 100" width="100%" height="100%" fill="none" xmlns="http://www.w3.org/2000/svg">
+                    {/* Celestial Radar Reticle */}
+                    <circle cx="70" cy="50" r="38" stroke="rgba(51,255,102,0.3)" strokeWidth="1" strokeDasharray="2 2" />
+                    <circle cx="70" cy="50" r="22" stroke="rgba(51,255,102,0.2)" strokeWidth="1" />
+                    <line x1="70" y1="8" x2="70" y2="92" stroke="rgba(51,255,102,0.4)" strokeWidth="1" />
+                    <line x1="28" y1="50" x2="112" y2="50" stroke="rgba(51,255,102,0.4)" strokeWidth="1" />
+                    {/* Big Dipper Asterism */}
+                    <circle cx="38" cy="72" r="2.5" fill="#33ff66" />
+                    <circle cx="48" cy="68" r="2.5" fill="#33ff66" />
+                    <circle cx="56" cy="74" r="2.5" fill="#33ff66" />
+                    <circle cx="62" cy="80" r="2.5" fill="#33ff66" />
+                    <circle cx="74" cy="78" r="2.5" fill="#33ff66" />
+                    <circle cx="78" cy="66" r="3" fill="#66ff8f" />
+                    <circle cx="66" cy="64" r="3" fill="#66ff8f" />
+                    <polyline points="38,72 48,68 56,74 62,80 74,78 78,66 66,64 62,80" stroke="rgba(51,255,102,0.5)" strokeWidth="1.2" />
+                    {/* Pointer Stars 5x Line to Polaris */}
+                    <line x1="74" y1="78" x2="78" y2="66" stroke="#66ff8f" strokeWidth="1.5" />
+                    <line x1="78" y1="66" x2="88" y2="24" stroke="#ffcc00" strokeWidth="1.8" strokeDasharray="3 2" />
+                    {/* Polaris (North Star) */}
+                    <circle cx="88" cy="24" r="4.5" fill="#ffffff" stroke="#33ff66" strokeWidth="1.5" />
+                    <line x1="88" y1="14" x2="88" y2="34" stroke="#ffffff" strokeWidth="1" />
+                    <line x1="78" y1="24" x2="98" y2="24" stroke="#ffffff" strokeWidth="1" />
+                    {/* Azimuth / Compass dial on right */}
+                    <text x="135" y="32" fill="#33ff66" fontSize="8.5" fontFamily="Share Tech Mono" fontWeight="bold">POLARIS 000° N</text>
+                    <text x="135" y="46" fill="#8affaa" fontSize="7" fontFamily="Share Tech Mono">AZIMUTH: TRUE NORTH</text>
+                    <text x="135" y="58" fill="rgba(51,255,102,0.7)" fontSize="7" fontFamily="Share Tech Mono">ELEVATION = LATITUDE</text>
+                    <text x="135" y="72" fill="#ffcc00" fontSize="7" fontFamily="Share Tech Mono">SHADOW STICK E-W</text>
+                    <text x="135" y="84" fill="rgba(51,255,102,0.7)" fontSize="6.5" fontFamily="Share Tech Mono">ACCURACY: ±1.5 DEG</text>
+                </svg>
+            );
+        case 'COMMS':
+            return (
+                <svg viewBox="0 0 240 100" width="100%" height="100%" fill="none" xmlns="http://www.w3.org/2000/svg">
+                    {/* Antenna Tower */}
+                    <line x1="45" y1="78" x2="45" y2="26" stroke="#33ff66" strokeWidth="2.5" />
+                    <line x1="28" y1="78" x2="45" y2="38" stroke="rgba(51,255,102,0.6)" strokeWidth="1.5" />
+                    <line x1="62" y1="78" x2="45" y2="38" stroke="rgba(51,255,102,0.6)" strokeWidth="1.5" />
+                    <circle cx="45" cy="24" r="4" fill="#ff4455" stroke="#33ff66" strokeWidth="1.5" />
+                    {/* RF Radiation Sine Arcs */}
+                    <path d="M 54 18 A 12 12 0 0 1 54 30" stroke="#33ff66" strokeWidth="1.5" fill="none" />
+                    <path d="M 60 12 A 20 20 0 0 1 60 36" stroke="rgba(51,255,102,0.7)" strokeWidth="1.5" fill="none" />
+                    <path d="M 66 6 A 28 28 0 0 1 66 42" stroke="rgba(51,255,102,0.4)" strokeWidth="1.5" fill="none" />
+                    {/* Morse Code SOS Telegraph Line */}
+                    <g transform="translate(100, 22)">
+                        <rect x="0" y="0" width="130" height="24" rx="2" fill="rgba(0,30,10,0.8)" stroke="#33ff66" strokeWidth="1.2" />
+                        <text x="6" y="16" fill="#ffcc00" fontSize="11" fontFamily="Share Tech Mono" fontWeight="bold">••• ─── ••• (SOS)</text>
+                    </g>
+                    {/* Faraday Mesh Shield */}
+                    <rect x="100" y="54" width="60" height="32" stroke="rgba(51,255,102,0.4)" strokeWidth="1" strokeDasharray="3 3" fill="rgba(51,255,102,0.06)" />
+                    <line x1="100" y1="64" x2="160" y2="64" stroke="rgba(51,255,102,0.3)" />
+                    <line x1="100" y1="74" x2="160" y2="74" stroke="rgba(51,255,102,0.3)" />
+                    <line x1="120" y1="54" x2="120" y2="86" stroke="rgba(51,255,102,0.3)" />
+                    <line x1="140" y1="54" x2="140" y2="86" stroke="rgba(51,255,102,0.3)" />
+                    <text x="104" y="80" fill="#33ff66" fontSize="6.5" fontFamily="Share Tech Mono">FARADAY EMP</text>
+                    {/* Telemetry */}
+                    <text x="168" y="66" fill="#33ff66" fontSize="8" fontFamily="Share Tech Mono" fontWeight="bold">VHF 146.52 MHz</text>
+                    <text x="168" y="78" fill="rgba(51,255,102,0.7)" fontSize="7" fontFamily="Share Tech Mono">SIMPLEX // LINE-SIGHT</text>
+                </svg>
+            );
+        case 'FORAGING':
+            return (
+                <svg viewBox="0 0 240 100" width="100%" height="100%" fill="none" xmlns="http://www.w3.org/2000/svg">
+                    {/* Ground line */}
+                    <line x1="15" y1="84" x2="120" y2="84" stroke="rgba(51,255,102,0.6)" strokeWidth="2" />
+                    {/* Figure-4 Snare Mechanism */}
+                    {/* Vertical Post */}
+                    <line x1="45" y1="84" x2="45" y2="35" stroke="#33ff66" strokeWidth="3" strokeLinecap="round" />
+                    {/* Diagonal Arm */}
+                    <line x1="40" y1="38" x2="95" y2="82" stroke="#66ff8f" strokeWidth="2.5" strokeLinecap="round" />
+                    {/* Horizontal Bait Trigger Stick */}
+                    <line x1="30" y1="62" x2="105" y2="62" stroke="#ffcc00" strokeWidth="2" strokeLinecap="round" />
+                    <circle cx="102" cy="62" r="3" fill="#ff4455" />
+                    {/* Deadfall Rock/Log Vector */}
+                    <polygon points="35,16 95,28 85,38 25,26" fill="rgba(51,255,102,0.25)" stroke="#33ff66" strokeWidth="1.5" />
+                    <path d="M 60 38 L 60 52 M 56 48 L 60 52 L 64 48" stroke="#ff4455" strokeWidth="1.5" />
+                    {/* Plant Botanical Edibility leaf */}
+                    <g transform="translate(140, 20)">
+                        <path d="M 30 10 C 15 25, 10 45, 30 65 C 50 45, 45 25, 30 10 Z" fill="rgba(51,255,102,0.15)" stroke="#33ff66" strokeWidth="1.8" />
+                        <line x1="30" y1="10" x2="30" y2="70" stroke="#33ff66" strokeWidth="1.5" />
+                        <line x1="30" y1="28" x2="42" y2="20" stroke="rgba(51,255,102,0.6)" strokeWidth="1" />
+                        <line x1="30" y1="40" x2="18" y2="32" stroke="rgba(51,255,102,0.6)" strokeWidth="1" />
+                        <line x1="30" y1="52" x2="42" y2="44" stroke="rgba(51,255,102,0.6)" strokeWidth="1" />
+                    </g>
+                    {/* Telemetry Labels */}
+                    <text x="180" y="36" fill="#33ff66" fontSize="8" fontFamily="Share Tech Mono" fontWeight="bold">FIGURE-4 TRAP</text>
+                    <text x="180" y="48" fill="#ffcc00" fontSize="7" fontFamily="Share Tech Mono">EDIBILITY TRIAGE</text>
+                    <text x="180" y="60" fill="rgba(51,255,102,0.7)" fontSize="7" fontFamily="Share Tech Mono">PEMMICAN 3000k</text>
+                    <text x="180" y="72" fill="#8affaa" fontSize="6.5" fontFamily="Share Tech Mono">8-HR SKIN / LIP TEST</text>
+                </svg>
+            );
+        case 'SHELTER':
+            return (
+                <svg viewBox="0 0 240 100" width="100%" height="100%" fill="none" xmlns="http://www.w3.org/2000/svg">
+                    {/* Ground and Dugout Trench cross section */}
+                    <path d="M 15 36 L 60 36 L 60 84 L 170 84 L 170 36 L 225 36" stroke="#33ff66" strokeWidth="2" fill="rgba(0,25,8,0.7)" />
+                    {/* Heavy Overhead Stringer Logs */}
+                    <circle cx="75" cy="30" r="6" stroke="#33ff66" strokeWidth="1.5" fill="rgba(51,255,102,0.2)" />
+                    <circle cx="89" cy="30" r="6" stroke="#33ff66" strokeWidth="1.5" fill="rgba(51,255,102,0.2)" />
+                    <circle cx="103" cy="30" r="6" stroke="#33ff66" strokeWidth="1.5" fill="rgba(51,255,102,0.2)" />
+                    <circle cx="117" cy="30" r="6" stroke="#33ff66" strokeWidth="1.5" fill="rgba(51,255,102,0.2)" />
+                    <circle cx="131" cy="30" r="6" stroke="#33ff66" strokeWidth="1.5" fill="rgba(51,255,102,0.2)" />
+                    <circle cx="145" cy="30" r="6" stroke="#33ff66" strokeWidth="1.5" fill="rgba(51,255,102,0.2)" />
+                    <circle cx="159" cy="30" r="6" stroke="#33ff66" strokeWidth="1.5" fill="rgba(51,255,102,0.2)" />
+                    {/* Earth Overburden Layer */}
+                    <rect x="62" y="10" width="106" height="14" fill="rgba(51,255,102,0.12)" stroke="rgba(51,255,102,0.4)" strokeDasharray="3 2" />
+                    <text x="76" y="20" fill="#8affaa" fontSize="6.5" fontFamily="Share Tech Mono">3.0 FT PACKED EARTH</text>
+                    {/* Ventilation Air Intake Snorkel */}
+                    <path d="M 162 80 L 162 14 L 172 14" stroke="#66ff8f" strokeWidth="2" fill="none" />
+                    {/* Blast Deflection Baffle */}
+                    <line x1="60" y1="56" x2="80" y2="56" stroke="#ff4455" strokeWidth="2.5" />
+                    {/* Telemetry Labels */}
+                    <text x="80" y="66" fill="#33ff66" fontSize="8" fontFamily="Share Tech Mono" fontWeight="bold">TRENCH BLAST BUNKER</text>
+                    <text x="80" y="78" fill="rgba(51,255,102,0.7)" fontSize="7" fontFamily="Share Tech Mono">PF &gt; 100 // OVERBURDEN LOCK</text>
+                </svg>
+            );
+        case 'POWER':
+            return (
+                <svg viewBox="0 0 240 100" width="100%" height="100%" fill="none" xmlns="http://www.w3.org/2000/svg">
+                    {/* Lead-Acid Battery Cell */}
+                    <rect x="25" y="20" width="75" height="64" rx="3" stroke="#33ff66" strokeWidth="1.8" fill="rgba(0,30,10,0.7)" />
+                    {/* Terminal Posts */}
+                    <rect x="36" y="12" width="10" height="8" fill="#ff4455" stroke="#ff4455" />
+                    <rect x="78" y="12" width="10" height="8" fill="#33ff66" stroke="#33ff66" />
+                    <text x="39" y="9" fill="#ff4455" fontSize="7" fontFamily="Share Tech Mono" fontWeight="bold">+</text>
+                    <text x="81" y="9" fill="#33ff66" fontSize="7" fontFamily="Share Tech Mono" fontWeight="bold">-</text>
+                    {/* Electrolyte Plates */}
+                    <line x1="42" y1="26" x2="42" y2="76" stroke="#ff4455" strokeWidth="3" />
+                    <line x1="56" y1="26" x2="56" y2="76" stroke="#33ff66" strokeWidth="3" />
+                    <line x1="70" y1="26" x2="70" y2="76" stroke="#ff4455" strokeWidth="3" />
+                    <line x1="84" y1="26" x2="84" y2="76" stroke="#33ff66" strokeWidth="3" />
+                    {/* Photovoltaic Solar Panel on Right */}
+                    <g transform="translate(130, 18)">
+                        <polygon points="0,20 60,0 80,45 20,65" fill="rgba(51,255,102,0.18)" stroke="#33ff66" strokeWidth="1.5" />
+                        <line x1="30" y1="10" x2="50" y2="55" stroke="rgba(51,255,102,0.5)" strokeWidth="1" />
+                        <line x1="10" y1="42" x2="70" y2="22" stroke="rgba(51,255,102,0.5)" strokeWidth="1" />
+                    </g>
+                    {/* Telemetry Labels */}
+                    <text x="135" y="78" fill="#33ff66" fontSize="8" fontFamily="Share Tech Mono" fontWeight="bold">12.6V DC LEAD-ACID</text>
+                    <text x="135" y="90" fill="rgba(51,255,102,0.7)" fontSize="7" fontFamily="Share Tech Mono">H2SO4 1.265 SG // PV ARRAY</text>
+                </svg>
+            );
+        default: // 'TACTICAL'
+            return (
+                <svg viewBox="0 0 240 100" width="100%" height="100%" fill="none" xmlns="http://www.w3.org/2000/svg">
+                    {/* Concentric Radar Rings */}
+                    <circle cx="80" cy="50" r="42" stroke="rgba(51,255,102,0.3)" strokeWidth="1.2" strokeDasharray="3 3" />
+                    <circle cx="80" cy="50" r="28" stroke="rgba(51,255,102,0.4)" strokeWidth="1" />
+                    <circle cx="80" cy="50" r="14" stroke="rgba(51,255,102,0.5)" strokeWidth="1" />
+                    <circle cx="80" cy="50" r="2" fill="#33ff66" />
+                    <line x1="80" y1="4" x2="80" y2="96" stroke="rgba(51,255,102,0.3)" strokeWidth="1" />
+                    <line x1="34" y1="50" x2="126" y2="50" stroke="rgba(51,255,102,0.3)" strokeWidth="1" />
+                    {/* Sweep Line */}
+                    <line x1="80" y1="50" x2="114" y2="22" stroke="#66ff8f" strokeWidth="2" strokeLinecap="round" />
+                    {/* Target Lock Blips */}
+                    <rect x="100" y="30" width="6" height="6" fill="#ff4455" stroke="#ffffff" strokeWidth="0.8" />
+                    <circle cx="60" cy="65" r="3" fill="#33ff66" />
+                    {/* Target HUD Brackets on Right */}
+                    <text x="140" y="36" fill="#33ff66" fontSize="8.5" fontFamily="Share Tech Mono" fontWeight="bold">TACTICAL RADAR</text>
+                    <text x="140" y="48" fill="#8affaa" fontSize="7" fontFamily="Share Tech Mono">GRID: REF-00{num}</text>
+                    <text x="140" y="60" fill="rgba(51,255,102,0.7)" fontSize="7" fontFamily="Share Tech Mono">TARGET ACQUIRED</text>
+                    <text x="140" y="74" fill="#66ff8f" fontSize="7" fontFamily="Share Tech Mono">STATUS: 100% NOMINAL</text>
+                </svg>
+            );
+    }
+};
+
+// Tactical Schematic HUD Card Component
+function TacticalSchematicHUD({ item, height = 114, showDetails = true }) {
+    if (!item) return null;
+    const category = getCategoryForDirective(item);
+
+    return (
+        <div className="tactical-schematic-card" style={{ minHeight: height }}>
+            <div className="schematic-corner-tl"></div>
+            <div className="schematic-corner-tr"></div>
+            <div className="schematic-corner-bl"></div>
+            <div className="schematic-corner-br"></div>
+
+            {/* Header Telemetry */}
+            <div style={{
+                display: 'flex',
+                justifyContent: 'space-between',
+                alignItems: 'center',
+                borderBottom: '1px solid rgba(51, 255, 102, 0.25)',
+                paddingBottom: '3px',
+                marginBottom: '4px',
+                fontSize: '0.68rem',
+                fontWeight: 800,
+                letterSpacing: '0.08em',
+                color: 'var(--term-green-bright)',
+                position: 'relative',
+                zIndex: 10
+            }}>
+                <span>// SCHEMATIC: {category}</span>
+                <span style={{ color: 'var(--term-text-dim)', fontSize: '0.62rem' }}>FIG. {String(item.num || 1).padStart(3, '0')}</span>
+            </div>
+
+            {/* SVG Visual Graphic */}
+            <div className="schematic-svg-canvas" style={{ height: height - 42 }}>
+                {renderSchematicSVG(category, item.num)}
+            </div>
+
+            {/* Bottom Diagnostic Metadata */}
+            {showDetails && (
+                <div style={{
+                    display: 'flex',
+                    justifyContent: 'space-between',
+                    alignItems: 'center',
+                    borderTop: '1px solid rgba(51, 255, 102, 0.18)',
+                    paddingTop: '3px',
+                    marginTop: '4px',
+                    fontSize: '0.58rem',
+                    color: 'var(--term-text-dim)',
+                    letterSpacing: '0.05em',
+                    position: 'relative',
+                    zIndex: 10
+                }}>
+                    <span>VECTOR TELEMETRY // OK</span>
+                    <span style={{ color: 'var(--term-green-bright)' }}>CRT-RASTER 80s</span>
+                </div>
+            )}
+        </div>
+    );
+}
+
+// Vintage Alarm Clock Component
+function VintageAlarmClock({ compact = false }) {
+    const getClockParts = () => {
+        const d = new Date();
+        let hours = d.getHours();
+        const ampm = hours >= 12 ? 'PM' : 'AM';
+        hours = hours % 12;
+        hours = hours ? hours : 12;
+        const strHours = String(hours).padStart(2, '0');
+        const strMins = String(d.getMinutes()).padStart(2, '0');
+        const strSecs = String(d.getSeconds()).padStart(2, '0');
+        return { hours: strHours, minutes: strMins, seconds: strSecs, ampm };
+    };
+
+    const [clock, setClock] = useState(() => getClockParts());
+
+    useEffect(() => {
+        const timer = setInterval(() => {
+            setClock(getClockParts());
+        }, 1000);
+        return () => clearInterval(timer);
+    }, []);
+
+    if (compact) {
+        return (
+            <div style={{
+                display: 'flex',
+                alignItems: 'baseline',
+                fontFamily: "'Orbitron', 'Share Tech Mono', monospace",
+                fontSize: '0.86rem',
+                fontWeight: 800,
+                color: 'var(--term-green-bright)',
+                letterSpacing: '0.06em',
+                textShadow: '0 0 6px rgba(51, 255, 102, 0.7)'
+            }}>
+                <span>{clock.hours}</span>
+                <span className="alarm-colon">:</span>
+                <span>{clock.minutes}</span>
+                <span className="alarm-colon">:</span>
+                <span>{clock.seconds}</span>
+                <span style={{ fontSize: '0.62rem', marginLeft: '4px', color: 'var(--term-green)' }}>{clock.ampm}</span>
+            </div>
+        );
+    }
+
+    return (
+        <div className="vintage-alarm-clock-box">
+            <div className="vintage-alarm-display">
+                <div className="vintage-alarm-ghost">
+                    88:88:88 <span style={{ fontSize: '0.65rem', marginLeft: '6px' }}>88</span>
+                </div>
+
+                <div className="vintage-alarm-digits">
+                    <span className="alarm-digit">{clock.hours}</span>
+                    <span className="alarm-colon">:</span>
+                    <span className="alarm-digit">{clock.minutes}</span>
+                    <span className="alarm-colon">:</span>
+                    <span className="alarm-digit">{clock.seconds}</span>
+                    <span className="alarm-ampm-badge">{clock.ampm}</span>
+                </div>
+            </div>
+        </div>
+    );
+}
+
 function PerspectiveCard({ item, index, onSelect }) {
     const cardRef = useRef(null);
     const [mouseTransform, setMouseTransform] = useState('');
@@ -1778,7 +2398,7 @@ function PerspectiveCard({ item, index, onSelect }) {
     }, [index]);
 
     const handleMouseMove = (e) => {
-        if (!cardRef.current) return;
+        if (!cardRef.current || (typeof window !== 'undefined' && window.innerWidth < 860)) return;
         const rect = cardRef.current.getBoundingClientRect();
         const x = e.clientX - rect.left;
         const y = e.clientY - rect.top;
@@ -1793,24 +2413,31 @@ function PerspectiveCard({ item, index, onSelect }) {
 
     const handleMouseLeave = () => {
         setIsHovered(false);
-        setMouseTransform(`perspective(900px) translateX(${tossStyle.baseShiftX}px) rotateZ(${tossStyle.baseRot}deg) rotateX(0deg) rotateY(0deg) translateZ(0px) scale3d(1, 1, 1)`);
+        setMouseTransform('');
     };
+
+    const handleClick = () => {
+        playSelectClick();
+        onSelect(item);
+    };
+
+    const isMobile = typeof window !== 'undefined' && window.innerWidth < 860;
 
     return (
         <article
             ref={cardRef}
             className="archive-clipping"
             style={{
-                transform: mouseTransform || `perspective(900px) translateX(${tossStyle.baseShiftX}px) rotateZ(${tossStyle.baseRot}deg)`,
+                transform: mouseTransform || (!isMobile ? `perspective(900px) translateX(${tossStyle.baseShiftX}px) rotateZ(${tossStyle.baseRot}deg)` : 'none'),
                 transition: isHovered ? 'transform 0.08s ease-out' : 'transform 0.36s cubic-bezier(0.2, 0.8, 0.4, 1)',
                 animationDelay: `${(index % 8) * 0.04}s`,
                 zIndex: isHovered ? 120 : tossStyle.zIndex,
-                margin: '10px 14px'
+                margin: isMobile ? '8px 4px' : '10px 14px'
             }}
             onMouseMove={handleMouseMove}
             onMouseEnter={() => setIsHovered(true)}
             onMouseLeave={handleMouseLeave}
-            onClick={() => onSelect(item)}
+            onClick={handleClick}
         >
             <div
                 className="archive-tape"
@@ -1821,9 +2448,31 @@ function PerspectiveCard({ item, index, onSelect }) {
                 }}
             ></div>
 
-            <h2 className="archive-headline" style={{ color: '#000000', margin: '4px 0 8px 0' }}>
+            {/* Tactical Visual Schematic Image on Fact Card - ABOVE HEADLINE */}
+            <div style={{
+                margin: '2px 0 8px 0',
+                border: '1.5px solid #000000',
+                background: '#031407',
+                borderRadius: 2,
+                overflow: 'hidden',
+                transform: 'translateZ(8px)'
+            }}>
+                <TacticalSchematicHUD item={item} height={isMobile ? 86 : 96} showDetails={false} />
+            </div>
+
+            <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '2px' }}>
+                <span style={{ fontSize: '0.7rem', fontWeight: 800, color: '#006622', letterSpacing: '0.06em' }}>
+                    DIRECTIVE #{item.num}
+                </span>
+                <span style={{ fontSize: '0.66rem', fontWeight: 700, color: '#444444', letterSpacing: '0.04em' }}>
+                    TAP TO INSPECT ↗
+                </span>
+            </div>
+
+            <h2 className="archive-headline" style={{ color: '#000000', margin: '2px 0 6px 0' }}>
                 {item.headline}
             </h2>
+
             <p className="archive-body" style={{ color: '#000000' }}>
                 {item.content}
             </p>
@@ -1839,6 +2488,23 @@ function App() {
     const [shuffleCounter, setShuffleCounter] = useState(0);
     const [lastSynthesizedTime, setLastSynthesizedTime] = useState(null);
 
+    // Responsive Mobile Tab State: 'intel' | 'simulator' | 'hud'
+    const [activeMobileTab, setActiveMobileTab] = useState('simulator');
+    const [isMobileOrTablet, setIsMobileOrTablet] = useState(() => (typeof window !== 'undefined' ? window.innerWidth < 860 : false));
+
+    useEffect(() => {
+        const handleResize = () => {
+            setIsMobileOrTablet(window.innerWidth < 860);
+        };
+        window.addEventListener('resize', handleResize);
+        return () => window.removeEventListener('resize', handleResize);
+    }, []);
+
+    const handleTabSwitch = (tab) => {
+        playPageTurnSound();
+        setActiveMobileTab(tab);
+    };
+
     // Visual State: Digital Distortion & Continuous Color Shift (Still green by default until happy face is clicked)
     const [baseHue, setBaseHue] = useState(0);
     const [isColorPhasing, setIsColorPhasing] = useState(false);
@@ -1846,16 +2512,6 @@ function App() {
     const [isGlitching, setIsGlitching] = useState(false);
     const [transitionTick, setTransitionTick] = useState(0);
     const glitchTimeoutRef = useRef(null);
-
-    // Live Real-Time Digital Clock for Center Top Bar
-    const [currentTime, setCurrentTime] = useState(() => new Date().toLocaleTimeString());
-
-    useEffect(() => {
-        const timer = setInterval(() => {
-            setCurrentTime(new Date().toLocaleTimeString());
-        }, 1000);
-        return () => clearInterval(timer);
-    }, []);
 
     // Quiz State (Default 5 facts)
     const [quizQuestions, setQuizQuestions] = useState([]);
@@ -1882,10 +2538,7 @@ function App() {
     };
 
     const handleSmileyClick = () => {
-        // Trigger retro digital glitch sound
         playGlitchSound();
-
-        // Trigger / restart digital distortion glitch animation
         setIsGlitching(true);
         setGlitchKey(prev => prev + 1);
         if (glitchTimeoutRef.current) clearTimeout(glitchTimeoutRef.current);
@@ -1894,11 +2547,9 @@ function App() {
         }, 440);
 
         if (!isColorPhasing) {
-            // Change colors and begin slowly blending into other colors
             setBaseHue(prev => (prev + 80 + Math.floor(Math.random() * 95)) % 360 || 90);
             setIsColorPhasing(true);
         } else {
-            // Return to green and still
             setBaseHue(0);
             setIsColorPhasing(false);
         }
@@ -2058,17 +2709,8 @@ function App() {
             }}
         >
             {/* RETRO TOP BAR */}
-            <header style={{
-                padding: '12px 24px',
-                borderBottom: '1.5px solid var(--term-green-dim)',
-                display: 'flex',
-                justifyContent: 'space-between',
-                alignItems: 'center',
-                position: 'relative',
-                zIndex: 60,
-                background: 'rgba(3, 10, 5, 0.98)'
-            }}>
-                <div style={{ display: 'flex', alignItems: 'center', gap: 14 }}>
+            <header className="term-header">
+                <div style={{ display: 'flex', alignItems: 'center', gap: 10 }}>
                     {/* Pixel Smiley Button to the left of the Logo */}
                     <button
                         type="button"
@@ -2076,13 +2718,11 @@ function App() {
                         onClick={handleSmileyClick}
                         onMouseEnter={handleSmileyHover}
                         title={isColorPhasing ? "Reset to Static Green (Trigger Digital Distortion)" : "Trigger Digital Distortion & Color Blending"}
-                        style={{ width: '36px', height: '36px', flexShrink: 0 }}
+                        style={{ width: '34px', height: '34px', flexShrink: 0 }}
                     >
-                        <svg width="20" height="20" viewBox="0 0 16 16" fill="none" xmlns="http://www.w3.org/2000/svg" style={{ shapeRendering: 'crispEdges' }}>
-                            {/* Eyes - No eyebrows */}
+                        <svg width="26" height="26" viewBox="0 0 16 16" fill="none" xmlns="http://www.w3.org/2000/svg" style={{ shapeRendering: 'crispEdges' }}>
                             <rect x="4" y="5" width="2" height="2" fill="#33ff66" />
                             <rect x="10" y="5" width="2" height="2" fill="#33ff66" />
-                            {/* Smile curve */}
                             <rect x="3" y="9" width="1" height="2" fill="#33ff66" />
                             <rect x="12" y="9" width="1" height="2" fill="#33ff66" />
                             <rect x="4" y="11" width="8" height="1.5" fill="#33ff66" />
@@ -2090,55 +2730,33 @@ function App() {
                     </button>
 
                     <div>
-                        <div style={{ fontSize: '1.18rem', letterSpacing: '0.14em', fontWeight: 800, color: 'var(--term-green-bright)' }}>
-                            TERMALINK PROTOCOL
+                        <div style={{ fontSize: '1.12rem', letterSpacing: '0.12em', fontWeight: 800, color: 'var(--term-green-bright)', lineHeight: 1.1 }}>
+                            TERMALINK
                         </div>
-                        <div className="uppercase-label" style={{ fontSize: '0.72rem', color: 'var(--term-text-dim)', marginTop: 2, letterSpacing: '0.06em' }}>
-                            Civilian Bunker Training Array // Scenario #{shuffleCounter} [100 Knowledge Directives]
+                        <div className="uppercase-label" style={{ fontSize: '0.66rem', color: 'var(--term-text-dim)', marginTop: 2, letterSpacing: '0.06em' }}>
+                            Civilian Bunker Training
                         </div>
                     </div>
                 </div>
 
-                {/* Real-Time Digital Clock in Center of Top Bar */}
-                <div style={{
-                    position: 'absolute',
-                    left: '50%',
-                    top: '50%',
-                    transform: 'translate(-50%, -50%)',
-                    display: 'flex',
-                    alignItems: 'center',
-                    gap: '8px',
-                    background: 'rgba(0, 20, 6, 0.85)',
-                    border: '1.5px solid var(--term-green-dim)',
-                    boxShadow: '0 0 12px rgba(51, 255, 102, 0.25), inset 0 0 6px rgba(51, 255, 102, 0.1)',
-                    padding: '4px 14px',
-                    borderRadius: '2px',
-                    fontFamily: "'Share Tech Mono', monospace",
-                    fontSize: '1.05rem',
-                    fontWeight: 700,
-                    letterSpacing: '0.12em',
-                    color: 'var(--term-green-bright)',
-                    textShadow: '0 0 6px rgba(51, 255, 102, 0.6)',
-                    pointerEvents: 'none'
-                }}>
-                    <span style={{
-                        width: '7px',
-                        height: '7px',
-                        borderRadius: '50%',
-                        background: 'var(--term-green-bright)',
-                        boxShadow: '0 0 8px var(--term-green-bright)',
-                        display: 'inline-block'
-                    }}></span>
-                    <span>{currentTime}</span>
+                {/* Vintage Alarm Clock in Center on Desktop */}
+                <div className="desktop-alarm-center">
+                    <VintageAlarmClock />
                 </div>
 
-                <div style={{ display: 'flex', gap: 10, alignItems: 'stretch' }}>
+                {/* Mobile Compact Header Clock */}
+                <div className="mobile-header-clock">
+                    <VintageAlarmClock compact={true} />
+                </div>
+
+                {/* Desktop Action Buttons */}
+                <div className="desktop-header-controls">
                     <button
                         type="button"
                         onClick={handleFullShuffle}
                         disabled={loading}
                         className="term-btn"
-                        style={{ padding: '9px 24px', fontWeight: 700, display: 'inline-flex', alignItems: 'center', gap: 8 }}
+                        style={{ padding: '9px 22px', fontWeight: 700, display: 'inline-flex', alignItems: 'center', gap: 8 }}
                     >
                         <svg
                             width="15"
@@ -2156,7 +2774,7 @@ function App() {
                             <line x1="15" y1="15" x2="21" y2="21" />
                             <line x1="4" y1="4" x2="9" y2="9" />
                         </svg>
-                        {loading ? "Re-filing Data..." : "New Data Set"}
+                        {loading ? "Re-filing Data..." : "Retrieve Protocol"}
                     </button>
 
                     <button
@@ -2164,7 +2782,7 @@ function App() {
                         onClick={handleToggleAudio}
                         className="term-btn"
                         style={{
-                            padding: '9px 24px',
+                            padding: '9px 22px',
                             fontWeight: 700,
                             background: isAudioActive ? 'var(--term-green)' : 'rgba(3, 15, 6, 0.85)',
                             color: isAudioActive ? '#000' : 'var(--term-green-bright)'
@@ -2173,13 +2791,75 @@ function App() {
                         {isAudioActive ? "432Hz Drone: ON" : "432Hz Drone: OFF"}
                     </button>
                 </div>
+
+                {/* Mobile Quick Action Buttons */}
+                <div className="mobile-header-actions">
+                    <button
+                        type="button"
+                        onClick={handleToggleAudio}
+                        className={`mobile-icon-btn ${isAudioActive ? 'active' : ''}`}
+                        title="432Hz Drone Audio"
+                        aria-label="Toggle 432Hz Drone Audio"
+                    >
+                        <svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.2" strokeLinecap="round" strokeLinejoin="round">
+                            <polygon points="11 5 6 9 2 9 2 15 6 15 11 19 11 5"></polygon>
+                            {isAudioActive ? (
+                                <path d="M19.07 4.93a10 10 0 0 1 0 14.14M15.54 8.46a5 5 0 0 1 0 7.07"></path>
+                            ) : (
+                                <line x1="23" y1="9" x2="17" y2="15"></line>
+                            )}
+                        </svg>
+                    </button>
+
+                    <button
+                        type="button"
+                        onClick={handleFullShuffle}
+                        disabled={loading}
+                        className="mobile-icon-btn"
+                        title="Retrieve Protocol"
+                        aria-label="Retrieve Protocol"
+                    >
+                        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.2" strokeLinecap="round" strokeLinejoin="round">
+                            <polyline points="16 3 21 3 21 8" />
+                            <line x1="4" y1="20" x2="21" y2="3" />
+                            <polyline points="21 16 21 21 16 21" />
+                            <line x1="15" y1="15" x2="21" y2="21" />
+                        </svg>
+                    </button>
+                </div>
             </header>
 
             {/* MAIN WORKSPACE */}
-            <main style={{ display: 'grid', gridTemplateColumns: '430px 1fr', flex: 1, minHeight: 0 }}>
+            <main className="term-main-layout">
 
-                {/* LEFT SECTION: SCROLLABLE EMERGENCY KNOWLEDGE CARDS */}
-                <section className="archive-rail scroll-dark" style={{ padding: '24px 14px 60px 14px', overflowY: 'auto' }}>
+                {/* SECTION 1: SCROLLABLE EMERGENCY KNOWLEDGE CARDS (INTEL) */}
+                <section
+                    className={`archive-rail scroll-dark ${isMobileOrTablet ? `tab-content-panel ${activeMobileTab === 'intel' ? 'active' : ''}` : ''}`}
+                    style={!isMobileOrTablet ? { padding: '24px 14px 60px 14px', overflowY: 'auto' } : undefined}
+                >
+                    {isMobileOrTablet && (
+                        <div style={{
+                            display: 'flex',
+                            justifyContent: 'space-between',
+                            alignItems: 'center',
+                            marginBottom: 14,
+                            paddingBottom: 8,
+                            borderBottom: '1px solid var(--term-green-dim)'
+                        }}>
+                            <span className="uppercase-label" style={{ fontSize: '0.86rem', fontWeight: 800, color: 'var(--term-green-bright)', letterSpacing: '0.08em' }}>
+                                // RECOVERED DIRECTIVES [{telemetryItems.length}]
+                            </span>
+                            <button
+                                type="button"
+                                onClick={() => handleTabSwitch('simulator')}
+                                className="term-btn"
+                                style={{ padding: '5px 12px', fontSize: '0.74rem', fontWeight: 700 }}
+                            >
+                                Take Simulator Quiz ▶
+                            </button>
+                        </div>
+                    )}
+
                     <div style={{ display: 'flex', flexDirection: 'column', gap: 14 }}>
                         {telemetryItems.map((item, idx) => (
                             <PerspectiveCard
@@ -2193,10 +2873,34 @@ function App() {
                             />
                         ))}
                     </div>
+
+                    {isMobileOrTablet && (
+                        <div style={{ marginTop: 22, textAlign: 'center', paddingBottom: 10 }}>
+                            <button
+                                type="button"
+                                onClick={() => handleTabSwitch('simulator')}
+                                className="term-btn"
+                                style={{
+                                    width: '100%',
+                                    padding: '13px 18px',
+                                    fontWeight: 800,
+                                    fontSize: '0.9rem',
+                                    background: 'var(--term-green)',
+                                    color: '#000',
+                                    boxShadow: '0 0 16px var(--term-green)'
+                                }}
+                            >
+                                Launch 5-Stage Simulator Assessment ▶
+                            </button>
+                        </div>
+                    )}
                 </section>
 
-                {/* RIGHT SECTION: RETRO TERMINAL DECK (TRIVIA POP QUIZ) */}
-                <section className="retro-terminal-deck" style={{ padding: '24px 36px', display: 'flex', flexDirection: 'column', position: 'relative', overflow: 'hidden' }}>
+                {/* SECTION 2: RETRO TERMINAL DECK (TRIVIA POP QUIZ) */}
+                <section
+                    className={`retro-terminal-deck ${isMobileOrTablet ? `tab-content-panel ${activeMobileTab === 'simulator' ? 'active' : ''}` : ''}`}
+                    style={!isMobileOrTablet ? { padding: '24px 36px', display: 'flex', flexDirection: 'column', position: 'relative', overflow: 'hidden' } : undefined}
+                >
                     <div className="scan-bar"></div>
 
                     {/* Section Top Header */}
@@ -2206,18 +2910,20 @@ function App() {
                         alignItems: 'center',
                         borderBottom: '1px solid var(--term-green-dim)',
                         paddingBottom: 10,
-                        marginBottom: 16,
+                        marginBottom: 14,
                         position: 'relative',
-                        zIndex: 25
+                        zIndex: 25,
+                        flexWrap: 'wrap',
+                        gap: 6
                     }}>
                         <div>
-                            <span className="uppercase-label" style={{ fontSize: '0.96rem', letterSpacing: '0.12em', color: 'var(--term-green-bright)', fontWeight: 700 }}>
-                                Tactical Assessment // Post-Collapse Training Simulator
+                            <span className="uppercase-label" style={{ fontSize: '0.94rem', letterSpacing: '0.1em', color: 'var(--term-green-bright)', fontWeight: 700 }}>
+                                Tactical Assessment // Post-Collapse Simulator
                             </span>
                         </div>
 
                         {lastSynthesizedTime && (
-                            <span className="uppercase-label" style={{ fontSize: '0.74rem', color: 'var(--term-text-dim)' }}>
+                            <span className="uppercase-label" style={{ fontSize: '0.72rem', color: 'var(--term-text-dim)' }}>
                                 Simulator Cycle: {lastSynthesizedTime}
                             </span>
                         )}
@@ -2227,28 +2933,29 @@ function App() {
                     <div style={{
                         background: 'rgba(0, 30, 10, 0.7)',
                         border: '1px solid var(--term-green-dim)',
-                        padding: '12px 18px',
-                        marginBottom: 16,
+                        padding: '10px 14px',
+                        marginBottom: 14,
                         borderRadius: 2,
                         position: 'relative',
                         zIndex: 25,
                         display: 'flex',
                         alignItems: 'center',
                         justifyContent: 'space-between',
-                        gap: 12
+                        gap: 8,
+                        flexWrap: 'wrap'
                     }}>
-                        <div style={{ display: 'flex', alignItems: 'center', gap: 10 }}>
+                        <div style={{ display: 'flex', alignItems: 'center', gap: 8 }}>
                             <span style={{
                                 background: 'var(--term-green)',
                                 color: '#000',
-                                padding: '3px 8px',
+                                padding: '2px 7px',
                                 fontWeight: 800,
-                                fontSize: '0.74rem'
+                                fontSize: '0.72rem'
                             }}>
                                 SIMULATOR
                             </span>
-                            <span style={{ color: 'var(--term-text-main)', fontSize: '0.98rem', letterSpacing: '0.04em' }}>
-                                5-Stage Survival Assessment (100% Field Clearance Required)
+                            <span style={{ color: 'var(--term-text-main)', fontSize: '0.9rem', letterSpacing: '0.02em' }}>
+                                5-Stage Survival Assessment (100% Clearance)
                             </span>
                         </div>
 
@@ -2262,12 +2969,12 @@ function App() {
                     {/* QUIZ CONTENT AREA */}
                     {loading ? (
                         <div style={{
-                            padding: 34,
+                            padding: 30,
                             border: '1px dashed var(--term-green-dim)',
                             background: 'rgba(4, 20, 8, 0.4)',
                             color: 'var(--term-text-dim)',
-                            fontSize: '1.08rem',
-                            lineHeight: 2,
+                            fontSize: '1rem',
+                            lineHeight: 1.9,
                             fontFamily: 'Share Tech Mono, monospace',
                             position: 'relative',
                             zIndex: 25,
@@ -2292,7 +2999,7 @@ function App() {
                                     className="retro-80s-page-anim"
                                     style={{
                                         border: '1.5px solid var(--term-green-bright)',
-                                        padding: '24px 28px',
+                                        padding: isMobileOrTablet ? '14px 14px' : '22px 26px',
                                         background: 'rgba(20, 255, 87, 0.03)',
                                         boxShadow: '0 0 25px rgba(51, 255, 102, 0.12), inset 0 0 20px rgba(51, 255, 102, 0.03)',
                                         position: 'relative',
@@ -2309,12 +3016,12 @@ function App() {
                                         display: 'flex',
                                         justifyContent: 'space-between',
                                         alignItems: 'center',
-                                        marginBottom: 20,
+                                        marginBottom: 16,
                                         borderBottom: '1px solid var(--term-green-dim)',
-                                        paddingBottom: 12
+                                        paddingBottom: 10
                                     }}>
-                                        <div style={{ display: 'flex', alignItems: 'center', gap: 8 }}>
-                                            <span style={{ fontSize: '0.88rem', fontWeight: 700, color: 'var(--term-green-bright)', letterSpacing: '0.08em' }}>
+                                        <div style={{ display: 'flex', alignItems: 'center', gap: 6 }}>
+                                            <span style={{ fontSize: '0.82rem', fontWeight: 700, color: 'var(--term-green-bright)', letterSpacing: '0.08em' }}>
                                                 STAGE:
                                             </span>
                                             {quizQuestions.map((_, idx) => {
@@ -2334,42 +3041,52 @@ function App() {
                                             })}
                                         </div>
 
-                                        <div style={{ fontSize: '0.8rem', color: 'var(--term-text-dim)', letterSpacing: '0.05em' }}>
-                                            STAGE [ 0{currentQuestionIdx + 1} / 05 ]
+                                        <div style={{ fontSize: '0.78rem', color: 'var(--term-text-dim)', letterSpacing: '0.05em' }}>
+                                            [ 0{currentQuestionIdx + 1} / 05 ]
                                         </div>
                                     </div>
 
                                     {/* Question Content */}
                                     <div style={{
                                         overflowY: 'auto',
-                                        paddingRight: 6,
+                                        paddingRight: 4,
                                         flex: 1,
                                         display: 'flex',
                                         flexDirection: 'column'
                                     }} className="scroll-dark">
-                                        <div style={{
-                                            borderLeft: `3px solid var(--term-green)`,
-                                            padding: '12px 18px',
-                                            background: 'rgba(51, 255, 102, 0.06)',
-                                            marginBottom: 18
-                                        }}>
-                                            <div className="uppercase-label" style={{ fontSize: '0.75rem', color: 'var(--term-green-bright)', fontWeight: 800, marginBottom: 6, letterSpacing: '0.08em' }}>
-                                                // SIMULATED DIRECTIVE: {currentQ.headline}
-                                            </div>
+                                        {/* Directive Header & Summary Box with Tactical Visual Schematic Image */}
+                                        <div className="quiz-directive-grid">
+                                            {/* Left: Directive Prompt */}
                                             <div style={{
-                                                fontSize: '1.18rem',
-                                                lineHeight: 1.6,
-                                                color: 'var(--term-text-main)',
-                                                fontWeight: 700,
-                                                letterSpacing: '0.02em',
-                                                textShadow: '0 0 4px rgba(51, 255, 102, 0.35)'
+                                                borderLeft: `3px solid var(--term-green)`,
+                                                padding: '12px 14px',
+                                                background: 'rgba(51, 255, 102, 0.06)',
+                                                display: 'flex',
+                                                flexDirection: 'column',
+                                                justifyContent: 'center',
+                                                borderRadius: 2
                                             }}>
-                                                {currentQ.question}
+                                                <div className="uppercase-label" style={{ fontSize: '0.72rem', color: 'var(--term-green-bright)', fontWeight: 800, marginBottom: 6, letterSpacing: '0.06em' }}>
+                                                    // SIMULATED DIRECTIVE: {currentQ.headline}
+                                                </div>
+                                                <div style={{
+                                                    fontSize: isMobileOrTablet ? '1.02rem' : '1.14rem',
+                                                    lineHeight: 1.5,
+                                                    color: 'var(--term-text-main)',
+                                                    fontWeight: 700,
+                                                    letterSpacing: '0.02em',
+                                                    textShadow: '0 0 4px rgba(51, 255, 102, 0.35)'
+                                                }}>
+                                                    {currentQ.question}
+                                                </div>
                                             </div>
+
+                                            {/* Right: Tactical Visual Schematic Image in Summary Box */}
+                                            <TacticalSchematicHUD item={currentQ} height={isMobileOrTablet ? 104 : 124} showDetails={true} />
                                         </div>
 
                                         {/* 4 Multiple Choice Options */}
-                                        <div style={{ display: 'flex', flexDirection: 'column', gap: 10, flex: 1, marginBottom: 20 }}>
+                                        <div style={{ display: 'flex', flexDirection: 'column', gap: 10, flex: 1, marginBottom: 18 }}>
                                             {currentQ.options.map((opt, oIdx) => {
                                                 const label = ['A', 'B', 'C', 'D'][oIdx];
                                                 const isSelected = userAnswers[currentQuestionIdx] === oIdx;
@@ -2395,27 +3112,28 @@ function App() {
                                             alignItems: 'center',
                                             paddingTop: 12,
                                             borderTop: '1px solid var(--term-green-dim)',
-                                            marginTop: 'auto'
+                                            marginTop: 'auto',
+                                            gap: 10
                                         }}>
                                             <button
                                                 type="button"
                                                 className="term-btn"
                                                 disabled={currentQuestionIdx === 0}
                                                 onClick={() => changeQuestionIdx(currentQuestionIdx - 1)}
-                                                style={{ padding: '8px 18px', fontSize: '0.84rem' }}
+                                                style={{ padding: '8px 16px', fontSize: '0.82rem' }}
                                             >
-                                                ◀ Prev Stage
+                                                ◀ Prev
                                             </button>
 
-                                            <div style={{ display: 'flex', gap: 10 }}>
+                                            <div style={{ display: 'flex', gap: 8 }}>
                                                 {currentQuestionIdx < 4 ? (
                                                     <button
                                                         type="button"
                                                         className="term-btn"
                                                         onClick={() => changeQuestionIdx(currentQuestionIdx + 1)}
-                                                        style={{ padding: '8px 22px', fontSize: '0.84rem', fontWeight: 700 }}
+                                                        style={{ padding: '8px 20px', fontSize: '0.84rem', fontWeight: 700 }}
                                                     >
-                                                        Next Stage ▶
+                                                        Next ▶
                                                     </button>
                                                 ) : (
                                                     <button
@@ -2424,11 +3142,12 @@ function App() {
                                                         onClick={handleSubmitQuiz}
                                                         disabled={answeredCount === 0}
                                                         style={{
-                                                            padding: '9px 26px',
-                                                            fontSize: '0.88rem',
+                                                            padding: '9px 22px',
+                                                            fontSize: '0.86rem',
                                                             fontWeight: 800,
                                                             background: answeredCount === 5 ? 'var(--term-green)' : 'rgba(3, 15, 6, 0.85)',
-                                                            color: answeredCount === 5 ? '#000' : 'var(--term-green-bright)'
+                                                            color: answeredCount === 5 ? '#000' : 'var(--term-green-bright)',
+                                                            boxShadow: answeredCount === 5 ? '0 0 16px var(--term-green)' : undefined
                                                         }}
                                                     >
                                                         Submit Assessment [Enter]
@@ -2446,26 +3165,27 @@ function App() {
                                     flex: 1,
                                     display: 'flex',
                                     flexDirection: 'column',
-                                    minHeight: 0
+                                    minHeight: 0,
+                                    padding: isMobileOrTablet ? '16px 14px' : '24px 28px'
                                 }}>
                                     <div style={{
                                         borderBottom: '2px solid #ff3344',
-                                        paddingBottom: 14,
-                                        marginBottom: 16
+                                        paddingBottom: 12,
+                                        marginBottom: 14
                                     }}>
                                         <div style={{
-                                            fontSize: '1.24rem',
+                                            fontSize: isMobileOrTablet ? '1.05rem' : '1.24rem',
                                             fontWeight: 800,
                                             color: '#ff3344',
-                                            letterSpacing: '0.08em',
+                                            letterSpacing: '0.06em',
                                             textShadow: '0 0 10px rgba(255, 51, 68, 0.6)',
                                             display: 'flex',
                                             alignItems: 'center',
-                                            gap: 10
+                                            gap: 8
                                         }}>
-                                            <span>[ ! ] SIMULATION FAILED: CRITICAL CASUALTY DETECTED</span>
+                                            <span>[ ! ] SIMULATION FAILED: CASUALTY DETECTED</span>
                                         </div>
-                                        <div style={{ color: '#ff99aa', fontSize: '0.86rem', marginTop: 4 }}>
+                                        <div style={{ color: '#ff99aa', fontSize: '0.82rem', marginTop: 4 }}>
                                             SCORE: {5 - quizErrorDetails.length} / 5 // POST-COLLAPSE SURVIVAL REQUIRES 100% ACCURACY (5/5)
                                         </div>
                                     </div>
@@ -2474,39 +3194,39 @@ function App() {
                                     <div style={{
                                         overflowY: 'auto',
                                         flex: 1,
-                                        paddingRight: 8,
-                                        marginBottom: 16
+                                        paddingRight: 6,
+                                        marginBottom: 14
                                     }} className="scroll-dark">
                                         <div style={{
                                             background: 'rgba(255, 51, 68, 0.08)',
                                             border: '1px dashed rgba(255, 51, 68, 0.4)',
-                                            padding: '12px 16px',
-                                            marginBottom: 16,
+                                            padding: '10px 14px',
+                                            marginBottom: 14,
                                             color: '#ffd0d6',
-                                            fontSize: '0.94rem',
-                                            lineHeight: 1.6
+                                            fontSize: '0.88rem',
+                                            lineHeight: 1.5
                                         }}>
                                             In hostile fallout and grid-down environments, one procedural misjudgment causes fatal failure. Study the breached protocols below before re-running the simulator.
                                         </div>
 
-                                        <div style={{ display: 'flex', flexDirection: 'column', gap: 12 }}>
+                                        <div style={{ display: 'flex', flexDirection: 'column', gap: 10 }}>
                                             {quizErrorDetails.map((err, idx) => (
                                                 <div key={idx} style={{
                                                     border: '1px solid rgba(255, 51, 68, 0.35)',
                                                     background: 'rgba(30, 2, 5, 0.75)',
-                                                    padding: '12px 16px',
+                                                    padding: '10px 14px',
                                                     borderRadius: 2
                                                 }}>
-                                                    <div style={{ color: '#ff6677', fontSize: '0.78rem', fontWeight: 700, marginBottom: 4 }}>
+                                                    <div style={{ color: '#ff6677', fontSize: '0.74rem', fontWeight: 700, marginBottom: 4 }}>
                                                         FAILED STAGE #{err.questionNum} // {err.headline}
                                                     </div>
-                                                    <div style={{ color: '#ffffff', fontSize: '0.96rem', fontWeight: 600, marginBottom: 8 }}>
+                                                    <div style={{ color: '#ffffff', fontSize: '0.9rem', fontWeight: 600, marginBottom: 6 }}>
                                                         {err.question}
                                                     </div>
-                                                    <div style={{ color: '#ff8899', fontSize: '0.86rem', marginBottom: 4 }}>
+                                                    <div style={{ color: '#ff8899', fontSize: '0.82rem', marginBottom: 4 }}>
                                                         ✖ YOUR SELECTION: {err.selectedText}
                                                     </div>
-                                                    <div style={{ color: 'var(--term-green-bright)', fontSize: '0.86rem', fontWeight: 700 }}>
+                                                    <div style={{ color: 'var(--term-green-bright)', fontSize: '0.84rem', fontWeight: 700 }}>
                                                         ✔ MANDATORY PROTOCOL: {err.correctText}
                                                     </div>
                                                 </div>
@@ -2517,26 +3237,27 @@ function App() {
                                     {/* Loser Screen Actions */}
                                     <div style={{
                                         display: 'flex',
-                                        gap: 14,
+                                        gap: 10,
                                         alignItems: 'center',
                                         justifyContent: 'flex-end',
-                                        paddingTop: 12,
-                                        borderTop: '1px solid rgba(255, 51, 68, 0.4)'
+                                        paddingTop: 10,
+                                        borderTop: '1px solid rgba(255, 51, 68, 0.4)',
+                                        flexWrap: 'wrap'
                                     }}>
                                         <button
                                             type="button"
                                             onClick={handleFullShuffle}
                                             className="term-btn"
-                                            style={{ padding: '10px 20px' }}
+                                            style={{ padding: '9px 16px', fontSize: '0.82rem' }}
                                         >
-                                            New Data Set
+                                            Retrieve Protocol
                                         </button>
 
                                         <button
                                             type="button"
                                             onClick={handleRetakeQuiz}
                                             className="loser-btn"
-                                            style={{ padding: '10px 26px' }}
+                                            style={{ padding: '9px 20px', fontSize: '0.84rem' }}
                                         >
                                             Retake Simulator Quiz (Retry)
                                         </button>
@@ -2550,30 +3271,31 @@ function App() {
                                     flex: 1,
                                     display: 'flex',
                                     flexDirection: 'column',
-                                    minHeight: 0
+                                    minHeight: 0,
+                                    padding: isMobileOrTablet ? '16px 14px' : '26px 30px'
                                 }}>
                                     <DigitalConfetti />
 
                                     <div style={{
                                         borderBottom: '2px solid var(--term-green-bright)',
-                                        paddingBottom: 14,
-                                        marginBottom: 18,
+                                        paddingBottom: 12,
+                                        marginBottom: 14,
                                         position: 'relative',
                                         zIndex: 60
                                     }}>
                                         <div style={{
-                                            fontSize: '1.4rem',
+                                            fontSize: isMobileOrTablet ? '1.12rem' : '1.35rem',
                                             fontWeight: 900,
                                             color: 'var(--term-green-bright)',
-                                            letterSpacing: '0.08em',
+                                            letterSpacing: '0.06em',
                                             textShadow: '0 0 16px var(--term-green-bright)',
                                             display: 'flex',
                                             alignItems: 'center',
-                                            gap: 10
+                                            gap: 8
                                         }}>
-                                            <span>[ ★★★ ] SIMULATION COMPLETE: POST-APOCALYPTIC CLEARANCE GRANTED!</span>
+                                            <span>[ ★★★ ] SIMULATION COMPLETE: CLEARANCE GRANTED!</span>
                                         </div>
-                                        <div style={{ color: 'var(--term-text-main)', fontSize: '0.94rem', marginTop: 4, letterSpacing: '0.04em' }}>
+                                        <div style={{ color: 'var(--term-text-main)', fontSize: '0.88rem', marginTop: 4, letterSpacing: '0.03em' }}>
                                             SIMULATOR RESULT: 5 / 5 (100% ACCURACY) // VAULT SURVIVALIST CERTIFIED
                                         </div>
                                     </div>
@@ -2581,30 +3303,30 @@ function App() {
                                     <div style={{
                                         overflowY: 'auto',
                                         flex: 1,
-                                        paddingRight: 8,
-                                        marginBottom: 16,
+                                        paddingRight: 6,
+                                        marginBottom: 14,
                                         position: 'relative',
                                         zIndex: 60
                                     }} className="scroll-dark">
                                         <div style={{
                                             background: 'rgba(51, 255, 102, 0.12)',
                                             border: '1.5px solid var(--term-green-bright)',
-                                            padding: '20px 24px',
-                                            marginBottom: 20,
+                                            padding: isMobileOrTablet ? '14px 16px' : '18px 22px',
+                                            marginBottom: 16,
                                             boxShadow: '0 0 20px rgba(51, 255, 102, 0.2)'
                                         }}>
                                             <div style={{
-                                                fontSize: '1.2rem',
-                                                lineHeight: 1.7,
+                                                fontSize: isMobileOrTablet ? '1.02rem' : '1.15rem',
+                                                lineHeight: 1.6,
                                                 color: '#ffffff',
                                                 fontWeight: 700,
-                                                marginBottom: 12
+                                                marginBottom: 8
                                             }}>
                                                 CONGRATULATIONS: BUNKER READINESS TRIAGE VALIDATED!
                                             </div>
                                             <p style={{
-                                                fontSize: '1.02rem',
-                                                lineHeight: 1.8,
+                                                fontSize: '0.94rem',
+                                                lineHeight: 1.6,
                                                 color: 'var(--term-text-main)',
                                                 margin: 0
                                             }}>
@@ -2614,20 +3336,20 @@ function App() {
 
                                         <div style={{
                                             display: 'grid',
-                                            gridTemplateColumns: 'repeat(auto-fit, minmax(280px, 1fr))',
-                                            gap: 12
+                                            gridTemplateColumns: 'repeat(auto-fit, minmax(250px, 1fr))',
+                                            gap: 10
                                         }}>
                                             {quizQuestions.map((q, idx) => (
                                                 <div key={idx} style={{
                                                     border: '1px solid var(--term-green-dim)',
                                                     background: 'rgba(3, 20, 8, 0.7)',
-                                                    padding: '12px 16px',
+                                                    padding: '10px 14px',
                                                     borderRadius: 2
                                                 }}>
-                                                    <div style={{ color: 'var(--term-green-bright)', fontSize: '0.76rem', fontWeight: 800, marginBottom: 4 }}>
+                                                    <div style={{ color: 'var(--term-green-bright)', fontSize: '0.74rem', fontWeight: 800, marginBottom: 4 }}>
                                                         STAGE 0{idx + 1} // {q.headline}
                                                     </div>
-                                                    <div style={{ color: 'var(--term-text-main)', fontSize: '0.86rem' }}>
+                                                    <div style={{ color: 'var(--term-text-main)', fontSize: '0.82rem' }}>
                                                         ✔ {q.correctAnswer}
                                                     </div>
                                                 </div>
@@ -2638,21 +3360,22 @@ function App() {
                                     {/* Success Screen Actions */}
                                     <div style={{
                                         display: 'flex',
-                                        gap: 14,
+                                        gap: 10,
                                         alignItems: 'center',
                                         justifyContent: 'flex-end',
-                                        paddingTop: 12,
+                                        paddingTop: 10,
                                         borderTop: '1px solid var(--term-green-dim)',
                                         position: 'relative',
-                                        zIndex: 60
+                                        zIndex: 60,
+                                        flexWrap: 'wrap'
                                     }}>
                                         <button
                                             type="button"
                                             onClick={handleRetakeQuiz}
                                             className="term-btn"
-                                            style={{ padding: '10px 22px' }}
+                                            style={{ padding: '9px 18px', fontSize: '0.82rem' }}
                                         >
-                                            Retake Simulation Quiz
+                                            Retake Quiz
                                         </button>
 
                                         <button
@@ -2660,13 +3383,15 @@ function App() {
                                             onClick={handleFullShuffle}
                                             className="term-btn"
                                             style={{
-                                                padding: '10px 28px',
+                                                padding: '9px 22px',
                                                 fontWeight: 800,
+                                                fontSize: '0.84rem',
                                                 background: 'var(--term-green)',
-                                                color: '#000'
+                                                color: '#000',
+                                                boxShadow: '0 0 16px var(--term-green)'
                                             }}
                                         >
-                                            Load New Data Set
+                                            Retrieve Protocol
                                         </button>
                                     </div>
                                 </div>
@@ -2675,34 +3400,174 @@ function App() {
                         </div>
                     )}
                 </section>
+
+                {/* SECTION 3 (MOBILE ONLY): HUD & TELEMETRY PANEL */}
+                {isMobileOrTablet && (
+                    <section className={`mobile-hud-panel scroll-dark ${activeMobileTab === 'hud' ? 'active' : ''}`}>
+                        <div style={{ border: '1.5px solid var(--term-green-bright)', padding: '14px', background: 'rgba(51, 255, 102, 0.05)', borderRadius: 2 }}>
+                            <div style={{ fontSize: '1rem', fontWeight: 800, color: 'var(--term-green-bright)', marginBottom: 4, letterSpacing: '0.08em' }}>
+                                // TACTICAL HUD & SYSTEM STATUS
+                            </div>
+                            <div style={{ fontSize: '0.82rem', color: 'var(--term-text-dim)', lineHeight: 1.5 }}>
+                                Real-time field operations center. Manage audio drones, toggle CRT raster distortions, review telemetry, and access developer archives.
+                            </div>
+                        </div>
+
+                        {/* Quick Control Grid */}
+                        <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 10 }}>
+                            <button
+                                type="button"
+                                onClick={handleToggleAudio}
+                                className="term-btn"
+                                style={{
+                                    padding: '12px 10px',
+                                    display: 'flex',
+                                    flexDirection: 'column',
+                                    gap: 4,
+                                    background: isAudioActive ? 'var(--term-green)' : 'rgba(3, 18, 7, 0.85)',
+                                    color: isAudioActive ? '#000' : 'var(--term-green-bright)',
+                                    boxShadow: isAudioActive ? '0 0 14px var(--term-green)' : undefined
+                                }}
+                            >
+                                <span style={{ fontSize: '1.2rem' }}>🔊</span>
+                                <span style={{ fontSize: '0.78rem', fontWeight: 800 }}>432Hz Audio</span>
+                                <span style={{ fontSize: '0.68rem', opacity: 0.85 }}>{isAudioActive ? "STATUS: ON" : "STATUS: OFF"}</span>
+                            </button>
+
+                            <button
+                                type="button"
+                                onClick={handleSmileyClick}
+                                className="term-btn"
+                                style={{
+                                    padding: '12px 10px',
+                                    display: 'flex',
+                                    flexDirection: 'column',
+                                    gap: 4
+                                }}
+                            >
+                                <span style={{ fontSize: '1.2rem' }}>👾</span>
+                                <span style={{ fontSize: '0.78rem', fontWeight: 800 }}>Color Glitch</span>
+                                <span style={{ fontSize: '0.68rem', color: 'var(--term-text-dim)' }}>{isColorPhasing ? "Phasing Mode" : "Phosphor Green"}</span>
+                            </button>
+                        </div>
+
+                        {/* Diagnostic Telemetry Matrix */}
+                        <div style={{ border: '1px solid var(--term-green-dim)', padding: '12px 14px', background: 'rgba(0, 20, 6, 0.75)', borderRadius: 2 }}>
+                            <div style={{ fontSize: '0.78rem', fontWeight: 800, color: 'var(--term-green-bright)', marginBottom: 8, letterSpacing: '0.06em' }}>
+                                // SYSTEM TELEMETRY MATRIX
+                            </div>
+                            <div style={{ display: 'flex', flexDirection: 'column', gap: 8, fontSize: '0.78rem' }}>
+                                <div style={{ display: 'flex', justifyContent: 'space-between', borderBottom: '1px solid rgba(51, 255, 102, 0.1)', paddingBottom: 4 }}>
+                                    <span style={{ color: 'var(--term-text-dim)' }}>Bunker Dossiers:</span>
+                                    <span style={{ color: 'var(--term-text-main)', fontWeight: 700 }}>{telemetryItems.length} Loaded</span>
+                                </div>
+                                <div style={{ display: 'flex', justifyContent: 'space-between', borderBottom: '1px solid rgba(51, 255, 102, 0.1)', paddingBottom: 4 }}>
+                                    <span style={{ color: 'var(--term-text-dim)' }}>Assessment State:</span>
+                                    <span style={{ fontWeight: 800, color: quizStatus === 'success' ? 'var(--term-green-bright)' : quizStatus === 'loser' ? '#ff4455' : '#ffcc00' }}>
+                                        {quizStatus === 'success' ? 'PASS (100%)' : quizStatus === 'loser' ? 'CASUALTY DETECTED' : 'IN PROGRESS'}
+                                    </span>
+                                </div>
+                                <div style={{ display: 'flex', justifyContent: 'space-between', borderBottom: '1px solid rgba(51, 255, 102, 0.1)', paddingBottom: 4 }}>
+                                    <span style={{ color: 'var(--term-text-dim)' }}>Stages Answered:</span>
+                                    <span style={{ color: 'var(--term-text-main)', fontWeight: 700 }}>{answeredCount} / 5</span>
+                                </div>
+                                {lastSynthesizedTime && (
+                                    <div style={{ display: 'flex', justifyContent: 'space-between' }}>
+                                        <span style={{ color: 'var(--term-text-dim)' }}>Last Cycle Time:</span>
+                                        <span style={{ color: 'var(--term-text-main)' }}>{lastSynthesizedTime}</span>
+                                    </div>
+                                )}
+                            </div>
+                        </div>
+
+                        {/* Quick Actions & Portfolio Navigation */}
+                        <div style={{ display: 'flex', flexDirection: 'column', gap: 10, marginTop: 'auto', paddingTop: 10 }}>
+                            <button
+                                type="button"
+                                onClick={handleFullShuffle}
+                                disabled={loading}
+                                className="term-btn"
+                                style={{ width: '100%', padding: '12px 14px', fontWeight: 800, fontSize: '0.84rem' }}
+                            >
+                                🔄 Retrieve Protocol (Shuffle 5 Directives)
+                            </button>
+
+                            <a
+                                href="https://zqhwebpro.github.io/portfolio/new_projects/"
+                                className="term-btn"
+                                style={{
+                                    width: '100%',
+                                    padding: '12px 14px',
+                                    fontWeight: 800,
+                                    fontSize: '0.84rem',
+                                    textDecoration: 'none',
+                                    background: 'rgba(51, 255, 102, 0.14)',
+                                    color: 'var(--term-green-bright)',
+                                    display: 'flex',
+                                    alignItems: 'center',
+                                    justifyContent: 'center',
+                                    gap: 8
+                                }}
+                            >
+                                <span>See Creator Portfolio</span>
+                                <span>↗</span>
+                            </a>
+                        </div>
+                    </section>
+                )}
+
             </main>
 
-            {/* FIXED LOWER-LEFT: "See Portfolio" Button */}
+            {/* MOBILE APP BOTTOM NAVIGATION BAR */}
+            {isMobileOrTablet && (
+                <nav className="mobile-tab-bar" aria-label="Mobile Tactical Navigation">
+                    <button
+                        type="button"
+                        className={`nav-tab-btn ${activeMobileTab === 'intel' ? 'active' : ''}`}
+                        onClick={() => handleTabSwitch('intel')}
+                    >
+                        <span style={{ fontSize: '1.05rem' }}>📁</span>
+                        <span>Intel</span>
+                        <span className="nav-tab-badge">05</span>
+                    </button>
+
+                    <button
+                        type="button"
+                        className={`nav-tab-btn ${activeMobileTab === 'simulator' ? 'active' : ''}`}
+                        onClick={() => handleTabSwitch('simulator')}
+                    >
+                        <span style={{ fontSize: '1.05rem' }}>🎯</span>
+                        <span>Simulator</span>
+                        <span
+                            className="nav-tab-badge"
+                            style={{
+                                background: quizStatus === 'success' ? '#33ff66' : quizStatus === 'loser' ? '#ff3344' : '#ffcc00',
+                                color: '#000'
+                            }}
+                        >
+                            {answeredCount}/5
+                        </span>
+                    </button>
+
+                    <button
+                        type="button"
+                        className={`nav-tab-btn ${activeMobileTab === 'hud' ? 'active' : ''}`}
+                        onClick={() => handleTabSwitch('hud')}
+                    >
+                        <span style={{ fontSize: '1.05rem' }}>⚡</span>
+                        <span>HUD</span>
+                    </button>
+                </nav>
+            )}
+
+            {/* FIXED LOWER-LEFT: "See Portfolio" Button on Desktop */}
             <a
                 href="https://zqhwebpro.github.io/portfolio/new_projects/"
-                className="term-btn"
-                style={{
-                    position: 'fixed',
-                    bottom: '16px',
-                    left: '16px',
-                    zIndex: 90,
-                    padding: '8px 16px',
-                    fontSize: '0.8rem',
-                    fontWeight: 700,
-                    textDecoration: 'none',
-                    borderRadius: '2px',
-                    letterSpacing: '0.08em',
-                    boxShadow: '0 0 12px rgba(51, 255, 102, 0.35)',
-                    display: 'inline-flex',
-                    alignItems: 'center',
-                    gap: '6px'
-                }}
+                className="term-btn desktop-fixed-portfolio"
             >
                 <span>See Portfolio</span>
                 <span style={{ fontSize: '0.75rem' }}>↗</span>
             </a>
-
-
 
             {/* MODAL */}
             {activeModal && (
@@ -2713,14 +3578,14 @@ function App() {
                             justifyContent: 'space-between',
                             alignItems: 'center',
                             borderBottom: '1px solid var(--term-green-dim)',
-                            paddingBottom: 12,
-                            marginBottom: 16,
+                            paddingBottom: 10,
+                            marginBottom: 14,
                             position: 'relative',
                             zIndex: 15
                         }}>
                             <div>
                                 <div style={{
-                                    fontSize: '1.05rem',
+                                    fontSize: '1rem',
                                     letterSpacing: '0.06em',
                                     color: 'var(--term-green-bright)',
                                     fontWeight: 700
@@ -2740,11 +3605,11 @@ function App() {
                         </div>
 
                         <div style={{
-                            fontSize: '1.2rem',
-                            lineHeight: 1.8,
+                            fontSize: isMobileOrTablet ? '1.05rem' : '1.2rem',
+                            lineHeight: 1.7,
                             color: 'var(--term-text-main)',
                             textShadow: '0 0 3px rgba(51, 255, 102, 0.45)',
-                            margin: '14px 0 10px 0',
+                            margin: '12px 0 10px 0',
                             position: 'relative',
                             zIndex: 15,
                             letterSpacing: '0.02em'
