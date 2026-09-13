@@ -1,14 +1,22 @@
 <!DOCTYPE html>
-<html lang="en" class="h-full bg-slate-950 text-slate-100">
+<html lang="en" class="h-full">
 
 <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>OmniScale — Complete US Household Converter</title>
+    <title>Chessulator — The Baroque Chess &amp; Win Evaluation Engine</title>
     <meta name="description"
-        content="All-in-one US customary converter for home, kitchen, flooring, DIY dimensions, and temperatures." />
+        content="An upscale Baroque chess masterpiece. Play alternating turns, calculate real-time win probabilities, and preview live percentage deltas for every legal move." />
 
-    <!-- Tailwind CSS CDN -->
+    <!-- Google Fonts: Cinzel Decorative, Cormorant Garamond, Outfit, Plus Jakarta Sans -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link
+        href="https://fonts.googleapis.com/css2?family=Cinzel+Decorative:wght@700;900&family=Cinzel:wght@500;600;700;800;900&family=Cormorant+Garamond:ital,wght@0,500;0,600;0,700;1,500;1,600&family=Outfit:wght@400;500;600;700;800&family=Plus+Jakarta+Sans:wght@400;500;600;700&display=swap"
+        rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css" />
+
+    <!-- Tailwind CSS CDN for utility scaffolding -->
     <script src="https://cdn.tailwindcss.com"></script>
     <script>
         tailwind.config = {
@@ -16,478 +24,2479 @@
             theme: {
                 extend: {
                     colors: {
-                        brand: {
-                            400: '#fb923c',
-                            500: '#f97316',
-                            600: '#ea580c',
+                        gold: {
+                            100: '#fef7dc',
+                            200: '#faeab0',
+                            300: '#f3d97e',
+                            400: '#e5bf4c',
+                            500: '#dfb15b',
+                            600: '#c59427',
+                            700: '#9d711b',
+                            800: '#755216',
+                            900: '#462e0a',
                         },
-                        surface: {
-                            850: '#151b28',
-                            900: '#0d111a',
-                            950: '#070a0f',
+                        velvet: {
+                            900: '#1b0d12',
+                            950: '#0f0609',
+                        },
+                        obsidian: {
+                            800: '#1f1b24',
+                            850: '#17141c',
+                            900: '#100d14',
+                            950: '#0a080d',
                         }
                     },
                     fontFamily: {
-                        sans: ['Plus Jakarta Sans', '-apple-system', 'BlinkMacSystemFont', 'sans-serif'],
-                        mono: ['Geist Mono', 'Fira Code', 'monospace'],
+                        baroque: ['"Cinzel Decorative"', 'Cinzel', 'serif'],
+                        cinzel: ['Cinzel', 'serif'],
+                        serif: ['"Cormorant Garamond"', 'Georgia', 'serif'],
+                        sans: ['Outfit', 'Plus Jakarta Sans', 'sans-serif'],
                     }
                 }
             }
         }
     </script>
 
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link
-        href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=Geist+Mono:wght@400;500;600;700&display=swap"
-        rel="stylesheet">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css" />
+    <style>
+        :root {
+            --gold-bright: #dfb15b;
+            --gold-light: #faeab0;
+            --gold-dark: #8c6721;
+            --gold-grad: linear-gradient(135deg, #fcedc2 0%, #dfb15b 45%, #9d711b 100%);
+            --gold-foil: linear-gradient(135deg, #fff3cf 0%, #e0b35f 30%, #a87920 70%, #68460b 100%);
+            --baroque-bg: radial-gradient(circle at 50% 20%, #1d1117 0%, #0d080c 60%, #050305 100%);
+            --board-light: #ede2cf;
+            --board-light-grain: radial-gradient(circle at 50% 50%, #f6ede0 0%, #e4d5be 100%);
+            --board-dark: #3a1e14;
+            --board-dark-grain: radial-gradient(circle at 50% 50%, #4c281a 0%, #2e160e 100%);
+            --frame-gold: linear-gradient(145deg, #876020 0%, #dfb15b 25%, #634311 50%, #e6be6d 75%, #442a06 100%);
+        }
+
+        body {
+            background: var(--baroque-bg);
+            color: #f3efe6;
+            min-height: 100vh;
+            overflow-x: hidden;
+            font-family: 'Outfit', sans-serif;
+        }
+
+        /* Baroque Flourish & Filigree Ornaments */
+        .gold-leaf-text {
+            background: var(--gold-grad);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            text-shadow: 0 0 20px rgba(223, 177, 91, 0.25);
+        }
+
+        .gold-border {
+            border-image: var(--frame-gold) 1;
+        }
+
+        .baroque-panel {
+            background: linear-gradient(180deg, rgba(28, 20, 26, 0.92) 0%, rgba(14, 10, 15, 0.96) 100%);
+            border: 1px solid rgba(223, 177, 91, 0.28);
+            box-shadow: 0 10px 40px -10px rgba(0, 0, 0, 0.8),
+                        0 0 0 1px rgba(223, 177, 91, 0.12) inset,
+                        0 0 25px rgba(223, 177, 91, 0.05);
+            position: relative;
+        }
+
+        .baroque-panel::before {
+            content: "⚜";
+            position: absolute;
+            top: -10px;
+            left: 50%;
+            transform: translateX(-50%);
+            font-size: 14px;
+            color: var(--gold-bright);
+            text-shadow: 0 0 8px rgba(223, 177, 91, 0.6);
+            background: #0d080c;
+            padding: 0 8px;
+            z-index: 10;
+        }
+
+        .corner-filigree {
+            position: absolute;
+            width: 24px;
+            height: 24px;
+            pointer-events: none;
+            z-index: 20;
+        }
+        .corner-filigree.top-left {
+            top: 4px; left: 4px;
+            border-top: 2px solid var(--gold-bright);
+            border-left: 2px solid var(--gold-bright);
+        }
+        .corner-filigree.top-right {
+            top: 4px; right: 4px;
+            border-top: 2px solid var(--gold-bright);
+            border-right: 2px solid var(--gold-bright);
+        }
+        .corner-filigree.bottom-left {
+            bottom: 4px; left: 4px;
+            border-bottom: 2px solid var(--gold-bright);
+            border-left: 2px solid var(--gold-bright);
+        }
+        .corner-filigree.bottom-right {
+            bottom: 4px; right: 4px;
+            border-bottom: 2px solid var(--gold-bright);
+            border-right: 2px solid var(--gold-bright);
+        }
+
+        /* Chess Board Grand Frame */
+        .chessboard-chassis {
+            padding: 22px;
+            background: linear-gradient(135deg, #2b1810 0%, #150a06 40%, #2f190e 70%, #100603 100%);
+            border: 4px solid #7d591e;
+            box-shadow: 0 25px 60px -10px rgba(0, 0, 0, 0.95),
+                        0 0 0 2px rgba(255, 227, 160, 0.4) inset,
+                        0 0 35px rgba(223, 177, 91, 0.2);
+            border-radius: 12px;
+            position: relative;
+        }
+
+        .board-grid {
+            display: grid;
+            grid-template-columns: repeat(8, minmax(0, 1fr));
+            grid-template-rows: repeat(8, minmax(0, 1fr));
+            border: 3px solid #644415;
+            box-shadow: 0 0 20px rgba(0,0,0,0.8) inset;
+            aspect-ratio: 1 / 1;
+            width: 100%;
+            max-width: 620px;
+            margin: 0 auto;
+            position: relative;
+            user-select: none;
+        }
+
+        .square {
+            position: relative;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            transition: all 0.15s ease-out;
+            overflow: visible;
+        }
+
+        .square.light {
+            background: var(--board-light-grain);
+            color: #4b301f;
+        }
+
+        .square.dark {
+            background: var(--board-dark-grain);
+            color: #d1b896;
+        }
+
+        .square.selected {
+            background: radial-gradient(circle, rgba(223, 177, 91, 0.6) 0%, rgba(157, 113, 27, 0.8) 100%) !important;
+            box-shadow: 0 0 16px rgba(223, 177, 91, 0.8) inset, 0 0 12px rgba(223, 177, 91, 0.6);
+        }
+
+        .square.last-move {
+            background: radial-gradient(circle, rgba(212, 163, 62, 0.35) 0%, rgba(138, 97, 24, 0.45) 100%) !important;
+        }
+
+        .square.in-check {
+            background: radial-gradient(circle, rgba(220, 38, 38, 0.85) 0%, rgba(153, 27, 27, 0.9) 100%) !important;
+            animation: pulse-check 1.4s infinite alternate;
+        }
+
+        @keyframes pulse-check {
+            0% { box-shadow: 0 0 8px rgba(239, 68, 68, 0.8) inset; }
+            100% { box-shadow: 0 0 24px rgba(239, 68, 68, 1) inset, 0 0 20px rgba(239, 68, 68, 0.8); }
+        }
+
+        /* Chess Piece SVG Styles */
+        .chess-piece {
+            width: 86%;
+            height: 86%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            z-index: 15;
+            transition: transform 0.18s cubic-bezier(0.34, 1.56, 0.64, 1), filter 0.18s ease;
+            filter: drop-shadow(0 4px 6px rgba(0, 0, 0, 0.65));
+        }
+
+        .square:hover .chess-piece {
+            transform: scale(1.1) translateY(-2px);
+            filter: drop-shadow(0 8px 12px rgba(0, 0, 0, 0.8)) drop-shadow(0 0 8px rgba(223, 177, 91, 0.4));
+        }
+
+        .chess-piece svg {
+            width: 100%;
+            height: 100%;
+        }
+
+        /* Target Move Highlight & Live Percentage Overlay */
+        .target-overlay {
+            position: absolute;
+            inset: 0;
+            z-index: 25;
+            pointer-events: none;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            animation: target-pop 0.2s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+        }
+
+        @keyframes target-pop {
+            0% { transform: scale(0.6); opacity: 0; }
+            100% { transform: scale(1); opacity: 1; }
+        }
+
+        .target-ring {
+            width: 32px;
+            height: 32px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: all 0.2s;
+        }
+
+        .target-ring.capture {
+            width: 84%;
+            height: 84%;
+            border: 3px dashed #ef4444;
+            border-radius: 12px;
+            background: rgba(239, 68, 68, 0.2);
+            box-shadow: 0 0 12px rgba(239, 68, 68, 0.5) inset;
+        }
+
+        .target-ring.regular {
+            background: radial-gradient(circle, rgba(223, 177, 91, 0.9) 0%, rgba(157, 113, 27, 0.6) 100%);
+            box-shadow: 0 0 10px rgba(223, 177, 91, 0.7);
+        }
+
+        /* The Percentage Bubble on the Board */
+        .pct-badge {
+            position: absolute;
+            bottom: 3px;
+            left: 50%;
+            transform: translateX(-50%);
+            padding: 1px 5px;
+            border-radius: 4px;
+            font-size: 10px;
+            font-weight: 800;
+            font-family: 'Outfit', sans-serif;
+            letter-spacing: -0.02em;
+            white-space: nowrap;
+            box-shadow: 0 3px 8px rgba(0,0,0,0.85);
+            border: 1px solid rgba(255,255,255,0.25);
+            z-index: 30;
+            display: flex;
+            align-items: center;
+            gap: 2px;
+            line-height: 1.2;
+        }
+
+        .pct-brilliant {
+            background: linear-gradient(135deg, #059669 0%, #10b981 100%);
+            color: #ffffff;
+            border-color: #6ee7b7;
+            box-shadow: 0 0 12px rgba(16, 185, 129, 0.8);
+        }
+
+        .pct-good {
+            background: linear-gradient(135deg, #0284c7 0%, #38bdf8 100%);
+            color: #ffffff;
+            border-color: #bae6fd;
+            box-shadow: 0 0 10px rgba(56, 189, 248, 0.6);
+        }
+
+        .pct-neutral {
+            background: linear-gradient(135deg, #475569 0%, #64748b 100%);
+            color: #f1f5f9;
+            border-color: #94a3b8;
+        }
+
+        .pct-inaccuracy {
+            background: linear-gradient(135deg, #d97706 0%, #f59e0b 100%);
+            color: #ffffff;
+            border-color: #fde68a;
+        }
+
+        .pct-blunder {
+            background: linear-gradient(135deg, #dc2626 0%, #ef4444 100%);
+            color: #ffffff;
+            border-color: #fca5a5;
+            box-shadow: 0 0 10px rgba(239, 68, 68, 0.7);
+        }
+
+        /* Large Right-Hand Sovereign Oracle Gauge */
+        .oracle-gauge-container {
+            position: relative;
+            width: 100%;
+            height: 24px;
+            background: #110d14;
+            border-radius: 12px;
+            border: 1px solid rgba(223, 177, 91, 0.4);
+            overflow: hidden;
+            box-shadow: 0 0 15px rgba(0,0,0,0.8) inset;
+        }
+
+        .oracle-bar-white {
+            height: 100%;
+            background: linear-gradient(90deg, #dfb15b 0%, #faeab0 70%, #ffffff 100%);
+            box-shadow: 0 0 12px rgba(223, 177, 91, 0.8);
+            transition: width 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+
+        .oracle-bar-black {
+            height: 100%;
+            background: linear-gradient(90deg, #1f1418 0%, #3d141f 100%);
+            transition: width 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+
+        /* Board Coordinate Labels */
+        .coord-label {
+            position: absolute;
+            font-size: 10px;
+            font-weight: 700;
+            font-family: 'Cinzel', serif;
+            pointer-events: none;
+            opacity: 0.65;
+        }
+        .coord-file { bottom: 2px; right: 3px; }
+        .coord-rank { top: 2px; left: 3px; }
+
+        /* Royal Button */
+        .btn-royal {
+            background: linear-gradient(145deg, #382512 0%, #1c1006 100%);
+            border: 1px solid #9d711b;
+            color: #faeab0;
+            font-family: 'Cinzel', serif;
+            letter-spacing: 0.05em;
+            transition: all 0.2s;
+            box-shadow: 0 4px 10px rgba(0,0,0,0.5), 0 0 0 1px rgba(223, 177, 91, 0.2) inset;
+        }
+        .btn-royal:hover {
+            background: linear-gradient(145deg, #53381a 0%, #29180a 100%);
+            border-color: #dfb15b;
+            color: #ffffff;
+            box-shadow: 0 6px 14px rgba(0,0,0,0.7), 0 0 12px rgba(223, 177, 91, 0.35);
+            transform: translateY(-1px);
+        }
+        .btn-royal:active {
+            transform: translateY(1px);
+        }
+
+        .btn-royal-primary {
+            background: linear-gradient(145deg, #9d711b 0%, #5a3c08 100%);
+            border: 1px solid #dfb15b;
+            color: #ffffff;
+            font-weight: 700;
+        }
+        .btn-royal-primary:hover {
+            background: linear-gradient(145deg, #c59427 0%, #755216 100%);
+            box-shadow: 0 0 20px rgba(223, 177, 91, 0.5);
+        }
+
+        /* Custom Scrollbar */
+        ::-webkit-scrollbar {
+            width: 6px;
+            height: 6px;
+        }
+        ::-webkit-scrollbar-track {
+            background: #0f0a0d;
+        }
+        ::-webkit-scrollbar-thumb {
+            background: #543916;
+            border-radius: 3px;
+        }
+        ::-webkit-scrollbar-thumb:hover {
+            background: #dfb15b;
+        }
+
+        /* Promotion Modal */
+        .baroque-modal-backdrop {
+            background: rgba(5, 2, 4, 0.88);
+            backdrop-filter: blur(8px);
+        }
+    </style>
 </head>
 
-<body class="min-h-full flex flex-col font-sans selection:bg-brand-500 selection:text-white antialiased">
+<body class="flex flex-col selection:bg-gold-600 selection:text-white">
 
-    <!-- Header -->
-    <header class="border-b border-slate-800/80 bg-surface-900/80 backdrop-blur sticky top-0 z-50">
-        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 h-16 flex items-center justify-between">
-            <div class="flex items-center gap-3">
-                <div
-                    class="h-10 w-10 rounded-xl bg-gradient-to-br from-brand-500 to-amber-600 flex items-center justify-center shadow-lg shadow-brand-500/20 text-white font-black text-xl tracking-wider">
-                    Ω
+    <!-- Baroque Header -->
+    <header class="border-b border-gold-700/40 bg-obsidian-950/90 backdrop-blur-md sticky top-0 z-50">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 h-20 flex items-center justify-between">
+            <div class="flex items-center gap-4">
+                <div class="h-12 w-12 rounded-xl bg-gradient-to-br from-gold-400 via-gold-600 to-amber-900 flex items-center justify-center shadow-lg shadow-gold-500/20 text-obsidian-950 text-2xl font-black border border-gold-300">
+                    ♚
                 </div>
                 <div>
-                    <div class="flex items-center gap-2">
-                        <span class="font-extrabold text-lg tracking-tight text-white">OMNISCALE</span>
-                        <span
-                            class="px-2 py-0.5 text-[10px] font-bold uppercase tracking-wider rounded-full bg-brand-500/10 text-brand-400 border border-brand-500/20">US
-                            Home Matrix</span>
+                    <div class="flex items-center gap-2.5">
+                        <h1 class="font-baroque font-black text-2xl tracking-wider text-transparent bg-clip-text bg-gradient-to-r from-gold-200 via-gold-400 to-amber-600 drop-shadow">
+                            CHESSULATOR
+                        </h1>
+                        <span class="px-2.5 py-0.5 text-[10px] font-cinzel font-bold uppercase tracking-widest rounded-full bg-gold-500/10 text-gold-300 border border-gold-500/30">
+                            Baroque Win Oracle
+                        </span>
                     </div>
-                    <p class="text-xs text-slate-400">Complete Household, Kitchen &amp; DIY Standards</p>
+                    <p class="text-xs font-serif italic text-gold-200/70 tracking-wide">
+                        Sovereign Chessboard &amp; Real-Time Strategic Win Probability Calculus
+                    </p>
                 </div>
             </div>
 
-            <div class="flex items-center gap-2.5">
-                <button onclick="resetAll()"
-                    class="px-3.5 py-1.5 rounded-lg text-xs font-semibold text-slate-400 hover:text-slate-100 hover:bg-slate-800 transition flex items-center gap-1.5 border border-transparent hover:border-slate-700">
-                    <i class="fa-solid fa-rotate-left"></i> Reset
+            <!-- Top Header Action Controls -->
+            <div class="flex items-center gap-2 sm:gap-3">
+                <button id="soundToggleBtn" onclick="toggleSound()" class="btn-royal px-3 py-2 rounded-lg text-xs flex items-center gap-1.5" title="Toggle Synthesized Audio">
+                    <i id="soundIcon" class="fa-solid fa-volume-high text-gold-400"></i>
+                    <span class="hidden md:inline text-[11px]">Audio</span>
                 </button>
-                <button onclick="copyManifest()"
-                    class="px-3.5 py-1.5 rounded-lg text-xs font-semibold bg-brand-600 hover:bg-brand-500 text-white transition flex items-center gap-1.5 shadow-md shadow-brand-600/25">
-                    <i class="fa-solid fa-copy"></i> Copy Matrix
+                <button onclick="flipBoard()" class="btn-royal px-3 py-2 rounded-lg text-xs flex items-center gap-1.5" title="Flip Board Perspective">
+                    <i class="fa-solid fa-arrows-rotate text-gold-400"></i>
+                    <span class="hidden md:inline text-[11px]">Flip</span>
+                </button>
+                <button onclick="undoMove()" class="btn-royal px-3 py-2 rounded-lg text-xs flex items-center gap-1.5" title="Undo Move (Z)">
+                    <i class="fa-solid fa-rotate-left text-gold-400"></i>
+                    <span class="hidden md:inline text-[11px]">Undo</span>
+                </button>
+                <button onclick="resetGameModal()" class="btn-royal px-3.5 py-2 rounded-lg text-xs flex items-center gap-1.5 border-amber-600/50 hover:border-amber-400" title="Reset Board">
+                    <i class="fa-solid fa-crown text-gold-400"></i>
+                    <span class="text-[11px]">New Match</span>
                 </button>
             </div>
         </div>
     </header>
 
-    <main class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8 flex-1 w-full space-y-8">
+    <!-- Main Workspace Container -->
+    <main class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-6 sm:py-8 flex-1 w-full grid grid-cols-1 lg:grid-cols-12 gap-8 items-start">
 
-        <!-- Quick Home Presets -->
-        <div
-            class="rounded-2xl border border-slate-800 bg-surface-900/60 p-4 sm:p-5 flex flex-wrap items-center justify-between gap-4">
-            <div class="flex items-center gap-2 text-xs font-semibold text-slate-400 uppercase tracking-wider">
-                <i class="fa-solid fa-bolt-lightning text-brand-400"></i> Home Presets:
+        <!-- LEFT COLUMN: The Chess Board & Interactive Playing Arena (7 cols) -->
+        <div class="lg:col-span-7 flex flex-col items-center gap-5 w-full">
+
+            <!-- Turn Banner & Sovereign Status -->
+            <div class="w-full baroque-panel rounded-xl p-3.5 px-5 flex items-center justify-between border border-gold-600/30">
+                <div class="corner-filigree top-left"></div>
+                <div class="corner-filigree top-right"></div>
+                <div class="corner-filigree bottom-left"></div>
+                <div class="corner-filigree bottom-right"></div>
+
+                <div class="flex items-center gap-3">
+                    <div id="turnIndicatorBadge" class="h-9 w-9 rounded-lg flex items-center justify-center font-serif text-xl border shadow-inner transition-all duration-300 bg-amber-100 text-obsidian-950 border-gold-300">
+                        ♔
+                    </div>
+                    <div>
+                        <div class="text-[10px] uppercase font-cinzel font-bold tracking-widest text-gold-400/80">Active Ply</div>
+                        <div id="turnText" class="font-cinzel font-bold text-base text-gold-100 flex items-center gap-2">
+                            White's Sovereign Move
+                        </div>
+                    </div>
+                </div>
+
+                <div class="flex items-center gap-4 text-right">
+                    <div class="hidden sm:block">
+                        <div class="text-[10px] uppercase font-cinzel font-bold tracking-widest text-gold-400/80">Game Phase</div>
+                        <div id="gamePhaseText" class="text-xs font-serif text-gold-200">Opening Gambits</div>
+                    </div>
+                    <div class="h-8 w-px bg-gold-700/40 hidden sm:block"></div>
+                    <div>
+                        <div class="text-[10px] uppercase font-cinzel font-bold tracking-widest text-gold-400/80">Move Count</div>
+                        <div id="plyCountText" class="font-mono font-bold text-sm text-gold-300">Ply #1</div>
+                    </div>
+                </div>
             </div>
-            <div class="flex flex-wrap gap-2">
-                <button onclick="applyPreset('vol', 'cup', 1)"
-                    class="px-3 py-1.5 rounded-lg bg-slate-900 border border-slate-800 hover:border-brand-500/50 hover:text-brand-400 text-xs font-medium text-slate-300 transition">
-                    1 Cup
-                </button>
-                <button onclick="applyPreset('vol', 'gallon', 1)"
-                    class="px-3 py-1.5 rounded-lg bg-slate-900 border border-slate-800 hover:border-brand-500/50 hover:text-brand-400 text-xs font-medium text-slate-300 transition">
-                    1 Gallon Paint/Milk
-                </button>
-                <button onclick="applyPreset('weight', 'lb', 1)"
-                    class="px-3 py-1.5 rounded-lg bg-slate-900 border border-slate-800 hover:border-brand-500/50 hover:text-brand-400 text-xs font-medium text-slate-300 transition">
-                    1.0 lb Meat
-                </button>
-                <button onclick="applyPreset('length', 'ft', 8)"
-                    class="px-3 py-1.5 rounded-lg bg-slate-900 border border-slate-800 hover:border-brand-500/50 hover:text-brand-400 text-xs font-medium text-slate-300 transition">
-                    8 ft Ceiling / Lumber
-                </button>
-                <button onclick="applyPreset('area', 'sq_ft', 120)"
-                    class="px-3 py-1.5 rounded-lg bg-slate-900 border border-slate-800 hover:border-brand-500/50 hover:text-brand-400 text-xs font-medium text-slate-300 transition">
-                    120 sq ft Bedroom
-                </button>
-                <button onclick="applyTempPreset(350)"
-                    class="px-3 py-1.5 rounded-lg bg-slate-900 border border-slate-800 hover:border-brand-500/50 hover:text-brand-400 text-xs font-medium text-slate-300 transition">
-                    350°F Oven
-                </button>
+
+            <!-- Black Captured Pieces Rack (Top) -->
+            <div class="w-full flex items-center justify-between px-3 py-1.5 bg-obsidian-900/60 rounded-lg border border-gold-900/40 text-xs">
+                <div class="flex items-center gap-2">
+                    <span class="font-cinzel text-xs font-bold text-gold-300">Black</span>
+                    <span id="blackAdvantagePill" class="text-[10px] font-mono font-bold px-1.5 py-0.5 rounded bg-amber-950 text-gold-300 border border-gold-700/50 hidden">+0</span>
+                </div>
+                <div id="blackCapturedBox" class="flex items-center gap-1 min-h-[22px]"></div>
             </div>
+
+            <!-- THE CHESSBOARD -->
+            <div class="chessboard-chassis w-full max-w-[620px]">
+                <div id="chessBoard" class="board-grid">
+                    <!-- 64 Squares will be injected dynamically by JS -->
+                </div>
+            </div>
+
+            <!-- White Captured Pieces Rack (Bottom) -->
+            <div class="w-full flex items-center justify-between px-3 py-1.5 bg-obsidian-900/60 rounded-lg border border-gold-900/40 text-xs">
+                <div class="flex items-center gap-2">
+                    <span class="font-cinzel text-xs font-bold text-gold-300">White</span>
+                    <span id="whiteAdvantagePill" class="text-[10px] font-mono font-bold px-1.5 py-0.5 rounded bg-amber-950 text-gold-300 border border-gold-700/50 hidden">+0</span>
+                </div>
+                <div id="whiteCapturedBox" class="flex items-center gap-1 min-h-[22px]"></div>
+            </div>
+
+            <!-- Interactive Move Legend & Hover Instructions -->
+            <div class="w-full grid grid-cols-2 sm:grid-cols-4 gap-2 text-center text-[11px] font-serif text-gold-200/80">
+                <div class="p-2 rounded bg-obsidian-900/50 border border-emerald-500/30 flex items-center justify-center gap-1.5">
+                    <span class="h-2 w-2 rounded-full bg-emerald-400 shadow-sm shadow-emerald-400"></span>
+                    <span><strong>💎 Brilliant</strong> (&gt;+5%)</span>
+                </div>
+                <div class="p-2 rounded bg-obsidian-900/50 border border-sky-500/30 flex items-center justify-center gap-1.5">
+                    <span class="h-2 w-2 rounded-full bg-sky-400 shadow-sm shadow-sky-400"></span>
+                    <span><strong>✨ Good</strong> (+0 to +5%)</span>
+                </div>
+                <div class="p-2 rounded bg-obsidian-900/50 border border-amber-500/30 flex items-center justify-center gap-1.5">
+                    <span class="h-2 w-2 rounded-full bg-amber-400 shadow-sm shadow-amber-400"></span>
+                    <span><strong>⚠️ Mistake</strong> (-6% to -15%)</span>
+                </div>
+                <div class="p-2 rounded bg-obsidian-900/50 border border-red-500/30 flex items-center justify-center gap-1.5">
+                    <span class="h-2 w-2 rounded-full bg-red-500 shadow-sm shadow-red-500"></span>
+                    <span><strong>💀 Blunder</strong> (&lt;-15%)</span>
+                </div>
+            </div>
+
+            <!-- Classical Baroque Presets Bar -->
+            <div class="w-full baroque-panel rounded-xl p-3.5 flex flex-wrap items-center justify-between gap-2 text-xs">
+                <div class="corner-filigree top-left"></div>
+                <div class="corner-filigree top-right"></div>
+                <div class="corner-filigree bottom-left"></div>
+                <div class="corner-filigree bottom-right"></div>
+
+                <span class="font-cinzel text-gold-400 font-bold flex items-center gap-1.5">
+                    <i class="fa-solid fa-scroll text-xs"></i> Master Openings:
+                </span>
+                <div class="flex flex-wrap gap-1.5">
+                    <button onclick="loadOpening('ruy_lopez')" class="px-2.5 py-1 rounded bg-obsidian-900 border border-gold-800/60 hover:border-gold-500 text-gold-200 text-[11px] font-cinzel transition">Ruy Lopez</button>
+                    <button onclick="loadOpening('sicilian')" class="px-2.5 py-1 rounded bg-obsidian-900 border border-gold-800/60 hover:border-gold-500 text-gold-200 text-[11px] font-cinzel transition">Sicilian</button>
+                    <button onclick="loadOpening('queens_gambit')" class="px-2.5 py-1 rounded bg-obsidian-900 border border-gold-800/60 hover:border-gold-500 text-gold-200 text-[11px] font-cinzel transition">Queen's Gambit</button>
+                    <button onclick="loadOpening('italian')" class="px-2.5 py-1 rounded bg-obsidian-900 border border-gold-800/60 hover:border-gold-500 text-gold-200 text-[11px] font-cinzel transition">Italian Game</button>
+                    <button onclick="loadOpening('scholars_mate_threat')" class="px-2.5 py-1 rounded bg-obsidian-900 border border-gold-800/60 hover:border-gold-500 text-gold-200 text-[11px] font-cinzel transition">Scholar's Threat</button>
+                </div>
+            </div>
+
         </div>
 
-        <!-- Category Grid -->
-        <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+        <!-- RIGHT COLUMN: The Sovereign Oracle (Large Calculation of Winning) (5 cols) -->
+        <div class="lg:col-span-5 flex flex-col gap-6 w-full">
 
-            <!-- 1. Liquid & Dry Volume (Pantry & Home) -->
-            <section
-                class="bg-surface-900/90 rounded-2xl border border-slate-800 overflow-hidden flex flex-col shadow-xl">
-                <div class="px-5 py-4 border-b border-slate-800 bg-slate-900/50 flex items-center justify-between">
-                    <div class="flex items-center gap-2.5">
-                        <div class="p-2 rounded-lg bg-sky-500/10 text-sky-400 border border-sky-500/20">
-                            <i class="fa-solid fa-flask text-sm"></i>
-                        </div>
-                        <div>
-                            <h2 class="text-sm font-bold tracking-tight text-white uppercase">US Volume (Liquid & Dry)
-                            </h2>
-                            <p class="text-[11px] text-slate-400">Cooking, gallons, pantry measures</p>
-                        </div>
-                    </div>
-                    <span
-                        class="text-[10px] font-mono font-bold text-sky-400 bg-sky-950/60 px-2 py-0.5 rounded border border-sky-800/40">VOL</span>
-                </div>
-                <div class="p-5 space-y-3 flex-1" id="volGrid"></div>
-            </section>
+            <!-- 1. GRAND WIN EVALUATION CALCULATOR -->
+            <div class="baroque-panel rounded-2xl p-6 sm:p-7 relative overflow-hidden flex flex-col gap-6">
+                <div class="corner-filigree top-left"></div>
+                <div class="corner-filigree top-right"></div>
+                <div class="corner-filigree bottom-left"></div>
+                <div class="corner-filigree bottom-right"></div>
 
-            <!-- 2. Weight & Mass -->
-            <section
-                class="bg-surface-900/90 rounded-2xl border border-slate-800 overflow-hidden flex flex-col shadow-xl">
-                <div class="px-5 py-4 border-b border-slate-800 bg-slate-900/50 flex items-center justify-between">
-                    <div class="flex items-center gap-2.5">
-                        <div class="p-2 rounded-lg bg-emerald-500/10 text-emerald-400 border border-emerald-500/20">
-                            <i class="fa-solid fa-scale-balanced text-sm"></i>
-                        </div>
-                        <div>
-                            <h2 class="text-sm font-bold tracking-tight text-white uppercase">US Weight &amp; Mass</h2>
-                            <p class="text-[11px] text-slate-400">Postal, butchery, luggage &amp; scales</p>
-                        </div>
+                <!-- Grand Title -->
+                <div class="text-center border-b border-gold-700/40 pb-4">
+                    <div class="text-[11px] font-cinzel font-black uppercase tracking-[0.25em] text-gold-400">
+                        THE SOVEREIGN ORACLE
                     </div>
-                    <span
-                        class="text-[10px] font-mono font-bold text-emerald-400 bg-emerald-950/60 px-2 py-0.5 rounded border border-emerald-800/40">MASS</span>
+                    <h2 class="font-baroque text-2xl sm:text-3xl font-black text-transparent bg-clip-text bg-gradient-to-r from-gold-100 via-gold-300 to-amber-500 mt-1">
+                        CALCULATION TO WIN
+                    </h2>
+                    <p id="evalCommentary" class="text-xs font-serif italic text-gold-200/80 mt-1">
+                        "Equal parity at opening assembly. All possibilities await."
+                    </p>
                 </div>
-                <div class="p-5 space-y-3 flex-1" id="weightGrid"></div>
-            </section>
 
-            <!-- 3. Household Length & Dimensions -->
-            <section
-                class="bg-surface-900/90 rounded-2xl border border-slate-800 overflow-hidden flex flex-col shadow-xl">
-                <div class="px-5 py-4 border-b border-slate-800 bg-slate-900/50 flex items-center justify-between">
-                    <div class="flex items-center gap-2.5">
-                        <div class="p-2 rounded-lg bg-amber-500/10 text-amber-400 border border-amber-500/20">
-                            <i class="fa-solid fa-ruler-combined text-sm"></i>
+                <!-- HUGE WIN PROBABILITY DISPLAY -->
+                <div class="grid grid-cols-2 gap-4 items-center bg-obsidian-950/80 p-5 rounded-xl border border-gold-600/40 shadow-inner">
+                    <!-- White Probability -->
+                    <div class="text-center">
+                        <div class="flex items-center justify-center gap-1.5 text-xs font-cinzel font-bold text-gold-300 uppercase tracking-wider mb-1">
+                            <span class="text-lg">♔</span> White
                         </div>
-                        <div>
-                            <h2 class="text-sm font-bold tracking-tight text-white uppercase">Length &amp; DIY
-                                Dimensions</h2>
-                            <p class="text-[11px] text-slate-400">Furniture, room layout &amp; lumber</p>
+                        <div id="whiteWinPctLarge" class="font-baroque text-3xl sm:text-4xl lg:text-5xl font-black text-white drop-shadow-[0_2px_12px_rgba(223,177,91,0.6)]">
+                            50.0%
+                        </div>
+                        <div id="whiteAdvantageTag" class="text-[11px] font-serif text-gold-400 mt-1">
+                            Baseline parity
                         </div>
                     </div>
-                    <span
-                        class="text-[10px] font-mono font-bold text-amber-400 bg-amber-950/60 px-2 py-0.5 rounded border border-amber-800/40">LENGTH</span>
-                </div>
-                <div class="p-5 space-y-3 flex-1" id="lengthGrid"></div>
-            </section>
 
-            <!-- 4. Room & Yard Area (Square Footage) -->
-            <section
-                class="bg-surface-900/90 rounded-2xl border border-slate-800 overflow-hidden flex flex-col shadow-xl">
-                <div class="px-5 py-4 border-b border-slate-800 bg-slate-900/50 flex items-center justify-between">
-                    <div class="flex items-center gap-2.5">
-                        <div class="p-2 rounded-lg bg-indigo-500/10 text-indigo-400 border border-indigo-500/20">
-                            <i class="fa-solid fa-vector-square text-sm"></i>
+                    <!-- Black Probability -->
+                    <div class="text-center border-l border-gold-800/50 pl-4">
+                        <div class="flex items-center justify-center gap-1.5 text-xs font-cinzel font-bold text-slate-400 uppercase tracking-wider mb-1">
+                            <span class="text-lg">♚</span> Black
                         </div>
-                        <div>
-                            <h2 class="text-sm font-bold tracking-tight text-white uppercase">Flooring &amp; Yard Area
-                            </h2>
-                            <p class="text-[11px] text-slate-400">Flooring, lawn &amp; paint coverage</p>
+                        <div id="blackWinPctLarge" class="font-baroque text-3xl sm:text-4xl lg:text-5xl font-black text-slate-300 drop-shadow-[0_2px_12px_rgba(255,255,255,0.2)]">
+                            50.0%
+                        </div>
+                        <div id="blackAdvantageTag" class="text-[11px] font-serif text-slate-400 mt-1">
+                            Baseline parity
                         </div>
                     </div>
-                    <span
-                        class="text-[10px] font-mono font-bold text-indigo-400 bg-indigo-950/60 px-2 py-0.5 rounded border border-indigo-800/40">AREA</span>
                 </div>
-                <div class="p-5 space-y-3 flex-1" id="areaGrid"></div>
-            </section>
 
-            <!-- 5. Thermal & Oven Temperatures -->
-            <section
-                class="bg-surface-900/90 rounded-2xl border border-slate-800 overflow-hidden flex flex-col shadow-xl">
-                <div class="px-5 py-4 border-b border-slate-800 bg-slate-900/50 flex items-center justify-between">
-                    <div class="flex items-center gap-2.5">
-                        <div class="p-2 rounded-lg bg-brand-500/10 text-brand-400 border border-brand-500/20">
-                            <i class="fa-solid fa-temperature-half text-sm"></i>
-                        </div>
-                        <div>
-                            <h2 class="text-sm font-bold tracking-tight text-white uppercase">Temperature &amp;
-                                Thermostat</h2>
-                            <p class="text-[11px] text-slate-400">HVAC, grilling &amp; baking</p>
-                        </div>
+                <!-- Dynamic Win Probability Gauge Bar -->
+                <div class="space-y-2">
+                    <div class="flex justify-between text-[11px] font-cinzel font-bold text-gold-300">
+                        <span>White Advantage</span>
+                        <span id="centipawnReadout" class="font-mono font-black text-xs text-gold-400 bg-obsidian-900 px-2 py-0.5 rounded border border-gold-700/50">
+                            +0.00
+                        </span>
+                        <span>Black Advantage</span>
                     </div>
-                    <span
-                        class="text-[10px] font-mono font-bold text-brand-400 bg-brand-950/60 px-2 py-0.5 rounded border border-brand-800/40">TEMP</span>
-                </div>
-                <div class="p-5 space-y-3 flex-1">
-                    <div class="flex items-center justify-between gap-3">
-                        <label class="text-xs font-medium text-slate-300">Fahrenheit (°F)</label>
-                        <input type="number" id="temp_f" value="350" oninput="handleTempInput('f', this.value)"
-                            class="w-36 bg-slate-950 border border-slate-800 focus:border-brand-500 focus:ring-1 focus:ring-brand-500 rounded-lg px-3 py-2 text-right font-mono text-sm font-bold text-slate-100 outline-none transition" />
-                    </div>
-                    <div class="flex items-center justify-between gap-3">
-                        <label class="text-xs font-medium text-slate-300">Celsius (°C)</label>
-                        <input type="number" id="temp_c" value="176.7" oninput="handleTempInput('c', this.value)"
-                            class="w-36 bg-slate-950 border border-slate-800 focus:border-brand-500 focus:ring-1 focus:ring-brand-500 rounded-lg px-3 py-2 text-right font-mono text-sm font-bold text-slate-100 outline-none transition" />
-                    </div>
-                    <div class="flex items-center justify-between gap-3">
-                        <label class="text-xs font-medium text-slate-300">Gas Mark</label>
-                        <input type="text" id="temp_gas" value="4 (Moderate)" readonly
-                            class="w-36 bg-slate-950/50 border border-slate-800/80 rounded-lg px-3 py-2 text-right font-mono text-xs font-semibold text-brand-400 outline-none select-none" />
-                    </div>
-                    <div
-                        class="mt-4 p-3 rounded-xl bg-slate-950/60 border border-slate-800/80 text-[11px] text-slate-400 space-y-1">
-                        <div><strong>Water Freezing:</strong> 32°F / 0°C</div>
-                        <div><strong>Comfort Thermostat:</strong> 68°F – 72°F</div>
-                        <div><strong>Water Boiling:</strong> 212°F / 100°C</div>
-                    </div>
-                </div>
-            </section>
 
-            <!-- 6. Recipe / Quantity Batch Multiplier -->
-            <section
-                class="bg-surface-900/90 rounded-2xl border border-slate-800 overflow-hidden flex flex-col shadow-xl">
-                <div class="px-5 py-4 border-b border-slate-800 bg-slate-900/50 flex items-center justify-between">
-                    <div class="flex items-center gap-2.5">
-                        <div class="p-2 rounded-lg bg-purple-500/10 text-purple-400 border border-purple-500/20">
-                            <i class="fa-solid fa-calculator text-sm"></i>
-                        </div>
-                        <div>
-                            <h2 class="text-sm font-bold tracking-tight text-white uppercase">Batch &amp; Multiplier
-                                Scaler</h2>
-                            <p class="text-[11px] text-slate-400">Scale recipe &amp; project quantities</p>
-                        </div>
+                    <div class="oracle-gauge-container flex">
+                        <div id="oracleBarWhite" class="oracle-bar-white" style="width: 50%;"></div>
+                        <div id="oracleBarBlack" class="oracle-bar-black" style="width: 50%;"></div>
                     </div>
-                    <span
-                        class="text-[10px] font-mono font-bold text-purple-400 bg-purple-950/60 px-2 py-0.5 rounded border border-purple-800/40">SCALER</span>
                 </div>
-                <div class="p-5 flex flex-col space-y-3 flex-1">
-                    <div class="grid grid-cols-5 gap-1">
-                        <button onclick="setMultiplier(0.5, this)"
-                            class="mult-btn py-1 rounded border border-slate-800 text-slate-300 font-mono text-xs hover:border-purple-500 transition">0.5×</button>
-                        <button onclick="setMultiplier(1.0, this)"
-                            class="mult-btn py-1 rounded border border-purple-500 bg-purple-500/20 text-purple-300 font-mono text-xs transition">1.0×</button>
-                        <button onclick="setMultiplier(1.5, this)"
-                            class="mult-btn py-1 rounded border border-slate-800 text-slate-300 font-mono text-xs hover:border-purple-500 transition">1.5×</button>
-                        <button onclick="setMultiplier(2.0, this)"
-                            class="mult-btn py-1 rounded border border-slate-800 text-slate-300 font-mono text-xs hover:border-purple-500 transition">2.0×</button>
-                        <button onclick="setMultiplier(3.0, this)"
-                            class="mult-btn py-1 rounded border border-slate-800 text-slate-300 font-mono text-xs hover:border-purple-500 transition">3.0×</button>
+
+                <!-- Positional Telemetry & Strategic Analysis Breakdown -->
+                <div class="space-y-3 pt-2 border-t border-gold-800/40">
+                    <div class="text-[11px] font-cinzel font-bold uppercase tracking-wider text-gold-400 flex items-center justify-between">
+                        <span><i class="fa-solid fa-chart-pie mr-1 text-gold-500"></i> Positional Telemetry</span>
+                        <span id="depthTelemetry" class="text-[10px] font-mono text-gold-300/70">Calculus Engine v4.8</span>
                     </div>
-                    <textarea id="recipeInput" rows="3"
-                        class="w-full bg-slate-950 border border-slate-800 focus:border-purple-500 rounded-xl p-2.5 font-mono text-xs text-slate-200 outline-none resize-none"
-                        placeholder="2 cups paint&#10;1.5 lbs nails&#10;0.5 gallon cleaner"></textarea>
-                    <button onclick="scaleRecipe()"
-                        class="py-2 bg-purple-600 hover:bg-purple-500 text-white rounded-xl text-xs font-bold transition">
-                        Recalculate Batch
+
+                    <div class="space-y-2.5 text-xs">
+                        <!-- Material Balance -->
+                        <div>
+                            <div class="flex justify-between text-gold-200/90 text-[11px] mb-1">
+                                <span class="flex items-center gap-1.5"><i class="fa-solid fa-shield-halved text-gold-500"></i> Material Supremacy</span>
+                                <span id="telemetryMaterial" class="font-mono font-bold text-gold-300">Equal (39 vs 39)</span>
+                            </div>
+                            <div class="w-full bg-obsidian-950 h-1.5 rounded-full overflow-hidden border border-gold-900/50">
+                                <div id="barMaterial" class="h-full bg-gradient-to-r from-gold-500 to-amber-300" style="width: 50%"></div>
+                            </div>
+                        </div>
+
+                        <!-- Center Control -->
+                        <div>
+                            <div class="flex justify-between text-gold-200/90 text-[11px] mb-1">
+                                <span class="flex items-center gap-1.5"><i class="fa-solid fa-chess-board text-gold-500"></i> Center Dominion &amp; Space</span>
+                                <span id="telemetryCenter" class="font-mono font-bold text-gold-300">Contested</span>
+                            </div>
+                            <div class="w-full bg-obsidian-950 h-1.5 rounded-full overflow-hidden border border-gold-900/50">
+                                <div id="barCenter" class="h-full bg-gradient-to-r from-gold-500 to-amber-300" style="width: 50%"></div>
+                            </div>
+                        </div>
+
+                        <!-- Piece Mobility & Attack Vectors -->
+                        <div>
+                            <div class="flex justify-between text-gold-200/90 text-[11px] mb-1">
+                                <span class="flex items-center gap-1.5"><i class="fa-solid fa-bolt text-gold-500"></i> Piece Mobility &amp; Threat Range</span>
+                                <span id="telemetryMobility" class="font-mono font-bold text-gold-300">20 moves vs 20 moves</span>
+                            </div>
+                            <div class="w-full bg-obsidian-950 h-1.5 rounded-full overflow-hidden border border-gold-900/50">
+                                <div id="barMobility" class="h-full bg-gradient-to-r from-gold-500 to-amber-300" style="width: 50%"></div>
+                            </div>
+                        </div>
+
+                        <!-- King Fortification -->
+                        <div>
+                            <div class="flex justify-between text-gold-200/90 text-[11px] mb-1">
+                                <span class="flex items-center gap-1.5"><i class="fa-solid fa-chess-king text-gold-500"></i> King Safety &amp; Bastion Shield</span>
+                                <span id="telemetryKing" class="font-mono font-bold text-gold-300">Uncastled // Sealed</span>
+                            </div>
+                            <div class="w-full bg-obsidian-950 h-1.5 rounded-full overflow-hidden border border-gold-900/50">
+                                <div id="barKing" class="h-full bg-gradient-to-r from-gold-500 to-amber-300" style="width: 50%"></div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Hover Move Preview Live Inspector -->
+                <div id="hoverInspectorPanel" class="p-3.5 bg-obsidian-950/90 rounded-xl border border-gold-500/40 hidden transition-all">
+                    <div class="flex items-center justify-between text-xs mb-1">
+                        <span class="font-cinzel font-bold text-gold-300 flex items-center gap-1.5">
+                            <i class="fa-solid fa-wand-magic-sparkles text-amber-400"></i> Hovered Move Analysis:
+                        </span>
+                        <span id="hoverMoveBadge" class="font-mono font-bold px-2 py-0.5 rounded text-[11px] bg-emerald-950 text-emerald-300 border border-emerald-600">
+                            e2 ➔ e4
+                        </span>
+                    </div>
+                    <p id="hoverMoveDesc" class="text-[11px] font-serif text-gold-200/90">
+                        Seizes central squares, opens diagonals for Queen and Bishop.
+                    </p>
+                    <div class="flex items-center justify-between text-[11px] font-mono text-gold-400 mt-2 pt-2 border-t border-gold-900/50">
+                        <span>Projected Win: <strong id="hoverWinRateText" class="text-white">52.8%</strong></span>
+                        <span id="hoverDeltaText" class="text-emerald-400 font-bold">+2.8% Delta</span>
+                    </div>
+                </div>
+
+            </div>
+
+            <!-- 2. MOVE HISTORY LEDGER & WIN RATE SPARKLINE -->
+            <div class="baroque-panel rounded-2xl p-5 relative overflow-hidden flex flex-col gap-4">
+                <div class="corner-filigree top-left"></div>
+                <div class="corner-filigree top-right"></div>
+                <div class="corner-filigree bottom-left"></div>
+                <div class="corner-filigree bottom-right"></div>
+
+                <div class="flex items-center justify-between border-b border-gold-800/40 pb-3">
+                    <span class="font-cinzel text-xs font-bold tracking-wider text-gold-300 uppercase flex items-center gap-2">
+                        <i class="fa-solid fa-book-bookmark text-gold-400"></i> Royal Match Ledger
+                    </span>
+                    <button onclick="copyPGN()" class="text-[11px] text-gold-400 hover:text-gold-200 font-cinzel transition flex items-center gap-1">
+                        <i class="fa-solid fa-copy"></i> Copy PGN
                     </button>
-                    <pre id="recipeOutput"
-                        class="hidden bg-slate-950 border border-purple-900/40 rounded-xl p-2.5 font-mono text-[11px] text-emerald-400 overflow-x-auto whitespace-pre-wrap"></pre>
                 </div>
-            </section>
+
+                <!-- Win Trajectory Canvas Sparkline -->
+                <div class="w-full bg-obsidian-950/80 p-2.5 rounded-lg border border-gold-900/50">
+                    <div class="flex justify-between text-[10px] font-cinzel text-gold-400 mb-1">
+                        <span>Win Trajectory Curve</span>
+                        <span id="sparklineTrend" class="font-mono text-emerald-400">+0.0 Balanced</span>
+                    </div>
+                    <canvas id="evalSparkline" class="w-full h-14 block"></canvas>
+                </div>
+
+                <!-- Scrollable Move Log Table -->
+                <div id="moveLogList" class="h-44 overflow-y-auto space-y-1 font-mono text-xs pr-1 divide-y divide-gold-900/20">
+                    <div class="text-center text-gold-400/60 font-serif italic py-6">
+                        No moves recorded. The board awaits the first play.
+                    </div>
+                </div>
+
+                <!-- Auxiliary Controls: FEN, Mode Toggle -->
+                <div class="flex items-center justify-between gap-2 pt-2 border-t border-gold-800/30 text-xs font-cinzel">
+                    <button onclick="copyFEN()" class="btn-royal px-2.5 py-1.5 rounded text-[11px] flex-1 flex items-center justify-center gap-1">
+                        <i class="fa-solid fa-fingerprint"></i> FEN
+                    </button>
+                    <button onclick="openCustomFENModal()" class="btn-royal px-2.5 py-1.5 rounded text-[11px] flex-1 flex items-center justify-center gap-1">
+                        <i class="fa-solid fa-upload"></i> Load FEN
+                    </button>
+                    <button id="aiToggleBtn" onclick="toggleAIAutoOpponent()" class="btn-royal px-2.5 py-1.5 rounded text-[11px] flex-1 flex items-center justify-center gap-1 border-purple-800/50 text-purple-300" title="Spar against the Baroque Automaton Engine">
+                        <i class="fa-solid fa-robot"></i> <span id="aiStatusText">AI: Off</span>
+                    </button>
+                </div>
+
+            </div>
 
         </div>
+
     </main>
 
-    <div id="toast"
-        class="fixed bottom-6 right-6 translate-y-24 opacity-0 transition-all duration-300 pointer-events-none flex items-center gap-3 bg-slate-900 border border-slate-700 shadow-2xl px-4 py-3 rounded-xl z-50">
-        <div class="h-2 w-2 rounded-full bg-brand-400 animate-pulse"></div>
-        <span id="toastMsg" class="text-xs font-semibold text-slate-200">Values recalculated</span>
+    <!-- Promotion Selection Modal (Baroque Gilded) -->
+    <div id="promotionModal" class="fixed inset-0 baroque-modal-backdrop z-50 hidden flex items-center justify-center p-4">
+        <div class="baroque-panel rounded-2xl p-6 max-w-sm w-full text-center border-2 border-gold-400 shadow-2xl">
+            <div class="corner-filigree top-left"></div>
+            <div class="corner-filigree top-right"></div>
+            <div class="corner-filigree bottom-left"></div>
+            <div class="corner-filigree bottom-right"></div>
+
+            <div class="h-10 w-10 mx-auto rounded-full bg-gradient-to-br from-gold-300 to-amber-600 flex items-center justify-center text-obsidian-950 text-xl font-bold mb-3">
+                ⚜
+            </div>
+            <h3 class="font-baroque text-xl font-black text-gold-200">Sovereign Pawn Promotion</h3>
+            <p class="text-xs font-serif italic text-gold-300/80 mb-5">Select the noble rank for your ascended pawn:</p>
+
+            <div class="grid grid-cols-4 gap-3 mb-5" id="promotionPiecesGrid">
+                <!-- Buttons injected dynamically with Queen, Rook, Bishop, Knight -->
+            </div>
+
+            <p class="text-[10px] font-cinzel text-gold-400/60 uppercase tracking-wider">Ascension is irrevocable</p>
+        </div>
     </div>
 
-    <footer class="border-t border-slate-900 py-6 text-center text-xs text-slate-600">
-        OMNISCALE // Comprehensive US Customary &amp; Metric Matrix • Realtime bi-directional local sync
-    </footer>
+    <!-- Custom FEN Modal -->
+    <div id="fenModal" class="fixed inset-0 baroque-modal-backdrop z-50 hidden flex items-center justify-center p-4">
+        <div class="baroque-panel rounded-2xl p-6 max-w-md w-full border border-gold-500 shadow-2xl space-y-4">
+            <div class="corner-filigree top-left"></div>
+            <div class="corner-filigree top-right"></div>
+            <div class="corner-filigree bottom-left"></div>
+            <div class="corner-filigree bottom-right"></div>
 
+            <h3 class="font-baroque text-lg font-bold text-gold-300 text-center">Load Custom FEN Position</h3>
+            <input type="text" id="fenInput" placeholder="rnbqkbnr/pppppppp/8/8/8/8/PPPPPPPP/RNBQKBNR w KQkq - 0 1" class="w-full bg-obsidian-950 border border-gold-700 rounded-lg p-2.5 text-xs font-mono text-gold-100 focus:outline-none focus:border-gold-400" />
+
+            <div class="flex justify-end gap-2 text-xs font-cinzel">
+                <button onclick="closeCustomFENModal()" class="btn-royal px-4 py-2 rounded">Cancel</button>
+                <button onclick="applyCustomFEN()" class="btn-royal btn-royal-primary px-4 py-2 rounded">Apply Position</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Toast Notification Banner -->
+    <div id="toast" class="fixed bottom-6 right-6 z-50 transform translate-y-24 opacity-0 transition-all duration-300 pointer-events-none">
+        <div class="baroque-panel bg-obsidian-950/95 border border-gold-500 px-5 py-3 rounded-xl shadow-2xl flex items-center gap-3">
+            <div class="text-gold-400 text-base">⚜</div>
+            <div id="toastMsg" class="font-cinzel text-xs font-bold text-gold-100">Notification</div>
+        </div>
+    </div>
+
+    <!-- CHESSULATOR MASTER LOGIC & ENGINE SCRIPT -->
     <script>
-        // 1. VOLUME (Base: Fluid Ounces)
-        const VOLUME_UNITS = [
-            { key: 'pinch', label: 'Pinch (1/16 tsp)', symbol: 'pinch', factor: (1.0 / 6.0) / 16.0 },
-            { key: 'tsp', label: 'Teaspoon', symbol: 'tsp', factor: 1.0 / 6.0 },
-            { key: 'tbsp', label: 'Tablespoon', symbol: 'Tbsp', factor: 0.5 },
-            { key: 'fl_oz', label: 'Fluid Ounce', symbol: 'fl oz', factor: 1.0 },
-            { key: 'cup', label: 'Standard Cup', symbol: 'cup', factor: 8.0 },
-            { key: 'pint', label: 'Liquid Pint', symbol: 'pt', factor: 16.0 },
-            { key: 'quart', label: 'Liquid Quart', symbol: 'qt', factor: 32.0 },
-            { key: 'gallon', label: 'US Gallon', symbol: 'gal', factor: 128.0 },
-            { key: 'ml', label: 'Milliliter', symbol: 'ml', factor: 0.033814 },
-            { key: 'liter', label: 'Liter', symbol: 'L', factor: 33.814 },
-        ];
+        /**
+         * =========================================================================
+         * CHESSULATOR ENGINE & EVALUATION CORE
+         * =========================================================================
+         */
 
-        // 2. WEIGHT (Base: Dry Ounces)
-        const WEIGHT_UNITS = [
-            { key: 'dry_oz', label: 'Ounce', symbol: 'oz', factor: 1.0 },
-            { key: 'lb', label: 'Pound', symbol: 'lb', factor: 16.0 },
-            { key: 'stone', label: 'Stone (US/UK)', symbol: 'st', factor: 224.0 },
-            { key: 'gram', label: 'Gram', symbol: 'g', factor: 0.035274 },
-            { key: 'kg', label: 'Kilogram', symbol: 'kg', factor: 35.274 },
-        ];
-
-        // 3. LENGTH (Base: Inches)
-        const LENGTH_UNITS = [
-            { key: 'in', label: 'Inch', symbol: 'in', factor: 1.0 },
-            { key: 'ft', label: 'Foot', symbol: 'ft', factor: 12.0 },
-            { key: 'yd', label: 'Yard', symbol: 'yd', factor: 36.0 },
-            { key: 'mi', label: 'Mile', symbol: 'mi', factor: 63360.0 },
-            { key: 'cm', label: 'Centimeter', symbol: 'cm', factor: 0.393701 },
-            { key: 'm', label: 'Meter', symbol: 'm', factor: 39.3701 },
-        ];
-
-        // 4. AREA (Base: Square Feet)
-        const AREA_UNITS = [
-            { key: 'sq_in', label: 'Square Inch', symbol: 'sq in', factor: 1.0 / 144.0 },
-            { key: 'sq_ft', label: 'Square Foot', symbol: 'sq ft', factor: 1.0 },
-            { key: 'sq_yd', label: 'Square Yard', symbol: 'sq yd', factor: 9.0 },
-            { key: 'acre', label: 'Acre (Lawn/Lot)', symbol: 'acre', factor: 43560.0 },
-            { key: 'sq_m', label: 'Square Meter', symbol: 'sq m', factor: 10.7639 },
-        ];
-
-        const UNIT_REGISTRY = {
-            vol: VOLUME_UNITS,
-            weight: WEIGHT_UNITS,
-            length: LENGTH_UNITS,
-            area: AREA_UNITS
+        // Standard Chess Constants
+        const PIECES = {
+            wP: 'wP', wN: 'wN', wB: 'wB', wR: 'wR', wQ: 'wQ', wK: 'wK',
+            bP: 'bP', bN: 'bN', bB: 'bB', bR: 'bR', bQ: 'bQ', bK: 'bK',
+            EMPTY: null
         };
 
-        let isUpdating = false;
-        let activeMultiplier = 1.0;
+        const PIECE_VALUES = {
+            'P': 100,
+            'N': 320,
+            'B': 335,
+            'R': 500,
+            'Q': 900,
+            'K': 20000
+        };
 
-        function renderUnitGrid(containerId, category, colorClass) {
-            const el = document.getElementById(containerId);
-            el.innerHTML = UNIT_REGISTRY[category].map(u => `
-        <div class="flex items-center justify-between gap-3 group">
-          <label class="text-xs font-medium text-slate-300 group-hover:text-white transition flex items-center gap-1.5">
-            <span>${u.label}</span>
-            <span class="text-[10px] font-mono text-slate-500">(${u.symbol})</span>
-          </label>
-          <input type="number" step="any" id="${category}_${u.key}" 
-            oninput="handleUnitInput('${category}', '${u.key}', this.value)" 
-            class="w-32 bg-slate-950 border border-slate-800 focus:border-${colorClass}-500 focus:ring-1 focus:ring-${colorClass}-500 rounded-lg px-3 py-1.5 text-right font-mono text-xs font-bold text-slate-100 outline-none transition" />
-        </div>
-      `).join('');
-        }
+        // Positional Piece-Square Tables (Midgame Evaluation)
+        const PST = {
+            P: [
+                [0,  0,  0,  0,  0,  0,  0,  0],
+                [50, 50, 50, 50, 50, 50, 50, 50],
+                [10, 10, 20, 30, 30, 20, 10, 10],
+                [5,  5, 10, 27, 27, 10,  5,  5],
+                [0,  0,  0, 25, 25,  0,  0,  0],
+                [5, -5,-10,  0,  0,-10, -5,  5],
+                [5, 10, 10,-25,-25, 10, 10,  5],
+                [0,  0,  0,  0,  0,  0,  0,  0]
+            ],
+            N: [
+                [-50,-40,-30,-30,-30,-30,-40,-50],
+                [-40,-20,  0,  0,  0,  0,-20,-40],
+                [-30,  0, 10, 15, 15, 10,  0,-30],
+                [-30,  5, 15, 20, 20, 15,  5,-30],
+                [-30,  0, 15, 20, 20, 15,  0,-30],
+                [-30,  5, 10, 15, 15, 10,  5,-30],
+                [-40,-20,  0,  5,  5,  0,-20,-40],
+                [-50,-40,-30,-30,-30,-30,-40,-50]
+            ],
+            B: [
+                [-20,-10,-10,-10,-10,-10,-10,-20],
+                [-10,  0,  0,  0,  0,  0,  0,-10],
+                [-10,  0,  5, 10, 10,  5,  0,-10],
+                [-10,  5,  5, 10, 10,  5,  5,-10],
+                [-10,  0, 10, 10, 10, 10,  0,-10],
+                [-10, 10, 10, 10, 10, 10, 10,-10],
+                [-10,  5,  0,  0,  0,  0,  5,-10],
+                [-20,-10,-10,-10,-10,-10,-10,-20]
+            ],
+            R: [
+                [0,  0,  0,  0,  0,  0,  0,  0],
+                [5, 10, 10, 10, 10, 10, 10,  5],
+                [-5,  0,  0,  0,  0,  0,  0, -5],
+                [-5,  0,  0,  0,  0,  0,  0, -5],
+                [-5,  0,  0,  0,  0,  0,  0, -5],
+                [-5,  0,  0,  0,  0,  0,  0, -5],
+                [-5,  0,  0,  0,  0,  0,  0, -5],
+                [0,  0,  0,  5,  5,  0,  0,  0]
+            ],
+            Q: [
+                [-20,-10,-10, -5, -5,-10,-10,-20],
+                [-10,  0,  0,  0,  0,  0,  0,-10],
+                [-10,  0,  5,  5,  5,  5,  0,-10],
+                [-5,  0,  5,  5,  5,  5,  0, -5],
+                [0,  0,  5,  5,  5,  5,  0, -5],
+                [-10,  5,  5,  5,  5,  5,  0,-10],
+                [-10,  0,  5,  0,  0,  0,  0,-10],
+                [-20,-10,-10, -5, -5,-10,-10,-20]
+            ],
+            K: [
+                [-30,-40,-40,-50,-50,-40,-40,-30],
+                [-30,-40,-40,-50,-50,-40,-40,-30],
+                [-30,-40,-40,-50,-50,-40,-40,-30],
+                [-30,-40,-40,-50,-50,-40,-40,-30],
+                [-20,-30,-30,-40,-40,-30,-30,-20],
+                [-10,-20,-20,-20,-20,-20,-20,-10],
+                [20, 20,  0,  0,  0,  0, 20, 20],
+                [20, 30, 10,  0,  0, 10, 30, 20]
+            ]
+        };
 
-        function formatNum(val) {
-            if (val === 0) return "0";
-            if (Math.abs(val) < 0.0001) return val.toFixed(5);
-            if (Math.abs(val - Math.round(val)) < 0.005) {
-                return Math.round(val).toString();
+        // Ornate SVG Chess Piece Templates
+        const PIECE_SVGS = {
+            'wK': `<svg viewBox="0 0 45 45"><g fill="#fff7e6" stroke="#5a3c08" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M22.5 11.63V6M20 8h5" stroke="#dfb15b" stroke-width="2"/><path d="M22.5 25s4.5-7.5 3-10.5c0 0-1-2.5-3-2.5s-3 2.5-3 2.5c-1.5 3 3 10.5 3 10.5" fill="#fdf3db"/><path d="M11.5 37c5.5 3.5 15.5 3.5 21 0v-7s9-4.5 6-10.5c-4-6.5-13.5-3.5-16 4V23.5c-2.5-7.5-12-10.5-16-4-3 6 6 10.5 6 10.5v7z" fill="url(#wGoldGrad)"/><path d="M11.5 30c5.5-3 15.5-3 21 0m-21 3.5c5.5-3 15.5-3 21 0m-21 3.5c5.5-3 15.5-3 21 0"/><circle cx="22.5" cy="14" r="1.5" fill="#dfb15b"/></g><defs><linearGradient id="wGoldGrad" x1="0%" y1="0%" x2="100%" y2="100%"><stop offset="0%" stop-color="#fff8e7"/><stop offset="50%" stop-color="#faeab0"/><stop offset="100%" stop-color="#dfb15b"/></linearGradient></defs></svg>`,
+            'wQ': `<svg viewBox="0 0 45 45"><g fill="url(#wGoldGrad)" stroke="#5a3c08" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M9 26c8.5-1.5 21-1.5 27 0l2-12-7 11-4-15-4.5 15-4.5-15-4 15-7-11 2 12z"/><path d="M9 26c0 2 1.5 2 2.5 4 2.5 4 1 5.5 1 5.5h20s-1.5-1.5 1-5.5c1-2 2.5-2 2.5-4"/><circle cx="6" cy="12" r="2" fill="#dfb15b"/><circle cx="14" cy="9" r="2" fill="#dfb15b"/><circle cx="22.5" cy="8" r="2" fill="#dfb15b"/><circle cx="31" cy="9" r="2" fill="#dfb15b"/><circle cx="39" cy="12" r="2" fill="#dfb15b"/><path d="M11 38.5c7 2.5 16 2.5 23 0v-3H11v3z" fill="#fdf3db"/></g></svg>`,
+            'wR': `<svg viewBox="0 0 45 45"><g fill="url(#wGoldGrad)" stroke="#5a3c08" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M9 39h27v-3H9v3zm3-3v-4.5h21V36H12zm2-4.5l1.5-13.5h14L31 31.5H14zM11 14V9h4v2h5V9h5v2h5V9h4v5H11z"/><path d="M12 35.5h21M14 14h17" stroke="#dfb15b"/></g></svg>`,
+            'wB': `<svg viewBox="0 0 45 45"><g fill="url(#wGoldGrad)" stroke="#5a3c08" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M9 36c3.39-.97 10.11.43 13.5-2 3.39 2.43 10.11 1.03 13.5 2 0 0 1.65.54 3 2-.68.97-1.65.99-3 .5-3.39-.97-10.11.46-13.5-1-3.39 1.46-10.11.03-13.5 1-1.35.49-2.32.47-3-.5 1.35-1.46 3-2 3-2z"/><path d="M15 32c2.5 2.5 12.5 2.5 15 0 .5-1.5 0-2 0-2 0-2.5-2.5-4-2.5-4 5.5-1.5 6-11.5-5-15.5-11 4-10.5 14-5 15.5 0 0-2.5 1.5-2.5 4 0 0-.5.5 0 2z"/><path d="M25 8a2.5 2.5 0 1 1-5 0 2.5 2.5 0 1 1 5 0z" fill="#dfb15b"/><path d="M17.5 26h10M15 30h15" stroke="#dfb15b"/></g></svg>`,
+            'wN': `<svg viewBox="0 0 45 45"><g fill="url(#wGoldGrad)" stroke="#5a3c08" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M22 10c10.5 1 16.5 8 16 29H15c0-9 10-6.5 8-21"/><path d="M24 18c.38 2.91-5.55 7.37-8 9-3 2-2.82 4.34-5 4-1.042-.94 1.41-3.04 0-3-1 0-.095 1.23-1 2-1 0-4.003 1-4-4 0-2 6-12 6-12s1.89-1.9 2-3.5c-.73-.994-.5-2-.5-3 1-1 3 2.5 3 2.5h2s.78-1.992 2.5-3c1 0 1 3 1 3"/><circle cx="9.5" cy="25.5" r="1" fill="#442a06"/></g></svg>`,
+            'wP': `<svg viewBox="0 0 45 45"><g fill="url(#wGoldGrad)" stroke="#5a3c08" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M22 9c-2.21 0-4 1.79-4 4 0 .89.29 1.71.78 2.38-1.95 1.12-3.28 3.21-3.28 5.62 0 2.03.94 3.84 2.41 5.03-3 1.06-7.41 5.55-7.41 13.47h24c0-7.92-4.41-12.41-7.41-13.47 1.47-1.19 2.41-3 2.41-5.03 0-2.41-1.33-4.5-3.28-5.62.49-.67.78-1.49.78-2.38 0-2.21-1.79-4-4-4z"/><circle cx="22" cy="13" r="2" fill="#dfb15b"/></g></svg>`,
+
+            'bK': `<svg viewBox="0 0 45 45"><g fill="url(#bObsidianGrad)" stroke="#dfb15b" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M22.5 11.63V6M20 8h5" stroke="#dfb15b" stroke-width="2"/><path d="M22.5 25s4.5-7.5 3-10.5c0 0-1-2.5-3-2.5s-3 2.5-3 2.5c-1.5 3 3 10.5 3 10.5"/><path d="M11.5 37c5.5 3.5 15.5 3.5 21 0v-7s9-4.5 6-10.5c-4-6.5-13.5-3.5-16 4V23.5c-2.5-7.5-12-10.5-16-4-3 6 6 10.5 6 10.5v7z"/><path d="M11.5 30c5.5-3 15.5-3 21 0m-21 3.5c5.5-3 15.5-3 21 0m-21 3.5c5.5-3 15.5-3 21 0" stroke="#dfb15b"/><circle cx="22.5" cy="14" r="1.5" fill="#dfb15b"/></g><defs><linearGradient id="bObsidianGrad" x1="0%" y1="0%" x2="100%" y2="100%"><stop offset="0%" stop-color="#3d2c33"/><stop offset="50%" stop-color="#21171d"/><stop offset="100%" stop-color="#120c10"/></linearGradient></defs></svg>`,
+            'bQ': `<svg viewBox="0 0 45 45"><g fill="url(#bObsidianGrad)" stroke="#dfb15b" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M9 26c8.5-1.5 21-1.5 27 0l2-12-7 11-4-15-4.5 15-4.5-15-4 15-7-11 2 12z"/><path d="M9 26c0 2 1.5 2 2.5 4 2.5 4 1 5.5 1 5.5h20s-1.5-1.5 1-5.5c1-2 2.5-2 2.5-4"/><circle cx="6" cy="12" r="2" fill="#dfb15b"/><circle cx="14" cy="9" r="2" fill="#dfb15b"/><circle cx="22.5" cy="8" r="2" fill="#dfb15b"/><circle cx="31" cy="9" r="2" fill="#dfb15b"/><circle cx="39" cy="12" r="2" fill="#dfb15b"/><path d="M11 38.5c7 2.5 16 2.5 23 0v-3H11v3z"/></g></svg>`,
+            'bR': `<svg viewBox="0 0 45 45"><g fill="url(#bObsidianGrad)" stroke="#dfb15b" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M9 39h27v-3H9v3zm3-3v-4.5h21V36H12zm2-4.5l1.5-13.5h14L31 31.5H14zM11 14V9h4v2h5V9h5v2h5V9h4v5H11z"/><path d="M12 35.5h21M14 14h17" stroke="#dfb15b"/></g></svg>`,
+            'bB': `<svg viewBox="0 0 45 45"><g fill="url(#bObsidianGrad)" stroke="#dfb15b" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M9 36c3.39-.97 10.11.43 13.5-2 3.39 2.43 10.11 1.03 13.5 2 0 0 1.65.54 3 2-.68.97-1.65.99-3 .5-3.39-.97-10.11.46-13.5-1-3.39 1.46-10.11.03-13.5 1-1.35.49-2.32.47-3-.5 1.35-1.46 3-2 3-2z"/><path d="M15 32c2.5 2.5 12.5 2.5 15 0 .5-1.5 0-2 0-2 0-2.5-2.5-4-2.5-4 5.5-1.5 6-11.5-5-15.5-11 4-10.5 14-5 15.5 0 0-2.5 1.5-2.5 4 0 0-.5.5 0 2z"/><path d="M25 8a2.5 2.5 0 1 1-5 0 2.5 2.5 0 1 1 5 0z" fill="#dfb15b"/><path d="M17.5 26h10M15 30h15" stroke="#dfb15b"/></g></svg>`,
+            'bN': `<svg viewBox="0 0 45 45"><g fill="url(#bObsidianGrad)" stroke="#dfb15b" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M22 10c10.5 1 16.5 8 16 29H15c0-9 10-6.5 8-21"/><path d="M24 18c.38 2.91-5.55 7.37-8 9-3 2-2.82 4.34-5 4-1.042-.94 1.41-3.04 0-3-1 0-.095 1.23-1 2-1 0-4.003 1-4-4 0-2 6-12 6-12s1.89-1.9 2-3.5c-.73-.994-.5-2-.5-3 1-1 3 2.5 3 2.5h2s.78-1.992 2.5-3c1 0 1 3 1 3"/><circle cx="9.5" cy="25.5" r="1" fill="#dfb15b"/></g></svg>`,
+            'bP': `<svg viewBox="0 0 45 45"><g fill="url(#bObsidianGrad)" stroke="#dfb15b" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M22 9c-2.21 0-4 1.79-4 4 0 .89.29 1.71.78 2.38-1.95 1.12-3.28 3.21-3.28 5.62 0 2.03.94 3.84 2.41 5.03-3 1.06-7.41 5.55-7.41 13.47h24c0-7.92-4.41-12.41-7.41-13.47 1.47-1.19 2.41-3 2.41-5.03 0-2.41-1.33-4.5-3.28-5.62.49-.67.78-1.49.78-2.38 0-2.21-1.79-4-4-4z"/><circle cx="22" cy="13" r="2" fill="#dfb15b"/></g></svg>`
+        };
+
+        /**
+         * =========================================================================
+         * GAME STATE & BOARD DATA STRUCTURES
+         * =========================================================================
+         */
+
+        class ChessGameState {
+            constructor() {
+                this.reset();
             }
-            return parseFloat(val.toFixed(3)).toString();
-        }
 
-        function handleUnitInput(category, sourceKey, rawVal) {
-            if (isUpdating) return;
-            const num = parseFloat(rawVal);
-            if (isNaN(num)) return;
+            reset() {
+                // 8x8 Board: row 0 is Rank 8 (Black), row 7 is Rank 1 (White)
+                this.board = [
+                    ['bR', 'bN', 'bB', 'bQ', 'bK', 'bB', 'bN', 'bR'],
+                    ['bP', 'bP', 'bP', 'bP', 'bP', 'bP', 'bP', 'bP'],
+                    [null, null, null, null, null, null, null, null],
+                    [null, null, null, null, null, null, null, null],
+                    [null, null, null, null, null, null, null, null],
+                    [null, null, null, null, null, null, null, null],
+                    ['wP', 'wP', 'wP', 'wP', 'wP', 'wP', 'wP', 'wP'],
+                    ['wR', 'wN', 'wB', 'wQ', 'wK', 'wB', 'wN', 'wR']
+                ];
 
-            isUpdating = true;
-            try {
-                const units = UNIT_REGISTRY[category];
-                const sourceObj = units.find(u => u.key === sourceKey);
-                const baseValue = num * sourceObj.factor;
+                this.turn = 'w'; // 'w' or 'b'
+                this.castling = { wK: true, wQ: true, bK: true, bQ: true };
+                this.enPassant = null; // {r, c} target square
+                this.halfmoveClock = 0;
+                this.fullmoveNumber = 1;
+                this.history = []; // Array of previous snapshots for Undo / Evaluation trajectory
+                this.capturedWhite = [];
+                this.capturedBlack = [];
+                this.lastMove = null; // {from: {r, c}, to: {r, c}}
+                this.isGameOver = false;
+                this.gameResult = null;
+            }
 
-                units.forEach(u => {
-                    if (u.key !== sourceKey) {
-                        const calculated = baseValue / u.factor;
-                        const input = document.getElementById(`${category}_${u.key}`);
-                        if (input) input.value = formatNum(calculated);
+            clone() {
+                const copy = new ChessGameState();
+                copy.board = this.board.map(row => [...row]);
+                copy.turn = this.turn;
+                copy.castling = { ...this.castling };
+                copy.enPassant = this.enPassant ? { ...this.enPassant } : null;
+                copy.halfmoveClock = this.halfmoveClock;
+                copy.fullmoveNumber = this.fullmoveNumber;
+                copy.lastMove = this.lastMove ? { from: { ...this.lastMove.from }, to: { ...this.lastMove.to } } : null;
+                copy.isGameOver = this.isGameOver;
+                copy.gameResult = this.gameResult;
+                return copy;
+            }
+
+            getPiece(r, c) {
+                if (r < 0 || r > 7 || c < 0 || c > 7) return null;
+                return this.board[r][c];
+            }
+
+            setPiece(r, c, piece) {
+                if (r >= 0 && r <= 7 && c >= 0 && c <= 7) {
+                    this.board[r][c] = piece;
+                }
+            }
+
+            findKing(color) {
+                const target = color + 'K';
+                for (let r = 0; r < 8; r++) {
+                    for (let c = 0; c < 8; c++) {
+                        if (this.board[r][c] === target) return { r, c };
                     }
-                });
-            } finally {
-                isUpdating = false;
-            }
-        }
-
-        function handleTempInput(type, rawVal) {
-            const val = parseFloat(rawVal);
-            if (isNaN(val)) return;
-
-            let f, c;
-            if (type === 'f') {
-                f = val;
-                c = (f - 32) * (5 / 9);
-                document.getElementById('temp_c').value = formatNum(c);
-            } else {
-                c = val;
-                f = (c * 9 / 5) + 32;
-                document.getElementById('temp_f').value = formatNum(f);
+                }
+                return null;
             }
 
-            let gas = "—";
-            if (f < 250) gas = "1/4 (Very Slow)";
-            else if (f < 275) gas = "1/2 (Slow)";
-            else if (f < 325) gas = "1-2 (Cool)";
-            else if (f < 375) gas = "3-4 (Moderate)";
-            else if (f < 425) gas = "5-6 (Hot)";
-            else if (f >= 425) gas = "7+ (Searing / Broil)";
-            document.getElementById('temp_gas').value = gas;
-        }
+            isSquareAttacked(r, c, attackerColor) {
+                // Knight attacks
+                const knightOffsets = [
+                    [-2, -1], [-2, 1], [-1, -2], [-1, 2],
+                    [1, -2], [1, 2], [2, -1], [2, 1]
+                ];
+                for (const [dr, dc] of knightOffsets) {
+                    const nr = r + dr, nc = c + dc;
+                    if (nr >= 0 && nr < 8 && nc >= 0 && nc < 8) {
+                        if (this.board[nr][nc] === attackerColor + 'N') return true;
+                    }
+                }
 
-        function applyPreset(category, key, val) {
-            const el = document.getElementById(`${category}_${key}`);
-            if (el) {
-                el.value = val;
-                handleUnitInput(category, key, val);
-                triggerToast(`Applied ${val} ${key.replace('_', ' ')}`);
+                // Pawn attacks
+                const pawnDir = attackerColor === 'w' ? 1 : -1; // Pawns attack downwards from White's POV if attacker is White
+                const pawnAttackers = [
+                    [r + pawnDir, c - 1],
+                    [r + pawnDir, c + 1]
+                ];
+                for (const [pr, pc] of pawnAttackers) {
+                    if (pr >= 0 && pr < 8 && pc >= 0 && pc < 8) {
+                        if (this.board[pr][pc] === attackerColor + 'P') return true;
+                    }
+                }
+
+                // King attacks (adjacent 1 square)
+                const kingOffsets = [
+                    [-1, -1], [-1, 0], [-1, 1],
+                    [0, -1],           [0, 1],
+                    [1, -1],  [1, 0],  [1, 1]
+                ];
+                for (const [dr, dc] of kingOffsets) {
+                    const kr = r + dr, kc = c + dc;
+                    if (kr >= 0 && kr < 8 && kc >= 0 && kc < 8) {
+                        if (this.board[kr][kc] === attackerColor + 'K') return true;
+                    }
+                }
+
+                // Straight rays (Rook & Queen)
+                const straightDirs = [[-1, 0], [1, 0], [0, -1], [0, 1]];
+                for (const [dr, dc] of straightDirs) {
+                    let curR = r + dr, curC = c + dc;
+                    while (curR >= 0 && curR < 8 && curC >= 0 && curC < 8) {
+                        const p = this.board[curR][curC];
+                        if (p) {
+                            if (p === attackerColor + 'R' || p === attackerColor + 'Q') return true;
+                            break;
+                        }
+                        curR += dr;
+                        curC += dc;
+                    }
+                }
+
+                // Diagonal rays (Bishop & Queen)
+                const diagDirs = [[-1, -1], [-1, 1], [1, -1], [1, 1]];
+                for (const [dr, dc] of diagDirs) {
+                    let curR = r + dr, curC = c + dc;
+                    while (curR >= 0 && curR < 8 && curC >= 0 && curC < 8) {
+                        const p = this.board[curR][curC];
+                        if (p) {
+                            if (p === attackerColor + 'B' || p === attackerColor + 'Q') return true;
+                            break;
+                        }
+                        curR += dr;
+                        curC += dc;
+                    }
+                }
+
+                return false;
             }
-        }
 
-        function applyTempPreset(f) {
-            const el = document.getElementById('temp_f');
-            el.value = f;
-            handleTempInput('f', f);
-            triggerToast(`Hearth set to ${f}°F`);
-        }
+            isInCheck(color) {
+                const kingPos = this.findKing(color);
+                if (!kingPos) return false;
+                const enemy = color === 'w' ? 'b' : 'w';
+                return this.isSquareAttacked(kingPos.r, kingPos.c, enemy);
+            }
 
-        function resetAll() {
-            isUpdating = true;
-            Object.keys(UNIT_REGISTRY).forEach(cat => {
-                UNIT_REGISTRY[cat].forEach(u => {
-                    const el = document.getElementById(`${cat}_${u.key}`);
-                    if (el) el.value = '';
-                });
-            });
-            isUpdating = false;
-            triggerToast('All units cleared');
-        }
+            // Pseudo-legal generator for a specific square
+            generatePseudoMovesForSquare(r, c) {
+                const piece = this.board[r][c];
+                if (!piece) return [];
+                const color = piece[0];
+                const type = piece[1];
+                const enemy = color === 'w' ? 'b' : 'w';
+                const moves = [];
 
-        function setMultiplier(mult, btn) {
-            activeMultiplier = mult;
-            document.querySelectorAll('.mult-btn').forEach(b => {
-                b.className = "mult-btn py-1 rounded border border-slate-800 text-slate-300 font-mono text-xs hover:border-purple-500 transition";
-            });
-            btn.className = "mult-btn py-1 rounded border border-purple-500 bg-purple-500/20 text-purple-300 font-mono text-xs transition";
-            scaleRecipe();
-        }
+                if (type === 'P') {
+                    const fwd = color === 'w' ? -1 : 1;
+                    const startRank = color === 'w' ? 6 : 1;
+                    const promoRank = color === 'w' ? 0 : 7;
 
-        function scaleRecipe() {
-            const text = document.getElementById('recipeInput').value.trim();
-            if (!text) return;
+                    // 1-step push
+                    const nr = r + fwd;
+                    if (nr >= 0 && nr < 8 && !this.board[nr][c]) {
+                        if (nr === promoRank) {
+                            ['Q', 'R', 'B', 'N'].forEach(promo => moves.push({ from: {r, c}, to: {r: nr, c}, promotion: promo }));
+                        } else {
+                            moves.push({ from: {r, c}, to: {r: nr, c} });
+                            // 2-step push from starting square
+                            const nnr = r + (fwd * 2);
+                            if (r === startRank && !this.board[nnr][c]) {
+                                moves.push({ from: {r, c}, to: {r: nnr, c}, isDoublePush: true });
+                            }
+                        }
+                    }
 
-            const lines = text.split('\n');
-            const scaled = lines.map(line => {
-                return line.replace(/^(\d+\/\d+|\d+(\.\d+)?)/, match => {
-                    let num = 0;
-                    if (match.includes('/')) {
-                        const [n, d] = match.split('/');
-                        num = parseFloat(n) / parseFloat(d);
+                    // Diagonal captures
+                    for (const dc of [-1, 1]) {
+                        const nc = c + dc;
+                        if (nr >= 0 && nr < 8 && nc >= 0 && nc < 8) {
+                            const target = this.board[nr][nc];
+                            if (target && target[0] === enemy) {
+                                if (nr === promoRank) {
+                                    ['Q', 'R', 'B', 'N'].forEach(promo => moves.push({ from: {r, c}, to: {r: nr, c: nc}, promotion: promo }));
+                                } else {
+                                    moves.push({ from: {r, c}, to: {r: nr, c: nc} });
+                                }
+                            } else if (this.enPassant && this.enPassant.r === nr && this.enPassant.c === nc) {
+                                moves.push({ from: {r, c}, to: {r: nr, c: nc}, isEnPassant: true });
+                            }
+                        }
+                    }
+                } else if (type === 'N') {
+                    const offsets = [
+                        [-2, -1], [-2, 1], [-1, -2], [-1, 2],
+                        [1, -2], [1, 2], [2, -1], [2, 1]
+                    ];
+                    for (const [dr, dc] of offsets) {
+                        const nr = r + dr, nc = c + dc;
+                        if (nr >= 0 && nr < 8 && nc >= 0 && nc < 8) {
+                            const target = this.board[nr][nc];
+                            if (!target || target[0] === enemy) {
+                                moves.push({ from: {r, c}, to: {r: nr, c: nc} });
+                            }
+                        }
+                    }
+                } else if (type === 'B' || type === 'R' || type === 'Q') {
+                    const dirs = [];
+                    if (type === 'B' || type === 'Q') dirs.push([-1, -1], [-1, 1], [1, -1], [1, 1]);
+                    if (type === 'R' || type === 'Q') dirs.push([-1, 0], [1, 0], [0, -1], [0, 1]);
+
+                    for (const [dr, dc] of dirs) {
+                        let curR = r + dr, curC = c + dc;
+                        while (curR >= 0 && curR < 8 && curC >= 0 && curC < 8) {
+                            const target = this.board[curR][curC];
+                            if (!target) {
+                                moves.push({ from: {r, c}, to: {r: curR, c: curC} });
+                            } else {
+                                if (target[0] === enemy) {
+                                    moves.push({ from: {r, c}, to: {r: curR, c: curC} });
+                                }
+                                break;
+                            }
+                            curR += dr;
+                            curC += dc;
+                        }
+                    }
+                } else if (type === 'K') {
+                    const offsets = [
+                        [-1, -1], [-1, 0], [-1, 1],
+                        [0, -1],           [0, 1],
+                        [1, -1],  [1, 0],  [1, 1]
+                    ];
+                    for (const [dr, dc] of offsets) {
+                        const nr = r + dr, nc = c + dc;
+                        if (nr >= 0 && nr < 8 && nc >= 0 && nc < 8) {
+                            const target = this.board[nr][nc];
+                            if (!target || target[0] === enemy) {
+                                moves.push({ from: {r, c}, to: {r: nr, c: nc} });
+                            }
+                        }
+                    }
+
+                    // Castling
+                    if (!this.isInCheck(color)) {
+                        const rank = color === 'w' ? 7 : 0;
+                        if (r === rank && c === 4) {
+                            // Kingside
+                            const ksKey = color === 'w' ? 'wK' : 'bK';
+                            if (this.castling[ksKey] && !this.board[rank][5] && !this.board[rank][6]) {
+                                if (!this.isSquareAttacked(rank, 5, enemy) && !this.isSquareAttacked(rank, 6, enemy)) {
+                                    moves.push({ from: {r, c}, to: {r: rank, c: 6}, isCastleKingside: true });
+                                }
+                            }
+                            // Queenside
+                            const qsKey = color === 'w' ? 'wQ' : 'bQ';
+                            if (this.castling[qsKey] && !this.board[rank][3] && !this.board[rank][2] && !this.board[rank][1]) {
+                                if (!this.isSquareAttacked(rank, 3, enemy) && !this.isSquareAttacked(rank, 2, enemy)) {
+                                    moves.push({ from: {r, c}, to: {r: rank, c: 2}, isCastleQueenside: true });
+                                }
+                            }
+                        }
+                    }
+                }
+
+                return moves;
+            }
+
+            // Legal moves generator: filters out moves that leave king in check
+            getLegalMovesForSquare(r, c, forceColor = null) {
+                const piece = this.board[r][c];
+                const activeColor = forceColor || this.turn;
+                if (!piece || piece[0] !== activeColor) return [];
+
+                const pseudo = this.generatePseudoMovesForSquare(r, c);
+                const legal = [];
+
+                for (const move of pseudo) {
+                    const sim = this.clone();
+                    sim.applyMoveInternal(move);
+                    if (!sim.isInCheck(activeColor)) {
+                        legal.push(move);
+                    }
+                }
+                return legal;
+            }
+
+            getAllLegalMoves(color = this.turn) {
+                const all = [];
+                for (let r = 0; r < 8; r++) {
+                    for (let c = 0; c < 8; c++) {
+                        if (this.board[r][c] && this.board[r][c][0] === color) {
+                            const moves = this.getLegalMovesForSquare(r, c, color);
+                            all.push(...moves);
+                        }
+                    }
+                }
+                return all;
+            }
+
+            applyMoveInternal(move) {
+                const { from, to, promotion, isCastleKingside, isCastleQueenside, isEnPassant, isDoublePush } = move;
+                const piece = this.board[from.r][from.c];
+                const captured = this.board[to.r][to.c];
+                const color = piece[0];
+                const type = piece[1];
+
+                // Clear source square
+                this.board[from.r][from.c] = null;
+
+                // Handle En Passant capture
+                if (isEnPassant) {
+                    const capRow = color === 'w' ? to.r + 1 : to.r - 1;
+                    const epCaptured = this.board[capRow][to.c];
+                    this.board[capRow][to.c] = null;
+                    if (color === 'w') this.capturedWhite.push(epCaptured);
+                    else this.capturedBlack.push(epCaptured);
+                } else if (captured) {
+                    if (color === 'w') this.capturedWhite.push(captured);
+                    else this.capturedBlack.push(captured);
+                }
+
+                // Place piece or promoted piece
+                if (promotion) {
+                    this.board[to.r][to.c] = color + promotion;
+                } else {
+                    this.board[to.r][to.c] = piece;
+                }
+
+                // Handle Castling Rook Moves
+                if (isCastleKingside) {
+                    const rank = from.r;
+                    this.board[rank][5] = this.board[rank][7];
+                    this.board[rank][7] = null;
+                } else if (isCastleQueenside) {
+                    const rank = from.r;
+                    this.board[rank][3] = this.board[rank][0];
+                    this.board[rank][0] = null;
+                }
+
+                // Update Castling Rights
+                if (type === 'K') {
+                    if (color === 'w') { this.castling.wK = false; this.castling.wQ = false; }
+                    else { this.castling.bK = false; this.castling.bQ = false; }
+                } else if (type === 'R') {
+                    if (from.r === 7 && from.c === 7) this.castling.wK = false;
+                    if (from.r === 7 && from.c === 0) this.castling.wQ = false;
+                    if (from.r === 0 && from.c === 7) this.castling.bK = false;
+                    if (from.r === 0 && from.c === 0) this.castling.bQ = false;
+                }
+
+                // Target rook captured
+                if (to.r === 7 && to.c === 7) this.castling.wK = false;
+                if (to.r === 7 && to.c === 0) this.castling.wQ = false;
+                if (to.r === 0 && to.c === 7) this.castling.bK = false;
+                if (to.r === 0 && to.c === 0) this.castling.bQ = false;
+
+                // Update En Passant Target
+                if (isDoublePush) {
+                    this.enPassant = { r: (from.r + to.r) / 2, c: from.c };
+                } else {
+                    this.enPassant = null;
+                }
+
+                // Update Clocks
+                if (type === 'P' || captured || isEnPassant) {
+                    this.halfmoveClock = 0;
+                } else {
+                    this.halfmoveClock++;
+                }
+
+                if (color === 'b') {
+                    this.fullmoveNumber++;
+                }
+
+                // Switch turn
+                this.turn = color === 'w' ? 'b' : 'w';
+                this.lastMove = { from, to };
+            }
+
+            // Public method to execute a move
+            makeMove(move) {
+                // Save state snapshot for history/undo
+                const snapshot = {
+                    board: this.board.map(r => [...r]),
+                    turn: this.turn,
+                    castling: { ...this.castling },
+                    enPassant: this.enPassant ? { ...this.enPassant } : null,
+                    halfmoveClock: this.halfmoveClock,
+                    fullmoveNumber: this.fullmoveNumber,
+                    capturedWhite: [...this.capturedWhite],
+                    capturedBlack: [...this.capturedBlack],
+                    lastMove: this.lastMove ? { from: { ...this.lastMove.from }, to: { ...this.lastMove.to } } : null,
+                    san: this.moveToSAN(move),
+                    eval: 0,
+                    whiteWinPct: 50.0
+                };
+
+                this.applyMoveInternal(move);
+
+                // Compute evaluation for this new state
+                const evaluation = evaluateBoardDetailed(this);
+                snapshot.eval = evaluation.score;
+                snapshot.whiteWinPct = evaluation.whiteWinPct;
+                this.history.push(snapshot);
+
+                // Check Game Over
+                const legalMoves = this.getAllLegalMoves();
+                if (legalMoves.length === 0) {
+                    this.isGameOver = true;
+                    if (this.isInCheck(this.turn)) {
+                        this.gameResult = this.turn === 'w' ? 'Black Wins by Checkmate (0-1)' : 'White Wins by Checkmate (1-0)';
                     } else {
-                        num = parseFloat(match);
+                        this.gameResult = 'Draw by Stalemate (½-½)';
                     }
-                    return formatNum(num * activeMultiplier);
-                });
-            });
+                } else if (this.halfmoveClock >= 100) {
+                    this.isGameOver = true;
+                    this.gameResult = 'Draw by 50-Move Rule (½-½)';
+                }
 
-            const out = document.getElementById('recipeOutput');
-            out.textContent = `// Batch Scaled (${activeMultiplier}x):\n` + scaled.join('\n');
-            out.classList.remove('hidden');
-            triggerToast(`Scaled batch by ${activeMultiplier}x`);
+                return true;
+            }
+
+            undo() {
+                if (this.history.length === 0) return false;
+                const prev = this.history.pop();
+                this.board = prev.board;
+                this.turn = prev.turn;
+                this.castling = prev.castling;
+                this.enPassant = prev.enPassant;
+                this.halfmoveClock = prev.halfmoveClock;
+                this.fullmoveNumber = prev.fullmoveNumber;
+                this.capturedWhite = prev.capturedWhite;
+                this.capturedBlack = prev.capturedBlack;
+                this.lastMove = prev.lastMove;
+                this.isGameOver = false;
+                this.gameResult = null;
+                return true;
+            }
+
+            moveToSAN(move) {
+                const { from, to, promotion, isCastleKingside, isCastleQueenside } = move;
+                if (isCastleKingside) return 'O-O';
+                if (isCastleQueenside) return 'O-O-O';
+
+                const piece = this.board[from.r][from.c];
+                if (!piece) return '';
+                const type = piece[1];
+                const files = ['a', 'b', 'c', 'd', 'e', 'f', 'g', 'h'];
+                const ranks = ['8', '7', '6', '5', '4', '3', '2', '1'];
+
+                const targetSquare = files[to.c] + ranks[to.r];
+                const isCap = this.board[to.r][to.c] !== null || move.isEnPassant;
+
+                let san = '';
+                if (type === 'P') {
+                    if (isCap) san = files[from.c] + 'x' + targetSquare;
+                    else san = targetSquare;
+                    if (promotion) san += '=' + promotion;
+                } else {
+                    san = type + (isCap ? 'x' : '') + targetSquare;
+                }
+
+                // Check if gives check/mate
+                const sim = this.clone();
+                sim.applyMoveInternal(move);
+                const enemy = piece[0] === 'w' ? 'b' : 'w';
+                if (sim.isInCheck(enemy)) {
+                    const enemyMoves = sim.getAllLegalMoves(enemy);
+                    if (enemyMoves.length === 0) san += '#';
+                    else san += '+';
+                }
+
+                return san;
+            }
+
+            exportFEN() {
+                const files = ['a', 'b', 'c', 'd', 'e', 'f', 'g', 'h'];
+                const ranks = ['8', '7', '6', '5', '4', '3', '2', '1'];
+                let fen = '';
+
+                for (let r = 0; r < 8; r++) {
+                    let empty = 0;
+                    for (let c = 0; c < 8; c++) {
+                        const p = this.board[r][c];
+                        if (!p) {
+                            empty++;
+                        } else {
+                            if (empty > 0) { fen += empty; empty = 0; }
+                            const char = p[0] === 'w' ? p[1].toUpperCase() : p[1].toLowerCase();
+                            fen += char;
+                        }
+                    }
+                    if (empty > 0) fen += empty;
+                    if (r < 7) fen += '/';
+                }
+
+                fen += ` ${this.turn} `;
+                let castlingStr = '';
+                if (this.castling.wK) castlingStr += 'K';
+                if (this.castling.wQ) castlingStr += 'Q';
+                if (this.castling.bK) castlingStr += 'k';
+                if (this.castling.bQ) castlingStr += 'q';
+                fen += (castlingStr || '-') + ' ';
+
+                if (this.enPassant) {
+                    fen += files[this.enPassant.c] + ranks[this.enPassant.r];
+                } else {
+                    fen += '-';
+                }
+
+                fen += ` ${this.halfmoveClock} ${this.fullmoveNumber}`;
+                return fen;
+            }
+
+            loadFEN(fenStr) {
+                const parts = fenStr.trim().split(/\s+/);
+                if (parts.length < 4) return false;
+
+                const rows = parts[0].split('/');
+                if (rows.length !== 8) return false;
+
+                const newBoard = Array(8).fill(null).map(() => Array(8).fill(null));
+
+                for (let r = 0; r < 8; r++) {
+                    let c = 0;
+                    for (const char of rows[r]) {
+                        if (/\d/.test(char)) {
+                            c += parseInt(char, 10);
+                        } else {
+                            const color = char === char.toUpperCase() ? 'w' : 'b';
+                            const type = char.toUpperCase();
+                            newBoard[r][c] = color + type;
+                            c++;
+                        }
+                    }
+                }
+
+                this.board = newBoard;
+                this.turn = parts[1] === 'b' ? 'b' : 'w';
+                this.castling = {
+                    wK: parts[2].includes('K'),
+                    wQ: parts[2].includes('Q'),
+                    bK: parts[2].includes('k'),
+                    bQ: parts[2].includes('q')
+                };
+
+                if (parts[3] && parts[3] !== '-') {
+                    const file = parts[3].charCodeAt(0) - 'a'.charCodeAt(0);
+                    const rank = 8 - parseInt(parts[3][1], 10);
+                    this.enPassant = { r: rank, c: file };
+                } else {
+                    this.enPassant = null;
+                }
+
+                this.halfmoveClock = parseInt(parts[4] || '0', 10);
+                this.fullmoveNumber = parseInt(parts[5] || '1', 10);
+                this.history = [];
+                this.capturedWhite = [];
+                this.capturedBlack = [];
+                this.lastMove = null;
+                this.isGameOver = false;
+                this.gameResult = null;
+                return true;
+            }
         }
 
-        function copyManifest() {
-            const summary = `OMNISCALE US HOUSEHOLD CONVERSIONS:
-- 1 Cup = ${document.getElementById('vol_cup')?.value || '1'} cups = ${document.getElementById('vol_tbsp')?.value || ''} tbsp = ${document.getElementById('vol_fl_oz')?.value || ''} fl oz
-- 1 Lb = ${document.getElementById('weight_lb')?.value || '1'} lbs = ${document.getElementById('weight_dry_oz')?.value || ''} oz
-- 1 Foot = ${document.getElementById('length_ft')?.value || '1'} ft = ${document.getElementById('length_in')?.value || ''} in
-- 1 Sq Ft = ${document.getElementById('area_sq_ft')?.value || '1'} sq ft = ${document.getElementById('area_sq_in')?.value || ''} sq in`;
+        /**
+         * =========================================================================
+         * EVALUATION & STRATEGIC WIN PROBABILITY CALCULATOR
+         * =========================================================================
+         */
 
-            navigator.clipboard.writeText(summary).then(() => {
-                triggerToast('Snapshot copied to clipboard!');
+        function evaluateBoardDetailed(state) {
+            let materialWhite = 0;
+            let materialBlack = 0;
+            let pstWhite = 0;
+            let pstBlack = 0;
+            let centerWhite = 0;
+            let centerBlack = 0;
+            let kingShieldWhite = 0;
+            let kingShieldBlack = 0;
+
+            const centerSquares = [
+                [3, 3], [3, 4], [4, 3], [4, 4], // Core
+                [2, 2], [2, 3], [2, 4], [2, 5], [3, 2], [3, 5], [4, 2], [4, 5], [5, 2], [5, 3], [5, 4], [5, 5] // Extended
+            ];
+
+            for (let r = 0; r < 8; r++) {
+                for (let c = 0; c < 8; c++) {
+                    const piece = state.board[r][c];
+                    if (!piece) continue;
+
+                    const color = piece[0];
+                    const type = piece[1];
+                    const val = PIECE_VALUES[type] || 0;
+
+                    // PST Table lookup (flipped for Black)
+                    const pstRow = color === 'w' ? r : (7 - r);
+                    const pstVal = PST[type] ? PST[type][pstRow][c] : 0;
+
+                    if (color === 'w') {
+                        if (type !== 'K') materialWhite += val;
+                        pstWhite += pstVal;
+                        // Center control presence
+                        if ((r >= 3 && r <= 4) && (c >= 3 && c <= 4)) centerWhite += 25;
+                        else if ((r >= 2 && r <= 5) && (c >= 2 && c <= 5)) centerWhite += 10;
+                    } else {
+                        if (type !== 'K') materialBlack += val;
+                        pstBlack += pstVal;
+                        if ((r >= 3 && r <= 4) && (c >= 3 && c <= 4)) centerBlack += 25;
+                        else if ((r >= 2 && r <= 5) && (c >= 2 && c <= 5)) centerBlack += 10;
+                    }
+                }
+            }
+
+            // King Safety pawn shield heuristics
+            const wKing = state.findKing('w');
+            if (wKing) {
+                if (wKing.r === 7 && (wKing.c === 6 || wKing.c === 1 || wKing.c === 2)) kingShieldWhite += 40; // Castled
+                for (let dc = -1; dc <= 1; dc++) {
+                    const sc = wKing.c + dc;
+                    if (sc >= 0 && sc < 8 && wKing.r > 0) {
+                        if (state.board[wKing.r - 1][sc] === 'wP') kingShieldWhite += 15;
+                    }
+                }
+            }
+
+            const bKing = state.findKing('b');
+            if (bKing) {
+                if (bKing.r === 0 && (bKing.c === 6 || bKing.c === 1 || bKing.c === 2)) kingShieldBlack += 40; // Castled
+                for (let dc = -1; dc <= 1; dc++) {
+                    const sc = bKing.c + dc;
+                    if (sc >= 0 && sc < 8 && bKing.r < 7) {
+                        if (state.board[bKing.r + 1][sc] === 'bP') kingShieldBlack += 15;
+                    }
+                }
+            }
+
+            // Mobility count (fast heuristic)
+            const whiteMovesCount = state.getAllLegalMoves('w').length;
+            const blackMovesCount = state.getAllLegalMoves('b').length;
+            const mobilityWhite = whiteMovesCount * 5;
+            const mobilityBlack = blackMovesCount * 5;
+
+            // Raw Centipawn Total (Positive = White advantage, Negative = Black advantage)
+            const totalWhite = materialWhite + pstWhite + centerWhite + kingShieldWhite + mobilityWhite;
+            const totalBlack = materialBlack + pstBlack + centerBlack + kingShieldBlack + mobilityBlack;
+            const evalCentipawns = totalWhite - totalBlack;
+
+            // Dynamic Sigmoid Win Probability Conversion
+            // P_white = 1 / (1 + 10^(-eval / 400))
+            const evalScore = evalCentipawns / 100.0;
+            const exponent = -evalCentipawns / 400.0;
+            const whiteWinPct = Math.min(99.9, Math.max(0.1, 100.0 / (1.0 + Math.pow(10, exponent))));
+            const blackWinPct = 100.0 - whiteWinPct;
+
+            return {
+                score: evalScore,
+                centipawns: evalCentipawns,
+                whiteWinPct: parseFloat(whiteWinPct.toFixed(1)),
+                blackWinPct: parseFloat(blackWinPct.toFixed(1)),
+                materialWhite,
+                materialBlack,
+                centerWhite,
+                centerBlack,
+                mobilityWhite: whiteMovesCount,
+                mobilityBlack: blackMovesCount,
+                kingShieldWhite,
+                kingShieldBlack
+            };
+        }
+
+        /**
+         * =========================================================================
+         * WEB AUDIO SYNTHESIZER (Baroque Acoustic Pieces & Harpsichord Tones)
+         * =========================================================================
+         */
+
+        class SoundFX {
+            constructor() {
+                this.ctx = null;
+                this.enabled = true;
+            }
+
+            init() {
+                if (!this.ctx) {
+                    const AudioCtx = window.AudioContext || window.webkitAudioContext;
+                    if (AudioCtx) this.ctx = new AudioCtx();
+                }
+                if (this.ctx && this.ctx.state === 'suspended') {
+                    this.ctx.resume();
+                }
+            }
+
+            playMove() {
+                if (!this.enabled) return;
+                this.init();
+                if (!this.ctx) return;
+
+                const osc = this.ctx.createOscillator();
+                const gain = this.ctx.createGain();
+                osc.type = 'triangle';
+                osc.frequency.setValueAtTime(280, this.ctx.currentTime);
+                osc.frequency.exponentialRampToValueAtTime(110, this.ctx.currentTime + 0.08);
+
+                gain.gain.setValueAtTime(0.35, this.ctx.currentTime);
+                gain.gain.exponentialRampToValueAtTime(0.001, this.ctx.currentTime + 0.09);
+
+                osc.connect(gain);
+                gain.connect(this.ctx.destination);
+                osc.start();
+                osc.stop(this.ctx.currentTime + 0.1);
+            }
+
+            playCapture() {
+                if (!this.enabled) return;
+                this.init();
+                if (!this.ctx) return;
+
+                const osc = this.ctx.createOscillator();
+                const gain = this.ctx.createGain();
+                osc.type = 'sawtooth';
+                osc.frequency.setValueAtTime(420, this.ctx.currentTime);
+                osc.frequency.exponentialRampToValueAtTime(80, this.ctx.currentTime + 0.14);
+
+                gain.gain.setValueAtTime(0.45, this.ctx.currentTime);
+                gain.gain.exponentialRampToValueAtTime(0.001, this.ctx.currentTime + 0.15);
+
+                osc.connect(gain);
+                gain.connect(this.ctx.destination);
+                osc.start();
+                osc.stop(this.ctx.currentTime + 0.16);
+            }
+
+            playCheck() {
+                if (!this.enabled) return;
+                this.init();
+                if (!this.ctx) return;
+
+                const chords = [523.25, 659.25, 783.99]; // C5, E5, G5 royal chord
+                chords.forEach((freq, idx) => {
+                    const osc = this.ctx.createOscillator();
+                    const gain = this.ctx.createGain();
+                    osc.type = 'sine';
+                    osc.frequency.setValueAtTime(freq, this.ctx.currentTime + (idx * 0.04));
+                    gain.gain.setValueAtTime(0.2, this.ctx.currentTime + (idx * 0.04));
+                    gain.gain.exponentialRampToValueAtTime(0.001, this.ctx.currentTime + 0.35);
+                    osc.connect(gain);
+                    gain.connect(this.ctx.destination);
+                    osc.start(this.ctx.currentTime + (idx * 0.04));
+                    osc.stop(this.ctx.currentTime + 0.38);
+                });
+            }
+
+            playCheckmate() {
+                if (!this.enabled) return;
+                this.init();
+                if (!this.ctx) return;
+
+                const fanfare = [392, 523.25, 659.25, 1046.5];
+                fanfare.forEach((f, i) => {
+                    const osc = this.ctx.createOscillator();
+                    const gain = this.ctx.createGain();
+                    osc.type = 'triangle';
+                    osc.frequency.setValueAtTime(f, this.ctx.currentTime + (i * 0.1));
+                    gain.gain.setValueAtTime(0.3, this.ctx.currentTime + (i * 0.1));
+                    gain.gain.exponentialRampToValueAtTime(0.001, this.ctx.currentTime + 0.8);
+                    osc.connect(gain);
+                    gain.connect(this.ctx.destination);
+                    osc.start(this.ctx.currentTime + (i * 0.1));
+                    osc.stop(this.ctx.currentTime + 0.85);
+                });
+            }
+        }
+
+        const audioFX = new SoundFX();
+
+        /**
+         * =========================================================================
+         * APPLICATION CONTROLLER & UI BINDINGS
+         * =========================================================================
+         */
+
+        let game = new ChessGameState();
+        let selectedSquare = null; // {r, c}
+        let legalMovesForSelected = []; // Array of candidate moves
+        let hoveredPieceMoves = []; // Array of candidate moves on hover
+        let boardFlipped = false;
+        let isAiOpponent = false;
+        let pendingPromotionMove = null;
+
+        // UI Initialization
+        document.addEventListener('DOMContentLoaded', () => {
+            renderBoard();
+            updateEvaluationUI();
+            initSparkline();
+            setupKeyboardShortcuts();
+        });
+
+        function toggleSound() {
+            audioFX.enabled = !audioFX.enabled;
+            const icon = document.getElementById('soundIcon');
+            if (audioFX.enabled) {
+                icon.className = 'fa-solid fa-volume-high text-gold-400';
+                triggerToast('Audio Fanfare Enabled');
+            } else {
+                icon.className = 'fa-solid fa-volume-xmark text-slate-500';
+                triggerToast('Audio Muted');
+            }
+        }
+
+        function flipBoard() {
+            boardFlipped = !boardFlipped;
+            renderBoard();
+            triggerToast(boardFlipped ? "Perspective: Black" : "Perspective: White");
+        }
+
+        function toggleAIAutoOpponent() {
+            isAiOpponent = !isAiOpponent;
+            const btn = document.getElementById('aiToggleBtn');
+            const status = document.getElementById('aiStatusText');
+            if (isAiOpponent) {
+                btn.className = "btn-royal px-2.5 py-1.5 rounded text-[11px] flex-1 flex items-center justify-center gap-1 border-purple-400 bg-purple-950/60 text-purple-200 shadow-md shadow-purple-900/50";
+                status.textContent = "AI: Automaton Active";
+                triggerToast("Baroque Automaton Sparring Mode Activated");
+                if (game.turn === 'b') makeAutomatonMove();
+            } else {
+                btn.className = "btn-royal px-2.5 py-1.5 rounded text-[11px] flex-1 flex items-center justify-center gap-1 border-purple-800/50 text-purple-300";
+                status.textContent = "AI: Off";
+                triggerToast("Manual Alternating Turns Restored");
+            }
+        }
+
+        function renderBoard() {
+            const boardEl = document.getElementById('chessBoard');
+            boardEl.innerHTML = '';
+
+            const inCheck = game.isInCheck(game.turn);
+            const kingInCheckPos = inCheck ? game.findKing(game.turn) : null;
+
+            const files = ['a', 'b', 'c', 'd', 'e', 'f', 'g', 'h'];
+            const ranks = ['8', '7', '6', '5', '4', '3', '2', '1'];
+
+            for (let visualR = 0; visualR < 8; visualR++) {
+                for (let visualC = 0; visualC < 8; visualC++) {
+                    const r = boardFlipped ? (7 - visualR) : visualR;
+                    const c = boardFlipped ? (7 - visualC) : visualC;
+
+                    const squareEl = document.createElement('div');
+                    const isLight = (r + c) % 2 === 0;
+                    squareEl.className = `square ${isLight ? 'light' : 'dark'}`;
+                    squareEl.dataset.r = r;
+                    squareEl.dataset.c = c;
+
+                    // Check highlight
+                    if (kingInCheckPos && kingInCheckPos.r === r && kingInCheckPos.c === c) {
+                        squareEl.classList.add('in-check');
+                    }
+
+                    // Selection highlight
+                    if (selectedSquare && selectedSquare.r === r && selectedSquare.c === c) {
+                        squareEl.classList.add('selected');
+                    }
+
+                    // Last move highlight
+                    if (game.lastMove) {
+                        if ((game.lastMove.from.r === r && game.lastMove.from.c === c) ||
+                            (game.lastMove.to.r === r && game.lastMove.to.c === c)) {
+                            squareEl.classList.add('last-move');
+                        }
+                    }
+
+                    // Coordinate labels on board borders
+                    if (visualR === 7) {
+                        const fileLabel = document.createElement('span');
+                        fileLabel.className = 'coord-label coord-file';
+                        fileLabel.textContent = files[c];
+                        squareEl.appendChild(fileLabel);
+                    }
+                    if (visualC === 0) {
+                        const rankLabel = document.createElement('span');
+                        rankLabel.className = 'coord-label coord-rank';
+                        rankLabel.textContent = ranks[r];
+                        squareEl.appendChild(rankLabel);
+                    }
+
+                    // Piece rendering
+                    const piece = game.board[r][c];
+                    if (piece) {
+                        const pieceEl = document.createElement('div');
+                        pieceEl.className = 'chess-piece';
+                        pieceEl.innerHTML = PIECE_SVGS[piece] || '';
+                        squareEl.appendChild(pieceEl);
+                    }
+
+                    // Event Listeners for Interaction & Live Hover Preview
+                    squareEl.addEventListener('click', () => handleSquareClick(r, c));
+                    squareEl.addEventListener('mouseenter', () => handleSquareHover(r, c));
+                    squareEl.addEventListener('mouseleave', () => handleSquareLeave(r, c));
+
+                    boardEl.appendChild(squareEl);
+                }
+            }
+
+            // If a piece is selected or hovered, overlay destination badges
+            renderDestinationOverlays();
+        }
+
+        /**
+         * =========================================================================
+         * LIVE HOVER DESTINATION OVERLAYS & PERCENTAGE CALCULUS
+         * =========================================================================
+         */
+
+        function renderDestinationOverlays() {
+            // Priority: selected piece legal moves, fallback to hovered piece moves
+            const activeMoves = (selectedSquare && legalMovesForSelected.length > 0)
+                ? legalMovesForSelected
+                : hoveredPieceMoves;
+
+            if (!activeMoves || activeMoves.length === 0) return;
+
+            const boardEl = document.getElementById('chessBoard');
+            const currentEval = evaluateBoardDetailed(game);
+            const currentWinPct = game.turn === 'w' ? currentEval.whiteWinPct : currentEval.blackWinPct;
+
+            activeMoves.forEach(move => {
+                const visualR = boardFlipped ? (7 - move.to.r) : move.to.r;
+                const visualC = boardFlipped ? (7 - move.to.c) : move.to.c;
+                const index = visualR * 8 + visualC;
+                const targetSquareEl = boardEl.children[index];
+                if (!targetSquareEl) return;
+
+                // Simulate move to calculate win percentage & delta
+                const sim = game.clone();
+                sim.applyMoveInternal(move);
+                const simEval = evaluateBoardDetailed(sim);
+                const resultingWinPct = game.turn === 'w' ? simEval.whiteWinPct : simEval.blackWinPct;
+                const delta = resultingWinPct - currentWinPct;
+
+                // Move Quality Classification
+                let badgeClass = 'pct-neutral';
+                let icon = '';
+                if (delta >= 4.0) {
+                    badgeClass = 'pct-brilliant';
+                    icon = '💎 ';
+                } else if (delta >= -0.5) {
+                    badgeClass = 'pct-good';
+                    icon = '✨ ';
+                } else if (delta >= -6.0) {
+                    badgeClass = 'pct-neutral';
+                } else if (delta >= -15.0) {
+                    badgeClass = 'pct-inaccuracy';
+                    icon = '⚠️ ';
+                } else {
+                    badgeClass = 'pct-blunder';
+                    icon = '💀 ';
+                }
+
+                const isCapture = game.board[move.to.r][move.to.c] !== null || move.isEnPassant;
+
+                const overlay = document.createElement('div');
+                overlay.className = 'target-overlay';
+                overlay.innerHTML = `
+                    <div class="target-ring ${isCapture ? 'capture' : 'regular'}"></div>
+                    <div class="pct-badge ${badgeClass}">
+                        <span>${icon}${resultingWinPct.toFixed(0)}%</span>
+                        <span class="opacity-80 text-[9px]">(${delta >= 0 ? '+' : ''}${delta.toFixed(1)}%)</span>
+                    </div>
+                `;
+                targetSquareEl.appendChild(overlay);
+            });
+        }
+
+        function handleSquareHover(r, c) {
+            const piece = game.board[r][c];
+
+            // If user has not locked a selection, generate candidate moves on hover
+            if (!selectedSquare) {
+                if (piece && piece[0] === game.turn) {
+                    hoveredPieceMoves = game.getLegalMovesForSquare(r, c);
+                    renderDestinationOverlays();
+                    showHoverInspector(r, c, hoveredPieceMoves);
+                }
+            } else {
+                // If a piece is already selected and user hovers over a candidate destination
+                const matchedMove = legalMovesForSelected.find(m => m.to.r === r && m.to.c === c);
+                if (matchedMove) {
+                    showHoverMoveDetails(matchedMove);
+                }
+            }
+        }
+
+        function handleSquareLeave(r, c) {
+            if (!selectedSquare) {
+                hoveredPieceMoves = [];
+                // Remove overlays
+                document.querySelectorAll('.target-overlay').forEach(el => el.remove());
+                hideHoverInspector();
+            }
+        }
+
+        function showHoverInspector(r, c, moves) {
+            const panel = document.getElementById('hoverInspectorPanel');
+            const files = ['a', 'b', 'c', 'd', 'e', 'f', 'g', 'h'];
+            const ranks = ['8', '7', '6', '5', '4', '3', '2', '1'];
+            const piece = game.board[r][c];
+            if (!piece) return;
+
+            const pieceNames = { P: 'Pawn', N: 'Knight', B: 'Bishop', R: 'Rook', Q: 'Queen', K: 'King' };
+            const squareName = files[c] + ranks[r];
+
+            document.getElementById('hoverMoveBadge').textContent = `${pieceNames[piece[1]]} on ${squareName}`;
+            document.getElementById('hoverMoveDesc').textContent = `${moves.length} legal paths available. Hover candidate destination or select piece to commit.`;
+
+            panel.classList.remove('hidden');
+        }
+
+        function showHoverMoveDetails(move) {
+            const panel = document.getElementById('hoverInspectorPanel');
+            const san = game.moveToSAN(move);
+            const currentEval = evaluateBoardDetailed(game);
+            const currentWinPct = game.turn === 'w' ? currentEval.whiteWinPct : currentEval.blackWinPct;
+
+            const sim = game.clone();
+            sim.applyMoveInternal(move);
+            const simEval = evaluateBoardDetailed(sim);
+            const resultingWinPct = game.turn === 'w' ? simEval.whiteWinPct : simEval.blackWinPct;
+            const delta = resultingWinPct - currentWinPct;
+
+            document.getElementById('hoverMoveBadge').textContent = `Target Move: ${san}`;
+            document.getElementById('hoverWinRateText').textContent = `${resultingWinPct.toFixed(1)}% Win Rate`;
+            const deltaEl = document.getElementById('hoverDeltaText');
+            deltaEl.textContent = `${delta >= 0 ? '+' : ''}${delta.toFixed(1)}% Delta`;
+            deltaEl.className = delta >= 0 ? 'text-emerald-400 font-bold' : 'text-amber-400 font-bold';
+
+            panel.classList.remove('hidden');
+        }
+
+        function hideHoverInspector() {
+            document.getElementById('hoverInspectorPanel').classList.add('hidden');
+        }
+
+        /**
+         * =========================================================================
+         * PIECE SELECTION & MOVE EXECUTION
+         * =========================================================================
+         */
+
+        function handleSquareClick(r, c) {
+            if (game.isGameOver) {
+                triggerToast(game.gameResult);
+                return;
+            }
+
+            const piece = game.board[r][c];
+
+            // Case 1: No piece selected currently
+            if (!selectedSquare) {
+                if (piece && piece[0] === game.turn) {
+                    selectedSquare = { r, c };
+                    legalMovesForSelected = game.getLegalMovesForSquare(r, c);
+                    renderBoard();
+                } else if (piece && piece[0] !== game.turn) {
+                    triggerToast(`It is ${game.turn === 'w' ? "White's" : "Black's"} sovereign turn!`);
+                }
+                return;
+            }
+
+            // Case 2: Clicking the same square or another piece of the same color
+            if (piece && piece[0] === game.turn) {
+                if (selectedSquare.r === r && selectedSquare.c === c) {
+                    // Deselect
+                    selectedSquare = null;
+                    legalMovesForSelected = [];
+                    renderBoard();
+                    return;
+                } else {
+                    // Switch selection to another friendly piece
+                    selectedSquare = { r, c };
+                    legalMovesForSelected = game.getLegalMovesForSquare(r, c);
+                    renderBoard();
+                    return;
+                }
+            }
+
+            // Case 3: Attempting to move to target square (r, c)
+            const matchedMoves = legalMovesForSelected.filter(m => m.to.r === r && m.to.c === c);
+            if (matchedMoves.length === 0) {
+                // Illegal square
+                selectedSquare = null;
+                legalMovesForSelected = [];
+                renderBoard();
+                return;
+            }
+
+            // If pawn promotion, open baroque promotion modal
+            if (matchedMoves[0].promotion) {
+                pendingPromotionMove = matchedMoves;
+                openPromotionModal(game.turn);
+                return;
+            }
+
+            // Execute standard move
+            executeMove(matchedMoves[0]);
+        }
+
+        function executeMove(move) {
+            const isCapture = game.board[move.to.r][move.to.c] !== null || move.isEnPassant;
+            game.makeMove(move);
+
+            // Play synthesized audio
+            if (game.isGameOver && game.gameResult.includes('Checkmate')) {
+                audioFX.playCheckmate();
+            } else if (game.isInCheck(game.turn)) {
+                audioFX.playCheck();
+            } else if (isCapture) {
+                audioFX.playCapture();
+            } else {
+                audioFX.playMove();
+            }
+
+            selectedSquare = null;
+            legalMovesForSelected = [];
+            hoveredPieceMoves = [];
+            hideHoverInspector();
+
+            renderBoard();
+            updateEvaluationUI();
+            updateMoveLog();
+            updateSparkline();
+
+            // Trigger GameOver announcement if finished
+            if (game.isGameOver) {
+                setTimeout(() => {
+                    triggerToast(`⚜ MATCH CONCLUDED: ${game.gameResult}`);
+                }, 300);
+            } else if (isAiOpponent && game.turn === 'b') {
+                setTimeout(makeAutomatonMove, 500);
+            }
+        }
+
+        function undoMove() {
+            if (game.undo()) {
+                selectedSquare = null;
+                legalMovesForSelected = [];
+                renderBoard();
+                updateEvaluationUI();
+                updateMoveLog();
+                updateSparkline();
+                triggerToast("Previous Move Restored");
+            } else {
+                triggerToast("Beginning of match reached");
+            }
+        }
+
+        /**
+         * =========================================================================
+         * BAROQUE PROMOTION MODAL
+         * =========================================================================
+         */
+
+        function openPromotionModal(color) {
+            const modal = document.getElementById('promotionModal');
+            const grid = document.getElementById('promotionPiecesGrid');
+            grid.innerHTML = '';
+
+            const pieces = ['Q', 'R', 'B', 'N'];
+            const names = { Q: 'Queen', R: 'Rook', B: 'Bishop', N: 'Knight' };
+
+            pieces.forEach(type => {
+                const btn = document.createElement('button');
+                btn.className = 'btn-royal p-3 rounded-xl flex flex-col items-center gap-1 hover:border-gold-300';
+                btn.innerHTML = `
+                    <div class="h-10 w-10">${PIECE_SVGS[color + type]}</div>
+                    <span class="text-[10px] font-cinzel font-bold">${names[type]}</span>
+                `;
+                btn.onclick = () => {
+                    modal.classList.add('hidden');
+                    const targetMove = pendingPromotionMove.find(m => m.promotion === type) || pendingPromotionMove[0];
+                    targetMove.promotion = type;
+                    executeMove(targetMove);
+                };
+                grid.appendChild(btn);
+            });
+
+            modal.classList.remove('hidden');
+        }
+
+        /**
+         * =========================================================================
+         * BAROQUE AUTOMATON (SPARRING AI)
+         * =========================================================================
+         */
+
+        function makeAutomatonMove() {
+            if (game.isGameOver || game.turn !== 'b') return;
+            const legalMoves = game.getAllLegalMoves('b');
+            if (legalMoves.length === 0) return;
+
+            // Simple 1-ply minimax with heuristics
+            let bestMove = legalMoves[0];
+            let bestScore = Infinity; // Black minimizes white advantage
+
+            legalMoves.forEach(move => {
+                const sim = game.clone();
+                sim.applyMoveInternal(move);
+                const evalData = evaluateBoardDetailed(sim);
+                // Add minor random entropy for baroque personality
+                const scoreWithNoise = evalData.centipawns + (Math.random() * 8 - 4);
+                if (scoreWithNoise < bestScore) {
+                    bestScore = scoreWithNoise;
+                    bestMove = move;
+                }
+            });
+
+            executeMove(bestMove);
+        }
+
+        /**
+         * =========================================================================
+         * EVALUATION UI & SOVEREIGN ORACLE DASHBOARD UPDATES
+         * =========================================================================
+         */
+
+        function updateEvaluationUI() {
+            const evalData = evaluateBoardDetailed(game);
+
+            // Update Turn Badge & Text
+            const turnBadge = document.getElementById('turnIndicatorBadge');
+            const turnText = document.getElementById('turnText');
+            if (game.turn === 'w') {
+                turnBadge.innerHTML = '♔';
+                turnBadge.className = 'h-9 w-9 rounded-lg flex items-center justify-center font-serif text-xl border shadow-inner transition-all duration-300 bg-amber-100 text-obsidian-950 border-gold-300';
+                turnText.textContent = "White's Sovereign Move";
+            } else {
+                turnBadge.innerHTML = '♚';
+                turnBadge.className = 'h-9 w-9 rounded-lg flex items-center justify-center font-serif text-xl border shadow-inner transition-all duration-300 bg-obsidian-900 text-gold-300 border-gold-600';
+                turnText.textContent = "Black's Imperial Move";
+            }
+
+            // Move & Phase Count
+            document.getElementById('plyCountText').textContent = `Ply #${game.history.length + 1}`;
+            let phase = "Opening Assembly";
+            if (game.history.length > 20) phase = "Endgame Mastery";
+            else if (game.history.length > 8) phase = "Middlegame Strife";
+            document.getElementById('gamePhaseText').textContent = phase;
+
+            // Update Big Win Probability Numbers
+            document.getElementById('whiteWinPctLarge').textContent = `${evalData.whiteWinPct}%`;
+            document.getElementById('blackWinPctLarge').textContent = `${evalData.blackWinPct}%`;
+
+            // Advantage Tags
+            const whiteTag = document.getElementById('whiteAdvantageTag');
+            const blackTag = document.getElementById('blackAdvantageTag');
+            const score = evalData.score;
+
+            if (score > 0.4) {
+                whiteTag.textContent = `+${score.toFixed(2)} Advantage`;
+                whiteTag.className = 'text-[11px] font-serif text-emerald-400 font-bold mt-1';
+                blackTag.textContent = `Defensive Tension`;
+                blackTag.className = 'text-[11px] font-serif text-slate-400 mt-1';
+            } else if (score < -0.4) {
+                blackTag.textContent = `${score.toFixed(2)} Advantage`;
+                blackTag.className = 'text-[11px] font-serif text-emerald-400 font-bold mt-1';
+                whiteTag.textContent = `Defensive Tension`;
+                whiteTag.className = 'text-[11px] font-serif text-slate-400 mt-1';
+            } else {
+                whiteTag.textContent = `Sovereign Parity`;
+                whiteTag.className = 'text-[11px] font-serif text-gold-400 mt-1';
+                blackTag.textContent = `Sovereign Parity`;
+                blackTag.className = 'text-[11px] font-serif text-slate-400 mt-1';
+            }
+
+            // Large Gauge Bar Widths
+            document.getElementById('oracleBarWhite').style.width = `${evalData.whiteWinPct}%`;
+            document.getElementById('oracleBarBlack').style.width = `${evalData.blackWinPct}%`;
+            document.getElementById('centipawnReadout').textContent = `${score >= 0 ? '+' : ''}${score.toFixed(2)}`;
+
+            // Commentary Generation
+            const commEl = document.getElementById('evalCommentary');
+            if (game.isGameOver) {
+                commEl.textContent = `⚜ ${game.gameResult}`;
+            } else if (score > 3.0) {
+                commEl.textContent = '"Decisive White Advantage — Kingside bastions breached."';
+            } else if (score > 1.2) {
+                commEl.textContent = '"Favorable White Initiative — Superior central control and tempo."';
+            } else if (score < -3.0) {
+                commEl.textContent = '"Decisive Black Advantage — Inevitable imperial conquest."';
+            } else if (score < -1.2) {
+                commEl.textContent = '"Favorable Black Strategy — Constricting opponent ranks."';
+            } else {
+                commEl.textContent = '"Balanced sovereign tension. Equilibrium across the board."';
+            }
+
+            // Positional Telemetry Breakdown Bars
+            // 1. Material
+            const totalMat = (evalData.materialWhite + evalData.materialBlack) || 1;
+            const matPct = (evalData.materialWhite / totalMat) * 100;
+            document.getElementById('barMaterial').style.width = `${matPct}%`;
+            const matDiff = (evalData.materialWhite - evalData.materialBlack) / 100;
+            document.getElementById('telemetryMaterial').textContent = `${evalData.materialWhite/100} pts vs ${evalData.materialBlack/100} pts (${matDiff >= 0 ? '+' : ''}${matDiff})`;
+
+            // 2. Center Control
+            const totalCenter = (evalData.centerWhite + evalData.centerBlack) || 1;
+            const centerPct = (evalData.centerWhite / totalCenter) * 100;
+            document.getElementById('barCenter').style.width = `${centerPct}%`;
+            document.getElementById('telemetryCenter').textContent = `${evalData.centerWhite} pts vs ${evalData.centerBlack} pts`;
+
+            // 3. Mobility
+            const totalMob = (evalData.mobilityWhite + evalData.mobilityBlack) || 1;
+            const mobPct = (evalData.mobilityWhite / totalMob) * 100;
+            document.getElementById('barMobility').style.width = `${mobPct}%`;
+            document.getElementById('telemetryMobility').textContent = `${evalData.mobilityWhite} moves vs ${evalData.mobilityBlack} moves`;
+
+            // 4. King Shield
+            const totalShield = (evalData.kingShieldWhite + evalData.kingShieldBlack) || 1;
+            const shieldPct = (evalData.kingShieldWhite / totalShield) * 100;
+            document.getElementById('barKing').style.width = `${shieldPct}%`;
+            document.getElementById('telemetryKing').textContent = `${evalData.kingShieldWhite} pts vs ${evalData.kingShieldBlack} pts`;
+
+            // Captured Piece Box Updates
+            renderCapturedPieces();
+        }
+
+        function renderCapturedPieces() {
+            const wBox = document.getElementById('whiteCapturedBox');
+            const bBox = document.getElementById('blackCapturedBox');
+            wBox.innerHTML = '';
+            bBox.innerHTML = '';
+
+            game.capturedWhite.forEach(p => {
+                const icon = document.createElement('span');
+                icon.className = 'text-xs text-amber-200 opacity-90';
+                icon.innerHTML = getPieceSymbol(p);
+                wBox.appendChild(icon);
+            });
+
+            game.capturedBlack.forEach(p => {
+                const icon = document.createElement('span');
+                icon.className = 'text-xs text-amber-500 opacity-90';
+                icon.innerHTML = getPieceSymbol(p);
+                bBox.appendChild(icon);
+            });
+        }
+
+        function getPieceSymbol(piece) {
+            const map = {
+                wP: '♟', wN: '♞', wB: '♝', wR: '♜', wQ: '♛', wK: '♚',
+                bP: '♟', bN: '♞', bB: '♝', bR: '♜', bQ: '♛', bK: '♚'
+            };
+            return map[piece] || '♟';
+        }
+
+        function updateMoveLog() {
+            const list = document.getElementById('moveLogList');
+            if (game.history.length === 0) {
+                list.innerHTML = `
+                    <div class="text-center text-gold-400/60 font-serif italic py-6">
+                        No moves recorded. The board awaits the first play.
+                    </div>
+                `;
+                return;
+            }
+
+            list.innerHTML = '';
+            // Group history in pairs (1. e4 e5)
+            for (let i = 0; i < game.history.length; i += 2) {
+                const moveNum = Math.floor(i / 2) + 1;
+                const whiteSnap = game.history[i];
+                const blackSnap = game.history[i + 1];
+
+                const row = document.createElement('div');
+                row.className = 'flex items-center justify-between py-1 px-2 hover:bg-gold-500/10 rounded transition text-gold-200';
+
+                const wPct = whiteSnap.whiteWinPct;
+                const bPct = blackSnap ? (100 - blackSnap.whiteWinPct).toFixed(1) : '';
+
+                row.innerHTML = `
+                    <span class="w-8 font-cinzel text-gold-400/70 font-bold">${moveNum}.</span>
+                    <span class="flex-1 font-bold text-white flex items-center justify-between pr-3">
+                        <span>${whiteSnap.san}</span>
+                        <span class="text-[10px] font-mono text-gold-400/80">${wPct}%</span>
+                    </span>
+                    <span class="flex-1 font-bold text-slate-300 flex items-center justify-between pl-3 border-l border-gold-900/40">
+                        <span>${blackSnap ? blackSnap.san : '—'}</span>
+                        <span class="text-[10px] font-mono text-slate-400">${blackSnap ? bPct + '%' : ''}</span>
+                    </span>
+                `;
+                list.appendChild(row);
+            }
+            list.scrollTop = list.scrollHeight;
+        }
+
+        /**
+         * =========================================================================
+         * EVALUATION SPARKLINE (WIN TRAJECTORY CHART)
+         * =========================================================================
+         */
+
+        let sparklineCanvas, sparklineCtx;
+
+        function initSparkline() {
+            sparklineCanvas = document.getElementById('evalSparkline');
+            if (sparklineCanvas) {
+                sparklineCtx = sparklineCanvas.getContext('2d');
+                updateSparkline();
+            }
+        }
+
+        function updateSparkline() {
+            if (!sparklineCanvas || !sparklineCtx) return;
+            const w = sparklineCanvas.clientWidth;
+            const h = sparklineCanvas.clientHeight;
+            sparklineCanvas.width = w;
+            sparklineCanvas.height = h;
+
+            const ctx = sparklineCtx;
+            ctx.clearRect(0, 0, w, h);
+
+            // Draw center baseline (50% mark)
+            ctx.strokeStyle = 'rgba(223, 177, 91, 0.25)';
+            ctx.lineWidth = 1;
+            ctx.setLineDash([3, 3]);
+            ctx.beginPath();
+            ctx.moveTo(0, h / 2);
+            ctx.lineTo(w, h / 2);
+            ctx.stroke();
+            ctx.setLineDash([]);
+
+            // Collect data points (White Win %)
+            const points = [50.0];
+            game.history.forEach(h => points.push(h.whiteWinPct));
+
+            if (points.length < 2) return;
+
+            const step = w / (points.length - 1);
+
+            // Draw Gradient Area under Curve
+            const grad = ctx.createLinearGradient(0, 0, 0, h);
+            grad.addColorStop(0, 'rgba(223, 177, 91, 0.35)');
+            grad.addColorStop(0.5, 'rgba(223, 177, 91, 0.05)');
+            grad.addColorStop(1, 'rgba(157, 113, 27, 0.25)');
+
+            ctx.beginPath();
+            points.forEach((p, i) => {
+                const x = i * step;
+                // Map 0% - 100% to h -> 0
+                const y = h - (p / 100.0 * h);
+                if (i === 0) ctx.moveTo(x, y);
+                else ctx.lineTo(x, y);
+            });
+            ctx.lineTo(w, h / 2);
+            ctx.lineTo(0, h / 2);
+            ctx.closePath();
+            ctx.fillStyle = grad;
+            ctx.fill();
+
+            // Draw Line
+            ctx.beginPath();
+            ctx.strokeStyle = '#dfb15b';
+            ctx.lineWidth = 2;
+            ctx.shadowColor = 'rgba(223, 177, 91, 0.8)';
+            ctx.shadowBlur = 6;
+            points.forEach((p, i) => {
+                const x = i * step;
+                const y = h - (p / 100.0 * h);
+                if (i === 0) ctx.moveTo(x, y);
+                else ctx.lineTo(x, y);
+            });
+            ctx.stroke();
+            ctx.shadowBlur = 0;
+
+            // Trend badge
+            const lastVal = points[points.length - 1];
+            const trendEl = document.getElementById('sparklineTrend');
+            if (trendEl) {
+                const diff = lastVal - 50.0;
+                trendEl.textContent = `${diff >= 0 ? 'White' : 'Black'} ${Math.abs(diff).toFixed(1)}% Lead`;
+                trendEl.className = diff >= 0 ? 'font-mono text-emerald-400' : 'font-mono text-amber-400';
+            }
+        }
+
+        /**
+         * =========================================================================
+         * OPENING PRESETS & UTILITIES
+         * =========================================================================
+         */
+
+        const OPENING_FENS = {
+            ruy_lopez: "r1bqkbnr/pppp1ppp/2n5/1B2p3/4P3/5N2/PPPP1PPP/RNBQK2R b KQkq - 3 3",
+            sicilian: "rnbqkbnr/pp1ppppp/8/2p5/4P3/8/PPPP1PPP/RNBQKBNR w KQkq c6 0 2",
+            queens_gambit: "rnbqkbnr/ppp1pppp/8/3p4/2PP4/8/PP2PPPP/RNBQKBNR b KQkq c3 0 2",
+            italian: "r1bqk1nr/pppp1ppp/2n5/2b1p3/2B1P3/5N2/PPPP1PPP/RNBQK2R w KQkq - 4 4",
+            scholars_mate_threat: "r1bqkb1r/pppp1ppp/2n5/4p2Q/2B1P3/8/PPPP1PPP/RNB1K1NR b KQkq - 3 3"
+        };
+
+        function loadOpening(name) {
+            const fen = OPENING_FENS[name];
+            if (fen) {
+                game.loadFEN(fen);
+                selectedSquare = null;
+                legalMovesForSelected = [];
+                renderBoard();
+                updateEvaluationUI();
+                updateMoveLog();
+                updateSparkline();
+                triggerToast(`Loaded opening preset: ${name.replace('_', ' ').toUpperCase()}`);
+            }
+        }
+
+        function resetGameModal() {
+            game.reset();
+            selectedSquare = null;
+            legalMovesForSelected = [];
+            hoveredPieceMoves = [];
+            renderBoard();
+            updateEvaluationUI();
+            updateMoveLog();
+            updateSparkline();
+            triggerToast("Grand Match Reset to Initial Array");
+        }
+
+        function copyFEN() {
+            const fen = game.exportFEN();
+            navigator.clipboard.writeText(fen).then(() => {
+                triggerToast("FEN copied to clipboard");
+            });
+        }
+
+        function copyPGN() {
+            let pgn = '[Event "Chessulator Baroque Match"]\n[Site "The Sovereign Oracle"]\n[Result "' + (game.gameResult || '*') + '"]\n\n';
+            for (let i = 0; i < game.history.length; i += 2) {
+                const num = Math.floor(i / 2) + 1;
+                const w = game.history[i].san;
+                const b = game.history[i + 1] ? game.history[i + 1].san : '';
+                pgn += `${num}. ${w} ${b} `;
+            }
+            navigator.clipboard.writeText(pgn.trim()).then(() => {
+                triggerToast("PGN copied to clipboard");
+            });
+        }
+
+        function openCustomFENModal() {
+            document.getElementById('fenInput').value = game.exportFEN();
+            document.getElementById('fenModal').classList.remove('hidden');
+        }
+
+        function closeCustomFENModal() {
+            document.getElementById('fenModal').classList.add('hidden');
+        }
+
+        function applyCustomFEN() {
+            const fen = document.getElementById('fenInput').value.trim();
+            if (game.loadFEN(fen)) {
+                closeCustomFENModal();
+                selectedSquare = null;
+                legalMovesForSelected = [];
+                renderBoard();
+                updateEvaluationUI();
+                updateMoveLog();
+                updateSparkline();
+                triggerToast("Custom FEN Loaded Successfully");
+            } else {
+                triggerToast("Invalid FEN string format");
+            }
+        }
+
+        function setupKeyboardShortcuts() {
+            window.addEventListener('keydown', (e) => {
+                if (e.target.tagName === 'INPUT') return;
+                if (e.key === 'z' || e.key === 'Z') {
+                    undoMove();
+                } else if (e.key === 'f' || e.key === 'F') {
+                    flipBoard();
+                }
             });
         }
 
@@ -496,23 +2505,12 @@
             document.getElementById('toastMsg').textContent = msg;
             toast.classList.remove('translate-y-24', 'opacity-0');
             toast.classList.add('translate-y-0', 'opacity-100');
-            setTimeout(() => {
+            clearTimeout(window._toastTimer);
+            window._toastTimer = setTimeout(() => {
                 toast.classList.add('translate-y-24', 'opacity-0');
                 toast.classList.remove('translate-y-0', 'opacity-100');
-            }, 2500);
+            }, 2600);
         }
-
-        document.addEventListener('DOMContentLoaded', () => {
-            renderUnitGrid('volGrid', 'vol', 'sky');
-            renderUnitGrid('weightGrid', 'weight', 'emerald');
-            renderUnitGrid('lengthGrid', 'length', 'amber');
-            renderUnitGrid('areaGrid', 'area', 'indigo');
-
-            applyPreset('vol', 'cup', 1);
-            applyPreset('weight', 'lb', 1);
-            applyPreset('length', 'ft', 1);
-            applyPreset('area', 'sq_ft', 100);
-        });
     </script>
 </body>
 
