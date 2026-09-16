@@ -417,6 +417,72 @@
             background: rgba(5, 2, 4, 0.88);
             backdrop-filter: blur(8px);
         }
+
+        /* Candidate Moves & Strategic Oracle */
+        .candidate-move-card {
+            position: relative;
+            background: linear-gradient(145deg, rgba(35, 23, 31, 0.95) 0%, rgba(18, 12, 16, 0.98) 100%);
+            border: 1px solid rgba(223, 177, 91, 0.35);
+            border-radius: 8px;
+            padding: 6px 10px;
+            cursor: pointer;
+            transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+            box-shadow: 0 4px 12px rgba(0,0,0,0.5), 0 0 0 1px rgba(223, 177, 91, 0.1) inset;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            user-select: none;
+        }
+        .candidate-move-card:hover, .candidate-move-card.active {
+            background: linear-gradient(145deg, rgba(58, 38, 50, 0.98) 0%, rgba(28, 18, 25, 1) 100%);
+            border-color: #dfb15b;
+            transform: translateY(-2px);
+            box-shadow: 0 6px 18px rgba(0,0,0,0.7), 0 0 14px rgba(223, 177, 91, 0.35);
+        }
+
+        /* Strategic Move Tooltip Overlay / Card */
+        .move-tooltip-box {
+            position: absolute;
+            bottom: calc(100% + 10px);
+            left: 50%;
+            transform: translateX(-50%);
+            width: 290px;
+            background: linear-gradient(180deg, rgba(24, 15, 22, 0.98) 0%, rgba(12, 7, 11, 0.99) 100%);
+            border: 1px solid #dfb15b;
+            border-radius: 10px;
+            padding: 12px;
+            box-shadow: 0 14px 35px rgba(0,0,0,0.92), 0 0 20px rgba(223, 177, 91, 0.25);
+            z-index: 60;
+            pointer-events: none;
+            opacity: 0;
+            visibility: hidden;
+            transition: opacity 0.2s ease, transform 0.2s ease, visibility 0.2s;
+        }
+        .candidate-move-card:hover .move-tooltip-box {
+            opacity: 1;
+            visibility: visible;
+            transform: translateX(-50%) translateY(-4px);
+        }
+        .move-tooltip-box::after {
+            content: '';
+            position: absolute;
+            top: 100%;
+            left: 50%;
+            transform: translateX(-50%);
+            border-width: 6px;
+            border-style: solid;
+            border-color: #dfb15b transparent transparent transparent;
+        }
+
+        /* Square highlights for candidate move preview on board */
+        .square.preview-from {
+            background: radial-gradient(circle, rgba(234, 179, 8, 0.6) 0%, rgba(161, 98, 7, 0.7) 100%) !important;
+            box-shadow: 0 0 16px rgba(234, 179, 8, 0.95) inset, 0 0 10px rgba(234, 179, 8, 0.7);
+        }
+        .square.preview-to {
+            background: radial-gradient(circle, rgba(16, 185, 129, 0.65) 0%, rgba(4, 120, 87, 0.75) 100%) !important;
+            box-shadow: 0 0 18px rgba(16, 185, 129, 0.95) inset, 0 0 12px rgba(16, 185, 129, 0.8);
+        }
     </style>
 </head>
 
@@ -432,9 +498,9 @@
                 <div>
                     <div class="flex items-center gap-2.5">
                         <h1 class="font-baroque font-black text-2xl tracking-wider text-transparent bg-clip-text bg-gradient-to-r from-gold-200 via-gold-400 to-amber-600 drop-shadow">
-                            CHESSULATOR
+                            Chessulator
                         </h1>
-                        <span class="px-2.5 py-0.5 text-[10px] font-cinzel font-bold uppercase tracking-widest rounded-full bg-gold-500/10 text-gold-300 border border-gold-500/30">
+                        <span class="px-2.5 py-0.5 text-[10px] font-cinzel font-bold tracking-widest rounded-full bg-gold-500/10 text-gold-300 border border-gold-500/30">
                             Baroque Win Oracle
                         </span>
                     </div>
@@ -449,10 +515,6 @@
                 <button id="soundToggleBtn" onclick="toggleSound()" class="btn-royal px-3 py-2 rounded-lg text-xs flex items-center gap-1.5" title="Toggle Synthesized Audio">
                     <i id="soundIcon" class="fa-solid fa-volume-high text-gold-400"></i>
                     <span class="hidden md:inline text-[11px]">Audio</span>
-                </button>
-                <button onclick="flipBoard()" class="btn-royal px-3 py-2 rounded-lg text-xs flex items-center gap-1.5" title="Flip Board Perspective">
-                    <i class="fa-solid fa-arrows-rotate text-gold-400"></i>
-                    <span class="hidden md:inline text-[11px]">Flip</span>
                 </button>
                 <button onclick="undoMove()" class="btn-royal px-3 py-2 rounded-lg text-xs flex items-center gap-1.5" title="Undo Move (Z)">
                     <i class="fa-solid fa-rotate-left text-gold-400"></i>
@@ -484,7 +546,7 @@
                         ♔
                     </div>
                     <div>
-                        <div class="text-[10px] uppercase font-cinzel font-bold tracking-widest text-gold-400/80">Active Ply</div>
+                        <div class="text-[10px] font-cinzel font-bold tracking-widest text-gold-400/80">Active Ply</div>
                         <div id="turnText" class="font-cinzel font-bold text-base text-gold-100 flex items-center gap-2">
                             White's Sovereign Move
                         </div>
@@ -493,12 +555,12 @@
 
                 <div class="flex items-center gap-4 text-right">
                     <div class="hidden sm:block">
-                        <div class="text-[10px] uppercase font-cinzel font-bold tracking-widest text-gold-400/80">Game Phase</div>
+                        <div class="text-[10px] font-cinzel font-bold tracking-widest text-gold-400/80">Game Phase</div>
                         <div id="gamePhaseText" class="text-xs font-serif text-gold-200">Opening Gambits</div>
                     </div>
                     <div class="h-8 w-px bg-gold-700/40 hidden sm:block"></div>
                     <div>
-                        <div class="text-[10px] uppercase font-cinzel font-bold tracking-widest text-gold-400/80">Move Count</div>
+                        <div class="text-[10px] font-cinzel font-bold tracking-widest text-gold-400/80">Move Count</div>
                         <div id="plyCountText" class="font-mono font-bold text-sm text-gold-300">Ply #1</div>
                     </div>
                 </div>
@@ -549,22 +611,71 @@
                 </div>
             </div>
 
-            <!-- Classical Baroque Presets Bar -->
-            <div class="w-full baroque-panel rounded-xl p-3.5 flex flex-wrap items-center justify-between gap-2 text-xs">
+            <!-- Next Moves, Win Probabilities & Strategic Advisor Panel (Replaced Master Openings) -->
+            <div id="nextMovesAdvisorPanel" class="w-full baroque-panel rounded-xl p-4 flex flex-col gap-3.5 text-xs">
                 <div class="corner-filigree top-left"></div>
                 <div class="corner-filigree top-right"></div>
                 <div class="corner-filigree bottom-left"></div>
                 <div class="corner-filigree bottom-right"></div>
 
-                <span class="font-cinzel text-gold-400 font-bold flex items-center gap-1.5">
-                    <i class="fa-solid fa-scroll text-xs"></i> Master Openings:
-                </span>
-                <div class="flex flex-wrap gap-1.5">
-                    <button onclick="loadOpening('ruy_lopez')" class="px-2.5 py-1 rounded bg-obsidian-900 border border-gold-800/60 hover:border-gold-500 text-gold-200 text-[11px] font-cinzel transition">Ruy Lopez</button>
-                    <button onclick="loadOpening('sicilian')" class="px-2.5 py-1 rounded bg-obsidian-900 border border-gold-800/60 hover:border-gold-500 text-gold-200 text-[11px] font-cinzel transition">Sicilian</button>
-                    <button onclick="loadOpening('queens_gambit')" class="px-2.5 py-1 rounded bg-obsidian-900 border border-gold-800/60 hover:border-gold-500 text-gold-200 text-[11px] font-cinzel transition">Queen's Gambit</button>
-                    <button onclick="loadOpening('italian')" class="px-2.5 py-1 rounded bg-obsidian-900 border border-gold-800/60 hover:border-gold-500 text-gold-200 text-[11px] font-cinzel transition">Italian Game</button>
-                    <button onclick="loadOpening('scholars_mate_threat')" class="px-2.5 py-1 rounded bg-obsidian-900 border border-gold-800/60 hover:border-gold-500 text-gold-200 text-[11px] font-cinzel transition">Scholar's Threat</button>
+                <!-- Header / Context Bar -->
+                <div class="flex items-center justify-between border-b border-gold-800/40 pb-2.5">
+                    <div class="flex items-center gap-2">
+                        <span class="h-6 w-6 rounded-md bg-gold-500/20 text-gold-300 flex items-center justify-center text-xs border border-gold-500/40">
+                            <i class="fa-solid fa-chess-knight"></i>
+                        </span>
+                        <div>
+                            <span class="font-cinzel text-gold-200 font-bold text-xs tracking-wide">
+                                Next Move Guidance &amp; Strategic Counsel
+                            </span>
+                            <p id="activeTurnStrategySubtitle" class="text-[10px] font-serif italic text-gold-400/80">
+                                Hover any candidate move for probability analysis &amp; strategy
+                            </p>
+                        </div>
+                    </div>
+                    <div id="candidateMovesCountBadge" class="font-mono text-[10px] px-2 py-0.5 rounded bg-gold-950/80 text-gold-300 border border-gold-700/50">
+                        20 Legal Paths
+                    </div>
+                </div>
+
+                <!-- Interactive Candidate Move Chips Container with Tooltips -->
+                <div class="flex flex-col gap-1.5">
+                    <div class="flex items-center justify-between text-[11px] font-cinzel text-gold-400">
+                        <span>Top Candidate Moves</span>
+                        <span class="text-[10px] font-serif italic text-gold-300/70">Hover for strategic tooltip &amp; board highlight</span>
+                    </div>
+                    <div id="candidateMovesList" class="flex flex-wrap gap-2 pt-1 pb-1 min-h-[42px] items-center">
+                        <!-- Dynamically populated candidate move cards with tooltips -->
+                    </div>
+                </div>
+
+                <!-- Dynamic "How to Strategize" Counsel Box -->
+                <div id="howToStrategizeBox" class="p-3 bg-obsidian-950/80 rounded-lg border border-gold-700/40 flex flex-col gap-2">
+                    <div class="flex items-center justify-between text-[11px] font-cinzel text-gold-300 font-bold">
+                        <span class="flex items-center gap-1.5">
+                            <i class="fa-solid fa-compass text-amber-400"></i> How to Strategize
+                        </span>
+                        <span id="strategicPhaseBadge" class="text-[10px] font-serif text-gold-400/90 italic">
+                            Opening Principles
+                        </span>
+                    </div>
+                    <p id="strategicDirectiveText" class="text-[11px] font-serif text-gold-100/90 leading-relaxed">
+                        Seize central space (e4, d4), mobilize knights and bishops toward active squares, safeguard the king through early castling, and avoid premature queen lunges.
+                    </p>
+                    <div id="strategicKeyPoints" class="grid grid-cols-1 sm:grid-cols-3 gap-2 mt-0.5 pt-2 border-t border-gold-900/50 text-[10px] font-serif text-gold-300/80">
+                        <div class="flex items-start gap-1.5 bg-obsidian-900/60 p-1.5 rounded border border-gold-900/30">
+                            <span class="text-amber-400 font-bold">1.</span>
+                            <span id="stratPoint1">Occupy Center (e4/d4)</span>
+                        </div>
+                        <div class="flex items-start gap-1.5 bg-obsidian-900/60 p-1.5 rounded border border-gold-900/30">
+                            <span class="text-amber-400 font-bold">2.</span>
+                            <span id="stratPoint2">Develop Knights &amp; Bishops</span>
+                        </div>
+                        <div class="flex items-start gap-1.5 bg-obsidian-900/60 p-1.5 rounded border border-gold-900/30">
+                            <span class="text-amber-400 font-bold">3.</span>
+                            <span id="stratPoint3">Prepare Kingside Castle</span>
+                        </div>
+                    </div>
                 </div>
             </div>
 
@@ -582,11 +693,11 @@
 
                 <!-- Grand Title -->
                 <div class="text-center border-b border-gold-700/40 pb-4">
-                    <div class="text-[11px] font-cinzel font-black uppercase tracking-[0.25em] text-gold-400">
-                        THE SOVEREIGN ORACLE
+                    <div class="text-[11px] font-cinzel font-black tracking-[0.25em] text-gold-400">
+                        The Sovereign Oracle
                     </div>
                     <h2 class="font-baroque text-2xl sm:text-3xl font-black text-transparent bg-clip-text bg-gradient-to-r from-gold-100 via-gold-300 to-amber-500 mt-1">
-                        CALCULATION TO WIN
+                        Calculation to Win
                     </h2>
                     <p id="evalCommentary" class="text-xs font-serif italic text-gold-200/80 mt-1">
                         "Equal parity at opening assembly. All possibilities await."
@@ -597,7 +708,7 @@
                 <div class="grid grid-cols-2 gap-4 items-center bg-obsidian-950/80 p-5 rounded-xl border border-gold-600/40 shadow-inner">
                     <!-- White Probability -->
                     <div class="text-center">
-                        <div class="flex items-center justify-center gap-1.5 text-xs font-cinzel font-bold text-gold-300 uppercase tracking-wider mb-1">
+                        <div class="flex items-center justify-center gap-1.5 text-xs font-cinzel font-bold text-gold-300 tracking-wider mb-1">
                             <span class="text-lg">♔</span> White
                         </div>
                         <div id="whiteWinPctLarge" class="font-baroque text-3xl sm:text-4xl lg:text-5xl font-black text-white drop-shadow-[0_2px_12px_rgba(223,177,91,0.6)]">
@@ -610,7 +721,7 @@
 
                     <!-- Black Probability -->
                     <div class="text-center border-l border-gold-800/50 pl-4">
-                        <div class="flex items-center justify-center gap-1.5 text-xs font-cinzel font-bold text-slate-400 uppercase tracking-wider mb-1">
+                        <div class="flex items-center justify-center gap-1.5 text-xs font-cinzel font-bold text-slate-400 tracking-wider mb-1">
                             <span class="text-lg">♚</span> Black
                         </div>
                         <div id="blackWinPctLarge" class="font-baroque text-3xl sm:text-4xl lg:text-5xl font-black text-slate-300 drop-shadow-[0_2px_12px_rgba(255,255,255,0.2)]">
@@ -640,7 +751,7 @@
 
                 <!-- Positional Telemetry & Strategic Analysis Breakdown -->
                 <div class="space-y-3 pt-2 border-t border-gold-800/40">
-                    <div class="text-[11px] font-cinzel font-bold uppercase tracking-wider text-gold-400 flex items-center justify-between">
+                    <div class="text-[11px] font-cinzel font-bold tracking-wider text-gold-400 flex items-center justify-between">
                         <span><i class="fa-solid fa-chart-pie mr-1 text-gold-500"></i> Positional Telemetry</span>
                         <span id="depthTelemetry" class="text-[10px] font-mono text-gold-300/70">Calculus Engine v4.8</span>
                     </div>
@@ -721,7 +832,7 @@
                 <div class="corner-filigree bottom-right"></div>
 
                 <div class="flex items-center justify-between border-b border-gold-800/40 pb-3">
-                    <span class="font-cinzel text-xs font-bold tracking-wider text-gold-300 uppercase flex items-center gap-2">
+                    <span class="font-cinzel text-xs font-bold tracking-wider text-gold-300 flex items-center gap-2">
                         <i class="fa-solid fa-book-bookmark text-gold-400"></i> Royal Match Ledger
                     </span>
                     <button onclick="copyPGN()" class="text-[11px] text-gold-400 hover:text-gold-200 font-cinzel transition flex items-center gap-1">
@@ -782,7 +893,7 @@
                 <!-- Buttons injected dynamically with Queen, Rook, Bishop, Knight -->
             </div>
 
-            <p class="text-[10px] font-cinzel text-gold-400/60 uppercase tracking-wider">Ascension is irrevocable</p>
+            <p class="text-[10px] font-cinzel text-gold-400/60 tracking-wider">Ascension is irrevocable</p>
         </div>
     </div>
 
@@ -1708,7 +1819,6 @@
         let selectedSquare = null; // {r, c}
         let legalMovesForSelected = []; // Array of candidate moves
         let hoveredPieceMoves = []; // Array of candidate moves on hover
-        let boardFlipped = false;
         let isAiOpponent = false;
         let pendingPromotionMove = null;
 
@@ -1716,6 +1826,7 @@
         document.addEventListener('DOMContentLoaded', () => {
             renderBoard();
             updateEvaluationUI();
+            updateNextMovesAndStrategyUI();
             initSparkline();
             setupKeyboardShortcuts();
         });
@@ -1730,12 +1841,6 @@
                 icon.className = 'fa-solid fa-volume-xmark text-slate-500';
                 triggerToast('Audio Muted');
             }
-        }
-
-        function flipBoard() {
-            boardFlipped = !boardFlipped;
-            renderBoard();
-            triggerToast(boardFlipped ? "Perspective: Black" : "Perspective: White");
         }
 
         function toggleAIAutoOpponent() {
@@ -1764,11 +1869,8 @@
             const files = ['a', 'b', 'c', 'd', 'e', 'f', 'g', 'h'];
             const ranks = ['8', '7', '6', '5', '4', '3', '2', '1'];
 
-            for (let visualR = 0; visualR < 8; visualR++) {
-                for (let visualC = 0; visualC < 8; visualC++) {
-                    const r = boardFlipped ? (7 - visualR) : visualR;
-                    const c = boardFlipped ? (7 - visualC) : visualC;
-
+            for (let r = 0; r < 8; r++) {
+                for (let c = 0; c < 8; c++) {
                     const squareEl = document.createElement('div');
                     const isLight = (r + c) % 2 === 0;
                     squareEl.className = `square ${isLight ? 'light' : 'dark'}`;
@@ -1794,13 +1896,13 @@
                     }
 
                     // Coordinate labels on board borders
-                    if (visualR === 7) {
+                    if (r === 7) {
                         const fileLabel = document.createElement('span');
                         fileLabel.className = 'coord-label coord-file';
                         fileLabel.textContent = files[c];
                         squareEl.appendChild(fileLabel);
                     }
-                    if (visualC === 0) {
+                    if (c === 0) {
                         const rankLabel = document.createElement('span');
                         rankLabel.className = 'coord-label coord-rank';
                         rankLabel.textContent = ranks[r];
@@ -1848,9 +1950,7 @@
             const currentWinPct = game.turn === 'w' ? currentEval.whiteWinPct : currentEval.blackWinPct;
 
             activeMoves.forEach(move => {
-                const visualR = boardFlipped ? (7 - move.to.r) : move.to.r;
-                const visualC = boardFlipped ? (7 - move.to.c) : move.to.c;
-                const index = visualR * 8 + visualC;
+                const index = move.to.r * 8 + move.to.c;
                 const targetSquareEl = boardEl.children[index];
                 if (!targetSquareEl) return;
 
@@ -2047,16 +2147,18 @@
             legalMovesForSelected = [];
             hoveredPieceMoves = [];
             hideHoverInspector();
+            clearCandidateMovePreview();
 
             renderBoard();
             updateEvaluationUI();
+            updateNextMovesAndStrategyUI();
             updateMoveLog();
             updateSparkline();
 
             // Trigger GameOver announcement if finished
             if (game.isGameOver) {
                 setTimeout(() => {
-                    triggerToast(`⚜ MATCH CONCLUDED: ${game.gameResult}`);
+                    triggerToast(`⚜ Match Concluded: ${game.gameResult}`);
                 }, 300);
             } else if (isAiOpponent && game.turn === 'b') {
                 setTimeout(makeAutomatonMove, 500);
@@ -2067,8 +2169,10 @@
             if (game.undo()) {
                 selectedSquare = null;
                 legalMovesForSelected = [];
+                clearCandidateMovePreview();
                 renderBoard();
                 updateEvaluationUI();
+                updateNextMovesAndStrategyUI();
                 updateMoveLog();
                 updateSparkline();
                 triggerToast("Previous Move Restored");
@@ -2275,6 +2379,438 @@
             return map[piece] || '♟';
         }
 
+        /**
+         * =========================================================================
+         * NEXT MOVES CANDIDATES, PROBABILITIES & STRATEGIC ADVISOR
+         * =========================================================================
+         */
+
+        function getMoveStrategicDetails(state, move, pieceType, fromSq, toSq, isCapture, capturedPiece, isCheck, isCheckmate, delta) {
+            let tacticalReason = "";
+            let howToStrategize = "";
+
+            const pieceNames = { P: 'Pawn', N: 'Knight', B: 'Bishop', R: 'Rook', Q: 'Queen', K: 'King' };
+            const pName = pieceNames[pieceType] || 'Piece';
+            const capName = capturedPiece ? (pieceNames[capturedPiece[1]] || 'piece') : '';
+
+            // Checkmate
+            if (isCheckmate) {
+                tacticalReason = `Delivers immediate checkmate to the hostile king on ${toSq}.`;
+                howToStrategize = "Game over — sovereign victory achieved with flawless tactical execution.";
+                return { tacticalReason, howToStrategize };
+            }
+
+            // Check
+            if (isCheck) {
+                tacticalReason = `${pName} attacks the opposing monarch on ${toSq}, seizing tempo and forcing defense.`;
+                howToStrategize = "Maintain initiative: Look for follow-up fork or unpinning opportunities while the king escapes.";
+                return { tacticalReason, howToStrategize };
+            }
+
+            // Capture
+            if (isCapture) {
+                const capVal = PIECE_VALUES[capturedPiece ? capturedPiece[1] : 'P'] || 100;
+                const myVal = PIECE_VALUES[pieceType] || 100;
+                if (capVal > myVal) {
+                    tacticalReason = `Wins material supremacy by capturing enemy ${capName} on ${toSq} with lower-value ${pName}.`;
+                    howToStrategize = "Consolidate the material advantage: Protect the newly captured square and prepare to simplify.";
+                } else {
+                    tacticalReason = `Liquidates piece on ${toSq}, removing defender and opening lines of engagement.`;
+                    howToStrategize = "Recapture assessment: Ensure back-rank defense remains solid after the exchange.";
+                }
+                return { tacticalReason, howToStrategize };
+            }
+
+            // Castling
+            if (move.isCastling) {
+                if (move.to.c === 6) {
+                    tacticalReason = "Kingside Castle: Tucks king into fortified bastion and connects rooks along the central files.";
+                    howToStrategize = "Now that the king is secure, initiate central pawn breaks or push flank pawns safely.";
+                } else {
+                    tacticalReason = "Queenside Castle: Aggressive long castle mobilizing rook directly to d-file while safeguarding monarch.";
+                    howToStrategize = "Prepare opposite-side castling attack: Launch kingside pawn storm against enemy king shelter.";
+                }
+                return { tacticalReason, howToStrategize };
+            }
+
+            // Pawn Moves
+            if (pieceType === 'P') {
+                if (['e4', 'd4', 'e5', 'd5'].includes(toSq)) {
+                    tacticalReason = `Pawn thrust to ${toSq}: Claims dominant central outpost and stakes spatial supremacy.`;
+                    howToStrategize = "Support this central pawn with neighboring pawns (c3/f3 or c6/f6) and develop minor pieces behind it.";
+                } else if (['c4', 'f4', 'c5', 'f5'].includes(toSq)) {
+                    tacticalReason = `Flank pawn leverage on ${toSq}: Challenges opponent central pawn chain and opens diagonal channels.`;
+                    howToStrategize = "Use the tension to undermine opponent pawn structure or gain open c/f file for rook infiltration.";
+                } else if (move.promotion) {
+                    tacticalReason = `Ascends pawn on ${toSq} to Queen, decisively shifting material balance.`;
+                    howToStrategize = "Coordinate new Queen to coordinate unstoppable checkmating nets or mop up remaining pawns.";
+                } else {
+                    tacticalReason = `Advances pawn from ${fromSq} to ${toSq}, expanding territory and controlling adjacent files.`;
+                    howToStrategize = "Ensure advanced pawn does not become overextended or isolated from friendly protection.";
+                }
+                return { tacticalReason, howToStrategize };
+            }
+
+            // Knight Moves
+            if (pieceType === 'N') {
+                if (['f3', 'c3', 'f6', 'c6'].includes(toSq)) {
+                    tacticalReason = `Natural knight development to ${toSq}: Exerts vital pressure on central squares and coordinates defense.`;
+                    howToStrategize = "Ideal opening jump: Prepares swift castling while anchoring support for future central pawn advances.";
+                } else if (['d5', 'e5', 'd4', 'e4'].includes(toSq)) {
+                    tacticalReason = `Central Knight Outpost on ${toSq}: Anchors knight in the heart of opponent camp with devastating radiating scope.`;
+                    howToStrategize = "Support the outpost with pawns; a well-posted knight in the center often decides the middlegame.";
+                } else {
+                    tacticalReason = `Repositions knight to ${toSq}, maneuvering toward active attacking perches.`;
+                    howToStrategize = "Route towards weaknesses in opponent camp or defend key entry squares.";
+                }
+                return { tacticalReason, howToStrategize };
+            }
+
+            // Bishop Moves
+            if (pieceType === 'B') {
+                if (['c4', 'b5', 'g5', 'c5', 'b4', 'g4'].includes(toSq)) {
+                    tacticalReason = `Active Bishop placement on ${toSq}: Pins enemy pieces or lasers along critical long diagonals.`;
+                    howToStrategize = "Maintain diagonal pressure; prepare tactical sacrifices or pins to bind opponent mobility.";
+                } else if (['e2', 'd2', 'e7', 'd7'].includes(toSq)) {
+                    tacticalReason = `Harmonious bishop positioning on ${toSq}: Connects back rank and reinforces central bastions.`;
+                    howToStrategize = "Unblocks back rank so queen and rooks can coordinate quickly across files.";
+                } else {
+                    tacticalReason = `Deploys bishop to diagonal on ${toSq}, maximizing scope across opposing flanks.`;
+                    howToStrategize = "Coordinate bishop pair to slice across open diagonals in open and semi-open positions.";
+                }
+                return { tacticalReason, howToStrategize };
+            }
+
+            // Rook Moves
+            if (pieceType === 'R') {
+                if (['d1', 'e1', 'd8', 'e8', 'c1', 'c8', 'f1', 'f8'].includes(toSq)) {
+                    tacticalReason = `Rook alignment to ${toSq}: Seizes open/semi-open central file to control file entry.`;
+                    howToStrategize = "Double rooks on this open file to dominate entry to the 7th rank (pig on the 7th).";
+                } else {
+                    tacticalReason = `Activates heavy artillery to ${toSq}, exerting long-range lateral and vertical control.`;
+                    howToStrategize = "Position rooks behind passed pawns to escort them safely toward coronation.";
+                }
+                return { tacticalReason, howToStrategize };
+            }
+
+            // Queen Moves
+            if (pieceType === 'Q') {
+                if (delta > 0) {
+                    tacticalReason = `Queen activation to ${toSq}: Radiates multi-directional threats against unprotected opponent targets.`;
+                    howToStrategize = "Combine Queen with Bishop or Knight battery to form deadly mating and infiltration motifs.";
+                } else {
+                    tacticalReason = `Queen maneuver to ${toSq}, repositioning heavy firepower.`;
+                    howToStrategize = "Beware of enemy minor piece harassment; keep queen protected while maintaining offensive pressure.";
+                }
+                return { tacticalReason, howToStrategize };
+            }
+
+            // King Moves
+            if (pieceType === 'K') {
+                tacticalReason = `King shifts to ${toSq}: Steps out of pin or activates for endgame centralization.`;
+                howToStrategize = "In endgames, activate the king aggressively toward center; in middlegames, keep king tucked behind pawn shield.";
+                return { tacticalReason, howToStrategize };
+            }
+
+            tacticalReason = `Moves ${pName} from ${fromSq} to ${toSq}.`;
+            howToStrategize = "Maintain harmony across ranks and control open squares.";
+            return { tacticalReason, howToStrategize };
+        }
+
+        function generateCandidateMovesDetailed(state) {
+            const color = state.turn;
+            const currentEval = evaluateBoardDetailed(state);
+            const currentWinPct = color === 'w' ? currentEval.whiteWinPct : currentEval.blackWinPct;
+            const legalMoves = state.getAllLegalMoves(color);
+
+            const evaluated = legalMoves.map(move => {
+                const sim = state.clone();
+                sim.applyMoveInternal(move);
+                const simEval = evaluateBoardDetailed(sim);
+                const resultingWinPct = color === 'w' ? simEval.whiteWinPct : simEval.blackWinPct;
+                const delta = parseFloat((resultingWinPct - currentWinPct).toFixed(1));
+                const san = state.moveToSAN(move);
+                const isCapture = state.board[move.to.r][move.to.c] !== null || move.isEnPassant;
+                const capturedPiece = state.board[move.to.r][move.to.c];
+                const isCheck = sim.isInCheck(sim.turn);
+                const isCheckmate = sim.isGameOver && sim.gameResult && sim.gameResult.includes('Checkmate');
+
+                // Move Quality
+                let quality = 'Solid';
+                let qualityIcon = '⚖️';
+                let badgeClass = 'pct-neutral';
+                if (isCheckmate) {
+                    quality = 'Checkmate';
+                    qualityIcon = '👑';
+                    badgeClass = 'pct-brilliant';
+                } else if (delta >= 4.0) {
+                    quality = 'Brilliant';
+                    qualityIcon = '💎';
+                    badgeClass = 'pct-brilliant';
+                } else if (delta >= 0.0) {
+                    quality = 'Good';
+                    qualityIcon = '✨';
+                    badgeClass = 'pct-good';
+                } else if (delta >= -5.0) {
+                    quality = 'Solid';
+                    qualityIcon = '⚖️';
+                    badgeClass = 'pct-neutral';
+                } else if (delta >= -14.0) {
+                    quality = 'Inaccuracy';
+                    qualityIcon = '⚠️';
+                    badgeClass = 'pct-inaccuracy';
+                } else {
+                    quality = 'Blunder';
+                    qualityIcon = '💀';
+                    badgeClass = 'pct-blunder';
+                }
+
+                const piece = state.board[move.from.r][move.from.c];
+                const pieceType = piece ? piece[1] : 'P';
+                const files = ['a', 'b', 'c', 'd', 'e', 'f', 'g', 'h'];
+                const ranks = ['8', '7', '6', '5', '4', '3', '2', '1'];
+                const fromSq = files[move.from.c] + ranks[move.from.r];
+                const toSq = files[move.to.c] + ranks[move.to.r];
+
+                const { tacticalReason, howToStrategize } = getMoveStrategicDetails(
+                    state, move, pieceType, fromSq, toSq, isCapture, capturedPiece, isCheck, isCheckmate, delta
+                );
+
+                return {
+                    move,
+                    san,
+                    fromSq,
+                    toSq,
+                    from: move.from,
+                    to: move.to,
+                    piece,
+                    pieceType,
+                    resultingWinPct,
+                    delta,
+                    quality,
+                    qualityIcon,
+                    badgeClass,
+                    isCapture,
+                    isCheck,
+                    isCheckmate,
+                    tacticalReason,
+                    howToStrategize
+                };
+            });
+
+            evaluated.sort((a, b) => b.resultingWinPct - a.resultingWinPct);
+            return evaluated;
+        }
+
+        function generateStrategicCounsel(state, candidateMoves) {
+            const ply = state.history.length;
+            const evalData = evaluateBoardDetailed(state);
+            const myTurn = state.turn;
+            const isAhead = (myTurn === 'w' && evalData.score > 0.8) || (myTurn === 'b' && evalData.score < -0.8);
+            const isBehind = (myTurn === 'w' && evalData.score < -0.8) || (myTurn === 'b' && evalData.score > 0.8);
+
+            let phaseTitle = "Opening Principles";
+            let directive = "Seize central territory (e4, d4), mobilize knights and bishops toward active squares, safeguard the king through early castling, and avoid premature queen lunges.";
+            let points = [
+                "Control Center (e4/d4)",
+                "Develop Minor Pieces",
+                "Castle Early for Safety"
+            ];
+
+            if (state.isGameOver) {
+                phaseTitle = "Match Concluded";
+                directive = state.gameResult || "Match concluded.";
+                points = ["Match Ended", "Review Move History", "Start New Match"];
+                return { phaseTitle, directive, points };
+            }
+
+            if (ply <= 10) {
+                phaseTitle = "Opening Phase";
+                directive = "Focus on rapid harmonious piece mobilization. Establish pawn anchors in the center, develop knights before bishops, unblock the back rank, and prepare king shelter via castling.";
+                points = [
+                    "Stake Center Foothold",
+                    "Mobilize Knights & Bishops",
+                    "Connect Rooks with Castle"
+                ];
+            } else if (ply <= 26) {
+                phaseTitle = "Middlegame Strife";
+                if (isAhead) {
+                    directive = "Consolidate your advantage: Provoke favorable piece exchanges to neutralize enemy counterplay, conquer open central files with rooks, and target isolated opponent weaknesses.";
+                    points = [
+                        "Simplify via Trades",
+                        "Control Open Files",
+                        "Restrict Counterplay"
+                    ];
+                } else if (isBehind) {
+                    directive = "Create tactical complications: Avoid passive trades, activate all remaining pieces toward opponent weaknesses, look for knight outposts, and seek pins or king counter-attacks.";
+                    points = [
+                        "Avoid Passive Trades",
+                        "Seek Tactical Pins/Forks",
+                        "Counter-Attack Weaknesses"
+                    ];
+                } else {
+                    directive = "Intense Positional Equilibrium: Coordinate piece harmony, battle for key central outposts, improve your least active piece, and time a breakthrough pawn lever.";
+                    points = [
+                        "Improve Worst Piece",
+                        "Rook Infiltration on Files",
+                        "Pawn Break Timing"
+                    ];
+                }
+            } else {
+                phaseTitle = "Endgame Mastery";
+                if (isAhead) {
+                    directive = "Endgame Conversion: March the King toward the center, escort your passed pawns safely toward coronation, cut off the enemy monarch, and avoid stalemate traps.";
+                    points = [
+                        "Centralize the King",
+                        "Push Passed Pawns",
+                        "Cut Off Hostile King"
+                    ];
+                } else {
+                    directive = "Defensive Endgame Fortress: Keep king active in the path of enemy pawns, trade off dangerous passed pawns, and maintain piece mobility to enforce draw by repetition or stalemate.";
+                    points = [
+                        "Active King Defense",
+                        "Blockade Passed Pawns",
+                        "Seek Stalemate / Repetition"
+                    ];
+                }
+            }
+
+            return { phaseTitle, directive, points };
+        }
+
+        function updateNextMovesAndStrategyUI() {
+            const listEl = document.getElementById('candidateMovesList');
+            const countBadge = document.getElementById('candidateMovesCountBadge');
+            const subtitleEl = document.getElementById('activeTurnStrategySubtitle');
+            const phaseBadge = document.getElementById('strategicPhaseBadge');
+            const directiveEl = document.getElementById('strategicDirectiveText');
+            const p1 = document.getElementById('stratPoint1');
+            const p2 = document.getElementById('stratPoint2');
+            const p3 = document.getElementById('stratPoint3');
+
+            if (!listEl) return;
+
+            if (game.isGameOver) {
+                listEl.innerHTML = `<div class="text-gold-400/80 font-serif italic py-2">Match concluded. Click "New Match" to begin a fresh game.</div>`;
+                if (countBadge) countBadge.textContent = '0 Paths';
+                if (subtitleEl) subtitleEl.textContent = `Match Result: ${game.gameResult}`;
+                if (phaseBadge) phaseBadge.textContent = "Concluded";
+                if (directiveEl) directiveEl.textContent = `Match finished: ${game.gameResult}. Reset board or load a new position to analyze next moves.`;
+                return;
+            }
+
+            const candidates = generateCandidateMovesDetailed(game);
+            const counsel = generateStrategicCounsel(game, candidates);
+
+            // Update Counts & Directives
+            if (countBadge) countBadge.textContent = `${candidates.length} Legal Paths`;
+            if (subtitleEl) subtitleEl.textContent = `${game.turn === 'w' ? "White" : "Black"}'s turn — Hover any move for tactical & strategic breakdown`;
+            if (phaseBadge) phaseBadge.textContent = counsel.phaseTitle;
+            if (directiveEl) directiveEl.textContent = counsel.directive;
+            if (p1 && counsel.points[0]) p1.textContent = counsel.points[0];
+            if (p2 && counsel.points[1]) p2.textContent = counsel.points[1];
+            if (p3 && counsel.points[2]) p3.textContent = counsel.points[2];
+
+            // Render Candidate Move Cards (top 8 candidate moves)
+            listEl.innerHTML = '';
+            const topCandidates = candidates.slice(0, 8);
+
+            topCandidates.forEach((cand, idx) => {
+                const card = document.createElement('div');
+                card.className = 'candidate-move-card';
+
+                const pieceSymbol = cand.piece ? getPieceSymbol(cand.piece) : '♟';
+                const rankBadge = idx === 0 ? `<span class="text-[9px] font-bold text-amber-300 bg-amber-950/80 px-1 py-0.2 rounded border border-amber-600/50">#1 Best</span>` : '';
+
+                card.innerHTML = `
+                    <span class="text-base">${pieceSymbol}</span>
+                    <div class="flex flex-col leading-tight">
+                        <div class="flex items-center gap-1 font-mono font-bold text-xs text-gold-100">
+                            <span>${cand.san}</span>
+                            ${rankBadge}
+                        </div>
+                        <div class="flex items-center gap-1 text-[10px] font-mono">
+                            <span class="text-white font-bold">${cand.resultingWinPct.toFixed(0)}%</span>
+                            <span class="${cand.delta >= 0 ? 'text-emerald-400' : 'text-amber-400'} font-bold">(${cand.delta >= 0 ? '+' : ''}${cand.delta.toFixed(1)}%)</span>
+                        </div>
+                    </div>
+
+                    <!-- Rich Strategic Tooltip Box -->
+                    <div class="move-tooltip-box">
+                        <div class="flex items-center justify-between border-b border-gold-700/50 pb-1.5 mb-2 text-xs">
+                            <span class="font-cinzel font-bold text-gold-200 flex items-center gap-1.5">
+                                <span class="text-amber-400 font-serif text-sm">${pieceSymbol}</span> Move: <strong class="text-white font-mono">${cand.san}</strong>
+                            </span>
+                            <span class="px-1.5 py-0.5 rounded text-[10px] font-mono font-bold ${cand.badgeClass}">
+                                ${cand.qualityIcon} ${cand.resultingWinPct.toFixed(1)}% Win
+                            </span>
+                        </div>
+
+                        <div class="space-y-1.5 text-[11px] font-serif">
+                            <div class="text-gold-200/95 leading-snug">
+                                <strong class="text-gold-400 font-cinzel text-[10px]">Tactical Rationale:</strong><br/>
+                                ${cand.tacticalReason}
+                            </div>
+                            <div class="text-gold-100/90 leading-snug pt-1 border-t border-gold-900/50">
+                                <strong class="text-amber-300 font-cinzel text-[10px]">How to Strategize:</strong><br/>
+                                ${cand.howToStrategize}
+                            </div>
+                            <div class="flex items-center justify-between text-[10px] font-mono text-gold-400/80 pt-1 border-t border-gold-900/40">
+                                <span>Path: ${cand.fromSq} ➔ ${cand.toSq}</span>
+                                <span class="${cand.delta >= 0 ? 'text-emerald-400' : 'text-amber-400'} font-bold">${cand.delta >= 0 ? '+' : ''}${cand.delta.toFixed(1)}% Delta</span>
+                            </div>
+                        </div>
+                    </div>
+                `;
+
+                // Interactive Hover on Candidate Move: Highlight board squares & show preview
+                card.addEventListener('mouseenter', () => {
+                    previewCandidateMoveOnBoard(cand.from, cand.to);
+                });
+                card.addEventListener('mouseleave', () => {
+                    clearCandidateMovePreview();
+                });
+
+                // Clicking candidate move commits or selects it
+                card.addEventListener('click', () => {
+                    executeCandidateMove(cand.move);
+                });
+
+                listEl.appendChild(card);
+            });
+        }
+
+        function previewCandidateMoveOnBoard(from, to) {
+            clearCandidateMovePreview();
+            const boardEl = document.getElementById('chessBoard');
+            if (!boardEl) return;
+
+            const fromIndex = from.r * 8 + from.c;
+            const toIndex = to.r * 8 + to.c;
+
+            if (boardEl.children[fromIndex]) {
+                boardEl.children[fromIndex].classList.add('preview-from');
+            }
+            if (boardEl.children[toIndex]) {
+                boardEl.children[toIndex].classList.add('preview-to');
+            }
+        }
+
+        function clearCandidateMovePreview() {
+            document.querySelectorAll('.square.preview-from').forEach(el => el.classList.remove('preview-from'));
+            document.querySelectorAll('.square.preview-to').forEach(el => el.classList.remove('preview-to'));
+        }
+
+        function executeCandidateMove(move) {
+            clearCandidateMovePreview();
+            if (move.promotion) {
+                pendingPromotionMove = [move];
+                openPromotionModal(game.turn);
+            } else {
+                executeMove(move);
+            }
+        }
+
         function updateMoveLog() {
             const list = document.getElementById('moveLogList');
             if (game.history.length === 0) {
@@ -2404,41 +2940,15 @@
             }
         }
 
-        /**
-         * =========================================================================
-         * OPENING PRESETS & UTILITIES
-         * =========================================================================
-         */
-
-        const OPENING_FENS = {
-            ruy_lopez: "r1bqkbnr/pppp1ppp/2n5/1B2p3/4P3/5N2/PPPP1PPP/RNBQK2R b KQkq - 3 3",
-            sicilian: "rnbqkbnr/pp1ppppp/8/2p5/4P3/8/PPPP1PPP/RNBQKBNR w KQkq c6 0 2",
-            queens_gambit: "rnbqkbnr/ppp1pppp/8/3p4/2PP4/8/PP2PPPP/RNBQKBNR b KQkq c3 0 2",
-            italian: "r1bqk1nr/pppp1ppp/2n5/2b1p3/2B1P3/5N2/PPPP1PPP/RNBQK2R w KQkq - 4 4",
-            scholars_mate_threat: "r1bqkb1r/pppp1ppp/2n5/4p2Q/2B1P3/8/PPPP1PPP/RNB1K1NR b KQkq - 3 3"
-        };
-
-        function loadOpening(name) {
-            const fen = OPENING_FENS[name];
-            if (fen) {
-                game.loadFEN(fen);
-                selectedSquare = null;
-                legalMovesForSelected = [];
-                renderBoard();
-                updateEvaluationUI();
-                updateMoveLog();
-                updateSparkline();
-                triggerToast(`Loaded opening preset: ${name.replace('_', ' ').toUpperCase()}`);
-            }
-        }
-
         function resetGameModal() {
             game.reset();
             selectedSquare = null;
             legalMovesForSelected = [];
             hoveredPieceMoves = [];
+            clearCandidateMovePreview();
             renderBoard();
             updateEvaluationUI();
+            updateNextMovesAndStrategyUI();
             updateMoveLog();
             updateSparkline();
             triggerToast("Grand Match Reset to Initial Array");
@@ -2479,8 +2989,10 @@
                 closeCustomFENModal();
                 selectedSquare = null;
                 legalMovesForSelected = [];
+                clearCandidateMovePreview();
                 renderBoard();
                 updateEvaluationUI();
+                updateNextMovesAndStrategyUI();
                 updateMoveLog();
                 updateSparkline();
                 triggerToast("Custom FEN Loaded Successfully");
@@ -2494,8 +3006,6 @@
                 if (e.target.tagName === 'INPUT') return;
                 if (e.key === 'z' || e.key === 'Z') {
                     undoMove();
-                } else if (e.key === 'f' || e.key === 'F') {
-                    flipBoard();
                 }
             });
         }
