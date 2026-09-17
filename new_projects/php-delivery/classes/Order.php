@@ -9,6 +9,12 @@ class Order {
     public string $placedAtFormatted;   // Human-readable string e.g. "6:42 PM"
     public int $targetReadyAt;          // Absolute target readiness epoch (in milliseconds)
     public int $totalDurationMs;        // Total preparation duration (ms)
+    public int $baseCookMinutes;        // Base cook time for selected dish (mins)
+    public int $surgeAdjustmentMinutes; // Time-of-day surge (+10, -10, or 0)
+    public string $surgeStatus;         // 'PEAK', 'SLOW', or 'STANDARD'
+    public string $surgeLabel;          // Human description e.g. "Peak Dinner Rush (+10 mins)"
+    public string $surgeMarker;         // Visual badge text e.g. "🔥 PEAK RUSH (+10m)"
+    public string $selectedOptionId;    // e.g. "option-soppressata"
     public array $customer;
     public array $store;
     public array $items;
@@ -16,11 +22,20 @@ class Order {
     public int $currentStageId;
 
     public function __construct(array $data) {
-        $this->orderNumber = $data['orderNumber'] ?? '#FG-84920';
+        $this->orderNumber = $data['orderNumber'] ?? '#FG-' . rand(10000, 99999);
         $this->placedAt = (int)($data['placedAt'] ?? (time() * 1000));
         $this->placedAtFormatted = $data['placedAtFormatted'] ?? date('g:i A', (int)($this->placedAt / 1000));
-        $this->totalDurationMs = (int)($data['totalDurationMs'] ?? (22 * 60 * 1000));
+        $this->baseCookMinutes = (int)($data['baseCookMinutes'] ?? 18);
+        $this->surgeAdjustmentMinutes = (int)($data['surgeAdjustmentMinutes'] ?? 0);
+        $this->surgeStatus = $data['surgeStatus'] ?? 'STANDARD';
+        $this->surgeLabel = $data['surgeLabel'] ?? 'Standard Kitchen Pace (±0 mins)';
+        $this->surgeMarker = $data['surgeMarker'] ?? '🟡 STANDARD PACE (±0m)';
+        $this->selectedOptionId = $data['selectedOptionId'] ?? 'option-soppressata';
+        
+        $calcDurationMs = max(5 * 60 * 1000, ($this->baseCookMinutes + $this->surgeAdjustmentMinutes) * 60 * 1000);
+        $this->totalDurationMs = (int)($data['totalDurationMs'] ?? $calcDurationMs);
         $this->targetReadyAt = (int)($data['targetReadyAt'] ?? ($this->placedAt + $this->totalDurationMs));
+        
         $this->customer = $data['customer'] ?? [];
         $this->store = $data['store'] ?? [];
         $this->items = $data['items'] ?? [];
@@ -60,6 +75,12 @@ class Order {
             'placedAtFormatted' => $this->placedAtFormatted,
             'targetReadyAt' => $this->targetReadyAt,
             'totalDurationMs' => $this->totalDurationMs,
+            'baseCookMinutes' => $this->baseCookMinutes,
+            'surgeAdjustmentMinutes' => $this->surgeAdjustmentMinutes,
+            'surgeStatus' => $this->surgeStatus,
+            'surgeLabel' => $this->surgeLabel,
+            'surgeMarker' => $this->surgeMarker,
+            'selectedOptionId' => $this->selectedOptionId,
             'customer' => $this->customer,
             'store' => $this->store,
             'items' => $this->items,

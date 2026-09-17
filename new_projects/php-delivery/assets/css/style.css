@@ -23,7 +23,7 @@
   --honey-gold: #F5A623;
   --honey-gold-glow: rgba(245, 166, 35, 0.2);
   --charcoal-border: rgba(255, 255, 255, 0.08);
-  --charcoal-border-focus: rgba(255, 255, 255, 0.18);
+  --charcoal-border-focus: rgba(255, 255, 255, 0.22);
 
   /* Typography */
   --font-sans: 'Plus Jakarta Sans', system-ui, -apple-system, sans-serif;
@@ -52,8 +52,8 @@ body {
   min-height: 100vh;
   -webkit-font-smoothing: antialiased;
   background-image: 
-    radial-gradient(circle at 20% 10%, rgba(217, 56, 30, 0.04) 0%, transparent 40%),
-    radial-gradient(circle at 80% 80%, rgba(245, 166, 35, 0.03) 0%, transparent 40%);
+    radial-gradient(circle at 20% 10%, rgba(217, 56, 30, 0.05) 0%, transparent 40%),
+    radial-gradient(circle at 80% 80%, rgba(245, 166, 35, 0.04) 0%, transparent 40%);
   background-attachment: fixed;
 }
 
@@ -157,14 +157,16 @@ body {
   transform: scale(0.96);
 }
 
-.btn-outline-gold {
-  background: transparent;
-  color: var(--honey-gold);
-  border: 1px solid rgba(245, 166, 35, 0.4);
+.btn-accent-gold {
+  background: linear-gradient(135deg, var(--honey-gold), #D97706);
+  color: #111215;
+  font-weight: 800;
+  border: none;
+  box-shadow: 0 4px 15px var(--honey-gold-glow);
 }
-.btn-outline-gold:hover {
-  background: rgba(245, 166, 35, 0.1);
-  border-color: var(--honey-gold);
+.btn-accent-gold:hover {
+  background: linear-gradient(135deg, #FBBF24, #B45309);
+  box-shadow: 0 6px 20px rgba(245, 166, 35, 0.4);
 }
 
 /* Badges */
@@ -203,6 +205,131 @@ body {
   background: rgba(255, 255, 255, 0.06);
   color: var(--text-secondary);
   border: 1px solid var(--charcoal-border);
+}
+
+/* Time-of-Day Activity Surge Markers */
+.surge-indicator-box {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0.85rem 1.25rem;
+  border-radius: var(--radius-sm);
+  margin-bottom: 1.25rem;
+  font-size: 0.85rem;
+  transition: all 0.3s ease;
+}
+
+.surge-box-peak {
+  background: linear-gradient(135deg, rgba(217, 56, 30, 0.15), rgba(24, 26, 32, 0.9));
+  border: 1px solid rgba(217, 56, 30, 0.4);
+  box-shadow: 0 0 20px rgba(217, 56, 30, 0.15);
+}
+
+.surge-box-slow {
+  background: linear-gradient(135deg, rgba(27, 138, 90, 0.15), rgba(24, 26, 32, 0.9));
+  border: 1px solid rgba(27, 138, 90, 0.4);
+  box-shadow: 0 0 20px rgba(27, 138, 90, 0.15);
+}
+
+.surge-box-standard {
+  background: linear-gradient(135deg, rgba(245, 166, 35, 0.12), rgba(24, 26, 32, 0.9));
+  border: 1px solid rgba(245, 166, 35, 0.3);
+}
+
+/* Menu Option Cards in Wizard / Creator */
+.menu-options-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(min(100%, 280px), 1fr));
+  gap: 1rem;
+  margin: 1.25rem 0;
+}
+
+.menu-option-card {
+  background: var(--bg-surface);
+  border: 2px solid var(--charcoal-border);
+  border-radius: var(--radius-md);
+  padding: 1.25rem;
+  cursor: pointer;
+  transition: all 0.2s cubic-bezier(0.16, 1, 0.3, 1);
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  position: relative;
+  overflow: hidden;
+}
+
+.menu-option-card:hover {
+  background: var(--bg-surface-elevated);
+  border-color: rgba(245, 166, 35, 0.4);
+  transform: translateY(-2px);
+  box-shadow: 0 8px 25px rgba(0, 0, 0, 0.4);
+}
+
+.menu-option-card.selected {
+  background: linear-gradient(145deg, rgba(245, 166, 35, 0.1), var(--bg-surface-elevated));
+  border-color: var(--honey-gold);
+  box-shadow: 0 0 0 2px rgba(245, 166, 35, 0.4), 0 8px 25px rgba(245, 166, 35, 0.15);
+}
+
+.menu-option-card.selected::after {
+  content: '✓ SELECTED';
+  position: absolute;
+  top: 10px;
+  right: 10px;
+  font-family: var(--font-mono);
+  font-size: 0.65rem;
+  font-weight: 800;
+  background: var(--honey-gold);
+  color: #111215;
+  padding: 0.2rem 0.5rem;
+  border-radius: var(--radius-full);
+}
+
+.option-cook-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.3rem;
+  font-family: var(--font-mono);
+  font-size: 0.75rem;
+  font-weight: 800;
+  background: rgba(245, 166, 35, 0.15);
+  color: var(--honey-gold);
+  padding: 0.2rem 0.6rem;
+  border-radius: var(--radius-sm);
+  border: 1px solid rgba(245, 166, 35, 0.3);
+}
+
+/* Time-of-Day Filter Tabs */
+.time-pills-container {
+  display: flex;
+  gap: 0.5rem;
+  flex-wrap: wrap;
+  margin-top: 0.75rem;
+}
+
+.time-pill-btn {
+  background: var(--bg-surface-elevated);
+  border: 1px solid var(--charcoal-border);
+  color: var(--text-secondary);
+  font-family: var(--font-mono);
+  font-size: 0.75rem;
+  font-weight: 600;
+  padding: 0.4rem 0.8rem;
+  border-radius: var(--radius-full);
+  cursor: pointer;
+  transition: all 0.15s ease;
+}
+
+.time-pill-btn:hover {
+  background: var(--bg-surface-hover);
+  color: #FFF;
+}
+
+.time-pill-btn.active {
+  background: var(--honey-gold);
+  color: #111215;
+  border-color: var(--honey-gold);
+  font-weight: 800;
 }
 
 /* Animations */
@@ -248,15 +375,15 @@ body {
   }
 }
 
-/* Receipt Modal Styles */
+/* Modal Overlay & Papers */
 .modal-overlay {
   position: fixed;
   top: 0;
   left: 0;
   width: 100%;
   height: 100%;
-  background: rgba(10, 11, 14, 0.8);
-  backdrop-filter: blur(8px);
+  background: rgba(10, 11, 14, 0.85);
+  backdrop-filter: blur(10px);
   display: flex;
   align-items: center;
   justify-content: center;
@@ -264,12 +391,26 @@ body {
   padding: 1rem;
   opacity: 0;
   pointer-events: none;
-  transition: opacity 0.2s ease;
+  transition: opacity 0.25s ease;
 }
 
 .modal-overlay.active {
   opacity: 1;
   pointer-events: auto;
+}
+
+.order-creator-paper {
+  background: var(--bg-surface);
+  border: 1px solid var(--charcoal-border-focus);
+  color: var(--text-primary);
+  width: 100%;
+  max-width: 860px;
+  border-radius: var(--radius-lg);
+  padding: clamp(1.5rem, 3vw, 2.25rem);
+  box-shadow: 0 30px 60px rgba(0, 0, 0, 0.8);
+  position: relative;
+  max-height: 92vh;
+  overflow-y: auto;
 }
 
 .receipt-paper {

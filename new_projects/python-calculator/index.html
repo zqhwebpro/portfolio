@@ -4,15 +4,15 @@
 <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Python Chess Tutor — python.org Chess Calculus &amp; Live Guide</title>
+    <title>Chess Tutora &amp; Calculatus — Grandmaster Salon &amp; Tactical Engine</title>
     <meta name="description"
-        content="A streamlined python.org chess tutor and calculus engine. Study move-by-move chess principles, test bad moves, and analyze winning probabilities." />
+        content="An atmospheric Grandmaster's chess salon and tactical calculus engine. Explore strategic move concepts, candidate continuations, and real-time winning probabilities." />
 
-    <!-- Google Fonts: Plus Jakarta Sans, Inter, Fira Code -->
+    <!-- Google Fonts: Cinzel, Cormorant Garamond, Plus Jakarta Sans, Fira Code -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link
-        href="https://fonts.googleapis.com/css2?family=Fira+Code:wght@400;500;600;700&family=Inter:wght@400;500;600;700&family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap"
+        href="https://fonts.googleapis.com/css2?family=Cinzel:wght@500;600;700;800;900&family=Cormorant+Garamond:ital,wght@0,500;0,600;0,700;1,400;1,600&family=Fira+Code:wght@400;500;600;700&family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap"
         rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css" />
 
@@ -24,19 +24,24 @@
             theme: {
                 extend: {
                     colors: {
-                        py: {
-                            blue: '#306998',
-                            blueDark: '#1e334d',
-                            blueDeep: '#0f1d2d',
-                            yellow: '#ffd343',
-                            yellowLight: '#ffe873',
-                            bg: '#0c1521',
-                            card: '#132235',
-                            border: '#2a4768'
+                        salon: {
+                            woodDark: '#140E0B',
+                            woodMid: '#221813',
+                            woodLight: '#32231B',
+                            gold: '#D4AF37',
+                            goldLight: '#F3E5AB',
+                            goldMuted: '#9D7E2B',
+                            parchment: '#F5EFE6',
+                            parchmentDark: '#E4D8C5',
+                            border: '#3E2D22',
+                            velvetRed: '#6B1724',
+                            emerald: '#1C3B2B'
                         }
                     },
                     fontFamily: {
-                        sans: ['"Plus Jakarta Sans"', '"Inter"', 'system-ui', 'sans-serif'],
+                        cinzel: ['"Cinzel"', 'serif'],
+                        serif: ['"Cormorant Garamond"', 'serif'],
+                        sans: ['"Plus Jakarta Sans"', 'system-ui', 'sans-serif'],
                         mono: ['"Fira Code"', 'Consolas', 'Monaco', 'monospace'],
                     }
                 }
@@ -46,51 +51,53 @@
 
     <style>
         :root {
-            --py-blue: #306998;
-            --py-blue-dark: #1e334d;
-            --py-yellow: #ffd343;
-            --board-light: #e6eef5;
-            --board-dark: #2b537d;
+            --salon-gold: #D4AF37;
+            --salon-gold-light: #F3E5AB;
+            --board-light: #F4EDE2;
+            --board-dark: #826344;
+            --wood-bg: #140E0B;
+            --wood-card: #221813;
+            --wood-border: #3E2D22;
         }
 
         body {
-            background: radial-gradient(circle at 50% 0%, #16283d 0%, #0c1521 65%, #070d15 100%);
-            color: #f1f5f9;
+            background: radial-gradient(circle at 50% 0%, #2A1D17 0%, #170F0C 55%, #0D0806 100%);
+            color: #F5EFE6;
             min-height: 100vh;
-            font-family: 'Plus Jakarta Sans', 'Inter', sans-serif;
+            font-family: 'Plus Jakarta Sans', sans-serif;
             font-size: 13px;
             line-height: 1.45;
         }
 
-        /* Streamlined Cards */
-        .py-card {
-            background: #132235;
-            border: 1px solid #284464;
-            border-radius: 10px;
-            box-shadow: 0 4px 20px -4px rgba(0, 0, 0, 0.65);
+        /* Grandmaster Salon Cards */
+        .salon-card {
+            background: #201712;
+            border: 1px solid #3E2D22;
+            border-radius: 12px;
+            box-shadow: 0 8px 30px -6px rgba(0, 0, 0, 0.75), 0 0 0 1px rgba(212, 175, 55, 0.08) inset;
         }
 
         /* Chess Board Chassis */
         .board-chassis {
-            padding: 10px;
-            background: #111d2c;
-            border: 2px solid #306998;
-            border-radius: 12px;
-            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.8), 0 0 0 1px rgba(255, 211, 67, 0.2) inset;
+            padding: 12px;
+            background: #17100C;
+            border: 2px solid #826344;
+            border-radius: 14px;
+            box-shadow: 0 15px 35px rgba(0, 0, 0, 0.85), 0 0 0 2px rgba(212, 175, 55, 0.3) inset;
         }
 
         .board-grid {
             display: grid;
             grid-template-columns: repeat(8, minmax(0, 1fr));
             grid-template-rows: repeat(8, minmax(0, 1fr));
-            border: 1.5px solid #1e334d;
+            border: 2px solid #3E2D22;
             aspect-ratio: 1 / 1;
             width: 100%;
             max-width: 480px;
             margin: 0 auto;
             position: relative;
             user-select: none;
-            border-radius: 4px;
+            border-radius: 6px;
             overflow: hidden;
         }
 
@@ -104,50 +111,46 @@
         }
 
         .square.light {
-            background: #e6eef5;
-            color: #1e334d;
+            background: var(--board-light);
+            color: #2C1E13;
         }
 
         .square.dark {
-            background: #2b537d;
-            color: #d9ebf9;
+            background: var(--board-dark);
+            color: #F4EDE2;
         }
 
         .square.selected {
-            background: #ffd343 !important;
-            box-shadow: inset 0 0 10px rgba(212, 164, 0, 0.8);
+            background: #D4AF37 !important;
+            box-shadow: inset 0 0 12px rgba(138, 100, 15, 0.8);
         }
 
         .square.last-move {
-            background: #3e73a3 !important;
+            background: #A67C52 !important;
         }
 
         .square.in-check {
-            background: #dc2626 !important;
-            animation: pulse-check 1.2s infinite alternate;
-        }
-
-        .square.threat-danger {
-            box-shadow: inset 0 0 8px rgba(239, 68, 68, 0.9) !important;
+            background: #80182A !important;
+            animation: pulse-check 1.4s infinite alternate;
         }
 
         .square.bad-mode-target {
-            box-shadow: inset 0 0 0 1.5px rgba(255, 211, 67, 0.45);
+            box-shadow: inset 0 0 0 1.5px rgba(212, 175, 55, 0.4);
         }
 
         .square.bad-mode-target:hover {
-            background: rgba(255, 211, 67, 0.3) !important;
+            background: rgba(212, 175, 55, 0.25) !important;
         }
 
         @keyframes pulse-check {
-            0% { background: #dc2626; }
-            100% { background: #991b1b; }
+            0% { background: #80182A; }
+            100% { background: #520F1B; }
         }
 
-        /* Chess Pieces */
+        /* Authentic Staunton Chess Pieces */
         .chess-piece {
-            width: 82%;
-            height: 82%;
+            width: 86%;
+            height: 86%;
             display: flex;
             align-items: center;
             justify-content: center;
@@ -158,7 +161,12 @@
         .chess-piece svg {
             width: 100%;
             height: 100%;
-            filter: drop-shadow(0 2px 3px rgba(0, 0, 0, 0.65));
+            filter: drop-shadow(0 3px 4px rgba(0, 0, 0, 0.7));
+            transition: transform 0.15s ease;
+        }
+
+        .square:hover .chess-piece svg {
+            transform: scale(1.05);
         }
 
         /* Target Overlays */
@@ -176,16 +184,16 @@
             width: 22px;
             height: 22px;
             border-radius: 50%;
-            background: rgba(48, 105, 152, 0.55);
-            border: 1.5px solid #ffd343;
+            background: rgba(212, 175, 55, 0.45);
+            border: 1.5px solid #F3E5AB;
         }
 
         .target-ring.capture {
             width: 100%;
             height: 100%;
             border-radius: 0;
-            border: 3px solid #ef4444;
-            background: rgba(239, 68, 68, 0.2);
+            border: 3px solid #D4AF37;
+            background: rgba(212, 175, 55, 0.2);
         }
 
         .pct-badge {
@@ -203,165 +211,156 @@
             z-index: 25;
         }
 
-        .pct-good { background: #15803d; color: #fff; }
-        .pct-neutral { background: #1e293b; color: #cbd5e1; }
-        .pct-blunder { background: #b91c1c; color: #fff; }
+        .pct-good { background: #1C3B2B; color: #F3E5AB; border: 1px solid #2D5D44; }
+        .pct-neutral { background: #2A1D17; color: #E4D8C5; border: 1px solid #3E2D22; }
+        .pct-blunder { background: #4A1A1E; color: #F5D0D5; border: 1px solid #6E262C; }
 
         /* Coordinate Labels */
         .coord-label {
             position: absolute;
             font-size: 9px;
             font-weight: 700;
-            font-family: 'Fira Code', monospace;
+            font-family: 'Cinzel', serif;
             pointer-events: none;
-            opacity: 0.75;
+            opacity: 0.7;
         }
         .coord-file { bottom: 1px; right: 2px; }
         .coord-rank { top: 1px; left: 2px; }
 
         /* Buttons */
         .btn-base {
-            padding: 5px 10px;
-            border-radius: 6px;
+            padding: 6px 12px;
+            border-radius: 8px;
             font-size: 12px;
             font-weight: 600;
             transition: all 0.15s ease;
             display: inline-flex;
             align-items: center;
-            gap: 5px;
+            gap: 6px;
             user-select: none;
             border: 1px solid transparent;
         }
 
         .btn-default {
-            background: #1c2e42;
-            border-color: #2f4b6e;
-            color: #dbe7f3;
+            background: #2B1E17;
+            border-color: #4A3528;
+            color: #E4D8C5;
         }
         .btn-default:hover {
-            background: #253d59;
-            border-color: #3f6492;
-            color: #ffffff;
+            background: #38271E;
+            border-color: #D4AF37;
+            color: #FFFFFF;
         }
 
-        .btn-yellow {
-            background: #ffd343;
-            color: #0f1d2d;
+        .btn-gold {
+            background: linear-gradient(135deg, #D4AF37 0%, #B89025 100%);
+            color: #140E0B;
             font-weight: 700;
-            border-color: #ffe873;
+            box-shadow: 0 2px 8px rgba(212, 175, 55, 0.3);
         }
-        .btn-yellow:hover {
-            background: #ffe066;
-            color: #08111b;
-        }
-
-        .btn-danger-toggle {
-            background: #451a1a;
-            border-color: #991b1b;
-            color: #fca5a5;
-        }
-        .btn-danger-toggle.active {
-            background: #b91c1c;
-            border-color: #f87171;
-            color: #ffffff;
-            box-shadow: 0 0 10px rgba(220, 38, 38, 0.6);
+        .btn-gold:hover {
+            background: linear-gradient(135deg, #E5C358 0%, #C9A132 100%);
+            transform: translateY(-1px);
         }
 
         .btn-mode {
             padding: 4px 10px;
             border-radius: 6px;
-            font-size: 11.5px;
-            font-weight: 600;
-            background: #101a26;
-            border: 1px solid #20344b;
-            color: #94a3b8;
+            font-size: 11px;
+            font-weight: 700;
+            background: #1B130F;
+            border: 1px solid #3E2D22;
+            color: #A89582;
             transition: all 0.15s;
         }
+        .btn-mode:hover {
+            color: #F5EFE6;
+            border-color: #826344;
+        }
         .btn-mode.active {
-            background: #ffd343;
-            border-color: #ffd343;
-            color: #0f1d2d;
-            font-weight: 700;
+            background: #38271E;
+            color: var(--salon-gold);
+            border-color: var(--salon-gold);
         }
 
-        /* Gauge Bar */
+        /* Win Odds Gauge */
         .win-bar-bg {
-            height: 14px;
-            background: #0b131e;
-            border-radius: 7px;
-            border: 1px solid #264161;
-            overflow: hidden;
             display: flex;
+            height: 12px;
+            border-radius: 6px;
+            overflow: hidden;
+            border: 1px solid #3E2D22;
+            background: #140E0B;
         }
         .bar-w {
-            background: linear-gradient(90deg, #ffd343, #ffffff);
-            transition: width 0.3s ease;
+            background: linear-gradient(90deg, #F4EDE2, #E4D8C5);
+            transition: width 0.3s ease-out;
         }
         .bar-b {
-            background: linear-gradient(90deg, #1e334d, #306998);
-            transition: width 0.3s ease;
+            background: linear-gradient(90deg, #2C1E13, #170F0C);
+            transition: width 0.3s ease-out;
         }
 
-        /* Python REPL Body */
-        .repl-box {
-            background: #0a111a;
-            font-family: 'Fira Code', monospace;
+        /* Candidate Move Pill */
+        .candidate-card {
+            background: #17100C;
+            border: 1px solid #3E2D22;
             border-radius: 8px;
-            border: 1px solid #1f354f;
             padding: 8px 10px;
-            max-height: 140px;
-            overflow-y: auto;
-            font-size: 11px;
-            color: #cbd5e1;
+            display: flex;
+            align-items: flex-start;
+            gap: 8px;
+            transition: all 0.2s ease;
         }
-
-        ::-webkit-scrollbar { width: 5px; height: 5px; }
-        ::-webkit-scrollbar-track { background: #0b131e; }
-        ::-webkit-scrollbar-thumb { background: #253e5c; border-radius: 3px; }
+        .candidate-card:hover {
+            border-color: var(--salon-gold);
+            background: #241A13;
+        }
     </style>
 </head>
 
-<body class="flex flex-col min-h-screen">
+<body class="flex flex-col min-h-full selection:bg-salon-gold selection:text-salon-woodDark">
 
-    <!-- Top Streamlined Header (Tight & Purposeful) -->
-    <header class="border-b border-py-border bg-py-blueDeep sticky top-0 z-40">
-        <div class="max-w-6xl mx-auto px-3 sm:px-5 h-13 py-2 flex items-center justify-between gap-3">
+    <!-- Top Grandmaster Salon Header -->
+    <header class="border-b border-salon-border bg-[#18110D]/90 backdrop-blur sticky top-0 z-40">
+        <div class="max-w-6xl mx-auto px-4 py-2.5 flex items-center justify-between gap-3">
+            
             <!-- Brand -->
-            <div class="flex items-center gap-2.5">
-                <div class="h-7 w-7 flex-shrink-0">
-                    <svg viewBox="0 0 110 110" class="w-full h-full drop-shadow">
-                        <path fill="#306998" d="M54.7 5.4c-26.6 0-25 11.5-25 11.5l.1 11.9h25.4v3.6H19.7S5.4 30.9 5.4 57.5c0 26.6 12.5 25.7 12.5 25.7h7.5v-10.7s-.4-12.7 12.5-12.7h24.8s11.8.2 11.8-11.5V17.2s1.8-11.8-19.8-11.8zm-14 7.6a4 4 0 1 1 0 8 4 4 0 0 1 0-8z"/>
-                        <path fill="#ffd43b" d="M55.3 104.6c26.6 0 25-11.5 25-11.5l-.1-11.9H54.8v-3.6h35.5s14.3 1.5 14.3-25.1c0-26.6-12.5-25.7-12.5-25.7h-7.5v10.7s.4 12.7-12.5 12.7H47.7s-11.8-.2-11.8 11.5v31.1s-1.8 11.8 19.4 11.8zm14-7.6a4 4 0 1 1 0-8 4 4 0 0 1 0 8z"/>
-                    </svg>
-                </div>
+            <div class="flex items-center gap-3">
+                <span class="text-2xl text-salon-gold">♚</span>
                 <div>
-                    <span class="font-mono font-black text-sm sm:text-base text-white">python<span class="text-py-yellow">.org</span></span>
-                    <span class="text-xs text-slate-300 font-semibold ml-1.5 hidden sm:inline">Chess Tutor &amp; Calculus</span>
+                    <h1 class="font-cinzel font-bold text-sm sm:text-base text-salon-gold flex items-center gap-2">
+                        Chess Tutora &amp; Calculatus
+                    </h1>
+                    <p class="text-[11px] text-[#A89582] font-serif tracking-wide hidden sm:block">
+                        Renaissance Grandmaster Salon &amp; Tactical Engine
+                    </p>
                 </div>
             </div>
 
-            <!-- Action Controls & Bad Moves Allowed Button -->
+            <!-- Header Controls -->
             <div class="flex items-center gap-2">
-                <!-- BAD MOVES ALLOWED BUTTON -->
-                <button id="badMovesToggleBtn" onclick="toggleBadMovesAllowed()" class="btn-base btn-danger-toggle text-xs" title="Toggle free-form / wrong / blunder moves">
-                    <i class="fa-solid fa-triangle-exclamation"></i>
-                    <span id="badMovesBtnText">Bad Moves: OFF</span>
+                
+                <!-- Free Move Exploration Toggle -->
+                <button id="badMoveToggleBtn" onclick="toggleBadMovesMode()"
+                    class="btn-base btn-default text-xs" title="Toggle Free Move Exploration">
+                    <i id="badMoveIcon" class="fa-solid fa-compass text-salon-gold"></i>
+                    <span id="badMoveBtnText" class="hidden sm:inline">Free Move Mode</span>
                 </button>
 
-                <!-- HOW TO UNDERSTAND BUTTON -->
-                <button onclick="openGuideModal()" class="btn-base btn-yellow text-xs" title="How to understand this app">
-                    <i class="fa-solid fa-circle-question"></i>
-                    <span class="hidden sm:inline">How to Understand</span>
-                    <span class="sm:hidden">Guide</span>
+                <!-- How to Understand -->
+                <button onclick="openGuideModal()" class="btn-base btn-gold text-xs" title="Salon Guide & Rules">
+                    <i class="fa-solid fa-scroll"></i>
+                    <span class="hidden sm:inline">Salon Guide</span>
                 </button>
 
-                <!-- NEW GAME BUTTON -->
+                <!-- New Game Button -->
                 <button onclick="resetMatch()" class="btn-base btn-default text-xs" title="Reset match">
-                    <i class="fa-solid fa-rotate-right text-py-yellow"></i>
+                    <i class="fa-solid fa-rotate-right text-salon-gold"></i>
                     <span class="hidden sm:inline">New Game</span>
                 </button>
 
-                <!-- UNDO BUTTON -->
+                <!-- Undo Button -->
                 <button onclick="undoMove()" class="btn-base btn-default text-xs" title="Undo move (Z)">
                     <i class="fa-solid fa-arrow-rotate-left"></i>
                     <span class="hidden md:inline">Undo</span>
@@ -371,27 +370,27 @@
     </header>
 
     <!-- Main Workspace (Clean 2-Column Organization) -->
-    <main class="max-w-6xl mx-auto px-3 sm:px-5 py-4 flex-1 w-full grid grid-cols-1 lg:grid-cols-12 gap-5 items-start">
+    <main class="max-w-6xl mx-auto px-3 sm:px-5 py-5 flex-1 w-full grid grid-cols-1 lg:grid-cols-12 gap-5 items-start">
 
         <!-- LEFT COLUMN: The Board & Game Area (7 Cols) -->
         <div class="lg:col-span-7 flex flex-col gap-3.5 w-full">
 
             <!-- Compact Match Bar: Arena Mode + Active Turn -->
-            <div class="py-card p-2.5 px-3 flex flex-wrap items-center justify-between gap-2 text-xs">
+            <div class="salon-card p-2.5 px-3 flex flex-wrap items-center justify-between gap-2 text-xs">
                 <!-- Mode Selector -->
                 <div class="flex items-center gap-1.5">
                     <button id="modePvp" onclick="setArenaMode('human')" class="btn-mode active">Player vs Player</button>
-                    <button id="modePve" onclick="setArenaMode('ai_spar')" class="btn-mode">vs Python AI</button>
-                    <button id="modeEve" onclick="setArenaMode('ai_duel')" class="btn-mode">AI Simulation</button>
+                    <button id="modePve" onclick="setArenaMode('ai_spar')" class="btn-mode">vs Salon Master AI</button>
+                    <button id="modeEve" onclick="setArenaMode('ai_duel')" class="btn-mode">Master Duel Simulation</button>
                 </div>
 
-                <!-- Active Turn Pill & Bad Move Indicator -->
+                <!-- Active Turn Pill -->
                 <div class="flex items-center gap-2">
-                    <span id="badMoveBanner" class="hidden font-mono font-bold text-[10px] px-1.5 py-0.5 rounded bg-red-900/80 text-red-200 border border-red-700 animate-pulse">
-                        ⚠️ Free/Bad Move Mode
+                    <span id="badMoveBanner" class="hidden font-serif italic text-xs px-2 py-0.5 rounded bg-salon-woodMid text-salon-goldLight border border-salon-gold/40">
+                        ⚔️ Free Exploration Active
                     </span>
-                    <div id="turnBadge" class="font-bold text-xs px-2.5 py-1 rounded bg-py-blueDeep text-white border border-py-border flex items-center gap-1.5">
-                        <span id="turnPieceIcon">♔</span>
+                    <div id="turnBadge" class="font-bold text-xs px-2.5 py-1 rounded bg-[#17100C] text-salon-parchment border border-salon-border flex items-center gap-1.5 font-cinzel">
+                        <span id="turnPieceIcon" class="text-salon-gold">♔</span>
                         <span id="turnText">White to Move</span>
                     </div>
                 </div>
@@ -404,48 +403,47 @@
                 </div>
             </div>
 
-            <!-- Under-Board Quick Tools Strip -->
-            <div class="flex items-center justify-between gap-2 text-xs text-slate-300 px-1">
-                <div class="flex items-center gap-1.5">
-                    <button onclick="toggleThreatVision()" class="btn-base btn-default py-1 px-2 text-[11px]" title="Toggle Attack Radar">
-                        <i id="threatIcon" class="fa-solid fa-eye text-py-yellow"></i> Radar
+            <!-- Under-Board Tools Strip -->
+            <div class="flex items-center justify-between gap-2 text-xs text-[#A89582] px-1">
+                <div class="flex items-center gap-2">
+                    <button onclick="toggleSound()" class="btn-base btn-default py-1 px-2.5 text-[11px]" title="Toggle Audio">
+                        <i id="audioIcon" class="fa-solid fa-volume-high text-salon-gold"></i> Sound: ON
                     </button>
-                    <button onclick="toggleSound()" class="btn-base btn-default py-1 px-2 text-[11px]" title="Toggle Audio">
-                        <i id="audioIcon" class="fa-solid fa-volume-high"></i> Sound
+                    <button onclick="flipBoardOrientation()" class="btn-base btn-default py-1 px-2.5 text-[11px]" title="Flip Board">
+                        <i class="fa-solid fa-arrows-up-down text-salon-gold"></i> Flip Board
                     </button>
                 </div>
 
-                <div class="flex items-center gap-1.5 font-mono text-[11px]">
-                    <button onclick="copyFEN()" class="btn-base btn-default py-1 px-2" title="Copy FEN">FEN</button>
-                    <button onclick="copyPGN()" class="btn-base btn-default py-1 px-2" title="Copy PGN">PGN</button>
+                <div class="text-[11px] font-serif text-[#C5B39E] italic">
+                    Press <kbd class="px-1 py-0.5 bg-[#17100C] border border-salon-border rounded font-mono text-salon-gold">Z</kbd> to Undo
                 </div>
             </div>
 
         </div>
 
-        <!-- RIGHT COLUMN: Move Tutor, Win Calculus & REPL (5 Cols) -->
-        <div class="lg:col-span-5 flex flex-col gap-3.5 w-full">
+        <!-- RIGHT COLUMN: Move Tutor & Win Calculus (5 Cols) -->
+        <div class="lg:col-span-5 flex flex-col gap-4 w-full">
 
             <!-- 1. WIN PROBABILITY & CALCULUS GAUGE -->
-            <div class="py-card p-3.5 space-y-2.5">
+            <div class="salon-card p-4 space-y-3">
                 <div class="flex items-center justify-between text-xs">
-                    <span class="font-bold text-white flex items-center gap-1">
-                        <i class="fa-solid fa-calculator text-py-yellow"></i> Win Probability
+                    <span class="font-cinzel font-bold text-salon-parchment flex items-center gap-1.5">
+                        <i class="fa-solid fa-scale-balanced text-salon-gold"></i> Win Probability Calculus
                     </span>
-                    <span id="centipawnText" class="font-mono font-bold text-py-yellow text-xs bg-py-blueDeep px-2 py-0.5 rounded border border-py-border">
+                    <span id="centipawnText" class="font-mono font-bold text-salon-gold text-xs bg-[#17100C] px-2 py-0.5 rounded border border-salon-border">
                         +0.00 cp
                     </span>
                 </div>
 
-                <!-- Large Percentages -->
-                <div class="grid grid-cols-2 gap-2 text-center bg-py-blueDeep p-2 rounded-lg border border-py-border/60">
+                <!-- Percentages -->
+                <div class="grid grid-cols-2 gap-2 text-center bg-[#17100C] p-2.5 rounded-lg border border-salon-border">
                     <div>
-                        <div class="text-[11px] font-bold text-py-yellow">♔ White</div>
-                        <div id="whitePctLarge" class="font-mono text-2xl font-black text-white">50.0%</div>
+                        <div class="text-[11px] font-cinzel font-bold text-salon-gold">♔ White</div>
+                        <div id="whitePctLarge" class="font-mono text-2xl font-bold text-salon-parchment">50.0%</div>
                     </div>
-                    <div class="border-l border-py-border/50">
-                        <div class="text-[11px] font-bold text-slate-400">♚ Black</div>
-                        <div id="blackPctLarge" class="font-mono text-2xl font-black text-slate-300">50.0%</div>
+                    <div class="border-l border-salon-border">
+                        <div class="text-[11px] font-cinzel font-bold text-[#A89582]">♚ Black</div>
+                        <div id="blackPctLarge" class="font-mono text-2xl font-bold text-[#D0C0AE]">50.0%</div>
                     </div>
                 </div>
 
@@ -455,241 +453,294 @@
                     <div id="barBlack" class="bar-b" style="width: 50%;"></div>
                 </div>
 
-                <div id="evalCommentary" class="text-[11px] text-slate-300 italic text-center">
+                <div id="evalCommentary" class="text-xs font-serif text-[#D0C0AE] italic text-center">
                     "Equal parity. The board awaits the first play."
                 </div>
             </div>
 
-            <!-- 2. LIVE PYTHON CHESS TUTOR (CORE FEATURE) -->
-            <div class="py-card p-3.5 space-y-2.5 border-py-blue">
-                <div class="flex items-center justify-between border-b border-py-border pb-2">
+            <!-- 2. LIVE CHESS TUTOR & MOVE CONCEPTS (ENHANCED) -->
+            <div class="salon-card p-4 space-y-3.5 border-salon-gold/40">
+                <div class="flex items-center justify-between border-b border-salon-border pb-2.5">
                     <div class="flex items-center gap-2">
-                        <span class="h-5 w-5 rounded bg-py-yellow/20 text-py-yellow flex items-center justify-center text-xs">
+                        <span class="h-6 w-6 rounded bg-salon-gold/15 text-salon-gold flex items-center justify-center text-xs">
                             <i class="fa-solid fa-graduation-cap"></i>
                         </span>
-                        <span class="font-bold text-xs text-white">Chess Tutor: Move Concept</span>
+                        <span class="font-cinzel font-bold text-xs text-salon-parchment">Chess Tutor: Move Concept</span>
                     </div>
-                    <span id="tutorBadge" class="font-mono text-[10px] font-bold px-2 py-0.5 rounded bg-py-blueDeep text-py-yellow border border-py-yellow/40">
-                        Opening Principles
+                    <span id="tutorQuality" class="text-[11px] font-mono text-emerald-400 font-bold px-2 py-0.5 rounded bg-[#17100C] border border-emerald-900/50">
+                        ✓ Balanced
                     </span>
                 </div>
 
-                <!-- Move Summary & Quality -->
-                <div class="bg-py-blueDeep p-2.5 rounded-lg border border-py-border/70 space-y-1.5">
-                    <div class="flex items-center justify-between">
-                        <span id="tutorMoveTitle" class="font-mono font-bold text-xs text-py-yellow">
-                            Initial Array: 20 Openings Available
-                        </span>
-                        <span id="tutorQuality" class="text-[11px] font-mono text-emerald-400 font-semibold">
-                            ✓ Balanced
-                        </span>
+                <!-- Move Summary & Strategic Concept -->
+                <div class="bg-[#17100C] p-3 rounded-lg border border-salon-border space-y-2">
+                    <div class="font-cinzel font-bold text-xs text-salon-gold flex items-center justify-between">
+                        <span id="tutorMoveTitle">Initial Array: Opening Stage</span>
+                        <span id="tutorDeltaText" class="font-mono text-[10px] text-[#A89582]">+0.0 cp</span>
                     </div>
-                    <p id="tutorExplanation" class="text-xs text-slate-200 leading-relaxed">
-                        Control the center (e4/d4), activate knights and bishops, castle early to safeguard your king, and avoid moving the same piece twice without a tactical purpose.
+                    <p id="tutorExplanation" class="text-xs text-[#E4D8C5] leading-relaxed font-serif text-[14px]">
+                        Stake an early claim in the central squares (e4, d4, e5, d5), develop knights and bishops harmoniously, and prepare king fortification via castling.
                     </p>
                 </div>
 
-                <!-- Python Calculus Code Snippet -->
-                <div class="bg-[#090f18] p-2.5 rounded-lg border border-py-border font-mono text-[11px] text-slate-300 space-y-1">
-                    <div class="flex items-center justify-between text-py-yellow text-[10px] pb-1 border-b border-py-border/50">
-                        <span><i class="fa-brands fa-python"></i> Python Evaluation:</span>
-                        <span id="tutorDeltaText">+0.0 cp</span>
+                <!-- 🎯 STRATEGIC NEXT CANDIDATE MOVES (NEW) -->
+                <div class="space-y-2">
+                    <div class="text-[11px] font-cinzel font-bold text-salon-gold flex items-center gap-1.5">
+                        <i class="fa-solid fa-bullseye text-salon-gold"></i> Recommended Next Continuations:
                     </div>
-                    <pre id="tutorPythonCode" class="text-slate-300 overflow-x-auto whitespace-pre leading-snug">
-# Position Evaluation:
-pst = lookup_pst(board)        # Piece-square value
-space = center_control()       # e4, d4, e5, d5
-return sigmoid(pst + space)</pre>
-                </div>
-            </div>
-
-            <!-- 3. MOVE HISTORY & PYTHON REPL TERMINAL -->
-            <div class="py-card p-3 space-y-2">
-                <div class="flex items-center justify-between text-xs font-bold text-slate-200 border-b border-py-border pb-1.5">
-                    <span><i class="fa-solid fa-terminal text-py-yellow mr-1"></i> Python REPL &amp; Move Log</span>
-                    <span id="plyCountBadge" class="font-mono text-[10px] text-py-yellow font-normal">Ply #1</span>
-                </div>
-
-                <!-- Move Table -->
-                <div id="moveLogList" class="h-24 overflow-y-auto space-y-1 font-mono text-xs pr-1 divide-y divide-py-border/30">
-                    <div class="text-center text-slate-400 italic py-4 text-xs font-sans">
-                        No moves played yet.
+                    <div id="candidateMovesList" class="space-y-1.5 text-xs">
+                        <!-- Populated dynamically via JS with candidate plans -->
+                        <div class="candidate-card">
+                            <span class="font-mono font-bold text-salon-gold text-xs">1. e4</span>
+                            <span class="text-[#D0C0AE] font-serif text-[13px]">King's Pawn Opening — Claims the center and liberates Queen and Bishop diagonals.</span>
+                        </div>
+                        <div class="candidate-card">
+                            <span class="font-mono font-bold text-salon-gold text-xs">1. d4</span>
+                            <span class="text-[#D0C0AE] font-serif text-[13px]">Queen's Pawn Opening — Solid classical control over e5 with protected central pawn.</span>
+                        </div>
+                        <div class="candidate-card">
+                            <span class="font-mono font-bold text-salon-gold text-xs">1. Nf3</span>
+                            <span class="text-[#D0C0AE] font-serif text-[13px]">Zukertort Opening — Flexible development preventing Black's early e5 push.</span>
+                        </div>
                     </div>
                 </div>
 
-                <!-- Live REPL Output -->
-                <div id="replOutput" class="repl-box">
-                    <div class="text-slate-400">&gt;&gt;&gt; Python 3.12.2 Chess Calculus Engine Initialized.</div>
-                    <div class="text-py-yellow">&gt;&gt;&gt; engine.status: Ready for ply #1...</div>
-                </div>
             </div>
 
         </div>
 
     </main>
 
-    <!-- "HOW TO UNDERSTAND" EDUCATIONAL MODAL -->
-    <div id="guideModal" class="fixed inset-0 bg-black/80 backdrop-blur-sm z-50 hidden flex items-center justify-center p-4">
-        <div class="py-card max-w-xl w-full border-2 border-py-yellow p-5 space-y-4 max-h-[90vh] overflow-y-auto shadow-2xl">
-            <div class="flex items-center justify-between border-b border-py-border pb-2.5">
-                <div class="flex items-center gap-2">
-                    <span class="text-2xl">🐍</span>
+    <!-- "SALON GUIDE" EDUCATIONAL MODAL -->
+    <div id="guideModal" class="fixed inset-0 bg-black/85 backdrop-blur-sm z-50 hidden flex items-center justify-center p-4">
+        <div class="salon-card max-w-xl w-full border-2 border-salon-gold p-6 space-y-4 max-h-[90vh] overflow-y-auto shadow-2xl">
+            <div class="flex items-center justify-between border-b border-salon-border pb-3">
+                <div class="flex items-center gap-2.5">
+                    <span class="text-2xl text-salon-gold">♚</span>
                     <div>
-                        <h3 class="font-bold text-base text-white">How to Understand this App</h3>
-                        <p class="text-xs text-py-yellow font-mono">Chess Calculus &amp; Move Tutor Guide</p>
+                        <h3 class="font-cinzel font-bold text-base text-salon-parchment">Chess Tutora &amp; Calculatus</h3>
+                        <p class="text-xs text-salon-gold font-serif">Grandmaster Salon &amp; Tactical Engine Guide</p>
                     </div>
                 </div>
-                <button onclick="closeGuideModal()" class="text-slate-400 hover:text-white text-lg p-1">
+                <button onclick="closeGuideModal()" class="text-[#A89582] hover:text-white text-lg p-1">
                     <i class="fa-solid fa-xmark"></i>
                 </button>
             </div>
 
-            <div class="space-y-3 text-xs text-slate-200 leading-relaxed font-sans">
-                <div class="bg-py-blueDeep p-3 rounded-lg border border-py-border">
-                    <h4 class="font-bold text-py-yellow mb-1">1. Centipawns &amp; Win Probability</h4>
-                    <p class="text-slate-300">
-                        The engine scores positions in <strong>Centipawns</strong> (100 cp = 1 Pawn). A sigmoid formula maps centipawns to win percentage: <code>P(Win) = 1 / (1 + 10^(-cp / 400))</code>. +100 cp gives ~64% win probability.
+            <div class="space-y-3.5 text-xs text-[#E4D8C5] leading-relaxed font-sans">
+                <div class="bg-[#17100C] p-3 rounded-lg border border-salon-border">
+                    <h4 class="font-cinzel font-bold text-salon-gold mb-1">1. Centipawns &amp; Win Probability</h4>
+                    <p class="text-[#D0C0AE]">
+                        The engine evaluates positional balance in <strong>Centipawns</strong> (100 cp = 1 Pawn). Mathematical probability calculates winning chances: <code>P(Win) = 1 / (1 + 10^(-cp / 400))</code>.
                     </p>
                 </div>
 
-                <div class="bg-py-blueDeep p-3 rounded-lg border border-py-border">
-                    <h4 class="font-bold text-py-yellow mb-1">2. "Bad Moves Allowed" Mode</h4>
-                    <p class="text-slate-300">
-                        Click the top red <strong>"Bad Moves Allowed"</strong> button to test wrong or illegal moves. You can move any piece anywhere to deliberately test blunders—the Chess Tutor will instantly explain why the move loses material or exposes the king!
+                <div class="bg-[#17100C] p-3 rounded-lg border border-salon-border">
+                    <h4 class="font-cinzel font-bold text-salon-gold mb-1">2. "Free Move Mode" (Sandbox Testing)</h4>
+                    <p class="text-[#D0C0AE]">
+                        Toggle <strong>"Free Move Mode"</strong> in the top bar to freely test irregular or inaccurate moves. The Chess Tutor will immediately diagnose why the move weakens the position or hung a piece.
                     </p>
                 </div>
 
-                <div class="bg-py-blueDeep p-3 rounded-lg border border-py-border">
-                    <h4 class="font-bold text-py-yellow mb-1">3. Move-by-Move Chess Tutor</h4>
-                    <p class="text-slate-300">
-                        Every turn, the tutor analyzes the tactical motif (e.g. Center Stake, Knight Outpost, Castling, Blunder) and generates Python code explaining the exact positional calculation.
+                <div class="bg-[#17100C] p-3 rounded-lg border border-salon-border">
+                    <h4 class="font-cinzel font-bold text-salon-gold mb-1">3. Move Concept &amp; Candidate Continuations</h4>
+                    <p class="text-[#D0C0AE]">
+                        After every move, the Chess Tutor highlights the strategic motif and recommends 2–3 candidate continuations for the responding side.
                     </p>
                 </div>
 
-                <div class="bg-py-blueDeep p-3 rounded-lg border border-py-border">
-                    <h4 class="font-bold text-py-yellow mb-1">4. Match Modes &amp; Shortcuts</h4>
-                    <p class="text-slate-300">
-                        Switch between <strong>Player vs Player</strong>, <strong>vs Python AI</strong>, and <strong>AI Simulation</strong>. Press <kbd class="px-1 py-0.5 bg-py-blueDeep border border-py-border rounded font-mono text-white">Z</kbd> anytime to Undo.
+                <div class="bg-[#17100C] p-3 rounded-lg border border-salon-border">
+                    <h4 class="font-cinzel font-bold text-salon-gold mb-1">4. Match Modes &amp; Controls</h4>
+                    <p class="text-[#D0C0AE]">
+                        Play <strong>Player vs Player</strong>, duel the <strong>Salon Master AI</strong>, or watch an automated master simulation. Press <kbd class="px-1 py-0.5 bg-[#2B1E17] border border-salon-border rounded font-mono text-salon-gold">Z</kbd> anytime to Undo.
                     </p>
                 </div>
             </div>
 
-            <div class="flex justify-end pt-2 border-t border-py-border">
-                <button onclick="closeGuideModal()" class="btn-base btn-yellow text-xs">Got it, let's play!</button>
+            <div class="flex justify-end pt-2 border-t border-salon-border">
+                <button onclick="closeGuideModal()" class="btn-base btn-gold text-xs">Enter the Salon</button>
             </div>
         </div>
     </div>
 
-    <!-- Promotion Modal -->
+    <!-- PAWN PROMOTION MODAL -->
     <div id="promotionModal" class="fixed inset-0 bg-black/80 backdrop-blur-sm z-50 hidden flex items-center justify-center p-4">
-        <div class="py-card p-4 max-w-xs w-full text-center border-2 border-py-yellow space-y-3">
-            <h3 class="font-bold text-sm text-white">Pawn Promotion</h3>
+        <div class="salon-card max-w-xs w-full p-4 space-y-3 text-center border-2 border-salon-gold">
+            <h3 class="font-cinzel font-bold text-sm text-salon-gold">Promote Pawn</h3>
             <div class="grid grid-cols-4 gap-2" id="promotionPiecesGrid"></div>
         </div>
     </div>
 
     <!-- Toast Notification -->
-    <div id="toast" class="fixed bottom-4 right-4 z-50 transform translate-y-20 opacity-0 transition-all duration-200 pointer-events-none">
-        <div class="py-card bg-py-blueDeep border border-py-yellow/80 px-3.5 py-2 rounded-lg shadow-xl flex items-center gap-2 text-xs font-bold text-white">
-            <span>🐍</span>
-            <span id="toastMsg">Notification</span>
-        </div>
+    <div id="toast" class="fixed bottom-5 right-5 bg-[#17100C] text-salon-parchment border border-salon-gold px-4 py-2.5 rounded-lg shadow-xl font-medium text-xs hidden z-50 transition-all transform translate-y-2">
+        <span id="toastText">Action completed</span>
     </div>
 
-    <!-- CHESS ENGINE & TUTOR LOGIC -->
     <script>
         /**
          * =========================================================================
-         * PIECE ASSETS & CONSTANTS
+         * AUTHENTIC STAUNTON PIECE VECTORS & CONSTANTS
          * =========================================================================
          */
         const PIECE_SVGS = {
-            wK: `<svg viewBox="0 0 45 45"><g fill="none" fill-rule="evenodd" stroke="#1e334d" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M22.5 11.63V6M20 8h5" stroke="#1e334d"/><path d="M22.5 25s4.5-7.5 3-10.5c0 0-1-2.5-3-2.5s-3 2.5-3 2.5c-1.5 3 3 10.5 3 10.5" fill="#ffffff"/><path d="M11.5 37c5.5 3.5 15.5 3.5 21 0v-7s9-4.5 6-10.5c-4-6.5-13.5-3.5-16 4V22s-2-2-4-2c-3 0-5 2-4 5.5 1 3.5 4 4.5 4 4.5s-4 2-5 5c-1 3.5 2 6 2 6v3z" fill="#ffffff"/><path d="M11.5 30c5.5-3 15.5-3 21 0m-21 3.5c5.5-3 15.5-3 21 0m-21 3.5c5.5-3 15.5-3 21 0"/></g></svg>`,
-            wQ: `<svg viewBox="0 0 45 45"><g fill="#ffffff" fill-rule="evenodd" stroke="#1e334d" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M8 12a2 2 0 1 1-4 0 2 2 0 0 1 4 0zm16.5-4.5a2 2 0 1 1-4 0 2 2 0 0 1 4 0zM41 12a2 2 0 1 1-4 0 2 2 0 0 1 4 0zM16 8.5a2 2 0 1 1-4 0 2 2 0 0 1 4 0zm17 0a2 2 0 1 1-4 0 2 2 0 0 1 4 0z"/><path d="M9 26c8.5-1.5 21-1.5 27 0l2-12-7 11V11l-5.5 13.5-3-15-3 15L14 11v14l-7-11 2 12z"/><path d="M9 26c0 2 1.5 2 2.5 4 1 1.5 1 1 .5 3.5-1.5 1-1.5 2.5-1.5 2.5-1.5 1.5.5 2.5.5 2.5 6.5 1 16.5 1 23 0 0 0 2-1 .5-2.5 0 0 0-1.5-1.5-2.5-.5-2.5-.5-2 .5-3.5 1-2 2.5-2 2.5-4-8.5-1.5-18.5-1.5-27 0z"/><path d="M11.5 30c3.5-1 18.5-1 22 0m-21.5 4c3.5-1 17.5-1 21 0m-21 3.5c3.5-1 17.5-1 21 0"/></g></svg>`,
-            wR: `<svg viewBox="0 0 45 45"><g fill="#ffffff" fill-rule="evenodd" stroke="#1e334d" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M9 39h27v-3H9v3zm3-3v-4.5h21V36H12zm2.5-4.5l1.5-13.5h13l1.5 13.5h-16zM14 18h17V9h-3.5v3.5h-3V9h-4v3.5h-3V9H14v9z"/><path d="M12 36c4-1 17-1 21 0m-20-4.5c4-1 15-1 19 0m-17-13.5c4-1 11-1 15 0"/></g></svg>`,
-            wB: `<svg viewBox="0 0 45 45"><g fill="none" fill-rule="evenodd" stroke="#1e334d" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><g fill="#ffffff"><path d="M9 36c3.39-.97 10.11.43 13.5-2 3.39 2.43 10.11 1.03 13.5 2 0 0 1.65.54 3 2-.68.97-1.65.99-3 .5-3.39-.97-10.11.46-13.5-1-3.39 1.46-10.11.03-13.5 1-1.354.49-2.323.47-3-.5 1.354-1.94 3-2 3-2zM15 32c2.5 2.5 12.5 2.5 15 0 .5-1.5 0-2 0-2 0-2.5-2.5-4-2.5-4 5.5-1.5 6-11.5-5-15.5-11 4-10.5 14-5 15.5 0 0-2.5 1.5-2.5 4 0 0-.5.5 0 2zM25 8a2.5 2.5 0 1 1-5 0 2.5 2.5 0 1 1 5 0z"/><path d="M17.5 26h10M15 30h15m-7.5-14.5v5m-2.5-2.5h5"/></g></g></svg>`,
-            wN: `<svg viewBox="0 0 45 45"><g fill="none" fill-rule="evenodd" stroke="#1e334d" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M22 10c10.5 1 16.5 8 16 29H15c0-9 10-6.5 8-21" fill="#ffffff"/><path d="M24 18c.38 2.91-5.55 7.37-8 9-3 2-2.82 4.34-5 4-1.042-.94 1.41-3.04 0-3-1 0-.64 1.36-1 2-1 2-2.82 4.34-5 4 1.5-3 2.5-4 1-5-1.5-1-1-2.5-1-2.5s2.5.5 3-1.5c.5-2 3-4 3-4s-.5 1.5 1 2.5c1.5 1 2 0 2-1s-.5-1.5-1-2c0-1 .5-2 1-2s2 2 3.5 2.5c1.5.5 2.5-1.5 2.5-1.5s1 2 2.5 1.5c1.5-.5 1.5-2 1.5-2s1 1 2 1c1 0 1-1.5 1-1.5" fill="#ffffff"/><path d="M9.5 25.5a.5.5 0 1 1-1 0 .5.5 0 1 1 1 0zm5.5-8a.5.5 0 1 1-1 0 .5.5 0 1 1 1 0z"/></g></svg>`,
-            wP: `<svg viewBox="0 0 45 45"><path d="M22 9c-2.21 0-4 1.79-4 4 0 .89.29 1.71.78 2.38-1.95 1.12-3.28 3.21-3.28 5.62 0 2.03.93 3.84 2.38 5.03-3.03 1.83-5.38 5.1-5.88 9.97h20c-.5-4.87-2.85-8.14-5.88-9.97 1.45-1.19 2.38-3 2.38-5.03 0-2.41-1.33-4.5-3.28-5.62.49-.67.78-1.49.78-2.38 0-2.21-1.79-4-4-4z" fill="#ffffff" stroke="#1e334d" stroke-width="1.5" stroke-linecap="round"/></svg>`,
+            wK: `<svg viewBox="0 0 45 45"><g fill="none" fill-rule="evenodd" stroke="#2c1e13" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M22.5 11.63V6M20 8h5" stroke="#2c1e13"/><path d="M22.5 25s4.5-7.5 3-10.5c0 0-1-2.5-3-2.5s-3 2.5-3 2.5c-1.5 3 3 10.5 3 10.5" fill="#fcfbf7" stroke="#2c1e13"/><path d="M11.5 37c5.5 3.5 15.5 3.5 21 0v-7s9-4.5 6-10.5c-4-6.5-13.5-3.5-16 4V22s-2-2-4-2c-3 0-5 2-4 5.5 1 3.5 4 4.5 4 4.5s-4 2-5 5c-1 3.5 2 6 2 6v3z" fill="#fcfbf7" stroke="#2c1e13"/><path d="M11.5 30c5.5-3 15.5-3 21 0m-21 3.5c5.5-3 15.5-3 21 0m-21 3.5c5.5-3 15.5-3 21 0" stroke="#2c1e13"/></g></svg>`,
+            wQ: `<svg viewBox="0 0 45 45"><g fill="#fcfbf7" fill-rule="evenodd" stroke="#2c1e13" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M8 12a2 2 0 1 1-4 0 2 2 0 0 1 4 0zm16.5-4.5a2 2 0 1 1-4 0 2 2 0 0 1 4 0zM41 12a2 2 0 1 1-4 0 2 2 0 0 1 4 0zM16 8.5a2 2 0 1 1-4 0 2 2 0 0 1 4 0zm17 0a2 2 0 1 1-4 0 2 2 0 0 1 4 0z"/><path d="M9 26c8.5-1.5 21-1.5 27 0l2-12-7 11V11l-5.5 13.5-3-15-3 15L14 11v14l-7-11 2 12z"/><path d="M9 26c0 2 1.5 2 2.5 4 1 1.5 1 1 .5 3.5-1.5 1-1.5 2.5-1.5 2.5-1.5 1.5.5 2.5.5 2.5 6.5 1 16.5 1 23 0 0 0 2-1 .5-2.5 0 0 0-1.5-1.5-2.5-.5-2.5-.5-2 .5-3.5 1-2 2.5-2 2.5-4-8.5-1.5-18.5-1.5-27 0z"/><path d="M11.5 30c3.5-1 18.5-1 22 0m-21.5 4c3.5-1 17.5-1 21 0m-21 3.5c3.5-1 17.5-1 21 0"/></g></svg>`,
+            wR: `<svg viewBox="0 0 45 45"><g fill="#fcfbf7" fill-rule="evenodd" stroke="#2c1e13" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M9 39h27v-3H9v3zm3-3v-4.5h21V36H12zm2.5-4.5l1.5-13.5h13l1.5 13.5h-16zM14 18h17V9h-3.5v3.5h-3V9h-4v3.5h-3V9H14v9z"/><path d="M12 36c4-1 17-1 21 0m-20-4.5c4-1 15-1 19 0m-17-13.5c4-1 11-1 15 0"/></g></svg>`,
+            wB: `<svg viewBox="0 0 45 45"><g fill="none" fill-rule="evenodd" stroke="#2c1e13" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><g fill="#fcfbf7"><path d="M9 36c3.39-.97 10.11.43 13.5-2 3.39 2.43 10.11 1.03 13.5 2 0 0 1.65.54 3 2-.68.97-1.65.99-3 .5-3.39-.97-10.11.46-13.5-1-3.39 1.46-10.11.03-13.5 1-1.354.49-2.323.47-3-.5 1.354-1.94 3-2 3-2zM15 32c2.5 2.5 12.5 2.5 15 0 .5-1.5 0-2 0-2 0-2.5-2.5-4-2.5-4 5.5-1.5 6-11.5-5-15.5-11 4-10.5 14-5 15.5 0 0-2.5 1.5-2.5 4 0 0-.5.5 0 2zM25 8a2.5 2.5 0 1 1-5 0 2.5 2.5 0 1 1 5 0z"/><path d="M17.5 26h10M15 30h15m-7.5-14.5v5m-2.5-2.5h5"/></g></g></svg>`,
+            wN: `<svg viewBox="0 0 45 45"><g fill="none" fill-rule="evenodd" stroke="#2c1e13" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M22 10c10.5 1 16.5 8 16 29H15c0-9 10-6.5 8-21" fill="#fcfbf7"/><path d="M24 18c.38 2.91-5.55 7.37-8 9-3 2-2.82 4.34-5 4-1.042-.94 1.41-3.04 0-3-1 0-.64 1.36-1 2 1.5-3 2.5-4 1-5-1.5-1-1-2.5-1-2.5s2.5.5 3-1.5c.5-2 3-4 3-4s-.5 1.5 1 2.5c1.5 1 2 0 2-1s-.5-1.5-1-2c0-1 .5-2 1-2s2 2 3.5 2.5c1.5.5 2.5-1.5 2.5-1.5s1 2 2.5 1.5c1.5-.5 1.5-2 1.5-2s1 1 2 1c1 0 1-1.5 1-1.5" fill="#fcfbf7"/><path d="M9.5 25.5a.5.5 0 1 1-1 0 .5.5 0 1 1 1 0zm5.5-8a.5.5 0 1 1-1 0 .5.5 0 1 1 1 0z" fill="#2c1e13"/></g></svg>`,
+            wP: `<svg viewBox="0 0 45 45"><path d="M22 9c-2.21 0-4 1.79-4 4 0 .89.29 1.71.78 2.38-1.95 1.12-3.28 3.21-3.28 5.62 0 2.03.93 3.84 2.38 5.03-3.03 1.83-5.38 5.1-5.88 9.97h20c-.5-4.87-2.85-8.14-5.88-9.97 1.45-1.19 2.38-3 2.38-5.03 0-2.41-1.33-4.5-3.28-5.62.49-.67.78-1.49.78-2.38 0-2.21-1.79-4-4-4z" fill="#fcfbf7" stroke="#2c1e13" stroke-width="1.5" stroke-linecap="round"/></svg>`,
 
-            bK: `<svg viewBox="0 0 45 45"><g fill="none" fill-rule="evenodd" stroke="#ffd343" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M22.5 11.63V6M20 8h5" stroke="#ffd343"/><path d="M22.5 25s4.5-7.5 3-10.5c0 0-1-2.5-3-2.5s-3 2.5-3 2.5c-1.5 3 3 10.5 3 10.5" fill="#0f1d2d"/><path d="M11.5 37c5.5 3.5 15.5 3.5 21 0v-7s9-4.5 6-10.5c-4-6.5-13.5-3.5-16 4V22s-2-2-4-2c-3 0-5 2-4 5.5 1 3.5 4 4.5 4 4.5s-4 2-5 5c-1 3.5 2 6 2 6v3z" fill="#0f1d2d"/><path d="M11.5 30c5.5-3 15.5-3 21 0m-21 3.5c5.5-3 15.5-3 21 0m-21 3.5c5.5-3 15.5-3 21 0"/></g></svg>`,
-            bQ: `<svg viewBox="0 0 45 45"><g fill="#0f1d2d" fill-rule="evenodd" stroke="#ffd343" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M8 12a2 2 0 1 1-4 0 2 2 0 0 1 4 0zm16.5-4.5a2 2 0 1 1-4 0 2 2 0 0 1 4 0zM41 12a2 2 0 1 1-4 0 2 2 0 0 1 4 0zM16 8.5a2 2 0 1 1-4 0 2 2 0 0 1 4 0zm17 0a2 2 0 1 1-4 0 2 2 0 0 1 4 0z"/><path d="M9 26c8.5-1.5 21-1.5 27 0l2-12-7 11V11l-5.5 13.5-3-15-3 15L14 11v14l-7-11 2 12z"/><path d="M9 26c0 2 1.5 2 2.5 4 1 1.5 1 1 .5 3.5-1.5 1-1.5 2.5-1.5 2.5-1.5 1.5.5 2.5.5 2.5 6.5 1 16.5 1 23 0 0 0 2-1 .5-2.5 0 0 0-1.5-1.5-2.5-.5-2.5-.5-2 .5-3.5 1-2 2.5-2 2.5-4-8.5-1.5-18.5-1.5-27 0z"/><path d="M11.5 30c3.5-1 18.5-1 22 0m-21.5 4c3.5-1 17.5-1 21 0m-21 3.5c3.5-1 17.5-1 21 0"/></g></svg>`,
-            bR: `<svg viewBox="0 0 45 45"><g fill="#0f1d2d" fill-rule="evenodd" stroke="#ffd343" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M9 39h27v-3H9v3zm3-3v-4.5h21V36H12zm2.5-4.5l1.5-13.5h13l1.5 13.5h-16zM14 18h17V9h-3.5v3.5h-3V9h-4v3.5h-3V9H14v9z"/><path d="M12 36c4-1 17-1 21 0m-20-4.5c4-1 15-1 19 0m-17-13.5c4-1 11-1 15 0"/></g></svg>`,
-            bB: `<svg viewBox="0 0 45 45"><g fill="none" fill-rule="evenodd" stroke="#ffd343" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><g fill="#0f1d2d"><path d="M9 36c3.39-.97 10.11.43 13.5-2 3.39 2.43 10.11 1.03 13.5 2 0 0 1.65.54 3 2-.68.97-1.65.99-3 .5-3.39-.97-10.11.46-13.5-1-3.39 1.46-10.11.03-13.5 1-1.354.49-2.323.47-3-.5 1.354-1.94 3-2 3-2zM15 32c2.5 2.5 12.5 2.5 15 0 .5-1.5 0-2 0-2 0-2.5-2.5-4-2.5-4 5.5-1.5 6-11.5-5-15.5-11 4-10.5 14-5 15.5 0 0-2.5 1.5-2.5 4 0 0-.5.5 0 2zM25 8a2.5 2.5 0 1 1-5 0 2.5 2.5 0 1 1 5 0z"/><path d="M17.5 26h10M15 30h15m-7.5-14.5v5m-2.5-2.5h5"/></g></g></svg>`,
-            bN: `<svg viewBox="0 0 45 45"><g fill="none" fill-rule="evenodd" stroke="#ffd343" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M22 10c10.5 1 16.5 8 16 29H15c0-9 10-6.5 8-21" fill="#0f1d2d"/><path d="M24 18c.38 2.91-5.55 7.37-8 9-3 2-2.82 4.34-5 4-1.042-.94 1.41-3.04 0-3-1 0-.64 1.36-1 2-1 2-2.82 4.34-5 4 1.5-3 2.5-4 1-5-1.5-1-1-2.5-1-2.5s2.5.5 3-1.5c.5-2 3-4 3-4s-.5 1.5 1 2.5c1.5 1 2 0 2-1s-.5-1.5-1-2c0-1 .5-2 1-2s2 2 3.5 2.5c1.5.5 2.5-1.5 2.5-1.5s1 2 2.5 1.5c1.5-.5 1.5-2 1.5-2s1 1 2 1c1 0 1-1.5 1-1.5" fill="#0f1d2d"/><path d="M9.5 25.5a.5.5 0 1 1-1 0 .5.5 0 1 1 1 0zm5.5-8a.5.5 0 1 1-1 0 .5.5 0 1 1 1 0z"/></g></svg>`,
-            bP: `<svg viewBox="0 0 45 45"><path d="M22 9c-2.21 0-4 1.79-4 4 0 .89.29 1.71.78 2.38-1.95 1.12-3.28 3.21-3.28 5.62 0 2.03.93 3.84 2.38 5.03-3.03 1.83-5.38 5.1-5.88 9.97h20c-.5-4.87-2.85-8.14-5.88-9.97 1.45-1.19 2.38-3 2.38-5.03 0-2.41-1.33-4.5-3.28-5.62.49-.67.78-1.49.78-2.38 0-2.21-1.79-4-4-4z" fill="#0f1d2d" stroke="#ffd343" stroke-width="1.5" stroke-linecap="round"/></svg>`
+            bK: `<svg viewBox="0 0 45 45"><g fill="none" fill-rule="evenodd" stroke="#d4af37" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M22.5 11.63V6M20 8h5" stroke="#d4af37"/><path d="M22.5 25s4.5-7.5 3-10.5c0 0-1-2.5-3-2.5s-3 2.5-3 2.5c-1.5 3 3 10.5 3 10.5" fill="#1e1b18" stroke="#d4af37"/><path d="M11.5 37c5.5 3.5 15.5 3.5 21 0v-7s9-4.5 6-10.5c-4-6.5-13.5-3.5-16 4V22s-2-2-4-2c-3 0-5 2-4 5.5 1 3.5 4 4.5 4 4.5s-4 2-5 5c-1 3.5 2 6 2 6v3z" fill="#1e1b18" stroke="#d4af37"/><path d="M11.5 30c5.5-3 15.5-3 21 0m-21 3.5c5.5-3 15.5-3 21 0m-21 3.5c5.5-3 15.5-3 21 0" stroke="#d4af37"/></g></svg>`,
+            bQ: `<svg viewBox="0 0 45 45"><g fill="#1e1b18" fill-rule="evenodd" stroke="#d4af37" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M8 12a2 2 0 1 1-4 0 2 2 0 0 1 4 0zm16.5-4.5a2 2 0 1 1-4 0 2 2 0 0 1 4 0zM41 12a2 2 0 1 1-4 0 2 2 0 0 1 4 0zM16 8.5a2 2 0 1 1-4 0 2 2 0 0 1 4 0zm17 0a2 2 0 1 1-4 0 2 2 0 0 1 4 0z"/><path d="M9 26c8.5-1.5 21-1.5 27 0l2-12-7 11V11l-5.5 13.5-3-15-3 15L14 11v14l-7-11 2 12z"/><path d="M9 26c0 2 1.5 2 2.5 4 1 1.5 1 1 .5 3.5-1.5 1-1.5 2.5-1.5 2.5-1.5 1.5.5 2.5.5 2.5 6.5 1 16.5 1 23 0 0 0 2-1 .5-2.5 0 0 0-1.5-1.5-2.5-.5-2.5-.5-2 .5-3.5 1-2 2.5-2 2.5-4-8.5-1.5-18.5-1.5-27 0z"/><path d="M11.5 30c3.5-1 18.5-1 22 0m-21.5 4c3.5-1 17.5-1 21 0m-21 3.5c3.5-1 17.5-1 21 0"/></g></svg>`,
+            bR: `<svg viewBox="0 0 45 45"><g fill="#1e1b18" fill-rule="evenodd" stroke="#d4af37" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M9 39h27v-3H9v3zm3-3v-4.5h21V36H12zm2.5-4.5l1.5-13.5h13l1.5 13.5h-16zM14 18h17V9h-3.5v3.5h-3V9h-4v3.5h-3V9H14v9z"/><path d="M12 36c4-1 17-1 21 0m-20-4.5c4-1 15-1 19 0m-17-13.5c4-1 11-1 15 0"/></g></svg>`,
+            bB: `<svg viewBox="0 0 45 45"><g fill="none" fill-rule="evenodd" stroke="#d4af37" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><g fill="#1e1b18"><path d="M9 36c3.39-.97 10.11.43 13.5-2 3.39 2.43 10.11 1.03 13.5 2 0 0 1.65.54 3 2-.68.97-1.65.99-3 .5-3.39-.97-10.11.46-13.5-1-3.39 1.46-10.11.03-13.5 1-1.354.49-2.323.47-3-.5 1.354-1.94 3-2 3-2zM15 32c2.5 2.5 12.5 2.5 15 0 .5-1.5 0-2 0-2 0-2.5-2.5-4-2.5-4 5.5-1.5 6-11.5-5-15.5-11 4-10.5 14-5 15.5 0 0-2.5 1.5-2.5 4 0 0-.5.5 0 2zM25 8a2.5 2.5 0 1 1-5 0 2.5 2.5 0 1 1 5 0z"/><path d="M17.5 26h10M15 30h15m-7.5-14.5v5m-2.5-2.5h5"/></g></g></svg>`,
+            bN: `<svg viewBox="0 0 45 45"><g fill="none" fill-rule="evenodd" stroke="#d4af37" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M22 10c10.5 1 16.5 8 16 29H15c0-9 10-6.5 8-21" fill="#1e1b18"/><path d="M24 18c.38 2.91-5.55 7.37-8 9-3 2-2.82 4.34-5 4-1.042-.94 1.41-3.04 0-3-1 0-.64 1.36-1 2 1.5-3 2.5-4 1-5-1.5-1-1-2.5-1-2.5s2.5.5 3-1.5c.5-2 3-4 3-4s-.5 1.5 1 2.5c1.5 1 2 0 2-1s-.5-1.5-1-2c0-1 .5-2 1-2s2 2 3.5 2.5c1.5.5 2.5-1.5 2.5-1.5s1 2 2.5 1.5c1.5-.5 1.5-2 1.5-2s1 1 2 1c1 0 1-1.5 1-1.5" fill="#1e1b18"/><path d="M9.5 25.5a.5.5 0 1 1-1 0 .5.5 0 1 1 1 0zm5.5-8a.5.5 0 1 1-1 0 .5.5 0 1 1 1 0z" fill="#d4af37"/></g></svg>`,
+            bP: `<svg viewBox="0 0 45 45"><path d="M22 9c-2.21 0-4 1.79-4 4 0 .89.29 1.71.78 2.38-1.95 1.12-3.28 3.21-3.28 5.62 0 2.03.93 3.84 2.38 5.03-3.03 1.83-5.38 5.1-5.88 9.97h20c-.5-4.87-2.85-8.14-5.88-9.97 1.45-1.19 2.38-3 2.38-5.03 0-2.41-1.33-4.5-3.28-5.62.49-.67.78-1.49.78-2.38 0-2.21-1.79-4-4-4z" fill="#1e1b18" stroke="#d4af37" stroke-width="1.5" stroke-linecap="round"/></svg>`
         };
 
         const PIECE_VALUES = { P: 100, N: 320, B: 335, R: 500, Q: 900, K: 20000 };
 
         const PST = {
             P: [
-                [0,  0,  0,  0,  0,  0,  0,  0],
+                [0, 0, 0, 0, 0, 0, 0, 0],
                 [50, 50, 50, 50, 50, 50, 50, 50],
                 [10, 10, 20, 30, 30, 20, 10, 10],
-                [5,  5, 10, 27, 27, 10,  5,  5],
-                [0,  0,  0, 25, 25,  0,  0,  0],
-                [5, -5,-10,  0,  0,-10, -5,  5],
-                [5, 10, 10,-25,-25, 10, 10,  5],
-                [0,  0,  0,  0,  0,  0,  0,  0]
+                [5, 5, 10, 27, 27, 10, 5, 5],
+                [0, 0, 0, 25, 25, 0, 0, 0],
+                [5, -5, -10, 0, 0, -10, -5, 5],
+                [5, 10, 10, -25, -25, 10, 10, 5],
+                [0, 0, 0, 0, 0, 0, 0, 0]
             ],
             N: [
-                [-50,-40,-30,-30,-30,-30,-40,-50],
-                [-40,-20,  0,  0,  0,  0,-20,-40],
-                [-30,  0, 10, 15, 15, 10,  0,-30],
-                [-30,  5, 15, 20, 20, 15,  5,-30],
-                [-30,  0, 15, 20, 20, 15,  0,-30],
-                [-30,  5, 10, 15, 15, 10,  5,-30],
-                [-40,-20,  0,  5,  5,  0,-20,-40],
-                [-50,-40,-30,-30,-30,-30,-40,-50]
+                [-50, -40, -30, -30, -30, -30, -40, -50],
+                [-40, -20, 0, 0, 0, 0, -20, -40],
+                [-30, 0, 10, 15, 15, 10, 0, -30],
+                [-30, 5, 15, 20, 20, 15, 5, -30],
+                [-30, 0, 15, 20, 20, 15, 0, -30],
+                [-30, 5, 10, 15, 15, 10, 5, -30],
+                [-40, -20, 0, 5, 5, 0, -20, -40],
+                [-50, -40, -30, -30, -30, -30, -40, -50]
             ],
             B: [
-                [-20,-10,-10,-10,-10,-10,-10,-20],
-                [-10,  0,  0,  0,  0,  0,  0,-10],
-                [-10,  0,  5, 10, 10,  5,  0,-10],
-                [-10,  5,  5, 10, 10,  5,  5,-10],
-                [-10,  0, 10, 10, 10, 10,  0,-10],
-                [-10, 10, 10, 10, 10, 10, 10,-10],
-                [-10,  5,  0,  0,  0,  0,  5,-10],
-                [-20,-10,-10,-10,-10,-10,-10,-20]
+                [-20, -10, -10, -10, -10, -10, -10, -20],
+                [-10, 0, 0, 0, 0, 0, 0, -10],
+                [-10, 0, 5, 10, 10, 5, 0, -10],
+                [-10, 5, 5, 10, 10, 5, 5, -10],
+                [-10, 0, 10, 10, 10, 10, 0, -10],
+                [-10, 10, 10, 10, 10, 10, 10, -10],
+                [-10, 5, 0, 0, 0, 0, 5, -10],
+                [-20, -10, -10, -10, -10, -10, -10, -20]
             ],
             R: [
-                [0,  0,  0,  0,  0,  0,  0,  0],
-                [5, 10, 10, 10, 10, 10, 10,  5],
-                [-5,  0,  0,  0,  0,  0,  0, -5],
-                [-5,  0,  0,  0,  0,  0,  0, -5],
-                [-5,  0,  0,  0,  0,  0,  0, -5],
-                [-5,  0,  0,  0,  0,  0,  0, -5],
-                [-5,  0,  0,  0,  0,  0,  0, -5],
-                [0,  0,  0,  5,  5,  0,  0,  0]
+                [0, 0, 0, 0, 0, 0, 0, 0],
+                [5, 10, 10, 10, 10, 10, 10, 5],
+                [-5, 0, 0, 0, 0, 0, 0, -5],
+                [-5, 0, 0, 0, 0, 0, 0, -5],
+                [-5, 0, 0, 0, 0, 0, 0, -5],
+                [-5, 0, 0, 0, 0, 0, 0, -5],
+                [-5, 0, 0, 0, 0, 0, 0, -5],
+                [0, 0, 0, 5, 5, 0, 0, 0]
             ],
             Q: [
-                [-20,-10,-10, -5, -5,-10,-10,-20],
-                [-10,  0,  0,  0,  0,  0,  0,-10],
-                [-10,  0,  5,  5,  5,  5,  0,-10],
-                [-5,  0,  5,  5,  5,  5,  0, -5],
-                [0,  0,  5,  5,  5,  5,  0, -5],
-                [-10,  5,  5,  5,  5,  5,  0,-10],
-                [-10,  0,  5,  0,  0,  0,  0,-10],
-                [-20,-10,-10, -5, -5,-10,-10,-20]
+                [-20, -10, -10, -5, -5, -10, -10, -20],
+                [-10, 0, 0, 0, 0, 0, 0, -10],
+                [-10, 0, 5, 5, 5, 5, 0, -10],
+                [-5, 0, 5, 5, 5, 5, 0, -5],
+                [0, 0, 5, 5, 5, 5, 0, -5],
+                [-10, 5, 5, 5, 5, 5, 0, -10],
+                [-10, 0, 5, 0, 0, 0, 0, -10],
+                [-20, -10, -10, -5, -5, -10, -10, -20]
             ],
             K: [
-                [-30,-40,-40,-50,-50,-40,-40,-30],
-                [-30,-40,-40,-50,-50,-40,-40,-30],
-                [-30,-40,-40,-50,-50,-40,-40,-30],
-                [-30,-40,-40,-50,-50,-40,-40,-30],
-                [-20,-30,-30,-40,-40,-30,-30,-20],
-                [-10,-20,-20,-20,-20,-20,-20,-10],
-                [20, 20,  0,  0,  0,  0, 20, 20],
-                [20, 30, 10,  0,  0, 10, 30, 20]
+                [-30, -40, -40, -50, -50, -40, -40, -30],
+                [-30, -40, -40, -50, -50, -40, -40, -30],
+                [-30, -40, -40, -50, -50, -40, -40, -30],
+                [-30, -40, -40, -50, -50, -40, -40, -30],
+                [-20, -30, -30, -40, -40, -30, -30, -20],
+                [-10, -20, -20, -20, -20, -20, -20, -10],
+                [20, 20, 0, 0, 0, 0, 20, 20],
+                [20, 30, 10, 0, 0, 10, 30, 20]
             ]
         };
 
         /**
          * =========================================================================
-         * CHESS GAME STATE
+         * AUDIO SYNTHESIZER
          * =========================================================================
          */
-        class ChessState {
+        let soundEnabled = true;
+        let audioCtx = null;
+
+        function getAudioContext() {
+            if (!audioCtx) {
+                audioCtx = new (window.AudioContext || window.webkitAudioContext)();
+            }
+            if (audioCtx.state === 'suspended') {
+                audioCtx.resume();
+            }
+            return audioCtx;
+        }
+
+        function playSound(type) {
+            if (!soundEnabled) return;
+            try {
+                const ctx = getAudioContext();
+                const now = ctx.currentTime;
+                const osc = ctx.createOscillator();
+                const gain = ctx.createGain();
+
+                if (type === 'move') {
+                    osc.type = 'sine';
+                    osc.frequency.setValueAtTime(320, now);
+                    osc.frequency.exponentialRampToValueAtTime(160, now + 0.08);
+                    gain.gain.setValueAtTime(0.2, now);
+                    gain.gain.exponentialRampToValueAtTime(0.001, now + 0.08);
+                    osc.connect(gain);
+                    gain.connect(ctx.destination);
+                    osc.start(now);
+                    osc.stop(now + 0.08);
+                } else if (type === 'capture') {
+                    osc.type = 'triangle';
+                    osc.frequency.setValueAtTime(540, now);
+                    osc.frequency.exponentialRampToValueAtTime(180, now + 0.12);
+                    gain.gain.setValueAtTime(0.25, now);
+                    gain.gain.exponentialRampToValueAtTime(0.001, now + 0.12);
+                    osc.connect(gain);
+                    gain.connect(ctx.destination);
+                    osc.start(now);
+                    osc.stop(now + 0.12);
+                } else if (type === 'check') {
+                    osc.type = 'sawtooth';
+                    osc.frequency.setValueAtTime(620, now);
+                    osc.frequency.setValueAtTime(740, now + 0.06);
+                    gain.gain.setValueAtTime(0.18, now);
+                    gain.gain.exponentialRampToValueAtTime(0.001, now + 0.18);
+                    osc.connect(gain);
+                    gain.connect(ctx.destination);
+                    osc.start(now);
+                    osc.stop(now + 0.18);
+                }
+            } catch (e) {}
+        }
+
+        function toggleSound() {
+            soundEnabled = !soundEnabled;
+            const btn = document.getElementById('audioIcon');
+            if (soundEnabled) {
+                btn.className = 'fa-solid fa-volume-high text-salon-gold';
+                document.getElementById('audioIcon').parentElement.innerHTML = '<i id="audioIcon" class="fa-solid fa-volume-high text-salon-gold"></i> Sound: ON';
+                playSound('move');
+            } else {
+                document.getElementById('audioIcon').parentElement.innerHTML = '<i id="audioIcon" class="fa-solid fa-volume-xmark"></i> Sound: OFF';
+            }
+        }
+
+        /**
+         * =========================================================================
+         * CHESS LOGIC & EVALUATION ENGINE
+         * =========================================================================
+         */
+        class ChessGame {
             constructor() {
                 this.reset();
             }
@@ -698,113 +749,41 @@ return sigmoid(pst + space)</pre>
                 this.board = [
                     ['bR', 'bN', 'bB', 'bQ', 'bK', 'bB', 'bN', 'bR'],
                     ['bP', 'bP', 'bP', 'bP', 'bP', 'bP', 'bP', 'bP'],
-                    [null, null, null, null, null, null, null, null],
-                    [null, null, null, null, null, null, null, null],
-                    [null, null, null, null, null, null, null, null],
-                    [null, null, null, null, null, null, null, null],
+                    ['', '', '', '', '', '', '', ''],
+                    ['', '', '', '', '', '', '', ''],
+                    ['', '', '', '', '', '', '', ''],
+                    ['', '', '', '', '', '', '', ''],
                     ['wP', 'wP', 'wP', 'wP', 'wP', 'wP', 'wP', 'wP'],
                     ['wR', 'wN', 'wB', 'wQ', 'wK', 'wB', 'wN', 'wR']
                 ];
                 this.turn = 'w';
                 this.castling = { wK: true, wQ: true, bK: true, bQ: true };
                 this.enPassant = null;
-                this.history = [];
-                this.lastMove = null;
-                this.isGameOver = false;
+                this.moveHistory = [];
+                this.historyStates = [];
+                this.halfmoveClock = 0;
+                this.fullmoveNumber = 1;
                 this.gameResult = null;
             }
 
             clone() {
-                const s = new ChessState();
-                s.board = this.board.map(r => [...r]);
-                s.turn = this.turn;
-                s.castling = { ...this.castling };
-                s.enPassant = this.enPassant ? { ...this.enPassant } : null;
-                s.lastMove = this.lastMove ? { from: { ...this.lastMove.from }, to: { ...this.lastMove.to } } : null;
-                s.isGameOver = this.isGameOver;
-                s.gameResult = this.gameResult;
-                return s;
+                const copy = new ChessGame();
+                copy.board = this.board.map(r => [...r]);
+                copy.turn = this.turn;
+                copy.castling = { ...this.castling };
+                copy.enPassant = this.enPassant ? { ...this.enPassant } : null;
+                copy.moveHistory = [...this.moveHistory];
+                copy.halfmoveClock = this.halfmoveClock;
+                copy.fullmoveNumber = this.fullmoveNumber;
+                copy.gameResult = this.gameResult;
+                return copy;
             }
 
-            findKing(color) {
-                const target = color + 'K';
-                for (let r = 0; r < 8; r++) {
-                    for (let c = 0; c < 8; c++) {
-                        if (this.board[r][c] === target) return { r, c };
-                    }
-                }
-                return null;
+            inBounds(r, c) {
+                return r >= 0 && r < 8 && c >= 0 && c < 8;
             }
 
-            isAttacked(r, c, attackerColor) {
-                // Knight
-                const kOffsets = [[-2,-1],[-2,1],[-1,-2],[-1,2],[1,-2],[1,2],[2,-1],[2,1]];
-                for (const [dr, dc] of kOffsets) {
-                    const nr = r + dr, nc = c + dc;
-                    if (nr >= 0 && nr < 8 && nc >= 0 && nc < 8) {
-                        if (this.board[nr][nc] === attackerColor + 'N') return true;
-                    }
-                }
-
-                // Pawns
-                const pDir = attackerColor === 'w' ? 1 : -1;
-                for (const dc of [-1, 1]) {
-                    const pr = r + pDir, pc = c + dc;
-                    if (pr >= 0 && pr < 8 && pc >= 0 && pc < 8) {
-                        if (this.board[pr][pc] === attackerColor + 'P') return true;
-                    }
-                }
-
-                // King
-                for (let dr = -1; dr <= 1; dr++) {
-                    for (let dc = -1; dc <= 1; dc++) {
-                        if (dr === 0 && dc === 0) continue;
-                        const kr = r + dr, kc = c + dc;
-                        if (kr >= 0 && kr < 8 && kc >= 0 && kc < 8) {
-                            if (this.board[kr][kc] === attackerColor + 'K') return true;
-                        }
-                    }
-                }
-
-                // Orthogonal (Rook/Queen)
-                const orth = [[-1,0],[1,0],[0,-1],[0,1]];
-                for (const [dr, dc] of orth) {
-                    let nr = r + dr, nc = c + dc;
-                    while (nr >= 0 && nr < 8 && nc >= 0 && nc < 8) {
-                        const p = this.board[nr][nc];
-                        if (p) {
-                            if (p[0] === attackerColor && (p[1] === 'R' || p[1] === 'Q')) return true;
-                            break;
-                        }
-                        nr += dr; nc += dc;
-                    }
-                }
-
-                // Diagonal (Bishop/Queen)
-                const diag = [[-1,-1],[-1,1],[1,-1],[1,1]];
-                for (const [dr, dc] of diag) {
-                    let nr = r + dr, nc = c + dc;
-                    while (nr >= 0 && nr < 8 && nc >= 0 && nc < 8) {
-                        const p = this.board[nr][nc];
-                        if (p) {
-                            if (p[0] === attackerColor && (p[1] === 'B' || p[1] === 'Q')) return true;
-                            break;
-                        }
-                        nr += dr; nc += dc;
-                    }
-                }
-
-                return false;
-            }
-
-            isInCheck(color) {
-                const k = this.findKing(color);
-                if (!k) return false;
-                const enemy = color === 'w' ? 'b' : 'w';
-                return this.isAttacked(k.r, k.c, enemy);
-            }
-
-            getPseudoMoves(r, c) {
+            getRawMoves(r, c) {
                 const piece = this.board[r][c];
                 if (!piece) return [];
                 const color = piece[0];
@@ -813,119 +792,188 @@ return sigmoid(pst + space)</pre>
 
                 if (type === 'P') {
                     const dir = color === 'w' ? -1 : 1;
-                    const startRank = color === 'w' ? 6 : 1;
-                    const promoRank = color === 'w' ? 0 : 7;
+                    const startRow = color === 'w' ? 6 : 1;
 
-                    // 1 Step
-                    if (r + dir >= 0 && r + dir < 8 && !this.board[r + dir][c]) {
-                        if (r + dir === promoRank) {
-                            for (const promo of ['Q', 'R', 'B', 'N']) {
-                                moves.push({ from: { r, c }, to: { r: r + dir, c }, promotion: promo });
-                            }
-                        } else {
-                            moves.push({ from: { r, c }, to: { r: r + dir, c } });
-                            // 2 Step
-                            if (r === startRank && !this.board[r + 2 * dir][c]) {
-                                moves.push({ from: { r, c }, to: { r: r + 2 * dir, c }, isDoublePush: true });
-                            }
+                    // Single push
+                    if (this.inBounds(r + dir, c) && !this.board[r + dir][c]) {
+                        moves.push({ r: r + dir, c });
+                        // Double push
+                        if (r === startRow && !this.board[r + 2 * dir][c]) {
+                            moves.push({ r: r + 2 * dir, c });
                         }
                     }
 
                     // Captures
                     for (const dc of [-1, 1]) {
-                        const tc = c + dc;
-                        const tr = r + dir;
-                        if (tr >= 0 && tr < 8 && tc >= 0 && tc < 8) {
-                            const target = this.board[tr][tc];
-                            if (target && target[0] !== color) {
-                                if (tr === promoRank) {
-                                    for (const promo of ['Q', 'R', 'B', 'N']) {
-                                        moves.push({ from: { r, c }, to: { r: tr, c: tc }, promotion: promo });
-                                    }
-                                } else {
-                                    moves.push({ from: { r, c }, to: { r: tr, c: tc } });
-                                }
-                            } else if (this.enPassant && this.enPassant.r === tr && this.enPassant.c === tc) {
-                                moves.push({ from: { r, c }, to: { r: tr, c: tc }, isEnPassant: true });
+                        const tr = r + dir, tc = c + dc;
+                        if (this.inBounds(tr, tc)) {
+                            const tgt = this.board[tr][tc];
+                            if (tgt && tgt[0] !== color) {
+                                moves.push({ r: tr, c: tc });
+                            }
+                            // En Passant
+                            if (this.enPassant && this.enPassant.r === tr && this.enPassant.c === tc) {
+                                moves.push({ r: tr, c: tc, isEnPassant: true });
                             }
                         }
                     }
                 } else if (type === 'N') {
-                    const offsets = [[-2,-1],[-2,1],[-1,-2],[-1,2],[1,-2],[1,2],[2,-1],[2,1]];
-                    for (const [dr, dc] of offsets) {
+                    const deltas = [
+                        [-2, -1], [-2, 1], [-1, -2], [-1, 2],
+                        [1, -2], [1, 2], [2, -1], [2, 1]
+                    ];
+                    for (const [dr, dc] of deltas) {
                         const tr = r + dr, tc = c + dc;
-                        if (tr >= 0 && tr < 8 && tc >= 0 && tc < 8) {
-                            const target = this.board[tr][tc];
-                            if (!target || target[0] !== color) {
-                                moves.push({ from: { r, c }, to: { r: tr, c: tc } });
-                            }
+                        if (this.inBounds(tr, tc)) {
+                            const tgt = this.board[tr][tc];
+                            if (!tgt || tgt[0] !== color) moves.push({ r: tr, c: tc });
                         }
                     }
                 } else if (type === 'B' || type === 'R' || type === 'Q') {
-                    const dirs = [];
-                    if (type === 'B' || type === 'Q') dirs.push([-1,-1],[-1,1],[1,-1],[1,1]);
-                    if (type === 'R' || type === 'Q') dirs.push([-1,0],[1,0],[0,-1],[0,1]);
-
-                    for (const [dr, dc] of dirs) {
+                    const directions = [];
+                    if (type === 'B' || type === 'Q') {
+                        directions.push([-1, -1], [-1, 1], [1, -1], [1, 1]);
+                    }
+                    if (type === 'R' || type === 'Q') {
+                        directions.push([-1, 0], [1, 0], [0, -1], [0, 1]);
+                    }
+                    for (const [dr, dc] of directions) {
                         let tr = r + dr, tc = c + dc;
-                        while (tr >= 0 && tr < 8 && tc >= 0 && tc < 8) {
-                            const target = this.board[tr][tc];
-                            if (!target) {
-                                moves.push({ from: { r, c }, to: { r: tr, c: tc } });
+                        while (this.inBounds(tr, tc)) {
+                            const tgt = this.board[tr][tc];
+                            if (!tgt) {
+                                moves.push({ r: tr, c: tc });
                             } else {
-                                if (target[0] !== color) moves.push({ from: { r, c }, to: { r: tr, c: tc } });
+                                if (tgt[0] !== color) moves.push({ r: tr, c: tc });
                                 break;
                             }
-                            tr += dr; tc += dc;
+                            tr += dr;
+                            tc += dc;
                         }
                     }
                 } else if (type === 'K') {
-                    for (let dr = -1; dr <= 1; dr++) {
-                        for (let dc = -1; dc <= 1; dc++) {
-                            if (dr === 0 && dc === 0) continue;
-                            const tr = r + dr, tc = c + dc;
-                            if (tr >= 0 && tr < 8 && tc >= 0 && tc < 8) {
-                                const target = this.board[tr][tc];
-                                if (!target || target[0] !== color) {
-                                    moves.push({ from: { r, c }, to: { r: tr, c: tc } });
-                                }
-                            }
+                    const deltas = [
+                        [-1, -1], [-1, 0], [-1, 1],
+                        [0, -1],           [0, 1],
+                        [1, -1],  [1, 0],  [1, 1]
+                    ];
+                    for (const [dr, dc] of deltas) {
+                        const tr = r + dr, tc = c + dc;
+                        if (this.inBounds(tr, tc)) {
+                            const tgt = this.board[tr][tc];
+                            if (!tgt || tgt[0] !== color) moves.push({ r: tr, c: tc });
                         }
                     }
 
                     // Castling
-                    const enemy = color === 'w' ? 'b' : 'w';
-                    if (!this.isInCheck(color)) {
-                        if (color === 'w' && r === 7 && c === 4) {
-                            if (this.castling.wK && !this.board[7][5] && !this.board[7][6] && !this.isAttacked(7,5,enemy) && !this.isAttacked(7,6,enemy)) {
-                                moves.push({ from: { r: 7, c: 4 }, to: { r: 7, c: 6 }, isCastleKingside: true });
-                            }
-                            if (this.castling.wQ && !this.board[7][3] && !this.board[7][2] && !this.board[7][1] && !this.isAttacked(7,3,enemy) && !this.isAttacked(7,2,enemy)) {
-                                moves.push({ from: { r: 7, c: 4 }, to: { r: 7, c: 2 }, isCastleQueenside: true });
-                            }
-                        } else if (color === 'b' && r === 0 && c === 4) {
-                            if (this.castling.bK && !this.board[0][5] && !this.board[0][6] && !this.isAttacked(0,5,enemy) && !this.isAttacked(0,6,enemy)) {
-                                moves.push({ from: { r: 0, c: 4 }, to: { r: 0, c: 6 }, isCastleKingside: true });
-                            }
-                            if (this.castling.bQ && !this.board[0][3] && !this.board[0][2] && !this.board[0][1] && !this.isAttacked(0,3,enemy) && !this.isAttacked(0,2,enemy)) {
-                                moves.push({ from: { r: 0, c: 4 }, to: { r: 0, c: 2 }, isCastleQueenside: true });
-                            }
+                    if (color === 'w' && r === 7 && c === 4) {
+                        if (this.castling.wK && !this.board[7][5] && !this.board[7][6] &&
+                            !this.isSquareAttacked(7, 4, 'b') && !this.isSquareAttacked(7, 5, 'b') && !this.isSquareAttacked(7, 6, 'b')) {
+                            moves.push({ r: 7, c: 6, isCastle: 'K' });
+                        }
+                        if (this.castling.wQ && !this.board[7][3] && !this.board[7][2] && !this.board[7][1] &&
+                            !this.isSquareAttacked(7, 4, 'b') && !this.isSquareAttacked(7, 3, 'b') && !this.isSquareAttacked(7, 2, 'b')) {
+                            moves.push({ r: 7, c: 2, isCastle: 'Q' });
+                        }
+                    } else if (color === 'b' && r === 0 && c === 4) {
+                        if (this.castling.bK && !this.board[0][5] && !this.board[0][6] &&
+                            !this.isSquareAttacked(0, 4, 'w') && !this.isSquareAttacked(0, 5, 'w') && !this.isSquareAttacked(0, 6, 'w')) {
+                            moves.push({ r: 0, c: 6, isCastle: 'K' });
+                        }
+                        if (this.castling.bQ && !this.board[0][3] && !this.board[0][2] && !this.board[0][1] &&
+                            !this.isSquareAttacked(0, 4, 'w') && !this.isSquareAttacked(0, 3, 'w') && !this.isSquareAttacked(0, 2, 'w')) {
+                            moves.push({ r: 0, c: 2, isCastle: 'Q' });
                         }
                     }
                 }
-
                 return moves;
+            }
+
+            isSquareAttacked(r, c, byColor) {
+                // Knight attacks
+                const knightDeltas = [
+                    [-2, -1], [-2, 1], [-1, -2], [-1, 2],
+                    [1, -2], [1, 2], [2, -1], [2, 1]
+                ];
+                for (const [dr, dc] of knightDeltas) {
+                    const tr = r + dr, tc = c + dc;
+                    if (this.inBounds(tr, tc) && this.board[tr][tc] === byColor + 'N') return true;
+                }
+
+                // Pawn attacks
+                const pawnDir = byColor === 'w' ? 1 : -1;
+                for (const dc of [-1, 1]) {
+                    const tr = r + pawnDir, tc = c + dc;
+                    if (this.inBounds(tr, tc) && this.board[tr][tc] === byColor + 'P') return true;
+                }
+
+                // King attacks
+                for (let dr = -1; dr <= 1; dr++) {
+                    for (let dc = -1; dc <= 1; dc++) {
+                        if (dr === 0 && dc === 0) continue;
+                        const tr = r + dr, tc = c + dc;
+                        if (this.inBounds(tr, tc) && this.board[tr][tc] === byColor + 'K') return true;
+                    }
+                }
+
+                // Sliding lines: Straight
+                const straight = [[-1, 0], [1, 0], [0, -1], [0, 1]];
+                for (const [dr, dc] of straight) {
+                    let tr = r + dr, tc = c + dc;
+                    while (this.inBounds(tr, tc)) {
+                        const p = this.board[tr][tc];
+                        if (p) {
+                            if (p === byColor + 'R' || p === byColor + 'Q') return true;
+                            break;
+                        }
+                        tr += dr;
+                        tc += dc;
+                    }
+                }
+
+                // Sliding lines: Diagonal
+                const diagonal = [[-1, -1], [-1, 1], [1, -1], [1, 1]];
+                for (const [dr, dc] of diagonal) {
+                    let tr = r + dr, tc = c + dc;
+                    while (this.inBounds(tr, tc)) {
+                        const p = this.board[tr][tc];
+                        if (p) {
+                            if (p === byColor + 'B' || p === byColor + 'Q') return true;
+                            break;
+                        }
+                        tr += dr;
+                        tc += dc;
+                    }
+                }
+                return false;
+            }
+
+            findKing(color) {
+                for (let r = 0; r < 8; r++) {
+                    for (let c = 0; c < 8; c++) {
+                        if (this.board[r][c] === color + 'K') return { r, c };
+                    }
+                }
+                return null;
+            }
+
+            isInCheck(color) {
+                const k = this.findKing(color);
+                if (!k) return false;
+                const opp = color === 'w' ? 'b' : 'w';
+                return this.isSquareAttacked(k.r, k.c, opp);
             }
 
             getLegalMoves(r, c) {
                 const piece = this.board[r][c];
                 if (!piece || piece[0] !== this.turn) return [];
-                const pseudo = this.getPseudoMoves(r, c);
+
+                const raw = this.getRawMoves(r, c);
                 const legal = [];
 
-                for (const m of pseudo) {
+                for (const m of raw) {
                     const sim = this.clone();
-                    sim.applyMove(m);
+                    sim.makeMoveInternal(r, c, m.r, m.c, m.isCastle, m.isEnPassant, 'Q');
                     if (!sim.isInCheck(piece[0])) {
                         legal.push(m);
                     }
@@ -933,394 +981,312 @@ return sigmoid(pst + space)</pre>
                 return legal;
             }
 
-            getAllLegalMoves(color = this.turn) {
-                const all = [];
+            getAllLegalMoves(color) {
+                const list = [];
                 for (let r = 0; r < 8; r++) {
                     for (let c = 0; c < 8; c++) {
-                        const p = this.board[r][c];
-                        if (p && p[0] === color) {
-                            const pseudo = this.getPseudoMoves(r, c);
-                            for (const m of pseudo) {
-                                const sim = this.clone();
-                                sim.applyMove(m);
-                                if (!sim.isInCheck(color)) all.push(m);
+                        if (this.board[r][c] && this.board[r][c][0] === color) {
+                            const moves = this.getLegalMoves(r, c);
+                            for (const m of moves) {
+                                list.push({ from: { r, c }, to: m });
                             }
                         }
                     }
                 }
-                return all;
+                return list;
             }
 
-            applyMove(m) {
-                const { from, to, promotion, isEnPassant, isCastleKingside, isCastleQueenside, isDoublePush } = m;
-                const piece = this.board[from.r][from.c];
-                if (!piece) return;
+            makeMoveInternal(fr, fc, tr, tc, isCastle, isEnPassant, promoType = 'Q') {
+                const piece = this.board[fr][fc];
                 const color = piece[0];
                 const type = piece[1];
 
-                this.board[from.r][from.c] = null;
+                this.board[fr][fc] = '';
 
-                if (isEnPassant) {
-                    const capRow = color === 'w' ? to.r + 1 : to.r - 1;
-                    this.board[capRow][to.c] = null;
+                // Handle Castling
+                if (isCastle) {
+                    this.board[tr][tc] = piece;
+                    if (isCastle === 'K') {
+                        this.board[fr][5] = this.board[fr][7];
+                        this.board[fr][7] = '';
+                    } else if (isCastle === 'Q') {
+                        this.board[fr][3] = this.board[fr][0];
+                        this.board[fr][0] = '';
+                    }
+                }
+                // Handle En Passant Capture
+                else if (isEnPassant) {
+                    this.board[tr][tc] = piece;
+                    const captureRow = color === 'w' ? tr + 1 : tr - 1;
+                    this.board[captureRow][tc] = '';
+                }
+                // Handle Promotion
+                else if (type === 'P' && (tr === 0 || tr === 7)) {
+                    this.board[tr][tc] = color + promoType;
+                }
+                // Normal Move
+                else {
+                    this.board[tr][tc] = piece;
                 }
 
-                if (isCastleKingside) {
-                    const row = color === 'w' ? 7 : 0;
-                    this.board[row][5] = this.board[row][7];
-                    this.board[row][7] = null;
-                } else if (isCastleQueenside) {
-                    const row = color === 'w' ? 7 : 0;
-                    this.board[row][3] = this.board[row][0];
-                    this.board[row][0] = null;
-                }
-
-                this.board[to.r][to.c] = promotion ? (color + promotion) : piece;
-
-                // Update castling rights
+                // Update Castling rights
                 if (type === 'K') {
                     if (color === 'w') { this.castling.wK = false; this.castling.wQ = false; }
                     else { this.castling.bK = false; this.castling.bQ = false; }
                 } else if (type === 'R') {
-                    if (from.r === 7 && from.c === 7) this.castling.wK = false;
-                    if (from.r === 7 && from.c === 0) this.castling.wQ = false;
-                    if (from.r === 0 && from.c === 7) this.castling.bK = false;
-                    if (from.r === 0 && from.c === 0) this.castling.bQ = false;
+                    if (fr === 7 && fc === 7) this.castling.wK = false;
+                    if (fr === 7 && fc === 0) this.castling.wQ = false;
+                    if (fr === 0 && fc === 7) this.castling.bK = false;
+                    if (fr === 0 && fc === 0) this.castling.bQ = false;
                 }
 
-                if (isDoublePush) {
-                    this.enPassant = { r: (from.r + to.r) / 2, c: from.c };
+                // Set En Passant Target
+                if (type === 'P' && Math.abs(tr - fr) === 2) {
+                    this.enPassant = { r: (fr + tr) / 2, c: fc };
                 } else {
                     this.enPassant = null;
                 }
-
-                this.turn = color === 'w' ? 'b' : 'w';
-                this.lastMove = { from, to };
             }
 
-            makeMove(move, isBadMoveExperiment = false) {
-                const beforeEval = evaluatePosition(this);
-                const snapshot = {
+            executeMove(fr, fc, tr, tc, promoType = 'Q', isBadMoveAllowed = false) {
+                const piece = this.board[fr][fc];
+                if (!piece) return false;
+
+                const legalMoves = this.getLegalMoves(fr, fc);
+                let moveObj = legalMoves.find(m => m.r === tr && m.c === tc);
+
+                if (!moveObj && !isBadMoveAllowed) {
+                    return false;
+                }
+
+                const stateSnapshot = {
                     board: this.board.map(r => [...r]),
                     turn: this.turn,
                     castling: { ...this.castling },
                     enPassant: this.enPassant ? { ...this.enPassant } : null,
-                    lastMove: this.lastMove ? { ...this.lastMove } : null,
-                    san: this.moveToSAN(move),
-                    moveDetails: { ...move, piece: this.board[move.from.r][move.from.c] },
-                    beforeEval,
-                    isBadMove: isBadMoveExperiment
+                    fr, fc, tr, tc, piece,
+                    san: this.formatNotation(fr, fc, tr, tc, moveObj, promoType)
                 };
+                this.historyStates.push(stateSnapshot);
 
-                this.applyMove(move);
+                const isCastle = moveObj ? moveObj.isCastle : null;
+                const isEnPassant = moveObj ? moveObj.isEnPassant : null;
 
-                const afterEval = evaluatePosition(this);
-                snapshot.eval = afterEval.score;
-                snapshot.whiteWinPct = afterEval.whiteWinPct;
-                this.history.push(snapshot);
+                const isCapture = !!this.board[tr][tc] || isEnPassant;
 
-                const legal = this.getAllLegalMoves();
-                if (legal.length === 0) {
-                    this.isGameOver = true;
+                this.makeMoveInternal(fr, fc, tr, tc, isCastle, isEnPassant, promoType);
+
+                this.turn = this.turn === 'w' ? 'b' : 'w';
+                if (this.turn === 'w') this.fullmoveNumber++;
+
+                // Sound
+                if (this.isInCheck(this.turn)) {
+                    playSound('check');
+                } else if (isCapture) {
+                    playSound('capture');
+                } else {
+                    playSound('move');
+                }
+
+                // Check Game State
+                const remainingMoves = this.getAllLegalMoves(this.turn);
+                if (remainingMoves.length === 0) {
                     if (this.isInCheck(this.turn)) {
-                        this.gameResult = this.turn === 'w' ? 'Black Wins by Checkmate (0-1)' : 'White Wins by Checkmate (1-0)';
+                        this.gameResult = this.turn === 'w' ? 'Black Wins by Checkmate ♚' : 'White Wins by Checkmate ♔';
                     } else {
-                        this.gameResult = 'Draw by Stalemate (½-½)';
+                        this.gameResult = 'Stalemate — Drawn Game 🤝';
                     }
                 }
+
                 return true;
             }
 
             undo() {
-                if (this.history.length === 0) return false;
-                const prev = this.history.pop();
+                if (this.historyStates.length === 0) return null;
+                const prev = this.historyStates.pop();
                 this.board = prev.board;
                 this.turn = prev.turn;
                 this.castling = prev.castling;
                 this.enPassant = prev.enPassant;
-                this.lastMove = prev.lastMove;
-                this.isGameOver = false;
                 this.gameResult = null;
-                return true;
+                return prev;
             }
 
-            moveToSAN(m) {
-                if (m.isCastleKingside) return 'O-O';
-                if (m.isCastleQueenside) return 'O-O-O';
-                const p = this.board[m.from.r][m.from.c];
-                if (!p) return '??';
-                const files = ['a','b','c','d','e','f','g','h'];
-                const ranks = ['8','7','6','5','4','3','2','1'];
-                const toSq = files[m.to.c] + ranks[m.to.r];
-                const isCap = this.board[m.to.r][m.to.c] !== null || m.isEnPassant;
+            formatNotation(fr, fc, tr, tc, moveObj, promo) {
+                const piece = this.board[fr][fc];
+                if (!piece) return '';
+                const ptype = piece[1];
+                const files = ['a', 'b', 'c', 'd', 'e', 'f', 'g', 'h'];
+                const ranks = ['8', '7', '6', '5', '4', '3', '2', '1'];
+
+                if (moveObj && moveObj.isCastle === 'K') return 'O-O';
+                if (moveObj && moveObj.isCastle === 'Q') return 'O-O-O';
 
                 let san = '';
-                if (p[1] === 'P') {
-                    if (isCap) san = files[m.from.c] + 'x' + toSq;
-                    else san = toSq;
-                    if (m.promotion) san += '=' + m.promotion;
-                } else {
-                    san = p[1] + (isCap ? 'x' : '') + toSq;
-                }
+                if (ptype !== 'P') san += ptype;
+
+                const isCap = !!this.board[tr][tc] || (moveObj && moveObj.isEnPassant);
+                if (ptype === 'P' && isCap) san += files[fc];
+                if (isCap) san += 'x';
+
+                san += files[tc] + ranks[tr];
+                if (ptype === 'P' && (tr === 0 || tr === 7)) san += '=' + promo;
                 return san;
             }
 
-            exportFEN() {
-                const files = ['a','b','c','d','e','f','g','h'];
-                const ranks = ['8','7','6','5','4','3','2','1'];
-                let fen = '';
+            // Real-Time Evaluation Function
+            evaluate() {
+                let score = 0; // in centipawns (positive for White)
+                let whiteMaterial = 0, blackMaterial = 0;
+
                 for (let r = 0; r < 8; r++) {
-                    let empty = 0;
                     for (let c = 0; c < 8; c++) {
                         const p = this.board[r][c];
-                        if (!p) empty++;
-                        else {
-                            if (empty > 0) { fen += empty; empty = 0; }
-                            fen += (p[0] === 'w' ? p[1] : p[1].toLowerCase());
+                        if (!p) continue;
+                        const col = p[0];
+                        const type = p[1];
+                        const val = PIECE_VALUES[type] || 0;
+                        const pstTable = PST[type];
+                        const pstVal = pstTable ? (col === 'w' ? pstTable[r][c] : pstTable[7 - r][c]) : 0;
+
+                        if (col === 'w') {
+                            score += (val + pstVal);
+                            if (type !== 'K') whiteMaterial += val;
+                        } else {
+                            score -= (val + pstVal);
+                            if (type !== 'K') blackMaterial += val;
                         }
                     }
-                    if (empty > 0) fen += empty;
-                    if (r < 7) fen += '/';
                 }
-                fen += ` ${this.turn} `;
-                let cStr = '';
-                if (this.castling.wK) cStr += 'K';
-                if (this.castling.wQ) cStr += 'Q';
-                if (this.castling.bK) cStr += 'k';
-                if (this.castling.bQ) cStr += 'q';
-                fen += (cStr || '-') + ' ';
-                fen += this.enPassant ? (files[this.enPassant.c] + ranks[this.enPassant.r]) : '-';
-                fen += ' 0 1';
-                return fen;
+
+                // Center space bonus
+                const centerSquares = [[3, 3], [3, 4], [4, 3], [4, 4]];
+                for (const [r, c] of centerSquares) {
+                    const p = this.board[r][c];
+                    if (p) score += (p[0] === 'w' ? 25 : -25);
+                }
+
+                // Sigmoid Win Probability
+                const whiteWinPct = 1 / (1 + Math.pow(10, -score / 400));
+                const blackWinPct = 1 - whiteWinPct;
+
+                return {
+                    scoreCp: score,
+                    score: score / 100,
+                    whiteWinPct: (whiteWinPct * 100).toFixed(1),
+                    blackWinPct: (blackWinPct * 100).toFixed(1),
+                    whiteMaterial,
+                    blackMaterial
+                };
             }
         }
 
         /**
          * =========================================================================
-         * EVALUATION & WIN PROBABILITY
+         * UI CONTROLLER & CHESS TUTOR
          * =========================================================================
          */
-        function evaluatePosition(state) {
-            let matW = 0, matB = 0;
-            let pstW = 0, pstB = 0;
-            let centerW = 0, centerB = 0;
-
-            for (let r = 0; r < 8; r++) {
-                for (let c = 0; c < 8; c++) {
-                    const p = state.board[r][c];
-                    if (!p) continue;
-                    const color = p[0];
-                    const type = p[1];
-                    const val = PIECE_VALUES[type] || 0;
-
-                    const pstRow = color === 'w' ? r : (7 - r);
-                    const pstVal = PST[type] ? PST[type][pstRow][c] : 0;
-
-                    if (color === 'w') {
-                        if (type !== 'K') matW += val;
-                        pstW += pstVal;
-                        if ((r === 3 || r === 4) && (c === 3 || c === 4)) centerW += 20;
-                    } else {
-                        if (type !== 'K') matB += val;
-                        pstB += pstVal;
-                        if ((r === 3 || r === 4) && (c === 3 || c === 4)) centerB += 20;
-                    }
-                }
-            }
-
-            const mobW = state.getAllLegalMoves('w').length * 4;
-            const mobB = state.getAllLegalMoves('b').length * 4;
-
-            const totalW = matW + pstW + centerW + mobW;
-            const totalB = matB + pstB + centerB + mobB;
-            const centipawns = totalW - totalB;
-
-            const score = centipawns / 100.0;
-            const exponent = -centipawns / 400.0;
-            const whiteWinPct = Math.min(99.9, Math.max(0.1, 100.0 / (1.0 + Math.pow(10, exponent))));
-            const blackWinPct = 100.0 - whiteWinPct;
-
-            return {
-                score,
-                centipawns,
-                whiteWinPct: parseFloat(whiteWinPct.toFixed(1)),
-                blackWinPct: parseFloat(blackWinPct.toFixed(1)),
-                matW, matB, centerW, centerB, mobW, mobB
-            };
-        }
-
-        /**
-         * =========================================================================
-         * APP STATE & CONTROLLERS
-         * =========================================================================
-         */
-        let game = new ChessState();
-        let selectedSq = null;
-        let legalMoves = [];
-        let hoveredMoves = [];
-        let badMovesAllowed = false;
+        const game = new ChessGame();
+        let selectedSquare = null;
+        let legalMovesForSelected = [];
+        let badMovesMode = false;
         let arenaMode = 'human'; // 'human', 'ai_spar', 'ai_duel'
-        let threatVisionActive = false;
-        let soundActive = true;
-        let aiDuelTimer = null;
+        let boardFlipped = false;
+        let aiThinking = false;
 
-        // Audio synthesizer
-        const audioCtx = new (window.AudioContext || window.webkitAudioContext)();
-        function playBeep(freq = 440, duration = 0.08) {
-            if (!soundActive) return;
-            try {
-                const osc = audioCtx.createOscillator();
-                const gain = audioCtx.createGain();
-                osc.connect(gain);
-                gain.connect(audioCtx.destination);
-                osc.frequency.value = freq;
-                gain.gain.setValueAtTime(0.12, audioCtx.currentTime);
-                gain.gain.exponentialRampToValueAtTime(0.001, audioCtx.currentTime + duration);
-                osc.start();
-                osc.stop(audioCtx.currentTime + duration);
-            } catch (e) {}
+        function initApp() {
+            renderBoard();
+            updateEvaluation();
+            explainOpeningInitial();
         }
 
-        function toggleBadMovesAllowed() {
-            badMovesAllowed = !badMovesAllowed;
-            const btn = document.getElementById('badMovesToggleBtn');
-            const text = document.getElementById('badMovesBtnText');
+        function toggleBadMovesMode() {
+            badMovesMode = !badMovesMode;
             const banner = document.getElementById('badMoveBanner');
+            const btn = document.getElementById('badMoveToggleBtn');
 
-            if (badMovesAllowed) {
-                btn.classList.add('active');
-                text.textContent = 'Bad Moves: ALLOWED';
+            if (badMovesMode) {
                 banner.classList.remove('hidden');
-                triggerToast('⚠️ Bad Moves Mode ON: Move any piece anywhere to test blunders!');
-                logREPL('>>> bad_moves_allowed = True # Sandbox mode enabled');
+                btn.classList.add('border-salon-gold', 'bg-[#38271E]', 'text-salon-gold');
+                triggerToast('⚔️ Free Exploration Active: Any square is accessible');
             } else {
-                btn.classList.remove('active');
-                text.textContent = 'Bad Moves: OFF';
                 banner.classList.add('hidden');
-                triggerToast('Standard Chess Rules Active');
-                logREPL('>>> bad_moves_allowed = False # Standard rules enforced');
+                btn.classList.remove('border-salon-gold', 'bg-[#38271E]', 'text-salon-gold');
+                triggerToast('Standard Grandmaster rules enforced');
             }
-            selectedSq = null;
-            legalMoves = [];
             renderBoard();
         }
 
         function setArenaMode(mode) {
-            stopAiDuel();
             arenaMode = mode;
-            document.querySelectorAll('.btn-mode').forEach(b => b.classList.remove('active'));
+            document.getElementById('modePvp').classList.toggle('active', mode === 'human');
+            document.getElementById('modePve').classList.toggle('active', mode === 'ai_spar');
+            document.getElementById('modeEve').classList.toggle('active', mode === 'ai_duel');
 
-            if (mode === 'human') {
-                document.getElementById('modePvp').classList.add('active');
-                triggerToast('Player vs Player Mode');
-            } else if (mode === 'ai_spar') {
-                document.getElementById('modePve').classList.add('active');
-                triggerToast('Player vs Python AI');
-                if (game.turn === 'b' && !game.isGameOver) setTimeout(triggerAiMove, 400);
-            } else if (mode === 'ai_duel') {
-                document.getElementById('modeEve').classList.add('active');
-                triggerToast('AI Simulation Duel');
-                startAiDuel();
+            if (mode === 'ai_duel') {
+                triggerToast('Commencing Master Duel Simulation');
+                runAiDuel();
+            } else if (mode === 'ai_spar' && game.turn === 'b') {
+                triggerAiMove();
             }
         }
 
-        function startAiDuel() {
-            stopAiDuel();
-            aiDuelTimer = setInterval(() => {
-                if (arenaMode === 'ai_duel' && !game.isGameOver) {
-                    triggerAiMove();
-                } else {
-                    stopAiDuel();
-                }
-            }, 900);
-        }
-
-        function stopAiDuel() {
-            if (aiDuelTimer) {
-                clearInterval(aiDuelTimer);
-                aiDuelTimer = null;
-            }
-        }
-
-        function triggerAiMove() {
-            if (game.isGameOver) return;
-            const moves = game.getAllLegalMoves(game.turn);
-            if (moves.length === 0) return;
-
-            let best = moves[0];
-            let bestScore = game.turn === 'w' ? -Infinity : Infinity;
-
-            for (const m of moves) {
-                const sim = game.clone();
-                sim.applyMove(m);
-                const ev = evaluatePosition(sim);
-                const score = ev.centipawns + (Math.random() * 6 - 3);
-
-                if (game.turn === 'w') {
-                    if (score > bestScore) { bestScore = score; best = m; }
-                } else {
-                    if (score < bestScore) { bestScore = score; best = m; }
-                }
-            }
-            if (best.promotion) best.promotion = 'Q';
-            executeMove(best);
+        function flipBoardOrientation() {
+            boardFlipped = !boardFlipped;
+            renderBoard();
+            triggerToast(boardFlipped ? 'Board rotated for Black perspective' : 'Board oriented for White perspective');
         }
 
         function renderBoard() {
-            const boardEl = document.getElementById('chessBoard');
-            boardEl.innerHTML = '';
+            const container = document.getElementById('chessBoard');
+            container.innerHTML = '';
 
-            const inCheck = game.isInCheck(game.turn);
-            const kPos = inCheck ? game.findKing(game.turn) : null;
-            const files = ['a','b','c','d','e','f','g','h'];
-            const ranks = ['8','7','6','5','4','3','2','1'];
+            const files = ['a', 'b', 'c', 'd', 'e', 'f', 'g', 'h'];
+            const ranks = ['8', '7', '6', '5', '4', '3', '2', '1'];
 
-            for (let r = 0; r < 8; r++) {
-                for (let c = 0; c < 8; c++) {
-                    const sq = document.createElement('div');
+            const lastMove = game.historyStates.length > 0 ? game.historyStates[game.historyStates.length - 1] : null;
+            const inCheckWhite = game.isInCheck('w');
+            const inCheckBlack = game.isInCheck('b');
+
+            for (let visualRow = 0; visualRow < 8; visualRow++) {
+                for (let visualCol = 0; visualCol < 8; visualCol++) {
+                    const r = boardFlipped ? 7 - visualRow : visualRow;
+                    const c = boardFlipped ? 7 - visualCol : visualCol;
+
                     const isLight = (r + c) % 2 === 0;
+                    const piece = game.board[r][c];
+
+                    const sq = document.createElement('div');
                     sq.className = `square ${isLight ? 'light' : 'dark'}`;
                     sq.dataset.r = r;
                     sq.dataset.c = c;
 
-                    if (kPos && kPos.r === r && kPos.c === c) sq.classList.add('in-check');
-
-                    if (selectedSq && selectedSq.r === r && selectedSq.c === c) {
+                    // Highlights
+                    if (selectedSquare && selectedSquare.r === r && selectedSquare.c === c) {
                         sq.classList.add('selected');
+                    } else if (lastMove && ((lastMove.fr === r && lastMove.fc === c) || (lastMove.tr === r && lastMove.tc === c))) {
+                        sq.classList.add('last-move');
                     }
 
-                    if (game.lastMove) {
-                        if ((game.lastMove.from.r === r && game.lastMove.from.c === c) ||
-                            (game.lastMove.to.r === r && game.lastMove.to.c === c)) {
-                            sq.classList.add('last-move');
-                        }
+                    if ((piece === 'wK' && inCheckWhite) || (piece === 'bK' && inCheckBlack)) {
+                        sq.classList.add('in-check');
                     }
 
-                    if (badMovesAllowed && selectedSq && !(selectedSq.r === r && selectedSq.c === c)) {
-                        sq.classList.add('bad-mode-target');
+                    // Coordinates
+                    if (visualRow === 7) {
+                        const fileLabel = document.createElement('span');
+                        fileLabel.className = 'coord-label coord-file';
+                        fileLabel.innerText = files[c];
+                        sq.appendChild(fileLabel);
+                    }
+                    if (visualCol === 0) {
+                        const rankLabel = document.createElement('span');
+                        rankLabel.className = 'coord-label coord-rank';
+                        rankLabel.innerText = ranks[r];
+                        sq.appendChild(rankLabel);
                     }
 
-                    if (threatVisionActive) {
-                        const enemy = game.turn === 'w' ? 'b' : 'w';
-                        if (game.isAttacked(r, c, enemy) && game.board[r][c] && game.board[r][c][0] === game.turn) {
-                            sq.classList.add('threat-danger');
-                        }
-                    }
-
-                    if (r === 7) {
-                        const fLbl = document.createElement('span');
-                        fLbl.className = 'coord-label coord-file';
-                        fLbl.textContent = files[c];
-                        sq.appendChild(fLbl);
-                    }
-                    if (c === 0) {
-                        const rLbl = document.createElement('span');
-                        rLbl.className = 'coord-label coord-rank';
-                        rLbl.textContent = ranks[r];
-                        sq.appendChild(rLbl);
-                    }
-
-                    const piece = game.board[r][c];
+                    // Draw piece
                     if (piece) {
                         const pieceEl = document.createElement('div');
                         pieceEl.className = 'chess-piece';
@@ -1328,337 +1294,360 @@ return sigmoid(pst + space)</pre>
                         sq.appendChild(pieceEl);
                     }
 
-                    sq.addEventListener('click', () => handleSquareClick(r, c));
-                    boardEl.appendChild(sq);
+                    // Move targets
+                    const isTarget = legalMovesForSelected.some(m => m.r === r && m.c === c);
+                    if (selectedSquare && isTarget) {
+                        const overlay = document.createElement('div');
+                        overlay.className = 'target-overlay';
+                        const ring = document.createElement('div');
+                        ring.className = `target-ring ${piece ? 'capture' : ''}`;
+                        overlay.appendChild(ring);
+                        sq.appendChild(overlay);
+
+                        // Delta win calculus preview
+                        const sim = game.clone();
+                        sim.makeMoveInternal(selectedSquare.r, selectedSquare.c, r, c, null, null, 'Q');
+                        const after = sim.evaluate();
+                        const pct = game.turn === 'w' ? after.whiteWinPct : after.blackWinPct;
+
+                        const badge = document.createElement('div');
+                        badge.className = `pct-badge ${pct >= 55 ? 'pct-good' : pct >= 45 ? 'pct-neutral' : 'pct-blunder'}`;
+                        badge.innerText = `${pct}%`;
+                        sq.appendChild(badge);
+                    } else if (selectedSquare && badMovesMode && !(selectedSquare.r === r && selectedSquare.c === c)) {
+                        sq.classList.add('bad-mode-target');
+                    }
+
+                    sq.onclick = () => onSquareClick(r, c);
+                    container.appendChild(sq);
                 }
             }
 
-            renderOverlays();
-        }
-
-        function renderOverlays() {
-            if (badMovesAllowed) return; // In bad moves mode, all squares are clickable
-            const moves = selectedSq ? legalMoves : [];
-            if (!moves || moves.length === 0) return;
-
-            const boardEl = document.getElementById('chessBoard');
-            const curEval = evaluatePosition(game);
-            const curWin = game.turn === 'w' ? curEval.whiteWinPct : curEval.blackWinPct;
-
-            moves.forEach(m => {
-                const idx = m.to.r * 8 + m.to.c;
-                const sq = boardEl.children[idx];
-                if (!sq) return;
-
-                const sim = game.clone();
-                sim.applyMove(m);
-                const simEval = evaluatePosition(sim);
-                const resWin = game.turn === 'w' ? simEval.whiteWinPct : simEval.blackWinPct;
-                const delta = resWin - curWin;
-
-                let bClass = 'pct-neutral';
-                if (delta >= 1.0) bClass = 'pct-good';
-                else if (delta < -8.0) bClass = 'pct-blunder';
-
-                const isCap = game.board[m.to.r][m.to.c] !== null || m.isEnPassant;
-                const overlay = document.createElement('div');
-                overlay.className = 'target-overlay';
-                overlay.innerHTML = `
-                    <div class="target-ring ${isCap ? 'capture' : ''}"></div>
-                    <div class="pct-badge ${bClass}">
-                        <span>${resWin.toFixed(0)}%</span>
-                    </div>
-                `;
-                sq.appendChild(overlay);
-            });
-        }
-
-        function handleSquareClick(r, c) {
-            if (game.isGameOver) {
-                triggerToast(game.gameResult);
-                return;
+            // Update turn badge
+            const turnText = document.getElementById('turnText');
+            const turnIcon = document.getElementById('turnPieceIcon');
+            if (game.gameResult) {
+                turnText.innerText = game.gameResult;
+                turnIcon.innerText = '⚔️';
+            } else {
+                turnText.innerText = game.turn === 'w' ? 'White to Move' : 'Black to Move';
+                turnIcon.innerText = game.turn === 'w' ? '♔' : '♚';
             }
+        }
+
+        function onSquareClick(r, c) {
+            if (game.gameResult || aiThinking) return;
 
             const piece = game.board[r][c];
 
-            // If nothing selected
-            if (!selectedSq) {
-                if (piece) {
-                    if (piece[0] === game.turn || badMovesAllowed) {
-                        selectedSq = { r, c };
-                        legalMoves = game.getLegalMoves(r, c);
-                        renderBoard();
+            // 1. Select piece of active color
+            if (piece && piece[0] === game.turn) {
+                selectedSquare = { r, c };
+                legalMovesForSelected = game.getLegalMoves(r, c);
+                renderBoard();
+                return;
+            }
+
+            // 2. Move to destination
+            if (selectedSquare) {
+                const fr = selectedSquare.r;
+                const fc = selectedSquare.c;
+                const isLegal = legalMovesForSelected.some(m => m.r === r && m.c === c);
+
+                if (isLegal || badMovesMode) {
+                    const movingPiece = game.board[fr][fc];
+                    // Check pawn promotion
+                    if (movingPiece && movingPiece[1] === 'P' && (r === 0 || r === 7)) {
+                        openPromotionModal(fr, fc, r, c);
+                    } else {
+                        executePlayerMove(fr, fc, r, c, 'Q');
+                    }
+                    return;
+                }
+            }
+
+            // Deselect
+            selectedSquare = null;
+            legalMovesForSelected = [];
+            renderBoard();
+        }
+
+        function openPromotionModal(fr, fc, tr, tc) {
+            const modal = document.getElementById('promotionModal');
+            const grid = document.getElementById('promotionPiecesGrid');
+            const color = game.turn;
+            const choices = ['Q', 'R', 'B', 'N'];
+
+            grid.innerHTML = '';
+            choices.forEach(p => {
+                const btn = document.createElement('button');
+                btn.className = 'p-2 bg-[#17100C] border border-salon-gold rounded hover:bg-[#38271E] flex items-center justify-center';
+                btn.innerHTML = `<div class="w-10 h-10">${PIECE_SVGS[color + p]}</div>`;
+                btn.onclick = () => {
+                    modal.classList.add('hidden');
+                    executePlayerMove(fr, fc, tr, tc, p);
+                };
+                grid.appendChild(btn);
+            });
+
+            modal.classList.remove('hidden');
+        }
+
+        function executePlayerMove(fr, fc, tr, tc, promo) {
+            const beforeEval = game.evaluate();
+            const success = game.executeMove(fr, fc, tr, tc, promo, badMovesMode);
+
+            if (success) {
+                const snapshot = game.historyStates[game.historyStates.length - 1];
+                const afterEval = game.evaluate();
+                const delta = afterEval.score - beforeEval.score;
+
+                selectedSquare = null;
+                legalMovesForSelected = [];
+                renderBoard();
+                updateEvaluation();
+                explainMove(snapshot, delta, afterEval);
+
+                // Check for AI response
+                if (!game.gameResult) {
+                    if (arenaMode === 'ai_spar' && game.turn === 'b') {
+                        setTimeout(triggerAiMove, 350);
                     }
                 }
-                return;
-            }
-
-            // Click same square = deselect
-            if (selectedSq.r === r && selectedSq.c === c) {
-                selectedSq = null;
-                legalMoves = [];
-                renderBoard();
-                return;
-            }
-
-            // Standard legal move match
-            const matched = legalMoves.find(m => m.to.r === r && m.to.c === c);
-
-            if (matched) {
-                if (matched.promotion) {
-                    matched.promotion = 'Q';
-                }
-                executeMove(matched, false);
-                return;
-            }
-
-            // If "Bad Moves Allowed" is ON, execute ANY move anywhere
-            if (badMovesAllowed) {
-                const fromPiece = game.board[selectedSq.r][selectedSq.c];
-                const isIllegal = !legalMoves.some(m => m.to.r === r && m.to.c === c);
-                const customMove = {
-                    from: { ...selectedSq },
-                    to: { r, c },
-                    isIllegal
-                };
-                executeMove(customMove, isIllegal);
-                return;
-            }
-
-            // Otherwise, if clicking another friendly piece, switch selection
-            if (piece && piece[0] === game.turn) {
-                selectedSq = { r, c };
-                legalMoves = game.getLegalMoves(r, c);
-                renderBoard();
-                return;
-            }
-
-            // Deselect on invalid click
-            selectedSq = null;
-            legalMoves = [];
-            renderBoard();
-        }
-
-        function executeMove(move, isIllegalExperiment = false) {
-            const moverColor = game.turn;
-            const beforeEval = evaluatePosition(game);
-
-            game.makeMove(move, isIllegalExperiment);
-
-            const lastSnap = game.history[game.history.length - 1];
-            const afterEval = evaluatePosition(game);
-
-            playBeep(isIllegalExperiment ? 220 : 540);
-
-            selectedSq = null;
-            legalMoves = [];
-            renderBoard();
-            updateUI(lastSnap, beforeEval, afterEval, moverColor, isIllegalExperiment);
-
-            if (game.isGameOver) {
-                stopAiDuel();
-                logREPL(`>>> match.concluded("${game.gameResult}")`);
-            } else if (arenaMode === 'ai_spar' && game.turn === 'b') {
-                setTimeout(triggerAiMove, 500);
             }
         }
 
-        function updateUI(snapshot, beforeEval, afterEval, moverColor, isIllegal) {
-            // Evaluation numbers
-            document.getElementById('whitePctLarge').textContent = `${afterEval.whiteWinPct}%`;
-            document.getElementById('blackPctLarge').textContent = `${afterEval.blackWinPct}%`;
-            document.getElementById('barWhite').style.width = `${afterEval.whiteWinPct}%`;
-            document.getElementById('barBlack').style.width = `${afterEval.blackWinPct}%`;
-            document.getElementById('centipawnText').textContent = `${afterEval.score >= 0 ? '+' : ''}${afterEval.score.toFixed(2)} cp`;
+        function updateEvaluation() {
+            const ev = game.evaluate();
+            document.getElementById('centipawnText').innerText = `${ev.score >= 0 ? '+' : ''}${ev.score.toFixed(2)} cp`;
+            document.getElementById('whitePctLarge').innerText = `${ev.whiteWinPct}%`;
+            document.getElementById('blackPctLarge').innerText = `${ev.blackWinPct}%`;
+            document.getElementById('barWhite').style.width = `${ev.whiteWinPct}%`;
+            document.getElementById('barBlack').style.width = `${ev.blackWinPct}%`;
 
-            // Turn text
-            const tIcon = document.getElementById('turnPieceIcon');
-            const tText = document.getElementById('turnText');
-            if (game.turn === 'w') {
-                tIcon.textContent = '♔';
-                tText.textContent = 'White to Move';
-            } else {
-                tIcon.textContent = '♚';
-                tText.textContent = 'Black to Move';
-            }
-
-            // Commentary
-            const score = afterEval.score;
-            let comm = '"Balanced tension. Equilibrium across the board."';
-            if (game.isGameOver) comm = `🐍 ${game.gameResult}`;
-            else if (score > 2.5) comm = '"Decisive White advantage — Opponent defenses broken."';
-            else if (score > 0.8) comm = '"Favorable White initiative."';
-            else if (score < -2.5) comm = '"Decisive Black advantage — Checkmating attack."';
-            else if (score < -0.8) comm = '"Favorable Black counterplay."';
-            document.getElementById('evalCommentary').textContent = comm;
-
-            // Tutor Update
-            updateTutor(snapshot, beforeEval, afterEval, moverColor, isIllegal);
-
-            // Move Log & REPL
-            updateMoveLog();
-            document.getElementById('plyCountBadge').textContent = `Ply #${game.history.length + 1}`;
-            logREPL(`>>> engine.play("${snapshot.san}") # eval: ${afterEval.score >= 0 ? '+' : ''}${afterEval.score.toFixed(2)} (${afterEval.whiteWinPct}%)`);
+            const commEl = document.getElementById('evalCommentary');
+            const score = ev.score;
+            if (score > 4.0) commEl.innerText = '"Decisive White mastery — Black defenses are fractured."';
+            else if (score > 1.5) commEl.innerText = '"Clear territorial advantage for White."';
+            else if (score > 0.4) commEl.innerText = '"Slight initiative with White in the center."';
+            else if (score >= -0.4) commEl.innerText = '"Dynamic equilibrium — balanced contest."';
+            else if (score >= -1.5) commEl.innerText = '"Black seizes harmonious counterplay."';
+            else if (score >= -4.0) commEl.innerText = '"Clear positional command for Black."';
+            else commEl.innerText = '"Decisive Black command — White king in peril."';
         }
 
-        function updateTutor(snapshot, beforeEval, afterEval, moverColor, isIllegal) {
-            const move = snapshot.moveDetails;
+        /**
+         * =========================================================================
+         * CHESS TUTOR: MOVE EXPLANATION & CANDIDATE CONTINUATIONS
+         * =========================================================================
+         */
+        function explainOpeningInitial() {
+            document.getElementById('tutorMoveTitle').innerText = 'Initial Array: Opening Phase';
+            document.getElementById('tutorQuality').innerText = '✓ Balanced';
+            document.getElementById('tutorQuality').className = 'text-[11px] font-mono text-emerald-400 font-bold px-2 py-0.5 rounded bg-[#17100C] border border-emerald-900/50';
+            document.getElementById('tutorDeltaText').innerText = '+0.0 cp';
+            document.getElementById('tutorExplanation').innerText =
+                "Stake an early claim in the central squares (e4, d4, e5, d5), develop knights and bishops harmoniously, and prepare king fortification via castling.";
+
+            renderCandidateMoves([
+                { move: "1. e4", desc: "King's Pawn Opening — Claims the center and liberates Queen and Bishop diagonals." },
+                { move: "1. d4", desc: "Queen's Pawn Opening — Solid classical control over e5 with protected central pawn." },
+                { move: "1. Nf3", desc: "Zukertort Opening — Flexible development preventing Black's early e5 push." }
+            ]);
+        }
+
+        function explainMove(snapshot, delta, afterEval) {
             const san = snapshot.san;
-            const files = ['a','b','c','d','e','f','g','h'];
-            const ranks = ['8','7','6','5','4','3','2','1'];
-            const fromSq = files[move.from.c] + ranks[move.from.r];
-            const toSq = files[move.to.c] + ranks[move.to.r];
-            const piece = move.piece || 'wP';
-            const type = piece[1];
+            const piece = snapshot.piece;
+            const color = piece[0];
+            const ptype = piece[1];
+            const tr = snapshot.tr, tc = snapshot.tc;
+            const fr = snapshot.fr, fc = snapshot.fc;
 
-            const beforeWin = moverColor === 'w' ? beforeEval.whiteWinPct : beforeEval.blackWinPct;
-            const afterWin = moverColor === 'w' ? afterEval.whiteWinPct : afterEval.blackWinPct;
-            const delta = afterWin - beforeWin;
-            const cpDelta = (afterEval.centipawns - beforeEval.centipawns) * (moverColor === 'w' ? 1 : -1);
-
-            let motif = "Center & Development";
-            let quality = "✓ Good Move";
-            let qClass = "text-emerald-400 font-semibold";
+            let quality = "✓ Good Play";
+            let qualityClass = "text-emerald-400 border-emerald-900/50";
+            let title = `Move ${san} Completed`;
             let explanation = "";
-            let pythonSnippet = "";
+            let candidates = [];
 
-            if (isIllegal) {
-                motif = "⚠️ Wrong / Illegal Move Experiment";
-                quality = "💀 Severe Blunder (Custom Move)";
-                qClass = "text-red-400 font-bold";
-                explanation = `You made a wrong/illegal move by moving ${type} from ${fromSq} directly to ${toSq}. In standard chess, this move breaks piece geometry or exposes the king. In this sandbox analysis, the evaluation penalizes this state by ${cpDelta.toFixed(0)} centipawns!`;
-                pythonSnippet = `# Sandbox Wrong Move Calculus:
-illegal_move = True
-king_exposed = is_king_threatened()
-eval_penalty = ${cpDelta.toFixed(0)} cp
-win_prob = ${afterWin}%`;
-            } else if (delta < -10.0) {
-                motif = "💀 Tactical Blunder / Material Loss";
-                quality = `💀 Blunder (${delta.toFixed(1)}%)`;
-                qClass = "text-red-400 font-bold";
-                explanation = `Playing ${san} dropped winning chances by ${Math.abs(delta).toFixed(1)}%! This move either hung an undefended piece, walked into a discovered attack, or compromised critical king protection.`;
-                pythonSnippet = `# Blunder Detection Heuristic:
-eval_drop = ${cpDelta.toFixed(0)} cp
-material_hung = check_hanging_pieces()
-win_prob_delta = ${delta.toFixed(1)}%`;
-            } else if (san.includes('#')) {
-                motif = "👑 Checkmate / Victory";
-                quality = "👑 Checkmate!";
-                qClass = "text-py-yellow font-bold";
-                explanation = `Unstoppable checkmate! The opposing king is under attack with no legal escape squares.`;
-                pythonSnippet = `is_checkmate = True\nscore = 99999\nwin_prob = 100.0%`;
-            } else if (move.isCastleKingside || move.isCastleQueenside) {
-                motif = "Kingside Castling & Shelter";
-                explanation = `Castling tucks the king safely behind a pawn shield while activating the rook on a central file.`;
-                pythonSnippet = `king_safety_${moverColor} += 40\nrooks_connected = True`;
-            } else if (type === 'P' && ['e4','d4','e5','d5'].includes(toSq)) {
-                motif = "Central Pawn Stake";
-                explanation = `Pawn secures ${toSq}, taking vital territory in the center and opening lines for bishops.`;
-                pythonSnippet = `center_control += 25\npst_delta = PST['P'][${move.to.r}][${move.to.c}]`;
-            } else if (type === 'N') {
-                motif = "Knight Mobilization";
-                explanation = `Knight develops to ${toSq}, exerting control over key forward squares.`;
-                pythonSnippet = `mobility_${moverColor} += 8\npst_bonus = PST['N'][${move.to.r}][${move.to.c}]`;
-            } else {
-                motif = "Positional Piece Coordination";
-                explanation = `${moverColor === 'w' ? 'White' : 'Black'} played ${san} (${fromSq}➔${toSq}), coordinating pieces for the middlegame.`;
-                pythonSnippet = `eval_delta = ${cpDelta >= 0 ? '+' : ''}${cpDelta.toFixed(0)} cp`;
+            const isWhite = color === 'w';
+            const perspectiveDelta = isWhite ? delta : -delta;
+
+            // 1. Move Quality Diagnosis (blended smoothly)
+            if (perspectiveDelta < -2.0) {
+                quality = "⚠️ Blunder / Concession";
+                qualityClass = "text-amber-300 border-amber-900/50 bg-[#2A1D17]";
+            } else if (perspectiveDelta < -0.6) {
+                quality = "• Inaccuracy";
+                qualityClass = "text-amber-200 border-amber-900/30";
+            } else if (perspectiveDelta > 1.2) {
+                quality = "★ Tactical Masterstroke";
+                qualityClass = "text-salon-gold border-salon-gold/50";
             }
 
-            document.getElementById('tutorBadge').textContent = motif;
-            document.getElementById('tutorMoveTitle').textContent = `Ply #${game.history.length}: ${moverColor === 'w' ? 'White' : 'Black'} played ${san}`;
-            document.getElementById('tutorQuality').textContent = quality;
-            document.getElementById('tutorQuality').className = `text-[11px] font-mono ${qClass}`;
-            document.getElementById('tutorExplanation').textContent = explanation;
-            document.getElementById('tutorPythonCode').textContent = pythonSnippet;
-            document.getElementById('tutorDeltaText').textContent = `${cpDelta >= 0 ? '+' : ''}${cpDelta.toFixed(0)} cp`;
+            // 2. Specific Chess Motifs
+            if (san === 'O-O' || san === 'O-O-O') {
+                title = "King Fortification & Rook Activation";
+                explanation = `Castling tucks the sovereign safely behind the pawn shield while shifting the rook to an active central file.`;
+            } else if (ptype === 'P') {
+                if ((tr === 3 || tr === 4) && (tc === 3 || tc === 4)) {
+                    title = "Central Pawn Stake";
+                    explanation = `Pawn advance to the center secures critical space, denies enemy knight outposts, and creates open corridors for pieces.`;
+                } else if (Math.abs(tc - fc) === 1) {
+                    title = "Pawn Tension / Capture";
+                    explanation = `Pawn exchange alters the central pawn structure, opening files for rook infiltration and creating diagonal leverage.`;
+                } else {
+                    title = "Pawn Structure Advance";
+                    explanation = `Advances territory on the wing or fortifies central pawn chains.`;
+                }
+            } else if (ptype === 'N') {
+                title = "Knight Maneuver & Central Influence";
+                explanation = `Knights thrive in the center and on outposts where their circular leap controls up to 8 vital squares.`;
+            } else if (ptype === 'B') {
+                title = "Bishop Diagonal Deployment";
+                explanation = `Long-range diagonal placement pressures enemy central squares, pins knights against kings or queens, and restricts enemy development.`;
+            } else if (ptype === 'R') {
+                title = "Rook Seizes Open File";
+                explanation = `Rooks belong on open and semi-open files to pierce into the opponent's 7th rank and dominate back-rank files.`;
+            } else if (ptype === 'Q') {
+                title = "Queen Activity & Multi-Threat Coordination";
+                explanation = `The most powerful piece commands both orthogonal and diagonal vectors, coordinating with minor pieces for decisive attacks.`;
+            } else if (ptype === 'K') {
+                title = "King Relocation";
+                explanation = `Step aside from pin vectors or march the monarch toward the center for endgame pawn support.`;
+            }
+
+            // 3. Recommended Next Candidates Calculation
+            const nextColor = game.turn;
+            const legalMoves = game.getAllLegalMoves(nextColor);
+
+            if (legalMoves.length > 0) {
+                // Score next legal moves to suggest top candidates
+                const scoredMoves = legalMoves.map(m => {
+                    const sim = game.clone();
+                    sim.makeMoveInternal(m.from.r, m.from.c, m.to.r, m.to.c, m.to.isCastle, m.to.isEnPassant, 'Q');
+                    const ev = sim.evaluate();
+                    const not = game.formatNotation(m.from.r, m.from.c, m.to.r, m.to.c, m.to, 'Q');
+                    const moveScore = nextColor === 'w' ? ev.score : -ev.score;
+                    return { from: m.from, to: m.to, not, score: moveScore };
+                });
+
+                scoredMoves.sort((a, b) => b.score - a.score);
+                const topMoves = scoredMoves.slice(0, 3);
+
+                candidates = topMoves.map(tm => {
+                    let desc = "Strong positional continuation to maintain balance and piece activity.";
+                    if (tm.not.includes('x')) desc = "Direct tactical exchange resolving tension and reclaiming material.";
+                    else if (tm.not.startsWith('N') || tm.not.startsWith('B')) desc = "Harmonious minor piece development coordinating toward the center.";
+                    else if (tm.not === 'O-O' || tm.not === 'O-O-O') desc = "Castling to safeguard the king and connect the rooks.";
+                    else if (tm.not.startsWith('R')) desc = "Rook centralization seizing active open lines.";
+                    return { move: tm.not, desc };
+                });
+            }
+
+            document.getElementById('tutorMoveTitle').innerText = title;
+            document.getElementById('tutorQuality').innerText = quality;
+            document.getElementById('tutorQuality').className = `text-[11px] font-mono font-bold px-2 py-0.5 rounded bg-[#17100C] border ${qualityClass}`;
+            document.getElementById('tutorDeltaText').innerText = `${delta >= 0 ? '+' : ''}${delta.toFixed(2)} cp`;
+            document.getElementById('tutorExplanation').innerText = explanation;
+
+            renderCandidateMoves(candidates);
         }
 
-        function updateMoveLog() {
-            const list = document.getElementById('moveLogList');
-            if (game.history.length === 0) {
-                list.innerHTML = `<div class="text-center text-slate-400 italic py-4 text-xs font-sans">No moves played yet.</div>`;
+        function renderCandidateMoves(candidates) {
+            const container = document.getElementById('candidateMovesList');
+            if (!container) return;
+
+            if (candidates.length === 0) {
+                container.innerHTML = `<div class="text-[#A89582] italic text-xs font-serif">Game position concluded.</div>`;
                 return;
             }
 
-            list.innerHTML = '';
-            for (let i = 0; i < game.history.length; i += 2) {
-                const moveNum = Math.floor(i / 2) + 1;
-                const wSnap = game.history[i];
-                const bSnap = game.history[i + 1];
+            container.innerHTML = candidates.map(c => `
+                <div class="candidate-card">
+                    <span class="font-mono font-bold text-salon-gold text-xs">${c.move}</span>
+                    <span class="text-[#D0C0AE] font-serif text-[13px]">${c.desc}</span>
+                </div>
+            `).join('');
+        }
 
-                const row = document.createElement('div');
-                row.className = 'flex items-center justify-between py-0.5 px-1 text-slate-200 text-xs';
-                row.innerHTML = `
-                    <span class="w-6 text-py-yellow font-bold">${moveNum}.</span>
-                    <span class="flex-1 font-bold text-white">${wSnap.san}</span>
-                    <span class="flex-1 font-bold text-slate-400">${bSnap ? bSnap.san : '—'}</span>
-                `;
-                list.appendChild(row);
+        /**
+         * =========================================================================
+         * SALON MASTER AI
+         * =========================================================================
+         */
+        function triggerAiMove() {
+            if (game.gameResult) return;
+            aiThinking = true;
+
+            const moves = game.getAllLegalMoves(game.turn);
+            if (moves.length === 0) {
+                aiThinking = false;
+                return;
             }
-            list.scrollTop = list.scrollHeight;
+
+            // Minimax-style evaluation search
+            const scoredMoves = moves.map(m => {
+                const sim = game.clone();
+                sim.makeMoveInternal(m.from.r, m.from.c, m.to.r, m.to.c, m.to.isCastle, m.to.isEnPassant, 'Q');
+                const ev = sim.evaluate();
+                const score = game.turn === 'w' ? ev.score : -ev.score;
+                return { from: m.from, to: m.to, score: score + (Math.random() * 0.08) };
+            });
+
+            scoredMoves.sort((a, b) => b.score - a.score);
+            const chosen = scoredMoves[0];
+
+            setTimeout(() => {
+                aiThinking = false;
+                executePlayerMove(chosen.from.r, chosen.from.c, chosen.to.r, chosen.to.c, 'Q');
+            }, 300);
+        }
+
+        function runAiDuel() {
+            if (arenaMode !== 'ai_duel' || game.gameResult) return;
+            triggerAiMove();
+            setTimeout(() => {
+                if (arenaMode === 'ai_duel' && !game.gameResult) {
+                    runAiDuel();
+                }
+            }, 900);
+        }
+
+        /**
+         * =========================================================================
+         * UTILITIES & MODAL CONTROLLERS
+         * =========================================================================
+         */
+        function resetMatch() {
+            game.reset();
+            selectedSquare = null;
+            legalMovesForSelected = [];
+            renderBoard();
+            updateEvaluation();
+            explainOpeningInitial();
+            triggerToast('New salon match prepared');
         }
 
         function undoMove() {
-            stopAiDuel();
-            if (game.undo()) {
-                if (arenaMode === 'ai_spar' && game.turn === 'b' && game.history.length > 0) {
+            const undid = game.undo();
+            if (undid) {
+                // If vs AI, undo twice
+                if (arenaMode === 'ai_spar' && game.historyStates.length > 0) {
                     game.undo();
                 }
-                selectedSq = null;
-                legalMoves = [];
+                selectedSquare = null;
+                legalMovesForSelected = [];
                 renderBoard();
-                const cur = evaluatePosition(game);
-                updateUI(game.history[game.history.length - 1] || { san: 'Start', moveDetails: { piece: 'wP', from: {r:6,c:4}, to:{r:4,c:4} } }, cur, cur, game.turn, false);
-                triggerToast('Move Undone');
-                logREPL('>>> engine.undo()');
+                updateEvaluation();
+                if (game.historyStates.length > 0) {
+                    const last = game.historyStates[game.historyStates.length - 1];
+                    explainMove(last, 0, game.evaluate());
+                } else {
+                    explainOpeningInitial();
+                }
+                triggerToast('Move retracted');
             }
-        }
-
-        function resetMatch() {
-            stopAiDuel();
-            game.reset();
-            selectedSq = null;
-            legalMoves = [];
-            renderBoard();
-            const cur = evaluatePosition(game);
-            updateUI({ san: 'Start', moveDetails: { piece: 'wP', from: {r:6,c:4}, to:{r:4,c:4} } }, cur, cur, 'w', false);
-            triggerToast('Match Reset to Standard Array');
-            logREPL('>>> engine.reset()');
-        }
-
-        function logREPL(line) {
-            const replEl = document.getElementById('replOutput');
-            const div = document.createElement('div');
-            div.className = 'text-py-yellow';
-            div.textContent = line;
-            replEl.appendChild(div);
-            replEl.scrollTop = replEl.scrollHeight;
-        }
-
-        function toggleThreatVision() {
-            threatVisionActive = !threatVisionActive;
-            document.getElementById('threatIcon').className = threatVisionActive ? 'fa-solid fa-eye-slash text-red-400' : 'fa-solid fa-eye text-py-yellow';
-            renderBoard();
-            triggerToast(threatVisionActive ? 'Threat Radar Enabled' : 'Threat Radar Disabled');
-        }
-
-        function toggleSound() {
-            soundActive = !soundActive;
-            document.getElementById('audioIcon').className = soundActive ? 'fa-solid fa-volume-high' : 'fa-solid fa-volume-xmark text-slate-500';
-            triggerToast(soundActive ? 'Sound ON' : 'Sound OFF');
-        }
-
-        function copyFEN() {
-            navigator.clipboard.writeText(game.exportFEN()).then(() => triggerToast('FEN Copied to Clipboard'));
-        }
-
-        function copyPGN() {
-            let pgn = '';
-            for (let i = 0; i < game.history.length; i += 2) {
-                pgn += `${Math.floor(i/2)+1}. ${game.history[i].san} ${game.history[i+1] ? game.history[i+1].san : ''} `;
-            }
-            navigator.clipboard.writeText(pgn.trim()).then(() => triggerToast('PGN Copied to Clipboard'));
         }
 
         function openGuideModal() {
@@ -1671,23 +1660,20 @@ win_prob_delta = ${delta.toFixed(1)}%`;
 
         function triggerToast(msg) {
             const toast = document.getElementById('toast');
-            document.getElementById('toastMsg').textContent = msg;
-            toast.classList.remove('translate-y-20', 'opacity-0');
-            toast.classList.add('translate-y-0', 'opacity-100');
-            clearTimeout(window._toastTimer);
-            window._toastTimer = setTimeout(() => {
-                toast.classList.add('translate-y-20', 'opacity-0');
-                toast.classList.remove('translate-y-0', 'opacity-100');
-            }, 2200);
+            document.getElementById('toastText').innerText = msg;
+            toast.classList.remove('hidden');
+            setTimeout(() => toast.classList.add('hidden'), 2600);
         }
 
-        // Initialize Keyboard & Board
-        window.addEventListener('keydown', (e) => {
-            if (e.key === 'z' || e.key === 'Z') undoMove();
+        // Keyboard Shortcuts
+        document.addEventListener('keydown', (e) => {
+            if (e.key === 'z' || e.key === 'Z') {
+                undoMove();
+            }
         });
 
-        // First render
-        renderBoard();
+        // Initialize on load
+        document.addEventListener('DOMContentLoaded', initApp);
     </script>
 </body>
 

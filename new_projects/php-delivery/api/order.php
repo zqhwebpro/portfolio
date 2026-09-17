@@ -1,7 +1,7 @@
 <?php
 /**
  * REST API Endpoint: /api/order.php
- * Provides JSON status, stage updates, and order resetting
+ * Provides JSON status, stage updates, option creation, and order resetting
  */
 
 header('Content-Type: application/json');
@@ -15,12 +15,39 @@ require_once __DIR__ . '/../classes/KitchenManager.php';
 $repo = new OrderRepository();
 $action = $_GET['action'] ?? $_POST['action'] ?? 'get';
 
-if ($action === 'reset') {
-    $order = $repo->resetOrder();
+if ($action === 'options') {
+    $surge = KitchenManager::resolveTimeOfDaySurge();
     echo json_encode([
         'success' => true,
-        'message' => 'Order reset to initial state',
+        'options' => array_values($MENU_OPTIONS),
+        'surge' => $surge
+    ]);
+    exit;
+}
+
+if ($action === 'create') {
+    $optionId = $_POST['optionId'] ?? $_GET['optionId'] ?? 'option-soppressata';
+    $timeMode = $_POST['timeMode'] ?? $_GET['timeMode'] ?? 'auto';
+    $pickupType = $_POST['pickupType'] ?? $_GET['pickupType'] ?? 'Store Pickup (Express Shelf)';
+    
+    $customerOverrides = [
+        'pickupType' => $pickupType
+    ];
+
+    $order = $repo->createOrderFromOption($optionId, $timeMode, $customerOverrides);
+    echo json_encode([
+        'success' => true,
+        'message' => 'New artisanal order created successfully',
         'order' => $order->toArray()
+    ]);
+    exit;
+}
+
+if ($action === 'reset') {
+    $repo->resetOrder();
+    echo json_encode([
+        'success' => true,
+        'message' => 'Active order reset. Ready for new order placement.'
     ]);
     exit;
 }
@@ -30,16 +57,15 @@ if ($action === 'stage') {
     $order = $repo->getCurrentOrder();
     $stage = max(1, min(4, $stage));
     
-    // Adjust target timestamp to match stage
     $nowMs = (int)(microtime(true) * 1000);
     if ($stage === 4) {
-        $order->targetReadyAt = $nowMs; // Instant ready
+        $order->targetReadyAt = $nowMs;
     } else if ($stage === 3) {
-        $order->targetReadyAt = $nowMs + (3 * 60 * 1000); // 3 mins remaining
+        $order->targetReadyAt = $nowMs + (3 * 60 * 1000);
     } else if ($stage === 2) {
-        $order->targetReadyAt = $nowMs + (10 * 60 * 1000); // 10 mins remaining
+        $order->targetReadyAt = $nowMs + (int)($order->totalDurationMs * 0.4);
     } else {
-        $order->targetReadyAt = $nowMs + (18 * 60 * 1000); // 18 mins remaining
+        $order->targetReadyAt = $nowMs + $order->totalDurationMs;
     }
     
     $order->currentStageId = $stage;

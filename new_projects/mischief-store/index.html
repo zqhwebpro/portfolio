@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Mischief & Magic Co. — ASP.NET MVC 5 Architecture & Storefront</title>
+    <title>Mischief & Magic Co. — Enterprise ASP.NET MVC 5 E-Commerce Showcase</title>
     <link href="https://fonts.googleapis.com/css2?family=Fredoka:wght@400;600;700;800&family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=Fira+Code:wght@400;500;600&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <style>
@@ -11,6 +11,7 @@
             --carnival-purple: #3A0CA3;
             --carnival-purple-light: #4361EE;
             --carnival-gold: #FF9F1C;
+            --carnival-gold-light: #FFBF69;
             --carnival-red: #E63946;
             --carnival-teal: #2EC4B6;
             --bg-dark: #12121A;
@@ -41,6 +42,78 @@
             min-height: 100vh;
             display: flex;
             flex-direction: column;
+            overflow-x: hidden;
+        }
+
+        /* ⚡ 1. Top Flash Sale Urgency Bar */
+        .flash-sale-bar {
+            background: linear-gradient(90deg, #E63946 0%, #3A0CA3 50%, #FF9F1C 100%);
+            color: #fff;
+            padding: 9px 24px;
+            font-size: 13px;
+            font-weight: 700;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            box-shadow: 0 2px 10px rgba(230, 57, 70, 0.3);
+            position: sticky;
+            top: 0;
+            z-index: 1001;
+        }
+
+        .flash-sale-content {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            flex-wrap: wrap;
+        }
+
+        .flash-badge {
+            background: #fff;
+            color: var(--carnival-red);
+            padding: 2px 8px;
+            border-radius: 6px;
+            font-size: 11px;
+            font-weight: 900;
+            letter-spacing: 0.5px;
+            text-transform: uppercase;
+            animation: pulseFlash 1.5s infinite;
+        }
+
+        @keyframes pulseFlash {
+            0%, 100% { transform: scale(1); }
+            50% { transform: scale(1.08); }
+        }
+
+        .timer-box {
+            background: rgba(0, 0, 0, 0.35);
+            padding: 2px 10px;
+            border-radius: 6px;
+            font-family: 'Fira Code', monospace;
+            font-weight: 700;
+            letter-spacing: 1px;
+            color: var(--carnival-gold);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+        }
+
+        .sound-toggle-btn {
+            background: rgba(255, 255, 255, 0.2);
+            border: 1px solid rgba(255, 255, 255, 0.4);
+            color: #fff;
+            padding: 3px 12px;
+            border-radius: 20px;
+            font-size: 11px;
+            font-weight: 700;
+            cursor: pointer;
+            display: inline-flex;
+            align-items: center;
+            gap: 5px;
+            transition: all 0.2s;
+        }
+
+        .sound-toggle-btn:hover {
+            background: rgba(255, 255, 255, 0.35);
+            transform: scale(1.05);
         }
 
         /* Top Enterprise Banner */
@@ -54,7 +127,7 @@
             align-items: center;
             border-bottom: 1px solid rgba(255, 255, 255, 0.1);
             position: sticky;
-            top: 0;
+            top: 38px;
             z-index: 1000;
         }
 
@@ -171,6 +244,34 @@
             gap: 16px;
         }
 
+        .btn-spin-reward {
+            background: linear-gradient(135deg, #FF9F1C 0%, #E63946 100%);
+            color: #fff;
+            border: none;
+            padding: 10px 18px;
+            border-radius: 30px;
+            font-weight: 800;
+            font-size: 13px;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            cursor: pointer;
+            box-shadow: 0 4px 15px rgba(255, 159, 28, 0.4);
+            transition: all 0.2s;
+            animation: bounceFab 2s infinite;
+        }
+
+        @keyframes bounceFab {
+            0%, 20%, 50%, 80%, 100% { transform: translateY(0); }
+            40% { transform: translateY(-4px); }
+            60% { transform: translateY(-2px); }
+        }
+
+        .btn-spin-reward:hover {
+            transform: translateY(-2px) scale(1.03);
+            box-shadow: 0 6px 20px rgba(255, 159, 28, 0.6);
+        }
+
         .cart-widget-btn {
             background: var(--carnival-purple);
             color: #fff;
@@ -220,7 +321,7 @@
             border-radius: var(--radius-lg);
             padding: 30px 40px;
             color: #fff;
-            margin-bottom: 30px;
+            margin-bottom: 25px;
             display: flex;
             justify-content: space-between;
             align-items: center;
@@ -251,6 +352,49 @@
             font-size: 15px;
             color: #E0E7FF;
             max-width: 680px;
+        }
+
+        /* Trust Badges Strip */
+        .trust-strip {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+            gap: 15px;
+            margin-bottom: 25px;
+        }
+
+        .trust-card {
+            background: #fff;
+            padding: 14px 18px;
+            border-radius: var(--radius-md);
+            border: 1px solid var(--border-color);
+            display: flex;
+            align-items: center;
+            gap: 14px;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.03);
+        }
+
+        .trust-icon {
+            font-size: 24px;
+            color: var(--carnival-purple);
+            width: 42px;
+            height: 42px;
+            background: #F0F2FF;
+            border-radius: 10px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            flex-shrink: 0;
+        }
+
+        .trust-title {
+            font-weight: 800;
+            font-size: 13px;
+            color: var(--text-dark);
+        }
+
+        .trust-sub {
+            font-size: 11.5px;
+            color: var(--text-muted);
         }
 
         /* Category Nav */
@@ -324,13 +468,14 @@
             font-size: 72px;
             position: relative;
             border-bottom: 1px solid #F1F5F9;
+            cursor: pointer;
         }
 
         .card-category-badge {
             position: absolute;
-            top: 14px;
-            left: 14px;
-            background: rgba(255, 255, 255, 0.92);
+            top: 12px;
+            left: 12px;
+            background: rgba(255, 255, 255, 0.94);
             backdrop-filter: blur(8px);
             color: var(--carnival-purple);
             font-size: 11px;
@@ -342,25 +487,88 @@
             letter-spacing: 0.5px;
         }
 
+        .card-scarcity-badge {
+            position: absolute;
+            top: 12px;
+            right: 12px;
+            background: #FEE2E2;
+            color: #DC2626;
+            font-size: 11px;
+            font-weight: 800;
+            padding: 4px 10px;
+            border-radius: 20px;
+            display: flex;
+            align-items: center;
+            gap: 4px;
+            border: 1px solid #FECACA;
+        }
+
+        .card-quick-btn {
+            position: absolute;
+            bottom: 10px;
+            right: 10px;
+            background: rgba(18, 18, 26, 0.75);
+            backdrop-filter: blur(6px);
+            color: #fff;
+            border: none;
+            padding: 6px 12px;
+            border-radius: 20px;
+            font-size: 11px;
+            font-weight: 700;
+            cursor: pointer;
+            opacity: 0;
+            transform: translateY(6px);
+            transition: all 0.2s;
+        }
+
+        .product-card:hover .card-quick-btn {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        .card-quick-btn:hover {
+            background: var(--carnival-purple);
+        }
+
         .card-body {
-            padding: 22px;
+            padding: 20px;
             display: flex;
             flex-direction: column;
             flex: 1;
         }
 
+        .star-rating {
+            display: flex;
+            align-items: center;
+            gap: 4px;
+            font-size: 12px;
+            color: #F59E0B;
+            margin-bottom: 6px;
+        }
+
+        .star-count {
+            color: #64748B;
+            font-weight: 600;
+            margin-left: 4px;
+        }
+
         .card-title {
-            font-size: 18px;
+            font-size: 17px;
             font-weight: 800;
             color: var(--text-dark);
             margin-bottom: 8px;
             line-height: 1.3;
+            cursor: pointer;
+        }
+
+        .card-title:hover {
+            color: var(--carnival-purple);
         }
 
         .card-desc {
-            font-size: 13.5px;
+            font-size: 13px;
             color: #64748B;
-            margin-bottom: 18px;
+            margin-bottom: 16px;
             flex: 1;
             line-height: 1.5;
         }
@@ -369,8 +577,13 @@
             display: flex;
             align-items: center;
             justify-content: space-between;
-            padding-top: 15px;
+            padding-top: 14px;
             border-top: 1px dashed #E2E8F0;
+        }
+
+        .card-price-box {
+            display: flex;
+            flex-direction: column;
         }
 
         .card-price {
@@ -378,6 +591,14 @@
             font-weight: 900;
             color: var(--carnival-red);
             font-family: 'Fredoka', cursive;
+            line-height: 1;
+        }
+
+        .card-price-orig {
+            font-size: 12px;
+            color: #94A3B8;
+            text-decoration: line-through;
+            font-weight: 600;
         }
 
         .btn-add-cart {
@@ -438,14 +659,121 @@
             box-shadow: 0 4px 12px rgba(58, 12, 163, 0.25);
         }
 
-        /* Modal & Cart Drawer */
+        /* 🔔 2. Live Social Proof Floating Toast */
+        .social-proof-toast {
+            position: fixed;
+            bottom: 24px;
+            left: 24px;
+            background: #fff;
+            border-radius: var(--radius-md);
+            padding: 14px 18px;
+            display: flex;
+            align-items: center;
+            gap: 14px;
+            box-shadow: 0 15px 35px rgba(0, 0, 0, 0.18);
+            border: 1px solid var(--border-color);
+            border-left: 5px solid var(--carnival-gold);
+            z-index: 1500;
+            max-width: 380px;
+            transform: translateY(120px);
+            opacity: 0;
+            pointer-events: none;
+            transition: all 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+            cursor: pointer;
+        }
+
+        .social-proof-toast.show {
+            transform: translateY(0);
+            opacity: 1;
+            pointer-events: auto;
+        }
+
+        .toast-avatar {
+            font-size: 32px;
+            background: #F8F9FD;
+            width: 48px;
+            height: 48px;
+            border-radius: 10px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            flex-shrink: 0;
+        }
+
+        .toast-details {
+            flex: 1;
+        }
+
+        .toast-user {
+            font-size: 12px;
+            font-weight: 800;
+            color: var(--carnival-purple);
+            display: flex;
+            align-items: center;
+            gap: 4px;
+        }
+
+        .toast-prod {
+            font-size: 13px;
+            font-weight: 700;
+            color: var(--text-dark);
+            line-height: 1.3;
+            margin: 2px 0;
+        }
+
+        .toast-time {
+            font-size: 11px;
+            color: #94A3B8;
+        }
+
+        .toast-close {
+            background: transparent;
+            border: none;
+            color: #94A3B8;
+            cursor: pointer;
+            padding: 4px;
+            font-size: 14px;
+        }
+
+        .toast-close:hover {
+            color: var(--carnival-red);
+        }
+
+        /* 🎁 3. Floating Spin Wheel Launcher */
+        .spin-fab {
+            position: fixed;
+            bottom: 24px;
+            right: 24px;
+            background: linear-gradient(135deg, #FF9F1C 0%, #E63946 100%);
+            color: #fff;
+            padding: 14px 20px;
+            border-radius: 50px;
+            font-weight: 800;
+            font-size: 14px;
+            box-shadow: 0 10px 25px rgba(255, 159, 28, 0.5);
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            cursor: pointer;
+            z-index: 1400;
+            border: 2px solid #fff;
+            transition: all 0.3s;
+            animation: bounceFab 3s infinite;
+        }
+
+        .spin-fab:hover {
+            transform: scale(1.08) translateY(-4px);
+            box-shadow: 0 15px 35px rgba(255, 159, 28, 0.7);
+        }
+
+        /* Modal Overlay System */
         .modal-overlay {
             position: fixed;
             top: 0;
             left: 0;
             right: 0;
             bottom: 0;
-            background: rgba(18, 18, 26, 0.7);
+            background: rgba(18, 18, 26, 0.75);
             backdrop-filter: blur(6px);
             display: none;
             justify-content: center;
@@ -477,7 +805,7 @@
         }
 
         .modal-head {
-            padding: 22px 28px;
+            padding: 20px 28px;
             border-bottom: 1px solid var(--border-color);
             display: flex;
             justify-content: space-between;
@@ -518,11 +846,113 @@
             flex: 1;
         }
 
+        /* 📦 4. Free Shipping & VIP Reward Meter */
+        .shipping-meter-box {
+            background: #F8F9FD;
+            border: 2px dashed var(--carnival-gold);
+            border-radius: var(--radius-md);
+            padding: 16px 20px;
+            margin-bottom: 22px;
+        }
+
+        .shipping-meter-header {
+            display: flex;
+            justify-content: space-between;
+            font-size: 13.5px;
+            font-weight: 700;
+            margin-bottom: 8px;
+            color: var(--text-dark);
+        }
+
+        .shipping-meter-track {
+            height: 10px;
+            background: #E2E8F0;
+            border-radius: 20px;
+            overflow: hidden;
+            position: relative;
+        }
+
+        .shipping-meter-fill {
+            height: 100%;
+            background: linear-gradient(90deg, #FF9F1C, #2EC4B6);
+            border-radius: 20px;
+            transition: width 0.4s ease;
+        }
+
+        /* 🎟️ 5. Promo Code Input in Cart */
+        .promo-code-box {
+            display: flex;
+            gap: 10px;
+            margin-bottom: 20px;
+        }
+
+        .promo-input {
+            flex: 1;
+            padding: 10px 14px;
+            border: 2px solid var(--border-color);
+            border-radius: 10px;
+            font-family: 'Fira Code', monospace;
+            font-size: 13px;
+            font-weight: 700;
+            text-transform: uppercase;
+        }
+
+        .promo-input:focus {
+            outline: none;
+            border-color: var(--carnival-purple);
+        }
+
+        .btn-apply-promo {
+            background: var(--carnival-purple);
+            color: #fff;
+            border: none;
+            padding: 10px 20px;
+            border-radius: 10px;
+            font-weight: 700;
+            font-size: 13px;
+            cursor: pointer;
+            transition: all 0.2s;
+        }
+
+        .btn-apply-promo:hover {
+            background: #2b0880;
+        }
+
+        /* Upsell Bundle Card in Cart */
+        .upsell-section {
+            background: #FFFBEB;
+            border: 1px solid #FDE68A;
+            border-radius: var(--radius-md);
+            padding: 16px;
+            margin-bottom: 22px;
+        }
+
+        .upsell-head {
+            font-size: 13px;
+            font-weight: 800;
+            color: #B45309;
+            display: flex;
+            align-items: center;
+            gap: 6px;
+            margin-bottom: 12px;
+        }
+
+        .upsell-item {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            gap: 12px;
+            background: #fff;
+            padding: 10px 14px;
+            border-radius: 8px;
+            border: 1px solid #FEF3C7;
+        }
+
         /* Cart Table */
         .cart-table {
             width: 100%;
             border-collapse: collapse;
-            margin-bottom: 24px;
+            margin-bottom: 20px;
         }
 
         .cart-table th {
@@ -571,15 +1001,259 @@
         .cart-total-box {
             background: #F8F9FD;
             border-radius: var(--radius-md);
-            padding: 20px;
+            padding: 18px 22px;
+            margin-bottom: 22px;
+            border: 1px solid var(--border-color);
+        }
+
+        .total-row {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 8px;
+            font-size: 14px;
+            color: #475569;
+        }
+
+        .total-row.grand {
+            margin-top: 10px;
+            padding-top: 10px;
+            border-top: 2px dashed #CBD5E1;
+            font-weight: 800;
+            font-size: 18px;
+            color: var(--text-dark);
+        }
+
+        /* 🔍 6. Quick-View Modal Elements */
+        .qv-grid {
+            display: grid;
+            grid-template-columns: 1fr 1.2fr;
+            gap: 30px;
+        }
+
+        .qv-avatar-box {
+            background: linear-gradient(135deg, #F1F5F9 0%, #E2E8F0 100%);
+            border-radius: var(--radius-lg);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 110px;
+            min-height: 260px;
+            position: relative;
+            border: 1px solid var(--border-color);
+        }
+
+        .qv-volume-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 8px;
+            margin: 16px 0;
+        }
+
+        .qv-volume-card {
+            border: 2px solid var(--border-color);
+            border-radius: 10px;
+            padding: 10px;
+            text-align: center;
+            cursor: pointer;
+            transition: all 0.2s;
+            position: relative;
+        }
+
+        .qv-volume-card.active {
+            border-color: var(--carnival-purple);
+            background: #F0F2FF;
+        }
+
+        .qv-volume-tag {
+            position: absolute;
+            top: -9px;
+            left: 50%;
+            transform: translateX(-50%);
+            background: var(--carnival-red);
+            color: #fff;
+            font-size: 9px;
+            font-weight: 900;
+            padding: 1px 6px;
+            border-radius: 10px;
+            white-space: nowrap;
+        }
+
+        /* 🎡 7. Spin Wheel Canvas System */
+        .wheel-container {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            position: relative;
+            margin: 10px 0;
+        }
+
+        .wheel-wrapper {
+            position: relative;
+            width: 320px;
+            height: 320px;
+        }
+
+        #wheelCanvas {
+            width: 100%;
+            height: 100%;
+            border-radius: 50%;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
+            transition: transform 4s cubic-bezier(0.15, 0.9, 0.2, 1);
+        }
+
+        .wheel-pointer {
+            position: absolute;
+            top: -14px;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 0;
+            height: 0;
+            border-left: 15px solid transparent;
+            border-right: 15px solid transparent;
+            border-top: 28px solid #E63946;
+            z-index: 10;
+            filter: drop-shadow(0 4px 6px rgba(0,0,0,0.3));
+        }
+
+        .wheel-center-btn {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            width: 70px;
+            height: 70px;
+            background: #fff;
+            border-radius: 50%;
+            border: 4px solid var(--carnival-gold);
+            box-shadow: 0 4px 15px rgba(0,0,0,0.25);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: 900;
+            font-size: 13px;
+            color: var(--carnival-purple);
+            cursor: pointer;
+            z-index: 5;
+            transition: transform 0.2s;
+        }
+
+        .wheel-center-btn:hover {
+            transform: translate(-50%, -50%) scale(1.1);
+        }
+
+        /* Admin & Arch View Styles */
+        .admin-view, .arch-view {
+            display: none;
+        }
+
+        .admin-view.active, .arch-view.active {
+            display: block;
+        }
+
+        .admin-header {
             display: flex;
             justify-content: space-between;
             align-items: center;
             margin-bottom: 25px;
-            border: 1px dashed var(--carnival-gold);
+            flex-wrap: wrap;
+            gap: 15px;
         }
 
-        /* Checkout Form Controls */
+        .admin-table {
+            width: 100%;
+            border-collapse: collapse;
+            background: #fff;
+            border-radius: var(--radius-lg);
+            overflow: hidden;
+            box-shadow: var(--card-shadow);
+        }
+
+        .admin-table th {
+            background: #FAFBFC;
+            text-align: left;
+            padding: 14px 18px;
+            font-size: 12px;
+            text-transform: uppercase;
+            color: #64748B;
+            border-bottom: 2px solid var(--border-color);
+        }
+
+        .admin-table td {
+            padding: 16px 18px;
+            border-bottom: 1px solid #F1F5F9;
+            vertical-align: middle;
+        }
+
+        .code-explorer {
+            display: grid;
+            grid-template-columns: 280px 1fr;
+            background: #1E1E2E;
+            border-radius: var(--radius-xl);
+            overflow: hidden;
+            box-shadow: 0 20px 40px rgba(0,0,0,0.3);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+        }
+
+        .code-sidebar {
+            background: #181825;
+            padding: 20px 14px;
+            border-right: 1px solid rgba(255, 255, 255, 0.08);
+            display: flex;
+            flex-direction: column;
+            gap: 4px;
+        }
+
+        .sidebar-heading {
+            color: var(--carnival-gold);
+            font-size: 11px;
+            font-weight: 800;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            padding: 10px 12px 6px;
+        }
+
+        .code-tab-btn {
+            background: transparent;
+            border: none;
+            color: #A6ADC8;
+            padding: 9px 14px;
+            border-radius: 8px;
+            font-size: 13px;
+            text-align: left;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            transition: all 0.2s;
+        }
+
+        .code-tab-btn:hover {
+            background: rgba(255, 255, 255, 0.06);
+            color: #fff;
+        }
+
+        .code-tab-btn.active {
+            background: var(--carnival-purple);
+            color: #fff;
+            font-weight: 700;
+        }
+
+        .code-content {
+            padding: 24px;
+            overflow-x: auto;
+            max-height: 600px;
+        }
+
+        .code-content pre {
+            margin: 0;
+            font-family: 'Fira Code', monospace;
+            font-size: 13.5px;
+            color: #CDD6F4;
+            line-height: 1.6;
+        }
+
+        /* Form Controls */
         .form-grid {
             display: grid;
             grid-template-columns: repeat(2, 1fr);
@@ -597,200 +1271,50 @@
             grid-column: span 2;
         }
 
-        .form-group label {
-            font-size: 13px;
-            font-weight: 700;
-            color: #334155;
-        }
-
         .form-control {
-            padding: 11px 14px;
-            border: 1.5px solid var(--border-color);
-            border-radius: 8px;
-            font-size: 14px;
+            padding: 11px 16px;
+            border: 2px solid var(--border-color);
+            border-radius: 10px;
             font-family: inherit;
-            transition: all 0.2s;
+            font-size: 14px;
+            transition: border-color 0.2s;
         }
 
         .form-control:focus {
             outline: none;
-            border-color: var(--carnival-purple-light);
-            box-shadow: 0 0 0 3px rgba(67, 97, 238, 0.15);
+            border-color: var(--carnival-purple);
         }
 
-        .checkbox-group {
-            display: flex;
-            align-items: center;
-            gap: 10px;
-            cursor: pointer;
-            font-size: 14px;
-            font-weight: 600;
-            padding: 10px 14px;
-            background: #F8FAFC;
-            border-radius: 8px;
-            border: 1px solid var(--border-color);
-        }
-
-        /* Admin CRUD View */
-        .admin-view {
-            display: none;
-        }
-
-        .admin-view.active {
-            display: block;
-        }
-
-        .admin-header {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            margin-bottom: 24px;
-            flex-wrap: wrap;
-            gap: 15px;
-        }
-
-        .admin-table {
-            width: 100%;
-            background: #fff;
-            border-radius: var(--radius-lg);
-            overflow: hidden;
-            box-shadow: var(--card-shadow);
-            border-collapse: collapse;
-        }
-
-        .admin-table th {
-            background: #1E1B4B;
-            color: #fff;
-            padding: 16px;
-            font-size: 13px;
-            text-align: left;
-            font-weight: 700;
-        }
-
-        .admin-table td {
-            padding: 16px;
-            border-bottom: 1px solid #F1F5F9;
-            vertical-align: middle;
-            font-size: 14px;
-        }
-
-        .admin-table tr:hover {
-            background: #F8FAFC;
-        }
-
-        /* Architecture Explorer View */
-        .arch-view {
-            display: none;
-        }
-
-        .arch-view.active {
-            display: block;
-        }
-
-        .code-explorer {
-            display: grid;
-            grid-template-columns: 280px 1fr;
-            background: #1E1E2E;
-            border-radius: var(--radius-lg);
-            overflow: hidden;
-            box-shadow: 0 20px 40px rgba(0,0,0,0.25);
-            min-height: 600px;
-        }
-
-        .code-sidebar {
-            background: #181825;
-            border-right: 1px solid #313244;
-            padding: 20px 12px;
-            display: flex;
-            flex-direction: column;
-            gap: 6px;
-        }
-
-        .sidebar-heading {
-            font-size: 11px;
-            text-transform: uppercase;
-            letter-spacing: 1px;
-            color: #6C7086;
-            padding: 8px 12px 4px;
-            font-weight: 700;
-        }
-
-        .code-tab-btn {
-            background: transparent;
-            border: none;
-            color: #CDD6F4;
-            padding: 10px 14px;
-            border-radius: 8px;
-            font-size: 13px;
-            font-family: 'Fira Code', monospace;
-            text-align: left;
-            cursor: pointer;
-            transition: all 0.2s;
-            display: flex;
-            align-items: center;
-            gap: 10px;
-        }
-
-        .code-tab-btn:hover {
-            background: #313244;
-            color: #89B4FA;
-        }
-
-        .code-tab-btn.active {
-            background: var(--carnival-purple);
-            color: #fff;
-            font-weight: 600;
-        }
-
-        .code-content {
-            padding: 24px;
-            overflow-x: auto;
-            color: #CDD6F4;
-            font-family: 'Fira Code', monospace;
-            font-size: 13.5px;
-            line-height: 1.65;
-            background: #1E1E2E;
-        }
-
-        .code-content pre {
-            margin: 0;
-            white-space: pre-wrap;
-        }
-
-        /* Toast notifications */
+        /* Toast Component */
         .toast {
             position: fixed;
-            bottom: 30px;
-            right: 30px;
-            background: #1E1B4B;
+            top: 24px;
+            right: 24px;
+            background: var(--bg-dark);
             color: #fff;
             padding: 14px 22px;
-            border-radius: 12px;
-            box-shadow: 0 10px 30px rgba(0,0,0,0.3);
+            border-radius: var(--radius-md);
             display: flex;
             align-items: center;
             gap: 12px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.35);
+            border-left: 4px solid var(--carnival-gold);
             z-index: 3000;
-            transform: translateY(100px);
-            opacity: 0;
-            transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1);
-            border-left: 5px solid var(--carnival-gold);
-            font-size: 14px;
-            font-weight: 600;
+            transform: translateX(120%);
+            transition: transform 0.3s cubic-bezier(0.16, 1, 0.3, 1);
         }
 
         .toast.show {
-            transform: translateY(0);
-            opacity: 1;
+            transform: translateX(0);
         }
 
         /* Footer */
         footer.store-footer {
-            background: #12121A;
-            color: #94A3B8;
-            padding: 40px 24px 25px;
-            border-top: 1px solid #1E293B;
+            background: var(--bg-dark);
+            color: #A6ADC8;
+            padding: 40px 24px;
             margin-top: auto;
+            border-top: 1px solid rgba(255, 255, 255, 0.1);
         }
 
         .footer-inner {
@@ -810,6 +1334,9 @@
                 gap: 15px;
                 padding: 15px 20px;
             }
+            .qv-grid {
+                grid-template-columns: 1fr;
+            }
             .code-explorer {
                 grid-template-columns: 1fr;
             }
@@ -819,10 +1346,31 @@
             .form-group.full {
                 grid-column: span 1;
             }
+            .flash-sale-bar {
+                font-size: 11.5px;
+                padding: 6px 12px;
+            }
+            .arch-banner {
+                top: 34px;
+            }
         }
     </style>
 </head>
 <body>
+
+    <!-- ⚡ 1. Top Flash Sale Bar -->
+    <div class="flash-sale-bar">
+        <div class="flash-sale-content">
+            <span class="flash-badge">⚡ FLASH SALE</span>
+            <span>Get <strong>15% OFF</strong> all Pranks & Magic with code <strong style="color: var(--carnival-gold); text-decoration: underline; cursor: pointer;" onclick="copyAndApplyPromo('MISCHIEF15')">MISCHIEF15</strong>!</span>
+            <span class="timer-box"><i class="fas fa-clock"></i> <span id="countdownTimer">02:44:18</span></span>
+        </div>
+        <div>
+            <button class="sound-toggle-btn" id="soundToggleBtn" onclick="toggleSound()">
+                <i class="fas fa-volume-up"></i> Sound: ON
+            </button>
+        </div>
+    </div>
 
     <!-- Top Architecture Bar -->
     <div class="arch-banner">
@@ -851,6 +1399,10 @@
         </div>
 
         <div class="header-actions">
+            <button class="btn-spin-reward" onclick="openSpinWheelModal()">
+                <i class="fas fa-gift"></i>
+                <span>Spin & Win 15% OFF</span>
+            </button>
             <button class="cart-widget-btn" onclick="openCartModal()">
                 <i class="fas fa-shopping-bag"></i>
                 <span>Cart of Chaos</span>
@@ -868,7 +1420,39 @@
             <div class="store-hero">
                 <div class="hero-text">
                     <h1>Ready to Deploy Maximum Mischief?</h1>
-                    <p>Welcome to our high-caliber gag & illusion armory. From shock pens and smoke bombs to professional vanishing decks, we engineer prime comedic chaos.</p>
+                    <p>Welcome to our high-caliber gag & illusion armory. From acoustic shock cushions to vanishing decks, we engineer certified comedic disruption.</p>
+                </div>
+            </div>
+
+            <!-- Trust Badges Strip -->
+            <div class="trust-strip">
+                <div class="trust-card">
+                    <div class="trust-icon"><i class="fas fa-shield-halved"></i></div>
+                    <div>
+                        <div class="trust-title">100% Decoy Packaging</div>
+                        <div class="trust-sub">Disguised in mundane cardboard</div>
+                    </div>
+                </div>
+                <div class="trust-card">
+                    <div class="trust-icon"><i class="fas fa-dove"></i></div>
+                    <div>
+                        <div class="trust-title">Carrier Pigeon VIP</div>
+                        <div class="trust-sub">Free shipping on orders over $50</div>
+                    </div>
+                </div>
+                <div class="trust-card">
+                    <div class="trust-icon"><i class="fas fa-wand-magic-sparkles"></i></div>
+                    <div>
+                        <div class="trust-title">Illusionist Certified</div>
+                        <div class="trust-sub">Tested for maximum laughter</div>
+                    </div>
+                </div>
+                <div class="trust-card">
+                    <div class="trust-icon"><i class="fas fa-rotate-left"></i></div>
+                    <div>
+                        <div class="trust-title">30-Day Prank Warranty</div>
+                        <div class="trust-sub">Gag refund if they don't laugh</div>
+                    </div>
                 </div>
             </div>
 
@@ -963,7 +1547,70 @@
 
     </main>
 
-    <!-- ==================== CART MODAL ==================== -->
+    <!-- 🔔 2. Live Social Proof Floating Toast -->
+    <div class="social-proof-toast" id="socialProofToast" onclick="handleSocialToastClick()">
+        <div class="toast-avatar" id="socialAvatar">💨</div>
+        <div class="toast-details">
+            <div class="toast-user"><i class="fas fa-check-circle" style="color: #10B981;"></i> <span id="socialUser">Arthur in London</span></div>
+            <div class="toast-prod">Just bought <strong><span id="socialProd">2x Sonic Whoopee Cushion</span></strong></div>
+            <div class="toast-time"><i class="far fa-clock"></i> <span id="socialTime">2 mins ago</span> • Verified Prankster 🎪</div>
+        </div>
+        <button class="toast-close" onclick="dismissSocialProof(event)"><i class="fas fa-times"></i></button>
+    </div>
+
+    <!-- 🎁 3. Floating Spin Wheel Action Button -->
+    <div class="spin-fab" onclick="openSpinWheelModal()">
+        <i class="fas fa-gift" style="font-size: 18px;"></i>
+        <span>Secret 15% OFF Wheel</span>
+    </div>
+
+    <!-- 🎡 4. Spin-the-Wheel Mystery Discount Modal -->
+    <div class="modal-overlay" id="spinWheelModal">
+        <div class="modal-card" style="max-width: 520px; text-align: center;">
+            <div class="modal-head">
+                <h3><i class="fas fa-dharmachakra" style="color: var(--carnival-gold);"></i> The Trickster Prize Wheel</h3>
+                <button class="modal-close-btn" onclick="closeSpinWheelModal()"><i class="fas fa-times"></i></button>
+            </div>
+            <div class="modal-body">
+                <p style="color: #64748B; font-size: 14px; margin-bottom: 15px;">
+                    Spin the carnival wheel to unlock an exclusive secret discount code for your prank order!
+                </p>
+
+                <div class="wheel-container">
+                    <div class="wheel-wrapper">
+                        <div class="wheel-pointer"></div>
+                        <canvas id="wheelCanvas" width="320" height="320"></canvas>
+                        <div class="wheel-center-btn" id="spinCenterBtn" onclick="spinWheel()">SPIN!</div>
+                    </div>
+                </div>
+
+                <div id="wheelResultBox" style="display: none; margin-top: 20px; padding: 16px; background: #FEF3C7; border: 2px dashed #F59E0B; border-radius: var(--radius-md);">
+                    <h4 style="font-family: 'Fredoka', cursive; font-size: 22px; color: #B45309; margin-bottom: 6px;">🎉 Congratulations!</h4>
+                    <p style="font-size: 14px; color: #78350F; margin-bottom: 12px;">You won: <strong id="wheelWonText">15% OFF Order</strong></p>
+                    <div style="display: flex; justify-content: center; gap: 10px;">
+                        <button class="btn-add-cart" onclick="applyWonPromo()">
+                            <i class="fas fa-magic"></i> Auto-Apply Code (<span id="wheelWonCode">MISCHIEF15</span>)
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- 🔍 5. Product Quick-View Modal with Volume Bulk Pricing -->
+    <div class="modal-overlay" id="quickViewModal">
+        <div class="modal-card" style="max-width: 780px;">
+            <div class="modal-head">
+                <h3><i class="fas fa-eye" style="color: var(--carnival-purple);"></i> Prank Inspection &amp; Volume Deals</h3>
+                <button class="modal-close-btn" onclick="closeQuickViewModal()"><i class="fas fa-times"></i></button>
+            </div>
+            <div class="modal-body" id="quickViewBody">
+                <!-- Injected dynamically -->
+            </div>
+        </div>
+    </div>
+
+    <!-- ==================== CART MODAL & DRAWER ==================== -->
     <div class="modal-overlay" id="cartModal">
         <div class="modal-card">
             <div class="modal-head">
@@ -1015,9 +1662,9 @@
                             <input type="text" class="form-control" id="custCountry" required value="United States">
                         </div>
                         <div class="form-group full">
-                            <label class="checkbox-group">
-                                <input type="checkbox" id="custGiftWrap" checked>
-                                <span>🎁 Disguise in decoy boring box (Gift Wrap)</span>
+                            <label class="checkbox-group" style="display: flex; align-items: center; gap: 8px; cursor: pointer; font-weight: 700;">
+                                <input type="checkbox" id="custGiftWrap" checked style="width: 18px; height: 18px;">
+                                <span>🎁 Stealth Decoy Packaging (Boring unmarked exterior box)</span>
                             </label>
                         </div>
                     </div>
@@ -1121,30 +1768,191 @@
     <script>
         // Seed Database matching DatabaseInitializer.cs
         let products = [
-            { ProductID: 1, Name: "Acoustic Cushion of Resonant Embarrassment", Category: "Classic Gags", Price: 8.99, Emoji: "💨", Description: "Self-inflating stealth whoopee cushion with multi-frequency sonic dispersal. Guaranteed 100% awkward silence in boardroom meetings." },
-            { ProductID: 2, Name: "Shock-o-Matic 3000 Executive Ballpoint", Category: "Classic Gags", Price: 14.50, Emoji: "⚡", Description: "A polished chrome pen that delivers a harmless 12V jolt whenever a coworker attempts to steal your favorite stationery." },
-            { ProductID: 3, Name: "Billion-Dollar Fake Scratch-Off Lotteries (5-Pack)", Category: "Classic Gags", Price: 9.99, Emoji: "🎟️", Description: "Realistic gold-foil lottery tickets that inevitably reveal a $10,000,000 jackpot before tiny fine print reveals the hilarious truth." },
-            { ProductID: 4, Name: "The Inexplicable Squirting Lapel Carnation", Category: "Classic Gags", Price: 11.25, Emoji: "🌸", Description: "Vintage concealed bulb pump hidden under your blazer. Squirt pressurized water up to 15 feet across the carnival grounds." },
-            { ProductID: 5, Name: "Phantom Ultrasonic Cricket Chirper", Category: "Office Mischief", Price: 18.75, Emoji: "🦗", Description: "A micro-PCB that emits random cricket chirps every 7 to 18 minutes. Virtually impossible to triangulate in open-plan offices." },
-            { ProductID: 6, Name: "Spill-Proof Acrylic Espresso Decoy", Category: "Office Mischief", Price: 12.99, Emoji: "☕", Description: "Solid hyper-realistic spilled coffee puddle with submerged paperclip. Terrify colleagues by placing it atop their brand-new MacBooks." },
-            { ProductID: 7, Name: "Voice-Activated Coffee Machine Stickers (20pk)", Category: "Office Mischief", Price: 6.50, Emoji: "🗣️", Description: "Stick onto standard office appliances to watch colleagues shout commands like 'ESPRESSO DOUBLE SHOT PLEASE' at inanimate objects." },
-            { ProductID: 8, Name: "Bicycle Vanishing Deck (Instant Disappearance)", Category: "Close-Up Magic", Price: 19.99, Emoji: "🃏", Description: "Precision-engineered mechanical card box. Place a full 52-card deck inside, close the lid, and open it immediately empty." },
-            { ProductID: 9, Name: "Pro Soft Rubber Thumb Tip + Silk streamer", Category: "Close-Up Magic", Price: 13.50, Emoji: "🧣", Description: "The absolute cornerstone of close-up wizardry. Make crimson silk handkerchiefs vanish into thin air right before their eyes." },
-            { ProductID: 10, Name: "Pyrotechnic Nitrocellulose Flash Paper (20 Sheets)", Category: "Close-Up Magic", Price: 16.00, Emoji: "🔥", Description: "High-grade nitrocellulose sheets that ignite instantaneously with a blinding flash and zero ash or smoke residue." },
-            { ProductID: 11, Name: "Telekinetic Floating Dollar Matrix (Invisible Thread)", Category: "Close-Up Magic", Price: 22.50, Emoji: "💵", Description: "Make borrowed currency float effortlessly between your hands. Includes ultra-matte monofilament and instructional manual." },
-            { ProductID: 12, Name: "Cabinet of Inescapable Metamorphosis", Category: "Stage Illusions", Price: 899.99, Emoji: "📦", Description: "Collapsible hardwood illusion trunk allowing instant 2-second stage transpositions. Used by touring illusionists worldwide." },
-            { ProductID: 13, Name: "Suspended Animation Floating Assistant Rig", Category: "Stage Illusions", Price: 1450.00, Emoji: "🪄", Description: "Heavy-duty electromagnetic stage levitation harness tested up to 250 lbs. Full hoop-passing clearance." },
-            { ProductID: 14, Name: "Alchemist's Dragon Breath Geyser Machine", Category: "Stage Illusions", Price: 420.00, Emoji: "💨", Description: "DMX-controlled ultrasonic column fogger that blasts 20-foot illuminated smoke pillars on stage cues." }
+            { ProductID: 1, Name: "Acoustic Cushion of Resonant Embarrassment", Category: "Classic Gags", Price: 8.99, OrigPrice: 12.99, Emoji: "💨", Rating: 4.9, Reviews: 184, StockLeft: 4, Viewers: 22, Description: "Self-inflating stealth whoopee cushion with multi-frequency sonic dispersal. Guaranteed 100% awkward silence in boardroom meetings." },
+            { ProductID: 2, Name: "Shock-o-Matic 3000 Executive Ballpoint", Category: "Classic Gags", Price: 14.50, OrigPrice: 18.00, Emoji: "⚡", Rating: 4.8, Reviews: 142, StockLeft: 3, Viewers: 17, Description: "A polished chrome pen that delivers a harmless 12V jolt whenever a coworker attempts to steal your favorite stationery." },
+            { ProductID: 3, Name: "Billion-Dollar Fake Scratch-Off Lotteries (5-Pack)", Category: "Classic Gags", Price: 9.99, OrigPrice: 15.00, Emoji: "🎟️", Rating: 5.0, Reviews: 320, StockLeft: 7, Viewers: 31, Description: "Realistic gold-foil lottery tickets that inevitably reveal a $10,000,000 jackpot before tiny fine print reveals the hilarious truth." },
+            { ProductID: 4, Name: "The Inexplicable Squirting Lapel Carnation", Category: "Classic Gags", Price: 11.25, OrigPrice: 14.00, Emoji: "🌸", Rating: 4.7, Reviews: 89, StockLeft: 5, Viewers: 12, Description: "Vintage concealed bulb pump hidden under your blazer. Squirt pressurized water up to 15 feet across the carnival grounds." },
+            { ProductID: 5, Name: "Phantom Ultrasonic Cricket Chirper", Category: "Office Mischief", Price: 18.75, OrigPrice: 24.50, Emoji: "🦗", Rating: 4.9, Reviews: 412, StockLeft: 2, Viewers: 45, Description: "A micro-PCB that emits random cricket chirps every 7 to 18 minutes. Virtually impossible to triangulate in open-plan offices." },
+            { ProductID: 6, Name: "Spill-Proof Acrylic Espresso Decoy", Category: "Office Mischief", Price: 12.99, OrigPrice: 16.50, Emoji: "☕", Rating: 4.8, Reviews: 115, StockLeft: 6, Viewers: 14, Description: "Solid hyper-realistic spilled coffee puddle with submerged paperclip. Terrify colleagues by placing it atop their brand-new MacBooks." },
+            { ProductID: 7, Name: "Voice-Activated Coffee Machine Stickers (20pk)", Category: "Office Mischief", Price: 6.50, OrigPrice: 9.99, Emoji: "🗣️", Rating: 4.9, Reviews: 278, StockLeft: 12, Viewers: 19, Description: "Stick onto standard office appliances to watch colleagues shout commands like 'ESPRESSO DOUBLE SHOT PLEASE' at inanimate objects." },
+            { ProductID: 8, Name: "Bicycle Vanishing Deck (Instant Disappearance)", Category: "Close-Up Magic", Price: 19.99, OrigPrice: 28.00, Emoji: "🃏", Rating: 5.0, Reviews: 540, StockLeft: 4, Viewers: 38, Description: "Precision-engineered mechanical card box. Place a full 52-card deck inside, close the lid, and open it immediately empty." },
+            { ProductID: 9, Name: "Pro Soft Rubber Thumb Tip + Silk streamer", Category: "Close-Up Magic", Price: 13.50, OrigPrice: 18.00, Emoji: "🧣", Rating: 4.8, Reviews: 210, StockLeft: 8, Viewers: 16, Description: "The absolute cornerstone of close-up wizardry. Make crimson silk handkerchiefs vanish into thin air right before their eyes." },
+            { ProductID: 10, Name: "Pyrotechnic Nitrocellulose Flash Paper (20 Sheets)", Category: "Close-Up Magic", Price: 16.00, OrigPrice: 22.00, Emoji: "🔥", Rating: 4.9, Reviews: 304, StockLeft: 5, Viewers: 28, Description: "High-grade nitrocellulose sheets that ignite instantaneously with a blinding flash and zero ash or smoke residue." },
+            { ProductID: 11, Name: "Telekinetic Floating Dollar Matrix (Invisible Thread)", Category: "Close-Up Magic", Price: 22.50, OrigPrice: 30.00, Emoji: "💵", Rating: 4.7, Reviews: 167, StockLeft: 3, Viewers: 21, Description: "Make borrowed currency float effortlessly between your hands. Includes ultra-matte monofilament and instructional manual." },
+            { ProductID: 12, Name: "Cabinet of Inescapable Metamorphosis", Category: "Stage Illusions", Price: 899.99, OrigPrice: 1199.00, Emoji: "📦", Rating: 5.0, Reviews: 42, StockLeft: 1, Viewers: 8, Description: "Collapsible hardwood illusion trunk allowing instant 2-second stage transpositions. Used by touring illusionists worldwide." },
+            { ProductID: 13, Name: "Suspended Animation Floating Assistant Rig", Category: "Stage Illusions", Price: 1450.00, OrigPrice: 1800.00, Emoji: "🪄", Rating: 4.9, Reviews: 31, StockLeft: 2, Viewers: 5, Description: "Heavy-duty electromagnetic stage levitation harness tested up to 250 lbs. Full hoop-passing clearance." },
+            { ProductID: 14, Name: "Alchemist's Dragon Breath Geyser Machine", Category: "Stage Illusions", Price: 420.00, OrigPrice: 550.00, Emoji: "💨", Rating: 4.8, Reviews: 56, StockLeft: 2, Viewers: 11, Description: "DMX-controlled ultrasonic column fogger that blasts 20-foot illuminated smoke pillars on stage cues." }
         ];
 
         // State (Cart managed like ASP.NET Session + CartModelBinder)
         let cart = {
-            lines: []
+            lines: [],
+            appliedCoupon: null,
+            discountPercent: 0,
+            discountFixed: 0
         };
 
         let currentCategory = "All";
         let currentPage = 1;
-        const pageSize = 4; // Exactly as in ProductController.PageSize = 4
+        const pageSize = 4;
+        let soundEnabled = true;
+        let currentSocialProductId = 1;
+
+        // 🔊 Web Audio API Procedural Sound Engine
+        let audioCtx = null;
+        function getAudioContext() {
+            if (!audioCtx) {
+                audioCtx = new (window.AudioContext || window.webkitAudioContext)();
+            }
+            if (audioCtx.state === 'suspended') {
+                audioCtx.resume();
+            }
+            return audioCtx;
+        }
+
+        function playChaChing() {
+            if (!soundEnabled) return;
+            try {
+                const ctx = getAudioContext();
+                const now = ctx.currentTime;
+                // High chime 1
+                const osc1 = ctx.createOscillator();
+                const gain1 = ctx.createGain();
+                osc1.type = 'sine';
+                osc1.frequency.setValueAtTime(987.77, now); // B5
+                osc1.frequency.setValueAtTime(1318.51, now + 0.08); // E6
+                gain1.gain.setValueAtTime(0.2, now);
+                gain1.gain.exponentialRampToValueAtTime(0.001, now + 0.4);
+                osc1.connect(gain1);
+                gain1.connect(ctx.destination);
+                osc1.start(now);
+                osc1.stop(now + 0.4);
+            } catch (e) {}
+        }
+
+        function playWheelTick() {
+            if (!soundEnabled) return;
+            try {
+                const ctx = getAudioContext();
+                const now = ctx.currentTime;
+                const osc = ctx.createOscillator();
+                const gain = ctx.createGain();
+                osc.type = 'triangle';
+                osc.frequency.setValueAtTime(450 + Math.random() * 100, now);
+                gain.gain.setValueAtTime(0.1, now);
+                gain.gain.exponentialRampToValueAtTime(0.001, now + 0.05);
+                osc.connect(gain);
+                gain.connect(ctx.destination);
+                osc.start(now);
+                osc.stop(now + 0.05);
+            } catch (e) {}
+        }
+
+        function playVictoryFanfare() {
+            if (!soundEnabled) return;
+            try {
+                const ctx = getAudioContext();
+                const notes = [523.25, 659.25, 783.99, 1046.50]; // C5, E5, G5, C6
+                notes.forEach((freq, idx) => {
+                    const now = ctx.currentTime + (idx * 0.1);
+                    const osc = ctx.createOscillator();
+                    const gain = ctx.createGain();
+                    osc.type = 'sine';
+                    osc.frequency.setValueAtTime(freq, now);
+                    gain.gain.setValueAtTime(0.2, now);
+                    gain.gain.exponentialRampToValueAtTime(0.001, now + 0.35);
+                    osc.connect(gain);
+                    gain.connect(ctx.destination);
+                    osc.start(now);
+                    osc.stop(now + 0.35);
+                });
+            } catch (e) {}
+        }
+
+        function playWhoopeePop() {
+            if (!soundEnabled) return;
+            try {
+                const ctx = getAudioContext();
+                const now = ctx.currentTime;
+                const osc = ctx.createOscillator();
+                const gain = ctx.createGain();
+                osc.type = 'sawtooth';
+                osc.frequency.setValueAtTime(220, now);
+                osc.frequency.exponentialRampToValueAtTime(80, now + 0.15);
+                gain.gain.setValueAtTime(0.15, now);
+                gain.gain.exponentialRampToValueAtTime(0.001, now + 0.15);
+                osc.connect(gain);
+                gain.connect(ctx.destination);
+                osc.start(now);
+                osc.stop(now + 0.15);
+            } catch (e) {}
+        }
+
+        function toggleSound() {
+            soundEnabled = !soundEnabled;
+            const btn = document.getElementById('soundToggleBtn');
+            if (soundEnabled) {
+                btn.innerHTML = '<i class="fas fa-volume-up"></i> Sound: ON';
+                playChaChing();
+            } else {
+                btn.innerHTML = '<i class="fas fa-volume-mute"></i> Sound: OFF';
+            }
+        }
+
+        // ⚡ Countdown Timer
+        function startCountdown() {
+            let totalSeconds = 2 * 3600 + 44 * 60 + 18;
+            setInterval(() => {
+                totalSeconds--;
+                if (totalSeconds < 0) totalSeconds = 3600 * 3;
+                const hrs = String(Math.floor(totalSeconds / 3600)).padStart(2, '0');
+                const mins = String(Math.floor((totalSeconds % 3600) / 60)).padStart(2, '0');
+                const secs = String(totalSeconds % 60).padStart(2, '0');
+                const elem = document.getElementById('countdownTimer');
+                if (elem) elem.innerText = `${hrs}:${mins}:${secs}`;
+            }, 1000);
+        }
+
+        // 🔔 Social Proof Purchase Feed
+        const socialEvents = [
+            { user: "Arthur H.", city: "London, UK", prodId: 8, qty: 2, time: "2 mins ago" },
+            { user: "Marcus T.", city: "Austin, TX", prodId: 2, qty: 1, time: "Just now" },
+            { user: "Chloe M.", city: "Seattle, WA", prodId: 1, qty: 3, time: "5 mins ago" },
+            { user: "Elena R.", city: "Toronto, ON", prodId: 5, qty: 1, time: "8 mins ago" },
+            { user: "Dmitri V.", city: "Berlin, DE", prodId: 10, qty: 4, time: "12 mins ago" },
+            { user: "Samira K.", city: "Chicago, IL", prodId: 3, qty: 2, time: "15 mins ago" },
+            { user: "Leo N.", city: "Sydney, AU", prodId: 7, qty: 5, time: "18 mins ago" }
+        ];
+
+        let socialIndex = 0;
+        function cycleSocialProof() {
+            const evt = socialEvents[socialIndex];
+            socialIndex = (socialIndex + 1) % socialEvents.length;
+
+            const prod = products.find(p => p.ProductID === evt.prodId) || products[0];
+            currentSocialProductId = prod.ProductID;
+
+            document.getElementById('socialAvatar').innerText = prod.Emoji || '📦';
+            document.getElementById('socialUser').innerText = `${evt.user} in ${evt.city}`;
+            document.getElementById('socialProd').innerText = `${evt.qty}x ${prod.Name}`;
+            document.getElementById('socialTime').innerText = evt.time;
+
+            const toast = document.getElementById('socialProofToast');
+            toast.classList.add('show');
+
+            setTimeout(() => {
+                toast.classList.remove('show');
+            }, 5500);
+        }
+
+        function dismissSocialProof(e) {
+            e.stopPropagation();
+            document.getElementById('socialProofToast').classList.remove('show');
+        }
+
+        function handleSocialToastClick() {
+            openQuickView(currentSocialProductId);
+        }
 
         // Code snippets library for Architecture Explorer
         const codeSnippets = {
@@ -1504,6 +2312,12 @@ namespace MischiefStore.WebUI.App_Start
             renderCatalog();
             updateHeaderCart();
             showCodeSnippet('Product');
+            startCountdown();
+            drawWheel();
+
+            // Start social proof interval
+            setTimeout(cycleSocialProof, 2500);
+            setInterval(cycleSocialProof, 9500);
         }
 
         function updateCategoryCounts() {
@@ -1518,7 +2332,6 @@ namespace MischiefStore.WebUI.App_Start
             currentCategory = cat;
             currentPage = 1;
             
-            // Update active button
             const pills = document.querySelectorAll('.cat-pill');
             pills.forEach(p => {
                 if ((cat === 'All' && p.innerText.includes('All Mischief')) || p.innerText.includes(cat)) {
@@ -1529,6 +2342,7 @@ namespace MischiefStore.WebUI.App_Start
             });
 
             renderCatalog();
+            playWhoopeePop();
         }
 
         function renderCatalog() {
@@ -1548,15 +2362,24 @@ namespace MischiefStore.WebUI.App_Start
             } else {
                 grid.innerHTML = pageItems.map(p => `
                     <div class="product-card">
-                        <div class="card-img-wrap">
+                        <div class="card-img-wrap" onclick="openQuickView(${p.ProductID})">
                             <span class="card-category-badge">${p.Category}</span>
+                            <span class="card-scarcity-badge"><i class="fas fa-fire"></i> ${p.StockLeft || 3} left</span>
                             <span>${p.Emoji || '📦'}</span>
+                            <button class="card-quick-btn"><i class="fas fa-eye"></i> Quick View</button>
                         </div>
                         <div class="card-body">
-                            <h3 class="card-title">${p.Name}</h3>
+                            <div class="star-rating">
+                                <span>★★★★★</span>
+                                <span class="star-count">${p.Rating || 4.9} (${p.Reviews || 120})</span>
+                            </div>
+                            <h3 class="card-title" onclick="openQuickView(${p.ProductID})">${p.Name}</h3>
                             <p class="card-desc">${p.Description}</p>
                             <div class="card-footer">
-                                <span class="card-price">$${p.Price.toFixed(2)}</span>
+                                <div class="card-price-box">
+                                    <span class="card-price">$${p.Price.toFixed(2)}</span>
+                                    ${p.OrigPrice ? `<span class="card-price-orig">$${p.OrigPrice.toFixed(2)}</span>` : ''}
+                                </div>
                                 <button class="btn-add-cart" onclick="addToCart(${p.ProductID})">
                                     <i class="fas fa-cart-plus"></i> Add Prank
                                 </button>
@@ -1586,23 +2409,25 @@ namespace MischiefStore.WebUI.App_Start
         function goToPage(p) {
             currentPage = p;
             renderCatalog();
-            window.scrollTo({ top: 120, behavior: 'smooth' });
+            window.scrollTo({ top: 180, behavior: 'smooth' });
+            playWhoopeePop();
         }
 
         // Cart Actions (Replicating CartController.cs)
-        function addToCart(productId) {
+        function addToCart(productId, qty = 1) {
             const prod = products.find(p => p.ProductID === productId);
             if (!prod) return;
 
             const existing = cart.lines.find(l => l.product.ProductID === productId);
             if (existing) {
-                existing.quantity += 1;
+                existing.quantity += qty;
             } else {
-                cart.lines.push({ product: prod, quantity: 1 });
+                cart.lines.push({ product: prod, quantity: qty });
             }
 
             updateHeaderCart();
-            showToast(`Added "${prod.Name}" to your Cart of Chaos!`);
+            playChaChing();
+            showToast(`Added ${qty}x "${prod.Name}" to your Cart of Chaos!`);
         }
 
         function updateQuantity(productId, delta) {
@@ -1621,15 +2446,31 @@ namespace MischiefStore.WebUI.App_Start
             cart.lines = cart.lines.filter(l => l.product.ProductID !== productId);
             updateHeaderCart();
             renderCartModal();
-            showToast("Item removed from cart.");
+            showToast("Item vanished from cart.");
+        }
+
+        function calculateCartTotals() {
+            const subtotal = cart.lines.reduce((acc, l) => acc + (l.product.Price * l.quantity), 0);
+            let discountAmount = 0;
+
+            if (cart.discountPercent > 0) {
+                discountAmount += subtotal * (cart.discountPercent / 100);
+            }
+            if (cart.discountFixed > 0) {
+                discountAmount += cart.discountFixed;
+            }
+            if (discountAmount > subtotal) discountAmount = subtotal;
+
+            const grandTotal = Math.max(0, subtotal - discountAmount);
+            return { subtotal, discountAmount, grandTotal };
         }
 
         function updateHeaderCart() {
             const count = cart.lines.reduce((acc, l) => acc + l.quantity, 0);
-            const total = cart.lines.reduce((acc, l) => acc + (l.product.Price * l.quantity), 0);
+            const { grandTotal } = calculateCartTotals();
 
             document.getElementById('headerCartCount').innerText = count;
-            document.getElementById('headerCartTotal').innerText = `$${total.toFixed(2)}`;
+            document.getElementById('headerCartTotal').innerText = `$${grandTotal.toFixed(2)}`;
         }
 
         function openCartModal() {
@@ -1646,8 +2487,8 @@ namespace MischiefStore.WebUI.App_Start
             if (cart.lines.length === 0) {
                 body.innerHTML = `
                     <div style="text-align: center; padding: 40px 20px;">
-                        <span style="font-size: 48px; display: block; margin-bottom: 12px;">🎩💨</span>
-                        <h4 style="font-weight: 700; color: var(--carnival-purple); margin-bottom: 6px;">Your cart vanished into thin air!</h4>
+                        <span style="font-size: 54px; display: block; margin-bottom: 12px;">🎩💨</span>
+                        <h4 style="font-weight: 800; color: var(--carnival-purple); margin-bottom: 6px; font-family: 'Fredoka', cursive; font-size: 24px;">Your cart vanished into thin air!</h4>
                         <p style="color: #64748B; font-size: 14px; margin-bottom: 20px;">You have no pranks or magic supplies queued up for delivery.</p>
                         <button class="btn-add-cart" style="margin: 0 auto;" onclick="closeCartModal()">Browse Prank Catalog</button>
                     </div>
@@ -1655,9 +2496,29 @@ namespace MischiefStore.WebUI.App_Start
                 return;
             }
 
-            const total = cart.lines.reduce((acc, l) => acc + (l.product.Price * l.quantity), 0);
+            const { subtotal, discountAmount, grandTotal } = calculateCartTotals();
+            const freeShippingThreshold = 50.00;
+            const diff = freeShippingThreshold - subtotal;
+            const percentUnlocked = Math.min(100, Math.max(0, (subtotal / freeShippingThreshold) * 100));
+
+            // Upsell item recommendation
+            const unadded = products.filter(p => !cart.lines.some(l => l.product.ProductID === p.ProductID));
+            const upsellItem = unadded.length > 0 ? unadded[0] : products[2];
 
             body.innerHTML = `
+                <!-- 📦 Free Shipping Progress Bar -->
+                <div class="shipping-meter-box">
+                    <div class="shipping-meter-header">
+                        <span>${diff > 0 
+                            ? `🚚 Add <strong style="color: var(--carnival-red);">$${diff.toFixed(2)}</strong> more for <strong>FREE Carrier Pigeon VIP Shipping</strong>!` 
+                            : `🎉 <strong style="color: #10B981;">VIP Carrier Pigeon Delivery &amp; Mystery Gag UNLOCKED!</strong>`}</span>
+                        <span>${Math.round(percentUnlocked)}%</span>
+                    </div>
+                    <div class="shipping-meter-track">
+                        <div class="shipping-meter-fill" style="width: ${percentUnlocked}%;"></div>
+                    </div>
+                </div>
+
                 <table class="cart-table">
                     <thead>
                         <tr>
@@ -1665,7 +2526,7 @@ namespace MischiefStore.WebUI.App_Start
                             <th style="width: 120px; text-align: center;">Qty</th>
                             <th style="text-align: right; width: 100px;">Price</th>
                             <th style="text-align: right; width: 100px;">Subtotal</th>
-                            <th style="text-align: center; width: 50px;"></th>
+                            <th style="text-align: center; width: 40px;"></th>
                         </tr>
                     </thead>
                     <tbody>
@@ -1694,20 +2555,329 @@ namespace MischiefStore.WebUI.App_Start
                     </tbody>
                 </table>
 
-                <div class="cart-total-box">
-                    <span style="font-weight: 700; font-size: 16px;">Grand Total:</span>
-                    <span style="font-family: 'Fredoka', cursive; font-size: 24px; font-weight: 800; color: var(--carnival-red);">$${total.toFixed(2)}</span>
+                <!-- 💡 1-Click Upsell Recommendation -->
+                ${upsellItem ? `
+                <div class="upsell-section">
+                    <div class="upsell-head"><i class="fas fa-fire"></i> Frequently Bought Together</div>
+                    <div class="upsell-item">
+                        <div style="display: flex; align-items: center; gap: 10px;">
+                            <span style="font-size: 26px;">${upsellItem.Emoji}</span>
+                            <div>
+                                <div style="font-weight: 800; font-size: 13px; color: var(--text-dark);">${upsellItem.Name}</div>
+                                <div style="font-size: 11.5px; color: #64748B;">Special Companion Deal: <strong style="color: var(--carnival-red);">$${upsellItem.Price.toFixed(2)}</strong></div>
+                            </div>
+                        </div>
+                        <button class="btn-add-cart" style="padding: 6px 14px; font-size: 12px;" onclick="addToCart(${upsellItem.ProductID}); renderCartModal();">
+                            + 1-Click Add
+                        </button>
+                    </div>
+                </div>` : ''}
+
+                <!-- 🎟️ Promo Code Input -->
+                <div class="promo-code-box">
+                    <input type="text" class="promo-input" id="cartPromoInput" placeholder="Enter coupon (e.g. MISCHIEF15)" value="${cart.appliedCoupon || ''}">
+                    <button class="btn-apply-promo" onclick="applyEnteredCoupon()">Apply Code</button>
                 </div>
 
-                <div style="display: flex; justify-content: space-between; gap: 12px;">
+                <!-- Grand Total Calculations -->
+                <div class="cart-total-box">
+                    <div class="total-row">
+                        <span>Items Subtotal:</span>
+                        <span>$${subtotal.toFixed(2)}</span>
+                    </div>
+                    ${discountAmount > 0 ? `
+                    <div class="total-row" style="color: #10B981; font-weight: 700;">
+                        <span>Coupon Discount (${cart.appliedCoupon}):</span>
+                        <span>- $${discountAmount.toFixed(2)}</span>
+                    </div>` : ''}
+                    <div class="total-row">
+                        <span>Stealth Packaging:</span>
+                        <span style="color: #10B981; font-weight: 700;">FREE</span>
+                    </div>
+                    <div class="total-row grand">
+                        <span>Estimated Total:</span>
+                        <span style="font-family: 'Fredoka', cursive; font-size: 24px; font-weight: 800; color: var(--carnival-red);">$${grandTotal.toFixed(2)}</span>
+                    </div>
+                </div>
+
+                <div style="display: flex; justify-content: space-between; gap: 12px; flex-wrap: wrap;">
                     <button class="btn-add-cart" style="background: #F1F5F9; color: #475569; box-shadow: none;" onclick="closeCartModal()">
-                        ← Continue Shopping
+                        ← Keep Shopping
                     </button>
-                    <button class="btn-add-cart" onclick="startCheckout()">
-                        Proceed to Checkout 🎩➔
+                    <button class="btn-add-cart" style="padding: 12px 24px; font-size: 15px;" onclick="startCheckout()">
+                        Proceed to Coordinates 🎩➔
                     </button>
                 </div>
             `;
+        }
+
+        // Coupon Handling
+        function applyEnteredCoupon() {
+            const input = document.getElementById('cartPromoInput');
+            if (!input) return;
+            const code = input.value.trim().toUpperCase();
+            if (!code) return;
+
+            if (code === 'MISCHIEF15') {
+                cart.appliedCoupon = 'MISCHIEF15 (15% OFF)';
+                cart.discountPercent = 15;
+                cart.discountFixed = 0;
+                playVictoryFanfare();
+                showToast("🎉 15% discount applied to your order!");
+            } else if (code === 'PRANKSTER20') {
+                cart.appliedCoupon = 'PRANKSTER20 (20% OFF)';
+                cart.discountPercent = 20;
+                cart.discountFixed = 0;
+                playVictoryFanfare();
+                showToast("🔥 20% Mega Prank discount applied!");
+            } else if (code === 'FREESHIP' || code === 'FREEGAG') {
+                cart.appliedCoupon = `${code} ($5 OFF + Free Ship)`;
+                cart.discountPercent = 0;
+                cart.discountFixed = 5.00;
+                playVictoryFanfare();
+                showToast("🎁 Free Shipping & Mystery Gag discount applied!");
+            } else if (code === 'MAGIC5') {
+                cart.appliedCoupon = 'MAGIC5 ($5 OFF)';
+                cart.discountPercent = 0;
+                cart.discountFixed = 5.00;
+                playVictoryFanfare();
+                showToast("🪄 $5 Magic discount applied!");
+            } else {
+                showToast("❌ Invalid promo code. Try MISCHIEF15 or spin the wheel!");
+                return;
+            }
+
+            updateHeaderCart();
+            renderCartModal();
+        }
+
+        function copyAndApplyPromo(code) {
+            cart.appliedCoupon = `${code} (15% OFF)`;
+            cart.discountPercent = 15;
+            updateHeaderCart();
+            playChaChing();
+            showToast(`Promo "${code}" automatically activated!`);
+        }
+
+        // 🔍 Quick View Modal
+        let qvSelectedQty = 1;
+        let qvSelectedTier = 1;
+        let qvCurrentProduct = null;
+
+        function openQuickView(prodId) {
+            const prod = products.find(p => p.ProductID === prodId);
+            if (!prod) return;
+            qvCurrentProduct = prod;
+            qvSelectedQty = 1;
+            qvSelectedTier = 1;
+
+            const body = document.getElementById('quickViewBody');
+            body.innerHTML = `
+                <div class="qv-grid">
+                    <div class="qv-avatar-box">
+                        <span style="animation: bounceFab 3s infinite;">${prod.Emoji || '📦'}</span>
+                        <span class="card-category-badge">${prod.Category}</span>
+                    </div>
+                    <div>
+                        <div class="star-rating">
+                            <span>★★★★★</span>
+                            <span class="star-count">${prod.Rating || 4.9} (${prod.Reviews || 184} verified trickster reviews)</span>
+                        </div>
+                        <h2 style="font-family: 'Fredoka', cursive; font-size: 24px; color: var(--text-dark); margin-bottom: 6px;">${prod.Name}</h2>
+                        <div style="font-size: 13px; color: #EF4444; font-weight: 700; margin-bottom: 12px;">
+                            <i class="fas fa-fire"></i> High Demand — Only ${prod.StockLeft || 3} left in stock! (👀 ${prod.Viewers || 18} viewing now)
+                        </div>
+                        <p style="font-size: 13.5px; color: #64748B; margin-bottom: 18px; line-height: 1.6;">${prod.Description}</p>
+
+                        <!-- Volume Discount Selector -->
+                        <div style="font-size: 12.5px; font-weight: 800; text-transform: uppercase; color: var(--carnival-purple); margin-bottom: 6px;">
+                            Volume Bulk Pricing:
+                        </div>
+                        <div class="qv-volume-grid">
+                            <div class="qv-volume-card active" id="qvTier1" onclick="selectQvTier(1, 1, 0)">
+                                <div style="font-weight: 800; font-size: 13px;">Buy 1</div>
+                                <div style="font-size: 14px; color: var(--carnival-red); font-weight: 800;">$${prod.Price.toFixed(2)}</div>
+                                <div style="font-size: 10px; color: #64748B;">Standard</div>
+                            </div>
+                            <div class="qv-volume-card" id="qvTier2" onclick="selectQvTier(2, 2, 10)">
+                                <span class="qv-volume-tag">SAVE 10%</span>
+                                <div style="font-weight: 800; font-size: 13px;">Buy 2</div>
+                                <div style="font-size: 14px; color: var(--carnival-red); font-weight: 800;">$${(prod.Price * 0.9).toFixed(2)} ea</div>
+                                <div style="font-size: 10px; color: #10B981; font-weight: 700;">Save $${(prod.Price * 0.2).toFixed(2)}</div>
+                            </div>
+                            <div class="qv-volume-card" id="qvTier3" onclick="selectQvTier(3, 3, 20)">
+                                <span class="qv-volume-tag">BEST VALUE</span>
+                                <div style="font-weight: 800; font-size: 13px;">Buy 3+</div>
+                                <div style="font-size: 14px; color: var(--carnival-red); font-weight: 800;">$${(prod.Price * 0.8).toFixed(2)} ea</div>
+                                <div style="font-size: 10px; color: #10B981; font-weight: 700;">Save 20% OFF</div>
+                            </div>
+                        </div>
+
+                        <!-- Quantity + Add Button -->
+                        <div style="display: flex; align-items: center; gap: 14px; margin-top: 18px;">
+                            <div class="qty-control" style="height: 42px;">
+                                <button class="qty-btn" style="width: 36px; height: 100%; font-size: 16px;" onclick="changeQvQty(-1)">-</button>
+                                <span class="qty-val" id="qvQtyVal" style="width: 44px; font-size: 15px;">1</span>
+                                <button class="qty-btn" style="width: 36px; height: 100%; font-size: 16px;" onclick="changeQvQty(1)">+</button>
+                            </div>
+                            <button class="btn-add-cart" style="flex: 1; justify-content: center; height: 42px; font-size: 14px;" onclick="addQvToCart()">
+                                <i class="fas fa-cart-plus"></i> Add to Cart (<span id="qvTotalPrice">$${prod.Price.toFixed(2)}</span>)
+                            </button>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Verified Reviews Accordion -->
+                <div style="margin-top: 24px; padding-top: 18px; border-top: 1px solid var(--border-color);">
+                    <h4 style="font-weight: 800; font-size: 14px; color: var(--carnival-purple); margin-bottom: 10px;">
+                        <i class="fas fa-comment-dots"></i> Verified Trickster Testimonials
+                    </h4>
+                    <div style="display: flex; flex-direction: column; gap: 8px;">
+                        <div style="background: #F8F9FD; padding: 10px 14px; border-radius: 8px; font-size: 12.5px;">
+                            <strong>"My boss stared at the drywall for 45 minutes trying to find the cricket. 10/10."</strong>
+                            <div style="color: #64748B; font-size: 11px; margin-top: 2px;">— Derek S., Verified Prankster ★★★★★</div>
+                        </div>
+                    </div>
+                </div>
+            `;
+
+            document.getElementById('quickViewModal').classList.add('open');
+            playWhoopeePop();
+        }
+
+        function closeQuickViewModal() {
+            document.getElementById('quickViewModal').classList.remove('open');
+        }
+
+        function selectQvTier(tier, minQty, discountPct) {
+            qvSelectedTier = tier;
+            qvSelectedQty = minQty;
+            document.getElementById('qvTier1').classList.toggle('active', tier === 1);
+            document.getElementById('qvTier2').classList.toggle('active', tier === 2);
+            document.getElementById('qvTier3').classList.toggle('active', tier === 3);
+            document.getElementById('qvQtyVal').innerText = qvSelectedQty;
+            updateQvTotal();
+            playWhoopeePop();
+        }
+
+        function changeQvQty(delta) {
+            qvSelectedQty = Math.max(1, qvSelectedQty + delta);
+            document.getElementById('qvQtyVal').innerText = qvSelectedQty;
+            updateQvTotal();
+        }
+
+        function updateQvTotal() {
+            if (!qvCurrentProduct) return;
+            let unitPrice = qvCurrentProduct.Price;
+            if (qvSelectedQty >= 3) {
+                unitPrice *= 0.8;
+            } else if (qvSelectedQty >= 2) {
+                unitPrice *= 0.9;
+            }
+            const total = unitPrice * qvSelectedQty;
+            document.getElementById('qvTotalPrice').innerText = `$${total.toFixed(2)}`;
+        }
+
+        function addQvToCart() {
+            if (!qvCurrentProduct) return;
+            addToCart(qvCurrentProduct.ProductID, qvSelectedQty);
+            closeQuickViewModal();
+        }
+
+        // 🎡 Spin-the-Wheel Engine
+        const wheelPrizes = [
+            { text: "15% OFF", code: "MISCHIEF15", color: "#FF9F1C" },
+            { text: "FREE SHIP", code: "FREESHIP", color: "#4361EE" },
+            { text: "20% MEGA", code: "PRANKSTER20", color: "#E63946" },
+            { text: "$5 OFF", code: "MAGIC5", color: "#2EC4B6" },
+            { text: "FREE GAG", code: "FREEGAG", color: "#7209B7" },
+            { text: "15% OFF", code: "MISCHIEF15", color: "#F77F00" }
+        ];
+
+        let wheelSpinning = false;
+        let currentWheelAngle = 0;
+        let wonPrize = wheelPrizes[0];
+
+        function drawWheel() {
+            const canvas = document.getElementById('wheelCanvas');
+            if (!canvas) return;
+            const ctx = canvas.getContext('2d');
+            const numSegments = wheelPrizes.length;
+            const segAngle = (2 * Math.PI) / numSegments;
+            const radius = canvas.width / 2;
+
+            ctx.clearRect(0, 0, canvas.width, canvas.height);
+
+            wheelPrizes.forEach((prize, i) => {
+                const angle = i * segAngle;
+                ctx.beginPath();
+                ctx.fillStyle = prize.color;
+                ctx.moveTo(radius, radius);
+                ctx.arc(radius, radius, radius, angle, angle + segAngle);
+                ctx.lineTo(radius, radius);
+                ctx.fill();
+                ctx.stroke();
+
+                // Text
+                ctx.save();
+                ctx.translate(radius, radius);
+                ctx.rotate(angle + segAngle / 2);
+                ctx.textAlign = "right";
+                ctx.fillStyle = "#fff";
+                ctx.font = "bold 15px Fredoka, sans-serif";
+                ctx.fillText(prize.text, radius - 20, 6);
+                ctx.restore();
+            });
+        }
+
+        function openSpinWheelModal() {
+            document.getElementById('wheelResultBox').style.display = 'none';
+            document.getElementById('spinWheelModal').classList.add('open');
+            playWhoopeePop();
+        }
+
+        function closeSpinWheelModal() {
+            document.getElementById('spinWheelModal').classList.remove('open');
+        }
+
+        function spinWheel() {
+            if (wheelSpinning) return;
+            wheelSpinning = true;
+
+            const canvas = document.getElementById('wheelCanvas');
+            const targetPrizeIndex = Math.floor(Math.random() * wheelPrizes.length);
+            wonPrize = wheelPrizes[targetPrizeIndex];
+
+            const segDegrees = 360 / wheelPrizes.length;
+            // Target angle where pointer points to the prize at top (270 degrees)
+            const targetDegree = (360 * 5) + (360 - (targetPrizeIndex * segDegrees + segDegrees / 2) + 270);
+            currentWheelAngle += targetDegree;
+
+            canvas.style.transform = `rotate(${currentWheelAngle}deg)`;
+
+            // Sound tick simulation during spin
+            let tickCount = 0;
+            const tickInterval = setInterval(() => {
+                playWheelTick();
+                tickCount++;
+                if (tickCount > 25) clearInterval(tickInterval);
+            }, 140);
+
+            setTimeout(() => {
+                wheelSpinning = false;
+                playVictoryFanfare();
+                document.getElementById('wheelWonText').innerText = wonPrize.text;
+                document.getElementById('wheelWonCode').innerText = wonPrize.code;
+                document.getElementById('wheelResultBox').style.display = 'block';
+            }, 4100);
+        }
+
+        function applyWonPromo() {
+            if (wonPrize) {
+                copyAndApplyPromo(wonPrize.code);
+            }
+            closeSpinWheelModal();
+            openCartModal();
         }
 
         // Checkout Flow
@@ -1731,8 +2901,7 @@ namespace MischiefStore.WebUI.App_Start
             const country = document.getElementById('custCountry').value;
             const giftWrap = document.getElementById('custGiftWrap').checked;
 
-            const total = cart.lines.reduce((acc, l) => acc + (l.product.Price * l.quantity), 0);
-            const timestamp = new Date().toISOString();
+            const { subtotal, discountAmount, grandTotal } = calculateCartTotals();
 
             // Mock EmailOrderProcessor Output
             const manifest = `
@@ -1751,9 +2920,10 @@ Stealth Decoy Packaging: ${giftWrap ? "YES (Boring decoy exterior)" : "Standard"
 Payload Manifest:
 ${cart.lines.map(l => `  • [x${l.quantity}] ${l.product.Name} ($${(l.product.Price * l.quantity).toFixed(2)})`).join('\n')}
 
-Order Total: $${total.toFixed(2)}
+Subtotal: $${subtotal.toFixed(2)}
+${discountAmount > 0 ? `Applied Promo (${cart.appliedCoupon}): - $${discountAmount.toFixed(2)}\n` : ''}Grand Total: $${grandTotal.toFixed(2)}
 ------------------------------------------------------
-STATUS: Queued with carrier. No rabbits harmed.
+STATUS: Dispatched via Carrier Pigeon. No rabbits harmed.
             `.trim();
 
             document.getElementById('dispatchReceipt').innerText = manifest;
@@ -1761,8 +2931,12 @@ STATUS: Queued with carrier. No rabbits harmed.
 
             // Clear Cart
             cart.lines = [];
+            cart.appliedCoupon = null;
+            cart.discountPercent = 0;
+            cart.discountFixed = 0;
             updateHeaderCart();
 
+            playVictoryFanfare();
             document.getElementById('confirmedModal').classList.add('open');
         }
 
@@ -1837,7 +3011,9 @@ STATUS: Queued with carrier. No rabbits harmed.
                     Category: category,
                     Price: price,
                     Emoji: emoji,
-                    Description: desc
+                    Description: desc,
+                    StockLeft: 5,
+                    Reviews: 1
                 });
                 showToast(`Product "${name}" created successfully!`);
             } else {
@@ -1877,7 +3053,6 @@ STATUS: Queued with carrier. No rabbits harmed.
                 viewer.innerText = codeSnippets[key];
             }
 
-            // Update tab styles
             const btns = document.querySelectorAll('.code-tab-btn');
             btns.forEach(b => {
                 if (b.innerText.toLowerCase().includes(key.toLowerCase().substring(0, 5))) {
@@ -1907,6 +3082,7 @@ STATUS: Queued with carrier. No rabbits harmed.
                 renderAdminTable();
             }
             window.scrollTo({ top: 0, behavior: 'smooth' });
+            playWhoopeePop();
         }
 
         // Toast Helper

@@ -24,7 +24,7 @@ $orderJson = json_encode($order->toArray(), JSON_HEX_TAG | JSON_HEX_APOS | JSON_
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Live Take-Out Tracker & Receipt // <?= htmlspecialchars(APP_NAME) ?></title>
-  <meta name="description" content="Live take-out order tracker, wood oven status, and immutable receipt dashboard for <?= htmlspecialchars(APP_NAME) ?>." />
+  <meta name="description" content="Live take-out order tracker, wood oven status, 5 cooking options, and surge-adjusted readiness dashboard for <?= htmlspecialchars(APP_NAME) ?>." />
   
   <!-- Favicon -->
   <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><circle cx='50' cy='50' r='48' fill='%23111215'/><circle cx='50' cy='50' r='40' fill='%23D9381E'/><polygon points='50,18 80,78 20,78' fill='%23F5A623'/></svg>" />
@@ -52,13 +52,16 @@ $orderJson = json_encode($order->toArray(), JSON_HEX_TAG | JSON_HEX_APOS | JSON_
           🔥 OVEN: <?= htmlspecialchars($order->store['ovenTemp']) ?> (<?= htmlspecialchars($order->store['woodSource']) ?>)
         </span>
         <span style="color: var(--basil-green);">
-          ⏱️ ORDER CREATED: <strong><?= htmlspecialchars($order->placedAtFormatted) ?></strong>
+          ⏱️ ORDER CREATED: <strong id="header-placed-time"><?= htmlspecialchars($order->placedAtFormatted) ?></strong>
         </span>
       </div>
-      <div style="display: flex; align-items: center; gap: 1rem;">
-        <span style="color: var(--honey-gold); font-weight: 600;">
-          EXPRESS PICKUP: ACTIVE
-        </span>
+      <div style="display: flex; align-items: center; gap: 0.75rem;">
+        <button onclick="window.openOrderModal()" class="btn-accent-gold" style="padding: 0.2rem 0.65rem; font-size: 0.72rem; border-radius: var(--radius-full);">
+          ➕ Place Mock Order
+        </button>
+        <button onclick="window.resetOrder()" class="btn-secondary" style="padding: 0.2rem 0.65rem; font-size: 0.72rem; border-radius: var(--radius-full); border-color: var(--ember-red); color: #FF5A43;">
+          🔁 Reset Order
+        </button>
         <button id="sfx-toggle-btn" onclick="window.KitchenAudio && window.KitchenAudio.toggleMute()" class="btn-secondary" style="padding: 0.2rem 0.6rem; font-size: 0.72rem; border-radius: var(--radius-full);">
           SFX ON
         </button>
@@ -82,6 +85,9 @@ $orderJson = json_encode($order->toArray(), JSON_HEX_TAG | JSON_HEX_APOS | JSON_
       </div>
 
       <div style="display: flex; align-items: center; gap: 0.75rem;">
+        <button onclick="window.openOrderModal()" class="btn-primary" style="font-size: 0.82rem; padding: 0.45rem 0.95rem;">
+          🍕 Select Dish &amp; Cook Time
+        </button>
         <a href="../index.html" class="btn-secondary" style="font-size: 0.8rem; padding: 0.45rem 0.85rem;">
           ← Back to Projects
         </a>
@@ -95,22 +101,26 @@ $orderJson = json_encode($order->toArray(), JSON_HEX_TAG | JSON_HEX_APOS | JSON_
     <div class="dashboard-grid">
       
       <!-- LEFT COLUMN: Live Operational Progress & Directives -->
-      <div style="display: flex; flexDirection: column; gap: 1.5rem;">
+      <div style="display: flex; flex-direction: column; gap: 1.5rem;">
 
         <!-- 1. Live Countdown Status Hero Card -->
         <div id="countdown-hero-card" class="pizzeria-card <?= $isReady ? 'animate-ready-pulse' : '' ?>" style="padding: clamp(1.5rem, 4vw, 2.25rem); border: <?= $isReady ? '1px solid var(--basil-green)' : '1px solid var(--charcoal-border)' ?>; background: <?= $isReady ? 'linear-gradient(145deg, rgba(27, 138, 90, 0.12), rgba(24, 26, 32, 0.95))' : 'linear-gradient(145deg, rgba(217, 56, 30, 0.08), rgba(24, 26, 32, 0.98))' ?>; overflow: hidden;">
           
           <div style="display: flex; align-items: center; justify-content: space-between; flex-wrap: wrap; gap: 0.75rem; margin-bottom: 1.5rem;">
-            <div style="display: flex; align-items: center; gap: 0.5rem;">
+            <div style="display: flex; align-items: center; gap: 0.5rem; flex-wrap: wrap;">
               <span id="hero-status-badge" class="badge <?= $isReady ? 'badge-green' : 'badge-red' ?>">
                 <?= $isReady ? 'ORDER READY ON COUNTER' : 'LIVE STATUS: ' . strtoupper($KITCHEN_STAGES[$currentStageId]['name']) ?>
+              </span>
+              <!-- Time-of-Day Activity Surge Marker -->
+              <span id="hero-surge-marker" class="badge <?= $order->surgeStatus === 'PEAK' ? 'badge-red' : ($order->surgeStatus === 'SLOW' ? 'badge-green' : 'badge-gold') ?>" title="<?= htmlspecialchars($order->surgeLabel) ?>">
+                <?= htmlspecialchars($order->surgeMarker) ?>
               </span>
               <span class="badge badge-muted">
                 <?= htmlspecialchars($order->customer['pickupType']) ?>
               </span>
             </div>
 
-            <div class="font-mono" style="font-size: 0.88rem; font-weight: 700; color: var(--honey-gold); background: rgba(245, 166, 35, 0.1); padding: 0.2rem 0.6rem; border-radius: var(--radius-sm); border: 1px solid rgba(245, 166, 35, 0.25);">
+            <div id="order-number-badge" class="font-mono" style="font-size: 0.88rem; font-weight: 700; color: var(--honey-gold); background: rgba(245, 166, 35, 0.1); padding: 0.2rem 0.6rem; border-radius: var(--radius-sm); border: 1px solid rgba(245, 166, 35, 0.25);">
               ORDER <?= htmlspecialchars($order->orderNumber) ?>
             </div>
           </div>
@@ -157,18 +167,18 @@ $orderJson = json_encode($order->toArray(), JSON_HEX_TAG | JSON_HEX_APOS | JSON_
             <div>
               <div style="color: var(--text-muted); font-size: 0.7rem;">PLACED TIME (IMMUTABLE):</div>
               <div style="color: #FFFFFF; font-weight: 800;">
-                ⏱️ <?= htmlspecialchars($order->placedAtFormatted) ?>
+                ⏱️ <span id="meta-placed-time"><?= htmlspecialchars($order->placedAtFormatted) ?></span>
               </div>
             </div>
             <div>
               <div style="color: var(--text-muted); font-size: 0.7rem;">TARGET PICKUP WINDOW:</div>
-              <div style="color: #FFFFFF; font-weight: 800;">
+              <div style="color: #FFFFFF; font-weight: 800;" id="meta-target-ready">
                 <?= htmlspecialchars($order->getTargetReadyFormatted()) ?>
               </div>
             </div>
             <div>
               <div style="color: var(--text-muted); font-size: 0.7rem;">EXPRESS SHELF:</div>
-              <div style="color: var(--honey-gold); font-weight: 800;">
+              <div style="color: var(--honey-gold); font-weight: 800;" id="meta-shelf">
                 <?= htmlspecialchars($order->customer['shelf']) ?>
               </div>
             </div>
@@ -296,7 +306,7 @@ $orderJson = json_encode($order->toArray(), JSON_HEX_TAG | JSON_HEX_APOS | JSON_
               <div class="font-mono" style="font-size: 0.75rem; color: var(--text-muted);">
                 OFFICIAL ORDER RECEIPT
               </div>
-              <h3 style="font-size: 1.35rem; font-weight: 800; color: #FFFFFF; margin: 0.15rem 0;">
+              <h3 id="receipt-order-num" style="font-size: 1.35rem; font-weight: 800; color: #FFFFFF; margin: 0.15rem 0;">
                 <?= htmlspecialchars($order->orderNumber) ?>
               </h3>
               <div class="font-mono" style="font-size: 0.75rem; color: var(--text-secondary);">
@@ -309,8 +319,8 @@ $orderJson = json_encode($order->toArray(), JSON_HEX_TAG | JSON_HEX_APOS | JSON_
             </button>
           </div>
 
-          <!-- Itemized List -->
-          <div style="display: flex; flex-direction: column; gap: 1rem; margin-bottom: 1.5rem;">
+          <!-- Itemized List Container -->
+          <div id="receipt-items-container" style="display: flex; flex-direction: column; gap: 1rem; margin-bottom: 1.5rem;">
             <?php foreach ($order->items as $item): ?>
               <div style="background: var(--bg-surface-elevated); border: 1px solid var(--charcoal-border); border-radius: var(--radius-sm); padding: 0.85rem 1rem;">
                 <div style="display: flex; justify-content: space-between; align-items: flex-start; gap: 0.5rem; margin-bottom: 0.25rem;">
@@ -343,19 +353,19 @@ $orderJson = json_encode($order->toArray(), JSON_HEX_TAG | JSON_HEX_APOS | JSON_
           <div style="border-top: 1px solid var(--charcoal-border); padding-top: 1rem; margin-bottom: 1.25rem; font-family: var(--font-mono); font-size: 0.85rem; display: flex; flex-direction: column; gap: 0.5rem;">
             <div style="display: flex; justify-content: space-between; color: var(--text-secondary);">
               <span>Subtotal</span>
-              <span>$<?= number_format($order->pricing['subtotal'], 2) ?></span>
+              <span id="pricing-subtotal">$<?= number_format($order->pricing['subtotal'], 2) ?></span>
             </div>
             <div style="display: flex; justify-content: space-between; color: var(--text-secondary);">
               <span>Local Sales Tax (8.75%)</span>
-              <span>$<?= number_format($order->pricing['tax'], 2) ?></span>
+              <span id="pricing-tax">$<?= number_format($order->pricing['tax'], 2) ?></span>
             </div>
             <div style="display: flex; justify-content: space-between; color: var(--text-secondary);">
               <span>Kitchen Staff Gratitude Tip (20%)</span>
-              <span>$<?= number_format($order->pricing['tip'], 2) ?></span>
+              <span id="pricing-tip">$<?= number_format($order->pricing['tip'], 2) ?></span>
             </div>
             <div style="display: flex; justify-content: space-between; color: #FFFFFF; font-weight: 900; font-size: 1.15rem; border-top: 1px dashed var(--charcoal-border); padding-top: 0.75rem; margin-top: 0.25rem;">
               <span>TOTAL PAID</span>
-              <span style="color: var(--honey-gold);">$<?= number_format($order->pricing['total'], 2) ?></span>
+              <span id="pricing-total" style="color: var(--honey-gold);">$<?= number_format($order->pricing['total'], 2) ?></span>
             </div>
             <div style="display: flex; justify-content: space-between; color: var(--text-muted); font-size: 0.75rem; margin-top: 0.25rem;">
               <span>Payment Method</span>
@@ -365,11 +375,11 @@ $orderJson = json_encode($order->toArray(), JSON_HEX_TAG | JSON_HEX_APOS | JSON_
 
           <!-- Actions -->
           <div style="display: flex; flex-direction: column; gap: 0.6rem;">
-            <button onclick="window.openReceiptModal()" class="btn-primary" style="width: 100%;">
-              📄 Export Official PDF / Receipt
+            <button onclick="window.openOrderModal()" class="btn-primary" style="width: 100%;">
+              🍕 Choose Different Dish / Mock Order
             </button>
-            <button onclick="alert('All 4 items have been added back to your cart!')" class="btn-secondary" style="width: 100%;">
-              🔁 Reorder This Exact Meal
+            <button onclick="window.resetOrder()" class="btn-secondary" style="width: 100%; border-color: var(--ember-red); color: #FF5A43;">
+              🔁 Reset Kitchen Order
             </button>
           </div>
         </div>
@@ -390,7 +400,7 @@ $orderJson = json_encode($order->toArray(), JSON_HEX_TAG | JSON_HEX_APOS | JSON_
     <div style="margin-top: 3rem; background: #0B0C0E; border: 1px solid var(--charcoal-border); border-radius: var(--radius-md); padding: 1rem 1.5rem; display: flex; align-items: center; justify-content: space-between; flex-wrap: wrap; gap: 1rem;">
       <div style="display: flex; align-items: center; gap: 0.5rem; font-family: var(--font-mono); font-size: 0.8rem;">
         <span style="color: var(--honey-gold); font-weight: 800;">[DEV STAGE SIMULATOR]</span>
-        <span style="color: var(--text-muted);">Jump stage to preview audio &amp; visual triggers:</span>
+        <span style="color: var(--text-muted);">Jump stage to test audio &amp; timer triggers:</span>
       </div>
 
       <div style="display: flex; gap: 0.4rem; flex-wrap: wrap;">
@@ -398,11 +408,195 @@ $orderJson = json_encode($order->toArray(), JSON_HEX_TAG | JSON_HEX_APOS | JSON_
         <button onclick="window.setDemoStage(2)" class="btn-secondary" style="padding: 0.3rem 0.7rem; font-size: 0.75rem;">2. In Oven</button>
         <button onclick="window.setDemoStage(3)" class="btn-secondary" style="padding: 0.3rem 0.7rem; font-size: 0.75rem;">3. Boxed</button>
         <button onclick="window.setDemoStage(4)" class="btn-primary" style="padding: 0.3rem 0.7rem; font-size: 0.75rem;">4. Ready Alert!</button>
+        <button onclick="window.openOrderModal()" class="btn-secondary" style="padding: 0.3rem 0.7rem; font-size: 0.75rem; border-color: var(--honey-gold); color: var(--honey-gold);">+ New Mock Order</button>
         <button onclick="window.resetOrder()" class="btn-secondary" style="padding: 0.3rem 0.7rem; font-size: 0.75rem; border-color: var(--ember-red); color: var(--ember-red);">Reset Order</button>
       </div>
     </div>
 
   </main>
+
+  <!-- Interactive Mock Order Placement Modal (5 Options + Time-of-Day Surge) -->
+  <div id="order-modal" class="modal-overlay" onclick="if(event.target === this) window.closeOrderModal()">
+    <div class="order-creator-paper">
+      
+      <!-- Modal Header -->
+      <div style="display: flex; justify-content: space-between; align-items: flex-start; border-bottom: 1px solid var(--charcoal-border); padding-bottom: 1.25rem; margin-bottom: 1.25rem;">
+        <div>
+          <div style="display: flex; align-items: center; gap: 0.5rem;">
+            <span class="badge badge-red">STEP 1: SELECT ARTISANAL DISH</span>
+            <span class="badge badge-gold">WOOD-FIRED HEARTH</span>
+          </div>
+          <h2 style="font-family: var(--font-display); font-size: 1.65rem; font-weight: 900; color: #FFFFFF; margin: 0.35rem 0 0.2rem;">
+            Place Mock Order &amp; Start Kitchen Clock
+          </h2>
+          <p style="font-size: 0.85rem; color: var(--text-secondary); margin: 0;">
+            Select from 5 wood-fired options with varied cook times. The preparation clock dynamically adjusts for time-of-day kitchen load.
+          </p>
+        </div>
+
+        <button onclick="window.closeOrderModal()" class="btn-secondary" style="padding: 0.4rem 0.75rem; font-size: 0.8rem; border-radius: var(--radius-full);">
+          ✕ Close
+        </button>
+      </div>
+
+      <!-- Time-of-Day Activity Surge Indicator & Simulator -->
+      <div style="background: var(--bg-surface-elevated); border: 1px solid var(--charcoal-border); border-radius: var(--radius-md); padding: 1.15rem; margin-bottom: 1.5rem;">
+        <div style="display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 0.5rem; margin-bottom: 0.75rem;">
+          <div style="font-family: var(--font-mono); font-size: 0.78rem; font-weight: 800; color: var(--honey-gold); text-transform: uppercase;">
+            🕒 Time-of-Day Restaurant Load Activity
+          </div>
+          <div style="font-size: 0.75rem; color: var(--text-muted);">
+            Peak (+10m) | Slow (-10m) | Standard (±0m)
+          </div>
+        </div>
+
+        <!-- Dynamic Surge Banner Box -->
+        <div id="modal-surge-banner" class="surge-indicator-box surge-box-peak">
+          <!-- Populated by JS -->
+        </div>
+
+        <!-- Time Mode Selector Pills -->
+        <div style="display: flex; align-items: center; justify-content: space-between; flex-wrap: wrap; gap: 0.5rem; margin-top: 0.5rem;">
+          <div style="font-size: 0.76rem; color: var(--text-secondary);">
+            Test simulated dining rush:
+          </div>
+          <div class="time-pills-container" style="margin-top: 0;">
+            <button class="time-pill-btn active" data-time-mode="auto" onclick="window.setTimeMode('auto')">
+              ⚡ Auto (Live Time)
+            </button>
+            <button class="time-pill-btn" data-time-mode="peak" onclick="window.setTimeMode('peak')">
+              🔴 Peak Rush (7:00 PM / +10m)
+            </button>
+            <button class="time-pill-btn" data-time-mode="slow" onclick="window.setTimeMode('slow')">
+              🟢 Slow Lull (10:30 PM / -10m)
+            </button>
+            <button class="time-pill-btn" data-time-mode="standard" onclick="window.setTimeMode('standard')">
+              🟡 Standard (3:00 PM / ±0m)
+            </button>
+          </div>
+        </div>
+      </div>
+
+      <!-- 5 Menu Cooking Option Cards Grid -->
+      <div style="font-family: var(--font-mono); font-size: 0.78rem; font-weight: 800; color: #FFFFFF; text-transform: uppercase; margin-bottom: 0.5rem;">
+        Select Cooking Option (5 Dishes):
+      </div>
+
+      <div class="menu-options-grid">
+        
+        <!-- Option 1 -->
+        <div class="menu-option-card" data-option-id="option-margherita" onclick="window.selectOption('option-margherita')">
+          <div>
+            <div style="display: flex; justify-content: space-between; align-items: flex-start; margin-bottom: 0.5rem;">
+              <span class="option-cook-badge">⏱️ 12 MINS</span>
+              <span class="font-mono" style="font-weight: 800; color: #FFFFFF; font-size: 1.05rem;">$22.00</span>
+            </div>
+            <h4 style="font-size: 1rem; font-weight: 800; color: #FFFFFF; margin-bottom: 0.35rem;">
+              🍕 14" Margherita D.O.P.
+            </h4>
+            <p style="font-size: 0.78rem; color: var(--text-secondary); line-height: 1.35; margin-bottom: 0.6rem;">
+              San Marzano D.O.P., fresh buffalo mozzarella, fresh basil, EVOO. 60-second blistered sourdough crust.
+            </p>
+          </div>
+          <span class="badge badge-green" style="align-self: flex-start; font-size: 0.65rem;">⚡ FASTEST PREP</span>
+        </div>
+
+        <!-- Option 2 -->
+        <div class="menu-option-card selected" data-option-id="option-soppressata" onclick="window.selectOption('option-soppressata')">
+          <div>
+            <div style="display: flex; justify-content: space-between; align-items: flex-start; margin-bottom: 0.5rem;">
+              <span class="option-cook-badge">⏱️ 18 MINS</span>
+              <span class="font-mono" style="font-weight: 800; color: #FFFFFF; font-size: 1.05rem;">$26.50</span>
+            </div>
+            <h4 style="font-size: 1rem; font-weight: 800; color: #FFFFFF; margin-bottom: 0.35rem;">
+              🍯 16" Hot Honey Soppressata
+            </h4>
+            <p style="font-size: 0.78rem; color: var(--text-secondary); line-height: 1.35; margin-bottom: 0.6rem;">
+              Crispy cup pepperoni, spicy soppressata, fior di latte, hot honey glaze, charred blistered sourdough crust.
+            </p>
+          </div>
+          <span class="badge badge-gold" style="align-self: flex-start; font-size: 0.65rem;">🔥 BESTSELLER</span>
+        </div>
+
+        <!-- Option 3 -->
+        <div class="menu-option-card" data-option-id="option-funghi" onclick="window.selectOption('option-funghi')">
+          <div>
+            <div style="display: flex; justify-content: space-between; align-items: flex-start; margin-bottom: 0.5rem;">
+              <span class="option-cook-badge">⏱️ 22 MINS</span>
+              <span class="font-mono" style="font-weight: 800; color: #FFFFFF; font-size: 1.05rem;">$28.00</span>
+            </div>
+            <h4 style="font-size: 1rem; font-weight: 800; color: #FFFFFF; margin-bottom: 0.35rem;">
+              🍄 16" Wild Truffle Funghi
+            </h4>
+            <p style="font-size: 0.78rem; color: var(--text-secondary); line-height: 1.35; margin-bottom: 0.6rem;">
+              Roasted cremini &amp; chanterelles, creamy fontina, roasted garlic crema, thyme sprigs, white truffle oil.
+            </p>
+          </div>
+          <span class="badge badge-muted" style="align-self: flex-start; font-size: 0.65rem;">🌿 CHEF CHOICE</span>
+        </div>
+
+        <!-- Option 4 -->
+        <div class="menu-option-card" data-option-id="option-ribeye" onclick="window.selectOption('option-ribeye')">
+          <div>
+            <div style="display: flex; justify-content: space-between; align-items: flex-start; margin-bottom: 0.5rem;">
+              <span class="option-cook-badge">⏱️ 28 MINS</span>
+              <span class="font-mono" style="font-weight: 800; color: #FFFFFF; font-size: 1.05rem;">$38.50</span>
+            </div>
+            <h4 style="font-size: 1rem; font-weight: 800; color: #FFFFFF; margin-bottom: 0.35rem;">
+              🥩 Prime Oak-Grilled Ribeye
+            </h4>
+            <p style="font-size: 0.78rem; color: var(--text-secondary); line-height: 1.35; margin-bottom: 0.6rem;">
+              14oz Prime Bone-in Ribeye seared over white oak coals, rosemary garlic butter, charred broccolini.
+            </p>
+          </div>
+          <span class="badge badge-red" style="align-self: flex-start; font-size: 0.65rem;">🥩 HEARTH GRILL</span>
+        </div>
+
+        <!-- Option 5 -->
+        <div class="menu-option-card" data-option-id="option-feast" onclick="window.selectOption('option-feast')">
+          <div>
+            <div style="display: flex; justify-content: space-between; align-items: flex-start; margin-bottom: 0.5rem;">
+              <span class="option-cook-badge">⏱️ 35 MINS</span>
+              <span class="font-mono" style="font-weight: 800; color: #FFFFFF; font-size: 1.05rem;">$78.00</span>
+            </div>
+            <h4 style="font-size: 1rem; font-weight: 800; color: #FFFFFF; margin-bottom: 0.35rem;">
+              👑 Grand Feast for Four
+            </h4>
+            <p style="font-size: 0.78rem; color: var(--text-secondary); line-height: 1.35; margin-bottom: 0.6rem;">
+              2 Full 16" Pizzas (Soppressata &amp; Funghi), Charred Broccolini, 2 Dipping Pots, 4 Blood Orange sodas.
+            </p>
+          </div>
+          <span class="badge badge-gold" style="align-self: flex-start; font-size: 0.65rem;">👑 GRAND BANQUET</span>
+        </div>
+
+      </div>
+
+      <!-- Order Calculation Summary & Fire Button -->
+      <div style="background: #0B0C0E; border: 1px solid var(--charcoal-border); border-radius: var(--radius-md); padding: 1.25rem; display: flex; align-items: center; justify-content: space-between; flex-wrap: wrap; gap: 1rem; margin-top: 1.5rem;">
+        <div>
+          <div style="font-size: 0.75rem; color: var(--text-muted); font-family: var(--font-mono);">
+            SELECTED: <strong id="modal-summary-dish" style="color: #FFF;">16" Wood-Fired Hot Honey Soppressata</strong>
+          </div>
+          <div style="font-size: 0.85rem; color: #FFF; margin-top: 0.25rem;">
+            Base Cook: <strong id="modal-summary-basetime">18 mins</strong> | 
+            Surge: <strong id="modal-summary-surge" style="color: #FF5A43;">+10 mins (Peak)</strong> | 
+            Ready In: <strong id="modal-summary-finaltime" style="color: var(--honey-gold); font-size: 1rem;">~28 minutes</strong>
+          </div>
+        </div>
+
+        <div style="display: flex; align-items: center; gap: 1rem;">
+          <div style="text-align: right;">
+            <div style="font-size: 0.7rem; color: var(--text-muted); font-family: var(--font-mono);">TOTAL INCL. TAX/TIP:</div>
+            <div id="modal-summary-total" class="font-mono" style="font-size: 1.3rem; font-weight: 900; color: var(--honey-gold);">$34.12</div>
+          </div>
+          <button onclick="window.fireOrder()" class="btn-primary" style="padding: 0.85rem 1.65rem; font-size: 0.95rem; box-shadow: 0 4px 20px var(--ember-red-glow);">
+            🔥 Fire Order &amp; Start Clock
+          </button>
+        </div>
+      </div>
+
+    </div>
+  </div>
 
   <!-- Printable Thermal Receipt Modal -->
   <div id="receipt-modal" class="modal-overlay" onclick="if(event.target === this) window.closeReceiptModal()">
@@ -420,8 +614,8 @@ $orderJson = json_encode($order->toArray(), JSON_HEX_TAG | JSON_HEX_APOS | JSON_
       <div class="receipt-divider"></div>
 
       <div style="font-size: 0.8rem; display: flex; justify-content: space-between; margin-bottom: 0.4rem;">
-        <span>ORDER: <strong><?= htmlspecialchars($order->orderNumber) ?></strong></span>
-        <span><?= htmlspecialchars($order->placedAtFormatted) ?></span>
+        <span>ORDER: <strong id="receipt-order-num"><?= htmlspecialchars($order->orderNumber) ?></strong></span>
+        <span id="receipt-placed-time"><?= htmlspecialchars($order->placedAtFormatted) ?></span>
       </div>
       <div style="font-size: 0.8rem; display: flex; justify-content: space-between; margin-bottom: 0.75rem;">
         <span>CUSTOMER: <strong><?= htmlspecialchars($order->customer['name']) ?></strong></span>
@@ -431,7 +625,7 @@ $orderJson = json_encode($order->toArray(), JSON_HEX_TAG | JSON_HEX_APOS | JSON_
       <div class="receipt-divider"></div>
 
       <!-- Receipt items -->
-      <div style="display: flex; flex-direction: column; gap: 0.75rem; font-size: 0.85rem;">
+      <div id="modal-receipt-items" style="display: flex; flex-direction: column; gap: 0.75rem; font-size: 0.85rem;">
         <?php foreach ($order->items as $item): ?>
           <div>
             <div style="display: flex; justify-content: space-between; font-weight: 700;">
@@ -452,19 +646,19 @@ $orderJson = json_encode($order->toArray(), JSON_HEX_TAG | JSON_HEX_APOS | JSON_
       <div style="font-size: 0.85rem; display: flex; flex-direction: column; gap: 0.35rem;">
         <div style="display: flex; justify-content: space-between;">
           <span>Subtotal</span>
-          <span>$<?= number_format($order->pricing['subtotal'], 2) ?></span>
+          <span id="modal-subtotal">$<?= number_format($order->pricing['subtotal'], 2) ?></span>
         </div>
         <div style="display: flex; justify-content: space-between;">
           <span>Sales Tax (8.75%)</span>
-          <span>$<?= number_format($order->pricing['tax'], 2) ?></span>
+          <span id="modal-tax">$<?= number_format($order->pricing['tax'], 2) ?></span>
         </div>
         <div style="display: flex; justify-content: space-between;">
           <span>Kitchen Tip (20%)</span>
-          <span>$<?= number_format($order->pricing['tip'], 2) ?></span>
+          <span id="modal-tip">$<?= number_format($order->pricing['tip'], 2) ?></span>
         </div>
         <div style="display: flex; justify-content: space-between; font-weight: 900; font-size: 1.1rem; margin-top: 0.5rem; border-top: 1px solid #000; padding-top: 0.5rem;">
           <span>TOTAL</span>
-          <span>$<?= number_format($order->pricing['total'], 2) ?></span>
+          <span id="modal-total">$<?= number_format($order->pricing['total'], 2) ?></span>
         </div>
       </div>
 

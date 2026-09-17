@@ -1,6 +1,6 @@
 """
-Python Chessulator — Strategic Chess Calculus & Tutor (Python.org Edition)
-An educational Python-themed strategic chessboard, calculus engine, and real-time win probability tutor.
+Chess Tutora & Calculatus — Grandmaster Salon & Tactical Engine
+An atmospheric Renaissance-themed strategic chessboard, calculus engine, and real-time win probability tutor.
 """
 
 import math
@@ -511,10 +511,10 @@ class ChessulatorApp(tk.Tk):
         header = tk.Frame(self, bg="#1e334d", height=65, highlightthickness=1, highlightbackground="#306998")
         header.pack(fill=tk.X, side=tk.TOP)
 
-        title_lbl = tk.Label(header, text="🐍 Python Chessulator", font=("Segoe UI", 16, "bold"), fg="#ffd343", bg="#1e334d")
+        title_lbl = tk.Label(header, text="♚ Chess Tutora & Calculatus", font=("Segoe UI", 16, "bold"), fg="#ffd343", bg="#1e334d")
         title_lbl.pack(side=tk.LEFT, padx=20, pady=10)
 
-        sub_lbl = tk.Label(header, text="python.org Chess Engine & Real-Time Move Calculus", font=("Segoe UI", 10), fg="#e6eef5", bg="#1e334d")
+        sub_lbl = tk.Label(header, text="Grandmaster Salon & Real-Time Move Calculus", font=("Segoe UI", 10), fg="#e6eef5", bg="#1e334d")
         sub_lbl.pack(side=tk.LEFT, padx=5, pady=12)
 
         btn_reset = tk.Button(header, text="New Match", font=("Segoe UI", 9, "bold"), bg="#ffd343", fg="#1e334d", activebackground="#f5c518", activeforeground="#1e334d", relief=tk.FLAT, bd=0, padx=12, pady=4, command=self.reset_game)
