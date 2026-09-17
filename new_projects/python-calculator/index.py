@@ -1,6 +1,6 @@
 """
-Chessulator — The Baroque Chess & Win Evaluation Engine (Desktop Edition)
-An upscale Baroque strategic chessboard and real-time win probability calculator.
+Python Chessulator — Strategic Chess Calculus & Tutor (Python.org Edition)
+An educational Python-themed strategic chessboard, calculus engine, and real-time win probability tutor.
 """
 
 import math
@@ -508,84 +508,84 @@ class ChessulatorApp(tk.Tk):
         style.theme_use('clam')
 
         # Header Frame
-        header = tk.Frame(self, bg="#140d12", height=65, highlightthickness=1, highlightbackground="#9d711b")
+        header = tk.Frame(self, bg="#1e334d", height=65, highlightthickness=1, highlightbackground="#306998")
         header.pack(fill=tk.X, side=tk.TOP)
 
-        title_lbl = tk.Label(header, text="♚ Chessulator", font=("Georgia", 18, "bold"), fg="#faeab0", bg="#140d12")
+        title_lbl = tk.Label(header, text="🐍 Python Chessulator", font=("Segoe UI", 16, "bold"), fg="#ffd343", bg="#1e334d")
         title_lbl.pack(side=tk.LEFT, padx=20, pady=10)
 
-        sub_lbl = tk.Label(header, text="Baroque Chessboard & Sovereign Win Probability Oracle", font=("Georgia", 10, "italic"), fg="#c59427", bg="#140d12")
+        sub_lbl = tk.Label(header, text="python.org Chess Engine & Real-Time Move Calculus", font=("Segoe UI", 10), fg="#e6eef5", bg="#1e334d")
         sub_lbl.pack(side=tk.LEFT, padx=5, pady=12)
 
-        btn_reset = tk.Button(header, text="New Match", font=("Georgia", 9, "bold"), bg="#3a2410", fg="#faeab0", activebackground="#543916", activeforeground="#ffffff", relief=tk.FLAT, bd=1, padx=12, pady=4, command=self.reset_game)
+        btn_reset = tk.Button(header, text="New Match", font=("Segoe UI", 9, "bold"), bg="#ffd343", fg="#1e334d", activebackground="#f5c518", activeforeground="#1e334d", relief=tk.FLAT, bd=0, padx=12, pady=4, command=self.reset_game)
         btn_reset.pack(side=tk.RIGHT, padx=15, pady=10)
 
-        btn_undo = tk.Button(header, text="↶ Undo", font=("Georgia", 9), bg="#2b1a0d", fg="#faeab0", activebackground="#452a14", relief=tk.FLAT, bd=1, padx=10, pady=4, command=self.undo_move)
+        btn_undo = tk.Button(header, text="↶ Undo", font=("Segoe UI", 9), bg="#306998", fg="#ffffff", activebackground="#234c6e", relief=tk.FLAT, bd=0, padx=10, pady=4, command=self.undo_move)
         btn_undo.pack(side=tk.RIGHT, padx=5, pady=10)
 
         # Body Container
-        body = tk.Frame(self, bg="#0d080c")
+        body = tk.Frame(self, bg="#0d1825")
         body.pack(fill=tk.BOTH, expand=True, padx=20, pady=15)
 
         # Left Column: Chessboard Canvas & Turn Info
-        left_col = tk.Frame(body, bg="#0d080c")
+        left_col = tk.Frame(body, bg="#0d1825")
         left_col.pack(side=tk.LEFT, fill=tk.BOTH, expand=True)
 
-        self.turn_banner = tk.Label(left_col, text="White's Sovereign Move", font=("Georgia", 13, "bold"), fg="#dfb15b", bg="#171016", highlightthickness=1, highlightbackground="#755216", pady=6)
+        self.turn_banner = tk.Label(left_col, text="White to Move (Python Evaluation Active)", font=("Segoe UI", 12, "bold"), fg="#ffd343", bg="#1e334d", highlightthickness=1, highlightbackground="#306998", pady=6)
         self.turn_banner.pack(fill=tk.X, pady=(0, 10))
 
         # Canvas Chassis
-        canvas_frame = tk.Frame(left_col, bg="#2b1810", padx=12, pady=12, highlightthickness=3, highlightbackground="#dfb15b")
+        canvas_frame = tk.Frame(left_col, bg="#1a2b3c", padx=10, pady=10, highlightthickness=2, highlightbackground="#306998")
         canvas_frame.pack()
 
-        self.canvas = tk.Canvas(canvas_frame, width=self.square_size * 8, height=self.square_size * 8, bg="#2e160e", highlightthickness=0)
+        self.canvas = tk.Canvas(canvas_frame, width=self.square_size * 8, height=self.square_size * 8, bg="#1e334d", highlightthickness=0)
         self.canvas.pack()
         self.canvas.bind("<Button-1>", self.on_canvas_click)
         self.canvas.bind("<Motion>", self.on_canvas_motion)
         self.canvas.bind("<Leave>", self.on_canvas_leave)
 
-        # Right Column: The Sovereign Oracle (Large Win Calculation)
-        right_col = tk.Frame(body, bg="#150e14", width=420, highlightthickness=1, highlightbackground="#9d711b", padx=20, pady=20)
+        # Right Column: The Python Calculus Oracle
+        right_col = tk.Frame(body, bg="#132235", width=420, highlightthickness=1, highlightbackground="#306998", padx=20, pady=20)
         right_col.pack(side=tk.RIGHT, fill=tk.BOTH, padx=(20, 0))
 
-        oracle_title = tk.Label(right_col, text="The Sovereign Oracle", font=("Georgia", 12, "bold"), fg="#dfb15b", bg="#150e14")
+        oracle_title = tk.Label(right_col, text="PYTHON CALCULUS ENGINE", font=("Segoe UI", 10, "bold"), fg="#ffd343", bg="#132235")
         oracle_title.pack(anchor=tk.N)
 
-        sub_calc = tk.Label(right_col, text="Calculation to Win", font=("Georgia", 16, "bold"), fg="#ffffff", bg="#150e14")
+        sub_calc = tk.Label(right_col, text="Win Probability Oracle", font=("Segoe UI", 15, "bold"), fg="#ffffff", bg="#132235")
         sub_calc.pack(anchor=tk.N, pady=(2, 10))
 
         # Big Win Rate Grid
-        pct_frame = tk.Frame(right_col, bg="#0d080c", highlightthickness=1, highlightbackground="#755216", padx=15, pady=15)
+        pct_frame = tk.Frame(right_col, bg="#0d1825", highlightthickness=1, highlightbackground="#306998", padx=15, pady=15)
         pct_frame.pack(fill=tk.X, pady=10)
 
         # White side
-        w_box = tk.Frame(pct_frame, bg="#0d080c")
+        w_box = tk.Frame(pct_frame, bg="#0d1825")
         w_box.pack(side=tk.LEFT, expand=True)
-        tk.Label(w_box, text="♔ White", font=("Georgia", 10, "bold"), fg="#dfb15b", bg="#0d080c").pack()
-        self.w_pct_lbl = tk.Label(w_box, text="50.0%", font=("Georgia", 26, "bold"), fg="#ffffff", bg="#0d080c")
+        tk.Label(w_box, text="♔ White", font=("Segoe UI", 10, "bold"), fg="#ffd343", bg="#0d1825").pack()
+        self.w_pct_lbl = tk.Label(w_box, text="50.0%", font=("Segoe UI", 24, "bold"), fg="#ffffff", bg="#0d1825")
         self.w_pct_lbl.pack()
 
         # Black side
-        b_box = tk.Frame(pct_frame, bg="#0d080c")
+        b_box = tk.Frame(pct_frame, bg="#0d1825")
         b_box.pack(side=tk.RIGHT, expand=True)
-        tk.Label(b_box, text="♚ Black", font=("Georgia", 10, "bold"), fg="#8c7784", bg="#0d080c").pack()
-        self.b_pct_lbl = tk.Label(b_box, text="50.0%", font=("Georgia", 26, "bold"), fg="#cccccc", bg="#0d080c")
+        tk.Label(b_box, text="♚ Black", font=("Segoe UI", 10, "bold"), fg="#93a8bf", bg="#0d1825").pack()
+        self.b_pct_lbl = tk.Label(b_box, text="50.0%", font=("Segoe UI", 24, "bold"), fg="#cccccc", bg="#0d1825")
         self.b_pct_lbl.pack()
 
         # Advantage Readout
-        self.eval_lbl = tk.Label(right_col, text="Evaluation: +0.00 Centipawns", font=("Courier", 11, "bold"), fg="#dfb15b", bg="#150e14")
+        self.eval_lbl = tk.Label(right_col, text="Evaluation: +0.00 Centipawns", font=("Consolas", 11, "bold"), fg="#ffd343", bg="#132235")
         self.eval_lbl.pack(pady=5)
 
-        self.commentary_lbl = tk.Label(right_col, text='"Sovereign Parity across opening ranks."', font=("Georgia", 10, "italic"), fg="#faeab0", bg="#150e14", wraplength=360)
+        self.commentary_lbl = tk.Label(right_col, text='"Equilibrium across opening files."', font=("Segoe UI", 10, "italic"), fg="#e6eef5", bg="#132235", wraplength=360)
         self.commentary_lbl.pack(pady=5)
 
         # Hover Inspection Box
-        self.hover_box = tk.Label(right_col, text="Hover piece to preview destination win rates", font=("Georgia", 9), fg="#9d711b", bg="#0d080c", relief=tk.SOLID, bd=1, pady=8, padx=10)
+        self.hover_box = tk.Label(right_col, text="Hover piece to preview destination win rates", font=("Segoe UI", 9), fg="#93a8bf", bg="#0d1825", relief=tk.SOLID, bd=1, pady=8, padx=10)
         self.hover_box.pack(fill=tk.X, pady=10)
 
         # Move Log Table
-        tk.Label(right_col, text="Royal Match Ledger", font=("Georgia", 10, "bold"), fg="#dfb15b", bg="#150e14").pack(anchor=tk.W, pady=(10, 3))
-        self.log_text = tk.Text(right_col, height=8, bg="#0d080c", fg="#faeab0", font=("Courier", 10), relief=tk.FLAT, bd=0)
+        tk.Label(right_col, text="Match Ledger & Moves", font=("Segoe UI", 10, "bold"), fg="#ffd343", bg="#132235").pack(anchor=tk.W, pady=(10, 3))
+        self.log_text = tk.Text(right_col, height=8, bg="#0d1825", fg="#ffd343", font=("Consolas", 10), relief=tk.FLAT, bd=0)
         self.log_text.pack(fill=tk.BOTH, expand=True)
 
     def draw_board(self):
@@ -597,28 +597,28 @@ class ChessulatorApp(tk.Tk):
                 x1, y1 = c * sq, r * sq
                 x2, y2 = x1 + sq, y1 + sq
                 is_light = (r + c) % 2 == 0
-                bg_color = "#ede2cf" if is_light else "#45281b"
+                bg_color = "#e6eef5" if is_light else "#2b537d"
 
                 # Check highlight
                 if self.game.is_in_check(self.game.turn):
                     k_pos = self.game.find_king(self.game.turn)
                     if k_pos and k_pos == (r, c):
-                        bg_color = "#991b1b"
+                        bg_color = "#dc2626"
 
                 # Selection highlight
                 if self.selected_sq == (r, c):
-                    bg_color = "#c59427"
+                    bg_color = "#ffd343"
                 elif self.game.last_move and (self.game.last_move['from'] == (r, c) or self.game.last_move['to'] == (r, c)):
-                    bg_color = "#8a6118"
+                    bg_color = "#f5c518" if is_light else "#3c75a8"
 
-                self.canvas.create_rectangle(x1, y1, x2, y2, fill=bg_color, outline="#2b1810")
+                self.canvas.create_rectangle(x1, y1, x2, y2, fill=bg_color, outline="#1e334d")
 
                 # Piece Drawing
                 piece = self.game.board[r][c]
                 if piece:
                     symbol = UNICODE_PIECES.get(piece, '')
-                    fg_color = "#fef7dc" if piece[0] == 'w' else "#1a1217"
-                    shadow_color = "#000000"
+                    fg_color = "#ffffff" if piece[0] == 'w' else "#0f172a"
+                    shadow_color = "#1e293b" if piece[0] == 'w' else "#94a3b8"
                     self.canvas.create_text(x1 + sq//2 + 1, y1 + sq//2 + 1, text=symbol, font=("Arial", int(sq * 0.58)), fill=shadow_color)
                     self.canvas.create_text(x1 + sq//2, y1 + sq//2, text=symbol, font=("Arial", int(sq * 0.58)), fill=fg_color)
 
