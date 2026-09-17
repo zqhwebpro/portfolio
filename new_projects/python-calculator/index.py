@@ -511,16 +511,16 @@ class ChessulatorApp(tk.Tk):
         header = tk.Frame(self, bg="#140d12", height=65, highlightthickness=1, highlightbackground="#9d711b")
         header.pack(fill=tk.X, side=tk.TOP)
 
-        title_lbl = tk.Label(header, text="♚ Chessulator", font=("Cinzel", 18, "bold"), fg="#faeab0", bg="#140d12")
+        title_lbl = tk.Label(header, text="♚ Chessulator", font=("Georgia", 18, "bold"), fg="#faeab0", bg="#140d12")
         title_lbl.pack(side=tk.LEFT, padx=20, pady=10)
 
         sub_lbl = tk.Label(header, text="Baroque Chessboard & Sovereign Win Probability Oracle", font=("Georgia", 10, "italic"), fg="#c59427", bg="#140d12")
         sub_lbl.pack(side=tk.LEFT, padx=5, pady=12)
 
-        btn_reset = tk.Button(header, text="New Match", font=("Cinzel", 9, "bold"), bg="#3a2410", fg="#faeab0", activebackground="#543916", activeforeground="#ffffff", relief=tk.FLAT, bd=1, padx=12, pady=4, command=self.reset_game)
+        btn_reset = tk.Button(header, text="New Match", font=("Georgia", 9, "bold"), bg="#3a2410", fg="#faeab0", activebackground="#543916", activeforeground="#ffffff", relief=tk.FLAT, bd=1, padx=12, pady=4, command=self.reset_game)
         btn_reset.pack(side=tk.RIGHT, padx=15, pady=10)
 
-        btn_undo = tk.Button(header, text="↶ Undo", font=("Cinzel", 9), bg="#2b1a0d", fg="#faeab0", activebackground="#452a14", relief=tk.FLAT, bd=1, padx=10, pady=4, command=self.undo_move)
+        btn_undo = tk.Button(header, text="↶ Undo", font=("Georgia", 9), bg="#2b1a0d", fg="#faeab0", activebackground="#452a14", relief=tk.FLAT, bd=1, padx=10, pady=4, command=self.undo_move)
         btn_undo.pack(side=tk.RIGHT, padx=5, pady=10)
 
         # Body Container
@@ -531,7 +531,7 @@ class ChessulatorApp(tk.Tk):
         left_col = tk.Frame(body, bg="#0d080c")
         left_col.pack(side=tk.LEFT, fill=tk.BOTH, expand=True)
 
-        self.turn_banner = tk.Label(left_col, text="White's Sovereign Move", font=("Cinzel", 13, "bold"), fg="#dfb15b", bg="#171016", highlightthickness=1, highlightbackground="#755216", pady=6)
+        self.turn_banner = tk.Label(left_col, text="White's Sovereign Move", font=("Georgia", 13, "bold"), fg="#dfb15b", bg="#171016", highlightthickness=1, highlightbackground="#755216", pady=6)
         self.turn_banner.pack(fill=tk.X, pady=(0, 10))
 
         # Canvas Chassis
@@ -548,10 +548,10 @@ class ChessulatorApp(tk.Tk):
         right_col = tk.Frame(body, bg="#150e14", width=420, highlightthickness=1, highlightbackground="#9d711b", padx=20, pady=20)
         right_col.pack(side=tk.RIGHT, fill=tk.BOTH, padx=(20, 0))
 
-        oracle_title = tk.Label(right_col, text="The Sovereign Oracle", font=("Cinzel", 12, "bold"), fg="#dfb15b", bg="#150e14")
+        oracle_title = tk.Label(right_col, text="The Sovereign Oracle", font=("Georgia", 12, "bold"), fg="#dfb15b", bg="#150e14")
         oracle_title.pack(anchor=tk.N)
 
-        sub_calc = tk.Label(right_col, text="Calculation to Win", font=("Cinzel", 16, "bold"), fg="#ffffff", bg="#150e14")
+        sub_calc = tk.Label(right_col, text="Calculation to Win", font=("Georgia", 16, "bold"), fg="#ffffff", bg="#150e14")
         sub_calc.pack(anchor=tk.N, pady=(2, 10))
 
         # Big Win Rate Grid
@@ -561,15 +561,15 @@ class ChessulatorApp(tk.Tk):
         # White side
         w_box = tk.Frame(pct_frame, bg="#0d080c")
         w_box.pack(side=tk.LEFT, expand=True)
-        tk.Label(w_box, text="♔ White", font=("Cinzel", 10, "bold"), fg="#dfb15b", bg="#0d080c").pack()
-        self.w_pct_lbl = tk.Label(w_box, text="50.0%", font=("Cinzel", 26, "bold"), fg="#ffffff", bg="#0d080c")
+        tk.Label(w_box, text="♔ White", font=("Georgia", 10, "bold"), fg="#dfb15b", bg="#0d080c").pack()
+        self.w_pct_lbl = tk.Label(w_box, text="50.0%", font=("Georgia", 26, "bold"), fg="#ffffff", bg="#0d080c")
         self.w_pct_lbl.pack()
 
         # Black side
         b_box = tk.Frame(pct_frame, bg="#0d080c")
         b_box.pack(side=tk.RIGHT, expand=True)
-        tk.Label(b_box, text="♚ Black", font=("Cinzel", 10, "bold"), fg="#8c7784", bg="#0d080c").pack()
-        self.b_pct_lbl = tk.Label(b_box, text="50.0%", font=("Cinzel", 26, "bold"), fg="#cccccc", bg="#0d080c")
+        tk.Label(b_box, text="♚ Black", font=("Georgia", 10, "bold"), fg="#8c7784", bg="#0d080c").pack()
+        self.b_pct_lbl = tk.Label(b_box, text="50.0%", font=("Georgia", 26, "bold"), fg="#cccccc", bg="#0d080c")
         self.b_pct_lbl.pack()
 
         # Advantage Readout
@@ -584,7 +584,7 @@ class ChessulatorApp(tk.Tk):
         self.hover_box.pack(fill=tk.X, pady=10)
 
         # Move Log Table
-        tk.Label(right_col, text="Royal Match Ledger", font=("Cinzel", 10, "bold"), fg="#dfb15b", bg="#150e14").pack(anchor=tk.W, pady=(10, 3))
+        tk.Label(right_col, text="Royal Match Ledger", font=("Georgia", 10, "bold"), fg="#dfb15b", bg="#150e14").pack(anchor=tk.W, pady=(10, 3))
         self.log_text = tk.Text(right_col, height=8, bg="#0d080c", fg="#faeab0", font=("Courier", 10), relief=tk.FLAT, bd=0)
         self.log_text.pack(fill=tk.BOTH, expand=True)
 

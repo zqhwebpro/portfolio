@@ -6,13 +6,13 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Chessulator — The Baroque Chess &amp; Win Evaluation Engine</title>
     <meta name="description"
-        content="An upscale Baroque chess masterpiece. Play alternating turns, calculate real-time win probabilities, and preview live percentage deltas for every legal move." />
+        content="An upscale Baroque chess masterpiece. Play alternating turns, battle the Automaton AI, watch two AIs duel, calculate real-time win probabilities, and preview live percentage deltas for every legal move." />
 
-    <!-- Google Fonts: Cinzel Decorative, Cormorant Garamond, Outfit, Plus Jakarta Sans -->
+    <!-- Google Fonts: Playfair Display (true non-all-caps Baroque serif), Cormorant Garamond, Outfit, Plus Jakarta Sans -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link
-        href="https://fonts.googleapis.com/css2?family=Cinzel+Decorative:wght@700;900&family=Cinzel:wght@500;600;700;800;900&family=Cormorant+Garamond:ital,wght@0,500;0,600;0,700;1,500;1,600&family=Outfit:wght@400;500;600;700;800&family=Plus+Jakarta+Sans:wght@400;500;600;700&display=swap"
+        href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,500;0,600;0,700;1,400;1,500;1,600;1,700&family=Outfit:wght@400;500;600;700;800&family=Playfair+Display:ital,wght@0,400;0,500;0,600;0,700;0,800;0,900;1,400;1,600;1,700&family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap"
         rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css" />
 
@@ -25,6 +25,7 @@
                 extend: {
                     colors: {
                         gold: {
+                            50: '#fffdf5',
                             100: '#fef7dc',
                             200: '#faeab0',
                             300: '#f3d97e',
@@ -47,8 +48,9 @@
                         }
                     },
                     fontFamily: {
-                        baroque: ['"Cinzel Decorative"', 'Cinzel', 'serif'],
-                        cinzel: ['Cinzel', 'serif'],
+                        baroque: ['"Playfair Display"', '"Cormorant Garamond"', 'Georgia', 'serif'],
+                        cinzel: ['"Playfair Display"', '"Cormorant Garamond"', 'Georgia', 'serif'],
+                        playfair: ['"Playfair Display"', 'Georgia', 'serif'],
                         serif: ['"Cormorant Garamond"', 'Georgia', 'serif'],
                         sans: ['Outfit', 'Plus Jakarta Sans', 'sans-serif'],
                     }
@@ -64,94 +66,50 @@
             --gold-dark: #8c6721;
             --gold-grad: linear-gradient(135deg, #fcedc2 0%, #dfb15b 45%, #9d711b 100%);
             --gold-foil: linear-gradient(135deg, #fff3cf 0%, #e0b35f 30%, #a87920 70%, #68460b 100%);
-            --baroque-bg: radial-gradient(circle at 50% 20%, #1d1117 0%, #0d080c 60%, #050305 100%);
+            --baroque-bg: radial-gradient(circle at 50% 15%, #22141c 0%, #100a0f 50%, #050305 100%);
             --board-light: #ede2cf;
-            --board-light-grain: radial-gradient(circle at 50% 50%, #f6ede0 0%, #e4d5be 100%);
+            --board-light-grain: radial-gradient(circle at 50% 50%, #f7efe4 0%, #e6d8c3 100%);
             --board-dark: #3a1e14;
-            --board-dark-grain: radial-gradient(circle at 50% 50%, #4c281a 0%, #2e160e 100%);
+            --board-dark-grain: radial-gradient(circle at 50% 50%, #4e291b 0%, #2b140c 100%);
             --frame-gold: linear-gradient(145deg, #876020 0%, #dfb15b 25%, #634311 50%, #e6be6d 75%, #442a06 100%);
         }
 
         body {
             background: var(--baroque-bg);
-            color: #f3efe6;
+            color: #f7f4ed;
             min-height: 100vh;
             overflow-x: hidden;
             font-family: 'Outfit', sans-serif;
+            font-size: 15px;
+            line-height: 1.5;
         }
 
-        /* Baroque Flourish & Filigree Ornaments */
-        .gold-leaf-text {
-            background: var(--gold-grad);
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
-            text-shadow: 0 0 20px rgba(223, 177, 91, 0.25);
-        }
-
-        .gold-border {
-            border-image: var(--frame-gold) 1;
-        }
-
+        /* Baroque Panels without rigid square corner brackets */
         .baroque-panel {
-            background: linear-gradient(180deg, rgba(28, 20, 26, 0.92) 0%, rgba(14, 10, 15, 0.96) 100%);
-            border: 1px solid rgba(223, 177, 91, 0.28);
-            box-shadow: 0 10px 40px -10px rgba(0, 0, 0, 0.8),
+            background: linear-gradient(180deg, rgba(28, 19, 26, 0.95) 0%, rgba(14, 10, 15, 0.98) 100%);
+            border: 1px solid rgba(223, 177, 91, 0.32);
+            border-radius: 16px;
+            box-shadow: 0 12px 40px -8px rgba(0, 0, 0, 0.85),
                         0 0 0 1px rgba(223, 177, 91, 0.12) inset,
-                        0 0 25px rgba(223, 177, 91, 0.05);
+                        0 0 25px rgba(223, 177, 91, 0.04);
             position: relative;
         }
 
-        .baroque-panel::before {
-            content: "⚜";
-            position: absolute;
-            top: -10px;
-            left: 50%;
-            transform: translateX(-50%);
-            font-size: 14px;
-            color: var(--gold-bright);
-            text-shadow: 0 0 8px rgba(223, 177, 91, 0.6);
-            background: #0d080c;
-            padding: 0 8px;
-            z-index: 10;
-        }
-
-        .corner-filigree {
-            position: absolute;
-            width: 24px;
-            height: 24px;
-            pointer-events: none;
-            z-index: 20;
-        }
-        .corner-filigree.top-left {
-            top: 4px; left: 4px;
-            border-top: 2px solid var(--gold-bright);
-            border-left: 2px solid var(--gold-bright);
-        }
-        .corner-filigree.top-right {
-            top: 4px; right: 4px;
-            border-top: 2px solid var(--gold-bright);
-            border-right: 2px solid var(--gold-bright);
-        }
-        .corner-filigree.bottom-left {
-            bottom: 4px; left: 4px;
-            border-bottom: 2px solid var(--gold-bright);
-            border-left: 2px solid var(--gold-bright);
-        }
-        .corner-filigree.bottom-right {
-            bottom: 4px; right: 4px;
-            border-bottom: 2px solid var(--gold-bright);
-            border-right: 2px solid var(--gold-bright);
+        .baroque-panel-subtle {
+            background: linear-gradient(180deg, rgba(22, 15, 20, 0.9) 0%, rgba(11, 7, 12, 0.95) 100%);
+            border: 1px solid rgba(223, 177, 91, 0.22);
+            border-radius: 14px;
         }
 
         /* Chess Board Grand Frame */
         .chessboard-chassis {
             padding: 22px;
-            background: linear-gradient(135deg, #2b1810 0%, #150a06 40%, #2f190e 70%, #100603 100%);
-            border: 4px solid #7d591e;
+            background: linear-gradient(135deg, #2f1b12 0%, #150a06 40%, #2e180d 70%, #0e0503 100%);
+            border: 4px solid #855e21;
             box-shadow: 0 25px 60px -10px rgba(0, 0, 0, 0.95),
                         0 0 0 2px rgba(255, 227, 160, 0.4) inset,
                         0 0 35px rgba(223, 177, 91, 0.2);
-            border-radius: 12px;
+            border-radius: 16px;
             position: relative;
         }
 
@@ -163,10 +121,12 @@
             box-shadow: 0 0 20px rgba(0,0,0,0.8) inset;
             aspect-ratio: 1 / 1;
             width: 100%;
-            max-width: 620px;
+            max-width: 630px;
             margin: 0 auto;
             position: relative;
             user-select: none;
+            border-radius: 4px;
+            overflow: hidden;
         }
 
         .square {
@@ -175,7 +135,7 @@
             align-items: center;
             justify-content: center;
             cursor: pointer;
-            transition: all 0.15s ease-out;
+            transition: background 0.15s ease-out, box-shadow 0.15s ease-out;
             overflow: visible;
         }
 
@@ -190,39 +150,39 @@
         }
 
         .square.selected {
-            background: radial-gradient(circle, rgba(223, 177, 91, 0.6) 0%, rgba(157, 113, 27, 0.8) 100%) !important;
-            box-shadow: 0 0 16px rgba(223, 177, 91, 0.8) inset, 0 0 12px rgba(223, 177, 91, 0.6);
+            background: radial-gradient(circle, rgba(223, 177, 91, 0.75) 0%, rgba(157, 113, 27, 0.88) 100%) !important;
+            box-shadow: 0 0 18px rgba(223, 177, 91, 0.9) inset, 0 0 14px rgba(223, 177, 91, 0.7);
         }
 
         .square.last-move {
-            background: radial-gradient(circle, rgba(212, 163, 62, 0.35) 0%, rgba(138, 97, 24, 0.45) 100%) !important;
+            background: radial-gradient(circle, rgba(212, 163, 62, 0.42) 0%, rgba(138, 97, 24, 0.55) 100%) !important;
         }
 
         .square.in-check {
-            background: radial-gradient(circle, rgba(220, 38, 38, 0.85) 0%, rgba(153, 27, 27, 0.9) 100%) !important;
+            background: radial-gradient(circle, rgba(220, 38, 38, 0.88) 0%, rgba(153, 27, 27, 0.95) 100%) !important;
             animation: pulse-check 1.4s infinite alternate;
         }
 
         @keyframes pulse-check {
-            0% { box-shadow: 0 0 8px rgba(239, 68, 68, 0.8) inset; }
-            100% { box-shadow: 0 0 24px rgba(239, 68, 68, 1) inset, 0 0 20px rgba(239, 68, 68, 0.8); }
+            0% { box-shadow: 0 0 10px rgba(239, 68, 68, 0.8) inset; }
+            100% { box-shadow: 0 0 26px rgba(239, 68, 68, 1) inset, 0 0 22px rgba(239, 68, 68, 0.8); }
         }
 
         /* Chess Piece SVG Styles */
         .chess-piece {
-            width: 86%;
-            height: 86%;
+            width: 88%;
+            height: 88%;
             display: flex;
             align-items: center;
             justify-content: center;
             z-index: 15;
             transition: transform 0.18s cubic-bezier(0.34, 1.56, 0.64, 1), filter 0.18s ease;
-            filter: drop-shadow(0 4px 6px rgba(0, 0, 0, 0.65));
+            filter: drop-shadow(0 4px 6px rgba(0, 0, 0, 0.7));
         }
 
         .square:hover .chess-piece {
             transform: scale(1.1) translateY(-2px);
-            filter: drop-shadow(0 8px 12px rgba(0, 0, 0, 0.8)) drop-shadow(0 0 8px rgba(223, 177, 91, 0.4));
+            filter: drop-shadow(0 8px 12px rgba(0, 0, 0, 0.85)) drop-shadow(0 0 10px rgba(223, 177, 91, 0.5));
         }
 
         .chess-piece svg {
@@ -259,90 +219,90 @@
         }
 
         .target-ring.capture {
-            width: 84%;
-            height: 84%;
+            width: 86%;
+            height: 86%;
             border: 3px dashed #ef4444;
             border-radius: 12px;
-            background: rgba(239, 68, 68, 0.2);
-            box-shadow: 0 0 12px rgba(239, 68, 68, 0.5) inset;
+            background: rgba(239, 68, 68, 0.25);
+            box-shadow: 0 0 12px rgba(239, 68, 68, 0.55) inset;
         }
 
         .target-ring.regular {
-            background: radial-gradient(circle, rgba(223, 177, 91, 0.9) 0%, rgba(157, 113, 27, 0.6) 100%);
-            box-shadow: 0 0 10px rgba(223, 177, 91, 0.7);
+            background: radial-gradient(circle, rgba(223, 177, 91, 0.95) 0%, rgba(157, 113, 27, 0.7) 100%);
+            box-shadow: 0 0 12px rgba(223, 177, 91, 0.8);
         }
 
-        /* The Percentage Bubble on the Board */
+        /* The Percentage Badge on the Board */
         .pct-badge {
             position: absolute;
             bottom: 3px;
             left: 50%;
             transform: translateX(-50%);
-            padding: 1px 5px;
-            border-radius: 4px;
-            font-size: 10px;
+            padding: 2px 7px;
+            border-radius: 6px;
+            font-size: 11px;
             font-weight: 800;
             font-family: 'Outfit', sans-serif;
-            letter-spacing: -0.02em;
+            letter-spacing: -0.01em;
             white-space: nowrap;
-            box-shadow: 0 3px 8px rgba(0,0,0,0.85);
-            border: 1px solid rgba(255,255,255,0.25);
+            box-shadow: 0 4px 10px rgba(0,0,0,0.9);
+            border: 1px solid rgba(255,255,255,0.3);
             z-index: 30;
             display: flex;
             align-items: center;
-            gap: 2px;
+            gap: 3px;
             line-height: 1.2;
         }
 
         .pct-brilliant {
-            background: linear-gradient(135deg, #059669 0%, #10b981 100%);
+            background: linear-gradient(135deg, #047857 0%, #10b981 100%);
             color: #ffffff;
             border-color: #6ee7b7;
-            box-shadow: 0 0 12px rgba(16, 185, 129, 0.8);
+            box-shadow: 0 0 14px rgba(16, 185, 129, 0.85);
         }
 
         .pct-good {
-            background: linear-gradient(135deg, #0284c7 0%, #38bdf8 100%);
+            background: linear-gradient(135deg, #0369a1 0%, #38bdf8 100%);
             color: #ffffff;
             border-color: #bae6fd;
-            box-shadow: 0 0 10px rgba(56, 189, 248, 0.6);
+            box-shadow: 0 0 12px rgba(56, 189, 248, 0.7);
         }
 
         .pct-neutral {
-            background: linear-gradient(135deg, #475569 0%, #64748b 100%);
-            color: #f1f5f9;
+            background: linear-gradient(135deg, #334155 0%, #64748b 100%);
+            color: #f8fafc;
             border-color: #94a3b8;
         }
 
         .pct-inaccuracy {
-            background: linear-gradient(135deg, #d97706 0%, #f59e0b 100%);
+            background: linear-gradient(135deg, #b45309 0%, #f59e0b 100%);
             color: #ffffff;
             border-color: #fde68a;
         }
 
         .pct-blunder {
-            background: linear-gradient(135deg, #dc2626 0%, #ef4444 100%);
+            background: linear-gradient(135deg, #b91c1c 0%, #ef4444 100%);
             color: #ffffff;
             border-color: #fca5a5;
-            box-shadow: 0 0 10px rgba(239, 68, 68, 0.7);
+            box-shadow: 0 0 12px rgba(239, 68, 68, 0.8);
         }
 
-        /* Large Right-Hand Sovereign Oracle Gauge */
+        /* Large Sovereign Oracle Gauge */
         .oracle-gauge-container {
             position: relative;
             width: 100%;
-            height: 24px;
+            height: 28px;
             background: #110d14;
-            border-radius: 12px;
-            border: 1px solid rgba(223, 177, 91, 0.4);
+            border-radius: 14px;
+            border: 1.5px solid rgba(223, 177, 91, 0.45);
             overflow: hidden;
-            box-shadow: 0 0 15px rgba(0,0,0,0.8) inset;
+            box-shadow: 0 0 18px rgba(0,0,0,0.85) inset;
         }
 
         .oracle-bar-white {
             height: 100%;
-            background: linear-gradient(90deg, #dfb15b 0%, #faeab0 70%, #ffffff 100%);
-            box-shadow: 0 0 12px rgba(223, 177, 91, 0.8);
+            background: linear-gradient(90deg, #dfb15b 0%, #faeab0 65%, #ffffff 100%);
+            box-shadow: 0 0 15px rgba(223, 177, 91, 0.85);
             transition: width 0.4s cubic-bezier(0.4, 0, 0.2, 1);
         }
 
@@ -355,30 +315,32 @@
         /* Board Coordinate Labels */
         .coord-label {
             position: absolute;
-            font-size: 10px;
-            font-weight: 700;
-            font-family: 'Cinzel', serif;
+            font-size: 12px;
+            font-weight: 800;
+            font-family: 'Playfair Display', Georgia, serif;
             pointer-events: none;
-            opacity: 0.65;
+            opacity: 0.85;
+            text-shadow: 0 1px 4px rgba(0, 0, 0, 0.95);
         }
-        .coord-file { bottom: 2px; right: 3px; }
-        .coord-rank { top: 2px; left: 3px; }
+        .coord-file { bottom: 3px; right: 4px; }
+        .coord-rank { top: 3px; left: 4px; }
 
         /* Royal Button */
         .btn-royal {
-            background: linear-gradient(145deg, #382512 0%, #1c1006 100%);
+            background: linear-gradient(145deg, #3a2613 0%, #1c1006 100%);
             border: 1px solid #9d711b;
             color: #faeab0;
-            font-family: 'Cinzel', serif;
-            letter-spacing: 0.05em;
+            font-family: 'Playfair Display', Georgia, serif;
+            font-size: 14px;
+            font-weight: 600;
             transition: all 0.2s;
             box-shadow: 0 4px 10px rgba(0,0,0,0.5), 0 0 0 1px rgba(223, 177, 91, 0.2) inset;
         }
         .btn-royal:hover {
-            background: linear-gradient(145deg, #53381a 0%, #29180a 100%);
+            background: linear-gradient(145deg, #583c1b 0%, #2e1a0b 100%);
             border-color: #dfb15b;
             color: #ffffff;
-            box-shadow: 0 6px 14px rgba(0,0,0,0.7), 0 0 12px rgba(223, 177, 91, 0.35);
+            box-shadow: 0 6px 16px rgba(0,0,0,0.7), 0 0 14px rgba(223, 177, 91, 0.4);
             transform: translateY(-1px);
         }
         .btn-royal:active {
@@ -386,27 +348,41 @@
         }
 
         .btn-royal-primary {
-            background: linear-gradient(145deg, #9d711b 0%, #5a3c08 100%);
+            background: linear-gradient(145deg, #a87920 0%, #5e3f09 100%);
             border: 1px solid #dfb15b;
             color: #ffffff;
             font-weight: 700;
         }
         .btn-royal-primary:hover {
-            background: linear-gradient(145deg, #c59427 0%, #755216 100%);
-            box-shadow: 0 0 20px rgba(223, 177, 91, 0.5);
+            background: linear-gradient(145deg, #cf9c2b 0%, #7d5718 100%);
+            box-shadow: 0 0 22px rgba(223, 177, 91, 0.55);
+        }
+
+        .btn-mode-active {
+            background: linear-gradient(145deg, #7e22ce 0%, #4c1d95 100%) !important;
+            border-color: #c084fc !important;
+            color: #ffffff !important;
+            box-shadow: 0 0 18px rgba(192, 132, 252, 0.5) !important;
+        }
+
+        .btn-mode-active-gold {
+            background: linear-gradient(145deg, #b45309 0%, #78350f 100%) !important;
+            border-color: #fcd34d !important;
+            color: #ffffff !important;
+            box-shadow: 0 0 18px rgba(252, 211, 77, 0.45) !important;
         }
 
         /* Custom Scrollbar */
         ::-webkit-scrollbar {
-            width: 6px;
-            height: 6px;
+            width: 7px;
+            height: 7px;
         }
         ::-webkit-scrollbar-track {
             background: #0f0a0d;
         }
         ::-webkit-scrollbar-thumb {
-            background: #543916;
-            border-radius: 3px;
+            background: #5c3e18;
+            border-radius: 4px;
         }
         ::-webkit-scrollbar-thumb:hover {
             background: #dfb15b;
@@ -414,44 +390,44 @@
 
         /* Promotion Modal */
         .baroque-modal-backdrop {
-            background: rgba(5, 2, 4, 0.88);
-            backdrop-filter: blur(8px);
+            background: rgba(5, 2, 4, 0.9);
+            backdrop-filter: blur(10px);
         }
 
         /* Candidate Moves & Strategic Oracle */
         .candidate-move-card {
             position: relative;
-            background: linear-gradient(145deg, rgba(35, 23, 31, 0.95) 0%, rgba(18, 12, 16, 0.98) 100%);
-            border: 1px solid rgba(223, 177, 91, 0.35);
-            border-radius: 8px;
-            padding: 6px 10px;
+            background: linear-gradient(145deg, rgba(38, 25, 34, 0.96) 0%, rgba(20, 13, 18, 0.99) 100%);
+            border: 1px solid rgba(223, 177, 91, 0.38);
+            border-radius: 10px;
+            padding: 8px 12px;
             cursor: pointer;
             transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
-            box-shadow: 0 4px 12px rgba(0,0,0,0.5), 0 0 0 1px rgba(223, 177, 91, 0.1) inset;
+            box-shadow: 0 4px 14px rgba(0,0,0,0.55), 0 0 0 1px rgba(223, 177, 91, 0.12) inset;
             display: flex;
             align-items: center;
-            gap: 8px;
+            gap: 10px;
             user-select: none;
         }
         .candidate-move-card:hover, .candidate-move-card.active {
-            background: linear-gradient(145deg, rgba(58, 38, 50, 0.98) 0%, rgba(28, 18, 25, 1) 100%);
+            background: linear-gradient(145deg, rgba(65, 42, 56, 0.99) 0%, rgba(32, 20, 28, 1) 100%);
             border-color: #dfb15b;
             transform: translateY(-2px);
-            box-shadow: 0 6px 18px rgba(0,0,0,0.7), 0 0 14px rgba(223, 177, 91, 0.35);
+            box-shadow: 0 8px 20px rgba(0,0,0,0.75), 0 0 16px rgba(223, 177, 91, 0.4);
         }
 
         /* Strategic Move Tooltip Overlay / Card */
         .move-tooltip-box {
             position: absolute;
-            bottom: calc(100% + 10px);
+            bottom: calc(100% + 12px);
             left: 50%;
             transform: translateX(-50%);
-            width: 290px;
-            background: linear-gradient(180deg, rgba(24, 15, 22, 0.98) 0%, rgba(12, 7, 11, 0.99) 100%);
-            border: 1px solid #dfb15b;
-            border-radius: 10px;
-            padding: 12px;
-            box-shadow: 0 14px 35px rgba(0,0,0,0.92), 0 0 20px rgba(223, 177, 91, 0.25);
+            width: 320px;
+            background: linear-gradient(180deg, rgba(26, 16, 24, 0.99) 0%, rgba(13, 8, 12, 1) 100%);
+            border: 1.5px solid #dfb15b;
+            border-radius: 12px;
+            padding: 14px;
+            box-shadow: 0 16px 40px rgba(0,0,0,0.95), 0 0 25px rgba(223, 177, 91, 0.3);
             z-index: 60;
             pointer-events: none;
             opacity: 0;
@@ -469,19 +445,29 @@
             top: 100%;
             left: 50%;
             transform: translateX(-50%);
-            border-width: 6px;
+            border-width: 7px;
             border-style: solid;
             border-color: #dfb15b transparent transparent transparent;
         }
 
         /* Square highlights for candidate move preview on board */
         .square.preview-from {
-            background: radial-gradient(circle, rgba(234, 179, 8, 0.6) 0%, rgba(161, 98, 7, 0.7) 100%) !important;
-            box-shadow: 0 0 16px rgba(234, 179, 8, 0.95) inset, 0 0 10px rgba(234, 179, 8, 0.7);
+            background: radial-gradient(circle, rgba(234, 179, 8, 0.65) 0%, rgba(161, 98, 7, 0.75) 100%) !important;
+            box-shadow: 0 0 18px rgba(234, 179, 8, 0.95) inset, 0 0 12px rgba(234, 179, 8, 0.75);
         }
         .square.preview-to {
-            background: radial-gradient(circle, rgba(16, 185, 129, 0.65) 0%, rgba(4, 120, 87, 0.75) 100%) !important;
-            box-shadow: 0 0 18px rgba(16, 185, 129, 0.95) inset, 0 0 12px rgba(16, 185, 129, 0.8);
+            background: radial-gradient(circle, rgba(16, 185, 129, 0.7) 0%, rgba(4, 120, 87, 0.8) 100%) !important;
+            box-shadow: 0 0 20px rgba(16, 185, 129, 0.95) inset, 0 0 14px rgba(16, 185, 129, 0.85);
+        }
+
+        /* Pulse animation for duel spectator mode */
+        @keyframes pulse-duel {
+            0% { transform: scale(1); opacity: 0.9; }
+            50% { transform: scale(1.08); opacity: 1; filter: drop-shadow(0 0 8px #c084fc); }
+            100% { transform: scale(1); opacity: 0.9; }
+        }
+        .pulse-duel-active {
+            animation: pulse-duel 1.8s infinite ease-in-out;
         }
     </style>
 </head>
@@ -489,22 +475,22 @@
 <body class="flex flex-col selection:bg-gold-600 selection:text-white">
 
     <!-- Baroque Header -->
-    <header class="border-b border-gold-700/40 bg-obsidian-950/90 backdrop-blur-md sticky top-0 z-50">
+    <header class="border-b border-gold-700/40 bg-obsidian-950/95 backdrop-blur-md sticky top-0 z-50">
         <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 h-20 flex items-center justify-between">
             <div class="flex items-center gap-4">
-                <div class="h-12 w-12 rounded-xl bg-gradient-to-br from-gold-400 via-gold-600 to-amber-900 flex items-center justify-center shadow-lg shadow-gold-500/20 text-obsidian-950 text-2xl font-black border border-gold-300">
+                <div class="h-12 w-12 rounded-xl bg-gradient-to-br from-gold-300 via-gold-500 to-amber-800 flex items-center justify-center shadow-lg shadow-gold-500/20 text-obsidian-950 text-2xl font-black border border-gold-200">
                     ♚
                 </div>
                 <div>
-                    <div class="flex items-center gap-2.5">
-                        <h1 class="font-baroque font-black text-2xl tracking-wider text-transparent bg-clip-text bg-gradient-to-r from-gold-200 via-gold-400 to-amber-600 drop-shadow">
+                    <div class="flex items-center gap-3">
+                        <h1 class="font-baroque font-black text-2xl sm:text-3xl text-transparent bg-clip-text bg-gradient-to-r from-gold-100 via-gold-300 to-amber-500 drop-shadow">
                             Chessulator
                         </h1>
-                        <span class="px-2.5 py-0.5 text-[10px] font-cinzel font-bold tracking-widest rounded-full bg-gold-500/10 text-gold-300 border border-gold-500/30">
+                        <span class="px-3 py-0.5 text-xs font-serif font-bold rounded-full bg-gold-500/15 text-gold-200 border border-gold-500/40">
                             Baroque Win Oracle
                         </span>
                     </div>
-                    <p class="text-xs font-serif italic text-gold-200/70 tracking-wide">
+                    <p class="text-sm font-serif italic text-gold-200/90">
                         Sovereign Chessboard &amp; Real-Time Strategic Win Probability Calculus
                     </p>
                 </div>
@@ -512,168 +498,215 @@
 
             <!-- Top Header Action Controls -->
             <div class="flex items-center gap-2 sm:gap-3">
-                <button id="soundToggleBtn" onclick="toggleSound()" class="btn-royal px-3 py-2 rounded-lg text-xs flex items-center gap-1.5" title="Toggle Synthesized Audio">
+                <button id="soundToggleBtn" onclick="toggleSound()" class="btn-royal px-3.5 py-2 rounded-xl text-sm flex items-center gap-2" title="Toggle Synthesized Audio">
                     <i id="soundIcon" class="fa-solid fa-volume-high text-gold-400"></i>
-                    <span class="hidden md:inline text-[11px]">Audio</span>
+                    <span class="hidden md:inline font-sans font-medium text-xs">Audio</span>
                 </button>
-                <button onclick="undoMove()" class="btn-royal px-3 py-2 rounded-lg text-xs flex items-center gap-1.5" title="Undo Move (Z)">
+                <button onclick="undoMove()" class="btn-royal px-3.5 py-2 rounded-xl text-sm flex items-center gap-2" title="Undo Move (Z)">
                     <i class="fa-solid fa-rotate-left text-gold-400"></i>
-                    <span class="hidden md:inline text-[11px]">Undo</span>
+                    <span class="hidden md:inline font-sans font-medium text-xs">Undo</span>
                 </button>
-                <button onclick="resetGameModal()" class="btn-royal px-3.5 py-2 rounded-lg text-xs flex items-center gap-1.5 border-amber-600/50 hover:border-amber-400" title="Reset Board">
+                <button onclick="resetGameModal()" class="btn-royal px-4 py-2 rounded-xl text-sm flex items-center gap-2 border-amber-600/50 hover:border-amber-400" title="Reset Board">
                     <i class="fa-solid fa-crown text-gold-400"></i>
-                    <span class="text-[11px]">New Match</span>
+                    <span class="font-sans font-medium text-xs">New Match</span>
                 </button>
             </div>
         </div>
     </header>
 
+    <!-- Master Mode & Automaton Arena Ribbon (NEW PROMINENT LOCATION FOR AI BUTTONS) -->
+    <section class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 pt-5 pb-1 w-full">
+        <div class="baroque-panel p-3.5 sm:p-4 rounded-2xl flex flex-wrap items-center justify-between gap-4 border border-gold-600/40 shadow-lg">
+            <div class="flex items-center gap-2.5">
+                <span class="h-9 w-9 rounded-xl bg-gradient-to-br from-gold-500/20 to-amber-700/30 text-gold-300 flex items-center justify-center text-base border border-gold-500/40">
+                    <i class="fa-solid fa-chess"></i>
+                </span>
+                <div>
+                    <span class="font-playfair text-base font-bold text-gold-200">
+                        Match Arena Modes
+                    </span>
+                    <p class="text-xs font-serif text-gold-300/80">
+                        Choose your arena configuration or watch sovereign automata duel
+                    </p>
+                </div>
+            </div>
+
+            <!-- 3 Arena Mode Selector Buttons (Human vs Human, Player vs AI, AI vs AI) -->
+            <div class="flex flex-wrap items-center gap-2 sm:gap-3">
+                <!-- Mode 1: Human vs Human -->
+                <button id="modeHumanBtn" onclick="setArenaMode('human')" class="btn-royal btn-mode-active-gold px-4 py-2 rounded-xl text-sm flex items-center gap-2" title="Manual Alternating Turns">
+                    <i class="fa-solid fa-user-group text-gold-300"></i>
+                    <span>Player vs Player</span>
+                </button>
+
+                <!-- Mode 2: Player vs AI (Automaton Sparring) -->
+                <button id="modeAiSparBtn" onclick="setArenaMode('ai_spar')" class="btn-royal px-4 py-2 rounded-xl text-sm flex items-center gap-2 border-purple-700/60 text-purple-200" title="Spar against the Baroque Automaton Engine">
+                    <i class="fa-solid fa-robot text-purple-400"></i>
+                    <span id="aiSparBtnText">Player vs AI</span>
+                </button>
+
+                <!-- Mode 3: AI vs AI (Automaton Duel / Spectator Mode) -->
+                <button id="modeAiDuelBtn" onclick="setArenaMode('ai_duel')" class="btn-royal px-4 py-2 rounded-xl text-sm flex items-center gap-2 border-amber-500/60 text-amber-200" title="Two AIs challenge each other in automated strategic combat">
+                    <i class="fa-solid fa-bolt-lightning text-amber-400"></i>
+                    <span id="aiDuelBtnText">AI vs AI Duel</span>
+                </button>
+
+                <!-- Duel Sub-Controls (shown when AI vs AI is active) -->
+                <div id="aiDuelControls" class="hidden flex items-center gap-2 pl-2 border-l border-gold-800/60">
+                    <button id="aiDuelPlayPauseBtn" onclick="toggleAiDuelPlayPause()" class="btn-royal btn-royal-primary px-3 py-2 rounded-xl text-xs flex items-center gap-1.5" title="Play / Pause Automated Battle">
+                        <i id="aiDuelPlayPauseIcon" class="fa-solid fa-pause"></i>
+                        <span id="aiDuelPlayPauseText">Pause</span>
+                    </button>
+                    <button onclick="stepAiDuelSingleMove()" class="btn-royal px-3 py-2 rounded-xl text-xs flex items-center gap-1.5" title="Step Next Move">
+                        <i class="fa-solid fa-forward-step text-gold-300"></i>
+                        <span>Step</span>
+                    </button>
+                    <select id="aiSpeedSelect" onchange="changeAiSpeed(this.value)" class="bg-obsidian-900 border border-gold-700 rounded-xl px-2.5 py-1.5 text-xs text-gold-200 focus:outline-none focus:border-gold-400">
+                        <option value="900" selected>Normal (0.9s)</option>
+                        <option value="500">Fast (0.5s)</option>
+                        <option value="1500">Slow (1.5s)</option>
+                    </select>
+                </div>
+            </div>
+        </div>
+    </section>
+
     <!-- Main Workspace Container -->
-    <main class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-6 sm:py-8 flex-1 w-full grid grid-cols-1 lg:grid-cols-12 gap-8 items-start">
+    <main class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-5 sm:py-7 flex-1 w-full grid grid-cols-1 lg:grid-cols-12 gap-8 items-start">
 
         <!-- LEFT COLUMN: The Chess Board & Interactive Playing Arena (7 cols) -->
         <div class="lg:col-span-7 flex flex-col items-center gap-5 w-full">
 
             <!-- Turn Banner & Sovereign Status -->
-            <div class="w-full baroque-panel rounded-xl p-3.5 px-5 flex items-center justify-between border border-gold-600/30">
-                <div class="corner-filigree top-left"></div>
-                <div class="corner-filigree top-right"></div>
-                <div class="corner-filigree bottom-left"></div>
-                <div class="corner-filigree bottom-right"></div>
-
-                <div class="flex items-center gap-3">
-                    <div id="turnIndicatorBadge" class="h-9 w-9 rounded-lg flex items-center justify-center font-serif text-xl border shadow-inner transition-all duration-300 bg-amber-100 text-obsidian-950 border-gold-300">
+            <div class="w-full baroque-panel rounded-2xl p-4 px-6 flex items-center justify-between border border-gold-600/35">
+                <div class="flex items-center gap-3.5">
+                    <div id="turnIndicatorBadge" class="h-10 w-10 rounded-xl flex items-center justify-center font-serif text-2xl border shadow-inner transition-all duration-300 bg-amber-100 text-obsidian-950 border-gold-300">
                         ♔
                     </div>
                     <div>
-                        <div class="text-[10px] font-cinzel font-bold tracking-widest text-gold-400/80">Active Ply</div>
-                        <div id="turnText" class="font-cinzel font-bold text-base text-gold-100 flex items-center gap-2">
+                        <div class="text-xs font-serif font-bold text-gold-300/90 tracking-wider">Active Turn</div>
+                        <div id="turnText" class="font-playfair font-bold text-lg text-gold-100 flex items-center gap-2">
                             White's Sovereign Move
                         </div>
                     </div>
                 </div>
 
-                <div class="flex items-center gap-4 text-right">
+                <div class="flex items-center gap-5 text-right">
                     <div class="hidden sm:block">
-                        <div class="text-[10px] font-cinzel font-bold tracking-widest text-gold-400/80">Game Phase</div>
-                        <div id="gamePhaseText" class="text-xs font-serif text-gold-200">Opening Gambits</div>
+                        <div class="text-xs font-serif font-bold text-gold-300/90 tracking-wider">Game Phase</div>
+                        <div id="gamePhaseText" class="text-sm font-serif font-medium text-gold-200">Opening Gambits</div>
                     </div>
-                    <div class="h-8 w-px bg-gold-700/40 hidden sm:block"></div>
+                    <div class="h-9 w-px bg-gold-700/40 hidden sm:block"></div>
                     <div>
-                        <div class="text-[10px] font-cinzel font-bold tracking-widest text-gold-400/80">Move Count</div>
-                        <div id="plyCountText" class="font-mono font-bold text-sm text-gold-300">Ply #1</div>
+                        <div class="text-xs font-serif font-bold text-gold-300/90 tracking-wider">Move Count</div>
+                        <div id="plyCountText" class="font-mono font-bold text-base text-gold-300">Ply #1</div>
                     </div>
                 </div>
             </div>
 
             <!-- Black Captured Pieces Rack (Top) -->
-            <div class="w-full flex items-center justify-between px-3 py-1.5 bg-obsidian-900/60 rounded-lg border border-gold-900/40 text-xs">
+            <div class="w-full flex items-center justify-between px-4 py-2 bg-obsidian-900/80 rounded-xl border border-gold-900/50 text-sm">
                 <div class="flex items-center gap-2">
-                    <span class="font-cinzel text-xs font-bold text-gold-300">Black</span>
-                    <span id="blackAdvantagePill" class="text-[10px] font-mono font-bold px-1.5 py-0.5 rounded bg-amber-950 text-gold-300 border border-gold-700/50 hidden">+0</span>
+                    <span class="font-playfair text-sm font-bold text-gold-300">Black</span>
+                    <span id="blackAdvantagePill" class="text-xs font-mono font-bold px-2 py-0.5 rounded-md bg-amber-950 text-gold-200 border border-gold-700/50 hidden">+0</span>
                 </div>
-                <div id="blackCapturedBox" class="flex items-center gap-1 min-h-[22px]"></div>
+                <div id="blackCapturedBox" class="flex items-center gap-1.5 min-h-[26px]"></div>
             </div>
 
             <!-- THE CHESSBOARD -->
-            <div class="chessboard-chassis w-full max-w-[620px]">
+            <div class="chessboard-chassis w-full max-w-[630px]">
                 <div id="chessBoard" class="board-grid">
-                    <!-- 64 Squares will be injected dynamically by JS -->
+                    <!-- 64 Squares injected dynamically by JS -->
                 </div>
             </div>
 
             <!-- White Captured Pieces Rack (Bottom) -->
-            <div class="w-full flex items-center justify-between px-3 py-1.5 bg-obsidian-900/60 rounded-lg border border-gold-900/40 text-xs">
+            <div class="w-full flex items-center justify-between px-4 py-2 bg-obsidian-900/80 rounded-xl border border-gold-900/50 text-sm">
                 <div class="flex items-center gap-2">
-                    <span class="font-cinzel text-xs font-bold text-gold-300">White</span>
-                    <span id="whiteAdvantagePill" class="text-[10px] font-mono font-bold px-1.5 py-0.5 rounded bg-amber-950 text-gold-300 border border-gold-700/50 hidden">+0</span>
+                    <span class="font-playfair text-sm font-bold text-gold-300">White</span>
+                    <span id="whiteAdvantagePill" class="text-xs font-mono font-bold px-2 py-0.5 rounded-md bg-amber-950 text-gold-200 border border-gold-700/50 hidden">+0</span>
                 </div>
-                <div id="whiteCapturedBox" class="flex items-center gap-1 min-h-[22px]"></div>
+                <div id="whiteCapturedBox" class="flex items-center gap-1.5 min-h-[26px]"></div>
             </div>
 
             <!-- Interactive Move Legend & Hover Instructions -->
-            <div class="w-full grid grid-cols-2 sm:grid-cols-4 gap-2 text-center text-[11px] font-serif text-gold-200/80">
-                <div class="p-2 rounded bg-obsidian-900/50 border border-emerald-500/30 flex items-center justify-center gap-1.5">
-                    <span class="h-2 w-2 rounded-full bg-emerald-400 shadow-sm shadow-emerald-400"></span>
+            <div class="w-full grid grid-cols-2 sm:grid-cols-4 gap-2.5 text-center text-xs sm:text-sm font-serif text-gold-100">
+                <div class="p-2.5 rounded-xl bg-obsidian-900/70 border border-emerald-500/40 flex items-center justify-center gap-2">
+                    <span class="h-2.5 w-2.5 rounded-full bg-emerald-400 shadow-sm shadow-emerald-400"></span>
                     <span><strong>💎 Brilliant</strong> (&gt;+5%)</span>
                 </div>
-                <div class="p-2 rounded bg-obsidian-900/50 border border-sky-500/30 flex items-center justify-center gap-1.5">
-                    <span class="h-2 w-2 rounded-full bg-sky-400 shadow-sm shadow-sky-400"></span>
+                <div class="p-2.5 rounded-xl bg-obsidian-900/70 border border-sky-500/40 flex items-center justify-center gap-2">
+                    <span class="h-2.5 w-2.5 rounded-full bg-sky-400 shadow-sm shadow-sky-400"></span>
                     <span><strong>✨ Good</strong> (+0 to +5%)</span>
                 </div>
-                <div class="p-2 rounded bg-obsidian-900/50 border border-amber-500/30 flex items-center justify-center gap-1.5">
-                    <span class="h-2 w-2 rounded-full bg-amber-400 shadow-sm shadow-amber-400"></span>
+                <div class="p-2.5 rounded-xl bg-obsidian-900/70 border border-amber-500/40 flex items-center justify-center gap-2">
+                    <span class="h-2.5 w-2.5 rounded-full bg-amber-400 shadow-sm shadow-amber-400"></span>
                     <span><strong>⚠️ Mistake</strong> (-6% to -15%)</span>
                 </div>
-                <div class="p-2 rounded bg-obsidian-900/50 border border-red-500/30 flex items-center justify-center gap-1.5">
-                    <span class="h-2 w-2 rounded-full bg-red-500 shadow-sm shadow-red-500"></span>
+                <div class="p-2.5 rounded-xl bg-obsidian-900/70 border border-red-500/40 flex items-center justify-center gap-2">
+                    <span class="h-2.5 w-2.5 rounded-full bg-red-500 shadow-sm shadow-red-500"></span>
                     <span><strong>💀 Blunder</strong> (&lt;-15%)</span>
                 </div>
             </div>
 
-            <!-- Next Moves, Win Probabilities & Strategic Advisor Panel (Replaced Master Openings) -->
-            <div id="nextMovesAdvisorPanel" class="w-full baroque-panel rounded-xl p-4 flex flex-col gap-3.5 text-xs">
-                <div class="corner-filigree top-left"></div>
-                <div class="corner-filigree top-right"></div>
-                <div class="corner-filigree bottom-left"></div>
-                <div class="corner-filigree bottom-right"></div>
-
+            <!-- Next Moves, Win Probabilities & Strategic Advisor Panel -->
+            <div id="nextMovesAdvisorPanel" class="w-full baroque-panel rounded-2xl p-5 flex flex-col gap-4 text-sm">
                 <!-- Header / Context Bar -->
-                <div class="flex items-center justify-between border-b border-gold-800/40 pb-2.5">
-                    <div class="flex items-center gap-2">
-                        <span class="h-6 w-6 rounded-md bg-gold-500/20 text-gold-300 flex items-center justify-center text-xs border border-gold-500/40">
+                <div class="flex items-center justify-between border-b border-gold-800/40 pb-3">
+                    <div class="flex items-center gap-2.5">
+                        <span class="h-7 w-7 rounded-lg bg-gold-500/20 text-gold-300 flex items-center justify-center text-sm border border-gold-500/40">
                             <i class="fa-solid fa-chess-knight"></i>
                         </span>
                         <div>
-                            <span class="font-cinzel text-gold-200 font-bold text-xs tracking-wide">
+                            <span class="font-playfair text-gold-100 font-bold text-sm sm:text-base">
                                 Next Move Guidance &amp; Strategic Counsel
                             </span>
-                            <p id="activeTurnStrategySubtitle" class="text-[10px] font-serif italic text-gold-400/80">
+                            <p id="activeTurnStrategySubtitle" class="text-xs font-serif italic text-gold-300/80">
                                 Hover any candidate move for probability analysis &amp; strategy
                             </p>
                         </div>
                     </div>
-                    <div id="candidateMovesCountBadge" class="font-mono text-[10px] px-2 py-0.5 rounded bg-gold-950/80 text-gold-300 border border-gold-700/50">
+                    <div id="candidateMovesCountBadge" class="font-mono text-xs px-2.5 py-1 rounded-md bg-gold-950/90 text-gold-200 border border-gold-700/60 font-bold">
                         20 Legal Paths
                     </div>
                 </div>
 
                 <!-- Interactive Candidate Move Chips Container with Tooltips -->
-                <div class="flex flex-col gap-1.5">
-                    <div class="flex items-center justify-between text-[11px] font-cinzel text-gold-400">
+                <div class="flex flex-col gap-2">
+                    <div class="flex items-center justify-between text-xs sm:text-sm font-playfair font-bold text-gold-300">
                         <span>Top Candidate Moves</span>
-                        <span class="text-[10px] font-serif italic text-gold-300/70">Hover for strategic tooltip &amp; board highlight</span>
+                        <span class="text-xs font-serif italic text-gold-200/70">Hover for strategic tooltip &amp; board highlight</span>
                     </div>
-                    <div id="candidateMovesList" class="flex flex-wrap gap-2 pt-1 pb-1 min-h-[42px] items-center">
+                    <div id="candidateMovesList" class="flex flex-wrap gap-2.5 pt-1 pb-1 min-h-[46px] items-center">
                         <!-- Dynamically populated candidate move cards with tooltips -->
                     </div>
                 </div>
 
                 <!-- Dynamic "How to Strategize" Counsel Box -->
-                <div id="howToStrategizeBox" class="p-3 bg-obsidian-950/80 rounded-lg border border-gold-700/40 flex flex-col gap-2">
-                    <div class="flex items-center justify-between text-[11px] font-cinzel text-gold-300 font-bold">
-                        <span class="flex items-center gap-1.5">
+                <div id="howToStrategizeBox" class="p-4 bg-obsidian-950/90 rounded-xl border border-gold-700/40 flex flex-col gap-2.5">
+                    <div class="flex items-center justify-between text-sm font-playfair text-gold-300 font-bold">
+                        <span class="flex items-center gap-2">
                             <i class="fa-solid fa-compass text-amber-400"></i> How to Strategize
                         </span>
-                        <span id="strategicPhaseBadge" class="text-[10px] font-serif text-gold-400/90 italic">
+                        <span id="strategicPhaseBadge" class="text-xs font-serif text-gold-200 italic">
                             Opening Principles
                         </span>
                     </div>
-                    <p id="strategicDirectiveText" class="text-[11px] font-serif text-gold-100/90 leading-relaxed">
+                    <p id="strategicDirectiveText" class="text-xs sm:text-sm font-serif text-gold-100 leading-relaxed">
                         Seize central space (e4, d4), mobilize knights and bishops toward active squares, safeguard the king through early castling, and avoid premature queen lunges.
                     </p>
-                    <div id="strategicKeyPoints" class="grid grid-cols-1 sm:grid-cols-3 gap-2 mt-0.5 pt-2 border-t border-gold-900/50 text-[10px] font-serif text-gold-300/80">
-                        <div class="flex items-start gap-1.5 bg-obsidian-900/60 p-1.5 rounded border border-gold-900/30">
-                            <span class="text-amber-400 font-bold">1.</span>
-                            <span id="stratPoint1">Occupy Center (e4/d4)</span>
+                    <div id="strategicKeyPoints" class="grid grid-cols-1 sm:grid-cols-3 gap-2.5 mt-1 pt-2.5 border-t border-gold-900/50 text-xs font-serif text-gold-200">
+                        <div class="flex items-start gap-2 bg-obsidian-900/70 p-2 rounded-lg border border-gold-900/40">
+                            <span class="text-amber-400 font-bold text-sm">1.</span>
+                            <span id="stratPoint1" class="font-medium">Occupy Center (e4/d4)</span>
                         </div>
-                        <div class="flex items-start gap-1.5 bg-obsidian-900/60 p-1.5 rounded border border-gold-900/30">
-                            <span class="text-amber-400 font-bold">2.</span>
-                            <span id="stratPoint2">Develop Knights &amp; Bishops</span>
+                        <div class="flex items-start gap-2 bg-obsidian-900/70 p-2 rounded-lg border border-gold-900/40">
+                            <span class="text-amber-400 font-bold text-sm">2.</span>
+                            <span id="stratPoint2" class="font-medium">Develop Knights &amp; Bishops</span>
                         </div>
-                        <div class="flex items-start gap-1.5 bg-obsidian-900/60 p-1.5 rounded border border-gold-900/30">
-                            <span class="text-amber-400 font-bold">3.</span>
-                            <span id="stratPoint3">Prepare Kingside Castle</span>
+                        <div class="flex items-start gap-2 bg-obsidian-900/70 p-2 rounded-lg border border-gold-900/40">
+                            <span class="text-amber-400 font-bold text-sm">3.</span>
+                            <span id="stratPoint3" class="font-medium">Prepare Kingside Castle</span>
                         </div>
                     </div>
                 </div>
@@ -686,58 +719,53 @@
 
             <!-- 1. GRAND WIN EVALUATION CALCULATOR -->
             <div class="baroque-panel rounded-2xl p-6 sm:p-7 relative overflow-hidden flex flex-col gap-6">
-                <div class="corner-filigree top-left"></div>
-                <div class="corner-filigree top-right"></div>
-                <div class="corner-filigree bottom-left"></div>
-                <div class="corner-filigree bottom-right"></div>
-
                 <!-- Grand Title -->
                 <div class="text-center border-b border-gold-700/40 pb-4">
-                    <div class="text-[11px] font-cinzel font-black tracking-[0.25em] text-gold-400">
+                    <div class="text-xs font-playfair font-bold tracking-[0.2em] text-gold-300">
                         The Sovereign Oracle
                     </div>
-                    <h2 class="font-baroque text-2xl sm:text-3xl font-black text-transparent bg-clip-text bg-gradient-to-r from-gold-100 via-gold-300 to-amber-500 mt-1">
+                    <h2 class="font-baroque text-3xl sm:text-4xl font-black text-transparent bg-clip-text bg-gradient-to-r from-gold-100 via-gold-300 to-amber-500 mt-1">
                         Calculation to Win
                     </h2>
-                    <p id="evalCommentary" class="text-xs font-serif italic text-gold-200/80 mt-1">
+                    <p id="evalCommentary" class="text-sm font-serif italic text-gold-200 mt-1">
                         "Equal parity at opening assembly. All possibilities await."
                     </p>
                 </div>
 
                 <!-- HUGE WIN PROBABILITY DISPLAY -->
-                <div class="grid grid-cols-2 gap-4 items-center bg-obsidian-950/80 p-5 rounded-xl border border-gold-600/40 shadow-inner">
+                <div class="grid grid-cols-2 gap-4 items-center bg-obsidian-950/90 p-5 rounded-2xl border border-gold-600/45 shadow-inner">
                     <!-- White Probability -->
                     <div class="text-center">
-                        <div class="flex items-center justify-center gap-1.5 text-xs font-cinzel font-bold text-gold-300 tracking-wider mb-1">
-                            <span class="text-lg">♔</span> White
+                        <div class="flex items-center justify-center gap-1.5 text-sm font-playfair font-bold text-gold-200 mb-1">
+                            <span class="text-xl">♔</span> White
                         </div>
-                        <div id="whiteWinPctLarge" class="font-baroque text-3xl sm:text-4xl lg:text-5xl font-black text-white drop-shadow-[0_2px_12px_rgba(223,177,91,0.6)]">
+                        <div id="whiteWinPctLarge" class="font-baroque text-4xl sm:text-5xl lg:text-6xl font-black text-white drop-shadow-[0_2px_14px_rgba(223,177,91,0.6)]">
                             50.0%
                         </div>
-                        <div id="whiteAdvantageTag" class="text-[11px] font-serif text-gold-400 mt-1">
+                        <div id="whiteAdvantageTag" class="text-xs sm:text-sm font-serif font-medium text-gold-300 mt-1">
                             Baseline parity
                         </div>
                     </div>
 
                     <!-- Black Probability -->
-                    <div class="text-center border-l border-gold-800/50 pl-4">
-                        <div class="flex items-center justify-center gap-1.5 text-xs font-cinzel font-bold text-slate-400 tracking-wider mb-1">
-                            <span class="text-lg">♚</span> Black
+                    <div class="text-center border-l border-gold-800/60 pl-4">
+                        <div class="flex items-center justify-center gap-1.5 text-sm font-playfair font-bold text-slate-300 mb-1">
+                            <span class="text-xl">♚</span> Black
                         </div>
-                        <div id="blackWinPctLarge" class="font-baroque text-3xl sm:text-4xl lg:text-5xl font-black text-slate-300 drop-shadow-[0_2px_12px_rgba(255,255,255,0.2)]">
+                        <div id="blackWinPctLarge" class="font-baroque text-4xl sm:text-5xl lg:text-6xl font-black text-slate-200 drop-shadow-[0_2px_14px_rgba(255,255,255,0.25)]">
                             50.0%
                         </div>
-                        <div id="blackAdvantageTag" class="text-[11px] font-serif text-slate-400 mt-1">
+                        <div id="blackAdvantageTag" class="text-xs sm:text-sm font-serif font-medium text-slate-400 mt-1">
                             Baseline parity
                         </div>
                     </div>
                 </div>
 
                 <!-- Dynamic Win Probability Gauge Bar -->
-                <div class="space-y-2">
-                    <div class="flex justify-between text-[11px] font-cinzel font-bold text-gold-300">
+                <div class="space-y-2.5">
+                    <div class="flex justify-between text-xs sm:text-sm font-playfair font-bold text-gold-200">
                         <span>White Advantage</span>
-                        <span id="centipawnReadout" class="font-mono font-black text-xs text-gold-400 bg-obsidian-900 px-2 py-0.5 rounded border border-gold-700/50">
+                        <span id="centipawnReadout" class="font-mono font-black text-sm text-gold-300 bg-obsidian-900 px-2.5 py-0.5 rounded-md border border-gold-700/60">
                             +0.00
                         </span>
                         <span>Black Advantage</span>
@@ -750,53 +778,53 @@
                 </div>
 
                 <!-- Positional Telemetry & Strategic Analysis Breakdown -->
-                <div class="space-y-3 pt-2 border-t border-gold-800/40">
-                    <div class="text-[11px] font-cinzel font-bold tracking-wider text-gold-400 flex items-center justify-between">
-                        <span><i class="fa-solid fa-chart-pie mr-1 text-gold-500"></i> Positional Telemetry</span>
-                        <span id="depthTelemetry" class="text-[10px] font-mono text-gold-300/70">Calculus Engine v4.8</span>
+                <div class="space-y-3.5 pt-2 border-t border-gold-800/40">
+                    <div class="text-xs sm:text-sm font-playfair font-bold tracking-wide text-gold-300 flex items-center justify-between">
+                        <span><i class="fa-solid fa-chart-pie mr-1.5 text-gold-400"></i> Positional Telemetry</span>
+                        <span id="depthTelemetry" class="text-xs font-mono text-gold-300/80">Calculus Engine v5.0</span>
                     </div>
 
-                    <div class="space-y-2.5 text-xs">
+                    <div class="space-y-3 text-xs sm:text-sm">
                         <!-- Material Balance -->
                         <div>
-                            <div class="flex justify-between text-gold-200/90 text-[11px] mb-1">
-                                <span class="flex items-center gap-1.5"><i class="fa-solid fa-shield-halved text-gold-500"></i> Material Supremacy</span>
+                            <div class="flex justify-between text-gold-100 text-xs sm:text-sm mb-1">
+                                <span class="flex items-center gap-2"><i class="fa-solid fa-shield-halved text-gold-400"></i> Material Supremacy</span>
                                 <span id="telemetryMaterial" class="font-mono font-bold text-gold-300">Equal (39 vs 39)</span>
                             </div>
-                            <div class="w-full bg-obsidian-950 h-1.5 rounded-full overflow-hidden border border-gold-900/50">
+                            <div class="w-full bg-obsidian-950 h-2 rounded-full overflow-hidden border border-gold-900/60">
                                 <div id="barMaterial" class="h-full bg-gradient-to-r from-gold-500 to-amber-300" style="width: 50%"></div>
                             </div>
                         </div>
 
                         <!-- Center Control -->
                         <div>
-                            <div class="flex justify-between text-gold-200/90 text-[11px] mb-1">
-                                <span class="flex items-center gap-1.5"><i class="fa-solid fa-chess-board text-gold-500"></i> Center Dominion &amp; Space</span>
+                            <div class="flex justify-between text-gold-100 text-xs sm:text-sm mb-1">
+                                <span class="flex items-center gap-2"><i class="fa-solid fa-chess-board text-gold-400"></i> Center Dominion &amp; Space</span>
                                 <span id="telemetryCenter" class="font-mono font-bold text-gold-300">Contested</span>
                             </div>
-                            <div class="w-full bg-obsidian-950 h-1.5 rounded-full overflow-hidden border border-gold-900/50">
+                            <div class="w-full bg-obsidian-950 h-2 rounded-full overflow-hidden border border-gold-900/60">
                                 <div id="barCenter" class="h-full bg-gradient-to-r from-gold-500 to-amber-300" style="width: 50%"></div>
                             </div>
                         </div>
 
                         <!-- Piece Mobility & Attack Vectors -->
                         <div>
-                            <div class="flex justify-between text-gold-200/90 text-[11px] mb-1">
-                                <span class="flex items-center gap-1.5"><i class="fa-solid fa-bolt text-gold-500"></i> Piece Mobility &amp; Threat Range</span>
+                            <div class="flex justify-between text-gold-100 text-xs sm:text-sm mb-1">
+                                <span class="flex items-center gap-2"><i class="fa-solid fa-bolt text-gold-400"></i> Piece Mobility &amp; Threat Range</span>
                                 <span id="telemetryMobility" class="font-mono font-bold text-gold-300">20 moves vs 20 moves</span>
                             </div>
-                            <div class="w-full bg-obsidian-950 h-1.5 rounded-full overflow-hidden border border-gold-900/50">
+                            <div class="w-full bg-obsidian-950 h-2 rounded-full overflow-hidden border border-gold-900/60">
                                 <div id="barMobility" class="h-full bg-gradient-to-r from-gold-500 to-amber-300" style="width: 50%"></div>
                             </div>
                         </div>
 
                         <!-- King Fortification -->
                         <div>
-                            <div class="flex justify-between text-gold-200/90 text-[11px] mb-1">
-                                <span class="flex items-center gap-1.5"><i class="fa-solid fa-chess-king text-gold-500"></i> King Safety &amp; Bastion Shield</span>
+                            <div class="flex justify-between text-gold-100 text-xs sm:text-sm mb-1">
+                                <span class="flex items-center gap-2"><i class="fa-solid fa-chess-king text-gold-400"></i> King Safety &amp; Bastion Shield</span>
                                 <span id="telemetryKing" class="font-mono font-bold text-gold-300">Uncastled // Sealed</span>
                             </div>
-                            <div class="w-full bg-obsidian-950 h-1.5 rounded-full overflow-hidden border border-gold-900/50">
+                            <div class="w-full bg-obsidian-950 h-2 rounded-full overflow-hidden border border-gold-900/60">
                                 <div id="barKing" class="h-full bg-gradient-to-r from-gold-500 to-amber-300" style="width: 50%"></div>
                             </div>
                         </div>
@@ -804,20 +832,20 @@
                 </div>
 
                 <!-- Hover Move Preview Live Inspector -->
-                <div id="hoverInspectorPanel" class="p-3.5 bg-obsidian-950/90 rounded-xl border border-gold-500/40 hidden transition-all">
-                    <div class="flex items-center justify-between text-xs mb-1">
-                        <span class="font-cinzel font-bold text-gold-300 flex items-center gap-1.5">
+                <div id="hoverInspectorPanel" class="p-4 bg-obsidian-950/95 rounded-2xl border border-gold-500/50 hidden transition-all">
+                    <div class="flex items-center justify-between text-sm mb-1.5">
+                        <span class="font-playfair font-bold text-gold-200 flex items-center gap-2">
                             <i class="fa-solid fa-wand-magic-sparkles text-amber-400"></i> Hovered Move Analysis:
                         </span>
-                        <span id="hoverMoveBadge" class="font-mono font-bold px-2 py-0.5 rounded text-[11px] bg-emerald-950 text-emerald-300 border border-emerald-600">
+                        <span id="hoverMoveBadge" class="font-mono font-bold px-2.5 py-0.5 rounded-md text-xs bg-emerald-950 text-emerald-300 border border-emerald-600">
                             e2 ➔ e4
                         </span>
                     </div>
-                    <p id="hoverMoveDesc" class="text-[11px] font-serif text-gold-200/90">
+                    <p id="hoverMoveDesc" class="text-xs sm:text-sm font-serif text-gold-100 leading-relaxed">
                         Seizes central squares, opens diagonals for Queen and Bishop.
                     </p>
-                    <div class="flex items-center justify-between text-[11px] font-mono text-gold-400 mt-2 pt-2 border-t border-gold-900/50">
-                        <span>Projected Win: <strong id="hoverWinRateText" class="text-white">52.8%</strong></span>
+                    <div class="flex items-center justify-between text-xs sm:text-sm font-mono text-gold-300 mt-2.5 pt-2.5 border-t border-gold-900/50">
+                        <span>Projected Win: <strong id="hoverWinRateText" class="text-white font-bold">52.8%</strong></span>
                         <span id="hoverDeltaText" class="text-emerald-400 font-bold">+2.8% Delta</span>
                     </div>
                 </div>
@@ -825,47 +853,39 @@
             </div>
 
             <!-- 2. MOVE HISTORY LEDGER & WIN RATE SPARKLINE -->
-            <div class="baroque-panel rounded-2xl p-5 relative overflow-hidden flex flex-col gap-4">
-                <div class="corner-filigree top-left"></div>
-                <div class="corner-filigree top-right"></div>
-                <div class="corner-filigree bottom-left"></div>
-                <div class="corner-filigree bottom-right"></div>
-
+            <div class="baroque-panel rounded-2xl p-5 sm:p-6 relative overflow-hidden flex flex-col gap-4">
                 <div class="flex items-center justify-between border-b border-gold-800/40 pb-3">
-                    <span class="font-cinzel text-xs font-bold tracking-wider text-gold-300 flex items-center gap-2">
+                    <span class="font-playfair text-sm sm:text-base font-bold text-gold-200 flex items-center gap-2">
                         <i class="fa-solid fa-book-bookmark text-gold-400"></i> Royal Match Ledger
                     </span>
-                    <button onclick="copyPGN()" class="text-[11px] text-gold-400 hover:text-gold-200 font-cinzel transition flex items-center gap-1">
+                    <button onclick="copyPGN()" class="text-xs sm:text-sm text-gold-300 hover:text-white font-playfair font-semibold transition flex items-center gap-1.5">
                         <i class="fa-solid fa-copy"></i> Copy PGN
                     </button>
                 </div>
 
                 <!-- Win Trajectory Canvas Sparkline -->
-                <div class="w-full bg-obsidian-950/80 p-2.5 rounded-lg border border-gold-900/50">
-                    <div class="flex justify-between text-[10px] font-cinzel text-gold-400 mb-1">
+                <div class="w-full bg-obsidian-950/80 p-3 rounded-xl border border-gold-900/50">
+                    <div class="flex justify-between text-xs font-playfair font-bold text-gold-300 mb-1.5">
                         <span>Win Trajectory Curve</span>
-                        <span id="sparklineTrend" class="font-mono text-emerald-400">+0.0 Balanced</span>
+                        <span id="sparklineTrend" class="font-mono text-emerald-400 font-bold">+0.0 Balanced</span>
                     </div>
-                    <canvas id="evalSparkline" class="w-full h-14 block"></canvas>
+                    <canvas id="evalSparkline" class="w-full h-16 block"></canvas>
                 </div>
 
                 <!-- Scrollable Move Log Table -->
-                <div id="moveLogList" class="h-44 overflow-y-auto space-y-1 font-mono text-xs pr-1 divide-y divide-gold-900/20">
-                    <div class="text-center text-gold-400/60 font-serif italic py-6">
+                <div id="moveLogList" class="h-48 overflow-y-auto space-y-1 font-mono text-xs sm:text-sm pr-1 divide-y divide-gold-900/20">
+                    <div class="text-center text-gold-300/70 font-serif italic py-7 text-sm">
                         No moves recorded. The board awaits the first play.
                     </div>
                 </div>
 
-                <!-- Auxiliary Controls: FEN, Mode Toggle -->
-                <div class="flex items-center justify-between gap-2 pt-2 border-t border-gold-800/30 text-xs font-cinzel">
-                    <button onclick="copyFEN()" class="btn-royal px-2.5 py-1.5 rounded text-[11px] flex-1 flex items-center justify-center gap-1">
-                        <i class="fa-solid fa-fingerprint"></i> FEN
+                <!-- Auxiliary Controls: FEN Export & Import -->
+                <div class="flex items-center justify-between gap-3 pt-2.5 border-t border-gold-800/30 text-sm">
+                    <button onclick="copyFEN()" class="btn-royal px-3 py-2 rounded-xl text-xs sm:text-sm flex-1 flex items-center justify-center gap-1.5">
+                        <i class="fa-solid fa-fingerprint"></i> Copy FEN
                     </button>
-                    <button onclick="openCustomFENModal()" class="btn-royal px-2.5 py-1.5 rounded text-[11px] flex-1 flex items-center justify-center gap-1">
+                    <button onclick="openCustomFENModal()" class="btn-royal px-3 py-2 rounded-xl text-xs sm:text-sm flex-1 flex items-center justify-center gap-1.5">
                         <i class="fa-solid fa-upload"></i> Load FEN
-                    </button>
-                    <button id="aiToggleBtn" onclick="toggleAIAutoOpponent()" class="btn-royal px-2.5 py-1.5 rounded text-[11px] flex-1 flex items-center justify-center gap-1 border-purple-800/50 text-purple-300" title="Spar against the Baroque Automaton Engine">
-                        <i class="fa-solid fa-robot"></i> <span id="aiStatusText">AI: Off</span>
                     </button>
                 </div>
 
@@ -875,51 +895,41 @@
 
     </main>
 
-    <!-- Promotion Selection Modal (Baroque Gilded) -->
+    <!-- Promotion Selection Modal -->
     <div id="promotionModal" class="fixed inset-0 baroque-modal-backdrop z-50 hidden flex items-center justify-center p-4">
         <div class="baroque-panel rounded-2xl p-6 max-w-sm w-full text-center border-2 border-gold-400 shadow-2xl">
-            <div class="corner-filigree top-left"></div>
-            <div class="corner-filigree top-right"></div>
-            <div class="corner-filigree bottom-left"></div>
-            <div class="corner-filigree bottom-right"></div>
-
-            <div class="h-10 w-10 mx-auto rounded-full bg-gradient-to-br from-gold-300 to-amber-600 flex items-center justify-center text-obsidian-950 text-xl font-bold mb-3">
+            <div class="h-12 w-12 mx-auto rounded-full bg-gradient-to-br from-gold-300 to-amber-600 flex items-center justify-center text-obsidian-950 text-2xl font-bold mb-3 shadow-lg">
                 ⚜
             </div>
-            <h3 class="font-baroque text-xl font-black text-gold-200">Sovereign Pawn Promotion</h3>
-            <p class="text-xs font-serif italic text-gold-300/80 mb-5">Select the noble rank for your ascended pawn:</p>
+            <h3 class="font-baroque text-2xl font-black text-gold-100">Sovereign Pawn Promotion</h3>
+            <p class="text-sm font-serif italic text-gold-200 mb-5">Select the noble rank for your ascended pawn:</p>
 
             <div class="grid grid-cols-4 gap-3 mb-5" id="promotionPiecesGrid">
                 <!-- Buttons injected dynamically with Queen, Rook, Bishop, Knight -->
             </div>
 
-            <p class="text-[10px] font-cinzel text-gold-400/60 tracking-wider">Ascension is irrevocable</p>
+            <p class="text-xs font-serif text-gold-400/80">Ascension is irrevocable</p>
         </div>
     </div>
 
     <!-- Custom FEN Modal -->
     <div id="fenModal" class="fixed inset-0 baroque-modal-backdrop z-50 hidden flex items-center justify-center p-4">
         <div class="baroque-panel rounded-2xl p-6 max-w-md w-full border border-gold-500 shadow-2xl space-y-4">
-            <div class="corner-filigree top-left"></div>
-            <div class="corner-filigree top-right"></div>
-            <div class="corner-filigree bottom-left"></div>
-            <div class="corner-filigree bottom-right"></div>
+            <h3 class="font-baroque text-xl font-bold text-gold-200 text-center">Load Custom FEN Position</h3>
+            <input type="text" id="fenInput" placeholder="rnbqkbnr/pppppppp/8/8/8/8/PPPPPPPP/RNBQKBNR w KQkq - 0 1" class="w-full bg-obsidian-950 border border-gold-700 rounded-xl p-3 text-sm font-mono text-gold-100 focus:outline-none focus:border-gold-400" />
 
-            <h3 class="font-baroque text-lg font-bold text-gold-300 text-center">Load Custom FEN Position</h3>
-            <input type="text" id="fenInput" placeholder="rnbqkbnr/pppppppp/8/8/8/8/PPPPPPPP/RNBQKBNR w KQkq - 0 1" class="w-full bg-obsidian-950 border border-gold-700 rounded-lg p-2.5 text-xs font-mono text-gold-100 focus:outline-none focus:border-gold-400" />
-
-            <div class="flex justify-end gap-2 text-xs font-cinzel">
-                <button onclick="closeCustomFENModal()" class="btn-royal px-4 py-2 rounded">Cancel</button>
-                <button onclick="applyCustomFEN()" class="btn-royal btn-royal-primary px-4 py-2 rounded">Apply Position</button>
+            <div class="flex justify-end gap-2 text-sm">
+                <button onclick="closeCustomFENModal()" class="btn-royal px-4 py-2 rounded-xl">Cancel</button>
+                <button onclick="applyCustomFEN()" class="btn-royal btn-royal-primary px-4 py-2 rounded-xl">Apply Position</button>
             </div>
         </div>
     </div>
 
     <!-- Toast Notification Banner -->
     <div id="toast" class="fixed bottom-6 right-6 z-50 transform translate-y-24 opacity-0 transition-all duration-300 pointer-events-none">
-        <div class="baroque-panel bg-obsidian-950/95 border border-gold-500 px-5 py-3 rounded-xl shadow-2xl flex items-center gap-3">
-            <div class="text-gold-400 text-base">⚜</div>
-            <div id="toastMsg" class="font-cinzel text-xs font-bold text-gold-100">Notification</div>
+        <div class="baroque-panel bg-obsidian-950/95 border border-gold-400 px-6 py-3.5 rounded-2xl shadow-2xl flex items-center gap-3">
+            <div class="text-gold-400 text-lg">⚜</div>
+            <div id="toastMsg" class="font-playfair text-sm font-bold text-gold-100">Notification</div>
         </div>
     </div>
 
@@ -931,7 +941,6 @@
          * =========================================================================
          */
 
-        // Standard Chess Constants
         const PIECES = {
             wP: 'wP', wN: 'wN', wB: 'wB', wR: 'wR', wQ: 'wQ', wK: 'wK',
             bP: 'bP', bN: 'bN', bB: 'bB', bR: 'bR', bQ: 'bQ', bK: 'bK',
@@ -940,10 +949,10 @@
 
         const PIECE_VALUES = {
             'P': 100,
-            'N': 320,
-            'B': 335,
-            'R': 500,
-            'Q': 900,
+            'N': 325,
+            'B': 340,
+            'R': 510,
+            'Q': 950,
             'K': 20000
         };
 
@@ -1114,7 +1123,7 @@
                 }
 
                 // Pawn attacks
-                const pawnDir = attackerColor === 'w' ? 1 : -1; // Pawns attack downwards from White's POV if attacker is White
+                const pawnDir = attackerColor === 'w' ? 1 : -1;
                 const pawnAttackers = [
                     [r + pawnDir, c - 1],
                     [r + pawnDir, c + 1]
@@ -1178,7 +1187,6 @@
                 return this.isSquareAttacked(kingPos.r, kingPos.c, enemy);
             }
 
-            // Pseudo-legal generator for a specific square
             generatePseudoMovesForSquare(r, c) {
                 const piece = this.board[r][c];
                 if (!piece) return [];
@@ -1299,7 +1307,6 @@
                 return moves;
             }
 
-            // Legal moves generator: filters out moves that leave king in check
             getLegalMovesForSquare(r, c, forceColor = null) {
                 const piece = this.board[r][c];
                 const activeColor = forceColor || this.turn;
@@ -1411,7 +1418,6 @@
                 this.lastMove = { from, to };
             }
 
-            // Public method to execute a move
             makeMove(move) {
                 // Save state snapshot for history/undo
                 const snapshot = {
@@ -1614,11 +1620,6 @@
             let kingShieldWhite = 0;
             let kingShieldBlack = 0;
 
-            const centerSquares = [
-                [3, 3], [3, 4], [4, 3], [4, 4], // Core
-                [2, 2], [2, 3], [2, 4], [2, 5], [3, 2], [3, 5], [4, 2], [4, 5], [5, 2], [5, 3], [5, 4], [5, 5] // Extended
-            ];
-
             for (let r = 0; r < 8; r++) {
                 for (let c = 0; c < 8; c++) {
                     const piece = state.board[r][c];
@@ -1635,7 +1636,6 @@
                     if (color === 'w') {
                         if (type !== 'K') materialWhite += val;
                         pstWhite += pstVal;
-                        // Center control presence
                         if ((r >= 3 && r <= 4) && (c >= 3 && c <= 4)) centerWhite += 25;
                         else if ((r >= 2 && r <= 5) && (c >= 2 && c <= 5)) centerWhite += 10;
                     } else {
@@ -1650,7 +1650,7 @@
             // King Safety pawn shield heuristics
             const wKing = state.findKing('w');
             if (wKing) {
-                if (wKing.r === 7 && (wKing.c === 6 || wKing.c === 1 || wKing.c === 2)) kingShieldWhite += 40; // Castled
+                if (wKing.r === 7 && (wKing.c === 6 || wKing.c === 1 || wKing.c === 2)) kingShieldWhite += 40;
                 for (let dc = -1; dc <= 1; dc++) {
                     const sc = wKing.c + dc;
                     if (sc >= 0 && sc < 8 && wKing.r > 0) {
@@ -1661,7 +1661,7 @@
 
             const bKing = state.findKing('b');
             if (bKing) {
-                if (bKing.r === 0 && (bKing.c === 6 || bKing.c === 1 || bKing.c === 2)) kingShieldBlack += 40; // Castled
+                if (bKing.r === 0 && (bKing.c === 6 || bKing.c === 1 || bKing.c === 2)) kingShieldBlack += 40;
                 for (let dc = -1; dc <= 1; dc++) {
                     const sc = bKing.c + dc;
                     if (sc >= 0 && sc < 8 && bKing.r < 7) {
@@ -1670,19 +1670,18 @@
                 }
             }
 
-            // Mobility count (fast heuristic)
+            // Mobility count
             const whiteMovesCount = state.getAllLegalMoves('w').length;
             const blackMovesCount = state.getAllLegalMoves('b').length;
             const mobilityWhite = whiteMovesCount * 5;
             const mobilityBlack = blackMovesCount * 5;
 
-            // Raw Centipawn Total (Positive = White advantage, Negative = Black advantage)
+            // Total Centipawns
             const totalWhite = materialWhite + pstWhite + centerWhite + kingShieldWhite + mobilityWhite;
             const totalBlack = materialBlack + pstBlack + centerBlack + kingShieldBlack + mobilityBlack;
             const evalCentipawns = totalWhite - totalBlack;
 
-            // Dynamic Sigmoid Win Probability Conversion
-            // P_white = 1 / (1 + 10^(-eval / 400))
+            // Sigmoid Win Probability
             const evalScore = evalCentipawns / 100.0;
             const exponent = -evalCentipawns / 400.0;
             const whiteWinPct = Math.min(99.9, Math.max(0.1, 100.0 / (1.0 + Math.pow(10, exponent))));
@@ -1706,7 +1705,7 @@
 
         /**
          * =========================================================================
-         * WEB AUDIO SYNTHESIZER (Baroque Acoustic Pieces & Harpsichord Tones)
+         * WEB AUDIO SYNTHESIZER (Baroque Acoustic Tones)
          * =========================================================================
          */
 
@@ -1819,8 +1818,14 @@
         let selectedSquare = null; // {r, c}
         let legalMovesForSelected = []; // Array of candidate moves
         let hoveredPieceMoves = []; // Array of candidate moves on hover
-        let isAiOpponent = false;
         let pendingPromotionMove = null;
+
+        // Arena Modes: 'human' | 'ai_spar' | 'ai_duel'
+        let currentArenaMode = 'human';
+        let isAiThinking = false;
+        let aiDuelTimer = null;
+        let isAiDuelPaused = false;
+        let aiDuelSpeed = 900; // ms per move
 
         // UI Initialization
         document.addEventListener('DOMContentLoaded', () => {
@@ -1829,6 +1834,7 @@
             updateNextMovesAndStrategyUI();
             initSparkline();
             setupKeyboardShortcuts();
+            updateArenaModeButtons();
         });
 
         function toggleSound() {
@@ -1843,21 +1849,182 @@
             }
         }
 
-        function toggleAIAutoOpponent() {
-            isAiOpponent = !isAiOpponent;
-            const btn = document.getElementById('aiToggleBtn');
-            const status = document.getElementById('aiStatusText');
-            if (isAiOpponent) {
-                btn.className = "btn-royal px-2.5 py-1.5 rounded text-[11px] flex-1 flex items-center justify-center gap-1 border-purple-400 bg-purple-950/60 text-purple-200 shadow-md shadow-purple-900/50";
-                status.textContent = "AI: Automaton Active";
-                triggerToast("Baroque Automaton Sparring Mode Activated");
-                if (game.turn === 'b') makeAutomatonMove();
-            } else {
-                btn.className = "btn-royal px-2.5 py-1.5 rounded text-[11px] flex-1 flex items-center justify-center gap-1 border-purple-800/50 text-purple-300";
-                status.textContent = "AI: Off";
-                triggerToast("Manual Alternating Turns Restored");
+        /**
+         * =========================================================================
+         * ARENA MODES CONTROLLER (Human vs Human, Player vs AI, AI vs AI Duel)
+         * =========================================================================
+         */
+
+        function setArenaMode(mode) {
+            stopAiDuel();
+            currentArenaMode = mode;
+            updateArenaModeButtons();
+
+            if (mode === 'human') {
+                triggerToast('Player vs Player (Alternating Turns Active)');
+            } else if (mode === 'ai_spar') {
+                triggerToast('Player vs AI: Sparring Mode Activated (Black is AI)');
+                if (game.turn === 'b' && !game.isGameOver) {
+                    setTimeout(triggerSingleAiMove, 500);
+                }
+            } else if (mode === 'ai_duel') {
+                triggerToast('AI vs AI Duel: Sovereign Automata Strategic Clash Initiated');
+                startAiDuel();
             }
         }
+
+        function updateArenaModeButtons() {
+            const btnHuman = document.getElementById('modeHumanBtn');
+            const btnSpar = document.getElementById('modeAiSparBtn');
+            const btnDuel = document.getElementById('modeAiDuelBtn');
+            const duelControls = document.getElementById('aiDuelControls');
+
+            // Reset styles
+            btnHuman.className = "btn-royal px-4 py-2 rounded-xl text-sm flex items-center gap-2";
+            btnSpar.className = "btn-royal px-4 py-2 rounded-xl text-sm flex items-center gap-2 border-purple-700/60 text-purple-200";
+            btnDuel.className = "btn-royal px-4 py-2 rounded-xl text-sm flex items-center gap-2 border-amber-500/60 text-amber-200";
+            duelControls.classList.add('hidden');
+
+            if (currentArenaMode === 'human') {
+                btnHuman.classList.add('btn-mode-active-gold');
+            } else if (currentArenaMode === 'ai_spar') {
+                btnSpar.classList.add('btn-mode-active');
+            } else if (currentArenaMode === 'ai_duel') {
+                btnDuel.classList.add('btn-mode-active-gold');
+                duelControls.classList.remove('hidden');
+            }
+        }
+
+        function startAiDuel() {
+            stopAiDuel();
+            isAiDuelPaused = false;
+            updateAiDuelPlayPauseUI();
+            scheduleNextAiDuelTurn();
+        }
+
+        function stopAiDuel() {
+            if (aiDuelTimer) {
+                clearTimeout(aiDuelTimer);
+                aiDuelTimer = null;
+            }
+        }
+
+        function toggleAiDuelPlayPause() {
+            if (isAiDuelPaused) {
+                isAiDuelPaused = false;
+                triggerToast('AI Duel Resumed');
+                scheduleNextAiDuelTurn();
+            } else {
+                isAiDuelPaused = true;
+                stopAiDuel();
+                triggerToast('AI Duel Paused');
+            }
+            updateAiDuelPlayPauseUI();
+        }
+
+        function updateAiDuelPlayPauseUI() {
+            const icon = document.getElementById('aiDuelPlayPauseIcon');
+            const text = document.getElementById('aiDuelPlayPauseText');
+            if (isAiDuelPaused) {
+                icon.className = 'fa-solid fa-play';
+                text.textContent = 'Play';
+            } else {
+                icon.className = 'fa-solid fa-pause';
+                text.textContent = 'Pause';
+            }
+        }
+
+        function changeAiSpeed(speed) {
+            aiDuelSpeed = parseInt(speed, 10) || 900;
+            triggerToast(`AI Duel Pace: ${(aiDuelSpeed / 1000).toFixed(1)}s per ply`);
+        }
+
+        function stepAiDuelSingleMove() {
+            if (game.isGameOver) {
+                triggerToast(`Match Concluded: ${game.gameResult}`);
+                return;
+            }
+            triggerSingleAiMove();
+        }
+
+        function scheduleNextAiDuelTurn() {
+            if (currentArenaMode !== 'ai_duel' || isAiDuelPaused || game.isGameOver) return;
+            stopAiDuel();
+            aiDuelTimer = setTimeout(() => {
+                if (currentArenaMode === 'ai_duel' && !isAiDuelPaused && !game.isGameOver) {
+                    triggerSingleAiMove();
+                    if (!game.isGameOver) {
+                        scheduleNextAiDuelTurn();
+                    }
+                }
+            }, aiDuelSpeed);
+        }
+
+        /**
+         * =========================================================================
+         * BAROQUE AUTOMATON AI ENGINE (Smart Move Evaluation & Execution)
+         * =========================================================================
+         */
+
+        function triggerSingleAiMove() {
+            if (game.isGameOver || isAiThinking) return;
+
+            const color = game.turn;
+            const legalMoves = game.getAllLegalMoves(color);
+            if (legalMoves.length === 0) return;
+
+            isAiThinking = true;
+
+            // Intelligent Minimax Heuristic with Positional Scoring & Threat Evaluation
+            let bestMove = legalMoves[0];
+            let bestScore = color === 'w' ? -Infinity : Infinity;
+
+            legalMoves.forEach(move => {
+                const sim = game.clone();
+                sim.applyMoveInternal(move);
+                const evalData = evaluateBoardDetailed(sim);
+
+                // Check bonus & mate detection
+                let score = evalData.centipawns;
+                if (sim.isGameOver) {
+                    if (sim.gameResult.includes('Checkmate')) {
+                        score = color === 'w' ? 99999 : -99999;
+                    }
+                } else if (sim.isInCheck(sim.turn)) {
+                    score += (color === 'w' ? 25 : -25);
+                }
+
+                // Add slight entropy (0.5%) for dynamic gameplay variety
+                const noise = (Math.random() * 6 - 3);
+                const totalScore = score + noise;
+
+                if (color === 'w') {
+                    if (totalScore > bestScore) {
+                        bestScore = totalScore;
+                        bestMove = move;
+                    }
+                } else {
+                    if (totalScore < bestScore) {
+                        bestScore = totalScore;
+                        bestMove = move;
+                    }
+                }
+            });
+
+            // Ensure pawn promotion chooses Queen for AI
+            if (bestMove.promotion) {
+                bestMove.promotion = 'Q';
+            }
+
+            executeMove(bestMove);
+            isAiThinking = false;
+        }
+
+        /**
+         * =========================================================================
+         * BOARD RENDERING & INTERACTION
+         * =========================================================================
+         */
 
         function renderBoard() {
             const boardEl = document.getElementById('chessBoard');
@@ -1931,14 +2098,7 @@
             renderDestinationOverlays();
         }
 
-        /**
-         * =========================================================================
-         * LIVE HOVER DESTINATION OVERLAYS & PERCENTAGE CALCULUS
-         * =========================================================================
-         */
-
         function renderDestinationOverlays() {
-            // Priority: selected piece legal moves, fallback to hovered piece moves
             const activeMoves = (selectedSquare && legalMovesForSelected.length > 0)
                 ? legalMovesForSelected
                 : hoveredPieceMoves;
@@ -1988,7 +2148,7 @@
                     <div class="target-ring ${isCapture ? 'capture' : 'regular'}"></div>
                     <div class="pct-badge ${badgeClass}">
                         <span>${icon}${resultingWinPct.toFixed(0)}%</span>
-                        <span class="opacity-80 text-[9px]">(${delta >= 0 ? '+' : ''}${delta.toFixed(1)}%)</span>
+                        <span class="opacity-80 text-[10px]">(${delta >= 0 ? '+' : ''}${delta.toFixed(1)}%)</span>
                     </div>
                 `;
                 targetSquareEl.appendChild(overlay);
@@ -2000,13 +2160,12 @@
 
             // If user has not locked a selection, generate candidate moves on hover
             if (!selectedSquare) {
-                if (piece && piece[0] === game.turn) {
+                if (piece && piece[0] === game.turn && currentArenaMode !== 'ai_duel') {
                     hoveredPieceMoves = game.getLegalMovesForSquare(r, c);
                     renderDestinationOverlays();
                     showHoverInspector(r, c, hoveredPieceMoves);
                 }
             } else {
-                // If a piece is already selected and user hovers over a candidate destination
                 const matchedMove = legalMovesForSelected.find(m => m.to.r === r && m.to.c === c);
                 if (matchedMove) {
                     showHoverMoveDetails(matchedMove);
@@ -2017,7 +2176,6 @@
         function handleSquareLeave(r, c) {
             if (!selectedSquare) {
                 hoveredPieceMoves = [];
-                // Remove overlays
                 document.querySelectorAll('.target-overlay').forEach(el => el.remove());
                 hideHoverInspector();
             }
@@ -2034,7 +2192,7 @@
             const squareName = files[c] + ranks[r];
 
             document.getElementById('hoverMoveBadge').textContent = `${pieceNames[piece[1]]} on ${squareName}`;
-            document.getElementById('hoverMoveDesc').textContent = `${moves.length} legal paths available. Hover candidate destination or select piece to commit.`;
+            document.getElementById('hoverMoveDesc').textContent = `${moves.length} legal paths available. Click piece to select destination.`;
 
             panel.classList.remove('hidden');
         }
@@ -2076,6 +2234,16 @@
                 return;
             }
 
+            if (currentArenaMode === 'ai_duel') {
+                triggerToast("AI Duel in progress. Switch mode or pause to move manually.");
+                return;
+            }
+
+            if (currentArenaMode === 'ai_spar' && game.turn === 'b') {
+                triggerToast("Automaton AI is deliberating...");
+                return;
+            }
+
             const piece = game.board[r][c];
 
             // Case 1: No piece selected currently
@@ -2093,13 +2261,11 @@
             // Case 2: Clicking the same square or another piece of the same color
             if (piece && piece[0] === game.turn) {
                 if (selectedSquare.r === r && selectedSquare.c === c) {
-                    // Deselect
                     selectedSquare = null;
                     legalMovesForSelected = [];
                     renderBoard();
                     return;
                 } else {
-                    // Switch selection to another friendly piece
                     selectedSquare = { r, c };
                     legalMovesForSelected = game.getLegalMovesForSquare(r, c);
                     renderBoard();
@@ -2107,24 +2273,22 @@
                 }
             }
 
-            // Case 3: Attempting to move to target square (r, c)
+            // Case 3: Target destination
             const matchedMoves = legalMovesForSelected.filter(m => m.to.r === r && m.to.c === c);
             if (matchedMoves.length === 0) {
-                // Illegal square
                 selectedSquare = null;
                 legalMovesForSelected = [];
                 renderBoard();
                 return;
             }
 
-            // If pawn promotion, open baroque promotion modal
+            // Pawn promotion check
             if (matchedMoves[0].promotion) {
                 pendingPromotionMove = matchedMoves;
                 openPromotionModal(game.turn);
                 return;
             }
 
-            // Execute standard move
             executeMove(matchedMoves[0]);
         }
 
@@ -2155,18 +2319,25 @@
             updateMoveLog();
             updateSparkline();
 
-            // Trigger GameOver announcement if finished
+            // Trigger Game Over handling
             if (game.isGameOver) {
+                stopAiDuel();
                 setTimeout(() => {
                     triggerToast(`⚜ Match Concluded: ${game.gameResult}`);
                 }, 300);
-            } else if (isAiOpponent && game.turn === 'b') {
-                setTimeout(makeAutomatonMove, 500);
+            } else if (currentArenaMode === 'ai_spar' && game.turn === 'b') {
+                setTimeout(triggerSingleAiMove, 500);
             }
         }
 
         function undoMove() {
+            stopAiDuel();
             if (game.undo()) {
+                // If in AI Spar mode and it's now black's turn, undo once more to return to white's turn
+                if (currentArenaMode === 'ai_spar' && game.turn === 'b' && game.history.length > 0) {
+                    game.undo();
+                }
+
                 selectedSquare = null;
                 legalMovesForSelected = [];
                 clearCandidateMovePreview();
@@ -2197,10 +2368,10 @@
 
             pieces.forEach(type => {
                 const btn = document.createElement('button');
-                btn.className = 'btn-royal p-3 rounded-xl flex flex-col items-center gap-1 hover:border-gold-300';
+                btn.className = 'btn-royal p-3.5 rounded-xl flex flex-col items-center gap-1.5 hover:border-gold-300';
                 btn.innerHTML = `
                     <div class="h-10 w-10">${PIECE_SVGS[color + type]}</div>
-                    <span class="text-[10px] font-cinzel font-bold">${names[type]}</span>
+                    <span class="text-xs font-playfair font-bold text-gold-200">${names[type]}</span>
                 `;
                 btn.onclick = () => {
                     modal.classList.add('hidden');
@@ -2212,36 +2383,6 @@
             });
 
             modal.classList.remove('hidden');
-        }
-
-        /**
-         * =========================================================================
-         * BAROQUE AUTOMATON (SPARRING AI)
-         * =========================================================================
-         */
-
-        function makeAutomatonMove() {
-            if (game.isGameOver || game.turn !== 'b') return;
-            const legalMoves = game.getAllLegalMoves('b');
-            if (legalMoves.length === 0) return;
-
-            // Simple 1-ply minimax with heuristics
-            let bestMove = legalMoves[0];
-            let bestScore = Infinity; // Black minimizes white advantage
-
-            legalMoves.forEach(move => {
-                const sim = game.clone();
-                sim.applyMoveInternal(move);
-                const evalData = evaluateBoardDetailed(sim);
-                // Add minor random entropy for baroque personality
-                const scoreWithNoise = evalData.centipawns + (Math.random() * 8 - 4);
-                if (scoreWithNoise < bestScore) {
-                    bestScore = scoreWithNoise;
-                    bestMove = move;
-                }
-            });
-
-            executeMove(bestMove);
         }
 
         /**
@@ -2258,11 +2399,11 @@
             const turnText = document.getElementById('turnText');
             if (game.turn === 'w') {
                 turnBadge.innerHTML = '♔';
-                turnBadge.className = 'h-9 w-9 rounded-lg flex items-center justify-center font-serif text-xl border shadow-inner transition-all duration-300 bg-amber-100 text-obsidian-950 border-gold-300';
+                turnBadge.className = 'h-10 w-10 rounded-xl flex items-center justify-center font-serif text-2xl border shadow-inner transition-all duration-300 bg-amber-100 text-obsidian-950 border-gold-300';
                 turnText.textContent = "White's Sovereign Move";
             } else {
                 turnBadge.innerHTML = '♚';
-                turnBadge.className = 'h-9 w-9 rounded-lg flex items-center justify-center font-serif text-xl border shadow-inner transition-all duration-300 bg-obsidian-900 text-gold-300 border-gold-600';
+                turnBadge.className = 'h-10 w-10 rounded-xl flex items-center justify-center font-serif text-2xl border shadow-inner transition-all duration-300 bg-obsidian-900 text-gold-300 border-gold-600';
                 turnText.textContent = "Black's Imperial Move";
             }
 
@@ -2284,19 +2425,19 @@
 
             if (score > 0.4) {
                 whiteTag.textContent = `+${score.toFixed(2)} Advantage`;
-                whiteTag.className = 'text-[11px] font-serif text-emerald-400 font-bold mt-1';
+                whiteTag.className = 'text-xs sm:text-sm font-serif text-emerald-400 font-bold mt-1';
                 blackTag.textContent = `Defensive Tension`;
-                blackTag.className = 'text-[11px] font-serif text-slate-400 mt-1';
+                blackTag.className = 'text-xs sm:text-sm font-serif text-slate-400 mt-1';
             } else if (score < -0.4) {
                 blackTag.textContent = `${score.toFixed(2)} Advantage`;
-                blackTag.className = 'text-[11px] font-serif text-emerald-400 font-bold mt-1';
+                blackTag.className = 'text-xs sm:text-sm font-serif text-emerald-400 font-bold mt-1';
                 whiteTag.textContent = `Defensive Tension`;
-                whiteTag.className = 'text-[11px] font-serif text-slate-400 mt-1';
+                whiteTag.className = 'text-xs sm:text-sm font-serif text-slate-400 mt-1';
             } else {
                 whiteTag.textContent = `Sovereign Parity`;
-                whiteTag.className = 'text-[11px] font-serif text-gold-400 mt-1';
+                whiteTag.className = 'text-xs sm:text-sm font-serif text-gold-300 mt-1';
                 blackTag.textContent = `Sovereign Parity`;
-                blackTag.className = 'text-[11px] font-serif text-slate-400 mt-1';
+                blackTag.className = 'text-xs sm:text-sm font-serif text-slate-400 mt-1';
             }
 
             // Large Gauge Bar Widths
@@ -2346,7 +2487,6 @@
             document.getElementById('barKing').style.width = `${shieldPct}%`;
             document.getElementById('telemetryKing').textContent = `${evalData.kingShieldWhite} pts vs ${evalData.kingShieldBlack} pts`;
 
-            // Captured Piece Box Updates
             renderCapturedPieces();
         }
 
@@ -2358,14 +2498,14 @@
 
             game.capturedWhite.forEach(p => {
                 const icon = document.createElement('span');
-                icon.className = 'text-xs text-amber-200 opacity-90';
+                icon.className = 'text-sm text-amber-200 opacity-95';
                 icon.innerHTML = getPieceSymbol(p);
                 wBox.appendChild(icon);
             });
 
             game.capturedBlack.forEach(p => {
                 const icon = document.createElement('span');
-                icon.className = 'text-xs text-amber-500 opacity-90';
+                icon.className = 'text-sm text-amber-500 opacity-95';
                 icon.innerHTML = getPieceSymbol(p);
                 bBox.appendChild(icon);
             });
@@ -2422,8 +2562,8 @@
             }
 
             // Castling
-            if (move.isCastling) {
-                if (move.to.c === 6) {
+            if (move.isCastling || move.isCastleKingside || move.isCastleQueenside) {
+                if (move.to.c === 6 || move.isCastleKingside) {
                     tacticalReason = "Kingside Castle: Tucks king into fortified bastion and connects rooks along the central files.";
                     howToStrategize = "Now that the king is secure, initiate central pawn breaks or push flank pawns safely.";
                 } else {
@@ -2437,7 +2577,7 @@
             if (pieceType === 'P') {
                 if (['e4', 'd4', 'e5', 'd5'].includes(toSq)) {
                     tacticalReason = `Pawn thrust to ${toSq}: Claims dominant central outpost and stakes spatial supremacy.`;
-                    howToStrategize = "Support this central pawn with neighboring pawns (c3/f3 or c6/f6) and develop minor pieces behind it.";
+                    howToStrategize = "Support this central pawn with neighboring pawns and develop minor pieces behind it.";
                 } else if (['c4', 'f4', 'c5', 'f5'].includes(toSq)) {
                     tacticalReason = `Flank pawn leverage on ${toSq}: Challenges opponent central pawn chain and opens diagonal channels.`;
                     howToStrategize = "Use the tension to undermine opponent pawn structure or gain open c/f file for rook infiltration.";
@@ -2457,7 +2597,7 @@
                     tacticalReason = `Natural knight development to ${toSq}: Exerts vital pressure on central squares and coordinates defense.`;
                     howToStrategize = "Ideal opening jump: Prepares swift castling while anchoring support for future central pawn advances.";
                 } else if (['d5', 'e5', 'd4', 'e4'].includes(toSq)) {
-                    tacticalReason = `Central Knight Outpost on ${toSq}: Anchors knight in the heart of opponent camp with devastating radiating scope.`;
+                    tacticalReason = `Central Knight Outpost on ${toSq}: Anchors knight in the heart of opponent camp with radiating scope.`;
                     howToStrategize = "Support the outpost with pawns; a well-posted knight in the center often decides the middlegame.";
                 } else {
                     tacticalReason = `Repositions knight to ${toSq}, maneuvering toward active attacking perches.`;
@@ -2484,8 +2624,8 @@
             // Rook Moves
             if (pieceType === 'R') {
                 if (['d1', 'e1', 'd8', 'e8', 'c1', 'c8', 'f1', 'f8'].includes(toSq)) {
-                    tacticalReason = `Rook alignment to ${toSq}: Seizes open/semi-open central file to control file entry.`;
-                    howToStrategize = "Double rooks on this open file to dominate entry to the 7th rank (pig on the 7th).";
+                    tacticalReason = `Rook alignment to ${toSq}: Seizes open central file to control file entry.`;
+                    howToStrategize = "Double rooks on this open file to dominate entry to the 7th rank.";
                 } else {
                     tacticalReason = `Activates heavy artillery to ${toSq}, exerting long-range lateral and vertical control.`;
                     howToStrategize = "Position rooks behind passed pawns to escort them safely toward coronation.";
@@ -2691,7 +2831,7 @@
             if (!listEl) return;
 
             if (game.isGameOver) {
-                listEl.innerHTML = `<div class="text-gold-400/80 font-serif italic py-2">Match concluded. Click "New Match" to begin a fresh game.</div>`;
+                listEl.innerHTML = `<div class="text-gold-300 font-serif italic py-2 text-sm">Match concluded. Click "New Match" to begin a fresh game.</div>`;
                 if (countBadge) countBadge.textContent = '0 Paths';
                 if (subtitleEl) subtitleEl.textContent = `Match Result: ${game.gameResult}`;
                 if (phaseBadge) phaseBadge.textContent = "Concluded";
@@ -2720,16 +2860,16 @@
                 card.className = 'candidate-move-card';
 
                 const pieceSymbol = cand.piece ? getPieceSymbol(cand.piece) : '♟';
-                const rankBadge = idx === 0 ? `<span class="text-[9px] font-bold text-amber-300 bg-amber-950/80 px-1 py-0.2 rounded border border-amber-600/50">#1 Best</span>` : '';
+                const rankBadge = idx === 0 ? `<span class="text-xs font-bold text-amber-300 bg-amber-950/90 px-1.5 py-0.2 rounded border border-amber-600/50">#1 Best</span>` : '';
 
                 card.innerHTML = `
-                    <span class="text-base">${pieceSymbol}</span>
+                    <span class="text-xl">${pieceSymbol}</span>
                     <div class="flex flex-col leading-tight">
-                        <div class="flex items-center gap-1 font-mono font-bold text-xs text-gold-100">
+                        <div class="flex items-center gap-1.5 font-mono font-bold text-sm text-gold-100">
                             <span>${cand.san}</span>
                             ${rankBadge}
                         </div>
-                        <div class="flex items-center gap-1 text-[10px] font-mono">
+                        <div class="flex items-center gap-1.5 text-xs font-mono">
                             <span class="text-white font-bold">${cand.resultingWinPct.toFixed(0)}%</span>
                             <span class="${cand.delta >= 0 ? 'text-emerald-400' : 'text-amber-400'} font-bold">(${cand.delta >= 0 ? '+' : ''}${cand.delta.toFixed(1)}%)</span>
                         </div>
@@ -2737,25 +2877,25 @@
 
                     <!-- Rich Strategic Tooltip Box -->
                     <div class="move-tooltip-box">
-                        <div class="flex items-center justify-between border-b border-gold-700/50 pb-1.5 mb-2 text-xs">
-                            <span class="font-cinzel font-bold text-gold-200 flex items-center gap-1.5">
-                                <span class="text-amber-400 font-serif text-sm">${pieceSymbol}</span> Move: <strong class="text-white font-mono">${cand.san}</strong>
+                        <div class="flex items-center justify-between border-b border-gold-700/50 pb-2 mb-2 text-sm">
+                            <span class="font-playfair font-bold text-gold-200 flex items-center gap-2">
+                                <span class="text-amber-400 font-serif text-base">${pieceSymbol}</span> Move: <strong class="text-white font-mono">${cand.san}</strong>
                             </span>
-                            <span class="px-1.5 py-0.5 rounded text-[10px] font-mono font-bold ${cand.badgeClass}">
+                            <span class="px-2 py-0.5 rounded text-xs font-mono font-bold ${cand.badgeClass}">
                                 ${cand.qualityIcon} ${cand.resultingWinPct.toFixed(1)}% Win
                             </span>
                         </div>
 
-                        <div class="space-y-1.5 text-[11px] font-serif">
-                            <div class="text-gold-200/95 leading-snug">
-                                <strong class="text-gold-400 font-cinzel text-[10px]">Tactical Rationale:</strong><br/>
+                        <div class="space-y-2 text-xs sm:text-sm font-serif">
+                            <div class="text-gold-100 leading-snug">
+                                <strong class="text-gold-300 font-playfair text-xs">Tactical Rationale:</strong><br/>
                                 ${cand.tacticalReason}
                             </div>
-                            <div class="text-gold-100/90 leading-snug pt-1 border-t border-gold-900/50">
-                                <strong class="text-amber-300 font-cinzel text-[10px]">How to Strategize:</strong><br/>
+                            <div class="text-gold-100 leading-snug pt-1.5 border-t border-gold-900/60">
+                                <strong class="text-amber-300 font-playfair text-xs">How to Strategize:</strong><br/>
                                 ${cand.howToStrategize}
                             </div>
-                            <div class="flex items-center justify-between text-[10px] font-mono text-gold-400/80 pt-1 border-t border-gold-900/40">
+                            <div class="flex items-center justify-between text-xs font-mono text-gold-300 pt-1.5 border-t border-gold-900/50">
                                 <span>Path: ${cand.fromSq} ➔ ${cand.toSq}</span>
                                 <span class="${cand.delta >= 0 ? 'text-emerald-400' : 'text-amber-400'} font-bold">${cand.delta >= 0 ? '+' : ''}${cand.delta.toFixed(1)}% Delta</span>
                             </div>
@@ -2763,7 +2903,6 @@
                     </div>
                 `;
 
-                // Interactive Hover on Candidate Move: Highlight board squares & show preview
                 card.addEventListener('mouseenter', () => {
                     previewCandidateMoveOnBoard(cand.from, cand.to);
                 });
@@ -2771,8 +2910,11 @@
                     clearCandidateMovePreview();
                 });
 
-                // Clicking candidate move commits or selects it
                 card.addEventListener('click', () => {
+                    if (currentArenaMode === 'ai_duel') {
+                        triggerToast("AI Duel running. Pause duel to execute manual candidate move.");
+                        return;
+                    }
                     executeCandidateMove(cand.move);
                 });
 
@@ -2815,7 +2957,7 @@
             const list = document.getElementById('moveLogList');
             if (game.history.length === 0) {
                 list.innerHTML = `
-                    <div class="text-center text-gold-400/60 font-serif italic py-6">
+                    <div class="text-center text-gold-300/70 font-serif italic py-7 text-sm">
                         No moves recorded. The board awaits the first play.
                     </div>
                 `;
@@ -2823,27 +2965,26 @@
             }
 
             list.innerHTML = '';
-            // Group history in pairs (1. e4 e5)
             for (let i = 0; i < game.history.length; i += 2) {
                 const moveNum = Math.floor(i / 2) + 1;
                 const whiteSnap = game.history[i];
                 const blackSnap = game.history[i + 1];
 
                 const row = document.createElement('div');
-                row.className = 'flex items-center justify-between py-1 px-2 hover:bg-gold-500/10 rounded transition text-gold-200';
+                row.className = 'flex items-center justify-between py-1.5 px-2.5 hover:bg-gold-500/10 rounded-lg transition text-gold-200';
 
                 const wPct = whiteSnap.whiteWinPct;
                 const bPct = blackSnap ? (100 - blackSnap.whiteWinPct).toFixed(1) : '';
 
                 row.innerHTML = `
-                    <span class="w-8 font-cinzel text-gold-400/70 font-bold">${moveNum}.</span>
+                    <span class="w-9 font-playfair text-gold-400 font-bold">${moveNum}.</span>
                     <span class="flex-1 font-bold text-white flex items-center justify-between pr-3">
                         <span>${whiteSnap.san}</span>
-                        <span class="text-[10px] font-mono text-gold-400/80">${wPct}%</span>
+                        <span class="text-xs font-mono text-gold-400">${wPct}%</span>
                     </span>
-                    <span class="flex-1 font-bold text-slate-300 flex items-center justify-between pl-3 border-l border-gold-900/40">
+                    <span class="flex-1 font-bold text-slate-300 flex items-center justify-between pl-3 border-l border-gold-900/50">
                         <span>${blackSnap ? blackSnap.san : '—'}</span>
-                        <span class="text-[10px] font-mono text-slate-400">${blackSnap ? bPct + '%' : ''}</span>
+                        <span class="text-xs font-mono text-slate-400">${blackSnap ? bPct + '%' : ''}</span>
                     </span>
                 `;
                 list.appendChild(row);
@@ -2878,9 +3019,9 @@
             ctx.clearRect(0, 0, w, h);
 
             // Draw center baseline (50% mark)
-            ctx.strokeStyle = 'rgba(223, 177, 91, 0.25)';
+            ctx.strokeStyle = 'rgba(223, 177, 91, 0.3)';
             ctx.lineWidth = 1;
-            ctx.setLineDash([3, 3]);
+            ctx.setLineDash([4, 4]);
             ctx.beginPath();
             ctx.moveTo(0, h / 2);
             ctx.lineTo(w, h / 2);
@@ -2897,14 +3038,13 @@
 
             // Draw Gradient Area under Curve
             const grad = ctx.createLinearGradient(0, 0, 0, h);
-            grad.addColorStop(0, 'rgba(223, 177, 91, 0.35)');
-            grad.addColorStop(0.5, 'rgba(223, 177, 91, 0.05)');
-            grad.addColorStop(1, 'rgba(157, 113, 27, 0.25)');
+            grad.addColorStop(0, 'rgba(223, 177, 91, 0.4)');
+            grad.addColorStop(0.5, 'rgba(223, 177, 91, 0.08)');
+            grad.addColorStop(1, 'rgba(157, 113, 27, 0.3)');
 
             ctx.beginPath();
             points.forEach((p, i) => {
                 const x = i * step;
-                // Map 0% - 100% to h -> 0
                 const y = h - (p / 100.0 * h);
                 if (i === 0) ctx.moveTo(x, y);
                 else ctx.lineTo(x, y);
@@ -2918,9 +3058,9 @@
             // Draw Line
             ctx.beginPath();
             ctx.strokeStyle = '#dfb15b';
-            ctx.lineWidth = 2;
-            ctx.shadowColor = 'rgba(223, 177, 91, 0.8)';
-            ctx.shadowBlur = 6;
+            ctx.lineWidth = 2.5;
+            ctx.shadowColor = 'rgba(223, 177, 91, 0.85)';
+            ctx.shadowBlur = 8;
             points.forEach((p, i) => {
                 const x = i * step;
                 const y = h - (p / 100.0 * h);
@@ -2936,11 +3076,12 @@
             if (trendEl) {
                 const diff = lastVal - 50.0;
                 trendEl.textContent = `${diff >= 0 ? 'White' : 'Black'} ${Math.abs(diff).toFixed(1)}% Lead`;
-                trendEl.className = diff >= 0 ? 'font-mono text-emerald-400' : 'font-mono text-amber-400';
+                trendEl.className = diff >= 0 ? 'font-mono text-emerald-400 font-bold' : 'font-mono text-amber-400 font-bold';
             }
         }
 
         function resetGameModal() {
+            stopAiDuel();
             game.reset();
             selectedSquare = null;
             legalMovesForSelected = [];
@@ -2952,6 +3093,10 @@
             updateMoveLog();
             updateSparkline();
             triggerToast("Grand Match Reset to Initial Array");
+
+            if (currentArenaMode === 'ai_duel') {
+                startAiDuel();
+            }
         }
 
         function copyFEN() {
@@ -2962,7 +3107,7 @@
         }
 
         function copyPGN() {
-            let pgn = '[Event "Chessulator Baroque Match"]\n[Site "The Sovereign Oracle"]\n[Result "' + (game.gameResult || '*') + '"]\n\n';
+            let pgn = 'Event: Chessulator Baroque Match\nSite: The Sovereign Oracle\nResult: ' + (game.gameResult || '*') + '\n\n';
             for (let i = 0; i < game.history.length; i += 2) {
                 const num = Math.floor(i / 2) + 1;
                 const w = game.history[i].san;
@@ -2984,6 +3129,7 @@
         }
 
         function applyCustomFEN() {
+            stopAiDuel();
             const fen = document.getElementById('fenInput').value.trim();
             if (game.loadFEN(fen)) {
                 closeCustomFENModal();
@@ -2996,6 +3142,12 @@
                 updateMoveLog();
                 updateSparkline();
                 triggerToast("Custom FEN Loaded Successfully");
+
+                if (currentArenaMode === 'ai_duel') {
+                    startAiDuel();
+                } else if (currentArenaMode === 'ai_spar' && game.turn === 'b') {
+                    setTimeout(triggerSingleAiMove, 500);
+                }
             } else {
                 triggerToast("Invalid FEN string format");
             }
