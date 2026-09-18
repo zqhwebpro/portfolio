@@ -27,32 +27,54 @@
                         mono: ['"JetBrains Mono"', 'monospace'],
                     },
                     colors: {
-                        brand: {
-                            50: '#fffbeb',
-                            100: '#fef3c7',
-                            200: '#fde68a',
-                            300: '#fcd34d',
-                            400: '#fbbf24',
-                            500: '#f59e0b',
-                            600: '#d97706',
-                            700: '#b45309',
-                            800: '#92400e',
-                            900: '#78350f',
+                        // Warm Brown & Earthy Palette
+                        earth: {
+                            50: '#FAF7F2',
+                            100: '#F4EFE6',
+                            200: '#E8DFD3',
+                            300: '#D8CCC0',
+                            400: '#B8A492',
+                            500: '#8C735E',
+                            600: '#6B5441',
+                            700: '#4F3C2C',
+                            800: '#382A1E',
+                            900: '#261C13',
+                            950: '#1A120B',
                         },
-                        dark: {
-                            bg: '#0c1017',
-                            card: '#151c28',
-                            cardHover: '#1c2536',
-                            border: '#232f42',
-                            borderLight: '#32425c',
-                            subtle: '#090d13',
+                        // Appetizing Fresh Herb Greens
+                        appetite: {
+                            50: '#F0F9F4',
+                            100: '#D8F3DC',
+                            200: '#B7E4C7',
+                            300: '#95D5B2',
+                            400: '#74C69D',
+                            500: '#52B788',
+                            600: '#40916C',
+                            700: '#2D6A4F',
+                            800: '#1B4332',
+                            900: '#081C15',
                         },
-                        accent: {
-                            cyan: '#06b6d4',
-                            emerald: '#10b981',
-                            amber: '#f59e0b',
-                            rose: '#f43f5e',
-                            purple: '#a855f7',
+                        // Luminous Honey Gold Yellows
+                        honey: {
+                            50: '#FFFDF5',
+                            100: '#FFF8E1',
+                            200: '#FFECB3',
+                            300: '#FFE082',
+                            400: '#FFD54F',
+                            500: '#FFCA28',
+                            600: '#FFB300',
+                            700: '#FFA000',
+                            800: '#FF8F00',
+                            900: '#D48B00',
+                            950: '#996300',
+                        },
+                        // Off-white canvases
+                        canvas: {
+                            base: '#FAF7F2',
+                            card: '#FFFFFF',
+                            surface: '#F4EFE6',
+                            border: '#E5DCCE',
+                            borderDark: '#D4C6B4',
                         }
                     }
                 }
@@ -62,43 +84,48 @@
 
     <style>
         :root {
-            --bg-main: #0c1017;
-            --card-main: #151c28;
-            --border-main: #232f42;
-            --accent-amber: #f59e0b;
-            --accent-cyan: #06b6d4;
-            --accent-emerald: #10b981;
+            --bg-canvas: #FAF7F2;
+            --bg-card: #FFFFFF;
+            --bg-surface: #F4EFE6;
+            --border-warm: #E5DCCE;
+            --text-espresso: #261C13;
+            --text-mocha: #5A4433;
+            --text-muted: #7D6B5C;
+            --green-appetite: #2D6A4F;
+            --green-hover: #1B4332;
+            --gold-honey: #D48B00;
+            --gold-light: #FFCA28;
         }
 
         body {
-            background-color: var(--bg-main);
-            color: #f1f5f9;
+            background-color: var(--bg-canvas);
+            color: var(--text-espresso);
             font-family: 'Inter', sans-serif;
             min-height: 100vh;
         }
 
-        /* Clean Light E-Commerce Card */
+        /* Clean Off-White & Brown E-Commerce Card */
         .product-card {
             background-color: #ffffff;
-            border: 1px solid #e2e8f0;
+            border: 1px solid var(--border-warm);
             border-radius: 16px;
             transition: transform 0.22s cubic-bezier(0.4, 0, 0.2, 1), border-color 0.22s ease, box-shadow 0.22s ease;
             display: flex;
             flex-direction: column;
             overflow: hidden;
-            box-shadow: 0 2px 8px -2px rgba(0, 0, 0, 0.05), 0 1px 4px -1px rgba(0, 0, 0, 0.03);
+            box-shadow: 0 2px 10px -2px rgba(38, 28, 19, 0.05), 0 1px 3px -1px rgba(38, 28, 19, 0.03);
         }
 
         .product-card:hover {
             transform: translateY(-4px);
-            border-color: rgba(245, 158, 11, 0.6);
-            box-shadow: 0 12px 28px -4px rgba(0, 0, 0, 0.1), 0 4px 10px -2px rgba(0, 0, 0, 0.05);
+            border-color: #D48B00;
+            box-shadow: 0 14px 28px -4px rgba(38, 28, 19, 0.12), 0 4px 12px -2px rgba(38, 28, 19, 0.06);
         }
 
         .product-image-container {
             aspect-ratio: 1 / 1;
             width: 100%;
-            background-color: #f1f5f9;
+            background-color: #F4EFE6;
             overflow: hidden;
             position: relative;
         }
@@ -122,7 +149,7 @@
         }
 
         [data-blueprint-file]:hover {
-            outline: 1.5px dashed rgba(6, 182, 212, 0.75);
+            outline: 2px dashed #2D6A4F;
             outline-offset: 2px;
         }
 
@@ -143,101 +170,101 @@
             transform: translateY(0);
         }
 
-        /* Custom Scrollbar */
+        /* Custom Scrollbar in Warm Earth Tones */
         ::-webkit-scrollbar {
             width: 7px;
             height: 7px;
         }
         ::-webkit-scrollbar-track {
-            background: #0c1017;
+            background: #FAF7F2;
         }
         ::-webkit-scrollbar-thumb {
-            background: #232f42;
+            background: #D8CCC0;
             border-radius: 4px;
         }
         ::-webkit-scrollbar-thumb:hover {
-            background: #f59e0b;
+            background: #8C735E;
         }
     </style>
 </head>
 
-<body class="flex flex-col min-h-screen selection:bg-brand-500 selection:text-black">
+<body class="flex flex-col min-h-screen selection:bg-honey-400 selection:text-earth-950">
 
     <!-- FLOATING ARCHITECTURAL & DOM/CSS BLUEPRINT TOOLTIP -->
-    <div id="blueprint-tooltip" class="bg-[#0b0f17]/95 backdrop-blur-xl border border-cyan-500/60 rounded-xl p-4 shadow-2xl text-xs space-y-3 font-sans">
+    <div id="blueprint-tooltip" class="bg-[#1F1610]/95 backdrop-blur-xl border border-honey-500/70 rounded-xl p-4 shadow-2xl text-xs space-y-3 font-sans text-earth-100">
         
         <!-- Header: Component Role & Framework Layer -->
-        <div class="flex items-center justify-between gap-3 border-b border-slate-800 pb-2.5">
-            <div class="flex items-center gap-1.5 font-mono font-bold text-cyan-400 text-[11.5px] truncate">
+        <div class="flex items-center justify-between gap-3 border-b border-earth-800 pb-2.5">
+            <div class="flex items-center gap-1.5 font-mono font-bold text-honey-400 text-[11.5px] truncate">
                 <i class="fa-solid fa-layer-group text-[12px]"></i>
                 <span id="tt-role">MVC Component</span>
             </div>
-            <span id="tt-layer-badge" class="px-2 py-0.5 rounded bg-cyan-500/15 text-cyan-300 border border-cyan-500/30 text-[9.5px] font-mono uppercase font-bold">
+            <span id="tt-layer-badge" class="px-2 py-0.5 rounded bg-appetite-700/40 text-appetite-300 border border-appetite-500/40 text-[9.5px] font-mono uppercase font-bold">
                 Presentation Layer
             </span>
         </div>
 
         <!-- Section 1: DOM & CSS Implementation -->
-        <div class="space-y-1 bg-slate-900/80 p-2.5 rounded-lg border border-slate-800">
-            <div class="text-[10px] text-amber-400 font-mono font-bold uppercase tracking-wider flex items-center gap-1.5">
-                <i class="fa-brands fa-css3-alt text-amber-400"></i> DOM &amp; CSS Styling:
+        <div class="space-y-1 bg-black/40 p-2.5 rounded-lg border border-earth-800">
+            <div class="text-[10px] text-honey-400 font-mono font-bold uppercase tracking-wider flex items-center gap-1.5">
+                <i class="fa-brands fa-css3-alt text-honey-400"></i> DOM &amp; CSS Styling:
             </div>
-            <div id="tt-dom-css" class="text-slate-300 text-[11px] leading-relaxed font-mono">
+            <div id="tt-dom-css" class="text-earth-200 text-[11px] leading-relaxed font-mono">
                 &lt;article class="product-card"&gt; &bull; CSS Grid / Flexbox
             </div>
         </div>
 
         <!-- Section 2: .NET & C# Source File -->
         <div class="space-y-1">
-            <div class="text-[10px] text-slate-400 font-mono uppercase tracking-wider flex items-center gap-1">
-                <i class="fa-solid fa-code text-cyan-400"></i> ASP.NET MVC 5 File &amp; Code:
+            <div class="text-[10px] text-earth-400 font-mono uppercase tracking-wider flex items-center gap-1">
+                <i class="fa-solid fa-code text-appetite-400"></i> ASP.NET MVC 5 File &amp; Code:
             </div>
-            <div id="tt-file" class="font-mono text-[11px] font-bold text-amber-300 bg-black/60 p-1.5 rounded border border-slate-800 break-all">
+            <div id="tt-file" class="font-mono text-[11px] font-bold text-honey-300 bg-black/50 p-1.5 rounded border border-earth-800 break-all">
                 MischiefStore.WebUI/Views/...
             </div>
-            <div id="tt-code" class="font-mono text-[10.5px] text-emerald-300 bg-black/60 p-1.5 rounded border border-slate-800 overflow-x-auto">
+            <div id="tt-code" class="font-mono text-[10.5px] text-appetite-300 bg-black/50 p-1.5 rounded border border-earth-800 overflow-x-auto">
                 // C# action mapping
             </div>
         </div>
 
         <!-- Section 3: Key .NET Learning & Engineering Takeaway -->
-        <div class="pt-2 border-t border-slate-800 space-y-1">
-            <div class="text-[10px] font-mono font-bold text-emerald-400 uppercase tracking-wider flex items-center gap-1.5">
-                <i class="fa-solid fa-graduation-cap text-emerald-400"></i> Key .NET Learning:
+        <div class="pt-2 border-t border-earth-800 space-y-1">
+            <div class="text-[10px] font-mono font-bold text-appetite-400 uppercase tracking-wider flex items-center gap-1.5">
+                <i class="fa-solid fa-graduation-cap text-appetite-400"></i> Key .NET Learning:
             </div>
-            <p id="tt-desc" class="text-slate-200 text-[11.5px] leading-relaxed">
+            <p id="tt-desc" class="text-earth-100 text-[11.5px] leading-relaxed">
                 Component explanation and architecture takeaway will appear here.
             </p>
         </div>
     </div>
 
-    <!-- 1. VALUE PROPOSITION ANNOUNCEMENT BAR -->
-    <div class="bg-gradient-to-r from-brand-600 via-amber-500 to-brand-600 text-slate-950 px-4 py-1.5 text-xs font-bold text-center tracking-wide flex items-center justify-center gap-4 flex-wrap"
+    <!-- 1. VALUE PROPOSITION ANNOUNCEMENT BAR (Warm Espresso & Honey Gold) -->
+    <div class="bg-earth-900 text-earth-100 border-b border-earth-800 px-4 py-2 text-xs font-semibold text-center tracking-wide flex items-center justify-center gap-4 flex-wrap"
          data-blueprint-file="MischiefStore.WebUI/Views/Shared/_Layout.cshtml"
          data-blueprint-role="Global Marketing Banner"
          data-blueprint-layer="WebUI / Presentation"
-         data-blueprint-dom="Semantic <header> sub-banner styled with Tailwind flexbox, gradient background, and text alignment utilities."
+         data-blueprint-dom="Semantic <header> sub-banner with warm brown background, honey gold accents, and flexbox alignment."
          data-blueprint-desc="In enterprise MVC applications, promotional banners can be driven by a SiteSettings service or distributed cache to display region-specific free shipping incentives."
          data-blueprint-code="@Html.Partial(&quot;_GlobalBanner&quot;, Model.BannerSettings)">
-        <span class="flex items-center gap-1.5">
-            <i class="fa-solid fa-truck-fast"></i> Free 2-Day Shipping on Orders Over $35
+        <span class="flex items-center gap-1.5 text-honey-400 font-bold">
+            <i class="fa-solid fa-truck-fast text-appetite-400"></i> Free 2-Day Shipping on Orders Over $35
         </span>
-        <span class="hidden md:inline">&bull;</span>
-        <span class="hidden md:flex items-center gap-1.5">
-            <i class="fa-solid fa-shield-halved"></i> 100% Discreet Packaging Guarantee
+        <span class="hidden md:inline text-earth-600">&bull;</span>
+        <span class="hidden md:flex items-center gap-1.5 text-earth-200">
+            <i class="fa-solid fa-shield-halved text-appetite-400"></i> 100% Discreet Packaging Guarantee
         </span>
-        <span class="hidden lg:inline">&bull;</span>
-        <span class="hidden lg:flex items-center gap-1.5">
-            <i class="fa-solid fa-face-laugh-squint"></i> 30-Day Gag Satisfaction Warranty
+        <span class="hidden lg:inline text-earth-600">&bull;</span>
+        <span class="hidden lg:flex items-center gap-1.5 text-earth-200">
+            <i class="fa-solid fa-face-laugh-squint text-honey-400"></i> 30-Day Gag Satisfaction Warranty
         </span>
     </div>
 
-    <!-- 2. MAIN STORE HEADER -->
-    <header class="border-b border-dark-border bg-dark-bg/95 sticky top-0 z-40 backdrop-blur-md"
+    <!-- 2. MAIN STORE HEADER (Warm Cream Canvas & Rich Espresso) -->
+    <header class="border-b border-canvas-border bg-canvas-base/95 sticky top-0 z-40 backdrop-blur-md"
             data-blueprint-file="MischiefStore.WebUI/Views/Shared/_Layout.cshtml"
             data-blueprint-role="Master Site Header"
             data-blueprint-layer="WebUI / Master Layout"
-            data-blueprint-dom="HTML5 <header> element with sticky top positioning, backdrop-filter blur, and nested responsive flex containers."
+            data-blueprint-dom="HTML5 <header> element with sticky top positioning, backdrop-filter blur, and off-white/brown styling."
             data-blueprint-desc="The master Razor layout (_Layout.cshtml) bundles CSS/JS assets, initializes Ninject-resolved partials, and renders the central body content."
             data-blueprint-code="<!DOCTYPE html><html><head>@Styles.Render(&quot;~/Content/css&quot;)</head><body>@RenderBody()</body></html>">
         
@@ -248,14 +275,14 @@
                  data-blueprint-file="MischiefStore.WebUI/Controllers/ProductController.cs"
                  data-blueprint-role="Brand Identity &amp; Catalog Root"
                  data-blueprint-layer="WebUI / Presentation"
-                 data-blueprint-dom="Typographic brand heading and responsive subtitle with click handler to reset catalog."
+                 data-blueprint-dom="Typographic brand heading in warm espresso brown with honey gold accents."
                  data-blueprint-desc="Clicking the logo triggers ProductController.List() with default parameters, demonstrating ASP.NET standard MVC route resolution (~/Product/List)."
                  data-blueprint-code="@Html.ActionLink(&quot;MISCHIEF STORE&quot;, &quot;List&quot;, &quot;Product&quot;, new { category = (string)null }, new { @class = &quot;navbar-brand&quot; })"
                  onclick="window.resetFilters()">
-                <div class="font-heading font-extrabold text-2xl text-white tracking-wide">
-                    MISCHIEF<span class="text-brand-400">STORE</span>
+                <div class="font-heading font-black text-2xl text-earth-950 tracking-tight flex items-center gap-1.5">
+                    MISCHIEF<span class="text-honey-700">STORE</span>
                 </div>
-                <div class="text-[11px] text-slate-400 font-medium">Premium Novelty &amp; Office Gags</div>
+                <div class="text-[11px] text-earth-600 font-medium">Curated Novelties &amp; Prank Blueprints</div>
             </div>
 
             <!-- E-Commerce Search Bar -->
@@ -263,16 +290,16 @@
                  data-blueprint-file="MischiefStore.WebUI/Controllers/ProductController.cs"
                  data-blueprint-role="Catalog Search Query Action"
                  data-blueprint-layer="WebUI / Controller &amp; LINQ"
-                 data-blueprint-dom="Interactive search input container with absolute-positioned magnifying glass icon and clear button."
+                 data-blueprint-dom="Search input with off-white card background, warm brown border, and gold highlight focus state."
                  data-blueprint-desc="In ASP.NET MVC, search parameters are bound to action arguments (string search). LINQ translates .Where(p => p.Name.Contains(search)) into parameterized SQL LIKE queries."
                  data-blueprint-code="public ViewResult List(string category, string search, int page = 1) { ... }">
                 <div class="relative flex items-center">
                     <input type="text" id="search-input" 
                            placeholder="Search prank novelties (e.g. beeper, usb, pen, coffee)..."
                            oninput="window.handleSearchInput()"
-                           class="w-full bg-dark-card border border-dark-border rounded-xl pl-10 pr-9 py-2 text-sm text-slate-200 placeholder-slate-400 focus:outline-none focus:border-brand-500 focus:ring-1 focus:ring-brand-500 transition-all">
-                    <i class="fa-solid fa-magnifying-glass absolute left-3.5 text-slate-400 text-sm"></i>
-                    <button id="search-clear-btn" onclick="window.clearSearch()" class="absolute right-3 text-slate-400 hover:text-white text-sm hidden">
+                           class="w-full bg-white border border-canvas-border rounded-xl pl-10 pr-9 py-2.5 text-xs text-earth-900 placeholder-earth-400 focus:outline-none focus:border-honey-600 focus:ring-2 focus:ring-honey-300/40 shadow-xs transition-all">
+                    <i class="fa-solid fa-magnifying-glass absolute left-3.5 text-earth-500 text-sm"></i>
+                    <button id="search-clear-btn" onclick="window.clearSearch()" class="absolute right-3 text-earth-400 hover:text-earth-900 text-sm hidden">
                         <i class="fa-solid fa-xmark"></i>
                     </button>
                 </div>
@@ -286,11 +313,11 @@
                         data-blueprint-file="MischiefStore.Domain/Abstract/IProductRepository.cs"
                         data-blueprint-role="N-Tier Dependency Architecture Map"
                         data-blueprint-layer="Domain / Abstraction"
-                        data-blueprint-dom="Interactive button styled with Tailwind neutral slate colors, border hover transition, and icon label."
+                        data-blueprint-dom="Off-white button styled with warm brown text and subtle border."
                         data-blueprint-desc="Demonstrates how Ninject IoC binds interface contracts (IProductRepository, IOrderProcessor) to concrete EF6 database implementations at runtime."
                         data-blueprint-code="kernel.Bind<IProductRepository>().To<EFProductRepository>();"
-                        class="px-3.5 py-2 rounded-xl bg-dark-card border border-dark-border hover:border-cyan-500 text-slate-300 hover:text-white text-xs font-semibold flex items-center gap-1.5 transition-all">
-                    <i class="fa-solid fa-sitemap text-cyan-400"></i>
+                        class="px-3.5 py-2 rounded-xl bg-white border border-canvas-border hover:border-appetite-700 text-earth-800 hover:text-appetite-800 text-xs font-bold flex items-center gap-1.5 transition-all shadow-xs">
+                    <i class="fa-solid fa-sitemap text-appetite-700"></i>
                     <span class="hidden sm:inline">.NET Arch</span>
                 </button>
 
@@ -299,11 +326,11 @@
                         data-blueprint-file="MischiefStore.WebUI/Controllers/AdminController.cs"
                         data-blueprint-role="Admin CRUD Controller"
                         data-blueprint-layer="WebUI / Admin Portal"
-                        data-blueprint-dom="Action button with amber accent icon, subtle hover borders, and accessible click handler."
+                        data-blueprint-dom="Action button with warm honey gold accent and accessible click handler."
                         data-blueprint-desc="Protected AdminController provides Index, Edit, Save, and Delete endpoints connected to Entity Framework 6 DbSet<Product>."
                         data-blueprint-code="public ViewResult Index() => View(repository.Products);"
-                        class="px-3.5 py-2 rounded-xl bg-dark-card border border-dark-border hover:border-brand-500 text-slate-300 hover:text-white text-xs font-semibold flex items-center gap-1.5 transition-all">
-                    <i class="fa-solid fa-sliders text-brand-400"></i>
+                        class="px-3.5 py-2 rounded-xl bg-white border border-canvas-border hover:border-honey-700 text-earth-800 hover:text-honey-900 text-xs font-bold flex items-center gap-1.5 transition-all shadow-xs">
+                    <i class="fa-solid fa-sliders text-honey-700"></i>
                     <span class="hidden sm:inline">Admin CRUD</span>
                 </button>
 
@@ -312,29 +339,29 @@
                    data-blueprint-file="MischiefStore.Docs/CaseStudy.md"
                    data-blueprint-role="Engineering Case Study"
                    data-blueprint-layer="Documentation / Reflection"
-                   data-blueprint-dom="Anchor link button with rose accent border, hover background transitions, and book icon."
+                   data-blueprint-dom="Anchor link button with warm brown border and book icon."
                    data-blueprint-desc="Case study analyzing enterprise C# architecture, IoC container setup, session decoupling, and key software engineering takeaways."
                    data-blueprint-code="View(&quot;CaseStudy&quot;);"
-                   class="px-3.5 py-2 rounded-xl bg-rose-500/10 border border-rose-500/40 hover:bg-rose-500 hover:text-white text-rose-300 text-xs font-semibold flex items-center gap-1.5 transition-all"
+                   class="px-3.5 py-2 rounded-xl bg-earth-100 border border-canvas-border hover:bg-earth-800 hover:text-white text-earth-800 text-xs font-bold flex items-center gap-1.5 transition-all shadow-xs"
                    title="View Technical Case Study"
                    style="text-decoration: none;">
-                    <i class="fa-solid fa-book-open"></i>
+                    <i class="fa-solid fa-book-open text-honey-800"></i>
                     <span>Case Study</span>
                 </a>
 
-                <!-- Header Cart Widget -->
+                <!-- Header Cart Widget (Appetizing Fresh Green & Gold Pill) -->
                 <button onclick="window.openCartDrawer()" 
                         data-blueprint-file="MischiefStore.WebUI/Views/Cart/Summary.cshtml"
                         data-blueprint-role="Custom Model-Bound Cart Partial"
                         data-blueprint-layer="WebUI / View Component"
-                        data-blueprint-dom="Interactive cart widget with count pill badge and live monetary subtotal calculation."
+                        data-blueprint-dom="Interactive cart widget with appetizing green background and count pill badge."
                         data-blueprint-desc="CartModelBinder automatically extracts the user's Cart from Session and injects it into controller methods without manual session casting."
                         data-blueprint-code="@Html.Action(&quot;Summary&quot;, &quot;Cart&quot;)"
-                        class="px-4 py-2 rounded-xl bg-brand-500 hover:bg-brand-400 text-slate-950 font-bold text-xs flex items-center gap-2 transition-all shadow-md shadow-brand-500/20">
-                    <i class="fa-solid fa-cart-shopping"></i>
+                        class="px-4 py-2 rounded-xl bg-appetite-700 hover:bg-appetite-800 text-white font-bold text-xs flex items-center gap-2 transition-all shadow-md shadow-appetite-800/20">
+                    <i class="fa-solid fa-cart-shopping text-honey-300"></i>
                     <span class="hidden sm:inline">Cart:</span>
-                    <span id="header-cart-total">$0.00</span>
-                    <span id="header-cart-count" class="h-5 min-w-5 px-1.5 rounded-full bg-slate-950 text-brand-400 font-black text-[10px] flex items-center justify-center">0</span>
+                    <span id="header-cart-total" class="font-mono text-honey-200 font-extrabold">$0.00</span>
+                    <span id="header-cart-count" class="h-5 min-w-5 px-1.5 rounded-full bg-honey-400 text-earth-950 font-black text-[10px] flex items-center justify-center shadow-xs">0</span>
                 </button>
 
             </div>
@@ -343,12 +370,12 @@
 
     </header>
 
-    <!-- 4. MAIN STORE CONTENT AREA (Light Background Area) -->
-    <main class="bg-slate-100 text-slate-900 border-t border-b border-slate-200 py-10 flex-1 w-full">
+    <!-- 4. MAIN STORE CONTENT AREA (Off-White Canvas with Brown & Gold Typography) -->
+    <main class="bg-canvas-base text-earth-950 py-10 flex-1 w-full">
         <div class="max-w-7xl mx-auto px-4 sm:px-6 space-y-6">
 
             <!-- Catalog Header & Sorting Controls -->
-            <div class="flex items-center justify-between flex-wrap gap-4 pb-4 border-b border-slate-200"
+            <div class="flex items-center justify-between flex-wrap gap-4 pb-4 border-b border-canvas-border"
                  data-blueprint-file="MischiefStore.WebUI/Models/ProductsListViewModel.cs"
                  data-blueprint-role="Catalog ViewModel &amp; Query Controls"
                  data-blueprint-layer="WebUI / ViewModel"
@@ -357,17 +384,17 @@
                  data-blueprint-code="public class ProductsListViewModel { public IEnumerable<Product> Products { get; set; } public PagingInfo PagingInfo { get; set; } public string CurrentCategory { get; set; } }">
                 
                 <div>
-                    <h2 id="active-category-title" class="font-heading font-extrabold text-2xl text-slate-900">All Novelty Products</h2>
-                    <p class="text-xs text-slate-600 mt-0.5">
-                        Showing <strong id="visible-count" class="text-amber-600 font-bold">12</strong> verified prank novelties ready for dispatch
+                    <h2 id="active-category-title" class="font-heading font-black text-2xl sm:text-3xl text-earth-950 tracking-tight">All Novelty Products</h2>
+                    <p class="text-xs text-earth-600 mt-0.5">
+                        Showing <strong id="visible-count" class="text-honey-900 font-bold">12</strong> verified prank novelties ready for discreet dispatch
                     </p>
                 </div>
 
                 <!-- Sorting Selector -->
                 <div class="flex items-center gap-2.5 text-xs">
-                    <label for="sort-select" class="text-slate-700 font-semibold">Sort By:</label>
+                    <label for="sort-select" class="text-earth-700 font-bold">Sort By:</label>
                     <select id="sort-select" onchange="window.handleSortChange()" 
-                            class="bg-white border border-slate-300 rounded-xl px-3 py-2 text-xs text-slate-800 focus:outline-none focus:border-brand-500 focus:ring-1 focus:ring-brand-500 font-medium cursor-pointer shadow-sm">
+                            class="bg-white border border-canvas-border rounded-xl px-3.5 py-2 text-xs text-earth-900 focus:outline-none focus:border-honey-700 focus:ring-2 focus:ring-honey-300/40 font-semibold cursor-pointer shadow-xs">
                         <option value="default">Featured &bull; Popularity</option>
                         <option value="price-asc">Price: Low to High</option>
                         <option value="price-desc">Price: High to Low</option>
@@ -392,11 +419,11 @@
                 </div>
 
                 <!-- Empty State -->
-                <div id="empty-state" class="hidden bg-white border border-slate-200 rounded-2xl p-12 text-center space-y-4 max-w-md mx-auto shadow-sm">
-                    <div class="text-4xl text-brand-500">🔍</div>
-                    <h3 class="font-heading font-bold text-lg text-slate-900">No Matching Products Found</h3>
-                    <p class="text-xs text-slate-600 leading-relaxed">No prank items match your active keyword. Try clearing your search.</p>
-                    <button onclick="window.resetFilters()" class="px-5 py-2.5 rounded-xl bg-brand-500 text-slate-950 font-bold text-xs hover:bg-brand-400 transition-all shadow-md">
+                <div id="empty-state" class="hidden bg-white border border-canvas-border rounded-2xl p-12 text-center space-y-4 max-w-md mx-auto shadow-sm">
+                    <div class="text-4xl text-honey-700">🔍</div>
+                    <h3 class="font-heading font-bold text-lg text-earth-950">No Matching Products Found</h3>
+                    <p class="text-xs text-earth-600 leading-relaxed">No prank items match your active keyword. Try clearing your search.</p>
+                    <button onclick="window.resetFilters()" class="px-5 py-2.5 rounded-xl bg-appetite-700 text-white font-bold text-xs hover:bg-appetite-800 transition-all shadow-md">
                         Reset Filter &amp; Show All
                     </button>
                 </div>
@@ -404,7 +431,7 @@
             </section>
 
             <!-- PAGINATION BAR -->
-            <div class="bg-white border border-slate-200 rounded-2xl p-4 flex items-center justify-between flex-wrap gap-4 shadow-sm"
+            <div class="bg-white border border-canvas-border rounded-2xl p-4 flex items-center justify-between flex-wrap gap-4 shadow-xs"
                  data-blueprint-file="MischiefStore.WebUI/HtmlHelpers/PagingHelpers.cs"
                  data-blueprint-role="Custom Razor HTML Helper"
                  data-blueprint-layer="WebUI / HtmlHelpers"
@@ -412,9 +439,9 @@
                  data-blueprint-desc="The @Html.PageLinks() custom HTML extension method calculates PagingInfo (TotalPages, CurrentPage) and builds SEO-optimized anchor links with proper query strings."
                  data-blueprint-code="public static MvcHtmlString PageLinks(this HtmlHelper html, PagingInfo pagingInfo, Func<int, string> pageUrl) { ... }">
                 
-                <div class="text-xs text-slate-600 flex items-center gap-2">
-                    <i class="fa-solid fa-list-ol text-amber-600"></i>
-                    <span id="page-info-label" class="font-medium">Page 1 of 2</span>
+                <div class="text-xs text-earth-600 flex items-center gap-2">
+                    <i class="fa-solid fa-list-ol text-honey-700"></i>
+                    <span id="page-info-label" class="font-semibold text-earth-800">Page 1 of 2</span>
                 </div>
 
                 <div id="pagination-buttons" class="flex items-center gap-1.5 text-xs font-semibold">
@@ -426,9 +453,9 @@
         </div>
     </main>
 
-    <!-- 5. CART DRAWER COMPONENT -->
-    <div id="cart-drawer-backdrop" class="fixed inset-0 bg-black/80 backdrop-blur-sm z-50 hidden flex justify-end" onclick="if(event.target===this) window.closeCartDrawer()">
-        <div class="bg-dark-bg border-l border-dark-border w-full max-w-md h-full flex flex-col shadow-2xl p-6 space-y-4"
+    <!-- 5. CART DRAWER COMPONENT (Off-White & Warm Espresso) -->
+    <div id="cart-drawer-backdrop" class="fixed inset-0 bg-black/60 backdrop-blur-xs z-50 hidden flex justify-end" onclick="if(event.target===this) window.closeCartDrawer()">
+        <div class="bg-canvas-base border-l border-canvas-border w-full max-w-md h-full flex flex-col shadow-2xl p-6 space-y-4"
              data-blueprint-file="MischiefStore.WebUI/Views/Cart/Index.cshtml"
              data-blueprint-role="Shopping Cart View &amp; Domain Cart Engine"
              data-blueprint-layer="WebUI / View &amp; Domain / Entity"
@@ -437,25 +464,25 @@
              data-blueprint-code="public class Cart { public void AddItem(Product p, int qty); public void RemoveLine(Product p); public decimal ComputeTotalValue(); }">
             
             <!-- Cart Header -->
-            <div class="flex items-center justify-between border-b border-dark-border pb-4">
+            <div class="flex items-center justify-between border-b border-canvas-border pb-4">
                 <div class="flex items-center gap-2.5">
-                    <i class="fa-solid fa-cart-shopping text-brand-400 text-lg"></i>
-                    <h3 class="font-heading font-bold text-lg text-white">Your Shopping Cart</h3>
-                    <span id="drawer-cart-count-badge" class="px-2 py-0.5 rounded-full bg-brand-500/15 text-brand-400 text-xs font-bold">0 items</span>
+                    <i class="fa-solid fa-cart-shopping text-appetite-700 text-lg"></i>
+                    <h3 class="font-heading font-black text-xl text-earth-950">Shopping Cart</h3>
+                    <span id="drawer-cart-count-badge" class="px-2.5 py-0.5 rounded-full bg-honey-100 border border-honey-300 text-honey-900 text-xs font-bold">0 items</span>
                 </div>
-                <button onclick="window.closeCartDrawer()" class="text-slate-400 hover:text-white p-1 rounded-lg hover:bg-dark-card">
+                <button onclick="window.closeCartDrawer()" class="text-earth-500 hover:text-earth-950 p-1 rounded-lg hover:bg-canvas-surface transition-colors">
                     <i class="fa-solid fa-xmark text-lg"></i>
                 </button>
             </div>
 
             <!-- Free Shipping Progress Tracker -->
-            <div class="bg-dark-card p-3.5 rounded-xl border border-dark-border space-y-2 text-xs">
+            <div class="bg-white p-3.5 rounded-xl border border-canvas-border space-y-2 text-xs shadow-xs">
                 <div class="flex justify-between items-center text-xs">
-                    <span id="shipping-progress-text" class="text-slate-300 font-medium">Add $35.00 for Free 2-Day Shipping</span>
-                    <span id="shipping-status-badge" class="text-brand-400 font-bold">$35.00 Left</span>
+                    <span id="shipping-progress-text" class="text-earth-700 font-medium">Add $35.00 for Free 2-Day Shipping</span>
+                    <span id="shipping-status-badge" class="text-honey-900 font-bold">$35.00 Left</span>
                 </div>
-                <div class="w-full bg-dark-bg h-2 rounded-full overflow-hidden border border-dark-border">
-                    <div id="shipping-progress-bar" class="bg-brand-500 h-full w-0 transition-all duration-300"></div>
+                <div class="w-full bg-canvas-surface h-2 rounded-full overflow-hidden border border-canvas-border">
+                    <div id="shipping-progress-bar" class="bg-appetite-700 h-full w-0 transition-all duration-300"></div>
                 </div>
             </div>
 
@@ -465,25 +492,25 @@
             </div>
 
             <!-- Cart Footer with Totals & Checkout -->
-            <div class="border-t border-dark-border pt-4 space-y-3 text-xs">
-                <div class="flex justify-between text-slate-400">
+            <div class="border-t border-canvas-border pt-4 space-y-3 text-xs bg-canvas-base">
+                <div class="flex justify-between text-earth-600">
                     <span>Item Subtotal:</span>
-                    <span id="drawer-subtotal" class="text-white font-bold text-sm">$0.00</span>
+                    <span id="drawer-subtotal" class="text-earth-950 font-bold text-sm">$0.00</span>
                 </div>
-                <div class="flex justify-between text-slate-400">
+                <div class="flex justify-between text-earth-600">
                     <span>Discreet Packaging:</span>
-                    <span class="text-emerald-400 font-bold">FREE</span>
+                    <span class="text-appetite-700 font-bold">FREE</span>
                 </div>
-                <div class="flex justify-between text-base font-bold border-t border-dark-border pt-3 text-white">
+                <div class="flex justify-between text-base font-bold border-t border-canvas-border pt-3 text-earth-950">
                     <span>Estimated Total:</span>
-                    <span id="drawer-total" class="text-brand-400 text-lg font-black">$0.00</span>
+                    <span id="drawer-total" class="text-honey-900 text-xl font-black">$0.00</span>
                 </div>
 
                 <div class="flex gap-2.5 pt-2">
-                    <button onclick="window.clearCart()" class="px-3.5 py-3 rounded-xl bg-rose-500/10 border border-rose-500/30 text-rose-400 hover:bg-rose-500 hover:text-white transition-all text-xs font-bold">
+                    <button onclick="window.clearCart()" class="px-3.5 py-3 rounded-xl bg-earth-100 border border-canvas-border text-earth-700 hover:bg-rose-500 hover:text-white transition-all text-xs font-bold">
                         Clear
                     </button>
-                    <button onclick="window.openCheckoutModal()" id="btn-proceed-checkout" class="flex-1 py-3 rounded-xl bg-brand-500 hover:bg-brand-400 text-slate-950 font-black text-xs flex items-center justify-center gap-2 transition-all shadow-lg shadow-brand-500/25">
+                    <button onclick="window.openCheckoutModal()" id="btn-proceed-checkout" class="flex-1 py-3 rounded-xl bg-appetite-700 hover:bg-appetite-800 text-white font-bold text-xs flex items-center justify-center gap-2 transition-all shadow-md shadow-appetite-800/20">
                         <span>Proceed to Secure Checkout</span>
                         <i class="fa-solid fa-arrow-right"></i>
                     </button>
@@ -494,8 +521,8 @@
     </div>
 
     <!-- 6. CHECKOUT MODAL -->
-    <div id="checkout-modal-backdrop" class="fixed inset-0 bg-black/80 backdrop-blur-sm z-50 hidden flex items-center justify-center p-4" onclick="if(event.target===this) window.closeCheckoutModal()">
-        <div class="bg-dark-bg border border-brand-500/50 rounded-2xl max-w-lg w-full p-6 space-y-5 shadow-2xl"
+    <div id="checkout-modal-backdrop" class="fixed inset-0 bg-black/60 backdrop-blur-xs z-50 hidden flex items-center justify-center p-4" onclick="if(event.target===this) window.closeCheckoutModal()">
+        <div class="bg-canvas-base border border-canvas-border rounded-2xl max-w-lg w-full p-6 space-y-5 shadow-2xl text-earth-950"
              data-blueprint-file="MischiefStore.WebUI/Views/Cart/Checkout.cshtml"
              data-blueprint-role="Checkout Form &amp; Validation"
              data-blueprint-layer="WebUI / View &amp; Domain / Entity"
@@ -503,60 +530,60 @@
              data-blueprint-desc="Renders shipping and payment form mapped to MischiefStore.Domain.Entities.ShippingDetails with DataAnnotations ([Required], [EmailAddress])."
              data-blueprint-code="public ActionResult Checkout(Cart cart, ShippingDetails shippingDetails) { if (ModelState.IsValid) { orderProcessor.ProcessOrder(cart, shippingDetails); cart.Clear(); return View(&quot;Completed&quot;); } }">
             
-            <div class="flex items-center justify-between border-b border-dark-border pb-3.5">
+            <div class="flex items-center justify-between border-b border-canvas-border pb-3.5">
                 <div class="flex items-center gap-2.5">
-                    <i class="fa-solid fa-lock text-brand-400"></i>
-                    <h3 class="font-heading font-bold text-lg text-white">Discreet Prank Checkout</h3>
+                    <i class="fa-solid fa-lock text-appetite-700 text-lg"></i>
+                    <h3 class="font-heading font-black text-xl text-earth-950">Discreet Prank Checkout</h3>
                 </div>
-                <button onclick="window.closeCheckoutModal()" class="text-slate-400 hover:text-white p-1 rounded-lg hover:bg-dark-card">
+                <button onclick="window.closeCheckoutModal()" class="text-earth-500 hover:text-earth-950 p-1 rounded-lg hover:bg-canvas-surface">
                     <i class="fa-solid fa-xmark text-lg"></i>
                 </button>
             </div>
 
             <!-- Order Total Recap -->
-            <div class="bg-dark-card p-3 rounded-xl border border-dark-border flex items-center justify-between text-xs">
-                <span class="text-slate-400">Total Authorized Amount:</span>
-                <span id="checkout-total-display" class="font-black text-brand-400 text-base">$0.00</span>
+            <div class="bg-white p-3 rounded-xl border border-canvas-border flex items-center justify-between text-xs">
+                <span class="text-earth-600 font-medium">Total Authorized Amount:</span>
+                <span id="checkout-total-display" class="font-black text-honey-900 text-base font-mono">$0.00</span>
             </div>
 
             <!-- Checkout Form -->
             <form id="checkout-form" onsubmit="event.preventDefault(); window.processCheckout();" class="space-y-3.5 text-xs">
                 <div class="grid grid-cols-2 gap-3">
                     <div class="space-y-1">
-                        <label class="text-[11px] text-slate-300 font-semibold">Recipient Name *</label>
-                        <input type="text" id="co-name" required value="Alex Prankster" class="w-full bg-dark-card border border-dark-border rounded-xl px-3 py-2 text-white text-xs focus:border-brand-500 focus:outline-none">
+                        <label class="text-[11px] text-earth-800 font-bold">Recipient Name *</label>
+                        <input type="text" id="co-name" required value="Alex Prankster" class="w-full bg-white border border-canvas-border rounded-xl px-3 py-2 text-earth-950 text-xs focus:border-honey-700 focus:outline-none">
                     </div>
                     <div class="space-y-1">
-                        <label class="text-[11px] text-slate-300 font-semibold">Email Address *</label>
-                        <input type="email" id="co-email" required value="alex@mischief.local" class="w-full bg-dark-card border border-dark-border rounded-xl px-3 py-2 text-white text-xs focus:border-brand-500 focus:outline-none">
+                        <label class="text-[11px] text-earth-800 font-bold">Email Address *</label>
+                        <input type="email" id="co-email" required value="alex@mischief.local" class="w-full bg-white border border-canvas-border rounded-xl px-3 py-2 text-earth-950 text-xs focus:border-honey-700 focus:outline-none">
                     </div>
                 </div>
 
                 <div class="space-y-1">
-                    <label class="text-[11px] text-slate-300 font-semibold">Shipping Address (Discreet Packaging) *</label>
-                    <input type="text" id="co-address" required value="142 Corporate Parkway, Suite 400" class="w-full bg-dark-card border border-dark-border rounded-xl px-3 py-2 text-white text-xs focus:border-brand-500 focus:outline-none">
+                    <label class="text-[11px] text-earth-800 font-bold">Shipping Address (Discreet Packaging) *</label>
+                    <input type="text" id="co-address" required value="142 Corporate Parkway, Suite 400" class="w-full bg-white border border-canvas-border rounded-xl px-3 py-2 text-earth-950 text-xs focus:border-honey-700 focus:outline-none">
                 </div>
 
                 <div class="grid grid-cols-2 gap-3">
                     <div class="space-y-1">
-                        <label class="text-[11px] text-slate-300 font-semibold">City, State *</label>
-                        <input type="text" id="co-city" required value="Austin, TX" class="w-full bg-dark-card border border-dark-border rounded-xl px-3 py-2 text-white text-xs focus:border-brand-500 focus:outline-none">
+                        <label class="text-[11px] text-earth-800 font-bold">City, State *</label>
+                        <input type="text" id="co-city" required value="Austin, TX" class="w-full bg-white border border-canvas-border rounded-xl px-3 py-2 text-earth-950 text-xs focus:border-honey-700 focus:outline-none">
                     </div>
                     <div class="space-y-1">
-                        <label class="text-[11px] text-slate-300 font-semibold">ZIP Code *</label>
-                        <input type="text" id="co-zip" required value="78701" class="w-full bg-dark-card border border-dark-border rounded-xl px-3 py-2 text-white text-xs focus:border-brand-500 focus:outline-none">
+                        <label class="text-[11px] text-earth-800 font-bold">ZIP Code *</label>
+                        <input type="text" id="co-zip" required value="78701" class="w-full bg-white border border-canvas-border rounded-xl px-3 py-2 text-earth-950 text-xs focus:border-honey-700 focus:outline-none">
                     </div>
                 </div>
 
                 <!-- Payment mock -->
-                <div class="pt-3 border-t border-dark-border space-y-2">
-                    <div class="text-[11px] font-bold text-amber-400 flex items-center gap-1.5">
+                <div class="pt-3 border-t border-canvas-border space-y-2">
+                    <div class="text-[11px] font-bold text-honey-900 flex items-center gap-1.5">
                         <i class="fa-solid fa-credit-card"></i> Simulated Payment (Accepts Any Number)
                     </div>
-                    <input type="text" id="co-card" required value="4242 &bull;&bull;&bull;&bull; &bull;&bull;&bull;&bull; 1234" placeholder="Card Number" class="w-full bg-dark-card border border-dark-border rounded-xl px-3 py-2 text-white text-xs focus:border-brand-500 focus:outline-none">
+                    <input type="text" id="co-card" required value="4242 •••• •••• 1234" placeholder="Card Number" class="w-full bg-white border border-canvas-border rounded-xl px-3 py-2 text-earth-950 text-xs focus:border-honey-700 focus:outline-none">
                 </div>
 
-                <button type="submit" class="w-full py-3 rounded-xl bg-brand-500 hover:bg-brand-400 text-slate-950 font-black text-xs transition-all shadow-lg mt-2 flex items-center justify-center gap-2">
+                <button type="submit" class="w-full py-3 rounded-xl bg-appetite-700 hover:bg-appetite-800 text-white font-black text-xs transition-all shadow-md mt-2 flex items-center justify-center gap-2">
                     <i class="fa-solid fa-lock"></i>
                     <span>Authorize Order &amp; Dispatch to IOrderProcessor</span>
                 </button>
@@ -566,8 +593,8 @@
     </div>
 
     <!-- 7. ORDER COMPLETED RECEIPT MODAL -->
-    <div id="receipt-modal-backdrop" class="fixed inset-0 bg-black/80 backdrop-blur-sm z-50 hidden flex items-center justify-center p-4" onclick="if(event.target===this) window.closeReceiptModal()">
-        <div class="bg-dark-bg border border-emerald-500/50 rounded-2xl max-w-md w-full p-6 space-y-4 shadow-2xl text-center"
+    <div id="receipt-modal-backdrop" class="fixed inset-0 bg-black/60 backdrop-blur-xs z-50 hidden flex items-center justify-center p-4" onclick="if(event.target===this) window.closeReceiptModal()">
+        <div class="bg-canvas-base border border-canvas-border rounded-2xl max-w-md w-full p-6 space-y-4 shadow-2xl text-center text-earth-950"
              data-blueprint-file="MischiefStore.WebUI/Views/Cart/Completed.cshtml"
              data-blueprint-role="Order Completed View &amp; Order Processor"
              data-blueprint-layer="WebUI / View &amp; Domain / Concrete"
@@ -575,165 +602,168 @@
              data-blueprint-desc="Confirmation view rendered after successful order processing by MischiefStore.Domain.Concrete.EmailOrderProcessor.cs."
              data-blueprint-code="orderProcessor.ProcessOrder(cart, shippingDetails);">
             
-            <div class="h-14 w-14 rounded-full bg-emerald-500/20 text-emerald-400 border border-emerald-500/40 flex items-center justify-center text-2xl mx-auto">
+            <div class="h-14 w-14 rounded-full bg-appetite-100 text-appetite-700 border border-appetite-300 flex items-center justify-center text-2xl mx-auto">
                 <i class="fa-solid fa-check"></i>
             </div>
 
             <div class="space-y-1">
-                <h3 class="font-heading font-bold text-xl text-white">Order Confirmed &amp; Dispatched</h3>
-                <p class="text-xs text-slate-400">Your prank order has been logged into the ASP.NET MVC Order Pipeline</p>
+                <h3 class="font-heading font-black text-xl text-earth-950">Order Confirmed &amp; Dispatched</h3>
+                <p class="text-xs text-earth-600">Your prank order has been logged into the ASP.NET MVC Order Pipeline</p>
             </div>
 
-            <div class="bg-dark-card p-4 rounded-xl border border-dark-border text-left text-xs space-y-2.5">
-                <div class="flex justify-between border-b border-dark-border pb-2">
-                    <span class="text-slate-400">Order Reference:</span>
-                    <span id="rec-order-id" class="text-cyan-400 font-mono font-bold">#MS-849201</span>
+            <div class="bg-white p-4 rounded-xl border border-canvas-border text-left text-xs space-y-2.5">
+                <div class="flex justify-between border-b border-canvas-border pb-2">
+                    <span class="text-earth-500 font-medium">Order Reference:</span>
+                    <span id="rec-order-id" class="text-honey-900 font-mono font-bold">#MS-849201</span>
                 </div>
                 <div class="flex justify-between">
-                    <span class="text-slate-400">Customer:</span>
-                    <span id="rec-name" class="text-white font-medium">Alex Prankster</span>
+                    <span class="text-earth-500 font-medium">Customer:</span>
+                    <span id="rec-name" class="text-earth-950 font-bold">Alex Prankster</span>
                 </div>
                 <div class="flex justify-between">
-                    <span class="text-slate-400">Destination:</span>
-                    <span id="rec-dest" class="text-white font-medium">Austin, TX</span>
+                    <span class="text-earth-500 font-medium">Destination:</span>
+                    <span id="rec-dest" class="text-earth-950 font-bold">Austin, TX</span>
                 </div>
-                <div class="flex justify-between border-t border-dark-border pt-2">
-                    <span class="text-slate-400">Total Billed:</span>
-                    <span id="rec-total" class="text-brand-400 font-black text-sm">$0.00</span>
+                <div class="flex justify-between border-t border-canvas-border pt-2">
+                    <span class="text-earth-500 font-medium">Total Billed:</span>
+                    <span id="rec-total" class="text-appetite-700 font-black font-mono text-sm">$0.00</span>
                 </div>
             </div>
 
-            <button onclick="window.closeReceiptModal()" class="w-full py-3 rounded-xl bg-dark-card border border-dark-border hover:border-brand-500 text-white text-xs font-bold transition-all">
-                Close &amp; Return to Store
+            <button onclick="window.closeReceiptModal()" class="w-full py-2.5 rounded-xl bg-earth-900 hover:bg-earth-950 text-white font-bold text-xs transition-all shadow-md">
+                Continue Browsing Catalog
             </button>
         </div>
     </div>
 
     <!-- 8. ADMIN INVENTORY CRUD MODAL -->
-    <div id="admin-modal-backdrop" class="fixed inset-0 bg-black/80 backdrop-blur-sm z-50 hidden flex items-center justify-center p-4" onclick="if(event.target===this) window.closeAdminModal()">
-        <div class="bg-dark-bg border border-brand-500/50 rounded-2xl max-w-3xl w-full p-6 space-y-4 shadow-2xl max-h-[90vh] flex flex-col"
-             data-blueprint-file="MischiefStore.WebUI/Views/Admin/Index.cshtml"
-             data-blueprint-role="Admin Product Management View"
-             data-blueprint-layer="WebUI / Admin Portal"
-             data-blueprint-dom="Modal dialog with flex-1 overflow-y-auto scrollable product table and sticky header."
-             data-blueprint-desc="AdminController.Index() renders the back-office inventory catalog with Add, Edit, and Delete action endpoints connected to EFProductRepository."
-             data-blueprint-code="public ViewResult Index() => View(repository.Products);">
+    <div id="admin-modal-backdrop" class="fixed inset-0 bg-black/60 backdrop-blur-xs z-50 hidden flex items-center justify-center p-4" onclick="if(event.target===this) window.closeAdminModal()">
+        <div class="bg-canvas-base border border-canvas-border rounded-2xl max-w-2xl w-full max-h-[85vh] flex flex-col p-6 space-y-4 shadow-2xl text-earth-950"
+             data-blueprint-file="MischiefStore.WebUI/Controllers/AdminController.cs"
+             data-blueprint-role="Entity Framework CRUD Portal"
+             data-blueprint-layer="WebUI / Admin &amp; Domain / EF6"
+             data-blueprint-dom="Modal dialog containing catalog table list, add new product form, and action edit buttons."
+             data-blueprint-desc="Demonstrates administrative CRUD workflows mapped to EFProductRepository.SaveProduct() and DeleteProduct()."
+             data-blueprint-code="public ActionResult Edit(int productId) => View(repository.Products.FirstOrDefault(p => p.ProductID == productId));">
             
-            <div class="flex items-center justify-between border-b border-dark-border pb-3.5 flex-shrink-0">
+            <div class="flex items-center justify-between border-b border-canvas-border pb-3.5">
                 <div class="flex items-center gap-2.5">
-                    <i class="fa-solid fa-sliders text-brand-400 text-lg"></i>
-                    <h3 class="font-heading font-bold text-lg text-white">Admin Catalog Management (CRUD)</h3>
+                    <i class="fa-solid fa-sliders text-honey-700 text-lg"></i>
+                    <h3 class="font-heading font-black text-xl text-earth-950">Admin Catalog Management (EF6 CRUD)</h3>
                 </div>
-                <button onclick="window.closeAdminModal()" class="text-slate-400 hover:text-white p-1 rounded-lg hover:bg-dark-card">
+                <button onclick="window.closeAdminModal()" class="text-earth-500 hover:text-earth-950 p-1 rounded-lg hover:bg-canvas-surface">
                     <i class="fa-solid fa-xmark text-lg"></i>
                 </button>
             </div>
 
-            <!-- Create Product Form -->
-            <div class="bg-dark-card p-4 rounded-xl border border-dark-border space-y-2.5 flex-shrink-0 text-xs">
-                <div class="text-[11px] font-bold text-brand-400 flex items-center gap-1.5">
-                    <i class="fa-solid fa-plus-circle"></i> Create New Product (AdminController.Edit / Save)
+            <!-- New Product Form -->
+            <form id="admin-add-form" onsubmit="event.preventDefault(); window.handleAdminAddProduct();" class="bg-white p-4 rounded-xl border border-canvas-border space-y-3 text-xs">
+                <div class="font-bold text-earth-950 flex items-center gap-1.5">
+                    <i class="fa-solid fa-plus text-appetite-700"></i> Add New Product to Database
                 </div>
-                <form id="add-product-form" onsubmit="event.preventDefault(); window.addNewProduct();" class="grid grid-cols-1 sm:grid-cols-4 gap-2.5">
-                    <input type="text" id="new-prod-name" placeholder="Product Name" required class="bg-dark-bg border border-dark-border rounded-xl px-3 py-2 text-white text-xs focus:border-brand-500 focus:outline-none sm:col-span-2">
-                    <input type="number" id="new-prod-price" placeholder="Price ($)" step="0.01" min="0.5" required class="bg-dark-bg border border-dark-border rounded-xl px-3 py-2 text-white text-xs focus:border-brand-500 focus:outline-none">
-                    <select id="new-prod-category" required class="bg-dark-bg border border-dark-border rounded-xl px-3 py-2 text-white text-xs focus:border-brand-500 focus:outline-none">
+                <div class="grid grid-cols-1 sm:grid-cols-3 gap-2.5">
+                    <input type="text" id="adm-name" placeholder="Product Name" required class="bg-canvas-surface border border-canvas-border rounded-lg px-3 py-1.5 text-xs text-earth-950 focus:border-honey-700 focus:outline-none">
+                    <select id="adm-cat" required class="bg-canvas-surface border border-canvas-border rounded-lg px-3 py-1.5 text-xs text-earth-950 focus:border-honey-700 focus:outline-none">
                         <option value="Bunkums">Bunkums</option>
                         <option value="Skuttlebutts">Skuttlebutts</option>
                         <option value="Balderdash">Balderdash</option>
                         <option value="Flummery">Flummery</option>
                         <option value="Codswallop">Codswallop</option>
                     </select>
-                    <input type="text" id="new-prod-desc" placeholder="Product description..." required class="bg-dark-bg border border-dark-border rounded-xl px-3 py-2 text-white text-xs focus:border-brand-500 focus:outline-none sm:col-span-3">
-                    <button type="submit" class="py-2 rounded-xl bg-brand-500 hover:bg-brand-400 text-slate-950 font-bold text-xs transition-all shadow">
-                        + Save to EF6
+                    <input type="number" step="0.01" id="adm-price" placeholder="Price (USD)" required class="bg-canvas-surface border border-canvas-border rounded-lg px-3 py-1.5 text-xs text-earth-950 focus:border-honey-700 focus:outline-none">
+                </div>
+                <input type="text" id="adm-desc" placeholder="Product Description & Gag Mechanics" required class="w-full bg-canvas-surface border border-canvas-border rounded-lg px-3 py-1.5 text-xs text-earth-950 focus:border-honey-700 focus:outline-none">
+                <div class="flex justify-end">
+                    <button type="submit" class="px-4 py-1.5 rounded-lg bg-appetite-700 hover:bg-appetite-800 text-white font-bold text-xs flex items-center gap-1.5 transition-all">
+                        <i class="fa-solid fa-floppy-disk"></i>
+                        <span>Save to EF Repository</span>
                     </button>
-                </form>
-            </div>
+                </div>
+            </form>
 
-            <!-- Product Table -->
-            <div class="flex-1 overflow-y-auto border border-dark-border rounded-xl">
-                <table class="w-full text-left text-xs border-collapse">
-                    <thead class="bg-dark-card text-slate-400 sticky top-0 border-b border-dark-border text-[11px] font-semibold">
-                        <tr>
-                            <th class="p-3">ID</th>
-                            <th class="p-3">Product Name</th>
-                            <th class="p-3">Category</th>
-                            <th class="p-3 text-right">Price</th>
-                            <th class="p-3 text-center">Action</th>
-                        </tr>
-                    </thead>
-                    <tbody id="admin-product-tbody" class="divide-y divide-dark-border text-slate-300">
-                        <!-- Injected via JS -->
-                    </tbody>
-                </table>
+            <!-- Current Inventory Table -->
+            <div class="flex-1 overflow-y-auto space-y-2 pr-1">
+                <div class="text-[11px] font-bold text-earth-700 uppercase tracking-wider">Live Inventory Store:</div>
+                <div id="admin-inventory-list" class="space-y-1.5 text-xs">
+                    <!-- Injected via JS -->
+                </div>
             </div>
 
         </div>
     </div>
 
-    <!-- 9. ARCHITECTURE SITEMAP MODAL -->
-    <div id="arch-modal-backdrop" class="fixed inset-0 bg-black/80 backdrop-blur-sm z-50 hidden flex items-center justify-center p-4" onclick="if(event.target===this) window.closeArchitectureModal()">
-        <div class="bg-dark-bg border border-cyan-500/50 rounded-2xl max-w-2xl w-full p-6 space-y-4 shadow-2xl max-h-[85vh] flex flex-col text-xs">
-            <div class="flex items-center justify-between border-b border-dark-border pb-3.5 flex-shrink-0">
+    <!-- 9. ARCHITECTURE MODAL -->
+    <div id="arch-modal-backdrop" class="fixed inset-0 bg-black/60 backdrop-blur-xs z-50 hidden flex items-center justify-center p-4" onclick="if(event.target===this) window.closeArchitectureModal()">
+        <div class="bg-canvas-base border border-canvas-border rounded-2xl max-w-2xl w-full max-h-[85vh] overflow-y-auto p-6 space-y-4 shadow-2xl text-earth-950"
+             data-blueprint-file="MischiefStore.Domain/Concrete/EFDbContext.cs"
+             data-blueprint-role="Enterprise Solution Blueprint"
+             data-blueprint-layer="Domain / Entity Framework"
+             data-blueprint-dom="Architecture breakdown modal styled with off-white cards and monospace code blocks."
+             data-blueprint-desc="Demonstrates how clean separation of concerns decouples domain entities from web UI controllers."
+             data-blueprint-code="public class EFDbContext : DbContext { public DbSet<Product> Products { get; set; } }">
+            
+            <div class="flex items-center justify-between border-b border-canvas-border pb-3.5">
                 <div class="flex items-center gap-2.5">
-                    <i class="fa-solid fa-sitemap text-cyan-400 text-lg"></i>
-                    <h3 class="font-heading font-bold text-lg text-white">ASP.NET MVC 5 Architecture Solution</h3>
+                    <i class="fa-solid fa-sitemap text-appetite-700 text-xl"></i>
+                    <div>
+                        <h3 class="font-heading font-black text-xl text-earth-950">ASP.NET MVC 5 Architecture Map</h3>
+                        <p class="text-[11px] text-earth-600">Enterprise N-Tier Solution Architecture Breakdown</p>
+                    </div>
                 </div>
-                <button onclick="window.closeArchitectureModal()" class="text-slate-400 hover:text-white p-1 rounded-lg hover:bg-dark-card">
+                <button onclick="window.closeArchitectureModal()" class="text-earth-500 hover:text-earth-950 p-1 rounded-lg hover:bg-canvas-surface">
                     <i class="fa-solid fa-xmark text-lg"></i>
                 </button>
             </div>
 
-            <div class="flex-1 overflow-y-auto space-y-3.5 pr-1 text-slate-300 leading-relaxed">
-                <div class="bg-dark-card p-4 rounded-xl border border-dark-border space-y-2">
-                    <div class="text-cyan-400 font-bold text-sm">1. MischiefStore.Domain (Core Class Library)</div>
-                    <ul class="list-disc list-inside space-y-1.5 pl-1 text-[11.5px]">
-                        <li><strong class="text-brand-400">Abstract/IProductRepository.cs:</strong> Decoupled repository contract exposing <code class="text-cyan-300 font-mono">IQueryable&lt;Product&gt; Products</code>.</li>
-                        <li><strong class="text-brand-400">Concrete/EFProductRepository.cs:</strong> Entity Framework 6 implementation connected to <code class="text-cyan-300 font-mono">EFDbContext</code>.</li>
-                        <li><strong class="text-brand-400">Entities/Product.cs:</strong> POCO domain model with DataAnnotation validation rules.</li>
-                        <li><strong class="text-brand-400">Entities/Cart.cs:</strong> Pure domain cart encapsulating line-item calculations.</li>
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-4 text-xs">
+                <div class="bg-white p-4 rounded-xl border border-canvas-border space-y-2 shadow-xs">
+                    <div class="text-appetite-800 font-bold text-sm">1. MischiefStore.Domain (Core Logic)</div>
+                    <ul class="list-disc list-inside space-y-1.5 pl-1 text-[11.5px] text-earth-700">
+                        <li><strong class="text-earth-950">Entities/Product.cs:</strong> Core domain model with DataAnnotations.</li>
+                        <li><strong class="text-earth-950">Entities/Cart.cs:</strong> Encapsulates cart lines, quantity modifications, and total computation.</li>
+                        <li><strong class="text-earth-950">Abstract/IProductRepository.cs:</strong> Repository pattern abstraction for zero DB coupling.</li>
+                        <li><strong class="text-earth-950">Concrete/EFProductRepository.cs:</strong> EF6 implementation querying SQL Server via DbContext.</li>
                     </ul>
                 </div>
 
-                <div class="bg-dark-card p-4 rounded-xl border border-dark-border space-y-2">
-                    <div class="text-amber-400 font-bold text-sm">2. MischiefStore.WebUI (Presentation Layer)</div>
-                    <ul class="list-disc list-inside space-y-1.5 pl-1 text-[11.5px]">
-                        <li><strong class="text-emerald-400">Controllers/ProductController.cs:</strong> Paginated product list view with category and LINQ search filtering.</li>
-                        <li><strong class="text-emerald-400">Controllers/CartController.cs:</strong> Session-decoupled cart management and checkout orchestration.</li>
-                        <li><strong class="text-emerald-400">Infrastructure/Binders/CartModelBinder.cs:</strong> Custom ASP.NET model binder managing cart session state.</li>
-                        <li><strong class="text-emerald-400">HtmlHelpers/PagingHelpers.cs:</strong> Custom Razor extension generating pagination links.</li>
-                        <li><strong class="text-emerald-400">App_Start/NinjectWebCommon.cs:</strong> Dependency Injection IoC container setup.</li>
+                <div class="bg-white p-4 rounded-xl border border-canvas-border space-y-2 shadow-xs">
+                    <div class="text-honey-900 font-bold text-sm">2. MischiefStore.WebUI (Presentation Layer)</div>
+                    <ul class="list-disc list-inside space-y-1.5 pl-1 text-[11.5px] text-earth-700">
+                        <li><strong class="text-earth-950">Controllers/ProductController.cs:</strong> Paginated product list view with category and LINQ search filtering.</li>
+                        <li><strong class="text-earth-950">Controllers/CartController.cs:</strong> Session-decoupled cart management and checkout orchestration.</li>
+                        <li><strong class="text-earth-950">Infrastructure/Binders/CartModelBinder.cs:</strong> Custom ASP.NET model binder managing cart session state.</li>
+                        <li><strong class="text-earth-950">HtmlHelpers/PagingHelpers.cs:</strong> Custom Razor extension generating pagination links.</li>
+                        <li><strong class="text-earth-950">App_Start/NinjectWebCommon.cs:</strong> Dependency Injection IoC container setup.</li>
                     </ul>
                 </div>
             </div>
 
-            <div class="text-[11px] text-slate-400 text-center pt-2 border-t border-dark-border">
+            <div class="text-[11px] text-earth-600 text-center pt-2 border-t border-canvas-border">
                 💡 Tip: Hover over any element on the store to inspect its specific DOM, CSS, and .NET architecture role!
             </div>
         </div>
     </div>
 
-    <!-- 10. STORE FOOTER -->
-    <footer class="border-t border-dark-border bg-dark-subtle py-8 px-4 sm:px-6 text-xs text-slate-400 mt-auto"
+    <!-- 10. STORE FOOTER (Warm Dark Walnut Canvas & Gold Highlights) -->
+    <footer class="border-t border-earth-800 bg-earth-950 py-8 px-4 sm:px-6 text-xs text-earth-300 mt-auto"
             data-blueprint-file="MischiefStore.WebUI/Views/Shared/_Layout.cshtml"
             data-blueprint-role="Site Footer Layout"
             data-blueprint-layer="WebUI / Presentation"
-            data-blueprint-dom="Semantic <footer> container with responsive multi-column layout and brand copyright."
+            data-blueprint-dom="Semantic <footer> container with dark walnut background and brand copyright."
             data-blueprint-desc="Shared master footer layout displaying security badges, links to the interactive case study, and framework metadata."
             data-blueprint-code="<footer>&copy; @DateTime.Now.Year Mischief &amp; Magic Co.</footer>">
         <div class="max-w-7xl mx-auto flex flex-col sm:flex-row items-center justify-between gap-4">
             <div class="flex items-center gap-3">
-                <span class="text-brand-400 font-bold font-heading text-sm">MISCHIEF STORE</span>
-                <span class="text-slate-600">|</span>
-                <span>Premium Prank &amp; Novelty Shop</span>
+                <span class="text-honey-400 font-black font-heading text-sm">MISCHIEF STORE</span>
+                <span class="text-earth-700">|</span>
+                <span class="text-earth-300">Premium Novelty &amp; Prank Shop</span>
             </div>
-            <div class="flex items-center gap-4 text-slate-400">
-                <a href="./case-study.html" class="hover:text-brand-400 transition-colors">Case Study</a>
-                <a href="../index.html" class="hover:text-brand-400 transition-colors">Interactive Projects</a>
-                <a href="../../2026/" class="hover:text-brand-400 transition-colors">Main Portfolio</a>
+            <div class="flex items-center gap-4 text-earth-300">
+                <a href="./case-study.html" class="hover:text-honey-400 transition-colors">Case Study</a>
+                <a href="../index.html" class="hover:text-honey-400 transition-colors">Interactive Projects</a>
+                <a href="../../2026/" class="hover:text-honey-400 transition-colors">Main Portfolio</a>
             </div>
-            <div class="text-slate-500 text-[11px] font-mono">
+            <div class="text-earth-500 text-[11px] font-mono">
                 ASP.NET MVC 5 &bull; EF6 &bull; Ninject 3.3 &bull; Razor
             </div>
         </div>
@@ -745,7 +775,8 @@
          * ==============================================================================
          * MISCHIEF STORE // SEED INVENTORY WITH HIGH-RES PRODUCT PHOTOGRAPHY
          * ==============================================================================
-            let PRODUCTS = [
+         */
+        let PRODUCTS = [
             {
                 id: 1,
                 name: "Invisible Phantom Beeper",
@@ -923,6 +954,8 @@
             const visibleCountLabel = document.getElementById('visible-count');
             const activeCatTitle = document.getElementById('active-category-title');
 
+            if (!grid) return;
+
             // 1. Filter by category
             let filtered = PRODUCTS.filter(p => {
                 if (activeCategory === 'all') return true;
@@ -946,18 +979,20 @@
                 filtered.sort((a, b) => b.rating - a.rating);
             }
 
-            visibleCountLabel.innerText = filtered.length;
-            activeCatTitle.innerText = activeCategory === 'all' ? 'All Novelty Products' : activeCategory;
+            if (visibleCountLabel) visibleCountLabel.innerText = filtered.length;
+            if (activeCatTitle) activeCatTitle.innerText = activeCategory === 'all' ? 'All Novelty Products' : activeCategory;
 
             if (filtered.length === 0) {
                 grid.innerHTML = '';
-                emptyState.classList.remove('hidden');
-                document.getElementById('pagination-buttons').innerHTML = '';
-                document.getElementById('page-info-label').innerText = 'Page 0 of 0';
+                if (emptyState) emptyState.classList.remove('hidden');
+                const pButtons = document.getElementById('pagination-buttons');
+                const pInfo = document.getElementById('page-info-label');
+                if (pButtons) pButtons.innerHTML = '';
+                if (pInfo) pInfo.innerText = 'Page 0 of 0';
                 return;
             }
 
-            emptyState.classList.add('hidden');
+            if (emptyState) emptyState.classList.add('hidden');
 
             // 4. Paginate
             const totalPages = Math.ceil(filtered.length / ITEMS_PER_PAGE);
@@ -973,27 +1008,27 @@
 
                 const actionButtonHtml = inCartQty > 0 ? `
                     <div class="space-y-2">
-                        <div class="w-full py-2 px-3 rounded-xl bg-emerald-600 text-white font-bold text-xs flex items-center justify-center gap-1.5 shadow-sm">
+                        <div class="w-full py-2 px-3 rounded-xl bg-appetite-700 text-white font-bold text-xs flex items-center justify-center gap-1.5 shadow-sm">
                             <i class="fa-solid fa-check"></i>
                             <span>Added to Cart</span>
                         </div>
-                        <div class="flex items-center justify-between bg-slate-100 border border-slate-300 rounded-xl p-1 text-slate-800">
+                        <div class="flex items-center justify-between bg-canvas-surface border border-canvas-border rounded-xl p-1 text-earth-950">
                             <button onclick="window.updateCartQty(${prod.id}, -1)" 
-                                    class="h-7 w-7 rounded-lg bg-white border border-slate-300 hover:bg-slate-200 text-slate-800 font-bold text-sm flex items-center justify-center transition-all shadow-xs" 
+                                    class="h-7 w-7 rounded-lg bg-white border border-canvas-border hover:bg-earth-200 text-earth-900 font-bold text-sm flex items-center justify-center transition-all shadow-xs" 
                                     title="Decrease quantity">
                                 <i class="fa-solid fa-minus text-[10px]"></i>
                             </button>
                             <div class="flex items-center gap-1.5 text-xs font-semibold">
-                                <span class="text-slate-500 text-[11px]">Qty:</span>
+                                <span class="text-earth-600 text-[11px]">Qty:</span>
                                 <input type="number" 
                                        min="1" 
                                        max="99" 
                                        value="${inCartQty}" 
                                        onchange="window.setProductQuantity(${prod.id}, this.value)" 
-                                       class="w-12 text-center font-bold text-slate-900 bg-white border border-slate-300 rounded-md py-0.5 text-xs focus:outline-none focus:ring-1 focus:ring-brand-500" />
+                                       class="w-12 text-center bg-white border border-canvas-border rounded-md px-1 py-0.5 text-earth-950 text-xs font-bold focus:outline-none focus:border-honey-700">
                             </div>
                             <button onclick="window.updateCartQty(${prod.id}, 1)" 
-                                    class="h-7 w-7 rounded-lg bg-white border border-slate-300 hover:bg-slate-200 text-slate-800 font-bold text-sm flex items-center justify-center transition-all shadow-xs" 
+                                    class="h-7 w-7 rounded-lg bg-white border border-canvas-border hover:bg-earth-200 text-earth-900 font-bold text-sm flex items-center justify-center transition-all shadow-xs" 
                                     title="Increase quantity">
                                 <i class="fa-solid fa-plus text-[10px]"></i>
                             </button>
@@ -1001,8 +1036,8 @@
                     </div>
                 ` : `
                     <button onclick="window.addToCart(${prod.id})" 
-                            class="w-full py-2.5 rounded-xl bg-brand-500 hover:bg-brand-400 active:scale-[0.98] text-slate-950 font-black text-xs flex items-center justify-center gap-2 transition-all shadow-md shadow-brand-500/20">
-                        <i class="fa-solid fa-cart-plus"></i>
+                            class="w-full py-2.5 rounded-xl bg-appetite-700 hover:bg-appetite-800 active:scale-[0.98] text-white font-bold text-xs flex items-center justify-center gap-2 transition-all shadow-md shadow-appetite-800/20">
+                        <i class="fa-solid fa-cart-plus text-honey-300"></i>
                         <span>Add to Cart</span>
                     </button>
                 `;
@@ -1012,17 +1047,17 @@
                              data-blueprint-file="MischiefStore.WebUI/Views/Shared/_ProductSummary.cshtml"
                              data-blueprint-role="Product Summary Partial View"
                              data-blueprint-layer="WebUI / Partial View"
-                             data-blueprint-dom="Semantic &lt;article&gt; with white card background, aspect-ratio 1:1 image frame, flex layout, hover zoom, and Tailwind typography."
+                             data-blueprint-dom="Semantic &lt;article&gt; with off-white card background, aspect-ratio 1:1 image frame, flex layout, hover zoom, and Tailwind typography."
                              data-blueprint-desc="In ASP.NET MVC, _ProductSummary.cshtml maps Domain.Entities.Product model properties directly into clean HTML markup without controller bloat."
                              data-blueprint-code="@Html.Partial(&quot;_ProductSummary&quot;, product)">
                         
                         <!-- Product Photo with Badges -->
                         <div class="product-image-container">
                             <img src="${prod.image}" alt="${prod.name}" class="product-image" loading="lazy" />
-                            <span class="absolute top-3 left-3 px-2.5 py-1 rounded-full bg-slate-900/85 backdrop-blur-md text-amber-400 border border-amber-500/30 text-[10px] font-bold tracking-wide uppercase">
+                            <span class="absolute top-3 left-3 px-2.5 py-1 rounded-full bg-earth-950/85 backdrop-blur-md text-honey-400 border border-honey-500/30 text-[10px] font-bold tracking-wide uppercase">
                                 ${prod.badge}
                             </span>
-                            <span class="absolute top-3 right-3 px-2 py-0.5 rounded-md bg-white/90 backdrop-blur-md text-slate-700 border border-slate-200 text-[10px] font-mono font-semibold shadow-xs">
+                            <span class="absolute top-3 right-3 px-2 py-0.5 rounded-md bg-white/95 backdrop-blur-md text-earth-800 border border-canvas-border text-[10px] font-mono font-bold shadow-xs">
                                 ${prod.category}
                             </span>
                         </div>
@@ -1030,29 +1065,29 @@
                         <!-- Card Body -->
                         <div class="p-4 flex-1 flex flex-col justify-between space-y-3">
                             <div class="space-y-1.5">
-                                <!-- Star Rating -->
-                                <div class="flex items-center gap-1 text-amber-500 text-xs">
+                                <!-- Star Rating in Gold Yellow -->
+                                <div class="flex items-center gap-1 text-honey-600 text-xs">
                                     <span class="text-xs">★★★★★</span>
-                                    <span class="text-slate-500 text-[11px] font-medium ml-1">${prod.rating} (${prod.reviews})</span>
+                                    <span class="text-earth-600 text-[11px] font-medium ml-1">${prod.rating} (${prod.reviews})</span>
                                 </div>
 
-                                <!-- Product Title -->
-                                <h3 class="font-heading font-bold text-base text-slate-900 group-hover:text-amber-600 transition-colors line-clamp-1">
+                                <!-- Product Title in Rich Espresso -->
+                                <h3 class="font-heading font-bold text-base text-earth-950 group-hover:text-honey-800 transition-colors line-clamp-1">
                                     ${prod.name}
                                 </h3>
 
-                                <!-- Description -->
-                                <p class="text-slate-600 text-xs line-clamp-2 leading-relaxed font-sans">
+                                <!-- Description in Muted Mocha -->
+                                <p class="text-earth-600 text-xs line-clamp-2 leading-relaxed font-sans">
                                     ${prod.description}
                                 </p>
                             </div>
 
                             <!-- Price & Add to Cart / Quantity Stepper -->
-                            <div class="pt-3 border-t border-slate-200 space-y-3">
+                            <div class="pt-3 border-t border-canvas-border space-y-3">
                                 <div class="flex items-baseline justify-between">
                                     <div>
-                                        <span class="text-lg font-extrabold text-slate-900 font-heading">$${prod.price.toFixed(2)}</span>
-                                        <span class="text-[10px] text-slate-500 ml-1 font-medium">USD</span>
+                                        <span class="text-lg font-black text-earth-950 font-heading">$${prod.price.toFixed(2)}</span>
+                                        <span class="text-[10px] text-earth-500 ml-1 font-medium">USD</span>
                                     </div>
                                 </div>
 
@@ -1073,14 +1108,15 @@
             const container = document.getElementById('pagination-buttons');
             const pageInfo = document.getElementById('page-info-label');
 
-            pageInfo.innerText = `Page ${currentPage} of ${totalPages || 1}`;
+            if (pageInfo) pageInfo.innerText = `Page ${currentPage} of ${totalPages || 1}`;
+            if (!container) return;
 
             let html = '';
             for (let i = 1; i <= totalPages; i++) {
                 const isActive = i === currentPage;
                 html += `
                     <button onclick="window.goToPage(${i})" 
-                            class="px-3.5 py-1.5 rounded-xl font-bold transition-all ${isActive ? 'bg-brand-500 text-slate-950 shadow-md' : 'bg-slate-100 text-slate-700 border border-slate-300 hover:bg-slate-200'}">
+                            class="px-3.5 py-1.5 rounded-xl font-bold transition-all ${isActive ? 'bg-appetite-700 text-white shadow-md' : 'bg-white text-earth-800 border border-canvas-border hover:bg-canvas-surface'}">
                         ${i}
                     </button>
                 `;
@@ -1161,7 +1197,89 @@
             updateCartUI();
         }
 
-        function removeFromCart(productId) {
+        function updateCartUI() {
+            const totalItems = cart.reduce((sum, item) => sum + item.quantity, 0);
+            const subtotal = cart.reduce((sum, item) => sum + (item.price * item.quantity), 0);
+
+            // Update Header Cart
+            const hCount = document.getElementById('header-cart-count');
+            const hTotal = document.getElementById('header-cart-total');
+            const dBadge = document.getElementById('drawer-cart-count-badge');
+            const dSubtotal = document.getElementById('drawer-subtotal');
+            const dTotal = document.getElementById('drawer-total');
+            const coTotal = document.getElementById('checkout-total-display');
+
+            if (hCount) hCount.innerText = totalItems;
+            if (hTotal) hTotal.innerText = `$${subtotal.toFixed(2)}`;
+            if (dBadge) dBadge.innerText = `${totalItems} items`;
+            if (dSubtotal) dSubtotal.innerText = `$${subtotal.toFixed(2)}`;
+            if (dTotal) dTotal.innerText = `$${subtotal.toFixed(2)}`;
+            if (coTotal) coTotal.innerText = `$${subtotal.toFixed(2)}`;
+
+            // Free shipping progress tracker ($35 threshold)
+            const threshold = 35.00;
+            const bar = document.getElementById('shipping-progress-bar');
+            const progText = document.getElementById('shipping-progress-text');
+            const progBadge = document.getElementById('shipping-status-badge');
+
+            if (bar && progText && progBadge) {
+                if (subtotal >= threshold) {
+                    bar.style.width = '100%';
+                    bar.className = 'bg-appetite-700 h-full w-full transition-all duration-300';
+                    progText.innerText = '🎉 You unlocked FREE 2-Day Discreet Shipping!';
+                    progBadge.innerText = 'UNLOCKED';
+                    progBadge.className = 'text-appetite-700 font-bold';
+                } else {
+                    const remaining = threshold - subtotal;
+                    const percent = Math.min(100, (subtotal / threshold) * 100);
+                    bar.style.width = `${percent}%`;
+                    bar.className = 'bg-appetite-700 h-full transition-all duration-300';
+                    progText.innerText = `Add $${remaining.toFixed(2)} for Free 2-Day Shipping`;
+                    progBadge.innerText = `$${remaining.toFixed(2)} Left`;
+                    progBadge.className = 'text-honey-900 font-bold';
+                }
+            }
+
+            // Render Cart Drawer Items
+            const container = document.getElementById('cart-items-container');
+            if (container) {
+                if (cart.length === 0) {
+                    container.innerHTML = `
+                        <div class="h-48 flex flex-col items-center justify-center text-center space-y-2 text-earth-500">
+                            <i class="fa-solid fa-basket-shopping text-3xl text-earth-400"></i>
+                            <div class="text-xs font-medium">Your cart is currently empty.</div>
+                        </div>
+                    `;
+                } else {
+                    container.innerHTML = cart.map(item => `
+                        <div class="flex items-center gap-3 bg-white p-3 rounded-xl border border-canvas-border text-xs shadow-xs">
+                            <img src="${item.image}" alt="${item.name}" class="h-12 w-12 rounded-lg object-cover bg-canvas-surface border border-canvas-border" />
+                            <div class="flex-1 min-w-0">
+                                <div class="font-bold text-earth-950 truncate">${item.name}</div>
+                                <div class="text-earth-600 font-mono text-[11px]">$${item.price.toFixed(2)} each</div>
+                            </div>
+                            <div class="flex items-center gap-1.5 bg-canvas-surface border border-canvas-border rounded-lg p-1">
+                                <button onclick="window.updateCartQty(${item.id}, -1)" class="h-5 w-5 rounded bg-white text-earth-900 hover:bg-earth-200 text-xs font-bold flex items-center justify-center">
+                                    -
+                                </button>
+                                <span class="font-bold text-earth-950 px-1 font-mono">${item.quantity}</span>
+                                <button onclick="window.updateCartQty(${item.id}, 1)" class="h-5 w-5 rounded bg-white text-earth-900 hover:bg-earth-200 text-xs font-bold flex items-center justify-center">
+                                    +
+                                </button>
+                            </div>
+                            <button onclick="window.removeCartItem(${item.id})" class="text-earth-400 hover:text-rose-600 p-1">
+                                <i class="fa-solid fa-trash-can"></i>
+                            </button>
+                        </div>
+                    `).join('');
+                }
+            }
+
+            // Re-render catalog cards to reflect quantity button state
+            renderCatalog();
+        }
+
+        function removeCartItem(productId) {
             cart = cart.filter(c => c.id !== productId);
             updateCartUI();
         }
@@ -1169,88 +1287,62 @@
         function clearCart() {
             cart = [];
             updateCartUI();
+            triggerFlashToast('Cart cleared');
         }
 
-        function updateCartUI() {
-            const totalCount = cart.reduce((sum, item) => sum + item.quantity, 0);
-            const subtotal = cart.reduce((sum, item) => sum + (item.price * item.quantity), 0);
+        /**
+         * ==============================================================================
+         * SEARCH, SORTING & FILTERING (ProductController.cs)
+         * ==============================================================================
+         */
+        function handleSearchInput() {
+            const input = document.getElementById('search-input');
+            const clearBtn = document.getElementById('search-clear-btn');
+            searchQuery = input.value.trim();
 
-            // Header indicators
-            document.getElementById('header-cart-count').innerText = totalCount;
-            document.getElementById('header-cart-total').innerText = `$${subtotal.toFixed(2)}`;
-
-            // Drawer indicators
-            document.getElementById('drawer-cart-count-badge').innerText = `${totalCount} item${totalCount === 1 ? '' : 's'}`;
-            document.getElementById('drawer-subtotal').innerText = `$${subtotal.toFixed(2)}`;
-            document.getElementById('drawer-total').innerText = `$${subtotal.toFixed(2)}`;
-
-            // Free shipping threshold ($35)
-            const FREE_SHIP_LIMIT = 35.00;
-            const progressBar = document.getElementById('shipping-progress-bar');
-            const progressText = document.getElementById('shipping-progress-text');
-            const progressBadge = document.getElementById('shipping-status-badge');
-
-            if (subtotal >= FREE_SHIP_LIMIT) {
-                progressBar.style.width = '100%';
-                progressBar.className = 'bg-emerald-400 h-full transition-all duration-300';
-                progressText.innerText = '⚡ Free 2-Day Shipping Unlocked!';
-                progressBadge.innerText = 'QUALIFIED';
-                progressBadge.className = 'text-emerald-400 font-bold';
+            if (searchQuery.length > 0) {
+                clearBtn.classList.remove('hidden');
             } else {
-                const diff = FREE_SHIP_LIMIT - subtotal;
-                const pct = Math.min(100, Math.round((subtotal / FREE_SHIP_LIMIT) * 100));
-                progressBar.style.width = `${pct}%`;
-                progressBar.className = 'bg-brand-500 h-full transition-all duration-300';
-                progressText.innerText = `Add $${diff.toFixed(2)} for Free 2-Day Delivery`;
-                progressBadge.innerText = `$${diff.toFixed(2)} Left`;
-                progressBadge.className = 'text-amber-400 font-bold';
+                clearBtn.classList.add('hidden');
             }
 
-            // Sync product cards on the catalog page
+            currentPage = 1;
             renderCatalog();
-
-            // Render Items in Drawer (Views/Cart/Index.cshtml)
-            const list = document.getElementById('cart-items-container');
-            if (cart.length === 0) {
-                list.innerHTML = `
-                    <div class="text-center py-16 text-slate-500 space-y-3">
-                        <i class="fa-solid fa-cart-shopping text-3xl text-slate-600"></i>
-                        <p class="text-xs font-medium">Your shopping cart is currently empty.</p>
-                        <button onclick="window.closeCartDrawer()" class="px-4 py-2 rounded-xl bg-dark-card border border-dark-border text-slate-300 text-xs font-bold hover:text-white">
-                            Browse Novelties
-                        </button>
-                    </div>
-                `;
-                document.getElementById('btn-proceed-checkout').disabled = true;
-                document.getElementById('btn-proceed-checkout').classList.add('opacity-50', 'pointer-events-none');
-            } else {
-                document.getElementById('btn-proceed-checkout').disabled = false;
-                document.getElementById('btn-proceed-checkout').classList.remove('opacity-50', 'pointer-events-none');
-                list.innerHTML = cart.map(item => `
-                    <div class="bg-dark-card p-3 rounded-xl border border-dark-border flex items-center justify-between gap-3 text-xs">
-                        <img src="${item.image}" alt="${item.name}" class="h-12 w-12 rounded-lg object-cover bg-dark-bg flex-shrink-0" />
-                        
-                        <div class="flex-1 min-w-0">
-                            <strong class="text-white block text-xs font-bold truncate">${item.name}</strong>
-                            <span class="text-slate-400 text-[11px]">$${item.price.toFixed(2)} each</span>
-                        </div>
-
-                        <div class="flex items-center gap-2 flex-shrink-0">
-                            <div class="flex items-center border border-dark-border rounded-lg bg-dark-bg">
-                                <button onclick="window.updateCartQty(${item.id}, -1)" class="px-2 py-1 text-slate-300 hover:text-white font-bold">-</button>
-                                <span class="px-2 py-1 text-brand-400 font-bold text-xs">${item.quantity}</span>
-                                <button onclick="window.updateCartQty(${item.id}, 1)" class="px-2 py-1 text-slate-300 hover:text-white font-bold">+</button>
-                            </div>
-                            <span class="font-extrabold text-white text-xs w-14 text-right">$${(item.price * item.quantity).toFixed(2)}</span>
-                            <button onclick="window.removeFromCart(${item.id})" class="text-slate-500 hover:text-rose-400 p-1" title="Remove line">
-                                <i class="fa-solid fa-trash-can text-xs"></i>
-                            </button>
-                        </div>
-                    </div>
-                `).join('');
-            }
         }
 
+        function clearSearch() {
+            const input = document.getElementById('search-input');
+            const clearBtn = document.getElementById('search-clear-btn');
+            input.value = '';
+            searchQuery = '';
+            clearBtn.classList.add('hidden');
+            currentPage = 1;
+            renderCatalog();
+        }
+
+        function handleSortChange() {
+            const select = document.getElementById('sort-select');
+            sortOption = select.value;
+            currentPage = 1;
+            renderCatalog();
+        }
+
+        function resetFilters() {
+            activeCategory = 'all';
+            clearSearch();
+            const select = document.getElementById('sort-select');
+            if (select) select.value = 'default';
+            sortOption = 'default';
+            currentPage = 1;
+            renderCatalog();
+            window.scrollTo({ top: 0, behavior: 'smooth' });
+        }
+
+        /**
+         * ==============================================================================
+         * MODAL CONTROLS & CHECKOUT WORKFLOW (Views/Cart/Checkout.cshtml)
+         * ==============================================================================
+         */
         function openCartDrawer() {
             document.getElementById('cart-drawer-backdrop').classList.remove('hidden');
         }
@@ -1259,16 +1351,12 @@
             document.getElementById('cart-drawer-backdrop').classList.add('hidden');
         }
 
-        /**
-         * ==============================================================================
-         * CHECKOUT CONTROLLER & ORDER PROCESSOR (CartController.cs & EmailOrderProcessor.cs)
-         * ==============================================================================
-         */
         function openCheckoutModal() {
-            if (cart.length === 0) return;
+            if (cart.length === 0) {
+                triggerFlashToast('Please add items to your cart before checkout');
+                return;
+            }
             closeCartDrawer();
-            const subtotal = cart.reduce((sum, item) => sum + (item.price * item.quantity), 0);
-            document.getElementById('checkout-total-display').innerText = `$${subtotal.toFixed(2)}`;
             document.getElementById('checkout-modal-backdrop').classList.remove('hidden');
         }
 
@@ -1277,19 +1365,25 @@
         }
 
         function processCheckout() {
+            const subtotal = cart.reduce((sum, item) => sum + (item.price * item.quantity), 0);
             const name = document.getElementById('co-name').value;
             const city = document.getElementById('co-city').value;
-            const subtotal = cart.reduce((sum, item) => sum + (item.price * item.quantity), 0);
 
-            // Generate simulated order confirmation
+            // Generate Order Id
             const orderId = '#MS-' + Math.floor(100000 + Math.random() * 900000);
+
+            // Populate Receipt
             document.getElementById('rec-order-id').innerText = orderId;
             document.getElementById('rec-name').innerText = name;
             document.getElementById('rec-dest').innerText = city;
             document.getElementById('rec-total').innerText = `$${subtotal.toFixed(2)}`;
 
+            // Clear Cart & Close Modal
+            cart = [];
+            updateCartUI();
             closeCheckoutModal();
-            clearCart();
+
+            // Open Receipt
             document.getElementById('receipt-modal-backdrop').classList.remove('hidden');
         }
 
@@ -1299,11 +1393,11 @@
 
         /**
          * ==============================================================================
-         * ADMIN CRUD INVENTORY (AdminController.cs & Views/Admin/Index.cshtml)
+         * ADMIN CRUD PORTAL (AdminController.cs & EFProductRepository.cs)
          * ==============================================================================
          */
         function openAdminModal() {
-            renderAdminTable();
+            renderAdminInventoryList();
             document.getElementById('admin-modal-backdrop').classList.remove('hidden');
         }
 
@@ -1311,60 +1405,67 @@
             document.getElementById('admin-modal-backdrop').classList.add('hidden');
         }
 
-        function renderAdminTable() {
-            const tbody = document.getElementById('admin-product-tbody');
-            tbody.innerHTML = PRODUCTS.map(p => `
-                <tr class="hover:bg-dark-cardHover transition-colors">
-                    <td class="p-3 font-mono font-bold text-cyan-400">#${p.id}</td>
-                    <td class="p-3 flex items-center gap-2.5">
-                        <img src="${p.image}" alt="${p.name}" class="h-8 w-8 rounded object-cover bg-dark-bg" />
-                        <strong class="text-white">${p.name}</strong>
-                    </td>
-                    <td class="p-3 text-slate-400">${p.category}</td>
-                    <td class="p-3 text-right font-bold text-amber-400">$${p.price.toFixed(2)}</td>
-                    <td class="p-3 text-center">
-                        <button onclick="window.deleteProduct(${p.id})" class="px-2.5 py-1 rounded-lg bg-rose-500/15 border border-rose-500/40 text-rose-400 hover:bg-rose-500 hover:text-white transition-all text-[11px] font-bold">
-                            Delete
-                        </button>
-                    </td>
-                </tr>
+        function renderAdminInventoryList() {
+            const container = document.getElementById('admin-inventory-list');
+            if (!container) return;
+
+            container.innerHTML = PRODUCTS.map(p => `
+                <div class="flex items-center justify-between bg-white p-2.5 rounded-lg border border-canvas-border">
+                    <div class="flex items-center gap-2.5">
+                        <img src="${p.image}" alt="${p.name}" class="h-8 w-8 rounded object-cover border border-canvas-border" />
+                        <div>
+                            <div class="font-bold text-earth-950">${p.name}</div>
+                            <div class="text-[10.5px] text-earth-600 font-mono">${p.category} &bull; $${p.price.toFixed(2)}</div>
+                        </div>
+                    </div>
+                    <button onclick="window.handleAdminDelete(${p.id})" class="px-2 py-1 rounded bg-earth-100 text-rose-600 hover:bg-rose-600 hover:text-white transition-all text-xs font-bold">
+                        Delete
+                    </button>
+                </div>
             `).join('');
         }
 
-        function addNewProduct() {
-            const name = document.getElementById('new-prod-name').value;
-            const price = parseFloat(document.getElementById('new-prod-price').value);
-            const category = document.getElementById('new-prod-category').value;
-            const desc = document.getElementById('new-prod-desc').value;
+        function handleAdminAddProduct() {
+            const name = document.getElementById('adm-name').value;
+            const cat = document.getElementById('adm-cat').value;
+            const price = parseFloat(document.getElementById('adm-price').value);
+            const desc = document.getElementById('adm-desc').value;
 
-            const newId = Math.max(...PRODUCTS.map(p => p.id), 0) + 1;
+            const newId = PRODUCTS.length > 0 ? Math.max(...PRODUCTS.map(p => p.id)) + 1 : 1;
+
             PRODUCTS.unshift({
                 id: newId,
                 name: name,
+                category: cat,
                 price: price,
-                category: category,
-                description: desc,
                 rating: 5.0,
                 reviews: 1,
                 badge: "New Arrival",
-                badgeColor: "amber",
-                image: "./images/beeper.jpg",
-                stock: 25
+                badgeColor: "emerald",
+                description: desc,
+                image: "./images/beeper.jpg", // fallback placeholder
+                stock: 20
             });
 
-            document.getElementById('add-product-form').reset();
-            renderAdminTable();
+            document.getElementById('admin-add-form').reset();
+            renderAdminInventoryList();
             renderCatalog();
-            triggerFlashToast(`Saved product #${newId} to EF6 store`);
+            triggerFlashToast(`Added "${name}" to database`);
         }
 
-        function deleteProduct(id) {
-            PRODUCTS = PRODUCTS.filter(p => p.id !== id);
-            renderAdminTable();
-            renderCatalog();
-            triggerFlashToast(`Deleted product #${id} from EF6`);
+        function handleAdminDelete(productId) {
+            PRODUCTS = PRODUCTS.filter(p => p.id !== productId);
+            cart = cart.filter(c => c.id !== productId);
+            renderAdminInventoryList();
+            updateCartUI();
+            triggerFlashToast('Product deleted from EF repository');
         }
 
+        /**
+         * ==============================================================================
+         * ARCHITECTURE MODAL
+         * ==============================================================================
+         */
         function openArchitectureModal() {
             document.getElementById('arch-modal-backdrop').classList.remove('hidden');
         }
@@ -1375,82 +1476,41 @@
 
         /**
          * ==============================================================================
-         * SEARCH & SORT FILTERS
-         * ==============================================================================
-         */
-        function setCategory(cat) {
-            activeCategory = cat;
-            currentPage = 1;
-            renderCatalog();
-        }
-
-        function handleSearchInput() {
-            const input = document.getElementById('search-input');
-            const clearBtn = document.getElementById('search-clear-btn');
-            searchQuery = input.value.trim();
-            currentPage = 1;
-            clearBtn.classList.toggle('hidden', !searchQuery);
-            renderCatalog();
-        }
-
-        function clearSearch() {
-            document.getElementById('search-input').value = '';
-            handleSearchInput();
-        }
-
-        function handleSortChange() {
-            sortOption = document.getElementById('sort-select').value;
-            renderCatalog();
-        }
-
-        function resetFilters() {
-            activeCategory = 'all';
-            searchQuery = '';
-            sortOption = 'default';
-            currentPage = 1;
-            document.getElementById('search-input').value = '';
-            document.getElementById('search-clear-btn').classList.add('hidden');
-            document.getElementById('sort-select').value = 'default';
-            renderCatalog();
-        }
-
-        /**
-         * ==============================================================================
-         * FLOATING TECHNICAL & ARCHITECTURAL BLUEPRINT TOOLTIP ENGINE
+         * BLUEPRINT HOVER TOOLTIP ENGINE
          * ==============================================================================
          */
         const tooltip = document.getElementById('blueprint-tooltip');
-        const ttFile = document.getElementById('tt-file');
         const ttRole = document.getElementById('tt-role');
-        const ttLayer = document.getElementById('tt-layer-badge');
+        const ttLayerBadge = document.getElementById('tt-layer-badge');
         const ttDomCss = document.getElementById('tt-dom-css');
-        const ttDesc = document.getElementById('tt-desc');
+        const ttFile = document.getElementById('tt-file');
         const ttCode = document.getElementById('tt-code');
+        const ttDesc = document.getElementById('tt-desc');
 
         document.addEventListener('mouseover', (e) => {
             const target = e.target.closest('[data-blueprint-file]');
-            if (target) {
-                const file = target.getAttribute('data-blueprint-file');
-                const role = target.getAttribute('data-blueprint-role') || 'Component';
-                const layer = target.getAttribute('data-blueprint-layer') || 'Architecture';
-                const domCss = target.getAttribute('data-blueprint-dom') || '<element> • Flexbox / Grid layout';
-                const desc = target.getAttribute('data-blueprint-desc') || '';
-                const code = target.getAttribute('data-blueprint-code') || '// C# code mapping';
+            if (!target) return;
 
-                ttFile.innerText = file;
-                ttRole.innerText = role;
-                ttLayer.innerText = layer;
-                ttDomCss.innerHTML = domCss;
-                ttDesc.innerText = desc;
-                ttCode.innerText = code;
+            const file = target.getAttribute('data-blueprint-file') || 'MischiefStore.WebUI/...';
+            const role = target.getAttribute('data-blueprint-role') || 'UI Component';
+            const layer = target.getAttribute('data-blueprint-layer') || 'Presentation';
+            const dom = target.getAttribute('data-blueprint-dom') || 'HTML & CSS Flexbox/Grid Layout';
+            const desc = target.getAttribute('data-blueprint-desc') || 'Architectural component in the ASP.NET MVC pipeline.';
+            const code = target.getAttribute('data-blueprint-code') || '// ASP.NET MVC action';
 
-                positionTooltip(e);
-                tooltip.classList.add('visible');
-            }
+            ttRole.innerText = role;
+            ttLayerBadge.innerText = layer;
+            ttDomCss.innerText = dom;
+            ttFile.innerText = file;
+            ttCode.innerText = code;
+            ttDesc.innerText = desc;
+
+            tooltip.classList.add('visible');
+            positionTooltip(e);
         });
 
         document.addEventListener('mousemove', (e) => {
-            if (tooltip.classList.contains('visible')) {
+            if (tooltip && tooltip.classList.contains('visible')) {
                 positionTooltip(e);
             }
         });
@@ -1458,11 +1518,12 @@
         document.addEventListener('mouseout', (e) => {
             const target = e.target.closest('[data-blueprint-file]');
             if (target && !e.relatedTarget?.closest('[data-blueprint-file]')) {
-                tooltip.classList.remove('visible');
+                if (tooltip) tooltip.classList.remove('visible');
             }
         });
 
         function positionTooltip(e) {
+            if (!tooltip) return;
             const padding = 15;
             let left = e.clientX + padding;
             let top = e.clientY + padding;
@@ -1482,8 +1543,8 @@
 
         function triggerFlashToast(msg) {
             const toast = document.createElement('div');
-            toast.className = 'fixed bottom-5 right-5 z-50 px-4 py-2.5 rounded-xl bg-brand-500 text-slate-950 font-bold text-xs shadow-2xl transition-all flex items-center gap-2';
-            toast.innerHTML = `<i class="fa-solid fa-cart-shopping"></i> ${msg}`;
+            toast.className = 'fixed bottom-5 right-5 z-50 px-4 py-2.5 rounded-xl bg-appetite-700 text-white font-bold text-xs shadow-2xl transition-all flex items-center gap-2';
+            toast.innerHTML = `<i class="fa-solid fa-cart-shopping text-honey-300"></i> ${msg}`;
             document.body.appendChild(toast);
             setTimeout(() => {
                 toast.style.opacity = '0';
@@ -1507,6 +1568,12 @@
             renderCatalog();
             updateCartUI();
         });
+
+        // Immediate invocation fallback for instant rendering
+        if (document.readyState === 'complete' || document.readyState === 'interactive') {
+            renderCatalog();
+            updateCartUI();
+        }
     </script>
 </body>
 

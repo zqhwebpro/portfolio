@@ -1,405 +1,372 @@
-import React, { useState, useEffect, useRef } from 'react';
-import { Play, RotateCcw, Sparkles, HelpCircle, CheckCircle, ArrowRight, Zap, Target, Binary } from 'lucide-react';
+import React, { useState } from 'react';
+import { 
+  Terminal, Database, Clock, HardDrive, Hash, RefreshCw, GitBranch, Crosshair, 
+  ArrowRight, Sparkles, Zap, ShieldCheck, Cpu, Layers, Play, CheckCircle2, RotateCcw
+} from 'lucide-react';
+import { CORE_CS_TERMS } from '../utils/csData';
 import { SoundEngine } from '../utils/soundEngine';
 
-export function HeroPlayground() {
-// Guessing Game State (Intro Unit)
-  const [secretNumber, setSecretNumber] = useState(67);
-  const [currentGuess, setCurrentGuess] = useState(50);
-  const [lowBound, setLowBound] = useState(1);
-  const [highBound, setHighBound] = useState(100);
-  const [guessHistory, setGuessHistory] = useState([]);
-  const [gameWon, setGameWon] = useState(false);
-  const [lastFeedback, setLastFeedback] = useState(null); // 'high' | 'low' | 'correct' | null
+export function HeroPlayground({ onSelectSlide = () => {} }) {
+  // Interactive Algorithmic Efficiency Sandbox (Linear O(N) vs Binary O(log N))
+  const [searchTarget, setSearchTarget] = useState(67);
+  const [arraySize, setArraySize] = useState(100);
+  const [sandboxMode, setSandboxMode] = useState('comparison'); // 'comparison' | 'interactive'
+  const [activeStep, setActiveStep] = useState(null);
 
-  // Interactive Cursor Physics Background
-  const playgroundRef = useRef(null);
+  const linearOps = searchTarget;
+  const binaryOps = Math.ceil(Math.log2(searchTarget + 1));
+  const maxBinaryOps = Math.ceil(Math.log2(arraySize));
 
-  const resetGame = (newSecret = null) => {
-    SoundEngine.playClick();
-    const sec = newSecret || Math.floor(Math.random() * 100) + 1;
-    setSecretNumber(sec);
-    setLowBound(1);
-    setHighBound(100);
-    setCurrentGuess(50);
-    setGuessHistory([]);
-    setGameWon(false);
-    setLastFeedback(null);
-  };
-
-  const handleMakeGuess = (guessVal) => {
-    if (gameWon) return;
-    const val = Number(guessVal);
-    if (val < 1 || val > 100) return;
-
-    SoundEngine.playPop();
-    const newEntry = {
-      guess: val,
-      step: guessHistory.length + 1,
-      min: lowBound,
-      max: highBound,
-    };
-
-    if (val === secretNumber) {
-      SoundEngine.playFanfare();
-      newEntry.result = 'CORRECT';
-      setLastFeedback('correct');
-      setGameWon(true);
-    } else if (val < secretNumber) {
-      SoundEngine.playBlip();
-      newEntry.result = 'TOO LOW';
-      setLastFeedback('low');
-      setLowBound(Math.max(lowBound, val + 1));
-      // Auto-suggest next binary midpoint
-      const nextMid = Math.floor((Math.max(lowBound, val + 1) + highBound) / 2);
-      setCurrentGuess(nextMid);
-    } else {
-      SoundEngine.playBlip();
-      newEntry.result = 'TOO HIGH';
-      setLastFeedback('high');
-      setHighBound(Math.min(highBound, val - 1));
-      // Auto-suggest next binary midpoint
-      const nextMid = Math.floor((lowBound + Math.min(highBound, val - 1)) / 2);
-      setCurrentGuess(nextMid);
+  const getConceptIcon = (id) => {
+    switch (id) {
+      case 'algorithm': return <Terminal size={18} />;
+      case 'data-structure': return <Database size={18} />;
+      case 'time-complexity': return <Clock size={18} />;
+      case 'space-complexity': return <HardDrive size={18} />;
+      case 'big-o-notation': return <Hash size={18} />;
+      case 'recursion': return <RefreshCw size={18} />;
+      case 'divide-and-conquer': return <GitBranch size={18} />;
+      case 'brute-force': return <Crosshair size={18} />;
+      default: return <Cpu size={18} />;
     }
-
-    setGuessHistory(prev => [newEntry, ...prev]);
   };
 
-  const runOptimalBinaryStep = () => {
-    const optimalMid = Math.floor((lowBound + highBound) / 2);
-    setCurrentGuess(optimalMid);
-    handleMakeGuess(optimalMid);
+  const handleLaunchConcept = (index) => {
+    SoundEngine.playFanfare();
+    onSelectSlide(index);
+    const el = document.getElementById('interactive-slides');
+    if (el) {
+      el.scrollIntoView({ behavior: 'smooth' });
+    }
   };
 
   return (
     <section id="hero" className="section-padding" style={{
       background: 'var(--bg-paper)',
       borderBottom: 'var(--border-thick)',
-      position: 'relative',
-      overflow: 'hidden'
+      position: 'relative'
     }}>
-      <div className="container" ref={playgroundRef}>
+      <div className="container">
         
-        {/* Section Header */}
+        {/* Intro Meta Header */}
         <div style={{ marginBottom: '2.5rem' }}>
-          <div style={{ display: 'flex', alignItems: 'center', gap: '0.5rem', marginBottom: '0.5rem' }}>
+          <div style={{ display: 'flex', alignItems: 'center', gap: '0.6rem', marginBottom: '0.75rem', flexWrap: 'wrap' }}>
             <span className="brutal-badge brutal-badge-red font-mono" style={{ fontSize: '0.8rem' }}>
-              UNIT 00 // FOUNDATIONAL INTRO
+              THEORETICAL COMPUTER SCIENCE
             </span>
             <span className="brutal-badge brutal-badge-yellow font-mono" style={{ fontSize: '0.8rem' }}>
-              COMPUTATIONAL PROBLEM SOLVING
+              8 CORE FUNDAMENTALS
+            </span>
+            <span className="brutal-badge brutal-badge-cyan font-mono" style={{ fontSize: '0.8rem' }}>
+              INTERACTIVE INFOGRAPHIC CURRICULUM
             </span>
           </div>
 
           <h1 style={{
             fontFamily: 'var(--font-display)',
-            fontSize: 'clamp(2rem, 5vw, 3.75rem)',
+            fontSize: 'clamp(2.25rem, 5.5vw, 4rem)',
             fontWeight: 900,
             lineHeight: 1.05,
             letterSpacing: '-0.03em',
-            maxWidth: '900px',
-            marginBottom: '1rem'
+            margin: '0.5rem 0 1rem',
+            color: 'var(--ink-black)'
           }}>
-            WHAT IS AN ALGORITHM?
+            THE 8 FUNDAMENTAL CONCEPTS
             <span style={{
               display: 'inline-block',
               background: 'var(--canary-yellow)',
-              padding: '0 0.35rem',
+              padding: '0 0.5rem',
               marginLeft: '0.5rem',
-              border: '2px solid #000',
-              boxShadow: '3px 3px 0 #000'
+              border: '3px solid #000',
+              boxShadow: '4px 4px 0 #000'
             }}>
-              &amp; THE GUESSING GAME
+              OF ALGORITHMS
             </span>
           </h1>
 
           <p style={{
             fontFamily: 'var(--font-body)',
-            fontSize: 'clamp(1rem, 1.5vw, 1.25rem)',
+            fontSize: 'clamp(1.05rem, 1.6vw, 1.25rem)',
             color: 'var(--text-muted)',
-            maxWidth: '820px',
+            maxWidth: '900px',
             lineHeight: 1.6
           }}>
-            An algorithm is a step-by-step procedure for solving a computational problem. An algorithm must always be <strong>correct</strong> (producing the right answer for every valid input) and <strong>resource-efficient</strong> (minimizing operations and memory usage).
+            Computer science is fundamentally the study of computation, information representation, and algorithmic efficiency. This interactive infographic masterclass explores the <strong>8 core pillars</strong> that form the mathematical bedrock of all modern software engineering.
           </p>
         </div>
 
-        {/* 2-Column Grid: Left (Concepts & Impact) | Right (Interactive Guessing Game) */}
+        {/* ⚡ 8 CORE CONCEPTS INTERACTIVE LAUNCH GRID */}
+        <div style={{ marginBottom: '3rem' }}>
+          <div style={{
+            display: 'flex',
+            justifyContent: 'space-between',
+            alignItems: 'center',
+            marginBottom: '1rem',
+            borderBottom: '2px solid #000',
+            paddingBottom: '0.5rem',
+            flexWrap: 'wrap',
+            gap: '0.5rem'
+          }}>
+            <h2 style={{
+              fontFamily: 'var(--font-display)',
+              fontSize: '1.25rem',
+              fontWeight: 900,
+              textTransform: 'uppercase',
+              letterSpacing: '-0.01em',
+              margin: 0
+            }}>
+              THE 8 PILLARS OF ALGORITHMIC THINKING
+            </h2>
+            <span className="font-mono text-xs" style={{ color: '#666', fontWeight: 700 }}>
+              CLICK ANY PILLAR TO LAUNCH ITS INTERACTIVE SLIDE LAB
+            </span>
+          </div>
+
+          <div style={{
+            display: 'grid',
+            gridTemplateColumns: 'repeat(auto-fit, minmax(260px, 1fr))',
+            gap: '1rem'
+          }}>
+            {CORE_CS_TERMS.map((concept, idx) => (
+              <div
+                key={concept.id}
+                onClick={() => handleLaunchConcept(idx)}
+                className="brutal-card"
+                style={{
+                  background: '#FFFFFF',
+                  cursor: 'pointer',
+                  padding: '1.25rem',
+                  transition: 'all 0.15s ease',
+                  borderLeft: `6px solid ${concept.color}`,
+                  display: 'flex',
+                  flexDirection: 'column',
+                  justifyContent: 'space-between'
+                }}
+              >
+                <div>
+                  <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '0.75rem' }}>
+                    <div style={{
+                      width: '32px',
+                      height: '32px',
+                      background: concept.color,
+                      color: '#000',
+                      display: 'flex',
+                      alignItems: 'center',
+                      justifyContent: 'center',
+                      border: '2px solid #000',
+                      boxShadow: '2px 2px 0 #000'
+                    }}>
+                      {getConceptIcon(concept.id)}
+                    </div>
+                    <span className="font-mono text-xs" style={{ fontWeight: 800, color: '#666' }}>
+                      #{String(idx + 1).padStart(2, '0')}
+                    </span>
+                  </div>
+
+                  <h3 style={{
+                    fontFamily: 'var(--font-display)',
+                    fontWeight: 900,
+                    fontSize: '1.15rem',
+                    margin: '0 0 0.35rem 0',
+                    color: 'var(--ink-black)'
+                  }}>
+                    {concept.term}
+                  </h3>
+
+                  <p style={{
+                    fontSize: '0.82rem',
+                    color: '#555',
+                    lineHeight: 1.45,
+                    margin: 0
+                  }}>
+                    {concept.shortDesc}
+                  </p>
+                </div>
+
+                <div style={{
+                  marginTop: '1rem',
+                  paddingTop: '0.75rem',
+                  borderTop: '1px solid #EEE',
+                  display: 'flex',
+                  justifyContent: 'space-between',
+                  alignItems: 'center'
+                }}>
+                  <span className={`brutal-badge ${concept.badgeClass}`} style={{ fontSize: '0.68rem', padding: '0.15rem 0.4rem' }}>
+                    {concept.paradigm}
+                  </span>
+                  <span style={{ fontSize: '0.75rem', fontWeight: 800, color: 'var(--cobalt-blue)', display: 'flex', alignItems: 'center', gap: '0.2rem' }}>
+                    EXPLORE <ArrowRight size={12} />
+                  </span>
+                </div>
+              </div>
+            ))}
+          </div>
+        </div>
+
+        {/* 2-Column Unit 02+ Structured Introduction Chassis */}
         <div style={{
           display: 'grid',
-          gridTemplateColumns: 'repeat(auto-fit, minmax(320px, 1fr))',
+          gridTemplateColumns: 'repeat(auto-fit, minmax(min(100%, 460px), 1fr))',
           gap: '2rem',
           alignItems: 'start'
         }}>
 
-          {/* Left Column: Algorithmic Foundations Card */}
-          <div style={{ display: 'flex', flexDirection: 'column', gap: '1.5rem' }}>
-            
-            <div className="brutal-card brutal-card-blue">
-              <div style={{ display: 'flex', alignItems: 'center', gap: '0.5rem', marginBottom: '1rem' }}>
-                <Zap size={20} color="var(--canary-yellow)" />
-                <h3 style={{ fontFamily: 'var(--font-display)', fontWeight: 800, fontSize: '1.25rem' }}>
-                  CORE ALGORITHMIC PRINCIPLES
-                </h3>
-              </div>
-
-              <div style={{ display: 'flex', flexDirection: 'column', gap: '1rem', fontSize: '0.95rem', lineHeight: 1.5 }}>
-                <div style={{
-                  background: 'rgba(255,255,255,0.15)',
-                  padding: '0.85rem',
-                  border: '1.5px solid rgba(255,255,255,0.3)'
-                }}>
-                  <strong style={{ color: 'var(--canary-yellow)', display: 'block', marginBottom: '0.25rem' }}>
-                    1. Problem vs. Algorithm
-                  </strong>
-                  A <em>problem</em> specifies the input-output relationship (e.g., "Find target in sorted list"). An <em>algorithm</em> is the concrete set of instructions that computes it.
-                </div>
-
-                <div style={{
-                  background: 'rgba(255,255,255,0.15)',
-                  padding: '0.85rem',
-                  border: '1.5px solid rgba(255,255,255,0.3)'
-                }}>
-                  <strong style={{ color: 'var(--emerald-mint)', display: 'block', marginBottom: '0.25rem' }}>
-                    2. Correctness &amp; Halting
-                  </strong>
-                  An algorithm is correct if, for every instance of the problem, it halts in finite steps and outputs the mathematically correct answer.
-                </div>
-
-                <div style={{
-                  background: 'rgba(255,255,255,0.15)',
-                  padding: '0.85rem',
-                  border: '1.5px solid rgba(255,255,255,0.3)'
-                }}>
-                  <strong style={{ color: '#00F0FF', display: 'block', marginBottom: '0.25rem' }}>
-                    3. Real-World Applications
-                  </strong>
-                  From GPS route calculation (shortest-path graphs) to internet cryptography (modular exponentiation) and search ranking, algorithms drive modern software engineering.
-                </div>
-              </div>
+          {/* Left Column: Computational Foundations Card */}
+          <div className="brutal-card brutal-card-blue">
+            <div style={{ display: 'flex', alignItems: 'center', gap: '0.5rem', marginBottom: '1.25rem' }}>
+              <Zap size={22} color="var(--canary-yellow)" />
+              <h3 style={{ fontFamily: 'var(--font-display)', fontWeight: 900, fontSize: '1.35rem', margin: 0 }}>
+                WHAT MAKES A VALID ALGORITHM?
+              </h3>
             </div>
 
-            {/* Comparison Box: Linear vs Binary Thinking */}
-            <div className="brutal-card brutal-card-yellow">
-              <h4 style={{ fontFamily: 'var(--font-display)', fontWeight: 800, fontSize: '1.1rem', marginBottom: '0.75rem' }}>
-                LINEAR VS. BINARY SEARCH THINKING
-              </h4>
-              <p style={{ fontSize: '0.9rem', marginBottom: '1rem', color: '#111' }}>
-                If you guess a number between 1 and 100 sequentially (1, 2, 3...), it could take up to <strong>100 guesses</strong>. If you divide the search range in half each time, it takes at most <strong>7 guesses</strong>!
-              </p>
+            <div style={{ display: 'flex', flexDirection: 'column', gap: '0.85rem', fontSize: '0.9rem', lineHeight: 1.5 }}>
+              <div style={{
+                background: 'rgba(255,255,255,0.12)',
+                padding: '0.85rem',
+                border: '1.5px solid rgba(255,255,255,0.25)'
+              }}>
+                <strong style={{ color: 'var(--canary-yellow)', display: 'block', marginBottom: '0.2rem', fontFamily: 'var(--font-mono)' }}>
+                  1. FINITENESS (Halting Guarantee)
+                </strong>
+                An algorithm must always terminate after a countable, finite sequence of execution steps for all valid inputs.
+              </div>
 
               <div style={{
-                display: 'grid',
-                gridTemplateColumns: '1fr 1fr',
-                gap: '0.75rem',
-                fontFamily: 'var(--font-mono)',
-                fontSize: '0.8rem'
+                background: 'rgba(255,255,255,0.12)',
+                padding: '0.85rem',
+                border: '1.5px solid rgba(255,255,255,0.25)'
               }}>
-                <div style={{ background: '#FFF', padding: '0.75rem', border: '1.5px solid #000', boxShadow: '2px 2px 0 #000' }}>
-                  <div style={{ fontWeight: 800, color: 'var(--vermilion-red)' }}>LINEAR SEARCH</div>
-                  <div style={{ fontSize: '1.25rem', fontWeight: 900, margin: '0.25rem 0' }}>Max 100</div>
-                  <div style={{ color: '#666' }}>O(n) comparisons</div>
-                </div>
-                <div style={{ background: '#FFF', padding: '0.75rem', border: '1.5px solid #000', boxShadow: '2px 2px 0 #000' }}>
-                  <div style={{ fontWeight: 800, color: 'var(--cobalt-blue)' }}>BINARY SEARCH</div>
-                  <div style={{ fontSize: '1.25rem', fontWeight: 900, margin: '0.25rem 0' }}>Max 7</div>
-                  <div style={{ color: '#666' }}>O(log₂ n) comparisons</div>
-                </div>
+                <strong style={{ color: 'var(--emerald-mint)', display: 'block', marginBottom: '0.2rem', fontFamily: 'var(--font-mono)' }}>
+                  2. DEFINITENESS & DETERMINISM
+                </strong>
+                Each instruction must be completely unambiguous. Given identical initial parameters, an algorithm must transition through identical states.
+              </div>
+
+              <div style={{
+                background: 'rgba(255,255,255,0.12)',
+                padding: '0.85rem',
+                border: '1.5px solid rgba(255,255,255,0.25)'
+              }}>
+                <strong style={{ color: '#00F0FF', display: 'block', marginBottom: '0.2rem', fontFamily: 'var(--font-mono)' }}>
+                  3. EFFECTIVENESS & FEASIBILITY
+                </strong>
+                Every operation must be basic enough to be carried out exactly in a finite amount of physical time using available CPU and memory resources.
               </div>
             </div>
-
           </div>
 
-          {/* Right Column: Interactive Number Guessing Game */}
-          <div className="brutal-card" style={{ background: '#FFF' }}>
-            <div style={{ display: 'flex', alignItems: 'center', justifyBetween: 'space-between', marginBottom: '1rem', flexWrap: 'wrap', gap: '0.5rem' }}>
+          {/* Right Column: Interactive Algorithmic Strategy Visualizer */}
+          <div className="brutal-card" style={{ background: '#FFFFFF' }}>
+            <div style={{
+              display: 'flex',
+              justifyContent: 'space-between',
+              alignItems: 'center',
+              marginBottom: '1rem',
+              borderBottom: '2px solid #000',
+              paddingBottom: '0.75rem',
+              flexWrap: 'wrap',
+              gap: '0.5rem'
+            }}>
               <div>
-                <span className="brutal-badge brutal-badge-mint font-mono" style={{ fontSize: '0.75rem' }}>
-                  INTERACTIVE LAB // 1 TO 100
+                <span className="brutal-badge brutal-badge-mint font-mono" style={{ fontSize: '0.72rem' }}>
+                  INTERACTIVE INTRO LAB
                 </span>
-                <h3 style={{ fontFamily: 'var(--font-display)', fontWeight: 900, fontSize: '1.4rem', marginTop: '0.25rem' }}>
-                  THE NUMBER GUESSING GAME
+                <h3 style={{ fontFamily: 'var(--font-display)', fontWeight: 900, fontSize: '1.25rem', margin: '0.25rem 0 0' }}>
+                  THE POWER OF ALGORITHMIC EFFICIENCY
                 </h3>
               </div>
-
-              <button
-                onClick={() => resetGame()}
-                className="brutal-btn brutal-btn-sm"
-                style={{ background: '#F5F5F5', border: '1.5px solid #000' }}
-                title="Pick a new secret number"
-              >
-                <RotateCcw size={14} /> New Secret Number
-              </button>
             </div>
 
-            {/* Active Range Tracker Bar */}
+            <p style={{ fontSize: '0.88rem', color: '#444', lineHeight: 1.5, marginBottom: '1.25rem' }}>
+              Compare how different algorithmic strategies tackle searching through <strong>{arraySize} sorted elements</strong>. Notice how logarithmic halving crushes sequential brute-force scanning:
+            </p>
+
+            {/* Target Number Selector Slider */}
             <div style={{
               background: 'var(--bg-paper)',
-              border: '2px solid #000',
               padding: '1rem',
-              marginBottom: '1.5rem',
+              border: '2px solid #000',
+              marginBottom: '1.25rem',
               boxShadow: '3px 3px 0 #000'
             }}>
-              <div style={{ display: 'flex', justifyContent: 'space-between', fontFamily: 'var(--font-mono)', fontSize: '0.85rem', fontWeight: 700, marginBottom: '0.5rem' }}>
-                <span>SEARCH RANGE: [{lowBound} ... {highBound}]</span>
-                <span>REMAINING CANDIDATES: {Math.max(0, highBound - lowBound + 1)}</span>
-              </div>
-
-              {/* Visual Number Range Bar */}
-              <div style={{
-                position: 'relative',
-                height: '24px',
-                background: '#E5E5E5',
-                border: '1.5px solid #000',
-                borderRadius: '0px',
-                overflow: 'hidden'
-              }}>
-                {/* Active Sub-Range */}
-                <div style={{
-                  position: 'absolute',
-                  left: `${((lowBound - 1) / 100) * 100}%`,
-                  width: `${((highBound - lowBound + 1) / 100) * 100}%`,
-                  height: '100%',
-                  background: 'var(--canary-yellow)',
-                  borderLeft: '2px solid var(--cobalt-blue)',
-                  borderRight: '2px solid var(--cobalt-blue)',
-                  transition: 'all 0.3s ease'
-                }} />
-              </div>
-            </div>
-
-            {/* Guess Controls */}
-            <div style={{ display: 'flex', flexDirection: 'column', gap: '1rem', marginBottom: '1.5rem' }}>
-              <div style={{ display: 'flex', gap: '0.75rem', alignItems: 'center' }}>
-                <div style={{ flex: 1 }}>
-                  <label style={{ display: 'block', fontSize: '0.8rem', fontFamily: 'var(--font-mono)', fontWeight: 700, marginBottom: '0.25rem' }}>
-                    ENTER YOUR GUESS (1 – 100):
-                  </label>
-                  <input
-                    type="number"
-                    min="1"
-                    max="100"
-                    value={currentGuess}
-                    disabled={gameWon}
-                    onChange={(e) => setCurrentGuess(e.target.value)}
-                    onKeyDown={(e) => { if (e.key === 'Enter') handleMakeGuess(currentGuess); }}
-                    style={{
-                      width: '100%',
-                      padding: '0.65rem 0.85rem',
-                      fontFamily: 'var(--font-mono)',
-                      fontSize: '1.25rem',
-                      fontWeight: 800,
-                      border: '2px solid #000',
-                      boxShadow: '3px 3px 0 #000',
-                      outline: 'none',
-                      background: gameWon ? '#E8F8F0' : '#FFF'
-                    }}
-                  />
-                </div>
-
-                <div style={{ display: 'flex', flexDirection: 'column', gap: '0.5rem', alignSelf: 'flex-end' }}>
-                  <button
-                    onClick={() => handleMakeGuess(currentGuess)}
-                    disabled={gameWon}
-                    className="brutal-btn brutal-btn-red"
-                    style={{ padding: '0.75rem 1.25rem', fontWeight: 800 }}
-                  >
-                    GUESS!
-                  </button>
-                </div>
-              </div>
-
-              {/* Binary Search Helper Button */}
-              {!gameWon && (
-                <button
-                  onClick={runOptimalBinaryStep}
-                  className="brutal-btn brutal-btn-yellow"
-                  style={{
-                    display: 'flex',
-                    alignItems: 'center',
-                    justifyContent: 'center',
-                    gap: '0.5rem',
-                    fontSize: '0.85rem',
-                    padding: '0.5rem'
-                  }}
-                >
-                  <Binary size={16} />
-                  PLAY OPTIMAL BINARY STEP: Guess {Math.floor((lowBound + highBound) / 2)} (Midpoint)
-                </button>
-              )}
-            </div>
-
-            {/* Live Feedback Alert Banner */}
-            {lastFeedback && (
-              <div style={{
-                padding: '1rem',
-                border: '2px solid #000',
-                boxShadow: '3px 3px 0 #000',
-                marginBottom: '1.5rem',
-                display: 'flex',
-                alignItems: 'center',
-                gap: '0.75rem',
-                fontWeight: 800,
-                fontSize: '1.1rem',
-                fontFamily: 'var(--font-mono)',
-                background: lastFeedback === 'correct' ? 'var(--emerald-mint)' : lastFeedback === 'high' ? 'var(--vermilion-red)' : 'var(--canary-yellow)',
-                color: lastFeedback === 'high' ? '#FFF' : '#000'
-              }}>
-                {lastFeedback === 'correct' && <CheckCircle size={24} />}
-                {lastFeedback === 'high' && <ArrowRight style={{ transform: 'rotate(-90deg)' }} size={24} />}
-                {lastFeedback === 'low' && <ArrowRight style={{ transform: 'rotate(90deg)' }} size={24} />}
-                <span>
-                  {lastFeedback === 'correct' && `🎉 BINGO! The secret number is ${secretNumber}. Found in ${guessHistory.length} guesses!`}
-                  {lastFeedback === 'high' && `TOO HIGH! Guess was ${currentGuess}. Range is now [${lowBound} ... ${highBound}].`}
-                  {lastFeedback === 'low' && `TOO LOW! Guess was ${currentGuess}. Range is now [${lowBound} ... ${highBound}].`}
+              <div style={{ display: 'flex', justifyContent: 'space-between', fontFamily: 'var(--font-mono)', fontSize: '0.82rem', fontWeight: 800, marginBottom: '0.5rem' }}>
+                <span>SEARCH TARGET VALUE:</span>
+                <span style={{ color: 'var(--cobalt-blue)', background: '#FFF', padding: '0.1rem 0.5rem', border: '1px solid #000' }}>
+                  {searchTarget} / {arraySize}
                 </span>
               </div>
-            )}
+              <input
+                type="range"
+                min="1"
+                max={arraySize}
+                value={searchTarget}
+                onChange={(e) => {
+                  setSearchTarget(Number(e.target.value));
+                  SoundEngine.playPop();
+                }}
+                style={{ width: '100%', accentColor: 'var(--cobalt-blue)', cursor: 'pointer' }}
+              />
+            </div>
 
-            {/* Guess Log History */}
-            <div>
-              <div style={{ fontFamily: 'var(--font-mono)', fontSize: '0.8rem', fontWeight: 800, marginBottom: '0.5rem' }}>
-                GUESS LOG ({guessHistory.length} STEPS):
-              </div>
+            {/* Live Operation Counter Comparison Cards */}
+            <div style={{
+              display: 'grid',
+              gridTemplateColumns: '1fr 1fr',
+              gap: '1rem',
+              fontFamily: 'var(--font-mono)'
+            }}>
               <div style={{
-                maxHeight: '160px',
-                overflowY: 'auto',
-                border: '1.5px solid #000',
-                background: 'var(--bg-paper)',
-                padding: '0.5rem'
+                background: '#FFF0F3',
+                padding: '1rem',
+                border: '2px solid #000',
+                boxShadow: '3px 3px 0 #000'
               }}>
-                {guessHistory.length === 0 ? (
-                  <div style={{ color: '#888', fontStyle: 'italic', fontSize: '0.85rem', padding: '0.5rem' }}>
-                    Make a guess above to start the binary search elimination log.
-                  </div>
-                ) : (
-                  guessHistory.map((entry, idx) => (
-                    <div
-                      key={idx}
-                      style={{
-                        display: 'flex',
-                        justifyContent: 'space-between',
-                        padding: '0.35rem 0.5rem',
-                        borderBottom: '1px solid #DDD',
-                        fontFamily: 'var(--font-mono)',
-                        fontSize: '0.8rem',
-                        background: entry.result === 'CORRECT' ? '#D1FAE5' : 'transparent'
-                      }}
-                    >
-                      <span><strong>#{entry.step}</strong>: Guessed <strong>{entry.guess}</strong></span>
-                      <span>Range was [{entry.min} ... {entry.max}]</span>
-                      <strong style={{
-                        color: entry.result === 'CORRECT' ? '#059669' : entry.result === 'TOO HIGH' ? 'var(--vermilion-red)' : 'var(--cobalt-blue)'
-                      }}>
-                        {entry.result}
-                      </strong>
-                    </div>
-                  ))
-                )}
+                <div style={{ fontSize: '0.72rem', fontWeight: 800, color: 'var(--vermilion-red)', textTransform: 'uppercase' }}>
+                  BRUTE FORCE / LINEAR SCAN
+                </div>
+                <div style={{ fontSize: '1.8rem', fontWeight: 900, color: 'var(--vermilion-red)', margin: '0.35rem 0' }}>
+                  {linearOps} <span style={{ fontSize: '0.8rem', color: '#666' }}>ops</span>
+                </div>
+                <div style={{ fontSize: '0.75rem', color: '#555' }}>
+                  Time Complexity: <strong>O(n)</strong>
+                </div>
+              </div>
+
+              <div style={{
+                background: '#E6FBF5',
+                padding: '1rem',
+                border: '2px solid #000',
+                boxShadow: '3px 3px 0 #000'
+              }}>
+                <div style={{ fontSize: '0.72rem', fontWeight: 800, color: 'var(--emerald-mint)', textTransform: 'uppercase' }}>
+                  DIVIDE & CONQUER / BINARY
+                </div>
+                <div style={{ fontSize: '1.8rem', fontWeight: 900, color: 'var(--cobalt-blue)', margin: '0.35rem 0' }}>
+                  {binaryOps} <span style={{ fontSize: '0.8rem', color: '#666' }}>ops</span>
+                </div>
+                <div style={{ fontSize: '0.75rem', color: '#555' }}>
+                  Time Complexity: <strong>O(log n)</strong>
+                </div>
               </div>
             </div>
 
+            <div style={{
+              marginTop: '1.25rem',
+              background: 'var(--canary-yellow)',
+              border: '2px solid #000',
+              padding: '0.75rem 1rem',
+              fontSize: '0.85rem',
+              fontWeight: 700,
+              display: 'flex',
+              alignItems: 'center',
+              justifyContent: 'space-between'
+            }}>
+              <span>ALGORITHMIC SPEEDUP:</span>
+              <span style={{ fontSize: '1.1rem', fontWeight: 900 }}>
+                {(linearOps / Math.max(1, binaryOps)).toFixed(1)}x FASTER
+              </span>
+            </div>
           </div>
 
         </div>
@@ -408,5 +375,3 @@ export function HeroPlayground() {
     </section>
   );
 }
-
-export default HeroPlayground;

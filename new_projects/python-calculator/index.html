@@ -163,8 +163,9 @@
         }
 
         .square.selected {
-            background: #D4AF37 !important;
-            box-shadow: inset 0 0 14px rgba(120, 85, 10, 0.85);
+            background: rgba(212, 175, 55, 0.35) !important;
+            box-shadow: inset 0 0 0 2.5px #D4AF37, 0 0 14px rgba(212, 175, 55, 0.35) !important;
+            border-radius: 2px;
         }
 
         .square.last-move {
@@ -189,26 +190,27 @@
             100% { background: #4D0E16; }
         }
 
-        /* Active Turn Square Highlighting Directly on the Chessboard (Luminous Transparent Gold Hue) */
+        /* Active Turn Square Highlighting: Transparent Gold Box with Opaque Gold Trim (No Dark Circles) */
         .square.turn-active-square {
-            box-shadow: inset 0 0 0 1.5px rgba(243, 229, 171, 0.9), inset 0 0 18px rgba(212, 175, 55, 0.48) !important;
+            box-shadow: inset 0 0 0 2px #D4AF37 !important;
             position: relative;
+            border-radius: 2px;
         }
 
         .square.turn-active-square.light {
-            background: radial-gradient(circle at center, rgba(243, 229, 171, 0.62) 0%, rgba(212, 175, 55, 0.38) 55%, rgba(234, 222, 202, 1) 100%) !important;
+            background: rgba(212, 175, 55, 0.24) !important;
         }
 
         .square.turn-active-square.dark {
-            background: radial-gradient(circle at center, rgba(243, 229, 171, 0.48) 0%, rgba(212, 175, 55, 0.32) 55%, rgba(122, 88, 58, 1) 100%) !important;
+            background: rgba(212, 175, 55, 0.20) !important;
         }
 
         .square.turn-active-square:hover {
-            box-shadow: inset 0 0 0 2px #F3E5AB, inset 0 0 26px rgba(243, 229, 171, 0.75) !important;
-            filter: brightness(1.12);
+            box-shadow: inset 0 0 0 2.5px #F3E5AB, inset 0 0 16px rgba(212, 175, 55, 0.45) !important;
+            background: rgba(212, 175, 55, 0.35) !important;
         }
 
-        /* Tactile Paper Cut-Out Chess Pieces (Subtle Paper Silhouette Shadow with Blue Hue) */
+        /* Tactile Paper Cut-Out Chess Pieces with Mouse Hover Elevation */
         .chess-piece {
             width: 86%;
             height: 86%;
@@ -217,6 +219,8 @@
             justify-content: center;
             pointer-events: none;
             z-index: 10;
+            transition: transform 0.22s cubic-bezier(0.34, 1.4, 0.64, 1), filter 0.22s ease;
+            will-change: transform, filter;
         }
 
         .chess-piece svg {
@@ -224,7 +228,7 @@
             height: 100%;
             transform: none !important;
             filter: drop-shadow(0.5px 1.5px 1.2px rgba(18, 42, 78, 0.28)) drop-shadow(0 2px 2.5px rgba(10, 26, 54, 0.18));
-            transition: filter 0.15s ease;
+            transition: filter 0.2s ease;
         }
 
         .chess-piece.turn-active-piece svg {
@@ -232,8 +236,13 @@
             filter: drop-shadow(0.5px 1.5px 1.5px rgba(20, 48, 90, 0.32)) drop-shadow(0 2.5px 3.5px rgba(12, 30, 60, 0.22));
         }
 
+        /* Hover elevation effect when cursor moves over squares containing pieces */
+        .square:hover .chess-piece {
+            transform: translateY(-5px) scale(1.08);
+        }
+
         .square:hover .chess-piece svg {
-            filter: drop-shadow(1px 2px 2px rgba(20, 48, 90, 0.36)) drop-shadow(0 3px 4px rgba(12, 30, 60, 0.25));
+            filter: drop-shadow(0 7px 9px rgba(18, 42, 78, 0.38)) drop-shadow(0 2.5px 3.5px rgba(10, 26, 54, 0.26));
         }
 
         .chess-piece.turn-idle-piece svg {
@@ -241,7 +250,7 @@
             filter: drop-shadow(0.5px 1px 1px rgba(18, 42, 78, 0.22));
         }
 
-        /* Target Overlays */
+        /* Target Overlays: Transparent Gold Box with Opaque Gold Trim */
         .target-overlay {
             position: absolute;
             inset: 0;
@@ -253,19 +262,41 @@
         }
 
         .target-ring {
-            width: 20px;
-            height: 20px;
-            border-radius: 50%;
-            background: rgba(212, 175, 55, 0.45);
-            border: 1.5px solid #F3E5AB;
+            width: 28px;
+            height: 28px;
+            border-radius: 4px;
+            background: rgba(212, 175, 55, 0.26);
+            border: 2px solid #D4AF37;
+            box-shadow: 0 0 10px rgba(212, 175, 55, 0.35);
         }
 
         .target-ring.capture {
-            width: 100%;
-            height: 100%;
-            border-radius: 0;
-            border: 3px solid #D4AF37;
-            background: rgba(212, 175, 55, 0.2);
+            width: calc(100% - 6px);
+            height: calc(100% - 6px);
+            border-radius: 4px;
+            border: 2.5px solid #D4AF37;
+            background: rgba(212, 175, 55, 0.25);
+            box-shadow: inset 0 0 12px rgba(212, 175, 55, 0.4);
+        }
+
+        /* In-flight Animated Piece Moving in Lines Over Time */
+        .chess-piece-transit {
+            position: absolute;
+            pointer-events: none;
+            z-index: 80;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transform-origin: center center;
+            will-change: transform;
+            transition: transform 0.28s cubic-bezier(0.25, 1, 0.5, 1);
+        }
+
+        .chess-piece-transit svg {
+            width: 86%;
+            height: 86%;
+            filter: drop-shadow(0 10px 14px rgba(18, 42, 78, 0.45)) drop-shadow(0 3px 5px rgba(10, 26, 54, 0.3));
+            transform: scale(1.1);
         }
 
         .pct-badge {
@@ -1829,8 +1860,10 @@
             }
         }
 
+        let isAnimatingMove = false;
+
         function handleSquareClick(r, c) {
-            if (game.gameResult) return;
+            if (isAnimatingMove || game.gameResult) return;
             if (arenaMode === 'ai_spar' && game.turn === 'b') return;
             if (arenaMode === 'ai_duel') return;
 
@@ -1875,7 +1908,7 @@
                 return;
             }
 
-            executePlayerMove(fr, fc, r, c, 'Q');
+            animateAndExecuteMove(fr, fc, r, c, 'Q');
         }
 
         function promptPromotion(fr, fc, tr, tc) {
@@ -1892,12 +1925,111 @@
                 btn.innerHTML = `<div class="w-10 h-10">${PIECE_SVGS[color + p]}</div>`;
                 btn.onclick = () => {
                     modal.classList.add('hidden');
-                    executePlayerMove(fr, fc, tr, tc, p);
+                    animateAndExecuteMove(fr, fc, tr, tc, p);
                 };
                 grid.appendChild(btn);
             });
 
             modal.classList.remove('hidden');
+        }
+
+        function animateAndExecuteMove(fr, fc, tr, tc, promoType = 'Q') {
+            if (isAnimatingMove) return;
+
+            const movingPiece = game.board[fr][fc];
+            if (!movingPiece) return;
+
+            const legalMoves = game.getLegalMoves(fr, fc);
+            const moveObj = legalMoves.find(m => m.r === tr && m.c === tc);
+
+            if (!moveObj && !badMovesMode) {
+                selectedSquare = null;
+                legalMovesForSelected = [];
+                renderBoard();
+                return;
+            }
+
+            const startSquare = document.querySelector(`.square[data-r="${fr}"][data-c="${fc}"]`);
+            const endSquare = document.querySelector(`.square[data-r="${tr}"][data-c="${tc}"]`);
+            const boardContainer = document.getElementById('chessBoard');
+
+            if (!startSquare || !endSquare || !boardContainer) {
+                executePlayerMove(fr, fc, tr, tc, promoType);
+                return;
+            }
+
+            isAnimatingMove = true;
+            selectedSquare = null;
+            legalMovesForSelected = [];
+
+            const isCastle = moveObj ? moveObj.isCastle : null;
+            const boardRect = boardContainer.getBoundingClientRect();
+            const startRect = startSquare.getBoundingClientRect();
+            const endRect = endSquare.getBoundingClientRect();
+
+            const startX = startRect.left - boardRect.left;
+            const startY = startRect.top - boardRect.top;
+            const deltaX = endRect.left - startRect.left;
+            const deltaY = endRect.top - startRect.top;
+
+            // Hide original static piece in start square during transit
+            const originalPieceEl = startSquare.querySelector('.chess-piece');
+            if (originalPieceEl) originalPieceEl.style.opacity = '0';
+
+            // Create transit piece element
+            const transitPiece = document.createElement('div');
+            transitPiece.className = 'chess-piece-transit';
+            transitPiece.style.left = `${startX}px`;
+            transitPiece.style.top = `${startY}px`;
+            transitPiece.style.width = `${startRect.width}px`;
+            transitPiece.style.height = `${startRect.height}px`;
+            transitPiece.innerHTML = PIECE_SVGS[movingPiece] || '';
+            boardContainer.appendChild(transitPiece);
+
+            // If castling, also animate the companion rook
+            let rookTransit = null;
+            if (isCastle) {
+                const rookFrC = isCastle === 'K' ? 7 : 0;
+                const rookTrC = isCastle === 'K' ? 5 : 3;
+                const rookStartSquare = document.querySelector(`.square[data-r="${tr}"][data-c="${rookFrC}"]`);
+                const rookEndSquare = document.querySelector(`.square[data-r="${tr}"][data-c="${rookTrC}"]`);
+                if (rookStartSquare && rookEndSquare) {
+                    const rStartRect = rookStartSquare.getBoundingClientRect();
+                    const rEndRect = rookEndSquare.getBoundingClientRect();
+                    const rOrig = rookStartSquare.querySelector('.chess-piece');
+                    if (rOrig) rOrig.style.opacity = '0';
+
+                    rookTransit = document.createElement('div');
+                    rookTransit.className = 'chess-piece-transit';
+                    rookTransit.style.left = `${rStartRect.left - boardRect.left}px`;
+                    rookTransit.style.top = `${rStartRect.top - boardRect.top}px`;
+                    rookTransit.style.width = `${rStartRect.width}px`;
+                    rookTransit.style.height = `${rStartRect.height}px`;
+                    rookTransit.innerHTML = PIECE_SVGS[game.board[tr][rookFrC]] || '';
+                    boardContainer.appendChild(rookTransit);
+
+                    const rDeltaX = rEndRect.left - rStartRect.left;
+                    const rDeltaY = rEndRect.top - rStartRect.top;
+                    requestAnimationFrame(() => {
+                        rookTransit.style.transform = `translate(${rDeltaX}px, ${rDeltaY}px)`;
+                    });
+                }
+            }
+
+            // Trigger linear line movement over time
+            requestAnimationFrame(() => {
+                requestAnimationFrame(() => {
+                    transitPiece.style.transform = `translate(${deltaX}px, ${deltaY}px)`;
+                });
+            });
+
+            // Settle piece into destination square
+            setTimeout(() => {
+                if (transitPiece.parentElement) transitPiece.remove();
+                if (rookTransit && rookTransit.parentElement) rookTransit.remove();
+                isAnimatingMove = false;
+                executePlayerMove(fr, fc, tr, tc, promoType);
+            }, 290);
         }
 
         function executePlayerMove(fr, fc, tr, tc, promoType = 'Q') {
@@ -2177,7 +2309,7 @@
 
             setTimeout(() => {
                 aiThinking = false;
-                executePlayerMove(chosen.from.r, chosen.from.c, chosen.to.r, chosen.to.c, 'Q');
+                animateAndExecuteMove(chosen.from.r, chosen.from.c, chosen.to.r, chosen.to.c, 'Q');
             }, 300);
         }
 
