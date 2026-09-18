@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useRef } from 'react';
+import React, { useState, useEffect } from 'react';
 import { 
   Terminal, Database, Clock, HardDrive, Hash, RefreshCw, GitBranch, Crosshair, 
   ChevronLeft, ChevronRight, Play, Pause, RotateCcw, CheckCircle2, Sparkles, 
@@ -7,10 +7,8 @@ import {
 import { CORE_CS_TERMS, BIG_O_CURVES } from '../utils/csData';
 import { SoundEngine } from '../utils/soundEngine';
 
-export function ConceptSlideDeck() {
-  const [currentSlideIndex, setCurrentSlideIndex] = useState(0);
+export function ConceptSlideDeck({ currentSlideIndex = 0, onSelectSlide = () => {} }) {
   const [isPlayingAuto, setIsPlayingAuto] = useState(false);
-  const [copiedCode, setCopiedCode] = useState(false);
 
   // --- Interactive Mini-Simulators State per Slide ---
   // Slide 1: Algorithm State Machine
@@ -43,21 +41,22 @@ export function ConceptSlideDeck() {
   const [isBruteRunning, setIsBruteRunning] = useState(false);
 
   const totalSlides = CORE_CS_TERMS.length;
-  const currentSlide = CORE_CS_TERMS[currentSlideIndex];
+  const currentSlide = CORE_CS_TERMS[currentSlideIndex] || CORE_CS_TERMS[0];
 
   // Auto-play presentation timer
   useEffect(() => {
     let interval = null;
     if (isPlayingAuto) {
       interval = setInterval(() => {
-        setCurrentSlideIndex(prev => (prev + 1) % totalSlides);
+        const next = (currentSlideIndex + 1) % totalSlides;
+        onSelectSlide(next);
         SoundEngine.playBlip();
       }, 8000);
     }
     return () => {
       if (interval) clearInterval(interval);
     };
-  }, [isPlayingAuto, totalSlides]);
+  }, [isPlayingAuto, currentSlideIndex, totalSlides, onSelectSlide]);
 
   // Keyboard navigation
   useEffect(() => {
@@ -74,17 +73,14 @@ export function ConceptSlideDeck() {
 
   const handleNextSlide = () => {
     SoundEngine.playClick();
-    setCurrentSlideIndex(prev => (prev + 1) % totalSlides);
+    const next = (currentSlideIndex + 1) % totalSlides;
+    onSelectSlide(next);
   };
 
   const handlePrevSlide = () => {
     SoundEngine.playClick();
-    setCurrentSlideIndex(prev => (prev - 1 + totalSlides) % totalSlides);
-  };
-
-  const handleSelectSlide = (index) => {
-    SoundEngine.playClick();
-    setCurrentSlideIndex(index);
+    const prev = (currentSlideIndex - 1 + totalSlides) % totalSlides;
+    onSelectSlide(prev);
   };
 
   const getIconForTerm = (id) => {
@@ -120,17 +116,17 @@ export function ConceptSlideDeck() {
   };
 
   return (
-    <section id="core-taxonomy" className="section-padding" style={{ background: '#FFFFFF', borderBottom: 'var(--border-thick)' }}>
+    <section id="interactive-slides" className="section-padding" style={{ background: '#FFFFFF', borderBottom: 'var(--border-thick)' }}>
       <div className="container">
         
         {/* Section Header */}
-        <div className="section-header" style={{ marginBottom: '1.5rem' }}>
-          <div style={{ display: 'flex', alignItems: 'center', gap: '0.5rem', marginBottom: '0.5rem', flexWrap: 'wrap' }}>
+        <div className="section-header" style={{ marginBottom: '1.25rem' }}>
+          <div style={{ display: 'flex', alignItems: 'center', gap: '0.5rem', marginBottom: '0.4rem', flexWrap: 'wrap' }}>
             <span className="brutal-badge brutal-badge-cyan font-mono" style={{ fontSize: '0.8rem' }}>
-              MASTER CURRICULUM // INTERACTIVE CONCEPT SLIDES
+              INTERACTIVE CONCEPT SLIDES // 8 THEORETICAL PILLARS
             </span>
             <span className="brutal-badge brutal-badge-yellow font-mono" style={{ fontSize: '0.8rem' }}>
-              8 CORE THEORETICAL PILLARS
+              CS FOUNDATIONS CURRICULUM
             </span>
           </div>
 
@@ -145,8 +141,8 @@ export function ConceptSlideDeck() {
           }}>
             THE 8 FUNDAMENTAL <span style={{ color: 'var(--cobalt-blue)' }}>CONCEPTS OF ALGORITHMS</span>
           </h2>
-          <p style={{ fontSize: '1rem', color: '#4B5563', maxWidth: '820px', lineHeight: 1.5, margin: 0 }}>
-            Explore the 8 canonical concepts of computer science through interactive slides. Each concept is presented with its exact definition, asymptotic mechanics, live simulation, and formal engineering trade-offs.
+          <p style={{ fontSize: '0.95rem', color: '#4B5563', maxWidth: '820px', lineHeight: 1.5, margin: 0 }}>
+            Master computer science principles with dedicated interactive slides. Each concept is presented with its exact definition, asymptotic mechanics, live simulation, and formal engineering trade-offs.
           </p>
         </div>
 
@@ -169,7 +165,7 @@ export function ConceptSlideDeck() {
               return (
                 <button
                   key={item.id}
-                  onClick={() => handleSelectSlide(idx)}
+                  onClick={() => { SoundEngine.playClick(); onSelectSlide(idx); }}
                   className="font-mono text-xs"
                   style={{
                     background: isActive ? item.color : '#1A1A1A',
@@ -801,7 +797,7 @@ export function ConceptSlideDeck() {
               {CORE_CS_TERMS.map((_, i) => (
                 <div
                   key={i}
-                  onClick={() => handleSelectSlide(i)}
+                  onClick={() => { SoundEngine.playClick(); onSelectSlide(i); }}
                   style={{
                     width: i === currentSlideIndex ? '20px' : '8px',
                     height: '8px',

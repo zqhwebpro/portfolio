@@ -1,7 +1,7 @@
 /* ==========================================================================
    EST 1974 // ARTISANAL STONE DECK PIZZERIA & LIVE TRACKER
    Modern Italian Pizzeria Web App Design System
-   Inspired by Reference Guides: Bold Red Curves, Gold Badges & Slate Hearth
+   Italiana Display + Mulish Sans + Slate Hearth + Off-White Ticket Aesthetics
    ========================================================================== */
 
 :root {
@@ -19,31 +19,36 @@
   --basil-green-dark: #15803D;
   --basil-green-light: #DCFCE7;
 
-  --slate-dark: #14171C;
-  --slate-mid: #20252D;
-  --slate-card: #2B313B;
-  --slate-border: #3A424E;
+  --slate-dark: #12151B;
+  --slate-menu-bg: #161A22;
+  --slate-card-bg: #1F2430;
+  --slate-card-border: #2D3546;
+  --slate-mid: #252C37;
+  --slate-border: #3A4456;
 
-  --canvas-bg: #F9F6F0;
+  --canvas-bg: #F8F5EE;
   --card-bg: #FFFFFF;
+  --off-white-ticket: #FAF7F0;
+  --ticket-border: #E5DDD0;
   --border-light: #E7E0D3;
-  --border-medium: #D5CCA;
+  --border-medium: #D5CCA8;
 
   --text-dark: #14171C;
   --text-body: #475569;
   --text-muted: #64748B;
   --text-white: #FFFFFF;
 
-  /* Typography */
+  /* Typography with Generous Letter-Spacing for Italiana */
   --font-display: 'Italiana', Georgia, serif;
   --font-sans: 'Mulish', system-ui, -apple-system, sans-serif;
   --font-mono: 'JetBrains Mono', monospace;
 
   /* Layout & Radii */
-  --radius-sm: 8px;
-  --radius-md: 14px;
-  --radius-lg: 20px;
-  --radius-xl: 28px;
+  --radius-xs: 6px;
+  --radius-sm: 10px;
+  --radius-md: 16px;
+  --radius-lg: 24px;
+  --radius-xl: 32px;
   --radius-pill: 9999px;
 
   /* Shadows */
@@ -108,8 +113,8 @@ body {
 }
 
 .brand-badge-icon {
-  width: 42px;
-  height: 42px;
+  width: 44px;
+  height: 44px;
   background: var(--pizza-red);
   border-radius: var(--radius-sm);
   display: flex;
@@ -121,10 +126,10 @@ body {
 
 .brand-title {
   font-family: var(--font-display);
-  font-size: 1.75rem;
+  font-size: 1.95rem;
   font-weight: 900;
   color: var(--text-dark);
-  letter-spacing: 0.02em;
+  letter-spacing: 0.12em; /* Generous letterspacing for Italiana */
   line-height: 1;
 }
 
@@ -134,8 +139,8 @@ body {
   font-weight: 700;
   color: var(--text-muted);
   text-transform: uppercase;
-  letter-spacing: 0.05em;
-  margin-top: 2px;
+  letter-spacing: 0.08em;
+  margin-top: 3px;
 }
 
 /* Hero Section (Blackboard Texture & Floating Pizza Hero) */
@@ -177,7 +182,7 @@ body {
   font-size: 0.72rem;
   font-weight: 800;
   text-transform: uppercase;
-  letter-spacing: 0.06em;
+  letter-spacing: 0.08em;
   padding: 0.35rem 0.85rem;
   border-radius: var(--radius-pill);
   margin-bottom: 0.85rem;
@@ -186,10 +191,10 @@ body {
 
 .hero-heading {
   font-family: var(--font-display);
-  font-size: clamp(2rem, 4.5vw, 3.4rem);
+  font-size: clamp(2.1rem, 4.8vw, 3.5rem);
   font-weight: 900;
-  line-height: 1.1;
-  letter-spacing: 0.02em;
+  line-height: 1.12;
+  letter-spacing: 0.09em; /* Generous letterspacing for Italiana */
   color: #FFFFFF;
   margin-bottom: 0.85rem;
 }
@@ -212,7 +217,7 @@ body {
   font-size: 0.9rem;
   font-weight: 800;
   text-transform: uppercase;
-  letter-spacing: 0.04em;
+  letter-spacing: 0.05em;
   padding: 0.75rem 1.6rem;
   border-radius: var(--radius-pill);
   border: none;
@@ -278,12 +283,12 @@ body {
   line-height: 1;
 }
 
-/* Feature Category Cards (Red Dome Curves with Floating Dishes - ref_0.jpg) */
+/* Feature Category Cards (Red Dome Curves) */
 .category-feature-grid {
   display: grid;
   grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
   gap: 1.25rem;
-  margin-bottom: 2.5rem;
+  margin-bottom: 2rem;
 }
 
 .category-feature-card {
@@ -313,8 +318,9 @@ body {
 
 .category-card-title {
   font-family: var(--font-display);
-  font-size: 1.35rem;
+  font-size: 1.45rem;
   font-weight: 800;
+  letter-spacing: 0.08em; /* Generous letterspacing for Italiana */
   margin-bottom: 0.4rem;
 }
 
@@ -348,91 +354,88 @@ body {
   box-shadow: 0 8px 18px rgba(0, 0, 0, 0.18), 0 0 0 4px #FFFFFF;
 }
 
-/* App Menu Section */
+/* ==========================================================================
+   SLATE BACKGROUND BEHIND THE MENU AREA
+   ========================================================================== */
+.menu-slate-container {
+  background: var(--slate-menu-bg);
+  border-radius: var(--radius-xl);
+  padding: clamp(1.5rem, 3.5vw, 2.5rem);
+  margin-bottom: 6rem;
+  border: 1px solid var(--slate-border);
+  box-shadow: 0 24px 60px -10px rgba(10, 12, 16, 0.5), inset 0 1px 0 rgba(255, 255, 255, 0.05);
+  color: #F8FAFC;
+}
+
 .app-menu-section-header {
   text-align: center;
-  margin-bottom: 1.5rem;
+  margin-bottom: 2rem;
 }
 
 .menu-section-eyebrow {
   font-family: var(--font-mono);
-  font-size: 0.72rem;
+  font-size: 0.74rem;
   font-weight: 800;
   text-transform: uppercase;
-  letter-spacing: 0.08em;
-  color: var(--pizza-red);
-  margin-bottom: 0.25rem;
+  letter-spacing: 0.12em;
+  color: var(--mozzarella-yellow);
+  margin-bottom: 0.35rem;
 }
 
 .menu-section-heading {
   font-family: var(--font-display);
-  font-size: clamp(1.6rem, 3.2vw, 2.3rem);
-  font-weight: 800;
-  color: var(--text-dark);
+  font-size: clamp(1.8rem, 3.6vw, 2.7rem);
+  font-weight: 900;
+  letter-spacing: 0.1em; /* Generous letterspacing for Italiana */
+  color: #FFFFFF;
 }
 
-/* Category Filter Pills (ref_0.jpg style) */
-.filter-pills-bar {
+.menu-category-divider {
   display: flex;
   align-items: center;
-  justify-content: center;
+  gap: 0.75rem;
+  margin: 2.25rem 0 1.25rem;
+  padding-bottom: 0.5rem;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.12);
+}
+
+.menu-category-divider-title {
+  font-family: var(--font-display);
+  font-size: 1.4rem;
+  font-weight: 800;
+  letter-spacing: 0.08em;
+  color: #FFFFFF;
+  display: flex;
+  align-items: center;
   gap: 0.5rem;
-  flex-wrap: wrap;
-  margin-bottom: 2rem;
 }
 
-.filter-pill-btn {
-  padding: 0.5rem 1.25rem;
-  border-radius: var(--radius-pill);
-  font-family: var(--font-mono);
-  font-size: 0.8rem;
-  font-weight: 700;
-  text-transform: uppercase;
-  letter-spacing: 0.04em;
-  background: #FFFFFF;
-  border: 1.5px solid var(--border-medium);
-  color: var(--text-dark);
-  cursor: pointer;
-  transition: all 0.15s ease;
-}
-
-.filter-pill-btn:hover {
-  border-color: var(--pizza-red);
-  color: var(--pizza-red);
-}
-
-.filter-pill-btn.active {
-  background: var(--mozzarella-yellow);
-  border-color: var(--mozzarella-yellow-dark);
-  color: #14171C;
-  box-shadow: 0 2px 8px rgba(247, 168, 27, 0.35);
-}
-
-/* Food Menu Items Grid */
+/* Food Menu Items Grid on Slate */
 .menu-items-grid {
   display: grid;
   grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
   gap: 1.5rem;
-  margin-bottom: 3rem;
+  margin-bottom: 1.5rem;
 }
 
 .food-item-card {
-  background: var(--card-bg);
-  border: 1.5px solid var(--border-light);
+  background: var(--slate-card-bg);
+  border: 1.5px solid var(--slate-card-border);
   border-radius: var(--radius-md);
   padding: 1.25rem;
   display: flex;
   flex-direction: column;
   justify-content: space-between;
-  box-shadow: var(--shadow-card);
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.3);
   transition: all 0.2s ease;
   position: relative;
+  color: #FFFFFF;
 }
 
 .food-item-card:hover {
   transform: translateY(-4px);
-  border-color: var(--pizza-red-border);
-  box-shadow: var(--shadow-card-hover);
+  border-color: var(--mozzarella-yellow);
+  box-shadow: 0 14px 32px rgba(0, 0, 0, 0.5), 0 0 0 1px rgba(247, 168, 27, 0.3);
 }
 
 .food-image-container {
@@ -441,7 +444,7 @@ body {
   border-radius: var(--radius-sm);
   overflow: hidden;
   margin-bottom: 0.85rem;
-  background: var(--canvas-bg);
+  background: #14171C;
   position: relative;
 }
 
@@ -460,29 +463,31 @@ body {
   position: absolute;
   top: 8px;
   left: 8px;
-  background: var(--slate-dark);
-  color: #FFFFFF;
+  background: rgba(18, 21, 27, 0.9);
+  color: var(--mozzarella-yellow);
+  border: 1px solid rgba(247, 168, 27, 0.3);
   font-family: var(--font-mono);
   font-size: 0.65rem;
-  font-weight: 700;
+  font-weight: 800;
   text-transform: uppercase;
   padding: 0.2rem 0.55rem;
   border-radius: var(--radius-xs);
-  letter-spacing: 0.04em;
+  letter-spacing: 0.05em;
 }
 
 .food-item-title {
   font-family: var(--font-display);
-  font-size: 1.25rem;
+  font-size: 1.3rem;
   font-weight: 800;
-  color: var(--text-dark);
+  letter-spacing: 0.06em; /* Generous letterspacing for Italiana */
+  color: #FFFFFF;
   margin-bottom: 0.35rem;
-  line-height: 1.2;
+  line-height: 1.25;
 }
 
 .food-item-desc {
   font-size: 0.82rem;
-  color: var(--text-body);
+  color: #94A3B8;
   line-height: 1.45;
   margin-bottom: 1rem;
   flex-grow: 1;
@@ -494,24 +499,25 @@ body {
   justify-content: space-between;
   gap: 0.5rem;
   padding-top: 0.75rem;
-  border-top: 1px solid var(--border-light);
+  border-top: 1px solid var(--slate-border);
 }
 
 .food-size-price-pill {
   display: flex;
   align-items: center;
   gap: 0.4rem;
-  background: var(--mozzarella-yellow-light);
-  border: 1px solid #FCD68A;
+  background: rgba(247, 168, 27, 0.12);
+  border: 1px solid rgba(247, 168, 27, 0.35);
   border-radius: var(--radius-pill);
   padding: 0.25rem 0.65rem;
   font-family: var(--font-mono);
   font-size: 0.75rem;
   font-weight: 800;
+  color: #F8FAFC;
 }
 
 .food-price-val {
-  color: var(--pizza-red);
+  color: var(--mozzarella-yellow);
   font-size: 0.85rem;
 }
 
@@ -525,9 +531,9 @@ body {
   width: 28px;
   height: 28px;
   border-radius: 50%;
-  border: 1px solid var(--border-medium);
-  background: #FFFFFF;
-  color: var(--text-dark);
+  border: 1px solid var(--slate-border);
+  background: var(--slate-mid);
+  color: #FFFFFF;
   font-weight: 800;
   display: flex;
   align-items: center;
@@ -548,21 +554,24 @@ body {
   font-size: 0.85rem;
   min-width: 20px;
   text-align: center;
+  color: #FFFFFF;
 }
 
-/* Floating / Sticky Order Dispatcher Bar */
+/* ==========================================================================
+   OFF-WHITE BOTTOM STICKY SUBMIT ORDER BAR
+   ========================================================================== */
 .bottom-order-bar {
   position: fixed;
   bottom: 0;
   left: 0;
   right: 0;
-  background: rgba(20, 23, 28, 0.96);
+  background: var(--off-white-ticket); /* Off-white area */
   backdrop-filter: blur(14px);
   border-top: 2px solid var(--pizza-red);
-  color: #FFFFFF;
-  padding: 0.75rem 1rem;
+  color: var(--text-dark);
+  padding: 0.85rem 1.25rem;
   z-index: 40;
-  box-shadow: 0 -8px 24px rgba(0, 0, 0, 0.25);
+  box-shadow: 0 -8px 30px rgba(0, 0, 0, 0.14), 0 0 0 1px rgba(0, 0, 0, 0.05);
   transition: transform 0.3s ease;
 }
 
@@ -590,46 +599,47 @@ body {
 .order-bar-cart-badge {
   background: var(--pizza-red);
   color: #FFFFFF;
-  padding: 0.35rem 0.85rem;
+  padding: 0.4rem 0.95rem;
   border-radius: var(--radius-pill);
   font-family: var(--font-mono);
   font-weight: 800;
-  font-size: 0.78rem;
+  font-size: 0.82rem;
   letter-spacing: 0.04em;
+  box-shadow: 0 2px 8px rgba(229, 40, 23, 0.35);
 }
 
 .order-bar-fire-btn {
-  background: var(--mozzarella-yellow);
-  color: #14171C;
+  background: var(--pizza-red);
+  color: #FFFFFF;
   font-family: var(--font-mono);
   font-weight: 900;
-  font-size: 0.88rem;
+  font-size: 0.92rem;
   text-transform: uppercase;
-  letter-spacing: 0.04em;
-  padding: 0.7rem 1.5rem;
+  letter-spacing: 0.08em;
+  padding: 0.75rem 1.8rem;
   border-radius: var(--radius-pill);
   border: none;
   cursor: pointer;
   display: inline-flex;
   align-items: center;
-  gap: 0.5rem;
+  gap: 0.6rem;
   transition: all 0.2s ease;
-  box-shadow: 0 4px 14px rgba(247, 168, 27, 0.4);
+  box-shadow: 0 4px 16px rgba(229, 40, 23, 0.35);
 }
 
 .order-bar-fire-btn:hover {
-  background: #FFAE1A;
+  background: var(--pizza-red-dark);
   transform: translateY(-2px);
-  box-shadow: 0 6px 18px rgba(247, 168, 27, 0.6);
+  box-shadow: 0 6px 22px rgba(229, 40, 23, 0.55);
 }
 
 /* ==========================================================================
-   VIEW 2: FULL-SCREEN LIVE TRACKER DASHBOARD (Takes Full Layout Space)
+   VIEW 2: BRANDED LUXURY ORDER TRACKER (EST 1974 Artisanal Pizzeria)
    ========================================================================== */
 .tracker-full-view {
   display: flex;
   flex-direction: column;
-  gap: 1.5rem;
+  gap: 1.75rem;
   padding: 1.5rem 0 4rem;
   animation: fadeIn 0.3s ease-out;
 }
@@ -639,6 +649,7 @@ body {
   to { opacity: 1; transform: translateY(0); }
 }
 
+/* Top Tracker Header Card */
 .tracker-hero-card {
   background: #FFFFFF;
   border: 1.5px solid var(--border-light);
@@ -660,12 +671,12 @@ body {
 
 .tracker-order-id-badge {
   font-family: var(--font-mono);
-  font-size: 0.72rem;
+  font-size: 0.76rem;
   font-weight: 800;
   color: var(--pizza-red);
   background: var(--pizza-red-light);
   border: 1px solid var(--pizza-red-border);
-  padding: 0.25rem 0.65rem;
+  padding: 0.3rem 0.75rem;
   border-radius: var(--radius-pill);
   display: inline-flex;
   align-items: center;
@@ -675,8 +686,9 @@ body {
 
 .tracker-title {
   font-family: var(--font-display);
-  font-size: clamp(1.6rem, 3.2vw, 2.4rem);
-  font-weight: 800;
+  font-size: clamp(1.8rem, 3.4vw, 2.6rem);
+  font-weight: 900;
+  letter-spacing: 0.08em; /* Generous letterspacing for Italiana */
   color: var(--text-dark);
   line-height: 1.15;
 }
@@ -685,15 +697,16 @@ body {
   background: var(--slate-dark);
   color: #FFFFFF;
   border-radius: var(--radius-md);
-  padding: 0.85rem 1.5rem;
+  padding: 0.9rem 1.6rem;
   text-align: center;
-  min-width: 160px;
-  box-shadow: 0 8px 20px rgba(20, 23, 28, 0.25);
+  min-width: 170px;
+  box-shadow: 0 8px 24px rgba(20, 23, 28, 0.3);
+  border: 1px solid var(--slate-border);
 }
 
 .tracker-countdown-val {
   font-family: var(--font-mono);
-  font-size: 2.2rem;
+  font-size: 2.3rem;
   font-weight: 900;
   color: #FFFFFF;
   line-height: 1.05;
@@ -701,12 +714,13 @@ body {
 
 /* Full Width Progress Bar */
 .tracker-progress-track {
-  height: 10px;
+  height: 12px;
   background: var(--canvas-bg);
   border-radius: var(--radius-pill);
   overflow: hidden;
   border: 1px solid var(--border-medium);
   margin-bottom: 1.75rem;
+  box-shadow: inset 0 2px 4px rgba(0, 0, 0, 0.06);
 }
 
 .tracker-progress-bar {
@@ -719,7 +733,7 @@ body {
 /* 4-Stage Kitchen Pipeline */
 .kitchen-pipeline-grid {
   display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+  grid-template-columns: repeat(auto-fit, minmax(210px, 1fr));
   gap: 1rem;
   margin-bottom: 1.75rem;
 }
@@ -728,7 +742,7 @@ body {
   background: var(--canvas-bg);
   border: 1.5px solid var(--border-light);
   border-radius: var(--radius-md);
-  padding: 1.15rem 1rem;
+  padding: 1.25rem 1rem;
   text-align: center;
   transition: all 0.25s ease;
   position: relative;
@@ -737,8 +751,8 @@ body {
 .pipeline-stage-card.active {
   background: #FFFFFF;
   border-color: var(--pizza-red);
-  box-shadow: 0 6px 18px rgba(229, 40, 23, 0.15);
-  transform: translateY(-2px);
+  box-shadow: 0 8px 24px rgba(229, 40, 23, 0.18);
+  transform: translateY(-3px);
 }
 
 .pipeline-stage-card.completed {
@@ -748,7 +762,7 @@ body {
 
 .pipeline-stage-num {
   font-family: var(--font-mono);
-  font-size: 0.65rem;
+  font-size: 0.68rem;
   font-weight: 800;
   color: var(--text-muted);
   text-transform: uppercase;
@@ -765,28 +779,29 @@ body {
 }
 
 .pipeline-stage-icon {
-  font-size: 1.6rem;
-  margin: 0.2rem 0;
+  font-size: 1.75rem;
+  margin: 0.25rem 0;
 }
 
 .pipeline-stage-title {
   font-family: var(--font-display);
-  font-size: 1.1rem;
+  font-size: 1.2rem;
   font-weight: 800;
+  letter-spacing: 0.07em; /* Generous letterspacing for Italiana */
   color: var(--text-dark);
   margin-top: 0.25rem;
 }
 
-/* Full Width Telemetry & Itemized Receipt Split */
+/* Expansive 2-Column Split: Telemetry & Off-White Guest Receipt */
 .tracker-details-split {
   display: grid;
   grid-template-columns: 1fr;
-  gap: 1.5rem;
+  gap: 1.75rem;
 }
 
 @media (min-width: 900px) {
   .tracker-details-split {
-    grid-template-columns: 1.1fr 0.9fr;
+    grid-template-columns: 1.15fr 0.85fr;
   }
 }
 
@@ -794,22 +809,30 @@ body {
   background: #FFFFFF;
   border: 1.5px solid var(--border-light);
   border-radius: var(--radius-md);
-  padding: 1.25rem;
+  padding: 1.5rem;
   box-shadow: var(--shadow-card);
+}
+
+.telemetry-panel-box h3 {
+  font-family: var(--font-display);
+  font-size: 1.45rem;
+  font-weight: 800;
+  letter-spacing: 0.08em; /* Generous letterspacing for Italiana */
+  color: var(--text-dark);
 }
 
 .telemetry-grid {
   display: grid;
   grid-template-columns: repeat(auto-fit, minmax(140px, 1fr));
   gap: 0.85rem;
-  margin-top: 1rem;
+  margin-top: 1.25rem;
 }
 
 .telemetry-metric-tile {
   background: var(--canvas-bg);
   border: 1px solid var(--border-light);
   border-radius: var(--radius-sm);
-  padding: 0.75rem;
+  padding: 0.85rem;
   font-family: var(--font-mono);
   font-size: 0.74rem;
 }
@@ -819,31 +842,53 @@ body {
   font-size: 0.68rem;
   text-transform: uppercase;
   display: block;
-  margin-bottom: 2px;
+  margin-bottom: 3px;
+  font-weight: 700;
 }
 
 .telemetry-val {
   font-weight: 800;
   color: var(--text-dark);
-  font-size: 0.85rem;
+  font-size: 0.88rem;
 }
 
-/* Itemized Receipt Box */
+/* Authentic Off-White Guest Check (Receipt) */
 .receipt-box {
-  background: #FFFFFF;
-  border: 1.5px solid var(--border-light);
+  background: var(--off-white-ticket); /* Authentic off-white ticket */
+  border: 1.5px solid var(--ticket-border);
   border-radius: var(--radius-md);
-  padding: 1.25rem;
+  padding: 1.5rem;
   box-shadow: var(--shadow-card);
+  position: relative;
+}
+
+.receipt-box::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 4px;
+  background: repeating-linear-gradient(45deg, var(--pizza-red), var(--pizza-red) 10px, transparent 10px, transparent 20px);
+  border-top-left-radius: var(--radius-md);
+  border-top-right-radius: var(--radius-md);
+}
+
+.receipt-box h3 {
+  font-family: var(--font-display);
+  font-size: 1.45rem;
+  font-weight: 800;
+  letter-spacing: 0.08em; /* Generous letterspacing for Italiana */
+  color: var(--text-dark);
 }
 
 .receipt-item-row {
   display: flex;
   align-items: center;
   justify-content: space-between;
-  padding: 0.5rem 0;
-  border-bottom: 1px dashed var(--border-light);
-  font-size: 0.82rem;
+  padding: 0.55rem 0;
+  border-bottom: 1px dashed var(--ticket-border);
+  font-size: 0.84rem;
 }
 
 .receipt-item-name {
@@ -865,23 +910,23 @@ body {
 }
 
 .receipt-totals-section {
-  padding-top: 0.75rem;
+  padding-top: 0.85rem;
   font-family: var(--font-mono);
   font-size: 0.78rem;
   display: flex;
   flex-direction: column;
-  gap: 0.35rem;
+  gap: 0.4rem;
 }
 
 .receipt-total-due {
   display: flex;
   justify-content: space-between;
-  font-size: 1.15rem;
+  font-size: 1.25rem;
   font-weight: 900;
   color: var(--pizza-red);
-  border-top: 1.5px solid var(--border-medium);
-  padding-top: 0.5rem;
-  margin-top: 0.25rem;
+  border-top: 2px solid var(--text-dark);
+  padding-top: 0.6rem;
+  margin-top: 0.35rem;
 }
 
 /* Button Utilities */
@@ -893,18 +938,21 @@ body {
   font-size: 0.82rem;
   font-weight: 800;
   text-transform: uppercase;
-  padding: 0.55rem 1.1rem;
+  letter-spacing: 0.05em;
+  padding: 0.6rem 1.2rem;
   border-radius: var(--radius-pill);
   cursor: pointer;
   transition: all 0.15s ease;
   display: inline-flex;
   align-items: center;
   gap: 0.4rem;
+  box-shadow: 0 2px 8px rgba(229, 40, 23, 0.3);
 }
 
 .btn-primary:hover {
   background: var(--pizza-red-dark);
   transform: translateY(-1px);
+  box-shadow: 0 4px 12px rgba(229, 40, 23, 0.45);
 }
 
 .btn-secondary {
@@ -914,7 +962,7 @@ body {
   font-family: var(--font-mono);
   font-size: 0.82rem;
   font-weight: 700;
-  padding: 0.55rem 1.1rem;
+  padding: 0.6rem 1.2rem;
   border-radius: var(--radius-pill);
   cursor: pointer;
   transition: all 0.15s ease;

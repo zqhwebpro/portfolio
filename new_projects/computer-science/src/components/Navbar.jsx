@@ -1,8 +1,8 @@
 import React, { useState } from 'react';
-import { Volume2, VolumeX, Terminal, Cpu } from 'lucide-react';
+import { Volume2, VolumeX, Terminal, Cpu, BookOpen, Layers } from 'lucide-react';
 import { SoundEngine } from '../utils/soundEngine';
 
-export function Navbar({ activeSection, currentStats = { ops: 0, stackDepth: 0, treeVisited: 0 } }) {
+export function Navbar({ activeSlideIndex = 0, onSelectSlide = () => {} }) {
   const [muted, setMuted] = useState(SoundEngine.getIsMuted());
 
   const handleToggleSound = () => {
@@ -13,19 +13,27 @@ export function Navbar({ activeSection, currentStats = { ops: 0, stackDepth: 0, 
     }
   };
 
-  const navItems = [
-    { id: 'hero', label: '01 // INTRO', num: '01' },
-    { id: 'core-taxonomy', label: '00 // 8 CORE CONCEPTS', num: '00' },
-    { id: 'binary-search', label: '02 // BINARY SEARCH', num: '02' },
-    { id: 'big-o', label: '03 // ASYMPTOTIC NOTATION', num: '03' },
-    { id: 'sorting', label: '04 // SORTING', num: '04' },
-    { id: 'recursion', label: '05 // RECURSION', num: '05' },
-    { id: 'divide-conquer', label: '06 // DIVIDE & CONQUER', num: '06' },
-    { id: 'graphs', label: '07 // GRAPHS', num: '07' },
-    { id: 'quiz', label: '08 // QUIZ', num: '08' },
+  const navConcepts = [
+    { id: 'algorithm', label: '01 ALGORITHM', idx: 0 },
+    { id: 'data-structure', label: '02 DATA STRUCTURE', idx: 1 },
+    { id: 'time-complexity', label: '03 TIME COMPLEXITY', idx: 2 },
+    { id: 'space-complexity', label: '04 SPACE COMPLEXITY', idx: 3 },
+    { id: 'big-o-notation', label: '05 BIG O NOTATION', idx: 4 },
+    { id: 'recursion', label: '06 RECURSION', idx: 5 },
+    { id: 'divide-and-conquer', label: '07 DIVIDE & CONQUER', idx: 6 },
+    { id: 'brute-force', label: '08 BRUTE FORCE', idx: 7 },
   ];
 
-  const scrollTo = (id) => {
+  const handleNavClick = (idx) => {
+    SoundEngine.playClick();
+    onSelectSlide(idx);
+    const el = document.getElementById('interactive-slides');
+    if (el) {
+      el.scrollIntoView({ behavior: 'smooth' });
+    }
+  };
+
+  const scrollToSection = (id) => {
     SoundEngine.playClick();
     const el = document.getElementById(id);
     if (el) {
@@ -56,19 +64,19 @@ export function Navbar({ activeSection, currentStats = { ops: 0, stackDepth: 0, 
       }}>
         <div style={{ display: 'flex', alignItems: 'center', gap: '1.25rem', overflow: 'hidden' }}>
           <span style={{ display: 'flex', alignItems: 'center', gap: '0.35rem', color: 'var(--canary-yellow)', fontWeight: 800 }}>
-            <Terminal size={14} /> KHAN:ALGORITHMS_CURRICULUM
+            <Terminal size={14} /> COMPUTER_SCIENCE_FOUNDATIONS
           </span>
           <span className="hide-mobile" style={{ color: '#888' }}>|</span>
           <span className="hide-mobile" style={{ display: 'flex', alignItems: 'center', gap: '0.4rem' }}>
             <Cpu size={14} color="var(--cobalt-blue)" />
-            CURRICULUM: <span style={{ color: 'var(--emerald-mint)', fontWeight: 700 }}>DARTMOUTH CS / CLRS</span>
+            CURRICULUM: <span style={{ color: 'var(--emerald-mint)', fontWeight: 700 }}>8 CORE THEORETICAL CONCEPTS</span>
           </span>
         </div>
 
         <div style={{ display: 'flex', alignItems: 'center', gap: '1.5rem' }}>
           <div className="hide-mobile" style={{ display: 'flex', gap: '1rem', color: '#AAA' }}>
-            <span>UNITS: <strong style={{ color: '#FFF' }}>08 COMPLETE</strong></span>
-            <span>NOTATION: <strong style={{ color: 'var(--canary-yellow)' }}>Θ, O, Ω</strong></span>
+            <span>SLIDE: <strong style={{ color: '#FFF' }}>{String(activeSlideIndex + 1).padStart(2, '0')} / 08</strong></span>
+            <span>NOTATION: <strong style={{ color: 'var(--canary-yellow)' }}>O(1), O(log n), O(n), O(n²)</strong></span>
           </div>
 
           {/* Sound Toggle */}
@@ -83,7 +91,7 @@ export function Navbar({ activeSection, currentStats = { ops: 0, stackDepth: 0, 
               boxShadow: 'none',
               fontSize: '0.75rem'
             }}
-            title={muted ? "Unmute Mechanical Sound FX" : "Mute Sound FX"}
+            title={muted ? "Unmute Sound FX" : "Mute Sound FX"}
           >
             {muted ? <VolumeX size={13} /> : <Volume2 size={13} />}
             <span>{muted ? 'SFX OFF' : 'SFX ON'}</span>
@@ -100,112 +108,76 @@ export function Navbar({ activeSection, currentStats = { ops: 0, stackDepth: 0, 
         flexWrap: 'wrap',
         gap: '0.75rem'
       }}>
-        {/* Brand Logo & Geometric Icon */}
-        <div 
-          onClick={() => scrollTo('hero')} 
-          style={{
-            display: 'flex',
-            alignItems: 'center',
-            gap: '0.75rem',
-            cursor: 'pointer',
-            userSelect: 'none'
-          }}
+        {/* Brand Logo */}
+        <div
+          onClick={() => handleNavClick(0)}
+          style={{ display: 'flex', alignItems: 'center', gap: '0.75rem', cursor: 'pointer' }}
         >
-          {/* Bauhaus Emblem */}
           <div style={{
-            width: '36px',
-            height: '36px',
+            width: '38px',
+            height: '38px',
             background: 'var(--cobalt-blue)',
-            border: '2px solid #0A0A0A',
-            boxShadow: '2px 2px 0px #0A0A0A',
-            position: 'relative',
+            border: '2px solid #000',
+            boxShadow: '3px 3px 0px #000',
             display: 'flex',
             alignItems: 'center',
             justifyContent: 'center',
-            overflow: 'hidden'
+            color: '#FFF',
+            fontWeight: 900
           }}>
-            <div style={{
-              width: '18px',
-              height: '18px',
-              borderRadius: '50%',
-              background: 'var(--canary-yellow)',
-              border: '1.5px solid #0A0A0A'
-            }} />
-            <div style={{
-              position: 'absolute',
-              bottom: 0,
-              right: 0,
-              width: 0,
-              height: 0,
-              borderLeft: '14px solid transparent',
-              borderBottom: '14px solid var(--vermilion-red)'
-            }} />
+            <span style={{ fontSize: '1.1rem' }}>CS</span>
           </div>
 
           <div>
-            <div style={{
-              fontFamily: 'var(--font-display)',
-              fontWeight: 900,
-              fontSize: 'clamp(1.1rem, 2vw, 1.35rem)',
-              lineHeight: 1,
-              letterSpacing: '-0.03em',
-              display: 'flex',
-              alignItems: 'center',
-              gap: '0.35rem'
-            }}>
-              <span>ALGORITHMS // KHAN CURRICULUM</span>
-            </div>
-            <div style={{
-              fontFamily: 'var(--font-mono)',
-              fontSize: '0.7rem',
-              color: 'var(--text-muted)',
-              fontWeight: 700,
-              letterSpacing: '0.05em'
-            }}>
-              COMPUTER SCIENCE THEORY &amp; ANALYSIS
-            </div>
+            <span className="font-display" style={{ fontWeight: 900, fontSize: '1.25rem', letterSpacing: '-0.03em', lineHeight: 1, display: 'block', color: 'var(--ink-black)' }}>
+              COMPUTER SCIENCE
+            </span>
+            <span className="font-mono text-xs" style={{ color: '#6B7280', fontWeight: 700, letterSpacing: '0.05em' }}>
+              8 CORE ALGORITHMIC CONCEPTS
+            </span>
           </div>
         </div>
 
-        {/* Navigation Pills */}
-        <nav style={{
-          display: 'flex',
-          gap: '0.4rem',
-          flexWrap: 'wrap',
-          alignItems: 'center'
-        }}>
-          {navItems.map((item) => {
-            const isActive = activeSection === item.id;
+        {/* Concept Quick Jump Navigation */}
+        <nav style={{ display: 'flex', alignItems: 'center', gap: '0.35rem', flexWrap: 'wrap' }}>
+          {navConcepts.map((item) => {
+            const isActive = activeSlideIndex === item.idx;
             return (
               <button
                 key={item.id}
-                onClick={() => scrollTo(item.id)}
+                onClick={() => handleNavClick(item.idx)}
                 className="brutal-btn brutal-btn-sm"
                 style={{
-                  background: isActive ? 'var(--canary-yellow)' : 'var(--bg-card)',
-                  color: '#0A0A0A',
-                  borderColor: '#0A0A0A',
-                  fontWeight: isActive ? 800 : 600,
-                  transform: isActive ? 'translate(-1px, -1px)' : 'none',
-                  boxShadow: isActive ? '3px 3px 0px #0A0A0A' : '2px 2px 0px #0A0A0A',
-                  padding: '0.35rem 0.55rem',
-                  fontSize: '0.72rem'
+                  background: isActive ? 'var(--canary-yellow)' : '#FFFFFF',
+                  color: 'var(--ink-black)',
+                  border: '1.5px solid #000',
+                  boxShadow: isActive ? '2px 2px 0px #000' : 'none',
+                  fontSize: '0.72rem',
+                  padding: '0.3rem 0.6rem',
+                  fontWeight: 800
                 }}
               >
                 {item.label}
               </button>
             );
           })}
+
+          <button
+            onClick={() => scrollToSection('comparison-table-section')}
+            className="brutal-btn brutal-btn-sm"
+            style={{
+              background: '#0A0A0A',
+              color: '#FFFFFF',
+              border: '1.5px solid #000',
+              fontSize: '0.72rem',
+              padding: '0.3rem 0.6rem',
+              fontWeight: 800
+            }}
+          >
+            <Layers size={12} /> TABLE
+          </button>
         </nav>
       </div>
-
-      <style>{`
-        @media (max-width: 768px) {
-          .hide-mobile { display: none !important; }
-        }
-      `}</style>
     </header>
   );
 }
-
-export default Navbar;

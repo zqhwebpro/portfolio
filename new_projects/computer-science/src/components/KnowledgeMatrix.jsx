@@ -1,14 +1,22 @@
 import React, { useState } from 'react';
-import { BookOpen, Code, Database, Cpu, Zap, Layers, GitBranch, Crosshair, ArrowRight, CheckCircle2, ChevronRight, Terminal, Clock, HardDrive, Hash, RefreshCw, Box } from 'lucide-react';
-import { CORE_CS_TERMS, CS_KNOWLEDGE_MATRIX } from '../utils/csData';
+import { BookOpen, Code, Database, Cpu, Zap, Layers, GitBranch, Crosshair, ArrowRight, CheckCircle2, ChevronRight, Terminal, Clock, HardDrive, Hash, RefreshCw, Play } from 'lucide-react';
+import { CORE_CS_TERMS } from '../utils/csData';
 import { SoundEngine } from '../utils/soundEngine';
 
-export function KnowledgeMatrix() {
+export function KnowledgeMatrix({ onSelectSlide = () => {} }) {
   const [selectedTermId, setSelectedTermId] = useState('algorithm');
   const [filterCategory, setFilterCategory] = useState('all');
-  const [matrixSearch, setMatrixSearch] = useState('');
 
   const activeTerm = CORE_CS_TERMS.find(t => t.id === selectedTermId) || CORE_CS_TERMS[0];
+
+  const handleLaunchSlide = (idx) => {
+    SoundEngine.playClick();
+    onSelectSlide(idx);
+    const el = document.getElementById('interactive-slides');
+    if (el) {
+      el.scrollIntoView({ behavior: 'smooth' });
+    }
+  };
 
   const filteredTerms = CORE_CS_TERMS.filter(t => {
     if (filterCategory === 'all') return true;
@@ -33,17 +41,17 @@ export function KnowledgeMatrix() {
   };
 
   return (
-    <section id="core-taxonomy" className="section-padding" style={{ background: '#FFFFFF', borderBottom: 'var(--border-thick)' }}>
+    <section id="comparison-table-section" className="section-padding" style={{ background: '#FFFFFF', borderBottom: 'var(--border-thick)' }}>
       <div className="container">
         
         {/* Section Header */}
         <div className="section-header" style={{ marginBottom: '2rem' }}>
           <div style={{ display: 'flex', alignItems: 'center', gap: '0.5rem', marginBottom: '0.5rem', flexWrap: 'wrap' }}>
             <span className="brutal-badge brutal-badge-cyan font-mono" style={{ fontSize: '0.8rem' }}>
-              UNIT 00 // FOUNDATIONAL COMPUTER SCIENCE TAXONOMY
+              TAXONOMY &amp; MATRIX // COMPLETE 8 CONCEPTS
             </span>
             <span className="brutal-badge brutal-badge-yellow font-mono" style={{ fontSize: '0.8rem' }}>
-              8 CORE THEORETICAL PILLARS
+              CANONICAL REFERENCE MATRIX
             </span>
           </div>
 
@@ -56,10 +64,10 @@ export function KnowledgeMatrix() {
             margin: '0.25rem 0 0.75rem',
             color: 'var(--ink-black)'
           }}>
-            THE 8 FUNDAMENTAL <span style={{ color: 'var(--cobalt-blue)' }}>CONCEPTS OF ALGORITHMS</span>
+            CANONICAL <span style={{ color: 'var(--cobalt-blue)' }}>KNOWLEDGE MATRIX</span>
           </h2>
           <p style={{ fontSize: '1rem', color: '#4B5563', maxWidth: '820px', lineHeight: 1.5, margin: 0 }}>
-            Mastering computer science begins with a precise, rigorous understanding of these eight foundational terms. Explore their definitions, theoretical mechanics, asymptotic trade-offs, and practical implementations below.
+            Mastering computer science begins with a precise, rigorous understanding of these eight foundational terms. Review the complete taxonomy matrix below or click any row to inspect its architectural specs and open its interactive presentation slide.
           </p>
         </div>
 
@@ -75,11 +83,11 @@ export function KnowledgeMatrix() {
             <div style={{ display: 'flex', alignItems: 'center', gap: '0.5rem' }}>
               <BookOpen size={18} color="var(--cobalt-blue)" />
               <h3 style={{ fontFamily: 'var(--font-display)', fontSize: '1.15rem', fontWeight: 800, margin: 0, textTransform: 'uppercase' }}>
-                Canonical Terms &amp; Definitions Cheat Sheet
+                Canonical Terms &amp; Definitions Reference Table
               </h3>
             </div>
             <span className="font-mono text-xs" style={{ color: '#6B7280', fontWeight: 700 }}>
-              CLICK ANY ROW TO EXPAND FULL ELABORATION
+              CLICK ANY ROW TO EXPAND OR LAUNCH INTERACTIVE SLIDE
             </span>
           </div>
 
@@ -97,7 +105,7 @@ export function KnowledgeMatrix() {
                   <th style={{ padding: '0.75rem 1rem', borderRight: '1px solid #333' }}>TERM</th>
                   <th style={{ padding: '0.75rem 1rem', borderRight: '1px solid #333' }}>CANONICAL DESCRIPTION</th>
                   <th style={{ padding: '0.75rem 1rem', borderRight: '1px solid #333' }}>CATEGORY / METRIC</th>
-                  <th style={{ padding: '0.75rem 1rem' }}>ACTION</th>
+                  <th style={{ padding: '0.75rem 1rem', textAlign: 'center' }}>ACTIONS</th>
                 </tr>
               </thead>
               <tbody>
@@ -132,16 +140,25 @@ export function KnowledgeMatrix() {
                         </span>
                       </td>
                       <td style={{ padding: '0.75rem 1rem', textAlign: 'center', whiteSpace: 'nowrap' }}>
-                        <button
-                          className="brutal-btn brutal-btn-sm"
-                          style={{
-                            padding: '0.2rem 0.6rem',
-                            fontSize: '0.72rem',
-                            background: isSelected ? 'var(--canary-yellow)' : '#FFF'
-                          }}
-                        >
-                          {isSelected ? 'ACTIVE' : 'EXPAND'} →
-                        </button>
+                        <div style={{ display: 'flex', gap: '0.35rem', justifyContent: 'center' }}>
+                          <button
+                            onClick={(e) => {
+                              e.stopPropagation();
+                              handleLaunchSlide(idx);
+                            }}
+                            className="brutal-btn brutal-btn-sm"
+                            style={{
+                              padding: '0.25rem 0.6rem',
+                              fontSize: '0.72rem',
+                              background: 'var(--canary-yellow)',
+                              color: '#000',
+                              fontWeight: 800
+                            }}
+                            title={`Open Slide #${idx + 1}`}
+                          >
+                            <Play size={10} style={{ display: 'inline', marginRight: '3px' }} /> SLIDE #{idx + 1}
+                          </button>
+                        </div>
                       </td>
                     </tr>
                   );
@@ -150,6 +167,7 @@ export function KnowledgeMatrix() {
             </table>
           </div>
         </div>
+
 
         {/* 2. DEEP-DIVE INTERACTIVE EXPLORER (Selected Term Analysis) */}
         <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(min(100%, 300px), 1fr)) 1.6fr', gap: '1.5rem', alignItems: 'start' }}>

@@ -1,6 +1,6 @@
 /**
  * EST 1974 // Artisanal Stone Deck Pizzeria & Live Dispatch
- * All-In-One Screen App Menu & Full-Space Real-Time Pizza Tracker
+ * All-In-One Screen Menu & Full-Space Real-Time Pizza Tracker
  * (SFX Completely Removed)
  */
 
@@ -8,11 +8,9 @@
   let orderData = null;
   let timerInterval = null;
   let clockInterval = null;
-  let currentTimeMode = 'auto'; // 'auto' | 'peak' | 'slow' | 'standard'
   let currentPickupMethod = 'shelf'; // 'shelf' | 'curbside'
-  let activeCategoryFilter = 'all';
 
-  const STORAGE_KEY = 'est1974_pizzeria_order_v6';
+  const STORAGE_KEY = 'est1974_pizzeria_order_v7';
 
   // Multi-item cart storage { 'option-id': quantity }
   let cart = {
@@ -20,7 +18,7 @@
     'option-garlic-knots': 1
   };
 
-  // Comprehensive Authentic Italian Menu Options matching reference aesthetics
+  // Comprehensive Authentic Italian Menu Database
   const MENU_DATABASE = {
     pizzas: {
       categoryName: 'Wood-Fired Specialty Pizzas',
@@ -171,24 +169,6 @@
     return all.find(item => item.id === id);
   }
 
-  // Time-of-Day Surge
-  function calculateSurgeMinutes() {
-    if (currentTimeMode === 'peak') return 10;
-    if (currentTimeMode === 'slow') return -10;
-    if (currentTimeMode === 'standard') return 0;
-
-    const now = new Date();
-    const hour = now.getHours();
-    const isDinnerRush = hour >= 17 && hour <= 21;
-    const isLunchRush = hour >= 11 && hour <= 13;
-    const isLateNightLull = hour >= 22 || hour <= 5;
-
-    if (isDinnerRush) return 10;
-    if (isLunchRush) return 5;
-    if (isLateNightLull) return -10;
-    return 0;
-  }
-
   function calculateCartTotals() {
     let subtotal = 0;
     let maxBaseCookMinutes = 0;
@@ -209,15 +189,12 @@
     });
 
     if (maxBaseCookMinutes === 0 && totalItemCount > 0) {
-      maxBaseCookMinutes = 10;
+      maxBaseCookMinutes = 15;
     }
 
-    const surgeMins = calculateSurgeMinutes();
-    let finalEstimatedMinutes = maxBaseCookMinutes + surgeMins;
-    if (finalEstimatedMinutes < 5) finalEstimatedMinutes = 5;
-
+    const finalEstimatedMinutes = maxBaseCookMinutes || 18;
     const tax = subtotal * 0.08875; // NYC Tax
-    const tip = subtotal > 0 ? subtotal * 0.20 : 0; // 20% Tip
+    const tip = subtotal > 0 ? subtotal * 0.20 : 0; // 20% Pizzaiolo Gratuity
     const grandTotal = subtotal + tax + tip;
 
     return {
@@ -225,71 +202,74 @@
       tax,
       tip,
       grandTotal,
-      maxBaseCookMinutes,
-      surgeMinutes: surgeMins,
       finalEstimatedMinutes,
       totalItemCount
     };
   }
 
-  // Render App Menu Grid
+  // Render All Menu Sections on One Screen (No Category Filter Bar)
   function renderAppMenu() {
     const container = document.getElementById('menu-items-grid-container');
     if (!container) return;
 
-    let itemsToRender = [];
-    if (activeCategoryFilter === 'all') {
-      itemsToRender = getAllItemsFlat();
-    } else {
-      const catObj = MENU_DATABASE[activeCategoryFilter];
-      if (catObj) {
-        itemsToRender = catObj.items.map(it => ({ ...it, categoryKey: activeCategoryFilter }));
-      }
-    }
+    let html = '';
 
-    container.innerHTML = itemsToRender.map(item => {
-      const qty = cart[item.id] || 0;
-      return `
-        <div class="food-item-card" data-item-id="${item.id}">
-          <div class="food-image-container">
-            <img src="${item.img}" alt="${item.name}" loading="lazy" />
-            <span class="food-item-tag">${item.tag}</span>
-          </div>
-
-          <div>
-            <h4 class="food-item-title">${item.name}</h4>
-            <p class="food-item-desc">${item.description}</p>
-          </div>
-
-          <div class="food-card-bottom-row">
-            <div class="food-size-price-pill">
-              <span>Large</span>
-              <span class="food-price-val">$${item.price.toFixed(2)}</span>
-            </div>
-
-            <div class="food-qty-stepper">
-              ${qty > 0 ? `
-                <button class="stepper-btn" onclick="window.updateItemQuantity('${item.id}', -1)">-</button>
-                <span class="stepper-qty">${qty}</span>
-                <button class="stepper-btn" onclick="window.updateItemQuantity('${item.id}', 1)">+</button>
-              ` : `
-                <button class="btn-primary" style="padding: 0.35rem 0.85rem; font-size: 0.76rem;" onclick="window.updateItemQuantity('${item.id}', 1)">
-                  + Add to Order
-                </button>
-              `}
-            </div>
-          </div>
+    Object.keys(MENU_DATABASE).forEach(catKey => {
+      const cat = MENU_DATABASE[catKey];
+      html += `
+        <div class="menu-category-divider" style="grid-column: 1 / -1;">
+          <h3 class="menu-category-divider-title">
+            <span>${cat.icon}</span>
+            <span>${cat.categoryName}</span>
+          </h3>
         </div>
       `;
-    }).join('');
 
+      cat.items.forEach(item => {
+        const qty = cart[item.id] || 0;
+        html += `
+          <div class="food-item-card" data-item-id="${item.id}">
+            <div class="food-image-container">
+              <img src="${item.img}" alt="${item.name}" loading="lazy" />
+              <span class="food-item-tag">${item.tag}</span>
+            </div>
+
+            <div>
+              <h4 class="food-item-title">${item.name}</h4>
+              <p class="food-item-desc">${item.description}</p>
+            </div>
+
+            <div class="food-card-bottom-row">
+              <div class="food-size-price-pill">
+                <span>Large</span>
+                <span class="food-price-val">$${item.price.toFixed(2)}</span>
+              </div>
+
+              <div class="food-qty-stepper">
+                ${qty > 0 ? `
+                  <button class="stepper-btn" onclick="window.updateItemQuantity('${item.id}', -1)" title="Decrease">-</button>
+                  <span class="stepper-qty">${qty}</span>
+                  <button class="stepper-btn" onclick="window.updateItemQuantity('${item.id}', 1)" title="Increase">+</button>
+                ` : `
+                  <button class="btn-primary" style="padding: 0.35rem 0.85rem; font-size: 0.76rem;" onclick="window.updateItemQuantity('${item.id}', 1)">
+                    + Add to Order
+                  </button>
+                `}
+              </div>
+            </div>
+          </div>
+        `;
+      });
+    });
+
+    container.innerHTML = html;
     updateCartUI();
   }
 
   function updateCartUI() {
     const totals = calculateCartTotals();
 
-    // Update Bottom Order Bar
+    // Update Bottom Order Bar (Off-White Area)
     const orderBar = document.getElementById('bottom-order-bar');
     const badgeEl = document.getElementById('order-bar-badge');
     const timeEl = document.getElementById('order-bar-ready-time');
@@ -326,25 +306,6 @@
     renderAppMenu();
   };
 
-  window.setCategoryFilter = function (catKey) {
-    activeCategoryFilter = catKey;
-    const btnIds = ['all', 'pizzas', 'starters', 'calzones', 'sweets'];
-    btnIds.forEach(key => {
-      const btn = document.getElementById(`filter-btn-${key}`);
-      if (btn) btn.classList.toggle('active', key === catKey);
-    });
-    renderAppMenu();
-  };
-
-  window.setTimeMode = function (mode) {
-    currentTimeMode = mode;
-    const buttons = document.querySelectorAll('[data-time-mode]');
-    buttons.forEach(btn => {
-      btn.classList.toggle('active', btn.getAttribute('data-time-mode') === mode);
-    });
-    renderAppMenu();
-  };
-
   window.setPickupMethod = function (method) {
     currentPickupMethod = method;
     const shelfBtn = document.getElementById('pickup-btn-shelf');
@@ -354,12 +315,12 @@
   };
 
   // =========================================================================
-  // SUBMIT & TRANSITION TO FULL-SCREEN LIVE TRACKER
+  // SUBMIT ORDER & TRANSITION TO FULL-SCREEN LIVE TRACKER
   // =========================================================================
   window.fireOrderToKitchen = function () {
     const totals = calculateCartTotals();
     if (totals.totalItemCount === 0) {
-      alert('Please select at least one menu item before firing your order.');
+      alert('Please select at least one menu item before submitting your order.');
       return;
     }
 
@@ -396,7 +357,6 @@
       totals: totals,
       items: itemsOrdered,
       currentStage: 1,
-      speedBoostActive: false,
       startTimeMs: Date.now()
     };
 
@@ -407,16 +367,20 @@
   };
 
   window.showMenuSelectionView = function () {
-    document.getElementById('view-menu-selection').classList.add('active');
-    document.getElementById('view-order-tracker').classList.remove('active');
-    window.scrollTo({ top: 0, behavior: 'smooth' });
+    document.getElementById('view-menu-selection')?.classList.add('active');
+    document.getElementById('view-order-tracker')?.classList.remove('active');
+    if (typeof window.scrollTo === 'function') {
+      window.scrollTo({ top: 0, behavior: 'smooth' });
+    }
     renderAppMenu();
   };
 
   window.showTrackerView = function () {
-    document.getElementById('view-menu-selection').classList.remove('active');
-    document.getElementById('view-order-tracker').classList.add('active');
-    window.scrollTo({ top: 0, behavior: 'smooth' });
+    document.getElementById('view-menu-selection')?.classList.remove('active');
+    document.getElementById('view-order-tracker')?.classList.add('active');
+    if (typeof window.scrollTo === 'function') {
+      window.scrollTo({ top: 0, behavior: 'smooth' });
+    }
     initTrackerEngine();
   };
 
@@ -462,19 +426,23 @@
           { id: 'option-garlic-knots', name: 'Jumbo Garlic Knots Basket (6pc)', qty: 1, price: 7.50, lineTotal: 7.50 }
         ],
         currentStage: 1,
-        speedBoostActive: false,
         startTimeMs: Date.now()
       };
       localStorage.setItem(STORAGE_KEY, JSON.stringify(orderData));
     }
 
     // Populate static receipt & details
-    document.getElementById('tracker-order-id-label').innerText = `ORDER #${orderData.orderNumber}`;
-    document.getElementById('tracker-placed-timestamp').innerText = `Fired at ${orderData.placedAtFormatted}`;
-    document.getElementById('tracker-ready-time-target').innerText = orderData.readyAtFormatted;
-    document.getElementById('tracker-pickup-destination-label').innerText = orderData.pickupMethod;
+    const orderBadge = document.getElementById('tracker-order-id-label');
+    const timestampEl = document.getElementById('tracker-placed-timestamp');
+    const readyTargetEl = document.getElementById('tracker-ready-time-target');
+    const pickupDestEl = document.getElementById('tracker-pickup-destination-label');
 
-    // Render itemized receipt
+    if (orderBadge) orderBadge.innerHTML = `<span class="live-dot-red"></span> ORDER #${orderData.orderNumber}`;
+    if (timestampEl) timestampEl.innerText = `Fired at ${orderData.placedAtFormatted}`;
+    if (readyTargetEl) readyTargetEl.innerText = orderData.readyAtFormatted;
+    if (pickupDestEl) pickupDestEl.innerText = orderData.pickupMethod;
+
+    // Render itemized off-white guest check receipt
     const receiptContainer = document.getElementById('tracker-receipt-items-list');
     if (receiptContainer) {
       receiptContainer.innerHTML = orderData.items.map(it => `
@@ -488,10 +456,15 @@
       `).join('');
     }
 
-    document.getElementById('tracker-subtotal-val').innerText = `$${orderData.totals.subtotal.toFixed(2)}`;
-    document.getElementById('tracker-tax-val').innerText = `$${orderData.totals.tax.toFixed(2)}`;
-    document.getElementById('tracker-tip-val').innerText = `$${orderData.totals.tip.toFixed(2)}`;
-    document.getElementById('tracker-grandtotal-val').innerText = `$${orderData.totals.grandTotal.toFixed(2)}`;
+    const subEl = document.getElementById('tracker-subtotal-val');
+    const taxEl = document.getElementById('tracker-tax-val');
+    const tipEl = document.getElementById('tracker-tip-val');
+    const grandEl = document.getElementById('tracker-grandtotal-val');
+
+    if (subEl) subEl.innerText = `$${orderData.totals.subtotal.toFixed(2)}`;
+    if (taxEl) taxEl.innerText = `$${orderData.totals.tax.toFixed(2)}`;
+    if (tipEl) tipEl.innerText = `$${orderData.totals.tip.toFixed(2)}`;
+    if (grandEl) grandEl.innerText = `$${orderData.totals.grandTotal.toFixed(2)}`;
 
     // Start Live Second-by-Second Countdown Timer
     startLiveCountdown();
@@ -534,7 +507,6 @@
       else stage = 1;
 
       orderData.currentStage = stage;
-
       updateStageUI(stage, remainingSec);
     }
 
@@ -546,23 +518,23 @@
     const STAGES = [
       {
         num: 1,
-        title: "Order Ticketed & Dough Tossed",
-        desc: "Hand-stretched cold-fermented sourdough ladled with San Marzano D.O.P. sauce."
+        title: "Impasto Tossed & Hand-Stretched",
+        desc: "72-hour cold-fermented sourdough hand-stretched and ladled with San Marzano D.O.P. sauce."
       },
       {
         num: 2,
         title: "Sauced & Mozzarella Layered",
-        desc: "Shredded fresh fior di latte mozzarella layered with cupping pepperoni and toppings."
+        desc: "Fresh fior di latte mozzarella layered with cupping pepperoni, Sicilian oregano, and aged pecorino."
       },
       {
         num: 3,
-        title: "865°F Stone Hearth Deck Baking",
-        desc: "Blistering on kiln-dried white oak hearth stones with bubbling crust."
+        title: "865°F White Oak Hearth Deck Bake",
+        desc: "Charring and blistering on white oak hearth stones with continuous infrared oven telemetry."
       },
       {
         num: 4,
         title: "Sliced, Boxed & Ready for Pickup",
-        desc: `Boxed fresh and waiting on ${orderData ? orderData.pickupMethod : 'Store Shelf'}. Buon Appetito!`
+        desc: `Freshly sliced, boxed, and waiting on ${orderData ? orderData.pickupMethod : 'Store Shelf'}. Buon Appetito!`
       }
     ];
 
@@ -590,7 +562,6 @@
   // Fast Forward / Speed Boost Simulator
   window.triggerSpeedBoost = function () {
     if (!orderData) return;
-    // Fast forward by advancing start time
     const stepSec = Math.floor(orderData.durationSeconds / 4);
     orderData.startTimeMs -= (stepSec * 1000);
     localStorage.setItem(STORAGE_KEY, JSON.stringify(orderData));
