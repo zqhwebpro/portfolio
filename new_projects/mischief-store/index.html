@@ -4,13 +4,13 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Mischief Store — UI/UX Functional Blueprint &amp; ASP.NET MVC 5 Architecture</title>
-    <meta name="description" content="A functional UI/UX architectural blueprint store demonstrating ASP.NET MVC 5, Ninject DI, EF6 Code-First, and Razor view components with live interactive code-mapping tooltips.">
+    <title>Mischief Store — Premium Novelty &amp; Gag Shop (.NET Architecture Showcase)</title>
+    <meta name="description" content="A modern, high-converting e-commerce storefront for premium prank novelties, engineered on ASP.NET MVC 5, Ninject Dependency Injection, and Entity Framework 6.">
 
-    <!-- Google Fonts: JetBrains Mono (Technical/Blueprint) + Inter (Clean UI) + Outfit (Headings) -->
+    <!-- Google Fonts: Inter (Clean Body) + Outfit (Headings) + JetBrains Mono (Technical Tooltips) -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500;600;700&family=Outfit:wght@600;700;800&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;500;600;700&family=Outfit:wght@600;700;800;900&display=swap" rel="stylesheet">
     
     <!-- Font Awesome Icons -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
@@ -27,23 +27,33 @@
                         mono: ['"JetBrains Mono"', 'monospace'],
                     },
                     colors: {
-                        blueprint: {
-                            50: '#E6F8FF',
-                            100: '#C2EFFF',
-                            200: '#8AE0FF',
-                            300: '#4DCEFF',
-                            400: '#14B8F7',
-                            500: '#0096D6',
-                            600: '#0074AA',
-                            700: '#00547D',
-                            800: '#0D2B45',
-                            900: '#0A1E32',
-                            950: '#061320',
+                        brand: {
+                            50: '#fffbeb',
+                            100: '#fef3c7',
+                            200: '#fde68a',
+                            300: '#fcd34d',
+                            400: '#fbbf24',
+                            500: '#f59e0b',
+                            600: '#d97706',
+                            700: '#b45309',
+                            800: '#92400e',
+                            900: '#78350f',
                         },
-                        techCyan: '#00F0FF',
-                        techAmber: '#FFB703',
-                        techOrange: '#FB8500',
-                        techGreen: '#2EC4B6',
+                        dark: {
+                            bg: '#0c1017',
+                            card: '#151c28',
+                            cardHover: '#1c2536',
+                            border: '#232f42',
+                            borderLight: '#32425c',
+                            subtle: '#090d13',
+                        },
+                        accent: {
+                            cyan: '#06b6d4',
+                            emerald: '#10b981',
+                            amber: '#f59e0b',
+                            rose: '#f43f5e',
+                            purple: '#a855f7',
+                        }
                     }
                 }
             }
@@ -52,57 +62,58 @@
 
     <style>
         :root {
-            --blueprint-bg: #061320;
-            --blueprint-card: #0A1E32;
-            --blueprint-border: #1B3D5E;
-            --tech-cyan: #00F0FF;
-            --tech-orange: #FB8500;
-            --tech-amber: #FFB703;
+            --bg-main: #0c1017;
+            --card-main: #151c28;
+            --border-main: #232f42;
+            --accent-amber: #f59e0b;
+            --accent-cyan: #06b6d4;
+            --accent-emerald: #10b981;
         }
 
         body {
-            background-color: var(--blueprint-bg);
-            color: #E2E8F0;
+            background-color: var(--bg-main);
+            color: #f1f5f9;
             font-family: 'Inter', sans-serif;
-            background-image: 
-                linear-gradient(rgba(0, 240, 255, 0.035) 1px, transparent 1px),
-                linear-gradient(90deg, rgba(0, 240, 255, 0.035) 1px, transparent 1px);
-            background-size: 28px 28px;
-            background-position: -1px -1px;
             min-height: 100vh;
         }
 
-        /* Blueprint Technical Card */
-        .bp-card {
-            background-color: var(--blueprint-card);
-            border: 1px solid var(--blueprint-border);
-            border-radius: 8px;
+        /* Clean E-Commerce Card */
+        .product-card {
+            background-color: var(--card-main);
+            border: 1px solid var(--border-main);
+            border-radius: 16px;
+            transition: transform 0.22s cubic-bezier(0.4, 0, 0.2, 1), border-color 0.22s ease, box-shadow 0.22s ease;
+            display: flex;
+            flex-direction: column;
+            overflow: hidden;
+        }
+
+        .product-card:hover {
+            transform: translateY(-4px);
+            border-color: rgba(245, 158, 11, 0.45);
+            box-shadow: 0 12px 32px rgba(0, 0, 0, 0.35);
+        }
+
+        .product-image-container {
+            aspect-ratio: 1 / 1;
+            width: 100%;
+            background-color: #090d13;
+            overflow: hidden;
             position: relative;
-            transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
         }
 
-        .bp-card:hover {
-            border-color: rgba(0, 240, 255, 0.6);
-            box-shadow: 0 0 16px rgba(0, 240, 255, 0.12);
+        .product-image {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            transition: transform 0.35s ease;
         }
 
-        /* Functional Component Blueprint Indicator Tag */
-        .bp-tag {
-            font-family: 'JetBrains Mono', monospace;
-            font-size: 10px;
-            font-weight: 700;
-            padding: 2px 6px;
-            border-radius: 4px;
-            background: rgba(0, 240, 255, 0.08);
-            border: 1px solid rgba(0, 240, 255, 0.25);
-            color: var(--tech-cyan);
-            display: inline-flex;
-            align-items: center;
-            gap: 4px;
-            user-select: none;
+        .product-card:hover .product-image {
+            transform: scale(1.05);
         }
 
-        /* Interactive Hover Blueprint Highlight Target */
+        /* Interactive Hover Blueprint Tooltip Target */
         [data-blueprint-file] {
             position: relative;
             cursor: pointer;
@@ -110,7 +121,7 @@
         }
 
         [data-blueprint-file]:hover {
-            outline: 1.5px dashed rgba(0, 240, 255, 0.7);
+            outline: 1.5px dashed rgba(6, 182, 212, 0.75);
             outline-offset: 2px;
         }
 
@@ -122,7 +133,7 @@
             opacity: 0;
             transform: translateY(6px);
             transition: opacity 0.15s ease, transform 0.15s ease;
-            max-width: 380px;
+            max-width: 440px;
             width: max-content;
         }
 
@@ -137,277 +148,312 @@
             height: 7px;
         }
         ::-webkit-scrollbar-track {
-            background: #061320;
+            background: #0c1017;
         }
         ::-webkit-scrollbar-thumb {
-            background: #1B3D5E;
+            background: #232f42;
             border-radius: 4px;
         }
         ::-webkit-scrollbar-thumb:hover {
-            background: #0096D6;
+            background: #f59e0b;
         }
     </style>
 </head>
 
-<body class="flex flex-col min-h-screen selection:bg-techCyan/30 selection:text-white">
+<body class="flex flex-col min-h-screen selection:bg-brand-500 selection:text-black">
 
-    <!-- FLOATING ARCHITECTURAL BLUEPRINT TOOLTIP -->
-    <div id="blueprint-tooltip" class="bg-[#05101B]/95 backdrop-blur-md border-2 border-techCyan rounded-xl p-4 shadow-2xl text-xs space-y-2.5 font-sans">
-        <div class="flex items-center justify-between gap-3 border-b border-techCyan/30 pb-2">
-            <div class="flex items-center gap-1.5 font-mono font-bold text-techCyan text-[11px] truncate">
-                <i class="fa-solid fa-code text-[12px]"></i>
+    <!-- FLOATING ARCHITECTURAL & DOM/CSS BLUEPRINT TOOLTIP -->
+    <div id="blueprint-tooltip" class="bg-[#0b0f17]/95 backdrop-blur-xl border border-cyan-500/60 rounded-xl p-4 shadow-2xl text-xs space-y-3 font-sans">
+        
+        <!-- Header: Component Role & Framework Layer -->
+        <div class="flex items-center justify-between gap-3 border-b border-slate-800 pb-2.5">
+            <div class="flex items-center gap-1.5 font-mono font-bold text-cyan-400 text-[11.5px] truncate">
+                <i class="fa-solid fa-layer-group text-[12px]"></i>
                 <span id="tt-role">MVC Component</span>
             </div>
-            <span id="tt-layer-badge" class="px-2 py-0.5 rounded bg-techCyan/15 text-techCyan border border-techCyan/30 text-[9.5px] font-mono uppercase font-bold">
-                Presentation
+            <span id="tt-layer-badge" class="px-2 py-0.5 rounded bg-cyan-500/15 text-cyan-300 border border-cyan-500/30 text-[9.5px] font-mono uppercase font-bold">
+                Presentation Layer
             </span>
         </div>
 
-        <div class="space-y-1">
-            <div class="text-[10px] text-slate-400 font-mono uppercase tracking-wider flex items-center gap-1">
-                <i class="fa-regular fa-folder-open text-techAmber"></i> Source File:
+        <!-- Section 1: DOM & CSS Implementation -->
+        <div class="space-y-1 bg-slate-900/80 p-2.5 rounded-lg border border-slate-800">
+            <div class="text-[10px] text-amber-400 font-mono font-bold uppercase tracking-wider flex items-center gap-1.5">
+                <i class="fa-brands fa-css3-alt text-amber-400"></i> DOM &amp; CSS Styling:
             </div>
-            <div id="tt-file" class="font-mono text-[11.5px] font-bold text-amber-300 bg-black/50 p-1.5 rounded border border-slate-700/60 break-all">
-                MischiefStore.WebUI/Views/...
+            <div id="tt-dom-css" class="text-slate-300 text-[11px] leading-relaxed font-mono">
+                &lt;article class="product-card"&gt; &bull; CSS Grid / Flexbox
             </div>
         </div>
 
-        <p id="tt-desc" class="text-slate-200 text-[11.5px] leading-relaxed">
-            Component explanation will appear here.
-        </p>
-
-        <div class="pt-1.5 border-t border-slate-800 space-y-1">
-            <div class="text-[9.5px] font-mono text-slate-400">Underlying C# / Razor Code Logic:</div>
-            <div id="tt-code" class="font-mono text-[10.5px] text-emerald-300 bg-black/60 p-1.5 rounded border border-slate-800 overflow-x-auto">
-                // Code mapping
+        <!-- Section 2: .NET & C# Source File -->
+        <div class="space-y-1">
+            <div class="text-[10px] text-slate-400 font-mono uppercase tracking-wider flex items-center gap-1">
+                <i class="fa-solid fa-code text-cyan-400"></i> ASP.NET MVC 5 File &amp; Code:
             </div>
+            <div id="tt-file" class="font-mono text-[11px] font-bold text-amber-300 bg-black/60 p-1.5 rounded border border-slate-800 break-all">
+                MischiefStore.WebUI/Views/...
+            </div>
+            <div id="tt-code" class="font-mono text-[10.5px] text-emerald-300 bg-black/60 p-1.5 rounded border border-slate-800 overflow-x-auto">
+                // C# action mapping
+            </div>
+        </div>
+
+        <!-- Section 3: Key .NET Learning & Engineering Takeaway -->
+        <div class="pt-2 border-t border-slate-800 space-y-1">
+            <div class="text-[10px] font-mono font-bold text-emerald-400 uppercase tracking-wider flex items-center gap-1.5">
+                <i class="fa-solid fa-graduation-cap text-emerald-400"></i> Key .NET Learning:
+            </div>
+            <p id="tt-desc" class="text-slate-200 text-[11.5px] leading-relaxed">
+                Component explanation and architecture takeaway will appear here.
+            </p>
         </div>
     </div>
 
-    <!-- 1. TECHNICAL TOP BAR -->
-    <header class="border-b border-blueprint-border bg-blueprint-950/90 sticky top-0 z-40 backdrop-blur-md">
-        
-        <!-- Top Blueprint Mode Header Strip -->
-        <div class="border-b border-blueprint-border/60 bg-black/40 px-4 py-1.5 text-[11px] font-mono flex items-center justify-between text-slate-400">
-            <div class="flex items-center gap-3">
-                <span class="inline-flex items-center gap-1.5 text-techCyan font-bold">
-                    <span class="h-2 w-2 rounded-full bg-techCyan animate-ping"></span>
-                    UI/UX FUNCTIONAL BLUEPRINT STORE
-                </span>
-                <span class="hidden sm:inline text-slate-500">|</span>
-                <span class="hidden sm:inline text-slate-300">Target Framework: <strong class="text-white font-mono">ASP.NET MVC 5.2.7 &amp; EF6</strong></span>
-            </div>
-            <div class="flex items-center gap-3">
-                <span class="text-techAmber flex items-center gap-1">
-                    <i class="fa-solid fa-circle-info text-[10px]"></i> Hover any area to view C# / Razor source file
-                </span>
-            </div>
-        </div>
+    <!-- 1. VALUE PROPOSITION ANNOUNCEMENT BAR -->
+    <div class="bg-gradient-to-r from-brand-600 via-amber-500 to-brand-600 text-slate-950 px-4 py-1.5 text-xs font-bold text-center tracking-wide flex items-center justify-center gap-4 flex-wrap"
+         data-blueprint-file="MischiefStore.WebUI/Views/Shared/_Layout.cshtml"
+         data-blueprint-role="Global Marketing Banner"
+         data-blueprint-layer="WebUI / Presentation"
+         data-blueprint-dom="Semantic <header> sub-banner styled with Tailwind flexbox, gradient background, and text alignment utilities."
+         data-blueprint-desc="In enterprise MVC applications, promotional banners can be driven by a SiteSettings service or distributed cache to display region-specific free shipping incentives."
+         data-blueprint-code="@Html.Partial(&quot;_GlobalBanner&quot;, Model.BannerSettings)">
+        <span class="flex items-center gap-1.5">
+            <i class="fa-solid fa-truck-fast"></i> Free 2-Day Shipping on Orders Over $35
+        </span>
+        <span class="hidden md:inline">&bull;</span>
+        <span class="hidden md:flex items-center gap-1.5">
+            <i class="fa-solid fa-shield-halved"></i> 100% Discreet Packaging Guarantee
+        </span>
+        <span class="hidden lg:inline">&bull;</span>
+        <span class="hidden lg:flex items-center gap-1.5">
+            <i class="fa-solid fa-face-laugh-squint"></i> 30-Day Gag Satisfaction Warranty
+        </span>
+    </div>
 
-        <!-- Main Functional Header -->
+    <!-- 2. MAIN STORE HEADER -->
+    <header class="border-b border-dark-border bg-dark-bg/95 sticky top-0 z-40 backdrop-blur-md"
+            data-blueprint-file="MischiefStore.WebUI/Views/Shared/_Layout.cshtml"
+            data-blueprint-role="Master Site Header"
+            data-blueprint-layer="WebUI / Master Layout"
+            data-blueprint-dom="HTML5 <header> element with sticky top positioning, backdrop-filter blur, and nested responsive flex containers."
+            data-blueprint-desc="The master Razor layout (_Layout.cshtml) bundles CSS/JS assets, initializes Ninject-resolved partials, and renders the central body content."
+            data-blueprint-code="<!DOCTYPE html><html><head>@Styles.Render(&quot;~/Content/css&quot;)</head><body>@RenderBody()</body></html>">
+        
         <div class="max-w-7xl mx-auto px-4 sm:px-6 py-3.5 flex items-center justify-between gap-4 flex-wrap">
             
-            <!-- Brand / Root Navigation (Shared/_Layout.cshtml) -->
+            <!-- Brand Logo -->
             <div class="flex items-center gap-3" 
-                 data-blueprint-file="MischiefStore.WebUI/Views/Shared/_Layout.cshtml"
-                 data-blueprint-role="Master Razor Layout & Routing"
+                 data-blueprint-file="MischiefStore.WebUI/Controllers/ProductController.cs"
+                 data-blueprint-role="Brand Identity &amp; Catalog Root"
                  data-blueprint-layer="WebUI / Presentation"
-                 data-blueprint-desc="The root master view (_Layout.cshtml) encapsulating global HTML wrapper, CSS/JS bundling, brand identity, and the main @RenderBody() viewport."
-                 data-blueprint-code="@Html.ActionLink(&quot;MISCHIEF STORE&quot;, &quot;List&quot;, &quot;Product&quot;)"
+                 data-blueprint-dom="Flex container wrapping SVG icon badge, heading typography, and responsive subtitle."
+                 data-blueprint-desc="Clicking the logo triggers ProductController.List() with default filters, demonstrating ASP.NET standard MVC route resolution (~/Product/List)."
+                 data-blueprint-code="@Html.ActionLink(&quot;MISCHIEF STORE&quot;, &quot;List&quot;, &quot;Product&quot;, new { category = (string)null }, new { @class = &quot;navbar-brand&quot; })"
                  onclick="window.resetFilters()">
-                <div class="h-9 w-9 rounded-lg bg-techCyan/10 border border-techCyan/40 text-techCyan flex items-center justify-center font-bold font-mono text-lg shadow-inner">
+                <div class="h-10 w-10 rounded-xl bg-brand-500 text-slate-950 flex items-center justify-center font-black text-xl shadow-lg shadow-brand-500/20">
                     ⚡
                 </div>
                 <div>
-                    <div class="font-heading font-extrabold text-lg text-white tracking-wider flex items-center gap-1">
-                        MISCHIEF<span class="text-techCyan">STORE</span>
+                    <div class="font-heading font-extrabold text-xl text-white tracking-wide flex items-center gap-1.5">
+                        MISCHIEF<span class="text-brand-400">STORE</span>
                     </div>
-                    <div class="text-[10px] font-mono text-slate-400">Architectural Wireframe UI</div>
+                    <div class="text-[11px] text-slate-400 font-medium">Premium Novelty &amp; Office Gags</div>
                 </div>
             </div>
 
-            <!-- Functional Search Bar (ProductController.cs -> List Search) -->
-            <div class="flex-1 max-w-md min-w-[240px]"
+            <!-- E-Commerce Search Bar -->
+            <div class="flex-1 max-w-lg min-w-[260px]"
                  data-blueprint-file="MischiefStore.WebUI/Controllers/ProductController.cs"
-                 data-blueprint-role="Controller Query Action"
-                 data-blueprint-layer="WebUI / Controller"
-                 data-blueprint-desc="The ProductController.List() action filters the IProductRepository by keyword using LINQ: repository.Products.Where(p => p.Name.Contains(search))."
-                 data-blueprint-code="public ViewResult List(string category, string search, int page = 1)">
+                 data-blueprint-role="Catalog Search Query Action"
+                 data-blueprint-layer="WebUI / Controller &amp; LINQ"
+                 data-blueprint-dom="Interactive search input container with absolute-positioned magnifying glass icon and clear button."
+                 data-blueprint-desc="In ASP.NET MVC, search parameters are bound to action arguments (string search). LINQ translates .Where(p => p.Name.Contains(search)) into parameterized SQL LIKE queries."
+                 data-blueprint-code="public ViewResult List(string category, string search, int page = 1) { ... }">
                 <div class="relative flex items-center">
                     <input type="text" id="search-input" 
-                           placeholder="Search inventory (e.g. beeper, horn, usb, pen)..."
+                           placeholder="Search prank novelties (e.g. beeper, usb, pen, coffee)..."
                            oninput="window.handleSearchInput()"
-                           class="w-full bg-black/50 border border-blueprint-border rounded-lg pl-9 pr-8 py-2 text-xs font-mono text-slate-200 placeholder-slate-500 focus:outline-none focus:border-techCyan transition-all">
-                    <i class="fa-solid fa-magnifying-glass absolute left-3 text-slate-400 text-xs"></i>
-                    <button id="search-clear-btn" onclick="window.clearSearch()" class="absolute right-2.5 text-slate-500 hover:text-slate-300 text-xs hidden">
+                           class="w-full bg-dark-card border border-dark-border rounded-xl pl-10 pr-9 py-2 text-sm text-slate-200 placeholder-slate-400 focus:outline-none focus:border-brand-500 focus:ring-1 focus:ring-brand-500 transition-all">
+                    <i class="fa-solid fa-magnifying-glass absolute left-3.5 text-slate-400 text-sm"></i>
+                    <button id="search-clear-btn" onclick="window.clearSearch()" class="absolute right-3 text-slate-400 hover:text-white text-sm hidden">
                         <i class="fa-solid fa-xmark"></i>
                     </button>
                 </div>
             </div>
 
-            <!-- Action Controls (Cart Summary & Admin CRUD) -->
+            <!-- Header Action Buttons -->
             <div class="flex items-center gap-2.5">
                 
-                <!-- Admin CRUD Trigger (AdminController.cs & Views/Admin/Index.cshtml) -->
-                <button onclick="window.openAdminModal()" 
-                        data-blueprint-file="MischiefStore.WebUI/Controllers/AdminController.cs"
-                        data-blueprint-role="Back-Office CRUD Controller"
-                        data-blueprint-layer="WebUI / Admin"
-                        data-blueprint-desc="Protected AdminController managing product catalog CRUD operations (Index, Edit, Save, Delete) with EF6 database persistence."
-                        data-blueprint-code="public ViewResult Index() => View(repository.Products);"
-                        class="px-3 py-2 rounded-lg bg-blueprint-900 border border-blueprint-border hover:border-techCyan text-slate-200 hover:text-white font-mono text-xs flex items-center gap-1.5 transition-all">
-                    <i class="fa-solid fa-sliders text-techAmber"></i>
-                    <span>Admin CRUD</span>
-                </button>
-
-                <!-- Architecture File Blueprint Modal Trigger -->
+                <!-- Architecture Modal Trigger -->
                 <button onclick="window.openArchitectureModal()" 
                         data-blueprint-file="MischiefStore.Domain/Abstract/IProductRepository.cs"
-                        data-blueprint-role="N-Tier Dependency Architecture"
+                        data-blueprint-role="N-Tier Dependency Architecture Map"
                         data-blueprint-layer="Domain / Abstraction"
-                        data-blueprint-desc="Solution dependency graph mapping decoupled MischiefStore.Domain contracts with Ninject IoC resolution into MischiefStore.WebUI."
+                        data-blueprint-dom="Interactive button styled with Tailwind neutral slate colors, border hover transition, and icon label."
+                        data-blueprint-desc="Demonstrates how Ninject IoC binds interface contracts (IProductRepository, IOrderProcessor) to concrete EF6 database implementations at runtime."
                         data-blueprint-code="kernel.Bind<IProductRepository>().To<EFProductRepository>();"
-                        class="px-3 py-2 rounded-lg bg-blueprint-900 border border-blueprint-border hover:border-techCyan text-slate-200 hover:text-white font-mono text-xs flex items-center gap-1.5 transition-all">
-                    <i class="fa-solid fa-sitemap text-techCyan"></i>
-                    <span>Architecture</span>
+                        class="px-3.5 py-2 rounded-xl bg-dark-card border border-dark-border hover:border-cyan-500 text-slate-300 hover:text-white text-xs font-semibold flex items-center gap-1.5 transition-all">
+                    <i class="fa-solid fa-sitemap text-cyan-400"></i>
+                    <span class="hidden sm:inline">.NET Arch</span>
+                </button>
+
+                <!-- Admin Inventory CRUD Trigger -->
+                <button onclick="window.openAdminModal()" 
+                        data-blueprint-file="MischiefStore.WebUI/Controllers/AdminController.cs"
+                        data-blueprint-role="Admin CRUD Controller"
+                        data-blueprint-layer="WebUI / Admin Portal"
+                        data-blueprint-dom="Action button with amber accent icon, subtle hover borders, and accessible click handler."
+                        data-blueprint-desc="Protected AdminController provides Index, Edit, Save, and Delete endpoints connected to Entity Framework 6 DbSet<Product>."
+                        data-blueprint-code="public ViewResult Index() => View(repository.Products);"
+                        class="px-3.5 py-2 rounded-xl bg-dark-card border border-dark-border hover:border-brand-500 text-slate-300 hover:text-white text-xs font-semibold flex items-center gap-1.5 transition-all">
+                    <i class="fa-solid fa-sliders text-brand-400"></i>
+                    <span class="hidden sm:inline">Admin CRUD</span>
                 </button>
 
                 <!-- Case Study Link Button -->
                 <a href="./case-study.html" 
                    data-blueprint-file="MischiefStore.Docs/CaseStudy.md"
-                   data-blueprint-role="Architectural Case Study"
+                   data-blueprint-role="Engineering Case Study"
                    data-blueprint-layer="Documentation / Reflection"
-                   data-blueprint-desc="Detailed technical case study reviewing ASP.NET MVC 5 decoupled architecture, Ninject IoC binding, custom Model Binders, and key takeaways."
+                   data-blueprint-dom="Anchor link button with rose accent border, hover background transitions, and book icon."
+                   data-blueprint-desc="Case study analyzing enterprise C# architecture, IoC container setup, session decoupling, and key software engineering takeaways."
                    data-blueprint-code="View(&quot;CaseStudy&quot;);"
-                   class="px-3 py-2 rounded-lg bg-techOrange/15 border border-techOrange/50 hover:bg-techOrange hover:text-black text-techOrange font-mono text-xs flex items-center gap-1.5 transition-all"
-                   title="View Project Case Study"
+                   class="px-3.5 py-2 rounded-xl bg-rose-500/10 border border-rose-500/40 hover:bg-rose-500 hover:text-white text-rose-300 text-xs font-semibold flex items-center gap-1.5 transition-all"
+                   title="View Technical Case Study"
                    style="text-decoration: none;">
                     <i class="fa-solid fa-book-open"></i>
-                    <span class="font-bold">Case Study</span>
+                    <span>Case Study</span>
                 </a>
 
-                <!-- Header Cart Widget (Views/Cart/Summary.cshtml & CartModelBinder.cs) -->
+                <!-- Header Cart Widget -->
                 <button onclick="window.openCartDrawer()" 
                         data-blueprint-file="MischiefStore.WebUI/Views/Cart/Summary.cshtml"
                         data-blueprint-role="Custom Model-Bound Cart Partial"
-                        data-blueprint-layer="WebUI / View"
-                        data-blueprint-desc="Razor partial view (Summary.cshtml) displaying live item count and subtotal. Receives the user's Cart directly via CartModelBinder without coupling to Session."
+                        data-blueprint-layer="WebUI / View Component"
+                        data-blueprint-dom="Interactive cart widget with count pill badge and live monetary subtotal calculation."
+                        data-blueprint-desc="CartModelBinder automatically extracts the user's Cart from Session and injects it into controller methods without manual session casting."
                         data-blueprint-code="@Html.Action(&quot;Summary&quot;, &quot;Cart&quot;)"
-                        class="px-3.5 py-2 rounded-lg bg-techCyan/10 border border-techCyan/50 hover:bg-techCyan/20 text-white font-mono text-xs flex items-center gap-2 transition-all">
-                    <i class="fa-solid fa-cart-shopping text-techCyan"></i>
-                    <span class="font-bold">Cart:</span>
-                    <span id="header-cart-total" class="text-techAmber font-bold">$0.00</span>
-                    <span id="header-cart-count" class="h-5 min-w-5 px-1.5 rounded-full bg-techCyan text-blueprint-950 font-bold text-[10px] flex items-center justify-center">0</span>
+                        class="px-4 py-2 rounded-xl bg-brand-500 hover:bg-brand-400 text-slate-950 font-bold text-xs flex items-center gap-2 transition-all shadow-md shadow-brand-500/20">
+                    <i class="fa-solid fa-cart-shopping"></i>
+                    <span class="hidden sm:inline">Cart:</span>
+                    <span id="header-cart-total">$0.00</span>
+                    <span id="header-cart-count" class="h-5 min-w-5 px-1.5 rounded-full bg-slate-950 text-brand-400 font-black text-[10px] flex items-center justify-center">0</span>
                 </button>
 
             </div>
 
         </div>
 
-        <!-- 2. CATEGORY NAVIGATION RIBBON (Views/Nav/Menu.cshtml & NavController.cs) -->
-        <nav class="border-t border-blueprint-border/60 bg-blueprint-950/60"
+        <!-- 3. CATEGORY NAVIGATION TABS -->
+        <nav class="border-t border-dark-border/80 bg-dark-subtle/80"
              data-blueprint-file="MischiefStore.WebUI/Views/Nav/Menu.cshtml"
              data-blueprint-role="Category Navigation Partial View"
              data-blueprint-layer="WebUI / Partial View"
-             data-blueprint-desc="NavController.Menu() fetches distinct product categories and renders selectable navigation pills via Razor (Views/Nav/Menu.cshtml)."
-             data-blueprint-code="public PartialViewResult Menu(string category = null)">
-            <div class="max-w-7xl mx-auto px-4 sm:px-6 flex items-center gap-1.5 overflow-x-auto py-2 text-xs font-mono">
-                <button class="cat-pill active px-3 py-1 rounded-md border border-techCyan bg-techCyan/15 text-techCyan font-bold whitespace-nowrap transition-all" data-category="all" onclick="window.setCategory('all')">
+             data-blueprint-dom="Horizontal navigation ribbon with overflow-x-auto, scrollbar styling, and pill buttons with active state classes."
+             data-blueprint-desc="NavController.Menu() executes LINQ .Select(p => p.Category).Distinct() to dynamically generate category navigation pills via Views/Nav/Menu.cshtml."
+             data-blueprint-code="public PartialViewResult Menu(string category = null) { return PartialView(repository.Products.Select(p => p.Category).Distinct().OrderBy(x => x)); }">
+            <div class="max-w-7xl mx-auto px-4 sm:px-6 flex items-center gap-2 overflow-x-auto py-2.5 text-xs font-medium">
+                <button class="cat-pill active px-3.5 py-1.5 rounded-lg bg-brand-500 text-slate-950 font-bold whitespace-nowrap transition-all shadow-sm" data-category="all" onclick="window.setCategory('all')">
                     All Products (12)
                 </button>
-                <button class="cat-pill px-3 py-1 rounded-md border border-blueprint-border text-slate-300 hover:border-techCyan hover:text-white whitespace-nowrap transition-all" data-category="Stealth Noise" onclick="window.setCategory('Stealth Noise')">
+                <button class="cat-pill px-3.5 py-1.5 rounded-lg bg-dark-card border border-dark-border text-slate-300 hover:border-brand-500 hover:text-white whitespace-nowrap transition-all" data-category="Office Gags" onclick="window.setCategory('Office Gags')">
+                    🏢 Office Pranks
+                </button>
+                <button class="cat-pill px-3.5 py-1.5 rounded-lg bg-dark-card border border-dark-border text-slate-300 hover:border-brand-500 hover:text-white whitespace-nowrap transition-all" data-category="Stealth Noise" onclick="window.setCategory('Stealth Noise')">
                     🔊 Stealth Noise
                 </button>
-                <button class="cat-pill px-3 py-1 rounded-md border border-blueprint-border text-slate-300 hover:border-techCyan hover:text-white whitespace-nowrap transition-all" data-category="Office Gags" onclick="window.setCategory('Office Gags')">
-                    🏢 Office Gags
+                <button class="cat-pill px-3.5 py-1.5 rounded-lg bg-dark-card border border-dark-border text-slate-300 hover:border-brand-500 hover:text-white whitespace-nowrap transition-all" data-category="Classic Novelties" onclick="window.setCategory('Classic Novelties')">
+                    🎭 Classic Novelties
                 </button>
-                <button class="cat-pill px-3 py-1 rounded-md border border-blueprint-border text-slate-300 hover:border-techCyan hover:text-white whitespace-nowrap transition-all" data-category="Bulk Packs" onclick="window.setCategory('Bulk Packs')">
+                <button class="cat-pill px-3.5 py-1.5 rounded-lg bg-dark-card border border-dark-border text-slate-300 hover:border-brand-500 hover:text-white whitespace-nowrap transition-all" data-category="Bulk Packs" onclick="window.setCategory('Bulk Packs')">
                     📦 Bulk Packs
                 </button>
-                <button class="cat-pill px-3 py-1 rounded-md border border-blueprint-border text-slate-300 hover:border-techCyan hover:text-white whitespace-nowrap transition-all" data-category="Bathroom Traps" onclick="window.setCategory('Bathroom Traps')">
+                <button class="cat-pill px-3.5 py-1.5 rounded-lg bg-dark-card border border-dark-border text-slate-300 hover:border-brand-500 hover:text-white whitespace-nowrap transition-all" data-category="Bathroom Traps" onclick="window.setCategory('Bathroom Traps')">
                     🧻 Bathroom Traps
                 </button>
-                <button class="cat-pill px-3 py-1 rounded-md border border-blueprint-border text-slate-300 hover:border-techCyan hover:text-white whitespace-nowrap transition-all" data-category="Fake Bugs" onclick="window.setCategory('Fake Bugs')">
+                <button class="cat-pill px-3.5 py-1.5 rounded-lg bg-dark-card border border-dark-border text-slate-300 hover:border-brand-500 hover:text-white whitespace-nowrap transition-all" data-category="Fake Bugs" onclick="window.setCategory('Fake Bugs')">
                     🪲 Fake Bugs
-                </button>
-                <button class="cat-pill px-3 py-1 rounded-md border border-blueprint-border text-slate-300 hover:border-techCyan hover:text-white whitespace-nowrap transition-all" data-category="Classic Novelties" onclick="window.setCategory('Classic Novelties')">
-                    🎭 Classic Novelties
                 </button>
             </div>
         </nav>
 
     </header>
 
-    <!-- MAIN FUNCTIONAL CONTENT AREA -->
-    <main class="max-w-7xl mx-auto px-4 sm:px-6 py-6 space-y-6 flex-1 w-full">
+    <!-- 4. MAIN STORE CONTENT AREA -->
+    <main class="max-w-7xl mx-auto px-4 sm:px-6 py-8 space-y-6 flex-1 w-full">
 
-        <!-- 3. CATALOG CONTROL & PAGINATION HEADER BAR (Models/ProductsListViewModel.cs) -->
-        <div class="bp-card p-3.5 flex items-center justify-between flex-wrap gap-3"
+        <!-- Catalog Header & Sorting Controls -->
+        <div class="flex items-center justify-between flex-wrap gap-4 pb-2 border-b border-dark-border"
              data-blueprint-file="MischiefStore.WebUI/Models/ProductsListViewModel.cs"
-             data-blueprint-role="Catalog ViewModel"
+             data-blueprint-role="Catalog ViewModel &amp; Query Controls"
              data-blueprint-layer="WebUI / ViewModel"
-             data-blueprint-desc="ProductsListViewModel encapsulates the IEnumerable<Product> collection, current Category string, and PagingInfo object passed to the List.cshtml view."
-             data-blueprint-code="public class ProductsListViewModel { public IEnumerable<Product> Products; public PagingInfo PagingInfo; }">
+             data-blueprint-dom="Responsive flex container with items-center alignment, status text counters, and custom dropdown styling."
+             data-blueprint-desc="ProductsListViewModel encapsulates the IEnumerable<Product> collection, CurrentCategory, and PagingInfo object passed to the List.cshtml view."
+             data-blueprint-code="public class ProductsListViewModel { public IEnumerable<Product> Products { get; set; } public PagingInfo PagingInfo { get; set; } public string CurrentCategory { get; set; } }">
             
-            <div class="flex items-center gap-3">
-                <span class="bp-tag"><i class="fa-solid fa-cube"></i> VIEW: Views/Product/List.cshtml</span>
-                <span id="catalog-status-text" class="text-xs font-mono text-slate-300">
-                    Showing <strong id="visible-count" class="text-white">12</strong> items in <strong id="active-category-name" class="text-techCyan">All Products</strong>
-                </span>
+            <div>
+                <h2 id="active-category-title" class="font-heading font-extrabold text-2xl text-white">All Novelty Products</h2>
+                <p class="text-xs text-slate-400 mt-0.5">
+                    Showing <strong id="visible-count" class="text-brand-400 font-bold">12</strong> verified prank novelties ready for dispatch
+                </p>
             </div>
 
-            <!-- Sorting Selector (LINQ OrderBy) -->
-            <div class="flex items-center gap-2 text-xs font-mono">
-                <label class="text-slate-400">LINQ Sort:</label>
+            <!-- Sorting Selector -->
+            <div class="flex items-center gap-2.5 text-xs">
+                <label for="sort-select" class="text-slate-400 font-medium">Sort By:</label>
                 <select id="sort-select" onchange="window.handleSortChange()" 
-                        class="bg-black/60 border border-blueprint-border rounded-md px-2.5 py-1 text-xs text-slate-200 focus:outline-none focus:border-techCyan">
-                    <option value="default">Default (ID)</option>
+                        class="bg-dark-card border border-dark-border rounded-xl px-3 py-2 text-xs text-slate-200 focus:outline-none focus:border-brand-500 font-medium cursor-pointer">
+                    <option value="default">Featured &bull; Popularity</option>
                     <option value="price-asc">Price: Low to High</option>
                     <option value="price-desc">Price: High to Low</option>
-                    <option value="name-asc">Name: A to Z</option>
+                    <option value="name-asc">Alphabetical (A - Z)</option>
+                    <option value="rating-desc">Customer Rating (Highest)</option>
                 </select>
             </div>
 
         </div>
 
-        <!-- 4. PRODUCT CATALOG GRID (Views/Shared/_ProductSummary.cshtml & Entities/Product.cs) -->
+        <!-- PRODUCT CATALOG GRID -->
         <section id="product-grid-section" 
                  data-blueprint-file="MischiefStore.WebUI/Views/Shared/_ProductSummary.cshtml"
                  data-blueprint-role="Product Summary Razor Partial"
                  data-blueprint-layer="WebUI / Partial View"
-                 data-blueprint-desc="Rendered for each item in Model.Products. Maps Domain.Entities.Product properties (ProductID, Name, Description, Price, Category) to HTML markup."
+                 data-blueprint-dom="CSS Grid container with responsive breakpoints (grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6)."
+                 data-blueprint-desc="Rendered for each item in Model.Products. Maps Domain.Entities.Product properties (ProductID, Name, Description, Price, Category, ImageData) to HTML markup."
                  data-blueprint-code="@model MischiefStore.Domain.Entities.Product">
             
-            <div id="product-grid" class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-4">
+            <div id="product-grid" class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
                 <!-- Products injected dynamically via JS -->
             </div>
 
             <!-- Empty State -->
-            <div id="empty-state" class="hidden bp-card p-12 text-center space-y-3">
-                <div class="text-3xl text-techAmber">🔍</div>
+            <div id="empty-state" class="hidden bg-dark-card border border-dark-border rounded-2xl p-12 text-center space-y-4 max-w-md mx-auto">
+                <div class="text-4xl text-brand-400">🔍</div>
                 <h3 class="font-heading font-bold text-lg text-white">No Matching Products Found</h3>
-                <p class="text-xs text-slate-400 font-mono">No items match the active category and search filter criteria.</p>
-                <button onclick="window.resetFilters()" class="px-4 py-1.5 rounded bg-techCyan/10 border border-techCyan text-techCyan text-xs font-mono font-bold hover:bg-techCyan hover:text-black transition-all">
+                <p class="text-xs text-slate-400 leading-relaxed">No prank items match your active keyword or category filter. Try clearing your search.</p>
+                <button onclick="window.resetFilters()" class="px-5 py-2.5 rounded-xl bg-brand-500 text-slate-950 font-bold text-xs hover:bg-brand-400 transition-all shadow-md">
                     Reset Filter &amp; Show All
                 </button>
             </div>
 
         </section>
 
-        <!-- 5. PAGINATION COMPONENT (HtmlHelpers/PagingHelpers.cs & Models/PagingInfo.cs) -->
-        <div class="bp-card p-3 flex items-center justify-between flex-wrap gap-3"
+        <!-- PAGINATION BAR -->
+        <div class="bg-dark-card border border-dark-border rounded-2xl p-4 flex items-center justify-between flex-wrap gap-4"
              data-blueprint-file="MischiefStore.WebUI/HtmlHelpers/PagingHelpers.cs"
              data-blueprint-role="Custom Razor HTML Helper"
              data-blueprint-layer="WebUI / HtmlHelpers"
-             data-blueprint-desc="The @Html.PageLinks() custom HTML extension method evaluates PagingInfo (TotalItems, ItemsPerPage, CurrentPage) and constructs SEO-friendly pagination anchor links."
-             data-blueprint-code="public static MvcHtmlString PageLinks(this HtmlHelper html, PagingInfo pagingInfo, Func<int, string> pageUrl)">
+             data-blueprint-dom="Flex container displaying pagination status label and dynamic button list."
+             data-blueprint-desc="The @Html.PageLinks() custom HTML extension method calculates PagingInfo (TotalPages, CurrentPage) and builds SEO-optimized anchor links with proper query strings."
+             data-blueprint-code="public static MvcHtmlString PageLinks(this HtmlHelper html, PagingInfo pagingInfo, Func<int, string> pageUrl) { ... }">
             
-            <div class="text-xs font-mono text-slate-400 flex items-center gap-2">
-                <span class="bp-tag"><i class="fa-solid fa-code"></i> @Html.PageLinks(Model.PagingInfo)</span>
+            <div class="text-xs text-slate-400 flex items-center gap-2">
+                <i class="fa-solid fa-list-ol text-cyan-400"></i>
                 <span id="page-info-label">Page 1 of 2</span>
             </div>
 
-            <div id="pagination-buttons" class="flex items-center gap-1.5 font-mono text-xs">
+            <div id="pagination-buttons" class="flex items-center gap-1.5 text-xs font-semibold">
                 <!-- Pagination buttons generated dynamically -->
             </div>
 
@@ -415,64 +461,65 @@
 
     </main>
 
-    <!-- 6. CART DRAWER (Views/Cart/Index.cshtml & Entities/Cart.cs) -->
+    <!-- 5. CART DRAWER COMPONENT -->
     <div id="cart-drawer-backdrop" class="fixed inset-0 bg-black/80 backdrop-blur-sm z-50 hidden flex justify-end" onclick="if(event.target===this) window.closeCartDrawer()">
-        <div class="bg-blueprint-950 border-l border-blueprint-border w-full max-w-md h-full flex flex-col shadow-2xl p-5 space-y-4"
+        <div class="bg-dark-bg border-l border-dark-border w-full max-w-md h-full flex flex-col shadow-2xl p-6 space-y-4"
              data-blueprint-file="MischiefStore.WebUI/Views/Cart/Index.cshtml"
-             data-blueprint-role="Shopping Cart View & Domain Cart Engine"
+             data-blueprint-role="Shopping Cart View &amp; Domain Cart Engine"
              data-blueprint-layer="WebUI / View &amp; Domain / Entity"
+             data-blueprint-dom="Off-canvas slide-out drawer utilizing fixed positioning, full viewport height, and flex column layout."
              data-blueprint-desc="Displays the user's CartLine items. Manipulations invoke Cart.AddItem(), Cart.RemoveLine(), and Cart.ComputeTotalValue() in MischiefStore.Domain.Entities.Cart."
-             data-blueprint-code="public class Cart { public void AddItem(Product p, int qty); public void RemoveLine(Product p); }">
+             data-blueprint-code="public class Cart { public void AddItem(Product p, int qty); public void RemoveLine(Product p); public decimal ComputeTotalValue(); }">
             
             <!-- Cart Header -->
-            <div class="flex items-center justify-between border-b border-blueprint-border pb-3">
-                <div class="flex items-center gap-2">
-                    <i class="fa-solid fa-cart-shopping text-techCyan"></i>
-                    <h3 class="font-heading font-bold text-base text-white">Your Shopping Cart</h3>
-                    <span id="drawer-cart-count-badge" class="px-2 py-0.5 rounded bg-techCyan/15 text-techCyan text-[10px] font-mono font-bold">0 items</span>
+            <div class="flex items-center justify-between border-b border-dark-border pb-4">
+                <div class="flex items-center gap-2.5">
+                    <i class="fa-solid fa-cart-shopping text-brand-400 text-lg"></i>
+                    <h3 class="font-heading font-bold text-lg text-white">Your Shopping Cart</h3>
+                    <span id="drawer-cart-count-badge" class="px-2 py-0.5 rounded-full bg-brand-500/15 text-brand-400 text-xs font-bold">0 items</span>
                 </div>
-                <button onclick="window.closeCartDrawer()" class="text-slate-400 hover:text-white p-1">
+                <button onclick="window.closeCartDrawer()" class="text-slate-400 hover:text-white p-1 rounded-lg hover:bg-dark-card">
                     <i class="fa-solid fa-xmark text-lg"></i>
                 </button>
             </div>
 
             <!-- Free Shipping Progress Tracker -->
-            <div class="bg-black/40 p-2.5 rounded-lg border border-blueprint-border space-y-1.5 font-mono text-xs">
-                <div class="flex justify-between text-[11px]">
-                    <span id="shipping-progress-text" class="text-slate-300">Add $35.00 for Free 2-Day Shipping</span>
-                    <span id="shipping-status-badge" class="text-techAmber font-bold">$35.00 Left</span>
+            <div class="bg-dark-card p-3.5 rounded-xl border border-dark-border space-y-2 text-xs">
+                <div class="flex justify-between items-center text-xs">
+                    <span id="shipping-progress-text" class="text-slate-300 font-medium">Add $35.00 for Free 2-Day Shipping</span>
+                    <span id="shipping-status-badge" class="text-brand-400 font-bold">$35.00 Left</span>
                 </div>
-                <div class="w-full bg-slate-800 h-1.5 rounded-full overflow-hidden">
-                    <div id="shipping-progress-bar" class="bg-techCyan h-full w-0 transition-all duration-300"></div>
+                <div class="w-full bg-dark-bg h-2 rounded-full overflow-hidden border border-dark-border">
+                    <div id="shipping-progress-bar" class="bg-brand-500 h-full w-0 transition-all duration-300"></div>
                 </div>
             </div>
 
             <!-- Cart Items List Container -->
-            <div id="cart-items-container" class="flex-1 overflow-y-auto space-y-2 pr-1">
+            <div id="cart-items-container" class="flex-1 overflow-y-auto space-y-3 pr-1">
                 <!-- Cart items rendered via JS -->
             </div>
 
             <!-- Cart Footer with Totals & Checkout -->
-            <div class="border-t border-blueprint-border pt-4 space-y-3 font-mono text-xs">
+            <div class="border-t border-dark-border pt-4 space-y-3 text-xs">
                 <div class="flex justify-between text-slate-400">
-                    <span>Subtotal:</span>
-                    <span id="drawer-subtotal" class="text-white font-bold">$0.00</span>
+                    <span>Item Subtotal:</span>
+                    <span id="drawer-subtotal" class="text-white font-bold text-sm">$0.00</span>
                 </div>
                 <div class="flex justify-between text-slate-400">
-                    <span>Shipping:</span>
-                    <span id="drawer-shipping" class="text-techGreen font-bold">FREE</span>
+                    <span>Discreet Packaging:</span>
+                    <span class="text-emerald-400 font-bold">FREE</span>
                 </div>
-                <div class="flex justify-between text-sm font-bold border-t border-slate-800 pt-2 text-white">
-                    <span>TOTAL:</span>
-                    <span id="drawer-total" class="text-techCyan text-base">$0.00</span>
+                <div class="flex justify-between text-base font-bold border-t border-dark-border pt-3 text-white">
+                    <span>Estimated Total:</span>
+                    <span id="drawer-total" class="text-brand-400 text-lg font-black">$0.00</span>
                 </div>
 
-                <div class="flex gap-2 pt-1">
-                    <button onclick="window.clearCart()" class="px-3 py-2 rounded-lg bg-red-500/10 border border-red-500/30 text-red-400 hover:bg-red-500 hover:text-white transition-all text-xs font-mono">
+                <div class="flex gap-2.5 pt-2">
+                    <button onclick="window.clearCart()" class="px-3.5 py-3 rounded-xl bg-rose-500/10 border border-rose-500/30 text-rose-400 hover:bg-rose-500 hover:text-white transition-all text-xs font-bold">
                         Clear
                     </button>
-                    <button onclick="window.openCheckoutModal()" id="btn-proceed-checkout" class="flex-1 py-2.5 rounded-lg bg-techCyan hover:bg-cyan-400 text-blueprint-950 font-bold font-mono text-xs flex items-center justify-center gap-2 transition-all shadow-lg">
-                        <span>Proceed to Checkout</span>
+                    <button onclick="window.openCheckoutModal()" id="btn-proceed-checkout" class="flex-1 py-3 rounded-xl bg-brand-500 hover:bg-brand-400 text-slate-950 font-black text-xs flex items-center justify-center gap-2 transition-all shadow-lg shadow-brand-500/25">
+                        <span>Proceed to Secure Checkout</span>
                         <i class="fa-solid fa-arrow-right"></i>
                     </button>
                 </div>
@@ -481,176 +528,178 @@
         </div>
     </div>
 
-    <!-- 7. CHECKOUT MODAL (Views/Cart/Checkout.cshtml & Entities/ShippingDetails.cs) -->
+    <!-- 6. CHECKOUT MODAL -->
     <div id="checkout-modal-backdrop" class="fixed inset-0 bg-black/80 backdrop-blur-sm z-50 hidden flex items-center justify-center p-4" onclick="if(event.target===this) window.closeCheckoutModal()">
-        <div class="bg-blueprint-950 border-2 border-techCyan/60 rounded-xl max-w-lg w-full p-5 space-y-4 shadow-2xl"
+        <div class="bg-dark-bg border border-brand-500/50 rounded-2xl max-w-lg w-full p-6 space-y-5 shadow-2xl"
              data-blueprint-file="MischiefStore.WebUI/Views/Cart/Checkout.cshtml"
              data-blueprint-role="Checkout Form &amp; Validation"
              data-blueprint-layer="WebUI / View &amp; Domain / Entity"
+             data-blueprint-dom="Modal dialog centered with fixed flexbox backdrop and responsive input grid form."
              data-blueprint-desc="Renders shipping and payment form mapped to MischiefStore.Domain.Entities.ShippingDetails with DataAnnotations ([Required], [EmailAddress])."
-             data-blueprint-code="public ActionResult Checkout(Cart cart, ShippingDetails shippingDetails)">
+             data-blueprint-code="public ActionResult Checkout(Cart cart, ShippingDetails shippingDetails) { if (ModelState.IsValid) { orderProcessor.ProcessOrder(cart, shippingDetails); cart.Clear(); return View(&quot;Completed&quot;); } }">
             
-            <div class="flex items-center justify-between border-b border-blueprint-border pb-3">
-                <div class="flex items-center gap-2">
-                    <i class="fa-solid fa-truck-fast text-techCyan"></i>
-                    <h3 class="font-heading font-bold text-base text-white">Mock Order Checkout</h3>
+            <div class="flex items-center justify-between border-b border-dark-border pb-3.5">
+                <div class="flex items-center gap-2.5">
+                    <i class="fa-solid fa-lock text-brand-400"></i>
+                    <h3 class="font-heading font-bold text-lg text-white">Discreet Prank Checkout</h3>
                 </div>
-                <button onclick="window.closeCheckoutModal()" class="text-slate-400 hover:text-white p-1">
+                <button onclick="window.closeCheckoutModal()" class="text-slate-400 hover:text-white p-1 rounded-lg hover:bg-dark-card">
                     <i class="fa-solid fa-xmark text-lg"></i>
                 </button>
             </div>
 
             <!-- Order Total Recap -->
-            <div class="bg-black/40 p-2.5 rounded-lg border border-blueprint-border flex items-center justify-between font-mono text-xs">
-                <span class="text-slate-400">Amount to Authorize:</span>
-                <span id="checkout-total-display" class="font-bold text-techCyan text-sm">$0.00</span>
+            <div class="bg-dark-card p-3 rounded-xl border border-dark-border flex items-center justify-between text-xs">
+                <span class="text-slate-400">Total Authorized Amount:</span>
+                <span id="checkout-total-display" class="font-black text-brand-400 text-base">$0.00</span>
             </div>
 
-            <!-- Functional Checkout Form -->
-            <form id="checkout-form" onsubmit="event.preventDefault(); window.processCheckout();" class="space-y-3 font-mono text-xs">
+            <!-- Checkout Form -->
+            <form id="checkout-form" onsubmit="event.preventDefault(); window.processCheckout();" class="space-y-3.5 text-xs">
                 <div class="grid grid-cols-2 gap-3">
                     <div class="space-y-1">
-                        <label class="text-[11px] text-slate-300">Recipient Name *</label>
-                        <input type="text" id="co-name" required value="Alex Prankster" class="w-full bg-black/50 border border-blueprint-border rounded px-2.5 py-1.5 text-white text-xs focus:border-techCyan focus:outline-none">
+                        <label class="text-[11px] text-slate-300 font-semibold">Recipient Name *</label>
+                        <input type="text" id="co-name" required value="Alex Prankster" class="w-full bg-dark-card border border-dark-border rounded-xl px-3 py-2 text-white text-xs focus:border-brand-500 focus:outline-none">
                     </div>
                     <div class="space-y-1">
-                        <label class="text-[11px] text-slate-300">Email Address *</label>
-                        <input type="email" id="co-email" required value="alex@mischief.local" class="w-full bg-black/50 border border-blueprint-border rounded px-2.5 py-1.5 text-white text-xs focus:border-techCyan focus:outline-none">
+                        <label class="text-[11px] text-slate-300 font-semibold">Email Address *</label>
+                        <input type="email" id="co-email" required value="alex@mischief.local" class="w-full bg-dark-card border border-dark-border rounded-xl px-3 py-2 text-white text-xs focus:border-brand-500 focus:outline-none">
                     </div>
                 </div>
 
                 <div class="space-y-1">
-                    <label class="text-[11px] text-slate-300">Street Address *</label>
-                    <input type="text" id="co-address" required value="142 Mischief Lane, Suite 3B" class="w-full bg-black/50 border border-blueprint-border rounded px-2.5 py-1.5 text-white text-xs focus:border-techCyan focus:outline-none">
+                    <label class="text-[11px] text-slate-300 font-semibold">Shipping Address (Discreet Packaging) *</label>
+                    <input type="text" id="co-address" required value="142 Corporate Parkway, Suite 400" class="w-full bg-dark-card border border-dark-border rounded-xl px-3 py-2 text-white text-xs focus:border-brand-500 focus:outline-none">
                 </div>
 
                 <div class="grid grid-cols-2 gap-3">
                     <div class="space-y-1">
-                        <label class="text-[11px] text-slate-300">City, State *</label>
-                        <input type="text" id="co-city" required value="New York, NY" class="w-full bg-black/50 border border-blueprint-border rounded px-2.5 py-1.5 text-white text-xs focus:border-techCyan focus:outline-none">
+                        <label class="text-[11px] text-slate-300 font-semibold">City, State *</label>
+                        <input type="text" id="co-city" required value="Austin, TX" class="w-full bg-dark-card border border-dark-border rounded-xl px-3 py-2 text-white text-xs focus:border-brand-500 focus:outline-none">
                     </div>
                     <div class="space-y-1">
-                        <label class="text-[11px] text-slate-300">ZIP Code *</label>
-                        <input type="text" id="co-zip" required value="10001" class="w-full bg-black/50 border border-blueprint-border rounded px-2.5 py-1.5 text-white text-xs focus:border-techCyan focus:outline-none">
+                        <label class="text-[11px] text-slate-300 font-semibold">ZIP Code *</label>
+                        <input type="text" id="co-zip" required value="78701" class="w-full bg-dark-card border border-dark-border rounded-xl px-3 py-2 text-white text-xs focus:border-brand-500 focus:outline-none">
                     </div>
                 </div>
 
                 <!-- Payment mock -->
-                <div class="pt-2 border-t border-blueprint-border space-y-2">
-                    <div class="text-[11px] font-bold text-techAmber flex items-center gap-1">
-                        <i class="fa-solid fa-credit-card"></i> Payment Simulation (Accepts Any Number)
+                <div class="pt-3 border-t border-dark-border space-y-2">
+                    <div class="text-[11px] font-bold text-amber-400 flex items-center gap-1.5">
+                        <i class="fa-solid fa-credit-card"></i> Simulated Payment (Accepts Any Number)
                     </div>
-                    <input type="text" id="co-card" required value="4242 8899 1234 5678" placeholder="Card Number" class="w-full bg-black/50 border border-blueprint-border rounded px-2.5 py-1.5 text-white text-xs focus:border-techCyan focus:outline-none">
+                    <input type="text" id="co-card" required value="4242 &bull;&bull;&bull;&bull; &bull;&bull;&bull;&bull; 1234" placeholder="Card Number" class="w-full bg-dark-card border border-dark-border rounded-xl px-3 py-2 text-white text-xs focus:border-brand-500 focus:outline-none">
                 </div>
 
-                <button type="submit" class="w-full py-2.5 rounded-lg bg-techCyan hover:bg-cyan-400 text-blueprint-950 font-bold font-mono text-xs transition-all shadow-md mt-2 flex items-center justify-center gap-2">
+                <button type="submit" class="w-full py-3 rounded-xl bg-brand-500 hover:bg-brand-400 text-slate-950 font-black text-xs transition-all shadow-lg mt-2 flex items-center justify-center gap-2">
                     <i class="fa-solid fa-lock"></i>
-                    <span>Submit Order &amp; Dispatch to IOrderProcessor</span>
+                    <span>Authorize Order &amp; Dispatch to IOrderProcessor</span>
                 </button>
             </form>
 
         </div>
     </div>
 
-    <!-- 8. ORDER COMPLETED RECEIPT (Views/Cart/Completed.cshtml & Concrete/EmailOrderProcessor.cs) -->
+    <!-- 7. ORDER COMPLETED RECEIPT MODAL -->
     <div id="receipt-modal-backdrop" class="fixed inset-0 bg-black/80 backdrop-blur-sm z-50 hidden flex items-center justify-center p-4" onclick="if(event.target===this) window.closeReceiptModal()">
-        <div class="bg-blueprint-950 border-2 border-techGreen rounded-xl max-w-md w-full p-5 space-y-4 shadow-2xl text-center"
+        <div class="bg-dark-bg border border-emerald-500/50 rounded-2xl max-w-md w-full p-6 space-y-4 shadow-2xl text-center"
              data-blueprint-file="MischiefStore.WebUI/Views/Cart/Completed.cshtml"
              data-blueprint-role="Order Completed View &amp; Order Processor"
              data-blueprint-layer="WebUI / View &amp; Domain / Concrete"
+             data-blueprint-dom="Centered modal container with emerald status ring icon and styled receipt data card."
              data-blueprint-desc="Confirmation view rendered after successful order processing by MischiefStore.Domain.Concrete.EmailOrderProcessor.cs."
              data-blueprint-code="orderProcessor.ProcessOrder(cart, shippingDetails);">
             
-            <div class="h-12 w-12 rounded-full bg-techGreen/20 text-techGreen border border-techGreen flex items-center justify-center text-xl mx-auto">
+            <div class="h-14 w-14 rounded-full bg-emerald-500/20 text-emerald-400 border border-emerald-500/40 flex items-center justify-center text-2xl mx-auto">
                 <i class="fa-solid fa-check"></i>
             </div>
 
             <div class="space-y-1">
-                <h3 class="font-heading font-bold text-lg text-white">Order Confirmed &amp; Dispatched</h3>
-                <p class="text-xs text-slate-400 font-mono">Simulated ASP.NET MVC Order Pipeline Completed</p>
+                <h3 class="font-heading font-bold text-xl text-white">Order Confirmed &amp; Dispatched</h3>
+                <p class="text-xs text-slate-400">Your prank order has been logged into the ASP.NET MVC Order Pipeline</p>
             </div>
 
-            <div class="bg-black/50 p-3.5 rounded-lg border border-blueprint-border text-left font-mono text-xs space-y-2">
-                <div class="flex justify-between border-b border-slate-800 pb-1.5">
-                    <span class="text-slate-400">Order ID:</span>
-                    <span id="rec-order-id" class="text-techCyan font-bold">#MS-849201</span>
+            <div class="bg-dark-card p-4 rounded-xl border border-dark-border text-left text-xs space-y-2.5">
+                <div class="flex justify-between border-b border-dark-border pb-2">
+                    <span class="text-slate-400">Order Reference:</span>
+                    <span id="rec-order-id" class="text-cyan-400 font-mono font-bold">#MS-849201</span>
                 </div>
                 <div class="flex justify-between">
                     <span class="text-slate-400">Customer:</span>
-                    <span id="rec-name" class="text-white">Alex Prankster</span>
+                    <span id="rec-name" class="text-white font-medium">Alex Prankster</span>
                 </div>
                 <div class="flex justify-between">
                     <span class="text-slate-400">Destination:</span>
-                    <span id="rec-dest" class="text-white">New York, NY</span>
+                    <span id="rec-dest" class="text-white font-medium">Austin, TX</span>
                 </div>
-                <div class="flex justify-between border-t border-slate-800 pt-1.5">
-                    <span class="text-slate-400">Total Charged:</span>
-                    <span id="rec-total" class="text-techGreen font-bold text-sm">$0.00</span>
+                <div class="flex justify-between border-t border-dark-border pt-2">
+                    <span class="text-slate-400">Total Billed:</span>
+                    <span id="rec-total" class="text-brand-400 font-black text-sm">$0.00</span>
                 </div>
             </div>
 
-            <button onclick="window.closeReceiptModal()" class="w-full py-2 rounded-lg bg-blueprint-900 border border-blueprint-border hover:border-techCyan text-white text-xs font-mono font-bold transition-all">
+            <button onclick="window.closeReceiptModal()" class="w-full py-3 rounded-xl bg-dark-card border border-dark-border hover:border-brand-500 text-white text-xs font-bold transition-all">
                 Close &amp; Return to Store
             </button>
         </div>
     </div>
 
-    <!-- 9. ADMIN INVENTORY CRUD MODAL (Views/Admin/Index.cshtml & Controllers/AdminController.cs) -->
+    <!-- 8. ADMIN INVENTORY CRUD MODAL -->
     <div id="admin-modal-backdrop" class="fixed inset-0 bg-black/80 backdrop-blur-sm z-50 hidden flex items-center justify-center p-4" onclick="if(event.target===this) window.closeAdminModal()">
-        <div class="bg-blueprint-950 border-2 border-techAmber/60 rounded-xl max-w-3xl w-full p-5 space-y-4 shadow-2xl max-h-[90vh] flex flex-col"
+        <div class="bg-dark-bg border border-brand-500/50 rounded-2xl max-w-3xl w-full p-6 space-y-4 shadow-2xl max-h-[90vh] flex flex-col"
              data-blueprint-file="MischiefStore.WebUI/Views/Admin/Index.cshtml"
              data-blueprint-role="Admin Product Management View"
-             data-blueprint-layer="WebUI / Admin"
+             data-blueprint-layer="WebUI / Admin Portal"
+             data-blueprint-dom="Modal dialog with flex-1 overflow-y-auto scrollable product table and sticky header."
              data-blueprint-desc="AdminController.Index() renders the back-office inventory catalog with Add, Edit, and Delete action endpoints connected to EFProductRepository."
              data-blueprint-code="public ViewResult Index() => View(repository.Products);">
             
-            <div class="flex items-center justify-between border-b border-blueprint-border pb-3 flex-shrink-0">
-                <div class="flex items-center gap-2">
-                    <i class="fa-solid fa-sliders text-techAmber"></i>
-                    <h3 class="font-heading font-bold text-base text-white">Admin Product Inventory (CRUD)</h3>
-                    <span class="bp-tag text-[9px]">AdminController.cs</span>
+            <div class="flex items-center justify-between border-b border-dark-border pb-3.5 flex-shrink-0">
+                <div class="flex items-center gap-2.5">
+                    <i class="fa-solid fa-sliders text-brand-400 text-lg"></i>
+                    <h3 class="font-heading font-bold text-lg text-white">Admin Catalog Management (CRUD)</h3>
                 </div>
-                <button onclick="window.closeAdminModal()" class="text-slate-400 hover:text-white p-1">
+                <button onclick="window.closeAdminModal()" class="text-slate-400 hover:text-white p-1 rounded-lg hover:bg-dark-card">
                     <i class="fa-solid fa-xmark text-lg"></i>
                 </button>
             </div>
 
-            <!-- Create Product Form (Collapsible/Inline) -->
-            <div class="bg-black/40 p-3.5 rounded-lg border border-blueprint-border space-y-2 flex-shrink-0 font-mono text-xs">
-                <div class="text-[11px] font-bold text-techCyan flex items-center gap-1.5">
+            <!-- Create Product Form -->
+            <div class="bg-dark-card p-4 rounded-xl border border-dark-border space-y-2.5 flex-shrink-0 text-xs">
+                <div class="text-[11px] font-bold text-brand-400 flex items-center gap-1.5">
                     <i class="fa-solid fa-plus-circle"></i> Create New Product (AdminController.Edit / Save)
                 </div>
-                <form id="add-product-form" onsubmit="event.preventDefault(); window.addNewProduct();" class="grid grid-cols-1 sm:grid-cols-4 gap-2">
-                    <input type="text" id="new-prod-name" placeholder="Product Name" required class="bg-black/50 border border-blueprint-border rounded px-2.5 py-1.5 text-white text-xs focus:border-techCyan focus:outline-none sm:col-span-2">
-                    <input type="number" id="new-prod-price" placeholder="Price ($)" step="0.01" min="0.5" required class="bg-black/50 border border-blueprint-border rounded px-2.5 py-1.5 text-white text-xs focus:border-techCyan focus:outline-none">
-                    <select id="new-prod-category" required class="bg-black/50 border border-blueprint-border rounded px-2.5 py-1.5 text-white text-xs focus:border-techCyan focus:outline-none">
-                        <option value="Stealth Noise">Stealth Noise</option>
+                <form id="add-product-form" onsubmit="event.preventDefault(); window.addNewProduct();" class="grid grid-cols-1 sm:grid-cols-4 gap-2.5">
+                    <input type="text" id="new-prod-name" placeholder="Product Name" required class="bg-dark-bg border border-dark-border rounded-xl px-3 py-2 text-white text-xs focus:border-brand-500 focus:outline-none sm:col-span-2">
+                    <input type="number" id="new-prod-price" placeholder="Price ($)" step="0.01" min="0.5" required class="bg-dark-bg border border-dark-border rounded-xl px-3 py-2 text-white text-xs focus:border-brand-500 focus:outline-none">
+                    <select id="new-prod-category" required class="bg-dark-bg border border-dark-border rounded-xl px-3 py-2 text-white text-xs focus:border-brand-500 focus:outline-none">
                         <option value="Office Gags">Office Gags</option>
+                        <option value="Stealth Noise">Stealth Noise</option>
+                        <option value="Classic Novelties">Classic Novelties</option>
                         <option value="Bulk Packs">Bulk Packs</option>
                         <option value="Bathroom Traps">Bathroom Traps</option>
                         <option value="Fake Bugs">Fake Bugs</option>
-                        <option value="Classic Novelties">Classic Novelties</option>
                     </select>
-                    <input type="text" id="new-prod-desc" placeholder="Short description of prank item..." required class="bg-black/50 border border-blueprint-border rounded px-2.5 py-1.5 text-white text-xs focus:border-techCyan focus:outline-none sm:col-span-3">
-                    <button type="submit" class="py-1.5 rounded bg-techAmber hover:bg-amber-400 text-blueprint-950 font-bold text-xs transition-all shadow">
+                    <input type="text" id="new-prod-desc" placeholder="Product description..." required class="bg-dark-bg border border-dark-border rounded-xl px-3 py-2 text-white text-xs focus:border-brand-500 focus:outline-none sm:col-span-3">
+                    <button type="submit" class="py-2 rounded-xl bg-brand-500 hover:bg-brand-400 text-slate-950 font-bold text-xs transition-all shadow">
                         + Save to EF6
                     </button>
                 </form>
             </div>
 
             <!-- Product Table -->
-            <div class="flex-1 overflow-y-auto border border-blueprint-border rounded-lg">
-                <table class="w-full text-left font-mono text-xs border-collapse">
-                    <thead class="bg-black/60 text-slate-400 sticky top-0 border-b border-blueprint-border text-[11px]">
+            <div class="flex-1 overflow-y-auto border border-dark-border rounded-xl">
+                <table class="w-full text-left text-xs border-collapse">
+                    <thead class="bg-dark-card text-slate-400 sticky top-0 border-b border-dark-border text-[11px] font-semibold">
                         <tr>
-                            <th class="p-2.5">ID</th>
-                            <th class="p-2.5">Product Name</th>
-                            <th class="p-2.5">Category</th>
-                            <th class="p-2.5 text-right">Price</th>
-                            <th class="p-2.5 text-center">Action</th>
+                            <th class="p-3">ID</th>
+                            <th class="p-3">Product Name</th>
+                            <th class="p-3">Category</th>
+                            <th class="p-3 text-right">Price</th>
+                            <th class="p-3 text-center">Action</th>
                         </tr>
                     </thead>
-                    <tbody id="admin-product-tbody" class="divide-y divide-blueprint-border/60 text-slate-200">
+                    <tbody id="admin-product-tbody" class="divide-y divide-dark-border text-slate-300">
                         <!-- Injected via JS -->
                     </tbody>
                 </table>
@@ -659,62 +708,69 @@
         </div>
     </div>
 
-    <!-- 10. ARCHITECTURE SITEMAP MODAL (N-Tier Overview) -->
+    <!-- 9. ARCHITECTURE SITEMAP MODAL -->
     <div id="arch-modal-backdrop" class="fixed inset-0 bg-black/80 backdrop-blur-sm z-50 hidden flex items-center justify-center p-4" onclick="if(event.target===this) window.closeArchitectureModal()">
-        <div class="bg-blueprint-950 border-2 border-techCyan rounded-xl max-w-2xl w-full p-5 space-y-4 shadow-2xl max-h-[85vh] flex flex-col font-mono text-xs">
-            <div class="flex items-center justify-between border-b border-blueprint-border pb-3 flex-shrink-0">
-                <div class="flex items-center gap-2">
-                    <i class="fa-solid fa-sitemap text-techCyan text-base"></i>
-                    <h3 class="font-heading font-bold text-base text-white">ASP.NET MVC 5 Architecture Map</h3>
+        <div class="bg-dark-bg border border-cyan-500/50 rounded-2xl max-w-2xl w-full p-6 space-y-4 shadow-2xl max-h-[85vh] flex flex-col text-xs">
+            <div class="flex items-center justify-between border-b border-dark-border pb-3.5 flex-shrink-0">
+                <div class="flex items-center gap-2.5">
+                    <i class="fa-solid fa-sitemap text-cyan-400 text-lg"></i>
+                    <h3 class="font-heading font-bold text-lg text-white">ASP.NET MVC 5 Architecture Solution</h3>
                 </div>
-                <button onclick="window.closeArchitectureModal()" class="text-slate-400 hover:text-white p-1">
+                <button onclick="window.closeArchitectureModal()" class="text-slate-400 hover:text-white p-1 rounded-lg hover:bg-dark-card">
                     <i class="fa-solid fa-xmark text-lg"></i>
                 </button>
             </div>
 
-            <div class="flex-1 overflow-y-auto space-y-3 pr-1 text-[11.5px] leading-relaxed">
-                <div class="bg-black/50 p-3 rounded-lg border border-slate-800 space-y-1.5">
-                    <div class="text-techCyan font-bold">1. MischiefStore.Domain (Core Class Library)</div>
-                    <ul class="list-disc list-inside text-slate-300 space-y-1 pl-1">
-                        <li><strong class="text-amber-300">Abstract/IProductRepository.cs:</strong> Repository interface exposing <code class="text-cyan-300">IQueryable&lt;Product&gt; Products</code>.</li>
-                        <li><strong class="text-amber-300">Concrete/EFProductRepository.cs:</strong> Entity Framework 6 implementation querying database via <code class="text-cyan-300">EFDbContext</code>.</li>
-                        <li><strong class="text-amber-300">Entities/Product.cs:</strong> POCO domain entity with DataAnnotations and BLOB imageData.</li>
-                        <li><strong class="text-amber-300">Entities/Cart.cs:</strong> Pure domain cart containing collection of <code class="text-cyan-300">CartLine</code> items.</li>
+            <div class="flex-1 overflow-y-auto space-y-3.5 pr-1 text-slate-300 leading-relaxed">
+                <div class="bg-dark-card p-4 rounded-xl border border-dark-border space-y-2">
+                    <div class="text-cyan-400 font-bold text-sm">1. MischiefStore.Domain (Core Class Library)</div>
+                    <ul class="list-disc list-inside space-y-1.5 pl-1 text-[11.5px]">
+                        <li><strong class="text-brand-400">Abstract/IProductRepository.cs:</strong> Decoupled repository contract exposing <code class="text-cyan-300 font-mono">IQueryable&lt;Product&gt; Products</code>.</li>
+                        <li><strong class="text-brand-400">Concrete/EFProductRepository.cs:</strong> Entity Framework 6 implementation connected to <code class="text-cyan-300 font-mono">EFDbContext</code>.</li>
+                        <li><strong class="text-brand-400">Entities/Product.cs:</strong> POCO domain model with DataAnnotation validation rules.</li>
+                        <li><strong class="text-brand-400">Entities/Cart.cs:</strong> Pure domain cart encapsulating line-item calculations.</li>
                     </ul>
                 </div>
 
-                <div class="bg-black/50 p-3 rounded-lg border border-slate-800 space-y-1.5">
-                    <div class="text-techAmber font-bold">2. MischiefStore.WebUI (Presentation Layer)</div>
-                    <ul class="list-disc list-inside text-slate-300 space-y-1 pl-1">
-                        <li><strong class="text-emerald-300">Controllers/ProductController.cs:</strong> Paginated product catalog view with category and search filters.</li>
-                        <li><strong class="text-emerald-300">Controllers/CartController.cs:</strong> Session-decoupled cart management and checkout dispatch.</li>
-                        <li><strong class="text-emerald-300">Infrastructure/Binders/CartModelBinder.cs:</strong> Custom ASP.NET model binder pulling Cart from Session.</li>
-                        <li><strong class="text-emerald-300">HtmlHelpers/PagingHelpers.cs:</strong> Custom Razor extension generating pagination links.</li>
-                        <li><strong class="text-emerald-300">App_Start/NinjectWebCommon.cs:</strong> Dependency Injection container lifecycle and bindings.</li>
+                <div class="bg-dark-card p-4 rounded-xl border border-dark-border space-y-2">
+                    <div class="text-amber-400 font-bold text-sm">2. MischiefStore.WebUI (Presentation Layer)</div>
+                    <ul class="list-disc list-inside space-y-1.5 pl-1 text-[11.5px]">
+                        <li><strong class="text-emerald-400">Controllers/ProductController.cs:</strong> Paginated product list view with category and LINQ search filtering.</li>
+                        <li><strong class="text-emerald-400">Controllers/CartController.cs:</strong> Session-decoupled cart management and checkout orchestration.</li>
+                        <li><strong class="text-emerald-400">Infrastructure/Binders/CartModelBinder.cs:</strong> Custom ASP.NET model binder managing cart session state.</li>
+                        <li><strong class="text-emerald-400">HtmlHelpers/PagingHelpers.cs:</strong> Custom Razor extension generating pagination links.</li>
+                        <li><strong class="text-emerald-400">App_Start/NinjectWebCommon.cs:</strong> Dependency Injection IoC container setup.</li>
                     </ul>
                 </div>
             </div>
 
-            <div class="text-[11px] text-slate-400 text-center pt-2 border-t border-slate-800">
-                Hover over any component on the store page to see its corresponding source file!
+            <div class="text-[11px] text-slate-400 text-center pt-2 border-t border-dark-border">
+                💡 Tip: Hover over any element on the store to inspect its specific DOM, CSS, and .NET architecture role!
             </div>
         </div>
     </div>
 
-    <!-- FOOTER -->
-    <footer class="border-t border-blueprint-border bg-blueprint-950/80 py-6 px-4 sm:px-6 text-xs font-mono text-slate-400 mt-auto"
+    <!-- 10. STORE FOOTER -->
+    <footer class="border-t border-dark-border bg-dark-subtle py-8 px-4 sm:px-6 text-xs text-slate-400 mt-auto"
             data-blueprint-file="MischiefStore.WebUI/Views/Shared/_Layout.cshtml"
-            data-blueprint-role="Footer Partial Layout"
-            data-blueprint-layer="WebUI / View"
-            data-blueprint-desc="Shared layout footer containing application copyright and framework architecture badges."
-            data-blueprint-code="<footer>&copy; @DateTime.Now.Year - Mischief Store</footer>">
-        <div class="max-w-7xl mx-auto flex flex-col sm:flex-row items-center justify-between gap-3">
-            <div class="flex items-center gap-2">
-                <span class="text-techCyan font-bold">MISCHIEF STORE</span>
-                <span>&bull; Functional UI/UX Blueprint Store</span>
+            data-blueprint-role="Site Footer Layout"
+            data-blueprint-layer="WebUI / Presentation"
+            data-blueprint-dom="Semantic <footer> container with responsive multi-column layout and brand copyright."
+            data-blueprint-desc="Shared master footer layout displaying security badges, links to the interactive case study, and framework metadata."
+            data-blueprint-code="<footer>&copy; @DateTime.Now.Year Mischief &amp; Magic Co.</footer>">
+        <div class="max-w-7xl mx-auto flex flex-col sm:flex-row items-center justify-between gap-4">
+            <div class="flex items-center gap-3">
+                <span class="text-brand-400 font-bold font-heading text-sm">MISCHIEF STORE</span>
+                <span class="text-slate-600">|</span>
+                <span>Premium Prank &amp; Novelty Shop</span>
             </div>
-            <div class="text-slate-500 text-[11px]">
-                ASP.NET MVC 5 &bull; EF6 &bull; Ninject 3.3 &bull; Razor Engine
+            <div class="flex items-center gap-4 text-slate-400">
+                <a href="./case-study.html" class="hover:text-brand-400 transition-colors">Case Study</a>
+                <a href="../index.html" class="hover:text-brand-400 transition-colors">Interactive Projects</a>
+                <a href="../../2026/" class="hover:text-brand-400 transition-colors">Main Portfolio</a>
+            </div>
+            <div class="text-slate-500 text-[11px] font-mono">
+                ASP.NET MVC 5 &bull; EF6 &bull; Ninject 3.3 &bull; Razor
             </div>
         </div>
     </footer>
@@ -723,7 +779,7 @@
     <script>
         /**
          * ==============================================================================
-         * MISCHIEF STORE // SEED INVENTORY (Entities/Product.cs / DatabaseInitializer.cs)
+         * MISCHIEF STORE // SEED INVENTORY WITH HIGH-RES PRODUCT PHOTOGRAPHY
          * ==============================================================================
          */
         let PRODUCTS = [
@@ -732,108 +788,156 @@
                 name: "Invisible Phantom Beeper",
                 category: "Stealth Noise",
                 price: 9.98,
-                description: "Emits high-pitch periodic beeps at random intervals between 5 and 45 minutes.",
-                icon: "🔊",
+                rating: 4.9,
+                reviews: 248,
+                badge: "Best Seller",
+                badgeColor: "amber",
+                description: "Emits ultra-sharp periodic chirps at random intervals between 5 and 45 minutes with a magnetic adhesive back.",
+                image: "./images/beeper.jpg",
                 stock: 45
             },
             {
                 id: 2,
-                name: "Ultrasonic Annoyance Whistle",
-                category: "Stealth Noise",
-                price: 12.50,
-                description: "Sub-audible high frequency whistle that triggers canine curiosity and mild confusion.",
-                icon: "🐕",
-                stock: 22
-            },
-            {
-                id: 3,
-                name: "Phantom Voice Echo Box",
-                category: "Stealth Noise",
-                price: 29.95,
-                description: "Micro-speaker with motion sensor broadcasting whispered ambient phrases.",
-                icon: "👻",
-                stock: 15
-            },
-            {
-                id: 4,
                 name: "Auto-Correcting Chaos USB",
                 category: "Office Gags",
                 price: 24.99,
-                description: "Emulates a keyboard keystroke dongle that randomly toggles CapsLock every 10 minutes.",
-                icon: "⌨️",
+                rating: 4.8,
+                reviews: 189,
+                badge: "Staff Pick",
+                badgeColor: "cyan",
+                description: "Emulates an undetectable hardware keyboard dongle that subtly toggles CapsLock every 10 minutes.",
+                image: "./images/usb.jpg",
                 stock: 30
             },
             {
-                id: 5,
-                name: "Squeaking Office Chair Caster",
-                category: "Office Gags",
-                price: 14.95,
-                description: "Replacement chair wheel engineered with a high-friction harmonic squeal mechanism.",
-                icon: "🪑",
-                stock: 18
-            },
-            {
-                id: 6,
+                id: 3,
                 name: "Vanishing Ink Executive Pen",
                 category: "Office Gags",
-                price: 7.99,
-                description: "Deep blue chemical ink that completely disappears from paper within 4 hours.",
-                icon: "✒️",
+                price: 14.99,
+                rating: 4.7,
+                reviews: 95,
+                badge: "Executive",
+                badgeColor: "purple",
+                description: "High-grade matte black brass rollerball pen. Blue chemical ink completely evaporates within 4 hours.",
+                image: "./images/pen.jpg",
                 stock: 60
             },
             {
-                id: 7,
-                name: "Industrial Stink Bomb 12-Pack",
-                category: "Bulk Packs",
-                price: 19.99,
-                description: "Glass ampoules releasing a concentrated sulfur and rotten egg cloud upon breaking.",
-                icon: "🧪",
-                stock: 25
+                id: 4,
+                name: "Squeaking Chair Caster Wheel",
+                category: "Office Gags",
+                price: 16.95,
+                rating: 4.6,
+                reviews: 112,
+                badge: "Subtle Prank",
+                badgeColor: "amber",
+                description: "Smooth rollerblade-style caster engineered with a resonant high-friction acoustic harmonic squeak.",
+                image: "./images/chair_wheel.jpg",
+                stock: 18
             },
             {
-                id: 8,
-                name: "Non-Tearable Toilet Paper Roll",
-                category: "Bathroom Traps",
-                price: 8.50,
-                description: "Real looking woven fabric bath roll with extreme tensile strength that will not rip.",
-                icon: "🧻",
+                id: 5,
+                name: "Decaf Stealth Roast Coffee",
+                category: "Office Gags",
+                price: 18.50,
+                rating: 4.9,
+                reviews: 310,
+                badge: "Trending",
+                badgeColor: "emerald",
+                description: "Artisanal dark roast coffee beans packaged to look hyper-caffeinated, but contains 0.0mg of stimulant.",
+                image: "./images/coffee_bag.jpg",
                 stock: 40
             },
             {
-                id: 9,
+                id: 6,
+                name: "Desktop USB Missile Turret",
+                category: "Office Gags",
+                price: 34.95,
+                rating: 4.9,
+                reviews: 420,
+                badge: "Top Rated",
+                badgeColor: "rose",
+                description: "Motorized desktop launcher with 3 soft foam darts, 360-degree rotation, and USB controller interface.",
+                image: "./images/missile_turret.jpg",
+                stock: 15
+            },
+            {
+                id: 7,
                 name: "Fake Cockroach Swarm (50pcs)",
                 category: "Fake Bugs",
                 price: 11.95,
-                description: "Hyper-realistic vinyl roaches with flexible legs and authentic brown sheen.",
-                icon: "🪲",
+                rating: 4.7,
+                reviews: 165,
+                badge: "Ultra Realistic",
+                badgeColor: "amber",
+                description: "Hyper-realistic vinyl roaches with lifelike flexible antennae, segmented legs, and natural brown sheen.",
+                image: "./images/fake_bugs.jpg",
                 stock: 50
             },
             {
-                id: 10,
-                name: "Shocking Car Key Remote",
+                id: 8,
+                name: "Shocking Executive Car Key",
                 category: "Classic Novelties",
                 price: 9.95,
-                description: "Realistic key fob that delivers a safe, startling 1.5V electrostatic tickle upon press.",
-                icon: "🔑",
+                rating: 4.5,
+                reviews: 88,
+                badge: "Classic",
+                badgeColor: "cyan",
+                description: "Authentic automotive keyless entry remote delivering a safe, surprising 1.5V electrostatic pulse upon clicking.",
+                image: "./images/car_key.jpg",
                 stock: 35
             },
             {
-                id: 11,
-                name: "Exploding Golf Balls 3-Pack",
+                id: 9,
+                name: "Super-Sonic Whoopee Cushion",
                 category: "Classic Novelties",
-                price: 15.50,
-                description: "Disintegrates into a huge harmless cloud of white chalk dust upon driver impact.",
-                icon: "⛳",
-                stock: 28
+                price: 6.99,
+                rating: 4.8,
+                reviews: 530,
+                badge: "Self-Inflating",
+                badgeColor: "rose",
+                description: "Classic high-elasticity rubber cushion equipped with a rapid intake valve for high-bass acoustic resonance.",
+                image: "./images/whoopee_cushion.jpg",
+                stock: 75
+            },
+            {
+                id: 10,
+                name: "Industrial Stink Bomb 12-Pack",
+                category: "Bulk Packs",
+                price: 19.99,
+                rating: 4.8,
+                reviews: 210,
+                badge: "High Potency",
+                badgeColor: "emerald",
+                description: "Glass ampoules in a protective foam-lined box. Releases a harmless concentrated rotten sulfur aroma upon breaking.",
+                image: "./images/stink_bomb.jpg",
+                stock: 25
+            },
+            {
+                id: 11,
+                name: "Non-Tearable Toilet Paper Roll",
+                category: "Bathroom Traps",
+                price: 8.50,
+                rating: 4.6,
+                reviews: 144,
+                badge: "Woven Fabric",
+                badgeColor: "cyan",
+                description: "Looks like soft luxury bathroom tissue, but is woven from extreme tensile-strength fabric that cannot be torn.",
+                image: "./images/toilet_paper.jpg",
+                stock: 40
             },
             {
                 id: 12,
-                name: "Whoopee Cushion Super-Sonic",
+                name: "Exploding Golf Balls 3-Pack",
                 category: "Classic Novelties",
-                price: 6.99,
-                description: "Self-inflating latex valve cushion engineered for maximum resonance and bass.",
-                icon: "💨",
-                stock: 75
+                price: 15.50,
+                rating: 4.9,
+                reviews: 275,
+                badge: "Chalk Burst",
+                badgeColor: "amber",
+                description: "Real looking dimpled golf balls that disintegrate into an enormous cloud of white chalk smoke upon driver impact.",
+                image: "./images/golf_balls.jpg",
+                stock: 28
             }
         ];
 
@@ -847,14 +951,14 @@
 
         /**
          * ==============================================================================
-         * RENDER PRODUCT CATALOG (Views/Product/List.cshtml)
+         * RENDER CLEAN E-COMMERCE PRODUCT CATALOG (Views/Product/List.cshtml)
          * ==============================================================================
          */
         function renderCatalog() {
             const grid = document.getElementById('product-grid');
             const emptyState = document.getElementById('empty-state');
             const visibleCountLabel = document.getElementById('visible-count');
-            const activeCatLabel = document.getElementById('active-category-name');
+            const activeCatTitle = document.getElementById('active-category-title');
 
             // 1. Filter by category
             let filtered = PRODUCTS.filter(p => {
@@ -875,10 +979,12 @@
                 filtered.sort((a, b) => b.price - a.price);
             } else if (sortOption === 'name-asc') {
                 filtered.sort((a, b) => a.name.localeCompare(b.name));
+            } else if (sortOption === 'rating-desc') {
+                filtered.sort((a, b) => b.rating - a.rating);
             }
 
             visibleCountLabel.innerText = filtered.length;
-            activeCatLabel.innerText = activeCategory === 'all' ? 'All Products' : activeCategory;
+            activeCatTitle.innerText = activeCategory === 'all' ? 'All Novelty Products' : activeCategory;
 
             if (filtered.length === 0) {
                 grid.innerHTML = '';
@@ -897,46 +1003,70 @@
             const startIndex = (currentPage - 1) * ITEMS_PER_PAGE;
             const paginatedItems = filtered.slice(startIndex, startIndex + ITEMS_PER_PAGE);
 
-            // Render Cards (Views/Shared/_ProductSummary.cshtml)
+            // Render Clean E-Commerce Cards (Views/Shared/_ProductSummary.cshtml)
             grid.innerHTML = paginatedItems.map(prod => `
-                <div class="bp-card p-4 flex flex-col justify-between space-y-3"
-                     data-blueprint-file="MischiefStore.WebUI/Views/Shared/_ProductSummary.cshtml"
-                     data-blueprint-role="Product Summary Partial View"
-                     data-blueprint-layer="WebUI / Partial View"
-                     data-blueprint-desc="Razor partial (_ProductSummary.cshtml) rendering Model.Name ('${prod.name}'), Model.Price ($${prod.price.toFixed(2)}), category badge, and Add to Cart form post."
-                     data-blueprint-code="@Html.Partial(&quot;_ProductSummary&quot;, product)">
+                <article class="product-card group"
+                         data-blueprint-file="MischiefStore.WebUI/Views/Shared/_ProductSummary.cshtml"
+                         data-blueprint-role="Product Summary Partial View"
+                         data-blueprint-layer="WebUI / Partial View"
+                         data-blueprint-dom="Semantic <article> with aspect-ratio 1:1 image frame, flex layout, hover zoom, and Tailwind typography."
+                         data-blueprint-desc="In ASP.NET MVC, _ProductSummary.cshtml maps Domain.Entities.Product model properties directly into clean HTML markup without controller bloat."
+                         data-blueprint-code="@Html.Partial(&quot;_ProductSummary&quot;, product)">
                     
-                    <div class="space-y-2">
-                        <div class="flex items-start justify-between gap-2">
-                            <span class="text-2xl">${prod.icon}</span>
-                            <span class="bp-tag text-[9px]">${prod.category}</span>
-                        </div>
-
-                        <div>
-                            <h4 class="font-heading font-bold text-sm text-white hover:text-techCyan transition-colors">${prod.name}</h4>
-                            <p class="text-slate-400 text-xs mt-1 line-clamp-2 leading-relaxed font-sans">${prod.description}</p>
-                        </div>
+                    <!-- Product Photo with Badge -->
+                    <div class="product-image-container">
+                        <img src="${prod.image}" alt="${prod.name}" class="product-image" loading="lazy" />
+                        <span class="absolute top-3 left-3 px-2.5 py-1 rounded-full bg-slate-950/80 backdrop-blur-md text-amber-400 border border-amber-500/30 text-[10px] font-bold tracking-wide uppercase">
+                            ${prod.badge}
+                        </span>
+                        <span class="absolute top-3 right-3 px-2 py-0.5 rounded-md bg-slate-900/85 backdrop-blur-md text-slate-300 text-[10px] font-mono">
+                            ${prod.category}
+                        </span>
                     </div>
 
-                    <div class="pt-2 border-t border-blueprint-border/60 space-y-2.5 font-mono">
-                        <div class="flex items-baseline justify-between">
-                            <span class="text-xs text-slate-400">Price:</span>
-                            <span class="text-sm font-bold text-techAmber">$${prod.price.toFixed(2)}</span>
+                    <!-- Card Body -->
+                    <div class="p-4 flex-1 flex flex-col justify-between space-y-3">
+                        <div class="space-y-1.5">
+                            <!-- Star Rating -->
+                            <div class="flex items-center gap-1 text-amber-400 text-xs">
+                                <span class="text-xs">★★★★★</span>
+                                <span class="text-slate-400 text-[11px] font-medium ml-1">${prod.rating} (${prod.reviews})</span>
+                            </div>
+
+                            <!-- Product Title -->
+                            <h3 class="font-heading font-bold text-base text-white group-hover:text-amber-400 transition-colors line-clamp-1">
+                                ${prod.name}
+                            </h3>
+
+                            <!-- Description -->
+                            <p class="text-slate-400 text-xs line-clamp-2 leading-relaxed font-sans">
+                                ${prod.description}
+                            </p>
                         </div>
 
-                        <div class="flex items-center justify-between text-[11px] text-slate-400">
-                            <span>Stock: <strong class="text-slate-300">${prod.stock} units</strong></span>
-                            <span class="text-emerald-400 text-[10px]">● In Stock</span>
+                        <!-- Price & Add to Cart -->
+                        <div class="pt-3 border-t border-dark-border/70 space-y-3">
+                            <div class="flex items-baseline justify-between">
+                                <div>
+                                    <span class="text-lg font-extrabold text-white font-heading">$${prod.price.toFixed(2)}</span>
+                                    <span class="text-[10px] text-slate-400 ml-1">USD</span>
+                                </div>
+                                <span class="text-emerald-400 text-[11px] font-semibold flex items-center gap-1">
+                                    <span class="h-1.5 w-1.5 rounded-full bg-emerald-400 animate-pulse"></span>
+                                    In Stock (${prod.stock})
+                                </span>
+                            </div>
+
+                            <button onclick="window.addToCart(${prod.id})" 
+                                    class="w-full py-2.5 rounded-xl bg-brand-500 hover:bg-brand-400 active:scale-[0.98] text-slate-950 font-black text-xs flex items-center justify-center gap-2 transition-all shadow-md shadow-brand-500/20">
+                                <i class="fa-solid fa-cart-plus"></i>
+                                <span>Add to Cart</span>
+                            </button>
                         </div>
 
-                        <button onclick="window.addToCart(${prod.id})" 
-                                class="w-full py-2 rounded bg-techCyan/15 hover:bg-techCyan text-techCyan hover:text-blueprint-950 border border-techCyan/40 font-bold text-xs flex items-center justify-center gap-1.5 transition-all">
-                            <i class="fa-solid fa-cart-plus"></i>
-                            <span>+ Add to Cart</span>
-                        </button>
                     </div>
 
-                </div>
+                </article>
             `).join('');
 
             // Render Pagination (HtmlHelpers/PagingHelpers.cs)
@@ -954,7 +1084,7 @@
                 const isActive = i === currentPage;
                 html += `
                     <button onclick="window.goToPage(${i})" 
-                            class="px-2.5 py-1 rounded border ${isActive ? 'bg-techCyan text-blueprint-950 font-bold border-techCyan' : 'bg-black/40 text-slate-300 border-blueprint-border hover:border-techCyan'}">
+                            class="px-3.5 py-1.5 rounded-xl font-bold transition-all ${isActive ? 'bg-brand-500 text-slate-950 shadow-md' : 'bg-dark-subtle text-slate-300 border border-dark-border hover:border-brand-500 hover:text-white'}">
                         ${i}
                     </button>
                 `;
@@ -985,7 +1115,7 @@
                     id: product.id,
                     name: product.name,
                     price: product.price,
-                    icon: product.icon,
+                    image: product.image,
                     quantity: 1
                 });
             }
@@ -1037,27 +1167,30 @@
 
             if (subtotal >= FREE_SHIP_LIMIT) {
                 progressBar.style.width = '100%';
-                progressBar.className = 'bg-techGreen h-full transition-all duration-300';
+                progressBar.className = 'bg-emerald-400 h-full transition-all duration-300';
                 progressText.innerText = '⚡ Free 2-Day Shipping Unlocked!';
-                progressBadge.innerText = 'FREE';
-                progressBadge.className = 'text-techGreen font-bold';
+                progressBadge.innerText = 'QUALIFIED';
+                progressBadge.className = 'text-emerald-400 font-bold';
             } else {
                 const diff = FREE_SHIP_LIMIT - subtotal;
                 const pct = Math.min(100, Math.round((subtotal / FREE_SHIP_LIMIT) * 100));
                 progressBar.style.width = `${pct}%`;
-                progressBar.className = 'bg-techCyan h-full transition-all duration-300';
+                progressBar.className = 'bg-brand-500 h-full transition-all duration-300';
                 progressText.innerText = `Add $${diff.toFixed(2)} for Free 2-Day Delivery`;
                 progressBadge.innerText = `$${diff.toFixed(2)} Left`;
-                progressBadge.className = 'text-techAmber font-bold';
+                progressBadge.className = 'text-amber-400 font-bold';
             }
 
             // Render Items in Drawer (Views/Cart/Index.cshtml)
             const list = document.getElementById('cart-items-container');
             if (cart.length === 0) {
                 list.innerHTML = `
-                    <div class="text-center py-12 text-slate-500 font-mono space-y-2">
-                        <i class="fa-solid fa-cart-shopping text-2xl text-slate-600"></i>
-                        <p class="text-xs">Your shopping cart is currently empty.</p>
+                    <div class="text-center py-16 text-slate-500 space-y-3">
+                        <i class="fa-solid fa-cart-shopping text-3xl text-slate-600"></i>
+                        <p class="text-xs font-medium">Your shopping cart is currently empty.</p>
+                        <button onclick="window.closeCartDrawer()" class="px-4 py-2 rounded-xl bg-dark-card border border-dark-border text-slate-300 text-xs font-bold hover:text-white">
+                            Browse Novelties
+                        </button>
                     </div>
                 `;
                 document.getElementById('btn-proceed-checkout').disabled = true;
@@ -1066,23 +1199,22 @@
                 document.getElementById('btn-proceed-checkout').disabled = false;
                 document.getElementById('btn-proceed-checkout').classList.remove('opacity-50', 'pointer-events-none');
                 list.innerHTML = cart.map(item => `
-                    <div class="bg-black/40 p-2.5 rounded-lg border border-blueprint-border flex items-center justify-between gap-3 font-mono text-xs">
-                        <div class="flex items-center gap-2 truncate">
-                            <span class="text-lg">${item.icon}</span>
-                            <div class="truncate">
-                                <strong class="text-white block text-xs truncate">${item.name}</strong>
-                                <span class="text-slate-400 text-[10px]">$${item.price.toFixed(2)} each</span>
-                            </div>
+                    <div class="bg-dark-card p-3 rounded-xl border border-dark-border flex items-center justify-between gap-3 text-xs">
+                        <img src="${item.image}" alt="${item.name}" class="h-12 w-12 rounded-lg object-cover bg-dark-bg flex-shrink-0" />
+                        
+                        <div class="flex-1 min-w-0">
+                            <strong class="text-white block text-xs font-bold truncate">${item.name}</strong>
+                            <span class="text-slate-400 text-[11px]">$${item.price.toFixed(2)} each</span>
                         </div>
 
                         <div class="flex items-center gap-2 flex-shrink-0">
-                            <div class="flex items-center border border-slate-700 rounded bg-black/60">
-                                <button onclick="window.updateCartQty(${item.id}, -1)" class="px-2 py-0.5 text-slate-300 hover:text-white">-</button>
-                                <span class="px-2 py-0.5 text-techCyan font-bold">${item.quantity}</span>
-                                <button onclick="window.updateCartQty(${item.id}, 1)" class="px-2 py-0.5 text-slate-300 hover:text-white">+</button>
+                            <div class="flex items-center border border-dark-border rounded-lg bg-dark-bg">
+                                <button onclick="window.updateCartQty(${item.id}, -1)" class="px-2 py-1 text-slate-300 hover:text-white font-bold">-</button>
+                                <span class="px-2 py-1 text-brand-400 font-bold text-xs">${item.quantity}</span>
+                                <button onclick="window.updateCartQty(${item.id}, 1)" class="px-2 py-1 text-slate-300 hover:text-white font-bold">+</button>
                             </div>
-                            <span class="font-bold text-techAmber text-xs w-14 text-right">$${(item.price * item.quantity).toFixed(2)}</span>
-                            <button onclick="window.removeFromCart(${item.id})" class="text-slate-500 hover:text-red-400 p-1" title="Remove line">
+                            <span class="font-extrabold text-white text-xs w-14 text-right">$${(item.price * item.quantity).toFixed(2)}</span>
+                            <button onclick="window.removeFromCart(${item.id})" class="text-slate-500 hover:text-rose-400 p-1" title="Remove line">
                                 <i class="fa-solid fa-trash-can text-xs"></i>
                             </button>
                         </div>
@@ -1154,16 +1286,16 @@
         function renderAdminTable() {
             const tbody = document.getElementById('admin-product-tbody');
             tbody.innerHTML = PRODUCTS.map(p => `
-                <tr class="hover:bg-blueprint-900/40 transition-colors">
-                    <td class="p-2.5 font-bold text-techCyan">#${p.id}</td>
-                    <td class="p-2.5">
-                        <span class="mr-1.5">${p.icon}</span>
+                <tr class="hover:bg-dark-cardHover transition-colors">
+                    <td class="p-3 font-mono font-bold text-cyan-400">#${p.id}</td>
+                    <td class="p-3 flex items-center gap-2.5">
+                        <img src="${p.image}" alt="${p.name}" class="h-8 w-8 rounded object-cover bg-dark-bg" />
                         <strong class="text-white">${p.name}</strong>
                     </td>
-                    <td class="p-2.5 text-slate-400">${p.category}</td>
-                    <td class="p-2.5 text-right font-bold text-techAmber">$${p.price.toFixed(2)}</td>
-                    <td class="p-2.5 text-center">
-                        <button onclick="window.deleteProduct(${p.id})" class="px-2 py-1 rounded bg-red-500/15 border border-red-500/40 text-red-400 hover:bg-red-500 hover:text-white transition-all text-[10px]">
+                    <td class="p-3 text-slate-400">${p.category}</td>
+                    <td class="p-3 text-right font-bold text-amber-400">$${p.price.toFixed(2)}</td>
+                    <td class="p-3 text-center">
+                        <button onclick="window.deleteProduct(${p.id})" class="px-2.5 py-1 rounded-lg bg-rose-500/15 border border-rose-500/40 text-rose-400 hover:bg-rose-500 hover:text-white transition-all text-[11px] font-bold">
                             Delete
                         </button>
                     </td>
@@ -1184,14 +1316,18 @@
                 price: price,
                 category: category,
                 description: desc,
-                icon: "⚡",
+                rating: 5.0,
+                reviews: 1,
+                badge: "New Arrival",
+                badgeColor: "amber",
+                image: "./images/beeper.jpg",
                 stock: 25
             });
 
             document.getElementById('add-product-form').reset();
             renderAdminTable();
             renderCatalog();
-            triggerFlashToast(`Saved new product #${newId} to EF6 store`);
+            triggerFlashToast(`Saved product #${newId} to EF6 store`);
         }
 
         function deleteProduct(id) {
@@ -1219,7 +1355,11 @@
             currentPage = 1;
             document.querySelectorAll('.cat-pill').forEach(btn => {
                 const isMatch = btn.dataset.category === cat;
-                btn.className = `cat-pill px-3 py-1 rounded-md border whitespace-nowrap transition-all font-mono text-xs ${isMatch ? 'border-techCyan bg-techCyan/15 text-techCyan font-bold' : 'border-blueprint-border text-slate-300 hover:border-techCyan hover:text-white'}`;
+                if (isMatch) {
+                    btn.className = 'cat-pill active px-3.5 py-1.5 rounded-lg bg-brand-500 text-slate-950 font-bold whitespace-nowrap transition-all shadow-sm';
+                } else {
+                    btn.className = 'cat-pill px-3.5 py-1.5 rounded-lg bg-dark-card border border-dark-border text-slate-300 hover:border-brand-500 hover:text-white whitespace-nowrap transition-all';
+                }
             });
             renderCatalog();
         }
@@ -1256,13 +1396,14 @@
 
         /**
          * ==============================================================================
-         * FLOATING BLUEPRINT TOOLTIP ENGINE
+         * FLOATING TECHNICAL & ARCHITECTURAL BLUEPRINT TOOLTIP ENGINE
          * ==============================================================================
          */
         const tooltip = document.getElementById('blueprint-tooltip');
         const ttFile = document.getElementById('tt-file');
         const ttRole = document.getElementById('tt-role');
         const ttLayer = document.getElementById('tt-layer-badge');
+        const ttDomCss = document.getElementById('tt-dom-css');
         const ttDesc = document.getElementById('tt-desc');
         const ttCode = document.getElementById('tt-code');
 
@@ -1272,12 +1413,14 @@
                 const file = target.getAttribute('data-blueprint-file');
                 const role = target.getAttribute('data-blueprint-role') || 'Component';
                 const layer = target.getAttribute('data-blueprint-layer') || 'Architecture';
+                const domCss = target.getAttribute('data-blueprint-dom') || '<element> • Flexbox / Grid layout';
                 const desc = target.getAttribute('data-blueprint-desc') || '';
                 const code = target.getAttribute('data-blueprint-code') || '// C# code mapping';
 
                 ttFile.innerText = file;
                 ttRole.innerText = role;
                 ttLayer.innerText = layer;
+                ttDomCss.innerHTML = domCss;
                 ttDesc.innerText = desc;
                 ttCode.innerText = code;
 
@@ -1319,8 +1462,8 @@
 
         function triggerFlashToast(msg) {
             const toast = document.createElement('div');
-            toast.className = 'fixed bottom-5 right-5 z-50 px-4 py-2 rounded-lg bg-techCyan text-blueprint-950 font-mono text-xs font-bold shadow-2xl transition-all';
-            toast.innerHTML = `<i class="fa-solid fa-bolt mr-1.5"></i> ${msg}`;
+            toast.className = 'fixed bottom-5 right-5 z-50 px-4 py-2.5 rounded-xl bg-brand-500 text-slate-950 font-bold text-xs shadow-2xl transition-all flex items-center gap-2';
+            toast.innerHTML = `<i class="fa-solid fa-cart-shopping"></i> ${msg}`;
             document.body.appendChild(toast);
             setTimeout(() => {
                 toast.style.opacity = '0';

@@ -93,22 +93,14 @@
             box-shadow: 0 15px 35px rgba(0, 0, 0, 0.85), 0 0 0 2px rgba(212, 175, 55, 0.25) inset;
         }
 
-        /* Player Side Indicator Strips (Top & Bottom of Board) */
+        /* Player Side Indicator Strips (Top & Bottom of Board - Clean & Neutral) */
         .player-side-strip {
             background: #18110D;
             border: 1px solid #36261D;
             border-radius: 8px;
             padding: 6px 12px;
             color: #9C8976;
-            transition: all 0.25s cubic-bezier(0.4, 0, 0.2, 1);
             user-select: none;
-        }
-
-        .player-side-strip.active-turn {
-            background: linear-gradient(90deg, rgba(212, 175, 55, 0.16) 0%, rgba(45, 31, 23, 0.95) 50%, rgba(212, 175, 55, 0.16) 100%);
-            border: 1.5px solid #D4AF37;
-            color: #FFFDF8;
-            box-shadow: 0 0 16px rgba(212, 175, 55, 0.25), inset 0 0 12px rgba(212, 175, 55, 0.12);
         }
 
         .player-status-badge {
@@ -116,38 +108,12 @@
             align-items: center;
             gap: 5px;
             font-size: 10px;
-            font-weight: 700;
+            font-weight: 600;
             padding: 2px 8px;
-            border-radius: 9999px;
-            transition: all 0.2s ease;
-        }
-
-        .player-side-strip.active-turn .player-status-badge {
-            background: #D4AF37;
-            color: #160F0B;
-            box-shadow: 0 0 10px rgba(212, 175, 55, 0.6);
-            letter-spacing: 0.4px;
-            text-transform: uppercase;
-        }
-
-        .player-side-strip:not(.active-turn) .player-status-badge {
+            border-radius: 6px;
             background: #201712;
-            color: #6E5E50;
+            color: #8C7A6B;
             border: 1px solid #33241B;
-        }
-
-        .pulse-dot {
-            width: 6px;
-            height: 6px;
-            border-radius: 50%;
-            background: currentColor;
-            display: inline-block;
-            animation: pulse-dot-anim 1.5s infinite;
-        }
-
-        @keyframes pulse-dot-anim {
-            0%, 100% { transform: scale(1); opacity: 1; }
-            50% { transform: scale(1.3); opacity: 0.6; }
         }
 
         .board-grid {
@@ -166,7 +132,7 @@
             transition: all 0.25s ease;
         }
 
-        /* Board Active Side Edge Glows */
+        /* Board Active Side Edge Indicators */
         .board-grid.turn-top-active {
             border-top: 3px solid #D4AF37 !important;
             box-shadow: 0 -4px 18px rgba(212, 175, 55, 0.4), inset 0 6px 14px -3px rgba(212, 175, 55, 0.3);
@@ -223,29 +189,29 @@
             100% { background: #4D0E16; }
         }
 
-        /* Active Turn Square Highlighting on Board */
+        /* Active Turn Square Highlighting Directly on the Chessboard */
         .square.turn-active-square {
-            box-shadow: inset 0 0 0 1.5px rgba(212, 175, 55, 0.65), inset 0 0 14px rgba(212, 175, 55, 0.28);
+            box-shadow: inset 0 0 0 2px rgba(212, 175, 55, 0.75), inset 0 0 12px rgba(212, 175, 55, 0.3) !important;
             position: relative;
         }
 
         .square.turn-active-square.light {
-            background: radial-gradient(circle at center, rgba(212, 175, 55, 0.28) 0%, rgba(235, 218, 192, 1) 80%);
+            background: radial-gradient(circle at center, rgba(212, 175, 55, 0.35) 0%, rgba(234, 222, 202, 1) 75%) !important;
         }
 
         .square.turn-active-square.dark {
-            background: radial-gradient(circle at center, rgba(212, 175, 55, 0.32) 0%, rgba(138, 90, 54, 1) 80%);
+            background: radial-gradient(circle at center, rgba(212, 175, 55, 0.38) 0%, rgba(122, 88, 58, 1) 75%) !important;
         }
 
         .square.turn-active-square:hover {
-            box-shadow: inset 0 0 0 2px #D4AF37, inset 0 0 18px rgba(212, 175, 55, 0.5) !important;
+            box-shadow: inset 0 0 0 2.5px #D4AF37, inset 0 0 16px rgba(212, 175, 55, 0.55) !important;
             filter: brightness(1.08);
         }
 
-        /* Authentic Staunton Chess Pieces */
+        /* 100% Flat 2D Staunton Chess Pieces (No 3D Depth, No Drop-Shadows) */
         .chess-piece {
-            width: 88%;
-            height: 88%;
+            width: 86%;
+            height: 86%;
             display: flex;
             align-items: center;
             justify-content: center;
@@ -256,32 +222,27 @@
         .chess-piece svg {
             width: 100%;
             height: 100%;
-            filter: drop-shadow(0 2px 4px rgba(0, 0, 0, 0.55));
-            transition: transform 0.18s cubic-bezier(0.34, 1.56, 0.64, 1), filter 0.18s ease;
+            filter: none !important;
+            transform: none !important;
+            transition: none !important;
         }
 
-        /* Turn Highlighting for Active Player's Pieces */
         .chess-piece.turn-active-piece svg {
-            filter: drop-shadow(0 0 6px rgba(212, 175, 55, 0.8)) drop-shadow(0 2.5px 5px rgba(0, 0, 0, 0.65));
-            animation: active-piece-pulse 2.8s ease-in-out infinite alternate;
+            filter: none !important;
+            transform: none !important;
+            animation: none !important;
+            opacity: 1;
         }
 
         .square:hover .chess-piece.turn-active-piece svg {
-            transform: translateY(-3px) scale(1.09);
-            filter: drop-shadow(0 0 12px rgba(243, 229, 171, 0.95)) drop-shadow(0 4px 8px rgba(0, 0, 0, 0.8));
+            transform: none !important;
+            filter: none !important;
         }
 
         .chess-piece.turn-idle-piece svg {
-            opacity: 0.88;
-        }
-
-        @keyframes active-piece-pulse {
-            0% {
-                filter: drop-shadow(0 0 4px rgba(212, 175, 55, 0.55)) drop-shadow(0 2px 4px rgba(0, 0, 0, 0.65));
-            }
-            100% {
-                filter: drop-shadow(0 0 9px rgba(243, 229, 171, 0.95)) drop-shadow(0 3px 6px rgba(0, 0, 0, 0.75));
-            }
+            opacity: 0.85;
+            filter: none !important;
+            transform: none !important;
         }
 
         /* Target Overlays */
@@ -560,7 +521,7 @@
 
             <!-- CHESSBOARD CONTAINER (Spacious & Prominent) -->
             <div class="board-chassis w-full max-w-[720px] mx-auto flex flex-col gap-2">
-                <!-- Top Player Side Strip (Active Side Highlight) -->
+                <!-- Top Player Side Strip -->
                 <div id="topPlayerSideStrip" class="player-side-strip flex items-center justify-between">
                     <div class="flex items-center gap-2">
                         <span id="topPlayerPieceIcon" class="text-base text-salon-gold">♚</span>
@@ -568,7 +529,7 @@
                         <span id="topPlayerType" class="text-[11px] text-[#A89582]">(Engine AI)</span>
                     </div>
                     <div id="topPlayerStatus" class="player-status-badge">
-                        <span>Waiting</span>
+                        <span>Black</span>
                     </div>
                 </div>
 
@@ -577,16 +538,15 @@
                     <!-- 64 squares dynamically generated -->
                 </div>
 
-                <!-- Bottom Player Side Strip (Active Side Highlight) -->
-                <div id="bottomPlayerSideStrip" class="player-side-strip active-turn flex items-center justify-between">
+                <!-- Bottom Player Side Strip -->
+                <div id="bottomPlayerSideStrip" class="player-side-strip flex items-center justify-between">
                     <div class="flex items-center gap-2">
                         <span id="bottomPlayerPieceIcon" class="text-base text-salon-parchment">♔</span>
                         <span id="bottomPlayerName" class="font-bold text-salon-parchment text-xs sm:text-sm">White</span>
                         <span id="bottomPlayerType" class="text-[11px] text-[#A89582]">(You)</span>
                     </div>
                     <div id="bottomPlayerStatus" class="player-status-badge">
-                        <span class="pulse-dot"></span>
-                        <span>Active Turn</span>
+                        <span>White</span>
                     </div>
                 </div>
             </div>
@@ -1799,7 +1759,7 @@
             container.classList.toggle('turn-top-active', isTopActive);
             container.classList.toggle('turn-bottom-active', isBottomActive);
 
-            // Update Top Player Side Strip
+            // Update Top Player Side Strip (Clean & Neutral)
             const topStrip = document.getElementById('topPlayerSideStrip');
             const topIcon = document.getElementById('topPlayerPieceIcon');
             const topName = document.getElementById('topPlayerName');
@@ -1807,7 +1767,6 @@
             const topStatus = document.getElementById('topPlayerStatus');
 
             if (topStrip) {
-                topStrip.classList.toggle('active-turn', isTopActive);
                 topIcon.innerText = topColor === 'w' ? '♔' : '♚';
                 topIcon.className = `text-base ${topColor === 'w' ? 'text-salon-parchment' : 'text-salon-gold'}`;
                 topName.innerText = topColor === 'w' ? 'White' : 'Black';
@@ -1824,14 +1783,12 @@
 
                 if (game.gameResult) {
                     topStatus.innerHTML = `<span>Finished</span>`;
-                } else if (isTopActive) {
-                    topStatus.innerHTML = `<span class="pulse-dot"></span><span>Active Turn</span>`;
                 } else {
-                    topStatus.innerHTML = `<span>Waiting</span>`;
+                    topStatus.innerHTML = `<span>${topColor === 'w' ? 'White' : 'Black'}</span>`;
                 }
             }
 
-            // Update Bottom Player Side Strip
+            // Update Bottom Player Side Strip (Clean & Neutral)
             const bottomStrip = document.getElementById('bottomPlayerSideStrip');
             const bottomIcon = document.getElementById('bottomPlayerPieceIcon');
             const bottomName = document.getElementById('bottomPlayerName');
@@ -1839,7 +1796,6 @@
             const bottomStatus = document.getElementById('bottomPlayerStatus');
 
             if (bottomStrip) {
-                bottomStrip.classList.toggle('active-turn', isBottomActive);
                 bottomIcon.innerText = bottomColor === 'w' ? '♔' : '♚';
                 bottomIcon.className = `text-base ${bottomColor === 'w' ? 'text-salon-parchment' : 'text-salon-gold'}`;
                 bottomName.innerText = bottomColor === 'w' ? 'White' : 'Black';
@@ -1856,10 +1812,8 @@
 
                 if (game.gameResult) {
                     bottomStatus.innerHTML = `<span>Finished</span>`;
-                } else if (isBottomActive) {
-                    bottomStatus.innerHTML = `<span class="pulse-dot"></span><span>Active Turn</span>`;
                 } else {
-                    bottomStatus.innerHTML = `<span>Waiting</span>`;
+                    bottomStatus.innerHTML = `<span>${bottomColor === 'w' ? 'White' : 'Black'}</span>`;
                 }
             }
 
