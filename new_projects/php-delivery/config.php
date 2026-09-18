@@ -5,13 +5,13 @@
  */
 
 // Application Constants
-define('APP_NAME', "JIM & NINA'S");
-define('APP_TAGLINE', 'Little Italy Pizzeria & Ristorante // Est. 1974');
-define('APP_VERSION', '3.0.0');
+define('APP_NAME', "EST 1974");
+define('APP_TAGLINE', 'Artisan Stone Deck Pizzeria & Dispatch');
+define('APP_VERSION', '3.5.0');
 
 // Store Details
-define('STORE_NAME', "Jim & Nina's Little Italy Pizzeria");
-define('STORE_ADDRESS', '142 Mulberry Street, Little Italy');
+define('STORE_NAME', "EST 1974 Pizzeria");
+define('STORE_ADDRESS', '142 Mulberry Street, Little Italy, NYC');
 define('STORE_DISTRICT', 'Historic Pizzeria Quarter');
 define('STORE_PHONE', '(555) 749-NINA');
 define('STORE_OVEN_TEMP', '865°F');
