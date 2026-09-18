@@ -1,583 +1,412 @@
-import React, { useState, useEffect, useRef, useMemo } from 'react';
-import { Play, RotateCcw, Shuffle, Sparkles, ArrowDownUp, Layers, Compass, HelpCircle } from 'lucide-react';
+import React, { useState, useEffect, useRef } from 'react';
+import { Play, RotateCcw, Sparkles, HelpCircle, CheckCircle, ArrowRight, Zap, Target, Binary } from 'lucide-react';
 import { SoundEngine } from '../utils/soundEngine';
 
-// Initial Bauhaus Geometric Primitives
-const INITIAL_SHAPES = [
-  { id: 1, type: 'circle', color: '#0038FF', area: 85, hue: 226, label: '01' },
-  { id: 2, type: 'square', color: '#FFE600', area: 120, hue: 54, label: '02' },
-  { id: 3, type: 'triangle', color: '#FF2A00', area: 45, hue: 10, label: '03' },
-  { id: 4, type: 'diamond', color: '#00E599', area: 95, hue: 160, label: '04' },
-  { id: 5, type: 'semicircle', color: '#7928CA', area: 60, hue: 271, label: '05' },
-  { id: 6, type: 'circle', color: '#00F0FF', area: 110, hue: 184, label: '06' },
-  { id: 7, type: 'square', color: '#FF2A00', area: 70, hue: 10, label: '07' },
-  { id: 8, type: 'triangle', color: '#FFE600', area: 130, hue: 54, label: '08' },
-  { id: 9, type: 'diamond', color: '#0038FF', area: 50, hue: 226, label: '09' },
-  { id: 10, type: 'semicircle', color: '#00E599', area: 100, hue: 160, label: '10' },
-  { id: 11, type: 'square', color: '#7928CA', area: 140, hue: 271, label: '11' },
-  { id: 12, type: 'circle', color: '#FF2A00', area: 35, hue: 10, label: '12' },
-];
-
 export function HeroPlayground() {
-  const [shapes, setShapes] = useState(INITIAL_SHAPES);
-  const [isSorting, setIsSorting] = useState(false);
-  const [activeAlgorithm, setActiveAlgorithm] = useState('bubble');
-  const [stats, setStats] = useState({ comparisons: 0, swaps: 0, timeElapsed: 0, state: 'IDLE' });
-  const [activeIndices, setActiveIndices] = useState([]);
-  
+  // Guessing Game State (Khan Academy Intro Unit)
+  const [secretNumber, setSecretNumber] = useState(67);
+  const [currentGuess, setCurrentGuess] = useState(50);
+  const [lowBound, setLowBound] = useState(1);
+  const [highBound, setHighBound] = useState(100);
+  const [guessHistory, setGuessHistory] = useState([]);
+  const [gameWon, setGameWon] = useState(false);
+  const [lastFeedback, setLastFeedback] = useState(null); // 'high' | 'low' | 'correct' | null
+
+  // Interactive Cursor Physics Background
   const playgroundRef = useRef(null);
-  const shapeDomRefs = useRef({});
-  const mousePos = useRef({ x: 0, y: 0, isInside: false });
-  const rafId = useRef(null);
 
-  // Setup direct DOM requestAnimationFrame cursor field effect
-  useEffect(() => {
-    const container = playgroundRef.current;
-    if (!container) return;
-
-    const handleMouseMove = (e) => {
-      const rect = container.getBoundingClientRect();
-      mousePos.current.x = e.clientX - rect.left;
-      mousePos.current.y = e.clientY - rect.top;
-      mousePos.current.isInside = true;
-    };
-
-    const handleMouseLeave = () => {
-      mousePos.current.isInside = false;
-    };
-
-    container.addEventListener('mousemove', handleMouseMove, { passive: true });
-    container.addEventListener('mouseleave', handleMouseLeave);
-
-    // 60fps physics / cursor repulsion loop on raw DOM nodes (ZERO React re-renders)
-    const animateField = () => {
-      if (mousePos.current.isInside) {
-        Object.entries(shapeDomRefs.current).forEach(([id, domEl]) => {
-          if (!domEl) return;
-          const rect = domEl.getBoundingClientRect();
-          const contRect = container.getBoundingClientRect();
-          const elemX = rect.left - contRect.left + rect.width / 2;
-          const elemY = rect.top - contRect.top + rect.height / 2;
-
-          const dx = mousePos.current.x - elemX;
-          const dy = mousePos.current.y - elemY;
-          const dist = Math.hypot(dx, dy);
-
-          if (dist < 140 && dist > 0) {
-            const force = (1 - dist / 140) * 18;
-            const angle = Math.atan2(dy, dx);
-            const repelX = -Math.cos(angle) * force;
-            const repelY = -Math.sin(angle) * force;
-            domEl.style.transform = `translate3d(${repelX}px, ${repelY}px, 0) scale(${1 + force * 0.015})`;
-          } else {
-            domEl.style.transform = 'translate3d(0, 0, 0) scale(1)';
-          }
-        });
-      } else {
-        Object.values(shapeDomRefs.current).forEach((domEl) => {
-          if (domEl) domEl.style.transform = 'translate3d(0, 0, 0) scale(1)';
-        });
-      }
-
-      rafId.current = requestAnimationFrame(animateField);
-    };
-
-    rafId.current = requestAnimationFrame(animateField);
-
-    return () => {
-      container.removeEventListener('mousemove', handleMouseMove);
-      container.removeEventListener('mouseleave', handleMouseLeave);
-      if (rafId.current) cancelAnimationFrame(rafId.current);
-    };
-  }, []);
-
-  // Bubble Sort by Area Step Generator
-  const runBubbleSort = async () => {
-    if (isSorting) return;
-    setIsSorting(true);
+  const resetGame = (newSecret = null) => {
     SoundEngine.playClick();
-    let arr = [...shapes];
-    let comps = 0;
-    let swaps = 0;
-    const n = arr.length;
-
-    setStats({ comparisons: 0, swaps: 0, timeElapsed: 0, state: 'RUNNING: BUBBLE SORT' });
-
-    for (let i = 0; i < n - 1; i++) {
-      for (let j = 0; j < n - i - 1; j++) {
-        comps++;
-        setActiveIndices([j, j + 1]);
-        SoundEngine.playNodeVisit(j);
-        setStats(prev => ({ ...prev, comparisons: comps }));
-        await new Promise(r => setTimeout(r, 120));
-
-        if (arr[j].area > arr[j + 1].area) {
-          swaps++;
-          const temp = arr[j];
-          arr[j] = arr[j + 1];
-          arr[j + 1] = temp;
-          setShapes([...arr]);
-          SoundEngine.playStackPush(j);
-          setStats(prev => ({ ...prev, swaps }));
-          await new Promise(r => setTimeout(r, 160));
-        }
-      }
-    }
-
-    setActiveIndices([]);
-    setIsSorting(false);
-    setStats(prev => ({ ...prev, state: 'COMPLETED: O(n²) SORTED' }));
-    SoundEngine.playSuccess();
+    const sec = newSecret || Math.floor(Math.random() * 100) + 1;
+    setSecretNumber(sec);
+    setLowBound(1);
+    setHighBound(100);
+    setCurrentGuess(50);
+    setGuessHistory([]);
+    setGameWon(false);
+    setLastFeedback(null);
   };
 
-  // Quick Sort by Hue
-  const runQuickSortByHue = async () => {
-    if (isSorting) return;
-    setIsSorting(true);
-    SoundEngine.playClick();
-    let arr = [...shapes];
-    let comps = 0;
-    let swaps = 0;
-    setStats({ comparisons: 0, swaps: 0, timeElapsed: 0, state: 'RUNNING: QUICKSORT (HUE)' });
+  const handleMakeGuess = (guessVal) => {
+    if (gameWon) return;
+    const val = Number(guessVal);
+    if (val < 1 || val > 100) return;
 
-    async function partition(low, high) {
-      const pivot = arr[high].hue;
-      let i = low - 1;
+    SoundEngine.playPop();
+    const newEntry = {
+      guess: val,
+      step: guessHistory.length + 1,
+      min: lowBound,
+      max: highBound,
+    };
 
-      for (let j = low; j < high; j++) {
-        comps++;
-        setActiveIndices([j, high]);
-        SoundEngine.playNodeVisit(j);
-        setStats(prev => ({ ...prev, comparisons: comps }));
-        await new Promise(r => setTimeout(r, 130));
-
-        if (arr[j].hue < pivot) {
-          i++;
-          swaps++;
-          const t = arr[i];
-          arr[i] = arr[j];
-          arr[j] = t;
-          setShapes([...arr]);
-          SoundEngine.playStackPush(i);
-          setStats(prev => ({ ...prev, swaps }));
-          await new Promise(r => setTimeout(r, 150));
-        }
-      }
-
-      swaps++;
-      const t = arr[i + 1];
-      arr[i + 1] = arr[high];
-      arr[high] = t;
-      setShapes([...arr]);
-      setStats(prev => ({ ...prev, swaps }));
-      await new Promise(r => setTimeout(r, 150));
-      return i + 1;
+    if (val === secretNumber) {
+      SoundEngine.playFanfare();
+      newEntry.result = 'CORRECT';
+      setLastFeedback('correct');
+      setGameWon(true);
+    } else if (val < secretNumber) {
+      SoundEngine.playBlip();
+      newEntry.result = 'TOO LOW';
+      setLastFeedback('low');
+      setLowBound(Math.max(lowBound, val + 1));
+      // Auto-suggest next binary midpoint
+      const nextMid = Math.floor((Math.max(lowBound, val + 1) + highBound) / 2);
+      setCurrentGuess(nextMid);
+    } else {
+      SoundEngine.playBlip();
+      newEntry.result = 'TOO HIGH';
+      setLastFeedback('high');
+      setHighBound(Math.min(highBound, val - 1));
+      // Auto-suggest next binary midpoint
+      const nextMid = Math.floor((lowBound + Math.min(highBound, val - 1)) / 2);
+      setCurrentGuess(nextMid);
     }
 
-    async function qSort(low, high) {
-      if (low < high) {
-        const pi = await partition(low, high);
-        await qSort(low, pi - 1);
-        await qSort(pi + 1, high);
-      }
-    }
-
-    await qSort(0, arr.length - 1);
-    setActiveIndices([]);
-    setIsSorting(false);
-    setStats(prev => ({ ...prev, state: 'COMPLETED: O(n log n) SPECTRUM' }));
-    SoundEngine.playSuccess();
+    setGuessHistory(prev => [newEntry, ...prev]);
   };
 
-  // Shuffle Elements
-  const shuffleShapes = () => {
-    if (isSorting) return;
-    SoundEngine.playClick();
-    const shuffled = [...shapes].sort(() => Math.random() - 0.5);
-    setShapes(shuffled);
-    setActiveIndices([]);
-    setStats({ comparisons: 0, swaps: 0, timeElapsed: 0, state: 'STATE SCATTERED (CHAOS)' });
-  };
-
-  // Render SVG Primitive based on Type
-  const renderShapeIcon = (shape, isCompared) => {
-    const size = Math.max(38, Math.min(68, shape.area * 0.5));
-    const border = isCompared ? '3px solid #0A0A0A' : '2px solid #0A0A0A';
-    
-    switch (shape.type) {
-      case 'circle':
-        return (
-          <div style={{
-            width: `${size}px`,
-            height: `${size}px`,
-            borderRadius: '50%',
-            background: shape.color,
-            border,
-            boxShadow: isCompared ? '0 0 0 4px var(--canary-yellow), 4px 4px 0px #000' : '3px 3px 0px #000',
-            display: 'flex',
-            alignItems: 'center',
-            justifyContent: 'center',
-            fontWeight: 800,
-            fontSize: '0.75rem',
-            color: '#0A0A0A',
-            transition: 'box-shadow 0.15s ease'
-          }}>
-            {shape.label}
-          </div>
-        );
-      case 'square':
-        return (
-          <div style={{
-            width: `${size}px`,
-            height: `${size}px`,
-            background: shape.color,
-            border,
-            boxShadow: isCompared ? '0 0 0 4px var(--canary-yellow), 4px 4px 0px #000' : '3px 3px 0px #000',
-            display: 'flex',
-            alignItems: 'center',
-            justifyContent: 'center',
-            fontWeight: 800,
-            fontSize: '0.75rem',
-            color: '#0A0A0A',
-            transition: 'box-shadow 0.15s ease'
-          }}>
-            {shape.label}
-          </div>
-        );
-      case 'triangle':
-        return (
-          <div style={{
-            width: `${size}px`,
-            height: `${size}px`,
-            position: 'relative',
-            display: 'flex',
-            alignItems: 'center',
-            justifyContent: 'center'
-          }}>
-            <svg width={size} height={size} viewBox="0 0 60 60">
-              <polygon
-                points="30,5 55,55 5,55"
-                fill={shape.color}
-                stroke="#0A0A0A"
-                strokeWidth={isCompared ? "4" : "3"}
-              />
-            </svg>
-            <span style={{ position: 'absolute', bottom: '12%', fontWeight: 800, fontSize: '0.75rem', color: '#0A0A0A' }}>
-              {shape.label}
-            </span>
-          </div>
-        );
-      case 'diamond':
-        return (
-          <div style={{
-            width: `${size * 0.9}px`,
-            height: `${size * 0.9}px`,
-            background: shape.color,
-            border,
-            transform: 'rotate(45deg)',
-            boxShadow: isCompared ? '0 0 0 4px var(--canary-yellow), 4px 4px 0px #000' : '3px 3px 0px #000',
-            display: 'flex',
-            alignItems: 'center',
-            justifyContent: 'center',
-            transition: 'box-shadow 0.15s ease'
-          }}>
-            <span style={{ transform: 'rotate(-45deg)', fontWeight: 800, fontSize: '0.75rem', color: '#0A0A0A' }}>
-              {shape.label}
-            </span>
-          </div>
-        );
-      default: // semicircle
-        return (
-          <div style={{
-            width: `${size}px`,
-            height: `${size / 2}px`,
-            borderRadius: `${size}px ${size}px 0 0`,
-            background: shape.color,
-            border,
-            boxShadow: isCompared ? '0 0 0 4px var(--canary-yellow), 4px 4px 0px #000' : '3px 3px 0px #000',
-            display: 'flex',
-            alignItems: 'flex-end',
-            justifyContent: 'center',
-            fontWeight: 800,
-            fontSize: '0.75rem',
-            color: '#0A0A0A',
-            paddingBottom: '2px',
-            transition: 'box-shadow 0.15s ease'
-          }}>
-            {shape.label}
-          </div>
-        );
-    }
+  const runOptimalBinaryStep = () => {
+    const optimalMid = Math.floor((lowBound + highBound) / 2);
+    setCurrentGuess(optimalMid);
+    handleMakeGuess(optimalMid);
   };
 
   return (
-    <section id="hero" className="section-wrapper" style={{ paddingTop: 'clamp(2rem, 5vw, 4rem)', background: 'var(--bg-paper)' }}>
-      <div className="container">
-        {/* Top Badges and Metadata */}
-        <div style={{ display: 'flex', alignItems: 'center', gap: '0.75rem', flexWrap: 'wrap', marginBottom: '1.25rem' }}>
-          <div className="section-tag">
-            <Compass size={14} /> FOUNDATIONS OF CS
+    <section id="hero" className="section-padding" style={{
+      background: 'var(--bg-paper)',
+      borderBottom: 'var(--border-thick)',
+      position: 'relative',
+      overflow: 'hidden'
+    }}>
+      <div className="container" ref={playgroundRef}>
+        
+        {/* Section Header */}
+        <div style={{ marginBottom: '2.5rem' }}>
+          <div style={{ display: 'flex', alignItems: 'center', gap: '0.5rem', marginBottom: '0.5rem' }}>
+            <span className="brutal-badge brutal-badge-red font-mono" style={{ fontSize: '0.8rem' }}>
+              UNIT 01 // KHAN ALGORITHMS
+            </span>
+            <span className="brutal-badge brutal-badge-yellow font-mono" style={{ fontSize: '0.8rem' }}>
+              DARTMOUTH CS CURRICULUM
+            </span>
           </div>
-          <span className="brutal-pill pill-blue">CANVAS: INTERACTIVE GRAPHICS</span>
-          <span className="brutal-pill pill-yellow">PARADIGM: BAUHAUS NEO-BRUTALISM</span>
-          <span className="brutal-pill pill-mint">60FPS RAF DISPLACEMENT</span>
+
+          <h1 style={{
+            fontFamily: 'var(--font-display)',
+            fontSize: 'clamp(2rem, 5vw, 3.75rem)',
+            fontWeight: 900,
+            lineHeight: 1.05,
+            letterSpacing: '-0.03em',
+            maxWidth: '900px',
+            marginBottom: '1rem'
+          }}>
+            WHAT IS AN ALGORITHM?
+            <span style={{
+              display: 'inline-block',
+              background: 'var(--canary-yellow)',
+              padding: '0 0.35rem',
+              marginLeft: '0.5rem',
+              border: '2px solid #000',
+              boxShadow: '3px 3px 0 #000'
+            }}>
+              &amp; THE GUESSING GAME
+            </span>
+          </h1>
+
+          <p style={{
+            fontFamily: 'var(--font-body)',
+            fontSize: 'clamp(1rem, 1.5vw, 1.25rem)',
+            color: 'var(--text-muted)',
+            maxWidth: '820px',
+            lineHeight: 1.6
+          }}>
+            An algorithm is a step-by-step procedure for solving a computational problem. An algorithm must always be <strong>correct</strong> (producing the right answer for every valid input) and <strong>resource-efficient</strong> (minimizing operations and memory usage).
+          </p>
         </div>
 
-        {/* Hero Title Grid */}
+        {/* 2-Column Grid: Left (Concepts & Impact) | Right (Interactive Guessing Game) */}
         <div style={{
           display: 'grid',
-          gridTemplateColumns: 'repeat(auto-fit, minmax(min(100%, 540px), 1fr))',
-          gap: 'clamp(2rem, 5vw, 4rem)',
-          alignItems: 'center',
-          marginBottom: '3rem'
+          gridTemplateColumns: 'repeat(auto-fit, minmax(320px, 1fr))',
+          gap: '2rem',
+          alignItems: 'start'
         }}>
-          {/* Left Column: Massive Manifesto Typography */}
-          <div>
-            <h1 style={{
-              fontSize: 'clamp(2.75rem, 7vw, 5.5rem)',
-              lineHeight: 0.95,
-              marginBottom: '1.5rem',
-              letterSpacing: '-0.04em'
-            }}>
-              THE <span style={{ color: 'var(--cobalt-blue)', textDecoration: 'underline wavy var(--canary-yellow)' }}>GEOMETRY</span><br />
-              OF COMPUTATION.
-            </h1>
 
-            <p style={{
-              fontSize: 'clamp(1.1rem, 2.2vw, 1.35rem)',
-              lineHeight: 1.5,
-              fontWeight: 500,
-              maxWidth: '560px',
-              marginBottom: '2rem',
-              color: '#333'
-            }}>
-              Computer science is the art of structuring thought into physical space and runtime dimensions. 
-              Explore algorithms not as dry formulas, but as vivid geometric state transitions, balanced trees, and memory towers.
-            </p>
+          {/* Left Column: Algorithmic Foundations Card */}
+          <div style={{ display: 'flex', flexDirection: 'column', gap: '1.5rem' }}>
+            
+            <div className="brutal-card brutal-card-blue">
+              <div style={{ display: 'flex', alignItems: 'center', gap: '0.5rem', marginBottom: '1rem' }}>
+                <Zap size={20} color="var(--canary-yellow)" />
+                <h3 style={{ fontFamily: 'var(--font-display)', fontWeight: 800, fontSize: '1.25rem' }}>
+                  CORE ALGORITHMIC PRINCIPLES
+                </h3>
+              </div>
 
-            {/* Quick Action Matrix */}
-            <div style={{ display: 'flex', gap: '0.75rem', flexWrap: 'wrap' }}>
-              <a href="#big-o" className="brutal-btn brutal-btn-primary" onClick={() => SoundEngine.playClick()}>
-                <Sparkles size={16} /> ENTER THE INFOGRAPH
-              </a>
-              <a href="#recursion" className="brutal-btn" onClick={() => SoundEngine.playClick()}>
-                <Layers size={16} /> EXPLORE RECURSION
-              </a>
-            </div>
-          </div>
+              <div style={{ display: 'flex', flexDirection: 'column', gap: '1rem', fontSize: '0.95rem', lineHeight: 1.5 }}>
+                <div style={{
+                  background: 'rgba(255,255,255,0.15)',
+                  padding: '0.85rem',
+                  border: '1.5px solid rgba(255,255,255,0.3)'
+                }}>
+                  <strong style={{ color: 'var(--canary-yellow)', display: 'block', marginBottom: '0.25rem' }}>
+                    1. Problem vs. Algorithm
+                  </strong>
+                  A <em>problem</em> specifies the input-output relationship (e.g., "Find target in sorted list"). An <em>algorithm</em> is the concrete set of instructions that computes it.
+                </div>
 
-          {/* Right Column: Bauhaus Geometric CS Manifesto Card */}
-          <div className="brutal-card" style={{
-            background: 'var(--bg-card)',
-            border: 'var(--border-thick)',
-            boxShadow: 'var(--shadow-xl)',
-            padding: '2rem',
-            position: 'relative'
-          }}>
-            {/* Corner Decorative Geometric Stamps */}
-            <div style={{
-              position: 'absolute',
-              top: '-12px',
-              right: '-12px',
-              width: '40px',
-              height: '40px',
-              background: 'var(--vermilion-red)',
-              border: '2px solid #000',
-              boxShadow: '2px 2px 0px #000',
-              display: 'flex',
-              alignItems: 'center',
-              justifyContent: 'center',
-              color: '#FFF',
-              fontFamily: 'var(--font-mono)',
-              fontWeight: 900,
-              fontSize: '0.8rem'
-            }}>
-              #01
-            </div>
+                <div style={{
+                  background: 'rgba(255,255,255,0.15)',
+                  padding: '0.85rem',
+                  border: '1.5px solid rgba(255,255,255,0.3)'
+                }}>
+                  <strong style={{ color: 'var(--emerald-mint)', display: 'block', marginBottom: '0.25rem' }}>
+                    2. Correctness &amp; Halting
+                  </strong>
+                  An algorithm is correct if, for every instance of the problem, it halts in finite steps and outputs the mathematically correct answer.
+                </div>
 
-            <div style={{
-              borderBottom: 'var(--border-solid)',
-              paddingBottom: '1rem',
-              marginBottom: '1rem',
-              display: 'flex',
-              justifyContent: 'space-between',
-              alignItems: 'center'
-            }}>
-              <span className="font-mono" style={{ fontWeight: 800, fontSize: '0.9rem' }}>
-                // AXIOMS OF ALGORITHMS
-              </span>
-              <div style={{ display: 'flex', gap: '4px' }}>
-                <span style={{ width: '8px', height: '8px', background: 'var(--cobalt-blue)', border: '1px solid #000' }}></span>
-                <span style={{ width: '8px', height: '8px', background: 'var(--canary-yellow)', border: '1px solid #000' }}></span>
-                <span style={{ width: '8px', height: '8px', background: 'var(--vermilion-red)', border: '1px solid #000' }}></span>
+                <div style={{
+                  background: 'rgba(255,255,255,0.15)',
+                  padding: '0.85rem',
+                  border: '1.5px solid rgba(255,255,255,0.3)'
+                }}>
+                  <strong style={{ color: '#00F0FF', display: 'block', marginBottom: '0.25rem' }}>
+                    3. Real-World Applications
+                  </strong>
+                  From GPS route calculation (shortest-path graphs) to internet cryptography (modular exponentiation) and search ranking, algorithms drive modern software engineering.
+                </div>
               </div>
             </div>
 
-            <ul style={{ listStyle: 'none', display: 'flex', flexDirection: 'column', gap: '0.85rem', fontFamily: 'var(--font-mono)', fontSize: '0.85rem' }}>
-              <li style={{ display: 'flex', alignItems: 'flex-start', gap: '0.75rem' }}>
-                <span style={{ background: 'var(--cobalt-blue)', color: '#fff', padding: '0 5px', fontWeight: 800 }}>01</span>
-                <span><strong>TIME COMPLEXITY</strong> defines asymptotic growth as input N approaches infinity.</span>
-              </li>
-              <li style={{ display: 'flex', alignItems: 'flex-start', gap: '0.75rem' }}>
-                <span style={{ background: 'var(--canary-yellow)', color: '#000', padding: '0 5px', fontWeight: 800 }}>02</span>
-                <span><strong>CALL STACKS</strong> preserve execution state in a physical LIFO memory tower.</span>
-              </li>
-              <li style={{ display: 'flex', alignItems: 'flex-start', gap: '0.75rem' }}>
-                <span style={{ background: 'var(--vermilion-red)', color: '#fff', padding: '0 5px', fontWeight: 800 }}>03</span>
-                <span><strong>GRAPHS & TREES</strong> map topology, pathing, and hierarchy with edge traversals.</span>
-              </li>
-            </ul>
+            {/* Comparison Box: Linear vs Binary Thinking */}
+            <div className="brutal-card brutal-card-yellow">
+              <h4 style={{ fontFamily: 'var(--font-display)', fontWeight: 800, fontSize: '1.1rem', marginBottom: '0.75rem' }}>
+                LINEAR VS. BINARY SEARCH THINKING
+              </h4>
+              <p style={{ fontSize: '0.9rem', marginBottom: '1rem', color: '#111' }}>
+                If you guess a number between 1 and 100 sequentially (1, 2, 3...), it could take up to <strong>100 guesses</strong>. If you divide the search range in half each time, it takes at most <strong>7 guesses</strong>!
+              </p>
 
-            {/* Brutalist Warning Bar */}
-            <div style={{
-              marginTop: '1.5rem',
-              background: '#0A0A0A',
-              color: 'var(--canary-yellow)',
-              padding: '0.6rem 1rem',
-              fontFamily: 'var(--font-mono)',
-              fontSize: '0.75rem',
-              fontWeight: 700,
-              display: 'flex',
-              alignItems: 'center',
-              justifyContent: 'space-between'
-            }}>
-              <span>HARDWARE: DISCRETE LOGIC</span>
-              <span>PARALLEL: READY</span>
+              <div style={{
+                display: 'grid',
+                gridTemplateColumns: '1fr 1fr',
+                gap: '0.75rem',
+                fontFamily: 'var(--font-mono)',
+                fontSize: '0.8rem'
+              }}>
+                <div style={{ background: '#FFF', padding: '0.75rem', border: '1.5px solid #000', boxShadow: '2px 2px 0 #000' }}>
+                  <div style={{ fontWeight: 800, color: 'var(--vermilion-red)' }}>LINEAR SEARCH</div>
+                  <div style={{ fontSize: '1.25rem', fontWeight: 900, margin: '0.25rem 0' }}>Max 100</div>
+                  <div style={{ color: '#666' }}>O(n) comparisons</div>
+                </div>
+                <div style={{ background: '#FFF', padding: '0.75rem', border: '1.5px solid #000', boxShadow: '2px 2px 0 #000' }}>
+                  <div style={{ fontWeight: 800, color: 'var(--cobalt-blue)' }}>BINARY SEARCH</div>
+                  <div style={{ fontSize: '1.25rem', fontWeight: 900, margin: '0.25rem 0' }}>Max 7</div>
+                  <div style={{ color: '#666' }}>O(log₂ n) comparisons</div>
+                </div>
+              </div>
             </div>
+
           </div>
-        </div>
 
-        {/* =========================================
-            INTERACTIVE GEOMETRIC PLAYGROUND
-            ========================================= */}
-        <div className="brutal-card" style={{
-          background: 'var(--bg-card)',
-          border: 'var(--border-thick)',
-          boxShadow: 'var(--shadow-lg)',
-          padding: '0',
-          overflow: 'hidden'
-        }}>
-          {/* Playground Top Controller Bar */}
-          <div style={{
-            background: '#0A0A0A',
-            color: '#FFFFFF',
-            padding: '0.85rem 1.25rem',
-            display: 'flex',
-            flexWrap: 'wrap',
-            alignItems: 'center',
-            justifyContent: 'space-between',
-            gap: '1rem',
-            borderBottom: 'var(--border-solid)'
-          }}>
-            <div style={{ display: 'flex', alignItems: 'center', gap: '0.75rem' }}>
-              <span className="font-mono" style={{ color: 'var(--canary-yellow)', fontWeight: 800, fontSize: '0.9rem' }}>
-                [INTERACTIVE STATE PLAYGROUND]
-              </span>
-              <span className="font-mono" style={{ fontSize: '0.75rem', color: '#AAA' }}>
-                Move mouse over shapes to distort field
-              </span>
-            </div>
+          {/* Right Column: Interactive Number Guessing Game */}
+          <div className="brutal-card" style={{ background: '#FFF' }}>
+            <div style={{ display: 'flex', alignItems: 'center', justifyBetween: 'space-between', marginBottom: '1rem', flexWrap: 'wrap', gap: '0.5rem' }}>
+              <div>
+                <span className="brutal-badge brutal-badge-mint font-mono" style={{ fontSize: '0.75rem' }}>
+                  INTERACTIVE LAB // 1 TO 100
+                </span>
+                <h3 style={{ fontFamily: 'var(--font-display)', fontWeight: 900, fontSize: '1.4rem', marginTop: '0.25rem' }}>
+                  THE NUMBER GUESSING GAME
+                </h3>
+              </div>
 
-            {/* Playback & Sort Trigger Buttons */}
-            <div style={{ display: 'flex', gap: '0.5rem', flexWrap: 'wrap' }}>
               <button
-                onClick={runBubbleSort}
-                disabled={isSorting}
-                className="brutal-btn brutal-btn-accent brutal-btn-sm"
-              >
-                <ArrowDownUp size={14} /> SORT BY AREA [BUBBLE]
-              </button>
-              <button
-                onClick={runQuickSortByHue}
-                disabled={isSorting}
-                className="brutal-btn brutal-btn-primary brutal-btn-sm"
-              >
-                <Sparkles size={14} /> SORT BY HUE [QUICKSORT]
-              </button>
-              <button
-                onClick={shuffleShapes}
-                disabled={isSorting}
+                onClick={() => resetGame()}
                 className="brutal-btn brutal-btn-sm"
+                style={{ background: '#F5F5F5', border: '1.5px solid #000' }}
+                title="Pick a new secret number"
               >
-                <Shuffle size={14} /> SCATTER / CHAOS
+                <RotateCcw size={14} /> New Secret Number
               </button>
             </div>
-          </div>
 
-          {/* Real-time State Monitor Ribbon */}
-          <div style={{
-            background: 'var(--bg-paper)',
-            padding: '0.5rem 1.25rem',
-            borderBottom: 'var(--border-solid)',
-            fontFamily: 'var(--font-mono)',
-            fontSize: '0.8rem',
-            display: 'flex',
-            alignItems: 'center',
-            justifyContent: 'space-between',
-            flexWrap: 'wrap',
-            gap: '1rem'
-          }}>
-            <div style={{ display: 'flex', gap: '1.5rem' }}>
-              <span>STATE: <strong style={{ color: 'var(--cobalt-blue)' }}>{stats.state}</strong></span>
-              <span>COMPARISONS: <strong>{stats.comparisons}</strong></span>
-              <span>SWAPS: <strong>{stats.swaps}</strong></span>
-            </div>
-            <div style={{ color: 'var(--text-muted)' }}>
-              ELEMENTS: 12 PRIMITIVES
-            </div>
-          </div>
+            {/* Active Range Tracker Bar */}
+            <div style={{
+              background: 'var(--bg-paper)',
+              border: '2px solid #000',
+              padding: '1rem',
+              marginBottom: '1.5rem',
+              boxShadow: '3px 3px 0 #000'
+            }}>
+              <div style={{ display: 'flex', justifyContent: 'space-between', fontFamily: 'var(--font-mono)', fontSize: '0.85rem', fontWeight: 700, marginBottom: '0.5rem' }}>
+                <span>SEARCH RANGE: [{lowBound} ... {highBound}]</span>
+                <span>REMAINING CANDIDATES: {Math.max(0, highBound - lowBound + 1)}</span>
+              </div>
 
-          {/* Interactive Playground Canvas / Grid */}
-          <div
-            ref={playgroundRef}
-            style={{
-              minHeight: '260px',
-              padding: '2.5rem 1.5rem',
-              display: 'flex',
-              alignItems: 'flex-end',
-              justifyContent: 'space-around',
-              flexWrap: 'wrap',
-              gap: '1.25rem',
-              background: 'radial-gradient(#00000018 1px, transparent 1px), #ffffff',
-              backgroundSize: '20px 20px',
-              position: 'relative',
-              cursor: 'crosshair'
-            }}
-          >
-            {shapes.map((shape, idx) => {
-              const isCompared = activeIndices.includes(idx);
-              return (
-                <div
-                  key={shape.id}
-                  ref={el => shapeDomRefs.current[shape.id] = el}
+              {/* Visual Number Range Bar */}
+              <div style={{
+                position: 'relative',
+                height: '24px',
+                background: '#E5E5E5',
+                border: '1.5px solid #000',
+                borderRadius: '0px',
+                overflow: 'hidden'
+              }}>
+                {/* Active Sub-Range */}
+                <div style={{
+                  position: 'absolute',
+                  left: `${((lowBound - 1) / 100) * 100}%`,
+                  width: `${((highBound - lowBound + 1) / 100) * 100}%`,
+                  height: '100%',
+                  background: 'var(--canary-yellow)',
+                  borderLeft: '2px solid var(--cobalt-blue)',
+                  borderRight: '2px solid var(--cobalt-blue)',
+                  transition: 'all 0.3s ease'
+                }} />
+              </div>
+            </div>
+
+            {/* Guess Controls */}
+            <div style={{ display: 'flex', flexDirection: 'column', gap: '1rem', marginBottom: '1.5rem' }}>
+              <div style={{ display: 'flex', gap: '0.75rem', alignItems: 'center' }}>
+                <div style={{ flex: 1 }}>
+                  <label style={{ display: 'block', fontSize: '0.8rem', fontFamily: 'var(--font-mono)', fontWeight: 700, marginBottom: '0.25rem' }}>
+                    ENTER YOUR GUESS (1 – 100):
+                  </label>
+                  <input
+                    type="number"
+                    min="1"
+                    max="100"
+                    value={currentGuess}
+                    disabled={gameWon}
+                    onChange={(e) => setCurrentGuess(e.target.value)}
+                    onKeyDown={(e) => { if (e.key === 'Enter') handleMakeGuess(currentGuess); }}
+                    style={{
+                      width: '100%',
+                      padding: '0.65rem 0.85rem',
+                      fontFamily: 'var(--font-mono)',
+                      fontSize: '1.25rem',
+                      fontWeight: 800,
+                      border: '2px solid #000',
+                      boxShadow: '3px 3px 0 #000',
+                      outline: 'none',
+                      background: gameWon ? '#E8F8F0' : '#FFF'
+                    }}
+                  />
+                </div>
+
+                <div style={{ display: 'flex', flexDirection: 'column', gap: '0.5rem', alignSelf: 'flex-end' }}>
+                  <button
+                    onClick={() => handleMakeGuess(currentGuess)}
+                    disabled={gameWon}
+                    className="brutal-btn brutal-btn-red"
+                    style={{ padding: '0.75rem 1.25rem', fontWeight: 800 }}
+                  >
+                    GUESS!
+                  </button>
+                </div>
+              </div>
+
+              {/* Binary Search Helper Button */}
+              {!gameWon && (
+                <button
+                  onClick={runOptimalBinaryStep}
+                  className="brutal-btn brutal-btn-yellow"
                   style={{
                     display: 'flex',
-                    flexDirection: 'column',
                     alignItems: 'center',
+                    justifyContent: 'center',
                     gap: '0.5rem',
-                    transition: isSorting ? 'transform 0.18s cubic-bezier(0.34, 1.56, 0.64, 1)' : 'none',
-                    willChange: 'transform'
+                    fontSize: '0.85rem',
+                    padding: '0.5rem'
                   }}
                 >
-                  {renderShapeIcon(shape, isCompared)}
-                  <span className="font-mono" style={{
-                    fontSize: '0.7rem',
-                    fontWeight: 700,
-                    color: isCompared ? 'var(--vermilion-red)' : '#777',
-                    background: isCompared ? 'var(--canary-yellow)' : 'transparent',
-                    padding: '0 2px'
-                  }}>
-                    {shape.area}px²
-                  </span>
-                </div>
-              );
-            })}
+                  <Binary size={16} />
+                  PLAY OPTIMAL BINARY STEP: Guess {Math.floor((lowBound + highBound) / 2)} (Midpoint)
+                </button>
+              )}
+            </div>
+
+            {/* Live Feedback Alert Banner */}
+            {lastFeedback && (
+              <div style={{
+                padding: '1rem',
+                border: '2px solid #000',
+                boxShadow: '3px 3px 0 #000',
+                marginBottom: '1.5rem',
+                display: 'flex',
+                alignItems: 'center',
+                gap: '0.75rem',
+                fontWeight: 800,
+                fontSize: '1.1rem',
+                fontFamily: 'var(--font-mono)',
+                background: lastFeedback === 'correct' ? 'var(--emerald-mint)' : lastFeedback === 'high' ? 'var(--vermilion-red)' : 'var(--canary-yellow)',
+                color: lastFeedback === 'high' ? '#FFF' : '#000'
+              }}>
+                {lastFeedback === 'correct' && <CheckCircle size={24} />}
+                {lastFeedback === 'high' && <ArrowRight style={{ transform: 'rotate(-90deg)' }} size={24} />}
+                {lastFeedback === 'low' && <ArrowRight style={{ transform: 'rotate(90deg)' }} size={24} />}
+                <span>
+                  {lastFeedback === 'correct' && `🎉 BINGO! The secret number is ${secretNumber}. Found in ${guessHistory.length} guesses!`}
+                  {lastFeedback === 'high' && `TOO HIGH! Guess was ${currentGuess}. Range is now [${lowBound} ... ${highBound}].`}
+                  {lastFeedback === 'low' && `TOO LOW! Guess was ${currentGuess}. Range is now [${lowBound} ... ${highBound}].`}
+                </span>
+              </div>
+            )}
+
+            {/* Guess Log History */}
+            <div>
+              <div style={{ fontFamily: 'var(--font-mono)', fontSize: '0.8rem', fontWeight: 800, marginBottom: '0.5rem' }}>
+                GUESS LOG ({guessHistory.length} STEPS):
+              </div>
+              <div style={{
+                maxHeight: '160px',
+                overflowY: 'auto',
+                border: '1.5px solid #000',
+                background: 'var(--bg-paper)',
+                padding: '0.5rem'
+              }}>
+                {guessHistory.length === 0 ? (
+                  <div style={{ color: '#888', fontStyle: 'italic', fontSize: '0.85rem', padding: '0.5rem' }}>
+                    Make a guess above to start the binary search elimination log.
+                  </div>
+                ) : (
+                  guessHistory.map((entry, idx) => (
+                    <div
+                      key={idx}
+                      style={{
+                        display: 'flex',
+                        justifyContent: 'space-between',
+                        padding: '0.35rem 0.5rem',
+                        borderBottom: '1px solid #DDD',
+                        fontFamily: 'var(--font-mono)',
+                        fontSize: '0.8rem',
+                        background: entry.result === 'CORRECT' ? '#D1FAE5' : 'transparent'
+                      }}
+                    >
+                      <span><strong>#{entry.step}</strong>: Guessed <strong>{entry.guess}</strong></span>
+                      <span>Range was [{entry.min} ... {entry.max}]</span>
+                      <strong style={{
+                        color: entry.result === 'CORRECT' ? '#059669' : entry.result === 'TOO HIGH' ? 'var(--vermilion-red)' : 'var(--cobalt-blue)'
+                      }}>
+                        {entry.result}
+                      </strong>
+                    </div>
+                  ))
+                )}
+              </div>
+            </div>
+
           </div>
 
-          {/* Bottom Bauhaus Bar */}
-          <div className="bauhaus-divider" />
         </div>
+
       </div>
     </section>
   );
 }
+
+export default HeroPlayground;

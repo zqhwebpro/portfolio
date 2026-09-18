@@ -1,5 +1,6 @@
 /**
- * FORNO & GRATE // Live Order Tracker, 5-Option Kitchen Engine & Surge Coordinator
+ * JIM & NINA'S // Little Italy Pizzeria & Ristorante // Est. 1974
+ * Live Order Tracker, 5-Option Kitchen Engine & Surge Coordinator
  */
 
 (function () {
@@ -9,108 +10,108 @@
   let selectedOptionId = 'option-soppressata';
   let currentTimeMode = 'auto'; // 'auto' | 'peak' | 'slow' | 'standard'
 
-  const FALLBACK_KEY = 'forno_order_state_v2';
+  const FALLBACK_KEY = 'jim_nina_order_state_v3';
 
-  // 5 Artisanal Menu Options with Cook Times
+  // 5 Authentic Italian-American Menu Cooking Options
   const MENU_OPTIONS = {
     'option-margherita': {
       id: 'option-margherita',
-      name: '14" Margherita D.O.P. & Fresh Basil',
-      category: 'Express Neapolitan Pizza',
-      badge: '⚡ FASTEST (12 MINS)',
+      name: '14" Little Italy Margherita D.O.P.',
+      category: 'Classic Neapolitan Pizza',
+      badge: '⚡ FASTEST PREP (12 MINS)',
       baseCookMinutes: 12,
       price: 22.00,
       icon: '🍕',
       description: 'San Marzano D.O.P. tomatoes, fresh buffalo mozzarella, fragrant Genovese basil, EVOO, and 60-second blistered sourdough crust.',
       modifiers: [
-        { name: 'Crust', value: 'Light Leopard Char (900°F)' },
+        { name: 'Crust', value: 'Classic Leopard Blister (865°F)' },
         { name: 'Cheese', value: 'Campania Buffalo Mozzarella D.O.P.' },
-        { name: 'Finishing Oil', value: 'Cold-Pressed Tuscan EVOO' }
+        { name: 'Finishing', value: 'Cold-Pressed Sicilian EVOO & Fresh Basil' }
       ]
     },
     'option-soppressata': {
       id: 'option-soppressata',
-      name: '16" Wood-Fired Hot Honey Soppressata',
-      category: 'Signature Hearth Pizza',
-      badge: '🔥 BESTSELLER (18 MINS)',
+      name: "16\" Jim & Nina's Hot Honey Pepperoni Cup Special",
+      category: 'Signature House Special',
+      badge: '🔥 HOUSE SPECIAL (18 MINS)',
       baseCookMinutes: 18,
       price: 26.50,
       icon: '🍯',
-      description: 'Crispy cupping pepperoni, aged spicy soppressata, fior di latte, hot honey drizzle, charred sourdough crust, and fresh basil.',
+      description: 'Crispy cupping pepperoni, spicy calabrese soppressata, aged fior di latte, hot honey drizzle, and charred blistered crust.',
       modifiers: [
-        { name: 'Crust', value: 'Blistered Well-Done (+850°F)' },
-        { name: 'Toppings', value: '+ Extra Fresh Basil' },
-        { name: 'Side Dip', value: "Mike's Calabrian Hot Honey Pot" }
+        { name: 'Crust', value: 'Well-Done Hearth Blistered' },
+        { name: 'Toppings', value: 'Double Cupping Pepperoni & Fresh Oregano' },
+        { name: 'Side Dip', value: "Jim & Nina's Calabrian Hot Honey Pot" }
       ]
     },
     'option-funghi': {
       id: 'option-funghi',
-      name: '16" Wild Truffle & Forest Funghi',
-      category: 'Gourmet White Pizza',
-      badge: '🍄 CHEF CHOICE (22 MINS)',
+      name: '16" Big Mouth Sicilian Deep Dish / Forest Truffle',
+      category: 'Gourmet Grandma Thick Crust',
+      badge: '🍄 GRANDMA RECIPE (22 MINS)',
       baseCookMinutes: 22,
       price: 28.00,
       icon: '🌿',
-      description: 'Roasted cremini & chanterelle mushrooms, creamy fontina, roasted garlic crema, thyme sprigs, and Italian white truffle oil.',
+      description: 'Olive-oil fried thick Sicilian crust, roasted cremini & chanterelles, fontina, roasted garlic crema, and Italian white truffle oil.',
       modifiers: [
-        { name: 'Crust', value: 'Medium Hearth Crisp' },
+        { name: 'Crust', value: 'Crispy Olive-Oil Fried Sicilian Pan' },
         { name: 'Sauce Base', value: 'Roasted Garlic Truffle Crema' },
-        { name: 'Mushrooms', value: 'Pan-Seared Chanterelles & Thyme' }
+        { name: 'Mushrooms', value: 'Sautéed Wild Chanterelles & Thyme' }
       ]
     },
     'option-ribeye': {
       id: 'option-ribeye',
-      name: 'Tuscan Oak-Grilled Prime Ribeye & Broccolini',
-      category: 'Wood-Fired Grill Entrée',
-      badge: '🥩 HEARTH GRILL (28 MINS)',
+      name: "Marcello's Stuffed Calzone & Meatball Parmigiana Platter",
+      category: 'Wood-Fired Hearth Special',
+      badge: "🥩 MARCELLO'S SPECIAL (28 MINS)",
       baseCookMinutes: 28,
-      price: 38.50,
+      price: 34.50,
       icon: '🥩',
-      description: '14oz Prime Bone-in Ribeye seared over glowing white oak coals with rosemary garlic butter, sea salt flakes, and charred broccolini.',
+      description: "Jumbo wood-fired calzone stuffed with ricotta & mozzarella, served with Marcello's slow-simmered beef meatballs & garlic knots.",
       modifiers: [
-        { name: 'Preparation', value: 'Medium Rare (Oak Coal Seared)' },
-        { name: 'Butter', value: 'Whipped Rosemary & Roasted Garlic' },
-        { name: 'Side', value: 'Coal-Roasted Broccolini with Lemon Zest' }
+        { name: 'Preparation', value: 'Hearth Baked with Garlic Butter Glaze' },
+        { name: 'Cheese', value: 'Whole Milk Ricotta & Aged Provolone' },
+        { name: 'Side', value: '4 Jumbo Garlic Knots & Warm Marinara' }
       ]
     },
     'option-feast': {
       id: 'option-feast',
-      name: 'Hearth Grand Feast for Four',
+      name: 'The Godfather Grand Feast for the Family (Serves 4-6)',
       category: 'Family Sharing Banquet',
-      badge: '👑 GRAND BANQUET (35 MINS)',
+      badge: '👑 GRAND FEAST (35 MINS)',
       baseCookMinutes: 35,
-      price: 78.00,
+      price: 74.00,
       icon: '👑',
-      description: 'Two 16" Hearth Pizzas (Hot Honey Soppressata & Funghi), Charred Broccolini, Smoked San Marzano Dipping Pots, and 4 Blood Orange sodas.',
+      description: "Two 16\" Hearth Pizzas (Jim & Nina's Special & Margherita), 8 Jumbo Garlic Knots, Stuffed Mozzarella Sticks, Marinara Pots, and 4 Italian Sodas.",
       modifiers: [
-        { name: 'Pizza 1', value: '16" Hot Honey Soppressata' },
-        { name: 'Pizza 2', value: '16" Wild Truffle & Funghi' },
-        { name: 'Beverages', value: '4× San Pellegrino Blood Orange' }
+        { name: 'Pizza 1', value: "16\" Jim & Nina's Hot Honey Pepperoni" },
+        { name: 'Pizza 2', value: '16" Little Italy Margherita D.O.P.' },
+        { name: 'Sides & Drinks', value: '8 Jumbo Garlic Knots & 4 San Pellegrino Sodas' }
       ]
     }
   };
 
-  // Kitchen stage descriptions
+  // Kitchen stage descriptions with authentic Italian flair
   const STAGE_DESCRIPTIONS = {
     1: {
-      name: 'Order Received',
-      tagline: 'Ticket printed at hearth station',
-      desc: 'Dough stretched and San Marzano base applied by Chef Marco.'
+      name: 'Order Received & Dough Tossed',
+      tagline: 'Hand-stretched sourdough & San Marzano base',
+      desc: 'Dough tossed high, ladled with grandma’s simmered gravy and shredded Grande mozzarella.'
     },
     2: {
-      name: 'Fired in Wood Oven',
-      tagline: 'Blistering at 865°F over White Oak',
-      desc: 'Rotating near roaring oak embers for classic leopard crust blisters.'
+      name: 'Stone Deck & Wood Oven Firing',
+      tagline: 'Blistering at 865°F on stone hearth deck',
+      desc: 'Rotating on seasoned stone deck under roaring oak flames for classic blistered crust.'
     },
     3: {
-      name: 'Quality Check & Boxed',
-      tagline: 'Finishing garnish & heat packaging',
-      desc: 'Drizzling hot honey, fresh basil chiffonade & boxed in thermal container.'
+      name: 'Boxed & Garlic Butter Glazed',
+      tagline: 'Hot honey drizzle, pecorino & thermal pack',
+      desc: 'Drizzled with hot honey, fresh basil, pecorino romano, and packed in insulated thermal box.'
     },
     4: {
-      name: 'Ready on Counter',
-      tagline: 'Awaiting your arrival at Shelf #B-04',
-      desc: 'Placed under gentle thermal warmers. Ready for express pick-up!'
+      name: 'Hot on the Counter',
+      tagline: 'Awaiting pickup on Express Shelf #B-04',
+      desc: 'Hot, blistered, and ready! Grab your order from Shelf #B-04 or curbside bay #3.'
     }
   };
 
@@ -123,9 +124,9 @@
       return {
         status: 'PEAK',
         adjustmentMinutes: 10,
-        marker: '🔥 PEAK RUSH (+10m)',
-        label: 'Peak Dinner Rush (+10 mins oven queue surge)',
-        description: 'High dining volume detected. Wood ovens at peak queue capacity.',
+        marker: '🔥 PEAK DINNER RUSH (+10m)',
+        label: 'Peak Dinner Rush (+10 mins stone deck queue surge)',
+        description: 'Full house in the dining room! Ovens running at maximum capacity.',
         badgeClass: 'badge-red',
         boxClass: 'surge-box-peak'
       };
@@ -136,8 +137,8 @@
         status: 'SLOW',
         adjustmentMinutes: -10,
         marker: '⚡ OFF-PEAK EXPRESS (-10m)',
-        label: 'Off-Peak Speed Lull (-10 mins express kitchen boost)',
-        description: 'Quiet dining hours detected. Priority hearth firing active.',
+        label: 'Off-Peak Speed Lull (-10 mins express oven boost)',
+        description: 'Quiet neighborhood hours. Pizzaiolo fires your pie immediately on hot deck.',
         badgeClass: 'badge-green',
         boxClass: 'surge-box-slow'
       };
@@ -147,9 +148,9 @@
       return {
         status: 'STANDARD',
         adjustmentMinutes: 0,
-        marker: '🟡 STANDARD PACE (±0m)',
+        marker: '🟡 STANDARD KITCHEN PACE (±0m)',
         label: 'Standard Kitchen Pace (±0 mins)',
-        description: 'Standard kitchen flow with nominal firing and prep times.',
+        description: 'Smooth kitchen flow with nominal stone deck firing times.',
         badgeClass: 'badge-gold',
         boxClass: 'surge-box-standard'
       };
@@ -166,9 +167,9 @@
       return {
         status: 'PEAK',
         adjustmentMinutes: 10,
-        marker: '🔥 PEAK RUSH (+10m)',
-        label: 'Peak Rush Hour (+10 mins oven queue surge)',
-        description: 'High restaurant activity detected. Wood ovens at peak queue capacity.',
+        marker: '🔥 PEAK DINNER RUSH (+10m)',
+        label: 'Peak Rush Hour (+10 mins stone deck queue surge)',
+        description: 'Neighborhood dinner rush active. Wood ovens firing at maximum capacity.',
         badgeClass: 'badge-red',
         boxClass: 'surge-box-peak'
       };
@@ -180,8 +181,8 @@
         status: 'SLOW',
         adjustmentMinutes: -10,
         marker: '⚡ OFF-PEAK EXPRESS (-10m)',
-        label: 'Off-Peak Lull (-10 mins express kitchen boost)',
-        description: 'Quiet dining hours detected. Priority hearth firing active.',
+        label: 'Off-Peak Lull (-10 mins express oven boost)',
+        description: 'Quiet neighborhood lull. Fresh dough fires immediately on hot stone deck.',
         badgeClass: 'badge-green',
         boxClass: 'surge-box-slow'
       };
@@ -190,9 +191,9 @@
     return {
       status: 'STANDARD',
       adjustmentMinutes: 0,
-      marker: '🟡 STANDARD PACE (±0m)',
+      marker: '🟡 STANDARD KITCHEN PACE (±0m)',
       label: 'Standard Kitchen Pace (±0 mins)',
-      description: 'Standard kitchen flow with nominal firing and prep times.',
+      description: 'Nominal stone deck prep and firing workflow.',
       badgeClass: 'badge-gold',
       boxClass: 'surge-box-standard'
     };
@@ -234,8 +235,72 @@
       } catch (e) {}
     }
 
-    // If no active order exists, open the mock order creator modal
-    openOrderModal();
+    // If no active order exists, create default mock order for Jim & Nina's
+    const opt = MENU_OPTIONS['option-soppressata'];
+    const surge = resolveTimeOfDaySurge('auto');
+    const finalMinutes = Math.max(5, opt.baseCookMinutes + surge.adjustmentMinutes);
+    const totalDurationMs = finalMinutes * 60 * 1000;
+    const nowMs = Date.now();
+    const placedAt = nowMs;
+    const targetReadyAt = placedAt + totalDurationMs;
+
+    const subtotal = opt.price;
+    const tax = subtotal * 0.0875;
+    const tip = subtotal * 0.20;
+    const total = subtotal + tax + tip;
+
+    orderData = {
+      orderNumber: '#JN-' + Math.floor(10000 + Math.random() * 90000),
+      placedAt: placedAt,
+      placedAtFormatted: formatTimeString(placedAt),
+      targetReadyAt: targetReadyAt,
+      totalDurationMs: totalDurationMs,
+      baseCookMinutes: opt.baseCookMinutes,
+      surgeAdjustmentMinutes: surge.adjustmentMinutes,
+      surgeStatus: surge.status,
+      surgeLabel: surge.label,
+      surgeMarker: surge.marker,
+      selectedOptionId: opt.id,
+      currentStageId: 1,
+      customer: {
+        name: 'Zachery H.',
+        phone: '(555) 749-2041',
+        pickupType: 'Store Pickup (Express Shelf)',
+        shelf: 'SHELF #B-04',
+        vehicle: 'Silver Audi A4 (Curbside Bay 3)'
+      },
+      store: {
+        name: "Jim & Nina's Little Italy Pizzeria",
+        address: '142 Mulberry Street, Little Italy',
+        district: 'Historic Pizzeria Quarter',
+        phone: '(555) 749-NINA',
+        ovenTemp: '865°F',
+        woodSource: 'Stone Deck & Wood-Fired Hearth'
+      },
+      items: [
+        {
+          id: 'item-primary',
+          name: opt.name,
+          category: opt.category,
+          description: opt.description,
+          quantity: 1,
+          unitPrice: opt.price,
+          totalPrice: opt.price,
+          modifiers: opt.modifiers || []
+        }
+      ],
+      pricing: {
+        subtotal: subtotal,
+        tax: tax,
+        artisanSurcharge: 0.00,
+        tip: tip,
+        total: total,
+        paymentMethod: 'Apple Pay (•••• 4821)'
+      }
+    };
+
+    localStorage.setItem(FALLBACK_KEY, JSON.stringify(orderData));
+    renderDashboard();
   }
 
   // Render static elements from orderData
@@ -267,7 +332,7 @@
     // Render Surge Indicator Marker in Hero
     const heroSurgeMarker = document.getElementById('hero-surge-marker');
     if (heroSurgeMarker) {
-      heroSurgeMarker.innerText = orderData.surgeMarker || '🟡 STANDARD PACE (±0m)';
+      heroSurgeMarker.innerText = orderData.surgeMarker || '🟡 STANDARD KITCHEN PACE (±0m)';
       heroSurgeMarker.className = `badge ${orderData.surgeStatus === 'PEAK' ? 'badge-red' : (orderData.surgeStatus === 'SLOW' ? 'badge-green' : 'badge-gold')}`;
       heroSurgeMarker.title = orderData.surgeLabel || '';
     }
@@ -286,24 +351,24 @@
     orderData.items.forEach(item => {
       let modsHtml = '';
       if (item.modifiers && item.modifiers.length > 0) {
-        modsHtml = '<div style="display: flex; flex-wrap: wrap; gap: 0.3rem; margin-top: 0.35rem;">';
+        modsHtml = '<div style="display: flex; flex-wrap: wrap; gap: 0.35rem; margin-top: 0.4rem;">';
         item.modifiers.forEach(mod => {
-          modsHtml += `<span class="badge badge-muted" style="font-size: 0.68rem; padding: 0.15rem 0.45rem;">${mod.value}</span>`;
+          modsHtml += `<span class="badge badge-muted" style="font-size: 0.68rem; padding: 0.15rem 0.5rem;">${mod.value}</span>`;
         });
         modsHtml += '</div>';
       }
 
       html += `
-        <div style="background: var(--bg-surface-elevated); border: 1px solid var(--charcoal-border); border-radius: var(--radius-sm); padding: 0.85rem 1rem;">
+        <div style="background: var(--bg-surface-elevated); border: 1px solid var(--vintage-border); border-radius: var(--radius-sm); padding: 0.95rem 1.15rem;">
           <div style="display: flex; justify-content: space-between; align-items: flex-start; gap: 0.5rem; margin-bottom: 0.25rem;">
-            <div style="font-weight: 700; color: #FFFFFF; font-size: 0.92rem;">
+            <div style="font-weight: 800; color: #FAF5EE; font-size: 0.95rem;">
               ${item.quantity}× ${item.name}
             </div>
-            <div class="font-mono" style="font-weight: 800; color: var(--honey-gold); font-size: 0.92rem;">
+            <div class="font-mono" style="font-weight: 800; color: var(--mozzarella-gold); font-size: 0.95rem;">
               $${Number(item.totalPrice).toFixed(2)}
             </div>
           </div>
-          <div style="font-size: 0.78rem; color: var(--text-secondary); line-height: 1.3;">
+          <div style="font-size: 0.8rem; color: var(--text-secondary); line-height: 1.35;">
             ${item.description}
           </div>
           ${modsHtml}
@@ -338,7 +403,7 @@
         }
         modalHtml += `
           <div>
-            <div style="display: flex; justify-content: space-between; font-weight: 700;">
+            <div style="display: flex; justify-content: space-between; font-weight: 800;">
               <span>${item.quantity}× ${item.name}</span>
               <span>$${Number(item.totalPrice).toFixed(2)}</span>
             </div>
@@ -368,7 +433,7 @@
     const remainingSecs = Math.ceil(remainingMs / 1000);
 
     const elapsedMs = nowMs - orderData.placedAt;
-    const totalMs = orderData.totalDurationMs || (20 * 60 * 1000);
+    const totalMs = orderData.totalDurationMs || (18 * 60 * 1000);
     const progressRatio = Math.max(0.0, Math.min(1.0, elapsedMs / totalMs));
 
     // Determine Stage
@@ -401,7 +466,7 @@
       if (currentStage === 4) {
         progressCircle.style.stroke = 'var(--basil-green)';
       } else {
-        progressCircle.style.stroke = 'var(--ember-red)';
+        progressCircle.style.stroke = 'var(--italian-red)';
       }
     }
 
@@ -409,15 +474,15 @@
     if (currentStage === 4) {
       if (heroCard) heroCard.classList.add('animate-ready-pulse');
       if (heroTitleEl) {
-        heroTitleEl.innerHTML = '<span style="color: var(--basil-green);">Ready for Pickup!</span>';
+        heroTitleEl.innerHTML = '<span style="color: var(--basil-green);">Hot on the Counter!</span>';
       }
       if (heroSubtextEl) {
-        heroSubtextEl.innerText = `Your order is hot and boxed under thermal warmers at ${orderData.customer.shelf || 'SHELF #B-04'}.`;
+        heroSubtextEl.innerText = `Hot, blistered, and boxed under thermal warmers at ${orderData.customer.shelf || 'SHELF #B-04'}. Buon appetito!`;
       }
       const readyBadge = document.getElementById('hero-status-badge');
       if (readyBadge) {
         readyBadge.className = 'badge badge-green';
-        readyBadge.innerText = 'ORDER READY ON COUNTER';
+        readyBadge.innerText = 'HOT ON THE COUNTER // READY FOR PICKUP';
       }
 
       if (lastAnnouncedStage !== 4) {
@@ -428,7 +493,7 @@
       if (heroCard) heroCard.classList.remove('animate-ready-pulse');
       const minsRemaining = Math.max(1, Math.ceil(remainingSecs / 60));
       if (heroTitleEl) {
-        heroTitleEl.innerHTML = `Ready in <span style="color: var(--honey-gold);">~${minsRemaining} mins</span>`;
+        heroTitleEl.innerHTML = `Ready in <span style="color: var(--mozzarella-gold);">~${minsRemaining} mins</span>`;
       }
       if (heroSubtextEl) {
         heroSubtextEl.innerText = STAGE_DESCRIPTIONS[currentStage].desc;
@@ -463,7 +528,7 @@
         node.classList.remove('animate-oven-active');
         if (text) text.style.color = 'var(--text-primary)';
       } else if (i === currentStage) {
-        node.style.background = i === 2 ? 'var(--ember-red)' : 'var(--honey-gold)';
+        node.style.background = i === 2 ? 'var(--italian-red)' : 'var(--mozzarella-gold)';
         node.style.borderColor = '#FFFFFF';
         if (i === 2) node.classList.add('animate-oven-active');
         else node.classList.remove('animate-oven-active');
@@ -473,7 +538,7 @@
         }
       } else {
         node.style.background = 'var(--bg-surface-elevated)';
-        node.style.borderColor = 'var(--charcoal-border)';
+        node.style.borderColor = 'var(--vintage-border)';
         node.classList.remove('animate-oven-active');
         if (text) {
           text.style.color = 'var(--text-muted)';
@@ -586,7 +651,7 @@
     if (modalSummaryBaseTime) modalSummaryBaseTime.innerText = `${opt.baseCookMinutes} mins`;
     if (modalSummarySurge) {
       modalSummarySurge.innerText = surge.adjustmentMinutes === 0 ? '±0 mins' : (surge.adjustmentMinutes > 0 ? `+${surge.adjustmentMinutes} mins (Peak)` : `${surge.adjustmentMinutes} mins (Slow)`);
-      modalSummarySurge.style.color = surge.adjustmentMinutes > 0 ? '#FF5A43' : (surge.adjustmentMinutes < 0 ? '#34D399' : 'var(--honey-gold)');
+      modalSummarySurge.style.color = surge.adjustmentMinutes > 0 ? '#FF6B57' : (surge.adjustmentMinutes < 0 ? '#4ADE80' : 'var(--mozzarella-gold)');
     }
     if (modalSummaryFinalTime) modalSummaryFinalTime.innerText = `~${finalCookMinutes} minutes`;
     if (modalSummaryTotal) modalSummaryTotal.innerText = `$${total.toFixed(2)}`;
@@ -614,7 +679,7 @@
     const tip = subtotal * 0.20;
     const total = subtotal + tax + tip;
 
-    const orderNumber = '#FG-' + Math.floor(10000 + Math.random() * 90000);
+    const orderNumber = '#JN-' + Math.floor(10000 + Math.random() * 90000);
 
     const pickupTypeSelect = document.getElementById('modal-pickup-type');
     const pickupType = pickupTypeSelect ? pickupTypeSelect.value : 'Store Pickup (Express Shelf)';
@@ -634,18 +699,18 @@
       currentStageId: 1,
       customer: {
         name: 'Zachery H.',
-        phone: '(555) 839-2041',
+        phone: '(555) 749-2041',
         pickupType: pickupType,
         shelf: 'SHELF #B-04',
         vehicle: 'Silver Audi A4 (Curbside Bay 3)'
       },
       store: {
-        name: 'FORNO & GRATE Artisanal Hearth',
-        address: '412 S. Artisan Way, Suite 100',
-        district: 'Hearthstone Historic District',
-        phone: '(555) 321-PIZZA',
+        name: "Jim & Nina's Little Italy Pizzeria",
+        address: '142 Mulberry Street, Little Italy',
+        district: 'Historic Pizzeria Quarter',
+        phone: '(555) 749-NINA',
         ovenTemp: '865°F',
-        woodSource: 'Seasoned White Oak'
+        woodSource: 'Stone Deck & Wood-Fired Hearth'
       },
       items: [
         {
@@ -706,7 +771,7 @@
 
     stageNum = parseInt(stageNum, 10);
     const nowMs = Date.now();
-    const totalDuration = orderData.totalDurationMs || (20 * 60 * 1000);
+    const totalDuration = orderData.totalDurationMs || (18 * 60 * 1000);
 
     let targetReadyAt = nowMs;
     let placedAt = nowMs - totalDuration;

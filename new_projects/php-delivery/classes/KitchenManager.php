@@ -19,9 +19,9 @@ class KitchenManager {
             return [
                 'status' => 'PEAK',
                 'adjustmentMinutes' => 10,
-                'marker' => '🔥 PEAK RUSH (+10m)',
-                'label' => 'Peak Dinner Rush (+10 mins oven queue surge)',
-                'description' => 'Wood ovens running at full capacity during peak dining rush.',
+                'marker' => '🔥 PEAK DINNER RUSH (+10m)',
+                'label' => 'Peak Dinner Rush (+10 mins stone deck queue surge)',
+                'description' => 'Full house in the dining room! Ovens running at maximum capacity.',
                 'badgeClass' => 'badge-red'
             ];
         }
@@ -31,8 +31,8 @@ class KitchenManager {
                 'status' => 'SLOW',
                 'adjustmentMinutes' => -10,
                 'marker' => '⚡ OFF-PEAK EXPRESS (-10m)',
-                'label' => 'Off-Peak Speed Lull (-10 mins express kitchen boost)',
-                'description' => 'Direct hearth access with zero queue backlog.',
+                'label' => 'Off-Peak Speed Lull (-10 mins express oven boost)',
+                'description' => 'Quiet neighborhood hours. Pizzaiolo fires your pie immediately on hot deck.',
                 'badgeClass' => 'badge-green'
             ];
         }
@@ -41,9 +41,9 @@ class KitchenManager {
             return [
                 'status' => 'STANDARD',
                 'adjustmentMinutes' => 0,
-                'marker' => '🟡 STANDARD PACE (±0m)',
+                'marker' => '🟡 STANDARD KITCHEN PACE (±0m)',
                 'label' => 'Standard Kitchen Pace (±0 mins)',
-                'description' => 'Moderate dining volume with nominal firing times.',
+                'description' => 'Smooth kitchen flow with nominal stone deck firing times.',
                 'badgeClass' => 'badge-gold'
             ];
         }
@@ -55,25 +55,25 @@ class KitchenManager {
         $timeDecimal = $hour + ($minute / 60.0);
 
         // Peak Windows: Lunch 11:30-13:30 (11.5-13.5), Dinner 17:30-20:30 (17.5-20.5)
-        if (($timeDecimal >= 11.5 && $timeDecimal <= 13.5) || ($timeDecimal >= 17.5 && $timeDecimal <= 20.5)) {
+        if (($timeDecimal >= 11.5 && timeDecimal <= 13.5) || ($timeDecimal >= 17.5 && timeDecimal <= 20.5)) {
             return [
                 'status' => 'PEAK',
                 'adjustmentMinutes' => 10,
-                'marker' => '🔥 PEAK RUSH (+10m)',
-                'label' => 'Peak Rush Hour (+10 mins oven queue surge)',
-                'description' => 'High restaurant activity detected. Wood ovens at peak queue capacity.',
+                'marker' => '🔥 PEAK DINNER RUSH (+10m)',
+                'label' => 'Peak Rush Hour (+10 mins stone deck queue surge)',
+                'description' => 'Neighborhood dinner rush active. Wood ovens firing at maximum capacity.',
                 'badgeClass' => 'badge-red'
             ];
         }
 
         // Slow Lull Windows: Late night/morning 22:00-11:00 (>=22.0 or <11.0), Afternoon 14:30-16:30 (14.5-16.5)
-        if ($timeDecimal >= 22.0 || $timeDecimal < 11.0 || ($timeDecimal >= 14.5 && $timeDecimal <= 16.5)) {
+        if ($timeDecimal >= 22.0 || $timeDecimal < 11.0 || ($timeDecimal >= 14.5 && timeDecimal <= 16.5)) {
             return [
                 'status' => 'SLOW',
                 'adjustmentMinutes' => -10,
                 'marker' => '⚡ OFF-PEAK EXPRESS (-10m)',
-                'label' => 'Off-Peak Lull (-10 mins express kitchen boost)',
-                'description' => 'Quiet dining hours detected. Priority hearth firing active.',
+                'label' => 'Off-Peak Lull (-10 mins express oven boost)',
+                'description' => 'Quiet neighborhood lull. Fresh dough fires immediately on hot stone deck.',
                 'badgeClass' => 'badge-green'
             ];
         }
@@ -82,9 +82,9 @@ class KitchenManager {
         return [
             'status' => 'STANDARD',
             'adjustmentMinutes' => 0,
-            'marker' => '🟡 STANDARD PACE (±0m)',
+            'marker' => '🟡 STANDARD KITCHEN PACE (±0m)',
             'label' => 'Standard Kitchen Pace (±0 mins)',
-            'description' => 'Standard kitchen flow with nominal firing and prep times.',
+            'description' => 'Nominal stone deck prep and firing workflow.',
             'badgeClass' => 'badge-gold'
         ];
     }

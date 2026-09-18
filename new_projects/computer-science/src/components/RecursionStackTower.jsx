@@ -1,426 +1,471 @@
-import React, { useState, useEffect, useRef, useMemo } from 'react';
-import { Layers, Play, Pause, SkipForward, SkipBack, RotateCcw, AlertTriangle, ArrowUp, ArrowDown, Code2, Database } from 'lucide-react';
-import { RECURSION_MODES } from '../utils/csData';
+import React, { useState, useEffect } from 'react';
+import { Play, RotateCcw, ChevronRight, Layers, HelpCircle, CheckCircle, ArrowRight, CornerDownRight } from 'lucide-react';
 import { SoundEngine } from '../utils/soundEngine';
 
 export function RecursionStackTower() {
-  const [selectedModeId, setSelectedModeId] = useState('factorial');
-  const [nParam, setNParam] = useState(5);
-  const [stepIndex, setStepIndex] = useState(0);
-  const [isPlaying, setIsPlaying] = useState(false);
-  const [playbackSpeed, setPlaybackSpeed] = useState(800); // ms per step
+  const [activeTab, setActiveTab] = useState('hanoi'); // 'hanoi' | 'factorial' | 'palindrome'
+  
+  // Towers of Hanoi State
+  const [hanoiDisks, setHanoiDisks] = useState(3);
+  const [pegs, setPegs] = useState({ A: [3, 2, 1], B: [], C: [] });
+  const [hanoiMoves, setHanoiMoves] = useState([]);
+  const [hanoiStepIndex, setHanoiStepIndex] = useState(0);
+  const [hanoiIsPlaying, setHanoiIsPlaying] = useState(false);
 
-  const mode = useMemo(() => {
-    return RECURSION_MODES.find(m => m.id === selectedModeId) || RECURSION_MODES[0];
-  }, [selectedModeId]);
+  // Factorial State
+  const [factN, setFactN] = useState(4);
+  const [callStack, setCallStack] = useState([]);
+  const [factResult, setFactResult] = useState(null);
 
-  // Generate complete execution steps
-  const steps = useMemo(() => {
-    return mode.generateSteps(nParam);
-  }, [mode, nParam]);
+  // Palindrome State
+  const [palindromeWord, setPalindromeWord] = useState('ROTOR');
+  const [palindromeSteps, setPalindromeSteps] = useState([]);
 
-  const currentStep = steps[stepIndex] || steps[0] || {
-    action: 'Ready',
-    highlightLine: 1,
-    stack: [],
-    currentFrame: null,
-    phase: 'idle',
-    returnVal: null,
-    memoryBytes: 0
+  // Generate Hanoi Solution Moves
+  const generateHanoiMoves = (n, source, target, auxiliary, moves = []) => {
+    if (n === 1) {
+      moves.push({ disk: 1, from: source, to: target });
+      return moves;
+    }
+    generateHanoiMoves(n - 1, source, auxiliary, target, moves);
+    moves.push({ disk: n, from: source, to: target });
+    generateHanoiMoves(n - 1, auxiliary, target, source, moves);
+    return moves;
   };
 
-  // Auto-play timer
+  const resetHanoi = (n = hanoiDisks) => {
+    SoundEngine.playClick();
+    setHanoiIsPlaying(false);
+    setHanoiDisks(n);
+    const initialA = Array.from({ length: n }, (_, i) => n - i);
+    setPegs({ A: initialA, B: [], C: [] });
+    const moves = generateHanoiMoves(n, 'A', 'B', 'C', []);
+    setHanoiMoves(moves);
+    setHanoiStepIndex(0);
+  };
+
   useEffect(() => {
-    let timer = null;
-    if (isPlaying) {
-      timer = setInterval(() => {
-        setStepIndex((prev) => {
-          if (prev >= steps.length - 1) {
-            setIsPlaying(false);
-            SoundEngine.playSuccess();
-            return prev;
-          }
-          const next = prev + 1;
-          const nextStep = steps[next];
-          if (nextStep) {
-            if (nextStep.phase === 'call') {
-              SoundEngine.playStackPush(nextStep.stack.length);
-            } else if (nextStep.phase === 'return') {
-              SoundEngine.playStackPop(nextStep.stack.length);
-            }
-          }
-          return next;
-        });
-      }, playbackSpeed);
-    }
-    return () => {
-      if (timer) clearInterval(timer);
-    };
-  }, [isPlaying, steps, playbackSpeed]);
+    resetHanoi(3);
+  }, []);
 
-  const handleModeChange = (id) => {
-    SoundEngine.playClick();
-    setIsPlaying(false);
-    setSelectedModeId(id);
-    const m = RECURSION_MODES.find(x => x.id === id);
-    if (m) setNParam(m.defaultN);
-    setStepIndex(0);
+  const stepHanoi = () => {
+    if (hanoiStepIndex >= hanoiMoves.length) return;
+    SoundEngine.playPop();
+    const move = hanoiMoves[hanoiStepIndex];
+    
+    setPegs(prev => {
+      const newFrom = [...prev[move.from]];
+      const newTo = [...prev[move.to]];
+      const disk = newFrom.pop();
+      newTo.push(disk);
+      return { ...prev, [move.from]: newFrom, [move.to]: newTo };
+    });
+
+    setHanoiStepIndex(prev => prev + 1);
+    if (hanoiStepIndex + 1 === hanoiMoves.length) {
+      SoundEngine.playFanfare();
+    }
   };
 
-  const handleStepForward = () => {
-    if (stepIndex < steps.length - 1) {
-      const next = stepIndex + 1;
-      const nextStep = steps[next];
-      if (nextStep.phase === 'call') {
-        SoundEngine.playStackPush(nextStep.stack.length);
-      } else if (nextStep.phase === 'return') {
-        SoundEngine.playStackPop(nextStep.stack.length);
+  const autoPlayHanoi = () => {
+    if (hanoiIsPlaying || hanoiStepIndex >= hanoiMoves.length) return;
+    setHanoiIsPlaying(true);
+    SoundEngine.playClick();
+
+    let currIndex = hanoiStepIndex;
+    let currPegs = { ...pegs };
+
+    const interval = setInterval(() => {
+      if (currIndex >= hanoiMoves.length) {
+        clearInterval(interval);
+        setHanoiIsPlaying(false);
+        return;
       }
-      setStepIndex(next);
-    } else {
-      SoundEngine.playSuccess();
-    }
+
+      const m = hanoiMoves[currIndex];
+      const newFrom = [...currPegs[m.from]];
+      const newTo = [...currPegs[m.to]];
+      const disk = newFrom.pop();
+      newTo.push(disk);
+      currPegs = { ...currPegs, [m.from]: newFrom, [m.to]: newTo };
+      setPegs(currPegs);
+
+      currIndex++;
+      setHanoiStepIndex(currIndex);
+      SoundEngine.playBlip();
+
+      if (currIndex === hanoiMoves.length) {
+        SoundEngine.playFanfare();
+        clearInterval(interval);
+        setHanoiIsPlaying(false);
+      }
+    }, 700);
   };
 
-  const handleStepBack = () => {
-    if (stepIndex > 0) {
-      SoundEngine.playClick();
-      setStepIndex(stepIndex - 1);
-    }
-  };
-
-  const handleReset = () => {
+  // Run Factorial Simulation
+  const runFactorial = (n) => {
     SoundEngine.playClick();
-    setIsPlaying(false);
-    setStepIndex(0);
-  };
+    setFactN(n);
+    const stack = [];
+    
+    const fact = (num) => {
+      stack.push({ fn: `factorial(${num})`, arg: num, type: num <= 1 ? 'BASE CASE' : 'RECURSIVE CALL' });
+      if (num <= 1) return 1;
+      return num * fact(num - 1);
+    };
 
-  const togglePlay = () => {
-    SoundEngine.playClick();
-    if (stepIndex >= steps.length - 1) {
-      setStepIndex(0);
-    }
-    setIsPlaying(!isPlaying);
+    const res = fact(n);
+    setCallStack(stack);
+    setFactResult(res);
+    SoundEngine.playFanfare();
   };
-
-  // Color palette for stack levels
-  const stackColors = [
-    '#0038FF', // Cobalt Blue
-    '#FFE600', // Canary Yellow
-    '#FF2A00', // Vermilion Red
-    '#00E599', // Mint
-    '#7928CA', // Purple
-    '#00F0FF', // Cyan
-    '#FF7A00', // Orange
-  ];
 
   return (
-    <section id="recursion" className="section-wrapper" style={{ background: 'var(--bg-paper)' }}>
+    <section id="recursion" className="section-padding" style={{
+      background: 'var(--bg-paper)',
+      borderBottom: 'var(--border-thick)'
+    }}>
       <div className="container">
+
         {/* Section Header */}
-        <div className="section-header">
-          <div className="section-tag">
-            <Layers size={14} /> CONCEPT 02 // RECURSION & MEMORY STACK
+        <div style={{ marginBottom: '2.5rem' }}>
+          <div style={{ display: 'flex', alignItems: 'center', gap: '0.5rem', marginBottom: '0.5rem' }}>
+            <span className="brutal-badge brutal-badge-blue font-mono" style={{ fontSize: '0.8rem' }}>
+              UNIT 05 // KHAN ALGORITHMS
+            </span>
+            <span className="brutal-badge brutal-badge-red font-mono" style={{ fontSize: '0.8rem' }}>
+              RECURSIVE ALGORITHMS &amp; TOWERS OF HANOI
+            </span>
           </div>
-          <h2 className="section-title">
-            THE PHYSICAL <span style={{ color: 'var(--vermilion-red)' }}>CALL STACK</span> TOWER
+
+          <h2 style={{
+            fontFamily: 'var(--font-display)',
+            fontSize: 'clamp(2rem, 4vw, 3.25rem)',
+            fontWeight: 900,
+            lineHeight: 1.1,
+            letterSpacing: '-0.02em',
+            marginBottom: '1rem'
+          }}>
+            RECURSIVE ALGORITHMS &amp; THE CALL STACK
           </h2>
-          <p className="section-subtitle">
-            Every recursive invocation allocates an isolated frame on the stack memory. Watch stack frames physically accumulate as colored architectural blocks and pop off during the return phase.
+
+          <p style={{
+            fontFamily: 'var(--font-body)',
+            fontSize: '1.1rem',
+            color: 'var(--text-muted)',
+            maxWidth: '850px',
+            lineHeight: 1.6
+          }}>
+            Recursion occurs when a function solves a problem by calling itself on smaller instances. Every valid recursive algorithm requires a <strong>base case</strong> (to terminate) and a <strong>recursive case</strong> (to reduce the problem).
           </p>
         </div>
 
-        {/* Algorithm Switcher Tabs */}
-        <div style={{ display: 'flex', gap: '0.75rem', flexWrap: 'wrap', marginBottom: '1.5rem' }}>
-          {RECURSION_MODES.map((m) => {
-            const isSelected = m.id === selectedModeId;
-            return (
-              <button
-                key={m.id}
-                onClick={() => handleModeChange(m.id)}
-                className="brutal-btn"
-                style={{
-                  background: isSelected ? 'var(--vermilion-red)' : 'var(--bg-card)',
-                  color: isSelected ? '#FFFFFF' : '#0A0A0A',
-                  borderColor: '#0A0A0A',
-                  boxShadow: isSelected ? 'var(--shadow-hover-md)' : 'var(--shadow-md)',
-                  fontWeight: 800
-                }}
-              >
-                {m.title}
-              </button>
-            );
-          })}
+        {/* Topic Selector Tabs */}
+        <div style={{ display: 'flex', gap: '0.5rem', marginBottom: '2rem', flexWrap: 'wrap' }}>
+          <button
+            onClick={() => { SoundEngine.playClick(); setActiveTab('hanoi'); }}
+            className="brutal-btn"
+            style={{
+              background: activeTab === 'hanoi' ? 'var(--canary-yellow)' : '#FFF',
+              fontWeight: activeTab === 'hanoi' ? 900 : 700,
+              border: '2px solid #000'
+            }}
+          >
+            1. TOWERS OF HANOI (2ⁿ - 1)
+          </button>
+          <button
+            onClick={() => { SoundEngine.playClick(); setActiveTab('factorial'); runFactorial(4); }}
+            className="brutal-btn"
+            style={{
+              background: activeTab === 'factorial' ? 'var(--canary-yellow)' : '#FFF',
+              fontWeight: activeTab === 'factorial' ? 900 : 700,
+              border: '2px solid #000'
+            }}
+          >
+            2. FACTORIAL CALL STACK (N!)
+          </button>
         </div>
 
-        {/* Main Grid: Code Inspector & Stack Tower */}
-        <div style={{
-          display: 'grid',
-          gridTemplateColumns: 'repeat(auto-fit, minmax(min(100%, 480px), 1fr))',
-          gap: 'clamp(1.5rem, 3vw, 2.5rem)',
-          alignItems: 'start'
-        }}>
-          {/* Left Column: Code Window & Step Controls */}
-          <div style={{ display: 'flex', flexDirection: 'column', gap: '1.25rem' }}>
-            {/* Control Dashboard */}
-            <div className="brutal-card" style={{ padding: '1.25rem' }}>
-              <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '1rem', flexWrap: 'wrap', gap: '0.5rem' }}>
-                <span className="font-mono" style={{ fontWeight: 800, fontSize: '0.9rem' }}>
-                  // STEPPER [ {stepIndex + 1} / {steps.length} ]
-                </span>
+        {/* Content Panel: Towers of Hanoi */}
+        {activeTab === 'hanoi' && (
+          <div style={{
+            display: 'grid',
+            gridTemplateColumns: 'repeat(auto-fit, minmax(320px, 1fr))',
+            gap: '2rem',
+            alignItems: 'start'
+          }}>
 
-                {/* Input Parameter N Selector */}
-                <div style={{ display: 'flex', alignItems: 'center', gap: '0.5rem' }}>
-                  <label className="font-mono" style={{ fontSize: '0.8rem', fontWeight: 700 }}>
-                    INPUT N:
-                  </label>
-                  <select
-                    value={nParam}
-                    onChange={(e) => {
-                      SoundEngine.playClick();
-                      setNParam(parseInt(e.target.value, 10));
-                      setStepIndex(0);
-                    }}
-                    style={{
-                      fontFamily: 'var(--font-mono)',
-                      fontWeight: 800,
-                      padding: '0.2rem 0.5rem',
-                      border: 'var(--border-solid)',
-                      background: 'var(--canary-yellow)',
-                      cursor: 'pointer'
-                    }}
+            {/* Left: Interactive Towers of Hanoi Visualizer */}
+            <div className="brutal-card" style={{ background: '#FFF' }}>
+              <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '1.5rem', flexWrap: 'wrap', gap: '0.5rem' }}>
+                <div>
+                  <span className="brutal-badge brutal-badge-mint font-mono" style={{ fontSize: '0.75rem' }}>
+                    RECURSIVE DECOMPOSITION
+                  </span>
+                  <div style={{ fontFamily: 'var(--font-display)', fontWeight: 900, fontSize: '1.25rem', marginTop: '0.25rem' }}>
+                    TOWERS OF HANOI ({hanoiDisks} DISKS)
+                  </div>
+                </div>
+
+                <div style={{ display: 'flex', gap: '0.5rem', alignItems: 'center' }}>
+                  <button
+                    onClick={() => resetHanoi(hanoiDisks === 3 ? 4 : 3)}
+                    className="brutal-btn brutal-btn-sm"
+                    style={{ background: '#FFF' }}
                   >
-                    {[3, 4, 5, 6].filter(n => n <= mode.maxN).map(n => (
-                      <option key={n} value={n}>N = {n}</option>
-                    ))}
-                  </select>
+                    Set {hanoiDisks === 3 ? '4' : '3'} Disks
+                  </button>
+                  <button
+                    onClick={stepHanoi}
+                    disabled={hanoiIsPlaying || hanoiStepIndex >= hanoiMoves.length}
+                    className="brutal-btn brutal-btn-red"
+                    style={{ padding: '0.45rem 0.85rem' }}
+                  >
+                    <ChevronRight size={15} /> STEP
+                  </button>
+                  <button
+                    onClick={autoPlayHanoi}
+                    disabled={hanoiIsPlaying || hanoiStepIndex >= hanoiMoves.length}
+                    className="brutal-btn brutal-btn-blue"
+                    style={{ padding: '0.45rem 0.85rem' }}
+                  >
+                    <Play size={15} /> AUTO
+                  </button>
+                  <button
+                    onClick={() => resetHanoi()}
+                    className="brutal-btn brutal-btn-sm"
+                    style={{ background: '#E5E5E5' }}
+                  >
+                    <RotateCcw size={15} />
+                  </button>
                 </div>
               </div>
 
-              {/* Action Buttons */}
-              <div style={{ display: 'flex', gap: '0.5rem', flexWrap: 'wrap', marginBottom: '1rem' }}>
-                <button
-                  onClick={togglePlay}
-                  className={`brutal-btn ${isPlaying ? 'brutal-btn-danger' : 'brutal-btn-primary'}`}
-                >
-                  {isPlaying ? <Pause size={16} /> : <Play size={16} />}
-                  <span>{isPlaying ? 'PAUSE' : 'AUTO PLAY'}</span>
-                </button>
-                <button
-                  onClick={handleStepBack}
-                  disabled={stepIndex === 0 || isPlaying}
-                  className="brutal-btn"
-                  title="Step Backward"
-                >
-                  <SkipBack size={16} />
-                </button>
-                <button
-                  onClick={handleStepForward}
-                  disabled={stepIndex >= steps.length - 1 || isPlaying}
-                  className="brutal-btn brutal-btn-accent"
-                  title="Step Forward"
-                >
-                  <SkipForward size={16} /> STEP
-                </button>
-                <button
-                  onClick={handleReset}
-                  className="brutal-btn"
-                  title="Reset"
-                >
-                  <RotateCcw size={16} />
-                </button>
-              </div>
-
-              {/* Action Narration Box */}
+              {/* Hanoi 3 Pegs Arena */}
               <div style={{
-                background: currentStep.phase === 'base' ? 'var(--canary-yellow)' : currentStep.phase === 'return' ? 'var(--emerald-mint)' : '#0A0A0A',
-                color: currentStep.phase === 'base' || currentStep.phase === 'return' ? '#0A0A0A' : '#FFFFFF',
-                border: 'var(--border-solid)',
-                padding: '0.75rem 1rem',
-                fontFamily: 'var(--font-mono)',
-                fontSize: '0.85rem',
-                fontWeight: 700,
-                display: 'flex',
-                alignItems: 'center',
-                gap: '0.5rem'
+                display: 'grid',
+                gridTemplateColumns: 'repeat(3, 1fr)',
+                gap: '1rem',
+                background: 'var(--bg-paper)',
+                padding: '2rem 1rem 1rem 1rem',
+                border: '2px solid #000',
+                marginBottom: '1.5rem',
+                minHeight: '220px',
+                alignItems: 'end'
               }}>
-                {currentStep.phase === 'call' && <ArrowUp size={16} color="var(--canary-yellow)" />}
-                {currentStep.phase === 'return' && <ArrowDown size={16} />}
-                {currentStep.phase === 'base' && <AlertTriangle size={16} />}
-                <span>{currentStep.action}</span>
-              </div>
-            </div>
-
-            {/* Synchronized Code Panel */}
-            <div className="brutal-code-panel">
-              <div className="code-header">
-                <span style={{ fontSize: '0.8rem', color: '#AAA' }}>{mode.id}.js (Execution Trace)</span>
-                <div className="code-dots">
-                  <span className="code-dot" style={{ background: '#FF5F56' }}></span>
-                  <span className="code-dot" style={{ background: '#FFBD2E' }}></span>
-                  <span className="code-dot" style={{ background: '#27C93F' }}></span>
-                </div>
-              </div>
-              <div className="code-body">
-                {mode.code.map((c) => {
-                  const isActive = currentStep.highlightLine === c.line;
+                {['A', 'B', 'C'].map((pegKey) => {
+                  const disksOnPeg = pegs[pegKey] || [];
                   return (
-                    <div key={c.line} className={`code-line ${isActive ? 'active' : ''}`}>
-                      <span className="code-linenum">{c.line}</span>
-                      <span>{c.text}</span>
+                    <div
+                      key={pegKey}
+                      style={{
+                        display: 'flex',
+                        flexDirection: 'column-reverse',
+                        alignItems: 'center',
+                        position: 'relative',
+                        height: '160px',
+                        borderBottom: '4px solid #000'
+                      }}
+                    >
+                      {/* Vertical Peg Rod */}
+                      <div style={{
+                        position: 'absolute',
+                        top: 0,
+                        bottom: 0,
+                        width: '8px',
+                        background: '#333',
+                        zIndex: 1
+                      }} />
+
+                      {/* Disks */}
+                      {disksOnPeg.map((diskSize, idx) => {
+                        const colors = ['#00E599', '#FFE600', '#0038FF', '#FF2A00'];
+                        const diskColor = colors[diskSize - 1] || 'var(--cobalt-blue)';
+                        const widthPct = 30 + diskSize * 16;
+                        return (
+                          <div
+                            key={idx}
+                            style={{
+                              width: `${widthPct}%`,
+                              height: '24px',
+                              background: diskColor,
+                              border: '2px solid #000',
+                              boxShadow: '2px 2px 0 #000',
+                              zIndex: 2,
+                              display: 'flex',
+                              alignItems: 'center',
+                              justifyContent: 'center',
+                              fontFamily: 'var(--font-mono)',
+                              fontWeight: 900,
+                              fontSize: '0.75rem',
+                              color: '#000',
+                              marginBottom: '2px'
+                            }}
+                          >
+                            {diskSize}
+                          </div>
+                        );
+                      })}
+
+                      {/* Peg Label */}
+                      <div style={{
+                        position: 'absolute',
+                        bottom: '-32px',
+                        fontFamily: 'var(--font-mono)',
+                        fontWeight: 900,
+                        fontSize: '0.9rem'
+                      }}>
+                        PEG {pegKey}
+                      </div>
                     </div>
                   );
                 })}
               </div>
+
+              {/* Step Progress Readout */}
+              <div style={{
+                display: 'flex',
+                justifyContent: 'space-between',
+                fontFamily: 'var(--font-mono)',
+                fontSize: '0.85rem',
+                fontWeight: 700,
+                background: 'var(--bg-paper)',
+                padding: '0.75rem',
+                border: '1.5px solid #000'
+              }}>
+                <span>MOVE: {hanoiStepIndex} / {hanoiMoves.length} OPTIMAL</span>
+                <span>MINIMUM FORMULA: 2^{hanoiDisks} - 1 = {Math.pow(2, hanoiDisks) - 1} MOVES</span>
+              </div>
             </div>
+
+            {/* Right: Hanoi Recursive Theory */}
+            <div style={{ display: 'flex', flexDirection: 'column', gap: '1.5rem' }}>
+              <div className="brutal-card brutal-card-yellow">
+                <h4 style={{ fontFamily: 'var(--font-display)', fontWeight: 900, fontSize: '1.2rem', marginBottom: '0.5rem' }}>
+                  THE HANOI RECURRENCE RELATION: Θ(2ⁿ)
+                </h4>
+                <p style={{ fontSize: '0.85rem', lineHeight: 1.5, color: '#111', marginBottom: '0.75rem' }}>
+                  To move $n$ disks from Peg A to Peg B using Peg C:
+                </p>
+                <ol style={{ fontSize: '0.85rem', lineHeight: 1.6, paddingLeft: '1.25rem', fontFamily: 'var(--font-mono)' }}>
+                  <li>1. Recursively move top $n-1$ disks from <strong>A → C</strong>.</li>
+                  <li>2. Move single largest disk $n$ directly from <strong>A → B</strong>.</li>
+                  <li>3. Recursively move $n-1$ disks from <strong>C → B</strong>.</li>
+                </ol>
+                <div style={{ background: '#FFF', padding: '0.5rem', border: '1.5px solid #000', marginTop: '0.75rem', fontFamily: 'var(--font-mono)', fontSize: '0.8rem' }}>
+                  Recurrence: T(n) = 2T(n-1) + 1 = <strong>2ⁿ - 1 moves</strong>.
+                </div>
+              </div>
+            </div>
+
           </div>
+        )}
 
-          {/* Right Column: Physical Stack Tower Arena */}
-          <div className="brutal-card" style={{
-            background: 'var(--bg-card)',
-            border: 'var(--border-thick)',
-            boxShadow: 'var(--shadow-lg)',
-            padding: '1.5rem',
-            minHeight: '440px',
-            display: 'flex',
-            flexDirection: 'column',
-            justifyContent: 'space-between'
+        {/* Content Panel: Factorial Call Stack */}
+        {activeTab === 'factorial' && (
+          <div style={{
+            display: 'grid',
+            gridTemplateColumns: 'repeat(auto-fit, minmax(320px, 1fr))',
+            gap: '2rem',
+            alignItems: 'start'
           }}>
-            {/* Stack Telemetry Bar */}
-            <div style={{
-              display: 'flex',
-              justifyContent: 'space-between',
-              alignItems: 'center',
-              borderBottom: 'var(--border-solid)',
-              paddingBottom: '0.75rem',
-              marginBottom: '1rem'
-            }}>
-              <div>
-                <div className="font-mono" style={{ fontSize: '0.7rem', color: '#666' }}>STACK DEPTH:</div>
-                <div className="font-mono" style={{ fontSize: '1.25rem', fontWeight: 900, color: 'var(--vermilion-red)' }}>
-                  {currentStep.stack.length} FRAMES
-                </div>
-              </div>
 
-              <div>
-                <div className="font-mono" style={{ fontSize: '0.7rem', color: '#666' }}>ESTIMATED STACK RAM:</div>
-                <div className="font-mono" style={{ fontSize: '1.1rem', fontWeight: 800 }}>
-                  {currentStep.memoryBytes} BYTES
-                </div>
-              </div>
+            <div className="brutal-card" style={{ background: '#FFF' }}>
+              <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '1rem', flexWrap: 'wrap', gap: '0.5rem' }}>
+                <span className="brutal-badge brutal-badge-blue font-mono" style={{ fontSize: '0.75rem' }}>
+                  CALL STACK FRAMES (LIFO)
+                </span>
 
-              <div className="brutal-pill pill-yellow">
-                LIFO TOWER
-              </div>
-            </div>
-
-            {/* Visual Stack Tower (Building from ground up) */}
-            <div style={{
-              flex: 1,
-              display: 'flex',
-              flexDirection: 'column-reverse',
-              alignItems: 'center',
-              justifyContent: 'flex-start',
-              gap: '8px',
-              padding: '1.5rem 0',
-              position: 'relative'
-            }}>
-              {currentStep.stack.length === 0 ? (
-                <div className="font-mono" style={{ color: '#888', fontStyle: 'italic', margin: 'auto' }}>
-                  // Call Stack Empty (Ready to push)
-                </div>
-              ) : (
-                currentStep.stack.map((frame, idx) => {
-                  const isTop = idx === currentStep.stack.length - 1;
-                  const color = stackColors[idx % stackColors.length];
-                  const isDark = color === '#0038FF' || color === '#7928CA' || color === '#FF2A00';
-
-                  return (
-                    <div
-                      key={frame.id || idx}
+                <div style={{ display: 'flex', gap: '0.5rem', alignItems: 'center' }}>
+                  <span style={{ fontFamily: 'var(--font-mono)', fontSize: '0.8rem', fontWeight: 800 }}>N:</span>
+                  {[3, 4, 5, 6].map((num) => (
+                    <button
+                      key={num}
+                      onClick={() => runFactorial(num)}
+                      className="brutal-btn brutal-btn-sm"
                       style={{
-                        width: '90%',
-                        maxWidth: '380px',
-                        background: color,
-                        color: isDark ? '#FFFFFF' : '#0A0A0A',
-                        border: '2.5px solid #0A0A0A',
-                        boxShadow: isTop ? '6px 6px 0px #0A0A0A' : '3px 3px 0px #0A0A0A',
-                        padding: '0.75rem 1rem',
-                        display: 'flex',
-                        alignItems: 'center',
-                        justifyContent: 'space-between',
-                        fontFamily: 'var(--font-mono)',
-                        fontWeight: 800,
-                        fontSize: '0.9rem',
-                        transform: isTop ? 'scale(1.03)' : 'scale(1)',
-                        transition: 'all 0.2s cubic-bezier(0.34, 1.56, 0.64, 1)',
-                        position: 'relative'
+                        background: factN === num ? 'var(--canary-yellow)' : '#FFF',
+                        fontWeight: 900
                       }}
                     >
-                      {/* Left Frame Signature */}
-                      <div style={{ display: 'flex', alignItems: 'center', gap: '0.5rem' }}>
-                        <span style={{
-                          background: isDark ? '#FFFFFF' : '#0A0A0A',
-                          color: isDark ? '#0A0A0A' : '#FFFFFF',
-                          padding: '1px 5px',
-                          fontSize: '0.75rem'
-                        }}>
-                          #{idx + 1}
-                        </span>
-                        <span>{frame.name}</span>
-                      </div>
+                      {num}!
+                    </button>
+                  ))}
+                </div>
+              </div>
 
-                      {/* Right Frame Return / Evaluation State */}
-                      <div style={{
-                        background: 'rgba(0,0,0,0.15)',
-                        padding: '2px 8px',
-                        borderRadius: '2px',
-                        fontSize: '0.8rem'
-                      }}>
-                        val: <strong>{frame.value !== undefined ? (typeof frame.value === 'object' ? JSON.stringify(frame.value) : frame.value) : '?'}</strong>
-                      </div>
+              {/* Call Stack Frames Visualizer */}
+              <div style={{
+                display: 'flex',
+                flexDirection: 'column-reverse',
+                gap: '0.5rem',
+                background: 'var(--bg-paper)',
+                padding: '1rem',
+                border: '2px solid #000',
+                minHeight: '200px'
+              }}>
+                {callStack.map((frame, idx) => (
+                  <div
+                    key={idx}
+                    style={{
+                      background: frame.type === 'BASE CASE' ? 'var(--emerald-mint)' : 'var(--canary-yellow)',
+                      border: '2px solid #000',
+                      boxShadow: '2px 2px 0 #000',
+                      padding: '0.65rem 1rem',
+                      fontFamily: 'var(--font-mono)',
+                      fontWeight: 800,
+                      display: 'flex',
+                      justifyContent: 'space-between',
+                      alignItems: 'center'
+                    }}
+                  >
+                    <span>FRAME #{idx + 1}: {frame.fn}</span>
+                    <span className="brutal-badge brutal-badge-sm" style={{ background: '#000', color: '#FFF' }}>
+                      {frame.type}
+                    </span>
+                  </div>
+                ))}
+              </div>
 
-                      {/* Top Frame Pointer Stamp */}
-                      {isTop && (
-                        <div style={{
-                          position: 'absolute',
-                          left: '-28px',
-                          top: '50%',
-                          transform: 'translateY(-50%)',
-                          color: 'var(--vermilion-red)',
-                          fontWeight: 900,
-                          fontSize: '1.2rem'
-                        }}>
-                          ▶
-                        </div>
-                      )}
-                    </div>
-                  );
-                })
+              {factResult !== null && (
+                <div style={{
+                  marginTop: '1rem',
+                  padding: '0.75rem',
+                  background: 'var(--emerald-mint)',
+                  border: '2px solid #000',
+                  fontFamily: 'var(--font-mono)',
+                  fontWeight: 900,
+                  fontSize: '1rem'
+                }}>
+                  RESULT: {factN}! = {factResult.toLocaleString()}
+                </div>
               )}
             </div>
 
-            {/* Base of Physical Stack (Architectural Foundation) */}
-            <div style={{
-              width: '100%',
-              height: '18px',
-              background: '#0A0A0A',
-              border: '2px solid #0A0A0A',
-              boxShadow: 'var(--shadow-sm)',
-              display: 'flex',
-              alignItems: 'center',
-              justifyContent: 'center',
-              color: 'var(--canary-yellow)',
-              fontFamily: 'var(--font-mono)',
-              fontSize: '0.7rem',
-              fontWeight: 800,
-              letterSpacing: '0.1em'
-            }}>
-              ▼ STACK BASE POINTER [0x7FFEEF] ▼
+            <div className="brutal-card brutal-card-blue">
+              <h4 style={{ fontFamily: 'var(--font-display)', fontWeight: 900, fontSize: '1.2rem', marginBottom: '0.5rem' }}>
+                FACTORIAL MATHEMATICAL DEFINITION
+              </h4>
+              <pre style={{
+                fontFamily: 'var(--font-mono)',
+                fontSize: '0.85rem',
+                lineHeight: 1.6,
+                background: '#000',
+                padding: '0.85rem',
+                border: '1px solid #333',
+                color: 'var(--canary-yellow)'
+              }}>
+                n! = 1              if n = 0 (Base Case)<br />
+                n! = n × (n - 1)!   if n &gt; 0 (Recursive Case)
+              </pre>
             </div>
+
           </div>
-        </div>
+        )}
+
       </div>
     </section>
   );
 }
+
+export default RecursionStackTower;

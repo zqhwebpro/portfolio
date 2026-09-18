@@ -1,41 +1,55 @@
 /* ==========================================================================
-   FORNO & GRATE // MODERN INDUSTRIAL PIZZERIA DESIGN SYSTEM
+   JIM & NINA'S // AUTHENTIC ITALIAN-AMERICAN PIZZERIA DESIGN SYSTEM
+   Featuring Little Italy, Marcello's & Big Mouth Pizzeria Aesthetics
    ========================================================================== */
 
 :root {
-  /* Palette */
-  --bg-base: #111215;
-  --bg-surface: #181A20;
-  --bg-surface-elevated: #22252E;
-  --bg-surface-hover: #2B2F3B;
-  --bg-paper: #FBF9F5;
+  /* Authentic Italian & Hearth Palette */
+  --bg-base: #12100E;
+  --bg-surface: #1C1917;
+  --bg-surface-elevated: #282420;
+  --bg-surface-hover: #35302A;
+  --bg-parchment: #FAF5EE;
+  --bg-parchment-light: #FFFDF9;
+  --bg-parchment-dark: #EDE5D5;
 
-  --text-primary: #F3F4F6;
-  --text-secondary: #9CA3AF;
-  --text-muted: #6B7280;
-  --text-inverse: #111215;
+  --text-primary: #FAF5EE;
+  --text-secondary: #D4CBBB;
+  --text-muted: #9E9484;
+  --text-inverse: #1C1917;
 
-  /* Accents */
-  --ember-red: #D9381E;
-  --ember-red-glow: rgba(217, 56, 30, 0.25);
-  --basil-green: #1B8A5A;
-  --basil-green-glow: rgba(27, 138, 90, 0.25);
-  --honey-gold: #F5A623;
-  --honey-gold-glow: rgba(245, 166, 35, 0.2);
-  --charcoal-border: rgba(255, 255, 255, 0.08);
-  --charcoal-border-focus: rgba(255, 255, 255, 0.22);
+  /* Italian Heritage Accents */
+  --italian-red: #C8102E;
+  --italian-red-dark: #991B1B;
+  --italian-red-glow: rgba(200, 16, 46, 0.35);
+  
+  --mozzarella-gold: #F59E0B;
+  --mozzarella-gold-dark: #D97706;
+  --mozzarella-gold-glow: rgba(245, 158, 11, 0.28);
+
+  --basil-green: #15803D;
+  --basil-green-dark: #166534;
+  --basil-green-glow: rgba(21, 128, 61, 0.3);
+
+  --crust-tan: #D4A373;
+  --vintage-border: rgba(250, 245, 238, 0.12);
+  --vintage-border-gold: rgba(245, 158, 11, 0.35);
 
   /* Typography */
+  --font-serif: 'Playfair Display', Georgia, serif;
+  --font-display: 'Playfair Display', Georgia, serif;
   --font-sans: 'Plus Jakarta Sans', system-ui, -apple-system, sans-serif;
   --font-mono: 'JetBrains Mono', monospace;
-  --font-display: 'Syne', 'Plus Jakarta Sans', sans-serif;
 
   /* Geometry & Shadows */
+  --radius-xs: 4px;
   --radius-sm: 8px;
   --radius-md: 14px;
   --radius-lg: 20px;
   --radius-full: 9999px;
-  --shadow-card: 0 10px 30px -5px rgba(0, 0, 0, 0.5), 0 0 0 1px var(--charcoal-border);
+  
+  --shadow-card: 0 12px 35px -5px rgba(0, 0, 0, 0.65), 0 0 0 1px var(--vintage-border);
+  --shadow-gold: 0 8px 25px rgba(245, 158, 11, 0.2);
 }
 
 *, *::before, *::after {
@@ -52,15 +66,41 @@ body {
   min-height: 100vh;
   -webkit-font-smoothing: antialiased;
   background-image: 
-    radial-gradient(circle at 20% 10%, rgba(217, 56, 30, 0.05) 0%, transparent 40%),
-    radial-gradient(circle at 80% 80%, rgba(245, 166, 35, 0.04) 0%, transparent 40%);
+    radial-gradient(circle at 15% 15%, rgba(200, 16, 46, 0.08) 0%, transparent 45%),
+    radial-gradient(circle at 85% 75%, rgba(245, 158, 11, 0.06) 0%, transparent 45%),
+    linear-gradient(rgba(18, 16, 14, 0.96), rgba(18, 16, 14, 0.96)),
+    repeating-linear-gradient(0deg, transparent, transparent 40px, rgba(255, 255, 255, 0.015) 40px, rgba(255, 255, 255, 0.015) 41px);
   background-attachment: fixed;
+}
+
+/* Red & White Checkered Italian Pizzeria Gingham Ribbon */
+.gingham-ribbon {
+  height: 8px;
+  width: 100%;
+  background-color: #FAF5EE;
+  background-image: 
+    linear-gradient(45deg, #C8102E 25%, transparent 25%), 
+    linear-gradient(-45deg, #C8102E 25%, transparent 25%), 
+    linear-gradient(45deg, transparent 75%, #C8102E 75%), 
+    linear-gradient(-45deg, transparent 75%, #C8102E 75%);
+  background-size: 16px 16px;
+  background-position: 0 0, 0 8px, 8px -8px, -8px 0px;
+}
+
+.gingham-ribbon-subtle {
+  height: 6px;
+  width: 100%;
+  background: repeating-linear-gradient(90deg, 
+    #C8102E 0px, #C8102E 12px, 
+    #FAF5EE 12px, #FAF5EE 24px, 
+    #15803D 24px, #15803D 36px, 
+    #FAF5EE 36px, #FAF5EE 48px);
 }
 
 /* Custom Scrollbars */
 ::-webkit-scrollbar {
-  width: 8px;
-  height: 8px;
+  width: 9px;
+  height: 9px;
 }
 ::-webkit-scrollbar-track {
   background: var(--bg-base);
@@ -68,9 +108,10 @@ body {
 ::-webkit-scrollbar-thumb {
   background: var(--bg-surface-elevated);
   border-radius: 4px;
+  border: 1px solid var(--vintage-border);
 }
 ::-webkit-scrollbar-thumb:hover {
-  background: var(--text-muted);
+  background: var(--mozzarella-gold-dark);
 }
 
 /* Typography Utilities */
@@ -79,8 +120,8 @@ body {
   font-feature-settings: 'tnum' on, 'zero' on;
 }
 
-.font-display {
-  font-family: var(--font-display);
+.font-serif, .font-display {
+  font-family: var(--font-serif);
 }
 
 .container {
@@ -90,47 +131,50 @@ body {
   padding: 0 clamp(1rem, 3.5vw, 2.5rem);
 }
 
-/* Cards */
+/* Cards with Italian Pizzeria Character */
 .pizzeria-card {
   background: var(--bg-surface);
-  border: 1px solid var(--charcoal-border);
+  border: 1px solid var(--vintage-border);
   border-radius: var(--radius-md);
   box-shadow: var(--shadow-card);
   position: relative;
-  transition: border-color 0.2s ease, box-shadow 0.2s ease;
+  transition: border-color 0.25s ease, box-shadow 0.25s ease, transform 0.2s ease;
 }
 
 .pizzeria-card-elevated {
   background: var(--bg-surface-elevated);
-  border: 1px solid var(--charcoal-border);
+  border: 1px solid var(--vintage-border-gold);
   border-radius: var(--radius-md);
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5);
 }
 
-/* Buttons */
+/* Buttons with Tactile Italian Charm */
 .btn-primary {
   display: inline-flex;
   align-items: center;
   justify-content: center;
   gap: 0.5rem;
-  background: var(--ember-red);
+  background: linear-gradient(135deg, var(--italian-red), var(--italian-red-dark));
   color: #FFFFFF;
-  font-weight: 700;
+  font-family: var(--font-sans);
+  font-weight: 800;
   font-size: 0.92rem;
   padding: 0.75rem 1.4rem;
   border-radius: var(--radius-sm);
-  border: none;
+  border: 1px solid rgba(255, 255, 255, 0.2);
   cursor: pointer;
-  box-shadow: 0 4px 14px var(--ember-red-glow);
+  box-shadow: 0 4px 15px var(--italian-red-glow), inset 0 1px 0 rgba(255, 255, 255, 0.25);
   transition: transform 0.12s ease, background 0.15s ease, box-shadow 0.15s ease;
   text-decoration: none;
+  text-shadow: 0 1px 2px rgba(0,0,0,0.5);
 }
 .btn-primary:hover {
-  background: #E5452B;
-  box-shadow: 0 6px 20px rgba(217, 56, 30, 0.4);
+  background: linear-gradient(135deg, #DC2626, #B91C1C);
+  box-shadow: 0 6px 22px rgba(200, 16, 46, 0.55), inset 0 1px 0 rgba(255, 255, 255, 0.35);
   transform: translateY(-1px);
 }
 .btn-primary:active {
-  transform: scale(0.96);
+  transform: scale(0.97);
 }
 
 .btn-secondary {
@@ -140,36 +184,51 @@ body {
   gap: 0.5rem;
   background: var(--bg-surface-elevated);
   color: var(--text-primary);
-  font-weight: 600;
+  font-family: var(--font-sans);
+  font-weight: 700;
   font-size: 0.85rem;
-  padding: 0.6rem 1.1rem;
+  padding: 0.6rem 1.15rem;
   border-radius: var(--radius-sm);
-  border: 1px solid var(--charcoal-border);
+  border: 1px solid var(--vintage-border);
   cursor: pointer;
-  transition: transform 0.12s ease, background 0.15s ease, border-color 0.15s ease;
+  transition: transform 0.12s ease, background 0.15s ease, border-color 0.15s ease, color 0.15s ease;
   text-decoration: none;
 }
 .btn-secondary:hover {
   background: var(--bg-surface-hover);
-  border-color: var(--charcoal-border-focus);
+  border-color: var(--mozzarella-gold);
+  color: #FFFFFF;
 }
 .btn-secondary:active {
-  transform: scale(0.96);
+  transform: scale(0.97);
 }
 
 .btn-accent-gold {
-  background: linear-gradient(135deg, var(--honey-gold), #D97706);
-  color: #111215;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.4rem;
+  background: linear-gradient(135deg, var(--mozzarella-gold), var(--mozzarella-gold-dark));
+  color: #12100E;
+  font-family: var(--font-sans);
   font-weight: 800;
-  border: none;
-  box-shadow: 0 4px 15px var(--honey-gold-glow);
+  border-radius: var(--radius-sm);
+  border: 1px solid rgba(255, 255, 255, 0.3);
+  cursor: pointer;
+  box-shadow: 0 4px 15px var(--mozzarella-gold-glow), inset 0 1px 0 rgba(255, 255, 255, 0.4);
+  transition: all 0.15s ease;
+  text-decoration: none;
 }
 .btn-accent-gold:hover {
   background: linear-gradient(135deg, #FBBF24, #B45309);
-  box-shadow: 0 6px 20px rgba(245, 166, 35, 0.4);
+  box-shadow: 0 6px 22px rgba(245, 158, 11, 0.5);
+  transform: translateY(-1px);
+}
+.btn-accent-gold:active {
+  transform: scale(0.97);
 }
 
-/* Badges */
+/* Badges & Medallions */
 .badge {
   display: inline-flex;
   align-items: center;
@@ -177,34 +236,34 @@ body {
   font-family: var(--font-mono);
   font-size: 0.72rem;
   font-weight: 700;
-  padding: 0.25rem 0.6rem;
+  padding: 0.25rem 0.65rem;
   border-radius: var(--radius-full);
   letter-spacing: 0.02em;
   text-transform: uppercase;
 }
 
 .badge-red {
-  background: rgba(217, 56, 30, 0.15);
-  color: #FF5A43;
-  border: 1px solid rgba(217, 56, 30, 0.3);
+  background: rgba(200, 16, 46, 0.18);
+  color: #FF6B57;
+  border: 1px solid rgba(200, 16, 46, 0.45);
 }
 
 .badge-green {
-  background: rgba(27, 138, 90, 0.15);
-  color: #34D399;
-  border: 1px solid rgba(27, 138, 90, 0.3);
+  background: rgba(21, 128, 61, 0.18);
+  color: #4ADE80;
+  border: 1px solid rgba(21, 128, 61, 0.45);
 }
 
 .badge-gold {
-  background: rgba(245, 166, 35, 0.15);
+  background: rgba(245, 158, 11, 0.18);
   color: #FBBF24;
-  border: 1px solid rgba(245, 166, 35, 0.3);
+  border: 1px solid rgba(245, 158, 11, 0.45);
 }
 
 .badge-muted {
-  background: rgba(255, 255, 255, 0.06);
+  background: rgba(250, 245, 238, 0.08);
   color: var(--text-secondary);
-  border: 1px solid var(--charcoal-border);
+  border: 1px solid var(--vintage-border);
 }
 
 /* Time-of-Day Activity Surge Markers */
@@ -212,7 +271,7 @@ body {
   display: flex;
   align-items: center;
   justify-content: space-between;
-  padding: 0.85rem 1.25rem;
+  padding: 0.95rem 1.35rem;
   border-radius: var(--radius-sm);
   margin-bottom: 1.25rem;
   font-size: 0.85rem;
@@ -220,23 +279,23 @@ body {
 }
 
 .surge-box-peak {
-  background: linear-gradient(135deg, rgba(217, 56, 30, 0.15), rgba(24, 26, 32, 0.9));
-  border: 1px solid rgba(217, 56, 30, 0.4);
-  box-shadow: 0 0 20px rgba(217, 56, 30, 0.15);
+  background: linear-gradient(135deg, rgba(200, 16, 46, 0.2), rgba(28, 25, 23, 0.95));
+  border: 1px solid rgba(200, 16, 46, 0.5);
+  box-shadow: 0 0 25px rgba(200, 16, 46, 0.2);
 }
 
 .surge-box-slow {
-  background: linear-gradient(135deg, rgba(27, 138, 90, 0.15), rgba(24, 26, 32, 0.9));
-  border: 1px solid rgba(27, 138, 90, 0.4);
-  box-shadow: 0 0 20px rgba(27, 138, 90, 0.15);
+  background: linear-gradient(135deg, rgba(21, 128, 61, 0.2), rgba(28, 25, 23, 0.95));
+  border: 1px solid rgba(21, 128, 61, 0.5);
+  box-shadow: 0 0 25px rgba(21, 128, 61, 0.2);
 }
 
 .surge-box-standard {
-  background: linear-gradient(135deg, rgba(245, 166, 35, 0.12), rgba(24, 26, 32, 0.9));
-  border: 1px solid rgba(245, 166, 35, 0.3);
+  background: linear-gradient(135deg, rgba(245, 158, 11, 0.15), rgba(28, 25, 23, 0.95));
+  border: 1px solid rgba(245, 158, 11, 0.4);
 }
 
-/* Menu Option Cards in Wizard / Creator */
+/* 5 Menu Cooking Option Cards Grid */
 .menu-options-grid {
   display: grid;
   grid-template-columns: repeat(auto-fit, minmax(min(100%, 280px), 1fr));
@@ -246,11 +305,11 @@ body {
 
 .menu-option-card {
   background: var(--bg-surface);
-  border: 2px solid var(--charcoal-border);
+  border: 2px solid var(--vintage-border);
   border-radius: var(--radius-md);
   padding: 1.25rem;
   cursor: pointer;
-  transition: all 0.2s cubic-bezier(0.16, 1, 0.3, 1);
+  transition: all 0.22s cubic-bezier(0.16, 1, 0.3, 1);
   display: flex;
   flex-direction: column;
   justify-content: space-between;
@@ -260,28 +319,28 @@ body {
 
 .menu-option-card:hover {
   background: var(--bg-surface-elevated);
-  border-color: rgba(245, 166, 35, 0.4);
+  border-color: rgba(245, 158, 11, 0.5);
   transform: translateY(-2px);
-  box-shadow: 0 8px 25px rgba(0, 0, 0, 0.4);
+  box-shadow: 0 10px 25px rgba(0, 0, 0, 0.5);
 }
 
 .menu-option-card.selected {
-  background: linear-gradient(145deg, rgba(245, 166, 35, 0.1), var(--bg-surface-elevated));
-  border-color: var(--honey-gold);
-  box-shadow: 0 0 0 2px rgba(245, 166, 35, 0.4), 0 8px 25px rgba(245, 166, 35, 0.15);
+  background: linear-gradient(145deg, rgba(245, 158, 11, 0.12), var(--bg-surface-elevated));
+  border-color: var(--mozzarella-gold);
+  box-shadow: 0 0 0 2px rgba(245, 158, 11, 0.45), 0 10px 25px rgba(245, 158, 11, 0.2);
 }
 
 .menu-option-card.selected::after {
-  content: '✓ SELECTED';
+  content: '★ SPECIALITA';
   position: absolute;
   top: 10px;
   right: 10px;
   font-family: var(--font-mono);
   font-size: 0.65rem;
   font-weight: 800;
-  background: var(--honey-gold);
-  color: #111215;
-  padding: 0.2rem 0.5rem;
+  background: var(--mozzarella-gold);
+  color: #12100E;
+  padding: 0.2rem 0.55rem;
   border-radius: var(--radius-full);
 }
 
@@ -292,11 +351,11 @@ body {
   font-family: var(--font-mono);
   font-size: 0.75rem;
   font-weight: 800;
-  background: rgba(245, 166, 35, 0.15);
-  color: var(--honey-gold);
+  background: rgba(245, 158, 11, 0.18);
+  color: var(--mozzarella-gold);
   padding: 0.2rem 0.6rem;
   border-radius: var(--radius-sm);
-  border: 1px solid rgba(245, 166, 35, 0.3);
+  border: 1px solid rgba(245, 158, 11, 0.4);
 }
 
 /* Time-of-Day Filter Tabs */
@@ -309,12 +368,12 @@ body {
 
 .time-pill-btn {
   background: var(--bg-surface-elevated);
-  border: 1px solid var(--charcoal-border);
+  border: 1px solid var(--vintage-border);
   color: var(--text-secondary);
   font-family: var(--font-mono);
   font-size: 0.75rem;
   font-weight: 600;
-  padding: 0.4rem 0.8rem;
+  padding: 0.4rem 0.85rem;
   border-radius: var(--radius-full);
   cursor: pointer;
   transition: all 0.15s ease;
@@ -323,33 +382,34 @@ body {
 .time-pill-btn:hover {
   background: var(--bg-surface-hover);
   color: #FFF;
+  border-color: var(--mozzarella-gold);
 }
 
 .time-pill-btn.active {
-  background: var(--honey-gold);
-  color: #111215;
-  border-color: var(--honey-gold);
+  background: var(--mozzarella-gold);
+  color: #12100E;
+  border-color: var(--mozzarella-gold);
   font-weight: 800;
 }
 
 /* Animations */
 @keyframes ovenFlicker {
   0%, 100% {
-    box-shadow: 0 0 20px rgba(217, 56, 30, 0.2), inset 0 0 15px rgba(245, 166, 35, 0.15);
+    box-shadow: 0 0 25px rgba(200, 16, 46, 0.25), inset 0 0 20px rgba(245, 158, 11, 0.2);
   }
   50% {
-    box-shadow: 0 0 35px rgba(217, 56, 30, 0.45), inset 0 0 25px rgba(245, 166, 35, 0.3);
+    box-shadow: 0 0 45px rgba(200, 16, 46, 0.55), inset 0 0 30px rgba(245, 158, 11, 0.35);
   }
 }
 
 @keyframes pulseReady {
   0%, 100% {
     transform: scale(1);
-    box-shadow: 0 0 0 0 rgba(27, 138, 90, 0.5);
+    box-shadow: 0 0 0 0 rgba(21, 128, 61, 0.6);
   }
   50% {
     transform: scale(1.015);
-    box-shadow: 0 0 0 12px rgba(27, 138, 90, 0);
+    box-shadow: 0 0 0 14px rgba(21, 128, 61, 0);
   }
 }
 
@@ -382,8 +442,8 @@ body {
   left: 0;
   width: 100%;
   height: 100%;
-  background: rgba(10, 11, 14, 0.85);
-  backdrop-filter: blur(10px);
+  background: rgba(10, 9, 8, 0.88);
+  backdrop-filter: blur(12px);
   display: flex;
   align-items: center;
   justify-content: center;
@@ -401,35 +461,49 @@ body {
 
 .order-creator-paper {
   background: var(--bg-surface);
-  border: 1px solid var(--charcoal-border-focus);
+  border: 1px solid var(--vintage-border-gold);
   color: var(--text-primary);
   width: 100%;
-  max-width: 860px;
+  max-width: 890px;
   border-radius: var(--radius-lg);
   padding: clamp(1.5rem, 3vw, 2.25rem);
-  box-shadow: 0 30px 60px rgba(0, 0, 0, 0.8);
+  box-shadow: 0 35px 70px rgba(0, 0, 0, 0.85), 0 0 0 1px var(--vintage-border-gold);
   position: relative;
   max-height: 92vh;
   overflow-y: auto;
 }
 
+/* Classic Italian Pizzeria Thermal Guest Check Receipt */
 .receipt-paper {
-  background: #FFFFFF;
-  color: #111215;
+  background: #FFFDF9;
+  color: #1A1816;
   width: 100%;
-  max-width: 420px;
+  max-width: 430px;
   border-radius: 8px;
-  padding: 2rem 1.75rem;
+  padding: 2.25rem 2rem;
   font-family: var(--font-mono);
-  box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.7);
+  box-shadow: 0 25px 60px -10px rgba(0, 0, 0, 0.8), 0 0 0 1px #E5E0D8;
   position: relative;
   max-height: 90vh;
   overflow-y: auto;
 }
 
 .receipt-divider {
-  border-bottom: 2px dashed #D1D5DB;
-  margin: 1rem 0;
+  border-bottom: 2px dashed #C4BDB0;
+  margin: 1.15rem 0;
+}
+
+.receipt-stamp {
+  display: inline-block;
+  border: 2px solid var(--italian-red);
+  color: var(--italian-red);
+  font-weight: 900;
+  font-size: 0.85rem;
+  padding: 0.25rem 0.75rem;
+  border-radius: 4px;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  transform: rotate(-5deg);
 }
 
 /* Print Stylesheet */

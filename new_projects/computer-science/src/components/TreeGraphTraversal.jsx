@@ -1,454 +1,236 @@
-import React, { useState, useEffect, useRef } from 'react';
-import { GitBranch, Play, Pause, SkipForward, RotateCcw, ArrowRight, CornerDownRight, ShieldCheck, Zap } from 'lucide-react';
-import { TREE_DATA } from '../utils/csData';
+import React, { useState } from 'react';
+import { Play, RotateCcw, ChevronRight, Share2, Layers, CheckCircle, Database, Network } from 'lucide-react';
 import { SoundEngine } from '../utils/soundEngine';
 
+// Graph Definition (7 Vertices)
+const GRAPH_NODES = [
+  { id: 'A', label: 'A (Source)', x: 80, y: 130 },
+  { id: 'B', label: 'B', x: 200, y: 60 },
+  { id: 'C', label: 'C', x: 200, y: 200 },
+  { id: 'D', label: 'D', x: 340, y: 60 },
+  { id: 'E', label: 'E', x: 340, y: 200 },
+  { id: 'F', label: 'F', x: 460, y: 130 },
+];
+
+const GRAPH_EDGES = [
+  ['A', 'B'], ['A', 'C'],
+  ['B', 'D'], ['C', 'E'],
+  ['D', 'E'], ['D', 'F'],
+  ['E', 'F']
+];
+
+const ADJ_LIST = {
+  A: ['B', 'C'],
+  B: ['A', 'D'],
+  C: ['A', 'E'],
+  D: ['B', 'E', 'F'],
+  E: ['C', 'D', 'F'],
+  F: ['D', 'E']
+};
+
 export function TreeGraphTraversal() {
-  const [traversalType, setTraversalType] = useState('bfs'); // 'bfs' | 'dfs_pre' | 'dfs_post'
+  const [visited, setVisited] = useState(['A']);
+  const [queue, setQueue] = useState(['A']);
+  const [distances, setDistances] = useState({ A: 0, B: null, C: null, D: null, E: null, F: null });
+  const [activeNode, setActiveNode] = useState('A');
   const [stepIndex, setStepIndex] = useState(0);
-  const [isPlaying, setIsPlaying] = useState(false);
-  const [activeEdgeId, setActiveEdgeId] = useState(null);
+  const [viewFormat, setViewFormat] = useState('list'); // 'list' | 'matrix'
+  const [explanation, setExplanation] = useState('BFS starts at source vertex A with distance 0 and enqueues its neighbors.');
+  const [isFinished, setIsFinished] = useState(false);
 
-  // Generate Traversal Step Sequence
-  const generateSequence = (type) => {
-    const steps = [];
-    const adj = TREE_DATA.adjList;
-
-    if (type === 'bfs') {
-      // BFS with FIFO Queue
-      const queue = ['1'];
-      const visited = [];
-      const edgeHistory = [];
-
-      steps.push({
-        action: 'Enqueue root node [1]',
-        queue: [...queue],
-        stack: null,
-        visited: [...visited],
-        currentNode: null,
-        activeEdge: null
-      });
-
-      while (queue.length > 0) {
-        const curr = queue.shift();
-        visited.push(curr);
-
-        steps.push({
-          action: `Dequeue node [${curr}] -> Mark as VISITED`,
-          queue: [...queue],
-          stack: null,
-          visited: [...visited],
-          currentNode: curr,
-          activeEdge: null
-        });
-
-        const neighbors = adj[curr] || [];
-        for (const neighbor of neighbors) {
-          queue.push(neighbor);
-          const edge = `e${curr}-${neighbor}`;
-          steps.push({
-            action: `Discover edge (${curr} → ${neighbor}) -> Enqueue [${neighbor}]`,
-            queue: [...queue],
-            stack: null,
-            visited: [...visited],
-            currentNode: curr,
-            activeEdge: edge
-          });
-        }
-      }
-    } else if (type === 'dfs_pre') {
-      // DFS Pre-Order (LIFO Stack)
-      const stack = ['1'];
-      const visited = [];
-
-      steps.push({
-        action: 'Push root node [1] to Stack',
-        queue: null,
-        stack: [...stack],
-        visited: [...visited],
-        currentNode: null,
-        activeEdge: null
-      });
-
-      while (stack.length > 0) {
-        const curr = stack.pop();
-        visited.push(curr);
-
-        steps.push({
-          action: `Pop node [${curr}] from Stack -> Process`,
-          queue: null,
-          stack: [...stack],
-          visited: [...visited],
-          currentNode: curr,
-          activeEdge: null
-        });
-
-        const neighbors = [...(adj[curr] || [])].reverse(); // reverse for left-first in stack
-        for (const neighbor of neighbors) {
-          stack.push(neighbor);
-          const edge = `e${curr}-${neighbor}`;
-          steps.push({
-            action: `Traverse edge (${curr} → ${neighbor}) -> Push [${neighbor}] to Stack`,
-            queue: null,
-            stack: [...stack],
-            visited: [...visited],
-            currentNode: curr,
-            activeEdge: edge
-          });
-        }
-      }
-    } else {
-      // DFS Post-Order (Recursive Left -> Right -> Root)
-      const visited = [];
-      const stack = [];
-
-      function dfsPost(node) {
-        stack.push(node);
-        steps.push({
-          action: `Enter node [${node}] (Explore subtrees first)`,
-          queue: null,
-          stack: [...stack],
-          visited: [...visited],
-          currentNode: node,
-          activeEdge: null
-        });
-
-        const children = adj[node] || [];
-        for (const child of children) {
-          steps.push({
-            action: `Traverse down (${node} → ${child})`,
-            queue: null,
-            stack: [...stack],
-            visited: [...visited],
-            currentNode: node,
-            activeEdge: `e${node}-${child}`
-          });
-          dfsPost(child);
-        }
-
-        visited.push(node);
-        stack.pop();
-        steps.push({
-          action: `All subtrees resolved. Visit node [${node}] (Post-Order)`,
-          queue: null,
-          stack: [...stack],
-          visited: [...visited],
-          currentNode: node,
-          activeEdge: null
-        });
-      }
-
-      dfsPost('1');
-    }
-
-    return steps;
-  };
-
-  const steps = React.useMemo(() => generateSequence(traversalType), [traversalType]);
-
-  const currentStep = steps[stepIndex] || steps[0] || {
-    action: 'Ready',
-    queue: [],
-    stack: [],
-    visited: [],
-    currentNode: null,
-    activeEdge: null
-  };
-
-  // Timer loop
-  useEffect(() => {
-    let timer = null;
-    if (isPlaying) {
-      timer = setInterval(() => {
-        setStepIndex((prev) => {
-          if (prev >= steps.length - 1) {
-            setIsPlaying(false);
-            SoundEngine.playSuccess();
-            return prev;
-          }
-          const next = prev + 1;
-          const s = steps[next];
-          if (s && s.currentNode) {
-            SoundEngine.playNodeVisit(parseInt(s.currentNode, 10));
-          }
-          return next;
-        });
-      }, 700);
-    }
-    return () => {
-      if (timer) clearInterval(timer);
-    };
-  }, [isPlaying, steps]);
-
-  const handleTypeChange = (type) => {
+  const resetBfs = () => {
     SoundEngine.playClick();
-    setIsPlaying(false);
-    setTraversalType(type);
+    setVisited(['A']);
+    setQueue(['A']);
+    setDistances({ A: 0, B: null, C: null, D: null, E: null, F: null });
+    setActiveNode('A');
     setStepIndex(0);
+    setIsFinished(false);
+    setExplanation('Initialized Breadth-First Search at source vertex A (distance 0).');
   };
 
-  const handleStepForward = () => {
-    if (stepIndex < steps.length - 1) {
-      const next = stepIndex + 1;
-      const s = steps[next];
-      if (s && s.currentNode) {
-        SoundEngine.playNodeVisit(parseInt(s.currentNode, 10));
+  const stepBfs = () => {
+    if (isFinished || queue.length === 0) {
+      setIsFinished(true);
+      SoundEngine.playFanfare();
+      setExplanation('BFS Traversal Complete! All reachable vertices discovered with optimal shortest paths.');
+      return;
+    }
+
+    SoundEngine.playPop();
+    const current = queue[0];
+    const newQueue = queue.slice(1);
+    setActiveNode(current);
+
+    const neighbors = ADJ_LIST[current] || [];
+    const newDist = { ...distances };
+    const newlyDiscovered = [];
+
+    neighbors.forEach(nbr => {
+      if (!visited.includes(nbr)) {
+        visited.push(nbr);
+        newQueue.push(nbr);
+        newDist[nbr] = newDist[current] + 1;
+        newlyDiscovered.push(nbr);
       }
-      setStepIndex(next);
+    });
+
+    setVisited([...visited]);
+    setQueue(newQueue);
+    setDistances(newDist);
+    setStepIndex(prev => prev + 1);
+
+    if (newlyDiscovered.length > 0) {
+      setExplanation(`Visited vertex ${current}. Enqueued unvisited neighbors [${newlyDiscovered.join(', ')}] with distance ${newDist[current] + 1}.`);
     } else {
-      SoundEngine.playSuccess();
+      setExplanation(`Visited vertex ${current}. All its neighbors were already discovered.`);
+    }
+
+    if (newQueue.length === 0) {
+      setIsFinished(true);
+      SoundEngine.playFanfare();
     }
   };
-
-  const handleStepBack = () => {
-    if (stepIndex > 0) {
-      SoundEngine.playClick();
-      setStepIndex(stepIndex - 1);
-    }
-  };
-
-  const handleReset = () => {
-    SoundEngine.playClick();
-    setIsPlaying(false);
-    setStepIndex(0);
-  };
-
-  const togglePlay = () => {
-    SoundEngine.playClick();
-    if (stepIndex >= steps.length - 1) {
-      setStepIndex(0);
-    }
-    setIsPlaying(!isPlaying);
-  };
-
-  // Node position helper
-  const getNode = (id) => TREE_DATA.nodes.find(n => n.id === id);
 
   return (
-    <section id="trees" className="section-wrapper" style={{ background: '#FFFFFF' }}>
+    <section id="graphs" className="section-padding" style={{
+      background: 'var(--bg-paper)',
+      borderBottom: 'var(--border-thick)'
+    }}>
       <div className="container">
+
         {/* Section Header */}
-        <div className="section-header">
-          <div className="section-tag">
-            <GitBranch size={14} /> CONCEPT 03 // GRAPH & TREE TOPOLOGY
+        <div style={{ marginBottom: '2.5rem' }}>
+          <div style={{ display: 'flex', alignItems: 'center', gap: '0.5rem', marginBottom: '0.5rem' }}>
+            <span className="brutal-badge brutal-badge-blue font-mono" style={{ fontSize: '0.8rem' }}>
+              UNIT 07 // KHAN ALGORITHMS
+            </span>
+            <span className="brutal-badge brutal-badge-yellow font-mono" style={{ fontSize: '0.8rem' }}>
+              GRAPH REPRESENTATION &amp; BREADTH-FIRST SEARCH
+            </span>
           </div>
-          <h2 className="section-title">
-            GRAPH & BINARY TREE <span style={{ color: 'var(--cobalt-blue)' }}>TRAVERSALS</span>
+
+          <h2 style={{
+            fontFamily: 'var(--font-display)',
+            fontSize: 'clamp(2rem, 4vw, 3.25rem)',
+            fontWeight: 900,
+            lineHeight: 1.1,
+            letterSpacing: '-0.02em',
+            marginBottom: '1rem'
+          }}>
+            GRAPH ALGORITHMS: BREADTH-FIRST SEARCH (BFS)
           </h2>
-          <p className="section-subtitle">
-            Traversals define how computation navigates non-linear discrete topology. Compare level-by-level queue expansion (BFS) against depth-first stack descent (DFS).
+
+          <p style={{
+            fontFamily: 'var(--font-body)',
+            fontSize: '1.1rem',
+            color: 'var(--text-muted)',
+            maxWidth: '850px',
+            lineHeight: 1.6
+          }}>
+            Graphs model pairwise relationships between objects (vertices connected by edges). <strong>Breadth-First Search (BFS)</strong> traverses a graph level-by-level using a FIFO Queue to find the <strong>shortest path (minimum number of edges)</strong> from a source vertex.
           </p>
         </div>
 
-        {/* Algorithm Type Selector Tabs */}
-        <div style={{ display: 'flex', gap: '0.75rem', flexWrap: 'wrap', marginBottom: '1.5rem' }}>
-          {[
-            { id: 'bfs', label: 'BREADTH-FIRST SEARCH [BFS (QUEUE)]', color: 'var(--cobalt-blue)' },
-            { id: 'dfs_pre', label: 'DEPTH-FIRST SEARCH [DFS (PRE-ORDER)]', color: 'var(--vermilion-red)' },
-            { id: 'dfs_post', label: 'DEPTH-FIRST SEARCH [DFS (POST-ORDER)]', color: 'var(--canary-yellow)' },
-          ].map((tab) => {
-            const isSelected = traversalType === tab.id;
-            return (
-              <button
-                key={tab.id}
-                onClick={() => handleTypeChange(tab.id)}
-                className="brutal-btn"
-                style={{
-                  background: isSelected ? tab.color : 'var(--bg-card)',
-                  color: isSelected && tab.id !== 'dfs_post' ? '#FFFFFF' : '#0A0A0A',
-                  borderColor: '#0A0A0A',
-                  boxShadow: isSelected ? 'var(--shadow-hover-md)' : 'var(--shadow-md)',
-                  fontWeight: 800
-                }}
-              >
-                {tab.label}
-              </button>
-            );
-          })}
-        </div>
-
-        {/* Main Grid: SVG Tree Canvas & Data Structure Monitor */}
+        {/* 2-Column Main Workspace */}
         <div style={{
           display: 'grid',
-          gridTemplateColumns: 'repeat(auto-fit, minmax(min(100%, 520px), 1fr))',
-          gap: 'clamp(1.5rem, 3vw, 2.5rem)',
+          gridTemplateColumns: 'repeat(auto-fit, minmax(320px, 1fr))',
+          gap: '2rem',
           alignItems: 'start'
         }}>
-          {/* Left Column: Interactive Vector Tree Canvas */}
-          <div className="brutal-card" style={{
-            background: 'var(--bg-card)',
-            border: 'var(--border-thick)',
-            boxShadow: 'var(--shadow-lg)',
-            padding: '1.25rem'
-          }}>
-            {/* Control Header */}
-            <div style={{
-              display: 'flex',
-              justifyContent: 'space-between',
-              alignItems: 'center',
-              borderBottom: 'var(--border-solid)',
-              paddingBottom: '0.75rem',
-              marginBottom: '1rem',
-              flexWrap: 'wrap',
-              gap: '0.5rem'
-            }}>
-              <span className="font-mono" style={{ fontWeight: 800, fontSize: '0.85rem' }}>
-                // TOPOLOGICAL VECTOR CANVAS
+
+          {/* Left Column: Interactive Graph Canvas */}
+          <div className="brutal-card" style={{ background: '#FFF' }}>
+            
+            {/* Stepper Header */}
+            <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '1rem', flexWrap: 'wrap', gap: '0.5rem' }}>
+              <span className="brutal-badge brutal-badge-mint font-mono" style={{ fontSize: '0.75rem' }}>
+                BFS LEVEL-ORDER QUEUE SIMULATOR
               </span>
 
-              {/* Step Controls */}
-              <div style={{ display: 'flex', gap: '0.4rem' }}>
+              <div style={{ display: 'flex', gap: '0.5rem' }}>
                 <button
-                  onClick={togglePlay}
-                  className={`brutal-btn brutal-btn-sm ${isPlaying ? 'brutal-btn-danger' : 'brutal-btn-primary'}`}
+                  onClick={stepBfs}
+                  disabled={isFinished}
+                  className="brutal-btn brutal-btn-red"
+                  style={{ padding: '0.45rem 0.85rem' }}
                 >
-                  {isPlaying ? <Pause size={13} /> : <Play size={13} />}
-                  <span>{isPlaying ? 'PAUSE' : 'RUN'}</span>
+                  <ChevronRight size={15} /> STEP BFS
                 </button>
                 <button
-                  onClick={handleStepBack}
-                  disabled={stepIndex === 0 || isPlaying}
+                  onClick={() => resetBfs()}
                   className="brutal-btn brutal-btn-sm"
+                  style={{ background: '#E5E5E5' }}
                 >
-                  ◀
-                </button>
-                <button
-                  onClick={handleStepForward}
-                  disabled={stepIndex >= steps.length - 1 || isPlaying}
-                  className="brutal-btn brutal-btn-accent brutal-btn-sm"
-                >
-                  ▶ STEP
-                </button>
-                <button
-                  onClick={handleReset}
-                  className="brutal-btn brutal-btn-sm"
-                >
-                  <RotateCcw size={13} />
+                  <RotateCcw size={15} />
                 </button>
               </div>
             </div>
 
-            {/* SVG Tree Vector Graph */}
-            <div style={{ position: 'relative', width: '100%', overflow: 'hidden' }}>
-              <svg
-                viewBox="0 0 600 390"
-                style={{ width: '100%', height: 'auto', display: 'block', background: 'var(--bg-paper)', border: 'var(--border-solid)' }}
-              >
+            {/* SVG Graph View */}
+            <div style={{ background: '#0A0A0A', border: '2px solid #000', borderRadius: '2px', padding: '0.5rem', marginBottom: '1.25rem' }}>
+              <svg viewBox="0 0 540 260" style={{ width: '100%', height: 'auto', display: 'block' }}>
+                
                 {/* Edges */}
-                {TREE_DATA.edges.map((edge) => {
-                  const fromNode = getNode(edge.from);
-                  const toNode = getNode(edge.to);
-                  const isActiveEdge = currentStep.activeEdge === edge.id;
-                  const isTraversed = currentStep.visited.includes(edge.from) && currentStep.visited.includes(edge.to);
-
+                {GRAPH_EDGES.map(([u, v], i) => {
+                  const n1 = GRAPH_NODES.find(n => n.id === u);
+                  const n2 = GRAPH_NODES.find(n => n.id === v);
+                  const isTraversed = visited.includes(u) && visited.includes(v);
                   return (
-                    <g key={edge.id}>
-                      {/* Base Edge Line */}
-                      <line
-                        x1={fromNode.x}
-                        y1={fromNode.y}
-                        x2={toNode.x}
-                        y2={toNode.y}
-                        stroke={isActiveEdge ? 'var(--vermilion-red)' : isTraversed ? 'var(--cobalt-blue)' : '#0A0A0A'}
-                        strokeWidth={isActiveEdge ? '5' : isTraversed ? '3.5' : '2'}
-                        strokeDasharray={isActiveEdge ? '6 4' : 'none'}
-                        style={{ transition: 'all 0.2s ease' }}
-                      />
-
-                      {/* Edge Pulse Wave Particle */}
-                      {isActiveEdge && (
-                        <circle
-                          r="6"
-                          fill="var(--canary-yellow)"
-                          stroke="#000"
-                          strokeWidth="2"
-                        >
-                          <animate
-                            attributeName="cx"
-                            from={fromNode.x}
-                            to={toNode.x}
-                            dur="0.6s"
-                            repeatCount="indefinite"
-                          />
-                          <animate
-                            attributeName="cy"
-                            from={fromNode.y}
-                            to={toNode.y}
-                            dur="0.6s"
-                            repeatCount="indefinite"
-                          />
-                        </circle>
-                      )}
-                    </g>
+                    <line
+                      key={i}
+                      x1={n1.x}
+                      y1={n1.y}
+                      x2={n2.x}
+                      y2={n2.y}
+                      stroke={isTraversed ? 'var(--canary-yellow)' : '#444'}
+                      strokeWidth={isTraversed ? 3 : 1.5}
+                    />
                   );
                 })}
 
-                {/* Nodes */}
-                {TREE_DATA.nodes.map((node) => {
-                  const isCurrent = currentStep.currentNode === node.id;
-                  const isVisited = currentStep.visited.includes(node.id);
-                  const isInQueue = currentStep.queue?.includes(node.id) || currentStep.stack?.includes(node.id);
+                {/* Vertices */}
+                {GRAPH_NODES.map((node) => {
+                  const isVis = visited.includes(node.id);
+                  const isAct = activeNode === node.id;
+                  const dist = distances[node.id];
 
-                  let fillColor = '#FFFFFF';
-                  if (isCurrent) fillColor = 'var(--canary-yellow)';
-                  else if (isVisited) fillColor = 'var(--emerald-mint)';
-                  else if (isInQueue) fillColor = 'var(--cobalt-blue)';
-
-                  const textColor = isInQueue && !isVisited && !isCurrent ? '#FFFFFF' : '#0A0A0A';
+                  let fillColor = '#1A1A1A';
+                  if (isAct) fillColor = 'var(--vermilion-red)';
+                  else if (isVis) fillColor = 'var(--emerald-mint)';
 
                   return (
-                    <g
-                      key={node.id}
-                      transform={`translate(${node.x}, ${node.y})`}
-                      style={{ cursor: 'pointer' }}
-                    >
-                      {/* Node Outer Halo on Current */}
-                      {isCurrent && (
-                        <circle
-                          r="26"
-                          fill="none"
-                          stroke="var(--vermilion-red)"
-                          strokeWidth="2"
-                          strokeDasharray="4 2"
-                          className="animate-spin-slow"
-                        />
-                      )}
-
-                      {/* Main Node Body (Bauhaus Geometric Primitives) */}
-                      <rect
-                        x="-18"
-                        y="-18"
-                        width="36"
-                        height="36"
-                        rx={node.type === 'circle' ? '18' : '2'}
+                    <g key={node.id} transform={`translate(${node.x}, ${node.y})`}>
+                      <circle
+                        r="20"
                         fill={fillColor}
-                        stroke="#0A0A0A"
-                        strokeWidth="2.5"
-                        style={{
-                          filter: 'drop-shadow(3px 3px 0px #0A0A0A)',
-                          transition: 'all 0.2s cubic-bezier(0.34, 1.56, 0.64, 1)'
-                        }}
+                        stroke="#FFF"
+                        strokeWidth="2"
                       />
-
-                      {/* Node Value Label */}
                       <text
-                        x="0"
-                        y="5"
                         textAnchor="middle"
-                        fill={textColor}
-                        fontFamily="var(--font-mono)"
-                        fontWeight="900"
-                        fontSize="14"
+                        dy="0.35em"
+                        fill={isAct || isVis ? '#000' : '#FFF'}
+                        fontFamily="monospace"
+                        fontWeight="bold"
+                        fontSize="13"
                       >
-                        {node.label}
+                        {node.id}
                       </text>
 
-                      {/* Visited Status Badge */}
-                      {isVisited && (
-                        <g transform="translate(10, -14)">
-                          <circle r="6" fill="var(--emerald-mint)" stroke="#000" strokeWidth="1.5" />
-                          <text x="0" y="3" textAnchor="middle" fill="#000" fontSize="8" fontWeight="900">✓</text>
-                        </g>
+                      {/* Distance Badge */}
+                      {dist !== null && (
+                        <text
+                          textAnchor="middle"
+                          dy="-1.8em"
+                          fill="var(--canary-yellow)"
+                          fontFamily="monospace"
+                          fontWeight="bold"
+                          fontSize="10"
+                        >
+                          d={dist}
+                        </text>
                       )}
                     </g>
                   );
@@ -456,165 +238,100 @@ export function TreeGraphTraversal() {
               </svg>
             </div>
 
-            {/* Current Step Description Narration */}
+            {/* Queue State */}
             <div style={{
-              marginTop: '1rem',
-              background: '#0A0A0A',
-              color: 'var(--canary-yellow)',
-              padding: '0.65rem 1rem',
+              background: 'var(--bg-paper)',
+              border: '2px solid #000',
+              padding: '0.85rem',
+              marginBottom: '1rem',
+              fontFamily: 'var(--font-mono)',
+              fontSize: '0.85rem',
+              display: 'flex',
+              alignItems: 'center',
+              justifyContent: 'space-between'
+            }}>
+              <span><strong>FIFO QUEUE:</strong> [ {queue.join(' ← ')} ]</span>
+              <span><strong>VISITED:</strong> {visited.length} / {GRAPH_NODES.length}</span>
+            </div>
+
+            {/* Explanation Banner */}
+            <div style={{
+              background: isFinished ? '#D1FAE5' : 'var(--bg-paper)',
+              border: '2px solid #000',
+              padding: '0.85rem',
               fontFamily: 'var(--font-mono)',
               fontSize: '0.85rem',
               fontWeight: 700,
-              display: 'flex',
-              alignItems: 'center',
-              gap: '0.5rem',
-              border: 'var(--border-solid)'
+              lineHeight: 1.5
             }}>
-              <Zap size={15} color="var(--canary-yellow)" />
-              <span>{currentStep.action}</span>
+              {explanation}
             </div>
+
           </div>
 
-          {/* Right Column: Live Data Structure & Visited Sequence */}
-          <div style={{ display: 'flex', flexDirection: 'column', gap: '1.25rem' }}>
-            {/* Live Data Structure (FIFO Queue / LIFO Stack) */}
-            <div className="brutal-card" style={{
-              background: 'var(--bg-card)',
-              border: 'var(--border-thick)',
-              boxShadow: 'var(--shadow-md)'
-            }}>
-              <div style={{
-                display: 'flex',
-                justifyContent: 'space-between',
-                alignItems: 'center',
-                borderBottom: 'var(--border-solid)',
-                paddingBottom: '0.5rem',
-                marginBottom: '1rem'
-              }}>
-                <span className="font-mono" style={{ fontWeight: 800, fontSize: '0.85rem' }}>
-                  ACTIVE CONTAINER: {traversalType === 'bfs' ? 'FIFO QUEUE' : 'LIFO STACK'}
-                </span>
-                <span className="brutal-pill pill-yellow">
-                  {traversalType === 'bfs' ? 'FIRST-IN-FIRST-OUT' : 'LAST-IN-FIRST-OUT'}
-                </span>
+          {/* Right Column: Representation Theory (Matrix vs List) */}
+          <div style={{ display: 'flex', flexDirection: 'column', gap: '1.5rem' }}>
+
+            <div className="brutal-card brutal-card-yellow">
+              <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '0.75rem' }}>
+                <h4 style={{ fontFamily: 'var(--font-display)', fontWeight: 900, fontSize: '1.1rem' }}>
+                  GRAPH REPRESENTATIONS
+                </h4>
+                <div style={{ display: 'flex', gap: '0.25rem' }}>
+                  <button
+                    onClick={() => setViewFormat('list')}
+                    className="brutal-btn brutal-btn-sm"
+                    style={{ background: viewFormat === 'list' ? '#000' : '#FFF', color: viewFormat === 'list' ? '#FFF' : '#000' }}
+                  >
+                    ADJ LIST
+                  </button>
+                  <button
+                    onClick={() => setViewFormat('matrix')}
+                    className="brutal-btn brutal-btn-sm"
+                    style={{ background: viewFormat === 'matrix' ? '#000' : '#FFF', color: viewFormat === 'matrix' ? '#FFF' : '#000' }}
+                  >
+                    MATRIX
+                  </button>
+                </div>
               </div>
 
-              {/* Elements in Queue/Stack */}
-              <div style={{
-                minHeight: '80px',
-                background: 'var(--bg-paper)',
-                border: 'var(--border-solid)',
-                padding: '0.75rem',
-                display: 'flex',
-                alignItems: 'center',
-                gap: '0.5rem',
-                overflowX: 'auto'
-              }}>
-                {(traversalType === 'bfs' ? currentStep.queue : currentStep.stack)?.length === 0 ? (
-                  <span className="font-mono" style={{ color: '#888', fontStyle: 'italic', fontSize: '0.85rem' }}>
-                    // Container Empty
-                  </span>
-                ) : (
-                  (traversalType === 'bfs' ? currentStep.queue : currentStep.stack)?.map((item, idx) => (
-                    <div
-                      key={idx}
-                      style={{
-                        minWidth: '42px',
-                        height: '42px',
-                        background: 'var(--cobalt-blue)',
-                        color: '#FFFFFF',
-                        border: '2px solid #0A0A0A',
-                        boxShadow: '2px 2px 0px #0A0A0A',
-                        display: 'flex',
-                        alignItems: 'center',
-                        justifyContent: 'center',
-                        fontFamily: 'var(--font-mono)',
-                        fontWeight: 900,
-                        fontSize: '1rem'
-                      }}
-                    >
-                      {item}
-                    </div>
-                  ))
-                )}
-              </div>
+              {viewFormat === 'list' ? (
+                <div>
+                  <p style={{ fontSize: '0.85rem', marginBottom: '0.5rem', color: '#111' }}>
+                    <strong>Adjacency List:</strong> Array of lists where `adj[u]` contains all adjacent neighbors. Space efficiency: <strong>Θ(V + E)</strong>.
+                  </p>
+                  <pre style={{ background: '#FFF', padding: '0.5rem', border: '1.5px solid #000', fontFamily: 'var(--font-mono)', fontSize: '0.75rem', lineHeight: 1.5 }}>
+                    {Object.entries(ADJ_LIST).map(([k, v]) => `${k} → [${v.join(', ')}]\n`).join('')}
+                  </pre>
+                </div>
+              ) : (
+                <div>
+                  <p style={{ fontSize: '0.85rem', marginBottom: '0.5rem', color: '#111' }}>
+                    <strong>Adjacency Matrix:</strong> 2D array of size $V \times V$ with boolean values. Space efficiency: <strong>Θ(V²)</strong>.
+                  </p>
+                  <div style={{ background: '#FFF', padding: '0.5rem', border: '1.5px solid #000', fontFamily: 'var(--font-mono)', fontSize: '0.75rem' }}>
+                    Fast $O(1)$ edge query, but wastes memory for sparse graphs.
+                  </div>
+                </div>
+              )}
             </div>
 
-            {/* Generated Visited Sequence Order */}
-            <div className="brutal-card" style={{
-              background: 'var(--bg-card)',
-              border: 'var(--border-thick)',
-              boxShadow: 'var(--shadow-md)'
-            }}>
-              <div style={{
-                display: 'flex',
-                justifyContent: 'space-between',
-                alignItems: 'center',
-                borderBottom: 'var(--border-solid)',
-                paddingBottom: '0.5rem',
-                marginBottom: '1rem'
-              }}>
-                <span className="font-mono" style={{ fontWeight: 800, fontSize: '0.85rem' }}>
-                  VISITATION OUTPUT ORDER
-                </span>
-                <span className="font-mono" style={{ fontSize: '0.8rem', fontWeight: 800, color: 'var(--emerald-mint)' }}>
-                  {currentStep.visited.length} / {TREE_DATA.nodes.length} PROCESSED
-                </span>
-              </div>
-
-              <div style={{
-                display: 'flex',
-                flexWrap: 'wrap',
-                gap: '0.5rem',
-                alignItems: 'center',
-                minHeight: '60px'
-              }}>
-                {currentStep.visited.length === 0 ? (
-                  <span className="font-mono" style={{ color: '#888', fontStyle: 'italic', fontSize: '0.85rem' }}>
-                    // No nodes visited yet. Click RUN to begin.
-                  </span>
-                ) : (
-                  currentStep.visited.map((nodeId, idx) => (
-                    <React.Fragment key={nodeId}>
-                      <div style={{
-                        width: '36px',
-                        height: '36px',
-                        background: 'var(--emerald-mint)',
-                        color: '#0A0A0A',
-                        border: '2px solid #0A0A0A',
-                        boxShadow: '2px 2px 0px #0A0A0A',
-                        display: 'flex',
-                        alignItems: 'center',
-                        justifyContent: 'center',
-                        fontFamily: 'var(--font-mono)',
-                        fontWeight: 900,
-                        fontSize: '0.9rem'
-                      }}>
-                        {nodeId}
-                      </div>
-                      {idx < currentStep.visited.length - 1 && (
-                        <ArrowRight size={14} color="#0A0A0A" />
-                      )}
-                    </React.Fragment>
-                  ))
-                )}
-              </div>
-            </div>
-
-            {/* Educational Invariant Box */}
-            <div className="brutal-card-dark" style={{ padding: '1rem', border: 'var(--border-solid)' }}>
-              <div className="font-mono" style={{ fontSize: '0.75rem', color: 'var(--canary-yellow)', fontWeight: 800, marginBottom: '0.35rem' }}>
-                // TOPOLOGICAL INVARIANT
-              </div>
-              <p style={{ fontSize: '0.85rem', color: '#EEE', lineHeight: 1.4 }}>
-                {traversalType === 'bfs' 
-                  ? 'BFS guarantees finding the shortest path on unweighted graphs because it visits every vertex at depth D before any vertex at depth D+1.'
-                  : 'DFS drives deep down branches before backtracking, using memory proportional to tree height O(H) rather than width O(W).'}
+            <div className="brutal-card brutal-card-blue">
+              <h4 style={{ fontFamily: 'var(--font-display)', fontWeight: 900, fontSize: '1.1rem', marginBottom: '0.5rem' }}>
+                BFS RUNNING TIME: O(V + E)
+              </h4>
+              <p style={{ fontSize: '0.85rem', lineHeight: 1.5, color: '#FFF' }}>
+                Every vertex is enqueued at most once ($O(V)$). Every adjacency list is scanned when its vertex is visited, scanning each edge twice in an undirected graph ($O(E)$). Total time = <strong>$O(V + E)$</strong>.
               </p>
             </div>
+
           </div>
+
         </div>
+
       </div>
     </section>
   );
 }
+
+export default TreeGraphTraversal;

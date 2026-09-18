@@ -1,5 +1,5 @@
 import React from 'react';
-import { Terminal, Shield, Compass, Heart, ArrowUp } from 'lucide-react';
+import { ArrowUp, BookOpen } from 'lucide-react';
 import { SoundEngine } from '../utils/soundEngine';
 
 export function Footer() {
@@ -39,54 +39,58 @@ export function Footer() {
                 <div style={{ width: '14px', height: '14px', borderRadius: '50%', background: 'var(--canary-yellow)' }} />
               </div>
               <span className="font-display" style={{ fontWeight: 900, fontSize: '1.2rem', letterSpacing: '-0.02em' }}>
-                GEOMETRY // CS
+                ALGORITHMS // CS
               </span>
             </div>
             <p style={{ fontFamily: 'var(--font-mono)', fontSize: '0.8rem', color: '#AAA', lineHeight: 1.6 }}>
-              A high-precision educational interactive infographic engineered in Neo-Brutalist Bauhaus aesthetic. Translating computational theory into tangible geometry.
+              Modeled after Khan Academy's Computer Science Algorithms curriculum, created in partnership with Dartmouth professors Tom Cormen and Devin Balkcom.
             </p>
           </div>
 
           {/* Col 2: Architectural Specs */}
           <div>
-            <h4 style={{ fontSize: '1rem', color: 'var(--canary-yellow)', marginBottom: '1rem' }}>
-              // TECHNICAL STACK
+            <h4 style={{ fontSize: '1rem', color: 'var(--canary-yellow)', marginBottom: '1rem', fontFamily: 'var(--font-mono)' }}>
+              // CURRICULUM FOUNDATIONS
             </h4>
             <ul style={{ listStyle: 'none', fontFamily: 'var(--font-mono)', fontSize: '0.8rem', color: '#CCC', display: 'flex', flexDirection: 'column', gap: '0.5rem' }}>
-              <li>• React 18 + Pure Vanilla CSS Tokens</li>
-              <li>• Direct rAF DOM cursor interpolation</li>
-              <li>• Procedural Web Audio API synthesizer</li>
-              <li>• Zero-dependency SVG vector math</li>
+              <li>• Dartmouth CS &amp; CLRS Algorithms</li>
+              <li>• Asymptotic Notations: Θ, O, Ω</li>
+              <li>• Divide &amp; Conquer Recurrence Trees</li>
+              <li>• Graph Level-Order Queue BFS</li>
             </ul>
           </div>
 
           {/* Col 3: Core Curricula */}
           <div>
-            <h4 style={{ fontSize: '1rem', color: 'var(--cobalt-blue)', marginBottom: '1rem' }}>
-              // TOPICS COVERED
+            <h4 style={{ fontSize: '1rem', color: 'var(--cobalt-blue)', marginBottom: '1rem', fontFamily: 'var(--font-mono)' }}>
+              // UNITS COVERED
             </h4>
             <ul style={{ listStyle: 'none', fontFamily: 'var(--font-mono)', fontSize: '0.8rem', color: '#CCC', display: 'flex', flexDirection: 'column', gap: '0.5rem' }}>
-              <li>01. Big-O Time & Space Growth</li>
-              <li>02. Call Stack Frames & Recursion</li>
-              <li>03. Graph Traversals (BFS & DFS)</li>
-              <li>04. Sorting Race & Quadtree Division</li>
+              <li>01. Intro &amp; Number Guessing Game</li>
+              <li>02. Binary Search &amp; Logarithmic Halving</li>
+              <li>03. Asymptotic Analysis (Big-Θ, Big-O, Big-Ω)</li>
+              <li>04. Selection Sort &amp; Insertion Sort</li>
+              <li>05. Recursion &amp; Towers of Hanoi</li>
+              <li>06. Divide &amp; Conquer (Merge &amp; Quick Sort)</li>
+              <li>07. Graph Representation &amp; BFS</li>
+              <li>08. Khan Mastery Assessment</li>
             </ul>
           </div>
 
           {/* Col 4: Back to Top */}
           <div style={{ display: 'flex', flexDirection: 'column', justifyContent: 'space-between', alignItems: 'flex-start' }}>
             <div>
-              <h4 style={{ fontSize: '1rem', color: 'var(--vermilion-red)', marginBottom: '0.5rem' }}>
+              <h4 style={{ fontSize: '1rem', color: 'var(--vermilion-red)', marginBottom: '0.5rem', fontFamily: 'var(--font-mono)' }}>
                 // NAVIGATION
               </h4>
               <span className="font-mono" style={{ fontSize: '0.8rem', color: '#888' }}>
-                Return to the apex
+                Return to top
               </span>
             </div>
 
             <button
               onClick={scrollToTop}
-              className="brutal-btn brutal-btn-accent"
+              className="brutal-btn brutal-btn-yellow"
               style={{ marginTop: '1rem' }}
             >
               <ArrowUp size={16} /> BACK TO TOP
@@ -109,14 +113,15 @@ export function Footer() {
           color: '#777'
         }}>
           <div>
-            THE GEOMETRY OF COMPUTATION © 2026 // PRINCIPAL FRONT-END ARCHITECTURE
+            © 2026 // ALGORITHMS CURRICULUM // NEO-BRUTALIST BAUHAUS CS
           </div>
-          <div style={{ display: 'flex', gap: '1rem' }}>
-            <span>LATENCY: 0.2ms</span>
-            <span>FRAME RATE: 60-120 FPS</span>
+          <div>
+            100% CLIENT-SIDE JAVASCRIPT &amp; REACT
           </div>
         </div>
       </div>
     </footer>
   );
 }
+
+export default Footer;

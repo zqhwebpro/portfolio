@@ -3,51 +3,155 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Mischief & Magic Co. — Enterprise ASP.NET MVC 5 E-Commerce Showcase</title>
-    <link href="https://fonts.googleapis.com/css2?family=Fredoka:wght@400;600;700;800&family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=Fira+Code:wght@400;500;600&display=swap" rel="stylesheet">
+    <title>Mischief & Magic Co. // Purveyors of Chaos & Organic Illusion</title>
+    <meta name="description" content="Explore Mischief & Magic Co. for high-potency comedic gags, microdose mischief, and stage illusion armaments with enterprise ASP.NET MVC 5 architecture.">
+    
+    <!-- Google Fonts: Fredoka, Montserrat, Syne & Fira Code -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Fredoka:wght@400;500;600;700;800&family=Montserrat:ital,wght@0,400;0,500;0,600;0,700;0,800;0,900;1,400;1,700&family=Syne:wght@700;800;900&family=Fira+Code:wght@400;500;600;700&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    
     <style>
+        /* ==========================================================================
+           MISCHIEF & MAGIC CO. // PURPLE-CO.COM DRAMATIC & WAVY DESIGN SYSTEM
+           ========================================================================== */
         :root {
-            --carnival-purple: #3A0CA3;
-            --carnival-purple-light: #4361EE;
-            --carnival-gold: #FF9F1C;
-            --carnival-gold-light: #FFBF69;
-            --carnival-red: #E63946;
-            --carnival-teal: #2EC4B6;
-            --bg-dark: #12121A;
-            --bg-card: #1C1C28;
-            --bg-light: #F8F9FD;
-            --text-dark: #1A1A2E;
-            --text-light: #F1F1F8;
-            --text-muted: #7E7E9A;
-            --border-color: #E2E8F0;
-            --card-shadow: 0 10px 30px -5px rgba(0, 0, 0, 0.08);
-            --carnival-shadow: 0 15px 35px -5px rgba(58, 12, 163, 0.2);
-            --radius-md: 12px;
-            --radius-lg: 18px;
-            --radius-xl: 24px;
+            /* Purple & Neon Palette */
+            --purple-darkest: #0F041D;
+            --purple-deep: #1A0733;
+            --purple-body: #240B45;
+            --purple-royal: #483181;
+            --purple-electric: #7603DF;
+            --purple-vivid: #8B5CF6;
+            --purple-neon: #9333EA;
+            --purple-glow: #A855F7;
+            --purple-lavender: #C084FC;
+            --purple-lilac: #ECB3FF;
+            --purple-pastel: #F5E8FF;
+            --purple-soft: #DAD9FF;
+            
+            /* Accents */
+            --magenta-neon: #D946EF;
+            --magenta-bright: #EC4899;
+            --magenta-glow: rgba(217, 70, 239, 0.4);
+            --gold-magic: #FACC15;
+            --gold-glow: rgba(250, 204, 21, 0.4);
+            --cyan-sparkle: #38BDF8;
+            --emerald-vibe: #34D399;
+            
+            /* Surfaces & Glassmorphism */
+            --bg-base: #140528;
+            --bg-card: rgba(43, 17, 85, 0.7);
+            --bg-card-hover: rgba(59, 24, 119, 0.9);
+            --bg-surface-elevated: #260E4B;
+            --border-purple: rgba(236, 179, 255, 0.22);
+            --border-purple-bright: rgba(236, 179, 255, 0.65);
+            --text-light: #FFFFFF;
+            --text-secondary: #E9D5FF;
+            --text-muted: #C4B5FD;
+            
+            /* Shadows & Radii */
+            --shadow-card: 0 15px 35px -5px rgba(0, 0, 0, 0.5), 0 0 0 1px var(--border-purple);
+            --shadow-purple-glow: 0 0 40px rgba(118, 3, 223, 0.45);
+            --shadow-magenta-glow: 0 0 30px rgba(217, 70, 239, 0.4);
+            --radius-sm: 10px;
+            --radius-md: 16px;
+            --radius-lg: 24px;
+            --radius-xl: 32px;
+            --radius-full: 9999px;
         }
 
-        * {
+        *, *::before, *::after {
             box-sizing: border-box;
             margin: 0;
             padding: 0;
         }
 
         body {
-            font-family: 'Plus Jakarta Sans', sans-serif;
-            background-color: var(--bg-light);
-            color: var(--text-dark);
+            font-family: 'Montserrat', 'Plus Jakarta Sans', sans-serif;
+            background: linear-gradient(180deg, #110421 0%, #1F0A3D 25%, #2B0F54 50%, #1A0733 75%, #0F041D 100%);
+            color: var(--text-light);
             line-height: 1.6;
             min-height: 100vh;
             display: flex;
             flex-direction: column;
             overflow-x: hidden;
+            position: relative;
+        }
+
+        /* 🌌 Ambient Floating Purple Aura Blobs */
+        .ambient-blob {
+            position: fixed;
+            border-radius: 50%;
+            filter: blur(90px);
+            pointer-events: none;
+            z-index: 0;
+            opacity: 0.45;
+        }
+
+        .ambient-blob-1 {
+            width: 500px;
+            height: 500px;
+            background: radial-gradient(circle, var(--purple-electric) 0%, transparent 70%);
+            top: -100px;
+            left: -100px;
+            animation: floatBlob1 16s infinite ease-in-out alternate;
+        }
+
+        .ambient-blob-2 {
+            width: 600px;
+            height: 600px;
+            background: radial-gradient(circle, var(--magenta-neon) 0%, transparent 70%);
+            top: 40%;
+            right: -150px;
+            animation: floatBlob2 18s infinite ease-in-out alternate;
+        }
+
+        .ambient-blob-3 {
+            width: 450px;
+            height: 450px;
+            background: radial-gradient(circle, var(--purple-neon) 0%, transparent 70%);
+            bottom: -50px;
+            left: 20%;
+            animation: floatBlob3 14s infinite ease-in-out alternate;
+        }
+
+        @keyframes floatBlob1 {
+            0% { transform: translate(0, 0) scale(1); }
+            100% { transform: translate(120px, 80px) scale(1.2); }
+        }
+
+        @keyframes floatBlob2 {
+            0% { transform: translate(0, 0) scale(1); }
+            100% { transform: translate(-100px, -90px) scale(1.25); }
+        }
+
+        @keyframes floatBlob3 {
+            0% { transform: translate(0, 0) scale(1); }
+            100% { transform: translate(80px, -60px) scale(1.15); }
+        }
+
+        /* Custom Scrollbars */
+        ::-webkit-scrollbar {
+            width: 10px;
+            height: 10px;
+        }
+        ::-webkit-scrollbar-track {
+            background: var(--purple-darkest);
+        }
+        ::-webkit-scrollbar-thumb {
+            background: var(--purple-royal);
+            border-radius: var(--radius-full);
+            border: 2px solid var(--purple-darkest);
+        }
+        ::-webkit-scrollbar-thumb:hover {
+            background: var(--purple-neon);
         }
 
         /* ⚡ 1. Top Flash Sale Urgency Bar */
         .flash-sale-bar {
-            background: linear-gradient(90deg, #E63946 0%, #3A0CA3 50%, #FF9F1C 100%);
+            background: linear-gradient(90deg, #7603DF 0%, #D946EF 50%, #9333EA 100%);
             color: #fff;
             padding: 9px 24px;
             font-size: 13px;
@@ -55,10 +159,11 @@
             display: flex;
             justify-content: space-between;
             align-items: center;
-            box-shadow: 0 2px 10px rgba(230, 57, 70, 0.3);
+            box-shadow: 0 4px 20px rgba(118, 3, 223, 0.45);
             position: sticky;
             top: 0;
             z-index: 1001;
+            position: relative;
         }
 
         .flash-sale-content {
@@ -69,14 +174,15 @@
         }
 
         .flash-badge {
-            background: #fff;
-            color: var(--carnival-red);
-            padding: 2px 8px;
-            border-radius: 6px;
+            background: #FFFFFF;
+            color: var(--purple-electric);
+            padding: 3px 10px;
+            border-radius: var(--radius-full);
             font-size: 11px;
             font-weight: 900;
             letter-spacing: 0.5px;
             text-transform: uppercase;
+            box-shadow: 0 0 10px rgba(255, 255, 255, 0.6);
             animation: pulseFlash 1.5s infinite;
         }
 
@@ -86,28 +192,31 @@
         }
 
         .timer-box {
-            background: rgba(0, 0, 0, 0.35);
-            padding: 2px 10px;
-            border-radius: 6px;
+            background: rgba(17, 4, 33, 0.6);
+            padding: 3px 12px;
+            border-radius: var(--radius-full);
             font-family: 'Fira Code', monospace;
             font-weight: 700;
             letter-spacing: 1px;
-            color: var(--carnival-gold);
-            border: 1px solid rgba(255, 255, 255, 0.2);
+            color: var(--gold-magic);
+            border: 1px solid rgba(250, 204, 21, 0.4);
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
         }
 
         .sound-toggle-btn {
             background: rgba(255, 255, 255, 0.2);
             border: 1px solid rgba(255, 255, 255, 0.4);
             color: #fff;
-            padding: 3px 12px;
-            border-radius: 20px;
-            font-size: 11px;
+            padding: 4px 14px;
+            border-radius: var(--radius-full);
+            font-size: 11.5px;
             font-weight: 700;
             cursor: pointer;
             display: inline-flex;
             align-items: center;
-            gap: 5px;
+            gap: 6px;
             transition: all 0.2s;
         }
 
@@ -118,16 +227,17 @@
 
         /* Top Enterprise Banner */
         .arch-banner {
-            background: linear-gradient(90deg, #12121A 0%, #1e1b4b 100%);
+            background: rgba(20, 5, 40, 0.95);
+            backdrop-filter: blur(12px);
             color: #fff;
             padding: 8px 24px;
             font-size: 13px;
             display: flex;
             justify-content: space-between;
             align-items: center;
-            border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+            border-bottom: 1px solid var(--border-purple);
             position: sticky;
-            top: 38px;
+            top: 40px;
             z-index: 1000;
         }
 
@@ -139,22 +249,23 @@
         }
 
         .badge-pill {
-            background: rgba(255, 255, 255, 0.12);
-            color: #E0E7FF;
-            padding: 3px 10px;
-            border-radius: 20px;
+            background: rgba(236, 179, 255, 0.12);
+            color: var(--purple-lilac);
+            padding: 3px 12px;
+            border-radius: var(--radius-full);
             font-size: 11px;
-            font-weight: 600;
+            font-weight: 700;
             display: inline-flex;
             align-items: center;
             gap: 5px;
-            border: 1px solid rgba(255, 255, 255, 0.15);
+            border: 1px solid var(--border-purple);
         }
 
         .badge-pill.active {
-            background: var(--carnival-gold);
-            color: #000;
-            border-color: var(--carnival-gold);
+            background: linear-gradient(135deg, var(--gold-magic), #F59E0B);
+            color: #110524;
+            border-color: var(--gold-magic);
+            box-shadow: 0 0 10px var(--gold-glow);
         }
 
         .mode-nav {
@@ -163,13 +274,13 @@
         }
 
         .mode-btn {
-            background: transparent;
-            border: 1px solid rgba(255, 255, 255, 0.2);
-            color: #fff;
-            padding: 4px 14px;
-            border-radius: 6px;
+            background: rgba(255, 255, 255, 0.08);
+            border: 1px solid var(--border-purple);
+            color: var(--purple-lilac);
+            padding: 5px 14px;
+            border-radius: var(--radius-full);
             font-size: 12px;
-            font-weight: 600;
+            font-weight: 700;
             cursor: pointer;
             transition: all 0.2s;
             display: inline-flex;
@@ -178,20 +289,24 @@
         }
 
         .mode-btn:hover, .mode-btn.active {
-            background: var(--carnival-gold);
-            color: #12121A;
-            border-color: var(--carnival-gold);
+            background: linear-gradient(135deg, var(--purple-electric), var(--magenta-neon));
+            color: #FFFFFF;
+            border-color: var(--purple-lilac);
+            box-shadow: 0 0 15px rgba(217, 70, 239, 0.45);
         }
 
-        /* Main Carnival Header */
+        /* 🔮 Main Store Header */
         header.store-header {
-            background: #fff;
-            border-bottom: 3px solid var(--carnival-gold);
-            padding: 18px 32px;
+            background: rgba(36, 11, 69, 0.85);
+            backdrop-filter: blur(16px);
+            border-bottom: 2px solid var(--border-purple);
+            padding: 16px 32px;
             display: flex;
             justify-content: space-between;
             align-items: center;
-            box-shadow: 0 4px 20px rgba(0,0,0,0.04);
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.4);
+            position: relative;
+            z-index: 50;
         }
 
         .brand-box {
@@ -204,98 +319,105 @@
         }
 
         .brand-icon {
-            width: 52px;
-            height: 52px;
-            background: linear-gradient(135deg, var(--carnival-purple) 0%, var(--carnival-purple-light) 100%);
-            border-radius: 14px;
+            width: 54px;
+            height: 54px;
+            background: linear-gradient(135deg, var(--purple-electric) 0%, var(--magenta-neon) 100%);
+            border-radius: 18px;
             display: flex;
             align-items: center;
             justify-content: center;
             font-size: 28px;
-            box-shadow: var(--carnival-shadow);
+            box-shadow: var(--shadow-purple-glow);
             color: #fff;
             transform: rotate(-4deg);
-            transition: transform 0.3s;
+            transition: transform 0.3s cubic-bezier(0.16, 1, 0.3, 1), box-shadow 0.3s ease;
+            border: 2px solid rgba(255, 255, 255, 0.3);
         }
 
         .brand-box:hover .brand-icon {
-            transform: rotate(6deg) scale(1.08);
+            transform: rotate(6deg) scale(1.1);
+            box-shadow: 0 0 35px rgba(217, 70, 239, 0.7);
         }
 
         .brand-title {
-            font-family: 'Fredoka', cursive;
-            font-size: 26px;
+            font-family: 'Fredoka', 'Syne', cursive;
+            font-size: 28px;
             font-weight: 800;
-            color: var(--carnival-purple);
+            background: linear-gradient(135deg, #FFFFFF 0%, #ECB3FF 50%, #FACC15 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
             line-height: 1.1;
+            letter-spacing: -0.5px;
         }
 
         .brand-subtitle {
             font-size: 12px;
-            color: var(--carnival-red);
+            color: var(--purple-lilac);
             font-weight: 700;
-            letter-spacing: 1px;
+            letter-spacing: 1.5px;
             text-transform: uppercase;
         }
 
         .header-actions {
             display: flex;
             align-items: center;
-            gap: 16px;
+            gap: 14px;
         }
 
+        /* 3D Jelly Bouncy Button */
         .btn-spin-reward {
-            background: linear-gradient(135deg, #FF9F1C 0%, #E63946 100%);
+            background: linear-gradient(135deg, var(--magenta-neon) 0%, #9333EA 100%);
             color: #fff;
-            border: none;
-            padding: 10px 18px;
-            border-radius: 30px;
+            border: 1.5px solid rgba(255, 255, 255, 0.4);
+            padding: 10px 20px;
+            border-radius: var(--radius-full);
             font-weight: 800;
-            font-size: 13px;
+            font-size: 13.5px;
             display: flex;
             align-items: center;
             gap: 8px;
             cursor: pointer;
-            box-shadow: 0 4px 15px rgba(255, 159, 28, 0.4);
-            transition: all 0.2s;
-            animation: bounceFab 2s infinite;
+            box-shadow: 0 4px 20px var(--magenta-glow);
+            transition: all 0.2s ease;
+            animation: bounceFab 2.5s infinite;
         }
 
         @keyframes bounceFab {
             0%, 20%, 50%, 80%, 100% { transform: translateY(0); }
-            40% { transform: translateY(-4px); }
+            40% { transform: translateY(-5px); }
             60% { transform: translateY(-2px); }
         }
 
         .btn-spin-reward:hover {
-            transform: translateY(-2px) scale(1.03);
-            box-shadow: 0 6px 20px rgba(255, 159, 28, 0.6);
+            transform: translateY(-3px) scale(1.04);
+            box-shadow: 0 8px 30px rgba(217, 70, 239, 0.7);
         }
 
         .cart-widget-btn {
-            background: var(--carnival-purple);
+            background: linear-gradient(135deg, var(--purple-deep) 0%, var(--purple-royal) 100%);
             color: #fff;
-            border: none;
-            padding: 10px 20px;
-            border-radius: 30px;
+            border: 1.5px solid var(--border-purple);
+            padding: 10px 22px;
+            border-radius: var(--radius-full);
             font-weight: 700;
             font-size: 14px;
             display: flex;
             align-items: center;
             gap: 12px;
             cursor: pointer;
-            box-shadow: var(--carnival-shadow);
-            transition: all 0.2s;
+            box-shadow: var(--shadow-purple-glow);
+            transition: all 0.25s ease;
         }
 
         .cart-widget-btn:hover {
             transform: translateY(-2px);
-            background: #2b0880;
+            border-color: var(--purple-lilac);
+            box-shadow: 0 8px 30px rgba(118, 3, 223, 0.6);
         }
 
         .cart-badge {
-            background: var(--carnival-gold);
-            color: #12121A;
+            background: linear-gradient(135deg, var(--gold-magic), #F59E0B);
+            color: #110524;
             border-radius: 50%;
             width: 24px;
             height: 24px;
@@ -303,83 +425,187 @@
             align-items: center;
             justify-content: center;
             font-size: 12px;
-            font-weight: 800;
+            font-weight: 900;
+            box-shadow: 0 0 10px var(--gold-glow);
         }
 
         /* Container Layout */
         .app-container {
             max-width: 1300px;
             margin: 0 auto;
-            padding: 30px 24px;
+            padding: 20px 24px 60px;
             flex: 1;
             width: 100%;
+            position: relative;
+            z-index: 10;
         }
 
-        /* Hero Notice */
+        /* 🌊 Organic Wavy SVG Dividers */
+        .wave-container {
+            position: relative;
+            width: 100%;
+            overflow: hidden;
+            line-height: 0;
+            margin: 0;
+        }
+
+        .wave-svg {
+            position: relative;
+            display: block;
+            width: calc(100% + 1.3px);
+            height: 48px;
+        }
+
+        .wave-svg path {
+            fill: var(--purple-deep);
+        }
+
+        /* 🍄 Grand Cosmic Purple Hero Banner */
         .store-hero {
-            background: linear-gradient(135deg, #3A0CA3 0%, #4361EE 50%, #7209B7 100%);
-            border-radius: var(--radius-lg);
-            padding: 30px 40px;
+            background: linear-gradient(135deg, #3B126D 0%, #6817A5 45%, #9333EA 80%, #C084FC 100%);
+            border-radius: var(--radius-xl);
+            padding: 42px 48px;
             color: #fff;
-            margin-bottom: 25px;
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
+            margin-bottom: 30px;
             position: relative;
             overflow: hidden;
-            box-shadow: 0 15px 35px -10px rgba(67, 97, 238, 0.4);
+            box-shadow: 0 20px 50px -10px rgba(118, 3, 223, 0.5), 0 0 0 2px var(--border-purple);
+            border: 2px solid rgba(236, 179, 255, 0.35);
         }
 
-        .store-hero::before {
-            content: "🎪✨";
+        .hero-floating-emojis {
             position: absolute;
-            right: 20px;
-            bottom: -20px;
-            font-size: 140px;
-            opacity: 0.15;
+            right: 30px;
+            bottom: 10px;
+            font-size: 100px;
+            opacity: 0.22;
             pointer-events: none;
+            animation: floatHeroEmoji 6s infinite ease-in-out alternate;
+        }
+
+        @keyframes floatHeroEmoji {
+            0% { transform: translateY(0) rotate(-5deg); }
+            100% { transform: translateY(-15px) rotate(8deg); }
+        }
+
+        .hero-wavy-tag {
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
+            background: rgba(17, 4, 33, 0.45);
+            border: 1.5px solid var(--purple-lilac);
+            color: var(--purple-lilac);
+            font-size: 12px;
+            font-weight: 800;
+            padding: 5px 14px;
+            border-radius: var(--radius-full);
+            margin-bottom: 14px;
+            letter-spacing: 0.5px;
+            text-transform: uppercase;
+            box-shadow: 0 0 15px rgba(236, 179, 255, 0.3);
         }
 
         .hero-text h1 {
-            font-family: 'Fredoka', cursive;
-            font-size: 32px;
+            font-family: 'Fredoka', 'Syne', sans-serif;
+            font-size: clamp(28px, 4vw, 42px);
             font-weight: 800;
-            margin-bottom: 8px;
+            margin-bottom: 10px;
             letter-spacing: -0.5px;
+            line-height: 1.15;
+            text-shadow: 0 4px 20px rgba(0, 0, 0, 0.4);
         }
 
         .hero-text p {
-            font-size: 15px;
-            color: #E0E7FF;
-            max-width: 680px;
+            font-size: 16px;
+            color: #F5E8FF;
+            max-width: 720px;
+            line-height: 1.6;
+            margin-bottom: 20px;
         }
 
-        /* Trust Badges Strip */
+        .hero-cta-group {
+            display: flex;
+            gap: 12px;
+            flex-wrap: wrap;
+        }
+
+        .btn-hero-primary {
+            background: linear-gradient(135deg, var(--gold-magic) 0%, #F59E0B 100%);
+            color: #110524;
+            border: none;
+            padding: 12px 26px;
+            border-radius: var(--radius-full);
+            font-weight: 900;
+            font-size: 14px;
+            cursor: pointer;
+            box-shadow: 0 6px 20px var(--gold-glow);
+            transition: all 0.2s ease;
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .btn-hero-primary:hover {
+            transform: translateY(-2px) scale(1.04);
+            box-shadow: 0 8px 25px rgba(250, 204, 21, 0.6);
+        }
+
+        .btn-hero-secondary {
+            background: rgba(255, 255, 255, 0.15);
+            backdrop-filter: blur(8px);
+            border: 1.5px solid rgba(255, 255, 255, 0.4);
+            color: #FFFFFF;
+            padding: 12px 24px;
+            border-radius: var(--radius-full);
+            font-weight: 800;
+            font-size: 14px;
+            cursor: pointer;
+            transition: all 0.2s ease;
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .btn-hero-secondary:hover {
+            background: rgba(255, 255, 255, 0.3);
+            transform: translateY(-2px);
+        }
+
+        /* 🛡️ Trust Badges Strip */
         .trust-strip {
             display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
-            gap: 15px;
-            margin-bottom: 25px;
+            grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+            gap: 16px;
+            margin-bottom: 30px;
         }
 
         .trust-card {
-            background: #fff;
-            padding: 14px 18px;
+            background: var(--bg-card);
+            backdrop-filter: blur(14px);
+            padding: 16px 20px;
             border-radius: var(--radius-md);
-            border: 1px solid var(--border-color);
+            border: 1.5px solid var(--border-purple);
             display: flex;
             align-items: center;
             gap: 14px;
-            box-shadow: 0 2px 8px rgba(0,0,0,0.03);
+            box-shadow: var(--shadow-card);
+            transition: all 0.25s ease;
+        }
+
+        .trust-card:hover {
+            border-color: var(--purple-lilac);
+            transform: translateY(-3px);
+            box-shadow: 0 10px 25px rgba(118, 3, 223, 0.3);
         }
 
         .trust-icon {
-            font-size: 24px;
-            color: var(--carnival-purple);
-            width: 42px;
-            height: 42px;
-            background: #F0F2FF;
-            border-radius: 10px;
+            font-size: 22px;
+            color: var(--purple-lilac);
+            width: 46px;
+            height: 46px;
+            background: linear-gradient(135deg, rgba(118, 3, 223, 0.3), rgba(217, 70, 239, 0.2));
+            border: 1.5px solid var(--border-purple);
+            border-radius: 14px;
             display: flex;
             align-items: center;
             justify-content: center;
@@ -388,65 +614,70 @@
 
         .trust-title {
             font-weight: 800;
-            font-size: 13px;
-            color: var(--text-dark);
+            font-size: 13.5px;
+            color: #FFFFFF;
         }
 
         .trust-sub {
-            font-size: 11.5px;
-            color: var(--text-muted);
+            font-size: 12px;
+            color: var(--purple-muted);
         }
 
-        /* Category Nav */
+        /* 🏷️ Wavy Category Nav */
         .category-pills {
             display: flex;
             gap: 10px;
             flex-wrap: wrap;
-            margin-bottom: 25px;
+            margin-bottom: 30px;
+            align-items: center;
         }
 
         .cat-pill {
-            background: #fff;
-            border: 2px solid var(--border-color);
-            padding: 10px 20px;
-            border-radius: 30px;
+            background: rgba(36, 11, 69, 0.7);
+            backdrop-filter: blur(8px);
+            border: 1.5px solid var(--border-purple);
+            padding: 10px 22px;
+            border-radius: var(--radius-full);
             font-size: 14px;
             font-weight: 700;
-            color: #4B5563;
+            color: var(--purple-lilac);
             cursor: pointer;
-            transition: all 0.2s;
+            transition: all 0.2s cubic-bezier(0.16, 1, 0.3, 1);
             display: flex;
             align-items: center;
             gap: 8px;
         }
 
         .cat-pill:hover {
-            border-color: var(--carnival-purple-light);
-            color: var(--carnival-purple);
+            border-color: var(--purple-lilac);
+            color: #FFFFFF;
+            background: rgba(118, 3, 223, 0.35);
             transform: translateY(-2px);
         }
 
         .cat-pill.active {
-            background: var(--carnival-purple);
-            border-color: var(--carnival-purple);
+            background: linear-gradient(135deg, var(--purple-electric) 0%, var(--magenta-neon) 100%);
+            border-color: var(--purple-lilac);
             color: #fff;
-            box-shadow: 0 6px 15px rgba(58, 12, 163, 0.25);
+            box-shadow: 0 6px 20px rgba(118, 3, 223, 0.5);
+            transform: scale(1.02);
         }
 
-        /* Products Grid */
+        /* 🎁 Products Grid */
         .product-grid {
             display: grid;
-            grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+            grid-template-columns: repeat(auto-fill, minmax(285px, 1fr));
             gap: 25px;
-            margin-bottom: 35px;
+            margin-bottom: 40px;
         }
 
         .product-card {
-            background: #fff;
+            background: var(--bg-card);
+            backdrop-filter: blur(14px);
             border-radius: var(--radius-lg);
-            border: 1px solid #E9ECEF;
+            border: 1.5px solid var(--border-purple);
             overflow: hidden;
-            box-shadow: var(--card-shadow);
+            box-shadow: var(--shadow-card);
             transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1);
             display: flex;
             flex-direction: column;
@@ -454,35 +685,40 @@
         }
 
         .product-card:hover {
-            transform: translateY(-6px);
-            box-shadow: 0 20px 35px -8px rgba(0, 0, 0, 0.12);
-            border-color: var(--carnival-gold);
+            transform: translateY(-8px);
+            box-shadow: 0 20px 45px rgba(118, 3, 223, 0.45);
+            border-color: var(--purple-lilac);
         }
 
         .card-img-wrap {
-            height: 190px;
-            background: linear-gradient(135deg, #F8F9FA 0%, #EDF2F7 100%);
+            height: 195px;
+            background: radial-gradient(circle at center, rgba(168, 85, 247, 0.25) 0%, rgba(20, 5, 40, 0.85) 100%);
             display: flex;
             align-items: center;
             justify-content: center;
-            font-size: 72px;
+            font-size: 76px;
             position: relative;
-            border-bottom: 1px solid #F1F5F9;
+            border-bottom: 1.5px solid var(--border-purple);
             cursor: pointer;
+            transition: transform 0.3s ease;
+        }
+
+        .product-card:hover .card-img-wrap {
+            background: radial-gradient(circle at center, rgba(217, 70, 239, 0.35) 0%, rgba(31, 10, 61, 0.95) 100%);
         }
 
         .card-category-badge {
             position: absolute;
             top: 12px;
             left: 12px;
-            background: rgba(255, 255, 255, 0.94);
+            background: rgba(17, 4, 33, 0.75);
             backdrop-filter: blur(8px);
-            color: var(--carnival-purple);
+            color: var(--purple-lilac);
             font-size: 11px;
             font-weight: 800;
             padding: 4px 10px;
-            border-radius: 20px;
-            border: 1px solid rgba(58, 12, 163, 0.15);
+            border-radius: var(--radius-full);
+            border: 1px solid var(--border-purple);
             text-transform: uppercase;
             letter-spacing: 0.5px;
         }
@@ -491,30 +727,31 @@
             position: absolute;
             top: 12px;
             right: 12px;
-            background: #FEE2E2;
-            color: #DC2626;
+            background: rgba(236, 72, 153, 0.2);
+            backdrop-filter: blur(8px);
+            color: #F472B6;
             font-size: 11px;
             font-weight: 800;
             padding: 4px 10px;
-            border-radius: 20px;
+            border-radius: var(--radius-full);
             display: flex;
             align-items: center;
             gap: 4px;
-            border: 1px solid #FECACA;
+            border: 1px solid rgba(244, 114, 182, 0.4);
         }
 
         .card-quick-btn {
             position: absolute;
             bottom: 10px;
             right: 10px;
-            background: rgba(18, 18, 26, 0.75);
-            backdrop-filter: blur(6px);
+            background: rgba(118, 3, 223, 0.85);
+            backdrop-filter: blur(8px);
             color: #fff;
-            border: none;
-            padding: 6px 12px;
-            border-radius: 20px;
-            font-size: 11px;
-            font-weight: 700;
+            border: 1px solid var(--purple-lilac);
+            padding: 6px 14px;
+            border-radius: var(--radius-full);
+            font-size: 11.5px;
+            font-weight: 800;
             cursor: pointer;
             opacity: 0;
             transform: translateY(6px);
@@ -527,7 +764,8 @@
         }
 
         .card-quick-btn:hover {
-            background: var(--carnival-purple);
+            background: var(--magenta-neon);
+            box-shadow: 0 0 15px var(--magenta-glow);
         }
 
         .card-body {
@@ -542,12 +780,12 @@
             align-items: center;
             gap: 4px;
             font-size: 12px;
-            color: #F59E0B;
+            color: var(--gold-magic);
             margin-bottom: 6px;
         }
 
         .star-count {
-            color: #64748B;
+            color: var(--purple-muted);
             font-weight: 600;
             margin-left: 4px;
         }
@@ -555,22 +793,52 @@
         .card-title {
             font-size: 17px;
             font-weight: 800;
-            color: var(--text-dark);
+            color: #FFFFFF;
             margin-bottom: 8px;
             line-height: 1.3;
             cursor: pointer;
+            transition: color 0.2s;
         }
 
         .card-title:hover {
-            color: var(--carnival-purple);
+            color: var(--purple-lilac);
         }
 
         .card-desc {
             font-size: 13px;
-            color: #64748B;
+            color: var(--purple-muted);
             margin-bottom: 16px;
             flex: 1;
             line-height: 1.5;
+        }
+
+        /* Stock Liquid Wave Progress Meter */
+        .stock-progress-wrap {
+            margin-bottom: 14px;
+        }
+
+        .stock-progress-label {
+            display: flex;
+            justify-content: space-between;
+            font-size: 11px;
+            font-weight: 700;
+            color: var(--purple-lilac);
+            margin-bottom: 4px;
+        }
+
+        .stock-progress-bar {
+            height: 6px;
+            background: rgba(255, 255, 255, 0.1);
+            border-radius: var(--radius-full);
+            overflow: hidden;
+            border: 1px solid var(--border-purple);
+        }
+
+        .stock-progress-fill {
+            height: 100%;
+            background: linear-gradient(90deg, var(--purple-electric), var(--magenta-neon));
+            border-radius: var(--radius-full);
+            transition: width 0.4s ease;
         }
 
         .card-footer {
@@ -578,7 +846,7 @@
             align-items: center;
             justify-content: space-between;
             padding-top: 14px;
-            border-top: 1px dashed #E2E8F0;
+            border-top: 1px dashed var(--border-purple);
         }
 
         .card-price-box {
@@ -589,37 +857,43 @@
         .card-price {
             font-size: 22px;
             font-weight: 900;
-            color: var(--carnival-red);
+            color: var(--gold-magic);
             font-family: 'Fredoka', cursive;
             line-height: 1;
         }
 
         .card-price-orig {
             font-size: 12px;
-            color: #94A3B8;
+            color: var(--purple-muted);
             text-decoration: line-through;
             font-weight: 600;
         }
 
+        /* 3D Jelly Add-to-Cart Button */
         .btn-add-cart {
-            background: linear-gradient(135deg, var(--carnival-gold) 0%, #F77F00 100%);
-            color: #12121A;
-            border: none;
-            padding: 10px 16px;
-            border-radius: 10px;
+            background: linear-gradient(135deg, var(--purple-electric) 0%, var(--magenta-neon) 100%);
+            color: #FFFFFF;
+            border: 1.5px solid rgba(255, 255, 255, 0.4);
+            padding: 10px 18px;
+            border-radius: var(--radius-full);
             font-weight: 800;
-            font-size: 13px;
+            font-size: 13.5px;
             cursor: pointer;
-            transition: all 0.2s;
+            transition: all 0.2s cubic-bezier(0.16, 1, 0.3, 1);
             display: inline-flex;
             align-items: center;
             gap: 6px;
-            box-shadow: 0 4px 12px rgba(255, 159, 28, 0.3);
+            box-shadow: 0 4px 15px rgba(118, 3, 223, 0.4);
         }
 
         .btn-add-cart:hover {
-            transform: scale(1.04);
-            box-shadow: 0 6px 18px rgba(255, 159, 28, 0.45);
+            transform: translateY(-2px) scale(1.04);
+            box-shadow: 0 6px 20px rgba(217, 70, 239, 0.6);
+            background: linear-gradient(135deg, #8B5CF6 0%, #EC4899 100%);
+        }
+
+        .btn-add-cart:active {
+            transform: scale(0.96);
         }
 
         /* Pagination Bar */
@@ -632,14 +906,14 @@
         }
 
         .page-btn {
-            background: #fff;
-            border: 2px solid var(--border-color);
-            min-width: 42px;
-            height: 42px;
-            border-radius: 10px;
+            background: var(--bg-card);
+            border: 1.5px solid var(--border-purple);
+            min-width: 44px;
+            height: 44px;
+            border-radius: var(--radius-md);
             font-weight: 700;
             font-size: 14px;
-            color: var(--text-dark);
+            color: var(--purple-lilac);
             cursor: pointer;
             display: inline-flex;
             align-items: center;
@@ -648,15 +922,16 @@
         }
 
         .page-btn:hover {
-            border-color: var(--carnival-purple-light);
-            color: var(--carnival-purple);
+            border-color: var(--purple-lilac);
+            color: #FFFFFF;
+            background: rgba(118, 3, 223, 0.3);
         }
 
         .page-btn.active {
-            background: var(--carnival-purple);
-            border-color: var(--carnival-purple);
+            background: linear-gradient(135deg, var(--purple-electric), var(--magenta-neon));
+            border-color: var(--purple-lilac);
             color: #fff;
-            box-shadow: 0 4px 12px rgba(58, 12, 163, 0.25);
+            box-shadow: 0 4px 15px rgba(118, 3, 223, 0.5);
         }
 
         /* 🔔 2. Live Social Proof Floating Toast */
@@ -664,15 +939,16 @@
             position: fixed;
             bottom: 24px;
             left: 24px;
-            background: #fff;
+            background: rgba(36, 11, 69, 0.92);
+            backdrop-filter: blur(16px);
             border-radius: var(--radius-md);
             padding: 14px 18px;
             display: flex;
             align-items: center;
             gap: 14px;
-            box-shadow: 0 15px 35px rgba(0, 0, 0, 0.18);
-            border: 1px solid var(--border-color);
-            border-left: 5px solid var(--carnival-gold);
+            box-shadow: 0 15px 35px rgba(0, 0, 0, 0.6), 0 0 20px rgba(118, 3, 223, 0.3);
+            border: 1.5px solid var(--border-purple);
+            border-left: 5px solid var(--magenta-neon);
             z-index: 1500;
             max-width: 380px;
             transform: translateY(120px);
@@ -690,10 +966,11 @@
 
         .toast-avatar {
             font-size: 32px;
-            background: #F8F9FD;
+            background: rgba(118, 3, 223, 0.3);
+            border: 1px solid var(--border-purple);
             width: 48px;
             height: 48px;
-            border-radius: 10px;
+            border-radius: 12px;
             display: flex;
             align-items: center;
             justify-content: center;
@@ -707,7 +984,7 @@
         .toast-user {
             font-size: 12px;
             font-weight: 800;
-            color: var(--carnival-purple);
+            color: var(--purple-lilac);
             display: flex;
             align-items: center;
             gap: 4px;
@@ -716,376 +993,144 @@
         .toast-prod {
             font-size: 13px;
             font-weight: 700;
-            color: var(--text-dark);
+            color: #FFFFFF;
             line-height: 1.3;
             margin: 2px 0;
         }
 
         .toast-time {
             font-size: 11px;
-            color: #94A3B8;
+            color: var(--purple-muted);
         }
 
         .toast-close {
             background: transparent;
             border: none;
-            color: #94A3B8;
+            color: var(--purple-muted);
             cursor: pointer;
             padding: 4px;
             font-size: 14px;
         }
 
         .toast-close:hover {
-            color: var(--carnival-red);
+            color: var(--magenta-neon);
         }
 
-        /* 🎁 3. Floating Spin Wheel Launcher */
+        /* 🎁 3. Floating Spin Wheel Action Button */
         .spin-fab {
             position: fixed;
             bottom: 24px;
             right: 24px;
-            background: linear-gradient(135deg, #FF9F1C 0%, #E63946 100%);
+            background: linear-gradient(135deg, var(--magenta-neon) 0%, #7603DF 100%);
             color: #fff;
-            padding: 14px 20px;
-            border-radius: 50px;
+            padding: 14px 22px;
+            border-radius: var(--radius-full);
             font-weight: 800;
             font-size: 14px;
-            box-shadow: 0 10px 25px rgba(255, 159, 28, 0.5);
+            box-shadow: 0 10px 30px var(--magenta-glow), 0 0 0 2px rgba(255, 255, 255, 0.4);
+            cursor: pointer;
+            z-index: 1200;
             display: flex;
             align-items: center;
             gap: 10px;
-            cursor: pointer;
-            z-index: 1400;
-            border: 2px solid #fff;
-            transition: all 0.3s;
+            transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1);
             animation: bounceFab 3s infinite;
         }
 
         .spin-fab:hover {
-            transform: scale(1.08) translateY(-4px);
-            box-shadow: 0 15px 35px rgba(255, 159, 28, 0.7);
+            transform: translateY(-4px) scale(1.05);
+            box-shadow: 0 15px 40px rgba(217, 70, 239, 0.8);
         }
 
-        /* Modal Overlay System */
+        /* Modals & Overlays */
         .modal-overlay {
             position: fixed;
             top: 0;
             left: 0;
-            right: 0;
-            bottom: 0;
-            background: rgba(18, 18, 26, 0.75);
-            backdrop-filter: blur(6px);
-            display: none;
-            justify-content: center;
+            width: 100%;
+            height: 100%;
+            background: rgba(15, 4, 29, 0.85);
+            backdrop-filter: blur(12px);
+            display: flex;
             align-items: center;
+            justify-content: center;
             z-index: 2000;
+            opacity: 0;
+            pointer-events: none;
+            transition: opacity 0.3s cubic-bezier(0.16, 1, 0.3, 1);
             padding: 20px;
         }
 
-        .modal-overlay.open {
-            display: flex;
+        .modal-overlay.show {
+            opacity: 1;
+            pointer-events: auto;
         }
 
         .modal-card {
-            background: #fff;
+            background: linear-gradient(160deg, #2A0E52 0%, #1A0733 100%);
+            border: 2px solid var(--border-purple);
             border-radius: var(--radius-xl);
+            box-shadow: 0 25px 60px rgba(0, 0, 0, 0.7), var(--shadow-purple-glow);
             width: 100%;
-            max-width: 760px;
+            max-width: 650px;
             max-height: 90vh;
             overflow-y: auto;
-            box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.25);
-            display: flex;
-            flex-direction: column;
-            animation: modalPop 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+            transform: scale(0.92) translateY(20px);
+            transition: transform 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+            color: #fff;
         }
 
-        @keyframes modalPop {
-            from { transform: scale(0.92); opacity: 0; }
-            to { transform: scale(1); opacity: 1; }
+        .modal-overlay.show .modal-card {
+            transform: scale(1) translateY(0);
         }
 
         .modal-head {
             padding: 20px 28px;
-            border-bottom: 1px solid var(--border-color);
+            border-bottom: 1.5px solid var(--border-purple);
             display: flex;
             justify-content: space-between;
             align-items: center;
-            background: #FAFBFC;
-            border-top-left-radius: var(--radius-xl);
-            border-top-right-radius: var(--radius-xl);
         }
 
         .modal-head h3 {
             font-family: 'Fredoka', cursive;
             font-size: 22px;
-            font-weight: 800;
-            color: var(--carnival-purple);
+            color: #FFFFFF;
             display: flex;
             align-items: center;
             gap: 10px;
         }
 
         .modal-close-btn {
-            background: transparent;
-            border: none;
-            font-size: 20px;
-            color: #94A3B8;
+            background: rgba(255, 255, 255, 0.1);
+            border: 1px solid var(--border-purple);
+            color: var(--purple-lilac);
+            width: 36px;
+            height: 36px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
             cursor: pointer;
-            padding: 6px;
-            border-radius: 8px;
             transition: all 0.2s;
         }
 
         .modal-close-btn:hover {
-            color: var(--carnival-red);
-            background: #FEE2E2;
+            background: var(--magenta-neon);
+            color: #fff;
+            transform: rotate(90deg);
         }
 
         .modal-body {
             padding: 28px;
-            flex: 1;
         }
 
-        /* 📦 4. Free Shipping & VIP Reward Meter */
-        .shipping-meter-box {
-            background: #F8F9FD;
-            border: 2px dashed var(--carnival-gold);
-            border-radius: var(--radius-md);
-            padding: 16px 20px;
-            margin-bottom: 22px;
-        }
-
-        .shipping-meter-header {
-            display: flex;
-            justify-content: space-between;
-            font-size: 13.5px;
-            font-weight: 700;
-            margin-bottom: 8px;
-            color: var(--text-dark);
-        }
-
-        .shipping-meter-track {
-            height: 10px;
-            background: #E2E8F0;
-            border-radius: 20px;
-            overflow: hidden;
-            position: relative;
-        }
-
-        .shipping-meter-fill {
-            height: 100%;
-            background: linear-gradient(90deg, #FF9F1C, #2EC4B6);
-            border-radius: 20px;
-            transition: width 0.4s ease;
-        }
-
-        /* 🎟️ 5. Promo Code Input in Cart */
-        .promo-code-box {
-            display: flex;
-            gap: 10px;
-            margin-bottom: 20px;
-        }
-
-        .promo-input {
-            flex: 1;
-            padding: 10px 14px;
-            border: 2px solid var(--border-color);
-            border-radius: 10px;
-            font-family: 'Fira Code', monospace;
-            font-size: 13px;
-            font-weight: 700;
-            text-transform: uppercase;
-        }
-
-        .promo-input:focus {
-            outline: none;
-            border-color: var(--carnival-purple);
-        }
-
-        .btn-apply-promo {
-            background: var(--carnival-purple);
-            color: #fff;
-            border: none;
-            padding: 10px 20px;
-            border-radius: 10px;
-            font-weight: 700;
-            font-size: 13px;
-            cursor: pointer;
-            transition: all 0.2s;
-        }
-
-        .btn-apply-promo:hover {
-            background: #2b0880;
-        }
-
-        /* Upsell Bundle Card in Cart */
-        .upsell-section {
-            background: #FFFBEB;
-            border: 1px solid #FDE68A;
-            border-radius: var(--radius-md);
-            padding: 16px;
-            margin-bottom: 22px;
-        }
-
-        .upsell-head {
-            font-size: 13px;
-            font-weight: 800;
-            color: #B45309;
-            display: flex;
-            align-items: center;
-            gap: 6px;
-            margin-bottom: 12px;
-        }
-
-        .upsell-item {
-            display: flex;
-            align-items: center;
-            justify-content: space-between;
-            gap: 12px;
-            background: #fff;
-            padding: 10px 14px;
-            border-radius: 8px;
-            border: 1px solid #FEF3C7;
-        }
-
-        /* Cart Table */
-        .cart-table {
-            width: 100%;
-            border-collapse: collapse;
-            margin-bottom: 20px;
-        }
-
-        .cart-table th {
-            text-align: left;
-            padding: 12px;
-            font-size: 12px;
-            text-transform: uppercase;
-            color: #64748B;
-            border-bottom: 2px solid var(--border-color);
-        }
-
-        .cart-table td {
-            padding: 14px 12px;
-            border-bottom: 1px solid #F1F5F9;
-            vertical-align: middle;
-        }
-
-        .qty-control {
-            display: inline-flex;
-            align-items: center;
-            border: 1px solid var(--border-color);
-            border-radius: 8px;
-            overflow: hidden;
-        }
-
-        .qty-btn {
-            background: #F8F9FA;
-            border: none;
-            width: 28px;
-            height: 28px;
-            cursor: pointer;
-            font-weight: 700;
-        }
-
-        .qty-btn:hover {
-            background: #E2E8F0;
-        }
-
-        .qty-val {
-            width: 34px;
-            text-align: center;
-            font-weight: 700;
-            font-size: 13px;
-        }
-
-        .cart-total-box {
-            background: #F8F9FD;
-            border-radius: var(--radius-md);
-            padding: 18px 22px;
-            margin-bottom: 22px;
-            border: 1px solid var(--border-color);
-        }
-
-        .total-row {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            margin-bottom: 8px;
-            font-size: 14px;
-            color: #475569;
-        }
-
-        .total-row.grand {
-            margin-top: 10px;
-            padding-top: 10px;
-            border-top: 2px dashed #CBD5E1;
-            font-weight: 800;
-            font-size: 18px;
-            color: var(--text-dark);
-        }
-
-        /* 🔍 6. Quick-View Modal Elements */
-        .qv-grid {
-            display: grid;
-            grid-template-columns: 1fr 1.2fr;
-            gap: 30px;
-        }
-
-        .qv-avatar-box {
-            background: linear-gradient(135deg, #F1F5F9 0%, #E2E8F0 100%);
-            border-radius: var(--radius-lg);
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            font-size: 110px;
-            min-height: 260px;
-            position: relative;
-            border: 1px solid var(--border-color);
-        }
-
-        .qv-volume-grid {
-            display: grid;
-            grid-template-columns: repeat(3, 1fr);
-            gap: 8px;
-            margin: 16px 0;
-        }
-
-        .qv-volume-card {
-            border: 2px solid var(--border-color);
-            border-radius: 10px;
-            padding: 10px;
-            text-align: center;
-            cursor: pointer;
-            transition: all 0.2s;
-            position: relative;
-        }
-
-        .qv-volume-card.active {
-            border-color: var(--carnival-purple);
-            background: #F0F2FF;
-        }
-
-        .qv-volume-tag {
-            position: absolute;
-            top: -9px;
-            left: 50%;
-            transform: translateX(-50%);
-            background: var(--carnival-red);
-            color: #fff;
-            font-size: 9px;
-            font-weight: 900;
-            padding: 1px 6px;
-            border-radius: 10px;
-            white-space: nowrap;
-        }
-
-        /* 🎡 7. Spin Wheel Canvas System */
+        /* 🎡 4. Spin Wheel Styles */
         .wheel-container {
             display: flex;
-            flex-direction: column;
-            align-items: center;
+            justify-content: center;
+            margin: 20px 0;
             position: relative;
-            margin: 10px 0;
         }
 
         .wheel-wrapper {
@@ -1094,26 +1139,24 @@
             height: 320px;
         }
 
-        #wheelCanvas {
-            width: 100%;
-            height: 100%;
-            border-radius: 50%;
-            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
-            transition: transform 4s cubic-bezier(0.15, 0.9, 0.2, 1);
-        }
-
         .wheel-pointer {
             position: absolute;
-            top: -14px;
+            top: -15px;
             left: 50%;
             transform: translateX(-50%);
             width: 0;
             height: 0;
-            border-left: 15px solid transparent;
-            border-right: 15px solid transparent;
-            border-top: 28px solid #E63946;
+            border-left: 16px solid transparent;
+            border-right: 16px solid transparent;
+            border-top: 30px solid var(--gold-magic);
             z-index: 10;
-            filter: drop-shadow(0 4px 6px rgba(0,0,0,0.3));
+            filter: drop-shadow(0 4px 6px rgba(0, 0, 0, 0.4));
+        }
+
+        #wheelCanvas {
+            border-radius: 50%;
+            box-shadow: 0 0 35px rgba(217, 70, 239, 0.5), 0 0 0 6px var(--purple-lilac);
+            background: #240B45;
         }
 
         .wheel-center-btn {
@@ -1123,17 +1166,16 @@
             transform: translate(-50%, -50%);
             width: 70px;
             height: 70px;
-            background: #fff;
+            background: linear-gradient(135deg, var(--gold-magic), #F59E0B);
+            color: #110524;
             border-radius: 50%;
-            border: 4px solid var(--carnival-gold);
-            box-shadow: 0 4px 15px rgba(0,0,0,0.25);
             display: flex;
             align-items: center;
             justify-content: center;
             font-weight: 900;
-            font-size: 13px;
-            color: var(--carnival-purple);
+            font-size: 15px;
             cursor: pointer;
+            box-shadow: 0 0 20px var(--gold-glow), 0 0 0 4px rgba(255, 255, 255, 0.6);
             z-index: 5;
             transition: transform 0.2s;
         }
@@ -1142,9 +1184,76 @@
             transform: translate(-50%, -50%) scale(1.1);
         }
 
-        /* Admin & Arch View Styles */
+        /* 🛒 Cart Modal Table & Free Shipping Wave Progress */
+        .free-shipping-box {
+            background: rgba(118, 3, 223, 0.2);
+            border: 1.5px solid var(--border-purple);
+            border-radius: var(--radius-md);
+            padding: 14px 18px;
+            margin-bottom: 20px;
+        }
+
+        .free-shipping-text {
+            font-size: 13px;
+            font-weight: 700;
+            color: var(--purple-lilac);
+            margin-bottom: 8px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+        }
+
+        .cart-item-row {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 14px 0;
+            border-bottom: 1.5px solid var(--border-purple);
+            gap: 12px;
+        }
+
+        .qty-btn {
+            background: rgba(255, 255, 255, 0.1);
+            border: 1px solid var(--border-purple);
+            color: #fff;
+            width: 28px;
+            height: 28px;
+            border-radius: var(--radius-sm);
+            cursor: pointer;
+            font-weight: 800;
+        }
+
+        .qty-btn:hover {
+            background: var(--purple-electric);
+        }
+
+        /* Quick View Modal Layout */
+        .qv-grid {
+            display: grid;
+            grid-template-columns: 1fr 1.3fr;
+            gap: 25px;
+            align-items: center;
+        }
+
+        .qv-img-box {
+            height: 240px;
+            background: radial-gradient(circle at center, rgba(168, 85, 247, 0.3) 0%, rgba(20, 5, 40, 0.9) 100%);
+            border-radius: var(--radius-lg);
+            border: 1.5px solid var(--border-purple);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 96px;
+        }
+
+        /* Views (Admin & Arch) */
         .admin-view, .arch-view {
             display: none;
+            background: var(--bg-card);
+            border-radius: var(--radius-xl);
+            border: 1.5px solid var(--border-purple);
+            padding: 30px;
+            box-shadow: var(--shadow-card);
         }
 
         .admin-view.active, .arch-view.active {
@@ -1163,49 +1272,52 @@
         .admin-table {
             width: 100%;
             border-collapse: collapse;
-            background: #fff;
-            border-radius: var(--radius-lg);
-            overflow: hidden;
-            box-shadow: var(--card-shadow);
+            font-size: 14px;
         }
 
         .admin-table th {
-            background: #FAFBFC;
+            background: rgba(20, 5, 40, 0.85);
+            color: var(--purple-lilac);
             text-align: left;
-            padding: 14px 18px;
-            font-size: 12px;
+            padding: 12px 16px;
+            border-bottom: 2px solid var(--border-purple);
+            font-weight: 800;
             text-transform: uppercase;
-            color: #64748B;
-            border-bottom: 2px solid var(--border-color);
+            font-size: 12px;
         }
 
         .admin-table td {
-            padding: 16px 18px;
-            border-bottom: 1px solid #F1F5F9;
-            vertical-align: middle;
+            padding: 14px 16px;
+            border-bottom: 1px solid var(--border-purple);
+            color: #FFFFFF;
         }
 
+        .admin-table tr:hover {
+            background: rgba(118, 3, 223, 0.15);
+        }
+
+        /* C# Architecture Code Explorer */
         .code-explorer {
             display: grid;
-            grid-template-columns: 280px 1fr;
-            background: #1E1E2E;
-            border-radius: var(--radius-xl);
+            grid-template-columns: 240px 1fr;
+            background: #110524;
+            border-radius: var(--radius-lg);
+            border: 1.5px solid var(--border-purple);
             overflow: hidden;
-            box-shadow: 0 20px 40px rgba(0,0,0,0.3);
-            border: 1px solid rgba(255, 255, 255, 0.1);
+            box-shadow: var(--shadow-card);
         }
 
         .code-sidebar {
-            background: #181825;
+            background: rgba(20, 5, 40, 0.95);
             padding: 20px 14px;
-            border-right: 1px solid rgba(255, 255, 255, 0.08);
+            border-right: 1.5px solid var(--border-purple);
             display: flex;
             flex-direction: column;
             gap: 4px;
         }
 
         .sidebar-heading {
-            color: var(--carnival-gold);
+            color: var(--gold-magic);
             font-size: 11px;
             font-weight: 800;
             text-transform: uppercase;
@@ -1216,9 +1328,9 @@
         .code-tab-btn {
             background: transparent;
             border: none;
-            color: #A6ADC8;
+            color: var(--purple-muted);
             padding: 9px 14px;
-            border-radius: 8px;
+            border-radius: var(--radius-sm);
             font-size: 13px;
             text-align: left;
             cursor: pointer;
@@ -1229,27 +1341,29 @@
         }
 
         .code-tab-btn:hover {
-            background: rgba(255, 255, 255, 0.06);
+            background: rgba(118, 3, 223, 0.2);
             color: #fff;
         }
 
         .code-tab-btn.active {
-            background: var(--carnival-purple);
+            background: linear-gradient(135deg, var(--purple-electric), var(--magenta-neon));
             color: #fff;
             font-weight: 700;
+            box-shadow: 0 0 15px rgba(118, 3, 223, 0.5);
         }
 
         .code-content {
             padding: 24px;
             overflow-x: auto;
             max-height: 600px;
+            background: #0E031D;
         }
 
         .code-content pre {
             margin: 0;
             font-family: 'Fira Code', monospace;
             font-size: 13.5px;
-            color: #CDD6F4;
+            color: #E2E8F0;
             line-height: 1.6;
         }
 
@@ -1272,17 +1386,20 @@
         }
 
         .form-control {
-            padding: 11px 16px;
-            border: 2px solid var(--border-color);
-            border-radius: 10px;
+            padding: 12px 16px;
+            background: rgba(20, 5, 40, 0.7);
+            border: 1.5px solid var(--border-purple);
+            border-radius: var(--radius-md);
             font-family: inherit;
             font-size: 14px;
-            transition: border-color 0.2s;
+            color: #FFFFFF;
+            transition: border-color 0.2s, box-shadow 0.2s;
         }
 
         .form-control:focus {
             outline: none;
-            border-color: var(--carnival-purple);
+            border-color: var(--purple-lilac);
+            box-shadow: 0 0 15px rgba(236, 179, 255, 0.3);
         }
 
         /* Toast Component */
@@ -1290,15 +1407,17 @@
             position: fixed;
             top: 24px;
             right: 24px;
-            background: var(--bg-dark);
+            background: rgba(36, 11, 69, 0.95);
+            backdrop-filter: blur(16px);
             color: #fff;
             padding: 14px 22px;
             border-radius: var(--radius-md);
             display: flex;
             align-items: center;
             gap: 12px;
-            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.35);
-            border-left: 4px solid var(--carnival-gold);
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5), 0 0 20px rgba(118, 3, 223, 0.4);
+            border: 1.5px solid var(--border-purple);
+            border-left: 4px solid var(--gold-magic);
             z-index: 3000;
             transform: translateX(120%);
             transition: transform 0.3s cubic-bezier(0.16, 1, 0.3, 1);
@@ -1308,13 +1427,15 @@
             transform: translateX(0);
         }
 
-        /* Footer */
+        /* 🌊 Footer with Wavy Accent */
         footer.store-footer {
-            background: var(--bg-dark);
-            color: #A6ADC8;
-            padding: 40px 24px;
+            background: #0D031A;
+            color: var(--purple-muted);
+            padding: 50px 24px 40px;
             margin-top: auto;
-            border-top: 1px solid rgba(255, 255, 255, 0.1);
+            border-top: 1.5px solid var(--border-purple);
+            position: relative;
+            z-index: 20;
         }
 
         .footer-inner {
@@ -1358,11 +1479,16 @@
 </head>
 <body>
 
-    <!-- ⚡ 1. Top Flash Sale Bar -->
+    <!-- Ambient Glow Blobs -->
+    <div class="ambient-blob ambient-blob-1"></div>
+    <div class="ambient-blob ambient-blob-2"></div>
+    <div class="ambient-blob ambient-blob-3"></div>
+
+    <!-- ⚡ 1. Top Flash Sale Urgency Bar -->
     <div class="flash-sale-bar">
         <div class="flash-sale-content">
             <span class="flash-badge">⚡ FLASH SALE</span>
-            <span>Get <strong>15% OFF</strong> all Pranks & Magic with code <strong style="color: var(--carnival-gold); text-decoration: underline; cursor: pointer;" onclick="copyAndApplyPromo('MISCHIEF15')">MISCHIEF15</strong>!</span>
+            <span>Get <strong>15% OFF</strong> all Organic Pranks & Magic with code <strong style="color: var(--gold-magic); text-decoration: underline; cursor: pointer;" onclick="copyAndApplyPromo('MISCHIEF15')">MISCHIEF15</strong>!</span>
             <span class="timer-box"><i class="fas fa-clock"></i> <span id="countdownTimer">02:44:18</span></span>
         </div>
         <div>
@@ -1388,26 +1514,26 @@
         </div>
     </div>
 
-    <!-- Store Header -->
+    <!-- 🔮 Store Header -->
     <header class="store-header">
         <div class="brand-box" onclick="switchView('store')">
-            <div class="brand-icon">🎩</div>
+            <div class="brand-icon">🔮</div>
             <div>
-                <div class="brand-title">Mischief & Magic Co.</div>
-                <div class="brand-subtitle">Purveyors of Chaos & Illusion</div>
+                <div class="brand-title">Mischief &amp; Magic Co.</div>
+                <div class="brand-subtitle">Purveyors of Chaos &amp; Organic Illusion</div>
             </div>
         </div>
 
         <div class="header-actions">
             <button class="btn-spin-reward" onclick="openSpinWheelModal()">
                 <i class="fas fa-gift"></i>
-                <span>Spin & Win 15% OFF</span>
+                <span>Spin &amp; Win 15% OFF</span>
             </button>
             <button class="cart-widget-btn" onclick="openCartModal()">
-                <i class="fas fa-shopping-bag"></i>
+                <i class="fas fa-shopping-bag" style="color: var(--purple-lilac);"></i>
                 <span>Cart of Chaos</span>
                 <span class="cart-badge" id="headerCartCount">0</span>
-                <span style="font-weight: 800; color: var(--carnival-gold);" id="headerCartTotal">$0.00</span>
+                <span style="font-weight: 800; color: var(--gold-magic);" id="headerCartTotal">$0.00</span>
             </button>
         </div>
     </header>
@@ -1417,33 +1543,47 @@
 
         <!-- ==================== VIEW 1: STOREFRONT ==================== -->
         <div id="storeView">
+            
+            <!-- 🍄 Grand Cosmic Purple Hero Banner with Wavy Accents -->
             <div class="store-hero">
+                <div class="hero-floating-emojis">🍄✨🔮</div>
                 <div class="hero-text">
+                    <div class="hero-wavy-tag">
+                        ~ ✨ 100% ORGANIC MISCHIEF &amp; ILLUSION ~
+                    </div>
                     <h1>Ready to Deploy Maximum Mischief?</h1>
-                    <p>Welcome to our high-caliber gag & illusion armory. From acoustic shock cushions to vanishing decks, we engineer certified comedic disruption.</p>
+                    <p>Welcome to our high-caliber gag &amp; illusion armory. From acoustic shock cushions to vanishing decks, we engineer certified comedic disruption.</p>
+                    <div class="hero-cta-group">
+                        <button class="btn-hero-primary" onclick="openSpinWheelModal()">
+                            <i class="fas fa-gift"></i> Spin Wheel for 15% OFF
+                        </button>
+                        <button class="btn-hero-secondary" onclick="filterCategory('Close-Up Magic')">
+                            🪄 Explore Magic Essentials
+                        </button>
+                    </div>
                 </div>
             </div>
 
-            <!-- Trust Badges Strip -->
+            <!-- 🛡️ Trust Badges Strip -->
             <div class="trust-strip">
                 <div class="trust-card">
-                    <div class="trust-icon"><i class="fas fa-shield-halved"></i></div>
+                    <div class="trust-icon"><i class="fas fa-box-open"></i></div>
                     <div>
-                        <div class="trust-title">100% Decoy Packaging</div>
+                        <div class="trust-title">100% Decoy Stealth Packaging</div>
                         <div class="trust-sub">Disguised in mundane cardboard</div>
                     </div>
                 </div>
                 <div class="trust-card">
-                    <div class="trust-icon"><i class="fas fa-dove"></i></div>
+                    <div class="trust-icon"><i class="fas fa-feather-pointed"></i></div>
                     <div>
-                        <div class="trust-title">Carrier Pigeon VIP</div>
+                        <div class="trust-title">Carrier Pigeon VIP Express</div>
                         <div class="trust-sub">Free shipping on orders over $50</div>
                     </div>
                 </div>
                 <div class="trust-card">
                     <div class="trust-icon"><i class="fas fa-wand-magic-sparkles"></i></div>
                     <div>
-                        <div class="trust-title">Illusionist Certified</div>
+                        <div class="trust-title">Illusionist Certified High-Grade</div>
                         <div class="trust-sub">Tested for maximum laughter</div>
                     </div>
                 </div>
@@ -1456,7 +1596,7 @@
                 </div>
             </div>
 
-            <!-- Category Navigation -->
+            <!-- 🏷️ Category Navigation -->
             <div class="category-pills" id="categoryPills">
                 <button class="cat-pill active" onclick="filterCategory('All')">🎪 All Mischief (<span id="countAll">14</span>)</button>
                 <button class="cat-pill" onclick="filterCategory('Classic Gags')">💥 Classic Gags (<span id="countClassic">4</span>)</button>
@@ -1465,7 +1605,7 @@
                 <button class="cat-pill" onclick="filterCategory('Stage Illusions')">🪄 Stage Illusions (<span id="countStage">3</span>)</button>
             </div>
 
-            <!-- Products Grid -->
+            <!-- 🎁 Products Grid -->
             <div class="product-grid" id="productsGrid">
                 <!-- Injected dynamically via JS simulating Razor @Html.Partial("_ProductSummary") -->
             </div>
@@ -1480,10 +1620,10 @@
         <div id="adminView" class="admin-view">
             <div class="admin-header">
                 <div>
-                    <h2 style="font-family: 'Fredoka', cursive; font-size: 28px; color: var(--carnival-purple);">
-                        <i class="fas fa-boxes"></i> Inventory & CRUD Back-Office
+                    <h2 style="font-family: 'Fredoka', cursive; font-size: 28px; color: var(--purple-lilac);">
+                        <i class="fas fa-boxes"></i> Inventory &amp; CRUD Back-Office
                     </h2>
-                    <p style="color: var(--text-muted); font-size: 14px;">
+                    <p style="color: var(--purple-muted); font-size: 14px;">
                         Manage product entries in Entity Framework 6 LocalDB with real-time in-memory persistence.
                     </p>
                 </div>
@@ -1498,7 +1638,7 @@
                         <tr>
                             <th style="width: 70px;">ID</th>
                             <th style="width: 80px;">Icon</th>
-                            <th>Product Name & Description</th>
+                            <th>Product Name &amp; Description</th>
                             <th style="width: 170px;">Category</th>
                             <th style="width: 120px; text-align: right;">Price</th>
                             <th style="width: 160px; text-align: center;">Actions</th>
@@ -1514,10 +1654,10 @@
         <!-- ==================== VIEW 3: C# ARCHITECTURE EXPLORER ==================== -->
         <div id="archView" class="arch-view">
             <div style="margin-bottom: 20px;">
-                <h2 style="font-family: 'Fredoka', cursive; font-size: 28px; color: var(--carnival-purple);">
-                    <i class="fas fa-cubes"></i> ASP.NET MVC 5 & Ninject Architecture Blueprints
+                <h2 style="font-family: 'Fredoka', cursive; font-size: 28px; color: var(--purple-lilac);">
+                    <i class="fas fa-cubes"></i> ASP.NET MVC 5 &amp; Ninject Architecture Blueprints
                 </h2>
-                <p style="color: var(--text-muted); font-size: 14px;">
+                <p style="color: var(--purple-muted); font-size: 14px;">
                     Explore the clean N-Tier C# architecture, custom Model Binders, EF6 Code-First initializers, and Ninject Dependency Injection modules.
                 </p>
             </div>
@@ -1551,7 +1691,7 @@
     <div class="social-proof-toast" id="socialProofToast" onclick="handleSocialToastClick()">
         <div class="toast-avatar" id="socialAvatar">💨</div>
         <div class="toast-details">
-            <div class="toast-user"><i class="fas fa-check-circle" style="color: #10B981;"></i> <span id="socialUser">Arthur in London</span></div>
+            <div class="toast-user"><i class="fas fa-check-circle" style="color: var(--emerald-vibe);"></i> <span id="socialUser">Arthur in London</span></div>
             <div class="toast-prod">Just bought <strong><span id="socialProd">2x Sonic Whoopee Cushion</span></strong></div>
             <div class="toast-time"><i class="far fa-clock"></i> <span id="socialTime">2 mins ago</span> • Verified Prankster 🎪</div>
         </div>
@@ -1568,12 +1708,12 @@
     <div class="modal-overlay" id="spinWheelModal">
         <div class="modal-card" style="max-width: 520px; text-align: center;">
             <div class="modal-head">
-                <h3><i class="fas fa-dharmachakra" style="color: var(--carnival-gold);"></i> The Trickster Prize Wheel</h3>
+                <h3><i class="fas fa-dharmachakra" style="color: var(--gold-magic);"></i> The Trickster Prize Wheel</h3>
                 <button class="modal-close-btn" onclick="closeSpinWheelModal()"><i class="fas fa-times"></i></button>
             </div>
             <div class="modal-body">
-                <p style="color: #64748B; font-size: 14px; margin-bottom: 15px;">
-                    Spin the carnival wheel to unlock an exclusive secret discount code for your prank order!
+                <p style="color: var(--purple-muted); font-size: 14px; margin-bottom: 15px;">
+                    Spin the cosmic prize wheel to unlock an exclusive secret discount code for your prank order!
                 </p>
 
                 <div class="wheel-container">
@@ -1584,9 +1724,9 @@
                     </div>
                 </div>
 
-                <div id="wheelResultBox" style="display: none; margin-top: 20px; padding: 16px; background: #FEF3C7; border: 2px dashed #F59E0B; border-radius: var(--radius-md);">
-                    <h4 style="font-family: 'Fredoka', cursive; font-size: 22px; color: #B45309; margin-bottom: 6px;">🎉 Congratulations!</h4>
-                    <p style="font-size: 14px; color: #78350F; margin-bottom: 12px;">You won: <strong id="wheelWonText">15% OFF Order</strong></p>
+                <div id="wheelResultBox" style="display: none; margin-top: 20px; padding: 18px; background: rgba(118, 3, 223, 0.25); border: 2px dashed var(--purple-lilac); border-radius: var(--radius-md);">
+                    <h4 style="font-family: 'Fredoka', cursive; font-size: 22px; color: var(--gold-magic); margin-bottom: 6px;">🎉 Congratulations!</h4>
+                    <p style="font-size: 14px; color: var(--purple-lilac); margin-bottom: 12px;">You won: <strong id="wheelWonText">15% OFF Order</strong></p>
                     <div style="display: flex; justify-content: center; gap: 10px;">
                         <button class="btn-add-cart" onclick="applyWonPromo()">
                             <i class="fas fa-magic"></i> Auto-Apply Code (<span id="wheelWonCode">MISCHIEF15</span>)
@@ -1601,7 +1741,7 @@
     <div class="modal-overlay" id="quickViewModal">
         <div class="modal-card" style="max-width: 780px;">
             <div class="modal-head">
-                <h3><i class="fas fa-eye" style="color: var(--carnival-purple);"></i> Prank Inspection &amp; Volume Deals</h3>
+                <h3><i class="fas fa-eye" style="color: var(--purple-lilac);"></i> Prank Inspection &amp; Volume Deals</h3>
                 <button class="modal-close-btn" onclick="closeQuickViewModal()"><i class="fas fa-times"></i></button>
             </div>
             <div class="modal-body" id="quickViewBody">
@@ -1614,7 +1754,7 @@
     <div class="modal-overlay" id="cartModal">
         <div class="modal-card">
             <div class="modal-head">
-                <h3><i class="fas fa-shopping-cart" style="color: var(--carnival-red);"></i> Your Cart of Chaos</h3>
+                <h3><i class="fas fa-shopping-cart" style="color: var(--magenta-neon);"></i> Your Cart of Chaos</h3>
                 <button class="modal-close-btn" onclick="closeCartModal()"><i class="fas fa-times"></i></button>
             </div>
             <div class="modal-body" id="cartModalBody">
@@ -1627,43 +1767,43 @@
     <div class="modal-overlay" id="checkoutModal">
         <div class="modal-card" style="max-width: 680px;">
             <div class="modal-head">
-                <h3><i class="fas fa-lock" style="color: var(--carnival-gold);"></i> Delivery Coordinates Protocol</h3>
+                <h3><i class="fas fa-lock" style="color: var(--gold-magic);"></i> Delivery Coordinates Protocol</h3>
                 <button class="modal-close-btn" onclick="closeCheckoutModal()"><i class="fas fa-times"></i></button>
             </div>
             <div class="modal-body">
                 <form id="checkoutForm" onsubmit="handleCheckoutSubmit(event)">
                     <div class="form-grid">
                         <div class="form-group full">
-                            <label>Recipient Name *</label>
+                            <label style="font-size: 13px; font-weight: 700; color: var(--purple-lilac);">Recipient Name *</label>
                             <input type="text" class="form-control" id="custName" required placeholder="e.g., Harry Houdini">
                         </div>
                         <div class="form-group full">
-                            <label>Email Address (For Dispatch Manifest) *</label>
+                            <label style="font-size: 13px; font-weight: 700; color: var(--purple-lilac);">Email Address (For Dispatch Manifest) *</label>
                             <input type="email" class="form-control" id="custEmail" required placeholder="e.g., prankster@mischief.io">
                         </div>
                         <div class="form-group full">
-                            <label>Street Address *</label>
+                            <label style="font-size: 13px; font-weight: 700; color: var(--purple-lilac);">Street Address *</label>
                             <input type="text" class="form-control" id="custLine1" required placeholder="123 Prank Way, Suite 404">
                         </div>
                         <div class="form-group">
-                            <label>City *</label>
+                            <label style="font-size: 13px; font-weight: 700; color: var(--purple-lilac);">City *</label>
                             <input type="text" class="form-control" id="custCity" required placeholder="Gotham">
                         </div>
                         <div class="form-group">
-                            <label>State / Province *</label>
+                            <label style="font-size: 13px; font-weight: 700; color: var(--purple-lilac);">State / Province *</label>
                             <input type="text" class="form-control" id="custState" required placeholder="NY">
                         </div>
                         <div class="form-group">
-                            <label>Zip / Postal Code</label>
+                            <label style="font-size: 13px; font-weight: 700; color: var(--purple-lilac);">Zip / Postal Code</label>
                             <input type="text" class="form-control" id="custZip" placeholder="10001">
                         </div>
                         <div class="form-group">
-                            <label>Country *</label>
+                            <label style="font-size: 13px; font-weight: 700; color: var(--purple-lilac);">Country *</label>
                             <input type="text" class="form-control" id="custCountry" required value="United States">
                         </div>
                         <div class="form-group full">
-                            <label class="checkbox-group" style="display: flex; align-items: center; gap: 8px; cursor: pointer; font-weight: 700;">
-                                <input type="checkbox" id="custGiftWrap" checked style="width: 18px; height: 18px;">
+                            <label class="checkbox-group" style="display: flex; align-items: center; gap: 8px; cursor: pointer; font-weight: 700; color: #FFFFFF;">
+                                <input type="checkbox" id="custGiftWrap" checked style="width: 18px; height: 18px; accent-color: var(--magenta-neon);">
                                 <span>🎁 Stealth Decoy Packaging (Boring unmarked exterior box)</span>
                             </label>
                         </div>
@@ -1683,15 +1823,15 @@
     <div class="modal-overlay" id="confirmedModal">
         <div class="modal-card" style="max-width: 580px; text-align: center;">
             <div class="modal-body" style="padding: 40px 30px;">
-                <div style="font-size: 64px; margin-bottom: 15px;">🎩✨🎉</div>
-                <h2 style="font-family: 'Fredoka', cursive; font-size: 30px; color: var(--carnival-purple); margin-bottom: 10px;">
+                <div style="font-size: 64px; margin-bottom: 15px;">🔮✨🎉</div>
+                <h2 style="font-family: 'Fredoka', cursive; font-size: 32px; color: var(--purple-lilac); margin-bottom: 10px;">
                     Order Confirmed!
                 </h2>
-                <p style="color: #4B5563; font-size: 15px; margin-bottom: 25px;">
+                <p style="color: var(--purple-muted); font-size: 15px; margin-bottom: 25px;">
                     Our mischievous couriers have received your dispatch instructions! A mock manifest has been logged via <code>EmailOrderProcessor</code>.
                 </p>
 
-                <div style="background: #F1F5F9; border-radius: 12px; padding: 18px; text-align: left; font-family: 'Fira Code', monospace; font-size: 12px; margin-bottom: 25px; color: #334155;" id="dispatchReceipt">
+                <div style="background: #0E031D; border: 1.5px solid var(--border-purple); border-radius: 12px; padding: 18px; text-align: left; font-family: 'Fira Code', monospace; font-size: 12px; margin-bottom: 25px; color: var(--purple-lilac);" id="dispatchReceipt">
                     <!-- Injected -->
                 </div>
 
@@ -1713,11 +1853,11 @@
                 <form id="adminProductForm" onsubmit="handleProductFormSubmit(event)">
                     <input type="hidden" id="prodId" value="0">
                     <div class="form-group" style="margin-bottom: 15px;">
-                        <label>Product Name *</label>
+                        <label style="font-size: 13px; font-weight: 700; color: var(--purple-lilac);">Product Name *</label>
                         <input type="text" class="form-control" id="prodName" required placeholder="e.g., Deluxe Squirting Flower">
                     </div>
                     <div class="form-group" style="margin-bottom: 15px;">
-                        <label>Category *</label>
+                        <label style="font-size: 13px; font-weight: 700; color: var(--purple-lilac);">Category *</label>
                         <select class="form-control" id="prodCategory">
                             <option value="Classic Gags">Classic Gags</option>
                             <option value="Office Mischief">Office Mischief</option>
@@ -1726,15 +1866,15 @@
                         </select>
                     </div>
                     <div class="form-group" style="margin-bottom: 15px;">
-                        <label>Price ($) *</label>
+                        <label style="font-size: 13px; font-weight: 700; color: var(--purple-lilac);">Price ($) *</label>
                         <input type="number" step="0.01" min="0.01" class="form-control" id="prodPrice" required placeholder="14.99">
                     </div>
                     <div class="form-group" style="margin-bottom: 15px;">
-                        <label>Emoji / Icon Avatar</label>
+                        <label style="font-size: 13px; font-weight: 700; color: var(--purple-lilac);">Emoji / Icon Avatar</label>
                         <input type="text" class="form-control" id="prodEmoji" placeholder="e.g., 💨 or 🪄 or 🃏">
                     </div>
                     <div class="form-group" style="margin-bottom: 20px;">
-                        <label>Description *</label>
+                        <label style="font-size: 13px; font-weight: 700; color: var(--purple-lilac);">Description *</label>
                         <textarea class="form-control" id="prodDesc" rows="4" required placeholder="Irreverent, entertaining copy..."></textarea>
                     </div>
                     <button type="submit" class="btn-add-cart" style="width: 100%; justify-content: center; padding: 12px; font-size: 15px;">
@@ -1747,18 +1887,18 @@
 
     <!-- Toast Component -->
     <div class="toast" id="toast">
-        <i class="fas fa-magic" style="color: var(--carnival-gold); font-size: 18px;"></i>
+        <i class="fas fa-magic" style="color: var(--gold-magic); font-size: 18px;"></i>
         <span id="toastMsg">Prank added to cart!</span>
     </div>
 
-    <!-- Footer -->
+    <!-- 🌊 Footer with Wavy Accent -->
     <footer class="store-footer">
         <div class="footer-inner">
             <div>
-                <strong style="color: #fff; font-size: 16px;">Mischief & Magic Co.</strong>
-                <p style="font-size: 13px; margin-top: 4px;">Enterprise .NET 4.8 / ASP.NET MVC 5 Architecture Reference Implementation</p>
+                <strong style="color: #fff; font-size: 18px; font-family: 'Fredoka', cursive;">🔮 Mischief &amp; Magic Co.</strong>
+                <p style="font-size: 13px; color: var(--purple-muted); margin-top: 4px;">Enterprise .NET 4.8 / ASP.NET MVC 5 Architecture Reference Implementation</p>
             </div>
-            <div style="font-size: 13px;">
+            <div style="font-size: 13px; color: var(--purple-muted);">
                 Built with C# 7+, EF6 Code-First, Ninject 3.3, and Custom Model Binders
             </div>
         </div>
@@ -1798,7 +1938,7 @@
         let soundEnabled = true;
         let currentSocialProductId = 1;
 
-        // 🔊 Web Audio API Procedural Sound Engine
+        // Sound Synthesizer (Web Audio API)
         let audioCtx = null;
         function getAudioContext() {
             if (!audioCtx) {
@@ -1810,81 +1950,51 @@
             return audioCtx;
         }
 
-        function playChaChing() {
+        function playSound(type) {
             if (!soundEnabled) return;
             try {
                 const ctx = getAudioContext();
                 const now = ctx.currentTime;
-                // High chime 1
-                const osc1 = ctx.createOscillator();
-                const gain1 = ctx.createGain();
-                osc1.type = 'sine';
-                osc1.frequency.setValueAtTime(987.77, now); // B5
-                osc1.frequency.setValueAtTime(1318.51, now + 0.08); // E6
-                gain1.gain.setValueAtTime(0.2, now);
-                gain1.gain.exponentialRampToValueAtTime(0.001, now + 0.4);
-                osc1.connect(gain1);
-                gain1.connect(ctx.destination);
-                osc1.start(now);
-                osc1.stop(now + 0.4);
-            } catch (e) {}
-        }
 
-        function playWheelTick() {
-            if (!soundEnabled) return;
-            try {
-                const ctx = getAudioContext();
-                const now = ctx.currentTime;
-                const osc = ctx.createOscillator();
-                const gain = ctx.createGain();
-                osc.type = 'triangle';
-                osc.frequency.setValueAtTime(450 + Math.random() * 100, now);
-                gain.gain.setValueAtTime(0.1, now);
-                gain.gain.exponentialRampToValueAtTime(0.001, now + 0.05);
-                osc.connect(gain);
-                gain.connect(ctx.destination);
-                osc.start(now);
-                osc.stop(now + 0.05);
-            } catch (e) {}
-        }
-
-        function playVictoryFanfare() {
-            if (!soundEnabled) return;
-            try {
-                const ctx = getAudioContext();
-                const notes = [523.25, 659.25, 783.99, 1046.50]; // C5, E5, G5, C6
-                notes.forEach((freq, idx) => {
-                    const now = ctx.currentTime + (idx * 0.1);
+                if (type === 'click') {
                     const osc = ctx.createOscillator();
                     const gain = ctx.createGain();
                     osc.type = 'sine';
-                    osc.frequency.setValueAtTime(freq, now);
+                    osc.frequency.setValueAtTime(600, now);
+                    osc.frequency.exponentialRampToValueAtTime(300, now + 0.05);
                     gain.gain.setValueAtTime(0.2, now);
-                    gain.gain.exponentialRampToValueAtTime(0.001, now + 0.35);
+                    gain.gain.exponentialRampToValueAtTime(0.001, now + 0.05);
                     osc.connect(gain);
                     gain.connect(ctx.destination);
                     osc.start(now);
-                    osc.stop(now + 0.35);
-                });
-            } catch (e) {}
-        }
-
-        function playWhoopeePop() {
-            if (!soundEnabled) return;
-            try {
-                const ctx = getAudioContext();
-                const now = ctx.currentTime;
-                const osc = ctx.createOscillator();
-                const gain = ctx.createGain();
-                osc.type = 'sawtooth';
-                osc.frequency.setValueAtTime(220, now);
-                osc.frequency.exponentialRampToValueAtTime(80, now + 0.15);
-                gain.gain.setValueAtTime(0.15, now);
-                gain.gain.exponentialRampToValueAtTime(0.001, now + 0.15);
-                osc.connect(gain);
-                gain.connect(ctx.destination);
-                osc.start(now);
-                osc.stop(now + 0.15);
+                    osc.stop(now + 0.05);
+                } else if (type === 'magic') {
+                    [523.25, 659.25, 783.99, 1046.50].forEach((freq, idx) => {
+                        const osc = ctx.createOscillator();
+                        const gain = ctx.createGain();
+                        osc.type = 'triangle';
+                        osc.frequency.setValueAtTime(freq, now + idx * 0.06);
+                        gain.gain.setValueAtTime(0.15, now + idx * 0.06);
+                        gain.gain.exponentialRampToValueAtTime(0.001, now + idx * 0.06 + 0.25);
+                        osc.connect(gain);
+                        gain.connect(ctx.destination);
+                        osc.start(now + idx * 0.06);
+                        osc.stop(now + idx * 0.06 + 0.25);
+                    });
+                } else if (type === 'fanfare') {
+                    [440, 554.37, 659.25, 880, 1108.73].forEach((freq, idx) => {
+                        const osc = ctx.createOscillator();
+                        const gain = ctx.createGain();
+                        osc.type = 'sawtooth';
+                        osc.frequency.setValueAtTime(freq, now + idx * 0.08);
+                        gain.gain.setValueAtTime(0.12, now + idx * 0.08);
+                        gain.gain.exponentialRampToValueAtTime(0.001, now + idx * 0.08 + 0.4);
+                        osc.connect(gain);
+                        gain.connect(ctx.destination);
+                        osc.start(now + idx * 0.08);
+                        osc.stop(now + idx * 0.08 + 0.4);
+                    });
+                }
             } catch (e) {}
         }
 
@@ -1893,56 +2003,502 @@
             const btn = document.getElementById('soundToggleBtn');
             if (soundEnabled) {
                 btn.innerHTML = '<i class="fas fa-volume-up"></i> Sound: ON';
-                playChaChing();
+                playSound('magic');
             } else {
                 btn.innerHTML = '<i class="fas fa-volume-mute"></i> Sound: OFF';
             }
         }
 
-        // ⚡ Countdown Timer
-        function startCountdown() {
-            let totalSeconds = 2 * 3600 + 44 * 60 + 18;
-            setInterval(() => {
-                totalSeconds--;
-                if (totalSeconds < 0) totalSeconds = 3600 * 3;
-                const hrs = String(Math.floor(totalSeconds / 3600)).padStart(2, '0');
-                const mins = String(Math.floor((totalSeconds % 3600) / 60)).padStart(2, '0');
-                const secs = String(totalSeconds % 60).padStart(2, '0');
-                const elem = document.getElementById('countdownTimer');
-                if (elem) elem.innerText = `${hrs}:${mins}:${secs}`;
-            }, 1000);
+        // ==================== RENDERING STOREFRONT ====================
+        function renderProducts() {
+            const grid = document.getElementById('productsGrid');
+            const filtered = currentCategory === "All" 
+                ? products 
+                : products.filter(p => p.Category === currentCategory);
+
+            updateCategoryCounts();
+
+            const totalPages = Math.ceil(filtered.length / pageSize);
+            if (currentPage > totalPages && totalPages > 0) currentPage = totalPages;
+
+            const startIndex = (currentPage - 1) * pageSize;
+            const pageProducts = filtered.slice(startIndex, startIndex + pageSize);
+
+            grid.innerHTML = pageProducts.map(p => `
+                <div class="product-card">
+                    <div class="card-img-wrap" onclick="openQuickView(${p.ProductID})">
+                        <span>${p.Emoji}</span>
+                        <div class="card-category-badge">${p.Category}</div>
+                        <div class="card-scarcity-badge"><i class="fas fa-fire"></i> Only ${p.StockLeft} left!</div>
+                        <button class="card-quick-btn"><i class="fas fa-eye"></i> Quick View</button>
+                    </div>
+                    <div class="card-body">
+                        <div class="star-rating">
+                            ${'★'.repeat(Math.floor(p.Rating))}${'☆'.repeat(5 - Math.floor(p.Rating))}
+                            <span class="star-count">(${p.Reviews})</span>
+                        </div>
+                        <div class="card-title" onclick="openQuickView(${p.ProductID})">${p.Name}</div>
+                        <div class="card-desc">${p.Description}</div>
+                        
+                        <div class="stock-progress-wrap">
+                            <div class="stock-progress-label">
+                                <span>🔥 Hurry! ${p.StockLeft} In Stock</span>
+                                <span>${p.Viewers} browsing now</span>
+                            </div>
+                            <div class="stock-progress-bar">
+                                <div class="stock-progress-fill" style="width: ${Math.max(15, (p.StockLeft / 10) * 100)}%;"></div>
+                            </div>
+                        </div>
+
+                        <div class="card-footer">
+                            <div class="card-price-box">
+                                <span class="card-price">$${p.Price.toFixed(2)}</span>
+                                <span class="card-price-orig">$${p.OrigPrice.toFixed(2)}</span>
+                            </div>
+                            <button class="btn-add-cart" onclick="addToCart(${p.ProductID})">
+                                <i class="fas fa-cart-plus"></i> Add ✨
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            `).join('');
+
+            renderPagination(totalPages);
         }
 
-        // 🔔 Social Proof Purchase Feed
-        const socialEvents = [
-            { user: "Arthur H.", city: "London, UK", prodId: 8, qty: 2, time: "2 mins ago" },
-            { user: "Marcus T.", city: "Austin, TX", prodId: 2, qty: 1, time: "Just now" },
-            { user: "Chloe M.", city: "Seattle, WA", prodId: 1, qty: 3, time: "5 mins ago" },
-            { user: "Elena R.", city: "Toronto, ON", prodId: 5, qty: 1, time: "8 mins ago" },
-            { user: "Dmitri V.", city: "Berlin, DE", prodId: 10, qty: 4, time: "12 mins ago" },
-            { user: "Samira K.", city: "Chicago, IL", prodId: 3, qty: 2, time: "15 mins ago" },
-            { user: "Leo N.", city: "Sydney, AU", prodId: 7, qty: 5, time: "18 mins ago" }
+        function updateCategoryCounts() {
+            document.getElementById('countAll').innerText = products.length;
+            document.getElementById('countClassic').innerText = products.filter(p => p.Category === 'Classic Gags').length;
+            document.getElementById('countOffice').innerText = products.filter(p => p.Category === 'Office Mischief').length;
+            document.getElementById('countCloseUp').innerText = products.filter(p => p.Category === 'Close-Up Magic').length;
+            document.getElementById('countStage').innerText = products.filter(p => p.Category === 'Stage Illusions').length;
+        }
+
+        function filterCategory(cat) {
+            playSound('click');
+            currentCategory = cat;
+            currentPage = 1;
+            
+            document.querySelectorAll('.cat-pill').forEach(pill => {
+                if (pill.innerText.includes(cat) || (cat === 'All' && pill.innerText.includes('All Mischief'))) {
+                    pill.classList.add('active');
+                } else {
+                    pill.classList.remove('active');
+                }
+            });
+
+            renderProducts();
+        }
+
+        function renderPagination(totalPages) {
+            const bar = document.getElementById('paginationBar');
+            if (totalPages <= 1) {
+                bar.innerHTML = '';
+                return;
+            }
+
+            let html = '';
+            for (let i = 1; i <= totalPages; i++) {
+                html += `<button class="page-btn ${i === currentPage ? 'active' : ''}" onclick="goToPage(${i})">${i}</button>`;
+            }
+            bar.innerHTML = html;
+        }
+
+        function goToPage(page) {
+            playSound('click');
+            currentPage = page;
+            renderProducts();
+            window.scrollTo({ top: 350, behavior: 'smooth' });
+        }
+
+        // ==================== CART MANAGEMENT ====================
+        function addToCart(prodId, qty = 1) {
+            const p = products.find(x => x.ProductID === prodId);
+            if (!p) return;
+
+            const existing = cart.lines.find(x => x.Product.ProductID === prodId);
+            if (existing) {
+                existing.Quantity += qty;
+            } else {
+                cart.lines.push({ Product: p, Quantity: qty });
+            }
+
+            playSound('magic');
+            updateCartWidgets();
+            showToast(`Added ${qty}x ${p.Name} to Cart! ✨`);
+        }
+
+        function updateCartWidgets() {
+            const totalCount = cart.lines.reduce((sum, line) => sum + line.Quantity, 0);
+            const subtotal = cart.lines.reduce((sum, line) => sum + (line.Product.Price * line.Quantity), 0);
+            
+            let discountAmount = 0;
+            if (cart.discountPercent > 0) {
+                discountAmount = (subtotal * (cart.discountPercent / 100));
+            }
+            const finalTotal = Math.max(0, subtotal - discountAmount);
+
+            document.getElementById('headerCartCount').innerText = totalCount;
+            document.getElementById('headerCartTotal').innerText = `$${finalTotal.toFixed(2)}`;
+
+            renderCartModalBody(subtotal, discountAmount, finalTotal);
+        }
+
+        function renderCartModalBody(subtotal, discountAmount, finalTotal) {
+            const body = document.getElementById('cartModalBody');
+            if (cart.lines.length === 0) {
+                body.innerHTML = `
+                    <div style="text-align: center; padding: 30px 10px;">
+                        <div style="font-size: 64px; margin-bottom: 15px;">🔮🕸️</div>
+                        <h4 style="font-family: 'Fredoka', cursive; font-size: 22px; color: var(--purple-lilac); margin-bottom: 6px;">Your Cart of Chaos is Empty!</h4>
+                        <p style="color: var(--purple-muted); font-size: 14px; margin-bottom: 20px;">No gags or illusions loaded into your prank pouch yet.</p>
+                        <button class="btn-add-cart" onclick="closeCartModal()">
+                            <i class="fas fa-store"></i> Browse Magical Arsenal
+                        </button>
+                    </div>
+                `;
+                return;
+            }
+
+            const freeShippingThreshold = 50.00;
+            const progressPct = Math.min(100, (finalTotal / freeShippingThreshold) * 100);
+            const awayFromFree = Math.max(0, freeShippingThreshold - finalTotal);
+
+            body.innerHTML = `
+                <div class="free-shipping-box">
+                    <div class="free-shipping-text">
+                        <span>${awayFromFree === 0 ? '🎉 YOU UNLOCKED FREE CARRIER PIGEON VIP SHIPPING!' : `🕊️ Add $${awayFromFree.toFixed(2)} more for FREE Carrier Pigeon Shipping!`}</span>
+                        <span>${progressPct.toFixed(0)}%</span>
+                    </div>
+                    <div class="stock-progress-bar">
+                        <div class="stock-progress-fill" style="width: ${progressPct}%;"></div>
+                    </div>
+                </div>
+
+                <div style="max-height: 280px; overflow-y: auto; margin-bottom: 18px;">
+                    ${cart.lines.map(line => `
+                        <div class="cart-item-row">
+                            <div style="display: flex; align-items: center; gap: 12px;">
+                                <span style="font-size: 28px;">${line.Product.Emoji}</span>
+                                <div>
+                                    <div style="font-weight: 700; font-size: 14px; color: #FFF;">${line.Product.Name}</div>
+                                    <div style="font-size: 12px; color: var(--purple-muted);">$${line.Product.Price.toFixed(2)} each</div>
+                                </div>
+                            </div>
+                            <div style="display: flex; align-items: center; gap: 10px;">
+                                <button class="qty-btn" onclick="changeQty(${line.Product.ProductID}, -1)">-</button>
+                                <span style="font-weight: 800; font-family: 'Fira Code', monospace; min-width: 20px; text-align: center;">${line.Quantity}</span>
+                                <button class="qty-btn" onclick="changeQty(${line.Product.ProductID}, 1)">+</button>
+                                <span style="font-weight: 800; font-family: 'Fredoka', cursive; min-width: 65px; text-align: right; color: var(--gold-magic);">$${(line.Product.Price * line.Quantity).toFixed(2)}</span>
+                            </div>
+                        </div>
+                    `).join('')}
+                </div>
+
+                <div style="background: rgba(20, 5, 40, 0.7); border: 1.5px solid var(--border-purple); border-radius: var(--radius-md); padding: 16px; margin-bottom: 20px;">
+                    <div style="display: flex; justify-content: space-between; font-size: 14px; color: var(--purple-muted); margin-bottom: 6px;">
+                        <span>Subtotal</span>
+                        <span>$${subtotal.toFixed(2)}</span>
+                    </div>
+                    ${cart.discountPercent > 0 ? `
+                        <div style="display: flex; justify-content: space-between; font-size: 14px; color: var(--magenta-neon); margin-bottom: 6px;">
+                            <span>Secret Promo (${cart.appliedCoupon} - ${cart.discountPercent}%)</span>
+                            <span>-$${discountAmount.toFixed(2)}</span>
+                        </div>
+                    ` : ''}
+                    <div style="display: flex; justify-content: space-between; font-size: 18px; font-weight: 900; color: #FFFFFF; border-top: 1px dashed var(--border-purple); padding-top: 10px; margin-top: 6px;">
+                        <span>TOTAL</span>
+                        <span style="color: var(--gold-magic); font-family: 'Fredoka', cursive;">$${finalTotal.toFixed(2)}</span>
+                    </div>
+                </div>
+
+                <div style="display: flex; gap: 10px;">
+                    <button class="btn-add-cart" style="flex: 1; justify-content: center; padding: 14px; font-size: 15px;" onclick="openCheckoutModal()">
+                        <i class="fas fa-lock"></i> Proceed to Coordinates Checkout 🚀
+                    </button>
+                </div>
+            `;
+        }
+
+        function changeQty(prodId, delta) {
+            playSound('click');
+            const line = cart.lines.find(x => x.Product.ProductID === prodId);
+            if (!line) return;
+
+            line.Quantity += delta;
+            if (line.Quantity <= 0) {
+                cart.lines = cart.lines.filter(x => x.Product.ProductID !== prodId);
+            }
+            updateCartWidgets();
+        }
+
+        function openCartModal() {
+            playSound('click');
+            updateCartWidgets();
+            document.getElementById('cartModal').classList.add('show');
+        }
+
+        function closeCartModal() {
+            playSound('click');
+            document.getElementById('cartModal').classList.remove('show');
+        }
+
+        // ==================== QUICK VIEW MODAL ====================
+        function openQuickView(prodId) {
+            playSound('click');
+            const p = products.find(x => x.ProductID === prodId);
+            if (!p) return;
+
+            const body = document.getElementById('quickViewBody');
+            body.innerHTML = `
+                <div class="qv-grid">
+                    <div class="qv-img-box">${p.Emoji}</div>
+                    <div>
+                        <div class="card-category-badge" style="position: static; display: inline-block; margin-bottom: 8px;">${p.Category}</div>
+                        <h3 style="font-family: 'Fredoka', cursive; font-size: 24px; color: #FFF; margin-bottom: 8px;">${p.Name}</h3>
+                        <div class="star-rating" style="margin-bottom: 12px;">
+                            ${'★'.repeat(Math.floor(p.Rating))}${'☆'.repeat(5 - Math.floor(p.Rating))}
+                            <span class="star-count">(${p.Reviews} Reviews) • Tested for Maximum Mischief</span>
+                        </div>
+                        <p style="font-size: 14px; color: var(--purple-muted); margin-bottom: 16px; line-height: 1.5;">${p.Description}</p>
+
+                        <div style="background: rgba(118, 3, 223, 0.2); border: 1.5px solid var(--border-purple); border-radius: var(--radius-md); padding: 12px; margin-bottom: 18px;">
+                            <div style="font-size: 12px; font-weight: 800; color: var(--purple-lilac); margin-bottom: 6px;">⚡ PRANKSTER VOLUME BUNDLE SAVINGS:</div>
+                            <div style="font-size: 12px; color: #FFF;">• Buy 2 items: <strong>Save Extra 10%</strong></div>
+                            <div style="font-size: 12px; color: #FFF;">• Buy 3+ items: <strong>Save Extra 20% + Free Decoy Box</strong></div>
+                        </div>
+
+                        <div style="display: flex; align-items: center; justify-content: space-between; margin-bottom: 18px;">
+                            <div>
+                                <span class="card-price" style="font-size: 28px;">$${p.Price.toFixed(2)}</span>
+                                <span class="card-price-orig" style="font-size: 14px;">$${p.OrigPrice.toFixed(2)}</span>
+                            </div>
+                            <div style="display: flex; align-items: center; gap: 8px;">
+                                <label style="font-size: 13px; font-weight: 700; color: var(--purple-lilac);">Qty:</label>
+                                <input type="number" id="qvQtyInput" value="1" min="1" max="10" class="form-control" style="width: 70px; padding: 6px 10px; text-align: center;">
+                            </div>
+                        </div>
+
+                        <button class="btn-add-cart" style="width: 100%; justify-content: center; padding: 12px; font-size: 15px;" onclick="addQuickViewToCart(${p.ProductID})">
+                            <i class="fas fa-shopping-bag"></i> Add to Cart of Chaos ✨
+                        </button>
+                    </div>
+                </div>
+            `;
+
+            document.getElementById('quickViewModal').classList.add('show');
+        }
+
+        function addQuickViewToCart(prodId) {
+            const qtyInput = document.getElementById('qvQtyInput');
+            const qty = qtyInput ? parseInt(qtyInput.value) || 1 : 1;
+            addToCart(prodId, qty);
+            closeQuickViewModal();
+        }
+
+        function closeQuickViewModal() {
+            playSound('click');
+            document.getElementById('quickViewModal').classList.remove('show');
+        }
+
+        // ==================== PRIZE WHEEL MODAL ====================
+        const wheelPrizes = [
+            { text: "10% OFF", code: "MISCHIEF10", percent: 10, color: "#7603DF" },
+            { text: "15% OFF", code: "MISCHIEF15", percent: 15, color: "#D946EF" },
+            { text: "20% OFF", code: "MISCHIEF20", percent: 20, color: "#9333EA" },
+            { text: "FREE PRANK", code: "FREEPRANK", percent: 25, color: "#EC4899" },
+            { text: "5% OFF", code: "MISCHIEF5", percent: 5, color: "#483181" },
+            { text: "30% OFF VIP", code: "CHAOS30", percent: 30, color: "#FACC15", textColor: "#110524" }
+        ];
+
+        let wheelRotation = 0;
+        let isSpinning = false;
+
+        function drawWheel() {
+            const canvas = document.getElementById('wheelCanvas');
+            if (!canvas) return;
+            const ctx = canvas.getContext('2d');
+            const numSlices = wheelPrizes.length;
+            const sliceAngle = (2 * Math.PI) / numSlices;
+            const centerX = canvas.width / 2;
+            const centerY = canvas.height / 2;
+            const radius = centerX - 10;
+
+            ctx.clearRect(0, 0, canvas.width, canvas.height);
+
+            wheelPrizes.forEach((prize, idx) => {
+                const startAngle = wheelRotation + idx * sliceAngle;
+                const endAngle = startAngle + sliceAngle;
+
+                ctx.beginPath();
+                ctx.moveTo(centerX, centerY);
+                ctx.arc(centerX, centerY, radius, startAngle, endAngle);
+                ctx.closePath();
+                ctx.fillStyle = prize.color;
+                ctx.fill();
+                ctx.lineWidth = 3;
+                ctx.strokeStyle = '#FFFFFF';
+                ctx.stroke();
+
+                // Text
+                ctx.save();
+                ctx.translate(centerX, centerY);
+                ctx.rotate(startAngle + sliceAngle / 2);
+                ctx.textAlign = 'right';
+                ctx.fillStyle = prize.textColor || '#FFFFFF';
+                ctx.font = 'bold 15px Montserrat, sans-serif';
+                ctx.fillText(prize.text, radius - 24, 6);
+                ctx.restore();
+            });
+        }
+
+        function spinWheel() {
+            if (isSpinning) return;
+            isSpinning = true;
+            playSound('magic');
+
+            const winIndex = 1; // 15% OFF target
+            const numSlices = wheelPrizes.length;
+            const sliceAngle = (2 * Math.PI) / numSlices;
+            const totalRounds = 5 + Math.random() * 2;
+            const targetRotation = totalRounds * 2 * Math.PI + (numSlices - winIndex - 0.5) * sliceAngle - (Math.PI / 2);
+
+            let startTime = null;
+            const duration = 4000;
+
+            function animate(time) {
+                if (!startTime) startTime = time;
+                const elapsed = time - startTime;
+                const progress = Math.min(1, elapsed / duration);
+                const easeOut = 1 - Math.pow(1 - progress, 4);
+
+                wheelRotation = targetRotation * easeOut;
+                drawWheel();
+
+                if (progress < 1) {
+                    requestAnimationFrame(animate);
+                } else {
+                    isSpinning = false;
+                    playSound('fanfare');
+                    const won = wheelPrizes[winIndex];
+                    document.getElementById('wheelWonText').innerText = `${won.text} Order!`;
+                    document.getElementById('wheelWonCode').innerText = won.code;
+                    document.getElementById('wheelResultBox').style.display = 'block';
+                }
+            }
+
+            requestAnimationFrame(animate);
+        }
+
+        function applyWonPromo() {
+            const code = document.getElementById('wheelWonCode').innerText;
+            copyAndApplyPromo(code);
+            closeSpinWheelModal();
+        }
+
+        function copyAndApplyPromo(code) {
+            playSound('magic');
+            cart.appliedCoupon = code;
+            if (code === 'MISCHIEF15') cart.discountPercent = 15;
+            else if (code === 'MISCHIEF20') cart.discountPercent = 20;
+            else if (code === 'CHAOS30') cart.discountPercent = 30;
+            else if (code === 'MISCHIEF10') cart.discountPercent = 10;
+            else cart.discountPercent = 15;
+
+            updateCartWidgets();
+            showToast(`Secret code ${code} applied for ${cart.discountPercent}% OFF! 🎟️`);
+        }
+
+        function openSpinWheelModal() {
+            playSound('click');
+            document.getElementById('spinWheelModal').classList.add('show');
+            setTimeout(drawWheel, 50);
+        }
+
+        function closeSpinWheelModal() {
+            playSound('click');
+            document.getElementById('spinWheelModal').classList.remove('show');
+        }
+
+        // ==================== CHECKOUT & ORDER DISPATCH ====================
+        function openCheckoutModal() {
+            closeCartModal();
+            document.getElementById('checkoutModal').classList.add('show');
+        }
+
+        function closeCheckoutModal() {
+            document.getElementById('checkoutModal').classList.remove('show');
+        }
+
+        function handleCheckoutSubmit(e) {
+            e.preventDefault();
+            playSound('fanfare');
+
+            const name = document.getElementById('custName').value;
+            const email = document.getElementById('custEmail').value;
+            const line1 = document.getElementById('custLine1').value;
+            const city = document.getElementById('custCity').value;
+            const state = document.getElementById('custState').value;
+            const country = document.getElementById('custCountry').value;
+            const giftWrap = document.getElementById('custGiftWrap').checked;
+
+            const subtotal = cart.lines.reduce((sum, line) => sum + (line.Product.Price * line.Quantity), 0);
+            const discount = (subtotal * (cart.discountPercent / 100));
+            const total = subtotal - discount;
+
+            document.getElementById('dispatchReceipt').innerHTML = `
+                =================== DISPATCH PROTOCOL ===================<br>
+                ORDER MANIFEST ID: #MSCH-${Math.floor(100000 + Math.random() * 900000)}<br>
+                DISPATCH AGENT: Carrier Pigeon Express VIP<br>
+                RECIPIENT: ${name} (${email})<br>
+                DESTINATION: ${line1}, ${city}, ${state} (${country})<br>
+                DECOY PACKAGING: ${giftWrap ? 'ACTIVE [STEALTH CARDBOARD]' : 'STANDARD'}<br>
+                ITEMS DISPATCHED: ${cart.lines.length} Unique SKUs<br>
+                TOTAL PAID: $${total.toFixed(2)} USD (PROMO: ${cart.appliedCoupon || 'NONE'})<br>
+                STATUS: PROCESSED VIA EmailOrderProcessor.cs<br>
+                =========================================================
+            `;
+
+            cart.lines = [];
+            updateCartWidgets();
+            closeCheckoutModal();
+            document.getElementById('confirmedModal').classList.add('show');
+        }
+
+        function closeConfirmedModal() {
+            playSound('click');
+            document.getElementById('confirmedModal').classList.remove('show');
+        }
+
+        // ==================== SOCIAL PROOF NOTIFICATION ====================
+        const socialUsers = [
+            { user: "Arthur P. in London", prod: "2x Acoustic Cushion of Resonant Embarrassment", time: "2 mins ago", emoji: "💨", prodId: 1 },
+            { user: "Genevieve K. in Paris", prod: "1x Bicycle Vanishing Deck", time: "4 mins ago", emoji: "🃏", prodId: 8 },
+            { user: "Marcus T. in New York", prod: "3x Billion-Dollar Fake Scratch-Offs", time: "7 mins ago", emoji: "🎟️", prodId: 3 },
+            { user: "Liam S. in Sydney", prod: "1x Phantom Ultrasonic Cricket", time: "9 mins ago", emoji: "🦗", prodId: 5 }
         ];
 
         let socialIndex = 0;
-        function cycleSocialProof() {
-            const evt = socialEvents[socialIndex];
-            socialIndex = (socialIndex + 1) % socialEvents.length;
+        function triggerSocialProof() {
+            const item = socialUsers[socialIndex % socialUsers.length];
+            socialIndex++;
 
-            const prod = products.find(p => p.ProductID === evt.prodId) || products[0];
-            currentSocialProductId = prod.ProductID;
-
-            document.getElementById('socialAvatar').innerText = prod.Emoji || '📦';
-            document.getElementById('socialUser').innerText = `${evt.user} in ${evt.city}`;
-            document.getElementById('socialProd').innerText = `${evt.qty}x ${prod.Name}`;
-            document.getElementById('socialTime').innerText = evt.time;
+            document.getElementById('socialUser').innerText = item.user;
+            document.getElementById('socialProd').innerText = item.prod;
+            document.getElementById('socialTime').innerText = item.time;
+            document.getElementById('socialAvatar').innerText = item.emoji;
+            currentSocialProductId = item.prodId;
 
             const toast = document.getElementById('socialProofToast');
             toast.classList.add('show');
 
             setTimeout(() => {
                 toast.classList.remove('show');
-            }, 5500);
+            }, 6000);
+        }
+
+        function handleSocialToastClick() {
+            openQuickView(currentSocialProductId);
         }
 
         function dismissSocialProof(e) {
@@ -1950,43 +2506,195 @@
             document.getElementById('socialProofToast').classList.remove('show');
         }
 
-        function handleSocialToastClick() {
-            openQuickView(currentSocialProductId);
+        setInterval(triggerSocialProof, 14000);
+        setTimeout(triggerSocialProof, 4000);
+
+        // ==================== TOAST MESSAGES ====================
+        function showToast(msg) {
+            const toast = document.getElementById('toast');
+            document.getElementById('toastMsg').innerText = msg;
+            toast.classList.add('show');
+            setTimeout(() => {
+                toast.classList.remove('show');
+            }, 3000);
         }
 
-        // Code snippets library for Architecture Explorer
+        // ==================== VIEW SWITCHER (Store / Admin / Arch) ====================
+        function switchView(viewName) {
+            playSound('click');
+            document.getElementById('storeView').style.display = viewName === 'store' ? 'block' : 'none';
+            
+            const adminView = document.getElementById('adminView');
+            const archView = document.getElementById('archView');
+
+            if (viewName === 'admin') {
+                adminView.classList.add('active');
+                archView.classList.remove('active');
+                renderAdminTable();
+            } else if (viewName === 'arch') {
+                archView.classList.add('active');
+                adminView.classList.remove('active');
+                showCodeSnippet('Product');
+            } else {
+                adminView.classList.remove('active');
+                archView.classList.remove('active');
+            }
+
+            document.querySelectorAll('.mode-btn').forEach(btn => {
+                if (btn.innerText.toLowerCase().includes(viewName)) {
+                    btn.classList.add('active');
+                } else {
+                    btn.classList.remove('active');
+                }
+            });
+
+            window.scrollTo({ top: 0, behavior: 'smooth' });
+        }
+
+        // ==================== ADMIN CRUD ====================
+        function renderAdminTable() {
+            const tbody = document.getElementById('adminTableBody');
+            tbody.innerHTML = products.map(p => `
+                <tr>
+                    <td style="font-family: 'Fira Code', monospace; color: var(--gold-magic);">#${p.ProductID}</td>
+                    <td style="font-size: 26px;">${p.Emoji}</td>
+                    <td>
+                        <strong style="color: #FFF;">${p.Name}</strong>
+                        <div style="font-size: 12px; color: var(--purple-muted);">${p.Description}</div>
+                    </td>
+                    <td><span class="category-tag">${p.Category}</span></td>
+                    <td style="font-weight: 800; font-family: 'Fredoka', cursive; text-align: right; color: var(--gold-magic);">$${p.Price.toFixed(2)}</td>
+                    <td style="text-align: center;">
+                        <button class="btn-secondary" style="padding: 4px 10px; font-size: 12px; margin-right: 4px;" onclick="openEditProductModal(${p.ProductID})">Edit</button>
+                        <button class="btn-secondary" style="padding: 4px 10px; font-size: 12px; color: #F43F5E; border-color: rgba(244, 63, 94, 0.4);" onclick="deleteProduct(${p.ProductID})">Delete</button>
+                    </td>
+                </tr>
+            `).join('');
+        }
+
+        function openNewProductModal() {
+            playSound('click');
+            document.getElementById('productFormTitle').innerHTML = '<i class="fas fa-plus-circle"></i> Create New Product';
+            document.getElementById('prodId').value = 0;
+            document.getElementById('prodName').value = '';
+            document.getElementById('prodCategory').value = 'Classic Gags';
+            document.getElementById('prodPrice').value = '';
+            document.getElementById('prodEmoji').value = '🔮';
+            document.getElementById('prodDesc').value = '';
+            document.getElementById('productFormModal').classList.add('show');
+        }
+
+        function openEditProductModal(id) {
+            playSound('click');
+            const p = products.find(x => x.ProductID === id);
+            if (!p) return;
+
+            document.getElementById('productFormTitle').innerHTML = '<i class="fas fa-edit"></i> Edit Product';
+            document.getElementById('prodId').value = p.ProductID;
+            document.getElementById('prodName').value = p.Name;
+            document.getElementById('prodCategory').value = p.Category;
+            document.getElementById('prodPrice').value = p.Price;
+            document.getElementById('prodEmoji').value = p.Emoji;
+            document.getElementById('prodDesc').value = p.Description;
+            document.getElementById('productFormModal').classList.add('show');
+        }
+
+        function closeProductFormModal() {
+            playSound('click');
+            document.getElementById('productFormModal').classList.remove('show');
+        }
+
+        function handleProductFormSubmit(e) {
+            e.preventDefault();
+            const id = parseInt(document.getElementById('prodId').value);
+            const name = document.getElementById('prodName').value;
+            const cat = document.getElementById('prodCategory').value;
+            const price = parseFloat(document.getElementById('prodPrice').value);
+            const emoji = document.getElementById('prodEmoji').value || '🔮';
+            const desc = document.getElementById('prodDesc').value;
+
+            if (id === 0) {
+                const newId = Math.max(...products.map(x => x.ProductID)) + 1;
+                products.unshift({
+                    ProductID: newId,
+                    Name: name,
+                    Category: cat,
+                    Price: price,
+                    OrigPrice: price * 1.3,
+                    Emoji: emoji,
+                    Rating: 5.0,
+                    Reviews: 1,
+                    StockLeft: 5,
+                    Viewers: 10,
+                    Description: desc
+                });
+                showToast(`Created product #${newId} ✨`);
+            } else {
+                const p = products.find(x => x.ProductID === id);
+                if (p) {
+                    p.Name = name;
+                    p.Category = cat;
+                    p.Price = price;
+                    p.Emoji = emoji;
+                    p.Description = desc;
+                    showToast(`Updated product #${id} ✨`);
+                }
+            }
+
+            closeProductFormModal();
+            renderAdminTable();
+            renderProducts();
+        }
+
+        function deleteProduct(id) {
+            if (!confirm(`Are you sure you want to delete Product #${id} from the database?`)) return;
+            playSound('click');
+            products = products.filter(x => x.ProductID !== id);
+            renderAdminTable();
+            renderProducts();
+            showToast(`Deleted Product #${id}`);
+        }
+
+        // ==================== C# ARCHITECTURE CODE EXPLORER ====================
         const codeSnippets = {
-            Product: `namespace MischiefStore.Domain.Entities
+            'Product': `// ============================================================================
+// MischiefStore.Domain/Entities/Product.cs
+// Core Entity Model in Domain Layer
+// ============================================================================
+namespace MischiefStore.Domain.Entities
 {
     using System.ComponentModel.DataAnnotations;
-    using System.Web.Mvc;
 
     public class Product
     {
-        [HiddenInput(DisplayValue = false)]
+        [Key]
         public int ProductID { get; set; }
 
         [Required(ErrorMessage = "Please enter a product name")]
-        [StringLength(100, MinimumLength = 3)]
+        [StringLength(100)]
         public string Name { get; set; }
 
+        [Required(ErrorMessage = "Please enter an engaging description")]
         [DataType(DataType.MultilineText)]
-        [Required(ErrorMessage = "Please enter an entertaining product description")]
         public string Description { get; set; }
 
-        [Required(ErrorMessage = "Please specify a catalog category")]
-        public string Category { get; set; }
-
         [Required]
-        [Range(0.01, double.MaxValue, ErrorMessage = "Price must be greater than zero")]
+        [Range(0.01, double.MaxValue, ErrorMessage = "Please enter a positive price")]
         public decimal Price { get; set; }
 
-        // EF6 BLOB storage for uploaded catalog images
+        [Required(ErrorMessage = "Please specify a mischief category")]
+        public string Category { get; set; }
+
+        public string Emoji { get; set; }
         public byte[] ImageData { get; set; }
         public string ImageMimeType { get; set; }
     }
 }`,
-            Cart: `namespace MischiefStore.Domain.Entities
+            'Cart': `// ============================================================================
+// MischiefStore.Domain/Entities/Cart.cs
+// Domain Logic for Shopping Basket
+// ============================================================================
+namespace MischiefStore.Domain.Entities
 {
     using System.Collections.Generic;
     using System.Linq;
@@ -1994,8 +2702,6 @@
     public class Cart
     {
         private List<CartLine> lineCollection = new List<CartLine>();
-
-        public IEnumerable<CartLine> Lines => lineCollection;
 
         public void AddItem(Product product, int quantity)
         {
@@ -2017,9 +2723,17 @@
             lineCollection.RemoveAll(l => l.Product.ProductID == product.ProductID);
         }
 
-        public decimal ComputeTotalValue() => lineCollection.Sum(e => e.Product.Price * e.Quantity);
+        public decimal ComputeTotalValue()
+        {
+            return lineCollection.Sum(e => e.Product.Price * e.Quantity);
+        }
 
-        public void Clear() => lineCollection.Clear();
+        public void Clear()
+        {
+            lineCollection.Clear();
+        }
+
+        public IEnumerable<CartLine> Lines => lineCollection;
     }
 
     public class CartLine
@@ -2028,30 +2742,27 @@
         public int Quantity { get; set; }
     }
 }`,
-            ShippingDetails: `namespace MischiefStore.Domain.Entities
+            'ShippingDetails': `// ============================================================================
+// MischiefStore.Domain/Entities/ShippingDetails.cs
+// Model for Checkout & Delivery Coordinates
+// ============================================================================
+namespace MischiefStore.Domain.Entities
 {
     using System.ComponentModel.DataAnnotations;
 
     public class ShippingDetails
     {
-        [Required(ErrorMessage = "Please enter your name")]
+        [Required(ErrorMessage = "Please enter recipient name")]
         public string Name { get; set; }
 
-        [Required(ErrorMessage = "Please enter an email address")]
-        [DataType(DataType.EmailAddress)]
-        public string Email { get; set; }
-
         [Required(ErrorMessage = "Please enter the first address line")]
-        [Display(Name = "Address Line 1")]
         public string Line1 { get; set; }
-
         public string Line2 { get; set; }
-        public string Line3 { get; set; }
 
-        [Required(ErrorMessage = "Please enter a city")]
+        [Required(ErrorMessage = "Please enter a delivery city")]
         public string City { get; set; }
 
-        [Required(ErrorMessage = "Please enter a state")]
+        [Required(ErrorMessage = "Please enter a state / province")]
         public string State { get; set; }
 
         public string Zip { get; set; }
@@ -2062,21 +2773,29 @@
         public bool GiftWrap { get; set; }
     }
 }`,
-            IProductRepository: `namespace MischiefStore.Domain.Abstract
+            'IProductRepository': `// ============================================================================
+// MischiefStore.Domain/Abstract/IProductRepository.cs
+// Repository Interface for Decoupled Data Access
+// ============================================================================
+namespace MischiefStore.Domain.Abstract
 {
-    using System.Linq;
+    using System.Collections.Generic;
     using MischiefStore.Domain.Entities;
 
     public interface IProductRepository
     {
-        IQueryable<Product> Products { get; }
+        IEnumerable<Product> Products { get; }
         void SaveProduct(Product product);
         Product DeleteProduct(int productID);
     }
 }`,
-            EFProductRepository: `namespace MischiefStore.Domain.Concrete
+            'EFProductRepository': `// ============================================================================
+// MischiefStore.Domain/Concrete/EFProductRepository.cs
+// Entity Framework 6 Implementation of IProductRepository
+// ============================================================================
+namespace MischiefStore.Domain.Concrete
 {
-    using System.Linq;
+    using System.Collections.Generic;
     using MischiefStore.Domain.Abstract;
     using MischiefStore.Domain.Entities;
 
@@ -2084,7 +2803,7 @@
     {
         private EFDbContext context = new EFDbContext();
 
-        public IQueryable<Product> Products => context.Products;
+        public IEnumerable<Product> Products => context.Products;
 
         public void SaveProduct(Product product)
         {
@@ -2101,11 +2820,7 @@
                     dbEntry.Description = product.Description;
                     dbEntry.Price = product.Price;
                     dbEntry.Category = product.Category;
-                    if (product.ImageData != null)
-                    {
-                        dbEntry.ImageData = product.ImageData;
-                        dbEntry.ImageMimeType = product.ImageMimeType;
-                    }
+                    dbEntry.Emoji = product.Emoji;
                 }
             }
             context.SaveChanges();
@@ -2123,7 +2838,11 @@
         }
     }
 }`,
-            DatabaseInitializer: `namespace MischiefStore.Domain.Concrete
+            'DatabaseInitializer': `// ============================================================================
+// MischiefStore.Domain/Concrete/DatabaseInitializer.cs
+// EF6 Code-First Database Seeder
+// ============================================================================
+namespace MischiefStore.Domain.Concrete
 {
     using System.Data.Entity;
     using MischiefStore.Domain.Entities;
@@ -2134,44 +2853,57 @@
         {
             context.Products.Add(new Product {
                 Name = "Acoustic Cushion of Resonant Embarrassment",
-                Description = "Self-inflating stealth whoopee cushion with multi-frequency dispersal.",
+                Description = "Self-inflating stealth whoopee cushion with multi-frequency sonic dispersal.",
                 Category = "Classic Gags",
-                Price = 8.99m
+                Price = 8.99m,
+                Emoji = "💨"
             });
-            // ... Seeds 14 initial prank & magic items across 4 categories
+
+            context.Products.Add(new Product {
+                Name = "Bicycle Vanishing Deck",
+                Description = "Precision mechanical card box for instantaneous disappearance.",
+                Category = "Close-Up Magic",
+                Price = 19.99m,
+                Emoji = "🃏"
+            });
+
             context.SaveChanges();
         }
     }
 }`,
-            NinjectWebCommon: `[assembly: WebActivatorEx.PreApplicationStartMethod(typeof(NinjectWebCommon), "Start")]
-
+            'NinjectWebCommon': `// ============================================================================
+// MischiefStore.WebUI/App_Start/NinjectWebCommon.cs
+// IoC Container Setup for Dependency Injection
+// ============================================================================
 namespace MischiefStore.WebUI.App_Start
 {
     using Ninject;
-    using Ninject.Web.Common;
     using MischiefStore.Domain.Abstract;
     using MischiefStore.Domain.Concrete;
 
-    public static class NinjectWebCommon
+    public static class NinjectWebCommon 
     {
         private static void RegisterServices(IKernel kernel)
         {
-            // Bind EF Repository to IProductRepository
+            // Bind EF Repository to Domain Interface
             kernel.Bind<IProductRepository>().To<EFProductRepository>();
 
-            // Bind SMTP Order Dispatcher
-            EmailSettings emailSettings = new EmailSettings { WriteAsFile = true };
+            // Bind Order Processor for Dispatch Email Receipts
+            EmailSettings emailSettings = new EmailSettings();
             kernel.Bind<IOrderProcessor>().To<EmailOrderProcessor>()
                 .WithConstructorArgument("settings", emailSettings);
         }
     }
 }`,
-            CartModelBinder: `namespace MischiefStore.WebUI.Infrastructure.Binders
+            'CartModelBinder': `// ============================================================================
+// MischiefStore.WebUI/Infrastructure/Binders/CartModelBinder.cs
+// Custom ASP.NET MVC Model Binder for Session State
+// ============================================================================
+namespace MischiefStore.WebUI.Infrastructure.Binders
 {
     using System.Web.Mvc;
     using MischiefStore.Domain.Entities;
 
-    // Registers in Global.asax.cs: ModelBinders.Binders.Add(typeof(Cart), new CartModelBinder());
     public class CartModelBinder : IModelBinder
     {
         private const string sessionKey = "Cart";
@@ -2197,7 +2929,11 @@ namespace MischiefStore.WebUI.App_Start
         }
     }
 }`,
-            PagingHelpers: `namespace MischiefStore.WebUI.HtmlHelpers
+            'PagingHelpers': `// ============================================================================
+// MischiefStore.WebUI/HtmlHelpers/PagingHelpers.cs
+// Custom Razor HTML Helper for Pagination
+// ============================================================================
+namespace MischiefStore.WebUI.HtmlHelpers
 {
     using System;
     using System.Text;
@@ -2206,8 +2942,9 @@ namespace MischiefStore.WebUI.App_Start
 
     public static class PagingHelpers
     {
-        // Invoked in Razor: @Html.PageLinks(Model.PagingInfo, x => Url.Action("List", new { page = x }))
-        public static MvcHtmlString PageLinks(this HtmlHelper html, PagingInfo pagingInfo, Func<int, string> pageUrl)
+        public static MvcHtmlString PageLinks(this HtmlHelper html, 
+                                              PagingInfo pagingInfo, 
+                                              Func<int, string> pageUrl)
         {
             StringBuilder result = new StringBuilder();
             for (int i = 1; i <= pagingInfo.TotalPages; i++)
@@ -2215,18 +2952,23 @@ namespace MischiefStore.WebUI.App_Start
                 TagBuilder tag = new TagBuilder("a");
                 tag.MergeAttribute("href", pageUrl(i));
                 tag.InnerHtml = i.ToString();
-                tag.AddCssClass("btn btn-default");
                 if (i == pagingInfo.CurrentPage)
                 {
-                    tag.AddCssClass("selected btn-primary");
+                    tag.AddCssClass("selected");
+                    tag.AddCssClass("btn-primary");
                 }
+                tag.AddCssClass("btn btn-default");
                 result.Append(tag.ToString());
             }
             return MvcHtmlString.Create(result.ToString());
         }
     }
 }`,
-            ProductController: `namespace MischiefStore.WebUI.Controllers
+            'ProductController': `// ============================================================================
+// MischiefStore.WebUI/Controllers/ProductController.cs
+// Primary Controller with Repository Injection
+// ============================================================================
+namespace MischiefStore.WebUI.Controllers
 {
     using System.Linq;
     using System.Web.Mvc;
@@ -2238,7 +2980,6 @@ namespace MischiefStore.WebUI.App_Start
         private IProductRepository repository;
         public int PageSize = 4;
 
-        // Constructor Injection via Ninject
         public ProductController(IProductRepository productRepository)
         {
             this.repository = productRepository;
@@ -2257,27 +2998,21 @@ namespace MischiefStore.WebUI.App_Start
                 {
                     CurrentPage = page,
                     ItemsPerPage = PageSize,
-                    TotalItems = category == null ? 
-                        repository.Products.Count() : 
-                        repository.Products.Count(e => e.Category == category)
+                    TotalItems = category == null 
+                        ? repository.Products.Count() 
+                        : repository.Products.Count(e => e.Category == category)
                 },
                 CurrentCategory = category
             };
             return View(model);
         }
-
-        public FileContentResult GetImage(int productID)
-        {
-            var prod = repository.Products.FirstOrDefault(p => p.ProductID == productID);
-            if (prod != null && prod.ImageData != null)
-            {
-                return File(prod.ImageData, prod.ImageMimeType);
-            }
-            return null;
-        }
     }
 }`,
-            RouteConfig: `namespace MischiefStore.WebUI
+            'RouteConfig': `// ============================================================================
+// MischiefStore.WebUI/App_Start/RouteConfig.cs
+// SEO Friendly Routing Map
+// ============================================================================
+namespace MischiefStore.WebUI
 {
     using System.Web.Mvc;
     using System.Web.Routing;
@@ -2288,17 +3023,19 @@ namespace MischiefStore.WebUI.App_Start
         {
             routes.IgnoreRoute("{resource}.axd/{*pathInfo}");
 
-            // / (Catalog Root)
-            routes.MapRoute(null, "", new { controller = "Product", action = "List", category = (string)null, page = 1 });
+            routes.MapRoute(null, "", 
+                new { controller = "Product", action = "List", category = (string)null, page = 1 });
 
-            // /Page2
-            routes.MapRoute(null, "Page{page}", new { controller = "Product", action = "List", category = (string)null }, new { page = @"\\d+" });
+            routes.MapRoute(null, "Page{page}", 
+                new { controller = "Product", action = "List", category = (string)null }, 
+                new { page = @"\\d+" });
 
-            // /Classic%20Gags
-            routes.MapRoute(null, "{category}", new { controller = "Product", action = "List", page = 1 });
+            routes.MapRoute(null, "{category}", 
+                new { controller = "Product", action = "List", page = 1 });
 
-            // /Classic%20Gags/Page2
-            routes.MapRoute(null, "{category}/Page{page}", new { controller = "Product", action = "List" }, new { page = @"\\d+" });
+            routes.MapRoute(null, "{category}/Page{page}", 
+                new { controller = "Product", action = "List" }, 
+                new { page = @"\\d+" });
 
             routes.MapRoute(null, "{controller}/{action}");
         }
@@ -2306,797 +3043,38 @@ namespace MischiefStore.WebUI.App_Start
 }`
         };
 
-        // Initialize Storefront
-        function initStore() {
-            updateCategoryCounts();
-            renderCatalog();
-            updateHeaderCart();
-            showCodeSnippet('Product');
-            startCountdown();
-            drawWheel();
+        function showCodeSnippet(name) {
+            playSound('click');
+            const code = codeSnippets[name] || '// Code snippet not found.';
+            document.getElementById('codeViewer').innerText = code;
 
-            // Start social proof interval
-            setTimeout(cycleSocialProof, 2500);
-            setInterval(cycleSocialProof, 9500);
-        }
-
-        function updateCategoryCounts() {
-            document.getElementById('countAll').innerText = products.length;
-            document.getElementById('countClassic').innerText = products.filter(p => p.Category === 'Classic Gags').length;
-            document.getElementById('countOffice').innerText = products.filter(p => p.Category === 'Office Mischief').length;
-            document.getElementById('countCloseUp').innerText = products.filter(p => p.Category === 'Close-Up Magic').length;
-            document.getElementById('countStage').innerText = products.filter(p => p.Category === 'Stage Illusions').length;
-        }
-
-        function filterCategory(cat) {
-            currentCategory = cat;
-            currentPage = 1;
-            
-            const pills = document.querySelectorAll('.cat-pill');
-            pills.forEach(p => {
-                if ((cat === 'All' && p.innerText.includes('All Mischief')) || p.innerText.includes(cat)) {
-                    p.classList.add('active');
+            document.querySelectorAll('.code-tab-btn').forEach(btn => {
+                if (btn.innerText.includes(name) || (name === 'Product' && btn.innerText.includes('Product.cs'))) {
+                    btn.classList.add('active');
                 } else {
-                    p.classList.remove('active');
-                }
-            });
-
-            renderCatalog();
-            playWhoopeePop();
-        }
-
-        function renderCatalog() {
-            const filtered = currentCategory === 'All' ? 
-                products : 
-                products.filter(p => p.Category === currentCategory);
-
-            const totalPages = Math.ceil(filtered.length / pageSize) || 1;
-            if (currentPage > totalPages) currentPage = totalPages;
-
-            const startIndex = (currentPage - 1) * pageSize;
-            const pageItems = filtered.slice(startIndex, startIndex + pageSize);
-
-            const grid = document.getElementById('productsGrid');
-            if (pageItems.length === 0) {
-                grid.innerHTML = `<div style="grid-column: 1/-1; text-align: center; padding: 40px; color: #999;">No mischief items found in this category.</div>`;
-            } else {
-                grid.innerHTML = pageItems.map(p => `
-                    <div class="product-card">
-                        <div class="card-img-wrap" onclick="openQuickView(${p.ProductID})">
-                            <span class="card-category-badge">${p.Category}</span>
-                            <span class="card-scarcity-badge"><i class="fas fa-fire"></i> ${p.StockLeft || 3} left</span>
-                            <span>${p.Emoji || '📦'}</span>
-                            <button class="card-quick-btn"><i class="fas fa-eye"></i> Quick View</button>
-                        </div>
-                        <div class="card-body">
-                            <div class="star-rating">
-                                <span>★★★★★</span>
-                                <span class="star-count">${p.Rating || 4.9} (${p.Reviews || 120})</span>
-                            </div>
-                            <h3 class="card-title" onclick="openQuickView(${p.ProductID})">${p.Name}</h3>
-                            <p class="card-desc">${p.Description}</p>
-                            <div class="card-footer">
-                                <div class="card-price-box">
-                                    <span class="card-price">$${p.Price.toFixed(2)}</span>
-                                    ${p.OrigPrice ? `<span class="card-price-orig">$${p.OrigPrice.toFixed(2)}</span>` : ''}
-                                </div>
-                                <button class="btn-add-cart" onclick="addToCart(${p.ProductID})">
-                                    <i class="fas fa-cart-plus"></i> Add Prank
-                                </button>
-                            </div>
-                        </div>
-                    </div>
-                `).join('');
-            }
-
-            renderPagination(totalPages);
-        }
-
-        function renderPagination(totalPages) {
-            const bar = document.getElementById('paginationBar');
-            if (totalPages <= 1) {
-                bar.innerHTML = '';
-                return;
-            }
-
-            let html = '';
-            for (let i = 1; i <= totalPages; i++) {
-                html += `<button class="page-btn ${i === currentPage ? 'active' : ''}" onclick="goToPage(${i})">${i}</button>`;
-            }
-            bar.innerHTML = html;
-        }
-
-        function goToPage(p) {
-            currentPage = p;
-            renderCatalog();
-            window.scrollTo({ top: 180, behavior: 'smooth' });
-            playWhoopeePop();
-        }
-
-        // Cart Actions (Replicating CartController.cs)
-        function addToCart(productId, qty = 1) {
-            const prod = products.find(p => p.ProductID === productId);
-            if (!prod) return;
-
-            const existing = cart.lines.find(l => l.product.ProductID === productId);
-            if (existing) {
-                existing.quantity += qty;
-            } else {
-                cart.lines.push({ product: prod, quantity: qty });
-            }
-
-            updateHeaderCart();
-            playChaChing();
-            showToast(`Added ${qty}x "${prod.Name}" to your Cart of Chaos!`);
-        }
-
-        function updateQuantity(productId, delta) {
-            const line = cart.lines.find(l => l.product.ProductID === productId);
-            if (line) {
-                line.quantity += delta;
-                if (line.quantity <= 0) {
-                    cart.lines = cart.lines.filter(l => l.product.ProductID !== productId);
-                }
-            }
-            updateHeaderCart();
-            renderCartModal();
-        }
-
-        function removeFromCart(productId) {
-            cart.lines = cart.lines.filter(l => l.product.ProductID !== productId);
-            updateHeaderCart();
-            renderCartModal();
-            showToast("Item vanished from cart.");
-        }
-
-        function calculateCartTotals() {
-            const subtotal = cart.lines.reduce((acc, l) => acc + (l.product.Price * l.quantity), 0);
-            let discountAmount = 0;
-
-            if (cart.discountPercent > 0) {
-                discountAmount += subtotal * (cart.discountPercent / 100);
-            }
-            if (cart.discountFixed > 0) {
-                discountAmount += cart.discountFixed;
-            }
-            if (discountAmount > subtotal) discountAmount = subtotal;
-
-            const grandTotal = Math.max(0, subtotal - discountAmount);
-            return { subtotal, discountAmount, grandTotal };
-        }
-
-        function updateHeaderCart() {
-            const count = cart.lines.reduce((acc, l) => acc + l.quantity, 0);
-            const { grandTotal } = calculateCartTotals();
-
-            document.getElementById('headerCartCount').innerText = count;
-            document.getElementById('headerCartTotal').innerText = `$${grandTotal.toFixed(2)}`;
-        }
-
-        function openCartModal() {
-            renderCartModal();
-            document.getElementById('cartModal').classList.add('open');
-        }
-
-        function closeCartModal() {
-            document.getElementById('cartModal').classList.remove('open');
-        }
-
-        function renderCartModal() {
-            const body = document.getElementById('cartModalBody');
-            if (cart.lines.length === 0) {
-                body.innerHTML = `
-                    <div style="text-align: center; padding: 40px 20px;">
-                        <span style="font-size: 54px; display: block; margin-bottom: 12px;">🎩💨</span>
-                        <h4 style="font-weight: 800; color: var(--carnival-purple); margin-bottom: 6px; font-family: 'Fredoka', cursive; font-size: 24px;">Your cart vanished into thin air!</h4>
-                        <p style="color: #64748B; font-size: 14px; margin-bottom: 20px;">You have no pranks or magic supplies queued up for delivery.</p>
-                        <button class="btn-add-cart" style="margin: 0 auto;" onclick="closeCartModal()">Browse Prank Catalog</button>
-                    </div>
-                `;
-                return;
-            }
-
-            const { subtotal, discountAmount, grandTotal } = calculateCartTotals();
-            const freeShippingThreshold = 50.00;
-            const diff = freeShippingThreshold - subtotal;
-            const percentUnlocked = Math.min(100, Math.max(0, (subtotal / freeShippingThreshold) * 100));
-
-            // Upsell item recommendation
-            const unadded = products.filter(p => !cart.lines.some(l => l.product.ProductID === p.ProductID));
-            const upsellItem = unadded.length > 0 ? unadded[0] : products[2];
-
-            body.innerHTML = `
-                <!-- 📦 Free Shipping Progress Bar -->
-                <div class="shipping-meter-box">
-                    <div class="shipping-meter-header">
-                        <span>${diff > 0 
-                            ? `🚚 Add <strong style="color: var(--carnival-red);">$${diff.toFixed(2)}</strong> more for <strong>FREE Carrier Pigeon VIP Shipping</strong>!` 
-                            : `🎉 <strong style="color: #10B981;">VIP Carrier Pigeon Delivery &amp; Mystery Gag UNLOCKED!</strong>`}</span>
-                        <span>${Math.round(percentUnlocked)}%</span>
-                    </div>
-                    <div class="shipping-meter-track">
-                        <div class="shipping-meter-fill" style="width: ${percentUnlocked}%;"></div>
-                    </div>
-                </div>
-
-                <table class="cart-table">
-                    <thead>
-                        <tr>
-                            <th>Prank / Magic Gear</th>
-                            <th style="width: 120px; text-align: center;">Qty</th>
-                            <th style="text-align: right; width: 100px;">Price</th>
-                            <th style="text-align: right; width: 100px;">Subtotal</th>
-                            <th style="text-align: center; width: 40px;"></th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        ${cart.lines.map(l => `
-                            <tr>
-                                <td>
-                                    <div style="font-weight: 700; color: var(--text-dark);">${l.product.Emoji || '📦'} ${l.product.Name}</div>
-                                    <span style="font-size: 11px; color: var(--carnival-purple); font-weight: 600;">${l.product.Category}</span>
-                                </td>
-                                <td style="text-align: center;">
-                                    <div class="qty-control">
-                                        <button class="qty-btn" onclick="updateQuantity(${l.product.ProductID}, -1)">-</button>
-                                        <span class="qty-val">${l.quantity}</span>
-                                        <button class="qty-btn" onclick="updateQuantity(${l.product.ProductID}, 1)">+</button>
-                                    </div>
-                                </td>
-                                <td style="text-align: right; font-weight: 600;">$${l.product.Price.toFixed(2)}</td>
-                                <td style="text-align: right; font-weight: 800; color: var(--carnival-red);">$${(l.product.Price * l.quantity).toFixed(2)}</td>
-                                <td style="text-align: center;">
-                                    <button onclick="removeFromCart(${l.product.ProductID})" style="background: transparent; border: none; color: #EF4444; cursor: pointer; padding: 4px;">
-                                        <i class="fas fa-trash-alt"></i>
-                                    </button>
-                                </td>
-                            </tr>
-                        `).join('')}
-                    </tbody>
-                </table>
-
-                <!-- 💡 1-Click Upsell Recommendation -->
-                ${upsellItem ? `
-                <div class="upsell-section">
-                    <div class="upsell-head"><i class="fas fa-fire"></i> Frequently Bought Together</div>
-                    <div class="upsell-item">
-                        <div style="display: flex; align-items: center; gap: 10px;">
-                            <span style="font-size: 26px;">${upsellItem.Emoji}</span>
-                            <div>
-                                <div style="font-weight: 800; font-size: 13px; color: var(--text-dark);">${upsellItem.Name}</div>
-                                <div style="font-size: 11.5px; color: #64748B;">Special Companion Deal: <strong style="color: var(--carnival-red);">$${upsellItem.Price.toFixed(2)}</strong></div>
-                            </div>
-                        </div>
-                        <button class="btn-add-cart" style="padding: 6px 14px; font-size: 12px;" onclick="addToCart(${upsellItem.ProductID}); renderCartModal();">
-                            + 1-Click Add
-                        </button>
-                    </div>
-                </div>` : ''}
-
-                <!-- 🎟️ Promo Code Input -->
-                <div class="promo-code-box">
-                    <input type="text" class="promo-input" id="cartPromoInput" placeholder="Enter coupon (e.g. MISCHIEF15)" value="${cart.appliedCoupon || ''}">
-                    <button class="btn-apply-promo" onclick="applyEnteredCoupon()">Apply Code</button>
-                </div>
-
-                <!-- Grand Total Calculations -->
-                <div class="cart-total-box">
-                    <div class="total-row">
-                        <span>Items Subtotal:</span>
-                        <span>$${subtotal.toFixed(2)}</span>
-                    </div>
-                    ${discountAmount > 0 ? `
-                    <div class="total-row" style="color: #10B981; font-weight: 700;">
-                        <span>Coupon Discount (${cart.appliedCoupon}):</span>
-                        <span>- $${discountAmount.toFixed(2)}</span>
-                    </div>` : ''}
-                    <div class="total-row">
-                        <span>Stealth Packaging:</span>
-                        <span style="color: #10B981; font-weight: 700;">FREE</span>
-                    </div>
-                    <div class="total-row grand">
-                        <span>Estimated Total:</span>
-                        <span style="font-family: 'Fredoka', cursive; font-size: 24px; font-weight: 800; color: var(--carnival-red);">$${grandTotal.toFixed(2)}</span>
-                    </div>
-                </div>
-
-                <div style="display: flex; justify-content: space-between; gap: 12px; flex-wrap: wrap;">
-                    <button class="btn-add-cart" style="background: #F1F5F9; color: #475569; box-shadow: none;" onclick="closeCartModal()">
-                        ← Keep Shopping
-                    </button>
-                    <button class="btn-add-cart" style="padding: 12px 24px; font-size: 15px;" onclick="startCheckout()">
-                        Proceed to Coordinates 🎩➔
-                    </button>
-                </div>
-            `;
-        }
-
-        // Coupon Handling
-        function applyEnteredCoupon() {
-            const input = document.getElementById('cartPromoInput');
-            if (!input) return;
-            const code = input.value.trim().toUpperCase();
-            if (!code) return;
-
-            if (code === 'MISCHIEF15') {
-                cart.appliedCoupon = 'MISCHIEF15 (15% OFF)';
-                cart.discountPercent = 15;
-                cart.discountFixed = 0;
-                playVictoryFanfare();
-                showToast("🎉 15% discount applied to your order!");
-            } else if (code === 'PRANKSTER20') {
-                cart.appliedCoupon = 'PRANKSTER20 (20% OFF)';
-                cart.discountPercent = 20;
-                cart.discountFixed = 0;
-                playVictoryFanfare();
-                showToast("🔥 20% Mega Prank discount applied!");
-            } else if (code === 'FREESHIP' || code === 'FREEGAG') {
-                cart.appliedCoupon = `${code} ($5 OFF + Free Ship)`;
-                cart.discountPercent = 0;
-                cart.discountFixed = 5.00;
-                playVictoryFanfare();
-                showToast("🎁 Free Shipping & Mystery Gag discount applied!");
-            } else if (code === 'MAGIC5') {
-                cart.appliedCoupon = 'MAGIC5 ($5 OFF)';
-                cart.discountPercent = 0;
-                cart.discountFixed = 5.00;
-                playVictoryFanfare();
-                showToast("🪄 $5 Magic discount applied!");
-            } else {
-                showToast("❌ Invalid promo code. Try MISCHIEF15 or spin the wheel!");
-                return;
-            }
-
-            updateHeaderCart();
-            renderCartModal();
-        }
-
-        function copyAndApplyPromo(code) {
-            cart.appliedCoupon = `${code} (15% OFF)`;
-            cart.discountPercent = 15;
-            updateHeaderCart();
-            playChaChing();
-            showToast(`Promo "${code}" automatically activated!`);
-        }
-
-        // 🔍 Quick View Modal
-        let qvSelectedQty = 1;
-        let qvSelectedTier = 1;
-        let qvCurrentProduct = null;
-
-        function openQuickView(prodId) {
-            const prod = products.find(p => p.ProductID === prodId);
-            if (!prod) return;
-            qvCurrentProduct = prod;
-            qvSelectedQty = 1;
-            qvSelectedTier = 1;
-
-            const body = document.getElementById('quickViewBody');
-            body.innerHTML = `
-                <div class="qv-grid">
-                    <div class="qv-avatar-box">
-                        <span style="animation: bounceFab 3s infinite;">${prod.Emoji || '📦'}</span>
-                        <span class="card-category-badge">${prod.Category}</span>
-                    </div>
-                    <div>
-                        <div class="star-rating">
-                            <span>★★★★★</span>
-                            <span class="star-count">${prod.Rating || 4.9} (${prod.Reviews || 184} verified trickster reviews)</span>
-                        </div>
-                        <h2 style="font-family: 'Fredoka', cursive; font-size: 24px; color: var(--text-dark); margin-bottom: 6px;">${prod.Name}</h2>
-                        <div style="font-size: 13px; color: #EF4444; font-weight: 700; margin-bottom: 12px;">
-                            <i class="fas fa-fire"></i> High Demand — Only ${prod.StockLeft || 3} left in stock! (👀 ${prod.Viewers || 18} viewing now)
-                        </div>
-                        <p style="font-size: 13.5px; color: #64748B; margin-bottom: 18px; line-height: 1.6;">${prod.Description}</p>
-
-                        <!-- Volume Discount Selector -->
-                        <div style="font-size: 12.5px; font-weight: 800; text-transform: uppercase; color: var(--carnival-purple); margin-bottom: 6px;">
-                            Volume Bulk Pricing:
-                        </div>
-                        <div class="qv-volume-grid">
-                            <div class="qv-volume-card active" id="qvTier1" onclick="selectQvTier(1, 1, 0)">
-                                <div style="font-weight: 800; font-size: 13px;">Buy 1</div>
-                                <div style="font-size: 14px; color: var(--carnival-red); font-weight: 800;">$${prod.Price.toFixed(2)}</div>
-                                <div style="font-size: 10px; color: #64748B;">Standard</div>
-                            </div>
-                            <div class="qv-volume-card" id="qvTier2" onclick="selectQvTier(2, 2, 10)">
-                                <span class="qv-volume-tag">SAVE 10%</span>
-                                <div style="font-weight: 800; font-size: 13px;">Buy 2</div>
-                                <div style="font-size: 14px; color: var(--carnival-red); font-weight: 800;">$${(prod.Price * 0.9).toFixed(2)} ea</div>
-                                <div style="font-size: 10px; color: #10B981; font-weight: 700;">Save $${(prod.Price * 0.2).toFixed(2)}</div>
-                            </div>
-                            <div class="qv-volume-card" id="qvTier3" onclick="selectQvTier(3, 3, 20)">
-                                <span class="qv-volume-tag">BEST VALUE</span>
-                                <div style="font-weight: 800; font-size: 13px;">Buy 3+</div>
-                                <div style="font-size: 14px; color: var(--carnival-red); font-weight: 800;">$${(prod.Price * 0.8).toFixed(2)} ea</div>
-                                <div style="font-size: 10px; color: #10B981; font-weight: 700;">Save 20% OFF</div>
-                            </div>
-                        </div>
-
-                        <!-- Quantity + Add Button -->
-                        <div style="display: flex; align-items: center; gap: 14px; margin-top: 18px;">
-                            <div class="qty-control" style="height: 42px;">
-                                <button class="qty-btn" style="width: 36px; height: 100%; font-size: 16px;" onclick="changeQvQty(-1)">-</button>
-                                <span class="qty-val" id="qvQtyVal" style="width: 44px; font-size: 15px;">1</span>
-                                <button class="qty-btn" style="width: 36px; height: 100%; font-size: 16px;" onclick="changeQvQty(1)">+</button>
-                            </div>
-                            <button class="btn-add-cart" style="flex: 1; justify-content: center; height: 42px; font-size: 14px;" onclick="addQvToCart()">
-                                <i class="fas fa-cart-plus"></i> Add to Cart (<span id="qvTotalPrice">$${prod.Price.toFixed(2)}</span>)
-                            </button>
-                        </div>
-                    </div>
-                </div>
-
-                <!-- Verified Reviews Accordion -->
-                <div style="margin-top: 24px; padding-top: 18px; border-top: 1px solid var(--border-color);">
-                    <h4 style="font-weight: 800; font-size: 14px; color: var(--carnival-purple); margin-bottom: 10px;">
-                        <i class="fas fa-comment-dots"></i> Verified Trickster Testimonials
-                    </h4>
-                    <div style="display: flex; flex-direction: column; gap: 8px;">
-                        <div style="background: #F8F9FD; padding: 10px 14px; border-radius: 8px; font-size: 12.5px;">
-                            <strong>"My boss stared at the drywall for 45 minutes trying to find the cricket. 10/10."</strong>
-                            <div style="color: #64748B; font-size: 11px; margin-top: 2px;">— Derek S., Verified Prankster ★★★★★</div>
-                        </div>
-                    </div>
-                </div>
-            `;
-
-            document.getElementById('quickViewModal').classList.add('open');
-            playWhoopeePop();
-        }
-
-        function closeQuickViewModal() {
-            document.getElementById('quickViewModal').classList.remove('open');
-        }
-
-        function selectQvTier(tier, minQty, discountPct) {
-            qvSelectedTier = tier;
-            qvSelectedQty = minQty;
-            document.getElementById('qvTier1').classList.toggle('active', tier === 1);
-            document.getElementById('qvTier2').classList.toggle('active', tier === 2);
-            document.getElementById('qvTier3').classList.toggle('active', tier === 3);
-            document.getElementById('qvQtyVal').innerText = qvSelectedQty;
-            updateQvTotal();
-            playWhoopeePop();
-        }
-
-        function changeQvQty(delta) {
-            qvSelectedQty = Math.max(1, qvSelectedQty + delta);
-            document.getElementById('qvQtyVal').innerText = qvSelectedQty;
-            updateQvTotal();
-        }
-
-        function updateQvTotal() {
-            if (!qvCurrentProduct) return;
-            let unitPrice = qvCurrentProduct.Price;
-            if (qvSelectedQty >= 3) {
-                unitPrice *= 0.8;
-            } else if (qvSelectedQty >= 2) {
-                unitPrice *= 0.9;
-            }
-            const total = unitPrice * qvSelectedQty;
-            document.getElementById('qvTotalPrice').innerText = `$${total.toFixed(2)}`;
-        }
-
-        function addQvToCart() {
-            if (!qvCurrentProduct) return;
-            addToCart(qvCurrentProduct.ProductID, qvSelectedQty);
-            closeQuickViewModal();
-        }
-
-        // 🎡 Spin-the-Wheel Engine
-        const wheelPrizes = [
-            { text: "15% OFF", code: "MISCHIEF15", color: "#FF9F1C" },
-            { text: "FREE SHIP", code: "FREESHIP", color: "#4361EE" },
-            { text: "20% MEGA", code: "PRANKSTER20", color: "#E63946" },
-            { text: "$5 OFF", code: "MAGIC5", color: "#2EC4B6" },
-            { text: "FREE GAG", code: "FREEGAG", color: "#7209B7" },
-            { text: "15% OFF", code: "MISCHIEF15", color: "#F77F00" }
-        ];
-
-        let wheelSpinning = false;
-        let currentWheelAngle = 0;
-        let wonPrize = wheelPrizes[0];
-
-        function drawWheel() {
-            const canvas = document.getElementById('wheelCanvas');
-            if (!canvas) return;
-            const ctx = canvas.getContext('2d');
-            const numSegments = wheelPrizes.length;
-            const segAngle = (2 * Math.PI) / numSegments;
-            const radius = canvas.width / 2;
-
-            ctx.clearRect(0, 0, canvas.width, canvas.height);
-
-            wheelPrizes.forEach((prize, i) => {
-                const angle = i * segAngle;
-                ctx.beginPath();
-                ctx.fillStyle = prize.color;
-                ctx.moveTo(radius, radius);
-                ctx.arc(radius, radius, radius, angle, angle + segAngle);
-                ctx.lineTo(radius, radius);
-                ctx.fill();
-                ctx.stroke();
-
-                // Text
-                ctx.save();
-                ctx.translate(radius, radius);
-                ctx.rotate(angle + segAngle / 2);
-                ctx.textAlign = "right";
-                ctx.fillStyle = "#fff";
-                ctx.font = "bold 15px Fredoka, sans-serif";
-                ctx.fillText(prize.text, radius - 20, 6);
-                ctx.restore();
-            });
-        }
-
-        function openSpinWheelModal() {
-            document.getElementById('wheelResultBox').style.display = 'none';
-            document.getElementById('spinWheelModal').classList.add('open');
-            playWhoopeePop();
-        }
-
-        function closeSpinWheelModal() {
-            document.getElementById('spinWheelModal').classList.remove('open');
-        }
-
-        function spinWheel() {
-            if (wheelSpinning) return;
-            wheelSpinning = true;
-
-            const canvas = document.getElementById('wheelCanvas');
-            const targetPrizeIndex = Math.floor(Math.random() * wheelPrizes.length);
-            wonPrize = wheelPrizes[targetPrizeIndex];
-
-            const segDegrees = 360 / wheelPrizes.length;
-            // Target angle where pointer points to the prize at top (270 degrees)
-            const targetDegree = (360 * 5) + (360 - (targetPrizeIndex * segDegrees + segDegrees / 2) + 270);
-            currentWheelAngle += targetDegree;
-
-            canvas.style.transform = `rotate(${currentWheelAngle}deg)`;
-
-            // Sound tick simulation during spin
-            let tickCount = 0;
-            const tickInterval = setInterval(() => {
-                playWheelTick();
-                tickCount++;
-                if (tickCount > 25) clearInterval(tickInterval);
-            }, 140);
-
-            setTimeout(() => {
-                wheelSpinning = false;
-                playVictoryFanfare();
-                document.getElementById('wheelWonText').innerText = wonPrize.text;
-                document.getElementById('wheelWonCode').innerText = wonPrize.code;
-                document.getElementById('wheelResultBox').style.display = 'block';
-            }, 4100);
-        }
-
-        function applyWonPromo() {
-            if (wonPrize) {
-                copyAndApplyPromo(wonPrize.code);
-            }
-            closeSpinWheelModal();
-            openCartModal();
-        }
-
-        // Checkout Flow
-        function startCheckout() {
-            closeCartModal();
-            document.getElementById('checkoutModal').classList.add('open');
-        }
-
-        function closeCheckoutModal() {
-            document.getElementById('checkoutModal').classList.remove('open');
-        }
-
-        function handleCheckoutSubmit(e) {
-            e.preventDefault();
-            const name = document.getElementById('custName').value;
-            const email = document.getElementById('custEmail').value;
-            const line1 = document.getElementById('custLine1').value;
-            const city = document.getElementById('custCity').value;
-            const state = document.getElementById('custState').value;
-            const zip = document.getElementById('custZip').value;
-            const country = document.getElementById('custCountry').value;
-            const giftWrap = document.getElementById('custGiftWrap').checked;
-
-            const { subtotal, discountAmount, grandTotal } = calculateCartTotals();
-
-            // Mock EmailOrderProcessor Output
-            const manifest = `
---- [MOCK DISPATCH MANIFEST - EmailOrderProcessor] ---
-Date: ${new Date().toLocaleString()}
-To: ${email}
-Subject: Mischief & Magic Co. - Order Confirmed!
-------------------------------------------------------
-Customer: ${name}
-Delivery Address:
-  ${line1}
-  ${city}, ${state} ${zip}
-  ${country}
-Stealth Decoy Packaging: ${giftWrap ? "YES (Boring decoy exterior)" : "Standard"}
-
-Payload Manifest:
-${cart.lines.map(l => `  • [x${l.quantity}] ${l.product.Name} ($${(l.product.Price * l.quantity).toFixed(2)})`).join('\n')}
-
-Subtotal: $${subtotal.toFixed(2)}
-${discountAmount > 0 ? `Applied Promo (${cart.appliedCoupon}): - $${discountAmount.toFixed(2)}\n` : ''}Grand Total: $${grandTotal.toFixed(2)}
-------------------------------------------------------
-STATUS: Dispatched via Carrier Pigeon. No rabbits harmed.
-            `.trim();
-
-            document.getElementById('dispatchReceipt').innerText = manifest;
-            closeCheckoutModal();
-
-            // Clear Cart
-            cart.lines = [];
-            cart.appliedCoupon = null;
-            cart.discountPercent = 0;
-            cart.discountFixed = 0;
-            updateHeaderCart();
-
-            playVictoryFanfare();
-            document.getElementById('confirmedModal').classList.add('open');
-        }
-
-        function closeConfirmedModal() {
-            document.getElementById('confirmedModal').classList.remove('open');
-        }
-
-        // Admin CRUD View
-        function renderAdminTable() {
-            const tbody = document.getElementById('adminTableBody');
-            tbody.innerHTML = products.map(p => `
-                <tr>
-                    <td style="font-weight: 700; color: #64748B;">#${p.ProductID}</td>
-                    <td style="font-size: 28px; text-align: center;">${p.Emoji || '📦'}</td>
-                    <td>
-                        <strong style="color: var(--carnival-purple); font-size: 15px;">${p.Name}</strong>
-                        <div style="color: #64748B; font-size: 12.5px; margin-top: 2px;">${p.Description}</div>
-                    </td>
-                    <td><span class="badge-pill" style="background: rgba(58, 12, 163, 0.1); color: var(--carnival-purple);">${p.Category}</span></td>
-                    <td style="text-align: right; font-weight: 800; color: var(--carnival-red);">$${p.Price.toFixed(2)}</td>
-                    <td style="text-align: center;">
-                        <button class="mode-btn" style="background: #3B82F6; color: #fff; border: none; padding: 4px 10px; margin-right: 4px;" onclick="openEditProductModal(${p.ProductID})">Edit</button>
-                        <button class="mode-btn" style="background: #EF4444; color: #fff; border: none; padding: 4px 10px;" onclick="deleteProduct(${p.ProductID})">Delete</button>
-                    </td>
-                </tr>
-            `).join('');
-        }
-
-        function openNewProductModal() {
-            document.getElementById('prodId').value = "0";
-            document.getElementById('productFormTitle').innerHTML = '<i class="fas fa-plus-circle"></i> Create New Product';
-            document.getElementById('prodName').value = '';
-            document.getElementById('prodCategory').value = 'Classic Gags';
-            document.getElementById('prodPrice').value = '';
-            document.getElementById('prodEmoji').value = '🎪';
-            document.getElementById('prodDesc').value = '';
-            document.getElementById('productFormModal').classList.add('open');
-        }
-
-        function openEditProductModal(id) {
-            const p = products.find(x => x.ProductID === id);
-            if (!p) return;
-
-            document.getElementById('prodId').value = p.ProductID;
-            document.getElementById('productFormTitle').innerHTML = `<i class="fas fa-edit"></i> Edit Product: ${p.Name}`;
-            document.getElementById('prodName').value = p.Name;
-            document.getElementById('prodCategory').value = p.Category;
-            document.getElementById('prodPrice').value = p.Price;
-            document.getElementById('prodEmoji').value = p.Emoji || '📦';
-            document.getElementById('prodDesc').value = p.Description;
-            document.getElementById('productFormModal').classList.add('open');
-        }
-
-        function closeProductFormModal() {
-            document.getElementById('productFormModal').classList.remove('open');
-        }
-
-        function handleProductFormSubmit(e) {
-            e.preventDefault();
-            const id = parseInt(document.getElementById('prodId').value);
-            const name = document.getElementById('prodName').value;
-            const category = document.getElementById('prodCategory').value;
-            const price = parseFloat(document.getElementById('prodPrice').value);
-            const emoji = document.getElementById('prodEmoji').value || '📦';
-            const desc = document.getElementById('prodDesc').value;
-
-            if (id === 0) {
-                const nextId = Math.max(...products.map(p => p.ProductID), 0) + 1;
-                products.unshift({
-                    ProductID: nextId,
-                    Name: name,
-                    Category: category,
-                    Price: price,
-                    Emoji: emoji,
-                    Description: desc,
-                    StockLeft: 5,
-                    Reviews: 1
-                });
-                showToast(`Product "${name}" created successfully!`);
-            } else {
-                const p = products.find(x => x.ProductID === id);
-                if (p) {
-                    p.Name = name;
-                    p.Category = category;
-                    p.Price = price;
-                    p.Emoji = emoji;
-                    p.Description = desc;
-                    showToast(`Product "${name}" updated!`);
-                }
-            }
-
-            closeProductFormModal();
-            updateCategoryCounts();
-            renderCatalog();
-            renderAdminTable();
-        }
-
-        function deleteProduct(id) {
-            const p = products.find(x => x.ProductID === id);
-            if (!p) return;
-            if (confirm(`Are you sure you want to delete "${p.Name}" from the EF6 database?`)) {
-                products = products.filter(x => x.ProductID !== id);
-                updateCategoryCounts();
-                renderCatalog();
-                renderAdminTable();
-                showToast(`Deleted "${p.Name}".`);
-            }
-        }
-
-        // Architecture Code Snippets
-        function showCodeSnippet(key) {
-            const viewer = document.getElementById('codeViewer');
-            if (codeSnippets[key]) {
-                viewer.innerText = codeSnippets[key];
-            }
-
-            const btns = document.querySelectorAll('.code-tab-btn');
-            btns.forEach(b => {
-                if (b.innerText.toLowerCase().includes(key.toLowerCase().substring(0, 5))) {
-                    b.classList.add('active');
-                } else {
-                    b.classList.remove('active');
+                    btn.classList.remove('active');
                 }
             });
         }
 
-        // View Switcher
-        function switchView(viewName) {
-            document.getElementById('storeView').style.display = viewName === 'store' ? 'block' : 'none';
-            document.getElementById('adminView').classList.toggle('active', viewName === 'admin');
-            document.getElementById('archView').classList.toggle('active', viewName === 'arch');
+        // ==================== INITIALIZATION ====================
+        document.addEventListener('DOMContentLoaded', () => {
+            renderProducts();
+            updateCartWidgets();
 
-            const modeBtns = document.querySelectorAll('.mode-btn');
-            modeBtns.forEach(b => {
-                if (b.innerText.toLowerCase().includes(viewName === 'store' ? 'store' : viewName === 'admin' ? 'admin' : 'arch')) {
-                    b.classList.add('active');
-                } else {
-                    b.classList.remove('active');
+            // Flash Sale Timer Countdown
+            let timeLeft = 2 * 3600 + 44 * 60 + 18;
+            setInterval(() => {
+                if (timeLeft > 0) {
+                    timeLeft--;
+                    const hours = Math.floor(timeLeft / 3600).toString().padStart(2, '0');
+                    const mins = Math.floor((timeLeft % 3600) / 60).toString().padStart(2, '0');
+                    const secs = (timeLeft % 60).toString().padStart(2, '0');
+                    const el = document.getElementById('countdownTimer');
+                    if (el) el.innerText = `${hours}:${mins}:${secs}`;
                 }
-            });
-
-            if (viewName === 'admin') {
-                renderAdminTable();
-            }
-            window.scrollTo({ top: 0, behavior: 'smooth' });
-            playWhoopeePop();
-        }
-
-        // Toast Helper
-        function showToast(msg) {
-            const toast = document.getElementById('toast');
-            document.getElementById('toastMsg').innerText = msg;
-            toast.classList.add('show');
-            setTimeout(() => {
-                toast.classList.remove('show');
-            }, 3000);
-        }
-
-        // Start app
-        document.addEventListener('DOMContentLoaded', initStore);
+            }, 1000);
+        });
     </script>
 </body>
 </html>

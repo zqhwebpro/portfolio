@@ -1,430 +1,462 @@
 import React, { useState, useEffect, useRef } from 'react';
-import { Trophy, RefreshCw, Play, Sparkles, Grid, Eye } from 'lucide-react';
+import { Play, RotateCcw, Shuffle, ChevronRight, ArrowDownUp, CheckCircle, BarChart2, Layers } from 'lucide-react';
 import { SoundEngine } from '../utils/soundEngine';
 
-const ARRAY_SIZE = 24;
+const INITIAL_ARRAY = [42, 18, 77, 23, 91, 5, 64, 33];
 
 export function SpatialSortingArena() {
-  const [activeTab, setActiveTab] = useState('race'); // 'race' | 'quadtree'
-  const [arrayBase, setArrayBase] = useState([]);
-  const [isRacing, setIsRacing] = useState(false);
-  const [results, setResults] = useState({
-    quick: { arr: [], comps: 0, swaps: 0, done: false, active: [] },
-    merge: { arr: [], comps: 0, swaps: 0, done: false, active: [] },
-    bubble: { arr: [], comps: 0, swaps: 0, done: false, active: [] },
-    insertion: { arr: [], comps: 0, swaps: 0, done: false, active: [] }
-  });
+  const [array, setArray] = useState(INITIAL_ARRAY);
+  const [algo, setAlgo] = useState('selection'); // 'selection' | 'insertion'
+  const [sortedIndex, setSortedIndex] = useState(0);
+  const [comparingIndices, setComparingIndices] = useState([]);
+  const [minCandidateIndex, setMinCandidateIndex] = useState(null);
+  const [stats, setStats] = useState({ comparisons: 0, swaps: 0, steps: 0, isFinished: false });
+  const [explanation, setExplanation] = useState('Select an algorithm and click "Step" or "Auto Play" to begin sorting.');
+  const [isPlaying, setIsPlaying] = useState(false);
 
-  // QuadTree interactive state
-  const quadCanvasRef = useRef(null);
-  const [quadPoints, setQuadPoints] = useState([
-    { x: 120, y: 80 }, { x: 340, y: 150 }, { x: 420, y: 220 },
-    { x: 80, y: 260 }, { x: 220, y: 180 }, { x: 480, y: 90 }
-  ]);
-
-  // Generate initial random array
-  const generateNewArray = () => {
+  const resetArray = (preset = 'random') => {
     SoundEngine.playClick();
-    const arr = Array.from({ length: ARRAY_SIZE }, () => Math.floor(Math.random() * 85) + 15);
-    setArrayBase(arr);
-    setResults({
-      quick: { arr: [...arr], comps: 0, swaps: 0, done: false, active: [] },
-      merge: { arr: [...arr], comps: 0, swaps: 0, done: false, active: [] },
-      bubble: { arr: [...arr], comps: 0, swaps: 0, done: false, active: [] },
-      insertion: { arr: [...arr], comps: 0, swaps: 0, done: false, active: [] }
-    });
-    setIsRacing(false);
+    setIsPlaying(false);
+    let newArr;
+    if (preset === 'random') {
+      newArr = Array.from({ length: 8 }, () => Math.floor(Math.random() * 90) + 10);
+    } else if (preset === 'reversed') {
+      newArr = [95, 80, 65, 50, 40, 30, 20, 10];
+    } else if (preset === 'nearly') {
+      newArr = [10, 20, 35, 30, 50, 65, 80, 75];
+    } else {
+      newArr = [...INITIAL_ARRAY];
+    }
+
+    setArray(newArr);
+    setSortedIndex(0);
+    setComparingIndices([]);
+    setMinCandidateIndex(null);
+    setStats({ comparisons: 0, swaps: 0, steps: 0, isFinished: false });
+    setExplanation(`Initialized array of size ${newArr.length}. Ready for ${algo === 'selection' ? 'Selection Sort' : 'Insertion Sort'}.`);
   };
 
-  useEffect(() => {
-    generateNewArray();
-  }, []);
+  // Step generator for Selection Sort
+  const stepSelectionSort = (currArr, currSorted, currStats) => {
+    const arr = [...currArr];
+    const n = arr.length;
+    let i = currSorted;
+    let comps = currStats.comparisons;
+    let swaps = currStats.swaps;
 
-  // Run Concurrent Race
-  const startSortRace = async () => {
-    if (isRacing) return;
-    setIsRacing(true);
-    SoundEngine.playClick();
+    if (i >= n - 1) {
+      SoundEngine.playFanfare();
+      return { arr, sorted: n, stats: { ...currStats, isFinished: true }, explanation: 'Array is fully sorted via Selection Sort!' };
+    }
 
-    // 1. Bubble Sort Runner
-    const runBubble = async () => {
-      let arr = [...arrayBase];
-      let comps = 0, swaps = 0;
-      for (let i = 0; i < arr.length - 1; i++) {
-        for (let j = 0; j < arr.length - i - 1; j++) {
-          comps++;
-          if (arr[j] > arr[j + 1]) {
-            swaps++;
-            const t = arr[j];
-            arr[j] = arr[j + 1];
-            arr[j + 1] = t;
-          }
-          if (j % 2 === 0) {
-            setResults(prev => ({
-              ...prev,
-              bubble: { arr: [...arr], comps, swaps, done: false, active: [j, j + 1] }
-            }));
-            await new Promise(r => setTimeout(r, 12));
-          }
-        }
+    // Find min in arr[i..n-1]
+    let minIdx = i;
+    for (let j = i + 1; j < n; j++) {
+      comps++;
+      if (arr[j] < arr[minIdx]) {
+        minIdx = j;
       }
-      setResults(prev => ({
-        ...prev,
-        bubble: { arr: [...arr], comps, swaps, done: true, active: [] }
-      }));
-    };
+    }
 
-    // 2. Insertion Sort Runner
-    const runInsertion = async () => {
-      let arr = [...arrayBase];
-      let comps = 0, swaps = 0;
-      for (let i = 1; i < arr.length; i++) {
-        let key = arr[i];
-        let j = i - 1;
-        while (j >= 0 && arr[j] > key) {
-          comps++;
-          swaps++;
-          arr[j + 1] = arr[j];
-          j--;
-          setResults(prev => ({
-            ...prev,
-            insertion: { arr: [...arr], comps, swaps, done: false, active: [j + 1, i] }
-          }));
-          await new Promise(r => setTimeout(r, 15));
-        }
-        arr[j + 1] = key;
-      }
-      setResults(prev => ({
-        ...prev,
-        insertion: { arr: [...arr], comps, swaps, done: true, active: [] }
-      }));
-    };
+    // Swap min with arr[i]
+    if (minIdx !== i) {
+      const temp = arr[i];
+      arr[i] = arr[minIdx];
+      arr[minIdx] = temp;
+      swaps++;
+      SoundEngine.playPop();
+    } else {
+      SoundEngine.playBlip();
+    }
 
-    // 3. QuickSort Runner
-    const runQuick = async () => {
-      let arr = [...arrayBase];
-      let comps = 0, swaps = 0;
-      async function partition(low, high) {
-        let pivot = arr[high];
-        let i = low - 1;
-        for (let j = low; j < high; j++) {
-          comps++;
-          if (arr[j] < pivot) {
-            i++;
-            swaps++;
-            let t = arr[i]; arr[i] = arr[j]; arr[j] = t;
-            setResults(prev => ({
-              ...prev,
-              quick: { arr: [...arr], comps, swaps, done: false, active: [j, high] }
-            }));
-            await new Promise(r => setTimeout(r, 16));
-          }
-        }
+    const exp = `Found minimum ${arr[i]} at index ${minIdx}. Swapped into sorted position index ${i}.`;
+    return {
+      arr,
+      sorted: i + 1,
+      minIdx,
+      comparing: [i, minIdx],
+      stats: { comparisons: comps, swaps, steps: currStats.steps + 1, isFinished: i + 1 >= n - 1 },
+      explanation: exp
+    };
+  };
+
+  // Step generator for Insertion Sort
+  const stepInsertionSort = (currArr, currSorted, currStats) => {
+    const arr = [...currArr];
+    const n = arr.length;
+    let i = Math.max(1, currSorted === 0 ? 1 : currSorted);
+    let comps = currStats.comparisons;
+    let swaps = currStats.swaps;
+
+    if (i >= n) {
+      SoundEngine.playFanfare();
+      return { arr, sorted: n, stats: { ...currStats, isFinished: true }, explanation: 'Array is fully sorted via Insertion Sort!' };
+    }
+
+    const key = arr[i];
+    let j = i - 1;
+    let inserted = false;
+
+    while (j >= 0) {
+      comps++;
+      if (arr[j] > key) {
+        arr[j + 1] = arr[j];
         swaps++;
-        let t = arr[i + 1]; arr[i + 1] = arr[high]; arr[high] = t;
-        setResults(prev => ({
-          ...prev,
-          quick: { arr: [...arr], comps, swaps, done: false, active: [i + 1, high] }
-        }));
-        await new Promise(r => setTimeout(r, 16));
-        return i + 1;
+        j--;
+      } else {
+        break;
       }
-      async function qSort(low, high) {
-        if (low < high) {
-          let pi = await partition(low, high);
-          await qSort(low, pi - 1);
-          await qSort(pi + 1, high);
-        }
-      }
-      await qSort(0, arr.length - 1);
-      setResults(prev => ({
-        ...prev,
-        quick: { arr: [...arr], comps, swaps, done: true, active: [] }
-      }));
-    };
+    }
+    arr[j + 1] = key;
+    SoundEngine.playPop();
 
-    // 4. MergeSort Runner
-    const runMerge = async () => {
-      let arr = [...arrayBase];
-      let comps = 0, swaps = 0;
-      async function merge(l, m, r) {
-        let n1 = m - l + 1;
-        let n2 = r - m;
-        let L = arr.slice(l, m + 1);
-        let R = arr.slice(m + 1, r + 1);
-        let i = 0, j = 0, k = l;
-        while (i < n1 && j < n2) {
-          comps++;
-          if (L[i] <= R[j]) {
-            arr[k] = L[i]; i++;
-          } else {
-            arr[k] = R[j]; j++;
-          }
-          swaps++;
-          k++;
-          setResults(prev => ({
-            ...prev,
-            merge: { arr: [...arr], comps, swaps, done: false, active: [k] }
-          }));
-          await new Promise(r => setTimeout(r, 18));
-        }
-        while (i < n1) { arr[k] = L[i]; i++; k++; }
-        while (j < n2) { arr[k] = R[j]; j++; k++; }
-      }
-      async function mSort(l, r) {
-        if (l < r) {
-          let m = Math.floor((l + r) / 2);
-          await mSort(l, m);
-          await mSort(m + 1, r);
-          await merge(l, m, r);
-        }
-      }
-      await mSort(0, arr.length - 1);
-      setResults(prev => ({
-        ...prev,
-        merge: { arr: [...arr], comps, swaps, done: true, active: [] }
-      }));
+    const exp = `Inserted key ${key} into sorted prefix at index ${j + 1}.`;
+    return {
+      arr,
+      sorted: i + 1,
+      comparing: [j + 1, i],
+      stats: { comparisons: comps, swaps, steps: currStats.steps + 1, isFinished: i + 1 >= n },
+      explanation: exp
     };
-
-    await Promise.all([runQuick(), runMerge(), runInsertion(), runBubble()]);
-    setIsRacing(false);
-    SoundEngine.playSuccess();
   };
 
-  // Render Quadtree Canvas on click/hover
-  useEffect(() => {
-    if (activeTab !== 'quadtree') return;
-    const canvas = quadCanvasRef.current;
-    if (!canvas) return;
-    const ctx = canvas.getContext('2d');
-    const w = canvas.width;
-    const h = canvas.height;
+  const handleStep = () => {
+    if (stats.isFinished) return;
+    if (algo === 'selection') {
+      const res = stepSelectionSort(array, sortedIndex, stats);
+      setArray(res.arr);
+      setSortedIndex(res.sorted);
+      setMinCandidateIndex(res.minIdx);
+      setComparingIndices(res.comparing || []);
+      setStats(res.stats);
+      setExplanation(res.explanation);
+    } else {
+      const res = stepInsertionSort(array, sortedIndex, stats);
+      setArray(res.arr);
+      setSortedIndex(res.sorted);
+      setComparingIndices(res.comparing || []);
+      setStats(res.stats);
+      setExplanation(res.explanation);
+    }
+  };
 
-    ctx.clearRect(0, 0, w, h);
-    // Background Grid
-    ctx.fillStyle = '#FFFFFF';
-    ctx.fillRect(0, 0, w, h);
+  const handleAutoPlay = () => {
+    if (isPlaying || stats.isFinished) return;
+    setIsPlaying(true);
+    SoundEngine.playClick();
 
-    // QuadTree Recursive Subdivider
-    const MAX_CAPACITY = 1;
-    function buildAndDrawQuad(boundary, pts, depth = 0) {
-      ctx.strokeStyle = depth % 2 === 0 ? '#0038FF' : '#FF2A00';
-      ctx.lineWidth = Math.max(1, 2.5 - depth * 0.4);
-      ctx.strokeRect(boundary.x, boundary.y, boundary.w, boundary.h);
+    let currentArr = [...array];
+    let currentSorted = sortedIndex;
+    let currentStats = { ...stats };
 
-      if (pts.length <= MAX_CAPACITY || depth >= 4) {
+    const interval = setInterval(() => {
+      if (currentStats.isFinished || currentSorted >= currentArr.length - 1) {
+        clearInterval(interval);
+        setIsPlaying(false);
         return;
       }
 
-      const halfW = boundary.w / 2;
-      const halfH = boundary.h / 2;
+      const res = algo === 'selection'
+        ? stepSelectionSort(currentArr, currentSorted, currentStats)
+        : stepInsertionSort(currentArr, currentSorted, currentStats);
 
-      const quadrants = [
-        { x: boundary.x, y: boundary.y, w: halfW, h: halfH },
-        { x: boundary.x + halfW, y: boundary.y, w: halfW, h: halfH },
-        { x: boundary.x, y: boundary.y + halfH, w: halfW, h: halfH },
-        { x: boundary.x + halfW, y: boundary.y + halfH, w: halfW, h: halfH },
-      ];
+      currentArr = res.arr;
+      currentSorted = res.sorted;
+      currentStats = res.stats;
 
-      quadrants.forEach((q) => {
-        const inside = pts.filter(p => p.x >= q.x && p.x < q.x + q.w && p.y >= q.y && p.y < q.y + q.h);
-        buildAndDrawQuad(q, inside, depth + 1);
-      });
-    }
+      setArray(res.arr);
+      setSortedIndex(res.sorted);
+      setStats(res.stats);
+      setExplanation(res.explanation);
+      if (res.comparing) setComparingIndices(res.comparing);
 
-    buildAndDrawQuad({ x: 0, y: 0, w, h }, quadPoints, 0);
-
-    // Draw Points
-    quadPoints.forEach((p) => {
-      ctx.fillStyle = '#FFE600';
-      ctx.strokeStyle = '#0A0A0A';
-      ctx.lineWidth = 2;
-      ctx.beginPath();
-      ctx.arc(p.x, p.y, 7, 0, Math.PI * 2);
-      ctx.fill();
-      ctx.stroke();
-    });
-  }, [quadPoints, activeTab]);
-
-  const handleCanvasClick = (e) => {
-    const canvas = quadCanvasRef.current;
-    if (!canvas) return;
-    const rect = canvas.getBoundingClientRect();
-    const x = ((e.clientX - rect.left) / rect.width) * canvas.width;
-    const y = ((e.clientY - rect.top) / rect.height) * canvas.height;
-    SoundEngine.playClick();
-    setQuadPoints(prev => [...prev, { x, y }]);
+      if (res.stats.isFinished) {
+        clearInterval(interval);
+        setIsPlaying(false);
+      }
+    }, 600);
   };
 
   return (
-    <section id="sorting" className="section-wrapper" style={{ background: 'var(--bg-paper)' }}>
+    <section id="sorting" className="section-padding" style={{
+      background: 'var(--bg-primary)',
+      borderBottom: 'var(--border-thick)'
+    }}>
       <div className="container">
+
         {/* Section Header */}
-        <div className="section-header">
-          <div className="section-tag">
-            <Trophy size={14} /> CONCEPT 04 // ALGORITHMIC RACING & SPATIAL CS
+        <div style={{ marginBottom: '2.5rem' }}>
+          <div style={{ display: 'flex', alignItems: 'center', gap: '0.5rem', marginBottom: '0.5rem' }}>
+            <span className="brutal-badge brutal-badge-red font-mono" style={{ fontSize: '0.8rem' }}>
+              UNIT 04 // KHAN ALGORITHMS
+            </span>
+            <span className="brutal-badge brutal-badge-yellow font-mono" style={{ fontSize: '0.8rem' }}>
+              SELECTION SORT &amp; INSERTION SORT
+            </span>
           </div>
-          <h2 className="section-title">
-            THE ALGORITHM <span style={{ color: 'var(--canary-yellow)', textShadow: '2px 2px 0px #000' }}>RACE ARENA</span> & QUADTREE
+
+          <h2 style={{
+            fontFamily: 'var(--font-display)',
+            fontSize: 'clamp(2rem, 4vw, 3.25rem)',
+            fontWeight: 900,
+            lineHeight: 1.1,
+            letterSpacing: '-0.02em',
+            marginBottom: '1rem'
+          }}>
+            SELECTION SORT VS. INSERTION SORT
           </h2>
-          <p className="section-subtitle">
-            Observe the empirical reality of asymptotic time limits. Watch 4 sorting algorithms race concurrently against identical data, or explore 2D Quadtree spatial partitioning.
+
+          <p style={{
+            fontFamily: 'var(--font-body)',
+            fontSize: '1.1rem',
+            color: 'var(--text-muted)',
+            maxWidth: '850px',
+            lineHeight: 1.6
+          }}>
+            Selection Sort and Insertion Sort are foundational quadratic comparison sorting algorithms. Understand how each strategy structures its sorted subarray and how their best/worst-case performance differs.
           </p>
         </div>
 
-        {/* Tab Selector */}
-        <div style={{ display: 'flex', gap: '0.75rem', marginBottom: '1.5rem', flexWrap: 'wrap' }}>
-          <button
-            onClick={() => { setActiveTab('race'); SoundEngine.playClick(); }}
-            className={`brutal-btn ${activeTab === 'race' ? 'brutal-btn-accent' : ''}`}
-          >
-            <Trophy size={16} /> 4-WAY SORTING RACE
-          </button>
-          <button
-            onClick={() => { setActiveTab('quadtree'); SoundEngine.playClick(); }}
-            className={`brutal-btn ${activeTab === 'quadtree' ? 'brutal-btn-primary' : ''}`}
-          >
-            <Grid size={16} /> 2D SPATIAL QUADTREE
-          </button>
+        {/* Algorithm Switcher & Preset Controls */}
+        <div style={{
+          display: 'flex',
+          justifyContent: 'space-between',
+          alignItems: 'center',
+          flexWrap: 'wrap',
+          gap: '1rem',
+          marginBottom: '2rem',
+          background: 'var(--bg-paper)',
+          padding: '1rem',
+          border: '2px solid #000',
+          boxShadow: '3px 3px 0 #000'
+        }}>
+          {/* Algo Toggle */}
+          <div style={{ display: 'flex', gap: '0.5rem' }}>
+            <button
+              onClick={() => { SoundEngine.playClick(); setAlgo('selection'); resetArray(); }}
+              className="brutal-btn"
+              style={{
+                background: algo === 'selection' ? 'var(--canary-yellow)' : '#FFF',
+                fontWeight: algo === 'selection' ? 900 : 700,
+                border: '2px solid #000',
+                padding: '0.5rem 1rem'
+              }}
+            >
+              SELECTION SORT (FIND MIN)
+            </button>
+            <button
+              onClick={() => { SoundEngine.playClick(); setAlgo('insertion'); resetArray(); }}
+              className="brutal-btn"
+              style={{
+                background: algo === 'insertion' ? 'var(--canary-yellow)' : '#FFF',
+                fontWeight: algo === 'insertion' ? 900 : 700,
+                border: '2px solid #000',
+                padding: '0.5rem 1rem'
+              }}
+            >
+              INSERTION SORT (SHIFT &amp; INSERT)
+            </button>
+          </div>
+
+          {/* Preset Buttons */}
+          <div style={{ display: 'flex', gap: '0.5rem', alignItems: 'center' }}>
+            <span style={{ fontFamily: 'var(--font-mono)', fontSize: '0.8rem', fontWeight: 800 }}>DATASET:</span>
+            <button onClick={() => resetArray('random')} className="brutal-btn brutal-btn-sm" style={{ background: '#FFF' }}>
+              <Shuffle size={14} /> Random
+            </button>
+            <button onClick={() => resetArray('reversed')} className="brutal-btn brutal-btn-sm" style={{ background: '#FFF' }}>
+              Reversed (Worst Case)
+            </button>
+            <button onClick={() => resetArray('nearly')} className="brutal-btn brutal-btn-sm" style={{ background: '#FFF' }}>
+              Nearly Sorted (Best Case)
+            </button>
+          </div>
         </div>
 
-        {activeTab === 'race' ? (
-          <div>
-            {/* Action Bar */}
-            <div style={{ display: 'flex', gap: '0.75rem', marginBottom: '1.5rem', flexWrap: 'wrap' }}>
-              <button
-                onClick={startSortRace}
-                disabled={isRacing}
-                className="brutal-btn brutal-btn-primary"
-              >
-                <Play size={16} /> START HEAD-TO-HEAD RACE
-              </button>
-              <button
-                onClick={generateNewArray}
-                disabled={isRacing}
-                className="brutal-btn"
-              >
-                <RefreshCw size={16} /> RANDOMIZE DATA
-              </button>
+        {/* 2-Column Main Workspace */}
+        <div style={{
+          display: 'grid',
+          gridTemplateColumns: 'repeat(auto-fit, minmax(320px, 1fr))',
+          gap: '2rem',
+          alignItems: 'start'
+        }}>
+
+          {/* Left Column: Visual Bar Arena & Stepper */}
+          <div className="brutal-card" style={{ background: '#FFF' }}>
+            
+            {/* Stepper Header */}
+            <div style={{
+              display: 'flex',
+              justifyContent: 'space-between',
+              alignItems: 'center',
+              marginBottom: '1.5rem',
+              borderBottom: '2px solid #000',
+              paddingBottom: '0.75rem'
+            }}>
+              <div>
+                <span className="brutal-badge brutal-badge-mint font-mono" style={{ fontSize: '0.75rem' }}>
+                  STEP-BY-STEP SIMULATOR
+                </span>
+                <div style={{ fontFamily: 'var(--font-display)', fontWeight: 900, fontSize: '1.25rem', marginTop: '0.25rem' }}>
+                  {algo === 'selection' ? 'SELECTION SORT ARENA' : 'INSERTION SORT ARENA'}
+                </div>
+              </div>
+
+              <div style={{ display: 'flex', gap: '0.5rem' }}>
+                <button
+                  onClick={handleStep}
+                  disabled={isPlaying || stats.isFinished}
+                  className="brutal-btn brutal-btn-red"
+                  style={{ padding: '0.5rem 0.9rem', fontSize: '0.85rem' }}
+                >
+                  <ChevronRight size={16} /> STEP
+                </button>
+                <button
+                  onClick={handleAutoPlay}
+                  disabled={isPlaying || stats.isFinished}
+                  className="brutal-btn brutal-btn-blue"
+                  style={{ padding: '0.5rem 0.9rem', fontSize: '0.85rem' }}
+                >
+                  <Play size={16} /> AUTO PLAY
+                </button>
+                <button
+                  onClick={() => resetArray()}
+                  className="brutal-btn brutal-btn-sm"
+                  style={{ background: '#E5E5E5', border: '1.5px solid #000' }}
+                  title="Reset"
+                >
+                  <RotateCcw size={15} />
+                </button>
+              </div>
             </div>
 
-            {/* 4 Concurrent Race Tracks */}
+            {/* Visual Bar Columns */}
             <div style={{
               display: 'grid',
-              gridTemplateColumns: 'repeat(auto-fit, minmax(min(100%, 280px), 1fr))',
-              gap: '1.5rem'
+              gridTemplateColumns: 'repeat(8, 1fr)',
+              gap: '0.5rem',
+              height: '200px',
+              alignItems: 'end',
+              background: 'var(--bg-paper)',
+              padding: '1rem',
+              border: '2px solid #000',
+              marginBottom: '1.5rem'
             }}>
-              {[
-                { key: 'quick', name: 'QUICKSORT', complexity: 'O(n log n)', color: 'var(--cobalt-blue)' },
-                { key: 'merge', name: 'MERGESORT', complexity: 'O(n log n)', color: 'var(--emerald-mint)' },
-                { key: 'insertion', name: 'INSERTION SORT', complexity: 'O(n²)', color: 'var(--canary-yellow)' },
-                { key: 'bubble', name: 'BUBBLE SORT', complexity: 'O(n²)', color: 'var(--vermilion-red)' }
-              ].map((algo) => {
-                const data = results[algo.key];
+              {array.map((val, idx) => {
+                const isSorted = idx < sortedIndex || stats.isFinished;
+                const isComparing = comparingIndices.includes(idx);
+                const isMinCandidate = idx === minCandidateIndex;
+
+                let barColor = 'var(--cobalt-blue)';
+                if (isSorted) barColor = 'var(--emerald-mint)';
+                else if (isMinCandidate) barColor = 'var(--canary-yellow)';
+                else if (isComparing) barColor = 'var(--vermilion-red)';
+
                 return (
-                  <div key={algo.key} className="brutal-card" style={{
-                    background: 'var(--bg-card)',
-                    border: 'var(--border-thick)',
-                    boxShadow: 'var(--shadow-md)',
-                    padding: '1.25rem'
-                  }}>
-                    <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-start', marginBottom: '0.75rem' }}>
-                      <div>
-                        <h4 style={{ fontSize: '1.1rem', marginBottom: '0.2rem' }}>{algo.name}</h4>
-                        <span className="brutal-pill" style={{ background: algo.color, color: algo.key === 'insertion' ? '#000' : '#FFF' }}>
-                          {algo.complexity}
-                        </span>
-                      </div>
-                      {data.done && (
-                        <span className="font-mono" style={{ background: 'var(--canary-yellow)', border: '1.5px solid #000', padding: '2px 6px', fontWeight: 900, fontSize: '0.75rem' }}>
-                          FINISHED
-                        </span>
-                      )}
-                    </div>
-
-                    {/* Bar Chart Representation */}
-                    <div style={{
-                      height: '140px',
-                      background: 'var(--bg-paper)',
-                      border: 'var(--border-solid)',
+                  <div
+                    key={idx}
+                    style={{
+                      height: `${(val / 100) * 100}%`,
+                      background: barColor,
+                      border: '2px solid #000',
+                      boxShadow: '2px 2px 0 #000',
                       display: 'flex',
-                      alignItems: 'flex-end',
-                      gap: '2px',
-                      padding: '4px',
-                      marginBottom: '0.75rem'
-                    }}>
-                      {data.arr.map((val, idx) => {
-                        const isActive = data.active.includes(idx);
-                        return (
-                          <div
-                            key={idx}
-                            style={{
-                              flex: 1,
-                              height: `${val}%`,
-                              background: isActive ? 'var(--vermilion-red)' : data.done ? 'var(--emerald-mint)' : algo.color,
-                              border: '1px solid #0A0A0A',
-                              transition: 'height 0.05s linear'
-                            }}
-                          />
-                        );
-                      })}
-                    </div>
-
-                    {/* Telemetry Metrics */}
-                    <div style={{ fontFamily: 'var(--font-mono)', fontSize: '0.75rem', display: 'flex', justifyContent: 'space-between' }}>
-                      <span>COMPS: <strong>{data.comps}</strong></span>
-                      <span>SWAPS: <strong>{data.swaps}</strong></span>
-                    </div>
+                      flexDirection: 'column',
+                      justifyContent: 'space-between',
+                      alignItems: 'center',
+                      padding: '0.25rem 0',
+                      color: isSorted || isMinCandidate ? '#000' : '#FFF',
+                      fontFamily: 'var(--font-mono)',
+                      fontWeight: 900,
+                      fontSize: '0.8rem',
+                      transition: 'all 0.25s ease'
+                    }}
+                  >
+                    <span>{val}</span>
+                    <span style={{ fontSize: '0.65rem', opacity: 0.7 }}>[{idx}]</span>
                   </div>
                 );
               })}
             </div>
-          </div>
-        ) : (
-          /* Quadtree Visualizer */
-          <div className="brutal-card" style={{
-            background: 'var(--bg-card)',
-            border: 'var(--border-thick)',
-            boxShadow: 'var(--shadow-lg)',
-            padding: '1.5rem'
-          }}>
-            <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '1rem', flexWrap: 'wrap', gap: '0.5rem' }}>
-              <div>
-                <h3 style={{ fontSize: '1.4rem' }}>SPATIAL QUADTREE SUBDIVISION</h3>
-                <span className="font-mono" style={{ fontSize: '0.8rem', color: '#666' }}>
-                  Click anywhere on the canvas to inject points & watch recursive 2D bounding boxes partition.
-                </span>
+
+            {/* Live Metrics Strip */}
+            <div style={{
+              display: 'grid',
+              gridTemplateColumns: 'repeat(3, 1fr)',
+              gap: '0.75rem',
+              marginBottom: '1.5rem',
+              fontFamily: 'var(--font-mono)',
+              fontSize: '0.8rem'
+            }}>
+              <div style={{ background: 'var(--bg-paper)', padding: '0.5rem', border: '1.5px solid #000' }}>
+                <div>COMPARISONS:</div>
+                <strong style={{ fontSize: '1.2rem', color: 'var(--cobalt-blue)' }}>{stats.comparisons}</strong>
               </div>
-              <button
-                onClick={() => {
-                  SoundEngine.playClick();
-                  setQuadPoints([]);
-                }}
-                className="brutal-btn brutal-btn-sm"
-              >
-                CLEAR POINTS
-              </button>
+              <div style={{ background: 'var(--bg-paper)', padding: '0.5rem', border: '1.5px solid #000' }}>
+                <div>SWAPS / SHIFTS:</div>
+                <strong style={{ fontSize: '1.2rem', color: 'var(--vermilion-red)' }}>{stats.swaps}</strong>
+              </div>
+              <div style={{ background: 'var(--bg-paper)', padding: '0.5rem', border: '1.5px solid #000' }}>
+                <div>SORTED PREFIX:</div>
+                <strong style={{ fontSize: '1.2rem', color: 'var(--emerald-mint)' }}>{sortedIndex} / {array.length}</strong>
+              </div>
             </div>
 
-            <div style={{ display: 'flex', justifyContent: 'center' }}>
-              <canvas
-                ref={quadCanvasRef}
-                width={580}
-                height={340}
-                onClick={handleCanvasClick}
-                style={{
-                  width: '100%',
-                  maxWidth: '580px',
-                  height: 'auto',
-                  border: 'var(--border-thick)',
-                  cursor: 'crosshair',
-                  boxShadow: 'var(--shadow-md)'
-                }}
-              />
+            {/* Explanation Banner */}
+            <div style={{
+              background: stats.isFinished ? '#D1FAE5' : 'var(--bg-paper)',
+              border: '2px solid #000',
+              padding: '0.85rem',
+              fontFamily: 'var(--font-mono)',
+              fontSize: '0.85rem',
+              fontWeight: 700,
+              lineHeight: 1.5
+            }}>
+              <strong style={{ color: 'var(--cobalt-blue)', display: 'block', marginBottom: '0.2rem' }}>
+                STEP EXPLANATION:
+              </strong>
+              {explanation}
             </div>
+
           </div>
-        )}
+
+          {/* Right Column: Khan Academy Theory & Comparison Table */}
+          <div style={{ display: 'flex', flexDirection: 'column', gap: '1.5rem' }}>
+
+            {/* Selection Sort Theory */}
+            <div className="brutal-card brutal-card-yellow">
+              <h4 style={{ fontFamily: 'var(--font-display)', fontWeight: 900, fontSize: '1.1rem', marginBottom: '0.5rem' }}>
+                1. HOW SELECTION SORT WORKS: Θ(N²)
+              </h4>
+              <p style={{ fontSize: '0.85rem', lineHeight: 1.5, color: '#111', marginBottom: '0.5rem' }}>
+                Selection sort divides the array into sorted (left) and unsorted (right) subarrays. It searches the entire unsorted subarray to find the <strong>smallest element</strong>, and swaps it to the end of the sorted portion.
+              </p>
+              <div style={{ background: '#FFF', padding: '0.5rem', border: '1.5px solid #000', fontFamily: 'var(--font-mono)', fontSize: '0.75rem' }}>
+                Total Comparisons = (n-1) + (n-2) + ... + 1 = <strong>n(n-1)/2 = Θ(n²)</strong> in all cases!
+              </div>
+            </div>
+
+            {/* Insertion Sort Theory */}
+            <div className="brutal-card brutal-card-blue">
+              <h4 style={{ fontFamily: 'var(--font-display)', fontWeight: 900, fontSize: '1.1rem', marginBottom: '0.5rem' }}>
+                2. HOW INSERTION SORT WORKS: O(N²) / BEST O(N)
+              </h4>
+              <p style={{ fontSize: '0.85rem', lineHeight: 1.5, color: '#FFF', marginBottom: '0.5rem' }}>
+                Insertion sort builds a sorted array one item at a time. It takes the current item and slides all larger items in the sorted subarray to the right until it finds the correct insertion slot.
+              </p>
+              <div style={{ background: 'rgba(255,255,255,0.15)', padding: '0.5rem', border: '1.5px solid rgba(255,255,255,0.3)', fontFamily: 'var(--font-mono)', fontSize: '0.75rem' }}>
+                Best Case (Already Sorted): <strong>Θ(n) linear</strong> (1 check per item).<br />
+                Worst Case (Reversed): <strong>Θ(n²) quadratic</strong> comparisons and shifts.
+              </div>
+            </div>
+
+          </div>
+
+        </div>
+
       </div>
     </section>
   );
 }
+
+export default SpatialSortingArena;

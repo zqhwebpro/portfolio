@@ -75,9 +75,9 @@ class OrderRepository {
         $subtotal = $opt['price'];
         $tax = round($subtotal * 0.0875, 2);
         $tip = round($subtotal * 0.20, 2);
-        $total = round($subtotal + $tax + $tip, 2);
+        $total = round($subtotal + $tax + tip, 2);
 
-        $orderNumber = '#FG-' . rand(10000, 99999);
+        $orderNumber = '#JN-' . rand(10000, 99999);
 
         $orderData = [
             'orderNumber' => $orderNumber,
@@ -94,7 +94,7 @@ class OrderRepository {
             'currentStageId' => 1, // Queued at 0%
             'customer' => array_merge([
                 'name' => 'Zachery H.',
-                'phone' => '(555) 839-2041',
+                'phone' => '(555) 749-2041',
                 'pickupType' => 'Store Pickup (Express Shelf)',
                 'shelf' => 'SHELF #B-04',
                 'vehicle' => 'Silver Audi A4 (Curbside Bay 3)'

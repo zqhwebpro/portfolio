@@ -1,101 +1,101 @@
 <?php
 /**
- * FORNO & GRATE // Artisanal Wood-Fired Pizzeria & Grill
+ * JIM & NINA'S // Little Italy Pizzeria & Ristorante // Est. 1974
  * Global Configuration & Kitchen Constants
  */
 
 // Application Constants
-define('APP_NAME', 'FORNO & GRATE');
-define('APP_TAGLINE', 'Wood-Fired Hearth & Artisanal Pizzeria');
-define('APP_VERSION', '2.5.0');
+define('APP_NAME', "JIM & NINA'S");
+define('APP_TAGLINE', 'Little Italy Pizzeria & Ristorante // Est. 1974');
+define('APP_VERSION', '3.0.0');
 
 // Store Details
-define('STORE_NAME', 'FORNO & GRATE Artisanal Hearth');
-define('STORE_ADDRESS', '412 S. Artisan Way, Suite 100');
-define('STORE_DISTRICT', 'Hearthstone Historic District');
-define('STORE_PHONE', '(555) 321-PIZZA');
+define('STORE_NAME', "Jim & Nina's Little Italy Pizzeria");
+define('STORE_ADDRESS', '142 Mulberry Street, Little Italy');
+define('STORE_DISTRICT', 'Historic Pizzeria Quarter');
+define('STORE_PHONE', '(555) 749-NINA');
 define('STORE_OVEN_TEMP', '865°F');
-define('STORE_WOOD_TYPE', 'Seasoned White Oak');
+define('STORE_WOOD_TYPE', 'Stone Deck & Wood-Fired Hearth');
 
 // Paths
 define('DATA_DIR', __DIR__ . '/data');
 define('ORDERS_FILE', DATA_DIR . '/orders.json');
 
-// 5 Artisanal Menu Cooking Options
+// 5 Authentic Italian-American Menu Cooking Options
 $MENU_OPTIONS = [
     'option-margherita' => [
         'id' => 'option-margherita',
-        'name' => '14" Margherita D.O.P. & Fresh Basil',
-        'category' => 'Express Neapolitan Pizza',
-        'badge' => '⚡ FASTEST (12 MINS)',
+        'name' => '14" Little Italy Margherita D.O.P.',
+        'category' => 'Classic Neapolitan Pizza',
+        'badge' => '⚡ FASTEST PREP (12 MINS)',
         'baseCookMinutes' => 12,
         'price' => 22.00,
         'icon' => '🍕',
         'description' => 'San Marzano D.O.P. tomatoes, fresh buffalo mozzarella, fragrant Genovese basil, EVOO, and 60-second blistered sourdough crust.',
         'modifiers' => [
-            ['name' => 'Crust', 'value' => 'Light Leopard Char (900°F)'],
+            ['name' => 'Crust', 'value' => 'Classic Leopard Blister (865°F)'],
             ['name' => 'Cheese', 'value' => 'Campania Buffalo Mozzarella D.O.P.'],
-            ['name' => 'Finishing Oil', 'value' => 'Cold-Pressed Tuscan EVOO']
+            ['name' => 'Finishing', 'value' => 'Cold-Pressed Sicilian EVOO & Fresh Basil']
         ]
     ],
     'option-soppressata' => [
         'id' => 'option-soppressata',
-        'name' => '16" Wood-Fired Hot Honey Soppressata',
-        'category' => 'Signature Hearth Pizza',
-        'badge' => '🔥 BESTSELLER (18 MINS)',
+        'name' => "16\" Jim & Nina's Hot Honey Pepperoni Cup Special",
+        'category' => 'Signature House Special',
+        'badge' => '🔥 HOUSE SPECIAL (18 MINS)',
         'baseCookMinutes' => 18,
         'price' => 26.50,
         'icon' => '🍯',
-        'description' => 'Crispy cupping pepperoni, aged spicy soppressata, fior di latte, hot honey drizzle, charred sourdough crust, and fresh basil.',
+        'description' => 'Crispy cupping pepperoni, spicy calabrese soppressata, aged fior di latte, hot honey drizzle, and charred blistered crust.',
         'modifiers' => [
-            ['name' => 'Crust', 'value' => 'Blistered Well-Done (+850°F)'],
-            ['name' => 'Toppings', 'value' => '+ Extra Fresh Basil'],
-            ['name' => 'Side Dip', 'value' => "Mike's Calabrian Hot Honey Pot"]
+            ['name' => 'Crust', 'value' => 'Well-Done Hearth Blistered'],
+            ['name' => 'Toppings', 'value' => 'Double Cupping Pepperoni & Fresh Oregano'],
+            ['name' => 'Side Dip', 'value' => "Jim & Nina's Calabrian Hot Honey Pot"]
         ]
     ],
     'option-funghi' => [
         'id' => 'option-funghi',
-        'name' => '16" Wild Truffle & Forest Funghi',
-        'category' => 'Gourmet White Pizza',
-        'badge' => '🍄 CHEF CHOICE (22 MINS)',
+        'name' => '16" Big Mouth Sicilian Deep Dish / Forest Truffle',
+        'category' => 'Gourmet Grandma Thick Crust',
+        'badge' => '🍄 GRANDMA RECIPE (22 MINS)',
         'baseCookMinutes' => 22,
         'price' => 28.00,
         'icon' => '🌿',
-        'description' => 'Roasted cremini & chanterelle mushrooms, creamy fontina, roasted garlic crema, thyme sprigs, and Italian white truffle oil.',
+        'description' => 'Olive-oil fried thick Sicilian crust, roasted cremini & chanterelles, fontina, roasted garlic crema, and Italian white truffle oil.',
         'modifiers' => [
-            ['name' => 'Crust', 'value' => 'Medium Hearth Crisp'],
+            ['name' => 'Crust', 'value' => 'Crispy Olive-Oil Fried Sicilian Pan'],
             ['name' => 'Sauce Base', 'value' => 'Roasted Garlic Truffle Crema'],
-            ['name' => 'Mushrooms', 'value' => 'Pan-Seared Chanterelles & Thyme']
+            ['name' => 'Mushrooms', 'value' => 'Sautéed Wild Chanterelles & Thyme']
         ]
     ],
     'option-ribeye' => [
         'id' => 'option-ribeye',
-        'name' => 'Tuscan Oak-Grilled Prime Ribeye & Broccolini',
-        'category' => 'Wood-Fired Grill Entrée',
-        'badge' => '🥩 HEARTH GRILL (28 MINS)',
+        'name' => "Marcello's Stuffed Calzone & Meatball Parmigiana Platter",
+        'category' => 'Wood-Fired Hearth Special',
+        'badge' => "🥩 MARCELLO'S SPECIAL (28 MINS)",
         'baseCookMinutes' => 28,
-        'price' => 38.50,
+        'price' => 34.50,
         'icon' => '🥩',
-        'description' => '14oz Prime Bone-in Ribeye seared over glowing white oak coals with rosemary garlic butter, sea salt flakes, and charred broccolini.',
+        'description' => "Jumbo wood-fired calzone stuffed with ricotta & mozzarella, served with Marcello's slow-simmered beef meatballs & garlic knots.",
         'modifiers' => [
-            ['name' => 'Preparation', 'value' => 'Medium Rare (Oak Coal Seared)'],
-            ['name' => 'Butter', 'value' => 'Whipped Rosemary & Roasted Garlic'],
-            ['name' => 'Side', 'value' => 'Coal-Roasted Broccolini with Lemon Zest']
+            ['name' => 'Preparation', 'value' => 'Hearth Baked with Garlic Butter Glaze'],
+            ['name' => 'Cheese', 'value' => 'Whole Milk Ricotta & Aged Provolone'],
+            ['name' => 'Side', 'value' => '4 Jumbo Garlic Knots & Warm Marinara']
         ]
     ],
     'option-feast' => [
         'id' => 'option-feast',
-        'name' => 'Hearth Grand Feast for Four',
+        'name' => 'The Godfather Grand Feast for the Family (Serves 4-6)',
         'category' => 'Family Sharing Banquet',
-        'badge' => '👑 GRAND BANQUET (35 MINS)',
+        'badge' => '👑 GRAND FEAST (35 MINS)',
         'baseCookMinutes' => 35,
-        'price' => 78.00,
+        'price' => 74.00,
         'icon' => '👑',
-        'description' => 'Two 16" Hearth Pizzas (Hot Honey Soppressata & Funghi), Charred Broccolini, Smoked San Marzano Dipping Pots, and 4 Blood Orange sodas.',
+        'description' => "Two 16\" Hearth Pizzas (Jim & Nina's Special & Margherita), 8 Jumbo Garlic Knots, Stuffed Mozzarella Sticks, Marinara Pots, and 4 Italian Sodas.",
         'modifiers' => [
-            ['name' => 'Pizza 1', 'value' => '16" Hot Honey Soppressata'],
-            ['name' => 'Pizza 2', 'value' => '16" Wild Truffle & Funghi'],
-            ['name' => 'Beverages', 'value' => '4× San Pellegrino Blood Orange']
+            ['name' => 'Pizza 1', 'value' => "16\" Jim & Nina's Hot Honey Pepperoni"],
+            ['name' => 'Pizza 2', 'value' => '16" Little Italy Margherita D.O.P.'],
+            ['name' => 'Sides & Drinks', 'value' => '8 Jumbo Garlic Knots & 4 San Pellegrino Sodas']
         ]
     ]
 ];
@@ -104,37 +104,37 @@ $MENU_OPTIONS = [
 $KITCHEN_STAGES = [
     1 => [
         'id' => 1,
-        'name' => 'Order Received',
+        'name' => 'Order Received & Dough Tossed',
         'short_name' => 'Queued',
-        'tagline' => 'Ticket printed at hearth station',
-        'description' => 'Dough stretched and San Marzano base applied by Chef Marco.',
+        'tagline' => 'Hand-stretched sourdough & San Marzano base',
+        'description' => 'Dough tossed high, ladled with grandma’s simmered gravy and shredded Grande mozzarella.',
         'target_pct' => 0.20,
         'icon' => 'ticket'
     ],
     2 => [
         'id' => 2,
-        'name' => 'Fired in Wood Oven',
+        'name' => 'Stone Deck & Wood Oven Firing',
         'short_name' => 'In Oven',
-        'tagline' => 'Blistering at 865°F over White Oak',
-        'description' => 'Rotating near roaring oak embers for classic leopard crust blisters.',
+        'tagline' => 'Blistering at 865°F on stone hearth deck',
+        'description' => 'Rotating on seasoned stone deck under roaring oak flames for classic blistered crust.',
         'target_pct' => 0.65,
         'icon' => 'flame'
     ],
     3 => [
         'id' => 3,
-        'name' => 'Quality Check & Boxed',
+        'name' => 'Boxed & Garlic Butter Glazed',
         'short_name' => 'Boxed',
-        'tagline' => 'Finishing garnish & heat packaging',
-        'description' => 'Drizzling hot honey, fresh basil chiffonade & boxed in thermal container.',
+        'tagline' => 'Hot honey drizzle, pecorino & thermal pack',
+        'description' => 'Drizzled with hot honey, fresh basil, pecorino romano, and packed in insulated thermal box.',
         'target_pct' => 0.90,
         'icon' => 'package'
     ],
     4 => [
         'id' => 4,
-        'name' => 'Ready on Counter',
+        'name' => 'Hot on the Counter',
         'short_name' => 'Ready',
-        'tagline' => 'Awaiting your arrival at Shelf #B-04',
-        'description' => 'Placed under gentle thermal warmers. Ready for express pick-up!',
+        'tagline' => 'Awaiting pickup on Express Shelf #B-04',
+        'description' => 'Hot, blistered, and ready! Grab your order from Shelf #B-04 or curbside bay #3.',
         'target_pct' => 1.00,
         'icon' => 'check'
     ]

@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { Volume2, VolumeX, Sparkles, Terminal, Cpu } from 'lucide-react';
+import { Volume2, VolumeX, Terminal, Cpu } from 'lucide-react';
 import { SoundEngine } from '../utils/soundEngine';
 
 export function Navbar({ activeSection, currentStats = { ops: 0, stackDepth: 0, treeVisited: 0 } }) {
@@ -14,13 +14,14 @@ export function Navbar({ activeSection, currentStats = { ops: 0, stackDepth: 0, 
   };
 
   const navItems = [
-    { id: 'hero', label: '00 // HERO', num: '00' },
-    { id: 'big-o', label: '01 // BIG-O GRAPH', num: '01' },
-    { id: 'recursion', label: '02 // CALL STACK', num: '02' },
-    { id: 'trees', label: '03 // TREE BFS/DFS', num: '03' },
-    { id: 'sorting', label: '04 // SORT ARENA', num: '04' },
-    { id: 'matrix', label: '05 // CS MATRIX', num: '05' },
-    { id: 'bitwise', label: '06 // BITWISE ALU', num: '06' },
+    { id: 'hero', label: '01 // INTRO & GUESSING', num: '01' },
+    { id: 'binary-search', label: '02 // BINARY SEARCH', num: '02' },
+    { id: 'big-o', label: '03 // ASYMPTOTIC NOTATION', num: '03' },
+    { id: 'sorting', label: '04 // SELECTION & INSERTION', num: '04' },
+    { id: 'recursion', label: '05 // RECURSION & HANOI', num: '05' },
+    { id: 'divide-conquer', label: '06 // DIVIDE & CONQUER', num: '06' },
+    { id: 'graphs', label: '07 // GRAPH BFS & DFS', num: '07' },
+    { id: 'quiz', label: '08 // MASTERY QUIZ', num: '08' },
   ];
 
   const scrollTo = (id) => {
@@ -54,19 +55,19 @@ export function Navbar({ activeSection, currentStats = { ops: 0, stackDepth: 0, 
       }}>
         <div style={{ display: 'flex', alignItems: 'center', gap: '1.25rem', overflow: 'hidden' }}>
           <span style={{ display: 'flex', alignItems: 'center', gap: '0.35rem', color: 'var(--canary-yellow)', fontWeight: 800 }}>
-            <Terminal size={14} /> CS:GEOMETRY_V2.6
+            <Terminal size={14} /> KHAN:ALGORITHMS_CURRICULUM
           </span>
           <span className="hide-mobile" style={{ color: '#888' }}>|</span>
           <span className="hide-mobile" style={{ display: 'flex', alignItems: 'center', gap: '0.4rem' }}>
             <Cpu size={14} color="var(--cobalt-blue)" />
-            STATUS: <span style={{ color: 'var(--emerald-mint)', fontWeight: 700 }}>SYSTEM READY</span>
+            CURRICULUM: <span style={{ color: 'var(--emerald-mint)', fontWeight: 700 }}>DARTMOUTH CS / CLRS</span>
           </span>
         </div>
 
         <div style={{ display: 'flex', alignItems: 'center', gap: '1.5rem' }}>
           <div className="hide-mobile" style={{ display: 'flex', gap: '1rem', color: '#AAA' }}>
-            <span>OPS/TICK: <strong style={{ color: '#FFF' }}>{currentStats.ops || 1024}</strong></span>
-            <span>STACK_MAX: <strong style={{ color: 'var(--vermilion-red)' }}>{currentStats.stackDepth || 0}/8</strong></span>
+            <span>UNITS: <strong style={{ color: '#FFF' }}>08 COMPLETE</strong></span>
+            <span>NOTATION: <strong style={{ color: 'var(--canary-yellow)' }}>Θ, O, Ω</strong></span>
           </div>
 
           {/* Sound Toggle */}
@@ -151,7 +152,7 @@ export function Navbar({ activeSection, currentStats = { ops: 0, stackDepth: 0, 
               alignItems: 'center',
               gap: '0.35rem'
             }}>
-              <span>THE GEOMETRY OF COMPUTATION</span>
+              <span>ALGORITHMS // KHAN CURRICULUM</span>
             </div>
             <div style={{
               fontFamily: 'var(--font-mono)',
@@ -160,7 +161,7 @@ export function Navbar({ activeSection, currentStats = { ops: 0, stackDepth: 0, 
               fontWeight: 700,
               letterSpacing: '0.05em'
             }}>
-              NEO-BRUTALIST ART POP × BAUHAUS CS
+              COMPUTER SCIENCE THEORY &amp; ANALYSIS
             </div>
           </div>
         </div>
@@ -168,7 +169,7 @@ export function Navbar({ activeSection, currentStats = { ops: 0, stackDepth: 0, 
         {/* Navigation Pills */}
         <nav style={{
           display: 'flex',
-          gap: '0.5rem',
+          gap: '0.4rem',
           flexWrap: 'wrap',
           alignItems: 'center'
         }}>
@@ -186,7 +187,8 @@ export function Navbar({ activeSection, currentStats = { ops: 0, stackDepth: 0, 
                   fontWeight: isActive ? 800 : 600,
                   transform: isActive ? 'translate(-1px, -1px)' : 'none',
                   boxShadow: isActive ? '3px 3px 0px #0A0A0A' : '2px 2px 0px #0A0A0A',
-                  padding: '0.35rem 0.65rem'
+                  padding: '0.35rem 0.55rem',
+                  fontSize: '0.72rem'
                 }}
               >
                 {item.label}
@@ -204,3 +206,5 @@ export function Navbar({ activeSection, currentStats = { ops: 0, stackDepth: 0, 
     </header>
   );
 }
+
+export default Navbar;
