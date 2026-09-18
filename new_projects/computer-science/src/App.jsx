@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { Navbar } from './components/Navbar';
 import { HeroPlayground } from './components/HeroPlayground';
+import { ConceptSlideDeck } from './components/ConceptSlideDeck';
 import { KnowledgeMatrix } from './components/KnowledgeMatrix';
 import { BinarySearchUnit } from './components/BinarySearchUnit';
 import { BigOGraph } from './components/BigOGraph';
@@ -12,13 +13,13 @@ import { QuizChallenge } from './components/QuizChallenge';
 import { Footer } from './components/Footer';
 
 export function App() {
-  const [activeSection, setActiveSection] = useState('hero');
+  const [activeSection, setActiveSection] = useState('core-taxonomy');
 
   // Track active section for navbar highlighting
   useEffect(() => {
     const sectionIds = [
-      'hero',
       'core-taxonomy',
+      'hero',
       'binary-search',
       'big-o',
       'sorting',
@@ -52,13 +53,17 @@ export function App() {
       <Navbar activeSection={activeSection} />
       
       <main style={{ flex: 1 }}>
-        {/* Unit 01: Intro to Algorithms & Guessing Game */}
-        <HeroPlayground />
+        {/* Core Presentation: Interactive 8-Concept Slide Deck */}
+        <ConceptSlideDeck />
         <div className="hazard-divider" />
 
-        {/* Unit 00: Foundational 8 Core CS Terms & Taxonomy Matrix */}
+        {/* 8 Core CS Terms Canonical Comparison Matrix & Deep Dive */}
         <KnowledgeMatrix />
         <div className="bauhaus-divider" />
+
+        {/* Unit 01: Number Guessing & Binary Search Playground */}
+        <HeroPlayground />
+        <div className="hazard-divider" />
 
         {/* Unit 02: Binary Search on Sorted Arrays */}
         <BinarySearchUnit />

@@ -1,53 +1,56 @@
 /**
- * EST 1974 // Artisanal Stone Deck Pizzeria & Dispatch
- * All-In-One Screen Multi-Item Menu & Live Real-Time Pizza Tracker
+ * EST 1974 // Artisanal Stone Deck Pizzeria & Live Dispatch
+ * All-In-One Screen App Menu & Full-Space Real-Time Pizza Tracker
+ * (SFX Completely Removed)
  */
 
 (function () {
   let orderData = null;
   let timerInterval = null;
   let clockInterval = null;
-  let lastAnnouncedStage = 0;
   let currentTimeMode = 'auto'; // 'auto' | 'peak' | 'slow' | 'standard'
   let currentPickupMethod = 'shelf'; // 'shelf' | 'curbside'
+  let activeCategoryFilter = 'all';
 
-  const FALLBACK_KEY = 'est1974_pizzeria_order_v5';
+  const STORAGE_KEY = 'est1974_pizzeria_order_v6';
 
   // Multi-item cart storage { 'option-id': quantity }
   let cart = {
-    'option-soppressata': 1
+    'option-pepperoni': 1,
+    'option-garlic-knots': 1
   };
 
-  // Comprehensive Authentic Italian Menu Options across 4 Categories
+  // Comprehensive Authentic Italian Menu Options matching reference aesthetics
   const MENU_DATABASE = {
     pizzas: {
-      categoryName: '🍕 Wood-Fired Specialty Pizzas',
+      categoryName: 'Wood-Fired Specialty Pizzas',
+      icon: '🍕',
       items: [
+        {
+          id: 'option-pepperoni',
+          name: '16" Hot Honey & Cupping Pepperoni',
+          tag: 'House Signature',
+          baseCookMinutes: 18,
+          price: 26.50,
+          img: 'https://images.unsplash.com/photo-1628840042765-356cda07504e?w=600&auto=format&fit=crop&q=80',
+          description: 'Crispy cupping pepperoni, spicy calabrese soppressata, fior di latte mozzarella, aged pecorino, and chili-infused hot honey drizzle.'
+        },
         {
           id: 'option-margherita',
           name: '14" Little Italy Margherita D.O.P.',
           tag: 'Classic Neapolitan',
           baseCookMinutes: 12,
           price: 22.00,
-          icon: '🍕',
+          img: 'https://images.unsplash.com/photo-1574071318508-1cdbab80d002?w=600&auto=format&fit=crop&q=80',
           description: 'San Marzano D.O.P. tomatoes, fresh buffalo mozzarella, Genovese basil, cold-pressed Sicilian EVOO, 60-second blistered crust.'
         },
         {
-          id: 'option-soppressata',
-          name: '16" Hot Honey & Cupping Pepperoni Special',
-          tag: 'House Signature',
-          baseCookMinutes: 18,
-          price: 26.50,
-          icon: '🍯',
-          description: 'Crispy cupping pepperoni, spicy calabrese soppressata, fior di latte, aged pecorino, and chili-infused hot honey drizzle.'
-        },
-        {
-          id: 'option-funghi',
-          name: '16" Wild Forest Truffle & Fontina Sicilian Pan',
-          tag: 'Grandma Thick Crust',
+          id: 'option-truffle',
+          name: '16" Wild Forest Truffle & Fontina Pan',
+          tag: 'Sicilian Thick Crust',
           baseCookMinutes: 22,
           price: 28.00,
-          icon: '🍄',
+          img: 'https://images.unsplash.com/photo-1513104890138-7c749659a591?w=600&auto=format&fit=crop&q=80',
           description: 'Olive-oil fried crispy Sicilian crust, roasted cremini & chanterelles, fontina, roasted garlic crema, white truffle essence.'
         },
         {
@@ -56,36 +59,56 @@
           tag: 'White Pie',
           baseCookMinutes: 15,
           price: 25.00,
-          icon: '🧀',
+          img: 'https://images.unsplash.com/photo-1573821663912-569905455b1c?w=600&auto=format&fit=crop&q=80',
           description: 'Aged Gorgonzola dolce, fontina, smoked provolone, whole milk ricotta, roasted garlic cloves, and fresh garden rosemary.'
+        },
+        {
+          id: 'option-diavola',
+          name: '16" Spicy Diavola Calabrian Salami',
+          tag: 'Fire Roasted',
+          baseCookMinutes: 16,
+          price: 27.00,
+          img: 'https://images.unsplash.com/photo-1534308983496-4fabb1a015ee?w=600&auto=format&fit=crop&q=80',
+          description: 'Spicy Calabrian chili paste, cured hot salami, roasted red peppers, smoked provolone, and fresh crushed basil.'
+        },
+        {
+          id: 'option-bbq-smoke',
+          name: '16" BBQ Brick-Oven Chicken Specialty',
+          tag: 'Chef Special',
+          baseCookMinutes: 18,
+          price: 26.00,
+          img: 'https://images.unsplash.com/photo-1565299624946-b28f40a0ae38?w=600&auto=format&fit=crop&q=80',
+          description: 'Hickory smoked chicken breast, sweet smoky BBQ reduction, red onion shavings, cilantro, and smoked gouda blend.'
         }
       ]
     },
     starters: {
-      categoryName: '🥖 Artisan Starters & Small Plates',
+      categoryName: 'Artisan Starters & Small Plates',
+      icon: '🥖',
       items: [
         {
           id: 'option-garlic-knots',
-          name: 'Jumbo Garlic Knots Basket (6pc with Marinara)',
+          name: 'Jumbo Garlic Knots Basket (6pc)',
           tag: 'Fresh Baked',
           baseCookMinutes: 8,
           price: 7.50,
-          icon: '🥖',
-          description: 'Hand-twisted sourdough knots brushed with melted garlic butter, pecorino romano, and fresh parsley with warm marinara.'
+          img: 'https://images.unsplash.com/photo-1541592106381-b31e9677c0e5?w=600&auto=format&fit=crop&q=80',
+          description: 'Hand-twisted sourdough knots brushed with melted garlic butter, pecorino romano, and fresh parsley with warm marinara dip.'
         },
         {
           id: 'option-arancini',
           name: 'Crispy Bolognese Stuffed Arancini (3pc)',
-          tag: 'Chef Special',
+          tag: 'House Special',
           baseCookMinutes: 10,
           price: 10.50,
-          icon: '🍘',
+          img: 'https://images.unsplash.com/photo-1589301760014-d929f3979dbc?w=600&auto=format&fit=crop&q=80',
           description: 'Golden saffron risotto spheres filled with slow-cooked beef bolognese and smoked mozzarella, served with truffle aioli.'
         }
       ]
     },
     calzones: {
-      categoryName: '🥩 Wood-Fired Calzones & Platters',
+      categoryName: 'Wood-Fired Calzones & Platters',
+      icon: '🥩',
       items: [
         {
           id: 'option-calzone',
@@ -93,7 +116,7 @@
           tag: 'Hearth Platter',
           baseCookMinutes: 28,
           price: 34.50,
-          icon: '🥩',
+          img: 'https://images.unsplash.com/photo-1506354666786-959d6d497f1a?w=600&auto=format&fit=crop&q=80',
           description: "Jumbo calzone stuffed with ricotta & mozzarella, served with Marcello's slow-simmered beef meatballs and garlic knots."
         },
         {
@@ -102,13 +125,14 @@
           tag: 'Feast Banquet',
           baseCookMinutes: 35,
           price: 74.00,
-          icon: '👑',
+          img: 'https://images.unsplash.com/photo-1590947132387-155cc02f3212?w=600&auto=format&fit=crop&q=80',
           description: 'Two 16" Hearth Pizzas, 8 Jumbo Garlic Knots, Stuffed Mozzarella Sticks, Marinara Pots, and 4 San Pellegrino Sodas.'
         }
       ]
     },
     sweets: {
-      categoryName: '🍨 Dolci & Chilled Beverages',
+      categoryName: 'Dolci & Chilled Beverages',
+      icon: '🍨',
       items: [
         {
           id: 'option-tiramisu',
@@ -116,729 +140,485 @@
           tag: 'Artisan Dolce',
           baseCookMinutes: 0,
           price: 8.50,
-          icon: '🍨',
+          img: 'https://images.unsplash.com/photo-1571877227200-a0d98ea607e9?w=600&auto=format&fit=crop&q=80',
           description: 'Espresso-soaked savoiardi ladyfingers, velvety mascarpone cream, and Dutch dark cocoa dust.'
         },
         {
           id: 'option-soda',
           name: 'San Pellegrino Aranciata Rossa (Blood Orange)',
-          tag: 'Imported Soda',
+          tag: 'Chilled Can',
           baseCookMinutes: 0,
           price: 3.75,
-          icon: '🍊',
-          description: 'Chilled sparkling Italian blood orange soda in signature glass bottle.'
+          img: 'https://images.unsplash.com/photo-1581009146145-b5ef050c2e1e?w=600&auto=format&fit=crop&q=80',
+          description: 'Sparkling Italian citrus soda crafted with sun-ripened Mediterranean blood oranges.'
         }
       ]
     }
   };
 
-  // Helper map for fast lookup
-  const ALL_ITEMS_MAP = {};
-  Object.values(MENU_DATABASE).forEach(cat => {
-    cat.items.forEach(item => {
-      ALL_ITEMS_MAP[item.id] = item;
+  function getAllItemsFlat() {
+    const list = [];
+    Object.keys(MENU_DATABASE).forEach(catKey => {
+      MENU_DATABASE[catKey].items.forEach(item => {
+        list.push({ ...item, categoryKey: catKey });
+      });
     });
-  });
+    return list;
+  }
 
-  const STAGE_DESCRIPTIONS = {
-    1: {
-      name: 'Order Received & Dough Tossed',
-      tagline: 'Hand-stretched sourdough & San Marzano base',
-      desc: 'Dough tossed high, ladled with grandma’s simmered gravy and shredded fresh Grande mozzarella.'
-    },
-    2: {
-      name: 'Stone Deck & Wood Oven Firing',
-      tagline: 'Blistering at 865°F on stone hearth deck',
-      desc: 'Rotating on seasoned stone deck under roaring oak flames for classic blistered crust.'
-    },
-    3: {
-      name: 'Boxed & Hot Honey Glazed',
-      tagline: 'Pecorino drizzle & thermal insulation pack',
-      desc: 'Drizzled with hot honey, fresh Genovese basil, pecorino romano, and packed in insulated thermal box.'
-    },
-    4: {
-      name: 'Hot on the Counter',
-      tagline: 'Awaiting pickup on Express Shelf #B-04',
-      desc: 'Hot, blistered, and ready! Grab your order from Shelf #B-04 or curbside bay #3.'
-    }
-  };
+  function findItemById(id) {
+    const all = getAllItemsFlat();
+    return all.find(item => item.id === id);
+  }
 
-  /**
-   * Time-of-Day Surge Calculation Engine
-   * Accounts for current time and applies +10m peak or -10m slow adjustments
-   */
-  function resolveTimeOfDaySurge(mode = 'auto', epochMs = null) {
-    if (mode === 'peak') {
-      return {
-        status: 'PEAK',
-        adjustmentMinutes: 10,
-        marker: '🔥 PEAK DINNER RUSH (+10m)',
-        label: 'Peak Dinner Rush (+10 mins stone deck queue surge)',
-        description: 'Dining room full! Wood ovens running at maximum capacity (+10 mins surge).',
-        badgeClass: 'badge-red',
-        bannerClass: 'surge-banner-peak'
-      };
-    }
+  // Time-of-Day Surge
+  function calculateSurgeMinutes() {
+    if (currentTimeMode === 'peak') return 10;
+    if (currentTimeMode === 'slow') return -10;
+    if (currentTimeMode === 'standard') return 0;
 
-    if (mode === 'slow') {
-      return {
-        status: 'SLOW',
-        adjustmentMinutes: -10,
-        marker: '⚡ OFF-PEAK EXPRESS (-10m)',
-        label: 'Off-Peak Speed Lull (-10 mins express oven boost)',
-        description: 'Quiet neighborhood hours. Pizzaiolo fires your order immediately on hot stone deck (-10 mins boost).',
-        badgeClass: 'badge-green',
-        bannerClass: 'surge-banner-slow'
-      };
+    const now = new Date();
+    const hour = now.getHours();
+    const isDinnerRush = hour >= 17 && hour <= 21;
+    const isLunchRush = hour >= 11 && hour <= 13;
+    const isLateNightLull = hour >= 22 || hour <= 5;
+
+    if (isDinnerRush) return 10;
+    if (isLunchRush) return 5;
+    if (isLateNightLull) return -10;
+    return 0;
+  }
+
+  function calculateCartTotals() {
+    let subtotal = 0;
+    let maxBaseCookMinutes = 0;
+    let totalItemCount = 0;
+
+    Object.keys(cart).forEach(id => {
+      const qty = cart[id];
+      if (qty > 0) {
+        const item = findItemById(id);
+        if (item) {
+          subtotal += item.price * qty;
+          totalItemCount += qty;
+          if (item.baseCookMinutes > maxBaseCookMinutes) {
+            maxBaseCookMinutes = item.baseCookMinutes;
+          }
+        }
+      }
+    });
+
+    if (maxBaseCookMinutes === 0 && totalItemCount > 0) {
+      maxBaseCookMinutes = 10;
     }
 
-    if (mode === 'standard') {
-      return {
-        status: 'STANDARD',
-        adjustmentMinutes: 0,
-        marker: '🟡 NOMINAL KITCHEN PACE (±0m)',
-        label: 'Standard Kitchen Pace (±0 mins)',
-        description: 'Nominal stone deck prep and firing workflow.',
-        badgeClass: 'badge-gold',
-        bannerClass: 'surge-banner-standard'
-      };
-    }
+    const surgeMins = calculateSurgeMinutes();
+    let finalEstimatedMinutes = maxBaseCookMinutes + surgeMins;
+    if (finalEstimatedMinutes < 5) finalEstimatedMinutes = 5;
 
-    // Auto based on current clock
-    const d = epochMs ? new Date(epochMs) : new Date();
-    const hours = d.getHours();
-    const minutes = d.getMinutes();
-    const timeDecimal = hours + (minutes / 60.0);
-
-    // Peak: 11:30-13:30 or 17:30-20:30
-    if ((timeDecimal >= 11.5 && timeDecimal <= 13.5) || (timeDecimal >= 17.5 && timeDecimal <= 20.5)) {
-      return {
-        status: 'PEAK',
-        adjustmentMinutes: 10,
-        marker: '🔥 PEAK DINNER RUSH (+10m)',
-        label: 'Peak Rush Hour (+10 mins stone deck queue surge)',
-        description: 'Live dinner rush active. Wood ovens firing at maximum capacity (+10m surge).',
-        badgeClass: 'badge-red',
-        bannerClass: 'surge-banner-peak'
-      };
-    }
-
-    // Slow: Late night/morning or mid-afternoon
-    if (timeDecimal >= 22.0 || timeDecimal < 11.0 || (timeDecimal >= 14.5 && timeDecimal <= 16.5)) {
-      return {
-        status: 'SLOW',
-        adjustmentMinutes: -10,
-        marker: '⚡ OFF-PEAK EXPRESS (-10m)',
-        label: 'Off-Peak Lull (-10 mins express oven boost)',
-        description: 'Quiet neighborhood lull. Fresh dough fires immediately on stone deck (-10m boost).',
-        badgeClass: 'badge-green',
-        bannerClass: 'surge-banner-slow'
-      };
-    }
+    const tax = subtotal * 0.08875; // NYC Tax
+    const tip = subtotal > 0 ? subtotal * 0.20 : 0; // 20% Tip
+    const grandTotal = subtotal + tax + tip;
 
     return {
-      status: 'STANDARD',
-      adjustmentMinutes: 0,
-      marker: '🟡 NOMINAL KITCHEN PACE (±0m)',
-      label: 'Standard Kitchen Pace (±0 mins)',
-      description: 'Nominal stone deck prep and firing workflow.',
-      badgeClass: 'badge-gold',
-      bannerClass: 'surge-banner-standard'
+      subtotal,
+      tax,
+      tip,
+      grandTotal,
+      maxBaseCookMinutes,
+      surgeMinutes: surgeMins,
+      finalEstimatedMinutes,
+      totalItemCount
     };
   }
 
-  function formatTimeString(epochMs) {
-    const d = new Date(epochMs);
-    let hours = d.getHours();
-    const minutes = d.getMinutes().toString().padStart(2, '0');
-    const seconds = d.getSeconds().toString().padStart(2, '0');
-    const ampm = hours >= 12 ? 'PM' : 'AM';
-    hours = hours % 12;
-    hours = hours ? hours : 12;
-    return `${hours}:${minutes}:${seconds} ${ampm}`;
-  }
-
-  function formatTimeShort(epochMs) {
-    const d = new Date(epochMs);
-    let hours = d.getHours();
-    const minutes = d.getMinutes().toString().padStart(2, '0');
-    const ampm = hours >= 12 ? 'PM' : 'AM';
-    hours = hours % 12;
-    hours = hours ? hours : 12;
-    return `${hours}:${minutes} ${ampm}`;
-  }
-
-  function formatCountdown(secs) {
-    if (secs <= 0) return '00:00';
-    const minutes = Math.floor(secs / 60);
-    const seconds = secs % 60;
-    return `${minutes.toString().padStart(2, '0')}:${seconds.toString().padStart(2, '0')}`;
-  }
-
-  /**
-   * Render All Menu Categories and Dishes on One Screen
-   */
-  function renderAllMenuSections() {
-    const container = document.getElementById('all-menu-sections-container');
+  // Render App Menu Grid
+  function renderAppMenu() {
+    const container = document.getElementById('menu-items-grid-container');
     if (!container) return;
 
-    const surge = resolveTimeOfDaySurge(currentTimeMode);
+    let itemsToRender = [];
+    if (activeCategoryFilter === 'all') {
+      itemsToRender = getAllItemsFlat();
+    } else {
+      const catObj = MENU_DATABASE[activeCategoryFilter];
+      if (catObj) {
+        itemsToRender = catObj.items.map(it => ({ ...it, categoryKey: activeCategoryFilter }));
+      }
+    }
 
-    let html = '';
-
-    Object.values(MENU_DATABASE).forEach(cat => {
-      html += `
-        <div style="margin-bottom: 1.5rem;">
-          <div class="menu-category-divider">
-            <h3 class="menu-category-title">${cat.categoryName}</h3>
+    container.innerHTML = itemsToRender.map(item => {
+      const qty = cart[item.id] || 0;
+      return `
+        <div class="food-item-card" data-item-id="${item.id}">
+          <div class="food-image-container">
+            <img src="${item.img}" alt="${item.name}" loading="lazy" />
+            <span class="food-item-tag">${item.tag}</span>
           </div>
 
-          <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(min(100%, 280px), 1fr)); gap: 1rem;">
-            ${cat.items.map(item => {
-              const qty = cart[item.id] || 0;
-              const hasQty = qty > 0;
-              const adjustedCook = item.baseCookMinutes > 0 ? Math.max(5, item.baseCookMinutes + surge.adjustmentMinutes) : 0;
+          <div>
+            <h4 class="food-item-title">${item.name}</h4>
+            <p class="food-item-desc">${item.description}</p>
+          </div>
 
-              return `
-                <div class="menu-item-card ${hasQty ? 'has-qty' : ''}" id="card-${item.id}">
-                  <div>
-                    <div style="display: flex; justify-content: space-between; align-items: flex-start; gap: 0.5rem; margin-bottom: 0.4rem;">
-                      <div style="display: flex; align-items: center; gap: 0.6rem;">
-                        <div class="menu-item-thumb">${item.icon}</div>
-                        <div>
-                          <h4 style="font-family: var(--font-serif); font-size: 1.05rem; font-weight: 700; color: var(--text-primary); margin: 0; line-height: 1.2;">
-                            ${item.name}
-                          </h4>
-                          <span class="badge badge-slate" style="font-size: 0.68rem; margin-top: 2px;">
-                            ${item.tag}
-                          </span>
-                        </div>
-                      </div>
-                    </div>
+          <div class="food-card-bottom-row">
+            <div class="food-size-price-pill">
+              <span>Large</span>
+              <span class="food-price-val">$${item.price.toFixed(2)}</span>
+            </div>
 
-                    <p style="font-size: 0.8rem; color: var(--text-muted); line-height: 1.4; margin: 0.45rem 0 0.85rem;">
-                      ${item.description}
-                    </p>
-                  </div>
-
-                  <div style="display: flex; justify-content: space-between; align-items: center; border-top: 1px solid var(--border-light); padding-top: 0.65rem; margin-top: 0.25rem;">
-                    <div>
-                      <div style="font-family: var(--font-mono); font-size: 1.05rem; font-weight: 800; color: var(--text-primary);">
-                        $${item.price.toFixed(2)}
-                      </div>
-                      ${item.baseCookMinutes > 0 ? `
-                        <div style="font-size: 0.72rem; color: var(--text-muted); font-family: var(--font-mono);">
-                          ⏱️ ~${adjustedCook}m bake
-                        </div>
-                      ` : `
-                        <div style="font-size: 0.72rem; color: var(--basil-green-dark); font-family: var(--font-mono);">
-                          ⚡ Instant ready
-                        </div>
-                      `}
-                    </div>
-
-                    <div>
-                      ${hasQty ? `
-                        <div class="qty-stepper">
-                          <button class="qty-btn" onclick="window.changeItemQty('${item.id}', -1)" title="Remove 1">-</button>
-                          <span class="qty-count">${qty}</span>
-                          <button class="qty-btn" onclick="window.changeItemQty('${item.id}', 1)" title="Add 1">+</button>
-                        </div>
-                      ` : `
-                        <button class="btn-add-item-direct" onclick="window.changeItemQty('${item.id}', 1)">
-                          <i class="fa-solid fa-plus"></i> Add
-                        </button>
-                      `}
-                    </div>
-                  </div>
-                </div>
-              `;
-            }).join('')}
+            <div class="food-qty-stepper">
+              ${qty > 0 ? `
+                <button class="stepper-btn" onclick="window.updateItemQuantity('${item.id}', -1)">-</button>
+                <span class="stepper-qty">${qty}</span>
+                <button class="stepper-btn" onclick="window.updateItemQuantity('${item.id}', 1)">+</button>
+              ` : `
+                <button class="btn-primary" style="padding: 0.35rem 0.85rem; font-size: 0.76rem;" onclick="window.updateItemQuantity('${item.id}', 1)">
+                  + Add to Order
+                </button>
+              `}
+            </div>
           </div>
         </div>
       `;
-    });
+    }).join('');
 
-    container.innerHTML = html;
+    updateCartUI();
   }
 
-  /**
-   * Cart Operations
-   */
-  window.changeItemQty = function (id, delta) {
-    const current = cart[id] || 0;
-    const next = current + delta;
+  function updateCartUI() {
+    const totals = calculateCartTotals();
 
-    if (next <= 0) {
+    // Update Bottom Order Bar
+    const orderBar = document.getElementById('bottom-order-bar');
+    const badgeEl = document.getElementById('order-bar-badge');
+    const timeEl = document.getElementById('order-bar-ready-time');
+    const totalEl = document.getElementById('order-bar-total-price');
+
+    if (badgeEl) badgeEl.innerText = `${totals.totalItemCount} Item${totals.totalItemCount !== 1 ? 's' : ''}`;
+    if (timeEl) timeEl.innerText = `Ready in ~${totals.finalEstimatedMinutes} mins`;
+    if (totalEl) totalEl.innerText = `$${totals.grandTotal.toFixed(2)}`;
+
+    if (orderBar) {
+      if (totals.totalItemCount > 0) {
+        orderBar.classList.remove('hidden');
+      } else {
+        orderBar.classList.add('hidden');
+      }
+    }
+
+    // Update Header cart count
+    const headerCartBtn = document.getElementById('header-cart-btn-text');
+    if (headerCartBtn) {
+      headerCartBtn.innerText = `Cart (${totals.totalItemCount})`;
+    }
+  }
+
+  // Quantity Management
+  window.updateItemQuantity = function (id, delta) {
+    const current = cart[id] || 0;
+    const next = Math.max(0, current + delta);
+    if (next === 0) {
       delete cart[id];
     } else {
       cart[id] = next;
     }
-
-    if (window.KitchenAudio) {
-      if (delta > 0) window.KitchenAudio.playClick();
-      else window.KitchenAudio.playThud();
-    }
-
-    renderAllMenuSections();
-    updateOrderTicket();
+    renderAppMenu();
   };
 
-  window.removeItemFromCart = function (id) {
-    delete cart[id];
-    if (window.KitchenAudio) window.KitchenAudio.playThud();
-    renderAllMenuSections();
-    updateOrderTicket();
+  window.setCategoryFilter = function (catKey) {
+    activeCategoryFilter = catKey;
+    const btnIds = ['all', 'pizzas', 'starters', 'calzones', 'sweets'];
+    btnIds.forEach(key => {
+      const btn = document.getElementById(`filter-btn-${key}`);
+      if (btn) btn.classList.toggle('active', key === catKey);
+    });
+    renderAppMenu();
   };
 
-  /**
-   * Update the Compact Order Ticket on the Right
-   */
-  function updateOrderTicket() {
-    const surge = resolveTimeOfDaySurge(currentTimeMode);
-
-    const ticketListEl = document.getElementById('ticket-items-container');
-    const subtotalEl = document.getElementById('ticket-subtotal-price');
-    const taxEl = document.getElementById('ticket-tax-price');
-    const tipEl = document.getElementById('ticket-tip-price');
-    const totalEl = document.getElementById('ticket-total-price');
-    const readyTimeEl = document.getElementById('ticket-ready-time');
-    const readySubtextEl = document.getElementById('ticket-ready-subtext');
-    const fireBtn = document.getElementById('btn-fire-mock-order');
-    const heroReadyPill = document.getElementById('hero-ready-pill');
-
-    const itemIds = Object.keys(cart);
-    let subtotal = 0;
-    let maxCookMinutes = 0;
-    let totalItemsCount = 0;
-
-    let itemsHtml = '';
-
-    if (itemIds.length === 0) {
-      itemsHtml = `
-        <div style="text-align: center; padding: 1.5rem 0.5rem; color: var(--text-muted); font-size: 0.82rem;">
-          <div style="font-size: 1.8rem; margin-bottom: 0.35rem;">🧾</div>
-          <strong>No items on ticket yet</strong>
-          <div style="font-size: 0.74rem; margin-top: 2px;">Click "+ Add" on any dish to order</div>
-        </div>
-      `;
-    } else {
-      itemIds.forEach(id => {
-        const item = ALL_ITEMS_MAP[id];
-        const qty = cart[id];
-        if (!item || qty <= 0) return;
-
-        const lineTotal = item.price * qty;
-        subtotal += lineTotal;
-        totalItemsCount += qty;
-        if (item.baseCookMinutes > maxCookMinutes) {
-          maxCookMinutes = item.baseCookMinutes;
-        }
-
-        itemsHtml += `
-          <div class="ticket-item-row">
-            <div style="display: flex; align-items: center; gap: 0.4rem; flex: 1;">
-              <span style="font-size: 1rem;">${item.icon}</span>
-              <div>
-                <div class="ticket-item-name">${qty}x ${item.name}</div>
-                <div style="font-size: 0.7rem; color: var(--text-muted); font-family: var(--font-mono);">
-                  $${item.price.toFixed(2)} ea
-                </div>
-              </div>
-            </div>
-            <div style="display: flex; align-items: center; gap: 0.4rem;">
-              <span class="font-mono" style="font-weight: 800; font-size: 0.84rem; color: var(--text-primary);">
-                $${lineTotal.toFixed(2)}
-              </span>
-              <button class="ticket-delete-btn" onclick="window.removeItemFromCart('${item.id}')" title="Remove item">
-                <i class="fa-solid fa-xmark"></i>
-              </button>
-            </div>
-          </div>
-        `;
-      });
-    }
-
-    if (ticketListEl) ticketListEl.innerHTML = itemsHtml;
-
-    // Time calculations: Longest cook time + rush surge
-    const totalMinutes = maxCookMinutes > 0 ? Math.max(5, maxCookMinutes + surge.adjustmentMinutes) : 5;
-
-    const tax = subtotal * 0.08875;
-    const tip = subtotal > 0 ? subtotal * 0.20 : 0;
-    const grandTotal = subtotal + tax + tip;
-
-    if (subtotalEl) subtotalEl.innerText = `$${subtotal.toFixed(2)}`;
-    if (taxEl) taxEl.innerText = `$${tax.toFixed(2)}`;
-    if (tipEl) tipEl.innerText = `$${tip.toFixed(2)}`;
-    if (totalEl) totalEl.innerText = `$${grandTotal.toFixed(2)}`;
-
-    if (readyTimeEl) readyTimeEl.innerText = `~${totalMinutes} mins`;
-    if (readySubtextEl) {
-      readySubtextEl.innerText = `${maxCookMinutes}m Base Max ${surge.adjustmentMinutes >= 0 ? '+' : ''}${surge.adjustmentMinutes}m Surge`;
-    }
-
-    if (heroReadyPill) {
-      heroReadyPill.innerText = `~${totalMinutes} mins ready time (${totalItemsCount} items)`;
-    }
-
-    // Update fire button state
-    if (fireBtn) {
-      if (itemIds.length === 0) {
-        fireBtn.disabled = true;
-        fireBtn.innerHTML = `<span>Select Items on Menu to Fire</span>`;
-      } else {
-        fireBtn.disabled = false;
-        fireBtn.innerHTML = `
-          <span style="font-size: 1.1rem;">🔥</span>
-          <span>Fire Order &amp; Launch Pizza Tracker ($${grandTotal.toFixed(2)})</span>
-        `;
-      }
-    }
-
-    // Update Surge Banner in Menu
-    const surgeBannerEl = document.getElementById('menu-surge-banner');
-    if (surgeBannerEl) {
-      surgeBannerEl.className = `surge-status-banner ${surge.bannerClass}`;
-      surgeBannerEl.innerHTML = `
-        <div style="display: flex; align-items: center; gap: 0.45rem;">
-          <span>${surge.status === 'PEAK' ? '🔥' : (surge.status === 'SLOW' ? '⚡' : '🟡')}</span>
-          <span>${surge.label}</span>
-        </div>
-        <span class="badge ${surge.badgeClass}">${surge.marker}</span>
-      `;
-    }
-  }
-
-  /**
-   * Set Simulation Rush Mode
-   */
   window.setTimeMode = function (mode) {
     currentTimeMode = mode;
-    if (window.KitchenAudio) window.KitchenAudio.playClick();
-
-    document.querySelectorAll('.segmented-btn').forEach(btn => {
-      if (btn.getAttribute('data-time-mode') === mode) {
-        btn.classList.add('active');
-      } else {
-        btn.classList.remove('active');
-      }
+    const buttons = document.querySelectorAll('[data-time-mode]');
+    buttons.forEach(btn => {
+      btn.classList.toggle('active', btn.getAttribute('data-time-mode') === mode);
     });
-
-    renderAllMenuSections();
-    updateOrderTicket();
+    renderAppMenu();
   };
 
-  /**
-   * Set Pickup Method
-   */
   window.setPickupMethod = function (method) {
     currentPickupMethod = method;
-    if (window.KitchenAudio) window.KitchenAudio.playClick();
-
     const shelfBtn = document.getElementById('pickup-btn-shelf');
     const curbsideBtn = document.getElementById('pickup-btn-curbside');
-
-    if (shelfBtn && curbsideBtn) {
-      if (method === 'shelf') {
-        shelfBtn.className = 'btn-slate';
-        curbsideBtn.className = 'btn-slate-secondary';
-      } else {
-        shelfBtn.className = 'btn-slate-secondary';
-        curbsideBtn.className = 'btn-slate';
-      }
-    }
+    if (shelfBtn) shelfBtn.classList.toggle('active', method === 'shelf');
+    if (curbsideBtn) curbsideBtn.classList.toggle('active', method === 'curbside');
   };
 
-  /**
-   * Fire Order & Launch Pizza Tracker View
-   */
+  // =========================================================================
+  // SUBMIT & TRANSITION TO FULL-SCREEN LIVE TRACKER
+  // =========================================================================
   window.fireOrderToKitchen = function () {
-    const itemIds = Object.keys(cart);
-    if (itemIds.length === 0) return;
-
-    const surge = resolveTimeOfDaySurge(currentTimeMode);
-
-    let maxCookMinutes = 0;
-    let subtotal = 0;
-    const itemsList = [];
-
-    itemIds.forEach(id => {
-      const item = ALL_ITEMS_MAP[id];
-      const qty = cart[id];
-      if (!item || qty <= 0) return;
-
-      subtotal += item.price * qty;
-      if (item.baseCookMinutes > maxCookMinutes) {
-        maxCookMinutes = item.baseCookMinutes;
-      }
-
-      itemsList.push({
-        id: item.id,
-        name: item.name,
-        quantity: qty,
-        price: item.price,
-        lineTotal: item.price * qty,
-        icon: item.icon
-      });
-    });
-
-    const totalMinutes = maxCookMinutes > 0 ? Math.max(5, maxCookMinutes + surge.adjustmentMinutes) : 5;
-    const now = Date.now();
-    const readyEpoch = now + (totalMinutes * 60 * 1000);
-    const orderNumber = Math.floor(1000 + Math.random() * 9000);
-
-    const tax = subtotal * 0.08875;
-    const tip = subtotal * 0.20;
-    const grandTotal = subtotal + tax + tip;
-
-    orderData = {
-      orderNumber: `EST-${orderNumber}`,
-      items: itemsList,
-      subtotal: subtotal,
-      tax: tax,
-      tip: tip,
-      total: grandTotal,
-      pickupMethod: currentPickupMethod === 'shelf' ? 'Store Shelf #B-04' : 'Curbside Bay #3',
-      baseCookMinutes: maxCookMinutes,
-      surgeAdjustment: surge.adjustmentMinutes,
-      surgeStatus: surge.status,
-      surgeMarker: surge.marker,
-      totalMinutes: totalMinutes,
-      placedEpoch: now,
-      readyEpoch: readyEpoch,
-      currentStage: 1,
-      ovenTemp: '865°F (White Oak & Hard Maple)'
-    };
-
-    localStorage.setItem(FALLBACK_KEY, JSON.stringify(orderData));
-
-    if (window.KitchenAudio) {
-      window.KitchenAudio.playBell();
-    }
-
-    window.showTrackerView();
-    startLiveTracker();
-  };
-
-  /**
-   * View Switchers
-   */
-  window.showMenuSelectionView = function () {
-    const menuView = document.getElementById('view-menu-selection');
-    const trackerView = document.getElementById('view-order-tracker');
-    const navMenuBtn = document.getElementById('nav-btn-menu');
-    const navTrackerBtn = document.getElementById('nav-btn-tracker');
-
-    if (menuView && trackerView) {
-      menuView.classList.add('active');
-      trackerView.classList.remove('active');
-    }
-
-    if (navMenuBtn && navTrackerBtn) {
-      navMenuBtn.className = 'btn-slate';
-      navTrackerBtn.className = 'btn-slate-secondary';
-    }
-  };
-
-  window.showTrackerView = function () {
-    const menuView = document.getElementById('view-menu-selection');
-    const trackerView = document.getElementById('view-order-tracker');
-    const navMenuBtn = document.getElementById('nav-btn-menu');
-    const navTrackerBtn = document.getElementById('nav-btn-tracker');
-
-    if (menuView && trackerView) {
-      menuView.classList.remove('active');
-      trackerView.classList.add('active');
-    }
-
-    if (navMenuBtn && navTrackerBtn) {
-      navMenuBtn.className = 'btn-slate-secondary';
-      navTrackerBtn.className = 'btn-slate';
-    }
-
-    populateTrackerViewUI();
-  };
-
-  /**
-   * Reset Order & Return to Menu
-   */
-  window.resetOrder = function () {
-    if (timerInterval) clearInterval(timerInterval);
-    orderData = null;
-    localStorage.removeItem(FALLBACK_KEY);
-    cart = { 'option-soppressata': 1 };
-
-    if (window.KitchenAudio) window.KitchenAudio.playClick();
-
-    window.showMenuSelectionView();
-    renderAllMenuSections();
-    updateOrderTicket();
-  };
-
-  /**
-   * Populate Tracker View UI
-   */
-  function populateTrackerViewUI() {
-    if (!orderData) {
-      const saved = localStorage.getItem(FALLBACK_KEY);
-      if (saved) {
-        try { orderData = JSON.parse(saved); } catch (e) {}
-      }
-    }
-
-    if (!orderData) {
-      window.showMenuSelectionView();
+    const totals = calculateCartTotals();
+    if (totals.totalItemCount === 0) {
+      alert('Please select at least one menu item before firing your order.');
       return;
     }
 
-    // Header values
-    const orderNumEl = document.getElementById('tracker-order-num');
-    const placedTimeEl = document.getElementById('tracker-placed-time');
-    const estReadyTimeEl = document.getElementById('tracker-ready-time-target');
-    const pickupLocEl = document.getElementById('tracker-pickup-loc');
-    const surgePillEl = document.getElementById('tracker-surge-pill');
-    const orderItemsEl = document.getElementById('tracker-order-items-list');
-    const totalCostEl = document.getElementById('tracker-total-cost');
+    const itemsOrdered = [];
+    Object.keys(cart).forEach(id => {
+      const qty = cart[id];
+      if (qty > 0) {
+        const it = findItemById(id);
+        if (it) {
+          itemsOrdered.push({
+            id: it.id,
+            name: it.name,
+            qty: qty,
+            price: it.price,
+            lineTotal: it.price * qty
+          });
+        }
+      }
+    });
 
-    if (orderNumEl) orderNumEl.innerText = orderData.orderNumber;
-    if (placedTimeEl) placedTimeEl.innerText = formatTimeShort(orderData.placedEpoch);
-    if (estReadyTimeEl) estReadyTimeEl.innerText = formatTimeShort(orderData.readyEpoch);
-    if (pickupLocEl) pickupLocEl.innerText = orderData.pickupMethod;
-    if (totalCostEl) totalCostEl.innerText = `$${orderData.total.toFixed(2)}`;
+    const now = new Date();
+    const orderNumber = 'EST-' + Math.floor(1000 + Math.random() * 9000);
+    const durationSeconds = totals.finalEstimatedMinutes * 60;
+    const readyDate = new Date(now.getTime() + durationSeconds * 1000);
 
-    if (surgePillEl) {
-      surgePillEl.innerText = orderData.surgeMarker;
-      surgePillEl.className = `badge ${orderData.surgeAdjustment > 0 ? 'badge-red' : (orderData.surgeAdjustment < 0 ? 'badge-green' : 'badge-gold')}`;
+    orderData = {
+      orderNumber: orderNumber,
+      placedAt: now.toISOString(),
+      placedAtFormatted: now.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' }),
+      readyAtFormatted: readyDate.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' }),
+      estimatedMinutes: totals.finalEstimatedMinutes,
+      durationSeconds: durationSeconds,
+      pickupMethod: currentPickupMethod === 'shelf' ? 'Store Shelf #B-04' : 'Curbside Bay #3',
+      totals: totals,
+      items: itemsOrdered,
+      currentStage: 1,
+      speedBoostActive: false,
+      startTimeMs: Date.now()
+    };
+
+    localStorage.setItem(STORAGE_KEY, JSON.stringify(orderData));
+
+    // Automatically transition to the Full-Screen Live Tracker
+    window.showTrackerView();
+  };
+
+  window.showMenuSelectionView = function () {
+    document.getElementById('view-menu-selection').classList.add('active');
+    document.getElementById('view-order-tracker').classList.remove('active');
+    window.scrollTo({ top: 0, behavior: 'smooth' });
+    renderAppMenu();
+  };
+
+  window.showTrackerView = function () {
+    document.getElementById('view-menu-selection').classList.remove('active');
+    document.getElementById('view-order-tracker').classList.add('active');
+    window.scrollTo({ top: 0, behavior: 'smooth' });
+    initTrackerEngine();
+  };
+
+  window.resetOrder = function () {
+    cart = { 'option-pepperoni': 1, 'option-garlic-knots': 1 };
+    orderData = null;
+    localStorage.removeItem(STORAGE_KEY);
+    if (timerInterval) clearInterval(timerInterval);
+    window.showMenuSelectionView();
+  };
+
+  // =========================================================================
+  // LIVE TRACKER DASHBOARD ENGINE
+  // =========================================================================
+  function initTrackerEngine() {
+    if (!orderData) {
+      const stored = localStorage.getItem(STORAGE_KEY);
+      if (stored) {
+        try {
+          orderData = JSON.parse(stored);
+        } catch (e) {}
+      }
     }
 
-    if (orderItemsEl) {
-      orderItemsEl.innerHTML = orderData.items.map(it => `
-        <div style="display: flex; justify-content: space-between; align-items: center; padding: 0.35rem 0; border-bottom: 1px dotted var(--border-light); font-size: 0.84rem;">
-          <div style="display: flex; align-items: center; gap: 0.4rem;">
-            <span>${it.icon}</span>
-            <span style="font-weight: 700; color: var(--text-primary);">${it.quantity}x ${it.name}</span>
+    if (!orderData) {
+      // Create default active order
+      const totals = calculateCartTotals();
+      const now = new Date();
+      const durationSeconds = 18 * 60;
+      const readyDate = new Date(now.getTime() + durationSeconds * 1000);
+
+      orderData = {
+        orderNumber: 'EST-7492',
+        placedAt: now.toISOString(),
+        placedAtFormatted: now.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' }),
+        readyAtFormatted: readyDate.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' }),
+        estimatedMinutes: 18,
+        durationSeconds: durationSeconds,
+        pickupMethod: 'Store Shelf #B-04',
+        totals: totals,
+        items: [
+          { id: 'option-pepperoni', name: '16" Hot Honey & Cupping Pepperoni', qty: 1, price: 26.50, lineTotal: 26.50 },
+          { id: 'option-garlic-knots', name: 'Jumbo Garlic Knots Basket (6pc)', qty: 1, price: 7.50, lineTotal: 7.50 }
+        ],
+        currentStage: 1,
+        speedBoostActive: false,
+        startTimeMs: Date.now()
+      };
+      localStorage.setItem(STORAGE_KEY, JSON.stringify(orderData));
+    }
+
+    // Populate static receipt & details
+    document.getElementById('tracker-order-id-label').innerText = `ORDER #${orderData.orderNumber}`;
+    document.getElementById('tracker-placed-timestamp').innerText = `Fired at ${orderData.placedAtFormatted}`;
+    document.getElementById('tracker-ready-time-target').innerText = orderData.readyAtFormatted;
+    document.getElementById('tracker-pickup-destination-label').innerText = orderData.pickupMethod;
+
+    // Render itemized receipt
+    const receiptContainer = document.getElementById('tracker-receipt-items-list');
+    if (receiptContainer) {
+      receiptContainer.innerHTML = orderData.items.map(it => `
+        <div class="receipt-item-row">
+          <div>
+            <span class="receipt-item-name">${it.name}</span>
+            <span class="receipt-item-qty">×${it.qty}</span>
           </div>
-          <span class="font-mono" style="font-weight: 800; color: var(--text-primary);">$${it.lineTotal.toFixed(2)}</span>
+          <span class="receipt-item-price">$${it.lineTotal.toFixed(2)}</span>
         </div>
       `).join('');
     }
+
+    document.getElementById('tracker-subtotal-val').innerText = `$${orderData.totals.subtotal.toFixed(2)}`;
+    document.getElementById('tracker-tax-val').innerText = `$${orderData.totals.tax.toFixed(2)}`;
+    document.getElementById('tracker-tip-val').innerText = `$${orderData.totals.tip.toFixed(2)}`;
+    document.getElementById('tracker-grandtotal-val').innerText = `$${orderData.totals.grandTotal.toFixed(2)}`;
+
+    // Start Live Second-by-Second Countdown Timer
+    startLiveCountdown();
   }
 
-  /**
-   * Start Live Tracker Timer Loop
-   */
-  function startLiveTracker() {
+  function startLiveCountdown() {
     if (timerInterval) clearInterval(timerInterval);
 
     function tick() {
       if (!orderData) return;
 
-      const now = Date.now();
-      const totalSecs = Math.max(1, (orderData.readyEpoch - orderData.placedEpoch) / 1000);
-      const remainingSecs = Math.max(0, Math.floor((orderData.readyEpoch - now) / 1000));
-      const elapsedSecs = totalSecs - remainingSecs;
-      const progressRatio = Math.min(1.0, Math.max(0, elapsedSecs / totalSecs));
+      const elapsedSec = Math.floor((Date.now() - orderData.startTimeMs) / 1000);
+      const totalSec = orderData.durationSeconds || (18 * 60);
+      const remainingSec = Math.max(0, totalSec - elapsedSec);
 
-      // Calculate Stage 1 to 4
+      const mins = Math.floor(remainingSec / 60);
+      const secs = remainingSec % 60;
+      const countdownStr = `${String(mins).padStart(2, '0')}:${String(secs).padStart(2, '0')}`;
+
+      // Update Countdown Display
+      const timerDisplay = document.getElementById('tracker-countdown-val');
+      if (timerDisplay) {
+        timerDisplay.innerText = countdownStr;
+      }
+
+      // Progress Percentage
+      const progressRatio = Math.min(1, elapsedSec / totalSec);
+      const progressPercent = Math.round(progressRatio * 100);
+
+      const progressFill = document.getElementById('tracker-progress-bar-fill');
+      if (progressFill) {
+        progressFill.style.width = `${Math.max(5, progressPercent)}%`;
+      }
+
+      // 4-Stage Pipeline Computation
       let stage = 1;
-      if (progressRatio >= 0.95) stage = 4;
-      else if (progressRatio >= 0.60) stage = 3;
+      if (progressRatio >= 0.88 || remainingSec === 0) stage = 4;
+      else if (progressRatio >= 0.55) stage = 3;
       else if (progressRatio >= 0.25) stage = 2;
       else stage = 1;
 
       orderData.currentStage = stage;
 
-      // Audio notification on new stage
-      if (stage !== lastAnnouncedStage && lastAnnouncedStage !== 0) {
-        if (window.KitchenAudio) window.KitchenAudio.playBell();
-      }
-      lastAnnouncedStage = stage;
-
-      // Update Countdown Clock
-      const clockEl = document.getElementById('tracker-countdown-display');
-      const progressFillEl = document.getElementById('tracker-progress-fill');
-      const stageNameEl = document.getElementById('tracker-stage-title');
-      const stageDescEl = document.getElementById('tracker-stage-desc');
-
-      if (clockEl) {
-        clockEl.innerText = formatCountdown(remainingSecs);
-      }
-      if (progressFillEl) {
-        progressFillEl.style.width = `${progressRatio * 100}%`;
-      }
-
-      const stageInfo = STAGE_DESCRIPTIONS[stage];
-      if (stageNameEl && stageInfo) stageNameEl.innerText = stageInfo.name;
-      if (stageDescEl && stageInfo) stageDescEl.innerText = stageInfo.desc;
-
-      // Update 4-step stepper UI
-      for (let s = 1; s <= 4; s++) {
-        const stepEl = document.getElementById(`step-card-${s}`);
-        if (stepEl) {
-          if (s < stage) {
-            stepEl.className = 'tracker-step-item completed';
-          } else if (s === stage) {
-            stepEl.className = 'tracker-step-item active';
-          } else {
-            stepEl.className = 'tracker-step-item';
-          }
-        }
-      }
-
-      // If finished
-      if (remainingSecs <= 0) {
-        if (clockEl) clockEl.innerText = 'READY!';
-      }
+      updateStageUI(stage, remainingSec);
     }
 
     tick();
     timerInterval = setInterval(tick, 1000);
   }
 
-  /**
-   * Top Clock Live Display
-   */
-  function startClock() {
-    if (clockInterval) clearInterval(clockInterval);
+  function updateStageUI(stage, remainingSec) {
+    const STAGES = [
+      {
+        num: 1,
+        title: "Order Ticketed & Dough Tossed",
+        desc: "Hand-stretched cold-fermented sourdough ladled with San Marzano D.O.P. sauce."
+      },
+      {
+        num: 2,
+        title: "Sauced & Mozzarella Layered",
+        desc: "Shredded fresh fior di latte mozzarella layered with cupping pepperoni and toppings."
+      },
+      {
+        num: 3,
+        title: "865°F Stone Hearth Deck Baking",
+        desc: "Blistering on kiln-dried white oak hearth stones with bubbling crust."
+      },
+      {
+        num: 4,
+        title: "Sliced, Boxed & Ready for Pickup",
+        desc: `Boxed fresh and waiting on ${orderData ? orderData.pickupMethod : 'Store Shelf'}. Buon Appetito!`
+      }
+    ];
 
-    function update() {
-      const now = Date.now();
-      const str = formatTimeString(now);
-      const headerClock = document.getElementById('header-clock-display');
-      const surgeClock = document.getElementById('surge-current-time-badge');
+    const currentStageInfo = STAGES[stage - 1];
+    const stageTitleEl = document.getElementById('tracker-stage-title-heading');
+    const stageDescEl = document.getElementById('tracker-stage-description-p');
 
-      if (headerClock) headerClock.innerText = `🕒 LIVE: ${str}`;
-      if (surgeClock) surgeClock.innerText = `LIVE: ${formatTimeShort(now)}`;
+    if (stageTitleEl) stageTitleEl.innerText = currentStageInfo.title;
+    if (stageDescEl) stageDescEl.innerText = currentStageInfo.desc;
+
+    // Update Stage Cards
+    for (let i = 1; i <= 4; i++) {
+      const card = document.getElementById(`pipeline-stage-${i}`);
+      if (card) {
+        card.classList.remove('active', 'completed');
+        if (i < stage) {
+          card.classList.add('completed');
+        } else if (i === stage) {
+          card.classList.add('active');
+        }
+      }
     }
-
-    update();
-    clockInterval = setInterval(update, 1000);
   }
 
-  // Initialize on DOM Ready
+  // Fast Forward / Speed Boost Simulator
+  window.triggerSpeedBoost = function () {
+    if (!orderData) return;
+    // Fast forward by advancing start time
+    const stepSec = Math.floor(orderData.durationSeconds / 4);
+    orderData.startTimeMs -= (stepSec * 1000);
+    localStorage.setItem(STORAGE_KEY, JSON.stringify(orderData));
+  };
+
+  // Clock in Header
+  function startClock() {
+    function updateHeaderClock() {
+      const now = new Date();
+      const str = now.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit', second: '2-digit' });
+      const clockEl = document.getElementById('header-live-clock');
+      if (clockEl) clockEl.innerText = `🕒 LIVE NYC: ${str}`;
+    }
+    updateHeaderClock();
+    clockInterval = setInterval(updateHeaderClock, 1000);
+  }
+
+  // Initialize on Load
   document.addEventListener('DOMContentLoaded', () => {
     startClock();
-    renderAllMenuSections();
-    updateOrderTicket();
+    renderAppMenu();
 
-    // Check if there was an active order
-    const saved = localStorage.getItem(FALLBACK_KEY);
-    if (saved) {
+    // Check if there is an active ongoing order
+    const stored = localStorage.getItem(STORAGE_KEY);
+    if (stored) {
       try {
-        orderData = JSON.parse(saved);
-        if (orderData && orderData.readyEpoch > Date.now()) {
-          window.showTrackerView();
-          startLiveTracker();
-        } else {
-          window.showMenuSelectionView();
-        }
-      } catch (e) {
-        window.showMenuSelectionView();
-      }
-    } else {
-      window.showMenuSelectionView();
+        orderData = JSON.parse(stored);
+      } catch (e) {}
     }
   });
-
 })();

@@ -12,15 +12,15 @@ require_once __DIR__ . '/config.php';
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>EST 1974 — Artisanal Stone Deck Pizzeria &amp; Live Dispatch</title>
-  <meta name="description" content="EST 1974 — Authentic Italian-American stone deck pizzeria. Select multiple artisanal dishes from our full menu, configure time-of-day rush surges, and track your pizza in real time." />
+  <meta name="description" content="EST 1974 — Authentic Italian wood-fired pizza, artisan starters, calzones, and live real-time pizza tracker." />
   
   <!-- Favicon -->
-  <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><circle cx='50' cy='50' r='48' fill='%231C1513'/><circle cx='50' cy='50' r='40' fill='%23C82319'/><polygon points='50,18 80,78 20,78' fill='%23E59400'/></svg>" />
+  <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><circle cx='50' cy='50' r='48' fill='%2314171C'/><circle cx='50' cy='50' r='40' fill='%23E52817'/><polygon points='50,18 80,78 20,78' fill='%23F7A81B'/></svg>" />
 
-  <!-- Google Fonts: Italiana (Headings) + Mulish (Body/UI) + JetBrains Mono (Clocks/Numbers) -->
+  <!-- Google Fonts: Italiana (Display) + Mulish (Sans) + JetBrains Mono (Telemetry/Numbers) -->
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Italiana&family=Mulish:ital,wght@0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,400;1,600;1,700&family=JetBrains+Mono:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Italiana&family=Mulish:ital,wght@0,400;0,500;0,600;0,700;0,800;0,900;1,400;1,600;1,700&family=JetBrains+Mono:wght@400;500;600;700;800&display=swap" rel="stylesheet">
   
   <!-- FontAwesome Icons -->
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css" />
@@ -30,380 +30,422 @@ require_once __DIR__ . '/config.php';
 </head>
 <body>
 
-  <!-- Authentic Italian Gingham Ribbon -->
-  <div class="gingham-ribbon"></div>
-
-  <!-- Top Telemetry Header -->
-  <header style="background: rgba(255, 255, 255, 0.96); backdrop-filter: blur(12px); border-bottom: 1px solid var(--border-light); position: sticky; top: 0; z-index: 50;">
-    
-    <!-- Ultra-Tight Telemetry Strip -->
-    <div style="background: var(--slate-900); color: #F8FAFC; padding: 0.35rem 1.25rem; font-size: 0.74rem; font-family: var(--font-mono); display: flex; align-items: center; justify-content: space-between; flex-wrap: wrap; gap: 0.5rem;">
-      <div style="display: flex; align-items: center; gap: 1.25rem;">
-        <span style="display: flex; align-items: center; gap: 0.4rem; color: #FDA4AF; font-weight: 700;">
-          <span class="live-dot"></span> HEARTH OVEN: 865°F (White Oak &amp; Hard Maple)
-        </span>
-        <span style="color: #D4C8BE;">
-          📍 142 Mulberry St, Little Italy, NYC
-        </span>
-      </div>
-      
-      <div style="display: flex; align-items: center; gap: 0.75rem;">
-        <span style="color: var(--mozzarella-gold);" id="header-clock-display">
-          🕒 LIVE: --:-- --
-        </span>
-        <button id="sfx-toggle-btn" onclick="window.KitchenAudio && window.KitchenAudio.toggleMute()" class="btn-slate-subtle" style="color: #F8FAFC; padding: 0.15rem 0.5rem; font-size: 0.72rem; border-radius: var(--radius-xs); border: 1px solid rgba(255,255,255,0.2);">
-          🔊 SFX ON
-        </button>
-      </div>
+  <!-- Top Real-Time Telemetry Bar -->
+  <div class="top-telemetry-bar">
+    <div style="display: flex; align-items: center; gap: 1rem; flex-wrap: wrap;">
+      <span style="display: flex; align-items: center; gap: 0.4rem; color: #FDA4AF; font-weight: 700;">
+        <span class="live-dot-red"></span> WOOD-FIRED HEARTH: 865°F (White Oak Deck)
+      </span>
+      <span style="color: #94A3B8;">
+        📍 142 Mulberry St, Little Italy, NYC
+      </span>
     </div>
+    
+    <div style="display: flex; align-items: center; gap: 1rem;">
+      <span style="color: var(--mozzarella-yellow);" id="header-live-clock">
+        🕒 LIVE NYC: --:-- --
+      </span>
+      <span style="color: #22C55E; font-weight: 700; display: flex; align-items: center; gap: 0.35rem;">
+        <span class="live-dot-pulse"></span> KITCHEN DISPATCH ONLINE
+      </span>
+    </div>
+  </div>
 
-    <!-- Main Navigation Bar -->
-    <div class="container" style="display: flex; align-items: center; justify-content: space-between; padding: 0.75rem clamp(1rem, 3vw, 2rem); flex-wrap: wrap; gap: 0.75rem;">
+  <!-- App Header & Brand Bar -->
+  <header class="app-header">
+    <div class="app-container" style="display: flex; align-items: center; justify-content: space-between; padding: 0.75rem 1rem; flex-wrap: wrap; gap: 0.75rem;">
       
-      <!-- Brand Logo: EST 1974 (Badge Removed) -->
-      <div style="display: flex; align-items: center; gap: 0.85rem; cursor: pointer;" onclick="window.showMenuSelectionView()">
-        <div style="width: 44px; height: 44px; background: var(--italian-red); border-radius: var(--radius-sm); display: flex; align-items: center; justify-content: center; box-shadow: 0 2px 8px rgba(200, 35, 25, 0.25);">
-          <span style="font-size: 1.5rem;">🍕</span>
-        </div>
+      <!-- Brand Logo -->
+      <div class="brand-logo" onclick="window.showMenuSelectionView()">
+        <div class="brand-badge-icon">🍕</div>
         <div>
-          <h1 style="font-family: var(--font-serif); font-size: clamp(1.4rem, 2.5vw, 1.85rem); font-weight: 900; letter-spacing: 0.04em; color: var(--slate-900); margin: 0; line-height: 1;">
-            EST 1974
-          </h1>
-          <div style="font-family: var(--font-mono); font-size: 0.72rem; color: var(--text-muted); font-weight: 700; letter-spacing: 0.04em; text-transform: uppercase; margin-top: 2px;">
-            Artisan Stone Deck Pizzeria &amp; Dispatch
-          </div>
+          <h1 class="brand-title">EST 1974</h1>
+          <div class="brand-subtext">Artisanal Stone Deck Pizzeria</div>
         </div>
       </div>
 
-      <!-- Header Controls -->
-      <div style="display: flex; align-items: center; gap: 0.5rem;">
-        <button id="nav-btn-menu" onclick="window.showMenuSelectionView()" class="btn-slate" style="font-size: 0.82rem; padding: 0.45rem 0.95rem;">
-          <i class="fa-solid fa-utensils"></i> Ordering Menu
+      <!-- Navigation & View Toggles -->
+      <div style="display: flex; align-items: center; gap: 0.6rem;">
+        <button id="nav-btn-menu" onclick="window.showMenuSelectionView()" class="btn-primary">
+          <i class="fa-solid fa-utensils"></i> Menu App
         </button>
-        <button id="nav-btn-tracker" onclick="window.showTrackerView()" class="btn-slate-secondary" style="font-size: 0.82rem; padding: 0.45rem 0.95rem;">
-          <i class="fa-solid fa-clock"></i> Live Tracker <span id="nav-tracker-indicator" class="live-dot-green" style="display: none; margin-left: 4px;"></span>
+        <button id="nav-btn-tracker" onclick="window.showTrackerView()" class="btn-secondary">
+          <i class="fa-solid fa-clock"></i> Live Tracker <span class="live-dot-pulse" style="margin-left: 4px;"></span>
         </button>
-        <button onclick="window.resetOrder()" class="btn-slate-secondary" style="font-size: 0.82rem; padding: 0.45rem 0.85rem; border-color: var(--border-medium); color: var(--text-muted);" title="Reset order">
-          <i class="fa-solid fa-rotate-left"></i> Reset
+        <button id="nav-btn-cart" onclick="window.fireOrderToKitchen()" class="btn-secondary" style="background: var(--mozzarella-yellow-light); border-color: var(--mozzarella-yellow); color: #14171C;">
+          <i class="fa-solid fa-bag-shopping"></i> <span id="header-cart-btn-text">Cart (2)</span>
+        </button>
+        <button onclick="window.resetOrder()" class="btn-secondary" style="color: var(--text-muted);" title="Reset active order">
+          <i class="fa-solid fa-rotate-left"></i>
         </button>
       </div>
+
     </div>
   </header>
 
   <!-- =========================================================================
-       VIEW 1: FULL ALL-IN-ONE SCREEN MENU & ORDERING WEB APP
+       VIEW 1: AUTHENTIC ITALIAN APP MENU (Pinterest Reference Design)
        ========================================================================= -->
-  <main id="view-menu-selection" class="app-view active container" style="padding-top: clamp(1.25rem, 2.5vw, 2rem); padding-bottom: 5rem;">
+  <main id="view-menu-selection" class="app-view active app-container">
     
-    <!-- Hero Banner -->
-    <div class="tight-card" style="padding: clamp(1.25rem, 3vw, 1.85rem); margin-bottom: 1.5rem; background: linear-gradient(135deg, #FFFFFF, var(--bg-subtle)); border: 1px solid var(--border-medium);">
-      <div style="display: flex; align-items: center; justify-content: space-between; flex-wrap: wrap; gap: 1rem;">
-        <div style="max-width: 680px;">
-          <div style="display: flex; align-items: center; gap: 0.5rem; margin-bottom: 0.35rem; flex-wrap: wrap;">
-            <span class="badge badge-red">
-              <span class="live-dot"></span> ALL-IN-ONE MENU SELECTION
-            </span>
-            <span class="badge badge-gold">
-              WOOD-FIRED HEARTH (865°F)
-            </span>
-            <span class="badge badge-green">
-              MULTI-ITEM ORDERS SUPPORTED
-            </span>
+    <!-- Hero Banner (Blackboard Slate Texture + Floating Pizza + 50% Off Offer Badge) -->
+    <section class="hero-blackboard">
+      <div class="hero-content">
+        <div>
+          <div class="hero-pill-badge">
+            <i class="fa-solid fa-fire-flame-curved"></i> Artisanal Hearth Oven
           </div>
-          <h2 style="font-family: var(--font-serif); font-size: clamp(1.6rem, 3.2vw, 2.3rem); font-weight: 800; color: var(--slate-900); line-height: 1.15; margin-bottom: 0.35rem;">
-            Order from Our Wood-Fired Menu
+          <h2 class="hero-heading">
+            ENJOY YOUR PIZZA<br/>IN TOWN!
           </h2>
-          <p style="font-size: 0.9rem; color: var(--text-secondary); line-height: 1.45; margin: 0;">
-            Select multiple pizzas, starters, calzones, and drinks on one screen. The stone deck timer automatically adjusts for neighborhood rush hours (+10m peak dinner / -10m slow lull).
+          <p class="hero-subtext">
+            Handcrafted 72-hour fermented sourdough, San Marzano D.O.P. tomatoes, and fresh buffalo mozzarella blistered in our 865°F kiln-dried white oak hearth.
           </p>
+          <div style="display: flex; align-items: center; gap: 1rem; flex-wrap: wrap;">
+            <button class="hero-cta-btn" onclick="document.getElementById('menu-items-grid-container').scrollIntoView({ behavior: 'smooth' })">
+              <i class="fa-solid fa-pizza-slice"></i> Order Now
+            </button>
+            <div style="font-family: var(--font-mono); font-size: 0.8rem; color: #CBD5E1;">
+              ⚡ Ready in <strong style="color: var(--mozzarella-yellow);">~18 mins</strong>
+            </div>
+          </div>
         </div>
 
-        <div style="background: #FFFFFF; border: 1px solid var(--border-medium); border-radius: var(--radius-md); padding: 0.85rem 1.15rem; text-align: right; min-width: 200px; box-shadow: var(--shadow-sm);">
-          <div style="font-family: var(--font-mono); font-size: 0.72rem; color: var(--text-muted); text-transform: uppercase;">
-            Live Kitchen Prep Speed
-          </div>
-          <div id="hero-ready-pill" style="font-family: var(--font-mono); font-size: 1.45rem; font-weight: 800; color: var(--italian-red); line-height: 1.1; margin-top: 2px;">
-            ~18 mins ready time
+        <div class="hero-image-wrapper">
+          <img class="hero-floating-pizza" src="https://images.unsplash.com/photo-1513104890138-7c749659a591?w=800&auto=format&fit=crop&q=80" alt="Wood-Fired Pizza" />
+          <div class="hero-offer-badge">
+            <span>UP TO</span>
+            <span>50%</span>
+            <span>OFF</span>
           </div>
         </div>
       </div>
-    </div>
+    </section>
 
-    <!-- Main 2-Column Grid (Menu Left + Compact Ticket Right) -->
-    <div class="menu-layout-grid" style="display: grid; grid-template-columns: 1fr 310px; gap: 1.5rem; align-items: start;">
-      
-      <!-- LEFT: Time Surge Widget + Full Multi-Category Menu Cards -->
-      <div style="display: flex; flex-direction: column; gap: 1.25rem;">
+    <!-- 4 Curved Red Dome Feature Cards (ref_0.jpg style) -->
+    <section class="category-feature-grid">
+      <div class="category-feature-card" onclick="window.setCategoryFilter('pizzas')">
+        <div class="category-card-top-red">
+          <h3 class="category-card-title">Pizzas</h3>
+          <span class="category-see-menu-pill">See Menu <i class="fa-solid fa-arrow-right"></i></span>
+        </div>
+        <img class="category-card-dish-preview" src="https://images.unsplash.com/photo-1628840042765-356cda07504e?w=400&auto=format&fit=crop&q=80" alt="Wood Fired Pizza" />
+      </div>
 
-        <!-- Time-of-Day Surge Selector Widget -->
-        <div class="surge-widget-box">
-          <div style="display: flex; align-items: center; justify-content: space-between; flex-wrap: wrap; gap: 0.5rem; margin-bottom: 0.75rem;">
-            <div style="display: flex; align-items: center; gap: 0.4rem;">
-              <span style="font-size: 1rem;">🕒</span>
-              <span style="font-family: var(--font-mono); font-size: 0.8rem; font-weight: 800; color: var(--slate-900); text-transform: uppercase;">
-                Neighborhood Kitchen Activity Load
-              </span>
+      <div class="category-feature-card" onclick="window.setCategoryFilter('starters')">
+        <div class="category-card-top-red">
+          <h3 class="category-card-title">Starters</h3>
+          <span class="category-see-menu-pill">See Menu <i class="fa-solid fa-arrow-right"></i></span>
+        </div>
+        <img class="category-card-dish-preview" src="https://images.unsplash.com/photo-1541592106381-b31e9677c0e5?w=400&auto=format&fit=crop&q=80" alt="Garlic Knots" />
+      </div>
+
+      <div class="category-feature-card" onclick="window.setCategoryFilter('calzones')">
+        <div class="category-card-top-red">
+          <h3 class="category-card-title">Calzones</h3>
+          <span class="category-see-menu-pill">See Menu <i class="fa-solid fa-arrow-right"></i></span>
+        </div>
+        <img class="category-card-dish-preview" src="https://images.unsplash.com/photo-1506354666786-959d6d497f1a?w=400&auto=format&fit=crop&q=80" alt="Stuffed Calzone" />
+      </div>
+
+      <div class="category-feature-card" onclick="window.setCategoryFilter('sweets')">
+        <div class="category-card-top-red">
+          <h3 class="category-card-title">Dolci &amp; Drinks</h3>
+          <span class="category-see-menu-pill">See Menu <i class="fa-solid fa-arrow-right"></i></span>
+        </div>
+        <img class="category-card-dish-preview" src="https://images.unsplash.com/photo-1571877227200-a0d98ea607e9?w=400&auto=format&fit=crop&q=80" alt="Espresso Tiramisu" />
+      </div>
+    </section>
+
+    <!-- App Menu Section -->
+    <section>
+      <div class="app-menu-section-header">
+        <div class="menu-section-eyebrow">Handcrafted Stone Deck Selection</div>
+        <h2 class="menu-section-heading">Explore Our Artisanal Menu</h2>
+      </div>
+
+      <!-- Category Filter Pills Bar (ref_0.jpg style) -->
+      <div class="filter-pills-bar">
+        <button id="filter-btn-all" class="filter-pill-btn active" onclick="window.setCategoryFilter('all')">
+          All Dishes
+        </button>
+        <button id="filter-btn-pizzas" class="filter-pill-btn" onclick="window.setCategoryFilter('pizzas')">
+          🍕 Pizzas
+        </button>
+        <button id="filter-btn-starters" class="filter-pill-btn" onclick="window.setCategoryFilter('starters')">
+          🥖 Starters
+        </button>
+        <button id="filter-btn-calzones" class="filter-pill-btn" onclick="window.setCategoryFilter('calzones')">
+          🥩 Calzones &amp; Platters
+        </button>
+        <button id="filter-btn-sweets" class="filter-pill-btn" onclick="window.setCategoryFilter('sweets')">
+          🍨 Dolci &amp; Drinks
+        </button>
+      </div>
+
+      <!-- Time-of-Day Surge Adjuster Controls -->
+      <div style="background: #FFFFFF; border: 1px solid var(--border-light); border-radius: var(--radius-md); padding: 0.85rem 1.25rem; margin-bottom: 2rem; display: flex; align-items: center; justify-content: space-between; flex-wrap: wrap; gap: 0.75rem; box-shadow: var(--shadow-sm);">
+        <div style="display: flex; align-items: center; gap: 0.5rem;">
+          <span style="font-size: 1.1rem;">⏱️</span>
+          <div>
+            <div style="font-family: var(--font-mono); font-size: 0.75rem; font-weight: 800; text-transform: uppercase; color: var(--text-dark);">
+              Kitchen Activity Rush Simulator
             </div>
-            <span class="badge badge-slate" id="surge-current-time-badge">
-              LIVE: --:-- --
+            <div style="font-size: 0.75rem; color: var(--text-muted);">
+              Adjusts cooking countdown calculus for neighborhood dinner peak or late-night lull
+            </div>
+          </div>
+        </div>
+
+        <div style="display: flex; align-items: center; gap: 0.4rem; flex-wrap: wrap;">
+          <button class="filter-pill-btn active" style="padding: 0.35rem 0.85rem; font-size: 0.74rem;" data-time-mode="auto" onclick="window.setTimeMode('auto')">
+            ⚡ Auto (Live Time)
+          </button>
+          <button class="filter-pill-btn" style="padding: 0.35rem 0.85rem; font-size: 0.74rem;" data-time-mode="peak" onclick="window.setTimeMode('peak')">
+            🔥 Peak Rush (+10m)
+          </button>
+          <button class="filter-pill-btn" style="padding: 0.35rem 0.85rem; font-size: 0.74rem;" data-time-mode="slow" onclick="window.setTimeMode('slow')">
+            ⚡ Slow Lull (-10m)
+          </button>
+          <button class="filter-pill-btn" style="padding: 0.35rem 0.85rem; font-size: 0.74rem;" data-time-mode="standard" onclick="window.setTimeMode('standard')">
+            Nominal (±0m)
+          </button>
+        </div>
+      </div>
+
+      <!-- Food Menu Items Dynamic Grid (Populated by tracker.js) -->
+      <div id="menu-items-grid-container" class="menu-items-grid">
+        <!-- Rendered dynamically -->
+      </div>
+    </section>
+
+    <!-- Bottom Sticky Order Dispatcher Bar -->
+    <div id="bottom-order-bar" class="bottom-order-bar">
+      <div class="order-bar-inner">
+        <div class="order-bar-summary">
+          <span id="order-bar-badge" class="order-bar-cart-badge">2 Items</span>
+          <div>
+            <span id="order-bar-ready-time" style="font-family: var(--font-mono); font-size: 0.85rem; color: var(--mozzarella-yellow); font-weight: 700; margin-right: 0.75rem;">
+              Ready in ~18 mins
+            </span>
+            <span style="font-family: var(--font-mono); font-size: 1.15rem; font-weight: 900; color: #FFFFFF;" id="order-bar-total-price">
+              $34.00
             </span>
           </div>
-
-          <!-- Dynamic Status Banner -->
-          <div id="menu-surge-banner" class="surge-status-banner surge-banner-peak" style="margin-bottom: 0.75rem;">
-            <!-- Populated dynamically via JS -->
-          </div>
-
-          <!-- Rush Simulator Controls -->
-          <div style="display: flex; align-items: center; justify-content: space-between; flex-wrap: wrap; gap: 0.5rem;">
-            <div style="font-size: 0.78rem; color: var(--text-muted);">
-              Simulate kitchen rush conditions:
-            </div>
-            <div class="segmented-control">
-              <button class="segmented-btn active" data-time-mode="auto" onclick="window.setTimeMode('auto')">
-                ⚡ Auto (Live)
-              </button>
-              <button class="segmented-btn" data-time-mode="peak" onclick="window.setTimeMode('peak')">
-                🔥 Peak (+10m)
-              </button>
-              <button class="segmented-btn" data-time-mode="slow" onclick="window.setTimeMode('slow')">
-                ⚡ Slow (-10m)
-              </button>
-              <button class="segmented-btn" data-time-mode="standard" onclick="window.setTimeMode('standard')">
-                🟡 Nominal (±0m)
-              </button>
-            </div>
-          </div>
         </div>
 
-        <!-- Full Multi-Category All-In-One Menu Container -->
-        <div id="all-menu-sections-container">
-          <!-- Injected dynamically by tracker.js -->
-        </div>
-
-      </div>
-
-      <!-- RIGHT: Compact Italian Order Receipt Ticket -->
-      <div style="position: sticky; top: 85px;">
-        
-        <div class="order-ticket-panel">
-          
-          <div class="ticket-header">
-            <div style="font-family: var(--font-mono); font-size: 0.68rem; color: var(--text-muted); text-transform: uppercase; letter-spacing: 0.5px;">
-              Kitchen Dispatch Slip
-            </div>
-            <h4 class="ticket-title">
-              Order Ticket
-            </h4>
+        <div style="display: flex; align-items: center; gap: 0.75rem;">
+          <div style="display: inline-flex; background: rgba(255, 255, 255, 0.1); border-radius: var(--radius-pill); padding: 2px;">
+            <button id="pickup-btn-shelf" onclick="window.setPickupMethod('shelf')" class="filter-pill-btn active" style="padding: 0.35rem 0.75rem; font-size: 0.72rem; background: var(--mozzarella-yellow); color: #14171C; border: none;">
+              📦 Store Shelf
+            </button>
+            <button id="pickup-btn-curbside" onclick="window.setPickupMethod('curbside')" class="filter-pill-btn" style="padding: 0.35rem 0.75rem; font-size: 0.72rem; background: transparent; color: #FFFFFF; border: none;">
+              🚗 Curbside
+            </button>
           </div>
 
-          <!-- Itemized Selected Dishes List -->
-          <div id="ticket-items-container" style="max-height: 240px; overflow-y: auto; margin-bottom: 0.85rem; padding-right: 4px;">
-            <!-- Rendered dynamically -->
-          </div>
-
-          <!-- Ready Time Calculator -->
-          <div style="background: var(--bg-subtle); border: 1px solid var(--border-medium); border-radius: var(--radius-sm); padding: 0.75rem; margin-bottom: 0.85rem; font-family: var(--font-mono); font-size: 0.78rem;">
-            <div style="display: flex; justify-content: space-between; color: var(--text-muted); margin-bottom: 2px;">
-              <span>Estimated Ready Time:</span>
-              <span id="ticket-ready-time" style="font-weight: 800; color: var(--italian-red); font-size: 0.95rem;">~18 mins</span>
-            </div>
-            <div id="ticket-ready-subtext" style="font-size: 0.68rem; color: var(--text-muted); text-align: right;">
-              18m Base Max ± 0m Surge
-            </div>
-          </div>
-
-          <!-- Receive Method -->
-          <div style="margin-bottom: 0.85rem;">
-            <label style="display: block; font-size: 0.72rem; font-family: var(--font-mono); font-weight: 700; color: var(--text-secondary); margin-bottom: 0.25rem;">
-              RECEIVE METHOD:
-            </label>
-            <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 0.35rem;">
-              <button id="pickup-btn-shelf" onclick="window.setPickupMethod('shelf')" class="btn-slate" style="font-size: 0.72rem; padding: 0.35rem 0.4rem; text-align: center;">
-                📦 Shelf #B-04
-              </button>
-              <button id="pickup-btn-curbside" onclick="window.setPickupMethod('curbside')" class="btn-slate-secondary" style="font-size: 0.72rem; padding: 0.35rem 0.4rem; text-align: center;">
-                🚗 Curbside Bay #3
-              </button>
-            </div>
-          </div>
-
-          <!-- Compact Price Breakdown -->
-          <div style="border-top: 1px dashed var(--border-medium); padding-top: 0.65rem; margin-bottom: 0.85rem; font-family: var(--font-mono); font-size: 0.78rem; display: flex; flex-direction: column; gap: 0.25rem;">
-            <div style="display: flex; justify-content: space-between; color: var(--text-muted);">
-              <span>Subtotal:</span>
-              <span id="ticket-subtotal-price">$0.00</span>
-            </div>
-            <div style="display: flex; justify-content: space-between; color: var(--text-muted);">
-              <span>NYC Tax (8.875%):</span>
-              <span id="ticket-tax-price">$0.00</span>
-            </div>
-            <div style="display: flex; justify-content: space-between; color: var(--text-muted);">
-              <span>Pizzaiolo Tip (20%):</span>
-              <span id="ticket-tip-price">$0.00</span>
-            </div>
-            <div style="display: flex; justify-content: space-between; color: var(--slate-900); font-weight: 900; font-size: 1.05rem; border-top: 1px solid var(--border-light); padding-top: 0.45rem; margin-top: 0.15rem;">
-              <span style="font-family: var(--font-serif);">TOTAL:</span>
-              <span id="ticket-total-price" style="color: var(--italian-red);">$0.00</span>
-            </div>
-          </div>
-
-          <!-- Fire Order & Launch Tracker Action Button -->
-          <button id="btn-fire-mock-order" onclick="window.fireOrderToKitchen()" class="btn-fire-order">
-            <span style="font-size: 1.1rem;">🔥</span>
-            <span>Fire Order &amp; Launch Tracker</span>
+          <button onclick="window.fireOrderToKitchen()" class="order-bar-fire-btn">
+            <span>🔥 Fire Order &amp; Launch Tracker</span>
+            <i class="fa-solid fa-arrow-right"></i>
           </button>
-
         </div>
-
       </div>
-
     </div>
 
   </main>
 
   <!-- =========================================================================
-       VIEW 2: REAL-TIME PIZZA TRACKER DASHBOARD
+       VIEW 2: FULL-SPACE REAL-TIME PIZZA TRACKER DASHBOARD (Takes Full Space)
        ========================================================================= -->
-  <main id="view-order-tracker" class="app-view container" style="padding-top: clamp(1.25rem, 2.5vw, 2rem); padding-bottom: 5rem;">
-    
-    <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(min(100%, 360px), 1fr)) 340px; gap: 1.5rem; align-items: start;">
+  <main id="view-order-tracker" class="app-view app-container">
+    <div class="tracker-full-view">
       
-      <!-- LEFT: Live Kitchen Progress & Stage Stepper -->
-      <div style="display: flex; flex-direction: column; gap: 1.25rem;">
+      <!-- Tracker Hero Card -->
+      <section class="tracker-hero-card">
         
-        <!-- Live Countdown & Stage Header Card -->
-        <div class="tight-card-elevated" style="padding: 1.5rem; background: #FFFFFF; border: 1px solid var(--border-medium);">
-          <div style="display: flex; justify-content: space-between; align-items: flex-start; flex-wrap: wrap; gap: 0.75rem; border-bottom: 1px solid var(--border-light); padding-bottom: 1rem; margin-bottom: 1.25rem;">
-            <div>
-              <div style="display: flex; align-items: center; gap: 0.5rem; margin-bottom: 0.25rem;">
-                <span class="badge badge-red">
-                  <span class="live-dot"></span> LIVE STONE DECK DISPATCH
-                </span>
-                <span id="tracker-surge-pill" class="badge badge-gold">
-                  🔥 PEAK DINNER RUSH (+10m)
-                </span>
-              </div>
-              <h2 id="tracker-stage-title" style="font-family: var(--font-serif); font-size: clamp(1.5rem, 2.8vw, 2.1rem); font-weight: 800; color: var(--slate-900); margin: 0; line-height: 1.15;">
-                Order Received &amp; Dough Tossed
-              </h2>
-              <p id="tracker-stage-desc" style="font-size: 0.88rem; color: var(--text-muted); margin: 0.35rem 0 0;">
-                Dough tossed high, ladled with grandma’s simmered gravy and shredded fresh Grande mozzarella.
-              </p>
+        <!-- Header Strip -->
+        <div class="tracker-header-strip">
+          <div>
+            <div style="display: flex; align-items: center; gap: 0.5rem; margin-bottom: 0.35rem;">
+              <span id="tracker-order-id-label" class="tracker-order-id-badge">
+                <span class="live-dot-red"></span> ORDER #EST-7492
+              </span>
+              <span id="tracker-placed-timestamp" style="font-family: var(--font-mono); font-size: 0.72rem; color: var(--text-muted);">
+                Fired at 07:45 PM
+              </span>
             </div>
-
-            <!-- Big Live Countdown Clock -->
-            <div style="background: var(--slate-900); color: #FFFFFF; border-radius: var(--radius-md); padding: 0.75rem 1.25rem; text-align: center; min-width: 140px; box-shadow: 0 4px 14px rgba(28, 21, 19, 0.25);">
-              <div style="font-family: var(--font-mono); font-size: 0.68rem; color: var(--mozzarella-gold); text-transform: uppercase;">
-                EST. READY IN
-              </div>
-              <div id="tracker-countdown-display" style="font-family: var(--font-mono); font-size: 2rem; font-weight: 900; color: #FFFFFF; line-height: 1.1;">
-                18:00
-              </div>
-            </div>
+            <h2 id="tracker-stage-title-heading" class="tracker-title">
+              Order Ticketed &amp; Dough Tossed
+            </h2>
+            <p id="tracker-stage-description-p" style="font-size: 0.92rem; color: var(--text-body); margin-top: 0.35rem; max-width: 680px;">
+              Hand-stretched cold-fermented sourdough ladled with San Marzano D.O.P. sauce.
+            </p>
           </div>
 
-          <!-- Progress Bar -->
-          <div style="margin-bottom: 1.25rem;">
-            <div style="height: 8px; background: var(--bg-subtle); border-radius: 999px; overflow: hidden; border: 1px solid var(--border-medium);">
-              <div id="tracker-progress-fill" style="height: 100%; width: 10%; background: linear-gradient(90deg, var(--mozzarella-gold), var(--italian-red)); transition: width 0.5s ease;"></div>
+          <!-- Big Digital Countdown Clock -->
+          <div class="tracker-countdown-box">
+            <div style="font-family: var(--font-mono); font-size: 0.7rem; color: var(--mozzarella-yellow); text-transform: uppercase; font-weight: 800; letter-spacing: 0.05em; margin-bottom: 2px;">
+              EST. TIME REMAINING
+            </div>
+            <div id="tracker-countdown-val" class="tracker-countdown-val">
+              18:00
             </div>
           </div>
-
-          <!-- 4-Stage Visual Stepper -->
-          <div class="tracker-stepper">
-            <div id="step-card-1" class="tracker-step-item active">
-              <span class="tracker-step-num">STAGE 01</span>
-              <div style="font-size: 1.2rem; margin: 2px 0;">🥣</div>
-              <div class="tracker-step-title">Dough Tossed</div>
-            </div>
-
-            <div id="step-card-2" class="tracker-step-item">
-              <span class="tracker-step-num">STAGE 02</span>
-              <div style="font-size: 1.2rem; margin: 2px 0;">🔥</div>
-              <div class="tracker-step-title">865°F Stone Oven</div>
-            </div>
-
-            <div id="step-card-3" class="tracker-step-item">
-              <span class="tracker-step-num">STAGE 03</span>
-              <div style="font-size: 1.2rem; margin: 2px 0;">📦</div>
-              <div class="tracker-step-title">Glazed &amp; Boxed</div>
-            </div>
-
-            <div id="step-card-4" class="tracker-step-item">
-              <span class="tracker-step-num">STAGE 04</span>
-              <div style="font-size: 1.2rem; margin: 2px 0;">✨</div>
-              <div class="tracker-step-title">Ready on Shelf</div>
-            </div>
-          </div>
-
-          <!-- Oven Telemetry Details Box -->
-          <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(180px, 1fr)); gap: 0.75rem; background: var(--bg-subtle); border: 1px solid var(--border-medium); border-radius: var(--radius-sm); padding: 0.85rem; font-family: var(--font-mono); font-size: 0.76rem;">
-            <div>
-              <span style="color: var(--text-muted); display: block;">HEARTH DECK:</span>
-              <strong style="color: var(--italian-red);">865°F White Oak Fired</strong>
-            </div>
-            <div>
-              <span style="color: var(--text-muted); display: block;">TARGET READY AT:</span>
-              <strong id="tracker-ready-time-target" style="color: var(--slate-900);">--:-- --</strong>
-            </div>
-            <div>
-              <span style="color: var(--text-muted); display: block;">PICKUP DESTINATION:</span>
-              <strong id="tracker-pickup-loc" style="color: var(--basil-green-dark);">Store Shelf #B-04</strong>
-            </div>
-          </div>
-
         </div>
 
-      </div>
-
-      <!-- RIGHT: Live Order Receipt & Navigation Back to Menu -->
-      <div style="position: sticky; top: 85px;">
-        
-        <div class="order-ticket-panel">
-          
-          <div class="ticket-header">
-            <div style="font-family: var(--font-mono); font-size: 0.68rem; color: var(--text-muted); text-transform: uppercase;">
-              Active Kitchen Slip
-            </div>
-            <h4 class="ticket-title" id="tracker-order-num">
-              EST-4821
-            </h4>
-            <div style="font-family: var(--font-mono); font-size: 0.72rem; color: var(--text-muted); margin-top: 2px;">
-              Fired at: <span id="tracker-placed-time">--:-- --</span>
-            </div>
+        <!-- Full-Width Gradient Progress Track -->
+        <div>
+          <div style="display: flex; justify-content: space-between; font-family: var(--font-mono); font-size: 0.72rem; color: var(--text-muted); font-weight: 700; margin-bottom: 0.4rem; text-transform: uppercase;">
+            <span>Kitchen Pipeline Progress</span>
+            <span style="color: var(--pizza-red);">Real-Time Continuous</span>
           </div>
-
-          <!-- Ordered Items List -->
-          <div id="tracker-order-items-list" style="max-height: 220px; overflow-y: auto; margin-bottom: 0.85rem; padding-right: 4px;">
-            <!-- Rendered dynamically -->
+          <div class="tracker-progress-track">
+            <div id="tracker-progress-bar-fill" class="tracker-progress-bar" style="width: 15%;"></div>
           </div>
-
-          <!-- Total Paid -->
-          <div style="border-top: 1px dashed var(--border-medium); padding-top: 0.65rem; margin-bottom: 1rem; font-family: var(--font-mono); font-size: 0.82rem; display: flex; justify-content: space-between; align-items: center;">
-            <span style="font-family: var(--font-serif); font-size: 1rem; font-weight: 800; color: var(--slate-900);">TOTAL PAID:</span>
-            <span id="tracker-total-cost" style="font-weight: 900; font-size: 1.1rem; color: var(--italian-red);">$0.00</span>
-          </div>
-
-          <!-- Return / Edit Order Button -->
-          <button onclick="window.showMenuSelectionView()" class="btn-slate" style="width: 100%; margin-bottom: 0.5rem; font-size: 0.85rem;">
-            <i class="fa-solid fa-arrow-left"></i> Edit Order / Back to Menu
-          </button>
-
-          <button onclick="window.resetOrder()" class="btn-slate-secondary" style="width: 100%; font-size: 0.82rem; border-color: var(--italian-red-border); color: var(--italian-red-dark);">
-            <i class="fa-solid fa-rotate-left"></i> Place New Order
-          </button>
-
         </div>
 
-      </div>
+        <!-- 4-Stage Kitchen Pipeline Cards -->
+        <div class="kitchen-pipeline-grid">
+          <div id="pipeline-stage-1" class="pipeline-stage-card active">
+            <span class="pipeline-stage-num">Stage 01</span>
+            <div class="pipeline-stage-icon">🥣</div>
+            <h4 class="pipeline-stage-title">Dough Tossed</h4>
+            <p style="font-size: 0.72rem; color: var(--text-muted); margin-top: 2px;">Hand stretched</p>
+          </div>
+
+          <div id="pipeline-stage-2" class="pipeline-stage-card">
+            <span class="pipeline-stage-num">Stage 02</span>
+            <div class="pipeline-stage-icon">🧀</div>
+            <h4 class="pipeline-stage-title">Sauced &amp; Layered</h4>
+            <p style="font-size: 0.72rem; color: var(--text-muted); margin-top: 2px;">San Marzano &amp; Fior di Latte</p>
+          </div>
+
+          <div id="pipeline-stage-3" class="pipeline-stage-card">
+            <span class="pipeline-stage-num">Stage 03</span>
+            <div class="pipeline-stage-icon">🔥</div>
+            <h4 class="pipeline-stage-title">Stone Hearth Bake</h4>
+            <p style="font-size: 0.72rem; color: var(--text-muted); margin-top: 2px;">865°F White Oak</p>
+          </div>
+
+          <div id="pipeline-stage-4" class="pipeline-stage-card">
+            <span class="pipeline-stage-num">Stage 04</span>
+            <div class="pipeline-stage-icon">✨</div>
+            <h4 class="pipeline-stage-title">Ready on Shelf</h4>
+            <p style="font-size: 0.72rem; color: var(--text-muted); margin-top: 2px;">Sliced &amp; Boxed</p>
+          </div>
+        </div>
+
+      </section>
+
+      <!-- Expansive 2-Column Split: Telemetry & Receipt (Takes Full Layout Space) -->
+      <section class="tracker-details-split">
+        
+        <!-- LEFT: Live Kitchen Hearth Telemetry -->
+        <div class="telemetry-panel-box">
+          <div style="display: flex; align-items: center; justify-content: space-between; border-bottom: 1px solid var(--border-light); padding-bottom: 0.75rem; margin-bottom: 1rem;">
+            <div style="display: flex; align-items: center; gap: 0.5rem;">
+              <span style="font-size: 1.2rem;">🪵</span>
+              <h3 style="font-family: var(--font-display); font-size: 1.35rem; font-weight: 800; color: var(--text-dark);">
+                Hearth Deck Telemetry
+              </h3>
+            </div>
+            <span class="badge" style="background: var(--basil-green-light); color: var(--basil-green-dark); font-family: var(--font-mono); font-size: 0.7rem; font-weight: 800; padding: 0.25rem 0.65rem; border-radius: var(--radius-pill);">
+              ONLINE
+            </span>
+          </div>
+
+          <p style="font-size: 0.82rem; color: var(--text-body); line-height: 1.5;">
+            Our stone oven operates with sustainably harvested white oak and sugar maple from upstate New York, maintaining a consistent stone deck temperature for artisanal charring and blistering.
+          </p>
+
+          <div class="telemetry-grid">
+            <div class="telemetry-metric-tile">
+              <span class="telemetry-label">Deck Temperature</span>
+              <span class="telemetry-val" style="color: var(--pizza-red);">865°F Deck</span>
+            </div>
+            <div class="telemetry-metric-tile">
+              <span class="telemetry-label">Target Ready Time</span>
+              <span id="tracker-ready-time-target" class="telemetry-val">08:03 PM</span>
+            </div>
+            <div class="telemetry-metric-tile">
+              <span class="telemetry-label">Pickup Location</span>
+              <span id="tracker-pickup-destination-label" class="telemetry-val" style="color: var(--basil-green-dark);">Store Shelf #B-04</span>
+            </div>
+            <div class="telemetry-metric-tile">
+              <span class="telemetry-label">Dough Ferment</span>
+              <span class="telemetry-val">72h Cold Proof</span>
+            </div>
+          </div>
+
+          <!-- Fast Forward Simulation Control -->
+          <div style="margin-top: 1.25rem; padding-top: 1rem; border-top: 1px solid var(--border-light); display: flex; align-items: center; justify-content: space-between; flex-wrap: wrap; gap: 0.75rem;">
+            <div style="font-size: 0.75rem; color: var(--text-muted); font-family: var(--font-mono);">
+              Simulate kitchen speed boost:
+            </div>
+            <button onclick="window.triggerSpeedBoost()" class="btn-secondary" style="font-size: 0.76rem; padding: 0.35rem 0.85rem;">
+              ⚡ Fast-Forward Step (+4m)
+            </button>
+          </div>
+        </div>
+
+        <!-- RIGHT: Itemized Dispatch Receipt -->
+        <div class="receipt-box">
+          <div style="display: flex; align-items: center; justify-content: space-between; border-bottom: 1px solid var(--border-light); padding-bottom: 0.75rem; margin-bottom: 0.75rem;">
+            <div>
+              <div style="font-family: var(--font-mono); font-size: 0.65rem; color: var(--text-muted); text-transform: uppercase;">
+                Itemized Slip
+              </div>
+              <h3 style="font-family: var(--font-display); font-size: 1.35rem; font-weight: 800; color: var(--text-dark);">
+                Order Breakdown
+              </h3>
+            </div>
+            <button onclick="window.showMenuSelectionView()" class="btn-secondary" style="font-size: 0.72rem; padding: 0.3rem 0.7rem;">
+              <i class="fa-solid fa-plus"></i> Add Items
+            </button>
+          </div>
+
+          <!-- Receipt Items List Container -->
+          <div id="tracker-receipt-items-list" style="margin-bottom: 0.75rem;">
+            <!-- Injected by tracker.js -->
+          </div>
+
+          <!-- Totals Section -->
+          <div class="receipt-totals-section">
+            <div style="display: flex; justify-content: space-between; color: var(--text-muted);">
+              <span>Subtotal:</span>
+              <span id="tracker-subtotal-val">$0.00</span>
+            </div>
+            <div style="display: flex; justify-content: space-between; color: var(--text-muted);">
+              <span>NYC Sales Tax (8.875%):</span>
+              <span id="tracker-tax-val">$0.00</span>
+            </div>
+            <div style="display: flex; justify-content: space-between; color: var(--text-muted);">
+              <span>Pizzaiolo Tip (20%):</span>
+              <span id="tracker-tip-val">$0.00</span>
+            </div>
+            <div class="receipt-total-due">
+              <span>Grand Total:</span>
+              <span id="tracker-grandtotal-val">$0.00</span>
+            </div>
+          </div>
+
+          <!-- Bottom Actions -->
+          <div style="margin-top: 1.25rem; display: flex; flex-direction: column; gap: 0.5rem;">
+            <button onclick="window.showMenuSelectionView()" class="btn-primary" style="width: 100%; justify-content: center;">
+              <i class="fa-solid fa-utensils"></i> Back to Menu App
+            </button>
+            <button onclick="window.resetOrder()" class="btn-secondary" style="width: 100%; justify-content: center; color: var(--pizza-red);">
+              <i class="fa-solid fa-rotate-left"></i> Start Fresh Order
+            </button>
+          </div>
+        </div>
+
+      </section>
 
     </div>
-
   </main>
 
-  <!-- Audio Engine & Tracker Scripts -->
-  <script src="./assets/js/audio.js"></script>
+  <!-- Tracker Engine Script (Zero SFX) -->
   <script src="./assets/js/tracker.js"></script>
 </body>
 </html>

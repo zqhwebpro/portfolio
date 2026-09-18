@@ -169,11 +169,31 @@
             width: 100%;
             height: 100%;
             filter: drop-shadow(0 2px 4px rgba(0, 0, 0, 0.65));
-            transition: transform 0.15s ease;
+            transition: transform 0.18s cubic-bezier(0.34, 1.56, 0.64, 1), filter 0.18s ease;
         }
 
-        .square:hover .chess-piece svg {
-            transform: scale(1.06);
+        /* Turn Highlighting for Active Player's Pieces */
+        .chess-piece.turn-active-piece svg {
+            filter: drop-shadow(0 0 6px rgba(212, 175, 55, 0.85)) drop-shadow(0 3px 5px rgba(0, 0, 0, 0.7));
+            animation: active-piece-pulse 2.8s ease-in-out infinite alternate;
+        }
+
+        .square:hover .chess-piece.turn-active-piece svg {
+            transform: translateY(-3px) scale(1.09);
+            filter: drop-shadow(0 0 12px rgba(243, 229, 171, 1)) drop-shadow(0 5px 9px rgba(0, 0, 0, 0.85));
+        }
+
+        .chess-piece.turn-idle-piece svg {
+            opacity: 0.86;
+        }
+
+        @keyframes active-piece-pulse {
+            0% {
+                filter: drop-shadow(0 0 4px rgba(212, 175, 55, 0.6)) drop-shadow(0 2px 4px rgba(0, 0, 0, 0.7));
+            }
+            100% {
+                filter: drop-shadow(0 0 9px rgba(243, 229, 171, 0.95)) drop-shadow(0 3px 6px rgba(0, 0, 0, 0.8));
+            }
         }
 
         /* Target Overlays */
@@ -337,6 +357,44 @@
             border-color: var(--salon-gold);
             background: #241A13;
         }
+
+        /* Atlas Modal Filter Buttons */
+        .atlas-filter-btn {
+            padding: 4px 10px;
+            border-radius: 6px;
+            font-weight: 600;
+            background: #17100C;
+            border: 1px solid #3E2D22;
+            color: #A89582;
+            transition: all 0.15s ease;
+            cursor: pointer;
+        }
+        .atlas-filter-btn:hover {
+            color: #F5EFE6;
+            border-color: #826344;
+            background: #241A13;
+        }
+        .atlas-filter-btn.active {
+            background: #2B1E17;
+            border-color: #D4AF37;
+            color: #F3E5AB;
+            box-shadow: 0 0 8px rgba(212, 175, 55, 0.25);
+        }
+
+        .custom-scrollbar::-webkit-scrollbar {
+            width: 6px;
+        }
+        .custom-scrollbar::-webkit-scrollbar-track {
+            background: #17100C;
+            border-radius: 4px;
+        }
+        .custom-scrollbar::-webkit-scrollbar-thumb {
+            background: #3E2D22;
+            border-radius: 4px;
+        }
+        .custom-scrollbar::-webkit-scrollbar-thumb:hover {
+            background: #D4AF37;
+        }
     </style>
 </head>
 
@@ -356,7 +414,7 @@
                 </div>
             </div>
 
-            <!-- Top Bar Actions (Order: New Game, Undo, Free Move Mode, Guide - Unified Styles & Hovers) -->
+            <!-- Top Bar Actions (Order: New Game, Undo, Free Mode) -->
             <div class="flex items-center gap-2">
                 <!-- 1. New Game Button -->
                 <button onclick="resetMatch()" class="btn-header" title="Reset match">
@@ -370,16 +428,10 @@
                     <span class="hidden md:inline">Undo</span>
                 </button>
 
-                <!-- 3. Free Move Mode Toggle -->
-                <button id="badMoveToggleBtn" onclick="toggleBadMovesMode()" class="btn-header" title="Toggle Free Move Exploration">
+                <!-- 3. Free Mode Toggle -->
+                <button id="badMoveToggleBtn" onclick="toggleBadMovesMode()" class="btn-header" title="Toggle Free Mode Exploration">
                     <i id="badMoveIcon" class="fa-solid fa-compass text-salon-gold"></i>
-                    <span id="badMoveBtnText" class="hidden sm:inline">Free Move Mode</span>
-                </button>
-
-                <!-- 4. Guide Modal Button -->
-                <button onclick="openGuideModal()" class="btn-header" title="Game Guide & Rules">
-                    <i class="fa-solid fa-scroll text-salon-gold"></i>
-                    <span class="hidden sm:inline">Guide</span>
+                    <span id="badMoveBtnText" class="hidden sm:inline">Free Mode</span>
                 </button>
             </div>
         </div>
@@ -403,7 +455,7 @@
                 <!-- Active Turn Pill -->
                 <div class="flex items-center gap-2">
                     <span id="badMoveBanner" class="hidden text-xs px-2 py-0.5 rounded bg-salon-woodMid text-salon-goldLight border border-salon-gold/40">
-                        ⚔️ Free Exploration Active
+                        ⚔️ Free Mode Active
                     </span>
                     <div id="turnBadge" class="font-bold text-xs px-2.5 py-1 rounded bg-[#17100C] text-salon-parchment border border-salon-border flex items-center gap-1.5">
                         <span id="turnPieceIcon" class="text-salon-gold">♔</span>
@@ -419,14 +471,17 @@
                 </div>
             </div>
 
-            <!-- Under-Board Tools Strip -->
-            <div class="flex items-center justify-between gap-2 text-xs text-[#A89582] px-1">
-                <div class="flex items-center gap-2">
+            <!-- Under-Board Tools Strip (Sound, Flip Board, Atlas of Chess Notations) -->
+            <div class="flex items-center justify-between gap-2 text-xs text-[#A89582] px-1 flex-wrap">
+                <div class="flex items-center gap-2 flex-wrap">
                     <button onclick="toggleSound()" class="btn-header py-1 px-2.5 text-[11px]" title="Toggle Audio">
                         <i id="audioIcon" class="fa-solid fa-volume-high text-salon-gold"></i> Sound: ON
                     </button>
                     <button onclick="flipBoardOrientation()" class="btn-header py-1 px-2.5 text-[11px]" title="Flip Board">
                         <i class="fa-solid fa-arrows-up-down text-salon-gold"></i> Flip Board
+                    </button>
+                    <button onclick="openAtlasModal()" class="btn-header py-1 px-2.5 text-[11px]" title="Atlas of Chess Notations & Grandmaster Jargon">
+                        <i class="fa-solid fa-book-atlas text-salon-gold"></i> Atlas of Chess Notations
                     </button>
                 </div>
 
@@ -534,54 +589,250 @@
 
     </main>
 
-    <!-- EDUCATIONAL GUIDE MODAL -->
-    <div id="guideModal" class="fixed inset-0 bg-black/85 backdrop-blur-sm z-50 hidden flex items-center justify-center p-4">
-        <div class="salon-card max-w-xl w-full border-2 border-salon-gold p-6 space-y-4 max-h-[90vh] overflow-y-auto shadow-2xl">
-            <div class="flex items-center justify-between border-b border-salon-border pb-3">
-                <div class="flex items-center gap-2.5">
-                    <span class="text-2xl text-salon-gold">♚</span>
+    <!-- ATLAS OF CHESS NOTATIONS & JARGON MODAL -->
+    <div id="atlasModal" class="fixed inset-0 bg-black/85 backdrop-blur-md z-50 hidden flex items-center justify-center p-3 sm:p-5">
+        <div class="salon-card max-w-3xl w-full border-2 border-salon-gold p-5 sm:p-6 space-y-4 max-h-[92vh] flex flex-col shadow-2xl overflow-hidden">
+            
+            <!-- Modal Header -->
+            <div class="flex items-center justify-between border-b border-salon-border pb-3.5 flex-shrink-0">
+                <div class="flex items-center gap-3">
+                    <span class="text-2xl text-salon-gold">📖</span>
                     <div>
-                        <h3 class="font-bold text-base text-salon-parchment">Chess Tutora &amp; Calculatus</h3>
-                        <p class="text-xs text-salon-gold">Tactical Chess Engine &amp; Move Concept Guide</p>
+                        <h3 class="font-bold text-base sm:text-lg text-salon-parchment flex items-center gap-2">
+                            Atlas of Chess Notations &amp; Grandmaster Lexicon
+                        </h3>
+                        <p class="text-xs text-salon-gold">The Standard Algebraic Compendium, Tactical Glyphs &amp; Engine Calculus</p>
                     </div>
                 </div>
-                <button onclick="closeGuideModal()" class="text-[#A89582] hover:text-white text-lg p-1">
+                <button onclick="closeAtlasModal()" class="text-[#A89582] hover:text-white text-lg p-1.5 rounded-lg hover:bg-[#2B1E17] transition-all" title="Close Atlas">
                     <i class="fa-solid fa-xmark"></i>
                 </button>
             </div>
 
-            <div class="space-y-3.5 text-sm text-[#E4D8C5] leading-relaxed">
-                <div class="bg-[#17100C] p-3.5 rounded-lg border border-salon-border">
-                    <h4 class="font-bold text-salon-gold mb-1">1. Centipawns &amp; Win Probability</h4>
-                    <p class="text-[#D0C0AE]">
-                        The engine evaluates positional balance in <strong>Centipawns</strong> (100 cp = 1 Pawn). Mathematical probability calculates winning chances: <code>P(Win) = 1 / (1 + 10^(-cp / 400))</code>.
-                    </p>
-                </div>
-
-                <div class="bg-[#17100C] p-3.5 rounded-lg border border-salon-border">
-                    <h4 class="font-bold text-salon-gold mb-1">2. "Free Move Mode" (Sandbox Testing)</h4>
-                    <p class="text-[#D0C0AE]">
-                        Toggle <strong>"Free Move Mode"</strong> in the top bar to freely test irregular or inaccurate moves. The Chess Tutor will immediately diagnose why the move weakens the position or leaves a piece exposed.
-                    </p>
-                </div>
-
-                <div class="bg-[#17100C] p-3.5 rounded-lg border border-salon-border">
-                    <h4 class="font-bold text-salon-gold mb-1">3. Master vs Simple Explanation Modes</h4>
-                    <p class="text-[#D0C0AE]">
-                        Use the <strong>Master / Simple</strong> toggle in the Chess Tutor panel to switch between in-depth grandmaster tactical calculus and simple, beginner-friendly plain English explanations.
-                    </p>
-                </div>
-
-                <div class="bg-[#17100C] p-3.5 rounded-lg border border-salon-border">
-                    <h4 class="font-bold text-salon-gold mb-1">4. Match Modes &amp; Controls</h4>
-                    <p class="text-[#D0C0AE]">
-                        Play <strong>Player vs AI</strong>, watch an automated <strong>AI vs AI</strong> duel, or play <strong>Player vs Player</strong> with a friend. Press <kbd class="px-1 py-0.5 bg-[#2B1E17] border border-salon-border rounded font-mono text-salon-gold">Z</kbd> anytime to Undo.
-                    </p>
-                </div>
+            <!-- Quick Filter Bar -->
+            <div class="flex items-center gap-1.5 flex-wrap flex-shrink-0 pb-1 text-xs">
+                <button onclick="filterAtlas('all')" id="atlasBtn-all" class="atlas-filter-btn active">All Entries</button>
+                <button onclick="filterAtlas('san')" id="atlasBtn-san" class="atlas-filter-btn">Algebraic Notation (SAN)</button>
+                <button onclick="filterAtlas('glyphs')" id="atlasBtn-glyphs" class="atlas-filter-btn">Annotation Glyphs (NAG)</button>
+                <button onclick="filterAtlas('tactics')" id="atlasBtn-tactics" class="atlas-filter-btn">Master Jargon &amp; Concepts</button>
+                <button onclick="filterAtlas('calculus')" id="atlasBtn-calculus" class="atlas-filter-btn">Engine Calculus</button>
             </div>
 
-            <div class="flex justify-end pt-2 border-t border-salon-border">
-                <button onclick="closeGuideModal()" class="btn-header text-xs">Start Playing</button>
+            <!-- Scrollable Content Body -->
+            <div class="space-y-4 text-xs sm:text-sm text-[#E4D8C5] leading-relaxed overflow-y-auto pr-1 flex-1 custom-scrollbar">
+
+                <!-- 1. ALGEBRAIC NOTATION (SAN) -->
+                <div class="atlas-section" data-category="san">
+                    <div class="flex items-center gap-2 text-salon-gold font-bold text-xs uppercase tracking-wider mb-2">
+                        <i class="fa-solid fa-chess-board"></i> 1. Standard Algebraic Notation (SAN)
+                    </div>
+                    <div class="grid grid-cols-1 sm:grid-cols-2 gap-2">
+                        <div class="bg-[#17100C] p-2.5 rounded-lg border border-salon-border flex items-start gap-2.5">
+                            <span class="font-mono font-bold text-salon-gold text-sm bg-[#241913] px-2 py-0.5 rounded border border-salon-border">K, Q, R, B, N</span>
+                            <div>
+                                <strong class="text-salon-parchment block text-xs">Piece Identifiers</strong>
+                                <span class="text-[12.5px] text-[#C5B39E]">King (K), Queen (Q), Rook (R), Bishop (B), Knight (N). Pawns carry no prefix letter (e.g. <code>e4</code>, <code>d5</code>).</span>
+                            </div>
+                        </div>
+
+                        <div class="bg-[#17100C] p-2.5 rounded-lg border border-salon-border flex items-start gap-2.5">
+                            <span class="font-mono font-bold text-salon-gold text-sm bg-[#241913] px-2 py-0.5 rounded border border-salon-border">x</span>
+                            <div>
+                                <strong class="text-salon-parchment block text-xs">Capture Symbol</strong>
+                                <span class="text-[12.5px] text-[#C5B39E]">Indicates a capture. Pawn captures include origin file: <code>exd5</code>; piece captures: <code>Nxf7</code>, <code>Qxd4</code>.</span>
+                            </div>
+                        </div>
+
+                        <div class="bg-[#17100C] p-2.5 rounded-lg border border-salon-border flex items-start gap-2.5">
+                            <span class="font-mono font-bold text-salon-gold text-sm bg-[#241913] px-2 py-0.5 rounded border border-salon-border">O-O / O-O-O</span>
+                            <div>
+                                <strong class="text-salon-parchment block text-xs">Castling Notation</strong>
+                                <span class="text-[12.5px] text-[#C5B39E]"><code>O-O</code> = Kingside Castle (short); <code>O-O-O</code> = Queenside Castle (long). Moves King 2 squares toward Rook.</span>
+                            </div>
+                        </div>
+
+                        <div class="bg-[#17100C] p-2.5 rounded-lg border border-salon-border flex items-start gap-2.5">
+                            <span class="font-mono font-bold text-salon-gold text-sm bg-[#241913] px-2 py-0.5 rounded border border-salon-border">e.p.</span>
+                            <div>
+                                <strong class="text-salon-parchment block text-xs">En Passant ("In Passing")</strong>
+                                <span class="text-[12.5px] text-[#C5B39E]">Capturing an opposing pawn that advanced 2 squares on the immediately preceding turn as if it had only moved 1.</span>
+                            </div>
+                        </div>
+
+                        <div class="bg-[#17100C] p-2.5 rounded-lg border border-salon-border flex items-start gap-2.5">
+                            <span class="font-mono font-bold text-salon-gold text-sm bg-[#241913] px-2 py-0.5 rounded border border-salon-border">=Q / =N</span>
+                            <div>
+                                <strong class="text-salon-parchment block text-xs">Pawn Promotion</strong>
+                                <span class="text-[12.5px] text-[#C5B39E]">Appended when a pawn reaches the 8th rank: <code>e8=Q</code>, <code>a8=N</code> (underpromotion).</span>
+                            </div>
+                        </div>
+
+                        <div class="bg-[#17100C] p-2.5 rounded-lg border border-salon-border flex items-start gap-2.5">
+                            <span class="font-mono font-bold text-salon-gold text-sm bg-[#241913] px-2 py-0.5 rounded border border-salon-border">+, ++, #</span>
+                            <div>
+                                <strong class="text-salon-parchment block text-xs">Check, Double Check &amp; Mate</strong>
+                                <span class="text-[12.5px] text-[#C5B39E]"><code>+</code> = Check, <code>++</code> = Double Check (two pieces attacking simultaneously), <code>#</code> = Checkmate (decisive victory).</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- 2. MOVE EVALUATION GLYPHS -->
+                <div class="atlas-section" data-category="glyphs">
+                    <div class="flex items-center gap-2 text-salon-gold font-bold text-xs uppercase tracking-wider mb-2">
+                        <i class="fa-solid fa-square-poll-vertical"></i> 2. Move Evaluation &amp; Annotation Glyphs (NAG)
+                    </div>
+                    <div class="grid grid-cols-2 sm:grid-cols-4 gap-2">
+                        <div class="bg-[#17100C] p-2 rounded border border-salon-border text-center">
+                            <span class="font-mono font-bold text-emerald-400 text-base block">!</span>
+                            <strong class="text-xs text-salon-parchment">Good Move</strong>
+                            <p class="text-[11px] text-[#A89582]">Accurate tactical continuation</p>
+                        </div>
+                        <div class="bg-[#17100C] p-2 rounded border border-salon-border text-center">
+                            <span class="font-mono font-bold text-amber-300 text-base block">!!</span>
+                            <strong class="text-xs text-salon-parchment">Brilliant</strong>
+                            <p class="text-[11px] text-[#A89582]">Profound sacrifice / masterstroke</p>
+                        </div>
+                        <div class="bg-[#17100C] p-2 rounded border border-salon-border text-center">
+                            <span class="font-mono font-bold text-amber-400 text-base block">?!</span>
+                            <strong class="text-xs text-salon-parchment">Dubious</strong>
+                            <p class="text-[11px] text-[#A89582]">Questionable move</p>
+                        </div>
+                        <div class="bg-[#17100C] p-2 rounded border border-salon-border text-center">
+                            <span class="font-mono font-bold text-rose-400 text-base block">??</span>
+                            <strong class="text-xs text-salon-parchment">Blunder</strong>
+                            <p class="text-[11px] text-[#A89582]">Severe concession of material</p>
+                        </div>
+                        <div class="bg-[#17100C] p-2 rounded border border-salon-border text-center">
+                            <span class="font-mono font-bold text-sky-300 text-base block">!?</span>
+                            <strong class="text-xs text-salon-parchment">Interesting</strong>
+                            <p class="text-[11px] text-[#A89582]">Double-edged complications</p>
+                        </div>
+                        <div class="bg-[#17100C] p-2 rounded border border-salon-border text-center">
+                            <span class="font-mono font-bold text-salon-gold text-base block">□</span>
+                            <strong class="text-xs text-salon-parchment">Only Move</strong>
+                            <p class="text-[11px] text-[#A89582]">Sole legal/surviving continuation</p>
+                        </div>
+                        <div class="bg-[#17100C] p-2 rounded border border-salon-border text-center">
+                            <span class="font-mono font-bold text-salon-gold text-base block">± / ∓</span>
+                            <strong class="text-xs text-salon-parchment">Clear + / −</strong>
+                            <p class="text-[11px] text-[#A89582]">Noticeable advantage for White / Black</p>
+                        </div>
+                        <div class="bg-[#17100C] p-2 rounded border border-salon-border text-center">
+                            <span class="font-mono font-bold text-salon-gold text-base block">+- / -+</span>
+                            <strong class="text-xs text-salon-parchment">Decisive + / −</strong>
+                            <p class="text-[11px] text-[#A89582]">Winning advantage for White / Black</p>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- 3. MASTER JARGON & TACTICAL CONCEPTS -->
+                <div class="atlas-section" data-category="tactics">
+                    <div class="flex items-center gap-2 text-salon-gold font-bold text-xs uppercase tracking-wider mb-2">
+                        <i class="fa-solid fa-brain"></i> 3. Master Jargon &amp; Tactical Lexicon
+                    </div>
+                    <div class="space-y-2">
+                        <div class="bg-[#17100C] p-3 rounded-lg border border-salon-border">
+                            <h5 class="font-bold text-salon-gold text-xs mb-1 flex items-center justify-between">
+                                <span>Tempo (Plural: Tempi)</span>
+                                <span class="font-mono text-[11px] text-[#A89582]">Time &amp; Initiative</span>
+                            </h5>
+                            <p class="text-[12.5px] text-[#D0C0AE]">
+                                The basic unit of time in chess, equivalent to one turn. Winning a tempo means forcing the opponent to make a defensive reaction, allowing you to advance your tactical development ahead of schedule.
+                            </p>
+                        </div>
+
+                        <div class="bg-[#17100C] p-3 rounded-lg border border-salon-border">
+                            <h5 class="font-bold text-salon-gold text-xs mb-1 flex items-center justify-between">
+                                <span>Fianchetto</span>
+                                <span class="font-mono text-[11px] text-[#A89582]">Italian: "On the Flank"</span>
+                            </h5>
+                            <p class="text-[12.5px] text-[#D0C0AE]">
+                                Developing a Bishop to <code>b2</code>, <code>g2</code>, <code>b7</code>, or <code>g7</code> behind a pawn advance (b3/g3/b6/g6), granting the Bishop sweeping long-range control across the primary central diagonal.
+                            </p>
+                        </div>
+
+                        <div class="bg-[#17100C] p-3 rounded-lg border border-salon-border">
+                            <h5 class="font-bold text-salon-gold text-xs mb-1 flex items-center justify-between">
+                                <span>Pin (Absolute vs Relative)</span>
+                                <span class="font-mono text-[11px] text-[#A89582]">Tactical Immobilization</span>
+                            </h5>
+                            <p class="text-[12.5px] text-[#D0C0AE]">
+                                An attack on a piece that cannot move without exposing a more valuable piece behind it. An <strong>Absolute Pin</strong> shields the King (illegal to move). A <strong>Relative Pin</strong> shields a Queen or Rook (legal but catastrophic).
+                            </p>
+                        </div>
+
+                        <div class="bg-[#17100C] p-3 rounded-lg border border-salon-border">
+                            <h5 class="font-bold text-salon-gold text-xs mb-1 flex items-center justify-between">
+                                <span>Fork &amp; Skewer</span>
+                                <span class="font-mono text-[11px] text-[#A89582]">Multi-Ray Geometry</span>
+                            </h5>
+                            <p class="text-[12.5px] text-[#D0C0AE]">
+                                <strong>Fork:</strong> A single piece (especially a Knight or Pawn) attacks two or more enemy pieces simultaneously. <strong>Skewer:</strong> A ray attack through a high-value piece, forcing it to retreat and surrendering the piece behind it.
+                            </p>
+                        </div>
+
+                        <div class="bg-[#17100C] p-3 rounded-lg border border-salon-border">
+                            <h5 class="font-bold text-salon-gold text-xs mb-1 flex items-center justify-between">
+                                <span>Zugzwang &amp; Zwischenzug (Intermezzo)</span>
+                                <span class="font-mono text-[11px] text-[#A89582]">German Master Terms</span>
+                            </h5>
+                            <p class="text-[12.5px] text-[#D0C0AE]">
+                                <strong>Zugzwang:</strong> A position where any move worsens the player's situation; if passing were permitted, they would pass. <strong>Zwischenzug:</strong> An intermediate, unexpected counter-move (check or capture) played before an expected recapture.
+                            </p>
+                        </div>
+
+                        <div class="bg-[#17100C] p-3 rounded-lg border border-salon-border">
+                            <h5 class="font-bold text-salon-gold text-xs mb-1 flex items-center justify-between">
+                                <span>Luft &amp; King Safety</span>
+                                <span class="font-mono text-[11px] text-[#A89582]">Escape Corridor</span>
+                            </h5>
+                            <p class="text-[12.5px] text-[#D0C0AE]">
+                                German for "air/breath". Moving a pawn in front of a castled King (e.g. <code>h3</code> or <code>h6</code>) to create a flight square, preventing back-rank checkmates.
+                            </p>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- 4. ENGINE CALCULUS & METRICS -->
+                <div class="atlas-section" data-category="calculus">
+                    <div class="flex items-center gap-2 text-salon-gold font-bold text-xs uppercase tracking-wider mb-2">
+                        <i class="fa-solid fa-calculator"></i> 4. Evaluation Calculus &amp; Probability
+                    </div>
+                    <div class="space-y-2">
+                        <div class="bg-[#17100C] p-3 rounded-lg border border-salon-border">
+                            <h5 class="font-bold text-salon-gold text-xs mb-1">Centipawns (cp) Valuation</h5>
+                            <p class="text-[12.5px] text-[#D0C0AE]">
+                                The standard engine metric for positional balance. <code>100 cp = 1 Pawn</code>. Piece values: Pawn = 100 cp, Knight = 320 cp, Bishop = 335 cp, Rook = 500 cp, Queen = 900 cp, King = 20,000 cp.
+                            </p>
+                        </div>
+
+                        <div class="bg-[#17100C] p-3 rounded-lg border border-salon-border">
+                            <h5 class="font-bold text-salon-gold text-xs mb-1">Logistic Win Probability Formula</h5>
+                            <p class="text-[12.5px] text-[#D0C0AE]">
+                                Winning chances are mathematically computed in real-time via:
+                                <code class="block my-1.5 p-1.5 bg-[#221813] rounded text-salon-gold font-mono text-[11px] text-center border border-salon-border">
+                                    P(Win) = 1 / (1 + 10^(-cp / 400))
+                                </code>
+                                An advantage of +4.00 cp (+400 cp) yields an ~90.9% winning probability for White.
+                            </p>
+                        </div>
+
+                        <div class="bg-[#17100C] p-3 rounded-lg border border-salon-border">
+                            <h5 class="font-bold text-salon-gold text-xs mb-1">Free Mode Exploration</h5>
+                            <p class="text-[12.5px] text-[#D0C0AE]">
+                                Toggling <strong>Free Mode</strong> in the top bar allows you to freely execute any move on the board to test unorthodox tactics, blunders, or defensive setups with live diagnosis from the Move Tutor.
+                            </p>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+
+            <!-- Modal Footer -->
+            <div class="flex items-center justify-between pt-3 border-t border-salon-border flex-shrink-0">
+                <span class="text-[11px] text-[#A89582] italic">Press <kbd class="px-1.5 py-0.5 bg-[#17100C] border border-salon-border rounded font-mono text-salon-gold">ESC</kbd> to close</span>
+                <button onclick="closeAtlasModal()" class="btn-header text-xs">Return to Game</button>
             </div>
         </div>
     </div>
@@ -1265,12 +1516,12 @@
                 btn.classList.add('border-salon-gold', 'bg-[#38271E]');
                 icon.className = 'fa-solid fa-compass text-salon-gold animate-spin';
                 banner.classList.remove('hidden');
-                triggerToast('Free Move Mode Activated: Test inaccurate or custom moves');
+                triggerToast('Free Mode Activated: Test inaccurate or custom moves');
             } else {
                 btn.classList.remove('border-salon-gold', 'bg-[#38271E]');
                 icon.className = 'fa-solid fa-compass text-salon-gold';
                 banner.classList.add('hidden');
-                triggerToast('Free Move Mode Deactivated: Standard chess rules active');
+                triggerToast('Free Mode Deactivated: Standard chess rules active');
             }
             renderBoard();
         }
@@ -1360,10 +1611,11 @@
                         squareDiv.classList.add('bad-mode-target');
                     }
 
-                    // Piece Element
+                    // Piece Element with Turn Highlighting
                     if (piece) {
+                        const isCurrentTurn = piece[0] === game.turn && !game.gameResult;
                         const pieceDiv = document.createElement('div');
-                        pieceDiv.className = 'chess-piece';
+                        pieceDiv.className = `chess-piece ${isCurrentTurn ? 'turn-active-piece' : 'turn-idle-piece'}`;
                         pieceDiv.innerHTML = PIECE_SVGS[piece] || '';
                         squareDiv.appendChild(pieceDiv);
                     }
@@ -1836,12 +2088,32 @@
             }
         }
 
-        function openGuideModal() {
-            document.getElementById('guideModal').classList.remove('hidden');
+        function openAtlasModal() {
+            document.getElementById('atlasModal').classList.remove('hidden');
         }
 
-        function closeGuideModal() {
-            document.getElementById('guideModal').classList.add('hidden');
+        function closeAtlasModal() {
+            document.getElementById('atlasModal').classList.add('hidden');
+        }
+
+        function openGuideModal() { openAtlasModal(); }
+        function closeGuideModal() { closeAtlasModal(); }
+
+        function filterAtlas(category) {
+            const btnIds = ['all', 'san', 'glyphs', 'tactics', 'calculus'];
+            btnIds.forEach(id => {
+                const btn = document.getElementById(`atlasBtn-${id}`);
+                if (btn) btn.classList.toggle('active', id === category);
+            });
+
+            const sections = document.querySelectorAll('.atlas-section');
+            sections.forEach(sec => {
+                if (category === 'all' || sec.dataset.category === category) {
+                    sec.style.display = 'block';
+                } else {
+                    sec.style.display = 'none';
+                }
+            });
         }
 
         function triggerToast(text) {
@@ -1865,7 +2137,7 @@
                 if (!e.ctrlKey && !e.metaKey) undoMove();
             }
             if (e.key === 'Escape') {
-                closeGuideModal();
+                closeAtlasModal();
                 document.getElementById('promotionModal').classList.add('hidden');
             }
         });

@@ -28,7 +28,7 @@
 
 body {
   background: linear-gradient(180deg, #180A2E 0%, #290F54 35%, #1F0A38 70%, #120524 100%);
-  font-family: 'Plus Jakarta Sans', system-ui, -apple-system, sans-serif;
+  font-family: 'Inter', system-ui, -apple-system, sans-serif;
   color: #F8FAFC;
   min-height: 100vh;
   display: flex;
@@ -44,7 +44,7 @@ body {
 }
 
 .brand-sparkle {
-  font-family: 'Fredoka', 'Syne', sans-serif;
+  font-family: 'Outfit', 'Inter', sans-serif;
   font-weight: 900;
   letter-spacing: -0.02em;
   font-size: 1.55rem;
