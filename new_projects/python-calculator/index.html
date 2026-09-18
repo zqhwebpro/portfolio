@@ -163,9 +163,20 @@
         }
 
         .square.selected {
-            background: rgba(212, 175, 55, 0.35) !important;
-            box-shadow: inset 0 0 0 2.5px #D4AF37, 0 0 14px rgba(212, 175, 55, 0.35) !important;
-            border-radius: 2px;
+            background: radial-gradient(circle at 50% 50%, rgba(212, 175, 55, 0.45) 0%, rgba(212, 175, 55, 0.22) 100%) !important;
+            box-shadow: inset 0 0 0 2.5px #D4AF37, 0 0 16px rgba(212, 175, 55, 0.55), inset 0 0 14px rgba(212, 175, 55, 0.3) !important;
+            border-radius: 4px;
+            animation: active-selected-pulse 1.8s infinite ease-in-out;
+            z-index: 5;
+        }
+
+        @keyframes active-selected-pulse {
+            0%, 100% {
+                box-shadow: inset 0 0 0 2.5px #D4AF37, 0 0 14px rgba(212, 175, 55, 0.5), inset 0 0 12px rgba(212, 175, 55, 0.25);
+            }
+            50% {
+                box-shadow: inset 0 0 0 2.5px #F3E5AB, 0 0 22px rgba(212, 175, 55, 0.75), inset 0 0 18px rgba(212, 175, 55, 0.45);
+            }
         }
 
         .square.last-move {
@@ -190,24 +201,26 @@
             100% { background: #4D0E16; }
         }
 
-        /* Active Turn Square Highlighting: Transparent Gold Box with Opaque Gold Trim (No Dark Circles) */
+        /* Active Turn Square Highlighting: Matching Destination Highlights Aesthetic */
         .square.turn-active-square {
-            box-shadow: inset 0 0 0 2px #D4AF37 !important;
             position: relative;
-            border-radius: 2px;
+            border-radius: 4px;
+            transition: all 0.2s ease;
         }
 
         .square.turn-active-square.light {
-            background: rgba(212, 175, 55, 0.24) !important;
+            background: radial-gradient(circle at 50% 50%, rgba(212, 175, 55, 0.28) 0%, rgba(212, 175, 55, 0.14) 100%) !important;
+            box-shadow: inset 0 0 0 2px rgba(212, 175, 55, 0.85), 0 0 8px rgba(212, 175, 55, 0.2) !important;
         }
 
         .square.turn-active-square.dark {
-            background: rgba(212, 175, 55, 0.20) !important;
+            background: radial-gradient(circle at 50% 50%, rgba(212, 175, 55, 0.25) 0%, rgba(212, 175, 55, 0.12) 100%) !important;
+            box-shadow: inset 0 0 0 2px rgba(212, 175, 55, 0.85), 0 0 8px rgba(212, 175, 55, 0.2) !important;
         }
 
         .square.turn-active-square:hover {
-            box-shadow: inset 0 0 0 2.5px #F3E5AB, inset 0 0 16px rgba(212, 175, 55, 0.45) !important;
-            background: rgba(212, 175, 55, 0.35) !important;
+            box-shadow: inset 0 0 0 2.5px #F3E5AB, 0 0 16px rgba(212, 175, 55, 0.6), inset 0 0 16px rgba(212, 175, 55, 0.4) !important;
+            background: radial-gradient(circle at 50% 50%, rgba(212, 175, 55, 0.42) 0%, rgba(212, 175, 55, 0.26) 100%) !important;
         }
 
         /* Tactile Paper Cut-Out Chess Pieces with Mouse Hover Elevation */
@@ -250,7 +263,7 @@
             filter: drop-shadow(0.5px 1px 1px rgba(18, 42, 78, 0.22));
         }
 
-        /* Target Overlays: Transparent Gold Box with Opaque Gold Trim */
+        /* Target Overlays: Transparent Gold Box with Opaque Gold Trim & Radial Glow */
         .target-overlay {
             position: absolute;
             inset: 0;
@@ -265,9 +278,9 @@
             width: 28px;
             height: 28px;
             border-radius: 4px;
-            background: rgba(212, 175, 55, 0.26);
+            background: radial-gradient(circle at 50% 50%, rgba(243, 229, 171, 0.35) 0%, rgba(212, 175, 55, 0.24) 100%);
             border: 2px solid #D4AF37;
-            box-shadow: 0 0 10px rgba(212, 175, 55, 0.35);
+            box-shadow: 0 0 12px rgba(212, 175, 55, 0.45), inset 0 0 6px rgba(212, 175, 55, 0.3);
         }
 
         .target-ring.capture {
@@ -275,11 +288,11 @@
             height: calc(100% - 6px);
             border-radius: 4px;
             border: 2.5px solid #D4AF37;
-            background: rgba(212, 175, 55, 0.25);
-            box-shadow: inset 0 0 12px rgba(212, 175, 55, 0.4);
+            background: radial-gradient(circle at 50% 50%, rgba(212, 175, 55, 0.35) 0%, rgba(212, 175, 55, 0.20) 100%);
+            box-shadow: inset 0 0 14px rgba(212, 175, 55, 0.45), 0 0 12px rgba(212, 175, 55, 0.35);
         }
 
-        /* In-flight Animated Piece Moving in Lines Over Time */
+        /* In-flight Animated Piece Walking Along Directional Path */
         .chess-piece-transit {
             position: absolute;
             pointer-events: none;
@@ -289,14 +302,31 @@
             justify-content: center;
             transform-origin: center center;
             will-change: transform;
-            transition: transform 0.28s cubic-bezier(0.25, 1, 0.5, 1);
         }
 
         .chess-piece-transit svg {
             width: 86%;
             height: 86%;
             filter: drop-shadow(0 10px 14px rgba(18, 42, 78, 0.45)) drop-shadow(0 3px 5px rgba(10, 26, 54, 0.3));
-            transform: scale(1.1);
+            transform: scale(1.12);
+        }
+
+        /* Party Mode Button Active Glow */
+        .btn-party-active {
+            background: linear-gradient(135deg, #7A1C68 0%, #3B1B54 100%) !important;
+            border-color: #FFB4EC !important;
+            color: #FFF2FA !important;
+            box-shadow: 0 0 14px rgba(235, 100, 210, 0.55), inset 0 0 8px rgba(255, 180, 236, 0.3) !important;
+            animation: party-btn-glow 2s infinite ease-in-out alternate;
+        }
+
+        @keyframes party-btn-glow {
+            0% {
+                box-shadow: 0 0 10px rgba(235, 100, 210, 0.4), inset 0 0 6px rgba(255, 180, 236, 0.2);
+            }
+            100% {
+                box-shadow: 0 0 20px rgba(245, 130, 220, 0.8), inset 0 0 12px rgba(255, 200, 240, 0.5);
+            }
         }
 
         .pct-badge {
@@ -578,7 +608,7 @@
                 </div>
             </div>
 
-            <!-- Under-Board Tools Strip (Sound, Flip Board, Atlas) -->
+            <!-- Under-Board Tools Strip (Sound, Flip Board, Atlas, Party Mode!) -->
             <div class="flex items-center justify-between gap-2 text-xs text-[#A89582] px-1 flex-wrap">
                 <div class="flex items-center gap-2 flex-wrap">
                     <button onclick="toggleSound()" class="btn-header py-1 px-2.5 text-[11px]" title="Toggle Audio">
@@ -590,10 +620,37 @@
                     <button onclick="openAtlasModal()" class="btn-header py-1 px-2.5 text-[11px]" title="Atlas">
                         <i class="fa-solid fa-book-atlas text-salon-gold"></i> Atlas
                     </button>
+                    <button id="partyModeBtn" onclick="togglePartyMode()" class="btn-header py-1 px-2.5 text-[11px]" title="Party Mode: Randomizes move sets for all piece types!">
+                        <i class="fa-solid fa-wand-magic-sparkles text-salon-gold"></i> Party Mode!
+                    </button>
                 </div>
 
                 <div class="text-[12px] text-[#C5B39E] italic">
                     Press <kbd class="px-1 py-0.5 bg-[#17100C] border border-salon-border rounded font-mono text-salon-gold text-xs">Z</kbd> to Undo
+                </div>
+            </div>
+
+            <!-- Party Mode Active Info Banner (Shown when Party Mode is toggled on) -->
+            <div id="partyModeBanner" class="salon-card p-3 border-[#732E5E] bg-[#1E0F1A] space-y-2.5 hidden">
+                <div class="flex items-center justify-between flex-wrap gap-2">
+                    <div class="flex items-center gap-2">
+                        <span class="text-base">🎉</span>
+                        <div>
+                            <div class="font-bold text-xs sm:text-sm text-[#F8C8EB]">Party Mode Active!</div>
+                            <div class="text-[11px] text-[#D8B4D0]">All identical piece types share the same custom move set.</div>
+                        </div>
+                    </div>
+                    <div class="flex items-center gap-2">
+                        <button onclick="rerollPartyMode()" class="btn-header py-1 px-2.5 text-[11px] bg-[#34172C] border-[#8A3A73] text-[#FFE6F7] hover:border-[#FFB4EC]" title="Re-roll randomized piece rules">
+                            <i class="fa-solid fa-dice text-[#FFB4EC]"></i> Re-Roll 🎲
+                        </button>
+                        <button onclick="togglePartyMode()" class="btn-header py-1 px-2.5 text-[11px] bg-[#22101E] border-[#5A254B] text-[#D8B4D0]" title="Turn off Party Mode">
+                            <i class="fa-solid fa-xmark"></i> Standard Rules
+                        </button>
+                    </div>
+                </div>
+                <div id="partyRulesGrid" class="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-6 gap-1.5 text-[11px]">
+                    <!-- Dynamically populated piece mutation cards -->
                 </div>
             </div>
 
@@ -1200,6 +1257,21 @@
             }
 
             isSquareAttacked(r, c, attackerColor) {
+                if (typeof partyMode !== 'undefined' && partyMode && partyMoveRules) {
+                    for (let ar = 0; ar < 8; ar++) {
+                        for (let ac = 0; ac < 8; ac++) {
+                            const attPiece = this.board[ar][ac];
+                            if (attPiece && attPiece[0] === attackerColor) {
+                                const attMoves = this.getPseudoMoves(ar, ac, true);
+                                if (attMoves.some(m => m.r === r && m.c === c)) {
+                                    return true;
+                                }
+                            }
+                        }
+                    }
+                    return false;
+                }
+
                 // Pawn attacks
                 const pawnDir = attackerColor === 'w' ? 1 : -1;
                 const pawnR = r + pawnDir;
@@ -1267,11 +1339,16 @@
                 return this.isSquareAttacked(kingPos.r, kingPos.c, enemy);
             }
 
-            getPseudoMoves(r, c) {
+            getPseudoMoves(r, c, attackOnly = false) {
                 const piece = this.board[r][c];
                 if (!piece) return [];
                 const color = piece[0];
                 const type = piece[1];
+
+                if (typeof partyMode !== 'undefined' && partyMode && partyMoveRules && partyMoveRules[type]) {
+                    return getPartyPseudoMovesForPiece(this, r, c, piece, partyMoveRules[type], attackOnly);
+                }
+
                 const moves = [];
 
                 if (type === 'P') {
@@ -1593,6 +1670,413 @@
                 };
             }
         }
+
+        /**
+         * =========================================================================
+         * PARTY MODE: FAIRY CHESS MUTATED MOVE ARCHETYPES & GENERATOR
+         * =========================================================================
+         */
+        const PARTY_ARCHETYPES_BY_PIECE = {
+            'P': [
+                {
+                    id: 'berolina',
+                    name: 'Berolina Pawn',
+                    desc: 'Steps 1-2 diagonally forward, captures 1 square straight forward',
+                    icon: 'fa-chess-pawn',
+                    pawnType: 'berolina'
+                },
+                {
+                    id: 'super_pawn',
+                    name: 'Super Pawn',
+                    desc: 'Steps 1-2 straight forward, captures diagonally or sideways',
+                    icon: 'fa-shield-halved',
+                    pawnType: 'super_pawn'
+                },
+                {
+                    id: 'side_striker',
+                    name: 'Side-Striker Pawn',
+                    desc: 'Steps forward or sideways 1 square, captures diagonally forward',
+                    icon: 'fa-arrows-left-right',
+                    pawnType: 'side_striker'
+                },
+                {
+                    id: 'vanguard',
+                    name: 'Vanguard Pawn',
+                    desc: 'Steps forward 1, captures straight forward or diagonally forward',
+                    icon: 'fa-forward',
+                    pawnType: 'vanguard'
+                }
+            ],
+            'N': [
+                {
+                    id: 'zebra',
+                    name: 'Zebra Leaper',
+                    desc: 'Wide (3,2) and (2,3) circular jumps over pieces',
+                    icon: 'fa-horse-head',
+                    leaps: [[-3, -2], [-3, 2], [3, -2], [3, 2], [-2, -3], [-2, 3], [2, -3], [2, 3]]
+                },
+                {
+                    id: 'camel',
+                    name: 'Camel Leaper',
+                    desc: 'Long (3,1) and (1,3) long-range leaps over pieces',
+                    icon: 'fa-shoe-prints',
+                    leaps: [[-3, -1], [-3, 1], [3, -1], [3, 1], [-1, -3], [-1, 3], [1, -3], [1, 3]]
+                },
+                {
+                    id: 'centaur',
+                    name: 'Centaur',
+                    desc: 'Classical Knight (2,1) leaps + 1-step King in all 8 directions',
+                    icon: 'fa-paw',
+                    leaps: [
+                        [-2, -1], [-2, 1], [-1, -2], [-1, 2], [1, -2], [1, 2], [2, -1], [2, 1],
+                        [-1, -1], [-1, 0], [-1, 1], [0, -1], [0, 1], [1, -1], [1, 0], [1, 1]
+                    ]
+                },
+                {
+                    id: 'champion',
+                    name: 'Champion Leaper',
+                    desc: '2-step diagonal jumps + 2-step orthogonal jumps + 1-step cardinal',
+                    icon: 'fa-crown',
+                    leaps: [
+                        [-2, -2], [-2, 2], [2, -2], [2, 2],
+                        [-2, 0], [2, 0], [0, -2], [0, 2],
+                        [-1, 0], [1, 0], [0, -1], [0, 1]
+                    ]
+                }
+            ],
+            'B': [
+                {
+                    id: 'archbishop',
+                    name: 'Archbishop',
+                    desc: 'Full diagonal slides + Knight (2,1) leaps',
+                    icon: 'fa-church',
+                    slides: [[-1, -1], [-1, 1], [1, -1], [1, 1]],
+                    slideMaxDist: 7,
+                    leaps: [[-2, -1], [-2, 1], [-1, -2], [-1, 2], [1, -2], [1, 2], [2, -1], [2, 1]]
+                },
+                {
+                    id: 'grand_inquisitor',
+                    name: 'Grand Inquisitor',
+                    desc: 'Full diagonal slides + 1-step orthogonal steps',
+                    icon: 'fa-eye',
+                    slides: [[-1, -1], [-1, 1], [1, -1], [1, 1]],
+                    slideMaxDist: 7,
+                    leaps: [[-1, 0], [1, 0], [0, -1], [0, 1]]
+                },
+                {
+                    id: 'tripper_phoenix',
+                    name: 'Tripper & Phoenix',
+                    desc: '2-step and 3-step diagonal jumping leaps over pieces + 1-step diagonal',
+                    icon: 'fa-fire-flame-curved',
+                    leaps: [
+                        [-3, -3], [-3, 3], [3, -3], [3, 3],
+                        [-2, -2], [-2, 2], [2, -2], [2, 2],
+                        [-1, -1], [-1, 1], [1, -1], [1, 1]
+                    ]
+                },
+                {
+                    id: 'dragon_bishop',
+                    name: 'Dragon Bishop',
+                    desc: 'Diagonal slides up to 4 squares + 2-step orthogonal jumps',
+                    icon: 'fa-dragon',
+                    slides: [[-1, -1], [-1, 1], [1, -1], [1, 1]],
+                    slideMaxDist: 4,
+                    leaps: [[-2, 0], [2, 0], [0, -2], [0, 2]]
+                }
+            ],
+            'R': [
+                {
+                    id: 'chancellor',
+                    name: 'Chancellor',
+                    desc: 'Full orthogonal slides + Knight (2,1) leaps',
+                    icon: 'fa-chess-rook',
+                    slides: [[-1, 0], [1, 0], [0, -1], [0, 1]],
+                    slideMaxDist: 7,
+                    leaps: [[-2, -1], [-2, 1], [-1, -2], [-1, 2], [1, -2], [1, 2], [2, -1], [2, 1]]
+                },
+                {
+                    id: 'war_machine',
+                    name: 'War Machine',
+                    desc: 'Full orthogonal slides + 2-step diagonal jumping leaps',
+                    icon: 'fa-shield-halved',
+                    slides: [[-1, 0], [1, 0], [0, -1], [0, 1]],
+                    slideMaxDist: 7,
+                    leaps: [[-2, -2], [-2, 2], [2, -2], [2, 2]]
+                },
+                {
+                    id: 'battering_ram',
+                    name: 'Battering Ram',
+                    desc: '2-step and 3-step orthogonal jumps over pieces + 1-step in all directions',
+                    icon: 'fa-hammer',
+                    leaps: [
+                        [-3, 0], [3, 0], [0, -3], [0, 3],
+                        [-2, 0], [2, 0], [0, -2], [0, 2],
+                        [-1, -1], [-1, 0], [-1, 1], [0, -1], [0, 1], [1, -1], [1, 0], [1, 1]
+                    ]
+                },
+                {
+                    id: 'torpedo_rook',
+                    name: 'Torpedo Rook',
+                    desc: 'Orthogonal slides up to 4 squares + 1-step diagonal moves',
+                    icon: 'fa-bolt',
+                    slides: [[-1, 0], [1, 0], [0, -1], [0, 1]],
+                    slideMaxDist: 4,
+                    leaps: [[-1, -1], [-1, 1], [1, -1], [1, 1]]
+                }
+            ],
+            'Q': [
+                {
+                    id: 'amazon',
+                    name: 'Amazon (Super Queen)',
+                    desc: 'Full Queen slides (orthogonal + diagonal) + Knight (2,1) leaps',
+                    icon: 'fa-chess-queen',
+                    slides: [[-1, 0], [1, 0], [0, -1], [0, 1], [-1, -1], [-1, 1], [1, -1], [1, 1]],
+                    slideMaxDist: 7,
+                    leaps: [[-2, -1], [-2, 1], [-1, -2], [-1, 2], [1, -2], [1, 2], [2, -1], [2, 1]]
+                },
+                {
+                    id: 'omni_shifter',
+                    name: 'Omni-Shifter',
+                    desc: 'Full Queen slides + 2-step leaps in all 8 directions over pieces',
+                    icon: 'fa-burst',
+                    slides: [[-1, 0], [1, 0], [0, -1], [0, 1], [-1, -1], [-1, 1], [1, -1], [1, 1]],
+                    slideMaxDist: 7,
+                    leaps: [
+                        [-2, 0], [2, 0], [0, -2], [0, 2],
+                        [-2, -2], [-2, 2], [2, -2], [2, 2]
+                    ]
+                },
+                {
+                    id: 'valkyrie',
+                    name: 'Valkyrie Empress',
+                    desc: 'Full Rook slides + 3-square Bishop slides + Camel (3,1) leaps',
+                    icon: 'fa-feather',
+                    slides: [[-1, 0], [1, 0], [0, -1], [0, 1], [-1, -1], [-1, 1], [1, -1], [1, 1]],
+                    slideMaxDist: 4,
+                    leaps: [[-3, -1], [-3, 1], [3, -1], [3, 1], [-1, -3], [-1, 3], [1, -3], [1, 3]]
+                },
+                {
+                    id: 'gryphon',
+                    name: 'Gryphon',
+                    desc: 'Full Queen slides + 1-step orthogonal steps with 2-step leaping power',
+                    icon: 'fa-wand-magic-sparkles',
+                    slides: [[-1, 0], [1, 0], [0, -1], [0, 1], [-1, -1], [-1, 1], [1, -1], [1, 1]],
+                    slideMaxDist: 7,
+                    leaps: [[-2, 0], [2, 0], [0, -2], [0, 2]]
+                }
+            ],
+            'K': [
+                {
+                    id: 'royal_guard',
+                    name: 'Royal Guard',
+                    desc: '1-step in 8 directions + 2-step jumping leaps in cardinal directions',
+                    icon: 'fa-chess-king',
+                    leaps: [
+                        [-1, -1], [-1, 0], [-1, 1], [0, -1], [0, 1], [1, -1], [1, 0], [1, 1],
+                        [-2, 0], [2, 0], [0, -2], [0, 2]
+                    ]
+                },
+                {
+                    id: 'emperor',
+                    name: 'Emperor Monarch',
+                    desc: '1-step in 8 directions + Knight (2,1) leaps',
+                    icon: 'fa-gem',
+                    leaps: [
+                        [-1, -1], [-1, 0], [-1, 1], [0, -1], [0, 1], [1, -1], [1, 0], [1, 1],
+                        [-2, -1], [-2, 1], [-1, -2], [-1, 2], [1, -2], [1, 2], [2, -1], [2, 1]
+                    ]
+                },
+                {
+                    id: 'warlord',
+                    name: 'Warlord Sovereign',
+                    desc: '1-step in 8 directions + straight orthogonal slides up to 2 squares',
+                    icon: 'fa-skull',
+                    slides: [[-1, 0], [1, 0], [0, -1], [0, 1]],
+                    slideMaxDist: 2,
+                    leaps: [[-1, -1], [-1, 1], [1, -1], [1, 1]]
+                },
+                {
+                    id: 'citadel',
+                    name: 'Citadel Fortress',
+                    desc: '1-step in 8 directions + 2-step diagonal leaps over pieces',
+                    icon: 'fa-shield',
+                    leaps: [
+                        [-1, -1], [-1, 0], [-1, 1], [0, -1], [0, 1], [1, -1], [1, 0], [1, 1],
+                        [-2, -2], [-2, 2], [2, -2], [2, 2]
+                    ]
+                }
+            ]
+        };
+
+        function getPartyPseudoMovesForPiece(gameInstance, r, c, piece, rule, attackOnly = false) {
+            const color = piece[0];
+            const type = piece[1];
+            const moves = [];
+
+            // 1. Direct Leaps (jumping over pieces)
+            if (rule.leaps) {
+                for (const [rawDr, rawDc] of rule.leaps) {
+                    let dr = rawDr;
+                    let dc = rawDc;
+                    if (rule.directional) {
+                        dr = color === 'w' ? rawDr : -rawDr;
+                    }
+                    const tr = r + dr;
+                    const tc = c + dc;
+                    if (gameInstance.isValidSquare(tr, tc)) {
+                        const destPiece = gameInstance.board[tr][tc];
+                        if (!destPiece) {
+                            if (!attackOnly) moves.push({ r: tr, c: tc });
+                        } else if (destPiece[0] !== color) {
+                            moves.push({ r: tr, c: tc });
+                        }
+                    }
+                }
+            }
+
+            // 2. Sliding Rays
+            if (rule.slides) {
+                const maxDist = rule.slideMaxDist || 7;
+                for (const [dr, dc] of rule.slides) {
+                    let currR = r + dr;
+                    let currC = c + dc;
+                    let step = 1;
+                    while (gameInstance.isValidSquare(currR, currC) && step <= maxDist) {
+                        const destPiece = gameInstance.board[currR][currC];
+                        if (!destPiece) {
+                            if (!attackOnly) moves.push({ r: currR, c: currC });
+                        } else {
+                            if (destPiece[0] !== color) {
+                                moves.push({ r: currR, c: currC });
+                            }
+                            break;
+                        }
+                        currR += dr;
+                        currC += dc;
+                        step++;
+                    }
+                }
+            }
+
+            // 3. Special Pawn Mechanics
+            if (type === 'P' && rule.pawnType) {
+                const dir = color === 'w' ? -1 : 1;
+                const startRank = color === 'w' ? 6 : 1;
+
+                if (rule.pawnType === 'berolina') {
+                    for (const dc of [-1, 1]) {
+                        const tr = r + dir, tc = c + dc;
+                        if (gameInstance.isValidSquare(tr, tc) && !gameInstance.board[tr][tc]) {
+                            if (!attackOnly) moves.push({ r: tr, c: tc });
+                            if (r === startRank && gameInstance.isValidSquare(r + 2 * dir, c + 2 * dc) && !gameInstance.board[r + 2 * dir][c + 2 * dc]) {
+                                if (!attackOnly) moves.push({ r: r + 2 * dir, c: c + 2 * dc });
+                            }
+                        }
+                    }
+                    const fwdR = r + dir, fwdC = c;
+                    if (gameInstance.isValidSquare(fwdR, fwdC)) {
+                        const dest = gameInstance.board[fwdR][fwdC];
+                        if (dest && dest[0] !== color) {
+                            moves.push({ r: fwdR, c: fwdC });
+                        }
+                    }
+                } else if (rule.pawnType === 'super_pawn') {
+                    if (!attackOnly) {
+                        if (gameInstance.isValidSquare(r + dir, c) && !gameInstance.board[r + dir][c]) {
+                            moves.push({ r: r + dir, c });
+                            if (gameInstance.isValidSquare(r + 2 * dir, c) && !gameInstance.board[r + 2 * dir][c]) {
+                                moves.push({ r: r + 2 * dir, c });
+                            }
+                        }
+                    }
+                    const capOffsets = [[dir, -1], [dir, 1], [0, -1], [0, 1]];
+                    for (const [cdr, cdc] of capOffsets) {
+                        const tr = r + cdr, tc = c + cdc;
+                        if (gameInstance.isValidSquare(tr, tc)) {
+                            const dest = gameInstance.board[tr][tc];
+                            if (dest && dest[0] !== color) {
+                                moves.push({ r: tr, c: tc });
+                            }
+                        }
+                    }
+                } else if (rule.pawnType === 'side_striker') {
+                    if (!attackOnly) {
+                        if (gameInstance.isValidSquare(r + dir, c) && !gameInstance.board[r + dir][c]) {
+                            moves.push({ r: r + dir, c });
+                        }
+                        for (const sc of [-1, 1]) {
+                            if (gameInstance.isValidSquare(r, c + sc) && !gameInstance.board[r][c + sc]) {
+                                moves.push({ r, c: c + sc });
+                            }
+                        }
+                    }
+                    for (const dc of [-1, 1]) {
+                        const tr = r + dir, tc = c + dc;
+                        if (gameInstance.isValidSquare(tr, tc)) {
+                            const dest = gameInstance.board[tr][tc];
+                            if (dest && dest[0] !== color) {
+                                moves.push({ r: tr, c: tc });
+                            }
+                        }
+                    }
+                } else if (rule.pawnType === 'vanguard') {
+                    if (!attackOnly && gameInstance.isValidSquare(r + dir, c) && !gameInstance.board[r + dir][c]) {
+                        moves.push({ r: r + dir, c });
+                    }
+                    for (const dc of [-1, 0, 1]) {
+                        const tr = r + dir, tc = c + dc;
+                        if (gameInstance.isValidSquare(tr, tc)) {
+                            const dest = gameInstance.board[tr][tc];
+                            if (dest && dest[0] !== color) {
+                                moves.push({ r: tr, c: tc });
+                            }
+                        }
+                    }
+                }
+            }
+
+            // 4. King Castling (in party mode)
+            if (type === 'K' && !attackOnly && !gameInstance.isInCheck(color)) {
+                const enemy = color === 'w' ? 'b' : 'w';
+                if (color === 'w') {
+                    if (gameInstance.castling.wK && !gameInstance.board[7][5] && !gameInstance.board[7][6]) {
+                        if (!gameInstance.isSquareAttacked(7, 5, enemy) && !gameInstance.isSquareAttacked(7, 6, enemy)) {
+                            moves.push({ r: 7, c: 6, isCastle: 'K' });
+                        }
+                    }
+                    if (gameInstance.castling.wQ && !gameInstance.board[7][1] && !gameInstance.board[7][2] && !gameInstance.board[7][3]) {
+                        if (!gameInstance.isSquareAttacked(7, 2, enemy) && !gameInstance.isSquareAttacked(7, 3, enemy)) {
+                            moves.push({ r: 7, c: 2, isCastle: 'Q' });
+                        }
+                    }
+                } else {
+                    if (gameInstance.castling.bK && !gameInstance.board[0][5] && !gameInstance.board[0][6]) {
+                        if (!gameInstance.isSquareAttacked(0, 5, enemy) && !gameInstance.isSquareAttacked(0, 6, enemy)) {
+                            moves.push({ r: 0, c: 6, isCastle: 'K' });
+                        }
+                    }
+                    if (gameInstance.castling.bQ && !gameInstance.board[0][1] && !gameInstance.board[0][2] && !gameInstance.board[0][3]) {
+                        if (!gameInstance.isSquareAttacked(0, 2, enemy) && !gameInstance.isSquareAttacked(0, 3, enemy)) {
+                            moves.push({ r: 0, c: 2, isCastle: 'Q' });
+                        }
+                    }
+                }
+            }
+
+            return moves;
+        }
+
+        function generatePartyMoveRules() {
+            const rules = {};
+            for (const [type, pool] of Object.entries(PARTY_ARCHETYPES_BY_PIECE)) {
+                const randomIndex = Math.floor(Math.random() * pool.length);
+                rules[type] = pool[randomIndex];
+            }
+            return rules;
+        }
+
+        let partyMode = false;
+        let partyMoveRules = null;
 
         /**
          * =========================================================================
@@ -1933,6 +2417,107 @@
             modal.classList.remove('hidden');
         }
 
+        function getPieceWalkingWaypoints(fr, fc, tr, tc, pieceType) {
+            const dr = tr - fr;
+            const dc = tc - fc;
+            const absDr = Math.abs(dr);
+            const absDc = Math.abs(dc);
+
+            // 1. Single-step moves (King, normal pawn step, 1-square attacks)
+            if (absDr <= 1 && absDc <= 1) {
+                return [{ r: fr, c: fc }, { r: tr, c: tc }];
+            }
+
+            // 2. Knight L-Walk (Walk 2 squares along primary/major axis, then turn and walk 1 square orthogonal)
+            // As required: "the night should walk up 2 spaces and than walk 1 space and each piece should move in it's associated direction"
+            if (absDr === 2 && absDc === 1) {
+                return [
+                    { r: fr, c: fc },
+                    { r: fr + 2 * Math.sign(dr), c: fc },
+                    { r: tr, c: tc }
+                ];
+            }
+            if (absDr === 1 && absDc === 2) {
+                return [
+                    { r: fr, c: fc },
+                    { r: fr, c: fc + 2 * Math.sign(dc) },
+                    { r: tr, c: tc }
+                ];
+            }
+
+            // 3. Custom Leaper Hops (e.g. Party Mode Zebra (3,2) or Camel (3,1))
+            if (absDr > 0 && absDc > 0 && absDr !== absDc) {
+                if (absDr > absDc) {
+                    return [
+                        { r: fr, c: fc },
+                        { r: fr + dr, c: fc },
+                        { r: tr, c: tc }
+                    ];
+                } else {
+                    return [
+                        { r: fr, c: fc },
+                        { r: fr, c: fc + dc },
+                        { r: tr, c: tc }
+                    ];
+                }
+            }
+
+            // 4. Straight Orthogonal Lines (Rook, Queen rank/file, Double Pawn Push)
+            if (dc === 0) {
+                const path = [{ r: fr, c: fc }];
+                const stepDir = Math.sign(dr);
+                for (let k = 1; k <= absDr; k++) {
+                    path.push({ r: fr + k * stepDir, c: fc });
+                }
+                return path;
+            }
+            if (dr === 0) {
+                const path = [{ r: fr, c: fc }];
+                const stepDir = Math.sign(dc);
+                for (let k = 1; k <= absDc; k++) {
+                    path.push({ r: fr, c: fc + k * stepDir });
+                }
+                return path;
+            }
+
+            // 5. Diagonal Lines (Bishop, Queen diagonal, Berolina double step)
+            if (absDr === absDc) {
+                const path = [{ r: fr, c: fc }];
+                const stepR = Math.sign(dr);
+                const stepC = Math.sign(dc);
+                for (let k = 1; k <= absDr; k++) {
+                    path.push({ r: fr + k * stepR, c: fc + k * stepC });
+                }
+                return path;
+            }
+
+            // Fallback
+            return [{ r: fr, c: fc }, { r: tr, c: tc }];
+        }
+
+        function getSquarePixelPos(r, c, boardRect) {
+            const sqEl = document.querySelector(`.square[data-r="${r}"][data-c="${c}"]`);
+            if (sqEl) {
+                const sqRect = sqEl.getBoundingClientRect();
+                return {
+                    x: sqRect.left - boardRect.left,
+                    y: sqRect.top - boardRect.top,
+                    w: sqRect.width,
+                    h: sqRect.height
+                };
+            }
+            const sqW = boardRect.width / 8;
+            const sqH = boardRect.height / 8;
+            const displayR = boardFlipped ? (7 - r) : r;
+            const displayC = boardFlipped ? (7 - c) : c;
+            return {
+                x: displayC * sqW,
+                y: displayR * sqH,
+                w: sqW,
+                h: sqH
+            };
+        }
+
         function animateAndExecuteMove(fr, fc, tr, tc, promoType = 'Q') {
             if (isAnimatingMove) return;
 
@@ -1949,11 +2534,8 @@
                 return;
             }
 
-            const startSquare = document.querySelector(`.square[data-r="${fr}"][data-c="${fc}"]`);
-            const endSquare = document.querySelector(`.square[data-r="${tr}"][data-c="${tc}"]`);
             const boardContainer = document.getElementById('chessBoard');
-
-            if (!startSquare || !endSquare || !boardContainer) {
+            if (!boardContainer) {
                 executePlayerMove(fr, fc, tr, tc, promoType);
                 return;
             }
@@ -1964,29 +2546,28 @@
 
             const isCastle = moveObj ? moveObj.isCastle : null;
             const boardRect = boardContainer.getBoundingClientRect();
-            const startRect = startSquare.getBoundingClientRect();
-            const endRect = endSquare.getBoundingClientRect();
-
-            const startX = startRect.left - boardRect.left;
-            const startY = startRect.top - boardRect.top;
-            const deltaX = endRect.left - startRect.left;
-            const deltaY = endRect.top - startRect.top;
 
             // Hide original static piece in start square during transit
-            const originalPieceEl = startSquare.querySelector('.chess-piece');
+            const startSquare = document.querySelector(`.square[data-r="${fr}"][data-c="${fc}"]`);
+            const originalPieceEl = startSquare ? startSquare.querySelector('.chess-piece') : null;
             if (originalPieceEl) originalPieceEl.style.opacity = '0';
+
+            // Calculate Grid & Pixel Waypoints
+            const gridWaypoints = getPieceWalkingWaypoints(fr, fc, tr, tc, movingPiece[1]);
+            const pixelWaypoints = gridWaypoints.map(wp => getSquarePixelPos(wp.r, wp.c, boardRect));
+            const startPixel = pixelWaypoints[0];
 
             // Create transit piece element
             const transitPiece = document.createElement('div');
             transitPiece.className = 'chess-piece-transit';
-            transitPiece.style.left = `${startX}px`;
-            transitPiece.style.top = `${startY}px`;
-            transitPiece.style.width = `${startRect.width}px`;
-            transitPiece.style.height = `${startRect.height}px`;
+            transitPiece.style.left = `${startPixel.x}px`;
+            transitPiece.style.top = `${startPixel.y}px`;
+            transitPiece.style.width = `${startPixel.w}px`;
+            transitPiece.style.height = `${startPixel.h}px`;
             transitPiece.innerHTML = PIECE_SVGS[movingPiece] || '';
             boardContainer.appendChild(transitPiece);
 
-            // If castling, also animate the companion rook
+            // If castling, also animate the companion rook along its walking path
             let rookTransit = null;
             if (isCastle) {
                 const rookFrC = isCastle === 'K' ? 7 : 0;
@@ -1994,42 +2575,72 @@
                 const rookStartSquare = document.querySelector(`.square[data-r="${tr}"][data-c="${rookFrC}"]`);
                 const rookEndSquare = document.querySelector(`.square[data-r="${tr}"][data-c="${rookTrC}"]`);
                 if (rookStartSquare && rookEndSquare) {
-                    const rStartRect = rookStartSquare.getBoundingClientRect();
-                    const rEndRect = rookEndSquare.getBoundingClientRect();
+                    const rStartPos = getSquarePixelPos(tr, rookFrC, boardRect);
                     const rOrig = rookStartSquare.querySelector('.chess-piece');
                     if (rOrig) rOrig.style.opacity = '0';
 
                     rookTransit = document.createElement('div');
                     rookTransit.className = 'chess-piece-transit';
-                    rookTransit.style.left = `${rStartRect.left - boardRect.left}px`;
-                    rookTransit.style.top = `${rStartRect.top - boardRect.top}px`;
-                    rookTransit.style.width = `${rStartRect.width}px`;
-                    rookTransit.style.height = `${rStartRect.height}px`;
+                    rookTransit.style.left = `${rStartPos.x}px`;
+                    rookTransit.style.top = `${rStartPos.y}px`;
+                    rookTransit.style.width = `${rStartPos.w}px`;
+                    rookTransit.style.height = `${rStartPos.h}px`;
                     rookTransit.innerHTML = PIECE_SVGS[game.board[tr][rookFrC]] || '';
                     boardContainer.appendChild(rookTransit);
 
-                    const rDeltaX = rEndRect.left - rStartRect.left;
-                    const rDeltaY = rEndRect.top - rStartRect.top;
-                    requestAnimationFrame(() => {
-                        rookTransit.style.transform = `translate(${rDeltaX}px, ${rDeltaY}px)`;
+                    const rookWaypoints = getPieceWalkingWaypoints(tr, rookFrC, tr, rookTrC, 'R');
+                    const rookPixelWps = rookWaypoints.map(wp => getSquarePixelPos(wp.r, wp.c, boardRect));
+                    const rookKeyframes = rookPixelWps.map((wp, idx) => ({
+                        transform: `translate(${wp.x - rStartPos.x}px, ${wp.y - rStartPos.y}px)`,
+                        offset: idx / (rookPixelWps.length - 1)
+                    }));
+                    rookTransit.animate(rookKeyframes, {
+                        duration: 360,
+                        easing: 'ease-in-out',
+                        fill: 'forwards'
                     });
                 }
             }
 
-            // Trigger linear line movement over time
-            requestAnimationFrame(() => {
-                requestAnimationFrame(() => {
-                    transitPiece.style.transform = `translate(${deltaX}px, ${deltaY}px)`;
-                });
+            // Build keyframes for the moving piece
+            const keyframes = pixelWaypoints.map((wp, idx) => {
+                let offset = idx / (pixelWaypoints.length - 1);
+                // For Knight L-walk (start, mid 2-step, end 1-step), give 62% timing to 2-step
+                if (pixelWaypoints.length === 3 && (Math.abs(tr - fr) === 2 || Math.abs(tc - fc) === 2)) {
+                    if (idx === 1) offset = 0.62;
+                }
+                return {
+                    transform: `translate(${wp.x - startPixel.x}px, ${wp.y - startPixel.y}px)`,
+                    offset: offset
+                };
             });
 
-            // Settle piece into destination square
-            setTimeout(() => {
+            let animDuration = 280;
+            if (pixelWaypoints.length === 3 && (Math.abs(tr - fr) === 2 || Math.abs(tc - fc) === 2)) {
+                animDuration = 380; // Knight L-walk
+            } else if (pixelWaypoints.length > 3) {
+                animDuration = Math.min(460, 220 + pixelWaypoints.length * 35);
+            }
+
+            const animation = transitPiece.animate(keyframes, {
+                duration: animDuration,
+                easing: 'ease-in-out',
+                fill: 'forwards'
+            });
+
+            let completed = false;
+            const finishMove = () => {
+                if (completed) return;
+                completed = true;
                 if (transitPiece.parentElement) transitPiece.remove();
                 if (rookTransit && rookTransit.parentElement) rookTransit.remove();
                 isAnimatingMove = false;
                 executePlayerMove(fr, fc, tr, tc, promoType);
-            }, 290);
+            };
+
+            animation.onfinish = finishMove;
+            animation.oncancel = finishMove;
+            setTimeout(finishMove, animDuration + 100);
         }
 
         function executePlayerMove(fr, fc, tr, tc, promoType = 'Q') {
@@ -2131,8 +2742,11 @@
             let explanation = "";
             let candidates = [];
 
-            // Master vs Simple Concept Explanations
-            if (tutorLevel === 'simple') {
+            if (partyMode && partyMoveRules && partyMoveRules[ptype]) {
+                const rule = partyMoveRules[ptype];
+                title = `🎉 Party Move: ${rule.name} (${san})`;
+                explanation = `${rule.name} tactical movement executed (${rule.desc}). Evaluating new board geometry and dynamic threats under mutated chess rules.`;
+            } else if (tutorLevel === 'simple') {
                 if (perspectiveDelta < -2.0) {
                     title = `Watch Out! Move ${san}`;
                     explanation = `Be careful! This move lost a piece or left your position open to a dangerous attack.`;
@@ -2335,10 +2949,82 @@
             lastSnapshotCache = null;
             lastDeltaCache = 0;
             lastEvalCache = null;
+            if (partyMode) {
+                renderPartyRulesHUD();
+            }
             renderBoard();
             updateEvaluation();
             explainOpeningInitial();
             triggerToast('New game prepared');
+        }
+
+        function togglePartyMode() {
+            partyMode = !partyMode;
+            const btn = document.getElementById('partyModeBtn');
+            const banner = document.getElementById('partyModeBanner');
+
+            if (partyMode) {
+                partyMoveRules = generatePartyMoveRules();
+                if (btn) btn.classList.add('btn-party-active');
+                if (banner) banner.classList.remove('hidden');
+                renderPartyRulesHUD();
+                triggerToast('🎉 Party Mode Activated! All piece types mutated with custom moves');
+            } else {
+                partyMoveRules = null;
+                if (btn) btn.classList.remove('btn-party-active');
+                if (banner) banner.classList.add('hidden');
+                triggerToast('Standard Classical Chess Rules Restored');
+            }
+
+            selectedSquare = null;
+            legalMovesForSelected = [];
+            renderBoard();
+            updateEvaluation();
+        }
+
+        function rerollPartyMode() {
+            if (!partyMode) {
+                togglePartyMode();
+                return;
+            }
+            partyMoveRules = generatePartyMoveRules();
+            renderPartyRulesHUD();
+            selectedSquare = null;
+            legalMovesForSelected = [];
+            renderBoard();
+            updateEvaluation();
+            triggerToast('🎲 Party Moves Re-Rolled! New abilities assigned to all pieces.');
+        }
+
+        function renderPartyRulesHUD() {
+            const grid = document.getElementById('partyRulesGrid');
+            if (!grid || !partyMoveRules) return;
+
+            const pieceLabels = {
+                'P': { name: 'Pawns', symbol: '♙' },
+                'N': { name: 'Knights', symbol: '♘' },
+                'B': { name: 'Bishops', symbol: '♗' },
+                'R': { name: 'Rooks', symbol: '♖' },
+                'Q': { name: 'Queens', symbol: '♕' },
+                'K': { name: 'Kings', symbol: '♔' }
+            };
+
+            grid.innerHTML = Object.entries(partyMoveRules).map(([type, rule]) => `
+                <div class="p-2 rounded-lg bg-[#271221] border border-[#6B2856] flex flex-col gap-1 shadow-sm hover:border-[#FFB4EC] transition-all">
+                    <div class="flex items-center justify-between">
+                        <span class="font-bold text-xs text-[#FFD6F4] flex items-center gap-1">
+                            <span class="text-sm">${pieceLabels[type].symbol}</span> ${pieceLabels[type].name}
+                        </span>
+                        <i class="fa-solid ${rule.icon || 'fa-star'} text-[10px] text-[#FFB4EC]"></i>
+                    </div>
+                    <div class="font-bold text-[11px] text-[#F8C8EB] truncate" title="${rule.name}">
+                        ${rule.name}
+                    </div>
+                    <div class="text-[10px] text-[#D8B4D0] leading-tight line-clamp-2" title="${rule.desc}">
+                        ${rule.desc}
+                    </div>
+                </div>
+            `).join('');
         }
 
         function undoMove() {

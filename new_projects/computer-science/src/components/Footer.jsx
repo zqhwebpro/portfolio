@@ -1,150 +1,81 @@
 import React from 'react';
-import { ArrowUp, Terminal, BookOpen, Layers } from 'lucide-react';
+import { CONCEPTS } from '../utils/csData';
 import { SoundEngine } from '../utils/soundEngine';
-import { CORE_CS_TERMS } from '../utils/csData';
 
-export function Footer({ onSelectSlide = () => {} }) {
-  const scrollToTop = () => {
-    SoundEngine.playClick();
-    window.scrollTo({ top: 0, behavior: 'smooth' });
-  };
-
-  const handleSlideJump = (idx) => {
-    SoundEngine.playClick();
-    onSelectSlide(idx);
-    const el = document.getElementById('interactive-slides');
-    if (el) {
-      el.scrollIntoView({ behavior: 'smooth' });
-    } else {
-      window.scrollTo({ top: 0, behavior: 'smooth' });
-    }
-  };
-
+export function Footer({ onSelect }) {
   return (
-    <footer style={{
-      background: '#0A0A0A',
-      color: '#FFFFFF',
-      borderTop: 'var(--border-thick)',
-      padding: '3.5rem 0 2rem 0',
-      position: 'relative'
-    }}>
-      <div className="container">
-        {/* Top Grid */}
-        <div style={{
-          display: 'grid',
-          gridTemplateColumns: 'repeat(auto-fit, minmax(min(100%, 260px), 1fr))',
-          gap: '2.5rem',
-          marginBottom: '3rem'
-        }}>
-          {/* Col 1: Brand & Manifesto */}
+    <footer style={{ background: '#0A0A0A', borderTop: '3.5px solid #0A0A0A' }}>
+      {/* Hazard stripe */}
+      <div className="hazard-divider" />
+
+      <div className="container" style={{ padding: '2.5rem clamp(1rem, 4vw, 2.5rem)' }}>
+        <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(200px, 1fr))', gap: '2rem', marginBottom: '2rem' }}>
+
+          {/* Brand */}
           <div>
-            <div style={{ display: 'flex', alignItems: 'center', gap: '0.75rem', marginBottom: '1rem' }}>
-              <div style={{
-                width: '32px',
-                height: '32px',
-                background: 'var(--cobalt-blue)',
-                border: '2px solid #FFF',
-                display: 'flex',
-                alignItems: 'center',
-                justifyContent: 'center'
-              }}>
-                <div style={{ width: '14px', height: '14px', borderRadius: '50%', background: 'var(--canary-yellow)' }} />
-              </div>
-              <span className="font-display" style={{ fontWeight: 900, fontSize: '1.2rem', letterSpacing: '-0.02em' }}>
-                ALGORITHMS // CS
-              </span>
+            <div style={{ fontFamily: 'var(--font-display)', fontSize: '1.1rem', fontWeight: 900, color: '#FFE600', marginBottom: '0.5rem', letterSpacing: '-0.01em' }}>
+              THE 8 FUNDAMENTALS
             </div>
-            <p style={{ fontFamily: 'var(--font-mono)', fontSize: '0.8rem', color: '#AAA', lineHeight: 1.6 }}>
-              Comprehensive interactive exploration of the 8 fundamental concepts of computer science algorithms, complexity analysis, memory architectures, and problem-solving paradigms.
-            </p>
+            <div style={{ fontFamily: 'var(--font-mono)', fontSize: '0.7rem', color: '#444', lineHeight: 1.6 }}>
+              An interactive infographic presenting the canonical definitions of the 8 fundamental algorithmic concepts in computer science.
+            </div>
           </div>
 
-          {/* Col 2: Architectural Specs */}
+          {/* Concept index */}
           <div>
-            <h4 style={{ fontSize: '0.95rem', color: 'var(--canary-yellow)', marginBottom: '1rem', fontFamily: 'var(--font-mono)' }}>
-              // THEORETICAL TAXONOMY
-            </h4>
-            <ul style={{ listStyle: 'none', fontFamily: 'var(--font-mono)', fontSize: '0.8rem', color: '#CCC', display: 'flex', flexDirection: 'column', gap: '0.45rem', padding: 0 }}>
-              <li>• Computational Complexity: O(1), O(log n), O(n), O(n²)</li>
-              <li>• Memory Models: Contiguous vs Heap Pointer Nodes</li>
-              <li>• Recursion Call Stack Unwinding &amp; Base Cases</li>
-              <li>• 3-Phase Divide, Conquer &amp; Combine Patterns</li>
-            </ul>
-          </div>
-
-          {/* Col 3: The 8 Core Concepts */}
-          <div>
-            <h4 style={{ fontSize: '0.95rem', color: 'var(--cobalt-blue)', marginBottom: '1rem', fontFamily: 'var(--font-mono)' }}>
-              // 8 CORE CS CONCEPTS
-            </h4>
-            <ul style={{ listStyle: 'none', fontFamily: 'var(--font-mono)', fontSize: '0.78rem', color: '#CCC', display: 'flex', flexDirection: 'column', gap: '0.4rem', padding: 0 }}>
-              {CORE_CS_TERMS.map((item, idx) => (
-                <li
-                  key={item.id}
-                  onClick={() => handleSlideJump(idx)}
-                  style={{
-                    cursor: 'pointer',
-                    display: 'flex',
-                    alignItems: 'center',
-                    gap: '0.4rem',
-                    transition: 'color 0.15s ease'
-                  }}
-                  onMouseEnter={(e) => e.currentTarget.style.color = 'var(--canary-yellow)'}
-                  onMouseLeave={(e) => e.currentTarget.style.color = '#CCC'}
+            <div style={{ fontFamily: 'var(--font-mono)', fontSize: '0.65rem', fontWeight: 900, color: '#555', letterSpacing: '0.1em', marginBottom: '0.75rem' }}>CONCEPT INDEX</div>
+            <div style={{ display: 'flex', flexDirection: 'column', gap: '0.35rem' }}>
+              {CONCEPTS.map((c, i) => (
+                <button key={c.id} onClick={() => { SoundEngine.playClick(); onSelect(i); document.getElementById('concept-slides')?.scrollIntoView({ behavior: 'smooth' }); }} style={{
+                  background: 'transparent', border: 'none', cursor: 'pointer',
+                  fontFamily: 'var(--font-mono)', fontSize: '0.72rem', fontWeight: 700,
+                  color: '#555', textAlign: 'left', padding: '0',
+                  display: 'flex', alignItems: 'center', gap: '0.5rem',
+                  transition: 'color 0.1s',
+                }}
+                onMouseEnter={e => e.currentTarget.style.color = c.color}
+                onMouseLeave={e => e.currentTarget.style.color = '#555'}
                 >
-                  <span style={{ color: item.color, fontWeight: 800 }}>{String(idx + 1).padStart(2, '0')}.</span>
-                  <span>{item.term}</span>
-                </li>
+                  <span style={{ color: '#333', minWidth: '1.5rem' }}>{c.num}</span>
+                  {c.term}
+                </button>
               ))}
-            </ul>
+            </div>
           </div>
 
-          {/* Col 4: Back to Top & Quick Jump */}
-          <div style={{ display: 'flex', flexDirection: 'column', justifyContent: 'space-between', alignItems: 'flex-start' }}>
-            <div>
-              <h4 style={{ fontSize: '0.95rem', color: 'var(--vermilion-red)', marginBottom: '0.5rem', fontFamily: 'var(--font-mono)' }}>
-                // NAVIGATION
-              </h4>
-              <span className="font-mono" style={{ fontSize: '0.8rem', color: '#888' }}>
-                Quick Jump &amp; Return to Top
-              </span>
+          {/* Design system key */}
+          <div>
+            <div style={{ fontFamily: 'var(--font-mono)', fontSize: '0.65rem', fontWeight: 900, color: '#555', letterSpacing: '0.1em', marginBottom: '0.75rem' }}>DESIGN SYSTEM</div>
+            <div style={{ display: 'flex', flexDirection: 'column', gap: '0.4rem' }}>
+              {[
+                { label: 'Cobalt Blue', color: '#0038FF', use: 'Formal definitions' },
+                { label: 'Canary Yellow', color: '#FFE600', use: 'Key terms / CTAs' },
+                { label: 'Vermilion Red', color: '#FF2A00', use: 'Warnings / worst case' },
+                { label: 'Emerald Mint', color: '#00E599', use: 'Success / best case' },
+                { label: 'Bauhaus Purple', color: '#7928CA', use: 'Recursion paradigm' },
+              ].map(item => (
+                <div key={item.label} style={{ display: 'flex', alignItems: 'center', gap: '0.5rem', fontFamily: 'var(--font-mono)', fontSize: '0.65rem', color: '#444' }}>
+                  <div style={{ width: 10, height: 10, background: item.color, border: `1px solid ${item.color}`, flexShrink: 0 }} />
+                  <span style={{ color: item.color }}>{item.label}</span>
+                  <span style={{ opacity: 0.5 }}>— {item.use}</span>
+                </div>
+              ))}
             </div>
-
-            <button
-              onClick={scrollToTop}
-              className="brutal-btn brutal-btn-yellow"
-              style={{ marginTop: '1rem' }}
-            >
-              <ArrowUp size={16} /> BACK TO TOP
-            </button>
           </div>
         </div>
 
-        {/* Bauhaus Color Strip */}
-        <div className="bauhaus-divider" style={{ borderColor: '#333', marginBottom: '2rem' }} />
-
-        {/* Bottom Metadata */}
-        <div style={{
-          display: 'flex',
-          justifyContent: 'space-between',
-          alignItems: 'center',
-          flexWrap: 'wrap',
-          gap: '1rem',
-          fontFamily: 'var(--font-mono)',
-          fontSize: '0.75rem',
-          color: '#777'
-        }}>
-          <div>
-            © 2026 // COMPUTER SCIENCE ALGORITHMS FOUNDATIONS
-          </div>
-          <div>
-            8 CORE SLIDES &bull; CANONICAL DEFINITIONS &bull; REACT VITE
+        {/* Bottom bar */}
+        <div style={{ borderTop: '1px solid #1A1A1A', paddingTop: '1.25rem', display: 'flex', justifyContent: 'space-between', alignItems: 'center', flexWrap: 'wrap', gap: '0.75rem' }}>
+          <span style={{ fontFamily: 'var(--font-mono)', fontSize: '0.65rem', color: '#333' }}>
+            NEO-BRUTALIST BAUHAUS × CS INFOGRAPHIC // INTERACTIVE CANONICAL REFERENCE
+          </span>
+          <div style={{ display: 'flex', gap: '0.5rem' }}>
+            {['#0038FF','#FFE600','#FF2A00','#00E599','#7928CA','#00F0FF'].map(c => (
+              <div key={c} style={{ width: 10, height: 10, background: c, border: '1px solid rgba(255,255,255,0.1)' }} />
+            ))}
           </div>
         </div>
       </div>
     </footer>
   );
 }
-
-export default Footer;
-

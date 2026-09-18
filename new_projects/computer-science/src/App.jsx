@@ -1,49 +1,24 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { Navbar } from './components/Navbar';
-import { HeroPlayground } from './components/HeroPlayground';
-import { ConceptSlideDeck } from './components/ConceptSlideDeck';
-import { KnowledgeMatrix } from './components/KnowledgeMatrix';
-import { BigOGraph } from './components/BigOGraph';
-import { QuizChallenge } from './components/QuizChallenge';
+import { HeroSection } from './components/HeroSection';
+import { ConceptSlides } from './components/ConceptSlides';
+import { ReferenceTable } from './components/ReferenceTable';
 import { Footer } from './components/Footer';
 
 export function App() {
-  const [activeSlideIndex, setActiveSlideIndex] = useState(0);
-
-  const handleSelectSlide = (index) => {
-    setActiveSlideIndex(index);
-  };
+  const [activeIndex, setActiveIndex] = useState(0);
 
   return (
     <div style={{ minHeight: '100vh', display: 'flex', flexDirection: 'column', background: 'var(--bg-primary)' }}>
-      <Navbar activeSlideIndex={activeSlideIndex} onSelectSlide={handleSelectSlide} />
-      
+      <Navbar activeIndex={activeIndex} onSelect={setActiveIndex} />
       <main style={{ flex: 1 }}>
-        {/* Unit 00: Introduction to Computational Thinking & The 8 Pillars Launchpad */}
-        <HeroPlayground onSelectSlide={handleSelectSlide} />
-
+        <HeroSection onSelect={setActiveIndex} />
         <div className="hazard-divider" />
-
-        {/* Core Presentation: The 8 Fundamental Concepts of Algorithms Interactive Slide Deck */}
-        <ConceptSlideDeck currentSlideIndex={activeSlideIndex} onSelectSlide={handleSelectSlide} />
-        
-        <div className="hazard-divider" />
-
-        {/* Comprehensive Taxonomy Matrix: 8 Concepts Side-by-Side Deep Dive */}
-        <KnowledgeMatrix onSelectSlide={handleSelectSlide} />
-
-        <div className="hazard-divider" />
-
-        {/* Asymptotic Growth Calculus & Complexity Curves */}
-        <BigOGraph />
-
-        <div className="hazard-divider" />
-
-        {/* Algorithmic Mastery Quiz: The 8 Fundamental Concepts Challenge */}
-        <QuizChallenge />
+        <ConceptSlides activeIndex={activeIndex} onSelect={setActiveIndex} />
+        <div className="bauhaus-divider"><div /><div /><div /><div /></div>
+        <ReferenceTable onSelect={setActiveIndex} />
       </main>
-
-      <Footer onSelectSlide={handleSelectSlide} />
+      <Footer onSelect={setActiveIndex} />
     </div>
   );
 }
