@@ -131,7 +131,7 @@ export function RecursionStackTower() {
         <div style={{ marginBottom: '2.5rem' }}>
           <div style={{ display: 'flex', alignItems: 'center', gap: '0.5rem', marginBottom: '0.5rem' }}>
             <span className="brutal-badge brutal-badge-blue font-mono" style={{ fontSize: '0.8rem' }}>
-              UNIT 05 // KHAN ALGORITHMS
+              UNIT 05 // RECURSION &amp; CALL STACK
             </span>
             <span className="brutal-badge brutal-badge-red font-mono" style={{ fontSize: '0.8rem' }}>
               RECURSIVE ALGORITHMS &amp; TOWERS OF HANOI

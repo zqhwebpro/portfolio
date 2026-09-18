@@ -3,7 +3,7 @@ import { Play, RotateCcw, Sparkles, HelpCircle, CheckCircle, ArrowRight, Zap, Ta
 import { SoundEngine } from '../utils/soundEngine';
 
 export function HeroPlayground() {
-  // Guessing Game State (Khan Academy Intro Unit)
+// Guessing Game State (Intro Unit)
   const [secretNumber, setSecretNumber] = useState(67);
   const [currentGuess, setCurrentGuess] = useState(50);
   const [lowBound, setLowBound] = useState(1);
@@ -85,10 +85,10 @@ export function HeroPlayground() {
         <div style={{ marginBottom: '2.5rem' }}>
           <div style={{ display: 'flex', alignItems: 'center', gap: '0.5rem', marginBottom: '0.5rem' }}>
             <span className="brutal-badge brutal-badge-red font-mono" style={{ fontSize: '0.8rem' }}>
-              UNIT 01 // KHAN ALGORITHMS
+              UNIT 00 // FOUNDATIONAL INTRO
             </span>
             <span className="brutal-badge brutal-badge-yellow font-mono" style={{ fontSize: '0.8rem' }}>
-              DARTMOUTH CS CURRICULUM
+              COMPUTATIONAL PROBLEM SOLVING
             </span>
           </div>
 

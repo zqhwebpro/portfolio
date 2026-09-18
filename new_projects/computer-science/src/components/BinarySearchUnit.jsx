@@ -119,7 +119,7 @@ export function BinarySearchUnit() {
         <div style={{ marginBottom: '2.5rem' }}>
           <div style={{ display: 'flex', alignItems: 'center', gap: '0.5rem', marginBottom: '0.5rem' }}>
             <span className="brutal-badge brutal-badge-blue font-mono" style={{ fontSize: '0.8rem' }}>
-              UNIT 02 // KHAN ALGORITHMS
+              UNIT 02 // BINARY SEARCH
             </span>
             <span className="brutal-badge brutal-badge-yellow font-mono" style={{ fontSize: '0.8rem' }}>
               O(LOG N) SEARCH SPACE HALVING
@@ -334,7 +334,7 @@ export function BinarySearchUnit() {
 
           </div>
 
-          {/* Right Column: Khan Academy Algorithm Code & Runtime Growth Table */}
+          {/* Right Column: Binary Search Algorithm Code & Runtime Growth Table */}
           <div style={{ display: 'flex', flexDirection: 'column', gap: '1.5rem' }}>
 
             {/* Pseudocode Walkthrough */}
@@ -342,7 +342,7 @@ export function BinarySearchUnit() {
               <div style={{ display: 'flex', alignItems: 'center', gap: '0.5rem', marginBottom: '0.75rem' }}>
                 <Binary size={18} color="var(--canary-yellow)" />
                 <h4 style={{ fontFamily: 'var(--font-mono)', fontWeight: 800, fontSize: '1rem', color: 'var(--canary-yellow)' }}>
-                  BINARY SEARCH ALGORITHM (KHAN / CLRS)
+                  BINARY SEARCH ALGORITHM (CLRS / CS THEORY)
                 </h4>
               </div>
 

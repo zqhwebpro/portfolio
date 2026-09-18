@@ -188,7 +188,7 @@ export function SpatialSortingArena() {
         <div style={{ marginBottom: '2.5rem' }}>
           <div style={{ display: 'flex', alignItems: 'center', gap: '0.5rem', marginBottom: '0.5rem' }}>
             <span className="brutal-badge brutal-badge-red font-mono" style={{ fontSize: '0.8rem' }}>
-              UNIT 04 // KHAN ALGORITHMS
+              UNIT 04 // SORTING PARADIGMS
             </span>
             <span className="brutal-badge brutal-badge-yellow font-mono" style={{ fontSize: '0.8rem' }}>
               SELECTION SORT &amp; INSERTION SORT
@@ -420,7 +420,7 @@ export function SpatialSortingArena() {
 
           </div>
 
-          {/* Right Column: Khan Academy Theory & Comparison Table */}
+          {/* Right Column: Sorting Theory & Comparison Table */}
           <div style={{ display: 'flex', flexDirection: 'column', gap: '1.5rem' }}>
 
             {/* Selection Sort Theory */}

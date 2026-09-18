@@ -103,7 +103,7 @@ export function TreeGraphTraversal() {
         <div style={{ marginBottom: '2.5rem' }}>
           <div style={{ display: 'flex', alignItems: 'center', gap: '0.5rem', marginBottom: '0.5rem' }}>
             <span className="brutal-badge brutal-badge-blue font-mono" style={{ fontSize: '0.8rem' }}>
-              UNIT 07 // KHAN ALGORITHMS
+              UNIT 07 // GRAPH &amp; TREE TRAVERSAL
             </span>
             <span className="brutal-badge brutal-badge-yellow font-mono" style={{ fontSize: '0.8rem' }}>
               GRAPH REPRESENTATION &amp; BREADTH-FIRST SEARCH

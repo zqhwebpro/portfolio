@@ -29,7 +29,7 @@ export function DivideConquerArena() {
         <div style={{ marginBottom: '2.5rem' }}>
           <div style={{ display: 'flex', alignItems: 'center', gap: '0.5rem', marginBottom: '0.5rem' }}>
             <span className="brutal-badge brutal-badge-mint font-mono" style={{ fontSize: '0.8rem' }}>
-              UNIT 06 // KHAN ALGORITHMS
+              UNIT 06 // DIVIDE &amp; CONQUER
             </span>
             <span className="brutal-badge brutal-badge-blue font-mono" style={{ fontSize: '0.8rem' }}>
               DIVIDE &amp; CONQUER PARADIGM

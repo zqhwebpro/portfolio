@@ -10,7 +10,7 @@ const ASYMPTOTIC_CLASSES = [
     color: '#00E599',
     fn: (n) => 1,
     desc: 'Execution time remains identical regardless of input size. Example: Array lookup by index.',
-    khanExample: 'Accessing array[0], checking if a number is even/odd'
+    realWorldExample: 'Accessing array[0], checking if a number is even/odd'
   },
   {
     id: 'ologn',
@@ -19,7 +19,7 @@ const ASYMPTOTIC_CLASSES = [
     color: '#0038FF',
     fn: (n) => Math.max(1, Math.log2(n || 1)),
     desc: 'Search space is halved on each step. Sub-linear growth. Example: Binary Search.',
-    khanExample: 'Binary search on a sorted array of size n'
+    realWorldExample: 'Binary search on a sorted array of size n'
   },
   {
     id: 'on',
@@ -28,7 +28,7 @@ const ASYMPTOTIC_CLASSES = [
     color: '#FFE600',
     fn: (n) => n,
     desc: 'Operations increase in direct 1-to-1 proportion to input count. Example: Linear Search.',
-    khanExample: 'Finding the minimum element in an unsorted list'
+    realWorldExample: 'Finding the minimum element in an unsorted list'
   },
   {
     id: 'onlogn',
@@ -37,7 +37,7 @@ const ASYMPTOTIC_CLASSES = [
     color: '#00F0FF',
     fn: (n) => n * Math.max(1, Math.log2(n || 1)),
     desc: 'Optimal comparison sorting bound (Divide & Conquer). Example: Merge Sort, Quick Sort (avg).',
-    khanExample: 'Merge sort, quicksort average case'
+    realWorldExample: 'Merge sort, quicksort average case'
   },
   {
     id: 'on2',
@@ -46,7 +46,7 @@ const ASYMPTOTIC_CLASSES = [
     color: '#FF2A00',
     fn: (n) => Math.pow(n, 2),
     desc: 'Nested loop comparisons. Growth explodes quickly. Example: Selection Sort, Insertion Sort.',
-    khanExample: 'Selection sort, insertion sort worst case'
+    realWorldExample: 'Selection sort, insertion sort worst case'
   },
   {
     id: 'o2n',
@@ -55,7 +55,7 @@ const ASYMPTOTIC_CLASSES = [
     color: '#7928CA',
     fn: (n) => Math.pow(2, Math.min(n, 20)),
     desc: 'Doubles with every single additional item. Intractable for large n. Example: Recursive Fibonacci, Hanoi.',
-    khanExample: 'Towers of Hanoi minimum moves (2ⁿ - 1)'
+    realWorldExample: 'Towers of Hanoi minimum moves (2ⁿ - 1)'
   }
 ];
 
@@ -113,7 +113,7 @@ export function BigOGraph() {
         <div style={{ marginBottom: '2.5rem' }}>
           <div style={{ display: 'flex', alignItems: 'center', gap: '0.5rem', marginBottom: '0.5rem' }}>
             <span className="brutal-badge brutal-badge-yellow font-mono" style={{ fontSize: '0.8rem' }}>
-              UNIT 03 // KHAN ALGORITHMS
+              UNIT 03 // ASYMPTOTIC NOTATION
             </span>
             <span className="brutal-badge brutal-badge-blue font-mono" style={{ fontSize: '0.8rem' }}>
               ASYMPTOTIC ANALYSIS: Θ, O, Ω
@@ -142,7 +142,7 @@ export function BigOGraph() {
           </p>
         </div>
 
-        {/* The 3 Core Notations Tabs (Khan Academy Definition Cards) */}
+        {/* The 3 Core Notations Tabs (Asymptotic Definition Cards) */}
         <div style={{
           display: 'grid',
           gridTemplateColumns: 'repeat(auto-fit, minmax(280px, 1fr))',
@@ -366,7 +366,7 @@ export function BigOGraph() {
                 {selectedClass.desc}
               </p>
               <div style={{ background: '#FFF', padding: '0.65rem', border: '1.5px solid #000', fontFamily: 'var(--font-mono)', fontSize: '0.8rem' }}>
-                <strong>KHAN CURRICULUM EXAMPLE:</strong> {selectedClass.khanExample}
+                <strong>REAL-WORLD EXAMPLE:</strong> {selectedClass.realWorldExample}
               </div>
             </div>
 

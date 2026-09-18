@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import { Award, CheckCircle2, XCircle, RotateCcw, ArrowRight, HelpCircle, Sparkles } from 'lucide-react';
 import { SoundEngine } from '../utils/soundEngine';
 
-const KHAN_QUIZ_QUESTIONS = [
+const CS_QUIZ_QUESTIONS = [
   {
     id: 1,
     unit: 'Unit 02 // Binary Search',
@@ -122,7 +122,7 @@ export function QuizChallenge() {
   const [isSubmitted, setIsSubmitted] = useState(false);
   const [isFinished, setIsFinished] = useState(false);
 
-  const q = KHAN_QUIZ_QUESTIONS[currentIdx];
+  const q = CS_QUIZ_QUESTIONS[currentIdx];
 
   const handleSelect = (idx) => {
     if (isSubmitted) return;
@@ -145,7 +145,7 @@ export function QuizChallenge() {
 
   const handleNext = () => {
     SoundEngine.playClick();
-    if (currentIdx + 1 < KHAN_QUIZ_QUESTIONS.length) {
+    if (currentIdx + 1 < CS_QUIZ_QUESTIONS.length) {
       setCurrentIdx(prev => prev + 1);
       setSelectedOption(null);
       setIsSubmitted(false);
@@ -175,7 +175,7 @@ export function QuizChallenge() {
         <div style={{ marginBottom: '2.5rem' }}>
           <div style={{ display: 'flex', alignItems: 'center', gap: '0.5rem', marginBottom: '0.5rem' }}>
             <span className="brutal-badge brutal-badge-yellow font-mono" style={{ fontSize: '0.8rem' }}>
-              UNIT 08 // KHAN ALGORITHMS
+              UNIT 08 // ALGORITHMIC MASTERY QUIZ
             </span>
             <span className="brutal-badge brutal-badge-mint font-mono" style={{ fontSize: '0.8rem' }}>
               MASTERY ASSESSMENT (8 QUESTIONS)
@@ -200,7 +200,7 @@ export function QuizChallenge() {
             maxWidth: '850px',
             lineHeight: 1.6
           }}>
-            Test your understanding of the core concepts from Khan Academy's Computer Science Algorithms curriculum.
+            Test your understanding of the core concepts from the 8 Fundamental Concepts of Algorithms and Computer Science curriculum.
           </p>
         </div>
 
@@ -216,7 +216,7 @@ export function QuizChallenge() {
                   {q.unit}
                 </span>
                 <span style={{ fontFamily: 'var(--font-mono)', fontWeight: 800, fontSize: '0.9rem' }}>
-                  QUESTION {currentIdx + 1} OF {KHAN_QUIZ_QUESTIONS.length}
+                  QUESTION {currentIdx + 1} OF {CS_QUIZ_QUESTIONS.length}
                 </span>
               </div>
 
@@ -224,7 +224,7 @@ export function QuizChallenge() {
               <div style={{ height: '8px', background: '#E5E5E5', border: '1.5px solid #000', marginBottom: '1.5rem' }}>
                 <div style={{
                   height: '100%',
-                  width: `${((currentIdx + (isSubmitted ? 1 : 0)) / KHAN_QUIZ_QUESTIONS.length) * 100}%`,
+                  width: `${((currentIdx + (isSubmitted ? 1 : 0)) / CS_QUIZ_QUESTIONS.length) * 100}%`,
                   background: 'var(--canary-yellow)',
                   transition: 'width 0.3s ease'
                 }} />
@@ -326,7 +326,7 @@ export function QuizChallenge() {
                     className="brutal-btn brutal-btn-yellow"
                     style={{ padding: '0.65rem 1.5rem', fontSize: '0.95rem' }}
                   >
-                    {currentIdx + 1 < KHAN_QUIZ_QUESTIONS.length ? 'NEXT QUESTION →' : 'VIEW FINAL SCORE →'}
+                    {currentIdx + 1 < CS_QUIZ_QUESTIONS.length ? 'NEXT QUESTION →' : 'VIEW FINAL SCORE →'}
                   </button>
                 )}
               </div>
@@ -344,7 +344,7 @@ export function QuizChallenge() {
               </h3>
 
               <div style={{ fontFamily: 'var(--font-mono)', fontSize: '1.5rem', fontWeight: 900, color: 'var(--cobalt-blue)', marginBottom: '1rem' }}>
-                SCORE: {score} / {KHAN_QUIZ_QUESTIONS.length} ({Math.round((score / KHAN_QUIZ_QUESTIONS.length) * 100)}%)
+                SCORE: {score} / {CS_QUIZ_QUESTIONS.length} ({Math.round((score / CS_QUIZ_QUESTIONS.length) * 100)}%)
               </div>
 
               <p style={{ maxWidth: '500px', margin: '0 auto 2rem auto', fontSize: '1rem', color: '#111', lineHeight: 1.5 }}>

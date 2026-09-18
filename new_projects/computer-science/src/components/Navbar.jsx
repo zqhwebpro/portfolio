@@ -14,6 +14,7 @@ export function Navbar({ activeSlideIndex = 0, onSelectSlide = () => {} }) {
   };
 
   const navConcepts = [
+    { id: 'intro', label: '00 INTRO', isIntro: true },
     { id: 'algorithm', label: '01 ALGORITHM', idx: 0 },
     { id: 'data-structure', label: '02 DATA STRUCTURE', idx: 1 },
     { id: 'time-complexity', label: '03 TIME COMPLEXITY', idx: 2 },
@@ -24,9 +25,14 @@ export function Navbar({ activeSlideIndex = 0, onSelectSlide = () => {} }) {
     { id: 'brute-force', label: '08 BRUTE FORCE', idx: 7 },
   ];
 
-  const handleNavClick = (idx) => {
+  const handleNavClick = (item) => {
     SoundEngine.playClick();
-    onSelectSlide(idx);
+    if (item.isIntro) {
+      const el = document.getElementById('hero');
+      if (el) el.scrollIntoView({ behavior: 'smooth' });
+      return;
+    }
+    onSelectSlide(item.idx);
     const el = document.getElementById('interactive-slides');
     if (el) {
       el.scrollIntoView({ behavior: 'smooth' });
@@ -141,11 +147,11 @@ export function Navbar({ activeSlideIndex = 0, onSelectSlide = () => {} }) {
         {/* Concept Quick Jump Navigation */}
         <nav style={{ display: 'flex', alignItems: 'center', gap: '0.35rem', flexWrap: 'wrap' }}>
           {navConcepts.map((item) => {
-            const isActive = activeSlideIndex === item.idx;
+            const isActive = !item.isIntro && activeSlideIndex === item.idx;
             return (
               <button
                 key={item.id}
-                onClick={() => handleNavClick(item.idx)}
+                onClick={() => handleNavClick(item)}
                 className="brutal-btn brutal-btn-sm"
                 style={{
                   background: isActive ? 'var(--canary-yellow)' : '#FFFFFF',
@@ -175,6 +181,21 @@ export function Navbar({ activeSlideIndex = 0, onSelectSlide = () => {} }) {
             }}
           >
             <Layers size={12} /> TABLE
+          </button>
+
+          <button
+            onClick={() => scrollToSection('interactive-labs-section')}
+            className="brutal-btn brutal-btn-sm"
+            style={{
+              background: 'var(--cobalt-blue)',
+              color: '#FFFFFF',
+              border: '1.5px solid #000',
+              fontSize: '0.72rem',
+              padding: '0.3rem 0.6rem',
+              fontWeight: 800
+            }}
+          >
+            <Cpu size={12} /> LABS
           </button>
         </nav>
       </div>
