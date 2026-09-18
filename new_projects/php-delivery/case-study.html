@@ -4,9 +4,9 @@
 <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Case Study: PHP Fundamentals with time() — Server-Side Masterclass</title>
+    <title>Case Study: Practical PHP Fundamentals — 3 Core Projects</title>
     <meta name="description"
-        content="Technical case study of PHP Fundamentals with time(): Unix Epoch calculations, modern PHP 8 paradigms, and live interactive server labs." />
+        content="Technical case study of 3 practical PHP projects: Tic-Tac-Toe (Sessions & 2D Arrays), Email Contact Form (Sanitization & mail()), and User Registration / Login System (PDO & Password Hashing)." />
 
     <!-- Google Fonts -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -23,6 +23,7 @@
             --php-blue: #4f5b93;
             --accent-cyan: #06b6d4;
             --accent-emerald: #10b981;
+            --accent-amber: #f59e0b;
             --text-main: #f8fafc;
             --text-muted: #94a3b8;
         }
@@ -153,6 +154,12 @@
             border-color: rgba(16, 185, 129, 0.3);
         }
 
+        .tag.amber {
+            background: rgba(245, 158, 11, 0.1);
+            color: var(--accent-amber);
+            border-color: rgba(245, 158, 11, 0.3);
+        }
+
         h1 {
             font-family: 'Outfit', sans-serif;
             font-size: 2.4rem;
@@ -199,6 +206,48 @@
             font-size: 0.96rem;
         }
 
+        .project-card {
+            background: rgba(15, 23, 42, 0.6);
+            border: 1px solid var(--card-border);
+            border-radius: 10px;
+            padding: 1.25rem;
+            margin-bottom: 1.25rem;
+        }
+
+        .project-card h3 {
+            font-family: 'Outfit', sans-serif;
+            font-size: 1.15rem;
+            font-weight: 700;
+            color: #fff;
+            margin-bottom: 0.5rem;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .components-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+            gap: 0.75rem;
+            margin-top: 0.75rem;
+        }
+
+        .component-box {
+            background: rgba(30, 41, 59, 0.7);
+            border: 1px solid var(--card-border);
+            border-radius: 6px;
+            padding: 0.75rem;
+            font-size: 0.85rem;
+        }
+
+        .component-box strong {
+            color: var(--accent-cyan);
+            display: block;
+            margin-bottom: 0.2rem;
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 0.8rem;
+        }
+
         .learnings-list {
             list-style: none;
             display: flex;
@@ -219,6 +268,10 @@
 
         .learning-item.cyan {
             border-left-color: var(--accent-cyan);
+        }
+
+        .learning-item.amber {
+            border-left-color: var(--accent-amber);
         }
 
         .learning-item.emerald {
@@ -310,18 +363,18 @@
 
     <header class="navbar">
         <div class="nav-container">
-            <a href="./case-study.html" class="nav-brand">
-                <i class="fa-brands fa-php"></i> PHP Fundamentals with time()
+            <a href="./index.html" class="nav-brand">
+                <i class="fa-brands fa-php"></i> PHP Fundamentals
             </a>
             <div class="nav-links">
+                <a href="./index.html" class="nav-btn primary">
+                    <i class="fa-solid fa-play"></i> Interactive Curriculum
+                </a>
                 <a href="../index.html" class="nav-btn">
-                    <i class="fa-solid fa-grid-2"></i> Interactive Projects
+                    <i class="fa-solid fa-grid-2"></i> All Projects
                 </a>
                 <a href="../../2026/" class="nav-btn">
-                    <i class="fa-solid fa-arrow-left"></i> Main Portfolio
-                </a>
-                <a href="#architecture" class="nav-btn primary">
-                    <i class="fa-solid fa-layer-group"></i> Architecture
+                    <i class="fa-solid fa-house"></i> Main Portfolio
                 </a>
             </div>
         </div>
@@ -332,97 +385,182 @@
         <div class="case-hero">
             <div class="badge-row">
                 <span class="tag">Case Study</span>
-                <span class="tag cyan">Modern PHP 8.x Paradigms</span>
-                <span class="tag emerald">Unix Epoch Time Calculations</span>
+                <span class="tag cyan">Form Handling &amp; Validation</span>
+                <span class="tag amber">AppSec Fundamentals</span>
+                <span class="tag emerald">Sessions &amp; Database Auth</span>
             </div>
-            <h1>PHP Fundamentals with time() Masterclass</h1>
+            <h1>Case Study: 3 Core PHP Projects</h1>
             <p class="hero-subtitle">
-                An interactive, self-contained educational application exploring core PHP programming principles — data types, arithmetic, conditionals, functions, associative arrays, and OOP — anchored by Unix Epoch time.
+                A structured technical analysis of foundational PHP development covering session state management (Tic-Tac-Toe), data sanitization and email dispatch (Contact Form), and cryptographic authentication with PDO and MySQL (User Registration &amp; Login).
             </p>
         </div>
 
+        <!-- 1. The 3 Projects Breakdown -->
         <section class="section-block">
             <h2 class="section-title">
-                <i class="fa-solid fa-circle-info"></i> Project Overview
+                <i class="fa-solid fa-diagram-project"></i> The 3 Core Learning Projects
             </h2>
-            <p>
-                Many traditional programming guides rely on contrived "Hello World" examples. This project reimagines PHP learning by anchoring every fundamental concept (variables, operators, match() expressions, loops, classes) to real-time server calculations driven by <code>time()</code>.
-            </p>
-        </section>
 
-        <section class="section-block">
-            <h2 class="section-title">
-                <i class="fa-solid fa-microchip"></i> Technical Highlights
-            </h2>
-            <p>
-                <strong>Modern PHP 8.x Syntax:</strong> Utilizes cutting-edge PHP features including <code>match(true)</code> pattern matching, typed properties, constructor property promotion, and pure functions.
-            </p>
-            <p>
-                <strong>Object-Oriented Time Models:</strong> Encapsulates time intervals and timestamp transformations into robust <code>TimeSpan</code> and <code>Moment</code> classes demonstrating data encapsulation, getters/setters, and methods.
-            </p>
-            <p>
-                <strong>Interactive Epoch Laboratory:</strong> Integrates a client-side timestamp calculator and server-side evaluation cards to demonstrate real-time timezone conversion and milestone tracking.
-            </p>
-        </section>
-
-        <section class="section-block">
-            <h2 class="section-title">
-                <i class="fa-solid fa-lightbulb"></i> What I Learned (Core Takeaways)
-            </h2>
-            <ul class="learnings-list">
-                <li class="learning-item">
-                    <div class="learning-icon">⏱️</div>
-                    <div class="learning-content">
-                        <h4>The Universal Power of Unix Epoch Time</h4>
-                        <p>Unix timestamps represent absolute, timezone-agnostic seconds since 1970. Grounding calculations in integer seconds simplifies database storage, cache expiration (TTL), session management, and date arithmetic.</p>
+            <!-- Project 1 -->
+            <div class="project-card">
+                <h3><span class="tag cyan">Project 1</span> PHP Tic-Tac-Toe</h3>
+                <p>
+                    Tic Tac Toe is an excellent beginner PHP project as it doesn’t involve a database or the file system. It gives you great experience handling forms, user sessions, arrays, and other PHP basics, and is a lot of fun as well!
+                </p>
+                <div class="components-grid">
+                    <div class="component-box">
+                        <strong>Game Board Representation</strong>
+                        3x3 grid stored in a 2D array in <code>$_SESSION['board']</code>.
                     </div>
-                </li>
+                    <div class="component-box">
+                        <strong>Rendering the Board</strong>
+                        Dynamic HTML/CSS rendering loop generating coordinate buttons.
+                    </div>
+                    <div class="component-box">
+                        <strong>User Input Handling</strong>
+                        POST form submission passing (row, col) coordinates to PHP.
+                    </div>
+                    <div class="component-box">
+                        <strong>Game Logic</strong>
+                        Validation, 8-line win detection (<code>checkWin()</code>), and tie scanning.
+                    </div>
+                    <div class="component-box">
+                        <strong>Game Loop</strong>
+                        Alternating turn controller between Player X and Player O.
+                    </div>
+                    <div class="component-box">
+                        <strong>Game End &amp; Reset</strong>
+                        Victory/tie banners with dedicated session restart button.
+                    </div>
+                </div>
+            </div>
+
+            <!-- Project 2 -->
+            <div class="project-card">
+                <h3><span class="tag amber">Project 2</span> Email Contact Form</h3>
+                <p>
+                    A simple email contact form project is another great PHP beginner project. It includes an HTML form for collecting user input (name, email, subject, and message), a PHP script to filter, validate, and sanitize the input data, and the PHP <code>mail()</code> function to send the email.
+                </p>
+                <div class="components-grid">
+                    <div class="component-box">
+                        <strong>HTML Form Collection</strong>
+                        Input fields for name, email, subject, and message with error states.
+                    </div>
+                    <div class="component-box">
+                        <strong>Input Filtering &amp; Sanitization</strong>
+                        <code>filter_var()</code>, <code>htmlspecialchars()</code>, and trimming whitespace.
+                    </div>
+                    <div class="component-box">
+                        <strong>Header Injection Defense</strong>
+                        Regex filtering stripping carriage returns and newlines from headers.
+                    </div>
+                    <div class="component-box">
+                        <strong>mail() Function</strong>
+                        Constructing valid MIME UTF-8 headers and executing email dispatch.
+                    </div>
+                </div>
+            </div>
+
+            <!-- Project 3 -->
+            <div class="project-card">
+                <h3><span class="tag emerald">Project 3</span> User Registration / Login System</h3>
+                <p>
+                    A PHP project that handles user login and registration is much more complex than a simple contact form. It represents vital functionality for any e-commerce or social platform, establishing the foundation for database-driven web applications.
+                </p>
+                <div class="components-grid">
+                    <div class="component-box">
+                        <strong>Database Setup (MySQL &amp; PDO)</strong>
+                        <code>users</code> table schema with unique indices and secure PDO connections.
+                    </div>
+                    <div class="component-box">
+                        <strong>Registration Processing</strong>
+                        Uniqueness check, <code>password_hash()</code> Bcrypt hashing, and prepared INSERT.
+                    </div>
+                    <div class="component-box">
+                        <strong>Login Verification</strong>
+                        Querying user records, timing-safe <code>password_verify()</code>, and session setup.
+                    </div>
+                    <div class="component-box">
+                        <strong>Session &amp; Logout</strong>
+                        Session regeneration (<code>session_regenerate_id</code>), cookie expiration, and <code>session_destroy()</code>.
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- 2. Application Security (AppSec) -->
+        <section class="section-block">
+            <h2 class="section-title">
+                <i class="fa-solid fa-shield-halved"></i> Application Security (AppSec) Principles Mastered
+            </h2>
+            <p>
+                Building these three projects instilled a defense-in-depth mindset across common web vulnerabilities:
+            </p>
+            <ul class="learnings-list">
                 <li class="learning-item cyan">
-                    <div class="learning-icon">⚡</div>
+                    <div class="learning-icon"><i class="fa-solid fa-shield-virus"></i></div>
                     <div class="learning-content">
-                        <h4>Modern PHP 8 Pattern Matching vs Switch</h4>
-                        <p>The PHP 8 <code>match()</code> expression returns values directly, performs strict type checks (<code>===</code>), and prevents unintentional fall-through bugs found in legacy <code>switch</code> statements.</p>
+                        <h4>Cross-Site Scripting (XSS) &amp; Email Header Injection Defense</h4>
+                        <p>User-submitted content must never be echoed unescaped or placed directly into mail headers. Using <code>htmlspecialchars($str, ENT_QUOTES, 'UTF-8')</code> and stripping <code>\r\n</code> carriage returns prevents malicious payload injection.</p>
                     </div>
                 </li>
                 <li class="learning-item emerald">
-                    <div class="learning-icon">🏗️</div>
+                    <div class="learning-icon"><i class="fa-solid fa-key"></i></div>
                     <div class="learning-content">
-                        <h4>Self-Contained Interactive Architecture</h4>
-                        <p>Designing an educational masterclass with co-located server-side execution and clean visual documentation provides immediate feedback and drastically improves developer comprehension.</p>
+                        <h4>Cryptographic Password Hashing vs Obsolete Hashing</h4>
+                        <p>Never store plaintext or simple MD5/SHA1 hashes. PHP's <code>password_hash($pass, PASSWORD_DEFAULT)</code> automatically manages dynamic salting, cost factors, and adaptive cryptographic key derivation.</p>
+                    </div>
+                </li>
+                <li class="learning-item amber">
+                    <div class="learning-icon"><i class="fa-solid fa-database"></i></div>
+                    <div class="learning-content">
+                        <h4>SQL Injection Prevention via PDO Prepared Statements</h4>
+                        <p>Parameterized queries separate SQL instructions from user data, rendering SQL injection impossible regardless of input content.</p>
+                    </div>
+                </li>
+                <li class="learning-item">
+                    <div class="learning-icon"><i class="fa-solid fa-user-lock"></i></div>
+                    <div class="learning-content">
+                        <h4>Session Fixation Mitigation</h4>
+                        <p>Upon verifying user credentials during login, calling <code>session_regenerate_id(true)</code> assigns a new session ID, preventing attackers from hijacking pre-authenticated session tokens.</p>
                     </div>
                 </li>
             </ul>
         </section>
 
+        <!-- 3. Architecture Specifications -->
         <section class="section-block" id="architecture">
             <h2 class="section-title">
                 <i class="fa-solid fa-layer-group"></i> Architecture Specifications
             </h2>
             <div class="tech-grid">
                 <div class="tech-card">
-                    <div class="tech-label">Backend Engine</div>
-                    <div class="tech-value">PHP 8.2+ Server-Side Execution</div>
+                    <div class="tech-label">PHP Engine</div>
+                    <div class="tech-value">PHP 8.2+ Server-Side</div>
                 </div>
                 <div class="tech-card">
-                    <div class="tech-label">Key Functions</div>
-                    <div class="tech-value">time(), microtime(), date(), match()</div>
+                    <div class="tech-label">State Storage</div>
+                    <div class="tech-value">$_SESSION &amp; MySQL (PDO)</div>
                 </div>
                 <div class="tech-card">
-                    <div class="tech-label">Design Paradigm</div>
-                    <div class="tech-value">Procedural to OOP (Moment Class)</div>
+                    <div class="tech-label">Security Hashing</div>
+                    <div class="tech-value">Bcrypt / PASSWORD_DEFAULT</div>
                 </div>
                 <div class="tech-card">
-                    <div class="tech-label">UI Presentation</div>
-                    <div class="tech-value">Tailwind CSS &amp; JetBrains Mono</div>
+                    <div class="tech-label">Validation Engine</div>
+                    <div class="tech-value">filter_var() &amp; Regex Sanitizers</div>
                 </div>
             </div>
         </section>
 
         <footer class="footer-nav">
-            <a href="../index.html" class="nav-btn primary">
-                <i class="fa-solid fa-grid-2"></i> All Interactive Projects
+            <a href="./index.html" class="nav-btn primary">
+                <i class="fa-solid fa-play"></i> Open Interactive Curriculum
             </a>
             <div class="footer-links-group">
+                <a href="../index.html" class="nav-btn">
+                    <i class="fa-solid fa-grid-2"></i> Interactive Projects Hub
+                </a>
                 <a href="../../2026/" class="nav-btn">
                     <i class="fa-solid fa-house"></i> Main Portfolio
                 </a>

@@ -77,27 +77,28 @@
             min-height: 100vh;
         }
 
-        /* Clean E-Commerce Card */
+        /* Clean Light E-Commerce Card */
         .product-card {
-            background-color: var(--card-main);
-            border: 1px solid var(--border-main);
+            background-color: #ffffff;
+            border: 1px solid #e2e8f0;
             border-radius: 16px;
             transition: transform 0.22s cubic-bezier(0.4, 0, 0.2, 1), border-color 0.22s ease, box-shadow 0.22s ease;
             display: flex;
             flex-direction: column;
             overflow: hidden;
+            box-shadow: 0 2px 8px -2px rgba(0, 0, 0, 0.05), 0 1px 4px -1px rgba(0, 0, 0, 0.03);
         }
 
         .product-card:hover {
             transform: translateY(-4px);
-            border-color: rgba(245, 158, 11, 0.45);
-            box-shadow: 0 12px 32px rgba(0, 0, 0, 0.35);
+            border-color: rgba(245, 158, 11, 0.6);
+            box-shadow: 0 12px 28px -4px rgba(0, 0, 0, 0.1), 0 4px 10px -2px rgba(0, 0, 0, 0.05);
         }
 
         .product-image-container {
             aspect-ratio: 1 / 1;
             width: 100%;
-            background-color: #090d13;
+            background-color: #f1f5f9;
             overflow: hidden;
             position: relative;
         }
@@ -243,23 +244,18 @@
         <div class="max-w-7xl mx-auto px-4 sm:px-6 py-3.5 flex items-center justify-between gap-4 flex-wrap">
             
             <!-- Brand Logo -->
-            <div class="flex items-center gap-3" 
+            <div class="cursor-pointer select-none" 
                  data-blueprint-file="MischiefStore.WebUI/Controllers/ProductController.cs"
                  data-blueprint-role="Brand Identity &amp; Catalog Root"
                  data-blueprint-layer="WebUI / Presentation"
-                 data-blueprint-dom="Flex container wrapping SVG icon badge, heading typography, and responsive subtitle."
-                 data-blueprint-desc="Clicking the logo triggers ProductController.List() with default filters, demonstrating ASP.NET standard MVC route resolution (~/Product/List)."
+                 data-blueprint-dom="Typographic brand heading and responsive subtitle with click handler to reset catalog."
+                 data-blueprint-desc="Clicking the logo triggers ProductController.List() with default parameters, demonstrating ASP.NET standard MVC route resolution (~/Product/List)."
                  data-blueprint-code="@Html.ActionLink(&quot;MISCHIEF STORE&quot;, &quot;List&quot;, &quot;Product&quot;, new { category = (string)null }, new { @class = &quot;navbar-brand&quot; })"
                  onclick="window.resetFilters()">
-                <div class="h-10 w-10 rounded-xl bg-brand-500 text-slate-950 flex items-center justify-center font-black text-xl shadow-lg shadow-brand-500/20">
-                    ⚡
+                <div class="font-heading font-extrabold text-2xl text-white tracking-wide">
+                    MISCHIEF<span class="text-brand-400">STORE</span>
                 </div>
-                <div>
-                    <div class="font-heading font-extrabold text-xl text-white tracking-wide flex items-center gap-1.5">
-                        MISCHIEF<span class="text-brand-400">STORE</span>
-                    </div>
-                    <div class="text-[11px] text-slate-400 font-medium">Premium Novelty &amp; Office Gags</div>
-                </div>
+                <div class="text-[11px] text-slate-400 font-medium">Premium Novelty &amp; Office Gags</div>
             </div>
 
             <!-- E-Commerce Search Bar -->
@@ -345,120 +341,89 @@
 
         </div>
 
-        <!-- 3. CATEGORY NAVIGATION TABS -->
-        <nav class="border-t border-dark-border/80 bg-dark-subtle/80"
-             data-blueprint-file="MischiefStore.WebUI/Views/Nav/Menu.cshtml"
-             data-blueprint-role="Category Navigation Partial View"
-             data-blueprint-layer="WebUI / Partial View"
-             data-blueprint-dom="Horizontal navigation ribbon with overflow-x-auto, scrollbar styling, and pill buttons with active state classes."
-             data-blueprint-desc="NavController.Menu() executes LINQ .Select(p => p.Category).Distinct() to dynamically generate category navigation pills via Views/Nav/Menu.cshtml."
-             data-blueprint-code="public PartialViewResult Menu(string category = null) { return PartialView(repository.Products.Select(p => p.Category).Distinct().OrderBy(x => x)); }">
-            <div class="max-w-7xl mx-auto px-4 sm:px-6 flex items-center gap-2 overflow-x-auto py-2.5 text-xs font-medium">
-                <button class="cat-pill active px-3.5 py-1.5 rounded-lg bg-brand-500 text-slate-950 font-bold whitespace-nowrap transition-all shadow-sm" data-category="all" onclick="window.setCategory('all')">
-                    All Products (12)
-                </button>
-                <button class="cat-pill px-3.5 py-1.5 rounded-lg bg-dark-card border border-dark-border text-slate-300 hover:border-brand-500 hover:text-white whitespace-nowrap transition-all" data-category="Office Gags" onclick="window.setCategory('Office Gags')">
-                    🏢 Office Pranks
-                </button>
-                <button class="cat-pill px-3.5 py-1.5 rounded-lg bg-dark-card border border-dark-border text-slate-300 hover:border-brand-500 hover:text-white whitespace-nowrap transition-all" data-category="Stealth Noise" onclick="window.setCategory('Stealth Noise')">
-                    🔊 Stealth Noise
-                </button>
-                <button class="cat-pill px-3.5 py-1.5 rounded-lg bg-dark-card border border-dark-border text-slate-300 hover:border-brand-500 hover:text-white whitespace-nowrap transition-all" data-category="Classic Novelties" onclick="window.setCategory('Classic Novelties')">
-                    🎭 Classic Novelties
-                </button>
-                <button class="cat-pill px-3.5 py-1.5 rounded-lg bg-dark-card border border-dark-border text-slate-300 hover:border-brand-500 hover:text-white whitespace-nowrap transition-all" data-category="Bulk Packs" onclick="window.setCategory('Bulk Packs')">
-                    📦 Bulk Packs
-                </button>
-                <button class="cat-pill px-3.5 py-1.5 rounded-lg bg-dark-card border border-dark-border text-slate-300 hover:border-brand-500 hover:text-white whitespace-nowrap transition-all" data-category="Bathroom Traps" onclick="window.setCategory('Bathroom Traps')">
-                    🧻 Bathroom Traps
-                </button>
-                <button class="cat-pill px-3.5 py-1.5 rounded-lg bg-dark-card border border-dark-border text-slate-300 hover:border-brand-500 hover:text-white whitespace-nowrap transition-all" data-category="Fake Bugs" onclick="window.setCategory('Fake Bugs')">
-                    🪲 Fake Bugs
-                </button>
-            </div>
-        </nav>
-
     </header>
 
-    <!-- 4. MAIN STORE CONTENT AREA -->
-    <main class="max-w-7xl mx-auto px-4 sm:px-6 py-8 space-y-6 flex-1 w-full">
+    <!-- 4. MAIN STORE CONTENT AREA (Light Background Area) -->
+    <main class="bg-slate-100 text-slate-900 border-t border-b border-slate-200 py-10 flex-1 w-full">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 space-y-6">
 
-        <!-- Catalog Header & Sorting Controls -->
-        <div class="flex items-center justify-between flex-wrap gap-4 pb-2 border-b border-dark-border"
-             data-blueprint-file="MischiefStore.WebUI/Models/ProductsListViewModel.cs"
-             data-blueprint-role="Catalog ViewModel &amp; Query Controls"
-             data-blueprint-layer="WebUI / ViewModel"
-             data-blueprint-dom="Responsive flex container with items-center alignment, status text counters, and custom dropdown styling."
-             data-blueprint-desc="ProductsListViewModel encapsulates the IEnumerable<Product> collection, CurrentCategory, and PagingInfo object passed to the List.cshtml view."
-             data-blueprint-code="public class ProductsListViewModel { public IEnumerable<Product> Products { get; set; } public PagingInfo PagingInfo { get; set; } public string CurrentCategory { get; set; } }">
-            
-            <div>
-                <h2 id="active-category-title" class="font-heading font-extrabold text-2xl text-white">All Novelty Products</h2>
-                <p class="text-xs text-slate-400 mt-0.5">
-                    Showing <strong id="visible-count" class="text-brand-400 font-bold">12</strong> verified prank novelties ready for dispatch
-                </p>
+            <!-- Catalog Header & Sorting Controls -->
+            <div class="flex items-center justify-between flex-wrap gap-4 pb-4 border-b border-slate-200"
+                 data-blueprint-file="MischiefStore.WebUI/Models/ProductsListViewModel.cs"
+                 data-blueprint-role="Catalog ViewModel &amp; Query Controls"
+                 data-blueprint-layer="WebUI / ViewModel"
+                 data-blueprint-dom="Responsive flex container with items-center alignment, status text counters, and custom dropdown styling."
+                 data-blueprint-desc="ProductsListViewModel encapsulates the IEnumerable<Product> collection, CurrentCategory, and PagingInfo object passed to the List.cshtml view."
+                 data-blueprint-code="public class ProductsListViewModel { public IEnumerable<Product> Products { get; set; } public PagingInfo PagingInfo { get; set; } public string CurrentCategory { get; set; } }">
+                
+                <div>
+                    <h2 id="active-category-title" class="font-heading font-extrabold text-2xl text-slate-900">All Novelty Products</h2>
+                    <p class="text-xs text-slate-600 mt-0.5">
+                        Showing <strong id="visible-count" class="text-amber-600 font-bold">12</strong> verified prank novelties ready for dispatch
+                    </p>
+                </div>
+
+                <!-- Sorting Selector -->
+                <div class="flex items-center gap-2.5 text-xs">
+                    <label for="sort-select" class="text-slate-700 font-semibold">Sort By:</label>
+                    <select id="sort-select" onchange="window.handleSortChange()" 
+                            class="bg-white border border-slate-300 rounded-xl px-3 py-2 text-xs text-slate-800 focus:outline-none focus:border-brand-500 focus:ring-1 focus:ring-brand-500 font-medium cursor-pointer shadow-sm">
+                        <option value="default">Featured &bull; Popularity</option>
+                        <option value="price-asc">Price: Low to High</option>
+                        <option value="price-desc">Price: High to Low</option>
+                        <option value="name-asc">Alphabetical (A - Z)</option>
+                        <option value="rating-desc">Customer Rating (Highest)</option>
+                    </select>
+                </div>
+
             </div>
 
-            <!-- Sorting Selector -->
-            <div class="flex items-center gap-2.5 text-xs">
-                <label for="sort-select" class="text-slate-400 font-medium">Sort By:</label>
-                <select id="sort-select" onchange="window.handleSortChange()" 
-                        class="bg-dark-card border border-dark-border rounded-xl px-3 py-2 text-xs text-slate-200 focus:outline-none focus:border-brand-500 font-medium cursor-pointer">
-                    <option value="default">Featured &bull; Popularity</option>
-                    <option value="price-asc">Price: Low to High</option>
-                    <option value="price-desc">Price: High to Low</option>
-                    <option value="name-asc">Alphabetical (A - Z)</option>
-                    <option value="rating-desc">Customer Rating (Highest)</option>
-                </select>
+            <!-- PRODUCT CATALOG GRID -->
+            <section id="product-grid-section" 
+                     data-blueprint-file="MischiefStore.WebUI/Views/Shared/_ProductSummary.cshtml"
+                     data-blueprint-role="Product Summary Razor Partial"
+                     data-blueprint-layer="WebUI / Partial View"
+                     data-blueprint-dom="CSS Grid container with responsive breakpoints (grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6)."
+                     data-blueprint-desc="Rendered for each item in Model.Products. Maps Domain.Entities.Product properties (ProductID, Name, Description, Price, Category, ImageData) to HTML markup."
+                     data-blueprint-code="@model MischiefStore.Domain.Entities.Product">
+                
+                <div id="product-grid" class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
+                    <!-- Products injected dynamically via JS -->
+                </div>
+
+                <!-- Empty State -->
+                <div id="empty-state" class="hidden bg-white border border-slate-200 rounded-2xl p-12 text-center space-y-4 max-w-md mx-auto shadow-sm">
+                    <div class="text-4xl text-brand-500">🔍</div>
+                    <h3 class="font-heading font-bold text-lg text-slate-900">No Matching Products Found</h3>
+                    <p class="text-xs text-slate-600 leading-relaxed">No prank items match your active keyword. Try clearing your search.</p>
+                    <button onclick="window.resetFilters()" class="px-5 py-2.5 rounded-xl bg-brand-500 text-slate-950 font-bold text-xs hover:bg-brand-400 transition-all shadow-md">
+                        Reset Filter &amp; Show All
+                    </button>
+                </div>
+
+            </section>
+
+            <!-- PAGINATION BAR -->
+            <div class="bg-white border border-slate-200 rounded-2xl p-4 flex items-center justify-between flex-wrap gap-4 shadow-sm"
+                 data-blueprint-file="MischiefStore.WebUI/HtmlHelpers/PagingHelpers.cs"
+                 data-blueprint-role="Custom Razor HTML Helper"
+                 data-blueprint-layer="WebUI / HtmlHelpers"
+                 data-blueprint-dom="Flex container displaying pagination status label and dynamic button list."
+                 data-blueprint-desc="The @Html.PageLinks() custom HTML extension method calculates PagingInfo (TotalPages, CurrentPage) and builds SEO-optimized anchor links with proper query strings."
+                 data-blueprint-code="public static MvcHtmlString PageLinks(this HtmlHelper html, PagingInfo pagingInfo, Func<int, string> pageUrl) { ... }">
+                
+                <div class="text-xs text-slate-600 flex items-center gap-2">
+                    <i class="fa-solid fa-list-ol text-amber-600"></i>
+                    <span id="page-info-label" class="font-medium">Page 1 of 2</span>
+                </div>
+
+                <div id="pagination-buttons" class="flex items-center gap-1.5 text-xs font-semibold">
+                    <!-- Pagination buttons generated dynamically -->
+                </div>
+
             </div>
 
         </div>
-
-        <!-- PRODUCT CATALOG GRID -->
-        <section id="product-grid-section" 
-                 data-blueprint-file="MischiefStore.WebUI/Views/Shared/_ProductSummary.cshtml"
-                 data-blueprint-role="Product Summary Razor Partial"
-                 data-blueprint-layer="WebUI / Partial View"
-                 data-blueprint-dom="CSS Grid container with responsive breakpoints (grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6)."
-                 data-blueprint-desc="Rendered for each item in Model.Products. Maps Domain.Entities.Product properties (ProductID, Name, Description, Price, Category, ImageData) to HTML markup."
-                 data-blueprint-code="@model MischiefStore.Domain.Entities.Product">
-            
-            <div id="product-grid" class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
-                <!-- Products injected dynamically via JS -->
-            </div>
-
-            <!-- Empty State -->
-            <div id="empty-state" class="hidden bg-dark-card border border-dark-border rounded-2xl p-12 text-center space-y-4 max-w-md mx-auto">
-                <div class="text-4xl text-brand-400">🔍</div>
-                <h3 class="font-heading font-bold text-lg text-white">No Matching Products Found</h3>
-                <p class="text-xs text-slate-400 leading-relaxed">No prank items match your active keyword or category filter. Try clearing your search.</p>
-                <button onclick="window.resetFilters()" class="px-5 py-2.5 rounded-xl bg-brand-500 text-slate-950 font-bold text-xs hover:bg-brand-400 transition-all shadow-md">
-                    Reset Filter &amp; Show All
-                </button>
-            </div>
-
-        </section>
-
-        <!-- PAGINATION BAR -->
-        <div class="bg-dark-card border border-dark-border rounded-2xl p-4 flex items-center justify-between flex-wrap gap-4"
-             data-blueprint-file="MischiefStore.WebUI/HtmlHelpers/PagingHelpers.cs"
-             data-blueprint-role="Custom Razor HTML Helper"
-             data-blueprint-layer="WebUI / HtmlHelpers"
-             data-blueprint-dom="Flex container displaying pagination status label and dynamic button list."
-             data-blueprint-desc="The @Html.PageLinks() custom HTML extension method calculates PagingInfo (TotalPages, CurrentPage) and builds SEO-optimized anchor links with proper query strings."
-             data-blueprint-code="public static MvcHtmlString PageLinks(this HtmlHelper html, PagingInfo pagingInfo, Func<int, string> pageUrl) { ... }">
-            
-            <div class="text-xs text-slate-400 flex items-center gap-2">
-                <i class="fa-solid fa-list-ol text-cyan-400"></i>
-                <span id="page-info-label">Page 1 of 2</span>
-            </div>
-
-            <div id="pagination-buttons" class="flex items-center gap-1.5 text-xs font-semibold">
-                <!-- Pagination buttons generated dynamically -->
-            </div>
-
-        </div>
-
     </main>
 
     <!-- 5. CART DRAWER COMPONENT -->
@@ -673,12 +638,11 @@
                     <input type="text" id="new-prod-name" placeholder="Product Name" required class="bg-dark-bg border border-dark-border rounded-xl px-3 py-2 text-white text-xs focus:border-brand-500 focus:outline-none sm:col-span-2">
                     <input type="number" id="new-prod-price" placeholder="Price ($)" step="0.01" min="0.5" required class="bg-dark-bg border border-dark-border rounded-xl px-3 py-2 text-white text-xs focus:border-brand-500 focus:outline-none">
                     <select id="new-prod-category" required class="bg-dark-bg border border-dark-border rounded-xl px-3 py-2 text-white text-xs focus:border-brand-500 focus:outline-none">
-                        <option value="Office Gags">Office Gags</option>
-                        <option value="Stealth Noise">Stealth Noise</option>
-                        <option value="Classic Novelties">Classic Novelties</option>
-                        <option value="Bulk Packs">Bulk Packs</option>
-                        <option value="Bathroom Traps">Bathroom Traps</option>
-                        <option value="Fake Bugs">Fake Bugs</option>
+                        <option value="Bunkums">Bunkums</option>
+                        <option value="Skuttlebutts">Skuttlebutts</option>
+                        <option value="Balderdash">Balderdash</option>
+                        <option value="Flummery">Flummery</option>
+                        <option value="Codswallop">Codswallop</option>
                     </select>
                     <input type="text" id="new-prod-desc" placeholder="Product description..." required class="bg-dark-bg border border-dark-border rounded-xl px-3 py-2 text-white text-xs focus:border-brand-500 focus:outline-none sm:col-span-3">
                     <button type="submit" class="py-2 rounded-xl bg-brand-500 hover:bg-brand-400 text-slate-950 font-bold text-xs transition-all shadow">
@@ -781,12 +745,11 @@
          * ==============================================================================
          * MISCHIEF STORE // SEED INVENTORY WITH HIGH-RES PRODUCT PHOTOGRAPHY
          * ==============================================================================
-         */
-        let PRODUCTS = [
+            let PRODUCTS = [
             {
                 id: 1,
                 name: "Invisible Phantom Beeper",
-                category: "Stealth Noise",
+                category: "Bunkums",
                 price: 9.98,
                 rating: 4.9,
                 reviews: 248,
@@ -799,7 +762,7 @@
             {
                 id: 2,
                 name: "Auto-Correcting Chaos USB",
-                category: "Office Gags",
+                category: "Skuttlebutts",
                 price: 24.99,
                 rating: 4.8,
                 reviews: 189,
@@ -812,7 +775,7 @@
             {
                 id: 3,
                 name: "Vanishing Ink Executive Pen",
-                category: "Office Gags",
+                category: "Balderdash",
                 price: 14.99,
                 rating: 4.7,
                 reviews: 95,
@@ -825,7 +788,7 @@
             {
                 id: 4,
                 name: "Squeaking Chair Caster Wheel",
-                category: "Office Gags",
+                category: "Flummery",
                 price: 16.95,
                 rating: 4.6,
                 reviews: 112,
@@ -838,7 +801,7 @@
             {
                 id: 5,
                 name: "Decaf Stealth Roast Coffee",
-                category: "Office Gags",
+                category: "Codswallop",
                 price: 18.50,
                 rating: 4.9,
                 reviews: 310,
@@ -851,7 +814,7 @@
             {
                 id: 6,
                 name: "Desktop USB Missile Turret",
-                category: "Office Gags",
+                category: "Bunkums",
                 price: 34.95,
                 rating: 4.9,
                 reviews: 420,
@@ -864,7 +827,7 @@
             {
                 id: 7,
                 name: "Fake Cockroach Swarm (50pcs)",
-                category: "Fake Bugs",
+                category: "Skuttlebutts",
                 price: 11.95,
                 rating: 4.7,
                 reviews: 165,
@@ -877,7 +840,7 @@
             {
                 id: 8,
                 name: "Shocking Executive Car Key",
-                category: "Classic Novelties",
+                category: "Balderdash",
                 price: 9.95,
                 rating: 4.5,
                 reviews: 88,
@@ -890,7 +853,7 @@
             {
                 id: 9,
                 name: "Super-Sonic Whoopee Cushion",
-                category: "Classic Novelties",
+                category: "Flummery",
                 price: 6.99,
                 rating: 4.8,
                 reviews: 530,
@@ -903,7 +866,7 @@
             {
                 id: 10,
                 name: "Industrial Stink Bomb 12-Pack",
-                category: "Bulk Packs",
+                category: "Codswallop",
                 price: 19.99,
                 rating: 4.8,
                 reviews: 210,
@@ -916,7 +879,7 @@
             {
                 id: 11,
                 name: "Non-Tearable Toilet Paper Roll",
-                category: "Bathroom Traps",
+                category: "Bunkums",
                 price: 8.50,
                 rating: 4.6,
                 reviews: 144,
@@ -929,7 +892,7 @@
             {
                 id: 12,
                 name: "Exploding Golf Balls 3-Pack",
-                category: "Classic Novelties",
+                category: "Balderdash",
                 price: 15.50,
                 rating: 4.9,
                 reviews: 275,
@@ -1004,70 +967,103 @@
             const paginatedItems = filtered.slice(startIndex, startIndex + ITEMS_PER_PAGE);
 
             // Render Clean E-Commerce Cards (Views/Shared/_ProductSummary.cshtml)
-            grid.innerHTML = paginatedItems.map(prod => `
-                <article class="product-card group"
-                         data-blueprint-file="MischiefStore.WebUI/Views/Shared/_ProductSummary.cshtml"
-                         data-blueprint-role="Product Summary Partial View"
-                         data-blueprint-layer="WebUI / Partial View"
-                         data-blueprint-dom="Semantic <article> with aspect-ratio 1:1 image frame, flex layout, hover zoom, and Tailwind typography."
-                         data-blueprint-desc="In ASP.NET MVC, _ProductSummary.cshtml maps Domain.Entities.Product model properties directly into clean HTML markup without controller bloat."
-                         data-blueprint-code="@Html.Partial(&quot;_ProductSummary&quot;, product)">
-                    
-                    <!-- Product Photo with Badge -->
-                    <div class="product-image-container">
-                        <img src="${prod.image}" alt="${prod.name}" class="product-image" loading="lazy" />
-                        <span class="absolute top-3 left-3 px-2.5 py-1 rounded-full bg-slate-950/80 backdrop-blur-md text-amber-400 border border-amber-500/30 text-[10px] font-bold tracking-wide uppercase">
-                            ${prod.badge}
-                        </span>
-                        <span class="absolute top-3 right-3 px-2 py-0.5 rounded-md bg-slate-900/85 backdrop-blur-md text-slate-300 text-[10px] font-mono">
-                            ${prod.category}
-                        </span>
-                    </div>
+            grid.innerHTML = paginatedItems.map(prod => {
+                const cartItem = cart.find(c => c.id === prod.id);
+                const inCartQty = cartItem ? cartItem.quantity : 0;
 
-                    <!-- Card Body -->
-                    <div class="p-4 flex-1 flex flex-col justify-between space-y-3">
-                        <div class="space-y-1.5">
-                            <!-- Star Rating -->
-                            <div class="flex items-center gap-1 text-amber-400 text-xs">
-                                <span class="text-xs">★★★★★</span>
-                                <span class="text-slate-400 text-[11px] font-medium ml-1">${prod.rating} (${prod.reviews})</span>
-                            </div>
-
-                            <!-- Product Title -->
-                            <h3 class="font-heading font-bold text-base text-white group-hover:text-amber-400 transition-colors line-clamp-1">
-                                ${prod.name}
-                            </h3>
-
-                            <!-- Description -->
-                            <p class="text-slate-400 text-xs line-clamp-2 leading-relaxed font-sans">
-                                ${prod.description}
-                            </p>
+                const actionButtonHtml = inCartQty > 0 ? `
+                    <div class="space-y-2">
+                        <div class="w-full py-2 px-3 rounded-xl bg-emerald-600 text-white font-bold text-xs flex items-center justify-center gap-1.5 shadow-sm">
+                            <i class="fa-solid fa-check"></i>
+                            <span>Added to Cart</span>
                         </div>
-
-                        <!-- Price & Add to Cart -->
-                        <div class="pt-3 border-t border-dark-border/70 space-y-3">
-                            <div class="flex items-baseline justify-between">
-                                <div>
-                                    <span class="text-lg font-extrabold text-white font-heading">$${prod.price.toFixed(2)}</span>
-                                    <span class="text-[10px] text-slate-400 ml-1">USD</span>
-                                </div>
-                                <span class="text-emerald-400 text-[11px] font-semibold flex items-center gap-1">
-                                    <span class="h-1.5 w-1.5 rounded-full bg-emerald-400 animate-pulse"></span>
-                                    In Stock (${prod.stock})
-                                </span>
+                        <div class="flex items-center justify-between bg-slate-100 border border-slate-300 rounded-xl p-1 text-slate-800">
+                            <button onclick="window.updateCartQty(${prod.id}, -1)" 
+                                    class="h-7 w-7 rounded-lg bg-white border border-slate-300 hover:bg-slate-200 text-slate-800 font-bold text-sm flex items-center justify-center transition-all shadow-xs" 
+                                    title="Decrease quantity">
+                                <i class="fa-solid fa-minus text-[10px]"></i>
+                            </button>
+                            <div class="flex items-center gap-1.5 text-xs font-semibold">
+                                <span class="text-slate-500 text-[11px]">Qty:</span>
+                                <input type="number" 
+                                       min="1" 
+                                       max="99" 
+                                       value="${inCartQty}" 
+                                       onchange="window.setProductQuantity(${prod.id}, this.value)" 
+                                       class="w-12 text-center font-bold text-slate-900 bg-white border border-slate-300 rounded-md py-0.5 text-xs focus:outline-none focus:ring-1 focus:ring-brand-500" />
                             </div>
-
-                            <button onclick="window.addToCart(${prod.id})" 
-                                    class="w-full py-2.5 rounded-xl bg-brand-500 hover:bg-brand-400 active:scale-[0.98] text-slate-950 font-black text-xs flex items-center justify-center gap-2 transition-all shadow-md shadow-brand-500/20">
-                                <i class="fa-solid fa-cart-plus"></i>
-                                <span>Add to Cart</span>
+                            <button onclick="window.updateCartQty(${prod.id}, 1)" 
+                                    class="h-7 w-7 rounded-lg bg-white border border-slate-300 hover:bg-slate-200 text-slate-800 font-bold text-sm flex items-center justify-center transition-all shadow-xs" 
+                                    title="Increase quantity">
+                                <i class="fa-solid fa-plus text-[10px]"></i>
                             </button>
                         </div>
-
                     </div>
+                ` : `
+                    <button onclick="window.addToCart(${prod.id})" 
+                            class="w-full py-2.5 rounded-xl bg-brand-500 hover:bg-brand-400 active:scale-[0.98] text-slate-950 font-black text-xs flex items-center justify-center gap-2 transition-all shadow-md shadow-brand-500/20">
+                        <i class="fa-solid fa-cart-plus"></i>
+                        <span>Add to Cart</span>
+                    </button>
+                `;
 
-                </article>
-            `).join('');
+                return `
+                    <article class="product-card group"
+                             data-blueprint-file="MischiefStore.WebUI/Views/Shared/_ProductSummary.cshtml"
+                             data-blueprint-role="Product Summary Partial View"
+                             data-blueprint-layer="WebUI / Partial View"
+                             data-blueprint-dom="Semantic &lt;article&gt; with white card background, aspect-ratio 1:1 image frame, flex layout, hover zoom, and Tailwind typography."
+                             data-blueprint-desc="In ASP.NET MVC, _ProductSummary.cshtml maps Domain.Entities.Product model properties directly into clean HTML markup without controller bloat."
+                             data-blueprint-code="@Html.Partial(&quot;_ProductSummary&quot;, product)">
+                        
+                        <!-- Product Photo with Badges -->
+                        <div class="product-image-container">
+                            <img src="${prod.image}" alt="${prod.name}" class="product-image" loading="lazy" />
+                            <span class="absolute top-3 left-3 px-2.5 py-1 rounded-full bg-slate-900/85 backdrop-blur-md text-amber-400 border border-amber-500/30 text-[10px] font-bold tracking-wide uppercase">
+                                ${prod.badge}
+                            </span>
+                            <span class="absolute top-3 right-3 px-2 py-0.5 rounded-md bg-white/90 backdrop-blur-md text-slate-700 border border-slate-200 text-[10px] font-mono font-semibold shadow-xs">
+                                ${prod.category}
+                            </span>
+                        </div>
+
+                        <!-- Card Body -->
+                        <div class="p-4 flex-1 flex flex-col justify-between space-y-3">
+                            <div class="space-y-1.5">
+                                <!-- Star Rating -->
+                                <div class="flex items-center gap-1 text-amber-500 text-xs">
+                                    <span class="text-xs">★★★★★</span>
+                                    <span class="text-slate-500 text-[11px] font-medium ml-1">${prod.rating} (${prod.reviews})</span>
+                                </div>
+
+                                <!-- Product Title -->
+                                <h3 class="font-heading font-bold text-base text-slate-900 group-hover:text-amber-600 transition-colors line-clamp-1">
+                                    ${prod.name}
+                                </h3>
+
+                                <!-- Description -->
+                                <p class="text-slate-600 text-xs line-clamp-2 leading-relaxed font-sans">
+                                    ${prod.description}
+                                </p>
+                            </div>
+
+                            <!-- Price & Add to Cart / Quantity Stepper -->
+                            <div class="pt-3 border-t border-slate-200 space-y-3">
+                                <div class="flex items-baseline justify-between">
+                                    <div>
+                                        <span class="text-lg font-extrabold text-slate-900 font-heading">$${prod.price.toFixed(2)}</span>
+                                        <span class="text-[10px] text-slate-500 ml-1 font-medium">USD</span>
+                                    </div>
+                                </div>
+
+                                ${actionButtonHtml}
+                            </div>
+
+                        </div>
+
+                    </article>
+                `;
+            }).join('');
 
             // Render Pagination (HtmlHelpers/PagingHelpers.cs)
             renderPagination(totalPages);
@@ -1084,7 +1080,7 @@
                 const isActive = i === currentPage;
                 html += `
                     <button onclick="window.goToPage(${i})" 
-                            class="px-3.5 py-1.5 rounded-xl font-bold transition-all ${isActive ? 'bg-brand-500 text-slate-950 shadow-md' : 'bg-dark-subtle text-slate-300 border border-dark-border hover:border-brand-500 hover:text-white'}">
+                            class="px-3.5 py-1.5 rounded-xl font-bold transition-all ${isActive ? 'bg-brand-500 text-slate-950 shadow-md' : 'bg-slate-100 text-slate-700 border border-slate-300 hover:bg-slate-200'}">
                         ${i}
                     </button>
                 `;
@@ -1126,13 +1122,42 @@
 
         function updateCartQty(productId, delta) {
             const item = cart.find(c => c.id === productId);
-            if (!item) return;
+            if (!item) {
+                if (delta > 0) {
+                    addToCart(productId);
+                }
+                return;
+            }
 
             item.quantity += delta;
             if (item.quantity <= 0) {
                 cart = cart.filter(c => c.id !== productId);
             }
 
+            updateCartUI();
+        }
+
+        function setProductQuantity(productId, val) {
+            const qty = parseInt(val, 10);
+            if (isNaN(qty) || qty <= 0) {
+                cart = cart.filter(c => c.id !== productId);
+            } else {
+                const item = cart.find(c => c.id === productId);
+                if (item) {
+                    item.quantity = qty;
+                } else {
+                    const product = PRODUCTS.find(p => p.id === productId);
+                    if (product) {
+                        cart.push({
+                            id: product.id,
+                            name: product.name,
+                            price: product.price,
+                            image: product.image,
+                            quantity: qty
+                        });
+                    }
+                }
+            }
             updateCartUI();
         }
 
@@ -1180,6 +1205,9 @@
                 progressBadge.innerText = `$${diff.toFixed(2)} Left`;
                 progressBadge.className = 'text-amber-400 font-bold';
             }
+
+            // Sync product cards on the catalog page
+            renderCatalog();
 
             // Render Items in Drawer (Views/Cart/Index.cshtml)
             const list = document.getElementById('cart-items-container');
@@ -1347,20 +1375,12 @@
 
         /**
          * ==============================================================================
-         * SEARCH, CATEGORY & SORT FILTERS
+         * SEARCH & SORT FILTERS
          * ==============================================================================
          */
         function setCategory(cat) {
             activeCategory = cat;
             currentPage = 1;
-            document.querySelectorAll('.cat-pill').forEach(btn => {
-                const isMatch = btn.dataset.category === cat;
-                if (isMatch) {
-                    btn.className = 'cat-pill active px-3.5 py-1.5 rounded-lg bg-brand-500 text-slate-950 font-bold whitespace-nowrap transition-all shadow-sm';
-                } else {
-                    btn.className = 'cat-pill px-3.5 py-1.5 rounded-lg bg-dark-card border border-dark-border text-slate-300 hover:border-brand-500 hover:text-white whitespace-nowrap transition-all';
-                }
-            });
             renderCatalog();
         }
 
@@ -1391,7 +1411,7 @@
             document.getElementById('search-input').value = '';
             document.getElementById('search-clear-btn').classList.add('hidden');
             document.getElementById('sort-select').value = 'default';
-            setCategory('all');
+            renderCatalog();
         }
 
         /**
