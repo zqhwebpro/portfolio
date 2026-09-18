@@ -1,0 +1,436 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Case Study: Survival Quiz &amp; Crisis Directive — Terminal State Engine</title>
+    <meta name="description"
+        content="Technical case study of Survival Quiz: CRT phosphor styling, procedural state machines, audio synthesizers, and post-apocalyptic narrative design." />
+
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Outfit:wght@600;700;800&family=JetBrains+Mono:wght@400;600;800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+
+    <style>
+        :root {
+            --bg-dark: #050a06;
+            --card-bg: #09140c;
+            --card-border: #132a19;
+            --accent-green: #33ff66;
+            --accent-amber: #ffcc00;
+            --accent-red: #ff3344;
+            --text-main: #dcfce7;
+            --text-muted: #86efac;
+            --text-dim: #4ade80;
+        }
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        body {
+            background-color: var(--bg-dark);
+            color: var(--text-main);
+            font-family: 'Inter', system-ui, -apple-system, sans-serif;
+            line-height: 1.65;
+            min-height: 100vh;
+        }
+
+        .navbar {
+            border-bottom: 1px solid var(--card-border);
+            background: rgba(5, 10, 6, 0.88);
+            backdrop-filter: blur(12px);
+            position: sticky;
+            top: 0;
+            z-index: 50;
+            padding: 1rem 1.5rem;
+        }
+
+        .nav-container {
+            max-width: 1000px;
+            margin: 0 auto;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            flex-wrap: wrap;
+            gap: 1rem;
+        }
+
+        .nav-brand {
+            font-family: 'JetBrains Mono', monospace;
+            font-weight: 800;
+            font-size: 1.1rem;
+            color: var(--accent-green);
+            text-decoration: none;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            text-shadow: 0 0 8px rgba(51, 255, 102, 0.5);
+        }
+
+        .nav-links {
+            display: flex;
+            gap: 0.75rem;
+            align-items: center;
+        }
+
+        .nav-btn {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.4rem;
+            padding: 0.45rem 0.9rem;
+            border-radius: 8px;
+            font-size: 0.82rem;
+            font-weight: 600;
+            text-decoration: none;
+            transition: all 0.2s ease;
+            border: 1px solid var(--card-border);
+            color: #86efac;
+            background: var(--card-bg);
+        }
+
+        .nav-btn:hover {
+            color: var(--accent-green);
+            border-color: var(--accent-green);
+            transform: translateY(-1px);
+        }
+
+        .nav-btn.primary {
+            background: var(--accent-green);
+            color: #000;
+            font-weight: 800;
+            border-color: var(--accent-green);
+            box-shadow: 0 0 16px rgba(51, 255, 102, 0.4);
+        }
+
+        .nav-btn.primary:hover {
+            background: #4ade80;
+            box-shadow: 0 0 22px rgba(51, 255, 102, 0.7);
+        }
+
+        .container {
+            max-width: 1000px;
+            margin: 0 auto;
+            padding: 2.5rem 1.5rem 4rem;
+        }
+
+        .case-hero {
+            margin-bottom: 2.5rem;
+            padding-bottom: 2rem;
+            border-bottom: 1px solid var(--card-border);
+        }
+
+        .badge-row {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 0.5rem;
+            margin-bottom: 1rem;
+        }
+
+        .tag {
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 0.75rem;
+            font-weight: 600;
+            padding: 0.25rem 0.65rem;
+            border-radius: 6px;
+            background: rgba(51, 255, 102, 0.1);
+            color: var(--accent-green);
+            border: 1px solid rgba(51, 255, 102, 0.3);
+        }
+
+        .tag.amber {
+            background: rgba(255, 204, 0, 0.1);
+            color: var(--accent-amber);
+            border-color: rgba(255, 204, 0, 0.3);
+        }
+
+        .tag.red {
+            background: rgba(255, 51, 68, 0.1);
+            color: var(--accent-red);
+            border-color: rgba(255, 51, 68, 0.3);
+        }
+
+        h1 {
+            font-family: 'Outfit', sans-serif;
+            font-size: 2.4rem;
+            font-weight: 800;
+            line-height: 1.2;
+            color: #fff;
+            margin-bottom: 0.75rem;
+        }
+
+        .hero-subtitle {
+            font-size: 1.15rem;
+            color: #86efac;
+            max-width: 800px;
+        }
+
+        .section-block {
+            background: var(--card-bg);
+            border: 1px solid var(--card-border);
+            border-radius: 14px;
+            padding: 1.75rem 2rem;
+            margin-bottom: 2rem;
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.3);
+        }
+
+        .section-title {
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 1.25rem;
+            font-weight: 800;
+            color: var(--accent-green);
+            margin-bottom: 1rem;
+            display: flex;
+            align-items: center;
+            gap: 0.6rem;
+            text-shadow: 0 0 6px rgba(51, 255, 102, 0.3);
+        }
+
+        p {
+            color: #bbf7d0;
+            margin-bottom: 1rem;
+            font-size: 0.96rem;
+        }
+
+        .learnings-list {
+            list-style: none;
+            display: flex;
+            flex-direction: column;
+            gap: 1rem;
+            margin-top: 1rem;
+        }
+
+        .learning-item {
+            display: flex;
+            gap: 1rem;
+            background: rgba(5, 10, 6, 0.6);
+            border: 1px solid var(--card-border);
+            border-left: 4px solid var(--accent-green);
+            border-radius: 8px;
+            padding: 1rem 1.25rem;
+        }
+
+        .learning-item.amber {
+            border-left-color: var(--accent-amber);
+        }
+
+        .learning-item.red {
+            border-left-color: var(--accent-red);
+        }
+
+        .learning-icon {
+            font-size: 1.2rem;
+            margin-top: 0.1rem;
+            flex-shrink: 0;
+        }
+
+        .learning-content h4 {
+            font-size: 1rem;
+            font-weight: 700;
+            color: #fff;
+            margin-bottom: 0.35rem;
+        }
+
+        .learning-content p {
+            margin: 0;
+            font-size: 0.9rem;
+            color: #86efac;
+        }
+
+        .tech-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
+            gap: 1rem;
+            margin-top: 1rem;
+        }
+
+        .tech-card {
+            background: rgba(5, 10, 6, 0.5);
+            border: 1px solid var(--card-border);
+            border-radius: 8px;
+            padding: 1rem;
+        }
+
+        .tech-label {
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 0.75rem;
+            color: var(--accent-amber);
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            margin-bottom: 0.25rem;
+        }
+
+        .tech-value {
+            font-weight: 700;
+            color: #fff;
+            font-size: 0.95rem;
+        }
+
+        .footer-nav {
+            margin-top: 3rem;
+            padding-top: 2rem;
+            border-top: 1px solid var(--card-border);
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            flex-wrap: wrap;
+            gap: 1rem;
+        }
+
+        .footer-links-group {
+            display: flex;
+            gap: 0.75rem;
+            flex-wrap: wrap;
+        }
+
+        @media (max-width: 640px) {
+            h1 {
+                font-size: 1.8rem;
+            }
+            .section-block {
+                padding: 1.25rem;
+            }
+            .footer-nav {
+                flex-direction: column;
+                align-items: stretch;
+            }
+        }
+    </style>
+</head>
+
+<body>
+
+    <header class="navbar">
+        <div class="nav-container">
+            <a href="./index.html" class="nav-brand">
+                <i class="fa-solid fa-terminal"></i> SURVIVAL://QUIZ_V3
+            </a>
+            <div class="nav-links">
+                <a href="../index.html" class="nav-btn">
+                    <i class="fa-solid fa-grid-2"></i> Interactive Projects
+                </a>
+                <a href="../../2026/" class="nav-btn">
+                    <i class="fa-solid fa-arrow-left"></i> Main Portfolio
+                </a>
+                <a href="./index.html" class="nav-btn primary">
+                    <i class="fa-solid fa-radiation"></i> Enter Simulator
+                </a>
+            </div>
+        </div>
+    </header>
+
+    <main class="container">
+
+        <div class="case-hero">
+            <div class="badge-row">
+                <span class="tag">Case Study</span>
+                <span class="tag amber">Terminal State Machine</span>
+                <span class="tag red">CRT Shaders &amp; Audio Synthesis</span>
+            </div>
+            <h1>Survival Quiz: Crisis Directive Engine</h1>
+            <p class="hero-subtitle">
+                An atmospheric post-apocalyptic terminal simulator blending tactical survival intelligence, branching crisis directives, procedural CRT scanlines, and audio drones.
+            </p>
+        </div>
+
+        <section class="section-block">
+            <h2 class="section-title">
+                <i class="fa-solid fa-shield-halved"></i> Project Overview
+            </h2>
+            <p>
+                Survival Quiz re-imagines the classic knowledge assessment format into an intense, immersive military outpost terminal. Players assume the role of an isolated bunker operator evaluating civilian triage protocols, radiation containment procedures, and tactical resource management under crisis conditions.
+            </p>
+        </section>
+
+        <section class="section-block">
+            <h2 class="section-title">
+                <i class="fa-solid fa-microchip"></i> Technical Highlights
+            </h2>
+            <p>
+                <strong>Procedural CRT Visual Stack:</strong> Combines hardware-accelerated CSS scanlines, phosphor bloom text glow, CRT curvature vignettes, and sub-pixel chromatic aberration without performance degradation.
+            </p>
+            <p>
+                <strong>Audio Oscillator Sound Engine:</strong> Integrated Web Audio API nodes synthesize mechanical teletype keystrokes, geiger counter clicks, low-frequency atmospheric drone hums, and alarm klaxons dynamically.
+            </p>
+            <p>
+                <strong>State-Driven Directive Engine:</strong> A reactive finite state machine dynamically evaluates player decision trees, calculates survival telemetry scores, and triggers emergency overrides.
+            </p>
+        </section>
+
+        <section class="section-block">
+            <h2 class="section-title">
+                <i class="fa-solid fa-lightbulb"></i> What I Learned (Core Takeaways)
+            </h2>
+            <ul class="learnings-list">
+                <li class="learning-item">
+                    <div class="learning-icon">📟</div>
+                    <div class="learning-content">
+                        <h4>Procedural Audio Synthesis vs Media Files</h4>
+                        <p>Generating atmospheric hums and tactile UI sounds with Web Audio API oscillators reduces bundle weight to zero and enables instant, pitch-perfect reactive feedback to user actions.</p>
+                    </div>
+                </li>
+                <li class="learning-item amber">
+                    <div class="learning-icon">💡</div>
+                    <div class="learning-content">
+                        <h4>Immersion Through Cohesive Theme Systems</h4>
+                        <p>Pairing monospace typography, phosphor green accents, scanline overlays, and military terminology transforms a simple quiz into a captivating narrative experience.</p>
+                    </div>
+                </li>
+                <li class="learning-item red">
+                    <div class="learning-icon">🛡️</div>
+                    <div class="learning-content">
+                        <h4>Robust State Machine Architecture</h4>
+                        <p>Explicitly modeling terminal states (Intel, Simulator, Triage, Diagnostics, Evaluation) eliminates invalid UI states and ensures seamless progress saving across mobile and desktop.</p>
+                    </div>
+                </li>
+            </ul>
+        </section>
+
+        <section class="section-block">
+            <h2 class="section-title">
+                <i class="fa-solid fa-layer-group"></i> Architecture Specifications
+            </h2>
+            <div class="tech-grid">
+                <div class="tech-card">
+                    <div class="tech-label">Application Core</div>
+                    <div class="tech-value">React 18 &amp; Hooks</div>
+                </div>
+                <div class="tech-card">
+                    <div class="tech-label">Aesthetic Shader</div>
+                    <div class="tech-value">CSS CRT Scanlines &amp; Glow</div>
+                </div>
+                <div class="tech-card">
+                    <div class="tech-label">Sound Synthesis</div>
+                    <div class="tech-value">Web Audio API Oscillators</div>
+                </div>
+                <div class="tech-card">
+                    <div class="tech-label">Telemetry Engine</div>
+                    <div class="tech-value">Finite State Assessment Model</div>
+                </div>
+            </div>
+        </section>
+
+        <footer class="footer-nav">
+            <a href="./index.html" class="nav-btn primary">
+                <i class="fa-solid fa-radiation"></i> Enter Survival Simulator
+            </a>
+            <div class="footer-links-group">
+                <a href="../index.html" class="nav-btn">
+                    <i class="fa-solid fa-grid-2"></i> All Interactive Projects
+                </a>
+                <a href="../../2026/" class="nav-btn">
+                    <i class="fa-solid fa-house"></i> Main Portfolio
+                </a>
+            </div>
+        </footer>
+
+    </main>
+
+</body>
+
+</html>

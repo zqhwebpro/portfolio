@@ -3493,8 +3493,9 @@ function App() {
                             </button>
 
                             <a
-                                href="https://zqhwebpro.github.io/portfolio/new_projects/"
+                                href="./case-study.html"
                                 className="term-btn"
+                                title="View Project Case Study"
                                 style={{
                                     width: '100%',
                                     padding: '12px 14px',
@@ -3509,7 +3510,7 @@ function App() {
                                     gap: 8
                                 }}
                             >
-                                <span>See Creator Portfolio</span>
+                                <span>Case Study</span>
                                 <span>↗</span>
                             </a>
                         </div>
@@ -3560,12 +3561,13 @@ function App() {
                 </nav>
             )}
 
-            {/* FIXED LOWER-LEFT: "See Portfolio" Button on Desktop */}
+            {/* FIXED LOWER-LEFT: "Case Study" Button on Desktop */}
             <a
-                href="https://zqhwebpro.github.io/portfolio/new_projects/"
+                href="./case-study.html"
                 className="term-btn desktop-fixed-portfolio"
+                title="View Project Case Study"
             >
-                <span>See Portfolio</span>
+                <span>Case Study</span>
                 <span style={{ fontSize: '0.75rem' }}>↗</span>
             </a>
 

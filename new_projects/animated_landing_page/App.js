@@ -353,11 +353,11 @@ function App() {
             <canvas ref={canvasRef} className="galaxy-canvas" />
 
             <a
-                href="https://zqhwebpro.github.io/portfolio/new_projects/"
+                href="./case-study.html"
                 className="floating-brand-badge-bottom"
-                title="View Full Interactive Portfolio"
+                title="View Project Case Study"
             >
-                Portfolio
+                Case Study
             </a>
 
             {/* HERO SECTION */}

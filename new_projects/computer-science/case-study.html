@@ -1,0 +1,445 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Case Study: Computer Science Foundations — The 8 Fundamental Concepts</title>
+    <meta name="description"
+        content="Technical case study of The 8 Fundamental Concepts of Algorithms: interactive visual algorithms, Big-O complexity curves, and Neo-Brutalist design." />
+
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800;900&family=JetBrains+Mono:wght@400;600;800&family=Cabinet+Grotesk:wght@700;800;900&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+
+    <style>
+        :root {
+            --bg-canvas: #faf8f5;
+            --card-bg: #ffffff;
+            --border-color: #000000;
+            --accent-yellow: #ffee00;
+            --accent-blue: #0044ff;
+            --accent-red: #ff3366;
+            --accent-mint: #00cc88;
+            --text-main: #000000;
+            --text-muted: #555555;
+        }
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        body {
+            background-color: var(--bg-canvas);
+            color: var(--text-main);
+            font-family: 'Plus Jakarta Sans', system-ui, -apple-system, sans-serif;
+            line-height: 1.65;
+            min-height: 100vh;
+        }
+
+        .navbar {
+            border-bottom: 3px solid var(--border-color);
+            background: #ffffff;
+            position: sticky;
+            top: 0;
+            z-index: 50;
+            padding: 1rem 1.5rem;
+            box-shadow: 0 4px 0px rgba(0,0,0,0.06);
+        }
+
+        .nav-container {
+            max-width: 1000px;
+            margin: 0 auto;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            flex-wrap: wrap;
+            gap: 1rem;
+        }
+
+        .nav-brand {
+            font-family: 'Cabinet Grotesk', 'Plus Jakarta Sans', sans-serif;
+            font-weight: 900;
+            font-size: 1.25rem;
+            color: var(--text-main);
+            text-decoration: none;
+            display: flex;
+            align-items: center;
+            gap: 0.6rem;
+            letter-spacing: -0.02em;
+        }
+
+        .nav-brand-badge {
+            background: var(--accent-blue);
+            color: #fff;
+            padding: 0.2rem 0.5rem;
+            border: 2px solid #000;
+            box-shadow: 2px 2px 0 #000;
+            font-size: 0.85rem;
+        }
+
+        .nav-links {
+            display: flex;
+            gap: 0.75rem;
+            align-items: center;
+        }
+
+        .nav-btn {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.4rem;
+            padding: 0.5rem 1rem;
+            font-size: 0.82rem;
+            font-weight: 800;
+            text-decoration: none;
+            transition: transform 0.15s ease, box-shadow 0.15s ease;
+            border: 2px solid #000;
+            color: #000;
+            background: #fff;
+            box-shadow: 3px 3px 0 #000;
+        }
+
+        .nav-btn:hover {
+            transform: translate(-1px, -1px);
+            box-shadow: 4px 4px 0 #000;
+            background: var(--accent-yellow);
+        }
+
+        .nav-btn.primary {
+            background: var(--accent-blue);
+            color: #fff;
+        }
+
+        .nav-btn.primary:hover {
+            background: #0033cc;
+        }
+
+        .container {
+            max-width: 1000px;
+            margin: 0 auto;
+            padding: 2.5rem 1.5rem 4rem;
+        }
+
+        .case-hero {
+            margin-bottom: 2.5rem;
+            padding-bottom: 2rem;
+            border-bottom: 3px solid #000;
+        }
+
+        .badge-row {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 0.5rem;
+            margin-bottom: 1rem;
+        }
+
+        .tag {
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 0.75rem;
+            font-weight: 800;
+            padding: 0.3rem 0.7rem;
+            border: 2px solid #000;
+            background: var(--accent-yellow);
+            color: #000;
+            box-shadow: 2px 2px 0 #000;
+        }
+
+        .tag.blue {
+            background: var(--accent-blue);
+            color: #fff;
+        }
+
+        .tag.red {
+            background: var(--accent-red);
+            color: #fff;
+        }
+
+        h1 {
+            font-family: 'Cabinet Grotesk', 'Plus Jakarta Sans', sans-serif;
+            font-size: 2.6rem;
+            font-weight: 900;
+            line-height: 1.15;
+            color: #000;
+            margin-bottom: 0.75rem;
+            letter-spacing: -0.03em;
+        }
+
+        .hero-subtitle {
+            font-size: 1.2rem;
+            color: #333;
+            max-width: 800px;
+            font-weight: 500;
+        }
+
+        .section-block {
+            background: #fff;
+            border: 3px solid #000;
+            box-shadow: 5px 5px 0 #000;
+            padding: 2rem;
+            margin-bottom: 2.5rem;
+        }
+
+        .section-title {
+            font-family: 'Cabinet Grotesk', 'Plus Jakarta Sans', sans-serif;
+            font-size: 1.5rem;
+            font-weight: 900;
+            color: #000;
+            margin-bottom: 1.2rem;
+            display: flex;
+            align-items: center;
+            gap: 0.6rem;
+            letter-spacing: -0.02em;
+        }
+
+        .section-title i {
+            color: var(--accent-blue);
+        }
+
+        p {
+            color: #222;
+            margin-bottom: 1rem;
+            font-size: 1rem;
+            line-height: 1.65;
+        }
+
+        .learnings-list {
+            list-style: none;
+            display: flex;
+            flex-direction: column;
+            gap: 1.2rem;
+            margin-top: 1.2rem;
+        }
+
+        .learning-item {
+            display: flex;
+            gap: 1rem;
+            background: #faf8f5;
+            border: 2px solid #000;
+            border-left: 6px solid var(--accent-blue);
+            box-shadow: 3px 3px 0 #000;
+            padding: 1.2rem 1.4rem;
+        }
+
+        .learning-item.yellow {
+            border-left-color: #e6c800;
+        }
+
+        .learning-item.red {
+            border-left-color: var(--accent-red);
+        }
+
+        .learning-icon {
+            font-size: 1.4rem;
+            flex-shrink: 0;
+        }
+
+        .learning-content h4 {
+            font-size: 1.05rem;
+            font-weight: 800;
+            color: #000;
+            margin-bottom: 0.35rem;
+        }
+
+        .learning-content p {
+            margin: 0;
+            font-size: 0.92rem;
+            color: #444;
+        }
+
+        .tech-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
+            gap: 1.2rem;
+            margin-top: 1.2rem;
+        }
+
+        .tech-card {
+            background: #faf8f5;
+            border: 2px solid #000;
+            box-shadow: 3px 3px 0 #000;
+            padding: 1.1rem;
+        }
+
+        .tech-label {
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 0.75rem;
+            font-weight: 800;
+            color: var(--accent-blue);
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            margin-bottom: 0.25rem;
+        }
+
+        .tech-value {
+            font-weight: 800;
+            color: #000;
+            font-size: 1rem;
+        }
+
+        .footer-nav {
+            margin-top: 3.5rem;
+            padding-top: 2rem;
+            border-top: 3px solid #000;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            flex-wrap: wrap;
+            gap: 1rem;
+        }
+
+        .footer-links-group {
+            display: flex;
+            gap: 0.75rem;
+            flex-wrap: wrap;
+        }
+
+        @media (max-width: 640px) {
+            h1 {
+                font-size: 2rem;
+            }
+            .section-block {
+                padding: 1.25rem;
+            }
+            .footer-nav {
+                flex-direction: column;
+                align-items: stretch;
+            }
+        }
+    </style>
+</head>
+
+<body>
+
+    <header class="navbar">
+        <div class="nav-container">
+            <a href="./dist/index.html" class="nav-brand">
+                <span class="nav-brand-badge">CS</span> 8 Algorithmic Concepts
+            </a>
+            <div class="nav-links">
+                <a href="../index.html" class="nav-btn">
+                    <i class="fa-solid fa-grid-2"></i> Interactive Projects
+                </a>
+                <a href="../../2026/" class="nav-btn">
+                    <i class="fa-solid fa-arrow-left"></i> Main Portfolio
+                </a>
+                <a href="./dist/index.html" class="nav-btn primary">
+                    <i class="fa-solid fa-terminal"></i> Launch Curriculum
+                </a>
+            </div>
+        </div>
+    </header>
+
+    <main class="container">
+
+        <div class="case-hero">
+            <div class="badge-row">
+                <span class="tag">Case Study</span>
+                <span class="tag blue">Theoretical Computer Science</span>
+                <span class="tag red">Interactive Algorithm State Machines</span>
+            </div>
+            <h1>The 8 Fundamental Concepts of Algorithms</h1>
+            <p class="hero-subtitle">
+                An interactive Neo-Brutalist educational platform teaching the core foundations of computer science: Algorithms, Data Structures, Complexity, Big-O, Recursion, Divide &amp; Conquer, and Brute Force.
+            </p>
+        </div>
+
+        <section class="section-block">
+            <h2 class="section-title">
+                <i class="fa-solid fa-graduation-cap"></i> Project Overview
+            </h2>
+            <p>
+                Computer science education often suffers from excessive abstraction and static mathematical formulas. This project translates core theoretical algorithms into tactile, interactive visualizations that allow students and engineers to step through sorting races, recursive call stack frames, and Big-O efficiency curves in real time.
+            </p>
+        </section>
+
+        <section class="section-block">
+            <h2 class="section-title">
+                <i class="fa-solid fa-microchip"></i> Technical Highlights
+            </h2>
+            <p>
+                <strong>Interactive Algorithmic State Machines:</strong> Built visual step-through visualizers for sorting algorithms (Bubble Sort, Merge Sort, Quick Sort), recursive stack towers, and binary search trees with controllable execution speed and step inspection.
+            </p>
+            <p>
+                <strong>Mathematical Complexity Graphs:</strong> Interactive Big-O curve comparisons dynamically illustrate how time/space resource usage scales across O(1), O(log n), O(n), O(n log n), and O(n²).
+            </p>
+            <p>
+                <strong>Neo-Brutalist Bauhaus Design:</strong> High-contrast black borders, vivid primary accents, tactile box shadows, and synthesized audio cues create an energetic, highly memorable developer experience.
+            </p>
+        </section>
+
+        <section class="section-block">
+            <h2 class="section-title">
+                <i class="fa-solid fa-lightbulb"></i> What I Learned (Core Takeaways)
+            </h2>
+            <ul class="learnings-list">
+                <li class="learning-item">
+                    <div class="learning-icon">💡</div>
+                    <div class="learning-content">
+                        <h4>Intuitive Learning Through Visual State Transitions</h4>
+                        <p>Abstract recursion and divide-and-conquer logic become instantly comprehensible when represented as stacked DOM frames that visually push, compute, and pop return values.</p>
+                    </div>
+                </li>
+                <li class="learning-item yellow">
+                    <div class="learning-icon">⚡</div>
+                    <div class="learning-content">
+                        <h4>Asynchronous Animation Scheduling</h4>
+                        <p>Visualizing algorithm iterations requires decoupled pacing. Using async generator functions and promise-driven sleep ticks allows smooth pausing, stepping, and speed modulation without blocking the UI.</p>
+                    </div>
+                </li>
+                <li class="learning-item red">
+                    <div class="learning-icon">🎨</div>
+                    <div class="learning-content">
+                        <h4>Neo-Brutalist Design Discipline</h4>
+                        <p>Neo-brutalism relies on strict layout grids, sharp contrast ratios, and deliberate color coding. Every accent color serves an educational function (yellow for active pointers, blue for sorted subarrays, red for pivot elements).</p>
+                    </div>
+                </li>
+            </ul>
+        </section>
+
+        <section class="section-block">
+            <h2 class="section-title">
+                <i class="fa-solid fa-layer-group"></i> Architecture Specifications
+            </h2>
+            <div class="tech-grid">
+                <div class="tech-card">
+                    <div class="tech-label">Frontend Framework</div>
+                    <div class="tech-value">React 18 &amp; Vite</div>
+                </div>
+                <div class="tech-card">
+                    <div class="tech-label">Styling System</div>
+                    <div class="tech-value">Neo-Brutalist CSS &amp; Tailwind</div>
+                </div>
+                <div class="tech-card">
+                    <div class="tech-label">Curriculum Depth</div>
+                    <div class="tech-value">8 Foundational Algorithm Units</div>
+                </div>
+                <div class="tech-card">
+                    <div class="tech-label">Audio System</div>
+                    <div class="tech-value">Synthesized Web Audio Tones</div>
+                </div>
+            </div>
+        </section>
+
+        <footer class="footer-nav">
+            <a href="./dist/index.html" class="nav-btn primary">
+                <i class="fa-solid fa-terminal"></i> Launch Interactive Curriculum
+            </a>
+            <div class="footer-links-group">
+                <a href="../index.html" class="nav-btn">
+                    <i class="fa-solid fa-grid-2"></i> All Interactive Projects
+                </a>
+                <a href="../../2026/" class="nav-btn">
+                    <i class="fa-solid fa-house"></i> Main Portfolio
+                </a>
+            </div>
+        </footer>
+
+    </main>
+
+</body>
+
+</html>

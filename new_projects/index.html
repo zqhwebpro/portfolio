@@ -7,32 +7,38 @@
     <meta name="theme-color" content="#121212" />
 
     <!-- Primary SEO Meta Tags -->
-    <title>Interactive React Projects & Web Apps Showcase</title>
+    <title>Interactive React Projects &amp; Web Apps Showcase</title>
     <meta name="description"
-        content="Explore a collection of interactive React web applications, browser arcade games, and custom JavaScript experiments." />
+        content="Explore a curated collection of interactive React applications, browser games, educational software, and technical case studies." />
     <meta name="keywords"
-        content="React portfolio, web applications, JavaScript games, React Pinball, frontend web developer, interactive web design" />
+        content="React portfolio, web applications, JavaScript games, React Pinball, case studies, frontend web developer, interactive web design" />
     <meta name="robots" content="index, follow" />
     <link rel="canonical" href="https://zqhwebpro.github.io/portfolio/new_projects/" />
 
     <!-- Open Graph / Facebook / LinkedIn -->
     <meta property="og:type" content="website" />
     <meta property="og:url" content="https://zqhwebpro.github.io/portfolio/new_projects/" />
-    <meta property="og:title" content="Interactive React Projects & Web Apps Showcase" />
+    <meta property="og:title" content="Interactive React Projects &amp; Web Apps Showcase" />
     <meta property="og:description"
-        content="Explore a portfolio of custom interactive React applications, browser arcade games, and frontend development projects." />
+        content="Explore a curated collection of interactive React applications, browser games, educational software, and technical case studies." />
     <meta property="og:image" content="https://zqhwebpro.github.io/portfolio/new_projects/og-preview.jpg" />
     <meta property="og:site_name" content="Interactive Projects Showcase" />
 
     <!-- Twitter Cards -->
     <meta name="twitter:card" content="summary_large_image" />
-    <meta name="twitter:title" content="Interactive React Projects & Web Apps Showcase" />
+    <meta name="twitter:title" content="Interactive React Projects &amp; Web Apps Showcase" />
     <meta name="twitter:description"
-        content="Explore a portfolio of custom interactive React applications and browser arcade games." />
+        content="Explore a curated collection of interactive React applications, browser games, educational software, and technical case studies." />
     <meta name="twitter:image" content="https://zqhwebpro.github.io/portfolio/new_projects/og-preview.jpg" />
 
-    <!-- Favicons -->
+    <!-- Favicons & Icons -->
     <link rel="icon" href="./favicon.ico" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css" />
+
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Outfit:wght@600;700;800&family=JetBrains+Mono:wght@400;600&display=swap" rel="stylesheet">
 
     <!-- Structured Data (JSON-LD) -->
     <script type="application/ld+json">
@@ -41,7 +47,7 @@
       "@type": "CollectionPage",
       "name": "Interactive React Projects Showcase",
       "url": "https://zqhwebpro.github.io/portfolio/new_projects/",
-      "description": "A gallery showcasing interactive web applications, React browser games, and frontend development projects.",
+      "description": "A gallery showcasing interactive web applications, React browser games, and frontend development projects with technical case studies.",
       "hasPart": [
         {
           "@type": "SoftwareApplication",
@@ -57,7 +63,25 @@
         },
         {
           "@type": "WebApplication",
-          "name": "The Geometry of Computation",
+          "name": "Workout Shuffler",
+          "url": "https://zqhwebpro.github.io/portfolio/new_projects/workout-shuffler/",
+          "applicationCategory": "HealthApplication"
+        },
+        {
+          "@type": "WebApplication",
+          "name": "Survival Quiz",
+          "url": "https://zqhwebpro.github.io/portfolio/new_projects/survival-quiz/",
+          "applicationCategory": "GameApplication"
+        },
+        {
+          "@type": "WebApplication",
+          "name": "Atlas & Calculatus",
+          "url": "https://zqhwebpro.github.io/portfolio/new_projects/python-calculator/",
+          "applicationCategory": "GameApplication"
+        },
+        {
+          "@type": "WebApplication",
+          "name": "The 8 Fundamental Concepts of Algorithms",
           "url": "https://zqhwebpro.github.io/portfolio/new_projects/computer-science/dist/",
           "applicationCategory": "EducationalApplication"
         },
@@ -66,18 +90,6 @@
           "name": "PHP Fundamentals with time()",
           "url": "https://zqhwebpro.github.io/portfolio/new_projects/php-delivery/",
           "applicationCategory": "EducationalApplication"
-        },
-        {
-          "@type": "WebApplication",
-          "name": "Workout Shuffler",
-          "url": "https://zqhwebpro.github.io/portfolio/new_projects/workout-shuffler/",
-          "applicationCategory": "HealthApplication"
-        },
-        {
-          "@type": "WebApplication",
-          "name": "Chessulator — Baroque Chess & Win Engine",
-          "url": "https://zqhwebpro.github.io/portfolio/new_projects/python-calculator/",
-          "applicationCategory": "GameApplication"
         },
         {
           "@type": "WebApplication",
@@ -92,19 +104,26 @@
     <style>
         :root {
             --amber: #F5A623;
+            --amber-light: #FCD34D;
             --red-orange: #E8442A;
-            --text-light: #e8e8e8;
-            --text-muted: #999;
-            --bg-dark: #121212;
-            --card-bg: #1c1c1c;
-            --border-color: #2a2a2a;
+            --cyan: #00F0FF;
+            --text-light: #f1f5f9;
+            --text-muted: #94a3b8;
+            --bg-dark: #0f1117;
+            --card-bg: #161922;
+            --card-hover: #1c212d;
+            --border-color: #272d3b;
+        }
+
+        * {
+            box-sizing: border-box;
         }
 
         body {
             background: var(--bg-dark);
             color: var(--text-light);
-            font-family: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
-            padding: 2rem;
+            font-family: 'Inter', system-ui, -apple-system, sans-serif;
+            padding: 2rem 1.5rem 4rem;
             margin: 0;
             min-height: 100vh;
         }
@@ -117,150 +136,340 @@
             justify-content: space-between;
             flex-wrap: wrap;
             gap: 1rem;
+            padding-bottom: 1.5rem;
+            border-bottom: 1px solid var(--border-color);
+        }
+
+        .brand-heading {
+            display: flex;
+            flex-direction: column;
+            gap: 0.25rem;
         }
 
         h1 {
             margin: 0;
-            font-size: 2rem;
-            color: var(--text-light);
+            font-family: 'Outfit', sans-serif;
+            font-size: 2.2rem;
+            font-weight: 800;
+            color: #fff;
+            letter-spacing: -0.02em;
+        }
+
+        .subtitle {
+            margin: 0;
+            color: var(--text-muted);
+            font-size: 0.95rem;
         }
 
         .back-link {
-            display: inline-block;
-            padding: 0.5rem 1rem;
-            color: var(--text-muted);
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
+            padding: 0.6rem 1.1rem;
+            color: var(--text-light);
             text-decoration: none;
-            font-size: 0.9rem;
+            font-size: 0.88rem;
+            font-weight: 600;
+            background: var(--card-bg);
             border: 1px solid var(--border-color);
-            border-radius: 6px;
+            border-radius: 8px;
             transition: all 0.2s ease;
         }
 
         .back-link:hover {
             color: var(--amber);
             border-color: var(--amber);
+            transform: translateY(-1px);
         }
 
         .gallery {
             display: grid;
-            grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
-            gap: 1.5rem;
+            grid-template-columns: repeat(auto-fill, minmax(340px, 1fr));
+            gap: 1.75rem;
             max-width: 1200px;
             margin: 0 auto;
         }
 
         .card {
             background: var(--card-bg);
-            border-radius: 12px;
-            padding: 1.5rem;
-            text-decoration: none;
-            color: inherit;
+            border-radius: 14px;
+            padding: 1.6rem;
             border: 1px solid var(--border-color);
             transition: transform 0.2s ease, border-color 0.2s ease, box-shadow 0.2s ease;
             display: flex;
             flex-direction: column;
             justify-content: space-between;
+            gap: 1.25rem;
         }
 
         .card:hover {
             transform: translateY(-4px);
-            border-color: var(--amber);
-            box-shadow: 0 4px 20px rgba(245, 166, 35, 0.15);
+            border-color: rgba(245, 166, 35, 0.4);
+            box-shadow: 0 8px 30px rgba(0, 0, 0, 0.4);
+            background: var(--card-hover);
+        }
+
+        .card-header {
+            display: flex;
+            flex-direction: column;
+            gap: 0.5rem;
+        }
+
+        .card-tag {
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 0.72rem;
+            font-weight: 600;
+            padding: 0.2rem 0.55rem;
+            border-radius: 4px;
+            display: inline-block;
+            width: fit-content;
+            background: rgba(245, 166, 35, 0.12);
+            color: var(--amber);
+            border: 1px solid rgba(245, 166, 35, 0.25);
+        }
+
+        .card-tag.cyan {
+            background: rgba(0, 240, 255, 0.1);
+            color: var(--cyan);
+            border-color: rgba(0, 240, 255, 0.25);
+        }
+
+        .card-tag.green {
+            background: rgba(46, 196, 182, 0.1);
+            color: #2ec4b6;
+            border-color: rgba(46, 196, 182, 0.25);
+        }
+
+        .card-tag.purple {
+            background: rgba(168, 85, 247, 0.1);
+            color: #c084fc;
+            border-color: rgba(168, 85, 247, 0.25);
         }
 
         .card h3 {
-            margin: 0 0 0.5rem 0;
-            color: var(--amber);
-            font-size: 1.25rem;
-            transition: color 0.2s ease;
-        }
-
-        .card:hover h3 {
-            color: var(--red-orange);
+            margin: 0;
+            font-family: 'Outfit', sans-serif;
+            font-size: 1.35rem;
+            font-weight: 700;
+            color: #fff;
+            line-height: 1.3;
         }
 
         .card p {
             margin: 0;
             color: var(--text-muted);
-            font-size: 1.05rem;
-            line-height: 1.55;
+            font-size: 0.92rem;
+            line-height: 1.6;
+        }
+
+        .card-actions {
+            display: flex;
+            align-items: center;
+            gap: 0.75rem;
+            margin-top: 0.5rem;
+            padding-top: 1rem;
+            border-top: 1px solid rgba(255, 255, 255, 0.06);
+        }
+
+        .action-btn {
+            flex: 1;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            gap: 0.4rem;
+            padding: 0.55rem 0.85rem;
+            border-radius: 8px;
+            font-size: 0.82rem;
+            font-weight: 700;
+            text-decoration: none;
+            transition: all 0.2s ease;
+            text-align: center;
+        }
+
+        .action-btn.primary {
+            background: rgba(245, 166, 35, 0.15);
+            color: var(--amber);
+            border: 1px solid rgba(245, 166, 35, 0.35);
+        }
+
+        .action-btn.primary:hover {
+            background: var(--amber);
+            color: #000;
+            box-shadow: 0 0 16px rgba(245, 166, 35, 0.35);
+        }
+
+        .action-btn.secondary {
+            background: #11131a;
+            color: var(--text-muted);
+            border: 1px solid var(--border-color);
+        }
+
+        .action-btn.secondary:hover {
+            color: #fff;
+            border-color: rgba(255, 255, 255, 0.3);
+            background: #1e2230;
+        }
+
+        @media (max-width: 640px) {
+            .gallery {
+                grid-template-columns: 1fr;
+            }
+            .header-container {
+                flex-direction: column;
+                align-items: flex-start;
+            }
         }
     </style>
 </head>
 
 <body>
     <div class="header-container">
-        <h1>Interactive Projects</h1>
-        <a href="../2026/" class="back-link">← Main Portfolio</a>
+        <div class="brand-heading">
+            <h1>Interactive Projects &amp; Case Studies</h1>
+            <p class="subtitle">Explore 8 live web applications, physics simulations, algorithms, and technical architecture writeups.</p>
+        </div>
+        <a href="../2026/" class="back-link">
+            <i class="fa-solid fa-arrow-left"></i> Main Portfolio
+        </a>
     </div>
 
     <div class="gallery">
 
-        <!-- Pinball Card -->
-        <a href="./pinball/index.html" class="card">
-            <div>
-                <h3>React Pinball</h3>
-                <p>Custom 2D arcade pinball game built with React and browser physics.</p>
+        <!-- 1. React Pinball -->
+        <div class="card">
+            <div class="card-header">
+                <span class="card-tag">2D Game Physics</span>
+                <h3>React Pixel Pinball</h3>
+                <p>Custom 2D arcade pinball game built from scratch in React with continuous collision detection, spring plunger physics, and synthesized chiptune audio.</p>
             </div>
-        </a>
+            <div class="card-actions">
+                <a href="./pinball/index.html" class="action-btn primary">
+                    <i class="fa-solid fa-play"></i> Play Game
+                </a>
+                <a href="./pinball/case-study.html" class="action-btn secondary">
+                    <i class="fa-solid fa-book-open"></i> Case Study
+                </a>
+            </div>
+        </div>
 
-        <!-- Motion Landing Page Card -->
-        <a href="./animated_landing_page/index.html" class="card">
-            <div>
+        <!-- 2. Motion Landing Page -->
+        <div class="card">
+            <div class="card-header">
+                <span class="card-tag cyan">Particle Systems</span>
                 <h3>Motion Landing Page</h3>
-                <p>Interactive 3D space-themed portfolio landing page with physics-driven animations.</p>
+                <p>Interactive 3D space-themed landing page featuring procedural starfields, mouse-driven gravitational physics, and CSS 3D celestial body layers.</p>
             </div>
-        </a>
+            <div class="card-actions">
+                <a href="./animated_landing_page/index.html" class="action-btn primary">
+                    <i class="fa-solid fa-sparkles"></i> Launch Page
+                </a>
+                <a href="./animated_landing_page/case-study.html" class="action-btn secondary">
+                    <i class="fa-solid fa-book-open"></i> Case Study
+                </a>
+            </div>
+        </div>
 
-        <!-- Workout Shuffler Card -->
-        <a href="./workout-shuffler/index.html" class="card">
-            <div>
+        <!-- 3. Workout Shuffler -->
+        <div class="card">
+            <div class="card-header">
+                <span class="card-tag">Fitness Engine</span>
                 <h3>Workout Shuffler</h3>
-                <p>Dynamic exercise randomizer featuring muscle group targeting, guided form tutorials, and integrated
-                    interval rest timer.</p>
+                <p>Dynamic exercise randomizer featuring muscle group targeting algorithms, guided tutorial previews, drift-free interval rest timer, and mobile HUD.</p>
             </div>
-        </a>
+            <div class="card-actions">
+                <a href="./workout-shuffler/index.html" class="action-btn primary">
+                    <i class="fa-solid fa-dumbbell"></i> Launch App
+                </a>
+                <a href="./workout-shuffler/case-study.html" class="action-btn secondary">
+                    <i class="fa-solid fa-book-open"></i> Case Study
+                </a>
+            </div>
+        </div>
 
-        <!-- Survival Quiz Card -->
-        <a href="./survival-quiz/index.html" class="card">
-            <div>
+        <!-- 4. Survival Quiz -->
+        <div class="card">
+            <div class="card-header">
+                <span class="card-tag green">Terminal Simulator</span>
                 <h3>Survival Quiz</h3>
-                <p>Post-apocalyptic civilian survival simulator featuring pop quizzes, crisis directives, atmospheric
-                    telemetry, and audio focus drone.</p>
+                <p>Post-apocalyptic civilian crisis directive simulator featuring CRT scanline shaders, procedural audio drones, branching telemetry, and assessment scoring.</p>
             </div>
-        </a>
+            <div class="card-actions">
+                <a href="./survival-quiz/index.html" class="action-btn primary">
+                    <i class="fa-solid fa-terminal"></i> Enter Sim
+                </a>
+                <a href="./survival-quiz/case-study.html" class="action-btn secondary">
+                    <i class="fa-solid fa-book-open"></i> Case Study
+                </a>
+            </div>
+        </div>
 
-        <!-- Chessulator Card 
-        <a href="./python-calculator/index.html" class="card">
-            <div>
-                <h3 style="color: #dfb15b;">Chessulator</h3>
-                <p>Opulent Baroque chessboard &amp; sovereign win evaluation engine. Play alternating moves, calculate real-time win probability percentages, and preview live delta advantages upon hovering any piece.</p>
+        <!-- 5. Atlas Chess Engine -->
+        <div class="card">
+            <div class="card-header">
+                <span class="card-tag">Chess Calculus</span>
+                <h3>Atlas &amp; Calculatus</h3>
+                <p>Opulent Baroque chessboard and win evaluation engine with full piece move generation, Piece-Square Tables (PST), live delta previews, and AI sparring.</p>
             </div>
-        </a>-->
+            <div class="card-actions">
+                <a href="./python-calculator/index.html" class="action-btn primary">
+                    <i class="fa-solid fa-chess-board"></i> Play Chess
+                </a>
+                <a href="./python-calculator/case-study.html" class="action-btn secondary">
+                    <i class="fa-solid fa-book-open"></i> Case Study
+                </a>
+            </div>
+        </div>
 
-        <!-- Computer Science Infograph Card 
-        <a href="./computer-science/dist/index.html" class="card">
-            <div>
-                <h3>The Geometry of Computation</h3>
-                <p>Interactive Neo-Brutalist Bauhaus educational infograph teaching Big-O complexity curves, recursive call stack towers, binary tree traversals, sorting races, and ALU logic gates.</p>
+        <!-- 6. Computer Science Foundations -->
+        <div class="card">
+            <div class="card-header">
+                <span class="card-tag purple">Theoretical CS</span>
+                <h3>8 Algorithmic Concepts</h3>
+                <p>Interactive Neo-Brutalist educational platform teaching Big-O complexity curves, recursive call stack frames, sorting race visualizers, and ALU logic gates.</p>
             </div>
-        </a>-->
+            <div class="card-actions">
+                <a href="./computer-science/dist/index.html" class="action-btn primary">
+                    <i class="fa-solid fa-graduation-cap"></i> Launch Labs
+                </a>
+                <a href="./computer-science/case-study.html" class="action-btn secondary">
+                    <i class="fa-solid fa-book-open"></i> Case Study
+                </a>
+            </div>
+        </div>
 
-        <!-- PHP Fundamentals with time()
-        <a href="./php-delivery/index.php" class="card">
-            <div>
-                <h3>PHP Fundamentals with time()</h3>
-                <p>Interactive Epoch-driven PHP masterclass exploring variables, arithmetic, match() conditionals, built-in date functions, arrays, and OOP.</p>
+        <!-- 7. PHP Fundamentals with time() -->
+        <div class="card">
+            <div class="card-header">
+                <span class="card-tag cyan">Server-Side PHP</span>
+                <h3>PHP Fundamentals</h3>
+                <p>Interactive Epoch-driven PHP masterclass exploring variables, arithmetic, match() conditionals, built-in date functions, arrays, and OOP classes.</p>
             </div>
-        </a> -->
+            <div class="card-actions">
+                <a href="./php-delivery/index.php" class="action-btn primary">
+                    <i class="fa-brands fa-php"></i> Open Masterclass
+                </a>
+                <a href="./php-delivery/case-study.html" class="action-btn secondary">
+                    <i class="fa-solid fa-book-open"></i> Case Study
+                </a>
+            </div>
+        </div>
 
-        <!-- Mischief & Magic Co. Card 
-        <a href="./mischief-store/index.html" class="card">
-            <div>
-                <h3 style="color: #FF9F1C;">Mischief &amp; Magic Co.</h3>
-                <p>Enterprise ASP.NET MVC 5 &amp; C# e-commerce architecture: EF6 Code-First, Ninject DI, custom Session Model Binder, paginated gag catalog, cart engine, and CRUD admin portal.</p>
+        <!-- 8. Mischief & Magic Co. -->
+        <div class="card">
+            <div class="card-header">
+                <span class="card-tag">ASP.NET MVC 5</span>
+                <h3>Mischief Store Blueprint</h3>
+                <p>Functional UI/UX architectural blueprint store: Ninject DI, EF6 Code-First, custom Session Model Binding, CRUD admin, and live hover code-mapping tooltips.</p>
             </div>
-        </a>-->
+            <div class="card-actions">
+                <a href="./mischief-store/index.html" class="action-btn primary">
+                    <i class="fa-solid fa-store"></i> Open Store
+                </a>
+                <a href="./mischief-store/case-study.html" class="action-btn secondary">
+                    <i class="fa-solid fa-book-open"></i> Case Study
+                </a>
+            </div>
+        </div>
 
     </div>
 </body>

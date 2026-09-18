@@ -278,6 +278,10 @@ $capsuleData = $demoCapsule->getSummary();
                     <a href="#module-6" class="px-3 py-1.5 rounded-lg hover:bg-php-800/60 hover:text-white transition-all">Functions</a>
                     <a href="#module-7" class="px-3 py-1.5 rounded-lg hover:bg-php-800/60 hover:text-white transition-all">OOP</a>
                     <a href="#playground" class="px-3 py-1.5 rounded-lg bg-php-500/20 text-php-300 border border-php-500/40 hover:bg-php-500 hover:text-white transition-all font-semibold">Time Lab</a>
+                    <a href="./case-study.html" class="px-3 py-1.5 rounded-lg bg-indigo-600/30 text-indigo-200 border border-indigo-500/40 hover:bg-indigo-600 hover:text-white transition-all font-semibold flex items-center gap-1.5" title="View Project Case Study">
+                        <i class="fa-solid fa-book-open text-xs"></i>
+                        <span>Case Study</span>
+                    </a>
                 </nav>
 
                 <div class="flex items-center gap-2 bg-php-900/90 border border-php-700/50 px-3 py-1.5 rounded-xl text-xs font-mono text-cyan-300">

@@ -1,0 +1,436 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Case Study: Motion 3D Landing Page — Celestial Particles &amp; Cosmic Shaders</title>
+    <meta name="description"
+        content="Technical case study of the Motion 3D Space Landing Page: particle physics, mouse gravitational fields, and high-performance animation." />
+
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Outfit:wght@600;700;800&family=JetBrains+Mono:wght@400;600&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+
+    <style>
+        :root {
+            --bg-dark: #05060f;
+            --card-bg: #0b0e21;
+            --card-border: #1a224a;
+            --accent-cyan: #38bdf8;
+            --accent-purple: #a855f7;
+            --accent-solar: #f59e0b;
+            --text-main: #f8fafc;
+            --text-muted: #94a3b8;
+        }
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        body {
+            background-color: var(--bg-dark);
+            color: var(--text-main);
+            font-family: 'Inter', system-ui, -apple-system, sans-serif;
+            line-height: 1.65;
+            min-height: 100vh;
+        }
+
+        .navbar {
+            border-bottom: 1px solid var(--card-border);
+            background: rgba(5, 6, 15, 0.85);
+            backdrop-filter: blur(12px);
+            position: sticky;
+            top: 0;
+            z-index: 50;
+            padding: 1rem 1.5rem;
+        }
+
+        .nav-container {
+            max-width: 1000px;
+            margin: 0 auto;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            flex-wrap: wrap;
+            gap: 1rem;
+        }
+
+        .nav-brand {
+            font-family: 'Outfit', sans-serif;
+            font-weight: 800;
+            font-size: 1.15rem;
+            color: var(--accent-cyan);
+            text-decoration: none;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .nav-links {
+            display: flex;
+            gap: 0.75rem;
+            align-items: center;
+        }
+
+        .nav-btn {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.4rem;
+            padding: 0.45rem 0.9rem;
+            border-radius: 8px;
+            font-size: 0.82rem;
+            font-weight: 600;
+            text-decoration: none;
+            transition: all 0.2s ease;
+            border: 1px solid var(--card-border);
+            color: var(--text-muted);
+            background: var(--card-bg);
+        }
+
+        .nav-btn:hover {
+            color: var(--accent-cyan);
+            border-color: var(--accent-cyan);
+            transform: translateY(-1px);
+        }
+
+        .nav-btn.primary {
+            background: linear-gradient(135deg, var(--accent-cyan), var(--accent-purple));
+            color: #fff;
+            border-color: transparent;
+            box-shadow: 0 0 16px rgba(56, 189, 248, 0.35);
+        }
+
+        .nav-btn.primary:hover {
+            box-shadow: 0 0 20px rgba(56, 189, 248, 0.6);
+        }
+
+        .container {
+            max-width: 1000px;
+            margin: 0 auto;
+            padding: 2.5rem 1.5rem 4rem;
+        }
+
+        .case-hero {
+            margin-bottom: 2.5rem;
+            padding-bottom: 2rem;
+            border-bottom: 1px solid var(--card-border);
+        }
+
+        .badge-row {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 0.5rem;
+            margin-bottom: 1rem;
+        }
+
+        .tag {
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 0.75rem;
+            font-weight: 600;
+            padding: 0.25rem 0.65rem;
+            border-radius: 6px;
+            background: rgba(56, 189, 248, 0.1);
+            color: var(--accent-cyan);
+            border: 1px solid rgba(56, 189, 248, 0.25);
+        }
+
+        .tag.purple {
+            background: rgba(168, 85, 247, 0.1);
+            color: var(--accent-purple);
+            border-color: rgba(168, 85, 247, 0.25);
+        }
+
+        .tag.solar {
+            background: rgba(245, 158, 11, 0.1);
+            color: var(--accent-solar);
+            border-color: rgba(245, 158, 11, 0.25);
+        }
+
+        h1 {
+            font-family: 'Outfit', sans-serif;
+            font-size: 2.4rem;
+            font-weight: 800;
+            line-height: 1.2;
+            color: #fff;
+            margin-bottom: 0.75rem;
+        }
+
+        .hero-subtitle {
+            font-size: 1.15rem;
+            color: var(--text-muted);
+            max-width: 800px;
+        }
+
+        .section-block {
+            background: var(--card-bg);
+            border: 1px solid var(--card-border);
+            border-radius: 14px;
+            padding: 1.75rem 2rem;
+            margin-bottom: 2rem;
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.25);
+        }
+
+        .section-title {
+            font-family: 'Outfit', sans-serif;
+            font-size: 1.35rem;
+            font-weight: 700;
+            color: #fff;
+            margin-bottom: 1rem;
+            display: flex;
+            align-items: center;
+            gap: 0.6rem;
+        }
+
+        .section-title i {
+            color: var(--accent-cyan);
+            font-size: 1.1rem;
+        }
+
+        p {
+            color: #cbd5e1;
+            margin-bottom: 1rem;
+            font-size: 0.96rem;
+        }
+
+        .learnings-list {
+            list-style: none;
+            display: flex;
+            flex-direction: column;
+            gap: 1rem;
+            margin-top: 1rem;
+        }
+
+        .learning-item {
+            display: flex;
+            gap: 1rem;
+            background: rgba(5, 6, 15, 0.6);
+            border: 1px solid var(--card-border);
+            border-left: 4px solid var(--accent-cyan);
+            border-radius: 8px;
+            padding: 1rem 1.25rem;
+        }
+
+        .learning-item.purple {
+            border-left-color: var(--accent-purple);
+        }
+
+        .learning-item.solar {
+            border-left-color: var(--accent-solar);
+        }
+
+        .learning-icon {
+            font-size: 1.2rem;
+            margin-top: 0.1rem;
+            flex-shrink: 0;
+        }
+
+        .learning-content h4 {
+            font-size: 1rem;
+            font-weight: 700;
+            color: #fff;
+            margin-bottom: 0.35rem;
+        }
+
+        .learning-content p {
+            margin: 0;
+            font-size: 0.9rem;
+            color: var(--text-muted);
+        }
+
+        .tech-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
+            gap: 1rem;
+            margin-top: 1rem;
+        }
+
+        .tech-card {
+            background: rgba(5, 6, 15, 0.5);
+            border: 1px solid var(--card-border);
+            border-radius: 8px;
+            padding: 1rem;
+        }
+
+        .tech-label {
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 0.75rem;
+            color: var(--accent-purple);
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            margin-bottom: 0.25rem;
+        }
+
+        .tech-value {
+            font-weight: 700;
+            color: #fff;
+            font-size: 0.95rem;
+        }
+
+        .footer-nav {
+            margin-top: 3rem;
+            padding-top: 2rem;
+            border-top: 1px solid var(--card-border);
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            flex-wrap: wrap;
+            gap: 1rem;
+        }
+
+        .footer-links-group {
+            display: flex;
+            gap: 0.75rem;
+            flex-wrap: wrap;
+        }
+
+        @media (max-width: 640px) {
+            h1 {
+                font-size: 1.8rem;
+            }
+            .section-block {
+                padding: 1.25rem;
+            }
+            .footer-nav {
+                flex-direction: column;
+                align-items: stretch;
+            }
+        }
+    </style>
+</head>
+
+<body>
+
+    <header class="navbar">
+        <div class="nav-container">
+            <a href="./index.html" class="nav-brand">
+                <i class="fa-solid fa-planet-ringed"></i> Motion Landing Page
+            </a>
+            <div class="nav-links">
+                <a href="../index.html" class="nav-btn">
+                    <i class="fa-solid fa-grid-2"></i> Interactive Projects
+                </a>
+                <a href="../../2026/" class="nav-btn">
+                    <i class="fa-solid fa-arrow-left"></i> Main Portfolio
+                </a>
+                <a href="./index.html" class="nav-btn primary">
+                    <i class="fa-solid fa-sparkles"></i> Launch Experience
+                </a>
+            </div>
+        </div>
+    </header>
+
+    <main class="container">
+
+        <div class="case-hero">
+            <div class="badge-row">
+                <span class="tag solar">Case Study</span>
+                <span class="tag">Canvas Particle Physics</span>
+                <span class="tag purple">CSS 3D Parallax</span>
+            </div>
+            <h1>Motion Landing Page: 3D Space &amp; Physics</h1>
+            <p class="hero-subtitle">
+                A high-performance celestial landing page featuring procedurally generated starfields, real-time mouse gravitational fields, and multi-layered CSS 3D solar body transforms.
+            </p>
+        </div>
+
+        <section class="section-block">
+            <h2 class="section-title">
+                <i class="fa-solid fa-circle-info"></i> Project Overview
+            </h2>
+            <p>
+                The goal was to create a breathtaking, futuristic hero experience that demonstrates advanced web graphics capabilities. The application simulates deep space depth through multi-layer particle fields, orbital celestial mechanics, interactive meteor showers, and dynamic cursor gravitational interaction.
+            </p>
+        </section>
+
+        <section class="section-block">
+            <h2 class="section-title">
+                <i class="fa-solid fa-microchip"></i> Technical Highlights
+            </h2>
+            <p>
+                <strong>Layered Canvas System:</strong> Utilizes an optimized Canvas 2D particle simulation for hundreds of floating stellar bodies alongside CSS 3D spherical transforms for the central planet core and lunar maria textures.
+            </p>
+            <p>
+                <strong>Gravitational Pointer Physics:</strong> Mouse movements calculate proximity vectors against surrounding particles, displacing them with inverse-square dampening and restoring them smoothly to their resting orbits.
+            </p>
+            <p>
+                <strong>Responsive Parallax Engine:</strong> Device tilt (gyroscope) on mobile devices and cursor offsets on desktop drive subtle 3D parallax depth shifts across background nebulae.
+            </p>
+        </section>
+
+        <section class="section-block">
+            <h2 class="section-title">
+                <i class="fa-solid fa-lightbulb"></i> What I Learned (Core Takeaways)
+            </h2>
+            <ul class="learnings-list">
+                <li class="learning-item cyan">
+                    <div class="learning-icon">🚀</div>
+                    <div class="learning-content">
+                        <h4>Hardware Acceleration Over Heavy DOM Elements</h4>
+                        <p>Rendering hundreds of moving stars with DOM nodes causes severe layout thrashing. Moving particle updates to an offscreen Canvas while keeping typography in CSS delivers a smooth 60 FPS experience.</p>
+                    </div>
+                </li>
+                <li class="learning-item purple">
+                    <div class="learning-icon">🌌</div>
+                    <div class="learning-content">
+                        <h4>Micro-Interactions &amp; Ambient Lighting</h4>
+                        <p>Layering soft radial gradients with CSS blend modes (<code>screen</code> and <code>color-dodge</code>) creates convincing volumetric planetary atmospheres without the overhead of heavy 3D shaders.</p>
+                    </div>
+                </li>
+                <li class="learning-item solar">
+                    <div class="learning-icon">⚡</div>
+                    <div class="learning-content">
+                        <h4>RAF Throttling and Event Normalization</h4>
+                        <p>Directly binding mousemove listeners to heavy calculations freezes the UI. Normalizing pointer coordinates into a shared state buffer and updating particle fields inside <code>requestAnimationFrame</code> keeps interactions buttery smooth.</p>
+                    </div>
+                </li>
+            </ul>
+        </section>
+
+        <section class="section-block">
+            <h2 class="section-title">
+                <i class="fa-solid fa-layer-group"></i> Architecture Specifications
+            </h2>
+            <div class="tech-grid">
+                <div class="tech-card">
+                    <div class="tech-label">Application Core</div>
+                    <div class="tech-value">React &amp; Modern JavaScript</div>
+                </div>
+                <div class="tech-card">
+                    <div class="tech-label">Visual Systems</div>
+                    <div class="tech-value">HTML5 Canvas 2D + CSS 3D</div>
+                </div>
+                <div class="tech-card">
+                    <div class="tech-label">Particle Logic</div>
+                    <div class="tech-value">Inverse-Square Field Physics</div>
+                </div>
+                <div class="tech-card">
+                    <div class="tech-label">Performance Target</div>
+                    <div class="tech-value">Constant 60 FPS Render Loop</div>
+                </div>
+            </div>
+        </section>
+
+        <footer class="footer-nav">
+            <a href="./index.html" class="nav-btn primary">
+                <i class="fa-solid fa-sparkles"></i> Launch Motion Landing Page
+            </a>
+            <div class="footer-links-group">
+                <a href="../index.html" class="nav-btn">
+                    <i class="fa-solid fa-grid-2"></i> All Interactive Projects
+                </a>
+                <a href="../../2026/" class="nav-btn">
+                    <i class="fa-solid fa-house"></i> Main Portfolio
+                </a>
+            </div>
+        </footer>
+
+    </main>
+
+</body>
+
+</html>

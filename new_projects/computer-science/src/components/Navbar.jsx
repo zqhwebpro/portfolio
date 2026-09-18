@@ -197,6 +197,26 @@ export function Navbar({ activeSlideIndex = 0, onSelectSlide = () => {} }) {
           >
             <Cpu size={12} /> LABS
           </button>
+
+          <a
+            href="./case-study.html"
+            className="brutal-btn brutal-btn-sm"
+            style={{
+              background: 'var(--cherry-red, #FF3366)',
+              color: '#FFFFFF',
+              border: '1.5px solid #000',
+              fontSize: '0.72rem',
+              padding: '0.3rem 0.6rem',
+              fontWeight: 800,
+              textDecoration: 'none',
+              display: 'inline-flex',
+              alignItems: 'center',
+              gap: '0.3rem'
+            }}
+            title="View Project Case Study"
+          >
+            <BookOpen size={12} /> CASE STUDY
+          </a>
         </nav>
       </div>
     </header>

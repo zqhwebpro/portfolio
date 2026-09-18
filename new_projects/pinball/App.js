@@ -514,11 +514,12 @@ function App() {
             `}</style>
 
             <a
-                href="https://zqhwebpro.github.io/portfolio/new_projects/"
+                href="./case-study.html"
                 className="portfolio-btn"
                 style={styles.portfolioBtn}
+                title="View Project Case Study"
             >
-                See Portfolio
+                Case Study
             </a>
 
             <div

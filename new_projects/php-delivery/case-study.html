@@ -1,0 +1,439 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Case Study: PHP Fundamentals with time() — Server-Side Masterclass</title>
+    <meta name="description"
+        content="Technical case study of PHP Fundamentals with time(): Unix Epoch calculations, modern PHP 8 paradigms, and live interactive server labs." />
+
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Outfit:wght@600;700;800&family=JetBrains+Mono:wght@400;600;700&family=Fira+Code:wght@400;600&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+
+    <style>
+        :root {
+            --bg-dark: #0f172a;
+            --card-bg: #1e293b;
+            --card-border: #334155;
+            --php-purple: #777bb4;
+            --php-blue: #4f5b93;
+            --accent-cyan: #06b6d4;
+            --accent-emerald: #10b981;
+            --text-main: #f8fafc;
+            --text-muted: #94a3b8;
+        }
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        body {
+            background-color: var(--bg-dark);
+            color: var(--text-main);
+            font-family: 'Inter', system-ui, -apple-system, sans-serif;
+            line-height: 1.65;
+            min-height: 100vh;
+        }
+
+        .navbar {
+            border-bottom: 1px solid var(--card-border);
+            background: rgba(15, 23, 42, 0.9);
+            backdrop-filter: blur(12px);
+            position: sticky;
+            top: 0;
+            z-index: 50;
+            padding: 1rem 1.5rem;
+        }
+
+        .nav-container {
+            max-width: 1000px;
+            margin: 0 auto;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            flex-wrap: wrap;
+            gap: 1rem;
+        }
+
+        .nav-brand {
+            font-family: 'Outfit', sans-serif;
+            font-weight: 800;
+            font-size: 1.15rem;
+            color: var(--php-purple);
+            text-decoration: none;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .nav-links {
+            display: flex;
+            gap: 0.75rem;
+            align-items: center;
+        }
+
+        .nav-btn {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.4rem;
+            padding: 0.45rem 0.9rem;
+            border-radius: 8px;
+            font-size: 0.82rem;
+            font-weight: 600;
+            text-decoration: none;
+            transition: all 0.2s ease;
+            border: 1px solid var(--card-border);
+            color: var(--text-muted);
+            background: var(--card-bg);
+        }
+
+        .nav-btn:hover {
+            color: var(--accent-cyan);
+            border-color: var(--accent-cyan);
+            transform: translateY(-1px);
+        }
+
+        .nav-btn.primary {
+            background: var(--php-blue);
+            color: #fff;
+            border-color: var(--php-purple);
+            box-shadow: 0 0 16px rgba(119, 123, 180, 0.35);
+        }
+
+        .nav-btn.primary:hover {
+            background: #6366f1;
+            box-shadow: 0 0 20px rgba(99, 102, 241, 0.6);
+        }
+
+        .container {
+            max-width: 1000px;
+            margin: 0 auto;
+            padding: 2.5rem 1.5rem 4rem;
+        }
+
+        .case-hero {
+            margin-bottom: 2.5rem;
+            padding-bottom: 2rem;
+            border-bottom: 1px solid var(--card-border);
+        }
+
+        .badge-row {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 0.5rem;
+            margin-bottom: 1rem;
+        }
+
+        .tag {
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 0.75rem;
+            font-weight: 600;
+            padding: 0.25rem 0.65rem;
+            border-radius: 6px;
+            background: rgba(119, 123, 180, 0.15);
+            color: #cbd5e1;
+            border: 1px solid rgba(119, 123, 180, 0.3);
+        }
+
+        .tag.cyan {
+            background: rgba(6, 182, 212, 0.1);
+            color: var(--accent-cyan);
+            border-color: rgba(6, 182, 212, 0.3);
+        }
+
+        .tag.emerald {
+            background: rgba(16, 185, 129, 0.1);
+            color: var(--accent-emerald);
+            border-color: rgba(16, 185, 129, 0.3);
+        }
+
+        h1 {
+            font-family: 'Outfit', sans-serif;
+            font-size: 2.4rem;
+            font-weight: 800;
+            line-height: 1.2;
+            color: #fff;
+            margin-bottom: 0.75rem;
+        }
+
+        .hero-subtitle {
+            font-size: 1.15rem;
+            color: var(--text-muted);
+            max-width: 800px;
+        }
+
+        .section-block {
+            background: var(--card-bg);
+            border: 1px solid var(--card-border);
+            border-radius: 14px;
+            padding: 1.75rem 2rem;
+            margin-bottom: 2rem;
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.25);
+        }
+
+        .section-title {
+            font-family: 'Outfit', sans-serif;
+            font-size: 1.35rem;
+            font-weight: 700;
+            color: #fff;
+            margin-bottom: 1rem;
+            display: flex;
+            align-items: center;
+            gap: 0.6rem;
+        }
+
+        .section-title i {
+            color: var(--accent-cyan);
+            font-size: 1.1rem;
+        }
+
+        p {
+            color: #cbd5e1;
+            margin-bottom: 1rem;
+            font-size: 0.96rem;
+        }
+
+        .learnings-list {
+            list-style: none;
+            display: flex;
+            flex-direction: column;
+            gap: 1rem;
+            margin-top: 1rem;
+        }
+
+        .learning-item {
+            display: flex;
+            gap: 1rem;
+            background: rgba(15, 23, 42, 0.6);
+            border: 1px solid var(--card-border);
+            border-left: 4px solid var(--php-purple);
+            border-radius: 8px;
+            padding: 1rem 1.25rem;
+        }
+
+        .learning-item.cyan {
+            border-left-color: var(--accent-cyan);
+        }
+
+        .learning-item.emerald {
+            border-left-color: var(--accent-emerald);
+        }
+
+        .learning-icon {
+            font-size: 1.2rem;
+            margin-top: 0.1rem;
+            flex-shrink: 0;
+            color: var(--accent-cyan);
+        }
+
+        .learning-content h4 {
+            font-size: 1rem;
+            font-weight: 700;
+            color: #fff;
+            margin-bottom: 0.35rem;
+        }
+
+        .learning-content p {
+            margin: 0;
+            font-size: 0.9rem;
+            color: var(--text-muted);
+        }
+
+        .tech-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
+            gap: 1rem;
+            margin-top: 1rem;
+        }
+
+        .tech-card {
+            background: rgba(15, 23, 42, 0.5);
+            border: 1px solid var(--card-border);
+            border-radius: 8px;
+            padding: 1rem;
+        }
+
+        .tech-label {
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 0.75rem;
+            color: var(--accent-cyan);
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            margin-bottom: 0.25rem;
+        }
+
+        .tech-value {
+            font-weight: 700;
+            color: #fff;
+            font-size: 0.95rem;
+        }
+
+        .footer-nav {
+            margin-top: 3rem;
+            padding-top: 2rem;
+            border-top: 1px solid var(--card-border);
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            flex-wrap: wrap;
+            gap: 1rem;
+        }
+
+        .footer-links-group {
+            display: flex;
+            gap: 0.75rem;
+            flex-wrap: wrap;
+        }
+
+        @media (max-width: 640px) {
+            h1 {
+                font-size: 1.8rem;
+            }
+            .section-block {
+                padding: 1.25rem;
+            }
+            .footer-nav {
+                flex-direction: column;
+                align-items: stretch;
+            }
+        }
+    </style>
+</head>
+
+<body>
+
+    <header class="navbar">
+        <div class="nav-container">
+            <a href="./index.php" class="nav-brand">
+                <i class="fa-brands fa-php"></i> PHP Fundamentals with time()
+            </a>
+            <div class="nav-links">
+                <a href="../index.html" class="nav-btn">
+                    <i class="fa-solid fa-grid-2"></i> Interactive Projects
+                </a>
+                <a href="../../2026/" class="nav-btn">
+                    <i class="fa-solid fa-arrow-left"></i> Main Portfolio
+                </a>
+                <a href="./index.php" class="nav-btn primary">
+                    <i class="fa-solid fa-code"></i> Launch PHP Guide
+                </a>
+            </div>
+        </div>
+    </header>
+
+    <main class="container">
+
+        <div class="case-hero">
+            <div class="badge-row">
+                <span class="tag">Case Study</span>
+                <span class="tag cyan">Modern PHP 8.x Paradigms</span>
+                <span class="tag emerald">Unix Epoch Time Calculations</span>
+            </div>
+            <h1>PHP Fundamentals with time() Masterclass</h1>
+            <p class="hero-subtitle">
+                An interactive, self-contained educational application exploring core PHP programming principles — data types, arithmetic, conditionals, functions, associative arrays, and OOP — anchored by Unix Epoch time.
+            </p>
+        </div>
+
+        <section class="section-block">
+            <h2 class="section-title">
+                <i class="fa-solid fa-circle-info"></i> Project Overview
+            </h2>
+            <p>
+                Many traditional programming guides rely on contrived "Hello World" examples. This project reimagines PHP learning by anchoring every fundamental concept (variables, operators, match() expressions, loops, classes) to real-time server calculations driven by <code>time()</code>.
+            </p>
+        </section>
+
+        <section class="section-block">
+            <h2 class="section-title">
+                <i class="fa-solid fa-microchip"></i> Technical Highlights
+            </h2>
+            <p>
+                <strong>Modern PHP 8.x Syntax:</strong> Utilizes cutting-edge PHP features including <code>match(true)</code> pattern matching, typed properties, constructor property promotion, and pure functions.
+            </p>
+            <p>
+                <strong>Object-Oriented Time Models:</strong> Encapsulates time intervals and timestamp transformations into robust <code>TimeSpan</code> and <code>Moment</code> classes demonstrating data encapsulation, getters/setters, and methods.
+            </p>
+            <p>
+                <strong>Interactive Epoch Laboratory:</strong> Integrates a client-side timestamp calculator and server-side evaluation cards to demonstrate real-time timezone conversion and milestone tracking.
+            </p>
+        </section>
+
+        <section class="section-block">
+            <h2 class="section-title">
+                <i class="fa-solid fa-lightbulb"></i> What I Learned (Core Takeaways)
+            </h2>
+            <ul class="learnings-list">
+                <li class="learning-item">
+                    <div class="learning-icon">⏱️</div>
+                    <div class="learning-content">
+                        <h4>The Universal Power of Unix Epoch Time</h4>
+                        <p>Unix timestamps represent absolute, timezone-agnostic seconds since 1970. Grounding calculations in integer seconds simplifies database storage, cache expiration (TTL), session management, and date arithmetic.</p>
+                    </div>
+                </li>
+                <li class="learning-item cyan">
+                    <div class="learning-icon">⚡</div>
+                    <div class="learning-content">
+                        <h4>Modern PHP 8 Pattern Matching vs Switch</h4>
+                        <p>The PHP 8 <code>match()</code> expression returns values directly, performs strict type checks (<code>===</code>), and prevents unintentional fall-through bugs found in legacy <code>switch</code> statements.</p>
+                    </div>
+                </li>
+                <li class="learning-item emerald">
+                    <div class="learning-icon">🏗️</div>
+                    <div class="learning-content">
+                        <h4>Self-Contained Interactive Architecture</h4>
+                        <p>Designing an educational masterclass with co-located server-side execution and clean visual documentation provides immediate feedback and drastically improves developer comprehension.</p>
+                    </div>
+                </li>
+            </ul>
+        </section>
+
+        <section class="section-block">
+            <h2 class="section-title">
+                <i class="fa-solid fa-layer-group"></i> Architecture Specifications
+            </h2>
+            <div class="tech-grid">
+                <div class="tech-card">
+                    <div class="tech-label">Backend Engine</div>
+                    <div class="tech-value">PHP 8.2+ Server-Side Execution</div>
+                </div>
+                <div class="tech-card">
+                    <div class="tech-label">Key Functions</div>
+                    <div class="tech-value">time(), microtime(), date(), match()</div>
+                </div>
+                <div class="tech-card">
+                    <div class="tech-label">Design Paradigm</div>
+                    <div class="tech-value">Procedural to OOP (Moment Class)</div>
+                </div>
+                <div class="tech-card">
+                    <div class="tech-label">UI Presentation</div>
+                    <div class="tech-value">Tailwind CSS &amp; JetBrains Mono</div>
+                </div>
+            </div>
+        </section>
+
+        <footer class="footer-nav">
+            <a href="./index.php" class="nav-btn primary">
+                <i class="fa-solid fa-code"></i> Launch PHP Masterclass
+            </a>
+            <div class="footer-links-group">
+                <a href="../index.html" class="nav-btn">
+                    <i class="fa-solid fa-grid-2"></i> All Interactive Projects
+                </a>
+                <a href="../../2026/" class="nav-btn">
+                    <i class="fa-solid fa-house"></i> Main Portfolio
+                </a>
+            </div>
+        </footer>
+
+    </main>
+
+</body>
+
+</html>
