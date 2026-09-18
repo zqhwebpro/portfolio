@@ -90,6 +90,28 @@ const KHAN_QUIZ_QUESTIONS = [
       { text: 'A Binary Heap', correct: false, exp: 'Incorrect. A Binary Heap is used for Dijkstra\'s weighted shortest path algorithm.' },
       { text: 'A Hash Table', correct: false, exp: 'Incorrect. Hash tables store key-value pairs, not traversal order.' }
     ]
+  },
+  {
+    id: 9,
+    unit: 'Unit 00 // Algorithmic Paradigms',
+    question: 'What is the fundamental difference between a Brute Force strategy and Divide and Conquer?',
+    options: [
+      { text: 'Brute Force tries all possible candidates exhaustively, while Divide and Conquer breaks the problem into sub-problems, solves them recursively, and combines the results', correct: true, exp: 'Correct! Brute Force tests every candidate without shortcuts, whereas Divide and Conquer exploits structural sub-problem partitioning to reduce complexity.' },
+      { text: 'Brute Force uses O(1) time while Divide and Conquer uses O(n!)', correct: false, exp: 'Incorrect. Brute force is typically much slower (combinatorial or linear), whereas Divide and Conquer is logarithmic or linearithmic O(n log n).' },
+      { text: 'Divide and Conquer never uses recursion', correct: false, exp: 'Incorrect. Divide and Conquer relies heavily on recursion to solve partitioned sub-problems.' },
+      { text: 'They are identical approaches with different names', correct: false, exp: 'Incorrect. They are fundamentally distinct problem-solving paradigms.' }
+    ]
+  },
+  {
+    id: 10,
+    unit: 'Unit 00 // Complexity & Big O',
+    question: 'How do Time Complexity and Space Complexity differ in algorithmic analysis?',
+    options: [
+      { text: 'Time Complexity measures operations/runtime growth relative to input size n, while Space Complexity measures total memory/auxiliary storage footprint', correct: true, exp: 'Correct! Time complexity models instruction count growth T(n), and Space complexity models memory allocation S(n) including call stacks and heap buffers.' },
+      { text: 'Time complexity is measured in megabytes and space complexity in seconds', correct: false, exp: 'Incorrect. Time is measured in operation counts/cycles, space in memory bytes/slots.' },
+      { text: 'Space complexity only applies to hardware disks, not RAM', correct: false, exp: 'Incorrect. Space complexity primarily analyzes RAM (stack frames and heap memory).' },
+      { text: 'Big O notation can only be applied to Time Complexity, never Space Complexity', correct: false, exp: 'Incorrect. Big O asymptotic notation describes both time and space complexity scaling.' }
+    ]
   }
 ];
 

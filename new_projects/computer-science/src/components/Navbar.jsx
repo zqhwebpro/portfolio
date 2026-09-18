@@ -14,14 +14,15 @@ export function Navbar({ activeSection, currentStats = { ops: 0, stackDepth: 0, 
   };
 
   const navItems = [
-    { id: 'hero', label: '01 // INTRO & GUESSING', num: '01' },
+    { id: 'hero', label: '01 // INTRO', num: '01' },
+    { id: 'core-taxonomy', label: '00 // 8 CORE CONCEPTS', num: '00' },
     { id: 'binary-search', label: '02 // BINARY SEARCH', num: '02' },
     { id: 'big-o', label: '03 // ASYMPTOTIC NOTATION', num: '03' },
-    { id: 'sorting', label: '04 // SELECTION & INSERTION', num: '04' },
-    { id: 'recursion', label: '05 // RECURSION & HANOI', num: '05' },
+    { id: 'sorting', label: '04 // SORTING', num: '04' },
+    { id: 'recursion', label: '05 // RECURSION', num: '05' },
     { id: 'divide-conquer', label: '06 // DIVIDE & CONQUER', num: '06' },
-    { id: 'graphs', label: '07 // GRAPH BFS & DFS', num: '07' },
-    { id: 'quiz', label: '08 // MASTERY QUIZ', num: '08' },
+    { id: 'graphs', label: '07 // GRAPHS', num: '07' },
+    { id: 'quiz', label: '08 // QUIZ', num: '08' },
   ];
 
   const scrollTo = (id) => {

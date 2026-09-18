@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { Navbar } from './components/Navbar';
 import { HeroPlayground } from './components/HeroPlayground';
+import { KnowledgeMatrix } from './components/KnowledgeMatrix';
 import { BinarySearchUnit } from './components/BinarySearchUnit';
 import { BigOGraph } from './components/BigOGraph';
 import { SpatialSortingArena } from './components/SpatialSortingArena';
@@ -17,6 +18,7 @@ export function App() {
   useEffect(() => {
     const sectionIds = [
       'hero',
+      'core-taxonomy',
       'binary-search',
       'big-o',
       'sorting',
@@ -54,9 +56,13 @@ export function App() {
         <HeroPlayground />
         <div className="hazard-divider" />
 
+        {/* Unit 00: Foundational 8 Core CS Terms & Taxonomy Matrix */}
+        <KnowledgeMatrix />
+        <div className="bauhaus-divider" />
+
         {/* Unit 02: Binary Search on Sorted Arrays */}
         <BinarySearchUnit />
-        <div className="bauhaus-divider" />
+        <div className="hazard-divider" />
 
         {/* Unit 03: Asymptotic Analysis (Big-Theta, Big-O, Big-Omega) */}
         <BigOGraph />

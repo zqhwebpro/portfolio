@@ -32,8 +32,8 @@ window.KitchenAudio = {
     return isMuted;
   },
 
-  // Mechanical UI button click
-  playClick() {
+  // Generic procedural tone
+  playTone(freq = 440, type = 'sine', duration = 0.1, gainVal = 0.1) {
     if (isMuted) return;
     try {
       const ctx = getContext();
@@ -41,19 +41,22 @@ window.KitchenAudio = {
       const osc = ctx.createOscillator();
       const gain = ctx.createGain();
 
-      osc.type = 'triangle';
-      osc.frequency.setValueAtTime(180, ctx.currentTime);
-      osc.frequency.exponentialRampToValueAtTime(60, ctx.currentTime + 0.04);
-
-      gain.gain.setValueAtTime(0.08, ctx.currentTime);
-      gain.gain.exponentialRampToValueAtTime(0.001, ctx.currentTime + 0.04);
+      osc.type = type;
+      osc.frequency.setValueAtTime(freq, ctx.currentTime);
+      gain.gain.setValueAtTime(gainVal, ctx.currentTime);
+      gain.gain.exponentialRampToValueAtTime(0.001, ctx.currentTime + duration);
 
       osc.connect(gain);
       gain.connect(ctx.destination);
 
       osc.start();
-      osc.stop(ctx.currentTime + 0.05);
+      osc.stop(ctx.currentTime + duration + 0.01);
     } catch {}
+  },
+
+  // Mechanical UI button click
+  playClick() {
+    this.playTone(180, 'triangle', 0.04, 0.08);
   },
 
   // Kitchen stage advance chime
@@ -78,6 +81,37 @@ window.KitchenAudio = {
 
       osc.start();
       osc.stop(ctx.currentTime + 0.22);
+    } catch {}
+  },
+
+  playStageAdvance(stageNum = 1) {
+    this.playStageChime(stageNum);
+  },
+
+  // Order Fired / Placed Chime
+  playOrderPlaced() {
+    if (isMuted) return;
+    try {
+      const ctx = getContext();
+      if (!ctx) return;
+      const notes = [392.00, 523.25, 659.25];
+      notes.forEach((freq, idx) => {
+        const osc = ctx.createOscillator();
+        const gain = ctx.createGain();
+        const start = ctx.currentTime + idx * 0.08;
+
+        osc.type = 'sine';
+        osc.frequency.setValueAtTime(freq, start);
+
+        gain.gain.setValueAtTime(0.12, start);
+        gain.gain.exponentialRampToValueAtTime(0.001, start + 0.28);
+
+        osc.connect(gain);
+        gain.connect(ctx.destination);
+
+        osc.start(start);
+        osc.stop(start + 0.29);
+      });
     } catch {}
   },
 
@@ -107,5 +141,9 @@ window.KitchenAudio = {
         osc.stop(start + 0.46);
       });
     } catch {}
+  },
+
+  playReadyAlert() {
+    this.playOrderReadyFanfare();
   }
 };
