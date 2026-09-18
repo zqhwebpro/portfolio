@@ -26,7 +26,7 @@ export function Footer({ onSelect }) {
             <div style={{ fontFamily: 'var(--font-mono)', fontSize: '0.65rem', fontWeight: 900, color: '#555', letterSpacing: '0.1em', marginBottom: '0.75rem' }}>CONCEPT INDEX</div>
             <div style={{ display: 'flex', flexDirection: 'column', gap: '0.35rem' }}>
               {CONCEPTS.map((c, i) => (
-                <button key={c.id} onClick={() => { SoundEngine.playClick(); onSelect(i); document.getElementById('concept-slides')?.scrollIntoView({ behavior: 'smooth' }); }} style={{
+                <button key={c.id} onClick={() => { SoundEngine.playClick(); onSelect(i); }} style={{
                   background: 'transparent', border: 'none', cursor: 'pointer',
                   fontFamily: 'var(--font-mono)', fontSize: '0.72rem', fontWeight: 700,
                   color: '#555', textAlign: 'left', padding: '0',

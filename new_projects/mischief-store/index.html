@@ -4,8 +4,8 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Timberline Outdoor Co. — Premium Expedition Gear &amp; Trail Provisions (.NET Showcase)</title>
-    <meta name="description" content="A modern, high-converting e-commerce storefront for rugged outdoor gear and trail provisions, engineered on ASP.NET MVC 5, Ninject Dependency Injection, and Entity Framework 6.">
+    <title>Wacky Things Co. — Gloriously Bizarre Gadgets &amp; Oddities (.NET Showcase)</title>
+    <meta name="description" content="A whimsical, high-converting e-commerce storefront for gloriously bizarre gadgets and peculiar novelties, engineered on ASP.NET MVC 5, Ninject Dependency Injection, and Entity Framework 6.">
 
     <!-- Google Fonts: Inter (Clean Body) + Outfit (Headings) + JetBrains Mono (Technical Tooltips) -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -27,54 +27,54 @@
                         mono: ['"JetBrains Mono"', 'monospace'],
                     },
                     colors: {
-                        // Warm Brown & Earthy Palette
+                        // Deep Plum & Violet Purples
                         earth: {
-                            50: '#FAF7F2',
-                            100: '#F4EFE6',
-                            200: '#E8DFD3',
-                            300: '#D8CCC0',
-                            400: '#B8A492',
-                            500: '#8C735E',
-                            600: '#6B5441',
-                            700: '#4F3C2C',
-                            800: '#382A1E',
-                            900: '#261C13',
-                            950: '#1A120B',
+                            50:  '#F5F3FF',
+                            100: '#EDE9FE',
+                            200: '#DDD6FE',
+                            300: '#C4B5FD',
+                            400: '#A78BFA',
+                            500: '#8B5CF6',
+                            600: '#7C3AED',
+                            700: '#6D28D9',
+                            800: '#4C1D95',
+                            900: '#2E1065',
+                            950: '#1A0845',
                         },
-                        // Appetizing Fresh Forest Greens
+                        // Vibrant Teal & Cyan
                         appetite: {
-                            50: '#F0F9F4',
-                            100: '#D8F3DC',
-                            200: '#B7E4C7',
-                            300: '#95D5B2',
-                            400: '#74C69D',
-                            500: '#52B788',
-                            600: '#40916C',
-                            700: '#2D6A4F',
-                            800: '#1B4332',
-                            900: '#081C15',
+                            50:  '#F0FDFA',
+                            100: '#CCFBF1',
+                            200: '#99F6E4',
+                            300: '#5EEAD4',
+                            400: '#2DD4BF',
+                            500: '#14B8A6',
+                            600: '#0D9488',
+                            700: '#0F766E',
+                            800: '#115E59',
+                            900: '#134E4A',
                         },
-                        // Luminous Honey Gold Yellows
+                        // Cool Silver & Metallic
                         honey: {
-                            50: '#FFFDF5',
-                            100: '#FFF8E1',
-                            200: '#FFECB3',
-                            300: '#FFE082',
-                            400: '#FFD54F',
-                            500: '#FFCA28',
-                            600: '#FFB300',
-                            700: '#FFA000',
-                            800: '#FF8F00',
-                            900: '#D48B00',
-                            950: '#996300',
+                            50:  '#F8FAFC',
+                            100: '#F1F5F9',
+                            200: '#E2E8F0',
+                            300: '#CBD5E1',
+                            400: '#94A3B8',
+                            500: '#64748B',
+                            600: '#475569',
+                            700: '#334155',
+                            800: '#1E293B',
+                            900: '#0F172A',
+                            950: '#020617',
                         },
-                        // Off-white canvases
+                        // Light lavender canvases
                         canvas: {
-                            base: '#FAF7F2',
+                            base: '#FAF8FF',
                             card: '#FFFFFF',
-                            surface: '#F4EFE6',
-                            border: '#E5DCCE',
-                            borderDark: '#D4C6B4',
+                            surface: '#F3F0FF',
+                            border: '#DDD6FE',
+                            borderDark: '#C4B5FD',
                         }
                     }
                 }
@@ -84,17 +84,17 @@
 
     <style>
         :root {
-            --bg-canvas: #FAF7F2;
+            --bg-canvas: #FAF8FF;
             --bg-card: #FFFFFF;
-            --bg-surface: #F4EFE6;
-            --border-warm: #E5DCCE;
-            --text-espresso: #261C13;
-            --text-mocha: #5A4433;
-            --text-muted: #7D6B5C;
-            --green-appetite: #2D6A4F;
-            --green-hover: #1B4332;
-            --gold-honey: #D48B00;
-            --gold-light: #FFCA28;
+            --bg-surface: #F3F0FF;
+            --border-warm: #DDD6FE;
+            --text-espresso: #2E1065;
+            --text-mocha: #6D28D9;
+            --text-muted: #7C3AED;
+            --green-appetite: #0F766E;
+            --green-hover: #0D9488;
+            --gold-honey: #94A3B8;
+            --gold-light: #CBD5E1;
         }
 
         body {
@@ -129,28 +129,28 @@
             }
         }
 
-        /* Clean Off-White & Brown E-Commerce Card */
+        /* Playful Wacky Things Product Card */
         .product-card {
             background-color: #ffffff;
             border: 1px solid var(--border-warm);
-            border-radius: 16px;
+            border-radius: 18px;
             transition: transform 0.22s cubic-bezier(0.4, 0, 0.2, 1), border-color 0.22s ease, box-shadow 0.22s ease;
             display: flex;
             flex-direction: column;
             overflow: hidden;
-            box-shadow: 0 2px 10px -2px rgba(38, 28, 19, 0.05), 0 1px 3px -1px rgba(38, 28, 19, 0.03);
+            box-shadow: 0 2px 10px -2px rgba(109, 40, 217, 0.07), 0 1px 3px -1px rgba(109, 40, 217, 0.04);
         }
 
         .product-card:hover {
-            transform: translateY(-4px);
-            border-color: #D48B00;
-            box-shadow: 0 14px 28px -4px rgba(38, 28, 19, 0.12), 0 4px 12px -2px rgba(38, 28, 19, 0.06);
+            transform: translateY(-5px) rotate(0.4deg);
+            border-color: #8B5CF6;
+            box-shadow: 0 16px 32px -4px rgba(109, 40, 217, 0.18), 0 4px 12px -2px rgba(20, 184, 166, 0.12);
         }
 
         .product-image-container {
             aspect-ratio: 1 / 1;
             width: 100%;
-            background-color: #F4EFE6;
+            background-color: #F3F0FF;
             overflow: hidden;
             position: relative;
         }
@@ -190,7 +190,7 @@
         }
 
         [data-blueprint-file]:hover {
-            outline: 2px dashed #2D6A4F;
+            outline: 2px dashed #7C3AED;
             outline-offset: 2px;
         }
 
@@ -211,20 +211,20 @@
             transform: translateY(0);
         }
 
-        /* Custom Scrollbar in Warm Earth Tones */
+        /* Playful Scrollbar in Purple/Teal */
         ::-webkit-scrollbar {
             width: 7px;
             height: 7px;
         }
         ::-webkit-scrollbar-track {
-            background: #FAF7F2;
+            background: #FAF8FF;
         }
         ::-webkit-scrollbar-thumb {
-            background: #D8CCC0;
+            background: #C4B5FD;
             border-radius: 4px;
         }
         ::-webkit-scrollbar-thumb:hover {
-            background: #8C735E;
+            background: #7C3AED;
         }
     </style>
 </head>

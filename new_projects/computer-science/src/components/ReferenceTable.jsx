@@ -49,7 +49,7 @@ export function ReferenceTable({ onSelect }) {
             return (
               <div
                 key={c.id}
-                onClick={() => { SoundEngine.playClick(); onSelect(i); document.getElementById('concept-slides')?.scrollIntoView({ behavior: 'smooth' }); }}
+                onClick={() => { SoundEngine.playClick(); onSelect(i); }}
                 onMouseEnter={() => setHighlighted(i)}
                 onMouseLeave={() => setHighlighted(null)}
                 style={{

@@ -1,5 +1,5 @@
-import React, { useState, useEffect, useCallback } from 'react';
-import { ChevronLeft, ChevronRight, Play, Pause, RotateCcw } from 'lucide-react';
+import React, { useState } from 'react';
+import { Play, RotateCcw } from 'lucide-react';
 import { CONCEPTS } from '../utils/csData';
 import { SoundEngine } from '../utils/soundEngine';
 
@@ -814,130 +814,123 @@ function BruteForceSlide({ concept }) {
    SLIDE ROUTER
    ============================================================ */
 const SLIDE_COMPONENTS = {
-  'algorithm':       AlgorithmSlide,
-  'data-structure':  DataStructureSlide,
-  'time-complexity': TimeComplexitySlide,
+  'algorithm':        AlgorithmSlide,
+  'data-structure':   DataStructureSlide,
+  'time-complexity':  TimeComplexitySlide,
   'space-complexity': SpaceComplexitySlide,
-  'big-o':           BigOSlide,
-  'recursion':       RecursionSlide,
-  'divide-conquer':  DivideConquerSlide,
-  'brute-force':     BruteForceSlide,
+  'big-o':            BigOSlide,
+  'recursion':        RecursionSlide,
+  'divide-conquer':   DivideConquerSlide,
+  'brute-force':      BruteForceSlide,
 };
 
 /* ============================================================
-   MAIN EXPORT: ConceptSlides
+   CONCEPT BLOCK — one full self-contained section per concept
    ============================================================ */
-export function ConceptSlides({ activeIndex, onSelect }) {
-  const [isAutoPlay, setIsAutoPlay] = useState(false);
-  const concept = CONCEPTS[activeIndex];
+function ConceptBlock({ concept }) {
   const SlideComponent = SLIDE_COMPONENTS[concept.id];
+  return (
+    <div
+      id={`concept-${concept.id}`}
+      style={{
+        borderBottom: '3px solid #0A0A0A',
+        paddingBottom: '3.5rem',
+        marginBottom: '3.5rem',
+      }}
+    >
+      {/* Colored concept header */}
+      <div style={{
+        background: concept.color,
+        border: '3px solid #0A0A0A',
+        padding: '1.25rem 1.5rem',
+        marginBottom: '1.75rem',
+        boxShadow: '6px 6px 0 #0A0A0A',
+        display: 'flex', alignItems: 'center', gap: '1.25rem', flexWrap: 'wrap',
+      }}>
+        <div style={{
+          fontFamily: 'var(--font-mono)',
+          fontSize: 'clamp(2rem, 5vw, 3.5rem)',
+          fontWeight: 900,
+          color: concept.textColor,
+          lineHeight: 1,
+          opacity: 0.45,
+        }}>
+          {concept.num}
+        </div>
+        <div>
+          <div style={{
+            fontFamily: 'var(--font-mono)', fontSize: '0.65rem', fontWeight: 900,
+            color: concept.textColor, opacity: 0.7, letterSpacing: '0.1em', marginBottom: '0.2rem',
+          }}>
+            {concept.category}
+          </div>
+          <h3 style={{
+            fontFamily: 'var(--font-display)',
+            fontSize: 'clamp(1.5rem, 4vw, 2.5rem)',
+            fontWeight: 900,
+            color: concept.textColor,
+            margin: 0,
+            lineHeight: 1.05,
+            letterSpacing: '-0.02em',
+          }}>
+            {concept.term}
+          </h3>
+        </div>
+        <div style={{
+          marginLeft: 'auto',
+          fontFamily: 'var(--font-mono)', fontSize: '0.75rem', fontWeight: 800,
+          color: concept.textColor, opacity: 0.7,
+          maxWidth: '300px', lineHeight: 1.4,
+        }}>
+          {concept.formalDef.substring(0, 100)}…
+        </div>
+      </div>
 
-  // Arrow key navigation
-  useEffect(() => {
-    const handler = (e) => {
-      if (e.key === 'ArrowRight') { SoundEngine.playClick(); onSelect(i => Math.min(i + 1, CONCEPTS.length - 1)); }
-      if (e.key === 'ArrowLeft')  { SoundEngine.playClick(); onSelect(i => Math.max(i - 1, 0)); }
-    };
-    window.addEventListener('keydown', handler);
-    return () => window.removeEventListener('keydown', handler);
-  }, [onSelect]);
+      {/* Interactive slide content */}
+      <SlideComponent concept={concept} />
+    </div>
+  );
+}
 
-  // Auto-play
-  useEffect(() => {
-    if (!isAutoPlay) return;
-    const id = setInterval(() => { SoundEngine.playClick(); onSelect(i => (i + 1) % CONCEPTS.length); }, 10000);
-    return () => clearInterval(id);
-  }, [isAutoPlay, onSelect]);
-
+/* ============================================================
+   MAIN EXPORT: ConceptSlides — all 8 stacked as divs
+   ============================================================ */
+export function ConceptSlides() {
   return (
     <section id="concept-slides" style={{ background: '#FFFFFF', padding: 'clamp(2.5rem, 6vw, 5rem) 0', borderBottom: '3.5px solid #0A0A0A' }}>
       <div className="container">
 
         {/* Section header */}
-        <div style={{ marginBottom: '2rem' }}>
-          <span style={{ background: '#0A0A0A', color: '#FFE600', fontFamily: 'var(--font-mono)', fontSize: '0.75rem', fontWeight: 900, padding: '0.25rem 0.75rem', border: '2px solid #0A0A0A', letterSpacing: '0.08em', display: 'inline-block', marginBottom: '0.75rem' }}>
+        <div style={{ marginBottom: '3rem' }}>
+          <span style={{
+            background: '#0A0A0A', color: '#FFE600',
+            fontFamily: 'var(--font-mono)', fontSize: '0.75rem', fontWeight: 900,
+            padding: '0.25rem 0.75rem', border: '2px solid #0A0A0A', letterSpacing: '0.08em',
+            display: 'inline-block', marginBottom: '0.75rem',
+          }}>
             INTERACTIVE REFERENCE // 8 CANONICAL CONCEPTS
           </span>
-          <h2 style={{ fontFamily: 'var(--font-display)', fontSize: 'clamp(1.8rem, 4vw, 3rem)', fontWeight: 900, letterSpacing: '-0.02em', lineHeight: 1.05, color: '#0A0A0A', marginBottom: '0.5rem' }}>
+          <h2 style={{
+            fontFamily: 'var(--font-display)',
+            fontSize: 'clamp(1.8rem, 4vw, 3rem)',
+            fontWeight: 900, letterSpacing: '-0.02em', lineHeight: 1.05,
+            color: '#0A0A0A', marginBottom: '0.5rem',
+          }}>
             THE 8 FUNDAMENTAL <span style={{ color: '#0038FF' }}>CONCEPTS OF ALGORITHMS</span>
           </h2>
           <p style={{ fontFamily: 'var(--font-body)', color: '#666', fontSize: '0.98rem', maxWidth: '640px', lineHeight: 1.6 }}>
-            Each slide presents one canonical term: its formal definition, key properties, an interactive demonstration that proves the definition, and annotated code.
+            Each section presents one canonical term: its formal definition, key properties,
+            an interactive demonstration that proves the definition, and annotated code.
           </p>
         </div>
 
-        {/* Nav bar */}
-        <div style={{ background: '#0A0A0A', padding: '0.65rem 0.85rem', marginBottom: '1.75rem', display: 'flex', alignItems: 'center', justifyContent: 'space-between', gap: '0.75rem', flexWrap: 'wrap', border: '2px solid #0A0A0A' }}>
-          {/* Concept tabs */}
-          <div style={{ display: 'flex', gap: '0.3rem', overflowX: 'auto', flex: 1 }}>
-            {CONCEPTS.map((c, i) => {
-              const active = i === activeIndex;
-              return (
-                <button key={c.id} onClick={() => { SoundEngine.playClick(); onSelect(i); }} style={{
-                  background: active ? c.color : 'transparent',
-                  color: active ? c.textColor : '#666',
-                  border: active ? `1.5px solid ${c.color}` : '1.5px solid #333',
-                  padding: '0.3rem 0.7rem',
-                  fontFamily: 'var(--font-mono)', fontWeight: 900, fontSize: '0.68rem',
-                  cursor: 'pointer', whiteSpace: 'nowrap',
-                  transition: 'all 0.12s ease',
-                }}>
-                  {c.num} {c.term.toUpperCase()}
-                </button>
-              );
-            })}
-          </div>
-
-          {/* Controls */}
-          <div style={{ display: 'flex', alignItems: 'center', gap: '0.5rem' }}>
-            <button onClick={() => setIsAutoPlay(p => !p)} style={{
-              background: isAutoPlay ? '#00E599' : '#1A1A1A', color: isAutoPlay ? '#000' : '#FFF',
-              border: '1.5px solid #333', padding: '0.3rem 0.7rem',
-              fontFamily: 'var(--font-mono)', fontSize: '0.7rem', fontWeight: 900, cursor: 'pointer', display: 'flex', alignItems: 'center', gap: '0.3rem',
-            }}>
-              {isAutoPlay ? <><Pause size={12} /> PAUSE</> : <><Play size={12} /> AUTO</>}
-            </button>
-            <span style={{ fontFamily: 'var(--font-mono)', fontSize: '0.75rem', color: '#666' }}>
-              <strong style={{ color: '#FFF' }}>{activeIndex + 1}</strong>/{CONCEPTS.length}
-            </span>
-            <button onClick={() => { SoundEngine.playClick(); onSelect(i => Math.max(i - 1, 0)); }} style={{ background: '#222', color: '#FFF', border: '1.5px solid #444', padding: '0.3rem 0.5rem', cursor: 'pointer' }}>
-              <ChevronLeft size={14} />
-            </button>
-            <button onClick={() => { SoundEngine.playClick(); onSelect(i => Math.min(i + 1, CONCEPTS.length - 1)); }} style={{ background: '#FFE600', color: '#000', border: '1.5px solid #000', padding: '0.3rem 0.5rem', cursor: 'pointer' }}>
-              <ChevronRight size={14} />
-            </button>
-          </div>
-        </div>
-
-        {/* Active slide header */}
-        <div style={{
-          background: concept.color,
-          border: '3px solid #0A0A0A',
-          padding: '1.25rem 1.5rem',
-          marginBottom: '1.5rem',
-          boxShadow: '6px 6px 0 #0A0A0A',
-          display: 'flex', alignItems: 'center', gap: '1.25rem', flexWrap: 'wrap',
-        }}>
-          <div style={{ fontFamily: 'var(--font-mono)', fontSize: 'clamp(2rem, 5vw, 3.5rem)', fontWeight: 900, color: concept.textColor, lineHeight: 1, opacity: 0.5 }}>
-            {concept.num}
-          </div>
-          <div>
-            <div style={{ fontFamily: 'var(--font-mono)', fontSize: '0.65rem', fontWeight: 900, color: concept.textColor, opacity: 0.7, letterSpacing: '0.1em', marginBottom: '0.2rem' }}>
-              {concept.category}
-            </div>
-            <h3 style={{ fontFamily: 'var(--font-display)', fontSize: 'clamp(1.5rem, 4vw, 2.5rem)', fontWeight: 900, color: concept.textColor, margin: 0, lineHeight: 1.05, letterSpacing: '-0.02em' }}>
-              {concept.term}
-            </h3>
-          </div>
-          <div style={{ marginLeft: 'auto', fontFamily: 'var(--font-mono)', fontSize: '0.75rem', fontWeight: 800, color: concept.textColor, opacity: 0.7, maxWidth: '300px', lineHeight: 1.4 }}>
-            {concept.formalDef.substring(0, 100)}…
-          </div>
-        </div>
-
-        {/* Slide content */}
-        <SlideComponent key={concept.id} concept={concept} />
+        {/* All 8 concepts rendered as stacked divs */}
+        {CONCEPTS.map((concept) => (
+          <ConceptBlock key={concept.id} concept={concept} />
+        ))}
 
       </div>
     </section>
   );
 }
+

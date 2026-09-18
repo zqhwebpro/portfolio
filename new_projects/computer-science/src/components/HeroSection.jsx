@@ -90,7 +90,7 @@ export function HeroSection({ onSelect }) {
           {CONCEPTS.map((c, i) => (
             <button
               key={c.id}
-              onClick={() => { SoundEngine.playClick(); onSelect(i); document.getElementById('concept-slides')?.scrollIntoView({ behavior: 'smooth' }); }}
+              onClick={() => { SoundEngine.playClick(); onSelect(i); }}
               style={{
                 background: 'transparent',
                 border: `2px solid #222`,
