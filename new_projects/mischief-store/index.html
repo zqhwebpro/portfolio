@@ -816,7 +816,8 @@
             </div>
         </div>
     </div>
-\n    <!-- 6. ORDER RECEIPT MODAL -->
+
+    <!-- 6. ORDER RECEIPT MODAL -->
     <div id="receipt-modal-backdrop" class="fixed inset-0 bg-black/60 backdrop-blur-xs z-50 hidden flex items-center justify-center p-4" onclick="if(event.target===this) window.closeReceiptModal()">
         <div class="bg-canvas-base border border-canvas-border rounded-2xl max-w-sm w-full p-6 text-center space-y-4 shadow-2xl text-earth-950"
              data-blueprint-file="TimberlineStore.WebUI/Views/Cart/Completed.cshtml"
@@ -1178,7 +1179,9 @@
         let sortOption = 'default';
         let priceFilter = 'all';
         let minRatingFilter = 0;
-        let currentPage = 1;\n        let currentFilteredProducts = [];\n        let currentModalIndex = 0;
+        let currentPage = 1;
+        let currentFilteredProducts = [];
+        let currentModalIndex = 0;
         const ITEMS_PER_PAGE = 8;
         let cart = [];
 
@@ -1375,7 +1378,9 @@
 
             if (emptyState) emptyState.classList.add('hidden');
 
-            currentFilteredProducts = filtered;\n\n            // 6. Paginate
+            currentFilteredProducts = filtered;
+
+            // 6. Paginate
             const totalPages = Math.ceil(filtered.length / ITEMS_PER_PAGE);
             if (currentPage > totalPages) currentPage = totalPages || 1;
 
@@ -1828,7 +1833,8 @@
                 `;
             }
         }
-\n        function openCartDrawer() {
+
+        function openCartDrawer() {
             document.getElementById('cart-drawer-backdrop').classList.remove('hidden');
         }
 

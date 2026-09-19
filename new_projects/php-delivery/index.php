@@ -1,98 +1,64 @@
 <?php
 /**
- * ==============================================================================
- * PRACTICAL PHP FUNDAMENTALS — 3 ESSENTIAL PROJECTS (PHP RUNTIME ENGINE)
- * ==============================================================================
- * 1. PHP Tic-Tac-Toe (Sessions & 2D Arrays — Zero DB Dependency)
- * 2. Secure Email Contact Form (Sanitization, Validation & mail())
- * 3. User Registration / Login System (PDO, Bcrypt & Session State)
- * ==============================================================================
+ * PHP SERVER WORKBENCH (6 Modules)
+ * Futuristic Redesign with Horizontal Slider
  */
-
-// Initialize Session for Tic-Tac-Toe and Auth Engine
 if (session_status() === PHP_SESSION_NONE) {
     session_start();
 }
 
-// ------------------------------------------------------------------------------
-// Active Tab State (mod-1 | mod-2 | mod-3)
-// ------------------------------------------------------------------------------
-$activeTab = $_GET['tab'] ?? 'mod-1';
-if (!in_array($activeTab, ['mod-1', 'mod-2', 'mod-3', 'ttt', 'contact', 'auth'])) {
-    $activeTab = 'mod-1';
-}
-// Normalize legacy tab names
-if ($activeTab === 'ttt') $activeTab = 'mod-1';
-if ($activeTab === 'contact') $activeTab = 'mod-2';
-if ($activeTab === 'auth') $activeTab = 'mod-3';
+$activeModule = $_GET['mod'] ?? 'module-1';
 
-// ==============================================================================
-// 1. PHP TIC-TAC-TOE CONTROLLER & LOGIC
-// ==============================================================================
+// MODULE 1: TIC-TAC-TOE
 function initTicTacToe(): void {
-    $_SESSION['ttt_board'] = [
-        ['', '', ''],
-        ['', '', ''],
-        ['', '', '']
-    ];
+    $_SESSION['ttt_board'] = [['', '', ''],['', '', ''],['', '', '']];
     $_SESSION['ttt_player'] = 'X';
     $_SESSION['ttt_winner'] = null;
     $_SESSION['ttt_moves'] = 0;
     $_SESSION['ttt_status'] = 'Game in progress. Player X turn.';
 }
-
-if (!isset($_SESSION['ttt_board'])) {
-    initTicTacToe();
-}
+if (!isset($_SESSION['ttt_board'])) initTicTacToe();
 
 function checkTicTacToeWin(array $board, string $player): bool {
-    // 3 Horizontal & 3 Vertical lines
     for ($i = 0; $i < 3; $i++) {
         if ($board[$i][0] === $player && $board[$i][1] === $player && $board[$i][2] === $player) return true;
         if ($board[0][$i] === $player && $board[1][$i] === $player && $board[2][$i] === $player) return true;
     }
-    // 2 Diagonal lines
     if ($board[0][0] === $player && $board[1][1] === $player && $board[2][2] === $player) return true;
     if ($board[0][2] === $player && $board[1][1] === $player && $board[2][0] === $player) return true;
     return false;
 }
 
-// Handle Tic Tac Toe Form Submissions
 if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['ttt_action'])) {
     if ($_POST['ttt_action'] === 'reset') {
         initTicTacToe();
-        header('Location: index.php?tab=mod-1');
+        header('Location: index.php#module-1');
         exit;
     }
-
     if ($_POST['ttt_action'] === 'move' && $_SESSION['ttt_winner'] === null) {
         $row = isset($_POST['row']) ? (int)$_POST['row'] : -1;
         $col = isset($_POST['col']) ? (int)$_POST['col'] : -1;
-
         if ($row >= 0 && $row < 3 && $col >= 0 && $col < 3 && $_SESSION['ttt_board'][$row][$col] === '') {
             $currentPlayer = $_SESSION['ttt_player'];
             $_SESSION['ttt_board'][$row][$col] = $currentPlayer;
             $_SESSION['ttt_moves']++;
-
             if (checkTicTacToeWin($_SESSION['ttt_board'], $currentPlayer)) {
                 $_SESSION['ttt_winner'] = $currentPlayer;
-                $_SESSION['ttt_status'] = "🎉 Victory! Player {$currentPlayer} wins the match!";
+                $_SESSION['ttt_status'] = "Victory! Player {$currentPlayer} wins the match!";
             } elseif ($_SESSION['ttt_moves'] >= 9) {
                 $_SESSION['ttt_winner'] = 'TIE';
-                $_SESSION['ttt_status'] = "🤝 Game Over! It's a draw/tie!";
+                $_SESSION['ttt_status'] = "Game Over! It's a draw/tie!";
             } else {
                 $_SESSION['ttt_player'] = ($currentPlayer === 'X') ? 'O' : 'X';
                 $_SESSION['ttt_status'] = "Move recorded. Player {$_SESSION['ttt_player']}'s turn.";
             }
         }
-        header('Location: index.php?tab=mod-1');
+        header('Location: index.php#module-1');
         exit;
     }
 }
 
-// ==============================================================================
-// 2. EMAIL CONTACT FORM CONTROLLER & SANITIZATION
-// ==============================================================================
+// MODULE 2: CONTACT FORM
 $cfErrors = [];
 $cfSuccess = false;
 $cfOutput = '';
@@ -107,732 +73,679 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['cf_action']) && $_POS
     $cfSubject = trim($_POST['cf_subject'] ?? '');
     $cfMessage = trim($_POST['cf_message'] ?? '');
 
-    // Name validation
-    if (empty($cfName)) {
-        $cfErrors[] = 'Sender Name is required.';
-    } elseif (strlen($cfName) < 2 || strlen($cfName) > 60) {
-        $cfErrors[] = 'Sender Name must be between 2 and 60 characters.';
-    }
+    if (empty($cfName)) $cfErrors[] = 'Sender Name is required.';
+    elseif (strlen($cfName) < 2 || strlen($cfName) > 60) $cfErrors[] = 'Name must be 2-60 chars.';
 
-    // Email validation & sanitization
     $sanitizedEmail = filter_var($cfEmail, FILTER_SANITIZE_EMAIL);
-    if (empty($cfEmail)) {
-        $cfErrors[] = 'Email address is required.';
-    } elseif (!filter_var($sanitizedEmail, FILTER_VALIDATE_EMAIL)) {
-        $cfErrors[] = 'Please provide a valid RFC-compliant email address.';
-    }
+    if (empty($cfEmail)) $cfErrors[] = 'Email is required.';
+    elseif (!filter_var($sanitizedEmail, FILTER_VALIDATE_EMAIL)) $cfErrors[] = 'Invalid email format.';
 
-    // Header injection detection
-    if (preg_match('/[\r\n]/', $cfEmail) || preg_match('/[\r\n]/', $cfSubject)) {
-        $cfErrors[] = 'Security Alert: CRLF Header Injection pattern detected and neutralized.';
-    }
+    if (preg_match('/[\r\n]/', $cfEmail) || preg_match('/[\r\n]/', $cfSubject)) $cfErrors[] = 'CRLF Header Injection detected.';
+    if (empty($cfSubject)) $cfErrors[] = 'Subject is required.';
+    if (empty($cfMessage)) $cfErrors[] = 'Message is required.';
 
-    // Subject validation
-    if (empty($cfSubject)) {
-        $cfErrors[] = 'Subject line is required.';
-    }
-
-    // Message validation
-    if (empty($cfMessage)) {
-        $cfErrors[] = 'Message content cannot be blank.';
-    } elseif (strlen($cfMessage) < 5) {
-        $cfErrors[] = 'Message must contain at least 5 characters.';
-    }
-
-    // If valid, simulate/invoke PHP mail()
     if (empty($cfErrors)) {
         $safeName    = htmlspecialchars($cfName, ENT_QUOTES, 'UTF-8');
         $safeSubject = preg_replace('/[\r\n]+/', ' ', $cfSubject);
         $safeMessage = htmlspecialchars($cfMessage, ENT_QUOTES, 'UTF-8');
-
-        $headers = "From: webmaster@example.com\r\n" .
-                   "Reply-To: {$sanitizedEmail}\r\n" .
-                   "X-Mailer: PHP/" . phpversion() . "\r\n" .
-                   "Content-Type: text/plain; charset=UTF-8";
-
+        $headers = "From: webmaster@example.com\r\nReply-To: {$sanitizedEmail}\r\nContent-Type: text/plain; charset=UTF-8";
         $cfSuccess = true;
-        $cfOutput = "// PHP 8.3 EVALUATION:\n\$name = htmlspecialchars(\"{$safeName}\", ENT_QUOTES, 'UTF-8');\n\$email = filter_var(\"{$sanitizedEmail}\", FILTER_VALIDATE_EMAIL);\n\$subject = preg_replace('/[\\r\\n]+/', ' ', \"{$safeSubject}\");\n\$message = htmlspecialchars(\"{$safeMessage}\", ENT_QUOTES, 'UTF-8');\n\n// MIME HEADERS ASSEMBLED:\n\$headers = \"{$headers}\";\n\n// INVOCATION:\nmail(\"contact@example.com\", \$subject, \$message, \$headers);\n// STATUS: 200 OK — Mail queued for transport.";
+        $cfOutput = "mail(\"contact@example.com\", \"{$safeSubject}\", \"{$safeMessage}\", \"{$headers}\");\n// Mail queued for transport.";
     }
+    // We don't redirect here so we can show output. We use JS later to scroll to module-2 if post was for it.
+    $activeModule = 'module-2';
 }
 
-// ==============================================================================
-// 3. USER REGISTRATION & LOGIN (IN-MEMORY / PDO SQLITE MOCK)
-// ==============================================================================
+// MODULE 3: AUTHENTICATION
 if (!isset($_SESSION['auth_users'])) {
     $_SESSION['auth_users'] = [
-        'demo_user' => [
-            'id'       => 1,
-            'username' => 'demo_user',
-            'email'    => 'demo@example.com',
-            'hash'     => password_hash('Secret123!', PASSWORD_BCRYPT, ['cost' => 12]),
-            'created'  => time() - 86400
+        'demo' => [
+            'id' => 1, 'username' => 'demo', 'email' => 'demo@example.com',
+            'hash' => password_hash('password123', PASSWORD_BCRYPT, ['cost' => 12])
         ]
     ];
 }
 
 $authErrors = [];
 $authSuccess = '';
-$authTab = 'login';
-
-// Handle Auth Actions
 if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['auth_action'])) {
+    $activeModule = 'module-3';
     if ($_POST['auth_action'] === 'register') {
-        $authTab = 'register';
-        $regUser  = strtolower(trim($_POST['reg_username'] ?? ''));
+        $regUser = strtolower(trim($_POST['reg_username'] ?? ''));
         $regEmail = strtolower(trim($_POST['reg_email'] ?? ''));
-        $regPass  = $_POST['reg_password'] ?? '';
-
-        if (empty($regUser) || !preg_match('/^[a-z0-9_]{3,20}$/', $regUser)) {
-            $authErrors[] = 'Username must be 3-20 alphanumeric characters (or underscore).';
-        }
-        if (empty($regEmail) || !filter_var($regEmail, FILTER_VALIDATE_EMAIL)) {
-            $authErrors[] = 'A valid email address is required.';
-        }
-        if (strlen($regPass) < 8) {
-            $authErrors[] = 'Password must be at least 8 characters.';
-        }
-        if (isset($_SESSION['auth_users'][$regUser])) {
-            $authErrors[] = "Username '{$regUser}' is already registered.";
-        }
-
+        $regPass = $_POST['reg_password'] ?? '';
+        
+        if (empty($regUser)) $authErrors[] = 'Username required.';
+        if (empty($regEmail) || !filter_var($regEmail, FILTER_VALIDATE_EMAIL)) $authErrors[] = 'Valid email required.';
+        if (strlen($regPass) < 8) $authErrors[] = 'Password min 8 chars.';
+        if (isset($_SESSION['auth_users'][$regUser])) $authErrors[] = 'Username taken.';
+        
         if (empty($authErrors)) {
-            $hashedPassword = password_hash($regPass, PASSWORD_BCRYPT, ['cost' => 12]);
-            $nextId = count($_SESSION['auth_users']) + 1;
             $_SESSION['auth_users'][$regUser] = [
-                'id'       => $nextId,
+                'id' => count($_SESSION['auth_users']) + 1,
                 'username' => $regUser,
-                'email'    => $regEmail,
-                'hash'     => $hashedPassword,
-                'created'  => time()
+                'email' => $regEmail,
+                'hash' => password_hash($regPass, PASSWORD_BCRYPT, ['cost' => 12])
             ];
-            $authSuccess = "Registration successful for {$regUser}! Password hashed with Bcrypt (cost 12).";
-            $authTab = 'login';
+            $authSuccess = "Registered {$regUser}. You can now login.";
         }
-    }
-
-    if ($_POST['auth_action'] === 'login') {
-        $authTab = 'login';
+    } elseif ($_POST['auth_action'] === 'login') {
         $loginUser = strtolower(trim($_POST['login_username'] ?? ''));
         $loginPass = $_POST['login_password'] ?? '';
-
-        if (empty($loginUser) || empty($loginPass)) {
-            $authErrors[] = 'Both username and password are required.';
+        $user = $_SESSION['auth_users'][$loginUser] ?? null;
+        if ($user && password_verify($loginPass, $user['hash'])) {
+            session_regenerate_id(true);
+            $_SESSION['authenticated_user'] = ['id' => $user['id'], 'username' => $user['username']];
+            $authSuccess = "Welcome, {$user['username']}!";
         } else {
-            $foundUser = $_SESSION['auth_users'][$loginUser] ?? null;
-            if ($foundUser && password_verify($loginPass, $foundUser['hash'])) {
-                session_regenerate_id(true);
-                $_SESSION['authenticated_user'] = [
-                    'id'       => $foundUser['id'],
-                    'username' => $foundUser['username'],
-                    'email'    => $foundUser['email'],
-                    'login_at' => time()
-                ];
-                $authSuccess = "Welcome back, {$foundUser['username']}! Session authenticated securely.";
-            } else {
-                $authErrors[] = 'Invalid username or password.';
+            $authErrors[] = 'Invalid credentials.';
+        }
+    } elseif ($_POST['auth_action'] === 'logout') {
+        unset($_SESSION['authenticated_user']);
+        $authSuccess = "Logged out securely.";
+    }
+}
+
+// MODULE 4: FILE UPLOAD
+$uploadErrors = [];
+$uploadSuccess = '';
+$uploadedFileMeta = [];
+
+if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['upload_action'])) {
+    $activeModule = 'module-4';
+    if (isset($_FILES['file_input'])) {
+        $file = $_FILES['file_input'];
+        $allowedMimes = ['image/jpeg', 'image/png', 'application/pdf', 'text/plain'];
+        
+        if ($file['error'] !== UPLOAD_ERR_OK) {
+            $uploadErrors[] = "Upload error code: " . $file['error'];
+        } else {
+            if ($file['size'] > 2 * 1024 * 1024) { // 2MB
+                $uploadErrors[] = "File exceeds 2MB limit.";
+            }
+            if (!in_array($file['type'], $allowedMimes)) {
+                $uploadErrors[] = "Invalid file type: " . $file['type'] . ". Allowed: jpg, png, pdf, txt.";
             }
         }
+        
+        if (empty($uploadErrors)) {
+            // Mocking the move_uploaded_file success
+            $uploadSuccess = "File '{$file['name']}' securely validated and accepted.";
+            $uploadedFileMeta = [
+                'name' => htmlspecialchars($file['name']),
+                'type' => htmlspecialchars($file['type']),
+                'size' => round($file['size'] / 1024, 2) . ' KB',
+                'tmp_name' => $file['tmp_name']
+            ];
+        }
     }
+}
 
-    if ($_POST['auth_action'] === 'logout') {
-        unset($_SESSION['authenticated_user']);
-        $authSuccess = "You have been logged out securely. Session destroyed.";
-        $authTab = 'login';
+// MODULE 5: SHOPPING CART
+if (!isset($_SESSION['cart'])) {
+    $_SESSION['cart'] = []; // e.g. [ 'item_1' => ['name'=>'Laptop', 'price'=>999.99, 'qty'=>1] ]
+}
+$products = [
+    'p1' => ['id' => 'p1', 'name' => 'Quantum CPU', 'price' => 499.00],
+    'p2' => ['id' => 'p2', 'name' => 'Neural GPU', 'price' => 899.00],
+    'p3' => ['id' => 'p3', 'name' => 'Holo RAM 32GB', 'price' => 150.00]
+];
+
+if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['cart_action'])) {
+    $activeModule = 'module-5';
+    if ($_POST['cart_action'] === 'add') {
+        $pid = $_POST['product_id'] ?? '';
+        if (isset($products[$pid])) {
+            if (isset($_SESSION['cart'][$pid])) {
+                $_SESSION['cart'][$pid]['qty']++;
+            } else {
+                $_SESSION['cart'][$pid] = $products[$pid];
+                $_SESSION['cart'][$pid]['qty'] = 1;
+            }
+        }
+    } elseif ($_POST['cart_action'] === 'remove') {
+        $pid = $_POST['product_id'] ?? '';
+        if (isset($_SESSION['cart'][$pid])) {
+            if ($_SESSION['cart'][$pid]['qty'] > 1) {
+                $_SESSION['cart'][$pid]['qty']--;
+            } else {
+                unset($_SESSION['cart'][$pid]);
+            }
+        }
+    } elseif ($_POST['cart_action'] === 'clear') {
+        $_SESSION['cart'] = [];
+    }
+}
+$cartTotal = array_reduce($_SESSION['cart'], function($sum, $item) {
+    return $sum + ($item['price'] * $item['qty']);
+}, 0);
+
+// MODULE 6: REST API MOCK
+$apiResponse = null;
+if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['api_action'])) {
+    $activeModule = 'module-6';
+    $resource = trim($_POST['api_resource'] ?? '');
+    
+    // Instead of actually sending JSON headers (which would break HTML rendering),
+    // we simulate the JSON response inside the HTML UI for demonstration.
+    $status = 200;
+    
+    if ($resource === 'users') {
+        $data = array_values(array_map(function($u) {
+            return ['id'=>$u['id'], 'username'=>$u['username']];
+        }, $_SESSION['auth_users']));
+        $apiResponse = ['status' => 'success', 'data' => $data];
+    } elseif ($resource === 'products') {
+        $apiResponse = ['status' => 'success', 'data' => array_values($products)];
+    } elseif ($resource === 'cart') {
+        $apiResponse = ['status' => 'success', 'data' => array_values($_SESSION['cart']), 'total' => $cartTotal];
+    } else {
+        $status = 404;
+        $apiResponse = ['status' => 'error', 'message' => 'Resource not found. Try users, products, or cart.'];
     }
 }
 ?>
 <!DOCTYPE html>
 <html lang="en" class="scroll-smooth">
-
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>PHP Fundamentals: 3 Essential Projects (Live Server Mode)</title>
-    <meta name="description" content="Master PHP fundamentals with 3 projects: Tic-Tac-Toe, Email Contact Form, and User Registration/Login System.">
-
+    <title>PHP Engine: Futuristic Slider</title>
     <!-- Fonts -->
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Fira+Code:wght@400;500;600;700&family=Inter:wght@400;500;600;700;800&family=Outfit:wght@500;600;700;800;900&family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
-
-    <!-- Font Awesome Icons -->
+    <link href="https://fonts.googleapis.com/css2?family=Fira+Code:wght@400;500;600&family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
-
-    <!-- Tailwind CSS CDN -->
+    <!-- Tailwind CSS -->
     <script src="https://cdn.tailwindcss.com"></script>
     <script>
         tailwind.config = {
-            darkMode: 'class',
             theme: {
                 extend: {
-                    fontFamily: {
-                        sans: ['"Plus Jakarta Sans"', 'Inter', 'system-ui', 'sans-serif'],
-                        heading: ['Outfit', 'sans-serif'],
-                        mono: ['"Fira Code"', 'monospace'],
-                    },
+                    fontFamily: { sans: ['Inter', 'sans-serif'], mono: ['"Fira Code"', 'monospace'] },
                     colors: {
-                        slate: {
-                            850: '#131b2e',
-                            900: '#0f172a',
-                            925: '#0b1120',
-                            950: '#070b14',
-                        }
+                        slate: { 850: '#151e32', 900: '#0f172a', 950: '#0b1121' },
+                        digital: { green: '#10b981', mint: '#6ee7b7', blue: '#0ea5e9' }
                     }
                 }
             }
         }
     </script>
-
     <style>
-        :root {
-            --bg-base: #e6f9f2;
-            --bg-surface: rgba(255, 255, 255, 0.7);
-            --bg-card: rgba(255, 255, 255, 0.85);
-            --bg-card-alt: #ffffff;
-            --border-calm: rgba(255, 255, 255, 0.6);
-            --border-focus: #ff6b00;
-            --text-primary: #0f172a;
-            --text-secondary: #334155;
-            --text-muted: #64748b;
+        body { background: #070f1a; color: #e2e8f0; font-family: 'Inter', sans-serif; margin: 0; overflow: hidden; }
+        
+        /* Glassmorphism & Satin Finish */
+        .glass {
+            background: rgba(15, 23, 42, 0.6);
+            backdrop-filter: blur(12px);
+            -webkit-backdrop-filter: blur(12px);
+            border: 1px solid rgba(255,255,255,0.05);
+            box-shadow: 0 4px 30px rgba(0, 0, 0, 0.1);
+        }
+        
+        .glow-accent {
+            position: absolute;
+            width: 300px; height: 300px;
+            background: radial-gradient(circle, rgba(16,185,129,0.15) 0%, rgba(0,0,0,0) 70%);
+            border-radius: 50%;
+            pointer-events: none;
+            z-index: -1;
+        }
+        
+        .glow-blue { background: radial-gradient(circle, rgba(14,165,233,0.15) 0%, rgba(0,0,0,0) 70%); }
+        .glow-purple { background: radial-gradient(circle, rgba(168,85,247,0.15) 0%, rgba(0,0,0,0) 70%); }
+        .glow-amber { background: radial-gradient(circle, rgba(245,158,11,0.15) 0%, rgba(0,0,0,0) 70%); }
+        .glow-pink { background: radial-gradient(circle, rgba(236,72,153,0.15) 0%, rgba(0,0,0,0) 70%); }
+        
+        /* Input & Button Styling */
+        input, textarea, select {
+            background: rgba(11, 17, 33, 0.8);
+            border: 1px solid rgba(255,255,255,0.1);
+            color: #f8fafc;
+            border-radius: 8px;
+            padding: 0.5rem 0.75rem;
+            transition: all 0.3s ease;
+        }
+        input:focus, textarea:focus, select:focus {
+            outline: none;
+            border-color: #10b981;
+            box-shadow: 0 0 10px rgba(16,185,129,0.3);
+        }
+        
+        .btn-sleek {
+            background: linear-gradient(135deg, #0f172a, #1e293b);
+            border: 1px solid rgba(255,255,255,0.1);
+            color: #6ee7b7;
+            border-radius: 8px;
+            padding: 0.5rem 1.2rem;
+            font-weight: 600;
+            transition: all 0.3s ease;
+            cursor: pointer;
+            text-transform: uppercase;
+            font-size: 0.75rem;
+            letter-spacing: 0.05em;
+        }
+        .btn-sleek:hover {
+            border-color: #10b981;
+            color: #10b981;
+            box-shadow: 0 0 15px rgba(16,185,129,0.2);
         }
 
-        body {
-            background-color: var(--bg-base);
-            color: var(--text-primary);
-            font-family: 'Plus Jakarta Sans', sans-serif;
-            min-height: 100vh;
-            line-height: 1.65;
+        /* Horizontal Scroll Snap Slider */
+        .slider-container {
+            display: flex;
+            width: 100vw;
+            height: 100vh;
+            overflow-x: auto;
+            overflow-y: hidden;
+            scroll-snap-type: x mandatory;
+            scroll-behavior: smooth;
         }
-
-        .prose-measure {
-            max-width: 68ch;
-        }
-
-        .calm-nav {
-            background: rgba(11, 17, 32, 0.94);
-            backdrop-filter: blur(16px);
-            border-bottom: 1px solid var(--border-calm);
-        }
-
-        .viewport-frame {
-            background: #090d16;
-            border: 1px solid #1e293b;
-            border-radius: 16px;
-            box-shadow: 0 20px 40px -15px rgba(0, 0, 0, 0.65), 0 0 0 1px rgba(255, 255, 255, 0.04);
-            overflow: hidden;
-            transition: border-color 0.25s ease;
-        }
-
-        .viewport-frame:hover {
-            border-color: #334155;
-        }
-
-        .viewport-header {
-            background: #0d1424;
-            border-bottom: 1px solid #1e293b;
-            padding: 10px 16px;
-        }
-
-        .code-container {
-            background: #080c16;
-            border: 1px solid #1e293b;
-            border-radius: 12px;
-            font-family: 'Fira Code', monospace;
-            font-size: 0.8rem;
-            line-height: 1.65;
-        }
-
-        ::-webkit-scrollbar {
-            width: 6px;
-            height: 6px;
-        }
-        ::-webkit-scrollbar-track {
-            background: #070b14;
-        }
-        ::-webkit-scrollbar-thumb {
-            background: #1e293b;
-            border-radius: 4px;
-        }
-
-        .tech-tag {
-            display: inline-flex;
+        
+        .slider-container::-webkit-scrollbar { display: none; }
+        .slider-container { -ms-overflow-style: none; scrollbar-width: none; }
+        
+        .module-slide {
+            flex: 0 0 100vw;
+            height: 100vh;
+            scroll-snap-align: start;
+            display: flex;
             align-items: center;
-            gap: 0.35rem;
-            padding: 0.25rem 0.65rem;
-            border-radius: 0.375rem;
+            justify-content: center;
+            position: relative;
+            padding: 2rem;
+        }
+        
+        /* Module Inner Container */
+        .module-content {
+            width: 100%;
+            max-width: 1000px;
+            height: 80vh;
+            display: flex;
+            flex-direction: column;
+            border-radius: 20px;
+            overflow: hidden;
+            position: relative;
+        }
+        
+        /* Code block */
+        .code-block {
+            background: #050b14;
+            color: #8be9fd;
             font-family: 'Fira Code', monospace;
-            font-size: 0.72rem;
-            font-weight: 500;
+            padding: 1rem;
+            border-radius: 8px;
+            border: 1px solid rgba(255,255,255,0.05);
+            font-size: 0.8rem;
+            overflow-x: auto;
         }
-    
-        /* Glassmorphism UI */
-        .glass-card {
-            background: var(--bg-card);
-            backdrop-filter: blur(24px);
-            -webkit-backdrop-filter: blur(24px);
-            border: 1px solid var(--border-calm);
-            box-shadow: 0 10px 40px -10px rgba(0, 0, 0, 0.05), 0 0 0 1px rgba(255, 255, 255, 0.5) inset;
-        }
-        .pill-btn {
+        
+        /* Global Nav */
+        .fixed-nav {
+            position: fixed;
+            bottom: 2rem;
+            left: 50%;
+            transform: translateX(-50%);
+            z-index: 50;
+            display: flex;
+            gap: 1rem;
+            background: rgba(15, 23, 42, 0.8);
+            backdrop-filter: blur(10px);
+            padding: 0.75rem 1.5rem;
             border-radius: 9999px;
-            font-weight: 700;
-            padding: 1rem 2rem;
-            transition: all 0.2s ease;
+            border: 1px solid rgba(255,255,255,0.1);
         }
-        .pill-btn-primary {
-            background-color: #ff6b00;
-            color: #ffffff;
-            box-shadow: 0 4px 14px 0 rgba(255, 107, 0, 0.39);
+        
+        .nav-dot {
+            width: 12px; height: 12px;
+            border-radius: 50%;
+            background: #334155;
+            cursor: pointer;
+            transition: all 0.3s;
         }
-        .pill-btn-primary:hover {
-            background-color: #e66000;
-            transform: translateY(-2px);
-            box-shadow: 0 6px 20px rgba(255, 107, 0, 0.23);
-        }
-        .pill-btn-secondary {
-            background-color: #ffd600;
-            color: #1a1a1a;
-            box-shadow: 0 4px 14px 0 rgba(255, 214, 0, 0.39);
-        }
-        .pill-btn-secondary:hover {
-            background-color: #e6c100;
-            transform: translateY(-2px);
-            box-shadow: 0 6px 20px rgba(255, 214, 0, 0.23);
-        }
-        .tab-panel {
-            display: block !important;
-            opacity: 1 !important;
-            transform: none !important;
-            transition: none !important;
-            margin-bottom: 4rem;
-        }
-        main p {
-            line-height: 2 !important;
-            padding-top: 0.5rem !important;
-            padding-bottom: 0.5rem !important;
-            margin-top: 0.5rem !important;
-            margin-bottom: 0.5rem !important;
-        }
-</style>
+        .nav-dot.active { background: #10b981; box-shadow: 0 0 10px rgba(16,185,129,0.8); transform: scale(1.2); }
+    </style>
 </head>
+<body data-active-mod="<?= htmlspecialchars($activeModule) ?>">
 
-<body class="selection:bg-orange-200 selection:text-orange-900 flex flex-col min-h-screen bg-[#e6f9f2] text-slate-900">
-
-    <!-- GLOBAL NAVBAR -->
-    <header class="sticky top-6 z-50 mx-4 sm:mx-8">
-        <div class="w-full px-8 py-5 flex items-center justify-between gap-4 flex-wrap bg-white/70 backdrop-blur-xl border border-white rounded-full shadow-[0_8px_30px_rgb(0,0,0,0.04)]">
-            <div class="flex items-center gap-3">
-                <div class="h-9 w-9 rounded-xl bg-slate-900 border border-slate-700/80 flex items-center justify-center font-mono font-bold text-slate-200 shadow-sm">
-                    <i class="fa-brands fa-php text-xl text-sky-400"></i>
-                </div>
-                <div>
-                    <div class="font-heading font-bold text-base sm:text-lg text-slate-100 tracking-wide flex items-center gap-1.5">
-                        PHP <span class="text-sky-400 font-semibold">Server Workbench</span>
-                    </div>
-                    <div class="text-[11px] text-slate-400 font-medium">Native PHP POST/Session Execution Mode</div>
-                </div>
-            </div>
-
-            <div class="flex items-center gap-2">
-                <a href="./case-study.html" class="px-3.5 py-1.5 rounded-lg bg-slate-800/80 border border-slate-700 hover:bg-slate-700 text-slate-200 text-xs font-semibold transition-all flex items-center gap-1.5">
-                    <i class="fa-solid fa-book-open text-sky-400"></i>
-                    <span>Case Study</span>
-                </a>
-                <a href="index.html" class="px-3.5 py-1.5 rounded-lg bg-slate-900 border border-slate-800 hover:border-slate-600 text-slate-400 hover:text-slate-200 text-xs font-medium transition-all">
-                    <i class="fa-solid fa-bolt mr-1"></i> Static Sandbox UI
-                </a>
-            </div>
-        </div>
-    </header>
-
-    <!-- MAIN WORKBENCH -->
-    <main class="w-full px-4 sm:px-12 py-16 flex-1 space-y-16">
-
-        <!-- HEADER BANNER & INSTRUCTIONAL CONTEXT (Max measure 68ch) -->
-        <section class="space-y-4 border-b border-slate-800/80 pb-6">
-            <div class="flex flex-wrap items-center justify-between gap-3">
-                <div class="space-y-1.5">
-                    <div class="flex items-center gap-2">
-                        <span class="inline-flex items-center px-2.5 py-0.5 rounded-full text-[11px] font-mono font-semibold bg-sky-950/80 text-sky-300 border border-sky-800/60">
-                            <span class="w-1.5 h-1.5 rounded-full bg-emerald-400 mr-1.5 animate-pulse"></span>
-                            Live PHP Server Instance Active
-                        </span>
-                        <span class="text-slate-500 text-xs font-mono">• PHP <?= phpversion() ?></span>
-                    </div>
-                    <h1 class="font-heading font-black text-2xl sm:text-3xl text-slate-100 tracking-tight">
-                        Practical PHP Fundamentals Curriculum
-                    </h1>
-                </div>
-            </div>
-
-            <p class="text-slate-300 text-sm leading-relaxed prose-measure">
-                Review server-side architecture and code specifications on the left, and interact with the live PHP backend prototype on the right.
-            </p>
-
-            <!-- SEGMENTED TAB CONTROLLER -->
-            <nav class="sticky top-32 z-40 mb-12" aria-label="Curriculum Modules">
-                <div class="grid grid-cols-1 sm:grid-cols-3 gap-2 p-1.5 bg-slate-900/90 border border-slate-800 rounded-xl">
-                    
-                    <a href="index.php?tab=mod-1" class="flex items-center gap-3 p-3 rounded-lg text-left transition-all <?= $activeTab === 'mod-1' ? 'bg-slate-800/90 border border-sky-500/40 text-white shadow-sm' : 'bg-slate-950/40 text-slate-400 hover:text-slate-200' ?>">
-                        <div class="h-8 w-8 rounded-lg bg-sky-950 border border-sky-800/80 flex items-center justify-center font-mono font-bold text-xs text-sky-300">01</div>
-                        <div class="min-w-0">
-                            <div class="text-[11px] font-mono uppercase tracking-wider text-sky-400 font-semibold">Module 01</div>
-                            <div class="text-xs font-bold truncate">Tic-Tac-Toe &bull; Sessions</div>
-                        </div>
-                    </a>
-
-                    <a href="index.php?tab=mod-2" class="flex items-center gap-3 p-3 rounded-lg text-left transition-all <?= $activeTab === 'mod-2' ? 'bg-slate-800/90 border border-amber-500/40 text-white shadow-sm' : 'bg-slate-950/40 text-slate-400 hover:text-slate-200' ?>">
-                        <div class="h-8 w-8 rounded-lg bg-slate-900 border border-slate-800 flex items-center justify-center font-mono font-bold text-xs text-slate-400">02</div>
-                        <div class="min-w-0">
-                            <div class="text-[11px] font-mono uppercase tracking-wider text-amber-400 font-semibold">Module 02</div>
-                            <div class="text-xs font-bold truncate">Contact Form &bull; Sanitization</div>
-                        </div>
-                    </a>
-
-                    <a href="index.php?tab=mod-3" class="flex items-center gap-3 p-3 rounded-lg text-left transition-all <?= $activeTab === 'mod-3' ? 'bg-slate-800/90 border border-emerald-500/40 text-white shadow-sm' : 'bg-slate-950/40 text-slate-400 hover:text-slate-200' ?>">
-                        <div class="h-8 w-8 rounded-lg bg-slate-900 border border-slate-800 flex items-center justify-center font-mono font-bold text-xs text-slate-400">03</div>
-                        <div class="min-w-0">
-                            <div class="text-[11px] font-mono uppercase tracking-wider text-emerald-400 font-semibold">Module 03</div>
-                            <div class="text-xs font-bold truncate">User Auth &bull; PDO / Bcrypt</div>
-                        </div>
-                    </a>
-
-                </div>
-            </nav>
-        </section>
-
-        <?php if ($activeTab === 'mod-1'): ?>
-        <!-- MODULE 01: TIC TAC TOE -->
-        <section class="space-y-8">
-            <div class="grid grid-cols-1 lg:grid-cols-12 gap-8 items-start">
-                
-                <!-- Left: Theory & Code -->
-                <div class="lg:col-span-6 space-y-6">
-                    <div class="space-y-2">
-                        <div class="flex items-center gap-2">
-                            <span class="px-2.5 py-0.5 rounded text-xs font-mono font-bold bg-sky-950 text-sky-400 border border-sky-800/70">MODULE 01</span>
-                            <span class="text-xs font-mono text-slate-400">Zero-DB Session Architecture</span>
-                        </div>
-                        <h2 class="font-heading font-black text-2xl text-slate-100">PHP Tic-Tac-Toe: Sessions &amp; 2D Matrices</h2>
-                        <p class="text-slate-300 text-sm leading-relaxed prose-measure">
-                            Tic-Tac-Toe provides a foundation in stateful server-side computing without database overhead. It demonstrates array manipulation, turn progression, and victory evaluation algorithms within persistent superglobal state.
-                        </p>
-                    </div>
-
-                    <!-- Tech Tags -->
-                    <div class="space-y-2">
-                        <div class="text-[11px] font-mono text-slate-400 uppercase tracking-wider font-semibold">Module Technical Specifications:</div>
-                        <div class="flex flex-wrap gap-1.5">
-                            <span class="tech-tag bg-sky-950/80 text-sky-300 border border-sky-800/60"><i class="fa-solid fa-microchip"></i> $_SESSION['board']</span>
-                            <span class="tech-tag bg-slate-900 text-slate-300 border border-slate-700"><i class="fa-solid fa-table-cells"></i> 2D Matrix Traversal</span>
-                            <span class="tech-tag bg-slate-900 text-slate-300 border border-slate-700"><i class="fa-solid fa-bolt"></i> O(1) 8-Way Win Algorithm</span>
-                            <span class="tech-tag bg-slate-900 text-slate-300 border border-slate-700"><i class="fa-solid fa-server"></i> Zero-DB Architecture</span>
-                        </div>
-                    </div>
-
-                    <!-- Code Snippet -->
-                    <div class="code-container p-4 text-slate-300 overflow-x-auto text-[11px]">
-<pre><span class="text-slate-500">// 1. Initialize Board in Session</span>
-<span class="text-sky-300">session_start</span>();
-<span class="text-slate-400">if</span> (!<span class="text-sky-300">isset</span>(<span class="text-slate-200">$_SESSION</span>[<span class="text-emerald-300">'board'</span>])) {
-    <span class="text-slate-200">$_SESSION</span>[<span class="text-emerald-300">'board'</span>] = [[<span class="text-emerald-300">''</span>,<span class="text-emerald-300">''</span>,<span class="text-emerald-300">''</span>], [<span class="text-emerald-300">''</span>,<span class="text-emerald-300">''</span>,<span class="text-emerald-300">''</span>], [<span class="text-emerald-300">''</span>,<span class="text-emerald-300">''</span>,<span class="text-emerald-300">''</span>]];
-    <span class="text-slate-200">$_SESSION</span>[<span class="text-emerald-300">'player'</span>] = <span class="text-emerald-300">'X'</span>;
-    <span class="text-slate-200">$_SESSION</span>[<span class="text-emerald-300">'winner'</span>] = <span class="text-slate-400">null</span>;
-}</pre>
+    <div class="slider-container" id="slider">
+        <!-- Slide 1: Tic Tac Toe -->
+        <div class="module-slide" id="module-1">
+            <div class="glow-accent" style="top: 10%; left: 10%;"></div>
+            <div class="module-content glass flex flex-col md:flex-row shadow-2xl">
+                <div class="p-8 md:w-1/2 border-r border-slate-700/50 flex flex-col justify-center">
+                    <h2 class="text-3xl font-bold text-transparent bg-clip-text bg-gradient-to-r from-emerald-400 to-sky-400 mb-2">01. Session State</h2>
+                    <p class="text-slate-400 mb-6 text-sm leading-relaxed">Tic-Tac-Toe via 2D Arrays stored in $_SESSION. No database required. Constant time win checking algorithm.</p>
+                    <div class="code-block mb-4">
+$_SESSION['board'] = [
+  ['', '', ''],
+  ['', '', ''],
+  ['', '', '']
+];
                     </div>
                 </div>
-
-                <!-- Right: Dedicated Viewport Frame -->
-                <div class="lg:col-span-6">
-                    <div class="viewport-frame">
-                        <div class="viewport-header flex items-center justify-between">
-                            <div class="flex items-center gap-1.5">
-                                <span class="h-3 w-3 rounded-full bg-rose-500/80 inline-block"></span>
-                                <span class="h-3 w-3 rounded-full bg-amber-500/80 inline-block"></span>
-                                <span class="h-3 w-3 rounded-full bg-emerald-500/80 inline-block"></span>
-                                <span class="font-mono text-xs text-slate-400 ml-2">sandbox://session-tictactoe.php</span>
-                            </div>
-                            <span class="px-2 py-0.5 rounded text-[11px] font-mono bg-sky-950 text-sky-300 border border-sky-800/80">PHP 8.3 Native</span>
-                        </div>
-
-                        <div class="p-5 sm:p-6 space-y-6 bg-slate-950/70">
-                            <div class="flex items-center justify-between text-xs font-mono pb-1 border-b border-slate-800">
-                                <span class="text-slate-400">Turn State: <strong class="text-sky-300">Player <?= htmlspecialchars($_SESSION['ttt_player']) ?></strong></span>
-                                <form method="POST">
-                                    <input type="hidden" name="ttt_action" value="reset">
-                                    <button type="submit" class="px-2.5 py-1 rounded bg-slate-900 border border-slate-700 text-slate-300 hover:text-white text-[11px]"><i class="fa-solid fa-rotate-right mr-1 text-sky-400"></i> Reset</button>
-                                </form>
-                            </div>
-
-                            <div class="w-full text-center py-2 px-3 rounded-lg bg-slate-900 border border-slate-800 text-xs font-semibold text-slate-300">
-                                <?= htmlspecialchars($_SESSION['ttt_status']) ?>
-                            </div>
-
-                            <!-- 3x3 Form Grid -->
-                            <form method="POST" class="flex justify-center">
-                                <input type="hidden" name="ttt_action" value="move">
-                                <div class="grid grid-cols-3 gap-2.5 w-60 h-60 p-2.5 bg-slate-900 rounded-2xl border border-slate-800">
-                                    <?php for ($r = 0; $r < 3; $r++): ?>
-                                        <?php for ($c = 0; $c < 3; $c++): 
-                                            $val = $_SESSION['ttt_board'][$r][$c];
-                                            $disabled = ($val !== '' || $_SESSION['ttt_winner'] !== null);
-                                        ?>
-                                            <button type="submit" name="cell" value="<?= "{$r}_{$c}" ?>" onclick="this.form.row.value=<?= $r ?>; this.form.col.value=<?= $c ?>;" <?= $disabled ? 'disabled' : '' ?> class="h-full w-full rounded-xl bg-slate-950 border border-slate-800 font-heading font-black text-2xl <?= $val === 'X' ? 'text-sky-400 border-sky-500/50' : ($val === 'O' ? 'text-indigo-400 border-indigo-500/50' : 'text-slate-500') ?> flex items-center justify-center">
-                                                <?= htmlspecialchars($val) ?>
-                                            </button>
-                                        <?php endfor; ?>
-                                    <?php endfor; ?>
-                                </div>
-                                <input type="hidden" name="row" id="row" value="-1">
-                                <input type="hidden" name="col" id="col" value="-1">
-                            </form>
-
-                            <!-- State Inspector -->
-                            <div class="space-y-2 pt-2 border-t border-slate-800/80">
-                                <div class="text-xs font-mono text-slate-400 flex justify-between">
-                                    <span>$_SESSION Server State Dump</span>
-                                    <span class="text-sky-400">Live Memory</span>
-                                </div>
-                                <div class="code-container p-3.5 text-sky-300 font-mono text-xs overflow-x-auto">
-<pre>$_SESSION = <?= htmlspecialchars(var_export($_SESSION, true)) ?></pre>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </section>
-        <?php endif; ?>
-
-        <?php if ($activeTab === 'mod-2'): ?>
-        <!-- MODULE 02: CONTACT FORM -->
-        <section class="space-y-8">
-            <div class="grid grid-cols-1 lg:grid-cols-12 gap-8 items-start">
-                <div class="lg:col-span-6 space-y-6">
-                    <div class="space-y-2">
-                        <div class="flex items-center gap-2">
-                            <span class="px-2.5 py-0.5 rounded text-xs font-mono font-bold bg-amber-950 text-amber-400 border border-amber-800/70">MODULE 02</span>
-                            <span class="text-xs font-mono text-slate-400">Sanitization &amp; mail() Pipeline</span>
-                        </div>
-                        <h2 class="font-heading font-black text-2xl text-slate-100">Secure Email Form: Sanitization &amp; mail()</h2>
-                        <p class="text-slate-300 text-sm leading-relaxed prose-measure">
-                            Processing untrusted user input is a core server-side responsibility. This module covers RFC-compliant email validation, XSS prevention via htmlspecialchars(), and defense against CRLF email header injection attacks.
-                        </p>
-                    </div>
-
-                    <!-- Tech Tags -->
-                    <div class="space-y-2">
-                        <div class="text-[11px] font-mono text-slate-400 uppercase tracking-wider font-semibold">Module Technical Specifications:</div>
-                        <div class="flex flex-wrap gap-1.5">
-                            <span class="tech-tag bg-amber-950/80 text-amber-300 border border-amber-800/60"><i class="fa-solid fa-filter"></i> filter_var(FILTER_VALIDATE_EMAIL)</span>
-                            <span class="tech-tag bg-slate-900 text-slate-300 border border-slate-700"><i class="fa-solid fa-code"></i> htmlspecialchars(ENT_QUOTES)</span>
-                            <span class="tech-tag bg-slate-900 text-slate-300 border border-slate-700"><i class="fa-solid fa-shield-halved"></i> CRLF Injection Defense</span>
-                            <span class="tech-tag bg-slate-900 text-slate-300 border border-slate-700"><i class="fa-solid fa-paper-plane"></i> Native mail() Protocol</span>
-                        </div>
-                    </div>
-
-                    <div class="code-container p-4 text-slate-300 overflow-x-auto text-[11px]">
-<pre><span class="text-slate-200">$name</span>    = <span class="text-sky-300">htmlspecialchars</span>(<span class="text-sky-300">trim</span>(<span class="text-slate-200">$_POST</span>[<span class="text-emerald-300">'name'</span>] ?? <span class="text-emerald-300">''</span>), <span class="text-amber-300">ENT_QUOTES</span>, <span class="text-emerald-300">'UTF-8'</span>);
-<span class="text-slate-200">$email</span>   = <span class="text-sky-300">filter_var</span>(<span class="text-sky-300">trim</span>(<span class="text-slate-200">$_POST</span>[<span class="text-emerald-300">'email'</span>] ?? <span class="text-emerald-300">''</span>), <span class="text-amber-300">FILTER_VALIDATE_EMAIL</span>);
-<span class="text-slate-200">$subject</span> = <span class="text-sky-300">preg_replace</span>(<span class="text-emerald-300">'/[\r\n]+/'</span>, <span class="text-emerald-300">' '</span>, <span class="text-sky-300">trim</span>(<span class="text-slate-200">$_POST</span>[<span class="text-emerald-300">'subject'</span>] ?? <span class="text-emerald-300">''</span>));
-<span class="text-slate-200">$message</span> = <span class="text-sky-300">htmlspecialchars</span>(<span class="text-sky-300">trim</span>(<span class="text-slate-200">$_POST</span>[<span class="text-emerald-300">'message'</span>] ?? <span class="text-emerald-300">''</span>), <span class="text-amber-300">ENT_QUOTES</span>, <span class="text-emerald-300">'UTF-8'</span>);</pre>
-                    </div>
-                </div>
-
-                <!-- Right: Viewport Frame -->
-                <div class="lg:col-span-6">
-                    <div class="viewport-frame">
-                        <div class="viewport-header flex items-center justify-between">
-                            <div class="flex items-center gap-1.5">
-                                <span class="h-3 w-3 rounded-full bg-rose-500/80 inline-block"></span>
-                                <span class="h-3 w-3 rounded-full bg-amber-500/80 inline-block"></span>
-                                <span class="h-3 w-3 rounded-full bg-emerald-500/80 inline-block"></span>
-                                <span class="font-mono text-xs text-slate-400 ml-2">sandbox://mail-sanitizer.php</span>
-                            </div>
-                            <span class="px-2 py-0.5 rounded text-[11px] font-mono bg-amber-950 text-amber-300 border border-amber-800/80">Sanitizer Active</span>
-                        </div>
-
-                        <div class="p-5 sm:p-6 space-y-5 bg-slate-950/70">
-                            <?php if (!empty($cfErrors)): ?>
-                                <div class="p-3 rounded-lg bg-rose-950/80 border border-rose-800 text-xs text-rose-200">
-                                    <ul class="list-disc list-inside">
-                                        <?php foreach ($cfErrors as $err): ?>
-                                            <li><?= htmlspecialchars($err) ?></li>
-                                        <?php endforeach; ?>
-                                    </ul>
-                                </div>
-                            <?php elseif ($cfSuccess): ?>
-                                <div class="p-3 rounded-lg bg-emerald-950/80 border border-emerald-800 text-xs text-emerald-200">
-                                    ✅ Input passed all filters! Mail queued successfully via PHP mail().
-                                </div>
-                            <?php endif; ?>
-
-                            <form method="POST" class="space-y-3 text-xs bg-slate-900/80 p-4 rounded-xl border border-slate-800">
-                                <input type="hidden" name="cf_action" value="submit">
-                                <div>
-                                    <label class="text-[11px] text-slate-300 font-semibold">Sender Name *</label>
-                                    <input type="text" name="cf_name" value="<?= htmlspecialchars($cfName ?: 'Jane Doe') ?>" required class="w-full bg-slate-950 border border-slate-700 rounded-lg px-3 py-2 text-slate-100 text-xs focus:border-amber-400 focus:outline-none">
-                                </div>
-                                <div>
-                                    <label class="text-[11px] text-slate-300 font-semibold">Email Address *</label>
-                                    <input type="email" name="cf_email" value="<?= htmlspecialchars($cfEmail ?: 'jane@example.com') ?>" required class="w-full bg-slate-950 border border-slate-700 rounded-lg px-3 py-2 text-slate-100 text-xs focus:border-amber-400 focus:outline-none">
-                                </div>
-                                <div>
-                                    <label class="text-[11px] text-slate-300 font-semibold">Subject *</label>
-                                    <input type="text" name="cf_subject" value="<?= htmlspecialchars($cfSubject ?: 'Inquiry on PHP Best Practices') ?>" required class="w-full bg-slate-950 border border-slate-700 rounded-lg px-3 py-2 text-slate-100 text-xs focus:border-amber-400 focus:outline-none">
-                                </div>
-                                <div>
-                                    <label class="text-[11px] text-slate-300 font-semibold">Message Body *</label>
-                                    <textarea name="cf_message" rows="3" required class="w-full bg-slate-950 border border-slate-700 rounded-lg px-3 py-2 text-slate-100 text-xs focus:border-amber-400 focus:outline-none"><?= htmlspecialchars($cfMessage ?: 'Hello! Testing PHP server-side input sanitization.') ?></textarea>
-                                </div>
-                                <button type="submit" class="w-full py-2.5 rounded-lg bg-amber-500 hover:bg-amber-400 text-slate-950 font-bold text-xs flex items-center justify-center gap-2">
-                                    <i class="fa-solid fa-paper-plane"></i> Execute Validation &amp; mail()
+                <div class="p-8 md:w-1/2 flex flex-col items-center justify-center relative">
+                    <div class="text-sm font-mono text-emerald-300 mb-4"><?= htmlspecialchars($_SESSION['ttt_status']) ?></div>
+                    <form method="POST" action="#module-1">
+                        <input type="hidden" name="ttt_action" value="move">
+                        <div class="grid grid-cols-3 gap-3 bg-slate-950 p-4 rounded-xl border border-slate-800 shadow-inner">
+                            <?php for($r=0; $r<3; $r++): for($c=0; $c<3; $c++):
+                                $val = $_SESSION['ttt_board'][$r][$c];
+                                $disabled = ($val !== '' || $_SESSION['ttt_winner'] !== null);
+                            ?>
+                                <button type="submit" name="cell" onclick="this.form.row.value=<?= $r ?>; this.form.col.value=<?= $c ?>;" <?= $disabled ? 'disabled' : '' ?>
+                                    class="w-20 h-20 text-3xl font-bold rounded-lg border border-slate-800 <?= $val === 'X' ? 'text-sky-400 bg-slate-900' : ($val === 'O' ? 'text-emerald-400 bg-slate-900' : 'bg-slate-900/50 hover:bg-slate-800') ?>">
+                                    <?= htmlspecialchars($val) ?>
                                 </button>
-                            </form>
-
-                            <?php if ($cfOutput): ?>
-                            <div class="space-y-2 pt-1 border-t border-slate-800">
-                                <div class="text-xs font-mono text-slate-400">Server Execution Output:</div>
-                                <div class="code-container p-3.5 text-amber-300 font-mono text-xs overflow-x-auto">
-<pre><?= htmlspecialchars($cfOutput) ?></pre>
-                                </div>
-                            </div>
-                            <?php endif; ?>
+                            <?php endfor; endfor; ?>
                         </div>
-                    </div>
+                        <input type="hidden" name="row" id="row" value="-1">
+                        <input type="hidden" name="col" id="col" value="-1">
+                    </form>
+                    <form method="POST" action="#module-1" class="mt-6">
+                        <input type="hidden" name="ttt_action" value="reset">
+                        <button class="btn-sleek">Reset Game</button>
+                    </form>
                 </div>
-            </div>
-        </section>
-        <?php endif; ?>
-
-        <?php if ($activeTab === 'mod-3'): ?>
-        <!-- MODULE 03: AUTHENTICATION -->
-        <section class="space-y-8">
-            <div class="grid grid-cols-1 lg:grid-cols-12 gap-8 items-start">
-                <div class="lg:col-span-6 space-y-6">
-                    <div class="space-y-2">
-                        <div class="flex items-center gap-2">
-                            <span class="px-2.5 py-0.5 rounded text-xs font-mono font-bold bg-emerald-950 text-emerald-400 border border-emerald-800/70">MODULE 03</span>
-                            <span class="text-xs font-mono text-slate-400">PDO &amp; Bcrypt Auth Pipeline</span>
-                        </div>
-                        <h2 class="font-heading font-black text-2xl text-slate-100">User Authentication: PDO &amp; Bcrypt</h2>
-                        <p class="text-slate-300 text-sm leading-relaxed prose-measure">
-                            Authentication is the cornerstone of modern web applications. This module implements industry-standard password hashing via password_hash() with blowfish cost factors, timing-safe verification, and session fixation defense.
-                        </p>
-                    </div>
-
-                    <!-- Tech Tags -->
-                    <div class="space-y-2">
-                        <div class="text-[11px] font-mono text-slate-400 uppercase tracking-wider font-semibold">Module Technical Specifications:</div>
-                        <div class="flex flex-wrap gap-1.5">
-                            <span class="tech-tag bg-emerald-950/80 text-emerald-300 border border-emerald-800/60"><i class="fa-solid fa-key"></i> password_hash(BCRYPT, cost: 12)</span>
-                            <span class="tech-tag bg-slate-900 text-slate-300 border border-slate-700"><i class="fa-solid fa-stopwatch"></i> password_verify() Constant-Time</span>
-                            <span class="tech-tag bg-slate-900 text-slate-300 border border-slate-700"><i class="fa-solid fa-shield"></i> session_regenerate_id(true)</span>
-                            <span class="tech-tag bg-slate-900 text-slate-300 border border-slate-700"><i class="fa-solid fa-database"></i> PDO Prepared Statements</span>
-                        </div>
-                    </div>
-
-                    <div class="code-container p-4 text-slate-300 overflow-x-auto text-[11px]">
-<pre><span class="text-slate-500">// Bcrypt Hash Generation</span>
-<span class="text-slate-200">$hash</span> = <span class="text-sky-300">password_hash</span>(<span class="text-slate-200">$password</span>, <span class="text-emerald-300">PASSWORD_BCRYPT</span>, [<span class="text-emerald-300">'cost'</span> =&gt; 12]);
-<span class="text-slate-500">// Timing-Safe Verification</span>
-<span class="text-slate-400">if</span> (<span class="text-sky-300">password_verify</span>(<span class="text-slate-200">$password</span>, <span class="text-slate-200">$user</span>[<span class="text-emerald-300">'password_hash'</span>])) {
-    <span class="text-sky-300">session_regenerate_id</span>(<span class="text-slate-400">true</span>);
-}</pre>
-                    </div>
-                </div>
-
-                <!-- Right: Viewport Frame -->
-                <div class="lg:col-span-6">
-                    <div class="viewport-frame">
-                        <div class="viewport-header flex items-center justify-between">
-                            <div class="flex items-center gap-1.5">
-                                <span class="h-3 w-3 rounded-full bg-rose-500/80 inline-block"></span>
-                                <span class="h-3 w-3 rounded-full bg-amber-500/80 inline-block"></span>
-                                <span class="h-3 w-3 rounded-full bg-emerald-500/80 inline-block"></span>
-                                <span class="font-mono text-xs text-slate-400 ml-2">sandbox://pdo-bcrypt-auth.php</span>
-                            </div>
-                            <span class="px-2 py-0.5 rounded text-[11px] font-mono bg-emerald-950 text-emerald-300 border border-emerald-800/80">Bcrypt Active</span>
-                        </div>
-
-                        <div class="p-5 sm:p-6 space-y-5 bg-slate-950/70">
-                            <?php if (!empty($authErrors)): ?>
-                                <div class="p-3 rounded-lg bg-rose-950/80 border border-rose-800 text-xs text-rose-200">
-                                    <ul class="list-disc list-inside">
-                                        <?php foreach ($authErrors as $err): ?>
-                                            <li><?= htmlspecialchars($err) ?></li>
-                                        <?php endforeach; ?>
-                                    </ul>
-                                </div>
-                            <?php elseif ($authSuccess): ?>
-                                <div class="p-3 rounded-lg bg-emerald-950/80 border border-emerald-800 text-xs text-emerald-200">
-                                    <?= htmlspecialchars($authSuccess) ?>
-                                </div>
-                            <?php endif; ?>
-
-                            <?php if (isset($_SESSION['authenticated_user'])): ?>
-                                <div class="p-3.5 rounded-xl bg-emerald-950/60 border border-emerald-800 flex items-center justify-between text-xs">
-                                    <div>
-                                        <span class="text-emerald-300 font-bold">Active Authenticated User:</span>
-                                        <span class="font-mono text-white ml-1"><?= htmlspecialchars($_SESSION['authenticated_user']['username']) ?> (<?= htmlspecialchars($_SESSION['authenticated_user']['email']) ?>)</span>
-                                    </div>
-                                    <form method="POST">
-                                        <input type="hidden" name="auth_action" value="logout">
-                                        <button type="submit" class="px-2.5 py-1 rounded bg-slate-900 border border-slate-700 text-rose-300 hover:bg-slate-800 text-xs font-semibold">Logout</button>
-                                    </form>
-                                </div>
-                            <?php endif; ?>
-
-                            <div class="grid grid-cols-1 sm:grid-cols-2 gap-4 text-xs">
-                                <!-- Register Form -->
-                                <form method="POST" class="bg-slate-900/90 p-4 rounded-xl border border-slate-800 space-y-2.5">
-                                    <input type="hidden" name="auth_action" value="register">
-                                    <div class="font-bold text-emerald-400"><i class="fa-solid fa-user-plus mr-1"></i> Register User</div>
-                                    <input type="text" name="reg_username" placeholder="Username" required class="w-full bg-slate-950 border border-slate-700 rounded-lg px-2.5 py-1.5 text-slate-100 text-xs">
-                                    <input type="email" name="reg_email" placeholder="Email" required class="w-full bg-slate-950 border border-slate-700 rounded-lg px-2.5 py-1.5 text-slate-100 text-xs">
-                                    <input type="password" name="reg_password" placeholder="Password (Min. 8)" required class="w-full bg-slate-950 border border-slate-700 rounded-lg px-2.5 py-1.5 text-slate-100 text-xs">
-                                    <button type="submit" class="w-full py-2 rounded-lg bg-emerald-600 hover:bg-emerald-500 text-white font-bold text-xs">Hash &amp; Register</button>
-                                </form>
-
-                                <!-- Login Form -->
-                                <form method="POST" class="bg-slate-900/90 p-4 rounded-xl border border-slate-800 space-y-2.5">
-                                    <input type="hidden" name="auth_action" value="login">
-                                    <div class="font-bold text-sky-400"><i class="fa-solid fa-right-to-bracket mr-1"></i> Login Session</div>
-                                    <input type="text" name="login_username" value="demo_user" required class="w-full bg-slate-950 border border-slate-700 rounded-lg px-2.5 py-1.5 text-slate-100 text-xs">
-                                    <input type="password" name="login_password" value="Secret123!" required class="w-full bg-slate-950 border border-slate-700 rounded-lg px-2.5 py-1.5 text-slate-100 text-xs">
-                                    <button type="submit" class="w-full py-2 rounded-lg bg-sky-600 hover:bg-sky-500 text-white font-bold text-xs">Verify &amp; Start Session</button>
-                                </form>
-                            </div>
-
-                            <!-- User Table Dump -->
-                            <div class="space-y-2 pt-1 border-t border-slate-800">
-                                <div class="text-xs font-mono text-slate-400">Database User Records &amp; Bcrypt Hashes in Memory:</div>
-                                <div class="code-container p-3.5 font-mono text-[11px] text-slate-300 max-h-48 overflow-y-auto">
-<pre><?= htmlspecialchars(json_encode($_SESSION['auth_users'], JSON_PRETTY_PRINT)) ?></pre>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </section>
-        <?php endif; ?>
-
-    </main>
-
-    <!-- FOOTER -->
-    <footer class="border-t border-slate-800/80 bg-slate-950 py-8 px-4 sm:px-6 text-xs text-slate-500 text-center mt-auto">
-        <div class="max-w-7xl mx-auto flex flex-col sm:flex-row items-center justify-between gap-4">
-            <div class="text-left space-y-0.5">
-                <div class="text-slate-300 font-semibold">Practical PHP Fundamentals: 3 Essential Projects</div>
-                <div class="text-[11px] text-slate-500">Native PHP Server Execution Mode &bull; PHP 8.x Architecture</div>
-            </div>
-            <div class="flex items-center gap-3 font-mono text-xs">
-                <a href="./case-study.html" class="text-sky-400 hover:text-sky-300 underline font-medium">Case Study Report</a>
-                <span class="text-slate-700">&bull;</span>
-                <a href="index.html" class="text-slate-400 hover:text-slate-200">Static Sandbox UI</a>
             </div>
         </div>
-    </footer>
+
+        <!-- Slide 2: Contact Form -->
+        <div class="module-slide" id="module-2">
+            <div class="glow-accent glow-blue" style="bottom: 10%; right: 10%;"></div>
+            <div class="module-content glass flex flex-col md:flex-row shadow-2xl">
+                <div class="p-8 md:w-1/2 border-r border-slate-700/50 flex flex-col justify-center">
+                    <h2 class="text-3xl font-bold text-transparent bg-clip-text bg-gradient-to-r from-sky-400 to-indigo-400 mb-2">02. Sanitization</h2>
+                    <p class="text-slate-400 mb-6 text-sm leading-relaxed">Secure data intake pipeline. Prevents XSS and CRLF Header Injection using robust filtering before invoking mail().</p>
+                    <div class="code-block mb-4">
+$safe = htmlspecialchars($input, ENT_QUOTES);
+$email = filter_var($e, FILTER_SANITIZE_EMAIL);
+// Strip newlines from headers
+preg_replace('/[\r\n]+/', '', $subj);
+                    </div>
+                </div>
+                <div class="p-8 md:w-1/2 flex flex-col justify-center relative overflow-y-auto">
+                    <?php if(!empty($cfErrors)): ?>
+                        <div class="text-rose-400 text-xs mb-4 bg-rose-950/50 border border-rose-900/50 p-3 rounded"><?= implode('<br>', $cfErrors) ?></div>
+                    <?php endif; if($cfSuccess): ?>
+                        <div class="text-emerald-400 text-xs mb-4 bg-emerald-950/50 border border-emerald-900/50 p-3 rounded">Secure processing complete. Output below.</div>
+                    <?php endif; ?>
+                    <form method="POST" action="#module-2" class="space-y-4">
+                        <input type="hidden" name="cf_action" value="submit">
+                        <div class="grid grid-cols-2 gap-4">
+                            <input type="text" name="cf_name" placeholder="Name" value="<?= htmlspecialchars($cfName) ?>" required>
+                            <input type="email" name="cf_email" placeholder="Email" value="<?= htmlspecialchars($cfEmail) ?>" required>
+                        </div>
+                        <input type="text" name="cf_subject" placeholder="Subject" class="w-full" value="<?= htmlspecialchars($cfSubject) ?>" required>
+                        <textarea name="cf_message" rows="3" placeholder="Message" class="w-full" required><?= htmlspecialchars($cfMessage) ?></textarea>
+                        <button type="submit" class="btn-sleek w-full border-sky-500/30 text-sky-400 hover:text-sky-300">Process & Send</button>
+                    </form>
+                    <?php if($cfOutput): ?>
+                        <div class="mt-4 code-block text-[10px] text-sky-200 bg-slate-950"><?= nl2br(htmlspecialchars($cfOutput)) ?></div>
+                    <?php endif; ?>
+                </div>
+            </div>
+        </div>
+
+        <!-- Slide 3: Auth -->
+        <div class="module-slide" id="module-3">
+            <div class="glow-accent" style="top: 20%; right: 20%;"></div>
+            <div class="module-content glass flex flex-col md:flex-row shadow-2xl">
+                <div class="p-8 md:w-1/2 border-r border-slate-700/50 flex flex-col justify-center">
+                    <h2 class="text-3xl font-bold text-transparent bg-clip-text bg-gradient-to-r from-teal-300 to-emerald-500 mb-2">03. Bcrypt Auth</h2>
+                    <p class="text-slate-400 mb-6 text-sm leading-relaxed">Demonstrates secure password hashing and constant-time verification using PHP's native password_hash API.</p>
+                    <div class="code-block mb-4">
+$hash = password_hash($pwd, PASSWORD_BCRYPT);
+if (password_verify($pwd, $hash)) {
+  session_regenerate_id(true);
+}
+                    </div>
+                </div>
+                <div class="p-8 md:w-1/2 flex flex-col justify-center relative">
+                    <?php if(!empty($authErrors)): ?>
+                        <div class="text-rose-400 text-xs mb-4 bg-rose-950/50 p-2 rounded"><?= implode('<br>', $authErrors) ?></div>
+                    <?php endif; if($authSuccess): ?>
+                        <div class="text-emerald-400 text-xs mb-4 bg-emerald-950/50 p-2 rounded"><?= htmlspecialchars($authSuccess) ?></div>
+                    <?php endif; ?>
+
+                    <?php if (isset($_SESSION['authenticated_user'])): ?>
+                        <div class="bg-slate-900/80 p-6 rounded-xl border border-emerald-500/30 text-center">
+                            <div class="text-emerald-400 mb-2 font-mono text-sm">Authenticated as:</div>
+                            <div class="text-xl font-bold text-white mb-6"><?= htmlspecialchars($_SESSION['authenticated_user']['username']) ?></div>
+                            <form method="POST" action="#module-3">
+                                <input type="hidden" name="auth_action" value="logout">
+                                <button type="submit" class="btn-sleek w-full border-rose-500/30 text-rose-400 hover:text-rose-300">Terminate Session</button>
+                            </form>
+                        </div>
+                    <?php else: ?>
+                        <div class="grid grid-cols-1 gap-6">
+                            <div class="bg-slate-900/50 p-5 rounded-xl border border-slate-700/50">
+                                <h3 class="text-sm font-mono text-sky-400 mb-3">Login</h3>
+                                <form method="POST" action="#module-3" class="flex gap-2">
+                                    <input type="hidden" name="auth_action" value="login">
+                                    <input type="text" name="login_username" placeholder="Username (demo)" class="w-1/3 text-xs" required>
+                                    <input type="password" name="login_password" placeholder="Password (password123)" class="w-1/3 text-xs" required>
+                                    <button type="submit" class="btn-sleek flex-1">Login</button>
+                                </form>
+                            </div>
+                            <div class="bg-slate-900/50 p-5 rounded-xl border border-slate-700/50">
+                                <h3 class="text-sm font-mono text-emerald-400 mb-3">Register</h3>
+                                <form method="POST" action="#module-3" class="space-y-3">
+                                    <input type="hidden" name="auth_action" value="register">
+                                    <div class="flex gap-2">
+                                        <input type="text" name="reg_username" placeholder="New User" class="flex-1 text-xs" required>
+                                        <input type="email" name="reg_email" placeholder="Email" class="flex-1 text-xs" required>
+                                    </div>
+                                    <div class="flex gap-2">
+                                        <input type="password" name="reg_password" placeholder="Pass (min 8)" class="flex-1 text-xs" required>
+                                        <button type="submit" class="btn-sleek w-1/3">Register</button>
+                                    </div>
+                                </form>
+                            </div>
+                        </div>
+                    <?php endif; ?>
+                </div>
+            </div>
+        </div>
+
+        <!-- Slide 4: File Upload -->
+        <div class="module-slide" id="module-4">
+            <div class="glow-accent glow-purple" style="bottom: 0; left: 0;"></div>
+            <div class="module-content glass flex flex-col md:flex-row shadow-2xl">
+                <div class="p-8 md:w-1/2 border-r border-slate-700/50 flex flex-col justify-center">
+                    <h2 class="text-3xl font-bold text-transparent bg-clip-text bg-gradient-to-r from-indigo-400 to-purple-400 mb-2">04. File Manager</h2>
+                    <p class="text-slate-400 mb-6 text-sm leading-relaxed">Secure file handling verifying MIME types and size constraints in the PHP `$_FILES` superglobal.</p>
+                    <div class="code-block mb-4">
+if ($_FILES['file']['error'] === UPLOAD_ERR_OK) {
+  $mime = $_FILES['file']['type'];
+  if (in_array($mime, $allowedMimes)) {
+    // move_uploaded_file(...)
+  }
+}
+                    </div>
+                </div>
+                <div class="p-8 md:w-1/2 flex flex-col justify-center relative">
+                    <?php if(!empty($uploadErrors)): ?>
+                        <div class="text-rose-400 text-xs mb-4 bg-rose-950/50 p-2 rounded"><?= implode('<br>', $uploadErrors) ?></div>
+                    <?php endif; if($uploadSuccess): ?>
+                        <div class="text-emerald-400 text-xs mb-4 bg-emerald-950/50 p-2 rounded"><?= htmlspecialchars($uploadSuccess) ?></div>
+                        <div class="text-[10px] font-mono bg-slate-950 p-3 rounded text-slate-300 mb-4">
+                            Name: <?= $uploadedFileMeta['name'] ?><br>
+                            Type: <?= $uploadedFileMeta['type'] ?><br>
+                            Size: <?= $uploadedFileMeta['size'] ?><br>
+                            Tmp : <?= $uploadedFileMeta['tmp_name'] ?>
+                        </div>
+                    <?php endif; ?>
+                    
+                    <form method="POST" action="#module-4" enctype="multipart/form-data" class="bg-slate-900/50 p-6 rounded-xl border border-slate-700/50 border-dashed text-center">
+                        <input type="hidden" name="upload_action" value="upload">
+                        <div class="text-4xl text-slate-500 mb-4"><i class="fa-solid fa-cloud-arrow-up"></i></div>
+                        <input type="file" name="file_input" class="w-full text-xs text-slate-400 mb-4 file:mr-4 file:py-2 file:px-4 file:rounded-full file:border-0 file:text-xs file:font-semibold file:bg-indigo-900/50 file:text-indigo-300 hover:file:bg-indigo-900/80 cursor-pointer" required>
+                        <p class="text-[10px] text-slate-500 mb-4">Max 2MB. Allowed: JPG, PNG, PDF, TXT.</p>
+                        <button type="submit" class="btn-sleek border-indigo-500/30 text-indigo-400 hover:text-indigo-300 w-full">Upload Securely</button>
+                    </form>
+                </div>
+            </div>
+        </div>
+
+        <!-- Slide 5: Shopping Cart -->
+        <div class="module-slide" id="module-5">
+            <div class="glow-accent glow-amber" style="top: 50%; left: 50%; transform: translate(-50%, -50%);"></div>
+            <div class="module-content glass flex flex-col md:flex-row shadow-2xl">
+                <div class="p-8 md:w-1/2 border-r border-slate-700/50 flex flex-col justify-center">
+                    <h2 class="text-3xl font-bold text-transparent bg-clip-text bg-gradient-to-r from-amber-400 to-orange-500 mb-2">05. Session Cart</h2>
+                    <p class="text-slate-400 mb-6 text-sm leading-relaxed">Stateful e-commerce cart using session arrays. Demonstrates data mutation, mapping, and reduction.</p>
+                    <div class="code-block mb-4">
+$total = array_reduce($_SESSION['cart'],
+  fn($sum, $i) => $sum + ($i['price'] * $i['qty']), 0
+);
+                    </div>
+                </div>
+                <div class="p-8 md:w-1/2 flex flex-col justify-center relative text-sm">
+                    <div class="mb-6 grid grid-cols-3 gap-3">
+                        <?php foreach($products as $pid => $p): ?>
+                        <div class="bg-slate-900/60 p-3 rounded-lg border border-slate-800 text-center">
+                            <div class="text-xs font-bold text-slate-200 truncate"><?= htmlspecialchars($p['name']) ?></div>
+                            <div class="text-emerald-400 text-xs my-1">$<?= number_format($p['price'], 2) ?></div>
+                            <form method="POST" action="#module-5">
+                                <input type="hidden" name="cart_action" value="add">
+                                <input type="hidden" name="product_id" value="<?= $pid ?>">
+                                <button type="submit" class="mt-2 text-[10px] bg-amber-600/20 hover:bg-amber-600/40 text-amber-300 px-2 py-1 rounded w-full border border-amber-600/30 transition-colors">Add</button>
+                            </form>
+                        </div>
+                        <?php endforeach; ?>
+                    </div>
+                    
+                    <div class="bg-slate-950 p-4 rounded-xl border border-slate-800 shadow-inner flex-1 overflow-y-auto min-h-[200px]">
+                        <div class="flex justify-between items-center mb-4 border-b border-slate-800 pb-2">
+                            <h3 class="font-mono text-slate-300 text-xs">Your Cart</h3>
+                            <div class="text-amber-400 font-bold">$<?= number_format($cartTotal, 2) ?></div>
+                        </div>
+                        <?php if(empty($_SESSION['cart'])): ?>
+                            <div class="text-slate-600 text-xs italic text-center mt-8">Cart is empty</div>
+                        <?php else: ?>
+                            <ul class="space-y-2">
+                                <?php foreach($_SESSION['cart'] as $pid => $item): ?>
+                                <li class="flex justify-between items-center text-xs bg-slate-900 p-2 rounded border border-slate-800">
+                                    <div class="flex items-center gap-2">
+                                        <span class="text-slate-300 font-semibold"><?= htmlspecialchars($item['name']) ?></span>
+                                        <span class="text-slate-500">x<?= $item['qty'] ?></span>
+                                    </div>
+                                    <div class="flex items-center gap-3">
+                                        <span class="text-emerald-400">$<?= number_format($item['price'] * $item['qty'], 2) ?></span>
+                                        <form method="POST" action="#module-5">
+                                            <input type="hidden" name="cart_action" value="remove">
+                                            <input type="hidden" name="product_id" value="<?= $pid ?>">
+                                            <button type="submit" class="text-rose-400 hover:text-rose-300 font-mono text-[10px] bg-rose-950/50 px-1.5 py-0.5 rounded border border-rose-900/50">[-]</button>
+                                        </form>
+                                    </div>
+                                </li>
+                                <?php endforeach; ?>
+                            </ul>
+                            <form method="POST" action="#module-5" class="mt-4 text-right">
+                                <input type="hidden" name="cart_action" value="clear">
+                                <button type="submit" class="text-[10px] text-slate-500 hover:text-rose-400 underline">Clear Cart</button>
+                            </form>
+                        <?php endif; ?>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Slide 6: REST API Endpoint -->
+        <div class="module-slide" id="module-6">
+            <div class="glow-accent glow-pink" style="top: -10%; left: -10%;"></div>
+            <div class="module-content glass flex flex-col md:flex-row shadow-2xl">
+                <div class="p-8 md:w-1/2 border-r border-slate-700/50 flex flex-col justify-center">
+                    <h2 class="text-3xl font-bold text-transparent bg-clip-text bg-gradient-to-r from-pink-400 to-rose-400 mb-2">06. REST API</h2>
+                    <p class="text-slate-400 mb-6 text-sm leading-relaxed">Emulates a stateless JSON API endpoint. Processes queries and returns structured data representation.</p>
+                    <div class="code-block mb-4">
+header('Content-Type: application/json');
+echo json_encode([
+  'status' => 'success',
+  'data' => $payload
+]);
+                    </div>
+                </div>
+                <div class="p-8 md:w-1/2 flex flex-col justify-center relative">
+                    <div class="bg-slate-900/50 p-5 rounded-xl border border-slate-700/50 mb-6">
+                        <h3 class="text-sm font-mono text-pink-400 mb-3">API Query Simulator</h3>
+                        <form method="POST" action="#module-6" class="flex gap-2">
+                            <input type="hidden" name="api_action" value="fetch">
+                            <select name="api_resource" class="flex-1 text-xs" required>
+                                <option value="users">GET /api/users</option>
+                                <option value="products">GET /api/products</option>
+                                <option value="cart">GET /api/cart</option>
+                                <option value="invalid">GET /api/invalid_route</option>
+                            </select>
+                            <button type="submit" class="btn-sleek w-1/3 border-pink-500/30 text-pink-400 hover:text-pink-300">Execute</button>
+                        </form>
+                    </div>
+
+                    <div class="flex-1 bg-[#050b14] rounded-xl border border-slate-800 overflow-hidden flex flex-col">
+                        <div class="bg-slate-900 px-4 py-2 border-b border-slate-800 text-[10px] font-mono text-slate-500 flex justify-between">
+                            <span>Response</span>
+                            <span class="<?= isset($apiResponse['status']) && $apiResponse['status'] === 'error' ? 'text-rose-400' : 'text-emerald-400' ?>"><?= $status ?? 200 ?> OK</span>
+                        </div>
+                        <div class="p-4 overflow-y-auto text-xs font-mono <?= isset($apiResponse['status']) && $apiResponse['status'] === 'error' ? 'text-rose-300' : 'text-emerald-300' ?> h-[200px]">
+                            <?php if ($apiResponse): ?>
+                                <pre><?= htmlspecialchars(json_encode($apiResponse, JSON_PRETTY_PRINT)) ?></pre>
+                            <?php else: ?>
+                                <span class="text-slate-600 italic">Waiting for request...</span>
+                            <?php endif; ?>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Navigation Dots -->
+    <div class="fixed-nav" id="nav-dots">
+        <a href="#module-1" class="nav-dot" data-target="module-1"></a>
+        <a href="#module-2" class="nav-dot" data-target="module-2"></a>
+        <a href="#module-3" class="nav-dot" data-target="module-3"></a>
+        <a href="#module-4" class="nav-dot" data-target="module-4"></a>
+        <a href="#module-5" class="nav-dot" data-target="module-5"></a>
+        <a href="#module-6" class="nav-dot" data-target="module-6"></a>
+    </div>
+
+    <script>
+        // Smooth snap navigation logic
+        const slider = document.getElementById('slider');
+        const dots = document.querySelectorAll('.nav-dot');
+        const slides = document.querySelectorAll('.module-slide');
+
+        // Observer to detect which slide is currently in view
+        const observer = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    const id = entry.target.id;
+                    dots.forEach(dot => {
+                        dot.classList.toggle('active', dot.getAttribute('data-target') === id);
+                    });
+                }
+            });
+        }, {
+            root: slider,
+            threshold: 0.5
+        });
+
+        slides.forEach(slide => observer.observe(slide));
+
+        // On load, handle active module from PHP state if no hash is present in URL
+        document.addEventListener('DOMContentLoaded', () => {
+            if (!window.location.hash) {
+                const activeMod = document.body.getAttribute('data-active-mod');
+                if (activeMod) {
+                    window.location.hash = activeMod;
+                }
+            } else {
+                // If there's a hash, ensure we scroll to it immediately (sometimes browsers get confused with scroll-snap)
+                const target = document.querySelector(window.location.hash);
+                if (target) {
+                    target.scrollIntoView();
+                }
+            }
+        });
+    </script>
 </body>
 </html>

@@ -7,7 +7,7 @@ export function ReferenceTable({ onSelect }) {
 
   return (
     <section id="reference-table" style={{
-      background: '#0A0A0A',
+      background: '#FFFFFF',
       padding: 'clamp(2.5rem, 6vw, 5rem) 0',
       borderBottom: '3.5px solid #0A0A0A',
     }}>
@@ -18,8 +18,8 @@ export function ReferenceTable({ onSelect }) {
           <span style={{ background: '#FFE600', color: '#000', fontFamily: 'var(--font-mono)', fontSize: '0.75rem', fontWeight: 900, padding: '0.25rem 0.75rem', border: '2px solid #FFE600', letterSpacing: '0.08em', display: 'inline-block', marginBottom: '0.75rem' }}>
             ◆ CANONICAL REFERENCE TABLE
           </span>
-          <h2 style={{ fontFamily: 'var(--font-display)', fontSize: 'clamp(1.8rem, 4vw, 3rem)', fontWeight: 900, letterSpacing: '-0.02em', lineHeight: 1.05, color: '#FFFFFF', marginBottom: '0.5rem' }}>
-            TERMS & DEFINITIONS <span style={{ color: '#FFE600' }}>QUICK REFERENCE</span>
+          <h2 style={{ fontFamily: 'var(--font-display)', fontSize: 'clamp(1.8rem, 4vw, 3rem)', fontWeight: 900, letterSpacing: '-0.02em', lineHeight: 1.05, color: '#0A0A0A', marginBottom: '0.5rem' }}>
+            TERMS & DEFINITIONS <span style={{ color: '#0038FF' }}>QUICK REFERENCE</span>
           </h2>
           <p style={{ fontFamily: 'var(--font-body)', color: '#555', fontSize: '0.95rem', lineHeight: 1.6 }}>
             The complete canonical definitions for all 5 concepts. Click any row to jump to its interactive slide.
@@ -57,9 +57,9 @@ export function ReferenceTable({ onSelect }) {
                   gridTemplateColumns: '60px 160px 1fr 220px',
                   padding: '1rem 1.25rem',
                   gap: '1rem',
-                  borderBottom: i < CONCEPTS.length - 1 ? '1px solid #1A1A1A' : 'none',
+                  borderBottom: i < CONCEPTS.length - 1 ? '1px solid #E5E5E5' : 'none',
                   cursor: 'pointer',
-                  background: isHover ? '#111' : '#0A0A0A',
+                  background: isHover ? '#F8F8F8' : '#FFFFFF',
                   transition: 'background 0.12s ease',
                   alignItems: 'start',
                 }}
@@ -76,7 +76,7 @@ export function ReferenceTable({ onSelect }) {
                 <div>
                   <div style={{
                     fontFamily: 'var(--font-display)', fontWeight: 900, fontSize: '0.95rem',
-                    color: isHover ? c.color : '#FFF',
+                    color: isHover ? c.color : '#0A0A0A',
                     marginBottom: '0.3rem', lineHeight: 1.1,
                     transition: 'color 0.12s ease',
                     textTransform: 'uppercase',
@@ -100,7 +100,7 @@ export function ReferenceTable({ onSelect }) {
                 </div>
 
                 {/* Definition */}
-                <div style={{ fontFamily: 'var(--font-body)', fontSize: '0.83rem', color: '#CCC', lineHeight: 1.55 }}>
+                <div style={{ fontFamily: 'var(--font-body)', fontSize: '0.83rem', color: '#555', lineHeight: 1.55 }}>
                   {c.definition}
                   {isHover && (
                     <div style={{ marginTop: '0.6rem', fontFamily: 'var(--font-mono)', fontSize: '0.7rem', color: '#666', lineHeight: 1.4, borderLeft: `3px solid ${c.color}`, paddingLeft: '0.6rem' }}>

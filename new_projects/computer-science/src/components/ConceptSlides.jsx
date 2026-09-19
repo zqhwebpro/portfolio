@@ -30,15 +30,15 @@ function SlideShell({ concept, children }) {
       <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fill, minmax(min(100%, 220px), 1fr))', gap: '0.65rem' }}>
         {concept.properties.map((p, i) => (
           <div key={i} style={{
-            background: '#0A0A0A',
+            background: '#FFFFFF',
             border: `2px solid #0A0A0A`,
             padding: '0.75rem 0.9rem',
             boxShadow: `3px 3px 0 ${concept.color}`,
           }}>
-            <div style={{ fontFamily: 'var(--font-mono)', fontSize: '0.68rem', fontWeight: 900, color: concept.color, letterSpacing: '0.08em', marginBottom: '0.3rem' }}>
+            <div style={{ fontFamily: 'var(--font-mono)', fontSize: '0.68rem', fontWeight: 900, color: concept.color === '#FFE600' ? '#000' : concept.color, letterSpacing: '0.08em', marginBottom: '0.3rem' }}>
               [{p.label}]
             </div>
-            <div style={{ fontFamily: 'var(--font-body)', fontSize: '0.8rem', color: '#CCC', lineHeight: 1.4 }}>
+            <div style={{ fontFamily: 'var(--font-body)', fontSize: '0.8rem', color: '#444', lineHeight: 1.4 }}>
               {p.desc}
             </div>
           </div>
@@ -154,7 +154,7 @@ function VariablesSlide({ concept }) {
         <div style={{ display: 'flex', flexDirection: 'column', gap: '0.75rem' }}>
           {slots.map((s, i) => (
             <div key={i} style={{ display: 'flex', alignItems: 'stretch', border: '2px solid #0A0A0A' }}>
-              <div style={{ background: s.canChange ? '#0A0A0A' : '#444', color: s.canChange ? concept.color : '#CCC', padding: '0.75rem', fontFamily: 'var(--font-mono)', fontSize: '0.8rem', fontWeight: 900, minWidth: '80px' }}>
+              <div style={{ background: s.canChange ? '#FFF' : '#E5E5E5', color: s.canChange ? '#0A0A0A' : '#666', borderRight: '2px solid #0A0A0A', padding: '0.75rem', fontFamily: 'var(--font-mono)', fontSize: '0.8rem', fontWeight: 900, minWidth: '80px' }}>
                 {s.type} {s.label}
               </div>
               <div style={{ flex: 1, padding: '0.75rem', background: '#F8F7F2', fontFamily: 'var(--font-mono)', fontSize: '1.1rem', fontWeight: 800, color: '#0A0A0A', display: 'flex', alignItems: 'center', justifyContent: 'space-between' }}>
@@ -211,9 +211,9 @@ function DataTypesSlide({ concept }) {
           })}
         </div>
 
-        <div style={{ background: '#0A0A0A', border: `2px solid ${t.color}`, padding: '1rem', boxShadow: `4px 4px 0 ${t.color}` }}>
-          <div style={{ fontFamily: 'var(--font-display)', fontWeight: 900, fontSize: '1rem', color: t.color, marginBottom: '0.4rem' }}>{t.name}</div>
-          <div style={{ fontFamily: 'var(--font-body)', fontSize: '0.8rem', color: '#CCC', lineHeight: 1.4 }}>
+        <div style={{ background: '#FFFFFF', border: `2px solid ${t.color}`, padding: '1rem', boxShadow: `4px 4px 0 ${t.color}` }}>
+          <div style={{ fontFamily: 'var(--font-display)', fontWeight: 900, fontSize: '1rem', color: t.color === '#FFE600' ? '#000' : t.color, marginBottom: '0.4rem' }}>{t.name}</div>
+          <div style={{ fontFamily: 'var(--font-body)', fontSize: '0.8rem', color: '#444', lineHeight: 1.4 }}>
             {t.desc}
           </div>
         </div>
@@ -263,8 +263,8 @@ function ControlStructuresSlide({ concept }) {
           </div>
         </div>
 
-        <div style={{ background: '#0A0A0A', border: `2px solid ${concept.color}`, padding: '1rem', fontFamily: 'var(--font-mono)', fontSize: '0.85rem', color: '#FFF', lineHeight: 1.5, marginBottom: '1rem' }}>
-          <span style={{ color: concept.color, fontWeight: 900 }}>[{cur.label}] </span><br/>{cur.note}
+        <div style={{ background: '#FFFFFF', border: `2px solid ${concept.color}`, padding: '1rem', fontFamily: 'var(--font-mono)', fontSize: '0.85rem', color: '#0A0A0A', lineHeight: 1.5, marginBottom: '1rem' }}>
+          <span style={{ color: concept.color === '#FFE600' ? '#000' : concept.color, fontWeight: 900 }}>[{cur.label}] </span><br/>{cur.note}
         </div>
 
         <div style={{ display: 'flex', gap: '0.35rem' }}>
@@ -311,8 +311,8 @@ function IOSlide({ concept }) {
           <TerminalIcon size={14} /> TERMINAL SIMULATOR
         </div>
 
-        <div style={{ background: '#0A0A0A', border: '2px solid #0A0A0A', padding: '1rem', height: '150px', overflowY: 'auto', fontFamily: 'var(--font-mono)', fontSize: '0.8rem', color: '#00E599', display: 'flex', flexDirection: 'column', gap: '0.4rem', marginBottom: '1rem' }}>
-          {logs.map((l, i) => <div key={i} style={{ color: l.startsWith('>') ? '#FFF' : l.startsWith('Error') ? '#FF2A00' : '#00E599' }}>{l}</div>)}
+        <div style={{ background: '#FFFFFF', border: '2px solid #0A0A0A', padding: '1rem', height: '150px', overflowY: 'auto', fontFamily: 'var(--font-mono)', fontSize: '0.8rem', color: '#00A669', display: 'flex', flexDirection: 'column', gap: '0.4rem', marginBottom: '1rem' }}>
+          {logs.map((l, i) => <div key={i} style={{ color: l.startsWith('>') ? '#0A0A0A' : l.startsWith('Error') ? '#FF2A00' : '#00A669' }}>{l}</div>)}
         </div>
 
         <form onSubmit={handleSubmit} style={{ display: 'flex', gap: '0.5rem' }}>
