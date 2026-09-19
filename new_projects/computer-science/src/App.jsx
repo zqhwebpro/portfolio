@@ -12,6 +12,8 @@ export function App() {
       <Navbar />
       <main style={{ flex: 1 }}>
         <HeroSection />
+        <ConceptSlides />
+        <ReferenceTable />
       </main>
       <Footer />
     </div>
