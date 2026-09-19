@@ -399,13 +399,19 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['auth_action'])) {
             transform: translateY(-2px);
             box-shadow: 0 6px 20px rgba(255, 214, 0, 0.23);
         }
-        /* Hide JS Panels initially no more - override */
         .tab-panel {
             display: block !important;
             opacity: 1 !important;
             transform: none !important;
             transition: none !important;
             margin-bottom: 4rem;
+        }
+        main p {
+            line-height: 2 !important;
+            padding-top: 0.5rem !important;
+            padding-bottom: 0.5rem !important;
+            margin-top: 0.5rem !important;
+            margin-bottom: 0.5rem !important;
         }
 </style>
 </head>
@@ -414,7 +420,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['auth_action'])) {
 
     <!-- GLOBAL NAVBAR -->
     <header class="sticky top-6 z-50 mx-4 sm:mx-8">
-        <div class="max-w-7xl mx-auto px-6 py-4 flex items-center justify-between gap-4 flex-wrap bg-white/70 backdrop-blur-xl border border-white rounded-full shadow-[0_8px_30px_rgb(0,0,0,0.04)]">
+        <div class="w-full px-8 py-5 flex items-center justify-between gap-4 flex-wrap bg-white/70 backdrop-blur-xl border border-white rounded-full shadow-[0_8px_30px_rgb(0,0,0,0.04)]">
             <div class="flex items-center gap-3">
                 <div class="h-9 w-9 rounded-xl bg-slate-900 border border-slate-700/80 flex items-center justify-center font-mono font-bold text-slate-200 shadow-sm">
                     <i class="fa-brands fa-php text-xl text-sky-400"></i>
@@ -440,7 +446,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['auth_action'])) {
     </header>
 
     <!-- MAIN WORKBENCH -->
-    <main class="max-w-7xl mx-auto px-4 sm:px-6 py-16 flex-1 w-full space-y-16">
+    <main class="w-full px-4 sm:px-12 py-16 flex-1 space-y-16">
 
         <!-- HEADER BANNER & INSTRUCTIONAL CONTEXT (Max measure 68ch) -->
         <section class="space-y-4 border-b border-slate-800/80 pb-6">

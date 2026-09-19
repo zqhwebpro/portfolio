@@ -90,7 +90,7 @@ export function HeroSection({ onSelect }) {
           {CONCEPTS.map((c, i) => (
             <button
               key={c.id}
-              onClick={() => { SoundEngine.playClick(); onSelect(i); }}
+              onClick={() => { SoundEngine.playClick(); if (onSelect) onSelect(i); }}
               style={{
                 background: 'transparent',
                 border: `2px solid #222`,

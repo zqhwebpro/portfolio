@@ -44,7 +44,7 @@ export function Navbar({ activeIndex, onSelect }) {
           return (
             <button
               key={c.id}
-              onClick={() => { SoundEngine.playClick(); onSelect(i); }}
+              onClick={() => { SoundEngine.playClick(); if (onSelect) onSelect(i); }}
               style={{
                 background: isActive ? c.color : 'transparent',
                 color: isActive ? c.textColor : '#888',
