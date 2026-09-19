@@ -656,11 +656,11 @@
                     <span class="hidden md:inline">Undo</span>
                 </button>
 
-                <!-- 3. Free Mode Toggle -->
-                <button id="badMoveToggleBtn" onclick="toggleBadMovesMode()" class="btn-header"
-                    title="Toggle Free Mode Exploration">
-                    <i id="badMoveIcon" class="fa-solid fa-compass text-salon-gold"></i>
-                    <span id="badMoveBtnText" class="hidden sm:inline">Free Mode</span>
+                <!-- 3. Reset Button -->
+                <button onclick="resetMatch()" class="btn-header" style="background-color: #383F45; border-color: #5C636A;"
+                    title="Reset the Board">
+                    <i class="fa-solid fa-rotate-right text-salon-gold"></i>
+                    <span class="hidden sm:inline">Reset</span>
                 </button>
             </div>
         </div>
@@ -755,24 +755,24 @@
             </div>
 
             <!-- Party Mode Active Info Banner (Shown when Party Mode is toggled on) -->
-            <div id="partyModeBanner" class="salon-card p-3 border-[#732E5E] bg-[#1E0F1A] space-y-2.5 hidden">
+            <div id="partyModeBanner" class="salon-card p-3 border-[#9A3412]/50 bg-[#431407]/40 space-y-2.5 hidden">
                 <div class="flex items-center justify-between flex-wrap gap-2">
                     <div class="flex items-center gap-2">
                         <span class="text-base">🎉</span>
                         <div>
-                            <div class="font-bold text-xs sm:text-sm text-[#F8C8EB]">Party Mode Active!</div>
-                            <div class="text-[11px] text-[#D8B4D0]">All identical piece types share the same custom move
+                            <div class="font-bold text-xs sm:text-sm text-orange-200/90">Party Mode Active!</div>
+                            <div class="text-[11px] text-orange-300/70">All identical piece types share the same custom move
                                 set.</div>
                         </div>
                     </div>
                     <div class="flex items-center gap-2">
                         <button onclick="rerollPartyMode()"
-                            class="btn-header py-1 px-2.5 text-[11px] bg-[#34172C] border-[#8A3A73] text-[#FFE6F7] hover:border-[#FFB4EC]"
+                            class="btn-header py-1 px-2.5 text-[11px] bg-[#7C2D12]/40 border-[#C2410C]/50 text-orange-100/90 hover:border-orange-400/60"
                             title="Re-roll randomized piece rules">
-                            <i class="fa-solid fa-dice text-[#FFB4EC]"></i> Re-Roll 🎲
+                            <i class="fa-solid fa-dice text-orange-300/80"></i> Re-Roll 🎲
                         </button>
                         <button onclick="togglePartyMode()"
-                            class="btn-header py-1 px-2.5 text-[11px] bg-[#22101E] border-[#5A254B] text-[#D8B4D0]"
+                            class="btn-header py-1 px-2.5 text-[11px] bg-[#431407]/40 border-[#9A3412]/50 text-orange-300/70"
                             title="Turn off Party Mode">
                             <i class="fa-solid fa-xmark"></i> Standard Rules
                         </button>
@@ -3237,17 +3237,17 @@
             };
 
             grid.innerHTML = Object.entries(partyMoveRules).map(([type, rule]) => `
-                <div class="p-2 rounded-lg bg-[#271221] border border-[#6B2856] flex flex-col gap-1 shadow-sm hover:border-[#FFB4EC] transition-all">
+                <div class="p-2 rounded-lg bg-[#431407]/30 border border-[#9A3412]/40 flex flex-col gap-1 shadow-sm hover:border-orange-400/60 transition-all">
                     <div class="flex items-center justify-between">
-                        <span class="font-bold text-xs text-[#FFD6F4] flex items-center gap-1">
+                        <span class="font-bold text-xs text-orange-100/90 flex items-center gap-1">
                             <span class="text-sm">${pieceLabels[type].symbol}</span> ${pieceLabels[type].name}
                         </span>
-                        <i class="fa-solid ${rule.icon || 'fa-star'} text-[10px] text-[#FFB4EC]"></i>
+                        <i class="fa-solid ${rule.icon || 'fa-star'} text-[10px] text-orange-300/80"></i>
                     </div>
-                    <div class="font-bold text-[11px] text-[#F8C8EB] truncate" title="${rule.name}">
+                    <div class="font-bold text-[11px] text-orange-200/90 truncate" title="${rule.name}">
                         ${rule.name}
                     </div>
-                    <div class="text-[10px] text-[#D8B4D0] leading-tight line-clamp-2" title="${rule.desc}">
+                    <div class="text-[10px] text-orange-300/70 leading-tight line-clamp-2" title="${rule.desc}">
                         ${rule.desc}
                     </div>
                 </div>
