@@ -4,125 +4,116 @@
 <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <meta name="theme-color" content="#0a0500" />
-    <title>Interactive React Projects &amp; Web Apps Showcase</title>
+    <meta name="theme-color" content="#060300" />
+    <title>Interactive Projects &amp; Case Studies</title>
     <link rel="icon" href="./favicon.ico" />
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css" />
 
     <style>
         :root {
-            --ember:       #FF6B1A;
-            --amber:       #F5A623;
-            --deep-fire:   #E8440A;
-            --gold:        #FFB84D;
-            --text-light:  #f0e8d8;
-            --text-muted:  #a8916e;
+            --ember:      #FF6B1A;
+            --amber:      #F5A623;
+            --gold:       #FFB84D;
+            --text-light: #f0e8d8;
+            --text-muted: #a8916e;
+            --card-bg:    rgba(255, 80, 10, 0.04);
+            --card-border:rgba(255, 120, 30, 0.12);
         }
 
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-        }
+        * { margin: 0; padding: 0; box-sizing: border-box; }
 
         body {
             font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif;
             color: var(--text-light);
-            background: #06030000;
+            background: #060300;
             min-height: 100vh;
-            position: relative;
             overflow-x: hidden;
         }
 
-        /* ── Fire background ── */
+        /* ── Fire ambient ── */
         body::before {
             content: '';
             position: fixed;
             inset: 0;
             background:
-                radial-gradient(ellipse 80% 50% at 50% 100%, rgba(232,68,10,0.22) 0%, transparent 65%),
-                radial-gradient(ellipse 60% 40% at 20% 80%, rgba(245,166,35,0.12) 0%, transparent 55%),
-                radial-gradient(ellipse 60% 40% at 80% 80%, rgba(255,107,26,0.12) 0%, transparent 55%),
+                radial-gradient(ellipse 90% 55% at 50% 100%, rgba(232,68,10,0.25) 0%, transparent 60%),
+                radial-gradient(ellipse 55% 35% at 15% 90%,  rgba(245,166,35,0.14) 0%, transparent 55%),
+                radial-gradient(ellipse 55% 35% at 85% 90%,  rgba(255,107,26,0.14) 0%, transparent 55%),
                 #060300;
             z-index: -2;
             pointer-events: none;
         }
-
-        /* Subtle animated fire pulse */
         body::after {
             content: '';
             position: fixed;
-            bottom: -30%;
+            bottom: -25%;
             left: 50%;
             transform: translateX(-50%);
-            width: 120%;
-            height: 60%;
-            background: radial-gradient(ellipse 70% 60% at 50% 100%,
-                rgba(255,107,26,0.18) 0%,
-                rgba(232,68,10,0.10) 40%,
+            width: 130%;
+            height: 55%;
+            background: radial-gradient(ellipse 65% 55% at 50% 100%,
+                rgba(255,107,26,0.20) 0%,
+                rgba(232,68,10,0.10) 45%,
                 transparent 70%);
             z-index: -1;
             pointer-events: none;
-            animation: fireBreath 4s ease-in-out infinite alternate;
+            animation: fireBreath 4.5s ease-in-out infinite alternate;
         }
-
         @keyframes fireBreath {
-            0%   { opacity: 0.6; transform: translateX(-50%) scaleY(0.9); }
-            100% { opacity: 1;   transform: translateX(-50%) scaleY(1.05); }
+            0%   { opacity: 0.55; transform: translateX(-50%) scaleY(0.88); }
+            100% { opacity: 1.0;  transform: translateX(-50%) scaleY(1.08); }
         }
 
-        /* ── Layout ── */
+        /* ── Wrapper ── */
         .container {
             width: 100%;
-            padding: 40px 48px;
+            padding: 40px 48px 60px;
         }
-
         @media (max-width: 768px) {
-            .container {
-                padding: 28px 20px;
-            }
+            .container { padding: 24px 18px 40px; }
         }
 
+        /* ── Header ── */
         .header-container {
-            margin-bottom: 40px;
             display: flex;
             align-items: flex-end;
             justify-content: space-between;
-            border-bottom: 1px solid rgba(255, 140, 40, 0.18);
-            padding-bottom: 20px;
+            border-bottom: 1px solid rgba(255,140,40,0.18);
+            padding-bottom: 22px;
+            margin-bottom: 36px;
+            flex-wrap: wrap;
+            gap: 16px;
         }
 
         .brand-heading h1 {
-            font-size: clamp(1.8rem, 4vw, 2.5rem);
+            font-size: clamp(1.6rem, 3.5vw, 2.3rem);
             font-weight: 800;
             letter-spacing: -0.03em;
             color: #fff;
-            margin-bottom: 8px;
-            text-shadow: 0 0 32px rgba(255,107,26,0.35);
+            margin-bottom: 6px;
+            text-shadow: 0 0 36px rgba(255,107,26,0.4);
         }
-
         .subtitle {
-            font-size: 0.88rem;
+            font-size: 0.84rem;
             color: var(--text-muted);
-            letter-spacing: 0.05em;
+            letter-spacing: 0.04em;
         }
 
         .back-link {
             display: inline-flex;
             align-items: center;
             gap: 7px;
-            font-size: 0.62rem;
-            letter-spacing: 0.1em;
+            font-size: 0.6rem;
+            letter-spacing: 0.12em;
             text-transform: uppercase;
             color: rgba(245,166,35,0.6);
             text-decoration: none;
             border: 1px solid rgba(245,166,35,0.2);
-            padding: 5px 10px;
+            padding: 6px 12px;
             background: rgba(245,166,35,0.05);
-            cursor: pointer;
-            transition: color 0.2s, border-color 0.2s, background 0.2s, box-shadow 0.2s;
+            transition: all 0.2s;
+            white-space: nowrap;
         }
-
         .back-link:hover {
             color: var(--gold);
             border-color: var(--amber);
@@ -130,129 +121,143 @@
             box-shadow: 0 0 14px rgba(245,166,35,0.2);
         }
 
-        /* ── Grid ── */
+        /* ── 3-col grid ── */
         .mktg-inner {
             display: grid;
-            grid-template-columns: 1fr 1fr;
-            gap: 15px;
-            width: 100%;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 12px;
+        }
+        @media (max-width: 1100px) {
+            .mktg-inner { grid-template-columns: repeat(2, 1fr); }
+        }
+        @media (max-width: 640px) {
+            .mktg-inner { grid-template-columns: 1fr; }
         }
 
-        @media (max-width: 900px) {
-            .mktg-inner {
-                grid-template-columns: 1fr;
-            }
-            .header-container {
-                flex-direction: column;
-                align-items: flex-start;
-                gap: 20px;
-            }
-        }
-
-        /* ── Cards ── */
+        /* ── Card: fully clickable ── */
         .cap-block {
-            padding: 18px 20px;
-            background: rgba(255, 90, 10, 0.04);
-            border: 1px solid rgba(255, 120, 30, 0.1);
-            border-left: 2px solid rgba(255, 120, 30, 0.2);
-            text-align: left;
+            position: relative;
             display: flex;
-            align-items: flex-start;
-            gap: 14px;
-            box-sizing: border-box;
-            height: 100%;
-            transition: background 0.25s, border-color 0.25s, border-left-color 0.25s, box-shadow 0.25s;
+            flex-direction: column;
+            background: var(--card-bg);
+            border: 1px solid var(--card-border);
+            border-top: 2px solid rgba(255, 120, 30, 0.22);
+            padding: 20px 18px 16px;
+            text-decoration: none;
+            color: inherit;
+            transition: background 0.22s, border-color 0.22s, box-shadow 0.22s, transform 0.18s;
+            cursor: pointer;
+        }
+        .cap-block:hover {
+            background: rgba(255, 107, 26, 0.09);
+            border-color: rgba(245, 166, 35, 0.42);
+            border-top-color: var(--ember);
+            box-shadow:
+                0 0 28px rgba(255,107,26,0.14),
+                inset 0 0 22px rgba(245,166,35,0.04);
+            transform: translateY(-2px);
         }
 
-        .cap-block:hover {
-            background: rgba(255, 107, 26, 0.08);
-            border-color: rgba(245, 166, 35, 0.45);
-            border-left-color: var(--ember);
-            box-shadow:
-                0 0 24px rgba(255,107,26,0.12),
-                inset 0 0 20px rgba(245,166,35,0.04);
+        /* Icon row at top */
+        .card-header {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            margin-bottom: 14px;
         }
 
         .cap-block-icon {
+            width: 32px;
+            height: 32px;
             flex-shrink: 0;
-            width: 36px;
-            height: 36px;
             display: flex;
             align-items: center;
             justify-content: center;
-            background: rgba(255, 107, 26, 0.1);
-            border: 1px solid rgba(255, 107, 26, 0.22);
-            border-radius: 2px;
-            font-size: 1.1rem;
+            background: rgba(255, 107, 26, 0.12);
+            border: 1px solid rgba(255, 107, 26, 0.25);
+            border-radius: 4px;
+            font-size: 0.95rem;
             color: var(--ember);
-            line-height: 1;
-            margin-top: 1px;
-            transition: background 0.2s, border-color 0.2s, color 0.2s, box-shadow 0.2s;
+            transition: background 0.2s, box-shadow 0.2s, color 0.2s;
         }
-
         .cap-block:hover .cap-block-icon {
-            background: rgba(255, 107, 26, 0.18);
+            background: rgba(255, 107, 26, 0.22);
             border-color: rgba(245, 166, 35, 0.5);
             color: var(--gold);
-            box-shadow: 0 0 12px rgba(255,107,26,0.35);
-        }
-
-        .cap-block-body {
-            flex: 1;
-            min-width: 0;
+            box-shadow: 0 0 14px rgba(255,107,26,0.4);
         }
 
         .cap-block-title {
-            font-size: 0.8rem;
+            font-size: 0.75rem;
             font-weight: 700;
-            letter-spacing: 0.14em;
+            letter-spacing: 0.13em;
             text-transform: uppercase;
             color: #fff;
-            margin-bottom: 8px;
+            line-height: 1.3;
+        }
+
+        /* Tech pills row */
+        .tech-row {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 5px;
+            margin-bottom: 12px;
+        }
+        .tech-pill {
+            font-size: 0.58rem;
+            letter-spacing: 0.06em;
+            text-transform: uppercase;
+            font-weight: 600;
+            padding: 2px 7px;
+            border: 1px solid rgba(255,120,30,0.22);
+            background: rgba(255,100,20,0.07);
+            color: rgba(255,180,77,0.75);
+            border-radius: 2px;
         }
 
         .cap-block-desc {
-            font-size: 0.72rem;
+            font-size: 0.7rem;
             color: var(--text-muted);
-            line-height: 1.65;
-            margin-bottom: 12px;
+            line-height: 1.6;
+            flex: 1;
+            margin-bottom: 14px;
         }
 
-        .cap-block-desc span {
-            color: var(--amber);
-            font-weight: 600;
-        }
-
-        .cap-block-links {
+        /* Footer CTA */
+        .card-footer {
             display: flex;
-            flex-direction: column;
-            gap: 5px;
+            align-items: center;
+            justify-content: space-between;
+            border-top: 1px solid rgba(255,120,30,0.1);
+            padding-top: 10px;
             margin-top: auto;
         }
-
-        /* ── Buttons ── */
-        .project-link {
-            display: inline-flex;
-            align-items: center;
-            gap: 7px;
-            font-size: 0.62rem;
-            letter-spacing: 0.1em;
+        .see-project-label {
+            font-size: 0.58rem;
+            letter-spacing: 0.14em;
             text-transform: uppercase;
-            color: rgba(255, 140, 50, 0.65);
-            text-decoration: none;
-            border: 1px solid rgba(255, 120, 30, 0.2);
-            padding: 5px 10px;
-            background: rgba(255, 100, 20, 0.06);
-            cursor: pointer;
-            transition: color 0.2s, border-color 0.2s, background 0.2s, box-shadow 0.2s;
-            width: fit-content;
+            color: rgba(255,140,50,0.55);
+            transition: color 0.2s;
         }
-
-        .project-link:hover {
+        .cap-block:hover .see-project-label {
             color: var(--gold);
+        }
+        .see-project-arrow {
+            width: 22px;
+            height: 22px;
+            border: 1px solid rgba(255,120,30,0.2);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 0.6rem;
+            color: rgba(255,140,50,0.5);
+            transition: all 0.2s;
+        }
+        .cap-block:hover .see-project-arrow {
             border-color: var(--ember);
-            background: rgba(255, 107, 26, 0.14);
-            box-shadow: 0 0 12px rgba(255,107,26,0.25);
+            background: rgba(255,107,26,0.15);
+            color: var(--gold);
+            box-shadow: 0 0 10px rgba(255,107,26,0.3);
         }
 
     </style>
@@ -260,10 +265,11 @@
 
 <body>
     <div class="container">
+
         <div class="header-container">
             <div class="brand-heading">
                 <h1>Interactive Projects &amp; Case Studies</h1>
-                <p class="subtitle">Explore 8 live web applications, physics simulations, algorithms, and technical architecture writeups.</p>
+                <p class="subtitle">5 live web apps — physics simulations, algorithms, and technical architecture.</p>
             </div>
             <a href="../2026/" class="back-link">
                 <i class="fa-solid fa-arrow-left"></i> Main Portfolio
@@ -272,100 +278,115 @@
 
         <div class="mktg-inner">
 
-            <div class="cap-block">
-                <div class="cap-block-icon">
-                    <i class="fa-solid fa-play"></i>
-                </div>
-                <div class="cap-block-body">
+            <!-- React Pixel Pinball -->
+            <a href="./pinball/index.html" class="cap-block">
+                <div class="card-header">
+                    <div class="cap-block-icon">
+                        <i class="fa-solid fa-circle-play"></i>
+                    </div>
                     <div class="cap-block-title">React Pixel Pinball</div>
-                    <div class="cap-block-desc">
-                        <span>Tech:</span> React, Custom 2D Physics, CSS<br><br>
-                        <span>Why I Built It:</span> To demonstrate complex state management and continuous collision detection outside of standard UI forms.<br><br>
-                        <span>The Value:</span> Showcases performance optimization, game loops, and custom physics engines built entirely within the React ecosystem.
-                    </div>
-                    <div class="cap-block-links">
-                        <a href="./pinball/index.html" class="project-link">
-                            <i class="fa-solid fa-arrow-right"></i> See Project
-                        </a>
-                    </div>
                 </div>
-            </div>
+                <div class="tech-row">
+                    <span class="tech-pill">React</span>
+                    <span class="tech-pill">2D Physics</span>
+                    <span class="tech-pill">CSS</span>
+                </div>
+                <div class="cap-block-desc">
+                    Complex state management and continuous collision detection outside of standard UI forms. Game loops and custom physics engines built entirely within React.
+                </div>
+                <div class="card-footer">
+                    <span class="see-project-label">See Project</span>
+                    <span class="see-project-arrow"><i class="fa-solid fa-arrow-right"></i></span>
+                </div>
+            </a>
 
-            <div class="cap-block">
-                <div class="cap-block-icon">
-                    <i class="fa-solid fa-sparkles"></i>
-                </div>
-                <div class="cap-block-body">
+            <!-- Motion Landing Page -->
+            <a href="./animated_landing_page/index.html" class="cap-block">
+                <div class="card-header">
+                    <div class="cap-block-icon">
+                        <i class="fa-solid fa-wand-magic-sparkles"></i>
+                    </div>
                     <div class="cap-block-title">Motion Landing Page</div>
-                    <div class="cap-block-desc">
-                        <span>Tech:</span> Vanilla JavaScript, CSS 3D Transforms, Canvas<br><br>
-                        <span>Why I Built It:</span> To push the boundaries of browser-based marketing pages with highly interactive, high-performance visual effects.<br><br>
-                        <span>The Value:</span> Features a procedural starfield, mouse-driven gravity physics, and complex CSS 3D layers, proving expertise in performant DOM animations.
-                    </div>
-                    <div class="cap-block-links">
-                        <a href="./animated_landing_page/index.html" class="project-link">
-                            <i class="fa-solid fa-arrow-right"></i> See Project
-                        </a>
-                    </div>
                 </div>
-            </div>
+                <div class="tech-row">
+                    <span class="tech-pill">Vanilla JS</span>
+                    <span class="tech-pill">CSS 3D</span>
+                    <span class="tech-pill">Canvas</span>
+                </div>
+                <div class="cap-block-desc">
+                    Browser-based marketing page with procedural starfield, mouse-driven gravity physics, and complex CSS 3D layers. Expertly performant DOM animations.
+                </div>
+                <div class="card-footer">
+                    <span class="see-project-label">See Project</span>
+                    <span class="see-project-arrow"><i class="fa-solid fa-arrow-right"></i></span>
+                </div>
+            </a>
 
-            <div class="cap-block">
-                <div class="cap-block-icon">
-                    <i class="fa-solid fa-dumbbell"></i>
-                </div>
-                <div class="cap-block-body">
+            <!-- Workout Shuffler -->
+            <a href="./workout-shuffler/index.html" class="cap-block">
+                <div class="card-header">
+                    <div class="cap-block-icon">
+                        <i class="fa-solid fa-dumbbell"></i>
+                    </div>
                     <div class="cap-block-title">Workout Shuffler</div>
-                    <div class="cap-block-desc">
-                        <span>Tech:</span> JavaScript, HTML, Responsive CSS<br><br>
-                        <span>Why I Built It:</span> To create a practical, mobile-first utility app powered by client-side algorithmic randomization and strict timer logic.<br><br>
-                        <span>The Value:</span> Highlights strong array manipulation, drift-free interval tracking, and a seamless mobile UX for real-world fitness targeting.
-                    </div>
-                    <div class="cap-block-links">
-                        <a href="./workout-shuffler/index.html" class="project-link">
-                            <i class="fa-solid fa-arrow-right"></i> See Project
-                        </a>
-                    </div>
                 </div>
-            </div>
+                <div class="tech-row">
+                    <span class="tech-pill">JavaScript</span>
+                    <span class="tech-pill">HTML</span>
+                    <span class="tech-pill">Responsive CSS</span>
+                </div>
+                <div class="cap-block-desc">
+                    Mobile-first utility app with client-side algorithmic randomization and strict drift-free timer logic. Seamless UX for real-world fitness routines.
+                </div>
+                <div class="card-footer">
+                    <span class="see-project-label">See Project</span>
+                    <span class="see-project-arrow"><i class="fa-solid fa-arrow-right"></i></span>
+                </div>
+            </a>
 
-            <div class="cap-block">
-                <div class="cap-block-icon">
-                    <i class="fa-solid fa-terminal"></i>
-                </div>
-                <div class="cap-block-body">
+            <!-- Survival Quiz -->
+            <a href="./survival-quiz/index.html" class="cap-block">
+                <div class="card-header">
+                    <div class="cap-block-icon">
+                        <i class="fa-solid fa-terminal"></i>
+                    </div>
                     <div class="cap-block-title">Survival Quiz</div>
-                    <div class="cap-block-desc">
-                        <span>Tech:</span> JavaScript, CSS Shaders, Web Audio API<br><br>
-                        <span>Why I Built It:</span> To explore immersive UI/UX design, complex state trees, and procedural media generation.<br><br>
-                        <span>The Value:</span> Demonstrates advanced branching telemetry, custom CRT scanline shaders, and procedural audio drones without relying on external libraries.
-                    </div>
-                    <div class="cap-block-links">
-                        <a href="./survival-quiz/index.html" class="project-link">
-                            <i class="fa-solid fa-arrow-right"></i> See Project
-                        </a>
-                    </div>
                 </div>
-            </div>
+                <div class="tech-row">
+                    <span class="tech-pill">JavaScript</span>
+                    <span class="tech-pill">CSS Shaders</span>
+                    <span class="tech-pill">Web Audio API</span>
+                </div>
+                <div class="cap-block-desc">
+                    Immersive UI with advanced branching state trees, custom CRT scanline shaders, and procedural audio drones — zero external libraries.
+                </div>
+                <div class="card-footer">
+                    <span class="see-project-label">See Project</span>
+                    <span class="see-project-arrow"><i class="fa-solid fa-arrow-right"></i></span>
+                </div>
+            </a>
 
-            <div class="cap-block">
-                <div class="cap-block-icon">
-                    <i class="fa-solid fa-chess-board"></i>
-                </div>
-                <div class="cap-block-body">
-                    <div class="cap-block-title">Chess Flapjaw</div>
-                    <div class="cap-block-desc">
-                        <span>Tech:</span> Vanilla JavaScript, Game Theory Heuristics<br><br>
-                        <span>Why I Built It:</span> To tackle one of computer science's classic challenges: building a robust, performant chess engine from scratch.<br><br>
-                        <span>The Value:</span> Features full move generation, Piece-Square Tables (PST) for AI evaluation, and live probability deltas, proving deep algorithmic and mathematical competence.
+            <!-- Chess Flap Jaw PyCalc -->
+            <a href="./python-calculator/index.html" class="cap-block">
+                <div class="card-header">
+                    <div class="cap-block-icon">
+                        <i class="fa-solid fa-chess-board"></i>
                     </div>
-                    <div class="cap-block-links">
-                        <a href="./python-calculator/index.html" class="project-link">
-                            <i class="fa-solid fa-arrow-right"></i> See Project
-                        </a>
-                    </div>
+                    <div class="cap-block-title">Chess Flap Jaw PyCalc</div>
                 </div>
-            </div>
+                <div class="tech-row">
+                    <span class="tech-pill">Vanilla JS</span>
+                    <span class="tech-pill">Game Theory</span>
+                    <span class="tech-pill">Heuristics</span>
+                </div>
+                <div class="cap-block-desc">
+                    Full move generation, Piece-Square Tables (PST) for AI evaluation, and live win-probability deltas. Deep algorithmic and mathematical competence.
+                </div>
+                <div class="card-footer">
+                    <span class="see-project-label">See Project</span>
+                    <span class="see-project-arrow"><i class="fa-solid fa-arrow-right"></i></span>
+                </div>
+            </a>
 
         </div>
     </div>
