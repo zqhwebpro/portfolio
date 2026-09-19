@@ -3343,15 +3343,61 @@
     </script>
 
     <!-- Disclaimer Modal -->
-    <div id="disclaimerModal" class="fixed inset-0 bg-black/80 flex items-center justify-center z-[100] hidden backdrop-blur-sm">
-        <div class="salon-card p-6 max-w-sm w-full mx-4 border border-salon-gold/30 flex flex-col gap-4 text-center shadow-2xl shadow-salon-gold/10">
-            <div class="text-3xl text-salon-gold mb-1"><i class="fa-solid fa-chess-knight"></i></div>
-            <h2 class="font-heading font-bold text-xl text-salon-gold tracking-wide">A Quick Reminder</h2>
-            <p class="text-salon-parchment/90 text-[13px] leading-relaxed">
-                Just a heads up: this engine won't magically make you a grandmaster! The win probabilities bounce around quite a bit, and at the end of the day, chess is still about outsmarting your opponent's moves.
-            </p>
-            <button onclick="document.getElementById('disclaimerModal').classList.add('hidden')" class="btn-header mt-3 py-2.5 justify-center w-full !bg-[#1A120E] hover:!bg-[#261A14] !border-[#3E2D22] hover:!border-salon-gold text-salon-gold transition-colors">
-                Got it
+    <div id="disclaimerModal" class="fixed inset-0 bg-black/85 flex items-center justify-center z-[100] hidden backdrop-blur-sm">
+        <div class="salon-card p-6 max-w-md w-full mx-4 border border-salon-gold/35 flex flex-col gap-5 shadow-2xl shadow-salon-gold/10" style="background:#140e0b;">
+
+            <!-- Header -->
+            <div class="flex items-center gap-3 pb-4 border-b border-salon-border">
+                <span class="text-2xl text-salon-gold">&#9820;</span>
+                <div>
+                    <div class="font-bold text-salon-gold text-base tracking-wide">Chess Flap Jaw PyCalc</div>
+                    <div class="text-[11px] text-salon-gold/50 uppercase tracking-widest font-mono">Engine Intelligence Notes</div>
+                </div>
+            </div>
+
+            <!-- Section 1: What the number means -->
+            <div class="flex gap-3">
+                <div class="flex-shrink-0 w-8 h-8 flex items-center justify-center border border-salon-gold/25 text-salon-gold text-sm rounded" style="background:rgba(212,175,55,0.08);">
+                    <i class="fa-solid fa-scale-balanced"></i>
+                </div>
+                <div>
+                    <div class="text-salon-goldLight font-bold text-[12px] uppercase tracking-wider mb-1">What the Win % Means</div>
+                    <p class="text-[12px] leading-relaxed" style="color:rgba(245,239,230,0.72);">
+                        The gauge uses <strong class="text-salon-gold">Piece-Square Table (PST) heuristics</strong> — it scores each piece by its current board position value. A reading of <span class="text-salon-gold">60%</span> means your material and positioning are measurably stronger right now. Think of it as <em>positional momentum</em>, not a match guarantee.
+                    </p>
+                </div>
+            </div>
+
+            <!-- Section 2: How it shifts -->
+            <div class="flex gap-3">
+                <div class="flex-shrink-0 w-8 h-8 flex items-center justify-center border border-salon-gold/25 text-salon-gold text-sm rounded" style="background:rgba(212,175,55,0.08);">
+                    <i class="fa-solid fa-arrow-trend-up"></i>
+                </div>
+                <div>
+                    <div class="text-salon-goldLight font-bold text-[12px] uppercase tracking-wider mb-1">How Probabilities Change</div>
+                    <p class="text-[12px] leading-relaxed" style="color:rgba(245,239,230,0.72);">
+                        Every move recalculates live. The <strong class="text-salon-gold">delta badge</strong> shows exactly how much your last move gained or cost in centipawns. A seemingly equal trade can quietly swing <span class="text-salon-gold">&#8722;8%</span> if you surrender a strong square. A <strong class="text-salon-gold">fast gauge drop over 2&#8211;3 moves</strong> is your signal you're drifting into a losing structure.
+                    </p>
+                </div>
+            </div>
+
+            <!-- Section 3: Opponent awareness -->
+            <div class="flex gap-3">
+                <div class="flex-shrink-0 w-8 h-8 flex items-center justify-center border border-salon-gold/25 text-salon-gold text-sm rounded" style="background:rgba(212,175,55,0.08);">
+                    <i class="fa-solid fa-eye"></i>
+                </div>
+                <div>
+                    <div class="text-salon-goldLight font-bold text-[12px] uppercase tracking-wider mb-1">Watch Your Opponent's Intentions</div>
+                    <p class="text-[12px] leading-relaxed" style="color:rgba(245,239,230,0.72);">
+                        The engine evaluates <em>your</em> position — it cannot fully anticipate your opponent's best reply. If your gauge spikes after a move, ask: <strong class="text-salon-gold">did they blunder, or are they baiting you?</strong> A probability jump doesn't mean you're safe. Always confirm there's no hidden discovered attack, pin, or fork lurking before you commit.
+                    </p>
+                </div>
+            </div>
+
+            <!-- Dismiss -->
+            <button onclick="document.getElementById('disclaimerModal').classList.add('hidden')"
+                class="btn-header mt-1 py-2.5 justify-center w-full !bg-[#1A120E] hover:!bg-[#261A14] !border-[#3E2D22] hover:!border-salon-gold text-salon-gold transition-colors font-bold tracking-wider text-xs">
+                <i class="fa-solid fa-chess-knight"></i> &nbsp;Understood &mdash; Let&#8217;s Play
             </button>
         </div>
     </div>
