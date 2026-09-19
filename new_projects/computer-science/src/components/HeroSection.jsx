@@ -40,7 +40,7 @@ export function HeroSection({ onSelect }) {
             background: 'transparent', color: '#555', fontFamily: 'var(--font-mono)',
             fontSize: '0.75rem', fontWeight: 700, padding: '0.2rem 0.65rem',
             border: '1.5px solid #333', letterSpacing: '0.05em',
-          }}>COMPUTER SCIENCE // CANONICAL REFERENCE</span>
+          }}>BASICS OF PROGRAMMING // REFERENCE</span>
         </div>
 
         {/* Main headline */}
@@ -54,7 +54,7 @@ export function HeroSection({ onSelect }) {
           marginBottom: '0.5rem',
           textTransform: 'uppercase',
         }}>
-          The 8{' '}
+          The 5{' '}
           <span style={{
             color: '#FFE600',
             textShadow: '3px 3px 0px #0038FF',
@@ -66,7 +66,7 @@ export function HeroSection({ onSelect }) {
             color: '#0038FF',
             WebkitTextStroke: '1px #0038FF',
             textShadow: 'none',
-          }}>Algorithms</span>
+          }}>Programming</span>
         </h1>
 
         <p style={{

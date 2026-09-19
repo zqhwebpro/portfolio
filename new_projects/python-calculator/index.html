@@ -163,8 +163,8 @@
         }
 
         .square.selected {
-            background: radial-gradient(circle at 50% 50%, rgba(212, 175, 55, 0.45) 0%, rgba(212, 175, 55, 0.22) 100%) !important;
-            box-shadow: inset 0 0 0 2.5px #D4AF37, 0 0 16px rgba(212, 175, 55, 0.55), inset 0 0 14px rgba(212, 175, 55, 0.3) !important;
+            background: radial-gradient(circle at 50% 50%, rgba(243, 229, 171, 0.35) 0%, rgba(212, 175, 55, 0.24) 100%) !important;
+            box-shadow: 0 0 12px rgba(212, 175, 55, 0.45), inset 0 0 6px rgba(212, 175, 55, 0.3), inset 0 0 0 2px #D4AF37 !important;
             border-radius: 4px;
             animation: active-selected-pulse 1.8s infinite ease-in-out;
             z-index: 5;
@@ -172,10 +172,10 @@
 
         @keyframes active-selected-pulse {
             0%, 100% {
-                box-shadow: inset 0 0 0 2.5px #D4AF37, 0 0 14px rgba(212, 175, 55, 0.5), inset 0 0 12px rgba(212, 175, 55, 0.25);
+                box-shadow: 0 0 12px rgba(212, 175, 55, 0.45), inset 0 0 6px rgba(212, 175, 55, 0.3), inset 0 0 0 2px #D4AF37;
             }
             50% {
-                box-shadow: inset 0 0 0 2.5px #F3E5AB, 0 0 22px rgba(212, 175, 55, 0.75), inset 0 0 18px rgba(212, 175, 55, 0.45);
+                box-shadow: 0 0 20px rgba(212, 175, 55, 0.65), inset 0 0 12px rgba(212, 175, 55, 0.45), inset 0 0 0 2px #F3E5AB;
             }
         }
 
@@ -309,6 +309,39 @@
             height: 86%;
             filter: drop-shadow(0 10px 14px rgba(18, 42, 78, 0.45)) drop-shadow(0 3px 5px rgba(10, 26, 54, 0.3));
             transform: scale(1.12);
+            animation: walk-wobble 0.25s infinite ease-in-out;
+        }
+
+        @keyframes walk-wobble {
+            0% { transform: scale(1.12) rotate(0deg) translateY(0); }
+            25% { transform: scale(1.12) rotate(-8deg) translateY(-3px); }
+            50% { transform: scale(1.12) rotate(0deg) translateY(0); }
+            75% { transform: scale(1.12) rotate(8deg) translateY(-3px); }
+            100% { transform: scale(1.12) rotate(0deg) translateY(0); }
+        }
+
+        .explode-anim {
+            animation: explode-piece 0.4s forwards ease-out;
+        }
+
+        @keyframes explode-piece {
+            0% { transform: scale(1); opacity: 1; filter: brightness(1) drop-shadow(0 0 0 rgba(255,100,100,0)); }
+            50% { transform: scale(1.4); opacity: 0.8; filter: brightness(2) drop-shadow(0 0 10px rgba(255,100,100,1)); }
+            100% { transform: scale(0); opacity: 0; filter: brightness(3); }
+        }
+
+        .explosion-effect {
+            position: absolute;
+            inset: 0;
+            background: radial-gradient(circle at 50% 50%, rgba(255, 100, 50, 0.8) 0%, rgba(255, 50, 0, 0) 70%);
+            animation: explosion-boom 0.4s forwards ease-out;
+            pointer-events: none;
+            z-index: 50;
+        }
+
+        @keyframes explosion-boom {
+            0% { transform: scale(0.5); opacity: 1; }
+            100% { transform: scale(2.5); opacity: 0; }
         }
 
         /* Party Mode Button Active Glow */
@@ -2634,8 +2667,37 @@
                 completed = true;
                 if (transitPiece.parentElement) transitPiece.remove();
                 if (rookTransit && rookTransit.parentElement) rookTransit.remove();
-                isAnimatingMove = false;
-                executePlayerMove(fr, fc, tr, tc, promoType);
+                
+                const executeAndClear = () => {
+                    isAnimatingMove = false;
+                    executePlayerMove(fr, fc, tr, tc, promoType);
+                };
+
+                let captureR = tr;
+                let captureC = tc;
+                if (movingPiece[1] === 'P' && fc !== tc && !game.board[tr][tc]) {
+                    captureR = fr;
+                }
+                const isCapture = !!game.board[tr][tc] || (movingPiece[1] === 'P' && fc !== tc && !game.board[tr][tc]);
+                
+                if (isCapture) {
+                    const destSquare = document.querySelector(`.square[data-r="${captureR}"][data-c="${captureC}"]`);
+                    if (destSquare) {
+                        const targetPiece = destSquare.querySelector('.chess-piece');
+                        if (targetPiece) {
+                            targetPiece.classList.add('explode-anim');
+                        }
+                        const explosion = document.createElement('div');
+                        explosion.className = 'explosion-effect';
+                        destSquare.appendChild(explosion);
+                        
+                        setTimeout(() => {
+                            executeAndClear();
+                        }, 400);
+                        return;
+                    }
+                }
+                executeAndClear();
             };
 
             animation.onfinish = finishMove;

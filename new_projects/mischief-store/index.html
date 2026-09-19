@@ -279,77 +279,77 @@
         </div>
     </div>
 
-    <!-- 1. VALUE PROPOSITION ANNOUNCEMENT BAR (Full Width • Warm Espresso & Honey Gold) -->
+    <!-- 1. VALUE PROPOSITION ANNOUNCEMENT BAR (Full Width) -->
     <div class="bg-earth-900 text-earth-100 border-b border-earth-800 store-fluid-container py-2 text-xs font-semibold text-center tracking-wide flex items-center justify-between gap-4 flex-wrap"
-         data-blueprint-file="TimberlineStore.WebUI/Views/Shared/_Layout.cshtml"
+         data-blueprint-file="WackyStore.WebUI/Views/Shared/_Layout.cshtml"
          data-blueprint-role="Global Marketing Banner"
          data-blueprint-layer="WebUI / Presentation"
-         data-blueprint-dom="Semantic <header> sub-banner with full horizontal width, warm brown background, and honey gold accents."
+         data-blueprint-dom="Semantic <header> sub-banner with full horizontal width, deep purple background, and silver accents."
          data-blueprint-desc="In enterprise MVC applications, promotional banners are driven by cached site configuration to display region-specific free shipping incentives."
          data-blueprint-code="@Html.Partial(&quot;_GlobalBanner&quot;, Model.BannerSettings)">
         
         <div class="flex items-center gap-4 mx-auto sm:mx-0 flex-wrap justify-center">
             <span class="flex items-center gap-1.5 text-honey-400 font-bold">
-                <i class="fa-solid fa-tree text-appetite-400"></i> Free 2-Day Shipping on Trail Gear Over $35
+                <i class="fa-solid fa-wand-magic-sparkles text-appetite-400"></i> Free 2-Day Shipping on Oddities Over $35
             </span>
             <span class="hidden md:inline text-earth-600">&bull;</span>
             <span class="hidden md:flex items-center gap-1.5 text-earth-200">
-                <i class="fa-solid fa-shield-halved text-appetite-400"></i> 100% Lifetime Trail Guarantee
+                <i class="fa-solid fa-face-grin-beam-sweat text-appetite-400"></i> 100% Absurdity Guarantee
             </span>
             <span class="hidden lg:inline text-earth-600">&bull;</span>
             <span class="hidden lg:flex items-center gap-1.5 text-earth-200">
-                <i class="fa-solid fa-compass text-honey-400"></i> 30-Day Expedition Test Warranty
+                <i class="fa-solid fa-ghost text-honey-400"></i> 30-Day Weirdness Warranty
             </span>
         </div>
 
         <div class="hidden xl:flex items-center gap-2 text-[11px] text-earth-400 font-mono">
-            <i class="fa-solid fa-mountain-sun text-honey-400"></i>
-            <span>Full-Width Expedition Catalog</span>
+            <i class="fa-solid fa-hat-wizard text-honey-400"></i>
+            <span>Full-Width Peculiar Catalog</span>
         </div>
     </div>
 
-    <!-- 2. MAIN STORE HEADER (Full Width • Warm Cream Canvas & Rich Espresso) -->
+    <!-- 2. MAIN STORE HEADER (Full Width) -->
     <header class="border-b border-canvas-border bg-canvas-base/95 sticky top-0 z-40 backdrop-blur-md"
-            data-blueprint-file="TimberlineStore.WebUI/Views/Shared/_Layout.cshtml"
+            data-blueprint-file="WackyStore.WebUI/Views/Shared/_Layout.cshtml"
             data-blueprint-role="Master Site Header"
             data-blueprint-layer="WebUI / Master Layout"
-            data-blueprint-dom="HTML5 <header> element with sticky top positioning, full width container, and off-white/brown styling."
+            data-blueprint-dom="HTML5 <header> element with sticky top positioning, full width container, and light lavender styling."
             data-blueprint-desc="The master Razor layout (_Layout.cshtml) bundles CSS/JS assets, initializes Ninject-resolved partials, and renders the central body content."
             data-blueprint-code="<!DOCTYPE html><html><head>@Styles.Render(&quot;~/Content/css&quot;)</head><body>@RenderBody()</body></html>">
         
         <div class="store-fluid-container py-3.5 flex items-center justify-between gap-4 flex-wrap">
             
-            <!-- Brand Logo (Rebranded to Outdoor Store) -->
+            <!-- Brand Logo -->
             <div class="cursor-pointer select-none flex items-center gap-3 group" 
-                 data-blueprint-file="TimberlineStore.WebUI/Controllers/ProductController.cs"
+                 data-blueprint-file="WackyStore.WebUI/Controllers/ProductController.cs"
                  data-blueprint-role="Brand Identity &amp; Catalog Root"
                  data-blueprint-layer="WebUI / Presentation"
-                 data-blueprint-dom="Typographic brand heading with outdoor mountain icon in warm espresso brown with forest green accents."
+                 data-blueprint-dom="Typographic brand heading with playful icon in deep purple with teal accents."
                  data-blueprint-desc="Clicking the logo triggers ProductController.List() with default parameters, demonstrating ASP.NET standard MVC route resolution (~/Product/List)."
-                 data-blueprint-code="@Html.ActionLink(&quot;TIMBERLINE OUTDOORS&quot;, &quot;List&quot;, &quot;Product&quot;, new { category = (string)null }, new { @class = &quot;navbar-brand&quot; })"
+                 data-blueprint-code="@Html.ActionLink(&quot;WACKY THINGS CO.&quot;, &quot;List&quot;, &quot;Product&quot;, new { category = (string)null }, new { @class = &quot;navbar-brand&quot; })"
                  onclick="window.resetFilters()">
                 <div class="h-10 w-10 rounded-xl bg-appetite-700 text-white flex items-center justify-center text-lg shadow-md shadow-appetite-800/20 group-hover:scale-105 transition-transform">
-                    <i class="fa-solid fa-mountain-sun"></i>
+                    <i class="fa-solid fa-hat-wizard"></i>
                 </div>
                 <div>
                     <div class="font-heading font-black text-xl sm:text-2xl text-earth-950 tracking-tight flex items-center gap-1.5 leading-none">
-                        TIMBERLINE<span class="text-appetite-700">OUTDOORS</span>
+                        WACKY<span class="text-appetite-700">THINGS</span>
                     </div>
-                    <div class="text-[11px] text-earth-600 font-medium mt-0.5">Expedition Gear &amp; Trail Provisions</div>
+                    <div class="text-[11px] text-earth-600 font-medium mt-0.5">Gloriously Bizarre Gadgets</div>
                 </div>
             </div>
 
             <!-- E-Commerce Search Bar -->
             <div class="flex-1 max-w-xl min-w-[260px]"
-                 data-blueprint-file="TimberlineStore.WebUI/Controllers/ProductController.cs"
+                 data-blueprint-file="WackyStore.WebUI/Controllers/ProductController.cs"
                  data-blueprint-role="Catalog Search Query Action"
                  data-blueprint-layer="WebUI / Controller &amp; LINQ"
-                 data-blueprint-dom="Search input with off-white card background, warm brown border, and gold highlight focus state."
+                 data-blueprint-dom="Search input with off-white card background, purple border, and silver highlight focus state."
                  data-blueprint-desc="In ASP.NET MVC, search parameters are bound to action arguments (string search). LINQ translates .Where(p => p.Name.Contains(search)) into parameterized SQL LIKE queries."
                  data-blueprint-code="public ViewResult List(string category, string search, int page = 1) { ... }">
                 <div class="relative flex items-center">
                     <input type="text" id="search-input" 
-                           placeholder="Search outdoor gear (e.g. beacon, solar charger, tactical pen, coffee, igniter)..."
+                           placeholder="Search bizarre items (e.g. rubber chicken, whoopee cushion, googly eyes)..."
                            oninput="window.handleSearchInput()"
                            class="w-full bg-white border border-canvas-border rounded-xl pl-10 pr-9 py-2.5 text-xs text-earth-900 placeholder-earth-400 focus:outline-none focus:border-honey-600 focus:ring-2 focus:ring-honey-300/40 shadow-xs transition-all">
                     <i class="fa-solid fa-magnifying-glass absolute left-3.5 text-earth-500 text-sm"></i>
@@ -364,10 +364,10 @@
                 
                 <!-- Architecture Modal Trigger -->
                 <button onclick="window.openArchitectureModal()" 
-                        data-blueprint-file="TimberlineStore.Domain/Abstract/IProductRepository.cs"
+                        data-blueprint-file="WackyStore.Domain/Abstract/IProductRepository.cs"
                         data-blueprint-role="N-Tier Dependency Architecture Map"
                         data-blueprint-layer="Domain / Abstraction"
-                        data-blueprint-dom="Off-white button styled with warm brown text and subtle border."
+                        data-blueprint-dom="Off-white button styled with purple text and subtle border."
                         data-blueprint-desc="Demonstrates how Ninject IoC binds interface contracts (IProductRepository, IOrderProcessor) to concrete EF6 database implementations at runtime."
                         data-blueprint-code="kernel.Bind<IProductRepository>().To<EFProductRepository>();"
                         class="px-3.5 py-2 rounded-xl bg-white border border-canvas-border hover:border-appetite-700 text-earth-800 hover:text-appetite-800 text-xs font-bold flex items-center gap-1.5 transition-all shadow-xs">
@@ -377,10 +377,10 @@
 
                 <!-- Admin Inventory CRUD Trigger -->
                 <button onclick="window.openAdminModal()" 
-                        data-blueprint-file="TimberlineStore.WebUI/Controllers/AdminController.cs"
+                        data-blueprint-file="WackyStore.WebUI/Controllers/AdminController.cs"
                         data-blueprint-role="Admin CRUD Controller"
                         data-blueprint-layer="WebUI / Admin Portal"
-                        data-blueprint-dom="Action button with warm honey gold accent and accessible click handler."
+                        data-blueprint-dom="Action button with silver accent and accessible click handler."
                         data-blueprint-desc="Protected AdminController provides Index, Edit, Save, and Delete endpoints connected to Entity Framework 6 DbSet<Product>."
                         data-blueprint-code="public ViewResult Index() => View(repository.Products);"
                         class="px-3.5 py-2 rounded-xl bg-white border border-canvas-border hover:border-honey-700 text-earth-800 hover:text-honey-900 text-xs font-bold flex items-center gap-1.5 transition-all shadow-xs">
@@ -390,10 +390,10 @@
 
                 <!-- Case Study Link Button -->
                 <a href="./case-study.html" 
-                   data-blueprint-file="TimberlineStore.Docs/CaseStudy.md"
+                   data-blueprint-file="WackyStore.Docs/CaseStudy.md"
                    data-blueprint-role="Engineering Case Study"
                    data-blueprint-layer="Documentation / Reflection"
-                   data-blueprint-dom="Anchor link button with warm brown border and book icon."
+                   data-blueprint-dom="Anchor link button with purple border and book icon."
                    data-blueprint-desc="Case study analyzing enterprise C# architecture, IoC container setup, session decoupling, and key software engineering takeaways."
                    data-blueprint-code="View(&quot;CaseStudy&quot;);"
                    class="px-3.5 py-2 rounded-xl bg-earth-100 border border-canvas-border hover:bg-earth-800 hover:text-white text-earth-800 text-xs font-bold flex items-center gap-1.5 transition-all shadow-xs"
@@ -403,12 +403,12 @@
                     <span class="hidden md:inline">Case Study</span>
                 </a>
 
-                <!-- Header Cart Widget (Appetizing Fresh Green & Gold Pill) -->
+                <!-- Header Cart Widget -->
                 <button onclick="window.openCartDrawer()" 
-                        data-blueprint-file="TimberlineStore.WebUI/Views/Cart/Summary.cshtml"
+                        data-blueprint-file="WackyStore.WebUI/Views/Cart/Summary.cshtml"
                         data-blueprint-role="Custom Model-Bound Cart Partial"
                         data-blueprint-layer="WebUI / View Component"
-                        data-blueprint-dom="Interactive cart widget with appetizing green background and count pill badge."
+                        data-blueprint-dom="Interactive cart widget with vibrant teal background and count pill badge."
                         data-blueprint-desc="CartModelBinder automatically extracts the user's Cart from Session and injects it into controller methods without manual session casting."
                         data-blueprint-code="@Html.Action(&quot;Summary&quot;, &quot;Cart&quot;)"
                         class="px-4 py-2 rounded-xl bg-appetite-700 hover:bg-appetite-800 text-white font-bold text-xs flex items-center gap-2 transition-all shadow-md shadow-appetite-800/20">
@@ -449,7 +449,7 @@
                         <div class="flex items-center justify-between border-b border-canvas-border pb-3.5">
                             <div class="flex items-center gap-2 font-heading font-black text-base text-earth-950">
                                 <i class="fa-solid fa-filter text-appetite-700"></i>
-                                <span>Filter Gear</span>
+                                <span>Filter Oddities</span>
                             </div>
                             <button onclick="window.resetFilters()" class="text-xs text-honey-800 hover:text-earth-950 font-semibold transition-colors flex items-center gap-1">
                                 <i class="fa-solid fa-rotate-left text-[10px]"></i>
@@ -505,7 +505,7 @@
                                         <input type="radio" name="price-filter" value="over-25" onchange="window.setPriceFilter('over-25')" class="text-appetite-700 focus:ring-appetite-500">
                                         <span>$25.00 &amp; Above</span>
                                     </span>
-                                    <span class="text-[10px] font-mono text-earth-400">Expedition</span>
+                                    <span class="text-[10px] font-mono text-earth-400">Peculiar</span>
                                 </label>
                             </div>
                         </div>
@@ -536,7 +536,7 @@
                                 <span>Free Shipping Threshold</span>
                             </div>
                             <p class="text-[11px] text-earth-600 leading-relaxed">
-                                Add $35.00 of outdoor gear to your cart for automated free 2-day delivery across all trail regions.
+                                Add $35.00 of bizarre gadgets to your cart for automated free 2-day delivery across all regions.
                             </p>
                         </div>
 
@@ -564,10 +564,10 @@
                                 <span class="text-[11px] font-mono text-earth-500 uppercase tracking-wider font-semibold">Active Category:</span>
                             </div>
                             <h2 id="active-category-title" class="font-heading font-black text-2xl sm:text-3xl text-earth-950 tracking-tight mt-0.5">
-                                All Outdoor Gear &amp; Provisions
+                                All Bizarre Gadgets &amp; Novelties
                             </h2>
                             <p class="text-xs text-earth-600 mt-1">
-                                Showing <strong id="visible-count" class="text-honey-900 font-bold">12</strong> verified trail items ready for immediate dispatch
+                                Showing <strong id="visible-count" class="text-honey-900 font-bold">12</strong> peculiar items ready for immediate dispatch
                             </p>
                         </div>
 
@@ -604,10 +604,10 @@
                         <!-- Empty State -->
                         <div id="empty-state" class="hidden bg-white border border-canvas-border rounded-2xl p-12 text-center space-y-4 max-w-md mx-auto shadow-sm my-6">
                             <div class="text-4xl text-honey-700">🔍</div>
-                            <h3 class="font-heading font-bold text-lg text-earth-950">No Matching Outdoor Gear Found</h3>
-                            <p class="text-xs text-earth-600 leading-relaxed">No expedition items match your active filters. Try adjusting price range or keyword search.</p>
+                            <h3 class="font-heading font-bold text-lg text-earth-950">No Peculiar Gadgets Found</h3>
+                            <p class="text-xs text-earth-600 leading-relaxed">No bizarre items match your active filters. Try adjusting price range or keyword search.</p>
                             <button onclick="window.resetFilters()" class="px-5 py-2.5 rounded-xl bg-appetite-700 text-white font-bold text-xs hover:bg-appetite-800 transition-all shadow-md">
-                                Reset Filter &amp; Show All Gear
+                                Reset Filter &amp; Show All Oddities
                             </button>
                         </div>
 
@@ -654,7 +654,7 @@
             <div class="flex items-center justify-between border-b border-canvas-border pb-4">
                 <div class="flex items-center gap-2.5">
                     <i class="fa-solid fa-cart-shopping text-appetite-700 text-lg"></i>
-                    <h3 class="font-heading font-black text-xl text-earth-950">Expedition Cart</h3>
+                    <h3 class="font-heading font-black text-xl text-earth-950">Peculiar Cart</h3>
                     <span id="drawer-cart-count-badge" class="px-2.5 py-0.5 rounded-full bg-honey-100 border border-honey-300 text-honey-900 text-xs font-bold">0 items</span>
                 </div>
                 <button onclick="window.closeCartDrawer()" class="text-earth-500 hover:text-earth-950 p-1 rounded-lg hover:bg-canvas-surface transition-colors">
@@ -681,7 +681,7 @@
             <!-- Cart Footer with Totals & Checkout -->
             <div class="border-t border-canvas-border pt-4 space-y-3 text-xs bg-canvas-base">
                 <div class="flex justify-between text-earth-600">
-                    <span>Gear Subtotal:</span>
+                    <span>Gadget Subtotal:</span>
                     <span id="drawer-subtotal" class="text-earth-950 font-bold text-sm">$0.00</span>
                 </div>
                 <div class="flex justify-between text-earth-600">
@@ -695,7 +695,7 @@
 
                 <button onclick="window.openCheckoutModal()" class="w-full py-3 rounded-xl bg-appetite-700 hover:bg-appetite-800 text-white font-bold text-xs flex items-center justify-center gap-2 transition-all shadow-lg shadow-appetite-800/30">
                     <i class="fa-solid fa-lock text-honey-300"></i>
-                    <span>Proceed to Expedition Checkout</span>
+                    <span>Proceed to Peculiar Checkout</span>
                 </button>
 
                 <button onclick="window.clearCart()" class="w-full py-1.5 text-[11px] text-earth-500 hover:text-rose-600 font-semibold transition-colors text-center">
@@ -718,8 +718,8 @@
             
             <div class="flex items-center justify-between border-b border-canvas-border pb-3.5">
                 <div class="flex items-center gap-2.5">
-                    <i class="fa-solid fa-mountain-sun text-appetite-700 text-lg"></i>
-                    <h3 class="font-heading font-black text-xl text-earth-950">Expedition Checkout</h3>
+                    <i class="fa-solid fa-hat-wizard text-appetite-700 text-lg"></i>
+                    <h3 class="font-heading font-black text-xl text-earth-950">Peculiar Checkout</h3>
                 </div>
                 <button onclick="window.closeCheckoutModal()" class="text-earth-500 hover:text-earth-950 p-1 rounded-lg hover:bg-canvas-surface">
                     <i class="fa-solid fa-xmark text-lg"></i>
@@ -728,12 +728,12 @@
 
             <form id="checkout-form" onsubmit="event.preventDefault(); window.processCheckout();" class="space-y-3 text-xs">
                 <div>
-                    <label class="font-bold text-earth-800">Full Name / Expedition Lead *</label>
-                    <input type="text" id="co-name" required value="Alex Explorer" class="w-full bg-white border border-canvas-border rounded-lg px-3 py-2 text-earth-950 mt-1 focus:border-honey-700 focus:outline-none">
+                    <label class="font-bold text-earth-800">Full Name / Head Weirdo *</label>
+                    <input type="text" id="co-name" required value="Alex Oddity" class="w-full bg-white border border-canvas-border rounded-lg px-3 py-2 text-earth-950 mt-1 focus:border-honey-700 focus:outline-none">
                 </div>
                 <div>
-                    <label class="font-bold text-earth-800">Trailhead Destination Address *</label>
-                    <input type="text" id="co-address" required value="742 Evergreen Trail" class="w-full bg-white border border-canvas-border rounded-lg px-3 py-2 text-earth-950 mt-1 focus:border-honey-700 focus:outline-none">
+                    <label class="font-bold text-earth-800">Destination Address *</label>
+                    <input type="text" id="co-address" required value="742 Evergreen Terrace" class="w-full bg-white border border-canvas-border rounded-lg px-3 py-2 text-earth-950 mt-1 focus:border-honey-700 focus:outline-none">
                 </div>
                 <div class="grid grid-cols-2 gap-2">
                     <div>
@@ -773,22 +773,22 @@
             </div>
 
             <div class="space-y-1">
-                <h3 class="font-heading font-black text-xl text-earth-950">Expedition Order Dispatched</h3>
-                <p class="text-xs text-earth-600">Your outdoor gear order has been logged into the ASP.NET MVC Order Pipeline</p>
+                <h3 class="font-heading font-black text-xl text-earth-950">Oddities Dispatched</h3>
+                <p class="text-xs text-earth-600">Your peculiar order has been logged into the ASP.NET MVC Order Pipeline</p>
             </div>
 
             <div class="bg-white p-4 rounded-xl border border-canvas-border text-left text-xs space-y-2.5">
                 <div class="flex justify-between border-b border-canvas-border pb-2">
                     <span class="text-earth-500 font-medium">Order Reference:</span>
-                    <span id="rec-order-id" class="text-honey-900 font-mono font-bold">#TB-849201</span>
+                    <span id="rec-order-id" class="text-honey-900 font-mono font-bold">#WT-849201</span>
                 </div>
                 <div class="flex justify-between">
-                    <span class="text-earth-500 font-medium">Expedition Lead:</span>
-                    <span id="rec-name" class="text-earth-950 font-bold">Alex Explorer</span>
+                    <span class="text-earth-500 font-medium">Head Weirdo:</span>
+                    <span id="rec-name" class="text-earth-950 font-bold">Alex Oddity</span>
                 </div>
                 <div class="flex justify-between">
                     <span class="text-earth-500 font-medium">Destination:</span>
-                    <span id="rec-dest" class="text-earth-950 font-bold">Boulder, CO</span>
+                    <span id="rec-dest" class="text-earth-950 font-bold">Springfield, OR</span>
                 </div>
                 <div class="flex justify-between border-t border-canvas-border pt-2">
                     <span class="text-earth-500 font-medium">Total Billed:</span>
@@ -825,16 +825,16 @@
             <!-- New Product Form -->
             <form id="admin-add-form" onsubmit="event.preventDefault(); window.handleAdminAddProduct();" class="bg-white p-4 rounded-xl border border-canvas-border space-y-3 text-xs">
                 <div class="font-bold text-earth-950 flex items-center gap-1.5">
-                    <i class="fa-solid fa-plus text-appetite-700"></i> Add New Gear to EF Repository
+                    <i class="fa-solid fa-plus text-appetite-700"></i> Add New Gadget to EF Repository
                 </div>
                 <div class="grid grid-cols-1 sm:grid-cols-3 gap-2.5">
                     <input type="text" id="adm-name" placeholder="Product Name" required class="bg-canvas-surface border border-canvas-border rounded-lg px-3 py-1.5 text-xs text-earth-950 focus:border-honey-700 focus:outline-none">
                     <select id="adm-cat" required class="bg-canvas-surface border border-canvas-border rounded-lg px-3 py-1.5 text-xs text-earth-950 focus:border-honey-700 focus:outline-none">
-                        <option value="Bunkums">Bunkums (Shelter &amp; Camp)</option>
-                        <option value="Skuttlebutts">Skuttlebutts (Camp Kitchen &amp; Power)</option>
-                        <option value="Balderdash">Balderdash (Packs &amp; Navigation)</option>
-                        <option value="Flummery">Flummery (Trail Apparel &amp; Comfort)</option>
-                        <option value="Codswallop">Codswallop (Provisions &amp; Defense)</option>
+                        <option value="Bunkums">Bunkums (Useless Machines)</option>
+                        <option value="Skuttlebutts">Skuttlebutts (Pranks &amp; Traps)</option>
+                        <option value="Balderdash">Balderdash (Illusion &amp; Magic)</option>
+                        <option value="Flummery">Flummery (Absurd Apparel)</option>
+                        <option value="Codswallop">Codswallop (Questionable Novelties)</option>
                     </select>
                     <input type="number" step="0.01" id="adm-price" placeholder="Price (USD)" required class="bg-canvas-surface border border-canvas-border rounded-lg px-3 py-1.5 text-xs text-earth-950 focus:border-honey-700 focus:outline-none">
                 </div>
@@ -910,20 +910,20 @@
         </div>
     </div>
 
-    <!-- 9. STORE FOOTER (Full Width • Warm Dark Walnut Canvas & Gold Highlights) -->
+    <!-- 9. STORE FOOTER (Full Width) -->
     <footer class="border-t border-earth-800 bg-earth-950 py-8 text-xs text-earth-300 mt-auto"
-            data-blueprint-file="TimberlineStore.WebUI/Views/Shared/_Layout.cshtml"
+            data-blueprint-file="WackyStore.WebUI/Views/Shared/_Layout.cshtml"
             data-blueprint-role="Site Footer Layout"
             data-blueprint-layer="WebUI / Presentation"
-            data-blueprint-dom="Semantic <footer> container with dark walnut background and brand copyright across full width."
+            data-blueprint-dom="Semantic <footer> container with dark purple background and silver highlights."
             data-blueprint-desc="Shared master footer layout displaying security badges, links to the interactive case study, and framework metadata."
-            data-blueprint-code="<footer>&copy; @DateTime.Now.Year Timberline Outdoor Co.</footer>">
+            data-blueprint-code="<footer>&copy; @DateTime.Now.Year Wacky Things Co.</footer>">
         
         <div class="store-fluid-container flex flex-col sm:flex-row items-center justify-between gap-4">
             <div class="flex items-center gap-3">
-                <span class="text-honey-400 font-black font-heading text-sm">TIMBERLINE OUTDOOR CO.</span>
+                <span class="text-honey-400 font-black font-heading text-sm">WACKY THINGS CO.</span>
                 <span class="text-earth-700">|</span>
-                <span class="text-earth-300">Premium Expedition Gear &amp; Provisions</span>
+                <span class="text-earth-300">Gloriously Bizarre Gadgets &amp; Oddities</span>
             </div>
             <div class="flex items-center gap-4 text-earth-300">
                 <a href="./case-study.html" class="hover:text-honey-400 transition-colors">Case Study</a>
@@ -940,15 +940,15 @@
     <script>
         /**
          * ==============================================================================
-         * TIMBERLINE OUTDOOR CO. // SEED INVENTORY (REBRANDED OUTDOOR CATALOG)
+         * WACKY THINGS CO. // SEED INVENTORY (REBRANDED WACKY CATALOG)
          * ==============================================================================
          */
         let PRODUCTS = [
             {
                 id: 1,
-                name: "Ultralight Trail Locator Beacon",
+                name: "Annoying Hidden Beeper",
                 category: "Bunkums",
-                categoryLabel: "Bunkums: Shelter & Camp",
+                categoryLabel: "Bunkums: Useless Machines",
                 price: 9.98,
                 rating: 4.9,
                 reviews: 248,
@@ -960,155 +960,155 @@
             },
             {
                 id: 2,
-                name: "Solar Multi-Tool Field Charger",
+                name: "Electric Shock USB Drive Prank",
                 category: "Skuttlebutts",
-                categoryLabel: "Skuttlebutts: Camp & Power",
+                categoryLabel: "Skuttlebutts: Pranks & Traps",
                 price: 24.99,
                 rating: 4.8,
                 reviews: 189,
                 badge: "Staff Pick",
                 badgeColor: "cyan",
-                description: "Compact outdoor USB micro-controller dongle with integrated surge dampener and emergency field test diagnostics.",
+                description: "Looks like a normal flash drive, but delivers a harmless yet surprising static jolt when plugged in.",
                 image: "./images/usb.jpg",
                 stock: 30
             },
             {
                 id: 3,
-                name: "All-Weather Tactical Rite-in-Rain Pen",
+                name: "Disappearing Ink Magic Pen",
                 category: "Balderdash",
-                categoryLabel: "Balderdash: Packs & Nav",
+                categoryLabel: "Balderdash: Illusion & Magic",
                 price: 14.99,
                 rating: 4.7,
                 reviews: 95,
                 badge: "Trail Classic",
                 badgeColor: "purple",
-                description: "High-grade matte black brass pressurized rollerball pen engineered for zero-gravity, sub-zero rain, and damp field logs.",
+                description: "High-grade rollerball pen with ink that completely fades away after 2 hours. Perfect for dubious contracts.",
                 image: "./images/pen.jpg",
                 stock: 60
             },
             {
                 id: 4,
-                name: "All-Terrain Heavy Duty Camp Cart Wheel",
+                name: "Squeaky Office Chair Wheel",
                 category: "Flummery",
-                categoryLabel: "Flummery: Trail Hardware",
+                categoryLabel: "Flummery: Absurd Apparel",
                 price: 16.95,
                 rating: 4.6,
                 reviews: 112,
                 badge: "Trail Tested",
                 badgeColor: "amber",
-                description: "High-traction polyurethane caster wheel engineered with a resonant acoustic harmonic alert for heavy gear transport.",
+                description: "A replacement caster wheel engineered with a resonant acoustic harmonic alert (it squeaks loudly no matter what).",
                 image: "./images/chair_wheel.jpg",
                 stock: 18
             },
             {
                 id: 5,
-                name: "Alpine Sunrise Trailhead Dark Roast Coffee",
+                name: "Caffeinated Sleepy Time Tea",
                 category: "Codswallop",
-                categoryLabel: "Codswallop: Provisions",
+                categoryLabel: "Codswallop: Questionable Novelties",
                 price: 18.50,
                 rating: 4.9,
                 reviews: 310,
                 badge: "Trending",
                 badgeColor: "emerald",
-                description: "Artisanal high-altitude dark roast coffee beans packaged in a rugged foil-lined valve bag for crisp mountain mornings.",
+                description: "Artisanal high-caffeine dark roast disguised as a relaxing chamomile blend. Do not consume before bedtime.",
                 image: "./images/coffee_bag.jpg",
                 stock: 40
             },
             {
                 id: 6,
-                name: "Camp Perimeter Signal & Flare Launcher",
+                name: "Desktop Missile Defense Turret",
                 category: "Bunkums",
-                categoryLabel: "Bunkums: Shelter & Camp",
+                categoryLabel: "Bunkums: Useless Machines",
                 price: 34.95,
                 rating: 4.9,
                 reviews: 420,
                 badge: "Top Rated",
                 badgeColor: "rose",
-                description: "Motorized camp perimeter launcher with 3 soft signal projectiles, 360-degree rotation, and USB controller interface.",
+                description: "Motorized office perimeter launcher with 3 soft foam projectiles, 360-degree rotation, and USB controller interface.",
                 image: "./images/missile_turret.jpg",
                 stock: 15
             },
             {
                 id: 7,
-                name: "Realistic Synthetic Fly Fishing Bait (50pcs)",
+                name: "Ultra-Realistic Fake Cockroaches (50pcs)",
                 category: "Skuttlebutts",
-                categoryLabel: "Skuttlebutts: Camp & River",
+                categoryLabel: "Skuttlebutts: Pranks & Traps",
                 price: 11.95,
                 rating: 4.7,
                 reviews: 165,
                 badge: "Ultra Realistic",
                 badgeColor: "amber",
-                description: "Hyper-realistic vinyl aquatic lures with lifelike flexible antennae, segmented legs, and natural reflective sheen.",
+                description: "Hyper-realistic vinyl bugs with lifelike flexible antennae, segmented legs, and a terrifyingly natural reflective sheen.",
                 image: "./images/fake_bugs.jpg",
                 stock: 50
             },
             {
                 id: 8,
-                name: "High-Voltage Waterproof Camp Arc Igniter",
+                name: "Fake Car Key Shock Prank",
                 category: "Balderdash",
-                categoryLabel: "Balderdash: Packs & Nav",
+                categoryLabel: "Balderdash: Illusion & Magic",
                 price: 9.95,
                 rating: 4.5,
                 reviews: 88,
                 badge: "Windproof",
                 badgeColor: "cyan",
-                description: "Authentic waterproof key fob housing a safe, high-voltage instant piezoelectric arc trigger for damp tinder ignition.",
+                description: "Authentic-looking key fob housing a safe, high-voltage instant piezoelectric arc trigger for shocking your friends.",
                 image: "./images/car_key.jpg",
                 stock: 35
             },
             {
                 id: 9,
-                name: "Self-Inflating Ultralight Trail Seat Cushion",
+                name: "Self-Inflating Whoopee Cushion",
                 category: "Flummery",
-                categoryLabel: "Flummery: Trail Comfort",
+                categoryLabel: "Flummery: Absurd Apparel",
                 price: 6.99,
                 rating: 4.8,
                 reviews: 530,
                 badge: "Self-Inflating",
                 badgeColor: "rose",
-                description: "Classic high-elasticity waterproof rubber seat cushion equipped with a rapid intake air valve for rocky campsite comfort.",
+                description: "Classic high-elasticity rubber cushion equipped with a rapid intake air valve for back-to-back comedic deployment.",
                 image: "./images/whoopee_cushion.jpg",
                 stock: 75
             },
             {
                 id: 10,
-                name: "Natural Bear & Predator Repellent Pods",
+                name: "Military-Grade Stink Bombs",
                 category: "Codswallop",
-                categoryLabel: "Codswallop: Defense",
+                categoryLabel: "Codswallop: Questionable Novelties",
                 price: 19.99,
                 rating: 4.8,
                 reviews: 210,
                 badge: "High Potency",
                 badgeColor: "emerald",
-                description: "Protective foam-lined box with 12 impact ampoules releasing concentrated organic predator deterrent vapors upon perimeter breach.",
+                description: "Protective foam-lined box with 12 impact ampoules releasing concentrated terrible smells upon being stepped on.",
                 image: "./images/stink_bomb.jpg",
                 stock: 25
             },
             {
                 id: 11,
-                name: "Rip-Stop Biodegradable Camp Towel Roll",
+                name: "No-Tear Unrippable Toilet Paper",
                 category: "Bunkums",
-                categoryLabel: "Bunkums: Shelter & Camp",
+                categoryLabel: "Bunkums: Useless Machines",
                 price: 8.50,
                 rating: 4.6,
                 reviews: 144,
                 badge: "Woven Fabric",
                 badgeColor: "cyan",
-                description: "Looks like soft lightweight camp tissue, but is woven from extreme tensile-strength rip-stop fabric that resists heavy outdoor abrasion.",
+                description: "Looks like soft lightweight tissue, but is woven from extreme tensile-strength rip-stop fabric that cannot be torn.",
                 image: "./images/toilet_paper.jpg",
                 stock: 40
             },
             {
                 id: 12,
-                name: "High-Visibility Impact Trail Markers (3-Pack)",
+                name: "Exploding Golf Balls (3-Pack)",
                 category: "Balderdash",
-                categoryLabel: "Balderdash: Packs & Nav",
+                categoryLabel: "Balderdash: Illusion & Magic",
                 price: 15.50,
                 rating: 4.9,
                 reviews: 275,
                 badge: "High Visibility",
                 badgeColor: "amber",
-                description: "Weighted dimpled impact markers that release a bright fluorescent visual locator cloud upon striking trail surfaces.",
+                description: "Weighted dimpled golf balls that release a bright fluorescent visual locator cloud upon being struck by a club.",
                 image: "./images/golf_balls.jpg",
                 stock: 28
             }
@@ -1173,12 +1173,12 @@
 
             // Extract distinct categories with counts
             const categories = [
-                { id: 'all', name: 'All Gear & Provisions', icon: 'fa-layer-group', count: PRODUCTS.length },
-                { id: 'bunkums', name: 'Bunkums (Shelter & Camp)', icon: 'fa-campground', count: PRODUCTS.filter(p => p.category.toLowerCase() === 'bunkums').length },
-                { id: 'skuttlebutts', name: 'Skuttlebutts (Camp & Power)', icon: 'fa-fire-burner', count: PRODUCTS.filter(p => p.category.toLowerCase() === 'skuttlebutts').length },
-                { id: 'balderdash', name: 'Balderdash (Packs & Nav)', icon: 'fa-compass', count: PRODUCTS.filter(p => p.category.toLowerCase() === 'balderdash').length },
-                { id: 'flummery', name: 'Flummery (Trail Apparel)', icon: 'fa-shirt', count: PRODUCTS.filter(p => p.category.toLowerCase() === 'flummery').length },
-                { id: 'codswallop', name: 'Codswallop (Provisions & Defense)', icon: 'fa-shield-halved', count: PRODUCTS.filter(p => p.category.toLowerCase() === 'codswallop').length },
+                { id: 'all', name: 'All Bizarre Gadgets & Novelties', icon: 'fa-layer-group', count: PRODUCTS.length },
+                { id: 'bunkums', name: 'Bunkums (Useless Machines)', icon: 'fa-campground', count: PRODUCTS.filter(p => p.category.toLowerCase() === 'bunkums').length },
+                { id: 'skuttlebutts', name: 'Skuttlebutts (Pranks & Traps)', icon: 'fa-fire-burner', count: PRODUCTS.filter(p => p.category.toLowerCase() === 'skuttlebutts').length },
+                { id: 'balderdash', name: 'Balderdash (Illusion & Magic)', icon: 'fa-compass', count: PRODUCTS.filter(p => p.category.toLowerCase() === 'balderdash').length },
+                { id: 'flummery', name: 'Flummery (Absurd Apparel)', icon: 'fa-shirt', count: PRODUCTS.filter(p => p.category.toLowerCase() === 'flummery').length },
+                { id: 'codswallop', name: 'Codswallop (Questionable Novelties)', icon: 'fa-shield-halved', count: PRODUCTS.filter(p => p.category.toLowerCase() === 'codswallop').length },
             ];
 
             nav.innerHTML = categories.map(c => {
@@ -1296,12 +1296,12 @@
 
             if (visibleCountLabel) visibleCountLabel.innerText = filtered.length;
             if (activeCatTitle) {
-                if (activeCategory === 'all') activeCatTitle.innerText = 'All Outdoor Gear & Provisions';
-                else if (activeCategory === 'bunkums') activeCatTitle.innerText = 'Bunkums: Shelter & Camp Gear';
-                else if (activeCategory === 'skuttlebutts') activeCatTitle.innerText = 'Skuttlebutts: Camp & Power';
-                else if (activeCategory === 'balderdash') activeCatTitle.innerText = 'Balderdash: Packs & Navigation';
-                else if (activeCategory === 'flummery') activeCatTitle.innerText = 'Flummery: Trail Apparel & Comfort';
-                else if (activeCategory === 'codswallop') activeCatTitle.innerText = 'Codswallop: Provisions & Defense';
+                if (activeCategory === 'all') activeCatTitle.innerText = 'All Bizarre Gadgets & Novelties';
+                else if (activeCategory === 'bunkums') activeCatTitle.innerText = 'Bunkums: Useless Machines';
+                else if (activeCategory === 'skuttlebutts') activeCatTitle.innerText = 'Skuttlebutts: Pranks & Traps';
+                else if (activeCategory === 'balderdash') activeCatTitle.innerText = 'Balderdash: Illusion & Magic';
+                else if (activeCategory === 'flummery') activeCatTitle.innerText = 'Flummery: Absurd Apparel';
+                else if (activeCategory === 'codswallop') activeCatTitle.innerText = 'Codswallop: Questionable Novelties';
                 else activeCatTitle.innerText = activeCategory;
             }
 
@@ -1335,7 +1335,7 @@
                     <div class="space-y-2">
                         <div class="w-full py-2 px-3 rounded-xl bg-appetite-700 text-white font-bold text-xs flex items-center justify-center gap-1.5 shadow-sm">
                             <i class="fa-solid fa-check"></i>
-                            <span>Added to Gear Cart</span>
+                            <span>Added to Peculiar Cart</span>
                         </div>
                         <div class="flex items-center justify-between bg-canvas-surface border border-canvas-border rounded-xl p-1 text-earth-950">
                             <button onclick="window.updateCartQty(${prod.id}, -1)" 
@@ -1369,7 +1369,7 @@
 
                 return `
                     <article class="product-card group"
-                             data-blueprint-file="TimberlineStore.WebUI/Views/Shared/_ProductSummary.cshtml"
+                             data-blueprint-file="WackyStore.WebUI/Views/Shared/_ProductSummary.cshtml"
                              data-blueprint-role="Product Summary Partial View"
                              data-blueprint-layer="WebUI / Partial View"
                              data-blueprint-dom="Semantic &lt;article&gt; with off-white card background, aspect-ratio 1:1 image frame, flex layout, hover zoom, and distinctive category badge pill."
@@ -1559,7 +1559,7 @@
                 if (subtotal >= threshold) {
                     bar.style.width = '100%';
                     bar.className = 'bg-appetite-700 h-full w-full transition-all duration-300';
-                    progText.innerText = '🎉 You unlocked FREE 2-Day Expedition Shipping!';
+                    progText.innerText = '🎉 You unlocked FREE 2-Day Peculiar Shipping!';
                     progBadge.innerText = 'UNLOCKED';
                     progBadge.className = 'text-appetite-700 font-bold';
                 } else {
@@ -1580,7 +1580,7 @@
                     container.innerHTML = `
                         <div class="h-48 flex flex-col items-center justify-center text-center space-y-2 text-earth-500">
                             <i class="fa-solid fa-basket-shopping text-3xl text-earth-400"></i>
-                            <div class="text-xs font-medium">Your gear cart is currently empty.</div>
+                            <div class="text-xs font-medium">Your peculiar cart is currently empty.</div>
                         </div>
                     `;
                 } else {
@@ -1712,7 +1712,7 @@
             const city = document.getElementById('co-city').value;
 
             // Generate Order Id
-            const orderId = '#TB-' + Math.floor(100000 + Math.random() * 900000);
+            const orderId = '#WT-' + Math.floor(100000 + Math.random() * 900000);
 
             // Populate Receipt
             document.getElementById('rec-order-id').innerText = orderId;
@@ -1779,7 +1779,7 @@
                 id: newId,
                 name: name,
                 category: cat,
-                categoryLabel: `${cat}: Outdoor Gear`,
+                categoryLabel: `${cat}: Wacky Thing`,
                 price: price,
                 rating: 5.0,
                 reviews: 1,
@@ -1836,7 +1836,7 @@
             const target = e.target.closest('[data-blueprint-file]');
             if (!target) return;
 
-            const file = target.getAttribute('data-blueprint-file') || 'TimberlineStore.WebUI/...';
+            const file = target.getAttribute('data-blueprint-file') || 'WackyStore.WebUI/...';
             const role = target.getAttribute('data-blueprint-role') || 'UI Component';
             const layer = target.getAttribute('data-blueprint-layer') || 'Presentation';
             const dom = target.getAttribute('data-blueprint-dom') || 'HTML & CSS Fluid Grid/Flexbox Layout';

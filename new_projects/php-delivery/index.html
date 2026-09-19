@@ -54,15 +54,15 @@
 
     <style>
         :root {
-            --bg-base: #070b14;
-            --bg-surface: #0f172a;
-            --bg-card: #131b2e;
-            --bg-card-alt: #17223b;
-            --border-calm: #1e293b;
-            --border-focus: #38bdf8;
-            --text-primary: #f8fafc;
-            --text-secondary: #cbd5e1;
-            --text-muted: #94a3b8;
+            --bg-base: #f8fafc;
+            --bg-surface: #ffffff;
+            --bg-card: #ffffff;
+            --bg-card-alt: #f1f5f9;
+            --border-calm: #e2e8f0;
+            --border-focus: #0ea5e9;
+            --text-primary: #0f172a;
+            --text-secondary: #334155;
+            --text-muted: #64748b;
         }
 
         body {
@@ -80,36 +80,36 @@
 
         /* Glassmorphism Navigation */
         .calm-nav {
-            background: rgba(11, 17, 32, 0.94);
+            background: rgba(255, 255, 255, 0.94);
             backdrop-filter: blur(16px);
             border-bottom: 1px solid var(--border-calm);
         }
 
         /* Dedicated Viewport Workbench Frame */
         .viewport-frame {
-            background: #090d16;
-            border: 1px solid #1e293b;
+            background: #f8fafc;
+            border: 1px solid #e2e8f0;
             border-radius: 16px;
-            box-shadow: 0 20px 40px -15px rgba(0, 0, 0, 0.65), 0 0 0 1px rgba(255, 255, 255, 0.04);
+            box-shadow: 0 10px 30px -10px rgba(0, 0, 0, 0.1), 0 0 0 1px rgba(0, 0, 0, 0.05);
             overflow: hidden;
             transition: border-color 0.25s ease, box-shadow 0.25s ease;
         }
 
         .viewport-frame:hover {
-            border-color: #334155;
-            box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.8), 0 0 0 1px rgba(56, 189, 248, 0.1);
+            border-color: #cbd5e1;
+            box-shadow: 0 20px 40px -12px rgba(0, 0, 0, 0.15), 0 0 0 1px rgba(14, 165, 233, 0.1);
         }
 
         .viewport-header {
-            background: #0d1424;
-            border-bottom: 1px solid #1e293b;
+            background: #f1f5f9;
+            border-bottom: 1px solid #e2e8f0;
             padding: 10px 16px;
         }
 
         /* Code Block Card */
         .code-container {
-            background: #080c16;
-            border: 1px solid #1e293b;
+            background: #f8fafc;
+            border: 1px solid #e2e8f0;
             border-radius: 12px;
             font-family: 'Fira Code', monospace;
             font-size: 0.8rem;
@@ -122,14 +122,14 @@
             height: 6px;
         }
         ::-webkit-scrollbar-track {
-            background: #070b14;
+            background: #f1f5f9;
         }
         ::-webkit-scrollbar-thumb {
-            background: #1e293b;
+            background: #cbd5e1;
             border-radius: 4px;
         }
         ::-webkit-scrollbar-thumb:hover {
-            background: #334155;
+            background: #94a3b8;
         }
 
         /* Interactive Tic Tac Toe Cell */
@@ -138,8 +138,8 @@
         }
         .ttt-cell:hover:not(:disabled) {
             transform: scale(1.04);
-            border-color: #38bdf8;
-            background-color: rgba(56, 189, 248, 0.12);
+            border-color: #0ea5e9;
+            background-color: rgba(14, 165, 233, 0.12);
         }
 
         /* Tab Transition */
@@ -172,30 +172,30 @@
     </style>
 </head>
 
-<body class="selection:bg-sky-950 selection:text-sky-200 flex flex-col min-h-screen">
+<body class="selection:bg-sky-100 selection:text-sky-800 flex flex-col min-h-screen">
 
     <!-- 1. GLOBAL STICKY NAVBAR -->
     <header class="calm-nav sticky top-0 z-50">
         <div class="max-w-7xl mx-auto px-4 sm:px-6 py-3 flex items-center justify-between gap-4 flex-wrap">
             <div class="flex items-center gap-3">
-                <div class="h-9 w-9 rounded-xl bg-slate-900 border border-slate-700/80 flex items-center justify-center font-mono font-bold text-slate-200 shadow-sm">
-                    <i class="fa-brands fa-php text-xl text-sky-400"></i>
+                <div class="h-9 w-9 rounded-xl bg-slate-50 border border-slate-300/80 flex items-center justify-center font-mono font-bold text-slate-800 shadow-sm">
+                    <i class="fa-brands fa-php text-xl text-sky-600"></i>
                 </div>
                 <div>
-                    <div class="font-heading font-bold text-base sm:text-lg text-slate-100 tracking-wide flex items-center gap-1.5">
-                        PHP <span class="text-sky-400 font-semibold">Curriculum Workbench</span>
+                    <div class="font-heading font-bold text-base sm:text-lg text-slate-900 tracking-wide flex items-center gap-1.5">
+                        PHP <span class="text-sky-600 font-semibold">Curriculum Workbench</span>
                     </div>
-                    <div class="text-[11px] text-slate-400 font-medium">3 Server-Side Core Engineering Modules</div>
+                    <div class="text-[11px] text-slate-600 font-medium">3 Server-Side Core Engineering Modules</div>
                 </div>
             </div>
 
             <!-- Top Nav Actions -->
             <div class="flex items-center gap-2">
-                <a href="./case-study.html" class="px-3.5 py-1.5 rounded-lg bg-slate-800/80 border border-slate-700 hover:bg-slate-700 text-slate-200 text-xs font-semibold transition-all flex items-center gap-1.5 shadow-xs">
-                    <i class="fa-solid fa-book-open text-sky-400"></i>
+                <a href="./case-study.html" class="px-3.5 py-1.5 rounded-lg bg-slate-100/80 border border-slate-300 hover:bg-slate-200 text-slate-800 text-xs font-semibold transition-all flex items-center gap-1.5 shadow-xs">
+                    <i class="fa-solid fa-book-open text-sky-600"></i>
                     <span>Architecture Case Study</span>
                 </a>
-                <a href="../index.html" class="px-3 py-1.5 rounded-lg bg-slate-900 border border-slate-800 hover:border-slate-600 text-slate-400 hover:text-slate-200 text-xs font-medium transition-all">
+                <a href="../index.html" class="px-3 py-1.5 rounded-lg bg-slate-50 border border-slate-200 hover:border-slate-400 text-slate-600 hover:text-slate-800 text-xs font-medium transition-all">
                     <i class="fa-solid fa-arrow-left mr-1"></i> All Projects
                 </a>
             </div>
@@ -206,72 +206,72 @@
     <main class="max-w-7xl mx-auto px-4 sm:px-6 py-8 flex-1 w-full space-y-8">
 
         <!-- HEADER BANNER & INSTRUCTIONAL CONTEXT (Max measure 68ch) -->
-        <section class="space-y-4 border-b border-slate-800/80 pb-6">
+        <section class="space-y-4 border-b border-slate-200/80 pb-6">
             <div class="flex flex-wrap items-center justify-between gap-3">
                 <div class="space-y-1.5">
                     <div class="flex items-center gap-2">
-                        <span class="inline-flex items-center px-2.5 py-0.5 rounded-full text-[11px] font-mono font-semibold bg-sky-950/80 text-sky-300 border border-sky-800/60">
+                        <span class="inline-flex items-center px-2.5 py-0.5 rounded-full text-[11px] font-mono font-semibold bg-sky-100/80 text-sky-700 border border-sky-300/60">
                             <span class="w-1.5 h-1.5 rounded-full bg-sky-400 mr-1.5 animate-pulse"></span>
                             Interactive Dual-Pane Workbench
                         </span>
                         <span class="text-slate-500 text-xs font-mono">• PHP 8.3 Architecture</span>
                     </div>
-                    <h1 class="font-heading font-black text-2xl sm:text-3xl text-slate-100 tracking-tight">
+                    <h1 class="font-heading font-black text-2xl sm:text-3xl text-slate-900 tracking-tight">
                         Practical PHP Fundamentals &amp; Server-Side Engineering
                     </h1>
                 </div>
 
                 <!-- Case Study Badge Link -->
-                <div class="hidden sm:flex items-center gap-2 text-xs font-mono bg-slate-900/80 border border-slate-800 px-3 py-1.5 rounded-lg text-slate-400">
-                    <i class="fa-solid fa-columns text-sky-400"></i>
+                <div class="hidden sm:flex items-center gap-2 text-xs font-mono bg-slate-50/80 border border-slate-200 px-3 py-1.5 rounded-lg text-slate-600">
+                    <i class="fa-solid fa-columns text-sky-600"></i>
                     <span>Left: Theory &amp; Code | Right: Viewport Sandbox</span>
                 </div>
             </div>
 
-            <p class="text-slate-300 text-sm leading-relaxed prose-measure">
+            <p class="text-slate-700 text-sm leading-relaxed prose-measure">
                 Master server-side web engineering through a modular, side-by-side instructional interface. Examine architectural theory and clean reference code directly opposite a live functional sandbox and real-time state inspector.
             </p>
 
             <!-- 3. SEGMENTED TAB NAVIGATION CONTROLLER -->
             <nav class="pt-3" aria-label="Curriculum Modules">
-                <div class="grid grid-cols-1 sm:grid-cols-3 gap-2 p-1.5 bg-slate-900/90 border border-slate-800 rounded-xl">
+                <div class="grid grid-cols-1 sm:grid-cols-3 gap-2 p-1.5 bg-slate-50/90 border border-slate-200 rounded-xl">
                     
                     <!-- Tab 1 Button -->
                     <button type="button" onclick="switchModuleTab('mod-1')" id="tab-btn-mod-1" 
-                        class="tab-controller-btn group relative flex items-center gap-3 p-3 rounded-lg text-left transition-all duration-200 bg-slate-800/90 border border-sky-500/40 text-white shadow-sm"
+                        class="tab-controller-btn group relative flex items-center gap-3 p-3 rounded-lg text-left transition-all duration-200 bg-slate-100/90 border border-sky-400/40 text-slate-900 shadow-sm"
                         aria-controls="panel-mod-1" aria-selected="true" role="tab">
-                        <div class="h-8 w-8 rounded-lg bg-sky-950 border border-sky-800/80 flex items-center justify-center font-mono font-bold text-xs text-sky-300 group-hover:scale-105 transition-transform shrink-0">
+                        <div class="h-8 w-8 rounded-lg bg-sky-100 border border-sky-300/80 flex items-center justify-center font-mono font-bold text-xs text-sky-700 group-hover:scale-105 transition-transform shrink-0">
                             01
                         </div>
                         <div class="min-w-0">
-                            <div class="text-[11px] font-mono uppercase tracking-wider text-sky-400 font-semibold">Module 01</div>
-                            <div class="text-xs font-bold text-slate-100 truncate">Tic-Tac-Toe &bull; Sessions</div>
+                            <div class="text-[11px] font-mono uppercase tracking-wider text-sky-600 font-semibold">Module 01</div>
+                            <div class="text-xs font-bold text-slate-900 truncate">Tic-Tac-Toe &bull; Sessions</div>
                         </div>
                     </button>
 
                     <!-- Tab 2 Button -->
                     <button type="button" onclick="switchModuleTab('mod-2')" id="tab-btn-mod-2" 
-                        class="tab-controller-btn group relative flex items-center gap-3 p-3 rounded-lg text-left transition-all duration-200 bg-slate-950/40 border border-transparent hover:bg-slate-800/50 text-slate-400 hover:text-slate-200"
+                        class="tab-controller-btn group relative flex items-center gap-3 p-3 rounded-lg text-left transition-all duration-200 bg-white/40 border border-transparent hover:bg-slate-100/50 text-slate-600 hover:text-slate-800"
                         aria-controls="panel-mod-2" aria-selected="false" role="tab">
-                        <div class="h-8 w-8 rounded-lg bg-slate-900 border border-slate-800 flex items-center justify-center font-mono font-bold text-xs text-slate-400 group-hover:scale-105 transition-transform shrink-0">
+                        <div class="h-8 w-8 rounded-lg bg-slate-50 border border-slate-200 flex items-center justify-center font-mono font-bold text-xs text-slate-600 group-hover:scale-105 transition-transform shrink-0">
                             02
                         </div>
                         <div class="min-w-0">
-                            <div class="text-[11px] font-mono uppercase tracking-wider text-amber-400/90 font-semibold">Module 02</div>
-                            <div class="text-xs font-bold text-slate-300 group-hover:text-white truncate">Contact Form &bull; Sanitization</div>
+                            <div class="text-[11px] font-mono uppercase tracking-wider text-amber-600/90 font-semibold">Module 02</div>
+                            <div class="text-xs font-bold text-slate-700 group-hover:text-slate-900 truncate">Contact Form &bull; Sanitization</div>
                         </div>
                     </button>
 
                     <!-- Tab 3 Button -->
                     <button type="button" onclick="switchModuleTab('mod-3')" id="tab-btn-mod-3" 
-                        class="tab-controller-btn group relative flex items-center gap-3 p-3 rounded-lg text-left transition-all duration-200 bg-slate-950/40 border border-transparent hover:bg-slate-800/50 text-slate-400 hover:text-slate-200"
+                        class="tab-controller-btn group relative flex items-center gap-3 p-3 rounded-lg text-left transition-all duration-200 bg-white/40 border border-transparent hover:bg-slate-100/50 text-slate-600 hover:text-slate-800"
                         aria-controls="panel-mod-3" aria-selected="false" role="tab">
-                        <div class="h-8 w-8 rounded-lg bg-slate-900 border border-slate-800 flex items-center justify-center font-mono font-bold text-xs text-slate-400 group-hover:scale-105 transition-transform shrink-0">
+                        <div class="h-8 w-8 rounded-lg bg-slate-50 border border-slate-200 flex items-center justify-center font-mono font-bold text-xs text-slate-600 group-hover:scale-105 transition-transform shrink-0">
                             03
                         </div>
                         <div class="min-w-0">
-                            <div class="text-[11px] font-mono uppercase tracking-wider text-emerald-400/90 font-semibold">Module 03</div>
-                            <div class="text-xs font-bold text-slate-300 group-hover:text-white truncate">User Auth &bull; PDO / Bcrypt</div>
+                            <div class="text-[11px] font-mono uppercase tracking-wider text-emerald-600/90 font-semibold">Module 03</div>
+                            <div class="text-xs font-bold text-slate-700 group-hover:text-slate-900 truncate">User Auth &bull; PDO / Bcrypt</div>
                         </div>
                     </button>
 
@@ -293,59 +293,59 @@
                     <!-- Module Header -->
                     <div class="space-y-2">
                         <div class="flex items-center gap-2">
-                            <span class="px-2.5 py-0.5 rounded text-xs font-mono font-bold bg-sky-950 text-sky-400 border border-sky-800/70">
+                            <span class="px-2.5 py-0.5 rounded text-xs font-mono font-bold bg-sky-100 text-sky-600 border border-sky-300/70">
                                 MODULE 01
                             </span>
-                            <span class="text-xs font-mono text-slate-400">Zero-DB Session Architecture</span>
+                            <span class="text-xs font-mono text-slate-600">Zero-DB Session Architecture</span>
                         </div>
-                        <h2 class="font-heading font-black text-2xl text-slate-100">
+                        <h2 class="font-heading font-black text-2xl text-slate-900">
                             PHP Tic-Tac-Toe: Sessions &amp; 2D Matrices
                         </h2>
-                        <p class="text-slate-300 text-sm leading-relaxed prose-measure">
+                        <p class="text-slate-700 text-sm leading-relaxed prose-measure">
                             Tic-Tac-Toe provides a foundation in stateful server-side computing without database overhead. It demonstrates array manipulation, turn progression, and victory evaluation algorithms within persistent superglobal state.
                         </p>
                     </div>
 
                     <!-- Core Architectural Components Grid -->
                     <div class="space-y-3">
-                        <h3 class="font-heading font-bold text-sm text-slate-200 flex items-center gap-2 border-b border-slate-800 pb-2">
-                            <i class="fa-solid fa-cubes text-sky-400"></i>
+                        <h3 class="font-heading font-bold text-sm text-slate-800 flex items-center gap-2 border-b border-slate-200 pb-2">
+                            <i class="fa-solid fa-cubes text-sky-600"></i>
                             Key Architectural Mechanics
                         </h3>
 
                         <div class="grid grid-cols-1 sm:grid-cols-2 gap-3 text-xs">
-                            <div class="bg-slate-900/90 p-3.5 rounded-xl border border-slate-800/90 space-y-1">
-                                <div class="text-sky-300 font-bold flex items-center gap-1.5">
+                            <div class="bg-slate-50/90 p-3.5 rounded-xl border border-slate-200/90 space-y-1">
+                                <div class="text-sky-700 font-bold flex items-center gap-1.5">
                                     <i class="fa-solid fa-table-cells"></i> 2D Session Array
                                 </div>
-                                <p class="text-slate-400 prose-measure">
+                                <p class="text-slate-600 prose-measure">
                                     A 3x3 matrix initialized in <code>$_SESSION['board']</code> preserving cell markers across HTTP requests.
                                 </p>
                             </div>
 
-                            <div class="bg-slate-900/90 p-3.5 rounded-xl border border-slate-800/90 space-y-1">
-                                <div class="text-sky-300 font-bold flex items-center gap-1.5">
+                            <div class="bg-slate-50/90 p-3.5 rounded-xl border border-slate-200/90 space-y-1">
+                                <div class="text-sky-700 font-bold flex items-center gap-1.5">
                                     <i class="fa-solid fa-calculator"></i> O(1) Victory Matrix
                                 </div>
-                                <p class="text-slate-400 prose-measure">
+                                <p class="text-slate-600 prose-measure">
                                     Checks 3 horizontal, 3 vertical, and 2 diagonal lines immediately after every valid turn.
                                 </p>
                             </div>
 
-                            <div class="bg-slate-900/90 p-3.5 rounded-xl border border-slate-800/90 space-y-1">
-                                <div class="text-sky-300 font-bold flex items-center gap-1.5">
+                            <div class="bg-slate-50/90 p-3.5 rounded-xl border border-slate-200/90 space-y-1">
+                                <div class="text-sky-700 font-bold flex items-center gap-1.5">
                                     <i class="fa-solid fa-arrows-rotate"></i> Turn Alternation
                                 </div>
-                                <p class="text-slate-400 prose-measure">
+                                <p class="text-slate-600 prose-measure">
                                     Toggles <code>$_SESSION['player']</code> between 'X' and 'O' upon recording non-colliding cell moves.
                                 </p>
                             </div>
 
-                            <div class="bg-slate-900/90 p-3.5 rounded-xl border border-slate-800/90 space-y-1">
-                                <div class="text-sky-300 font-bold flex items-center gap-1.5">
+                            <div class="bg-slate-50/90 p-3.5 rounded-xl border border-slate-200/90 space-y-1">
+                                <div class="text-sky-700 font-bold flex items-center gap-1.5">
                                     <i class="fa-solid fa-rotate-right"></i> Session Reset
                                 </div>
-                                <p class="text-slate-400 prose-measure">
+                                <p class="text-slate-600 prose-measure">
                                     Re-seeds the 3x3 empty grid and resets the move counter to cleanly begin a fresh match.
                                 </p>
                             </div>
@@ -354,61 +354,61 @@
 
                     <!-- Reference Implementation Code Snippet -->
                     <div class="space-y-2">
-                        <div class="flex items-center justify-between text-xs font-mono text-slate-400">
-                            <span class="flex items-center gap-1.5 font-semibold text-slate-300">
-                                <i class="fa-solid fa-code text-sky-400"></i> Reference PHP Implementation
+                        <div class="flex items-center justify-between text-xs font-mono text-slate-600">
+                            <span class="flex items-center gap-1.5 font-semibold text-slate-700">
+                                <i class="fa-solid fa-code text-sky-600"></i> Reference PHP Implementation
                             </span>
-                            <span class="text-sky-400 text-[11px]">session_start();</span>
+                            <span class="text-sky-600 text-[11px]">session_start();</span>
                         </div>
 
-                        <div class="code-container p-4 text-slate-300 overflow-x-auto text-[11px] leading-relaxed">
+                        <div class="code-container p-4 text-slate-700 overflow-x-auto text-[11px] leading-relaxed">
 <pre><span class="text-slate-500">// 1. Initialize Board in Session</span>
-<span class="text-sky-300">session_start</span>();
-<span class="text-slate-400">if</span> (!<span class="text-sky-300">isset</span>(<span class="text-slate-200">$_SESSION</span>[<span class="text-emerald-300">'board'</span>])) {
-    <span class="text-slate-200">$_SESSION</span>[<span class="text-emerald-300">'board'</span>] = [
-        [<span class="text-emerald-300">''</span>, <span class="text-emerald-300">''</span>, <span class="text-emerald-300">''</span>],
-        [<span class="text-emerald-300">''</span>, <span class="text-emerald-300">''</span>, <span class="text-emerald-300">''</span>],
-        [<span class="text-emerald-300">''</span>, <span class="text-emerald-300">''</span>, <span class="text-emerald-300">''</span>]
+<span class="text-sky-700">session_start</span>();
+<span class="text-slate-600">if</span> (!<span class="text-sky-700">isset</span>(<span class="text-slate-800">$_SESSION</span>[<span class="text-emerald-700">'board'</span>])) {
+    <span class="text-slate-800">$_SESSION</span>[<span class="text-emerald-700">'board'</span>] = [
+        [<span class="text-emerald-700">''</span>, <span class="text-emerald-700">''</span>, <span class="text-emerald-700">''</span>],
+        [<span class="text-emerald-700">''</span>, <span class="text-emerald-700">''</span>, <span class="text-emerald-700">''</span>],
+        [<span class="text-emerald-700">''</span>, <span class="text-emerald-700">''</span>, <span class="text-emerald-700">''</span>]
     ];
-    <span class="text-slate-200">$_SESSION</span>[<span class="text-emerald-300">'player'</span>] = <span class="text-emerald-300">'X'</span>;
-    <span class="text-slate-200">$_SESSION</span>[<span class="text-emerald-300">'winner'</span>] = <span class="text-slate-400">null</span>;
+    <span class="text-slate-800">$_SESSION</span>[<span class="text-emerald-700">'player'</span>] = <span class="text-emerald-700">'X'</span>;
+    <span class="text-slate-800">$_SESSION</span>[<span class="text-emerald-700">'winner'</span>] = <span class="text-slate-600">null</span>;
 }
 
 <span class="text-slate-500">// 2. Evaluate 8 Winning Conditions</span>
-<span class="text-slate-400">function</span> <span class="text-sky-300">checkWin</span>(<span class="text-slate-400">array</span> <span class="text-slate-200">$b</span>, <span class="text-slate-400">string</span> <span class="text-slate-200">$p</span>): <span class="text-slate-400">bool</span> {
-    <span class="text-slate-400">for</span> (<span class="text-slate-200">$i</span> = 0; <span class="text-slate-200">$i</span> &lt; 3; <span class="text-slate-200">$i</span>++) {
-        <span class="text-slate-400">if</span> (<span class="text-slate-200">$b</span>[<span class="text-slate-200">$i</span>][0] === <span class="text-slate-200">$p</span> &amp;&amp; <span class="text-slate-200">$b</span>[<span class="text-slate-200">$i</span>][1] === <span class="text-slate-200">$p</span> &amp;&amp; <span class="text-slate-200">$b</span>[<span class="text-slate-200">$i</span>][2] === <span class="text-slate-200">$p</span>) <span class="text-slate-400">return true</span>;
-        <span class="text-slate-400">if</span> (<span class="text-slate-200">$b</span>[0][<span class="text-slate-200">$i</span>] === <span class="text-slate-200">$p</span> &amp;&amp; <span class="text-slate-200">$b</span>[1][<span class="text-slate-200">$i</span>] === <span class="text-slate-200">$p</span> &amp;&amp; <span class="text-slate-200">$b</span>[2][<span class="text-slate-200">$i</span>] === <span class="text-slate-200">$p</span>) <span class="text-slate-400">return true</span>;
+<span class="text-slate-600">function</span> <span class="text-sky-700">checkWin</span>(<span class="text-slate-600">array</span> <span class="text-slate-800">$b</span>, <span class="text-slate-600">string</span> <span class="text-slate-800">$p</span>): <span class="text-slate-600">bool</span> {
+    <span class="text-slate-600">for</span> (<span class="text-slate-800">$i</span> = 0; <span class="text-slate-800">$i</span> &lt; 3; <span class="text-slate-800">$i</span>++) {
+        <span class="text-slate-600">if</span> (<span class="text-slate-800">$b</span>[<span class="text-slate-800">$i</span>][0] === <span class="text-slate-800">$p</span> &amp;&amp; <span class="text-slate-800">$b</span>[<span class="text-slate-800">$i</span>][1] === <span class="text-slate-800">$p</span> &amp;&amp; <span class="text-slate-800">$b</span>[<span class="text-slate-800">$i</span>][2] === <span class="text-slate-800">$p</span>) <span class="text-slate-600">return true</span>;
+        <span class="text-slate-600">if</span> (<span class="text-slate-800">$b</span>[0][<span class="text-slate-800">$i</span>] === <span class="text-slate-800">$p</span> &amp;&amp; <span class="text-slate-800">$b</span>[1][<span class="text-slate-800">$i</span>] === <span class="text-slate-800">$p</span> &amp;&amp; <span class="text-slate-800">$b</span>[2][<span class="text-slate-800">$i</span>] === <span class="text-slate-800">$p</span>) <span class="text-slate-600">return true</span>;
     }
-    <span class="text-slate-400">if</span> (<span class="text-slate-200">$b</span>[0][0] === <span class="text-slate-200">$p</span> &amp;&amp; <span class="text-slate-200">$b</span>[1][1] === <span class="text-slate-200">$p</span> &amp;&amp; <span class="text-slate-200">$b</span>[2][2] === <span class="text-slate-200">$p</span>) <span class="text-slate-400">return true</span>;
-    <span class="text-slate-400">if</span> (<span class="text-slate-200">$b</span>[0][2] === <span class="text-slate-200">$p</span> &amp;&amp; <span class="text-slate-200">$b</span>[1][1] === <span class="text-slate-200">$p</span> &amp;&amp; <span class="text-slate-200">$b</span>[2][0] === <span class="text-slate-200">$p</span>) <span class="text-slate-400">return true</span>;
-    <span class="text-slate-400">return false</span>;
+    <span class="text-slate-600">if</span> (<span class="text-slate-800">$b</span>[0][0] === <span class="text-slate-800">$p</span> &amp;&amp; <span class="text-slate-800">$b</span>[1][1] === <span class="text-slate-800">$p</span> &amp;&amp; <span class="text-slate-800">$b</span>[2][2] === <span class="text-slate-800">$p</span>) <span class="text-slate-600">return true</span>;
+    <span class="text-slate-600">if</span> (<span class="text-slate-800">$b</span>[0][2] === <span class="text-slate-800">$p</span> &amp;&amp; <span class="text-slate-800">$b</span>[1][1] === <span class="text-slate-800">$p</span> &amp;&amp; <span class="text-slate-800">$b</span>[2][0] === <span class="text-slate-800">$p</span>) <span class="text-slate-600">return true</span>;
+    <span class="text-slate-600">return false</span>;
 }</pre>
                         </div>
                     </div>
 
                     <!-- Project-Specific Technical Tags -->
                     <div class="space-y-2 pt-2">
-                        <div class="text-[11px] font-mono text-slate-400 uppercase tracking-wider font-semibold">
+                        <div class="text-[11px] font-mono text-slate-600 uppercase tracking-wider font-semibold">
                             Module Technical Specifications:
                         </div>
                         <div class="flex flex-wrap gap-1.5">
-                            <span class="tech-tag bg-sky-950/80 text-sky-300 border border-sky-800/60">
+                            <span class="tech-tag bg-sky-100/80 text-sky-700 border border-sky-300/60">
                                 <i class="fa-solid fa-microchip"></i> $_SESSION['board']
                             </span>
-                            <span class="tech-tag bg-slate-900 text-slate-300 border border-slate-700">
+                            <span class="tech-tag bg-slate-50 text-slate-700 border border-slate-300">
                                 <i class="fa-solid fa-table-cells"></i> 2D Matrix Traversal
                             </span>
-                            <span class="tech-tag bg-slate-900 text-slate-300 border border-slate-700">
+                            <span class="tech-tag bg-slate-50 text-slate-700 border border-slate-300">
                                 <i class="fa-solid fa-bolt"></i> O(1) 8-Way Win Algorithm
                             </span>
-                            <span class="tech-tag bg-slate-900 text-slate-300 border border-slate-700">
+                            <span class="tech-tag bg-slate-50 text-slate-700 border border-slate-300">
                                 <i class="fa-solid fa-server"></i> Zero-DB Architecture
                             </span>
-                            <span class="tech-tag bg-slate-900 text-slate-300 border border-slate-700">
+                            <span class="tech-tag bg-slate-50 text-slate-700 border border-slate-300">
                                 <i class="fa-solid fa-arrows-spin"></i> Stateful Turn Progression
                             </span>
-                            <span class="tech-tag bg-slate-900 text-slate-300 border border-slate-700">
+                            <span class="tech-tag bg-slate-50 text-slate-700 border border-slate-300">
                                 <i class="fa-solid fa-trash-can"></i> Session Reset Lifecycle
                             </span>
                         </div>
@@ -430,13 +430,13 @@
                                     <span class="h-3 w-3 rounded-full bg-amber-500/80 inline-block"></span>
                                     <span class="h-3 w-3 rounded-full bg-emerald-500/80 inline-block"></span>
                                 </div>
-                                <span class="font-mono text-xs text-slate-400 ml-2 hidden sm:inline">
+                                <span class="font-mono text-xs text-slate-600 ml-2 hidden sm:inline">
                                     workbench://sandbox/session-tictactoe.php
                                 </span>
                             </div>
 
                             <div class="flex items-center gap-2">
-                                <span class="inline-flex items-center px-2 py-0.5 rounded text-[11px] font-mono bg-sky-950 text-sky-300 border border-sky-800/80">
+                                <span class="inline-flex items-center px-2 py-0.5 rounded text-[11px] font-mono bg-sky-100 text-sky-700 border border-sky-300/80">
                                     <span class="h-1.5 w-1.5 rounded-full bg-sky-400 mr-1.5 animate-pulse"></span>
                                     PHP 8.3 Sandbox
                                 </span>
@@ -444,17 +444,17 @@
                         </div>
 
                         <!-- Viewport Frame Content -->
-                        <div class="p-5 sm:p-6 space-y-6 bg-slate-950/70">
+                        <div class="p-5 sm:p-6 space-y-6 bg-white/70">
                             
                             <!-- Sandbox Controls Top Bar -->
-                            <div class="flex items-center justify-between flex-wrap gap-2 pb-1 border-b border-slate-800/80">
+                            <div class="flex items-center justify-between flex-wrap gap-2 pb-1 border-b border-slate-200/80">
                                 <div class="flex items-center gap-2 text-xs font-mono">
-                                    <span class="text-slate-400">Turn State:</span>
-                                    <span id="ttt-current-turn" class="px-2.5 py-0.5 rounded bg-sky-950 text-sky-300 font-bold border border-sky-800">Player X</span>
+                                    <span class="text-slate-600">Turn State:</span>
+                                    <span id="ttt-current-turn" class="px-2.5 py-0.5 rounded bg-sky-100 text-sky-700 font-bold border border-sky-300">Player X</span>
                                 </div>
 
-                                <button type="button" onclick="window.tttResetGame()" class="px-2.5 py-1 rounded bg-slate-900 border border-slate-700 hover:border-slate-500 text-slate-300 hover:text-white font-mono text-[11px] flex items-center gap-1.5 transition-all">
-                                    <i class="fa-solid fa-rotate-right text-sky-400"></i>
+                                <button type="button" onclick="window.tttResetGame()" class="px-2.5 py-1 rounded bg-slate-50 border border-slate-300 hover:border-slate-400 text-slate-700 hover:text-slate-900 font-mono text-[11px] flex items-center gap-1.5 transition-all">
+                                    <i class="fa-solid fa-rotate-right text-sky-600"></i>
                                     <span>Reset Board</span>
                                 </button>
                             </div>
@@ -462,21 +462,21 @@
                             <!-- Interactive 3x3 Playable Board Area -->
                             <div class="flex flex-col items-center justify-center space-y-4 py-2">
                                 
-                                <div id="ttt-status-banner" class="w-full text-center py-2 px-3 rounded-lg bg-slate-900 border border-slate-800 text-xs font-semibold text-slate-300">
+                                <div id="ttt-status-banner" class="w-full text-center py-2 px-3 rounded-lg bg-slate-50 border border-slate-200 text-xs font-semibold text-slate-700">
                                     Game in progress. Click an open cell to move.
                                 </div>
 
                                 <!-- 3x3 Interactive Grid -->
-                                <div class="grid grid-cols-3 gap-2.5 w-60 h-60 p-2.5 bg-slate-900/90 rounded-2xl border border-slate-800 shadow-inner">
-                                    <button onclick="window.tttMakeMove(0,0)" id="cell-0-0" class="ttt-cell h-full w-full rounded-xl bg-slate-950 border border-slate-800 font-heading font-black text-2xl text-slate-100 flex items-center justify-center" aria-label="Cell 0,0"></button>
-                                    <button onclick="window.tttMakeMove(0,1)" id="cell-0-1" class="ttt-cell h-full w-full rounded-xl bg-slate-950 border border-slate-800 font-heading font-black text-2xl text-slate-100 flex items-center justify-center" aria-label="Cell 0,1"></button>
-                                    <button onclick="window.tttMakeMove(0,2)" id="cell-0-2" class="ttt-cell h-full w-full rounded-xl bg-slate-950 border border-slate-800 font-heading font-black text-2xl text-slate-100 flex items-center justify-center" aria-label="Cell 0,2"></button>
-                                    <button onclick="window.tttMakeMove(1,0)" id="cell-1-0" class="ttt-cell h-full w-full rounded-xl bg-slate-950 border border-slate-800 font-heading font-black text-2xl text-slate-100 flex items-center justify-center" aria-label="Cell 1,0"></button>
-                                    <button onclick="window.tttMakeMove(1,1)" id="cell-1-1" class="ttt-cell h-full w-full rounded-xl bg-slate-950 border border-slate-800 font-heading font-black text-2xl text-slate-100 flex items-center justify-center" aria-label="Cell 1,1"></button>
-                                    <button onclick="window.tttMakeMove(1,2)" id="cell-1-2" class="ttt-cell h-full w-full rounded-xl bg-slate-950 border border-slate-800 font-heading font-black text-2xl text-slate-100 flex items-center justify-center" aria-label="Cell 1,2"></button>
-                                    <button onclick="window.tttMakeMove(2,0)" id="cell-2-0" class="ttt-cell h-full w-full rounded-xl bg-slate-950 border border-slate-800 font-heading font-black text-2xl text-slate-100 flex items-center justify-center" aria-label="Cell 2,0"></button>
-                                    <button onclick="window.tttMakeMove(2,1)" id="cell-2-1" class="ttt-cell h-full w-full rounded-xl bg-slate-950 border border-slate-800 font-heading font-black text-2xl text-slate-100 flex items-center justify-center" aria-label="Cell 2,1"></button>
-                                    <button onclick="window.tttMakeMove(2,2)" id="cell-2-2" class="ttt-cell h-full w-full rounded-xl bg-slate-950 border border-slate-800 font-heading font-black text-2xl text-slate-100 flex items-center justify-center" aria-label="Cell 2,2"></button>
+                                <div class="grid grid-cols-3 gap-2.5 w-60 h-60 p-2.5 bg-slate-50/90 rounded-2xl border border-slate-200 shadow-inner">
+                                    <button onclick="window.tttMakeMove(0,0)" id="cell-0-0" class="ttt-cell h-full w-full rounded-xl bg-white border border-slate-200 font-heading font-black text-2xl text-slate-900 flex items-center justify-center" aria-label="Cell 0,0"></button>
+                                    <button onclick="window.tttMakeMove(0,1)" id="cell-0-1" class="ttt-cell h-full w-full rounded-xl bg-white border border-slate-200 font-heading font-black text-2xl text-slate-900 flex items-center justify-center" aria-label="Cell 0,1"></button>
+                                    <button onclick="window.tttMakeMove(0,2)" id="cell-0-2" class="ttt-cell h-full w-full rounded-xl bg-white border border-slate-200 font-heading font-black text-2xl text-slate-900 flex items-center justify-center" aria-label="Cell 0,2"></button>
+                                    <button onclick="window.tttMakeMove(1,0)" id="cell-1-0" class="ttt-cell h-full w-full rounded-xl bg-white border border-slate-200 font-heading font-black text-2xl text-slate-900 flex items-center justify-center" aria-label="Cell 1,0"></button>
+                                    <button onclick="window.tttMakeMove(1,1)" id="cell-1-1" class="ttt-cell h-full w-full rounded-xl bg-white border border-slate-200 font-heading font-black text-2xl text-slate-900 flex items-center justify-center" aria-label="Cell 1,1"></button>
+                                    <button onclick="window.tttMakeMove(1,2)" id="cell-1-2" class="ttt-cell h-full w-full rounded-xl bg-white border border-slate-200 font-heading font-black text-2xl text-slate-900 flex items-center justify-center" aria-label="Cell 1,2"></button>
+                                    <button onclick="window.tttMakeMove(2,0)" id="cell-2-0" class="ttt-cell h-full w-full rounded-xl bg-white border border-slate-200 font-heading font-black text-2xl text-slate-900 flex items-center justify-center" aria-label="Cell 2,0"></button>
+                                    <button onclick="window.tttMakeMove(2,1)" id="cell-2-1" class="ttt-cell h-full w-full rounded-xl bg-white border border-slate-200 font-heading font-black text-2xl text-slate-900 flex items-center justify-center" aria-label="Cell 2,1"></button>
+                                    <button onclick="window.tttMakeMove(2,2)" id="cell-2-2" class="ttt-cell h-full w-full rounded-xl bg-white border border-slate-200 font-heading font-black text-2xl text-slate-900 flex items-center justify-center" aria-label="Cell 2,2"></button>
                                 </div>
 
                                 <div class="text-[11px] text-slate-500 font-mono text-center">
@@ -485,15 +485,15 @@
                             </div>
 
                             <!-- Real-Time State Inspector -->
-                            <div class="space-y-2 pt-2 border-t border-slate-800/80">
+                            <div class="space-y-2 pt-2 border-t border-slate-200/80">
                                 <div class="flex items-center justify-between text-xs font-mono">
-                                    <span class="text-slate-400 flex items-center gap-1.5">
-                                        <i class="fa-solid fa-terminal text-sky-400"></i> Real-Time State Inspector
+                                    <span class="text-slate-600 flex items-center gap-1.5">
+                                        <i class="fa-solid fa-terminal text-sky-600"></i> Real-Time State Inspector
                                     </span>
-                                    <span class="text-sky-400 font-bold text-[11px]">$_SESSION Array View</span>
+                                    <span class="text-sky-600 font-bold text-[11px]">$_SESSION Array View</span>
                                 </div>
                                 
-                                <div class="code-container p-3.5 text-sky-300 font-mono text-xs overflow-x-auto max-h-48">
+                                <div class="code-container p-3.5 text-sky-700 font-mono text-xs overflow-x-auto max-h-48">
                                     <pre id="ttt-session-dump">$_SESSION = [
   'board' => [
     0 => ['', '', ''],
@@ -530,59 +530,59 @@
                     <!-- Module Header -->
                     <div class="space-y-2">
                         <div class="flex items-center gap-2">
-                            <span class="px-2.5 py-0.5 rounded text-xs font-mono font-bold bg-amber-950 text-amber-400 border border-amber-800/70">
+                            <span class="px-2.5 py-0.5 rounded text-xs font-mono font-bold bg-amber-100 text-amber-600 border border-amber-300/70">
                                 MODULE 02
                             </span>
-                            <span class="text-xs font-mono text-slate-400">Application Security &amp; Sanitization</span>
+                            <span class="text-xs font-mono text-slate-600">Application Security &amp; Sanitization</span>
                         </div>
-                        <h2 class="font-heading font-black text-2xl text-slate-100">
+                        <h2 class="font-heading font-black text-2xl text-slate-900">
                             Secure Email Contact Form: Input Sanitization &amp; Native mail()
                         </h2>
-                        <p class="text-slate-300 text-sm leading-relaxed prose-measure">
+                        <p class="text-slate-700 text-sm leading-relaxed prose-measure">
                             Processing untrusted user input is a core server-side responsibility. This module covers RFC-compliant email validation, XSS prevention via <code>htmlspecialchars()</code>, and defense against CRLF email header injection attacks.
                         </p>
                     </div>
 
                     <!-- Core Architectural Components Grid -->
                     <div class="space-y-3">
-                        <h3 class="font-heading font-bold text-sm text-slate-200 flex items-center gap-2 border-b border-slate-800 pb-2">
-                            <i class="fa-solid fa-shield-halved text-amber-400"></i>
+                        <h3 class="font-heading font-bold text-sm text-slate-800 flex items-center gap-2 border-b border-slate-200 pb-2">
+                            <i class="fa-solid fa-shield-halved text-amber-600"></i>
                             Security &amp; Pipeline Mechanics
                         </h3>
 
                         <div class="grid grid-cols-1 sm:grid-cols-2 gap-3 text-xs">
-                            <div class="bg-slate-900/90 p-3.5 rounded-xl border border-slate-800/90 space-y-1">
-                                <div class="text-amber-300 font-bold flex items-center gap-1.5">
+                            <div class="bg-slate-50/90 p-3.5 rounded-xl border border-slate-200/90 space-y-1">
+                                <div class="text-amber-700 font-bold flex items-center gap-1.5">
                                     <i class="fa-solid fa-filter"></i> filter_var() Validation
                                 </div>
-                                <p class="text-slate-400 prose-measure">
+                                <p class="text-slate-600 prose-measure">
                                     Uses <code>FILTER_VALIDATE_EMAIL</code> against RFC 5322 specs to reject malformed sender addresses.
                                 </p>
                             </div>
 
-                            <div class="bg-slate-900/90 p-3.5 rounded-xl border border-slate-800/90 space-y-1">
-                                <div class="text-amber-300 font-bold flex items-center gap-1.5">
+                            <div class="bg-slate-50/90 p-3.5 rounded-xl border border-slate-200/90 space-y-1">
+                                <div class="text-amber-700 font-bold flex items-center gap-1.5">
                                     <i class="fa-solid fa-shield-virus"></i> CRLF Injection Defense
                                 </div>
-                                <p class="text-slate-400 prose-measure">
+                                <p class="text-slate-600 prose-measure">
                                     Strips carriage returns (<code>\r\n</code>) from the subject line to prevent arbitrary BCC header injection.
                                 </p>
                             </div>
 
-                            <div class="bg-slate-900/90 p-3.5 rounded-xl border border-slate-800/90 space-y-1">
-                                <div class="text-amber-300 font-bold flex items-center gap-1.5">
+                            <div class="bg-slate-50/90 p-3.5 rounded-xl border border-slate-200/90 space-y-1">
+                                <div class="text-amber-700 font-bold flex items-center gap-1.5">
                                     <i class="fa-solid fa-broom"></i> htmlspecialchars()
                                 </div>
-                                <p class="text-slate-400 prose-measure">
+                                <p class="text-slate-600 prose-measure">
                                     Escapes HTML special entities (<code>ENT_QUOTES, 'UTF-8'</code>) to neutralize Stored/Reflected XSS attacks.
                                 </p>
                             </div>
 
-                            <div class="bg-slate-900/90 p-3.5 rounded-xl border border-slate-800/90 space-y-1">
-                                <div class="text-amber-300 font-bold flex items-center gap-1.5">
+                            <div class="bg-slate-50/90 p-3.5 rounded-xl border border-slate-200/90 space-y-1">
+                                <div class="text-amber-700 font-bold flex items-center gap-1.5">
                                     <i class="fa-solid fa-paper-plane"></i> MIME Header Assembly
                                 </div>
-                                <p class="text-slate-400 prose-measure">
+                                <p class="text-slate-600 prose-measure">
                                     Constructs structured headers (<code>From</code>, <code>Reply-To</code>, <code>Content-Type</code>) for the <code>mail()</code> dispatcher.
                                 </p>
                             </div>
@@ -591,52 +591,52 @@
 
                     <!-- Reference Implementation Code Snippet -->
                     <div class="space-y-2">
-                        <div class="flex items-center justify-between text-xs font-mono text-slate-400">
-                            <span class="flex items-center gap-1.5 font-semibold text-slate-300">
-                                <i class="fa-solid fa-code text-amber-400"></i> Reference PHP Sanitizer
+                        <div class="flex items-center justify-between text-xs font-mono text-slate-600">
+                            <span class="flex items-center gap-1.5 font-semibold text-slate-700">
+                                <i class="fa-solid fa-code text-amber-600"></i> Reference PHP Sanitizer
                             </span>
-                            <span class="text-amber-400 text-[11px]">filter_var()</span>
+                            <span class="text-amber-600 text-[11px]">filter_var()</span>
                         </div>
 
-                        <div class="code-container p-4 text-slate-300 overflow-x-auto text-[11px] leading-relaxed">
+                        <div class="code-container p-4 text-slate-700 overflow-x-auto text-[11px] leading-relaxed">
 <pre><span class="text-slate-500">// 1. Sanitize &amp; Validate POST Inputs</span>
-<span class="text-slate-200">$name</span>    = <span class="text-sky-300">htmlspecialchars</span>(<span class="text-sky-300">trim</span>(<span class="text-slate-200">$_POST</span>[<span class="text-emerald-300">'name'</span>] ?? <span class="text-emerald-300">''</span>), <span class="text-amber-300">ENT_QUOTES</span>, <span class="text-emerald-300">'UTF-8'</span>);
-<span class="text-slate-200">$email</span>   = <span class="text-sky-300">filter_var</span>(<span class="text-sky-300">trim</span>(<span class="text-slate-200">$_POST</span>[<span class="text-emerald-300">'email'</span>] ?? <span class="text-emerald-300">''</span>), <span class="text-amber-300">FILTER_VALIDATE_EMAIL</span>);
-<span class="text-slate-200">$subject</span> = <span class="text-sky-300">preg_replace</span>(<span class="text-emerald-300">'/[\r\n]+/'</span>, <span class="text-emerald-300">' '</span>, <span class="text-sky-300">trim</span>(<span class="text-slate-200">$_POST</span>[<span class="text-emerald-300">'subject'</span>] ?? <span class="text-emerald-300">''</span>));
-<span class="text-slate-200">$message</span> = <span class="text-sky-300">htmlspecialchars</span>(<span class="text-sky-300">trim</span>(<span class="text-slate-200">$_POST</span>[<span class="text-emerald-300">'message'</span>] ?? <span class="text-emerald-300">''</span>), <span class="text-amber-300">ENT_QUOTES</span>, <span class="text-emerald-300">'UTF-8'</span>);
+<span class="text-slate-800">$name</span>    = <span class="text-sky-700">htmlspecialchars</span>(<span class="text-sky-700">trim</span>(<span class="text-slate-800">$_POST</span>[<span class="text-emerald-700">'name'</span>] ?? <span class="text-emerald-700">''</span>), <span class="text-amber-700">ENT_QUOTES</span>, <span class="text-emerald-700">'UTF-8'</span>);
+<span class="text-slate-800">$email</span>   = <span class="text-sky-700">filter_var</span>(<span class="text-sky-700">trim</span>(<span class="text-slate-800">$_POST</span>[<span class="text-emerald-700">'email'</span>] ?? <span class="text-emerald-700">''</span>), <span class="text-amber-700">FILTER_VALIDATE_EMAIL</span>);
+<span class="text-slate-800">$subject</span> = <span class="text-sky-700">preg_replace</span>(<span class="text-emerald-700">'/[\r\n]+/'</span>, <span class="text-emerald-700">' '</span>, <span class="text-sky-700">trim</span>(<span class="text-slate-800">$_POST</span>[<span class="text-emerald-700">'subject'</span>] ?? <span class="text-emerald-700">''</span>));
+<span class="text-slate-800">$message</span> = <span class="text-sky-700">htmlspecialchars</span>(<span class="text-sky-700">trim</span>(<span class="text-slate-800">$_POST</span>[<span class="text-emerald-700">'message'</span>] ?? <span class="text-emerald-700">''</span>), <span class="text-amber-700">ENT_QUOTES</span>, <span class="text-emerald-700">'UTF-8'</span>);
 
 <span class="text-slate-500">// 2. Defensive Header Construction &amp; Dispatch</span>
-<span class="text-slate-400">if</span> (<span class="text-slate-200">$email</span> &amp;&amp; !<span class="text-sky-300">empty</span>(<span class="text-slate-200">$name</span>) &amp;&amp; !<span class="text-sky-300">empty</span>(<span class="text-slate-200">$message</span>)) {
-    <span class="text-slate-200">$headers</span> = <span class="text-emerald-300">"From: webmaster@example.com\r\n"</span> .
-               <span class="text-emerald-300">"Reply-To: {$email}\r\n"</span> .
-               <span class="text-emerald-300">"Content-Type: text/plain; charset=UTF-8"</span>;
-    <span class="text-sky-300">mail</span>(<span class="text-emerald-300">"contact@example.com"</span>, <span class="text-slate-200">$subject</span>, <span class="text-slate-200">$message</span>, <span class="text-slate-200">$headers</span>);
+<span class="text-slate-600">if</span> (<span class="text-slate-800">$email</span> &amp;&amp; !<span class="text-sky-700">empty</span>(<span class="text-slate-800">$name</span>) &amp;&amp; !<span class="text-sky-700">empty</span>(<span class="text-slate-800">$message</span>)) {
+    <span class="text-slate-800">$headers</span> = <span class="text-emerald-700">"From: webmaster@example.com\r\n"</span> .
+               <span class="text-emerald-700">"Reply-To: {$email}\r\n"</span> .
+               <span class="text-emerald-700">"Content-Type: text/plain; charset=UTF-8"</span>;
+    <span class="text-sky-700">mail</span>(<span class="text-emerald-700">"contact@example.com"</span>, <span class="text-slate-800">$subject</span>, <span class="text-slate-800">$message</span>, <span class="text-slate-800">$headers</span>);
 }</pre>
                         </div>
                     </div>
 
                     <!-- Project-Specific Technical Tags -->
                     <div class="space-y-2 pt-2">
-                        <div class="text-[11px] font-mono text-slate-400 uppercase tracking-wider font-semibold">
+                        <div class="text-[11px] font-mono text-slate-600 uppercase tracking-wider font-semibold">
                             Module Technical Specifications:
                         </div>
                         <div class="flex flex-wrap gap-1.5">
-                            <span class="tech-tag bg-amber-950/80 text-amber-300 border border-amber-800/60">
+                            <span class="tech-tag bg-amber-100/80 text-amber-700 border border-amber-300/60">
                                 <i class="fa-solid fa-filter"></i> filter_var(FILTER_VALIDATE_EMAIL)
                             </span>
-                            <span class="tech-tag bg-slate-900 text-slate-300 border border-slate-700">
+                            <span class="tech-tag bg-slate-50 text-slate-700 border border-slate-300">
                                 <i class="fa-solid fa-code"></i> htmlspecialchars(ENT_QUOTES)
                             </span>
-                            <span class="tech-tag bg-slate-900 text-slate-300 border border-slate-700">
+                            <span class="tech-tag bg-slate-50 text-slate-700 border border-slate-300">
                                 <i class="fa-solid fa-shield-halved"></i> CRLF Injection Defense
                             </span>
-                            <span class="tech-tag bg-slate-900 text-slate-300 border border-slate-700">
+                            <span class="tech-tag bg-slate-50 text-slate-700 border border-slate-300">
                                 <i class="fa-solid fa-envelope"></i> MIME Header Construction
                             </span>
-                            <span class="tech-tag bg-slate-900 text-slate-300 border border-slate-700">
+                            <span class="tech-tag bg-slate-50 text-slate-700 border border-slate-300">
                                 <i class="fa-solid fa-database"></i> POST Payload Sanitization
                             </span>
-                            <span class="tech-tag bg-slate-900 text-slate-300 border border-slate-700">
+                            <span class="tech-tag bg-slate-50 text-slate-700 border border-slate-300">
                                 <i class="fa-solid fa-paper-plane"></i> Native mail() Protocol
                             </span>
                         </div>
@@ -658,13 +658,13 @@
                                     <span class="h-3 w-3 rounded-full bg-amber-500/80 inline-block"></span>
                                     <span class="h-3 w-3 rounded-full bg-emerald-500/80 inline-block"></span>
                                 </div>
-                                <span class="font-mono text-xs text-slate-400 ml-2 hidden sm:inline">
+                                <span class="font-mono text-xs text-slate-600 ml-2 hidden sm:inline">
                                     workbench://sandbox/mail-sanitizer.php
                                 </span>
                             </div>
 
                             <div class="flex items-center gap-2">
-                                <span class="inline-flex items-center px-2 py-0.5 rounded text-[11px] font-mono bg-amber-950 text-amber-300 border border-amber-800/80">
+                                <span class="inline-flex items-center px-2 py-0.5 rounded text-[11px] font-mono bg-amber-100 text-amber-700 border border-amber-300/80">
                                     <span class="h-1.5 w-1.5 rounded-full bg-amber-400 mr-1.5 animate-pulse"></span>
                                     Live Sanitizer Engine
                                 </span>
@@ -672,59 +672,59 @@
                         </div>
 
                         <!-- Viewport Frame Content -->
-                        <div class="p-5 sm:p-6 space-y-5 bg-slate-950/70">
+                        <div class="p-5 sm:p-6 space-y-5 bg-white/70">
                             
                             <!-- Test Presets Bar -->
                             <div class="flex items-center justify-between flex-wrap gap-2 text-xs">
-                                <span class="text-slate-400 font-mono text-[11px]">Payload Presets:</span>
+                                <span class="text-slate-600 font-mono text-[11px]">Payload Presets:</span>
                                 <div class="flex flex-wrap gap-1.5">
-                                    <button type="button" onclick="setContactPreset('valid')" class="px-2 py-0.5 rounded bg-slate-900 border border-slate-700 hover:border-amber-400 text-slate-300 font-mono text-[11px] transition-all">
+                                    <button type="button" onclick="setContactPreset('valid')" class="px-2 py-0.5 rounded bg-slate-50 border border-slate-300 hover:border-amber-400 text-slate-700 font-mono text-[11px] transition-all">
                                         Valid Input
                                     </button>
-                                    <button type="button" onclick="setContactPreset('xss')" class="px-2 py-0.5 rounded bg-slate-900 border border-slate-700 hover:border-amber-400 text-rose-300 font-mono text-[11px] transition-all">
+                                    <button type="button" onclick="setContactPreset('xss')" class="px-2 py-0.5 rounded bg-slate-50 border border-slate-300 hover:border-amber-400 text-rose-700 font-mono text-[11px] transition-all">
                                         XSS Attack Test
                                     </button>
-                                    <button type="button" onclick="setContactPreset('crlf')" class="px-2 py-0.5 rounded bg-slate-900 border border-slate-700 hover:border-amber-400 text-amber-300 font-mono text-[11px] transition-all">
+                                    <button type="button" onclick="setContactPreset('crlf')" class="px-2 py-0.5 rounded bg-slate-50 border border-slate-300 hover:border-amber-400 text-amber-700 font-mono text-[11px] transition-all">
                                         CRLF Injection Test
                                     </button>
                                 </div>
                             </div>
 
                             <!-- Live Form Sandbox -->
-                            <form id="contact-form" onsubmit="event.preventDefault(); window.processContactForm();" class="space-y-3 text-xs bg-slate-900/80 p-4 rounded-xl border border-slate-800">
+                            <form id="contact-form" onsubmit="event.preventDefault(); window.processContactForm();" class="space-y-3 text-xs bg-slate-50/80 p-4 rounded-xl border border-slate-200">
                                 
                                 <div class="grid grid-cols-1 sm:grid-cols-2 gap-3">
                                     <div class="space-y-1">
-                                        <label class="text-[11px] text-slate-300 font-semibold flex items-center justify-between">
+                                        <label class="text-[11px] text-slate-700 font-semibold flex items-center justify-between">
                                             <span>Sender Name *</span>
                                             <span class="text-slate-500 font-mono text-[10px]">trim()</span>
                                         </label>
-                                        <input type="text" id="cf-name" value="Jane Doe" required class="w-full bg-slate-950 border border-slate-700/80 rounded-lg px-3 py-2 text-slate-100 text-xs focus:border-amber-400 focus:outline-none">
+                                        <input type="text" id="cf-name" value="Jane Doe" required class="w-full bg-white border border-slate-300/80 rounded-lg px-3 py-2 text-slate-900 text-xs focus:border-amber-400 focus:outline-none">
                                     </div>
 
                                     <div class="space-y-1">
-                                        <label class="text-[11px] text-slate-300 font-semibold flex items-center justify-between">
+                                        <label class="text-[11px] text-slate-700 font-semibold flex items-center justify-between">
                                             <span>Email Address *</span>
                                             <span class="text-slate-500 font-mono text-[10px]">filter_var</span>
                                         </label>
-                                        <input type="email" id="cf-email" value="jane@example.com" required class="w-full bg-slate-950 border border-slate-700/80 rounded-lg px-3 py-2 text-slate-100 text-xs focus:border-amber-400 focus:outline-none">
+                                        <input type="email" id="cf-email" value="jane@example.com" required class="w-full bg-white border border-slate-300/80 rounded-lg px-3 py-2 text-slate-900 text-xs focus:border-amber-400 focus:outline-none">
                                     </div>
                                 </div>
 
                                 <div class="space-y-1">
-                                    <label class="text-[11px] text-slate-300 font-semibold flex items-center justify-between">
+                                    <label class="text-[11px] text-slate-700 font-semibold flex items-center justify-between">
                                         <span>Subject Line *</span>
                                         <span class="text-slate-500 font-mono text-[10px]">preg_replace CRLF</span>
                                     </label>
-                                    <input type="text" id="cf-subject" value="Inquiry regarding PHP server architecture" required class="w-full bg-slate-950 border border-slate-700/80 rounded-lg px-3 py-2 text-slate-100 text-xs focus:border-amber-400 focus:outline-none">
+                                    <input type="text" id="cf-subject" value="Inquiry regarding PHP server architecture" required class="w-full bg-white border border-slate-300/80 rounded-lg px-3 py-2 text-slate-900 text-xs focus:border-amber-400 focus:outline-none">
                                 </div>
 
                                 <div class="space-y-1">
-                                    <label class="text-[11px] text-slate-300 font-semibold flex items-center justify-between">
+                                    <label class="text-[11px] text-slate-700 font-semibold flex items-center justify-between">
                                         <span>Message Body *</span>
                                         <span class="text-slate-500 font-mono text-[10px]">htmlspecialchars()</span>
                                     </label>
-                                    <textarea id="cf-message" rows="3" required class="w-full bg-slate-950 border border-slate-700/80 rounded-lg px-3 py-2 text-slate-100 text-xs focus:border-amber-400 focus:outline-none">Hello! Exploring server-side input sanitization, RFC 5322 validation, and defensive mail dispatch.</textarea>
+                                    <textarea id="cf-message" rows="3" required class="w-full bg-white border border-slate-300/80 rounded-lg px-3 py-2 text-slate-900 text-xs focus:border-amber-400 focus:outline-none">Hello! Exploring server-side input sanitization, RFC 5322 validation, and defensive mail dispatch.</textarea>
                                 </div>
 
                                 <button type="submit" class="w-full py-2.5 rounded-lg bg-amber-500 hover:bg-amber-400 text-slate-950 font-bold text-xs flex items-center justify-center gap-2 transition-all shadow-sm">
@@ -734,15 +734,15 @@
                             </form>
 
                             <!-- Real-Time State & Header Inspector -->
-                            <div class="space-y-2 pt-1 border-t border-slate-800/80">
+                            <div class="space-y-2 pt-1 border-t border-slate-200/80">
                                 <div class="flex items-center justify-between text-xs font-mono">
-                                    <span class="text-slate-400 flex items-center gap-1.5">
-                                        <i class="fa-solid fa-terminal text-amber-400"></i> Server Evaluation &amp; MIME Dispatch
+                                    <span class="text-slate-600 flex items-center gap-1.5">
+                                        <i class="fa-solid fa-terminal text-amber-600"></i> Server Evaluation &amp; MIME Dispatch
                                     </span>
-                                    <span id="cf-status-tag" class="text-emerald-400 font-bold text-[11px]">Ready (200 OK)</span>
+                                    <span id="cf-status-tag" class="text-emerald-600 font-bold text-[11px]">Ready (200 OK)</span>
                                 </div>
                                 
-                                <div class="code-container p-3.5 text-amber-300 font-mono text-xs overflow-x-auto max-h-48">
+                                <div class="code-container p-3.5 text-amber-700 font-mono text-xs overflow-x-auto max-h-48">
                                     <pre id="cf-terminal-output">// Submit the form or choose a payload preset to see
 // server-side variable sanitization, regex checks, and mail() output.</pre>
                                 </div>
@@ -771,59 +771,59 @@
                     <!-- Module Header -->
                     <div class="space-y-2">
                         <div class="flex items-center gap-2">
-                            <span class="px-2.5 py-0.5 rounded text-xs font-mono font-bold bg-emerald-950 text-emerald-400 border border-emerald-800/70">
+                            <span class="px-2.5 py-0.5 rounded text-xs font-mono font-bold bg-emerald-100 text-emerald-600 border border-emerald-300/70">
                                 MODULE 03
                             </span>
-                            <span class="text-xs font-mono text-slate-400">Database &amp; Cryptographic Pipeline</span>
+                            <span class="text-xs font-mono text-slate-600">Database &amp; Cryptographic Pipeline</span>
                         </div>
-                        <h2 class="font-heading font-black text-2xl text-slate-100">
+                        <h2 class="font-heading font-black text-2xl text-slate-900">
                             User Authentication: PDO Prepared Statements &amp; Bcrypt
                         </h2>
-                        <p class="text-slate-300 text-sm leading-relaxed prose-measure">
+                        <p class="text-slate-700 text-sm leading-relaxed prose-measure">
                             Authentication is the cornerstone of modern web applications. This module implements industry-standard password hashing via <code>password_hash()</code> with blowfish cost factors, timing-attack-safe verification, PDO SQL parameter binding, and session fixation mitigation.
                         </p>
                     </div>
 
                     <!-- Core Architectural Components Grid -->
                     <div class="space-y-3">
-                        <h3 class="font-heading font-bold text-sm text-slate-200 flex items-center gap-2 border-b border-slate-800 pb-2">
-                            <i class="fa-solid fa-key text-emerald-400"></i>
+                        <h3 class="font-heading font-bold text-sm text-slate-800 flex items-center gap-2 border-b border-slate-200 pb-2">
+                            <i class="fa-solid fa-key text-emerald-600"></i>
                             Cryptographic &amp; State Security
                         </h3>
 
                         <div class="grid grid-cols-1 sm:grid-cols-2 gap-3 text-xs">
-                            <div class="bg-slate-900/90 p-3.5 rounded-xl border border-slate-800/90 space-y-1">
-                                <div class="text-emerald-300 font-bold flex items-center gap-1.5">
+                            <div class="bg-slate-50/90 p-3.5 rounded-xl border border-slate-200/90 space-y-1">
+                                <div class="text-emerald-700 font-bold flex items-center gap-1.5">
                                     <i class="fa-solid fa-fingerprint"></i> Bcrypt Cost Factor
                                 </div>
-                                <p class="text-slate-400 prose-measure">
+                                <p class="text-slate-600 prose-measure">
                                     Employs <code>PASSWORD_BCRYPT</code> with algorithmic cost 12 to withstand high-speed offline dictionary attacks.
                                 </p>
                             </div>
 
-                            <div class="bg-slate-900/90 p-3.5 rounded-xl border border-slate-800/90 space-y-1">
-                                <div class="text-emerald-300 font-bold flex items-center gap-1.5">
+                            <div class="bg-slate-50/90 p-3.5 rounded-xl border border-slate-200/90 space-y-1">
+                                <div class="text-emerald-700 font-bold flex items-center gap-1.5">
                                     <i class="fa-solid fa-stopwatch"></i> Timing-Safe Verification
                                 </div>
-                                <p class="text-slate-400 prose-measure">
+                                <p class="text-slate-600 prose-measure">
                                     Uses <code>password_verify()</code> to compute constant-time hash comparisons, eliminating side-channel timing leaks.
                                 </p>
                             </div>
 
-                            <div class="bg-slate-900/90 p-3.5 rounded-xl border border-slate-800/90 space-y-1">
-                                <div class="text-emerald-300 font-bold flex items-center gap-1.5">
+                            <div class="bg-slate-50/90 p-3.5 rounded-xl border border-slate-200/90 space-y-1">
+                                <div class="text-emerald-700 font-bold flex items-center gap-1.5">
                                     <i class="fa-solid fa-shield-halved"></i> PDO Prepared Statements
                                 </div>
-                                <p class="text-slate-400 prose-measure">
+                                <p class="text-slate-600 prose-measure">
                                     Separates SQL code from user parameters, rendering SQL injection vulnerabilities structurally impossible.
                                 </p>
                             </div>
 
-                            <div class="bg-slate-900/90 p-3.5 rounded-xl border border-slate-800/90 space-y-1">
-                                <div class="text-emerald-300 font-bold flex items-center gap-1.5">
+                            <div class="bg-slate-50/90 p-3.5 rounded-xl border border-slate-200/90 space-y-1">
+                                <div class="text-emerald-700 font-bold flex items-center gap-1.5">
                                     <i class="fa-solid fa-arrows-rotate"></i> Session Fixation Defense
                                 </div>
-                                <p class="text-slate-400 prose-measure">
+                                <p class="text-slate-600 prose-measure">
                                     Calls <code>session_regenerate_id(true)</code> on successful credential validation to invalidate old session tokens.
                                 </p>
                             </div>
@@ -832,54 +832,54 @@
 
                     <!-- Reference Implementation Code Snippet -->
                     <div class="space-y-2">
-                        <div class="flex items-center justify-between text-xs font-mono text-slate-400">
-                            <span class="flex items-center gap-1.5 font-semibold text-slate-300">
-                                <i class="fa-solid fa-code text-emerald-400"></i> Reference PHP PDO &amp; Bcrypt
+                        <div class="flex items-center justify-between text-xs font-mono text-slate-600">
+                            <span class="flex items-center gap-1.5 font-semibold text-slate-700">
+                                <i class="fa-solid fa-code text-emerald-600"></i> Reference PHP PDO &amp; Bcrypt
                             </span>
-                            <span class="text-emerald-400 text-[11px]">password_hash()</span>
+                            <span class="text-emerald-600 text-[11px]">password_hash()</span>
                         </div>
 
-                        <div class="code-container p-4 text-slate-300 overflow-x-auto text-[11px] leading-relaxed">
+                        <div class="code-container p-4 text-slate-700 overflow-x-auto text-[11px] leading-relaxed">
 <pre><span class="text-slate-500">// 1. User Registration with Bcrypt Hash</span>
-<span class="text-slate-200">$hash</span> = <span class="text-sky-300">password_hash</span>(<span class="text-slate-200">$password</span>, <span class="text-emerald-300">PASSWORD_BCRYPT</span>, [<span class="text-emerald-300">'cost'</span> =&gt; 12]);
-<span class="text-slate-200">$stmt</span> = <span class="text-slate-200">$pdo</span>-&gt;<span class="text-sky-300">prepare</span>(<span class="text-emerald-300">"INSERT INTO users (username, email, password_hash) VALUES (?, ?, ?)"</span>);
-<span class="text-slate-200">$stmt</span>-&gt;<span class="text-sky-300">execute</span>([<span class="text-slate-200">$username</span>, <span class="text-slate-200">$email</span>, <span class="text-slate-200">$hash</span>]);
+<span class="text-slate-800">$hash</span> = <span class="text-sky-700">password_hash</span>(<span class="text-slate-800">$password</span>, <span class="text-emerald-700">PASSWORD_BCRYPT</span>, [<span class="text-emerald-700">'cost'</span> =&gt; 12]);
+<span class="text-slate-800">$stmt</span> = <span class="text-slate-800">$pdo</span>-&gt;<span class="text-sky-700">prepare</span>(<span class="text-emerald-700">"INSERT INTO users (username, email, password_hash) VALUES (?, ?, ?)"</span>);
+<span class="text-slate-800">$stmt</span>-&gt;<span class="text-sky-700">execute</span>([<span class="text-slate-800">$username</span>, <span class="text-slate-800">$email</span>, <span class="text-slate-800">$hash</span>]);
 
 <span class="text-slate-500">// 2. Login Verification &amp; Session Fixation Defense</span>
-<span class="text-slate-200">$stmt</span> = <span class="text-slate-200">$pdo</span>-&gt;<span class="text-sky-300">prepare</span>(<span class="text-emerald-300">"SELECT * FROM users WHERE username = ?"</span>);
-<span class="text-slate-200">$stmt</span>-&gt;<span class="text-sky-300">execute</span>([<span class="text-slate-200">$username</span>]);
-<span class="text-slate-200">$user</span> = <span class="text-slate-200">$stmt</span>-&gt;<span class="text-sky-300">fetch</span>();
+<span class="text-slate-800">$stmt</span> = <span class="text-slate-800">$pdo</span>-&gt;<span class="text-sky-700">prepare</span>(<span class="text-emerald-700">"SELECT * FROM users WHERE username = ?"</span>);
+<span class="text-slate-800">$stmt</span>-&gt;<span class="text-sky-700">execute</span>([<span class="text-slate-800">$username</span>]);
+<span class="text-slate-800">$user</span> = <span class="text-slate-800">$stmt</span>-&gt;<span class="text-sky-700">fetch</span>();
 
-<span class="text-slate-400">if</span> (<span class="text-slate-200">$user</span> &amp;&amp; <span class="text-sky-300">password_verify</span>(<span class="text-slate-200">$password</span>, <span class="text-slate-200">$user</span>[<span class="text-emerald-300">'password_hash'</span>])) {
-    <span class="text-sky-300">session_regenerate_id</span>(<span class="text-slate-400">true</span>); <span class="text-slate-500">// Neutralize Fixation</span>
-    <span class="text-slate-200">$_SESSION</span>[<span class="text-emerald-300">'user_id'</span>] = <span class="text-slate-200">$user</span>[<span class="text-emerald-300">'id'</span>];
-    <span class="text-slate-200">$_SESSION</span>[<span class="text-emerald-300">'username'</span>] = <span class="text-slate-200">$user</span>[<span class="text-emerald-300">'username'</span>];
+<span class="text-slate-600">if</span> (<span class="text-slate-800">$user</span> &amp;&amp; <span class="text-sky-700">password_verify</span>(<span class="text-slate-800">$password</span>, <span class="text-slate-800">$user</span>[<span class="text-emerald-700">'password_hash'</span>])) {
+    <span class="text-sky-700">session_regenerate_id</span>(<span class="text-slate-600">true</span>); <span class="text-slate-500">// Neutralize Fixation</span>
+    <span class="text-slate-800">$_SESSION</span>[<span class="text-emerald-700">'user_id'</span>] = <span class="text-slate-800">$user</span>[<span class="text-emerald-700">'id'</span>];
+    <span class="text-slate-800">$_SESSION</span>[<span class="text-emerald-700">'username'</span>] = <span class="text-slate-800">$user</span>[<span class="text-emerald-700">'username'</span>];
 }</pre>
                         </div>
                     </div>
 
                     <!-- Project-Specific Technical Tags -->
                     <div class="space-y-2 pt-2">
-                        <div class="text-[11px] font-mono text-slate-400 uppercase tracking-wider font-semibold">
+                        <div class="text-[11px] font-mono text-slate-600 uppercase tracking-wider font-semibold">
                             Module Technical Specifications:
                         </div>
                         <div class="flex flex-wrap gap-1.5">
-                            <span class="tech-tag bg-emerald-950/80 text-emerald-300 border border-emerald-800/60">
+                            <span class="tech-tag bg-emerald-100/80 text-emerald-700 border border-emerald-300/60">
                                 <i class="fa-solid fa-key"></i> password_hash(BCRYPT, cost: 12)
                             </span>
-                            <span class="tech-tag bg-slate-900 text-slate-300 border border-slate-700">
+                            <span class="tech-tag bg-slate-50 text-slate-700 border border-slate-300">
                                 <i class="fa-solid fa-stopwatch"></i> password_verify() Constant-Time
                             </span>
-                            <span class="tech-tag bg-slate-900 text-slate-300 border border-slate-700">
+                            <span class="tech-tag bg-slate-50 text-slate-700 border border-slate-300">
                                 <i class="fa-solid fa-shield"></i> session_regenerate_id(true)
                             </span>
-                            <span class="tech-tag bg-slate-900 text-slate-300 border border-slate-700">
+                            <span class="tech-tag bg-slate-50 text-slate-700 border border-slate-300">
                                 <i class="fa-solid fa-database"></i> PDO Prepared Statements
                             </span>
-                            <span class="tech-tag bg-slate-900 text-slate-300 border border-slate-700">
+                            <span class="tech-tag bg-slate-50 text-slate-700 border border-slate-300">
                                 <i class="fa-solid fa-lock"></i> SQL Injection Mitigation
                             </span>
-                            <span class="tech-tag bg-slate-900 text-slate-300 border border-slate-700">
+                            <span class="tech-tag bg-slate-50 text-slate-700 border border-slate-300">
                                 <i class="fa-solid fa-arrow-right-from-bracket"></i> session_destroy() Lifecycle
                             </span>
                         </div>
@@ -901,13 +901,13 @@
                                     <span class="h-3 w-3 rounded-full bg-amber-500/80 inline-block"></span>
                                     <span class="h-3 w-3 rounded-full bg-emerald-500/80 inline-block"></span>
                                 </div>
-                                <span class="font-mono text-xs text-slate-400 ml-2 hidden sm:inline">
+                                <span class="font-mono text-xs text-slate-600 ml-2 hidden sm:inline">
                                     workbench://sandbox/pdo-bcrypt-auth.php
                                 </span>
                             </div>
 
                             <div class="flex items-center gap-2">
-                                <span class="inline-flex items-center px-2 py-0.5 rounded text-[11px] font-mono bg-emerald-950 text-emerald-300 border border-emerald-800/80">
+                                <span class="inline-flex items-center px-2 py-0.5 rounded text-[11px] font-mono bg-emerald-100 text-emerald-700 border border-emerald-300/80">
                                     <span class="h-1.5 w-1.5 rounded-full bg-emerald-400 mr-1.5 animate-pulse"></span>
                                     Live Bcrypt Engine
                                 </span>
@@ -915,18 +915,18 @@
                         </div>
 
                         <!-- Viewport Frame Content -->
-                        <div class="p-5 sm:p-6 space-y-5 bg-slate-950/70">
+                        <div class="p-5 sm:p-6 space-y-5 bg-white/70">
                             
                             <!-- Authenticated User Banner -->
-                            <div id="auth-status-banner" class="hidden p-3.5 rounded-xl bg-emerald-950/60 border border-emerald-800 flex items-center justify-between flex-wrap gap-2 text-xs">
+                            <div id="auth-status-banner" class="hidden p-3.5 rounded-xl bg-emerald-100/60 border border-emerald-300 flex items-center justify-between flex-wrap gap-2 text-xs">
                                 <div class="flex items-center gap-2">
                                     <span class="h-2 w-2 rounded-full bg-emerald-400 animate-ping"></span>
                                     <div>
-                                        <span class="text-emerald-300 font-bold">Active Authenticated Session:</span>
-                                        <span id="auth-user-display" class="font-mono text-white ml-1 font-semibold">alex_dev</span>
+                                        <span class="text-emerald-700 font-bold">Active Authenticated Session:</span>
+                                        <span id="auth-user-display" class="font-mono text-slate-900 ml-1 font-semibold">alex_dev</span>
                                     </div>
                                 </div>
-                                <button onclick="window.authLogout()" class="px-2.5 py-1 rounded bg-slate-900 border border-slate-700 hover:bg-slate-800 text-rose-300 text-xs font-semibold transition-all">
+                                <button onclick="window.authLogout()" class="px-2.5 py-1 rounded bg-slate-50 border border-slate-300 hover:bg-slate-100 text-rose-700 text-xs font-semibold transition-all">
                                     <i class="fa-solid fa-right-from-bracket mr-1"></i> Logout
                                 </button>
                             </div>
@@ -935,8 +935,8 @@
                             <div class="grid grid-cols-1 sm:grid-cols-2 gap-4 items-start">
                                 
                                 <!-- Registration Box -->
-                                <div class="bg-slate-900/90 p-4 rounded-xl border border-slate-800 space-y-3 text-xs">
-                                    <div class="font-bold text-emerald-400 flex items-center justify-between">
+                                <div class="bg-slate-50/90 p-4 rounded-xl border border-slate-200 space-y-3 text-xs">
+                                    <div class="font-bold text-emerald-600 flex items-center justify-between">
                                         <span class="flex items-center gap-1.5">
                                             <i class="fa-solid fa-user-plus"></i> Register User
                                         </span>
@@ -944,23 +944,23 @@
                                     </div>
                                     <form onsubmit="event.preventDefault(); window.authRegister();" class="space-y-2.5">
                                         <div>
-                                            <input type="text" id="reg-user" placeholder="Username (e.g. dev_pro)" required class="w-full bg-slate-950 border border-slate-700/80 rounded-lg px-2.5 py-1.5 text-slate-100 text-xs focus:border-emerald-400 focus:outline-none">
+                                            <input type="text" id="reg-user" placeholder="Username (e.g. dev_pro)" required class="w-full bg-white border border-slate-300/80 rounded-lg px-2.5 py-1.5 text-slate-900 text-xs focus:border-emerald-400 focus:outline-none">
                                         </div>
                                         <div>
-                                            <input type="email" id="reg-email" placeholder="Email (dev@example.com)" required class="w-full bg-slate-950 border border-slate-700/80 rounded-lg px-2.5 py-1.5 text-slate-100 text-xs focus:border-emerald-400 focus:outline-none">
+                                            <input type="email" id="reg-email" placeholder="Email (dev@example.com)" required class="w-full bg-white border border-slate-300/80 rounded-lg px-2.5 py-1.5 text-slate-900 text-xs focus:border-emerald-400 focus:outline-none">
                                         </div>
                                         <div>
-                                            <input type="password" id="reg-pass" placeholder="Password (Min. 8 chars)" required class="w-full bg-slate-950 border border-slate-700/80 rounded-lg px-2.5 py-1.5 text-slate-100 text-xs focus:border-emerald-400 focus:outline-none">
+                                            <input type="password" id="reg-pass" placeholder="Password (Min. 8 chars)" required class="w-full bg-white border border-slate-300/80 rounded-lg px-2.5 py-1.5 text-slate-900 text-xs focus:border-emerald-400 focus:outline-none">
                                         </div>
-                                        <button type="submit" class="w-full py-2 rounded-lg bg-emerald-600 hover:bg-emerald-500 text-white font-bold text-xs flex items-center justify-center gap-1.5 transition-all shadow-xs">
+                                        <button type="submit" class="w-full py-2 rounded-lg bg-emerald-600 hover:bg-emerald-500 text-slate-900 font-bold text-xs flex items-center justify-center gap-1.5 transition-all shadow-xs">
                                             <i class="fa-solid fa-key"></i> Hash &amp; Insert Record
                                         </button>
                                     </form>
                                 </div>
 
                                 <!-- Login Box -->
-                                <div class="bg-slate-900/90 p-4 rounded-xl border border-slate-800 space-y-3 text-xs">
-                                    <div class="font-bold text-sky-400 flex items-center justify-between">
+                                <div class="bg-slate-50/90 p-4 rounded-xl border border-slate-200 space-y-3 text-xs">
+                                    <div class="font-bold text-sky-600 flex items-center justify-between">
                                         <span class="flex items-center gap-1.5">
                                             <i class="fa-solid fa-right-to-bracket"></i> Login Session
                                         </span>
@@ -968,13 +968,13 @@
                                     </div>
                                     <form onsubmit="event.preventDefault(); window.authLogin();" class="space-y-2.5">
                                         <div>
-                                            <input type="text" id="login-user" value="demo_user" required class="w-full bg-slate-950 border border-slate-700/80 rounded-lg px-2.5 py-1.5 text-slate-100 text-xs focus:border-sky-400 focus:outline-none">
+                                            <input type="text" id="login-user" value="demo_user" required class="w-full bg-white border border-slate-300/80 rounded-lg px-2.5 py-1.5 text-slate-900 text-xs focus:border-sky-400 focus:outline-none">
                                         </div>
                                         <div>
-                                            <input type="password" id="login-pass" value="Secret123!" required class="w-full bg-slate-950 border border-slate-700/80 rounded-lg px-2.5 py-1.5 text-slate-100 text-xs focus:border-sky-400 focus:outline-none">
+                                            <input type="password" id="login-pass" value="Secret123!" required class="w-full bg-white border border-slate-300/80 rounded-lg px-2.5 py-1.5 text-slate-900 text-xs focus:border-sky-400 focus:outline-none">
                                         </div>
-                                        <div class="text-[10px] text-slate-400 font-mono">Default Demo Pass: Secret123!</div>
-                                        <button type="submit" class="w-full py-2 rounded-lg bg-sky-600 hover:bg-sky-500 text-white font-bold text-xs flex items-center justify-center gap-1.5 transition-all shadow-xs">
+                                        <div class="text-[10px] text-slate-600 font-mono">Default Demo Pass: Secret123!</div>
+                                        <button type="submit" class="w-full py-2 rounded-lg bg-sky-600 hover:bg-sky-500 text-slate-900 font-bold text-xs flex items-center justify-center gap-1.5 transition-all shadow-xs">
                                             <i class="fa-solid fa-shield-halved"></i> Verify &amp; Authenticate
                                         </button>
                                     </form>
@@ -983,15 +983,15 @@
                             </div>
 
                             <!-- Real-Time State & Bcrypt Memory Dump Inspector -->
-                            <div class="space-y-2 pt-1 border-t border-slate-800/80">
+                            <div class="space-y-2 pt-1 border-t border-slate-200/80">
                                 <div class="flex items-center justify-between text-xs font-mono">
-                                    <span class="text-slate-400 flex items-center gap-1.5">
-                                        <i class="fa-solid fa-database text-emerald-400"></i> Server Memory &amp; Bcrypt Hashes
+                                    <span class="text-slate-600 flex items-center gap-1.5">
+                                        <i class="fa-solid fa-database text-emerald-600"></i> Server Memory &amp; Bcrypt Hashes
                                     </span>
-                                    <span class="text-emerald-400 font-bold text-[11px]">Mock PDO Table</span>
+                                    <span class="text-emerald-600 font-bold text-[11px]">Mock PDO Table</span>
                                 </div>
                                 
-                                <div class="code-container p-3.5 font-mono text-[11px] text-slate-300 max-h-48 overflow-y-auto">
+                                <div class="code-container p-3.5 font-mono text-[11px] text-slate-700 max-h-48 overflow-y-auto">
                                     <pre id="auth-users-dump">// Loading user database records...</pre>
                                 </div>
                             </div>
@@ -1008,17 +1008,17 @@
     </main>
 
     <!-- 4. GLOBAL FOOTER -->
-    <footer class="border-t border-slate-800/80 bg-slate-950 py-8 px-4 sm:px-6 text-xs text-slate-500 text-center mt-auto">
+    <footer class="border-t border-slate-200/80 bg-white py-8 px-4 sm:px-6 text-xs text-slate-500 text-center mt-auto">
         <div class="max-w-7xl mx-auto flex flex-col sm:flex-row items-center justify-between gap-4">
             <div class="text-left space-y-0.5">
-                <div class="text-slate-300 font-semibold">Practical PHP Fundamentals: 3 Essential Projects</div>
+                <div class="text-slate-700 font-semibold">Practical PHP Fundamentals: 3 Essential Projects</div>
                 <div class="text-[11px] text-slate-500">Segmented Dual-Pane Instructional Workbench &bull; PHP 8.x Architecture</div>
             </div>
 
             <div class="flex items-center gap-3 font-mono text-xs">
-                <a href="./case-study.html" class="text-sky-400 hover:text-sky-300 underline font-medium">Case Study Report</a>
+                <a href="./case-study.html" class="text-sky-600 hover:text-sky-700 underline font-medium">Case Study Report</a>
                 <span class="text-slate-700">&bull;</span>
-                <a href="../index.html" class="text-slate-400 hover:text-slate-200">Portfolio Index</a>
+                <a href="../index.html" class="text-slate-600 hover:text-slate-800">Portfolio Index</a>
             </div>
         </div>
     </footer>
@@ -1036,8 +1036,8 @@
             // Deactivate all tab buttons
             const buttons = document.querySelectorAll('.tab-controller-btn');
             buttons.forEach(btn => {
-                btn.classList.remove('bg-slate-800/90', 'border-sky-500/40', 'border-amber-500/40', 'border-emerald-500/40', 'text-white', 'shadow-sm');
-                btn.classList.add('bg-slate-950/40', 'border-transparent', 'text-slate-400');
+                btn.classList.remove('bg-slate-100/90', 'border-sky-400/40', 'border-amber-500/40', 'border-emerald-500/40', 'text-slate-900', 'shadow-sm');
+                btn.classList.add('bg-white/40', 'border-transparent', 'text-slate-600');
                 btn.setAttribute('aria-selected', 'false');
             });
 
@@ -1047,18 +1047,18 @@
 
             if (activePanel && activeBtn) {
                 activePanel.classList.add('active');
-                activeBtn.classList.remove('bg-slate-950/40', 'border-transparent', 'text-slate-400');
+                activeBtn.classList.remove('bg-white/40', 'border-transparent', 'text-slate-600');
                 activeBtn.setAttribute('aria-selected', 'true');
-                activeBtn.classList.add('text-white', 'shadow-sm');
+                activeBtn.classList.add('text-slate-900', 'shadow-sm');
 
                 if (moduleId === 'mod-1') {
-                    activeBtn.classList.add('bg-slate-800/90', 'border-sky-500/40');
+                    activeBtn.classList.add('bg-slate-100/90', 'border-sky-400/40');
                     history.replaceState(null, '', '#module-1');
                 } else if (moduleId === 'mod-2') {
-                    activeBtn.classList.add('bg-slate-800/90', 'border-amber-500/40');
+                    activeBtn.classList.add('bg-slate-100/90', 'border-amber-500/40');
                     history.replaceState(null, '', '#module-2');
                 } else if (moduleId === 'mod-3') {
-                    activeBtn.classList.add('bg-slate-800/90', 'border-emerald-500/40');
+                    activeBtn.classList.add('bg-slate-100/90', 'border-emerald-500/40');
                     history.replaceState(null, '', '#module-3');
                 }
             }
@@ -1085,11 +1085,11 @@
                     btn.innerText = val;
                     btn.disabled = (val !== '' || tttWinner !== null);
                     if (val === 'X') {
-                        btn.className = 'ttt-cell h-full w-full rounded-xl bg-slate-950 border border-sky-500/50 font-heading font-black text-2xl text-sky-400 flex items-center justify-center shadow-xs';
+                        btn.className = 'ttt-cell h-full w-full rounded-xl bg-white border border-sky-400/50 font-heading font-black text-2xl text-sky-600 flex items-center justify-center shadow-xs';
                     } else if (val === 'O') {
-                        btn.className = 'ttt-cell h-full w-full rounded-xl bg-slate-950 border border-indigo-500/50 font-heading font-black text-2xl text-indigo-400 flex items-center justify-center shadow-xs';
+                        btn.className = 'ttt-cell h-full w-full rounded-xl bg-white border border-indigo-500/50 font-heading font-black text-2xl text-indigo-600 flex items-center justify-center shadow-xs';
                     } else {
-                        btn.className = 'ttt-cell h-full w-full rounded-xl bg-slate-950 border border-slate-800 font-heading font-black text-2xl text-slate-500 flex items-center justify-center';
+                        btn.className = 'ttt-cell h-full w-full rounded-xl bg-white border border-slate-200 font-heading font-black text-2xl text-slate-500 flex items-center justify-center';
                     }
                 }
             }
@@ -1100,15 +1100,15 @@
 
             if (tttWinner === 'TIE') {
                 turnLabel.innerText = 'Game Over';
-                turnLabel.className = 'px-2.5 py-0.5 rounded bg-slate-800 text-slate-300 font-bold border border-slate-700';
+                turnLabel.className = 'px-2.5 py-0.5 rounded bg-slate-100 text-slate-700 font-bold border border-slate-300';
                 statusBanner.innerText = "🤝 Match Drawn! All 9 cells populated without a winner.";
             } else if (tttWinner) {
                 turnLabel.innerText = `Winner: ${tttWinner}`;
-                turnLabel.className = 'px-2.5 py-0.5 rounded bg-emerald-950 text-emerald-300 font-bold border border-emerald-800';
+                turnLabel.className = 'px-2.5 py-0.5 rounded bg-emerald-100 text-emerald-700 font-bold border border-emerald-300';
                 statusBanner.innerText = `🎉 Victory Confirmed! Player ${tttWinner} aligned 3 in a row.`;
             } else {
                 turnLabel.innerText = `Player ${tttPlayer}`;
-                turnLabel.className = 'px-2.5 py-0.5 rounded bg-sky-950 text-sky-300 font-bold border border-sky-800';
+                turnLabel.className = 'px-2.5 py-0.5 rounded bg-sky-100 text-sky-700 font-bold border border-sky-300';
                 statusBanner.innerText = `Active match in progress. Player ${tttPlayer}'s turn.`;
             }
 
@@ -1194,7 +1194,7 @@
 
             if (!isEmailValid) {
                 tag.innerText = '422 Validation Error';
-                tag.className = 'text-rose-400 font-bold text-[11px]';
+                tag.className = 'text-rose-600 font-bold text-[11px]';
                 term.innerText = `// PHP ERROR LOG:
 $email = filter_var("${email}", FILTER_VALIDATE_EMAIL); // FALSE
 // REJECTED: Email address failed RFC 5322 compliance check.
@@ -1203,7 +1203,7 @@ $email = filter_var("${email}", FILTER_VALIDATE_EMAIL); // FALSE
             }
 
             tag.innerText = crlfDetected ? '200 OK (CRLF Filtered)' : '200 OK (Dispatched)';
-            tag.className = crlfDetected ? 'text-amber-400 font-bold text-[11px]' : 'text-emerald-400 font-bold text-[11px]';
+            tag.className = crlfDetected ? 'text-amber-600 font-bold text-[11px]' : 'text-emerald-600 font-bold text-[11px]';
 
             term.innerText = `// 1. PHP SERVER-SIDE EVALUATION & FILTER PIPELINE
 $name    = htmlspecialchars("${safeName}", ENT_QUOTES, 'UTF-8');
