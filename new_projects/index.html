@@ -4,7 +4,7 @@
 <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <meta name="theme-color" content="#060300" />
+    <meta name="theme-color" content="#1a0e04" />
     <title>Interactive Projects &amp; Case Studies</title>
     <link rel="icon" href="./favicon.ico" />
     <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -14,357 +14,365 @@
 
     <style>
         :root {
-            --ember:      #FF6B1A;
-            --amber:      #F5A623;
-            --gold:       #FFB84D;
-            --text-light: #f0e8d8;
-            --text-muted: #9a8060;
+            --ember:       #FF6B1A;
+            --amber:       #F5A623;
+            --gold:        #FFB84D;
+            --gold-bright: #FFD580;
+            --text-head:   #fff8ee;
+            --text-body:   #c8aa80;
+            --text-dim:    #8a6e48;
+            --card-bg:     rgba(255,160,60,0.055);
+            --card-border: rgba(255,150,50,0.18);
+            --bg-base:     #1a0e04;
         }
 
         * { margin: 0; padding: 0; box-sizing: border-box; }
 
+        html, body { height: 100%; }
+
         body {
             font-family: 'Inter', 'Helvetica Neue', sans-serif;
-            color: var(--text-light);
-            background: #060300;
+            color: var(--text-head);
+            background: var(--bg-base);
             min-height: 100vh;
             overflow-x: hidden;
         }
 
-        /* ── Fire ambient ── */
+        /* ── Bright warm fire background ── */
         body::before {
             content: '';
             position: fixed;
             inset: 0;
             background:
-                radial-gradient(ellipse 90% 55% at 50% 100%, rgba(232,68,10,0.28) 0%, transparent 60%),
-                radial-gradient(ellipse 50% 40% at 10% 95%, rgba(245,166,35,0.12) 0%, transparent 50%),
-                radial-gradient(ellipse 50% 40% at 90% 95%, rgba(255,107,26,0.12) 0%, transparent 50%),
-                #060300;
+                /* bright top-centre warm glow */
+                radial-gradient(ellipse 100% 60% at 50% -10%, rgba(255,160,50,0.18) 0%, transparent 60%),
+                /* mid wide amber fill */
+                radial-gradient(ellipse 140% 55% at 50% 40%,  rgba(200,90,10,0.14) 0%, transparent 65%),
+                /* lower ember bloom */
+                radial-gradient(ellipse 110% 50% at 50% 105%, rgba(255,100,20,0.30) 0%, transparent 55%),
+                /* side wings */
+                radial-gradient(ellipse 60% 40% at 5%  60%,   rgba(255,140,30,0.10) 0%, transparent 50%),
+                radial-gradient(ellipse 60% 40% at 95% 60%,   rgba(255,140,30,0.10) 0%, transparent 50%),
+                /* base colour — noticeably lighter brown-charcoal */
+                #1a0e04;
             z-index: -2;
             pointer-events: none;
         }
+
+        /* Slow breathing ember pulse */
         body::after {
             content: '';
             position: fixed;
-            bottom: -20%;
+            bottom: -15%;
             left: 50%;
             transform: translateX(-50%);
-            width: 140%;
-            height: 50%;
-            background: radial-gradient(ellipse 60% 55% at 50% 100%,
-                rgba(255,100,20,0.20) 0%,
-                rgba(232,68,10,0.08) 50%,
-                transparent 72%);
+            width: 160%;
+            height: 60%;
+            background: radial-gradient(ellipse 65% 60% at 50% 100%,
+                rgba(255,120,30,0.24) 0%,
+                rgba(220,80,10,0.12) 40%,
+                transparent 68%);
             z-index: -1;
             pointer-events: none;
-            animation: fireBreath 5s ease-in-out infinite alternate;
+            animation: fireBreath 5.5s ease-in-out infinite alternate;
         }
         @keyframes fireBreath {
-            0%   { opacity: 0.5; transform: translateX(-50%) scaleY(0.85); }
-            100% { opacity: 1.0; transform: translateX(-50%) scaleY(1.10); }
+            0%   { opacity: 0.6; transform: translateX(-50%) scaleY(0.82); }
+            100% { opacity: 1.0; transform: translateX(-50%) scaleY(1.12); }
         }
 
-        /* ── Page layout ── */
+        /* ── Page shell ── */
         .page-wrap {
             width: 100%;
-            padding: 44px 52px 72px;
+            padding: 40px 44px 64px;
         }
-        @media (max-width: 860px)  { .page-wrap { padding: 28px 22px 48px; } }
+        @media (max-width: 900px) { .page-wrap { padding: 24px 18px 44px; } }
 
         /* ── Header ── */
         .site-header {
             display: flex;
-            align-items: flex-end;
+            align-items: center;
             justify-content: space-between;
             flex-wrap: wrap;
-            gap: 18px;
-            padding-bottom: 26px;
-            margin-bottom: 48px;
-            border-bottom: 1px solid rgba(255,140,40,0.16);
+            gap: 16px;
+            padding-bottom: 24px;
+            margin-bottom: 40px;
+            border-bottom: 1px solid rgba(255,160,60,0.22);
         }
         .site-header h1 {
-            font-size: clamp(1.5rem, 3.2vw, 2.2rem);
+            font-size: clamp(1.35rem, 2.8vw, 2rem);
             font-weight: 800;
             letter-spacing: -0.04em;
-            color: #fff;
-            text-shadow: 0 0 40px rgba(255,107,26,0.5);
-            margin-bottom: 5px;
+            color: var(--text-head);
+            text-shadow: 0 0 50px rgba(255,140,40,0.55), 0 0 12px rgba(255,100,10,0.3);
+            margin-bottom: 4px;
         }
         .site-header p {
-            font-size: 0.82rem;
+            font-size: 0.78rem;
             font-weight: 500;
-            color: var(--text-muted);
-            letter-spacing: 0.02em;
+            color: var(--text-dim);
+            letter-spacing: 0.03em;
         }
         .back-btn {
             display: inline-flex;
             align-items: center;
-            gap: 8px;
-            font-size: 0.62rem;
-            font-weight: 600;
-            letter-spacing: 0.13em;
+            gap: 7px;
+            font-size: 0.6rem;
+            font-weight: 700;
+            letter-spacing: 0.14em;
             text-transform: uppercase;
-            color: rgba(245,166,35,0.65);
+            color: rgba(255,185,77,0.7);
             text-decoration: none;
-            border: 1px solid rgba(245,166,35,0.22);
+            border: 1px solid rgba(255,165,50,0.25);
             padding: 7px 14px;
-            background: rgba(245,166,35,0.05);
+            background: rgba(255,150,40,0.06);
             transition: all 0.2s;
             white-space: nowrap;
         }
         .back-btn:hover {
-            color: var(--gold);
+            color: var(--gold-bright);
             border-color: var(--amber);
-            background: rgba(245,166,35,0.12);
-            box-shadow: 0 0 16px rgba(245,166,35,0.18);
+            background: rgba(255,166,35,0.14);
+            box-shadow: 0 0 18px rgba(255,166,35,0.2);
         }
 
-        /* ── Gallery grid ── */
+        /* ── 5-column gallery — all projects on one row ── */
         .gallery {
             display: grid;
-            grid-template-columns: repeat(3, 1fr);
-            gap: 20px;
+            grid-template-columns: repeat(5, 1fr);
+            gap: 16px;
         }
-        @media (max-width: 1100px) { .gallery { grid-template-columns: repeat(2, 1fr); } }
-        @media (max-width: 600px)  { .gallery { grid-template-columns: 1fr; } }
+        /* Graceful collapse for smaller screens */
+        @media (max-width: 1200px) { .gallery { grid-template-columns: repeat(3, 1fr); } }
+        @media (max-width:  780px) { .gallery { grid-template-columns: repeat(2, 1fr); } }
+        @media (max-width:  480px) { .gallery { grid-template-columns: 1fr; } }
 
-        /* ── Portfolio card ── */
+        /* ── Card ── */
         .pcard {
             display: flex;
             flex-direction: column;
             text-decoration: none;
             color: inherit;
-            background: rgba(12, 7, 2, 0.7);
-            border: 1px solid rgba(255,120,30,0.13);
+            background: var(--card-bg);
+            border: 1px solid var(--card-border);
             border-radius: 10px;
             overflow: hidden;
-            transition: transform 0.22s cubic-bezier(.22,.68,0,1.2),
-                        box-shadow 0.22s ease,
-                        border-color 0.22s ease;
+            transition:
+                transform 0.22s cubic-bezier(.22,.68,0,1.2),
+                box-shadow 0.22s ease,
+                border-color 0.22s ease,
+                background 0.22s ease;
         }
         .pcard:hover {
-            transform: translateY(-6px) scale(1.012);
-            border-color: rgba(255,150,50,0.45);
+            transform: translateY(-7px) scale(1.018);
+            border-color: rgba(255,180,70,0.55);
+            background: rgba(255,140,40,0.10);
             box-shadow:
-                0 20px 50px rgba(0,0,0,0.6),
-                0 0 30px rgba(255,100,20,0.15),
-                0 0 0 1px rgba(255,150,50,0.1);
+                0 22px 55px rgba(0,0,0,0.55),
+                0  0  35px rgba(255,120,30,0.20),
+                0  0   0 1px rgba(255,170,60,0.12);
         }
 
         /* ── Preview panel ── */
         .pcard-preview {
             position: relative;
-            height: 180px;
+            height: 148px;
             overflow: hidden;
             flex-shrink: 0;
         }
 
-        /* Each project gets a unique CSS scene */
+        /* Brighter, more luminous CSS scenes */
         .preview-pinball {
             background:
-                radial-gradient(circle 80px at 30% 60%, rgba(255,80,0,0.35) 0%, transparent 60%),
-                radial-gradient(circle 50px at 75% 35%, rgba(255,200,50,0.25) 0%, transparent 55%),
-                radial-gradient(circle 30px at 55% 75%, rgba(255,120,0,0.3) 0%, transparent 50%),
-                linear-gradient(160deg, #120800 0%, #1e0f00 50%, #0d0500 100%);
+                radial-gradient(circle 70px at 35% 55%, rgba(255,120,30,0.55) 0%, transparent 60%),
+                radial-gradient(circle 40px at 72% 32%, rgba(255,220,80,0.40) 0%, transparent 55%),
+                radial-gradient(circle 25px at 55% 78%, rgba(255,90,10,0.45) 0%, transparent 50%),
+                linear-gradient(155deg, #251000 0%, #3a1a00 55%, #1c0c00 100%);
         }
         .preview-motion {
             background:
-                radial-gradient(circle 100px at 50% 50%, rgba(56,100,200,0.3) 0%, transparent 65%),
-                radial-gradient(circle 60px at 20% 30%, rgba(120,50,200,0.25) 0%, transparent 55%),
-                radial-gradient(circle 40px at 80% 70%, rgba(30,200,180,0.2) 0%, transparent 50%),
-                linear-gradient(135deg, #04060f 0%, #0a0d20 50%, #050810 100%);
+                radial-gradient(circle 90px at 50% 50%, rgba(60,120,255,0.45) 0%, transparent 65%),
+                radial-gradient(circle 55px at 22% 28%, rgba(140,60,255,0.38) 0%, transparent 55%),
+                radial-gradient(circle 38px at 80% 72%, rgba(30,220,200,0.32) 0%, transparent 50%),
+                linear-gradient(130deg, #060a1e 0%, #0e1438 55%, #060e18 100%);
         }
         .preview-workout {
             background:
-                radial-gradient(ellipse 120px 80px at 50% 40%, rgba(255,60,60,0.28) 0%, transparent 65%),
-                radial-gradient(circle 50px at 80% 75%, rgba(255,130,0,0.22) 0%, transparent 55%),
-                linear-gradient(150deg, #0e0404 0%, #1a0808 50%, #0a0404 100%);
+                radial-gradient(ellipse 110px 75px at 50% 42%, rgba(255,80,80,0.45) 0%, transparent 65%),
+                radial-gradient(circle 45px at 78% 72%, rgba(255,150,20,0.38) 0%, transparent 55%),
+                linear-gradient(148deg, #1c0606 0%, #2e0e0e 55%, #150404 100%);
         }
         .preview-quiz {
             background:
-                repeating-linear-gradient(0deg, rgba(0,255,80,0.03) 0px, rgba(0,255,80,0.03) 1px, transparent 1px, transparent 18px),
-                repeating-linear-gradient(90deg, rgba(0,255,80,0.03) 0px, rgba(0,255,80,0.03) 1px, transparent 1px, transparent 18px),
-                radial-gradient(circle 90px at 40% 55%, rgba(0,200,60,0.22) 0%, transparent 65%),
-                linear-gradient(160deg, #020b04 0%, #051006 50%, #020803 100%);
+                repeating-linear-gradient(0deg,   rgba(0,255,80,0.045) 0px, rgba(0,255,80,0.045) 1px, transparent 1px, transparent 18px),
+                repeating-linear-gradient(90deg,  rgba(0,255,80,0.045) 0px, rgba(0,255,80,0.045) 1px, transparent 1px, transparent 18px),
+                radial-gradient(circle 80px at 42% 52%, rgba(0,220,70,0.38) 0%, transparent 65%),
+                linear-gradient(158deg, #041008 0%, #081c0e 55%, #040c06 100%);
         }
         .preview-chess {
             background:
-                repeating-conic-gradient(rgba(180,140,60,0.06) 0% 25%, transparent 0% 50%) 0 0 / 28px 28px,
-                radial-gradient(circle 80px at 50% 45%, rgba(200,160,50,0.28) 0%, transparent 65%),
-                linear-gradient(145deg, #0c0900 0%, #171100 50%, #0a0800 100%);
+                repeating-conic-gradient(rgba(200,160,60,0.09) 0% 25%, transparent 0% 50%) 0 0 / 26px 26px,
+                radial-gradient(circle 75px at 50% 46%, rgba(220,175,50,0.45) 0%, transparent 65%),
+                linear-gradient(143deg, #181000 0%, #261800 55%, #120e00 100%);
         }
 
-        /* Animated shimmer on hover */
+        /* Shimmer sweep on hover */
         .pcard-preview::after {
             content: '';
             position: absolute;
             inset: 0;
-            background: linear-gradient(105deg, transparent 35%, rgba(255,255,255,0.04) 50%, transparent 65%);
-            transform: translateX(-100%);
-            transition: transform 0.55s ease;
+            background: linear-gradient(108deg, transparent 30%, rgba(255,255,255,0.07) 50%, transparent 70%);
+            transform: translateX(-120%);
+            transition: transform 0.5s ease;
         }
-        .pcard:hover .pcard-preview::after {
-            transform: translateX(100%);
-        }
+        .pcard:hover .pcard-preview::after { transform: translateX(120%); }
 
-        /* Large centered icon in preview */
+        /* Centred icon */
         .preview-icon-wrap {
             position: absolute;
             inset: 0;
             display: flex;
             align-items: center;
             justify-content: center;
-            flex-direction: column;
-            gap: 10px;
         }
         .preview-icon {
-            font-size: 2.8rem;
-            opacity: 0.25;
+            font-size: 2.4rem;
+            opacity: 0.32;
+            filter: drop-shadow(0 0 18px currentColor);
             transition: opacity 0.22s, transform 0.22s;
-            filter: drop-shadow(0 0 20px currentColor);
         }
-        .pcard:hover .preview-icon {
-            opacity: 0.55;
-            transform: scale(1.12);
-        }
+        .pcard:hover .preview-icon { opacity: 0.65; transform: scale(1.14); }
 
-        /* Hover overlay "See Project" */
+        /* Hover overlay CTA */
         .preview-overlay {
             position: absolute;
             inset: 0;
             display: flex;
             align-items: center;
             justify-content: center;
-            background: rgba(10,5,0,0.0);
+            background: rgba(8,4,0,0.0);
             transition: background 0.22s;
         }
-        .pcard:hover .preview-overlay {
-            background: rgba(10,5,0,0.45);
-        }
+        .pcard:hover .preview-overlay { background: rgba(8,4,0,0.42); }
+
         .overlay-cta {
             display: inline-flex;
             align-items: center;
-            gap: 9px;
-            font-size: 0.65rem;
+            gap: 8px;
+            font-size: 0.6rem;
             font-weight: 700;
             letter-spacing: 0.18em;
             text-transform: uppercase;
-            color: var(--gold);
-            border: 1px solid rgba(255,180,50,0.6);
-            padding: 9px 18px;
-            background: rgba(255,100,20,0.18);
+            color: var(--gold-bright);
+            border: 1px solid rgba(255,200,80,0.65);
+            padding: 8px 16px;
+            background: rgba(255,110,20,0.22);
             backdrop-filter: blur(6px);
             opacity: 0;
-            transform: translateY(8px);
-            transition: opacity 0.2s 0.05s, transform 0.2s 0.05s;
+            transform: translateY(10px);
+            transition: opacity 0.18s 0.04s, transform 0.18s 0.04s;
         }
-        .pcard:hover .overlay-cta {
-            opacity: 1;
-            transform: translateY(0);
-        }
+        .pcard:hover .overlay-cta { opacity: 1; transform: translateY(0); }
 
-        /* Number badge */
+        /* Card number */
         .card-num {
             position: absolute;
-            top: 12px;
-            left: 14px;
-            font-size: 0.6rem;
+            top: 10px;
+            left: 12px;
+            font-size: 0.56rem;
             font-weight: 700;
-            letter-spacing: 0.12em;
-            color: rgba(255,180,60,0.5);
-            background: rgba(0,0,0,0.5);
-            border: 1px solid rgba(255,150,30,0.2);
-            padding: 2px 7px;
+            letter-spacing: 0.13em;
+            color: rgba(255,200,80,0.65);
+            background: rgba(0,0,0,0.45);
+            border: 1px solid rgba(255,160,40,0.22);
+            padding: 2px 6px;
             border-radius: 2px;
             backdrop-filter: blur(4px);
         }
 
         /* ── Card body ── */
         .pcard-body {
-            padding: 18px 20px 20px;
+            padding: 14px 15px 15px;
             display: flex;
             flex-direction: column;
             flex: 1;
-            gap: 10px;
+            gap: 8px;
         }
 
         .pcard-title {
-            font-size: 0.92rem;
+            font-size: 0.82rem;
             font-weight: 700;
             letter-spacing: -0.01em;
-            color: #fff;
+            color: var(--text-head);
             line-height: 1.25;
         }
 
         .pcard-desc {
-            font-size: 0.72rem;
-            font-weight: 400;
-            color: var(--text-muted);
-            line-height: 1.65;
+            font-size: 0.67rem;
+            color: var(--text-body);
+            line-height: 1.6;
             flex: 1;
         }
 
         .pcard-tags {
             display: flex;
             flex-wrap: wrap;
-            gap: 5px;
-            margin-top: 2px;
+            gap: 4px;
         }
         .tag {
-            font-size: 0.58rem;
+            font-size: 0.54rem;
             font-weight: 600;
             letter-spacing: 0.07em;
             text-transform: uppercase;
-            padding: 3px 8px;
+            padding: 2px 7px;
             border-radius: 3px;
-            border: 1px solid rgba(255,120,30,0.22);
-            background: rgba(255,90,10,0.07);
-            color: rgba(255,175,70,0.8);
+            border: 1px solid rgba(255,150,40,0.25);
+            background: rgba(255,120,30,0.09);
+            color: rgba(255,190,90,0.85);
             transition: background 0.18s, border-color 0.18s, color 0.18s;
         }
         .pcard:hover .tag {
-            background: rgba(255,107,26,0.14);
-            border-color: rgba(255,150,50,0.35);
-            color: var(--gold);
+            background: rgba(255,130,30,0.18);
+            border-color: rgba(255,180,60,0.45);
+            color: var(--gold-bright);
         }
 
-        /* Bottom rule + arrow */
+        /* Footer */
         .pcard-footer {
             display: flex;
             align-items: center;
             justify-content: space-between;
-            padding-top: 12px;
-            border-top: 1px solid rgba(255,120,30,0.1);
+            padding-top: 10px;
+            border-top: 1px solid rgba(255,140,40,0.13);
             margin-top: auto;
         }
         .pcard-link-text {
-            font-size: 0.6rem;
-            font-weight: 600;
+            font-size: 0.56rem;
+            font-weight: 700;
             letter-spacing: 0.16em;
             text-transform: uppercase;
-            color: rgba(255,150,60,0.5);
+            color: rgba(255,170,70,0.5);
             transition: color 0.2s;
         }
-        .pcard:hover .pcard-link-text { color: var(--gold); }
+        .pcard:hover .pcard-link-text { color: var(--gold-bright); }
 
         .pcard-arrow {
-            width: 26px;
-            height: 26px;
+            width: 24px;
+            height: 24px;
             border-radius: 50%;
-            border: 1px solid rgba(255,120,30,0.2);
+            border: 1px solid rgba(255,140,40,0.22);
             display: flex;
             align-items: center;
             justify-content: center;
-            font-size: 0.58rem;
-            color: rgba(255,150,60,0.45);
+            font-size: 0.55rem;
+            color: rgba(255,170,70,0.45);
             transition: all 0.2s;
         }
         .pcard:hover .pcard-arrow {
             border-color: var(--ember);
-            background: rgba(255,107,26,0.18);
-            color: var(--gold);
-            box-shadow: 0 0 12px rgba(255,107,26,0.35);
+            background: rgba(255,107,26,0.22);
+            color: var(--gold-bright);
+            box-shadow: 0 0 14px rgba(255,107,26,0.4);
             transform: translateX(2px);
         }
 
@@ -391,19 +399,15 @@
                 <div class="pcard-preview preview-pinball">
                     <span class="card-num">01</span>
                     <div class="preview-icon-wrap">
-                        <i class="fa-solid fa-circle-play preview-icon" style="color:#FF6B1A;"></i>
+                        <i class="fa-solid fa-circle-play preview-icon" style="color:#FF8C3A;"></i>
                     </div>
                     <div class="preview-overlay">
-                        <span class="overlay-cta">
-                            <i class="fa-solid fa-arrow-right"></i> See Project
-                        </span>
+                        <span class="overlay-cta"><i class="fa-solid fa-arrow-right"></i> See Project</span>
                     </div>
                 </div>
                 <div class="pcard-body">
                     <div class="pcard-title">React Pixel Pinball</div>
-                    <div class="pcard-desc">
-                        Custom 2D physics engine, game loops, and continuous collision detection built entirely within the React ecosystem.
-                    </div>
+                    <div class="pcard-desc">Custom 2D physics, game loops &amp; collision detection inside React.</div>
                     <div class="pcard-tags">
                         <span class="tag">React</span>
                         <span class="tag">2D Physics</span>
@@ -421,19 +425,15 @@
                 <div class="pcard-preview preview-motion">
                     <span class="card-num">02</span>
                     <div class="preview-icon-wrap">
-                        <i class="fa-solid fa-wand-magic-sparkles preview-icon" style="color:#38bdf8;"></i>
+                        <i class="fa-solid fa-wand-magic-sparkles preview-icon" style="color:#60c8f8;"></i>
                     </div>
                     <div class="preview-overlay">
-                        <span class="overlay-cta">
-                            <i class="fa-solid fa-arrow-right"></i> See Project
-                        </span>
+                        <span class="overlay-cta"><i class="fa-solid fa-arrow-right"></i> See Project</span>
                     </div>
                 </div>
                 <div class="pcard-body">
                     <div class="pcard-title">Motion Landing Page</div>
-                    <div class="pcard-desc">
-                        Procedural starfield, mouse-driven gravity physics, and multi-layered CSS 3D transforms for performant DOM animations.
-                    </div>
+                    <div class="pcard-desc">Procedural starfield, mouse gravity &amp; CSS 3D transforms.</div>
                     <div class="pcard-tags">
                         <span class="tag">Vanilla JS</span>
                         <span class="tag">CSS 3D</span>
@@ -451,23 +451,19 @@
                 <div class="pcard-preview preview-workout">
                     <span class="card-num">03</span>
                     <div class="preview-icon-wrap">
-                        <i class="fa-solid fa-dumbbell preview-icon" style="color:#f87171;"></i>
+                        <i class="fa-solid fa-dumbbell preview-icon" style="color:#f88080;"></i>
                     </div>
                     <div class="preview-overlay">
-                        <span class="overlay-cta">
-                            <i class="fa-solid fa-arrow-right"></i> See Project
-                        </span>
+                        <span class="overlay-cta"><i class="fa-solid fa-arrow-right"></i> See Project</span>
                     </div>
                 </div>
                 <div class="pcard-body">
                     <div class="pcard-title">Workout Shuffler</div>
-                    <div class="pcard-desc">
-                        Mobile-first fitness app with algorithmic exercise randomization and drift-free interval timer logic.
-                    </div>
+                    <div class="pcard-desc">Mobile-first fitness app with randomised circuits &amp; drift-free timers.</div>
                     <div class="pcard-tags">
                         <span class="tag">JavaScript</span>
                         <span class="tag">HTML</span>
-                        <span class="tag">Responsive CSS</span>
+                        <span class="tag">CSS</span>
                     </div>
                     <div class="pcard-footer">
                         <span class="pcard-link-text">See Project</span>
@@ -481,23 +477,19 @@
                 <div class="pcard-preview preview-quiz">
                     <span class="card-num">04</span>
                     <div class="preview-icon-wrap">
-                        <i class="fa-solid fa-terminal preview-icon" style="color:#4ade80;"></i>
+                        <i class="fa-solid fa-terminal preview-icon" style="color:#5de88a;"></i>
                     </div>
                     <div class="preview-overlay">
-                        <span class="overlay-cta">
-                            <i class="fa-solid fa-arrow-right"></i> See Project
-                        </span>
+                        <span class="overlay-cta"><i class="fa-solid fa-arrow-right"></i> See Project</span>
                     </div>
                 </div>
                 <div class="pcard-body">
                     <div class="pcard-title">Survival Quiz</div>
-                    <div class="pcard-desc">
-                        CRT scanline shaders, branching state machines, and procedural Web Audio API drones — no external libraries.
-                    </div>
+                    <div class="pcard-desc">CRT shaders, branching state machines &amp; Web Audio drones.</div>
                     <div class="pcard-tags">
                         <span class="tag">JavaScript</span>
                         <span class="tag">CSS Shaders</span>
-                        <span class="tag">Web Audio API</span>
+                        <span class="tag">Web Audio</span>
                     </div>
                     <div class="pcard-footer">
                         <span class="pcard-link-text">See Project</span>
@@ -511,19 +503,15 @@
                 <div class="pcard-preview preview-chess">
                     <span class="card-num">05</span>
                     <div class="preview-icon-wrap">
-                        <i class="fa-solid fa-chess-board preview-icon" style="color:#d4af37;"></i>
+                        <i class="fa-solid fa-chess-board preview-icon" style="color:#ddb830;"></i>
                     </div>
                     <div class="preview-overlay">
-                        <span class="overlay-cta">
-                            <i class="fa-solid fa-arrow-right"></i> See Project
-                        </span>
+                        <span class="overlay-cta"><i class="fa-solid fa-arrow-right"></i> See Project</span>
                     </div>
                 </div>
                 <div class="pcard-body">
                     <div class="pcard-title">Chess Flap Jaw PyCalc</div>
-                    <div class="pcard-desc">
-                        Full move generation, Piece-Square Table AI evaluation, and live win-probability deltas in Vanilla JS.
-                    </div>
+                    <div class="pcard-desc">PST AI evaluation &amp; live win-probability deltas in Vanilla JS.</div>
                     <div class="pcard-tags">
                         <span class="tag">Vanilla JS</span>
                         <span class="tag">Game Theory</span>
