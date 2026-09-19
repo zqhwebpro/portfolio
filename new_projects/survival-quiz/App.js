@@ -3492,6 +3492,7 @@ function App() {
                                 🔄 Retrieve Protocol (Shuffle 5 Directives)
                             </button>
 
+                            {/* CASE STUDY LINK - commented out until ready to review
                             <a
                                 href="./case-study.html"
                                 className="term-btn"
@@ -3513,6 +3514,7 @@ function App() {
                                 <span>Case Study</span>
                                 <span>↗</span>
                             </a>
+                            */}
                         </div>
                     </section>
                 )}
@@ -3561,7 +3563,7 @@ function App() {
                 </nav>
             )}
 
-            {/* FIXED LOWER-LEFT: "Case Study" Button on Desktop */}
+            {/* FIXED LOWER-LEFT: "Case Study" Button on Desktop - commented out until ready to review
             <a
                 href="./case-study.html"
                 className="term-btn desktop-fixed-portfolio"
@@ -3570,6 +3572,7 @@ function App() {
                 <span>Case Study</span>
                 <span style={{ fontSize: '0.75rem' }}>↗</span>
             </a>
+            */}
 
             {/* MODAL */}
             {activeModal && (

@@ -352,6 +352,7 @@ function App() {
 
             <canvas ref={canvasRef} className="galaxy-canvas" />
 
+            {/* CASE STUDY BUTTON - commented out until ready to review
             <a
                 href="./case-study.html"
                 className="floating-brand-badge-bottom"
@@ -359,6 +360,7 @@ function App() {
             >
                 Case Study
             </a>
+            */}
 
             {/* HERO SECTION */}
             <header className="hero-3d-wrapper">

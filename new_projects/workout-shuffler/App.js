@@ -1168,7 +1168,7 @@ function App() {
 
             </main>
 
-            {/* Fixed Bottom "Case Study" Tab */}
+            {/* Fixed Bottom "Case Study" Tab - commented out until ready to review
             <div className="fixed bottom-0 left-24 md:left-32 z-40 select-none pointer-events-auto">
                 <a
                     href="./case-study.html"
@@ -1179,6 +1179,7 @@ function App() {
                     <span className="text-xs leading-none">↗</span>
                 </a>
             </div>
+            */}
 
             {/* Mobile Fixed Bottom Controls */}
             <div className="lg:hidden fixed bottom-0 left-0 right-0 z-40 px-3 pt-2 pb-[max(0.75rem,env(safe-area-inset-bottom))] bg-white/95 backdrop-blur-md border-t-2 border-pf-border shadow-xl select-none">

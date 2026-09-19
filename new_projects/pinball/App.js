@@ -513,6 +513,7 @@ function App() {
                 }
             `}</style>
 
+            {/* CASE STUDY BUTTON - commented out until ready to review
             <a
                 href="./case-study.html"
                 className="portfolio-btn"
@@ -521,6 +522,7 @@ function App() {
             >
                 Case Study
             </a>
+            */}
 
             <div
                 ref={containerRef}
