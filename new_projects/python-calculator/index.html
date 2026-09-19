@@ -745,6 +745,9 @@
                         title="Party Mode: Randomizes move sets for all piece types!">
                         Party Mode
                     </button>
+                    <button onclick="document.getElementById('disclaimerModal').classList.remove('hidden')" class="btn-header py-1 px-2.5 text-[11px]" title="Read Disclaimer">
+                        <i class="fa-solid fa-circle-info text-salon-gold"></i> Disclaimer
+                    </button>
                 </div>
 
                 <div class="text-[12px] text-[#C5B39E] italic">
@@ -3336,11 +3339,6 @@
             renderBoard();
             updateEvaluation();
             explainOpeningInitial();
-
-            const disclaimerModal = document.getElementById('disclaimerModal');
-            if (disclaimerModal) {
-                disclaimerModal.classList.remove('hidden');
-            }
         });
     </script>
 
@@ -3350,10 +3348,10 @@
             <div class="text-3xl text-salon-gold mb-1"><i class="fa-solid fa-chess-knight"></i></div>
             <h2 class="font-heading font-bold text-xl text-salon-gold tracking-wide">A Quick Reminder</h2>
             <p class="text-salon-parchment/90 text-[13px] leading-relaxed">
-                This engine does not make you a better chess player. The probabilities fluctuate, and the true game is still about mastering your opponent's moves.
+                Just a heads up: this engine won't magically make you a grandmaster! The win probabilities bounce around quite a bit, and at the end of the day, chess is still about outsmarting your opponent's moves.
             </p>
             <button onclick="document.getElementById('disclaimerModal').classList.add('hidden')" class="btn-header mt-3 py-2.5 justify-center w-full !bg-[#1A120E] hover:!bg-[#261A14] !border-[#3E2D22] hover:!border-salon-gold text-salon-gold transition-colors">
-                I Understand
+                Got it
             </button>
         </div>
     </div>
