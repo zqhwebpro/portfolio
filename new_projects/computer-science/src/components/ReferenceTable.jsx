@@ -22,7 +22,7 @@ export function ReferenceTable({ onSelect }) {
             TERMS & DEFINITIONS <span style={{ color: '#FFE600' }}>QUICK REFERENCE</span>
           </h2>
           <p style={{ fontFamily: 'var(--font-body)', color: '#555', fontSize: '0.95rem', lineHeight: 1.6 }}>
-            The complete canonical definitions for all 8 concepts. Click any row to jump to its interactive slide.
+            The complete canonical definitions for all 5 concepts. Click any row to jump to its interactive slide.
           </p>
         </div>
 

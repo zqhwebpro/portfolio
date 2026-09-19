@@ -5,7 +5,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Wacky Things Co. — Gloriously Bizarre Gadgets &amp; Oddities (.NET Showcase)</title>
-    <meta name="description" content="A whimsical, high-converting e-commerce storefront for gloriously bizarre gadgets and peculiar novelties, engineered on ASP.NET MVC 5, Ninject Dependency Injection, and Entity Framework 6.">
+    <meta name="description" content="A whimsical, high-converting e-commerce storefront for gloriously bizarre gadgets and novelties, engineered on ASP.NET MVC 5, Ninject Dependency Injection, and Entity Framework 6.">
 
     <!-- Google Fonts: Inter (Clean Body) + Outfit (Headings) + JetBrains Mono (Technical Tooltips) -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -304,7 +304,7 @@
 
         <div class="hidden xl:flex items-center gap-2 text-[11px] text-earth-400 font-mono">
             <i class="fa-solid fa-hat-wizard text-honey-400"></i>
-            <span>Full-Width Peculiar Catalog</span>
+            <span>Full-Width Catalog</span>
         </div>
     </div>
 
@@ -505,7 +505,7 @@
                                         <input type="radio" name="price-filter" value="over-25" onchange="window.setPriceFilter('over-25')" class="text-appetite-700 focus:ring-appetite-500">
                                         <span>$25.00 &amp; Above</span>
                                     </span>
-                                    <span class="text-[10px] font-mono text-earth-400">Peculiar</span>
+                                    <span class="text-[10px] font-mono text-earth-400"></span>
                                 </label>
                             </div>
                         </div>
@@ -567,7 +567,7 @@
                                 All Bizarre Gadgets &amp; Novelties
                             </h2>
                             <p class="text-xs text-earth-600 mt-1">
-                                Showing <strong id="visible-count" class="text-honey-900 font-bold">12</strong> peculiar items ready for immediate dispatch
+                                Showing <strong id="visible-count" class="text-honey-900 font-bold">12</strong> items ready for immediate dispatch
                             </p>
                         </div>
 
@@ -604,7 +604,7 @@
                         <!-- Empty State -->
                         <div id="empty-state" class="hidden bg-white border border-canvas-border rounded-2xl p-12 text-center space-y-4 max-w-md mx-auto shadow-sm my-6">
                             <div class="text-4xl text-honey-700">🔍</div>
-                            <h3 class="font-heading font-bold text-lg text-earth-950">No Peculiar Gadgets Found</h3>
+                            <h3 class="font-heading font-bold text-lg text-earth-950">No Gadgets Found</h3>
                             <p class="text-xs text-earth-600 leading-relaxed">No bizarre items match your active filters. Try adjusting price range or keyword search.</p>
                             <button onclick="window.resetFilters()" class="px-5 py-2.5 rounded-xl bg-appetite-700 text-white font-bold text-xs hover:bg-appetite-800 transition-all shadow-md">
                                 Reset Filter &amp; Show All Oddities
@@ -654,7 +654,7 @@
             <div class="flex items-center justify-between border-b border-canvas-border pb-4">
                 <div class="flex items-center gap-2.5">
                     <i class="fa-solid fa-cart-shopping text-appetite-700 text-lg"></i>
-                    <h3 class="font-heading font-black text-xl text-earth-950">Peculiar Cart</h3>
+                    <h3 class="font-heading font-black text-xl text-earth-950">Cart</h3>
                     <span id="drawer-cart-count-badge" class="px-2.5 py-0.5 rounded-full bg-honey-100 border border-honey-300 text-honey-900 text-xs font-bold">0 items</span>
                 </div>
                 <button onclick="window.closeCartDrawer()" class="text-earth-500 hover:text-earth-950 p-1 rounded-lg hover:bg-canvas-surface transition-colors">
@@ -695,7 +695,7 @@
 
                 <button onclick="window.openCheckoutModal()" class="w-full py-3 rounded-xl bg-appetite-700 hover:bg-appetite-800 text-white font-bold text-xs flex items-center justify-center gap-2 transition-all shadow-lg shadow-appetite-800/30">
                     <i class="fa-solid fa-lock text-honey-300"></i>
-                    <span>Proceed to Peculiar Checkout</span>
+                    <span>Proceed to Checkout</span>
                 </button>
 
                 <button onclick="window.clearCart()" class="w-full py-1.5 text-[11px] text-earth-500 hover:text-rose-600 font-semibold transition-colors text-center">
@@ -719,7 +719,7 @@
             <div class="flex items-center justify-between border-b border-canvas-border pb-3.5">
                 <div class="flex items-center gap-2.5">
                     <i class="fa-solid fa-hat-wizard text-appetite-700 text-lg"></i>
-                    <h3 class="font-heading font-black text-xl text-earth-950">Peculiar Checkout</h3>
+                    <h3 class="font-heading font-black text-xl text-earth-950">Checkout</h3>
                 </div>
                 <button onclick="window.closeCheckoutModal()" class="text-earth-500 hover:text-earth-950 p-1 rounded-lg hover:bg-canvas-surface">
                     <i class="fa-solid fa-xmark text-lg"></i>
@@ -758,7 +758,65 @@
         </div>
     </div>
 
-    <!-- 6. ORDER RECEIPT MODAL -->
+    
+    <!-- 5.5 PRODUCT DETAILS MODAL -->
+    <div id="product-modal-backdrop" class="fixed inset-0 bg-black/60 backdrop-blur-xs z-50 hidden flex items-center justify-center p-4" onclick="if(event.target===this) window.closeProductModal()">
+        <div class="bg-canvas-base border border-canvas-border rounded-2xl max-w-2xl w-full flex flex-col md:flex-row overflow-hidden shadow-2xl relative"
+             data-blueprint-file="WackyStore.WebUI/Views/Product/Details.cshtml"
+             data-blueprint-role="Product Details View"
+             data-blueprint-layer="WebUI / View"
+             data-blueprint-dom="Modal with flex layout for image and details, including next/back navigation."
+             data-blueprint-desc="Displays full product details and allows navigation between products."
+             data-blueprint-code="return View(product);">
+             
+            <!-- Close Button -->
+            <button onclick="window.closeProductModal()" class="absolute top-3 right-3 h-8 w-8 rounded-full bg-white/80 hover:bg-white text-earth-900 flex items-center justify-center z-10 transition-colors shadow-sm">
+                <i class="fa-solid fa-xmark"></i>
+            </button>
+
+            <!-- Navigation Arrows -->
+            <button onclick="window.modalPrevProduct()" class="absolute top-1/2 left-3 -translate-y-1/2 h-10 w-10 rounded-full bg-white/80 hover:bg-white text-earth-900 flex items-center justify-center z-10 transition-colors shadow-md">
+                <i class="fa-solid fa-chevron-left"></i>
+            </button>
+            <button onclick="window.modalNextProduct()" class="absolute top-1/2 right-3 -translate-y-1/2 h-10 w-10 rounded-full bg-white/80 hover:bg-white text-earth-900 flex items-center justify-center z-10 transition-colors shadow-md border-r-0 md:border-r md:right-auto md:left-[calc(50%-20px)] lg:left-[calc(50%-20px)] xl:left-[calc(50%-20px)]" style="right: 3px !important;">
+                <i class="fa-solid fa-chevron-right"></i>
+            </button>
+
+            <!-- Product Image -->
+            <div class="w-full md:w-1/2 bg-canvas-surface relative h-64 md:h-auto">
+                <img id="pm-image" src="" alt="Product" class="w-full h-full object-cover" />
+                <span id="pm-badge" class="absolute top-4 left-4 px-3 py-1.5 rounded-full bg-earth-950/85 backdrop-blur-md text-honey-400 border border-honey-500/30 text-xs font-bold tracking-wide uppercase shadow-sm"></span>
+            </div>
+
+            <!-- Product Info -->
+            <div class="w-full md:w-1/2 p-6 md:p-8 flex flex-col">
+                <div class="flex items-center gap-2 mb-3">
+                    <span id="pm-category" class="px-2 py-1 rounded-full text-[10px] font-bold tracking-wider uppercase bg-earth-200 text-earth-900"></span>
+                    <div class="flex items-center gap-1 text-honey-600 text-xs">
+                        <span>★★★★★</span>
+                        <span id="pm-rating" class="text-earth-600 font-medium ml-1"></span>
+                    </div>
+                </div>
+                
+                <h2 id="pm-name" class="font-heading font-black text-2xl text-earth-950 mb-4 leading-tight"></h2>
+                
+                <p id="pm-desc" class="text-earth-600 text-sm leading-relaxed mb-6 flex-1"></p>
+                
+                <div class="flex items-end justify-between mb-6">
+                    <div>
+                        <span id="pm-price" class="text-3xl font-black text-earth-950 font-heading"></span>
+                        <span class="text-xs text-earth-500 ml-1 font-medium">USD</span>
+                    </div>
+                    <span id="pm-stock" class="text-xs text-appetite-700 font-semibold font-mono"></span>
+                </div>
+                
+                <div id="pm-action-container">
+                    <!-- Action button injected here by JS -->
+                </div>
+            </div>
+        </div>
+    </div>
+\n    <!-- 6. ORDER RECEIPT MODAL -->
     <div id="receipt-modal-backdrop" class="fixed inset-0 bg-black/60 backdrop-blur-xs z-50 hidden flex items-center justify-center p-4" onclick="if(event.target===this) window.closeReceiptModal()">
         <div class="bg-canvas-base border border-canvas-border rounded-2xl max-w-sm w-full p-6 text-center space-y-4 shadow-2xl text-earth-950"
              data-blueprint-file="TimberlineStore.WebUI/Views/Cart/Completed.cshtml"
@@ -774,7 +832,7 @@
 
             <div class="space-y-1">
                 <h3 class="font-heading font-black text-xl text-earth-950">Oddities Dispatched</h3>
-                <p class="text-xs text-earth-600">Your peculiar order has been logged into the ASP.NET MVC Order Pipeline</p>
+                <p class="text-xs text-earth-600">Your order has been logged into the ASP.NET MVC Order Pipeline</p>
             </div>
 
             <div class="bg-white p-4 rounded-xl border border-canvas-border text-left text-xs space-y-2.5">
@@ -1120,7 +1178,7 @@
         let sortOption = 'default';
         let priceFilter = 'all';
         let minRatingFilter = 0;
-        let currentPage = 1;
+        let currentPage = 1;\n        let currentFilteredProducts = [];\n        let currentModalIndex = 0;
         const ITEMS_PER_PAGE = 8;
         let cart = [];
 
@@ -1317,7 +1375,7 @@
 
             if (emptyState) emptyState.classList.add('hidden');
 
-            // 6. Paginate
+            currentFilteredProducts = filtered;\n\n            // 6. Paginate
             const totalPages = Math.ceil(filtered.length / ITEMS_PER_PAGE);
             if (currentPage > totalPages) currentPage = totalPages || 1;
 
@@ -1333,12 +1391,12 @@
 
                 const actionButtonHtml = inCartQty > 0 ? `
                     <div class="space-y-2">
-                        <div class="w-full py-2 px-3 rounded-xl bg-appetite-700 text-white font-bold text-xs flex items-center justify-center gap-1.5 shadow-sm">
+                        <div class="w-full py-2 px-3 rounded-xl bg-purple-600 text-white font-bold text-xs flex items-center justify-center gap-1.5 shadow-sm">
                             <i class="fa-solid fa-check"></i>
-                            <span>Added to Peculiar Cart</span>
+                            <span>Added to Cart</span>
                         </div>
                         <div class="flex items-center justify-between bg-canvas-surface border border-canvas-border rounded-xl p-1 text-earth-950">
-                            <button onclick="window.updateCartQty(${prod.id}, -1)" 
+                            <button onclick="event.stopPropagation(); window.updateCartQty(${prod.id}, -1)" 
                                     class="h-7 w-7 rounded-lg bg-white border border-canvas-border hover:bg-earth-200 text-earth-900 font-bold text-sm flex items-center justify-center transition-all shadow-xs" 
                                     title="Decrease quantity">
                                 <i class="fa-solid fa-minus text-[10px]"></i>
@@ -1352,7 +1410,7 @@
                                        onchange="window.setProductQuantity(${prod.id}, this.value)" 
                                        class="w-12 text-center bg-white border border-canvas-border rounded-md px-1 py-0.5 text-earth-950 text-xs font-bold focus:outline-none focus:border-honey-700">
                             </div>
-                            <button onclick="window.updateCartQty(${prod.id}, 1)" 
+                            <button onclick="event.stopPropagation(); window.updateCartQty(${prod.id}, 1)" 
                                     class="h-7 w-7 rounded-lg bg-white border border-canvas-border hover:bg-earth-200 text-earth-900 font-bold text-sm flex items-center justify-center transition-all shadow-xs" 
                                     title="Increase quantity">
                                 <i class="fa-solid fa-plus text-[10px]"></i>
@@ -1360,15 +1418,15 @@
                         </div>
                     </div>
                 ` : `
-                    <button onclick="window.addToCart(${prod.id})" 
-                            class="w-full py-2.5 rounded-xl bg-appetite-700 hover:bg-appetite-800 active:scale-[0.98] text-white font-bold text-xs flex items-center justify-center gap-2 transition-all shadow-md shadow-appetite-800/20">
+                    <button onclick="event.stopPropagation(); window.addToCart(${prod.id})" 
+                            class="w-full py-2.5 rounded-xl bg-purple-600 hover:bg-purple-700 active:scale-[0.98] text-white font-bold text-xs flex items-center justify-center gap-2 transition-all shadow-md shadow-appetite-800/20">
                         <i class="fa-solid fa-cart-plus text-honey-300"></i>
                         <span>Add to Cart</span>
                     </button>
                 `;
 
                 return `
-                    <article class="product-card group"
+                    <article class="product-card group cursor-pointer" onclick="window.openProductModal(${prod.id})"
                              data-blueprint-file="WackyStore.WebUI/Views/Shared/_ProductSummary.cshtml"
                              data-blueprint-role="Product Summary Partial View"
                              data-blueprint-layer="WebUI / Partial View"
@@ -1559,7 +1617,7 @@
                 if (subtotal >= threshold) {
                     bar.style.width = '100%';
                     bar.className = 'bg-appetite-700 h-full w-full transition-all duration-300';
-                    progText.innerText = '🎉 You unlocked FREE 2-Day Peculiar Shipping!';
+                    progText.innerText = '🎉 You unlocked FREE 2-Day Shipping!';
                     progBadge.innerText = 'UNLOCKED';
                     progBadge.className = 'text-appetite-700 font-bold';
                 } else {
@@ -1580,7 +1638,7 @@
                     container.innerHTML = `
                         <div class="h-48 flex flex-col items-center justify-center text-center space-y-2 text-earth-500">
                             <i class="fa-solid fa-basket-shopping text-3xl text-earth-400"></i>
-                            <div class="text-xs font-medium">Your peculiar cart is currently empty.</div>
+                            <div class="text-xs font-medium">Your cart is currently empty.</div>
                         </div>
                     `;
                 } else {
@@ -1685,7 +1743,331 @@
          * MODAL CONTROLS & CHECKOUT WORKFLOW (Views/Cart/Checkout.cshtml)
          * ==============================================================================
          */
-        function openCartDrawer() {
+        
+        /**
+         * ==============================================================================
+         * PRODUCT DETAILS MODAL LOGIC
+         * ==============================================================================
+         */
+        function openProductModal(productId) {
+            const index = currentFilteredProducts.findIndex(p => p.id === productId);
+            if (index === -1) return;
+            
+            currentModalIndex = index;
+            renderProductModal();
+            document.getElementById('product-modal-backdrop').classList.remove('hidden');
+        }
+
+        function closeProductModal() {
+            document.getElementById('product-modal-backdrop').classList.add('hidden');
+        }
+
+        function modalNextProduct() {
+            if (currentFilteredProducts.length <= 1) return;
+            currentModalIndex = (currentModalIndex + 1) % currentFilteredProducts.length;
+            renderProductModal();
+        }
+
+        function modalPrevProduct() {
+            if (currentFilteredProducts.length <= 1) return;
+            currentModalIndex = (currentModalIndex - 1 + currentFilteredProducts.length) % currentFilteredProducts.length;
+            renderProductModal();
+        }
+
+        function renderProductModal() {
+            const prod = currentFilteredProducts[currentModalIndex];
+            if (!prod) return;
+
+            document.getElementById('pm-image').src = prod.image;
+            document.getElementById('pm-image').alt = prod.name;
+            document.getElementById('pm-badge').innerText = prod.badge;
+            document.getElementById('pm-category').innerText = prod.category;
+            document.getElementById('pm-rating').innerText = prod.rating;
+            document.getElementById('pm-name').innerText = prod.name;
+            document.getElementById('pm-desc').innerText = prod.description;
+            document.getElementById('pm-price').innerText = '
+            document.getElementById('cart-drawer-backdrop').classList.remove('hidden');
+        }
+
+        function closeCartDrawer() {
+            document.getElementById('cart-drawer-backdrop').classList.add('hidden');
+        }
+
+        function openCheckoutModal() {
+            if (cart.length === 0) {
+                triggerFlashToast('Please add items to your cart before checkout');
+                return;
+            }
+            closeCartDrawer();
+            document.getElementById('checkout-modal-backdrop').classList.remove('hidden');
+        }
+
+        function closeCheckoutModal() {
+            document.getElementById('checkout-modal-backdrop').classList.add('hidden');
+        }
+
+        function processCheckout() {
+            const subtotal = cart.reduce((sum, item) => sum + (item.price * item.quantity), 0);
+            const name = document.getElementById('co-name').value;
+            const city = document.getElementById('co-city').value;
+
+            // Generate Order Id
+            const orderId = '#WT-' + Math.floor(100000 + Math.random() * 900000);
+
+            // Populate Receipt
+            document.getElementById('rec-order-id').innerText = orderId;
+            document.getElementById('rec-name').innerText = name;
+            document.getElementById('rec-dest').innerText = city;
+            document.getElementById('rec-total').innerText = `$${subtotal.toFixed(2)}`;
+
+            // Clear Cart & Close Modal
+            cart = [];
+            updateCartUI();
+            closeCheckoutModal();
+
+            // Open Receipt
+            document.getElementById('receipt-modal-backdrop').classList.remove('hidden');
+        }
+
+        function closeReceiptModal() {
+            document.getElementById('receipt-modal-backdrop').classList.add('hidden');
+        }
+
+        /**
+         * ==============================================================================
+         * ADMIN CRUD PORTAL (AdminController.cs & EFProductRepository.cs)
+         * ==============================================================================
+         */
+        function openAdminModal() {
+            renderAdminInventoryList();
+            document.getElementById('admin-modal-backdrop').classList.remove('hidden');
+        }
+
+        function closeAdminModal() {
+            document.getElementById('admin-modal-backdrop').classList.add('hidden');
+        }
+
+        function renderAdminInventoryList() {
+            const container = document.getElementById('admin-inventory-list');
+            if (!container) return;
+
+            container.innerHTML = PRODUCTS.map(p => `
+                <div class="flex items-center justify-between bg-white p-2.5 rounded-lg border border-canvas-border">
+                    <div class="flex items-center gap-2.5">
+                        <img src="${p.image}" alt="${p.name}" class="h-8 w-8 rounded object-cover border border-canvas-border" />
+                        <div>
+                            <div class="font-bold text-earth-950">${p.name}</div>
+                            <div class="text-[10.5px] text-earth-600 font-mono">${p.category} &bull; $${p.price.toFixed(2)}</div>
+                        </div>
+                    </div>
+                    <button onclick="window.handleAdminDelete(${p.id})" class="px-2 py-1 rounded bg-earth-100 text-rose-600 hover:bg-rose-600 hover:text-white transition-all text-xs font-bold">
+                        Delete
+                    </button>
+                </div>
+            `).join('');
+        }
+
+        function handleAdminAddProduct() {
+            const name = document.getElementById('adm-name').value;
+            const cat = document.getElementById('adm-cat').value;
+            const price = parseFloat(document.getElementById('adm-price').value);
+            const desc = document.getElementById('adm-desc').value;
+
+            const newId = PRODUCTS.length > 0 ? Math.max(...PRODUCTS.map(p => p.id)) + 1 : 1;
+
+            PRODUCTS.unshift({
+                id: newId,
+                name: name,
+                category: cat,
+                categoryLabel: `${cat}: Wacky Thing`,
+                price: price,
+                rating: 5.0,
+                reviews: 1,
+                badge: "New Arrival",
+                badgeColor: "emerald",
+                description: desc,
+                image: "./images/beeper.jpg",
+                stock: 20
+            });
+
+            document.getElementById('admin-add-form').reset();
+            renderAdminInventoryList();
+            renderCategorySidebar();
+            renderCatalog();
+            triggerFlashToast(`Added "${name}" to database`);
+        }
+
+        function handleAdminDelete(productId) {
+            PRODUCTS = PRODUCTS.filter(p => p.id !== productId);
+            cart = cart.filter(c => c.id !== productId);
+            renderAdminInventoryList();
+            renderCategorySidebar();
+            updateCartUI();
+            triggerFlashToast('Product deleted from EF repository');
+        }
+
+        /**
+         * ==============================================================================
+         * ARCHITECTURE MODAL
+         * ==============================================================================
+         */
+        function openArchitectureModal() {
+            document.getElementById('arch-modal-backdrop').classList.remove('hidden');
+        }
+
+        function closeArchitectureModal() {
+            document.getElementById('arch-modal-backdrop').classList.add('hidden');
+        }
+
+        /**
+         * ==============================================================================
+         * BLUEPRINT HOVER TOOLTIP ENGINE
+         * ==============================================================================
+         */
+        const tooltip = document.getElementById('blueprint-tooltip');
+        const ttRole = document.getElementById('tt-role');
+        const ttLayerBadge = document.getElementById('tt-layer-badge');
+        const ttDomCss = document.getElementById('tt-dom-css');
+        const ttFile = document.getElementById('tt-file');
+        const ttCode = document.getElementById('tt-code');
+        const ttDesc = document.getElementById('tt-desc');
+
+        document.addEventListener('mouseover', (e) => {
+            const target = e.target.closest('[data-blueprint-file]');
+            if (!target) return;
+
+            const file = target.getAttribute('data-blueprint-file') || 'WackyStore.WebUI/...';
+            const role = target.getAttribute('data-blueprint-role') || 'UI Component';
+            const layer = target.getAttribute('data-blueprint-layer') || 'Presentation';
+            const dom = target.getAttribute('data-blueprint-dom') || 'HTML & CSS Fluid Grid/Flexbox Layout';
+            const desc = target.getAttribute('data-blueprint-desc') || 'Architectural component in the ASP.NET MVC pipeline.';
+            const code = target.getAttribute('data-blueprint-code') || '// ASP.NET MVC action';
+
+            ttRole.innerText = role;
+            ttLayerBadge.innerText = layer;
+            ttDomCss.innerText = dom;
+            ttFile.innerText = file;
+            ttCode.innerText = code;
+            ttDesc.innerText = desc;
+
+            tooltip.classList.add('visible');
+            positionTooltip(e);
+        });
+
+        document.addEventListener('mousemove', (e) => {
+            if (tooltip && tooltip.classList.contains('visible')) {
+                positionTooltip(e);
+            }
+        });
+
+        document.addEventListener('mouseout', (e) => {
+            const target = e.target.closest('[data-blueprint-file]');
+            if (target && !e.relatedTarget?.closest('[data-blueprint-file]')) {
+                if (tooltip) tooltip.classList.remove('visible');
+            }
+        });
+
+        function positionTooltip(e) {
+            if (!tooltip) return;
+            const padding = 15;
+            let left = e.clientX + padding;
+            let top = e.clientY + padding;
+
+            const tooltipRect = tooltip.getBoundingClientRect();
+
+            if (left + tooltipRect.width > window.innerWidth - 10) {
+                left = e.clientX - tooltipRect.width - padding;
+            }
+            if (top + tooltipRect.height > window.innerHeight - 10) {
+                top = e.clientY - tooltipRect.height - padding;
+            }
+
+            tooltip.style.left = `${Math.max(10, left)}px`;
+            tooltip.style.top = `${Math.max(10, top)}px`;
+        }
+
+        function triggerFlashToast(msg) {
+            const toast = document.createElement('div');
+            toast.className = 'fixed bottom-5 right-5 z-50 px-4 py-2.5 rounded-xl bg-appetite-700 text-white font-bold text-xs shadow-2xl transition-all flex items-center gap-2';
+            toast.innerHTML = `<i class="fa-solid fa-cart-shopping text-honey-300"></i> ${msg}`;
+            document.body.appendChild(toast);
+            setTimeout(() => {
+                toast.style.opacity = '0';
+                setTimeout(() => toast.remove(), 250);
+            }, 1800);
+        }
+
+        // Global Keybindings
+        window.addEventListener('keydown', (e) => {
+            if (e.key === 'Escape') {
+                closeCartDrawer();
+                closeCheckoutModal();
+                closeReceiptModal();
+                closeAdminModal();\n                closeProductModal();
+                closeArchitectureModal();
+            }
+        });
+
+        // Initialize on load
+        document.addEventListener('DOMContentLoaded', () => {
+            renderCategorySidebar();
+            renderCatalog();
+            updateCartUI();
+        });
+
+        if (document.readyState === 'complete' || document.readyState === 'interactive') {
+            renderCategorySidebar();
+            renderCatalog();
+            updateCartUI();
+        }
+    </script>
+</body>
+
+</html>
+ + prod.price.toFixed(2);
+            document.getElementById('pm-stock').innerText = 'In Stock (' + prod.stock + ')';
+
+            const cartItem = cart.find(c => c.id === prod.id);
+            const inCartQty = cartItem ? cartItem.quantity : 0;
+            const container = document.getElementById('pm-action-container');
+
+            if (inCartQty > 0) {
+                container.innerHTML = `
+                    <div class="space-y-3">
+                        <div class="w-full py-3 px-4 rounded-xl bg-purple-600 text-white font-bold text-sm flex items-center justify-center gap-2 shadow-sm">
+                            <i class="fa-solid fa-check"></i>
+                            <span>Added to Cart</span>
+                        </div>
+                        <div class="flex items-center justify-between bg-canvas-surface border border-canvas-border rounded-xl p-1.5 text-earth-950">
+                            <button onclick="event.stopPropagation(); window.updateCartQty(${prod.id}, -1); window.renderProductModal();" 
+                                    class="h-10 w-10 rounded-lg bg-white border border-canvas-border hover:bg-earth-200 text-earth-900 font-bold text-lg flex items-center justify-center transition-all shadow-xs">
+                                <i class="fa-solid fa-minus text-sm"></i>
+                            </button>
+                            <div class="flex items-center gap-2 text-sm font-semibold">
+                                <span class="text-earth-600">Qty:</span>
+                                <input type="number" min="1" max="99" value="${inCartQty}" 
+                                       onclick="event.stopPropagation();"
+                                       onchange="window.setProductQuantity(${prod.id}, this.value); window.renderProductModal();" 
+                                       class="w-16 text-center bg-white border border-canvas-border rounded-md px-2 py-1.5 text-earth-950 text-sm font-bold focus:outline-none focus:border-purple-600">
+                            </div>
+                            <button onclick="event.stopPropagation(); window.updateCartQty(${prod.id}, 1); window.renderProductModal();" 
+                                    class="h-10 w-10 rounded-lg bg-white border border-canvas-border hover:bg-earth-200 text-earth-900 font-bold text-lg flex items-center justify-center transition-all shadow-xs">
+                                <i class="fa-solid fa-plus text-sm"></i>
+                            </button>
+                        </div>
+                    </div>
+                `;
+            } else {
+                container.innerHTML = `
+                    <button onclick="event.stopPropagation(); window.addToCart(${prod.id}); window.renderProductModal();" 
+                            class="w-full py-3.5 rounded-xl bg-purple-600 hover:bg-purple-700 active:scale-[0.98] text-white font-bold text-sm flex items-center justify-center gap-2 transition-all shadow-md shadow-purple-600/20">
+                        <i class="fa-solid fa-cart-plus text-white/90"></i>
+                        <span>Add to Cart</span>
+                    </button>
+                `;
+            }
+        }
+\n        function openCartDrawer() {
             document.getElementById('cart-drawer-backdrop').classList.remove('hidden');
         }
 

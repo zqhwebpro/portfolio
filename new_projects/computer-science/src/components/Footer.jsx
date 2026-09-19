@@ -14,10 +14,10 @@ export function Footer({ onSelect }) {
           {/* Brand */}
           <div>
             <div style={{ fontFamily: 'var(--font-display)', fontSize: '1.1rem', fontWeight: 900, color: '#FFE600', marginBottom: '0.5rem', letterSpacing: '-0.01em' }}>
-              THE 8 FUNDAMENTALS
+              THE 5 FUNDAMENTALS
             </div>
             <div style={{ fontFamily: 'var(--font-mono)', fontSize: '0.7rem', color: '#444', lineHeight: 1.6 }}>
-              An interactive infographic presenting the canonical definitions of the 8 fundamental algorithmic concepts in computer science.
+              An interactive infographic presenting the canonical definitions of the 5 fundamental programming concepts.
             </div>
           </div>
 

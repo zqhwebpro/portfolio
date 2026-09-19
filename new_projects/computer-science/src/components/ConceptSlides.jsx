@@ -229,13 +229,13 @@ function DataTypesSlide({ concept }) {
 function ControlStructuresSlide({ concept }) {
   const [step, setStep] = useState(0);
   const STEPS = [
-    { codeLine: 8, label: 'LOOPS', note: 'Start for loop (i=0)' },
-    { codeLine: 9, label: 'ITERATION', note: 'i=0: Execute loop body (spawnEnemy)' },
-    { codeLine: 8, label: 'LOOPS', note: 'Increment i (i=1)' },
-    { codeLine: 9, label: 'ITERATION', note: 'i=1: Execute loop body (spawnEnemy)' },
-    { codeLine: 8, label: 'LOOPS', note: 'Increment i (i=2)' },
-    { codeLine: 9, label: 'ITERATION', note: 'i=2: Execute loop body (spawnEnemy)' },
-    { codeLine: 8, label: 'LOOPS', note: 'Increment i (i=3). Condition i<3 is false. Exit loop.' },
+    { codeLine: 8, label: 'ITERATION', note: 'Start for loop. Initialize i = 1' },
+    { codeLine: 9, label: 'LOOPS', note: 'i=1: Execute loop body. print(1)' },
+    { codeLine: 8, label: 'ITERATION', note: 'Next iteration. i = 2' },
+    { codeLine: 9, label: 'LOOPS', note: 'i=2: Execute loop body. print(2)' },
+    { codeLine: 8, label: 'ITERATION', note: 'Next iteration. i = 3' },
+    { codeLine: 9, label: 'LOOPS', note: 'i=3: Execute loop body. print(3)' },
+    { codeLine: 8, label: 'ITERATION', note: 'Next iteration. i = 4. Exceeds range. Exit loop.' },
   ];
   const cur = STEPS[step];
 
@@ -368,7 +368,7 @@ function FunctionsSlide({ concept }) {
 
           {/* Machine */}
           <div style={{ background: concept.color, color: '#FFF', border: '3px solid #0A0A0A', padding: '1rem', display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center', boxShadow: '4px 4px 0 #0A0A0A' }}>
-            <div style={{ fontFamily: 'var(--font-mono)', fontSize: '0.7rem', fontWeight: 900 }}>calculateArea()</div>
+            <div style={{ fontFamily: 'var(--font-mono)', fontSize: '0.7rem', fontWeight: 900 }}>calculate_area()</div>
             <div style={{ fontFamily: 'var(--font-display)', fontSize: '1.5rem', fontWeight: 900, margin: '0.5rem 0' }}>{w} × {h}</div>
             <button onClick={calculate} style={{ background: '#0A0A0A', color: '#FFF', border: 'none', padding: '0.4rem 0.8rem', fontFamily: 'var(--font-mono)', fontSize: '0.7rem', fontWeight: 'bold', cursor: 'pointer' }}>EXECUTE</button>
           </div>

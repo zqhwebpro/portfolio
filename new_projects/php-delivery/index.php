@@ -285,9 +285,15 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['auth_action'])) {
 
     <style>
         :root {
-            --bg-base: #070b14;
-            --border-calm: #1e293b;
-            --text-primary: #f8fafc;
+            --bg-base: #e6f9f2;
+            --bg-surface: rgba(255, 255, 255, 0.7);
+            --bg-card: rgba(255, 255, 255, 0.85);
+            --bg-card-alt: #ffffff;
+            --border-calm: rgba(255, 255, 255, 0.6);
+            --border-focus: #ff6b00;
+            --text-primary: #0f172a;
+            --text-secondary: #334155;
+            --text-muted: #64748b;
         }
 
         body {
@@ -358,14 +364,57 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['auth_action'])) {
             font-size: 0.72rem;
             font-weight: 500;
         }
-    </style>
+    
+        /* Glassmorphism UI */
+        .glass-card {
+            background: var(--bg-card);
+            backdrop-filter: blur(24px);
+            -webkit-backdrop-filter: blur(24px);
+            border: 1px solid var(--border-calm);
+            box-shadow: 0 10px 40px -10px rgba(0, 0, 0, 0.05), 0 0 0 1px rgba(255, 255, 255, 0.5) inset;
+        }
+        .pill-btn {
+            border-radius: 9999px;
+            font-weight: 700;
+            padding: 1rem 2rem;
+            transition: all 0.2s ease;
+        }
+        .pill-btn-primary {
+            background-color: #ff6b00;
+            color: #ffffff;
+            box-shadow: 0 4px 14px 0 rgba(255, 107, 0, 0.39);
+        }
+        .pill-btn-primary:hover {
+            background-color: #e66000;
+            transform: translateY(-2px);
+            box-shadow: 0 6px 20px rgba(255, 107, 0, 0.23);
+        }
+        .pill-btn-secondary {
+            background-color: #ffd600;
+            color: #1a1a1a;
+            box-shadow: 0 4px 14px 0 rgba(255, 214, 0, 0.39);
+        }
+        .pill-btn-secondary:hover {
+            background-color: #e6c100;
+            transform: translateY(-2px);
+            box-shadow: 0 6px 20px rgba(255, 214, 0, 0.23);
+        }
+        /* Hide JS Panels initially no more - override */
+        .tab-panel {
+            display: block !important;
+            opacity: 1 !important;
+            transform: none !important;
+            transition: none !important;
+            margin-bottom: 4rem;
+        }
+</style>
 </head>
 
-<body class="selection:bg-sky-950 selection:text-sky-200 flex flex-col min-h-screen">
+<body class="selection:bg-orange-200 selection:text-orange-900 flex flex-col min-h-screen bg-[#e6f9f2] text-slate-900">
 
     <!-- GLOBAL NAVBAR -->
-    <header class="calm-nav sticky top-0 z-50">
-        <div class="max-w-7xl mx-auto px-4 sm:px-6 py-3 flex items-center justify-between gap-4 flex-wrap">
+    <header class="sticky top-6 z-50 mx-4 sm:mx-8">
+        <div class="max-w-7xl mx-auto px-6 py-4 flex items-center justify-between gap-4 flex-wrap bg-white/70 backdrop-blur-xl border border-white rounded-full shadow-[0_8px_30px_rgb(0,0,0,0.04)]">
             <div class="flex items-center gap-3">
                 <div class="h-9 w-9 rounded-xl bg-slate-900 border border-slate-700/80 flex items-center justify-center font-mono font-bold text-slate-200 shadow-sm">
                     <i class="fa-brands fa-php text-xl text-sky-400"></i>
@@ -391,7 +440,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['auth_action'])) {
     </header>
 
     <!-- MAIN WORKBENCH -->
-    <main class="max-w-7xl mx-auto px-4 sm:px-6 py-8 flex-1 w-full space-y-8">
+    <main class="max-w-7xl mx-auto px-4 sm:px-6 py-16 flex-1 w-full space-y-16">
 
         <!-- HEADER BANNER & INSTRUCTIONAL CONTEXT (Max measure 68ch) -->
         <section class="space-y-4 border-b border-slate-800/80 pb-6">
@@ -415,7 +464,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['auth_action'])) {
             </p>
 
             <!-- SEGMENTED TAB CONTROLLER -->
-            <nav class="pt-3" aria-label="Curriculum Modules">
+            <nav class="sticky top-32 z-40 mb-12" aria-label="Curriculum Modules">
                 <div class="grid grid-cols-1 sm:grid-cols-3 gap-2 p-1.5 bg-slate-900/90 border border-slate-800 rounded-xl">
                     
                     <a href="index.php?tab=mod-1" class="flex items-center gap-3 p-3 rounded-lg text-left transition-all <?= $activeTab === 'mod-1' ? 'bg-slate-800/90 border border-sky-500/40 text-white shadow-sm' : 'bg-slate-950/40 text-slate-400 hover:text-slate-200' ?>">

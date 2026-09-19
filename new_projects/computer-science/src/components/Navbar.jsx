@@ -33,7 +33,7 @@ export function Navbar({ activeIndex, onSelect }) {
           fontFamily: 'var(--font-mono)', fontWeight: 900, fontSize: '0.7rem', color: '#000'
         }}>CS</div>
         <span style={{ fontFamily: 'var(--font-mono)', fontSize: '0.75rem', fontWeight: 800, color: '#FFF', whiteSpace: 'nowrap' }}>
-          THE 8 FUNDAMENTALS
+          THE 5 FUNDAMENTALS
         </span>
       </div>
 
