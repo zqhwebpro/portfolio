@@ -4,7 +4,7 @@
 <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Case Study: React Pixel Pinball — Architecture &amp; Physics Engine</title>
+    <title>What I Learned: React Pixel Pinball — Architecture &amp; Physics Engine</title>
     <meta name="description"
         content="Technical case study of React Pixel Pinball: 2D rigid-body canvas physics, collision detection, and performance optimizations." />
 
@@ -354,88 +354,22 @@
         <!-- Section 1: Overview -->
         <section class="section-block">
             <h2 class="section-title">
-                <i class="fa-solid fa-circle-info"></i> Project Overview
+                <i class="fa-solid fa-circle-info"></i> What It Is
             </h2>
             <p>
-                The objective was to build a full-featured, responsive arcade pinball game natively in the browser without relying on heavy external physics libraries like Matter.js or Box2D. The entire physics loop, collision solver, flipper rotational dynamics, and score multiplier engine were implemented from scratch.
-            </p>
-            <p>
-                The simulation delivers a smooth 60 FPS arcade cabinet experience that dynamically scales to any screen size while supporting keyboard inputs, touch triggers, and procedural Web Audio sound synthesis.
+                A web-based pixel pinball game demonstrating complex state management.
             </p>
         </section>
 
-        <!-- Section 2: Technical Architecture -->
         <section class="section-block">
             <h2 class="section-title">
-                <i class="fa-solid fa-microchip"></i> Technical Highlights
+                <i class="fa-solid fa-hammer"></i> How It Was Built
             </h2>
             <p>
-                <strong>Decoupled Game Loop:</strong> The physics engine operates within a dedicated <code>requestAnimationFrame</code> loop using delta-time clamping. High-frequency state calculations (ball velocity, flipper angular momentum, particle sparks) are kept in memory and drawn directly to Canvas 2D rather than triggering React state updates.
-            </p>
-            <p>
-                <strong>Collision Detection &amp; Resolution:</strong> Rigid-body collisions against sloped walls, circular bumpers, rollover lanes, and rotating flippers use continuous swept circle-line and circle-point projections to prevent tunneling at high ball velocities.
-            </p>
-            <p>
-                <strong>Audio Synthesis:</strong> Integrated Web Audio API oscillators synthesize authentic 8-bit chiptune bleeps and bumper strikes dynamically without latency or asset downloads.
+                Built using React, custom 2D physics, and CSS, utilizing game loops and continuous collision detection entirely within the React ecosystem.
             </p>
         </section>
 
-        <!-- Section 3: What I Learned -->
-        <section class="section-block">
-            <h2 class="section-title">
-                <i class="fa-solid fa-lightbulb"></i> What I Learned (Core Takeaways)
-            </h2>
-            <ul class="learnings-list">
-                <li class="learning-item gold">
-                    <div class="learning-icon">⚡</div>
-                    <div class="learning-content">
-                        <h4>Separating React State from 60 FPS Render Cycles</h4>
-                        <p>Passing physics positions through React state causes severe bottlenecking and dropped frames. Decoupling the game tick to mutate mutable ref buffers while using React strictly for HUD and high-score UI ensures persistent 60 FPS rendering.</p>
-                    </div>
-                </li>
-                <li class="learning-item cyan">
-                    <div class="learning-icon">📐</div>
-                    <div class="learning-content">
-                        <h4>Continuous Collision Detection (CCD) Math</h4>
-                        <p>High ball speeds cause discrete frame checks to skip over thin flipper geometry. Implementing sub-step integration and projection vector clamping eliminated ball clipping and guaranteed realistic rebounds.</p>
-                    </div>
-                </li>
-                <li class="learning-item pink">
-                    <div class="learning-icon">📱</div>
-                    <div class="learning-content">
-                        <h4>Responsive Viewport Matrix Transformations</h4>
-                        <p>Arcade cabinets have fixed aspect ratios. Applying dynamic canvas scale matrices and touch event normalization ensured identical physics calculations across mobile phones, tablets, and wide desktop monitors.</p>
-                    </div>
-                </li>
-            </ul>
-        </section>
-
-        <!-- Section 4: Specifications -->
-        <section class="section-block">
-            <h2 class="section-title">
-                <i class="fa-solid fa-layer-group"></i> Architecture Specifications
-            </h2>
-            <div class="tech-grid">
-                <div class="tech-card">
-                    <div class="tech-label">Frontend Framework</div>
-                    <div class="tech-value">React 18 &amp; Hooks</div>
-                </div>
-                <div class="tech-card">
-                    <div class="tech-label">Graphics Engine</div>
-                    <div class="tech-value">HTML5 Canvas 2D API</div>
-                </div>
-                <div class="tech-card">
-                    <div class="tech-label">Physics Model</div>
-                    <div class="tech-value">Custom 2D Euler Mechanics</div>
-                </div>
-                <div class="tech-card">
-                    <div class="tech-label">Audio System</div>
-                    <div class="tech-value">Web Audio API Synthesis</div>
-                </div>
-            </div>
-        </section>
-
-        <!-- Footer Navigation -->
         <footer class="footer-nav">
             <a href="./index.html" class="nav-btn primary">
                 <i class="fa-solid fa-play"></i> Launch Live Pinball

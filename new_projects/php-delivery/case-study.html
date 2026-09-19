@@ -146,245 +146,34 @@
             </p>
         </section>
 
-        <!-- DOWNWARD SECTION 1: THE 3 CORE PROJECTS -->
+        <!-- DOWNWARD SECTION 1: WHAT IT IS -->
         <section class="space-y-6">
             <div class="flex items-center gap-2.5 border-b border-slate-800/80 pb-3">
                 <div class="h-8 w-8 rounded-lg bg-sky-500/10 border border-sky-500/25 flex items-center justify-center text-sky-400 font-bold">
-                    <i class="fa-solid fa-diagram-project text-sm"></i>
+                    <i class="fa-solid fa-circle-info text-sm"></i>
                 </div>
                 <div>
-                    <h2 class="font-heading text-xl sm:text-2xl font-bold text-slate-100">1. The 3 Core Learning Projects</h2>
-                    <p class="text-xs text-slate-400">Architectural breakdown of each practical implementation</p>
+                    <h2 class="font-heading text-xl sm:text-2xl font-bold text-slate-100">What It Is</h2>
                 </div>
             </div>
-
-            <!-- Project 1: Tic Tac Toe -->
-            <div class="bg-slate-900 border border-slate-800/90 rounded-2xl p-6 sm:p-7 space-y-5">
-                <div class="flex flex-wrap items-center justify-between gap-3">
-                    <div class="flex items-center gap-3">
-                        <span class="px-2.5 py-1 rounded-md bg-sky-950/80 border border-sky-700/50 text-sky-300 font-mono text-xs font-bold">Project 01</span>
-                        <h3 class="font-heading text-lg sm:text-xl font-bold text-slate-100">PHP Tic-Tac-Toe</h3>
-                    </div>
-                    <span class="text-xs font-mono text-slate-400 bg-slate-950 px-3 py-1 rounded-lg border border-slate-800">Zero Database Dependency</span>
-                </div>
-
-                <p class="text-slate-300 text-sm leading-relaxed">
-                    Tic Tac Toe is an exceptional beginner project because it isolates pure PHP logic without requiring external database drivers or filesystem storage. It teaches stateful request-response cycles, multidimensional arrays, and conditional winning algorithms.
-                </p>
-
-                <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-3">
-                    <div class="bg-slate-850/80 border border-slate-800 rounded-xl p-3.5 space-y-1.5">
-                        <div class="text-xs font-mono font-bold text-sky-400 flex items-center gap-1.5">
-                            <i class="fa-solid fa-table-cells text-[10px]"></i> 1. Board Representation
-                        </div>
-                        <p class="text-xs text-slate-400">3x3 matrix stored inside <code>$_SESSION['board']</code> as a 2D array.</p>
-                    </div>
-
-                    <div class="bg-slate-850/80 border border-slate-800 rounded-xl p-3.5 space-y-1.5">
-                        <div class="text-xs font-mono font-bold text-sky-400 flex items-center gap-1.5">
-                            <i class="fa-solid fa-code text-[10px]"></i> 2. Board Rendering
-                        </div>
-                        <p class="text-xs text-slate-400">Iterates indices 0–2 dynamically generating coordinate inputs.</p>
-                    </div>
-
-                    <div class="bg-slate-850/80 border border-slate-800 rounded-xl p-3.5 space-y-1.5">
-                        <div class="text-xs font-mono font-bold text-sky-400 flex items-center gap-1.5">
-                            <i class="fa-solid fa-paper-plane text-[10px]"></i> 3. User Input
-                        </div>
-                        <p class="text-xs text-slate-400"><code>POST</code> coordinates validated against occupied indices.</p>
-                    </div>
-
-                    <div class="bg-slate-850/80 border border-slate-800 rounded-xl p-3.5 space-y-1.5">
-                        <div class="text-xs font-mono font-bold text-sky-400 flex items-center gap-1.5">
-                            <i class="fa-solid fa-microchip text-[10px]"></i> 4. Game Logic
-                        </div>
-                        <p class="text-xs text-slate-400">Tests 3 horizontal rows, 3 vertical columns, and 2 diagonals for 3-in-a-row.</p>
-                    </div>
-
-                    <div class="bg-slate-850/80 border border-slate-800 rounded-xl p-3.5 space-y-1.5">
-                        <div class="text-xs font-mono font-bold text-sky-400 flex items-center gap-1.5">
-                            <i class="fa-solid fa-arrows-rotate text-[10px]"></i> 5. Game Loop
-                        </div>
-                        <p class="text-xs text-slate-400">Alternates turns between Player X and Player O on valid turns.</p>
-                    </div>
-
-                    <div class="bg-slate-850/80 border border-slate-800 rounded-xl p-3.5 space-y-1.5">
-                        <div class="text-xs font-mono font-bold text-sky-400 flex items-center gap-1.5">
-                            <i class="fa-solid fa-flag-checkered text-[10px]"></i> 6. End &amp; Reset
-                        </div>
-                        <p class="text-xs text-slate-400">Halts input on win/draw; offers a clean session re-initialization hook.</p>
-                    </div>
-                </div>
-            </div>
-
-            <!-- Project 2: Contact Form -->
-            <div class="bg-slate-900 border border-slate-800/90 rounded-2xl p-6 sm:p-7 space-y-5">
-                <div class="flex flex-wrap items-center justify-between gap-3">
-                    <div class="flex items-center gap-3">
-                        <span class="px-2.5 py-1 rounded-md bg-amber-950/80 border border-amber-700/50 text-amber-300 font-mono text-xs font-bold">Project 02</span>
-                        <h3 class="font-heading text-lg sm:text-xl font-bold text-slate-100">Email Contact Form</h3>
-                    </div>
-                    <span class="text-xs font-mono text-slate-400 bg-slate-950 px-3 py-1 rounded-lg border border-slate-800">Defensive Input Pipeline</span>
-                </div>
-
-                <p class="text-slate-300 text-sm leading-relaxed">
-                    A secure email dispatch script collecting user data (name, email, subject, message), running multi-stage validation filters, stripping dangerous control characters to prevent header injection attacks, and delivering via native PHP <code>mail()</code>.
-                </p>
-
-                <div class="grid grid-cols-1 md:grid-cols-3 gap-3">
-                    <div class="bg-slate-850/80 border border-slate-800 rounded-xl p-4 space-y-2">
-                        <div class="text-xs font-mono font-bold text-amber-400 flex items-center gap-1.5">
-                            <i class="fa-solid fa-file-lines text-[10px]"></i> 1. HTML Form Collection
-                        </div>
-                        <p class="text-xs text-slate-400">Captures sender credentials and payload with clear client-side labels and server feedback loops.</p>
-                    </div>
-
-                    <div class="bg-slate-850/80 border border-slate-800 rounded-xl p-4 space-y-2">
-                        <div class="text-xs font-mono font-bold text-amber-400 flex items-center gap-1.5">
-                            <i class="fa-solid fa-filter text-[10px]"></i> 2. Sanitization &amp; Injection Defense
-                        </div>
-                        <p class="text-xs text-slate-400">Applies <code>filter_var(..., FILTER_VALIDATE_EMAIL)</code>, escapes special chars, and strips CRLF sequences (<code>\r</code>, <code>\n</code>).</p>
-                    </div>
-
-                    <div class="bg-slate-850/80 border border-slate-800 rounded-xl p-4 space-y-2">
-                        <div class="text-xs font-mono font-bold text-amber-400 flex items-center gap-1.5">
-                            <i class="fa-solid fa-envelope text-[10px]"></i> 3. mail() Dispatch Engine
-                        </div>
-                        <p class="text-xs text-slate-400">Compiles well-formed MIME UTF-8 headers and executes delivery only when the error array is completely empty.</p>
-                    </div>
-                </div>
-            </div>
-
-            <!-- Project 3: User Auth System -->
-            <div class="bg-slate-900 border border-slate-800/90 rounded-2xl p-6 sm:p-7 space-y-5">
-                <div class="flex flex-wrap items-center justify-between gap-3">
-                    <div class="flex items-center gap-3">
-                        <span class="px-2.5 py-1 rounded-md bg-emerald-950/80 border border-emerald-700/50 text-emerald-300 font-mono text-xs font-bold">Project 03</span>
-                        <h3 class="font-heading text-lg sm:text-xl font-bold text-slate-100">User Registration / Login System</h3>
-                    </div>
-                    <span class="text-xs font-mono text-slate-400 bg-slate-950 px-3 py-1 rounded-lg border border-slate-800">PDO &amp; Cryptographic Hashing</span>
-                </div>
-
-                <p class="text-slate-300 text-sm leading-relaxed">
-                    A production-grade authentication workflow establishing secure database connectivity via PDO, preventing duplicate user collisions, hashing secrets with Bcrypt (cost 12), and guarding authenticated sessions against fixation exploits.
-                </p>
-
-                <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-3">
-                    <div class="bg-slate-850/80 border border-slate-800 rounded-xl p-3.5 space-y-1.5">
-                        <div class="text-xs font-mono font-bold text-emerald-400">1. Database Setup</div>
-                        <p class="text-xs text-slate-400">Configured with PDO prepared statements and <code>users</code> table schema.</p>
-                    </div>
-
-                    <div class="bg-slate-850/80 border border-slate-800 rounded-xl p-3.5 space-y-1.5">
-                        <div class="text-xs font-mono font-bold text-emerald-400">2. Registration Intake</div>
-                        <p class="text-xs text-slate-400">Uniqueness checks and cryptographic salting via <code>password_hash()</code>.</p>
-                    </div>
-
-                    <div class="bg-slate-850/80 border border-slate-800 rounded-xl p-3.5 space-y-1.5">
-                        <div class="text-xs font-mono font-bold text-emerald-400">3. Login Verification</div>
-                        <p class="text-xs text-slate-400">Timing-safe comparison using native <code>password_verify()</code>.</p>
-                    </div>
-
-                    <div class="bg-slate-850/80 border border-slate-800 rounded-xl p-3.5 space-y-1.5">
-                        <div class="text-xs font-mono font-bold text-emerald-400">4. Session &amp; Logout</div>
-                        <p class="text-xs text-slate-400"><code>session_regenerate_id(true)</code> on login, full cookie teardown on logout.</p>
-                    </div>
-                </div>
-            </div>
+            <p class="text-slate-300 text-sm leading-relaxed">
+                A sleek, futuristic glassmorphism slider application.
+            </p>
         </section>
 
-        <!-- DOWNWARD SECTION 2: APPLICATION SECURITY PRINCIPLES -->
+        <!-- DOWNWARD SECTION 2: HOW IT WAS BUILT -->
         <section class="space-y-6">
             <div class="flex items-center gap-2.5 border-b border-slate-800/80 pb-3">
                 <div class="h-8 w-8 rounded-lg bg-emerald-500/10 border border-emerald-500/25 flex items-center justify-center text-emerald-400 font-bold">
-                    <i class="fa-solid fa-shield-halved text-sm"></i>
+                    <i class="fa-solid fa-hammer text-sm"></i>
                 </div>
                 <div>
-                    <h2 class="font-heading text-xl sm:text-2xl font-bold text-slate-100">2. Application Security (AppSec) Principles</h2>
-                    <p class="text-xs text-slate-400">Defense-in-depth methodologies embedded in the curriculum</p>
+                    <h2 class="font-heading text-xl sm:text-2xl font-bold text-slate-100">How It Was Built</h2>
                 </div>
             </div>
-
-            <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
-                <div class="bg-slate-900 border border-slate-800/90 rounded-2xl p-5 space-y-2 border-l-4 border-l-sky-500">
-                    <div class="flex items-center gap-2 text-sky-400 font-heading font-bold text-sm">
-                        <i class="fa-solid fa-shield-virus"></i>
-                        <span>XSS &amp; Header Injection Neutralization</span>
-                    </div>
-                    <p class="text-xs text-slate-300 leading-relaxed">
-                        User-submitted content must never be echoed unescaped or placed directly into mail headers. Using <code>htmlspecialchars($str, ENT_QUOTES, 'UTF-8')</code> and stripping <code>\r\n</code> carriage returns prevents malicious payload injection.
-                    </p>
-                </div>
-
-                <div class="bg-slate-900 border border-slate-800/90 rounded-2xl p-5 space-y-2 border-l-4 border-l-emerald-500">
-                    <div class="flex items-center gap-2 text-emerald-400 font-heading font-bold text-sm">
-                        <i class="fa-solid fa-key"></i>
-                        <span>Cryptographic Password Hashing</span>
-                    </div>
-                    <p class="text-xs text-slate-300 leading-relaxed">
-                        Never store plaintext or obsolete MD5/SHA1 hashes. PHP's <code>password_hash($pass, PASSWORD_BCRYPT)</code> automatically generates random per-user salts and applies adaptive work factors to resist brute-force cracking.
-                    </p>
-                </div>
-
-                <div class="bg-slate-900 border border-slate-800/90 rounded-2xl p-5 space-y-2 border-l-4 border-l-amber-500">
-                    <div class="flex items-center gap-2 text-amber-400 font-heading font-bold text-sm">
-                        <i class="fa-solid fa-database"></i>
-                        <span>SQL Injection Prevention via PDO</span>
-                    </div>
-                    <p class="text-xs text-slate-300 leading-relaxed">
-                        Parameterized queries strictly separate SQL execution logic from user-supplied parameters, preventing SQL injection exploits regardless of the characters supplied in input fields.
-                    </p>
-                </div>
-
-                <div class="bg-slate-900 border border-slate-800/90 rounded-2xl p-5 space-y-2 border-l-4 border-l-indigo-500">
-                    <div class="flex items-center gap-2 text-indigo-400 font-heading font-bold text-sm">
-                        <i class="fa-solid fa-user-lock"></i>
-                        <span>Session Fixation Mitigation</span>
-                    </div>
-                    <p class="text-xs text-slate-300 leading-relaxed">
-                        Upon verifying credentials, calling <code>session_regenerate_id(true)</code> destroys the unauthenticated session identifier and creates a new one, blocking session hijacking attempts.
-                    </p>
-                </div>
-            </div>
-        </section>
-
-        <!-- DOWNWARD SECTION 3: ARCHITECTURE SPECIFICATIONS -->
-        <section class="space-y-6">
-            <div class="flex items-center gap-2.5 border-b border-slate-800/80 pb-3">
-                <div class="h-8 w-8 rounded-lg bg-indigo-500/10 border border-indigo-500/25 flex items-center justify-center text-indigo-400 font-bold">
-                    <i class="fa-solid fa-server text-sm"></i>
-                </div>
-                <div>
-                    <h2 class="font-heading text-xl sm:text-2xl font-bold text-slate-100">3. Technical Architecture Specifications</h2>
-                    <p class="text-xs text-slate-400">Environment and runtime parameter matrix</p>
-                </div>
-            </div>
-
-            <div class="grid grid-cols-2 sm:grid-cols-4 gap-3 font-mono text-xs">
-                <div class="bg-slate-900 border border-slate-800 rounded-xl p-4 space-y-1">
-                    <div class="text-slate-500 text-[11px] uppercase tracking-wider">Engine</div>
-                    <div class="text-slate-100 font-bold text-sm">PHP 8.2+</div>
-                    <div class="text-slate-400 text-[11px]">Strict Type Checking</div>
-                </div>
-
-                <div class="bg-slate-900 border border-slate-800 rounded-xl p-4 space-y-1">
-                    <div class="text-slate-500 text-[11px] uppercase tracking-wider">Database</div>
-                    <div class="text-slate-100 font-bold text-sm">MySQL / PDO</div>
-                    <div class="text-slate-400 text-[11px]">Native Prepared Stmts</div>
-                </div>
-
-                <div class="bg-slate-900 border border-slate-800 rounded-xl p-4 space-y-1">
-                    <div class="text-slate-500 text-[11px] uppercase tracking-wider">Cryptography</div>
-                    <div class="text-slate-100 font-bold text-sm">Bcrypt Cost 12</div>
-                    <div class="text-slate-400 text-[11px]">Dynamic Salting</div>
-                </div>
-
-                <div class="bg-slate-900 border border-slate-800 rounded-xl p-4 space-y-1">
-                    <div class="text-slate-500 text-[11px] uppercase tracking-wider">Sanitization</div>
-                    <div class="text-slate-100 font-bold text-sm">filter_var &amp; Regex</div>
-                    <div class="text-slate-400 text-[11px]">CRLF Stripping</div>
-                </div>
-            </div>
+            <p class="text-slate-300 text-sm leading-relaxed">
+                Constructed in a monolith environment using PHP, Tailwind CSS, JavaScript, and Sessions to integrate a custom shopping cart, MIME file uploads, secure authentication, and REST APIs.
+            </p>
         </section>
 
         <!-- FOOTER NAVIGATION -->

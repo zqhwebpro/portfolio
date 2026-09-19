@@ -4,7 +4,7 @@
 <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Case Study: Mischief Store — ASP.NET MVC 5 Architecture &amp; UI Blueprint</title>
+    <title>What I Learned: Mischief Store — ASP.NET MVC 5 Architecture &amp; UI Blueprint</title>
     <meta name="description"
         content="Technical case study of Mischief Store: ASP.NET MVC 5 architecture, Ninject Dependency Injection, EF6 Code-First, and interactive UI blueprints." />
 
@@ -349,79 +349,20 @@
 
         <section class="section-block">
             <h2 class="section-title">
-                <i class="fa-solid fa-circle-info"></i> Project Overview
+                <i class="fa-solid fa-circle-info"></i> What It Is
             </h2>
             <p>
-                Mischief Store bridges backend software architecture and frontend UI/UX design. It showcases an enterprise-grade ASP.NET MVC 5 e-commerce application accompanied by an interactive blueprint system that maps every on-screen UI element to its corresponding C# controller, Razor view, domain entity, and repository contract.
+                A comprehensive e-commerce layout mimicking advanced MVC concepts.
             </p>
         </section>
 
         <section class="section-block">
             <h2 class="section-title">
-                <i class="fa-solid fa-microchip"></i> Technical Highlights
+                <i class="fa-solid fa-hammer"></i> How It Was Built
             </h2>
             <p>
-                <strong>Decoupled Repository Pattern:</strong> Abstracted data access behind <code>IProductRepository</code> contracts resolved at runtime via Ninject Inversion of Control (IoC), enabling effortless swapping between EF6 SQL databases and in-memory mock stores.
+                Mocked up using HTML5, CSS3, and JavaScript to deliver interactive tooltips that map UI components to their underlying architectural counterparts.
             </p>
-            <p>
-                <strong>Custom Cart Model Binding:</strong> Implemented a custom <code>CartModelBinder</code> that decouples controllers from the raw <code>HttpContext.Session</code>, injecting clean <code>Cart</code> domain objects directly into action methods.
-            </p>
-            <p>
-                <strong>Full-Featured CRUD Administration:</strong> Back-office product manager allowing inventory creation, editing, category tagging, and validation rules with immediate persistence.
-            </p>
-        </section>
-
-        <section class="section-block">
-            <h2 class="section-title">
-                <i class="fa-solid fa-lightbulb"></i> What I Learned (Core Takeaways)
-            </h2>
-            <ul class="learnings-list">
-                <li class="learning-item">
-                    <div class="learning-icon">🔌</div>
-                    <div class="learning-content">
-                        <h4>Dependency Inversion &amp; Testability</h4>
-                        <p>Injecting dependencies through constructor interfaces rather than instantiating concrete DbContext instances within controllers makes the entire codebase testable, modular, and resilient to database provider changes.</p>
-                    </div>
-                </li>
-                <li class="learning-item orange">
-                    <div class="learning-icon">🛒</div>
-                    <div class="learning-content">
-                        <h4>Custom Model Binders for Clean Action Signatures</h4>
-                        <p>Leveraging ASP.NET Model Binders to encapsulate session retrieval logic prevents repetitive session boilerplate in controllers and keeps action methods focused purely on application orchestration.</p>
-                    </div>
-                </li>
-                <li class="learning-item green">
-                    <div class="learning-icon">🔍</div>
-                    <div class="learning-content">
-                        <h4>Interactive Blueprint Code Tooltips</h4>
-                        <p>Providing hover tooltips that expose exact file paths (e.g., <code>Controllers/ProductController.cs</code>) and architectural responsibilities transforms an e-commerce UI into a powerful educational portfolio piece.</p>
-                    </div>
-                </li>
-            </ul>
-        </section>
-
-        <section class="section-block">
-            <h2 class="section-title">
-                <i class="fa-solid fa-layer-group"></i> Architecture Specifications
-            </h2>
-            <div class="tech-grid">
-                <div class="tech-card">
-                    <div class="tech-label">Application Framework</div>
-                    <div class="tech-value">ASP.NET MVC 5 &amp; C# .NET</div>
-                </div>
-                <div class="tech-card">
-                    <div class="tech-label">ORM &amp; Persistence</div>
-                    <div class="tech-value">Entity Framework 6 Code-First</div>
-                </div>
-                <div class="tech-card">
-                    <div class="tech-label">IoC Container</div>
-                    <div class="tech-value">Ninject Dependency Injection</div>
-                </div>
-                <div class="tech-card">
-                    <div class="tech-label">View Engine</div>
-                    <div class="tech-value">Razor Views &amp; Partial Components</div>
-                </div>
-            </div>
         </section>
 
         <footer class="footer-nav">

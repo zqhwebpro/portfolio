@@ -393,20 +393,20 @@
 
         /* Party Mode Button Active Glow */
         .btn-party-active {
-            background: linear-gradient(135deg, #B5A18C 0%, #8A7662 100%) !important;
-            border-color: #D6C8B8 !important;
-            color: #F8EFE6 !important;
-            box-shadow: 0 0 14px rgba(181, 161, 140, 0.55), inset 0 0 8px rgba(214, 200, 184, 0.3) !important;
+            background: linear-gradient(135deg, #32231B 0%, #140E0B 100%) !important;
+            border-color: #8B7355 !important;
+            color: #DEB887 !important;
+            box-shadow: 0 0 10px rgba(222, 184, 135, 0.3), inset 0 0 6px rgba(139, 115, 85, 0.4) !important;
             animation: party-btn-glow 2s infinite ease-in-out alternate;
         }
 
         @keyframes party-btn-glow {
             0% {
-                box-shadow: 0 0 10px rgba(181, 161, 140, 0.4), inset 0 0 6px rgba(214, 200, 184, 0.2);
+                box-shadow: 0 0 6px rgba(222, 184, 135, 0.2), inset 0 0 4px rgba(139, 115, 85, 0.3);
             }
 
             100% {
-                box-shadow: 0 0 20px rgba(181, 161, 140, 0.8), inset 0 0 12px rgba(214, 200, 184, 0.5);
+                box-shadow: 0 0 14px rgba(222, 184, 135, 0.5), inset 0 0 8px rgba(139, 115, 85, 0.6);
             }
         }
 
@@ -755,24 +755,23 @@
             </div>
 
             <!-- Party Mode Active Info Banner (Shown when Party Mode is toggled on) -->
-            <div id="partyModeBanner" class="salon-card p-3 border-[#9A3412]/50 bg-[#431407]/40 space-y-2.5 hidden">
+            <div id="partyModeBanner" class="salon-card p-3 border-[#5C4A3A] bg-[#221813] space-y-2.5 hidden">
                 <div class="flex items-center justify-between flex-wrap gap-2">
                     <div class="flex items-center gap-2">
-                        <span class="text-base">🎉</span>
                         <div>
-                            <div class="font-bold text-xs sm:text-sm text-orange-200/90">Party Mode Active!</div>
-                            <div class="text-[11px] text-orange-300/70">All identical piece types share the same custom move
+                            <div class="font-bold text-xs sm:text-sm text-salon-gold">Party Mode Active!</div>
+                            <div class="text-[11px] text-salon-gold-muted">All identical piece types share the same custom move
                                 set.</div>
                         </div>
                     </div>
                     <div class="flex items-center gap-2">
                         <button onclick="rerollPartyMode()"
-                            class="btn-header py-1 px-2.5 text-[11px] bg-[#7C2D12]/40 border-[#C2410C]/50 text-orange-100/90 hover:border-orange-400/60"
+                            class="btn-header py-1 px-2.5 text-[11px] bg-[#32231B] border-[#8B7355] text-salon-gold hover:border-salon-gold"
                             title="Re-roll randomized piece rules">
-                            <i class="fa-solid fa-dice text-orange-300/80"></i> Re-Roll 🎲
+                            <i class="fa-solid fa-dice text-salon-gold-muted"></i> Re-Roll 🎲
                         </button>
                         <button onclick="togglePartyMode()"
-                            class="btn-header py-1 px-2.5 text-[11px] bg-[#431407]/40 border-[#9A3412]/50 text-orange-300/70"
+                            class="btn-header py-1 px-2.5 text-[11px] bg-[#140E0B] border-[#32231B] text-salon-gold-muted hover:text-salon-gold"
                             title="Turn off Party Mode">
                             <i class="fa-solid fa-xmark"></i> Standard Rules
                         </button>
@@ -3237,17 +3236,17 @@
             };
 
             grid.innerHTML = Object.entries(partyMoveRules).map(([type, rule]) => `
-                <div class="p-2 rounded-lg bg-[#431407]/30 border border-[#9A3412]/40 flex flex-col gap-1 shadow-sm hover:border-orange-400/60 transition-all">
+                <div class="p-2 rounded-lg bg-[#221813] border border-[#5C4A3A] flex flex-col gap-1 shadow-sm hover:border-[#8B7355] transition-all">
                     <div class="flex items-center justify-between">
-                        <span class="font-bold text-xs text-orange-100/90 flex items-center gap-1">
+                        <span class="font-bold text-xs text-salon-gold flex items-center gap-1">
                             <span class="text-sm">${pieceLabels[type].symbol}</span> ${pieceLabels[type].name}
                         </span>
-                        <i class="fa-solid ${rule.icon || 'fa-star'} text-[10px] text-orange-300/80"></i>
+                        <i class="fa-solid ${rule.icon || 'fa-star'} text-[10px] text-[#8B7355]"></i>
                     </div>
-                    <div class="font-bold text-[11px] text-orange-200/90 truncate" title="${rule.name}">
+                    <div class="font-bold text-[11px] text-salon-gold-muted truncate" title="${rule.name}">
                         ${rule.name}
                     </div>
-                    <div class="text-[10px] text-orange-300/70 leading-tight line-clamp-2" title="${rule.desc}">
+                    <div class="text-[10px] text-[#A68A6B] leading-tight line-clamp-2" title="${rule.desc}">
                         ${rule.desc}
                     </div>
                 </div>

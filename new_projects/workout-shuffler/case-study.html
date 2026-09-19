@@ -4,7 +4,7 @@
 <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Case Study: Workout Shuffler — Dynamic Circuit &amp; Timer Engine</title>
+    <title>What I Learned: Workout Shuffler — Dynamic Circuit &amp; Timer Engine</title>
     <meta name="description"
         content="Technical case study of Workout Shuffler: randomized exercise algorithms, rest interval management, and mobile-first fitness UX." />
 
@@ -342,79 +342,20 @@
 
         <section class="section-block">
             <h2 class="section-title">
-                <i class="fa-solid fa-circle-info"></i> Project Overview
+                <i class="fa-solid fa-circle-info"></i> What It Is
             </h2>
             <p>
-                Athletes frequently encounter workout fatigue and routine staleness. Workout Shuffler automates personalized routine generation across key muscle categories (Push, Pull, Legs, Core, Cardio) while giving users complete control over set tracking, tutorial previews, and custom rest intervals.
+                A mobile-first utility app for practical fitness targeting and tracking.
             </p>
         </section>
 
         <section class="section-block">
             <h2 class="section-title">
-                <i class="fa-solid fa-microchip"></i> Technical Highlights
+                <i class="fa-solid fa-hammer"></i> How It Was Built
             </h2>
             <p>
-                <strong>Constrained Shuffling Algorithm:</strong> Generates balanced routines by preventing muscle-group over-exhaustion and staggering high-intensity compound movements across the circuit.
+                Developed with JavaScript, HTML, and responsive CSS, powered by client-side algorithmic randomization, array manipulation, and strict interval tracking.
             </p>
-            <p>
-                <strong>Drift-Free Interval Timer:</strong> Implements audio feedback and timestamp-based interval tracking that maintains accurate countdowns even when mobile browsers enter background power-saving modes.
-            </p>
-            <p>
-                <strong>Mobile-Optimized HUD:</strong> Built with thumb-reachable sticky bottom controls, high-contrast visual status badges, and instant exercise swapping without losing current workout progression.
-            </p>
-        </section>
-
-        <section class="section-block">
-            <h2 class="section-title">
-                <i class="fa-solid fa-lightbulb"></i> What I Learned (Core Takeaways)
-            </h2>
-            <ul class="learnings-list">
-                <li class="learning-item cyan">
-                    <div class="learning-icon">⏱️</div>
-                    <div class="learning-content">
-                        <h4>Timer Drift Prevention in Browsers</h4>
-                        <p>Standard <code>setInterval</code> calls drift significantly when device screens sleep or tabs lose focus. Calculating remaining time against absolute <code>Date.now()</code> deltas ensures accurate timing during intensive workouts.</p>
-                    </div>
-                </li>
-                <li class="learning-item orange">
-                    <div class="learning-icon">🏋️</div>
-                    <div class="learning-content">
-                        <h4>Data Modeling for Athletic Workouts</h4>
-                        <p>Structuring exercise models with rich metadata (muscle focus, equipment requirements, difficulty, and form pointers) allows seamless filtering and scalable content expansion.</p>
-                    </div>
-                </li>
-                <li class="learning-item blue">
-                    <div class="learning-icon">📱</div>
-                    <div class="learning-content">
-                        <h4>Ergonomic Mobile-First Design</h4>
-                        <p>Users in gyms interact with apps with sweaty hands and limited attention. Large tactile touch targets, clear contrast levels, and audio beeps remove the need for constant screen monitoring.</p>
-                    </div>
-                </li>
-            </ul>
-        </section>
-
-        <section class="section-block">
-            <h2 class="section-title">
-                <i class="fa-solid fa-layer-group"></i> Architecture Specifications
-            </h2>
-            <div class="tech-grid">
-                <div class="tech-card">
-                    <div class="tech-label">UI Framework</div>
-                    <div class="tech-value">React 18 &amp; Tailwind CSS</div>
-                </div>
-                <div class="tech-card">
-                    <div class="tech-label">Algorithm</div>
-                    <div class="tech-value">Constrained Random Shuffle</div>
-                </div>
-                <div class="tech-card">
-                    <div class="tech-label">State Management</div>
-                    <div class="tech-value">Persistent Workout State &amp; LocalStorage</div>
-                </div>
-                <div class="tech-card">
-                    <div class="tech-label">Audio System</div>
-                    <div class="tech-value">Web Audio Beep Synthesizer</div>
-                </div>
-            </div>
         </section>
 
         <footer class="footer-nav">
