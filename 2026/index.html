@@ -37,44 +37,34 @@
     }
 
     .btn-projects {
-      /* Fixed position to scroll with the page */
       position: fixed;
       bottom: 2rem;
       right: 2rem;
       z-index: 9999;
-
-      /* Layout & Typography */
       display: inline-flex;
       align-items: center;
       gap: 0.5rem;
-      padding: 0.4rem 0.75rem;
+      padding: 0.5rem 1rem;
       font-family: inherit;
-      font-size: 0.75rem;
+      font-size: 0.65rem;
       font-weight: 700;
       text-transform: uppercase;
-      letter-spacing: 0.08em;
+      letter-spacing: 0.15em;
       text-decoration: none;
-
-      /* Colors & Borders matching screenshot */
-      background-color: rgba(18, 18, 18, 0.85);
+      color: rgba(245, 166, 35, 0.6);
+      border: 1px solid rgba(245, 166, 35, 0.2);
+      background: rgba(18, 18, 18, 0.85);
       backdrop-filter: blur(4px);
-      color: var(--amber);
-      border: 1px solid var(--amber);
-      border-radius: 3px;
       box-shadow: 0 4px 12px rgba(0, 0, 0, 0.5);
       transition: all 0.2s ease-in-out;
     }
 
     .btn-projects:hover {
-      background-color: var(--amber);
-      color: #121212;
+      color: var(--amber);
       border-color: var(--amber);
-      box-shadow: 0 0 12px rgba(245, 166, 35, 0.4);
+      background: rgba(245, 166, 35, 0.1);
+      box-shadow: 0 0 16px rgba(245, 166, 35, 0.3);
       transform: translateY(-2px);
-    }
-
-    .btn-projects:hover::before {
-      color: #121212;
     }
 
     .btn-projects:active {

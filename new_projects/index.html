@@ -4,494 +4,371 @@
 <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <meta name="theme-color" content="#121212" />
-
-    <!-- Primary SEO Meta Tags -->
-    <title>Interactive React Projects &amp; Web Apps Showcase</title>
-    <meta name="description"
-        content="Explore a curated collection of interactive React applications, browser games, educational software, and technical case studies." />
-    <meta name="keywords"
-        content="React portfolio, web applications, JavaScript games, React Pinball, case studies, frontend web developer, interactive web design" />
-    <meta name="robots" content="index, follow" />
-    <link rel="canonical" href="https://zqhwebpro.github.io/portfolio/new_projects/" />
-
-    <!-- Open Graph / Facebook / LinkedIn -->
-    <meta property="og:type" content="website" />
-    <meta property="og:url" content="https://zqhwebpro.github.io/portfolio/new_projects/" />
-    <meta property="og:title" content="Interactive React Projects &amp; Web Apps Showcase" />
-    <meta property="og:description"
-        content="Explore a curated collection of interactive React applications, browser games, educational software, and technical case studies." />
-    <meta property="og:image" content="https://zqhwebpro.github.io/portfolio/new_projects/og-preview.jpg" />
-    <meta property="og:site_name" content="Interactive Projects Showcase" />
-
-    <!-- Twitter Cards -->
-    <meta name="twitter:card" content="summary_large_image" />
-    <meta name="twitter:title" content="Interactive React Projects &amp; Web Apps Showcase" />
-    <meta name="twitter:description"
-        content="Explore a curated collection of interactive React applications, browser games, educational software, and technical case studies." />
-    <meta name="twitter:image" content="https://zqhwebpro.github.io/portfolio/new_projects/og-preview.jpg" />
-
-    <!-- Favicons & Icons -->
+    <meta name="theme-color" content="#000" />
+    <title>Interactive React Projects & Web Apps Showcase</title>
     <link rel="icon" href="./favicon.ico" />
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css" />
-
-    <!-- Google Fonts -->
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link
-        href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Outfit:wght@600;700;800&family=JetBrains+Mono:wght@400;600&display=swap"
-        rel="stylesheet">
-
-    <!-- Structured Data (JSON-LD) -->
-    <script type="application/ld+json">
-    {
-      "@context": "https://schema.org",
-      "@type": "CollectionPage",
-      "name": "Interactive React Projects Showcase",
-      "url": "https://zqhwebpro.github.io/portfolio/new_projects/",
-      "description": "A gallery showcasing interactive web applications, React browser games, and frontend development projects with technical case studies.",
-      "hasPart": [
-        {
-          "@type": "SoftwareApplication",
-          "name": "React Pinball",
-          "url": "https://zqhwebpro.github.io/portfolio/new_projects/pinball/",
-          "applicationCategory": "GameApplication"
-        },
-        {
-          "@type": "WebApplication",
-          "name": "Motion Landing Page",
-          "url": "https://zqhwebpro.github.io/portfolio/new_projects/animated_landing_page/",
-          "applicationCategory": "DeveloperApplication"
-        },
-        {
-          "@type": "WebApplication",
-          "name": "Workout Shuffler",
-          "url": "https://zqhwebpro.github.io/portfolio/new_projects/workout-shuffler/",
-          "applicationCategory": "HealthApplication"
-        },
-        {
-          "@type": "WebApplication",
-          "name": "Survival Quiz",
-          "url": "https://zqhwebpro.github.io/portfolio/new_projects/survival-quiz/",
-          "applicationCategory": "GameApplication"
-        },
-        {
-          "@type": "WebApplication",
-          "name": "Atlas & Calculatus",
-          "url": "https://zqhwebpro.github.io/portfolio/new_projects/python-calculator/",
-          "applicationCategory": "GameApplication"
-        },
-        {
-          "@type": "WebApplication",
-          "name": "The 8 Fundamental Concepts of Algorithms",
-          "url": "https://zqhwebpro.github.io/portfolio/new_projects/computer-science/dist/",
-          "applicationCategory": "EducationalApplication"
-        },
-        {
-          "@type": "WebApplication",
-          "name": "PHP Fundamentals with time()",
-          "url": "https://zqhwebpro.github.io/portfolio/new_projects/php-delivery/",
-          "applicationCategory": "EducationalApplication"
-        },
-        {
-          "@type": "WebApplication",
-          "name": "Mischief & Magic Co.",
-          "url": "https://zqhwebpro.github.io/portfolio/new_projects/mischief-store/",
-          "applicationCategory": "ShoppingApplication"
-        }
-      ]
-    }
-    </script>
 
     <style>
         :root {
             --amber: #F5A623;
-            --amber-light: #FCD34D;
             --red-orange: #E8442A;
-            --cyan: #00F0FF;
-            --text-light: #f1f5f9;
-            --text-muted: #94a3b8;
-            --bg-dark: #0f1117;
-            --card-bg: #161922;
-            --card-hover: #1c212d;
-            --border-color: #272d3b;
+            --text-light: #e8e8e8;
+            --text-muted: #999;
         }
 
         * {
+            margin: 0;
+            padding: 0;
             box-sizing: border-box;
         }
 
         body {
-            background: var(--bg-dark);
+            font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif;
             color: var(--text-light);
-            font-family: 'Inter', system-ui, -apple-system, sans-serif;
-            padding: 2rem 1.5rem 4rem;
-            margin: 0;
+            background: #000;
             min-height: 100vh;
         }
 
+        /* Ambient Background */
+        body::before {
+            content: '';
+            position: fixed;
+            inset: 0;
+            background: rgba(10, 10, 10, 0.78);
+            z-index: -1;
+            pointer-events: none;
+        }
+
+        .container {
+            max-width: 1000px;
+            margin: 0 auto;
+            padding: 40px;
+        }
+
         .header-container {
-            max-width: 1200px;
-            margin: 0 auto 2.5rem auto;
+            margin-bottom: 40px;
             display: flex;
-            align-items: center;
+            align-items: flex-end;
             justify-content: space-between;
-            flex-wrap: wrap;
-            gap: 1rem;
-            padding-bottom: 1.5rem;
-            border-bottom: 1px solid var(--border-color);
+            border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+            padding-bottom: 20px;
         }
 
-        .brand-heading {
-            display: flex;
-            flex-direction: column;
-            gap: 0.25rem;
-        }
-
-        h1 {
-            margin: 0;
-            font-family: 'Outfit', sans-serif;
-            font-size: 2.2rem;
+        .brand-heading h1 {
+            font-size: clamp(1.8rem, 4vw, 2.5rem);
             font-weight: 800;
+            letter-spacing: -0.03em;
             color: #fff;
-            letter-spacing: -0.02em;
+            margin-bottom: 8px;
         }
 
         .subtitle {
-            margin: 0;
+            font-size: 0.88rem;
             color: var(--text-muted);
-            font-size: 0.95rem;
+            letter-spacing: 0.05em;
         }
 
         .back-link {
             display: inline-flex;
             align-items: center;
-            gap: 0.5rem;
-            padding: 0.6rem 1.1rem;
-            color: var(--text-light);
+            gap: 7px;
+            font-size: 0.62rem;
+            letter-spacing: 0.1em;
+            text-transform: uppercase;
+            color: rgba(245, 166, 35, 0.5);
             text-decoration: none;
-            font-size: 0.88rem;
-            font-weight: 600;
-            background: var(--card-bg);
-            border: 1px solid var(--border-color);
-            border-radius: 8px;
-            transition: all 0.2s ease;
+            border: 1px solid rgba(245, 166, 35, 0.15);
+            padding: 5px 10px;
+            background: rgba(245, 166, 35, 0.04);
+            cursor: pointer;
+            transition: color 0.2s, border-color 0.2s, background 0.2s;
         }
 
         .back-link:hover {
             color: var(--amber);
             border-color: var(--amber);
-            transform: translateY(-1px);
+            background: rgba(245, 166, 35, 0.1);
         }
 
-        .gallery {
+        .mktg-inner {
             display: grid;
-            grid-template-columns: repeat(auto-fill, minmax(340px, 1fr));
-            gap: 1.75rem;
-            max-width: 1200px;
-            margin: 0 auto;
+            grid-template-columns: 1fr 1fr;
+            gap: 15px;
+            width: 100%;
         }
 
-        .card {
-            background: var(--card-bg);
-            border-radius: 14px;
-            padding: 1.6rem;
-            border: 1px solid var(--border-color);
-            transition: transform 0.2s ease, border-color 0.2s ease, box-shadow 0.2s ease;
-            display: flex;
-            flex-direction: column;
-            justify-content: space-between;
-            gap: 1.25rem;
-        }
-
-        .card:hover {
-            transform: translateY(-4px);
-            border-color: rgba(245, 166, 35, 0.4);
-            box-shadow: 0 8px 30px rgba(0, 0, 0, 0.4);
-            background: var(--card-hover);
-        }
-
-        .card-header {
-            display: flex;
-            flex-direction: column;
-            gap: 0.5rem;
-        }
-
-        .card-tag {
-            font-family: 'JetBrains Mono', monospace;
-            font-size: 0.72rem;
-            font-weight: 600;
-            padding: 0.2rem 0.55rem;
-            border-radius: 4px;
-            display: inline-block;
-            width: fit-content;
-            background: rgba(245, 166, 35, 0.12);
-            color: var(--amber);
-            border: 1px solid rgba(245, 166, 35, 0.25);
-        }
-
-        .card-tag.cyan {
-            background: rgba(0, 240, 255, 0.1);
-            color: var(--cyan);
-            border-color: rgba(0, 240, 255, 0.25);
-        }
-
-        .card-tag.green {
-            background: rgba(46, 196, 182, 0.1);
-            color: #2ec4b6;
-            border-color: rgba(46, 196, 182, 0.25);
-        }
-
-        .card-tag.purple {
-            background: rgba(168, 85, 247, 0.1);
-            color: #c084fc;
-            border-color: rgba(168, 85, 247, 0.25);
-        }
-
-        .card h3 {
-            margin: 0;
-            font-family: 'Outfit', sans-serif;
-            font-size: 1.35rem;
-            font-weight: 700;
-            color: #fff;
-            line-height: 1.3;
-        }
-
-        .card p {
-            margin: 0;
-            color: var(--text-muted);
-            font-size: 0.92rem;
-            line-height: 1.6;
-        }
-
-        .card-actions {
-            display: flex;
-            align-items: center;
-            gap: 0.75rem;
-            margin-top: 0.5rem;
-            padding-top: 1rem;
-            border-top: 1px solid rgba(255, 255, 255, 0.06);
-        }
-
-        .action-btn {
-            flex: 1;
-            display: inline-flex;
-            align-items: center;
-            justify-content: center;
-            gap: 0.4rem;
-            padding: 0.55rem 0.85rem;
-            border-radius: 8px;
-            font-size: 0.82rem;
-            font-weight: 700;
-            text-decoration: none;
-            transition: all 0.2s ease;
-            text-align: center;
-        }
-
-        .action-btn.primary {
-            background: rgba(245, 166, 35, 0.15);
-            color: var(--amber);
-            border: 1px solid rgba(245, 166, 35, 0.35);
-        }
-
-        .action-btn.primary:hover {
-            background: var(--amber);
-            color: #000;
-            box-shadow: 0 0 16px rgba(245, 166, 35, 0.35);
-        }
-
-        .action-btn.secondary {
-            background: #11131a;
-            color: var(--text-muted);
-            border: 1px solid var(--border-color);
-        }
-
-        .action-btn.secondary:hover {
-            color: #fff;
-            border-color: rgba(255, 255, 255, 0.3);
-            background: #1e2230;
-        }
-
-        @media (max-width: 640px) {
-            .gallery {
+        @media (max-width: 768px) {
+            .mktg-inner {
                 grid-template-columns: 1fr;
             }
-
             .header-container {
                 flex-direction: column;
                 align-items: flex-start;
+                gap: 20px;
             }
         }
+
+        .cap-block {
+            padding: 18px 20px;
+            background: rgba(255, 255, 255, 0.03);
+            border: 1px solid rgba(255, 255, 255, 0.07);
+            border-left: 2px solid rgba(255, 255, 255, 0.12);
+            text-align: left;
+            display: flex;
+            align-items: flex-start;
+            gap: 14px;
+            box-sizing: border-box;
+            height: 100%;
+            transition: background 0.2s, border-color 0.2s, border-left-color 0.2s;
+        }
+
+        .cap-block:hover {
+            background: rgba(245, 166, 35, 0.06);
+            border-color: rgba(245, 166, 35, 0.35);
+            border-left-color: var(--amber);
+        }
+
+        .cap-block-icon {
+            flex-shrink: 0;
+            width: 36px;
+            height: 36px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            background: rgba(245, 166, 35, 0.08);
+            border: 1px solid rgba(245, 166, 35, 0.15);
+            border-radius: 2px;
+            font-size: 1.1rem;
+            color: var(--amber);
+            line-height: 1;
+            margin-top: 1px;
+            transition: background 0.2s, border-color 0.2s;
+        }
+
+        .cap-block:hover .cap-block-icon {
+            background: rgba(245, 166, 35, 0.15);
+            border-color: rgba(245, 166, 35, 0.4);
+        }
+
+        .cap-block-body {
+            flex: 1;
+            min-width: 0;
+        }
+
+        .cap-block-title {
+            font-size: 0.8rem;
+            font-weight: 700;
+            letter-spacing: 0.14em;
+            text-transform: uppercase;
+            color: #fff;
+            margin-bottom: 8px;
+        }
+
+        .cap-block-desc {
+            font-size: 0.72rem;
+            color: var(--text-muted);
+            line-height: 1.65;
+            margin-bottom: 12px;
+        }
+
+        .cap-block-desc span {
+            color: var(--amber);
+            font-weight: 600;
+        }
+
+        .cap-block-links {
+            display: flex;
+            flex-direction: column;
+            gap: 5px;
+            margin-top: auto;
+        }
+
+        .project-link {
+            display: inline-flex;
+            align-items: center;
+            gap: 7px;
+            font-size: 0.62rem;
+            letter-spacing: 0.1em;
+            text-transform: uppercase;
+            color: rgba(245, 166, 35, 0.5);
+            text-decoration: none;
+            border: 1px solid rgba(245, 166, 35, 0.15);
+            padding: 5px 10px;
+            background: rgba(245, 166, 35, 0.04);
+            cursor: pointer;
+            transition: color 0.2s, border-color 0.2s, background 0.2s;
+            width: fit-content;
+        }
+
+        .project-link:hover {
+            color: var(--amber);
+            border-color: var(--amber);
+            background: rgba(245, 166, 35, 0.1);
+        }
+
     </style>
 </head>
 
 <body>
-    <div class="header-container">
-        <div class="brand-heading">
-            <h1>Interactive Projects &amp; Case Studies</h1>
-            <p class="subtitle">Explore 8 live web applications, physics simulations, algorithms, and technical
-                architecture writeups.</p>
-        </div>
-        <a href="../2026/" class="back-link">
-            <i class="fa-solid fa-arrow-left"></i> Main Portfolio
-        </a>
-    </div>
-
-    <div class="gallery">
-
-        <!-- 1. React Pinball -->
-        <div class="card">
-            <div class="card-header">
-                <span class="card-tag">React &amp; Physics</span>
-                <h3>React Pixel Pinball</h3>
-                <p><strong>Tech:</strong> React, Custom 2D Physics, CSS<br>
-                   <strong>Why I Built It:</strong> To demonstrate complex state management and continuous collision detection outside of standard UI forms.<br>
-                   <strong>The Value:</strong> Showcases performance optimization, game loops, and custom physics engines built entirely within the React ecosystem.</p>
+    <div class="container">
+        <div class="header-container">
+            <div class="brand-heading">
+                <h1>Interactive Projects &amp; Case Studies</h1>
+                <p class="subtitle">Explore 8 live web applications, physics simulations, algorithms, and technical architecture writeups.</p>
             </div>
-            <div class="card-actions">
-                <a href="./pinball/index.html" class="action-btn primary">
-                    <i class="fa-solid fa-play"></i> Play Game
-                </a>
-                <a href="./pinball/case-study.html" class="action-btn secondary">
-                    <i class="fa-solid fa-book-open"></i> What I Learned
-                </a>
-            </div>
+            <a href="../2026/" class="back-link">
+                <i class="fa-solid fa-arrow-left"></i> Main Portfolio
+            </a>
         </div>
 
-        <!-- 2. Motion Landing Page -->
-        <div class="card">
-            <div class="card-header">
-                <span class="card-tag cyan">Vanilla JS &amp; CSS3D</span>
-                <h3>Motion Landing Page</h3>
-                <p><strong>Tech:</strong> Vanilla JavaScript, CSS 3D Transforms, Canvas<br>
-                   <strong>Why I Built It:</strong> To push the boundaries of browser-based marketing pages with highly interactive, high-performance visual effects.<br>
-                   <strong>The Value:</strong> Features a procedural starfield, mouse-driven gravity physics, and complex CSS 3D layers, proving expertise in performant DOM animations.</p>
+        <div class="mktg-inner">
+
+            <div class="cap-block">
+                <div class="cap-block-icon">
+                    <i class="fa-solid fa-play"></i>
+                </div>
+                <div class="cap-block-body">
+                    <div class="cap-block-title">React Pixel Pinball</div>
+                    <div class="cap-block-desc">
+                        <span>Tech:</span> React, Custom 2D Physics, CSS<br><br>
+                        <span>Why I Built It:</span> To demonstrate complex state management and continuous collision detection outside of standard UI forms.<br><br>
+                        <span>The Value:</span> Showcases performance optimization, game loops, and custom physics engines built entirely within the React ecosystem.
+                    </div>
+                    <div class="cap-block-links">
+                        <a href="./pinball/index.html" class="project-link">
+                            <i class="fa-solid fa-play"></i> Play Game
+                        </a>
+                    </div>
+                </div>
             </div>
-            <div class="card-actions">
-                <a href="./animated_landing_page/index.html" class="action-btn primary">
-                    <i class="fa-solid fa-sparkles"></i> Launch Page
-                </a>
-                <a href="./animated_landing_page/case-study.html" class="action-btn secondary">
-                    <i class="fa-solid fa-book-open"></i> What I Learned
-                </a>
+            <div class="cap-block">
+                <div class="cap-block-icon">
+                    <i class="fa-solid fa-sparkles"></i>
+                </div>
+                <div class="cap-block-body">
+                    <div class="cap-block-title">Motion Landing Page</div>
+                    <div class="cap-block-desc">
+                        <span>Tech:</span> Vanilla JavaScript, CSS 3D Transforms, Canvas<br><br>
+                        <span>Why I Built It:</span> To push the boundaries of browser-based marketing pages with highly interactive, high-performance visual effects.<br><br>
+                        <span>The Value:</span> Features a procedural starfield, mouse-driven gravity physics, and complex CSS 3D layers, proving expertise in performant DOM animations.
+                    </div>
+                    <div class="cap-block-links">
+                        <a href="./animated_landing_page/index.html" class="project-link">
+                            <i class="fa-solid fa-sparkles"></i> Launch Page
+                        </a>
+                    </div>
+                </div>
+            </div>
+            <div class="cap-block">
+                <div class="cap-block-icon">
+                    <i class="fa-solid fa-dumbbell"></i>
+                </div>
+                <div class="cap-block-body">
+                    <div class="cap-block-title">Workout Shuffler</div>
+                    <div class="cap-block-desc">
+                        <span>Tech:</span> JavaScript, HTML, Responsive CSS<br><br>
+                        <span>Why I Built It:</span> To create a practical, mobile-first utility app powered by client-side algorithmic randomization and strict timer logic.<br><br>
+                        <span>The Value:</span> Highlights strong array manipulation, drift-free interval tracking, and a seamless mobile UX for real-world fitness targeting.
+                    </div>
+                    <div class="cap-block-links">
+                        <a href="./workout-shuffler/index.html" class="project-link">
+                            <i class="fa-solid fa-dumbbell"></i> Launch App
+                        </a>
+                    </div>
+                </div>
+            </div>
+            <div class="cap-block">
+                <div class="cap-block-icon">
+                    <i class="fa-solid fa-terminal"></i>
+                </div>
+                <div class="cap-block-body">
+                    <div class="cap-block-title">Survival Quiz</div>
+                    <div class="cap-block-desc">
+                        <span>Tech:</span> JavaScript, CSS Shaders, Web Audio API<br><br>
+                        <span>Why I Built It:</span> To explore immersive UI/UX design, complex state trees, and procedural media generation.<br><br>
+                        <span>The Value:</span> Demonstrates advanced branching telemetry, custom CRT scanline shaders, and procedural audio drones without relying on external libraries.
+                    </div>
+                    <div class="cap-block-links">
+                        <a href="./survival-quiz/index.html" class="project-link">
+                            <i class="fa-solid fa-terminal"></i> Enter Sim
+                        </a>
+                    </div>
+                </div>
+            </div>
+            <div class="cap-block">
+                <div class="cap-block-icon">
+                    <i class="fa-solid fa-chess-board"></i>
+                </div>
+                <div class="cap-block-body">
+                    <div class="cap-block-title">Atlas &amp; Calculatus</div>
+                    <div class="cap-block-desc">
+                        <span>Tech:</span> Vanilla JavaScript, Game Theory Heuristics<br><br>
+                        <span>Why I Built It:</span> To tackle one of computer science's classic challenges: building a robust, performant chess engine from scratch.<br><br>
+                        <span>The Value:</span> Features full move generation, Piece-Square Tables (PST) for AI evaluation, and live probability deltas, proving deep algorithmic and mathematical competence.
+                    </div>
+                    <div class="cap-block-links">
+                        <a href="./python-calculator/index.html" class="project-link">
+                            <i class="fa-solid fa-chess-board"></i> Play Chess
+                        </a>
+                    </div>
+                </div>
+            </div>
+            <div class="cap-block">
+                <div class="cap-block-icon">
+                    <i class="fa-solid fa-graduation-cap"></i>
+                </div>
+                <div class="cap-block-body">
+                    <div class="cap-block-title">CS Foundations</div>
+                    <div class="cap-block-desc">
+                        <span>Tech:</span> React, Tailwind CSS, SVG Animation<br><br>
+                        <span>Why I Built It:</span> To translate abstract computing concepts (Big-O, ALUs, Call Stacks) into interactive, visual teaching tools.<br><br>
+                        <span>The Value:</span> Validates strong architectural skills in React alongside modern Neo-Brutalist design, complex data visualization, and interactive state modeling.
+                    </div>
+                    <div class="cap-block-links">
+                        <a href="./computer-science/index.html" class="project-link">
+                            <i class="fa-solid fa-graduation-cap"></i> Launch Labs
+                        </a>
+                    </div>
+                </div>
+            </div>
+            <div class="cap-block">
+                <div class="cap-block-icon">
+                    <i class="fa-brands fa-php"></i>
+                </div>
+                <div class="cap-block-body">
+                    <div class="cap-block-title">PHP Delivery UI</div>
+                    <div class="cap-block-desc">
+                        <span>Tech:</span> PHP, Tailwind CSS, JavaScript, Sessions<br><br>
+                        <span>Why I Built It:</span> To demonstrate robust server-side processing, secure data handling, and API endpoint creation in a monolith environment.<br><br>
+                        <span>The Value:</span> Integrates a custom Shopping Cart, MIME File Uploads, secure Auth (Bcrypt/PDO), and REST APIs within a sleek, futuristic glassmorphism slider UI.
+                    </div>
+                    <div class="cap-block-links">
+                        <a href="./php-delivery/index.php" class="project-link">
+                            <i class="fa-brands fa-php"></i> Open Curriculum
+                        </a>
+                    </div>
+                </div>
+            </div>
+            <div class="cap-block">
+                <div class="cap-block-icon">
+                    <i class="fa-solid fa-store"></i>
+                </div>
+                <div class="cap-block-body">
+                    <div class="cap-block-title">Mischief Store Blueprint</div>
+                    <div class="cap-block-desc">
+                        <span>Tech:</span> HTML5, CSS3, JavaScript (ASP.NET MVC Mockup)<br><br>
+                        <span>Why I Built It:</span> To map out a comprehensive e-commerce layout mimicking advanced MVC concepts and responsive data binding.<br><br>
+                        <span>The Value:</span> Delivers a highly polished, interactive blueprint with live hover tooltips that map UI components to their underlying architectural counterparts.
+                    </div>
+                    <div class="cap-block-links">
+                        <a href="./mischief-store/index.html" class="project-link">
+                            <i class="fa-solid fa-store"></i> Open Store
+                        </a>
+                    </div>
+                </div>
             </div>
         </div>
-
-        <!-- 3. Workout Shuffler -->
-        <div class="card">
-            <div class="card-header">
-                <span class="card-tag">JS Algorithms</span>
-                <h3>Workout Shuffler</h3>
-                <p><strong>Tech:</strong> JavaScript, HTML, Responsive CSS<br>
-                   <strong>Why I Built It:</strong> To create a practical, mobile-first utility app powered by client-side algorithmic randomization and strict timer logic.<br>
-                   <strong>The Value:</strong> Highlights strong array manipulation, drift-free interval tracking, and a seamless mobile UX for real-world fitness targeting.</p>
-            </div>
-            <div class="card-actions">
-                <a href="./workout-shuffler/index.html" class="action-btn primary">
-                    <i class="fa-solid fa-dumbbell"></i> Launch App
-                </a>
-                <a href="./workout-shuffler/case-study.html" class="action-btn secondary">
-                    <i class="fa-solid fa-book-open"></i> What I Learned
-                </a>
-            </div>
-        </div>
-
-        <!-- 4. Survival Quiz -->
-        <div class="card">
-            <div class="card-header">
-                <span class="card-tag green">State &amp; Shaders</span>
-                <h3>Survival Quiz</h3>
-                <p><strong>Tech:</strong> JavaScript, CSS Shaders, Web Audio API<br>
-                   <strong>Why I Built It:</strong> To explore immersive UI/UX design, complex state trees, and procedural media generation.<br>
-                   <strong>The Value:</strong> Demonstrates advanced branching telemetry, custom CRT scanline shaders, and procedural audio drones without relying on external libraries.</p>
-            </div>
-            <div class="card-actions">
-                <a href="./survival-quiz/index.html" class="action-btn primary">
-                    <i class="fa-solid fa-terminal"></i> Enter Sim
-                </a>
-                <a href="./survival-quiz/case-study.html" class="action-btn secondary">
-                    <i class="fa-solid fa-book-open"></i> What I Learned
-                </a>
-            </div>
-        </div>
-
-        <!-- 5. Atlas Chess Engine -->
-        <div class="card">
-            <div class="card-header">
-                <span class="card-tag">Advanced Algorithms</span>
-                <h3>Atlas &amp; Calculatus</h3>
-                <p><strong>Tech:</strong> Vanilla JavaScript, Game Theory Heuristics<br>
-                   <strong>Why I Built It:</strong> To tackle one of computer science's classic challenges: building a robust, performant chess engine from scratch.<br>
-                   <strong>The Value:</strong> Features full move generation, Piece-Square Tables (PST) for AI evaluation, and live probability deltas, proving deep algorithmic and mathematical competence.</p>
-            </div>
-            <div class="card-actions">
-                <a href="./python-calculator/index.html" class="action-btn primary">
-                    <i class="fa-solid fa-chess-board"></i> Play Chess
-                </a>
-                <a href="./python-calculator/case-study.html" class="action-btn secondary">
-                    <i class="fa-solid fa-book-open"></i> What I Learned
-                </a>
-            </div>
-        </div>
-
-        <!-- 6. Computer Science Foundations -->
-        <div class="card">
-            <div class="card-header">
-                <span class="card-tag purple">React &amp; Tailwind</span>
-                <h3>CS Foundations</h3>
-                <p><strong>Tech:</strong> React, Tailwind CSS, SVG Animation<br>
-                   <strong>Why I Built It:</strong> To translate abstract computing concepts (Big-O, ALUs, Call Stacks) into interactive, visual teaching tools.<br>
-                   <strong>The Value:</strong> Validates strong architectural skills in React alongside modern Neo-Brutalist design, complex data visualization, and interactive state modeling.</p>
-            </div>
-            <div class="card-actions">
-                <a href="./computer-science/index.html" class="action-btn primary">
-                    <i class="fa-solid fa-graduation-cap"></i> Launch Labs
-                </a>
-                <a href="./computer-science/case-study.html" class="action-btn secondary">
-                    <i class="fa-solid fa-book-open"></i> What I Learned
-                </a>
-            </div>
-        </div>
-
-        <!-- 7. Practical PHP Fundamentals -->
-        <div class="card">
-            <div class="card-header">
-                <span class="card-tag cyan">PHP &amp; Tailwind</span>
-                <h3>PHP Delivery UI</h3>
-                <p><strong>Tech:</strong> PHP, Tailwind CSS, JavaScript, Sessions<br>
-                   <strong>Why I Built It:</strong> To demonstrate robust server-side processing, secure data handling, and API endpoint creation in a monolith environment.<br>
-                   <strong>The Value:</strong> Integrates a custom Shopping Cart, MIME File Uploads, secure Auth (Bcrypt/PDO), and REST APIs within a sleek, futuristic glassmorphism slider UI.</p>
-            </div>
-            <div class="card-actions">
-                <a href="./php-delivery/index.php" class="action-btn primary">
-                    <i class="fa-brands fa-php"></i> Open Curriculum
-                </a>
-                <a href="./php-delivery/case-study.html" class="action-btn secondary">
-                    <i class="fa-solid fa-book-open"></i> What I Learned
-                </a>
-            </div>
-        </div>
-
-        <!-- 8. Mischief & Magic Co. -->
-        <div class="card">
-            <div class="card-header">
-                <span class="card-tag">UI/UX Architecture</span>
-                <h3>Mischief Store Blueprint</h3>
-                <p><strong>Tech:</strong> HTML5, CSS3, JavaScript (ASP.NET MVC Mockup)<br>
-                   <strong>Why I Built It:</strong> To map out a comprehensive e-commerce layout mimicking advanced MVC concepts and responsive data binding.<br>
-                   <strong>The Value:</strong> Delivers a highly polished, interactive blueprint with live hover tooltips that map UI components to their underlying architectural counterparts.</p>
-            </div>
-            <div class="card-actions">
-                <a href="./mischief-store/index.html" class="action-btn primary">
-                    <i class="fa-solid fa-store"></i> Open Store
-                </a>
-                <a href="./mischief-store/case-study.html" class="action-btn secondary">
-                    <i class="fa-solid fa-book-open"></i> What I Learned
-                </a>
-            </div>
-        </div>
-
     </div>
 </body>
-
 </html>
