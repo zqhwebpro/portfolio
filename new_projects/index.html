@@ -10,6 +10,7 @@
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;500;700;900&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css" />
 
     <style>
@@ -21,8 +22,10 @@
             --text-head:   #fff8ee;
             --text-body:   #c8aa80;
             --text-dim:    #8a6e48;
-            --card-bg:     #000000;
-            --card-border: rgba(255,150,50,0.18);
+            --card-bg:     #f4ebd8;
+            --card-text-head: #1a0e04;
+            --card-text-body: #4a3424;
+            --card-border: rgba(255,150,50,0.3);
             --bg-base:     #1a0e04;
         }
 
@@ -110,9 +113,10 @@
             border-bottom: 1px solid rgba(255,160,60,0.22);
         }
         .site-header h1 {
-            font-size: clamp(1.35rem, 2.8vw, 2rem);
-            font-weight: 800;
-            letter-spacing: -0.04em;
+            font-family: 'Orbitron', sans-serif;
+            font-size: clamp(2rem, 4vw, 3.2rem);
+            font-weight: 900;
+            letter-spacing: 0.02em;
             color: var(--text-head);
             text-shadow: 0 0 50px rgba(255,140,40,0.55), 0 0 12px rgba(255,100,10,0.3);
             margin-bottom: 4px;
@@ -176,8 +180,8 @@
         }
         .pcard:hover {
             transform: translateY(-7px) scale(1.018);
-            border-color: rgba(255,180,70,0.55);
-            background: #050505;
+            border-color: rgba(255,180,70,0.8);
+            background: #ffffff;
             box-shadow:
                 0 22px 55px rgba(0,0,0,0.9),
                 0  0  35px rgba(255,120,30,0.20),
@@ -311,16 +315,17 @@
         }
 
         .pcard-title {
-            font-size: 0.82rem;
+            font-family: 'Orbitron', sans-serif;
+            font-size: 1.1rem;
             font-weight: 700;
-            letter-spacing: -0.01em;
-            color: var(--text-head);
+            letter-spacing: 0.02em;
+            color: var(--card-text-head);
             line-height: 1.25;
         }
 
         .pcard-desc {
-            font-size: 0.67rem;
-            color: var(--text-body);
+            font-size: 0.75rem;
+            color: var(--card-text-body);
             line-height: 1.6;
             flex: 1;
         }
@@ -337,15 +342,15 @@
             text-transform: uppercase;
             padding: 2px 7px;
             border-radius: 3px;
-            border: 1px solid rgba(255,150,40,0.25);
-            background: rgba(255,120,30,0.09);
-            color: rgba(255,190,90,0.85);
+            border: 1px solid rgba(255,150,40,0.4);
+            background: rgba(255,120,30,0.12);
+            color: #b34a00;
             transition: background 0.18s, border-color 0.18s, color 0.18s;
         }
         .pcard:hover .tag {
-            background: rgba(255,130,30,0.18);
-            border-color: rgba(255,180,60,0.45);
-            color: var(--gold-bright);
+            background: rgba(255,130,30,0.22);
+            border-color: rgba(255,150,40,0.6);
+            color: #d15600;
         }
 
         /* Footer */
@@ -354,36 +359,36 @@
             align-items: center;
             justify-content: space-between;
             padding-top: 10px;
-            border-top: 1px solid rgba(255,140,40,0.13);
+            border-top: 1px solid rgba(0,0,0,0.1);
             margin-top: auto;
         }
         .pcard-link-text {
             font-size: 0.56rem;
-            font-weight: 700;
+            font-weight: 800;
             letter-spacing: 0.16em;
             text-transform: uppercase;
-            color: rgba(255,170,70,0.5);
+            color: #b34a00;
             transition: color 0.2s;
         }
-        .pcard:hover .pcard-link-text { color: var(--gold-bright); }
+        .pcard:hover .pcard-link-text { color: #d15600; }
 
         .pcard-arrow {
             width: 24px;
             height: 24px;
             border-radius: 50%;
-            border: 1px solid rgba(255,140,40,0.22);
+            border: 1px solid rgba(255,140,40,0.4);
             display: flex;
             align-items: center;
             justify-content: center;
             font-size: 0.55rem;
-            color: rgba(255,170,70,0.45);
+            color: #b34a00;
             transition: all 0.2s;
         }
         .pcard:hover .pcard-arrow {
             border-color: var(--ember);
-            background: rgba(255,107,26,0.22);
-            color: var(--gold-bright);
-            box-shadow: 0 0 14px rgba(255,107,26,0.4);
+            background: rgba(255,107,26,0.15);
+            color: #d15600;
+            box-shadow: 0 0 14px rgba(255,107,26,0.2);
             transform: translateX(2px);
         }
 
