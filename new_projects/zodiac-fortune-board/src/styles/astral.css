@@ -1,27 +1,29 @@
 @import url('https://fonts.googleapis.com/css2?family=Cinzel+Decorative:wght@400;700;900&family=Playfair+Display:ital,wght@0,400;0,700;1,400;1,700&display=swap');
 
 :root {
-  --bg-deep-space: #050510;
-  --bg-nebula: radial-gradient(circle at 50% 50%, rgba(40, 20, 60, 0.4) 0%, rgba(5, 5, 16, 1) 80%);
-  --wood-dark: #2a1610;
-  --wood-light: #3d2314;
-  --gold-antique: #c5a059;
+  --bg-deep-space: #030308;
+  --wood-dark: #1f110c;
+  --wood-light: #2b170e;
+  --gold-antique: #b08d4b;
   --gold-glow: #e6c875;
   --parchment: #e8dcc4;
-  --text-mystic: #d4b872;
+  --text-mystic: #c4a15a;
 }
 
 body {
   margin: 0;
   padding: 0;
   background-color: var(--bg-deep-space);
+  /* Giant planet in the background and swirling galaxy */
   background-image: 
-    var(--bg-nebula),
-    radial-gradient(1px 1px at 20px 30px, #ffffff, rgba(0,0,0,0)),
-    radial-gradient(1px 1px at 40px 70px, #ffffff, rgba(0,0,0,0)),
-    radial-gradient(2px 2px at 90px 40px, #ffffff, rgba(0,0,0,0)),
-    radial-gradient(2px 2px at 160px 120px, #e6c875, rgba(0,0,0,0));
-  background-size: 100% 100%, 200px 200px, 250px 250px, 300px 300px, 400px 400px;
+    radial-gradient(circle at 50% 120%, rgba(30, 40, 80, 0.5) 0%, transparent 60%),
+    radial-gradient(circle at 20% 20%, rgba(100, 60, 150, 0.15) 0%, transparent 40%),
+    radial-gradient(1px 1px at 10% 20%, #ffffff, rgba(0,0,0,0)),
+    radial-gradient(1.5px 1.5px at 30% 60%, #ffffff, rgba(0,0,0,0)),
+    radial-gradient(2px 2px at 80% 40%, #e6c875, rgba(0,0,0,0)),
+    radial-gradient(1px 1px at 90% 80%, #ffffff, rgba(0,0,0,0)),
+    radial-gradient(2px 2px at 50% 10%, #ffffff, rgba(0,0,0,0));
+  background-size: 100% 100%, 100% 100%, 300px 300px, 400px 400px, 500px 500px, 250px 250px, 350px 350px;
   color: var(--parchment);
   font-family: 'Playfair Display', serif;
   overflow-x: hidden;
@@ -29,6 +31,21 @@ body {
   display: flex;
   justify-content: center;
   align-items: center;
+}
+
+/* A massive celestial body glowing behind the app */
+body::before {
+  content: '';
+  position: absolute;
+  top: -20vh;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 150vw;
+  height: 150vw;
+  border-radius: 50%;
+  background: radial-gradient(circle at 50% 50%, rgba(197, 160, 89, 0.05) 0%, transparent 60%);
+  z-index: 0;
+  pointer-events: none;
 }
 
 h1, h2, h3, .mystic-text {
@@ -41,9 +58,9 @@ h1, h2, h3, .mystic-text {
   flex-direction: column;
   align-items: center;
   width: 100%;
-  max-width: 1200px;
+  max-width: 1000px;
   padding: 2rem;
-  gap: 3rem;
+  gap: 2rem;
   position: relative;
   z-index: 1;
 }
@@ -53,86 +70,103 @@ h1, h2, h3, .mystic-text {
   font-size: 4rem;
   font-weight: 900;
   color: var(--gold-antique);
-  text-shadow: 0 4px 15px rgba(0, 0, 0, 0.8), 0 0 20px rgba(197, 160, 89, 0.3);
+  text-shadow: 0 4px 15px rgba(0, 0, 0, 0.8), 0 0 20px rgba(176, 141, 75, 0.4);
   margin-bottom: 0;
-  letter-spacing: 0.15em;
+  letter-spacing: 0.2em;
   text-transform: uppercase;
 }
 
 .subtitle {
   text-align: center;
   color: var(--parchment);
-  font-size: 1.1rem;
-  letter-spacing: 0.2em;
-  opacity: 0.7;
+  font-size: 1rem;
+  letter-spacing: 0.3em;
+  opacity: 0.6;
   margin-top: 0.5rem;
-  font-style: italic;
 }
 
-/* Ouija / Astrolabe Board */
-.astrology-board {
+/* Ouija Board Container - The big wooden board */
+.ouija-board-container {
   position: relative;
-  width: 450px;
-  height: 450px;
-  border-radius: 50%;
-  /* Wood Texture Gradient */
+  width: 700px;
+  height: 400px;
+  /* Dark wood plank background */
   background: 
-    repeating-radial-gradient(circle at 50% 50%, var(--wood-dark) 0%, var(--wood-light) 10%, var(--wood-dark) 20%),
-    #2a1610;
-  border: 8px solid var(--gold-antique);
+    linear-gradient(rgba(31, 17, 12, 0.9), rgba(31, 17, 12, 0.9)),
+    repeating-linear-gradient(0deg, var(--wood-dark), var(--wood-dark) 10px, var(--wood-light) 10px, var(--wood-light) 20px);
+  border-radius: 20px;
+  border: 12px solid var(--wood-dark);
   box-shadow: 
     inset 0 0 50px rgba(0,0,0,0.9), 
-    0 15px 35px rgba(0,0,0,0.8), 
-    0 0 20px rgba(197, 160, 89, 0.2);
+    0 20px 50px rgba(0,0,0,0.9),
+    0 0 0 4px var(--gold-antique);
   display: flex;
   justify-content: center;
-  align-items: center;
-  transition: all 0.5s ease;
+  align-items: flex-end;
+  overflow: hidden;
+  padding-bottom: 40px;
 }
 
-/* The inner gold ring */
-.astrology-board::before {
+/* Decorative border inside the board */
+.ouija-board-container::after {
   content: '';
   position: absolute;
-  inset: 20px;
-  border-radius: 50%;
-  border: 2px dashed var(--gold-antique);
-  opacity: 0.5;
+  inset: 15px;
+  border: 2px solid var(--gold-antique);
+  border-radius: 10px;
+  opacity: 0.4;
   pointer-events: none;
 }
 
-/* The center sun/moon emblem */
-.center-emblem {
+/* Ouija text elements */
+.ouija-corner {
   position: absolute;
-  width: 120px;
-  height: 120px;
-  border-radius: 50%;
-  background: var(--wood-dark);
-  border: 3px solid var(--gold-antique);
+  top: 30px;
+  font-family: 'Cinzel Decorative', cursive;
+  font-size: 2.5rem;
+  color: var(--gold-antique);
+  letter-spacing: 0.1em;
+  text-shadow: 0 2px 4px rgba(0,0,0,0.8);
+}
+.ouija-corner.top-left { left: 40px; }
+.ouija-corner.top-right { right: 40px; }
+
+.ouija-sun, .ouija-moon {
+  position: absolute;
+  top: 100px;
+  font-size: 3rem;
+  color: var(--gold-antique);
+  opacity: 0.6;
+}
+.ouija-sun { left: 60px; }
+.ouija-moon { right: 60px; }
+
+.ouija-goodbye {
+  position: absolute;
+  bottom: 25px;
+  font-family: 'Cinzel Decorative', cursive;
+  font-size: 2rem;
+  color: var(--gold-antique);
+  letter-spacing: 0.3em;
+  text-shadow: 0 2px 4px rgba(0,0,0,0.8);
+}
+
+/* Inner astrology mechanism */
+.astrology-board {
+  position: absolute;
+  bottom: -50px;
+  width: 500px;
+  height: 500px;
   display: flex;
   justify-content: center;
   align-items: center;
-  z-index: 10;
-  box-shadow: inset 0 0 20px rgba(0,0,0,0.8), 0 0 15px rgba(0,0,0,0.6);
-  color: var(--gold-antique);
-  font-size: 3rem;
-  transition: all 1s ease;
-}
-
-.astrology-board.channeling .center-emblem {
-  color: var(--gold-glow);
-  text-shadow: 0 0 20px var(--gold-glow);
-  box-shadow: inset 0 0 30px rgba(197, 160, 89, 0.4), 0 0 25px rgba(197, 160, 89, 0.5);
-  transform: scale(1.05);
+  pointer-events: none; /* Let clicks pass to nodes */
 }
 
 .zodiac-node {
   position: absolute;
-  width: 60px;
+  width: 40px;
   height: 60px;
-  border-radius: 50%;
-  background: transparent;
-  border: 1px solid transparent;
   display: flex;
   flex-direction: column;
   justify-content: center;
@@ -141,10 +175,11 @@ h1, h2, h3, .mystic-text {
   transition: all 0.3s ease;
   transform-origin: center center;
   color: var(--gold-antique);
+  pointer-events: auto; /* Re-enable clicks */
 }
 
 .zodiac-node:hover {
-  transform: scale(1.15);
+  transform: scale(1.15) translateY(-5px) !important;
   color: var(--gold-glow);
   text-shadow: 0 0 10px var(--gold-glow);
   z-index: 20;
@@ -153,7 +188,7 @@ h1, h2, h3, .mystic-text {
 .zodiac-node.active {
   color: var(--parchment);
   text-shadow: 0 0 15px var(--gold-glow);
-  transform: scale(1.2);
+  transform: scale(1.2) translateY(-5px) !important;
   z-index: 20;
 }
 
@@ -188,18 +223,18 @@ h1, h2, h3, .mystic-text {
   margin-left: -40px;
   z-index: 40;
   pointer-events: none;
-  filter: drop-shadow(5px 10px 8px rgba(0,0,0,0.7));
+  filter: drop-shadow(5px 15px 10px rgba(0,0,0,0.9));
   transition: transform 1.5s cubic-bezier(0.25, 0.1, 0.25, 1.2);
 }
 
 /* Oracle Display */
 .oracle-container {
   width: 100%;
-  max-width: 650px;
-  min-height: 180px;
+  max-width: 700px;
+  min-height: 160px;
   padding: 2.5rem;
-  background: rgba(20, 10, 15, 0.85);
-  border: 2px solid var(--wood-light);
+  background: rgba(15, 8, 5, 0.85);
+  border: 1px solid var(--gold-antique);
   border-radius: 4px;
   display: flex;
   flex-direction: column;
@@ -210,7 +245,6 @@ h1, h2, h3, .mystic-text {
   box-shadow: 0 10px 30px rgba(0,0,0,0.8), inset 0 0 40px rgba(0,0,0,0.9);
 }
 
-/* Ornate corner pieces */
 .oracle-container::before, .oracle-container::after {
   content: '❖';
   position: absolute;
@@ -222,39 +256,37 @@ h1, h2, h3, .mystic-text {
 .oracle-container::after { bottom: 10px; right: 15px; }
 
 .oracle-text {
-  font-size: 1.4rem;
+  font-size: 1.3rem;
   font-weight: 400;
   line-height: 1.6;
   color: var(--parchment);
-  text-shadow: 0 0 5px rgba(232, 220, 196, 0.3);
-  animation: etherealReveal 2s ease-out;
+  text-shadow: 0 0 5px rgba(232, 220, 196, 0.2);
+  animation: etherealReveal 2.5s ease-out;
 }
 
 .channeling-text {
-  font-size: 1.2rem;
+  font-size: 1.1rem;
   color: var(--gold-glow);
-  animation: pulseGlow 2s infinite alternate;
+  animation: pulseGlow 1.5s infinite alternate;
   letter-spacing: 0.2em;
 }
 
 /* Animations */
 @keyframes etherealReveal {
-  0% { opacity: 0; transform: scale(0.95); filter: blur(10px); }
-  50% { opacity: 0.5; filter: blur(2px); }
-  100% { opacity: 1; transform: scale(1); filter: blur(0); }
+  0% { opacity: 0; filter: blur(8px); }
+  100% { opacity: 1; filter: blur(0); }
 }
 
 @keyframes pulseGlow {
-  0% { opacity: 0.5; text-shadow: 0 0 5px var(--gold-antique); }
-  100% { opacity: 1; text-shadow: 0 0 20px var(--gold-glow); }
+  0% { opacity: 0.4; text-shadow: 0 0 2px var(--gold-antique); }
+  100% { opacity: 1; text-shadow: 0 0 15px var(--gold-glow); }
 }
 
-/* Gentle hovering of the board */
-.app-container.shaking .astrology-board {
-  animation: cosmicTremor 0.5s ease-in-out infinite alternate;
+.app-container.shaking .ouija-board-container {
+  animation: cosmicTremor 0.1s ease-in-out infinite alternate;
 }
 
 @keyframes cosmicTremor {
   0% { transform: translate(0, 0) rotate(0deg); }
-  100% { transform: translate(0, 2px) rotate(0.5deg); }
+  100% { transform: translate(0, 1px) rotate(0.2deg); }
 }
