@@ -148,7 +148,7 @@ function WoShufflerLogo({ className = "h-7 w-auto" }) {
                 style={{ paintOrder: 'stroke fill' }}
                 filter="url(#clean-angular-shadow)"
             >
-                WOWOSHU
+                Workout Mixer
             </text>
 
             {/* Layer 2: Deep Blue Stroke */}
@@ -167,7 +167,7 @@ function WoShufflerLogo({ className = "h-7 w-auto" }) {
                 strokeMiterlimit="3"
                 style={{ paintOrder: 'stroke fill' }}
             >
-                WOWOSHU
+                Workout Mixer
             </text>
 
             {/* Layer 3: Crisp Gold Accent Stroke */}
@@ -186,7 +186,7 @@ function WoShufflerLogo({ className = "h-7 w-auto" }) {
                 strokeMiterlimit="3"
                 style={{ paintOrder: 'stroke fill' }}
             >
-                WOWOSHU
+                Workout Mixer
             </text>
 
             {/* Layer 4: Pure White Legible Text Fill */}
@@ -200,7 +200,7 @@ function WoShufflerLogo({ className = "h-7 w-auto" }) {
                 letterSpacing="0.12em"
                 fill="#ffffff"
             >
-                WOWOSHU
+                Workout Mixer
             </text>
         </svg>
     );
