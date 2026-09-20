@@ -1,0 +1,248 @@
+@import url('https://fonts.googleapis.com/css2?family=Cinzel:wght@400;700;900&family=Space+Mono:ital,wght@0,400;0,700;1,400;1,700&display=swap');
+
+:root {
+  --bg-color: #020205;
+  --neon-cyan: #00f3ff;
+  --neon-magenta: #ff00ff;
+  --neon-purple: #9d00ff;
+  --neon-gold: #ffd700;
+  --text-primary: #e0e0e0;
+}
+
+body {
+  margin: 0;
+  padding: 0;
+  background-color: var(--bg-color);
+  color: var(--text-primary);
+  font-family: 'Space Mono', monospace;
+  overflow-x: hidden;
+  min-height: 100vh;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background-image: 
+    radial-gradient(circle at 50% 50%, rgba(157, 0, 255, 0.1) 0%, transparent 50%),
+    linear-gradient(rgba(255, 255, 255, 0.03) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(255, 255, 255, 0.03) 1px, transparent 1px);
+  background-size: 100% 100%, 40px 40px, 40px 40px;
+}
+
+h1, h2, h3, .mystic-text {
+  font-family: 'Cinzel', serif;
+}
+
+/* App Layout */
+.app-container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  width: 100%;
+  max-width: 1200px;
+  padding: 2rem;
+  gap: 3rem;
+  position: relative;
+  z-index: 1;
+}
+
+.title-glow {
+  text-align: center;
+  font-size: 3rem;
+  font-weight: 900;
+  color: #fff;
+  text-shadow: 0 0 10px var(--neon-cyan), 0 0 20px var(--neon-cyan), 0 0 40px var(--neon-purple);
+  margin-bottom: 0;
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+}
+
+.subtitle {
+  text-align: center;
+  color: var(--neon-gold);
+  font-size: 1rem;
+  letter-spacing: 0.1em;
+  opacity: 0.8;
+  margin-top: 0.5rem;
+}
+
+/* Astrology Board (Circular Layout) */
+.astrology-board {
+  position: relative;
+  width: 400px;
+  height: 400px;
+  border-radius: 50%;
+  border: 2px solid rgba(255, 255, 255, 0.1);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  box-shadow: inset 0 0 50px rgba(0, 243, 255, 0.1), 0 0 50px rgba(157, 0, 255, 0.1);
+  transition: all 0.3s ease;
+}
+
+.astrology-board.channeling {
+  animation: boardPulse 0.5s infinite alternate, boardSpin 4s linear infinite;
+  box-shadow: inset 0 0 100px rgba(0, 243, 255, 0.3), 0 0 100px rgba(255, 0, 255, 0.3);
+  border-color: var(--neon-magenta);
+}
+
+.center-eye {
+  position: absolute;
+  width: 100px;
+  height: 100px;
+  border-radius: 50%;
+  background: rgba(0, 0, 0, 0.8);
+  border: 2px solid var(--neon-cyan);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  font-size: 2rem;
+  z-index: 10;
+  box-shadow: 0 0 20px var(--neon-cyan);
+  transition: all 0.3s ease;
+}
+
+.astrology-board.channeling .center-eye {
+  box-shadow: 0 0 40px var(--neon-magenta), inset 0 0 20px var(--neon-gold);
+  border-color: var(--neon-magenta);
+}
+
+.zodiac-node {
+  position: absolute;
+  width: 50px;
+  height: 50px;
+  border-radius: 50%;
+  background: rgba(10, 10, 15, 0.9);
+  border: 1px solid rgba(255, 255, 255, 0.3);
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  transform-origin: center center;
+}
+
+.zodiac-node:hover {
+  transform: scale(1.2);
+  border-color: var(--neon-cyan);
+  box-shadow: 0 0 15px var(--neon-cyan);
+  z-index: 20;
+}
+
+.zodiac-node.active {
+  border-color: var(--neon-magenta);
+  background: var(--neon-magenta);
+  color: #000;
+  box-shadow: 0 0 25px var(--neon-magenta);
+  transform: scale(1.3);
+  z-index: 20;
+}
+
+.zodiac-symbol {
+  font-size: 1.5rem;
+  line-height: 1;
+}
+
+.zodiac-name {
+  font-size: 0.5rem;
+  text-transform: uppercase;
+  margin-top: 2px;
+  opacity: 0.7;
+}
+
+.zodiac-node.active .zodiac-name {
+  color: #000;
+  font-weight: bold;
+  opacity: 1;
+}
+
+/* Oracle Display */
+.oracle-container {
+  width: 100%;
+  max-width: 600px;
+  min-height: 150px;
+  padding: 2rem;
+  background: rgba(10, 10, 15, 0.8);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  border-radius: 8px;
+  backdrop-filter: blur(10px);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+  position: relative;
+  overflow: hidden;
+}
+
+.oracle-container::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 2px;
+  background: linear-gradient(90deg, transparent, var(--neon-gold), transparent);
+}
+
+.oracle-text {
+  font-size: 1.5rem;
+  font-weight: 700;
+  line-height: 1.5;
+  color: var(--neon-gold);
+  text-shadow: 0 0 10px rgba(255, 215, 0, 0.5);
+  animation: textReveal 0.5s ease-out;
+}
+
+.channeling-text {
+  font-size: 1.2rem;
+  color: var(--neon-cyan);
+  animation: glitch 0.2s infinite;
+  letter-spacing: 0.3em;
+}
+
+/* Animations */
+@keyframes boardPulse {
+  0% { transform: scale(1); }
+  100% { transform: scale(1.02); }
+}
+
+@keyframes boardSpin {
+  0% { transform: rotate(0deg); }
+  100% { transform: rotate(360deg); }
+}
+
+/* Counter-spin for nodes to keep them upright */
+.astrology-board.channeling .zodiac-node-wrapper {
+  animation: counterSpin 4s linear infinite;
+}
+
+@keyframes counterSpin {
+  0% { transform: rotate(0deg); }
+  100% { transform: rotate(-360deg); }
+}
+
+@keyframes textReveal {
+  0% { opacity: 0; transform: translateY(10px); filter: blur(5px); }
+  100% { opacity: 1; transform: translateY(0); filter: blur(0); }
+}
+
+@keyframes glitch {
+  0% { transform: translate(0) skew(0); }
+  20% { transform: translate(-2px, 1px) skew(-5deg); color: var(--neon-magenta); }
+  40% { transform: translate(2px, -1px) skew(5deg); color: var(--neon-cyan); }
+  60% { transform: translate(-1px, -2px) skew(-2deg); }
+  80% { transform: translate(1px, 2px) skew(2deg); color: #fff; }
+  100% { transform: translate(0) skew(0); }
+}
+
+/* Screen Shake effect on App */
+.app-container.shaking {
+  animation: screenShake 0.3s cubic-bezier(.36,.07,.19,.97) both;
+}
+
+@keyframes screenShake {
+  10%, 90% { transform: translate3d(-2px, 0, 0); }
+  20%, 80% { transform: translate3d(4px, 0, 0); }
+  30%, 50%, 70% { transform: translate3d(-8px, 0, 0); }
+  40%, 60% { transform: translate3d(8px, 0, 0); }
+}
