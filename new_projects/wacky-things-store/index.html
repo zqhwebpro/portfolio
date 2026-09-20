@@ -261,7 +261,7 @@
                 <i class="fa-solid fa-code text-appetite-400"></i> ASP.NET MVC 5 File &amp; Code:
             </div>
             <div id="tt-file" class="font-mono text-[11px] font-bold text-honey-300 bg-black/50 p-1.5 rounded border border-earth-800 break-all">
-                TimberlineStore.WebUI/Views/...
+                WackyStore.WebUI/Views/...
             </div>
             <div id="tt-code" class="font-mono text-[10.5px] text-appetite-300 bg-black/50 p-1.5 rounded border border-earth-800 overflow-x-auto">
                 // C# action mapping
@@ -436,7 +436,7 @@
                 <!-- LEFT FILTER SIDEBAR (Categories, Price Range, Ratings & Perks) -->
                 <!-- ============================================================================== -->
                 <aside class="w-full lg:w-72 xl:w-80 shrink-0 space-y-6 lg:sticky lg:top-24"
-                       data-blueprint-file="TimberlineStore.WebUI/Views/Nav/Menu.cshtml"
+                       data-blueprint-file="WackyStore.WebUI/Views/Nav/Menu.cshtml"
                        data-blueprint-role="Category Navigation &amp; Filter Sidebar Partial"
                        data-blueprint-layer="WebUI / Partial View &amp; Navigation"
                        data-blueprint-dom="Semantic <aside> filter sidebar containing category buttons, price filters, rating filters, and active indicators."
@@ -552,7 +552,7 @@
                     
                     <!-- Catalog Header & Sorting Controls -->
                     <div class="bg-white border border-canvas-border rounded-2xl p-5 flex items-center justify-between flex-wrap gap-4 shadow-xs"
-                         data-blueprint-file="TimberlineStore.WebUI/Models/ProductsListViewModel.cs"
+                         data-blueprint-file="WackyStore.WebUI/Models/ProductsListViewModel.cs"
                          data-blueprint-role="Catalog ViewModel &amp; Query Controls"
                          data-blueprint-layer="WebUI / ViewModel"
                          data-blueprint-dom="Responsive flex container with items-center alignment, status text counters, and custom dropdown styling."
@@ -591,12 +591,12 @@
 
                     <!-- PRODUCT CATALOG GRID (Fluid Responsive Grid: 1 to 4 columns) -->
                     <section id="product-grid-section" 
-                             data-blueprint-file="TimberlineStore.WebUI/Views/Shared/_ProductSummary.cshtml"
+                             data-blueprint-file="WackyStore.WebUI/Views/Shared/_ProductSummary.cshtml"
                              data-blueprint-role="Product Summary Razor Partial"
                              data-blueprint-layer="WebUI / Partial View"
                              data-blueprint-dom="CSS Grid container spanning full horizontal space (grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6)."
                              data-blueprint-desc="Rendered for each item in Model.Products. Maps Domain.Entities.Product properties (ProductID, Name, Description, Price, Category, ImageData) to HTML markup."
-                             data-blueprint-code="@model TimberlineStore.Domain.Entities.Product">
+                             data-blueprint-code="@model WackyStore.Domain.Entities.Product">
                         
                         <div id="product-grid" class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 2xl:grid-cols-4 gap-6">
                             <!-- Products injected dynamically via JS -->
@@ -616,7 +616,7 @@
 
                     <!-- PAGINATION BAR -->
                     <div class="bg-white border border-canvas-border rounded-2xl p-4 flex items-center justify-between flex-wrap gap-4 shadow-xs"
-                         data-blueprint-file="TimberlineStore.WebUI/HtmlHelpers/PagingHelpers.cs"
+                         data-blueprint-file="WackyStore.WebUI/HtmlHelpers/PagingHelpers.cs"
                          data-blueprint-role="Custom Razor HTML Helper"
                          data-blueprint-layer="WebUI / HtmlHelpers"
                          data-blueprint-dom="Flex container displaying pagination status label and dynamic button list."
@@ -644,11 +644,11 @@
     <!-- 4. CART DRAWER COMPONENT (Off-White & Warm Espresso) -->
     <div id="cart-drawer-backdrop" class="fixed inset-0 bg-black/60 backdrop-blur-xs z-50 hidden flex justify-end" onclick="if(event.target===this) window.closeCartDrawer()">
         <div class="bg-canvas-base border-l border-canvas-border w-full max-w-md h-full flex flex-col shadow-2xl p-6 space-y-4"
-             data-blueprint-file="TimberlineStore.WebUI/Views/Cart/Index.cshtml"
+             data-blueprint-file="WackyStore.WebUI/Views/Cart/Index.cshtml"
              data-blueprint-role="Shopping Cart View &amp; Domain Cart Engine"
              data-blueprint-layer="WebUI / View &amp; Domain / Entity"
              data-blueprint-dom="Off-canvas slide-out drawer utilizing fixed positioning, full viewport height, and flex column layout."
-             data-blueprint-desc="Displays the user's CartLine items. Manipulations invoke Cart.AddItem(), Cart.RemoveLine(), and Cart.ComputeTotalValue() in TimberlineStore.Domain.Entities.Cart."
+             data-blueprint-desc="Displays the user's CartLine items. Manipulations invoke Cart.AddItem(), Cart.RemoveLine(), and Cart.ComputeTotalValue() in WackyStore.Domain.Entities.Cart."
              data-blueprint-code="public class Cart { public void AddItem(Product p, int qty); public void RemoveLine(Product p); public decimal ComputeTotalValue(); }">
             
             <!-- Cart Header -->
@@ -710,7 +710,7 @@
     <!-- 5. CHECKOUT MODAL (Views/Cart/Checkout.cshtml) -->
     <div id="checkout-modal-backdrop" class="fixed inset-0 bg-black/60 backdrop-blur-xs z-50 hidden flex items-center justify-center p-4" onclick="if(event.target===this) window.closeCheckoutModal()">
         <div class="bg-canvas-base border border-canvas-border rounded-2xl max-w-md w-full p-6 space-y-4 shadow-2xl text-earth-950"
-             data-blueprint-file="TimberlineStore.WebUI/Controllers/CartController.cs"
+             data-blueprint-file="WackyStore.WebUI/Controllers/CartController.cs"
              data-blueprint-role="Checkout Action &amp; EmailOrderProcessor"
              data-blueprint-layer="WebUI / Controller &amp; Domain / OrderProcessor"
              data-blueprint-dom="Modal dialog with off-white card backgrounds, warm brown borders, and responsive form grid."
@@ -821,11 +821,11 @@
     <!-- 6. ORDER RECEIPT MODAL -->
     <div id="receipt-modal-backdrop" class="fixed inset-0 bg-black/60 backdrop-blur-xs z-50 hidden flex items-center justify-center p-4" onclick="if(event.target===this) window.closeReceiptModal()">
         <div class="bg-canvas-base border border-canvas-border rounded-2xl max-w-sm w-full p-6 text-center space-y-4 shadow-2xl text-earth-950"
-             data-blueprint-file="TimberlineStore.WebUI/Views/Cart/Completed.cshtml"
+             data-blueprint-file="WackyStore.WebUI/Views/Cart/Completed.cshtml"
              data-blueprint-role="Order Completed Razor View"
              data-blueprint-layer="WebUI / View &amp; Domain / Concrete"
              data-blueprint-dom="Centered modal container with emerald status ring icon and styled receipt data card."
-             data-blueprint-desc="Confirmation view rendered after successful order processing by TimberlineStore.Domain.Concrete.EmailOrderProcessor.cs."
+             data-blueprint-desc="Confirmation view rendered after successful order processing by WackyStore.Domain.Concrete.EmailOrderProcessor.cs."
              data-blueprint-code="orderProcessor.ProcessOrder(cart, shippingDetails);">
             
             <div class="h-14 w-14 rounded-full bg-appetite-100 text-appetite-700 border border-appetite-300 flex items-center justify-center text-2xl mx-auto">
@@ -865,7 +865,7 @@
     <!-- 7. ADMIN INVENTORY CRUD MODAL -->
     <div id="admin-modal-backdrop" class="fixed inset-0 bg-black/60 backdrop-blur-xs z-50 hidden flex items-center justify-center p-4" onclick="if(event.target===this) window.closeAdminModal()">
         <div class="bg-canvas-base border border-canvas-border rounded-2xl max-w-2xl w-full max-h-[85vh] flex flex-col p-6 space-y-4 shadow-2xl text-earth-950"
-             data-blueprint-file="TimberlineStore.WebUI/Controllers/AdminController.cs"
+             data-blueprint-file="WackyStore.WebUI/Controllers/AdminController.cs"
              data-blueprint-role="Entity Framework CRUD Portal"
              data-blueprint-layer="WebUI / Admin &amp; Domain / EF6"
              data-blueprint-dom="Modal dialog containing catalog table list, add new product form, and action edit buttons."
@@ -921,7 +921,7 @@
     <!-- 8. ARCHITECTURE MODAL -->
     <div id="arch-modal-backdrop" class="fixed inset-0 bg-black/60 backdrop-blur-xs z-50 hidden flex items-center justify-center p-4" onclick="if(event.target===this) window.closeArchitectureModal()">
         <div class="bg-canvas-base border border-canvas-border rounded-2xl max-w-2xl w-full max-h-[85vh] overflow-y-auto p-6 space-y-4 shadow-2xl text-earth-950"
-             data-blueprint-file="TimberlineStore.Domain/Concrete/EFDbContext.cs"
+             data-blueprint-file="WackyStore.Domain/Concrete/EFDbContext.cs"
              data-blueprint-role="Enterprise Solution Blueprint"
              data-blueprint-layer="Domain / Entity Framework"
              data-blueprint-dom="Architecture breakdown modal styled with off-white cards and monospace code blocks."
@@ -941,27 +941,48 @@
                 </button>
             </div>
 
-            <div class="grid grid-cols-1 md:grid-cols-2 gap-4 text-xs">
+            <div class="space-y-4 text-xs">
+                
+                <!-- Section 1: The Core Brain -->
                 <div class="bg-white p-4 rounded-xl border border-canvas-border space-y-2 shadow-xs">
-                    <div class="text-appetite-800 font-bold text-sm">1. TimberlineStore.Domain (Core Logic)</div>
-                    <ul class="list-disc list-inside space-y-1.5 pl-1 text-[11.5px] text-earth-700">
-                        <li><strong class="text-earth-950">Entities/Product.cs:</strong> Core domain model with DataAnnotations.</li>
-                        <li><strong class="text-earth-950">Entities/Cart.cs:</strong> Encapsulates cart lines, quantity modifications, and total computation.</li>
-                        <li><strong class="text-earth-950">Abstract/IProductRepository.cs:</strong> Repository pattern abstraction for zero DB coupling.</li>
-                        <li><strong class="text-earth-950">Concrete/EFProductRepository.cs:</strong> EF6 implementation querying SQL Server via DbContext.</li>
+                    <div class="flex items-center gap-2 text-appetite-800 font-bold text-sm">
+                        <i class="fa-solid fa-brain"></i> 1. Domain Layer (The Core Brain)
+                    </div>
+                    <p class="text-[11.5px] text-earth-700 leading-relaxed mb-2">
+                        The <strong>Domain Layer</strong> is the heart of the application. It contains all the essential business logic and rules, completely independent of how the website looks or how the database is structured.
+                    </p>
+                    <ul class="list-disc list-inside space-y-1.5 pl-1 text-[11.5px] text-earth-700 border-t border-canvas-border pt-2">
+                        <li><strong class="text-earth-950">Entities (Product &amp; Cart):</strong> The actual objects we sell and the cart logic to calculate totals.</li>
+                        <li><strong class="text-earth-950">Abstract Interfaces (IProductRepository):</strong> The contracts that say <em>"we need a way to get products"</em> without caring if they come from SQL or memory.</li>
+                        <li><strong class="text-earth-950">Concrete Data Access (EF6):</strong> Entity Framework handles the actual SQL database queries.</li>
                     </ul>
                 </div>
 
+                <!-- Section 2: The User Interface -->
                 <div class="bg-white p-4 rounded-xl border border-canvas-border space-y-2 shadow-xs">
-                    <div class="text-honey-900 font-bold text-sm">2. TimberlineStore.WebUI (Presentation Layer)</div>
-                    <ul class="list-disc list-inside space-y-1.5 pl-1 text-[11.5px] text-earth-700">
-                        <li><strong class="text-earth-950">Controllers/ProductController.cs:</strong> Paginated product list view with category and LINQ search filtering.</li>
-                        <li><strong class="text-earth-950">Controllers/CartController.cs:</strong> Session-decoupled cart management and checkout orchestration.</li>
-                        <li><strong class="text-earth-950">Infrastructure/Binders/CartModelBinder.cs:</strong> Custom ASP.NET model binder managing cart session state.</li>
-                        <li><strong class="text-earth-950">HtmlHelpers/PagingHelpers.cs:</strong> Custom Razor extension generating pagination links.</li>
-                        <li><strong class="text-earth-950">App_Start/NinjectWebCommon.cs:</strong> Dependency Injection IoC container setup.</li>
+                    <div class="flex items-center gap-2 text-honey-900 font-bold text-sm">
+                        <i class="fa-solid fa-desktop"></i> 2. WebUI Layer (The User Interface)
+                    </div>
+                    <p class="text-[11.5px] text-earth-700 leading-relaxed mb-2">
+                        The <strong>WebUI Layer</strong> is responsible for everything the user interacts with. It talks to the Domain layer to get data and formats it into the HTML pages you see here.
+                    </p>
+                    <ul class="list-disc list-inside space-y-1.5 pl-1 text-[11.5px] text-earth-700 border-t border-canvas-border pt-2">
+                        <li><strong class="text-earth-950">Controllers:</strong> The traffic cops. E.g., <code class="bg-earth-100 px-1 rounded">ProductController</code> handles routing, pagination, and searching.</li>
+                        <li><strong class="text-earth-950">Views &amp; ViewModels:</strong> Razor pages that display the products and custom objects that hold only the data needed for a specific page.</li>
+                        <li><strong class="text-earth-950">Custom Binders (CartModelBinder):</strong> Cleanly extracts the user's shopping cart from their browser session so the Controllers don't have to deal with messy session variables.</li>
                     </ul>
                 </div>
+
+                <!-- Section 3: The Glue -->
+                <div class="bg-white p-4 rounded-xl border border-canvas-border space-y-2 shadow-xs">
+                    <div class="flex items-center gap-2 text-earth-900 font-bold text-sm">
+                        <i class="fa-solid fa-link"></i> 3. Dependency Injection (The Glue)
+                    </div>
+                    <p class="text-[11.5px] text-earth-700 leading-relaxed">
+                        Instead of the WebUI directly talking to the SQL database, we use a tool called <strong>Ninject</strong> to wire them together. If we ever want to swap out our SQL database for an API, we just change one line of code in Ninject, and the rest of the application remains untouched!
+                    </p>
+                </div>
+
             </div>
 
             <div class="text-[11px] text-earth-600 text-center pt-2 border-t border-canvas-border">
