@@ -8,15 +8,15 @@ import { SoundEngine } from '../utils/soundEngine';
    ============================================================ */
 function SlideShell({ concept, children }) {
   return (
-    <div style={{ display: 'flex', flexDirection: 'column', gap: '1.5rem' }}>
+    <div style={{ display: 'flex', flexDirection: 'column', gap: '2.5rem' }}>
       {/* ① Canonical Definition Banner */}
       <div style={{
         borderLeft: `8px solid ${concept.color}`,
         background: '#FAFAFA',
         border: `2px solid #0A0A0A`,
-        borderLeft: `8px solid ${concept.color}`,
-        padding: '1.25rem 1.5rem',
-        boxShadow: '4px 4px 0 #0A0A0A',
+        borderLeft: `12px solid ${concept.color}`,
+        padding: '2rem 2.5rem',
+        boxShadow: '6px 6px 0 #0A0A0A',
       }}>
         <div style={{ fontFamily: 'var(--font-mono)', fontSize: '0.7rem', fontWeight: 900, color: concept.color, letterSpacing: '0.1em', marginBottom: '0.6rem', textTransform: 'uppercase' }}>
           ◆ CANONICAL DEFINITION
@@ -27,13 +27,13 @@ function SlideShell({ concept, children }) {
       </div>
 
       {/* ② Key Properties */}
-      <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fill, minmax(min(100%, 220px), 1fr))', gap: '0.65rem' }}>
+      <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fill, minmax(min(100%, 250px), 1fr))', gap: '1.25rem' }}>
         {concept.properties.map((p, i) => (
           <div key={i} style={{
             background: '#FFFFFF',
             border: `2px solid #0A0A0A`,
-            padding: '0.75rem 0.9rem',
-            boxShadow: `3px 3px 0 ${concept.color}`,
+            padding: '1.25rem 1.5rem',
+            boxShadow: `4px 4px 0 ${concept.color}`,
           }}>
             <div style={{ fontFamily: 'var(--font-mono)', fontSize: '0.68rem', fontWeight: 900, color: concept.color === '#FFE600' ? '#000' : concept.color, letterSpacing: '0.08em', marginBottom: '0.3rem' }}>
               [{p.label}]
@@ -51,14 +51,14 @@ function SlideShell({ concept, children }) {
       </div>
 
       {/* ④ Examples */}
-      <div style={{ display: 'flex', flexWrap: 'wrap', gap: '0.5rem', alignItems: 'center' }}>
-        <span style={{ fontFamily: 'var(--font-mono)', fontSize: '0.7rem', fontWeight: 900, color: '#888', letterSpacing: '0.08em', marginRight: '0.25rem' }}>REAL-WORLD:</span>
+      <div style={{ display: 'flex', flexWrap: 'wrap', gap: '1rem', alignItems: 'center' }}>
+        <span style={{ fontFamily: 'var(--font-mono)', fontSize: '0.8rem', fontWeight: 900, color: '#888', letterSpacing: '0.08em', marginRight: '0.5rem' }}>REAL-WORLD:</span>
         {concept.examples.map((ex, i) => (
           <span key={i} style={{
-            fontFamily: 'var(--font-mono)', fontSize: '0.72rem', fontWeight: 700,
-            background: '#F0F0F0', color: '#0A0A0A',
-            border: '1.5px solid #0A0A0A', padding: '0.2rem 0.6rem',
-            boxShadow: '2px 2px 0 #0A0A0A',
+            fontFamily: 'var(--font-mono)', fontSize: '0.8rem', fontWeight: 700,
+            background: '#FFFFFF', color: '#0A0A0A',
+            border: '2px solid #0A0A0A', padding: '0.4rem 0.8rem',
+            boxShadow: '3px 3px 0 #0A0A0A',
           }}>
             {ex.name} <span style={{ color: concept.color === '#FFE600' ? '#444' : concept.color, marginLeft: '0.3rem' }}>{ex.complexity}</span>
           </span>
@@ -140,13 +140,13 @@ function VariablesSlide({ concept }) {
 
   return (
     <SlideShell concept={concept}>
-      <div style={{ background: '#FFFFFF', border: '2.5px solid #0A0A0A', padding: '1.25rem', boxShadow: '4px 4px 0 #0A0A0A' }}>
+      <div style={{ background: '#FFFFFF', border: '2.5px solid #0A0A0A', padding: '2.5rem', boxShadow: '6px 6px 0 #0A0A0A' }}>
         <div style={{ fontFamily: 'var(--font-mono)', fontSize: '0.65rem', fontWeight: 900, color: '#888', letterSpacing: '0.08em', marginBottom: '1rem' }}>
           MEMORY STATE VISUALIZER
         </div>
         
         {errorMsg && (
-          <div style={{ background: '#FF2A00', color: '#FFF', padding: '0.5rem', fontFamily: 'var(--font-mono)', fontSize: '0.7rem', fontWeight: 'bold', marginBottom: '1rem', border: '2px solid #0A0A0A' }}>
+          <div style={{ background: '#FFFFFF', color: '#FF2A00', padding: '1rem', fontFamily: 'var(--font-mono)', fontSize: '0.8rem', fontWeight: 'bold', marginBottom: '1.5rem', border: '2px solid #FF2A00' }}>
             {errorMsg}
           </div>
         )}
@@ -157,9 +157,9 @@ function VariablesSlide({ concept }) {
               <div style={{ background: s.canChange ? '#FFF' : '#E5E5E5', color: s.canChange ? '#0A0A0A' : '#666', borderRight: '2px solid #0A0A0A', padding: '0.75rem', fontFamily: 'var(--font-mono)', fontSize: '0.8rem', fontWeight: 900, minWidth: '80px' }}>
                 {s.type} {s.label}
               </div>
-              <div style={{ flex: 1, padding: '0.75rem', background: '#F8F7F2', fontFamily: 'var(--font-mono)', fontSize: '1.1rem', fontWeight: 800, color: '#0A0A0A', display: 'flex', alignItems: 'center', justifyContent: 'space-between' }}>
+              <div style={{ flex: 1, padding: '1rem', background: '#F8F7F2', fontFamily: 'var(--font-mono)', fontSize: '1.2rem', fontWeight: 800, color: '#0A0A0A', display: 'flex', alignItems: 'center', justifyContent: 'space-between' }}>
                 {s.val}
-                <button onClick={() => handleUpdate(i)} style={{ background: '#0A0A0A', color: '#FFF', border: 'none', padding: '0.3rem 0.6rem', cursor: 'pointer', fontFamily: 'var(--font-mono)', fontSize: '0.6rem', fontWeight: 'bold' }}>
+                <button onClick={() => handleUpdate(i)} style={{ background: '#FFFFFF', color: '#0A0A0A', border: '2px solid #0A0A0A', padding: '0.5rem 1rem', cursor: 'pointer', fontFamily: 'var(--font-mono)', fontSize: '0.7rem', fontWeight: 'bold', boxShadow: '2px 2px 0 #0A0A0A' }}>
                   UPDATE
                 </button>
               </div>
@@ -181,7 +181,7 @@ function DataTypesSlide({ concept }) {
 
   return (
     <SlideShell concept={concept}>
-      <div style={{ background: '#FFFFFF', border: '2.5px solid #0A0A0A', padding: '1.25rem', boxShadow: '4px 4px 0 #0A0A0A' }}>
+      <div style={{ background: '#FFFFFF', border: '2.5px solid #0A0A0A', padding: '2.5rem', boxShadow: '6px 6px 0 #0A0A0A' }}>
         <div style={{ fontFamily: 'var(--font-mono)', fontSize: '0.65rem', fontWeight: 900, color: '#888', letterSpacing: '0.08em', marginBottom: '0.75rem' }}>
           TYPE INSPECTOR
         </div>
@@ -191,10 +191,10 @@ function DataTypesSlide({ concept }) {
             const isActive = i === active;
             return (
               <button key={i} onClick={() => { SoundEngine.playClick(); setActive(i); }} style={{
-                background: isActive ? '#0A0A0A' : '#F8F7F2',
-                color: isActive ? '#FFF' : '#0A0A0A',
+                background: isActive ? '#FFFFFF' : '#F8F7F2',
+                color: '#0A0A0A',
                 border: isActive ? `2px solid ${typeObj.color}` : '2px solid #E5E5E5',
-                padding: '0.55rem 0.8rem',
+                padding: '0.8rem 1.2rem',
                 cursor: 'pointer',
                 fontFamily: 'var(--font-mono)',
                 fontSize: '0.75rem',
@@ -247,18 +247,18 @@ function ControlStructuresSlide({ concept }) {
 
   return (
     <SlideShell concept={concept}>
-      <div style={{ background: '#FFFFFF', border: '2.5px solid #0A0A0A', padding: '1.25rem', boxShadow: '4px 4px 0 #0A0A0A' }}>
+      <div style={{ background: '#FFFFFF', border: '2.5px solid #0A0A0A', padding: '2.5rem', boxShadow: '6px 6px 0 #0A0A0A' }}>
         <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', borderBottom: '2px solid #0A0A0A', paddingBottom: '0.75rem', marginBottom: '1rem' }}>
           <div>
             <div style={{ fontFamily: 'var(--font-mono)', fontSize: '0.65rem', fontWeight: 900, color: '#888', letterSpacing: '0.08em', marginBottom: '0.2rem' }}>EXECUTION FLOW</div>
             <div style={{ fontFamily: 'var(--font-display)', fontWeight: 900, fontSize: '1.1rem' }}>LOOP STEPPER</div>
           </div>
-          <div style={{ display: 'flex', gap: '0.4rem' }}>
-            <button onClick={advance} style={{ background: concept.color, color: concept.textColor, border: '2px solid #0A0A0A', padding: '0.4rem 0.8rem', fontFamily: 'var(--font-mono)', fontSize: '0.75rem', fontWeight: 900, cursor: 'pointer', display: 'flex', alignItems: 'center', gap: '0.3rem', boxShadow: '2px 2px 0 #0A0A0A' }}>
-              <Play size={13} /> STEP
+          <div style={{ display: 'flex', gap: '0.75rem' }}>
+            <button onClick={advance} style={{ background: '#FFFFFF', color: '#0A0A0A', border: '2px solid #0A0A0A', padding: '0.6rem 1.2rem', fontFamily: 'var(--font-mono)', fontSize: '0.8rem', fontWeight: 900, cursor: 'pointer', display: 'flex', alignItems: 'center', gap: '0.4rem', boxShadow: `3px 3px 0 ${concept.color}` }}>
+              <Play size={14} /> STEP FORWARD
             </button>
-            <button onClick={reset} style={{ background: '#FFF', border: '2px solid #0A0A0A', padding: '0.4rem 0.5rem', cursor: 'pointer', boxShadow: '2px 2px 0 #0A0A0A' }}>
-              <RotateCcw size={13} />
+            <button onClick={reset} style={{ background: '#FFFFFF', border: '2px solid #0A0A0A', padding: '0.6rem 0.8rem', cursor: 'pointer', boxShadow: '3px 3px 0 #0A0A0A' }}>
+              <RotateCcw size={14} />
             </button>
           </div>
         </div>
@@ -306,25 +306,25 @@ function IOSlide({ concept }) {
 
   return (
     <SlideShell concept={concept}>
-      <div style={{ background: '#FFFFFF', border: '2.5px solid #0A0A0A', padding: '1.25rem', boxShadow: '4px 4px 0 #0A0A0A' }}>
-        <div style={{ fontFamily: 'var(--font-mono)', fontSize: '0.65rem', fontWeight: 900, color: '#888', letterSpacing: '0.08em', marginBottom: '0.75rem', display: 'flex', alignItems: 'center', gap: '0.3rem' }}>
-          <TerminalIcon size={14} /> TERMINAL SIMULATOR
+      <div style={{ background: '#FFFFFF', border: '2.5px solid #0A0A0A', padding: '2.5rem', boxShadow: '6px 6px 0 #0A0A0A' }}>
+        <div style={{ fontFamily: 'var(--font-mono)', fontSize: '0.75rem', fontWeight: 900, color: '#888', letterSpacing: '0.08em', marginBottom: '1.25rem' }}>
+          RUNTIME CONSOLE
         </div>
 
-        <div style={{ background: '#FFFFFF', border: '2px solid #0A0A0A', padding: '1rem', height: '150px', overflowY: 'auto', fontFamily: 'var(--font-mono)', fontSize: '0.8rem', color: '#00A669', display: 'flex', flexDirection: 'column', gap: '0.4rem', marginBottom: '1rem' }}>
+        <div style={{ background: '#FFFFFF', border: '2px solid #0A0A0A', padding: '1.5rem', height: '180px', overflowY: 'auto', fontFamily: 'var(--font-mono)', fontSize: '0.9rem', color: '#00A669', display: 'flex', flexDirection: 'column', gap: '0.6rem', marginBottom: '1.5rem' }}>
           {logs.map((l, i) => <div key={i} style={{ color: l.startsWith('>') ? '#0A0A0A' : l.startsWith('Error') ? '#FF2A00' : '#00A669' }}>{l}</div>)}
         </div>
 
-        <form onSubmit={handleSubmit} style={{ display: 'flex', gap: '0.5rem' }}>
+        <form onSubmit={handleSubmit} style={{ display: 'flex', gap: '0.75rem' }}>
           <input 
             type="text" 
             value={inputVal} 
             onChange={(e) => setInputVal(e.target.value)}
-            placeholder="Enter your age..."
-            style={{ flex: 1, background: '#F8F7F2', border: '2px solid #0A0A0A', padding: '0.6rem', fontFamily: 'var(--font-mono)', fontSize: '0.8rem', fontWeight: 'bold' }}
+            placeholder="Enter text to process..."
+            style={{ flex: 1, background: '#F8F7F2', border: '2px solid #0A0A0A', padding: '0.8rem', fontFamily: 'var(--font-mono)', fontSize: '0.9rem', fontWeight: 'bold' }}
           />
-          <button type="submit" style={{ background: concept.color, color: '#FFF', border: '2px solid #0A0A0A', padding: '0.6rem 1rem', fontFamily: 'var(--font-mono)', fontWeight: 900, fontSize: '0.8rem', cursor: 'pointer', boxShadow: '2px 2px 0 #0A0A0A' }}>
-            SEND
+          <button type="submit" style={{ background: '#FFFFFF', color: '#0A0A0A', border: '2px solid #0A0A0A', padding: '0.8rem 1.5rem', fontFamily: 'var(--font-mono)', fontWeight: 900, fontSize: '0.9rem', cursor: 'pointer', boxShadow: `4px 4px 0 ${concept.color}` }}>
+            SEND TO CONSOLE
           </button>
         </form>
       </div>
@@ -348,29 +348,29 @@ function FunctionsSlide({ concept }) {
 
   return (
     <SlideShell concept={concept}>
-      <div style={{ background: '#FFFFFF', border: '2.5px solid #0A0A0A', padding: '1.25rem', boxShadow: '4px 4px 0 #0A0A0A' }}>
-        <div style={{ fontFamily: 'var(--font-mono)', fontSize: '0.65rem', fontWeight: 900, color: '#888', letterSpacing: '0.08em', marginBottom: '0.75rem', display: 'flex', alignItems: 'center', gap: '0.3rem' }}>
+      <div style={{ background: '#FFFFFF', border: '2.5px solid #0A0A0A', padding: '2.5rem', boxShadow: '6px 6px 0 #0A0A0A' }}>
+        <div style={{ fontFamily: 'var(--font-mono)', fontSize: '0.75rem', fontWeight: 900, color: '#888', letterSpacing: '0.08em', marginBottom: '1.25rem', display: 'flex', alignItems: 'center', gap: '0.3rem' }}>
           <Box size={14} /> FUNCTION MACHINE
         </div>
 
-        <div style={{ display: 'flex', alignItems: 'center', gap: '1rem', marginBottom: '1rem' }}>
+        <div style={{ display: 'flex', alignItems: 'center', gap: '1.5rem', marginBottom: '1.5rem' }}>
           {/* Inputs */}
-          <div style={{ display: 'flex', flexDirection: 'column', gap: '0.5rem', flex: 1 }}>
+          <div style={{ display: 'flex', flexDirection: 'column', gap: '0.75rem', flex: 1 }}>
             <div>
-              <div style={{ fontFamily: 'var(--font-mono)', fontSize: '0.6rem', fontWeight: 'bold', color: '#555', marginBottom: '0.2rem' }}>ARG 1 (width)</div>
-              <input type="number" value={w} onChange={e => {setW(Number(e.target.value)); setRes(null);}} style={{ width: '100%', padding: '0.5rem', border: '2px solid #0A0A0A', fontFamily: 'var(--font-mono)', fontWeight: 'bold' }} />
+              <div style={{ fontFamily: 'var(--font-mono)', fontSize: '0.65rem', fontWeight: 'bold', color: '#555', marginBottom: '0.3rem' }}>ARG 1 (width)</div>
+              <input type="number" value={w} onChange={e => {setW(Number(e.target.value)); setRes(null);}} style={{ width: '100%', padding: '0.7rem', border: '2px solid #0A0A0A', fontFamily: 'var(--font-mono)', fontWeight: 'bold', fontSize: '0.9rem' }} />
             </div>
             <div>
-              <div style={{ fontFamily: 'var(--font-mono)', fontSize: '0.6rem', fontWeight: 'bold', color: '#555', marginBottom: '0.2rem' }}>ARG 2 (height)</div>
-              <input type="number" value={h} onChange={e => {setH(Number(e.target.value)); setRes(null);}} style={{ width: '100%', padding: '0.5rem', border: '2px solid #0A0A0A', fontFamily: 'var(--font-mono)', fontWeight: 'bold' }} />
+              <div style={{ fontFamily: 'var(--font-mono)', fontSize: '0.65rem', fontWeight: 'bold', color: '#555', marginBottom: '0.3rem' }}>ARG 2 (height)</div>
+              <input type="number" value={h} onChange={e => {setH(Number(e.target.value)); setRes(null);}} style={{ width: '100%', padding: '0.7rem', border: '2px solid #0A0A0A', fontFamily: 'var(--font-mono)', fontWeight: 'bold', fontSize: '0.9rem' }} />
             </div>
           </div>
 
           {/* Machine */}
-          <div style={{ background: concept.color, color: '#FFF', border: '3px solid #0A0A0A', padding: '1rem', display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center', boxShadow: '4px 4px 0 #0A0A0A' }}>
-            <div style={{ fontFamily: 'var(--font-mono)', fontSize: '0.7rem', fontWeight: 900 }}>calculate_area()</div>
+          <div style={{ background: '#FFFFFF', color: '#0A0A0A', border: '3px solid #0A0A0A', padding: '1.5rem', display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center', boxShadow: `6px 6px 0 ${concept.color}` }}>
+            <div style={{ fontFamily: 'var(--font-mono)', fontSize: '0.75rem', fontWeight: 900 }}>calculate_area()</div>
             <div style={{ fontFamily: 'var(--font-display)', fontSize: '1.5rem', fontWeight: 900, margin: '0.5rem 0' }}>{w} × {h}</div>
-            <button onClick={calculate} style={{ background: '#0A0A0A', color: '#FFF', border: 'none', padding: '0.4rem 0.8rem', fontFamily: 'var(--font-mono)', fontSize: '0.7rem', fontWeight: 'bold', cursor: 'pointer' }}>EXECUTE</button>
+            <button onClick={calculate} style={{ background: '#FFFFFF', color: '#0A0A0A', border: '2px solid #0A0A0A', padding: '0.6rem 1.2rem', fontFamily: 'var(--font-mono)', fontSize: '0.8rem', fontWeight: 'bold', cursor: 'pointer', boxShadow: '2px 2px 0 #0A0A0A' }}>EXECUTE</button>
           </div>
         </div>
 

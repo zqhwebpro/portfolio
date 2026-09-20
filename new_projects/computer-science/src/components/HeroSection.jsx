@@ -7,22 +7,22 @@ export function HeroSection({ onSelect }) {
 
   return (
     <section style={{
-      background: '#0A0A0A',
+      background: '#FFFFFF',
       borderBottom: '3.5px solid #0A0A0A',
-      padding: 'clamp(3rem, 8vw, 6rem) clamp(1rem, 4vw, 2.5rem)',
+      padding: 'clamp(5rem, 10vw, 8rem) clamp(2rem, 6vw, 4rem)',
       position: 'relative',
       overflow: 'hidden',
     }}>
       {/* Grid background pattern */}
       <div style={{
-        position: 'absolute', inset: 0, opacity: 0.06,
-        backgroundImage: 'linear-gradient(rgba(255,255,255,0.4) 1px, transparent 1px), linear-gradient(90deg, rgba(255,255,255,0.4) 1px, transparent 1px)',
+        position: 'absolute', inset: 0, opacity: 0.2,
+        backgroundImage: 'linear-gradient(rgba(10,10,10,0.2) 1px, transparent 1px), linear-gradient(90deg, rgba(10,10,10,0.2) 1px, transparent 1px)',
         backgroundSize: '48px 48px',
         pointerEvents: 'none',
       }} />
 
       {/* Bauhaus geometric accent squares */}
-      <div style={{ position: 'absolute', top: '2rem', right: '2rem', display: 'flex', gap: '0.5rem', opacity: 0.5 }}>
+      <div style={{ position: 'absolute', top: '2rem', right: '2rem', display: 'flex', gap: '0.5rem', opacity: 1 }}>
         {['#0038FF','#FFE600','#FF2A00','#00E599'].map((c, i) => (
           <div key={i} style={{ width: 18, height: 18, background: c, border: '1.5px solid rgba(255,255,255,0.3)' }} />
         ))}
@@ -49,9 +49,9 @@ export function HeroSection({ onSelect }) {
           fontSize: 'clamp(2.4rem, 7vw, 5.5rem)',
           fontWeight: 900,
           lineHeight: 1.0,
-          color: '#FFFFFF',
+          color: '#0A0A0A',
           letterSpacing: '-0.03em',
-          marginBottom: '0.5rem',
+          marginBottom: '1rem',
           textTransform: 'uppercase',
         }}>
           The 5{' '}
@@ -85,35 +85,36 @@ export function HeroSection({ onSelect }) {
         <div style={{
           display: 'grid',
           gridTemplateColumns: 'repeat(auto-fill, minmax(min(100%, 260px), 1fr))',
-          gap: '0.75rem',
+          gap: '1.5rem',
         }}>
           {CONCEPTS.map((c, i) => (
             <button
               key={c.id}
               onClick={() => { SoundEngine.playClick(); if (onSelect) onSelect(i); }}
               style={{
-                background: 'transparent',
-                border: `2px solid #222`,
-                padding: '1rem 1.1rem',
+                background: '#FFFFFF',
+                border: `2px solid #0A0A0A`,
+                padding: '1.5rem',
                 cursor: 'pointer',
                 textAlign: 'left',
                 transition: 'all 0.15s ease',
                 position: 'relative',
                 display: 'flex',
                 alignItems: 'flex-start',
-                gap: '0.75rem',
+                gap: '1rem',
+                boxShadow: '4px 4px 0 #0A0A0A'
               }}
               onMouseEnter={e => {
                 e.currentTarget.style.border = `2px solid ${c.color}`;
                 e.currentTarget.style.background = `${c.color}11`;
                 e.currentTarget.style.transform = 'translate(-2px,-2px)';
-                e.currentTarget.style.boxShadow = `4px 4px 0 ${c.color}`;
+                e.currentTarget.style.boxShadow = `6px 6px 0 ${c.color}`;
               }}
               onMouseLeave={e => {
-                e.currentTarget.style.border = '2px solid #222';
-                e.currentTarget.style.background = 'transparent';
+                e.currentTarget.style.border = '2px solid #0A0A0A';
+                e.currentTarget.style.background = '#FFFFFF';
                 e.currentTarget.style.transform = 'none';
-                e.currentTarget.style.boxShadow = 'none';
+                e.currentTarget.style.boxShadow = '4px 4px 0 #0A0A0A';
               }}
             >
               {/* Number */}
@@ -127,10 +128,10 @@ export function HeroSection({ onSelect }) {
                 minWidth: '2.5rem',
               }}>{c.num}</div>
               <div>
-                <div style={{ fontFamily: 'var(--font-display)', fontWeight: 900, fontSize: '1rem', color: '#FFF', lineHeight: 1.1, marginBottom: '0.3rem', textTransform: 'uppercase' }}>
+                <div style={{ fontFamily: 'var(--font-display)', fontWeight: 900, fontSize: '1.1rem', color: '#0A0A0A', lineHeight: 1.1, marginBottom: '0.5rem', textTransform: 'uppercase' }}>
                   {c.term}
                 </div>
-                <div style={{ fontFamily: 'var(--font-mono)', fontSize: '0.65rem', color: '#555', fontWeight: 700, letterSpacing: '0.05em' }}>
+                <div style={{ fontFamily: 'var(--font-mono)', fontSize: '0.75rem', color: '#555', fontWeight: 700, letterSpacing: '0.05em' }}>
                   {c.category}
                 </div>
               </div>

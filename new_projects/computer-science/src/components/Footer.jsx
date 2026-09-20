@@ -4,7 +4,7 @@ import { SoundEngine } from '../utils/soundEngine';
 
 export function Footer({ onSelect }) {
   return (
-    <footer style={{ background: '#0A0A0A', borderTop: '3.5px solid #0A0A0A' }}>
+    <footer style={{ background: '#FFFFFF', borderTop: '3.5px solid #0A0A0A' }}>
       {/* Hazard stripe */}
       <div className="hazard-divider" />
 
@@ -13,17 +13,17 @@ export function Footer({ onSelect }) {
 
           {/* Brand */}
           <div>
-            <div style={{ fontFamily: 'var(--font-display)', fontSize: '1.1rem', fontWeight: 900, color: '#FFE600', marginBottom: '0.5rem', letterSpacing: '-0.01em' }}>
+            <div style={{ fontFamily: 'var(--font-display)', fontSize: '1.1rem', fontWeight: 900, color: '#0A0A0A', marginBottom: '0.5rem', letterSpacing: '-0.01em' }}>
               THE 5 FUNDAMENTALS
             </div>
-            <div style={{ fontFamily: 'var(--font-mono)', fontSize: '0.7rem', color: '#444', lineHeight: 1.6 }}>
+            <div style={{ fontFamily: 'var(--font-mono)', fontSize: '0.7rem', color: '#555', lineHeight: 1.6 }}>
               An interactive infographic presenting the canonical definitions of the 5 fundamental programming concepts.
             </div>
           </div>
 
           {/* Concept index */}
           <div>
-            <div style={{ fontFamily: 'var(--font-mono)', fontSize: '0.65rem', fontWeight: 900, color: '#555', letterSpacing: '0.1em', marginBottom: '0.75rem' }}>CONCEPT INDEX</div>
+            <div style={{ fontFamily: 'var(--font-mono)', fontSize: '0.65rem', fontWeight: 900, color: '#0A0A0A', letterSpacing: '0.1em', marginBottom: '0.75rem' }}>CONCEPT INDEX</div>
             <div style={{ display: 'flex', flexDirection: 'column', gap: '0.35rem' }}>
               {CONCEPTS.map((c, i) => (
                 <button key={c.id} onClick={() => { SoundEngine.playClick(); if (onSelect) onSelect(i); }} style={{
@@ -36,7 +36,7 @@ export function Footer({ onSelect }) {
                 onMouseEnter={e => e.currentTarget.style.color = c.color}
                 onMouseLeave={e => e.currentTarget.style.color = '#555'}
                 >
-                  <span style={{ color: '#333', minWidth: '1.5rem' }}>{c.num}</span>
+                  <span style={{ color: '#0A0A0A', minWidth: '1.5rem', fontWeight: 900 }}>{c.num}</span>
                   {c.term}
                 </button>
               ))}
@@ -45,7 +45,7 @@ export function Footer({ onSelect }) {
 
           {/* Design system key */}
           <div>
-            <div style={{ fontFamily: 'var(--font-mono)', fontSize: '0.65rem', fontWeight: 900, color: '#555', letterSpacing: '0.1em', marginBottom: '0.75rem' }}>DESIGN SYSTEM</div>
+            <div style={{ fontFamily: 'var(--font-mono)', fontSize: '0.65rem', fontWeight: 900, color: '#0A0A0A', letterSpacing: '0.1em', marginBottom: '0.75rem' }}>DESIGN SYSTEM</div>
             <div style={{ display: 'flex', flexDirection: 'column', gap: '0.4rem' }}>
               {[
                 { label: 'Cobalt Blue', color: '#0038FF', use: 'Formal definitions' },
@@ -65,13 +65,13 @@ export function Footer({ onSelect }) {
         </div>
 
         {/* Bottom bar */}
-        <div style={{ borderTop: '1px solid #1A1A1A', paddingTop: '1.25rem', display: 'flex', justifyContent: 'space-between', alignItems: 'center', flexWrap: 'wrap', gap: '0.75rem' }}>
-          <span style={{ fontFamily: 'var(--font-mono)', fontSize: '0.65rem', color: '#333' }}>
+        <div style={{ borderTop: '2px solid #0A0A0A', paddingTop: '1.25rem', display: 'flex', justifyContent: 'space-between', alignItems: 'center', flexWrap: 'wrap', gap: '0.75rem' }}>
+          <span style={{ fontFamily: 'var(--font-mono)', fontSize: '0.65rem', color: '#555', fontWeight: 700 }}>
             NEO-BRUTALIST BAUHAUS × CS INFOGRAPHIC // INTERACTIVE CANONICAL REFERENCE
           </span>
           <div style={{ display: 'flex', gap: '0.5rem' }}>
             {['#0038FF','#FFE600','#FF2A00','#00E599','#7928CA','#00F0FF'].map(c => (
-              <div key={c} style={{ width: 10, height: 10, background: c, border: '1px solid rgba(255,255,255,0.1)' }} />
+              <div key={c} style={{ width: 10, height: 10, background: c, border: '1.5px solid #0A0A0A' }} />
             ))}
           </div>
         </div>

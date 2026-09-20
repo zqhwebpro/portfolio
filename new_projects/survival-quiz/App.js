@@ -2510,6 +2510,7 @@ function App() {
     const [isColorPhasing, setIsColorPhasing] = useState(false);
     const [glitchKey, setGlitchKey] = useState(0);
     const [isGlitching, setIsGlitching] = useState(false);
+    const [isSmileyHovered, setIsSmileyHovered] = useState(false);
     const [transitionTick, setTransitionTick] = useState(0);
     const glitchTimeoutRef = useRef(null);
 
@@ -2556,7 +2557,12 @@ function App() {
     };
 
     const handleSmileyHover = () => {
+        setIsSmileyHovered(true);
         playRetroLaugh();
+    };
+
+    const handleSmileyLeave = () => {
+        setIsSmileyHovered(false);
     };
 
     // Build 5 multiple-choice questions from sampled items
@@ -2717,15 +2723,25 @@ function App() {
                         className="pixel-face-btn-circle"
                         onClick={handleSmileyClick}
                         onMouseEnter={handleSmileyHover}
+                        onMouseLeave={handleSmileyLeave}
                         title={isColorPhasing ? "Reset to Static Green (Trigger Digital Distortion)" : "Trigger Digital Distortion & Color Blending"}
                         style={{ width: '34px', height: '34px', flexShrink: 0 }}
                     >
                         <svg width="26" height="26" viewBox="0 0 16 16" fill="none" xmlns="http://www.w3.org/2000/svg" style={{ shapeRendering: 'crispEdges' }}>
+                            {/* Left eye */}
                             <rect x="4" y="5" width="2" height="2" fill="#33ff66" />
-                            <rect x="10" y="5" width="2" height="2" fill="#33ff66" />
-                            <rect x="3" y="9" width="1" height="2" fill="#33ff66" />
-                            <rect x="12" y="9" width="1" height="2" fill="#33ff66" />
-                            <rect x="4" y="11" width="8" height="1.5" fill="#33ff66" />
+                            {/* Right eye (Winks if hovered) */}
+                            {isSmileyHovered ? (
+                                <rect x="10" y="6" width="2" height="1" fill="#33ff66" />
+                            ) : (
+                                <rect x="10" y="5" width="2" height="2" fill="#33ff66" />
+                            )}
+                            {/* Wider, deeper smile */}
+                            <rect x="2" y="8" width="1" height="2" fill="#33ff66" />
+                            <rect x="3" y="10" width="1" height="2" fill="#33ff66" />
+                            <rect x="4" y="12" width="8" height="2" fill="#33ff66" />
+                            <rect x="12" y="10" width="1" height="2" fill="#33ff66" />
+                            <rect x="13" y="8" width="1" height="2" fill="#33ff66" />
                         </svg>
                     </button>
 
