@@ -2720,7 +2720,7 @@ function App() {
                     {/* Pixel Smiley Button to the left of the Logo */}
                     <button
                         type="button"
-                        className="pixel-face-btn-circle"
+                        className={`pixel-face-btn-circle ${isSmileyHovered ? 'hover-glitch' : ''} ${isGlitching ? 'is-glitching' : ''}`}
                         onClick={handleSmileyClick}
                         onMouseEnter={handleSmileyHover}
                         onMouseLeave={handleSmileyLeave}
@@ -2728,20 +2728,47 @@ function App() {
                         style={{ width: '34px', height: '34px', flexShrink: 0 }}
                     >
                         <svg width="26" height="26" viewBox="0 0 16 16" fill="none" xmlns="http://www.w3.org/2000/svg" style={{ shapeRendering: 'crispEdges' }}>
-                            {/* Left eye */}
-                            <rect x="4" y="5" width="2" height="2" fill="#33ff66" />
-                            {/* Right eye (Winks if hovered) */}
-                            {isSmileyHovered ? (
-                                <rect x="10" y="6" width="2" height="1" fill="#33ff66" />
+                            {isGlitching ? (
+                                <>
+                                    {/* Scrambled Glitch Face */}
+                                    <rect x="3" y="4" width="3" height="1" fill="#33ff66" />
+                                    <rect x="11" y="7" width="1" height="3" fill="#33ff66" />
+                                    <rect x="2" y="11" width="4" height="2" fill="#33ff66" />
+                                    <rect x="8" y="9" width="5" height="1" fill="#33ff66" />
+                                    <rect x="5" y="6" width="2" height="2" fill="#33ff66" />
+                                </>
                             ) : (
-                                <rect x="10" y="5" width="2" height="2" fill="#33ff66" />
+                                <>
+                                    {/* Left eye */}
+                                    <rect x="4" y="5" width="2" height="2" fill="#33ff66" />
+                                    {/* Right eye (Winks if hovered) */}
+                                    {isSmileyHovered ? (
+                                        <rect x="10" y="6" width="2" height="1" fill="#33ff66" />
+                                    ) : (
+                                        <rect x="10" y="5" width="2" height="2" fill="#33ff66" />
+                                    )}
+                                    {/* Smile */}
+                                    {isSmileyHovered ? (
+                                        // Wider, open mouth smile
+                                        <>
+                                            <rect x="2" y="8" width="1" height="2" fill="#33ff66" />
+                                            <rect x="3" y="10" width="1" height="3" fill="#33ff66" />
+                                            <rect x="4" y="12" width="8" height="3" fill="#33ff66" />
+                                            <rect x="12" y="10" width="1" height="3" fill="#33ff66" />
+                                            <rect x="13" y="8" width="1" height="2" fill="#33ff66" />
+                                        </>
+                                    ) : (
+                                        // Normal smile
+                                        <>
+                                            <rect x="2" y="8" width="1" height="2" fill="#33ff66" />
+                                            <rect x="3" y="10" width="1" height="2" fill="#33ff66" />
+                                            <rect x="4" y="12" width="8" height="2" fill="#33ff66" />
+                                            <rect x="12" y="10" width="1" height="2" fill="#33ff66" />
+                                            <rect x="13" y="8" width="1" height="2" fill="#33ff66" />
+                                        </>
+                                    )}
+                                </>
                             )}
-                            {/* Wider, deeper smile */}
-                            <rect x="2" y="8" width="1" height="2" fill="#33ff66" />
-                            <rect x="3" y="10" width="1" height="2" fill="#33ff66" />
-                            <rect x="4" y="12" width="8" height="2" fill="#33ff66" />
-                            <rect x="12" y="10" width="1" height="2" fill="#33ff66" />
-                            <rect x="13" y="8" width="1" height="2" fill="#33ff66" />
                         </svg>
                     </button>
 
