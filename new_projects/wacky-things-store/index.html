@@ -957,12 +957,12 @@
                         The <strong>Domain Layer</strong> sits at the center of the architecture. It is 100% agnostic to the web or the database. If we wanted to port this project to a desktop app tomorrow, this layer would remain entirely unchanged.
                     </p>
                     <ul class="list-disc list-inside space-y-2 pl-1 text-[11.5px] text-earth-700 border-t border-canvas-border pt-3">
-                        <li>
-                            <strong class="text-earth-950 block mb-0.5">Rich Domain Models (Entities):</strong> 
+                        <li class="pl-2 -indent-2">
+                            <strong class="text-earth-950">Rich Domain Models (Entities):</strong> 
                             Instead of relying on database rows, business logic lives inside C# objects. For example, the <code class="bg-earth-100 px-1 rounded text-[10px]">Cart.cs</code> entity intrinsically knows how to compute its own totals, add items, and remove lines without asking a controller to do the math.
                         </li>
-                        <li>
-                            <strong class="text-earth-950 block mb-0.5">The Repository Pattern (Abstractions):</strong> 
+                        <li class="pl-2 -indent-2">
+                            <strong class="text-earth-950">The Repository Pattern (Abstractions):</strong> 
                             The Domain layer defines an interface called <code class="bg-earth-100 px-1 rounded text-[10px]">IProductRepository</code>. It dictates <em>what</em> data is needed, but completely ignores <em>where</em> it comes from. This inverted dependency means the core logic never touches SQL.
                         </li>
                     </ul>
@@ -977,12 +977,12 @@
                         This layer provides the concrete implementation of our Domain's interfaces, acting as the bridge between C# objects and Microsoft SQL Server.
                     </p>
                     <ul class="list-disc list-inside space-y-2 pl-1 text-[11.5px] text-earth-700 border-t border-canvas-border pt-3">
-                        <li>
-                            <strong class="text-earth-950 block mb-0.5">EF DbContext Mapping:</strong> 
+                        <li class="pl-2 -indent-2">
+                            <strong class="text-earth-950">EF DbContext Mapping:</strong> 
                             The <code class="bg-earth-100 px-1 rounded text-[10px]">EFDbContext</code> class automatically maps our plain C# <code class="bg-earth-100 px-1 rounded text-[10px]">Product</code> entities into SQL tables using Code-First conventions.
                         </li>
-                        <li>
-                            <strong class="text-earth-950 block mb-0.5">Concrete Repository:</strong> 
+                        <li class="pl-2 -indent-2">
+                            <strong class="text-earth-950">Concrete Repository:</strong> 
                             The <code class="bg-earth-100 px-1 rounded text-[10px]">EFProductRepository</code> implements <code class="bg-earth-100 px-1 rounded text-[10px]">IProductRepository</code>, executing highly optimized LINQ-to-Entities queries to retrieve and filter products.
                         </li>
                     </ul>
@@ -997,16 +997,16 @@
                         The top-level Presentation Layer handles HTTP requests, routes them to the correct action, and returns formatted HTML Razor views. It is kept incredibly thin and "dumb"—it contains zero business logic.
                     </p>
                     <ul class="list-disc list-inside space-y-2 pl-1 text-[11.5px] text-earth-700 border-t border-canvas-border pt-3">
-                        <li>
-                            <strong class="text-earth-950 block mb-0.5">Thin Controllers &amp; ViewModels:</strong> 
+                        <li class="pl-2 -indent-2">
+                            <strong class="text-earth-950">Thin Controllers &amp; ViewModels:</strong> 
                             Controllers simply ask the Repository for data, wrap that data into a <code class="bg-earth-100 px-1 rounded text-[10px]">ProductsListViewModel</code>, and hand it to the View.
                         </li>
-                        <li>
-                            <strong class="text-earth-950 block mb-0.5">Custom Model Binders:</strong> 
+                        <li class="pl-2 -indent-2">
+                            <strong class="text-earth-950">Custom Model Binders:</strong> 
                             To prevent messy HTTP Session code from polluting the Controllers, a <code class="bg-earth-100 px-1 rounded text-[10px]">CartModelBinder</code> automatically deserializes the user's cart from their browser session and injects it cleanly as a method parameter.
                         </li>
-                        <li>
-                            <strong class="text-earth-950 block mb-0.5">Razor HTML Helpers:</strong> 
+                        <li class="pl-2 -indent-2">
+                            <strong class="text-earth-950">Razor HTML Helpers:</strong> 
                             Custom extension methods (like <code class="bg-earth-100 px-1 rounded text-[10px]">@Html.PageLinks</code>) dynamically build SEO-friendly pagination URLs based on the current active filters.
                         </li>
                     </ul>
@@ -1022,6 +1022,18 @@
                         At startup, Ninject is configured to map <code class="bg-earth-100 px-1 rounded text-[10px]">IProductRepository</code> to <code class="bg-earth-100 px-1 rounded text-[10px]">EFProductRepository</code>. 
                         When the <code class="bg-earth-100 px-1 rounded text-[10px]">ProductController</code> asks for a repository in its constructor, Ninject automatically injects the Entity Framework implementation. This means we can swap the entire SQL database for a mock database during Unit Testing without changing a single line of Controller code!
                     </p>
+                </div>
+
+                <!-- Section 5: Learning Tips -->
+                <div class="bg-appetite-50 p-4 rounded-xl border border-appetite-200 space-y-2 shadow-xs">
+                    <div class="flex items-center gap-2 text-appetite-800 font-bold text-sm">
+                        <i class="fa-solid fa-graduation-cap text-appetite-600"></i> Tips for Learning .NET Architecture
+                    </div>
+                    <ul class="list-disc list-inside space-y-2 pl-1 text-[11.5px] text-appetite-900 border-t border-appetite-200 pt-3">
+                        <li class="pl-2 -indent-2"><strong class="text-appetite-950">Start from the Inside Out:</strong> Always build your Domain (Entities and Interfaces) first. Don't even create a Web Project until your business logic works in a Unit Test.</li>
+                        <li class="pl-2 -indent-2"><strong class="text-appetite-950">Master the Repository Pattern:</strong> Abstracting database calls into a Repository is the single most important concept for decoupling your app from SQL Server.</li>
+                        <li class="pl-2 -indent-2"><strong class="text-appetite-950">Keep Controllers Thin:</strong> If your Controller has more than a few lines of code or complex IF statements, you're doing it wrong. Push that logic down to the Domain layer!</li>
+                    </ul>
                 </div>
 
             </div>
