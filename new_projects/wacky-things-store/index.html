@@ -941,45 +941,86 @@
                 </button>
             </div>
 
-            <div class="space-y-4 text-xs">
+            <div class="space-y-5 text-xs">
                 
-                <!-- Section 1: The Core Brain -->
+                <!-- Intro -->
+                <p class="text-[11.5px] text-earth-700 leading-relaxed border-l-2 border-appetite-500 pl-3">
+                    This project follows a strict <strong>N-Tier Enterprise Architecture</strong>, heavily emphasizing the <em>Separation of Concerns</em> (SoC). By completely decoupling the database, the business logic, and the user interface, the application becomes highly testable, scalable, and resilient to framework changes.
+                </p>
+
+                <!-- Section 1: The Domain Layer -->
                 <div class="bg-white p-4 rounded-xl border border-canvas-border space-y-2 shadow-xs">
                     <div class="flex items-center gap-2 text-appetite-800 font-bold text-sm">
-                        <i class="fa-solid fa-brain"></i> 1. Domain Layer (The Core Brain)
+                        <i class="fa-solid fa-cube text-appetite-600"></i> 1. The Domain Layer (Core Business Logic)
                     </div>
                     <p class="text-[11.5px] text-earth-700 leading-relaxed mb-2">
-                        The <strong>Domain Layer</strong> is the heart of the application. It contains all the essential business logic and rules, completely independent of how the website looks or how the database is structured.
+                        The <strong>Domain Layer</strong> sits at the center of the architecture. It is 100% agnostic to the web or the database. If we wanted to port this project to a desktop app tomorrow, this layer would remain entirely unchanged.
                     </p>
-                    <ul class="list-disc list-inside space-y-1.5 pl-1 text-[11.5px] text-earth-700 border-t border-canvas-border pt-2">
-                        <li><strong class="text-earth-950">Entities (Product &amp; Cart):</strong> The actual objects we sell and the cart logic to calculate totals.</li>
-                        <li><strong class="text-earth-950">Abstract Interfaces (IProductRepository):</strong> The contracts that say <em>"we need a way to get products"</em> without caring if they come from SQL or memory.</li>
-                        <li><strong class="text-earth-950">Concrete Data Access (EF6):</strong> Entity Framework handles the actual SQL database queries.</li>
+                    <ul class="list-disc list-inside space-y-2 pl-1 text-[11.5px] text-earth-700 border-t border-canvas-border pt-3">
+                        <li>
+                            <strong class="text-earth-950 block mb-0.5">Rich Domain Models (Entities):</strong> 
+                            Instead of relying on database rows, business logic lives inside C# objects. For example, the <code class="bg-earth-100 px-1 rounded text-[10px]">Cart.cs</code> entity intrinsically knows how to compute its own totals, add items, and remove lines without asking a controller to do the math.
+                        </li>
+                        <li>
+                            <strong class="text-earth-950 block mb-0.5">The Repository Pattern (Abstractions):</strong> 
+                            The Domain layer defines an interface called <code class="bg-earth-100 px-1 rounded text-[10px]">IProductRepository</code>. It dictates <em>what</em> data is needed, but completely ignores <em>where</em> it comes from. This inverted dependency means the core logic never touches SQL.
+                        </li>
                     </ul>
                 </div>
 
-                <!-- Section 2: The User Interface -->
-                <div class="bg-white p-4 rounded-xl border border-canvas-border space-y-2 shadow-xs">
-                    <div class="flex items-center gap-2 text-honey-900 font-bold text-sm">
-                        <i class="fa-solid fa-desktop"></i> 2. WebUI Layer (The User Interface)
-                    </div>
-                    <p class="text-[11.5px] text-earth-700 leading-relaxed mb-2">
-                        The <strong>WebUI Layer</strong> is responsible for everything the user interacts with. It talks to the Domain layer to get data and formats it into the HTML pages you see here.
-                    </p>
-                    <ul class="list-disc list-inside space-y-1.5 pl-1 text-[11.5px] text-earth-700 border-t border-canvas-border pt-2">
-                        <li><strong class="text-earth-950">Controllers:</strong> The traffic cops. E.g., <code class="bg-earth-100 px-1 rounded">ProductController</code> handles routing, pagination, and searching.</li>
-                        <li><strong class="text-earth-950">Views &amp; ViewModels:</strong> Razor pages that display the products and custom objects that hold only the data needed for a specific page.</li>
-                        <li><strong class="text-earth-950">Custom Binders (CartModelBinder):</strong> Cleanly extracts the user's shopping cart from their browser session so the Controllers don't have to deal with messy session variables.</li>
-                    </ul>
-                </div>
-
-                <!-- Section 3: The Glue -->
+                <!-- Section 2: Data Access Layer (Entity Framework) -->
                 <div class="bg-white p-4 rounded-xl border border-canvas-border space-y-2 shadow-xs">
                     <div class="flex items-center gap-2 text-earth-900 font-bold text-sm">
-                        <i class="fa-solid fa-link"></i> 3. Dependency Injection (The Glue)
+                        <i class="fa-solid fa-database text-earth-600"></i> 2. Data Access Layer (Entity Framework 6)
+                    </div>
+                    <p class="text-[11.5px] text-earth-700 leading-relaxed mb-2">
+                        This layer provides the concrete implementation of our Domain's interfaces, acting as the bridge between C# objects and Microsoft SQL Server.
+                    </p>
+                    <ul class="list-disc list-inside space-y-2 pl-1 text-[11.5px] text-earth-700 border-t border-canvas-border pt-3">
+                        <li>
+                            <strong class="text-earth-950 block mb-0.5">EF DbContext Mapping:</strong> 
+                            The <code class="bg-earth-100 px-1 rounded text-[10px]">EFDbContext</code> class automatically maps our plain C# <code class="bg-earth-100 px-1 rounded text-[10px]">Product</code> entities into SQL tables using Code-First conventions.
+                        </li>
+                        <li>
+                            <strong class="text-earth-950 block mb-0.5">Concrete Repository:</strong> 
+                            The <code class="bg-earth-100 px-1 rounded text-[10px]">EFProductRepository</code> implements <code class="bg-earth-100 px-1 rounded text-[10px]">IProductRepository</code>, executing highly optimized LINQ-to-Entities queries to retrieve and filter products.
+                        </li>
+                    </ul>
+                </div>
+
+                <!-- Section 3: The Presentation Layer -->
+                <div class="bg-white p-4 rounded-xl border border-canvas-border space-y-2 shadow-xs">
+                    <div class="flex items-center gap-2 text-honey-900 font-bold text-sm">
+                        <i class="fa-solid fa-desktop text-honey-600"></i> 3. WebUI Layer (ASP.NET MVC 5)
+                    </div>
+                    <p class="text-[11.5px] text-earth-700 leading-relaxed mb-2">
+                        The top-level Presentation Layer handles HTTP requests, routes them to the correct action, and returns formatted HTML Razor views. It is kept incredibly thin and "dumb"—it contains zero business logic.
+                    </p>
+                    <ul class="list-disc list-inside space-y-2 pl-1 text-[11.5px] text-earth-700 border-t border-canvas-border pt-3">
+                        <li>
+                            <strong class="text-earth-950 block mb-0.5">Thin Controllers &amp; ViewModels:</strong> 
+                            Controllers simply ask the Repository for data, wrap that data into a <code class="bg-earth-100 px-1 rounded text-[10px]">ProductsListViewModel</code>, and hand it to the View.
+                        </li>
+                        <li>
+                            <strong class="text-earth-950 block mb-0.5">Custom Model Binders:</strong> 
+                            To prevent messy HTTP Session code from polluting the Controllers, a <code class="bg-earth-100 px-1 rounded text-[10px]">CartModelBinder</code> automatically deserializes the user's cart from their browser session and injects it cleanly as a method parameter.
+                        </li>
+                        <li>
+                            <strong class="text-earth-950 block mb-0.5">Razor HTML Helpers:</strong> 
+                            Custom extension methods (like <code class="bg-earth-100 px-1 rounded text-[10px]">@Html.PageLinks</code>) dynamically build SEO-friendly pagination URLs based on the current active filters.
+                        </li>
+                    </ul>
+                </div>
+
+                <!-- Section 4: Dependency Injection (Ninject) -->
+                <div class="bg-white p-4 rounded-xl border border-canvas-border space-y-2 shadow-xs bg-gradient-to-br from-white to-earth-50">
+                    <div class="flex items-center gap-2 text-earth-950 font-bold text-sm">
+                        <i class="fa-solid fa-link text-earth-900"></i> 4. Inversion of Control (Ninject DI)
                     </div>
                     <p class="text-[11.5px] text-earth-700 leading-relaxed">
-                        Instead of the WebUI directly talking to the SQL database, we use a tool called <strong>Ninject</strong> to wire them together. If we ever want to swap out our SQL database for an API, we just change one line of code in Ninject, and the rest of the application remains untouched!
+                        How does the WebUI talk to the Database if they are decoupled? We use an IoC container called <strong>Ninject</strong>. 
+                        At startup, Ninject is configured to map <code class="bg-earth-100 px-1 rounded text-[10px]">IProductRepository</code> to <code class="bg-earth-100 px-1 rounded text-[10px]">EFProductRepository</code>. 
+                        When the <code class="bg-earth-100 px-1 rounded text-[10px]">ProductController</code> asks for a repository in its constructor, Ninject automatically injects the Entity Framework implementation. This means we can swap the entire SQL database for a mock database during Unit Testing without changing a single line of Controller code!
                     </p>
                 </div>
 
