@@ -1,34 +1,38 @@
-@import url('https://fonts.googleapis.com/css2?family=Cinzel:wght@400;700;900&family=Space+Mono:ital,wght@0,400;0,700;1,400;1,700&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Cinzel+Decorative:wght@400;700;900&family=Playfair+Display:ital,wght@0,400;0,700;1,400;1,700&display=swap');
 
 :root {
-  --bg-color: #020205;
-  --neon-cyan: #00f3ff;
-  --neon-magenta: #ff00ff;
-  --neon-purple: #9d00ff;
-  --neon-gold: #ffd700;
-  --text-primary: #e0e0e0;
+  --bg-deep-space: #050510;
+  --bg-nebula: radial-gradient(circle at 50% 50%, rgba(40, 20, 60, 0.4) 0%, rgba(5, 5, 16, 1) 80%);
+  --wood-dark: #2a1610;
+  --wood-light: #3d2314;
+  --gold-antique: #c5a059;
+  --gold-glow: #e6c875;
+  --parchment: #e8dcc4;
+  --text-mystic: #d4b872;
 }
 
 body {
   margin: 0;
   padding: 0;
-  background-color: var(--bg-color);
-  color: var(--text-primary);
-  font-family: 'Space Mono', monospace;
+  background-color: var(--bg-deep-space);
+  background-image: 
+    var(--bg-nebula),
+    radial-gradient(1px 1px at 20px 30px, #ffffff, rgba(0,0,0,0)),
+    radial-gradient(1px 1px at 40px 70px, #ffffff, rgba(0,0,0,0)),
+    radial-gradient(2px 2px at 90px 40px, #ffffff, rgba(0,0,0,0)),
+    radial-gradient(2px 2px at 160px 120px, #e6c875, rgba(0,0,0,0));
+  background-size: 100% 100%, 200px 200px, 250px 250px, 300px 300px, 400px 400px;
+  color: var(--parchment);
+  font-family: 'Playfair Display', serif;
   overflow-x: hidden;
   min-height: 100vh;
   display: flex;
   justify-content: center;
   align-items: center;
-  background-image: 
-    radial-gradient(circle at 50% 50%, rgba(157, 0, 255, 0.1) 0%, transparent 50%),
-    linear-gradient(rgba(255, 255, 255, 0.03) 1px, transparent 1px),
-    linear-gradient(90deg, rgba(255, 255, 255, 0.03) 1px, transparent 1px);
-  background-size: 100% 100%, 40px 40px, 40px 40px;
 }
 
 h1, h2, h3, .mystic-text {
-  font-family: 'Cinzel', serif;
+  font-family: 'Cinzel Decorative', cursive;
 }
 
 /* App Layout */
@@ -46,203 +50,211 @@ h1, h2, h3, .mystic-text {
 
 .title-glow {
   text-align: center;
-  font-size: 3rem;
+  font-size: 4rem;
   font-weight: 900;
-  color: #fff;
-  text-shadow: 0 0 10px var(--neon-cyan), 0 0 20px var(--neon-cyan), 0 0 40px var(--neon-purple);
+  color: var(--gold-antique);
+  text-shadow: 0 4px 15px rgba(0, 0, 0, 0.8), 0 0 20px rgba(197, 160, 89, 0.3);
   margin-bottom: 0;
-  letter-spacing: 0.2em;
+  letter-spacing: 0.15em;
   text-transform: uppercase;
 }
 
 .subtitle {
   text-align: center;
-  color: var(--neon-gold);
-  font-size: 1rem;
-  letter-spacing: 0.1em;
-  opacity: 0.8;
+  color: var(--parchment);
+  font-size: 1.1rem;
+  letter-spacing: 0.2em;
+  opacity: 0.7;
   margin-top: 0.5rem;
+  font-style: italic;
 }
 
-/* Astrology Board (Circular Layout) */
+/* Ouija / Astrolabe Board */
 .astrology-board {
   position: relative;
-  width: 400px;
-  height: 400px;
+  width: 450px;
+  height: 450px;
   border-radius: 50%;
-  border: 2px solid rgba(255, 255, 255, 0.1);
+  /* Wood Texture Gradient */
+  background: 
+    repeating-radial-gradient(circle at 50% 50%, var(--wood-dark) 0%, var(--wood-light) 10%, var(--wood-dark) 20%),
+    #2a1610;
+  border: 8px solid var(--gold-antique);
+  box-shadow: 
+    inset 0 0 50px rgba(0,0,0,0.9), 
+    0 15px 35px rgba(0,0,0,0.8), 
+    0 0 20px rgba(197, 160, 89, 0.2);
   display: flex;
   justify-content: center;
   align-items: center;
-  box-shadow: inset 0 0 50px rgba(0, 243, 255, 0.1), 0 0 50px rgba(157, 0, 255, 0.1);
-  transition: all 0.3s ease;
+  transition: all 0.5s ease;
 }
 
-.astrology-board.channeling {
-  animation: boardPulse 0.5s infinite alternate, boardSpin 4s linear infinite;
-  box-shadow: inset 0 0 100px rgba(0, 243, 255, 0.3), 0 0 100px rgba(255, 0, 255, 0.3);
-  border-color: var(--neon-magenta);
-}
-
-.center-eye {
+/* The inner gold ring */
+.astrology-board::before {
+  content: '';
   position: absolute;
-  width: 100px;
-  height: 100px;
+  inset: 20px;
   border-radius: 50%;
-  background: rgba(0, 0, 0, 0.8);
-  border: 2px solid var(--neon-cyan);
+  border: 2px dashed var(--gold-antique);
+  opacity: 0.5;
+  pointer-events: none;
+}
+
+/* The center sun/moon emblem */
+.center-emblem {
+  position: absolute;
+  width: 120px;
+  height: 120px;
+  border-radius: 50%;
+  background: var(--wood-dark);
+  border: 3px solid var(--gold-antique);
   display: flex;
   justify-content: center;
   align-items: center;
-  font-size: 2rem;
   z-index: 10;
-  box-shadow: 0 0 20px var(--neon-cyan);
-  transition: all 0.3s ease;
+  box-shadow: inset 0 0 20px rgba(0,0,0,0.8), 0 0 15px rgba(0,0,0,0.6);
+  color: var(--gold-antique);
+  font-size: 3rem;
+  transition: all 1s ease;
 }
 
-.astrology-board.channeling .center-eye {
-  box-shadow: 0 0 40px var(--neon-magenta), inset 0 0 20px var(--neon-gold);
-  border-color: var(--neon-magenta);
+.astrology-board.channeling .center-emblem {
+  color: var(--gold-glow);
+  text-shadow: 0 0 20px var(--gold-glow);
+  box-shadow: inset 0 0 30px rgba(197, 160, 89, 0.4), 0 0 25px rgba(197, 160, 89, 0.5);
+  transform: scale(1.05);
 }
 
 .zodiac-node {
   position: absolute;
-  width: 50px;
-  height: 50px;
+  width: 60px;
+  height: 60px;
   border-radius: 50%;
-  background: rgba(10, 10, 15, 0.9);
-  border: 1px solid rgba(255, 255, 255, 0.3);
+  background: transparent;
+  border: 1px solid transparent;
   display: flex;
   flex-direction: column;
   justify-content: center;
   align-items: center;
   cursor: pointer;
-  transition: all 0.2s ease;
+  transition: all 0.3s ease;
   transform-origin: center center;
+  color: var(--gold-antique);
 }
 
 .zodiac-node:hover {
-  transform: scale(1.2);
-  border-color: var(--neon-cyan);
-  box-shadow: 0 0 15px var(--neon-cyan);
+  transform: scale(1.15);
+  color: var(--gold-glow);
+  text-shadow: 0 0 10px var(--gold-glow);
   z-index: 20;
 }
 
 .zodiac-node.active {
-  border-color: var(--neon-magenta);
-  background: var(--neon-magenta);
-  color: #000;
-  box-shadow: 0 0 25px var(--neon-magenta);
-  transform: scale(1.3);
+  color: var(--parchment);
+  text-shadow: 0 0 15px var(--gold-glow);
+  transform: scale(1.2);
   z-index: 20;
 }
 
 .zodiac-symbol {
-  font-size: 1.5rem;
+  font-size: 2rem;
   line-height: 1;
 }
 
 .zodiac-name {
-  font-size: 0.5rem;
+  font-size: 0.6rem;
   text-transform: uppercase;
-  margin-top: 2px;
-  opacity: 0.7;
+  margin-top: 4px;
+  font-family: 'Cinzel Decorative', cursive;
+  letter-spacing: 0.1em;
+  opacity: 0;
+  transition: opacity 0.3s ease;
 }
 
+.zodiac-node:hover .zodiac-name,
 .zodiac-node.active .zodiac-name {
-  color: #000;
-  font-weight: bold;
   opacity: 1;
+}
+
+/* Planchette pointer */
+.planchette {
+  position: absolute;
+  width: 80px;
+  height: 100px;
+  top: 50%;
+  left: 50%;
+  margin-top: -50px;
+  margin-left: -40px;
+  z-index: 40;
+  pointer-events: none;
+  filter: drop-shadow(5px 10px 8px rgba(0,0,0,0.7));
+  transition: transform 1.5s cubic-bezier(0.25, 0.1, 0.25, 1.2);
 }
 
 /* Oracle Display */
 .oracle-container {
   width: 100%;
-  max-width: 600px;
-  min-height: 150px;
-  padding: 2rem;
-  background: rgba(10, 10, 15, 0.8);
-  border: 1px solid rgba(255, 255, 255, 0.1);
-  border-radius: 8px;
-  backdrop-filter: blur(10px);
+  max-width: 650px;
+  min-height: 180px;
+  padding: 2.5rem;
+  background: rgba(20, 10, 15, 0.85);
+  border: 2px solid var(--wood-light);
+  border-radius: 4px;
   display: flex;
   flex-direction: column;
   align-items: center;
   justify-content: center;
   text-align: center;
   position: relative;
-  overflow: hidden;
+  box-shadow: 0 10px 30px rgba(0,0,0,0.8), inset 0 0 40px rgba(0,0,0,0.9);
 }
 
-.oracle-container::before {
-  content: '';
+/* Ornate corner pieces */
+.oracle-container::before, .oracle-container::after {
+  content: '❖';
   position: absolute;
-  top: 0;
-  left: 0;
-  right: 0;
-  height: 2px;
-  background: linear-gradient(90deg, transparent, var(--neon-gold), transparent);
+  color: var(--gold-antique);
+  font-size: 1.5rem;
+  opacity: 0.5;
 }
+.oracle-container::before { top: 10px; left: 15px; }
+.oracle-container::after { bottom: 10px; right: 15px; }
 
 .oracle-text {
-  font-size: 1.5rem;
-  font-weight: 700;
-  line-height: 1.5;
-  color: var(--neon-gold);
-  text-shadow: 0 0 10px rgba(255, 215, 0, 0.5);
-  animation: textReveal 0.5s ease-out;
+  font-size: 1.4rem;
+  font-weight: 400;
+  line-height: 1.6;
+  color: var(--parchment);
+  text-shadow: 0 0 5px rgba(232, 220, 196, 0.3);
+  animation: etherealReveal 2s ease-out;
 }
 
 .channeling-text {
   font-size: 1.2rem;
-  color: var(--neon-cyan);
-  animation: glitch 0.2s infinite;
-  letter-spacing: 0.3em;
+  color: var(--gold-glow);
+  animation: pulseGlow 2s infinite alternate;
+  letter-spacing: 0.2em;
 }
 
 /* Animations */
-@keyframes boardPulse {
-  0% { transform: scale(1); }
-  100% { transform: scale(1.02); }
+@keyframes etherealReveal {
+  0% { opacity: 0; transform: scale(0.95); filter: blur(10px); }
+  50% { opacity: 0.5; filter: blur(2px); }
+  100% { opacity: 1; transform: scale(1); filter: blur(0); }
 }
 
-@keyframes boardSpin {
-  0% { transform: rotate(0deg); }
-  100% { transform: rotate(360deg); }
+@keyframes pulseGlow {
+  0% { opacity: 0.5; text-shadow: 0 0 5px var(--gold-antique); }
+  100% { opacity: 1; text-shadow: 0 0 20px var(--gold-glow); }
 }
 
-/* Counter-spin for nodes to keep them upright */
-.astrology-board.channeling .zodiac-node-wrapper {
-  animation: counterSpin 4s linear infinite;
+/* Gentle hovering of the board */
+.app-container.shaking .astrology-board {
+  animation: cosmicTremor 0.5s ease-in-out infinite alternate;
 }
 
-@keyframes counterSpin {
-  0% { transform: rotate(0deg); }
-  100% { transform: rotate(-360deg); }
-}
-
-@keyframes textReveal {
-  0% { opacity: 0; transform: translateY(10px); filter: blur(5px); }
-  100% { opacity: 1; transform: translateY(0); filter: blur(0); }
-}
-
-@keyframes glitch {
-  0% { transform: translate(0) skew(0); }
-  20% { transform: translate(-2px, 1px) skew(-5deg); color: var(--neon-magenta); }
-  40% { transform: translate(2px, -1px) skew(5deg); color: var(--neon-cyan); }
-  60% { transform: translate(-1px, -2px) skew(-2deg); }
-  80% { transform: translate(1px, 2px) skew(2deg); color: #fff; }
-  100% { transform: translate(0) skew(0); }
-}
-
-/* Screen Shake effect on App */
-.app-container.shaking {
-  animation: screenShake 0.3s cubic-bezier(.36,.07,.19,.97) both;
-}
-
-@keyframes screenShake {
-  10%, 90% { transform: translate3d(-2px, 0, 0); }
-  20%, 80% { transform: translate3d(4px, 0, 0); }
-  30%, 50%, 70% { transform: translate3d(-8px, 0, 0); }
-  40%, 60% { transform: translate3d(8px, 0, 0); }
+@keyframes cosmicTremor {
+  0% { transform: translate(0, 0) rotate(0deg); }
+  100% { transform: translate(0, 2px) rotate(0.5deg); }
 }
