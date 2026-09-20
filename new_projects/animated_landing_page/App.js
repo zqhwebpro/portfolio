@@ -489,7 +489,7 @@ function App() {
             {/* FOOTER */}
             <footer id="contact" className="footer-contact-3d">
                 <div className="glass-card-3d contact-card-3d scroll-reveal">
-                    <span className="section-tag reveal-content">Reach Out</span>
+                    <span className="section-tag reveal-content">Senses Are Great!</span>
                     <h2 className="section-title reveal-content">Contact Me About Opportunities</h2>
 
                     {submitted ? (
