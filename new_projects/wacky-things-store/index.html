@@ -945,25 +945,25 @@
                 
                 <!-- Intro -->
                 <p class="text-[11.5px] text-earth-700 leading-relaxed border-l-2 border-appetite-500 pl-3">
-                    This project follows a strict <strong>N-Tier Enterprise Architecture</strong>, heavily emphasizing the <em>Separation of Concerns</em> (SoC). By completely decoupling the database, the business logic, and the user interface, the application becomes highly testable, scalable, and resilient to framework changes.
+                    This project embodies the philosophy of <strong>N-Tier Enterprise Architecture</strong>, rooted in the psychological principle of <em>Separation of Concerns</em> (SoC). By isolating the database, the business logic, and the user interface into distinct realms of responsibility, we prevent cognitive overload within the codebase. The application becomes a resilient, self-aware system—highly testable, infinitely scalable, and impervious to the existential threats of framework changes.
                 </p>
 
                 <!-- Section 1: The Domain Layer -->
                 <div class="bg-white p-4 rounded-xl border border-canvas-border space-y-2 shadow-xs">
                     <div class="flex items-center gap-2 text-appetite-800 font-bold text-sm">
-                        <i class="fa-solid fa-cube text-appetite-600"></i> 1. The Domain Layer (Core Business Logic)
+                        <i class="fa-solid fa-cube text-appetite-600"></i> 1. The Domain Layer (The Unconscious Core)
                     </div>
                     <p class="text-[11.5px] text-earth-700 leading-relaxed mb-2">
-                        The <strong>Domain Layer</strong> sits at the center of the architecture. It is 100% agnostic to the web or the database. If we wanted to port this project to a desktop app tomorrow, this layer would remain entirely unchanged.
+                        The <strong>Domain Layer</strong> exists as the absolute center of truth—the unconscious mind of the architecture. It is entirely agnostic to the external world of web browsers or databases. It simply <em>is</em>. If we stripped away its environment and placed it in a desktop app tomorrow, its identity would remain untouched.
                     </p>
                     <ul class="list-disc list-inside space-y-2 pl-1 text-[11.5px] text-earth-700 border-t border-canvas-border pt-3">
                         <li class="pl-2 -indent-2">
                             <strong class="text-earth-950">Rich Domain Models (Entities):</strong> 
-                            Instead of relying on database rows, business logic lives inside C# objects. For example, the <code class="bg-earth-100 px-1 rounded text-[10px]">Cart.cs</code> entity intrinsically knows how to compute its own totals, add items, and remove lines without asking a controller to do the math.
+                            Rather than existing as empty vessels waiting for database rows to give them meaning, business logic breathes life into C# objects. For instance, the <code class="bg-earth-100 px-1 rounded text-[10px]">Cart.cs</code> entity possesses the innate knowledge to compute its own totals and manage its internal state, without needing validation from an external controller.
                         </li>
                         <li class="pl-2 -indent-2">
                             <strong class="text-earth-950">The Repository Pattern (Abstractions):</strong> 
-                            The Domain layer defines an interface called <code class="bg-earth-100 px-1 rounded text-[10px]">IProductRepository</code>. It dictates <em>what</em> data is needed, but completely ignores <em>where</em> it comes from. This inverted dependency means the core logic never touches SQL.
+                            The Domain layer projects an ideal interface called <code class="bg-earth-100 px-1 rounded text-[10px]">IProductRepository</code>. It demands <em>what</em> it needs to survive, while remaining blissfully ignorant of <em>where</em> it comes from. This inversion of dependency frees the core logic from the burdensome reality of SQL.
                         </li>
                     </ul>
                 </div>
@@ -971,19 +971,19 @@
                 <!-- Section 2: Data Access Layer (Entity Framework) -->
                 <div class="bg-white p-4 rounded-xl border border-canvas-border space-y-2 shadow-xs">
                     <div class="flex items-center gap-2 text-earth-900 font-bold text-sm">
-                        <i class="fa-solid fa-database text-earth-600"></i> 2. Data Access Layer (Entity Framework 6)
+                        <i class="fa-solid fa-database text-earth-600"></i> 2. Data Access Layer (The Subconscious Memory)
                     </div>
                     <p class="text-[11.5px] text-earth-700 leading-relaxed mb-2">
-                        This layer provides the concrete implementation of our Domain's interfaces, acting as the bridge between C# objects and Microsoft SQL Server.
+                        This layer serves as the subconscious memory bank, providing tangible manifestation to our Domain's abstract desires. It acts as the vital synaptic bridge between ephemeral C# thoughts and the permanent reality of Microsoft SQL Server.
                     </p>
                     <ul class="list-disc list-inside space-y-2 pl-1 text-[11.5px] text-earth-700 border-t border-canvas-border pt-3">
                         <li class="pl-2 -indent-2">
                             <strong class="text-earth-950">EF DbContext Mapping:</strong> 
-                            The <code class="bg-earth-100 px-1 rounded text-[10px]">EFDbContext</code> class automatically maps our plain C# <code class="bg-earth-100 px-1 rounded text-[10px]">Product</code> entities into SQL tables using Code-First conventions.
+                            The <code class="bg-earth-100 px-1 rounded text-[10px]">EFDbContext</code> acts as the great translator, automatically projecting our idealized C# <code class="bg-earth-100 px-1 rounded text-[10px]">Product</code> entities into rigid SQL tables using Code-First conventions.
                         </li>
                         <li class="pl-2 -indent-2">
                             <strong class="text-earth-950">Concrete Repository:</strong> 
-                            The <code class="bg-earth-100 px-1 rounded text-[10px]">EFProductRepository</code> implements <code class="bg-earth-100 px-1 rounded text-[10px]">IProductRepository</code>, executing highly optimized LINQ-to-Entities queries to retrieve and filter products.
+                            The <code class="bg-earth-100 px-1 rounded text-[10px]">EFProductRepository</code> fulfills the existential need of <code class="bg-earth-100 px-1 rounded text-[10px]">IProductRepository</code>, executing highly optimized LINQ-to-Entities queries to retrieve and filter the physical data required to sustain the system.
                         </li>
                     </ul>
                 </div>
@@ -991,23 +991,23 @@
                 <!-- Section 3: The Presentation Layer -->
                 <div class="bg-white p-4 rounded-xl border border-canvas-border space-y-2 shadow-xs">
                     <div class="flex items-center gap-2 text-honey-900 font-bold text-sm">
-                        <i class="fa-solid fa-desktop text-honey-600"></i> 3. WebUI Layer (ASP.NET MVC 5)
+                        <i class="fa-solid fa-desktop text-honey-600"></i> 3. WebUI Layer (The Conscious Persona)
                     </div>
                     <p class="text-[11.5px] text-earth-700 leading-relaxed mb-2">
-                        The top-level Presentation Layer handles HTTP requests, routes them to the correct action, and returns formatted HTML Razor views. It is kept incredibly thin and "dumb"—it contains zero business logic.
+                        The Presentation Layer is the outward-facing persona—the mask the application wears to interact with the HTTP universe. It routes external stimuli to the correct cognitive action and returns beautifully formatted HTML Razor views. Psychologically, it is kept intentionally thin and unburdened by deep thought; it contains absolutely zero core business logic.
                     </p>
                     <ul class="list-disc list-inside space-y-2 pl-1 text-[11.5px] text-earth-700 border-t border-canvas-border pt-3">
                         <li class="pl-2 -indent-2">
                             <strong class="text-earth-950">Thin Controllers &amp; ViewModels:</strong> 
-                            Controllers simply ask the Repository for data, wrap that data into a <code class="bg-earth-100 px-1 rounded text-[10px]">ProductsListViewModel</code>, and hand it to the View.
+                            Controllers act as simple messengers. They ask the Repository for memories, package that raw data into a digestible <code class="bg-earth-100 px-1 rounded text-[10px]">ProductsListViewModel</code>, and hand it to the View for outward expression.
                         </li>
                         <li class="pl-2 -indent-2">
                             <strong class="text-earth-950">Custom Model Binders:</strong> 
-                            To prevent messy HTTP Session code from polluting the Controllers, a <code class="bg-earth-100 px-1 rounded text-[10px]">CartModelBinder</code> automatically deserializes the user's cart from their browser session and injects it cleanly as a method parameter.
+                            To prevent the chaos of HTTP Session state from traumatizing the Controllers, a <code class="bg-earth-100 px-1 rounded text-[10px]">CartModelBinder</code> acts as a psychological buffer. It subconsciously deserializes the user's intent from their browser session and injects it cleanly as a pure method parameter.
                         </li>
                         <li class="pl-2 -indent-2">
                             <strong class="text-earth-950">Razor HTML Helpers:</strong> 
-                            Custom extension methods (like <code class="bg-earth-100 px-1 rounded text-[10px]">@Html.PageLinks</code>) dynamically build SEO-friendly pagination URLs based on the current active filters.
+                            Custom behavioral extensions (like <code class="bg-earth-100 px-1 rounded text-[10px]">@Html.PageLinks</code>) dynamically manifest SEO-friendly pagination paths, guiding the user's journey based on their current active filters.
                         </li>
                     </ul>
                 </div>
@@ -1015,24 +1015,22 @@
                 <!-- Section 4: Dependency Injection (Ninject) -->
                 <div class="bg-white p-4 rounded-xl border border-canvas-border space-y-2 shadow-xs bg-gradient-to-br from-white to-earth-50">
                     <div class="flex items-center gap-2 text-earth-950 font-bold text-sm">
-                        <i class="fa-solid fa-link text-earth-900"></i> 4. Inversion of Control (Ninject DI)
+                        <i class="fa-solid fa-link text-earth-900"></i> 4. Inversion of Control (The Architect of Fate)
                     </div>
                     <p class="text-[11.5px] text-earth-700 leading-relaxed">
-                        How does the WebUI talk to the Database if they are decoupled? We use an IoC container called <strong>Ninject</strong>. 
-                        At startup, Ninject is configured to map <code class="bg-earth-100 px-1 rounded text-[10px]">IProductRepository</code> to <code class="bg-earth-100 px-1 rounded text-[10px]">EFProductRepository</code>. 
-                        When the <code class="bg-earth-100 px-1 rounded text-[10px]">ProductController</code> asks for a repository in its constructor, Ninject automatically injects the Entity Framework implementation. This means we can swap the entire SQL database for a mock database during Unit Testing without changing a single line of Controller code!
+                        If the Conscious Persona and the Subconscious Memory are entirely decoupled, how do they communicate? Enter <strong>Ninject</strong>, the invisible architect of fate. At the moment of genesis (startup), Ninject is psychically bound to map <code class="bg-earth-100 px-1 rounded text-[10px]">IProductRepository</code> to <code class="bg-earth-100 px-1 rounded text-[10px]">EFProductRepository</code>. When the <code class="bg-earth-100 px-1 rounded text-[10px]">ProductController</code> asks for a repository to fulfill its purpose, Ninject seamlessly injects the reality of Entity Framework. This profound inversion allows us to completely sever the system from SQL during Unit Testing, simulating an alternate reality without changing a single line of behavioral code!
                     </p>
                 </div>
 
                 <!-- Section 5: Learning Tips -->
                 <div class="bg-appetite-50 p-4 rounded-xl border border-appetite-200 space-y-2 shadow-xs">
                     <div class="flex items-center gap-2 text-appetite-800 font-bold text-sm">
-                        <i class="fa-solid fa-graduation-cap text-appetite-600"></i> Tips for Learning .NET Architecture
+                        <i class="fa-solid fa-graduation-cap text-appetite-600"></i> Psychological Mantras for .NET Mastery
                     </div>
                     <ul class="list-disc list-inside space-y-2 pl-1 text-[11.5px] text-appetite-900 border-t border-appetite-200 pt-3">
-                        <li class="pl-2 -indent-2"><strong class="text-appetite-950">Start from the Inside Out:</strong> Always build your Domain (Entities and Interfaces) first. Don't even create a Web Project until your business logic works in a Unit Test.</li>
-                        <li class="pl-2 -indent-2"><strong class="text-appetite-950">Master the Repository Pattern:</strong> Abstracting database calls into a Repository is the single most important concept for decoupling your app from SQL Server.</li>
-                        <li class="pl-2 -indent-2"><strong class="text-appetite-950">Keep Controllers Thin:</strong> If your Controller has more than a few lines of code or complex IF statements, you're doing it wrong. Push that logic down to the Domain layer!</li>
+                        <li class="pl-2 -indent-2"><strong class="text-appetite-950">Cultivate from the Inside Out:</strong> Nurture your inner truth (Domain Entities and Interfaces) before seeking external validation. Never build a Web Project until your business logic can survive the isolation of a Unit Test.</li>
+                        <li class="pl-2 -indent-2"><strong class="text-appetite-950">Master the Repository Pattern:</strong> Abstracting database dependencies is the ultimate practice of detachment. It is the single most vital leap required to free your application from the physical constraints of SQL Server.</li>
+                        <li class="pl-2 -indent-2"><strong class="text-appetite-950">Keep Controllers Thin:</strong> Ego is the enemy. If your Controller is bloated with complex IF statements, it is overstepping its boundaries. Relinquish control and push that cognitive burden down into the Domain layer!</li>
                     </ul>
                 </div>
 
