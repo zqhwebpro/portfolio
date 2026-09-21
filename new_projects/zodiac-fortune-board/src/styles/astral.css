@@ -1,303 +1,902 @@
 :root {
-    --cosmic-dark: #0b051c;
-    --cosmic-void: #030108;
-    --star-glow: #e2f1ff;
-    --gold-base: #9185c7;
-    --gold-bright: #e0d8ff;
-    --gold-shadow: #3f317a;
-    --tribal-accent: #00ffea;
-    --magic-glow: #8b45ff;
+  --cosmic-dark: #080314;
+  --cosmic-void: #030108;
+  --star-glow: #e2f1ff;
+  --gold-base: #c5a059;
+  --gold-bright: #f9e2af;
+  --gold-shadow: #5a451e;
+  --mystic-purple: #8b45ff;
+  --arcane-cyan: #00ffea;
+
+  /* Elemental defaults */
+  --elem-color: #ffd700;
+  --elem-glow: rgba(255, 215, 0, 0.4);
+}
+
+/* Elemental Themes */
+.universe-container.element-ignis {
+  --elem-color: #ff4d4d;
+  --elem-glow: rgba(255, 77, 77, 0.45);
+}
+.universe-container.element-terra {
+  --elem-color: #2ecc71;
+  --elem-glow: rgba(46, 204, 113, 0.45);
+}
+.universe-container.element-aer {
+  --elem-color: #00f2fe;
+  --elem-glow: rgba(0, 242, 254, 0.45);
+}
+.universe-container.element-aqua {
+  --elem-color: #9b51e0;
+  --elem-glow: rgba(155, 81, 224, 0.45);
 }
 
 * {
-    margin: 0;
-    padding: 0;
-    box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
 }
 
 body, html {
-    height: 100%;
-    width: 100%;
-    overflow: hidden;
-    background: var(--cosmic-void);
-    font-family: 'MedievalSharp', cursive;
-    color: var(--gold-base);
+  height: 100%;
+  width: 100%;
+  overflow: hidden;
+  background: var(--cosmic-void);
+  font-family: 'MedievalSharp', cursive;
+  color: var(--gold-base);
+  user-select: none;
 }
 
+.universe-container {
+  position: relative;
+  width: 100vw;
+  height: 100vh;
+  overflow: hidden;
+}
+
+/* Background Deep Space & Cosmic Dust */
 .universe-bg {
-    position: fixed;
-    top: 0; left: 0; right: 0; bottom: 0;
-    background: 
-        radial-gradient(circle at 50% 50%, #0d041a 0%, var(--cosmic-void) 100%),
-        url('data:image/svg+xml;utf8,<svg width="200" height="200" xmlns="http://www.w3.org/2000/svg"><circle cx="20" cy="20" r="1.5" fill="rgba(255,255,255,0.4)"/><circle cx="150" cy="80" r="2" fill="rgba(255,255,255,0.6)"/><circle cx="80" cy="170" r="1.2" fill="rgba(255,255,255,0.3)"/><circle cx="110" cy="30" r="1" fill="rgba(139, 69, 255,0.5)"/><circle cx="40" cy="140" r="1.5" fill="rgba(139, 69, 255,0.4)"/></svg>');
-    background-size: cover, 350px 350px;
-    z-index: -2;
-    animation: cosmicDrift 150s linear infinite;
+  position: fixed;
+  inset: 0;
+  background: 
+    radial-gradient(circle at 50% 50%, #110524 0%, var(--cosmic-void) 100%),
+    url('data:image/svg+xml;utf8,<svg width="240" height="240" xmlns="http://www.w3.org/2000/svg"><circle cx="20" cy="20" r="1.5" fill="rgba(255,255,255,0.4)"/><circle cx="160" cy="90" r="2.2" fill="rgba(255,255,255,0.6)"/><circle cx="90" cy="180" r="1.2" fill="rgba(255,255,255,0.3)"/><circle cx="120" cy="30" r="1.8" fill="rgba(139, 69, 255,0.5)"/><circle cx="40" cy="150" r="1.5" fill="rgba(0, 255, 234,0.4)"/></svg>');
+  background-size: cover, 300px 300px;
+  z-index: -3;
+  animation: cosmicDrift 200s linear infinite;
 }
 
 @keyframes cosmicDrift {
-    0% { background-position: 0 0, 0 0; }
-    100% { background-position: 0 0, 1000px 1000px; }
+  0% { background-position: 0 0, 0 0; }
+  100% { background-position: 0 0, 1200px 1200px; }
 }
 
 .celestial-body {
-    position: fixed;
-    top: 50%;
-    left: 50%;
-    transform: translate(-50%, -50%);
-    width: 130vmin;
-    height: 130vmin;
-    border-radius: 50%;
-    background: radial-gradient(circle at 30% 30%, rgba(145, 133, 199, 0.08) 0%, rgba(139, 69, 255,0.03) 40%, rgba(0,0,0,0) 70%);
-    box-shadow: 
-        inset 0 0 150px rgba(0,0,0,0.9),
-        0 0 200px rgba(139, 69, 255, 0.05);
-    border: 1px solid rgba(139, 69, 255, 0.05);
-    z-index: -1;
-    pointer-events: none;
+  position: fixed;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  width: 140vmin;
+  height: 140vmin;
+  border-radius: 50%;
+  background: radial-gradient(circle at 35% 35%, rgba(145, 133, 199, 0.09) 0%, rgba(139, 69, 255, 0.04) 40%, rgba(0,0,0,0) 70%);
+  box-shadow: 
+    inset 0 0 160px rgba(0,0,0,0.95),
+    0 0 250px var(--elem-glow);
+  border: 1px solid rgba(139, 69, 255, 0.08);
+  z-index: -2;
+  pointer-events: none;
+  transition: box-shadow 0.8s ease;
 }
 
-.board-container {
-    position: relative;
-    width: 100vw;
-    height: 100vh;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-}
-
+/* Site Header */
 .site-header {
-    position: absolute;
-    top: 40px;
-    left: 40px;
-    z-index: 10;
+  position: absolute;
+  top: 30px;
+  left: 35px;
+  right: 35px;
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  z-index: 20;
+  pointer-events: auto;
 }
-.site-header h1 {
-    font-family: 'Cinzel Decorative', cursive;
-    font-size: 2.2rem;
-    color: var(--gold-bright);
-    text-shadow: 0 0 25px rgba(145, 133, 199, 0.7), 0 0 10px rgba(139, 69, 255,0.5);
-    letter-spacing: 0.1em;
-    margin-bottom: 8px;
+
+.header-titles h1 {
+  font-family: 'Cinzel Decorative', cursive;
+  font-size: 2.2rem;
+  color: var(--gold-bright);
+  text-shadow: 
+    0 0 25px rgba(249, 226, 175, 0.5), 
+    0 0 15px var(--elem-glow);
+  letter-spacing: 0.08em;
+  margin-bottom: 4px;
 }
-.back-btn {
-    display: inline-flex;
-    align-items: center;
-    gap: 8px;
-    font-size: 0.85rem;
-    font-family: 'Cinzel Decorative', cursive;
-    color: var(--gold-base);
-    text-decoration: none;
-    letter-spacing: 0.1em;
-    padding: 10px 20px;
-    border: 1px solid rgba(145, 133, 199, 0.4);
-    background: rgba(5, 2, 10, 0.85);
-    backdrop-filter: blur(8px);
-    transition: all 0.3s;
-    box-shadow: 0 0 10px rgba(145, 133, 199,0.1);
+
+.realm-tagline {
+  font-family: 'Cinzel', serif;
+  font-size: 0.85rem;
+  color: var(--gold-base);
+  letter-spacing: 0.15em;
+  text-transform: uppercase;
+  opacity: 0.85;
 }
-.back-btn:hover {
-    color: var(--gold-bright);
-    border-color: var(--gold-bright);
-    box-shadow: 0 0 20px rgba(145, 133, 199, 0.5), inset 0 0 10px rgba(145, 133, 199, 0.2);
+
+.header-actions {
+  display: flex;
+  gap: 12px;
+  align-items: center;
+}
+
+.astral-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  font-size: 0.85rem;
+  font-family: 'Cinzel Decorative', cursive;
+  color: var(--gold-bright);
+  text-decoration: none;
+  letter-spacing: 0.08em;
+  padding: 8px 16px;
+  border: 1px solid rgba(197, 160, 89, 0.4);
+  background: rgba(10, 4, 22, 0.85);
+  backdrop-filter: blur(10px);
+  border-radius: 6px;
+  cursor: pointer;
+  transition: all 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+  box-shadow: 0 0 12px rgba(0, 0, 0, 0.5);
+}
+
+.astral-btn:hover {
+  color: #fff;
+  border-color: var(--gold-bright);
+  box-shadow: 0 0 20px var(--elem-glow), inset 0 0 8px rgba(249, 226, 175, 0.2);
+  transform: translateY(-2px);
+}
+
+.astral-btn.icon-btn {
+  padding: 8px 12px;
+  font-size: 0.95rem;
+}
+
+.element-badge-btn {
+  font-weight: 700;
+  text-transform: uppercase;
+}
+
+/* Board Center Layout */
+.board-container {
+  position: relative;
+  width: 100vw;
+  height: 100vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.astrolabe-wrapper {
+  position: relative;
+  width: 76vmin;
+  height: 76vmin;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: grab;
+}
+
+.astrolabe-wrapper:active {
+  cursor: grabbing;
 }
 
 .astrolabe {
-    position: relative;
-    width: 75vmin;
-    height: 75vmin;
-    border-radius: 50%;
-    border: 2px dashed rgba(145, 133, 199, 0.3);
-    box-shadow: 0 0 50px rgba(139, 69, 255,0.1);
-    transition: transform 0.1s ease-out;
+  position: relative;
+  width: 100%;
+  height: 100%;
+  border-radius: 50%;
+  border: 2px dashed rgba(197, 160, 89, 0.25);
+  box-shadow: 0 0 60px rgba(139, 69, 255, 0.15);
+  transition: transform 0.08s ease-out;
+}
+
+/* Concentric Rings */
+.astrolabe-outer-ring {
+  position: absolute;
+  inset: -15px;
+  border-radius: 50%;
+  border: 1px solid rgba(197, 160, 89, 0.3);
+  pointer-events: none;
+}
+
+.degree-tick {
+  position: absolute;
+  top: 0;
+  left: 50%;
+  width: 1px;
+  height: 8px;
+  background: rgba(197, 160, 89, 0.4);
+  transform-origin: 50% 38vmin;
 }
 
 .astrolabe-inner {
-    position: absolute;
-    inset: 45px;
-    border-radius: 50%;
-    border: 1px solid rgba(145, 133, 199, 0.5);
-    box-shadow: 0 0 50px rgba(145, 133, 199, 0.1), inset 0 0 20px rgba(139, 69, 255,0.1);
-    animation: slowSpinReverse 150s linear infinite;
+  position: absolute;
+  inset: 50px;
+  border-radius: 50%;
+  border: 1px solid rgba(197, 160, 89, 0.4);
+  box-shadow: 0 0 40px rgba(145, 133, 199, 0.1), inset 0 0 20px rgba(139, 69, 255, 0.15);
+  animation: slowSpinReverse 180s linear infinite;
+  pointer-events: none;
+}
+
+.astrolabe-runic-ring {
+  position: absolute;
+  inset: 100px;
+  border-radius: 50%;
+  border: 1px dotted rgba(249, 226, 175, 0.2);
+  animation: slowSpin 240s linear infinite;
+  pointer-events: none;
 }
 
 @keyframes slowSpin {
-    100% { transform: rotate(360deg); }
+  100% { transform: rotate(360deg); }
 }
 @keyframes slowSpinReverse {
-    100% { transform: rotate(-360deg); }
+  100% { transform: rotate(-360deg); }
 }
 
-.oracle-core {
-    position: absolute;
-    top: 50%;
-    left: 50%;
-    transform: translate(-50%, -50%);
-    width: 48vmin;
-    height: 48vmin;
-    background: radial-gradient(circle at 50% 50%, #0d041a 0%, #020005 100%);
-    border: 2px solid var(--gold-base);
-    border-radius: 50%;
-    z-index: 5;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    justify-content: center;
-    text-align: center;
-    padding: 40px;
-    box-shadow: 
-        0 0 80px rgba(0,0,0,1),
-        inset 0 0 40px rgba(145, 133, 199, 0.2);
-    transition: all 0.5s ease;
+/* Sacred Aspect Lines SVG */
+.aspect-lines-svg {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  pointer-events: none;
+  z-index: 1;
 }
 
-.oracle-core::before {
-    content: '';
-    position: absolute;
-    inset: -12px;
-    border-radius: 50%;
-    border: 1px solid var(--gold-base);
-    opacity: 0.4;
-    box-shadow: 0 0 20px rgba(145, 133, 199, 0.3);
+.aspect-chord {
+  opacity: 0.15;
+  transition: all 0.5s ease;
 }
 
-.oracle-icon {
-    font-size: 3.5rem;
-    color: var(--gold-bright);
-    margin-bottom: 15px;
-    filter: drop-shadow(0 0 15px rgba(145, 133, 199, 0.7));
-    transition: transform 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+.aspect-chord.active {
+  opacity: 0.75;
+  filter: drop-shadow(0 0 6px var(--elem-color));
+  animation: aspectPulse 2.5s ease-in-out infinite alternate;
 }
 
-.oracle-title {
-    font-family: 'Cinzel Decorative', cursive;
-    font-size: 1.5rem;
-    color: var(--gold-bright);
-    margin-bottom: 12px;
-    letter-spacing: 0.08em;
-    text-shadow: 0 0 10px rgba(145, 133, 199,0.5);
+@keyframes aspectPulse {
+  0% { opacity: 0.4; }
+  100% { opacity: 0.9; }
 }
 
-.oracle-desc {
-    font-size: 0.9rem;
-    line-height: 1.6;
-    color: rgba(255, 255, 255, 0.85);
-    margin-bottom: 15px;
-    text-shadow: 0 0 5px rgba(255,255,255,0.2);
-}
-
-.oracle-fortune {
-    font-family: 'Cinzel Decorative', cursive;
-    font-size: 0.8rem;
-    color: var(--tribal-accent);
-    letter-spacing: 0.15em;
-    text-transform: uppercase;
-    font-weight: 900;
-    opacity: 0;
-    transform: translateY(10px);
-    transition: all 0.5s ease;
-}
-
-.oracle-core.active .oracle-fortune {
-    opacity: 1;
-    transform: translateY(0);
-    text-shadow: 0 0 15px rgba(0, 255, 234, 0.8), 0 0 5px rgba(255, 255, 255, 0.5);
-}
-
-.oracle-core.active .oracle-icon {
-    transform: scale(1.2) rotate(360deg);
-    filter: drop-shadow(0 0 25px rgba(139, 69, 255,0.8));
-}
-
+/* 12 Zodiac Nodes */
 .project-node {
-    position: absolute;
-    width: 65px;
-    height: 65px;
-    background: var(--cosmic-dark);
-    border: 2px solid var(--gold-base);
-    border-radius: 50%;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    font-size: 1.6rem;
-    color: var(--gold-base);
-    cursor: pointer;
-    text-decoration: none;
-    transition: all 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
-    transform: translate(-50%, -50%);
-    animation: counterSpin 180s linear infinite;
-    box-shadow: 0 0 15px rgba(145, 133, 199,0.2);
+  position: absolute;
+  width: 68px;
+  height: 68px;
+  background: radial-gradient(circle at 35% 35%, #1d0f36 0%, #0a0416 100%);
+  border: 2px solid var(--gold-base);
+  border-radius: 50%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  transform: translate(-50%, -50%);
+  animation: counterSpin 180s linear infinite;
+  box-shadow: 0 0 18px rgba(0, 0, 0, 0.8);
+  transition: all 0.35s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+  z-index: 10;
 }
 
 @keyframes counterSpin {
-    100% { transform: translate(-50%, -50%) rotate(-360deg); }
+  100% { transform: translate(-50%, -50%) rotate(-360deg); }
 }
 
-.project-node::after {
-    content: '';
-    position: absolute;
-    inset: -8px;
-    border-radius: 50%;
-    border: 1px solid rgba(145, 133, 199, 0.6);
-    transition: all 0.3s;
-    opacity: 0;
-    transform: scale(0.8);
+.node-symbol {
+  font-size: 1.7rem;
+  line-height: 1;
+  color: var(--gold-bright);
+  filter: drop-shadow(0 0 5px rgba(249, 226, 175, 0.5));
 }
 
-.project-node:hover {
-    background: var(--gold-base);
-    color: var(--cosmic-void);
-    box-shadow: 0 0 40px rgba(145, 133, 199, 0.8), 0 0 20px rgba(139, 69, 255,0.5);
-    z-index: 20;
-    border-color: #fff;
+.node-element-tag {
+  font-size: 0.65rem;
+  font-weight: 900;
+  margin-top: 1px;
 }
 
-.project-node:hover::after {
-    opacity: 1;
-    transform: scale(1);
-    border-color: var(--gold-bright);
-    box-shadow: 0 0 15px rgba(145, 133, 199, 0.5);
+.project-node:hover,
+.project-node.active-node {
+  background: radial-gradient(circle at 35% 35%, #3a1a6b 0%, #15062b 100%);
+  border-color: #ffffff;
+  box-shadow: 0 0 35px var(--elem-glow), inset 0 0 15px rgba(255, 255, 255, 0.4);
+  transform: translate(-50%, -50%) scale(1.18);
+  z-index: 25;
 }
 
+.project-node.element-resonate {
+  border-color: var(--elem-color);
+  box-shadow: 0 0 25px var(--elem-glow);
+}
+
+/* Micro Constellation Map Popup */
+.constellation-mini-map {
+  position: absolute;
+  top: -125px;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 140px;
+  background: rgba(10, 4, 22, 0.94);
+  border: 1px solid var(--gold-base);
+  border-radius: 8px;
+  padding: 8px;
+  box-shadow: 0 0 30px rgba(0, 0, 0, 0.9), 0 0 15px var(--elem-glow);
+  backdrop-filter: blur(12px);
+  pointer-events: none;
+  animation: fadeInPop 0.3s ease-out;
+  text-align: center;
+  z-index: 30;
+}
+
+@keyframes fadeInPop {
+  0% { opacity: 0; transform: translateX(-50%) translateY(8px) scale(0.9); }
+  100% { opacity: 1; transform: translateX(-50%) translateY(0) scale(1); }
+}
+
+.constellation-name {
+  font-family: 'Cinzel Decorative', cursive;
+  font-size: 0.8rem;
+  color: var(--gold-bright);
+  font-weight: 700;
+}
+
+.constellation-meta {
+  font-size: 0.65rem;
+  color: rgba(255, 255, 255, 0.7);
+  margin-bottom: 4px;
+}
+
+.constellation-svg {
+  width: 100%;
+  height: 65px;
+}
+
+/* Decorative Planetary Runes */
 .tribal-rune {
-    position: absolute;
-    font-family: 'Cinzel Decorative', cursive;
-    color: rgba(145, 133, 199, 0.2);
-    font-size: 1.6rem;
-    pointer-events: none;
-    text-shadow: 0 0 10px rgba(145, 133, 199,0.1);
+  position: absolute;
+  font-family: 'Cinzel Decorative', cursive;
+  color: rgba(197, 160, 89, 0.3);
+  font-size: 1.5rem;
+  pointer-events: none;
+  text-shadow: 0 0 8px rgba(197, 160, 89, 0.2);
 }
 
-/* Mystic Camera Frame (PiP) */
-.mystic-camera-frame {
-    position: fixed;
-    bottom: 30px;
-    right: 30px;
-    width: 200px;
-    height: 200px;
-    border-radius: 50%;
-    object-fit: cover;
-    z-index: 50;
-    border: 3px solid var(--gold-base);
-    box-shadow: 
-        0 0 30px rgba(139, 69, 255, 0.4),
-        inset 0 0 20px rgba(145, 133, 199, 0.5);
-    transform: scaleX(-1); /* Mirror the webcam */
-    animation: pulseGlow 4s ease-in-out infinite alternate;
+/* Central Oculus of Fate / Oracle Core */
+.oracle-core {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  width: 50vmin;
+  height: 50vmin;
+  background: radial-gradient(circle at 45% 45%, #190a36 0%, #04010a 100%);
+  border: 2px solid var(--gold-base);
+  border-radius: 50%;
+  z-index: 8;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+  padding: 30px;
+  cursor: pointer;
+  transition: all 0.5s cubic-bezier(0.175, 0.885, 0.32, 1.275);
 }
 
-@keyframes pulseGlow {
-    0% { box-shadow: 0 0 20px rgba(139, 69, 255, 0.3), 0 0 10px rgba(145, 133, 199, 0.3); }
-    100% { box-shadow: 0 0 40px rgba(139, 69, 255, 0.7), 0 0 20px rgba(145, 133, 199, 0.6); }
+.oracle-core::before {
+  content: '';
+  position: absolute;
+  inset: -10px;
+  border-radius: 50%;
+  border: 1px solid var(--gold-base);
+  opacity: 0.3;
+  box-shadow: 0 0 25px var(--elem-glow);
+  pointer-events: none;
 }
 
-@media (max-width: 768px) {
-    .site-header { top: 20px; left: 20px; }
-    .site-header h1 { font-size: 1.6rem; }
-    .astrolabe { width: 90vmin; height: 90vmin; }
-    .oracle-core { width: 62vmin; height: 62vmin; padding: 25px; }
-    .oracle-title { font-size: 1.2rem; }
-    .oracle-desc { font-size: 0.8rem; }
-    .project-node { width: 50px; height: 50px; font-size: 1.2rem; }
-    .mystic-camera-frame { width: 120px; height: 120px; bottom: 20px; right: 20px; }
+.oculus-vortex {
+  position: absolute;
+  inset: 15px;
+  border-radius: 50%;
+  border: 1px dashed rgba(249, 226, 175, 0.15);
+  animation: slowSpin 90s linear infinite;
+  pointer-events: none;
+}
+
+.oracle-core.pinch-charging {
+  transform: translate(-50%, -50%) scale(1.06);
+  border-color: #ffffff;
+  box-shadow: 0 0 100px var(--elem-glow), inset 0 0 50px rgba(255, 255, 255, 0.5) !important;
+}
+
+.oracle-icon {
+  font-size: 3.2rem;
+  color: var(--gold-bright);
+  margin-bottom: 6px;
+  filter: drop-shadow(0 0 15px rgba(249, 226, 175, 0.7));
+  transition: transform 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+}
+
+.oracle-core.active .oracle-icon {
+  transform: scale(1.15) rotate(360deg);
+  filter: drop-shadow(0 0 25px var(--elem-glow));
+}
+
+.oracle-title {
+  font-family: 'Cinzel Decorative', cursive;
+  font-size: 1.3rem;
+  color: var(--gold-bright);
+  letter-spacing: 0.08em;
+  margin-bottom: 4px;
+  text-shadow: 0 0 10px rgba(249, 226, 175, 0.5);
+}
+
+.oracle-sub-meta {
+  font-family: 'Cinzel', serif;
+  font-size: 0.75rem;
+  color: var(--gold-base);
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  margin-bottom: 10px;
+}
+
+.oracle-fortune-card {
+  max-width: 90%;
+  animation: fadeInProphecy 0.5s ease-out;
+}
+
+@keyframes fadeInProphecy {
+  0% { opacity: 0; transform: translateY(8px); }
+  100% { opacity: 1; transform: translateY(0); }
+}
+
+.prophecy-header {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  margin-bottom: 6px;
+}
+
+.prophecy-title {
+  font-family: 'Cinzel Decorative', cursive;
+  font-size: 0.95rem;
+  color: var(--gold-bright);
+  font-weight: 700;
+  letter-spacing: 0.08em;
+}
+
+.prophecy-transit {
+  font-size: 0.7rem;
+  color: var(--elem-color);
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+}
+
+.prophecy-omen {
+  font-size: 0.82rem;
+  line-height: 1.5;
+  color: rgba(255, 255, 255, 0.9);
+  margin-bottom: 8px;
+  text-shadow: 0 0 5px rgba(0, 0, 0, 0.8);
+}
+
+.prophecy-footer {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+  font-size: 0.72rem;
+  color: var(--gold-base);
+}
+
+.prophecy-action {
+  font-weight: 600;
+  color: #fff;
+}
+
+.prophecy-aspect {
+  opacity: 0.8;
+}
+
+.oracle-fortune {
+  font-size: 0.85rem;
+  color: rgba(255, 255, 255, 0.8);
+  line-height: 1.5;
+  margin: 10px 0;
+}
+
+.oracle-hint {
+  font-family: 'Cinzel', serif;
+  font-size: 0.68rem;
+  color: var(--gold-base);
+  letter-spacing: 0.08em;
+  opacity: 0.7;
+  margin-top: 8px;
+}
+
+/* Scrying Mirror (Webcam PIP) */
+.scrying-mirror-container {
+  position: fixed;
+  bottom: 25px;
+  right: 25px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  z-index: 50;
+  pointer-events: auto;
+}
+
+.scrying-mirror {
+  position: relative;
+  width: 190px;
+  height: 190px;
+  border-radius: 50%;
+  border: 3px solid var(--gold-base);
+  box-shadow: 
+    0 0 35px rgba(0, 0, 0, 0.9),
+    0 0 25px var(--elem-glow),
+    inset 0 0 20px rgba(0, 0, 0, 0.8);
+  background: #090316;
+  overflow: hidden;
+  transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+}
+
+.scrying-mirror.active {
+  box-shadow: 
+    0 0 45px var(--elem-glow),
+    inset 0 0 25px rgba(255, 215, 0, 0.4);
+}
+
+.mirror-rune-ring {
+  position: absolute;
+  inset: -6px;
+  border-radius: 50%;
+  border: 1px dashed rgba(249, 226, 175, 0.3);
+  animation: slowSpin 60s linear infinite;
+  pointer-events: none;
+}
+
+.mirror-glass {
+  position: relative;
+  width: 100%;
+  height: 100%;
+  border-radius: 50%;
+  overflow: hidden;
+}
+
+.mirror-video {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  transform: scaleX(-1); /* Mirror camera stream */
+  filter: contrast(1.1) brightness(0.95);
+}
+
+.mirror-overlay-canvas {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  transform: scaleX(-1); /* Align with mirrored video */
+  pointer-events: none;
+}
+
+.mirror-portal-placeholder {
+  width: 100%;
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: 15px;
+  text-align: center;
+}
+
+.portal-eye {
+  font-size: 2.2rem;
+  margin-bottom: 4px;
+}
+
+.portal-caption {
+  font-family: 'Cinzel Decorative', cursive;
+  font-size: 0.72rem;
+  color: var(--gold-bright);
+  margin-bottom: 8px;
+}
+
+.portal-invoke-btn {
+  font-family: 'Cinzel Decorative', cursive;
+  font-size: 0.65rem;
+  padding: 6px 12px;
+  background: rgba(139, 69, 255, 0.3);
+  border: 1px solid var(--gold-base);
+  color: #fff;
+  border-radius: 4px;
+  cursor: pointer;
+  transition: all 0.3s;
+}
+
+.portal-invoke-btn:hover {
+  background: rgba(139, 69, 255, 0.6);
+  border-color: #fff;
+  box-shadow: 0 0 15px var(--elem-glow);
+}
+
+.mirror-close-btn {
+  position: absolute;
+  top: 8px;
+  right: 8px;
+  width: 24px;
+  height: 24px;
+  border-radius: 50%;
+  background: rgba(0, 0, 0, 0.7);
+  border: 1px solid var(--gold-base);
+  color: var(--gold-bright);
+  font-size: 0.7rem;
+  cursor: pointer;
+  z-index: 10;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: all 0.2s;
+}
+
+.mirror-close-btn:hover {
+  background: #ff4d4d;
+  color: #fff;
+}
+
+/* Spell Ribbon HUD */
+.spell-ribbon-hud {
+  margin-top: 10px;
+  background: rgba(10, 4, 22, 0.9);
+  border: 1px solid var(--gold-base);
+  border-radius: 20px;
+  padding: 6px 16px;
+  text-align: center;
+  box-shadow: 0 0 20px rgba(0, 0, 0, 0.8);
+  backdrop-filter: blur(10px);
+  transition: all 0.3s ease;
+}
+
+.spell-ribbon-hud.glow {
+  border-color: var(--elem-color);
+  box-shadow: 0 0 25px var(--elem-glow);
+}
+
+.spell-ribbon-title {
+  font-family: 'Cinzel Decorative', cursive;
+  font-size: 0.8rem;
+  font-weight: 700;
+  color: var(--gold-bright);
+}
+
+.spell-ribbon-desc {
+  font-size: 0.68rem;
+  color: var(--elem-color);
+  letter-spacing: 0.05em;
+}
+
+.camera-notice-bubble {
+  margin-top: 8px;
+  background: rgba(255, 77, 77, 0.25);
+  border: 1px solid #ff4d4d;
+  color: #fff;
+  font-size: 0.75rem;
+  padding: 6px 12px;
+  border-radius: 6px;
+  max-width: 220px;
+  text-align: center;
+}
+
+/* Grimoire Spellbook Modal */
+.grimoire-overlay {
+  position: fixed;
+  inset: 0;
+  background: rgba(2, 0, 8, 0.85);
+  backdrop-filter: blur(8px);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 100;
+  animation: fadeInModal 0.3s ease-out;
+}
+
+@keyframes fadeInModal {
+  0% { opacity: 0; }
+  100% { opacity: 1; }
+}
+
+.grimoire-book {
+  position: relative;
+  width: 90%;
+  max-width: 720px;
+  max-height: 85vh;
+  overflow-y: auto;
+  background: radial-gradient(circle at 50% 20%, #1a0a38 0%, #080314 100%);
+  border: 2px solid var(--gold-base);
+  border-radius: 12px;
+  padding: 30px;
+  box-shadow: 0 0 60px rgba(0, 0, 0, 0.95), 0 0 30px var(--elem-glow);
+}
+
+.grimoire-header {
+  position: relative;
+  text-align: center;
+  margin-bottom: 24px;
+}
+
+.grimoire-sigil {
+  font-size: 2.5rem;
+  margin-bottom: 4px;
+}
+
+.grimoire-header h2 {
+  font-family: 'Cinzel Decorative', cursive;
+  font-size: 1.8rem;
+  color: var(--gold-bright);
+  letter-spacing: 0.08em;
+}
+
+.grimoire-subtitle {
+  font-size: 0.85rem;
+  color: var(--gold-base);
+  opacity: 0.8;
+}
+
+.grimoire-close {
+  position: absolute;
+  top: 0;
+  right: 0;
+  width: 32px;
+  height: 32px;
+  border-radius: 50%;
+  background: rgba(255, 255, 255, 0.1);
+  border: 1px solid var(--gold-base);
+  color: var(--gold-bright);
+  font-size: 1rem;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.grimoire-close:hover {
+  background: #ff4d4d;
+  color: #fff;
+}
+
+.spell-card-grid {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 14px;
+  margin-bottom: 24px;
+}
+
+.spell-card {
+  display: flex;
+  align-items: flex-start;
+  gap: 16px;
+  background: rgba(14, 6, 30, 0.8);
+  border: 1px solid rgba(197, 160, 89, 0.3);
+  border-radius: 8px;
+  padding: 14px 18px;
+  transition: all 0.3s;
+}
+
+.spell-card.highlight {
+  border-color: var(--gold-bright);
+  background: rgba(26, 12, 54, 0.85);
+  box-shadow: 0 0 20px var(--elem-glow);
+}
+
+.spell-card:hover {
+  border-color: var(--gold-bright);
+  transform: translateX(4px);
+}
+
+.spell-icon {
+  font-size: 2.2rem;
+  line-height: 1;
+}
+
+.spell-details h3 {
+  font-family: 'Cinzel Decorative', cursive;
+  font-size: 1.1rem;
+  color: var(--gold-bright);
+  margin-bottom: 2px;
+}
+
+.spell-gesture {
+  display: inline-block;
+  font-size: 0.75rem;
+  font-weight: 700;
+  color: var(--elem-color);
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  margin-bottom: 6px;
+}
+
+.spell-details p {
+  font-size: 0.85rem;
+  line-height: 1.5;
+  color: rgba(255, 255, 255, 0.85);
+}
+
+.grimoire-footer-notes {
+  background: rgba(8, 3, 18, 0.9);
+  border: 1px solid rgba(197, 160, 89, 0.3);
+  border-radius: 8px;
+  padding: 14px 18px;
+}
+
+.grimoire-footer-notes h4 {
+  font-family: 'Cinzel Decorative', cursive;
+  font-size: 0.9rem;
+  color: var(--gold-bright);
+  margin-bottom: 8px;
+}
+
+.shortcuts-list {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px 16px;
+}
+
+.shortcuts-list span {
+  font-size: 0.8rem;
+  color: rgba(255, 255, 255, 0.8);
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+
+kbd {
+  background: rgba(255, 255, 255, 0.15);
+  border: 1px solid var(--gold-base);
+  border-radius: 4px;
+  padding: 2px 6px;
+  font-family: monospace;
+  font-size: 0.75rem;
+  color: var(--gold-bright);
+}
+
+/* Responsive Media Queries */
+@media (max-width: 900px) {
+  .site-header {
+    top: 20px;
+    left: 20px;
+    right: 20px;
+    flex-direction: column;
+    gap: 12px;
+  }
+  .header-titles h1 { font-size: 1.7rem; }
+  .header-actions { flex-wrap: wrap; }
+  .astrolabe-wrapper { width: 88vmin; height: 88vmin; }
+  .oracle-core { width: 60vmin; height: 60vmin; padding: 20px; }
+  .project-node { width: 54px; height: 54px; }
+  .node-symbol { font-size: 1.3rem; }
+  .scrying-mirror-container { bottom: 15px; right: 15px; }
+  .scrying-mirror { width: 140px; height: 140px; }
+}
+
+@media (max-width: 600px) {
+  .site-header h1 { font-size: 1.4rem; }
+  .realm-tagline { font-size: 0.7rem; }
+  .astral-btn { font-size: 0.75rem; padding: 6px 10px; }
+  .astrolabe-wrapper { width: 92vmin; height: 92vmin; }
+  .oracle-core { width: 68vmin; height: 68vmin; padding: 15px; }
+  .oracle-title { font-size: 1rem; }
+  .prophecy-omen { font-size: 0.75rem; }
+  .scrying-mirror { width: 110px; height: 110px; }
 }
