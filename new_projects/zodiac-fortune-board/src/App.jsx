@@ -1,44 +1,52 @@
 import React, { useState } from 'react'
 import { AstrologyBoard } from './components/AstrologyBoard'
-import { OracleDisplay } from './components/OracleDisplay'
-import { getRandomFortune } from './data/fortunes'
+import { ZODIAC_SIGNS, getRandomFortune } from './data/fortunes'
 import './styles/astral.css'
 
 function App() {
   const [activeSign, setActiveSign] = useState(null);
-  const [fortune, setFortune] = useState(null);
+  const [fortune, setFortune] = useState('Awaiting Channeling...');
   const [isChanneling, setIsChanneling] = useState(false);
 
-  const handleSelectSign = (signId) => {
-    if (isChanneling) return;
-    
-    setActiveSign(signId);
+  const handleSelectSign = (sign) => {
+    setActiveSign(sign);
     setIsChanneling(true);
-    setFortune(null);
-
-    // Play channeling animation for a moment before revealing
+    setFortune('Channeling...');
+    
+    // Quick timeout to simulate reading
     setTimeout(() => {
       setFortune(getRandomFortune());
       setIsChanneling(false);
-    }, 2000); // 2 second dramatic pause
+    }, 800);
+  };
+
+  const handleMouseLeave = () => {
+    setActiveSign(null);
+    setFortune('Awaiting Channeling...');
   };
 
   return (
-    <div className={`app-container ${isChanneling ? 'shaking' : ''}`}>
-      <h1 className="title-glow mystic-text">Astral Oracle</h1>
-      <p className="subtitle">SELECT YOUR SIGN TO UNLEASH UNLIMITED POWER</p>
-      
-      <AstrologyBoard 
-        onSelectSign={handleSelectSign}
-        activeSign={activeSign}
-        isChanneling={isChanneling}
-      />
+    <>
+      <div className="universe-bg"></div>
+      <div className="celestial-body"></div>
 
-      <OracleDisplay 
-        fortune={fortune}
-        isChanneling={isChanneling}
-      />
-    </div>
+      <header className="site-header">
+          <h1>Zodiac Fortune Board</h1>
+          <a href="../index.html" className="back-btn">
+              <i className="fa-solid fa-arrow-left"></i> Return to Realm
+          </a>
+      </header>
+
+      <div className="board-container">
+        <AstrologyBoard 
+          signs={ZODIAC_SIGNS}
+          activeSign={activeSign}
+          onHoverSign={handleSelectSign}
+          onLeaveSign={handleMouseLeave}
+          fortune={fortune}
+        />
+      </div>
+    </>
   )
 }
 

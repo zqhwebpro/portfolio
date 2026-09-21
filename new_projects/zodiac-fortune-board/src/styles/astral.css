@@ -1,292 +1,268 @@
-@import url('https://fonts.googleapis.com/css2?family=Cinzel+Decorative:wght@400;700;900&family=Playfair+Display:ital,wght@0,400;0,700;1,400;1,700&display=swap');
-
 :root {
-  --bg-deep-space: #030308;
-  --wood-dark: #1f110c;
-  --wood-light: #2b170e;
-  --gold-antique: #b08d4b;
-  --gold-glow: #e6c875;
-  --parchment: #e8dcc4;
-  --text-mystic: #c4a15a;
+    --cosmic-dark: #0a0510;
+    --cosmic-void: #030008;
+    --star-glow: #e6dcf5;
+    --gold-base: #c5a059;
+    --gold-bright: #ffdf8c;
+    --gold-shadow: #7a5c24;
+    --tribal-accent: #9b2d2a;
 }
 
-body {
-  margin: 0;
-  padding: 0;
-  background-color: var(--bg-deep-space);
-  /* Giant planet in the background and swirling galaxy */
-  background-image: 
-    radial-gradient(circle at 50% 120%, rgba(30, 40, 80, 0.5) 0%, transparent 60%),
-    radial-gradient(circle at 20% 20%, rgba(100, 60, 150, 0.15) 0%, transparent 40%),
-    radial-gradient(1px 1px at 10% 20%, #ffffff, rgba(0,0,0,0)),
-    radial-gradient(1.5px 1.5px at 30% 60%, #ffffff, rgba(0,0,0,0)),
-    radial-gradient(2px 2px at 80% 40%, #e6c875, rgba(0,0,0,0)),
-    radial-gradient(1px 1px at 90% 80%, #ffffff, rgba(0,0,0,0)),
-    radial-gradient(2px 2px at 50% 10%, #ffffff, rgba(0,0,0,0));
-  background-size: 100% 100%, 100% 100%, 300px 300px, 400px 400px, 500px 500px, 250px 250px, 350px 350px;
-  color: var(--parchment);
-  font-family: 'Playfair Display', serif;
-  overflow-x: hidden;
-  min-height: 100vh;
-  display: flex;
-  justify-content: center;
-  align-items: center;
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
 }
 
-/* A massive celestial body glowing behind the app */
-body::before {
-  content: '';
-  position: absolute;
-  top: -20vh;
-  left: 50%;
-  transform: translateX(-50%);
-  width: 150vw;
-  height: 150vw;
-  border-radius: 50%;
-  background: radial-gradient(circle at 50% 50%, rgba(197, 160, 89, 0.05) 0%, transparent 60%);
-  z-index: 0;
-  pointer-events: none;
+body, html {
+    height: 100%;
+    width: 100%;
+    overflow: hidden;
+    background: var(--cosmic-void);
+    font-family: 'Playfair Display', serif;
+    color: var(--gold-base);
 }
 
-h1, h2, h3, .mystic-text {
-  font-family: 'Cinzel Decorative', cursive;
+.universe-bg {
+    position: fixed;
+    top: 0; left: 0; right: 0; bottom: 0;
+    background: 
+        radial-gradient(circle at 50% 50%, #150a21 0%, var(--cosmic-void) 80%),
+        url('data:image/svg+xml;utf8,<svg width="200" height="200" xmlns="http://www.w3.org/2000/svg"><circle cx="20" cy="20" r="1" fill="rgba(255,255,255,0.2)"/><circle cx="150" cy="80" r="1.5" fill="rgba(255,255,255,0.4)"/><circle cx="80" cy="170" r="0.8" fill="rgba(255,255,255,0.1)"/></svg>');
+    background-size: cover, 300px 300px;
+    z-index: -2;
+    animation: cosmicDrift 120s linear infinite;
 }
 
-/* App Layout */
-.app-container {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  width: 100%;
-  max-width: 1000px;
-  padding: 2rem;
-  gap: 2rem;
-  position: relative;
-  z-index: 1;
+@keyframes cosmicDrift {
+    0% { background-position: 0 0, 0 0; }
+    100% { background-position: 0 0, 1000px 1000px; }
 }
 
-.title-glow {
-  text-align: center;
-  font-size: 4rem;
-  font-weight: 900;
-  color: var(--gold-antique);
-  text-shadow: 0 4px 15px rgba(0, 0, 0, 0.8), 0 0 20px rgba(176, 141, 75, 0.4);
-  margin-bottom: 0;
-  letter-spacing: 0.2em;
-  text-transform: uppercase;
+.celestial-body {
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    width: 120vmin;
+    height: 120vmin;
+    border-radius: 50%;
+    background: radial-gradient(circle at 30% 30%, rgba(200, 160, 90, 0.05) 0%, rgba(0,0,0,0) 60%);
+    box-shadow: 
+        inset 0 0 100px rgba(0,0,0,0.8),
+        0 0 150px rgba(150, 100, 50, 0.03);
+    border: 1px solid rgba(197, 160, 89, 0.05);
+    z-index: -1;
+    pointer-events: none;
 }
 
-.subtitle {
-  text-align: center;
-  color: var(--parchment);
-  font-size: 1rem;
-  letter-spacing: 0.3em;
-  opacity: 0.6;
-  margin-top: 0.5rem;
+.board-container {
+    position: relative;
+    width: 100vw;
+    height: 100vh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
 }
 
-/* Ouija Board Container - The big wooden board */
-.ouija-board-container {
-  position: relative;
-  width: 700px;
-  height: 400px;
-  /* Dark wood plank background */
-  background: 
-    linear-gradient(rgba(31, 17, 12, 0.9), rgba(31, 17, 12, 0.9)),
-    repeating-linear-gradient(0deg, var(--wood-dark), var(--wood-dark) 10px, var(--wood-light) 10px, var(--wood-light) 20px);
-  border-radius: 20px;
-  border: 12px solid var(--wood-dark);
-  box-shadow: 
-    inset 0 0 50px rgba(0,0,0,0.9), 
-    0 20px 50px rgba(0,0,0,0.9),
-    0 0 0 4px var(--gold-antique);
-  display: flex;
-  justify-content: center;
-  align-items: flex-end;
-  overflow: hidden;
-  padding-bottom: 40px;
+.site-header {
+    position: absolute;
+    top: 40px;
+    left: 40px;
+    z-index: 10;
+}
+.site-header h1 {
+    font-family: 'Cinzel Decorative', cursive;
+    font-size: 2rem;
+    color: var(--gold-bright);
+    text-shadow: 0 0 20px rgba(197, 160, 89, 0.5);
+    letter-spacing: 0.1em;
+    margin-bottom: 8px;
+}
+.back-btn {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    font-size: 0.8rem;
+    font-family: 'Cinzel Decorative', cursive;
+    color: var(--gold-base);
+    text-decoration: none;
+    letter-spacing: 0.1em;
+    padding: 8px 16px;
+    border: 1px solid rgba(197, 160, 89, 0.3);
+    background: rgba(10, 5, 16, 0.8);
+    backdrop-filter: blur(4px);
+    transition: all 0.3s;
+}
+.back-btn:hover {
+    color: var(--gold-bright);
+    border-color: var(--gold-bright);
+    box-shadow: 0 0 15px rgba(197, 160, 89, 0.3);
 }
 
-/* Decorative border inside the board */
-.ouija-board-container::after {
-  content: '';
-  position: absolute;
-  inset: 15px;
-  border: 2px solid var(--gold-antique);
-  border-radius: 10px;
-  opacity: 0.4;
-  pointer-events: none;
+.astrolabe {
+    position: relative;
+    width: 70vmin;
+    height: 70vmin;
+    border-radius: 50%;
+    border: 2px dashed rgba(197, 160, 89, 0.2);
+    animation: slowSpin 180s linear infinite;
 }
 
-/* Ouija text elements */
-.ouija-corner {
-  position: absolute;
-  top: 30px;
-  font-family: 'Cinzel Decorative', cursive;
-  font-size: 2.5rem;
-  color: var(--gold-antique);
-  letter-spacing: 0.1em;
-  text-shadow: 0 2px 4px rgba(0,0,0,0.8);
-}
-.ouija-corner.top-left { left: 40px; }
-.ouija-corner.top-right { right: 40px; }
-
-.ouija-sun, .ouija-moon {
-  position: absolute;
-  top: 100px;
-  font-size: 3rem;
-  color: var(--gold-antique);
-  opacity: 0.6;
-}
-.ouija-sun { left: 60px; }
-.ouija-moon { right: 60px; }
-
-.ouija-goodbye {
-  position: absolute;
-  bottom: 25px;
-  font-family: 'Cinzel Decorative', cursive;
-  font-size: 2rem;
-  color: var(--gold-antique);
-  letter-spacing: 0.3em;
-  text-shadow: 0 2px 4px rgba(0,0,0,0.8);
+.astrolabe-inner {
+    position: absolute;
+    inset: 40px;
+    border-radius: 50%;
+    border: 1px solid rgba(197, 160, 89, 0.4);
+    box-shadow: 0 0 40px rgba(197, 160, 89, 0.05);
+    animation: slowSpinReverse 120s linear infinite;
 }
 
-/* Inner astrology mechanism */
-.astrology-board {
-  position: absolute;
-  bottom: -50px;
-  width: 500px;
-  height: 500px;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  pointer-events: none; /* Let clicks pass to nodes */
+@keyframes slowSpin {
+    100% { transform: rotate(360deg); }
+}
+@keyframes slowSpinReverse {
+    100% { transform: rotate(-360deg); }
 }
 
-.zodiac-node {
-  position: absolute;
-  width: 40px;
-  height: 60px;
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  align-items: center;
-  cursor: pointer;
-  transition: all 0.3s ease;
-  transform-origin: center center;
-  color: var(--gold-antique);
-  pointer-events: auto; /* Re-enable clicks */
+.oracle-core {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    width: 45vmin;
+    height: 45vmin;
+    background: radial-gradient(circle at 50% 50%, #150a21 0%, #030008 100%);
+    border: 2px solid var(--gold-base);
+    border-radius: 50%;
+    z-index: 5;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+    padding: 40px;
+    box-shadow: 
+        0 0 60px rgba(0,0,0,0.9),
+        inset 0 0 30px rgba(197, 160, 89, 0.2);
+    transition: all 0.5s ease;
 }
 
-.zodiac-node:hover {
-  transform: scale(1.15) translateY(-5px) !important;
-  color: var(--gold-glow);
-  text-shadow: 0 0 10px var(--gold-glow);
-  z-index: 20;
+.oracle-core::before {
+    content: '';
+    position: absolute;
+    inset: -10px;
+    border-radius: 50%;
+    border: 1px solid var(--gold-base);
+    opacity: 0.3;
 }
 
-.zodiac-node.active {
-  color: var(--parchment);
-  text-shadow: 0 0 15px var(--gold-glow);
-  transform: scale(1.2) translateY(-5px) !important;
-  z-index: 20;
+.oracle-icon {
+    font-size: 3rem;
+    color: var(--gold-bright);
+    margin-bottom: 15px;
+    filter: drop-shadow(0 0 10px rgba(197, 160, 89, 0.5));
+    transition: transform 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
 }
 
-.zodiac-symbol {
-  font-size: 2rem;
-  line-height: 1;
+.oracle-title {
+    font-family: 'Cinzel Decorative', cursive;
+    font-size: 1.4rem;
+    color: var(--gold-bright);
+    margin-bottom: 10px;
+    letter-spacing: 0.05em;
 }
 
-.zodiac-name {
-  font-size: 0.6rem;
-  text-transform: uppercase;
-  margin-top: 4px;
-  font-family: 'Cinzel Decorative', cursive;
-  letter-spacing: 0.1em;
-  opacity: 0;
-  transition: opacity 0.3s ease;
+.oracle-desc {
+    font-size: 0.85rem;
+    line-height: 1.6;
+    color: rgba(255, 255, 255, 0.7);
+    margin-bottom: 15px;
+    font-style: italic;
 }
 
-.zodiac-node:hover .zodiac-name,
-.zodiac-node.active .zodiac-name {
-  opacity: 1;
+.oracle-fortune {
+    font-family: 'Cinzel Decorative', cursive;
+    font-size: 0.7rem;
+    color: var(--tribal-accent);
+    letter-spacing: 0.15em;
+    text-transform: uppercase;
+    font-weight: 900;
+    opacity: 0;
+    transform: translateY(10px);
+    transition: all 0.4s ease;
 }
 
-/* Planchette pointer */
-.planchette {
-  position: absolute;
-  width: 80px;
-  height: 100px;
-  top: 50%;
-  left: 50%;
-  margin-top: -50px;
-  margin-left: -40px;
-  z-index: 40;
-  pointer-events: none;
-  filter: drop-shadow(5px 15px 10px rgba(0,0,0,0.9));
-  transition: transform 1.5s cubic-bezier(0.25, 0.1, 0.25, 1.2);
+.oracle-core.active .oracle-fortune {
+    opacity: 1;
+    transform: translateY(0);
+    text-shadow: 0 0 10px rgba(155, 45, 42, 0.6);
 }
 
-/* Oracle Display */
-.oracle-container {
-  width: 100%;
-  max-width: 700px;
-  min-height: 160px;
-  padding: 2.5rem;
-  background: rgba(15, 8, 5, 0.85);
-  border: 1px solid var(--gold-antique);
-  border-radius: 4px;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  text-align: center;
-  position: relative;
-  box-shadow: 0 10px 30px rgba(0,0,0,0.8), inset 0 0 40px rgba(0,0,0,0.9);
+.oracle-core.active .oracle-icon {
+    transform: scale(1.2) rotate(360deg);
 }
 
-.oracle-container::before, .oracle-container::after {
-  content: '❖';
-  position: absolute;
-  color: var(--gold-antique);
-  font-size: 1.5rem;
-  opacity: 0.5;
-}
-.oracle-container::before { top: 10px; left: 15px; }
-.oracle-container::after { bottom: 10px; right: 15px; }
-
-.oracle-text {
-  font-size: 1.3rem;
-  font-weight: 400;
-  line-height: 1.6;
-  color: var(--parchment);
-  text-shadow: 0 0 5px rgba(232, 220, 196, 0.2);
-  animation: etherealReveal 2.5s ease-out;
-}
-
-.channeling-text {
-  font-size: 1.1rem;
-  color: var(--gold-glow);
-  animation: pulseGlow 1.5s infinite alternate;
-  letter-spacing: 0.2em;
+.project-node {
+    position: absolute;
+    width: 60px;
+    height: 60px;
+    background: var(--cosmic-dark);
+    border: 2px solid var(--gold-base);
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 1.5rem;
+    color: var(--gold-base);
+    cursor: pointer;
+    text-decoration: none;
+    transition: all 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+    animation: counterSpin 180s linear infinite;
 }
 
-/* Animations */
-@keyframes etherealReveal {
-  0% { opacity: 0; filter: blur(8px); }
-  100% { opacity: 1; filter: blur(0); }
+@keyframes counterSpin {
+    100% { transform: translate(-50%, -50%) rotate(-360deg); }
 }
 
-@keyframes pulseGlow {
-  0% { opacity: 0.4; text-shadow: 0 0 2px var(--gold-antique); }
-  100% { opacity: 1; text-shadow: 0 0 15px var(--gold-glow); }
+.project-node::after {
+    content: '';
+    position: absolute;
+    inset: -6px;
+    border-radius: 50%;
+    border: 1px solid rgba(197, 160, 89, 0.5);
+    transition: all 0.3s;
+    opacity: 0;
+    transform: scale(0.8);
 }
 
-.app-container.shaking .ouija-board-container {
-  animation: cosmicTremor 0.1s ease-in-out infinite alternate;
+.project-node:hover {
+    background: var(--gold-base);
+    color: var(--cosmic-void);
+    box-shadow: 0 0 30px rgba(197, 160, 89, 0.6);
+    z-index: 20;
 }
 
-@keyframes cosmicTremor {
-  0% { transform: translate(0, 0) rotate(0deg); }
-  100% { transform: translate(0, 1px) rotate(0.2deg); }
+.project-node:hover::after {
+    opacity: 1;
+    transform: scale(1);
+    border-color: var(--gold-bright);
+}
+
+.tribal-rune {
+    position: absolute;
+    font-family: 'Cinzel Decorative', cursive;
+    color: rgba(197, 160, 89, 0.15);
+    font-size: 1.5rem;
+    pointer-events: none;
+}
+
+@media (max-width: 768px) {
+    .site-header { top: 20px; left: 20px; }
+    .site-header h1 { font-size: 1.4rem; }
+    .astrolabe { width: 90vmin; height: 90vmin; }
+    .oracle-core { width: 60vmin; height: 60vmin; padding: 20px; }
+    .oracle-title { font-size: 1.1rem; }
+    .oracle-desc { font-size: 0.75rem; }
+    .project-node { width: 45px; height: 45px; font-size: 1rem; }
 }
