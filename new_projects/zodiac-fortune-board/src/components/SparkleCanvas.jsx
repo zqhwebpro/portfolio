@@ -4,6 +4,18 @@ export function SparkleCanvas({ handCoordinates, isCameraActive }) {
   const canvasRef = useRef(null);
   const particlesRef = useRef([]);
 
+  const handRef = useRef(handCoordinates);
+  const cameraRef = useRef(isCameraActive);
+
+  // Update refs when props change without triggering effect rerun
+  useEffect(() => {
+    handRef.current = handCoordinates;
+  }, [handCoordinates]);
+
+  useEffect(() => {
+    cameraRef.current = isCameraActive;
+  }, [isCameraActive]);
+
   useEffect(() => {
     const canvas = canvasRef.current;
     if (!canvas) return;
@@ -34,10 +46,10 @@ export function SparkleCanvas({ handCoordinates, isCameraActive }) {
     const render = () => {
       ctx.clearRect(0, 0, canvas.width, canvas.height);
 
-      if (isCameraActive && handCoordinates) {
+      if (cameraRef.current && handRef.current) {
         // Because camera is mirrored (scaleX(-1)), we mirror the x coordinate
-        const screenX = (1 - handCoordinates.x) * canvas.width;
-        const screenY = handCoordinates.y * canvas.height;
+        const screenX = (1 - handRef.current.x) * canvas.width;
+        const screenY = handRef.current.y * canvas.height;
         
         // Spawn multiple particles per frame for a dense effect
         for(let i = 0; i < 3; i++) {
@@ -45,26 +57,28 @@ export function SparkleCanvas({ handCoordinates, isCameraActive }) {
         }
       }
 
-      particlesRef.current.forEach((p, index) => {
+      // We should iterate backwards when removing elements from an array
+      for (let i = particlesRef.current.length - 1; i >= 0; i--) {
+        const p = particlesRef.current[i];
         p.x += p.vx;
         p.y += p.vy;
         p.life -= 0.02; // Fade out speed
         p.size *= 0.95; // Shrink
 
         if (p.life <= 0) {
-          particlesRef.current.splice(index, 1);
+          particlesRef.current.splice(i, 1);
         } else {
           ctx.beginPath();
           ctx.arc(p.x, p.y, p.size, 0, Math.PI * 2);
           ctx.fillStyle = p.color;
-          ctx.globalAlpha = p.life;
+          ctx.globalAlpha = Math.max(0, p.life);
           ctx.shadowBlur = 15;
           ctx.shadowColor = p.color;
           ctx.fill();
           ctx.globalAlpha = 1;
           ctx.shadowBlur = 0;
         }
-      });
+      }
 
       animationFrameId = requestAnimationFrame(render);
     };
@@ -75,7 +89,7 @@ export function SparkleCanvas({ handCoordinates, isCameraActive }) {
       window.removeEventListener('resize', resizeCanvas);
       cancelAnimationFrame(animationFrameId);
     };
-  }, [handCoordinates, isCameraActive]);
+  }, []);
 
   return (
     <canvas
