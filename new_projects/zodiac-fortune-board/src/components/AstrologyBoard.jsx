@@ -21,8 +21,7 @@ export function AstrologyBoard({ signs, activeSign, onHoverSign, onLeaveSign, fo
                 className="project-node"
                 style={{
                   left: `${x}%`,
-                  top: `${y}%`,
-                  transform: `translate(-50%, -50%)`
+                  top: `${y}%`
                 }}
                 onMouseEnter={() => onHoverSign(sign)}
                 onMouseLeave={onLeaveSign}

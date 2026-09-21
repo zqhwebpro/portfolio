@@ -387,10 +387,10 @@ function App() {
                     <HeroFlyingStars />
                     <div ref={heroCardRef} className="glass-card-3d hero-glass-portal">
                         <h1 className="hero-headline">
-                            A Journey from Dark to Light <span>Scroll to watch the night turn into a bright day.</span>
+                            A Journey from Night <span>to Day.</span>
                         </h1>
                         <a href="#contact" className="btn-3d-glow" title="Contact for Front-End Web Development">
-                            From Night to Day
+                            Contact
                         </a>
                     </div>
                 </div>
@@ -489,8 +489,8 @@ function App() {
             {/* FOOTER */}
             <footer id="contact" className="footer-contact-3d">
                 <div className="glass-card-3d contact-card-3d scroll-reveal">
-                    <span className="section-tag reveal-content">A BRIGHT NEW DAY</span>
-                    <h2 className="section-title reveal-content">You've reached the daylight! Contact me to build your next interactive experience.</h2>
+                    <span className="section-tag reveal-content">ENJOY A SHINING NEW DAY</span>
+                    <h2 className="section-title reveal-content">Contact me to build your next interactive experience.</h2>
 
                     {submitted ? (
                         <div className="submitted-msg-box" role="alert">
