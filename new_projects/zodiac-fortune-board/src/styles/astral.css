@@ -5,7 +5,7 @@
     --gold-base: #c5a059;
     --gold-bright: #ffdf8c;
     --gold-shadow: #7a5c24;
-    --tribal-accent: #9b2d2a;
+    --tribal-accent: #ff4c4c;
 }
 
 * {
@@ -19,7 +19,7 @@ body, html {
     width: 100%;
     overflow: hidden;
     background: var(--cosmic-void);
-    font-family: 'Playfair Display', serif;
+    font-family: 'MedievalSharp', cursive;
     color: var(--gold-base);
 }
 
@@ -106,7 +106,7 @@ body, html {
     height: 70vmin;
     border-radius: 50%;
     border: 2px dashed rgba(197, 160, 89, 0.2);
-    animation: slowSpin 180s linear infinite;
+    transition: transform 0.1s ease-out;
 }
 
 .astrolabe-inner {
@@ -178,7 +178,6 @@ body, html {
     line-height: 1.6;
     color: rgba(255, 255, 255, 0.7);
     margin-bottom: 15px;
-    font-style: italic;
 }
 
 .oracle-fortune {

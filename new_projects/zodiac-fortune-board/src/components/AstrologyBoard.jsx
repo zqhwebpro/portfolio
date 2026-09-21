@@ -1,13 +1,13 @@
 import React from 'react';
 
-export function AstrologyBoard({ signs, activeSign, onHoverSign, onLeaveSign, fortune }) {
+export function AstrologyBoard({ signs, activeSign, onHoverSign, onLeaveSign, fortune, rotation = 0 }) {
   
   const radius = 50; // percentage based on astrolabe size (50% is edge)
   const totalNodes = signs.length;
 
   return (
     <>
-      <div className="astrolabe" id="astrolabe">
+      <div className="astrolabe" id="astrolabe" style={{ transform: `rotate(${rotation}deg)` }}>
           <div className="astrolabe-inner"></div>
           
           {signs.map((sign, i) => {

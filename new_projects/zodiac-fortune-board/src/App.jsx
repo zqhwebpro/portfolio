@@ -1,12 +1,16 @@
-import React, { useState } from 'react'
+import React, { useState, useEffect, useRef } from 'react'
 import { AstrologyBoard } from './components/AstrologyBoard'
 import { ZODIAC_SIGNS, getRandomFortune } from './data/fortunes'
+import { useHandTracking } from './hooks/useHandTracking'
 import './styles/astral.css'
 
 function App() {
   const [activeSign, setActiveSign] = useState(null);
   const [fortune, setFortune] = useState('Awaiting Channeling...');
   const [isChanneling, setIsChanneling] = useState(false);
+  const spellCooldown = useRef(false);
+
+  const { isCameraActive, isReady, rotation, isPinching, startCamera, stopCamera, videoRef } = useHandTracking();
 
   const handleSelectSign = (sign) => {
     setActiveSign(sign);
@@ -25,6 +29,21 @@ function App() {
     setFortune('Awaiting Channeling...');
   };
 
+  // Handle Spell Casting via Pinch Gesture
+  useEffect(() => {
+    if (isPinching && !spellCooldown.current) {
+      spellCooldown.current = true;
+      setFortune('✨ Casting Spell... ✨');
+      setIsChanneling(true);
+      
+      setTimeout(() => {
+        setFortune(getRandomFortune());
+        setIsChanneling(false);
+        setTimeout(() => { spellCooldown.current = false; }, 2000);
+      }, 800);
+    }
+  }, [isPinching]);
+
   return (
     <>
       <div className="universe-bg"></div>
@@ -35,7 +54,31 @@ function App() {
           <a href="../index.html" className="back-btn">
               <i className="fa-solid fa-arrow-left"></i> Return to Realm
           </a>
+          <div className="camera-controls" style={{ marginTop: '15px' }}>
+            {!isCameraActive ? (
+              <button 
+                onClick={startCamera} 
+                disabled={!isReady}
+                className="back-btn" 
+                style={{ cursor: isReady ? 'pointer' : 'wait' }}
+              >
+                <i className="fa-solid fa-video"></i> {isReady ? 'Connect Camera' : 'Loading Magick...'}
+              </button>
+            ) : (
+              <button onClick={stopCamera} className="back-btn" style={{ borderColor: 'var(--tribal-accent)', color: 'var(--tribal-accent)' }}>
+                <i className="fa-solid fa-video-slash"></i> Disconnect
+              </button>
+            )}
+          </div>
       </header>
+
+      {/* Hidden video element for hand tracking processing */}
+      <video 
+        ref={videoRef} 
+        style={{ display: 'none' }} 
+        autoPlay 
+        playsInline
+      ></video>
 
       <div className="board-container">
         <AstrologyBoard 
@@ -44,6 +87,7 @@ function App() {
           onHoverSign={handleSelectSign}
           onLeaveSign={handleMouseLeave}
           fortune={fortune}
+          rotation={rotation}
         />
       </div>
     </>
