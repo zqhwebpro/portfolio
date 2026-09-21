@@ -2545,7 +2545,7 @@ function App() {
         if (glitchTimeoutRef.current) clearTimeout(glitchTimeoutRef.current);
         glitchTimeoutRef.current = setTimeout(() => {
             setIsGlitching(false);
-        }, 440);
+        }, 250);
 
         if (!isColorPhasing) {
             setBaseHue(prev => (prev + 80 + Math.floor(Math.random() * 95)) % 360 || 90);

@@ -130,7 +130,7 @@
         }
 
         .pixel-face-btn-circle.is-glitching {
-            animation: digitalGlitchDistort 0.4s ease-out, smileyJitter 0.1s infinite alternate;
+            animation: digitalGlitchDistort 0.25s ease-out, smileyJitter 0.1s infinite alternate;
             filter: hue-rotate(90deg) drop-shadow(0 0 15px rgba(255,51,102,0.9));
         }
 
@@ -163,20 +163,20 @@
 
         @keyframes digitalGlitchDistort {
             0% { transform: translate(0, 0) scale(1) skew(0deg); filter: hue-rotate(0deg) contrast(1); }
-            10% { transform: translate(-10px, 5px) scale(1.1) skew(20deg); filter: hue-rotate(90deg) contrast(2); }
-            20% { transform: translate(15px, -10px) scale(0.9) skew(-20deg); filter: hue-rotate(180deg) contrast(3); }
-            30% { transform: translate(-20px, 15px) scale(1.2) skew(40deg); filter: hue-rotate(270deg) contrast(1.5); }
-            40% { transform: translate(10px, -20px) scale(0.8) skew(-40deg); filter: invert(1) hue-rotate(45deg); }
-            50% { transform: translate(-15px, 10px) scale(1.3) skew(30deg); filter: hue-rotate(135deg) contrast(4); }
-            60% { transform: translate(25px, -15px) scale(0.7) skew(-30deg); filter: invert(0) hue-rotate(225deg) contrast(2); }
-            70% { transform: translate(-5px, 25px) scale(1.4) skew(50deg); filter: hue-rotate(315deg) contrast(5); }
-            80% { transform: translate(20px, -5px) scale(0.6) skew(-50deg); filter: invert(1) hue-rotate(0deg); }
-            90% { transform: translate(-10px, -10px) scale(1.1) skew(10deg); filter: invert(0) hue-rotate(90deg) contrast(3); }
+            10% { transform: translate(-4px, 2px) scale(1.02) skew(5deg); filter: hue-rotate(45deg) contrast(1.2); }
+            20% { transform: translate(5px, -3px) scale(0.98) skew(-5deg); filter: hue-rotate(90deg) contrast(1.5); }
+            30% { transform: translate(-6px, 5px) scale(1.04) skew(8deg); filter: hue-rotate(135deg) contrast(1.1); }
+            40% { transform: translate(3px, -6px) scale(0.96) skew(-8deg); filter: hue-rotate(20deg) contrast(1.4); }
+            50% { transform: translate(-5px, 3px) scale(1.05) skew(6deg); filter: hue-rotate(60deg) contrast(1.8); }
+            60% { transform: translate(8px, -5px) scale(0.95) skew(-6deg); filter: hue-rotate(120deg) contrast(1.2); }
+            70% { transform: translate(-2px, 8px) scale(1.06) skew(10deg); filter: hue-rotate(180deg) contrast(2); }
+            80% { transform: translate(6px, -2px) scale(0.94) skew(-10deg); filter: hue-rotate(0deg) contrast(1.5); }
+            90% { transform: translate(-3px, -3px) scale(1.02) skew(3deg); filter: hue-rotate(45deg) contrast(1.3); }
             100% { transform: translate(0, 0) scale(1) skew(0deg); filter: hue-rotate(0deg) contrast(1); }
         }
 
         .glitch-active {
-            animation: digitalGlitchDistort 0.44s ease-out;
+            animation: digitalGlitchDistort 0.25s ease-out;
         }
 
         /* --- DIGITAL ALARM CLOCK --- */

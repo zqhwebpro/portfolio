@@ -5,7 +5,7 @@
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <meta name="theme-color" content="#1a0e04" />
-    <title>Interactive Projects &amp; Case Studies</title>
+    <title>Interactive Projects</title>
     <link rel="icon" href="./favicon.ico" />
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -15,23 +15,30 @@
 
     <style>
         :root {
-            --ember:       #FF6B1A;
-            --amber:       #F5A623;
-            --gold:        #FFB84D;
+            --ember: #FF6B1A;
+            --amber: #F5A623;
+            --gold: #FFB84D;
             --gold-bright: #FFD580;
-            --text-head:   #fff8ee;
-            --text-body:   #c8aa80;
-            --text-dim:    #8a6e48;
-            --card-bg:     #f4ebd8;
+            --text-head: #fff8ee;
+            --text-body: #c8aa80;
+            --text-dim: #8a6e48;
+            --card-bg: #f4ebd8;
             --card-text-head: #1a0e04;
             --card-text-body: #4a3424;
-            --card-border: rgba(255,150,50,0.3);
-            --bg-base:     #1a0e04;
+            --card-border: rgba(255, 150, 50, 0.3);
+            --bg-base: #1a0e04;
         }
 
-        * { margin: 0; padding: 0; box-sizing: border-box; }
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
 
-        html, body { height: 100%; }
+        html,
+        body {
+            height: 100%;
+        }
 
         body {
             font-family: 'Inter', 'Helvetica Neue', sans-serif;
@@ -61,11 +68,11 @@
             inset: 0;
             background:
                 /* bright top-centre warm glow */
-                radial-gradient(ellipse 100% 60% at 50% -10%, rgba(255,160,50,0.16) 0%, transparent 60%),
+                radial-gradient(ellipse 100% 60% at 50% -10%, rgba(255, 160, 50, 0.16) 0%, transparent 60%),
                 /* mid wide amber fill */
-                radial-gradient(ellipse 140% 55% at 50% 40%,  rgba(200,90,10,0.12) 0%, transparent 65%),
+                radial-gradient(ellipse 140% 55% at 50% 40%, rgba(200, 90, 10, 0.12) 0%, transparent 65%),
                 /* lower ember bloom */
-                radial-gradient(ellipse 110% 50% at 50% 105%, rgba(255,100,20,0.25) 0%, transparent 55%),
+                radial-gradient(ellipse 110% 50% at 50% 105%, rgba(255, 100, 20, 0.25) 0%, transparent 55%),
                 /* dark translucent tint overlay for contrast over video */
                 rgba(15, 8, 4, 0.45);
             z-index: -2;
@@ -82,16 +89,24 @@
             width: 160%;
             height: 60%;
             background: radial-gradient(ellipse 65% 60% at 50% 100%,
-                rgba(255,120,30,0.24) 0%,
-                rgba(220,80,10,0.12) 40%,
-                transparent 68%);
+                    rgba(255, 120, 30, 0.24) 0%,
+                    rgba(220, 80, 10, 0.12) 40%,
+                    transparent 68%);
             z-index: -1;
             pointer-events: none;
             animation: fireBreath 5.5s ease-in-out infinite alternate;
         }
+
         @keyframes fireBreath {
-            0%   { opacity: 0.6; transform: translateX(-50%) scaleY(0.82); }
-            100% { opacity: 1.0; transform: translateX(-50%) scaleY(1.12); }
+            0% {
+                opacity: 0.6;
+                transform: translateX(-50%) scaleY(0.82);
+            }
+
+            100% {
+                opacity: 1.0;
+                transform: translateX(-50%) scaleY(1.12);
+            }
         }
 
         /* ΓöÇΓöÇ Page shell ΓöÇΓöÇ */
@@ -99,7 +114,12 @@
             width: 100%;
             padding: 40px 44px 64px;
         }
-        @media (max-width: 900px) { .page-wrap { padding: 24px 18px 44px; } }
+
+        @media (max-width: 900px) {
+            .page-wrap {
+                padding: 24px 18px 44px;
+            }
+        }
 
         /* ΓöÇΓöÇ Header ΓöÇΓöÇ */
         .site-header {
@@ -110,23 +130,26 @@
             gap: 16px;
             padding-bottom: 24px;
             margin-bottom: 40px;
-            border-bottom: 1px solid rgba(255,160,60,0.22);
+            border-bottom: 1px solid rgba(255, 160, 60, 0.22);
         }
+
         .site-header h1 {
             font-family: 'Orbitron', sans-serif;
             font-size: clamp(2rem, 4vw, 3.2rem);
             font-weight: 900;
             letter-spacing: 0.02em;
             color: var(--text-head);
-            text-shadow: 0 0 50px rgba(255,140,40,0.55), 0 0 12px rgba(255,100,10,0.3);
+            text-shadow: 0 0 50px rgba(255, 140, 40, 0.55), 0 0 12px rgba(255, 100, 10, 0.3);
             margin-bottom: 4px;
         }
+
         .site-header p {
             font-size: 0.78rem;
             font-weight: 500;
             color: var(--text-dim);
             letter-spacing: 0.03em;
         }
+
         .back-btn {
             display: inline-flex;
             align-items: center;
@@ -135,19 +158,20 @@
             font-weight: 700;
             letter-spacing: 0.14em;
             text-transform: uppercase;
-            color: rgba(255,185,77,0.7);
+            color: rgba(255, 185, 77, 0.7);
             text-decoration: none;
-            border: 1px solid rgba(255,165,50,0.25);
+            border: 1px solid rgba(255, 165, 50, 0.25);
             padding: 7px 14px;
-            background: rgba(255,150,40,0.06);
+            background: rgba(255, 150, 40, 0.06);
             transition: all 0.2s;
             white-space: nowrap;
         }
+
         .back-btn:hover {
             color: var(--gold-bright);
             border-color: var(--amber);
-            background: rgba(255,166,35,0.14);
-            box-shadow: 0 0 18px rgba(255,166,35,0.2);
+            background: rgba(255, 166, 35, 0.14);
+            box-shadow: 0 0 18px rgba(255, 166, 35, 0.2);
         }
 
         /* ΓöÇΓöÇ 5-column gallery ΓÇö all projects on one row ΓöÇΓöÇ */
@@ -156,10 +180,25 @@
             grid-template-columns: repeat(5, 1fr);
             gap: 16px;
         }
+
         /* Graceful collapse for smaller screens */
-        @media (max-width: 1200px) { .gallery { grid-template-columns: repeat(3, 1fr); } }
-        @media (max-width:  780px) { .gallery { grid-template-columns: repeat(2, 1fr); } }
-        @media (max-width:  480px) { .gallery { grid-template-columns: 1fr; } }
+        @media (max-width: 1200px) {
+            .gallery {
+                grid-template-columns: repeat(3, 1fr);
+            }
+        }
+
+        @media (max-width: 780px) {
+            .gallery {
+                grid-template-columns: repeat(2, 1fr);
+            }
+        }
+
+        @media (max-width: 480px) {
+            .gallery {
+                grid-template-columns: 1fr;
+            }
+        }
 
         /* ΓöÇΓöÇ Card ΓöÇΓöÇ */
         .pcard {
@@ -173,19 +212,20 @@
             overflow: hidden;
             box-shadow: 0 10px 30px rgba(0, 0, 0, 0.7), 0 4px 10px rgba(0, 0, 0, 0.5);
             transition:
-                transform 0.22s cubic-bezier(.22,.68,0,1.2),
+                transform 0.22s cubic-bezier(.22, .68, 0, 1.2),
                 box-shadow 0.22s ease,
                 border-color 0.22s ease,
                 background 0.22s ease;
         }
+
         .pcard:hover {
             transform: translateY(-7px) scale(1.018);
-            border-color: rgba(255,180,70,0.8);
+            border-color: rgba(255, 180, 70, 0.8);
             background: #ffffff;
             box-shadow:
-                0 22px 55px rgba(0,0,0,0.9),
-                0  0  35px rgba(255,120,30,0.20),
-                0  0   0 1px rgba(255,170,60,0.12);
+                0 22px 55px rgba(0, 0, 0, 0.9),
+                0 0 35px rgba(255, 120, 30, 0.20),
+                0 0 0 1px rgba(255, 170, 60, 0.12);
         }
 
 
@@ -220,6 +260,7 @@
             flex-wrap: wrap;
             gap: 4px;
         }
+
         .tag {
             font-size: 0.54rem;
             font-weight: 600;
@@ -227,14 +268,15 @@
             text-transform: uppercase;
             padding: 2px 7px;
             border-radius: 3px;
-            border: 1px solid rgba(255,150,40,0.4);
-            background: rgba(255,120,30,0.12);
+            border: 1px solid rgba(255, 150, 40, 0.4);
+            background: rgba(255, 120, 30, 0.12);
             color: #b34a00;
             transition: background 0.18s, border-color 0.18s, color 0.18s;
         }
+
         .pcard:hover .tag {
-            background: rgba(255,130,30,0.22);
-            border-color: rgba(255,150,40,0.6);
+            background: rgba(255, 130, 30, 0.22);
+            border-color: rgba(255, 150, 40, 0.6);
             color: #d15600;
         }
 
@@ -244,9 +286,10 @@
             align-items: center;
             justify-content: space-between;
             padding-top: 10px;
-            border-top: 1px solid rgba(0,0,0,0.1);
+            border-top: 1px solid rgba(0, 0, 0, 0.1);
             margin-top: auto;
         }
+
         .pcard-link-text {
             font-size: 0.56rem;
             font-weight: 800;
@@ -255,13 +298,16 @@
             color: #b34a00;
             transition: color 0.2s;
         }
-        .pcard:hover .pcard-link-text { color: #d15600; }
+
+        .pcard:hover .pcard-link-text {
+            color: #d15600;
+        }
 
         .pcard-arrow {
             width: 24px;
             height: 24px;
             border-radius: 50%;
-            border: 1px solid rgba(255,140,40,0.4);
+            border: 1px solid rgba(255, 140, 40, 0.4);
             display: flex;
             align-items: center;
             justify-content: center;
@@ -269,14 +315,14 @@
             color: #b34a00;
             transition: all 0.2s;
         }
+
         .pcard:hover .pcard-arrow {
             border-color: var(--ember);
-            background: rgba(255,107,26,0.15);
+            background: rgba(255, 107, 26, 0.15);
             color: #d15600;
-            box-shadow: 0 0 14px rgba(255,107,26,0.2);
+            box-shadow: 0 0 14px rgba(255, 107, 26, 0.2);
             transform: translateX(2px);
         }
-
     </style>
 </head>
 
@@ -291,8 +337,7 @@
 
         <header class="site-header">
             <div>
-                <h1>Projects &amp; Case Studies</h1>
-                <p>6 live web apps ΓÇö physics, algorithms &amp; immersive UI</p>
+                <h1>Interactive Projects</h1>
             </div>
             <a href="../2026/" class="back-btn">
                 <i class="fa-solid fa-arrow-left"></i> Main Portfolio
@@ -339,7 +384,8 @@
             <a href="./workout-shuffler/index.html" class="pcard">
                 <div class="pcard-body">
                     <div class="pcard-title">Workout Mixer</div>
-                    <div class="pcard-desc">Mobile-first fitness app with randomised circuits &amp; drift-free timers.</div>
+                    <div class="pcard-desc">Mobile-first fitness app with randomised circuits &amp; drift-free timers.
+                    </div>
                     <div class="pcard-tags">
                         <span class="tag">JavaScript</span>
                         <span class="tag">HTML</span>
@@ -390,7 +436,8 @@
             <a href="./wacky-things-store/index.html" class="pcard">
                 <div class="pcard-body">
                     <div class="pcard-title">The Wacky Things Store</div>
-                    <div class="pcard-desc">An educational .NET ecommerce store platform built for full-stack learning.</div>
+                    <div class="pcard-desc">An educational .NET ecommerce store platform built for full-stack learning.
+                    </div>
                     <div class="pcard-tags">
                         <span class="tag">.NET</span>
                         <span class="tag">C#</span>
@@ -406,4 +453,5 @@
         </div>
     </div>
 </body>
+
 </html>

@@ -732,22 +732,22 @@
             <!-- Under-Board Tools Strip (Sound, Flip Board, Atlas, Party Mode!) -->
             <div class="flex items-center justify-between gap-2 text-xs text-[#A89582] px-1 flex-wrap">
                 <div class="flex items-center gap-2 flex-wrap">
-                    <button onclick="toggleSound()" class="btn-header py-1 px-2.5 text-[11px]" title="Toggle Audio">
-                        <i id="audioIcon" class="fa-solid fa-volume-high text-salon-gold"></i> Sound: ON
+                    <button id="soundToggleBtn" onclick="toggleSound()" class="btn-header py-1 px-2.5 text-[11px]" title="Toggle Audio">
+                        Sound: ON
                     </button>
                     <button onclick="flipBoardOrientation()" class="btn-header py-1 px-2.5 text-[11px]"
                         title="Flip Board">
-                        <i class="fa-solid fa-arrows-up-down text-salon-gold"></i> Flip Board
+                        Flip Board
                     </button>
                     <button onclick="openAtlasModal()" class="btn-header py-1 px-2.5 text-[11px]" title="Atlas">
-                        <i class="fa-solid fa-book-atlas text-salon-gold"></i> Atlas
+                        Atlas
                     </button>
                     <button id="partyModeBtn" onclick="togglePartyMode()" class="btn-header py-1 px-2.5 text-[11px]"
                         title="Party Mode: Randomizes move sets for all piece types!">
                         Party Mode
                     </button>
                     <button onclick="document.getElementById('disclaimerModal').classList.remove('hidden')" class="btn-header py-1 px-2.5 text-[11px]" title="Read Disclaimer">
-                        <i class="fa-solid fa-circle-info text-salon-gold"></i> Disclaimer
+                        Disclaimer
                     </button>
                 </div>
 
@@ -1386,13 +1386,12 @@
 
         function toggleSound() {
             soundEnabled = !soundEnabled;
-            const btn = document.getElementById('audioIcon');
+            const btn = document.getElementById('soundToggleBtn');
             if (soundEnabled) {
-                btn.className = 'fa-solid fa-volume-high text-salon-gold';
-                document.getElementById('audioIcon').parentElement.innerHTML = '<i id="audioIcon" class="fa-solid fa-volume-high text-salon-gold"></i> Sound: ON';
+                btn.textContent = 'Sound: ON';
                 playSound('move');
             } else {
-                document.getElementById('audioIcon').parentElement.innerHTML = '<i id="audioIcon" class="fa-solid fa-volume-xmark"></i> Sound: OFF';
+                btn.textContent = 'Sound: OFF';
             }
         }
 
