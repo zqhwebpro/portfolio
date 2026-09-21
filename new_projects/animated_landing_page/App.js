@@ -387,11 +387,8 @@ function App() {
                     <HeroFlyingStars />
                     <div ref={heroCardRef} className="glass-card-3d hero-glass-portal">
                         <h1 className="hero-headline">
-                            A Journey from Night <span>to Day.</span>
+                            An Animated Journey from <span>Night to Day.</span>
                         </h1>
-                        <a href="#contact" className="btn-3d-glow" title="Contact for Front-End Web Development">
-                            Contact
-                        </a>
                     </div>
                 </div>
             </header>
