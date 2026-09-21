@@ -248,6 +248,113 @@ class MysticAudioEngine {
       osc.stop(now + 0.2);
     } catch {}
   }
+  // Tarot card draw bell chime
+  playTarotDraw() {
+    this.init();
+    if (!this.ctx || this.isMuted) return;
+
+    try {
+      const now = this.ctx.currentTime;
+      const osc1 = this.ctx.createOscillator();
+      const osc2 = this.ctx.createOscillator();
+      const gain = this.ctx.createGain();
+
+      osc1.type = 'sine';
+      osc1.frequency.setValueAtTime(587.33, now); // D5
+      osc1.frequency.exponentialRampToValueAtTime(880, now + 0.3); // A5
+
+      osc2.type = 'sine';
+      osc2.frequency.setValueAtTime(880, now); // A5
+      osc2.frequency.exponentialRampToValueAtTime(1174.66, now + 0.3); // D6
+
+      gain.gain.setValueAtTime(0.12, now);
+      gain.gain.exponentialRampToValueAtTime(0.0001, now + 1.4);
+
+      osc1.connect(gain);
+      osc2.connect(gain);
+      gain.connect(this.ctx.destination);
+
+      osc1.start(now);
+      osc2.start(now);
+      osc1.stop(now + 1.45);
+      osc2.stop(now + 1.45);
+    } catch {}
+  }
+
+  // Divination Rune stone cast resonance
+  playRuneCast() {
+    this.init();
+    if (!this.ctx || this.isMuted) return;
+
+    try {
+      const now = this.ctx.currentTime;
+      const osc = this.ctx.createOscillator();
+      const filter = this.ctx.createBiquadFilter();
+      const gain = this.ctx.createGain();
+
+      osc.type = 'triangle';
+      osc.frequency.setValueAtTime(320, now);
+      osc.frequency.exponentialRampToValueAtTime(180, now + 0.2);
+
+      filter.type = 'lowpass';
+      filter.frequency.setValueAtTime(480, now);
+
+      gain.gain.setValueAtTime(0.15, now);
+      gain.gain.exponentialRampToValueAtTime(0.0001, now + 0.6);
+
+      osc.connect(filter);
+      filter.connect(gain);
+      gain.connect(this.ctx.destination);
+
+      osc.start(now);
+      osc.stop(now + 0.65);
+    } catch {}
+  }
+
+  // 100-Sided Fate Dice roll clatter & triumph resolution
+  playDiceRoll() {
+    this.init();
+    if (!this.ctx || this.isMuted) return;
+
+    try {
+      const now = this.ctx.currentTime;
+      // 5 rapid cascading dice clicks
+      for (let i = 0; i < 5; i++) {
+        const clickOsc = this.ctx.createOscillator();
+        const clickGain = this.ctx.createGain();
+        const t = now + i * 0.07;
+
+        clickOsc.type = 'square';
+        clickOsc.frequency.setValueAtTime(400 + Math.random() * 500, t);
+        clickGain.gain.setValueAtTime(0.05, t);
+        clickGain.gain.exponentialRampToValueAtTime(0.0001, t + 0.04);
+
+        clickOsc.connect(clickGain);
+        clickGain.connect(this.ctx.destination);
+
+        clickOsc.start(t);
+        clickOsc.stop(t + 0.05);
+      }
+
+      // Final resolution chime
+      const resolveTime = now + 0.42;
+      const resOsc = this.ctx.createOscillator();
+      const resGain = this.ctx.createGain();
+
+      resOsc.type = 'sine';
+      resOsc.frequency.setValueAtTime(659.25, resolveTime); // E5
+      resOsc.frequency.exponentialRampToValueAtTime(1318.5, resolveTime + 0.25); // E6
+
+      resGain.gain.setValueAtTime(0.14, resolveTime);
+      resGain.gain.exponentialRampToValueAtTime(0.0001, resolveTime + 1.2);
+
+      resOsc.connect(resGain);
+      resGain.connect(this.ctx.destination);
+
+      resOsc.start(resolveTime);
+      resOsc.stop(resolveTime + 1.25);
+    } catch {}
+  }
 }
 
 export const mysticAudio = new MysticAudioEngine();

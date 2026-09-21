@@ -3,26 +3,41 @@ import { AstrologyBoard } from './components/AstrologyBoard';
 import { SparkleCanvas } from './components/SparkleCanvas';
 import { ScryingMirror } from './components/ScryingMirror';
 import { GrimoirePanel } from './components/GrimoirePanel';
-import { ZODIAC_SIGNS, ELEMENTS, getRandomFortune } from './data/fortunes';
+import { 
+  ZODIAC_SIGNS, 
+  ELEMENTS, 
+  getRandomFortune, 
+  getZodiacTarot, 
+  drawRuneSpread, 
+  rollD100Fate 
+} from './data/fortunes';
 import { useHandTracking } from './hooks/useHandTracking';
 import { mysticAudio } from './utils/mysticAudio';
 import './styles/astral.css';
 
 function App() {
-  const [activeSign, setActiveSign] = useState(null);
+  // Default to Aries so the board starts with rich celestial focus
+  const [activeSign, setActiveSign] = useState(ZODIAC_SIGNS[0]);
   const [currentElementIndex, setCurrentElementIndex] = useState(0);
   const elementKeys = Object.keys(ELEMENTS);
   const currentElement = ELEMENTS[elementKeys[currentElementIndex]];
 
-  const [fortune, setFortune] = useState(() => getRandomFortune(null, currentElement));
+  // 5 Progressive Stages: 1: Constellation | 2: Horoscope | 3: Tarot | 4: Runes | 5: d100 Fate
+  const [activeStage, setActiveStage] = useState(1);
+
+  // Divination derived state
+  const [fortune, setFortune] = useState(() => getRandomFortune(ZODIAC_SIGNS[0], currentElement));
+  const [diceFate, setDiceFate] = useState(() => rollD100Fate(ZODIAC_SIGNS[0]));
+  const [isDiceRolling, setIsDiceRolling] = useState(false);
+
   const [manualAspects, setManualAspects] = useState(false);
   const [isGrimoireOpen, setIsGrimoireOpen] = useState(false);
   const [isMuted, setIsMuted] = useState(false);
   const [spellBurstTrigger, setSpellBurstTrigger] = useState(0);
 
-  const spellCooldownRef = useRef(false);
-  const elementCooldownRef = useRef(false);
+  const gestureCooldownRef = useRef({});
   const prevSpellRef = useRef(null);
+  const lastPointedRef = useRef(null);
 
   const {
     isCameraActive,
@@ -41,57 +56,6 @@ function App() {
 
   const showAspects = activeSpell === 'OPEN_PALM' || manualAspects;
 
-  // Cycle Elemental plane
-  const cycleElement = useCallback(() => {
-    setCurrentElementIndex(prev => (prev + 1) % elementKeys.length);
-    mysticAudio.playSpellCast('element');
-    setSpellBurstTrigger(t => t + 1);
-  }, [elementKeys.length]);
-
-  // Cast Pinch of Fate / Prophecy Divination
-  const handleCastProphecy = useCallback(() => {
-    if (spellCooldownRef.current) return;
-    spellCooldownRef.current = true;
-
-    mysticAudio.playSpellCast('prophecy');
-    setSpellBurstTrigger(t => t + 1);
-
-    // Divinate fresh prophecy
-    const newFortune = getRandomFortune(activeSign, currentElement);
-    setFortune(newFortune);
-
-    setTimeout(() => {
-      mysticAudio.playCelestialChime(Math.floor(Math.random() * 6));
-      setTimeout(() => {
-        spellCooldownRef.current = false;
-      }, 1400);
-    }, 250);
-  }, [activeSign, currentElement]);
-
-  // Handle Hand Gesture Spells
-  useEffect(() => {
-    // Spell 1: Pinch of Fate
-    if (isPinching && !spellCooldownRef.current) {
-      handleCastProphecy();
-    }
-
-    // Spell 2: Elemental Transmutation (Peace / V-Sign)
-    if (activeSpell === 'PEACE' && !elementCooldownRef.current) {
-      elementCooldownRef.current = true;
-      cycleElement();
-      setTimeout(() => {
-        elementCooldownRef.current = false;
-      }, 2000);
-    }
-
-    // Spell 3: Celestial Supernova sound
-    if (activeSpell === 'OPEN_PALM' && prevSpellRef.current !== 'OPEN_PALM') {
-      mysticAudio.playSpellCast('flare');
-    }
-
-    prevSpellRef.current = activeSpell;
-  }, [isPinching, activeSpell, handleCastProphecy, cycleElement]);
-
   // Calculate pointed sign directly from hand coordinates and astrolabe rotation
   let pointedSign = null;
   if (activeSpell === 'POINTING' && handCoordinates) {
@@ -99,22 +63,125 @@ function App() {
     const hy = handCoordinates.y - 0.5;
     const handAngle = (Math.atan2(hy, hx) * (180 / Math.PI) - rotation + 360) % 360;
     const radius = Math.sqrt(hx * hx + hy * hy);
-    if (radius > 0.18 && radius < 0.55) {
+    if (radius > 0.16 && radius < 0.56) {
       const adjusted = (handAngle + 90 + 15) % 360;
       const signIndex = Math.floor(adjusted / 30);
       pointedSign = ZODIAC_SIGNS[signIndex] || null;
     }
   }
 
-  const effectiveActiveSign = pointedSign || activeSign;
-  const lastPointedRef = useRef(null);
+  const effectiveActiveSign = pointedSign || activeSign || ZODIAC_SIGNS[0];
 
+  // Derive Tarot card and Runes spread directly from effective active sign
+  const tarotCard = React.useMemo(() => {
+    return getZodiacTarot(effectiveActiveSign?.id);
+  }, [effectiveActiveSign?.id]);
+
+  const runeData = React.useMemo(() => {
+    return drawRuneSpread(effectiveActiveSign);
+  }, [effectiveActiveSign]);
+
+  // Sound and stage update when pointed sign changes
   useEffect(() => {
     if (pointedSign && lastPointedRef.current?.id !== pointedSign.id) {
+      setActiveSign(pointedSign);
+      setActiveStage(1); // Set to Stage 1: Constellation Lore
       mysticAudio.playNodeIgnite();
     }
     lastPointedRef.current = pointedSign;
   }, [pointedSign]);
+
+  // Cycle Elemental plane
+  const cycleElement = useCallback(() => {
+    setCurrentElementIndex(prev => (prev + 1) % elementKeys.length);
+    mysticAudio.playSpellCast('element');
+    setSpellBurstTrigger(t => t + 1);
+  }, [elementKeys.length]);
+
+  // Stage 2: Cast Pinch of Fate / Horoscope Divination
+  const handleCastProphecy = useCallback(() => {
+    if (gestureCooldownRef.current.prophecy) return;
+    gestureCooldownRef.current.prophecy = true;
+
+    setActiveStage(2);
+    mysticAudio.playSpellCast('prophecy');
+    setSpellBurstTrigger(t => t + 1);
+
+    const newFortune = getRandomFortune(effectiveActiveSign, currentElement);
+    setFortune(newFortune);
+
+    setTimeout(() => {
+      mysticAudio.playCelestialChime(Math.floor(Math.random() * 6));
+      setTimeout(() => {
+        gestureCooldownRef.current.prophecy = false;
+      }, 1200);
+    }, 200);
+  }, [effectiveActiveSign, currentElement]);
+
+  // Stage 5: Roll 100-Sided Fate Dice
+  const handleRollDice = useCallback(() => {
+    if (gestureCooldownRef.current.dice) return;
+    gestureCooldownRef.current.dice = true;
+
+    setActiveStage(5);
+    setIsDiceRolling(true);
+    mysticAudio.playDiceRoll();
+    setSpellBurstTrigger(t => t + 1);
+
+    setTimeout(() => {
+      setDiceFate(rollD100Fate(effectiveActiveSign));
+      setIsDiceRolling(false);
+      setTimeout(() => {
+        gestureCooldownRef.current.dice = false;
+      }, 1000);
+    }, 550);
+  }, [effectiveActiveSign]);
+
+  // 5-Stage Gesture Controller
+  useEffect(() => {
+    // Stage 1: POINTING (Hand selects zodiac focus and shows Constellation)
+    if (activeSpell === 'POINTING' && pointedSign && !gestureCooldownRef.current.point) {
+      gestureCooldownRef.current.point = true;
+      setActiveStage(1);
+      setTimeout(() => {
+        gestureCooldownRef.current.point = false;
+      }, 800);
+    }
+
+    // Stage 2: PINCH (Pinch of Fate -> Horoscope Prophecy)
+    if (isPinching && !gestureCooldownRef.current.prophecy) {
+      handleCastProphecy();
+    }
+
+    // Stage 3: PEACE / V-SIGN (Transmutes center to Major Arcana Tarot Card)
+    if (activeSpell === 'PEACE' && !gestureCooldownRef.current.peace) {
+      gestureCooldownRef.current.peace = true;
+      setActiveStage(3);
+      mysticAudio.playTarotDraw();
+      setSpellBurstTrigger(t => t + 1);
+      setTimeout(() => {
+        gestureCooldownRef.current.peace = false;
+      }, 1500);
+    }
+
+    // Stage 4: OPEN PALM (Divination Runes & Designated Spell Rune)
+    if (activeSpell === 'OPEN_PALM' && !gestureCooldownRef.current.runes) {
+      gestureCooldownRef.current.runes = true;
+      setActiveStage(4);
+      mysticAudio.playRuneCast();
+      setSpellBurstTrigger(t => t + 1);
+      setTimeout(() => {
+        gestureCooldownRef.current.runes = false;
+      }, 1500);
+    }
+
+    // Stage 5: FIST (Roll 100-Sided Fate Dice)
+    if (activeSpell === 'FIST' && !gestureCooldownRef.current.dice) {
+      handleRollDice();
+    }
+
+    prevSpellRef.current = activeSpell;
+  }, [isPinching, activeSpell, pointedSign, handleCastProphecy, handleRollDice]);
 
   // Toggle Camera
   const handleToggleCamera = () => {
@@ -143,6 +210,19 @@ function App() {
       if (e.code === 'Space') {
         e.preventDefault();
         handleCastProphecy();
+      } else if (e.key === '1') {
+        setActiveStage(1);
+        mysticAudio.playNodeIgnite();
+      } else if (e.key === '2') {
+        handleCastProphecy();
+      } else if (e.key === '3') {
+        setActiveStage(3);
+        mysticAudio.playTarotDraw();
+      } else if (e.key === '4') {
+        setActiveStage(4);
+        mysticAudio.playRuneCast();
+      } else if (e.key === '5') {
+        handleRollDice();
       } else if (e.key.toLowerCase() === 'e') {
         cycleElement();
       } else if (e.key.toLowerCase() === 'a') {
@@ -155,15 +235,16 @@ function App() {
 
     window.addEventListener('keydown', handleKeyDown);
     return () => window.removeEventListener('keydown', handleKeyDown);
-  }, [handleCastProphecy, cycleElement]);
+  }, [handleCastProphecy, handleRollDice, cycleElement]);
 
   const handleSelectSign = (sign) => {
     setActiveSign(sign);
+    setActiveStage(1); // Set to Stage 1: Constellation Lore
     mysticAudio.playNodeIgnite();
   };
 
   const handleLeaveSign = () => {
-    // Keep sign selected for better divination reading experience
+    // Keep sign focused for seamless divination reading
   };
 
   const handleWheelRotate = (delta) => {
@@ -189,7 +270,7 @@ function App() {
       <header className="site-header">
         <div className="header-titles">
           <h1>Zodiac Fortune Board</h1>
-          <p className="realm-tagline">Astrological Oracle · Gesture Magic Spells</p>
+          <p className="realm-tagline">Astrological Oracle · 5-Stage Gesture Magic Spells</p>
         </div>
 
         <div className="header-actions">
@@ -211,7 +292,7 @@ function App() {
             className="astral-btn element-badge-btn" 
             onClick={cycleElement}
             style={{ borderColor: currentElement.color, color: currentElement.color }}
-            title="Click or use Peace Sign gesture to transmute element"
+            title="Transmute cosmic element"
           >
             {currentElement.symbol} {currentElement.name}
           </button>
@@ -240,7 +321,21 @@ function App() {
           showAspects={showAspects}
           activeSpell={activeSpell}
           currentElement={currentElement}
+          activeStage={activeStage}
+          onSelectStage={(stage) => {
+            setActiveStage(stage);
+            if (stage === 1) mysticAudio.playNodeIgnite();
+            if (stage === 2) handleCastProphecy();
+            if (stage === 3) mysticAudio.playTarotDraw();
+            if (stage === 4) mysticAudio.playRuneCast();
+            if (stage === 5) handleRollDice();
+          }}
           onCastPinchSpell={handleCastProphecy}
+          tarotCard={tarotCard}
+          runeData={runeData}
+          diceFate={diceFate}
+          onRollDice={handleRollDice}
+          isDiceRolling={isDiceRolling}
         />
       </div>
 
