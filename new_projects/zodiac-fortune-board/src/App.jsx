@@ -83,6 +83,7 @@ function App() {
         style={{ display: isCameraActive ? 'block' : 'none' }} 
         autoPlay 
         playsInline
+        muted
       ></video>
 
       <div className="board-container">
