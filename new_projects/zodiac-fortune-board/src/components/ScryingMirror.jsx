@@ -21,71 +21,76 @@ export function ScryingMirror({
     ctx.clearRect(0, 0, canvas.width, canvas.height);
 
     if (rawLandmarks && rawLandmarks.length >= 21) {
-      const w = canvas.width;
-      const h = canvas.height;
+      try {
+        const w = canvas.width;
+        const h = canvas.height;
 
-      // Draw bones
-      const connections = HandLandmarker.HAND_CONNECTIONS || [
-        [0,1],[1,2],[2,3],[3,4], // Thumb
-        [0,5],[5,6],[6,7],[7,8], // Index
-        [5,9],[9,10],[10,11],[11,12], // Middle
-        [9,13],[13,14],[14,15],[15,16], // Ring
-        [13,17],[17,18],[18,19],[19,20],[0,17] // Pinky & Palm
-      ];
+        // Use MediaPipe HAND_CONNECTIONS which are objects { start, end }
+        const connections = HandLandmarker.HAND_CONNECTIONS || [
+          { start: 0, end: 1 }, { start: 1, end: 2 }, { start: 2, end: 3 }, { start: 3, end: 4 },
+          { start: 0, end: 5 }, { start: 5, end: 6 }, { start: 6, end: 7 }, { start: 7, end: 8 },
+          { start: 5, end: 9 }, { start: 9, end: 10 }, { start: 10, end: 11 }, { start: 11, end: 12 },
+          { start: 9, end: 13 }, { start: 13, end: 14 }, { start: 14, end: 15 }, { start: 15, end: 16 },
+          { start: 13, end: 17 }, { start: 0, end: 17 }, { start: 17, end: 18 }, { start: 18, end: 19 }, { start: 19, end: 20 }
+        ];
 
-      ctx.save();
-      ctx.lineWidth = 2;
-      ctx.strokeStyle = activeSpell === 'PINCH' 
-        ? 'rgba(255, 215, 0, 0.9)' 
-        : activeSpell === 'PEACE'
-        ? 'rgba(0, 255, 234, 0.9)'
-        : 'rgba(168, 85, 247, 0.8)';
-      ctx.shadowBlur = 10;
-      ctx.shadowColor = ctx.strokeStyle;
+        ctx.save();
+        ctx.lineWidth = 2;
+        ctx.strokeStyle = activeSpell === 'PINCH' 
+          ? 'rgba(255, 215, 0, 0.9)' 
+          : activeSpell === 'PEACE'
+          ? 'rgba(0, 255, 234, 0.9)'
+          : 'rgba(168, 85, 247, 0.85)';
+        ctx.shadowBlur = 10;
+        ctx.shadowColor = ctx.strokeStyle;
 
-      connections.forEach(([i, j]) => {
-        const p1 = rawLandmarks[i];
-        const p2 = rawLandmarks[j];
-        if (p1 && p2) {
-          // Note: In CSS video is scaleX(-1), but inside canvas we draw in same coordinates as video element
+        connections.forEach((conn) => {
+          const start = conn.start !== undefined ? conn.start : conn[0];
+          const end = conn.end !== undefined ? conn.end : conn[1];
+          const p1 = rawLandmarks[start];
+          const p2 = rawLandmarks[end];
+          if (p1 && p2) {
+            ctx.beginPath();
+            ctx.moveTo(p1.x * w, p1.y * h);
+            ctx.lineTo(p2.x * w, p2.y * h);
+            ctx.stroke();
+          }
+        });
+
+        // Draw luminous star joints
+        rawLandmarks.forEach((lm, idx) => {
+          const isTip = [4, 8, 12, 16, 20].includes(idx);
           ctx.beginPath();
-          ctx.moveTo(p1.x * w, p1.y * h);
-          ctx.lineTo(p2.x * w, p2.y * h);
-          ctx.stroke();
-        }
-      });
+          ctx.arc(lm.x * w, lm.y * h, isTip ? 4.5 : 2.5, 0, Math.PI * 2);
+          ctx.fillStyle = isTip ? '#ffffff' : 'rgba(0, 255, 234, 0.9)';
+          ctx.shadowBlur = isTip ? 14 : 6;
+          ctx.shadowColor = '#00ffea';
+          ctx.fill();
+        });
 
-      // Draw luminous star joints
-      rawLandmarks.forEach((lm, idx) => {
-        const isTip = [4, 8, 12, 16, 20].includes(idx);
-        ctx.beginPath();
-        ctx.arc(lm.x * w, lm.y * h, isTip ? 4.5 : 2.5, 0, Math.PI * 2);
-        ctx.fillStyle = isTip ? '#ffffff' : 'rgba(0, 255, 234, 0.9)';
-        ctx.shadowBlur = isTip ? 14 : 6;
-        ctx.shadowColor = '#00ffea';
-        ctx.fill();
-      });
-
-      ctx.restore();
+        ctx.restore();
+      } catch (renderErr) {
+        console.warn("Error rendering starlight skeleton:", renderErr);
+      }
     }
   }, [rawLandmarks, isCameraActive, activeSpell]);
 
   const getSpellLabel = () => {
     switch (activeSpell) {
       case 'PINCH':
-        return { label: '🤏 Pinch of Fate', desc: 'Charging Cosmic Prophecy' };
+        return { label: 'Pinch of Fate', desc: 'Channeling Cosmic Prophecy' };
       case 'POINTING':
-        return { label: '✨ Celestial Wand', desc: 'Targeting Zodiac Constellations' };
+        return { label: 'Celestial Wand', desc: 'Targeting Zodiac Constellations' };
       case 'OPEN_PALM':
-        return { label: '✋ Celestial Supernova', desc: 'Illuminating Astrological Aspects' };
+        return { label: 'Celestial Supernova', desc: 'Illuminating Astrological Aspects' };
       case 'PEACE':
-        return { label: '✌️ Elemental Shift', desc: 'Transmuting Cosmic Elements' };
+        return { label: 'Elemental Shift', desc: 'Transmuting Cosmic Elements' };
       case 'FIST':
-        return { label: '✊ Arcane Seal', desc: 'Condensing Cosmic Orb' };
+        return { label: 'Arcane Seal', desc: 'Condensing Cosmic Orb' };
       case 'CHANNELING':
-        return { label: '🔮 Channeling Aura', desc: 'Hand In Astral Plane' };
+        return { label: 'Channeling Aura', desc: 'Hand in Astral Plane' };
       default:
-        return { label: '👁️ Scrying Hand', desc: 'Show Hand To Cast Spells' };
+        return { label: 'Scrying Glass', desc: 'Show Hand to Cast Spells' };
     }
   };
 
@@ -93,9 +98,23 @@ export function ScryingMirror({
 
   return (
     <div className="scrying-mirror-container">
-      <div className={`scrying-mirror ${isCameraActive ? 'active' : ''}`}>
-        {/* Mystic Portal Frame */}
+      {/* Entire circle is a clickable button/orb */}
+      <div 
+        className={`scrying-mirror ${isCameraActive ? 'active' : 'clickable-orb'}`}
+        onClick={onToggleCamera}
+        role="button"
+        tabIndex={0}
+        aria-label={isCameraActive ? "Disconnect Scrying Camera" : "Connect Scrying Camera"}
+        onKeyDown={(e) => {
+          if (e.key === 'Enter' || e.key === ' ') {
+            e.preventDefault();
+            onToggleCamera();
+          }
+        }}
+      >
+        {/* Mystic Portal Frame Ring */}
         <div className="mirror-rune-ring"></div>
+
         <div className="mirror-glass">
           <video
             ref={videoRef}
@@ -105,38 +124,31 @@ export function ScryingMirror({
             muted
             style={{ display: isCameraActive ? 'block' : 'none' }}
           />
+
           {isCameraActive && (
             <canvas
               ref={overlayCanvasRef}
               className="mirror-overlay-canvas"
-              width={200}
-              height={200}
+              width={210}
+              height={210}
             />
           )}
+
           {!isCameraActive && (
             <div className="mirror-portal-placeholder">
-              <div className="portal-eye">🔮</div>
-              <p className="portal-caption">The Arcane Scrying Glass</p>
-              <button
-                onClick={onToggleCamera}
-                disabled={!isReady}
-                className="portal-invoke-btn"
-              >
-                {isReady ? '✨ Invoke Mystic Vision' : '⏳ Transmuting Wasm...'}
-              </button>
+              <span className="portal-caption">Scrying Glass</span>
+              <span className="portal-subaction">
+                {isReady ? 'Click to Awaken' : 'Transmuting Runes...'}
+              </span>
+            </div>
+          )}
+
+          {isCameraActive && (
+            <div className="mirror-active-overlay" title="Click anywhere to disconnect">
+              <span className="mirror-status-dot"></span>
             </div>
           )}
         </div>
-
-        {isCameraActive && (
-          <button 
-            className="mirror-close-btn" 
-            onClick={onToggleCamera} 
-            title="Close Scrying Glass"
-          >
-            ✕
-          </button>
-        )}
       </div>
 
       {/* Real-Time Spell HUD */}
@@ -149,7 +161,7 @@ export function ScryingMirror({
 
       {cameraError && (
         <div className="camera-notice-bubble">
-          <span>⚠️ {cameraError}</span>
+          <span>{cameraError}</span>
         </div>
       )}
     </div>

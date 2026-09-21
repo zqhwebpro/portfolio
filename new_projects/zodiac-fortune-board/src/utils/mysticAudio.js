@@ -172,26 +172,20 @@ class MysticAudioEngine {
         gain.gain.setValueAtTime(0.18, now);
         gain.gain.exponentialRampToValueAtTime(0.0001, now + 0.8);
       } else if (spellType === 'flare' || spellType === 'palm') {
-        // Broad cosmic pulse
-        osc1.type = 'sawtooth';
-        osc1.frequency.setValueAtTime(150, now);
-        osc1.frequency.exponentialRampToValueAtTime(60, now + 0.5);
+        // Ethereal celestial bloom
+        osc1.type = 'sine';
+        osc1.frequency.setValueAtTime(432, now);
+        osc1.frequency.exponentialRampToValueAtTime(576, now + 0.35);
 
         osc2.type = 'sine';
-        osc2.frequency.setValueAtTime(300, now);
-        osc2.frequency.exponentialRampToValueAtTime(120, now + 0.4);
+        osc2.frequency.setValueAtTime(648, now);
+        osc2.frequency.exponentialRampToValueAtTime(864, now + 0.4);
 
-        const filter = this.ctx.createBiquadFilter();
-        filter.type = 'lowpass';
-        filter.frequency.setValueAtTime(600, now);
-        filter.frequency.exponentialRampToValueAtTime(120, now + 0.5);
-
-        gain.gain.setValueAtTime(0.12, now);
+        gain.gain.setValueAtTime(0.09, now);
         gain.gain.exponentialRampToValueAtTime(0.0001, now + 0.7);
 
-        osc1.connect(filter);
-        osc2.connect(filter);
-        filter.connect(gain);
+        osc1.connect(gain);
+        osc2.connect(gain);
         gain.connect(this.ctx.destination);
 
         osc1.start(now);

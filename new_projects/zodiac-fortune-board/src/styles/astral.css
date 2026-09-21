@@ -42,7 +42,7 @@ body, html {
   width: 100%;
   overflow: hidden;
   background: var(--cosmic-void);
-  font-family: 'MedievalSharp', cursive;
+  font-family: 'Philosopher', 'Cormorant Garamond', 'MedievalSharp', serif;
   color: var(--gold-base);
   user-select: none;
 }
@@ -92,9 +92,9 @@ body, html {
 /* Site Header */
 .site-header {
   position: absolute;
-  top: 30px;
-  left: 35px;
-  right: 35px;
+  top: 25px;
+  left: 30px;
+  right: 30px;
   display: flex;
   justify-content: space-between;
   align-items: flex-start;
@@ -103,23 +103,23 @@ body, html {
 }
 
 .header-titles h1 {
-  font-family: 'Cinzel Decorative', cursive;
+  font-family: 'Philosopher', 'Cormorant Garamond', serif;
   font-size: 2.2rem;
+  font-weight: 700;
   color: var(--gold-bright);
   text-shadow: 
     0 0 25px rgba(249, 226, 175, 0.5), 
     0 0 15px var(--elem-glow);
-  letter-spacing: 0.08em;
-  margin-bottom: 4px;
+  letter-spacing: 0.03em;
+  margin-bottom: 2px;
 }
 
 .realm-tagline {
-  font-family: 'Cinzel', serif;
-  font-size: 0.85rem;
+  font-family: 'Cormorant Garamond', serif;
+  font-size: 0.95rem;
   color: var(--gold-base);
-  letter-spacing: 0.15em;
-  text-transform: uppercase;
-  opacity: 0.85;
+  letter-spacing: 0.06em;
+  opacity: 0.9;
 }
 
 .header-actions {
@@ -132,16 +132,16 @@ body, html {
   display: inline-flex;
   align-items: center;
   gap: 8px;
-  font-size: 0.85rem;
-  font-family: 'Cinzel Decorative', cursive;
+  font-size: 0.9rem;
+  font-family: 'Philosopher', serif;
   color: var(--gold-bright);
   text-decoration: none;
-  letter-spacing: 0.08em;
-  padding: 8px 16px;
+  letter-spacing: 0.02em;
+  padding: 8px 18px;
   border: 1px solid rgba(197, 160, 89, 0.4);
   background: rgba(10, 4, 22, 0.85);
   backdrop-filter: blur(10px);
-  border-radius: 6px;
+  border-radius: 8px;
   cursor: pointer;
   transition: all 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
   box-shadow: 0 0 12px rgba(0, 0, 0, 0.5);
@@ -155,13 +155,12 @@ body, html {
 }
 
 .astral-btn.icon-btn {
-  padding: 8px 12px;
-  font-size: 0.95rem;
+  padding: 8px 14px;
+  font-size: 1rem;
 }
 
 .element-badge-btn {
   font-weight: 700;
-  text-transform: uppercase;
 }
 
 /* Board Center Layout */
@@ -301,8 +300,8 @@ body, html {
 }
 
 .node-element-tag {
-  font-size: 0.65rem;
-  font-weight: 900;
+  font-size: 0.7rem;
+  font-weight: 700;
   margin-top: 1px;
 }
 
@@ -345,15 +344,16 @@ body, html {
 }
 
 .constellation-name {
-  font-family: 'Cinzel Decorative', cursive;
-  font-size: 0.8rem;
+  font-family: 'Philosopher', serif;
+  font-size: 0.9rem;
   color: var(--gold-bright);
   font-weight: 700;
 }
 
 .constellation-meta {
-  font-size: 0.65rem;
-  color: rgba(255, 255, 255, 0.7);
+  font-family: 'Cormorant Garamond', serif;
+  font-size: 0.75rem;
+  color: rgba(255, 255, 255, 0.8);
   margin-bottom: 4px;
 }
 
@@ -365,7 +365,7 @@ body, html {
 /* Decorative Planetary Runes */
 .tribal-rune {
   position: absolute;
-  font-family: 'Cinzel Decorative', cursive;
+  font-family: 'Philosopher', serif;
   color: rgba(197, 160, 89, 0.3);
   font-size: 1.5rem;
   pointer-events: none;
@@ -434,20 +434,20 @@ body, html {
 }
 
 .oracle-title {
-  font-family: 'Cinzel Decorative', cursive;
-  font-size: 1.3rem;
+  font-family: 'Philosopher', serif;
+  font-size: 1.4rem;
+  font-weight: 700;
   color: var(--gold-bright);
-  letter-spacing: 0.08em;
+  letter-spacing: 0.03em;
   margin-bottom: 4px;
   text-shadow: 0 0 10px rgba(249, 226, 175, 0.5);
 }
 
 .oracle-sub-meta {
-  font-family: 'Cinzel', serif;
-  font-size: 0.75rem;
+  font-family: 'Cormorant Garamond', serif;
+  font-size: 0.85rem;
   color: var(--gold-base);
-  letter-spacing: 0.1em;
-  text-transform: uppercase;
+  letter-spacing: 0.05em;
   margin-bottom: 10px;
 }
 
@@ -469,24 +469,25 @@ body, html {
 }
 
 .prophecy-title {
-  font-family: 'Cinzel Decorative', cursive;
-  font-size: 0.95rem;
+  font-family: 'Philosopher', serif;
+  font-size: 1.05rem;
   color: var(--gold-bright);
   font-weight: 700;
-  letter-spacing: 0.08em;
+  letter-spacing: 0.02em;
 }
 
 .prophecy-transit {
-  font-size: 0.7rem;
+  font-family: 'Cormorant Garamond', serif;
+  font-size: 0.8rem;
   color: var(--elem-color);
-  letter-spacing: 0.12em;
-  text-transform: uppercase;
+  letter-spacing: 0.05em;
 }
 
 .prophecy-omen {
-  font-size: 0.82rem;
+  font-family: 'Cormorant Garamond', serif;
+  font-size: 0.95rem;
   line-height: 1.5;
-  color: rgba(255, 255, 255, 0.9);
+  color: rgba(255, 255, 255, 0.92);
   margin-bottom: 8px;
   text-shadow: 0 0 5px rgba(0, 0, 0, 0.8);
 }
@@ -495,7 +496,8 @@ body, html {
   display: flex;
   flex-direction: column;
   gap: 2px;
-  font-size: 0.72rem;
+  font-family: 'Cormorant Garamond', serif;
+  font-size: 0.8rem;
   color: var(--gold-base);
 }
 
@@ -505,26 +507,29 @@ body, html {
 }
 
 .prophecy-aspect {
-  opacity: 0.8;
+  opacity: 0.85;
 }
 
 .oracle-fortune {
-  font-size: 0.85rem;
-  color: rgba(255, 255, 255, 0.8);
+  font-family: 'Cormorant Garamond', serif;
+  font-size: 0.95rem;
+  color: rgba(255, 255, 255, 0.85);
   line-height: 1.5;
   margin: 10px 0;
 }
 
 .oracle-hint {
-  font-family: 'Cinzel', serif;
-  font-size: 0.68rem;
+  font-family: 'Cormorant Garamond', serif;
+  font-size: 0.8rem;
   color: var(--gold-base);
-  letter-spacing: 0.08em;
-  opacity: 0.7;
+  letter-spacing: 0.04em;
+  opacity: 0.75;
   margin-top: 8px;
 }
 
-/* Scrying Mirror (Webcam PIP) */
+/* ========================================================
+   Scrying Mirror (Webcam Orb Button & Camera Frame)
+   ======================================================== */
 .scrying-mirror-container {
   position: fixed;
   bottom: 25px;
@@ -536,32 +541,58 @@ body, html {
   pointer-events: auto;
 }
 
+/* The entire circle is a clickable button / camera frame */
 .scrying-mirror {
   position: relative;
-  width: 190px;
-  height: 190px;
+  width: 200px;
+  height: 200px;
   border-radius: 50%;
   border: 3px solid var(--gold-base);
   box-shadow: 
     0 0 35px rgba(0, 0, 0, 0.9),
     0 0 25px var(--elem-glow),
     inset 0 0 20px rgba(0, 0, 0, 0.8);
-  background: #090316;
+  background: radial-gradient(circle at 45% 45%, #180933 0%, #080214 100%);
   overflow: hidden;
   transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+  outline: none;
 }
 
-.scrying-mirror.active {
+/* Clickable Orb State (When camera is off) */
+.scrying-mirror.clickable-orb {
+  cursor: pointer;
+}
+
+.scrying-mirror.clickable-orb:hover {
+  transform: scale(1.06);
+  border-color: #ffffff;
   box-shadow: 
-    0 0 45px var(--elem-glow),
-    inset 0 0 25px rgba(255, 215, 0, 0.4);
+    0 0 50px var(--elem-glow),
+    inset 0 0 30px rgba(249, 226, 175, 0.35);
+}
+
+.scrying-mirror.clickable-orb:active {
+  transform: scale(0.98);
+}
+
+/* Active State (When camera is on) */
+.scrying-mirror.active {
+  cursor: pointer;
+  border-color: #ffffff;
+  box-shadow: 
+    0 0 50px var(--elem-glow),
+    inset 0 0 25px rgba(255, 215, 0, 0.3);
+}
+
+.scrying-mirror.active:hover {
+  box-shadow: 0 0 65px var(--elem-glow);
 }
 
 .mirror-rune-ring {
   position: absolute;
   inset: -6px;
   border-radius: 50%;
-  border: 1px dashed rgba(249, 226, 175, 0.3);
+  border: 1px dashed rgba(249, 226, 175, 0.35);
   animation: slowSpin 60s linear infinite;
   pointer-events: none;
 }
@@ -572,6 +603,9 @@ body, html {
   height: 100%;
   border-radius: 50%;
   overflow: hidden;
+  display: flex;
+  align-items: center;
+  justify-content: center;
 }
 
 .mirror-video {
@@ -580,6 +614,7 @@ body, html {
   object-fit: cover;
   transform: scaleX(-1); /* Mirror camera stream */
   filter: contrast(1.1) brightness(0.95);
+  border-radius: 50%;
 }
 
 .mirror-overlay-canvas {
@@ -589,8 +624,10 @@ body, html {
   height: 100%;
   transform: scaleX(-1); /* Align with mirrored video */
   pointer-events: none;
+  border-radius: 50%;
 }
 
+/* Placeholder content inside circle when off */
 .mirror-portal-placeholder {
   width: 100%;
   height: 100%;
@@ -598,71 +635,60 @@ body, html {
   flex-direction: column;
   align-items: center;
   justify-content: center;
-  padding: 15px;
+  padding: 20px;
   text-align: center;
-}
-
-.portal-eye {
-  font-size: 2.2rem;
-  margin-bottom: 4px;
+  pointer-events: none;
 }
 
 .portal-caption {
-  font-family: 'Cinzel Decorative', cursive;
-  font-size: 0.72rem;
+  font-family: 'Philosopher', serif;
+  font-size: 1.15rem;
+  font-weight: 700;
   color: var(--gold-bright);
-  margin-bottom: 8px;
+  margin-bottom: 6px;
+  text-shadow: 0 0 10px rgba(249, 226, 175, 0.5);
 }
 
-.portal-invoke-btn {
-  font-family: 'Cinzel Decorative', cursive;
-  font-size: 0.65rem;
-  padding: 6px 12px;
-  background: rgba(139, 69, 255, 0.3);
-  border: 1px solid var(--gold-base);
-  color: #fff;
-  border-radius: 4px;
-  cursor: pointer;
-  transition: all 0.3s;
+.portal-subaction {
+  font-family: 'Cormorant Garamond', serif;
+  font-size: 0.9rem;
+  color: var(--elem-color);
+  letter-spacing: 0.04em;
+  opacity: 0.9;
 }
 
-.portal-invoke-btn:hover {
-  background: rgba(139, 69, 255, 0.6);
-  border-color: #fff;
-  box-shadow: 0 0 15px var(--elem-glow);
-}
-
-.mirror-close-btn {
+/* Status indicator overlay when active */
+.mirror-active-overlay {
   position: absolute;
-  top: 8px;
-  right: 8px;
-  width: 24px;
-  height: 24px;
-  border-radius: 50%;
-  background: rgba(0, 0, 0, 0.7);
-  border: 1px solid var(--gold-base);
-  color: var(--gold-bright);
-  font-size: 0.7rem;
-  cursor: pointer;
-  z-index: 10;
+  top: 12px;
+  right: 12px;
   display: flex;
   align-items: center;
   justify-content: center;
-  transition: all 0.2s;
+  pointer-events: none;
 }
 
-.mirror-close-btn:hover {
-  background: #ff4d4d;
-  color: #fff;
+.mirror-status-dot {
+  width: 10px;
+  height: 10px;
+  border-radius: 50%;
+  background: #00ffea;
+  box-shadow: 0 0 8px #00ffea;
+  animation: pulseDot 2s ease-in-out infinite alternate;
+}
+
+@keyframes pulseDot {
+  0% { transform: scale(0.85); opacity: 0.6; }
+  100% { transform: scale(1.2); opacity: 1; }
 }
 
 /* Spell Ribbon HUD */
 .spell-ribbon-hud {
   margin-top: 10px;
-  background: rgba(10, 4, 22, 0.9);
+  background: rgba(10, 4, 22, 0.92);
   border: 1px solid var(--gold-base);
   border-radius: 20px;
-  padding: 6px 16px;
+  padding: 6px 18px;
   text-align: center;
   box-shadow: 0 0 20px rgba(0, 0, 0, 0.8);
   backdrop-filter: blur(10px);
@@ -675,16 +701,17 @@ body, html {
 }
 
 .spell-ribbon-title {
-  font-family: 'Cinzel Decorative', cursive;
-  font-size: 0.8rem;
+  font-family: 'Philosopher', serif;
+  font-size: 0.9rem;
   font-weight: 700;
   color: var(--gold-bright);
 }
 
 .spell-ribbon-desc {
-  font-size: 0.68rem;
+  font-family: 'Cormorant Garamond', serif;
+  font-size: 0.78rem;
   color: var(--elem-color);
-  letter-spacing: 0.05em;
+  letter-spacing: 0.03em;
 }
 
 .camera-notice-bubble {
@@ -692,7 +719,7 @@ body, html {
   background: rgba(255, 77, 77, 0.25);
   border: 1px solid #ff4d4d;
   color: #fff;
-  font-size: 0.75rem;
+  font-size: 0.8rem;
   padding: 6px 12px;
   border-radius: 6px;
   max-width: 220px;
@@ -742,16 +769,17 @@ body, html {
 }
 
 .grimoire-header h2 {
-  font-family: 'Cinzel Decorative', cursive;
-  font-size: 1.8rem;
+  font-family: 'Philosopher', serif;
+  font-size: 1.9rem;
+  font-weight: 700;
   color: var(--gold-bright);
-  letter-spacing: 0.08em;
 }
 
 .grimoire-subtitle {
-  font-size: 0.85rem;
+  font-family: 'Cormorant Garamond', serif;
+  font-size: 0.95rem;
   color: var(--gold-base);
-  opacity: 0.8;
+  opacity: 0.9;
 }
 
 .grimoire-close {
@@ -811,26 +839,28 @@ body, html {
 }
 
 .spell-details h3 {
-  font-family: 'Cinzel Decorative', cursive;
-  font-size: 1.1rem;
+  font-family: 'Philosopher', serif;
+  font-size: 1.15rem;
+  font-weight: 700;
   color: var(--gold-bright);
   margin-bottom: 2px;
 }
 
 .spell-gesture {
   display: inline-block;
-  font-size: 0.75rem;
+  font-family: 'Cormorant Garamond', serif;
+  font-size: 0.85rem;
   font-weight: 700;
   color: var(--elem-color);
-  letter-spacing: 0.08em;
-  text-transform: uppercase;
+  letter-spacing: 0.03em;
   margin-bottom: 6px;
 }
 
 .spell-details p {
-  font-size: 0.85rem;
+  font-family: 'Cormorant Garamond', serif;
+  font-size: 0.92rem;
   line-height: 1.5;
-  color: rgba(255, 255, 255, 0.85);
+  color: rgba(255, 255, 255, 0.88);
 }
 
 .grimoire-footer-notes {
@@ -841,8 +871,9 @@ body, html {
 }
 
 .grimoire-footer-notes h4 {
-  font-family: 'Cinzel Decorative', cursive;
-  font-size: 0.9rem;
+  font-family: 'Philosopher', serif;
+  font-size: 1rem;
+  font-weight: 700;
   color: var(--gold-bright);
   margin-bottom: 8px;
 }
@@ -854,8 +885,9 @@ body, html {
 }
 
 .shortcuts-list span {
-  font-size: 0.8rem;
-  color: rgba(255, 255, 255, 0.8);
+  font-family: 'Cormorant Garamond', serif;
+  font-size: 0.88rem;
+  color: rgba(255, 255, 255, 0.85);
   display: flex;
   align-items: center;
   gap: 6px;
@@ -887,16 +919,17 @@ kbd {
   .project-node { width: 54px; height: 54px; }
   .node-symbol { font-size: 1.3rem; }
   .scrying-mirror-container { bottom: 15px; right: 15px; }
-  .scrying-mirror { width: 140px; height: 140px; }
+  .scrying-mirror { width: 160px; height: 160px; }
 }
 
 @media (max-width: 600px) {
   .site-header h1 { font-size: 1.4rem; }
-  .realm-tagline { font-size: 0.7rem; }
-  .astral-btn { font-size: 0.75rem; padding: 6px 10px; }
+  .realm-tagline { font-size: 0.8rem; }
+  .astral-btn { font-size: 0.8rem; padding: 6px 12px; }
   .astrolabe-wrapper { width: 92vmin; height: 92vmin; }
   .oracle-core { width: 68vmin; height: 68vmin; padding: 15px; }
-  .oracle-title { font-size: 1rem; }
-  .prophecy-omen { font-size: 0.75rem; }
-  .scrying-mirror { width: 110px; height: 110px; }
+  .oracle-title { font-size: 1.1rem; }
+  .prophecy-omen { font-size: 0.82rem; }
+  .scrying-mirror { width: 130px; height: 130px; }
+  .portal-caption { font-size: 0.95rem; }
 }
