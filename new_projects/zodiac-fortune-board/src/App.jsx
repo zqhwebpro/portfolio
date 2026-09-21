@@ -1,5 +1,6 @@
 import React, { useState, useEffect, useRef } from 'react'
 import { AstrologyBoard } from './components/AstrologyBoard'
+import { SparkleCanvas } from './components/SparkleCanvas'
 import { ZODIAC_SIGNS, getRandomFortune } from './data/fortunes'
 import { useHandTracking } from './hooks/useHandTracking'
 import './styles/astral.css'
@@ -10,7 +11,7 @@ function App() {
   const [isChanneling, setIsChanneling] = useState(false);
   const spellCooldown = useRef(false);
 
-  const { isCameraActive, isReady, rotation, isPinching, startCamera, stopCamera, videoRef } = useHandTracking();
+  const { isCameraActive, isReady, rotation, isPinching, handCoordinates, startCamera, stopCamera, videoRef } = useHandTracking();
 
   const handleSelectSign = (sign) => {
     setActiveSign(sign);
@@ -49,6 +50,9 @@ function App() {
       <div className="universe-bg"></div>
       <div className="celestial-body"></div>
 
+      {/* Magical Sparkle Particle System */}
+      <SparkleCanvas handCoordinates={handCoordinates} isCameraActive={isCameraActive} />
+
       <header className="site-header">
           <h1>Zodiac Fortune Board</h1>
           <a href="../index.html" className="back-btn">
@@ -72,10 +76,11 @@ function App() {
           </div>
       </header>
 
-      {/* Hidden video element for hand tracking processing */}
+      {/* Picture-in-Picture Webcam View */}
       <video 
         ref={videoRef} 
-        style={{ display: 'none' }} 
+        className={isCameraActive ? "mystic-camera-frame" : ""}
+        style={{ display: isCameraActive ? 'block' : 'none' }} 
         autoPlay 
         playsInline
       ></video>

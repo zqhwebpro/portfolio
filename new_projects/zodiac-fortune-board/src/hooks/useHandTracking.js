@@ -6,6 +6,7 @@ export function useHandTracking() {
   const [rotation, setRotation] = useState(0);
   const [isPinching, setIsPinching] = useState(false);
   const [isReady, setIsReady] = useState(false);
+  const [handCoordinates, setHandCoordinates] = useState(null);
   
   const videoRef = useRef(null);
   const handLandmarkerRef = useRef(null);
@@ -66,6 +67,10 @@ export function useHandTracking() {
         const landmarks = results.landmarks[0];
         
         const indexTip = landmarks[8];
+        
+        // Update hand coordinates (normalize for mirrored video later if needed, but here raw is fine)
+        setHandCoordinates({ x: indexTip.x, y: indexTip.y });
+
         const dx = indexTip.x - 0.5;
         const dy = indexTip.y - 0.5;
         const angle = Math.atan2(dy, dx) * (180 / Math.PI);
@@ -90,6 +95,7 @@ export function useHandTracking() {
       } else {
         prevAngleRef.current = null;
         setIsPinching(false);
+        setHandCoordinates(null);
       }
     }
     
@@ -127,6 +133,7 @@ export function useHandTracking() {
     }
     prevAngleRef.current = null;
     setIsPinching(false);
+    setHandCoordinates(null);
   };
 
   useEffect(() => {
@@ -138,6 +145,7 @@ export function useHandTracking() {
     isReady,
     rotation,
     isPinching,
+    handCoordinates,
     startCamera,
     stopCamera,
     videoRef

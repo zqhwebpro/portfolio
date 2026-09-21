@@ -14,16 +14,16 @@ export const ZODIAC_SIGNS = [
 ];
 
 const OVER_THE_TOP_FORTUNES = [
-  "THE COSMOS DEMANDS YOU SEIZE CONTROL. YOUR ENERGY SURGES BEYOND MORTAL LIMITS TODAY.",
-  "REALITY BENDS TO YOUR WILL. A FINANCIAL WINDFALL OR CATACLYSMIC EVENT IS IMMINENT.",
-  "YOUR THIRD EYE IS WIDE OPEN. YOU WILL PERCEIVE THE TRUTH THAT OTHERS ARE TOO WEAK TO SEE.",
-  "AN ANCIENT ENTITY SMILES UPON YOUR ENDEAVORS. GO FORTH AND CONQUER WITH MERCILESS GRACE.",
-  "THE STARS HAVE ALIGNED TO VAPORIZE YOUR OBSTACLES. DO NOT HESITATE, DESTROY YOUR DOUBTS.",
-  "A TREMENDOUS SURGE OF ASTRAL POWER AWAITS YOU. CHANNEL IT CAREFULLY OR BE CONSUMED.",
-  "YOU ARE THE CHOSEN VESSEL OF CHAOS TODAY. EMBRACE THE UNPREDICTABLE AND REAP THE REWARDS.",
-  "YOUR DESTINY IS WRITTEN IN SUPERNOVA FIRE. NOTHING CAN EXTINGUISH YOUR ASCENT.",
-  "THE UNIVERSE WHISPERS SECRETS OF ABSOLUTE POWER INTO YOUR EAR. USE THEM TO FORGE YOUR EMPIRE.",
-  "A PARADIGM SHIFT OF APOCALYPTIC PROPORTIONS WILL ELEVATE YOUR SPIRIT TO GODHOOD."
+  "The ethereal weave unravels, revealing a path woven in starlight.",
+  "Ancient cosmic energies converge; a hidden truth shall soon manifest.",
+  "The celestial spheres align, granting you fragments of forgotten knowledge.",
+  "A shadowy veil lifts—what was obscured by time now calls your name.",
+  "Look beyond the mortal realm; your aura resonates with an ancient spirit.",
+  "The astral currents shift violently. Ride the tide of fate or be swept away.",
+  "An arcane doorway slowly opens. Step through with intent, not fear.",
+  "Echoes of a past life guide your hand toward an impossible victory.",
+  "The universe exhales a secret just for you. Listen to the silence.",
+  "A constellation long thought dead flares to life to bless your journey."
 ];
 
 export const getRandomFortune = () => {
