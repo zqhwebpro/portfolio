@@ -127,7 +127,7 @@ export function useHandTracking() {
       const pipToWrist = dist(pip, wrist);
       const tipToMcp = dist(tip, mcp);
       const pipToMcp = dist(pip, mcp);
-      return tipToWrist > pipToWrist * 1.10 && tipToMcp > pipToMcp * 1.12;
+      return (tipToWrist > pipToWrist * 1.05) && (tipToMcp > pipToMcp * 1.08);
     };
 
     const isIndexExtended = isFingerExtended(indexTip, indexPIP, indexMCP);
@@ -135,27 +135,27 @@ export function useHandTracking() {
     const isRingExtended = isFingerExtended(ringTip, ringPIP, ringMCP);
     const isPinkyExtended = isFingerExtended(pinkyTip, pinkyPIP, pinkyMCP);
 
-    // 1. CLENCHED FIST: All 4 fingers curled tight (Stage 5: Fate Die)
+    // 1. CLENCHED FIST: All 4 fingers curled down tight (Selects sign on board)
     if (!isIndexExtended && !isMiddleExtended && !isRingExtended && !isPinkyExtended) {
       return { spell: 'FIST', isPinch: false };
     }
 
-    // 2. POINTING WAND: Only Index extended (Stage 1: Sign Lore & Alignment)
+    // 2. POINTING: Index extended, middle, ring, pinky curled down (Aim & spin compass)
     if (isIndexExtended && !isMiddleExtended && !isRingExtended && !isPinkyExtended) {
       return { spell: 'POINTING', isPinch: false };
     }
 
-    // 3. PEACE / V-SIGN: Index and Middle extended, Ring and Pinky curled (Stage 2: Summary Horoscope)
+    // 3. PEACE / V-SIGN: Index & Middle extended, ring & pinky curled (Summary horoscope)
     if (isIndexExtended && isMiddleExtended && !isRingExtended && !isPinkyExtended) {
       return { spell: 'PEACE', isPinch: false };
     }
 
-    // 4. MYSTIC HORNS: Index and Pinky extended, Middle and Ring curled down (Stage 4: 3 Runes)
+    // 4. MYSTIC HORNS: Index & Pinky extended, middle & ring curled (Three runes)
     if (isIndexExtended && !isMiddleExtended && !isRingExtended && isPinkyExtended) {
       return { spell: 'HORNS', isPinch: false };
     }
 
-    // 5. OPEN PALM: All fingers extended wide (Stage 3: Tarot Card Shown)
+    // 5. OPEN PALM: All 4 fingers extended wide (Major arcana tarot card)
     if (isIndexExtended && isMiddleExtended && isRingExtended && isPinkyExtended) {
       return { spell: 'OPEN_PALM', isPinch: false };
     }
@@ -206,7 +206,7 @@ export function useHandTracking() {
             // Classify gesture with 2-frame debouncing to eliminate jitter
             const { spell, isPinch } = classifyGesture(landmarks);
             recentSpellsRef.current.push(spell);
-            if (recentSpellsRef.current.length > 3) {
+            if (recentSpellsRef.current.length > 2) {
               recentSpellsRef.current.shift();
             }
 
@@ -220,28 +220,31 @@ export function useHandTracking() {
             }
 
             // Wheel rotation physics:
-            // ONLY spin the compass when hand is in CHANNELING mode (sweeping the outer rim).
-            // Do NOT spin the wheel when holding an active casting gesture (Peace, Palm, Horns, Fist, Pointing).
-            const isCastingSpell = spell === 'PEACE' || spell === 'OPEN_PALM' || spell === 'HORNS' || spell === 'FIST' || spell === 'POINTING';
+            // Pointing gesture or hand sweeping in a circle spins the compass smoothly!
+            // Only stationary stage casts (Peace, Palm, Horns, Fist) hold rotation steady.
+            const isStationarySpell = spell === 'PEACE' || spell === 'OPEN_PALM' || spell === 'HORNS' || spell === 'FIST';
             const dx = targetX - 0.5;
             const dy = targetY - 0.5;
             const radiusFromCenter = Math.sqrt(dx * dx + dy * dy);
             const currentAngle = Math.atan2(dy, dx) * (180 / Math.PI);
 
-            if (!isCastingSpell && radiusFromCenter > 0.28 && radiusFromCenter < 0.65 && prevAngleRef.current !== null) {
-              let delta = currentAngle - prevAngleRef.current;
-              if (delta > 180) delta -= 360;
-              if (delta < -180) delta += 360;
+            if (!isStationarySpell && radiusFromCenter > 0.12 && radiusFromCenter < 0.90) {
+              if (prevAngleRef.current !== null) {
+                let delta = currentAngle - prevAngleRef.current;
+                if (delta > 180) delta -= 360;
+                if (delta < -180) delta += 360;
 
-              // Smooth and responsive rotation delta for fluid, effortless spin
-              if (Math.abs(delta) > 0.15 && Math.abs(delta) < 40) {
-                smoothDeltaRef.current = smoothDeltaRef.current * 0.3 + delta * 0.7;
-                setRotation(prev => prev + smoothDeltaRef.current * 0.85);
-              } else {
-                smoothDeltaRef.current *= 0.5;
+                // When moving in an arc / circle, directly spin the compass
+                if (Math.abs(delta) > 0.08 && Math.abs(delta) < 50) {
+                  smoothDeltaRef.current = smoothDeltaRef.current * 0.2 + delta * 0.8;
+                  setRotation(prev => prev + smoothDeltaRef.current);
+                } else {
+                  smoothDeltaRef.current *= 0.5;
+                }
               }
+              prevAngleRef.current = currentAngle;
             } else {
-              // Reset rotation momentum during casting gestures or center zone
+              prevAngleRef.current = null;
               smoothDeltaRef.current = 0;
             }
             prevAngleRef.current = currentAngle;

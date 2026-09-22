@@ -152,6 +152,27 @@ export function AstrologyBoard({
             </button>
           ))}
         </div>
+
+        {/* Fist Selection Reminder inside the left side panel with the rest */}
+        <div className={`nav-panel-fist-reminder ${isSignLocked ? 'locked' : ''}`}>
+          <div className="reminder-body">
+            <span className="reminder-icon">{isSignLocked ? '🔒' : '✊'}</span>
+            <div className="reminder-texts">
+              <span className="reminder-heading">
+                {isSignLocked ? 'Sign Selected' : 'Fist Selects Sign'}
+              </span>
+              <span className="reminder-subtext">
+                {isSignLocked ? 'Locked on the board' : 'Clench fist to select'}
+              </span>
+            </div>
+          </div>
+        </div>
+
+        {/* Point in circle hint in the left side panel */}
+        <div className="nav-point-spin-hint">
+          <span className="point-icon">☝️</span>
+          <span className="point-text">Point in circle to spin</span>
+        </div>
       </nav>
 
       {/* Main Astrolabe / Divination Compass */}
@@ -308,20 +329,12 @@ export function AstrologyBoard({
                       <span className="meta-dot">·</span>
                       <span>{activeSign.dates}</span>
                     </div>
-
-                    <div className={`sign-board-fist-tag ${isSignLocked ? 'locked' : 'prompt'}`}>
-                      {isSignLocked ? (
-                        <span><span className="fist-tag-icon">🔒</span> Selected on board</span>
-                      ) : (
-                        <span><span className="fist-tag-icon">✊</span> Fist selects sign on board</span>
-                      )}
-                    </div>
                   </>
                 ) : (
                   <div className="center-empty-state">
                     <div className="empty-symbol">⭐</div>
                     <h2 className="center-sign-title">Mystic Compass</h2>
-                    <p className="empty-desc">Aim with ☝️ Point or click a star sign. Clench a ✊ Fist to select the sign on the board.</p>
+                    <p className="empty-desc">Point ☝️ with 1 finger outside the center to focus and spin. Clench a ✊ Fist to select.</p>
                   </div>
                 )}
               </div>
@@ -405,17 +418,6 @@ export function AstrologyBoard({
               </div>
             )}
           </div>
-        </div>
-
-        {/* Instruction strip explicitly stating a fist selects the sign on the board */}
-        <div className="compass-fist-instruction-strip">
-          <span className="strip-glyph">✦</span>
-          <span className="strip-text">
-            {isSignLocked 
-              ? `🔒 ${activeSign?.name || 'Sign'} selected on board` 
-              : '✊ A fist selects the sign on the board'}
-          </span>
-          <span className="strip-glyph">✦</span>
         </div>
       </div>
     </div>

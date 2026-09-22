@@ -47,8 +47,26 @@ function App() {
 
   const isSignLockedRef = useRef(false);
 
+  // Derive sign aimed at with pointing gesture directly during render
+  const pointingHoveredSign = React.useMemo(() => {
+    if (activeSpell === 'POINTING' && !isSignLocked && handCoordinates) {
+      const hx = handCoordinates.x - 0.5;
+      const hy = handCoordinates.y - 0.5;
+      const radius = Math.sqrt(hx * hx + hy * hy);
+      if (radius > 0.15 && radius < 0.85) {
+        const handAngle = (Math.atan2(hy, hx) * (180 / Math.PI) - rotation + 360) % 360;
+        const adjusted = (handAngle + 90 + 15) % 360;
+        const signIndex = ((Math.floor(adjusted / 30) % 12) + 12) % 12;
+        return ZODIAC_SIGNS[signIndex] || null;
+      }
+    }
+    return null;
+  }, [activeSpell, isSignLocked, handCoordinates, rotation]);
+
+  const effectiveHoveredSign = pointingHoveredSign || hoveredSign;
+
   // Derive Tarot card and Runes spread directly from active sign
-  const effectiveActiveSign = hoveredSign || activeSign || ZODIAC_SIGNS[0];
+  const effectiveActiveSign = effectiveHoveredSign || activeSign || ZODIAC_SIGNS[0];
 
   const tarotCard = React.useMemo(() => {
     return getZodiacTarot(effectiveActiveSign?.id);
@@ -64,7 +82,7 @@ function App() {
     gestureCooldownRef.current.fist = true;
 
     requestAnimationFrame(() => {
-      const chosen = hoveredSign || activeSign;
+      const chosen = effectiveHoveredSign || activeSign;
       isSignLockedRef.current = true;
       setIsSignLocked(true);
       setActiveSign(chosen);
@@ -81,34 +99,7 @@ function App() {
         gestureCooldownRef.current.fist = false;
       }, 1200);
     });
-  }, [hoveredSign, activeSign, setRotation]);
-
-  // Pointing Wand: Aim at sign / browse on wheel before locking
-  const handleCastPointing = useCallback(() => {
-    if (gestureCooldownRef.current.pointing) return;
-    gestureCooldownRef.current.pointing = true;
-
-    requestAnimationFrame(() => {
-      if (!isSignLockedRef.current && handCoordinates) {
-        const hx = handCoordinates.x - 0.5;
-        const hy = handCoordinates.y - 0.5;
-        const radius = Math.sqrt(hx * hx + hy * hy);
-        if (radius > 0.28 && radius < 0.58) {
-          const handAngle = (Math.atan2(hy, hx) * (180 / Math.PI) - rotation + 360) % 360;
-          const adjusted = (handAngle + 90 + 15) % 360;
-          const signIndex = Math.floor(adjusted / 30);
-          const chosen = ZODIAC_SIGNS[signIndex];
-          if (chosen) {
-            setHoveredSign(chosen);
-          }
-        }
-      }
-      setActiveStage(1);
-      setTimeout(() => {
-        gestureCooldownRef.current.pointing = false;
-      }, 300);
-    });
-  }, [handCoordinates, rotation]);
+  }, [effectiveHoveredSign, activeSign, setRotation]);
 
   // Stage 2: Cast Destiny Covenant / Horoscope Goal Channeling
   const handleCastGoal = useCallback(() => {
@@ -136,9 +127,11 @@ function App() {
       handleCastFistSelect();
     }
 
-    // POINTING (☝️) Aim and preview sign
+    // POINTING (☝️) Focus Stage 1
     if (activeSpell === 'POINTING') {
-      handleCastPointing();
+      requestAnimationFrame(() => {
+        setActiveStage(1);
+      });
     }
 
     // Stage 2: PEACE / V-SIGN (2 Fingers - Destiny Covenant)
@@ -169,7 +162,7 @@ function App() {
         gestureCooldownRef.current.runes = false;
       }, 1400);
     }
-  }, [activeSpell, handleCastFistSelect, handleCastPointing, handleCastGoal]);
+  }, [activeSpell, handleCastFistSelect, handleCastGoal]);
 
   // Toggle Camera
   const handleToggleCamera = () => {
@@ -293,7 +286,7 @@ function App() {
           signs={ZODIAC_SIGNS}
           activeSign={effectiveActiveSign}
           selectedSign={activeSign}
-          hoveredSign={hoveredSign}
+          hoveredSign={effectiveHoveredSign}
           isSignLocked={isSignLocked}
           onHoverSign={handleHoverSign}
           onLeaveSign={handleLeaveSign}
