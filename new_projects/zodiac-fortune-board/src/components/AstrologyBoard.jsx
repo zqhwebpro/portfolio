@@ -120,8 +120,14 @@ export function AstrologyBoard({
     );
   };
 
-  // 4 Mystical Gestures: Just gestures and simple descriptions, matching character counts
+  // 5 Mystical Gestures: Point at the top as the primary sign selection gesture
   const gestures = [
+    {
+      id: 'point',
+      gesture: '☝️ Point',
+      desc: 'Rotate to choose sign',
+      isPointAction: true
+    },
     { 
       id: 1, 
       gesture: isSignLocked ? '✊ Fist (Locked)' : '✊ Fist', 
@@ -146,61 +152,57 @@ export function AstrologyBoard({
         </div>
 
         <div className="nav-stages-list">
-          {gestures.map(stg => (
-            <button
-              key={stg.id}
-              className={`nav-stage-btn ${activeStage === stg.id ? 'active' : ''} ${stg.id === 1 && isSignLocked ? 'stage-locked' : ''}`}
-              onClick={(e) => {
-                e.stopPropagation();
-                if (onSelectStage) onSelectStage(stg.id);
-              }}
-              onPointerDown={(e) => {
-                if (stg.id === 1 && onStartFistHold) onStartFistHold();
-              }}
-              onPointerUp={() => {
-                if (stg.id === 1 && onEndFistHold) onEndFistHold();
-              }}
-              onPointerLeave={() => {
-                if (stg.id === 1 && onEndFistHold) onEndFistHold();
-              }}
-              onPointerCancel={() => {
-                if (stg.id === 1 && onEndFistHold) onEndFistHold();
-              }}
-              title={stg.desc}
-            >
-              {stg.id === 1 && isFistHeld && fistHoldProgress > 0 && (
-                <div 
-                  className="nav-btn-hold-fill"
-                  style={{ width: `${Math.min(100, fistHoldProgress * 100)}%` }}
-                />
-              )}
-              <div className="nav-stage-indicator"></div>
-              <div className="nav-stage-content">
-                <span className="nav-stage-gesture">{stg.gesture}</span>
-                <span className="nav-stage-desc">
-                  {stg.id === 1 && isFistHeld && fistHoldProgress > 0
-                    ? `${isSignLocked ? 'Unlocking' : 'Locking'}... ${(3 - fistHoldProgress * 3).toFixed(1)}s`
-                    : stg.desc}
-                </span>
-              </div>
-            </button>
-          ))}
-        </div>
+          {gestures.map(stg => {
+            const isPoint = stg.isPointAction;
+            const isFist = stg.id === 1;
+            const isActive = isPoint
+              ? activeSpell === 'POINTING'
+              : activeStage === stg.id;
 
-        {/* Pointing Finger Action Container with left line indicator and simplified matching typography */}
-        <div 
-          className={`nav-panel-point-action ${activeSpell === 'POINTING' ? 'pointing-active' : ''} ${isSignLocked ? 'locked-state' : ''}`}
-          onClick={(e) => {
-            e.stopPropagation();
-            if (onSelectStage) onSelectStage(1);
-          }}
-          title={isSignLocked ? "Sign is locked. Hold ✊ Fist 3s to unlock." : "Point to rotate and choose zodiac sign"}
-        >
-          <div className="nav-stage-indicator"></div>
-          <div className="nav-stage-content">
-            <span className="nav-stage-gesture">☝️ Point</span>
-            <span className="nav-stage-desc">Rotate to choose sign</span>
-          </div>
+            return (
+              <button
+                key={stg.id}
+                className={`nav-stage-btn ${isActive ? 'active' : ''} ${isFist && isSignLocked ? 'stage-locked' : ''} ${isPoint ? 'stage-point' : ''}`}
+                onClick={(e) => {
+                  e.stopPropagation();
+                  if (isPoint) {
+                    if (onSelectStage) onSelectStage(1);
+                  } else {
+                    if (onSelectStage) onSelectStage(stg.id);
+                  }
+                }}
+                onPointerDown={(e) => {
+                  if (isFist && onStartFistHold) onStartFistHold();
+                }}
+                onPointerUp={() => {
+                  if (isFist && onEndFistHold) onEndFistHold();
+                }}
+                onPointerLeave={() => {
+                  if (isFist && onEndFistHold) onEndFistHold();
+                }}
+                onPointerCancel={() => {
+                  if (isFist && onEndFistHold) onEndFistHold();
+                }}
+                title={isPoint && isSignLocked ? "Sign is locked. Hold ✊ Fist 3s to unlock." : stg.desc}
+              >
+                {isFist && isFistHeld && fistHoldProgress > 0 && (
+                  <div 
+                    className="nav-btn-hold-fill"
+                    style={{ width: `${Math.min(100, fistHoldProgress * 100)}%` }}
+                  />
+                )}
+                <div className="nav-stage-indicator"></div>
+                <div className="nav-stage-content">
+                  <span className="nav-stage-gesture">{stg.gesture}</span>
+                  <span className="nav-stage-desc">
+                    {isFist && isFistHeld && fistHoldProgress > 0
+                      ? `${isSignLocked ? 'Unlocking' : 'Locking'}... ${(3 - fistHoldProgress * 3).toFixed(1)}s`
+                      : stg.desc}
+                  </span>
+                </div>
+              </button>
+            );
+          })}
         </div>
       </nav>
 
