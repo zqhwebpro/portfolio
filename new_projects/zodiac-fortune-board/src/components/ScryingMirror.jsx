@@ -78,17 +78,15 @@ export function ScryingMirror({
   const getSpellLabel = () => {
     switch (activeSpell) {
       case 'POINTING':
-        return { label: 'Stage 1: Celestial Wand (☝️)', desc: 'Focusing Zodiac Constellation & Lore' };
-      case 'PINCH':
-        return { label: 'Stage 2: Pinch of Fate (🤏)', desc: 'Channeling Horoscope Prophecy' };
+        return { label: 'Celestial Wand (☝️)', desc: 'Choose & Lock Zodiac Sign' };
       case 'PEACE':
-        return { label: 'Stage 3: Tarot Divination (✌️)', desc: 'Drawing Major Arcana Card' };
+        return { label: 'Destiny Covenant (✌️)', desc: 'Channeling Summary Horoscope' };
       case 'OPEN_PALM':
-        return { label: 'Stage 4: Divination Runes (✋)', desc: 'Casting Elder Futhark Spread & Spell Rune' };
-      case 'FIST':
-        return { label: 'Stage 5: Fate Dice Roll (✊)', desc: 'Rolling the 100-Sided Die of Fate' };
+        return { label: 'Tarot Divination (✋)', desc: 'Displaying Major Arcana Card' };
+      case 'HORNS':
+        return { label: 'Three Runes (🤘)', desc: 'Casting 3 Sacred Elder Runes' };
       case 'CHANNELING':
-        return { label: 'Hand in Astral Plane', desc: 'Ready to Cast 5 Progressive Spells' };
+        return { label: 'Hand in Astral Plane', desc: 'Ready to Cast Divination Spells' };
       default:
         return { label: 'Scrying Mirror', desc: 'Click Circle to Awaken Hand Vision' };
     }

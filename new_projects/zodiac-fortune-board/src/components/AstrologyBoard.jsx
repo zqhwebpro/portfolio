@@ -6,6 +6,7 @@ export function AstrologyBoard({
   activeSign,
   selectedSign,
   hoveredSign,
+  isSignLocked = false,
   onHoverSign,
   onLeaveSign,
   onSelectSign,
@@ -17,10 +18,7 @@ export function AstrologyBoard({
   onSelectStage,
   onCastGoalSpell,
   tarotCard,
-  runeData,
-  diceFate,
-  onRollDice,
-  isDiceRolling = false
+  runeData
 }) {
   const totalNodes = signs.length;
   const radius = 50; // percentage based on astrolabe size (50% is edge)
@@ -114,13 +112,12 @@ export function AstrologyBoard({
     );
   };
 
-  // 5 Mystical Gestures: Just gestures and simple descriptions, no numbering, no headline
+  // 4 Mystical Gestures: Just gestures and simple descriptions, no numbering, no headline
   const gestures = [
     { id: 1, gesture: '☝️ Point', desc: 'Focus star sign' },
     { id: 2, gesture: '✌️ Peace', desc: 'Summary horoscope' },
     { id: 3, gesture: '✋ Palm', desc: 'Tarot card' },
-    { id: 4, gesture: '🤘 Horns', desc: 'Three runes' },
-    { id: 5, gesture: '✊ Fist', desc: 'Roll fate die' }
+    { id: 4, gesture: '🤘 Horns', desc: 'Three runes' }
   ];
 
   return (
@@ -166,15 +163,6 @@ export function AstrologyBoard({
           onPointerUp={handlePointerUp}
           onPointerCancel={handlePointerUp}
         >
-          {/* Celestial Sun Gnomon Marker (Fixed Zenith Needle pointing at aligned sign) */}
-          <div className="zenith-compass-gnomon" title="Celestial Zenith Pointer">
-            <div className="gnomon-sun-head">
-              <span className="gnomon-symbol">☉</span>
-            </div>
-            <div className="gnomon-needle-stem"></div>
-            <div className="gnomon-arrowhead"></div>
-          </div>
-
           <div 
             className="astrolabe" 
             id="astrolabe" 
@@ -192,9 +180,6 @@ export function AstrologyBoard({
             </div>
 
             {/* Cardinal Compass Markers */}
-            <div className="compass-cardinal zenith">
-              <span className="cardinal-flourish">▲</span> Zenith
-            </div>
             <div className="compass-cardinal nadir">
               <span className="cardinal-flourish">▼</span> Nadir
             </div>
@@ -217,12 +202,12 @@ export function AstrologyBoard({
               const x = 50 + radius * Math.cos(angle);
               const y = 50 + radius * Math.sin(angle);
               const isSelected = selectedSign ? selectedSign.id === sign.id : (activeSign && activeSign.id === sign.id);
-              const isHovered = hoveredSign && hoveredSign.id === sign.id;
+              const isHovered = !isSignLocked && hoveredSign && hoveredSign.id === sign.id;
 
               return (
                 <div
                   key={sign.id}
-                  className={`project-node ${isSelected ? 'active-node' : ''} ${isHovered ? 'hovered-node' : ''}`}
+                  className={`project-node ${isSelected ? 'active-node' : ''} ${isHovered ? 'hovered-node' : ''} ${isSignLocked && isSelected ? 'locked-node' : ''}`}
                   style={{
                     left: `${x}%`,
                     top: `${y}%`
@@ -233,7 +218,7 @@ export function AstrologyBoard({
                     e.stopPropagation();
                     if (onSelectSign) onSelectSign(sign);
                   }}
-                  title={`${sign.name} (${sign.dates}) — Click to Align at Zenith`}
+                  title={isSignLocked && isSelected ? `${sign.name} (${sign.dates}) — Chosen & Locked Focus` : `${sign.name} (${sign.dates}) — Click to Select`}
                 >
                   <span className="node-symbol">{sign.symbol}</span>
                 </div>
@@ -409,29 +394,6 @@ export function AstrologyBoard({
                     </div>
                   ))}
                 </div>
-              </div>
-            )}
-
-            {/* STAGE 5: 100-Sided Polyhedral Fate Die (Enlarged, No Pill, No Paragraph Copy, Subtle Button) */}
-            {activeStage === 5 && diceFate && (
-              <div className="stage-content stage-dice-view">
-                <div 
-                  className={`d100-die-orb ${isDiceRolling ? 'rolling' : ''}`}
-                  onClick={onRollDice}
-                  title="Click or Clench Fist ✊ to Roll d100"
-                >
-                  <div className="d100-polyhedron-facets"></div>
-                  <div className="d100-center-number">
-                    {isDiceRolling ? '🎲' : diceFate.roll}
-                  </div>
-                  <div className="d100-d-tag">d100</div>
-                </div>
-
-                <h2 className="dice-fate-title">{diceFate.title}</h2>
-
-                <button className="astral-btn dice-cast-btn" onClick={onRollDice}>
-                  Roll Fate Die
-                </button>
               </div>
             )}
           </div>

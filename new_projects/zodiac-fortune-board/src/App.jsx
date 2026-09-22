@@ -7,8 +7,7 @@ import {
   ZODIAC_SIGNS, 
   getRandomGoal, 
   getZodiacTarot, 
-  drawRuneSpread, 
-  rollD100Fate 
+  drawRuneSpread 
 } from './data/fortunes';
 import { useHandTracking } from './hooks/useHandTracking';
 import { mysticAudio } from './utils/mysticAudio';
@@ -16,15 +15,14 @@ import './styles/astral.css';
 
 function App() {
   const [activeSign, setActiveSign] = useState(ZODIAC_SIGNS[0]);
+  const [isSignLocked, setIsSignLocked] = useState(false);
 
-  // 5 Progressive Stages: 1: Zodiac Seal | 2: Destiny Covenant | 3: Tarot | 4: Runes | 5: d100 Fate
+  // 4 Progressive Stages: 1: Zodiac Seal | 2: Destiny Covenant | 3: Tarot | 4: Runes
   const [activeStage, setActiveStage] = useState(1);
   const [hoveredSign, setHoveredSign] = useState(null);
 
   // Divination state containers
   const [horoscopeGoal, setHoroscopeGoal] = useState(() => getRandomGoal(ZODIAC_SIGNS[0]));
-  const [diceFate, setDiceFate] = useState(() => rollD100Fate(ZODIAC_SIGNS[0]));
-  const [isDiceRolling, setIsDiceRolling] = useState(false);
 
   const [manualAspects, setManualAspects] = useState(false);
   const [isGrimoireOpen, setIsGrimoireOpen] = useState(false);
@@ -32,7 +30,6 @@ function App() {
   const [spellBurstTrigger, setSpellBurstTrigger] = useState(0);
 
   const gestureCooldownRef = useRef({});
-  const lastPointedRef = useRef(null);
 
   const {
     isCameraActive,
@@ -50,24 +47,11 @@ function App() {
 
   const showAspects = activeSpell === 'HORNS' || manualAspects;
 
-  // Calculate pointed sign directly from hand coordinates when pointer is in outer ring
-  let pointedSign = null;
-  if (activeSpell === 'POINTING' && handCoordinates) {
-    const hx = handCoordinates.x - 0.5;
-    const hy = handCoordinates.y - 0.5;
-    const radius = Math.sqrt(hx * hx + hy * hy);
-    // Outer ring zone: radius between 0.28 and 0.58
-    if (radius > 0.28 && radius < 0.58) {
-      const handAngle = (Math.atan2(hy, hx) * (180 / Math.PI) - rotation + 360) % 360;
-      const adjusted = (handAngle + 90 + 15) % 360;
-      const signIndex = Math.floor(adjusted / 30);
-      pointedSign = ZODIAC_SIGNS[signIndex] || null;
-    }
-  }
+  const isSignLockedRef = useRef(false);
 
-  const effectiveActiveSign = pointedSign || hoveredSign || activeSign || ZODIAC_SIGNS[0];
+  // Derive Tarot card and Runes spread directly from active sign
+  const effectiveActiveSign = hoveredSign || activeSign || ZODIAC_SIGNS[0];
 
-  // Derive Tarot card and Runes spread directly from effective active sign
   const tarotCard = React.useMemo(() => {
     return getZodiacTarot(effectiveActiveSign?.id);
   }, [effectiveActiveSign?.id]);
@@ -76,15 +60,48 @@ function App() {
     return drawRuneSpread(effectiveActiveSign);
   }, [effectiveActiveSign]);
 
-  // Sound and stage update when pointed sign changes
-  useEffect(() => {
-    if (pointedSign && lastPointedRef.current?.id !== pointedSign.id) {
-      setActiveSign(pointedSign);
+  // Stage 1: Cast Pointing Wand / Choose & Lock Sign
+  const handleCastPointing = useCallback(() => {
+    if (gestureCooldownRef.current.pointing) return;
+    gestureCooldownRef.current.pointing = true;
+
+    requestAnimationFrame(() => {
+      if (!isSignLockedRef.current) {
+        if (handCoordinates) {
+          const hx = handCoordinates.x - 0.5;
+          const hy = handCoordinates.y - 0.5;
+          const radius = Math.sqrt(hx * hx + hy * hy);
+          if (radius > 0.28 && radius < 0.58) {
+            const handAngle = (Math.atan2(hy, hx) * (180 / Math.PI) - rotation + 360) % 360;
+            const adjusted = (handAngle + 90 + 15) % 360;
+            const signIndex = Math.floor(adjusted / 30);
+            const chosen = ZODIAC_SIGNS[signIndex];
+            if (chosen) {
+              isSignLockedRef.current = true;
+              setIsSignLocked(true);
+              setActiveSign(chosen);
+              setActiveStage(1);
+              mysticAudio.playNodeIgnite();
+              setRotation(-signIndex * 30);
+              setTimeout(() => {
+                gestureCooldownRef.current.pointing = false;
+              }, 1200);
+              return;
+            }
+          }
+        }
+        isSignLockedRef.current = true;
+        setIsSignLocked(true);
+      }
+
       setActiveStage(1);
       mysticAudio.playNodeIgnite();
-    }
-    lastPointedRef.current = pointedSign;
-  }, [pointedSign]);
+      setSpellBurstTrigger(t => t + 1);
+      setTimeout(() => {
+        gestureCooldownRef.current.pointing = false;
+      }, 1200);
+    });
+  }, [handCoordinates, rotation, setRotation]);
 
   // Stage 2: Cast Destiny Covenant / Horoscope Goal Channeling
   const handleCastGoal = useCallback(() => {
@@ -106,36 +123,11 @@ function App() {
     }, 200);
   }, [effectiveActiveSign]);
 
-  // Stage 5: Roll 100-Sided Fate Dice
-  const handleRollDice = useCallback(() => {
-    if (gestureCooldownRef.current.dice) return;
-    gestureCooldownRef.current.dice = true;
-
-    setActiveStage(5);
-    setIsDiceRolling(true);
-    mysticAudio.playDiceRoll();
-    setSpellBurstTrigger(t => t + 1);
-
-    setTimeout(() => {
-      setDiceFate(rollD100Fate(effectiveActiveSign));
-      setIsDiceRolling(false);
-      setTimeout(() => {
-        gestureCooldownRef.current.dice = false;
-      }, 1000);
-    }, 550);
-  }, [effectiveActiveSign]);
-
-  // 5-Stage Gesture Controller (1, 2, 3, 5, 0 Fingers)
+  // 4-Stage Gesture Controller: The first gesture Chooses the zodiac so no other can be chosen by pointing
   useEffect(() => {
-    // Stage 1: POINTING (1 Finger - Focus Zodiac Sign & Grimoire Seal)
-    if (activeSpell === 'POINTING' && !gestureCooldownRef.current.pointing) {
-      gestureCooldownRef.current.pointing = true;
-      setActiveStage(1);
-      mysticAudio.playNodeIgnite();
-      setSpellBurstTrigger(t => t + 1);
-      setTimeout(() => {
-        gestureCooldownRef.current.pointing = false;
-      }, 1200);
+    // Stage 1: POINTING (1 Finger - Choose & Lock Zodiac Sign / View Lore)
+    if (activeSpell === 'POINTING') {
+      handleCastPointing();
     }
 
     // Stage 2: PEACE / V-SIGN (2 Fingers - Destiny Covenant)
@@ -168,16 +160,7 @@ function App() {
         gestureCooldownRef.current.runes = false;
       }, 1400);
     }
-
-    // Stage 5: FIST (Clenched Fist ✊ - Roll d100 Dice of Fate)
-    if (activeSpell === 'FIST' && !gestureCooldownRef.current.fist) {
-      gestureCooldownRef.current.fist = true;
-      handleRollDice();
-      setTimeout(() => {
-        gestureCooldownRef.current.fist = false;
-      }, 1500);
-    }
-  }, [activeSpell, handleCastGoal, handleRollDice]);
+  }, [activeSpell, handleCastPointing, handleCastGoal]);
 
   // Toggle Camera
   const handleToggleCamera = () => {
@@ -217,8 +200,6 @@ function App() {
       } else if (e.key === '4') {
         setActiveStage(4);
         mysticAudio.playRuneCast();
-      } else if (e.key === '5') {
-        handleRollDice();
       } else if (e.key.toLowerCase() === 'a') {
         setManualAspects(prev => !prev);
         mysticAudio.playSpellCast('flare');
@@ -229,10 +210,12 @@ function App() {
 
     window.addEventListener('keydown', handleKeyDown);
     return () => window.removeEventListener('keydown', handleKeyDown);
-  }, [handleCastGoal, handleRollDice]);
+  }, [handleCastGoal]);
 
   const handleHoverSign = (sign) => {
-    setHoveredSign(sign);
+    if (!isSignLocked) {
+      setHoveredSign(sign);
+    }
   };
 
   const handleLeaveSign = () => {
@@ -241,10 +224,12 @@ function App() {
 
   const handleSelectSign = (sign) => {
     setActiveSign(sign);
+    isSignLockedRef.current = true;
+    setIsSignLocked(true); // Locking sign: no other can be chosen by pointing
     setHoveredSign(null);
     mysticAudio.playNodeIgnite();
 
-    // Smoothly rotate the wheel so the chosen sign aligns at the Zenith (top)
+    // Smoothly rotate the wheel so the chosen sign aligns at the top Zenith
     const signIdx = ZODIAC_SIGNS.findIndex(s => s.id === sign.id);
     if (signIdx !== -1) {
       setRotation(-signIdx * 30);
@@ -262,8 +247,9 @@ function App() {
       <div className="universe-bg"></div>
       <div className="celestial-body"></div>
 
-      {/* Doctor Strange Eldritch Reality Spark Particle Canvas */}
+      {/* Luminous Blurry & Sparkly Magic Particle Canvas tracking finger point */}
       <SparkleCanvas 
+        handCoordinates={handCoordinates}
         isCameraActive={isCameraActive}
         activeSpell={activeSpell}
         spellBurstTrigger={spellBurstTrigger}
@@ -308,6 +294,7 @@ function App() {
           activeSign={effectiveActiveSign}
           selectedSign={activeSign}
           hoveredSign={hoveredSign}
+          isSignLocked={isSignLocked}
           onHoverSign={handleHoverSign}
           onLeaveSign={handleLeaveSign}
           onSelectSign={handleSelectSign}
@@ -323,14 +310,10 @@ function App() {
             if (stage === 2) handleCastGoal();
             if (stage === 3) mysticAudio.playTarotDraw();
             if (stage === 4) mysticAudio.playRuneCast();
-            if (stage === 5) handleRollDice();
           }}
           onCastGoalSpell={handleCastGoal}
           tarotCard={tarotCard}
           runeData={runeData}
-          diceFate={diceFate}
-          onRollDice={handleRollDice}
-          isDiceRolling={isDiceRolling}
         />
       </div>
 

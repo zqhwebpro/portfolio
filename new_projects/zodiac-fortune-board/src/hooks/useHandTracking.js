@@ -192,9 +192,14 @@ export function useHandTracking() {
 
             // Use index finger tip for pointer coordinates (mirrored for natural interaction)
             const indexTip = landmarks[8];
-            const mirroredX = 1.0 - indexTip.x;
-            const mirroredY = indexTip.y;
-            const coords = { x: mirroredX, y: mirroredY };
+            const targetX = 1.0 - indexTip.x;
+            const targetY = indexTip.y;
+
+            // Smooth coordinate tracking for responsive, jitter-free cursor gliding
+            const prevCoords = handCoordsRef.current;
+            const smoothedX = prevCoords ? prevCoords.x * 0.35 + targetX * 0.65 : targetX;
+            const smoothedY = prevCoords ? prevCoords.y * 0.35 + targetY * 0.65 : targetY;
+            const coords = { x: smoothedX, y: smoothedY };
             handCoordsRef.current = coords;
             setHandCoordinates(coords);
 

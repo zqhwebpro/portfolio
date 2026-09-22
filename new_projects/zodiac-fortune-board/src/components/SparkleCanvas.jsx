@@ -8,14 +8,13 @@ export function SparkleCanvas({
 }) {
   const canvasRef = useRef(null);
   const particlesRef = useRef([]);
-  const shockwavesRef = useRef([]);
-  const runeAngleRef = useRef(0);
-  const secondaryAngleRef = useRef(0);
+  const burstWavesRef = useRef([]);
 
   const handRef = useRef(handCoordinates);
   const cameraRef = useRef(isCameraActive);
   const spellRef = useRef(activeSpell);
   const mouseRef = useRef({ x: null, y: null, active: false });
+  const smoothedPosRef = useRef({ x: null, y: null });
 
   useEffect(() => {
     handRef.current = handCoordinates;
@@ -29,7 +28,7 @@ export function SparkleCanvas({
     spellRef.current = activeSpell;
   }, [activeSpell]);
 
-  // Trigger Doctor Strange Eldritch Mandala burst on spell cast
+  // Trigger luminous ethereal bloom & stardust shower on spell cast
   useEffect(() => {
     if (!spellBurstTrigger) return;
     const canvas = canvasRef.current;
@@ -38,7 +37,7 @@ export function SparkleCanvas({
     let targetX = canvas.width / 2;
     let targetY = canvas.height / 2;
 
-    if (handRef.current) {
+    if (cameraRef.current && handRef.current) {
       targetX = handRef.current.x * canvas.width;
       targetY = handRef.current.y * canvas.height;
     } else if (mouseRef.current.active && mouseRef.current.x !== null) {
@@ -46,43 +45,44 @@ export function SparkleCanvas({
       targetY = mouseRef.current.y;
     }
 
-    // Add dual mandala shockwaves (fiery orange and incandescent gold)
-    shockwavesRef.current.push({
+    // Expanding ethereal ring of starlight
+    burstWavesRef.current.push({
       x: targetX,
       y: targetY,
-      radius: 15,
-      maxRadius: 320,
+      radius: 12,
+      maxRadius: 280,
       opacity: 1,
-      color: '#ff9d00',
-      width: 4
+      color: '#ffd000',
+      width: 3.5
     });
-    shockwavesRef.current.push({
+    burstWavesRef.current.push({
       x: targetX,
       y: targetY,
-      radius: 5,
-      maxRadius: 240,
-      opacity: 1,
-      color: '#ffe066',
-      width: 2.5
+      radius: 6,
+      maxRadius: 200,
+      opacity: 0.9,
+      color: '#ff3366',
+      width: 2
     });
 
-    // Add 80 Doctor Strange fiery ember spark particles
-    for (let i = 0; i < 80; i++) {
-      const angle = (i / 80) * Math.PI * 2 + (Math.random() - 0.5) * 0.3;
-      const speed = Math.random() * 8 + 3.5;
-      const hues = [35, 45, 25, 15]; // Glowing fiery orange, amber, incandescent gold
-      const hue = hues[Math.floor(Math.random() * hues.length)];
+    // 70 Shimmering Diamond Star Flares & Fairy Dust Sparks
+    for (let i = 0; i < 70; i++) {
+      const angle = (i / 70) * Math.PI * 2 + (Math.random() - 0.5) * 0.4;
+      const speed = Math.random() * 7 + 2.5;
+      const isDiamondStar = Math.random() > 0.45;
 
       particlesRef.current.push({
         x: targetX,
         y: targetY,
         vx: Math.cos(angle) * speed,
-        vy: Math.sin(angle) * speed,
-        size: Math.random() * 5 + 2.5,
+        vy: Math.sin(angle) * speed - 0.5,
+        size: isDiamondStar ? Math.random() * 6 + 4 : Math.random() * 4 + 2,
         life: 1.0,
-        decay: Math.random() * 0.025 + 0.015,
-        color: `hsl(${hue}, 100%, ${Math.random() * 25 + 60}%)`,
-        sparkle: Math.random() > 0.4
+        decay: Math.random() * 0.022 + 0.012,
+        hue: [42, 35, 12, 340, 50][Math.floor(Math.random() * 5)],
+        rotation: Math.random() * Math.PI * 2,
+        vRot: (Math.random() - 0.5) * 0.15,
+        isStar: isDiamondStar
       });
     }
   }, [spellBurstTrigger]);
@@ -112,149 +112,201 @@ export function SparkleCanvas({
     window.addEventListener('mouseleave', handleMouseLeave);
 
     let animationId;
+    let clock = 0;
 
-    const spawnSparks = (x, y) => {
-      const hues = [42, 32, 20, 50]; // Doctor Strange fiery amber sparks
-      const hue = hues[Math.floor(Math.random() * hues.length)];
-      const angle = Math.random() * Math.PI * 2;
-      const speed = Math.random() * 3 + 1;
+    // Helper: Draw 4-point diamond star sparkle flare
+    const drawDiamondStar = (cx, cy, radius, rot, alpha, color) => {
+      ctx.save();
+      ctx.translate(cx, cy);
+      ctx.rotate(rot);
+      ctx.fillStyle = color || `rgba(255, 255, 230, ${alpha})`;
+      ctx.shadowColor = '#ffd000';
+      ctx.shadowBlur = 12;
 
-      particlesRef.current.push({
-        x: x + (Math.random() - 0.5) * 20,
-        y: y + (Math.random() - 0.5) * 20,
-        vx: Math.cos(angle) * speed,
-        vy: Math.sin(angle) * speed - 1.2,
-        size: Math.random() * 3.5 + 1.5,
-        life: 1.0,
-        decay: Math.random() * 0.03 + 0.02,
-        color: `hsl(${hue}, 100%, ${Math.random() * 25 + 65}%)`,
-        sparkle: Math.random() > 0.35
-      });
+      ctx.beginPath();
+      for (let i = 0; i < 4; i++) {
+        ctx.rotate(Math.PI / 2);
+        ctx.lineTo(radius, 0);
+        ctx.lineTo(radius * 0.16, radius * 0.16);
+      }
+      ctx.closePath();
+      ctx.fill();
+      ctx.restore();
     };
 
     const render = () => {
       ctx.clearRect(0, 0, canvas.width, canvas.height);
-      runeAngleRef.current += 0.022;
-      secondaryAngleRef.current -= 0.015;
+      clock += 0.035;
 
-      let emitterX = null;
-      let emitterY = null;
+      let targetX = null;
+      let targetY = null;
 
       if (cameraRef.current && handRef.current) {
-        emitterX = handRef.current.x * canvas.width;
-        emitterY = handRef.current.y * canvas.height;
+        targetX = handRef.current.x * canvas.width;
+        targetY = handRef.current.y * canvas.height;
       } else if (mouseRef.current.active && mouseRef.current.x !== null) {
-        emitterX = mouseRef.current.x;
-        emitterY = mouseRef.current.y;
+        targetX = mouseRef.current.x;
+        targetY = mouseRef.current.y;
       }
 
-      // Draw Doctor Strange Tao Mandala at hand/cursor position
-      if (emitterX !== null && emitterY !== null) {
-        // Spawn continuous fiery sparks
-        for (let i = 0; i < 3; i++) {
-          spawnSparks(emitterX, emitterY);
+      // Smoothly interpolate cursor coordinates to eliminate all jitters
+      if (targetX !== null && targetY !== null) {
+        if (smoothedPosRef.current.x === null) {
+          smoothedPosRef.current.x = targetX;
+          smoothedPosRef.current.y = targetY;
+        } else {
+          smoothedPosRef.current.x += (targetX - smoothedPosRef.current.x) * 0.45;
+          smoothedPosRef.current.y += (targetY - smoothedPosRef.current.y) * 0.45;
+        }
+      } else {
+        smoothedPosRef.current.x = null;
+        smoothedPosRef.current.y = null;
+      }
+
+      const emX = smoothedPosRef.current.x;
+      const emY = smoothedPosRef.current.y;
+
+      if (emX !== null && emY !== null) {
+        // Continuous spawn of delicate fairy dust sparkles around finger point
+        for (let i = 0; i < 2; i++) {
+          const angle = Math.random() * Math.PI * 2;
+          const dist = Math.random() * 16;
+          const hues = [42, 35, 15, 345, 52];
+          const hue = hues[Math.floor(Math.random() * hues.length)];
+
+          particlesRef.current.push({
+            x: emX + Math.cos(angle) * dist,
+            y: emY + Math.sin(angle) * dist,
+            vx: (Math.random() - 0.5) * 1.5,
+            vy: -Math.random() * 2.2 - 0.6,
+            size: Math.random() * 3.8 + 1.2,
+            life: 1.0,
+            decay: Math.random() * 0.024 + 0.016,
+            hue,
+            rotation: Math.random() * Math.PI * 2,
+            vRot: (Math.random() - 0.5) * 0.1,
+            isStar: Math.random() > 0.4
+          });
         }
 
         ctx.save();
-        ctx.translate(emitterX, emitterY);
+        ctx.globalCompositeOperation = 'screen';
 
-        // Core incandescent blaze
+        // 1. Wide Diffuse Velvet-Crimson Dream Halo (Deep soft blur)
+        const haloPulse = 1 + 0.12 * Math.sin(clock * 2.5);
+        const haloGrad = ctx.createRadialGradient(emX, emY, 0, emX, emY, 78 * haloPulse);
+        haloGrad.addColorStop(0, 'rgba(230, 30, 75, 0.42)');
+        haloGrad.addColorStop(0.35, 'rgba(180, 20, 50, 0.22)');
+        haloGrad.addColorStop(0.7, 'rgba(120, 10, 30, 0.08)');
+        haloGrad.addColorStop(1, 'rgba(40, 2, 10, 0)');
+        ctx.fillStyle = haloGrad;
         ctx.beginPath();
-        ctx.arc(0, 0, 7, 0, Math.PI * 2);
-        ctx.fillStyle = '#ffffff';
-        ctx.shadowColor = '#ffb300';
-        ctx.shadowBlur = 18;
+        ctx.arc(emX, emY, 78 * haloPulse, 0, Math.PI * 2);
         ctx.fill();
 
-        // Doctor Strange Rotating Outer Tao Mandala Ring
-        ctx.save();
-        ctx.rotate(runeAngleRef.current);
-        ctx.strokeStyle = '#ff9d00';
-        ctx.shadowColor = '#ff6600';
-        ctx.shadowBlur = 14;
-        ctx.lineWidth = 2;
-
-        // Outer circular perimeter with dashed fiery segments
+        // 2. Warm Incandescent Golden Flame Aura (Mid soft glow)
+        const innerPulse = 1 + 0.08 * Math.cos(clock * 3.2);
+        const innerGrad = ctx.createRadialGradient(emX, emY, 0, emX, emY, 36 * innerPulse);
+        innerGrad.addColorStop(0, 'rgba(255, 245, 190, 0.95)');
+        innerGrad.addColorStop(0.25, 'rgba(255, 195, 65, 0.75)');
+        innerGrad.addColorStop(0.6, 'rgba(255, 90, 80, 0.38)');
+        innerGrad.addColorStop(1, 'rgba(255, 50, 80, 0)');
+        ctx.fillStyle = innerGrad;
         ctx.beginPath();
-        ctx.arc(0, 0, 32, 0, Math.PI * 2);
-        ctx.setLineDash([8, 5, 2, 5]);
-        ctx.stroke();
+        ctx.arc(emX, emY, 36 * innerPulse, 0, Math.PI * 2);
+        ctx.fill();
 
-        // Concentric inner ring
-        ctx.beginPath();
-        ctx.arc(0, 0, 24, 0, Math.PI * 2);
-        ctx.setLineDash([]);
-        ctx.lineWidth = 1.2;
-        ctx.strokeStyle = '#ffd700';
-        ctx.stroke();
+        // 3. Dancing Organic Ethereal Flame Wisps (Soft floating flame droplets)
+        for (let w = 0; w < 4; w++) {
+          const wAngle = clock * 3.8 + w * (Math.PI * 2 / 4);
+          const wDist = 7 + 5 * Math.sin(clock * 4.5 + w * 1.5);
+          const wx = emX + Math.cos(wAngle) * wDist;
+          const wy = emY - 8 - Math.abs(Math.sin(clock * 3 + w)) * 14 + Math.sin(wAngle) * 3;
+          const wispRadius = 9 + 3 * Math.cos(clock * 5 + w);
 
-        // Interlocking Eldritch Square 1
-        ctx.strokeRect(-16, -16, 32, 32);
+          const wispGrad = ctx.createRadialGradient(wx, wy, 0, wx, wy, wispRadius);
+          wispGrad.addColorStop(0, 'rgba(255, 250, 210, 0.85)');
+          wispGrad.addColorStop(0.4, 'rgba(255, 175, 45, 0.5)');
+          wispGrad.addColorStop(1, 'rgba(230, 40, 70, 0)');
+          ctx.fillStyle = wispGrad;
+          ctx.beginPath();
+          ctx.arc(wx, wy, wispRadius, 0, Math.PI * 2);
+          ctx.fill();
+        }
 
-        // Interlocking Eldritch Square 2 (Rotated 45 degrees -> Octagram)
-        ctx.rotate(Math.PI / 4);
-        ctx.strokeRect(-16, -16, 32, 32);
+        // 4. Central Diamond Star Flare at Finger Point Core
+        const coreSize = 13 + 3 * Math.sin(clock * 4);
+        drawDiamondStar(emX, emY, coreSize, clock * 1.2, 0.95, '#ffffff');
+        drawDiamondStar(emX, emY, coreSize * 0.65, -clock * 1.6, 0.85, '#ffe58f');
 
-        ctx.restore();
-
-        // Counter-rotating secondary mystic ring
-        ctx.save();
-        ctx.rotate(secondaryAngleRef.current);
-        ctx.beginPath();
-        ctx.arc(0, 0, 42, 0, Math.PI * 2);
-        ctx.strokeStyle = 'rgba(255, 140, 0, 0.6)';
-        ctx.lineWidth = 1;
-        ctx.setLineDash([4, 10]);
-        ctx.stroke();
-        ctx.restore();
+        // Tiny orbiting companion starlight diamond
+        const orbX = emX + Math.cos(clock * 2.8) * 16;
+        const orbY = emY + Math.sin(clock * 2.8) * 16;
+        drawDiamondStar(orbX, orbY, 5.5, clock * 3, 0.8, '#fff2a3');
 
         ctx.restore();
       }
 
-      // Render Expanding Shockwaves
-      for (let i = shockwavesRef.current.length - 1; i >= 0; i--) {
-        const sw = shockwavesRef.current[i];
-        sw.radius += (sw.maxRadius - sw.radius) * 0.12 + 2.5;
-        sw.opacity *= 0.91;
+      // Render Expanding Starlight Burst Waves
+      for (let i = burstWavesRef.current.length - 1; i >= 0; i--) {
+        const bw = burstWavesRef.current[i];
+        bw.radius += (bw.maxRadius - bw.radius) * 0.11 + 2.8;
+        bw.opacity *= 0.92;
 
-        if (sw.opacity <= 0.02 || sw.radius >= sw.maxRadius) {
-          shockwavesRef.current.splice(i, 1);
+        if (bw.opacity <= 0.02 || bw.radius >= bw.maxRadius) {
+          burstWavesRef.current.splice(i, 1);
         } else {
           ctx.save();
+          ctx.globalCompositeOperation = 'screen';
           ctx.beginPath();
-          ctx.arc(sw.x, sw.y, sw.radius, 0, Math.PI * 2);
-          ctx.strokeStyle = sw.color;
-          ctx.lineWidth = sw.width * sw.opacity;
-          ctx.globalAlpha = sw.opacity;
-          ctx.shadowBlur = 24;
-          ctx.shadowColor = sw.color;
+          ctx.arc(bw.x, bw.y, bw.radius, 0, Math.PI * 2);
+          ctx.strokeStyle = bw.color;
+          ctx.lineWidth = bw.width * bw.opacity;
+          ctx.globalAlpha = bw.opacity;
+          ctx.shadowBlur = 20;
+          ctx.shadowColor = bw.color;
           ctx.stroke();
           ctx.restore();
         }
       }
 
-      // Render Doctor Strange Fiery Ember Particles
+      // Render Floating Fairy Dust and Diamond Star Sparkles
+      ctx.save();
+      ctx.globalCompositeOperation = 'screen';
+
       for (let i = particlesRef.current.length - 1; i >= 0; i--) {
         const p = particlesRef.current[i];
         p.x += p.vx;
         p.y += p.vy;
         p.life -= p.decay;
-        p.size *= 0.955;
+        p.rotation += p.vRot;
+        p.size *= 0.975;
 
-        if (p.life <= 0 || p.size <= 0.4) {
+        if (p.life <= 0 || p.size <= 0.3) {
           particlesRef.current.splice(i, 1);
         } else {
-          ctx.save();
-          ctx.beginPath();
-          ctx.arc(p.x, p.y, Math.max(0.4, p.size), 0, Math.PI * 2);
-          ctx.fillStyle = p.color;
-          ctx.globalAlpha = Math.max(0, p.life);
-          ctx.shadowBlur = p.sparkle ? 18 : 9;
-          ctx.shadowColor = p.color;
-          ctx.fill();
-          ctx.restore();
+          const alpha = Math.max(0, p.life) * (0.75 + 0.25 * Math.sin(clock * 8 + i));
+          if (p.isStar) {
+            drawDiamondStar(
+              p.x, 
+              p.y, 
+              p.size * 1.5, 
+              p.rotation, 
+              alpha, 
+              `hsl(${p.hue}, 100%, 75%)`
+            );
+          } else {
+            ctx.beginPath();
+            ctx.arc(p.x, p.y, Math.max(0.4, p.size), 0, Math.PI * 2);
+            ctx.fillStyle = `hsl(${p.hue}, 100%, 70%)`;
+            ctx.globalAlpha = alpha;
+            ctx.shadowBlur = 10;
+            ctx.shadowColor = `hsl(${p.hue}, 100%, 60%)`;
+            ctx.fill();
+          }
         }
       }
+      ctx.restore();
 
       animationId = requestAnimationFrame(render);
     };

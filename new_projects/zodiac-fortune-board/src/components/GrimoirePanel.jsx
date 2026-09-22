@@ -62,28 +62,15 @@ export function GrimoirePanel({ isOpen, onClose }) {
                 </p>
               </div>
             </div>
-
-            <div className="spell-card highlight">
-              <div className="spell-icon">✊</div>
-              <div className="spell-details">
-                <h3>Stage 5: 100-Sided Fate Die</h3>
-                <span className="spell-gesture">Gesture: Clenched Arcane Fist</span>
-                <p>
-                  Clench all fingers into a tight fist to roll the large 100-sided polyhedral Fate Die (d100)
-                  and discover your celestial fate outcome.
-                </p>
-              </div>
-            </div>
           </div>
 
           <div className="grimoire-footer-notes">
             <h4>Astrological Compass Controls</h4>
             <div className="shortcuts-list">
-              <span><kbd>1</kbd> Zodiac Focus & Seal</span>
+              <span><kbd>1</kbd> Choose & Lock Zodiac Sign</span>
               <span><kbd>2</kbd> or <kbd>Space</kbd> Summary Horoscope</span>
               <span><kbd>3</kbd> Major Arcana Tarot Card</span>
               <span><kbd>4</kbd> 3 Elder Futhark Runes</span>
-              <span><kbd>5</kbd> Roll d100 Fate Die</span>
               <span><kbd>Drag Outside Center</kbd> Rotate Compass Smoothly</span>
               <span><kbd>M</kbd> Mute / Unmute Audio</span>
             </div>
