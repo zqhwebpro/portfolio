@@ -4,303 +4,514 @@
 <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Summary: Workout Mixer — Dynamic Circuit &amp; Timer Engine</title>
+    <title>Zach Heindel | Case Study: Workout Mixer</title>
     <meta name="description"
-        content="Technical case study of Workout Mixer: randomized exercise algorithms, rest interval management, and mobile-first fitness UX." />
+        content="Technical case study of Workout Mixer: randomized exercise algorithms, rest interval management, audio feedback, and mobile-first fitness ergonomics." />
+    <link href="../../2026/media/zqh-portfolio.png" rel="icon" type="image/png">
 
-    <!-- Google Fonts -->
+    <!-- Fonts & Icons -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Outfit:wght@600;700;800&family=JetBrains+Mono:wght@400;600&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500;600;700&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+    <link rel="stylesheet" href="../case-study-branded.css">
 
     <style>
         :root {
-            --bg-dark: #0a0f1d;
-            --card-bg: #11182c;
-            --card-border: #1e293b;
-            --accent-blue: #2563eb;
-            --accent-cyan: #06b6d4;
-            --accent-green: #10b981;
-            --accent-orange: #f97316;
-            --text-main: #f8fafc;
-            --text-muted: #94a3b8;
+            --amber: #F5A623;
+            --red-orange: #E8442A;
+            --text-light: #e8e8e8;
+            --text-muted: #999999;
+            --text-dim: #666666;
+            --bg-black: #000000;
+            --bg-card: rgba(255, 255, 255, 0.03);
+            --border-subtle: rgba(255, 255, 255, 0.08);
+            --border-card: rgba(255, 255, 255, 0.07);
+            --border-left: rgba(255, 255, 255, 0.12);
+            --amber-glow: rgba(245, 166, 35, 0.35);
+            --amber-border: rgba(245, 166, 35, 0.25);
         }
 
         * {
-            box-sizing: border-box;
             margin: 0;
             padding: 0;
+            box-sizing: border-box;
+        }
+
+        html {
+            scroll-behavior: smooth;
+            background: #000;
         }
 
         body {
-            background-color: var(--bg-dark);
-            color: var(--text-main);
-            font-family: 'Inter', system-ui, -apple-system, sans-serif;
+            font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif;
+            color: var(--text-light);
+            background: #000;
             line-height: 1.65;
             min-height: 100vh;
+            overflow-x: hidden;
         }
 
+        body::before {
+            content: '';
+            position: fixed;
+            inset: 0;
+            background: 
+                radial-gradient(circle at 50% 0%, rgba(245, 166, 35, 0.06) 0%, transparent 60%),
+                radial-gradient(circle at 85% 90%, rgba(232, 68, 42, 0.04) 0%, transparent 50%),
+                rgba(10, 10, 10, 0.65);
+            pointer-events: none;
+            z-index: -1;
+        }
+
+        /* Navbar */
         .navbar {
-            border-bottom: 1px solid var(--card-border);
-            background: rgba(10, 15, 29, 0.85);
-            backdrop-filter: blur(12px);
             position: sticky;
             top: 0;
-            z-index: 50;
-            padding: 1rem 1.5rem;
+            z-index: 1000;
+            width: 100%;
+            background: rgba(0, 0, 0, 0.90);
+            backdrop-filter: blur(12px);
+            -webkit-backdrop-filter: blur(12px);
+            border-bottom: 1px solid var(--border-subtle);
+            padding: 18px 32px;
         }
 
         .nav-container {
-            max-width: 1000px;
+            max-width: 1080px;
             margin: 0 auto;
             display: flex;
             justify-content: space-between;
             align-items: center;
             flex-wrap: wrap;
-            gap: 1rem;
+            gap: 16px;
         }
 
         .nav-brand {
-            font-family: 'Outfit', sans-serif;
-            font-weight: 800;
-            font-size: 1.15rem;
-            color: var(--accent-cyan);
+            font-size: 0.75rem;
+            letter-spacing: 0.3em;
+            text-transform: uppercase;
+            color: var(--text-muted);
             text-decoration: none;
+            font-weight: 700;
             display: flex;
             align-items: center;
-            gap: 0.5rem;
+            gap: 8px;
+        }
+
+        .nav-brand span {
+            color: var(--amber);
         }
 
         .nav-links {
             display: flex;
-            gap: 0.75rem;
+            gap: 10px;
             align-items: center;
+            flex-wrap: wrap;
         }
 
         .nav-btn {
             display: inline-flex;
             align-items: center;
-            gap: 0.4rem;
-            padding: 0.45rem 0.9rem;
-            border-radius: 8px;
-            font-size: 0.82rem;
-            font-weight: 600;
+            gap: 6px;
+            padding: 6px 14px;
+            font-family: inherit;
+            font-size: 0.65rem;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 0.15em;
             text-decoration: none;
-            transition: all 0.2s ease;
-            border: 1px solid var(--card-border);
-            color: var(--text-muted);
-            background: var(--card-bg);
+            color: rgba(245, 166, 35, 0.8);
+            border: 1px solid var(--amber-border);
+            background: rgba(18, 18, 18, 0.85);
+            backdrop-filter: blur(4px);
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.5);
+            border-radius: 2px;
+            transition: all 0.2s ease-in-out;
         }
 
         .nav-btn:hover {
-            color: var(--accent-cyan);
-            border-color: var(--accent-cyan);
-            transform: translateY(-1px);
+            color: var(--amber);
+            border-color: var(--amber);
+            background: rgba(245, 166, 35, 0.12);
+            box-shadow: 0 0 16px var(--amber-glow);
+            transform: translateY(-2px);
         }
 
         .nav-btn.primary {
-            background: var(--accent-blue);
-            color: #fff;
-            border-color: var(--accent-blue);
-            box-shadow: 0 0 16px rgba(37, 99, 235, 0.35);
+            background: linear-gradient(135deg, var(--amber), var(--red-orange));
+            color: #000;
+            font-weight: 800;
+            border: 1px solid var(--amber);
+            box-shadow: 0 0 16px var(--amber-glow);
         }
 
         .nav-btn.primary:hover {
-            background: #1d4ed8;
-            box-shadow: 0 0 20px rgba(37, 99, 235, 0.6);
+            box-shadow: 0 0 24px rgba(245, 166, 35, 0.6);
+            transform: translateY(-2px);
         }
 
+        /* Floating Portfolio Button */
+        .btn-projects {
+            position: fixed;
+            bottom: 2rem;
+            right: 2rem;
+            z-index: 9999;
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
+            padding: 0.5rem 1rem;
+            font-family: inherit;
+            font-size: 0.65rem;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 0.15em;
+            text-decoration: none;
+            color: rgba(245, 166, 35, 0.8);
+            border: 1px solid var(--amber-border);
+            background: rgba(18, 18, 18, 0.85);
+            backdrop-filter: blur(4px);
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.5);
+            border-radius: 2px;
+            transition: all 0.2s ease-in-out;
+        }
+
+        .btn-projects:hover {
+            color: var(--amber);
+            border-color: var(--amber);
+            background: rgba(245, 166, 35, 0.15);
+            box-shadow: 0 0 16px var(--amber-glow);
+            transform: translateY(-2px);
+        }
+
+        /* 2026 Section Accent */
+        .section-label {
+            font-size: 0.65rem;
+            letter-spacing: 0.25em;
+            text-transform: uppercase;
+            color: var(--amber);
+            font-weight: 700;
+            display: inline-block;
+        }
+
+        .accent-line {
+            display: inline-flex;
+            align-items: center;
+            gap: 12px;
+            margin-bottom: 8px;
+        }
+
+        .accent-line::before,
+        .accent-line::after {
+            content: '';
+            display: block;
+            height: 1px;
+            width: 40px;
+            background: var(--amber);
+            opacity: 0.5;
+        }
+
+        /* Container */
         .container {
-            max-width: 1000px;
+            max-width: 1080px;
             margin: 0 auto;
-            padding: 2.5rem 1.5rem 4rem;
+            padding: 48px 32px 100px;
         }
 
+        /* Hero */
         .case-hero {
-            margin-bottom: 2.5rem;
-            padding-bottom: 2rem;
-            border-bottom: 1px solid var(--card-border);
+            margin-bottom: 48px;
+            padding-bottom: 36px;
+            border-bottom: 1px solid var(--border-subtle);
+            text-align: left;
+        }
+
+        .hero-title {
+            font-size: clamp(2rem, 5vw, 3.4rem);
+            font-weight: 800;
+            letter-spacing: -0.03em;
+            line-height: 1.12;
+            color: #ffffff;
+            margin-top: 14px;
+            margin-bottom: 16px;
+        }
+
+        .hero-title em,
+        .hero-title .highlight {
+            color: var(--amber);
+            font-style: normal;
+        }
+
+        .hero-subtitle {
+            font-size: clamp(0.92rem, 1.4vw, 1.08rem);
+            color: var(--text-muted);
+            line-height: 1.7;
+            max-width: 840px;
+            margin-bottom: 24px;
         }
 
         .badge-row {
             display: flex;
             flex-wrap: wrap;
-            gap: 0.5rem;
-            margin-bottom: 1rem;
+            gap: 8px;
+            margin-bottom: 16px;
         }
 
         .tag {
-            font-family: 'JetBrains Mono', monospace;
-            font-size: 0.75rem;
-            font-weight: 600;
-            padding: 0.25rem 0.65rem;
-            border-radius: 6px;
-            background: rgba(6, 182, 212, 0.1);
-            color: var(--accent-cyan);
-            border: 1px solid rgba(6, 182, 212, 0.25);
-        }
-
-        .tag.blue {
-            background: rgba(37, 99, 235, 0.1);
-            color: #60a5fa;
-            border-color: rgba(37, 99, 235, 0.25);
-        }
-
-        .tag.orange {
-            background: rgba(249, 115, 22, 0.1);
-            color: var(--accent-orange);
-            border-color: rgba(249, 115, 22, 0.25);
-        }
-
-        h1 {
-            font-family: 'Outfit', sans-serif;
-            font-size: 2.4rem;
-            font-weight: 800;
-            line-height: 1.2;
-            color: #fff;
-            margin-bottom: 0.75rem;
-        }
-
-        .hero-subtitle {
-            font-size: 1.15rem;
+            padding: 4px 12px;
+            background: rgba(255, 255, 255, 0.05);
+            border: 1px solid var(--border-subtle);
+            font-size: 0.6rem;
+            letter-spacing: 0.15em;
+            text-transform: uppercase;
             color: var(--text-muted);
-            max-width: 800px;
+            border-radius: 2px;
+            font-family: 'JetBrains Mono', monospace;
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
+            transition: all 0.2s;
         }
 
+        .tag:hover,
+        .tag.amber {
+            border-color: rgba(245, 166, 35, 0.4);
+            color: var(--amber);
+            background: rgba(245, 166, 35, 0.08);
+        }
+
+        /* Metrics */
+        .metrics-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 14px;
+            margin-bottom: 40px;
+        }
+
+        .metric-card {
+            background: var(--bg-card);
+            border: 1px solid var(--border-card);
+            border-top: 2px solid var(--amber);
+            padding: 20px 22px;
+            border-radius: 2px;
+            transition: all 0.2s ease-in-out;
+        }
+
+        .metric-card:hover {
+            background: rgba(245, 166, 35, 0.05);
+            border-color: rgba(245, 166, 35, 0.35);
+            border-top-color: var(--amber);
+            transform: translateY(-2px);
+            box-shadow: 0 8px 24px rgba(0, 0, 0, 0.4);
+        }
+
+        .metric-value {
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 1.9rem;
+            font-weight: 800;
+            color: var(--amber);
+            line-height: 1;
+            margin-bottom: 6px;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .metric-label {
+            font-size: 0.62rem;
+            letter-spacing: 0.15em;
+            text-transform: uppercase;
+            color: var(--text-muted);
+            font-weight: 700;
+        }
+
+        /* Content Blocks */
         .section-block {
-            background: var(--card-bg);
-            border: 1px solid var(--card-border);
-            border-radius: 14px;
-            padding: 1.75rem 2rem;
-            margin-bottom: 2rem;
-            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.2);
+            padding: 28px 32px;
+            background: var(--bg-card);
+            border: 1px solid var(--border-card);
+            border-left: 2px solid var(--border-left);
+            border-radius: 2px;
+            margin-bottom: 24px;
+            text-align: left;
+            transition: background 0.2s, border-color 0.2s, border-left-color 0.2s, transform 0.2s;
+        }
+
+        .section-block:hover {
+            background: rgba(245, 166, 35, 0.04);
+            border-color: rgba(245, 166, 35, 0.35);
+            border-left-color: var(--amber);
+            transform: translateY(-2px);
         }
 
         .section-title {
-            font-family: 'Outfit', sans-serif;
-            font-size: 1.35rem;
-            font-weight: 700;
-            color: #fff;
-            margin-bottom: 1rem;
+            font-size: 1.22rem;
+            font-weight: 800;
+            letter-spacing: -0.02em;
+            color: #ffffff;
+            margin-bottom: 14px;
             display: flex;
             align-items: center;
-            gap: 0.6rem;
+            gap: 10px;
         }
 
         .section-title i {
-            color: var(--accent-cyan);
-            font-size: 1.1rem;
+            color: var(--amber);
+            font-size: 1rem;
         }
 
         p {
-            color: #cbd5e1;
-            margin-bottom: 1rem;
-            font-size: 0.96rem;
+            color: var(--text-light);
+            font-size: 0.88rem;
+            line-height: 1.75;
+            margin-bottom: 14px;
         }
 
-        .learnings-list {
-            list-style: none;
-            display: flex;
-            flex-direction: column;
-            gap: 1rem;
-            margin-top: 1rem;
+        p:last-child {
+            margin-bottom: 0;
         }
 
-        .learning-item {
-            display: flex;
-            gap: 1rem;
-            background: rgba(10, 15, 29, 0.6);
-            border: 1px solid var(--card-border);
-            border-left: 4px solid var(--accent-blue);
-            border-radius: 8px;
-            padding: 1rem 1.25rem;
-        }
-
-        .learning-item.cyan {
-            border-left-color: var(--accent-cyan);
-        }
-
-        .learning-item.orange {
-            border-left-color: var(--accent-orange);
-        }
-
-        .learning-icon {
-            font-size: 1.2rem;
-            margin-top: 0.1rem;
-            flex-shrink: 0;
-        }
-
-        .learning-content h4 {
-            font-size: 1rem;
-            font-weight: 700;
-            color: #fff;
-            margin-bottom: 0.35rem;
-        }
-
-        .learning-content p {
-            margin: 0;
-            font-size: 0.9rem;
-            color: var(--text-muted);
-        }
-
+        /* Tech Spec Grid */
         .tech-grid {
             display: grid;
-            grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
-            gap: 1rem;
-            margin-top: 1rem;
+            grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+            gap: 12px;
+            margin-top: 16px;
         }
 
         .tech-card {
-            background: rgba(10, 15, 29, 0.5);
-            border: 1px solid var(--card-border);
-            border-radius: 8px;
-            padding: 1rem;
+            padding: 16px 18px;
+            background: rgba(255, 255, 255, 0.02);
+            border: 1px solid rgba(255, 255, 255, 0.06);
+            border-top: 2px solid var(--border-left);
+            border-radius: 2px;
+            transition: all 0.2s;
+        }
+
+        .tech-card:hover {
+            border-top-color: var(--amber);
+            background: rgba(245, 166, 35, 0.04);
         }
 
         .tech-label {
             font-family: 'JetBrains Mono', monospace;
-            font-size: 0.75rem;
-            color: var(--accent-cyan);
+            font-size: 0.62rem;
+            letter-spacing: 0.15em;
             text-transform: uppercase;
-            letter-spacing: 0.5px;
-            margin-bottom: 0.25rem;
+            color: var(--amber);
+            margin-bottom: 4px;
         }
 
         .tech-value {
             font-weight: 700;
-            color: #fff;
-            font-size: 0.95rem;
+            color: #ffffff;
+            font-size: 0.92rem;
+            margin-bottom: 6px;
         }
 
+        /* Bullet List */
+        .learnings-list {
+            list-style: none;
+            margin: 16px 0;
+            display: flex;
+            flex-direction: column;
+            gap: 12px;
+        }
+
+        .learning-item {
+            display: flex;
+            gap: 14px;
+            padding: 14px 18px;
+            background: rgba(255, 255, 255, 0.02);
+            border: 1px solid rgba(255, 255, 255, 0.06);
+            border-left: 2px solid var(--border-left);
+            border-radius: 2px;
+            transition: all 0.2s ease;
+        }
+
+        .learning-item:hover {
+            border-left-color: var(--amber);
+            background: rgba(245, 166, 35, 0.04);
+        }
+
+        .learning-icon {
+            color: var(--amber);
+            font-size: 1.1rem;
+            margin-top: 2px;
+            flex-shrink: 0;
+        }
+
+        .learning-content h4 {
+            font-size: 0.85rem;
+            font-weight: 700;
+            letter-spacing: 0.08em;
+            text-transform: uppercase;
+            color: #ffffff;
+            margin-bottom: 4px;
+        }
+
+        .learning-content p {
+            font-size: 0.82rem;
+            color: var(--text-muted);
+            margin: 0;
+            line-height: 1.6;
+        }
+
+        /* Status Dot */
+        .status-dot {
+            display: inline-block;
+            width: 7px;
+            height: 7px;
+            border-radius: 50%;
+            background: #4ade80;
+            margin-right: 7px;
+            animation: pulse 2s infinite;
+        }
+
+        @keyframes pulse {
+            0%, 100% { opacity: 1; }
+            50% { opacity: 0.3; }
+        }
+
+        /* Footer Nav */
         .footer-nav {
-            margin-top: 3rem;
-            padding-top: 2rem;
-            border-top: 1px solid var(--card-border);
+            margin-top: 50px;
+            padding-top: 28px;
+            border-top: 1px solid var(--border-subtle);
             display: flex;
             justify-content: space-between;
             align-items: center;
             flex-wrap: wrap;
-            gap: 1rem;
+            gap: 16px;
         }
 
         .footer-links-group {
             display: flex;
-            gap: 0.75rem;
+            gap: 10px;
             flex-wrap: wrap;
         }
 
-        @media (max-width: 640px) {
-            h1 {
-                font-size: 1.8rem;
-            }
-            .section-block {
-                padding: 1.25rem;
-            }
-            .footer-nav {
-                flex-direction: column;
-                align-items: stretch;
-            }
+        .footer-meta {
+            width: 100%;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-top: 24px;
+            font-size: 0.6rem;
+            letter-spacing: 0.2em;
+            text-transform: uppercase;
+            color: var(--text-dim);
+            border-top: 1px solid rgba(255, 255, 255, 0.04);
+            padding-top: 16px;
+        }
+
+        @media (max-width: 768px) {
+            .navbar { padding: 14px 20px; }
+            .container { padding: 32px 18px 80px; }
+            .hero-title { font-size: 2.2rem; }
+            .section-block { padding: 20px 22px; }
+            .footer-nav { flex-direction: column; align-items: stretch; }
+            .footer-meta { flex-direction: column; align-items: flex-start; gap: 8px; }
         }
     </style>
 </head>
@@ -309,14 +520,14 @@
 
     <header class="navbar">
         <div class="nav-container">
-            <a href="./index.html" class="nav-brand">
-                <i class="fa-solid fa-dumbbell"></i> Workout Mixer
+            <a href="../../2026/index.html" class="nav-brand">
+                ZH // <span>CASE STUDY</span>
             </a>
             <div class="nav-links">
                 <a href="../index.html" class="nav-btn">
-                    <i class="fa-solid fa-grid-2"></i> Interactive Projects
+                    <i class="fa-solid fa-grid-2"></i> All Projects
                 </a>
-                <a href="../../2026/" class="nav-btn">
+                <a href="../../2026/index.html" class="nav-btn">
                     <i class="fa-solid fa-arrow-left"></i> Main Portfolio
                 </a>
                 <a href="./index.html" class="nav-btn primary">
@@ -329,33 +540,119 @@
     <main class="container">
 
         <div class="case-hero">
-            <div class="badge-row">
-                <span class="tag orange">Summary</span>
-                <span class="tag blue">React State Architecture</span>
-                <span class="tag">Timer Engine &amp; Mobile UX</span>
+            <div class="accent-line">
+                <span class="section-label">CASE STUDY // CIRCUIT ENGINE &amp; MOBILE UX</span>
             </div>
-            <h1>Workout Mixer: Circuit Generation Engine</h1>
+            <h1 class="hero-title">
+                Workout Mixer: <span class="highlight">Circuit Generation Engine</span>
+            </h1>
             <p class="hero-subtitle">
-                An adaptive fitness randomizer and circuit trainer with muscle balance constraints, interval rest timers, and mobile-first ergonomics.
+                An adaptive fitness randomizer and circuit training application engineered with antagonist muscle balance constraints, real-time rest interval state machines, and high-contrast mobile-first ergonomics.
             </p>
+            <div class="badge-row">
+                <span class="tag amber"><i class="fa-solid fa-bolt"></i> Client-Side Algorithms</span>
+                <span class="tag"><i class="fa-solid fa-stopwatch"></i> Interval Timers</span>
+                <span class="tag"><i class="fa-solid fa-mobile-screen"></i> Mobile-First UX</span>
+                <span class="tag"><i class="fa-solid fa-database"></i> Zero Cloud Latency</span>
+            </div>
+        </div>
+
+        <!-- Metric Highlights -->
+        <div class="metrics-grid">
+            <div class="metric-card">
+                <div class="metric-value">
+                    <i class="fa-solid fa-dumbbell"></i> 100+
+                </div>
+                <div class="metric-label">Exercise Variations</div>
+            </div>
+            <div class="metric-card">
+                <div class="metric-value">
+                    <i class="fa-solid fa-gauge-high"></i> 0ms
+                </div>
+                <div class="metric-label">Server Latency</div>
+            </div>
+            <div class="metric-card">
+                <div class="metric-value">
+                    <i class="fa-solid fa-arrows-split-up-and-left"></i> 100%
+                </div>
+                <div class="metric-label">Antagonist Muscle Balance</div>
+            </div>
+            <div class="metric-card">
+                <div class="metric-value">
+                    <i class="fa-solid fa-shield-check"></i> 0
+                </div>
+                <div class="metric-label">External Dependencies</div>
+            </div>
         </div>
 
         <section class="section-block">
+            <div class="accent-line">
+                <span class="section-label">01 // WHAT IT IS</span>
+            </div>
             <h2 class="section-title">
-                <i class="fa-solid fa-circle-info"></i> What It Is
+                <i class="fa-solid fa-circle-info"></i> What It Is &amp; Purpose
             </h2>
             <p>
-                A mobile-first utility app for practical fitness targeting and tracking.
+                <strong>Workout Mixer</strong> is a tactical, distraction-free fitness utility designed to eliminate workout decision fatigue. Rather than navigating rigid, subscription-locked workout trees, athletes can instantly spin algorithmic circuits calibrated by equipment availability, muscle group balance, and target work/rest ratios.
+            </p>
+            <p>
+                The UI prioritizes high legibility in challenging gym environments—featuring high-contrast visual status indicators, haptic countdowns, and tap zones large enough for sweaty hands mid-interval.
             </p>
         </section>
 
         <section class="section-block">
+            <div class="accent-line">
+                <span class="section-label">02 // ARCHITECTURE &amp; IMPLEMENTATION</span>
+            </div>
             <h2 class="section-title">
-                <i class="fa-solid fa-hammer"></i> How It Was Built
+                <i class="fa-solid fa-hammer"></i> Engineering &amp; Algorithmic Foundations
             </h2>
             <p>
-                Developed with JavaScript, HTML, and responsive CSS, powered by client-side algorithmic randomization, array manipulation, and strict interval tracking.
+                Developed with modern JavaScript, structured state machines, and responsive CSS, the application is driven by client-side algorithmic randomization with biological constraint checking:
             </p>
+
+            <ul class="learnings-list">
+                <li class="learning-item">
+                    <div class="learning-icon"><i class="fa-solid fa-diagram-project"></i></div>
+                    <div class="learning-content">
+                        <h4>Antagonist Muscle Group Pairing</h4>
+                        <p>Prevents consecutive exercises targeting identical movement planes (e.g. quad fatigue or rotator cuff strain), dynamically interleaving push/pull and upper/lower movements.</p>
+                    </div>
+                </li>
+                <li class="learning-item">
+                    <div class="learning-icon"><i class="fa-solid fa-clock"></i></div>
+                    <div class="learning-content">
+                        <h4>Drift-Proof Interval Engine</h4>
+                        <p>Uses epoch delta timestamps rather than naive setInterval loops, ensuring accurate timer countdowns even when mobile browser tabs are throttled or locked in pocket mode.</p>
+                    </div>
+                </li>
+                <li class="learning-item">
+                    <div class="learning-icon"><i class="fa-solid fa-volume-high"></i></div>
+                    <div class="learning-content">
+                        <h4>Procedural Audio Feedback</h4>
+                        <p>Synthesizes audible interval warning cues via the Web Audio API, delivering crisp bell alerts across noisy gyms without loading external sound files.</p>
+                    </div>
+                </li>
+            </ul>
+
+            <div class="tech-grid">
+                <div class="tech-card">
+                    <div class="tech-label">Architecture</div>
+                    <div class="tech-value">Client-Side State Engine</div>
+                </div>
+                <div class="tech-card">
+                    <div class="tech-label">Audio</div>
+                    <div class="tech-value">Native Web Audio API</div>
+                </div>
+                <div class="tech-card">
+                    <div class="tech-label">Layout</div>
+                    <div class="tech-value">Responsive Flex &amp; Grid</div>
+                </div>
+                <div class="tech-card">
+                    <div class="tech-label">Persistence</div>
+                    <div class="tech-value">Zero-Telemetry LocalStorage</div>
+                </div>
+            </div>
         </section>
 
         <footer class="footer-nav">
@@ -364,15 +661,27 @@
             </a>
             <div class="footer-links-group">
                 <a href="../index.html" class="nav-btn">
-                    <i class="fa-solid fa-grid-2"></i> All Interactive Projects
+                    <i class="fa-solid fa-grid-2"></i> All Projects
                 </a>
-                <a href="../../2026/" class="nav-btn">
-                    <i class="fa-solid fa-house"></i> Main Portfolio
+                <a href="../../2026/index.html" class="nav-btn">
+                    <i class="fa-solid fa-arrow-left"></i> Main Portfolio
                 </a>
+            </div>
+
+            <div class="footer-meta">
+                <div>
+                    <span class="status-dot"></span> Available for Web Dev &amp; Design Contracts
+                </div>
+                <div>ZH // 2026 DESIGN &amp; DEVELOPMENT</div>
             </div>
         </footer>
 
     </main>
+
+    <!-- Floating Portfolio Button (Matching /2026/index.html) -->
+    <a href="../../2026/index.html" class="btn-projects">
+        <i class="fa-solid fa-arrow-left"></i> Portfolio
+    </a>
 
 </body>
 

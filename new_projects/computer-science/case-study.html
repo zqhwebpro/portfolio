@@ -4,310 +4,514 @@
 <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Summary: Computer Science Foundations — The 8 Fundamental Concepts</title>
+    <title>Zach Heindel | Case Study: Computer Science Foundations</title>
     <meta name="description"
-        content="Technical case study of The 8 Fundamental Concepts of Algorithms: interactive visual algorithms, Big-O complexity curves, and Neo-Brutalist design." />
+        content="Technical case study of The 8 Fundamental Concepts of Algorithms: interactive visual algorithms, Big-O complexity curves, and algorithm state visualizers." />
+    <link href="../../2026/media/zqh-portfolio.png" rel="icon" type="image/png">
 
-    <!-- Google Fonts -->
+    <!-- Fonts & Icons -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800;900&family=JetBrains+Mono:wght@400;600;800&family=Cabinet+Grotesk:wght@700;800;900&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500;600;700&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+    <link rel="stylesheet" href="../case-study-branded.css">
 
     <style>
         :root {
-            --bg-canvas: #faf8f5;
-            --card-bg: #ffffff;
-            --border-color: #000000;
-            --accent-yellow: #ffee00;
-            --accent-blue: #0044ff;
-            --accent-red: #ff3366;
-            --accent-mint: #00cc88;
-            --text-main: #000000;
-            --text-muted: #555555;
+            --amber: #F5A623;
+            --red-orange: #E8442A;
+            --text-light: #e8e8e8;
+            --text-muted: #999999;
+            --text-dim: #666666;
+            --bg-black: #000000;
+            --bg-card: rgba(255, 255, 255, 0.03);
+            --border-subtle: rgba(255, 255, 255, 0.08);
+            --border-card: rgba(255, 255, 255, 0.07);
+            --border-left: rgba(255, 255, 255, 0.12);
+            --amber-glow: rgba(245, 166, 35, 0.35);
+            --amber-border: rgba(245, 166, 35, 0.25);
         }
 
         * {
-            box-sizing: border-box;
             margin: 0;
             padding: 0;
+            box-sizing: border-box;
+        }
+
+        html {
+            scroll-behavior: smooth;
+            background: #000;
         }
 
         body {
-            background-color: var(--bg-canvas);
-            color: var(--text-main);
-            font-family: 'Plus Jakarta Sans', system-ui, -apple-system, sans-serif;
+            font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif;
+            color: var(--text-light);
+            background: #000;
             line-height: 1.65;
             min-height: 100vh;
+            overflow-x: hidden;
         }
 
+        body::before {
+            content: '';
+            position: fixed;
+            inset: 0;
+            background: 
+                radial-gradient(circle at 50% 0%, rgba(245, 166, 35, 0.06) 0%, transparent 60%),
+                radial-gradient(circle at 85% 90%, rgba(232, 68, 42, 0.04) 0%, transparent 50%),
+                rgba(10, 10, 10, 0.65);
+            pointer-events: none;
+            z-index: -1;
+        }
+
+        /* Navbar */
         .navbar {
-            border-bottom: 3px solid var(--border-color);
-            background: #ffffff;
             position: sticky;
             top: 0;
-            z-index: 50;
-            padding: 1rem 1.5rem;
-            box-shadow: 0 4px 0px rgba(0,0,0,0.06);
+            z-index: 1000;
+            width: 100%;
+            background: rgba(0, 0, 0, 0.90);
+            backdrop-filter: blur(12px);
+            -webkit-backdrop-filter: blur(12px);
+            border-bottom: 1px solid var(--border-subtle);
+            padding: 18px 32px;
         }
 
         .nav-container {
-            max-width: 1000px;
+            max-width: 1080px;
             margin: 0 auto;
             display: flex;
             justify-content: space-between;
             align-items: center;
             flex-wrap: wrap;
-            gap: 1rem;
+            gap: 16px;
         }
 
         .nav-brand {
-            font-family: 'Cabinet Grotesk', 'Plus Jakarta Sans', sans-serif;
-            font-weight: 900;
-            font-size: 1.25rem;
-            color: var(--text-main);
+            font-size: 0.75rem;
+            letter-spacing: 0.3em;
+            text-transform: uppercase;
+            color: var(--text-muted);
             text-decoration: none;
+            font-weight: 700;
             display: flex;
             align-items: center;
-            gap: 0.6rem;
-            letter-spacing: -0.02em;
+            gap: 8px;
         }
 
-        .nav-brand-badge {
-            background: var(--accent-blue);
-            color: #fff;
-            padding: 0.2rem 0.5rem;
-            border: 2px solid #000;
-            box-shadow: 2px 2px 0 #000;
-            font-size: 0.85rem;
+        .nav-brand span {
+            color: var(--amber);
         }
 
         .nav-links {
             display: flex;
-            gap: 0.75rem;
+            gap: 10px;
             align-items: center;
+            flex-wrap: wrap;
         }
 
         .nav-btn {
             display: inline-flex;
             align-items: center;
-            gap: 0.4rem;
-            padding: 0.5rem 1rem;
-            font-size: 0.82rem;
-            font-weight: 800;
+            gap: 6px;
+            padding: 6px 14px;
+            font-family: inherit;
+            font-size: 0.65rem;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 0.15em;
             text-decoration: none;
-            transition: transform 0.15s ease, box-shadow 0.15s ease;
-            border: 2px solid #000;
-            color: #000;
-            background: #fff;
-            box-shadow: 3px 3px 0 #000;
+            color: rgba(245, 166, 35, 0.8);
+            border: 1px solid var(--amber-border);
+            background: rgba(18, 18, 18, 0.85);
+            backdrop-filter: blur(4px);
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.5);
+            border-radius: 2px;
+            transition: all 0.2s ease-in-out;
         }
 
         .nav-btn:hover {
-            transform: translate(-1px, -1px);
-            box-shadow: 4px 4px 0 #000;
-            background: var(--accent-yellow);
+            color: var(--amber);
+            border-color: var(--amber);
+            background: rgba(245, 166, 35, 0.12);
+            box-shadow: 0 0 16px var(--amber-glow);
+            transform: translateY(-2px);
         }
 
         .nav-btn.primary {
-            background: var(--accent-blue);
-            color: #fff;
+            background: linear-gradient(135deg, var(--amber), var(--red-orange));
+            color: #000;
+            font-weight: 800;
+            border: 1px solid var(--amber);
+            box-shadow: 0 0 16px var(--amber-glow);
         }
 
         .nav-btn.primary:hover {
-            background: #0033cc;
+            box-shadow: 0 0 24px rgba(245, 166, 35, 0.6);
+            transform: translateY(-2px);
         }
 
+        /* Floating Portfolio Button */
+        .btn-projects {
+            position: fixed;
+            bottom: 2rem;
+            right: 2rem;
+            z-index: 9999;
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
+            padding: 0.5rem 1rem;
+            font-family: inherit;
+            font-size: 0.65rem;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 0.15em;
+            text-decoration: none;
+            color: rgba(245, 166, 35, 0.8);
+            border: 1px solid var(--amber-border);
+            background: rgba(18, 18, 18, 0.85);
+            backdrop-filter: blur(4px);
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.5);
+            border-radius: 2px;
+            transition: all 0.2s ease-in-out;
+        }
+
+        .btn-projects:hover {
+            color: var(--amber);
+            border-color: var(--amber);
+            background: rgba(245, 166, 35, 0.15);
+            box-shadow: 0 0 16px var(--amber-glow);
+            transform: translateY(-2px);
+        }
+
+        /* 2026 Section Accent */
+        .section-label {
+            font-size: 0.65rem;
+            letter-spacing: 0.25em;
+            text-transform: uppercase;
+            color: var(--amber);
+            font-weight: 700;
+            display: inline-block;
+        }
+
+        .accent-line {
+            display: inline-flex;
+            align-items: center;
+            gap: 12px;
+            margin-bottom: 8px;
+        }
+
+        .accent-line::before,
+        .accent-line::after {
+            content: '';
+            display: block;
+            height: 1px;
+            width: 40px;
+            background: var(--amber);
+            opacity: 0.5;
+        }
+
+        /* Container */
         .container {
-            max-width: 1000px;
+            max-width: 1080px;
             margin: 0 auto;
-            padding: 2.5rem 1.5rem 4rem;
+            padding: 48px 32px 100px;
         }
 
+        /* Hero */
         .case-hero {
-            margin-bottom: 2.5rem;
-            padding-bottom: 2rem;
-            border-bottom: 3px solid #000;
+            margin-bottom: 48px;
+            padding-bottom: 36px;
+            border-bottom: 1px solid var(--border-subtle);
+            text-align: left;
+        }
+
+        .hero-title {
+            font-size: clamp(2rem, 5vw, 3.4rem);
+            font-weight: 800;
+            letter-spacing: -0.03em;
+            line-height: 1.12;
+            color: #ffffff;
+            margin-top: 14px;
+            margin-bottom: 16px;
+        }
+
+        .hero-title em,
+        .hero-title .highlight {
+            color: var(--amber);
+            font-style: normal;
+        }
+
+        .hero-subtitle {
+            font-size: clamp(0.92rem, 1.4vw, 1.08rem);
+            color: var(--text-muted);
+            line-height: 1.7;
+            max-width: 840px;
+            margin-bottom: 24px;
         }
 
         .badge-row {
             display: flex;
             flex-wrap: wrap;
-            gap: 0.5rem;
-            margin-bottom: 1rem;
+            gap: 8px;
+            margin-bottom: 16px;
         }
 
         .tag {
+            padding: 4px 12px;
+            background: rgba(255, 255, 255, 0.05);
+            border: 1px solid var(--border-subtle);
+            font-size: 0.6rem;
+            letter-spacing: 0.15em;
+            text-transform: uppercase;
+            color: var(--text-muted);
+            border-radius: 2px;
             font-family: 'JetBrains Mono', monospace;
-            font-size: 0.75rem;
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
+            transition: all 0.2s;
+        }
+
+        .tag:hover,
+        .tag.amber {
+            border-color: rgba(245, 166, 35, 0.4);
+            color: var(--amber);
+            background: rgba(245, 166, 35, 0.08);
+        }
+
+        /* Metrics */
+        .metrics-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 14px;
+            margin-bottom: 40px;
+        }
+
+        .metric-card {
+            background: var(--bg-card);
+            border: 1px solid var(--border-card);
+            border-top: 2px solid var(--amber);
+            padding: 20px 22px;
+            border-radius: 2px;
+            transition: all 0.2s ease-in-out;
+        }
+
+        .metric-card:hover {
+            background: rgba(245, 166, 35, 0.05);
+            border-color: rgba(245, 166, 35, 0.35);
+            border-top-color: var(--amber);
+            transform: translateY(-2px);
+            box-shadow: 0 8px 24px rgba(0, 0, 0, 0.4);
+        }
+
+        .metric-value {
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 1.9rem;
             font-weight: 800;
-            padding: 0.3rem 0.7rem;
-            border: 2px solid #000;
-            background: var(--accent-yellow);
-            color: #000;
-            box-shadow: 2px 2px 0 #000;
+            color: var(--amber);
+            line-height: 1;
+            margin-bottom: 6px;
+            display: flex;
+            align-items: center;
+            gap: 8px;
         }
 
-        .tag.blue {
-            background: var(--accent-blue);
-            color: #fff;
+        .metric-label {
+            font-size: 0.62rem;
+            letter-spacing: 0.15em;
+            text-transform: uppercase;
+            color: var(--text-muted);
+            font-weight: 700;
         }
 
-        .tag.red {
-            background: var(--accent-red);
-            color: #fff;
-        }
-
-        h1 {
-            font-family: 'Cabinet Grotesk', 'Plus Jakarta Sans', sans-serif;
-            font-size: 2.6rem;
-            font-weight: 900;
-            line-height: 1.15;
-            color: #000;
-            margin-bottom: 0.75rem;
-            letter-spacing: -0.03em;
-        }
-
-        .hero-subtitle {
-            font-size: 1.2rem;
-            color: #333;
-            max-width: 800px;
-            font-weight: 500;
-        }
-
+        /* Content Blocks */
         .section-block {
-            background: #fff;
-            border: 3px solid #000;
-            box-shadow: 5px 5px 0 #000;
-            padding: 2rem;
-            margin-bottom: 2.5rem;
+            padding: 28px 32px;
+            background: var(--bg-card);
+            border: 1px solid var(--border-card);
+            border-left: 2px solid var(--border-left);
+            border-radius: 2px;
+            margin-bottom: 24px;
+            text-align: left;
+            transition: background 0.2s, border-color 0.2s, border-left-color 0.2s, transform 0.2s;
+        }
+
+        .section-block:hover {
+            background: rgba(245, 166, 35, 0.04);
+            border-color: rgba(245, 166, 35, 0.35);
+            border-left-color: var(--amber);
+            transform: translateY(-2px);
         }
 
         .section-title {
-            font-family: 'Cabinet Grotesk', 'Plus Jakarta Sans', sans-serif;
-            font-size: 1.5rem;
-            font-weight: 900;
-            color: #000;
-            margin-bottom: 1.2rem;
+            font-size: 1.22rem;
+            font-weight: 800;
+            letter-spacing: -0.02em;
+            color: #ffffff;
+            margin-bottom: 14px;
             display: flex;
             align-items: center;
-            gap: 0.6rem;
-            letter-spacing: -0.02em;
+            gap: 10px;
         }
 
         .section-title i {
-            color: var(--accent-blue);
+            color: var(--amber);
+            font-size: 1rem;
         }
 
         p {
-            color: #222;
-            margin-bottom: 1rem;
-            font-size: 1rem;
-            line-height: 1.65;
+            color: var(--text-light);
+            font-size: 0.88rem;
+            line-height: 1.75;
+            margin-bottom: 14px;
         }
 
-        .learnings-list {
-            list-style: none;
-            display: flex;
-            flex-direction: column;
-            gap: 1.2rem;
-            margin-top: 1.2rem;
+        p:last-child {
+            margin-bottom: 0;
         }
 
-        .learning-item {
-            display: flex;
-            gap: 1rem;
-            background: #faf8f5;
-            border: 2px solid #000;
-            border-left: 6px solid var(--accent-blue);
-            box-shadow: 3px 3px 0 #000;
-            padding: 1.2rem 1.4rem;
-        }
-
-        .learning-item.yellow {
-            border-left-color: #e6c800;
-        }
-
-        .learning-item.red {
-            border-left-color: var(--accent-red);
-        }
-
-        .learning-icon {
-            font-size: 1.4rem;
-            flex-shrink: 0;
-        }
-
-        .learning-content h4 {
-            font-size: 1.05rem;
-            font-weight: 800;
-            color: #000;
-            margin-bottom: 0.35rem;
-        }
-
-        .learning-content p {
-            margin: 0;
-            font-size: 0.92rem;
-            color: #444;
-        }
-
+        /* Tech Spec Grid */
         .tech-grid {
             display: grid;
-            grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
-            gap: 1.2rem;
-            margin-top: 1.2rem;
+            grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+            gap: 12px;
+            margin-top: 16px;
         }
 
         .tech-card {
-            background: #faf8f5;
-            border: 2px solid #000;
-            box-shadow: 3px 3px 0 #000;
-            padding: 1.1rem;
+            padding: 16px 18px;
+            background: rgba(255, 255, 255, 0.02);
+            border: 1px solid rgba(255, 255, 255, 0.06);
+            border-top: 2px solid var(--border-left);
+            border-radius: 2px;
+            transition: all 0.2s;
+        }
+
+        .tech-card:hover {
+            border-top-color: var(--amber);
+            background: rgba(245, 166, 35, 0.04);
         }
 
         .tech-label {
             font-family: 'JetBrains Mono', monospace;
-            font-size: 0.75rem;
-            font-weight: 800;
-            color: var(--accent-blue);
+            font-size: 0.62rem;
+            letter-spacing: 0.15em;
             text-transform: uppercase;
-            letter-spacing: 0.5px;
-            margin-bottom: 0.25rem;
+            color: var(--amber);
+            margin-bottom: 4px;
         }
 
         .tech-value {
-            font-weight: 800;
-            color: #000;
-            font-size: 1rem;
+            font-weight: 700;
+            color: #ffffff;
+            font-size: 0.92rem;
+            margin-bottom: 6px;
         }
 
+        /* Bullet List */
+        .learnings-list {
+            list-style: none;
+            margin: 16px 0;
+            display: flex;
+            flex-direction: column;
+            gap: 12px;
+        }
+
+        .learning-item {
+            display: flex;
+            gap: 14px;
+            padding: 14px 18px;
+            background: rgba(255, 255, 255, 0.02);
+            border: 1px solid rgba(255, 255, 255, 0.06);
+            border-left: 2px solid var(--border-left);
+            border-radius: 2px;
+            transition: all 0.2s ease;
+        }
+
+        .learning-item:hover {
+            border-left-color: var(--amber);
+            background: rgba(245, 166, 35, 0.04);
+        }
+
+        .learning-icon {
+            color: var(--amber);
+            font-size: 1.1rem;
+            margin-top: 2px;
+            flex-shrink: 0;
+        }
+
+        .learning-content h4 {
+            font-size: 0.85rem;
+            font-weight: 700;
+            letter-spacing: 0.08em;
+            text-transform: uppercase;
+            color: #ffffff;
+            margin-bottom: 4px;
+        }
+
+        .learning-content p {
+            font-size: 0.82rem;
+            color: var(--text-muted);
+            margin: 0;
+            line-height: 1.6;
+        }
+
+        /* Status Dot */
+        .status-dot {
+            display: inline-block;
+            width: 7px;
+            height: 7px;
+            border-radius: 50%;
+            background: #4ade80;
+            margin-right: 7px;
+            animation: pulse 2s infinite;
+        }
+
+        @keyframes pulse {
+            0%, 100% { opacity: 1; }
+            50% { opacity: 0.3; }
+        }
+
+        /* Footer Nav */
         .footer-nav {
-            margin-top: 3.5rem;
-            padding-top: 2rem;
-            border-top: 3px solid #000;
+            margin-top: 50px;
+            padding-top: 28px;
+            border-top: 1px solid var(--border-subtle);
             display: flex;
             justify-content: space-between;
             align-items: center;
             flex-wrap: wrap;
-            gap: 1rem;
+            gap: 16px;
         }
 
         .footer-links-group {
             display: flex;
-            gap: 0.75rem;
+            gap: 10px;
             flex-wrap: wrap;
         }
 
-        @media (max-width: 640px) {
-            h1 {
-                font-size: 2rem;
-            }
-            .section-block {
-                padding: 1.25rem;
-            }
-            .footer-nav {
-                flex-direction: column;
-                align-items: stretch;
-            }
+        .footer-meta {
+            width: 100%;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-top: 24px;
+            font-size: 0.6rem;
+            letter-spacing: 0.2em;
+            text-transform: uppercase;
+            color: var(--text-dim);
+            border-top: 1px solid rgba(255, 255, 255, 0.04);
+            padding-top: 16px;
+        }
+
+        @media (max-width: 768px) {
+            .navbar { padding: 14px 20px; }
+            .container { padding: 32px 18px 80px; }
+            .hero-title { font-size: 2.2rem; }
+            .section-block { padding: 20px 22px; }
+            .footer-nav { flex-direction: column; align-items: stretch; }
+            .footer-meta { flex-direction: column; align-items: flex-start; gap: 8px; }
         }
     </style>
 </head>
@@ -316,14 +520,14 @@
 
     <header class="navbar">
         <div class="nav-container">
-            <a href="./index.html" class="nav-brand">
-                <span class="nav-brand-badge">CS</span> 8 Algorithmic Concepts
+            <a href="../../2026/index.html" class="nav-brand">
+                ZH // <span>CASE STUDY</span>
             </a>
             <div class="nav-links">
                 <a href="../index.html" class="nav-btn">
-                    <i class="fa-solid fa-grid-2"></i> Interactive Projects
+                    <i class="fa-solid fa-grid-2"></i> All Projects
                 </a>
-                <a href="../../2026/" class="nav-btn">
+                <a href="../../2026/index.html" class="nav-btn">
                     <i class="fa-solid fa-arrow-left"></i> Main Portfolio
                 </a>
                 <a href="./index.html" class="nav-btn primary">
@@ -336,33 +540,119 @@
     <main class="container">
 
         <div class="case-hero">
-            <div class="badge-row">
-                <span class="tag">Summary</span>
-                <span class="tag blue">Theoretical Computer Science</span>
-                <span class="tag red">Interactive Algorithm State Machines</span>
+            <div class="accent-line">
+                <span class="section-label">CASE STUDY // ALGORITHM CURRICULUM &amp; VISUALIZER</span>
             </div>
-            <h1>The 8 Fundamental Concepts of Algorithms</h1>
+            <h1 class="hero-title">
+                Computer Science: <span class="highlight">8 Fundamental Concepts</span>
+            </h1>
             <p class="hero-subtitle">
-                An interactive Neo-Brutalist educational platform teaching the core foundations of computer science: Algorithms, Data Structures, Complexity, Big-O, Recursion, Divide &amp; Conquer, and Brute Force.
+                An interactive educational workbench teaching core algorithms and theoretical foundations: Data Structures, Asymptotic Complexity, Big-O Curves, Recursion Trees, Divide &amp; Conquer, and Dynamic State Transitions.
             </p>
+            <div class="badge-row">
+                <span class="tag amber"><i class="fa-solid fa-microchip"></i> Algorithm Stepper</span>
+                <span class="tag"><i class="fa-solid fa-chart-line"></i> Big-O Graphing</span>
+                <span class="tag"><i class="fa-solid fa-sitemap"></i> Tree Traversal</span>
+                <span class="tag"><i class="fa-solid fa-code-compare"></i> Space/Time Analysis</span>
+            </div>
+        </div>
+
+        <!-- Metric Highlights -->
+        <div class="metrics-grid">
+            <div class="metric-card">
+                <div class="metric-value">
+                    <i class="fa-solid fa-graduation-cap"></i> 8 Core
+                </div>
+                <div class="metric-label">Algorithmic Paradigms</div>
+            </div>
+            <div class="metric-card">
+                <div class="metric-value">
+                    <i class="fa-solid fa-wave-pulse"></i> 100%
+                </div>
+                <div class="metric-label">Interactive State Machines</div>
+            </div>
+            <div class="metric-card">
+                <div class="metric-value">
+                    <i class="fa-solid fa-chart-simple"></i> O(1) -> O(2ⁿ)
+                </div>
+                <div class="metric-label">Complexity Scale Coverage</div>
+            </div>
+            <div class="metric-card">
+                <div class="metric-value">
+                    <i class="fa-solid fa-bolt"></i> 0ms
+                </div>
+                <div class="metric-label">Client Step-Through Lag</div>
+            </div>
         </div>
 
         <section class="section-block">
+            <div class="accent-line">
+                <span class="section-label">01 // WHAT IT IS</span>
+            </div>
             <h2 class="section-title">
-                <i class="fa-solid fa-circle-info"></i> What It Is
+                <i class="fa-solid fa-circle-info"></i> What It Is &amp; Educational Purpose
             </h2>
             <p>
-                An interactive learning platform for abstract computer science concepts.
+                <strong>The 8 Fundamental Concepts of Algorithms</strong> is an interactive computer science curriculum designed to make theoretical concepts tangible. Rather than reading abstract pseudocode in textbooks, developers and students interact with living state machines—manipulating arrays, traversing tree nodes, stepping through recursive calls, and observing how operations scale mathematically under load.
+            </p>
+            <p>
+                The interface features a crisp, high-focus architectural aesthetic with live step controls, complexity comparisons, and memory stack inspectability.
             </p>
         </section>
 
         <section class="section-block">
+            <div class="accent-line">
+                <span class="section-label">02 // ARCHITECTURE &amp; STATE STEPPING</span>
+            </div>
             <h2 class="section-title">
-                <i class="fa-solid fa-hammer"></i> How It Was Built
+                <i class="fa-solid fa-hammer"></i> Engineering &amp; Interactive Visualization
             </h2>
             <p>
-                Engineered using React, Tailwind CSS, and SVG animation with Neo-Brutalist design principles for complex data visualization and state modeling.
+                Engineered with modular React state management and responsive vector visualization:
             </p>
+
+            <ul class="learnings-list">
+                <li class="learning-item">
+                    <div class="learning-icon"><i class="fa-solid fa-diagram-next"></i></div>
+                    <div class="learning-content">
+                        <h4>Deterministic Step-by-Step Execution</h4>
+                        <p>Each algorithm decomposes into an immutable sequence of micro-states, allowing users to step forward, scrub backwards, or play continuous simulations with visual node highlighting.</p>
+                    </div>
+                </li>
+                <li class="learning-item">
+                    <div class="learning-icon"><i class="fa-solid fa-chart-area"></i></div>
+                    <div class="learning-content">
+                        <h4>Live Big-O Asymptotic Graphs</h4>
+                        <p>Dynamic SVG coordinate curves compare O(1), O(log n), O(n), O(n log n), O(n²), and O(2ⁿ) time complexities against current input size <em>N</em> in real time.</p>
+                    </div>
+                </li>
+                <li class="learning-item">
+                    <div class="learning-icon"><i class="fa-solid fa-bars-staggered"></i></div>
+                    <div class="learning-content">
+                        <h4>Call Stack &amp; Activation Frames</h4>
+                        <p>Recursive procedures (such as Fibonacci and QuickSort) visually push and pop activation frames on a virtual call stack, demystifying base-case returns and memory overhead.</p>
+                    </div>
+                </li>
+            </ul>
+
+            <div class="tech-grid">
+                <div class="tech-card">
+                    <div class="tech-label">UI Architecture</div>
+                    <div class="tech-value">React Declarative Stepper</div>
+                </div>
+                <div class="tech-card">
+                    <div class="tech-label">Visualization</div>
+                    <div class="tech-value">SVG Vector Coordinate Curves</div>
+                </div>
+                <div class="tech-card">
+                    <div class="tech-label">State Model</div>
+                    <div class="tech-value">Immutable Timeline Generator</div>
+                </div>
+                <div class="tech-card">
+                    <div class="tech-label">Portability</div>
+                    <div class="tech-value">Self-Contained Client Engine</div>
+                </div>
+            </div>
         </section>
 
         <footer class="footer-nav">
@@ -371,15 +661,27 @@
             </a>
             <div class="footer-links-group">
                 <a href="../index.html" class="nav-btn">
-                    <i class="fa-solid fa-grid-2"></i> All Interactive Projects
+                    <i class="fa-solid fa-grid-2"></i> All Projects
                 </a>
-                <a href="../../2026/" class="nav-btn">
-                    <i class="fa-solid fa-house"></i> Main Portfolio
+                <a href="../../2026/index.html" class="nav-btn">
+                    <i class="fa-solid fa-arrow-left"></i> Main Portfolio
                 </a>
+            </div>
+
+            <div class="footer-meta">
+                <div>
+                    <span class="status-dot"></span> Available for Web Dev &amp; Design Contracts
+                </div>
+                <div>ZH // 2026 DESIGN &amp; DEVELOPMENT</div>
             </div>
         </footer>
 
     </main>
+
+    <!-- Floating Portfolio Button (Matching /2026/index.html) -->
+    <a href="../../2026/index.html" class="btn-projects">
+        <i class="fa-solid fa-arrow-left"></i> Portfolio
+    </a>
 
 </body>
 

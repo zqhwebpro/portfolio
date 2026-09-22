@@ -4,94 +4,108 @@
 <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Case Study: Zodiac Fortune Board — Computer Vision Astrolabe &amp; Gestural Divination Engine</title>
+    <title>Building an Eldritch Astrolabe: Computer Vision, Sacred Geometry &amp; Procedural Audio</title>
     <meta name="description"
-        content="In-depth technical case study of Zodiac Fortune Board: real-time MediaPipe hand landmark tracking, sacred geometry astrolabe horology, 3-second hold gesture mechanics, and procedural Web Audio synthesis." />
+        content="An in-depth technical deep dive into Zodiac Fortune Board: MediaPipe hand landmark computer vision, sacred geometry astrolabe horology, 3-second hold gesture mechanics, and 100% procedural Web Audio synthesis." />
+    <link href="../../2026/media/zqh-portfolio.png" rel="icon" type="image/png">
 
-    <!-- Google Fonts -->
+    <!-- Fonts & Icons -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,600;0,700;1,400&family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;600&family=Outfit:wght@600;700;800&family=Philosopher:ital,wght@0,700;1,400&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:ital,wght@0,400;0,500;0,600;0,700;1,400&family=Newsreader:ital,opsz,wght@0,6..72,400;0,6..72,500;1,6..72,400&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+    <link rel="stylesheet" href="../case-study-branded.css">
 
     <style>
         :root {
-            --bg-dark: #070205;
-            --bg-alt: #0e030b;
-            --card-bg: rgba(26, 6, 18, 0.78);
-            --card-border: rgba(212, 175, 55, 0.28);
-            --card-border-hover: rgba(255, 215, 0, 0.55);
-            --accent-gold: #ffd700;
-            --accent-gold-dim: #c5a059;
-            --accent-ruby: #e11d48;
-            --accent-amber: #f59e0b;
-            --accent-cyan: #38bdf8;
-            --accent-teal: #2dd4bf;
-            --text-main: #fdf8f0;
-            --text-muted: #b8a898;
-            --text-dim: #786b60;
+            --amber: #F5A623;
+            --red-orange: #E8442A;
+            --text-light: #e8e8e8;
+            --text-muted: #999999;
+            --text-dim: #666666;
+            --bg-black: #000000;
+            --bg-card: rgba(255, 255, 255, 0.03);
+            --border-subtle: rgba(255, 255, 255, 0.08);
+            --border-card: rgba(255, 255, 255, 0.07);
+            --border-left: rgba(255, 255, 255, 0.12);
+            --amber-glow: rgba(245, 166, 35, 0.35);
+            --amber-border: rgba(245, 166, 35, 0.25);
         }
 
         * {
-            box-sizing: border-box;
             margin: 0;
             padding: 0;
+            box-sizing: border-box;
+        }
+
+        html {
+            scroll-behavior: smooth;
+            background: #000;
         }
 
         body {
-            background-color: var(--bg-dark);
-            background-image: 
-                radial-gradient(circle at 15% 15%, rgba(225, 29, 72, 0.12) 0%, transparent 45%),
-                radial-gradient(circle at 85% 75%, rgba(255, 215, 0, 0.08) 0%, transparent 50%),
-                linear-gradient(180deg, #070205 0%, #0c0309 50%, #060104 100%);
-            color: var(--text-main);
-            font-family: 'Inter', system-ui, -apple-system, sans-serif;
-            line-height: 1.68;
+            font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif;
+            color: var(--text-light);
+            background: #000;
+            line-height: 1.75;
             min-height: 100vh;
+            overflow-x: hidden;
         }
 
-        /* Top Sticky Header */
+        body::before {
+            content: '';
+            position: fixed;
+            inset: 0;
+            background: 
+                radial-gradient(circle at 50% 0%, rgba(245, 166, 35, 0.06) 0%, transparent 60%),
+                radial-gradient(circle at 85% 90%, rgba(232, 68, 42, 0.04) 0%, transparent 50%),
+                rgba(10, 10, 10, 0.65);
+            pointer-events: none;
+            z-index: -1;
+        }
+
+        /* Navbar */
         .navbar {
-            border-bottom: 1px solid var(--card-border);
-            background: rgba(7, 2, 5, 0.88);
-            backdrop-filter: blur(16px);
             position: sticky;
             top: 0;
-            z-index: 50;
-            padding: 1rem 1.5rem;
+            z-index: 1000;
+            width: 100%;
+            background: rgba(0, 0, 0, 0.90);
+            backdrop-filter: blur(12px);
+            -webkit-backdrop-filter: blur(12px);
+            border-bottom: 1px solid var(--border-subtle);
+            padding: 18px 32px;
         }
 
         .nav-container {
-            max-width: 1080px;
+            max-width: 960px;
             margin: 0 auto;
             display: flex;
             justify-content: space-between;
             align-items: center;
             flex-wrap: wrap;
-            gap: 1rem;
+            gap: 16px;
         }
 
         .nav-brand {
-            font-family: 'Philosopher', serif;
-            font-weight: 700;
-            font-size: 1.25rem;
-            color: var(--accent-gold);
+            font-size: 0.75rem;
+            letter-spacing: 0.3em;
+            text-transform: uppercase;
+            color: var(--text-muted);
             text-decoration: none;
+            font-weight: 700;
             display: flex;
             align-items: center;
-            gap: 0.6rem;
-            letter-spacing: 0.04em;
-            text-shadow: 0 0 12px rgba(255, 215, 0, 0.5);
+            gap: 8px;
         }
 
-        .nav-brand span.sigil {
-            color: var(--accent-ruby);
-            font-size: 1.1rem;
+        .nav-brand span {
+            color: var(--amber);
         }
 
         .nav-links {
             display: flex;
-            gap: 0.75rem;
+            gap: 10px;
             align-items: center;
             flex-wrap: wrap;
         }
@@ -99,482 +113,572 @@
         .nav-btn {
             display: inline-flex;
             align-items: center;
-            gap: 0.45rem;
-            padding: 0.48rem 0.95rem;
-            border-radius: 8px;
-            font-size: 0.84rem;
-            font-weight: 600;
+            gap: 6px;
+            padding: 6px 14px;
+            font-family: inherit;
+            font-size: 0.65rem;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 0.15em;
             text-decoration: none;
-            transition: all 0.22s cubic-bezier(0.16, 1, 0.3, 1);
-            border: 1px solid var(--card-border);
-            color: var(--text-muted);
-            background: var(--card-bg);
+            color: rgba(245, 166, 35, 0.8);
+            border: 1px solid var(--amber-border);
+            background: rgba(18, 18, 18, 0.85);
+            backdrop-filter: blur(4px);
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.5);
+            border-radius: 2px;
+            transition: all 0.2s ease-in-out;
         }
 
         .nav-btn:hover {
-            color: var(--accent-gold);
-            border-color: var(--accent-gold);
-            transform: translateY(-1px);
-            box-shadow: 0 4px 14px rgba(0, 0, 0, 0.6), 0 0 10px rgba(255, 215, 0, 0.25);
-        }
-
-        .nav-btn.primary {
-            background: linear-gradient(135deg, #7a102a 0%, #35040f 100%);
-            color: #fff;
-            border-color: rgba(255, 215, 0, 0.6);
-            box-shadow: 0 0 18px rgba(225, 29, 72, 0.4), inset 0 0 10px rgba(255, 215, 0, 0.25);
-        }
-
-        .nav-btn.primary:hover {
-            border-color: var(--accent-gold);
-            box-shadow: 0 0 24px rgba(255, 215, 0, 0.6), 0 0 20px rgba(225, 29, 72, 0.6);
+            color: var(--amber);
+            border-color: var(--amber);
+            background: rgba(245, 166, 35, 0.12);
+            box-shadow: 0 0 16px var(--amber-glow);
             transform: translateY(-2px);
         }
 
-        /* Main Container */
-        .container {
-            max-width: 1080px;
-            margin: 0 auto;
-            padding: 3rem 1.5rem 5rem;
+        .nav-btn.primary {
+            background: linear-gradient(135deg, var(--amber), var(--red-orange));
+            color: #000;
+            font-weight: 800;
+            border: 1px solid var(--amber);
+            box-shadow: 0 0 16px var(--amber-glow);
         }
 
-        /* Hero Header */
-        .case-hero {
-            margin-bottom: 3rem;
-            padding-bottom: 2.5rem;
-            border-bottom: 1px solid var(--card-border);
-            position: relative;
+        .nav-btn.primary:hover {
+            box-shadow: 0 0 24px rgba(245, 166, 35, 0.6);
+            transform: translateY(-2px);
+        }
+
+        /* Floating Portfolio Button */
+        .btn-projects {
+            position: fixed;
+            bottom: 2rem;
+            right: 2rem;
+            z-index: 9999;
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
+            padding: 0.5rem 1rem;
+            font-family: inherit;
+            font-size: 0.65rem;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 0.15em;
+            text-decoration: none;
+            color: rgba(245, 166, 35, 0.8);
+            border: 1px solid var(--amber-border);
+            background: rgba(18, 18, 18, 0.85);
+            backdrop-filter: blur(4px);
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.5);
+            border-radius: 2px;
+            transition: all 0.2s ease-in-out;
+        }
+
+        .btn-projects:hover {
+            color: var(--amber);
+            border-color: var(--amber);
+            background: rgba(245, 166, 35, 0.15);
+            box-shadow: 0 0 16px var(--amber-glow);
+            transform: translateY(-2px);
+        }
+
+        /* 2026 Section Accent */
+        .section-label {
+            font-size: 0.65rem;
+            letter-spacing: 0.25em;
+            text-transform: uppercase;
+            color: var(--amber);
+            font-weight: 700;
+            display: inline-block;
+        }
+
+        .accent-line {
+            display: inline-flex;
+            align-items: center;
+            gap: 12px;
+            margin-bottom: 8px;
+        }
+
+        .accent-line::before,
+        .accent-line::after {
+            content: '';
+            display: block;
+            height: 1px;
+            width: 40px;
+            background: var(--amber);
+            opacity: 0.5;
+        }
+
+        /* Layout Container */
+        .blog-container {
+            max-width: 860px;
+            margin: 0 auto;
+            padding: 56px 28px 120px;
+        }
+
+        /* Post Header */
+        .post-header {
+            margin-bottom: 56px;
+            padding-bottom: 40px;
+            border-bottom: 1px solid var(--border-subtle);
+            text-align: left;
+        }
+
+        .post-meta-row {
+            display: flex;
+            align-items: center;
+            gap: 16px;
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 0.68rem;
+            letter-spacing: 0.12em;
+            text-transform: uppercase;
+            color: var(--text-dim);
+            margin-bottom: 18px;
+            flex-wrap: wrap;
+        }
+
+        .post-meta-row span.bullet {
+            color: var(--amber);
+        }
+
+        .post-title {
+            font-size: clamp(2.2rem, 5vw, 3.6rem);
+            font-weight: 800;
+            letter-spacing: -0.03em;
+            line-height: 1.12;
+            color: #ffffff;
+            margin-bottom: 22px;
+        }
+
+        .post-title em {
+            color: var(--amber);
+            font-style: normal;
+        }
+
+        .post-lead {
+            font-size: clamp(1.05rem, 1.6vw, 1.22rem);
+            color: #d1d5db;
+            line-height: 1.8;
+            font-weight: 400;
+            margin-bottom: 28px;
         }
 
         .badge-row {
             display: flex;
             flex-wrap: wrap;
-            gap: 0.55rem;
-            margin-bottom: 1.25rem;
+            gap: 8px;
+            margin-top: 20px;
         }
 
         .tag {
+            padding: 4px 12px;
+            background: rgba(255, 255, 255, 0.05);
+            border: 1px solid var(--border-subtle);
+            font-size: 0.6rem;
+            letter-spacing: 0.15em;
+            text-transform: uppercase;
+            color: var(--text-muted);
+            border-radius: 2px;
             font-family: 'JetBrains Mono', monospace;
-            font-size: 0.76rem;
-            font-weight: 600;
-            padding: 0.28rem 0.72rem;
-            border-radius: 6px;
-            background: rgba(255, 215, 0, 0.1);
-            color: var(--accent-gold);
-            border: 1px solid rgba(255, 215, 0, 0.3);
             display: inline-flex;
             align-items: center;
-            gap: 0.35rem;
+            gap: 6px;
+            transition: all 0.2s;
         }
 
-        .tag.ruby {
-            background: rgba(225, 29, 72, 0.12);
-            color: #fda4af;
-            border-color: rgba(225, 29, 72, 0.35);
-        }
-
-        .tag.cyan {
-            background: rgba(56, 189, 248, 0.1);
-            color: var(--accent-cyan);
-            border-color: rgba(56, 189, 248, 0.3);
-        }
-
+        .tag:hover,
         .tag.amber {
-            background: rgba(245, 158, 11, 0.1);
-            color: var(--accent-amber);
-            border-color: rgba(245, 158, 11, 0.3);
+            border-color: rgba(245, 166, 35, 0.4);
+            color: var(--amber);
+            background: rgba(245, 166, 35, 0.08);
         }
 
-        h1 {
-            font-family: 'Outfit', 'Philosopher', sans-serif;
-            font-size: clamp(2rem, 4vw, 2.75rem);
+        /* Post Typography & Flow */
+        .post-content {
+            font-size: 1.02rem;
+            line-height: 1.85;
+            color: #d8d8d8;
+        }
+
+        .post-content h2 {
+            font-size: clamp(1.5rem, 3vw, 1.95rem);
             font-weight: 800;
-            line-height: 1.18;
-            color: #fff;
-            margin-bottom: 1rem;
             letter-spacing: -0.02em;
-            text-shadow: 0 2px 20px rgba(0, 0, 0, 0.8);
+            color: #ffffff;
+            margin-top: 56px;
+            margin-bottom: 20px;
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            padding-bottom: 12px;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.07);
         }
 
-        h1 .highlight {
-            background: linear-gradient(135deg, #ffd700 20%, #f59e0b 60%, #e11d48 100%);
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
-        }
-
-        .hero-subtitle {
-            font-family: 'Cormorant Garamond', serif;
+        .post-content h2 i {
+            color: var(--amber);
             font-size: 1.25rem;
-            line-height: 1.6;
-            color: #e2d3c2;
-            max-width: 880px;
         }
 
-        /* Metrics Bar */
-        .metrics-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
-            gap: 1.1rem;
-            margin-bottom: 2.5rem;
+        .post-content h3 {
+            font-size: 1.22rem;
+            font-weight: 700;
+            color: #f3f4f6;
+            margin-top: 36px;
+            margin-bottom: 14px;
+            letter-spacing: -0.01em;
+            display: flex;
+            align-items: center;
+            gap: 8px;
         }
 
-        .metric-card {
-            background: var(--card-bg);
-            border: 1px solid var(--card-border);
-            border-radius: 12px;
-            padding: 1.25rem 1.4rem;
-            backdrop-filter: blur(10px);
-            box-shadow: 0 8px 24px rgba(0, 0, 0, 0.45);
-            transition: all 0.25s ease;
-        }
-
-        .metric-card:hover {
-            border-color: var(--card-border-hover);
-            transform: translateY(-2px);
-            box-shadow: 0 12px 30px rgba(0, 0, 0, 0.6), 0 0 16px rgba(255, 215, 0, 0.15);
-        }
-
-        .metric-value {
-            font-family: 'Outfit', sans-serif;
-            font-size: 1.85rem;
+        .post-content h3::before {
+            content: '>';
+            color: var(--amber);
+            font-family: 'JetBrains Mono', monospace;
             font-weight: 800;
-            color: var(--accent-gold);
-            display: flex;
-            align-items: center;
-            gap: 0.4rem;
-            margin-bottom: 0.2rem;
-            text-shadow: 0 0 10px rgba(255, 215, 0, 0.4);
+            font-size: 0.95rem;
         }
 
-        .metric-label {
-            font-family: 'Inter', sans-serif;
-            font-size: 0.82rem;
-            color: var(--text-muted);
-            text-transform: uppercase;
-            letter-spacing: 0.05em;
-            font-weight: 600;
+        .post-content p {
+            margin-bottom: 24px;
+            color: #d1d5db;
         }
 
-        /* Section Blocks */
-        .section-block {
-            background: var(--card-bg);
-            border: 1px solid var(--card-border);
-            border-radius: 16px;
-            padding: 2.2rem 2.4rem;
-            margin-bottom: 2.25rem;
-            backdrop-filter: blur(12px);
-            box-shadow: 0 10px 32px rgba(0, 0, 0, 0.4);
-            position: relative;
-            overflow: hidden;
-        }
-
-        .section-block::before {
-            content: '';
-            position: absolute;
-            top: 0;
-            left: 0;
-            right: 0;
-            height: 2px;
-            background: linear-gradient(90deg, transparent 0%, rgba(255, 215, 0, 0.6) 50%, transparent 100%);
-        }
-
-        .section-title {
-            font-family: 'Philosopher', serif;
-            font-size: 1.55rem;
+        .post-content strong {
+            color: #ffffff;
             font-weight: 700;
-            color: #fff;
-            margin-bottom: 1.15rem;
-            display: flex;
-            align-items: center;
-            gap: 0.75rem;
-            letter-spacing: 0.02em;
         }
 
-        .section-title i {
-            color: var(--accent-gold);
-            font-size: 1.25rem;
-            filter: drop-shadow(0 0 8px rgba(255, 215, 0, 0.6));
+        .post-content em {
+            color: #f3f4f6;
+            font-style: italic;
         }
 
-        p {
-            color: #ded1c1;
-            margin-bottom: 1.15rem;
-            font-size: 0.98rem;
-            line-height: 1.72;
-        }
-
-        p strong {
-            color: #fff;
-        }
-
-        /* Spells Grid */
-        .spells-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
-            gap: 1.2rem;
-            margin-top: 1.4rem;
-        }
-
-        .spell-card {
-            background: rgba(14, 3, 10, 0.75);
-            border: 1px solid var(--card-border);
-            border-radius: 12px;
-            padding: 1.35rem 1.45rem;
-            transition: all 0.25s ease;
+        /* Blockquote / Lead Note */
+        blockquote {
+            margin: 36px 0;
+            padding: 24px 28px;
+            background: rgba(245, 166, 35, 0.04);
+            border-left: 3px solid var(--amber);
+            border-radius: 2px;
+            color: #e5e7eb;
+            font-size: 1.05rem;
+            line-height: 1.75;
             position: relative;
         }
 
-        .spell-card:hover {
-            border-color: var(--accent-gold);
-            transform: translateY(-2px);
-            box-shadow: 0 6px 20px rgba(0, 0, 0, 0.5), 0 0 15px rgba(255, 215, 0, 0.2);
+        blockquote p:last-child {
+            margin-bottom: 0;
         }
 
-        .spell-card-header {
-            display: flex;
-            align-items: center;
-            justify-content: space-between;
-            margin-bottom: 0.65rem;
-        }
-
-        .spell-gesture-title {
-            font-family: 'Philosopher', serif;
-            font-size: 1.18rem;
-            font-weight: 700;
-            color: #fff6b8;
-            display: flex;
-            align-items: center;
-            gap: 0.45rem;
-        }
-
-        .spell-stage-tag {
-            font-family: 'JetBrains Mono', monospace;
-            font-size: 0.7rem;
-            font-weight: 600;
-            padding: 0.2rem 0.55rem;
-            border-radius: 4px;
-            background: rgba(225, 29, 72, 0.2);
-            color: #fda4af;
-            border: 1px solid rgba(225, 29, 72, 0.4);
-        }
-
-        .spell-desc {
-            font-size: 0.9rem;
-            color: var(--text-muted);
-            margin-bottom: 0.75rem;
-            line-height: 1.55;
-        }
-
-        .spell-mechanic {
-            font-family: 'JetBrains Mono', monospace;
-            font-size: 0.78rem;
-            color: var(--accent-gold-dim);
-            background: rgba(0, 0, 0, 0.4);
-            padding: 0.4rem 0.65rem;
-            border-radius: 6px;
-            border-left: 3px solid var(--accent-gold);
-        }
-
-        /* 3-Second Hold Callout */
-        .callout-box {
-            background: linear-gradient(135deg, rgba(74, 10, 26, 0.65) 0%, rgba(20, 2, 8, 0.85) 100%);
-            border: 1.5px solid rgba(255, 215, 0, 0.4);
-            border-radius: 12px;
-            padding: 1.4rem 1.6rem;
-            margin: 1.5rem 0;
-            box-shadow: 0 6px 24px rgba(0, 0, 0, 0.5), inset 0 0 14px rgba(255, 215, 0, 0.15);
-        }
-
-        .callout-header {
-            font-family: 'Philosopher', serif;
-            font-size: 1.15rem;
-            font-weight: 700;
-            color: var(--accent-gold);
-            margin-bottom: 0.45rem;
-            display: flex;
-            align-items: center;
-            gap: 0.5rem;
-        }
-
-        .callout-body {
-            font-size: 0.92rem;
-            color: #ecd9c7;
-            margin: 0;
-        }
-
-        /* Code Block */
-        .code-container {
-            background: #040103;
-            border: 1px solid rgba(212, 175, 55, 0.3);
-            border-radius: 10px;
-            padding: 1.25rem 1.4rem;
-            margin: 1.3rem 0;
-            overflow-x: auto;
-        }
-
-        .code-container pre {
-            font-family: 'JetBrains Mono', monospace;
-            font-size: 0.82rem;
-            line-height: 1.6;
-            color: #f1ede6;
-        }
-
-        .code-keyword { color: #f43f5e; font-weight: 600; }
-        .code-function { color: #38bdf8; }
-        .code-string { color: #a3e635; }
-        .code-comment { color: #786b60; font-style: italic; }
-        .code-number { color: #fbbf24; }
-
-        /* Architecture Steps List */
-        .feature-list {
-            list-style: none;
-            display: flex;
-            flex-direction: column;
-            gap: 1.15rem;
-            margin-top: 1.25rem;
-        }
-
-        .feature-item {
-            display: flex;
-            gap: 1.1rem;
-            background: rgba(14, 3, 10, 0.7);
-            border: 1px solid var(--card-border);
-            border-left: 4px solid var(--accent-gold);
-            border-radius: 10px;
-            padding: 1.15rem 1.35rem;
-            transition: all 0.22s ease;
-        }
-
-        .feature-item.ruby { border-left-color: var(--accent-ruby); }
-        .feature-item.cyan { border-left-color: var(--accent-cyan); }
-        .feature-item.amber { border-left-color: var(--accent-amber); }
-
-        .feature-item:hover {
-            transform: translateX(4px);
-            border-color: var(--card-border-hover);
-        }
-
-        .feature-icon {
-            font-size: 1.4rem;
-            color: var(--accent-gold);
-            margin-top: 0.15rem;
-            flex-shrink: 0;
-        }
-
-        .feature-item.ruby .feature-icon { color: var(--accent-ruby); }
-        .feature-item.cyan .feature-icon { color: var(--accent-cyan); }
-        .feature-item.amber .feature-icon { color: var(--accent-amber); }
-
-        .feature-content h4 {
-            font-family: 'Philosopher', serif;
-            font-size: 1.12rem;
-            font-weight: 700;
-            color: #fff;
-            margin-bottom: 0.35rem;
-        }
-
-        .feature-content p {
-            margin: 0;
-            font-size: 0.92rem;
-            color: var(--text-muted);
-        }
-
-        /* Tech Grid */
-        .tech-spec-grid {
+        /* Stat Grid (Blog Style) */
+        .stat-banner {
             display: grid;
-            grid-template-columns: repeat(auto-fill, minmax(230px, 1fr));
-            gap: 1.1rem;
-            margin-top: 1.25rem;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 12px;
+            margin: 40px 0;
         }
 
-        .tech-spec-card {
-            background: rgba(14, 3, 10, 0.6);
-            border: 1px solid var(--card-border);
-            border-radius: 10px;
-            padding: 1.1rem 1.25rem;
+        .stat-box {
+            background: rgba(255, 255, 255, 0.02);
+            border: 1px solid rgba(255, 255, 255, 0.07);
+            border-top: 2px solid var(--amber);
+            padding: 20px 16px;
+            border-radius: 2px;
+            text-align: left;
             transition: all 0.2s ease;
         }
 
-        .tech-spec-card:hover {
-            border-color: var(--accent-gold);
+        .stat-box:hover {
+            background: rgba(245, 166, 35, 0.05);
+            border-color: rgba(245, 166, 35, 0.35);
+            border-top-color: var(--amber);
             transform: translateY(-2px);
         }
 
-        .tech-spec-category {
+        .stat-number {
             font-family: 'JetBrains Mono', monospace;
-            font-size: 0.72rem;
-            color: var(--accent-gold-dim);
+            font-size: 1.85rem;
+            font-weight: 800;
+            color: var(--amber);
+            line-height: 1;
+            margin-bottom: 6px;
+        }
+
+        .stat-title {
+            font-size: 0.62rem;
+            letter-spacing: 0.15em;
             text-transform: uppercase;
-            letter-spacing: 0.08em;
-            margin-bottom: 0.25rem;
-        }
-
-        .tech-spec-title {
+            color: var(--text-muted);
             font-weight: 700;
-            color: #fff;
-            font-size: 1rem;
-            margin-bottom: 0.35rem;
         }
 
-        .tech-spec-desc {
-            font-size: 0.85rem;
+        /* Code Presentation */
+        .code-container {
+            margin: 28px 0;
+            border-radius: 2px;
+            background: #080808;
+            border: 1px solid var(--border-subtle);
+            border-left: 2px solid var(--amber);
+            overflow: hidden;
+        }
+
+        .code-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 10px 16px;
+            background: rgba(255, 255, 255, 0.02);
+            border-bottom: 1px solid rgba(255, 255, 255, 0.06);
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 0.65rem;
+            letter-spacing: 0.12em;
+            text-transform: uppercase;
+            color: var(--text-muted);
+        }
+
+        .code-header span.file-badge {
+            color: var(--amber);
+            display: flex;
+            align-items: center;
+            gap: 6px;
+        }
+
+        pre {
+            padding: 18px 20px;
+            overflow-x: auto;
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 0.82rem;
+            line-height: 1.65;
+            color: #d6d6d6;
+        }
+
+        code {
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 0.86em;
+            color: var(--amber);
+            background: rgba(245, 166, 35, 0.08);
+            padding: 2px 6px;
+            border-radius: 2px;
+            border: 1px solid rgba(245, 166, 35, 0.15);
+        }
+
+        pre code {
+            color: inherit;
+            background: transparent;
+            padding: 0;
+            border: none;
+        }
+
+        .token-keyword { color: var(--amber); font-weight: 600; }
+        .token-fn { color: #ffffff; font-weight: 600; }
+        .token-comment { color: #666666; font-style: italic; }
+        .token-number { color: #fbbf24; }
+        .token-string { color: #4ade80; }
+
+        /* Architectural Diagram Block */
+        .diagram-card {
+            background: rgba(255, 255, 255, 0.02);
+            border: 1px solid rgba(255, 255, 255, 0.08);
+            border-left: 2px solid rgba(255, 255, 255, 0.12);
+            padding: 28px;
+            margin: 32px 0;
+            border-radius: 2px;
+            transition: all 0.2s ease;
+        }
+
+        .diagram-card:hover {
+            background: rgba(245, 166, 35, 0.03);
+            border-color: rgba(245, 166, 35, 0.3);
+            border-left-color: var(--amber);
+        }
+
+        .diagram-title {
+            font-size: 0.75rem;
+            letter-spacing: 0.16em;
+            text-transform: uppercase;
+            color: var(--amber);
+            font-weight: 700;
+            margin-bottom: 16px;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        /* Gesture Card Grid */
+        .gesture-deck {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 14px;
+            margin: 28px 0;
+        }
+
+        .gesture-card {
+            background: rgba(255, 255, 255, 0.02);
+            border: 1px solid rgba(255, 255, 255, 0.06);
+            border-left: 2px solid rgba(245, 166, 35, 0.3);
+            padding: 18px 20px;
+            border-radius: 2px;
+            transition: all 0.2s ease;
+        }
+
+        .gesture-card:hover {
+            border-left-color: var(--amber);
+            background: rgba(245, 166, 35, 0.05);
+            transform: translateY(-2px);
+        }
+
+        .gesture-card-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 8px;
+        }
+
+        .gesture-name {
+            font-size: 0.92rem;
+            font-weight: 700;
+            color: #ffffff;
+            letter-spacing: 0.03em;
+        }
+
+        .gesture-pill {
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 0.58rem;
+            letter-spacing: 0.15em;
+            text-transform: uppercase;
+            color: var(--amber);
+            padding: 2px 7px;
+            background: rgba(245, 166, 35, 0.1);
+            border: 1px solid rgba(245, 166, 35, 0.25);
+            border-radius: 2px;
+        }
+
+        .gesture-desc {
+            font-size: 0.84rem;
+            color: var(--text-muted);
+            line-height: 1.6;
+            margin: 0;
+        }
+
+        /* Flowing Takeaway List */
+        .takeaway-list {
+            list-style: none;
+            margin: 24px 0;
+            display: flex;
+            flex-direction: column;
+            gap: 14px;
+        }
+
+        .takeaway-item {
+            display: flex;
+            gap: 14px;
+            padding: 16px 20px;
+            background: rgba(255, 255, 255, 0.02);
+            border: 1px solid rgba(255, 255, 255, 0.06);
+            border-left: 2px solid var(--border-left);
+            border-radius: 2px;
+            transition: all 0.2s ease;
+        }
+
+        .takeaway-item:hover {
+            border-left-color: var(--amber);
+            background: rgba(245, 166, 35, 0.04);
+        }
+
+        .takeaway-icon {
+            color: var(--amber);
+            font-size: 1.1rem;
+            margin-top: 2px;
+            flex-shrink: 0;
+        }
+
+        .takeaway-content h4 {
+            font-size: 0.88rem;
+            font-weight: 700;
+            letter-spacing: 0.08em;
+            text-transform: uppercase;
+            color: #ffffff;
+            margin-bottom: 4px;
+        }
+
+        .takeaway-content p {
+            font-size: 0.84rem;
             color: var(--text-muted);
             margin: 0;
-            line-height: 1.45;
+            line-height: 1.6;
         }
 
-        /* Footer Nav */
-        .footer-nav {
-            margin-top: 4rem;
-            padding-top: 2.5rem;
-            border-top: 1px solid var(--card-border);
+        /* Status Dot */
+        .status-dot {
+            display: inline-block;
+            width: 7px;
+            height: 7px;
+            border-radius: 50%;
+            background: #4ade80;
+            margin-right: 7px;
+            animation: pulse 2s infinite;
+        }
+
+        @keyframes pulse {
+            0%, 100% { opacity: 1; }
+            50% { opacity: 0.3; }
+        }
+
+        /* Post Footer */
+        .post-footer {
+            margin-top: 64px;
+            padding-top: 36px;
+            border-top: 1px solid var(--border-subtle);
             display: flex;
             justify-content: space-between;
             align-items: center;
             flex-wrap: wrap;
-            gap: 1.25rem;
+            gap: 20px;
         }
 
-        .footer-links-group {
+        .footer-meta {
+            width: 100%;
             display: flex;
-            gap: 0.85rem;
-            flex-wrap: wrap;
+            justify-content: space-between;
+            align-items: center;
+            margin-top: 24px;
+            font-size: 0.6rem;
+            letter-spacing: 0.2em;
+            text-transform: uppercase;
+            color: var(--text-dim);
+            border-top: 1px solid rgba(255, 255, 255, 0.04);
+            padding-top: 18px;
         }
 
         @media (max-width: 768px) {
-            h1 {
-                font-size: 2rem;
-            }
-            .section-block {
-                padding: 1.6rem 1.4rem;
-            }
-            .footer-nav {
-                flex-direction: column;
-                align-items: stretch;
-            }
-            .footer-links-group {
-                flex-direction: column;
-            }
-            .nav-btn {
-                justify-content: center;
-            }
+            .navbar { padding: 14px 20px; }
+            .blog-container { padding: 36px 20px 80px; }
+            .post-title { font-size: 2.3rem; }
+            .stat-banner { grid-template-columns: 1fr 1fr; }
+            .gesture-deck { grid-template-columns: 1fr; }
+            .post-footer { flex-direction: column; align-items: stretch; }
+            .footer-meta { flex-direction: column; align-items: flex-start; gap: 8px; }
         }
     </style>
 </head>
 
 <body>
 
+    <!-- Top Sticky Header -->
     <header class="navbar">
         <div class="nav-container">
-            <a href="./index.html" class="nav-brand">
-                <span class="sigil">✦</span> Zodiac Fortune Board
+            <a href="../../2026/index.html" class="nav-brand">
+                ZH // <span>CASE STUDY</span>
             </a>
             <div class="nav-links">
                 <a href="../index.html" class="nav-btn">
                     <i class="fa-solid fa-grid-2"></i> All Projects
                 </a>
-                <a href="../../2026/" class="nav-btn">
-                    <i class="fa-solid fa-house"></i> Main Portfolio
+                <a href="../../2026/index.html" class="nav-btn">
+                    <i class="fa-solid fa-arrow-left"></i> Main Portfolio
                 </a>
                 <a href="./index.html" class="nav-btn primary">
                     <i class="fa-solid fa-sparkles"></i> Launch Experience
@@ -583,268 +687,474 @@
         </div>
     </header>
 
-    <main class="container">
+    <!-- Main Flowing Article Container -->
+    <article class="blog-container">
 
-        <!-- Hero Header -->
-        <div class="case-hero">
+        <!-- Article Header -->
+        <header class="post-header">
+            <div class="accent-line">
+                <span class="section-label">ENGINEERING JOURNAL // INTERACTIVE ARCHITECTURE</span>
+            </div>
+            
+            <div class="post-meta-row">
+                <span>By Zach Heindel</span>
+                <span class="bullet">✦</span>
+                <span>Computer Vision &amp; Web Audio</span>
+                <span class="bullet">✦</span>
+                <span>12 Min Read</span>
+            </div>
+
+            <h1 class="post-title">
+                Building an Eldritch Astrolabe: <em>Computer Vision</em>, Sacred Geometry &amp; Procedural Audio
+            </h1>
+
+            <p class="post-lead">
+                A technical breakdown of how we bypassed generic UI buttons to build a browser-native celestial divination instrument—fusing real-time MediaPipe hand landmark tracking, deliberate 3-second fist hold locks, polar coordinate sacred geometry, and zero-asset procedural Web Audio synthesis.
+            </p>
+
             <div class="badge-row">
-                <span class="tag"><i class="fa-solid fa-scroll"></i> Case Study</span>
-                <span class="tag ruby"><i class="fa-solid fa-camera"></i> Computer Vision</span>
-                <span class="tag amber"><i class="fa-solid fa-hands-sparkles"></i> MediaPipe ML</span>
-                <span class="tag cyan"><i class="fa-solid fa-waveform-lines"></i> Procedural Web Audio</span>
+                <span class="tag amber"><i class="fa-solid fa-code"></i> Vite + React 19</span>
+                <span class="tag"><i class="fa-solid fa-camera"></i> MediaPipe Tasks-Vision</span>
+                <span class="tag"><i class="fa-solid fa-waveform-lines"></i> Web Audio API</span>
                 <span class="tag"><i class="fa-solid fa-compass-drafting"></i> Sacred Geometry</span>
+                <span class="tag"><i class="fa-solid fa-bolt"></i> Zero Cloud Latency</span>
             </div>
-            <h1>Zodiac Fortune Board: <span class="highlight">Computer Vision Astrolabe &amp; Gestural Divination Engine</span></h1>
-            <p class="hero-subtitle">
-                A real-time browser cartomancy and ancient astrolabe divination board. Physical webcam hand gestures translate directly into arcane spells—spinning the compass wheel, locking zodiac alignment, channeling horoscopes, drawing tarot arcana, and casting elder runes with native procedural audio synthesis.
-            </p>
-        </div>
+        </header>
 
-        <!-- Metric Highlights Grid -->
-        <div class="metrics-grid">
-            <div class="metric-card">
-                <div class="metric-value">
-                    <i class="fa-solid fa-bolt"></i> ~30 FPS
-                </div>
-                <div class="metric-label">ML Hand Tracking Rate</div>
+        <!-- Key Metrics Banner -->
+        <div class="stat-banner">
+            <div class="stat-box">
+                <div class="stat-number">~30 FPS</div>
+                <div class="stat-title">ML Vision Loop</div>
             </div>
-            <div class="metric-card">
-                <div class="metric-value">
-                    <i class="fa-solid fa-hand-dots"></i> 5 Spells
-                </div>
-                <div class="metric-label">Discrete Gestural Actions</div>
+            <div class="stat-box">
+                <div class="stat-number">5 Spells</div>
+                <div class="stat-title">Discrete Gestures</div>
             </div>
-            <div class="metric-card">
-                <div class="metric-value">
-                    <i class="fa-solid fa-hourglass-half"></i> 3.0s Hold
-                </div>
-                <div class="metric-label">Fist Deliberate Lock Engine</div>
+            <div class="stat-box">
+                <div class="stat-number">3.0s Hold</div>
+                <div class="stat-title">Deliberate Lock</div>
             </div>
-            <div class="metric-card">
-                <div class="metric-value">
-                    <i class="fa-solid fa-music"></i> 100% Synth
-                </div>
-                <div class="metric-label">Procedural Web Audio (Zero MP3s)</div>
+            <div class="stat-box">
+                <div class="stat-number">0 KB</div>
+                <div class="stat-title">Audio File Size</div>
             </div>
         </div>
 
-        <!-- Section 1: Overview & Vision -->
-        <section class="section-block">
-            <h2 class="section-title">
-                <i class="fa-solid fa-wand-magic-sparkles"></i> What It Is &amp; Core Vision
+        <!-- Flowing Post Content -->
+        <div class="post-content">
+
+            <p>
+                Most web applications treat user interaction as an exercise in clicking rectangular buttons or typing into search inputs. But ancient divination tools were tactile, solemn, and deliberate. An astronomer operating a 16th-century brass astrolabe rotated concentric dials by hand, aligning star needles with the zenith through physical touch. A cartomancer drawing tarot cards felt the card stock beneath their fingers.
+            </p>
+
+            <p>
+                With <strong>Zodiac Fortune Board</strong>, our goal was to recreate that physical, ritualistic intimacy in the browser. We wanted the webcam to act as a mystical <em>Scrying Mirror</em>—translating the user's natural body language into arcane divination spells. Achieving that without high cloud latency, clunky external libraries, or jittery false triggers required careful engineering across four core pillars: our architectural build choices, the mathematical building blocks, the hand tracking classifier engine, and the procedural audio system.
+            </p>
+
+            <!-- SECTION 1 -->
+            <h2>
+                <i class="fa-solid fa-layer-group"></i> 1. Build Choices: Zero-Cloud, Zero-Bloat
             </h2>
-            <p>
-                <strong>Zodiac Fortune Board</strong> reimagines centuries-old divination instruments—the brass astrolabe, the Major Arcana tarot deck, and Norse elder runes—as an immersive, reactive web experience. Rather than pressing generic buttons, users interact using natural body language in front of their webcam. The camera becomes an arcane <em>Scrying Glass</em> that translates hand poses into celestial divination spells.
-            </p>
-            <p>
-                Inspired by mystical sacred geometry and cinematic Eldritch sanctums (reminiscent of Doctor Strange Tao mandalas), the interface features an intricate concentric astrolabe wheel with rotating degree ticks, astrological houses, planetary runes, and dynamic trine/opposition aspect line geometry.
-            </p>
-        </section>
 
-        <!-- Section 2: 5 Discrete Gestural Spells & 3-Second Hold Engine -->
-        <section class="section-block">
-            <h2 class="section-title">
-                <i class="fa-solid fa-hand"></i> Arcane Gestural Spells &amp; The 3-Second Hold Lock
-            </h2>
             <p>
-                Hand gestures in computer vision can easily suffer from flickering, unintended transitions, or inadvertent triggers. To deliver a rock-solid, deliberate user experience, the system implements a strict 5-spell classifier with sub-millisecond decoupled reference smoothing and a <strong>3-second continuous hold requirement</strong> for state locking:
+                Before writing a single line of code, we established three strict non-negotiable engineering constraints:
             </p>
 
-            <div class="spells-grid">
-                <div class="spell-card">
-                    <div class="spell-card-header">
-                        <span class="spell-gesture-title">☝️ Pointing</span>
-                        <span class="spell-stage-tag">Navigation</span>
-                    </div>
-                    <p class="spell-desc">Extended index finger with curled fingers. Calculates angular velocity around the center to spin the astrolabe wheel smoothly and align zodiac signs at the Zenith.</p>
-                    <div class="spell-mechanic">Dynamic arc physics (atan2 delta tracking)</div>
-                </div>
-
-                <div class="spell-card">
-                    <div class="spell-card-header">
-                        <span class="spell-gesture-title">✊ Clenched Fist</span>
-                        <span class="spell-stage-tag">Lock / Unlock</span>
-                    </div>
-                    <p class="spell-desc">All 4 fingers curled down tightly. Holding for 3 seconds firmly locks the Zenith sign into focused state; holding for 3 seconds again releases the lock.</p>
-                    <div class="spell-mechanic">3000ms timer with circular SVG countdown HUD</div>
-                </div>
-
-                <div class="spell-card">
-                    <div class="spell-card-header">
-                        <span class="spell-gesture-title">✌️ Peace / V-Sign</span>
-                        <span class="spell-stage-tag">Stage 2</span>
-                    </div>
-                    <p class="spell-desc">Index and middle finger extended in a V. Channels the Destiny Covenant, generating an algorithmic personal horoscope summary reading.</p>
-                    <div class="spell-mechanic">Solfeggio harmonic chime resonance</div>
-                </div>
-
-                <div class="spell-card">
-                    <div class="spell-card-header">
-                        <span class="spell-gesture-title">✋ Open Palm</span>
-                        <span class="spell-stage-tag">Stage 3</span>
-                    </div>
-                    <p class="spell-desc">All 5 fingers extended wide. Draws the Major Arcana Tarot card corresponding to the active sign with authentic physical card border rendering.</p>
-                    <div class="spell-mechanic">Dual-tone bell chime &amp; parchment layout</div>
-                </div>
-
-                <div class="spell-card">
-                    <div class="spell-card-header">
-                        <span class="spell-gesture-title">🤘 Mystic Horns</span>
-                        <span class="spell-stage-tag">Stage 4</span>
-                    </div>
-                    <p class="spell-desc">Index and pinky extended, middle and ring curled down. Casts the Witches' Three Sacred Elder Runes (Past, Present, Outcome triad).</p>
-                    <div class="spell-mechanic">Low-pass filtered runic stone cast audio</div>
-                </div>
+            <div class="diagram-card">
+                <div class="diagram-title"><i class="fa-solid fa-shield-halved"></i> The Architectural Pillars</div>
+                <ul class="takeaway-list" style="margin: 0;">
+                    <li class="takeaway-item">
+                        <div class="takeaway-icon"><i class="fa-solid fa-lock"></i></div>
+                        <div class="takeaway-content">
+                            <h4>Zero-Cloud Privacy &amp; Sub-Millisecond Feedback</h4>
+                            <p>Webcam frames must never leave the client. No cloud AI endpoints, no server-side vision APIs, and no telemetry. Processing runs 100% locally on the device's CPU/GPU via WebAssembly.</p>
+                        </div>
+                    </li>
+                    <li class="takeaway-item">
+                        <div class="takeaway-icon"><i class="fa-solid fa-feather"></i></div>
+                        <div class="takeaway-content">
+                            <h4>The Decision Against Heavy 3D Engines</h4>
+                            <p>We deliberately avoided bundling Three.js or Babylon.js (which add 600KB–1.5MB of gzipped dependencies and mobile battery drain). Instead, the astrolabe is rendered using mathematical SVG polar geometry and GPU-accelerated CSS 3D transforms.</p>
+                        </div>
+                    </li>
+                    <li class="takeaway-item">
+                        <div class="takeaway-icon"><i class="fa-solid fa-bolt"></i></div>
+                        <div class="takeaway-content">
+                            <h4>React 19 &amp; Vite 8 Foundation</h4>
+                            <p>Declarative component structure with instant HMR and tiny production bundles. Vite builds the entire client in under 200ms, while React's state machine cleanly coordinates the multi-stage divination flow.</p>
+                        </div>
+                    </li>
+                </ul>
             </div>
 
-            <div class="callout-box">
-                <div class="callout-header">
-                    <i class="fa-solid fa-lock"></i> The 3-Second Hold Lock Architecture
-                </div>
-                <p class="callout-body">
-                    A key design breakthrough was preventing the compass from drifting when a user examines their reading. By requiring the clenched fist to remain held for exactly <strong>3.0 continuous seconds</strong>, the app distinguishes between a momentary transition and a deliberate lock command. While held, an animated circular SVG meter with live countdown HUD renders over the screen. If released early (e.g. at 2.1s), the lock sequence cancels safely. Once locked, the sign is crowned with an imperial beacon wave, wheel rotation is locked against drift, and all progressive stages focus strictly on the chosen zodiac.
-                </p>
-            </div>
-        </section>
-
-        <!-- Section 3: Sacred Geometry Astrolabe & Physics -->
-        <section class="section-block">
-            <h2 class="section-title">
-                <i class="fa-solid fa-compass"></i> Astrolabe Sacred Geometry &amp; Dynamic Aspect Chords
-            </h2>
             <p>
-                The central divination compass is built on rigorous geometric and astronomical principles:
+                By keeping all computation on-device and stripping away unnecessary library weight, the application achieves instantaneous boot times and immune resilience against network hiccups or API rate limits.
             </p>
-            <ul class="feature-list">
-                <li class="feature-item">
-                    <div class="feature-icon"><i class="fa-solid fa-circle-nodes"></i></div>
-                    <div class="feature-content">
-                        <h4>12 Zodiac Constellation Nodes &amp; Aspect Web</h4>
-                        <p>Signs are positioned along a 360° circle using polar coordinate trigonometry: <code>x = 50 + r * cos(θ)</code>, <code>y = 50 + r * sin(θ)</code>. The background calculates real-time SVG chords representing astrological Trines (120° angles, 4 signs apart) and Oppositions (180° angles, 6 signs apart) which pulse dynamically during horn spells.</p>
-                    </div>
-                </li>
-                <li class="feature-item ruby">
-                    <div class="feature-icon"><i class="fa-solid fa-crown"></i></div>
-                    <div class="feature-content">
-                        <h4>Prominent Selected Sign Visual Signature</h4>
-                        <p>When locked, the selected zodiac node expands to scale 1.34 with a 4px imperial gold border, dual-layer glowing aura, continuous beacon pulse animation (<code>selectedBeaconWave</code>), and an illuminated <code>👑 SELECTED</code> badge, making the chosen sign unmistakably visible across the board.</p>
-                    </div>
-                </li>
-                <li class="feature-item cyan">
-                    <div class="feature-icon"><i class="fa-solid fa-crosshairs"></i></div>
-                    <div class="feature-content">
-                        <h4>12 O'Clock Zenith Needle &amp; Rotational Snapping</h4>
-                        <p>A fixed top alignment pointer decodes the sign aligned with the Zenith needle: <code>normalizedAngle = (-rotation % 360 + 360) % 360</code>. As the user spins the wheel, procedural astral tick audio plays each time a 30-degree notch passes the needle.</p>
-                    </div>
-                </li>
-            </ul>
-        </section>
 
-        <!-- Section 4: Procedural Web Audio Engine -->
-        <section class="section-block">
-            <h2 class="section-title">
-                <i class="fa-solid fa-waveform"></i> Procedural Web Audio Synthesis Engine
+            <!-- SECTION 2 -->
+            <h2>
+                <i class="fa-solid fa-compass"></i> 2. The Building Blocks: Sacred Geometry &amp; Horology
             </h2>
+
             <p>
-                To avoid slow asset loading, external bandwidth dependencies, and audio latency, the entire soundscape is synthesized procedurally in real time using the native browser <code>AudioContext</code>:
+                The central astrolabe wheel isn't an arbitrary static graphic—it is a functional trigonometric instrument. The 12 signs of the zodiac are mapped equidistant along a 360-degree circle using classic polar-to-Cartesian conversion:
             </p>
 
             <div class="code-container">
-<pre><code><span class="code-comment">// Procedural Cosmic Drone: 432Hz Harmonic Base</span>
-<span class="code-keyword">const</span> osc1 = ctx.<span class="code-function">createOscillator</span>(); <span class="code-comment">// Root A1 ~ 54Hz (Sine)</span>
-<span class="code-keyword">const</span> osc2 = ctx.<span class="code-function">createOscillator</span>(); <span class="code-comment">// Fifth E2 ~ 81Hz (Triangle)</span>
-<span class="code-keyword">const</span> filter = ctx.<span class="code-function">createBiquadFilter</span>();
-filter.type = <span class="code-string">'lowpass'</span>;
-filter.frequency.<span class="code-function">setValueAtTime</span>(<span class="code-number">140</span>, now);
+                <div class="code-header">
+                    <span class="file-badge"><i class="fa-solid fa-file-code"></i> Trigonometric Polar Mapping</span>
+                    <span>JavaScript Math</span>
+                </div>
+<pre><code><span class="token-comment">// Polar coordinate placement for 12 zodiac houses</span>
+<span class="token-keyword">const</span> radius = <span class="token-number">40</span>; <span class="token-comment">// Percent distance from center</span>
+<span class="token-keyword">const</span> angleStep = (<span class="token-number">2</span> * Math.PI) / <span class="token-number">12</span>; <span class="token-comment">// 30 degrees per sign</span>
 
-<span class="code-comment">// Solfeggio Miraculous Bell Harmonics (528Hz, 639Hz, 741Hz, 852Hz, 963Hz)</span>
-<span class="code-keyword">const</span> baseFreqs = [<span class="code-number">528</span>, <span class="code-number">639</span>, <span class="code-number">741</span>, <span class="code-number">852</span>, <span class="code-number">963</span>, <span class="code-number">1056</span>];
-overtone.frequency.<span class="code-function">setValueAtTime</span>(freq * <span class="code-number">2.76</span>, now); <span class="code-comment">// Acoustic bell ratio</span></code></pre>
+<span class="token-keyword">const</span> signPositions = ZODIAC_SIGNS.<span class="token-fn">map</span>((sign, index) => {
+  <span class="token-keyword">const</span> theta = index * angleStep - (Math.PI / <span class="token-number">2</span>); <span class="token-comment">// Offset so 0° starts at Zenith</span>
+  <span class="token-keyword">return</span> {
+    ...sign,
+    x: <span class="token-number">50</span> + radius * Math.<span class="token-fn">cos</span>(theta),
+    y: <span class="token-number">50</span> + radius * Math.<span class="token-fn">sin</span>(theta)
+  };
+});</code></pre>
             </div>
 
             <p>
-                The sound engine produces dynamic bandpass filter sweeps when spinning the wheel (proportional to angular velocity), ethereal celestial blooms on unlocks, tarot draw bell rings, and cascading five-hit stone rolls for rune divination.
+                Around these nodes, the engine constructs dynamic SVG aspect chords. In traditional Western astrology, geometric relationships between signs dictate harmonic resonance:
             </p>
-        </section>
 
-        <!-- Section 5: UI & Left Navigation Refinements -->
-        <section class="section-block">
-            <h2 class="section-title">
-                <i class="fa-solid fa-compass-drafting"></i> Altar Tablet Navigation &amp; Typography Alignment
-            </h2>
-            <p>
-                The left-hand divination panel is designed as an antique cartomancy altar tablet with brass corner filigree and astral sigils. A critical user experience challenge was harmonizing the pointing action with the stage gesture containers:
-            </p>
-            <ul class="feature-list">
-                <li class="feature-item amber">
-                    <div class="feature-icon"><i class="fa-solid fa-align-left"></i></div>
-                    <div class="feature-content">
-                        <h4>Internal Vertical Indicator Pill</h4>
-                        <p>Added <code>.nav-stage-indicator</code> inside the point action container on the left, matching the visual geometry and golden glow states of the 4 stage buttons.</p>
+            <ul class="takeaway-list">
+                <li class="takeaway-item">
+                    <div class="takeaway-icon"><i class="fa-solid fa-triangle-person-digging"></i></div>
+                    <div class="takeaway-content">
+                        <h4>Trine Chords (120° Separation)</h4>
+                        <p>Signs sharing the same elemental triad (Fire, Earth, Air, Water) sit 4 signs apart. The background calculates SVG vector lines connecting these trines, which ignite and pulse during celestial spells.</p>
                     </div>
                 </li>
-                <li class="feature-item">
-                    <div class="feature-icon"><i class="fa-solid fa-text-width"></i></div>
-                    <div class="feature-content">
-                        <h4>Balanced Character Proportions</h4>
-                        <p>Simplified the action text to <code>☝️ Point</code> (8 characters) and <code>Rotate to choose sign</code> (21 characters), matching the concise character count and visual cadence of <code>✊ Fist</code>, <code>✌️ Peace</code>, and <code>Select sign on board</code>.</p>
+                <li class="takeaway-item">
+                    <div class="takeaway-icon"><i class="fa-solid fa-arrows-split-up-and-left"></i></div>
+                    <div class="takeaway-content">
+                        <h4>Opposition Vectors (180° Polarity)</h4>
+                        <p>Opposing signs across the diameter of the wheel generate dynamic tension chords, forming the foundational sacred geometry mandala reminiscent of Doctor Strange Tao mandalas.</p>
                     </div>
                 </li>
-                <li class="feature-item cyan">
-                    <div class="feature-icon"><i class="fa-solid fa-shield-halved"></i></div>
-                    <div class="feature-content">
-                        <h4>Streamlined Arcane Header</h4>
-                        <p>Removed redundant modal buttons to eliminate visual clutter, letting the central astrolabe compass and real-time scrying mirror command full focus.</p>
+                <li class="takeaway-item">
+                    <div class="takeaway-icon"><i class="fa-solid fa-location-crosshairs"></i></div>
+                    <div class="takeaway-content">
+                        <h4>Zenith Needle &amp; 30° Rotational Snapping</h4>
+                        <p>A fixed top alignment pointer decodes the sign currently passing under the high noon needle using <code>normalizedAngle = (-rotation % 360 + 360) % 360</code>, triggering a mechanical tactile tick each time a 30° house boundary is crossed.</p>
                     </div>
                 </li>
             </ul>
-        </section>
 
-        <!-- Section 6: Engineering Specifications -->
-        <section class="section-block">
-            <h2 class="section-title">
-                <i class="fa-solid fa-microchip"></i> Technical Specifications
+            <p>
+                Flanking the astrolabe is the <strong>Altar Tablet</strong> navigation panel on the left, which tracks the 4 progressive revelation stages: Constellation Alignment, Destiny Covenant (Horoscope Summary), Major Arcana Tarot Draw, and the casting of the Three Sacred Elder Runes.
+            </p>
+
+            <!-- SECTION 3 -->
+            <h2>
+                <i class="fa-solid fa-hand"></i> 3. Hand Gesture Tech: From Pixels to Arcane Spells
             </h2>
-            <div class="tech-spec-grid">
-                <div class="tech-spec-card">
-                    <div class="tech-spec-category">Core Framework</div>
-                    <div class="tech-spec-title">React 19 &amp; Vite 8</div>
-                    <p class="tech-spec-desc">Modern declarative component architecture with sub-second HMR and optimized production bundles.</p>
+
+            <p>
+                Translating raw webcam video into rock-solid gesture controls is notoriously prone to false positives, camera noise, and wrist fatigue. To solve this, we implemented Google's <code>@mediapipe/tasks-vision</code> HandLandmarker with three critical architectural optimizations:
+            </p>
+
+            <h3>Decoupled Frame Loops &amp; Ref Throttling</h3>
+            <p>
+                Running computer vision directly inside a standard React <code>useEffect</code> that calls <code>setState</code> on every frame will immediately drop frame rates to single digits. To ensure a locked 60 FPS UI:
+            </p>
+
+            <ul class="takeaway-list">
+                <li class="takeaway-item">
+                    <div class="takeaway-icon"><i class="fa-solid fa-gauge-high"></i></div>
+                    <div class="takeaway-content">
+                        <h4>Throttled ML Inference (~32ms / 30 FPS)</h4>
+                        <p>While the browser animation loop runs at 60 FPS, the heavier MediaPipe neural inference is capped at ~30 FPS using <code>performance.now()</code>. This halves CPU/GPU thermal load while remaining imperceptible to the human eye.</p>
+                    </div>
+                </li>
+                <li class="takeaway-item">
+                    <div class="takeaway-icon"><i class="fa-solid fa-memory"></i></div>
+                    <div class="takeaway-content">
+                        <h4>Ref-Based Landmark Storage</h4>
+                        <p>All 21 3D hand landmarks are stored in mutable React refs (<code>rawLandmarksRef</code>). The UI only triggers a state re-render when a discrete gesture classification actually changes.</p>
+                    </div>
+                </li>
+            </ul>
+
+            <h3>The 5 Discrete Gesture Classifiers</h3>
+            <p>
+                Rather than ambiguous finger counting, we engineered 5 radically distinct geometric poses based on normalized Euclidean distance ratios between fingertips, MCP base knuckles, PIP middle knuckles, and the wrist root:
+            </p>
+
+            <div class="gesture-deck">
+                <div class="gesture-card">
+                    <div class="gesture-card-header">
+                        <span class="gesture-name">☝️ Pointing</span>
+                        <span class="gesture-pill">Navigation</span>
+                    </div>
+                    <p class="gesture-desc">Index finger extended; middle, ring, pinky curled down. Calculates angular velocity around the board center via <code>Math.atan2(dy, dx)</code> to spin the compass wheel smoothly.</p>
                 </div>
-                <div class="tech-spec-card">
-                    <div class="tech-spec-category">Computer Vision</div>
-                    <div class="tech-spec-title">MediaPipe Tasks-Vision</div>
-                    <p class="tech-spec-desc">GPU/CPU delegated 21-landmark hand detection running with decoupled animation frame references.</p>
+
+                <div class="gesture-card">
+                    <div class="gesture-card-header">
+                        <span class="gesture-name">✊ Clenched Fist</span>
+                        <span class="gesture-pill">Lock / Unlock</span>
+                    </div>
+                    <p class="gesture-desc">All 4 fingers curled down tightly toward the palm. Engaging this pose initiates the 3-second continuous hold lock engine.</p>
                 </div>
-                <div class="tech-spec-card">
-                    <div class="tech-spec-category">Audio Synthesis</div>
-                    <div class="tech-spec-title">Web Audio API</div>
-                    <p class="tech-spec-desc">100% procedural multi-oscillator synthesis with Phrygian harmonics and Solfeggio tuning.</p>
+
+                <div class="gesture-card">
+                    <div class="gesture-card-header">
+                        <span class="gesture-name">✌️ Peace / V-Sign</span>
+                        <span class="gesture-pill">Horoscope</span>
+                    </div>
+                    <p class="gesture-desc">Index and middle fingers extended wide; ring and pinky curled down. Channels the Destiny Covenant horoscope reading.</p>
                 </div>
-                <div class="tech-spec-card">
-                    <div class="tech-spec-category">Graphics &amp; FX</div>
-                    <div class="tech-spec-title">Vanilla CSS &amp; SVG</div>
-                    <p class="tech-spec-desc">Concentric brass ring geometry, dynamic trigonometric aspect web, and canvas starlight skeleton PIP.</p>
+
+                <div class="gesture-card">
+                    <div class="gesture-card-header">
+                        <span class="gesture-name">✋ Open Palm</span>
+                        <span class="gesture-pill">Tarot Arcana</span>
+                    </div>
+                    <p class="gesture-desc">All 4 fingers extended wide apart. Manifests and draws the Major Arcana tarot card corresponding to the active sign.</p>
+                </div>
+
+                <div class="gesture-card" style="grid-column: 1 / -1;">
+                    <div class="gesture-card-header">
+                        <span class="gesture-name">🤘 Mystic Horns</span>
+                        <span class="gesture-pill">Elder Runes</span>
+                    </div>
+                    <p class="gesture-desc">Index and pinky extended; middle and ring curled down. Casts the Witches' Three Sacred Elder Runes (Past, Present, and Outcome triad).</p>
                 </div>
             </div>
-        </section>
 
-        <!-- Footer Navigation -->
-        <footer class="footer-nav">
+            <div class="code-container">
+                <div class="code-header">
+                    <span class="file-badge"><i class="fa-solid fa-code"></i> useHandTracking.js</span>
+                    <span>Geometric Joint Distance Classifier</span>
+                </div>
+<pre><code><span class="token-comment">// Extension detection using dual-ratio knuckle geometry</span>
+<span class="token-keyword">const</span> isFingerExtended = (tip, pip, mcp) => {
+  <span class="token-keyword">const</span> tipToWrist = <span class="token-fn">dist</span>(tip, wrist);
+  <span class="token-keyword">const</span> pipToWrist = <span class="token-fn">dist</span>(pip, wrist);
+  <span class="token-keyword">const</span> tipToMcp = <span class="token-fn">dist</span>(tip, mcp);
+  <span class="token-keyword">const</span> pipToMcp = <span class="token-fn">dist</span>(pip, mcp);
+  <span class="token-keyword">return</span> (tipToWrist > pipToWrist * <span class="token-number">1.05</span>) && (tipToMcp > pipToMcp * <span class="token-number">1.08</span>);
+};
+
+<span class="token-keyword">const</span> isIndexExtended = <span class="token-fn">isFingerExtended</span>(indexTip, indexPIP, indexMCP);
+<span class="token-keyword">const</span> isMiddleExtended = <span class="token-fn">isFingerExtended</span>(middleTip, middlePIP, middleMCP);
+<span class="token-keyword">const</span> isRingExtended = <span class="token-fn">isFingerExtended</span>(ringTip, ringPIP, ringMCP);
+<span class="token-keyword">const</span> isPinkyExtended = <span class="token-fn">isFingerExtended</span>(pinkyTip, pinkyPIP, pinkyMCP);
+
+<span class="token-comment">// 1. CLENCHED FIST: All 4 fingers curled down tight</span>
+<span class="token-keyword">if</span> (!isIndexExtended && !isMiddleExtended && !isRingExtended && !isPinkyExtended) {
+  <span class="token-keyword">return</span> { spell: <span class="token-string">'FIST'</span>, isPinch: <span class="token-keyword">false</span> };
+}
+
+<span class="token-comment">// 2. POINTING: Index extended, others curled down</span>
+<span class="token-keyword">if</span> (isIndexExtended && !isMiddleExtended && !isRingExtended && !isPinkyExtended) {
+  <span class="token-keyword">return</span> { spell: <span class="token-string">'POINTING'</span>, isPinch: <span class="token-keyword">false</span> };
+}</code></pre>
+            </div>
+
+            <h3>The 3-Second Hold Lock Architecture</h3>
+            <p>
+                A subtle but critical challenge in computer vision interfaces is <strong>accidental trigger drift</strong>. If a user points to align Scorpio at the Zenith, and then lowers their hand or relaxes their posture, inadvertent wrist rotation can spin the wheel away just as they try to read their horoscope.
+            </p>
+
+            <blockquote>
+                <p>
+                    <strong>The Deliberate Hold Pattern:</strong> To guarantee intentionality, the application requires the user to hold a clenched fist (<code>✊ Fist</code>) for <strong>3.0 continuous seconds</strong> to lock or unlock the board.
+                </p>
+            </blockquote>
+
+            <p>
+                When a fist is detected, a continuous timestamp timer starts. A radial SVG countdown HUD overlay renders on screen, counting down from <code>3.0s</code> to <code>0.0s</code> with an animated golden circular progress ring. If the user releases their fist early (e.g. at 2.1s), the lock sequence cancels safely without changing state.
+            </p>
+
+            <p>
+                Once the 3.0s threshold is reached:
+            </p>
+
+            <ul class="takeaway-list">
+                <li class="takeaway-item">
+                    <div class="takeaway-icon"><i class="fa-solid fa-lock"></i></div>
+                    <div class="takeaway-content">
+                        <h4>Rotational Drift Immunity</h4>
+                        <p>Wheel rotation is locked, so accidental pointer movements cannot disturb the Zenith alignment while examining readings.</p>
+                    </div>
+                </li>
+                <li class="takeaway-item">
+                    <div class="takeaway-icon"><i class="fa-solid fa-crown"></i></div>
+                    <div class="takeaway-content">
+                        <h4>Unmistakable Selected Node Signature</h4>
+                        <p>The chosen sign node expands to <code>1.34x</code> scale with a 4px imperial gold border, dual-layer glowing aura, continuous beacon pulse animation (<code>@keyframes selectedBeaconWave</code>), and an illuminated <code>👑 SELECTED</code> badge.</p>
+                    </div>
+                </li>
+                <li class="takeaway-item">
+                    <div class="takeaway-icon"><i class="fa-solid fa-gem"></i></div>
+                    <div class="takeaway-content">
+                        <h4>Central Crystal Ball HUD</h4>
+                        <p>The center orb illuminates with an imperial status pill: <code>🔒 [SIGN] LOCKED · Hold ✊ 3s to Unlock</code>.</p>
+                    </div>
+                </li>
+            </ul>
+
+            <!-- SECTION 4 -->
+            <h2>
+                <i class="fa-solid fa-waveform"></i> 4. The Audio Tech: 100% Procedural Synthesis
+            </h2>
+
+            <p>
+                In an era where web apps routinely bundle 20MB of compressed MP3 and WAV sound effects, we chose a fundamentally different path: <strong>every frequency in Zodiac Fortune Board is synthesized procedurally in real time using the native Web Audio API</strong>.
+            </p>
+
+            <p>
+                Zero external sound files means zero network latency, zero broken asset URLs, and zero loading spinners. Even more powerfully, procedural audio can be continuously modulated by user physics:
+            </p>
+
+            <h3>The 432Hz Sub-Bass Cosmic Drone</h3>
+            <p>
+                To immerse the user the moment the altar opens, a continuous harmonic drone hums in the background. It utilizes dual oscillators tuned to ancient Phrygian harmonic intervals (A1 at 54Hz and E2 at 81Hz) routed through a soft 140Hz low-pass Biquad filter:
+            </p>
+
+            <div class="code-container">
+                <div class="code-header">
+                    <span class="file-badge"><i class="fa-solid fa-music"></i> mysticAudio.js</span>
+                    <span>Continuous Cosmic Drone Engine</span>
+                </div>
+<pre><code><span class="token-comment">// Deep root 432Hz harmonic base: Root A1 (54Hz) + Fifth E2 (81Hz)</span>
+<span class="token-keyword">this</span>.droneOsc1 = <span class="token-keyword">this</span>.ctx.<span class="token-fn">createOscillator</span>();
+<span class="token-keyword">this</span>.droneOsc1.type = <span class="token-string">'sine'</span>;
+<span class="token-keyword">this</span>.droneOsc1.frequency.<span class="token-fn">setValueAtTime</span>(<span class="token-number">54</span>, now);
+
+<span class="token-keyword">this</span>.droneOsc2 = <span class="token-keyword">this</span>.ctx.<span class="token-fn">createOscillator</span>();
+<span class="token-keyword">this</span>.droneOsc2.type = <span class="token-string">'triangle'</span>;
+<span class="token-keyword">this</span>.droneOsc2.frequency.<span class="token-fn">setValueAtTime</span>(<span class="token-number">81</span>, now);
+
+<span class="token-comment">// Soft low-pass filter to create warm subterranean ambient presence</span>
+<span class="token-keyword">const</span> filter = <span class="token-keyword">this</span>.ctx.<span class="token-fn">createBiquadFilter</span>();
+filter.type = <span class="token-string">'lowpass'</span>;
+filter.frequency.<span class="token-fn">setValueAtTime</span>(<span class="token-number">140</span>, now);
+
+<span class="token-keyword">this</span>.droneOsc1.<span class="token-fn">connect</span>(filter);
+<span class="token-keyword">this</span>.droneOsc2.<span class="token-fn">connect</span>(filter);
+filter.<span class="token-fn">connect</span>(<span class="token-keyword">this</span>.droneGain);</code></pre>
+            </div>
+
+            <h3>Solfeggio Miraculous Bell Harmonics</h3>
+            <p>
+                When prophecies unlock, the engine plays crystal bell chimes based on Solfeggio frequencies (<code>528Hz, 639Hz, 741Hz, 852Hz, 963Hz</code>). To emulate physical acoustic bell acoustics, a secondary sine oscillator tracks an overtone ratio of exactly <code>frequency * 2.76</code>, decaying with an exponential volume ramp:
+            </p>
+
+            <div class="code-container">
+                <div class="code-header">
+                    <span class="file-badge"><i class="fa-solid fa-bell"></i> mysticAudio.js</span>
+                    <span>Acoustic Bell Harmonic Synthesizer</span>
+                </div>
+<pre><code><span class="token-comment">// Bell fundamental frequency (e.g. 528Hz Miraculum)</span>
+<span class="token-keyword">const</span> osc = <span class="token-keyword">this</span>.ctx.<span class="token-fn">createOscillator</span>();
+osc.type = <span class="token-string">'sine'</span>;
+osc.frequency.<span class="token-fn">setValueAtTime</span>(freq, now);
+
+<span class="token-comment">// Shimmering overtone at acoustic bell ratio 2.76x</span>
+<span class="token-keyword">const</span> overtone = <span class="token-keyword">this</span>.ctx.<span class="token-fn">createOscillator</span>();
+overtone.type = <span class="token-string">'sine'</span>;
+overtone.frequency.<span class="token-fn">setValueAtTime</span>(freq * <span class="token-number">2.76</span>, now);
+
+gain.gain.<span class="token-fn">setValueAtTime</span>(<span class="token-number">0.15</span>, now);
+gain.gain.<span class="token-fn">exponentialRampToValueAtTime</span>(<span class="token-number">0.0001</span>, now + <span class="token-number">2.2</span>);</code></pre>
+            </div>
+
+            <h3>Dynamic Wheel Sweeps &amp; Stochastic Rune Clatter</h3>
+            <p>
+                Other procedural audio modules include:
+            </p>
+
+            <ul class="takeaway-list">
+                <li class="takeaway-item">
+                    <div class="takeaway-icon"><i class="fa-solid fa-arrows-spin"></i></div>
+                    <div class="takeaway-content">
+                        <h4>Velocity-Modulated Rotation Sweeps</h4>
+                        <p>As the user spins the astrolabe wheel faster, a bandpass filter (Q=3, center=350Hz) dynamically sweeps its cutoff frequency proportional to angular velocity, creating an organic mechanical whoosh.</p>
+                    </div>
+                </li>
+                <li class="takeaway-item">
+                    <div class="takeaway-icon"><i class="fa-solid fa-dice-d20"></i></div>
+                    <div class="takeaway-content">
+                        <h4>Cascading Stochastic Dice Bursts</h4>
+                        <p>For elder runes and the 100-sided fate die, a micro-loop fires 5 rapid randomized square-wave clicks (<code>400 + Math.random() * 500 Hz</code>) spaced 70ms apart, resolving into a bright sine chime (E5 at 659Hz ramping to E6 at 1318Hz).</p>
+                    </div>
+                </li>
+            </ul>
+
+            <!-- SECTION 5 -->
+            <h2>
+                <i class="fa-solid fa-flag-checkered"></i> 5. Lessons Learned &amp; Takeaways
+            </h2>
+
+            <p>
+                Building Zodiac Fortune Board reaffirmed that web development doesn't have to be sterile or bounded by standard form inputs. Key takeaways from the project:
+            </p>
+
+            <ul class="takeaway-list">
+                <li class="takeaway-item">
+                    <div class="takeaway-icon"><i class="fa-solid fa-lightbulb"></i></div>
+                    <div class="takeaway-content">
+                        <h4>Deliberate Timing Beats Instant Triggers</h4>
+                        <p>In spatial/gestural computing, instant triggers lead to constant mistakes. Requiring a deliberate 3-second hold turned the fist gesture from an accidental hazard into a powerful, satisfying ritual.</p>
+                    </div>
+                </li>
+                <li class="takeaway-item">
+                    <div class="takeaway-icon"><i class="fa-solid fa-microchip"></i></div>
+                    <div class="takeaway-content">
+                        <h4>Procedural Audio is an Undervalued Superpower</h4>
+                        <p>Generating sounds mathematically via the Web Audio API allowed us to build an entire rich soundscape with zero download footprint and instant responsive modulation.</p>
+                    </div>
+                </li>
+                <li class="takeaway-item">
+                    <div class="takeaway-icon"><i class="fa-solid fa-shield"></i></div>
+                    <div class="takeaway-content">
+                        <h4>Edge Machine Learning is Production Ready</h4>
+                        <p>Modern WebAssembly and WebGPU run multi-landmark neural models smoothly in ordinary browser tabs without any cloud infrastructure or privacy compromises.</p>
+                    </div>
+                </li>
+            </ul>
+
+        </div>
+
+        <!-- Post Footer Navigation -->
+        <footer class="post-footer">
             <a href="./index.html" class="nav-btn primary">
-                <i class="fa-solid fa-sparkles"></i> Launch Zodiac Fortune Board
+                <i class="fa-solid fa-sparkles"></i> Launch Live Experience
             </a>
-            <div class="footer-links-group">
+
+            <div class="nav-links">
                 <a href="../index.html" class="nav-btn">
-                    <i class="fa-solid fa-grid-2"></i> All Interactive Projects
+                    <i class="fa-solid fa-grid-2"></i> All Projects
                 </a>
-                <a href="../../2026/" class="nav-btn">
-                    <i class="fa-solid fa-house"></i> Main Portfolio
+                <a href="../../2026/index.html" class="nav-btn">
+                    <i class="fa-solid fa-arrow-left"></i> Main Portfolio
                 </a>
+            </div>
+
+            <div class="footer-meta">
+                <div>
+                    <span class="status-dot"></span> Available for Web Dev &amp; Design Contracts
+                </div>
+                <div>ZH // 2026 DESIGN &amp; DEVELOPMENT</div>
             </div>
         </footer>
 
-    </main>
+    </article>
+
+    <!-- Floating Portfolio Button (Matching /2026/index.html) -->
+    <a href="../../2026/index.html" class="btn-projects">
+        <i class="fa-solid fa-arrow-left"></i> Portfolio
+    </a>
 
 </body>
 

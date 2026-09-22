@@ -1,199 +1,687 @@
 <!DOCTYPE html>
-<html lang="en" class="scroll-smooth">
+<html lang="en">
 
 <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Case Study: Practical PHP Fundamentals — 3 Core Projects</title>
+    <title>Zach Heindel | Case Study: PHP Backend Architecture</title>
     <meta name="description"
-        content="Technical case study of 3 practical PHP projects: Tic-Tac-Toe (Sessions & 2D Arrays), Email Contact Form (Sanitization & mail()), and User Registration / Login System (PDO & Password Hashing)." />
+        content="Technical case study of 3 practical PHP projects: Tic-Tac-Toe (Sessions & 2D Arrays), Email Contact Form (Sanitization & MIME Security), and User Auth (PDO & Bcrypt)." />
+    <link href="../../2026/media/zqh-portfolio.png" rel="icon" type="image/png">
 
-    <!-- Google Fonts -->
+    <!-- Fonts & Icons -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Fira+Code:wght@400;500;600;700&family=Inter:wght@400;500;600;700;800&family=Outfit:wght@600;700;800;900&family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
-    
-    <!-- Font Awesome -->
+    <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500;600;700&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
-
-    <!-- Tailwind CSS CDN -->
-    <script src="https://cdn.tailwindcss.com"></script>
-    <script>
-        tailwind.config = {
-            darkMode: 'class',
-            theme: {
-                extend: {
-                    fontFamily: {
-                        sans: ['"Plus Jakarta Sans"', 'Inter', 'system-ui', 'sans-serif'],
-                        heading: ['Outfit', 'sans-serif'],
-                        mono: ['"Fira Code"', 'monospace'],
-                    },
-                    colors: {
-                        slate: {
-                            850: '#141e33',
-                            900: '#0f172a',
-                            925: '#0b1120',
-                            950: '#070b14',
-                        },
-                        calm: {
-                            sky: '#38bdf8',
-                            indigo: '#818cf8',
-                            emerald: '#34d399',
-                            amber: '#fbbf24',
-                            rose: '#fb7185',
-                        }
-                    }
-                }
-            }
-        }
-    </script>
+    <link rel="stylesheet" href="../case-study-branded.css">
 
     <style>
         :root {
-            --bg-base: #090d16;
-            --bg-surface: #0f172a;
-            --bg-card: #141e33;
-            --border-calm: #23324d;
-            --border-light: #334155;
-            --text-primary: #f8fafc;
-            --text-secondary: #cbd5e1;
-            --text-muted: #94a3b8;
+            --amber: #F5A623;
+            --red-orange: #E8442A;
+            --text-light: #e8e8e8;
+            --text-muted: #999999;
+            --text-dim: #666666;
+            --bg-black: #000000;
+            --bg-card: rgba(255, 255, 255, 0.03);
+            --border-subtle: rgba(255, 255, 255, 0.08);
+            --border-card: rgba(255, 255, 255, 0.07);
+            --border-left: rgba(255, 255, 255, 0.12);
+            --amber-glow: rgba(245, 166, 35, 0.35);
+            --amber-border: rgba(245, 166, 35, 0.25);
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        html {
+            scroll-behavior: smooth;
+            background: #000;
         }
 
         body {
-            background-color: var(--bg-base);
-            color: var(--text-primary);
-            font-family: 'Plus Jakarta Sans', sans-serif;
-            min-height: 100vh;
+            font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif;
+            color: var(--text-light);
+            background: #000;
             line-height: 1.65;
+            min-height: 100vh;
+            overflow-x: hidden;
         }
 
-        .calm-nav {
-            background: rgba(11, 17, 32, 0.92);
-            backdrop-filter: blur(16px);
-            border-bottom: 1px solid var(--border-calm);
+        body::before {
+            content: '';
+            position: fixed;
+            inset: 0;
+            background: 
+                radial-gradient(circle at 50% 0%, rgba(245, 166, 35, 0.06) 0%, transparent 60%),
+                radial-gradient(circle at 85% 90%, rgba(232, 68, 42, 0.04) 0%, transparent 50%),
+                rgba(10, 10, 10, 0.65);
+            pointer-events: none;
+            z-index: -1;
         }
 
-        ::-webkit-scrollbar {
+        /* Navbar */
+        .navbar {
+            position: sticky;
+            top: 0;
+            z-index: 1000;
+            width: 100%;
+            background: rgba(0, 0, 0, 0.90);
+            backdrop-filter: blur(12px);
+            -webkit-backdrop-filter: blur(12px);
+            border-bottom: 1px solid var(--border-subtle);
+            padding: 18px 32px;
+        }
+
+        .nav-container {
+            max-width: 1080px;
+            margin: 0 auto;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            flex-wrap: wrap;
+            gap: 16px;
+        }
+
+        .nav-brand {
+            font-size: 0.75rem;
+            letter-spacing: 0.3em;
+            text-transform: uppercase;
+            color: var(--text-muted);
+            text-decoration: none;
+            font-weight: 700;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .nav-brand span {
+            color: var(--amber);
+        }
+
+        .nav-links {
+            display: flex;
+            gap: 10px;
+            align-items: center;
+            flex-wrap: wrap;
+        }
+
+        .nav-btn {
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
+            padding: 6px 14px;
+            font-family: inherit;
+            font-size: 0.65rem;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 0.15em;
+            text-decoration: none;
+            color: rgba(245, 166, 35, 0.8);
+            border: 1px solid var(--amber-border);
+            background: rgba(18, 18, 18, 0.85);
+            backdrop-filter: blur(4px);
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.5);
+            border-radius: 2px;
+            transition: all 0.2s ease-in-out;
+        }
+
+        .nav-btn:hover {
+            color: var(--amber);
+            border-color: var(--amber);
+            background: rgba(245, 166, 35, 0.12);
+            box-shadow: 0 0 16px var(--amber-glow);
+            transform: translateY(-2px);
+        }
+
+        .nav-btn.primary {
+            background: linear-gradient(135deg, var(--amber), var(--red-orange));
+            color: #000;
+            font-weight: 800;
+            border: 1px solid var(--amber);
+            box-shadow: 0 0 16px var(--amber-glow);
+        }
+
+        .nav-btn.primary:hover {
+            box-shadow: 0 0 24px rgba(245, 166, 35, 0.6);
+            transform: translateY(-2px);
+        }
+
+        /* Floating Portfolio Button */
+        .btn-projects {
+            position: fixed;
+            bottom: 2rem;
+            right: 2rem;
+            z-index: 9999;
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
+            padding: 0.5rem 1rem;
+            font-family: inherit;
+            font-size: 0.65rem;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 0.15em;
+            text-decoration: none;
+            color: rgba(245, 166, 35, 0.8);
+            border: 1px solid var(--amber-border);
+            background: rgba(18, 18, 18, 0.85);
+            backdrop-filter: blur(4px);
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.5);
+            border-radius: 2px;
+            transition: all 0.2s ease-in-out;
+        }
+
+        .btn-projects:hover {
+            color: var(--amber);
+            border-color: var(--amber);
+            background: rgba(245, 166, 35, 0.15);
+            box-shadow: 0 0 16px var(--amber-glow);
+            transform: translateY(-2px);
+        }
+
+        /* 2026 Section Accent */
+        .section-label {
+            font-size: 0.65rem;
+            letter-spacing: 0.25em;
+            text-transform: uppercase;
+            color: var(--amber);
+            font-weight: 700;
+            display: inline-block;
+        }
+
+        .accent-line {
+            display: inline-flex;
+            align-items: center;
+            gap: 12px;
+            margin-bottom: 8px;
+        }
+
+        .accent-line::before,
+        .accent-line::after {
+            content: '';
+            display: block;
+            height: 1px;
+            width: 40px;
+            background: var(--amber);
+            opacity: 0.5;
+        }
+
+        /* Container */
+        .container {
+            max-width: 1080px;
+            margin: 0 auto;
+            padding: 48px 32px 100px;
+        }
+
+        /* Hero */
+        .case-hero {
+            margin-bottom: 48px;
+            padding-bottom: 36px;
+            border-bottom: 1px solid var(--border-subtle);
+            text-align: left;
+        }
+
+        .hero-title {
+            font-size: clamp(2rem, 5vw, 3.4rem);
+            font-weight: 800;
+            letter-spacing: -0.03em;
+            line-height: 1.12;
+            color: #ffffff;
+            margin-top: 14px;
+            margin-bottom: 16px;
+        }
+
+        .hero-title em,
+        .hero-title .highlight {
+            color: var(--amber);
+            font-style: normal;
+        }
+
+        .hero-subtitle {
+            font-size: clamp(0.92rem, 1.4vw, 1.08rem);
+            color: var(--text-muted);
+            line-height: 1.7;
+            max-width: 840px;
+            margin-bottom: 24px;
+        }
+
+        .badge-row {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 8px;
+            margin-bottom: 16px;
+        }
+
+        .tag {
+            padding: 4px 12px;
+            background: rgba(255, 255, 255, 0.05);
+            border: 1px solid var(--border-subtle);
+            font-size: 0.6rem;
+            letter-spacing: 0.15em;
+            text-transform: uppercase;
+            color: var(--text-muted);
+            border-radius: 2px;
+            font-family: 'JetBrains Mono', monospace;
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
+            transition: all 0.2s;
+        }
+
+        .tag:hover,
+        .tag.amber {
+            border-color: rgba(245, 166, 35, 0.4);
+            color: var(--amber);
+            background: rgba(245, 166, 35, 0.08);
+        }
+
+        /* Metrics */
+        .metrics-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 14px;
+            margin-bottom: 40px;
+        }
+
+        .metric-card {
+            background: var(--bg-card);
+            border: 1px solid var(--border-card);
+            border-top: 2px solid var(--amber);
+            padding: 20px 22px;
+            border-radius: 2px;
+            transition: all 0.2s ease-in-out;
+        }
+
+        .metric-card:hover {
+            background: rgba(245, 166, 35, 0.05);
+            border-color: rgba(245, 166, 35, 0.35);
+            border-top-color: var(--amber);
+            transform: translateY(-2px);
+            box-shadow: 0 8px 24px rgba(0, 0, 0, 0.4);
+        }
+
+        .metric-value {
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 1.9rem;
+            font-weight: 800;
+            color: var(--amber);
+            line-height: 1;
+            margin-bottom: 6px;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .metric-label {
+            font-size: 0.62rem;
+            letter-spacing: 0.15em;
+            text-transform: uppercase;
+            color: var(--text-muted);
+            font-weight: 700;
+        }
+
+        /* Content Blocks */
+        .section-block {
+            padding: 28px 32px;
+            background: var(--bg-card);
+            border: 1px solid var(--border-card);
+            border-left: 2px solid var(--border-left);
+            border-radius: 2px;
+            margin-bottom: 24px;
+            text-align: left;
+            transition: background 0.2s, border-color 0.2s, border-left-color 0.2s, transform 0.2s;
+        }
+
+        .section-block:hover {
+            background: rgba(245, 166, 35, 0.04);
+            border-color: rgba(245, 166, 35, 0.35);
+            border-left-color: var(--amber);
+            transform: translateY(-2px);
+        }
+
+        .section-title {
+            font-size: 1.22rem;
+            font-weight: 800;
+            letter-spacing: -0.02em;
+            color: #ffffff;
+            margin-bottom: 14px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .section-title i {
+            color: var(--amber);
+            font-size: 1rem;
+        }
+
+        p {
+            color: var(--text-light);
+            font-size: 0.88rem;
+            line-height: 1.75;
+            margin-bottom: 14px;
+        }
+
+        p:last-child {
+            margin-bottom: 0;
+        }
+
+        /* Tech Spec Grid */
+        .tech-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+            gap: 12px;
+            margin-top: 16px;
+        }
+
+        .tech-card {
+            padding: 16px 18px;
+            background: rgba(255, 255, 255, 0.02);
+            border: 1px solid rgba(255, 255, 255, 0.06);
+            border-top: 2px solid var(--border-left);
+            border-radius: 2px;
+            transition: all 0.2s;
+        }
+
+        .tech-card:hover {
+            border-top-color: var(--amber);
+            background: rgba(245, 166, 35, 0.04);
+        }
+
+        .tech-label {
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 0.62rem;
+            letter-spacing: 0.15em;
+            text-transform: uppercase;
+            color: var(--amber);
+            margin-bottom: 4px;
+        }
+
+        .tech-value {
+            font-weight: 700;
+            color: #ffffff;
+            font-size: 0.92rem;
+            margin-bottom: 6px;
+        }
+
+        /* Bullet List */
+        .learnings-list {
+            list-style: none;
+            margin: 16px 0;
+            display: flex;
+            flex-direction: column;
+            gap: 12px;
+        }
+
+        .learning-item {
+            display: flex;
+            gap: 14px;
+            padding: 14px 18px;
+            background: rgba(255, 255, 255, 0.02);
+            border: 1px solid rgba(255, 255, 255, 0.06);
+            border-left: 2px solid var(--border-left);
+            border-radius: 2px;
+            transition: all 0.2s ease;
+        }
+
+        .learning-item:hover {
+            border-left-color: var(--amber);
+            background: rgba(245, 166, 35, 0.04);
+        }
+
+        .learning-icon {
+            color: var(--amber);
+            font-size: 1.1rem;
+            margin-top: 2px;
+            flex-shrink: 0;
+        }
+
+        .learning-content h4 {
+            font-size: 0.85rem;
+            font-weight: 700;
+            letter-spacing: 0.08em;
+            text-transform: uppercase;
+            color: #ffffff;
+            margin-bottom: 4px;
+        }
+
+        .learning-content p {
+            font-size: 0.82rem;
+            color: var(--text-muted);
+            margin: 0;
+            line-height: 1.6;
+        }
+
+        /* Status Dot */
+        .status-dot {
+            display: inline-block;
             width: 7px;
             height: 7px;
+            border-radius: 50%;
+            background: #4ade80;
+            margin-right: 7px;
+            animation: pulse 2s infinite;
         }
-        ::-webkit-scrollbar-track {
-            background: #090d16;
+
+        @keyframes pulse {
+            0%, 100% { opacity: 1; }
+            50% { opacity: 0.3; }
         }
-        ::-webkit-scrollbar-thumb {
-            background: #23324d;
-            border-radius: 4px;
+
+        /* Footer Nav */
+        .footer-nav {
+            margin-top: 50px;
+            padding-top: 28px;
+            border-top: 1px solid var(--border-subtle);
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            flex-wrap: wrap;
+            gap: 16px;
         }
-        ::-webkit-scrollbar-thumb:hover {
-            background: #334155;
+
+        .footer-links-group {
+            display: flex;
+            gap: 10px;
+            flex-wrap: wrap;
+        }
+
+        .footer-meta {
+            width: 100%;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-top: 24px;
+            font-size: 0.6rem;
+            letter-spacing: 0.2em;
+            text-transform: uppercase;
+            color: var(--text-dim);
+            border-top: 1px solid rgba(255, 255, 255, 0.04);
+            padding-top: 16px;
+        }
+
+        @media (max-width: 768px) {
+            .navbar { padding: 14px 20px; }
+            .container { padding: 32px 18px 80px; }
+            .hero-title { font-size: 2.2rem; }
+            .section-block { padding: 20px 22px; }
+            .footer-nav { flex-direction: column; align-items: stretch; }
+            .footer-meta { flex-direction: column; align-items: flex-start; gap: 8px; }
         }
     </style>
 </head>
 
-<body class="selection:bg-slate-700 selection:text-white flex flex-col min-h-screen">
+<body>
 
-    <!-- TOP NAVBAR -->
-    <header class="calm-nav sticky top-0 z-50">
-        <div class="max-w-5xl mx-auto px-4 sm:px-6 py-3.5 flex items-center justify-between gap-4 flex-wrap">
-            <a href="./index.html" class="flex items-center gap-3 group">
-                <div class="h-9 w-9 rounded-xl bg-slate-800 border border-slate-700 flex items-center justify-center font-mono font-bold text-slate-200 text-base shadow-sm group-hover:border-sky-500/50 transition-colors">
-                    <i class="fa-brands fa-php text-xl text-sky-400"></i>
-                </div>
-                <div>
-                    <div class="font-heading font-bold text-lg text-slate-100 tracking-wide flex items-center gap-1.5">
-                        PHP <span class="text-sky-400 font-semibold">Fundamentals</span>
-                    </div>
-                    <div class="text-[11px] text-slate-400 font-medium">Technical Architecture Case Study</div>
-                </div>
+    <header class="navbar">
+        <div class="nav-container">
+            <a href="../../2026/index.html" class="nav-brand">
+                ZH // <span>CASE STUDY</span>
             </a>
-
-            <div class="flex items-center gap-2">
-                <a href="./index.html" class="px-3.5 py-1.5 rounded-lg bg-sky-500/15 border border-sky-500/30 hover:bg-sky-500/25 text-sky-300 text-xs font-semibold transition-all flex items-center gap-1.5 shadow-sm">
-                    <i class="fa-solid fa-play text-sky-400"></i>
-                    <span>Interactive Curriculum</span>
+            <div class="nav-links">
+                <a href="../index.html" class="nav-btn">
+                    <i class="fa-solid fa-grid-2"></i> All Projects
                 </a>
-                <a href="../index.html" class="px-3 py-1.5 rounded-lg bg-slate-800 border border-slate-700 hover:bg-slate-700 text-slate-300 hover:text-white text-xs font-semibold transition-all flex items-center gap-1.5">
-                    <i class="fa-solid fa-grid-2"></i>
-                    <span class="hidden sm:inline">All Projects</span>
+                <a href="../../2026/index.html" class="nav-btn">
+                    <i class="fa-solid fa-arrow-left"></i> Main Portfolio
                 </a>
-                <a href="../../2026/" class="px-3 py-1.5 rounded-lg bg-slate-900 border border-slate-800 hover:border-slate-600 text-slate-400 hover:text-slate-200 text-xs font-semibold transition-all flex items-center gap-1.5">
-                    <i class="fa-solid fa-house"></i>
-                    <span class="hidden sm:inline">Portfolio</span>
+                <a href="./index.html" class="nav-btn primary">
+                    <i class="fa-solid fa-play"></i> Interactive Curriculum
                 </a>
             </div>
         </div>
     </header>
 
-    <!-- MAIN ARTICLE DOWNWARD CONTAINER -->
-    <main class="flex-grow max-w-5xl w-full mx-auto px-4 sm:px-6 py-8 sm:py-12 space-y-12">
+    <main class="container">
 
-        <!-- HEADER HERO -->
-        <section class="space-y-4 pb-8 border-b border-slate-800">
-            <div class="flex flex-wrap items-center gap-2 font-mono text-xs">
-                <span class="px-2.5 py-1 rounded-md bg-slate-800 border border-slate-700 text-slate-300 font-semibold">Case Study</span>
-                <span class="px-2.5 py-1 rounded-md bg-sky-950/60 border border-sky-800/60 text-sky-300 font-semibold">Sessions &amp; 2D Arrays</span>
-                <span class="px-2.5 py-1 rounded-md bg-amber-950/60 border border-amber-800/60 text-amber-300 font-semibold">Sanitization &amp; Mail</span>
-                <span class="px-2.5 py-1 rounded-md bg-emerald-950/60 border border-emerald-800/60 text-emerald-300 font-semibold">PDO &amp; Bcrypt Auth</span>
+        <div class="case-hero">
+            <div class="accent-line">
+                <span class="section-label">CASE STUDY // SERVER-SIDE ARCHITECTURE &amp; APPSEC</span>
             </div>
-            
-            <h1 class="font-heading text-3xl sm:text-4xl font-extrabold text-slate-100 tracking-tight leading-tight">
-                Case Study: 3 Core PHP Projects &amp; AppSec Architecture
+            <h1 class="hero-title">
+                PHP Fundamentals: <span class="highlight">3 Core Backend Engines</span>
             </h1>
+            <p class="hero-subtitle">
+                A technical breakdown of foundational server-side PHP development patterns: in-memory user session matrixes, strict email header injection defenses, and cryptographic database authentication via MySQL and PDO.
+            </p>
+            <div class="badge-row">
+                <span class="tag amber"><i class="fa-brands fa-php"></i> PHP 8.x Monolith</span>
+                <span class="tag"><i class="fa-solid fa-database"></i> PDO Prepared Statements</span>
+                <span class="tag"><i class="fa-solid fa-shield-halved"></i> Bcrypt Cryptography</span>
+                <span class="tag"><i class="fa-solid fa-server"></i> Session State Machine</span>
+            </div>
+        </div>
 
-            <p class="text-slate-300 text-base sm:text-lg leading-relaxed max-w-3xl">
-                A deep technical analysis of core server-side PHP development patterns: in-memory user session matrixes, strict email header sanitization, and cryptographic database authentication via MySQL and PDO.
+        <!-- Metric Highlights -->
+        <div class="metrics-grid">
+            <div class="metric-card">
+                <div class="metric-value">
+                    <i class="fa-solid fa-cubes"></i> 3 Core
+                </div>
+                <div class="metric-label">Backend Architectures</div>
+            </div>
+            <div class="metric-card">
+                <div class="metric-value">
+                    <i class="fa-solid fa-shield-virus"></i> 100%
+                </div>
+                <div class="metric-label">SQL Injection Immunity (PDO)</div>
+            </div>
+            <div class="metric-card">
+                <div class="metric-value">
+                    <i class="fa-solid fa-key"></i> Cost 12
+                </div>
+                <div class="metric-label">Bcrypt Key Derivation</div>
+            </div>
+            <div class="metric-card">
+                <div class="metric-value">
+                    <i class="fa-solid fa-envelope-shield"></i> RFC 5322
+                </div>
+                <div class="metric-label">Header Injection Defense</div>
+            </div>
+        </div>
+
+        <section class="section-block">
+            <div class="accent-line">
+                <span class="section-label">01 // WHAT IT IS</span>
+            </div>
+            <h2 class="section-title">
+                <i class="fa-solid fa-circle-info"></i> What It Is &amp; Curriculum Purpose
+            </h2>
+            <p>
+                <strong>Practical PHP Fundamentals</strong> is a hands-on technical suite demonstrating rock-solid server-side development. Instead of relying on bloated modern frameworks, it demonstrates how raw, secure web architecture is constructed from the ground up: session serialization, input sanitization, and cryptographic database transactions.
+            </p>
+            <p>
+                The curriculum explores three distinct engineering milestones: a 2D matrix game state engine, an RFC-compliant email transport sanitizer, and a cryptographically sound user registration and session management system.
             </p>
         </section>
 
-        <!-- DOWNWARD SECTION 1: WHAT IT IS -->
-        <section class="space-y-6">
-            <div class="flex items-center gap-2.5 border-b border-slate-800/80 pb-3">
-                <div class="h-8 w-8 rounded-lg bg-sky-500/10 border border-sky-500/25 flex items-center justify-center text-sky-400 font-bold">
-                    <i class="fa-solid fa-circle-info text-sm"></i>
+        <section class="section-block">
+            <div class="accent-line">
+                <span class="section-label">02 // ARCHITECTURE &amp; SECURITY SPECIFICATIONS</span>
+            </div>
+            <h2 class="section-title">
+                <i class="fa-solid fa-hammer"></i> Core Architectural Implementations
+            </h2>
+            <p>
+                Engineered with strict separation of concerns, defense-in-depth sanitization, and production security standards:
+            </p>
+
+            <ul class="learnings-list">
+                <li class="learning-item">
+                    <div class="learning-icon"><i class="fa-solid fa-table-cells"></i></div>
+                    <div class="learning-content">
+                        <h4>Tic-Tac-Toe: Session Matrix State Engine</h4>
+                        <p>Implements in-memory 2D array representation inside <code>$_SESSION</code> with deterministic diagonal, rank, and file win evaluators, maintaining turn continuity across statutory HTTP postbacks without database overhead.</p>
+                    </div>
+                </li>
+                <li class="learning-item">
+                    <div class="learning-icon"><i class="fa-solid fa-envelope-open-text"></i></div>
+                    <div class="learning-content">
+                        <h4>Email Contact Form: Header Injection Defense</h4>
+                        <p>Enforces strict carriage-return / newline stripping on email headers (<code>\r</code>, <code>\n</code>, <code>%0A</code>, <code>%0D</code>) to prevent spambot SMTP injection, paired with comprehensive UTF-8 HTML entity escaping.</p>
+                    </div>
+                </li>
+                <li class="learning-item">
+                    <div class="learning-icon"><i class="fa-solid fa-user-lock"></i></div>
+                    <div class="learning-content">
+                        <h4>User Auth: PDO Prepared Statements &amp; Bcrypt</h4>
+                        <p>Eliminates SQL injection vulnerabilities via parameterized queries, secures user credentials with <code>password_hash()</code> using adaptive Bcrypt work factors, and prevents session fixation with <code>session_regenerate_id()</code>.</p>
+                    </div>
+                </li>
+            </ul>
+
+            <div class="tech-grid">
+                <div class="tech-card">
+                    <div class="tech-label">Database Driver</div>
+                    <div class="tech-value">PHP Data Objects (PDO)</div>
                 </div>
-                <div>
-                    <h2 class="font-heading text-xl sm:text-2xl font-bold text-slate-100">What It Is</h2>
+                <div class="tech-card">
+                    <div class="tech-label">Hashing Algorithm</div>
+                    <div class="tech-value">Bcrypt (PASSWORD_BCRYPT)</div>
+                </div>
+                <div class="tech-card">
+                    <div class="tech-label">Session Security</div>
+                    <div class="tech-value">HttpOnly &amp; Strict SameSite</div>
+                </div>
+                <div class="tech-card">
+                    <div class="tech-label">Environment</div>
+                    <div class="tech-value">PHP 8.2+ Clean Architecture</div>
                 </div>
             </div>
-            <p class="text-slate-300 text-sm leading-relaxed">
-                A sleek, futuristic glassmorphism slider application.
-            </p>
         </section>
 
-        <!-- DOWNWARD SECTION 2: HOW IT WAS BUILT -->
-        <section class="space-y-6">
-            <div class="flex items-center gap-2.5 border-b border-slate-800/80 pb-3">
-                <div class="h-8 w-8 rounded-lg bg-emerald-500/10 border border-emerald-500/25 flex items-center justify-center text-emerald-400 font-bold">
-                    <i class="fa-solid fa-hammer text-sm"></i>
-                </div>
-                <div>
-                    <h2 class="font-heading text-xl sm:text-2xl font-bold text-slate-100">How It Was Built</h2>
-                </div>
-            </div>
-            <p class="text-slate-300 text-sm leading-relaxed">
-                Constructed in a monolith environment using PHP, Tailwind CSS, JavaScript, and Sessions to integrate a custom shopping cart, MIME file uploads, secure authentication, and REST APIs.
-            </p>
-        </section>
-
-        <!-- FOOTER NAVIGATION -->
-        <footer class="pt-8 border-t border-slate-800 flex flex-col sm:flex-row items-center justify-between gap-4 text-xs">
-            <a href="./index.html" class="w-full sm:w-auto px-5 py-2.5 rounded-xl bg-sky-500/20 border border-sky-500/40 hover:bg-sky-500/30 text-sky-300 font-semibold transition-all flex items-center justify-center gap-2 shadow-sm">
-                <i class="fa-solid fa-play text-sky-400"></i>
-                <span>Open Interactive Curriculum</span>
+        <footer class="footer-nav">
+            <a href="./index.html" class="nav-btn primary">
+                <i class="fa-solid fa-play"></i> Open Interactive Curriculum
             </a>
+            <div class="footer-links-group">
+                <a href="../index.html" class="nav-btn">
+                    <i class="fa-solid fa-grid-2"></i> All Projects
+                </a>
+                <a href="../../2026/index.html" class="nav-btn">
+                    <i class="fa-solid fa-arrow-left"></i> Main Portfolio
+                </a>
+            </div>
 
-            <div class="flex items-center gap-2">
-                <a href="../index.html" class="px-3.5 py-2 rounded-lg bg-slate-900 border border-slate-800 hover:border-slate-700 text-slate-300 hover:text-white transition-all">
-                    All Projects Hub
-                </a>
-                <a href="../../2026/" class="px-3.5 py-2 rounded-lg bg-slate-900 border border-slate-800 hover:border-slate-700 text-slate-300 hover:text-white transition-all">
-                    Main Portfolio
-                </a>
+            <div class="footer-meta">
+                <div>
+                    <span class="status-dot"></span> Available for Web Dev &amp; Design Contracts
+                </div>
+                <div>ZH // 2026 DESIGN &amp; DEVELOPMENT</div>
             </div>
         </footer>
 
     </main>
+
+    <!-- Floating Portfolio Button (Matching /2026/index.html) -->
+    <a href="../../2026/index.html" class="btn-projects">
+        <i class="fa-solid fa-arrow-left"></i> Portfolio
+    </a>
 
 </body>
 
