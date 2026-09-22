@@ -1,7 +1,7 @@
 import { useState, useEffect, useRef, useCallback } from 'react';
 import { HandLandmarker, FilesetResolver } from '@mediapipe/tasks-vision';
 
-export function useHandTracking() {
+export function useHandTracking(isSignLocked = false) {
   const [isCameraActive, setIsCameraActive] = useState(false);
   const [isReady, setIsReady] = useState(false);
   const [rotation, setRotation] = useState(0);
@@ -23,6 +23,11 @@ export function useHandTracking() {
   const currentSpellRef = useRef(null);
   const handCoordsRef = useRef(null);
   const rawLandmarksRef = useRef(null);
+  const isLockedRef = useRef(isSignLocked);
+
+  useEffect(() => {
+    isLockedRef.current = isSignLocked;
+  }, [isSignLocked]);
 
   // Initialize MediaPipe HandLandmarker with robust fallback and single-hand speed
   useEffect(() => {
@@ -207,9 +212,21 @@ export function useHandTracking() {
             });
             setRawLandmarks(landmarks);
 
-            // Wheel rotation from ambient hand gestures is disabled to prevent accidental movement.
-            // Wheel is navigated cleanly via direct sign selection or intentional drag.
-            prevAngleRef.current = Math.atan2(mirroredY - 0.5, mirroredX - 0.5) * (180 / Math.PI);
+            // Hand sweeping arc for rotating the wheel (active when unlocked)
+            const dx = mirroredX - 0.5;
+            const dy = mirroredY - 0.5;
+            const currentAngle = Math.atan2(dy, dx) * (180 / Math.PI);
+
+            if (!isLockedRef.current && prevAngleRef.current !== null) {
+              let delta = currentAngle - prevAngleRef.current;
+              if (delta > 180) delta -= 360;
+              if (delta < -180) delta += 360;
+
+              if (Math.abs(delta) > 0.4 && Math.abs(delta) < 40) {
+                setRotation(prev => prev + delta * 1.2);
+              }
+            }
+            prevAngleRef.current = currentAngle;
 
             // Classify gesture with 2-frame debouncing to eliminate jitter
             const { spell, isPinch } = classifyGesture(landmarks);

@@ -47,7 +47,7 @@ function App() {
     startCamera,
     stopCamera,
     videoRef
-  } = useHandTracking();
+  } = useHandTracking(isSignLocked);
 
   const showAspects = activeSpell === 'OPEN_PALM' || manualAspects;
 

@@ -27,10 +27,20 @@ export function AstrologyBoard({
   const isDraggingRef = useRef(false);
   const lastMouseAngleRef = useRef(0);
 
-  // Mouse / Touch drag to spin astrolabe (disabled when locked)
+  const activeSignIndex = signs.findIndex(s => s.id === activeSign?.id);
+  const alignmentAngle = activeSignIndex !== -1 ? (activeSignIndex / totalNodes) * 360 - 90 : -90;
+
+  // Mouse / Touch drag to spin astrolabe (active when unlocked)
   const handlePointerDown = (e) => {
     if (isSignLocked) return;
-    if (e.target.closest('.project-node') || e.target.closest('.crystal-ball-sphere') || e.target.closest('.compass-gesture-nav')) return;
+    if (
+      e.target.closest('.crystal-lock-pill') || 
+      e.target.closest('.astral-btn') || 
+      e.target.closest('.compass-spin-btn') || 
+      e.target.closest('.compass-gesture-nav') || 
+      e.target.closest('.project-node')
+    ) return;
+
     isDraggingRef.current = true;
     const rect = e.currentTarget.getBoundingClientRect();
     const cx = rect.left + rect.width / 2;
@@ -98,7 +108,7 @@ export function AstrologyBoard({
     );
   };
 
-  // 5 Stage Navigation Definitions (First gesture is now Thumbs Up to lock in horoscope)
+  // 5 Stage Navigation Definitions
   const stages = [
     { id: 1, title: 'Lock Horoscope', icon: '👍', howTo: 'How to: Thumbs up gesture' },
     { id: 2, title: 'Horoscope Goal', icon: '🤏', howTo: 'How to: Pinch index and thumb' },
@@ -140,6 +150,24 @@ export function AstrologyBoard({
           onPointerUp={handlePointerUp}
           onPointerCancel={handlePointerUp}
         >
+          {/* Quick-Spin Wheels Buttons */}
+          <button 
+            className="compass-spin-btn prev"
+            onClick={(e) => { e.stopPropagation(); if (onWheelRotate) onWheelRotate(-30); }}
+            title="Spin Compass Clockwise (‹)"
+            aria-label="Spin Compass Clockwise"
+          >
+            ‹
+          </button>
+          <button 
+            className="compass-spin-btn next"
+            onClick={(e) => { e.stopPropagation(); if (onWheelRotate) onWheelRotate(30); }}
+            title="Spin Compass Counter-Clockwise (›)"
+            aria-label="Spin Compass Counter-Clockwise"
+          >
+            ›
+          </button>
+
           <div 
             className="astrolabe" 
             id="astrolabe" 
@@ -165,10 +193,21 @@ export function AstrologyBoard({
             <div className="astrolabe-inner"></div>
             <div className="astrolabe-runic-ring"></div>
 
+            {/* Luminous Celestial Alignment Ray */}
+            {activeSign && (
+              <div 
+                className="celestial-alignment-ray"
+                style={{ transform: `rotate(${alignmentAngle}deg)` }}
+              >
+                <div className="alignment-beam"></div>
+                <div className="alignment-halo"></div>
+              </div>
+            )}
+
             {/* Aspect Lines Web */}
             {renderAspectLines()}
 
-            {/* 12 Zodiac Constellation Nodes */}
+            {/* 12 Zodiac Constellation Nodes (NO element text in bubbles; pure glyphs) */}
             {signs.map((sign, i) => {
               const angle = (i / totalNodes) * (2 * Math.PI) - Math.PI / 2;
               const x = 50 + radius * Math.cos(angle);
@@ -193,9 +232,6 @@ export function AstrologyBoard({
                   title={`${sign.name} (${sign.dates}) - Click to Select`}
                 >
                   <span className="node-symbol">{sign.symbol}</span>
-                  <span className="node-element-tag" style={{ color: sign.color }}>
-                    {sign.element}
-                  </span>
                 </div>
               );
             })}
@@ -257,6 +293,10 @@ export function AstrologyBoard({
               <div className="stage-content stage-constellation-view">
                 {activeSign ? (
                   <>
+                    <div className="crystal-sign-emblem">
+                      <span className="crystal-glyph-large">{activeSign.symbol}</span>
+                    </div>
+
                     <div className="constellation-star-map-container">
                       <svg className="center-constellation-svg" viewBox="0 0 100 100">
                         {activeSign.lines.map(([s1, s2], idx) => (
@@ -284,15 +324,18 @@ export function AstrologyBoard({
                         ))}
                       </svg>
                     </div>
+
                     <h2 className="center-sign-title">{activeSign.name} · {activeSign.title}</h2>
+                    
+                    {/* Clean Meta: No element label */}
                     <div className="center-sign-meta">
                       <span>{activeSign.house}</span>
                       <span className="meta-dot">·</span>
                       <span>Ruler: {activeSign.planet}</span>
                       <span className="meta-dot">·</span>
-                      <span style={{ color: activeSign.color }}>{activeSign.element}</span>
+                      <span>{activeSign.dates}</span>
                     </div>
-                    <div className="center-sign-dates">{activeSign.dates}</div>
+
                     <p className="stage-action-prompt">
                       {isSignLocked 
                         ? 'Horoscope locked. Pinch fingers for Goal, or Peace sign for Tarot.' 
@@ -323,7 +366,7 @@ export function AstrologyBoard({
                     </div>
 
                     <div className="goal-milestone-box">
-                      <span className="milestone-label">Goal Milestone:</span>
+                      <span className="milestone-label">Action Milestone:</span>
                       <p className="milestone-text">{horoscopeGoal.goalMilestone}</p>
                     </div>
 
@@ -333,7 +376,7 @@ export function AstrologyBoard({
                     </div>
 
                     <div className="goal-window-tag">
-                      Horizon: {horoscopeGoal.horizonWindow}
+                      Horizon Window: {horoscopeGoal.horizonWindow}
                     </div>
 
                     <p className="stage-action-prompt">
@@ -358,7 +401,7 @@ export function AstrologyBoard({
                   <h2 className="tarot-card-name">{tarotCard.name}</h2>
                   <div className="tarot-keywords-pill">{tarotCard.keywords}</div>
                   <div className="tarot-counsel-box">
-                    <span className="counsel-label">Arcana Meaning:</span>
+                    <span className="counsel-label">Arcana Counsel:</span>
                     <p className="counsel-text">{tarotCard.upright}</p>
                   </div>
                   <p className="stage-action-prompt">
@@ -387,9 +430,8 @@ export function AstrologyBoard({
                     <span className="spell-rune-large-glyph">{runeData.spellRune.glyph}</span>
                   </div>
                   <div className="spell-rune-right">
-                    <div className="spell-rune-tag">Spell Rune · {runeData.spellRune.name}</div>
-                    <div className="spell-rune-element">Element: {runeData.spellRune.element}</div>
-                    <div className="spell-rune-chant">{runeData.spellRune.incantation}</div>
+                    <div className="spell-rune-tag">Designated Spell Rune · {runeData.spellRune.name}</div>
+                    <div className="spell-rune-chant">"{runeData.spellRune.incantation}"</div>
                   </div>
                 </div>
 
