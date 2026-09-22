@@ -294,41 +294,46 @@ body, html {
   letter-spacing: 0.02em;
 }
 
-/* Left Nav Panel: Fist Selection Reminder */
-.nav-panel-fist-reminder {
+/* Left Nav Panel: Pointing Finger Container to select zodiac */
+.nav-panel-point-action {
   position: relative;
-  margin-top: 10px;
-  padding: 10px 12px;
-  background: linear-gradient(135deg, rgba(58, 10, 22, 0.75) 0%, rgba(26, 4, 10, 0.9) 100%);
-  border: 1.5px solid rgba(197, 160, 89, 0.4);
+  margin-top: 12px;
+  padding: 12px 14px;
+  background: linear-gradient(135deg, rgba(58, 10, 22, 0.85) 0%, rgba(26, 4, 10, 0.95) 100%);
+  border: 1.5px solid rgba(197, 160, 89, 0.45);
   border-radius: 10px;
-  box-shadow: 0 4px 14px rgba(0, 0, 0, 0.7);
-  transition: all 0.22s ease-out;
+  box-shadow: 0 4px 16px rgba(0, 0, 0, 0.7);
+  cursor: pointer;
+  transition: all 0.25s ease-out;
 }
 
-.nav-panel-fist-reminder:hover {
-  background: linear-gradient(135deg, rgba(95, 16, 36, 0.92) 0%, rgba(45, 6, 16, 0.96) 100%);
-  border-color: #ffd000;
-  box-shadow: 0 4px 18px rgba(0, 0, 0, 0.8), 0 0 16px rgba(255, 180, 0, 0.35);
+.nav-panel-point-action:hover,
+.nav-panel-point-action.pointing-active {
+  background: linear-gradient(135deg, rgba(95, 16, 36, 0.95) 0%, rgba(45, 6, 16, 0.98) 100%);
+  border-color: #ffd700;
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.85), 0 0 18px rgba(255, 190, 0, 0.45);
+  transform: translateY(-2px);
 }
 
-.nav-panel-fist-reminder .reminder-body {
+.point-action-body {
   display: flex;
   align-items: center;
   gap: 10px;
 }
 
-.nav-panel-fist-reminder .reminder-icon {
-  font-size: 1.35rem;
-  filter: drop-shadow(0 0 6px rgba(255, 200, 50, 0.6));
+.point-action-icon {
+  font-size: 1.5rem;
+  line-height: 1;
+  filter: drop-shadow(0 0 6px rgba(255, 200, 50, 0.7));
+  flex-shrink: 0;
 }
 
-.nav-panel-fist-reminder .reminder-texts {
+.point-action-texts {
   display: flex;
   flex-direction: column;
 }
 
-.nav-panel-fist-reminder .reminder-heading {
+.point-action-heading {
   font-family: 'Philosopher', serif;
   font-size: 0.95rem;
   font-weight: 700;
@@ -336,9 +341,9 @@ body, html {
   letter-spacing: 0.03em;
 }
 
-.nav-panel-fist-reminder .reminder-subtext {
+.point-action-subtext {
   font-family: 'Cormorant Garamond', serif;
-  font-size: 0.86rem;
+  font-size: 0.84rem;
   color: rgba(255, 235, 195, 0.88);
   margin-top: 1px;
   letter-spacing: 0.02em;
@@ -478,13 +483,44 @@ body, html {
   100% { opacity: 0.95; }
 }
 
+/* Zenith Alignment Pointer (Fixed Needle pointing down at 12 o'clock sign) */
+.zenith-alignment-pointer {
+  position: absolute;
+  top: -24px;
+  left: 50%;
+  transform: translateX(-50%);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  z-index: 45;
+  pointer-events: none;
+}
+
+.zenith-pointer-glyph {
+  font-size: 1.15rem;
+  color: #ffd700;
+  filter: drop-shadow(0 0 10px rgba(255, 215, 0, 0.95));
+  animation: pointerPulse 2s ease-in-out infinite alternate;
+}
+
+.zenith-pointer-line {
+  width: 2px;
+  height: 12px;
+  background: linear-gradient(180deg, #ffd700 0%, rgba(255, 215, 0, 0) 100%);
+}
+
+@keyframes pointerPulse {
+  0% { transform: translateY(0); filter: drop-shadow(0 0 8px rgba(255, 200, 50, 0.8)); }
+  100% { transform: translateY(4px); filter: drop-shadow(0 0 14px rgba(255, 220, 80, 1)); }
+}
+
 /* 12 Zodiac Nodes (Doctor Strange Tao Mandala Seals) */
 .project-node {
   position: absolute;
   width: 68px;
   height: 68px;
   background: radial-gradient(circle at 35% 35%, #3a0816 0%, #120106 100%);
-  border: 2px solid rgba(255, 170, 0, 0.6);
+  border: 2px solid rgba(255, 170, 0, 0.55);
   border-radius: 50%;
   display: flex;
   align-items: center;
@@ -492,18 +528,18 @@ body, html {
   cursor: pointer;
   transform: translate(-50%, -50%);
   animation: counterSpin 180s linear infinite, nodeStarlightPulse 4.5s ease-in-out infinite;
-  box-shadow: 0 0 22px rgba(255, 120, 0, 0.35), 0 4px 16px rgba(0, 0, 0, 0.9);
-  transition: all 0.35s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+  box-shadow: 0 0 20px rgba(255, 120, 0, 0.3), 0 4px 16px rgba(0, 0, 0, 0.9);
+  transition: all 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
   z-index: 20;
   pointer-events: auto;
 }
 
 @keyframes nodeStarlightPulse {
   0%, 100% {
-    box-shadow: 0 0 16px rgba(0, 0, 0, 0.9), 0 0 10px rgba(255, 150, 0, 0.35);
+    box-shadow: 0 0 16px rgba(0, 0, 0, 0.9), 0 0 10px rgba(255, 150, 0, 0.3);
   }
   50% {
-    box-shadow: 0 0 32px rgba(255, 150, 0, 0.7), inset 0 0 14px rgba(255, 180, 0, 0.4);
+    box-shadow: 0 0 26px rgba(255, 150, 0, 0.6), inset 0 0 10px rgba(255, 180, 0, 0.35);
   }
 }
 
@@ -519,20 +555,99 @@ body, html {
   transition: transform 0.25s ease;
 }
 
-.project-node:hover,
-.project-node.active-node,
-.project-node.hovered-node {
-  background: radial-gradient(circle at 35% 35%, #6a0e24 0%, #20030a 100%);
-  border-color: #ffd000 !important;
-  box-shadow: 0 0 42px rgba(255, 140, 0, 0.95), 0 0 25px rgba(200, 25, 60, 0.7), inset 0 0 18px rgba(255, 200, 50, 0.65) !important;
-  transform: translate(-50%, -50%) scale(1.18);
-  z-index: 30;
+/* 1. NODE AT ZENITH (Top of Circle, Displayed on Board) */
+.project-node.zenith-node {
+  border-color: #ffbe3b !important;
+  box-shadow: 0 0 32px rgba(255, 190, 50, 0.8), 0 0 16px rgba(255, 100, 0, 0.5), inset 0 0 12px rgba(255, 200, 50, 0.45) !important;
+  transform: translate(-50%, -50%) scale(1.12);
+  z-index: 28;
 }
 
-.project-node:hover .node-symbol,
-.project-node.active-node .node-symbol,
-.project-node.hovered-node .node-symbol {
-  transform: scale(1.1);
+.node-zenith-badge {
+  position: absolute;
+  top: -14px;
+  left: 50%;
+  transform: translateX(-50%);
+  font-size: 0.9rem;
+  color: #ffd700;
+  text-shadow: 0 0 8px rgba(255, 215, 0, 0.9);
+  pointer-events: none;
+  animation: zenithBadgePulse 2s ease-in-out infinite alternate;
+}
+
+@keyframes zenithBadgePulse {
+  0% { transform: translateX(-50%) scale(0.9); opacity: 0.85; }
+  100% { transform: translateX(-50%) scale(1.15); opacity: 1; }
+}
+
+/* 2. SELECTED SIGN (Explicitly Chosen & Crowned) - IMPERIAL GOLD WITH CROWN */
+.project-node.selected-node {
+  background: radial-gradient(circle at 35% 35%, #7a102a 0%, #22030b 100%) !important;
+  border: 3.5px solid #ffd700 !important;
+  box-shadow: 0 0 45px rgba(255, 180, 0, 1), 0 0 25px rgba(220, 30, 70, 0.85), inset 0 0 16px rgba(255, 220, 50, 0.75) !important;
+  transform: translate(-50%, -50%) scale(1.24) !important;
+  z-index: 38 !important;
+}
+
+.project-node.selected-node .node-symbol {
+  color: #ffffff !important;
+  filter: drop-shadow(0 0 14px #ffd700) drop-shadow(0 0 6px #ff7700) !important;
+  transform: scale(1.15);
+}
+
+.node-selected-badge {
+  position: absolute;
+  top: -18px;
+  left: 50%;
+  transform: translateX(-50%);
+  font-size: 1.15rem;
+  line-height: 1;
+  filter: drop-shadow(0 0 8px #ffd700);
+  pointer-events: none;
+  animation: crownBounce 2.5s ease-in-out infinite alternate;
+}
+
+@keyframes crownBounce {
+  0% { transform: translateX(-50%) translateY(0); }
+  100% { transform: translateX(-50%) translateY(-3px); }
+}
+
+/* 3. HOVERED SIGN (Under Mouse Cursor) - ETHEREAL ASTRAL CYAN (100% Distinct from Gold!) */
+.project-node.hovered-node,
+.project-node:hover {
+  background: radial-gradient(circle at 35% 35%, #0d3446 0%, #061622 100%) !important;
+  border-color: #5ce1e6 !important;
+  border-width: 2.5px !important;
+  box-shadow: 0 0 38px rgba(92, 225, 230, 0.95), 0 0 18px rgba(0, 160, 255, 0.7), inset 0 0 14px rgba(130, 240, 255, 0.55) !important;
+  transform: translate(-50%, -50%) scale(1.18);
+  z-index: 40 !important;
+}
+
+.project-node.hovered-node .node-symbol,
+.project-node:hover .node-symbol {
+  color: #c2f8ff !important;
+  filter: drop-shadow(0 0 14px #5ce1e6) drop-shadow(0 0 6px #00b4d8) !important;
+  transform: scale(1.12);
+}
+
+.node-hover-label {
+  position: absolute;
+  bottom: -22px;
+  left: 50%;
+  transform: translateX(-50%);
+  font-family: 'Philosopher', serif;
+  font-size: 0.72rem;
+  letter-spacing: 1px;
+  text-transform: uppercase;
+  font-weight: 700;
+  color: #a5f3fc;
+  background: rgba(5, 18, 28, 0.92);
+  border: 1px solid rgba(92, 225, 230, 0.6);
+  padding: 2px 8px;
+  border-radius: 8px;
+  white-space: nowrap;
+  pointer-events: none;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.8), 0 0 10px rgba(92, 225, 230, 0.4);
 }
 
 

@@ -6,7 +6,9 @@ export function AstrologyBoard({
   activeSign,
   selectedSign,
   hoveredSign,
+  zenithSign,
   isSignLocked = false,
+  activeSpell,
   onHoverSign,
   onLeaveSign,
   onSelectSign,
@@ -153,14 +155,21 @@ export function AstrologyBoard({
           ))}
         </div>
 
-        {/* Fist Selection Reminder inside the left side panel with the rest */}
-        <div className="nav-panel-fist-reminder">
-          <div className="reminder-body">
-            <span className="reminder-icon">✊</span>
-            <div className="reminder-texts">
-              <span className="reminder-heading">Fist Selects Sign</span>
-              <span className="reminder-subtext">
-                {isSignLocked ? `${activeSign?.name || 'Sign'} chosen on board` : 'Clench fist to select'}
+        {/* Pointing Finger Action Container to select / rotate zodiac */}
+        <div 
+          className={`nav-panel-point-action ${activeSpell === 'POINTING' ? 'pointing-active' : ''}`}
+          onClick={(e) => {
+            e.stopPropagation();
+            if (onSelectStage) onSelectStage(1);
+          }}
+          title="Point in circle with index finger to spin and choose zodiac sign"
+        >
+          <div className="point-action-body">
+            <span className="point-action-icon">☝️</span>
+            <div className="point-action-texts">
+              <span className="point-action-heading">Point to Select Zodiac</span>
+              <span className="point-action-subtext">
+                {isSignLocked && selectedSign ? `${selectedSign.name} chosen · Rotate to change` : 'Rotate circle to zenith to choose sign'}
               </span>
             </div>
           </div>
@@ -176,6 +185,12 @@ export function AstrologyBoard({
           onPointerUp={handlePointerUp}
           onPointerCancel={handlePointerUp}
         >
+          {/* Fixed Zenith Needle pointing down at 12 o'clock sign displayed on board */}
+          <div className="zenith-alignment-pointer" title="Zenith: Zodiac sign at 12 o'clock is displayed on the board">
+            <div className="zenith-pointer-glyph">▼</div>
+            <div className="zenith-pointer-line"></div>
+          </div>
+
           <div 
             className="astrolabe" 
             id="astrolabe" 
@@ -209,18 +224,19 @@ export function AstrologyBoard({
             {/* Aspect Lines Web */}
             {renderAspectLines()}
 
-            {/* 12 Zodiac Constellation Nodes (Pure Glyphs, No Element Words) */}
+            {/* 12 Zodiac Constellation Nodes (Pure Glyphs, Distinct Zenith/Selected/Hover States) */}
             {signs.map((sign, i) => {
               const angle = (i / totalNodes) * (2 * Math.PI) - Math.PI / 2;
               const x = 50 + radius * Math.cos(angle);
               const y = 50 + radius * Math.sin(angle);
-              const isSelected = selectedSign ? selectedSign.id === sign.id : (activeSign && activeSign.id === sign.id);
-              const isHovered = !isSignLocked && hoveredSign && hoveredSign.id === sign.id;
+              const isSelected = selectedSign && selectedSign.id === sign.id;
+              const isAtZenith = zenithSign && zenithSign.id === sign.id;
+              const isHovered = hoveredSign && hoveredSign.id === sign.id;
 
               return (
                 <div
                   key={sign.id}
-                  className={`project-node ${isSelected ? 'active-node' : ''} ${isHovered ? 'hovered-node' : ''} ${isSignLocked && isSelected ? 'locked-node' : ''}`}
+                  className={`project-node ${isSelected ? 'selected-node' : ''} ${isAtZenith ? 'zenith-node' : ''} ${isHovered ? 'hovered-node' : ''}`}
                   style={{
                     left: `${x}%`,
                     top: `${y}%`
@@ -231,9 +247,12 @@ export function AstrologyBoard({
                     e.stopPropagation();
                     if (onSelectSign) onSelectSign(sign);
                   }}
-                  title={isSignLocked && isSelected ? `${sign.name} (${sign.dates}) — Chosen & Locked Focus` : `${sign.name} (${sign.dates}) — Click to Select`}
+                  title={`${sign.name} (${sign.dates}) ${isSelected ? '— Selected Focus (Crown)' : isAtZenith ? '— Aligned at Zenith (On Board)' : '— Click to Select'}`}
                 >
+                  {isSelected && <span className="node-selected-badge" title="Selected Sign">👑</span>}
+                  {isAtZenith && !isSelected && <span className="node-zenith-badge" title="Aligned at Zenith">✦</span>}
                   <span className="node-symbol">{sign.symbol}</span>
+                  {isHovered && <span className="node-hover-label">{sign.name}</span>}
                 </div>
               );
             })}

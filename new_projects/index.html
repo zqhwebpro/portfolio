@@ -174,20 +174,14 @@
             box-shadow: 0 0 18px rgba(255, 166, 35, 0.2);
         }
 
-        /* ΓöÇΓöÇ 5-column gallery ΓÇö all projects on one row ΓöÇΓöÇ */
+        /* ── Gallery Grid ── */
         .gallery {
             display: grid;
-            grid-template-columns: repeat(5, 1fr);
+            grid-template-columns: repeat(auto-fill, minmax(240px, 1fr));
             gap: 16px;
         }
 
         /* Graceful collapse for smaller screens */
-        @media (max-width: 1200px) {
-            .gallery {
-                grid-template-columns: repeat(3, 1fr);
-            }
-        }
-
         @media (max-width: 780px) {
             .gallery {
                 grid-template-columns: repeat(2, 1fr);
@@ -442,6 +436,24 @@
                         <span class="tag">.NET</span>
                         <span class="tag">C#</span>
                         <span class="tag">eCommerce</span>
+                    </div>
+                    <div class="pcard-footer">
+                        <span class="pcard-link-text">See Project</span>
+                        <span class="pcard-arrow"><i class="fa-solid fa-arrow-right"></i></span>
+                    </div>
+                </div>
+            </a>
+
+            <!-- 07 Tarot & Zodiac Divination Compass -->
+            <a href="./zodiac-fortune-board/index.html" class="pcard">
+                <div class="pcard-body">
+                    <div class="pcard-title">Zodiac Compass</div>
+                    <div class="pcard-desc">Hand tracking software prototype.</div>
+                    <div class="pcard-tags">
+                        <span class="tag">React</span>
+                        <span class="tag">MediaPipe</span>
+                        <span class="tag">Computer Vision</span>
+                        <span class="tag">Tarot</span>
                     </div>
                     <div class="pcard-footer">
                         <span class="pcard-link-text">See Project</span>

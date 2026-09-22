@@ -247,7 +247,6 @@ export function useHandTracking() {
               prevAngleRef.current = null;
               smoothDeltaRef.current = 0;
             }
-            prevAngleRef.current = currentAngle;
           } else {
             // Hand out of frame
             prevAngleRef.current = null;

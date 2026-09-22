@@ -13,7 +13,7 @@ import { mysticAudio } from './utils/mysticAudio';
 import './styles/astral.css';
 
 function App() {
-  const [activeSign, setActiveSign] = useState(ZODIAC_SIGNS[0]);
+  const [selectedSign, setSelectedSign] = useState(null);
   const [isSignLocked, setIsSignLocked] = useState(false);
 
   // 4 Progressive Stages: 1: Zodiac Seal | 2: Destiny Covenant | 3: Tarot | 4: Runes
@@ -47,18 +47,12 @@ function App() {
   const isSignLockedRef = useRef(false);
 
   // Derive the zodiac sign aligned with the top Zenith (12 o'clock) as the compass spins
+  // The zodiac at the very top of the circle is ALWAYS the one displayed on the board
   const zenithSign = React.useMemo(() => {
     const normalizedAngle = (-rotation % 360 + 360) % 360;
     const zenithIdx = Math.floor((normalizedAngle + 15) % 360 / 30) % 12;
     return ZODIAC_SIGNS[zenithIdx] || ZODIAC_SIGNS[0];
   }, [rotation]);
-
-  // When pointing or browsing before locking, dynamically scroll through the zodiac choices with the wheel
-  const effectiveActiveSign = (!isSignLocked || activeSpell === 'POINTING')
-    ? (hoveredSign || zenithSign)
-    : (activeSign || zenithSign);
-
-  const effectiveHoveredSign = hoveredSign || ((!isSignLocked || activeSpell === 'POINTING') ? zenithSign : null);
 
   // Play subtle astral tick sound as rotation scrolls past each 30-degree zodiac notch
   const lastScrolledIdxRef = useRef(0);
@@ -71,26 +65,25 @@ function App() {
     }
   }, [rotation]);
 
-  // Derive Tarot card and Runes spread directly from active sign
+  // Derive Tarot card and Runes spread directly from the zodiac sign at Zenith
   const tarotCard = React.useMemo(() => {
-    return getZodiacTarot(effectiveActiveSign?.id);
-  }, [effectiveActiveSign?.id]);
+    return getZodiacTarot(zenithSign?.id);
+  }, [zenithSign?.id]);
 
   const runeData = React.useMemo(() => {
-    return drawRuneSpread(effectiveActiveSign);
-  }, [effectiveActiveSign]);
+    return drawRuneSpread(zenithSign);
+  }, [zenithSign]);
 
-  // A fist selects the sign on the board and locks it
+  // A fist selects the sign currently at Zenith on the board and crowns it
   const handleCastFistSelect = useCallback(() => {
     if (gestureCooldownRef.current.fist) return;
     gestureCooldownRef.current.fist = true;
 
     requestAnimationFrame(() => {
-      const chosen = effectiveActiveSign;
+      const chosen = zenithSign;
       isSignLockedRef.current = true;
       setIsSignLocked(true);
-      setActiveSign(chosen);
-      setHoveredSign(null);
+      setSelectedSign(chosen);
       setActiveStage(1);
       mysticAudio.playNodeIgnite();
 
@@ -101,9 +94,9 @@ function App() {
 
       setTimeout(() => {
         gestureCooldownRef.current.fist = false;
-      }, 1200);
+      }, 800);
     });
-  }, [effectiveActiveSign, setRotation]);
+  }, [zenithSign, setRotation]);
 
   // Stage 2: Cast Destiny Covenant / Horoscope Goal Channeling
   const handleCastGoal = useCallback(() => {
@@ -113,7 +106,7 @@ function App() {
     setActiveStage(2);
     mysticAudio.playSpellCast('prophecy');
 
-    const newGoal = getRandomGoal(effectiveActiveSign);
+    const newGoal = getRandomGoal(zenithSign);
     setHoroscopeGoal(newGoal);
 
     setTimeout(() => {
@@ -122,7 +115,7 @@ function App() {
         gestureCooldownRef.current.prophecy = false;
       }, 1200);
     }, 200);
-  }, [effectiveActiveSign]);
+  }, [zenithSign]);
 
   // 4-Stage Gesture Controller: A fist selects the sign on the board
   useEffect(() => {
@@ -218,9 +211,7 @@ function App() {
   }, [handleCastGoal, handleCastFistSelect]);
 
   const handleHoverSign = (sign) => {
-    if (!isSignLocked) {
-      setHoveredSign(sign);
-    }
+    setHoveredSign(sign);
   };
 
   const handleLeaveSign = () => {
@@ -228,9 +219,8 @@ function App() {
   };
 
   const handleSelectSign = (sign) => {
-    setActiveSign(sign);
-    isSignLockedRef.current = true;
-    setIsSignLocked(true); // Locking sign: no other can be chosen by pointing
+    setSelectedSign(sign);
+    setIsSignLocked(true);
     setHoveredSign(null);
     mysticAudio.playNodeIgnite();
 
@@ -288,9 +278,10 @@ function App() {
       <div className="board-container">
         <AstrologyBoard
           signs={ZODIAC_SIGNS}
-          activeSign={effectiveActiveSign}
-          selectedSign={activeSign}
-          hoveredSign={effectiveHoveredSign}
+          activeSign={zenithSign}
+          selectedSign={selectedSign}
+          hoveredSign={hoveredSign}
+          zenithSign={zenithSign}
           isSignLocked={isSignLocked}
           onHoverSign={handleHoverSign}
           onLeaveSign={handleLeaveSign}
