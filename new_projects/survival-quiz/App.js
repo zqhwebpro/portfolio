@@ -2488,6 +2488,9 @@ function App() {
     const [shuffleCounter, setShuffleCounter] = useState(0);
     const [lastSynthesizedTime, setLastSynthesizedTime] = useState(null);
 
+    // Required for the 80s page transition key:
+    const [transitionTick, setTransitionTick] = useState(0);
+
     // Responsive Mobile Tab State: 'intel' | 'simulator' | 'hud'
     const [activeMobileTab, setActiveMobileTab] = useState('simulator');
     const [isMobileOrTablet, setIsMobileOrTablet] = useState(() => (typeof window !== 'undefined' ? window.innerWidth < 860 : false));
@@ -2713,7 +2716,7 @@ function App() {
                         onClick={handleSmileyClick}
                         onMouseEnter={handleSmileyHover}
                         onMouseLeave={handleSmileyLeave}
-                        title={isColorPhasing ? "Reset to Static Green (Trigger Digital Distortion)" : "Trigger Digital Distortion & Color Blending"}
+                        title="Trigger Digital Distortion"
                         style={{ width: '34px', height: '34px', flexShrink: 0 }}
                     >
                         <svg width="26" height="26" viewBox="0 0 16 16" fill="none" xmlns="http://www.w3.org/2000/svg" style={{ shapeRendering: 'crispEdges' }}>
@@ -3522,8 +3525,8 @@ function App() {
                                 }}
                             >
                                 <span style={{ fontSize: '1.2rem' }}>👾</span>
-                                <span style={{ fontSize: '0.78rem', fontWeight: 800 }}>Color Glitch</span>
-                                <span style={{ fontSize: '0.68rem', color: 'var(--term-text-dim)' }}>{isColorPhasing ? "Phasing Mode" : "Phosphor Green"}</span>
+                                <span style={{ fontSize: '0.78rem', fontWeight: 800 }}>CRT Glitch</span>
+                                <span style={{ fontSize: '0.68rem', color: 'var(--term-text-dim)' }}>Static Phosphor Green</span>
                             </button>
                         </div>
 
@@ -3598,46 +3601,48 @@ function App() {
             </main>
 
             {/* MOBILE APP BOTTOM NAVIGATION BAR */}
-            {isMobileOrTablet && (
-                <nav className="mobile-tab-bar" aria-label="Mobile Tactical Navigation">
-                    <button
-                        type="button"
-                        className={`nav-tab-btn ${activeMobileTab === 'intel' ? 'active' : ''}`}
-                        onClick={() => handleTabSwitch('intel')}
-                    >
-                        <span style={{ fontSize: '1.05rem' }}>📁</span>
-                        <span>Intel</span>
-                        <span className="nav-tab-badge">05</span>
-                    </button>
-
-                    <button
-                        type="button"
-                        className={`nav-tab-btn ${activeMobileTab === 'simulator' ? 'active' : ''}`}
-                        onClick={() => handleTabSwitch('simulator')}
-                    >
-                        <span style={{ fontSize: '1.05rem' }}>🎯</span>
-                        <span>Simulator</span>
-                        <span
-                            className="nav-tab-badge"
-                            style={{
-                                background: quizStatus === 'success' ? '#33ff66' : quizStatus === 'loser' ? '#ff3344' : '#ffcc00',
-                                color: '#000'
-                            }}
+            {
+                isMobileOrTablet && (
+                    <nav className="mobile-tab-bar" aria-label="Mobile Tactical Navigation">
+                        <button
+                            type="button"
+                            className={`nav-tab-btn ${activeMobileTab === 'intel' ? 'active' : ''}`}
+                            onClick={() => handleTabSwitch('intel')}
                         >
-                            {answeredCount}/5
-                        </span>
-                    </button>
+                            <span style={{ fontSize: '1.05rem' }}>📁</span>
+                            <span>Intel</span>
+                            <span className="nav-tab-badge">05</span>
+                        </button>
 
-                    <button
-                        type="button"
-                        className={`nav-tab-btn ${activeMobileTab === 'hud' ? 'active' : ''}`}
-                        onClick={() => handleTabSwitch('hud')}
-                    >
-                        <span style={{ fontSize: '1.05rem' }}>⚡</span>
-                        <span>HUD</span>
-                    </button>
-                </nav>
-            )}
+                        <button
+                            type="button"
+                            className={`nav-tab-btn ${activeMobileTab === 'simulator' ? 'active' : ''}`}
+                            onClick={() => handleTabSwitch('simulator')}
+                        >
+                            <span style={{ fontSize: '1.05rem' }}>🎯</span>
+                            <span>Simulator</span>
+                            <span
+                                className="nav-tab-badge"
+                                style={{
+                                    background: quizStatus === 'success' ? '#33ff66' : quizStatus === 'loser' ? '#ff3344' : '#ffcc00',
+                                    color: '#000'
+                                }}
+                            >
+                                {answeredCount}/5
+                            </span>
+                        </button>
+
+                        <button
+                            type="button"
+                            className={`nav-tab-btn ${activeMobileTab === 'hud' ? 'active' : ''}`}
+                            onClick={() => handleTabSwitch('hud')}
+                        >
+                            <span style={{ fontSize: '1.05rem' }}>⚡</span>
+                            <span>HUD</span>
+                        </button>
+                    </nav>
+                )
+            }
 
             {/* FIXED LOWER-LEFT: "Case Study" Button on Desktop - commented out until ready to review
             <a
@@ -3651,56 +3656,58 @@ function App() {
             */}
 
             {/* MODAL */}
-            {activeModal && (
-                <div className="modal-backdrop" onClick={() => setActiveModal(null)}>
-                    <div className="modal-box-crt" onClick={(e) => e.stopPropagation()}>
-                        <div style={{
-                            display: 'flex',
-                            justifyContent: 'space-between',
-                            alignItems: 'center',
-                            borderBottom: '1px solid var(--term-green-dim)',
-                            paddingBottom: 10,
-                            marginBottom: 14,
-                            position: 'relative',
-                            zIndex: 15
-                        }}>
-                            <div>
-                                <div style={{
-                                    fontSize: '1rem',
-                                    letterSpacing: '0.06em',
-                                    color: 'var(--term-green-bright)',
-                                    fontWeight: 700
-                                }}>
-                                    {activeModal.headline}
+            {
+                activeModal && (
+                    <div className="modal-backdrop" onClick={() => setActiveModal(null)}>
+                        <div className="modal-box-crt" onClick={(e) => e.stopPropagation()}>
+                            <div style={{
+                                display: 'flex',
+                                justifyContent: 'space-between',
+                                alignItems: 'center',
+                                borderBottom: '1px solid var(--term-green-dim)',
+                                paddingBottom: 10,
+                                marginBottom: 14,
+                                position: 'relative',
+                                zIndex: 15
+                            }}>
+                                <div>
+                                    <div style={{
+                                        fontSize: '1rem',
+                                        letterSpacing: '0.06em',
+                                        color: 'var(--term-green-bright)',
+                                        fontWeight: 700
+                                    }}>
+                                        {activeModal.headline}
+                                    </div>
                                 </div>
+
+                                <button
+                                    type="button"
+                                    onClick={() => setActiveModal(null)}
+                                    className="term-btn"
+                                    style={{ padding: '4px 10px', fontSize: '0.72rem' }}
+                                >
+                                    Close [ESC]
+                                </button>
                             </div>
 
-                            <button
-                                type="button"
-                                onClick={() => setActiveModal(null)}
-                                className="term-btn"
-                                style={{ padding: '4px 10px', fontSize: '0.72rem' }}
-                            >
-                                Close [ESC]
-                            </button>
-                        </div>
-
-                        <div style={{
-                            fontSize: isMobileOrTablet ? '1.05rem' : '1.2rem',
-                            lineHeight: 1.7,
-                            color: 'var(--term-text-main)',
-                            textShadow: '0 0 3px rgba(51, 255, 102, 0.45)',
-                            margin: '12px 0 10px 0',
-                            position: 'relative',
-                            zIndex: 15,
-                            letterSpacing: '0.02em'
-                        }}>
-                            {activeModal.content}
+                            <div style={{
+                                fontSize: isMobileOrTablet ? '1.05rem' : '1.2rem',
+                                lineHeight: 1.7,
+                                color: 'var(--term-text-main)',
+                                textShadow: '0 0 3px rgba(51, 255, 102, 0.45)',
+                                margin: '12px 0 10px 0',
+                                position: 'relative',
+                                zIndex: 15,
+                                letterSpacing: '0.02em'
+                            }}>
+                                {activeModal.content}
+                            </div>
                         </div>
                     </div>
-                </div>
-            )}
-        </div>
+                )
+            }
+        </div >
     );
 }
 
