@@ -130,7 +130,8 @@ body.solar-lit-active .glass-card-3d {
 }
 
 body.solar-lit-active .box-copy,
-body.solar-lit-active .about-text-content p {
+body.solar-lit-active .about-text-content p,
+body.solar-lit-active .hero-description {
     color: #4a2711;
 }
 
@@ -448,6 +449,16 @@ body.solar-lit-active .form-input-3d {
     background: linear-gradient(135deg, var(--neon-cyan) 0%, #00a8ff 40%, var(--neon-magenta) 100%);
     -webkit-background-clip: text;
     -webkit-text-fill-color: transparent;
+}
+
+.hero-description {
+    font-family: var(--font-sans);
+    font-size: clamp(1.02rem, 1.6vw, 1.2rem);
+    font-weight: 400;
+    line-height: 1.65;
+    color: var(--text-sub);
+    max-width: 660px;
+    margin: 0;
 }
 
 /* ABOUT SECTION */

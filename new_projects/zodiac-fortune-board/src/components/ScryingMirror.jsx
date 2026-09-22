@@ -155,9 +155,7 @@ export function ScryingMirror({
           {!isCameraActive && (
             <div className="mirror-portal-placeholder">
               <span className="portal-caption">Scrying Glass</span>
-              <span className="portal-subaction">
-                {isReady ? 'Click to Awaken' : 'Transmuting Runes...'}
-              </span>
+              <span className="portal-subaction">Webcam Needed</span>
             </div>
           )}
 

@@ -2505,13 +2505,11 @@ function App() {
         setActiveMobileTab(tab);
     };
 
-    // Visual State: Digital Distortion & Continuous Color Shift (Still green by default until happy face is clicked)
-    const [baseHue, setBaseHue] = useState(0);
-    const [isColorPhasing, setIsColorPhasing] = useState(false);
+    // Visual State: Digital Distortion & Face Cycling
+    const [faceIndex, setFaceIndex] = useState(0);
     const [glitchKey, setGlitchKey] = useState(0);
     const [isGlitching, setIsGlitching] = useState(false);
     const [isSmileyHovered, setIsSmileyHovered] = useState(false);
-    const [transitionTick, setTransitionTick] = useState(0);
     const glitchTimeoutRef = useRef(null);
 
     // Quiz State (Default 5 facts)
@@ -2542,18 +2540,11 @@ function App() {
         playGlitchSound();
         setIsGlitching(true);
         setGlitchKey(prev => prev + 1);
+        setFaceIndex(prev => (prev + 1) % 5);
         if (glitchTimeoutRef.current) clearTimeout(glitchTimeoutRef.current);
         glitchTimeoutRef.current = setTimeout(() => {
             setIsGlitching(false);
         }, 250);
-
-        if (!isColorPhasing) {
-            setBaseHue(prev => (prev + 80 + Math.floor(Math.random() * 95)) % 360 || 90);
-            setIsColorPhasing(true);
-        } else {
-            setBaseHue(0);
-            setIsColorPhasing(false);
-        }
     };
 
     const handleSmileyHover = () => {
@@ -2709,10 +2700,8 @@ function App() {
     return (
         <div
             key={`crt-screen-${glitchKey}`}
-            className={`crt-screen ${isColorPhasing ? 'color-cycling' : ''} ${isGlitching ? 'glitch-active' : ''}`}
-            style={{
-                '--start-hue': `${baseHue}deg`
-            }}
+            className={`crt-screen ${isGlitching ? 'glitch-active' : ''}`}
+            style={{}}
         >
             {/* RETRO TOP BAR */}
             <header className="term-header">
@@ -2730,43 +2719,87 @@ function App() {
                         <svg width="26" height="26" viewBox="0 0 16 16" fill="none" xmlns="http://www.w3.org/2000/svg" style={{ shapeRendering: 'crispEdges' }}>
                             {isGlitching ? (
                                 <>
-                                    {/* Scrambled Glitch Face */}
+                                    {/* Scrambled Glitch Face — shown during animation */}
                                     <rect x="3" y="4" width="3" height="1" fill="#33ff66" />
                                     <rect x="11" y="7" width="1" height="3" fill="#33ff66" />
                                     <rect x="2" y="11" width="4" height="2" fill="#33ff66" />
                                     <rect x="8" y="9" width="5" height="1" fill="#33ff66" />
                                     <rect x="5" y="6" width="2" height="2" fill="#33ff66" />
                                 </>
+                            ) : faceIndex === 0 ? (
+                                <>
+                                    {/* Face 0: Happy — standard smile */}
+                                    <rect x="4" y="5" width="2" height="2" fill="#33ff66" />
+                                    <rect x="10" y="5" width="2" height="2" fill="#33ff66" />
+                                    <rect x="2" y="9" width="1" height="2" fill="#33ff66" />
+                                    <rect x="3" y="11" width="1" height="1" fill="#33ff66" />
+                                    <rect x="4" y="12" width="8" height="1" fill="#33ff66" />
+                                    <rect x="12" y="11" width="1" height="1" fill="#33ff66" />
+                                    <rect x="13" y="9" width="1" height="2" fill="#33ff66" />
+                                </>
+                            ) : faceIndex === 1 ? (
+                                <>
+                                    {/* Face 1: Big wink — left eye normal, right eye wink line, wide grin */}
+                                    <rect x="4" y="5" width="2" height="2" fill="#33ff66" />
+                                    <rect x="9" y="6" width="3" height="1" fill="#33ff66" />
+                                    <rect x="2" y="8" width="1" height="2" fill="#33ff66" />
+                                    <rect x="3" y="10" width="1" height="2" fill="#33ff66" />
+                                    <rect x="4" y="12" width="8" height="2" fill="#33ff66" />
+                                    <rect x="12" y="10" width="1" height="2" fill="#33ff66" />
+                                    <rect x="13" y="8" width="1" height="2" fill="#33ff66" />
+                                    {/* Cheek dot */}
+                                    <rect x="11" y="9" width="1" height="1" fill="#33ff66" />
+                                </>
+                            ) : faceIndex === 2 ? (
+                                <>
+                                    {/* Face 2: Shocked — wide eyes, O-shaped mouth */}
+                                    <rect x="3" y="4" width="3" height="3" fill="#33ff66" />
+                                    <rect x="10" y="4" width="3" height="3" fill="#33ff66" />
+                                    {/* O mouth */}
+                                    <rect x="6" y="10" width="4" height="1" fill="#33ff66" />
+                                    <rect x="5" y="11" width="1" height="2" fill="#33ff66" />
+                                    <rect x="10" y="11" width="1" height="2" fill="#33ff66" />
+                                    <rect x="6" y="13" width="4" height="1" fill="#33ff66" />
+                                </>
+                            ) : faceIndex === 3 ? (
+                                <>
+                                    {/* Face 3: Angry — angled brows, flat frown */}
+                                    {/* Left angry brow — slopes down-right */}
+                                    <rect x="3" y="3" width="1" height="1" fill="#33ff66" />
+                                    <rect x="4" y="4" width="1" height="1" fill="#33ff66" />
+                                    <rect x="5" y="5" width="1" height="1" fill="#33ff66" />
+                                    {/* Right angry brow — slopes down-left */}
+                                    <rect x="11" y="3" width="1" height="1" fill="#33ff66" />
+                                    <rect x="10" y="4" width="1" height="1" fill="#33ff66" />
+                                    <rect x="9" y="5" width="1" height="1" fill="#33ff66" />
+                                    {/* Squinting eyes */}
+                                    <rect x="4" y="6" width="2" height="1" fill="#33ff66" />
+                                    <rect x="10" y="6" width="2" height="1" fill="#33ff66" />
+                                    {/* Flat frown */}
+                                    <rect x="4" y="12" width="8" height="1" fill="#33ff66" />
+                                    <rect x="3" y="11" width="1" height="1" fill="#33ff66" />
+                                    <rect x="12" y="11" width="1" height="1" fill="#33ff66" />
+                                </>
                             ) : (
                                 <>
-                                    {/* Left eye */}
-                                    <rect x="4" y="5" width="2" height="2" fill="#33ff66" />
-                                    {/* Right eye (Winks if hovered) */}
-                                    {isSmileyHovered ? (
-                                        <rect x="10" y="6" width="2" height="1" fill="#33ff66" />
-                                    ) : (
-                                        <rect x="10" y="5" width="2" height="2" fill="#33ff66" />
-                                    )}
-                                    {/* Smile */}
-                                    {isSmileyHovered ? (
-                                        // Wider, open mouth smile
-                                        <>
-                                            <rect x="2" y="8" width="1" height="2" fill="#33ff66" />
-                                            <rect x="3" y="10" width="1" height="3" fill="#33ff66" />
-                                            <rect x="4" y="12" width="8" height="3" fill="#33ff66" />
-                                            <rect x="12" y="10" width="1" height="3" fill="#33ff66" />
-                                            <rect x="13" y="8" width="1" height="2" fill="#33ff66" />
-                                        </>
-                                    ) : (
-                                        // Normal smile
-                                        <>
-                                            <rect x="2" y="8" width="1" height="2" fill="#33ff66" />
-                                            <rect x="3" y="10" width="1" height="2" fill="#33ff66" />
-                                            <rect x="4" y="12" width="8" height="2" fill="#33ff66" />
-                                            <rect x="12" y="10" width="1" height="2" fill="#33ff66" />
-                                            <rect x="13" y="8" width="1" height="2" fill="#33ff66" />
-                                        </>
-                                    )}
+                                    {/* Face 4: Dead / X-eyes — X pupils, flat line mouth */}
+                                    {/* Left X eye */}
+                                    <rect x="3" y="4" width="1" height="1" fill="#33ff66" />
+                                    <rect x="5" y="4" width="1" height="1" fill="#33ff66" />
+                                    <rect x="4" y="5" width="1" height="1" fill="#33ff66" />
+                                    <rect x="3" y="6" width="1" height="1" fill="#33ff66" />
+                                    <rect x="5" y="6" width="1" height="1" fill="#33ff66" />
+                                    {/* Right X eye */}
+                                    <rect x="10" y="4" width="1" height="1" fill="#33ff66" />
+                                    <rect x="12" y="4" width="1" height="1" fill="#33ff66" />
+                                    <rect x="11" y="5" width="1" height="1" fill="#33ff66" />
+                                    <rect x="10" y="6" width="1" height="1" fill="#33ff66" />
+                                    <rect x="12" y="6" width="1" height="1" fill="#33ff66" />
+                                    {/* Flat / wavy dead mouth */}
+                                    <rect x="4" y="11" width="2" height="1" fill="#33ff66" />
+                                    <rect x="6" y="12" width="2" height="1" fill="#33ff66" />
+                                    <rect x="8" y="11" width="2" height="1" fill="#33ff66" />
+                                    <rect x="10" y="12" width="2" height="1" fill="#33ff66" />
                                 </>
                             )}
                         </svg>

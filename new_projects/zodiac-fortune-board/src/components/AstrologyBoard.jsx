@@ -129,9 +129,10 @@ export function AstrologyBoard({
       isPointAction: true
     },
     { 
-      id: 1, 
+      id: 'fist', 
       gesture: isSignLocked ? '✊ Fist (Locked)' : '✊ Fist', 
-      desc: isSignLocked ? 'Hold 3s to unlock' : 'Hold 3s to lock sign' 
+      desc: isSignLocked ? 'Hold 3s to unlock' : 'Hold 3s to lock sign',
+      isFistAction: true
     },
     { id: 2, gesture: '✌️ Peace', desc: 'Summary horoscope' },
     { id: 3, gesture: '✋ Palm', desc: 'Tarot card' },
@@ -154,10 +155,12 @@ export function AstrologyBoard({
         <div className="nav-stages-list">
           {gestures.map(stg => {
             const isPoint = stg.isPointAction;
-            const isFist = stg.id === 1;
+            const isFist = stg.id === 'fist' || stg.isFistAction;
             const isActive = isPoint
               ? activeSpell === 'POINTING'
-              : activeStage === stg.id;
+              : isFist
+                ? false
+                : activeStage === stg.id;
 
             return (
               <button
@@ -167,11 +170,11 @@ export function AstrologyBoard({
                   e.stopPropagation();
                   if (isPoint) {
                     if (onSelectStage) onSelectStage(1);
-                  } else {
+                  } else if (!isFist) {
                     if (onSelectStage) onSelectStage(stg.id);
                   }
                 }}
-                onPointerDown={(e) => {
+                onPointerDown={() => {
                   if (isFist && onStartFistHold) onStartFistHold();
                 }}
                 onPointerUp={() => {
@@ -217,7 +220,7 @@ export function AstrologyBoard({
         >
           {/* Fixed Zenith Needle pointing down at 12 o'clock sign displayed on board */}
           <div className={`zenith-alignment-pointer ${isSignLocked ? 'pointer-locked' : ''}`} title="Zenith: Zodiac sign at 12 o'clock is displayed on the board">
-            <div className="zenith-pointer-glyph">{isSignLocked ? '🔒' : '▼'}</div>
+            <div className="zenith-pointer-glyph">▼</div>
             <div className="zenith-pointer-line"></div>
           </div>
 
@@ -279,13 +282,6 @@ export function AstrologyBoard({
                   }}
                   title={`${sign.name} (${sign.dates}) ${isSelected ? '— Selected & Locked (Click to Unlock)' : isAtZenith ? '— Aligned at Zenith (On Board)' : '— Click to Select'}`}
                 >
-                  {isSelected && (
-                    <div className="node-selected-badge" title="Selected & Locked Sign">
-                      <span className="badge-crown">👑</span>
-                      <span className="badge-text">SELECTED</span>
-                    </div>
-                  )}
-                  {isAtZenith && !isSelected && <span className="node-zenith-badge" title="Aligned at Zenith">✦</span>}
                   <span className="node-symbol">{sign.symbol}</span>
                   {isHovered && <span className="node-hover-label">{sign.name}</span>}
                 </div>
@@ -365,14 +361,6 @@ export function AstrologyBoard({
 
           {/* Floating Content Inside the Eldritch Circle */}
           <div className="crystal-ball-content">
-            {isSignLocked && selectedSign && (
-              <div className="eldritch-lock-status-badge">
-                <span className="lock-icon">🔒</span>
-                <span className="lock-label">{selectedSign.name} LOCKED</span>
-                <span className="lock-hint">Hold ✊ 3s to Unlock</span>
-              </div>
-            )}
-
             {/* STAGE 1: Ancient Zodiac Grimoire Seal & Constellation */}
             {activeStage === 1 && (
               <div className="stage-content stage-constellation-view">

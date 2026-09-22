@@ -389,6 +389,9 @@ function App() {
                         <h1 className="hero-headline">
                             An Animated Journey from <span>Night to Day.</span>
                         </h1>
+                        <p className="hero-description">
+                            A high-performance promotional web experience engineered with procedural canvas starfields, dynamic mouse-gravity parallax, and zero external animation libraries—smoothly transitioning from deep-space night into daylight as you scroll.
+                        </p>
                     </div>
                 </div>
             </header>

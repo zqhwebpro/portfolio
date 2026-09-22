@@ -358,7 +358,7 @@ function ExerciseMotionFeed({ exercise }) {
             : null;
 
     return (
-        <div className="pf-panel p-3.5 flex flex-col flex-1 h-full min-h-[300px]">
+        <div className="pf-panel p-2.5 sm:p-3.5 flex flex-col flex-1 h-full min-h-[180px] sm:min-h-[240px] md:min-h-[300px]">
             <div className="flex items-center justify-between pb-2.5 mb-2 border-b-2 border-pf-border shrink-0">
                 <span className="text-xs font-black tracking-wider text-pf-blue uppercase">
                     MOTION FEED & PREVIEW
@@ -367,7 +367,7 @@ function ExerciseMotionFeed({ exercise }) {
                     ACTIVE
                 </span>
             </div>
-            <div className="flex-1 w-full h-full min-h-[260px] relative rounded-xl overflow-hidden bg-[#0f172a] flex items-center justify-center border-2 border-pf-border shadow-inner">
+            <div className="flex-1 w-full h-full min-h-[140px] sm:min-h-[200px] md:min-h-[260px] relative rounded-xl overflow-hidden bg-[#0f172a] flex items-center justify-center border-2 border-pf-border shadow-inner">
                 {activeImageSrc && !imageError ? (
                     <img
                         key={`${exercise?.name}-${frameIndex}`}
@@ -436,7 +436,7 @@ function YouTubeFormDeck({ exercise }) {
     }, [exercise?.name]);
 
     return (
-        <div className="pf-card p-3.5 flex flex-col h-full min-h-[320px] overflow-hidden">
+        <div className="pf-card p-2.5 sm:p-3.5 flex flex-col h-full min-h-[280px] sm:min-h-[320px] overflow-hidden">
             <div className="flex items-center justify-between border-b-2 border-pf-border pb-2.5 mb-2.5 shrink-0">
                 <span className="text-xs font-black tracking-wider text-pf-blue uppercase">
                     VIDEO TUTORIALS
@@ -780,7 +780,7 @@ function App() {
     }, [routineDeck, groupIndices, lockedMuscles]);
 
     return (
-        <div className="w-screen min-h-screen lg:h-[100dvh] flex flex-col pb-28 md:pb-32 lg:pb-0 touch-pan-y overflow-x-hidden bg-pf-canvas relative">
+        <div className="w-screen min-h-screen lg:h-[100dvh] flex flex-col pb-24 sm:pb-28 lg:pb-0 touch-pan-y overflow-x-hidden bg-pf-canvas relative">
 
             {/* Signature Royal Blue Header Marquee with Angular Logo */}
             <header className="shrink-0 bg-pf-blue text-white px-3 md:px-4 py-1.5 flex items-center z-20 sticky top-0 w-full overflow-hidden shadow-md">
@@ -836,14 +836,14 @@ function App() {
             </header>
 
             {/* Main Interactive Deck */}
-            <main className="flex-1 w-full max-w-full p-2.5 md:p-3.5 flex flex-col gap-2.5 overflow-y-auto lg:overflow-hidden min-h-0 touch-pan-y">
+            <main className="flex-1 w-full max-w-full p-2 sm:p-2.5 md:p-3.5 flex flex-col gap-2 sm:gap-2.5 overflow-y-auto lg:overflow-hidden min-h-0 touch-pan-y">
 
                 {/* Top White Bar: Muscle Groups on Left, Controls on Right */}
-                <div className="shrink-0 pf-card px-3.5 py-2.5 flex items-center justify-between w-full max-w-full overflow-hidden">
+                <div className="shrink-0 pf-card px-2.5 sm:px-3.5 py-2 sm:py-2.5 flex flex-col sm:flex-row sm:items-center sm:justify-between gap-2 w-full max-w-full overflow-hidden">
 
-                    {/* Left: Muscle Group Selector Pills */}
-                    <div className="flex items-center gap-2 overflow-x-auto no-scrollbar min-w-0 flex-1 pr-3">
-                        <span className="text-xs font-extrabold text-pf-blue uppercase tracking-wider shrink-0 select-none whitespace-nowrap pr-1">
+                    {/* Muscle Group Selector Pills — scrollable row */}
+                    <div className="flex items-center gap-1.5 overflow-x-auto no-scrollbar w-full sm:flex-1 sm:min-w-0">
+                        <span className="text-[10px] sm:text-xs font-extrabold text-pf-blue uppercase tracking-wider shrink-0 select-none whitespace-nowrap hidden sm:inline pr-1">
                             Muscle Groups:
                         </span>
 
@@ -855,7 +855,7 @@ function App() {
                                         key={muscle.id}
                                         type="button"
                                         onClick={() => handleFocusChange(muscle.id)}
-                                        className={`px-3.5 py-1.5 font-bold text-xs tracking-wide transition shrink-0 uppercase select-none rounded-full ${isSelected
+                                        className={`px-2.5 sm:px-3.5 py-1 sm:py-1.5 font-bold text-[10px] sm:text-xs tracking-wide transition shrink-0 uppercase select-none rounded-full ${isSelected
                                             ? 'bg-pf-blue text-white shadow-sm'
                                             : 'bg-slate-200/70 text-pf-blackblue hover:bg-pf-blue/20'
                                             }`}
@@ -865,10 +865,43 @@ function App() {
                                 );
                             })}
                         </div>
+
+                        {/* Action buttons inline on mobile (right of pills row) */}
+                        <div className="flex items-center gap-1.5 shrink-0 ml-auto pl-2 border-l-2 border-pf-border sm:hidden">
+                            <button
+                                type="button"
+                                onClick={handleShuffle}
+                                title="Randomize"
+                                className="btn-pf-yellow h-8 px-2.5 flex items-center gap-1 text-[10px] uppercase"
+                            >
+                                <svg className="w-3 h-3 text-pf-blackblue shrink-0" fill="currentColor" viewBox="0 0 24 24">
+                                    <path d="M10.59 9.17L5.41 4 4 5.41l5.17 5.17 1.42-1.41zM14.5 4l2.04 2.04L4 18.59 5.41 20 17.96 7.46 20 9.5V4h-5.5zm.33 9.41l-1.41 1.41 3.13 3.13L14.5 20H20v-5.5l-2.04 2.04-3.13-3.13z" />
+                                </svg>
+                            </button>
+                            <button
+                                type="button"
+                                onClick={handleAddCurrentGroup}
+                                title="Save"
+                                className="w-8 h-8 flex items-center justify-center font-extrabold text-sm bg-white text-pf-blue rounded-full border-2 border-pf-border shadow-xs active:scale-95 transition"
+                            >+</button>
+                            <button
+                                type="button"
+                                onClick={() => setIsFavoritesOpen(true)}
+                                title="Vault"
+                                className="w-8 h-8 flex items-center justify-center text-sm bg-pf-blue text-pf-yellow rounded-full relative active:scale-95 transition shadow-xs"
+                            >
+                                <span>♥</span>
+                                {favoriteGroups.length > 0 && (
+                                    <span className="absolute -top-1 -right-1 bg-pf-yellow text-pf-blackblue text-[9px] font-black w-4 h-4 rounded-full flex items-center justify-center shadow-xs">
+                                        {favoriteGroups.length}
+                                    </span>
+                                )}
+                            </button>
+                        </div>
                     </div>
 
-                    {/* Right: Randomizer Action Button + Favorites Vault */}
-                    <div className="flex items-center gap-2 shrink-0 pl-3 border-l-2 border-pf-border">
+                    {/* Right: Controls — desktop only */}
+                    <div className="hidden sm:flex items-center gap-2 shrink-0 pl-3 border-l-2 border-pf-border">
                         <button
                             type="button"
                             onClick={handleShuffle}
@@ -878,7 +911,7 @@ function App() {
                             <svg className="w-3.5 h-3.5 text-pf-blackblue" fill="currentColor" viewBox="0 0 24 24">
                                 <path d="M10.59 9.17L5.41 4 4 5.41l5.17 5.17 1.42-1.41zM14.5 4l2.04 2.04L4 18.59 5.41 20 17.96 7.46 20 9.5V4h-5.5zm.33 9.41l-1.41 1.41 3.13 3.13L14.5 20H20v-5.5l-2.04 2.04-3.13-3.13z" />
                             </svg>
-                            <span className="hidden sm:inline">RANDOMIZE</span>
+                            <span>RANDOMIZE</span>
                         </button>
 
                         <button
@@ -908,11 +941,11 @@ function App() {
                 </div>
 
                 {/* Main Showcase Row */}
-                <div className="flex-1 flex flex-col lg:flex-row gap-3 min-h-0 lg:overflow-hidden w-full max-w-full">
+                <div className="flex-1 flex flex-col lg:flex-row gap-2 sm:gap-3 min-h-0 lg:overflow-hidden w-full max-w-full">
 
                     {/* Wider Focus Sidebar (w-56) */}
-                    <aside className="shrink-0 w-full lg:w-56 pf-card p-3.5 flex flex-col bg-white overflow-hidden">
-                        <div className="pb-2.5 mb-2 border-b-2 border-pf-border flex items-center justify-between shrink-0">
+                    <aside className="shrink-0 w-full lg:w-56 pf-card p-2.5 sm:p-3.5 flex flex-col bg-white overflow-hidden">
+                        <div className="pb-2 mb-1.5 sm:pb-2.5 sm:mb-2 border-b-2 border-pf-border flex items-center justify-between shrink-0">
                             <span className="text-xs font-black text-pf-blue tracking-wider uppercase">
                                 FOCUS:
                             </span>
@@ -925,7 +958,7 @@ function App() {
                                         key={style.id}
                                         type="button"
                                         onClick={() => handleStyleButtonClick(style.id)}
-                                        className={`py-3 px-3 font-black text-xs leading-tight transition shrink-0 uppercase select-none rounded-xl text-center shadow-2xs ${isSelected
+                                        className={`py-2 sm:py-3 px-2.5 sm:px-3 font-black text-[10px] sm:text-xs leading-tight transition shrink-0 uppercase select-none rounded-xl text-center shadow-2xs ${isSelected
                                             ? 'bg-pf-blue text-white shadow-xs'
                                             : 'bg-slate-50 text-pf-blackblue border border-pf-border hover:border-pf-blue/60 hover:bg-white'
                                             }`}
@@ -938,7 +971,7 @@ function App() {
                     </aside>
 
                     {/* Featured Center Column */}
-                    <section className="flex-1 min-w-0 flex flex-col min-h-0 pf-card p-4 md:p-5 overflow-hidden">
+                    <section className="flex-1 min-w-0 flex flex-col min-h-0 pf-card p-2.5 sm:p-4 md:p-5 overflow-hidden">
                         {loading ? (
                             <div className="flex-1 min-h-[300px] flex flex-col items-center justify-center gap-3 text-pf-blue">
                                 <div className="w-10 h-10 border-4 border-pf-blue border-t-pf-yellow rounded-full animate-spin" />
@@ -958,7 +991,7 @@ function App() {
                             <div className="flex-1 flex flex-col min-h-0 justify-between gap-3">
 
                                 {/* Top Title & Metric Badges */}
-                                <div className="shrink-0 flex flex-col md:flex-row md:items-center justify-between gap-3 pb-3 border-b-2 border-pf-border">
+                                <div className="shrink-0 flex flex-col md:flex-row md:items-center justify-between gap-2 sm:gap-3 pb-2.5 sm:pb-3 border-b-2 border-pf-border">
                                     <div className="min-w-0 flex-1">
                                         <div className="flex items-center gap-2 mb-1">
                                             <span className="text-[10px] font-extrabold uppercase tracking-wider px-2.5 py-0.5 rounded-full bg-blue-50 text-pf-blue border border-blue-200">
@@ -971,12 +1004,12 @@ function App() {
                                                 </span>
                                             )}
                                         </div>
-                                        <h2 className="text-xl md:text-2xl font-black text-pf-blackblue tracking-tight uppercase leading-tight truncate">
+                                        <h2 className="text-base sm:text-xl md:text-2xl font-black text-pf-blackblue tracking-tight uppercase leading-tight truncate">
                                             {currentExercise.name}
                                         </h2>
                                     </div>
 
-                                    <div className="grid grid-cols-1 sm:grid-cols-3 gap-2 shrink-0 md:min-w-[420px] w-full md:w-auto">
+                                    <div className="grid grid-cols-3 gap-1.5 sm:gap-2 shrink-0 w-full md:w-auto md:min-w-[380px]">
                                         <AnatomyBadgeCard
                                             activeMuscle={activeRawMuscle}
                                             displayTargetName={displayTargetName}
@@ -995,7 +1028,7 @@ function App() {
                                 </div>
 
                                 {/* Center Split: Motion Preview Feed & Form Instructions */}
-                                <div className="flex-1 grid grid-cols-1 md:grid-cols-12 gap-3.5 min-h-0 lg:overflow-hidden">
+                                <div className="flex-1 grid grid-cols-1 md:grid-cols-12 gap-2 sm:gap-3.5 min-h-0 lg:overflow-hidden">
 
                                     {/* Motion Feed */}
                                     <div className="md:col-span-6 min-h-0 flex flex-col h-full">
@@ -1003,8 +1036,8 @@ function App() {
                                     </div>
 
                                     {/* Instructions Box + Desktop Controls */}
-                                    <div className="md:col-span-6 min-h-0 flex flex-col gap-2.5 overflow-hidden">
-                                        <div className="flex-1 min-h-[220px] pf-panel p-3.5 flex flex-col overflow-hidden bg-white border-2 border-pf-border rounded-xl">
+                                    <div className="md:col-span-6 min-h-0 flex flex-col gap-2 sm:gap-2.5 overflow-hidden">
+                                        <div className="flex-1 min-h-[160px] sm:min-h-[220px] pf-panel p-2.5 sm:p-3.5 flex flex-col overflow-hidden bg-white border-2 border-pf-border rounded-xl">
                                             <div className="pb-2 mb-2 border-b-2 border-pf-border flex items-center justify-between shrink-0">
                                                 <span className="text-xs font-black text-pf-blue tracking-wider uppercase">
                                                     FORM PROTOCOL & CUES
@@ -1088,25 +1121,25 @@ function App() {
                     </section>
 
                     {/* Wider Video Tutorials Bar */}
-                    <aside className="w-full lg:w-[30rem] xl:w-[32rem] shrink-0 flex flex-col min-h-[360px] lg:h-full lg:min-h-0">
+                    <aside className="w-full lg:w-[30rem] xl:w-[32rem] shrink-0 flex flex-col min-h-[280px] sm:min-h-[360px] lg:h-full lg:min-h-0">
                         <YouTubeFormDeck exercise={currentExercise} />
                     </aside>
 
                 </div>
 
                 {/* Bottom Active Stack Cards */}
-                <div className="shrink-0 pf-card p-3 flex flex-col gap-1.5 w-full max-w-full overflow-hidden box-border">
+                <div className="shrink-0 pf-card p-2 sm:p-3 flex flex-col gap-1.5 w-full max-w-full overflow-hidden box-border">
                     <div className="flex items-center justify-between px-1 shrink-0">
                         <span className="text-xs font-black tracking-wider text-pf-blue uppercase">
                             Active Workout
                         </span>
-                        <span className="text-[10px] font-bold text-pf-slate uppercase">
-                            Click to select & inspect target
+                        <span className="text-[9px] sm:text-[10px] font-bold text-pf-slate uppercase hidden sm:block">
+                            Tap to select & inspect
                         </span>
                     </div>
 
                     <div className="w-full max-w-full overflow-x-auto lg:overflow-x-hidden no-scrollbar py-0.5">
-                        <div className="grid grid-flow-col auto-cols-[150px] lg:auto-cols-auto lg:grid-flow-row lg:grid-cols-10 gap-2 w-full">
+                        <div className="grid grid-flow-col auto-cols-[130px] sm:auto-cols-[150px] lg:auto-cols-auto lg:grid-flow-row lg:grid-cols-10 gap-1.5 sm:gap-2 w-full">
                             {queriedMuscleCards.map(({ group, exercise, isLocked }) => {
                                 const isSelected = group.id === selectedMuscle;
                                 const previewImg = exercise?.gifUrl || (exercise?.images?.length ? formatImageUrl(exercise.images[0]) : null);
@@ -1182,8 +1215,8 @@ function App() {
             */}
 
             {/* Mobile Fixed Bottom Controls */}
-            <div className="lg:hidden fixed bottom-0 left-0 right-0 z-40 px-3 pt-2 pb-[max(0.75rem,env(safe-area-inset-bottom))] bg-white/95 backdrop-blur-md border-t-2 border-pf-border shadow-xl select-none">
-                <div className="max-w-md mx-auto grid grid-cols-12 gap-2 items-center">
+            <div className="lg:hidden fixed bottom-0 left-0 right-0 z-40 px-3 pt-2 pb-[max(env(safe-area-inset-bottom),0.75rem)] bg-white/95 backdrop-blur-md border-t-2 border-pf-border shadow-xl select-none">
+                <div className="max-w-lg mx-auto grid grid-cols-12 gap-2 items-center">
                     <button
                         type="button"
                         onClick={handlePrev}

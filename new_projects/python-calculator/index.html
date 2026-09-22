@@ -2904,14 +2904,75 @@
             }
         }
 
+        // --- Animated counter state (tracks current displayed values) ---
+        let _dispWhitePct = 50.0;
+        let _dispBlackPct = 50.0;
+        let _dispCp = 0;
+        let _rafWhite = null, _rafBlack = null, _rafCp = null;
+
+        /**
+         * Animate a number from `from` → `to` over `duration` ms.
+         * `decimals` controls decimal places, `prefix`/`suffix` wrap the text.
+         * Calls `onUpdate(displayStr)` each frame, `onDone(finalValue)` when complete.
+         */
+        function animateCounter(from, to, duration, decimals, prefix, suffix, onUpdate, onDone) {
+            const start = performance.now();
+            const delta = to - from;
+
+            function tick(now) {
+                const elapsed = now - start;
+                const progress = Math.min(elapsed / duration, 1);
+                // ease-out cubic
+                const eased = 1 - Math.pow(1 - progress, 3);
+                const current = from + delta * eased;
+                onUpdate(`${prefix}${current.toFixed(decimals)}${suffix}`);
+                if (progress < 1) {
+                    return requestAnimationFrame(tick);
+                } else {
+                    onDone && onDone(to);
+                    return null;
+                }
+            }
+            return requestAnimationFrame(tick);
+        }
+
         function updateEvaluation() {
             const ev = game.evaluate();
-            document.getElementById('centipawnText').innerText = `${ev.centipawns >= 0 ? '+' : ''}${(ev.centipawns / 100).toFixed(2)} cp`;
-            document.getElementById('whitePctLarge').innerText = `${ev.whitePct}%`;
-            document.getElementById('blackPctLarge').innerText = `${ev.blackPct}%`;
+            const targetWhite = parseFloat(ev.whitePct);
+            const targetBlack = parseFloat(ev.blackPct);
+            const targetCp    = ev.centipawns;
 
-            document.getElementById('barWhite').style.width = `${ev.whitePct}%`;
-            document.getElementById('barBlack').style.width = `${ev.blackPct}%`;
+            // --- White % counter ---
+            if (_rafWhite) { cancelAnimationFrame(_rafWhite); _rafWhite = null; }
+            const fromWhite = _dispWhitePct;
+            _rafWhite = animateCounter(fromWhite, targetWhite, 620, 1, '', '%',
+                (txt) => { document.getElementById('whitePctLarge').innerText = txt; },
+                (v)   => { _dispWhitePct = v; _rafWhite = null; }
+            );
+
+            // --- Black % counter ---
+            if (_rafBlack) { cancelAnimationFrame(_rafBlack); _rafBlack = null; }
+            const fromBlack = _dispBlackPct;
+            _rafBlack = animateCounter(fromBlack, targetBlack, 620, 1, '', '%',
+                (txt) => { document.getElementById('blackPctLarge').innerText = txt; },
+                (v)   => { _dispBlackPct = v; _rafBlack = null; }
+            );
+
+            // --- Centipawn counter ---
+            if (_rafCp) { cancelAnimationFrame(_rafCp); _rafCp = null; }
+            const fromCp = _dispCp;
+            _rafCp = animateCounter(fromCp, targetCp, 620, 0, '', '',
+                (txt) => {
+                    const val = parseFloat(txt);
+                    const formatted = `${val >= 0 ? '+' : ''}${(val / 100).toFixed(2)} cp`;
+                    document.getElementById('centipawnText').innerText = formatted;
+                },
+                (v)   => { _dispCp = v; _rafCp = null; }
+            );
+
+            // Bar width animates via CSS transition (already on .bar-w / .bar-b)
+            document.getElementById('barWhite').style.width = `${targetWhite}%`;
+            document.getElementById('barBlack').style.width = `${targetBlack}%`;
 
             const commEl = document.getElementById('evalCommentary');
             const score = ev.score;
