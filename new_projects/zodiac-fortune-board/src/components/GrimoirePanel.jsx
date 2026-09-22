@@ -15,19 +15,20 @@ export function GrimoirePanel({ isOpen, onClose }) {
 
         <div className="grimoire-body">
           <div className="spell-card-grid">
-            <div className="spell-card">
-              <div className="spell-icon">☝️</div>
+            <div className="spell-card highlight">
+              <div className="spell-icon">✊</div>
               <div className="spell-details">
-                <h3>Stage 1: Zodiac Focus</h3>
-                <span className="spell-gesture">Gesture: 1 Finger (Pointing Wand)</span>
+                <h3>Stage 1: Select Sign on Board</h3>
+                <span className="spell-gesture">Gesture: Clenched Fist (✊)</span>
                 <p>
-                  Point your index finger outside the center sphere to align and focus a zodiac sign,
-                  revealing its ancient constellation geometry, planetary ruler, and house lore.
+                  Clench your hand into a fist to select and lock the star sign on the board.
+                  Once locked, pointing will no longer change the sign, securing your celestial focus.
+                  (You can aim with ☝️ Point or click directly on any constellation node).
                 </p>
               </div>
             </div>
 
-            <div className="spell-card highlight">
+            <div className="spell-card">
               <div className="spell-icon">✌️</div>
               <div className="spell-details">
                 <h3>Stage 2: Summary Horoscope</h3>
@@ -67,11 +68,11 @@ export function GrimoirePanel({ isOpen, onClose }) {
           <div className="grimoire-footer-notes">
             <h4>Astrological Compass Controls</h4>
             <div className="shortcuts-list">
-              <span><kbd>1</kbd> Choose & Lock Zodiac Sign</span>
+              <span><kbd>✊ Fist</kbd> or <kbd>1</kbd> Select sign on board</span>
               <span><kbd>2</kbd> or <kbd>Space</kbd> Summary Horoscope</span>
               <span><kbd>3</kbd> Major Arcana Tarot Card</span>
               <span><kbd>4</kbd> 3 Elder Futhark Runes</span>
-              <span><kbd>Drag Outside Center</kbd> Rotate Compass Smoothly</span>
+              <span><kbd>Drag Rim</kbd> Rotate Compass Smoothly</span>
               <span><kbd>M</kbd> Mute / Unmute Audio</span>
             </div>
           </div>

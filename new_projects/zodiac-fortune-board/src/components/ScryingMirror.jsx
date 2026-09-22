@@ -36,11 +36,15 @@ export function ScryingMirror({
 
         ctx.save();
         ctx.lineWidth = 2;
-        ctx.strokeStyle = activeSpell === 'PINCH' 
-          ? 'rgba(255, 215, 0, 0.9)' 
+        ctx.strokeStyle = activeSpell === 'FIST' 
+          ? 'rgba(255, 215, 0, 0.95)' 
           : activeSpell === 'PEACE'
-          ? 'rgba(0, 255, 234, 0.9)'
-          : 'rgba(168, 85, 247, 0.85)';
+          ? 'rgba(255, 120, 80, 0.95)'
+          : activeSpell === 'OPEN_PALM'
+          ? 'rgba(255, 200, 100, 0.95)'
+          : activeSpell === 'HORNS'
+          ? 'rgba(255, 60, 90, 0.95)'
+          : 'rgba(212, 175, 55, 0.85)';
         ctx.shadowBlur = 10;
         ctx.shadowColor = ctx.strokeStyle;
 
@@ -62,9 +66,9 @@ export function ScryingMirror({
           const isTip = [4, 8, 12, 16, 20].includes(idx);
           ctx.beginPath();
           ctx.arc(lm.x * w, lm.y * h, isTip ? 4.5 : 2.5, 0, Math.PI * 2);
-          ctx.fillStyle = isTip ? '#ffffff' : 'rgba(0, 255, 234, 0.9)';
+          ctx.fillStyle = isTip ? '#ffffff' : 'rgba(255, 220, 100, 0.95)';
           ctx.shadowBlur = isTip ? 14 : 6;
-          ctx.shadowColor = '#00ffea';
+          ctx.shadowColor = '#ffd700';
           ctx.fill();
         });
 
@@ -77,8 +81,10 @@ export function ScryingMirror({
 
   const getSpellLabel = () => {
     switch (activeSpell) {
+      case 'FIST':
+        return { label: 'Clenched Fist (✊)', desc: 'Selects sign on the board' };
       case 'POINTING':
-        return { label: 'Celestial Wand (☝️)', desc: 'Choose & Lock Zodiac Sign' };
+        return { label: 'Celestial Wand (☝️)', desc: 'Aim at sign on the board' };
       case 'PEACE':
         return { label: 'Destiny Covenant (✌️)', desc: 'Channeling Summary Horoscope' };
       case 'OPEN_PALM':

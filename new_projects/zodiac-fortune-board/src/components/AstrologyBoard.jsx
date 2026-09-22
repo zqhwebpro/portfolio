@@ -114,7 +114,7 @@ export function AstrologyBoard({
 
   // 4 Mystical Gestures: Just gestures and simple descriptions, no numbering, no headline
   const gestures = [
-    { id: 1, gesture: '☝️ Point', desc: 'Focus star sign' },
+    { id: 1, gesture: '✊ Fist', desc: 'Select sign on board' },
     { id: 2, gesture: '✌️ Peace', desc: 'Summary horoscope' },
     { id: 3, gesture: '✋ Palm', desc: 'Tarot card' },
     { id: 4, gesture: '🤘 Horns', desc: 'Three runes' }
@@ -308,12 +308,20 @@ export function AstrologyBoard({
                       <span className="meta-dot">·</span>
                       <span>{activeSign.dates}</span>
                     </div>
+
+                    <div className={`sign-board-fist-tag ${isSignLocked ? 'locked' : 'prompt'}`}>
+                      {isSignLocked ? (
+                        <span><span className="fist-tag-icon">🔒</span> Selected on board</span>
+                      ) : (
+                        <span><span className="fist-tag-icon">✊</span> Fist selects sign on board</span>
+                      )}
+                    </div>
                   </>
                 ) : (
                   <div className="center-empty-state">
                     <div className="empty-symbol">⭐</div>
                     <h2 className="center-sign-title">Mystic Compass</h2>
-                    <p className="empty-desc">Point ☝️ with 1 finger outside the center circle to focus a sign.</p>
+                    <p className="empty-desc">Aim with ☝️ Point or click a star sign. Clench a ✊ Fist to select the sign on the board.</p>
                   </div>
                 )}
               </div>
@@ -397,6 +405,17 @@ export function AstrologyBoard({
               </div>
             )}
           </div>
+        </div>
+
+        {/* Instruction strip explicitly stating a fist selects the sign on the board */}
+        <div className="compass-fist-instruction-strip">
+          <span className="strip-glyph">✦</span>
+          <span className="strip-text">
+            {isSignLocked 
+              ? `🔒 ${activeSign?.name || 'Sign'} selected on board` 
+              : '✊ A fist selects the sign on the board'}
+          </span>
+          <span className="strip-glyph">✦</span>
         </div>
       </div>
     </div>

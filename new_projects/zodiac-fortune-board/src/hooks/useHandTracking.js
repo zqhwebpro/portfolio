@@ -223,8 +223,8 @@ export function useHandTracking() {
             // ONLY spin the compass when hand is in CHANNELING mode (sweeping the outer rim).
             // Do NOT spin the wheel when holding an active casting gesture (Peace, Palm, Horns, Fist, Pointing).
             const isCastingSpell = spell === 'PEACE' || spell === 'OPEN_PALM' || spell === 'HORNS' || spell === 'FIST' || spell === 'POINTING';
-            const dx = mirroredX - 0.5;
-            const dy = mirroredY - 0.5;
+            const dx = targetX - 0.5;
+            const dy = targetY - 0.5;
             const radiusFromCenter = Math.sqrt(dx * dx + dy * dy);
             const currentAngle = Math.atan2(dy, dx) * (180 / Math.PI);
 

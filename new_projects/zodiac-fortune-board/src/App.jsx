@@ -1,6 +1,5 @@
 import React, { useState, useEffect, useRef, useCallback } from 'react';
 import { AstrologyBoard } from './components/AstrologyBoard';
-import { SparkleCanvas } from './components/SparkleCanvas';
 import { ScryingMirror } from './components/ScryingMirror';
 import { GrimoirePanel } from './components/GrimoirePanel';
 import { 
@@ -27,7 +26,6 @@ function App() {
   const [manualAspects, setManualAspects] = useState(false);
   const [isGrimoireOpen, setIsGrimoireOpen] = useState(false);
   const [isMuted, setIsMuted] = useState(false);
-  const [spellBurstTrigger, setSpellBurstTrigger] = useState(0);
 
   const gestureCooldownRef = useRef({});
 
@@ -60,48 +58,57 @@ function App() {
     return drawRuneSpread(effectiveActiveSign);
   }, [effectiveActiveSign]);
 
-  // Stage 1: Cast Pointing Wand / Choose & Lock Sign
+  // A fist selects the sign on the board and locks it
+  const handleCastFistSelect = useCallback(() => {
+    if (gestureCooldownRef.current.fist) return;
+    gestureCooldownRef.current.fist = true;
+
+    requestAnimationFrame(() => {
+      const chosen = hoveredSign || activeSign;
+      isSignLockedRef.current = true;
+      setIsSignLocked(true);
+      setActiveSign(chosen);
+      setHoveredSign(null);
+      setActiveStage(1);
+      mysticAudio.playNodeIgnite();
+
+      const signIdx = ZODIAC_SIGNS.findIndex(s => s.id === chosen.id);
+      if (signIdx !== -1) {
+        setRotation(-signIdx * 30);
+      }
+
+      setTimeout(() => {
+        gestureCooldownRef.current.fist = false;
+      }, 1200);
+    });
+  }, [hoveredSign, activeSign, setRotation]);
+
+  // Pointing Wand: Aim at sign / browse on wheel before locking
   const handleCastPointing = useCallback(() => {
     if (gestureCooldownRef.current.pointing) return;
     gestureCooldownRef.current.pointing = true;
 
     requestAnimationFrame(() => {
-      if (!isSignLockedRef.current) {
-        if (handCoordinates) {
-          const hx = handCoordinates.x - 0.5;
-          const hy = handCoordinates.y - 0.5;
-          const radius = Math.sqrt(hx * hx + hy * hy);
-          if (radius > 0.28 && radius < 0.58) {
-            const handAngle = (Math.atan2(hy, hx) * (180 / Math.PI) - rotation + 360) % 360;
-            const adjusted = (handAngle + 90 + 15) % 360;
-            const signIndex = Math.floor(adjusted / 30);
-            const chosen = ZODIAC_SIGNS[signIndex];
-            if (chosen) {
-              isSignLockedRef.current = true;
-              setIsSignLocked(true);
-              setActiveSign(chosen);
-              setActiveStage(1);
-              mysticAudio.playNodeIgnite();
-              setRotation(-signIndex * 30);
-              setTimeout(() => {
-                gestureCooldownRef.current.pointing = false;
-              }, 1200);
-              return;
-            }
+      if (!isSignLockedRef.current && handCoordinates) {
+        const hx = handCoordinates.x - 0.5;
+        const hy = handCoordinates.y - 0.5;
+        const radius = Math.sqrt(hx * hx + hy * hy);
+        if (radius > 0.28 && radius < 0.58) {
+          const handAngle = (Math.atan2(hy, hx) * (180 / Math.PI) - rotation + 360) % 360;
+          const adjusted = (handAngle + 90 + 15) % 360;
+          const signIndex = Math.floor(adjusted / 30);
+          const chosen = ZODIAC_SIGNS[signIndex];
+          if (chosen) {
+            setHoveredSign(chosen);
           }
         }
-        isSignLockedRef.current = true;
-        setIsSignLocked(true);
       }
-
       setActiveStage(1);
-      mysticAudio.playNodeIgnite();
-      setSpellBurstTrigger(t => t + 1);
       setTimeout(() => {
         gestureCooldownRef.current.pointing = false;
-      }, 1200);
+      }, 300);
     });
-  }, [handCoordinates, rotation, setRotation]);
+  }, [handCoordinates, rotation]);
 
   // Stage 2: Cast Destiny Covenant / Horoscope Goal Channeling
   const handleCastGoal = useCallback(() => {
@@ -110,7 +117,6 @@ function App() {
 
     setActiveStage(2);
     mysticAudio.playSpellCast('prophecy');
-    setSpellBurstTrigger(t => t + 1);
 
     const newGoal = getRandomGoal(effectiveActiveSign);
     setHoroscopeGoal(newGoal);
@@ -123,9 +129,14 @@ function App() {
     }, 200);
   }, [effectiveActiveSign]);
 
-  // 4-Stage Gesture Controller: The first gesture Chooses the zodiac so no other can be chosen by pointing
+  // 4-Stage Gesture Controller: A fist selects the sign on the board
   useEffect(() => {
-    // Stage 1: POINTING (1 Finger - Choose & Lock Zodiac Sign / View Lore)
+    // FIST (✊) Selects the sign on the board and locks it
+    if (activeSpell === 'FIST') {
+      handleCastFistSelect();
+    }
+
+    // POINTING (☝️) Aim and preview sign
     if (activeSpell === 'POINTING') {
       handleCastPointing();
     }
@@ -144,7 +155,6 @@ function App() {
       gestureCooldownRef.current.tarot = true;
       setActiveStage(3);
       mysticAudio.playTarotDraw();
-      setSpellBurstTrigger(t => t + 1);
       setTimeout(() => {
         gestureCooldownRef.current.tarot = false;
       }, 1400);
@@ -155,12 +165,11 @@ function App() {
       gestureCooldownRef.current.runes = true;
       setActiveStage(4);
       mysticAudio.playRuneCast();
-      setSpellBurstTrigger(t => t + 1);
       setTimeout(() => {
         gestureCooldownRef.current.runes = false;
       }, 1400);
     }
-  }, [activeSpell, handleCastPointing, handleCastGoal]);
+  }, [activeSpell, handleCastFistSelect, handleCastPointing, handleCastGoal]);
 
   // Toggle Camera
   const handleToggleCamera = () => {
@@ -189,9 +198,8 @@ function App() {
       if (e.code === 'Space') {
         e.preventDefault();
         handleCastGoal();
-      } else if (e.key === '1') {
-        setActiveStage(1);
-        mysticAudio.playNodeIgnite();
+      } else if (e.key === '1' || e.key === 'Enter') {
+        handleCastFistSelect();
       } else if (e.key === '2') {
         handleCastGoal();
       } else if (e.key === '3') {
@@ -210,7 +218,7 @@ function App() {
 
     window.addEventListener('keydown', handleKeyDown);
     return () => window.removeEventListener('keydown', handleKeyDown);
-  }, [handleCastGoal]);
+  }, [handleCastGoal, handleCastFistSelect]);
 
   const handleHoverSign = (sign) => {
     if (!isSignLocked) {
@@ -246,14 +254,6 @@ function App() {
     <div className="universe-container">
       <div className="universe-bg"></div>
       <div className="celestial-body"></div>
-
-      {/* Luminous Blurry & Sparkly Magic Particle Canvas tracking finger point */}
-      <SparkleCanvas 
-        handCoordinates={handCoordinates}
-        isCameraActive={isCameraActive}
-        activeSpell={activeSpell}
-        spellBurstTrigger={spellBurstTrigger}
-      />
 
       {/* Top Header & Arcane Controls */}
       <header className="site-header">
@@ -306,7 +306,7 @@ function App() {
           activeStage={activeStage}
           onSelectStage={(stage) => {
             setActiveStage(stage);
-            if (stage === 1) mysticAudio.playNodeIgnite();
+            if (stage === 1) handleCastFistSelect();
             if (stage === 2) handleCastGoal();
             if (stage === 3) mysticAudio.playTarotDraw();
             if (stage === 4) mysticAudio.playRuneCast();
