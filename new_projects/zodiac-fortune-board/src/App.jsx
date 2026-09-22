@@ -47,7 +47,7 @@ function App() {
     videoRef
   } = useHandTracking();
 
-  const showAspects = activeSpell === 'OPEN_PALM' || manualAspects;
+  const showAspects = activeSpell === 'HORNS' || manualAspects;
 
   // Calculate pointed sign directly from hand coordinates when pointer is in outer ring
   let pointedSign = null;
@@ -146,19 +146,19 @@ function App() {
       }, 1400);
     }
 
-    // Stage 3: THREE_FINGERS (3 Fingers - Major Arcana Tarot)
-    if (activeSpell === 'THREE_FINGERS' && !gestureCooldownRef.current.three) {
-      gestureCooldownRef.current.three = true;
+    // Stage 3: OPEN_PALM (Open Hand - Major Arcana Tarot Card Display)
+    if (activeSpell === 'OPEN_PALM' && !gestureCooldownRef.current.tarot) {
+      gestureCooldownRef.current.tarot = true;
       setActiveStage(3);
       mysticAudio.playTarotDraw();
       setSpellBurstTrigger(t => t + 1);
       setTimeout(() => {
-        gestureCooldownRef.current.three = false;
+        gestureCooldownRef.current.tarot = false;
       }, 1400);
     }
 
-    // Stage 4: OPEN_PALM (4 or 5 Fingers - Witches' Runes Divination)
-    if (activeSpell === 'OPEN_PALM' && !gestureCooldownRef.current.runes) {
+    // Stage 4: HORNS (Mystic Horns 🤘 - Witches' 3 Sacred Runes)
+    if (activeSpell === 'HORNS' && !gestureCooldownRef.current.runes) {
       gestureCooldownRef.current.runes = true;
       setActiveStage(4);
       mysticAudio.playRuneCast();
@@ -168,7 +168,7 @@ function App() {
       }, 1400);
     }
 
-    // Stage 5: FIST (0 Fingers - Clenched Fist to Roll d100 Dice of Fate)
+    // Stage 5: FIST (Clenched Fist ✊ - Roll d100 Dice of Fate)
     if (activeSpell === 'FIST' && !gestureCooldownRef.current.fist) {
       gestureCooldownRef.current.fist = true;
       handleRollDice();

@@ -17,6 +17,7 @@ export function useHandTracking() {
   const requestRef = useRef(null);
   const isCameraActiveRef = useRef(false);
   const prevAngleRef = useRef(null);
+  const smoothDeltaRef = useRef(0);
   const lastDetectTimeRef = useRef(0);
   const lastMediaPipeTimeRef = useRef(0);
   const recentSpellsRef = useRef([]);
@@ -94,7 +95,12 @@ export function useHandTracking() {
     );
   };
 
-  // Gesture Classifier based on 21 hand landmarks (5-Finger Counting Progression)
+  // Gesture Classifier with 5 Radically Distinct Hand Poses:
+  // 1. POINTING: Index extended only (Stage 1: Focus Zodiac Sign)
+  // 2. PEACE: Index + Middle in V, others curled (Stage 2: Summary Horoscope)
+  // 3. OPEN_PALM: All 5 fingers extended wide (Stage 3: Tarot Card Shown)
+  // 4. HORNS: Index + Pinky extended, Middle + Ring curled down (Stage 4: 3 Runes)
+  // 5. FIST: All 4 fingers clenched tight (Stage 5: 100-Sided Fate Die)
   const classifyGesture = (landmarks) => {
     if (!landmarks || landmarks.length < 21) return { spell: null, isPinch: false };
 
@@ -110,41 +116,34 @@ export function useHandTracking() {
     const pinkyTip = landmarks[20];
     const pinkyPIP = landmarks[18];
 
-    // Extension test (stable Euclidean distance ratio relative to wrist)
-    const isIndexExtended = dist(indexTip, wrist) > dist(indexPIP, wrist) * 1.15;
-    const isMiddleExtended = dist(middleTip, wrist) > dist(middlePIP, wrist) * 1.15;
-    const isRingExtended = dist(ringTip, wrist) > dist(ringPIP, wrist) * 1.15;
-    const isPinkyExtended = dist(pinkyTip, wrist) > dist(pinkyPIP, wrist) * 1.15;
-    const isThumbExtended = dist(thumbTip, wrist) > dist(thumbIP, wrist);
+    // Distance ratio relative to wrist
+    const isIndexExtended = dist(indexTip, wrist) > dist(indexPIP, wrist) * 1.18;
+    const isMiddleExtended = dist(middleTip, wrist) > dist(middlePIP, wrist) * 1.18;
+    const isRingExtended = dist(ringTip, wrist) > dist(ringPIP, wrist) * 1.18;
+    const isPinkyExtended = dist(pinkyTip, wrist) > dist(pinkyPIP, wrist) * 1.18;
 
-    // 0 FINGERS EXTENDED: CLENCHED FIST (Stage 5: Roll 100-Sided Fate Die)
-    // All 4 fingers tightly curled into palm; no pinch ambiguity
-    const areFourFingersCurled = !isIndexExtended && !isMiddleExtended && !isRingExtended && !isPinkyExtended;
-    if (areFourFingersCurled) {
+    // 1. CLENCHED FIST: All 4 fingers curled tight (Stage 5: Fate Die)
+    if (!isIndexExtended && !isMiddleExtended && !isRingExtended && !isPinkyExtended) {
       return { spell: 'FIST', isPinch: false };
     }
 
-    // 1 FINGER EXTENDED: POINTING WAND (Stage 1: Focus Star Sign & Astral Grimoire Seal)
-    // Index extended only; middle, ring, pinky tucked
+    // 2. POINTING WAND: Only Index extended (Stage 1: Sign Lore)
     if (isIndexExtended && !isMiddleExtended && !isRingExtended && !isPinkyExtended) {
       return { spell: 'POINTING', isPinch: false };
     }
 
-    // 2 FINGERS EXTENDED: PEACE / V-SIGN (Stage 2: Destiny Covenant / Quest)
-    // Index and middle extended; ring and pinky tucked
+    // 3. PEACE / V-SIGN: Index and Middle extended, Ring and Pinky curled (Stage 2: Summary Horoscope)
     if (isIndexExtended && isMiddleExtended && !isRingExtended && !isPinkyExtended) {
       return { spell: 'PEACE', isPinch: false };
     }
 
-    // 3 FINGERS EXTENDED: TRINITY / ARCANA (Stage 3: Major Arcana Tarot Card)
-    // Index, middle, ring extended; pinky tucked
-    if (isIndexExtended && isMiddleExtended && isRingExtended && !isPinkyExtended) {
-      return { spell: 'THREE_FINGERS', isPinch: false };
+    // 4. MYSTIC HORNS: Index and Pinky extended, Middle and Ring curled down into palm (Stage 4: 3 Runes)
+    if (isIndexExtended && !isMiddleExtended && !isRingExtended && isPinkyExtended) {
+      return { spell: 'HORNS', isPinch: false };
     }
 
-    // 5 FINGERS EXTENDED: OPEN PALM (Stage 4: Witches' Elder Futhark Runes)
-    // All 5 fingers extended wide
-    if (isIndexExtended && isMiddleExtended && isRingExtended && isPinkyExtended && isThumbExtended) {
+    // 5. OPEN PALM: All fingers extended wide (Stage 3: Tarot Card Shown)
+    if (isIndexExtended && isMiddleExtended && isRingExtended && isPinkyExtended) {
       return { spell: 'OPEN_PALM', isPinch: false };
     }
 
@@ -203,17 +202,22 @@ export function useHandTracking() {
             const radiusFromCenter = Math.sqrt(dx * dx + dy * dy);
             const currentAngle = Math.atan2(dy, dx) * (180 / Math.PI);
 
-            // STOP rotation unless magic cursor pointer is OUTSIDE the large content circle (radius > 0.28)
-            // When inside (radius <= 0.28), the wheel freezes completely so user can read and interact in peace!
-            if (radiusFromCenter > 0.28 && prevAngleRef.current !== null) {
+            // STOP rotation when magic cursor pointer is INSIDE the center circle (radius <= 0.26)
+            if (radiusFromCenter > 0.26 && prevAngleRef.current !== null) {
               let delta = currentAngle - prevAngleRef.current;
               if (delta > 180) delta -= 360;
               if (delta < -180) delta += 360;
 
-              // Slow, majestic rotation (factor 0.3 instead of 1.2)
-              if (Math.abs(delta) > 0.3 && Math.abs(delta) < 35) {
-                setRotation(prev => prev + delta * 0.3);
+              // Dampen and smooth rotation delta for butter-smooth spin
+              if (Math.abs(delta) > 0.15 && Math.abs(delta) < 40) {
+                smoothDeltaRef.current = smoothDeltaRef.current * 0.4 + delta * 0.6;
+                setRotation(prev => prev + smoothDeltaRef.current * 0.35);
+              } else {
+                smoothDeltaRef.current *= 0.5;
               }
+            } else {
+              // Inside deadzone: reset momentum
+              smoothDeltaRef.current = 0;
             }
             prevAngleRef.current = currentAngle;
 
@@ -235,6 +239,7 @@ export function useHandTracking() {
           } else {
             // Hand out of frame
             prevAngleRef.current = null;
+            smoothDeltaRef.current = 0;
             if (currentSpellRef.current !== null) {
               currentSpellRef.current = null;
               setActiveSpell(null);
@@ -354,6 +359,7 @@ export function useHandTracking() {
       videoRef.current.srcObject = null;
     }
     prevAngleRef.current = null;
+    smoothDeltaRef.current = 0;
     currentSpellRef.current = null;
     recentSpellsRef.current = [];
     setIsPinching(false);

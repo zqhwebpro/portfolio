@@ -106,11 +106,11 @@ export function AstrologyBoard({
 
   // 5 Doctor Strange & Witchcraft Stage Definitions
   const stages = [
-    { id: 1, title: 'Astral Focus', icon: '☝️', howTo: '1 Finger: Point to focus sign' },
-    { id: 2, title: 'Destiny Covenant', icon: '✌️', howTo: '2 Fingers: Peace sign summons quest' },
-    { id: 3, title: 'Major Arcana Tarot', icon: '🖖', howTo: '3 Fingers: Trinity for Tarot card' },
-    { id: 4, title: 'Witches\' Runes', icon: '✋', howTo: '5 Fingers: Open palm casts runes' },
-    { id: 5, title: 'Dice of Fate (d100)', icon: '✊', howTo: '0 Fingers: Clenched fist rolls die' }
+    { id: 1, title: 'Zodiac Focus', icon: '☝️', howTo: '1 Finger: Point to focus sign' },
+    { id: 2, title: 'Summary Horoscope', icon: '✌️', howTo: '2 Fingers: Peace summons horoscope' },
+    { id: 3, title: 'Tarot Card', icon: '✋', howTo: 'Open Palm: Displays Tarot card' },
+    { id: 4, title: '3 Sacred Runes', icon: '🤘', howTo: 'Horns 🤘: Casts 3 Elder Runes' },
+    { id: 5, title: 'Fate Die (d100)', icon: '✊', howTo: 'Clenched Fist: Rolls d100 die' }
   ];
 
   return (
@@ -146,6 +146,24 @@ export function AstrologyBoard({
           onPointerUp={handlePointerUp}
           onPointerCancel={handlePointerUp}
         >
+          {/* Ornate Zenith Divination Compass Marker (Fixed at 12 o'clock crowning the astrolabe) */}
+          <div className="zenith-compass-marker" title="Zenith Alignment Crown">
+            <div className="marker-crown-bracket">
+              <div className="marker-filigree left-wing"></div>
+              <div className="marker-sun-gem">
+                <span className="gem-eye">☉</span>
+                <div className="gem-pulse-ring"></div>
+              </div>
+              <div className="marker-filigree right-wing"></div>
+            </div>
+            <div className="marker-needle-arrow">
+              <div className="needle-spine"></div>
+              <div className="needle-tip"></div>
+              <div className="needle-guide-glow"></div>
+            </div>
+            <div className="marker-zenith-label">ZENITH</div>
+          </div>
+
           <div 
             className="astrolabe" 
             id="astrolabe" 
@@ -163,10 +181,18 @@ export function AstrologyBoard({
             </div>
 
             {/* Cardinal Compass Markers */}
-            <div className="compass-cardinal zenith">Zenith</div>
-            <div className="compass-cardinal nadir">Nadir</div>
-            <div className="compass-cardinal ascendant">Ascendant</div>
-            <div className="compass-cardinal descendant">Descendant</div>
+            <div className="compass-cardinal zenith">
+              <span className="cardinal-flourish">▲</span> Zenith
+            </div>
+            <div className="compass-cardinal nadir">
+              <span className="cardinal-flourish">▼</span> Nadir
+            </div>
+            <div className="compass-cardinal ascendant">
+              <span className="cardinal-flourish">◀</span> Ascendant
+            </div>
+            <div className="compass-cardinal descendant">
+              <span className="cardinal-flourish">▶</span> Descendant
+            </div>
 
             <div className="astrolabe-inner"></div>
             <div className="astrolabe-runic-ring"></div>
@@ -297,10 +323,6 @@ export function AstrologyBoard({
                       <span className="meta-dot">·</span>
                       <span>{activeSign.dates}</span>
                     </div>
-
-                    <p className="stage-action-prompt">
-                      1 Finger ☝️ points to sign. 2 Fingers ✌️ for Destiny Covenant. 3 Fingers 🖖 for Tarot.
-                    </p>
                   </>
                 ) : (
                   <div className="center-empty-state">
@@ -312,96 +334,86 @@ export function AstrologyBoard({
               </div>
             )}
 
-            {/* STAGE 2: Occult Destiny Covenant (Witch's Goal Quest) */}
+            {/* STAGE 2: One Summary Horoscope (Clean, No Badges, Single Reading) */}
             {activeStage === 2 && (
-              <div className="stage-content stage-goal-view" onClick={onCastGoalSpell} title="Click or 2-Finger Peace to Channel New Covenant">
+              <div 
+                className="stage-content stage-goal-view" 
+                onClick={onCastGoalSpell} 
+                title="Click or 2-Finger Peace to Channel Horoscope"
+              >
                 {horoscopeGoal && typeof horoscopeGoal === 'object' ? (
-                  <div className="oracle-goal-card">
-                    <div className="goal-quest-badge">Eldritch Destiny Covenant</div>
-                    <h2 className="goal-quest-title">{horoscopeGoal.questTitle}</h2>
-                    
-                    <div className="goal-section impetus-section">
-                      <span className="goal-label">Alchemical Impetus:</span>
-                      <p className="goal-text">{horoscopeGoal.cosmicImpetus}</p>
+                  <div className="summary-horoscope-card">
+                    <div className="summary-horoscope-header">
+                      <span className="summary-horoscope-glyph">{activeSign?.symbol}</span>
+                      <h2 className="summary-horoscope-title">{activeSign?.name} · {horoscopeGoal.questTitle}</h2>
+                      <div className="summary-horoscope-meta">
+                        <span>{activeSign?.dates}</span>
+                        <span className="meta-dot">·</span>
+                        <span>Ruler: {activeSign?.planet}</span>
+                      </div>
                     </div>
 
-                    <div className="goal-milestone-box">
-                      <span className="milestone-label">Sacred Milestone:</span>
-                      <p className="milestone-text">{horoscopeGoal.goalMilestone}</p>
-                    </div>
-
-                    <div className="goal-section oath-section">
-                      <span className="goal-label">Witch's Binding Oath:</span>
-                      <p className="oath-text">{horoscopeGoal.cosmicOath}</p>
-                    </div>
-
-                    <div className="goal-window-tag">
-                      Temporal Horizon: {horoscopeGoal.horizonWindow}
-                    </div>
-
-                    <p className="stage-action-prompt">
-                      2 Fingers ✌️ channels new covenant. 3 Fingers 🖖 for Major Arcana Tarot.
+                    <p className="summary-horoscope-text">
+                      {horoscopeGoal.cosmicImpetus} {horoscopeGoal.goalMilestone} {horoscopeGoal.cosmicOath}
                     </p>
                   </div>
                 ) : (
-                  <div className="oracle-fortune">
-                    <h2 className="fortune-headline">Celestial Alignment</h2>
-                    <p className="fortune-omen">Cosmic currents align with {activeSign?.name}. Focus intent to summon covenant.</p>
+                  <div className="summary-horoscope-card">
+                    <h2 className="summary-horoscope-title">{activeSign?.name || 'Celestial Seeker'} · Horoscope</h2>
+                    <p className="summary-horoscope-text">
+                      The cosmic currents align with {activeSign?.name || 'the cosmos'}. Channel your intent to unveil the astral forecast.
+                    </p>
                   </div>
                 )}
               </div>
             )}
 
-            {/* STAGE 3: Consecrated Major Arcana Tarot Card */}
+            {/* STAGE 3: Authentic Physical Tarot Card Display (No Pills, Realistic Card Border) */}
             {activeStage === 3 && tarotCard && (
               <div className="stage-content stage-tarot-view">
-                <div className="tarot-card-orb">
-                  <div className="tarot-card-numeral">{tarotCard.numeral}</div>
-                  <div className="tarot-card-sigil">{tarotCard.sigil}</div>
-                  <h2 className="tarot-card-name">{tarotCard.name}</h2>
-                  <div className="tarot-keywords-pill">{tarotCard.keywords}</div>
-                  <div className="tarot-counsel-box">
-                    <span className="counsel-label">The High Oracle's Counsel:</span>
-                    <p className="counsel-text">{tarotCard.upright}</p>
+                <div className="physical-tarot-card">
+                  <div className="tarot-card-frame">
+                    <div className="tarot-corner tl"></div>
+                    <div className="tarot-corner tr"></div>
+                    <div className="tarot-corner bl"></div>
+                    <div className="tarot-corner br"></div>
+
+                    <div className="tarot-card-numeral">{tarotCard.number}</div>
+
+                    <div className="tarot-art-window">
+                      <span className="tarot-sigil-glyph">{tarotCard.symbol}</span>
+                      <div className="tarot-art-halo"></div>
+                    </div>
+
+                    <h2 className="tarot-card-title">{tarotCard.name}</h2>
+                    <div className="tarot-card-archetype">{tarotCard.title}</div>
+
+                    <p className="tarot-card-reading">{tarotCard.upright}</p>
                   </div>
-                  <p className="stage-action-prompt">
-                    3 Fingers 🖖 re-channels Tarot. 5 Fingers ✋ for Witches' Runes.
-                  </p>
                 </div>
               </div>
             )}
 
-            {/* STAGE 4: Witches' Elder Futhark Runes Spread & Spell Rune */}
+            {/* STAGE 4: Exactly 3 Runes (Past, Present, Outcome - No Bottom Banner) */}
             {activeStage === 4 && runeData && (
               <div className="stage-content stage-runes-view">
-                <div className="runes-spread-grid">
-                  {runeData.spread.map((rn, idx) => (
+                <div className="runes-triad-grid">
+                  {runeData.spread.slice(0, 3).map((rn, idx) => (
                     <div key={idx} className="rune-stone-card">
-                      <div className="rune-position-title">{rn.position}</div>
-                      <div className="rune-stone-glyph">{rn.glyph}</div>
-                      <div className="rune-stone-name">{rn.name}</div>
+                      <div className="rune-position-header">{rn.position}</div>
+                      <div className="rune-glyph-well">
+                        <span className="rune-stone-glyph">{rn.glyph}</span>
+                      </div>
+                      <h3 className="rune-stone-name">{rn.name}</h3>
+                      <div className="rune-element-tag">{rn.element}</div>
                       <p className="rune-stone-meaning">{rn.meaning}</p>
                     </div>
                   ))}
                 </div>
-
-                <div className="spell-rune-banner">
-                  <div className="spell-rune-left">
-                    <span className="spell-rune-large-glyph">{runeData.spellRune.glyph}</span>
-                  </div>
-                  <div className="spell-rune-right">
-                    <div className="spell-rune-tag">Coven's Designated Spell Rune · {runeData.spellRune.name}</div>
-                    <div className="spell-rune-chant">"{runeData.spellRune.incantation}"</div>
-                  </div>
-                </div>
-
-                <p className="stage-action-prompt">
-                  5 Fingers ✋ casts runes. Clenched Fist ✊ rolls the 100-sided Fate Die.
-                </p>
               </div>
             )}
 
-            {/* STAGE 5: 100-Sided Polyhedral Fate Die (d100) */}
+            {/* STAGE 5: 100-Sided Polyhedral Fate Die (Enlarged, No Pill, No Paragraph Copy, Subtle Button) */}
             {activeStage === 5 && diceFate && (
               <div className="stage-content stage-dice-view">
                 <div 
@@ -409,18 +421,17 @@ export function AstrologyBoard({
                   onClick={onRollDice}
                   title="Click or Clench Fist ✊ to Roll d100"
                 >
-                  <div className="d100-polyhedron-glow"></div>
+                  <div className="d100-polyhedron-facets"></div>
                   <div className="d100-center-number">
                     {isDiceRolling ? '🎲' : diceFate.roll}
                   </div>
                   <div className="d100-d-tag">d100</div>
                 </div>
-                <div className="dice-tier-badge">{diceFate.tier}</div>
+
                 <h2 className="dice-fate-title">{diceFate.title}</h2>
-                <p className="dice-fate-omen">{diceFate.omen}</p>
-                <div className="dice-blessing-pill">{diceFate.blessing}</div>
-                <button className="astral-btn dice-reroll-btn" onClick={onRollDice}>
-                  ✊ Roll 100-Sided Fate Die
+
+                <button className="astral-btn dice-cast-btn" onClick={onRollDice}>
+                  Roll Fate Die
                 </button>
               </div>
             )}
