@@ -16,8 +16,9 @@ import './styles/astral.css';
 
 function App() {
   const [activeSign, setActiveSign] = useState(ZODIAC_SIGNS[0]);
+  const [isSignLocked, setIsSignLocked] = useState(false);
 
-  // 5 Progressive Stages: 1: Constellation | 2: Horoscope Goal | 3: Tarot | 4: Runes | 5: d100 Fate
+  // 5 Progressive Stages: 1: Lock Horoscope | 2: Horoscope Goal | 3: Tarot | 4: Runes | 5: d100 Fate
   const [activeStage, setActiveStage] = useState(1);
 
   // Divination state containers
@@ -31,7 +32,6 @@ function App() {
   const [spellBurstTrigger, setSpellBurstTrigger] = useState(0);
 
   const gestureCooldownRef = useRef({});
-  const prevSpellRef = useRef(null);
   const lastPointedRef = useRef(null);
 
   const {
@@ -51,9 +51,9 @@ function App() {
 
   const showAspects = activeSpell === 'OPEN_PALM' || manualAspects;
 
-  // Calculate pointed sign directly from hand coordinates and astrolabe rotation
+  // Calculate pointed sign directly from hand coordinates and astrolabe rotation (only when unlocked)
   let pointedSign = null;
-  if (activeSpell === 'POINTING' && handCoordinates) {
+  if (!isSignLocked && activeSpell === 'POINTING' && handCoordinates) {
     const hx = handCoordinates.x - 0.5;
     const hy = handCoordinates.y - 0.5;
     const handAngle = (Math.atan2(hy, hx) * (180 / Math.PI) - rotation + 360) % 360;
@@ -65,7 +65,7 @@ function App() {
     }
   }
 
-  const effectiveActiveSign = pointedSign || activeSign || ZODIAC_SIGNS[0];
+  const effectiveActiveSign = isSignLocked ? activeSign : (pointedSign || activeSign || ZODIAC_SIGNS[0]);
 
   // Derive Tarot card and Runes spread directly from effective active sign
   const tarotCard = React.useMemo(() => {
@@ -76,15 +76,27 @@ function App() {
     return drawRuneSpread(effectiveActiveSign);
   }, [effectiveActiveSign]);
 
-  // Sound and stage update when pointed sign changes
+  // Sound and stage update when pointed sign changes (only when unlocked)
   useEffect(() => {
-    if (pointedSign && lastPointedRef.current?.id !== pointedSign.id) {
+    if (!isSignLocked && pointedSign && lastPointedRef.current?.id !== pointedSign.id) {
       setActiveSign(pointedSign);
       setActiveStage(1);
       mysticAudio.playNodeIgnite();
     }
     lastPointedRef.current = pointedSign;
-  }, [pointedSign]);
+  }, [pointedSign, isSignLocked]);
+
+  // Toggle or Engage Lock
+  const handleToggleLock = useCallback(() => {
+    setIsSignLocked(prev => {
+      const next = !prev;
+      if (next) {
+        mysticAudio.playNodeIgnite();
+        setSpellBurstTrigger(t => t + 1);
+      }
+      return next;
+    });
+  }, []);
 
   // Stage 2: Cast Pinch of Fate / Horoscope Goal Channeling
   const handleCastGoal = useCallback(() => {
@@ -127,13 +139,16 @@ function App() {
 
   // 5-Stage Gesture Controller
   useEffect(() => {
-    // Stage 1: POINTING (Hand selects zodiac focus and shows Constellation)
-    if (activeSpell === 'POINTING' && pointedSign && !gestureCooldownRef.current.point) {
-      gestureCooldownRef.current.point = true;
+    // Stage 1: THUMBS_UP (Lock in Horoscope & Star Sign)
+    if (activeSpell === 'THUMBS_UP' && !gestureCooldownRef.current.thumbsUp) {
+      gestureCooldownRef.current.thumbsUp = true;
+      setIsSignLocked(true);
       setActiveStage(1);
+      mysticAudio.playNodeIgnite();
+      setSpellBurstTrigger(t => t + 1);
       setTimeout(() => {
-        gestureCooldownRef.current.point = false;
-      }, 800);
+        gestureCooldownRef.current.thumbsUp = false;
+      }, 1100);
     }
 
     // Stage 2: PINCH (Pinch of Fate -> Horoscope Goal)
@@ -163,13 +178,15 @@ function App() {
       }, 1500);
     }
 
-    // Stage 5: FIST (Roll 100-Sided Fate Dice)
-    if (activeSpell === 'FIST' && !gestureCooldownRef.current.dice) {
+    // Stage 5: FIST (Roll d100 Dice of Fate)
+    if (activeSpell === 'FIST' && !gestureCooldownRef.current.fist) {
+      gestureCooldownRef.current.fist = true;
       handleRollDice();
+      setTimeout(() => {
+        gestureCooldownRef.current.fist = false;
+      }, 1500);
     }
-
-    prevSpellRef.current = activeSpell;
-  }, [isPinching, activeSpell, pointedSign, handleCastGoal, handleRollDice]);
+  }, [activeSpell, isPinching, handleCastGoal, handleRollDice]);
 
   // Toggle Camera
   const handleToggleCamera = () => {
@@ -227,6 +244,14 @@ function App() {
     setActiveSign(sign);
     setActiveStage(1);
     mysticAudio.playNodeIgnite();
+
+    // Smoothly rotate the wheel so the chosen sign aligns at the Zenith (top)
+    const signIdx = ZODIAC_SIGNS.findIndex(s => s.id === sign.id);
+    if (signIdx !== -1) {
+      // In a 12-sign circle, sign index i is at angle (i * 30) degrees.
+      // Rotating by -i * 30 brings that sign to the top (Zenith).
+      setRotation(-signIdx * 30);
+    }
   };
 
   const handleLeaveSign = () => {
@@ -234,6 +259,8 @@ function App() {
   };
 
   const handleWheelRotate = (delta) => {
+    // When sign is locked, the wheel is frozen in place so the user stays with their star sign
+    if (isSignLocked) return;
     setRotation(prev => prev + delta);
     mysticAudio.playAstralRotation(delta * 0.1);
   };
@@ -290,6 +317,9 @@ function App() {
           activeSign={effectiveActiveSign}
           onHoverSign={handleSelectSign}
           onLeaveSign={handleLeaveSign}
+          onSelectSign={handleSelectSign}
+          isSignLocked={isSignLocked}
+          onToggleLock={handleToggleLock}
           horoscopeGoal={horoscopeGoal}
           rotation={rotation}
           onWheelRotate={handleWheelRotate}
@@ -298,7 +328,7 @@ function App() {
           activeStage={activeStage}
           onSelectStage={(stage) => {
             setActiveStage(stage);
-            if (stage === 1) mysticAudio.playNodeIgnite();
+            if (stage === 1) handleToggleLock();
             if (stage === 2) handleCastGoal();
             if (stage === 3) mysticAudio.playTarotDraw();
             if (stage === 4) mysticAudio.playRuneCast();

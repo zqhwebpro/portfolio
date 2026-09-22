@@ -5,6 +5,9 @@ export function AstrologyBoard({
   activeSign,
   onHoverSign,
   onLeaveSign,
+  onSelectSign,
+  isSignLocked = false,
+  onToggleLock,
   horoscopeGoal,
   rotation = 0,
   onWheelRotate,
@@ -24,9 +27,10 @@ export function AstrologyBoard({
   const isDraggingRef = useRef(false);
   const lastMouseAngleRef = useRef(0);
 
-  // Mouse / Touch drag to spin astrolabe
+  // Mouse / Touch drag to spin astrolabe (disabled when locked)
   const handlePointerDown = (e) => {
-    if (e.target.closest('.project-node') || e.target.closest('.oracle-core') || e.target.closest('.compass-gesture-nav')) return;
+    if (isSignLocked) return;
+    if (e.target.closest('.project-node') || e.target.closest('.crystal-ball-sphere') || e.target.closest('.compass-gesture-nav')) return;
     isDraggingRef.current = true;
     const rect = e.currentTarget.getBoundingClientRect();
     const cx = rect.left + rect.width / 2;
@@ -35,7 +39,7 @@ export function AstrologyBoard({
   };
 
   const handlePointerMove = (e) => {
-    if (!isDraggingRef.current || !onWheelRotate) return;
+    if (isSignLocked || !isDraggingRef.current || !onWheelRotate) return;
     const rect = e.currentTarget.getBoundingClientRect();
     const cx = rect.left + rect.width / 2;
     const cy = rect.top + rect.height / 2;
@@ -94,9 +98,9 @@ export function AstrologyBoard({
     );
   };
 
-  // 5 Stage Navigation Definitions
+  // 5 Stage Navigation Definitions (First gesture is now Thumbs Up to lock in horoscope)
   const stages = [
-    { id: 1, title: 'Constellation Lore', icon: '✨', howTo: 'How to: Point index finger at sign' },
+    { id: 1, title: 'Lock Horoscope', icon: '👍', howTo: 'How to: Thumbs up gesture' },
     { id: 2, title: 'Horoscope Goal', icon: '🤏', howTo: 'How to: Pinch index and thumb' },
     { id: 3, title: 'Tarot Arcana', icon: '✌️', howTo: 'How to: Two-finger peace sign' },
     { id: 4, title: 'Divination Runes', icon: '✋', howTo: 'How to: Open palm with 5 fingers' },
@@ -108,7 +112,6 @@ export function AstrologyBoard({
       {/* Left-Side Divination Navigation Panel (Off the Compass) */}
       <nav className="compass-gesture-nav" aria-label="Divination Stages">
         <div className="nav-panel-header">
-          <span className="nav-panel-sigil">🔮</span>
           <span className="nav-panel-title">Divination Stages</span>
         </div>
         <div className="nav-stages-list">
@@ -165,7 +168,7 @@ export function AstrologyBoard({
             {/* Aspect Lines Web */}
             {renderAspectLines()}
 
-            {/* 12 Zodiac Constellation Nodes (NO pop-up on nodes; content in center Oculus) */}
+            {/* 12 Zodiac Constellation Nodes */}
             {signs.map((sign, i) => {
               const angle = (i / totalNodes) * (2 * Math.PI) - Math.PI / 2;
               const x = 50 + radius * Math.cos(angle);
@@ -175,7 +178,7 @@ export function AstrologyBoard({
               return (
                 <div
                   key={sign.id}
-                  className={`project-node ${isSelected ? 'active-node' : ''}`}
+                  className={`project-node ${isSelected ? 'active-node' : ''} ${isSignLocked && isSelected ? 'locked-node' : ''}`}
                   style={{
                     left: `${x}%`,
                     top: `${y}%`,
@@ -184,10 +187,10 @@ export function AstrologyBoard({
                       ? `0 0 35px ${sign.color}, inset 0 0 15px ${sign.color}` 
                       : undefined
                   }}
-                  onMouseEnter={() => onHoverSign(sign)}
+                  onMouseEnter={() => !isSignLocked && onHoverSign(sign)}
                   onMouseLeave={onLeaveSign}
-                  onClick={() => onHoverSign(sign)}
-                  title={`${sign.name} (${sign.dates}) - Click to Focus`}
+                  onClick={() => onSelectSign ? onSelectSign(sign) : onHoverSign(sign)}
+                  title={`${sign.name} (${sign.dates}) - Click to Select`}
                 >
                   <span className="node-symbol">{sign.symbol}</span>
                   <span className="node-element-tag" style={{ color: sign.color }}>
@@ -219,198 +222,207 @@ export function AstrologyBoard({
           </div>
         </div>
 
-        {/* Central Oculus of Fate / Uncluttered Divination Core */}
+        {/* 3D Luminous Scrying Crystal Ball */}
+        <div className="crystal-ball-stand-base"></div>
         <div
-          className={`oracle-core stage-${activeStage} ${activeSign ? 'active' : ''} ${activeSpell === 'PINCH' ? 'pinch-charging' : ''}`}
-          id="oracle"
-          style={{
-            boxShadow: activeSign
-              ? `0 0 100px rgba(197, 160, 89, 0.35), inset 0 0 50px rgba(197, 160, 89, 0.2)`
-              : '0 0 85px rgba(0,0,0,0.95), inset 0 0 45px rgba(145, 133, 199, 0.25)'
-          }}
+          className={`crystal-ball-sphere stage-${activeStage} ${activeSign ? 'active' : ''} ${isSignLocked ? 'is-locked' : ''} ${activeSpell === 'PINCH' ? 'pinch-charging' : ''}`}
+          id="crystal-ball"
         >
-          {/* Swirling Nebula Vortex */}
-          <div className="oculus-vortex"></div>
+          {/* Volumetric Optical Glare & Velvet Reflection Layers */}
+          <div className="crystal-specular-glare"></div>
+          <div className="crystal-glare-secondary"></div>
+          <div className="crystal-velvet-reflection"></div>
+          <div className="crystal-mist-layer mist-1"></div>
+          <div className="crystal-mist-layer mist-2"></div>
+          <div className="crystal-inner-refraction"></div>
 
-          {/* STAGE 1: Constellation Lore View */}
-          {activeStage === 1 && (
-            <div className="stage-content stage-constellation-view">
-              {activeSign ? (
-                <>
-                  <div className="constellation-star-map-container">
-                    <svg className="center-constellation-svg" viewBox="0 0 100 100">
-                      {activeSign.lines.map(([s1, s2], idx) => (
-                        <line
-                          key={idx}
-                          x1={activeSign.stars[s1].x}
-                          y1={activeSign.stars[s1].y}
-                          x2={activeSign.stars[s2].x}
-                          y2={activeSign.stars[s2].y}
-                          stroke={activeSign.color || '#f9e2af'}
-                          strokeWidth="2.4"
-                          strokeLinecap="round"
-                        />
-                      ))}
-                      {activeSign.stars.map((st, idx) => (
-                        <circle
-                          key={idx}
-                          cx={st.x}
-                          cy={st.y}
-                          r="4.8"
-                          fill="#ffffff"
-                          stroke={activeSign.color || '#c5a059'}
-                          strokeWidth="2"
-                        />
-                      ))}
-                    </svg>
+          {/* Floating Content Inside the Crystal Ball */}
+          <div className="crystal-ball-content">
+            {/* Lock Status Pill */}
+            {activeSign && (
+              <button 
+                className={`crystal-lock-pill ${isSignLocked ? 'locked' : 'unlocked'}`}
+                onClick={onToggleLock}
+                title={isSignLocked ? "Horoscope Locked · Click or Thumbs Up 👍 to Unlock" : "Click or Thumbs Up 👍 to Lock In Horoscope"}
+              >
+                <span className="lock-icon">{isSignLocked ? '🔒' : '🔓'}</span>
+                <span className="lock-label">
+                  {isSignLocked ? `${activeSign.name} Locked` : 'Thumbs Up 👍 to Lock'}
+                </span>
+              </button>
+            )}
+
+            {/* STAGE 1: Constellation & Horoscope Lock Decree */}
+            {activeStage === 1 && (
+              <div className="stage-content stage-constellation-view">
+                {activeSign ? (
+                  <>
+                    <div className="constellation-star-map-container">
+                      <svg className="center-constellation-svg" viewBox="0 0 100 100">
+                        {activeSign.lines.map(([s1, s2], idx) => (
+                          <line
+                            key={idx}
+                            x1={activeSign.stars[s1].x}
+                            y1={activeSign.stars[s1].y}
+                            x2={activeSign.stars[s2].x}
+                            y2={activeSign.stars[s2].y}
+                            stroke={activeSign.color || '#f9e2af'}
+                            strokeWidth="2.4"
+                            strokeLinecap="round"
+                          />
+                        ))}
+                        {activeSign.stars.map((st, idx) => (
+                          <circle
+                            key={idx}
+                            cx={st.x}
+                            cy={st.y}
+                            r="4.8"
+                            fill="#ffffff"
+                            stroke={activeSign.color || '#c5a059'}
+                            strokeWidth="2"
+                          />
+                        ))}
+                      </svg>
+                    </div>
+                    <h2 className="center-sign-title">{activeSign.name} · {activeSign.title}</h2>
+                    <div className="center-sign-meta">
+                      <span>{activeSign.house}</span>
+                      <span className="meta-dot">·</span>
+                      <span>Ruler: {activeSign.planet}</span>
+                      <span className="meta-dot">·</span>
+                      <span style={{ color: activeSign.color }}>{activeSign.element}</span>
+                    </div>
+                    <div className="center-sign-dates">{activeSign.dates}</div>
+                    <p className="stage-action-prompt">
+                      {isSignLocked 
+                        ? 'Horoscope locked. Pinch fingers for Goal, or Peace sign for Tarot.' 
+                        : 'Give a Thumbs Up gesture 👍 or click the lock pill to freeze your horoscope.'}
+                    </p>
+                  </>
+                ) : (
+                  <div className="center-empty-state">
+                    <div className="empty-symbol">⭐</div>
+                    <h2 className="center-sign-title">Zodiac Compass</h2>
+                    <p className="empty-desc">Select any sign on the wheel and give a Thumbs Up 👍 to lock in your horoscope.</p>
                   </div>
-                  <h2 className="center-sign-title">{activeSign.name} · {activeSign.title}</h2>
-                  <div className="center-sign-meta">
-                    <span>{activeSign.house}</span>
-                    <span className="meta-dot">·</span>
-                    <span>Ruler: {activeSign.planet}</span>
-                    <span className="meta-dot">·</span>
-                    <span style={{ color: activeSign.color }}>{activeSign.element}</span>
+                )}
+              </div>
+            )}
+
+            {/* STAGE 2: Goal-Oriented Horoscope Quest View */}
+            {activeStage === 2 && (
+              <div className="stage-content stage-goal-view" onClick={onCastPinchSpell} title="Click or Pinch to Channel New Goal">
+                {horoscopeGoal && typeof horoscopeGoal === 'object' ? (
+                  <div className="oracle-goal-card">
+                    <div className="goal-quest-badge">Destiny Quest</div>
+                    <h2 className="goal-quest-title">{horoscopeGoal.questTitle}</h2>
+                    
+                    <div className="goal-section impetus-section">
+                      <span className="goal-label">Cosmic Impetus:</span>
+                      <p className="goal-text">{horoscopeGoal.cosmicImpetus}</p>
+                    </div>
+
+                    <div className="goal-milestone-box">
+                      <span className="milestone-label">Goal Milestone:</span>
+                      <p className="milestone-text">{horoscopeGoal.goalMilestone}</p>
+                    </div>
+
+                    <div className="goal-section oath-section">
+                      <span className="goal-label">Cosmic Oath:</span>
+                      <p className="oath-text">{horoscopeGoal.cosmicOath}</p>
+                    </div>
+
+                    <div className="goal-window-tag">
+                      Horizon: {horoscopeGoal.horizonWindow}
+                    </div>
+
+                    <p className="stage-action-prompt">
+                      Pinch to channel new goal. Peace sign for Tarot.
+                    </p>
                   </div>
-                  <div className="center-sign-dates">{activeSign.dates}</div>
+                ) : (
+                  <div className="oracle-fortune">
+                    <h2 className="fortune-headline">Celestial Alignment</h2>
+                    <p className="fortune-omen">Cosmic currents align with {activeSign?.name}. Focus your intent to manifest destiny.</p>
+                  </div>
+                )}
+              </div>
+            )}
+
+            {/* STAGE 3: Major Arcana Tarot Card View */}
+            {activeStage === 3 && tarotCard && (
+              <div className="stage-content stage-tarot-view">
+                <div className="tarot-card-orb">
+                  <div className="tarot-card-numeral">{tarotCard.numeral}</div>
+                  <div className="tarot-card-sigil">{tarotCard.sigil}</div>
+                  <h2 className="tarot-card-name">{tarotCard.name}</h2>
+                  <div className="tarot-keywords-pill">{tarotCard.keywords}</div>
+                  <div className="tarot-counsel-box">
+                    <span className="counsel-label">Arcana Meaning:</span>
+                    <p className="counsel-text">{tarotCard.upright}</p>
+                  </div>
                   <p className="stage-action-prompt">
-                    Cast Pinch gesture or select Horoscope Goal on the left to unseal your quest.
+                    Cast Open Palm gesture or select Divination Runes to reveal ancient runes.
                   </p>
-                </>
-              ) : (
-                <div className="center-empty-state">
-                  <div className="empty-symbol">⭐</div>
-                  <h2 className="center-sign-title">Zodiac Compass</h2>
-                  <p className="empty-desc">Point with celestial wand or click any outer zodiac glyph to align its constellation.</p>
                 </div>
-              )}
-            </div>
-          )}
+              </div>
+            )}
 
-          {/* STAGE 2: Goal-Oriented Horoscope Quest View */}
-          {activeStage === 2 && (
-            <div className="stage-content stage-goal-view" onClick={onCastPinchSpell} title="Click or Pinch to Channel New Goal">
-              {horoscopeGoal && typeof horoscopeGoal === 'object' ? (
-                <div className="oracle-goal-card">
-                  <div className="goal-quest-badge">Destiny Quest</div>
-                  <h2 className="goal-quest-title">{horoscopeGoal.questTitle}</h2>
-                  
-                  <div className="goal-section impetus-section">
-                    <span className="goal-label">Cosmic Impetus:</span>
-                    <p className="goal-text">{horoscopeGoal.cosmicImpetus}</p>
-                  </div>
-
-                  <div className="goal-section milestone-section">
-                    <span className="goal-label">Action Milestone:</span>
-                    <p className="goal-text highlight">{horoscopeGoal.goalMilestone}</p>
-                  </div>
-
-                  <div className="goal-section oath-section">
-                    <span className="goal-label">Cosmic Oath:</span>
-                    <p className="goal-text oath-text">"{horoscopeGoal.cosmicOath}"</p>
-                  </div>
-
-                  <div className="goal-footer">
-                    <span className="goal-horizon">{horoscopeGoal.horizonWindow}</span>
-                    <span className="goal-aspect">{horoscopeGoal.aspectLabel}</span>
-                  </div>
-                </div>
-              ) : (
-                <div className="oracle-fortune">
-                  Cast a Pinch to unseal your celestial destiny goal.
-                </div>
-              )}
-              <p className="stage-action-prompt">
-                Cast Peace gesture or select Tarot Arcana on the left to draw your card.
-              </p>
-            </div>
-          )}
-
-          {/* STAGE 3: Major Arcana Tarot Card Divination */}
-          {activeStage === 3 && tarotCard && (
-            <div className="stage-content stage-tarot-view">
-              <div className="tarot-card-frame">
-                <div className="tarot-card-header">
-                  <span className="tarot-numeral">Arcana {tarotCard.number}</span>
-                  <span className="tarot-arcana-tag">Major Arcana</span>
-                </div>
-                <div className="tarot-art-orb">
-                  <span className="tarot-sigil">{tarotCard.symbol}</span>
-                </div>
-                <h2 className="tarot-card-name">{tarotCard.name}</h2>
-                <div className="tarot-card-title">{tarotCard.title}</div>
-                <div className="tarot-keywords">
-                  {tarotCard.keywords.map((kw, i) => (
-                    <span key={i} className="tarot-chip">{kw}</span>
+            {/* STAGE 4: Divination Runes Spread & Designated Spell Rune View */}
+            {activeStage === 4 && runeData && (
+              <div className="stage-content stage-runes-view">
+                <div className="runes-spread-grid">
+                  {runeData.spread.map((rn, idx) => (
+                    <div key={idx} className="rune-stone-card">
+                      <div className="rune-position-title">{rn.position}</div>
+                      <div className="rune-stone-glyph">{rn.glyph}</div>
+                      <div className="rune-stone-name">{rn.name}</div>
+                      <p className="rune-stone-meaning">{rn.meaning}</p>
+                    </div>
                   ))}
                 </div>
-                <p className="tarot-upright">{tarotCard.upright}</p>
-                <div className="tarot-advice">Counsel: {tarotCard.advice}</div>
-              </div>
-              <p className="stage-action-prompt">
-                Cast Open Palm gesture or select Divination Runes on the left to cast the runes.
-              </p>
-            </div>
-          )}
 
-          {/* STAGE 4: Divination Runes & Designated Spell Rune */}
-          {activeStage === 4 && runeData && (
-            <div className="stage-content stage-runes-view">
-              <div className="runes-spread-grid">
-                {runeData.spread.map((rune, idx) => (
-                  <div key={idx} className="rune-node-card">
-                    <span className="rune-position-label">{rune.position}</span>
-                    <span className="rune-glyph-large">{rune.glyph}</span>
-                    <span className="rune-name-label">{rune.name}</span>
-                    <span className="rune-sub-meaning">{rune.translation}</span>
+                <div className="spell-rune-banner">
+                  <div className="spell-rune-left">
+                    <span className="spell-rune-large-glyph">{runeData.spellRune.glyph}</span>
                   </div>
-                ))}
-              </div>
-              <div className="designated-spell-rune-banner">
-                <div className="spell-rune-badge">
-                  <span className="spell-rune-glyph">{runeData.spellRune.glyph}</span>
-                  <div className="spell-rune-details">
-                    <div className="spell-rune-title">
-                      Spell Rune: <strong>{runeData.spellRune.name}</strong> ({runeData.spellRune.element})
-                    </div>
-                    <div className="spell-rune-incantation">"{runeData.spellRune.incantation}"</div>
+                  <div className="spell-rune-right">
+                    <div className="spell-rune-tag">Spell Rune · {runeData.spellRune.name}</div>
+                    <div className="spell-rune-element">Element: {runeData.spellRune.element}</div>
+                    <div className="spell-rune-chant">{runeData.spellRune.incantation}</div>
                   </div>
                 </div>
-              </div>
-              <p className="stage-action-prompt">
-                Cast Fist gesture or select Dice of Fate on the left to roll the 100-sided die.
-              </p>
-            </div>
-          )}
 
-          {/* STAGE 5: 100-Sided Dice Roll (d100) */}
-          {activeStage === 5 && diceFate && (
-            <div className="stage-content stage-dice-view">
-              <div 
-                className={`d100-die-orb ${isDiceRolling ? 'rolling' : ''}`}
-                onClick={onRollDice}
-                title="Click or Clench Fist to Roll d100"
-              >
-                <div className="d100-polyhedron-glow"></div>
-                <div className="d100-center-number">
-                  {isDiceRolling ? '🎲' : diceFate.roll}
+                <p className="stage-action-prompt">
+                  Cast Fist gesture or select Dice of Fate on the left to roll the 100-sided die.
+                </p>
+              </div>
+            )}
+
+            {/* STAGE 5: 100-Sided Dice Roll (d100) */}
+            {activeStage === 5 && diceFate && (
+              <div className="stage-content stage-dice-view">
+                <div 
+                  className={`d100-die-orb ${isDiceRolling ? 'rolling' : ''}`}
+                  onClick={onRollDice}
+                  title="Click or Clench Fist to Roll d100"
+                >
+                  <div className="d100-polyhedron-glow"></div>
+                  <div className="d100-center-number">
+                    {isDiceRolling ? '🎲' : diceFate.roll}
+                  </div>
+                  <div className="d100-d-tag">d100</div>
                 </div>
-                <div className="d100-d-tag">d100</div>
+                <div className="dice-tier-badge">{diceFate.tier}</div>
+                <h2 className="dice-fate-title">{diceFate.title}</h2>
+                <p className="dice-fate-omen">{diceFate.omen}</p>
+                <div className="dice-blessing-pill">{diceFate.blessing}</div>
+                <button className="astral-btn dice-reroll-btn" onClick={onRollDice}>
+                  Roll d100 for Fate
+                </button>
               </div>
-              <div className="dice-tier-badge">{diceFate.tier}</div>
-              <h2 className="dice-fate-title">{diceFate.title}</h2>
-              <p className="dice-fate-omen">{diceFate.omen}</p>
-              <div className="dice-blessing-pill">{diceFate.blessing}</div>
-              <button className="astral-btn dice-reroll-btn" onClick={onRollDice}>
-                Roll d100 for Fate
-              </button>
-            </div>
-          )}
-        </div>
-
-        {/* Text moved below the compass area */}
-        <div className="compass-footer-hint">
-          {activeSpell ? `Active Gesture: ${activeSpell}` : 'Navigate with 5 magic gestures or select a stage on the left navigation panel'}
+            )}
+          </div>
         </div>
       </div>
     </div>

@@ -16,13 +16,13 @@ export function GrimoirePanel({ isOpen, onClose }) {
         <div className="grimoire-body">
           <div className="spell-card-grid">
             <div className="spell-card">
-              <div className="spell-icon">☝️</div>
+              <div className="spell-icon">👍</div>
               <div className="spell-details">
-                <h3>Stage 1: Celestial Wand</h3>
-                <span className="spell-gesture">Gesture: Pointing with Index Finger</span>
+                <h3>Stage 1: Lock Horoscope</h3>
+                <span className="spell-gesture">Gesture: Thumbs Up</span>
                 <p>
-                  Focuses a beam of starlight from your fingertip onto any outer zodiac node.
-                  Sets the active zodiac focus and reveals its sacred star map, house, and ruling planet in the center Oculus.
+                  Locks in your selected zodiac sign and freezes the compass wheel so your horoscope
+                  remains rock-solid while you cast subsequent divination spells through the crystal ball.
                 </p>
               </div>
             </div>
@@ -79,7 +79,7 @@ export function GrimoirePanel({ isOpen, onClose }) {
           <div className="grimoire-footer-notes">
             <h4>Astrological Compass Controls</h4>
             <div className="shortcuts-list">
-              <span><kbd>1</kbd> Constellation Lore</span>
+              <span><kbd>1</kbd> Lock / Unlock Horoscope</span>
               <span><kbd>2</kbd> or <kbd>Space</kbd> Horoscope Goal Quest</span>
               <span><kbd>3</kbd> Tarot Card Divination</span>
               <span><kbd>4</kbd> Elder Futhark Runes</span>

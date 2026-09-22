@@ -121,7 +121,7 @@ export function useHandTracking() {
     const pinchDistance = dist(thumbTip, indexTip);
     const isPinchingNow = pinchDistance < 0.075;
 
-    // Gesture 2: PINCH (Pinch of Fate / Horoscope Fortune)
+    // Gesture 2: PINCH (Pinch of Fate / Horoscope Quest)
     if (isPinchingNow) {
       return { spell: 'PINCH', isPinch: true };
     }
@@ -132,22 +132,31 @@ export function useHandTracking() {
       return { spell: 'PEACE', isPinch: false };
     }
 
-    // Gesture 1: POINTING / WAND (Select Zodiac Focus / Constellation Lore)
-    // Index extended; middle, ring, pinky curled
-    if (isIndexExtended && !isMiddleExtended && !isRingExtended && !isPinkyExtended) {
-      return { spell: 'POINTING', isPinch: false };
-    }
-
     // Gesture 4: OPEN PALM (Divination Runes & Spell Rune)
     // All 5 fingers extended outward
     if (isIndexExtended && isMiddleExtended && isRingExtended && isPinkyExtended && isThumbExtended) {
       return { spell: 'OPEN_PALM', isPinch: false };
     }
 
+    // Gesture 1: THUMBS UP (Lock in Star Sign & Horoscope Goal)
+    // Index, middle, ring, pinky curled into fist, while thumb points straight up
+    const areFourFingersCurled = !isIndexExtended && !isMiddleExtended && !isRingExtended && !isPinkyExtended;
+    const isThumbPointingUp = thumbTip.y < thumbIP.y && (thumbTip.y < wrist.y - 0.06);
+    const isThumbSeparated = dist(thumbTip, indexPIP) > 0.065;
+
+    if (areFourFingersCurled && isThumbPointingUp && isThumbSeparated) {
+      return { spell: 'THUMBS_UP', isPinch: false };
+    }
+
     // Gesture 5: FIST (Roll d100 Dice of Fate)
-    // All fingers curled inward
-    if (!isIndexExtended && !isMiddleExtended && !isRingExtended && !isPinkyExtended) {
+    // All fingers curled inward including thumb
+    if (areFourFingersCurled) {
       return { spell: 'FIST', isPinch: false };
+    }
+
+    // Optional Pointing wand gesture
+    if (isIndexExtended && !isMiddleExtended && !isRingExtended && !isPinkyExtended) {
+      return { spell: 'POINTING', isPinch: false };
     }
 
     return { spell: 'CHANNELING', isPinch: false };
@@ -198,21 +207,9 @@ export function useHandTracking() {
             });
             setRawLandmarks(landmarks);
 
-            // Astrolabe rotation via hand sweeping arc
-            const dx = mirroredX - 0.5;
-            const dy = mirroredY - 0.5;
-            const currentAngle = Math.atan2(dy, dx) * (180 / Math.PI);
-
-            if (prevAngleRef.current !== null) {
-              let delta = currentAngle - prevAngleRef.current;
-              if (delta > 180) delta -= 360;
-              if (delta < -180) delta += 360;
-
-              if (Math.abs(delta) > 0.4 && Math.abs(delta) < 40) {
-                setRotation(prev => prev + delta * 1.3);
-              }
-            }
-            prevAngleRef.current = currentAngle;
+            // Wheel rotation from ambient hand gestures is disabled to prevent accidental movement.
+            // Wheel is navigated cleanly via direct sign selection or intentional drag.
+            prevAngleRef.current = Math.atan2(mirroredY - 0.5, mirroredX - 0.5) * (180 / Math.PI);
 
             // Classify gesture with 2-frame debouncing to eliminate jitter
             const { spell, isPinch } = classifyGesture(landmarks);
