@@ -4,9 +4,9 @@
 <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Zach Heindel | Case Study: Motion 3D Landing Page</title>
+    <title>Zach Heindel | Case Study: Motion Landing Page &amp; 3D Physics</title>
     <meta name="description"
-        content="Technical case study of Motion 3D Space Landing Page: real-time particle physics, mouse gravitational fields, CSS 3D parallax, and performance optimizations." />
+        content="Technical case study of Motion Landing Page: direct DOM mutation animation loops, DPR-clamped canvas starfields, and hardware-accelerated CSS 3D parallax." />
     <link href="../../2026/media/zqh-portfolio.png" rel="icon" type="image/png">
 
     <!-- Fonts & Icons -->
@@ -31,9 +31,6 @@
                 <a href="../../2026/index.html" class="nav-btn">
                     <i class="fa-solid fa-arrow-left"></i> Main Portfolio
                 </a>
-                <a href="./index.html" class="nav-btn primary">
-                    <i class="fa-solid fa-sparkles"></i> Launch Experience
-                </a>
             </div>
         </div>
     </header>
@@ -46,9 +43,9 @@
             </div>
             <div class="post-meta-row">
                 <span class="author">Zach Heindel</span>
-                <span class="bullet">•</span>
+                <span class="meta-sep">•</span>
                 <span class="meta-topic">Canvas Particle Physics &amp; CSS 3D Transforms</span>
-                <span class="bullet">•</span>
+                <span class="meta-sep">•</span>
                 <span class="meta-time">5 Min Read</span>
             </div>
             <h1 class="hero-title">
@@ -58,10 +55,11 @@
                 A high-performance promotional web experience engineered with procedurally generated starfields, dynamic mouse-driven gravitational vector fields, and hardware-accelerated CSS 3D perspective layers.
             </p>
             <div class="badge-row">
-                <span class="tag amber"><i class="fa-solid fa-atom"></i> Particle Physics</span>
-                <span class="tag"><i class="fa-solid fa-cube"></i> CSS 3D Transforms</span>
-                <span class="tag"><i class="fa-solid fa-compass"></i> Vector Gravitation</span>
-                <span class="tag"><i class="fa-solid fa-gauge-max"></i> 60 FPS Canvas</span>
+                <span class="tag amber"><i class="fa-solid fa-code"></i> React + Direct DOM Refs</span>
+                <span class="tag"><i class="fa-solid fa-star"></i> Canvas Starfield</span>
+                <span class="tag"><i class="fa-solid fa-cubes"></i> Hardware CSS 3D</span>
+                <span class="tag"><i class="fa-solid fa-wave-pulse"></i> 60 FPS Lerp Loop</span>
+                <span class="tag"><i class="fa-solid fa-bolt"></i> DPR-Clamped Canvas</span>
             </div>
         </div>
 
@@ -69,106 +67,203 @@
         <div class="metrics-grid">
             <div class="metric-card">
                 <div class="metric-value">
-                    <i class="fa-solid fa-bolt"></i> 60 FPS
+                    <i class="fa-solid fa-gauge-high"></i> 60 FPS
                 </div>
-                <div class="metric-label">Stable Refresh Loop</div>
+                <div class="metric-label">Smooth Scroll &amp; Mouse Lerp</div>
             </div>
             <div class="metric-card">
                 <div class="metric-value">
-                    <i class="fa-solid fa-star"></i> 1,000+
+                    <i class="fa-solid fa-microchip"></i> 0
                 </div>
-                <div class="metric-label">Active Physics Particles</div>
+                <div class="metric-label">React VDOM Re-renders on Scroll</div>
             </div>
             <div class="metric-card">
                 <div class="metric-value">
-                    <i class="fa-solid fa-layer-group"></i> 5 Depth
+                    <i class="fa-solid fa-mobile-screen"></i> 1.5x
                 </div>
-                <div class="metric-label">CSS 3D Parallax Planes</div>
+                <div class="metric-label">DPR Clamp (Protects Mobile GPU)</div>
             </div>
             <div class="metric-card">
                 <div class="metric-value">
-                    <i class="fa-solid fa-feather"></i> 0 KB
+                    <i class="fa-solid fa-shield-halved"></i> 100%
                 </div>
-                <div class="metric-label">External 3D Library Overhead</div>
+                <div class="metric-label">Zero External Animation Libraries</div>
             </div>
         </div>
 
+        <!-- SECTION 1 -->
         <section class="section-block">
             <div class="accent-line">
-                <span class="section-label">01 // WHAT IT IS</span>
+                <span class="section-label">01 // WHAT IT IS &amp; PURPOSE</span>
             </div>
             <h2 class="section-title">
-                <i class="fa-solid fa-circle-info"></i> What It Is &amp; Creative Direction
+                <i class="fa-solid fa-circle-info"></i> The Illusion of 3D Depth on the Web
             </h2>
             <p>
-                <strong>Motion 3D Landing Page</strong> is an interactive digital showcase demonstrating how fluid, cinema-grade motion graphics can be achieved in the browser without the heavy bundle size or WebGL overhead of bulky 3D frameworks.
+                In high-converting web landing pages, motion design is not merely decorative—it guides visual hierarchy, increases dwell time, and establishes immediate brand prestige. However, heavy 3D rendering engines (such as Three.js or WebGL loaders) often introduce 1MB+ bundle sizes, laggy initial paints, and severe battery drain on mobile devices.
             </p>
             <p>
-                Visitors navigate a cosmic celestial sanctuary where the background starfield is not static video, but a live, responsive particle simulation that warps, accelerates, and bends under the cursor's simulated gravitational attraction.
+                <strong>Celestial Motion Landing Page</strong> achieves cinematic 3D depth and tactile mouse interaction using zero third-party animation libraries. By decoupling high-frequency motion calculations from React's virtual DOM reconciliation and rendering celestial backgrounds onto an optimized HTML5 Canvas, the page maintains a rock-solid 60 FPS while keeping bundle size negligible.
             </p>
         </section>
 
+        <!-- SECTION 2 -->
         <section class="section-block">
             <div class="accent-line">
-                <span class="section-label">02 // ARCHITECTURE &amp; PERFORMANCE</span>
+                <span class="section-label">02 // CORE TECHNOLOGIES &amp; WHY THEY WERE CHOSEN</span>
             </div>
             <h2 class="section-title">
-                <i class="fa-solid fa-hammer"></i> Engineering &amp; Physics Simulation
+                <i class="fa-solid fa-microchip"></i> Technology Stack Breakdown
             </h2>
             <p>
-                Built natively in JavaScript utilizing HTML5 Canvas 2D rendering and GPU-accelerated CSS 3D transforms:
+                The frontend architecture combines lightweight React state with low-level DOM mutation pipelines:
             </p>
+
+            <div class="tech-stack-grid">
+                <div class="tech-item">
+                    <div class="tech-label">UI Component Layer</div>
+                    <div class="tech-value">React with Ref Anchors</div>
+                    <div class="tech-desc">Provides clean component structure and handles form validation, while passing DOM refs into the animation pipeline to bypass React re-renders.</div>
+                </div>
+                <div class="tech-item">
+                    <div class="tech-label">Background Physics</div>
+                    <div class="tech-value">Viewport HTML5 Canvas</div>
+                    <div class="tech-desc">Renders procedural twinkling star layers with DPR capping to prevent GPU memory spikes on high-density Retina and iPad displays.</div>
+                </div>
+                <div class="tech-item">
+                    <div class="tech-label">3D Perspective</div>
+                    <div class="tech-value">Hardware-Accelerated CSS 3D</div>
+                    <div class="tech-desc">Uses <code>perspective: 1000px</code> and <code>transform: rotateX() rotateY() translate3d()</code> offloading matrix calculations directly to the GPU.</div>
+                </div>
+                <div class="tech-item">
+                    <div class="tech-label">Scroll Animation</div>
+                    <div class="tech-value">Linear Interpolation (Lerp)</div>
+                    <div class="tech-desc">Continuously smooths discrete mouse and scroll events via mathematical lerp equations, delivering fluid cinematic inertia.</div>
+                </div>
+            </div>
+        </section>
+
+        <!-- SECTION 3 -->
+        <section class="section-block">
+            <div class="accent-line">
+                <span class="section-label">03 // CODING TECHNIQUES &amp; IMPLEMENTATION</span>
+            </div>
+            <h2 class="section-title">
+                <i class="fa-solid fa-code"></i> Engineering Mechanics &amp; Motion Algorithms
+            </h2>
+
+            <h3>1. Decoupled Direct DOM Mutation Loop</h3>
+            <p>
+                A catastrophic anti-pattern in React motion design is storing mouse coordinates or scroll offsets in component state (<code>useState</code>). Because mousemove and scroll events fire 60 to 120 times per second, calling <code>setState</code> triggers continuous virtual DOM tree diffing and garbage collection thrashing.
+            </p>
+            <p>
+                In this application, event listeners write to plain mutable ref objects (<code>targetMouseRef</code>, <code>targetScrollRef</code>). A single <code>requestAnimationFrame</code> loop interpolates the values and mutates DOM node transforms directly:
+            </p>
+
+            <pre class="code-block"><code>// High-performance animation loop: 0 React re-renders
+const updatePhysics = () => {
+    // 1. Linear interpolation (Lerp): smooth out mouse & scroll
+    currentScrollRef.current += (targetScrollRef.current - currentScrollRef.current) * 0.08;
+    mouseRef.current.x += (targetMouseRef.current.x - mouseRef.current.x) * 0.08;
+    mouseRef.current.y += (targetMouseRef.current.y - mouseRef.current.y) * 0.08;
+
+    const progress = currentScrollRef.current / maxScroll;
+
+    // 2. Direct DOM mutation bypasses Virtual DOM reconciliation
+    if (planetWrapperRef.current) {
+        planetWrapperRef.current.style.transform = 
+            `scale(${1 + progress * 0.6}) translate3d(0, ${currentScrollRef.current * 0.15}px, 0)`;
+    }
+
+    if (heroCardRef.current) {
+        heroCardRef.current.style.transform = 
+            `rotateY(${mouseRef.current.x * 0.08}deg) rotateX(${-mouseRef.current.y * 0.08}deg)`;
+    }
+
+    animationFrameId = requestAnimationFrame(updatePhysics);
+};</code></pre>
+
+            <h3>2. DPR-Clamped Viewport Canvas</h3>
+            <p>
+                High-resolution mobile screens (like Apple Retina displays with 3x device pixel ratios) can force an HTML5 canvas to allocate enormous backing store buffers (e.g. <code>3840 x 2160</code> pixels), quickly consuming hundreds of megabytes of GPU memory and triggering browser tab crashes.
+            </p>
+            <p>
+                The resize handler clamps the maximum device pixel ratio to 1.5, preserving pin-sharp visual clarity while protecting mobile GPU memory budgets:
+            </p>
+
+            <pre class="code-block"><code>const resizeCanvas = () => {
+    // Clamp DPR at 1.5 to protect mobile devices from GPU RAM exhaustion
+    const dpr = Math.min(window.devicePixelRatio || 1, 1.5);
+    const width = window.innerWidth;
+    const height = window.innerHeight;
+
+    canvas.width = Math.floor(width * dpr);
+    canvas.height = Math.floor(height * dpr);
+    canvas.style.width = `${width}px`;
+    canvas.style.height = `${height}px`;
+
+    // Scale drawing context to match clamped resolution
+    ctx.scale(dpr, dpr);
+};</code></pre>
+
+            <h3>3. Procedural Twinkling Starfield with Sinusoidal Alpha</h3>
+            <p>
+                Rather than loading static star background images, the canvas draws multi-layered procedural star layers. Each star maintains an individual oscillation frequency and phase offset, continuously pulsating via trigonometric sine waves:
+            </p>
+
+            <pre class="code-block"><code>// Star rendering step inside the animation tick
+stars.forEach(star => {
+    star.phase += star.pulseSpeed;
+    // Oscillate alpha around base brightness
+    const alpha = Math.max(0.05, Math.min(1.0, star.baseAlpha + Math.sin(star.phase) * 0.25));
+
+    ctx.fillStyle = `rgba(255, 255, 255, ${alpha.toFixed(2)})`;
+    ctx.beginPath();
+    ctx.arc(star.x, star.y, star.size, 0, Math.PI * 2);
+    ctx.fill();
+});</code></pre>
+
+            <h3>4. Cubic Easing Count-Up Statistics</h3>
+            <p>
+                Metrics banner figures (e.g. <em>+40% Session Duration</em>, <em>2.5x Brand Recall</em>) animate only when scrolled into the viewport using an <code>IntersectionObserver</code> coupled to a cubic bezier ease-out curve (<code>1 - Math.pow(1 - progress, 3)</code>), delivering a premium editorial feel.
+            </p>
+        </section>
+
+        <!-- SECTION 4 -->
+        <section class="section-block">
+            <div class="accent-line">
+                <span class="section-label">04 // ARCHITECTURAL TAKEAWAYS</span>
+            </div>
+            <h2 class="section-title">
+                <i class="fa-solid fa-graduation-cap"></i> Production Takeaways &amp; Engineering Decisions
+            </h2>
 
             <ul class="learnings-list">
                 <li class="learning-item">
-                    <div class="learning-icon"><i class="fa-solid fa-magnet"></i></div>
+                    <div class="learning-icon"><i class="fa-solid fa-bolt"></i></div>
                     <div class="learning-content">
-                        <h4>Inverse-Square Gravitational Field</h4>
-                        <p>Particles calculate delta vectors toward the cursor position using Newton's inverse-square approximation with velocity damping, generating organic cosmic swirling effects without frame drops.</p>
+                        <h4>Direct DOM Mutation Prevents Jitter</h4>
+                        <p>Bypassing React state setters during 60 FPS animation loops eliminated virtual DOM reconciliation overhead and eradicated micro-stutter on mobile devices.</p>
+                    </div>
+                </li>
+                <li class="learning-item">
+                    <div class="learning-icon"><i class="fa-solid fa-mobile-screen"></i></div>
+                    <div class="learning-content">
+                        <h4>DPR Clamping Protects Battery &amp; RAM</h4>
+                        <p>Capping canvas buffer allocation to 1.5x DPR cut GPU fill-rate overhead by over 50% on Retina displays without perceptible loss of sharpness.</p>
                     </div>
                 </li>
                 <li class="learning-item">
                     <div class="learning-icon"><i class="fa-solid fa-cubes"></i></div>
                     <div class="learning-content">
-                        <h4>Multi-Layered Perspective Parallax</h4>
-                        <p>Combines viewport tilt with CSS <code>transform-style: preserve-3d</code> and <code>perspective: 1000px</code>, giving UI elements and celestial bodies distinct depth planes that react dynamically to pointer coordinates.</p>
-                    </div>
-                </li>
-                <li class="learning-item">
-                    <div class="learning-icon"><i class="fa-solid fa-microchip"></i></div>
-                    <div class="learning-content">
-                        <h4>Zero Garbage Collection Spikes</h4>
-                        <p>Pre-allocates particle arrays and recycles off-screen coordinates in-place, eliminating memory thrashing and keeping animation frame rates locked at 60 FPS on low-power devices.</p>
+                        <h4>Hardware CSS 3D Over WebGL Overhead</h4>
+                        <p>Leveraging native CSS 3D perspective transforms allowed rich depth parallax while keeping total JavaScript bundle size under 25KB.</p>
                     </div>
                 </li>
             </ul>
-
-            <div class="tech-grid">
-                <div class="tech-card">
-                    <div class="tech-label">Graphics Engine</div>
-                    <div class="tech-value">HTML5 Canvas 2D</div>
-                </div>
-                <div class="tech-card">
-                    <div class="tech-label">3D Environment</div>
-                    <div class="tech-value">Native CSS 3D Preserve</div>
-                </div>
-                <div class="tech-card">
-                    <div class="tech-label">Loop Synchronization</div>
-                    <div class="tech-value">requestAnimationFrame</div>
-                </div>
-                <div class="tech-card">
-                    <div class="tech-label">Performance Budget</div>
-                    <div class="tech-value">&lt; 15 KB Total Script Size</div>
-                </div>
-            </div>
         </section>
 
     </main>
-
-    <!-- Floating Portfolio Button (Matching /2026/index.html) -->
-    <a href="../../2026/index.html" class="btn-projects">
-        <i class="fa-solid fa-arrow-left"></i> Portfolio
-    </a>
 
 </body>
 

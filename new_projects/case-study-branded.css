@@ -158,37 +158,9 @@ body::before {
   transform: translateY(-1px);
 }
 
-/* ─── FLOATING BOTTOM-RIGHT PORTFOLIO BUTTON ─── */
+/* ─── FLOATING BOTTOM-RIGHT PORTFOLIO BUTTON (REMOVED) ─── */
 .btn-projects {
-  position: fixed;
-  bottom: 2rem;
-  right: 2rem;
-  z-index: 9999;
-  display: inline-flex;
-  align-items: center;
-  gap: 0.5rem;
-  padding: 0.5rem 1rem;
-  font-family: inherit;
-  font-size: 0.65rem;
-  font-weight: 600;
-  text-transform: uppercase;
-  letter-spacing: 0.14em;
-  text-decoration: none;
-  color: rgba(245, 166, 35, 0.85);
-  border: 1px solid var(--amber-border);
-  background: rgba(18, 18, 20, 0.88);
-  backdrop-filter: blur(4px);
-  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.4);
-  border-radius: var(--radius-sm);
-  transition: all 0.2s ease-in-out;
-}
-
-.btn-projects:hover {
-  color: var(--amber);
-  border-color: var(--amber);
-  background: rgba(245, 166, 35, 0.14);
-  box-shadow: 0 0 16px var(--amber-glow);
-  transform: translateY(-1px);
+  display: none !important;
 }
 
 /* ─── SECTION LABELS & ACCENT LINES (Signature /2026/ Style) ─── */
@@ -304,7 +276,7 @@ body::before {
   user-select: none;
 }
 
-/* ─── TAGS & BADGES (PROMINENT & ACCENTUATED) ─── */
+/* ─── TAGS & BADGES (MATCHING REACT 19 + VITE BADGE, NO HOVER STATE) ─── */
 .badge-row,
 .tag-row {
   display: flex;
@@ -315,81 +287,69 @@ body::before {
   align-items: center;
 }
 
-.tag {
+.tag,
+.tag.amber,
+.tag.featured,
+.tag.red,
+.badge-row span,
+.tag-row span {
   padding: 7px 16px;
-  background: rgba(255, 255, 255, 0.04);
-  border: 1px solid rgba(255, 255, 255, 0.12);
-  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.35);
+  background: linear-gradient(135deg, rgba(245, 166, 35, 0.16), rgba(245, 166, 35, 0.05)) !important;
+  border: 1px solid rgba(245, 166, 35, 0.48) !important;
+  box-shadow: 0 0 16px rgba(245, 166, 35, 0.15), 0 2px 8px rgba(0, 0, 0, 0.35) !important;
   backdrop-filter: blur(8px);
   -webkit-backdrop-filter: blur(8px);
-  font-size: 0.78rem;
-  font-weight: 600;
-  letter-spacing: 0.06em;
-  text-transform: uppercase;
-  color: #cfd4dc;
-  border-radius: var(--radius-md);
-  font-family: 'Inter', -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
-  display: inline-flex;
-  align-items: center;
-  gap: 8px;
-  transition: all 0.22s cubic-bezier(0.16, 1, 0.3, 1);
-  user-select: none;
+  font-size: 0.78rem !important;
+  font-weight: 600 !important;
+  letter-spacing: 0.06em !important;
+  text-transform: uppercase !important;
+  color: #ffc24d !important;
+  border-radius: var(--radius-md) !important;
+  font-family: 'Inter', -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif !important;
+  display: inline-flex !important;
+  align-items: center !important;
+  gap: 8px !important;
+  user-select: none !important;
+  cursor: default !important;
+  transition: none !important;
 }
 
-.tag i {
-  font-size: 0.85rem;
-  color: var(--amber);
-  opacity: 0.9;
-  transition: transform 0.2s ease;
-}
-
-.tag:hover {
-  transform: translateY(-2px);
-  background: rgba(245, 166, 35, 0.12);
-  border-color: rgba(245, 166, 35, 0.55);
-  color: #ffffff;
-  box-shadow: 0 4px 14px rgba(0, 0, 0, 0.45), 0 0 16px rgba(245, 166, 35, 0.2);
-}
-
-.tag:hover i {
-  transform: scale(1.15);
-  color: #ffffff;
-}
-
-.tag.amber,
-.tag.featured {
-  background: linear-gradient(135deg, rgba(245, 166, 35, 0.16), rgba(245, 166, 35, 0.05));
-  border: 1px solid rgba(245, 166, 35, 0.48);
-  color: #ffc24d;
-  box-shadow: 0 0 16px rgba(245, 166, 35, 0.15), 0 2px 8px rgba(0, 0, 0, 0.35);
-}
-
+.tag i,
 .tag.amber i,
-.tag.featured i {
-  color: #ffffff;
-  text-shadow: 0 0 8px var(--amber);
+.tag.featured i,
+.tag.red i,
+.badge-row span i,
+.tag-row span i {
+  font-size: 0.85rem !important;
+  color: #ffffff !important;
+  text-shadow: 0 0 8px var(--amber) !important;
+  opacity: 1 !important;
+  transition: none !important;
 }
 
+/* No hover state as requested */
+.tag:hover,
 .tag.amber:hover,
-.tag.featured:hover {
-  background: linear-gradient(135deg, rgba(245, 166, 35, 0.24), rgba(245, 166, 35, 0.10));
-  border-color: var(--amber);
-  box-shadow: 0 0 22px var(--amber-glow), 0 4px 14px rgba(0, 0, 0, 0.5);
-  color: #ffffff;
+.tag.featured:hover,
+.tag.red:hover,
+.badge-row span:hover,
+.tag-row span:hover {
+  transform: none !important;
+  background: linear-gradient(135deg, rgba(245, 166, 35, 0.16), rgba(245, 166, 35, 0.05)) !important;
+  border-color: rgba(245, 166, 35, 0.48) !important;
+  color: #ffc24d !important;
+  box-shadow: 0 0 16px rgba(245, 166, 35, 0.15), 0 2px 8px rgba(0, 0, 0, 0.35) !important;
+  cursor: default !important;
 }
 
-.tag.red {
-  background: linear-gradient(135deg, rgba(232, 68, 42, 0.16), rgba(232, 68, 42, 0.05));
-  border: 1px solid rgba(232, 68, 42, 0.48);
-  color: #ff765e;
-  box-shadow: 0 0 16px rgba(232, 68, 42, 0.15), 0 2px 8px rgba(0, 0, 0, 0.35);
-}
-
-.tag.red:hover {
-  background: linear-gradient(135deg, rgba(232, 68, 42, 0.24), rgba(232, 68, 42, 0.10));
-  border-color: var(--red-orange);
-  box-shadow: 0 0 22px rgba(232, 68, 42, 0.4), 0 4px 14px rgba(0, 0, 0, 0.5);
-  color: #ffffff;
+.tag:hover i,
+.tag.amber:hover i,
+.tag.featured:hover i,
+.tag.red:hover i,
+.badge-row span:hover i,
+.tag-row span:hover i {
+  transform: none !important;
+  color: #ffffff !important;
 }
 
 /* ─── METRICS GRID ─── */

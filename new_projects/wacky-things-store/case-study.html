@@ -4,9 +4,9 @@
 <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Zach Heindel | Case Study: Enterprise MVC 5 Blueprint</title>
+    <title>Zach Heindel | Case Study: Mischief Store ASP.NET MVC 5</title>
     <meta name="description"
-        content="Technical case study of Mischief Store: ASP.NET MVC 5 architecture, Ninject Dependency Injection, EF6 Code-First, and interactive UI blueprints." />
+        content="Technical case study of Mischief Store: Enterprise ASP.NET MVC 5, Ninject IoC, Entity Framework 6, and custom session model binding." />
     <link href="../../2026/media/zqh-portfolio.png" rel="icon" type="image/png">
 
     <!-- Fonts & Icons -->
@@ -31,9 +31,6 @@
                 <a href="../../2026/index.html" class="nav-btn">
                     <i class="fa-solid fa-arrow-left"></i> Main Portfolio
                 </a>
-                <a href="./index.html" class="nav-btn primary">
-                    <i class="fa-solid fa-store"></i> Launch Blueprint Store
-                </a>
             </div>
         </div>
     </header>
@@ -46,9 +43,9 @@
             </div>
             <div class="post-meta-row">
                 <span class="author">Zach Heindel</span>
-                <span class="bullet">•</span>
+                <span class="meta-sep">•</span>
                 <span class="meta-topic">Enterprise N-Tier Architecture &amp; ASP.NET MVC 5</span>
-                <span class="bullet">•</span>
+                <span class="meta-sep">•</span>
                 <span class="meta-time">7 Min Read</span>
             </div>
             <h1 class="hero-title">
@@ -58,7 +55,8 @@
                 A functional architectural blueprint and e-commerce platform demonstrating decoupled N-tier enterprise patterns, Ninject dependency injection, custom session model binding, and back-office CRUD management.
             </p>
             <div class="badge-row">
-                <span class="tag amber"><i class="fa-solid fa-layer-group"></i> N-Tier Decoupling</span>
+                <span class="tag amber"><i class="fa-solid fa-code"></i> C# .NET Framework 4.8</span>
+                <span class="tag"><i class="fa-solid fa-layer-group"></i> N-Tier Decoupling</span>
                 <span class="tag"><i class="fa-solid fa-cubes"></i> Ninject IoC Container</span>
                 <span class="tag"><i class="fa-solid fa-database"></i> Entity Framework 6</span>
                 <span class="tag"><i class="fa-solid fa-cart-shopping"></i> Custom Model Binders</span>
@@ -69,106 +67,239 @@
         <div class="metrics-grid">
             <div class="metric-card">
                 <div class="metric-value">
-                    <i class="fa-solid fa-diagram-project"></i> 4 Layers
+                    <i class="fa-solid fa-layer-group"></i> 2 Projects
                 </div>
-                <div class="metric-label">Decoupled Architecture</div>
+                <div class="metric-label">Domain vs WebUI Tier Isolation</div>
             </div>
             <div class="metric-card">
                 <div class="metric-value">
-                    <i class="fa-solid fa-code-merge"></i> 100%
+                    <i class="fa-solid fa-plug"></i> 100%
                 </div>
-                <div class="metric-label">Inversion of Control (IoC)</div>
+                <div class="metric-label">Inversion of Control (Ninject DI)</div>
             </div>
             <div class="metric-card">
                 <div class="metric-value">
-                    <i class="fa-solid fa-toolbox"></i> Full CRUD
+                    <i class="fa-solid fa-database"></i> Code-First
                 </div>
-                <div class="metric-label">Catalog &amp; Image Pipeline</div>
+                <div class="metric-label">EF6 Schema &amp; Seed Initializer</div>
             </div>
             <div class="metric-card">
                 <div class="metric-value">
-                    <i class="fa-solid fa-circle-nodes"></i> Interactive
+                    <i class="fa-solid fa-shield-halved"></i> Zero
                 </div>
-                <div class="metric-label">Architectural Mapping Tooltips</div>
+                <div class="metric-label">Controller Coupling to HttpContext.Session</div>
             </div>
         </div>
 
+        <!-- SECTION 1 -->
         <section class="section-block">
             <div class="accent-line">
-                <span class="section-label">01 // WHAT IT IS</span>
+                <span class="section-label">01 // WHAT IT IS &amp; PURPOSE</span>
             </div>
             <h2 class="section-title">
-                <i class="fa-solid fa-circle-info"></i> What It Is &amp; Blueprint Purpose
+                <i class="fa-solid fa-circle-info"></i> Enterprise Architecture for High-Volume Commerce
             </h2>
             <p>
-                <strong>Mischief Store</strong> (Timberline Outdoors) is an educational architectural blueprint built to demystify enterprise-grade ASP.NET MVC 5 e-commerce applications. Rather than presenting a generic online storefront, the interface allows engineers to inspect how front-end views directly correspond to Domain Models, Repository Contracts, Controller Actions, and ViewModels.
+                In enterprise software development, building an e-commerce platform requires far more than rendering a list of items and a checkout button. Production applications must be resilient against schema migrations, easily testable via unit test suites, and architecturally decoupled so that changing a database or replacing an email provider requires zero modifications to presentation controllers.
             </p>
             <p>
-                Hovering and interacting with UI components activates technical callouts explaining the exact architectural layer, dependency injection bindings, and session serialization pipelines powering each feature.
+                <strong>Mischief &amp; Magic Co.</strong> is an enterprise-grade ASP.NET MVC 5 web application engineered with strict Clean Architecture and N-Tier separation. While the product catalog embraces a humorous novelty magic theme, the underlying software architecture adheres to rigorous enterprise standards: Inversion of Control with Ninject, Entity Framework 6 Code-First migrations, automated model binding, and back-office CRUD administration with binary image streaming.
             </p>
         </section>
 
+        <!-- SECTION 2 -->
         <section class="section-block">
             <div class="accent-line">
-                <span class="section-label">02 // ARCHITECTURE &amp; DESIGN PATTERNS</span>
+                <span class="section-label">02 // CORE TECHNOLOGIES &amp; WHY THEY WERE CHOSEN</span>
             </div>
             <h2 class="section-title">
-                <i class="fa-solid fa-hammer"></i> Engineering &amp; Enterprise Patterns
+                <i class="fa-solid fa-microchip"></i> Technology Stack Breakdown
             </h2>
             <p>
-                Structured around the strict separation of concerns mandated in high-throughput enterprise systems:
+                Every layer of the application was constructed to demonstrate enterprise separation of concerns:
             </p>
+
+            <div class="tech-stack-grid">
+                <div class="tech-item">
+                    <div class="tech-label">Framework</div>
+                    <div class="tech-value">ASP.NET MVC 5.2.7</div>
+                    <div class="tech-desc">Provides the Model-View-Controller foundation, Razor view engine, custom route configuration, and extensible action filter pipelines.</div>
+                </div>
+                <div class="tech-item">
+                    <div class="tech-label">ORM</div>
+                    <div class="tech-value">Entity Framework 6.4</div>
+                    <div class="tech-desc">Code-First database modeling with automated schema migrations, LINQ to Entities query optimization, and byte-array BLOB storage for product images.</div>
+                </div>
+                <div class="tech-item">
+                    <div class="tech-label">IoC Container</div>
+                    <div class="tech-value">Ninject 3.3.4</div>
+                    <div class="tech-desc">Manages object lifecycles and dynamically injects repository contracts into controller constructors, enabling complete unit-test isolation.</div>
+                </div>
+                <div class="tech-item">
+                    <div class="tech-label">Model Binding</div>
+                    <div class="tech-value">Custom IModelBinder</div>
+                    <div class="tech-desc">Extracts shopping cart session state out of controller actions and binds it transparently as strongly-typed action method parameters.</div>
+                </div>
+            </div>
+        </section>
+
+        <!-- SECTION 3 -->
+        <section class="section-block">
+            <div class="accent-line">
+                <span class="section-label">03 // CODING TECHNIQUES &amp; IMPLEMENTATION</span>
+            </div>
+            <h2 class="section-title">
+                <i class="fa-solid fa-code"></i> Engineering Mechanics &amp; Enterprise Patterns
+            </h2>
+
+            <h3>1. Decoupled N-Tier Class Library Isolation</h3>
+            <p>
+                The solution is divided into two physically distinct assemblies to enforce architectural boundaries:
+            </p>
+            <ul class="bullet-list">
+                <li><strong><code>MischiefStore.Domain</code>:</strong> Contains pure domain entities (<code>Product</code>, <code>Cart</code>, <code>ShippingDetails</code>), repository interfaces (<code>IProductRepository</code>, <code>IOrderProcessor</code>), and EF6 data contexts (<code>EFDbContext</code>). It has <em>zero reference</em> to System.Web or ASP.NET MVC.</li>
+                <li><strong><code>MischiefStore.WebUI</code>:</strong> The presentation web application containing MVC controllers, Razor views, custom HTML helpers, and view models. It depends only on the Domain abstractions.</li>
+            </ul>
+
+            <h3>2. Ninject Inversion of Control &amp; Dependency Injection</h3>
+            <p>
+                Controllers never instantiate concrete database repositories. Instead, dependencies are declared as constructor interfaces. At runtime, Ninject resolves these interfaces to their concrete implementations:
+            </p>
+
+            <pre class="code-block"><code>// Presentation Controller: Pure dependency on abstraction
+public class ProductController : Controller {
+    private readonly IProductRepository repository;
+    public int PageSize = 4;
+
+    // Ninject automatically injects the concrete EFProductRepository here
+    public ProductController(IProductRepository productRepository) {
+        this.repository = productRepository;
+    }
+
+    public ViewResult List(string category, int page = 1) {
+        ProductsListViewModel model = new ProductsListViewModel {
+            Products = repository.Products
+                .Where(p => category == null || p.Category == category)
+                .OrderBy(p => p.ProductID)
+                .Skip((page - 1) * PageSize)
+                .Take(PageSize),
+            PagingInfo = new PagingInfo {
+                CurrentPage = page,
+                ItemsPerPage = PageSize,
+                TotalItems = repository.Products.Count(p => category == null || p.Category == category)
+            },
+            CurrentCategory = category
+        };
+        return View(model);
+    }
+}</code></pre>
+
+            <p>
+                The bindings are configured in a custom <code>NinjectDependencyResolver</code>:
+            </p>
+
+            <pre class="code-block"><code>private void AddBindings() {
+    // Bind contract to Entity Framework 6 implementation
+    kernel.Bind&lt;IProductRepository&gt;().To&lt;EFProductRepository&gt;();
+
+    // Bind email ordering processor with configuration settings
+    EmailSettings emailSettings = new EmailSettings {
+        WriteAsFile = bool.Parse(ConfigurationManager.AppSettings["Email.WriteAsFile"] ?? "false")
+    };
+    kernel.Bind&lt;IOrderProcessor&gt;().To&lt;EmailOrderProcessor&gt;()
+          .WithConstructorArgument("settings", emailSettings);
+}</code></pre>
+
+            <h3>3. Session-Decoupled Custom Cart Model Binder</h3>
+            <p>
+                In poor ASP.NET implementations, controllers frequently reach into <code>Session["Cart"]</code>, tightly coupling controller logic to HTTP context and making unit testing painful.
+                To eliminate this, I implemented an <code>IModelBinder</code> that extracts the cart from the session automatically:
+            </p>
+
+            <pre class="code-block"><code>public class CartModelBinder : IModelBinder {
+    private const string sessionKey = "Cart";
+
+    public object BindModel(ControllerContext controllerContext, ModelBindingContext bindingContext) {
+        // Retrieve cart from session, or create and store if null
+        Cart cart = null;
+        if (controllerContext.HttpContext.Session != null) {
+            cart = (Cart)controllerContext.HttpContext.Session[sessionKey];
+        }
+        if (cart == null) {
+            cart = new Cart();
+            if (controllerContext.HttpContext.Session != null) {
+                controllerContext.HttpContext.Session[sessionKey] = cart;
+            }
+        }
+        return cart;
+    }
+}
+
+// Registered globally in Global.asax.cs:
+// ModelBinders.Binders.Add(typeof(Cart), new CartModelBinder());</code></pre>
+
+            <p>
+                Controller actions now accept <code>Cart</code> as a plain parameter, allowing clean unit tests with mocked carts without touching <code>HttpContext</code>:
+            </p>
+
+            <pre class="code-block"><code>// The Cart is injected seamlessly by the model binder!
+public RedirectToRouteResult AddToCart(Cart cart, int productId, string returnUrl) {
+    Product product = repository.Products.FirstOrDefault(p => p.ProductID == productId);
+    if (product != null) {
+        cart.AddItem(product, 1);
+    }
+    return RedirectToAction("Index", new { returnUrl });
+}</code></pre>
+
+            <h3>4. Entity Framework 6 BLOB Binary Image Streaming</h3>
+            <p>
+                To avoid file system path permissions issues across cloud web farm deployments, product images are uploaded as binary arrays (<code>byte[] ImageData</code>) directly into database BLOB columns. The <code>ProductController</code> streams images directly to the client with appropriate MIME headers:
+            </p>
+
+            <pre class="code-block"><code>public FileContentResult GetImage(int productId) {
+    Product prod = repository.Products.FirstOrDefault(p => p.ProductID == productId);
+    if (prod != null && prod.ImageData != null) {
+        return File(prod.ImageData, prod.ImageMimeType);
+    }
+    return null;
+}</code></pre>
+        </section>
+
+        <!-- SECTION 4 -->
+        <section class="section-block">
+            <div class="accent-line">
+                <span class="section-label">04 // ARCHITECTURAL TAKEAWAYS</span>
+            </div>
+            <h2 class="section-title">
+                <i class="fa-solid fa-graduation-cap"></i> Production Takeaways &amp; Engineering Decisions
+            </h2>
 
             <ul class="learnings-list">
                 <li class="learning-item">
-                    <div class="learning-icon"><i class="fa-solid fa-network-wired"></i></div>
+                    <div class="learning-icon"><i class="fa-solid fa-layer-group"></i></div>
                     <div class="learning-content">
-                        <h4>Decoupled Repository Pattern &amp; EF6</h4>
-                        <p>Controllers never query DbContext directly. Instead, they interact with strongly-typed <code>IProductRepository</code> contracts, allowing seamless database provider substitution, mock testing, and caching decorator wrapping.</p>
+                        <h4>True N-Tier Decoupling</h4>
+                        <p>Keeping the domain layer pure without web framework references ensures business logic can be reused in background console workers or API services without modification.</p>
                     </div>
                 </li>
                 <li class="learning-item">
-                    <div class="learning-icon"><i class="fa-solid fa-plug"></i></div>
+                    <div class="learning-icon"><i class="fa-solid fa-cubes"></i></div>
                     <div class="learning-content">
-                        <h4>Ninject Dependency Injection Container</h4>
-                        <p>Configures custom Ninject kernel bindings to resolve constructor dependencies automatically across controller lifecycles, enforcing inversion of control and clean component boundaries.</p>
+                        <h4>Constructor Injection for Testability</h4>
+                        <p>Injecting <code>IProductRepository</code> into controllers enabled 100% unit-test coverage using mock repositories (e.g. Moq) without needing a live SQL database.</p>
                     </div>
                 </li>
                 <li class="learning-item">
-                    <div class="learning-icon"><i class="fa-solid fa-box-open"></i></div>
+                    <div class="learning-icon"><i class="fa-solid fa-cart-shopping"></i></div>
                     <div class="learning-content">
-                        <h4>Custom Cart Model Binder</h4>
-                        <p>Abstracts shopping cart state out of controllers via a custom <code>IModelBinder</code>, automatically reconstructing typed <code>Cart</code> objects from session state and injecting them directly into action method signatures.</p>
+                        <h4>Model Binders Eliminate Boilerplate</h4>
+                        <p>Centralizing session extraction logic into a single <code>CartModelBinder</code> removed repetitive session-checking boilerplate from every e-commerce controller action.</p>
                     </div>
                 </li>
             </ul>
-
-            <div class="tech-grid">
-                <div class="tech-card">
-                    <div class="tech-label">Architecture</div>
-                    <div class="tech-value">ASP.NET MVC 5 N-Tier</div>
-                </div>
-                <div class="tech-card">
-                    <div class="tech-label">IoC Container</div>
-                    <div class="tech-value">Ninject Kernel Binding</div>
-                </div>
-                <div class="tech-card">
-                    <div class="tech-label">Data Access</div>
-                    <div class="tech-value">Entity Framework 6 Code-First</div>
-                </div>
-                <div class="tech-card">
-                    <div class="tech-label">Testing Pattern</div>
-                    <div class="tech-value">Moq Repository Isolation</div>
-                </div>
-            </div>
         </section>
 
     </main>
-
-    <!-- Floating Portfolio Button (Matching /2026/index.html) -->
-    <a href="../../2026/index.html" class="btn-projects">
-        <i class="fa-solid fa-arrow-left"></i> Portfolio
-    </a>
 
 </body>
 

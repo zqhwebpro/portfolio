@@ -6,7 +6,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Zach Heindel | Case Study: Workout Mixer</title>
     <meta name="description"
-        content="Technical case study of Workout Mixer: randomized exercise algorithms, rest interval management, audio feedback, and mobile-first fitness ergonomics." />
+        content="Technical case study of Workout Mixer: randomized exercise algorithms, anatomical SVG mapping, slot-level lock state machines, and drift-proof timing." />
     <link href="../../2026/media/zqh-portfolio.png" rel="icon" type="image/png">
 
     <!-- Fonts & Icons -->
@@ -31,9 +31,6 @@
                 <a href="../../2026/index.html" class="nav-btn">
                     <i class="fa-solid fa-arrow-left"></i> Main Portfolio
                 </a>
-                <a href="./index.html" class="nav-btn primary">
-                    <i class="fa-solid fa-play"></i> Launch App
-                </a>
             </div>
         </div>
     </header>
@@ -42,13 +39,13 @@
 
         <div class="case-hero">
             <div class="accent-line">
-                <span class="section-label">CASE STUDY // CIRCUIT ENGINE &amp; MOBILE UX</span>
+                <span class="section-label">CASE STUDY // CIRCUIT ENGINE &amp; KINETIC ALGORITHMS</span>
             </div>
             <div class="post-meta-row">
                 <span class="author">Zach Heindel</span>
-                <span class="bullet">•</span>
+                <span class="meta-sep">•</span>
                 <span class="meta-topic">Circuit Engine &amp; Mobile UX Constraints</span>
-                <span class="bullet">•</span>
+                <span class="meta-sep">•</span>
                 <span class="meta-time">6 Min Read</span>
             </div>
             <h1 class="hero-title">
@@ -58,10 +55,11 @@
                 An adaptive fitness randomizer and circuit training application engineered with antagonist muscle balance constraints, real-time rest interval state machines, and high-contrast mobile-first ergonomics.
             </p>
             <div class="badge-row">
-                <span class="tag amber"><i class="fa-solid fa-bolt"></i> Client-Side Algorithms</span>
-                <span class="tag"><i class="fa-solid fa-stopwatch"></i> Interval Timers</span>
-                <span class="tag"><i class="fa-solid fa-mobile-screen"></i> Mobile-First UX</span>
-                <span class="tag"><i class="fa-solid fa-database"></i> Zero Cloud Latency</span>
+                <span class="tag amber"><i class="fa-solid fa-code"></i> React 18 + SPA Architecture</span>
+                <span class="tag"><i class="fa-solid fa-bolt"></i> Client-Side Algorithms</span>
+                <span class="tag"><i class="fa-solid fa-stopwatch"></i> Monotonic Interval Timers</span>
+                <span class="tag"><i class="fa-solid fa-dna"></i> Anatomical SVG Mapping</span>
+                <span class="tag"><i class="fa-solid fa-database"></i> Zero-Telemetry LocalStorage</span>
             </div>
         </div>
 
@@ -69,106 +67,260 @@
         <div class="metrics-grid">
             <div class="metric-card">
                 <div class="metric-value">
-                    <i class="fa-solid fa-dumbbell"></i> 100+
+                    <i class="fa-solid fa-dumbbell"></i> 800+
                 </div>
-                <div class="metric-label">Exercise Variations</div>
+                <div class="metric-label">Exercise Variations Indexed</div>
             </div>
             <div class="metric-card">
                 <div class="metric-value">
                     <i class="fa-solid fa-gauge-high"></i> 0ms
                 </div>
-                <div class="metric-label">Server Latency</div>
+                <div class="metric-label">Server Latency (100% Client-Side)</div>
             </div>
             <div class="metric-card">
                 <div class="metric-value">
                     <i class="fa-solid fa-arrows-split-up-and-left"></i> 100%
                 </div>
-                <div class="metric-label">Antagonist Muscle Balance</div>
+                <div class="metric-label">Antagonist Kinetic Balance</div>
             </div>
             <div class="metric-card">
                 <div class="metric-value">
-                    <i class="fa-solid fa-shield-check"></i> 0
+                    <i class="fa-solid fa-shield-check"></i> 0 KB
                 </div>
-                <div class="metric-label">External Dependencies</div>
+                <div class="metric-label">External Audio Assets (Web Audio)</div>
             </div>
         </div>
 
+        <!-- SECTION 1 -->
         <section class="section-block">
             <div class="accent-line">
-                <span class="section-label">01 // WHAT IT IS</span>
+                <span class="section-label">01 // THE PROBLEM &amp; SYSTEM OBJECTIVE</span>
             </div>
             <h2 class="section-title">
-                <i class="fa-solid fa-circle-info"></i> What It Is &amp; Purpose
+                <i class="fa-solid fa-circle-info"></i> Eliminating Workout Decision Fatigue
             </h2>
             <p>
-                <strong>Workout Mixer</strong> is a tactical, distraction-free fitness utility designed to eliminate workout decision fatigue. Rather than navigating rigid, subscription-locked workout trees, athletes can instantly spin algorithmic circuits calibrated by equipment availability, muscle group balance, and target work/rest ratios.
+                Athletes frequently waste 15 to 20 minutes before a session agonizing over workout structure or dealing with congested gym machines. Existing workout applications exacerbate this problem by burying simple routines behind paywalls, cloud accounts, or bloated 8-week structured calendars.
             </p>
             <p>
-                The UI prioritizes high legibility in challenging gym environments—featuring high-contrast visual status indicators, haptic countdowns, and tap zones large enough for sweaty hands mid-interval.
+                <strong>Workout Mixer</strong> solves this with an instant, client-side circuit generation engine. The user chooses their available equipment, selects a target split, and receives an ergonomically sequenced workout circuit in under 50 milliseconds. Crucially, the engine enforces physiological balance rules: it prevents consecutive redundant movements (e.g. back-to-back heavy chest presses) and provides tactile visual feedback showing exactly which muscle groups will be stimulated.
             </p>
         </section>
 
+        <!-- SECTION 2 -->
         <section class="section-block">
             <div class="accent-line">
-                <span class="section-label">02 // ARCHITECTURE &amp; IMPLEMENTATION</span>
+                <span class="section-label">02 // CORE TECHNOLOGIES &amp; WHY THEY WERE CHOSEN</span>
             </div>
             <h2 class="section-title">
-                <i class="fa-solid fa-hammer"></i> Engineering &amp; Algorithmic Foundations
+                <i class="fa-solid fa-microchip"></i> Technology Stack Breakdown
             </h2>
             <p>
-                Developed with modern JavaScript, structured state machines, and responsive CSS, the application is driven by client-side algorithmic randomization with biological constraint checking:
+                Every technology was chosen to optimize for immediate execution, high readability in sweaty gym environments, and zero network dependency:
             </p>
+
+            <div class="tech-stack-grid">
+                <div class="tech-item">
+                    <div class="tech-label">Core Runtime</div>
+                    <div class="tech-value">React 18 + Hooks</div>
+                    <div class="tech-desc">Provides declarative UI state synchronization. <code>useMemo</code> caches heavy exercise filtering operations across 800+ items, preventing UI lag during slider adjustments.</div>
+                </div>
+                <div class="tech-item">
+                    <div class="tech-label">Vector Graphics</div>
+                    <div class="tech-value">Interactive SVG Mannequin</div>
+                    <div class="tech-desc">Pure mathematical SVG paths rendered directly in the DOM. Eliminates bitmap asset downloads and enables dynamic color-fill binding to active muscle groups.</div>
+                </div>
+                <div class="tech-item">
+                    <div class="tech-label">Audio Engine</div>
+                    <div class="tech-value">Native Web Audio API</div>
+                    <div class="tech-desc">Synthesizes 880Hz and 1760Hz alert beeps using browser-native oscillators and gain envelopes. Zero MP3/WAV audio files downloaded over mobile networks.</div>
+                </div>
+                <div class="tech-item">
+                    <div class="tech-label">Persistence</div>
+                    <div class="tech-value">LocalStorage State Engine</div>
+                    <div class="tech-desc">Saves user custom pins, equipment inventory, and timer configurations locally on the device with zero cloud tracking and full offline functionality.</div>
+                </div>
+            </div>
+        </section>
+
+        <!-- SECTION 3 -->
+        <section class="section-block">
+            <div class="accent-line">
+                <span class="section-label">03 // CODING TECHNIQUES &amp; IMPLEMENTATION</span>
+            </div>
+            <h2 class="section-title">
+                <i class="fa-solid fa-code"></i> Engineering Mechanics &amp; Algorithms
+            </h2>
+
+            <h3>1. Anatomical Taxonomy Matching Engine (`MUSCLE_TAG_MAP`)</h3>
+            <p>
+                The underlying open exercise dataset uses inconsistent anatomical nomenclature—some records say <em>"pectoralis major"</em>, others say <em>"chest"</em>, while leg exercises might specify <em>"quadriceps"</em> or <em>"rectus femoris"</em>. A naive string match causes severe bugs: for instance, matching <code>"triceps"</code> will accidentally match <code>"quadriceps"</code> because the substring <em>"riceps"</em> overlaps.
+            </p>
+            <p>
+                To resolve this, I implemented an anatomical taxonomy dictionary combined with regex boundary detection:
+            </p>
+
+            <pre class="code-block"><code>const MUSCLE_TAG_MAP = {
+    chest: ['chest', 'pectorals', 'pectoralis major', 'pectoralis minor'],
+    back: ['lats', 'latissimus dorsi', 'middle back', 'lower back', 'traps', 'rhomboids'],
+    biceps: ['biceps', 'biceps brachii', 'brachialis'],
+    triceps: ['triceps', 'triceps brachii'],
+    quads: ['quadriceps', 'quads', 'rectus femoris', 'vastus lateralis'],
+    hamstrings: ['hamstrings', 'biceps femoris']
+};
+
+// Strict boundary matching avoids substring collisions (e.g., triceps vs quadriceps)
+const isExerciseInMuscleGroup = (exercise, groupKey) => {
+    if (!exercise || groupKey === 'all') return true;
+    const validTags = MUSCLE_TAG_MAP[groupKey];
+    if (!validTags) return false;
+
+    const rawTargets = [
+        ...(Array.isArray(exercise.primaryMuscles) ? exercise.primaryMuscles : []),
+        exercise.target,
+        exercise.bodyPart
+    ].filter(Boolean).map(s => s.toLowerCase().trim());
+
+    return rawTargets.some(raw => {
+        if (groupKey === 'triceps' && raw.includes('quadriceps')) return false;
+        return validTags.some(tag => {
+            const regex = new RegExp(`(^|\\b|_|\\s)${tag}(\\b|_|\\s|$)`, 'i');
+            return regex.test(raw);
+        });
+    });
+};</code></pre>
+
+            <h3>2. Dynamic SVG Path Activation for Physiological Feedback</h3>
+            <p>
+                Instead of static illustrations, the application features an interactive anatomical mannequin composed of discrete SVG vector paths (`&lt;path d="..." /&gt;`). Each path corresponds to an anatomical muscle group. When a workout circuit is generated, the component computes the aggregate activated muscle groups and dynamically binds accent fills to the matching SVG nodes:
+            </p>
+
+            <pre class="code-block"><code>function RenderIsolatedMusclePath({ muscleKey, isActivated }) {
+    const fillColor = isActivated ? "#1d4ed8" : "rgba(255, 255, 255, 0.08)";
+    const strokeColor = isActivated ? "#ffb81c" : "rgba(255, 255, 255, 0.15)";
+
+    switch (muscleKey) {
+        case 'chest':
+            return (
+                &lt;g transform="translate(-10, 8)"&gt;
+                    &lt;path d="M 44 42 C 54 41 61 44 62 54 C 62 68 48 72 42 70 Z" 
+                          fill={fillColor} stroke={strokeColor} strokeWidth="2" /&gt;
+                    &lt;path d="M 76 42 C 66 41 59 44 58 54 C 58 68 72 72 78 70 Z" 
+                          fill={fillColor} stroke={strokeColor} strokeWidth="2" /&gt;
+                &lt;/g&gt;
+            );
+        // ... additional anatomical muscle paths
+    }
+}</code></pre>
+
+            <h3>3. Slot-Level Lock &amp; Pin Randomization Algorithm</h3>
+            <p>
+                Athletes often like four exercises in a generated circuit but want to replace a single exercise (e.g. swapping out pull-ups if all pull-up bars are occupied). 
+                The circuit engine implements an immutable slot-anchored pinning state machine. Locked exercises are indexed by slot; running a re-shuffle maps through the slots, preserving locked items in-place while drawing unique candidates for unlocked slots:
+            </p>
+
+            <pre class="code-block"><code>const shuffleCircuit = (currentCircuit, lockedSlots, exercisePool) => {
+    const usedIds = new Set(
+        currentCircuit.filter((_, idx) => lockedSlots.has(idx)).map(e => e.id)
+    );
+
+    return currentCircuit.map((exercise, index) => {
+        if (lockedSlots.has(index)) return exercise; // Preserve user-pinned exercise
+
+        // Find available candidate not already present in the active circuit
+        const candidates = exercisePool.filter(candidate => !usedIds.has(candidate.id));
+        const chosen = candidates[Math.floor(Math.random() * candidates.length)] || exercise;
+        usedIds.add(chosen.id);
+        return chosen;
+    });
+};</code></pre>
+
+            <h3>4. Drift-Proof Monotonic Timing Engine</h3>
+            <p>
+                Standard JavaScript <code>setInterval(fn, 1000)</code> drifts significantly on mobile devices because operating systems throttle background tabs to conserve battery. If an athlete locks their phone between sets, a naive timer can lose 10 to 30 seconds.
+            </p>
+            <p>
+                Workout Mixer prevents timer drift by anchoring interval calculations to monotonic epoch timestamps:
+            </p>
+
+            <pre class="code-block"><code>// Drift-proof countdown state machine
+const startIntervalTimer = (targetDurationSeconds, onTick, onComplete) => {
+    const targetEndTime = Date.now() + (targetDurationSeconds * 1000);
+
+    const intervalId = setInterval(() => {
+        const remainingMs = targetEndTime - Date.now();
+        const remainingSec = Math.max(0, Math.ceil(remainingMs / 1000));
+
+        onTick(remainingSec);
+
+        if (remainingSec &lt;= 0) {
+            clearInterval(intervalId);
+            onComplete();
+        }
+    }, 250); // High-frequency polling checks true system time
+
+    return () => clearInterval(intervalId);
+};</code></pre>
+
+            <h3>5. Zero-Asset Procedural Audio Alert</h3>
+            <p>
+                Instead of fetching audio assets over 4G/5G in basement gym settings, countdown warnings are procedurally synthesized using the browser's <code>AudioContext</code>. A short 880Hz high beep signifies countdown warning, while a 1760Hz double-tone signifies transition:
+            </p>
+
+            <pre class="code-block"><code>const playCountdownBeep = (freq = 880, duration = 0.08) => {
+    const AudioCtx = window.AudioContext || window.webkitAudioContext;
+    const ctx = new AudioCtx();
+    const osc = ctx.createOscillator();
+    const gain = ctx.createGain();
+
+    osc.type = 'triangle';
+    osc.frequency.setValueAtTime(freq, ctx.currentTime);
+
+    gain.gain.setValueAtTime(0.2, ctx.currentTime);
+    gain.gain.exponentialRampToValueAtTime(0.001, ctx.currentTime + duration);
+
+    osc.connect(gain);
+    gain.connect(ctx.destination);
+    osc.start();
+    osc.stop(ctx.currentTime + duration);
+};</code></pre>
+        </section>
+
+        <!-- SECTION 4 -->
+        <section class="section-block">
+            <div class="accent-line">
+                <span class="section-label">04 // ARCHITECTURAL TAKEAWAYS</span>
+            </div>
+            <h2 class="section-title">
+                <i class="fa-solid fa-graduation-cap"></i> Production Takeaways &amp; Engineering Decisions
+            </h2>
 
             <ul class="learnings-list">
                 <li class="learning-item">
-                    <div class="learning-icon"><i class="fa-solid fa-diagram-project"></i></div>
+                    <div class="learning-icon"><i class="fa-solid fa-bolt"></i></div>
                     <div class="learning-content">
-                        <h4>Antagonist Muscle Group Pairing</h4>
-                        <p>Prevents consecutive exercises targeting identical movement planes (e.g. quad fatigue or rotator cuff strain), dynamically interleaving push/pull and upper/lower movements.</p>
+                        <h4>Zero-Telemetry Client-Side Autonomy</h4>
+                        <p>Running the entire dataset and search indexing inside the client eliminates backend infrastructure costs, ensures sub-millisecond response times, and guarantees 100% offline usability inside subterranean gym environments.</p>
                     </div>
                 </li>
                 <li class="learning-item">
-                    <div class="learning-icon"><i class="fa-solid fa-clock"></i></div>
+                    <div class="learning-icon"><i class="fa-solid fa-mobile-screen"></i></div>
                     <div class="learning-content">
-                        <h4>Drift-Proof Interval Engine</h4>
-                        <p>Uses epoch delta timestamps rather than naive setInterval loops, ensuring accurate timer countdowns even when mobile browser tabs are throttled or locked in pocket mode.</p>
+                        <h4>Touch-Target Ergonomics</h4>
+                        <p>All critical operational controls (shuffle, lock, timer toggle) are sized at minimum 52px touch targets with high-contrast active states, engineered specifically for sweaty hands and vibrating treadmill use.</p>
                     </div>
                 </li>
                 <li class="learning-item">
                     <div class="learning-icon"><i class="fa-solid fa-volume-high"></i></div>
                     <div class="learning-content">
-                        <h4>Procedural Audio Feedback</h4>
-                        <p>Synthesizes audible interval warning cues via the Web Audio API, delivering crisp bell alerts across noisy gyms without loading external sound files.</p>
+                        <h4>Procedural Synthesis Over Audio Assets</h4>
+                        <p>Synthesizing audio on the fly with native Web Audio eliminates audio decoding latency, network drops, and mobile autoplay restrictions on external media files.</p>
                     </div>
                 </li>
             </ul>
-
-            <div class="tech-grid">
-                <div class="tech-card">
-                    <div class="tech-label">Architecture</div>
-                    <div class="tech-value">Client-Side State Engine</div>
-                </div>
-                <div class="tech-card">
-                    <div class="tech-label">Audio</div>
-                    <div class="tech-value">Native Web Audio API</div>
-                </div>
-                <div class="tech-card">
-                    <div class="tech-label">Layout</div>
-                    <div class="tech-value">Responsive Flex &amp; Grid</div>
-                </div>
-                <div class="tech-card">
-                    <div class="tech-label">Persistence</div>
-                    <div class="tech-value">Zero-Telemetry LocalStorage</div>
-                </div>
-            </div>
         </section>
 
     </main>
-
-    <!-- Floating Portfolio Button (Matching /2026/index.html) -->
-    <a href="../../2026/index.html" class="btn-projects">
-        <i class="fa-solid fa-arrow-left"></i> Portfolio
-    </a>
 
 </body>
 
