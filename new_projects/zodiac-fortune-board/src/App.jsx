@@ -5,8 +5,7 @@ import { ScryingMirror } from './components/ScryingMirror';
 import { GrimoirePanel } from './components/GrimoirePanel';
 import { 
   ZODIAC_SIGNS, 
-  ELEMENTS, 
-  getRandomFortune, 
+  getRandomGoal, 
   getZodiacTarot, 
   drawRuneSpread, 
   rollD100Fate 
@@ -16,17 +15,13 @@ import { mysticAudio } from './utils/mysticAudio';
 import './styles/astral.css';
 
 function App() {
-  // Default to Aries so the board starts with rich celestial focus
   const [activeSign, setActiveSign] = useState(ZODIAC_SIGNS[0]);
-  const [currentElementIndex, setCurrentElementIndex] = useState(0);
-  const elementKeys = Object.keys(ELEMENTS);
-  const currentElement = ELEMENTS[elementKeys[currentElementIndex]];
 
-  // 5 Progressive Stages: 1: Constellation | 2: Horoscope | 3: Tarot | 4: Runes | 5: d100 Fate
+  // 5 Progressive Stages: 1: Constellation | 2: Horoscope Goal | 3: Tarot | 4: Runes | 5: d100 Fate
   const [activeStage, setActiveStage] = useState(1);
 
-  // Divination derived state
-  const [fortune, setFortune] = useState(() => getRandomFortune(ZODIAC_SIGNS[0], currentElement));
+  // Divination state containers
+  const [horoscopeGoal, setHoroscopeGoal] = useState(() => getRandomGoal(ZODIAC_SIGNS[0]));
   const [diceFate, setDiceFate] = useState(() => rollD100Fate(ZODIAC_SIGNS[0]));
   const [isDiceRolling, setIsDiceRolling] = useState(false);
 
@@ -85,21 +80,14 @@ function App() {
   useEffect(() => {
     if (pointedSign && lastPointedRef.current?.id !== pointedSign.id) {
       setActiveSign(pointedSign);
-      setActiveStage(1); // Set to Stage 1: Constellation Lore
+      setActiveStage(1);
       mysticAudio.playNodeIgnite();
     }
     lastPointedRef.current = pointedSign;
   }, [pointedSign]);
 
-  // Cycle Elemental plane
-  const cycleElement = useCallback(() => {
-    setCurrentElementIndex(prev => (prev + 1) % elementKeys.length);
-    mysticAudio.playSpellCast('element');
-    setSpellBurstTrigger(t => t + 1);
-  }, [elementKeys.length]);
-
-  // Stage 2: Cast Pinch of Fate / Horoscope Divination
-  const handleCastProphecy = useCallback(() => {
+  // Stage 2: Cast Pinch of Fate / Horoscope Goal Channeling
+  const handleCastGoal = useCallback(() => {
     if (gestureCooldownRef.current.prophecy) return;
     gestureCooldownRef.current.prophecy = true;
 
@@ -107,8 +95,8 @@ function App() {
     mysticAudio.playSpellCast('prophecy');
     setSpellBurstTrigger(t => t + 1);
 
-    const newFortune = getRandomFortune(effectiveActiveSign, currentElement);
-    setFortune(newFortune);
+    const newGoal = getRandomGoal(effectiveActiveSign);
+    setHoroscopeGoal(newGoal);
 
     setTimeout(() => {
       mysticAudio.playCelestialChime(Math.floor(Math.random() * 6));
@@ -116,7 +104,7 @@ function App() {
         gestureCooldownRef.current.prophecy = false;
       }, 1200);
     }, 200);
-  }, [effectiveActiveSign, currentElement]);
+  }, [effectiveActiveSign]);
 
   // Stage 5: Roll 100-Sided Fate Dice
   const handleRollDice = useCallback(() => {
@@ -148,9 +136,9 @@ function App() {
       }, 800);
     }
 
-    // Stage 2: PINCH (Pinch of Fate -> Horoscope Prophecy)
+    // Stage 2: PINCH (Pinch of Fate -> Horoscope Goal)
     if (isPinching && !gestureCooldownRef.current.prophecy) {
-      handleCastProphecy();
+      handleCastGoal();
     }
 
     // Stage 3: PEACE / V-SIGN (Transmutes center to Major Arcana Tarot Card)
@@ -181,7 +169,7 @@ function App() {
     }
 
     prevSpellRef.current = activeSpell;
-  }, [isPinching, activeSpell, pointedSign, handleCastProphecy, handleRollDice]);
+  }, [isPinching, activeSpell, pointedSign, handleCastGoal, handleRollDice]);
 
   // Toggle Camera
   const handleToggleCamera = () => {
@@ -209,12 +197,12 @@ function App() {
 
       if (e.code === 'Space') {
         e.preventDefault();
-        handleCastProphecy();
+        handleCastGoal();
       } else if (e.key === '1') {
         setActiveStage(1);
         mysticAudio.playNodeIgnite();
       } else if (e.key === '2') {
-        handleCastProphecy();
+        handleCastGoal();
       } else if (e.key === '3') {
         setActiveStage(3);
         mysticAudio.playTarotDraw();
@@ -223,8 +211,6 @@ function App() {
         mysticAudio.playRuneCast();
       } else if (e.key === '5') {
         handleRollDice();
-      } else if (e.key.toLowerCase() === 'e') {
-        cycleElement();
       } else if (e.key.toLowerCase() === 'a') {
         setManualAspects(prev => !prev);
         mysticAudio.playSpellCast('flare');
@@ -235,11 +221,11 @@ function App() {
 
     window.addEventListener('keydown', handleKeyDown);
     return () => window.removeEventListener('keydown', handleKeyDown);
-  }, [handleCastProphecy, handleRollDice, cycleElement]);
+  }, [handleCastGoal, handleRollDice]);
 
   const handleSelectSign = (sign) => {
     setActiveSign(sign);
-    setActiveStage(1); // Set to Stage 1: Constellation Lore
+    setActiveStage(1);
     mysticAudio.playNodeIgnite();
   };
 
@@ -253,7 +239,7 @@ function App() {
   };
 
   return (
-    <div className={`universe-container element-${currentElement.name.toLowerCase()}`}>
+    <div className="universe-container">
       <div className="universe-bg"></div>
       <div className="celestial-body"></div>
 
@@ -262,15 +248,14 @@ function App() {
         handCoordinates={handCoordinates}
         isCameraActive={isCameraActive}
         activeSpell={activeSpell}
-        currentElement={currentElement}
         spellBurstTrigger={spellBurstTrigger}
       />
 
       {/* Top Header & Arcane Controls */}
       <header className="site-header">
         <div className="header-titles">
-          <h1>Zodiac Fortune Board</h1>
-          <p className="realm-tagline">Astrological Oracle · 5-Stage Gesture Magic Spells</p>
+          <h1>Zodiac Divination Compass</h1>
+          <p className="realm-tagline">Astrological Oracle · Gesture Magic Spells</p>
         </div>
 
         <div className="header-actions">
@@ -287,16 +272,6 @@ function App() {
             📜 Spellbook
           </button>
 
-          {/* Elemental Transmutation Button */}
-          <button 
-            className="astral-btn element-badge-btn" 
-            onClick={cycleElement}
-            style={{ borderColor: currentElement.color, color: currentElement.color }}
-            title="Transmute cosmic element"
-          >
-            {currentElement.symbol} {currentElement.name}
-          </button>
-
           {/* Audio Mute/Unmute */}
           <button 
             className="astral-btn icon-btn" 
@@ -308,29 +283,28 @@ function App() {
         </div>
       </header>
 
-      {/* Main Astrolabe Horoscope Board */}
+      {/* Main Astrolabe Horoscope Compass */}
       <div className="board-container">
         <AstrologyBoard
           signs={ZODIAC_SIGNS}
           activeSign={effectiveActiveSign}
           onHoverSign={handleSelectSign}
           onLeaveSign={handleLeaveSign}
-          fortune={fortune}
+          horoscopeGoal={horoscopeGoal}
           rotation={rotation}
           onWheelRotate={handleWheelRotate}
           showAspects={showAspects}
           activeSpell={activeSpell}
-          currentElement={currentElement}
           activeStage={activeStage}
           onSelectStage={(stage) => {
             setActiveStage(stage);
             if (stage === 1) mysticAudio.playNodeIgnite();
-            if (stage === 2) handleCastProphecy();
+            if (stage === 2) handleCastGoal();
             if (stage === 3) mysticAudio.playTarotDraw();
             if (stage === 4) mysticAudio.playRuneCast();
             if (stage === 5) handleRollDice();
           }}
-          onCastPinchSpell={handleCastProphecy}
+          onCastPinchSpell={handleCastGoal}
           tarotCard={tarotCard}
           runeData={runeData}
           diceFate={diceFate}
@@ -354,8 +328,6 @@ function App() {
       <GrimoirePanel
         isOpen={isGrimoireOpen}
         onClose={() => setIsGrimoireOpen(false)}
-        currentElement={currentElement}
-        onCycleElement={cycleElement}
       />
     </div>
   );

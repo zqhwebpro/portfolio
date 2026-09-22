@@ -1,22 +1,14 @@
-export const ELEMENTS = {
-  FIRE: { name: 'Ignis', label: 'Fire', color: '#ff4d4d', glow: 'rgba(255, 77, 77, 0.6)', symbol: '🜂' },
-  EARTH: { name: 'Terra', label: 'Earth', color: '#2ecc71', glow: 'rgba(46, 204, 113, 0.6)', symbol: '🜃' },
-  AIR: { name: 'Aer', label: 'Air', color: '#00f2fe', glow: 'rgba(0, 242, 254, 0.6)', symbol: '🜁' },
-  WATER: { name: 'Aqua', label: 'Water', color: '#9b51e0', glow: 'rgba(155, 81, 224, 0.6)', symbol: '🜄' }
-};
-
 export const ZODIAC_SIGNS = [
   {
     id: 'aries',
     name: 'Aries',
     title: 'The Celestial Ram',
     symbol: '♈',
-    element: ELEMENTS.FIRE,
+    element: 'Fire',
     planet: 'Mars ♂',
     house: 'I House of Self',
     dates: 'Mar 21 - Apr 19',
     color: '#ff4b82',
-    // Normalized constellation star coordinates within a 100x100 box
     stars: [
       { x: 15, y: 70 },
       { x: 45, y: 55 },
@@ -30,7 +22,7 @@ export const ZODIAC_SIGNS = [
     name: 'Taurus',
     title: 'The Cosmic Bull',
     symbol: '♉',
-    element: ELEMENTS.EARTH,
+    element: 'Earth',
     planet: 'Venus ♀',
     house: 'II House of Value',
     dates: 'Apr 20 - May 20',
@@ -51,7 +43,7 @@ export const ZODIAC_SIGNS = [
     name: 'Gemini',
     title: 'The Astral Twins',
     symbol: '♊',
-    element: ELEMENTS.AIR,
+    element: 'Air',
     planet: 'Mercury ☿',
     house: 'III House of Mind',
     dates: 'May 21 - Jun 20',
@@ -71,7 +63,7 @@ export const ZODIAC_SIGNS = [
     name: 'Cancer',
     title: 'The Moon Crab',
     symbol: '♋',
-    element: ELEMENTS.WATER,
+    element: 'Water',
     planet: 'Moon ☽',
     house: 'IV House of Home',
     dates: 'Jun 21 - Jul 22',
@@ -89,7 +81,7 @@ export const ZODIAC_SIGNS = [
     name: 'Leo',
     title: 'The Solar Lion',
     symbol: '♌',
-    element: ELEMENTS.FIRE,
+    element: 'Fire',
     planet: 'Sun ☉',
     house: 'V House of Pleasure',
     dates: 'Jul 23 - Aug 22',
@@ -110,7 +102,7 @@ export const ZODIAC_SIGNS = [
     name: 'Virgo',
     title: 'The Mystic Maiden',
     symbol: '♍',
-    element: ELEMENTS.EARTH,
+    element: 'Earth',
     planet: 'Mercury ☿',
     house: 'VI House of Health',
     dates: 'Aug 23 - Sep 22',
@@ -130,7 +122,7 @@ export const ZODIAC_SIGNS = [
     name: 'Libra',
     title: 'The Scales of Equilibrium',
     symbol: '♎',
-    element: ELEMENTS.AIR,
+    element: 'Air',
     planet: 'Venus ♀',
     house: 'VII House of Balance',
     dates: 'Sep 23 - Oct 22',
@@ -149,7 +141,7 @@ export const ZODIAC_SIGNS = [
     name: 'Scorpio',
     title: 'The Shadow Scorpion',
     symbol: '♏',
-    element: ELEMENTS.WATER,
+    element: 'Water',
     planet: 'Pluto ♇',
     house: 'VIII House of Transformation',
     dates: 'Oct 23 - Nov 21',
@@ -170,7 +162,7 @@ export const ZODIAC_SIGNS = [
     name: 'Sagittarius',
     title: 'The Archon Centaur',
     symbol: '♐',
-    element: ELEMENTS.FIRE,
+    element: 'Fire',
     planet: 'Jupiter ♃',
     house: 'IX House of Philosophy',
     dates: 'Nov 22 - Dec 21',
@@ -190,7 +182,7 @@ export const ZODIAC_SIGNS = [
     name: 'Capricorn',
     title: 'The Sea-Goat of Chronos',
     symbol: '♑',
-    element: ELEMENTS.EARTH,
+    element: 'Earth',
     planet: 'Saturn ♄',
     house: 'X House of Destiny',
     dates: 'Dec 22 - Jan 19',
@@ -209,7 +201,7 @@ export const ZODIAC_SIGNS = [
     name: 'Aquarius',
     title: 'The Water-Bearer of the Void',
     symbol: '♒',
-    element: ELEMENTS.AIR,
+    element: 'Air',
     planet: 'Uranus ♅',
     house: 'XI House of Truth',
     dates: 'Jan 20 - Feb 18',
@@ -229,7 +221,7 @@ export const ZODIAC_SIGNS = [
     name: 'Pisces',
     title: 'The Ethereal Fishes',
     symbol: '♓',
-    element: ELEMENTS.WATER,
+    element: 'Water',
     planet: 'Neptune ♆',
     house: 'XII House of Secrets',
     dates: 'Feb 19 - Mar 20',
@@ -245,72 +237,84 @@ export const ZODIAC_SIGNS = [
   }
 ];
 
-export const MYSTICAL_PROPHECIES = [
+/* ============================================================
+   Stage 2: Goal-Oriented Horoscope Quests
+   Replaces generic fortunes with empowering celestial goals
+   ============================================================ */
+export const HOROSCOPE_GOALS = [
   {
-    title: "Celestial Supernova",
-    transit: "Grand Fire Trine in Zenith",
-    omen: "The ethereal weave unravels, igniting dormant embers of creation. What you dare to manifest tonight shall echo across celestial spheres.",
-    action: "Cast forth your ambition without fear.",
-    luckyAspect: "Sextile with Solar Core"
+    questTitle: 'The Citadel of Will',
+    cosmicImpetus: 'Mars forms an ascendant conjunction with the solar core, generating unprecedented kinetic momentum.',
+    goalMilestone: 'Draft the master blueprint of your most ambitious vision and complete the first concrete milestone within three solar days.',
+    cosmicOath: 'I command my creative willpower without hesitation. Obstacles transform into stepping stones of mastery.',
+    horizonWindow: 'Peak Power: Next 72 Hours',
+    aspectLabel: 'Trine to Midheaven'
   },
   {
-    title: "Arcane Convergence",
-    transit: "Jupiter Sextile Uranus",
-    omen: "Ancient cosmic frequencies intersect your aura. A sudden revelation arrives in silence—listen closely to the space between thoughts.",
-    action: "Embrace the unanticipated doorway.",
-    luckyAspect: "11th House Harmony"
+    questTitle: 'The Horizon Concord',
+    cosmicImpetus: 'Jupiter sextiles the intellectual nexus of Mercury, revealing unexpected strategic pathways across your sphere.',
+    goalMilestone: 'Initiate the crucial alliance or bold proposal you have delayed. Speak your definitive terms with clear authority.',
+    cosmicOath: 'My voice carries sovereign weight. I forge alliances grounded in mutual honor and shared purpose.',
+    horizonWindow: 'Optimal Window: Before the Crescent Phase',
+    aspectLabel: 'Eleventh House Resonance'
   },
   {
-    title: "The Shrouded Oracle",
-    transit: "Neptune in Deep Retrograde",
-    omen: "A shadowy veil dissolves over past trials. Hidden motives become clear as glass under the luminous eye of the full moon.",
-    action: "Trust your raw nocturnal instinct.",
-    luckyAspect: "Trine with Mystical Waters"
+    questTitle: 'The Alchemical Crucible',
+    cosmicImpetus: 'Pluto retrogrades through your sector of transformation, burning away outworn patterns of self-limitation.',
+    goalMilestone: 'Purge one major distraction or obsolete habit immediately to liberate mental bandwidth for your true magnum opus.',
+    cosmicOath: 'I surrender the lesser to claim the magnificent. The ashes of yesterday nourish my sovereign dawn.',
+    horizonWindow: 'Critical Window: Next 48 Hours',
+    aspectLabel: 'Scorpio Phoenix Alignment'
   },
   {
-    title: "Astral Sovereign",
-    transit: "Pluto Conjunction Midheaven",
-    omen: "The wheel of destiny turns in your favor. Old limitations burn to ash, clearing a consecrated path toward rightful dominion.",
-    action: "Claim what is rightfully yours.",
-    luckyAspect: "Golden Ratio Aspect"
+    questTitle: 'The Fountain of Innovation',
+    cosmicImpetus: 'Uranus electrifies the house of discovery, transmitting rare insights that defy conventional precedent.',
+    goalMilestone: 'Prototype or build the unorthodox idea that excites you most, regardless of tradition or doubt.',
+    cosmicOath: 'I pioneer untrodden paths. Originality is my celestial birthright and greatest weapon.',
+    horizonWindow: 'Peak Alignment: Next 5 Days',
+    aspectLabel: 'Aquarian Lightning Trine'
   },
   {
-    title: "Starlight Alchemy",
-    transit: "Mercury Conjunct Aldebaran",
-    omen: "Words spoken with intent carry enchantment tonight. A forgotten alliance re-emerges bearing ancient tools and unexpected fortune.",
-    action: "Speak your desires into existence.",
-    luckyAspect: "Mercury's Quincunx"
+    questTitle: 'The Sovereign Equilibrium',
+    cosmicImpetus: 'Venus enters the house of contracts and balance, offering golden leverage in negotiation and creative harmony.',
+    goalMilestone: 'Resolve an outstanding imbalance in your daily routine and establish a non-negotiable boundary around your focus hours.',
+    cosmicOath: 'I guard my creative energy as a consecrated flame. Balance generates enduring victory.',
+    horizonWindow: 'Harmonic Window: Next 96 Hours',
+    aspectLabel: 'Golden Ratio Confluence'
   },
   {
-    title: "Tides of the Void",
-    transit: "Lunar Eclipse in the Deep Astral",
-    omen: "Great cosmic tides sweep away obsolete anchors. Do not resist the current; it deposits you onto shores of profound rebirth.",
-    action: "Surrender what no longer serves the soul.",
-    luckyAspect: "Trine to Oceanus"
+    questTitle: 'The Anchor of Mastery',
+    cosmicImpetus: 'Saturn trines the celestial north node, rewarding meticulous craftsmanship and deliberate patience.',
+    goalMilestone: 'Dedicate two uninterrupted hours to master the technical detail that separates amateur effort from legendary execution.',
+    cosmicOath: 'Patience is my supreme strategy. What I construct with deliberate precision shall endure for epochs.',
+    horizonWindow: 'Sovereign Window: Current Lunar Cycle',
+    aspectLabel: 'Tenth House Aegis'
   },
   {
-    title: "Empyrean Beacon",
-    transit: "Venus Rising in Aries",
-    omen: "Passionate starlight floods your sphere of influence. A magnetic allure bends the cosmos to your chosen path.",
-    action: "Radiate your unfiltered truth.",
-    luckyAspect: "Venusian Confluence"
+    questTitle: 'The Oceanic Vision',
+    cosmicImpetus: 'Neptune illuminates your deep intuitive center, dissolving the veil between dream vision and reality.',
+    goalMilestone: 'Record your clearest nocturnal revelation upon waking and translate its symbolic core into your current project.',
+    cosmicOath: 'I navigate with deep instinct where mortal logic falters. The current carries me toward rightful dominion.',
+    horizonWindow: 'Intuitive Window: Nocturnal Transit',
+    aspectLabel: 'Mystic Pisces Confluence'
   },
   {
-    title: "Chronos Unbound",
-    transit: "Saturn Trine North Node",
-    omen: "Patience weaves a tapestry of unbreakable fortitude. What you construct with your bare hands in this cycle will endure for epochs.",
-    action: "Lay your cornerstone with deliberate precision.",
-    luckyAspect: "Tenth House Aegis"
+    questTitle: 'The Hearth of Fortitude',
+    cosmicImpetus: 'The Moon crowns your foundation sector, replenishing the deep emotional wells from which all greatness flows.',
+    goalMilestone: 'Fortify your immediate workspace into a sacred sanctuary of deep work, free from noise and intrusion.',
+    cosmicOath: 'My center remains serene amid external tempests. Inner stillness is my impenetrable fortress.',
+    horizonWindow: 'Sanctuary Window: Current Waxing Moon',
+    aspectLabel: 'Fourth House Bastion'
   }
 ];
 
-export const getRandomFortune = (sign = null, element = null) => {
-  let pool = MYSTICAL_PROPHECIES;
+export const getRandomGoal = (sign = null) => {
+  const pool = HOROSCOPE_GOALS;
   const item = pool[Math.floor(Math.random() * pool.length)];
   return {
     ...item,
-    signAffinity: sign ? sign.name : 'Cosmic All',
-    elementAffinity: element ? element.name : (sign ? sign.element.name : 'Aether')
+    signAffinity: sign ? sign.name : 'The Cosmic Seeker',
+    signElement: sign ? sign.element : 'Aether'
   };
 };
 
@@ -324,7 +328,7 @@ export const ZODIAC_TAROT = {
     title: 'The Sovereign Architect',
     symbol: '👑',
     keywords: ['Authority', 'Willpower', 'Structure', 'Pioneering Leadership'],
-    upright: 'Channel bold initiative and unyielding resolve. You are the architect of your own realm—forge sovereign order from raw cosmic chaos.',
+    upright: 'Channel bold initiative and unyielding resolve. You are the architect of your own realm. Forge sovereign order from raw cosmic chaos.',
     symbology: 'Ram-headed stone throne crowned in Martian crimson and solar gold.',
     advice: 'Command your destiny with clear purpose and unwavering conviction.'
   },
@@ -406,7 +410,7 @@ export const ZODIAC_TAROT = {
     keywords: ['Alchemy', 'Synthesis', 'Patience', 'Spiritual Flow'],
     upright: 'Blend fire and water to brew the elixir of serenity. You are transmuting disparate trials into pure spiritual gold through measured restraint and visionary grace.',
     symbology: 'Winged angel pouring living starlight between silver and gold chalices.',
-    advice: 'Harmonize polarities; divine synthesis is born of patient patience.'
+    advice: 'Harmonize polarities; divine synthesis is born of patient persistence.'
   },
   capricorn: {
     number: 'XV',
@@ -453,7 +457,7 @@ export const DIVINATION_RUNES = [
   {
     glyph: 'ᚠ',
     name: 'Fehu',
-    translation: 'Cattle · Wealth',
+    translation: 'Wealth and Generative Fire',
     element: 'Fire',
     meaning: 'Unbounded abundance, kinetic energy, and generative creative fire.',
     incantation: 'Fehu ignites the dormant embers of prosperity.'
@@ -461,7 +465,7 @@ export const DIVINATION_RUNES = [
   {
     glyph: 'ᚢ',
     name: 'Uruz',
-    translation: 'Aurochs · Primal Strength',
+    translation: 'Primal Vitality and Fortitude',
     element: 'Earth',
     meaning: 'Untamed vitality, resilience, and unyielding fortitude through adversity.',
     incantation: 'Uruz channels the unyielding titan within.'
@@ -469,7 +473,7 @@ export const DIVINATION_RUNES = [
   {
     glyph: 'ᚦ',
     name: 'Thurisaz',
-    translation: 'Thorn · Sacred Barrier',
+    translation: 'Sacred Gateway and Defense',
     element: 'Fire',
     meaning: 'Protective ward, catalytic tension, and piercing through illusions.',
     incantation: 'Thurisaz pierces the veil of mortal hesitation.'
@@ -477,7 +481,7 @@ export const DIVINATION_RUNES = [
   {
     glyph: 'ᚫ',
     name: 'Ansuz',
-    translation: 'Divine Breath · Voice',
+    translation: 'Divine Breath and Wisdom',
     element: 'Air',
     meaning: 'Ancestral wisdom, celestial transmission, and eloquence of truth.',
     incantation: 'Ansuz unlocks celestial harmony and inspired vision.'
@@ -485,7 +489,7 @@ export const DIVINATION_RUNES = [
   {
     glyph: 'ᚱ',
     name: 'Raido',
-    translation: 'Chariot · Journey',
+    translation: 'The Celestial Journey',
     element: 'Air',
     meaning: 'Cyclic progression, righteous action, and traveling the cosmic path.',
     incantation: 'Raido aligns thy footsteps with celestial destiny.'
@@ -493,7 +497,7 @@ export const DIVINATION_RUNES = [
   {
     glyph: 'ᚲ',
     name: 'Kenaz',
-    translation: 'Torch · Illumination',
+    translation: 'Torch of Revelation',
     element: 'Fire',
     meaning: 'Artisan craft, sudden insight, and revelation cutting through gloom.',
     incantation: 'Kenaz dispels shadow with brilliant creative craft.'
@@ -501,7 +505,7 @@ export const DIVINATION_RUNES = [
   {
     glyph: 'ᚷ',
     name: 'Gebo',
-    translation: 'Gift · Sacred Bond',
+    translation: 'Sacred Bond and Honor',
     element: 'Air',
     meaning: 'Mutual honor, generous alliances, and divine exchange of energy.',
     incantation: 'Gebo weaves sacred balance between giving and receiving.'
@@ -509,7 +513,7 @@ export const DIVINATION_RUNES = [
   {
     glyph: 'ᚹ',
     name: 'Wunjo',
-    translation: 'Joy · Fellowship',
+    translation: 'Fulfillment and Harmony',
     element: 'Earth',
     meaning: 'Harmony of desire and reality, celebration, and spiritual kinship.',
     incantation: 'Wunjo descends like morning dew upon the spirit.'
@@ -517,7 +521,7 @@ export const DIVINATION_RUNES = [
   {
     glyph: 'ᚺ',
     name: 'Hagalaz',
-    translation: 'Hail · Cosmic Crucible',
+    translation: 'Purifying Transformation',
     element: 'Water',
     meaning: 'Radical upheaval, purifying storms, and the seed of liberation.',
     incantation: 'Hagalaz dissolves obsolete anchors into raw aether.'
@@ -525,7 +529,7 @@ export const DIVINATION_RUNES = [
   {
     glyph: 'ᛋ',
     name: 'Sowilo',
-    translation: 'Sun Wheel · Victory',
+    translation: 'Sun Wheel and Victory',
     element: 'Fire',
     meaning: 'Total triumph, radiant vitality, and celestial light banishing darkness.',
     incantation: 'Sowilo crowns thy noble purpose with solar triumph.'
@@ -533,7 +537,7 @@ export const DIVINATION_RUNES = [
   {
     glyph: 'ᛏ',
     name: 'Tiwaz',
-    translation: 'The Spear · Celestial Justice',
+    translation: 'The Spear of Justice',
     element: 'Air',
     meaning: 'Unshakable courage, self-sacrifice for high ideals, and true victory.',
     incantation: 'Tiwaz guides the straight arrow through fog and storm.'
@@ -541,7 +545,7 @@ export const DIVINATION_RUNES = [
   {
     glyph: 'ᛉ',
     name: 'Algiz',
-    translation: 'Elk · Sanctuary',
+    translation: 'Divine Shield and Sanctuary',
     element: 'Water',
     meaning: 'Impenetrable astral ward, higher guidance, and divine protection.',
     incantation: 'Algiz erects an impenetrable aegis of starlight.'
@@ -549,7 +553,7 @@ export const DIVINATION_RUNES = [
   {
     glyph: 'ᛒ',
     name: 'Berkana',
-    translation: 'Birch · Rebirth',
+    translation: 'Regeneration and Birch',
     element: 'Earth',
     meaning: 'Nurturing growth, secret fertile dreams, and renewal of life.',
     incantation: 'Berkana breathes vital green breath into sacred dreams.'
@@ -557,7 +561,7 @@ export const DIVINATION_RUNES = [
   {
     glyph: 'ᛖ',
     name: 'Ehwaz',
-    translation: 'Steed · Swift Flight',
+    translation: 'Sacred Steed and Flight',
     element: 'Earth',
     meaning: 'Harmonious cooperation, swift progress, and shared spiritual pilgrimage.',
     incantation: 'Ehwaz carries thy ambition across astral plains.'
@@ -565,7 +569,7 @@ export const DIVINATION_RUNES = [
   {
     glyph: 'ᛚ',
     name: 'Laguz',
-    translation: 'Deep Waters · Intuition',
+    translation: 'Deep Water and Intuition',
     element: 'Water',
     meaning: 'The lunar tide, fluid adaptation, and occult knowing through feeling.',
     incantation: 'Laguz purifies the chalice and opens deep sight.'
@@ -573,7 +577,7 @@ export const DIVINATION_RUNES = [
   {
     glyph: 'ᛞ',
     name: 'Dagaz',
-    translation: 'Dawn · Awakening',
+    translation: 'The Radiant Dawn',
     element: 'Fire',
     meaning: 'Paradoxical breakthrough, morning light, and instantaneous transformation.',
     incantation: 'Dagaz transmutes midnight crucible into radiant day.'
@@ -588,10 +592,9 @@ export const drawRuneSpread = (sign = null) => {
     { position: 'Destiny Outcome', ...shuffled[2] }
   ];
 
-  // Pick or assign spell rune based on sign or random
   let spellRune = shuffled[3] || shuffled[0];
   if (sign && sign.element) {
-    const matched = DIVINATION_RUNES.find(r => r.element.toLowerCase() === sign.element.label.toLowerCase());
+    const matched = DIVINATION_RUNES.find(r => r.element.toLowerCase() === sign.element.toLowerCase());
     if (matched) spellRune = matched;
   }
 
@@ -599,7 +602,7 @@ export const drawRuneSpread = (sign = null) => {
     spread,
     spellRune: {
       ...spellRune,
-      signBonus: sign ? `${sign.name} Affinity` : 'Cosmic Resonance'
+      signBonus: sign ? `${sign.name} Resonance` : 'Universal Compass'
     }
   };
 };
@@ -614,28 +617,28 @@ export const rollD100Fate = (sign = null) => {
   if (roll >= 95) {
     tier = 'Critical Celestial Triumph';
     title = 'Apotheosis of the Stars';
-    omen = 'The firmament splits open; divine favor manifests instantaneously. Whatever you undertake tonight is touched with miraculous perfection.';
-    blessing = '+100% Celestial Harmony · Automatic Prophetic Success';
+    omen = 'The firmament splits open; divine favor manifests instantaneously. Whatever goal you undertake tonight is touched with miraculous perfection.';
+    blessing = 'Total Celestial Harmony. Automatic Prophetic Success';
   } else if (roll >= 75) {
     tier = 'Auspicious Fortune';
     title = 'The Golden Transit';
     omen = 'Benefic planetary aspects beam directly onto your path. Hidden opportunities and unexpected allies step forward from the shadows.';
-    blessing = '+50% Solar Radiance · Auspicious Momentum';
+    blessing = 'Solar Radiance. Auspicious Forward Momentum';
   } else if (roll >= 45) {
     tier = 'Equinox Equilibrium';
     title = 'The Measured Balance';
-    omen = 'The cosmic scales remain poised in perfect symmetry. Deliberate, conscious choice holds the key to tipping reality in your favor.';
-    blessing = '+25% Lunar Insight · Clear Discernment';
+    omen = 'The cosmic scales remain poised in perfect symmetry. Deliberate, conscious action holds the key to tipping reality in your favor.';
+    blessing = 'Lunar Insight. Impartial Discernment';
   } else if (roll >= 15) {
     tier = 'Shadow Crucible';
     title = 'The Trial of Fortitude';
-    omen = 'The stars test your inner resolve. Treat incoming friction not as a barrier, but as the whetstone refining your cosmic blade.';
-    blessing = 'Tempered Endurance · Transmutation of Doubt';
+    omen = 'The stars test your inner resolve. Treat incoming friction not as a barrier, but as the whetstone refining your willpower.';
+    blessing = 'Tempered Endurance. Transmutation of Doubt';
   } else {
     tier = 'Chaotic Eclipse';
     title = 'Purification of the Void';
     omen = 'Ancient structures crumble to clear fertile ground for a radical rebirth. Surrender what is obsolete; phoenix fire awaits.';
-    blessing = 'Total Karmic Rebirth · Clean Astral Slate';
+    blessing = 'Total Karmic Rebirth. Clean Astral Slate';
   }
 
   return {

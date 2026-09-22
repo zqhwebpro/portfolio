@@ -8,33 +8,16 @@
   --mystic-purple: #8b45ff;
   --arcane-cyan: #00ffea;
 
-  /* Elemental defaults */
-  --elem-color: #ffd700;
-  --elem-glow: rgba(255, 215, 0, 0.4);
+  /* Celestial Gold Default */
+  --elem-color: #f9e2af;
+  --elem-glow: rgba(249, 226, 175, 0.45);
 }
 
-/* Elemental Themes */
-.universe-container.element-ignis {
-  --elem-color: #ff4d4d;
-  --elem-glow: rgba(255, 77, 77, 0.45);
-}
-.universe-container.element-terra {
-  --elem-color: #2ecc71;
-  --elem-glow: rgba(46, 204, 113, 0.45);
-}
-.universe-container.element-aer {
-  --elem-color: #00f2fe;
-  --elem-glow: rgba(0, 242, 254, 0.45);
-}
-.universe-container.element-aqua {
-  --elem-color: #9b51e0;
-  --elem-glow: rgba(155, 81, 224, 0.45);
-}
-
-* {
+*, *::before, *::after {
   margin: 0;
   padding: 0;
   box-sizing: border-box;
+  font-style: normal !important; /* Strict requirement: no italics anywhere */
 }
 
 body, html {
@@ -116,10 +99,10 @@ body, html {
 
 .realm-tagline {
   font-family: 'Cormorant Garamond', serif;
-  font-size: 0.95rem;
+  font-size: 1.05rem;
   color: var(--gold-base);
   letter-spacing: 0.06em;
-  opacity: 0.9;
+  opacity: 0.95;
 }
 
 .header-actions {
@@ -132,14 +115,14 @@ body, html {
   display: inline-flex;
   align-items: center;
   gap: 8px;
-  font-size: 0.9rem;
+  font-size: 0.95rem;
   font-family: 'Philosopher', serif;
   color: var(--gold-bright);
   text-decoration: none;
   letter-spacing: 0.02em;
   padding: 8px 18px;
   border: 1px solid rgba(197, 160, 89, 0.4);
-  background: rgba(10, 4, 22, 0.85);
+  background: rgba(10, 4, 22, 0.88);
   backdrop-filter: blur(10px);
   border-radius: 8px;
   cursor: pointer;
@@ -156,14 +139,12 @@ body, html {
 
 .astral-btn.icon-btn {
   padding: 8px 14px;
-  font-size: 1rem;
+  font-size: 1.05rem;
 }
 
-.element-badge-btn {
-  font-weight: 700;
-}
-
-/* Board Center Layout */
+/* ========================================================
+   Divination Arena & Left Stage Navigation
+   ======================================================== */
 .board-container {
   position: relative;
   width: 100vw;
@@ -173,10 +154,126 @@ body, html {
   justify-content: center;
 }
 
+.divination-arena {
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 100%;
+  height: 100%;
+}
+
+/* Left-Side Navigation Panel Off of the Compass */
+.compass-gesture-nav {
+  position: absolute;
+  left: 32px;
+  top: 50%;
+  transform: translateY(-50%);
+  z-index: 25;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  background: rgba(10, 4, 22, 0.92);
+  border: 1.5px solid var(--gold-base);
+  border-radius: 14px;
+  padding: 18px 14px;
+  box-shadow: 0 0 40px rgba(0, 0, 0, 0.95), 0 0 20px rgba(197, 160, 89, 0.25);
+  backdrop-filter: blur(16px);
+  width: 250px;
+}
+
+.nav-panel-header {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  border-bottom: 1px solid rgba(197, 160, 89, 0.35);
+  padding-bottom: 10px;
+  margin-bottom: 4px;
+}
+
+.nav-panel-sigil {
+  font-size: 1.3rem;
+}
+
+.nav-panel-title {
+  font-family: 'Philosopher', serif;
+  font-size: 1.05rem;
+  font-weight: 700;
+  color: var(--gold-bright);
+}
+
+.nav-stages-list {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.nav-stage-btn {
+  display: flex;
+  flex-direction: column;
+  text-align: left;
+  background: rgba(255, 255, 255, 0.04);
+  border: 1px solid rgba(197, 160, 89, 0.3);
+  border-radius: 9px;
+  padding: 9px 12px;
+  cursor: pointer;
+  transition: all 0.25s ease;
+  color: var(--gold-bright);
+}
+
+.nav-stage-btn:hover {
+  background: rgba(45, 18, 85, 0.88);
+  border-color: var(--gold-bright);
+  transform: translateX(4px);
+}
+
+.nav-stage-btn.active {
+  background: rgba(58, 22, 115, 0.95);
+  border-color: var(--gold-bright);
+  box-shadow: 0 0 18px rgba(249, 226, 175, 0.45);
+}
+
+.nav-stage-top {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.nav-stage-icon {
+  font-size: 1.15rem;
+}
+
+.nav-stage-name {
+  font-family: 'Philosopher', serif;
+  font-size: 0.96rem;
+  font-weight: 700;
+  color: #ffffff;
+}
+
+.nav-stage-howto {
+  font-family: 'Cormorant Garamond', serif;
+  font-size: 0.86rem;
+  color: var(--gold-base);
+  margin-top: 3px;
+  letter-spacing: 0.02em;
+}
+
+/* Compass Center Container */
+.compass-stage-center {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+}
+
+/* ========================================================
+   Astrolabe / Divination Compass Geometry
+   ======================================================== */
 .astrolabe-wrapper {
   position: relative;
-  width: 76vmin;
-  height: 76vmin;
+  width: 78vmin;
+  height: 78vmin;
   display: flex;
   align-items: center;
   justify-content: center;
@@ -192,17 +289,33 @@ body, html {
   width: 100%;
   height: 100%;
   border-radius: 50%;
-  border: 2px dashed rgba(197, 160, 89, 0.25);
-  box-shadow: 0 0 60px rgba(139, 69, 255, 0.15);
+  border: 2px dashed rgba(197, 160, 89, 0.3);
+  box-shadow: 0 0 70px rgba(139, 69, 255, 0.2);
   transition: transform 0.08s ease-out;
 }
+
+/* Cardinal Points on Compass */
+.compass-cardinal {
+  position: absolute;
+  font-family: 'Philosopher', serif;
+  font-size: 0.78rem;
+  color: var(--gold-bright);
+  letter-spacing: 0.1em;
+  pointer-events: none;
+  text-shadow: 0 0 8px rgba(249, 226, 175, 0.6);
+}
+
+.compass-cardinal.zenith { top: 8px; left: 50%; transform: translateX(-50%); }
+.compass-cardinal.nadir { bottom: 8px; left: 50%; transform: translateX(-50%); }
+.compass-cardinal.ascendant { left: 10px; top: 50%; transform: translateY(-50%) rotate(-90deg); }
+.compass-cardinal.descendant { right: 10px; top: 50%; transform: translateY(-50%) rotate(90deg); }
 
 /* Concentric Rings */
 .astrolabe-outer-ring {
   position: absolute;
   inset: -15px;
   border-radius: 50%;
-  border: 1px solid rgba(197, 160, 89, 0.3);
+  border: 1.5px solid rgba(197, 160, 89, 0.4);
   pointer-events: none;
 }
 
@@ -210,18 +323,18 @@ body, html {
   position: absolute;
   top: 0;
   left: 50%;
-  width: 1px;
-  height: 8px;
-  background: rgba(197, 160, 89, 0.4);
-  transform-origin: 50% 38vmin;
+  width: 1.5px;
+  height: 9px;
+  background: rgba(197, 160, 89, 0.5);
+  transform-origin: 50% 39vmin;
 }
 
 .astrolabe-inner {
   position: absolute;
   inset: 50px;
   border-radius: 50%;
-  border: 1px solid rgba(197, 160, 89, 0.4);
-  box-shadow: 0 0 40px rgba(145, 133, 199, 0.1), inset 0 0 20px rgba(139, 69, 255, 0.15);
+  border: 1px solid rgba(197, 160, 89, 0.45);
+  box-shadow: 0 0 40px rgba(145, 133, 199, 0.12), inset 0 0 20px rgba(139, 69, 255, 0.18);
   animation: slowSpinReverse 180s linear infinite;
   pointer-events: none;
 }
@@ -230,7 +343,7 @@ body, html {
   position: absolute;
   inset: 100px;
   border-radius: 50%;
-  border: 1px dotted rgba(249, 226, 175, 0.2);
+  border: 1px dotted rgba(249, 226, 175, 0.25);
   animation: slowSpin 240s linear infinite;
   pointer-events: none;
 }
@@ -253,27 +366,27 @@ body, html {
 }
 
 .aspect-chord {
-  opacity: 0.15;
+  opacity: 0.18;
   transition: all 0.5s ease;
 }
 
 .aspect-chord.active {
-  opacity: 0.75;
+  opacity: 0.85;
   filter: drop-shadow(0 0 6px var(--elem-color));
   animation: aspectPulse 2.5s ease-in-out infinite alternate;
 }
 
 @keyframes aspectPulse {
-  0% { opacity: 0.4; }
-  100% { opacity: 0.9; }
+  0% { opacity: 0.45; }
+  100% { opacity: 0.95; }
 }
 
 /* 12 Zodiac Nodes */
 .project-node {
   position: absolute;
-  width: 68px;
-  height: 68px;
-  background: radial-gradient(circle at 35% 35%, #1d0f36 0%, #0a0416 100%);
+  width: 70px;
+  height: 70px;
+  background: radial-gradient(circle at 35% 35%, #22123d 0%, #0c051a 100%);
   border: 2px solid var(--gold-base);
   border-radius: 50%;
   display: flex;
@@ -283,7 +396,7 @@ body, html {
   cursor: pointer;
   transform: translate(-50%, -50%);
   animation: counterSpin 180s linear infinite;
-  box-shadow: 0 0 18px rgba(0, 0, 0, 0.8);
+  box-shadow: 0 0 20px rgba(0, 0, 0, 0.85);
   transition: all 0.35s cubic-bezier(0.175, 0.885, 0.32, 1.275);
   z-index: 10;
 }
@@ -293,195 +406,61 @@ body, html {
 }
 
 .node-symbol {
-  font-size: 1.7rem;
+  font-size: 1.75rem;
   line-height: 1;
   color: var(--gold-bright);
-  filter: drop-shadow(0 0 5px rgba(249, 226, 175, 0.5));
+  filter: drop-shadow(0 0 6px rgba(249, 226, 175, 0.6));
 }
 
 .node-element-tag {
-  font-size: 0.7rem;
+  font-size: 0.72rem;
   font-weight: 700;
-  margin-top: 1px;
+  margin-top: 2px;
 }
 
 .project-node:hover,
 .project-node.active-node {
-  background: radial-gradient(circle at 35% 35%, #3a1a6b 0%, #15062b 100%);
+  background: radial-gradient(circle at 35% 35%, #3e1b74 0%, #170730 100%);
   border-color: #ffffff;
-  box-shadow: 0 0 35px var(--elem-glow), inset 0 0 15px rgba(255, 255, 255, 0.4);
+  box-shadow: 0 0 35px var(--elem-glow), inset 0 0 15px rgba(255, 255, 255, 0.45);
   transform: translate(-50%, -50%) scale(1.18);
   z-index: 25;
-}
-
-.project-node.element-resonate {
-  border-color: var(--elem-color);
-  box-shadow: 0 0 25px var(--elem-glow);
-}
-
-/* Micro Constellation Map Popup */
-.constellation-mini-map {
-  position: absolute;
-  top: -125px;
-  left: 50%;
-  transform: translateX(-50%);
-  width: 140px;
-  background: rgba(10, 4, 22, 0.94);
-  border: 1px solid var(--gold-base);
-  border-radius: 8px;
-  padding: 8px;
-  box-shadow: 0 0 30px rgba(0, 0, 0, 0.9), 0 0 15px var(--elem-glow);
-  backdrop-filter: blur(12px);
-  pointer-events: none;
-  animation: fadeInPop 0.3s ease-out;
-  text-align: center;
-  z-index: 30;
-}
-
-@keyframes fadeInPop {
-  0% { opacity: 0; transform: translateX(-50%) translateY(8px) scale(0.9); }
-  100% { opacity: 1; transform: translateX(-50%) translateY(0) scale(1); }
-}
-
-.constellation-name {
-  font-family: 'Philosopher', serif;
-  font-size: 0.9rem;
-  color: var(--gold-bright);
-  font-weight: 700;
-}
-
-.constellation-meta {
-  font-family: 'Cormorant Garamond', serif;
-  font-size: 0.75rem;
-  color: rgba(255, 255, 255, 0.8);
-  margin-bottom: 4px;
-}
-
-.constellation-svg {
-  width: 100%;
-  height: 65px;
 }
 
 /* Decorative Planetary Runes */
 .tribal-rune {
   position: absolute;
   font-family: 'Philosopher', serif;
-  color: rgba(197, 160, 89, 0.3);
-  font-size: 1.5rem;
+  color: rgba(197, 160, 89, 0.35);
+  font-size: 1.55rem;
   pointer-events: none;
-  text-shadow: 0 0 8px rgba(197, 160, 89, 0.2);
+  text-shadow: 0 0 8px rgba(197, 160, 89, 0.25);
 }
 
 /* ========================================================
-   Top Zodiac Focus Indicator (Celestial Crown)
-   ======================================================== */
-.top-focus-indicator {
-  position: absolute;
-  top: 86px;
-  left: 50%;
-  transform: translateX(-50%);
-  z-index: 25;
-  pointer-events: auto;
-}
-
-.focus-badge-crown {
-  display: flex;
-  align-items: center;
-  gap: 14px;
-  background: rgba(10, 4, 22, 0.9);
-  border: 1px solid var(--gold-base);
-  border-radius: 40px;
-  padding: 6px 22px 6px 10px;
-  box-shadow: 0 0 25px rgba(0, 0, 0, 0.8), 0 0 15px var(--elem-glow);
-  backdrop-filter: blur(14px);
-  transition: all 0.35s ease;
-}
-
-.focus-icon-orb {
-  width: 42px;
-  height: 42px;
-  border-radius: 50%;
-  background: radial-gradient(circle at 35% 35%, #2a124d 0%, #0c0418 100%);
-  border: 2px solid var(--gold-bright);
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  box-shadow: 0 0 14px var(--elem-glow);
-}
-
-.focus-symbol {
-  font-size: 1.6rem;
-  color: var(--gold-bright);
-  line-height: 1;
-}
-
-.focus-details {
-  display: flex;
-  flex-direction: column;
-  text-align: left;
-}
-
-.focus-header-line {
-  display: flex;
-  align-items: center;
-  gap: 6px;
-}
-
-.focus-active-label {
-  font-family: 'Philosopher', serif;
-  font-size: 0.8rem;
-  color: rgba(255, 255, 255, 0.65);
-}
-
-.focus-name {
-  font-family: 'Philosopher', serif;
-  font-size: 1.05rem;
-  font-weight: 700;
-  color: var(--gold-bright);
-}
-
-.focus-sub-line {
-  display: flex;
-  align-items: center;
-  gap: 6px;
-  font-family: 'Cormorant Garamond', serif;
-  font-size: 0.85rem;
-  color: var(--gold-base);
-}
-
-.focus-divider {
-  opacity: 0.45;
-}
-
-.focus-prompt {
-  font-style: italic;
-  opacity: 0.75;
-}
-
-/* ========================================================
-   Central Oculus of Fate / 5-Stage Progressive Oracle Core
+   Central Oculus of Fate / Uncluttered Divination Core
    ======================================================== */
 .oracle-core {
   position: absolute;
   top: 50%;
   left: 50%;
   transform: translate(-50%, -50%);
-  width: 55vmin;
-  height: 55vmin;
-  min-width: 380px;
-  min-height: 380px;
-  max-width: 510px;
-  max-height: 510px;
-  background: radial-gradient(circle at 45% 45%, #180933 0%, #030109 100%);
+  width: 58vmin;
+  height: 58vmin;
+  min-width: 420px;
+  min-height: 420px;
+  max-width: 550px;
+  max-height: 550px;
+  background: radial-gradient(circle at 45% 45%, #1c0b3b 0%, #030109 100%);
   border: 2px solid var(--gold-base);
   border-radius: 50%;
   z-index: 8;
   display: flex;
   flex-direction: column;
   align-items: center;
-  justify-content: space-between;
+  justify-content: center;
   text-align: center;
-  padding: 22px 26px 16px 26px;
+  padding: 30px;
   cursor: pointer;
   transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
 }
@@ -489,19 +468,19 @@ body, html {
 .oracle-core::before {
   content: '';
   position: absolute;
-  inset: -8px;
+  inset: -10px;
   border-radius: 50%;
   border: 1px solid var(--gold-base);
-  opacity: 0.35;
-  box-shadow: 0 0 25px var(--elem-glow);
+  opacity: 0.4;
+  box-shadow: 0 0 30px var(--elem-glow);
   pointer-events: none;
 }
 
 .oculus-vortex {
   position: absolute;
-  inset: 12px;
+  inset: 14px;
   border-radius: 50%;
-  border: 1px dashed rgba(249, 226, 175, 0.16);
+  border: 1px dashed rgba(249, 226, 175, 0.2);
   animation: slowSpin 90s linear infinite;
   pointer-events: none;
 }
@@ -509,47 +488,7 @@ body, html {
 .oracle-core.pinch-charging {
   transform: translate(-50%, -50%) scale(1.05);
   border-color: #ffffff;
-  box-shadow: 0 0 100px var(--elem-glow), inset 0 0 50px rgba(255, 255, 255, 0.5) !important;
-}
-
-/* Stage Switcher Pills */
-.oculus-stage-tabs {
-  display: flex;
-  gap: 5px;
-  z-index: 2;
-  margin-top: 4px;
-  pointer-events: auto;
-}
-
-.stage-pill {
-  display: flex;
-  align-items: center;
-  gap: 3px;
-  padding: 3px 8px;
-  font-family: 'Philosopher', serif;
-  font-size: 0.72rem;
-  color: var(--gold-base);
-  background: rgba(10, 4, 22, 0.85);
-  border: 1px solid rgba(197, 160, 89, 0.35);
-  border-radius: 12px;
-  cursor: pointer;
-  transition: all 0.25s ease;
-}
-
-.stage-pill:hover {
-  color: #fff;
-  border-color: var(--gold-bright);
-}
-
-.stage-pill.active {
-  color: #fff;
-  background: rgba(42, 18, 77, 0.95);
-  border-color: var(--gold-bright);
-  box-shadow: 0 0 12px var(--elem-glow);
-}
-
-.stage-pill-icon {
-  font-size: 0.8rem;
+  box-shadow: 0 0 110px var(--elem-glow), inset 0 0 55px rgba(255, 255, 255, 0.5) !important;
 }
 
 /* Common Stage Container */
@@ -557,7 +496,6 @@ body, html {
   position: relative;
   z-index: 2;
   width: 100%;
-  flex: 1;
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -572,10 +510,9 @@ body, html {
 
 .stage-action-prompt {
   font-family: 'Cormorant Garamond', serif;
-  font-size: 0.75rem;
-  color: rgba(255, 255, 255, 0.6);
-  font-style: italic;
-  margin-top: 6px;
+  font-size: 0.95rem;
+  color: rgba(249, 226, 175, 0.8);
+  margin-top: 10px;
 }
 
 /* ========================================================
@@ -589,70 +526,80 @@ body, html {
 }
 
 .constellation-star-map-container {
-  width: 140px;
-  height: 95px;
+  width: 160px;
+  height: 110px;
   display: flex;
   align-items: center;
   justify-content: center;
-  margin-bottom: 2px;
+  margin-bottom: 6px;
 }
 
 .center-constellation-svg {
   width: 100%;
   height: 100%;
-  filter: drop-shadow(0 0 10px var(--elem-glow));
+  filter: drop-shadow(0 0 12px var(--elem-glow));
 }
 
 .center-sign-title {
   font-family: 'Philosopher', serif;
-  font-size: 1.25rem;
+  font-size: 1.45rem;
   font-weight: 700;
   color: var(--gold-bright);
-  margin-bottom: 2px;
-  text-shadow: 0 0 12px rgba(249, 226, 175, 0.5);
+  margin-bottom: 4px;
+  text-shadow: 0 0 14px rgba(249, 226, 175, 0.6);
 }
 
 .center-sign-meta {
   display: flex;
   align-items: center;
-  gap: 5px;
+  gap: 6px;
   font-family: 'Cormorant Garamond', serif;
-  font-size: 0.82rem;
+  font-size: 1.05rem;
   color: var(--gold-base);
+  margin-bottom: 2px;
+}
+
+.center-sign-dates {
+  font-family: 'Cormorant Garamond', serif;
+  font-size: 0.95rem;
+  color: rgba(255, 255, 255, 0.7);
 }
 
 .meta-dot {
-  opacity: 0.45;
+  opacity: 0.5;
 }
 
-/* Empty State */
 .center-empty-state {
   display: flex;
   flex-direction: column;
   align-items: center;
-  padding: 10px;
+  padding: 12px;
 }
 .empty-symbol {
-  font-size: 2.2rem;
-  margin-bottom: 4px;
+  font-size: 2.5rem;
+  margin-bottom: 6px;
 }
 .empty-desc {
   font-family: 'Cormorant Garamond', serif;
-  font-size: 0.85rem;
-  color: rgba(255, 255, 255, 0.7);
-  max-width: 240px;
-  line-height: 1.4;
+  font-size: 1.1rem;
+  color: rgba(255, 255, 255, 0.85);
+  max-width: 280px;
+  line-height: 1.5;
 }
 
 /* ========================================================
-   Stage 2: Horoscope Prophecy View
+   Stage 2: Goal-Oriented Horoscope Quest View
    ======================================================== */
-.stage-prophecy-view {
+.stage-goal-view {
   cursor: pointer;
+  width: 100%;
 }
 
-.oracle-fortune-card {
+.oracle-goal-card {
   max-width: 95%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
   animation: fadeInProphecy 0.4s ease-out;
 }
 
@@ -661,58 +608,86 @@ body, html {
   100% { opacity: 1; transform: translateY(0); }
 }
 
-.prophecy-header {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
+.goal-quest-badge {
+  font-family: 'Philosopher', serif;
+  font-size: 0.85rem;
+  font-weight: 700;
+  color: var(--gold-bright);
+  background: rgba(255, 255, 255, 0.08);
+  border: 1px solid var(--gold-base);
+  border-radius: 12px;
+  padding: 2px 12px;
   margin-bottom: 4px;
 }
 
-.prophecy-title {
+.goal-quest-title {
   font-family: 'Philosopher', serif;
-  font-size: 1.05rem;
-  color: var(--gold-bright);
+  font-size: 1.4rem;
   font-weight: 700;
+  color: var(--gold-bright);
+  margin-bottom: 8px;
 }
 
-.prophecy-transit {
-  font-family: 'Cormorant Garamond', serif;
-  font-size: 0.8rem;
-  color: var(--elem-color);
-}
-
-.prophecy-omen {
-  font-family: 'Cormorant Garamond', serif;
-  font-size: 0.88rem;
-  line-height: 1.45;
-  color: rgba(255, 255, 255, 0.92);
-  margin-bottom: 6px;
-  text-shadow: 0 0 5px rgba(0, 0, 0, 0.8);
-}
-
-.prophecy-footer {
+.goal-section {
   display: flex;
   flex-direction: column;
-  gap: 2px;
+  margin-bottom: 8px;
+  width: 100%;
+}
+
+.goal-label {
+  font-family: 'Philosopher', serif;
+  font-size: 0.95rem;
+  font-weight: 700;
+  color: var(--gold-bright);
+  margin-bottom: 2px;
+}
+
+.goal-text {
   font-family: 'Cormorant Garamond', serif;
-  font-size: 0.78rem;
-  color: var(--gold-base);
+  font-size: 1.12rem;
+  line-height: 1.5;
+  color: rgba(255, 255, 255, 0.94);
 }
 
-.prophecy-action {
+.goal-text.highlight {
+  color: #ffe699;
   font-weight: 600;
-  color: #fff;
 }
 
-.prophecy-aspect {
+.goal-text.oath-text {
+  color: var(--gold-bright);
+  font-weight: 600;
+  font-size: 1.12rem;
+}
+
+.goal-footer {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  width: 100%;
+  margin-top: 4px;
+  font-family: 'Cormorant Garamond', serif;
+  font-size: 0.92rem;
+  color: var(--gold-base);
+  border-top: 1px solid rgba(197, 160, 89, 0.25);
+  padding-top: 4px;
+}
+
+.goal-horizon {
+  color: #fff;
+  font-weight: 600;
+}
+
+.goal-aspect {
   opacity: 0.85;
 }
 
 .oracle-fortune {
   font-family: 'Cormorant Garamond', serif;
-  font-size: 0.9rem;
+  font-size: 1.1rem;
   color: rgba(255, 255, 255, 0.85);
-  line-height: 1.4;
+  line-height: 1.5;
 }
 
 /* ========================================================
@@ -726,55 +701,55 @@ body, html {
   display: flex;
   flex-direction: column;
   align-items: center;
-  max-width: 90%;
-  padding: 8px 14px;
-  background: rgba(14, 6, 30, 0.8);
-  border: 1px solid var(--gold-base);
-  border-radius: 10px;
-  box-shadow: inset 0 0 15px rgba(139, 69, 255, 0.2), 0 0 20px rgba(0, 0, 0, 0.8);
+  max-width: 92%;
+  padding: 10px 16px;
+  background: rgba(16, 7, 34, 0.85);
+  border: 1.5px solid var(--gold-base);
+  border-radius: 12px;
+  box-shadow: inset 0 0 18px rgba(139, 69, 255, 0.25), 0 0 25px rgba(0, 0, 0, 0.85);
 }
 
 .tarot-card-header {
   display: flex;
   align-items: center;
   gap: 8px;
-  margin-bottom: 2px;
+  margin-bottom: 3px;
 }
 
 .tarot-numeral {
   font-family: 'Philosopher', serif;
-  font-size: 0.85rem;
+  font-size: 0.95rem;
   font-weight: 700;
   color: var(--gold-bright);
 }
 
 .tarot-arcana-tag {
   font-family: 'Cormorant Garamond', serif;
-  font-size: 0.72rem;
-  color: var(--elem-color);
+  font-size: 0.82rem;
+  color: var(--gold-base);
   letter-spacing: 0.05em;
 }
 
 .tarot-art-orb {
-  width: 44px;
-  height: 44px;
+  width: 48px;
+  height: 48px;
   border-radius: 50%;
-  background: radial-gradient(circle at 35% 35%, #2d1052 0%, #0d031c 100%);
-  border: 1px solid var(--gold-base);
+  background: radial-gradient(circle at 35% 35%, #351368 0%, #0e0321 100%);
+  border: 1.5px solid var(--gold-base);
   display: flex;
   align-items: center;
   justify-content: center;
   margin: 3px 0;
-  box-shadow: 0 0 12px var(--elem-glow);
+  box-shadow: 0 0 14px var(--elem-glow);
 }
 
 .tarot-sigil {
-  font-size: 1.6rem;
+  font-size: 1.75rem;
 }
 
 .tarot-card-name {
   font-family: 'Philosopher', serif;
-  font-size: 1.05rem;
+  font-size: 1.3rem;
   font-weight: 700;
   color: var(--gold-bright);
   line-height: 1.1;
@@ -782,7 +757,7 @@ body, html {
 
 .tarot-card-title {
   font-family: 'Cormorant Garamond', serif;
-  font-size: 0.76rem;
+  font-size: 0.88rem;
   color: var(--gold-base);
   margin-bottom: 4px;
 }
@@ -792,32 +767,32 @@ body, html {
   flex-wrap: wrap;
   gap: 4px;
   justify-content: center;
-  margin-bottom: 4px;
+  margin-bottom: 6px;
 }
 
 .tarot-chip {
   font-family: 'Philosopher', serif;
-  font-size: 0.68rem;
+  font-size: 0.74rem;
   background: rgba(255, 255, 255, 0.08);
-  border: 1px solid rgba(197, 160, 89, 0.3);
-  padding: 1px 6px;
+  border: 1px solid rgba(197, 160, 89, 0.35);
+  padding: 2px 7px;
   border-radius: 8px;
   color: var(--gold-bright);
 }
 
 .tarot-upright {
   font-family: 'Cormorant Garamond', serif;
-  font-size: 0.82rem;
-  line-height: 1.35;
-  color: rgba(255, 255, 255, 0.9);
-  margin-bottom: 4px;
+  font-size: 1.05rem;
+  line-height: 1.45;
+  color: rgba(255, 255, 255, 0.94);
+  margin-bottom: 5px;
 }
 
 .tarot-advice {
   font-family: 'Cormorant Garamond', serif;
-  font-size: 0.76rem;
-  font-style: italic;
+  font-size: 0.96rem;
   color: var(--gold-bright);
+  font-weight: 600;
 }
 
 /* ========================================================
@@ -829,71 +804,71 @@ body, html {
 
 .runes-spread-grid {
   display: flex;
-  gap: 8px;
+  gap: 10px;
   justify-content: center;
-  margin-bottom: 8px;
+  margin-bottom: 10px;
 }
 
 .rune-node-card {
   display: flex;
   flex-direction: column;
   align-items: center;
-  width: 76px;
-  padding: 6px 4px;
-  background: rgba(14, 6, 30, 0.85);
-  border: 1px solid rgba(197, 160, 89, 0.4);
-  border-radius: 8px;
-  box-shadow: 0 0 10px rgba(0, 0, 0, 0.6);
+  width: 84px;
+  padding: 8px 6px;
+  background: rgba(16, 7, 34, 0.88);
+  border: 1px solid rgba(197, 160, 89, 0.45);
+  border-radius: 9px;
+  box-shadow: 0 0 12px rgba(0, 0, 0, 0.7);
 }
 
 .rune-position-label {
   font-family: 'Cormorant Garamond', serif;
-  font-size: 0.65rem;
-  color: rgba(255, 255, 255, 0.6);
+  font-size: 0.75rem;
+  color: rgba(255, 255, 255, 0.65);
 }
 
 .rune-glyph-large {
   font-family: 'Philosopher', serif;
-  font-size: 1.8rem;
+  font-size: 2rem;
   color: var(--gold-bright);
   line-height: 1.1;
-  text-shadow: 0 0 10px var(--elem-glow);
+  text-shadow: 0 0 12px var(--elem-glow);
 }
 
 .rune-name-label {
   font-family: 'Philosopher', serif;
-  font-size: 0.78rem;
+  font-size: 0.88rem;
   font-weight: 700;
-  color: #fff;
+  color: #ffffff;
 }
 
 .rune-sub-meaning {
   font-family: 'Cormorant Garamond', serif;
-  font-size: 0.65rem;
+  font-size: 0.76rem;
   color: var(--gold-base);
   text-align: center;
-  line-height: 1.1;
+  line-height: 1.15;
 }
 
 .designated-spell-rune-banner {
-  width: 90%;
-  background: rgba(30, 12, 60, 0.85);
-  border: 1px solid var(--gold-base);
-  border-radius: 8px;
-  padding: 6px 10px;
-  box-shadow: 0 0 16px var(--elem-glow);
+  width: 92%;
+  background: rgba(35, 14, 70, 0.88);
+  border: 1.5px solid var(--gold-base);
+  border-radius: 9px;
+  padding: 8px 12px;
+  box-shadow: 0 0 18px var(--elem-glow);
 }
 
 .spell-rune-badge {
   display: flex;
   align-items: center;
-  gap: 8px;
+  gap: 10px;
 }
 
 .spell-rune-glyph {
-  font-size: 1.9rem;
+  font-size: 2.1rem;
   color: var(--gold-bright);
-  text-shadow: 0 0 14px var(--elem-glow);
+  text-shadow: 0 0 16px var(--elem-glow);
 }
 
 .spell-rune-details {
@@ -904,15 +879,15 @@ body, html {
 
 .spell-rune-title {
   font-family: 'Philosopher', serif;
-  font-size: 0.82rem;
+  font-size: 0.95rem;
   color: var(--gold-bright);
 }
 
 .spell-rune-incantation {
   font-family: 'Cormorant Garamond', serif;
-  font-size: 0.74rem;
-  font-style: italic;
-  color: rgba(255, 255, 255, 0.85);
+  font-size: 1.05rem;
+  color: rgba(255, 255, 255, 0.92);
+  line-height: 1.35;
 }
 
 /* ========================================================
@@ -926,19 +901,19 @@ body, html {
 
 .d100-die-orb {
   position: relative;
-  width: 76px;
-  height: 76px;
+  width: 84px;
+  height: 84px;
   border-radius: 50%;
-  background: radial-gradient(circle at 35% 35%, #351368 0%, #0d031f 100%);
+  background: radial-gradient(circle at 35% 35%, #3d1577 0%, #0f0324 100%);
   border: 2px solid var(--gold-bright);
   display: flex;
   flex-direction: column;
   align-items: center;
   justify-content: center;
   cursor: pointer;
-  box-shadow: 0 0 25px var(--elem-glow), inset 0 0 15px rgba(255, 215, 0, 0.4);
+  box-shadow: 0 0 28px var(--elem-glow), inset 0 0 18px rgba(255, 215, 0, 0.4);
   transition: transform 0.3s ease;
-  margin-bottom: 4px;
+  margin-bottom: 6px;
 }
 
 .d100-die-orb:hover {
@@ -959,78 +934,88 @@ body, html {
 
 .d100-polyhedron-glow {
   position: absolute;
-  inset: 4px;
+  inset: 5px;
   border-radius: 50%;
-  border: 1px dotted rgba(255, 255, 255, 0.4);
+  border: 1px dotted rgba(255, 255, 255, 0.45);
   pointer-events: none;
 }
 
 .d100-center-number {
   font-family: 'Philosopher', serif;
-  font-size: 1.8rem;
+  font-size: 2.1rem;
   font-weight: 700;
   color: #fff;
   line-height: 1;
-  text-shadow: 0 0 10px rgba(255, 215, 0, 0.8);
+  text-shadow: 0 0 12px rgba(255, 215, 0, 0.85);
 }
 
 .d100-d-tag {
   font-family: 'Cormorant Garamond', serif;
-  font-size: 0.65rem;
+  font-size: 0.72rem;
   color: var(--gold-bright);
-  margin-top: 1px;
+  margin-top: 2px;
 }
 
 .dice-tier-badge {
   font-family: 'Philosopher', serif;
-  font-size: 0.8rem;
+  font-size: 0.88rem;
   font-weight: 700;
   color: var(--gold-bright);
   background: rgba(255, 255, 255, 0.08);
   border: 1px solid var(--gold-base);
-  padding: 2px 10px;
+  padding: 3px 12px;
   border-radius: 12px;
-  margin-bottom: 3px;
-  box-shadow: 0 0 10px var(--elem-glow);
+  margin-bottom: 4px;
+  box-shadow: 0 0 12px var(--elem-glow);
 }
 
 .dice-fate-title {
   font-family: 'Philosopher', serif;
-  font-size: 1.05rem;
+  font-size: 1.25rem;
   font-weight: 700;
   color: var(--gold-bright);
+  margin-bottom: 4px;
 }
 
 .dice-fate-omen {
   font-family: 'Cormorant Garamond', serif;
-  font-size: 0.84rem;
-  line-height: 1.35;
-  color: rgba(255, 255, 255, 0.9);
+  font-size: 1.08rem;
+  line-height: 1.45;
+  color: rgba(255, 255, 255, 0.94);
   max-width: 90%;
-  margin-bottom: 4px;
+  margin-bottom: 6px;
 }
 
 .dice-blessing-pill {
   font-family: 'Cormorant Garamond', serif;
-  font-size: 0.76rem;
-  font-style: italic;
-  color: var(--elem-color);
-  margin-bottom: 6px;
+  font-size: 0.95rem;
+  color: var(--gold-bright);
+  margin-bottom: 8px;
 }
 
 .dice-reroll-btn {
-  padding: 4px 14px;
-  font-size: 0.8rem;
+  padding: 6px 16px;
+  font-size: 0.95rem;
 }
 
-.oracle-hint {
-  font-family: 'Cormorant Garamond', serif;
-  font-size: 0.74rem;
-  color: var(--gold-base);
-  letter-spacing: 0.04em;
-  opacity: 0.8;
-  margin-top: 4px;
-  z-index: 2;
+/* ========================================================
+   Below-Compass Hint Bar
+   ======================================================== */
+.compass-footer-hint {
+  position: absolute;
+  bottom: -46px;
+  left: 50%;
+  transform: translateX(-50%);
+  font-family: 'Philosopher', serif;
+  font-size: 0.96rem;
+  color: var(--gold-bright);
+  background: rgba(10, 4, 22, 0.9);
+  border: 1px solid rgba(197, 160, 89, 0.4);
+  border-radius: 24px;
+  padding: 7px 22px;
+  box-shadow: 0 0 20px rgba(0, 0, 0, 0.85);
+  white-space: nowrap;
+  z-index: 20;
 }
 
 /* ========================================================
@@ -1055,52 +1040,36 @@ body, html {
   border-radius: 50%;
   border: 3px solid var(--gold-base);
   box-shadow: 
-    0 0 35px rgba(0, 0, 0, 0.9),
-    0 0 25px var(--elem-glow),
-    inset 0 0 20px rgba(0, 0, 0, 0.8);
-  background: radial-gradient(circle at 45% 45%, #180933 0%, #080214 100%);
+    0 0 30px rgba(0, 0, 0, 0.9), 
+    0 0 20px var(--elem-glow);
+  background: #000;
   overflow: hidden;
   transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
-  outline: none;
 }
 
-/* Clickable Orb State (When camera is off) */
 .scrying-mirror.clickable-orb {
   cursor: pointer;
 }
 
 .scrying-mirror.clickable-orb:hover {
   transform: scale(1.06);
-  border-color: #ffffff;
-  box-shadow: 
-    0 0 50px var(--elem-glow),
-    inset 0 0 30px rgba(249, 226, 175, 0.35);
+  border-color: var(--gold-bright);
+  box-shadow: 0 0 45px var(--elem-glow), inset 0 0 25px rgba(249, 226, 175, 0.3);
 }
 
-.scrying-mirror.clickable-orb:active {
-  transform: scale(0.98);
-}
-
-/* Active State (When camera is on) */
 .scrying-mirror.active {
-  cursor: pointer;
-  border-color: #ffffff;
-  box-shadow: 
-    0 0 50px var(--elem-glow),
-    inset 0 0 25px rgba(255, 215, 0, 0.3);
-}
-
-.scrying-mirror.active:hover {
-  box-shadow: 0 0 65px var(--elem-glow);
+  border-color: #00ffea;
+  box-shadow: 0 0 50px rgba(0, 255, 234, 0.4), inset 0 0 20px rgba(0, 255, 234, 0.2);
 }
 
 .mirror-rune-ring {
   position: absolute;
   inset: -6px;
   border-radius: 50%;
-  border: 1px dashed rgba(249, 226, 175, 0.35);
+  border: 1px dashed rgba(249, 226, 175, 0.3);
   animation: slowSpin 60s linear infinite;
   pointer-events: none;
+  z-index: 2;
 }
 
 .mirror-glass {
@@ -1109,6 +1078,7 @@ body, html {
   height: 100%;
   border-radius: 50%;
   overflow: hidden;
+  background: radial-gradient(circle at 40% 40%, #17092e 0%, #030108 100%);
   display: flex;
   align-items: center;
   justify-content: center;
@@ -1118,9 +1088,9 @@ body, html {
   width: 100%;
   height: 100%;
   object-fit: cover;
-  transform: scaleX(-1); /* Mirror camera stream */
-  filter: contrast(1.1) brightness(0.95);
-  border-radius: 50%;
+  transform: scaleX(-1); /* Mirror camera feed */
+  position: absolute;
+  inset: 0;
 }
 
 .mirror-overlay-canvas {
@@ -1128,22 +1098,19 @@ body, html {
   inset: 0;
   width: 100%;
   height: 100%;
-  transform: scaleX(-1); /* Align with mirrored video */
   pointer-events: none;
-  border-radius: 50%;
+  z-index: 5;
 }
 
-/* Placeholder content inside circle when off */
+/* Idle State in Scrying Glass */
 .mirror-portal-placeholder {
-  width: 100%;
-  height: 100%;
   display: flex;
   flex-direction: column;
   align-items: center;
   justify-content: center;
-  padding: 20px;
   text-align: center;
-  pointer-events: none;
+  padding: 15px;
+  z-index: 3;
 }
 
 .portal-caption {
@@ -1151,196 +1118,186 @@ body, html {
   font-size: 1.15rem;
   font-weight: 700;
   color: var(--gold-bright);
-  margin-bottom: 6px;
-  text-shadow: 0 0 10px rgba(249, 226, 175, 0.5);
+  letter-spacing: 0.02em;
+  margin-bottom: 3px;
+  text-shadow: 0 0 8px rgba(249, 226, 175, 0.5);
 }
 
 .portal-subaction {
-  font-family: 'Cormorant Garamond', serif;
-  font-size: 0.9rem;
-  color: var(--elem-color);
-  letter-spacing: 0.04em;
-  opacity: 0.9;
-}
-
-/* Status indicator overlay when active */
-.mirror-active-overlay {
-  position: absolute;
-  top: 12px;
-  right: 12px;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  pointer-events: none;
-}
-
-.mirror-status-dot {
-  width: 10px;
-  height: 10px;
-  border-radius: 50%;
-  background: #00ffea;
-  box-shadow: 0 0 8px #00ffea;
-  animation: pulseDot 2s ease-in-out infinite alternate;
-}
-
-@keyframes pulseDot {
-  0% { transform: scale(0.85); opacity: 0.6; }
-  100% { transform: scale(1.2); opacity: 1; }
-}
-
-/* Spell Ribbon HUD */
-.spell-ribbon-hud {
-  margin-top: 10px;
-  background: rgba(10, 4, 22, 0.92);
-  border: 1px solid var(--gold-base);
-  border-radius: 20px;
-  padding: 6px 18px;
-  text-align: center;
-  box-shadow: 0 0 20px rgba(0, 0, 0, 0.8);
-  backdrop-filter: blur(10px);
-  transition: all 0.3s ease;
-}
-
-.spell-ribbon-hud.glow {
-  border-color: var(--elem-color);
-  box-shadow: 0 0 25px var(--elem-glow);
-}
-
-.spell-ribbon-title {
-  font-family: 'Philosopher', serif;
-  font-size: 0.9rem;
-  font-weight: 700;
-  color: var(--gold-bright);
-}
-
-.spell-ribbon-desc {
-  font-family: 'Cormorant Garamond', serif;
-  font-size: 0.78rem;
-  color: var(--elem-color);
-  letter-spacing: 0.03em;
-}
-
-.camera-notice-bubble {
-  margin-top: 8px;
-  background: rgba(255, 77, 77, 0.25);
-  border: 1px solid #ff4d4d;
-  color: #fff;
-  font-size: 0.8rem;
-  padding: 6px 12px;
-  border-radius: 6px;
-  max-width: 220px;
-  text-align: center;
-}
-
-/* Grimoire Spellbook Modal */
-.grimoire-overlay {
-  position: fixed;
-  inset: 0;
-  background: rgba(2, 0, 8, 0.85);
-  backdrop-filter: blur(8px);
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  z-index: 100;
-  animation: fadeInModal 0.3s ease-out;
-}
-
-@keyframes fadeInModal {
-  0% { opacity: 0; }
-  100% { opacity: 1; }
-}
-
-.grimoire-book {
-  position: relative;
-  width: 90%;
-  max-width: 720px;
-  max-height: 85vh;
-  overflow-y: auto;
-  background: radial-gradient(circle at 50% 20%, #1a0a38 0%, #080314 100%);
-  border: 2px solid var(--gold-base);
-  border-radius: 12px;
-  padding: 30px;
-  box-shadow: 0 0 60px rgba(0, 0, 0, 0.95), 0 0 30px var(--elem-glow);
-}
-
-.grimoire-header {
-  position: relative;
-  text-align: center;
-  margin-bottom: 24px;
-}
-
-.grimoire-sigil {
-  font-size: 2.5rem;
-  margin-bottom: 4px;
-}
-
-.grimoire-header h2 {
-  font-family: 'Philosopher', serif;
-  font-size: 1.9rem;
-  font-weight: 700;
-  color: var(--gold-bright);
-}
-
-.grimoire-subtitle {
   font-family: 'Cormorant Garamond', serif;
   font-size: 0.95rem;
   color: var(--gold-base);
   opacity: 0.9;
 }
 
+.mirror-active-overlay {
+  position: absolute;
+  top: 12px;
+  right: 12px;
+  z-index: 10;
+}
+
+.mirror-status-dot {
+  display: block;
+  width: 10px;
+  height: 10px;
+  border-radius: 50%;
+  background: #00ffea;
+  box-shadow: 0 0 10px #00ffea;
+  animation: pulseDot 1.5s infinite;
+}
+
+@keyframes pulseDot {
+  0% { opacity: 0.4; transform: scale(0.9); }
+  50% { opacity: 1; transform: scale(1.15); }
+  100% { opacity: 0.4; transform: scale(0.9); }
+}
+
+/* Spell Detection Ribbon HUD */
+.spell-ribbon-hud {
+  margin-top: 10px;
+  background: rgba(10, 4, 22, 0.92);
+  border: 1px solid rgba(197, 160, 89, 0.4);
+  border-radius: 8px;
+  padding: 6px 14px;
+  text-align: center;
+  backdrop-filter: blur(10px);
+  box-shadow: 0 0 15px rgba(0, 0, 0, 0.8);
+  transition: all 0.3s ease;
+  min-width: 180px;
+}
+
+.spell-ribbon-hud.glow {
+  border-color: var(--gold-bright);
+  box-shadow: 0 0 20px var(--elem-glow);
+}
+
+.spell-ribbon-title {
+  font-family: 'Philosopher', serif;
+  font-size: 0.92rem;
+  font-weight: 700;
+  color: var(--gold-bright);
+}
+
+.spell-ribbon-desc {
+  font-family: 'Cormorant Garamond', serif;
+  font-size: 0.82rem;
+  color: var(--gold-base);
+}
+
+.camera-notice-bubble {
+  margin-top: 6px;
+  background: rgba(40, 10, 20, 0.9);
+  border: 1px solid #ff4d4d;
+  color: #ff9999;
+  font-size: 0.78rem;
+  padding: 4px 10px;
+  border-radius: 6px;
+  max-width: 200px;
+  text-align: center;
+}
+
+/* ========================================================
+   Grimoire Modal / Drawer
+   ======================================================== */
+.grimoire-overlay {
+  position: fixed;
+  inset: 0;
+  background: rgba(2, 1, 6, 0.82);
+  backdrop-filter: blur(12px);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 100;
+  animation: fadeIn 0.3s ease-out;
+}
+
+.grimoire-book {
+  position: relative;
+  width: 90%;
+  max-width: 780px;
+  max-height: 85vh;
+  overflow-y: auto;
+  background: 
+    radial-gradient(circle at 20% 20%, #1e0b3c 0%, #090317 100%);
+  border: 2px solid var(--gold-base);
+  border-radius: 16px;
+  padding: 30px;
+  box-shadow: 
+    0 0 60px rgba(0, 0, 0, 0.95),
+    0 0 35px var(--elem-glow),
+    inset 0 0 30px rgba(139, 69, 255, 0.2);
+}
+
+.grimoire-header {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  position: relative;
+  border-bottom: 1px solid rgba(197, 160, 89, 0.3);
+  padding-bottom: 16px;
+  margin-bottom: 20px;
+}
+
+.grimoire-sigil {
+  font-size: 2.2rem;
+  margin-bottom: 4px;
+}
+
+.grimoire-header h2 {
+  font-family: 'Philosopher', serif;
+  font-size: 1.8rem;
+  font-weight: 700;
+  color: var(--gold-bright);
+}
+
+.grimoire-subtitle {
+  font-family: 'Cormorant Garamond', serif;
+  font-size: 1.05rem;
+  color: var(--gold-base);
+}
+
 .grimoire-close {
   position: absolute;
   top: 0;
   right: 0;
-  width: 32px;
-  height: 32px;
-  border-radius: 50%;
-  background: rgba(255, 255, 255, 0.1);
-  border: 1px solid var(--gold-base);
-  color: var(--gold-bright);
-  font-size: 1rem;
+  background: none;
+  border: none;
+  font-size: 1.4rem;
+  color: var(--gold-base);
   cursor: pointer;
-  display: flex;
-  align-items: center;
-  justify-content: center;
+  transition: color 0.2s;
 }
 
 .grimoire-close:hover {
-  background: #ff4d4d;
   color: #fff;
 }
 
 .spell-card-grid {
   display: grid;
-  grid-template-columns: 1fr;
-  gap: 14px;
+  grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+  gap: 16px;
   margin-bottom: 24px;
 }
 
 .spell-card {
   display: flex;
-  align-items: flex-start;
-  gap: 16px;
-  background: rgba(14, 6, 30, 0.8);
+  gap: 14px;
+  background: rgba(14, 5, 28, 0.7);
   border: 1px solid rgba(197, 160, 89, 0.3);
-  border-radius: 8px;
-  padding: 14px 18px;
-  transition: all 0.3s;
+  border-radius: 10px;
+  padding: 14px;
+  transition: all 0.3s ease;
 }
 
-.spell-card.highlight {
+.spell-card:hover, .spell-card.highlight {
   border-color: var(--gold-bright);
-  background: rgba(26, 12, 54, 0.85);
-  box-shadow: 0 0 20px var(--elem-glow);
-}
-
-.spell-card:hover {
-  border-color: var(--gold-bright);
-  transform: translateX(4px);
+  box-shadow: 0 0 15px var(--elem-glow);
+  background: rgba(28, 10, 56, 0.85);
 }
 
 .spell-icon {
-  font-size: 2.2rem;
+  font-size: 2rem;
   line-height: 1;
 }
 
@@ -1354,88 +1311,87 @@ body, html {
 
 .spell-gesture {
   display: inline-block;
-  font-family: 'Cormorant Garamond', serif;
-  font-size: 0.85rem;
-  font-weight: 700;
-  color: var(--elem-color);
-  letter-spacing: 0.03em;
+  font-family: 'Philosopher', serif;
+  font-size: 0.84rem;
+  color: var(--gold-bright);
   margin-bottom: 6px;
+  background: rgba(255, 255, 255, 0.08);
+  padding: 2px 8px;
+  border-radius: 6px;
 }
 
 .spell-details p {
   font-family: 'Cormorant Garamond', serif;
-  font-size: 0.92rem;
-  line-height: 1.5;
-  color: rgba(255, 255, 255, 0.88);
+  font-size: 1.05rem;
+  line-height: 1.45;
+  color: rgba(255, 255, 255, 0.9);
 }
 
 .grimoire-footer-notes {
-  background: rgba(8, 3, 18, 0.9);
-  border: 1px solid rgba(197, 160, 89, 0.3);
-  border-radius: 8px;
-  padding: 14px 18px;
+  border-top: 1px solid rgba(197, 160, 89, 0.25);
+  padding-top: 16px;
 }
 
 .grimoire-footer-notes h4 {
   font-family: 'Philosopher', serif;
-  font-size: 1rem;
+  font-size: 1.05rem;
   font-weight: 700;
   color: var(--gold-bright);
-  margin-bottom: 8px;
+  margin-bottom: 10px;
 }
 
 .shortcuts-list {
   display: flex;
   flex-wrap: wrap;
-  gap: 10px 16px;
+  gap: 12px;
 }
 
 .shortcuts-list span {
-  font-family: 'Cormorant Garamond', serif;
-  font-size: 0.88rem;
-  color: rgba(255, 255, 255, 0.85);
-  display: flex;
+  display: inline-flex;
   align-items: center;
   gap: 6px;
+  font-family: 'Cormorant Garamond', serif;
+  font-size: 1rem;
+  color: rgba(255, 255, 255, 0.9);
 }
 
-kbd {
-  background: rgba(255, 255, 255, 0.15);
+.shortcuts-list kbd {
+  background: rgba(197, 160, 89, 0.2);
   border: 1px solid var(--gold-base);
   border-radius: 4px;
-  padding: 2px 6px;
+  padding: 2px 7px;
   font-family: monospace;
-  font-size: 0.75rem;
+  font-size: 0.85rem;
   color: var(--gold-bright);
 }
 
-/* Responsive Media Queries */
+/* ========================================================
+   Responsive Breakpoints
+   ======================================================== */
 @media (max-width: 900px) {
-  .site-header {
-    top: 20px;
-    left: 20px;
-    right: 20px;
-    flex-direction: column;
-    gap: 12px;
+  .compass-gesture-nav {
+    position: static;
+    transform: none;
+    width: 90%;
+    max-width: 440px;
+    margin-bottom: 15px;
+    flex-direction: row;
+    flex-wrap: wrap;
+    justify-content: center;
   }
-  .header-titles h1 { font-size: 1.7rem; }
-  .header-actions { flex-wrap: wrap; }
-  .astrolabe-wrapper { width: 88vmin; height: 88vmin; }
-  .oracle-core { width: 60vmin; height: 60vmin; padding: 20px; }
-  .project-node { width: 54px; height: 54px; }
-  .node-symbol { font-size: 1.3rem; }
-  .scrying-mirror-container { bottom: 15px; right: 15px; }
-  .scrying-mirror { width: 160px; height: 160px; }
-}
-
-@media (max-width: 600px) {
-  .site-header h1 { font-size: 1.4rem; }
-  .realm-tagline { font-size: 0.8rem; }
-  .astral-btn { font-size: 0.8rem; padding: 6px 12px; }
-  .astrolabe-wrapper { width: 92vmin; height: 92vmin; }
-  .oracle-core { width: 68vmin; height: 68vmin; padding: 15px; }
-  .oracle-title { font-size: 1.1rem; }
-  .prophecy-omen { font-size: 0.82rem; }
-  .scrying-mirror { width: 130px; height: 130px; }
-  .portal-caption { font-size: 0.95rem; }
+  .divination-arena {
+    flex-direction: column;
+    height: auto;
+    padding-top: 80px;
+  }
+  .astrolabe-wrapper {
+    width: 86vmin;
+    height: 86vmin;
+  }
+  .oracle-core {
+    width: 65vmin;
+    height: 65vmin;
+    min-width: 320px;
+    min-height: 320px;
+  }
 }
