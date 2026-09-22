@@ -35,7 +35,6 @@ function App() {
     rotation,
     setRotation,
     activeSpell,
-    handCoordinates,
     rawLandmarks,
     cameraError,
     startCamera,
@@ -47,27 +46,32 @@ function App() {
 
   const isSignLockedRef = useRef(false);
 
-  // Derive sign aimed at with pointing gesture directly during render
-  const pointingHoveredSign = React.useMemo(() => {
-    if (activeSpell === 'POINTING' && !isSignLocked && handCoordinates) {
-      const hx = handCoordinates.x - 0.5;
-      const hy = handCoordinates.y - 0.5;
-      const radius = Math.sqrt(hx * hx + hy * hy);
-      if (radius > 0.15 && radius < 0.85) {
-        const handAngle = (Math.atan2(hy, hx) * (180 / Math.PI) - rotation + 360) % 360;
-        const adjusted = (handAngle + 90 + 15) % 360;
-        const signIndex = ((Math.floor(adjusted / 30) % 12) + 12) % 12;
-        return ZODIAC_SIGNS[signIndex] || null;
-      }
-    }
-    return null;
-  }, [activeSpell, isSignLocked, handCoordinates, rotation]);
+  // Derive the zodiac sign aligned with the top Zenith (12 o'clock) as the compass spins
+  const zenithSign = React.useMemo(() => {
+    const normalizedAngle = (-rotation % 360 + 360) % 360;
+    const zenithIdx = Math.floor((normalizedAngle + 15) % 360 / 30) % 12;
+    return ZODIAC_SIGNS[zenithIdx] || ZODIAC_SIGNS[0];
+  }, [rotation]);
 
-  const effectiveHoveredSign = pointingHoveredSign || hoveredSign;
+  // When pointing or browsing before locking, dynamically scroll through the zodiac choices with the wheel
+  const effectiveActiveSign = (!isSignLocked || activeSpell === 'POINTING')
+    ? (hoveredSign || zenithSign)
+    : (activeSign || zenithSign);
+
+  const effectiveHoveredSign = hoveredSign || ((!isSignLocked || activeSpell === 'POINTING') ? zenithSign : null);
+
+  // Play subtle astral tick sound as rotation scrolls past each 30-degree zodiac notch
+  const lastScrolledIdxRef = useRef(0);
+  useEffect(() => {
+    const normalizedAngle = (-rotation % 360 + 360) % 360;
+    const currentIdx = Math.floor((normalizedAngle + 15) % 360 / 30) % 12;
+    if (currentIdx !== lastScrolledIdxRef.current) {
+      lastScrolledIdxRef.current = currentIdx;
+      mysticAudio.playAstralRotation(0.35);
+    }
+  }, [rotation]);
 
   // Derive Tarot card and Runes spread directly from active sign
-  const effectiveActiveSign = effectiveHoveredSign || activeSign || ZODIAC_SIGNS[0];
-
   const tarotCard = React.useMemo(() => {
     return getZodiacTarot(effectiveActiveSign?.id);
   }, [effectiveActiveSign?.id]);
@@ -82,7 +86,7 @@ function App() {
     gestureCooldownRef.current.fist = true;
 
     requestAnimationFrame(() => {
-      const chosen = effectiveHoveredSign || activeSign;
+      const chosen = effectiveActiveSign;
       isSignLockedRef.current = true;
       setIsSignLocked(true);
       setActiveSign(chosen);
@@ -99,7 +103,7 @@ function App() {
         gestureCooldownRef.current.fist = false;
       }, 1200);
     });
-  }, [effectiveHoveredSign, activeSign, setRotation]);
+  }, [effectiveActiveSign, setRotation]);
 
   // Stage 2: Cast Destiny Covenant / Horoscope Goal Channeling
   const handleCastGoal = useCallback(() => {

@@ -154,24 +154,16 @@ export function AstrologyBoard({
         </div>
 
         {/* Fist Selection Reminder inside the left side panel with the rest */}
-        <div className={`nav-panel-fist-reminder ${isSignLocked ? 'locked' : ''}`}>
+        <div className="nav-panel-fist-reminder">
           <div className="reminder-body">
-            <span className="reminder-icon">{isSignLocked ? '🔒' : '✊'}</span>
+            <span className="reminder-icon">✊</span>
             <div className="reminder-texts">
-              <span className="reminder-heading">
-                {isSignLocked ? 'Sign Selected' : 'Fist Selects Sign'}
-              </span>
+              <span className="reminder-heading">Fist Selects Sign</span>
               <span className="reminder-subtext">
-                {isSignLocked ? 'Locked on the board' : 'Clench fist to select'}
+                {isSignLocked ? `${activeSign?.name || 'Sign'} chosen on board` : 'Clench fist to select'}
               </span>
             </div>
           </div>
-        </div>
-
-        {/* Point in circle hint in the left side panel */}
-        <div className="nav-point-spin-hint">
-          <span className="point-icon">☝️</span>
-          <span className="point-text">Point in circle to spin</span>
         </div>
       </nav>
 
