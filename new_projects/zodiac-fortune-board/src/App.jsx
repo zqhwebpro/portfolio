@@ -27,6 +27,14 @@ function App() {
   const [isGrimoireOpen, setIsGrimoireOpen] = useState(false);
   const [isMuted, setIsMuted] = useState(false);
 
+  // 3-Second Fist Hold State for Locking / Unlocking Selected Zodiac
+  const [fistHoldProgress, setFistHoldProgress] = useState(0); // 0 to 1
+  const [isFistHeld, setIsFistHeld] = useState(false);
+  const [manualFistHold, setManualFistHold] = useState(false);
+  const fistHoldStartTimeRef = useRef(null);
+  const fistCooldownRef = useRef(false);
+  const holdAnimFrameRef = useRef(null);
+
   const gestureCooldownRef = useRef({});
 
   const {
@@ -40,19 +48,24 @@ function App() {
     startCamera,
     stopCamera,
     videoRef
-  } = useHandTracking();
+  } = useHandTracking({ isLocked: isSignLocked });
 
   const showAspects = activeSpell === 'HORNS' || manualAspects;
 
-  const isSignLockedRef = useRef(false);
+  const isSignLockedRef = useRef(isSignLocked);
+  useEffect(() => {
+    isSignLockedRef.current = isSignLocked;
+  }, [isSignLocked]);
 
   // Derive the zodiac sign aligned with the top Zenith (12 o'clock) as the compass spins
-  // The zodiac at the very top of the circle is ALWAYS the one displayed on the board
   const zenithSign = React.useMemo(() => {
     const normalizedAngle = (-rotation % 360 + 360) % 360;
     const zenithIdx = Math.floor((normalizedAngle + 15) % 360 / 30) % 12;
     return ZODIAC_SIGNS[zenithIdx] || ZODIAC_SIGNS[0];
   }, [rotation]);
+
+  // When a zodiac sign is locked, it remains the active focus across all divination stages!
+  const activeSign = (isSignLocked && selectedSign) ? selectedSign : zenithSign;
 
   // Play subtle astral tick sound as rotation scrolls past each 30-degree zodiac notch
   const lastScrolledIdxRef = useRef(0);
@@ -65,38 +78,95 @@ function App() {
     }
   }, [rotation]);
 
-  // Derive Tarot card and Runes spread directly from the zodiac sign at Zenith
+  // Derive Tarot card and Runes spread directly from the active zodiac sign
   const tarotCard = React.useMemo(() => {
-    return getZodiacTarot(zenithSign?.id);
-  }, [zenithSign?.id]);
+    return getZodiacTarot(activeSign?.id);
+  }, [activeSign?.id]);
 
   const runeData = React.useMemo(() => {
-    return drawRuneSpread(zenithSign);
-  }, [zenithSign]);
+    return drawRuneSpread(activeSign);
+  }, [activeSign]);
 
-  // A fist selects the sign currently at Zenith on the board and crowns it
-  const handleCastFistSelect = useCallback(() => {
-    if (gestureCooldownRef.current.fist) return;
-    gestureCooldownRef.current.fist = true;
+  // Fist 3-Second Hold Controller:
+  // Holding a fist for 3 seconds locks the zenith sign.
+  // Holding a fist for 3 seconds again unlocks it.
+  useEffect(() => {
+    const isFistActive = activeSpell === 'FIST' || manualFistHold;
 
-    requestAnimationFrame(() => {
-      const chosen = zenithSign;
-      isSignLockedRef.current = true;
-      setIsSignLocked(true);
-      setSelectedSign(chosen);
-      setActiveStage(1);
-      mysticAudio.playNodeIgnite();
+    if (!isFistActive) {
+      if (holdAnimFrameRef.current) {
+        cancelAnimationFrame(holdAnimFrameRef.current);
+        holdAnimFrameRef.current = null;
+      }
+      fistHoldStartTimeRef.current = null;
+      fistCooldownRef.current = false;
+      setFistHoldProgress(0);
+      setIsFistHeld(false);
+      return;
+    }
 
-      const signIdx = ZODIAC_SIGNS.findIndex(s => s.id === chosen.id);
-      if (signIdx !== -1) {
-        setRotation(-signIdx * 30);
+    // Still holding after a successful trigger -> await release before re-triggering
+    if (fistCooldownRef.current) return;
+
+    if (!fistHoldStartTimeRef.current) {
+      fistHoldStartTimeRef.current = performance.now();
+      setIsFistHeld(true);
+    }
+
+    const tickHold = () => {
+      if (!fistHoldStartTimeRef.current) return;
+      const elapsed = performance.now() - fistHoldStartTimeRef.current;
+      const progress = Math.min(elapsed / 3000, 1);
+      setFistHoldProgress(progress);
+
+      if (progress >= 1) {
+        // 3 seconds completed!
+        fistCooldownRef.current = true;
+        fistHoldStartTimeRef.current = null;
+        setFistHoldProgress(1);
+
+        if (!isSignLockedRef.current) {
+          // LOCK
+          const chosen = zenithSign;
+          isSignLockedRef.current = true;
+          setIsSignLocked(true);
+          setSelectedSign(chosen);
+          setActiveStage(1);
+          mysticAudio.playNodeIgnite();
+          mysticAudio.playCelestialChime(4);
+
+          const signIdx = ZODIAC_SIGNS.findIndex(s => s.id === chosen.id);
+          if (signIdx !== -1) {
+            setRotation(-signIdx * 30);
+          }
+        } else {
+          // UNLOCK
+          isSignLockedRef.current = false;
+          setIsSignLocked(false);
+          setSelectedSign(null);
+          mysticAudio.playSpellCast('flare');
+        }
+
+        setTimeout(() => {
+          setFistHoldProgress(0);
+          setIsFistHeld(false);
+        }, 350);
+
+        return;
       }
 
-      setTimeout(() => {
-        gestureCooldownRef.current.fist = false;
-      }, 800);
-    });
-  }, [zenithSign, setRotation]);
+      holdAnimFrameRef.current = requestAnimationFrame(tickHold);
+    };
+
+    holdAnimFrameRef.current = requestAnimationFrame(tickHold);
+
+    return () => {
+      if (holdAnimFrameRef.current) {
+        cancelAnimationFrame(holdAnimFrameRef.current);
+        holdAnimFrameRef.current = null;
+      }
+    };
+  }, [activeSpell, manualFistHold, zenithSign, setRotation]);
 
   // Stage 2: Cast Destiny Covenant / Horoscope Goal Channeling
   const handleCastGoal = useCallback(() => {
@@ -106,7 +176,7 @@ function App() {
     setActiveStage(2);
     mysticAudio.playSpellCast('prophecy');
 
-    const newGoal = getRandomGoal(zenithSign);
+    const newGoal = getRandomGoal(activeSign);
     setHoroscopeGoal(newGoal);
 
     setTimeout(() => {
@@ -115,15 +185,10 @@ function App() {
         gestureCooldownRef.current.prophecy = false;
       }, 1200);
     }, 200);
-  }, [zenithSign]);
+  }, [activeSign]);
 
-  // 4-Stage Gesture Controller: A fist selects the sign on the board
+  // Gesture stages controller for non-fist gestures
   useEffect(() => {
-    // FIST (✊) Selects the sign on the board and locks it
-    if (activeSpell === 'FIST') {
-      handleCastFistSelect();
-    }
-
     // POINTING (☝️) Focus Stage 1
     if (activeSpell === 'POINTING') {
       requestAnimationFrame(() => {
@@ -159,7 +224,7 @@ function App() {
         gestureCooldownRef.current.runes = false;
       }, 1400);
     }
-  }, [activeSpell, handleCastFistSelect, handleCastGoal]);
+  }, [activeSpell, handleCastGoal]);
 
   // Toggle Camera
   const handleToggleCamera = () => {
@@ -189,7 +254,7 @@ function App() {
         e.preventDefault();
         handleCastGoal();
       } else if (e.key === '1' || e.key === 'Enter') {
-        handleCastFistSelect();
+        setManualFistHold(true);
       } else if (e.key === '2') {
         handleCastGoal();
       } else if (e.key === '3') {
@@ -206,9 +271,19 @@ function App() {
       }
     };
 
+    const handleKeyUp = (e) => {
+      if (e.key === '1' || e.key === 'Enter') {
+        setManualFistHold(false);
+      }
+    };
+
     window.addEventListener('keydown', handleKeyDown);
-    return () => window.removeEventListener('keydown', handleKeyDown);
-  }, [handleCastGoal, handleCastFistSelect]);
+    window.addEventListener('keyup', handleKeyUp);
+    return () => {
+      window.removeEventListener('keydown', handleKeyDown);
+      window.removeEventListener('keyup', handleKeyUp);
+    };
+  }, [handleCastGoal]);
 
   const handleHoverSign = (sign) => {
     setHoveredSign(sign);
@@ -219,20 +294,33 @@ function App() {
   };
 
   const handleSelectSign = (sign) => {
-    setSelectedSign(sign);
+    if (isSignLocked && selectedSign?.id === sign.id) {
+      // Toggle off / unlock
+      isSignLockedRef.current = false;
+      setIsSignLocked(false);
+      setSelectedSign(null);
+      mysticAudio.playSpellCast('flare');
+      return;
+    }
+
+    const chosen = sign;
+    isSignLockedRef.current = true;
     setIsSignLocked(true);
+    setSelectedSign(chosen);
     setHoveredSign(null);
     mysticAudio.playNodeIgnite();
+    mysticAudio.playCelestialChime(4);
 
     // Smoothly rotate the wheel so the chosen sign aligns at the top Zenith
-    const signIdx = ZODIAC_SIGNS.findIndex(s => s.id === sign.id);
+    const signIdx = ZODIAC_SIGNS.findIndex(s => s.id === chosen.id);
     if (signIdx !== -1) {
       setRotation(-signIdx * 30);
     }
   };
 
   const handleWheelRotate = (delta) => {
-    // Smooth, responsive 1:1 wheel rotation
+    // If sign is locked, prevent rotation drift
+    if (isSignLocked) return;
     setRotation(prev => prev + delta);
     mysticAudio.playAstralRotation(delta * 0.05);
   };
@@ -254,15 +342,6 @@ function App() {
             <i className="fa-solid fa-arrow-left"></i> Return to Realm
           </a>
 
-          {/* Spellbook Grimoire Toggle */}
-          <button 
-            className="astral-btn" 
-            onClick={() => setIsGrimoireOpen(true)}
-            title="Open Spellbook"
-          >
-            📜 Spellbook
-          </button>
-
           {/* Audio Mute/Unmute */}
           <button 
             className="astral-btn icon-btn" 
@@ -278,7 +357,7 @@ function App() {
       <div className="board-container">
         <AstrologyBoard
           signs={ZODIAC_SIGNS}
-          activeSign={zenithSign}
+          activeSign={activeSign}
           selectedSign={selectedSign}
           hoveredSign={hoveredSign}
           zenithSign={zenithSign}
@@ -294,7 +373,6 @@ function App() {
           activeStage={activeStage}
           onSelectStage={(stage) => {
             setActiveStage(stage);
-            if (stage === 1) handleCastFistSelect();
             if (stage === 2) handleCastGoal();
             if (stage === 3) mysticAudio.playTarotDraw();
             if (stage === 4) mysticAudio.playRuneCast();
@@ -302,6 +380,10 @@ function App() {
           onCastGoalSpell={handleCastGoal}
           tarotCard={tarotCard}
           runeData={runeData}
+          fistHoldProgress={fistHoldProgress}
+          isFistHeld={isFistHeld}
+          onStartFistHold={() => setManualFistHold(true)}
+          onEndFistHold={() => setManualFistHold(false)}
         />
       </div>
 
@@ -314,6 +396,10 @@ function App() {
         rawLandmarks={rawLandmarks}
         onToggleCamera={handleToggleCamera}
         cameraError={cameraError}
+        isSignLocked={isSignLocked}
+        selectedSign={selectedSign}
+        fistHoldProgress={fistHoldProgress}
+        isFistHeld={isFistHeld}
       />
 
       {/* Grimoire Spellbook Drawer */}

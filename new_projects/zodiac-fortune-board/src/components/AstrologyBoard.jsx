@@ -20,15 +20,21 @@ export function AstrologyBoard({
   onSelectStage,
   onCastGoalSpell,
   tarotCard,
-  runeData
+  runeData,
+  fistHoldProgress = 0,
+  isFistHeld = false,
+  onStartFistHold,
+  onEndFistHold
 }) {
   const totalNodes = signs.length;
   const radius = 50; // percentage based on astrolabe size (50% is edge)
   const isDraggingRef = useRef(false);
   const lastMouseAngleRef = useRef(0);
 
-  // Mouse / Touch drag to spin astrolabe smoothly (only when outside center circle)
+  // Mouse / Touch drag to spin astrolabe smoothly (only when outside center circle and when not locked)
   const handlePointerDown = (e) => {
+    if (isSignLocked) return;
+
     if (
       e.target.closest('.crystal-ball-sphere') || 
       e.target.closest('.crystal-ball-content') ||
@@ -49,7 +55,7 @@ export function AstrologyBoard({
   };
 
   const handlePointerMove = (e) => {
-    if (!isDraggingRef.current || !onWheelRotate) return;
+    if (isSignLocked || !isDraggingRef.current || !onWheelRotate) return;
     const rect = e.currentTarget.getBoundingClientRect();
     const cx = rect.left + rect.width / 2;
     const cy = rect.top + rect.height / 2;
@@ -114,9 +120,13 @@ export function AstrologyBoard({
     );
   };
 
-  // 4 Mystical Gestures: Just gestures and simple descriptions, no numbering, no headline
+  // 4 Mystical Gestures: Just gestures and simple descriptions, matching character counts
   const gestures = [
-    { id: 1, gesture: '✊ Fist', desc: 'Select sign on board' },
+    { 
+      id: 1, 
+      gesture: isSignLocked ? '✊ Fist (Locked)' : '✊ Fist', 
+      desc: isSignLocked ? 'Hold 3s to unlock' : 'Hold 3s to lock sign' 
+    },
     { id: 2, gesture: '✌️ Peace', desc: 'Summary horoscope' },
     { id: 3, gesture: '✋ Palm', desc: 'Tarot card' },
     { id: 4, gesture: '🤘 Horns', desc: 'Three runes' }
@@ -139,39 +149,57 @@ export function AstrologyBoard({
           {gestures.map(stg => (
             <button
               key={stg.id}
-              className={`nav-stage-btn ${activeStage === stg.id ? 'active' : ''}`}
+              className={`nav-stage-btn ${activeStage === stg.id ? 'active' : ''} ${stg.id === 1 && isSignLocked ? 'stage-locked' : ''}`}
               onClick={(e) => {
                 e.stopPropagation();
                 if (onSelectStage) onSelectStage(stg.id);
               }}
+              onPointerDown={(e) => {
+                if (stg.id === 1 && onStartFistHold) onStartFistHold();
+              }}
+              onPointerUp={() => {
+                if (stg.id === 1 && onEndFistHold) onEndFistHold();
+              }}
+              onPointerLeave={() => {
+                if (stg.id === 1 && onEndFistHold) onEndFistHold();
+              }}
+              onPointerCancel={() => {
+                if (stg.id === 1 && onEndFistHold) onEndFistHold();
+              }}
               title={stg.desc}
             >
+              {stg.id === 1 && isFistHeld && fistHoldProgress > 0 && (
+                <div 
+                  className="nav-btn-hold-fill"
+                  style={{ width: `${Math.min(100, fistHoldProgress * 100)}%` }}
+                />
+              )}
               <div className="nav-stage-indicator"></div>
               <div className="nav-stage-content">
                 <span className="nav-stage-gesture">{stg.gesture}</span>
-                <span className="nav-stage-desc">{stg.desc}</span>
+                <span className="nav-stage-desc">
+                  {stg.id === 1 && isFistHeld && fistHoldProgress > 0
+                    ? `${isSignLocked ? 'Unlocking' : 'Locking'}... ${(3 - fistHoldProgress * 3).toFixed(1)}s`
+                    : stg.desc}
+                </span>
               </div>
             </button>
           ))}
         </div>
 
-        {/* Pointing Finger Action Container to select / rotate zodiac */}
+        {/* Pointing Finger Action Container with left line indicator and simplified matching typography */}
         <div 
-          className={`nav-panel-point-action ${activeSpell === 'POINTING' ? 'pointing-active' : ''}`}
+          className={`nav-panel-point-action ${activeSpell === 'POINTING' ? 'pointing-active' : ''} ${isSignLocked ? 'locked-state' : ''}`}
           onClick={(e) => {
             e.stopPropagation();
             if (onSelectStage) onSelectStage(1);
           }}
-          title="Point in circle with index finger to spin and choose zodiac sign"
+          title={isSignLocked ? "Sign is locked. Hold ✊ Fist 3s to unlock." : "Point to rotate and choose zodiac sign"}
         >
-          <div className="point-action-body">
-            <span className="point-action-icon">☝️</span>
-            <div className="point-action-texts">
-              <span className="point-action-heading">Point to Select Zodiac</span>
-              <span className="point-action-subtext">
-                {isSignLocked && selectedSign ? `${selectedSign.name} chosen · Rotate to change` : 'Rotate circle to zenith to choose sign'}
-              </span>
-            </div>
+          <div className="nav-stage-indicator"></div>
+          <div className="nav-stage-content">
+            <span className="nav-stage-gesture">☝️ Point</span>
+            <span className="nav-stage-desc">Rotate to choose sign</span>
           </div>
         </div>
       </nav>
@@ -179,15 +207,15 @@ export function AstrologyBoard({
       {/* Main Astrolabe / Divination Compass */}
       <div className="compass-stage-center">
         <div 
-          className="astrolabe-wrapper"
+          className={`astrolabe-wrapper ${isSignLocked ? 'is-locked-wrapper' : ''}`}
           onPointerDown={handlePointerDown}
           onPointerMove={handlePointerMove}
           onPointerUp={handlePointerUp}
           onPointerCancel={handlePointerUp}
         >
           {/* Fixed Zenith Needle pointing down at 12 o'clock sign displayed on board */}
-          <div className="zenith-alignment-pointer" title="Zenith: Zodiac sign at 12 o'clock is displayed on the board">
-            <div className="zenith-pointer-glyph">▼</div>
+          <div className={`zenith-alignment-pointer ${isSignLocked ? 'pointer-locked' : ''}`} title="Zenith: Zodiac sign at 12 o'clock is displayed on the board">
+            <div className="zenith-pointer-glyph">{isSignLocked ? '🔒' : '▼'}</div>
             <div className="zenith-pointer-line"></div>
           </div>
 
@@ -247,9 +275,14 @@ export function AstrologyBoard({
                     e.stopPropagation();
                     if (onSelectSign) onSelectSign(sign);
                   }}
-                  title={`${sign.name} (${sign.dates}) ${isSelected ? '— Selected Focus (Crown)' : isAtZenith ? '— Aligned at Zenith (On Board)' : '— Click to Select'}`}
+                  title={`${sign.name} (${sign.dates}) ${isSelected ? '— Selected & Locked (Click to Unlock)' : isAtZenith ? '— Aligned at Zenith (On Board)' : '— Click to Select'}`}
                 >
-                  {isSelected && <span className="node-selected-badge" title="Selected Sign">👑</span>}
+                  {isSelected && (
+                    <div className="node-selected-badge" title="Selected & Locked Sign">
+                      <span className="badge-crown">👑</span>
+                      <span className="badge-text">SELECTED</span>
+                    </div>
+                  )}
                   {isAtZenith && !isSelected && <span className="node-zenith-badge" title="Aligned at Zenith">✦</span>}
                   <span className="node-symbol">{sign.symbol}</span>
                   {isHovered && <span className="node-hover-label">{sign.name}</span>}
@@ -279,6 +312,42 @@ export function AstrologyBoard({
           </div>
         </div>
 
+        {/* 3-Second Fist Hold Radial Arc & Countdown Overlay */}
+        {isFistHeld && fistHoldProgress > 0 && (
+          <div className="fist-hold-overlay">
+            <div className="fist-hold-card">
+              <div className="fist-hold-meter-wrapper">
+                <svg className="fist-hold-svg" viewBox="0 0 100 100">
+                  <circle
+                    className="fist-hold-track"
+                    cx="50"
+                    cy="50"
+                    r="42"
+                  />
+                  <circle
+                    className="fist-hold-progress-arc"
+                    cx="50"
+                    cy="50"
+                    r="42"
+                    style={{
+                      strokeDasharray: 264,
+                      strokeDashoffset: 264 - 264 * fistHoldProgress
+                    }}
+                  />
+                </svg>
+                <div className="fist-hold-inner-icon">✊</div>
+              </div>
+              <div className="fist-hold-action-title">
+                {isSignLocked ? 'Unlocking Zodiac' : `Locking ${zenithSign.name}`}
+              </div>
+              <div className="fist-hold-countdown">
+                {Math.max(0.1, (3 - fistHoldProgress * 3)).toFixed(1)}s
+              </div>
+              <div className="fist-hold-subtext">Keep Fist Clenched for 3s</div>
+            </div>
+          </div>
+        )}
+
         {/* Doctor Strange Eldritch Sanctum / Central Divination Matrix */}
         <div className="crystal-ball-stand-base"></div>
         <div
@@ -294,6 +363,14 @@ export function AstrologyBoard({
 
           {/* Floating Content Inside the Eldritch Circle */}
           <div className="crystal-ball-content">
+            {isSignLocked && selectedSign && (
+              <div className="eldritch-lock-status-badge">
+                <span className="lock-icon">🔒</span>
+                <span className="lock-label">{selectedSign.name} LOCKED</span>
+                <span className="lock-hint">Hold ✊ 3s to Unlock</span>
+              </div>
+            )}
+
             {/* STAGE 1: Ancient Zodiac Grimoire Seal & Constellation */}
             {activeStage === 1 && (
               <div className="stage-content stage-constellation-view">

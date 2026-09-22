@@ -8,7 +8,11 @@ export function ScryingMirror({
   activeSpell,
   rawLandmarks,
   onToggleCamera,
-  cameraError
+  cameraError,
+  isSignLocked = false,
+  selectedSign = null,
+  fistHoldProgress = 0,
+  isFistHeld = false
 }) {
   const overlayCanvasRef = useRef(null);
 
@@ -82,9 +86,19 @@ export function ScryingMirror({
   const getSpellLabel = () => {
     switch (activeSpell) {
       case 'FIST':
-        return { label: 'Clenched Fist (✊)', desc: 'Selects sign on the board' };
+        if (fistHoldProgress > 0) {
+          const remainingSecs = Math.max(0.1, (3 - fistHoldProgress * 3)).toFixed(1);
+          return {
+            label: isSignLocked ? `✊ Unlocking (${remainingSecs}s)` : `✊ Locking (${remainingSecs}s)`,
+            desc: isSignLocked ? 'Hold 3s to unlock and spin' : 'Hold 3s to lock zodiac'
+          };
+        }
+        return { 
+          label: isSignLocked ? 'Clenched Fist (✊ Locked)' : 'Clenched Fist (✊)', 
+          desc: isSignLocked ? 'Hold 3s to unlock zodiac' : 'Hold 3s to lock zodiac' 
+        };
       case 'POINTING':
-        return { label: 'Celestial Wand (☝️)', desc: 'Aim at sign on the board' };
+        return { label: 'Celestial Wand (☝️)', desc: 'Aim and rotate wheel' };
       case 'PEACE':
         return { label: 'Destiny Covenant (✌️)', desc: 'Channeling Summary Horoscope' };
       case 'OPEN_PALM':

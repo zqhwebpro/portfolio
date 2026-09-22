@@ -1,7 +1,8 @@
 import { useState, useEffect, useRef, useCallback } from 'react';
 import { HandLandmarker, FilesetResolver } from '@mediapipe/tasks-vision';
 
-export function useHandTracking() {
+export function useHandTracking(options = {}) {
+  const isLocked = typeof options === 'boolean' ? options : !!options.isLocked;
   const [isCameraActive, setIsCameraActive] = useState(false);
   const [isReady, setIsReady] = useState(false);
   const [rotation, setRotation] = useState(0);
@@ -10,6 +11,9 @@ export function useHandTracking() {
   const [handCoordinates, setHandCoordinates] = useState(null); // { x, y } in 0..1 range (mirrored)
   const [rawLandmarks, setRawLandmarks] = useState(null); // 21 landmarks for skeleton rendering
   const [cameraError, setCameraError] = useState(null);
+
+  const isLockedRef = useRef(isLocked);
+  isLockedRef.current = isLocked;
 
   const videoRef = useRef(null);
   const landmarkerRef = useRef(null);
@@ -228,7 +232,7 @@ export function useHandTracking() {
             const radiusFromCenter = Math.sqrt(dx * dx + dy * dy);
             const currentAngle = Math.atan2(dy, dx) * (180 / Math.PI);
 
-            if (!isStationarySpell && radiusFromCenter > 0.12 && radiusFromCenter < 0.90) {
+            if (!isLockedRef.current && !isStationarySpell && radiusFromCenter > 0.12 && radiusFromCenter < 0.90) {
               if (prevAngleRef.current !== null) {
                 let delta = currentAngle - prevAngleRef.current;
                 if (delta > 180) delta -= 360;
