@@ -18,6 +18,13 @@ if (fs.existsSync(distHtml)) {
   console.error('dist/index.source.html not found!');
 }
 
+const caseStudyHtml = path.resolve(rootDir, 'case-study.html');
+const distCaseStudy = path.resolve(distDir, 'case-study.html');
+if (fs.existsSync(caseStudyHtml)) {
+  fs.copyFileSync(caseStudyHtml, distCaseStudy);
+  console.log('✓ Synced case-study.html -> dist/case-study.html');
+}
+
 if (fs.existsSync(distAssets)) {
   if (!fs.existsSync(targetAssets)) {
     fs.mkdirSync(targetAssets, { recursive: true });
