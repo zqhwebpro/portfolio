@@ -1,14 +1,17 @@
 :root {
-  --cosmic-dark: #080314;
-  --cosmic-void: #030108;
-  --star-glow: #e2f1ff;
+  --cosmic-dark: #140207;
+  --cosmic-void: #060002;
+  --star-glow: #fff5e6;
   --gold-base: #c5a059;
   --gold-bright: #f9e2af;
   --gold-shadow: #5a451e;
-  --mystic-purple: #8b45ff;
-  --arcane-cyan: #00ffea;
+  --velvet-red-deep: #2a040d;
+  --velvet-red-rich: #4d0817;
+  --velvet-crimson: #851229;
+  --velvet-glow: rgba(180, 25, 55, 0.45);
+  --arcane-amber: #ffaa00;
 
-  /* Celestial Gold Default */
+  /* Celestial Gold & Velvet Red Default */
   --elem-color: #f9e2af;
   --elem-glow: rgba(249, 226, 175, 0.45);
 }
@@ -37,116 +40,96 @@ body, html {
   overflow: hidden;
 }
 
-/* Background Red Velvet Blanket & Cosmic Dust */
 .universe-bg {
   position: fixed;
   inset: 0;
   background: 
     /* Heavy draped red velvet folds with deep shadow valleys and soft crimson fabric sheen */
-    linear-gradient(115deg, rgba(14, 1, 4, 0.8) 0%, transparent 18%, rgba(255, 80, 110, 0.15) 32%, rgba(10, 1, 3, 0.82) 52%, transparent 70%, rgba(255, 80, 110, 0.13) 84%, rgba(14, 1, 4, 0.8) 100%),
-    radial-gradient(circle at 50% 48%, #560615 0%, #3a030c 48%, #200107 80%, #110003 100%),
+    linear-gradient(115deg, rgba(14, 1, 4, 0.85) 0%, transparent 18%, rgba(255, 60, 90, 0.18) 32%, rgba(10, 1, 3, 0.88) 52%, transparent 70%, rgba(255, 60, 90, 0.15) 84%, rgba(14, 1, 4, 0.85) 100%),
+    radial-gradient(circle at 50% 48%, #5a0616 0%, #35030b 48%, #1c0106 80%, #0d0003 100%),
     url('data:image/svg+xml;utf8,<svg width="32" height="32" xmlns="http://www.w3.org/2000/svg"><rect width="32" height="32" fill="none"/><circle cx="8" cy="8" r="0.6" fill="rgba(255,180,190,0.06)"/><circle cx="24" cy="24" r="0.6" fill="rgba(255,180,190,0.06)"/><circle cx="8" cy="24" r="0.4" fill="rgba(0,0,0,0.15)"/><circle cx="24" cy="8" r="0.4" fill="rgba(0,0,0,0.15)"/></svg>');
   background-size: 100% 100%, 100% 100%, 32px 32px;
   z-index: -3;
 }
 
-/* Altar Cloth Embroidered Golden Border Framing */
-.universe-bg::before {
-  content: '';
-  position: absolute;
-  inset: 16px;
-  border: 2px solid rgba(212, 175, 55, 0.35);
-  border-radius: 8px;
-  box-shadow: inset 0 0 60px rgba(0, 0, 0, 0.8), 0 0 25px rgba(212, 175, 55, 0.2);
-  pointer-events: none;
-}
-
+/* Subtle Cosmic Bodies in Red Velvet Shadows */
 .celestial-body {
   position: fixed;
-  top: 50%;
-  left: 50%;
-  transform: translate(-50%, -50%);
-  width: 140vmin;
-  height: 140vmin;
-  border-radius: 50%;
-  background: radial-gradient(circle at 50% 50%, rgba(190, 25, 60, 0.16) 0%, rgba(110, 10, 30, 0.08) 45%, rgba(0,0,0,0) 75%);
-  box-shadow: 
-    inset 0 0 180px rgba(0,0,0,0.9),
-    0 0 220px rgba(180, 25, 55, 0.25);
-  border: 1px solid rgba(212, 175, 55, 0.15);
-  z-index: -2;
+  inset: 0;
+  background: radial-gradient(circle at 80% 20%, rgba(180, 20, 50, 0.2) 0%, transparent 40%),
+              radial-gradient(circle at 20% 80%, rgba(120, 10, 30, 0.25) 0%, transparent 45%);
   pointer-events: none;
-  transition: box-shadow 0.8s ease;
+  z-index: -2;
 }
 
 /* Site Header */
 .site-header {
-  position: absolute;
-  top: 25px;
-  left: 30px;
-  right: 30px;
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
   display: flex;
   justify-content: space-between;
-  align-items: flex-start;
-  z-index: 20;
-  pointer-events: auto;
+  align-items: center;
+  padding: 16px 36px;
+  z-index: 30;
+  backdrop-filter: blur(8px);
+  background: linear-gradient(to bottom, rgba(14, 2, 6, 0.92) 0%, transparent 100%);
+  border-bottom: 1px solid rgba(197, 160, 89, 0.2);
 }
 
 .header-titles h1 {
-  font-family: 'Philosopher', 'Cormorant Garamond', serif;
-  font-size: 2.2rem;
+  font-family: 'Philosopher', serif;
+  font-size: 1.65rem;
   font-weight: 700;
+  letter-spacing: 0.08em;
   color: var(--gold-bright);
-  text-shadow: 
-    0 0 25px rgba(249, 226, 175, 0.5), 
-    0 0 15px var(--elem-glow);
-  letter-spacing: 0.03em;
-  margin-bottom: 2px;
+  text-shadow: 0 0 15px rgba(249, 226, 175, 0.6);
 }
 
 .realm-tagline {
   font-family: 'Cormorant Garamond', serif;
-  font-size: 1.05rem;
-  color: var(--gold-base);
+  font-size: 0.95rem;
   letter-spacing: 0.06em;
-  opacity: 0.95;
+  color: var(--gold-base);
+  margin-top: 2px;
 }
 
 .header-actions {
   display: flex;
-  gap: 12px;
   align-items: center;
+  gap: 12px;
 }
 
 .astral-btn {
+  background: rgba(40, 6, 16, 0.85);
+  border: 1px solid var(--gold-base);
+  color: var(--gold-bright);
+  font-family: 'Philosopher', serif;
+  font-size: 0.92rem;
+  padding: 8px 18px;
+  border-radius: 20px;
+  cursor: pointer;
+  transition: all 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
   display: inline-flex;
   align-items: center;
   gap: 8px;
-  font-size: 0.95rem;
-  font-family: 'Philosopher', serif;
-  color: var(--gold-bright);
   text-decoration: none;
-  letter-spacing: 0.02em;
-  padding: 8px 18px;
-  border: 1px solid rgba(197, 160, 89, 0.4);
-  background: rgba(10, 4, 22, 0.88);
-  backdrop-filter: blur(10px);
-  border-radius: 8px;
-  cursor: pointer;
-  transition: all 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
-  box-shadow: 0 0 12px rgba(0, 0, 0, 0.5);
+  backdrop-filter: blur(6px);
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.6);
 }
 
 .astral-btn:hover {
-  color: #fff;
+  background: rgba(75, 12, 28, 0.92);
   border-color: var(--gold-bright);
-  box-shadow: 0 0 20px var(--elem-glow), inset 0 0 8px rgba(249, 226, 175, 0.2);
+  box-shadow: 0 0 20px rgba(249, 226, 175, 0.45);
   transform: translateY(-2px);
+  color: #fff;
 }
 
 .astral-btn.icon-btn {
-  padding: 8px 14px;
-  font-size: 1.05rem;
+  padding: 8px 12px;
+  border-radius: 50%;
 }
 
 /* ========================================================
@@ -170,23 +153,60 @@ body, html {
   height: 100%;
 }
 
-/* Left-Side Navigation Panel Off of the Compass */
+/* Left-Side Navigation Panel - Integrated Antique Astrolabe Altar Tablet */
 .compass-gesture-nav {
   position: absolute;
-  left: 28px;
+  left: 32px;
   top: 50%;
   transform: translateY(-50%);
-  z-index: 25;
+  z-index: 35;
   display: flex;
   flex-direction: column;
-  gap: 10px;
-  background: rgba(10, 4, 22, 0.94);
-  border: 1.5px solid rgba(212, 175, 55, 0.6);
-  border-radius: 14px;
-  padding: 16px 12px;
-  box-shadow: 0 0 45px rgba(0, 0, 0, 0.95), 0 0 20px rgba(197, 160, 89, 0.3);
-  backdrop-filter: blur(16px);
-  width: 230px;
+  gap: 12px;
+  background: 
+    linear-gradient(175deg, rgba(46, 7, 18, 0.96) 0%, rgba(22, 3, 8, 0.98) 100%),
+    radial-gradient(circle at 50% 0%, rgba(255, 180, 0, 0.12) 0%, transparent 60%);
+  border: 2px solid rgba(212, 175, 55, 0.7);
+  border-radius: 16px;
+  padding: 18px 14px 20px 14px;
+  box-shadow: 
+    0 15px 50px rgba(0, 0, 0, 0.95), 
+    0 0 30px rgba(180, 20, 50, 0.35),
+    inset 0 0 20px rgba(0, 0, 0, 0.8),
+    inset 0 0 12px rgba(212, 175, 55, 0.25);
+  backdrop-filter: blur(18px);
+  width: 236px;
+  user-select: none;
+}
+
+/* Antique Brass Corner Filigree on Nav Tablet */
+.compass-gesture-nav .panel-corner {
+  position: absolute;
+  width: 12px;
+  height: 12px;
+  border-color: #ffd000;
+  pointer-events: none;
+}
+.compass-gesture-nav .panel-corner.tl { top: 4px; left: 4px; border-top: 2px solid; border-left: 2px solid; }
+.compass-gesture-nav .panel-corner.tr { top: 4px; right: 4px; border-top: 2px solid; border-right: 2px solid; }
+.compass-gesture-nav .panel-corner.bl { bottom: 4px; left: 4px; border-bottom: 2px solid; border-left: 2px solid; }
+.compass-gesture-nav .panel-corner.br { bottom: 4px; right: 4px; border-bottom: 2px solid; border-right: 2px solid; }
+
+.nav-panel-astral-sigil {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding-bottom: 10px;
+  border-bottom: 1px solid rgba(212, 175, 55, 0.35);
+  margin-bottom: 4px;
+}
+
+.nav-panel-astral-sigil .sigil-glyph {
+  font-family: 'Philosopher', serif;
+  font-size: 1.15rem;
+  letter-spacing: 0.3em;
+  color: #ffd700;
+  text-shadow: 0 0 12px rgba(255, 180, 0, 0.8);
 }
 
 .nav-stages-list {
@@ -197,65 +217,76 @@ body, html {
 
 .nav-stage-btn {
   display: flex;
-  flex-direction: column;
+  align-items: center;
+  gap: 10px;
   text-align: left;
-  background: rgba(22, 8, 42, 0.7);
-  border: 1px solid rgba(197, 160, 89, 0.35);
-  border-radius: 9px;
-  padding: 10px 14px;
+  background: linear-gradient(135deg, rgba(58, 10, 22, 0.75) 0%, rgba(26, 4, 10, 0.9) 100%);
+  border: 1.5px solid rgba(197, 160, 89, 0.4);
+  border-radius: 10px;
+  padding: 10px 12px;
   cursor: pointer;
-  transition: all 0.25s ease;
+  transition: all 0.22s ease-out;
   color: var(--gold-bright);
+  position: relative;
+  overflow: hidden;
+}
+
+.nav-stage-indicator {
+  width: 6px;
+  height: 28px;
+  border-radius: 3px;
+  background: rgba(212, 175, 55, 0.3);
+  transition: all 0.25s ease;
+  flex-shrink: 0;
+}
+
+.nav-stage-content {
+  display: flex;
+  flex-direction: column;
 }
 
 .nav-stage-btn:hover {
-  background: rgba(45, 18, 85, 0.92);
-  border-color: var(--gold-bright);
-  transform: translateX(4px);
-  box-shadow: 0 0 16px rgba(255, 180, 0, 0.3);
+  background: linear-gradient(135deg, rgba(95, 16, 36, 0.92) 0%, rgba(45, 6, 16, 0.96) 100%);
+  border-color: #ffd000;
+  transform: translateX(5px);
+  box-shadow: 0 4px 18px rgba(0, 0, 0, 0.8), 0 0 20px rgba(255, 180, 0, 0.35);
+}
+
+.nav-stage-btn:hover .nav-stage-indicator {
+  background: #ffcc00;
+  box-shadow: 0 0 8px #ffcc00;
 }
 
 .nav-stage-btn.active {
-  background: rgba(58, 22, 115, 0.98);
+  background: linear-gradient(135deg, rgba(120, 20, 45, 0.98) 0%, rgba(55, 8, 20, 1) 100%);
   border-color: #ffd700;
-  box-shadow: 0 0 22px rgba(249, 226, 175, 0.55), inset 0 0 12px rgba(255, 170, 0, 0.3);
+  box-shadow: 
+    0 0 25px rgba(255, 180, 0, 0.5), 
+    0 0 35px rgba(180, 20, 50, 0.4),
+    inset 0 0 12px rgba(255, 200, 50, 0.3);
+}
+
+.nav-stage-btn.active .nav-stage-indicator {
+  background: #ffd700;
+  box-shadow: 0 0 12px #ffd700, 0 0 20px rgba(255, 180, 0, 0.8);
 }
 
 .nav-stage-gesture {
   font-family: 'Philosopher', serif;
-  font-size: 1.05rem;
+  font-size: 1.02rem;
   font-weight: 700;
-  color: #fff2a3;
-  text-shadow: 0 0 8px rgba(255, 180, 0, 0.6);
+  color: #fff6b8;
+  text-shadow: 0 0 8px rgba(255, 190, 50, 0.6);
   display: flex;
   align-items: center;
-  gap: 8px;
+  gap: 6px;
 }
 
 .nav-stage-desc {
   font-family: 'Cormorant Garamond', serif;
-  font-size: 0.94rem;
-  color: rgba(255, 235, 185, 0.88);
-  margin-top: 3px;
-  letter-spacing: 0.02em;
-}
-
-.nav-stage-icon {
-  font-size: 1.15rem;
-}
-
-.nav-stage-name {
-  font-family: 'Philosopher', serif;
-  font-size: 0.96rem;
-  font-weight: 700;
-  color: #ffffff;
-}
-
-.nav-stage-howto {
-  font-family: 'Cormorant Garamond', serif;
-  font-size: 0.86rem;
-  color: var(--gold-base);
-  margin-top: 3px;
+  font-size: 0.92rem;
+  color: rgba(255, 235, 195, 0.88);
+  margin-top: 2px;
   letter-spacing: 0.02em;
 }
 
@@ -291,7 +322,7 @@ body, html {
   height: 100%;
   border-radius: 50%;
   border: 2px dashed rgba(197, 160, 89, 0.3);
-  box-shadow: 0 0 70px rgba(139, 69, 255, 0.2);
+  box-shadow: 0 0 70px rgba(180, 20, 50, 0.25);
   will-change: transform;
 }
 
@@ -408,7 +439,7 @@ body, html {
   inset: 50px;
   border-radius: 50%;
   border: 1px solid rgba(197, 160, 89, 0.45);
-  box-shadow: 0 0 40px rgba(145, 133, 199, 0.12), inset 0 0 20px rgba(139, 69, 255, 0.18);
+  box-shadow: 0 0 40px rgba(180, 20, 50, 0.15), inset 0 0 20px rgba(160, 20, 45, 0.2);
   animation: slowSpinReverse 180s linear infinite;
   pointer-events: none;
 }
@@ -460,7 +491,7 @@ body, html {
   position: absolute;
   width: 68px;
   height: 68px;
-  background: radial-gradient(circle at 35% 35%, #2b0e4e 0%, #090114 100%);
+  background: radial-gradient(circle at 35% 35%, #3a0816 0%, #120106 100%);
   border: 2px solid rgba(255, 170, 0, 0.6);
   border-radius: 50%;
   display: flex;
@@ -471,7 +502,8 @@ body, html {
   animation: counterSpin 180s linear infinite, nodeStarlightPulse 4.5s ease-in-out infinite;
   box-shadow: 0 0 22px rgba(255, 120, 0, 0.35), 0 4px 16px rgba(0, 0, 0, 0.9);
   transition: all 0.35s cubic-bezier(0.175, 0.885, 0.32, 1.275);
-  z-index: 10;
+  z-index: 20;
+  pointer-events: auto;
 }
 
 @keyframes nodeStarlightPulse {
@@ -496,15 +528,18 @@ body, html {
 }
 
 .project-node:hover,
-.project-node.active-node {
-  background: radial-gradient(circle at 35% 35%, #4c1a8a 0%, #17042c 100%);
+.project-node.active-node,
+.project-node.hovered-node {
+  background: radial-gradient(circle at 35% 35%, #6a0e24 0%, #20030a 100%);
   border-color: #ffd000 !important;
-  box-shadow: 0 0 42px rgba(255, 140, 0, 0.95), inset 0 0 18px rgba(255, 200, 50, 0.65) !important;
+  box-shadow: 0 0 42px rgba(255, 140, 0, 0.95), 0 0 25px rgba(200, 25, 60, 0.7), inset 0 0 18px rgba(255, 200, 50, 0.65) !important;
   transform: translate(-50%, -50%) scale(1.18);
-  z-index: 25;
+  z-index: 30;
 }
 
-.project-node:hover .node-symbol {
+.project-node:hover .node-symbol,
+.project-node.active-node .node-symbol,
+.project-node.hovered-node .node-symbol {
   transform: scale(1.1);
 }
 
@@ -535,6 +570,7 @@ body, html {
   max-width: 660px;
   max-height: 660px;
   border-radius: 50%;
+  clip-path: circle(50% at 50% 50%);
   border: 2px solid rgba(212, 175, 55, 0.45);
   box-shadow: 
     0 25px 60px rgba(0, 0, 0, 0.9), 
@@ -557,6 +593,7 @@ body, html {
   max-width: 640px;
   max-height: 640px;
   border-radius: 50%;
+  clip-path: circle(50% at 50% 50%);
   z-index: 8;
   display: flex;
   flex-direction: column;
@@ -565,8 +602,8 @@ body, html {
   text-align: center;
   overflow: hidden;
   cursor: default;
-  /* Doctor Strange Eldritch Sanctum: Obsidian core with incandescent Tao Mandala fiery borders */
-  background: radial-gradient(circle at 45% 30%, #1c0835 0%, #0c0217 55%, #05000a 100%);
+  /* Doctor Strange Eldritch Sanctum: Velvet obsidian core with incandescent Tao Mandala fiery borders */
+  background: radial-gradient(circle at 45% 30%, #300611 0%, #170207 55%, #080002 100%);
   border: 2.5px solid rgba(255, 175, 0, 0.85);
   box-shadow: 
     0 0 55px rgba(255, 120, 0, 0.45),
@@ -773,7 +810,7 @@ body, html {
 
 .summary-horoscope-card {
   max-width: 90%;
-  background: radial-gradient(circle at 50% 15%, rgba(45, 14, 75, 0.85) 0%, rgba(10, 2, 20, 0.95) 100%);
+  background: radial-gradient(circle at 50% 15%, rgba(70, 10, 26, 0.9) 0%, rgba(20, 2, 8, 0.96) 100%);
   border: 1.5px solid rgba(212, 175, 55, 0.45);
   border-radius: 16px;
   padding: 22px 26px;
@@ -849,13 +886,13 @@ body, html {
   position: relative;
   width: 250px;
   height: 382px;
-  background: linear-gradient(165deg, #1d0938 0%, #0c0218 55%, #05000a 100%);
+  background: linear-gradient(165deg, #2c0510 0%, #130106 55%, #080003 100%);
   border: 2px solid rgba(255, 215, 0, 0.85);
   border-radius: 14px;
   box-shadow: 
     0 16px 45px rgba(0, 0, 0, 0.95), 
     0 0 30px rgba(255, 170, 0, 0.4),
-    inset 0 0 25px rgba(139, 69, 255, 0.3);
+    inset 0 0 25px rgba(180, 25, 55, 0.35);
   padding: 9px;
   animation: tarotReveal 0.45s cubic-bezier(0.2, 0.8, 0.2, 1);
   transition: transform 0.3s ease, box-shadow 0.3s ease;
@@ -916,7 +953,7 @@ body, html {
   height: 168px;
   border-radius: 12px 12px 6px 6px;
   border: 1.5px solid rgba(255, 215, 0, 0.85);
-  background: radial-gradient(circle at 50% 30%, #250943 0%, #090214 100%);
+  background: radial-gradient(circle at 50% 30%, #3a0817 0%, #110106 100%);
   display: flex;
   align-items: center;
   justify-content: center;
@@ -976,7 +1013,7 @@ body, html {
 
 .rune-stone-card {
   flex: 1;
-  background: radial-gradient(circle at 50% 15%, #2a0c50 0%, #0a0114 100%);
+  background: radial-gradient(circle at 50% 15%, #380715 0%, #120106 100%);
   border: 1.5px solid rgba(255, 175, 0, 0.5);
   border-radius: 12px;
   padding: 14px 10px;
@@ -1007,7 +1044,7 @@ body, html {
   width: 58px;
   height: 58px;
   border-radius: 50%;
-  background: radial-gradient(circle at 40% 35%, #3c1270 0%, #0d011c 100%);
+  background: radial-gradient(circle at 40% 35%, #4e0b1f 0%, #180208 100%);
   border: 1px solid rgba(255, 215, 0, 0.4);
   display: flex;
   align-items: center;
@@ -1060,7 +1097,7 @@ body, html {
   width: 190px;
   height: 190px;
   border-radius: 50%;
-  background: radial-gradient(circle at 35% 30%, #6822ba 0%, #1c053d 68%, #090014 100%);
+  background: radial-gradient(circle at 35% 30%, #7d112a 0%, #350512 68%, #100004 100%);
   border: 3px solid #ffcc00;
   display: flex;
   flex-direction: column;
@@ -1130,7 +1167,7 @@ body, html {
   font-family: 'Philosopher', serif;
   font-size: 0.96rem;
   letter-spacing: 0.06em;
-  background: rgba(18, 5, 32, 0.88);
+  background: rgba(45, 6, 16, 0.9);
   border: 1.5px solid rgba(212, 175, 55, 0.55);
   color: var(--gold-bright);
   border-radius: 24px;
@@ -1140,7 +1177,7 @@ body, html {
 }
 
 .dice-cast-btn:hover {
-  background: rgba(38, 12, 68, 0.92);
+  background: rgba(85, 14, 32, 0.95);
   border-color: #ffd000;
   box-shadow: 0 0 20px rgba(255, 170, 0, 0.35);
   transform: translateY(-2px);
@@ -1158,7 +1195,7 @@ body, html {
   font-family: 'Philosopher', serif;
   font-size: 0.96rem;
   color: var(--gold-bright);
-  background: rgba(10, 4, 22, 0.9);
+  background: rgba(28, 4, 10, 0.92);
   border: 1px solid rgba(197, 160, 89, 0.4);
   border-radius: 24px;
   padding: 7px 22px;
@@ -1227,7 +1264,7 @@ body, html {
   height: 100%;
   border-radius: 50%;
   overflow: hidden;
-  background: radial-gradient(circle at 40% 40%, #17092e 0%, #030108 100%);
+  background: radial-gradient(circle at 40% 40%, #2a050f 0%, #080002 100%);
   display: flex;
   align-items: center;
   justify-content: center;
@@ -1306,7 +1343,7 @@ body, html {
 /* Spell Detection Ribbon HUD */
 .spell-ribbon-hud {
   margin-top: 10px;
-  background: rgba(10, 4, 22, 0.92);
+  background: rgba(26, 3, 9, 0.94);
   border: 1px solid rgba(197, 160, 89, 0.4);
   border-radius: 8px;
   padding: 6px 14px;
@@ -1369,14 +1406,14 @@ body, html {
   max-height: 85vh;
   overflow-y: auto;
   background: 
-    radial-gradient(circle at 20% 20%, #1e0b3c 0%, #090317 100%);
+    radial-gradient(circle at 20% 20%, #3a0817 0%, #100206 100%);
   border: 2px solid var(--gold-base);
   border-radius: 16px;
   padding: 30px;
   box-shadow: 
     0 0 60px rgba(0, 0, 0, 0.95),
     0 0 35px var(--elem-glow),
-    inset 0 0 30px rgba(139, 69, 255, 0.2);
+    inset 0 0 30px rgba(180, 25, 55, 0.3);
 }
 
 .grimoire-header {
@@ -1433,7 +1470,7 @@ body, html {
 .spell-card {
   display: flex;
   gap: 14px;
-  background: rgba(14, 5, 28, 0.7);
+  background: rgba(40, 6, 16, 0.75);
   border: 1px solid rgba(197, 160, 89, 0.3);
   border-radius: 10px;
   padding: 14px;
@@ -1443,7 +1480,7 @@ body, html {
 .spell-card:hover, .spell-card.highlight {
   border-color: var(--gold-bright);
   box-shadow: 0 0 15px var(--elem-glow);
-  background: rgba(28, 10, 56, 0.85);
+  background: rgba(75, 12, 28, 0.9);
 }
 
 .spell-icon {

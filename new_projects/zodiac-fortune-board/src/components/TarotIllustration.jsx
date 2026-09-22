@@ -21,13 +21,13 @@ export function TarotIllustration({ signId, className = '' }) {
         <radialGradient id="tarotSunGlow" cx="50%" cy="50%" r="50%">
           <stop offset="0%" stopColor="#ffe680" stopOpacity="0.9" />
           <stop offset="40%" stopColor="#d4af37" stopOpacity="0.4" />
-          <stop offset="100%" stopColor="#1a0033" stopOpacity="0" />
+          <stop offset="100%" stopColor="#20030a" stopOpacity="0" />
         </radialGradient>
 
         <linearGradient id="tarotSkyNight" x1="0%" y1="0%" x2="0%" y2="100%">
-          <stop offset="0%" stopColor="#0b021a" />
-          <stop offset="60%" stopColor="#1a0836" />
-          <stop offset="100%" stopColor="#2c114d" />
+          <stop offset="0%" stopColor="#140207" />
+          <stop offset="60%" stopColor="#2c0510" />
+          <stop offset="100%" stopColor="#48091a" />
         </linearGradient>
 
         <linearGradient id="tarotCrimson" x1="0%" y1="0%" x2="100%" y2="100%">
@@ -56,7 +56,7 @@ export function TarotIllustration({ signId, className = '' }) {
             <polygon points="70,228 120,115 165,228" fill="#4d1222" stroke="#d4af37" strokeWidth="1" />
             <polygon points="135,228 175,140 190,228" fill="#300d16" stroke="#d4af37" strokeWidth="1" />
             {/* Stone Throne with Ram Heads */}
-            <rect x="68" y="95" width="64" height="110" fill="#1f0a28" stroke="url(#tarotGold)" strokeWidth="1.8" rx="4" />
+            <rect x="68" y="95" width="64" height="110" fill="#24050e" stroke="url(#tarotGold)" strokeWidth="1.8" rx="4" />
             <path d="M 62 105 C 50 90, 52 120, 68 125" fill="none" stroke="url(#tarotGold)" strokeWidth="2.5" />
             <path d="M 138 105 C 150 90, 148 120, 132 125" fill="none" stroke="url(#tarotGold)" strokeWidth="2.5" />
             {/* Crowned Sovereign Monarch Silhouette with Scepter */}
@@ -77,16 +77,16 @@ export function TarotIllustration({ signId, className = '' }) {
           <g>
             <circle cx="100" cy="80" r="50" fill="url(#tarotSunGlow)" />
             {/* Twin Temple Pillars */}
-            <rect x="24" y="55" width="22" height="170" fill="#1c0a2f" stroke="url(#tarotGold)" strokeWidth="1.8" />
+            <rect x="24" y="55" width="22" height="170" fill="#280612" stroke="url(#tarotGold)" strokeWidth="1.8" />
             <rect x="20" y="50" width="30" height="8" fill="url(#tarotGold)" />
-            <rect x="154" y="55" width="22" height="170" fill="#1c0a2f" stroke="url(#tarotGold)" strokeWidth="1.8" />
+            <rect x="154" y="55" width="22" height="170" fill="#280612" stroke="url(#tarotGold)" strokeWidth="1.8" />
             <rect x="150" y="50" width="30" height="8" fill="url(#tarotGold)" />
             {/* Hierophant Figure */}
             <circle cx="100" cy="95" r="13" fill="url(#tarotGold)" />
             {/* Triple Tiara */}
             <polygon points="92,85 100,70 108,85" fill="url(#tarotGold)" stroke="#ffd700" />
             <line x1="90" y1="80" x2="110" y2="80" stroke="#fff" strokeWidth="1.2" />
-            <path d="M 80 112 Q 100 108 120 112 L 125 185 L 75 185 Z" fill="#2d1045" stroke="url(#tarotGold)" strokeWidth="1.5" />
+            <path d="M 80 112 Q 100 108 120 112 L 125 185 L 75 185 Z" fill="#400818" stroke="url(#tarotGold)" strokeWidth="1.5" />
             {/* Raised Hand of Benediction & Papal Cross */}
             <line x1="128" y1="90" x2="128" y2="170" stroke="url(#tarotGold)" strokeWidth="2" />
             <line x1="122" y1="98" x2="134" y2="98" stroke="url(#tarotGold)" strokeWidth="1.5" />
@@ -113,9 +113,9 @@ export function TarotIllustration({ signId, className = '' }) {
             <circle cx="100" cy="72" r="11" fill="url(#tarotGold)" />
             {/* Twin Souls Looking to Heavens */}
             <circle cx="65" cy="140" r="10" fill="url(#tarotGold)" />
-            <path d="M 55 152 Q 65 148 75 152 L 78 215 L 52 215 Z" fill="#200d38" stroke="url(#tarotGold)" strokeWidth="1.2" />
+            <path d="M 55 152 Q 65 148 75 152 L 78 215 L 52 215 Z" fill="#2c0612" stroke="url(#tarotGold)" strokeWidth="1.2" />
             <circle cx="135" cy="140" r="10" fill="url(#tarotGold)" />
-            <path d="M 125 152 Q 135 148 145 152 L 148 215 L 122 215 Z" fill="#200d38" stroke="url(#tarotGold)" strokeWidth="1.2" />
+            <path d="M 125 152 Q 135 148 145 152 L 148 215 L 122 215 Z" fill="#2c0612" stroke="url(#tarotGold)" strokeWidth="1.2" />
             {/* Tree of Life & Constellation Arcs */}
             <path d="M 35 215 Q 35 140 28 130" stroke="url(#tarotGold)" strokeWidth="2" fill="none" />
             <circle cx="28" cy="130" r="6" fill="#ffe259" />
@@ -127,14 +127,14 @@ export function TarotIllustration({ signId, className = '' }) {
           <g>
             <circle cx="100" cy="70" r="45" fill="url(#tarotSunGlow)" />
             {/* Starry Canopy */}
-            <path d="M 35 50 L 165 50 L 150 85 L 50 85 Z" fill="#1b0833" stroke="url(#tarotGold)" strokeWidth="1.5" />
+            <path d="M 35 50 L 165 50 L 150 85 L 50 85 Z" fill="#26050e" stroke="url(#tarotGold)" strokeWidth="1.5" />
             <circle cx="65" cy="65" r="2" fill="#fff" /><circle cx="100" cy="65" r="2.5" fill="#ffd700" /><circle cx="135" cy="65" r="2" fill="#fff" />
             {/* Armored Charioteer */}
             <circle cx="100" cy="100" r="12" fill="url(#tarotGold)" />
             <polygon points="90,92 100,82 110,92" fill="#ffd700" />
-            <path d="M 85 115 L 115 115 L 118 165 L 82 165 Z" fill="#2d1045" stroke="url(#tarotGold)" strokeWidth="1.4" />
+            <path d="M 85 115 L 115 115 L 118 165 L 82 165 Z" fill="#3a0815" stroke="url(#tarotGold)" strokeWidth="1.4" />
             {/* Stone Chariot Body */}
-            <rect x="60" y="155" width="80" height="45" fill="#160528" stroke="url(#tarotGold)" strokeWidth="2" rx="4" />
+            <rect x="60" y="155" width="80" height="45" fill="#20040b" stroke="url(#tarotGold)" strokeWidth="2" rx="4" />
             {/* Twin Sphinxes (Dark & Light) */}
             <path d="M 30 190 Q 55 175 60 215 L 20 215 Z" fill="#000000" stroke="url(#tarotGold)" strokeWidth="1.5" />
             <path d="M 170 190 Q 145 175 140 215 L 180 215 Z" fill="#ffffff" stroke="url(#tarotGold)" strokeWidth="1.5" />
@@ -164,14 +164,14 @@ export function TarotIllustration({ signId, className = '' }) {
           <g>
             {/* Starry Night Summit */}
             <circle cx="130" cy="65" r="35" fill="url(#tarotSunGlow)" />
-            <polygon points="20,228 100,165 180,228" fill="#1b0a2f" stroke="url(#tarotGold)" strokeWidth="1.5" />
+            <polygon points="20,228 100,165 180,228" fill="#25050f" stroke="url(#tarotGold)" strokeWidth="1.5" />
             {/* Hooded Sage Silhouette */}
-            <path d="M 65 105 Q 85 85 100 105 L 115 205 L 55 205 Z" fill="#0d0319" stroke="url(#tarotGold)" strokeWidth="1.8" />
+            <path d="M 65 105 Q 85 85 100 105 L 115 205 L 55 205 Z" fill="#160208" stroke="url(#tarotGold)" strokeWidth="1.8" />
             <circle cx="82" cy="115" r="8" fill="url(#tarotGold)" />
             {/* Golden Staff of Wisdom */}
             <line x1="58" y1="95" x2="58" y2="225" stroke="url(#tarotGold)" strokeWidth="2.5" />
             {/* The Six-Pointed Star Lantern Held Aloft */}
-            <rect x="115" y="80" width="22" height="30" fill="#150524" stroke="url(#tarotGold)" strokeWidth="2" rx="3" />
+            <rect x="115" y="80" width="22" height="30" fill="#20040d" stroke="url(#tarotGold)" strokeWidth="2" rx="3" />
             <line x1="100" y1="105" x2="115" y2="95" stroke="url(#tarotGold)" strokeWidth="2" />
             {/* Blazing Star inside Lantern */}
             <polygon points="126,86 130,96 122,96" fill="#ffffff" />
@@ -185,8 +185,8 @@ export function TarotIllustration({ signId, className = '' }) {
           <g>
             <circle cx="100" cy="75" r="50" fill="url(#tarotSunGlow)" />
             {/* Pillars of Equilibrium */}
-            <rect x="22" y="55" width="18" height="170" fill="#1a0730" stroke="url(#tarotGold)" strokeWidth="1.5" />
-            <rect x="160" y="55" width="18" height="170" fill="#1a0730" stroke="url(#tarotGold)" strokeWidth="1.5" />
+            <rect x="22" y="55" width="18" height="170" fill="#26050e" stroke="url(#tarotGold)" strokeWidth="1.5" />
+            <rect x="160" y="55" width="18" height="170" fill="#26050e" stroke="url(#tarotGold)" strokeWidth="1.5" />
             {/* Enthroned Goddess */}
             <circle cx="100" cy="85" r="13" fill="url(#tarotGold)" />
             <rect x="90" y="83" width="20" height="4" fill="#ffffff" />
@@ -217,7 +217,7 @@ export function TarotIllustration({ signId, className = '' }) {
             <polygon points="97,108 100,95 103,108" fill="#ffd700" />
             {/* Black Banner with Mystic White Rose */}
             <line x1="35" y1="60" x2="35" y2="200" stroke="url(#tarotGold)" strokeWidth="2" />
-            <polygon points="35,60 85,75 35,90" fill="#090114" stroke="url(#tarotGold)" strokeWidth="1.2" />
+            <polygon points="35,60 85,75 35,90" fill="#140207" stroke="url(#tarotGold)" strokeWidth="1.2" />
             <circle cx="55" cy="75" r="6" fill="#ffffff" stroke="#ffd700" strokeWidth="1" />
           </g>
         )}
@@ -253,8 +253,8 @@ export function TarotIllustration({ signId, className = '' }) {
             <path d="M 90 82 C 70 60, 60 75, 75 88" fill="none" stroke="url(#tarotGold)" strokeWidth="2.5" />
             <path d="M 110 82 C 130 60, 140 75, 125 88" fill="none" stroke="url(#tarotGold)" strokeWidth="2.5" />
             {/* Torso & Stone Altar */}
-            <path d="M 80 105 L 120 105 L 128 160 L 72 160 Z" fill="#240c38" stroke="url(#tarotGold)" strokeWidth="1.5" />
-            <rect x="65" y="160" width="70" height="50" fill="#130320" stroke="url(#tarotGold)" strokeWidth="2" />
+            <path d="M 80 105 L 120 105 L 128 160 L 72 160 Z" fill="#320612" stroke="url(#tarotGold)" strokeWidth="1.5" />
+            <rect x="65" y="160" width="70" height="50" fill="#1a0309" stroke="url(#tarotGold)" strokeWidth="2" />
             {/* Blazing Downward Torch */}
             <line x1="60" y1="95" x2="60" y2="135" stroke="url(#tarotGold)" strokeWidth="2.5" />
             <polygon points="56,135 60,148 64,135" fill="#ff4d00" />
@@ -284,7 +284,7 @@ export function TarotIllustration({ signId, className = '' }) {
             <path d="M 74 140 Q 50 160 40 215" fill="none" stroke="#00ffff" strokeWidth="2.5" />
             <path d="M 126 140 Q 150 160 160 215" fill="none" stroke="#00ffff" strokeWidth="2.5" />
             {/* Pool of Life */}
-            <ellipse cx="100" cy="215" rx="65" ry="14" fill="#0c2340" stroke="url(#tarotGold)" strokeWidth="1.5" />
+            <ellipse cx="100" cy="215" rx="65" ry="14" fill="#1a040b" stroke="url(#tarotGold)" strokeWidth="1.5" />
           </g>
         )}
 
@@ -299,13 +299,13 @@ export function TarotIllustration({ signId, className = '' }) {
             <circle cx="75" cy="85" r="2" fill="#ffd700" /><circle cx="125" cy="85" r="2" fill="#ffd700" />
             <circle cx="100" cy="98" r="2.5" fill="#ffd700" />
             {/* Twin Sentinel Towers on Horizon */}
-            <rect x="25" y="95" width="25" height="110" fill="#1b0833" stroke="url(#tarotGold)" strokeWidth="1.5" />
-            <polygon points="20,95 37,75 55,95" fill="#2c0e50" stroke="url(#tarotGold)" strokeWidth="1.2" />
-            <rect x="150" y="95" width="25" height="110" fill="#1b0833" stroke="url(#tarotGold)" strokeWidth="1.5" />
-            <polygon points="145,95 162,75 180,95" fill="#2c0e50" stroke="url(#tarotGold)" strokeWidth="1.2" />
+            <rect x="25" y="95" width="25" height="110" fill="#25050e" stroke="url(#tarotGold)" strokeWidth="1.5" />
+            <polygon points="20,95 37,75 55,95" fill="#400816" stroke="url(#tarotGold)" strokeWidth="1.2" />
+            <rect x="150" y="95" width="25" height="110" fill="#25050e" stroke="url(#tarotGold)" strokeWidth="1.5" />
+            <polygon points="145,95 162,75 180,95" fill="#400816" stroke="url(#tarotGold)" strokeWidth="1.2" />
             {/* Wolf & Hound Howling at the Skies */}
-            <polygon points="65,195 75,160 85,195" fill="#110324" stroke="url(#tarotGold)" strokeWidth="1.2" />
-            <polygon points="115,195 125,160 135,195" fill="#38155e" stroke="url(#tarotGold)" strokeWidth="1.2" />
+            <polygon points="65,195 75,160 85,195" fill="#160207" stroke="url(#tarotGold)" strokeWidth="1.2" />
+            <polygon points="115,195 125,160 135,195" fill="#4a0918" stroke="url(#tarotGold)" strokeWidth="1.2" />
             {/* Winding Path of Consciousness */}
             <path d="M 100 130 Q 80 160 100 185 Q 120 205 100 228" fill="none" stroke="url(#tarotGold)" strokeWidth="2" strokeDasharray="3,3" />
           </g>

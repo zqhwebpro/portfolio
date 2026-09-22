@@ -19,6 +19,7 @@ function App() {
 
   // 5 Progressive Stages: 1: Zodiac Seal | 2: Destiny Covenant | 3: Tarot | 4: Runes | 5: d100 Fate
   const [activeStage, setActiveStage] = useState(1);
+  const [hoveredSign, setHoveredSign] = useState(null);
 
   // Divination state containers
   const [horoscopeGoal, setHoroscopeGoal] = useState(() => getRandomGoal(ZODIAC_SIGNS[0]));
@@ -64,7 +65,7 @@ function App() {
     }
   }
 
-  const effectiveActiveSign = pointedSign || activeSign || ZODIAC_SIGNS[0];
+  const effectiveActiveSign = pointedSign || hoveredSign || activeSign || ZODIAC_SIGNS[0];
 
   // Derive Tarot card and Runes spread directly from effective active sign
   const tarotCard = React.useMemo(() => {
@@ -230,22 +231,24 @@ function App() {
     return () => window.removeEventListener('keydown', handleKeyDown);
   }, [handleCastGoal, handleRollDice]);
 
+  const handleHoverSign = (sign) => {
+    setHoveredSign(sign);
+  };
+
+  const handleLeaveSign = () => {
+    setHoveredSign(null);
+  };
+
   const handleSelectSign = (sign) => {
     setActiveSign(sign);
-    setActiveStage(1);
+    setHoveredSign(null);
     mysticAudio.playNodeIgnite();
 
     // Smoothly rotate the wheel so the chosen sign aligns at the Zenith (top)
     const signIdx = ZODIAC_SIGNS.findIndex(s => s.id === sign.id);
     if (signIdx !== -1) {
-      // In a 12-sign circle, sign index i is at angle (i * 30) degrees.
-      // Rotating by -i * 30 brings that sign to the top (Zenith).
       setRotation(-signIdx * 30);
     }
-  };
-
-  const handleLeaveSign = () => {
-    // Keep sign focused for seamless divination reading
   };
 
   const handleWheelRotate = (delta) => {
@@ -303,7 +306,9 @@ function App() {
         <AstrologyBoard
           signs={ZODIAC_SIGNS}
           activeSign={effectiveActiveSign}
-          onHoverSign={handleSelectSign}
+          selectedSign={activeSign}
+          hoveredSign={hoveredSign}
+          onHoverSign={handleHoverSign}
           onLeaveSign={handleLeaveSign}
           onSelectSign={handleSelectSign}
           horoscopeGoal={horoscopeGoal}

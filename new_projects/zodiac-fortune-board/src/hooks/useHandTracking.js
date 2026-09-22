@@ -105,29 +105,42 @@ export function useHandTracking() {
     if (!landmarks || landmarks.length < 21) return { spell: null, isPinch: false };
 
     const wrist = landmarks[0];
-    const thumbTip = landmarks[4];
-    const thumbIP = landmarks[3];
-    const indexTip = landmarks[8];
+    const indexMCP = landmarks[5];
     const indexPIP = landmarks[6];
-    const middleTip = landmarks[12];
-    const middlePIP = landmarks[10];
-    const ringTip = landmarks[16];
-    const ringPIP = landmarks[14];
-    const pinkyTip = landmarks[20];
-    const pinkyPIP = landmarks[18];
+    const indexTip = landmarks[8];
 
-    // Distance ratio relative to wrist
-    const isIndexExtended = dist(indexTip, wrist) > dist(indexPIP, wrist) * 1.18;
-    const isMiddleExtended = dist(middleTip, wrist) > dist(middlePIP, wrist) * 1.18;
-    const isRingExtended = dist(ringTip, wrist) > dist(ringPIP, wrist) * 1.18;
-    const isPinkyExtended = dist(pinkyTip, wrist) > dist(pinkyPIP, wrist) * 1.18;
+    const middleMCP = landmarks[9];
+    const middlePIP = landmarks[10];
+    const middleTip = landmarks[12];
+
+    const ringMCP = landmarks[13];
+    const ringPIP = landmarks[14];
+    const ringTip = landmarks[16];
+
+    const pinkyMCP = landmarks[17];
+    const pinkyPIP = landmarks[18];
+    const pinkyTip = landmarks[20];
+
+    // Robust extension detection using both wrist distance ratio and MCP distance ratio
+    const isFingerExtended = (tip, pip, mcp) => {
+      const tipToWrist = dist(tip, wrist);
+      const pipToWrist = dist(pip, wrist);
+      const tipToMcp = dist(tip, mcp);
+      const pipToMcp = dist(pip, mcp);
+      return tipToWrist > pipToWrist * 1.10 && tipToMcp > pipToMcp * 1.12;
+    };
+
+    const isIndexExtended = isFingerExtended(indexTip, indexPIP, indexMCP);
+    const isMiddleExtended = isFingerExtended(middleTip, middlePIP, middleMCP);
+    const isRingExtended = isFingerExtended(ringTip, ringPIP, ringMCP);
+    const isPinkyExtended = isFingerExtended(pinkyTip, pinkyPIP, pinkyMCP);
 
     // 1. CLENCHED FIST: All 4 fingers curled tight (Stage 5: Fate Die)
     if (!isIndexExtended && !isMiddleExtended && !isRingExtended && !isPinkyExtended) {
       return { spell: 'FIST', isPinch: false };
     }
 
-    // 2. POINTING WAND: Only Index extended (Stage 1: Sign Lore)
+    // 2. POINTING WAND: Only Index extended (Stage 1: Sign Lore & Alignment)
     if (isIndexExtended && !isMiddleExtended && !isRingExtended && !isPinkyExtended) {
       return { spell: 'POINTING', isPinch: false };
     }
@@ -137,7 +150,7 @@ export function useHandTracking() {
       return { spell: 'PEACE', isPinch: false };
     }
 
-    // 4. MYSTIC HORNS: Index and Pinky extended, Middle and Ring curled down into palm (Stage 4: 3 Runes)
+    // 4. MYSTIC HORNS: Index and Pinky extended, Middle and Ring curled down (Stage 4: 3 Runes)
     if (isIndexExtended && !isMiddleExtended && !isRingExtended && isPinkyExtended) {
       return { spell: 'HORNS', isPinch: false };
     }
@@ -175,51 +188,15 @@ export function useHandTracking() {
           if (results && results.landmarks && results.landmarks.length > 0) {
             const landmarks = results.landmarks[0];
             rawLandmarksRef.current = landmarks;
-
-            // Mirrored X coordinates for intuitive mirror navigation
-            const primaryTip = landmarks[8];
-            const mirroredX = 1 - primaryTip.x;
-            const mirroredY = primaryTip.y;
-            const newCoords = { x: mirroredX, y: mirroredY };
-            handCoordsRef.current = newCoords;
-
-            // Only update coordinates state if moved by noticeable margin
-            setHandCoordinates(prev => {
-              if (!prev) return newCoords;
-              const dx = prev.x - newCoords.x;
-              const dy = prev.y - newCoords.y;
-              if (dx * dx + dy * dy > 0.00015) {
-                return newCoords;
-              }
-              return prev;
-            });
             setRawLandmarks(landmarks);
 
-            // Spatial Compass Rotation Control:
-            // Calculate distance from center (0.5, 0.5)
-            const dx = mirroredX - 0.5;
-            const dy = mirroredY - 0.5;
-            const radiusFromCenter = Math.sqrt(dx * dx + dy * dy);
-            const currentAngle = Math.atan2(dy, dx) * (180 / Math.PI);
-
-            // STOP rotation when magic cursor pointer is INSIDE the center circle (radius <= 0.26)
-            if (radiusFromCenter > 0.26 && prevAngleRef.current !== null) {
-              let delta = currentAngle - prevAngleRef.current;
-              if (delta > 180) delta -= 360;
-              if (delta < -180) delta += 360;
-
-              // Smooth and responsive rotation delta for fluid, effortless spin
-              if (Math.abs(delta) > 0.15 && Math.abs(delta) < 40) {
-                smoothDeltaRef.current = smoothDeltaRef.current * 0.3 + delta * 0.7;
-                setRotation(prev => prev + smoothDeltaRef.current * 0.75);
-              } else {
-                smoothDeltaRef.current *= 0.5;
-              }
-            } else {
-              // Inside deadzone: reset momentum
-              smoothDeltaRef.current = 0;
-            }
-            prevAngleRef.current = currentAngle;
+            // Use index finger tip for pointer coordinates (mirrored for natural interaction)
+            const indexTip = landmarks[8];
+            const mirroredX = 1.0 - indexTip.x;
+            const mirroredY = indexTip.y;
+            const coords = { x: mirroredX, y: mirroredY };
+            handCoordsRef.current = coords;
+            setHandCoordinates(coords);
 
             // Classify gesture with 2-frame debouncing to eliminate jitter
             const { spell, isPinch } = classifyGesture(landmarks);
@@ -236,6 +213,33 @@ export function useHandTracking() {
               setActiveSpell(spell);
               setIsPinching(isPinch);
             }
+
+            // Wheel rotation physics:
+            // ONLY spin the compass when hand is in CHANNELING mode (sweeping the outer rim).
+            // Do NOT spin the wheel when holding an active casting gesture (Peace, Palm, Horns, Fist, Pointing).
+            const isCastingSpell = spell === 'PEACE' || spell === 'OPEN_PALM' || spell === 'HORNS' || spell === 'FIST' || spell === 'POINTING';
+            const dx = mirroredX - 0.5;
+            const dy = mirroredY - 0.5;
+            const radiusFromCenter = Math.sqrt(dx * dx + dy * dy);
+            const currentAngle = Math.atan2(dy, dx) * (180 / Math.PI);
+
+            if (!isCastingSpell && radiusFromCenter > 0.28 && radiusFromCenter < 0.65 && prevAngleRef.current !== null) {
+              let delta = currentAngle - prevAngleRef.current;
+              if (delta > 180) delta -= 360;
+              if (delta < -180) delta += 360;
+
+              // Smooth and responsive rotation delta for fluid, effortless spin
+              if (Math.abs(delta) > 0.15 && Math.abs(delta) < 40) {
+                smoothDeltaRef.current = smoothDeltaRef.current * 0.3 + delta * 0.7;
+                setRotation(prev => prev + smoothDeltaRef.current * 0.85);
+              } else {
+                smoothDeltaRef.current *= 0.5;
+              }
+            } else {
+              // Reset rotation momentum during casting gestures or center zone
+              smoothDeltaRef.current = 0;
+            }
+            prevAngleRef.current = currentAngle;
           } else {
             // Hand out of frame
             prevAngleRef.current = null;

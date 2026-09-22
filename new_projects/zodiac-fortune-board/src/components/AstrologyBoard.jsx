@@ -4,6 +4,8 @@ import { TarotIllustration } from './TarotIllustration';
 export function AstrologyBoard({
   signs,
   activeSign,
+  selectedSign,
+  hoveredSign,
   onHoverSign,
   onLeaveSign,
   onSelectSign,
@@ -36,6 +38,10 @@ export function AstrologyBoard({
     ) return;
 
     isDraggingRef.current = true;
+    try {
+      e.currentTarget.setPointerCapture(e.pointerId);
+    } catch {}
+
     const rect = e.currentTarget.getBoundingClientRect();
     const cx = rect.left + rect.width / 2;
     const cy = rect.top + rect.height / 2;
@@ -56,8 +62,13 @@ export function AstrologyBoard({
     lastMouseAngleRef.current = currentAngle;
   };
 
-  const handlePointerUp = () => {
+  const handlePointerUp = (e) => {
     isDraggingRef.current = false;
+    try {
+      if (e && e.currentTarget && e.currentTarget.hasPointerCapture && e.currentTarget.hasPointerCapture(e.pointerId)) {
+        e.currentTarget.releasePointerCapture(e.pointerId);
+      }
+    } catch {}
   };
 
   // Generate aspect chords between signs for Sacred Geometry
@@ -114,18 +125,33 @@ export function AstrologyBoard({
 
   return (
     <div className="divination-arena">
-      {/* Left-Side Divination Navigation Panel - No headline, no numbers, pure gestures */}
+      {/* Left-Side Divination Navigation Panel - Antique Cartomancy Altar Tablet */}
       <nav className="compass-gesture-nav" aria-label="Divination Gestures">
+        <div className="panel-corner tl"></div>
+        <div className="panel-corner tr"></div>
+        <div className="panel-corner bl"></div>
+        <div className="panel-corner br"></div>
+
+        <div className="nav-panel-astral-sigil">
+          <span className="sigil-glyph">☽ ☉ ☾</span>
+        </div>
+
         <div className="nav-stages-list">
           {gestures.map(stg => (
             <button
               key={stg.id}
               className={`nav-stage-btn ${activeStage === stg.id ? 'active' : ''}`}
-              onClick={() => onSelectStage && onSelectStage(stg.id)}
+              onClick={(e) => {
+                e.stopPropagation();
+                if (onSelectStage) onSelectStage(stg.id);
+              }}
               title={stg.desc}
             >
-              <span className="nav-stage-gesture">{stg.gesture}</span>
-              <span className="nav-stage-desc">{stg.desc}</span>
+              <div className="nav-stage-indicator"></div>
+              <div className="nav-stage-content">
+                <span className="nav-stage-gesture">{stg.gesture}</span>
+                <span className="nav-stage-desc">{stg.desc}</span>
+              </div>
             </button>
           ))}
         </div>
@@ -190,24 +216,24 @@ export function AstrologyBoard({
               const angle = (i / totalNodes) * (2 * Math.PI) - Math.PI / 2;
               const x = 50 + radius * Math.cos(angle);
               const y = 50 + radius * Math.sin(angle);
-              const isSelected = activeSign && activeSign.id === sign.id;
+              const isSelected = selectedSign ? selectedSign.id === sign.id : (activeSign && activeSign.id === sign.id);
+              const isHovered = hoveredSign && hoveredSign.id === sign.id;
 
               return (
                 <div
                   key={sign.id}
-                  className={`project-node ${isSelected ? 'active-node' : ''}`}
+                  className={`project-node ${isSelected ? 'active-node' : ''} ${isHovered ? 'hovered-node' : ''}`}
                   style={{
                     left: `${x}%`,
-                    top: `${y}%`,
-                    borderColor: isSelected ? '#ffaa00' : undefined,
-                    boxShadow: isSelected 
-                      ? '0 0 35px rgba(255, 170, 0, 0.9), inset 0 0 15px rgba(255, 120, 0, 0.6)' 
-                      : undefined
+                    top: `${y}%`
                   }}
-                  onMouseEnter={() => onHoverSign(sign)}
-                  onMouseLeave={onLeaveSign}
-                  onClick={() => onSelectSign ? onSelectSign(sign) : onHoverSign(sign)}
-                  title={`${sign.name} (${sign.dates})`}
+                  onMouseEnter={() => onHoverSign && onHoverSign(sign)}
+                  onMouseLeave={() => onLeaveSign && onLeaveSign()}
+                  onClick={(e) => {
+                    e.stopPropagation();
+                    if (onSelectSign) onSelectSign(sign);
+                  }}
+                  title={`${sign.name} (${sign.dates}) — Click to Align at Zenith`}
                 >
                   <span className="node-symbol">{sign.symbol}</span>
                 </div>
