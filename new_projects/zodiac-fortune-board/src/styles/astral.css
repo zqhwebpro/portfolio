@@ -386,13 +386,13 @@ body, html {
   100% { opacity: 0.95; }
 }
 
-/* 12 Zodiac Nodes (Pure Glyphs with Starlight Halo) */
+/* 12 Zodiac Nodes (Doctor Strange Tao Mandala Seals) */
 .project-node {
   position: absolute;
-  width: 66px;
-  height: 66px;
-  background: radial-gradient(circle at 35% 35%, #241340 0%, #0d051c 100%);
-  border: 2px solid var(--gold-base);
+  width: 68px;
+  height: 68px;
+  background: radial-gradient(circle at 35% 35%, #2b0e4e 0%, #090114 100%);
+  border: 2px solid rgba(255, 170, 0, 0.6);
   border-radius: 50%;
   display: flex;
   align-items: center;
@@ -400,17 +400,17 @@ body, html {
   cursor: pointer;
   transform: translate(-50%, -50%);
   animation: counterSpin 180s linear infinite, nodeStarlightPulse 4.5s ease-in-out infinite;
-  box-shadow: 0 0 20px rgba(0, 0, 0, 0.85);
+  box-shadow: 0 0 22px rgba(255, 120, 0, 0.35), 0 4px 16px rgba(0, 0, 0, 0.9);
   transition: all 0.35s cubic-bezier(0.175, 0.885, 0.32, 1.275);
   z-index: 10;
 }
 
 @keyframes nodeStarlightPulse {
   0%, 100% {
-    box-shadow: 0 0 16px rgba(0, 0, 0, 0.85), 0 0 8px rgba(249, 226, 175, 0.3);
+    box-shadow: 0 0 16px rgba(0, 0, 0, 0.9), 0 0 10px rgba(255, 150, 0, 0.35);
   }
   50% {
-    box-shadow: 0 0 28px rgba(249, 226, 175, 0.6), inset 0 0 12px rgba(249, 226, 175, 0.35);
+    box-shadow: 0 0 32px rgba(255, 150, 0, 0.7), inset 0 0 14px rgba(255, 180, 0, 0.4);
   }
 }
 
@@ -419,18 +419,18 @@ body, html {
 }
 
 .node-symbol {
-  font-size: 2.15rem;
+  font-size: 2.2rem;
   line-height: 1;
-  color: var(--gold-bright);
-  filter: drop-shadow(0 0 8px rgba(249, 226, 175, 0.7));
+  color: #ffe259;
+  filter: drop-shadow(0 0 10px rgba(255, 160, 0, 0.85));
   transition: transform 0.25s ease;
 }
 
 .project-node:hover,
 .project-node.active-node {
-  background: radial-gradient(circle at 35% 35%, #441e80 0%, #1a0836 100%);
-  border-color: #ffffff;
-  box-shadow: 0 0 38px var(--elem-glow), inset 0 0 18px rgba(255, 255, 255, 0.5);
+  background: radial-gradient(circle at 35% 35%, #4c1a8a 0%, #17042c 100%);
+  border-color: #ffd000 !important;
+  box-shadow: 0 0 42px rgba(255, 140, 0, 0.95), inset 0 0 18px rgba(255, 200, 50, 0.65) !important;
   transform: translate(-50%, -50%) scale(1.18);
   z-index: 25;
 }
@@ -439,45 +439,7 @@ body, html {
   transform: scale(1.1);
 }
 
-/* Quick-Spin Wheels Buttons */
-.compass-spin-btn {
-  position: absolute;
-  top: 50%;
-  transform: translateY(-50%);
-  width: 44px;
-  height: 44px;
-  border-radius: 50%;
-  background: rgba(22, 7, 36, 0.88);
-  border: 1.5px solid var(--gold-base);
-  color: var(--gold-bright);
-  font-size: 1.7rem;
-  line-height: 1;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  cursor: pointer;
-  z-index: 30;
-  transition: all 0.25s ease;
-  box-shadow: 0 4px 18px rgba(0, 0, 0, 0.85), 0 0 16px rgba(197, 160, 89, 0.3);
-}
-
-.compass-spin-btn:hover {
-  background: rgba(55, 18, 90, 0.96);
-  border-color: #ffffff;
-  color: #ffffff;
-  transform: translateY(-50%) scale(1.14);
-  box-shadow: 0 0 25px rgba(249, 226, 175, 0.7);
-}
-
-.compass-spin-btn.prev {
-  left: -22px;
-}
-
-.compass-spin-btn.next {
-  right: -22px;
-}
-
-/* Luminous Celestial Alignment Ray */
+/* Luminous Doctor Strange Celestial Alignment Ray */
 .celestial-alignment-ray {
   position: absolute;
   top: 50%;
@@ -496,8 +458,8 @@ body, html {
   left: 0;
   width: 48vmin;
   height: 4px;
-  background: linear-gradient(90deg, transparent 0%, rgba(249, 226, 175, 0.25) 25%, rgba(249, 226, 175, 0.85) 85%, #ffffff 100%);
-  box-shadow: 0 0 16px rgba(249, 226, 175, 0.9), 0 0 32px rgba(139, 69, 255, 0.65);
+  background: linear-gradient(90deg, transparent 0%, rgba(255, 120, 0, 0.3) 20%, rgba(255, 180, 0, 0.9) 80%, #ffffff 100%);
+  box-shadow: 0 0 20px rgba(255, 140, 0, 0.95), 0 0 40px rgba(255, 60, 0, 0.7);
   filter: blur(0.5px);
   animation: rayPulse 2.2s ease-in-out infinite alternate;
 }
@@ -509,8 +471,8 @@ body, html {
   width: 24px;
   height: 24px;
   border-radius: 50%;
-  background: radial-gradient(circle, #ffffff 0%, rgba(249, 226, 175, 0.8) 45%, transparent 75%);
-  box-shadow: 0 0 25px #ffffff, 0 0 45px rgba(249, 226, 175, 0.85);
+  background: radial-gradient(circle, #ffffff 0%, rgba(255, 190, 50, 0.85) 45%, transparent 75%);
+  box-shadow: 0 0 28px #ffffff, 0 0 50px rgba(255, 150, 0, 0.9);
   animation: haloBreathe 1.6s ease-in-out infinite alternate;
 }
 
@@ -566,10 +528,10 @@ body, html {
   transform: translate(-50%, -50%);
   width: 66vmin;
   height: 66vmin;
-  min-width: 490px;
-  min-height: 490px;
-  max-width: 630px;
-  max-height: 630px;
+  min-width: 500px;
+  min-height: 500px;
+  max-width: 640px;
+  max-height: 640px;
   border-radius: 50%;
   z-index: 8;
   display: flex;
@@ -579,36 +541,51 @@ body, html {
   text-align: center;
   overflow: hidden;
   cursor: default;
-  /* 3D Glass Sphere with deep mysterious void and translucent refraction edge */
-  background: 
-    radial-gradient(circle at 35% 25%, rgba(68, 25, 115, 0.82) 0%, rgba(32, 12, 58, 0.94) 42%, rgba(12, 2, 22, 0.98) 75%, #050109 100%);
-  border: 2.5px solid rgba(212, 175, 55, 0.65);
+  /* Doctor Strange Eldritch Sanctum: Obsidian core with incandescent Tao Mandala fiery borders */
+  background: radial-gradient(circle at 45% 30%, #1c0835 0%, #0c0217 55%, #05000a 100%);
+  border: 2.5px solid rgba(255, 175, 0, 0.85);
   box-shadow: 
-    inset 0 0 60px rgba(160, 100, 255, 0.38),
-    inset 0 0 20px rgba(255, 255, 255, 0.6),
-    inset 0 -40px 75px rgba(235, 30, 75, 0.32),
-    0 0 80px rgba(212, 175, 55, 0.38),
-    0 35px 90px rgba(0, 0, 0, 0.95);
+    0 0 55px rgba(255, 120, 0, 0.45),
+    0 0 110px rgba(255, 70, 0, 0.25),
+    inset 0 0 50px rgba(255, 140, 0, 0.35),
+    inset 0 0 15px rgba(255, 220, 100, 0.4);
   transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
 }
 
-.crystal-ball-sphere.is-locked {
-  border-color: #f9e2af;
-  box-shadow: 
-    inset 0 0 70px rgba(185, 130, 255, 0.48),
-    inset 0 0 26px rgba(255, 255, 255, 0.75),
-    inset 0 -45px 80px rgba(255, 45, 90, 0.38),
-    0 0 100px rgba(249, 226, 175, 0.58),
-    0 35px 95px rgba(0, 0, 0, 0.95);
+/* Doctor Strange Concentric Tao Mandala Background Spark Rings */
+.eldritch-mandala-ring {
+  position: absolute;
+  border-radius: 50%;
+  pointer-events: none;
+  z-index: 1;
 }
 
-.crystal-ball-sphere.pinch-charging {
-  transform: translate(-50%, -50%) scale(1.04);
-  border-color: #ffffff;
-  box-shadow: 
-    inset 0 0 90px rgba(255, 255, 255, 0.6),
-    0 0 120px rgba(249, 226, 175, 0.8),
-    0 35px 95px rgba(0, 0, 0, 0.95) !important;
+.eldritch-mandala-ring.ring-outer {
+  inset: 8px;
+  border: 1.5px dashed rgba(255, 170, 0, 0.32);
+  animation: eldritchRotateClockwise 60s linear infinite;
+}
+
+.eldritch-mandala-ring.ring-middle {
+  inset: 28px;
+  border: 1px solid rgba(255, 120, 0, 0.22);
+  animation: eldritchRotateCounter 40s linear infinite;
+}
+
+.eldritch-mandala-ring.ring-inner {
+  inset: 52px;
+  border: 1px dotted rgba(255, 215, 0, 0.28);
+  animation: eldritchRotateClockwise 25s linear infinite;
+}
+
+@keyframes eldritchRotateClockwise {
+  from { transform: rotate(0deg); }
+  to { transform: rotate(360deg); }
+}
+
+@keyframes eldritchRotateCounter {
+  from { transform: rotate(360deg); }
+  to { transform: rotate(0deg); }
 }
 
 /* Top-Left Curved Specular Glare (Physical Glass Gloss Highlight) */
@@ -626,76 +603,15 @@ body, html {
   z-index: 12;
 }
 
-/* Secondary Pinpoint Glass Glare */
-.crystal-glare-secondary {
-  position: absolute;
-  top: 5%;
-  left: 36%;
-  width: 22%;
-  height: 11%;
-  border-radius: 50%;
-  background: radial-gradient(circle, rgba(255, 255, 255, 0.65) 0%, transparent 80%);
-  filter: blur(2px);
-  transform: rotate(-18deg);
-  pointer-events: none;
-  z-index: 12;
-}
-
-/* Bottom Red Velvet Blanket Reflection (Ambient Table Bounce) */
-.crystal-velvet-reflection {
-  position: absolute;
-  bottom: 3%;
-  left: 16%;
-  right: 16%;
-  height: 28%;
-  border-radius: 50%;
-  background: radial-gradient(ellipse at 50% 90%, rgba(255, 50, 85, 0.4) 0%, rgba(190, 15, 50, 0.16) 55%, transparent 80%);
-  filter: blur(7px);
-  pointer-events: none;
-  z-index: 9;
-}
-
 /* Inner Chromatic Refraction Meniscus */
 .crystal-inner-refraction {
   position: absolute;
   inset: 4px;
   border-radius: 50%;
-  border: 1.5px solid rgba(139, 210, 255, 0.25);
-  box-shadow: inset 0 0 28px rgba(185, 120, 255, 0.28);
+  border: 1.5px solid rgba(255, 180, 50, 0.3);
+  box-shadow: inset 0 0 35px rgba(255, 120, 0, 0.25);
   pointer-events: none;
   z-index: 10;
-}
-
-/* Inner Ethereal Swirling Mists */
-.crystal-mist-layer {
-  position: absolute;
-  inset: 0;
-  border-radius: 50%;
-  pointer-events: none;
-  opacity: 0.42;
-  mix-blend-mode: screen;
-}
-
-.crystal-mist-layer.mist-1 {
-  background: radial-gradient(ellipse at 35% 45%, rgba(139, 69, 255, 0.5) 0%, rgba(0, 255, 234, 0.18) 40%, transparent 70%);
-  animation: mistSwirl 60s linear infinite;
-}
-
-.crystal-mist-layer.mist-2 {
-  background: radial-gradient(ellipse at 65% 55%, rgba(249, 226, 175, 0.35) 0%, rgba(210, 30, 85, 0.28) 45%, transparent 75%);
-  animation: mistSwirlReverse 45s linear infinite;
-}
-
-@keyframes mistSwirl {
-  0% { transform: rotate(0deg) scale(1); }
-  50% { transform: rotate(180deg) scale(1.05); }
-  100% { transform: rotate(360deg) scale(1); }
-}
-
-@keyframes mistSwirlReverse {
-  0% { transform: rotate(360deg) scale(1.03); }
-  50% { transform: rotate(180deg) scale(0.97); }
-  100% { transform: rotate(0deg) scale(1.03); }
 }
 
 /* Content floating within the crystal ball's heart */
@@ -708,51 +624,9 @@ body, html {
   flex-direction: column;
   align-items: center;
   justify-content: center;
-  padding: 24px 32px;
+  padding: 20px 28px;
   user-select: none;
   text-shadow: 0 2px 12px rgba(0, 0, 0, 0.95);
-}
-
-/* Lock Status Pill */
-.crystal-lock-pill {
-  display: inline-flex;
-  align-items: center;
-  gap: 7px;
-  background: rgba(18, 6, 30, 0.88);
-  border: 1.5px solid rgba(212, 175, 55, 0.5);
-  border-radius: 20px;
-  padding: 5px 15px;
-  font-family: 'Philosopher', serif;
-  font-size: 0.92rem;
-  font-weight: 700;
-  color: var(--gold-bright);
-  cursor: pointer;
-  margin-bottom: 6px;
-  transition: all 0.25s ease;
-  box-shadow: 0 4px 16px rgba(0, 0, 0, 0.7);
-}
-
-.crystal-lock-pill:hover {
-  transform: scale(1.05);
-  border-color: #ffffff;
-  box-shadow: 0 0 18px rgba(249, 226, 175, 0.65);
-}
-
-.crystal-lock-pill.locked {
-  background: rgba(40, 14, 65, 0.95);
-  border-color: var(--gold-bright);
-  box-shadow: 0 0 20px rgba(249, 226, 175, 0.55);
-}
-
-.crystal-lock-pill.unlocked {
-  background: rgba(26, 8, 16, 0.86);
-  border-color: rgba(212, 175, 55, 0.4);
-}
-
-.project-node.locked-node {
-  border-color: #ffffff !important;
-  box-shadow: 0 0 38px var(--gold-bright), 0 0 16px #ffffff !important;
-  transform: translate(-50%, -50%) scale(1.15) !important;
 }
 
 /* Common Stage Container */
@@ -821,7 +695,7 @@ body, html {
 .center-constellation-svg {
   width: 100%;
   height: 100%;
-  filter: drop-shadow(0 0 14px var(--elem-glow));
+  filter: drop-shadow(0 0 16px rgba(255, 140, 0, 0.75));
 }
 
 .center-sign-title {
@@ -829,8 +703,8 @@ body, html {
   font-size: 1.45rem;
   font-weight: 700;
   color: #ffffff;
-  margin-top: 2px;
-  text-shadow: 0 0 15px rgba(249, 226, 175, 0.7);
+  margin-top: 4px;
+  text-shadow: 0 0 16px rgba(255, 180, 0, 0.75);
 }
 
 .center-sign-meta {
@@ -839,9 +713,9 @@ body, html {
   gap: 8px;
   font-family: 'Cormorant Garamond', serif;
   font-size: 1.05rem;
-  color: var(--gold-bright);
-  background: rgba(255, 255, 255, 0.06);
-  border: 1px solid rgba(212, 175, 55, 0.3);
+  color: #ffb703;
+  background: rgba(255, 160, 0, 0.08);
+  border: 1px solid rgba(255, 175, 0, 0.35);
   border-radius: 14px;
   padding: 3px 14px;
   margin-top: 2px;
@@ -849,6 +723,7 @@ body, html {
 
 .meta-dot {
   opacity: 0.6;
+  color: #ffaa00;
 }
 
 .center-empty-state {
@@ -864,13 +739,13 @@ body, html {
 .empty-desc {
   font-family: 'Cormorant Garamond', serif;
   font-size: 1.1rem;
-  color: rgba(255, 255, 255, 0.85);
-  max-width: 280px;
+  color: rgba(255, 255, 255, 0.88);
+  max-width: 290px;
   line-height: 1.5;
 }
 
 /* ========================================================
-   Stage 2: Goal-Oriented Horoscope Quest View
+   Stage 2: Eldritch Destiny Covenant (Witch's Goal Quest)
    ======================================================== */
 .stage-goal-view {
   cursor: pointer;
@@ -878,11 +753,11 @@ body, html {
 }
 
 .oracle-goal-card {
-  max-width: 90%;
+  max-width: 92%;
   display: flex;
   flex-direction: column;
   align-items: center;
-  gap: 7px;
+  gap: 8px;
   animation: fadeInProphecy 0.4s ease-out;
 }
 
@@ -893,51 +768,54 @@ body, html {
 
 .goal-quest-badge {
   font-family: 'Philosopher', serif;
-  font-size: 0.85rem;
+  font-size: 0.84rem;
   font-weight: 700;
-  color: var(--gold-bright);
-  background: rgba(255, 255, 255, 0.08);
-  border: 1px solid var(--gold-base);
+  color: #ffaa00;
+  background: rgba(255, 150, 0, 0.12);
+  border: 1.5px solid #ffaa00;
   border-radius: 12px;
-  padding: 2px 14px;
-  letter-spacing: 0.05em;
+  padding: 3px 14px;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  box-shadow: 0 0 14px rgba(255, 140, 0, 0.3);
 }
 
 .goal-quest-title {
   font-family: 'Philosopher', serif;
-  font-size: 1.35rem;
+  font-size: 1.38rem;
   font-weight: 700;
   color: #ffffff;
-  text-shadow: 0 0 14px rgba(249, 226, 175, 0.6);
+  text-shadow: 0 0 15px rgba(255, 175, 0, 0.75);
 }
 
 .goal-section.impetus-section {
-  background: rgba(255, 255, 255, 0.04);
-  border: 1px solid rgba(197, 160, 89, 0.25);
+  background: rgba(30, 10, 50, 0.7);
+  border: 1px solid rgba(255, 160, 0, 0.3);
   border-radius: 10px;
-  padding: 6px 14px;
+  padding: 7px 14px;
   width: 100%;
 }
 
 .goal-section.impetus-section .goal-label {
   font-family: 'Philosopher', serif;
   font-size: 0.88rem;
-  color: var(--gold-bright);
+  color: #ffb703;
   display: block;
   margin-bottom: 2px;
+  font-weight: 700;
 }
 
 .goal-section.impetus-section .goal-text {
   font-family: 'Cormorant Garamond', serif;
   font-size: 1.08rem;
   line-height: 1.45;
-  color: rgba(255, 255, 255, 0.92);
+  color: rgba(255, 255, 255, 0.94);
 }
 
 .goal-milestone-box {
-  background: rgba(249, 226, 175, 0.1);
-  border: 1.5px solid rgba(249, 226, 175, 0.45);
-  box-shadow: 0 0 20px rgba(249, 226, 175, 0.2);
+  background: rgba(38, 12, 65, 0.85);
+  border: 1.5px solid rgba(255, 175, 0, 0.65);
+  box-shadow: 0 0 20px rgba(255, 120, 0, 0.35);
   border-radius: 10px;
   padding: 8px 14px;
   width: 100%;
@@ -947,7 +825,7 @@ body, html {
   font-family: 'Philosopher', serif;
   font-size: 0.9rem;
   font-weight: 700;
-  color: var(--gold-bright);
+  color: #ffe259;
   display: block;
   margin-bottom: 2px;
 }
@@ -961,45 +839,47 @@ body, html {
 }
 
 .goal-section.oath-section {
-  background: rgba(18, 6, 32, 0.6);
-  border-left: 3px solid var(--gold-bright);
-  padding: 6px 12px;
-  border-radius: 0 8px 8px 0;
+  background: rgba(18, 5, 30, 0.8);
+  border-left: 3.5px solid #ffaa00;
+  padding: 7px 14px;
+  border-radius: 0 10px 10px 0;
   width: 100%;
 }
 
 .goal-section.oath-section .goal-label {
   font-family: 'Philosopher', serif;
   font-size: 0.88rem;
-  color: var(--gold-bright);
+  color: #ffaa00;
+  font-weight: 700;
   display: block;
 }
 
 .goal-section.oath-section .oath-text {
   font-family: 'Cormorant Garamond', serif;
   font-size: 1.08rem;
-  color: rgba(255, 255, 255, 0.95);
+  color: #ffe259;
   line-height: 1.4;
 }
 
 .goal-window-tag {
   font-family: 'Philosopher', serif;
-  font-size: 0.88rem;
-  color: var(--gold-base);
-  background: rgba(255, 255, 255, 0.06);
+  font-size: 0.86rem;
+  color: #ffb703;
+  background: rgba(255, 160, 0, 0.1);
+  border: 1px solid rgba(255, 175, 0, 0.3);
   border-radius: 12px;
-  padding: 3px 12px;
+  padding: 3px 14px;
 }
 
 .oracle-fortune {
   font-family: 'Cormorant Garamond', serif;
   font-size: 1.1rem;
-  color: rgba(255, 255, 255, 0.85);
+  color: rgba(255, 255, 255, 0.9);
   line-height: 1.5;
 }
 
 /* ========================================================
-   Stage 3: Major Arcana Tarot Card View
+   Stage 3: Consecrated Major Arcana Tarot Card View
    ======================================================== */
 .stage-tarot-view {
   width: 100%;
@@ -1009,16 +889,28 @@ body, html {
   display: flex;
   flex-direction: column;
   align-items: center;
-  max-width: 90%;
+  max-width: 92%;
   gap: 6px;
+  background: radial-gradient(circle at 50% 25%, #220a40 0%, #090114 100%);
+  border: 1.5px solid rgba(255, 175, 0, 0.65);
+  border-radius: 12px;
+  padding: 12px 18px;
+  box-shadow: 0 0 30px rgba(255, 120, 0, 0.35);
   animation: fadeInStage 0.4s ease-out;
 }
 
 .tarot-card-numeral {
   font-family: 'Philosopher', serif;
-  font-size: 1.05rem;
-  color: var(--gold-base);
-  letter-spacing: 0.1em;
+  font-size: 1.1rem;
+  color: #ffb703;
+  letter-spacing: 0.12em;
+  font-weight: 700;
+}
+
+.tarot-card-sigil {
+  font-size: 2.3rem;
+  margin: 2px 0;
+  filter: drop-shadow(0 0 14px rgba(255, 170, 0, 0.9));
 }
 
 .tarot-card-name {
@@ -1026,30 +918,24 @@ body, html {
   font-size: 1.45rem;
   font-weight: 700;
   color: #ffffff;
-  text-shadow: 0 0 14px rgba(249, 226, 175, 0.6);
-}
-
-.tarot-card-sigil {
-  font-size: 2.2rem;
-  margin: 2px 0;
-  filter: drop-shadow(0 0 10px var(--elem-glow));
+  text-shadow: 0 0 14px rgba(255, 180, 0, 0.6);
 }
 
 .tarot-keywords-pill {
   font-family: 'Philosopher', serif;
   font-size: 0.88rem;
-  color: var(--gold-bright);
-  background: rgba(255, 255, 255, 0.08);
-  border: 1px solid rgba(212, 175, 55, 0.35);
-  border-radius: 12px;
+  color: #ffe259;
+  background: rgba(255, 160, 0, 0.15);
+  border: 1px solid rgba(255, 175, 0, 0.4);
+  border-radius: 14px;
   padding: 3px 14px;
   letter-spacing: 0.04em;
 }
 
 .tarot-counsel-box {
-  background: rgba(20, 8, 38, 0.7);
-  border: 1px solid rgba(197, 160, 89, 0.3);
-  border-radius: 10px;
+  background: rgba(0, 0, 0, 0.55);
+  border: 1px solid rgba(255, 160, 0, 0.25);
+  border-radius: 8px;
   padding: 8px 14px;
   width: 100%;
   margin-top: 2px;
@@ -1059,20 +945,20 @@ body, html {
   font-family: 'Philosopher', serif;
   font-size: 0.9rem;
   font-weight: 700;
-  color: var(--gold-bright);
+  color: #ffaa00;
   display: block;
   margin-bottom: 2px;
 }
 
 .tarot-counsel-box .counsel-text {
   font-family: 'Cormorant Garamond', serif;
-  font-size: 1.1rem;
-  line-height: 1.5;
-  color: rgba(255, 255, 255, 0.94);
+  font-size: 1.08rem;
+  line-height: 1.45;
+  color: rgba(255, 255, 255, 0.95);
 }
 
 /* ========================================================
-   Stage 4: Divination Runes Spread & Designated Spell Rune
+   Stage 4: Witches' Elder Futhark Runes & Spell Rune
    ======================================================== */
 .stage-runes-view {
   width: 100%;
@@ -1086,39 +972,40 @@ body, html {
   display: flex;
   gap: 10px;
   justify-content: center;
-  width: 92%;
+  width: 94%;
 }
 
 .rune-stone-card {
   flex: 1;
-  background: rgba(24, 10, 42, 0.75);
-  border: 1px solid rgba(197, 160, 89, 0.35);
+  background: radial-gradient(circle at 50% 20%, #250c47 0%, #0b0216 100%);
+  border: 1.5px solid rgba(255, 160, 0, 0.45);
   border-radius: 10px;
   padding: 8px 6px;
   display: flex;
   flex-direction: column;
   align-items: center;
-  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.7);
+  box-shadow: 0 4px 18px rgba(0, 0, 0, 0.8);
   transition: transform 0.25s ease;
 }
 
 .rune-stone-card:hover {
   transform: translateY(-3px);
-  border-color: var(--gold-bright);
+  border-color: #ffd000;
 }
 
 .rune-position-title {
   font-family: 'Philosopher', serif;
   font-size: 0.78rem;
-  color: var(--gold-base);
+  color: #ffaa00;
   text-transform: uppercase;
-  letter-spacing: 0.05em;
+  letter-spacing: 0.06em;
+  font-weight: 700;
 }
 
 .rune-stone-glyph {
   font-size: 2.2rem;
-  color: var(--gold-bright);
-  filter: drop-shadow(0 0 8px rgba(249, 226, 175, 0.8));
+  color: #ffe259;
+  filter: drop-shadow(0 0 10px rgba(255, 170, 0, 0.85));
   margin: 2px 0;
 }
 
@@ -1132,7 +1019,7 @@ body, html {
 .rune-stone-meaning {
   font-family: 'Cormorant Garamond', serif;
   font-size: 0.84rem;
-  color: rgba(255, 255, 255, 0.8);
+  color: rgba(255, 255, 255, 0.85);
   line-height: 1.3;
 }
 
@@ -1140,18 +1027,18 @@ body, html {
   display: flex;
   align-items: center;
   gap: 12px;
-  background: rgba(45, 16, 75, 0.85);
-  border: 1.5px solid var(--gold-base);
+  background: rgba(40, 14, 75, 0.9);
+  border: 1.5px solid #ffaa00;
   border-radius: 12px;
   padding: 8px 16px;
-  width: 90%;
-  box-shadow: 0 0 20px rgba(139, 69, 255, 0.35);
+  width: 92%;
+  box-shadow: 0 0 22px rgba(255, 120, 0, 0.4);
 }
 
 .spell-rune-large-glyph {
   font-size: 2.4rem;
-  color: var(--gold-bright);
-  filter: drop-shadow(0 0 10px rgba(249, 226, 175, 0.9));
+  color: #ffe259;
+  filter: drop-shadow(0 0 12px rgba(255, 180, 0, 0.95));
 }
 
 .spell-rune-tag {
@@ -1164,11 +1051,11 @@ body, html {
 .spell-rune-chant {
   font-family: 'Cormorant Garamond', serif;
   font-size: 1.05rem;
-  color: var(--gold-bright);
+  color: #ffb703;
 }
 
 /* ========================================================
-   Stage 5: 100-Sided Fate Dice View (d100)
+   Stage 5: 100-Sided Polyhedral Fate Die View (d100)
    ======================================================== */
 .stage-dice-view {
   display: flex;
@@ -1178,17 +1065,17 @@ body, html {
 
 .d100-die-orb {
   position: relative;
-  width: 84px;
-  height: 84px;
+  width: 86px;
+  height: 86px;
   border-radius: 50%;
-  background: radial-gradient(circle at 35% 35%, #3d1577 0%, #0f0324 100%);
-  border: 2px solid var(--gold-bright);
+  background: radial-gradient(circle at 35% 35%, #4c1888 0%, #120326 100%);
+  border: 2.5px solid #ffaa00;
   display: flex;
   flex-direction: column;
   align-items: center;
   justify-content: center;
   cursor: pointer;
-  box-shadow: 0 0 28px var(--elem-glow), inset 0 0 18px rgba(255, 215, 0, 0.4);
+  box-shadow: 0 0 35px rgba(255, 130, 0, 0.7), inset 0 0 20px rgba(255, 200, 0, 0.45);
   transition: transform 0.3s ease;
   margin-bottom: 6px;
 }
@@ -1213,7 +1100,7 @@ body, html {
   position: absolute;
   inset: 5px;
   border-radius: 50%;
-  border: 1px dotted rgba(255, 255, 255, 0.45);
+  border: 1px dotted rgba(255, 215, 0, 0.5);
   pointer-events: none;
 }
 
@@ -1223,34 +1110,39 @@ body, html {
   font-weight: 700;
   color: #fff;
   line-height: 1;
-  text-shadow: 0 0 12px rgba(255, 215, 0, 0.85);
+  text-shadow: 0 0 15px rgba(255, 180, 0, 0.9);
 }
 
 .d100-d-tag {
   font-family: 'Cormorant Garamond', serif;
-  font-size: 0.72rem;
-  color: var(--gold-bright);
+  font-size: 0.75rem;
+  color: #ffaa00;
   margin-top: 2px;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
 }
 
 .dice-tier-badge {
   font-family: 'Philosopher', serif;
   font-size: 0.88rem;
   font-weight: 700;
-  color: var(--gold-bright);
-  background: rgba(255, 255, 255, 0.08);
-  border: 1px solid var(--gold-base);
-  padding: 3px 12px;
+  color: #ffe259;
+  background: rgba(255, 150, 0, 0.15);
+  border: 1.5px solid #ffaa00;
+  padding: 3px 14px;
   border-radius: 12px;
   margin-bottom: 4px;
-  box-shadow: 0 0 12px var(--elem-glow);
+  box-shadow: 0 0 14px rgba(255, 130, 0, 0.35);
+  text-transform: uppercase;
+  letter-spacing: 0.07em;
 }
 
 .dice-fate-title {
   font-family: 'Philosopher', serif;
-  font-size: 1.25rem;
+  font-size: 1.35rem;
   font-weight: 700;
-  color: var(--gold-bright);
+  color: #ffffff;
+  text-shadow: 0 0 14px rgba(255, 175, 0, 0.65);
   margin-bottom: 4px;
 }
 
@@ -1266,13 +1158,25 @@ body, html {
 .dice-blessing-pill {
   font-family: 'Cormorant Garamond', serif;
   font-size: 0.95rem;
-  color: var(--gold-bright);
+  color: #ffb703;
   margin-bottom: 8px;
 }
 
 .dice-reroll-btn {
-  padding: 6px 16px;
+  padding: 7px 20px;
   font-size: 0.95rem;
+  background: linear-gradient(135deg, #ff7b00 0%, #b34700 100%);
+  border: 1.5px solid #ffd000;
+  color: #ffffff;
+  border-radius: 20px;
+  box-shadow: 0 0 20px rgba(255, 120, 0, 0.5);
+  cursor: pointer;
+  transition: all 0.25s ease;
+}
+
+.dice-reroll-btn:hover {
+  transform: scale(1.05);
+  box-shadow: 0 0 28px rgba(255, 150, 0, 0.8);
 }
 
 /* ========================================================

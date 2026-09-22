@@ -1,12 +1,12 @@
 import { useState, useEffect, useRef, useCallback } from 'react';
 import { HandLandmarker, FilesetResolver } from '@mediapipe/tasks-vision';
 
-export function useHandTracking(isSignLocked = false) {
+export function useHandTracking() {
   const [isCameraActive, setIsCameraActive] = useState(false);
   const [isReady, setIsReady] = useState(false);
   const [rotation, setRotation] = useState(0);
   const [isPinching, setIsPinching] = useState(false);
-  const [activeSpell, setActiveSpell] = useState(null); // 'PINCH' | 'POINTING' | 'OPEN_PALM' | 'FIST' | 'PEACE'
+  const [activeSpell, setActiveSpell] = useState(null); // 'POINTING' | 'PEACE' | 'THREE_FINGERS' | 'OPEN_PALM' | 'FIST'
   const [handCoordinates, setHandCoordinates] = useState(null); // { x, y } in 0..1 range (mirrored)
   const [rawLandmarks, setRawLandmarks] = useState(null); // 21 landmarks for skeleton rendering
   const [cameraError, setCameraError] = useState(null);
@@ -23,11 +23,6 @@ export function useHandTracking(isSignLocked = false) {
   const currentSpellRef = useRef(null);
   const handCoordsRef = useRef(null);
   const rawLandmarksRef = useRef(null);
-  const isLockedRef = useRef(isSignLocked);
-
-  useEffect(() => {
-    isLockedRef.current = isSignLocked;
-  }, [isSignLocked]);
 
   // Initialize MediaPipe HandLandmarker with robust fallback and single-hand speed
   useEffect(() => {
@@ -99,7 +94,7 @@ export function useHandTracking(isSignLocked = false) {
     );
   };
 
-  // Gesture Classifier based on 21 hand landmarks
+  // Gesture Classifier based on 21 hand landmarks (5-Finger Counting Progression)
   const classifyGesture = (landmarks) => {
     if (!landmarks || landmarks.length < 21) return { spell: null, isPinch: false };
 
@@ -115,53 +110,42 @@ export function useHandTracking(isSignLocked = false) {
     const pinkyTip = landmarks[20];
     const pinkyPIP = landmarks[18];
 
-    // Extension test
+    // Extension test (stable Euclidean distance ratio relative to wrist)
     const isIndexExtended = dist(indexTip, wrist) > dist(indexPIP, wrist) * 1.15;
     const isMiddleExtended = dist(middleTip, wrist) > dist(middlePIP, wrist) * 1.15;
     const isRingExtended = dist(ringTip, wrist) > dist(ringPIP, wrist) * 1.15;
     const isPinkyExtended = dist(pinkyTip, wrist) > dist(pinkyPIP, wrist) * 1.15;
     const isThumbExtended = dist(thumbTip, wrist) > dist(thumbIP, wrist);
 
-    // Pinch: index tip close to thumb tip
-    const pinchDistance = dist(thumbTip, indexTip);
-    const isPinchingNow = pinchDistance < 0.075;
-
-    // Gesture 2: PINCH (Pinch of Fate / Horoscope Quest)
-    if (isPinchingNow) {
-      return { spell: 'PINCH', isPinch: true };
-    }
-
-    // Gesture 3: PEACE / V-SIGN (Tarot Card Divination)
-    // Index and middle extended; ring and pinky curled
-    if (isIndexExtended && isMiddleExtended && !isRingExtended && !isPinkyExtended) {
-      return { spell: 'PEACE', isPinch: false };
-    }
-
-    // Gesture 4: OPEN PALM (Divination Runes & Spell Rune)
-    // All 5 fingers extended outward
-    if (isIndexExtended && isMiddleExtended && isRingExtended && isPinkyExtended && isThumbExtended) {
-      return { spell: 'OPEN_PALM', isPinch: false };
-    }
-
-    // Gesture 1: THUMBS UP (Lock in Star Sign & Horoscope Goal)
-    // Index, middle, ring, pinky curled into fist, while thumb points straight up
+    // 0 FINGERS EXTENDED: CLENCHED FIST (Stage 5: Roll 100-Sided Fate Die)
+    // All 4 fingers tightly curled into palm; no pinch ambiguity
     const areFourFingersCurled = !isIndexExtended && !isMiddleExtended && !isRingExtended && !isPinkyExtended;
-    const isThumbPointingUp = thumbTip.y < thumbIP.y && (thumbTip.y < wrist.y - 0.06);
-    const isThumbSeparated = dist(thumbTip, indexPIP) > 0.065;
-
-    if (areFourFingersCurled && isThumbPointingUp && isThumbSeparated) {
-      return { spell: 'THUMBS_UP', isPinch: false };
-    }
-
-    // Gesture 5: FIST (Roll d100 Dice of Fate)
-    // All fingers curled inward including thumb
     if (areFourFingersCurled) {
       return { spell: 'FIST', isPinch: false };
     }
 
-    // Optional Pointing wand gesture
+    // 1 FINGER EXTENDED: POINTING WAND (Stage 1: Focus Star Sign & Astral Grimoire Seal)
+    // Index extended only; middle, ring, pinky tucked
     if (isIndexExtended && !isMiddleExtended && !isRingExtended && !isPinkyExtended) {
       return { spell: 'POINTING', isPinch: false };
+    }
+
+    // 2 FINGERS EXTENDED: PEACE / V-SIGN (Stage 2: Destiny Covenant / Quest)
+    // Index and middle extended; ring and pinky tucked
+    if (isIndexExtended && isMiddleExtended && !isRingExtended && !isPinkyExtended) {
+      return { spell: 'PEACE', isPinch: false };
+    }
+
+    // 3 FINGERS EXTENDED: TRINITY / ARCANA (Stage 3: Major Arcana Tarot Card)
+    // Index, middle, ring extended; pinky tucked
+    if (isIndexExtended && isMiddleExtended && isRingExtended && !isPinkyExtended) {
+      return { spell: 'THREE_FINGERS', isPinch: false };
+    }
+
+    // 5 FINGERS EXTENDED: OPEN PALM (Stage 4: Witches' Elder Futhark Runes)
+    // All 5 fingers extended wide
+    if (isIndexExtended && isMiddleExtended && isRingExtended && isPinkyExtended && isThumbExtended) {
+      return { spell: 'OPEN_PALM', isPinch: false };
     }
 
     return { spell: 'CHANNELING', isPinch: false };
@@ -212,18 +196,23 @@ export function useHandTracking(isSignLocked = false) {
             });
             setRawLandmarks(landmarks);
 
-            // Hand sweeping arc for rotating the wheel (active when unlocked)
+            // Spatial Compass Rotation Control:
+            // Calculate distance from center (0.5, 0.5)
             const dx = mirroredX - 0.5;
             const dy = mirroredY - 0.5;
+            const radiusFromCenter = Math.sqrt(dx * dx + dy * dy);
             const currentAngle = Math.atan2(dy, dx) * (180 / Math.PI);
 
-            if (!isLockedRef.current && prevAngleRef.current !== null) {
+            // STOP rotation unless magic cursor pointer is OUTSIDE the large content circle (radius > 0.28)
+            // When inside (radius <= 0.28), the wheel freezes completely so user can read and interact in peace!
+            if (radiusFromCenter > 0.28 && prevAngleRef.current !== null) {
               let delta = currentAngle - prevAngleRef.current;
               if (delta > 180) delta -= 360;
               if (delta < -180) delta += 360;
 
-              if (Math.abs(delta) > 0.4 && Math.abs(delta) < 40) {
-                setRotation(prev => prev + delta * 1.2);
+              // Slow, majestic rotation (factor 0.3 instead of 1.2)
+              if (Math.abs(delta) > 0.3 && Math.abs(delta) < 35) {
+                setRotation(prev => prev + delta * 0.3);
               }
             }
             prevAngleRef.current = currentAngle;

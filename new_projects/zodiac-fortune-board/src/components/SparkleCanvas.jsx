@@ -4,18 +4,17 @@ export function SparkleCanvas({
   handCoordinates, 
   isCameraActive, 
   activeSpell, 
-  currentElement,
   spellBurstTrigger 
 }) {
   const canvasRef = useRef(null);
   const particlesRef = useRef([]);
   const shockwavesRef = useRef([]);
   const runeAngleRef = useRef(0);
+  const secondaryAngleRef = useRef(0);
 
   const handRef = useRef(handCoordinates);
   const cameraRef = useRef(isCameraActive);
   const spellRef = useRef(activeSpell);
-  const elementRef = useRef(currentElement);
   const mouseRef = useRef({ x: null, y: null, active: false });
 
   useEffect(() => {
@@ -30,11 +29,7 @@ export function SparkleCanvas({
     spellRef.current = activeSpell;
   }, [activeSpell]);
 
-  useEffect(() => {
-    elementRef.current = currentElement;
-  }, [currentElement]);
-
-  // Trigger burst when spell is cast
+  // Trigger Doctor Strange Eldritch Mandala burst on spell cast
   useEffect(() => {
     if (!spellBurstTrigger) return;
     const canvas = canvasRef.current;
@@ -51,31 +46,43 @@ export function SparkleCanvas({
       targetY = mouseRef.current.y;
     }
 
-    // Add shockwave ring
+    // Add dual mandala shockwaves (fiery orange and incandescent gold)
     shockwavesRef.current.push({
       x: targetX,
       y: targetY,
-      radius: 10,
-      maxRadius: 280,
+      radius: 15,
+      maxRadius: 320,
       opacity: 1,
-      color: elementRef.current ? elementRef.current.color : '#ffd700'
+      color: '#ff9d00',
+      width: 4
+    });
+    shockwavesRef.current.push({
+      x: targetX,
+      y: targetY,
+      radius: 5,
+      maxRadius: 240,
+      opacity: 1,
+      color: '#ffe066',
+      width: 2.5
     });
 
-    // Add 60 radial burst particles
-    const elemColor = elementRef.current ? elementRef.current.color : '#ffd700';
-    for (let i = 0; i < 60; i++) {
-      const angle = (i / 60) * Math.PI * 2 + (Math.random() - 0.5) * 0.2;
-      const speed = Math.random() * 7 + 3;
+    // Add 80 Doctor Strange fiery ember spark particles
+    for (let i = 0; i < 80; i++) {
+      const angle = (i / 80) * Math.PI * 2 + (Math.random() - 0.5) * 0.3;
+      const speed = Math.random() * 8 + 3.5;
+      const hues = [35, 45, 25, 15]; // Glowing fiery orange, amber, incandescent gold
+      const hue = hues[Math.floor(Math.random() * hues.length)];
+
       particlesRef.current.push({
         x: targetX,
         y: targetY,
         vx: Math.cos(angle) * speed,
         vy: Math.sin(angle) * speed,
-        size: Math.random() * 5 + 3,
+        size: Math.random() * 5 + 2.5,
         life: 1.0,
-        decay: Math.random() * 0.02 + 0.015,
-        color: elemColor,
-        sparkle: Math.random() > 0.5
+        decay: Math.random() * 0.025 + 0.015,
+        color: `hsl(${hue}, 100%, ${Math.random() * 25 + 60}%)`,
+        sparkle: Math.random() > 0.4
       });
     }
   }, [spellBurstTrigger]);
@@ -106,38 +113,29 @@ export function SparkleCanvas({
 
     let animationId;
 
-    const getElementHues = (element) => {
-      if (!element) return [40, 50]; // Gold
-      switch (element.name) {
-        case 'Ignis': return [0, 30]; // Red/Orange
-        case 'Terra': return [120, 160]; // Emerald
-        case 'Aer': return [180, 210]; // Cyan/Electric
-        case 'Aqua': return [260, 290]; // Indigo/Violet
-        default: return [40, 55];
-      }
-    };
-
-    const spawnParticle = (x, y, speedMult = 1) => {
-      const [minHue, maxHue] = getElementHues(elementRef.current);
-      const hue = minHue + Math.random() * (maxHue - minHue);
-      const isSpellActive = spellRef.current === 'PINCH' || spellRef.current === 'PEACE';
+    const spawnSparks = (x, y) => {
+      const hues = [42, 32, 20, 50]; // Doctor Strange fiery amber sparks
+      const hue = hues[Math.floor(Math.random() * hues.length)];
+      const angle = Math.random() * Math.PI * 2;
+      const speed = Math.random() * 3 + 1;
 
       particlesRef.current.push({
-        x: x + (Math.random() - 0.5) * 16,
-        y: y + (Math.random() - 0.5) * 16,
-        vx: (Math.random() - 0.5) * 2.5 * speedMult,
-        vy: (Math.random() - 0.5) * 2.5 * speedMult - (isSpellActive ? 1.5 : 0.8),
-        size: Math.random() * (isSpellActive ? 5 : 3.5) + 1.5,
+        x: x + (Math.random() - 0.5) * 20,
+        y: y + (Math.random() - 0.5) * 20,
+        vx: Math.cos(angle) * speed,
+        vy: Math.sin(angle) * speed - 1.2,
+        size: Math.random() * 3.5 + 1.5,
         life: 1.0,
-        decay: Math.random() * 0.02 + 0.015,
-        color: `hsl(${hue}, 100%, ${isSpellActive ? 75 : 65}%)`,
-        sparkle: Math.random() > 0.4
+        decay: Math.random() * 0.03 + 0.02,
+        color: `hsl(${hue}, 100%, ${Math.random() * 25 + 65}%)`,
+        sparkle: Math.random() > 0.35
       });
     };
 
     const render = () => {
       ctx.clearRect(0, 0, canvas.width, canvas.height);
-      runeAngleRef.current += 0.015;
+      runeAngleRef.current += 0.022;
+      secondaryAngleRef.current -= 0.015;
 
       let emitterX = null;
       let emitterY = null;
@@ -150,54 +148,74 @@ export function SparkleCanvas({
         emitterY = mouseRef.current.y;
       }
 
-      // Draw Arcane Summoning Circle at hand/cursor position
+      // Draw Doctor Strange Tao Mandala at hand/cursor position
       if (emitterX !== null && emitterY !== null) {
-        // Spawn continuous stardust particles
-        const particleCount = spellRef.current ? 4 : 2;
-        for (let i = 0; i < particleCount; i++) {
-          spawnParticle(emitterX, emitterY);
+        // Spawn continuous fiery sparks
+        for (let i = 0; i < 3; i++) {
+          spawnSparks(emitterX, emitterY);
         }
 
         ctx.save();
         ctx.translate(emitterX, emitterY);
 
-        const elemColor = elementRef.current ? elementRef.current.color : '#ffd700';
-        ctx.strokeStyle = elemColor;
-        ctx.shadowColor = elemColor;
-        ctx.shadowBlur = 12;
-
-        // Inner glowing core
+        // Core incandescent blaze
         ctx.beginPath();
-        ctx.arc(0, 0, 6, 0, Math.PI * 2);
+        ctx.arc(0, 0, 7, 0, Math.PI * 2);
         ctx.fillStyle = '#ffffff';
+        ctx.shadowColor = '#ffb300';
+        ctx.shadowBlur = 18;
         ctx.fill();
 
-        // Rotating sacred rune ring
+        // Doctor Strange Rotating Outer Tao Mandala Ring
+        ctx.save();
         ctx.rotate(runeAngleRef.current);
+        ctx.strokeStyle = '#ff9d00';
+        ctx.shadowColor = '#ff6600';
+        ctx.shadowBlur = 14;
+        ctx.lineWidth = 2;
+
+        // Outer circular perimeter with dashed fiery segments
+        ctx.beginPath();
+        ctx.arc(0, 0, 32, 0, Math.PI * 2);
+        ctx.setLineDash([8, 5, 2, 5]);
+        ctx.stroke();
+
+        // Concentric inner ring
         ctx.beginPath();
         ctx.arc(0, 0, 24, 0, Math.PI * 2);
-        ctx.lineWidth = 1.5;
-        ctx.setLineDash([6, 6]);
-        ctx.stroke();
         ctx.setLineDash([]);
+        ctx.lineWidth = 1.2;
+        ctx.strokeStyle = '#ffd700';
+        ctx.stroke();
 
-        // Pinch charge effect
-        if (spellRef.current === 'PINCH') {
-          ctx.beginPath();
-          ctx.arc(0, 0, 36, 0, Math.PI * 2);
-          ctx.lineWidth = 2;
-          ctx.strokeStyle = 'rgba(255, 255, 255, 0.9)';
-          ctx.stroke();
-        }
+        // Interlocking Eldritch Square 1
+        ctx.strokeRect(-16, -16, 32, 32);
+
+        // Interlocking Eldritch Square 2 (Rotated 45 degrees -> Octagram)
+        ctx.rotate(Math.PI / 4);
+        ctx.strokeRect(-16, -16, 32, 32);
+
+        ctx.restore();
+
+        // Counter-rotating secondary mystic ring
+        ctx.save();
+        ctx.rotate(secondaryAngleRef.current);
+        ctx.beginPath();
+        ctx.arc(0, 0, 42, 0, Math.PI * 2);
+        ctx.strokeStyle = 'rgba(255, 140, 0, 0.6)';
+        ctx.lineWidth = 1;
+        ctx.setLineDash([4, 10]);
+        ctx.stroke();
+        ctx.restore();
 
         ctx.restore();
       }
 
-      // Render Shockwaves
+      // Render Expanding Shockwaves
       for (let i = shockwavesRef.current.length - 1; i >= 0; i--) {
         const sw = shockwavesRef.current[i];
-        sw.radius += (sw.maxRadius - sw.radius) * 0.12 + 2;
-        sw.opacity *= 0.92;
+        sw.radius += (sw.maxRadius - sw.radius) * 0.12 + 2.5;
+        sw.opacity *= 0.91;
 
         if (sw.opacity <= 0.02 || sw.radius >= sw.maxRadius) {
           shockwavesRef.current.splice(i, 1);
@@ -206,32 +224,32 @@ export function SparkleCanvas({
           ctx.beginPath();
           ctx.arc(sw.x, sw.y, sw.radius, 0, Math.PI * 2);
           ctx.strokeStyle = sw.color;
-          ctx.lineWidth = 4 * sw.opacity;
+          ctx.lineWidth = sw.width * sw.opacity;
           ctx.globalAlpha = sw.opacity;
-          ctx.shadowBlur = 20;
+          ctx.shadowBlur = 24;
           ctx.shadowColor = sw.color;
           ctx.stroke();
           ctx.restore();
         }
       }
 
-      // Render Stardust Particles
+      // Render Doctor Strange Fiery Ember Particles
       for (let i = particlesRef.current.length - 1; i >= 0; i--) {
         const p = particlesRef.current[i];
         p.x += p.vx;
         p.y += p.vy;
         p.life -= p.decay;
-        p.size *= 0.96;
+        p.size *= 0.955;
 
-        if (p.life <= 0 || p.size <= 0.5) {
+        if (p.life <= 0 || p.size <= 0.4) {
           particlesRef.current.splice(i, 1);
         } else {
           ctx.save();
           ctx.beginPath();
-          ctx.arc(p.x, p.y, Math.max(0.5, p.size), 0, Math.PI * 2);
+          ctx.arc(p.x, p.y, Math.max(0.4, p.size), 0, Math.PI * 2);
           ctx.fillStyle = p.color;
           ctx.globalAlpha = Math.max(0, p.life);
-          ctx.shadowBlur = p.sparkle ? 16 : 8;
+          ctx.shadowBlur = p.sparkle ? 18 : 9;
           ctx.shadowColor = p.color;
           ctx.fill();
           ctx.restore();

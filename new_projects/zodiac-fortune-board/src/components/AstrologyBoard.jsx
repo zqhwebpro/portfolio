@@ -6,16 +6,13 @@ export function AstrologyBoard({
   onHoverSign,
   onLeaveSign,
   onSelectSign,
-  isSignLocked = false,
-  onToggleLock,
   horoscopeGoal,
   rotation = 0,
   onWheelRotate,
   showAspects = false,
-  activeSpell,
   activeStage = 1,
   onSelectStage,
-  onCastPinchSpell,
+  onCastGoalSpell,
   tarotCard,
   runeData,
   diceFate,
@@ -30,13 +27,12 @@ export function AstrologyBoard({
   const activeSignIndex = signs.findIndex(s => s.id === activeSign?.id);
   const alignmentAngle = activeSignIndex !== -1 ? (activeSignIndex / totalNodes) * 360 - 90 : -90;
 
-  // Mouse / Touch drag to spin astrolabe (active when unlocked)
+  // Mouse / Touch drag to spin astrolabe (only when outside center circle)
   const handlePointerDown = (e) => {
-    if (isSignLocked) return;
     if (
-      e.target.closest('.crystal-lock-pill') || 
+      e.target.closest('.crystal-ball-sphere') || 
+      e.target.closest('.crystal-ball-content') ||
       e.target.closest('.astral-btn') || 
-      e.target.closest('.compass-spin-btn') || 
       e.target.closest('.compass-gesture-nav') || 
       e.target.closest('.project-node')
     ) return;
@@ -49,7 +45,7 @@ export function AstrologyBoard({
   };
 
   const handlePointerMove = (e) => {
-    if (isSignLocked || !isDraggingRef.current || !onWheelRotate) return;
+    if (!isDraggingRef.current || !onWheelRotate) return;
     const rect = e.currentTarget.getBoundingClientRect();
     const cx = rect.left + rect.width / 2;
     const cy = rect.top + rect.height / 2;
@@ -57,7 +53,7 @@ export function AstrologyBoard({
     let delta = currentAngle - lastMouseAngleRef.current;
     if (delta > 180) delta -= 360;
     if (delta < -180) delta += 360;
-    onWheelRotate(delta);
+    onWheelRotate(delta * 0.4);
     lastMouseAngleRef.current = currentAngle;
   };
 
@@ -98,9 +94,9 @@ export function AstrologyBoard({
               x2={x2}
               y2={y2}
               className={`aspect-chord ${chord.type} ${showAspects ? 'active' : ''}`}
-              stroke={isTrine ? 'rgba(255, 215, 0, 0.45)' : 'rgba(0, 242, 254, 0.35)'}
-              strokeWidth={isTrine ? '0.45' : '0.3'}
-              strokeDasharray={isTrine ? 'none' : '1,1'}
+              stroke={isTrine ? 'rgba(255, 170, 0, 0.55)' : 'rgba(255, 90, 0, 0.45)'}
+              strokeWidth={isTrine ? '0.5' : '0.35'}
+              strokeDasharray={isTrine ? 'none' : '1.5,1.5'}
             />
           );
         })}
@@ -108,21 +104,21 @@ export function AstrologyBoard({
     );
   };
 
-  // 5 Stage Navigation Definitions
+  // 5 Doctor Strange & Witchcraft Stage Definitions
   const stages = [
-    { id: 1, title: 'Lock Horoscope', icon: '👍', howTo: 'How to: Thumbs up gesture' },
-    { id: 2, title: 'Horoscope Goal', icon: '🤏', howTo: 'How to: Pinch index and thumb' },
-    { id: 3, title: 'Tarot Arcana', icon: '✌️', howTo: 'How to: Two-finger peace sign' },
-    { id: 4, title: 'Divination Runes', icon: '✋', howTo: 'How to: Open palm with 5 fingers' },
-    { id: 5, title: 'Dice of Fate', icon: '✊', howTo: 'How to: Clench into a fist' }
+    { id: 1, title: 'Astral Focus', icon: '☝️', howTo: '1 Finger: Point to focus sign' },
+    { id: 2, title: 'Destiny Covenant', icon: '✌️', howTo: '2 Fingers: Peace sign summons quest' },
+    { id: 3, title: 'Major Arcana Tarot', icon: '🖖', howTo: '3 Fingers: Trinity for Tarot card' },
+    { id: 4, title: 'Witches\' Runes', icon: '✋', howTo: '5 Fingers: Open palm casts runes' },
+    { id: 5, title: 'Dice of Fate (d100)', icon: '✊', howTo: '0 Fingers: Clenched fist rolls die' }
   ];
 
   return (
     <div className="divination-arena">
-      {/* Left-Side Divination Navigation Panel (Off the Compass) */}
+      {/* Left-Side Divination Navigation Panel */}
       <nav className="compass-gesture-nav" aria-label="Divination Stages">
         <div className="nav-panel-header">
-          <span className="nav-panel-title">Divination Stages</span>
+          <span className="nav-panel-title">Eldritch Spells</span>
         </div>
         <div className="nav-stages-list">
           {stages.map(stg => (
@@ -150,24 +146,6 @@ export function AstrologyBoard({
           onPointerUp={handlePointerUp}
           onPointerCancel={handlePointerUp}
         >
-          {/* Quick-Spin Wheels Buttons */}
-          <button 
-            className="compass-spin-btn prev"
-            onClick={(e) => { e.stopPropagation(); if (onWheelRotate) onWheelRotate(-30); }}
-            title="Spin Compass Clockwise (‹)"
-            aria-label="Spin Compass Clockwise"
-          >
-            ‹
-          </button>
-          <button 
-            className="compass-spin-btn next"
-            onClick={(e) => { e.stopPropagation(); if (onWheelRotate) onWheelRotate(30); }}
-            title="Spin Compass Counter-Clockwise (›)"
-            aria-label="Spin Compass Counter-Clockwise"
-          >
-            ›
-          </button>
-
           <div 
             className="astrolabe" 
             id="astrolabe" 
@@ -207,7 +185,7 @@ export function AstrologyBoard({
             {/* Aspect Lines Web */}
             {renderAspectLines()}
 
-            {/* 12 Zodiac Constellation Nodes (NO element text in bubbles; pure glyphs) */}
+            {/* 12 Zodiac Constellation Nodes (Pure Glyphs, No Element Words) */}
             {signs.map((sign, i) => {
               const angle = (i / totalNodes) * (2 * Math.PI) - Math.PI / 2;
               const x = 50 + radius * Math.cos(angle);
@@ -217,19 +195,19 @@ export function AstrologyBoard({
               return (
                 <div
                   key={sign.id}
-                  className={`project-node ${isSelected ? 'active-node' : ''} ${isSignLocked && isSelected ? 'locked-node' : ''}`}
+                  className={`project-node ${isSelected ? 'active-node' : ''}`}
                   style={{
                     left: `${x}%`,
                     top: `${y}%`,
-                    borderColor: isSelected ? sign.color : undefined,
+                    borderColor: isSelected ? '#ffaa00' : undefined,
                     boxShadow: isSelected 
-                      ? `0 0 35px ${sign.color}, inset 0 0 15px ${sign.color}` 
+                      ? '0 0 35px rgba(255, 170, 0, 0.9), inset 0 0 15px rgba(255, 120, 0, 0.6)' 
                       : undefined
                   }}
-                  onMouseEnter={() => !isSignLocked && onHoverSign(sign)}
+                  onMouseEnter={() => onHoverSign(sign)}
                   onMouseLeave={onLeaveSign}
                   onClick={() => onSelectSign ? onSelectSign(sign) : onHoverSign(sign)}
-                  title={`${sign.name} (${sign.dates}) - Click to Select`}
+                  title={`${sign.name} (${sign.dates})`}
                 >
                   <span className="node-symbol">{sign.symbol}</span>
                 </div>
@@ -258,37 +236,22 @@ export function AstrologyBoard({
           </div>
         </div>
 
-        {/* 3D Luminous Scrying Crystal Ball */}
+        {/* Doctor Strange Eldritch Sanctum / Central Divination Matrix */}
         <div className="crystal-ball-stand-base"></div>
         <div
-          className={`crystal-ball-sphere stage-${activeStage} ${activeSign ? 'active' : ''} ${isSignLocked ? 'is-locked' : ''} ${activeSpell === 'PINCH' ? 'pinch-charging' : ''}`}
+          className={`crystal-ball-sphere stage-${activeStage} ${activeSign ? 'active' : ''}`}
           id="crystal-ball"
         >
-          {/* Volumetric Optical Glare & Velvet Reflection Layers */}
+          {/* Doctor Strange Tao Mandala Spark Rings in Background */}
+          <div className="eldritch-mandala-ring ring-outer"></div>
+          <div className="eldritch-mandala-ring ring-middle"></div>
+          <div className="eldritch-mandala-ring ring-inner"></div>
           <div className="crystal-specular-glare"></div>
-          <div className="crystal-glare-secondary"></div>
-          <div className="crystal-velvet-reflection"></div>
-          <div className="crystal-mist-layer mist-1"></div>
-          <div className="crystal-mist-layer mist-2"></div>
           <div className="crystal-inner-refraction"></div>
 
-          {/* Floating Content Inside the Crystal Ball */}
+          {/* Floating Content Inside the Eldritch Circle */}
           <div className="crystal-ball-content">
-            {/* Lock Status Pill */}
-            {activeSign && (
-              <button 
-                className={`crystal-lock-pill ${isSignLocked ? 'locked' : 'unlocked'}`}
-                onClick={onToggleLock}
-                title={isSignLocked ? "Horoscope Locked · Click or Thumbs Up 👍 to Unlock" : "Click or Thumbs Up 👍 to Lock In Horoscope"}
-              >
-                <span className="lock-icon">{isSignLocked ? '🔒' : '🔓'}</span>
-                <span className="lock-label">
-                  {isSignLocked ? `${activeSign.name} Locked` : 'Thumbs Up 👍 to Lock'}
-                </span>
-              </button>
-            )}
-
-            {/* STAGE 1: Constellation & Horoscope Lock Decree */}
+            {/* STAGE 1: Ancient Zodiac Grimoire Seal & Constellation */}
             {activeStage === 1 && (
               <div className="stage-content stage-constellation-view">
                 {activeSign ? (
@@ -306,7 +269,7 @@ export function AstrologyBoard({
                             y1={activeSign.stars[s1].y}
                             x2={activeSign.stars[s2].x}
                             y2={activeSign.stars[s2].y}
-                            stroke={activeSign.color || '#f9e2af'}
+                            stroke="#ffb300"
                             strokeWidth="2.4"
                             strokeLinecap="round"
                           />
@@ -318,8 +281,8 @@ export function AstrologyBoard({
                             cy={st.y}
                             r="4.8"
                             fill="#ffffff"
-                            stroke={activeSign.color || '#c5a059'}
-                            strokeWidth="2"
+                            stroke="#ff7700"
+                            strokeWidth="2.2"
                           />
                         ))}
                       </svg>
@@ -327,7 +290,6 @@ export function AstrologyBoard({
 
                     <h2 className="center-sign-title">{activeSign.name} · {activeSign.title}</h2>
                     
-                    {/* Clean Meta: No element label */}
                     <div className="center-sign-meta">
                       <span>{activeSign.house}</span>
                       <span className="meta-dot">·</span>
@@ -337,62 +299,60 @@ export function AstrologyBoard({
                     </div>
 
                     <p className="stage-action-prompt">
-                      {isSignLocked 
-                        ? 'Horoscope locked. Pinch fingers for Goal, or Peace sign for Tarot.' 
-                        : 'Give a Thumbs Up gesture 👍 or click the lock pill to freeze your horoscope.'}
+                      1 Finger ☝️ points to sign. 2 Fingers ✌️ for Destiny Covenant. 3 Fingers 🖖 for Tarot.
                     </p>
                   </>
                 ) : (
                   <div className="center-empty-state">
                     <div className="empty-symbol">⭐</div>
-                    <h2 className="center-sign-title">Zodiac Compass</h2>
-                    <p className="empty-desc">Select any sign on the wheel and give a Thumbs Up 👍 to lock in your horoscope.</p>
+                    <h2 className="center-sign-title">Mystic Compass</h2>
+                    <p className="empty-desc">Point ☝️ with 1 finger outside the center circle to focus a sign.</p>
                   </div>
                 )}
               </div>
             )}
 
-            {/* STAGE 2: Goal-Oriented Horoscope Quest View */}
+            {/* STAGE 2: Occult Destiny Covenant (Witch's Goal Quest) */}
             {activeStage === 2 && (
-              <div className="stage-content stage-goal-view" onClick={onCastPinchSpell} title="Click or Pinch to Channel New Goal">
+              <div className="stage-content stage-goal-view" onClick={onCastGoalSpell} title="Click or 2-Finger Peace to Channel New Covenant">
                 {horoscopeGoal && typeof horoscopeGoal === 'object' ? (
                   <div className="oracle-goal-card">
-                    <div className="goal-quest-badge">Destiny Quest</div>
+                    <div className="goal-quest-badge">Eldritch Destiny Covenant</div>
                     <h2 className="goal-quest-title">{horoscopeGoal.questTitle}</h2>
                     
                     <div className="goal-section impetus-section">
-                      <span className="goal-label">Cosmic Impetus:</span>
+                      <span className="goal-label">Alchemical Impetus:</span>
                       <p className="goal-text">{horoscopeGoal.cosmicImpetus}</p>
                     </div>
 
                     <div className="goal-milestone-box">
-                      <span className="milestone-label">Action Milestone:</span>
+                      <span className="milestone-label">Sacred Milestone:</span>
                       <p className="milestone-text">{horoscopeGoal.goalMilestone}</p>
                     </div>
 
                     <div className="goal-section oath-section">
-                      <span className="goal-label">Cosmic Oath:</span>
+                      <span className="goal-label">Witch's Binding Oath:</span>
                       <p className="oath-text">{horoscopeGoal.cosmicOath}</p>
                     </div>
 
                     <div className="goal-window-tag">
-                      Horizon Window: {horoscopeGoal.horizonWindow}
+                      Temporal Horizon: {horoscopeGoal.horizonWindow}
                     </div>
 
                     <p className="stage-action-prompt">
-                      Pinch to channel new goal. Peace sign for Tarot.
+                      2 Fingers ✌️ channels new covenant. 3 Fingers 🖖 for Major Arcana Tarot.
                     </p>
                   </div>
                 ) : (
                   <div className="oracle-fortune">
                     <h2 className="fortune-headline">Celestial Alignment</h2>
-                    <p className="fortune-omen">Cosmic currents align with {activeSign?.name}. Focus your intent to manifest destiny.</p>
+                    <p className="fortune-omen">Cosmic currents align with {activeSign?.name}. Focus intent to summon covenant.</p>
                   </div>
                 )}
               </div>
             )}
 
-            {/* STAGE 3: Major Arcana Tarot Card View */}
+            {/* STAGE 3: Consecrated Major Arcana Tarot Card */}
             {activeStage === 3 && tarotCard && (
               <div className="stage-content stage-tarot-view">
                 <div className="tarot-card-orb">
@@ -401,17 +361,17 @@ export function AstrologyBoard({
                   <h2 className="tarot-card-name">{tarotCard.name}</h2>
                   <div className="tarot-keywords-pill">{tarotCard.keywords}</div>
                   <div className="tarot-counsel-box">
-                    <span className="counsel-label">Arcana Counsel:</span>
+                    <span className="counsel-label">The High Oracle's Counsel:</span>
                     <p className="counsel-text">{tarotCard.upright}</p>
                   </div>
                   <p className="stage-action-prompt">
-                    Cast Open Palm gesture or select Divination Runes to reveal ancient runes.
+                    3 Fingers 🖖 re-channels Tarot. 5 Fingers ✋ for Witches' Runes.
                   </p>
                 </div>
               </div>
             )}
 
-            {/* STAGE 4: Divination Runes Spread & Designated Spell Rune View */}
+            {/* STAGE 4: Witches' Elder Futhark Runes Spread & Spell Rune */}
             {activeStage === 4 && runeData && (
               <div className="stage-content stage-runes-view">
                 <div className="runes-spread-grid">
@@ -430,24 +390,24 @@ export function AstrologyBoard({
                     <span className="spell-rune-large-glyph">{runeData.spellRune.glyph}</span>
                   </div>
                   <div className="spell-rune-right">
-                    <div className="spell-rune-tag">Designated Spell Rune · {runeData.spellRune.name}</div>
+                    <div className="spell-rune-tag">Coven's Designated Spell Rune · {runeData.spellRune.name}</div>
                     <div className="spell-rune-chant">"{runeData.spellRune.incantation}"</div>
                   </div>
                 </div>
 
                 <p className="stage-action-prompt">
-                  Cast Fist gesture or select Dice of Fate on the left to roll the 100-sided die.
+                  5 Fingers ✋ casts runes. Clenched Fist ✊ rolls the 100-sided Fate Die.
                 </p>
               </div>
             )}
 
-            {/* STAGE 5: 100-Sided Dice Roll (d100) */}
+            {/* STAGE 5: 100-Sided Polyhedral Fate Die (d100) */}
             {activeStage === 5 && diceFate && (
               <div className="stage-content stage-dice-view">
                 <div 
                   className={`d100-die-orb ${isDiceRolling ? 'rolling' : ''}`}
                   onClick={onRollDice}
-                  title="Click or Clench Fist to Roll d100"
+                  title="Click or Clench Fist ✊ to Roll d100"
                 >
                   <div className="d100-polyhedron-glow"></div>
                   <div className="d100-center-number">
@@ -460,7 +420,7 @@ export function AstrologyBoard({
                 <p className="dice-fate-omen">{diceFate.omen}</p>
                 <div className="dice-blessing-pill">{diceFate.blessing}</div>
                 <button className="astral-btn dice-reroll-btn" onClick={onRollDice}>
-                  Roll d100 for Fate
+                  ✊ Roll 100-Sided Fate Die
                 </button>
               </div>
             )}
