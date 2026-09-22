@@ -1,4 +1,5 @@
 import React, { useRef } from 'react';
+import { TarotIllustration } from './TarotIllustration';
 
 export function AstrologyBoard({
   signs,
@@ -24,10 +25,7 @@ export function AstrologyBoard({
   const isDraggingRef = useRef(false);
   const lastMouseAngleRef = useRef(0);
 
-  const activeSignIndex = signs.findIndex(s => s.id === activeSign?.id);
-  const alignmentAngle = activeSignIndex !== -1 ? (activeSignIndex / totalNodes) * 360 - 90 : -90;
-
-  // Mouse / Touch drag to spin astrolabe (only when outside center circle)
+  // Mouse / Touch drag to spin astrolabe smoothly (only when outside center circle)
   const handlePointerDown = (e) => {
     if (
       e.target.closest('.crystal-ball-sphere') || 
@@ -53,7 +51,8 @@ export function AstrologyBoard({
     let delta = currentAngle - lastMouseAngleRef.current;
     if (delta > 180) delta -= 360;
     if (delta < -180) delta += 360;
-    onWheelRotate(delta * 0.4);
+    // 1:1 direct tactile angular tracking for smooth effortless spin
+    onWheelRotate(delta);
     lastMouseAngleRef.current = currentAngle;
   };
 
@@ -104,34 +103,29 @@ export function AstrologyBoard({
     );
   };
 
-  // 5 Doctor Strange & Witchcraft Stage Definitions
-  const stages = [
-    { id: 1, title: 'Zodiac Focus', icon: '☝️', howTo: '1 Finger: Point to focus sign' },
-    { id: 2, title: 'Summary Horoscope', icon: '✌️', howTo: '2 Fingers: Peace summons horoscope' },
-    { id: 3, title: 'Tarot Card', icon: '✋', howTo: 'Open Palm: Displays Tarot card' },
-    { id: 4, title: '3 Sacred Runes', icon: '🤘', howTo: 'Horns 🤘: Casts 3 Elder Runes' },
-    { id: 5, title: 'Fate Die (d100)', icon: '✊', howTo: 'Clenched Fist: Rolls d100 die' }
+  // 5 Mystical Gestures: Just gestures and simple descriptions, no numbering, no headline
+  const gestures = [
+    { id: 1, gesture: '☝️ Point', desc: 'Focus star sign' },
+    { id: 2, gesture: '✌️ Peace', desc: 'Summary horoscope' },
+    { id: 3, gesture: '✋ Palm', desc: 'Tarot card' },
+    { id: 4, gesture: '🤘 Horns', desc: 'Three runes' },
+    { id: 5, gesture: '✊ Fist', desc: 'Roll fate die' }
   ];
 
   return (
     <div className="divination-arena">
-      {/* Left-Side Divination Navigation Panel */}
-      <nav className="compass-gesture-nav" aria-label="Divination Stages">
-        <div className="nav-panel-header">
-          <span className="nav-panel-title">Eldritch Spells</span>
-        </div>
+      {/* Left-Side Divination Navigation Panel - No headline, no numbers, pure gestures */}
+      <nav className="compass-gesture-nav" aria-label="Divination Gestures">
         <div className="nav-stages-list">
-          {stages.map(stg => (
+          {gestures.map(stg => (
             <button
               key={stg.id}
               className={`nav-stage-btn ${activeStage === stg.id ? 'active' : ''}`}
               onClick={() => onSelectStage && onSelectStage(stg.id)}
+              title={stg.desc}
             >
-              <div className="nav-stage-top">
-                <span className="nav-stage-icon">{stg.icon}</span>
-                <span className="nav-stage-name">{stg.id}. {stg.title}</span>
-              </div>
-              <div className="nav-stage-howto">{stg.howTo}</div>
+              <span className="nav-stage-gesture">{stg.gesture}</span>
+              <span className="nav-stage-desc">{stg.desc}</span>
             </button>
           ))}
         </div>
@@ -146,22 +140,13 @@ export function AstrologyBoard({
           onPointerUp={handlePointerUp}
           onPointerCancel={handlePointerUp}
         >
-          {/* Ornate Zenith Divination Compass Marker (Fixed at 12 o'clock crowning the astrolabe) */}
-          <div className="zenith-compass-marker" title="Zenith Alignment Crown">
-            <div className="marker-crown-bracket">
-              <div className="marker-filigree left-wing"></div>
-              <div className="marker-sun-gem">
-                <span className="gem-eye">☉</span>
-                <div className="gem-pulse-ring"></div>
-              </div>
-              <div className="marker-filigree right-wing"></div>
+          {/* Celestial Sun Gnomon Marker (Fixed Zenith Needle pointing at aligned sign) */}
+          <div className="zenith-compass-gnomon" title="Celestial Zenith Pointer">
+            <div className="gnomon-sun-head">
+              <span className="gnomon-symbol">☉</span>
             </div>
-            <div className="marker-needle-arrow">
-              <div className="needle-spine"></div>
-              <div className="needle-tip"></div>
-              <div className="needle-guide-glow"></div>
-            </div>
-            <div className="marker-zenith-label">ZENITH</div>
+            <div className="gnomon-needle-stem"></div>
+            <div className="gnomon-arrowhead"></div>
           </div>
 
           <div 
@@ -196,17 +181,6 @@ export function AstrologyBoard({
 
             <div className="astrolabe-inner"></div>
             <div className="astrolabe-runic-ring"></div>
-
-            {/* Luminous Celestial Alignment Ray */}
-            {activeSign && (
-              <div 
-                className="celestial-alignment-ray"
-                style={{ transform: `rotate(${alignmentAngle}deg)` }}
-              >
-                <div className="alignment-beam"></div>
-                <div className="alignment-halo"></div>
-              </div>
-            )}
 
             {/* Aspect Lines Web */}
             {renderAspectLines()}
@@ -381,8 +355,7 @@ export function AstrologyBoard({
                     <div className="tarot-card-numeral">{tarotCard.number}</div>
 
                     <div className="tarot-art-window">
-                      <span className="tarot-sigil-glyph">{tarotCard.symbol}</span>
-                      <div className="tarot-art-halo"></div>
+                      <TarotIllustration signId={activeSign?.id} />
                     </div>
 
                     <h2 className="tarot-card-title">{tarotCard.name}</h2>

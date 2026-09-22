@@ -173,75 +173,71 @@ body, html {
 /* Left-Side Navigation Panel Off of the Compass */
 .compass-gesture-nav {
   position: absolute;
-  left: 32px;
+  left: 28px;
   top: 50%;
   transform: translateY(-50%);
   z-index: 25;
   display: flex;
   flex-direction: column;
   gap: 10px;
-  background: rgba(10, 4, 22, 0.92);
-  border: 1.5px solid var(--gold-base);
+  background: rgba(10, 4, 22, 0.94);
+  border: 1.5px solid rgba(212, 175, 55, 0.6);
   border-radius: 14px;
-  padding: 18px 14px;
-  box-shadow: 0 0 40px rgba(0, 0, 0, 0.95), 0 0 20px rgba(197, 160, 89, 0.25);
+  padding: 16px 12px;
+  box-shadow: 0 0 45px rgba(0, 0, 0, 0.95), 0 0 20px rgba(197, 160, 89, 0.3);
   backdrop-filter: blur(16px);
-  width: 250px;
-}
-
-.nav-panel-header {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  border-bottom: 1px solid rgba(197, 160, 89, 0.35);
-  padding-bottom: 10px;
-  margin-bottom: 8px;
-}
-
-.nav-panel-title {
-  font-family: 'Philosopher', serif;
-  font-size: 1.08rem;
-  font-weight: 700;
-  color: var(--gold-bright);
-  letter-spacing: 0.05em;
-  text-transform: uppercase;
+  width: 230px;
 }
 
 .nav-stages-list {
   display: flex;
   flex-direction: column;
-  gap: 8px;
+  gap: 10px;
 }
 
 .nav-stage-btn {
   display: flex;
   flex-direction: column;
   text-align: left;
-  background: rgba(255, 255, 255, 0.04);
-  border: 1px solid rgba(197, 160, 89, 0.3);
+  background: rgba(22, 8, 42, 0.7);
+  border: 1px solid rgba(197, 160, 89, 0.35);
   border-radius: 9px;
-  padding: 9px 12px;
+  padding: 10px 14px;
   cursor: pointer;
   transition: all 0.25s ease;
   color: var(--gold-bright);
 }
 
 .nav-stage-btn:hover {
-  background: rgba(45, 18, 85, 0.88);
+  background: rgba(45, 18, 85, 0.92);
   border-color: var(--gold-bright);
   transform: translateX(4px);
+  box-shadow: 0 0 16px rgba(255, 180, 0, 0.3);
 }
 
 .nav-stage-btn.active {
-  background: rgba(58, 22, 115, 0.95);
-  border-color: var(--gold-bright);
-  box-shadow: 0 0 18px rgba(249, 226, 175, 0.45);
+  background: rgba(58, 22, 115, 0.98);
+  border-color: #ffd700;
+  box-shadow: 0 0 22px rgba(249, 226, 175, 0.55), inset 0 0 12px rgba(255, 170, 0, 0.3);
 }
 
-.nav-stage-top {
+.nav-stage-gesture {
+  font-family: 'Philosopher', serif;
+  font-size: 1.05rem;
+  font-weight: 700;
+  color: #fff2a3;
+  text-shadow: 0 0 8px rgba(255, 180, 0, 0.6);
   display: flex;
   align-items: center;
   gap: 8px;
+}
+
+.nav-stage-desc {
+  font-family: 'Cormorant Garamond', serif;
+  font-size: 0.94rem;
+  color: rgba(255, 235, 185, 0.88);
+  margin-top: 3px;
+  letter-spacing: 0.02em;
 }
 
 .nav-stage-icon {
@@ -300,123 +296,67 @@ body, html {
 }
 
 /* ========================================================
-   Ornate Zenith Divination Compass Marker (12 O'Clock Crown)
+   Antique Brass Celestial Sun Gnomon Needle (Fixed Zenith Pointer)
    ======================================================== */
-.zenith-compass-marker {
+.zenith-compass-gnomon {
   position: absolute;
-  top: -38px;
+  top: -46px;
   left: 50%;
   transform: translateX(-50%);
   display: flex;
   flex-direction: column;
   align-items: center;
-  z-index: 15;
+  z-index: 22;
   pointer-events: none;
-  filter: drop-shadow(0 0 16px rgba(255, 170, 0, 0.7));
+  filter: drop-shadow(0 0 16px rgba(255, 175, 0, 0.85));
 }
 
-.marker-crown-bracket {
-  display: flex;
-  align-items: center;
-  gap: 6px;
-}
-
-.marker-filigree {
-  width: 26px;
-  height: 14px;
-  border-top: 2px solid #ffd000;
+.gnomon-sun-head {
   position: relative;
-}
-
-.marker-filigree.left-wing {
-  border-left: 2px solid #ffd000;
-  border-top-left-radius: 12px;
-  transform: skewX(-20deg);
-}
-
-.marker-filigree.right-wing {
-  border-right: 2px solid #ffd000;
-  border-top-right-radius: 12px;
-  transform: skewX(20deg);
-}
-
-.marker-sun-gem {
-  position: relative;
-  width: 28px;
-  height: 28px;
+  width: 38px;
+  height: 38px;
   border-radius: 50%;
-  background: radial-gradient(circle at 35% 35%, #fff5b3 0%, #ff9d00 55%, #7a3a00 100%);
-  border: 1.5px solid #ffffff;
+  background: radial-gradient(circle at 35% 35%, #fff9cc 0%, #ffd000 45%, #b37400 85%, #663e00 100%);
+  border: 2px solid #fff2a3;
   display: flex;
   align-items: center;
   justify-content: center;
-  box-shadow: 0 0 16px #ffaa00, inset 0 0 6px #ffffff;
+  box-shadow: 
+    0 0 20px rgba(255, 180, 0, 0.9), 
+    0 0 40px rgba(255, 120, 0, 0.5),
+    inset 0 0 8px #ffffff;
+  animation: gnomonSunPulse 3.5s ease-in-out infinite alternate;
 }
 
-.gem-eye {
-  font-size: 0.95rem;
-  color: #3b1900;
-  font-weight: bold;
+@keyframes gnomonSunPulse {
+  0% { transform: scale(0.96); filter: drop-shadow(0 0 8px #ffaa00); }
+  100% { transform: scale(1.04); filter: drop-shadow(0 0 22px #ffd700); }
+}
+
+.gnomon-symbol {
+  font-family: 'Philosopher', serif;
+  font-size: 1.4rem;
+  color: #3b1700;
   line-height: 1;
+  text-shadow: 0 0 4px #ffe680;
 }
 
-.gem-pulse-ring {
-  position: absolute;
-  inset: -6px;
-  border-radius: 50%;
-  border: 1px dashed rgba(255, 215, 0, 0.75);
-  animation: gemPulse 2.8s ease-in-out infinite;
+.gnomon-needle-stem {
+  width: 3.5px;
+  height: 28px;
+  background: linear-gradient(to bottom, #ffd700 0%, #ff9d00 70%, #995c00 100%);
+  box-shadow: 0 0 10px rgba(255, 180, 0, 0.8);
+  margin-top: -1px;
 }
 
-@keyframes gemPulse {
-  0% { transform: scale(0.9); opacity: 0.4; }
-  50% { transform: scale(1.25); opacity: 1; filter: drop-shadow(0 0 6px #ffd000); }
-  100% { transform: scale(0.9); opacity: 0.4; }
-}
-
-.marker-needle-arrow {
-  position: relative;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  margin-top: -2px;
-}
-
-.needle-spine {
-  width: 3px;
-  height: 16px;
-  background: linear-gradient(to bottom, #ffe259, #ff9900);
-  box-shadow: 0 0 8px rgba(255, 170, 0, 0.8);
-}
-
-.needle-tip {
+.gnomon-arrowhead {
   width: 0;
   height: 0;
-  border-left: 7px solid transparent;
-  border-right: 7px solid transparent;
-  border-top: 14px solid #ffcc00;
-  filter: drop-shadow(0 2px 6px rgba(255, 140, 0, 0.95));
-}
-
-.needle-guide-glow {
-  width: 2px;
-  height: 26px;
-  background: linear-gradient(to bottom, rgba(255, 215, 0, 0.85), transparent);
-  margin-top: 1px;
-}
-
-.marker-zenith-label {
-  font-family: 'Philosopher', serif;
-  font-size: 0.72rem;
-  letter-spacing: 0.16em;
-  color: #fff3c4;
-  text-shadow: 0 0 8px rgba(255, 200, 0, 0.85);
-  font-weight: 700;
-  margin-top: -24px;
-  background: rgba(15, 4, 30, 0.88);
-  padding: 1px 8px;
-  border-radius: 4px;
-  border: 0.5px solid rgba(255, 215, 0, 0.4);
+  border-left: 9px solid transparent;
+  border-right: 9px solid transparent;
+  border-top: 18px solid #ffd700;
+  filter: drop-shadow(0 3px 8px rgba(255, 140, 0, 0.95));
+  margin-top: -1px;
 }
 
 /* Cardinal Points on Compass */
@@ -568,52 +508,7 @@ body, html {
   transform: scale(1.1);
 }
 
-/* Luminous Doctor Strange Celestial Alignment Ray */
-.celestial-alignment-ray {
-  position: absolute;
-  top: 50%;
-  left: 50%;
-  width: 0;
-  height: 0;
-  pointer-events: none;
-  z-index: 6;
-  transform-origin: 0 0;
-  transition: transform 0.45s cubic-bezier(0.2, 0.8, 0.2, 1);
-}
 
-.alignment-beam {
-  position: absolute;
-  top: -2px;
-  left: 0;
-  width: 48vmin;
-  height: 4px;
-  background: linear-gradient(90deg, transparent 0%, rgba(255, 120, 0, 0.3) 20%, rgba(255, 180, 0, 0.9) 80%, #ffffff 100%);
-  box-shadow: 0 0 20px rgba(255, 140, 0, 0.95), 0 0 40px rgba(255, 60, 0, 0.7);
-  filter: blur(0.5px);
-  animation: rayPulse 2.2s ease-in-out infinite alternate;
-}
-
-.alignment-halo {
-  position: absolute;
-  top: -12px;
-  left: 46vmin;
-  width: 24px;
-  height: 24px;
-  border-radius: 50%;
-  background: radial-gradient(circle, #ffffff 0%, rgba(255, 190, 50, 0.85) 45%, transparent 75%);
-  box-shadow: 0 0 28px #ffffff, 0 0 50px rgba(255, 150, 0, 0.9);
-  animation: haloBreathe 1.6s ease-in-out infinite alternate;
-}
-
-@keyframes rayPulse {
-  0% { opacity: 0.55; }
-  100% { opacity: 1; }
-}
-
-@keyframes haloBreathe {
-  0% { transform: scale(0.85); opacity: 0.7; }
-  100% { transform: scale(1.2); opacity: 1; }
-}
 
 /* Decorative Planetary Runes */
 .tribal-rune {
@@ -952,16 +847,16 @@ body, html {
 
 .physical-tarot-card {
   position: relative;
-  width: 228px;
-  height: 338px;
-  background: linear-gradient(165deg, #1b0933 0%, #0a0116 100%);
-  border: 2px solid rgba(255, 215, 0, 0.75);
-  border-radius: 12px;
+  width: 250px;
+  height: 382px;
+  background: linear-gradient(165deg, #1d0938 0%, #0c0218 55%, #05000a 100%);
+  border: 2px solid rgba(255, 215, 0, 0.85);
+  border-radius: 14px;
   box-shadow: 
-    0 12px 35px rgba(0, 0, 0, 0.9), 
-    0 0 25px rgba(255, 170, 0, 0.3),
-    inset 0 0 20px rgba(139, 69, 255, 0.3);
-  padding: 8px;
+    0 16px 45px rgba(0, 0, 0, 0.95), 
+    0 0 30px rgba(255, 170, 0, 0.4),
+    inset 0 0 25px rgba(139, 69, 255, 0.3);
+  padding: 9px;
   animation: tarotReveal 0.45s cubic-bezier(0.2, 0.8, 0.2, 1);
   transition: transform 0.3s ease, box-shadow 0.3s ease;
   user-select: none;
@@ -970,9 +865,9 @@ body, html {
 .physical-tarot-card:hover {
   transform: translateY(-4px) scale(1.02);
   box-shadow: 
-    0 16px 45px rgba(0, 0, 0, 0.95), 
-    0 0 35px rgba(255, 180, 0, 0.45),
-    inset 0 0 25px rgba(255, 200, 0, 0.35);
+    0 20px 55px rgba(0, 0, 0, 0.98), 
+    0 0 40px rgba(255, 180, 0, 0.55),
+    inset 0 0 30px rgba(255, 200, 0, 0.4);
 }
 
 @keyframes tarotReveal {
@@ -984,8 +879,8 @@ body, html {
   position: relative;
   width: 100%;
   height: 100%;
-  border: 1px solid rgba(212, 175, 55, 0.5);
-  border-radius: 8px;
+  border: 1.5px solid rgba(212, 175, 55, 0.65);
+  border-radius: 9px;
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -996,8 +891,8 @@ body, html {
 /* Authentic Tarot Corner Filigree */
 .tarot-corner {
   position: absolute;
-  width: 10px;
-  height: 10px;
+  width: 12px;
+  height: 12px;
   border-color: #ffd000;
   pointer-events: none;
 }
@@ -1008,53 +903,56 @@ body, html {
 
 .tarot-card-numeral {
   font-family: 'Philosopher', serif;
-  font-size: 1.15rem;
+  font-size: 1.18rem;
   font-weight: 700;
-  letter-spacing: 0.16em;
+  letter-spacing: 0.18em;
   color: #ffb703;
-  text-shadow: 0 0 8px rgba(255, 180, 0, 0.8);
+  text-shadow: 0 0 10px rgba(255, 180, 0, 0.85);
 }
 
 .tarot-art-window {
   position: relative;
-  width: 68px;
-  height: 68px;
-  border-radius: 50%;
-  border: 1.5px solid rgba(255, 215, 0, 0.6);
-  background: radial-gradient(circle at 35% 35%, #381260 0%, #0c011a 100%);
+  width: 172px;
+  height: 168px;
+  border-radius: 12px 12px 6px 6px;
+  border: 1.5px solid rgba(255, 215, 0, 0.85);
+  background: radial-gradient(circle at 50% 30%, #250943 0%, #090214 100%);
   display: flex;
   align-items: center;
   justify-content: center;
-  box-shadow: 0 0 20px rgba(255, 150, 0, 0.5), inset 0 0 10px rgba(0, 0, 0, 0.8);
-  margin: 2px 0;
+  box-shadow: 0 6px 20px rgba(0, 0, 0, 0.85), 0 0 16px rgba(255, 180, 0, 0.4);
+  overflow: hidden;
+  margin: 4px 0;
 }
 
-.tarot-sigil-glyph {
-  font-size: 2.5rem;
-  filter: drop-shadow(0 0 12px rgba(255, 180, 0, 0.95));
+.tarot-svg-artwork {
+  width: 100%;
+  height: 100%;
+  display: block;
+  filter: drop-shadow(0 2px 8px rgba(0, 0, 0, 0.7));
 }
 
 .tarot-card-title {
   font-family: 'Philosopher', serif;
-  font-size: 1.35rem;
+  font-size: 1.32rem;
   font-weight: 700;
   color: #ffffff;
-  text-shadow: 0 0 14px rgba(255, 180, 0, 0.7);
+  text-shadow: 0 0 14px rgba(255, 180, 0, 0.8);
   margin-top: 2px;
 }
 
 .tarot-card-archetype {
   font-family: 'Cormorant Garamond', serif;
-  font-size: 0.86rem;
-  color: #ffb703;
-  letter-spacing: 0.05em;
-  margin-bottom: 4px;
+  font-size: 0.88rem;
+  color: #ffc425;
+  letter-spacing: 0.06em;
+  margin-bottom: 3px;
 }
 
 .tarot-card-reading {
   font-family: 'Cormorant Garamond', serif;
-  font-size: 0.96rem;
-  line-height: 1.45;
+  font-size: 0.94rem;
+  line-height: 1.42;
   color: rgba(255, 255, 255, 0.94);
   text-align: center;
   margin-top: 2px;
@@ -1159,28 +1057,30 @@ body, html {
 
 .d100-die-orb {
   position: relative;
-  width: 142px;
-  height: 142px;
+  width: 190px;
+  height: 190px;
   border-radius: 50%;
-  background: radial-gradient(circle at 35% 30%, #5e1fa8 0%, #170433 70%, #090014 100%);
-  border: 2.5px solid #ffcc00;
+  background: radial-gradient(circle at 35% 30%, #6822ba 0%, #1c053d 68%, #090014 100%);
+  border: 3px solid #ffcc00;
   display: flex;
   flex-direction: column;
   align-items: center;
   justify-content: center;
   cursor: pointer;
   box-shadow: 
-    0 0 45px rgba(255, 140, 0, 0.75), 
-    inset 0 0 25px rgba(255, 215, 0, 0.45);
+    0 0 55px rgba(255, 140, 0, 0.85), 
+    0 0 95px rgba(255, 90, 0, 0.45),
+    inset 0 0 35px rgba(255, 215, 0, 0.5);
   transition: transform 0.3s ease, box-shadow 0.3s ease;
-  margin-bottom: 8px;
+  margin-bottom: 12px;
 }
 
 .d100-die-orb:hover {
-  transform: scale(1.06);
+  transform: scale(1.05);
   box-shadow: 
-    0 0 55px rgba(255, 170, 0, 0.9), 
-    inset 0 0 35px rgba(255, 230, 0, 0.6);
+    0 0 70px rgba(255, 170, 0, 0.95), 
+    0 0 115px rgba(255, 100, 0, 0.6),
+    inset 0 0 45px rgba(255, 230, 0, 0.65);
 }
 
 .d100-die-orb.rolling {
@@ -1189,28 +1089,28 @@ body, html {
 
 .d100-polyhedron-facets {
   position: absolute;
-  inset: 7px;
+  inset: 10px;
   border-radius: 50%;
-  border: 1.5px dashed rgba(255, 220, 0, 0.55);
+  border: 2px dashed rgba(255, 220, 0, 0.6);
   pointer-events: none;
 }
 
 .d100-center-number {
   font-family: 'Philosopher', serif;
-  font-size: 3.6rem;
+  font-size: 4.8rem;
   font-weight: 700;
   color: #ffffff;
   line-height: 1;
-  text-shadow: 0 0 22px rgba(255, 200, 0, 0.95);
+  text-shadow: 0 0 28px rgba(255, 200, 0, 0.95);
 }
 
 .d100-d-tag {
   font-family: 'Philosopher', serif;
-  font-size: 0.9rem;
-  color: #ffaa00;
-  margin-top: 3px;
+  font-size: 1.05rem;
+  color: #ffb703;
+  margin-top: 4px;
   text-transform: uppercase;
-  letter-spacing: 0.12em;
+  letter-spacing: 0.14em;
   font-weight: 700;
 }
 

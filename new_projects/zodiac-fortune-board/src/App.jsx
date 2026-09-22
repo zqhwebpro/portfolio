@@ -249,8 +249,8 @@ function App() {
   };
 
   const handleWheelRotate = (delta) => {
-    // Graceful slow rotation
-    setRotation(prev => prev + delta * 0.4);
+    // Smooth, responsive 1:1 wheel rotation
+    setRotation(prev => prev + delta);
     mysticAudio.playAstralRotation(delta * 0.05);
   };
 
@@ -259,9 +259,8 @@ function App() {
       <div className="universe-bg"></div>
       <div className="celestial-body"></div>
 
-      {/* Particle Spell FX */}
-      <SparkleCanvas
-        handCoordinates={handCoordinates}
+      {/* Doctor Strange Eldritch Reality Spark Particle Canvas */}
+      <SparkleCanvas 
         isCameraActive={isCameraActive}
         activeSpell={activeSpell}
         spellBurstTrigger={spellBurstTrigger}
@@ -270,8 +269,8 @@ function App() {
       {/* Top Header & Arcane Controls */}
       <header className="site-header">
         <div className="header-titles">
-          <h1>Zodiac Divination Compass</h1>
-          <p className="realm-tagline">Astrological Oracle · Gesture Magic Spells</p>
+          <h1>Tarot & Zodiac Divination Compass</h1>
+          <p className="realm-tagline">Mystic Cartomancy · Ancient Astrolabe · Gesture Spells</p>
         </div>
 
         <div className="header-actions">

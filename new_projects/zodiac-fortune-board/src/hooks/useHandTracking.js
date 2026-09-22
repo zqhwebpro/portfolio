@@ -208,10 +208,10 @@ export function useHandTracking() {
               if (delta > 180) delta -= 360;
               if (delta < -180) delta += 360;
 
-              // Dampen and smooth rotation delta for butter-smooth spin
+              // Smooth and responsive rotation delta for fluid, effortless spin
               if (Math.abs(delta) > 0.15 && Math.abs(delta) < 40) {
-                smoothDeltaRef.current = smoothDeltaRef.current * 0.4 + delta * 0.6;
-                setRotation(prev => prev + smoothDeltaRef.current * 0.35);
+                smoothDeltaRef.current = smoothDeltaRef.current * 0.3 + delta * 0.7;
+                setRotation(prev => prev + smoothDeltaRef.current * 0.75);
               } else {
                 smoothDeltaRef.current *= 0.5;
               }
