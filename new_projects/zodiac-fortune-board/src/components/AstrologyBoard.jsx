@@ -268,12 +268,12 @@ export function AstrologyBoard({
 
               // Calculate current screen angle relative to Zenith (12 o'clock = 0 deg)
               const nodeAngleDeg = (i / totalNodes) * 360 - 90;
-              let currentAbsAngle = (nodeAngleDeg + rotation) % 360;
-              if (currentAbsAngle > 180) currentAbsAngle -= 360;
-              if (currentAbsAngle < -180) currentAbsAngle += 360;
+              let angleFromZenith = (nodeAngleDeg + rotation + 90) % 360;
+              if (angleFromZenith > 180) angleFromZenith -= 360;
+              if (angleFromZenith < -180) angleFromZenith += 360;
 
-              // Sit 100% UPRIGHT at Zenith (currentAbsAngle = 0), sway/spin dynamically to sides
-              const swayAngle = Math.sin((currentAbsAngle * Math.PI) / 180) * 32;
+              // Sit 100% UPRIGHT at Zenith (angleFromZenith = 0), sway/spin dynamically to sides
+              const swayAngle = Math.sin((angleFromZenith * Math.PI) / 180) * 32;
               const iconRotation = -rotation + swayAngle;
 
               return (
