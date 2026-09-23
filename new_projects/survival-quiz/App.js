@@ -2508,53 +2508,12 @@ function App() {
         setActiveMobileTab(tab);
     };
 
-    // Visual State: Digital Distortion & Face Cycling
+    // Visual State: Digital Distortion & Face Cycling & Screen Darkening
     const [faceIndex, setFaceIndex] = useState(0);
     const [glitchKey, setGlitchKey] = useState(0);
     const [isGlitching, setIsGlitching] = useState(false);
     const [isSmileyHovered, setIsSmileyHovered] = useState(false);
     const glitchTimeoutRef = useRef(null);
-
-    const deadPixelCanvasRef = useRef(null);
-    const deadPixelsRef = useRef([]);
-
-    // Manage Pseudo Dead Pixels Canvas rendering based on faceIndex
-    useEffect(() => {
-        const canvas = deadPixelCanvasRef.current;
-        if (!canvas) return;
-        const ctx = canvas.getContext('2d');
-
-        const width = window.innerWidth;
-        const height = window.innerHeight;
-        canvas.width = width;
-        canvas.height = height;
-
-        if (faceIndex === 0) {
-            // Original Face: clear all dead pixels
-            deadPixelsRef.current = [];
-            ctx.clearRect(0, 0, width, height);
-            return;
-        }
-
-        // Add a batch of new pseudo dead pixels for each face click stage (larger & solid black)
-        const newPixelsCount = 55;
-
-        for (let i = 0; i < newPixelsCount; i++) {
-            deadPixelsRef.current.push({
-                x: Math.floor(Math.random() * width),
-                y: Math.floor(Math.random() * height),
-                size: Math.floor(Math.random() * 8) + 6, // 6px to 14px larger dead pixels
-                color: '#000000'
-            });
-        }
-
-        // Draw all accumulated solid black dead pixels
-        ctx.clearRect(0, 0, width, height);
-        deadPixelsRef.current.forEach(pixel => {
-            ctx.fillStyle = '#000000';
-            ctx.fillRect(pixel.x, pixel.y, pixel.size, pixel.size);
-        });
-    }, [faceIndex]);
 
     // Quiz State (Default 5 facts)
     const [quizQuestions, setQuizQuestions] = useState([]);
@@ -2738,17 +2697,15 @@ function App() {
         return () => window.removeEventListener('keydown', handleKeyDown);
     }, []);
 
-    const currentQ = quizQuestions[currentQuestionIdx];
-    const answeredCount = Object.keys(userAnswers).length;
+    const brightnessLevels = [1.0, 0.82, 0.65, 0.48, 0.30];
+    const currentBrightness = brightnessLevels[faceIndex % brightnessLevels.length] ?? 1.0;
 
     return (
         <div
             key={`crt-screen-${glitchKey}`}
             className={`crt-screen ${isGlitching ? 'glitch-active' : ''}`}
-            style={{}}
+            style={{ filter: `brightness(${currentBrightness})`, transition: 'filter 0.3s ease' }}
         >
-            <canvas ref={deadPixelCanvasRef} className="dead-pixel-canvas" />
-
             {/* RETRO TOP BAR */}
             <header className="term-header">
                 <div style={{ display: 'flex', alignItems: 'center', gap: 10 }}>

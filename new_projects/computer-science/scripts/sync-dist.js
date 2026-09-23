@@ -37,12 +37,13 @@ if (fs.existsSync(caseStudyHtml)) {
 }
 
 if (fs.existsSync(distAssets)) {
-  if (!fs.existsSync(targetAssets)) {
-    fs.mkdirSync(targetAssets, { recursive: true });
+  if (fs.existsSync(targetAssets)) {
+    fs.rmSync(targetAssets, { recursive: true, force: true });
   }
+  fs.mkdirSync(targetAssets, { recursive: true });
   const files = fs.readdirSync(distAssets);
   for (const file of files) {
     fs.copyFileSync(path.resolve(distAssets, file), path.resolve(targetAssets, file));
   }
-  console.log(`✓ Synced ${files.length} assets from dist/assets -> assets/`);
+  console.log(`✓ Cleaned old assets and synced ${files.length} new assets from dist/assets -> assets/`);
 }
