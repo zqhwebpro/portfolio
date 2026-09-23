@@ -91,14 +91,52 @@
             </div>
         </div>
 
-        <!-- SECTION 1 -->
+        <!-- SECTION 1: EDUCATIONAL FOUNDATION -->
         <section class="section-block">
             <div class="accent-line">
-                <span class="section-label">01 // WHAT IT IS &amp; PURPOSE</span>
+                <span class="section-label">01 // EDUCATIONAL FOUNDATION &amp; CORE TECHNOLOGIES</span>
             </div>
             <h2 class="section-title">
-                <i class="fa-solid fa-circle-info"></i> Practical Server-Side Engineering &amp; AppSec
+                <i class="fa-solid fa-graduation-cap"></i> Understanding PHP 8, Sessions &amp; Database Security
             </h2>
+            <p>
+                <strong>PHP (Hypertext Preprocessor)</strong> is a server-side scripting language that powers over 75% of the web. Unlike client-side JavaScript that runs in the user's browser, PHP runs on the web server to process business logic, interact with databases, and handle secure authentication before sending HTML to the client.
+            </p>
+
+            <div class="tech-stack-grid">
+                <div class="tech-item">
+                    <div class="tech-label">SERVER LANGUAGE</div>
+                    <div class="tech-value">PHP 8 Monolith</div>
+                    <div class="tech-desc">Executes request-response cycles on the web server. Takes incoming HTTP requests, processes business logic, and generates secure HTML pages.</div>
+                </div>
+
+                <div class="tech-item">
+                    <div class="tech-label">DATABASE SECURITY</div>
+                    <div class="tech-value">PDO Prepared Statements</div>
+                    <div class="tech-desc">PHP Data Objects (PDO) separates SQL code from user inputs, rendering SQL Injection (SQLi) attacks mathematically impossible.</div>
+                </div>
+
+                <div class="tech-item">
+                    <div class="tech-label">AUTHENTICATION</div>
+                    <div class="tech-value">Bcrypt Password Hashing</div>
+                    <div class="tech-desc">Cryptographic hashing algorithm with a cost factor of 12. Transmutes user passwords into non-reversible, salted hashes before storing in MySQL.</div>
+                </div>
+
+                <div class="tech-item">
+                    <div class="tech-label">STATE MANAGEMENT</div>
+                    <div class="tech-value">PHP $_SESSION Matrix</div>
+                    <div class="tech-desc">Maintains user login state across HTTP requests using encrypted session tokens stored safely on the server side.</div>
+                </div>
+            </div>
+
+            <h3>How Server-Side Sessions &amp; PDO Prepared Statements Work in Simple Terms</h3>
+            <p>
+                <strong>1. Server Sessions:</strong> HTTP is stateless—meaning every webpage request is completely independent. When you log in, PHP sends a tiny encrypted session ID cookie to your browser. On your next page load, PHP matches that ID against server memory to confirm your identity securely.
+            </p>
+            <p>
+                <strong>2. PDO Prepared Statements (Zero SQL Injection):</strong> Imagine ordering a custom coffee. Instead of letting a customer write instructions directly onto the espresso machine control panel (which an attacker could manipulate to break the machine), the barista hands them a rigid fill-in-the-blank form. PDO compiles the SQL structure first, then safely inserts raw user data into blank parameters—preventing malicious code execution!
+            </p>
+        </section>
             <p>
                 Modern web developers frequently rely on heavy, all-inclusive frameworks like Laravel or Symfony that abstract away how the web fundamentally works. However, understanding raw HTTP request-response cycles, server session memory lifecycles, and low-level web application security (AppSec) vulnerabilities is critical for building resilient enterprise systems.
             </p>

@@ -91,14 +91,52 @@
             </div>
         </div>
 
-        <!-- SECTION 1 -->
+        <!-- SECTION 1: EDUCATIONAL FOUNDATION -->
         <section class="section-block">
             <div class="accent-line">
-                <span class="section-label">01 // THE PROBLEM &amp; SYSTEM OBJECTIVE</span>
+                <span class="section-label">01 // EDUCATIONAL FOUNDATION &amp; CORE TECHNOLOGIES</span>
             </div>
             <h2 class="section-title">
-                <i class="fa-solid fa-circle-info"></i> Eliminating Workout Decision Fatigue
+                <i class="fa-solid fa-graduation-cap"></i> Understanding Array Shuffling, Kinetic Balance &amp; State Persistence
             </h2>
+            <p>
+                <strong>Workout Mixer</strong> uses client-side algorithms to generate balanced exercise circuits. It combines the unbiased <strong>Fisher-Yates Shuffle Algorithm</strong> with kinetic antagonist balance rules and browser <strong>LocalStorage</strong>.
+            </p>
+
+            <div class="tech-stack-grid">
+                <div class="tech-item">
+                    <div class="tech-label">UNBIASED RANDOMNESS</div>
+                    <div class="tech-value">Fisher-Yates Shuffle</div>
+                    <div class="tech-desc">An $O(n)$ array randomizing algorithm that guarantees every possible permutation of exercise movements has an exactly equal probability.</div>
+                </div>
+
+                <div class="tech-item">
+                    <div class="tech-label">KINETIC RULES</div>
+                    <div class="tech-value">Antagonist Muscle Mapping</div>
+                    <div class="tech-desc">Filters generated workout slots so push movements (Push-ups) are balanced with pull movements (Rows), preventing muscle over-fatigue.</div>
+                </div>
+
+                <div class="tech-item">
+                    <div class="tech-label">PRECISION TIMERS</div>
+                    <div class="tech-value">Monotonic Interval Timers</div>
+                    <div class="tech-desc">Uses <code>performance.now()</code> elapsed delta calculations to prevent interval timer drift when mobile browser tabs are backgrounded.</div>
+                </div>
+
+                <div class="tech-item">
+                    <div class="tech-label">DATA PERSISTENCE</div>
+                    <div class="tech-value">Client-Side LocalStorage</div>
+                    <div class="tech-desc">Saves user workout history and custom routine locks locally inside the browser with zero cloud server tracking.</div>
+                </div>
+            </div>
+
+            <h3>How Fisher-Yates Array Shuffling Works in Simple Terms</h3>
+            <p>
+                Imagine shuffling a deck of cards. A common beginner mistake is picking random pairs and swapping them 100 times. That simple approach actually creates mathematical bias, where certain card orders appear more often than others!
+            </p>
+            <p>
+                The <strong>Fisher-Yates Shuffle</strong> iterates backwards through the array from element $N-1$ down to 1. At each step $i$, it picks a random index $j \le i$ and swaps element $i$ with element $j$. This guarantees true mathematical randomness in linear time $O(n)$!
+            </p>
+        </section>
             <p>
                 Athletes frequently waste 15 to 20 minutes before a session agonizing over workout structure or dealing with congested gym machines. Existing workout applications exacerbate this problem by burying simple routines behind paywalls, cloud accounts, or bloated 8-week structured calendars.
             </p>

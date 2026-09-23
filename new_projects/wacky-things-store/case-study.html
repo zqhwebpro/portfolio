@@ -91,14 +91,52 @@
             </div>
         </div>
 
-        <!-- SECTION 1 -->
+        <!-- SECTION 1: EDUCATIONAL FOUNDATION -->
         <section class="section-block">
             <div class="accent-line">
-                <span class="section-label">01 // WHAT IT IS &amp; PURPOSE</span>
+                <span class="section-label">01 // EDUCATIONAL FOUNDATION &amp; CORE TECHNOLOGIES</span>
             </div>
             <h2 class="section-title">
-                <i class="fa-solid fa-circle-info"></i> Enterprise Architecture for High-Volume Commerce
+                <i class="fa-solid fa-graduation-cap"></i> Understanding C#, ASP.NET MVC 5 &amp; Dependency Injection
             </h2>
+            <p>
+                <strong>Mischief Store</strong> demonstrates enterprise-grade backend development using <strong>C# .NET Framework 4.8</strong>, the <strong>ASP.NET MVC 5</strong> design pattern, and <strong>N-Tier Architecture</strong>.
+            </p>
+
+            <div class="tech-stack-grid">
+                <div class="tech-item">
+                    <div class="tech-label">BACKEND FRAMEWORK</div>
+                    <div class="tech-value">ASP.NET MVC 5</div>
+                    <div class="tech-desc">Model-View-Controller pattern separating database models (<code>M</code>), Razor HTML views (<code>V</code>), and request controllers (<code>C</code>) into clean decoupled layers.</div>
+                </div>
+
+                <div class="tech-item">
+                    <div class="tech-label">INVERSION OF CONTROL</div>
+                    <div class="tech-value">Ninject Dependency Injection</div>
+                    <div class="tech-desc">IoC container that injects repository dependencies (<code>IProductRepository</code>) into controllers automatically, decoupling code for unit testing.</div>
+                </div>
+
+                <div class="tech-item">
+                    <div class="tech-label">ORM DATABASE TIER</div>
+                    <div class="tech-value">Entity Framework 6 (EF6)</div>
+                    <div class="tech-desc">Object-Relational Mapping (ORM) framework that maps C# class entities directly to SQL Server database tables without writing raw SQL strings.</div>
+                </div>
+
+                <div class="tech-item">
+                    <div class="tech-label">MODEL BINDING</div>
+                    <div class="tech-value">Custom Cart ModelBinder</div>
+                    <div class="tech-desc">Extracts e-commerce cart state from <code>HttpContext.Session</code> automatically before controller actions execute, keeping controllers 100% testable.</div>
+                </div>
+            </div>
+
+            <h3>How N-Tier Architecture &amp; Dependency Injection Work in Simple Terms</h3>
+            <p>
+                <strong>1. N-Tier Architecture:</strong> Imagine a restaurant. The waiter (Controller) takes your order, the kitchen (Domain Logic) prepares the food, and the pantry (Database Tier) holds the ingredients. The waiter never cooks food directly, and the kitchen never serves tables directly. This separation of concerns makes large enterprise applications maintainable.
+            </p>
+            <p>
+                <strong>2. Inversion of Control (Dependency Injection):</strong> Instead of a Controller creating its own database connection (e.g. <code>new SqlProductRepository()</code>), an IoC container (Ninject) supplies the repository automatically. This allows developers to swap a real SQL database for a mock testing repository instantly!
+            </p>
+        </section>
             <p>
                 In enterprise software development, building an e-commerce platform requires far more than rendering a list of items and a checkout button. Production applications must be resilient against schema migrations, easily testable via unit test suites, and architecturally decoupled so that changing a database or replacing an email provider requires zero modifications to presentation controllers.
             </p>

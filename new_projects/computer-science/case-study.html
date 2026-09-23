@@ -91,14 +91,52 @@
             </div>
         </div>
 
-        <!-- SECTION 1 -->
+        <!-- SECTION 1: EDUCATIONAL FOUNDATION -->
         <section class="section-block">
             <div class="accent-line">
-                <span class="section-label">01 // WHAT IT IS &amp; PURPOSE</span>
+                <span class="section-label">01 // EDUCATIONAL FOUNDATION &amp; CORE TECHNOLOGIES</span>
             </div>
             <h2 class="section-title">
-                <i class="fa-solid fa-circle-info"></i> Demystifying Core Algorithms
+                <i class="fa-solid fa-graduation-cap"></i> Understanding Algorithms, Big-O Notation &amp; State Steppers
             </h2>
+            <p>
+                At the heart of computer science are two core concepts: <strong>Algorithms</strong> (step-by-step instructions for solving a problem) and <strong>Big-O Notation</strong> (a mathematical way to measure how fast or slow an algorithm runs as input size grows).
+            </p>
+
+            <div class="tech-stack-grid">
+                <div class="tech-item">
+                    <div class="tech-label">ALGORITHMIC COMPLEXITY</div>
+                    <div class="tech-value">Big-O Notation $O(n)$</div>
+                    <div class="tech-desc">Measures the worst-case execution time or memory footprint relative to input size ($N$). Distinguishes fast $O(\log n)$ logarithmic operations from slow $O(n^2)$ quadratic loops.</div>
+                </div>
+
+                <div class="tech-item">
+                    <div class="tech-label">SEARCH STRATEGY</div>
+                    <div class="tech-value">Binary Search $O(\log n)$</div>
+                    <div class="tech-desc">Divides a sorted array in half repeatedly. Finds any item in 1,000,000 elements in just 20 comparison steps!</div>
+                </div>
+
+                <div class="tech-item">
+                    <div class="tech-label">DATA STRUCTURES</div>
+                    <div class="tech-value">Trees, Queues &amp; Stacks</div>
+                    <div class="tech-desc">Organizational blueprints for storing data in memory. Enables efficient insertion, lookup, and breadth-first / depth-first traversals.</div>
+                </div>
+
+                <div class="tech-item">
+                    <div class="tech-label">INTERACTIVE UI</div>
+                    <div class="tech-value">React 18 State Stepper</div>
+                    <div class="tech-desc">Controls step-by-step algorithmic execution. Users can step forward, pause, and inspect variable pointer states at every micro-step.</div>
+                </div>
+            </div>
+
+            <h3>How Binary Search Works in Simple Terms</h3>
+            <p>
+                Imagine searching for a word in a 1,000-page dictionary. A <strong>Linear Search $O(n)$</strong> checks page 1, then page 2, then page 3... taking up to 1,000 steps.
+            </p>
+            <p>
+                A <strong>Binary Search $O(\log n)$</strong> opens the dictionary right in the middle (page 500). If the word comes before page 500, you throw away the entire right half of the book! In just one step, you've eliminated 500 pages. Repeating this process cuts the remaining pages in half every single step, finding the answer in $\le 10$ steps!
+            </p>
+        </section>
             <p>
                 Computer science curricula often teach algorithms through dry mathematical proofs or static blackboard diagrams. Without an intuitive mental model of how data structures shift in memory and how pointers traverse arrays, learners struggle to comprehend why <em>O(n log n)</em> sorting outperforms <em>O(n²)</em> or how recursive call stacks consume memory.
             </p>

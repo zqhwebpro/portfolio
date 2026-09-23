@@ -91,14 +91,58 @@
             </div>
         </div>
 
-        <!-- SECTION 1 -->
+        <!-- SECTION 1: EDUCATIONAL FOUNDATION -->
         <section class="section-block">
             <div class="accent-line">
-                <span class="section-label">01 // WHAT IT IS &amp; PURPOSE</span>
+                <span class="section-label">01 // EDUCATIONAL FOUNDATION &amp; CORE TECHNOLOGIES</span>
             </div>
             <h2 class="section-title">
-                <i class="fa-solid fa-circle-info"></i> Demystifying Chess Position Evaluation
+                <i class="fa-solid fa-graduation-cap"></i> Understanding Python 3, Heuristic Evaluation &amp; Game Theory
             </h2>
+            <p>
+                <strong>Python 3</strong> is an elegant, high-level programming language renowned for clear syntax, powerful data manipulation, and game theory modeling. <strong>Chess PyCalc</strong> leverages Python's expressive object model to generate chess moves and evaluate board positions in real time.
+            </p>
+
+            <div class="tech-stack-grid">
+                <div class="tech-item">
+                    <div class="tech-label">CORE ENGINE</div>
+                    <div class="tech-value">Python 3 Data Structures</div>
+                    <div class="tech-desc">Uses 8x8 nested matrices, bitmasks, and dictionary objects to represent the 64 squares of a chessboard and calculate legal piece movement.</div>
+                </div>
+
+                <div class="tech-item">
+                    <div class="tech-label">POSITIONAL HEURISTICS</div>
+                    <div class="tech-value">Piece-Square Tables (PST)</div>
+                    <div class="tech-desc">64-element numerical weight grids that assign extra score bonuses to pieces controlling central squares ($d4, d5, e4, e5$) versus weak edge squares.</div>
+                </div>
+
+                <div class="tech-item">
+                    <div class="tech-label">STATISTICAL MODELING</div>
+                    <div class="tech-value">Logistic Sigmoid Function</div>
+                    <div class="tech-desc">Converts raw centipawn material evaluation scores into a smooth 0% to 100% win probability percentage curve.</div>
+                </div>
+
+                <div class="tech-item">
+                    <div class="tech-label">TACTICAL ANALYSIS</div>
+                    <div class="tech-value">Move Delta Previewer</div>
+                    <div class="tech-desc">Calculates instantaneous centipawn deltas ($\Delta$) before and after a move to highlight tactical blunders and grandmaster moves.</div>
+                </div>
+            </div>
+
+            <h3>How Chess Evaluation &amp; Sigmoid Probability Work in Simple Terms</h3>
+            <p>
+                <strong>1. Centipawn Evaluation:</strong> In chess programming, 1 Pawn is worth 100 Centipawns ($+1.00$). A Knight or Bishop is worth $+3.00$ (300 CP), a Rook $+5.00$ (500 CP), and a Queen $+9.00$ (900 CP). Positional bonuses (like controlling the center) add or subtract small centipawn values.
+            </p>
+            <p>
+                <strong>2. The Logistic Sigmoid Win Curve:</strong> A raw evaluation score of $+4.00$ doesn't mean White has 400% win chance—percentages must stay between 0% and 100%. The mathematical **Sigmoid S-Curve** converts raw evaluation scores into a smooth win probability:
+            </p>
+
+            $$P(\text{Win}) = \frac{1}{1 + 10^{-\text{Score} / 400}}$$
+
+            <p>
+                An evaluation of $0.00$ yields $50\%$ win probability. An advantage of $+400\text{ CP}$ (+4 Pawns) shifts win probability to $90.9\%$, creating an intuitive probability bar!
+            </p>
+        </section>
             <p>
                 In chess, beginners often judge a position strictly by counting captured pieces: <em>"I have an extra knight, so I am winning."</em> However, grandmasters evaluate positions through a much more nuanced lens: spatial control, king safety, open files for rooks, and piece activity. A player down material can possess overwhelming positional pressure that makes victory inevitable.
             </p>

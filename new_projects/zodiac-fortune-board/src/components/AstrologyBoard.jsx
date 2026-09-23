@@ -257,7 +257,7 @@ export function AstrologyBoard({
             {/* Aspect Lines Web */}
             {renderAspectLines()}
 
-            {/* 12 Zodiac Constellation Nodes (Pure Glyphs, Distinct Zenith/Selected/Hover States) */}
+            {/* 12 Zodiac Constellation Nodes (Upright at Zenith, Swaying to Sides) */}
             {signs.map((sign, i) => {
               const angle = (i / totalNodes) * (2 * Math.PI) - Math.PI / 2;
               const x = 50 + radius * Math.cos(angle);
@@ -265,6 +265,16 @@ export function AstrologyBoard({
               const isSelected = selectedSign && selectedSign.id === sign.id;
               const isAtZenith = zenithSign && zenithSign.id === sign.id;
               const isHovered = hoveredSign && hoveredSign.id === sign.id;
+
+              // Calculate current screen angle relative to Zenith (12 o'clock = 0 deg)
+              const nodeAngleDeg = (i / totalNodes) * 360 - 90;
+              let currentAbsAngle = (nodeAngleDeg + rotation) % 360;
+              if (currentAbsAngle > 180) currentAbsAngle -= 360;
+              if (currentAbsAngle < -180) currentAbsAngle += 360;
+
+              // Sit 100% UPRIGHT at Zenith (currentAbsAngle = 0), sway/spin dynamically to sides
+              const swayAngle = Math.sin((currentAbsAngle * Math.PI) / 180) * 32;
+              const iconRotation = -rotation + swayAngle;
 
               return (
                 <div
@@ -282,8 +292,20 @@ export function AstrologyBoard({
                   }}
                   title={`${sign.name} (${sign.dates}) ${isSelected ? '— Selected & Locked (Click to Unlock)' : isAtZenith ? '— Aligned at Zenith (On Board)' : '— Click to Select'}`}
                 >
-                  <span className="node-symbol">{sign.symbol}</span>
-                  {isHovered && <span className="node-hover-label">{sign.name}</span>}
+                  <span 
+                    className="node-symbol"
+                    style={{ transform: `rotate(${iconRotation}deg)` }}
+                  >
+                    {sign.symbol}
+                  </span>
+                  {isHovered && (
+                    <span 
+                      className="node-hover-label"
+                      style={{ transform: `translateX(-50%) rotate(${iconRotation}deg)` }}
+                    >
+                      {sign.name}
+                    </span>
+                  )}
                 </div>
               );
             })}

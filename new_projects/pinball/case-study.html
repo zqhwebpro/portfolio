@@ -91,14 +91,58 @@
             </div>
         </div>
 
-        <!-- SECTION 1 -->
+        <!-- SECTION 1: EDUCATIONAL FOUNDATION -->
         <section class="section-block">
             <div class="accent-line">
-                <span class="section-label">01 // WHAT IT IS &amp; PURPOSE</span>
+                <span class="section-label">01 // EDUCATIONAL FOUNDATION &amp; CORE TECHNOLOGIES</span>
             </div>
             <h2 class="section-title">
-                <i class="fa-solid fa-circle-info"></i> The Physics Behind Arcade Pinball
+                <i class="fa-solid fa-graduation-cap"></i> Understanding 2D Physics Engines, Vector Math &amp; Collisions
             </h2>
+            <p>
+                A <strong>2D Physics Engine</strong> is a software system that simulates physical dynamics—such as gravity, velocity, restitution (bounciness), friction, and impulse collisions—using Newtonian mechanics.
+            </p>
+
+            <div class="tech-stack-grid">
+                <div class="tech-item">
+                    <div class="tech-label">PHYSICS STATE</div>
+                    <div class="tech-value">Vector Kinematics</div>
+                    <div class="tech-desc">Stores pinball position $\vec{P}(x, y)$ and velocity $\vec{V}(vx, vy)$. Every frame, gravity accelerates velocity $\vec{V} += \vec{G} \cdot \Delta t$, and velocity updates position.</div>
+                </div>
+
+                <div class="tech-item">
+                    <div class="tech-label">COLLISION DETECTION</div>
+                    <div class="tech-value">Circle vs Line Raycasting</div>
+                    <div class="tech-desc">Calculates the shortest perpendicular distance between the ball center and bumper segments to detect hits before the ball passes through solid walls.</div>
+                </div>
+
+                <div class="tech-item">
+                    <div class="tech-label">IMPULSE RESPONSE</div>
+                    <div class="tech-value">Elastic Reflection Vectors</div>
+                    <div class="tech-desc">When the ball hits a surface, its velocity vector reflects across the surface normal vector $\hat{N}$ modulated by the coefficient of restitution ($e = 0.85$).</div>
+                </div>
+
+                <div class="tech-item">
+                    <div class="tech-label">FLIPPER MECHANICS</div>
+                    <div class="tech-value">Angular Velocity Torque</div>
+                    <div class="tech-desc">Flippers rotate around a fixed pivot point $\vec{O}$. Striking the ball transfers instant kinetic energy based on angular velocity $\omega \cdot r$.</div>
+                </div>
+            </div>
+
+            <h3>How Pinball Collision Reflection Works in Simple Terms</h3>
+            <p>
+                Imagine throwing a rubber ball against a wall at an angle. The ball bounces off at the exact same angle on the opposite side of the wall's normal (perpendicular) line.
+            </p>
+            <p>
+                In 2D physics vector math, the reflected velocity vector $\vec{V}_{\text{new}}$ is calculated using the vector dot product formula:
+            </p>
+
+            $$\vec{V}_{\text{new}} = \vec{V} - (1 + e)(\vec{V} \cdot \hat{N})\hat{N}$$
+
+            <p>
+                Where $\hat{N}$ is the surface normal vector and $e = 0.85$ is the bounciness coefficient. When you hit a flipper moving upwards, the flipper's angular speed adds extra kinetic speed to $\vec{V}_{\text{new}}$, sending the pinball shooting up the ramp!
+            </p>
+        </section>
             <p>
                 Pinball looks deceptively simple, but simulating it on a computer screen is notoriously difficult. Unlike platformer games where objects move at predictable speeds along fixed grids, a pinball accelerates rapidly under gravity, deflects off curved bumpers at sharp angles, and strikes rapidly rotating mechanical flippers.
             </p>

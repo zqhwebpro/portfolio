@@ -156,6 +156,7 @@ export function ScryingMirror({
             <div className="mirror-portal-placeholder">
               <span className="portal-caption">Scrying Glass</span>
               <span className="portal-subaction">Webcam Needed</span>
+              <span className="portal-click-here">Click Here</span>
             </div>
           )}
 

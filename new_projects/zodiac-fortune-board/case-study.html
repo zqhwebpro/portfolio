@@ -113,9 +113,59 @@
                 Solving this required engineering across four distinct technical pillars: our architectural build choices, the underlying polar math, the hand tracking classifier pipeline, and procedural audio synthesis.
             </p>
 
-            <!-- SECTION 1 -->
+            <!-- SECTION 1: EDUCATIONAL FOUNDATION -->
             <h2>
-                <i class="fa-solid fa-layer-group"></i> 1. Build Choices: Zero-Cloud Latency &amp; Performance Budgets
+                <i class="fa-solid fa-graduation-cap"></i> 1. Educational Foundation: Understanding the Core Technologies
+            </h2>
+
+            <p>
+                To understand how <strong>Zodiac Fortune Board</strong> works under the hood, it helps to first understand the four core technologies that power it: <strong>React 19</strong>, <strong>Google MediaPipe Tasks-Vision</strong>, the browser-native <strong>Web Audio API</strong>, and <strong>HTML5 Canvas 2D Trigonometry</strong>.
+            </p>
+
+            <div class="tech-stack-grid">
+                <div class="tech-item">
+                    <div class="tech-label">CORE FRONTEND</div>
+                    <div class="tech-value">React 19 &amp; Vite 8</div>
+                    <div class="tech-desc">A modern UI framework that manages component state declaratively. It re-renders interface elements automatically whenever user selection, divination stages, or audio toggles change.</div>
+                </div>
+
+                <div class="tech-item">
+                    <div class="tech-label">EDGE MACHINE LEARNING</div>
+                    <div class="tech-value">MediaPipe Tasks-Vision</div>
+                    <div class="tech-desc">Google's lightweight computer vision runtime. It detects 21 skeletal hand landmarks from a webcam feed directly inside the browser using WebAssembly (WASM) and WebGL GPU acceleration.</div>
+                </div>
+
+                <div class="tech-item">
+                    <div class="tech-label">PROCEDURAL SOUND</div>
+                    <div class="tech-value">Web Audio API (DSP)</div>
+                    <div class="tech-desc">A browser engine for real-time sound synthesis. Instead of playing MP3 files, it creates audio waves from mathematical equations using electronic oscillators, filters, and gain nodes.</div>
+                </div>
+
+                <div class="tech-item">
+                    <div class="tech-label">GRAPHICS &amp; MATH</div>
+                    <div class="tech-value">Canvas 2D &amp; Polar Geometry</div>
+                    <div class="tech-desc">Renders particle sparks and dynamic overlays. Uses Sine ($\sin$) and Cosine ($\cos$) trigonometry to map the 12 zodiac houses equidistant along a $360^\circ$ circle.</div>
+                </div>
+            </div>
+
+            <h3>How Hand Vision Machine Learning Works in Simple Terms</h3>
+            <p>
+                Imagine drawing 21 invisible dots on your hand—one at the wrist, one at each knuckle, and one at every fingertip. Every 33 milliseconds (~30 times per second), MediaPipe analyzes the video pixels from your camera and returns the exact 3D coordinates $(x, y, z)$ of those 21 dots.
+            </p>
+
+            <p>
+                Rather than sending your video feed to an external cloud server (which would introduce lag and privacy risks), the machine learning model runs 100% locally inside your web browser. The code calculates the physical distance between your fingertips and knuckles using the 3D distance formula:
+            </p>
+
+            $$\text{Distance} = \sqrt{(x_2 - x_1)^2 + (y_2 - y_1)^2 + (z_2 - z_1)^2}$$
+
+            <p>
+                If all four fingertips are close to your wrist, the system recognizes a <code>✊ Clenched Fist</code>. If only your index finger is extended, it recognizes a <code>☝️ Pointing Wand</code>. This allows seamless gesture control without touching your mouse or keyboard!
+            </p>
+
+            <!-- SECTION 2: ARCHITECTURE & BUILD CHOICES -->
+            <h2>
+                <i class="fa-solid fa-layer-group"></i> 2. Build Choices: Zero-Cloud Latency &amp; Performance Budgets
             </h2>
 
             <p>

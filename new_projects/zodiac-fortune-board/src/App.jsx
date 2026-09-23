@@ -2,6 +2,7 @@ import React, { useState, useEffect, useRef, useCallback } from 'react';
 import { AstrologyBoard } from './components/AstrologyBoard';
 import { ScryingMirror } from './components/ScryingMirror';
 import { GrimoirePanel } from './components/GrimoirePanel';
+import { SparkleCanvas } from './components/SparkleCanvas';
 import { 
   ZODIAC_SIGNS, 
   getRandomGoal, 
@@ -329,6 +330,11 @@ function App() {
     <div className="universe-container">
       <div className="universe-bg"></div>
       <div className="celestial-body"></div>
+      <SparkleCanvas 
+        handCoordinates={handCoordinates} 
+        rawLandmarks={rawLandmarks} 
+        isCameraActive={isCameraActive} 
+      />
 
       {/* Top Header & Arcane Controls */}
       <header className="site-header">
@@ -339,7 +345,7 @@ function App() {
 
         <div className="header-actions">
           <a href="../index.html" className="astral-btn back-btn">
-            <i className="fa-solid fa-arrow-left"></i> Return to Realm
+            <i className="fa-solid fa-arrow-left"></i> Back to Projects
           </a>
 
           {/* Audio Mute/Unmute */}

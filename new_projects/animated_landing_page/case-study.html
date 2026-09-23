@@ -91,19 +91,50 @@
             </div>
         </div>
 
-        <!-- SECTION 1 -->
+        <!-- SECTION 1: EDUCATIONAL FOUNDATION -->
         <section class="section-block">
             <div class="accent-line">
-                <span class="section-label">01 // WHAT IT IS &amp; PURPOSE</span>
+                <span class="section-label">01 // EDUCATIONAL FOUNDATION &amp; CORE TECHNOLOGIES</span>
             </div>
             <h2 class="section-title">
-                <i class="fa-solid fa-circle-info"></i> The Illusion of 3D Depth on the Web
+                <i class="fa-solid fa-graduation-cap"></i> Understanding HTML5 Canvas 2D &amp; CSS 3D Transforms
             </h2>
             <p>
-                In high-converting web landing pages, motion design is not merely decorative—it guides visual hierarchy, increases dwell time, and establishes immediate brand prestige. However, heavy 3D rendering engines (such as Three.js or WebGL loaders) often introduce 1MB+ bundle sizes, laggy initial paints, and severe battery drain on mobile devices.
+                To build high-performance web animations without lag, developers rely on three core browser capabilities: <strong>HTML5 Canvas 2D</strong>, <strong>requestAnimationFrame</strong>, and <strong>CSS 3D Transforms</strong>.
+            </p>
+
+            <div class="tech-stack-grid">
+                <div class="tech-item">
+                    <div class="tech-label">GRAPHICS RENDERER</div>
+                    <div class="tech-value">HTML5 Canvas 2D</div>
+                    <div class="tech-desc">An HTML element that acts as a blank pixel grid. JavaScript draws lines, circles, and starfield particles directly onto the pixel canvas using 2D rendering contexts.</div>
+                </div>
+
+                <div class="tech-item">
+                    <div class="tech-label">ANIMATION TIMING</div>
+                    <div class="tech-value">requestAnimationFrame</div>
+                    <div class="tech-desc">A browser API that synchronizes JavaScript code execution with your monitor's refresh rate (60Hz or 120Hz), ensuring buttery-smooth frame updates.</div>
+                </div>
+
+                <div class="tech-item">
+                    <div class="tech-label">HARDWARE ACCELERATION</div>
+                    <div class="tech-value">CSS 3D Transforms</div>
+                    <div class="tech-desc">Styles such as <code>perspective: 1000px</code> and <code>transform: translate3d()</code> that offload matrix math directly to the GPU for zero CPU overhead.</div>
+                </div>
+
+                <div class="tech-item">
+                    <div class="tech-label">SMOOTH MOTION</div>
+                    <div class="tech-value">Linear Interpolation (Lerp)</div>
+                    <div class="tech-desc">A mathematical formula <code>current += (target - current) * 0.1</code> that creates natural, fluid weight and inertia when moving elements toward mouse coordinates.</div>
+                </div>
+            </div>
+
+            <h3>How Canvas Particle Starfields Work in Simple Terms</h3>
+            <p>
+                Imagine drawing 200 tiny glowing dots on a chalkboard. In traditional web development, creating 200 separate HTML <code>&lt;div&gt;</code> tags slows down the browser because the browser must track layout calculations for every single box.
             </p>
             <p>
-                <strong>Celestial Motion Landing Page</strong> achieves cinematic 3D depth and tactile mouse interaction using zero third-party animation libraries. By decoupling high-frequency motion calculations from React's virtual DOM reconciliation and rendering celestial backgrounds onto an optimized HTML5 Canvas, the page maintains a rock-solid 60 FPS while keeping bundle size negligible.
+                With <strong>HTML5 Canvas 2D</strong>, the browser treats the background as a single image bitmap. On every frame, the JavaScript loop clears the bitmap, updates the position of each star particle using velocity equations, and redraws them. By capping the Device Pixel Ratio (DPR) at 1.5x, mobile GPUs can render 60 FPS smoothly without draining battery power!
             </p>
         </section>
 
