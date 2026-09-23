@@ -250,7 +250,35 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['api_action'])) {
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>PHP Engine: Futuristic Slider</title>
+    <title>Zach Heindel | PHP Delivery — Real-Time Logistics & Route Management Platform</title>
+    <meta name="description" content="Full-stack PHP and MySQL logistics management application featuring real-time dispatch tracking, route optimization, and session state engines." />
+    <meta name="keywords" content="PHP Delivery Platform, Logistics Management, MySQL Database, Real-Time Dispatch, Route Tracking, PHP Web App, Zach Heindel" />
+    <meta name="author" content="Zach Heindel" />
+
+    <!-- Open Graph / Social SEO -->
+    <meta property="og:type" content="website" />
+    <meta property="og:title" content="PHP Delivery — Real-Time Logistics & Route Management Platform" />
+    <meta property="og:description" content="Full-stack PHP and MySQL logistics management application featuring real-time dispatch tracking and route optimization." />
+    <meta property="og:url" content="https://zqhwebpro.github.io/portfolio/new_projects/php-delivery/" />
+    <meta property="og:site_name" content="ZQH.WEBPRO" />
+
+    <!-- JSON-LD AI SEO Structured Data -->
+    <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@type": "WebApplication",
+      "name": "PHP Delivery Platform",
+      "applicationCategory": "LogisticsApplication",
+      "operatingSystem": "Web Browser",
+      "description": "Full-stack PHP & MySQL logistics dashboard for real-time dispatch tracking, order management, and route optimization.",
+      "url": "https://zqhwebpro.github.io/portfolio/new_projects/php-delivery/",
+      "author": {
+        "@type": "Person",
+        "name": "Zach Heindel"
+      },
+      "programmingLanguage": ["PHP", "MySQL", "JavaScript", "HTML5", "CSS3"]
+    }
+    </script>
     <!-- Fonts -->
     <link href="https://fonts.googleapis.com/css2?family=Fira+Code:wght@400;500;600&family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
