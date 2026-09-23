@@ -6,7 +6,6 @@ export function SparkleCanvas({ handCoordinates, rawLandmarks, isCameraActive })
   const pointerPosRef = useRef({ x: -100, y: -100 });
   const prevPointerPosRef = useRef({ x: -100, y: -100 });
   const animFrameRef = useRef(null);
-  const lastBurstTimeRef = useRef(0);
 
   // Track mouse or touch position when hand tracking is inactive
   useEffect(() => {
@@ -47,35 +46,33 @@ export function SparkleCanvas({ handCoordinates, rawLandmarks, isCameraActive })
     }
   }, [isCameraActive, handCoordinates, rawLandmarks]);
 
-  // Helper to spawn magic sparks
-  const spawnSparkle = (x, y, isBurst = false) => {
+  // Helper to spawn continuous glowing gold magic sparks
+  const spawnSparkle = (x, y, isMoving = false) => {
     const colors = [
-      '#ffd700', // Gold
-      '#fff5e6', // Star White
-      '#5ce1e6', // Astral Cyan
-      '#ff77a9', // Rose Pink
-      '#ffcc00', // Arcane Amber
-      '#e0aaff'  // Mystic Violet
+      '#ffd700', // Radiant Gold
+      '#f5a623', // Amber Gold
+      '#ffb703', // Warm Arcane Gold
+      '#fff6d6', // Star White-Gold
+      '#f9e2af'  // Soft Starlight Gold
     ];
 
-    const count = isBurst ? Math.floor(Math.random() * 6) + 8 : Math.floor(Math.random() * 2) + 1;
+    const count = isMoving ? 3 : 1;
 
     for (let i = 0; i < count; i++) {
-      const angle = isBurst ? (Math.PI * 2 * i) / count + (Math.random() * 0.4 - 0.2) : Math.random() * Math.PI * 2;
-      const speed = isBurst ? Math.random() * 3.5 + 1.2 : Math.random() * 1.5 + 0.4;
+      const angle = Math.random() * Math.PI * 2;
+      const speed = Math.random() * 1.4 + 0.3;
 
       particlesRef.current.push({
-        x: x + (Math.random() * 12 - 6),
-        y: y + (Math.random() * 12 - 6),
+        x: x + (Math.random() * 10 - 5),
+        y: y + (Math.random() * 10 - 5),
         vx: Math.cos(angle) * speed,
-        vy: Math.sin(angle) * speed - (isBurst ? 0.8 : 0.3),
-        size: isBurst ? Math.random() * 5 + 3 : Math.random() * 3.5 + 1.5,
+        vy: Math.sin(angle) * speed - 0.4,
+        size: Math.random() * 3.8 + 1.8,
         color: colors[Math.floor(Math.random() * colors.length)],
         life: 0,
-        maxLife: isBurst ? Math.random() * 25 + 25 : Math.random() * 20 + 15,
+        maxLife: Math.random() * 25 + 20,
         rotation: Math.random() * Math.PI,
-        rotSpeed: (Math.random() - 0.5) * 0.15,
-        isBurst
+        rotSpeed: (Math.random() - 0.5) * 0.12
       });
     }
   };
@@ -119,13 +116,13 @@ export function SparkleCanvas({ handCoordinates, rawLandmarks, isCameraActive })
 
       ctx.fillStyle = color;
       ctx.globalAlpha = alpha;
-      ctx.shadowBlur = 10;
-      ctx.shadowColor = color;
+      ctx.shadowBlur = 14;
+      ctx.shadowColor = '#ffd700';
       ctx.fill();
       ctx.restore();
     };
 
-    const render = (time) => {
+    const render = () => {
       ctx.clearRect(0, 0, canvas.width, canvas.height);
 
       const px = pointerPosRef.current.x;
@@ -136,29 +133,19 @@ export function SparkleCanvas({ handCoordinates, rawLandmarks, isCameraActive })
       const dist = Math.hypot(px - prevX, py - prevY);
 
       if (px > 0 && py > 0) {
-        // Emit subtle sparks as finger/pointer moves
-        if (dist > 2) {
-          spawnSparkle(px, py, false);
-        }
+        // Continuous, smooth emission trailing finger/cursor
+        spawnSparkle(px, py, dist > 4);
 
-        // Sporadic magic burst triggers (every ~350ms or on fast gesture movements)
-        if (time - lastBurstTimeRef.current > 350 || dist > 28) {
-          if (Math.random() < 0.4 || dist > 28) {
-            spawnSparkle(px, py, true);
-            lastBurstTimeRef.current = time;
-          }
-        }
-
-        // Draw soft glowing magical aura halo at finger tip
+        // Draw soft glowing golden magical aura at finger tip
         ctx.save();
-        const grad = ctx.createRadialGradient(px, py, 0, px, py, 28);
-        grad.addColorStop(0, 'rgba(255, 215, 0, 0.45)');
-        grad.addColorStop(0.5, 'rgba(92, 225, 230, 0.2)');
+        const grad = ctx.createRadialGradient(px, py, 0, px, py, 32);
+        grad.addColorStop(0, 'rgba(255, 215, 0, 0.6)');
+        grad.addColorStop(0.4, 'rgba(245, 166, 35, 0.28)');
         grad.addColorStop(1, 'rgba(0, 0, 0, 0)');
 
         ctx.fillStyle = grad;
         ctx.beginPath();
-        ctx.arc(px, py, 28, 0, Math.PI * 2);
+        ctx.arc(px, py, 32, 0, Math.PI * 2);
         ctx.fill();
         ctx.restore();
       }
@@ -174,13 +161,13 @@ export function SparkleCanvas({ handCoordinates, rawLandmarks, isCameraActive })
         if (p.life < p.maxLife) {
           p.x += p.vx;
           p.y += p.vy;
-          p.vy += 0.04; // Gentle gravity
-          p.vx *= 0.96; // Air drag
+          p.vy += 0.03; // Soft upward drift & gravity
+          p.vx *= 0.96;
           p.rotation += p.rotSpeed;
 
           const progress = p.life / p.maxLife;
           const alpha = Math.max(0, 1 - progress);
-          const currentSize = p.size * (1 - progress * 0.4);
+          const currentSize = p.size * (1 - progress * 0.35);
 
           draw4PointStar(
             ctx,

@@ -27,7 +27,7 @@ body, html {
   height: 100%;
   width: 100%;
   overflow: hidden;
-  background: #1a0208;
+  background: #060002;
   font-family: 'Philosopher', 'Cormorant Garamond', 'MedievalSharp', serif;
   color: var(--gold-base);
   user-select: none;
@@ -43,14 +43,11 @@ body, html {
 .universe-bg {
   position: fixed;
   inset: 0;
-  background-color: #4a0817;
-  background-image: 
-    radial-gradient(ellipse at center, rgba(30, 4, 10, 0.05) 0%, rgba(15, 2, 5, 0.35) 65%, rgba(6, 1, 2, 0.75) 100%),
-    url('../assets/velvet-bg.jpg');
   background-size: cover;
   background-position: center;
   background-repeat: no-repeat;
-  z-index: -3;
+  z-index: 0;
+  pointer-events: none;
 }
 
 /* Subtle Cosmic Bodies in Red Velvet Shadows */
@@ -509,8 +506,8 @@ body, html {
 .node-symbol {
   font-size: 2.2rem;
   line-height: 1;
-  color: #e879f9; /* Distinct Radiant Orchid-Magenta Tarot Icon Color */
-  filter: drop-shadow(0 0 8px rgba(232, 121, 249, 0.7));
+  color: #ffd700; /* Radiant Celestial Gold Tarot Symbol Color */
+  filter: drop-shadow(0 0 10px rgba(255, 215, 0, 0.85));
   text-shadow: 0 1px 3px rgba(0, 0, 0, 0.9);
   transition: transform 0.15s ease-out, color 0.25s ease, filter 0.25s ease;
   display: inline-block;
