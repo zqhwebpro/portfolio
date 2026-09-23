@@ -347,28 +347,32 @@
             height: 86%;
             filter: drop-shadow(0 10px 14px rgba(18, 42, 78, 0.45)) drop-shadow(0 3px 5px rgba(10, 26, 54, 0.3));
             transform: scale(1.12);
-            animation: walk-wobble 0.25s infinite ease-in-out;
+            animation: walk-wobble 0.45s infinite ease-in-out;
         }
 
         @keyframes walk-wobble {
             0% {
-                transform: scale(1.12) rotate(0deg) translateY(0);
+                transform: scale(1.12) rotate(0deg) translateY(0) translateX(0);
             }
 
-            25% {
-                transform: scale(1.12) rotate(-8deg) translateY(-3px);
+            20% {
+                transform: scale(1.20) rotate(-16deg) translateY(-9px) translateX(-4px);
             }
 
-            50% {
-                transform: scale(1.12) rotate(0deg) translateY(0);
+            40% {
+                transform: scale(1.06) rotate(14deg) translateY(-2px) translateX(4px);
             }
 
-            75% {
-                transform: scale(1.12) rotate(8deg) translateY(-3px);
+            60% {
+                transform: scale(1.24) rotate(-18deg) translateY(-11px) translateX(-5px);
+            }
+
+            80% {
+                transform: scale(1.08) rotate(12deg) translateY(-4px) translateX(3px);
             }
 
             100% {
-                transform: scale(1.12) rotate(0deg) translateY(0);
+                transform: scale(1.12) rotate(0deg) translateY(0) translateX(0);
             }
         }
 
@@ -2821,7 +2825,7 @@
                         offset: idx / (rookPixelWps.length - 1)
                     }));
                     rookTransit.animate(rookKeyframes, {
-                        duration: 360,
+                        duration: 680,
                         easing: 'ease-in-out',
                         fill: 'forwards'
                     });
@@ -2841,11 +2845,11 @@
                 };
             });
 
-            let animDuration = 280;
+            let animDuration = 550;
             if (pixelWaypoints.length === 3 && (Math.abs(tr - fr) === 2 || Math.abs(tc - fc) === 2)) {
-                animDuration = 380; // Knight L-walk
+                animDuration = 750; // Knight L-walk
             } else if (pixelWaypoints.length > 3) {
-                animDuration = Math.min(460, 220 + pixelWaypoints.length * 35);
+                animDuration = Math.min(950, 480 + pixelWaypoints.length * 65);
             }
 
             const animation = transitPiece.animate(keyframes, {

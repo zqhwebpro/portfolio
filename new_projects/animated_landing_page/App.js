@@ -138,13 +138,13 @@ function App() {
         let isLightActive = false;
 
         const updatePhysics = () => {
-            // Smooth scroll interpolation
-            currentScrollRef.current += (targetScrollRef.current - currentScrollRef.current) * 0.08;
+            // Smooth loose scroll tracking interpolation
+            currentScrollRef.current += (targetScrollRef.current - currentScrollRef.current) * 0.035;
             const current = currentScrollRef.current;
 
-            // Smooth mouse interpolation
-            mouseRef.current.x += (targetMouseRef.current.x - mouseRef.current.x) * 0.08;
-            mouseRef.current.y += (targetMouseRef.current.y - mouseRef.current.y) * 0.08;
+            // Smooth loose mouse tracking interpolation
+            mouseRef.current.x += (targetMouseRef.current.x - mouseRef.current.x) * 0.04;
+            mouseRef.current.y += (targetMouseRef.current.y - mouseRef.current.y) * 0.04;
 
             const winH = window.innerHeight;
             const docH = document.documentElement.scrollHeight;

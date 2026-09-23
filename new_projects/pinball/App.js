@@ -533,7 +533,7 @@ function App() {
                 }}
             >
                 <div style={styles.marquee}>
-                    <span style={{ color: '#ffd700', textShadow: '2px 2px #ff8800' }}>REACT PIXEL PINBALL</span>
+                    <span style={{ color: '#ffd700', textShadow: 'none' }}>REACT PIXEL PINBALL</span>
                 </div>
 
                 <div style={styles.screenFrame}>
@@ -640,15 +640,15 @@ const styles = {
         flexShrink: 0,
     },
     marquee: {
-        fontSize: '14px',
+        fontSize: '20px',
         fontWeight: 'bold',
-        letterSpacing: '1px',
-        marginBottom: '12px',
-        padding: '6px 12px',
+        letterSpacing: '1.5px',
+        marginBottom: '14px',
+        padding: '8px 18px',
         backgroundColor: '#0d0718',
         border: '3px solid #ffd700',
         borderRadius: '4px',
-        boxShadow: '0 0 12px #ffd700',
+        boxShadow: 'none',
     },
     screenFrame: {
         backgroundColor: '#000',

@@ -159,7 +159,7 @@
 
         .pixel-face-btn-circle.is-glitching {
             animation: digitalGlitchDistort 0.25s ease-out, smileyJitter 0.1s infinite alternate;
-            filter: drop-shadow(0 0 15px rgba(51,255,102,0.9));
+            filter: drop-shadow(-3px 0 #ff0055) drop-shadow(3px 0 #00e5ff) drop-shadow(0 0 15px rgba(51,255,102,0.9));
         }
 
         @keyframes smileyJitter {
@@ -174,23 +174,32 @@
             transform: scale(0.92);
         }
 
-        /* --- DIGITAL DISTORTION (no color shift) --- */
+        /* --- DIGITAL DISTORTION WITH CHROMATIC RED/BLUE SPLIT --- */
         @keyframes digitalGlitchDistort {
-            0%   { transform: translate(0, 0) scale(1) skew(0deg); }
-            10%  { transform: translate(-4px, 2px) scale(1.02) skew(5deg); }
-            20%  { transform: translate(5px, -3px) scale(0.98) skew(-5deg); }
-            30%  { transform: translate(-6px, 5px) scale(1.04) skew(8deg); }
-            40%  { transform: translate(3px, -6px) scale(0.96) skew(-8deg); }
-            50%  { transform: translate(-5px, 3px) scale(1.05) skew(6deg); }
-            60%  { transform: translate(8px, -5px) scale(0.95) skew(-6deg); }
-            70%  { transform: translate(-2px, 8px) scale(1.06) skew(10deg); }
-            80%  { transform: translate(6px, -2px) scale(0.94) skew(-10deg); }
-            90%  { transform: translate(-3px, -3px) scale(1.02) skew(3deg); }
-            100% { transform: translate(0, 0) scale(1) skew(0deg); }
+            0%   { transform: translate(0, 0) scale(1) skew(0deg); text-shadow: -3px 0 #ff0055, 3px 0 #00e5ff; box-shadow: -4px 0 rgba(255,0,85,0.7), 4px 0 rgba(0,229,255,0.7); }
+            10%  { transform: translate(-4px, 2px) scale(1.02) skew(5deg); text-shadow: -5px 0 #ff0055, 5px 0 #00e5ff; filter: drop-shadow(-4px 0 #ff0055) drop-shadow(4px 0 #00e5ff); }
+            20%  { transform: translate(5px, -3px) scale(0.98) skew(-5deg); text-shadow: 5px 0 #ff0055, -5px 0 #00e5ff; filter: drop-shadow(5px 0 #ff0055) drop-shadow(-5px 0 #00e5ff); }
+            30%  { transform: translate(-6px, 5px) scale(1.04) skew(8deg); text-shadow: -6px 0 #ff0055, 6px 0 #00e5ff; }
+            40%  { transform: translate(3px, -6px) scale(0.96) skew(-8deg); text-shadow: 4px 0 #ff0055, -4px 0 #00e5ff; }
+            50%  { transform: translate(-5px, 3px) scale(1.05) skew(6deg); text-shadow: -5px 0 #ff0055, 5px 0 #00e5ff; }
+            60%  { transform: translate(8px, -5px) scale(0.95) skew(-6deg); text-shadow: 7px 0 #ff0055, -7px 0 #00e5ff; }
+            70%  { transform: translate(-2px, 8px) scale(1.06) skew(10deg); text-shadow: -7px 0 #ff0055, 7px 0 #00e5ff; }
+            80%  { transform: translate(6px, -2px) scale(0.94) skew(-10deg); text-shadow: 5px 0 #ff0055, -5px 0 #00e5ff; }
+            90%  { transform: translate(-3px, -3px) scale(1.02) skew(3deg); text-shadow: -3px 0 #ff0055, 3px 0 #00e5ff; }
+            100% { transform: translate(0, 0) scale(1) skew(0deg); text-shadow: none; filter: none; }
         }
 
         .glitch-active {
             animation: digitalGlitchDistort 0.25s ease-out;
+        }
+
+        .dead-pixel-canvas {
+            position: fixed;
+            inset: 0;
+            width: 100vw;
+            height: 100vh;
+            pointer-events: none;
+            z-index: 999;
         }
 
         /* --- DIGITAL ALARM CLOCK --- */

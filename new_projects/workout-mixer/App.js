@@ -531,18 +531,8 @@ function App() {
     const [loading, setLoading] = useState(true);
     const [error, setError] = useState(null);
 
-    // Marquee speed in seconds
-    const [marqueeSpeed, setMarqueeSpeed] = useState(38);
-
-    const handleSpeedFaster = (e) => {
-        if (e) e.stopPropagation();
-        setMarqueeSpeed(prev => Math.max(10, prev - 5));
-    };
-
-    const handleSpeedSlower = (e) => {
-        if (e) e.stopPropagation();
-        setMarqueeSpeed(prev => Math.min(90, prev + 5));
-    };
+    // Marquee speed fixed to slowest 90s setting
+    const [marqueeSpeed] = useState(90);
 
     const [favoriteGroups, setFavoriteGroups] = useState(() => {
         try {
@@ -807,31 +797,6 @@ function App() {
                             </span>
                         ))}
                     </div>
-                </div>
-
-                {/* Marquee Speed Controls on Right Side */}
-                <div className="flex items-center gap-1 shrink-0 ml-3 pl-2.5 border-l border-white/25">
-                    <span className="text-[9px] font-black uppercase tracking-wider text-white/80 hidden sm:inline mr-1 select-none">
-                        Speed
-                    </span>
-                    <button
-                        type="button"
-                        onClick={handleSpeedSlower}
-                        title="Slower speed"
-                        aria-label="Slower marquee speed"
-                        className="w-6 h-6 rounded-md bg-white/15 hover:bg-white/30 text-white font-black text-sm flex items-center justify-center transition active:scale-95 leading-none select-none"
-                    >
-                        -
-                    </button>
-                    <button
-                        type="button"
-                        onClick={handleSpeedFaster}
-                        title="Faster speed"
-                        aria-label="Faster marquee speed"
-                        className="w-6 h-6 rounded-md bg-white/15 hover:bg-white/30 text-white font-black text-sm flex items-center justify-center transition active:scale-95 leading-none select-none"
-                    >
-                        +
-                    </button>
                 </div>
             </header>
 

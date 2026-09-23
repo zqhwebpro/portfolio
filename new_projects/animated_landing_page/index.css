@@ -221,6 +221,24 @@ body.solar-lit-active .form-input-3d {
     margin-bottom: 1.5rem;
 }
 
+@keyframes floatSpaceSlow {
+    0%, 100% {
+        transform: translateY(0px) rotate(0deg);
+    }
+    50% {
+        transform: translateY(-16px) rotate(1.2deg);
+    }
+}
+
+@keyframes floatSpaceMedium {
+    0%, 100% {
+        transform: translateY(0px) rotate(0deg);
+    }
+    50% {
+        transform: translateY(-22px) rotate(-1.8deg);
+    }
+}
+
 .glass-card-3d {
     background: var(--glass-surface);
     backdrop-filter: blur(14px);
@@ -229,6 +247,11 @@ body.solar-lit-active .form-input-3d {
     border-radius: 24px;
     box-shadow: 0 15px 35px rgba(0, 0, 0, 0.35);
     will-change: transform;
+    animation: floatSpaceSlow 8s ease-in-out infinite;
+}
+
+.graphic-art-container {
+    animation: floatSpaceMedium 7s ease-in-out infinite;
 }
 
 /* HERO SECTION */

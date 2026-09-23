@@ -22,8 +22,13 @@ function App() {
   const [activeStage, setActiveStage] = useState(1);
   const [hoveredSign, setHoveredSign] = useState(null);
 
+  // Generate a random initial seed on page load for reload-randomized divination
+  const reloadSeedRef = useRef(Math.random());
+  const initialRandomIdx = React.useMemo(() => Math.floor(Math.random() * 12), []);
+  const initialRandomSign = ZODIAC_SIGNS[initialRandomIdx];
+
   // Divination state containers
-  const [horoscopeGoal, setHoroscopeGoal] = useState(() => getRandomGoal(ZODIAC_SIGNS[0]));
+  const [horoscopeGoal, setHoroscopeGoal] = useState(() => getRandomGoal(initialRandomSign));
 
   const [manualAspects, setManualAspects] = useState(false);
   const [isGrimoireOpen, setIsGrimoireOpen] = useState(false);
@@ -53,6 +58,11 @@ function App() {
     videoRef
   } = useHandTracking({ isLocked: isSignLocked });
 
+  // Set initial random rotation on page mount
+  useEffect(() => {
+    setRotation(-initialRandomIdx * 30);
+  }, [initialRandomIdx, setRotation]);
+
   const showAspects = activeSpell === 'HORNS' || manualAspects;
 
   const isSignLockedRef = useRef(isSignLocked);
@@ -81,9 +91,15 @@ function App() {
     }
   }, [rotation]);
 
-  // Derive Tarot card and Runes spread directly from the active zodiac sign
+  // Derive Tarot card and Runes spread directly from the active zodiac sign with reload randomization
   const tarotCard = React.useMemo(() => {
-    return getZodiacTarot(activeSign?.id);
+    const baseCard = getZodiacTarot(activeSign?.id);
+    // On page reload, allow variation across the Major Arcana cards
+    const allCards = Object.values(ZODIAC_SIGNS).map(s => getZodiacTarot(s.id));
+    const randomOffset = Math.floor(reloadSeedRef.current * 12);
+    const signIdx = ZODIAC_SIGNS.findIndex(s => s.id === activeSign?.id);
+    const variedCard = allCards[(signIdx + randomOffset) % 12] || baseCard;
+    return reloadSeedRef.current > 0.5 ? baseCard : variedCard;
   }, [activeSign?.id]);
 
   const runeData = React.useMemo(() => {

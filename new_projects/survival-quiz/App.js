@@ -2515,6 +2515,48 @@ function App() {
     const [isSmileyHovered, setIsSmileyHovered] = useState(false);
     const glitchTimeoutRef = useRef(null);
 
+    const deadPixelCanvasRef = useRef(null);
+    const deadPixelsRef = useRef([]);
+
+    // Manage Pseudo Dead Pixels Canvas rendering based on faceIndex
+    useEffect(() => {
+        const canvas = deadPixelCanvasRef.current;
+        if (!canvas) return;
+        const ctx = canvas.getContext('2d');
+
+        const width = window.innerWidth;
+        const height = window.innerHeight;
+        canvas.width = width;
+        canvas.height = height;
+
+        if (faceIndex === 0) {
+            // Original Face: clear all dead pixels
+            deadPixelsRef.current = [];
+            ctx.clearRect(0, 0, width, height);
+            return;
+        }
+
+        // Add a batch of new pseudo dead pixels for each face click stage
+        const newPixelsCount = 45;
+        const colors = ['#000000', '#ff0055', '#00e5ff', '#33ff66', '#ffffff', '#ffaa00'];
+
+        for (let i = 0; i < newPixelsCount; i++) {
+            deadPixelsRef.current.push({
+                x: Math.floor(Math.random() * width),
+                y: Math.floor(Math.random() * height),
+                size: Math.random() < 0.7 ? 2 : 4,
+                color: colors[Math.floor(Math.random() * colors.length)]
+            });
+        }
+
+        // Draw all accumulated dead pixels
+        ctx.clearRect(0, 0, width, height);
+        deadPixelsRef.current.forEach(pixel => {
+            ctx.fillStyle = pixel.color;
+            ctx.fillRect(pixel.x, pixel.y, pixel.size, pixel.size);
+        });
+    }, [faceIndex]);
+
     // Quiz State (Default 5 facts)
     const [quizQuestions, setQuizQuestions] = useState([]);
     const [userAnswers, setUserAnswers] = useState({});
@@ -2706,6 +2748,8 @@ function App() {
             className={`crt-screen ${isGlitching ? 'glitch-active' : ''}`}
             style={{}}
         >
+            <canvas ref={deadPixelCanvasRef} className="dead-pixel-canvas" />
+
             {/* RETRO TOP BAR */}
             <header className="term-header">
                 <div style={{ display: 'flex', alignItems: 'center', gap: 10 }}>
