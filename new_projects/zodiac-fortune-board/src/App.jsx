@@ -44,6 +44,7 @@ function App() {
     rotation,
     setRotation,
     activeSpell,
+    handCoordinates,
     rawLandmarks,
     cameraError,
     startCamera,
