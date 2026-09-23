@@ -221,21 +221,12 @@ body.solar-lit-active .form-input-3d {
     margin-bottom: 1.5rem;
 }
 
-@keyframes floatSpaceSlow {
+@keyframes floatSpaceSubtle {
     0%, 100% {
         transform: translateY(0px) rotate(0deg);
     }
     50% {
-        transform: translateY(-16px) rotate(1.2deg);
-    }
-}
-
-@keyframes floatSpaceMedium {
-    0%, 100% {
-        transform: translateY(0px) rotate(0deg);
-    }
-    50% {
-        transform: translateY(-22px) rotate(-1.8deg);
+        transform: translateY(-6px) rotate(0.4deg);
     }
 }
 
@@ -247,11 +238,11 @@ body.solar-lit-active .form-input-3d {
     border-radius: 24px;
     box-shadow: 0 15px 35px rgba(0, 0, 0, 0.35);
     will-change: transform;
-    animation: floatSpaceSlow 8s ease-in-out infinite;
+    animation: floatSpaceSubtle 14s ease-in-out infinite;
 }
 
 .graphic-art-container {
-    animation: floatSpaceMedium 7s ease-in-out infinite;
+    animation: floatSpaceSubtle 16s ease-in-out infinite;
 }
 
 /* HERO SECTION */
@@ -284,11 +275,35 @@ body.solar-lit-active .form-input-3d {
     overflow: hidden;
 }
 
+/* ORGANIC MOVING AREAS OF LIGHT */
+@keyframes lightGlowShift1 {
+    0%, 100% {
+        transform: translate(0, 0) scale(1);
+        opacity: 0.3;
+    }
+    50% {
+        transform: translate(45px, 30px) scale(1.18);
+        opacity: 0.45;
+    }
+}
+
+@keyframes lightGlowShift2 {
+    0%, 100% {
+        transform: translate(0, 0) scale(1);
+        opacity: 0.32;
+    }
+    50% {
+        transform: translate(-50px, -35px) scale(1.22);
+        opacity: 0.48;
+    }
+}
+
 .nebula-swirl {
     position: absolute;
     border-radius: 50%;
     filter: blur(40px);
     opacity: 0.3;
+    will-change: transform, opacity;
 }
 
 .nebula-1 {
@@ -297,6 +312,7 @@ body.solar-lit-active .form-input-3d {
     width: 500px;
     height: 500px;
     background: radial-gradient(circle, rgba(138, 43, 226, 0.5) 0%, rgba(224, 36, 195, 0.15) 60%, transparent 100%);
+    animation: lightGlowShift1 18s ease-in-out infinite alternate;
 }
 
 .nebula-2 {
@@ -305,6 +321,7 @@ body.solar-lit-active .form-input-3d {
     width: 550px;
     height: 550px;
     background: radial-gradient(circle, rgba(0, 240, 255, 0.35) 0%, rgba(138, 43, 226, 0.15) 55%, transparent 100%);
+    animation: lightGlowShift2 22s ease-in-out infinite alternate;
 }
 
 .solar-system-planet-wrapper {

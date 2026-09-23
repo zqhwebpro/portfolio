@@ -130,8 +130,8 @@ export function AstrologyBoard({
     },
     { 
       id: 'fist', 
-      gesture: isSignLocked ? '✊ Fist (Locked)' : '✊ Fist', 
-      desc: isSignLocked ? 'Hold 3s to unlock' : 'Hold 3s to lock sign',
+      gesture: isSignLocked ? '✊ Fist (Chosen)' : '✊ Fist', 
+      desc: isSignLocked ? 'Hold 3s to unchoose' : 'Hold 3s to choose sign',
       isFistAction: true
     },
     { id: 2, gesture: '✌️ Peace', desc: 'Summary horoscope' },
@@ -186,7 +186,7 @@ export function AstrologyBoard({
                 onPointerCancel={() => {
                   if (isFist && onEndFistHold) onEndFistHold();
                 }}
-                title={isPoint && isSignLocked ? "Sign is locked. Hold ✊ Fist 3s to unlock." : stg.desc}
+                title={isPoint && isSignLocked ? "Sign is chosen. Hold ✊ Fist 3s to unchoose." : stg.desc}
               >
                 {isFist && isFistHeld && fistHoldProgress > 0 && (
                   <div 
@@ -199,7 +199,7 @@ export function AstrologyBoard({
                   <span className="nav-stage-gesture">{stg.gesture}</span>
                   <span className="nav-stage-desc">
                     {isFist && isFistHeld && fistHoldProgress > 0
-                      ? `${isSignLocked ? 'Unlocking' : 'Locking'}... ${(3 - fistHoldProgress * 3).toFixed(1)}s`
+                      ? `${isSignLocked ? 'Unchoosing' : 'Choosing'}... ${(3 - fistHoldProgress * 3).toFixed(1)}s`
                       : stg.desc}
                   </span>
                 </div>
@@ -290,7 +290,7 @@ export function AstrologyBoard({
                     e.stopPropagation();
                     if (onSelectSign) onSelectSign(sign);
                   }}
-                  title={`${sign.name} (${sign.dates}) ${isSelected ? '— Selected & Locked (Click to Unlock)' : isAtZenith ? '— Aligned at Zenith (On Board)' : '— Click to Select'}`}
+                  title={`${sign.name} (${sign.dates}) ${isSelected ? '— Chosen (Click to Unchoose)' : isAtZenith ? '— Aligned at Zenith (On Board)' : '— Click to Choose'}`}
                 >
                   <span 
                     className="node-symbol"
@@ -358,7 +358,7 @@ export function AstrologyBoard({
                 <div className="fist-hold-inner-icon">✊</div>
               </div>
               <div className="fist-hold-action-title">
-                {isSignLocked ? 'Unlocking Zodiac' : `Locking ${zenithSign.name}`}
+                {isSignLocked ? 'Unchoosing Zodiac' : `Choosing ${zenithSign.name}`}
               </div>
               <div className="fist-hold-countdown">
                 {Math.max(0.1, (3 - fistHoldProgress * 3)).toFixed(1)}s

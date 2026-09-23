@@ -151,9 +151,13 @@ function App() {
             const maxScroll = Math.max(1, docH - winH);
             const progress = Math.min(Math.max(current / maxScroll, 0), 1);
 
-            // Mutate transforms directly to prevent React rendering cycle thrashing
+            // Mutate transforms directly for organic performance without React rendering thrashing
             if (planetWrapperRef.current) {
-                planetWrapperRef.current.style.transform = `scale(${1 + progress * 0.6}) translate3d(0, ${current * 0.15}px, 0)`;
+                const now = performance.now();
+                const moonFloatY = Math.sin(now * 0.0006) * 14;
+                const moonFloatX = Math.cos(now * 0.0004) * 12;
+                const moonRot = Math.sin(now * 0.0003) * 4;
+                planetWrapperRef.current.style.transform = `scale(${1 + progress * 0.4}) translate3d(${moonFloatX}px, ${current * 0.12 + moonFloatY}px, 0) rotate(${moonRot}deg)`;
             }
 
             if (giantSunRef.current) {
@@ -169,7 +173,7 @@ function App() {
             }
 
             if (heroCardRef.current) {
-                heroCardRef.current.style.transform = `rotateY(${mouseRef.current.x * 0.08}deg) rotateX(${-mouseRef.current.y * 0.08}deg)`;
+                heroCardRef.current.style.transform = `rotateY(${mouseRef.current.x * 0.02}deg) rotateX(${-mouseRef.current.y * 0.02}deg)`;
             }
 
             const shouldBeLight = progress > 0.82;
@@ -280,11 +284,15 @@ function App() {
                     const twinkle = (Math.sin(time * star.pulseSpeed + star.phase) + 1) * 0.5;
                     const currentAlpha = (star.baseAlpha + twinkle * (1 - star.baseAlpha)) * maxOpacity;
 
+                    // Subtle organic star drift movement
+                    const starDriftX = Math.sin(time * 0.0012 + star.phase) * 6;
+                    const starDriftY = Math.cos(time * 0.0010 + star.phase) * 6;
+
                     ctx.fillStyle = starFillColor;
                     ctx.globalAlpha = Math.min(1, Math.max(0, currentAlpha));
 
                     ctx.beginPath();
-                    ctx.arc(star.x, wrappedY, star.size / 2, 0, Math.PI * 2, false);
+                    ctx.arc(star.x + starDriftX, wrappedY + starDriftY, star.size / 2, 0, Math.PI * 2, false);
                     ctx.fill();
                 });
 

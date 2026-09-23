@@ -2536,23 +2536,22 @@ function App() {
             return;
         }
 
-        // Add a batch of new pseudo dead pixels for each face click stage
-        const newPixelsCount = 45;
-        const colors = ['#000000', '#ff0055', '#00e5ff', '#33ff66', '#ffffff', '#ffaa00'];
+        // Add a batch of new pseudo dead pixels for each face click stage (larger & solid black)
+        const newPixelsCount = 55;
 
         for (let i = 0; i < newPixelsCount; i++) {
             deadPixelsRef.current.push({
                 x: Math.floor(Math.random() * width),
                 y: Math.floor(Math.random() * height),
-                size: Math.random() < 0.7 ? 2 : 4,
-                color: colors[Math.floor(Math.random() * colors.length)]
+                size: Math.floor(Math.random() * 8) + 6, // 6px to 14px larger dead pixels
+                color: '#000000'
             });
         }
 
-        // Draw all accumulated dead pixels
+        // Draw all accumulated solid black dead pixels
         ctx.clearRect(0, 0, width, height);
         deadPixelsRef.current.forEach(pixel => {
-            ctx.fillStyle = pixel.color;
+            ctx.fillStyle = '#000000';
             ctx.fillRect(pixel.x, pixel.y, pixel.size, pixel.size);
         });
     }, [faceIndex]);

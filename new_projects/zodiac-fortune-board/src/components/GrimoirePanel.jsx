@@ -21,8 +21,8 @@ export function GrimoirePanel({ isOpen, onClose }) {
                 <h3>Stage 1: Select Sign on Board</h3>
                 <span className="spell-gesture">Gesture: Clenched Fist (✊)</span>
                 <p>
-                  Clench your hand into a fist to select and lock the star sign on the board.
-                  Once locked, pointing will no longer change the sign, securing your celestial focus.
+                  Clench your hand into a fist to select and choose the star sign on the board.
+                  Once chosen, pointing will no longer change the sign, securing your celestial focus.
                   (You can aim with ☝️ Point or click directly on any constellation node).
                 </p>
               </div>

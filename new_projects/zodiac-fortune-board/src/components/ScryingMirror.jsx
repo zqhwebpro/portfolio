@@ -89,13 +89,13 @@ export function ScryingMirror({
         if (fistHoldProgress > 0) {
           const remainingSecs = Math.max(0.1, (3 - fistHoldProgress * 3)).toFixed(1);
           return {
-            label: isSignLocked ? `✊ Unlocking (${remainingSecs}s)` : `✊ Locking (${remainingSecs}s)`,
-            desc: isSignLocked ? 'Hold 3s to unlock and spin' : 'Hold 3s to lock zodiac'
+            label: isSignLocked ? `✊ Unchoosing (${remainingSecs}s)` : `✊ Choosing (${remainingSecs}s)`,
+            desc: isSignLocked ? 'Hold 3s to unchoose and spin' : 'Hold 3s to choose zodiac'
           };
         }
         return { 
-          label: isSignLocked ? 'Clenched Fist (✊ Locked)' : 'Clenched Fist (✊)', 
-          desc: isSignLocked ? 'Hold 3s to unlock zodiac' : 'Hold 3s to lock zodiac' 
+          label: isSignLocked ? 'Clenched Fist (✊ Chosen)' : 'Clenched Fist (✊)', 
+          desc: isSignLocked ? 'Hold 3s to unchoose zodiac' : 'Hold 3s to choose zodiac' 
         };
       case 'POINTING':
         return { label: 'Celestial Wand (☝️)', desc: 'Aim and rotate wheel' };

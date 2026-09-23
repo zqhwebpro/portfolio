@@ -8,6 +8,7 @@
     <meta name="description" content="Piece-square table AI evaluation engine and live win-probability delta calculator built in Vanilla JS with interactive board analysis." />
     <meta name="keywords" content="Chess Engine, Chess PyCalc, Piece Square Tables, Win Probability Delta, Game Theory, AI Heuristics, Vanilla JS, Zach Heindel" />
     <meta name="author" content="Zach Heindel" />
+    <link rel="icon" href="./favicon.png" type="image/png" />
 
     <!-- Open Graph / Social SEO -->
     <meta property="og:type" content="website" />
@@ -665,29 +666,27 @@
                 </div>
             </div>
 
-            <!-- Top Bar Actions (Order: Case Study, New Game, Undo, Free Mode) -->
+            <!-- Top Bar Actions (Order: New Game, Atlas, Undo, Reset) -->
             <div class="flex items-center gap-2">
-                <!-- CASE STUDY BUTTON — commented out until ready to review
-                <a href="./case-study.html" class="btn-header" title="View Project Case Study"
-                    style="text-decoration: none;">
-                    <i class="fa-solid fa-book-open text-salon-gold"></i>
-                    <span class="inline">Case Study</span>
-                </a>
-                END CASE STUDY BUTTON -->
-
                 <!-- 1. New Game Button -->
                 <button onclick="resetMatch()" class="btn-header" title="Reset match">
                     <i class="fa-solid fa-rotate-right text-salon-gold"></i>
                     <span class="hidden sm:inline">New Game</span>
                 </button>
 
-                <!-- 2. Undo Button -->
+                <!-- 2. Atlas Button (Right of New Game) -->
+                <button onclick="openAtlasModal()" class="btn-header" title="Open Concept & Rules Atlas">
+                    <i class="fa-solid fa-book text-salon-gold"></i>
+                    <span class="hidden sm:inline">Atlas</span>
+                </button>
+
+                <!-- 3. Undo Button -->
                 <button onclick="undoMove()" class="btn-header" title="Undo move (Z)">
                     <i class="fa-solid fa-arrow-rotate-left text-salon-gold"></i>
                     <span class="hidden md:inline">Undo</span>
                 </button>
 
-                <!-- 3. Reset Button -->
+                <!-- 4. Reset Button -->
                 <button onclick="resetMatch()" class="btn-header" style="background-color: #383F45; border-color: #5C636A;"
                     title="Reset the Board">
                     <i class="fa-solid fa-rotate-right text-salon-gold"></i>
@@ -768,9 +767,6 @@
                     <button onclick="flipBoardOrientation()" class="btn-header py-1 px-2.5 text-[11px]"
                         title="Flip Board">
                         Flip Board
-                    </button>
-                    <button onclick="openAtlasModal()" class="btn-header py-1 px-2.5 text-[11px]" title="Atlas">
-                        Atlas
                     </button>
                     <button id="partyModeBtn" onclick="togglePartyMode()" class="btn-header py-1 px-2.5 text-[11px]"
                         title="Party Mode: Randomizes move sets for all piece types!">
