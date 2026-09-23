@@ -11,6 +11,7 @@ import {
 } from './data/fortunes';
 import { useHandTracking } from './hooks/useHandTracking';
 import { mysticAudio } from './utils/mysticAudio';
+import velvetBg from './assets/velvet-bg.jpg';
 import './styles/astral.css';
 
 function App() {
@@ -329,7 +330,12 @@ function App() {
 
   return (
     <div className="universe-container">
-      <div className="universe-bg"></div>
+      <div 
+        className="universe-bg"
+        style={{
+          backgroundImage: `radial-gradient(ellipse at center, rgba(16, 2, 6, 0.15) 0%, rgba(10, 1, 4, 0.55) 55%, rgba(4, 0, 1, 0.94) 100%), linear-gradient(135deg, rgba(30, 2, 8, 0.4) 0%, transparent 50%, rgba(10, 1, 4, 0.6) 100%), url(${velvetBg})`
+        }}
+      ></div>
       <div className="celestial-body"></div>
       <SparkleCanvas 
         handCoordinates={handCoordinates} 
