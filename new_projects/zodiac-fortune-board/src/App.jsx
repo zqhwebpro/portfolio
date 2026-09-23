@@ -333,7 +333,7 @@ function App() {
       <div 
         className="universe-bg"
         style={{
-          backgroundImage: `radial-gradient(ellipse at center, rgba(16, 2, 6, 0.15) 0%, rgba(10, 1, 4, 0.55) 55%, rgba(4, 0, 1, 0.94) 100%), linear-gradient(135deg, rgba(30, 2, 8, 0.4) 0%, transparent 50%, rgba(10, 1, 4, 0.6) 100%), url(${velvetBg})`
+          backgroundImage: `radial-gradient(ellipse at center, rgba(40, 5, 12, 0.05) 0%, rgba(20, 2, 6, 0.3) 65%, rgba(8, 1, 3, 0.65) 100%), url(${velvetBg})`
         }}
       ></div>
       <div className="celestial-body"></div>

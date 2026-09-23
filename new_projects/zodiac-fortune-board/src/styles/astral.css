@@ -27,7 +27,7 @@ body, html {
   height: 100%;
   width: 100%;
   overflow: hidden;
-  background: var(--cosmic-void);
+  background: #1a0208;
   font-family: 'Philosopher', 'Cormorant Garamond', 'MedievalSharp', serif;
   color: var(--gold-base);
   user-select: none;
@@ -43,10 +43,9 @@ body, html {
 .universe-bg {
   position: fixed;
   inset: 0;
-  background: 
-    /* Vignette overlay shading edges with warm central radiance */
-    radial-gradient(ellipse at center, rgba(16, 2, 6, 0.15) 0%, rgba(10, 1, 4, 0.55) 55%, rgba(4, 0, 1, 0.94) 100%),
-    linear-gradient(135deg, rgba(30, 2, 8, 0.4) 0%, transparent 50%, rgba(10, 1, 4, 0.6) 100%),
+  background-color: #4a0817;
+  background-image: 
+    radial-gradient(ellipse at center, rgba(30, 4, 10, 0.05) 0%, rgba(15, 2, 5, 0.35) 65%, rgba(6, 1, 2, 0.75) 100%),
     url('../assets/velvet-bg.jpg');
   background-size: cover;
   background-position: center;
