@@ -52,35 +52,10 @@ export function SynthwaveDrive() {
         // Scroll DOWN = Drive Forward
         directionRef.current = 1;
         speedRef.current = Math.min(280, speedRef.current + impulse);
-        driveDistanceRef.current += 0.45;
       } else if (e.deltaY < 0) {
         // Scroll UP = Drive Reverse
         directionRef.current = -1;
         speedRef.current = Math.min(280, speedRef.current + impulse);
-        driveDistanceRef.current -= 0.45;
-      }
-
-      const currentDist = Math.abs(driveDistanceRef.current);
-
-      // Trigger new affirmation popup far down the road horizon when reaching distance milestones
-      if (currentDist >= nextMilestoneDistRef.current) {
-        milestoneCountRef.current += 1;
-        const randomAff = AFFIRMATIONS[Math.floor(Math.random() * AFFIRMATIONS.length)];
-        const randomPos = HORIZONTAL_POSITIONS[Math.floor(Math.random() * HORIZONTAL_POSITIONS.length)];
-
-        const newPopup = {
-          id: Date.now() + Math.random(),
-          text: randomAff,
-          number: milestoneCountRef.current,
-          leftPos: randomPos,
-          startDist: currentDist,
-          targetDist: currentDist + 24
-        };
-
-        setPopups((prev) => [...prev, newPopup]);
-
-        const nextGap = Math.floor(Math.random() * 20) + 30;
-        nextMilestoneDistRef.current = currentDist + nextGap;
       }
     };
 
@@ -100,8 +75,8 @@ export function SynthwaveDrive() {
   useEffect(() => {
     setPopups((prev) =>
       prev.filter((p) => {
-        const progress = (driveDistance - p.startDist) / (p.targetDist - p.startDist);
-        return progress <= 1.08;
+        const progress = (driveDistance - p.startDist) / 18;
+        return progress <= 1.05;
       })
     );
   }, [driveDistance]);
@@ -133,6 +108,31 @@ export function SynthwaveDrive() {
       if (speedRef.current > 0) {
         const baseVel = speedRef.current * 0.14 * directionRef.current;
         offsetRef.current = (offsetRef.current + baseVel + 40) % 40;
+        driveDistanceRef.current += (baseVel / 40);
+      }
+
+      const currentDist = Math.abs(driveDistanceRef.current);
+
+      // Trigger new affirmation popup far down the road horizon when reaching distance milestones
+      if (currentDist >= nextMilestoneDistRef.current) {
+        milestoneCountRef.current += 1;
+        const randomAff = AFFIRMATIONS[Math.floor(Math.random() * AFFIRMATIONS.length)];
+
+        // Snap startDist to the next integer so it perfectly rides a blue grid line!
+        const startDist = Math.ceil(currentDist);
+
+        const newPopup = {
+          id: Date.now() + Math.random(),
+          text: randomAff,
+          number: milestoneCountRef.current,
+          startDist: startDist,
+          targetDist: startDist + 18 // exactly 18 grid squares to match numH
+        };
+
+        setPopups((prev) => [...prev, newPopup]);
+
+        const nextGap = Math.floor(Math.random() * 15) + 20;
+        nextMilestoneDistRef.current = startDist + nextGap;
       }
 
       // 1. Deep Space Night Sky Gradient (Clean)
@@ -255,8 +255,7 @@ export function SynthwaveDrive() {
 
       {/* POP-UPS TRAVELING DOWNWARD ALONG THE ROAD FLOOR PLANE */}
       {popups.map((popup) => {
-        const totalDist = popup.targetDist - popup.startDist;
-        const rawProgress = (driveDistance - popup.startDist) / totalDist;
+        const rawProgress = (driveDistance - popup.startDist) / 18;
         const p = Math.max(0, Math.min(1, rawProgress));
 
         // 3D Road Sign Perspective Calculations: Starts at vanishing point (55%), moves down the screen
