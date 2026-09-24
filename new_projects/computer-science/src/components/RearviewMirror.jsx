@@ -29,8 +29,8 @@ export function RearviewMirror({ speedMph }) {
       ctx.fillStyle = skyGrad;
       ctx.fillRect(0, 0, width, height);
 
-      // Distant Rear Mountain Silhouettes (Elevated detail)
-      ctx.fillStyle = '#1c083d';
+      // Distant Rear Mountain Silhouettes (Darker Silhouette)
+      ctx.fillStyle = '#06010d';
       ctx.beginPath();
       ctx.moveTo(0, horizonY);
       ctx.lineTo(width * 0.12, horizonY - 24);
@@ -43,7 +43,7 @@ export function RearviewMirror({ speedMph }) {
       ctx.fill();
 
       // Rear 3D Grid Floor
-      ctx.fillStyle = '#05010b';
+      ctx.fillStyle = '#030007';
       ctx.fillRect(0, horizonY, width, height - horizonY);
 
       // Horizontal lines receding backward
@@ -95,7 +95,7 @@ export function RearviewMirror({ speedMph }) {
     <div
       style={{
         position: 'absolute',
-        top: '0.75rem',
+        top: 0,
         left: '50%',
         transform: 'translateX(-50%)',
         zIndex: 30,
@@ -105,23 +105,16 @@ export function RearviewMirror({ speedMph }) {
         pointerEvents: 'none',
       }}
     >
-      {/* Cyber Mounting Stem */}
-      <div style={{
-        width: '6px',
-        height: '18px',
-        background: 'linear-gradient(to bottom, #00F0FF, rgba(0, 240, 255, 0.3))',
-        boxShadow: '0 0 10px #00F0FF'
-      }} />
-
-      {/* Larger Glass Rearview Mirror Housing */}
+      {/* Larger Glass Rearview Mirror Housing Flush at Very Top */}
       <div style={{
         width: 'clamp(320px, 45vw, 440px)',
-        height: '110px',
-        background: 'rgba(8, 2, 20, 0.88)',
+        height: '98px',
+        background: 'rgba(5, 1, 14, 0.92)',
         backdropFilter: 'blur(14px)',
         border: '1.8px solid rgba(0, 240, 255, 0.75)',
-        borderRadius: '20px 20px 40px 40px',
-        boxShadow: '0 0 35px rgba(0, 240, 255, 0.45), inset 0 0 20px rgba(0, 240, 255, 0.2)',
+        borderTop: 'none',
+        borderRadius: '0 0 36px 36px',
+        boxShadow: '0 4px 35px rgba(0, 240, 255, 0.45), inset 0 0 20px rgba(0, 240, 255, 0.2)',
         overflow: 'hidden',
         position: 'relative',
       }}>

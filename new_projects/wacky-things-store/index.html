@@ -895,27 +895,17 @@
           class="bg-canvas-base text-earth-950 py-8 flex-1 w-full hidden">
         <div class="store-fluid-container space-y-6">
             
-            <!-- Clean Blog Header & Filter Bar (No Big Purple Box) -->
-            <div class="bg-white border border-canvas-border rounded-2xl p-5 flex items-center justify-between flex-wrap gap-4 shadow-xs"
+            <!-- Clean Blog Category Filter Bar (Only Filters) -->
+            <div class="bg-white border border-canvas-border rounded-2xl p-4 flex items-center justify-center flex-wrap gap-2.5 shadow-xs"
                  data-blueprint-file="WackyStore.WebUI/Models/BlogListViewModel.cs"
                  data-blueprint-role="Blog Query Filter Bar"
                  data-blueprint-layer="WebUI / ViewModel"
-                 data-blueprint-dom="Clean header bar with category filter pills and total article counter."
+                 data-blueprint-dom="Clean filter header bar containing category filter pills."
                  data-blueprint-desc="BlogListViewModel encapsulates Article list, CurrentCategory, and PagingInfo."
                  data-blueprint-code="public class BlogListViewModel { public IEnumerable<BlogPost> Articles { get; set; } }">
                 
-                <div>
-                    <div class="flex items-center gap-2">
-                        <span class="h-2 w-2 rounded-full bg-honey-600 inline-block animate-pulse"></span>
-                        <span class="text-[11px] font-mono text-earth-500 uppercase tracking-wider font-semibold">The Mischief Gazette</span>
-                    </div>
-                    <h2 class="font-heading font-black text-2xl sm:text-3xl text-earth-950 tracking-tight mt-0.5">
-                        Wacky Chronicles &amp; Field Notes
-                    </h2>
-                </div>
-
                 <!-- Blog Category Filter Buttons -->
-                <div class="flex flex-wrap items-center gap-2 text-xs">
+                <div class="flex flex-wrap items-center justify-center gap-2 text-xs">
                     <button onclick="window.filterBlogCategory('all')" 
                             data-blueprint-file="WackyStore.Domain/Abstract/IBlogRepository.cs"
                             data-blueprint-role="Linq Category Filter Action"
@@ -2614,6 +2604,25 @@
                         "It's ideal for dry hiking! Carry 10 cans without any weight penalty!"
                     </blockquote>
                 `
+            },
+            {
+                id: 'left-handed-mug',
+                title: 'The Ergonomics of the Left-Handed Coffee Mug: Fluid Dynamics & Ceramics',
+                category: 'Quantum Gastronomy',
+                author: 'Dr. Barnaby Siphon',
+                authorRole: 'Chief Hydro-Dynamist',
+                date: 'October 14, 2026',
+                readTime: '5 min read',
+                image: 'https://images.unsplash.com/photo-1514432324607-a09d9b4aefdd?auto=format&fit=crop&w=600&q=80',
+                excerpt: 'Standard mugs spill when tilted south-southwest by left-handed coffee drinkers. Our team engineered a dual-channel ceramic lip that prevents liquid turbulence.',
+                content: `
+                    <p class="text-base font-semibold text-earth-800 leading-relaxed">For centuries, left-handed coffee enthusiasts suffered from subtle liquid spills caused by asymmetric right-handed mug rim curves. In this paper, we explore the fluid mechanics of our patent-pending double-handled ergonomic mug.</p>
+                    <h3 class="font-heading font-black text-xl text-earth-950 pt-2">Hydrodynamic Spill Prevention</h3>
+                    <p>By analyzing the angular velocity of a morning coffee sip, Dr. Siphon discovered that left-handed tilt angles generate counter-clockwise vortex eddies. Our internal micro-ridge rim counteracts this swirl completely!</p>
+                    <blockquote class="p-4 rounded-2xl bg-honey-50 border-l-4 border-honey-500 italic text-earth-900 font-serif my-4">
+                        "Finally, a mug that respects the laws of fluid dynamics regardless of which hand holds it!"
+                    </blockquote>
+                `
             }
         ];
 
@@ -2628,24 +2637,24 @@
             const toggleBadge = document.getElementById('wacky-corner-toggle');
 
             if (window.currentView === 'store') {
-                // SPORADIC FALL STORE CARDS -> REVEAL BLOG
-                const storeCards = Array.from(document.querySelectorAll('#product-grid > div, aside'));
-                storeCards.forEach((card, idx) => {
-                    const tiltStart = (Math.random() - 0.5) * 14;
-                    const tiltEnd = (Math.random() - 0.5) * 40;
-                    card.style.setProperty('--fall-tilt', `${tiltStart}deg`);
-                    card.style.setProperty('--fall-tilt-end', `${tiltEnd}deg`);
-                    card.style.animationDelay = `${(idx % 8) * 0.04 + Math.random() * 0.05}s`;
-                    card.style.animationDuration = `${0.45 + (idx % 3) * 0.08}s`;
-                    card.classList.add('animate-fall-sporadic');
+                // SPORADIC FALL ALL STORE ELEMENTS -> REVEAL BLOG
+                const storeElements = Array.from(document.querySelectorAll('#store-main-view header, #store-main-view section, #store-main-view aside, #product-grid > div, #store-main-view .store-fluid-container > *'));
+                storeElements.forEach((el, idx) => {
+                    const tiltStart = (Math.random() - 0.5) * 16;
+                    const tiltEnd = (Math.random() - 0.5) * 44;
+                    el.style.setProperty('--fall-tilt', `${tiltStart}deg`);
+                    el.style.setProperty('--fall-tilt-end', `${tiltEnd}deg`);
+                    el.style.animationDelay = `${(idx % 10) * 0.04 + Math.random() * 0.05}s`;
+                    el.style.animationDuration = `${0.45 + (idx % 4) * 0.07}s`;
+                    el.classList.add('animate-fall-sporadic');
                 });
 
                 setTimeout(() => {
                     storeMain.classList.add('hidden');
-                    storeCards.forEach(c => {
-                        c.classList.remove('animate-fall-sporadic');
-                        c.style.animationDelay = '';
-                        c.style.animationDuration = '';
+                    storeElements.forEach(el => {
+                        el.classList.remove('animate-fall-sporadic');
+                        el.style.animationDelay = '';
+                        el.style.animationDuration = '';
                     });
                     
                     blogMain.classList.remove('hidden');
@@ -2654,7 +2663,7 @@
 
                     window.currentView = 'blog';
 
-                    if (iconEl) iconEl.className = 'fa-solid fa-store text-lg sm:text-xl text-white mb-0.5 filter drop-shadow-xs';
+                    if (iconEl) iconEl.className = 'fa-solid fa-store text-xs sm:text-sm text-white mb-0.5 filter drop-shadow-xs';
                     if (textEl) textEl.innerText = 'STORE';
                     if (toggleBadge) toggleBadge.title = 'Switch Back to Wacky Shop Store';
 
@@ -2664,24 +2673,24 @@
                 }, 520);
 
             } else {
-                // SPORADIC FALL BLOG CARDS -> REVEAL STORE
-                const blogCards = Array.from(document.querySelectorAll('#blog-posts-grid > article'));
-                blogCards.forEach((card, idx) => {
-                    const tiltStart = (Math.random() - 0.5) * 14;
-                    const tiltEnd = (Math.random() - 0.5) * 40;
-                    card.style.setProperty('--fall-tilt', `${tiltStart}deg`);
-                    card.style.setProperty('--fall-tilt-end', `${tiltEnd}deg`);
-                    card.style.animationDelay = `${idx * 0.045 + Math.random() * 0.05}s`;
-                    card.style.animationDuration = `${0.45 + (idx % 3) * 0.08}s`;
-                    card.classList.add('animate-fall-sporadic');
+                // SPORADIC FALL ALL BLOG ELEMENTS -> REVEAL STORE
+                const blogElements = Array.from(document.querySelectorAll('#blog-main-view .store-fluid-container > div, #blog-posts-grid > article'));
+                blogElements.forEach((el, idx) => {
+                    const tiltStart = (Math.random() - 0.5) * 16;
+                    const tiltEnd = (Math.random() - 0.5) * 44;
+                    el.style.setProperty('--fall-tilt', `${tiltStart}deg`);
+                    el.style.setProperty('--fall-tilt-end', `${tiltEnd}deg`);
+                    el.style.animationDelay = `${(idx % 8) * 0.045 + Math.random() * 0.05}s`;
+                    el.style.animationDuration = `${0.45 + (idx % 4) * 0.07}s`;
+                    el.classList.add('animate-fall-sporadic');
                 });
 
                 setTimeout(() => {
                     blogMain.classList.add('hidden');
-                    blogCards.forEach(c => {
-                        c.classList.remove('animate-fall-sporadic');
-                        c.style.animationDelay = '';
-                        c.style.animationDuration = '';
+                    blogElements.forEach(el => {
+                        el.classList.remove('animate-fall-sporadic');
+                        el.style.animationDelay = '';
+                        el.style.animationDuration = '';
                     });
 
                     storeMain.classList.remove('hidden');
@@ -2689,7 +2698,7 @@
 
                     window.currentView = 'store';
 
-                    if (iconEl) iconEl.className = 'fa-solid fa-newspaper text-lg sm:text-xl text-white mb-0.5 filter drop-shadow-xs';
+                    if (iconEl) iconEl.className = 'fa-solid fa-newspaper text-xs sm:text-sm text-white mb-0.5 filter drop-shadow-xs';
                     if (textEl) textEl.innerText = 'BLOG';
                     if (toggleBadge) toggleBadge.title = 'Switch to Wacky Chronicles Blog';
 
@@ -2880,10 +2889,10 @@
          data-blueprint-dom="Bottom-left corner triangle badge with wavy edge facing the webpage body."
          data-blueprint-desc="Triggers sporadic item gravity drop animation and toggles view between Store Catalog and Wacky Chronicles Blog."
          data-blueprint-code="window.toggleViewStoreBlog();"
-         class="fixed bottom-0 left-0 z-50 group cursor-pointer select-none filter drop-shadow-xl transition-transform duration-300 hover:scale-110 active:scale-95"
+         class="fixed bottom-0 left-0 z-50 group cursor-pointer select-none filter drop-shadow-md transition-transform duration-300 hover:scale-105 active:scale-95"
          title="Switch to Wacky Chronicles Blog">
         
-        <svg width="95" height="95" viewBox="0 0 95 95" fill="none" xmlns="http://www.w3.org/2000/svg" class="block w-[85px] h-[85px] sm:w-[95px] sm:h-[95px]">
+        <svg width="70" height="70" viewBox="0 0 95 95" fill="none" xmlns="http://www.w3.org/2000/svg" class="block w-[58px] h-[58px] sm:w-[68px] sm:h-[68px]">
             <!-- Wavy Corner Triangle Background Path: Left & Bottom are flush with corner, top-right edge is wavy -->
             <path id="wavyTrianglePath"
                   d="M 0 95 L 0 0 C 12 10 22 17 31 12 C 40 7 48 16 58 26 C 67 37 75 31 82 47 C 90 63 85 75 95 95 Z"
@@ -2911,9 +2920,9 @@
         </svg>
 
         <!-- Centered Icon & Label inside the Corner Triangle -->
-        <div class="absolute bottom-4 left-4 sm:bottom-5 sm:left-5 flex flex-col items-center justify-center text-white pointer-events-none transition-transform duration-300">
-            <i id="viewToggleIcon" class="fa-solid fa-newspaper text-lg sm:text-xl text-white mb-0.5 filter drop-shadow-xs"></i>
-            <span id="viewToggleText" class="font-heading font-black text-[9px] sm:text-[9.5px] tracking-wider uppercase leading-none drop-shadow">BLOG</span>
+        <div class="absolute bottom-2 left-2 sm:bottom-2.5 sm:left-2.5 flex flex-col items-center justify-center text-white pointer-events-none transition-transform duration-300">
+            <i id="viewToggleIcon" class="fa-solid fa-newspaper text-xs sm:text-sm text-white mb-0.5 filter drop-shadow-xs"></i>
+            <span id="viewToggleText" class="font-heading font-black text-[7.5px] sm:text-[8px] tracking-wider uppercase leading-none drop-shadow">BLOG</span>
         </div>
     </div>
 </body>
