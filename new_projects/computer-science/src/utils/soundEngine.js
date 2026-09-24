@@ -1,7 +1,7 @@
 /**
  * Procedural Web Audio API Sound Engine
  * Generates tactile mechanical clicks, frequency shifts for tree traversals,
- * and stack frame push/pop sound fx with zero external audio assets.
+ * stack frame push/pop, and synthwave drive engine rev sound fx.
  */
 
 let audioCtx = null;
@@ -60,6 +60,31 @@ export const SoundEngine = {
     } catch {
       // Audio context error fallback
     }
+  },
+
+  // Synthwave Drive Engine Acceleration Rev
+  playDriveRev(speedRatio = 0.5) {
+    if (isMuted) return;
+    try {
+      const ctx = getAudioContext();
+      if (!ctx) return;
+      const osc = ctx.createOscillator();
+      const gain = ctx.createGain();
+      const freq = 90 + speedRatio * 350;
+
+      osc.type = 'sawtooth';
+      osc.frequency.setValueAtTime(freq, ctx.currentTime);
+      osc.frequency.exponentialRampToValueAtTime(freq * 1.4, ctx.currentTime + 0.15);
+
+      gain.gain.setValueAtTime(0.06, ctx.currentTime);
+      gain.gain.exponentialRampToValueAtTime(0.001, ctx.currentTime + 0.15);
+
+      osc.connect(gain);
+      gain.connect(ctx.destination);
+
+      osc.start();
+      osc.stop(ctx.currentTime + 0.16);
+    } catch {}
   },
 
   // Push frame onto stack (ascending tone)

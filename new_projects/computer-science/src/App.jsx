@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import { Navbar } from './components/Navbar';
+import { SynthwaveDrive } from './components/SynthwaveDrive';
 import { HeroSection } from './components/HeroSection';
 import { ConceptSlides } from './components/ConceptSlides';
 import { FizzBuzzCaseStudy } from './components/FizzBuzzCaseStudy';
@@ -26,6 +27,7 @@ export function App() {
     <div style={{ minHeight: '100vh', display: 'flex', flexDirection: 'column', background: 'var(--bg-primary)' }}>
       <Navbar activeIndex={activeIndex} onSelect={handleSelect} />
       <main style={{ flex: 1 }}>
+        <SynthwaveDrive onSelect={handleSelect} />
         <HeroSection onSelect={handleSelect} />
         <ConceptSlides activeIndex={activeIndex} onSelect={handleSelect} />
         <FizzBuzzCaseStudy />
