@@ -1,6 +1,9 @@
 import React, { useState, useEffect, useRef } from 'react';
 import { SoundEngine } from '../utils/soundEngine';
-import { ArrowDown, Navigation, Flag, RotateCcw, Zap, Sparkles, ChevronDown } from 'lucide-react';
+import { RearviewMirror } from './RearviewMirror';
+import { WaveformVisualizer } from './WaveformVisualizer';
+import { SpotifyRadio } from './SpotifyRadio';
+import { Navigation, Flag, RotateCcw, Zap, ChevronDown } from 'lucide-react';
 
 export function SynthwaveDrive({ onSelect }) {
   const canvasRef = useRef(null);
@@ -11,6 +14,7 @@ export function SynthwaveDrive({ onSelect }) {
   const [speedMph, setSpeedMph] = useState(0);
   const [arrived, setArrived] = useState(false);
   const [distanceKm, setDistanceKm] = useState(0);
+  const [isAudioPlaying, setIsAudioPlaying] = useState(false);
 
   const speedRef = useRef(0);
   const offsetRef = useRef(0);
@@ -247,8 +251,8 @@ export function SynthwaveDrive({ onSelect }) {
       style={{
         position: 'relative',
         width: '100%',
-        height: '85vh',
-        minHeight: '580px',
+        height: '88vh',
+        minHeight: '620px',
         overflow: 'hidden',
         borderBottom: '4px solid #0A0A0A',
         background: '#0a0314',
@@ -257,59 +261,73 @@ export function SynthwaveDrive({ onSelect }) {
       {/* 3D Canvas */}
       <canvas ref={canvasRef} style={{ width: '100%', height: '100%', display: 'block' }} />
 
-      {/* Top HUD Bar */}
+      {/* 1. TOP CENTER REARVIEW MIRROR */}
+      <RearviewMirror speedMph={speedMph} />
+
+      {/* 2. BOTTOM CENTER LIVE WAVEFORM VISUALIZER */}
+      <WaveformVisualizer isAudioPlaying={isAudioPlaying} speedMph={speedMph} />
+
+      {/* 3. BOTTOM RIGHT SPOTIFY API RADIO */}
+      <SpotifyRadio onAudioStateChange={(active) => setIsAudioPlaying(active)} />
+
+      {/* Top Left Telemetry HUD */}
       <div style={{
         position: 'absolute',
         top: '1rem',
         left: '1rem',
-        right: '1rem',
-        display: 'flex',
-        justify: 'space-between',
-        alignItems: 'center',
-        zIndex: 10,
+        zIndex: 20,
         pointerEvents: 'none',
       }}>
         <div style={{
           background: 'rgba(10, 3, 20, 0.85)',
           border: '2px solid #00F0FF',
-          padding: '0.5rem 1rem',
+          padding: '0.4rem 0.85rem',
           fontFamily: 'var(--font-mono)',
-          fontSize: '0.8rem',
+          fontSize: '0.75rem',
           fontWeight: 900,
           color: '#00F0FF',
           boxShadow: '3px 3px 0 #00F0FF',
           display: 'flex',
           alignItems: 'center',
-          gap: '0.5rem'
+          gap: '0.4rem'
         }}>
-          <Navigation size={16} /> SYNTHWAVE CS DRIVE // 3D HUD
+          <Navigation size={14} /> CS SYNTHDRIVE // HUD
         </div>
+      </div>
 
-        <div style={{ display: 'flex', gap: '0.75rem' }}>
-          <div style={{
-            background: 'rgba(10, 3, 20, 0.85)',
-            border: '2px solid #FFE600',
-            padding: '0.5rem 0.85rem',
-            fontFamily: 'var(--font-mono)',
-            fontSize: '0.8rem',
-            fontWeight: 900,
-            color: '#FFE600',
-            boxShadow: '3px 3px 0 #0A0A0A',
-          }}>
-            SPEED: {speedMph} MPH
-          </div>
-          <div style={{
-            background: 'rgba(10, 3, 20, 0.85)',
-            border: '2px solid #FF0055',
-            padding: '0.5rem 0.85rem',
-            fontFamily: 'var(--font-mono)',
-            fontSize: '0.8rem',
-            fontWeight: 900,
-            color: '#FFFFFF',
-            boxShadow: '3px 3px 0 #0A0A0A',
-          }}>
-            PROGRESS: {scrollCount} / {targetScrolls} SCROLLS
-          </div>
+      {/* Top Right Telemetry HUD */}
+      <div style={{
+        position: 'absolute',
+        top: '1rem',
+        right: '1rem',
+        zIndex: 20,
+        pointerEvents: 'none',
+        display: 'flex',
+        gap: '0.5rem'
+      }}>
+        <div style={{
+          background: 'rgba(10, 3, 20, 0.85)',
+          border: '2px solid #FFE600',
+          padding: '0.4rem 0.75rem',
+          fontFamily: 'var(--font-mono)',
+          fontSize: '0.75rem',
+          fontWeight: 900,
+          color: '#FFE600',
+          boxShadow: '3px 3px 0 #0A0A0A',
+        }}>
+          SPEED: {speedMph} MPH
+        </div>
+        <div style={{
+          background: 'rgba(10, 3, 20, 0.85)',
+          border: '2px solid #FF0055',
+          padding: '0.4rem 0.75rem',
+          fontFamily: 'var(--font-mono)',
+          fontSize: '0.75rem',
+          fontWeight: 900,
+          color: '#FFFFFF',
+          boxShadow: '3px 3px 0 #0A0A0A',
+        }}>
+          PROGRESS: {scrollCount} / {targetScrolls}
         </div>
       </div>
 
@@ -317,48 +335,48 @@ export function SynthwaveDrive({ onSelect }) {
       {scrollCount === 0 && (
         <div style={{
           position: 'absolute',
-          bottom: '3rem',
+          top: '52%',
           left: '50%',
-          transform: 'translateX(-50%)',
-          zIndex: 10,
+          transform: 'translate(-50%, -50%)',
+          zIndex: 20,
           textAlign: 'center',
           width: '90%',
-          maxWidth: '520px',
+          maxWidth: '480px',
         }}>
           <div style={{
             background: '#FFE600',
             color: '#0A0A0A',
             border: '3.5px solid #0A0A0A',
-            padding: '1.25rem 2rem',
+            padding: '1.25rem 1.75rem',
             boxShadow: '8px 8px 0 #0A0A0A',
             animation: 'floatGentle 3s ease-in-out infinite',
           }}>
             <div style={{
               fontFamily: 'var(--font-mono)',
-              fontSize: '0.75rem',
+              fontSize: '0.7rem',
               fontWeight: 900,
-              letterSpacing: '0.12em',
-              marginBottom: '0.4rem',
+              letterSpacing: '0.1em',
+              marginBottom: '0.3rem',
               textTransform: 'uppercase',
             }}>
               ◆ SYNTHWAVE VEHICLE CONTROL
             </div>
             <h2 style={{
               fontFamily: 'var(--font-display)',
-              fontSize: 'clamp(1.8rem, 4vw, 2.6rem)',
+              fontSize: 'clamp(1.7rem, 4vw, 2.4rem)',
               fontWeight: 900,
               lineHeight: 1.1,
-              marginBottom: '0.6rem',
+              marginBottom: '0.5rem',
               textTransform: 'uppercase',
             }}>
               SCROLL TO DRIVE
             </h2>
             <p style={{
               fontFamily: 'var(--font-mono)',
-              fontSize: '0.85rem',
+              fontSize: '0.8rem',
               fontWeight: 800,
               color: '#333',
-              marginBottom: '1rem',
+              marginBottom: '0.85rem',
             }}>
               Scroll down (or tap gas) to accelerate towards your random destination ({targetScrolls} scrolls away)!
             </p>
@@ -369,19 +387,19 @@ export function SynthwaveDrive({ onSelect }) {
                 background: '#0038FF',
                 color: '#FFFFFF',
                 border: '2.5px solid #0A0A0A',
-                padding: '0.75rem 1.5rem',
+                padding: '0.65rem 1.25rem',
                 fontFamily: 'var(--font-mono)',
-                fontSize: '0.85rem',
+                fontSize: '0.8rem',
                 fontWeight: 900,
                 cursor: 'pointer',
-                boxShadow: '4px 4px 0 #0A0A0A',
+                boxShadow: '3px 3px 0 #0A0A0A',
                 display: 'inline-flex',
                 alignItems: 'center',
-                gap: '0.5rem',
+                gap: '0.4rem',
                 textTransform: 'uppercase'
               }}
             >
-              <Zap size={18} /> PRESS GAS PEDAL / SCROLL <ChevronDown size={18} />
+              <Zap size={16} /> PRESS GAS PEDAL / SCROLL <ChevronDown size={16} />
             </button>
           </div>
         </div>
@@ -391,9 +409,9 @@ export function SynthwaveDrive({ onSelect }) {
       {scrollCount > 0 && !arrived && (
         <div style={{
           position: 'absolute',
-          bottom: '2rem',
-          right: '2rem',
-          zIndex: 10,
+          bottom: '1.25rem',
+          left: '1.25rem',
+          zIndex: 25,
         }}>
           <button
             onClick={handleGasPedal}
@@ -401,9 +419,9 @@ export function SynthwaveDrive({ onSelect }) {
               background: '#00F0FF',
               color: '#0A0A0A',
               border: '3px solid #0A0A0A',
-              padding: '0.85rem 1.25rem',
+              padding: '0.75rem 1rem',
               fontFamily: 'var(--font-mono)',
-              fontSize: '0.85rem',
+              fontSize: '0.8rem',
               fontWeight: 900,
               cursor: 'pointer',
               boxShadow: '4px 4px 0 #0A0A0A',

@@ -12,6 +12,8 @@ const targetAssets = path.resolve(rootDir, 'assets');
 
 if (fs.existsSync(distHtml)) {
   let content = fs.readFileSync(distHtml, 'utf8');
+  const timestamp = Date.now();
+
   // Add no-cache meta tags to prevent stale asset caching
   const cacheControlMeta = `
   <meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate" />
@@ -22,9 +24,17 @@ if (fs.existsSync(distHtml)) {
     content = content.replace('<head>', '<head>' + cacheControlMeta);
   }
 
+  // Cache-bust script, style, and icon links with timestamp query strings
+  content = content.replace(/src="\.\/assets\/([^"\?]+)"/g, (match, p1) => {
+    return `src="./assets/${p1}?v=${timestamp}"`;
+  });
+  content = content.replace(/href="\.\/assets\/([^"\?]+)"/g, (match, p1) => {
+    return `href="./assets/${p1}?v=${timestamp}"`;
+  });
+
   fs.writeFileSync(targetHtml, content, 'utf8');
   fs.writeFileSync(path.resolve(distDir, 'index.html'), content, 'utf8');
-  console.log('✓ Synced dist/index.source.html -> root index.html with no-cache headers');
+  console.log(`✓ Synced dist/index.source.html -> root index.html with no-cache headers & cache-busting query string (?v=${timestamp})`);
 } else {
   console.error('dist/index.source.html not found!');
 }
