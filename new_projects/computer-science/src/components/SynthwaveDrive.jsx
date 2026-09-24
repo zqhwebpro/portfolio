@@ -193,6 +193,16 @@ export function SynthwaveDrive() {
 
       // Perspective Grid Lines (Horizontal moving forward/backward)
       ctx.lineWidth = 2;
+      
+      // Draw a solid line exactly at the horizon so it anchors the perspective
+      ctx.strokeStyle = 'rgba(0, 240, 255, 0.8)';
+      ctx.shadowColor = '#00F0FF';
+      ctx.shadowBlur = 4;
+      ctx.beginPath();
+      ctx.moveTo(0, horizonY);
+      ctx.lineTo(width, horizonY);
+      ctx.stroke();
+
       const numH = 18;
       for (let i = 0; i < numH; i++) {
         const progress = (((i + offsetRef.current / 40) % numH) + numH) % numH / numH;
@@ -258,26 +268,30 @@ export function SynthwaveDrive() {
         const rawProgress = (driveDistance - popup.startDist) / 18;
         const p = Math.max(0, Math.min(1, rawProgress));
 
-        // 3D Road Sign Perspective Calculations: Starts at vanishing point (55%), moves down the screen
-        const topPct = 55 + Math.pow(p, 2.5) * 45; 
-        const scale = 0.02 + Math.pow(p, 2.5) * 2.5;
+        // Use exact pixel dimensions to match canvas perfectly
+        const w = typeof window !== 'undefined' ? window.innerWidth : 1000;
+        const h = typeof window !== 'undefined' ? window.innerHeight : 800;
+        const horizonY = h * 0.55;
+
+        // 3D Road Sign Perspective Calculations
+        const progressY = Math.pow(p, 2.5);
+        const topPx = horizonY + progressY * (h - horizonY); 
         
-        // Fade in quickly, fade out as it passes the camera (p > 0.85)
-        const opacity = Math.min(1, p * 8) * (p > 0.85 ? Math.max(0, 1 - (p - 0.85) * 6.6) : 1);
+        // Start exactly at 0 scale at the horizon so it doesn't float above it
+        const scale = progressY * 3.0; 
+        
+        // Fully opaque until it passes the camera
+        const opacity = p > 0.85 ? Math.max(0, 1 - (p - 0.85) * 6.6) : 1;
         
         const stemHeight = 20 + (popup.id % 150); // Stem height between 20 and 170px
         const stemWidth = 6;
 
         // Calculate X position matching the pink perspective lines
         const isLeft = (popup.number % 2) === 0;
-        // Inner paths: directly under the sun vector
-        const lineIndex = isLeft ? -1.5 : 1.5;
         
-        // At progress p, topPct determines the vertical position.
-        const progressY = Math.max(0, (topPct - 55) / 45); // 0 at horizon, 1 at bottom of screen
+        // Tighter inner paths: directly under the sun vector within the pink road
+        const lineIndex = isLeft ? -0.8 : 0.8;
         
-        // We use window.innerWidth because it's approximately the canvas width
-        const w = window.innerWidth;
         const sunCenterX = w * 0.5;
         const startX = sunCenterX + (lineIndex / 26) * (w * 0.05);
         const endX = sunCenterX + lineIndex * (w * 0.08);
@@ -288,10 +302,10 @@ export function SynthwaveDrive() {
             key={popup.id}
             style={{
               position: 'absolute',
-              bottom: `${100 - topPct}%`,
+              bottom: `${h - topPx}px`,
               left: `${currentX}px`,
               transform: `translateX(-50%) scale(${scale})`, // Origin at bottom center
-              transformOrigin: 'bottom center',
+              transformOrigin: '50% 100%',
               opacity: opacity,
               zIndex: Math.round(45 + p * 20),
               display: 'flex',

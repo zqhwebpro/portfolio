@@ -99,7 +99,7 @@ export function SpotifyRadio({ onAudioStateChange }) {
           flexShrink: 0
         }}>
           <img 
-            src="/synthwave_album_cover.jpg" 
+            src="/assets/synthwave_cover.jpg" 
             alt="Album Cover" 
             style={{ width: '100%', height: '100%', objectFit: 'cover' }}
           />
