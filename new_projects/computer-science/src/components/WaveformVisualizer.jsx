@@ -27,8 +27,13 @@ export function WaveformVisualizer({ isAudioPlaying = true, speedMph = 0 }) {
       ctx.clearRect(0, 0, width, height);
 
       const horizonY = height * 0.55;
-      const baseAmp = isAudioPlaying ? 38 : Math.abs(speedMph) > 0 ? 18 : 10;
-      phase += isAudioPlaying ? 0.038 + Math.abs(speedMph) * 0.001 : 0.015;
+      const time = Date.now() / 1000;
+      const beat1 = Math.max(0, Math.sin(time * Math.PI * 2 * 1.8)); // ~108 BPM
+      const beat2 = Math.max(0, Math.sin(time * Math.PI * 2 * 2.2)); // ~132 BPM
+      const audioPulse = isAudioPlaying ? (beat1 * 0.6 + beat2 * 0.4) * 35 : 0;
+      
+      const baseAmp = (isAudioPlaying ? 38 + audioPulse : Math.abs(speedMph) > 0 ? 18 : 10) * (isAudioPlaying ? (0.85 + Math.random() * 0.3) : 1);
+      phase += isAudioPlaying ? 0.05 + Math.abs(speedMph) * 0.001 + (audioPulse * 0.0015) : 0.015;
 
       ctx.save();
       ctx.globalCompositeOperation = 'lighter'; // High glow composite

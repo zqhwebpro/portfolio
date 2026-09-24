@@ -259,23 +259,28 @@ export function SynthwaveDrive() {
         const rawProgress = (driveDistance - popup.startDist) / totalDist;
         const progress = Math.max(0, Math.min(1.08, rawProgress));
 
-        // 3D Road Floor Perspective Calculations: Moves downward along floor plane from horizon (57%) to bottom (84%+)
-        let topPct, scale, opacity, rotateX;
+        // 3D Road Sign Perspective Calculations: Starts at vanishing point (55%), moves upwards/outwards
+        let topPct, scale, opacity, rotateX, translateY;
+
+        // Give them a random altitude variation based on their ID
+        const signHeightOffset = (popup.id % 20) - 10; // -10 to +10
 
         if (progress <= 0.85) {
-          // Approaching along 3D grid perspective view (34% upper horizon down to 62% mid road)
+          // Approaching from horizon (55%) flying up overhead
           const p = progress / 0.85;
-          topPct = 34 + Math.pow(p, 1.6) * 28; // 34% (upper horizon) -> 62% (mid road)
-          scale = 0.15 + Math.pow(p, 1.8) * 0.95; // 0.15 -> 1.10
-          opacity = Math.min(1, p * 3.5);
-          rotateX = (1 - p) * 28;
+          topPct = 55 - Math.pow(p, 1.5) * 45; // 55% -> 10%
+          scale = 0.05 + Math.pow(p, 2.5) * 1.25; // 0.05 -> 1.30
+          opacity = Math.min(1, p * 4);
+          rotateX = 0; // Flat like a highway sign
+          translateY = signHeightOffset * p; // Height variation scales with approach
         } else {
-          // Passing through mid-screen
+          // Passing directly overhead / behind camera
           const p = (progress - 0.85) / 0.23;
-          topPct = 62 + p * 12; // 62% -> 74%
-          scale = 1.10 + p * 0.18;
+          topPct = 10 - p * 35; // Fly over (10% -> -25%)
+          scale = 1.30 + p * 1.5;
           opacity = Math.max(0, 1 - p * 1.5);
-          rotateX = -p * 10;
+          rotateX = p * 15; // Slight tilt as it passes overhead
+          translateY = signHeightOffset;
         }
 
         return (
@@ -285,7 +290,7 @@ export function SynthwaveDrive() {
               position: 'absolute',
               top: `${topPct}%`,
               left: popup.leftPos,
-              transform: `translate(-50%, -50%) scale(${scale}) rotateX(${rotateX}deg)`,
+              transform: `translate(-50%, -50%) scale(${scale}) rotateX(${rotateX}deg) translateY(${translateY}px)`,
               opacity: opacity,
               zIndex: Math.round(45 + progress * 20),
               width: '88%',
@@ -295,13 +300,11 @@ export function SynthwaveDrive() {
             }}
           >
             <div style={{
-              background: 'rgba(6, 1, 18, 0.45)',
-              backdropFilter: 'blur(20px)',
-              WebkitBackdropFilter: 'blur(20px)',
-              border: '1.5px solid rgba(0, 240, 255, 0.85)',
-              borderRadius: '18px',
-              padding: '1.3rem 1.6rem',
-              boxShadow: '0 0 45px rgba(0, 240, 255, 0.5), inset 0 0 20px rgba(0, 240, 255, 0.2)',
+              background: '#043818',
+              border: '3px solid #FFFFFF',
+              borderRadius: '8px',
+              padding: '1.5rem 2rem',
+              boxShadow: '0 10px 30px rgba(0, 240, 255, 0.4), inset 0 0 15px rgba(255, 255, 255, 0.3)',
               textAlign: 'center',
               position: 'relative'
             }}>
@@ -323,6 +326,35 @@ export function SynthwaveDrive() {
           </div>
         );
       })}
+
+      {/* 4. DRIVER'S STEERING WHEEL & HANDS */}
+      <div style={{
+        position: 'absolute',
+        bottom: '-15%', 
+        left: '50%',
+        transform: 'translateX(-50%)',
+        width: '600px',
+        height: '600px',
+        zIndex: 50, 
+        pointerEvents: 'none', 
+        opacity: 0.95,
+      }}>
+        <svg viewBox="0 0 100 100" style={{ width: '100%', height: '100%', filter: 'drop-shadow(0 -10px 25px rgba(0,0,0,0.8))' }}>
+          <circle cx="50" cy="50" r="45" fill="none" stroke="#111" strokeWidth="8" />
+          <circle cx="50" cy="50" r="45" fill="none" stroke="#2a2a2a" strokeWidth="4" />
+          <circle cx="50" cy="50" r="12" fill="#1a1a1a" stroke="#00F0FF" strokeWidth="0.5" />
+          <path d="M50 62 L50 90 M38 50 L10 50 M62 50 L90 50 M42 58 L20 75 M58 58 L80 75" stroke="#111" strokeWidth="6" />
+          <path d="M50 62 L50 90 M38 50 L10 50 M62 50 L90 50 M42 58 L20 75 M58 58 L80 75" stroke="#222" strokeWidth="3" />
+          
+          <path d="M5 45 C -2 55, 12 65, 20 52 C 24 45, 15 35, 5 45" fill="#FF007F" />
+          <path d="M95 45 C 102 55, 88 65, 80 52 C 76 45, 85 35, 95 45" fill="#00F0FF" />
+          
+          <circle cx="9" cy="50" r="2" fill="#111" />
+          <circle cx="13" cy="53" r="2" fill="#111" />
+          <circle cx="91" cy="50" r="2" fill="#111" />
+          <circle cx="87" cy="53" r="2" fill="#111" />
+        </svg>
+      </div>
     </div>
   );
 }

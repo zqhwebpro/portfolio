@@ -660,6 +660,20 @@
                     <span id="header-cart-count" class="h-5 min-w-5 px-1.5 rounded-full bg-honey-400 text-earth-950 font-black text-[10px] flex items-center justify-center shadow-xs">0</span>
                 </button>
 
+                <!-- Spin & Win Minigame Button -->
+                <button id="header-spin-btn"
+                        onclick="window.playSpinMinigame()"
+                        data-blueprint-file="WackyStore.WebUI/Controllers/PrizeController.cs"
+                        data-blueprint-role="Spin Prize Minigame"
+                        data-blueprint-layer="WebUI / Gamification"
+                        data-blueprint-dom="Minigame button replacing the blog button."
+                        data-blueprint-desc="Triggers a spin game with randomized coupon prizes and falling item animations."
+                        class="px-3.5 py-2 rounded-xl bg-white border border-canvas-border hover:border-appetite-700 text-earth-800 hover:text-appetite-800 text-xs font-bold flex items-center gap-1.5 transition-all shadow-xs"
+                        title="Spin to Win!">
+                    <i id="headerSpinIcon" class="fa-solid fa-gift text-appetite-700"></i>
+                    <span id="headerSpinText" class="hidden sm:inline">Spin &amp; Win</span>
+                </button>
+
             </div>
 
         </div>
@@ -2635,6 +2649,57 @@
         window.currentView = 'store'; // 'store' or 'blog'
         window.activeBlogCategory = 'all';
 
+        window.playSpinMinigame = function() {
+            const btnIcon = document.getElementById('headerSpinIcon');
+            if (btnIcon) btnIcon.classList.add('fa-spin');
+
+            const storeElements = Array.from(document.querySelectorAll('#store-main-view header, #store-main-view section, #store-main-view aside, #product-grid > div, #store-main-view .store-fluid-container > *'));
+            storeElements.forEach((el, idx) => {
+                const tiltStart = (Math.random() - 0.5) * 16;
+                const tiltEnd = (Math.random() - 0.5) * 44;
+                el.style.setProperty('--fall-tilt', `${tiltStart}deg`);
+                el.style.setProperty('--fall-tilt-end', `${tiltEnd}deg`);
+                el.style.animationDelay = `${(idx % 10) * 0.04 + Math.random() * 0.05}s`;
+                el.style.animationDuration = `${0.45 + (idx % 4) * 0.07}s`;
+                el.classList.add('animate-fall-sporadic');
+            });
+
+            setTimeout(() => {
+                if (btnIcon) btnIcon.classList.remove('fa-spin');
+                
+                const r = Math.random();
+                let prize = "";
+                let code = "";
+                if (r < 0.20) {
+                    prize = "Try again";
+                } else if (r < 0.70) {
+                    prize = "10% off";
+                    code = "WACKY10";
+                } else if (r < 0.85) {
+                    prize = "15% off";
+                    code = "WACKY15";
+                } else if (r < 0.95) {
+                    prize = "20% off";
+                    code = "WACKY20";
+                } else {
+                    prize = "50% off";
+                    code = "WACKY50";
+                }
+
+                if (prize === "Try again") {
+                    alert("Aww, you didn't win this time. Try again!");
+                } else {
+                    alert(`Congratulations! You won ${prize}! Use coupon code: ${code}`);
+                }
+
+                storeElements.forEach(el => {
+                    el.classList.remove('animate-fall-sporadic');
+                    el.style.animationDelay = '';
+                    el.style.animationDuration = '';
+                });
+            }, 520);
+        };
+
         window.toggleViewStoreBlog = function() {
             const storeMain = document.getElementById('store-main-view');
             const blogMain = document.getElementById('blog-main-view');
@@ -2669,9 +2734,10 @@
 
                     window.currentView = 'blog';
 
-                    if (iconEl) iconEl.className = 'fa-solid fa-shop text-3xl sm:text-4xl text-white filter drop-shadow-[0_2px_8px_rgba(0,0,0,0.6)]';
-                    if (textEl) textEl.innerText = 'STORE';
-                    if (toggleBadge) toggleBadge.title = 'Switch Back to Wacky Shop Store';
+                    const hBlogText = document.getElementById('headerBlogText');
+                    const hBlogIcon = document.getElementById('headerBlogIcon');
+                    if (hBlogText) hBlogText.innerText = 'Store Catalog';
+                    if (hBlogIcon) hBlogIcon.className = 'fa-solid fa-shop text-appetite-700';
 
                     window.scrollTo({ top: 0, behavior: 'smooth' });
 
@@ -2704,14 +2770,139 @@
 
                     window.currentView = 'store';
 
-                    if (iconEl) iconEl.className = 'fa-solid fa-book-open-reader text-3xl sm:text-4xl text-white filter drop-shadow-[0_2px_8px_rgba(0,0,0,0.6)]';
-                    if (textEl) textEl.innerText = 'BLOG';
-                    if (toggleBadge) toggleBadge.title = 'Switch to Wacky Chronicles Blog';
+                    const hBlogText = document.getElementById('headerBlogText');
+                    const hBlogIcon = document.getElementById('headerBlogIcon');
+                    if (hBlogText) hBlogText.innerText = 'Wacky Blog';
+                    if (hBlogIcon) hBlogIcon.className = 'fa-solid fa-book-open-reader text-appetite-700';
 
                     window.scrollTo({ top: 0, behavior: 'smooth' });
 
                     setTimeout(() => storeMain.classList.remove('animate-rise-up'), 500);
                 }, 520);
+            }
+        };
+
+        // ==============================================================================
+        // SPIN PRIZE WHEEL MINIGAME LOGIC
+        // ==============================================================================
+        window.wheelRotation = 0;
+        window.activeDiscount = 0;
+        window.currentWonCoupon = null;
+
+        window.triggerMinigame = function() {
+            // Keep falling items animation when button is clicked as requested!
+            window.triggerFallingItemsAnimation();
+            window.openPrizeWheelModal();
+        };
+
+        window.triggerFallingItemsAnimation = function() {
+            const isStoreView = window.currentView === 'store';
+            const selector = isStoreView 
+                ? '#store-main-view header, #store-main-view section, #store-main-view aside, #product-grid > div, #store-main-view .store-fluid-container > *'
+                : '#blog-main-view .store-fluid-container > div, #blog-posts-grid > article';
+            
+            const elements = Array.from(document.querySelectorAll(selector));
+            elements.forEach((el, idx) => {
+                const tiltStart = (Math.random() - 0.5) * 16;
+                const tiltEnd = (Math.random() - 0.5) * 44;
+                el.style.setProperty('--fall-tilt', `${tiltStart}deg`);
+                el.style.setProperty('--fall-tilt-end', `${tiltEnd}deg`);
+                el.style.animationDelay = `${(idx % 10) * 0.04 + Math.random() * 0.05}s`;
+                el.style.animationDuration = `${0.45 + (idx % 4) * 0.07}s`;
+                el.classList.add('animate-fall-sporadic');
+            });
+
+            setTimeout(() => {
+                elements.forEach(el => {
+                    el.classList.remove('animate-fall-sporadic');
+                    el.style.animationDelay = '';
+                    el.style.animationDuration = '';
+                });
+            }, 550);
+        };
+
+        window.openPrizeWheelModal = function() {
+            const modal = document.getElementById('prize-wheel-modal');
+            if (modal) modal.classList.remove('hidden');
+        };
+
+        window.closePrizeWheelModal = function() {
+            const modal = document.getElementById('prize-wheel-modal');
+            if (modal) modal.classList.add('hidden');
+        };
+
+        window.spinPrizeWheel = function() {
+            const btn = document.getElementById('spin-wheel-btn');
+            const wheel = document.getElementById('prize-wheel-svg');
+            const resultBox = document.getElementById('prize-result-box');
+            const resultTitle = document.getElementById('prize-result-title');
+            const resultDesc = document.getElementById('prize-result-desc');
+            const couponBox = document.getElementById('prize-coupon-code-container');
+            const couponBadge = document.getElementById('prize-coupon-badge');
+
+            if (btn) btn.disabled = true;
+            if (resultBox) resultBox.classList.add('hidden');
+
+            // Probability distribution:
+            // 20% -> Try Again
+            // 50% -> 10% OFF
+            // 15% -> 15% OFF
+            // 10% -> 20% OFF
+            // 5%  -> 50% OFF
+            const rand = Math.random() * 100;
+            let outcome;
+            if (rand < 20) { // 20%
+                outcome = { type: 'retry', label: 'Try Again', code: null, text: 'So close! Give it another spin!', centerAngle: 90 };
+            } else if (rand < 70) { // 50%
+                const isSeg0 = Math.random() < 0.5;
+                outcome = { type: 'win', label: '10% OFF', discount: 0.10, code: 'WACKY10', text: 'Sweet! You won 10% OFF your entire cart!', centerAngle: isSeg0 ? 30 : 210 };
+            } else if (rand < 85) { // 15%
+                outcome = { type: 'win', label: '15% OFF', discount: 0.15, code: 'WACKY15', text: 'Awesome! You unlocked 15% OFF!', centerAngle: 150 };
+            } else if (rand < 95) { // 10%
+                outcome = { type: 'win', label: '20% OFF', discount: 0.20, code: 'WACKY20', text: 'JACKPOT! You bagged 20% OFF your order!', centerAngle: 270 };
+            } else { // 5%
+                outcome = { type: 'win', label: '50% OFF', discount: 0.50, code: 'WACKY50', text: '🎉 MEGA GRAND PRIZE! You won 50% OFF!', centerAngle: 330 };
+            }
+
+            // Calculate exact target rotation (5 full 360° spins + target segment alignment)
+            const targetOffset = (360 - outcome.centerAngle) % 360;
+            const currentMod = window.wheelRotation % 360;
+            let needed = targetOffset - currentMod;
+            if (needed < 0) needed += 360;
+
+            window.wheelRotation += 1800 + needed;
+            if (wheel) wheel.style.transform = `rotate(${window.wheelRotation}deg)`;
+
+            setTimeout(() => {
+                if (resultBox && resultTitle && resultDesc) {
+                    resultBox.classList.remove('hidden');
+                    if (outcome.type === 'win') {
+                        resultTitle.innerHTML = `🎉 YOU WON ${outcome.label}!`;
+                        resultTitle.className = 'font-heading font-black text-xl text-appetite-700';
+                        resultDesc.innerText = outcome.text;
+                        if (couponBox && couponBadge) {
+                            couponBox.classList.remove('hidden');
+                            couponBadge.innerText = outcome.code;
+                            window.currentWonCoupon = outcome.code;
+                            window.activeDiscount = outcome.discount;
+                            if (window.updateCartUI) window.updateCartUI();
+                            if (window.showToast) window.showToast(`🎉 Coupon ${outcome.code} auto-applied for ${outcome.label}!`);
+                        }
+                    } else {
+                        resultTitle.innerHTML = `😅 ${outcome.label}!`;
+                        resultTitle.className = 'font-heading font-black text-xl text-earth-700';
+                        resultDesc.innerText = outcome.text;
+                        if (couponBox) couponBox.classList.add('hidden');
+                    }
+                }
+                if (btn) btn.disabled = false;
+            }, 3600);
+        };
+
+        window.copyCouponCode = function() {
+            if (window.currentWonCoupon) {
+                navigator.clipboard.writeText(window.currentWonCoupon);
+                if (window.showToast) window.showToast(`Copied ${window.currentWonCoupon} to clipboard!`);
             }
         };
 
@@ -2886,22 +3077,101 @@
         </div>
     </div>
 
-    <!-- WACKY WAVY CORNER TRIANGLE VIEW SWITCHER (STORE <-> BLOG) -->
+    <!-- 10. SPIN PRIZE WHEEL MINIGAME MODAL -->
+    <div id="prize-wheel-modal" 
+         class="fixed inset-0 bg-black/75 backdrop-blur-md z-50 hidden flex items-center justify-center p-4 sm:p-6" 
+         onclick="if(event.target===this) window.closePrizeWheelModal()">
+        <div class="bg-white border-2 border-appetite-600 rounded-3xl w-full max-w-lg flex flex-col shadow-2xl overflow-hidden relative animate-rise-up p-6 text-center space-y-4">
+            
+            <button onclick="window.closePrizeWheelModal()" class="absolute top-4 right-4 h-9 w-9 rounded-full bg-earth-100 hover:bg-earth-200 text-earth-800 flex items-center justify-center transition-all border border-earth-300">
+                <i class="fa-solid fa-xmark text-lg"></i>
+            </button>
+
+            <!-- Header -->
+            <div class="space-y-1">
+                <div class="inline-flex items-center gap-2 px-3.5 py-1 rounded-full bg-appetite-100 text-appetite-900 text-xs font-black uppercase tracking-wider">
+                    <i class="fa-solid fa-gift text-appetite-700"></i> Wacky Wheel of Fortune
+                </div>
+                <h3 class="font-heading font-black text-2xl sm:text-3xl text-earth-950 tracking-tight">Spin &amp; Win Discounts!</h3>
+                <p class="text-xs text-earth-600">Spin the wheel to win up to 50% OFF your entire cart!</p>
+            </div>
+
+            <!-- Wheel Container -->
+            <div class="relative w-64 h-64 sm:w-72 sm:h-72 mx-auto my-2 flex items-center justify-center">
+                <!-- Pointer Arrow at top pointing down -->
+                <div class="absolute -top-3 left-1/2 -translate-x-1/2 z-20 w-0 h-0 border-l-[14px] border-l-transparent border-r-[14px] border-r-transparent border-t-[22px] border-t-amber-500 drop-shadow-md"></div>
+                
+                <!-- Rotating SVG Wheel -->
+                <svg id="prize-wheel-svg" viewBox="0 0 200 200" class="w-full h-full transform transition-transform duration-[3500ms] ease-[cubic-bezier(0.15,0.9,0.2,1)] drop-shadow-xl rounded-full">
+                    <!-- Segment 0: 0° - 60° (10% OFF) -->
+                    <path d="M100,100 L100,0 A100,100 0 0,1 186.6,50 Z" fill="#0D9488" stroke="#ffffff" stroke-width="2"/>
+                    <text x="135" y="42" fill="#ffffff" font-size="11" font-weight="900" transform="rotate(30, 100, 100)" text-anchor="middle">10% OFF</text>
+                    
+                    <!-- Segment 1: 60° - 120° (TRY AGAIN) -->
+                    <path d="M100,100 L186.6,50 A100,100 0 0,1 186.6,150 Z" fill="#475569" stroke="#ffffff" stroke-width="2"/>
+                    <text x="135" y="42" fill="#ffffff" font-size="10" font-weight="900" transform="rotate(90, 100, 100)" text-anchor="middle">TRY AGAIN</text>
+                    
+                    <!-- Segment 2: 120° - 180° (15% OFF) -->
+                    <path d="M100,100 L186.6,150 A100,100 0 0,1 100,200 Z" fill="#7C3AED" stroke="#ffffff" stroke-width="2"/>
+                    <text x="135" y="42" fill="#ffffff" font-size="11" font-weight="900" transform="rotate(150, 100, 100)" text-anchor="middle">15% OFF</text>
+                    
+                    <!-- Segment 3: 180° - 240° (10% OFF) -->
+                    <path d="M100,100 L100,200 A100,100 0 0,1 13.4,150 Z" fill="#0284C7" stroke="#ffffff" stroke-width="2"/>
+                    <text x="135" y="42" fill="#ffffff" font-size="11" font-weight="900" transform="rotate(210, 100, 100)" text-anchor="middle">10% OFF</text>
+                    
+                    <!-- Segment 4: 240° - 300° (20% OFF) -->
+                    <path d="M100,100 L13.4,150 A100,100 0 0,1 13.4,50 Z" fill="#D97706" stroke="#ffffff" stroke-width="2"/>
+                    <text x="135" y="42" fill="#ffffff" font-size="11" font-weight="900" transform="rotate(270, 100, 100)" text-anchor="middle">20% OFF</text>
+                    
+                    <!-- Segment 5: 300° - 360° (50% OFF) -->
+                    <path d="M100,100 L13.4,50 A100,100 0 0,1 100,0 Z" fill="#DB2777" stroke="#ffffff" stroke-width="2"/>
+                    <text x="135" y="42" fill="#ffffff" font-size="11" font-weight="900" transform="rotate(330, 100, 100)" text-anchor="middle">50% OFF!</text>
+
+                    <!-- Center Cap -->
+                    <circle cx="100" cy="100" r="22" fill="#ffffff" stroke="#e2e8f0" stroke-width="3"/>
+                    <circle cx="100" cy="100" r="14" fill="#0F766E"/>
+                </svg>
+            </div>
+
+            <!-- Result Announcement Banner -->
+            <div id="prize-result-box" class="hidden p-4 rounded-2xl bg-earth-50 border border-canvas-border space-y-2 animate-rise-up">
+                <div id="prize-result-title" class="font-heading font-black text-xl text-earth-950"></div>
+                <div id="prize-result-desc" class="text-xs text-earth-700"></div>
+                <div id="prize-coupon-code-container" class="hidden flex items-center justify-center gap-2 pt-1">
+                    <span id="prize-coupon-badge" class="px-4 py-1.5 rounded-xl bg-appetite-700 text-white font-mono font-black text-sm tracking-widest shadow-sm"></span>
+                    <button onclick="window.copyCouponCode()" class="px-3 py-1.5 rounded-xl bg-earth-200 hover:bg-earth-300 text-earth-900 font-bold text-xs transition-all border border-earth-300">
+                        <i class="fa-solid fa-copy mr-1"></i> Copy
+                    </button>
+                </div>
+            </div>
+
+            <!-- Spin Trigger / Actions -->
+            <div class="flex items-center justify-center gap-3 pt-2">
+                <button id="spin-wheel-btn" onclick="window.spinPrizeWheel()" class="w-full py-3.5 rounded-xl bg-gradient-to-r from-appetite-700 to-appetite-600 hover:from-appetite-800 hover:to-appetite-700 text-white font-black text-sm flex items-center justify-center gap-2 transition-all shadow-lg shadow-appetite-800/30 active:scale-95">
+                    <i class="fa-solid fa-arrows-spin text-amber-300 text-lg"></i>
+                    <span>SPIN WHEEL NOW!</span>
+                </button>
+            </div>
+
+        </div>
+    </div>
+
+    <!-- CORNER TRIANGLE MINIGAME BUTTON (SPIN & WIN) -->
     <div id="wacky-corner-toggle"
-         onclick="window.toggleViewStoreBlog()"
+         onclick="window.triggerMinigame()"
          data-blueprint-file="WackyStore.WebUI/Views/Shared/_Layout.cshtml"
-         data-blueprint-role="Wacky View Switcher (Store &amp; Blog)"
-         data-blueprint-layer="WebUI / View Navigation"
-         data-blueprint-dom="Bottom-left corner triangle badge with wavy edge facing the webpage body."
-         data-blueprint-desc="Triggers sporadic item gravity drop animation and toggles view between Store Catalog and Wacky Chronicles Blog."
-         data-blueprint-code="window.toggleViewStoreBlog();"
+         data-blueprint-role="Wacky Minigame (Prize Wheel)"
+         data-blueprint-layer="WebUI / View Component"
+         data-blueprint-dom="Bottom-left corner triangle button triggering Prize Wheel minigame &amp; falling item animation."
+         data-blueprint-desc="Triggers item gravity drop animation and opens the interactive Spin &amp; Win Discount Wheel."
+         data-blueprint-code="window.triggerMinigame();"
          class="fixed bottom-0 left-0 z-50 group cursor-pointer select-none filter drop-shadow-xl transition-transform duration-300 hover:scale-110 active:scale-95"
-         title="Switch to Wacky Chronicles Blog">
+         title="Spin the Prize Wheel for Secret Coupons!">
         
         <svg width="95" height="95" viewBox="0 0 95 95" fill="none" xmlns="http://www.w3.org/2000/svg" class="block w-[85px] h-[85px] sm:w-[95px] sm:h-[95px]">
-            <!-- Wavy Corner Triangle Background Path: Solid Teal (No Purple Stroke) -->
+            <!-- Straight Corner Triangle Background Path: Solid Teal -->
             <path id="wavyTrianglePath"
-                  d="M 0 95 L 0 0 C 12 10 22 17 31 12 C 40 7 48 16 58 26 C 67 37 75 31 82 47 C 90 63 85 75 95 95 Z"
+                  d="M 0 95 L 0 0 L 95 95 Z"
                   fill="url(#wavyGradientLight)"
                   stroke="#0D9488"
                   stroke-width="2.5"
@@ -2925,9 +3195,10 @@
             </defs>
         </svg>
 
-        <!-- Centered Big Icon inside the Corner Triangle (No Text Label) -->
-        <div class="absolute bottom-3.5 left-3.5 sm:bottom-4.5 sm:left-4.5 flex items-center justify-center text-white pointer-events-none transition-transform duration-300 group-hover:scale-110">
-            <i id="viewToggleIcon" class="fa-solid fa-book-open-reader text-3xl sm:text-4xl text-white filter drop-shadow-[0_2px_8px_rgba(0,0,0,0.6)]"></i>
+        <!-- Centered Icon and Text Label inside the Corner Triangle -->
+        <div class="absolute bottom-2 left-2 sm:bottom-3 sm:left-3 flex flex-col items-center justify-center text-white pointer-events-none transition-transform duration-300 group-hover:scale-110">
+            <i id="viewToggleIcon" class="fa-solid fa-gift text-xl sm:text-2xl text-white"></i>
+            <span id="viewToggleText" class="text-[9px] sm:text-[10px] font-extrabold uppercase tracking-wider text-white leading-tight mt-0.5">SPIN!</span>
         </div>
     </div>
 </body>
