@@ -33,27 +33,7 @@ export function WaveformVisualizer({ isAudioPlaying = true, speedMph = 0 }) {
       ctx.save();
       ctx.globalCompositeOperation = 'lighter'; // High glow composite
 
-      // 1. ETHEREAL TRANSPARENT EQUALIZER SPECTRUM BARS
-      const numBars = 72;
-      const barW = (width - 40) / numBars;
-      ctx.globalAlpha = isAudioPlaying ? 0.22 : 0.10;
-
-      for (let i = 0; i < numBars; i++) {
-        const x = 20 + i * barW;
-        const noise = Math.sin(i * 0.4 + phase * 2.2) * Math.cos(i * 0.2 - phase * 1.5);
-        const barH = Math.max(4, Math.abs(noise) * baseAmp * 1.3 + Math.sin(phase * 1.5 + i) * 6);
-        const barY = horizonY - barH;
-
-        const grad = ctx.createLinearGradient(0, barY, 0, horizonY);
-        grad.addColorStop(0, '#00F0FF');
-        grad.addColorStop(0.5, '#FF007F');
-        grad.addColorStop(1, 'rgba(255, 230, 0, 0.05)');
-
-        ctx.fillStyle = grad;
-        ctx.fillRect(x, barY, barW - 2, barH);
-      }
-
-      // 2. HOLOGRAPHIC AUDIO ENERGY FIELD BLOOM (TRANSPARENT WAVE FILL)
+      // 1. HOLOGRAPHIC AUDIO ENERGY FIELD BLOOM (TRANSPARENT WAVE FILL)
       ctx.globalAlpha = isAudioPlaying ? 0.12 : 0.05;
       const waveGrad = ctx.createLinearGradient(0, horizonY - 45, 0, horizonY);
       waveGrad.addColorStop(0, '#00F0FF');
@@ -73,7 +53,7 @@ export function WaveformVisualizer({ isAudioPlaying = true, speedMph = 0 }) {
       ctx.closePath();
       ctx.fill();
 
-      // 3. THREE HIGH-GLOW TRANSPARENT SINE HARMONIC RIBBONS
+      // 2. THREE HIGH-GLOW TRANSPARENT SINE HARMONIC RIBBONS
       // Ribbon A: Cyan High-Glow
       ctx.globalAlpha = isAudioPlaying ? 0.32 : 0.16;
       ctx.strokeStyle = '#00F0FF';
@@ -126,23 +106,6 @@ export function WaveformVisualizer({ isAudioPlaying = true, speedMph = 0 }) {
         else ctx.lineTo(x, y);
       }
       ctx.stroke();
-
-      // 4. FLOATING NEON AUDIO SPARK PARTICLES
-      ctx.shadowBlur = 12;
-      particles.forEach((p) => {
-        p.offsetY = (p.offsetY + p.speed) % 55;
-        const px = p.x * width;
-        const py = horizonY - 6 - p.offsetY;
-        const pAlpha = (1 - p.offsetY / 55) * (isAudioPlaying ? 0.55 : 0.20);
-
-        ctx.globalAlpha = pAlpha;
-        ctx.fillStyle = p.hue;
-        ctx.shadowColor = p.hue;
-
-        ctx.beginPath();
-        ctx.arc(px, py, p.size, 0, Math.PI * 2);
-        ctx.fill();
-      });
 
       ctx.restore();
 

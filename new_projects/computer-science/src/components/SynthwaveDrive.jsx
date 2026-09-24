@@ -41,26 +41,26 @@ export function SynthwaveDrive() {
   const nextMilestoneDistRef = useRef(28); // Spaced apart, no initial popup at startup
   const milestoneCountRef = useRef(0);
 
-  // Handle Wheel / Scroll Interaction (Scroll Down = Forward, Scroll Up = Reverse, Speed is ALWAYS POSITIVE MPH)
+  // Handle Wheel / Scroll Interaction (Smooth fluid momentum calculation)
   useEffect(() => {
     const handleWheel = (e) => {
-      e.preventDefault();
+      // Smooth continuous velocity impulse based on scroll delta
+      const deltaMag = Math.min(Math.abs(e.deltaY), 120);
+      const impulse = deltaMag * 0.35;
 
       if (e.deltaY > 0) {
         // Scroll DOWN = Drive Forward
         directionRef.current = 1;
-        speedRef.current = Math.min(320, speedRef.current + 35);
-        driveDistanceRef.current += 1;
+        speedRef.current = Math.min(280, speedRef.current + impulse);
+        driveDistanceRef.current += 0.45;
       } else if (e.deltaY < 0) {
-        // Scroll UP = Drive Reverse (Speed is ALWAYS Positive MPH!)
+        // Scroll UP = Drive Reverse
         directionRef.current = -1;
-        speedRef.current = Math.min(320, speedRef.current + 35);
-        driveDistanceRef.current -= 1;
+        speedRef.current = Math.min(280, speedRef.current + impulse);
+        driveDistanceRef.current -= 0.45;
       }
 
       const currentDist = Math.abs(driveDistanceRef.current);
-      setDriveDistance(currentDist);
-      setSpeedMph(Math.round(speedRef.current));
 
       // Trigger new affirmation popup far down the road horizon when reaching distance milestones
       if (currentDist >= nextMilestoneDistRef.current) {
@@ -74,12 +74,11 @@ export function SynthwaveDrive() {
           number: milestoneCountRef.current,
           leftPos: randomPos,
           startDist: currentDist,
-          targetDist: currentDist + 24 // Spaced out for smooth road travel
+          targetDist: currentDist + 24
         };
 
         setPopups((prev) => [...prev, newPopup]);
 
-        // Next milestone spaced 30 to 50 distance units apart
         const nextGap = Math.floor(Math.random() * 20) + 30;
         nextMilestoneDistRef.current = currentDist + nextGap;
       }
@@ -87,7 +86,7 @@ export function SynthwaveDrive() {
 
     const container = document.getElementById('synthwave-drive-viewport');
     if (container) {
-      container.addEventListener('wheel', handleWheel, { passive: false });
+      container.addEventListener('wheel', handleWheel, { passive: true });
     }
 
     return () => {
@@ -119,17 +118,20 @@ export function SynthwaveDrive() {
       const width = (canvas.width = parent ? parent.clientWidth : window.innerWidth);
       const height = (canvas.height = parent ? parent.clientHeight : window.innerHeight);
 
-      // Decelerate speed smoothly to 0 when not scrolling
+      // Decelerate speed smoothly to 0 when not scrolling (Exponential smoothing)
       if (speedRef.current > 0.1) {
-        speedRef.current = speedRef.current * 0.92;
+        speedRef.current = speedRef.current * 0.95;
       } else {
         speedRef.current = 0;
       }
+      
+      // Smooth 60fps state updates
       setSpeedMph(Math.round(speedRef.current));
+      setDriveDistance(Math.abs(driveDistanceRef.current));
 
       // Advance grid offset forward or backward depending on directionRef
       if (speedRef.current > 0) {
-        const baseVel = speedRef.current * 0.16 * directionRef.current;
+        const baseVel = speedRef.current * 0.14 * directionRef.current;
         offsetRef.current = (offsetRef.current + baseVel + 40) % 40;
       }
 
@@ -261,19 +263,19 @@ export function SynthwaveDrive() {
         let topPct, scale, opacity, rotateX;
 
         if (progress <= 0.85) {
-          // Approaching along 3D grid floor plane (57% down to 84%)
+          // Approaching along 3D grid perspective view (34% upper horizon down to 62% mid road)
           const p = progress / 0.85;
-          topPct = 57 + Math.pow(p, 1.8) * 27; // 57% (horizon) -> 84% (foreground floor)
-          scale = 0.05 + Math.pow(p, 2.2) * 1.12; // 0.05 -> 1.17
-          opacity = Math.min(1, p * 4.0); // Fades in quickly at horizon
-          rotateX = (1 - p) * 48; // 48deg road tilt at horizon -> 0deg flat at front
+          topPct = 34 + Math.pow(p, 1.6) * 28; // 34% (upper horizon) -> 62% (mid road)
+          scale = 0.15 + Math.pow(p, 1.8) * 0.95; // 0.15 -> 1.10
+          opacity = Math.min(1, p * 3.5);
+          rotateX = (1 - p) * 28;
         } else {
-          // Passing past driver / bottom of viewport
+          // Passing through mid-screen
           const p = (progress - 0.85) / 0.23;
-          topPct = 84 + p * 15; // 84% -> 99% (bottom edge of floor)
-          scale = 1.17 + p * 0.35;
-          opacity = Math.max(0, 1 - p * 1.3);
-          rotateX = -p * 15;
+          topPct = 62 + p * 12; // 62% -> 74%
+          scale = 1.10 + p * 0.18;
+          opacity = Math.max(0, 1 - p * 1.5);
+          rotateX = -p * 10;
         }
 
         return (

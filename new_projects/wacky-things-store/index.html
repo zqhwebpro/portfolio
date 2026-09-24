@@ -222,6 +222,11 @@
             outline-offset: 2px;
         }
 
+        #wacky-corner-toggle:hover,
+        #wacky-corner-toggle:focus {
+            outline: none !important;
+        }
+
         /* Floating Tooltip */
         #blueprint-tooltip {
             position: fixed;
@@ -2482,14 +2487,14 @@
                 if (headerText) headerText.innerText = 'Light';
                 if (path) {
                     path.setAttribute('fill', 'url(#wavyGradientDark)');
-                    path.setAttribute('stroke', '#5EEAD4');
+                    path.setAttribute('stroke', '#14B8A6');
                 }
             } else {
                 if (headerIcon) headerIcon.className = 'fa-solid fa-moon text-amber-500';
                 if (headerText) headerText.innerText = 'Theme';
                 if (path) {
                     path.setAttribute('fill', 'url(#wavyGradientLight)');
-                    path.setAttribute('stroke', '#7C3AED');
+                    path.setAttribute('stroke', '#0D9488');
                 }
             }
         };
@@ -2664,7 +2669,7 @@
 
                     window.currentView = 'blog';
 
-                    if (iconEl) iconEl.className = 'fa-solid fa-store text-xl sm:text-2xl text-white filter drop-shadow-[0_2px_4px_rgba(0,0,0,0.5)]';
+                    if (iconEl) iconEl.className = 'fa-solid fa-shop text-3xl sm:text-4xl text-white filter drop-shadow-[0_2px_8px_rgba(0,0,0,0.6)]';
                     if (textEl) textEl.innerText = 'STORE';
                     if (toggleBadge) toggleBadge.title = 'Switch Back to Wacky Shop Store';
 
@@ -2699,7 +2704,7 @@
 
                     window.currentView = 'store';
 
-                    if (iconEl) iconEl.className = 'fa-solid fa-newspaper text-xl sm:text-2xl text-white filter drop-shadow-[0_2px_4px_rgba(0,0,0,0.5)]';
+                    if (iconEl) iconEl.className = 'fa-solid fa-book-open-reader text-3xl sm:text-4xl text-white filter drop-shadow-[0_2px_8px_rgba(0,0,0,0.6)]';
                     if (textEl) textEl.innerText = 'BLOG';
                     if (toggleBadge) toggleBadge.title = 'Switch to Wacky Chronicles Blog';
 
@@ -2921,8 +2926,8 @@
         </svg>
 
         <!-- Centered Big Icon inside the Corner Triangle (No Text Label) -->
-        <div class="absolute bottom-4 left-4 sm:bottom-5 sm:left-5 flex items-center justify-center text-white pointer-events-none transition-transform duration-300">
-            <i id="viewToggleIcon" class="fa-solid fa-newspaper text-xl sm:text-2xl text-white filter drop-shadow-[0_2px_4px_rgba(0,0,0,0.5)]"></i>
+        <div class="absolute bottom-3.5 left-3.5 sm:bottom-4.5 sm:left-4.5 flex items-center justify-center text-white pointer-events-none transition-transform duration-300 group-hover:scale-110">
+            <i id="viewToggleIcon" class="fa-solid fa-book-open-reader text-3xl sm:text-4xl text-white filter drop-shadow-[0_2px_8px_rgba(0,0,0,0.6)]"></i>
         </div>
     </div>
 </body>
