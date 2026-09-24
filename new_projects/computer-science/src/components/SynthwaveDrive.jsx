@@ -266,8 +266,23 @@ export function SynthwaveDrive() {
         // Fade in quickly, fade out as it passes the camera (p > 0.85)
         const opacity = Math.min(1, p * 8) * (p > 0.85 ? Math.max(0, 1 - (p - 0.85) * 6.6) : 1);
         
-        const stemHeight = 30 + (popup.id % 50); // Stem height between 30 and 80px
+        const stemHeight = 20 + (popup.id % 150); // Stem height between 20 and 170px
         const stemWidth = 6;
+
+        // Calculate X position matching the pink perspective lines
+        const isLeft = (popup.id % 2) === 0;
+        // Outer paths: near -22 to -18 for left, 18 to 22 for right
+        const lineIndex = isLeft ? (-22 + (popup.id % 5)) : (22 - (popup.id % 5));
+        
+        // At progress p, topPct determines the vertical position.
+        const progressY = Math.max(0, (topPct - 55) / 45); // 0 at horizon, 1 at bottom of screen
+        
+        // We use window.innerWidth because it's approximately the canvas width
+        const w = window.innerWidth;
+        const sunCenterX = w * 0.5;
+        const startX = sunCenterX + (lineIndex / 26) * (w * 0.05);
+        const endX = sunCenterX + lineIndex * (w * 0.08);
+        const currentX = startX + (endX - startX) * progressY;
 
         return (
           <div
@@ -275,7 +290,7 @@ export function SynthwaveDrive() {
             style={{
               position: 'absolute',
               top: `${topPct}%`,
-              left: popup.leftPos,
+              left: `${currentX}px`,
               transform: `translate(-50%, -100%) scale(${scale})`, // Origin at bottom center
               opacity: opacity,
               zIndex: Math.round(45 + p * 20),

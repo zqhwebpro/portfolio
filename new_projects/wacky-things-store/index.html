@@ -659,6 +659,14 @@
                     <span id="header-cart-total" class="font-mono text-honey-200 font-extrabold">$0.00</span>
                     <span id="header-cart-count" class="h-5 min-w-5 px-1.5 rounded-full bg-honey-400 text-earth-950 font-black text-[10px] flex items-center justify-center shadow-xs">0</span>
                 </button>
+                
+                <!-- Minigame Trigger (Purple Dice) -->
+                <button onclick="window.triggerMinigame()"
+                        id="header-luck-btn"
+                        class="px-3.5 py-2 rounded-xl bg-appetite-700 hover:bg-appetite-800 text-white text-xs font-bold flex items-center justify-center transition-all shadow-md shadow-appetite-800/20"
+                        title="Press Your Luck">
+                    <i class="fa-solid fa-dice text-lg" id="headerSpinIcon"></i>
+                </button>
 
 
                 <!-- Blog Reading Portal Trigger -->
@@ -893,16 +901,9 @@
     </main>
 
     <!-- 3.4 PRESS YOUR LUCK LAYOUT -->
-    <main id="luck-main-view" class="bg-earth-950 text-earth-100 py-16 flex-1 w-full hidden flex-col items-center justify-center min-h-[80vh]">
-        <div class="w-full max-w-2xl px-4 space-y-6">
-            <!-- Header -->
-            <div class="space-y-2 text-center">
-                <div class="inline-flex items-center gap-2 px-3.5 py-1 rounded-full bg-appetite-100 text-appetite-900 text-xs font-black uppercase tracking-wider">
-                    <i class="fa-solid fa-dice text-appetite-700"></i> Wacky Press Your Luck
-                </div>
-                <h3 class="font-heading font-black text-4xl sm:text-5xl text-white tracking-tight">Press Your Luck!</h3>
-                <p class="text-sm text-earth-400">Stop the board to win up to 50% OFF your entire cart!</p>
-            </div>
+    <main id="luck-main-view" class="bg-white text-earth-950 py-16 flex-1 w-full hidden flex-col items-center justify-center min-h-[80vh]">
+        <div class="w-full max-w-2xl px-4 space-y-6 flex flex-col items-center">
+
 
             <!-- Press Your Luck Board Container -->
             <div id="prize-luck-board" class="relative w-full mx-auto my-6 grid grid-cols-3 gap-3 sm:gap-4 p-4 sm:p-6 bg-earth-900 rounded-2xl border-4 border-earth-800 shadow-2xl">
@@ -913,9 +914,9 @@
                 
                 <div class="luck-sq aspect-square bg-earth-800 rounded-xl flex items-center justify-center text-center font-black text-white text-sm sm:text-lg border-2 border-earth-700 transition-all shadow-md" data-prize="10% OFF" data-prize-idx="7">10% OFF</div>
                 
-                <div class="aspect-square bg-black rounded-xl flex items-center justify-center text-center font-black text-appetite-500 text-xl border-2 border-earth-900 shadow-inner overflow-hidden">
-                    <i class="fa-solid fa-dice text-5xl sm:text-6xl opacity-70"></i>
-                </div>
+                <button id="spin-wheel-btn" onclick="window.playPressYourLuckGame()" class="aspect-square bg-teal-500 rounded-xl flex items-center justify-center text-center font-black text-white text-xl border-4 border-white shadow-[0_0_15px_rgba(20,184,166,0.5)] overflow-hidden cursor-pointer hover:scale-105 transition-transform active:scale-95">
+                    <i class="fa-solid fa-dice text-5xl sm:text-6xl"></i>
+                </button>
                 
                 <div class="luck-sq aspect-square bg-earth-800 rounded-xl flex items-center justify-center text-center font-black text-white text-sm sm:text-lg border-2 border-earth-700 transition-all shadow-md" data-prize="20% OFF" data-prize-idx="3">20% OFF</div>
                 
@@ -925,26 +926,23 @@
             </div>
 
             <!-- Result Announcement Banner -->
-            <div id="prize-result-box" class="hidden p-6 rounded-2xl bg-earth-800 border border-earth-700 space-y-3 animate-rise-up text-center">
+            <div id="prize-result-box" class="hidden p-6 rounded-2xl bg-earth-800 border border-earth-700 space-y-3 animate-rise-up text-center shadow-xl w-full">
                 <div id="prize-result-title" class="font-heading font-black text-2xl text-white"></div>
                 <div id="prize-result-desc" class="text-sm text-earth-300"></div>
-                <div id="prize-coupon-code-container" class="hidden flex items-center justify-center gap-3 pt-2">
-                    <span id="prize-coupon-badge" class="px-5 py-2 rounded-xl bg-appetite-700 text-white font-mono font-black text-lg tracking-widest shadow-md"></span>
-                    <button onclick="window.copyCouponCode()" class="px-4 py-2 rounded-xl bg-earth-700 hover:bg-earth-600 text-white font-bold text-sm transition-all border border-earth-500">
-                        <i class="fa-solid fa-copy mr-1"></i> Copy
+                <div id="prize-coupon-code-container" class="hidden flex flex-col items-center justify-center gap-3 pt-2">
+                    <div class="flex items-center gap-3">
+                        <span id="prize-coupon-badge" class="px-5 py-2 rounded-xl bg-appetite-700 text-white font-mono font-black text-lg tracking-widest shadow-md"></span>
+                        <button onclick="window.copyCouponCode()" class="px-4 py-2 rounded-xl bg-earth-700 hover:bg-earth-600 text-white font-bold text-sm transition-all border border-earth-500">
+                            <i class="fa-solid fa-copy mr-1"></i> Copy
+                        </button>
+                    </div>
+                    <button onclick="window.returnToStore()" class="mt-4 px-6 py-3 rounded-xl bg-teal-500 hover:bg-teal-600 text-white font-bold text-base transition-all shadow-lg">
+                        <i class="fa-solid fa-shop mr-2"></i> Back to Store
                     </button>
                 </div>
-            </div>
-
-            <!-- Spin Trigger / Actions -->
-            <div class="flex flex-col sm:flex-row items-center justify-center gap-4 pt-4">
-                <button id="spin-wheel-btn" onclick="window.playPressYourLuckGame()" class="w-full sm:w-auto px-8 py-4 rounded-xl bg-gradient-to-r from-appetite-700 to-appetite-600 hover:from-appetite-800 hover:to-appetite-700 text-white font-black text-base flex items-center justify-center gap-2 transition-all shadow-lg shadow-appetite-800/30 active:scale-95">
-                    <i class="fa-solid fa-stopwatch text-amber-300 text-xl"></i>
-                    <span>PRESS YOUR LUCK NOW!</span>
-                </button>
-                <button onclick="window.returnToStore()" class="w-full sm:w-auto px-8 py-4 rounded-xl bg-earth-800 hover:bg-earth-700 text-white border border-earth-600 font-bold text-base flex items-center justify-center gap-2 transition-all">
-                    <i class="fa-solid fa-shop"></i>
-                    <span>Back to Store</span>
+                <!-- Try again back to store button -->
+                <button id="try-again-back-btn" onclick="window.returnToStore()" class="hidden mx-auto mt-4 px-6 py-3 rounded-xl bg-teal-500 hover:bg-teal-600 text-white font-bold text-base transition-all shadow-lg">
+                    <i class="fa-solid fa-shop mr-2"></i> Back to Store
                 </button>
             </div>
         </div>
@@ -2709,6 +2707,7 @@
         };
 
         window.triggerMinigame = function() {
+            if (window.currentView === 'luck') return;
             const storeMain = document.getElementById('store-main-view');
             const blogMain = document.getElementById('blog-main-view');
             const luckMain = document.getElementById('luck-main-view');
@@ -2747,12 +2746,13 @@
 
                 luckMain.classList.remove('hidden');
                 luckMain.classList.add('animate-rise-up');
+                window.currentView = 'luck';
                 
                 window.scrollTo({ top: 0, behavior: 'smooth' });
 
                 // Reset game board state
                 document.getElementById('spin-wheel-btn').disabled = false;
-                document.getElementById('spin-wheel-btn').innerHTML = '<i class="fa-solid fa-stopwatch text-amber-300 text-xl"></i><span>PRESS YOUR LUCK NOW!</span>';
+                document.getElementById('spin-wheel-btn').innerHTML = '<i class="fa-solid fa-dice text-5xl sm:text-6xl"></i>';
                 document.getElementById('prize-result-box').classList.add('hidden');
                 document.querySelectorAll('.luck-sq').forEach(s => {
                     s.classList.remove('bg-appetite-500', 'border-appetite-300', 'scale-105', 'z-10', 'bg-amber-400', 'border-amber-200', 'animate-pulse');
@@ -2763,124 +2763,83 @@
             }, 550);
         };
 
-        window.toggleViewStoreBlog = function() {
+        window.toggleViewStoreBlog = function(forceTarget) {
             const storeMain = document.getElementById('store-main-view');
             const blogMain = document.getElementById('blog-main-view');
-            const iconEl = document.getElementById('viewToggleIcon');
-            const textEl = document.getElementById('viewToggleText');
-            const toggleBadge = document.getElementById('wacky-corner-toggle');
-
-            if (window.currentView === 'store') {
-                // SPORADIC FALL ALL STORE ELEMENTS -> REVEAL BLOG
-                const storeElements = Array.from(document.querySelectorAll('#store-main-view header, #store-main-view section, #store-main-view aside, #product-grid > div, #store-main-view .store-fluid-container > *'));
-                storeElements.forEach((el, idx) => {
-                    const tiltStart = (Math.random() - 0.5) * 16;
-                    const tiltEnd = (Math.random() - 0.5) * 44;
-                    el.style.setProperty('--fall-tilt', `${tiltStart}deg`);
-                    el.style.setProperty('--fall-tilt-end', `${tiltEnd}deg`);
-                    el.style.animationDelay = `${(idx % 10) * 0.04 + Math.random() * 0.05}s`;
-                    el.style.animationDuration = `${0.45 + (idx % 4) * 0.07}s`;
-                    el.classList.add('animate-fall-sporadic');
-                });
-
-                setTimeout(() => {
-                    storeMain.classList.add('hidden');
-                    storeElements.forEach(el => {
-                        el.classList.remove('animate-fall-sporadic');
-                        el.style.animationDelay = '';
-                        el.style.animationDuration = '';
-                    });
-                    
-                    blogMain.classList.remove('hidden');
-                    blogMain.classList.add('animate-rise-up');
-                    window.renderBlogPosts(window.activeBlogCategory);
-
-                    window.currentView = 'blog';
-
-                    const hBlogText = document.getElementById('headerBlogText');
-                    const hBlogIcon = document.getElementById('headerBlogIcon');
-                    if (hBlogText) hBlogText.innerText = 'Store Catalog';
-                    if (hBlogIcon) hBlogIcon.className = 'fa-solid fa-shop text-appetite-700';
-
-                    window.scrollTo({ top: 0, behavior: 'smooth' });
-
-                    setTimeout(() => blogMain.classList.remove('animate-rise-up'), 500);
-                }, 520);
-
-            } else {
-                // SPORADIC FALL ALL BLOG ELEMENTS -> REVEAL STORE
-                const blogElements = Array.from(document.querySelectorAll('#blog-main-view .store-fluid-container > div, #blog-posts-grid > article'));
-                blogElements.forEach((el, idx) => {
-                    const tiltStart = (Math.random() - 0.5) * 16;
-                    const tiltEnd = (Math.random() - 0.5) * 44;
-                    el.style.setProperty('--fall-tilt', `${tiltStart}deg`);
-                    el.style.setProperty('--fall-tilt-end', `${tiltEnd}deg`);
-                    el.style.animationDelay = `${(idx % 8) * 0.045 + Math.random() * 0.05}s`;
-                    el.style.animationDuration = `${0.45 + (idx % 4) * 0.07}s`;
-                    el.classList.add('animate-fall-sporadic');
-                });
-
-                setTimeout(() => {
-                    blogMain.classList.add('hidden');
-                    blogElements.forEach(el => {
-                        el.classList.remove('animate-fall-sporadic');
-                        el.style.animationDelay = '';
-                        el.style.animationDuration = '';
-                    });
-
-                    storeMain.classList.remove('hidden');
-                    storeMain.classList.add('animate-rise-up');
-
-                    window.currentView = 'store';
-
-                    const hBlogText = document.getElementById('headerBlogText');
-                    const hBlogIcon = document.getElementById('headerBlogIcon');
-                    if (hBlogText) hBlogText.innerText = 'Wacky Blog';
-                    if (hBlogIcon) hBlogIcon.className = 'fa-solid fa-book-open-reader text-appetite-700';
-
-                    window.scrollTo({ top: 0, behavior: 'smooth' });
-
-                    setTimeout(() => storeMain.classList.remove('animate-rise-up'), 500);
-                }, 520);
-            }
-        };
-
-        window.returnToStore = function() {
-            const storeMain = document.getElementById('store-main-view');
             const luckMain = document.getElementById('luck-main-view');
+            const hBlogText = document.getElementById('headerBlogText');
             
-            // Just like the toggle store/blog, let's make the luck board fall!
-            const luckElements = Array.from(document.querySelectorAll('#luck-main-view > div > div'));
-            luckElements.forEach((el, idx) => {
+            const isCurrentlyLuck = window.currentView === 'luck';
+            const isCurrentlyStore = window.currentView === 'store';
+            const intendedTarget = (hBlogText && hBlogText.innerText.includes('Store')) ? 'store' : 'blog';
+            const targetView = forceTarget || intendedTarget;
+            
+            if (window.currentView === targetView) return; // already there
+
+            // Determine which elements to animate out based on current view
+            let outSelector = '';
+            if (isCurrentlyStore) {
+                outSelector = '#store-main-view header, #store-main-view section, #store-main-view aside, #product-grid > div, #store-main-view .store-fluid-container > *';
+            } else if (isCurrentlyLuck) {
+                outSelector = '#luck-main-view > div > div';
+            } else {
+                outSelector = '#blog-main-view .store-fluid-container > div, #blog-posts-grid > article';
+            }
+
+            const outElements = Array.from(document.querySelectorAll(outSelector));
+            outElements.forEach((el, idx) => {
                 const tiltStart = (Math.random() - 0.5) * 16;
                 const tiltEnd = (Math.random() - 0.5) * 44;
                 el.style.setProperty('--fall-tilt', `${tiltStart}deg`);
                 el.style.setProperty('--fall-tilt-end', `${tiltEnd}deg`);
-                el.style.animationDelay = `${(idx % 4) * 0.04 + Math.random() * 0.05}s`;
-                el.style.animationDuration = `${0.45}s`;
+                el.style.animationDelay = `${(idx % 10) * 0.04 + Math.random() * 0.05}s`;
+                el.style.animationDuration = `${0.45 + (idx % 4) * 0.07}s`;
                 el.classList.add('animate-fall-sporadic');
             });
 
             setTimeout(() => {
-                luckElements.forEach(el => {
+                outElements.forEach(el => {
                     el.classList.remove('animate-fall-sporadic');
                     el.style.animationDelay = '';
                     el.style.animationDuration = '';
                 });
-                
-                luckMain.classList.add('hidden');
-                storeMain.classList.remove('hidden');
-                storeMain.classList.add('animate-rise-up');
-                
-                window.currentView = 'store';
-                const hBlogText = document.getElementById('headerBlogText');
-                const hBlogIcon = document.getElementById('headerBlogIcon');
-                if (hBlogText) hBlogText.innerText = 'Wacky Blog';
-                if (hBlogIcon) hBlogIcon.className = 'fa-solid fa-book-open-reader text-appetite-700';
+
+                if (isCurrentlyStore) storeMain.classList.add('hidden');
+                else if (isCurrentlyLuck) luckMain.classList.add('hidden');
+                else blogMain.classList.add('hidden');
+
+                if (targetView === 'blog') {
+                    blogMain.classList.remove('hidden');
+                    blogMain.classList.add('animate-rise-up');
+                    window.renderBlogPosts(window.activeBlogCategory);
+                    window.currentView = 'blog';
+                    
+                    const hBlogText = document.getElementById('headerBlogText');
+                    const hBlogIcon = document.getElementById('headerBlogIcon');
+                    if (hBlogText) hBlogText.innerText = 'Store Catalog';
+                    if (hBlogIcon) hBlogIcon.className = 'fa-solid fa-shop text-appetite-700';
+                } else {
+                    storeMain.classList.remove('hidden');
+                    storeMain.classList.add('animate-rise-up');
+                    window.currentView = 'store';
+                    
+                    const hBlogText = document.getElementById('headerBlogText');
+                    const hBlogIcon = document.getElementById('headerBlogIcon');
+                    if (hBlogText) hBlogText.innerText = 'Wacky Blog';
+                    if (hBlogIcon) hBlogIcon.className = 'fa-solid fa-book-open-reader text-appetite-700';
+                }
 
                 window.scrollTo({ top: 0, behavior: 'smooth' });
-                setTimeout(() => storeMain.classList.remove('animate-rise-up'), 500);
-            }, 500);
+
+                setTimeout(() => {
+                    if (targetView === 'blog') blogMain.classList.remove('animate-rise-up');
+                    else storeMain.classList.remove('animate-rise-up');
+                }, 500);
+            }, 520);
+        };
+
+        window.returnToStore = function() {
+            window.toggleViewStoreBlog('store');
         };
 
         window.playPressYourLuckGame = function() {
@@ -2894,7 +2853,7 @@
 
             if(btn.disabled) return;
             btn.disabled = true;
-            btn.innerHTML = '<i class="fa-solid fa-spinner fa-spin text-amber-300 text-xl"></i><span> STOPPING...</span>';
+            btn.innerHTML = '<i class="fa-solid fa-spinner fa-spin text-white text-5xl sm:text-6xl"></i>';
             resultBox.classList.add('hidden');
 
             let currentIdx = 0;
@@ -2938,12 +2897,13 @@
                         squares[currentIdx].classList.remove('bg-appetite-500');
                         squares[currentIdx].classList.add('bg-amber-400', 'border-amber-200', 'animate-pulse');
                         
-                        btn.innerHTML = '<i class="fa-solid fa-check text-amber-300 text-xl"></i><span> COMPLETED</span>';
+                        btn.innerHTML = '<i class="fa-solid fa-check text-white text-5xl sm:text-6xl"></i>';
                         resultTitle.innerText = targetPrize === 'TRY AGAIN' ? 'So Close!' : 'You Won ' + targetPrize;
                         resultDesc.innerText = targetPrize === 'TRY AGAIN' ? 'Better luck next time! Keep shopping.' : 'Use this code at checkout to claim your wacky discount.';
                         
                         if(targetPrize !== 'TRY AGAIN') {
                             couponContainer.classList.remove('hidden');
+                            document.getElementById('try-again-back-btn').classList.add('hidden');
                             const val = targetPrize.replace('% OFF', '').replace('!', '');
                             const code = 'WACKY' + val;
                             couponBadge.innerText = code;
@@ -2954,6 +2914,7 @@
                             if (window.showToast) window.showToast(`🎉 Coupon ${code} auto-applied!`);
                         } else {
                             couponContainer.classList.add('hidden');
+                            document.getElementById('try-again-back-btn').classList.remove('hidden');
                         }
                         
                         resultBox.classList.remove('hidden');

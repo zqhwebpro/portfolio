@@ -26,7 +26,7 @@ export function WaveformVisualizer({ isAudioPlaying = true, speedMph = 0 }) {
 
       ctx.clearRect(0, 0, width, height);
 
-      const horizonY = height * 0.55 - 75; // Moved up to sit just above the mountain peaks
+      const horizonY = height * 0.55;
       const time = Date.now() / 1000;
       const beat1 = Math.max(0, Math.sin(time * Math.PI * 2 * 1.8)); // ~108 BPM
       const beat2 = Math.max(0, Math.sin(time * Math.PI * 2 * 2.2)); // ~132 BPM
@@ -113,6 +113,22 @@ export function WaveformVisualizer({ isAudioPlaying = true, speedMph = 0 }) {
       ctx.stroke();
 
       ctx.restore();
+
+      // 3. Draw mountains over the waves to hide their lower parts
+      ctx.fillStyle = '#0e041d';
+      ctx.beginPath();
+      ctx.moveTo(0, horizonY);
+      ctx.lineTo(width * 0.15, horizonY - 45);
+      ctx.lineTo(width * 0.28, horizonY - 20);
+      ctx.lineTo(width * 0.4, horizonY - 60);
+      ctx.lineTo(width * 0.5, horizonY - 25);
+      ctx.lineTo(width * 0.65, horizonY - 70);
+      ctx.lineTo(width * 0.8, horizonY - 30);
+      ctx.lineTo(width, horizonY);
+      ctx.lineTo(width, height);
+      ctx.lineTo(0, height);
+      ctx.closePath();
+      ctx.fill();
 
       animId = requestAnimationFrame(render);
     };
