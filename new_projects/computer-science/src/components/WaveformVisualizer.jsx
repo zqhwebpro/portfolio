@@ -98,31 +98,13 @@ export function WaveformVisualizer({ isAudioPlaying = false, speedMph = 0 }) {
         border: '1.2px solid rgba(0, 240, 255, 0.5)',
         borderRadius: '10px',
         boxShadow: '0 0 15px rgba(0, 240, 255, 0.35)',
-        padding: '0.25rem 0.5rem',
+        padding: '0.35rem 0.5rem',
         display: 'flex',
-        flexDirection: 'column',
         alignItems: 'center',
-        gap: '0.15rem',
+        justifyContent: 'center',
         pointerEvents: 'none',
       }}
     >
-      <div style={{
-        display: 'flex',
-        justifyContent: 'space-between',
-        width: '100%',
-        fontFamily: 'var(--font-mono)',
-        fontSize: '0.48rem',
-        fontWeight: 800,
-        color: '#FFE600',
-        letterSpacing: '0.06em',
-        textShadow: '0 0 6px rgba(255, 230, 0, 0.6)'
-      }}>
-        <span>AUDIO SCOPE</span>
-        <span style={{ color: isAudioPlaying ? '#00E599' : '#FF007F' }}>
-          {isAudioPlaying ? '● ACTIVE' : 'STANDBY'}
-        </span>
-      </div>
-
       <canvas ref={canvasRef} style={{ width: '190px', height: '36px', display: 'block' }} />
     </div>
   );

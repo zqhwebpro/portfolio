@@ -14,8 +14,12 @@ export function RearviewMirror({ speedMph }) {
       const width = (canvas.width = canvas.clientWidth || 240);
       const height = (canvas.height = canvas.clientHeight || 75);
 
-      // Grid moves in reverse for rear mirror reflection
-      offsetRef.current = (offsetRef.current - (0.5 + speedMph * 0.05) + 40) % 40;
+      const horizonY = height * 0.45;
+
+      // Grid moves in reverse for rear mirror reflection ONLY when speedMph > 0
+      if (speedMph > 0) {
+        offsetRef.current = (offsetRef.current - (0.5 + speedMph * 0.05) + 40) % 40;
+      }
 
       // 1. Sky & Reflection Gradient
       const skyGrad = ctx.createLinearGradient(0, 0, 0, height);
@@ -24,13 +28,6 @@ export function RearviewMirror({ speedMph }) {
       skyGrad.addColorStop(1, '#05010b');
       ctx.fillStyle = skyGrad;
       ctx.fillRect(0, 0, width, height);
-
-      // Distant mini sunset / horizon line in mirror
-      const horizonY = height * 0.45;
-      ctx.fillStyle = '#ff0055';
-      ctx.beginPath();
-      ctx.arc(width / 2, horizonY, 20, 0, Math.PI, true);
-      ctx.fill();
 
       // Rear 3D Grid Floor
       ctx.fillStyle = '#05010b';
@@ -93,51 +90,36 @@ export function RearviewMirror({ speedMph }) {
     >
       {/* Sleek Cyber Mounting Bracket */}
       <div style={{
-        width: '3px',
-        height: '10px',
+        width: '5px',
+        height: '16px',
         background: 'linear-gradient(to bottom, #00F0FF, rgba(0, 240, 255, 0.2))',
-        boxShadow: '0 0 6px #00F0FF'
+        boxShadow: '0 0 8px #00F0FF'
       }} />
 
       {/* Aerodynamic Glass Rearview Mirror Housing */}
       <div style={{
-        width: '170px',
-        height: '50px',
+        width: '270px',
+        height: '82px',
         background: 'rgba(9, 3, 20, 0.85)',
         backdropFilter: 'blur(10px)',
-        border: '1.2px solid rgba(0, 240, 255, 0.6)',
-        borderRadius: '10px 10px 20px 20px',
-        boxShadow: '0 0 18px rgba(0, 240, 255, 0.35), inset 0 0 10px rgba(0, 240, 255, 0.15)',
+        border: '1.5px solid rgba(0, 240, 255, 0.6)',
+        borderRadius: '16px 16px 32px 32px',
+        boxShadow: '0 0 25px rgba(0, 240, 255, 0.35), inset 0 0 15px rgba(0, 240, 255, 0.15)',
         overflow: 'hidden',
         position: 'relative',
       }}>
         {/* Mirror Canvas */}
         <canvas ref={canvasRef} style={{ width: '100%', height: '100%', display: 'block' }} />
 
-        {/* Futuristic Mirror Neon Overlays */}
         <div style={{
           position: 'absolute',
-          top: '3px',
-          left: '8px',
+          bottom: '5px',
+          right: '12px',
           fontFamily: 'var(--font-mono)',
-          fontSize: '0.48rem',
-          fontWeight: 800,
-          color: '#FFE600',
-          textShadow: '0 0 4px rgba(255, 230, 0, 0.8)',
-          letterSpacing: '0.08em'
-        }}>
-          REAR MATRIX
-        </div>
-
-        <div style={{
-          position: 'absolute',
-          bottom: '3px',
-          right: '8px',
-          fontFamily: 'var(--font-mono)',
-          fontSize: '0.48rem',
+          fontSize: '0.65rem',
           fontWeight: 800,
           color: '#00F0FF',
-          textShadow: '0 0 4px rgba(0, 240, 255, 0.8)'
+          textShadow: '0 0 6px rgba(0, 240, 255, 0.8)'
         }}>
           {speedMph} MPH
         </div>

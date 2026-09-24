@@ -2378,14 +2378,14 @@
             const path = document.getElementById('wavyTrianglePath');
 
             if (isDark) {
-                if (themeIcon) themeIcon.className = 'fa-solid fa-sun text-base sm:text-lg text-amber-300 mb-0.5 filter drop-shadow';
+                if (themeIcon) themeIcon.className = 'fa-solid fa-sun text-xl sm:text-2xl text-amber-300 mb-0.5 filter drop-shadow-md';
                 if (themeText) themeText.innerText = 'LIGHT';
                 if (path) {
                     path.setAttribute('fill', 'url(#wavyGradientDark)');
                     path.setAttribute('stroke', '#5EEAD4');
                 }
             } else {
-                if (themeIcon) themeIcon.className = 'fa-solid fa-moon text-base sm:text-lg text-yellow-300 mb-0.5 filter drop-shadow';
+                if (themeIcon) themeIcon.className = 'fa-solid fa-moon text-xl sm:text-2xl text-yellow-300 mb-0.5 filter drop-shadow-md';
                 if (themeText) themeText.innerText = 'DARK';
                 if (path) {
                     path.setAttribute('fill', 'url(#wavyGradientLight)');
@@ -2433,29 +2433,29 @@
          data-blueprint-dom="Bottom-left corner triangle badge with wavy edge facing the webpage body."
          data-blueprint-desc="Toggles body class dark-mode and persists theme selection in localStorage."
          data-blueprint-code="document.body.classList.toggle('dark-mode');"
-         class="fixed bottom-0 left-0 z-50 group cursor-pointer select-none filter drop-shadow-2xl transition-transform duration-300 hover:scale-105 active:scale-95"
+         class="fixed bottom-0 left-0 z-50 group cursor-pointer select-none filter drop-shadow-xl transition-transform duration-300 hover:scale-110 active:scale-95"
          title="Toggle Light / Dark Theme">
         
-        <svg width="145" height="145" viewBox="0 0 145 145" fill="none" xmlns="http://www.w3.org/2000/svg" class="block w-[125px] h-[125px] sm:w-[145px] sm:h-[145px]">
+        <svg width="95" height="95" viewBox="0 0 95 95" fill="none" xmlns="http://www.w3.org/2000/svg" class="block w-[85px] h-[85px] sm:w-[95px] sm:h-[95px]">
             <!-- Wavy Corner Triangle Background Path: Left & Bottom are flush with corner, top-right edge is wavy -->
             <path id="wavyTrianglePath"
-                  d="M 0 145 L 0 0 C 18 16 34 26 48 18 C 62 10 74 24 88 40 C 102 56 114 48 126 72 C 138 96 130 114 145 145 Z"
+                  d="M 0 95 L 0 0 C 12 10 22 17 31 12 C 40 7 48 16 58 26 C 67 37 75 31 82 47 C 90 63 85 75 95 95 Z"
                   fill="url(#wavyGradientLight)"
                   stroke="#7C3AED"
-                  stroke-width="2.5"
+                  stroke-width="2"
                   stroke-linejoin="round"
                   class="transition-all duration-500" />
             
             <defs>
                 <!-- Light Mode Gradient: Whimsical Purple Triad -->
-                <linearGradient id="wavyGradientLight" x1="0" y1="145" x2="100" y2="0" gradientUnits="userSpaceOnUse">
+                <linearGradient id="wavyGradientLight" x1="0" y1="95" x2="65" y2="0" gradientUnits="userSpaceOnUse">
                     <stop offset="0%" stop-color="#2E1065" />
                     <stop offset="60%" stop-color="#6D28D9" />
                     <stop offset="100%" stop-color="#7C3AED" />
                 </linearGradient>
 
                 <!-- Dark Mode Gradient: Neon Cyberpunk Teal/Cyan -->
-                <linearGradient id="wavyGradientDark" x1="0" y1="145" x2="100" y2="0" gradientUnits="userSpaceOnUse">
+                <linearGradient id="wavyGradientDark" x1="0" y1="95" x2="65" y2="0" gradientUnits="userSpaceOnUse">
                     <stop offset="0%" stop-color="#0F766E" />
                     <stop offset="60%" stop-color="#0D9488" />
                     <stop offset="100%" stop-color="#14B8A6" />
@@ -2464,9 +2464,9 @@
         </svg>
 
         <!-- Centered Icon & Label inside the Corner Triangle -->
-        <div class="absolute bottom-3 left-3 sm:bottom-4 sm:left-4 flex flex-col items-center justify-center text-white pointer-events-none transform -rotate-12 group-hover:rotate-0 transition-transform duration-300">
-            <i id="themeIcon" class="fa-solid fa-moon text-base sm:text-lg text-yellow-300 mb-0.5 filter drop-shadow"></i>
-            <span id="themeText" class="font-heading font-black text-[10px] sm:text-[11px] tracking-wider uppercase leading-none drop-shadow">DARK</span>
+        <div class="absolute bottom-2 left-2 sm:bottom-2.5 sm:left-2.5 flex flex-col items-center justify-center text-white pointer-events-none transform -rotate-12 group-hover:rotate-0 transition-transform duration-300">
+            <i id="themeIcon" class="fa-solid fa-moon text-xl sm:text-2xl text-yellow-300 mb-0.5 filter drop-shadow-md"></i>
+            <span id="themeText" class="font-heading font-black text-[9px] sm:text-[9.5px] tracking-wider uppercase leading-none drop-shadow">DARK</span>
         </div>
     </div>
 </body>

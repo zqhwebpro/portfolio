@@ -1,9 +1,8 @@
 import React, { useState, useEffect, useRef } from 'react';
-import { SoundEngine } from '../utils/soundEngine';
 import { RearviewMirror } from './RearviewMirror';
 import { WaveformVisualizer } from './WaveformVisualizer';
 import { SpotifyRadio } from './SpotifyRadio';
-import { Sparkles, X, Flame } from 'lucide-react';
+import { Sparkles, X } from 'lucide-react';
 
 const AFFIRMATIONS = [
   "YOU ARE UNSTOPPABLE. KEEP PUSHING FORWARD.",
@@ -26,7 +25,7 @@ const AFFIRMATIONS = [
 export function SynthwaveDrive() {
   const canvasRef = useRef(null);
 
-  // Infinite Scroll & Affirmation Mechanics
+  // Infinite Scroll & Affirmation State
   const [totalScrolls, setTotalScrolls] = useState(0);
   const [speedMph, setSpeedMph] = useState(0);
   const [activeAffirmation, setActiveAffirmation] = useState(null); // { id, text, number }
@@ -35,7 +34,8 @@ export function SynthwaveDrive() {
   const speedRef = useRef(0);
   const offsetRef = useRef(0);
   const totalScrollsRef = useRef(0);
-  const nextThresholdRef = useRef(() => Math.floor(Math.random() * 41) + 10);
+  // Start first threshold at 5 scrolls so pop-ups appear quickly, then 8 to 18 scrolls
+  const nextThresholdRef = useRef(5);
   const milestoneCountRef = useRef(0);
   const speedLinesRef = useRef([]);
 
@@ -56,21 +56,20 @@ export function SynthwaveDrive() {
     speedLinesRef.current = lines;
   }, []);
 
-  // Handle Wheel / Scroll Interaction (Infinite Scroll, Never Stops)
+  // Handle Wheel / Scroll Interaction (Continuous Silent Driving)
   useEffect(() => {
     const handleWheel = (e) => {
       if (e.deltaY > 0) {
         e.preventDefault();
 
-        // Accelerate smooth speed
+        // Accelerate speed smoothly (No sound noise)
         speedRef.current = Math.min(280, speedRef.current + 35);
         setSpeedMph(Math.round(speedRef.current));
-        SoundEngine.playDriveRev(speedRef.current / 280);
 
         setTotalScrolls((prev) => {
           const nextScroll = prev + 1;
 
-          // Check if random threshold (10-50 scrolls away) reached
+          // Trigger Affirmation Popup on scroll milestones
           if (nextScroll >= nextThresholdRef.current) {
             milestoneCountRef.current += 1;
             const randomAff = AFFIRMATIONS[Math.floor(Math.random() * AFFIRMATIONS.length)];
@@ -81,10 +80,8 @@ export function SynthwaveDrive() {
               number: milestoneCountRef.current
             });
 
-            SoundEngine.playSuccess();
-
-            // Set next random threshold 10 to 50 scrolls away
-            const nextStep = Math.floor(Math.random() * 41) + 10;
+            // Set next random threshold (8 to 18 scrolls away)
+            const nextStep = Math.floor(Math.random() * 11) + 8;
             nextThresholdRef.current = nextScroll + nextStep;
           }
 
@@ -105,12 +102,12 @@ export function SynthwaveDrive() {
     };
   }, []);
 
-  // Auto-dismiss floating affirmation toast after 5.5 seconds
+  // Auto-dismiss floating affirmation toast after 4.5 seconds
   useEffect(() => {
     if (!activeAffirmation) return;
     const timer = setTimeout(() => {
       setActiveAffirmation(null);
-    }, 5500);
+    }, 4500);
     return () => clearTimeout(timer);
   }, [activeAffirmation]);
 
@@ -125,13 +122,19 @@ export function SynthwaveDrive() {
       const width = (canvas.width = canvas.parentElement.clientWidth);
       const height = (canvas.height = canvas.parentElement.clientHeight);
 
-      // Decelerate speed smoothly
-      speedRef.current = Math.max(0, speedRef.current * 0.94);
+      // Decelerate speed smoothly to 0 when not scrolling
+      if (speedRef.current > 0.05) {
+        speedRef.current = speedRef.current * 0.92;
+      } else {
+        speedRef.current = 0;
+      }
       setSpeedMph(Math.round(speedRef.current));
 
-      // Advance grid offset based on speed
-      const baseVel = 1.8 + (speedRef.current * 0.14);
-      offsetRef.current = (offsetRef.current + baseVel) % 40;
+      // Advance grid offset ONLY when actively moving/scrolling!
+      if (speedRef.current > 0) {
+        const baseVel = speedRef.current * 0.16;
+        offsetRef.current = (offsetRef.current + baseVel) % 40;
+      }
 
       // 1. Deep Space Night Sky Gradient
       const skyGrad = ctx.createLinearGradient(0, 0, 0, height * 0.55);
@@ -154,7 +157,7 @@ export function SynthwaveDrive() {
       const sunRadius = Math.min(width, height) * 0.25;
       const sunCenterY = horizonY - sunRadius * 0.35;
 
-      // 3. PURE VIBRANT UNINTERRUPTED SYNTHWAVE SUN (No black cutout lines)
+      // 3. PURE VIBRANT UNINTERRUPTED SYNTHWAVE SUN
       const sunGrad = ctx.createLinearGradient(0, sunCenterY - sunRadius, 0, horizonY);
       sunGrad.addColorStop(0, '#ffe600');
       sunGrad.addColorStop(0.4, '#ff007f');
@@ -229,38 +232,40 @@ export function SynthwaveDrive() {
       }
       ctx.restore();
 
-      // 6. DYNAMIC 3D SPEED LINES ACCENTUATING FORWARD MOTION
-      ctx.save();
-      const speedIntensity = Math.min(1, (speedRef.current + 20) / 200);
-      const lines = speedLinesRef.current;
+      // 6. DYNAMIC 3D SPEED LINES (Render ONLY when actively scrolling/moving!)
+      if (speedRef.current > 0) {
+        ctx.save();
+        const speedIntensity = Math.min(1, speedRef.current / 180);
+        const lines = speedLinesRef.current;
 
-      lines.forEach((l) => {
-        l.z -= (l.speed + speedRef.current * 0.18);
-        if (l.z <= 10) {
-          l.z = 1000;
-          l.x = (Math.random() - 0.5) * 2;
-          l.y = (Math.random() - 0.5) * 2;
-        }
+        lines.forEach((l) => {
+          l.z -= (l.speed + speedRef.current * 0.18);
+          if (l.z <= 10) {
+            l.z = 1000;
+            l.x = (Math.random() - 0.5) * 2;
+            l.y = (Math.random() - 0.5) * 2;
+          }
 
-        const k = 400 / l.z;
-        const px = sunCenterX + l.x * width * k * 0.8;
-        const py = horizonY + l.y * height * k * 0.8;
-        const pLen = l.len * k * (1 + speedIntensity * 2.8);
+          const k = 400 / l.z;
+          const px = sunCenterX + l.x * width * k * 0.8;
+          const py = horizonY + l.y * height * k * 0.8;
+          const pLen = l.len * k * (1 + speedIntensity * 2.8);
 
-        const strokeAlpha = Math.min(1, (1000 - l.z) / 800) * (0.3 + speedIntensity * 0.7);
+          const strokeAlpha = Math.min(1, (1000 - l.z) / 800) * speedIntensity;
 
-        if (strokeAlpha > 0.05 && px >= 0 && px <= width && py >= 0 && py <= height) {
-          ctx.strokeStyle = l.z % 2 === 0 ? `rgba(0, 240, 255, ${strokeAlpha})` : `rgba(255, 230, 0, ${strokeAlpha})`;
-          ctx.lineWidth = Math.max(1, 2.5 * k);
-          ctx.shadowColor = '#00F0FF';
-          ctx.shadowBlur = 8;
-          ctx.beginPath();
-          ctx.moveTo(px, py);
-          ctx.lineTo(px + (px - sunCenterX) * 0.15 * speedIntensity, py + (py - horizonY) * 0.15 * speedIntensity + pLen);
-          ctx.stroke();
-        }
-      });
-      ctx.restore();
+          if (strokeAlpha > 0.05 && px >= 0 && px <= width && py >= 0 && py <= height) {
+            ctx.strokeStyle = l.z % 2 === 0 ? `rgba(0, 240, 255, ${strokeAlpha})` : `rgba(255, 230, 0, ${strokeAlpha})`;
+            ctx.lineWidth = Math.max(1, 2.5 * k);
+            ctx.shadowColor = '#00F0FF';
+            ctx.shadowBlur = 8;
+            ctx.beginPath();
+            ctx.moveTo(px, py);
+            ctx.lineTo(px + (px - sunCenterX) * 0.15 * speedIntensity, py + (py - horizonY) * 0.15 * speedIntensity + pLen);
+            ctx.stroke();
+          }
+        });
+        ctx.restore();
+      }
 
       animId = requestAnimationFrame(render);
     };
@@ -283,7 +288,7 @@ export function SynthwaveDrive() {
       {/* 3D Canvas Scene */}
       <canvas ref={canvasRef} style={{ width: '100%', height: '100%', display: 'block' }} />
 
-      {/* 1. TOP CENTER REARVIEW MIRROR (COMPACT) */}
+      {/* 1. TOP CENTER REARVIEW MIRROR (CLEAN - NO SUN, NO REAR MATRIX TEXT) */}
       <RearviewMirror speedMph={speedMph} />
 
       {/* 2. BOTTOM CENTER LIVE WAVEFORM VISUALIZER (COMPACT) */}
@@ -292,7 +297,7 @@ export function SynthwaveDrive() {
       {/* 3. BOTTOM RIGHT SPOTIFY API RADIO (COMPACT) */}
       <SpotifyRadio onAudioStateChange={(active) => setIsAudioPlaying(active)} />
 
-      {/* Static Initial Welcome Overlay: Concise & Clean */}
+      {/* Initial Start Banner: Designed to MATCH the exact sleek futuristic glass style of Affirmation Popups */}
       {totalScrolls === 0 && (
         <div style={{
           position: 'absolute',
@@ -302,39 +307,46 @@ export function SynthwaveDrive() {
           zIndex: 40,
           textAlign: 'center',
           width: '90%',
-          maxWidth: '420px',
+          maxWidth: '440px',
           pointerEvents: 'none'
         }}>
           <div style={{
-            background: 'rgba(9, 3, 20, 0.90)',
-            backdropFilter: 'blur(16px)',
+            background: 'rgba(12, 4, 28, 0.94)',
+            backdropFilter: 'blur(20px)',
             color: '#FFFFFF',
-            border: '1.2px solid rgba(0, 240, 255, 0.6)',
-            borderRadius: '14px',
+            border: '1.5px solid rgba(0, 240, 255, 0.7)',
+            borderRadius: '16px',
             padding: '1.5rem 1.75rem',
-            boxShadow: '0 0 30px rgba(0, 240, 255, 0.3)',
+            boxShadow: '0 0 35px rgba(0, 240, 255, 0.45), inset 0 0 15px rgba(0, 240, 255, 0.15)',
           }}>
             <div style={{
+              display: 'inline-flex',
+              alignItems: 'center',
+              gap: '0.4rem',
+              background: 'rgba(255, 230, 0, 0.12)',
+              border: '1px solid #FFE600',
+              borderRadius: '20px',
+              padding: '0.25rem 0.75rem',
               fontFamily: 'var(--font-mono)',
               fontSize: '0.65rem',
               fontWeight: 800,
               color: '#FFE600',
-              letterSpacing: '0.14em',
-              marginBottom: '0.35rem',
+              letterSpacing: '0.12em',
+              marginBottom: '0.75rem',
               textTransform: 'uppercase',
-              textShadow: '0 0 8px rgba(255, 230, 0, 0.6)'
+              boxShadow: '0 0 8px rgba(255, 230, 0, 0.4)'
             }}>
-              INFINITE SYNTH DRIVE
+              <Sparkles size={13} /> INFINITE SYNTH DRIVE
             </div>
 
             <h2 style={{
               fontFamily: 'var(--font-display)',
-              fontSize: '1.8rem',
+              fontSize: 'clamp(1.5rem, 3vw, 2rem)',
               fontWeight: 900,
-              lineHeight: 1.1,
+              lineHeight: 1.15,
               marginBottom: '0.5rem',
               color: '#00F0FF',
-              textShadow: '0 0 12px rgba(0, 240, 255, 0.7)',
+              textShadow: '0 0 12px rgba(0, 240, 255, 0.8)',
               textTransform: 'uppercase',
             }}>
               SCROLL TO DRIVE
@@ -354,7 +366,7 @@ export function SynthwaveDrive() {
         </div>
       )}
 
-      {/* SLEEK FUTURISTIC FLOATING AFFIRMATION TOAST CARD */}
+      {/* SLEEK FUTURISTIC FLOATING AFFIRMATION POPUP CARD */}
       {activeAffirmation && (
         <div style={{
           position: 'absolute',
@@ -364,7 +376,6 @@ export function SynthwaveDrive() {
           zIndex: 50,
           width: '90%',
           maxWidth: '440px',
-          animation: 'fadeInUp 0.4s cubic-bezier(0.16, 1, 0.3, 1)'
         }}>
           <div style={{
             background: 'rgba(12, 4, 28, 0.94)',
@@ -393,7 +404,6 @@ export function SynthwaveDrive() {
                 display: 'flex',
                 alignItems: 'center',
                 justifyContent: 'center',
-                transition: 'color 0.2s'
               }}
               title="Close Affirmation"
             >

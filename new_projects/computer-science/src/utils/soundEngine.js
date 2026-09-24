@@ -62,30 +62,8 @@ export const SoundEngine = {
     }
   },
 
-  // Synthwave Drive Engine Acceleration Rev
-  playDriveRev(speedRatio = 0.5) {
-    if (isMuted) return;
-    try {
-      const ctx = getAudioContext();
-      if (!ctx) return;
-      const osc = ctx.createOscillator();
-      const gain = ctx.createGain();
-      const freq = 90 + speedRatio * 350;
-
-      osc.type = 'sawtooth';
-      osc.frequency.setValueAtTime(freq, ctx.currentTime);
-      osc.frequency.exponentialRampToValueAtTime(freq * 1.4, ctx.currentTime + 0.15);
-
-      gain.gain.setValueAtTime(0.06, ctx.currentTime);
-      gain.gain.exponentialRampToValueAtTime(0.001, ctx.currentTime + 0.15);
-
-      osc.connect(gain);
-      gain.connect(ctx.destination);
-
-      osc.start();
-      osc.stop(ctx.currentTime + 0.16);
-    } catch {}
-  },
+  // Synthwave Drive Engine Acceleration Rev (Muted for silent scroll)
+  playDriveRev() {},
 
   // Push frame onto stack (ascending tone)
   playStackPush(depth = 1) {
