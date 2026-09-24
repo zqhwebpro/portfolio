@@ -35,39 +35,34 @@ export function SynthwaveDrive() {
   const [isAudioPlaying, setIsAudioPlaying] = useState(true);
 
   const speedRef = useRef(0);
+  const directionRef = useRef(1); // 1 = Forward, -1 = Reverse
   const offsetRef = useRef(0);
-  const phaseRef = useRef(0);
   const driveDistanceRef = useRef(0);
-  const nextMilestoneDistRef = useRef(20);
+  const nextMilestoneDistRef = useRef(28); // Spaced apart, no initial popup at startup
   const milestoneCountRef = useRef(0);
-  const isAudioPlayingRef = useRef(true);
 
-  useEffect(() => {
-    isAudioPlayingRef.current = isAudioPlaying;
-  }, [isAudioPlaying]);
-
-  // Handle Wheel / Scroll Interaction (Scroll Down = Drive Forward, Speed is NEVER negative)
+  // Handle Wheel / Scroll Interaction (Scroll Down = Forward, Scroll Up = Reverse, Speed is ALWAYS POSITIVE MPH)
   useEffect(() => {
     const handleWheel = (e) => {
       e.preventDefault();
 
-      const scrollDelta = e.deltaY > 0 ? 1 : -1;
-
       if (e.deltaY > 0) {
+        // Scroll DOWN = Drive Forward
+        directionRef.current = 1;
         speedRef.current = Math.min(320, speedRef.current + 35);
-      } else {
-        speedRef.current = Math.max(0, speedRef.current - 35);
+        driveDistanceRef.current += 1;
+      } else if (e.deltaY < 0) {
+        // Scroll UP = Drive Reverse (Speed is ALWAYS Positive MPH!)
+        directionRef.current = -1;
+        speedRef.current = Math.min(320, speedRef.current + 35);
+        driveDistanceRef.current -= 1;
       }
 
-      // Enforce speed is NEVER negative
-      setSpeedMph(Math.max(0, Math.round(speedRef.current)));
-
-      // Advance 3D Driving Distance
-      driveDistanceRef.current += scrollDelta;
-      const currentDist = driveDistanceRef.current;
+      const currentDist = Math.abs(driveDistanceRef.current);
       setDriveDistance(currentDist);
+      setSpeedMph(Math.round(speedRef.current));
 
-      // Trigger new affirmation popup far down the road horizon when reaching spread-apart milestones
+      // Trigger new affirmation popup far down the road horizon when reaching distance milestones
       if (currentDist >= nextMilestoneDistRef.current) {
         milestoneCountRef.current += 1;
         const randomAff = AFFIRMATIONS[Math.floor(Math.random() * AFFIRMATIONS.length)];
@@ -79,12 +74,12 @@ export function SynthwaveDrive() {
           number: milestoneCountRef.current,
           leftPos: randomPos,
           startDist: currentDist,
-          targetDist: currentDist + 22 // Distance traveled for full road passage
+          targetDist: currentDist + 24 // Spaced out for smooth road travel
         };
 
         setPopups((prev) => [...prev, newPopup]);
 
-        // Spread pop-ups far apart (30 to 50 distance units)
+        // Next milestone spaced 30 to 50 distance units apart
         const nextGap = Math.floor(Math.random() * 20) + 30;
         nextMilestoneDistRef.current = currentDist + nextGap;
       }
@@ -102,7 +97,7 @@ export function SynthwaveDrive() {
     };
   }, []);
 
-  // Remove popups that have traveled past the driver
+  // Filter out popups that have traveled past the driver
   useEffect(() => {
     setPopups((prev) =>
       prev.filter((p) => {
@@ -112,7 +107,7 @@ export function SynthwaveDrive() {
     );
   }, [driveDistance]);
 
-  // Canvas 3D Perspective Grid & Dynamic Sun Wave Render Loop
+  // Canvas 3D Perspective Grid & Scene Render Loop
   useEffect(() => {
     const canvas = canvasRef.current;
     if (!canvas) return;
@@ -124,21 +119,21 @@ export function SynthwaveDrive() {
       const width = (canvas.width = parent ? parent.clientWidth : window.innerWidth);
       const height = (canvas.height = parent ? parent.clientHeight : window.innerHeight);
 
-      // Decelerate speed smoothly to 0 when not scrolling (speed is never negative)
+      // Decelerate speed smoothly to 0 when not scrolling
       if (speedRef.current > 0.1) {
         speedRef.current = speedRef.current * 0.92;
       } else {
         speedRef.current = 0;
       }
-      setSpeedMph(Math.max(0, Math.round(speedRef.current)));
+      setSpeedMph(Math.round(speedRef.current));
 
-      // Advance grid offset forward
+      // Advance grid offset forward or backward depending on directionRef
       if (speedRef.current > 0) {
-        const baseVel = speedRef.current * 0.16;
-        offsetRef.current = (offsetRef.current + baseVel) % 40;
+        const baseVel = speedRef.current * 0.16 * directionRef.current;
+        offsetRef.current = (offsetRef.current + baseVel + 40) % 40;
       }
 
-      // 1. Deep Space Night Sky Gradient
+      // 1. Deep Space Night Sky Gradient (Clean)
       const skyGrad = ctx.createLinearGradient(0, 0, 0, height * 0.55);
       skyGrad.addColorStop(0, '#040008');
       skyGrad.addColorStop(0.5, '#18042e');
@@ -151,7 +146,7 @@ export function SynthwaveDrive() {
       const sunRadius = Math.min(width, height) * 0.25;
       const sunCenterY = horizonY - sunRadius * 0.35;
 
-      // 2. SYNTHWAVE SUN
+      // 2. SYNTHWAVE SUN (Clean uninterrupted neon gradient)
       const sunGrad = ctx.createLinearGradient(0, sunCenterY - sunRadius, 0, horizonY);
       sunGrad.addColorStop(0, '#ffe600');
       sunGrad.addColorStop(0.4, '#ff007f');
@@ -173,45 +168,7 @@ export function SynthwaveDrive() {
       ctx.fillRect(0, 0, width, height);
       ctx.restore();
 
-      // 2.5 SUN CIRCLE LINES DYNAMICALLY DRIVEN & AFFECTED BY MUSIC
-      const numRings = 5;
-      const baseAmp = isAudioPlayingRef.current ? 40 : speedRef.current > 0 ? 18 : 6;
-      phaseRef.current += isAudioPlayingRef.current ? 0.05 : 0.02;
-
-      ctx.save();
-      for (let rIdx = 0; rIdx < numRings; rIdx++) {
-        const ringBaseR = sunRadius + 18 + rIdx * 28 + ((phaseRef.current * 16) % 28);
-        const ringAlpha = isAudioPlayingRef.current
-          ? Math.max(0.1, 0.42 - (rIdx * 0.06))
-          : Math.max(0.04, 0.2 - (rIdx * 0.04));
-
-        ctx.globalAlpha = ringAlpha;
-        ctx.strokeStyle = rIdx % 2 === 0 ? '#00F0FF' : '#FF007F';
-        ctx.lineWidth = isAudioPlayingRef.current ? 2.5 : 1.8;
-        ctx.shadowColor = rIdx % 2 === 0 ? '#00F0FF' : '#FF007F';
-        ctx.shadowBlur = isAudioPlayingRef.current ? 12 : 6;
-
-        ctx.beginPath();
-        const steps = 90;
-        for (let s = 0; s <= steps; s++) {
-          const a = (s / steps) * Math.PI * 2;
-          const wave = Math.sin(a * (6 + rIdx * 2) + phaseRef.current * 2) * (baseAmp * 0.35);
-          const currentR = ringBaseR + wave;
-
-          const rx = sunCenterX + Math.cos(a) * currentR;
-          const ry = sunCenterY + Math.sin(a) * currentR;
-
-          if (s === 0) ctx.moveTo(rx, ry);
-          else ctx.lineTo(rx, ry);
-        }
-        ctx.closePath();
-        ctx.stroke();
-      }
-      ctx.shadowBlur = 0;
-      ctx.globalAlpha = 1.0;
-      ctx.restore();
-
-      // 3. Distant Mountain Silhouettes (Drawn ON TOP of sky & sun circles)
+      // 3. Distant Mountain Silhouettes
       ctx.fillStyle = '#0e041d';
       ctx.beginPath();
       ctx.moveTo(0, horizonY);
@@ -224,7 +181,7 @@ export function SynthwaveDrive() {
       ctx.lineTo(width, horizonY);
       ctx.fill();
 
-      // 4. 3D Perspective Grid Floor (Drawn ON TOP of horizon)
+      // 4. 3D Perspective Grid Floor
       ctx.save();
       const floorGrad = ctx.createLinearGradient(0, horizonY, 0, height);
       floorGrad.addColorStop(0, '#120328');
@@ -232,7 +189,7 @@ export function SynthwaveDrive() {
       ctx.fillStyle = floorGrad;
       ctx.fillRect(0, horizonY, width, height - horizonY);
 
-      // Perspective Grid Lines (Horizontal moving forward)
+      // Perspective Grid Lines (Horizontal moving forward/backward)
       ctx.lineWidth = 2;
       const numH = 18;
       for (let i = 0; i < numH; i++) {
@@ -288,98 +245,32 @@ export function SynthwaveDrive() {
       {/* 1. TOP CENTER REARVIEW MIRROR */}
       <RearviewMirror speedMph={speedMph} />
 
-      {/* 2. LIVE WAVEFORM SCOPE */}
+      {/* 2. LIVE WAVEFORM SCOPE & HORIZON SOUND WAVES ALONG MOUNTAINS */}
       <WaveformVisualizer isAudioPlaying={isAudioPlaying} speedMph={speedMph} />
 
-      {/* 3. REDESIGNED SPOTIFY RADIO (NO WORDS, PURE DESIGN & API) */}
+      {/* 3. DIRECT SPOTIFY EMBED PLAYLIST (WITHOUT EXTRA CONTAINER OR BUTTONS) */}
       <SpotifyRadio onAudioStateChange={(active) => setIsAudioPlaying(active)} />
 
-      {/* Initial Start Banner */}
-      {driveDistance === 0 && (
-        <div style={{
-          position: 'absolute',
-          top: '50%',
-          left: '50%',
-          transform: 'translate(-50%, -50%)',
-          zIndex: 40,
-          textAlign: 'center',
-          width: '90%',
-          maxWidth: '440px',
-          pointerEvents: 'none'
-        }}>
-          <div style={{
-            background: 'rgba(6, 1, 18, 0.55)',
-            backdropFilter: 'blur(16px)',
-            color: '#FFFFFF',
-            border: '1.5px solid rgba(0, 240, 255, 0.8)',
-            borderRadius: '18px',
-            padding: '1.5rem 1.8rem',
-            boxShadow: '0 0 40px rgba(0, 240, 255, 0.4), inset 0 0 20px rgba(0, 240, 255, 0.15)',
-          }}>
-            <div style={{
-              fontFamily: 'var(--font-mono)',
-              fontSize: '0.65rem',
-              fontWeight: 800,
-              color: '#00F0FF',
-              letterSpacing: '0.14em',
-              marginBottom: '0.5rem',
-              textTransform: 'uppercase',
-              textShadow: '0 0 10px rgba(0, 240, 255, 0.8)',
-              display: 'flex',
-              alignItems: 'center',
-              justifyContent: 'center',
-              gap: '0.4rem'
-            }}>
-              <Sparkles size={13} color="#00F0FF" /> INFINITE SYNTH DRIVE
-            </div>
-
-            <h2 style={{
-              fontFamily: 'var(--font-display)',
-              fontSize: 'clamp(1.6rem, 3vw, 2.2rem)',
-              fontWeight: 900,
-              lineHeight: 1.15,
-              marginBottom: '0.5rem',
-              color: '#00F0FF',
-              textShadow: '0 0 15px rgba(0, 240, 255, 0.9)',
-              textTransform: 'uppercase',
-            }}>
-              SCROLL TO DRIVE
-            </h2>
-
-            <p style={{
-              fontFamily: 'var(--font-mono)',
-              fontSize: '0.8rem',
-              fontWeight: 600,
-              color: '#C0C0E0',
-              margin: 0,
-              lineHeight: 1.45
-            }}>
-              Scroll down to drive along the grid. Affirmations appear along the road plane as you travel.
-            </p>
-          </div>
-        </div>
-      )}
-
-      {/* POP-UPS POSITIONED LOW CLOSER TO THE PLANE & SPREAD FAR APART (NO ALL CAPS, NO CLOSE BUTTON) */}
+      {/* POP-UPS POSITIONED LOW CLOSER TO THE PLANE & SPREAD FAR APART (NO ALL CAPS, NO CLOSE BUTTON, NO STARTUP POPUP) */}
       {popups.map((popup) => {
         const totalDist = popup.targetDist - popup.startDist;
         const rawProgress = (driveDistance - popup.startDist) / totalDist;
         const progress = Math.max(0, Math.min(1.05, rawProgress));
 
-        // 3D Perspective Calculations: Kept low closer to the road plane
+        // 3D Perspective Calculations: Kept low right on the 3D grid floor plane
         let topPct, scale, opacity, rotateX;
 
         if (progress <= 0.82) {
-          // Approaching along 3D grid floor plane (lower closer to road)
+          // Approaching along 3D grid floor plane (low near road plane)
           const p = progress / 0.82;
-          topPct = 54 - p * 18; // 54% down to 36% (low near plane!)
+          topPct = 55 - p * 16; // 55% down to 39% (right on the road plane!)
           scale = 0.06 + Math.pow(p, 2.0) * 1.1; // 0.06 -> 1.16
           opacity = Math.min(1, p * 3.5);
           rotateX = (1 - p) * 35;
         } else {
           // Passing past driver
           const p = (progress - 0.82) / 0.23;
-          topPct = 36 - p * 14; // 36% -> 22%
+          topPct = 39 - p * 14; // 39% -> 25%
           scale = 1.16 + p * 0.3;
           opacity = Math.max(0, 1 - p * 1.2);
           rotateX = -p * 10;

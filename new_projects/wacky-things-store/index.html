@@ -597,13 +597,6 @@
             <!-- Header Action Buttons -->
             <div class="flex items-center gap-2.5">
                 
-                <!-- Dark/Light Theme Header Toggle -->
-                <button onclick="window.toggleDarkMode()" 
-                        class="px-3 py-2 rounded-xl bg-white border border-canvas-border hover:border-earth-700 text-earth-800 text-xs font-bold flex items-center gap-1.5 transition-all shadow-xs"
-                        title="Toggle Light / Dark Mode">
-                    <i id="headerThemeIcon" class="fa-solid fa-moon text-amber-500"></i>
-                    <span id="headerThemeText" class="hidden sm:inline">Theme</span>
-                </button>
 
                 <!-- Architecture Modal Trigger -->
                 <button onclick="window.openArchitectureModal()" 
@@ -895,19 +888,15 @@
           class="bg-canvas-base text-earth-950 py-8 flex-1 w-full hidden">
         <div class="store-fluid-container space-y-6">
             
-            <!-- Blog Intro Paragraph Explaining What the Blog is For -->
-            <div class="bg-white border border-canvas-border rounded-2xl p-5 shadow-xs text-center max-w-3xl mx-auto space-y-2"
+            <!-- Full-Width Left-Aligned Blog Intro Paragraph (No White Card Box, Dark Grey Text) -->
+            <div class="w-full text-left py-1"
                  data-blueprint-file="WackyStore.WebUI/Views/Blog/Index.cshtml"
                  data-blueprint-role="Blog Overview &amp; Field Guide Intro"
                  data-blueprint-layer="WebUI / View Header"
-                 data-blueprint-dom="Centered explanatory hero card explaining the purpose of the Wacky Chronicles portal."
+                 data-blueprint-dom="Full width left-aligned dark grey paragraph explaining the purpose of the Wacky Chronicles blog."
                  data-blueprint-desc="Provides introductory context detailing research notes, invention guides, and field logs."
                  data-blueprint-code="ViewBag.Title = &quot;Wacky Chronicles &amp; Field Notes&quot;;">
-                <div class="flex items-center justify-center gap-2">
-                    <span class="h-2 w-2 rounded-full bg-teal-500 inline-block animate-pulse"></span>
-                    <span class="text-[11px] font-mono text-earth-500 uppercase tracking-widest font-bold">Wacky Chronicles Portal</span>
-                </div>
-                <p class="text-sm sm:text-base font-semibold text-earth-800 leading-relaxed m-0">
+                <p class="text-sm sm:text-base font-semibold text-earth-800 leading-relaxed text-left w-full m-0">
                     Welcome to the official field notes, lab documentation, and mischievous user guides for our absurd store inventions! Here you will find scientific breakdowns on dehydrated water, care instructions for invisible chameleons, windowsill botanical gossip, and fluid dynamics for left-handed coffee mugs.
                 </p>
             </div>
@@ -2680,7 +2669,7 @@
 
                     window.currentView = 'blog';
 
-                    if (iconEl) iconEl.className = 'fa-solid fa-store text-xs sm:text-sm text-white mb-0.5 filter drop-shadow-xs';
+                    if (iconEl) iconEl.className = 'fa-solid fa-store text-xs text-white mb-0.5 filter drop-shadow-[0_1.5px_3px_rgba(0,0,0,0.6)]';
                     if (textEl) textEl.innerText = 'STORE';
                     if (toggleBadge) toggleBadge.title = 'Switch Back to Wacky Shop Store';
 
@@ -2715,7 +2704,7 @@
 
                     window.currentView = 'store';
 
-                    if (iconEl) iconEl.className = 'fa-solid fa-newspaper text-xs sm:text-sm text-white mb-0.5 filter drop-shadow-xs';
+                    if (iconEl) iconEl.className = 'fa-solid fa-newspaper text-xs text-white mb-0.5 filter drop-shadow-[0_1.5px_3px_rgba(0,0,0,0.6)]';
                     if (textEl) textEl.innerText = 'BLOG';
                     if (toggleBadge) toggleBadge.title = 'Switch to Wacky Chronicles Blog';
 
@@ -2910,24 +2899,24 @@
          title="Switch to Wacky Chronicles Blog">
         
         <svg width="95" height="95" viewBox="0 0 95 95" fill="none" xmlns="http://www.w3.org/2000/svg" class="block w-[85px] h-[85px] sm:w-[95px] sm:h-[95px]">
-            <!-- Wavy Corner Triangle Background Path: Left & Bottom are flush with corner, top-right edge is wavy -->
+            <!-- Wavy Corner Triangle Background Path: Solid Teal -->
             <path id="wavyTrianglePath"
                   d="M 0 95 L 0 0 C 12 10 22 17 31 12 C 40 7 48 16 58 26 C 67 37 75 31 82 47 C 90 63 85 75 95 95 Z"
                   fill="url(#wavyGradientLight)"
                   stroke="#0D9488"
-                  stroke-width="2"
+                  stroke-width="2.5"
                   stroke-linejoin="round"
                   class="transition-all duration-500" />
             
             <defs>
-                <!-- Light Mode Gradient: Vibrant Whimsical Teal/Cyan -->
+                <!-- Light Mode Gradient: Solid Whimsical Teal -->
                 <linearGradient id="wavyGradientLight" x1="0" y1="95" x2="65" y2="0" gradientUnits="userSpaceOnUse">
-                    <stop offset="0%" stop-color="#042F2E" />
+                    <stop offset="0%" stop-color="#0F766E" />
                     <stop offset="60%" stop-color="#0D9488" />
                     <stop offset="100%" stop-color="#14B8A6" />
                 </linearGradient>
 
-                <!-- Dark Mode Gradient: Neon Cyberpunk Teal/Cyan -->
+                <!-- Dark Mode Gradient: Solid Cyberpunk Teal -->
                 <linearGradient id="wavyGradientDark" x1="0" y1="95" x2="65" y2="0" gradientUnits="userSpaceOnUse">
                     <stop offset="0%" stop-color="#0F766E" />
                     <stop offset="60%" stop-color="#0D9488" />
@@ -2938,8 +2927,8 @@
 
         <!-- Centered Icon & Label inside the Corner Triangle -->
         <div class="absolute bottom-4 left-4 sm:bottom-5 sm:left-5 flex flex-col items-center justify-center text-white pointer-events-none transition-transform duration-300">
-            <i id="viewToggleIcon" class="fa-solid fa-newspaper text-xs text-white mb-0.5 filter drop-shadow-xs"></i>
-            <span id="viewToggleText" class="font-heading font-black text-[9px] sm:text-[9.5px] tracking-wider uppercase leading-none drop-shadow">BLOG</span>
+            <i id="viewToggleIcon" class="fa-solid fa-newspaper text-xs text-white mb-0.5 filter drop-shadow-[0_1.5px_3px_rgba(0,0,0,0.6)]"></i>
+            <span id="viewToggleText" class="font-heading font-black text-[11px] sm:text-[11.5px] tracking-wider uppercase leading-none filter drop-shadow-[0_1.5px_3px_rgba(0,0,0,0.6)]">BLOG</span>
         </div>
     </div>
 </body>
