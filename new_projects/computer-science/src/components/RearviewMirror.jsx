@@ -29,6 +29,19 @@ export function RearviewMirror({ speedMph }) {
       ctx.fillStyle = skyGrad;
       ctx.fillRect(0, 0, width, height);
 
+      // Distant Rear Mountain Silhouettes
+      ctx.fillStyle = '#180734';
+      ctx.beginPath();
+      ctx.moveTo(0, horizonY);
+      ctx.lineTo(width * 0.15, horizonY - 16);
+      ctx.lineTo(width * 0.28, horizonY - 7);
+      ctx.lineTo(width * 0.45, horizonY - 22);
+      ctx.lineTo(width * 0.6, horizonY - 9);
+      ctx.lineTo(width * 0.78, horizonY - 25);
+      ctx.lineTo(width * 0.9, horizonY - 12);
+      ctx.lineTo(width, horizonY);
+      ctx.fill();
+
       // Rear 3D Grid Floor
       ctx.fillStyle = '#05010b';
       ctx.fillRect(0, horizonY, width, height - horizonY);

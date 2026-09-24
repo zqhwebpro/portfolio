@@ -363,8 +363,8 @@ function App() {
       {/* Top Header & Arcane Controls */}
       <header className="site-header">
         <div className="header-titles">
-          <h1>Tarot & Zodiac Divination Compass</h1>
-          <p className="realm-tagline">Mystic Cartomancy · Ancient Astrolabe · Gesture Spells</p>
+          <h1>Zodiac Compass</h1>
+          <p className="realm-tagline">Digital Astrolabe • Gesture Spells</p>
         </div>
 
         <div className="header-actions">

@@ -1485,14 +1485,14 @@ body, html {
 
 .portal-click-here {
   font-family: 'Philosopher', 'Inter', sans-serif;
-  font-size: 0.78rem;
-  font-weight: 700;
+  font-size: 0.62rem;
+  font-weight: 600;
   color: #ffffff;
   letter-spacing: 0.1em;
   text-transform: uppercase;
-  margin-top: 4px;
-  text-shadow: 0 0 8px rgba(255, 255, 255, 0.95);
-  opacity: 0.95;
+  margin-top: 2px;
+  text-shadow: 0 0 6px rgba(255, 255, 255, 0.7);
+  opacity: 0.82;
 }
 
 .mirror-active-overlay {

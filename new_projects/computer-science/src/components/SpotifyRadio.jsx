@@ -173,7 +173,7 @@ export function SpotifyRadio({ onAudioStateChange }) {
       {/* Top Header Bar */}
       <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '0.5rem', borderBottom: '1px solid rgba(255, 255, 255, 0.1)', paddingBottom: '0.25rem' }}>
         <div style={{ fontFamily: 'var(--font-mono)', fontSize: '0.52rem', fontWeight: 800, color: '#1DB954', display: 'flex', alignItems: 'center', gap: '0.25rem', textShadow: '0 0 4px rgba(29, 185, 84, 0.6)' }}>
-          <Radio size={12} /> {spotifyStatus}
+          <Radio size={12} /> CYBER FM
         </div>
         <div style={{ fontFamily: 'var(--font-mono)', fontSize: '0.52rem', color: '#FFE600', fontWeight: 800, textShadow: '0 0 4px rgba(255, 230, 0, 0.6)' }}>
           98.4 FM
@@ -306,26 +306,6 @@ export function SpotifyRadio({ onAudioStateChange }) {
             <SkipForward size={14} />
           </button>
         </div>
-
-        {/* Spotify External Link */}
-        <a
-          href={currentTrack.spotify_url}
-          target="_blank"
-          rel="noopener noreferrer"
-          style={{
-            color: '#1DB954',
-            fontFamily: 'var(--font-mono)',
-            fontSize: '0.62rem',
-            fontWeight: 800,
-            textDecoration: 'none',
-            display: 'flex',
-            alignItems: 'center',
-            gap: '0.25rem',
-            textShadow: '0 0 6px rgba(29, 185, 84, 0.6)'
-          }}
-        >
-          SPOTIFY <ExternalLink size={12} />
-        </a>
       </div>
     </div>
   );
