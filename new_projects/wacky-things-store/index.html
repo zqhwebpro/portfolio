@@ -660,18 +660,22 @@
                     <span id="header-cart-count" class="h-5 min-w-5 px-1.5 rounded-full bg-honey-400 text-earth-950 font-black text-[10px] flex items-center justify-center shadow-xs">0</span>
                 </button>
 
-                <!-- Spin & Win Minigame Button -->
+                <!-- Press Your Luck Minigame Button -->
                 <button id="header-spin-btn"
                         onclick="window.playSpinMinigame()"
-                        data-blueprint-file="WackyStore.WebUI/Controllers/PrizeController.cs"
-                        data-blueprint-role="Spin Prize Minigame"
-                        data-blueprint-layer="WebUI / Gamification"
-                        data-blueprint-dom="Minigame button replacing the blog button."
-                        data-blueprint-desc="Triggers a spin game with randomized coupon prizes and falling item animations."
-                        class="px-3.5 py-2 rounded-xl bg-white border border-canvas-border hover:border-appetite-700 text-earth-800 hover:text-appetite-800 text-xs font-bold flex items-center gap-1.5 transition-all shadow-xs"
-                        title="Spin to Win!">
-                    <i id="headerSpinIcon" class="fa-solid fa-gift text-appetite-700"></i>
-                    <span id="headerSpinText" class="hidden sm:inline">Spin &amp; Win</span>
+                        class="px-3.5 py-2 rounded-xl bg-appetite-100 border border-appetite-300 hover:border-appetite-700 text-appetite-900 text-xs font-bold flex items-center gap-1.5 transition-all shadow-xs"
+                        title="Press Your Luck!">
+                    <i id="headerSpinIcon" class="fa-solid fa-dice text-appetite-700"></i>
+                    <span id="headerSpinText" class="hidden sm:inline">Press Your Luck</span>
+                </button>
+
+                <!-- Blog Reading Portal Trigger -->
+                <button onclick="window.toggleBlogView()"
+                        id="header-blog-btn"
+                        class="px-3.5 py-2 rounded-xl bg-white border border-canvas-border hover:border-earth-700 text-earth-800 hover:text-earth-900 text-xs font-bold flex items-center gap-1.5 transition-all shadow-xs"
+                        title="Read The Mischief Gazette">
+                    <i class="fa-solid fa-newspaper text-earth-700"></i>
+                    <span class="hidden sm:inline">The Wacky Blog</span>
                 </button>
 
             </div>
@@ -3090,47 +3094,30 @@
             <!-- Header -->
             <div class="space-y-1">
                 <div class="inline-flex items-center gap-2 px-3.5 py-1 rounded-full bg-appetite-100 text-appetite-900 text-xs font-black uppercase tracking-wider">
-                    <i class="fa-solid fa-gift text-appetite-700"></i> Wacky Wheel of Fortune
+                    <i class="fa-solid fa-dice text-appetite-700"></i> Wacky Press Your Luck
                 </div>
-                <h3 class="font-heading font-black text-2xl sm:text-3xl text-earth-950 tracking-tight">Spin &amp; Win Discounts!</h3>
-                <p class="text-xs text-earth-600">Spin the wheel to win up to 50% OFF your entire cart!</p>
+                <h3 class="font-heading font-black text-2xl sm:text-3xl text-earth-950 tracking-tight">Press Your Luck!</h3>
+                <p class="text-xs text-earth-600">Stop the board to win up to 50% OFF your entire cart!</p>
             </div>
 
-            <!-- Wheel Container -->
-            <div class="relative w-64 h-64 sm:w-72 sm:h-72 mx-auto my-2 flex items-center justify-center">
-                <!-- Pointer Arrow at top pointing down -->
-                <div class="absolute -top-3 left-1/2 -translate-x-1/2 z-20 w-0 h-0 border-l-[14px] border-l-transparent border-r-[14px] border-r-transparent border-t-[22px] border-t-amber-500 drop-shadow-md"></div>
+            <!-- Press Your Luck Board Container -->
+            <div id="prize-luck-board" class="relative w-full mx-auto my-2 grid grid-cols-3 gap-2 sm:gap-3 p-3 bg-earth-950 rounded-xl border-4 border-earth-800 shadow-inner">
+                <!-- Squares -->
+                <div class="luck-sq aspect-square bg-earth-800 rounded-lg flex items-center justify-center text-center font-black text-white text-[10px] sm:text-xs border-2 border-earth-700 transition-all shadow-md" data-prize="10% OFF" data-prize-idx="0">10% OFF</div>
+                <div class="luck-sq aspect-square bg-earth-800 rounded-lg flex items-center justify-center text-center font-black text-white text-[10px] sm:text-xs border-2 border-earth-700 transition-all shadow-md" data-prize="TRY AGAIN" data-prize-idx="1">TRY AGAIN</div>
+                <div class="luck-sq aspect-square bg-earth-800 rounded-lg flex items-center justify-center text-center font-black text-white text-[10px] sm:text-xs border-2 border-earth-700 transition-all shadow-md" data-prize="15% OFF" data-prize-idx="2">15% OFF</div>
                 
-                <!-- Rotating SVG Wheel -->
-                <svg id="prize-wheel-svg" viewBox="0 0 200 200" class="w-full h-full transform transition-transform duration-[3500ms] ease-[cubic-bezier(0.15,0.9,0.2,1)] drop-shadow-xl rounded-full">
-                    <!-- Segment 0: 0° - 60° (10% OFF) -->
-                    <path d="M100,100 L100,0 A100,100 0 0,1 186.6,50 Z" fill="#0D9488" stroke="#ffffff" stroke-width="2"/>
-                    <text x="135" y="42" fill="#ffffff" font-size="11" font-weight="900" transform="rotate(30, 100, 100)" text-anchor="middle">10% OFF</text>
-                    
-                    <!-- Segment 1: 60° - 120° (TRY AGAIN) -->
-                    <path d="M100,100 L186.6,50 A100,100 0 0,1 186.6,150 Z" fill="#475569" stroke="#ffffff" stroke-width="2"/>
-                    <text x="135" y="42" fill="#ffffff" font-size="10" font-weight="900" transform="rotate(90, 100, 100)" text-anchor="middle">TRY AGAIN</text>
-                    
-                    <!-- Segment 2: 120° - 180° (15% OFF) -->
-                    <path d="M100,100 L186.6,150 A100,100 0 0,1 100,200 Z" fill="#7C3AED" stroke="#ffffff" stroke-width="2"/>
-                    <text x="135" y="42" fill="#ffffff" font-size="11" font-weight="900" transform="rotate(150, 100, 100)" text-anchor="middle">15% OFF</text>
-                    
-                    <!-- Segment 3: 180° - 240° (10% OFF) -->
-                    <path d="M100,100 L100,200 A100,100 0 0,1 13.4,150 Z" fill="#0284C7" stroke="#ffffff" stroke-width="2"/>
-                    <text x="135" y="42" fill="#ffffff" font-size="11" font-weight="900" transform="rotate(210, 100, 100)" text-anchor="middle">10% OFF</text>
-                    
-                    <!-- Segment 4: 240° - 300° (20% OFF) -->
-                    <path d="M100,100 L13.4,150 A100,100 0 0,1 13.4,50 Z" fill="#D97706" stroke="#ffffff" stroke-width="2"/>
-                    <text x="135" y="42" fill="#ffffff" font-size="11" font-weight="900" transform="rotate(270, 100, 100)" text-anchor="middle">20% OFF</text>
-                    
-                    <!-- Segment 5: 300° - 360° (50% OFF) -->
-                    <path d="M100,100 L13.4,50 A100,100 0 0,1 100,0 Z" fill="#DB2777" stroke="#ffffff" stroke-width="2"/>
-                    <text x="135" y="42" fill="#ffffff" font-size="11" font-weight="900" transform="rotate(330, 100, 100)" text-anchor="middle">50% OFF!</text>
-
-                    <!-- Center Cap -->
-                    <circle cx="100" cy="100" r="22" fill="#ffffff" stroke="#e2e8f0" stroke-width="3"/>
-                    <circle cx="100" cy="100" r="14" fill="#0F766E"/>
-                </svg>
+                <div class="luck-sq aspect-square bg-earth-800 rounded-lg flex items-center justify-center text-center font-black text-white text-[10px] sm:text-xs border-2 border-earth-700 transition-all shadow-md" data-prize="10% OFF" data-prize-idx="7">10% OFF</div>
+                
+                <div class="aspect-square bg-black rounded-lg flex items-center justify-center text-center font-black text-appetite-500 text-sm border-2 border-earth-900 shadow-inner overflow-hidden">
+                    <i class="fa-solid fa-dice text-3xl sm:text-4xl opacity-70"></i>
+                </div>
+                
+                <div class="luck-sq aspect-square bg-earth-800 rounded-lg flex items-center justify-center text-center font-black text-white text-[10px] sm:text-xs border-2 border-earth-700 transition-all shadow-md" data-prize="20% OFF" data-prize-idx="3">20% OFF</div>
+                
+                <div class="luck-sq aspect-square bg-earth-800 rounded-lg flex items-center justify-center text-center font-black text-white text-[10px] sm:text-xs border-2 border-earth-700 transition-all shadow-md" data-prize="50% OFF!" data-prize-idx="6">50% OFF!</div>
+                <div class="luck-sq aspect-square bg-earth-800 rounded-lg flex items-center justify-center text-center font-black text-white text-[10px] sm:text-xs border-2 border-earth-700 transition-all shadow-md" data-prize="TRY AGAIN" data-prize-idx="5">TRY AGAIN</div>
+                <div class="luck-sq aspect-square bg-earth-800 rounded-lg flex items-center justify-center text-center font-black text-white text-[10px] sm:text-xs border-2 border-earth-700 transition-all shadow-md" data-prize="10% OFF" data-prize-idx="4">10% OFF</div>
             </div>
 
             <!-- Result Announcement Banner -->
@@ -3147,11 +3134,92 @@
 
             <!-- Spin Trigger / Actions -->
             <div class="flex items-center justify-center gap-3 pt-2">
-                <button id="spin-wheel-btn" onclick="window.spinPrizeWheel()" class="w-full py-3.5 rounded-xl bg-gradient-to-r from-appetite-700 to-appetite-600 hover:from-appetite-800 hover:to-appetite-700 text-white font-black text-sm flex items-center justify-center gap-2 transition-all shadow-lg shadow-appetite-800/30 active:scale-95">
-                    <i class="fa-solid fa-arrows-spin text-amber-300 text-lg"></i>
-                    <span>SPIN WHEEL NOW!</span>
+                <button id="spin-wheel-btn" onclick="window.playPressYourLuckGame()" class="w-full py-3.5 rounded-xl bg-gradient-to-r from-appetite-700 to-appetite-600 hover:from-appetite-800 hover:to-appetite-700 text-white font-black text-sm flex items-center justify-center gap-2 transition-all shadow-lg shadow-appetite-800/30 active:scale-95">
+                    <i class="fa-solid fa-stopwatch text-amber-300 text-lg"></i>
+                    <span>PRESS YOUR LUCK NOW!</span>
                 </button>
             </div>
+
+            <script>
+                window.playPressYourLuckGame = function() {
+                    const btn = document.getElementById('spin-wheel-btn');
+                    const resultBox = document.getElementById('prize-result-box');
+                    const resultTitle = document.getElementById('prize-result-title');
+                    const resultDesc = document.getElementById('prize-result-desc');
+                    const couponContainer = document.getElementById('prize-coupon-code-container');
+                    const couponBadge = document.getElementById('prize-coupon-badge');
+                    const squares = Array.from(document.querySelectorAll('.luck-sq')).sort((a, b) => parseInt(a.dataset.prizeIdx) - parseInt(b.dataset.prizeIdx));
+
+                    if(btn.disabled) return;
+                    btn.disabled = true;
+                    btn.innerHTML = '<i class="fa-solid fa-spinner fa-spin text-amber-300 text-lg"></i><span> STOPPING...</span>';
+                    resultBox.classList.add('hidden');
+
+                    let currentIdx = 0;
+                    let speed = 50;
+                    let jumps = 0;
+                    const minJumps = 40;
+                    const maxJumps = 60 + Math.floor(Math.random() * 20);
+
+                    const r = Math.random();
+                    let targetPrize;
+                    if(r < 0.20) targetPrize = "TRY AGAIN";
+                    else if(r < 0.70) targetPrize = "10% OFF";
+                    else if(r < 0.85) targetPrize = "15% OFF";
+                    else if(r < 0.95) targetPrize = "20% OFF";
+                    else targetPrize = "50% OFF!";
+
+                    const targetSquares = squares.filter(s => s.dataset.prize === targetPrize);
+                    const finalSquare = targetSquares[Math.floor(Math.random() * targetSquares.length)];
+                    const finalTargetIdx = parseInt(finalSquare.dataset.prizeIdx);
+
+                    const highlightSquare = (idx) => {
+                        squares.forEach(s => {
+                            s.classList.remove('bg-appetite-500', 'border-appetite-300', 'scale-105', 'z-10');
+                            s.classList.add('bg-earth-800', 'border-earth-700');
+                        });
+                        const sq = squares[idx];
+                        sq.classList.remove('bg-earth-800', 'border-earth-700');
+                        sq.classList.add('bg-appetite-500', 'border-appetite-300', 'scale-105', 'z-10');
+                    };
+
+                    const jump = () => {
+                        highlightSquare(currentIdx);
+                        jumps++;
+                        
+                        if (jumps > minJumps) {
+                            speed += 15;
+                        }
+
+                        if (jumps >= maxJumps && currentIdx === finalTargetIdx) {
+                            setTimeout(() => {
+                                squares[currentIdx].classList.remove('bg-appetite-500');
+                                squares[currentIdx].classList.add('bg-amber-400', 'border-amber-200', 'animate-pulse');
+                                
+                                btn.innerHTML = '<i class="fa-solid fa-check text-amber-300 text-lg"></i><span> COMPLETED</span>';
+                                resultTitle.innerText = targetPrize === 'TRY AGAIN' ? 'So Close!' : 'You Won ' + targetPrize;
+                                resultDesc.innerText = targetPrize === 'TRY AGAIN' ? 'Better luck next time! Keep shopping.' : 'Use this code at checkout to claim your wacky discount.';
+                                
+                                if(targetPrize !== 'TRY AGAIN') {
+                                    couponContainer.classList.remove('hidden');
+                                    const val = targetPrize.replace('% OFF', '').replace('!', '');
+                                    couponBadge.innerText = 'WACKY' + val;
+                                } else {
+                                    couponContainer.classList.add('hidden');
+                                }
+                                
+                                resultBox.classList.remove('hidden');
+                            }, 500);
+                            return;
+                        }
+
+                        currentIdx = (currentIdx + 1) % 8;
+                        setTimeout(jump, speed);
+                    };
+
+                    jump();
+                };
+            </script>
 
         </div>
     </div>
@@ -3197,8 +3265,8 @@
 
         <!-- Centered Icon and Text Label inside the Corner Triangle -->
         <div class="absolute bottom-2 left-2 sm:bottom-3 sm:left-3 flex flex-col items-center justify-center text-white pointer-events-none transition-transform duration-300 group-hover:scale-110">
-            <i id="viewToggleIcon" class="fa-solid fa-gift text-xl sm:text-2xl text-white"></i>
-            <span id="viewToggleText" class="text-[9px] sm:text-[10px] font-extrabold uppercase tracking-wider text-white leading-tight mt-0.5">SPIN!</span>
+            <i id="viewToggleIcon" class="fa-solid fa-dice text-xl sm:text-2xl text-white"></i>
+            <span id="viewToggleText" class="text-[9px] sm:text-[10px] font-extrabold uppercase tracking-wider text-white leading-tight mt-0.5">PLAY!</span>
         </div>
     </div>
 </body>
