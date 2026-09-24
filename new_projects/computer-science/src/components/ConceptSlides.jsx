@@ -11,7 +11,6 @@ function SlideShell({ concept, children }) {
     <div style={{ display: 'flex', flexDirection: 'column', gap: '2.5rem' }}>
       {/* ① Canonical Definition Banner */}
       <div style={{
-        borderLeft: `8px solid ${concept.color}`,
         background: '#FAFAFA',
         border: `2px solid #0A0A0A`,
         borderLeft: `12px solid ${concept.color}`,

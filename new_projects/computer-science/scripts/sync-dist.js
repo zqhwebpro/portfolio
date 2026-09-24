@@ -5,7 +5,7 @@ import { fileURLToPath } from 'url';
 const __dirname = fileURLToPath(new URL('.', import.meta.url));
 const rootDir = path.resolve(__dirname, '..');
 const distDir = path.resolve(rootDir, 'dist');
-const distHtml = path.resolve(distDir, 'index.html');
+const distHtml = path.resolve(distDir, 'index.source.html');
 const targetHtml = path.resolve(rootDir, 'index.html');
 const distAssets = path.resolve(distDir, 'assets');
 const targetAssets = path.resolve(rootDir, 'assets');
@@ -23,10 +23,10 @@ if (fs.existsSync(distHtml)) {
   }
 
   fs.writeFileSync(targetHtml, content, 'utf8');
-  fs.writeFileSync(distHtml, content, 'utf8');
-  console.log('✓ Synced dist/index.html -> root index.html with no-cache headers');
+  fs.writeFileSync(path.resolve(distDir, 'index.html'), content, 'utf8');
+  console.log('✓ Synced dist/index.source.html -> root index.html with no-cache headers');
 } else {
-  console.error('dist/index.html not found!');
+  console.error('dist/index.source.html not found!');
 }
 
 const caseStudyHtml = path.resolve(rootDir, 'case-study.html');
