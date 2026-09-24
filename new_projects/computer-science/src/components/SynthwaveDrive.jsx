@@ -270,9 +270,9 @@ export function SynthwaveDrive() {
         const stemWidth = 6;
 
         // Calculate X position matching the pink perspective lines
-        const isLeft = (popup.id % 2) === 0;
-        // Outer paths: near -5 to -4 for left, 4 to 5 for right
-        const lineIndex = isLeft ? (-5 + (popup.id % 2)) : (4 + (popup.id % 2));
+        const isLeft = (popup.number % 2) === 0;
+        // Inner paths: directly under the sun vector
+        const lineIndex = isLeft ? -1.5 : 1.5;
         
         // At progress p, topPct determines the vertical position.
         const progressY = Math.max(0, (topPct - 55) / 45); // 0 at horizon, 1 at bottom of screen
@@ -292,6 +292,7 @@ export function SynthwaveDrive() {
               top: `${topPct}%`,
               left: `${currentX}px`,
               transform: `translate(-50%, -100%) scale(${scale})`, // Origin at bottom center
+              transformOrigin: 'bottom center',
               opacity: opacity,
               zIndex: Math.round(45 + p * 20),
               display: 'flex',
