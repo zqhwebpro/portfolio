@@ -2,7 +2,9 @@ import React, { useState } from 'react';
 import { Navbar } from './components/Navbar';
 import { HeroSection } from './components/HeroSection';
 import { ConceptSlides } from './components/ConceptSlides';
+import { FizzBuzzCaseStudy } from './components/FizzBuzzCaseStudy';
 import { ReferenceTable } from './components/ReferenceTable';
+import { ClosingBanner } from './components/ClosingBanner';
 import { Footer } from './components/Footer';
 import { CONCEPTS } from './utils/csData';
 
@@ -26,7 +28,9 @@ export function App() {
       <main style={{ flex: 1 }}>
         <HeroSection onSelect={handleSelect} />
         <ConceptSlides activeIndex={activeIndex} onSelect={handleSelect} />
+        <FizzBuzzCaseStudy />
         <ReferenceTable onSelect={handleSelect} />
+        <ClosingBanner />
       </main>
       <Footer onSelect={handleSelect} />
     </div>

@@ -1,74 +1,103 @@
 import React, { useState, useEffect } from 'react';
-import { Play, RotateCcw, Terminal as TerminalIcon, Box, Check, X } from 'lucide-react';
+import { Play, RotateCcw, Box, CheckCircle2, GitFork, RotateCw, Keyboard, Terminal, Layers, Monitor, Sparkles, Check, ArrowRight } from 'lucide-react';
 import { CONCEPTS } from '../utils/csData';
 import { SoundEngine } from '../utils/soundEngine';
+
+/* ============================================================
+   ICON ROUTER MAP
+   ============================================================ */
+const ICON_COMPONENTS = {
+  Keyboard,
+  Box,
+  Monitor,
+  GitFork,
+  RotateCw,
+};
 
 /* ============================================================
    SHARED SLIDE SHELL
    ============================================================ */
 function SlideShell({ concept, children }) {
+  const IconComp = ICON_COMPONENTS[concept.iconName] || Box;
+
   return (
     <div style={{ display: 'flex', flexDirection: 'column', gap: '2.5rem' }}>
-      {/* ① Canonical Definition Banner */}
+      
+      {/* Canonical Definition Banner */}
       <div style={{
         background: '#FAFAFA',
-        border: `2px solid #0A0A0A`,
-        borderLeft: `12px solid ${concept.color}`,
-        padding: '2rem 2.5rem',
+        border: `3px solid #0A0A0A`,
+        borderLeft: `14px solid ${concept.color}`,
+        padding: '2rem 2.25rem',
         boxShadow: '6px 6px 0 #0A0A0A',
+        position: 'relative',
       }}>
-        <div style={{ fontFamily: 'var(--font-mono)', fontSize: '0.7rem', fontWeight: 900, color: concept.color, letterSpacing: '0.1em', marginBottom: '0.6rem', textTransform: 'uppercase' }}>
-          ◆ CANONICAL DEFINITION
+        <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '0.75rem', flexWrap: 'wrap', gap: '0.5rem' }}>
+          <div style={{ fontFamily: 'var(--font-mono)', fontSize: '0.75rem', fontWeight: 900, color: concept.color === '#FFE600' ? '#000' : concept.color, letterSpacing: '0.1em', textTransform: 'uppercase', display: 'flex', alignItems: 'center', gap: '0.4rem' }}>
+            <IconComp size={16} /> ◆ CANONICAL CONCEPT #{concept.num}
+          </div>
+          <div style={{ fontFamily: 'var(--font-mono)', fontSize: '0.7rem', fontWeight: 800, background: '#0A0A0A', color: concept.color, padding: '0.25rem 0.6rem', border: '1.5px solid #0A0A0A' }}>
+            {concept.progression}
+          </div>
         </div>
-        <p style={{ fontFamily: 'var(--font-display)', fontSize: 'clamp(1rem, 2vw, 1.2rem)', fontWeight: 800, lineHeight: 1.35, color: '#0A0A0A', margin: 0 }}>
+
+        <h4 style={{ fontFamily: 'var(--font-display)', fontSize: 'clamp(1.15rem, 2.2vw, 1.45rem)', fontWeight: 900, lineHeight: 1.3, color: '#0A0A0A', margin: 0 }}>
           "{concept.definition}"
+        </h4>
+        <p style={{ fontFamily: 'var(--font-body)', fontSize: '0.9rem', color: '#555', marginTop: '0.6rem', margin: '0.6rem 0 0 0', lineHeight: 1.5 }}>
+          {concept.formalDef}
         </p>
       </div>
 
-      {/* ② Key Properties */}
-      <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fill, minmax(min(100%, 250px), 1fr))', gap: '1.25rem' }}>
+      {/* Language Syntax Tabs / Pills */}
+      <div style={{ background: '#0A0A0A', border: '3px solid #0A0A0A', padding: '1.25rem 1.5rem', boxShadow: '5px 5px 0 #0A0A0A', color: '#FFFFFF' }}>
+        <div style={{ fontFamily: 'var(--font-mono)', fontSize: '0.7rem', fontWeight: 900, color: '#FFE600', letterSpacing: '0.08em', marginBottom: '0.75rem' }}>
+          SYNTAX ACROSS LANGUAGES (JAVA, C#, JS, PYTHON)
+        </div>
+        <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(min(100%, 220px), 1fr))', gap: '0.85rem' }}>
+          {concept.snippets.map((snip, idx) => (
+            <div key={idx} style={{ background: '#181818', border: '1.5px solid #333', padding: '0.75rem 1rem' }}>
+              <div style={{ fontFamily: 'var(--font-mono)', fontSize: '0.7rem', fontWeight: 900, color: concept.color, marginBottom: '0.35rem' }}>
+                {snip.lang}
+              </div>
+              <pre style={{ fontFamily: 'var(--font-mono)', fontSize: '0.72rem', color: '#F8F8F8', margin: 0, whiteSpace: 'pre-wrap', lineHeight: 1.4 }}>
+                {snip.code}
+              </pre>
+            </div>
+          ))}
+        </div>
+      </div>
+
+      {/* Key Properties Grid */}
+      <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fill, minmax(min(100%, 240px), 1fr))', gap: '1.25rem' }}>
         {concept.properties.map((p, i) => (
           <div key={i} style={{
             background: '#FFFFFF',
-            border: `2px solid #0A0A0A`,
+            border: `2.5px solid #0A0A0A`,
             padding: '1.25rem 1.5rem',
             boxShadow: `4px 4px 0 ${concept.color}`,
           }}>
-            <div style={{ fontFamily: 'var(--font-mono)', fontSize: '0.68rem', fontWeight: 900, color: concept.color === '#FFE600' ? '#000' : concept.color, letterSpacing: '0.08em', marginBottom: '0.3rem' }}>
+            <div style={{ fontFamily: 'var(--font-mono)', fontSize: '0.72rem', fontWeight: 900, color: concept.color === '#FFE600' ? '#000' : concept.color, letterSpacing: '0.08em', marginBottom: '0.35rem' }}>
               [{p.label}]
             </div>
-            <div style={{ fontFamily: 'var(--font-body)', fontSize: '0.8rem', color: '#444', lineHeight: 1.4 }}>
+            <div style={{ fontFamily: 'var(--font-body)', fontSize: '0.82rem', color: '#333', lineHeight: 1.4, fontWeight: 500 }}>
               {p.desc}
             </div>
           </div>
         ))}
       </div>
 
-      {/* ③ Interactive Demo + Code — side by side */}
-      <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(min(100%, 400px), 1fr))', gap: '1.25rem', alignItems: 'start' }}>
+      {/* Interactive visualizer & Code Panel side-by-side */}
+      <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(min(100%, 420px), 1fr))', gap: '1.5rem', alignItems: 'start' }}>
         {children}
       </div>
 
-      {/* ④ Examples */}
-      <div style={{ display: 'flex', flexWrap: 'wrap', gap: '1rem', alignItems: 'center' }}>
-        <span style={{ fontFamily: 'var(--font-mono)', fontSize: '0.8rem', fontWeight: 900, color: '#888', letterSpacing: '0.08em', marginRight: '0.5rem' }}>REAL-WORLD:</span>
-        {concept.examples.map((ex, i) => (
-          <span key={i} style={{
-            fontFamily: 'var(--font-mono)', fontSize: '0.8rem', fontWeight: 700,
-            background: '#FFFFFF', color: '#0A0A0A',
-            border: '2px solid #0A0A0A', padding: '0.4rem 0.8rem',
-            boxShadow: '3px 3px 0 #0A0A0A',
-          }}>
-            {ex.name} <span style={{ color: concept.color === '#FFE600' ? '#444' : concept.color, marginLeft: '0.3rem' }}>{ex.complexity}</span>
-          </span>
-        ))}
-      </div>
     </div>
   );
 }
 
 /* ============================================================
-   CODE PANEL — shared, with line highlighting
+   CODE PANEL — annotated code with line highlight
    ============================================================ */
 function CodePanel({ concept, activeProperty = null }) {
   return (
@@ -79,11 +108,11 @@ function CodePanel({ concept, activeProperty = null }) {
           <div className="code-dot" style={{ background: '#FFBD2E' }} />
           <div className="code-dot" style={{ background: '#27C93F' }} />
         </div>
-        <span style={{ fontFamily: 'var(--font-mono)', fontSize: '0.7rem', color: '#666', fontWeight: 700 }}>
-          {concept.id}.js
+        <span style={{ fontFamily: 'var(--font-mono)', fontSize: '0.75rem', color: '#AAA', fontWeight: 800 }}>
+          {concept.id}.cs / .java
         </span>
-        <span style={{ fontFamily: 'var(--font-mono)', fontSize: '0.65rem', color: '#444' }}>
-          {concept.num}/05
+        <span style={{ fontFamily: 'var(--font-mono)', fontSize: '0.7rem', color: '#888' }}>
+          CONCEPT {concept.num}/05
         </span>
       </div>
       <div className="code-body">
@@ -96,9 +125,9 @@ function CodePanel({ concept, activeProperty = null }) {
               {isHighlighted && (
                 <span style={{
                   marginLeft: 'auto', paddingLeft: '0.75rem',
-                  fontFamily: 'var(--font-mono)', fontSize: '0.6rem', fontWeight: 900,
+                  fontFamily: 'var(--font-mono)', fontSize: '0.62rem', fontWeight: 900,
                   color: concept.color === '#FFE600' ? '#000' : concept.color,
-                  background: 'rgba(0,0,0,0.4)', padding: '0 0.3rem',
+                  background: 'rgba(0,0,0,0.4)', padding: '0 0.35rem',
                   whiteSpace: 'nowrap',
                 }}>← {line.key}</span>
               )}
@@ -111,336 +140,584 @@ function CodePanel({ concept, activeProperty = null }) {
 }
 
 /* ============================================================
-   SLIDE 01 — VARIABLES & CONSTANTS
+   SLIDE 01 — TAKE INPUT
    ============================================================ */
-function VariablesSlide({ concept }) {
-  const [slots, setSlots] = useState(concept.memorySlots.map(s => ({ ...s })));
-  const [activeProperty, setActiveProperty] = useState('DECLARATION');
-  const [errorMsg, setErrorMsg] = useState('');
+function TakeInputSlide({ concept }) {
+  const [typedText, setTypedText] = useState('100');
+  const [isListening, setIsListening] = useState(true);
+  const [history, setHistory] = useState([
+    { raw: '100', parsed: 100, type: 'int', valid: true },
+    { raw: 'Hello World', parsed: 'Hello World', type: 'string', valid: true }
+  ]);
 
-  const handleUpdate = (idx) => {
-    SoundEngine.playClick();
-    const newSlots = [...slots];
-    if (newSlots[idx].canChange) {
-      if (typeof newSlots[idx].val === 'number') {
-        newSlots[idx].val += 1;
-      } else {
-        newSlots[idx].val = '"Bob"';
-      }
-      setSlots(newSlots);
-      setActiveProperty('ASSIGNMENT');
-      setErrorMsg('');
-      SoundEngine.playSuccess();
-    } else {
-      setActiveProperty('MUTABILITY');
-      setErrorMsg(`TypeError: Assignment to constant variable '${newSlots[idx].label}'.`);
-    }
+  const handleInput = (val) => {
+    setTypedText(val);
   };
 
-  return (
-    <SlideShell concept={concept}>
-      <div style={{ background: '#FFFFFF', border: '2.5px solid #0A0A0A', padding: '2.5rem', boxShadow: '6px 6px 0 #0A0A0A' }}>
-        <div style={{ fontFamily: 'var(--font-mono)', fontSize: '0.65rem', fontWeight: 900, color: '#888', letterSpacing: '0.08em', marginBottom: '1rem' }}>
-          MEMORY STATE VISUALIZER
-        </div>
-        
-        {errorMsg && (
-          <div style={{ background: '#FFFFFF', color: '#FF2A00', padding: '1rem', fontFamily: 'var(--font-mono)', fontSize: '0.8rem', fontWeight: 'bold', marginBottom: '1.5rem', border: '2px solid #FF2A00' }}>
-            {errorMsg}
-          </div>
-        )}
-
-        <div style={{ display: 'flex', flexDirection: 'column', gap: '0.75rem' }}>
-          {slots.map((s, i) => (
-            <div key={i} style={{ display: 'flex', alignItems: 'stretch', border: '2px solid #0A0A0A' }}>
-              <div style={{ background: s.canChange ? '#FFF' : '#E5E5E5', color: s.canChange ? '#0A0A0A' : '#666', borderRight: '2px solid #0A0A0A', padding: '0.75rem', fontFamily: 'var(--font-mono)', fontSize: '0.8rem', fontWeight: 900, minWidth: '80px' }}>
-                {s.type} {s.label}
-              </div>
-              <div style={{ flex: 1, padding: '1rem', background: '#F8F7F2', fontFamily: 'var(--font-mono)', fontSize: '1.2rem', fontWeight: 800, color: '#0A0A0A', display: 'flex', alignItems: 'center', justifyContent: 'space-between' }}>
-                {s.val}
-                <button onClick={() => handleUpdate(i)} style={{ background: '#FFFFFF', color: '#0A0A0A', border: '2px solid #0A0A0A', padding: '0.5rem 1rem', cursor: 'pointer', fontFamily: 'var(--font-mono)', fontSize: '0.7rem', fontWeight: 'bold', boxShadow: '2px 2px 0 #0A0A0A' }}>
-                  UPDATE
-                </button>
-              </div>
-            </div>
-          ))}
-        </div>
-      </div>
-      <CodePanel concept={concept} activeProperty={activeProperty} />
-    </SlideShell>
-  );
-}
-
-/* ============================================================
-   SLIDE 02 — DATA TYPES
-   ============================================================ */
-function DataTypesSlide({ concept }) {
-  const [active, setActive] = useState(0);
-  const t = concept.typesList[active];
-
-  return (
-    <SlideShell concept={concept}>
-      <div style={{ background: '#FFFFFF', border: '2.5px solid #0A0A0A', padding: '2.5rem', boxShadow: '6px 6px 0 #0A0A0A' }}>
-        <div style={{ fontFamily: 'var(--font-mono)', fontSize: '0.65rem', fontWeight: 900, color: '#888', letterSpacing: '0.08em', marginBottom: '0.75rem' }}>
-          TYPE INSPECTOR
-        </div>
-
-        <div style={{ display: 'flex', flexDirection: 'column', gap: '0.4rem', marginBottom: '1rem' }}>
-          {concept.typesList.map((typeObj, i) => {
-            const isActive = i === active;
-            return (
-              <button key={i} onClick={() => { SoundEngine.playClick(); setActive(i); }} style={{
-                background: isActive ? '#FFFFFF' : '#F8F7F2',
-                color: '#0A0A0A',
-                border: isActive ? `2px solid ${typeObj.color}` : '2px solid #E5E5E5',
-                padding: '0.8rem 1.2rem',
-                cursor: 'pointer',
-                fontFamily: 'var(--font-mono)',
-                fontSize: '0.75rem',
-                fontWeight: 800,
-                display: 'flex',
-                justifyContent: 'space-between',
-                transition: 'all 0.1s ease',
-                boxShadow: isActive ? `3px 3px 0 ${typeObj.color}` : 'none',
-              }}>
-                <span style={{ color: isActive ? typeObj.color : '#0A0A0A' }}>{typeObj.name}</span>
-                <span style={{ opacity: isActive ? 1 : 0.6 }}>{typeObj.val}</span>
-              </button>
-            );
-          })}
-        </div>
-
-        <div style={{ background: '#FFFFFF', border: `2px solid ${t.color}`, padding: '1rem', boxShadow: `4px 4px 0 ${t.color}` }}>
-          <div style={{ fontFamily: 'var(--font-display)', fontWeight: 900, fontSize: '1rem', color: t.color === '#FFE600' ? '#000' : t.color, marginBottom: '0.4rem' }}>{t.name}</div>
-          <div style={{ fontFamily: 'var(--font-body)', fontSize: '0.8rem', color: '#444', lineHeight: 1.4 }}>
-            {t.desc}
-          </div>
-        </div>
-      </div>
-      <CodePanel concept={concept} activeProperty={active > 3 ? 'COMPOSITES' : 'PRIMITIVES'} />
-    </SlideShell>
-  );
-}
-
-/* ============================================================
-   SLIDE 03 — CONTROL STRUCTURES
-   ============================================================ */
-function ControlStructuresSlide({ concept }) {
-  const [step, setStep] = useState(0);
-  const STEPS = [
-    { codeLine: 8, label: 'ITERATION', note: 'Start for loop. Initialize i = 1' },
-    { codeLine: 9, label: 'LOOPS', note: 'i=1: Execute loop body. print(1)' },
-    { codeLine: 8, label: 'ITERATION', note: 'Next iteration. i = 2' },
-    { codeLine: 9, label: 'LOOPS', note: 'i=2: Execute loop body. print(2)' },
-    { codeLine: 8, label: 'ITERATION', note: 'Next iteration. i = 3' },
-    { codeLine: 9, label: 'LOOPS', note: 'i=3: Execute loop body. print(3)' },
-    { codeLine: 8, label: 'ITERATION', note: 'Next iteration. i = 4. Exceeds range. Exit loop.' },
-  ];
-  const cur = STEPS[step];
-
-  const advance = () => {
-    SoundEngine.playClick();
-    setStep(s => (s + 1) % STEPS.length);
-  };
-  const reset = () => { SoundEngine.playClick(); setStep(0); };
-
-  return (
-    <SlideShell concept={concept}>
-      <div style={{ background: '#FFFFFF', border: '2.5px solid #0A0A0A', padding: '2.5rem', boxShadow: '6px 6px 0 #0A0A0A' }}>
-        <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', borderBottom: '2px solid #0A0A0A', paddingBottom: '0.75rem', marginBottom: '1rem' }}>
-          <div>
-            <div style={{ fontFamily: 'var(--font-mono)', fontSize: '0.65rem', fontWeight: 900, color: '#888', letterSpacing: '0.08em', marginBottom: '0.2rem' }}>EXECUTION FLOW</div>
-            <div style={{ fontFamily: 'var(--font-display)', fontWeight: 900, fontSize: '1.1rem' }}>LOOP STEPPER</div>
-          </div>
-          <div style={{ display: 'flex', gap: '0.75rem' }}>
-            <button onClick={advance} style={{ background: '#FFFFFF', color: '#0A0A0A', border: '2px solid #0A0A0A', padding: '0.6rem 1.2rem', fontFamily: 'var(--font-mono)', fontSize: '0.8rem', fontWeight: 900, cursor: 'pointer', display: 'flex', alignItems: 'center', gap: '0.4rem', boxShadow: `3px 3px 0 ${concept.color}` }}>
-              <Play size={14} /> STEP FORWARD
-            </button>
-            <button onClick={reset} style={{ background: '#FFFFFF', border: '2px solid #0A0A0A', padding: '0.6rem 0.8rem', cursor: 'pointer', boxShadow: '3px 3px 0 #0A0A0A' }}>
-              <RotateCcw size={14} />
-            </button>
-          </div>
-        </div>
-
-        <div style={{ background: '#FFFFFF', border: `2px solid ${concept.color}`, padding: '1rem', fontFamily: 'var(--font-mono)', fontSize: '0.85rem', color: '#0A0A0A', lineHeight: 1.5, marginBottom: '1rem' }}>
-          <span style={{ color: concept.color === '#FFE600' ? '#000' : concept.color, fontWeight: 900 }}>[{cur.label}] </span><br/>{cur.note}
-        </div>
-
-        <div style={{ display: 'flex', gap: '0.35rem' }}>
-          {STEPS.map((_, i) => (
-            <div key={i} style={{ flex: 1, height: '6px', background: i <= step ? concept.color : '#E5E5E5', border: '1px solid #0A0A0A', transition: 'background 0.2s' }} />
-          ))}
-        </div>
-      </div>
-      <CodePanel concept={concept} activeProperty={cur.label} />
-    </SlideShell>
-  );
-}
-
-/* ============================================================
-   SLIDE 04 — INPUT/OUTPUT
-   ============================================================ */
-function IOSlide({ concept }) {
-  const [logs, setLogs] = useState(['Waiting for input...']);
-  const [inputVal, setInputVal] = useState('');
-
-  const handleSubmit = (e) => {
+  const handleSend = (e) => {
     e.preventDefault();
-    if (!inputVal) return;
+    if (!typedText.trim()) return;
     SoundEngine.playClick();
-    const newLogs = [...logs, `> ${inputVal}`];
-    
-    const parsed = parseInt(inputVal, 10);
-    if (isNaN(parsed)) {
-      newLogs.push('Error: Not a valid number.');
-    } else {
-      newLogs.push(`Parsed integer: ${parsed}`);
-      newLogs.push(`Output: You will be ${parsed + 1}`);
-      SoundEngine.playSuccess();
-    }
-    
-    setLogs(newLogs);
-    setInputVal('');
-  };
-
-  return (
-    <SlideShell concept={concept}>
-      <div style={{ background: '#FFFFFF', border: '2.5px solid #0A0A0A', padding: '2.5rem', boxShadow: '6px 6px 0 #0A0A0A' }}>
-        <div style={{ fontFamily: 'var(--font-mono)', fontSize: '0.75rem', fontWeight: 900, color: '#888', letterSpacing: '0.08em', marginBottom: '1.25rem' }}>
-          RUNTIME CONSOLE
-        </div>
-
-        <div style={{ background: '#FFFFFF', border: '2px solid #0A0A0A', padding: '1.5rem', height: '180px', overflowY: 'auto', fontFamily: 'var(--font-mono)', fontSize: '0.9rem', color: '#00A669', display: 'flex', flexDirection: 'column', gap: '0.6rem', marginBottom: '1.5rem' }}>
-          {logs.map((l, i) => <div key={i} style={{ color: l.startsWith('>') ? '#0A0A0A' : l.startsWith('Error') ? '#FF2A00' : '#00A669' }}>{l}</div>)}
-        </div>
-
-        <form onSubmit={handleSubmit} style={{ display: 'flex', gap: '0.75rem' }}>
-          <input 
-            type="text" 
-            value={inputVal} 
-            onChange={(e) => setInputVal(e.target.value)}
-            placeholder="Enter text to process..."
-            style={{ flex: 1, background: '#F8F7F2', border: '2px solid #0A0A0A', padding: '0.8rem', fontFamily: 'var(--font-mono)', fontSize: '0.9rem', fontWeight: 'bold' }}
-          />
-          <button type="submit" style={{ background: '#FFFFFF', color: '#0A0A0A', border: '2px solid #0A0A0A', padding: '0.8rem 1.5rem', fontFamily: 'var(--font-mono)', fontWeight: 900, fontSize: '0.9rem', cursor: 'pointer', boxShadow: `4px 4px 0 ${concept.color}` }}>
-            SEND TO CONSOLE
-          </button>
-        </form>
-      </div>
-      <CodePanel concept={concept} activeProperty={logs.length <= 1 ? 'INPUT' : logs[logs.length-1].includes('Error') ? 'PARSING' : 'OUTPUT'} />
-    </SlideShell>
-  );
-}
-
-/* ============================================================
-   SLIDE 05 — FUNCTIONS
-   ============================================================ */
-function FunctionsSlide({ concept }) {
-  const [w, setW] = useState(5);
-  const [h, setH] = useState(5);
-  const [res, setRes] = useState(null);
-
-  const calculate = () => {
+    const num = Number(typedText);
+    const isValid = !isNaN(num);
+    const newEntry = {
+      raw: typedText,
+      parsed: isValid ? num : typedText,
+      type: isValid ? 'int' : 'string',
+      valid: true,
+    };
+    setHistory([newEntry, ...history.slice(0, 4)]);
+    setTypedText('');
     SoundEngine.playSuccess();
-    setRes(w * h);
   };
 
   return (
     <SlideShell concept={concept}>
-      <div style={{ background: '#FFFFFF', border: '2.5px solid #0A0A0A', padding: '2.5rem', boxShadow: '6px 6px 0 #0A0A0A' }}>
-        <div style={{ fontFamily: 'var(--font-mono)', fontSize: '0.75rem', fontWeight: 900, color: '#888', letterSpacing: '0.08em', marginBottom: '1.25rem', display: 'flex', alignItems: 'center', gap: '0.3rem' }}>
-          <Box size={14} /> FUNCTION MACHINE
-        </div>
-
-        <div style={{ display: 'flex', alignItems: 'center', gap: '1.5rem', marginBottom: '1.5rem' }}>
-          {/* Inputs */}
-          <div style={{ display: 'flex', flexDirection: 'column', gap: '0.75rem', flex: 1 }}>
-            <div>
-              <div style={{ fontFamily: 'var(--font-mono)', fontSize: '0.65rem', fontWeight: 'bold', color: '#555', marginBottom: '0.3rem' }}>ARG 1 (width)</div>
-              <input type="number" value={w} onChange={e => {setW(Number(e.target.value)); setRes(null);}} style={{ width: '100%', padding: '0.7rem', border: '2px solid #0A0A0A', fontFamily: 'var(--font-mono)', fontWeight: 'bold', fontSize: '0.9rem' }} />
-            </div>
-            <div>
-              <div style={{ fontFamily: 'var(--font-mono)', fontSize: '0.65rem', fontWeight: 'bold', color: '#555', marginBottom: '0.3rem' }}>ARG 2 (height)</div>
-              <input type="number" value={h} onChange={e => {setH(Number(e.target.value)); setRes(null);}} style={{ width: '100%', padding: '0.7rem', border: '2px solid #0A0A0A', fontFamily: 'var(--font-mono)', fontWeight: 'bold', fontSize: '0.9rem' }} />
-            </div>
+      <div style={{ background: '#FFFFFF', border: '3px solid #0A0A0A', padding: '2rem', boxShadow: '6px 6px 0 #0A0A0A' }}>
+        <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '1.25rem', borderBottom: '2px solid #0A0A0A', paddingBottom: '0.75rem' }}>
+          <div style={{ fontFamily: 'var(--font-mono)', fontSize: '0.75rem', fontWeight: 900, color: '#0A0A0A', display: 'flex', alignItems: 'center', gap: '0.4rem' }}>
+            <Keyboard size={16} /> INPUT STREAM LISTENER
           </div>
-
-          {/* Machine */}
-          <div style={{ background: '#FFFFFF', color: '#0A0A0A', border: '3px solid #0A0A0A', padding: '1.5rem', display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center', boxShadow: `6px 6px 0 ${concept.color}` }}>
-            <div style={{ fontFamily: 'var(--font-mono)', fontSize: '0.75rem', fontWeight: 900 }}>calculate_area()</div>
-            <div style={{ fontFamily: 'var(--font-display)', fontSize: '1.5rem', fontWeight: 900, margin: '0.5rem 0' }}>{w} × {h}</div>
-            <button onClick={calculate} style={{ background: '#FFFFFF', color: '#0A0A0A', border: '2px solid #0A0A0A', padding: '0.6rem 1.2rem', fontFamily: 'var(--font-mono)', fontSize: '0.8rem', fontWeight: 'bold', cursor: 'pointer', boxShadow: '2px 2px 0 #0A0A0A' }}>EXECUTE</button>
+          <div style={{
+            background: isListening ? '#00E599' : '#FF2A00',
+            color: '#000',
+            fontFamily: 'var(--font-mono)',
+            fontSize: '0.65rem',
+            fontWeight: 900,
+            padding: '0.2rem 0.6rem',
+            border: '1.5px solid #0A0A0A',
+            display: 'flex',
+            alignItems: 'center',
+            gap: '0.3rem'
+          }}>
+            <span style={{ width: 8, height: 8, borderRadius: '50%', background: '#000', display: 'inline-block' }} className="cursor-blink" />
+            {isListening ? 'LISTENING (stdin)' : 'HALTED'}
           </div>
         </div>
 
-        {/* Output */}
-        <div style={{ background: res !== null ? '#00E599' : '#F8F7F2', border: '2px solid #0A0A0A', padding: '1rem', textAlign: 'center', transition: 'all 0.3s ease' }}>
-          <div style={{ fontFamily: 'var(--font-mono)', fontSize: '0.65rem', fontWeight: 'bold', color: res !== null ? '#0A0A0A' : '#888', marginBottom: '0.2rem' }}>RETURN VALUE</div>
-          <div style={{ fontFamily: 'var(--font-display)', fontSize: '2rem', fontWeight: 900, color: res !== null ? '#0A0A0A' : '#CCC' }}>
-            {res !== null ? res : '?'}
+        {/* Live Input Field Simulation */}
+        <form onSubmit={handleSend} style={{ marginBottom: '1.5rem' }}>
+          <label style={{ fontFamily: 'var(--font-mono)', fontSize: '0.7rem', fontWeight: 800, color: '#555', display: 'block', marginBottom: '0.4rem' }}>
+            TYPE INPUT VALUE (KEYBOARD SIMULATION):
+          </label>
+          <div style={{ display: 'flex', gap: '0.75rem' }}>
+            <div style={{ position: 'relative', flex: 1 }}>
+              <input
+                type="text"
+                value={typedText}
+                onChange={e => handleInput(e.target.value)}
+                placeholder="Type integer or text (e.g. 100)..."
+                style={{
+                  width: '100%',
+                  background: '#F8F7F2',
+                  border: '2.5px solid #0A0A0A',
+                  padding: '0.85rem 1rem',
+                  fontFamily: 'var(--font-mono)',
+                  fontSize: '0.95rem',
+                  fontWeight: 900,
+                  color: '#0A0A0A',
+                  boxShadow: '3px 3px 0 #0A0A0A'
+                }}
+              />
+              <span className="cursor-blink" style={{ position: 'absolute', right: '1rem', top: '50%', transform: 'translateY(-50%)', fontFamily: 'var(--font-mono)', fontWeight: 900, color: '#0038FF' }}>|</span>
+            </div>
+            <button
+              type="submit"
+              style={{
+                background: '#00F0FF',
+                color: '#000',
+                border: '2.5px solid #0A0A0A',
+                padding: '0.85rem 1.4rem',
+                fontFamily: 'var(--font-mono)',
+                fontSize: '0.85rem',
+                fontWeight: 900,
+                cursor: 'pointer',
+                boxShadow: '4px 4px 0 #0A0A0A'
+              }}
+            >
+              INGEST
+            </button>
           </div>
+        </form>
+
+        {/* Stream Buffer Inspection */}
+        <div style={{ background: '#0A0A0A', color: '#00F0FF', padding: '1.25rem', border: '2px solid #0A0A0A', fontFamily: 'var(--font-mono)', fontSize: '0.8rem', lineHeight: 1.5 }}>
+          <div style={{ fontSize: '0.68rem', color: '#888', fontWeight: 900, marginBottom: '0.5rem', display: 'flex', justifyContent: 'space-between' }}>
+            <span>BUFFER STREAM HISTORY</span>
+            <span>BYTES: {history.length * 8}</span>
+          </div>
+          {history.map((h, i) => (
+            <div key={i} style={{ display: 'flex', justifyContent: 'space-between', borderBottom: '1px solid #222', padding: '0.4rem 0' }}>
+              <span style={{ color: '#FFE600' }}>stdin &gt; "{h.raw}"</span>
+              <span style={{ color: '#00E599' }}>TYPE: {h.type.toUpperCase()} | VAL: {String(h.parsed)}</span>
+            </div>
+          ))}
         </div>
       </div>
-      <CodePanel concept={concept} activeProperty={res !== null ? 'RETURN VALUE' : 'ARGUMENTS'} />
+      <CodePanel concept={concept} activeProperty="LISTEN" />
     </SlideShell>
   );
 }
 
 /* ============================================================
-   SLIDE ROUTER
+   SLIDE 02 — ALLOCATE MEMORY
+   ============================================================ */
+function AllocateMemorySlide({ concept }) {
+  const [stackBoxes, setStackBoxes] = useState([
+    { id: 1, label: 'count', type: 'Primitive (int)', value: '42', color: '#00F0FF' },
+    { id: 2, label: 'user', type: 'Object (Heap Ref)', value: '{ name: "Sarah", id: 1 }', color: '#00E599' },
+  ]);
+
+  const addBox = (kind) => {
+    SoundEngine.playClick();
+    let newBox;
+    if (kind === 'primitive') {
+      newBox = { id: Date.now(), label: `val_${stackBoxes.length + 1}`, type: 'Primitive (int)', value: Math.floor(Math.random() * 100), color: '#00F0FF' };
+    } else if (kind === 'object') {
+      newBox = { id: Date.now(), label: `entity_${stackBoxes.length + 1}`, type: 'Object (Map)', value: `{ x: ${stackBoxes.length * 10}, y: 5 }`, color: '#00E599' };
+    } else {
+      newBox = { id: Date.now(), label: `treeNode_${stackBoxes.length + 1}`, type: 'Tree/List Node', value: `Node -> [left, right]`, color: '#7928CA' };
+    }
+    setStackBoxes([newBox, ...stackBoxes]);
+    SoundEngine.playSuccess();
+  };
+
+  const clearStack = () => {
+    SoundEngine.playClick();
+    setStackBoxes([]);
+  };
+
+  return (
+    <SlideShell concept={concept}>
+      <div style={{ background: '#FFFFFF', border: '3px solid #0A0A0A', padding: '2rem', boxShadow: '6px 6px 0 #0A0A0A' }}>
+        <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '1.25rem', borderBottom: '2px solid #0A0A0A', paddingBottom: '0.75rem' }}>
+          <div style={{ fontFamily: 'var(--font-mono)', fontSize: '0.75rem', fontWeight: 900, color: '#0A0A0A', display: 'flex', alignItems: 'center', gap: '0.4rem' }}>
+            <Layers size={16} /> STACK & HEAP MEMORY VISUALIZER
+          </div>
+          <button onClick={clearStack} style={{ background: '#FFFFFF', border: '2px solid #0A0A0A', padding: '0.2rem 0.6rem', fontFamily: 'var(--font-mono)', fontSize: '0.65rem', fontWeight: 900, cursor: 'pointer', boxShadow: '2px 2px 0 #0A0A0A' }}>
+            CLEAR MEMORY
+          </button>
+        </div>
+
+        {/* Action Controls */}
+        <div style={{ display: 'flex', gap: '0.6rem', flexWrap: 'wrap', marginBottom: '1.5rem' }}>
+          <button onClick={() => addBox('primitive')} style={{ background: '#00F0FF', border: '2px solid #0A0A0A', padding: '0.5rem 0.8rem', fontFamily: 'var(--font-mono)', fontSize: '0.75rem', fontWeight: 900, cursor: 'pointer', boxShadow: '3px 3px 0 #0A0A0A' }}>
+            + DROP PRIMITIVE (int)
+          </button>
+          <button onClick={() => addBox('object')} style={{ background: '#00E599', border: '2px solid #0A0A0A', padding: '0.5rem 0.8rem', fontFamily: 'var(--font-mono)', fontSize: '0.75rem', fontWeight: 900, cursor: 'pointer', boxShadow: '3px 3px 0 #0A0A0A' }}>
+            + DROP OBJECT (Map)
+          </button>
+          <button onClick={() => addBox('tree')} style={{ background: '#7928CA', color: '#FFF', border: '2px solid #0A0A0A', padding: '0.5rem 0.8rem', fontFamily: 'var(--font-mono)', fontSize: '0.75rem', fontWeight: 900, cursor: 'pointer', boxShadow: '3px 3px 0 #0A0A0A' }}>
+            + DROP TREE NODE
+          </button>
+        </div>
+
+        {/* Stacking Memory Boxes */}
+        <div style={{ display: 'flex', flexDirection: 'column', gap: '0.75rem', minHeight: '180px', background: '#F8F7F2', padding: '1rem', border: '2px solid #0A0A0A' }}>
+          <div style={{ fontFamily: 'var(--font-mono)', fontSize: '0.65rem', color: '#777', fontWeight: 900, textAlign: 'center', marginBottom: '0.25rem' }}>
+            ↑ HIGHER MEMORY ADDRESSES (STACK UPWARD)
+          </div>
+
+          {stackBoxes.length === 0 ? (
+            <div style={{ textAlign: 'center', padding: '2rem', fontFamily: 'var(--font-mono)', fontSize: '0.85rem', color: '#888' }}>
+              Memory is empty. Click buttons above to drop variables into memory!
+            </div>
+          ) : (
+            stackBoxes.map((box) => (
+              <div
+                key={box.id}
+                style={{
+                  background: '#FFFFFF',
+                  border: '2.5px solid #0A0A0A',
+                  borderLeft: `10px solid ${box.color}`,
+                  padding: '0.75rem 1rem',
+                  display: 'flex',
+                  justifyContent: 'space-between',
+                  alignItems: 'center',
+                  boxShadow: '4px 4px 0 #0A0A0A',
+                  animation: 'stackPush 0.35s ease-out'
+                }}
+              >
+                <div>
+                  <span style={{ fontFamily: 'var(--font-mono)', fontSize: '0.85rem', fontWeight: 900, color: '#0A0A0A' }}>
+                    {box.label}
+                  </span>
+                  <span style={{ fontFamily: 'var(--font-mono)', fontSize: '0.68rem', color: '#666', marginLeft: '0.6rem', fontWeight: 700 }}>
+                    [{box.type}]
+                  </span>
+                </div>
+                <div style={{ fontFamily: 'var(--font-mono)', fontSize: '0.9rem', fontWeight: 900, background: '#F0F0F0', padding: '0.2rem 0.6rem', border: '1.5px solid #0A0A0A' }}>
+                  {box.value}
+                </div>
+              </div>
+            ))
+          )}
+        </div>
+      </div>
+      <CodePanel concept={concept} activeProperty="PRIMITIVES" />
+    </SlideShell>
+  );
+}
+
+/* ============================================================
+   SLIDE 03 — GIVE OUTPUT
+   ============================================================ */
+function GiveOutputSlide({ concept }) {
+  const [viewMode, setViewMode] = useState('TABLE'); // CONSOLE, TABLE, DASHBOARD
+  const [isRendering, setIsRendering] = useState(false);
+
+  const sampleData = [
+    { id: 1, name: 'Alice', role: 'Dev', score: 98 },
+    { id: 2, name: 'Bob', role: 'Sec', score: 85 },
+    { id: 3, name: 'Charlie', role: 'Ops', score: 92 },
+  ];
+
+  const handleModeChange = (mode) => {
+    SoundEngine.playClick();
+    setIsRendering(true);
+    setViewMode(mode);
+    setTimeout(() => {
+      setIsRendering(false);
+      SoundEngine.playSuccess();
+    }, 200);
+  };
+
+  return (
+    <SlideShell concept={concept}>
+      <div style={{ background: '#FFFFFF', border: '3px solid #0A0A0A', padding: '2rem', boxShadow: '6px 6px 0 #0A0A0A' }}>
+        <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '1.25rem', borderBottom: '2px solid #0A0A0A', paddingBottom: '0.75rem' }}>
+          <div style={{ fontFamily: 'var(--font-mono)', fontSize: '0.75rem', fontWeight: 900, color: '#0A0A0A', display: 'flex', alignItems: 'center', gap: '0.4rem' }}>
+            <Monitor size={16} /> RENDER FORMAT SELECTOR
+          </div>
+          <div style={{ display: 'flex', gap: '0.35rem' }}>
+            {['CONSOLE', 'TABLE', 'DASHBOARD'].map(m => (
+              <button
+                key={m}
+                onClick={() => handleModeChange(m)}
+                style={{
+                  background: viewMode === m ? '#0038FF' : '#FFFFFF',
+                  color: viewMode === m ? '#FFFFFF' : '#0A0A0A',
+                  border: '2px solid #0A0A0A',
+                  padding: '0.35rem 0.65rem',
+                  fontFamily: 'var(--font-mono)',
+                  fontSize: '0.68rem',
+                  fontWeight: 900,
+                  cursor: 'pointer',
+                  boxShadow: viewMode === m ? '2px 2px 0 #0A0A0A' : 'none'
+                }}
+              >
+                {m}
+              </button>
+            ))}
+          </div>
+        </div>
+
+        {/* Dynamic Display Screen */}
+        <div style={{
+          background: '#0A0A0A',
+          border: '3px solid #0A0A0A',
+          padding: '1.25rem',
+          minHeight: '220px',
+          color: '#FFFFFF',
+          position: 'relative',
+          opacity: isRendering ? 0.4 : 1,
+          transition: 'opacity 0.2s ease'
+        }}>
+          {viewMode === 'CONSOLE' && (
+            <div style={{ fontFamily: 'var(--font-mono)', fontSize: '0.85rem', color: '#00E599', lineHeight: 1.6 }}>
+              <div>&gt; System.out.println("Processing data...");</div>
+              <div>&gt; ID: 1 | Name: Alice | Score: 98</div>
+              <div>&gt; ID: 2 | Name: Bob   | Score: 85</div>
+              <div>&gt; ID: 3 | Name: Charlie| Score: 92</div>
+              <div style={{ color: '#FFE600', marginTop: '0.5rem' }}>✓ Console text stream completed (3 records).</div>
+            </div>
+          )}
+
+          {viewMode === 'TABLE' && (
+            <div>
+              <div style={{ fontFamily: 'var(--font-mono)', fontSize: '0.7rem', color: '#FFE600', fontWeight: 900, marginBottom: '0.5rem' }}>
+                TABULAR GRID FORMAT:
+              </div>
+              <table style={{ width: '100%', borderCollapse: 'collapse', fontFamily: 'var(--font-mono)', fontSize: '0.8rem' }}>
+                <thead>
+                  <tr style={{ background: '#0038FF', color: '#FFF' }}>
+                    <th style={{ border: '1px solid #FFF', padding: '0.4rem' }}>ID</th>
+                    <th style={{ border: '1px solid #FFF', padding: '0.4rem' }}>NAME</th>
+                    <th style={{ border: '1px solid #FFF', padding: '0.4rem' }}>ROLE</th>
+                    <th style={{ border: '1px solid #FFF', padding: '0.4rem' }}>SCORE</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  {sampleData.map((d) => (
+                    <tr key={d.id} style={{ background: '#181818', textAlign: 'center' }}>
+                      <td style={{ border: '1px solid #333', padding: '0.4rem' }}>{d.id}</td>
+                      <td style={{ border: '1px solid #333', padding: '0.4rem', color: '#00F0FF' }}>{d.name}</td>
+                      <td style={{ border: '1px solid #333', padding: '0.4rem' }}>{d.role}</td>
+                      <td style={{ border: '1px solid #333', padding: '0.4rem', color: '#00E599' }}>{d.score}</td>
+                    </tr>
+                  ))}
+                </tbody>
+              </table>
+            </div>
+          )}
+
+          {viewMode === 'DASHBOARD' && (
+            <div>
+              <div style={{ fontFamily: 'var(--font-mono)', fontSize: '0.7rem', color: '#00F0FF', fontWeight: 900, marginBottom: '0.75rem' }}>
+                LIVE DASHBOARD WIDGETS:
+              </div>
+              <div style={{ display: 'grid', gridTemplateColumns: 'repeat(3, 1fr)', gap: '0.75rem' }}>
+                {sampleData.map(d => (
+                  <div key={d.id} style={{ background: '#1A1A1A', border: '2px solid #00F0FF', padding: '0.75rem', textAlign: 'center' }}>
+                    <div style={{ fontFamily: 'var(--font-display)', fontSize: '1.2rem', fontWeight: 900, color: '#FFE600' }}>{d.score}%</div>
+                    <div style={{ fontFamily: 'var(--font-mono)', fontSize: '0.7rem', color: '#FFF' }}>{d.name} ({d.role})</div>
+                  </div>
+                ))}
+              </div>
+            </div>
+          )}
+        </div>
+      </div>
+      <CodePanel concept={concept} activeProperty="FORMATTED TABLES" />
+    </SlideShell>
+  );
+}
+
+/* ============================================================
+   SLIDE 04 — MAKE DECISIONS
+   ============================================================ */
+function MakeDecisionsSlide({ concept }) {
+  const [val, setVal] = useState(35);
+
+  const isHot = val > 30;
+
+  return (
+    <SlideShell concept={concept}>
+      <div style={{ background: '#FFFFFF', border: '3px solid #0A0A0A', padding: '2rem', boxShadow: '6px 6px 0 #0A0A0A' }}>
+        <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '1.25rem', borderBottom: '2px solid #0A0A0A', paddingBottom: '0.75rem' }}>
+          <div style={{ fontFamily: 'var(--font-mono)', fontSize: '0.75rem', fontWeight: 900, color: '#0A0A0A', display: 'flex', alignItems: 'center', gap: '0.4rem' }}>
+            <GitFork size={16} /> BRANCHING PATHWAY ENGINE
+          </div>
+          <div style={{ fontFamily: 'var(--font-mono)', fontSize: '0.7rem', fontWeight: 900, color: '#FF2A00' }}>
+            PREDICATE: (val &gt; 30)
+          </div>
+        </div>
+
+        {/* Input slider for predicate */}
+        <div style={{ marginBottom: '1.5rem', background: '#F8F7F2', padding: '1rem', border: '2px solid #0A0A0A' }}>
+          <label style={{ fontFamily: 'var(--font-mono)', fontSize: '0.75rem', fontWeight: 900, display: 'block', marginBottom: '0.4rem' }}>
+            VALUE TEST: temp = {val}°C
+          </label>
+          <input
+            type="range"
+            min="10"
+            max="50"
+            value={val}
+            onChange={e => { setVal(Number(e.target.value)); SoundEngine.playClick(); }}
+            style={{ width: '100%', accentColor: '#FF2A00', cursor: 'pointer' }}
+          />
+        </div>
+
+        {/* Branching Diagram */}
+        <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '1rem', textAlign: 'center' }}>
+          {/* True Branch */}
+          <div style={{
+            background: isHot ? '#00E599' : '#FFFFFF',
+            color: '#0A0A0A',
+            border: '3px solid #0A0A0A',
+            padding: '1.25rem',
+            boxShadow: isHot ? '6px 6px 0 #0A0A0A' : 'none',
+            opacity: isHot ? 1 : 0.4,
+            transition: 'all 0.2s ease'
+          }}>
+            <div style={{ fontFamily: 'var(--font-mono)', fontSize: '0.7rem', fontWeight: 900, marginBottom: '0.4rem' }}>
+              ✓ IF TRUE (temp &gt; 30)
+            </div>
+            <div style={{ fontFamily: 'var(--font-display)', fontSize: '1.1rem', fontWeight: 900 }}>
+              "It's hot outside!"
+            </div>
+          </div>
+
+          {/* False Branch */}
+          <div style={{
+            background: !isHot ? '#FF2A00' : '#FFFFFF',
+            color: !isHot ? '#FFFFFF' : '#0A0A0A',
+            border: '3px solid #0A0A0A',
+            padding: '1.25rem',
+            boxShadow: !isHot ? '6px 6px 0 #0A0A0A' : 'none',
+            opacity: !isHot ? 1 : 0.4,
+            transition: 'all 0.2s ease'
+          }}>
+            <div style={{ fontFamily: 'var(--font-mono)', fontSize: '0.7rem', fontWeight: 900, marginBottom: '0.4rem' }}>
+              ✗ ELSE (temp ≤ 30)
+            </div>
+            <div style={{ fontFamily: 'var(--font-display)', fontSize: '1.1rem', fontWeight: 900 }}>
+              "Weather is pleasant."
+            </div>
+          </div>
+        </div>
+      </div>
+      <CodePanel concept={concept} activeProperty="IF / ELSE" />
+    </SlideShell>
+  );
+}
+
+/* ============================================================
+   SLIDE 05 — LOOP
+   ============================================================ */
+function LoopSlide({ concept }) {
+  const [counter, setCounter] = useState(1);
+  const [isRunning, setIsRunning] = useState(false);
+  const [speed, setSpeed] = useState(100);
+
+  useEffect(() => {
+    let timer;
+    if (isRunning) {
+      timer = setInterval(() => {
+        setCounter(prev => {
+          if (prev >= 100) {
+            setIsRunning(false);
+            SoundEngine.playSuccess();
+            return 100;
+          }
+          return prev + 1;
+        });
+      }, speed);
+    }
+    return () => clearInterval(timer);
+  }, [isRunning, speed]);
+
+  const toggleLoop = () => {
+    SoundEngine.playClick();
+    if (counter >= 100) setCounter(1);
+    setIsRunning(!isRunning);
+  };
+
+  const resetLoop = () => {
+    SoundEngine.playClick();
+    setIsRunning(false);
+    setCounter(1);
+  };
+
+  return (
+    <SlideShell concept={concept}>
+      <div style={{ background: '#FFFFFF', border: '3px solid #0A0A0A', padding: '2rem', boxShadow: '6px 6px 0 #0A0A0A' }}>
+        <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '1.25rem', borderBottom: '2px solid #0A0A0A', paddingBottom: '0.75rem' }}>
+          <div style={{ fontFamily: 'var(--font-mono)', fontSize: '0.75rem', fontWeight: 900, color: '#0A0A0A', display: 'flex', alignItems: 'center', gap: '0.4rem' }}>
+            <RotateCw size={16} className={isRunning ? 'animate-spin-fast' : ''} /> CONTINUOUS REPETITION ENGINE
+          </div>
+          <div style={{ fontFamily: 'var(--font-mono)', fontSize: '0.7rem', fontWeight: 900, color: '#FFE600', background: '#0A0A0A', padding: '0.2rem 0.6rem' }}>
+            for (i=1; i&lt;=100; i++)
+          </div>
+        </div>
+
+        {/* Counter Display & Controls */}
+        <div style={{ background: '#FFE600', border: '3px solid #0A0A0A', padding: '1.5rem', textAlign: 'center', boxShadow: '5px 5px 0 #0A0A0A', marginBottom: '1.5rem' }}>
+          <div style={{ fontFamily: 'var(--font-mono)', fontSize: '0.7rem', fontWeight: 900, color: '#000', marginBottom: '0.2rem' }}>
+            ITERATION COUNTER (1 → 100)
+          </div>
+          <div style={{ fontFamily: 'var(--font-display)', fontSize: '3.5rem', fontWeight: 900, color: '#0A0A0A', lineHeight: 1 }}>
+            {counter} / 100
+          </div>
+        </div>
+
+        <div style={{ display: 'flex', gap: '0.75rem', flexWrap: 'wrap' }}>
+          <button
+            onClick={toggleLoop}
+            style={{
+              flex: 1,
+              background: isRunning ? '#FF2A00' : '#00E599',
+              color: isRunning ? '#FFF' : '#000',
+              border: '2.5px solid #0A0A0A',
+              padding: '0.8rem',
+              fontFamily: 'var(--font-mono)',
+              fontSize: '0.85rem',
+              fontWeight: 900,
+              cursor: 'pointer',
+              boxShadow: '4px 4px 0 #0A0A0A'
+            }}
+          >
+            {isRunning ? 'PAUSE LOOP' : counter >= 100 ? 'RESTART LOOP (1→100)' : 'START LOOP'}
+          </button>
+
+          <button
+            onClick={resetLoop}
+            style={{
+              background: '#FFFFFF',
+              border: '2.5px solid #0A0A0A',
+              padding: '0.8rem 1.2rem',
+              fontFamily: 'var(--font-mono)',
+              fontSize: '0.85rem',
+              fontWeight: 900,
+              cursor: 'pointer',
+              boxShadow: '4px 4px 0 #0A0A0A'
+            }}
+          >
+            RESET
+          </button>
+        </div>
+      </div>
+      <CodePanel concept={concept} activeProperty="FOR LOOP" />
+    </SlideShell>
+  );
+}
+
+/* ============================================================
+   SLIDE ROUTER MAP
    ============================================================ */
 const SLIDE_COMPONENTS = {
-  'variables':          VariablesSlide,
-  'data-types':         DataTypesSlide,
-  'control-structures': ControlStructuresSlide,
-  'input-output':       IOSlide,
-  'functions':          FunctionsSlide,
+  'take-input':      TakeInputSlide,
+  'allocate-memory': AllocateMemorySlide,
+  'give-output':     GiveOutputSlide,
+  'make-decisions':  MakeDecisionsSlide,
+  'loop':            LoopSlide,
 };
 
 /* ============================================================
-   CONCEPT BLOCK — one full self-contained section per concept
+   CONCEPT BLOCK — full self-contained block per concept
    ============================================================ */
 function ConceptBlock({ concept }) {
   const SlideComponent = SLIDE_COMPONENTS[concept.id];
   if (!SlideComponent) return null;
+
   return (
     <div
       id={`concept-${concept.id}`}
       style={{
-        borderBottom: '3px solid #0A0A0A',
-        paddingBottom: '3.5rem',
-        marginBottom: '3.5rem',
+        borderBottom: '4px solid #0A0A0A',
+        paddingBottom: '4rem',
+        marginBottom: '4rem',
       }}
     >
-      {/* Colored concept header */}
+      {/* Header Banner */}
       <div style={{
         background: concept.color,
-        border: '3px solid #0A0A0A',
-        padding: '1.25rem 1.5rem',
-        marginBottom: '1.75rem',
+        border: '3.5px solid #0A0A0A',
+        padding: '1.5rem 1.75rem',
+        marginBottom: '2rem',
         boxShadow: '6px 6px 0 #0A0A0A',
         display: 'flex', alignItems: 'center', gap: '1.25rem', flexWrap: 'wrap',
       }}>
         <div style={{
           fontFamily: 'var(--font-mono)',
-          fontSize: 'clamp(2rem, 5vw, 3.5rem)',
+          fontSize: 'clamp(2.2rem, 5vw, 3.8rem)',
           fontWeight: 900,
           color: concept.textColor,
           lineHeight: 1,
-          opacity: 0.45,
+          opacity: 0.35,
         }}>
           {concept.num}
         </div>
         <div>
           <div style={{
-            fontFamily: 'var(--font-mono)', fontSize: '0.65rem', fontWeight: 900,
-            color: concept.textColor, opacity: 0.7, letterSpacing: '0.1em', marginBottom: '0.2rem',
+            fontFamily: 'var(--font-mono)', fontSize: '0.7rem', fontWeight: 900,
+            color: concept.textColor, opacity: 0.8, letterSpacing: '0.1em', marginBottom: '0.2rem',
           }}>
             {concept.category}
           </div>
           <h3 style={{
             fontFamily: 'var(--font-display)',
-            fontSize: 'clamp(1.5rem, 4vw, 2.5rem)',
+            fontSize: 'clamp(1.6rem, 4vw, 2.6rem)',
             fontWeight: 900,
             color: concept.textColor,
             margin: 0,
@@ -450,17 +727,8 @@ function ConceptBlock({ concept }) {
             {concept.term}
           </h3>
         </div>
-        <div style={{
-          marginLeft: 'auto',
-          fontFamily: 'var(--font-mono)', fontSize: '0.75rem', fontWeight: 800,
-          color: concept.textColor, opacity: 0.7,
-          maxWidth: '300px', lineHeight: 1.4,
-        }}>
-          {concept.formalDef.substring(0, 100)}…
-        </div>
       </div>
 
-      {/* Interactive slide content */}
       <SlideComponent concept={concept} />
     </div>
   );
@@ -471,34 +739,31 @@ function ConceptBlock({ concept }) {
    ============================================================ */
 export function ConceptSlides() {
   return (
-    <section id="concept-slides" style={{ background: '#FFFFFF', padding: 'clamp(2.5rem, 6vw, 5rem) 0', borderBottom: '3.5px solid #0A0A0A' }}>
+    <section id="concept-slides" style={{ background: '#FFFFFF', padding: 'clamp(3rem, 6vw, 5.5rem) 0', borderBottom: '4px solid #0A0A0A' }}>
       <div className="container">
 
-        {/* Section header */}
-        <div style={{ marginBottom: '3rem' }}>
+        <div style={{ marginBottom: '3.5rem' }}>
           <span style={{
             background: '#0A0A0A', color: '#FFE600',
-            fontFamily: 'var(--font-mono)', fontSize: '0.75rem', fontWeight: 900,
-            padding: '0.25rem 0.75rem', border: '2px solid #0A0A0A', letterSpacing: '0.08em',
-            display: 'inline-block', marginBottom: '0.75rem',
+            fontFamily: 'var(--font-mono)', fontSize: '0.8rem', fontWeight: 900,
+            padding: '0.35rem 0.85rem', border: '2.5px solid #0A0A0A', letterSpacing: '0.08em',
+            display: 'inline-block', marginBottom: '0.85rem',
           }}>
-            INTERACTIVE REFERENCE // 5 CANONICAL CONCEPTS
+            THE 5 CORE CONCEPTS // DETAILED INTERACTIVE DEMOS
           </span>
           <h2 style={{
             fontFamily: 'var(--font-display)',
-            fontSize: 'clamp(1.8rem, 4vw, 3rem)',
+            fontSize: 'clamp(2rem, 4.5vw, 3.2rem)',
             fontWeight: 900, letterSpacing: '-0.02em', lineHeight: 1.05,
             color: '#0A0A0A', marginBottom: '0.5rem',
           }}>
-            THE 5 FUNDAMENTAL <span style={{ color: '#0038FF' }}>CONCEPTS OF PROGRAMMING</span>
+            EVERY LANGUAGE. <span style={{ color: '#0038FF' }}>EVERY PROGRAMMER.</span>
           </h2>
-          <p style={{ fontFamily: 'var(--font-body)', color: '#666', fontSize: '0.98rem', maxWidth: '640px', lineHeight: 1.6 }}>
-            Each section presents one canonical term: its formal definition, key properties,
-            an interactive demonstration that proves the definition, and annotated code.
+          <p style={{ fontFamily: 'var(--font-body)', color: '#555', fontSize: '1.05rem', maxWidth: '700px', lineHeight: 1.6, fontWeight: 500 }}>
+            Master these 5 core concepts once — and you will understand the architecture of every programming language you ever write.
           </p>
         </div>
 
-        {/* All 5 concepts rendered as stacked divs */}
         {CONCEPTS.map((concept) => (
           <ConceptBlock key={concept.id} concept={concept} />
         ))}

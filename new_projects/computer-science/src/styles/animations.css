@@ -23,6 +23,17 @@
   }
 }
 
+@keyframes countPulse {
+  0%, 100% {
+    transform: scale(1);
+    box-shadow: 4px 4px 0px #0A0A0A;
+  }
+  50% {
+    transform: scale(1.12) translate(-2px, -2px);
+    box-shadow: 8px 8px 0px #FFE600;
+  }
+}
+
 @keyframes pulseGlowRed {
   0%, 100% {
     box-shadow: 0 0 0 0 rgba(255, 42, 0, 0.4);
@@ -104,6 +115,38 @@
   50% { opacity: 0; }
 }
 
+@keyframes orbitRotate {
+  0% {
+    transform: rotate(0deg);
+  }
+  100% {
+    transform: rotate(360deg);
+  }
+}
+
+@keyframes orbitCounterRotate {
+  0% {
+    transform: rotate(0deg);
+  }
+  100% {
+    transform: rotate(-360deg);
+  }
+}
+
+@keyframes flowPulse {
+  0% {
+    stroke-dashoffset: 20;
+    opacity: 0.4;
+  }
+  50% {
+    opacity: 1;
+  }
+  100% {
+    stroke-dashoffset: 0;
+    opacity: 0.4;
+  }
+}
+
 /* Reusable Animation Utility Classes */
 .animate-spin-slow {
   animation: rotateSlow 20s linear infinite;
@@ -113,8 +156,16 @@
   animation: rotateSlow 8s linear infinite;
 }
 
+.animate-spin-fast {
+  animation: rotateFast 1.5s linear infinite;
+}
+
 .animate-float {
   animation: floatGentle 4s ease-in-out infinite;
+}
+
+.animate-count-pulse {
+  animation: countPulse 2s ease-in-out infinite;
 }
 
 .animate-marquee {
