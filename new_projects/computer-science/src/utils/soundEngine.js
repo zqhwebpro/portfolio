@@ -190,5 +190,73 @@ export const SoundEngine = {
         osc.stop(startTime + 0.26);
       });
     } catch {}
+  },
+
+  // Procedural Synthwave Music Generator Fallback
+  synthBeatInterval: null,
+  startSynthwaveBeat(trackIndex = 0) {
+    if (isMuted) return;
+    this.stopSynthwaveBeat();
+    try {
+      const ctx = getAudioContext();
+      if (!ctx) return;
+
+      const scales = [
+        [110, 130.81, 146.83, 164.81, 196.00], // A Minor Synth
+        [123.47, 146.83, 164.81, 185.00, 220.00], // B Minor Synth
+        [130.81, 155.56, 174.61, 196.00, 233.08], // C Minor Outrun
+        [98.00, 116.54, 130.81, 146.83, 174.61]   // G Minor Retrowave
+      ];
+      const scale = scales[trackIndex % scales.length];
+      let step = 0;
+
+      this.synthBeatInterval = setInterval(() => {
+        if (isMuted) return;
+        try {
+          const now = ctx.currentTime;
+          const bassFreq = scale[step % scale.length];
+
+          // Bass synth pulse
+          const osc = ctx.createOscillator();
+          const gain = ctx.createGain();
+          osc.type = 'sawtooth';
+          osc.frequency.setValueAtTime(bassFreq, now);
+          osc.frequency.exponentialRampToValueAtTime(bassFreq * 0.5, now + 0.18);
+
+          gain.gain.setValueAtTime(0.12, now);
+          gain.gain.exponentialRampToValueAtTime(0.001, now + 0.18);
+
+          osc.connect(gain);
+          gain.connect(ctx.destination);
+          osc.start(now);
+          osc.stop(now + 0.2);
+
+          // Arpeggiated lead chime on alternate beats
+          if (step % 2 === 1) {
+            const leadOsc = ctx.createOscillator();
+            const leadGain = ctx.createGain();
+            leadOsc.type = 'sine';
+            leadOsc.frequency.setValueAtTime(bassFreq * 4, now);
+            leadGain.gain.setValueAtTime(0.06, now);
+            leadGain.gain.exponentialRampToValueAtTime(0.001, now + 0.14);
+
+            leadOsc.connect(leadGain);
+            leadGain.connect(ctx.destination);
+            leadOsc.start(now);
+            leadOsc.stop(now + 0.15);
+          }
+
+          step = (step + 1) % 16;
+        } catch {}
+      }, 180);
+    } catch {}
+  },
+
+  stopSynthwaveBeat() {
+    if (this.synthBeatInterval) {
+      clearInterval(this.synthBeatInterval);
+      this.synthBeatInterval = null;
+    }
   }
 };
+

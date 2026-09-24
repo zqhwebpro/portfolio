@@ -255,30 +255,32 @@
             background: #7C3AED;
         }
 
-        /* Wacky Falling & Rising View Transition Animations */
-        @keyframes fallDownExit {
+        /* Wacky Sporadic Falling & Rising View Transition Animations */
+        @keyframes fallSporadic {
             0% {
-                transform: translateY(0) rotate(0deg);
+                transform: translateY(0) rotate(0deg) scale(1);
                 opacity: 1;
             }
-            35% {
-                transform: translateY(40px) rotate(-3deg);
+            25% {
+                transform: translateY(30px) rotate(var(--fall-tilt, -4deg)) scale(1.02);
                 opacity: 0.95;
             }
             100% {
-                transform: translateY(125vh) rotate(16deg);
+                transform: translateY(115vh) rotate(var(--fall-tilt-end, 18deg)) scale(0.85);
                 opacity: 0;
             }
         }
 
-        .animate-fall-down {
-            animation: fallDownExit 0.55s cubic-bezier(0.55, 0.055, 0.675, 0.19) forwards !important;
+        .animate-fall-sporadic {
+            animation-name: fallSporadic !important;
+            animation-timing-function: cubic-bezier(0.55, 0.055, 0.675, 0.19) !important;
+            animation-fill-mode: forwards !important;
             pointer-events: none !important;
         }
 
         @keyframes riseUpEnter {
             0% {
-                transform: translateY(70px) scale(0.95);
+                transform: translateY(60px) scale(0.96);
                 opacity: 0;
             }
             100% {
@@ -288,7 +290,7 @@
         }
 
         .animate-rise-up {
-            animation: riseUpEnter 0.5s cubic-bezier(0.175, 0.885, 0.32, 1.275) forwards;
+            animation: riseUpEnter 0.45s cubic-bezier(0.175, 0.885, 0.32, 1.275) forwards;
         }
 
         /* --- DARK MODE SYSTEM (Obsidian Slate, Deep Purple, Glowing Teal) --- */
@@ -883,37 +885,62 @@
     </main>
 
     <!-- 3.5 MAIN BLOG LAYOUT (The Mischief Gazette & Wacky Chronicles) -->
-    <main id="blog-main-view" class="bg-canvas-base text-earth-950 py-8 flex-1 w-full hidden">
-        <div class="store-fluid-container space-y-8">
+    <main id="blog-main-view" 
+          data-blueprint-file="WackyStore.WebUI/Controllers/BlogController.cs"
+          data-blueprint-role="Blog Index Controller &amp; ViewModel Engine"
+          data-blueprint-layer="WebUI / Blog Portal"
+          data-blueprint-dom="Main container displaying active Wacky Chronicles articles and category filter queries."
+          data-blueprint-desc="BlogController queries IBlogRepository to supply IEnumerable<BlogPost> items to the Index view with category filtering."
+          data-blueprint-code="public ViewResult Index(string cat) => View(repository.GetArticles(cat));"
+          class="bg-canvas-base text-earth-950 py-8 flex-1 w-full hidden">
+        <div class="store-fluid-container space-y-6">
             
-            <!-- Blog Hero Banner -->
-            <div class="bg-gradient-to-r from-earth-950 via-purple-950 to-earth-900 text-white rounded-3xl p-6 sm:p-10 shadow-xl relative overflow-hidden border border-purple-800/40">
-                <div class="absolute -right-12 -bottom-12 w-64 h-64 bg-amber-500/10 rounded-full blur-3xl pointer-events-none"></div>
-                <div class="relative z-10 max-w-3xl space-y-3">
-                    <div class="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-amber-400/20 border border-amber-300/30 text-amber-200 text-xs font-mono font-bold tracking-widest uppercase">
-                        <i class="fa-solid fa-feather text-amber-300"></i>
-                        <span>The Mischief Gazette</span>
+            <!-- Clean Blog Header & Filter Bar (No Big Purple Box) -->
+            <div class="bg-white border border-canvas-border rounded-2xl p-5 flex items-center justify-between flex-wrap gap-4 shadow-xs"
+                 data-blueprint-file="WackyStore.WebUI/Models/BlogListViewModel.cs"
+                 data-blueprint-role="Blog Query Filter Bar"
+                 data-blueprint-layer="WebUI / ViewModel"
+                 data-blueprint-dom="Clean header bar with category filter pills and total article counter."
+                 data-blueprint-desc="BlogListViewModel encapsulates Article list, CurrentCategory, and PagingInfo."
+                 data-blueprint-code="public class BlogListViewModel { public IEnumerable<BlogPost> Articles { get; set; } }">
+                
+                <div>
+                    <div class="flex items-center gap-2">
+                        <span class="h-2 w-2 rounded-full bg-honey-600 inline-block animate-pulse"></span>
+                        <span class="text-[11px] font-mono text-earth-500 uppercase tracking-wider font-semibold">The Mischief Gazette</span>
                     </div>
-                    <h1 class="font-heading font-black text-3xl sm:text-5xl text-amber-100 tracking-tight leading-tight">
-                        Wacky Chronicles &amp; Bizarre Field Notes
-                    </h1>
-                    <p class="text-sm sm:text-base text-amber-200/90 font-sans max-w-2xl leading-relaxed">
-                        Deep dives, scientific breakthroughs, and absurd observations from our team of certified oddities researchers.
-                    </p>
-
-                    <!-- Blog Category Filters -->
-                    <div class="pt-4 flex flex-wrap items-center gap-2.5">
-                        <button onclick="window.filterBlogCategory('all')" class="blog-cat-btn px-4 py-2 rounded-xl text-xs font-bold transition-all bg-amber-400 text-earth-950 shadow-md">All Chronicles</button>
-                        <button onclick="window.filterBlogCategory('Quantum Gastronomy')" class="blog-cat-btn px-4 py-2 rounded-xl text-xs font-bold transition-all bg-white/10 hover:bg-white/20 text-white border border-white/20">Quantum Gastronomy</button>
-                        <button onclick="window.filterBlogCategory('Pet Care & Illusion')" class="blog-cat-btn px-4 py-2 rounded-xl text-xs font-bold transition-all bg-white/10 hover:bg-white/20 text-white border border-white/20">Pet Care</button>
-                        <button onclick="window.filterBlogCategory('Botanical Gossip')" class="blog-cat-btn px-4 py-2 rounded-xl text-xs font-bold transition-all bg-white/10 hover:bg-white/20 text-white border border-white/20">Botanical Gossip</button>
-                        <button onclick="window.filterBlogCategory('Cosmic Anomalies')" class="blog-cat-btn px-4 py-2 rounded-xl text-xs font-bold transition-all bg-white/10 hover:bg-white/20 text-white border border-white/20">Cosmic Anomalies</button>
-                    </div>
+                    <h2 class="font-heading font-black text-2xl sm:text-3xl text-earth-950 tracking-tight mt-0.5">
+                        Wacky Chronicles &amp; Field Notes
+                    </h2>
                 </div>
+
+                <!-- Blog Category Filter Buttons -->
+                <div class="flex flex-wrap items-center gap-2 text-xs">
+                    <button onclick="window.filterBlogCategory('all')" 
+                            data-blueprint-file="WackyStore.Domain/Abstract/IBlogRepository.cs"
+                            data-blueprint-role="Linq Category Filter Action"
+                            data-blueprint-layer="Domain / Query"
+                            data-blueprint-dom="Pill button triggering .Where(a => category == null || a.Category == cat) query."
+                            data-blueprint-desc="Filters displayed articles by category parameter."
+                            data-blueprint-code="repository.GetArticles('all')"
+                            class="blog-cat-btn px-3.5 py-1.5 rounded-xl font-bold transition-all bg-appetite-700 text-white shadow-xs">All Chronicles</button>
+                    <button onclick="window.filterBlogCategory('Quantum Gastronomy')" class="blog-cat-btn px-3.5 py-1.5 rounded-xl font-bold transition-all bg-canvas-surface hover:bg-canvas-border text-earth-800 border border-canvas-border">Quantum Gastronomy</button>
+                    <button onclick="window.filterBlogCategory('Pet Care & Illusion')" class="blog-cat-btn px-3.5 py-1.5 rounded-xl font-bold transition-all bg-canvas-surface hover:bg-canvas-border text-earth-800 border border-canvas-border">Pet Care</button>
+                    <button onclick="window.filterBlogCategory('Botanical Gossip')" class="blog-cat-btn px-3.5 py-1.5 rounded-xl font-bold transition-all bg-canvas-surface hover:bg-canvas-border text-earth-800 border border-canvas-border">Botanical Gossip</button>
+                    <button onclick="window.filterBlogCategory('Cosmic Anomalies')" class="blog-cat-btn px-3.5 py-1.5 rounded-xl font-bold transition-all bg-canvas-surface hover:bg-canvas-border text-earth-800 border border-canvas-border">Cosmic Anomalies</button>
+                </div>
+
             </div>
 
             <!-- Blog Posts Grid -->
-            <div id="blog-posts-grid" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 sm:gap-8">
+            <div id="blog-posts-grid" 
+                 data-blueprint-file="WackyStore.WebUI/Views/Blog/_ArticleSummary.cshtml"
+                 data-blueprint-role="Article Summary Grid Container"
+                 data-blueprint-layer="WebUI / Partial View"
+                 data-blueprint-dom="Fluid CSS Grid container rendering article summary cards."
+                 data-blueprint-desc="Iterates through Model.Articles rendering card previews with full click-to-open reader modal functionality."
+                 data-blueprint-code="@foreach (var item in Model.Articles) { @Html.Partial(&quot;_ArticleSummary&quot;, item) }"
+                 class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 sm:gap-8">
                 <!-- Posts dynamically rendered via JS -->
             </div>
 
@@ -2601,13 +2628,25 @@
             const toggleBadge = document.getElementById('wacky-corner-toggle');
 
             if (window.currentView === 'store') {
-                // FALL STORE -> REVEAL BLOG
-                storeMain.classList.add('animate-fall-down');
-                triggerFlashToast('Items falling away... Opening Wacky Blog!');
+                // SPORADIC FALL STORE CARDS -> REVEAL BLOG
+                const storeCards = Array.from(document.querySelectorAll('#product-grid > div, aside'));
+                storeCards.forEach((card, idx) => {
+                    const tiltStart = (Math.random() - 0.5) * 14;
+                    const tiltEnd = (Math.random() - 0.5) * 40;
+                    card.style.setProperty('--fall-tilt', `${tiltStart}deg`);
+                    card.style.setProperty('--fall-tilt-end', `${tiltEnd}deg`);
+                    card.style.animationDelay = `${(idx % 8) * 0.04 + Math.random() * 0.05}s`;
+                    card.style.animationDuration = `${0.45 + (idx % 3) * 0.08}s`;
+                    card.classList.add('animate-fall-sporadic');
+                });
 
                 setTimeout(() => {
                     storeMain.classList.add('hidden');
-                    storeMain.classList.remove('animate-fall-down');
+                    storeCards.forEach(c => {
+                        c.classList.remove('animate-fall-sporadic');
+                        c.style.animationDelay = '';
+                        c.style.animationDuration = '';
+                    });
                     
                     blogMain.classList.remove('hidden');
                     blogMain.classList.add('animate-rise-up');
@@ -2615,37 +2654,49 @@
 
                     window.currentView = 'blog';
 
-                    if (iconEl) iconEl.className = 'fa-solid fa-store text-xl sm:text-2xl text-amber-300 mb-0.5 filter drop-shadow-md';
+                    if (iconEl) iconEl.className = 'fa-solid fa-store text-lg sm:text-xl text-white mb-0.5 filter drop-shadow-xs';
                     if (textEl) textEl.innerText = 'STORE';
                     if (toggleBadge) toggleBadge.title = 'Switch Back to Wacky Shop Store';
 
                     window.scrollTo({ top: 0, behavior: 'smooth' });
 
                     setTimeout(() => blogMain.classList.remove('animate-rise-up'), 500);
-                }, 480);
+                }, 520);
 
             } else {
-                // FALL BLOG -> REVEAL STORE
-                blogMain.classList.add('animate-fall-down');
-                triggerFlashToast('Chronicles falling away... Returning to Store!');
+                // SPORADIC FALL BLOG CARDS -> REVEAL STORE
+                const blogCards = Array.from(document.querySelectorAll('#blog-posts-grid > article'));
+                blogCards.forEach((card, idx) => {
+                    const tiltStart = (Math.random() - 0.5) * 14;
+                    const tiltEnd = (Math.random() - 0.5) * 40;
+                    card.style.setProperty('--fall-tilt', `${tiltStart}deg`);
+                    card.style.setProperty('--fall-tilt-end', `${tiltEnd}deg`);
+                    card.style.animationDelay = `${idx * 0.045 + Math.random() * 0.05}s`;
+                    card.style.animationDuration = `${0.45 + (idx % 3) * 0.08}s`;
+                    card.classList.add('animate-fall-sporadic');
+                });
 
                 setTimeout(() => {
                     blogMain.classList.add('hidden');
-                    blogMain.classList.remove('animate-fall-down');
+                    blogCards.forEach(c => {
+                        c.classList.remove('animate-fall-sporadic');
+                        c.style.animationDelay = '';
+                        c.style.animationDuration = '';
+                    });
 
                     storeMain.classList.remove('hidden');
                     storeMain.classList.add('animate-rise-up');
 
                     window.currentView = 'store';
 
-                    if (iconEl) iconEl.className = 'fa-solid fa-newspaper text-xl sm:text-2xl text-amber-300 mb-0.5 filter drop-shadow-md';
+                    if (iconEl) iconEl.className = 'fa-solid fa-newspaper text-lg sm:text-xl text-white mb-0.5 filter drop-shadow-xs';
                     if (textEl) textEl.innerText = 'BLOG';
                     if (toggleBadge) toggleBadge.title = 'Switch to Wacky Chronicles Blog';
 
                     window.scrollTo({ top: 0, behavior: 'smooth' });
 
                     setTimeout(() => storeMain.classList.remove('animate-rise-up'), 500);
-                }, 480);
+                }, 520);
             }
         };
 
@@ -2658,7 +2709,14 @@
                 : window.BLOG_POSTS.filter(p => p.category === categoryFilter);
 
             grid.innerHTML = filtered.map(post => `
-                <article class="bg-white border border-canvas-border rounded-3xl overflow-hidden shadow-xs hover:shadow-xl transition-all duration-300 flex flex-col group hover:-translate-y-1">
+                <article onclick="window.openBlogReaderModal('${post.id}')"
+                         data-blueprint-file="WackyStore.WebUI/Views/Blog/_ArticleSummary.cshtml"
+                         data-blueprint-role="BlogPost Summary Partial Model"
+                         data-blueprint-layer="WebUI / Partial View"
+                         data-blueprint-dom="Clickable article card opening full blog reader modal."
+                         data-blueprint-desc="Maps Domain.Entities.BlogPost entity properties (Title, Author, Excerpt, Content) to HTML preview markup."
+                         data-blueprint-code="@model WackyStore.Domain.Entities.BlogPost"
+                         class="bg-white border border-canvas-border rounded-3xl overflow-hidden shadow-xs hover:shadow-xl transition-all duration-300 flex flex-col group hover:-translate-y-1.5 cursor-pointer">
                     <div class="relative h-48 w-full overflow-hidden bg-earth-900">
                         <img src="${post.image}" alt="${post.title}" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500 opacity-90" />
                         <div class="absolute top-3 left-3">
@@ -2687,10 +2745,10 @@
                                 <i class="fa-solid fa-user-astronaut text-appetite-700"></i>
                                 <span>${post.author}</span>
                             </div>
-                            <button onclick="window.openBlogReaderModal('${post.id}')" class="px-3.5 py-1.5 rounded-xl bg-canvas-surface hover:bg-purple-100 text-purple-900 font-bold text-xs transition-all flex items-center gap-1.5">
-                                <span>Read</span>
+                            <span class="px-3.5 py-1.5 rounded-xl bg-canvas-surface group-hover:bg-purple-100 text-purple-900 font-bold text-xs transition-all flex items-center gap-1.5">
+                                <span>Read Story</span>
                                 <i class="fa-solid fa-arrow-right text-[10px]"></i>
-                            </button>
+                            </span>
                         </div>
                     </div>
                 </article>
@@ -2703,9 +2761,9 @@
 
             document.querySelectorAll('.blog-cat-btn').forEach(btn => {
                 if (btn.innerText.toLowerCase().includes(cat.toLowerCase()) || (cat === 'all' && btn.innerText.includes('All'))) {
-                    btn.className = 'blog-cat-btn px-4 py-2 rounded-xl text-xs font-bold transition-all bg-amber-400 text-earth-950 shadow-md';
+                    btn.className = 'blog-cat-btn px-3.5 py-1.5 rounded-xl font-bold transition-all bg-appetite-700 text-white shadow-xs';
                 } else {
-                    btn.className = 'blog-cat-btn px-4 py-2 rounded-xl text-xs font-bold transition-all bg-white/10 hover:bg-white/20 text-white border border-white/20';
+                    btn.className = 'blog-cat-btn px-3.5 py-1.5 rounded-xl font-bold transition-all bg-canvas-surface hover:bg-canvas-border text-earth-800 border border-canvas-border';
                 }
             });
         };
@@ -2753,7 +2811,14 @@
     </script>
 
     <!-- BLOG POST READER MODAL -->
-    <div id="blog-reader-modal" class="fixed inset-0 bg-black/70 backdrop-blur-sm z-50 hidden flex items-center justify-center p-4 sm:p-6" onclick="if(event.target===this) window.closeBlogReaderModal()">
+    <div id="blog-reader-modal" 
+         data-blueprint-file="WackyStore.WebUI/Views/Blog/ReaderModal.cshtml"
+         data-blueprint-role="Article Reader Modal Partial"
+         data-blueprint-layer="WebUI / View Component"
+         data-blueprint-dom="Modal dialog displaying full article content, cover image, author info, and navigation action."
+         data-blueprint-desc="Renders full BlogPost content when an article card is selected."
+         data-blueprint-code="public ViewResult ArticleModal(string id) => View(repository.GetById(id));"
+         class="fixed inset-0 bg-black/70 backdrop-blur-sm z-50 hidden flex items-center justify-center p-4 sm:p-6" onclick="if(event.target===this) window.closeBlogReaderModal()">
         <div class="bg-white border border-canvas-border rounded-3xl w-full max-w-3xl max-h-[90vh] flex flex-col shadow-2xl overflow-hidden relative animate-rise-up">
             
             <!-- Modal Header / Cover -->
@@ -2764,7 +2829,7 @@
                     <i class="fa-solid fa-xmark text-lg"></i>
                 </button>
                 <div class="absolute bottom-4 left-6 right-6 text-white space-y-1 z-10">
-                    <span id="blog-modal-category" class="px-3 py-1 rounded-full bg-amber-400 text-earth-950 text-xs font-mono font-black uppercase">Category</span>
+                    <span id="blog-modal-category" class="px-3 py-1 rounded-full bg-honey-400 text-earth-950 text-xs font-mono font-black uppercase">Category</span>
                     <h2 id="blog-modal-title" class="font-heading font-black text-xl sm:text-3xl text-amber-100 leading-tight">Title</h2>
                 </div>
             </div>
@@ -2813,7 +2878,7 @@
          data-blueprint-role="Wacky View Switcher (Store &amp; Blog)"
          data-blueprint-layer="WebUI / View Navigation"
          data-blueprint-dom="Bottom-left corner triangle badge with wavy edge facing the webpage body."
-         data-blueprint-desc="Triggers falling item exit animation and toggles view between Store Catalog and Wacky Chronicles Blog."
+         data-blueprint-desc="Triggers sporadic item gravity drop animation and toggles view between Store Catalog and Wacky Chronicles Blog."
          data-blueprint-code="window.toggleViewStoreBlog();"
          class="fixed bottom-0 left-0 z-50 group cursor-pointer select-none filter drop-shadow-xl transition-transform duration-300 hover:scale-110 active:scale-95"
          title="Switch to Wacky Chronicles Blog">
@@ -2847,7 +2912,7 @@
 
         <!-- Centered Icon & Label inside the Corner Triangle -->
         <div class="absolute bottom-4 left-4 sm:bottom-5 sm:left-5 flex flex-col items-center justify-center text-white pointer-events-none transition-transform duration-300">
-            <i id="viewToggleIcon" class="fa-solid fa-newspaper text-xl sm:text-2xl text-amber-300 mb-0.5 filter drop-shadow-md"></i>
+            <i id="viewToggleIcon" class="fa-solid fa-newspaper text-lg sm:text-xl text-white mb-0.5 filter drop-shadow-xs"></i>
             <span id="viewToggleText" class="font-heading font-black text-[9px] sm:text-[9.5px] tracking-wider uppercase leading-none drop-shadow">BLOG</span>
         </div>
     </div>

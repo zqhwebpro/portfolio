@@ -116,34 +116,38 @@ export function SpotifyRadio({ onAudioStateChange }) {
 
   // Handle automatic audio loading and playing when trackIndex changes
   useEffect(() => {
-    if (!audioRef.current) return;
-    audioRef.current.load();
     if (isPlaying) {
-      audioRef.current.play().then(() => {
-        if (onAudioStateChange) onAudioStateChange(true);
-      }).catch(err => {
-        console.warn('Track change playback error:', err);
-        setIsPlaying(false);
-        if (onAudioStateChange) onAudioStateChange(false);
-      });
+      SoundEngine.startSynthwaveBeat(trackIndex);
+      if (audioRef.current) {
+        audioRef.current.load();
+        audioRef.current.play().then(() => {
+          if (onAudioStateChange) onAudioStateChange(true);
+        }).catch(() => {
+          // Fallback to procedural synth generator if audio URL blocked/failed
+          if (onAudioStateChange) onAudioStateChange(true);
+        });
+      }
+    } else {
+      SoundEngine.stopSynthwaveBeat();
     }
   }, [trackIndex]);
 
   const togglePlay = () => {
     SoundEngine.playClick();
-    if (!audioRef.current) return;
-
     if (isPlaying) {
-      audioRef.current.pause();
+      if (audioRef.current) audioRef.current.pause();
+      SoundEngine.stopSynthwaveBeat();
       setIsPlaying(false);
       if (onAudioStateChange) onAudioStateChange(false);
     } else {
-      audioRef.current.play().then(() => {
-        setIsPlaying(true);
-        if (onAudioStateChange) onAudioStateChange(true);
-      }).catch(err => {
-        console.warn('Playback error:', err);
-      });
+      setIsPlaying(true);
+      SoundEngine.startSynthwaveBeat(trackIndex);
+      if (onAudioStateChange) onAudioStateChange(true);
+      if (audioRef.current) {
+        audioRef.current.play().catch(() => {
+          // Web Audio synth handles playback when preview URL fails
+        });
+      }
     }
   };
 

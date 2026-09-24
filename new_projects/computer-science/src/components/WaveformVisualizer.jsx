@@ -11,75 +11,85 @@ export function WaveformVisualizer({ isAudioPlaying = false, speedMph = 0 }) {
     let phase = 0;
 
     const render = () => {
-      const width = (canvas.width = canvas.clientWidth || 800);
-      const height = (canvas.height = canvas.clientHeight || 110);
+      const parent = canvas.parentElement;
+      const width = (canvas.width = parent ? parent.clientWidth : window.innerWidth);
+      const height = (canvas.height = parent ? parent.clientHeight : window.innerHeight);
 
       ctx.clearRect(0, 0, width, height);
 
-      // Compute sound intensity
-      const baseAmp = isAudioPlaying ? 28 : speedMph > 0 ? 18 : 8;
-      phase += 0.05 + (speedMph * 0.0015);
+      // Compute Sun Position (matching SynthwaveDrive sun position)
+      const horizonY = height * 0.55;
+      const sunCenterX = width * 0.5;
+      const sunRadius = Math.min(width, height) * 0.25;
+      const sunCenterY = horizonY - sunRadius * 0.35;
 
-      // 1. Draw Ethereal Glowing Celestial Spectrum Bars (Sky Aurora Effect)
-      const numBars = 42;
-      const barW = (width - 40) / numBars;
-      ctx.globalAlpha = 0.3;
+      // Sound audio intensity
+      const baseAmp = isAudioPlaying ? 32 : Math.abs(speedMph) > 0 ? 20 : 10;
+      phase += 0.04 + (Math.abs(speedMph) * 0.001);
 
-      for (let i = 0; i < numBars; i++) {
-        const x = 20 + i * barW;
-        const noise = Math.sin(i * 0.45 + phase * 1.8) * Math.cos(i * 0.25 - phase);
-        const barH = Math.max(6, Math.abs(noise) * baseAmp * 1.4 + (Math.sin(phase + i) * 6 + 6));
-        const barY = height / 2 - barH / 2;
+      ctx.save();
 
-        const grad = ctx.createLinearGradient(0, barY, 0, barY + barH);
-        grad.addColorStop(0, '#FF007F');
-        grad.addColorStop(0.5, '#00F0FF');
-        grad.addColorStop(1, '#FFE600');
+      // 1. RADIAL SOLAR SPECTRUM RAYS (Fanning 360 degrees around Sun)
+      const numRays = 48;
+      ctx.globalAlpha = 0.45;
 
-        ctx.fillStyle = grad;
-        ctx.fillRect(x, barY, barW - 3, barH);
+      for (let i = 0; i < numRays; i++) {
+        const angle = (i / numRays) * Math.PI * 2;
+        const rayNoise = Math.sin(i * 0.6 + phase * 2) * Math.cos(i * 0.3 - phase);
+        const rayLength = sunRadius + 12 + Math.abs(rayNoise) * baseAmp * 1.6 + (Math.sin(phase + i) * 8);
+
+        const innerX = sunCenterX + Math.cos(angle) * (sunRadius + 4);
+        const innerY = sunCenterY + Math.sin(angle) * (sunRadius + 4);
+        const outerX = sunCenterX + Math.cos(angle) * rayLength;
+        const outerY = sunCenterY + Math.sin(angle) * rayLength;
+
+        const rayGrad = ctx.createLinearGradient(innerX, innerY, outerX, outerY);
+        rayGrad.addColorStop(0, '#FFE600');
+        rayGrad.addColorStop(0.5, '#FF007F');
+        rayGrad.addColorStop(1, '#00F0FF');
+
+        ctx.strokeStyle = rayGrad;
+        ctx.lineWidth = isAudioPlaying ? 3 : 2;
+        ctx.shadowColor = '#00F0FF';
+        ctx.shadowBlur = 10;
+
+        ctx.beginPath();
+        ctx.moveTo(innerX, innerY);
+        ctx.lineTo(outerX, outerY);
+        ctx.stroke();
       }
 
-      // 2. Overlay Dual Glowing Sine Oscillograph Waves across Sky
-      ctx.globalAlpha = 0.55;
-      
-      // Wave 1: Neon Cyan Sky Wave
-      ctx.strokeStyle = '#00F0FF';
-      ctx.lineWidth = 2;
-      ctx.shadowColor = '#00F0FF';
-      ctx.shadowBlur = 12;
-      ctx.beginPath();
+      // 2. CONCENTRIC SOLAR AUDIO RIPPLE RINGS (Undulating Concentric Waves)
+      const numRings = isAudioPlaying ? 5 : 3;
+      for (let rIdx = 0; rIdx < numRings; rIdx++) {
+        const ringBaseR = sunRadius + 20 + rIdx * 24 + ((phase * 15) % 24);
+        const ringAlpha = Math.max(0.1, 0.7 - (rIdx * 0.12));
 
-      const centerY = height / 2;
-      for (let x = 0; x <= width; x += 4) {
-        const normX = x / width;
-        const wave = Math.sin(normX * Math.PI * 4 + phase) * (baseAmp * 0.8) +
-                     Math.cos(normX * Math.PI * 8 - phase * 1.2) * (baseAmp * 0.3);
-        const y = centerY + wave;
-        if (x === 0) ctx.moveTo(x, y);
-        else ctx.lineTo(x, y);
+        ctx.globalAlpha = ringAlpha;
+        ctx.strokeStyle = rIdx % 2 === 0 ? '#00F0FF' : '#FF007F';
+        ctx.lineWidth = rIdx === 0 ? 2.5 : 1.8;
+        ctx.shadowColor = rIdx % 2 === 0 ? '#00F0FF' : '#FF007F';
+        ctx.shadowBlur = 12;
+
+        ctx.beginPath();
+        const steps = 90;
+        for (let s = 0; s <= steps; s++) {
+          const a = (s / steps) * Math.PI * 2;
+          const wave = Math.sin(a * (6 + rIdx * 2) + phase * (2 + rIdx)) * (baseAmp * 0.4) +
+                     Math.cos(a * 4 - phase * 1.5) * (baseAmp * 0.2);
+          const currentR = ringBaseR + wave;
+
+          const rx = sunCenterX + Math.cos(a) * currentR;
+          const ry = sunCenterY + Math.sin(a) * currentR;
+
+          if (s === 0) ctx.moveTo(rx, ry);
+          else ctx.lineTo(rx, ry);
+        }
+        ctx.closePath();
+        ctx.stroke();
       }
-      ctx.stroke();
 
-      // Wave 2: Neon Magenta Sky Wave
-      ctx.strokeStyle = '#FF007F';
-      ctx.lineWidth = 1.8;
-      ctx.shadowColor = '#FF007F';
-      ctx.shadowBlur = 10;
-      ctx.beginPath();
-
-      for (let x = 0; x <= width; x += 4) {
-        const normX = x / width;
-        const wave = Math.cos(normX * Math.PI * 5 - phase * 1.4) * (baseAmp * 0.6) +
-                     Math.sin(normX * Math.PI * 10 + phase) * (baseAmp * 0.25);
-        const y = centerY + wave;
-        if (x === 0) ctx.moveTo(x, y);
-        else ctx.lineTo(x, y);
-      }
-      ctx.stroke();
-
-      ctx.shadowBlur = 0;
-      ctx.globalAlpha = 1.0;
+      ctx.restore();
 
       animId = requestAnimationFrame(render);
     };
@@ -92,22 +102,15 @@ export function WaveformVisualizer({ isAudioPlaying = false, speedMph = 0 }) {
     <div
       style={{
         position: 'absolute',
-        top: '70px',
-        left: '50%',
-        transform: 'translateX(-50%)',
+        top: 0,
+        left: 0,
+        width: '100%',
+        height: '100%',
         zIndex: 15,
-        width: '85vw',
-        maxWidth: '920px',
-        height: '110px',
         pointerEvents: 'none',
-        display: 'flex',
-        alignItems: 'center',
-        justifyContent: 'center',
-        opacity: 0.85
       }}
     >
       <canvas ref={canvasRef} style={{ width: '100%', height: '100%', display: 'block' }} />
     </div>
   );
 }
-

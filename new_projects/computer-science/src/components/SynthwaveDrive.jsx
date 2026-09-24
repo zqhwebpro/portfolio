@@ -308,80 +308,72 @@ export function SynthwaveDrive() {
         </div>
       )}
 
-      {/* SLEEK TRANSPARENT FUTURISTIC FLOATING AFFIRMATION CARD DRIVING INTO VIEW ALONG FLOOR */}
+      {/* SLEEK GLASSMORMIC FUTURISTIC AFFIRMATION CARD DRIVING FORWARD IN DEPTH & PERSPECTIVE */}
       {activeAffirmation && (
         <div
           key={activeAffirmation.id}
+          onClick={() => {
+            SoundEngine.playSuccess();
+            setActiveAffirmation(null);
+          }}
           style={{
             position: 'absolute',
             left: activeAffirmation.leftPos,
             transform: 'translate(-50%, -50%)',
             zIndex: 50,
             width: '88%',
-            maxWidth: '430px',
-            animation: 'drivePerspectiveApproach 1.4s cubic-bezier(0.12, 0.9, 0.25, 1) forwards'
+            maxWidth: '460px',
+            cursor: 'pointer',
+            animation: 'drivePerspectiveZoomIn 1.6s cubic-bezier(0.12, 0.88, 0.22, 1) forwards'
           }}
         >
           <div style={{
-            background: 'rgba(10, 2, 26, 0.55)',
-            backdropFilter: 'blur(16px)',
-            color: '#FFFFFF',
+            background: 'rgba(6, 1, 18, 0.35)',
+            backdropFilter: 'blur(20px)',
+            WebkitBackdropFilter: 'blur(20px)',
             border: '1.5px solid rgba(0, 240, 255, 0.85)',
-            borderRadius: '16px',
-            padding: '1.35rem 1.6rem',
-            boxShadow: '0 0 45px rgba(0, 240, 255, 0.45), inset 0 0 20px rgba(0, 240, 255, 0.2)',
+            borderRadius: '20px',
+            padding: '1.5rem 1.8rem',
+            boxShadow: '0 0 50px rgba(0, 240, 255, 0.5), inset 0 0 25px rgba(0, 240, 255, 0.25)',
             textAlign: 'center',
-            position: 'relative'
+            position: 'relative',
+            transition: 'transform 0.2s ease, border-color 0.2s ease'
           }}>
             
             {/* Close Button */}
             <button
-              onClick={() => setActiveAffirmation(null)}
+              onClick={(e) => {
+                e.stopPropagation();
+                setActiveAffirmation(null);
+              }}
               style={{
                 position: 'absolute',
-                top: '10px',
-                right: '12px',
-                background: 'transparent',
-                border: 'none',
-                color: '#AAA',
+                top: '12px',
+                right: '14px',
+                background: 'rgba(0, 240, 255, 0.1)',
+                border: '1px solid rgba(0, 240, 255, 0.4)',
+                borderRadius: '50%',
+                color: '#00F0FF',
                 cursor: 'pointer',
-                padding: '4px',
+                padding: '5px',
                 display: 'flex',
                 alignItems: 'center',
                 justifyContent: 'center',
               }}
-              title="Close Affirmation"
+              title="Acknowledge Affirmation"
             >
-              <X size={16} />
+              <X size={15} />
             </button>
 
-            {/* Sub-Header Text */}
-            <div style={{
-              fontFamily: 'var(--font-mono)',
-              fontSize: '0.65rem',
-              fontWeight: 800,
-              color: '#FF007F',
-              letterSpacing: '0.14em',
-              marginBottom: '0.5rem',
-              textTransform: 'uppercase',
-              textShadow: '0 0 10px rgba(255, 0, 127, 0.8)',
-              display: 'flex',
-              alignItems: 'center',
-              justifyContent: 'center',
-              gap: '0.35rem'
-            }}>
-              <Sparkles size={13} color="#FF007F" /> AFFIRMATION #{activeAffirmation.number}
-            </div>
-
-            {/* Affirmation Text */}
+            {/* High-Contrast Bold White Text Popping Out */}
             <h3 style={{
               fontFamily: 'var(--font-display)',
-              fontSize: 'clamp(1.15rem, 2.5vw, 1.45rem)',
+              fontSize: 'clamp(1.25rem, 2.8vw, 1.65rem)',
               fontWeight: 900,
               lineHeight: 1.35,
-              color: '#00F0FF',
-              textShadow: '0 0 18px rgba(0, 240, 255, 0.95)',
-              letterSpacing: '0.02em',
+              color: '#FFFFFF',
+              textShadow: '0 0 15px rgba(255, 255, 255, 0.95), 0 0 35px rgba(0, 240, 255, 0.9), 0 0 55px rgba(0, 240, 255, 0.7)',
+              letterSpacing: '0.03em',
               margin: 0
             }}>
               "{activeAffirmation.text}"
@@ -390,28 +382,30 @@ export function SynthwaveDrive() {
         </div>
       )}
 
-      {/* 3D Floor Perspective Drive Approach Keyframe Animation */}
+      {/* 3D Floor Perspective Drive Zoom-In Keyframe Animation */}
       <style>{`
-        @keyframes drivePerspectiveApproach {
+        @keyframes drivePerspectiveZoomIn {
           0% {
             top: 55%;
             opacity: 0;
-            transform: translate(-50%, -50%) scale(0.18) rotateX(40deg);
-            filter: blur(4px);
+            transform: translate(-50%, -50%) scale(0.08) rotateX(45deg);
+            filter: blur(8px);
           }
-          30% {
-            opacity: 0.9;
+          25% {
+            opacity: 0.85;
+            filter: blur(2px);
+          }
+          65% {
+            top: 32%;
+            opacity: 1;
+            transform: translate(-50%, -50%) scale(1.0) rotateX(0deg);
             filter: blur(0px);
           }
-          70% {
-            top: 36%;
-            opacity: 1;
-            transform: translate(-50%, -50%) scale(1.05) rotateX(0deg);
-          }
           100% {
-            top: 24%;
+            top: 20%;
             opacity: 1;
-            transform: translate(-50%, -50%) scale(1.18) rotateX(-6deg);
+            transform: translate(-50%, -50%) scale(1.32) rotateX(-6deg);
+            filter: blur(0px);
           }
         }
       `}</style>
