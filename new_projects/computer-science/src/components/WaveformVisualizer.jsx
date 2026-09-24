@@ -1,6 +1,6 @@
 import React, { useEffect, useRef } from 'react';
 
-export function WaveformVisualizer({ isAudioPlaying = false, speedMph = 0, onAudioNode = null }) {
+export function WaveformVisualizer({ isAudioPlaying = false, speedMph = 0 }) {
   const canvasRef = useRef(null);
 
   useEffect(() => {
@@ -11,49 +11,48 @@ export function WaveformVisualizer({ isAudioPlaying = false, speedMph = 0, onAud
     let phase = 0;
 
     const render = () => {
-      const width = (canvas.width = canvas.clientWidth || 280);
+      const width = (canvas.width = canvas.clientWidth || 300);
       const height = (canvas.height = canvas.clientHeight || 55);
 
       ctx.clearRect(0, 0, width, height);
 
-      // Background screen fill
+      // Deep Space Glass Fill
       ctx.fillStyle = '#06020c';
       ctx.fillRect(0, 0, width, height);
 
-      // Grid mesh lines on audio scope
-      ctx.strokeStyle = 'rgba(0, 240, 255, 0.15)';
+      // Cyber Grid Mesh lines on scope
+      ctx.strokeStyle = 'rgba(0, 240, 255, 0.12)';
       ctx.lineWidth = 1;
-      for (let x = 0; x < width; x += 15) {
+      for (let x = 0; x < width; x += 16) {
         ctx.beginPath();
         ctx.moveTo(x, 0);
         ctx.lineTo(x, height);
         ctx.stroke();
       }
-      for (let y = 0; y < height; y += 10) {
+      for (let y = 0; y < height; y += 12) {
         ctx.beginPath();
         ctx.moveTo(0, y);
         ctx.lineTo(width, y);
         ctx.stroke();
       }
 
-      // Compute sound intensity based on audio playing, speed, or blips
-      const baseAmp = isAudioPlaying ? 18 : speedMph > 0 ? 12 : 5;
+      // Compute sound intensity
+      const baseAmp = isAudioPlaying ? 20 : speedMph > 0 ? 14 : 5;
       phase += 0.08 + (speedMph * 0.002);
 
-      // Draw 24 Neon Equalizer Bars
-      const numBars = 24;
-      const barW = (width - 20) / numBars;
+      // Draw 28 Neon Equalizer Spectrum Bars
+      const numBars = 28;
+      const barW = (width - 24) / numBars;
       for (let i = 0; i < numBars; i++) {
-        const x = 10 + i * barW;
-        const noise = Math.sin(i * 0.7 + phase * 2) * Math.cos(i * 0.3 - phase);
+        const x = 12 + i * barW;
+        const noise = Math.sin(i * 0.6 + phase * 2) * Math.cos(i * 0.35 - phase);
         const barH = Math.max(4, Math.abs(noise) * baseAmp + (Math.sin(phase + i) * 4 + 4));
-
         const barY = height / 2 - barH / 2;
 
-        // Color gradient by frequency band
+        // Gradient by frequency band (Magenta -> Cyan -> Yellow)
         const grad = ctx.createLinearGradient(0, barY, 0, barY + barH);
         grad.addColorStop(0, '#FFE600');
-        grad.addColorStop(0.5, '#FF0055');
+        grad.addColorStop(0.5, '#FF007F');
         grad.addColorStop(1, '#00F0FF');
 
         ctx.fillStyle = grad;
@@ -64,13 +63,13 @@ export function WaveformVisualizer({ isAudioPlaying = false, speedMph = 0, onAud
       ctx.strokeStyle = '#00F0FF';
       ctx.lineWidth = 2.5;
       ctx.shadowColor = '#00F0FF';
-      ctx.shadowBlur = 8;
+      ctx.shadowBlur = 10;
       ctx.beginPath();
 
       const centerY = height / 2;
       for (let x = 0; x <= width; x += 2) {
         const normX = x / width;
-        const wave = Math.sin(normX * Math.PI * 6 + phase) * (baseAmp * 0.6) +
+        const wave = Math.sin(normX * Math.PI * 6 + phase) * (baseAmp * 0.65) +
                      Math.cos(normX * Math.PI * 12 - phase * 1.5) * (baseAmp * 0.25);
         const y = centerY + wave;
         if (x === 0) ctx.moveTo(x, y);
@@ -94,11 +93,12 @@ export function WaveformVisualizer({ isAudioPlaying = false, speedMph = 0, onAud
         left: '50%',
         transform: 'translateX(-50%)',
         zIndex: 25,
-        background: '#0A0A0A',
-        border: '3px solid #00F0FF',
-        borderRadius: '4px',
-        boxShadow: '0 0 12px rgba(0, 240, 255, 0.4), 4px 4px 0 #0A0A0A',
-        padding: '0.4rem 0.6rem',
+        background: 'rgba(9, 3, 20, 0.85)',
+        backdropFilter: 'blur(12px)',
+        border: '1.5px solid rgba(0, 240, 255, 0.5)',
+        borderRadius: '12px',
+        boxShadow: '0 0 25px rgba(0, 240, 255, 0.35), inset 0 0 15px rgba(0, 240, 255, 0.15)',
+        padding: '0.4rem 0.75rem',
         display: 'flex',
         flexDirection: 'column',
         alignItems: 'center',
@@ -111,18 +111,19 @@ export function WaveformVisualizer({ isAudioPlaying = false, speedMph = 0, onAud
         justify: 'space-between',
         width: '100%',
         fontFamily: 'var(--font-mono)',
-        fontSize: '0.6rem',
-        fontWeight: 900,
+        fontSize: '0.62rem',
+        fontWeight: 800,
         color: '#FFE600',
-        letterSpacing: '0.08em'
+        letterSpacing: '0.08em',
+        textShadow: '0 0 8px rgba(255, 230, 0, 0.6)'
       }}>
-        <span>SYNTH AUDIO SCOPE // LIVE WAVEFORM</span>
-        <span style={{ color: isAudioPlaying ? '#00E599' : '#FF2A00' }}>
+        <span>AUDIO WAVEFORM // FREQUENCY SCOPE</span>
+        <span style={{ color: isAudioPlaying ? '#00E599' : '#FF007F' }}>
           {isAudioPlaying ? '● AUDIO ACTIVE' : 'STANDBY'}
         </span>
       </div>
 
-      <canvas ref={canvasRef} style={{ width: '280px', height: '50px', display: 'block' }} />
+      <canvas ref={canvasRef} style={{ width: '300px', height: '52px', display: 'block' }} />
     </div>
   );
 }

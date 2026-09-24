@@ -1,73 +1,48 @@
 :root {
   /* =========================================
-     NEO-BRUTALIST ART POP X BAUHAUS CS TOKENS
+     FUTURISTIC SYNTHWAVE / OUTRUN DESIGN TOKENS
      ========================================= */
 
-  /* Palette: Core Monochrome */
-  --bg-primary: #FFFFFF;
-  --bg-dark: #0A0A0A;
-  --bg-paper: #F8F7F2;
-  --bg-card: #FFFFFF;
-  --text-primary: #0A0A0A;
-  --text-muted: #555555;
-  --text-inverse: #FFFFFF;
+  /* Palette: Deep Cyber Space & Glassmorphism */
+  --bg-primary: #07020d;
+  --bg-dark: #07020d;
+  --bg-paper: #0e051a;
+  --bg-card: rgba(16, 6, 32, 0.75);
+  --text-primary: #FFFFFF;
+  --text-muted: #A0A0C0;
+  --text-inverse: #07020d;
   
-  /* Bauhaus / Art Pop Accents */
-  --cobalt-blue: #0038FF;
-  --canary-yellow: #FFE600;
-  --vermilion-red: #FF2A00;
-  --emerald-mint: #00E599;
-  --bauhaus-purple: #7928CA;
-  --pure-cyan: #00F0FF;
+  /* Synthwave / Cyberpunk Accents */
+  --neon-cyan: #00F0FF;
+  --neon-pink: #FF007F;
+  --neon-yellow: #FFE600;
+  --neon-purple: #9D00FF;
+  --neon-magenta: #FF0055;
+  --neon-mint: #00E599;
 
-  /* Surfaces & Structural Borders */
-  --border-width-sm: 1.5px;
-  --border-width-md: 2px;
-  --border-width-lg: 3.5px;
-  --border-color: #0A0A0A;
-  --border-solid: var(--border-width-md) solid var(--border-color);
-  --border-thick: var(--border-width-lg) solid var(--border-color);
+  /* Sleek Glassmorphism & Cyber Borders */
+  --border-width-sm: 1px;
+  --border-width-md: 1.5px;
+  --border-width-lg: 2px;
+  --border-color: rgba(0, 240, 255, 0.4);
+  --border-solid: 1.5px solid rgba(0, 240, 255, 0.4);
+  --border-pink: 1.5px solid rgba(255, 0, 127, 0.5);
   
-  /* Geometric Hard-Drop Shadows */
-  --shadow-sm: 2px 2px 0px #0A0A0A;
-  --shadow-md: 4px 4px 0px #0A0A0A;
-  --shadow-lg: 8px 8px 0px #0A0A0A;
-  --shadow-xl: 12px 12px 0px #0A0A0A;
-  --shadow-blue: 4px 4px 0px var(--cobalt-blue);
-  --shadow-red: 4px 4px 0px var(--vermilion-red);
-  --shadow-yellow: 4px 4px 0px var(--canary-yellow);
-
-  /* Hover & Active Shadow Offsets */
-  --shadow-hover-md: 6px 6px 0px #0A0A0A;
-  --shadow-active: 1px 1px 0px #0A0A0A;
+  /* Glowing Cyber Shadows & Auras */
+  --glow-cyan: 0 0 15px rgba(0, 240, 255, 0.4);
+  --glow-pink: 0 0 15px rgba(255, 0, 127, 0.4);
+  --glow-yellow: 0 0 15px rgba(255, 230, 0, 0.4);
+  --glow-lg: 0 0 30px rgba(0, 240, 255, 0.5), inset 0 0 15px rgba(0, 240, 255, 0.2);
 
   /* Typography */
-  --font-display: 'Space Grotesk', 'JetBrains Mono', -apple-system, BlinkMacSystemFont, sans-serif;
+  --font-display: 'Space Grotesk', -apple-system, BlinkMacSystemFont, sans-serif;
   --font-heading: 'Space Grotesk', -apple-system, BlinkMacSystemFont, sans-serif;
   --font-mono: 'JetBrains Mono', monospace;
   --font-body: 'Space Grotesk', -apple-system, BlinkMacSystemFont, sans-serif;
 
-  /* Geometry & Grid */
-  --radius-none: 0px;
-  --radius-sm: 2px;
+  /* Geometry & Glass Radii */
+  --radius-sm: 6px;
+  --radius-md: 12px;
+  --radius-lg: 20px;
   --radius-pill: 9999px;
-  --grid-size: 24px;
-}
-
-/* Dark mode / Inverse theme modifier */
-[data-theme="dark"] {
-  --bg-primary: #0A0A0A;
-  --bg-dark: #FFFFFF;
-  --bg-paper: #121212;
-  --bg-card: #181818;
-  --text-primary: #FFFFFF;
-  --text-muted: #A0A0A0;
-  --text-inverse: #0A0A0A;
-  --border-color: #FFFFFF;
-  --border-solid: var(--border-width-md) solid #FFFFFF;
-  --border-thick: var(--border-width-lg) solid #FFFFFF;
-  --shadow-sm: 2px 2px 0px #FFFFFF;
-  --shadow-md: 4px 4px 0px #FFFFFF;
-  --shadow-lg: 8px 8px 0px #FFFFFF;
-  --shadow-xl: 12px 12px 0px #FFFFFF;
 }

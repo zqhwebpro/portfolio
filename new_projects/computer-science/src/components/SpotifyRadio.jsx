@@ -1,5 +1,5 @@
 import React, { useState, useEffect, useRef } from 'react';
-import { Play, Pause, SkipForward, SkipBack, Disc, Radio, ExternalLink, Volume2, VolumeX } from 'lucide-react';
+import { Play, Pause, SkipForward, SkipBack, Disc, Radio, ExternalLink } from 'lucide-react';
 import { SoundEngine } from '../utils/soundEngine';
 
 const SPOTIFY_CLIENT_ID = '00f3d3d13ecf4304bea7652ce9d28448';
@@ -34,11 +34,9 @@ const FALLBACK_TRACKS = [
 ];
 
 export function SpotifyRadio({ onAudioStateChange }) {
-  const [accessToken, setAccessToken] = useState('');
   const [tracks, setTracks] = useState(FALLBACK_TRACKS);
   const [trackIndex, setTrackIndex] = useState(0);
   const [isPlaying, setIsPlaying] = useState(false);
-  const [isMuted, setIsMuted] = useState(false);
   const [spotifyStatus, setSpotifyStatus] = useState('CONNECTING...');
   
   const audioRef = useRef(null);
@@ -61,7 +59,6 @@ export function SpotifyRadio({ onAudioStateChange }) {
         if (!res.ok) throw new Error('Spotify auth failed');
         const data = await res.json();
         if (data.access_token) {
-          setAccessToken(data.access_token);
           setSpotifyStatus('SPOTIFY CONNECTED');
           fetchSpotifyTracks(data.access_token);
         }
@@ -157,9 +154,11 @@ export function SpotifyRadio({ onAudioStateChange }) {
         right: '1.25rem',
         zIndex: 30,
         width: '320px',
-        background: '#0A0A0A',
-        border: '3.5px solid #00F0FF',
-        boxShadow: '0 8px 24px rgba(0, 240, 255, 0.3), 6px 6px 0 #0A0A0A',
+        background: 'rgba(9, 3, 20, 0.85)',
+        backdropFilter: 'blur(14px)',
+        border: '1.5px solid rgba(0, 240, 255, 0.5)',
+        borderRadius: '16px',
+        boxShadow: '0 0 25px rgba(0, 240, 255, 0.35), inset 0 0 15px rgba(0, 240, 255, 0.15)',
         padding: '1rem',
         color: '#FFFFFF',
       }}
@@ -169,43 +168,43 @@ export function SpotifyRadio({ onAudioStateChange }) {
         ref={audioRef}
         src={currentTrack.preview_url}
         onEnded={nextTrack}
-        muted={isMuted}
       />
 
       {/* Top Header Bar */}
-      <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '0.75rem', borderBottom: '1.5px solid #222', paddingBottom: '0.4rem' }}>
-        <div style={{ fontFamily: 'var(--font-mono)', fontSize: '0.65rem', fontWeight: 900, color: '#1DB954', display: 'flex', alignItems: 'center', gap: '0.35rem' }}>
+      <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '0.75rem', borderBottom: '1px solid rgba(255, 255, 255, 0.1)', paddingBottom: '0.4rem' }}>
+        <div style={{ fontFamily: 'var(--font-mono)', fontSize: '0.62rem', fontWeight: 800, color: '#1DB954', display: 'flex', alignItems: 'center', gap: '0.35rem', textShadow: '0 0 6px rgba(29, 185, 84, 0.6)' }}>
           <Radio size={14} /> {spotifyStatus}
         </div>
-        <div style={{ fontFamily: 'var(--font-mono)', fontSize: '0.65rem', color: '#FFE600', fontWeight: 800 }}>
+        <div style={{ fontFamily: 'var(--font-mono)', fontSize: '0.62rem', color: '#FFE600', fontWeight: 800, textShadow: '0 0 6px rgba(255, 230, 0, 0.6)' }}>
           98.4 FM SYNTHWAVE
         </div>
       </div>
 
-      {/* Radio LCD Screen */}
+      {/* Futuristic Radio LCD Screen */}
       <div style={{
-        background: '#04120b',
-        border: '2px solid #1DB954',
+        background: 'rgba(4, 18, 11, 0.9)',
+        border: '1px solid #1DB954',
+        borderRadius: '10px',
         padding: '0.75rem',
-        marginBottom: '0.75rem',
+        marginBottom: '0.85rem',
         display: 'flex',
         gap: '0.75rem',
         alignItems: 'center',
-        boxShadow: 'inset 0 0 10px rgba(29, 185, 84, 0.2)'
+        boxShadow: 'inset 0 0 12px rgba(29, 185, 84, 0.3), 0 0 10px rgba(29, 185, 84, 0.2)'
       }}>
         {/* Album Cover Art */}
         <div style={{ position: 'relative', flexShrink: 0 }}>
           <img
             src={currentTrack.cover}
             alt="Album Cover"
-            style={{ width: '48px', height: '48px', objectFit: 'cover', border: '1.5px solid #1DB954' }}
+            style={{ width: '48px', height: '48px', objectFit: 'cover', borderRadius: '6px', border: '1px solid #1DB954' }}
           />
           {/* Cassette Spinning Wheel when playing */}
           {isPlaying && (
             <Disc
-              size={20}
+              size={22}
               color="#FFE600"
-              style={{ position: 'absolute', top: '50%', left: '50%', margin: '-10px 0 0 -10px' }}
+              style={{ position: 'absolute', top: '50%', left: '50%', margin: '-11px 0 0 -11px', filter: 'drop-shadow(0 0 4px #FFE600)' }}
               className="animate-spin-medium"
             />
           )}
@@ -216,11 +215,12 @@ export function SpotifyRadio({ onAudioStateChange }) {
           <div style={{
             fontFamily: 'var(--font-display)',
             fontSize: '0.85rem',
-            fontWeight: 900,
+            fontWeight: 800,
             color: '#1DB954',
             whiteSpace: 'nowrap',
             overflow: 'hidden',
-            textOverflow: 'ellipsis'
+            textOverflow: 'ellipsis',
+            textShadow: '0 0 6px rgba(29, 185, 84, 0.6)'
           }}>
             {currentTrack.name}
           </div>
@@ -237,7 +237,7 @@ export function SpotifyRadio({ onAudioStateChange }) {
           <div style={{
             fontFamily: 'var(--font-mono)',
             fontSize: '0.6rem',
-            color: '#888',
+            color: '#A0A0C0',
             marginTop: '0.2rem'
           }}>
             Album: {currentTrack.album}
@@ -245,19 +245,21 @@ export function SpotifyRadio({ onAudioStateChange }) {
         </div>
       </div>
 
-      {/* Control Knobs & Buttons */}
+      {/* Control Buttons */}
       <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
         <div style={{ display: 'flex', gap: '0.4rem' }}>
           <button
             onClick={prevTrack}
             style={{
-              background: '#181818',
-              color: '#FFF',
-              border: '1.5px solid #00F0FF',
-              padding: '0.4rem',
+              background: 'rgba(0, 240, 255, 0.1)',
+              color: '#00F0FF',
+              border: '1px solid rgba(0, 240, 255, 0.4)',
+              borderRadius: '6px',
+              padding: '0.45rem',
               cursor: 'pointer',
               display: 'flex',
-              alignItems: 'center'
+              alignItems: 'center',
+              boxShadow: '0 0 8px rgba(0, 240, 255, 0.2)'
             }}
             title="Previous Track"
           >
@@ -267,17 +269,19 @@ export function SpotifyRadio({ onAudioStateChange }) {
           <button
             onClick={togglePlay}
             style={{
-              background: '#1DB954',
+              background: 'linear-gradient(135deg, #1DB954, #00F0FF)',
               color: '#000',
-              border: '1.5px solid #0A0A0A',
-              padding: '0.4rem 0.8rem',
-              fontWeight: 900,
+              border: 'none',
+              borderRadius: '6px',
+              padding: '0.45rem 0.9rem',
+              fontWeight: 800,
               cursor: 'pointer',
               display: 'flex',
               alignItems: 'center',
-              gap: '0.3rem',
+              gap: '0.35rem',
               fontFamily: 'var(--font-mono)',
-              fontSize: '0.72rem'
+              fontSize: '0.72rem',
+              boxShadow: '0 0 12px rgba(29, 185, 84, 0.5)'
             }}
           >
             {isPlaying ? <Pause size={14} /> : <Play size={14} />}
@@ -287,13 +291,15 @@ export function SpotifyRadio({ onAudioStateChange }) {
           <button
             onClick={nextTrack}
             style={{
-              background: '#181818',
-              color: '#FFF',
-              border: '1.5px solid #00F0FF',
-              padding: '0.4rem',
+              background: 'rgba(0, 240, 255, 0.1)',
+              color: '#00F0FF',
+              border: '1px solid rgba(0, 240, 255, 0.4)',
+              borderRadius: '6px',
+              padding: '0.45rem',
               cursor: 'pointer',
               display: 'flex',
-              alignItems: 'center'
+              alignItems: 'center',
+              boxShadow: '0 0 8px rgba(0, 240, 255, 0.2)'
             }}
             title="Next Track"
           >
@@ -309,12 +315,13 @@ export function SpotifyRadio({ onAudioStateChange }) {
           style={{
             color: '#1DB954',
             fontFamily: 'var(--font-mono)',
-            fontSize: '0.65rem',
+            fontSize: '0.62rem',
             fontWeight: 800,
             textDecoration: 'none',
             display: 'flex',
             alignItems: 'center',
-            gap: '0.25rem'
+            gap: '0.25rem',
+            textShadow: '0 0 6px rgba(29, 185, 84, 0.6)'
           }}
         >
           SPOTIFY <ExternalLink size={12} />

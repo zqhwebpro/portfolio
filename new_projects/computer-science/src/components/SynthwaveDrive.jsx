@@ -3,13 +3,13 @@ import { SoundEngine } from '../utils/soundEngine';
 import { RearviewMirror } from './RearviewMirror';
 import { WaveformVisualizer } from './WaveformVisualizer';
 import { SpotifyRadio } from './SpotifyRadio';
-import { Navigation, Flag, RotateCcw, Zap, ChevronDown } from 'lucide-react';
+import { Navigation, Flag, RotateCcw, Zap, ChevronDown, Sparkles } from 'lucide-react';
 
-export function SynthwaveDrive({ onSelect }) {
+export function SynthwaveDrive() {
   const canvasRef = useRef(null);
   
-  // Random target scroll threshold between 4 and 9
-  const [targetScrolls, setTargetScrolls] = useState(() => Math.floor(Math.random() * 6) + 4);
+  // QUADRUPLED target scroll threshold between 16 and 36
+  const [targetScrolls, setTargetScrolls] = useState(() => Math.floor(Math.random() * 21) + 16);
   const [scrollCount, setScrollCount] = useState(0);
   const [speedMph, setSpeedMph] = useState(0);
   const [arrived, setArrived] = useState(false);
@@ -26,10 +26,10 @@ export function SynthwaveDrive({ onSelect }) {
   targetScrollsRef.current = targetScrolls;
   arrivedRef.current = arrived;
 
-  // Reset / Drive Again logic
+  // Reset / Drive Again logic (picks a new random 16-36 scroll target)
   const handleDriveAgain = () => {
     SoundEngine.playClick();
-    const newTarget = Math.floor(Math.random() * 6) + 4;
+    const newTarget = Math.floor(Math.random() * 21) + 16;
     setTargetScrolls(newTarget);
     setScrollCount(0);
     setSpeedMph(0);
@@ -41,20 +41,18 @@ export function SynthwaveDrive({ onSelect }) {
   // Handle scroll / wheel interaction
   useEffect(() => {
     const handleWheel = (e) => {
-      // If modal already arrived, allow standard scroll down
       if (arrivedRef.current) return;
 
-      // Increment scroll progress on downward wheel
       if (e.deltaY > 0) {
         e.preventDefault();
         
-        speedRef.current = Math.min(180, speedRef.current + 35);
+        speedRef.current = Math.min(220, speedRef.current + 30);
         setSpeedMph(Math.round(speedRef.current));
-        SoundEngine.playDriveRev(speedRef.current / 180);
+        SoundEngine.playDriveRev(speedRef.current / 220);
 
         setScrollCount((prev) => {
           const next = prev + 1;
-          setDistanceKm(+(next * 1.2).toFixed(1));
+          setDistanceKm(+(next * 0.8).toFixed(1));
           if (next >= targetScrollsRef.current && !arrivedRef.current) {
             setArrived(true);
             SoundEngine.playSuccess();
@@ -64,7 +62,7 @@ export function SynthwaveDrive({ onSelect }) {
       }
     };
 
-    const container = document.getElementById('synthwave-hero-container');
+    const container = document.getElementById('synthwave-drive-viewport');
     if (container) {
       container.addEventListener('wheel', handleWheel, { passive: false });
     }
@@ -79,13 +77,13 @@ export function SynthwaveDrive({ onSelect }) {
   // Manual Gas Pedal trigger for mobile/click
   const handleGasPedal = () => {
     if (arrived) return;
-    speedRef.current = Math.min(180, speedRef.current + 45);
+    speedRef.current = Math.min(220, speedRef.current + 40);
     setSpeedMph(Math.round(speedRef.current));
-    SoundEngine.playDriveRev(speedRef.current / 180);
+    SoundEngine.playDriveRev(speedRef.current / 220);
 
     setScrollCount((prev) => {
       const next = prev + 1;
-      setDistanceKm(+(next * 1.2).toFixed(1));
+      setDistanceKm(+(next * 0.8).toFixed(1));
       if (next >= targetScrollsRef.current && !arrivedRef.current) {
         setArrived(true);
         SoundEngine.playSuccess();
@@ -115,15 +113,15 @@ export function SynthwaveDrive({ onSelect }) {
 
       // 1. Deep Space Night Sky Gradient
       const skyGrad = ctx.createLinearGradient(0, 0, 0, height * 0.55);
-      skyGrad.addColorStop(0, '#0a0314');
-      skyGrad.addColorStop(0.5, '#1e0836');
-      skyGrad.addColorStop(1, '#4a0e4e');
+      skyGrad.addColorStop(0, '#06010d');
+      skyGrad.addColorStop(0.5, '#1b0633');
+      skyGrad.addColorStop(1, '#440a4a');
       ctx.fillStyle = skyGrad;
       ctx.fillRect(0, 0, width, height);
 
       // 2. Stars
       ctx.fillStyle = '#ffffff';
-      for (let i = 0; i < 40; i++) {
+      for (let i = 0; i < 50; i++) {
         const sx = (Math.sin(i * 99 + offsetRef.current * 0.01) * 0.5 + 0.5) * width;
         const sy = (Math.cos(i * 33) * 0.5 + 0.5) * (height * 0.45);
         ctx.fillRect(sx, sy, (i % 2) + 1, (i % 2) + 1);
@@ -131,14 +129,14 @@ export function SynthwaveDrive({ onSelect }) {
 
       const horizonY = height * 0.55;
       const sunCenterX = width * 0.5;
-      const sunRadius = Math.min(width, height) * 0.24;
+      const sunRadius = Math.min(width, height) * 0.25;
       const sunCenterY = horizonY - sunRadius * 0.3;
 
       // 3. Giant Synthwave Sun with Cutout Stripes
       const sunGrad = ctx.createLinearGradient(0, sunCenterY - sunRadius, 0, horizonY);
       sunGrad.addColorStop(0, '#ffe600');
-      sunGrad.addColorStop(0.5, '#ff0055');
-      sunGrad.addColorStop(1, '#7928ca');
+      sunGrad.addColorStop(0.5, '#ff007f');
+      sunGrad.addColorStop(1, '#9d00ff');
       ctx.fillStyle = sunGrad;
 
       ctx.save();
@@ -147,8 +145,8 @@ export function SynthwaveDrive({ onSelect }) {
       ctx.fill();
 
       // Cutout stripes in lower half of sun
-      ctx.fillStyle = '#0a0314';
-      const stripeCount = 7;
+      ctx.fillStyle = '#06010d';
+      const stripeCount = 8;
       for (let i = 0; i < stripeCount; i++) {
         const stripeY = sunCenterY + (i / stripeCount) * sunRadius;
         const stripeH = 2 + i * 1.5;
@@ -157,41 +155,43 @@ export function SynthwaveDrive({ onSelect }) {
       ctx.restore();
 
       // Sun Glow Aura
-      const sunGlow = ctx.createRadialGradient(sunCenterX, sunCenterY, sunRadius * 0.8, sunCenterX, sunCenterY, sunRadius * 1.6);
-      sunGlow.addColorStop(0, 'rgba(255, 0, 85, 0.3)');
+      const sunGlow = ctx.createRadialGradient(sunCenterX, sunCenterY, sunRadius * 0.8, sunCenterX, sunCenterY, sunRadius * 1.8);
+      sunGlow.addColorStop(0, 'rgba(255, 0, 127, 0.35)');
       sunGlow.addColorStop(1, 'rgba(0, 0, 0, 0)');
       ctx.fillStyle = sunGlow;
       ctx.fillRect(0, 0, width, height);
 
       // 4. Distant Mountain Silhouettes
-      ctx.fillStyle = '#0f051d';
+      ctx.fillStyle = '#0d041c';
       ctx.beginPath();
       ctx.moveTo(0, horizonY);
-      ctx.lineTo(width * 0.15, horizonY - 35);
-      ctx.lineTo(width * 0.28, horizonY - 15);
-      ctx.lineTo(width * 0.4, horizonY - 50);
-      ctx.lineTo(width * 0.5, horizonY - 20);
-      ctx.lineTo(width * 0.65, horizonY - 60);
-      ctx.lineTo(width * 0.8, horizonY - 25);
+      ctx.lineTo(width * 0.15, horizonY - 40);
+      ctx.lineTo(width * 0.28, horizonY - 18);
+      ctx.lineTo(width * 0.4, horizonY - 55);
+      ctx.lineTo(width * 0.5, horizonY - 22);
+      ctx.lineTo(width * 0.65, horizonY - 65);
+      ctx.lineTo(width * 0.8, horizonY - 28);
       ctx.lineTo(width, horizonY);
       ctx.fill();
 
       // 5. 3D Perspective Grid Floor
       ctx.save();
       const floorGrad = ctx.createLinearGradient(0, horizonY, 0, height);
-      floorGrad.addColorStop(0, '#120426');
-      floorGrad.addColorStop(1, '#05010a');
+      floorGrad.addColorStop(0, '#100324');
+      floorGrad.addColorStop(1, '#040108');
       ctx.fillStyle = floorGrad;
       ctx.fillRect(0, horizonY, width, height - horizonY);
 
       // Perspective Grid Lines (Horizontal moving forward)
       ctx.lineWidth = 1.8;
-      const numH = 16;
+      const numH = 18;
       for (let i = 0; i < numH; i++) {
         const progress = ((i + offsetRef.current / 40) % numH) / numH;
         const py = horizonY + Math.pow(progress, 2.5) * (height - horizonY);
 
-        ctx.strokeStyle = `rgba(0, 240, 255, ${0.15 + progress * 0.85})`;
+        ctx.strokeStyle = `rgba(0, 240, 255, ${0.2 + progress * 0.8})`;
+        ctx.shadowColor = '#00F0FF';
+        ctx.shadowBlur = progress * 6;
         ctx.beginPath();
         ctx.moveTo(0, py);
         ctx.lineTo(width, py);
@@ -199,12 +199,14 @@ export function SynthwaveDrive({ onSelect }) {
       }
 
       // Perspective Grid Lines (Vertical fanning outward)
-      const fanning = 22;
+      const fanning = 24;
       for (let i = -fanning; i <= fanning; i++) {
         const startX = sunCenterX + (i / fanning) * (width * 0.05);
         const endX = sunCenterX + i * (width * 0.08);
 
-        ctx.strokeStyle = 'rgba(255, 0, 128, 0.45)';
+        ctx.strokeStyle = 'rgba(255, 0, 127, 0.5)';
+        ctx.shadowColor = '#FF007F';
+        ctx.shadowBlur = 4;
         ctx.beginPath();
         ctx.moveTo(startX, horizonY);
         ctx.lineTo(endX, height);
@@ -212,20 +214,22 @@ export function SynthwaveDrive({ onSelect }) {
       }
       ctx.restore();
 
-      // 6. Destination Portal Zooming into view as scroll increases
+      // 6. Destination Portal Zooming into view as quadrupled scrolls advance
       const totalT = targetScrollsRef.current;
       const curS = scrollCountRef.current;
       const zoomRatio = Math.min(1, curS / totalT);
 
       if (curS > 0) {
         ctx.save();
-        const pSize = 30 + zoomRatio * 160;
+        const pSize = 25 + zoomRatio * 175;
         const pX = sunCenterX - pSize / 2;
         const pY = horizonY - pSize * 0.6;
 
         ctx.fillStyle = 'rgba(0, 240, 255, 0.15)';
         ctx.strokeStyle = '#00F0FF';
         ctx.lineWidth = 3;
+        ctx.shadowColor = '#00F0FF';
+        ctx.shadowBlur = 12;
         ctx.fillRect(pX, pY, pSize, pSize * 0.8);
         ctx.strokeRect(pX, pY, pSize, pSize * 0.8);
 
@@ -233,7 +237,7 @@ export function SynthwaveDrive({ onSelect }) {
         ctx.fillStyle = '#FFE600';
         ctx.font = `bold ${Math.max(10, pSize * 0.14)}px "Space Grotesk", sans-serif`;
         ctx.textAlign = 'center';
-        ctx.fillText('DESTINATION', sunCenterX, pY + pSize * 0.45);
+        ctx.fillText('DESTINATION', sunCenterX, pY + pSize * 0.48);
 
         ctx.restore();
       }
@@ -247,18 +251,16 @@ export function SynthwaveDrive({ onSelect }) {
 
   return (
     <div
-      id="synthwave-hero-container"
+      id="synthwave-drive-viewport"
       style={{
         position: 'relative',
-        width: '100%',
-        height: '88vh',
-        minHeight: '620px',
+        width: '100vw',
+        height: '100vh',
         overflow: 'hidden',
-        borderBottom: '4px solid #0A0A0A',
-        background: '#0a0314',
+        background: '#06010d',
       }}
     >
-      {/* 3D Canvas */}
+      {/* 3D Canvas Scene */}
       <canvas ref={canvasRef} style={{ width: '100%', height: '100%', display: 'block' }} />
 
       {/* 1. TOP CENTER REARVIEW MIRROR */}
@@ -270,64 +272,70 @@ export function SynthwaveDrive({ onSelect }) {
       {/* 3. BOTTOM RIGHT SPOTIFY API RADIO */}
       <SpotifyRadio onAudioStateChange={(active) => setIsAudioPlaying(active)} />
 
-      {/* Top Left Telemetry HUD */}
+      {/* Top Left Glass Telemetry HUD */}
       <div style={{
         position: 'absolute',
-        top: '1rem',
-        left: '1rem',
+        top: '1.25rem',
+        left: '1.25rem',
         zIndex: 20,
         pointerEvents: 'none',
       }}>
         <div style={{
-          background: 'rgba(10, 3, 20, 0.85)',
-          border: '2px solid #00F0FF',
+          background: 'rgba(9, 3, 20, 0.85)',
+          backdropFilter: 'blur(10px)',
+          border: '1.5px solid rgba(0, 240, 255, 0.5)',
+          borderRadius: '8px',
           padding: '0.4rem 0.85rem',
           fontFamily: 'var(--font-mono)',
           fontSize: '0.75rem',
-          fontWeight: 900,
+          fontWeight: 800,
           color: '#00F0FF',
-          boxShadow: '3px 3px 0 #00F0FF',
+          boxShadow: '0 0 15px rgba(0, 240, 255, 0.3)',
           display: 'flex',
           alignItems: 'center',
           gap: '0.4rem'
         }}>
-          <Navigation size={14} /> CS SYNTHDRIVE // HUD
+          <Navigation size={14} /> SYNTHWAVE 3D DRIVE // HUD
         </div>
       </div>
 
-      {/* Top Right Telemetry HUD */}
+      {/* Top Right Glass Telemetry HUD */}
       <div style={{
         position: 'absolute',
-        top: '1rem',
-        right: '1rem',
+        top: '1.25rem',
+        right: '1.25rem',
         zIndex: 20,
         pointerEvents: 'none',
         display: 'flex',
-        gap: '0.5rem'
+        gap: '0.6rem'
       }}>
         <div style={{
-          background: 'rgba(10, 3, 20, 0.85)',
-          border: '2px solid #FFE600',
-          padding: '0.4rem 0.75rem',
+          background: 'rgba(9, 3, 20, 0.85)',
+          backdropFilter: 'blur(10px)',
+          border: '1.5px solid rgba(255, 230, 0, 0.5)',
+          borderRadius: '8px',
+          padding: '0.4rem 0.85rem',
           fontFamily: 'var(--font-mono)',
           fontSize: '0.75rem',
-          fontWeight: 900,
+          fontWeight: 800,
           color: '#FFE600',
-          boxShadow: '3px 3px 0 #0A0A0A',
+          boxShadow: '0 0 15px rgba(255, 230, 0, 0.3)',
         }}>
           SPEED: {speedMph} MPH
         </div>
         <div style={{
-          background: 'rgba(10, 3, 20, 0.85)',
-          border: '2px solid #FF0055',
-          padding: '0.4rem 0.75rem',
+          background: 'rgba(9, 3, 20, 0.85)',
+          backdropFilter: 'blur(10px)',
+          border: '1.5px solid rgba(255, 0, 127, 0.5)',
+          borderRadius: '8px',
+          padding: '0.4rem 0.85rem',
           fontFamily: 'var(--font-mono)',
           fontSize: '0.75rem',
-          fontWeight: 900,
+          fontWeight: 800,
           color: '#FFFFFF',
-          boxShadow: '3px 3px 0 #0A0A0A',
+          boxShadow: '0 0 15px rgba(255, 0, 127, 0.3)',
         }}>
-          PROGRESS: {scrollCount} / {targetScrolls}
+          PROGRESS: {scrollCount} / {targetScrolls} SCROLLS
         </div>
       </div>
 
@@ -341,42 +349,49 @@ export function SynthwaveDrive({ onSelect }) {
           zIndex: 20,
           textAlign: 'center',
           width: '90%',
-          maxWidth: '480px',
+          maxWidth: '500px',
         }}>
           <div style={{
-            background: '#FFE600',
-            color: '#0A0A0A',
-            border: '3.5px solid #0A0A0A',
-            padding: '1.25rem 1.75rem',
-            boxShadow: '8px 8px 0 #0A0A0A',
+            background: 'rgba(9, 3, 20, 0.88)',
+            backdropFilter: 'blur(16px)',
+            color: '#FFFFFF',
+            border: '1.5px solid rgba(0, 240, 255, 0.6)',
+            borderRadius: '16px',
+            padding: '1.75rem 2rem',
+            boxShadow: '0 0 30px rgba(0, 240, 255, 0.35), inset 0 0 15px rgba(0, 240, 255, 0.15)',
             animation: 'floatGentle 3s ease-in-out infinite',
           }}>
             <div style={{
               fontFamily: 'var(--font-mono)',
               fontSize: '0.7rem',
-              fontWeight: 900,
-              letterSpacing: '0.1em',
-              marginBottom: '0.3rem',
+              fontWeight: 800,
+              color: '#FFE600',
+              letterSpacing: '0.12em',
+              marginBottom: '0.4rem',
               textTransform: 'uppercase',
+              textShadow: '0 0 8px rgba(255, 230, 0, 0.6)'
             }}>
               ◆ SYNTHWAVE VEHICLE CONTROL
             </div>
             <h2 style={{
               fontFamily: 'var(--font-display)',
-              fontSize: 'clamp(1.7rem, 4vw, 2.4rem)',
+              fontSize: 'clamp(2rem, 4.5vw, 2.8rem)',
               fontWeight: 900,
               lineHeight: 1.1,
-              marginBottom: '0.5rem',
+              marginBottom: '0.6rem',
+              color: '#00F0FF',
+              textShadow: '0 0 12px rgba(0, 240, 255, 0.7)',
               textTransform: 'uppercase',
             }}>
               SCROLL TO DRIVE
             </h2>
             <p style={{
               fontFamily: 'var(--font-mono)',
-              fontSize: '0.8rem',
-              fontWeight: 800,
-              color: '#333',
-              marginBottom: '0.85rem',
+              fontSize: '0.85rem',
+              fontWeight: 600,
+              color: '#A0A0C0',
+              marginBottom: '1.25rem',
+              lineHeight: 1.5
             }}>
               Scroll down (or tap gas) to accelerate towards your random destination ({targetScrolls} scrolls away)!
             </p>
@@ -384,22 +399,23 @@ export function SynthwaveDrive({ onSelect }) {
             <button
               onClick={handleGasPedal}
               style={{
-                background: '#0038FF',
+                background: 'linear-gradient(135deg, #0038FF, #00F0FF)',
                 color: '#FFFFFF',
-                border: '2.5px solid #0A0A0A',
-                padding: '0.65rem 1.25rem',
+                border: 'none',
+                borderRadius: '8px',
+                padding: '0.75rem 1.6rem',
                 fontFamily: 'var(--font-mono)',
-                fontSize: '0.8rem',
-                fontWeight: 900,
+                fontSize: '0.85rem',
+                fontWeight: 800,
                 cursor: 'pointer',
-                boxShadow: '3px 3px 0 #0A0A0A',
+                boxShadow: '0 0 15px rgba(0, 240, 255, 0.5)',
                 display: 'inline-flex',
                 alignItems: 'center',
-                gap: '0.4rem',
+                gap: '0.5rem',
                 textTransform: 'uppercase'
               }}
             >
-              <Zap size={16} /> PRESS GAS PEDAL / SCROLL <ChevronDown size={16} />
+              <Zap size={18} /> PRESS GAS PEDAL / SCROLL <ChevronDown size={18} />
             </button>
           </div>
         </div>
@@ -416,15 +432,17 @@ export function SynthwaveDrive({ onSelect }) {
           <button
             onClick={handleGasPedal}
             style={{
-              background: '#00F0FF',
-              color: '#0A0A0A',
-              border: '3px solid #0A0A0A',
-              padding: '0.75rem 1rem',
+              background: 'rgba(9, 3, 20, 0.85)',
+              backdropFilter: 'blur(10px)',
+              color: '#00F0FF',
+              border: '1.5px solid rgba(0, 240, 255, 0.6)',
+              borderRadius: '8px',
+              padding: '0.75rem 1.25rem',
               fontFamily: 'var(--font-mono)',
               fontSize: '0.8rem',
-              fontWeight: 900,
+              fontWeight: 800,
               cursor: 'pointer',
-              boxShadow: '4px 4px 0 #0A0A0A',
+              boxShadow: '0 0 15px rgba(0, 240, 255, 0.3)',
               display: 'flex',
               alignItems: 'center',
               gap: '0.4rem'
@@ -440,8 +458,8 @@ export function SynthwaveDrive({ onSelect }) {
         <div style={{
           position: 'absolute',
           inset: 0,
-          background: 'rgba(10, 3, 20, 0.75)',
-          backdropFilter: 'blur(4px)',
+          background: 'rgba(6, 1, 13, 0.82)',
+          backdropFilter: 'blur(8px)',
           display: 'flex',
           alignItems: 'center',
           justifyContent: 'center',
@@ -449,32 +467,35 @@ export function SynthwaveDrive({ onSelect }) {
           padding: '1.5rem',
         }}>
           <div style={{
-            background: '#FFFFFF',
-            color: '#0A0A0A',
-            border: '4px solid #0A0A0A',
-            padding: '2rem 2.25rem',
+            background: 'rgba(12, 4, 28, 0.92)',
+            backdropFilter: 'blur(16px)',
+            color: '#FFFFFF',
+            border: '1.5px solid rgba(0, 240, 255, 0.6)',
+            borderRadius: '20px',
+            padding: '2.25rem 2.5rem',
             width: '100%',
-            maxWidth: '480px',
-            boxShadow: '12px 12px 0 #00F0FF',
+            maxWidth: '460px',
+            boxShadow: '0 0 40px rgba(0, 240, 255, 0.4), inset 0 0 20px rgba(0, 240, 255, 0.15)',
             textAlign: 'center',
-            animation: 'pulseGeometric 0.3s ease-out',
             position: 'relative'
           }}>
             
             {/* Arrival Badge Header */}
             <div style={{
-              background: '#FFE600',
-              border: '2.5px solid #0A0A0A',
-              padding: '0.4rem 0.85rem',
+              background: 'rgba(255, 230, 0, 0.15)',
+              border: '1px solid #FFE600',
+              borderRadius: '20px',
+              padding: '0.4rem 1rem',
               fontFamily: 'var(--font-mono)',
               fontSize: '0.75rem',
-              fontWeight: 900,
+              fontWeight: 800,
+              color: '#FFE600',
               letterSpacing: '0.1em',
               display: 'inline-flex',
               alignItems: 'center',
               gap: '0.4rem',
               marginBottom: '1rem',
-              boxShadow: '3px 3px 0 #0A0A0A'
+              boxShadow: '0 0 10px rgba(255, 230, 0, 0.3)'
             }}>
               <Flag size={16} /> 🏁 TRIP COMPLETED
             </div>
@@ -482,11 +503,12 @@ export function SynthwaveDrive({ onSelect }) {
             {/* Main Pop-up Headline */}
             <h2 style={{
               fontFamily: 'var(--font-display)',
-              fontSize: 'clamp(2rem, 5vw, 2.8rem)',
+              fontSize: 'clamp(2.2rem, 5vw, 3rem)',
               fontWeight: 900,
               lineHeight: 1.05,
               marginBottom: '0.75rem',
-              color: '#0A0A0A',
+              color: '#00F0FF',
+              textShadow: '0 0 15px rgba(0, 240, 255, 0.7)',
               textTransform: 'uppercase',
             }}>
               DESTINATION ARRIVED
@@ -495,7 +517,7 @@ export function SynthwaveDrive({ onSelect }) {
             <p style={{
               fontFamily: 'var(--font-body)',
               fontSize: '0.95rem',
-              color: '#444',
+              color: '#A0A0C0',
               fontWeight: 600,
               marginBottom: '1.5rem',
               lineHeight: 1.5,
@@ -505,10 +527,10 @@ export function SynthwaveDrive({ onSelect }) {
 
             {/* Trip Telemetry Stats */}
             <div style={{
-              background: '#0A0A0A',
-              color: '#FFFFFF',
-              border: '2.5px solid #0A0A0A',
-              padding: '1rem',
+              background: 'rgba(5, 1, 10, 0.8)',
+              border: '1px solid rgba(0, 240, 255, 0.3)',
+              borderRadius: '12px',
+              padding: '1.25rem',
               display: 'grid',
               gridTemplateColumns: '1fr 1fr',
               gap: '0.75rem',
@@ -519,60 +541,38 @@ export function SynthwaveDrive({ onSelect }) {
             }}>
               <div>
                 <div style={{ color: '#888', fontSize: '0.65rem' }}>DISTANCE TRAVELED:</div>
-                <div style={{ color: '#00F0FF', fontSize: '1.1rem', fontWeight: 900 }}>{distanceKm} KM</div>
+                <div style={{ color: '#00F0FF', fontSize: '1.2rem', fontWeight: 900, textShadow: '0 0 8px rgba(0, 240, 255, 0.5)' }}>{distanceKm} KM</div>
               </div>
               <div>
                 <div style={{ color: '#888', fontSize: '0.65rem' }}>REQUIRED SCROLLS:</div>
-                <div style={{ color: '#FFE600', fontSize: '1.1rem', fontWeight: 900 }}>{targetScrolls} (RANDOM 4-9)</div>
+                <div style={{ color: '#FFE600', fontSize: '1.2rem', fontWeight: 900, textShadow: '0 0 8px rgba(255, 230, 0, 0.5)' }}>{targetScrolls} (RANDOM 16-36)</div>
               </div>
             </div>
 
-            {/* Modal Buttons */}
-            <div style={{ display: 'flex', flexDirection: 'column', gap: '0.75rem' }}>
-              <button
-                onClick={handleDriveAgain}
-                style={{
-                  background: '#0038FF',
-                  color: '#FFFFFF',
-                  border: '3px solid #0A0A0A',
-                  padding: '0.9rem',
-                  fontFamily: 'var(--font-mono)',
-                  fontSize: '0.9rem',
-                  fontWeight: 900,
-                  cursor: 'pointer',
-                  boxShadow: '4px 4px 0 #0A0A0A',
-                  display: 'flex',
-                  alignItems: 'center',
-                  justifyContent: 'center',
-                  gap: '0.5rem',
-                  textTransform: 'uppercase'
-                }}
-              >
-                <RotateCcw size={18} /> 🏎️ DRIVE AGAIN (RANDOMIZE DESTINATION)
-              </button>
-
-              <button
-                onClick={() => {
-                  SoundEngine.playClick();
-                  const el = document.getElementById('concept-slides');
-                  if (el) el.scrollIntoView({ behavior: 'smooth' });
-                }}
-                style={{
-                  background: '#FFE600',
-                  color: '#0A0A0A',
-                  border: '3px solid #0A0A0A',
-                  padding: '0.8rem',
-                  fontFamily: 'var(--font-mono)',
-                  fontSize: '0.85rem',
-                  fontWeight: 900,
-                  cursor: 'pointer',
-                  boxShadow: '4px 4px 0 #0A0A0A',
-                  textTransform: 'uppercase'
-                }}
-              >
-                📜 EXPLORE 5 CS CONCEPTS ↓
-              </button>
-            </div>
+            {/* Drive Again Button */}
+            <button
+              onClick={handleDriveAgain}
+              style={{
+                width: '100%',
+                background: 'linear-gradient(135deg, #0038FF, #00F0FF)',
+                color: '#FFFFFF',
+                border: 'none',
+                borderRadius: '10px',
+                padding: '1rem',
+                fontFamily: 'var(--font-mono)',
+                fontSize: '0.9rem',
+                fontWeight: 800,
+                cursor: 'pointer',
+                boxShadow: '0 0 20px rgba(0, 240, 255, 0.5)',
+                display: 'flex',
+                alignItems: 'center',
+                justifyContent: 'center',
+                gap: '0.5rem',
+                textTransform: 'uppercase'
+              }}
+            >
+              <RotateCcw size={18} /> 🏎️ DRIVE AGAIN (NEW DESTINATION)
+            </button>
 
           </div>
         </div>
