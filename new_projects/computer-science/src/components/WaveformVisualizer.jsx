@@ -89,41 +89,41 @@ export function WaveformVisualizer({ isAudioPlaying = false, speedMph = 0 }) {
     <div
       style={{
         position: 'absolute',
-        bottom: '1.25rem',
+        bottom: '0.85rem',
         left: '50%',
         transform: 'translateX(-50%)',
         zIndex: 25,
         background: 'rgba(9, 3, 20, 0.85)',
         backdropFilter: 'blur(12px)',
-        border: '1.5px solid rgba(0, 240, 255, 0.5)',
-        borderRadius: '12px',
-        boxShadow: '0 0 25px rgba(0, 240, 255, 0.35), inset 0 0 15px rgba(0, 240, 255, 0.15)',
-        padding: '0.4rem 0.75rem',
+        border: '1.2px solid rgba(0, 240, 255, 0.5)',
+        borderRadius: '10px',
+        boxShadow: '0 0 15px rgba(0, 240, 255, 0.35)',
+        padding: '0.25rem 0.5rem',
         display: 'flex',
         flexDirection: 'column',
         alignItems: 'center',
-        gap: '0.2rem',
+        gap: '0.15rem',
         pointerEvents: 'none',
       }}
     >
       <div style={{
         display: 'flex',
-        justify: 'space-between',
+        justifyContent: 'space-between',
         width: '100%',
         fontFamily: 'var(--font-mono)',
-        fontSize: '0.62rem',
+        fontSize: '0.48rem',
         fontWeight: 800,
         color: '#FFE600',
-        letterSpacing: '0.08em',
-        textShadow: '0 0 8px rgba(255, 230, 0, 0.6)'
+        letterSpacing: '0.06em',
+        textShadow: '0 0 6px rgba(255, 230, 0, 0.6)'
       }}>
-        <span>AUDIO WAVEFORM // FREQUENCY SCOPE</span>
+        <span>AUDIO SCOPE</span>
         <span style={{ color: isAudioPlaying ? '#00E599' : '#FF007F' }}>
-          {isAudioPlaying ? '● AUDIO ACTIVE' : 'STANDBY'}
+          {isAudioPlaying ? '● ACTIVE' : 'STANDBY'}
         </span>
       </div>
 
-      <canvas ref={canvasRef} style={{ width: '300px', height: '52px', display: 'block' }} />
+      <canvas ref={canvasRef} style={{ width: '190px', height: '36px', display: 'block' }} />
     </div>
   );
 }

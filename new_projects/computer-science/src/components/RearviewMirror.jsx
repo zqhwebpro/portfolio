@@ -93,21 +93,21 @@ export function RearviewMirror({ speedMph }) {
     >
       {/* Sleek Cyber Mounting Bracket */}
       <div style={{
-        width: '4px',
-        height: '16px',
+        width: '3px',
+        height: '10px',
         background: 'linear-gradient(to bottom, #00F0FF, rgba(0, 240, 255, 0.2))',
-        boxShadow: '0 0 8px #00F0FF'
+        boxShadow: '0 0 6px #00F0FF'
       }} />
 
       {/* Aerodynamic Glass Rearview Mirror Housing */}
       <div style={{
-        width: '240px',
-        height: '75px',
+        width: '170px',
+        height: '50px',
         background: 'rgba(9, 3, 20, 0.85)',
         backdropFilter: 'blur(10px)',
-        border: '1.5px solid rgba(0, 240, 255, 0.6)',
-        borderRadius: '14px 14px 28px 28px',
-        boxShadow: '0 0 25px rgba(0, 240, 255, 0.35), inset 0 0 15px rgba(0, 240, 255, 0.15)',
+        border: '1.2px solid rgba(0, 240, 255, 0.6)',
+        borderRadius: '10px 10px 20px 20px',
+        boxShadow: '0 0 18px rgba(0, 240, 255, 0.35), inset 0 0 10px rgba(0, 240, 255, 0.15)',
         overflow: 'hidden',
         position: 'relative',
       }}>
@@ -117,27 +117,27 @@ export function RearviewMirror({ speedMph }) {
         {/* Futuristic Mirror Neon Overlays */}
         <div style={{
           position: 'absolute',
-          top: '5px',
-          left: '10px',
+          top: '3px',
+          left: '8px',
           fontFamily: 'var(--font-mono)',
-          fontSize: '0.58rem',
+          fontSize: '0.48rem',
           fontWeight: 800,
           color: '#FFE600',
-          textShadow: '0 0 6px rgba(255, 230, 0, 0.8)',
-          letterSpacing: '0.1em'
+          textShadow: '0 0 4px rgba(255, 230, 0, 0.8)',
+          letterSpacing: '0.08em'
         }}>
-          REAR MATRIX // 3D PROJECTION
+          REAR MATRIX
         </div>
 
         <div style={{
           position: 'absolute',
-          bottom: '4px',
-          right: '10px',
+          bottom: '3px',
+          right: '8px',
           fontFamily: 'var(--font-mono)',
-          fontSize: '0.58rem',
+          fontSize: '0.48rem',
           fontWeight: 800,
           color: '#00F0FF',
-          textShadow: '0 0 6px rgba(0, 240, 255, 0.8)'
+          textShadow: '0 0 4px rgba(0, 240, 255, 0.8)'
         }}>
           {speedMph} MPH
         </div>

@@ -150,16 +150,16 @@ export function SpotifyRadio({ onAudioStateChange }) {
     <div
       style={{
         position: 'absolute',
-        bottom: '1.25rem',
-        right: '1.25rem',
+        bottom: '0.85rem',
+        right: '0.85rem',
         zIndex: 30,
-        width: '320px',
+        width: '230px',
         background: 'rgba(9, 3, 20, 0.85)',
         backdropFilter: 'blur(14px)',
-        border: '1.5px solid rgba(0, 240, 255, 0.5)',
-        borderRadius: '16px',
-        boxShadow: '0 0 25px rgba(0, 240, 255, 0.35), inset 0 0 15px rgba(0, 240, 255, 0.15)',
-        padding: '1rem',
+        border: '1.2px solid rgba(0, 240, 255, 0.5)',
+        borderRadius: '12px',
+        boxShadow: '0 0 15px rgba(0, 240, 255, 0.35)',
+        padding: '0.65rem 0.75rem',
         color: '#FFFFFF',
       }}
     >
@@ -171,12 +171,12 @@ export function SpotifyRadio({ onAudioStateChange }) {
       />
 
       {/* Top Header Bar */}
-      <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '0.75rem', borderBottom: '1px solid rgba(255, 255, 255, 0.1)', paddingBottom: '0.4rem' }}>
-        <div style={{ fontFamily: 'var(--font-mono)', fontSize: '0.62rem', fontWeight: 800, color: '#1DB954', display: 'flex', alignItems: 'center', gap: '0.35rem', textShadow: '0 0 6px rgba(29, 185, 84, 0.6)' }}>
-          <Radio size={14} /> {spotifyStatus}
+      <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '0.5rem', borderBottom: '1px solid rgba(255, 255, 255, 0.1)', paddingBottom: '0.25rem' }}>
+        <div style={{ fontFamily: 'var(--font-mono)', fontSize: '0.52rem', fontWeight: 800, color: '#1DB954', display: 'flex', alignItems: 'center', gap: '0.25rem', textShadow: '0 0 4px rgba(29, 185, 84, 0.6)' }}>
+          <Radio size={12} /> {spotifyStatus}
         </div>
-        <div style={{ fontFamily: 'var(--font-mono)', fontSize: '0.62rem', color: '#FFE600', fontWeight: 800, textShadow: '0 0 6px rgba(255, 230, 0, 0.6)' }}>
-          98.4 FM SYNTHWAVE
+        <div style={{ fontFamily: 'var(--font-mono)', fontSize: '0.52rem', color: '#FFE600', fontWeight: 800, textShadow: '0 0 4px rgba(255, 230, 0, 0.6)' }}>
+          98.4 FM
         </div>
       </div>
 
@@ -184,27 +184,27 @@ export function SpotifyRadio({ onAudioStateChange }) {
       <div style={{
         background: 'rgba(4, 18, 11, 0.9)',
         border: '1px solid #1DB954',
-        borderRadius: '10px',
-        padding: '0.75rem',
-        marginBottom: '0.85rem',
+        borderRadius: '8px',
+        padding: '0.5rem',
+        marginBottom: '0.55rem',
         display: 'flex',
-        gap: '0.75rem',
+        gap: '0.5rem',
         alignItems: 'center',
-        boxShadow: 'inset 0 0 12px rgba(29, 185, 84, 0.3), 0 0 10px rgba(29, 185, 84, 0.2)'
+        boxShadow: 'inset 0 0 8px rgba(29, 185, 84, 0.3)'
       }}>
         {/* Album Cover Art */}
         <div style={{ position: 'relative', flexShrink: 0 }}>
           <img
             src={currentTrack.cover}
             alt="Album Cover"
-            style={{ width: '48px', height: '48px', objectFit: 'cover', borderRadius: '6px', border: '1px solid #1DB954' }}
+            style={{ width: '36px', height: '36px', objectFit: 'cover', borderRadius: '4px', border: '1px solid #1DB954' }}
           />
           {/* Cassette Spinning Wheel when playing */}
           {isPlaying && (
             <Disc
-              size={22}
+              size={16}
               color="#FFE600"
-              style={{ position: 'absolute', top: '50%', left: '50%', margin: '-11px 0 0 -11px', filter: 'drop-shadow(0 0 4px #FFE600)' }}
+              style={{ position: 'absolute', top: '50%', left: '50%', margin: '-8px 0 0 -8px', filter: 'drop-shadow(0 0 4px #FFE600)' }}
               className="animate-spin-medium"
             />
           )}

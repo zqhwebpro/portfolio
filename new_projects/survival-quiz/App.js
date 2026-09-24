@@ -2523,6 +2523,7 @@ function App() {
     const [quizErrorDetails, setQuizErrorDetails] = useState([]);
 
     const answeredCount = Object.keys(userAnswers).length;
+    const currentQ = quizQuestions[currentQuestionIdx];
 
     const toneGenRef = useRef(null);
     const hasInitializedRef = useRef(false);

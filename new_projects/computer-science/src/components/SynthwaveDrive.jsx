@@ -3,7 +3,7 @@ import { SoundEngine } from '../utils/soundEngine';
 import { RearviewMirror } from './RearviewMirror';
 import { WaveformVisualizer } from './WaveformVisualizer';
 import { SpotifyRadio } from './SpotifyRadio';
-import { Navigation, Zap, ChevronDown, Sparkles, Flame, ArrowRight } from 'lucide-react';
+import { Sparkles, X, Flame } from 'lucide-react';
 
 const AFFIRMATIONS = [
   "YOU ARE UNSTOPPABLE. KEEP PUSHING FORWARD.",
@@ -15,81 +15,80 @@ const AFFIRMATIONS = [
   "FOCUS ON THE JOURNEY. RESULTS WILL FOLLOW.",
   "YOUR POTENTIAL IS INFINITE. RIDE THE NEON WAVE.",
   "PERSISTENCE MASTERS EVERY ALGORITHM.",
-  "SYNTHESIZE YOUR IDEAS INTO REALITY."
+  "SYNTHESIZE YOUR IDEAS INTO REALITY.",
+  "YOUR LOGIC SHINES BRIGHTER THAN A NEON SUNRISE.",
+  "THE DIGITAL GRID EXPANDS WITH YOUR VISION.",
+  "YOU ARE BENDING REALITY WITH EVERY LINE OF CODE.",
+  "KEEP DRIVING. THE FUTURE IS CRAFTED BY YOU.",
+  "MASTER THE FUNDAMENTALS, COMMAND ANY LANGUAGE."
 ];
 
 export function SynthwaveDrive() {
   const canvasRef = useRef(null);
-  
-  // Random milestone threshold between 10 and 50 scrolls
-  const [targetScrolls, setTargetScrolls] = useState(() => Math.floor(Math.random() * 41) + 10);
-  const [scrollCount, setScrollCount] = useState(0);
-  const [milestoneCount, setMilestoneCount] = useState(0);
+
+  // Infinite Scroll & Affirmation Mechanics
+  const [totalScrolls, setTotalScrolls] = useState(0);
   const [speedMph, setSpeedMph] = useState(0);
-  const [arrived, setArrived] = useState(false);
-  const [distanceKm, setDistanceKm] = useState(0);
-  const [currentAffirmation, setCurrentAffirmation] = useState('');
+  const [activeAffirmation, setActiveAffirmation] = useState(null); // { id, text, number }
   const [isAudioPlaying, setIsAudioPlaying] = useState(false);
 
   const speedRef = useRef(0);
   const offsetRef = useRef(0);
-  const scrollCountRef = useRef(scrollCount);
-  const targetScrollsRef = useRef(targetScrolls);
-  const arrivedRef = useRef(arrived);
+  const totalScrollsRef = useRef(0);
+  const nextThresholdRef = useRef(() => Math.floor(Math.random() * 41) + 10);
+  const milestoneCountRef = useRef(0);
   const speedLinesRef = useRef([]);
 
-  scrollCountRef.current = scrollCount;
-  targetScrollsRef.current = targetScrolls;
-  arrivedRef.current = arrived;
+  totalScrollsRef.current = totalScrolls;
 
   // Initialize Speed Lines
   useEffect(() => {
     const lines = [];
-    for (let i = 0; i < 60; i++) {
+    for (let i = 0; i < 70; i++) {
       lines.push({
         x: (Math.random() - 0.5) * 2,
         y: (Math.random() - 0.5) * 2,
         z: Math.random() * 1000 + 10,
-        len: Math.random() * 40 + 20,
-        speed: Math.random() * 5 + 10
+        len: Math.random() * 45 + 20,
+        speed: Math.random() * 6 + 10
       });
     }
     speedLinesRef.current = lines;
   }, []);
 
-  // Continue Infinite Drive to Next Milestone
-  const handleKeepDriving = () => {
-    SoundEngine.playClick();
-    const nextTarget = Math.floor(Math.random() * 41) + 10;
-    setTargetScrolls(nextTarget);
-    setScrollCount(0);
-    setArrived(false);
-    setMilestoneCount(prev => prev + 1);
-    speedRef.current = 120; // boost speed on resume
-  };
-
-  // Handle scroll / wheel interaction
+  // Handle Wheel / Scroll Interaction (Infinite Scroll, Never Stops)
   useEffect(() => {
     const handleWheel = (e) => {
-      if (arrivedRef.current) return;
-
       if (e.deltaY > 0) {
         e.preventDefault();
-        
-        speedRef.current = Math.min(260, speedRef.current + 35);
-        setSpeedMph(Math.round(speedRef.current));
-        SoundEngine.playDriveRev(speedRef.current / 260);
 
-        setScrollCount((prev) => {
-          const next = prev + 1;
-          setDistanceKm(d => +(d + 0.9).toFixed(1));
-          if (next >= targetScrollsRef.current && !arrivedRef.current) {
-            setArrived(true);
+        // Accelerate smooth speed
+        speedRef.current = Math.min(280, speedRef.current + 35);
+        setSpeedMph(Math.round(speedRef.current));
+        SoundEngine.playDriveRev(speedRef.current / 280);
+
+        setTotalScrolls((prev) => {
+          const nextScroll = prev + 1;
+
+          // Check if random threshold (10-50 scrolls away) reached
+          if (nextScroll >= nextThresholdRef.current) {
+            milestoneCountRef.current += 1;
             const randomAff = AFFIRMATIONS[Math.floor(Math.random() * AFFIRMATIONS.length)];
-            setCurrentAffirmation(randomAff);
+            
+            setActiveAffirmation({
+              id: Date.now(),
+              text: randomAff,
+              number: milestoneCountRef.current
+            });
+
             SoundEngine.playSuccess();
+
+            // Set next random threshold 10 to 50 scrolls away
+            const nextStep = Math.floor(Math.random() * 41) + 10;
+            nextThresholdRef.current = nextScroll + nextStep;
           }
-          return next;
+
+          return nextScroll;
         });
       }
     };
@@ -106,25 +105,14 @@ export function SynthwaveDrive() {
     };
   }, []);
 
-  // Manual Gas Pedal trigger for mobile/click
-  const handleGasPedal = () => {
-    if (arrived) return;
-    speedRef.current = Math.min(260, speedRef.current + 45);
-    setSpeedMph(Math.round(speedRef.current));
-    SoundEngine.playDriveRev(speedRef.current / 260);
-
-    setScrollCount((prev) => {
-      const next = prev + 1;
-      setDistanceKm(d => +(d + 0.9).toFixed(1));
-      if (next >= targetScrollsRef.current && !arrivedRef.current) {
-        setArrived(true);
-        const randomAff = AFFIRMATIONS[Math.floor(Math.random() * AFFIRMATIONS.length)];
-        setCurrentAffirmation(randomAff);
-        SoundEngine.playSuccess();
-      }
-      return next;
-    });
-  };
+  // Auto-dismiss floating affirmation toast after 5.5 seconds
+  useEffect(() => {
+    if (!activeAffirmation) return;
+    const timer = setTimeout(() => {
+      setActiveAffirmation(null);
+    }, 5500);
+    return () => clearTimeout(timer);
+  }, [activeAffirmation]);
 
   // Canvas 3D Perspective Grid & Hyper-Speed Lines Render Loop
   useEffect(() => {
@@ -155,7 +143,7 @@ export function SynthwaveDrive() {
 
       // 2. Stars
       ctx.fillStyle = '#ffffff';
-      for (let i = 0; i < 60; i++) {
+      for (let i = 0; i < 70; i++) {
         const sx = (Math.sin(i * 99 + offsetRef.current * 0.01) * 0.5 + 0.5) * width;
         const sy = (Math.cos(i * 33) * 0.5 + 0.5) * (height * 0.45);
         ctx.fillRect(sx, sy, (i % 2) + 1, (i % 2) + 1);
@@ -163,10 +151,10 @@ export function SynthwaveDrive() {
 
       const horizonY = height * 0.55;
       const sunCenterX = width * 0.5;
-      const sunRadius = Math.min(width, height) * 0.26;
+      const sunRadius = Math.min(width, height) * 0.25;
       const sunCenterY = horizonY - sunRadius * 0.35;
 
-      // 3. PURE VIBRANT UNINTERRUPTED SYNTHWAVE SUN (No black cutout lines!)
+      // 3. PURE VIBRANT UNINTERRUPTED SYNTHWAVE SUN (No black cutout lines)
       const sunGrad = ctx.createLinearGradient(0, sunCenterY - sunRadius, 0, horizonY);
       sunGrad.addColorStop(0, '#ffe600');
       sunGrad.addColorStop(0.4, '#ff007f');
@@ -247,8 +235,7 @@ export function SynthwaveDrive() {
       const lines = speedLinesRef.current;
 
       lines.forEach((l) => {
-        // Move line closer in 3D Z space
-        l.z -= (l.speed + speedRef.current * 0.15);
+        l.z -= (l.speed + speedRef.current * 0.18);
         if (l.z <= 10) {
           l.z = 1000;
           l.x = (Math.random() - 0.5) * 2;
@@ -258,9 +245,9 @@ export function SynthwaveDrive() {
         const k = 400 / l.z;
         const px = sunCenterX + l.x * width * k * 0.8;
         const py = horizonY + l.y * height * k * 0.8;
-        const pLen = l.len * k * (1 + speedIntensity * 2.5);
+        const pLen = l.len * k * (1 + speedIntensity * 2.8);
 
-        const strokeAlpha = Math.min(1, (1000 - l.z) / 800) * speedIntensity;
+        const strokeAlpha = Math.min(1, (1000 - l.z) / 800) * (0.3 + speedIntensity * 0.7);
 
         if (strokeAlpha > 0.05 && px >= 0 && px <= width && py >= 0 && py <= height) {
           ctx.strokeStyle = l.z % 2 === 0 ? `rgba(0, 240, 255, ${strokeAlpha})` : `rgba(255, 230, 0, ${strokeAlpha})`;
@@ -274,36 +261,6 @@ export function SynthwaveDrive() {
         }
       });
       ctx.restore();
-
-      // 7. Destination / Affirmation Portal Zooming into view
-      const totalT = targetScrollsRef.current;
-      const curS = scrollCountRef.current;
-      const zoomRatio = Math.min(1, curS / totalT);
-
-      if (curS > 0) {
-        ctx.save();
-        const pSize = 30 + zoomRatio * 190;
-        const pX = sunCenterX - pSize / 2;
-        const pY = horizonY - pSize * 0.6;
-
-        ctx.fillStyle = 'rgba(0, 240, 255, 0.18)';
-        ctx.strokeStyle = '#00F0FF';
-        ctx.lineWidth = 3;
-        ctx.shadowColor = '#00F0FF';
-        ctx.shadowBlur = 15;
-        ctx.fillRect(pX, pY, pSize, pSize * 0.8);
-        ctx.strokeRect(pX, pY, pSize, pSize * 0.8);
-
-        // Inner glowing core text
-        ctx.fillStyle = '#FFE600';
-        ctx.font = `bold ${Math.max(10, pSize * 0.13)}px "Space Grotesk", sans-serif`;
-        ctx.textAlign = 'center';
-        ctx.shadowColor = '#FFE600';
-        ctx.shadowBlur = 10;
-        ctx.fillText('AFFIRMATION', sunCenterX, pY + pSize * 0.48);
-
-        ctx.restore();
-      }
 
       animId = requestAnimationFrame(render);
     };
@@ -326,315 +283,157 @@ export function SynthwaveDrive() {
       {/* 3D Canvas Scene */}
       <canvas ref={canvasRef} style={{ width: '100%', height: '100%', display: 'block' }} />
 
-      {/* 1. TOP CENTER REARVIEW MIRROR */}
+      {/* 1. TOP CENTER REARVIEW MIRROR (COMPACT) */}
       <RearviewMirror speedMph={speedMph} />
 
-      {/* 2. BOTTOM CENTER LIVE WAVEFORM VISUALIZER */}
+      {/* 2. BOTTOM CENTER LIVE WAVEFORM VISUALIZER (COMPACT) */}
       <WaveformVisualizer isAudioPlaying={isAudioPlaying} speedMph={speedMph} />
 
-      {/* 3. BOTTOM RIGHT SPOTIFY API RADIO */}
+      {/* 3. BOTTOM RIGHT SPOTIFY API RADIO (COMPACT) */}
       <SpotifyRadio onAudioStateChange={(active) => setIsAudioPlaying(active)} />
 
-      {/* Top Left Glass Telemetry HUD */}
-      <div style={{
-        position: 'absolute',
-        top: '1.25rem',
-        left: '1.25rem',
-        zIndex: 20,
-        pointerEvents: 'none',
-      }}>
-        <div style={{
-          background: 'rgba(9, 3, 20, 0.85)',
-          backdropFilter: 'blur(10px)',
-          border: '1.5px solid rgba(0, 240, 255, 0.5)',
-          borderRadius: '8px',
-          padding: '0.4rem 0.85rem',
-          fontFamily: 'var(--font-mono)',
-          fontSize: '0.75rem',
-          fontWeight: 800,
-          color: '#00F0FF',
-          boxShadow: '0 0 15px rgba(0, 240, 255, 0.3)',
-          display: 'flex',
-          alignItems: 'center',
-          gap: '0.4rem'
-        }}>
-          <Navigation size={14} /> INFINITE SYNTH DRIVE // HUD
-        </div>
-      </div>
-
-      {/* Top Right Glass Telemetry HUD */}
-      <div style={{
-        position: 'absolute',
-        top: '1.25rem',
-        right: '1.25rem',
-        zIndex: 20,
-        pointerEvents: 'none',
-        display: 'flex',
-        gap: '0.6rem'
-      }}>
-        <div style={{
-          background: 'rgba(9, 3, 20, 0.85)',
-          backdropFilter: 'blur(10px)',
-          border: '1.5px solid rgba(255, 230, 0, 0.5)',
-          borderRadius: '8px',
-          padding: '0.4rem 0.85rem',
-          fontFamily: 'var(--font-mono)',
-          fontSize: '0.75rem',
-          fontWeight: 800,
-          color: '#FFE600',
-          boxShadow: '0 0 15px rgba(255, 230, 0, 0.3)',
-        }}>
-          SPEED: {speedMph} MPH
-        </div>
-        <div style={{
-          background: 'rgba(9, 3, 20, 0.85)',
-          backdropFilter: 'blur(10px)',
-          border: '1.5px solid rgba(255, 0, 127, 0.5)',
-          borderRadius: '8px',
-          padding: '0.4rem 0.85rem',
-          fontFamily: 'var(--font-mono)',
-          fontSize: '0.75rem',
-          fontWeight: 800,
-          color: '#FFFFFF',
-          boxShadow: '0 0 15px rgba(255, 0, 127, 0.3)',
-        }}>
-          NEXT MILESTONE: {scrollCount} / {targetScrolls} SCROLLS
-        </div>
-      </div>
-
-      {/* Scene 1: Initial "SCROLL TO DRIVE" Prompt Banner */}
-      {scrollCount === 0 && milestoneCount === 0 && (
+      {/* Static Initial Welcome Overlay: Concise & Clean */}
+      {totalScrolls === 0 && (
         <div style={{
           position: 'absolute',
-          top: '52%',
+          top: '50%',
           left: '50%',
           transform: 'translate(-50%, -50%)',
-          zIndex: 20,
+          zIndex: 40,
           textAlign: 'center',
           width: '90%',
-          maxWidth: '520px',
+          maxWidth: '420px',
+          pointerEvents: 'none'
         }}>
           <div style={{
-            background: 'rgba(9, 3, 20, 0.88)',
+            background: 'rgba(9, 3, 20, 0.90)',
             backdropFilter: 'blur(16px)',
             color: '#FFFFFF',
-            border: '1.5px solid rgba(0, 240, 255, 0.6)',
-            borderRadius: '16px',
-            padding: '1.75rem 2rem',
-            boxShadow: '0 0 30px rgba(0, 240, 255, 0.35), inset 0 0 15px rgba(0, 240, 255, 0.15)',
-            animation: 'floatGentle 3s ease-in-out infinite',
+            border: '1.2px solid rgba(0, 240, 255, 0.6)',
+            borderRadius: '14px',
+            padding: '1.5rem 1.75rem',
+            boxShadow: '0 0 30px rgba(0, 240, 255, 0.3)',
           }}>
             <div style={{
               fontFamily: 'var(--font-mono)',
-              fontSize: '0.7rem',
+              fontSize: '0.65rem',
               fontWeight: 800,
               color: '#FFE600',
-              letterSpacing: '0.12em',
-              marginBottom: '0.4rem',
+              letterSpacing: '0.14em',
+              marginBottom: '0.35rem',
               textTransform: 'uppercase',
               textShadow: '0 0 8px rgba(255, 230, 0, 0.6)'
             }}>
-              ◆ INFINITE SYNTHWAVE DRIVE
+              INFINITE SYNTH DRIVE
             </div>
+
             <h2 style={{
               fontFamily: 'var(--font-display)',
-              fontSize: 'clamp(2rem, 4.5vw, 2.8rem)',
+              fontSize: '1.8rem',
               fontWeight: 900,
               lineHeight: 1.1,
-              marginBottom: '0.6rem',
+              marginBottom: '0.5rem',
               color: '#00F0FF',
               textShadow: '0 0 12px rgba(0, 240, 255, 0.7)',
               textTransform: 'uppercase',
             }}>
               SCROLL TO DRIVE
             </h2>
+
             <p style={{
               fontFamily: 'var(--font-mono)',
-              fontSize: '0.85rem',
+              fontSize: '0.78rem',
               fontWeight: 600,
-              color: '#A0A0C0',
-              marginBottom: '1.25rem',
-              lineHeight: 1.5
+              color: '#B0B0D0',
+              margin: 0,
+              lineHeight: 1.4
             }}>
-              Drive infinitely down the 3D synthwave highway! Every random 10–50 scrolls unlocks a new glowing affirmation milestone.
+              Drive endlessly into the neon grid. Affirmations float into view as you travel.
             </p>
-
-            <button
-              onClick={handleGasPedal}
-              style={{
-                background: 'linear-gradient(135deg, #0038FF, #00F0FF)',
-                color: '#FFFFFF',
-                border: 'none',
-                borderRadius: '8px',
-                padding: '0.75rem 1.6rem',
-                fontFamily: 'var(--font-mono)',
-                fontSize: '0.85rem',
-                fontWeight: 800,
-                cursor: 'pointer',
-                boxShadow: '0 0 15px rgba(0, 240, 255, 0.5)',
-                display: 'inline-flex',
-                alignItems: 'center',
-                gap: '0.5rem',
-                textTransform: 'uppercase'
-              }}
-            >
-              <Zap size={18} /> PRESS GAS PEDAL / SCROLL <ChevronDown size={18} />
-            </button>
           </div>
         </div>
       )}
 
-      {/* Mid-Drive Gas Button for Mobile/Touch */}
-      {scrollCount > 0 && !arrived && (
+      {/* SLEEK FUTURISTIC FLOATING AFFIRMATION TOAST CARD */}
+      {activeAffirmation && (
         <div style={{
           position: 'absolute',
-          bottom: '1.25rem',
-          left: '1.25rem',
-          zIndex: 25,
-        }}>
-          <button
-            onClick={handleGasPedal}
-            style={{
-              background: 'rgba(9, 3, 20, 0.85)',
-              backdropFilter: 'blur(10px)',
-              color: '#00F0FF',
-              border: '1.5px solid rgba(0, 240, 255, 0.6)',
-              borderRadius: '8px',
-              padding: '0.75rem 1.25rem',
-              fontFamily: 'var(--font-mono)',
-              fontSize: '0.8rem',
-              fontWeight: 800,
-              cursor: 'pointer',
-              boxShadow: '0 0 15px rgba(0, 240, 255, 0.3)',
-              display: 'flex',
-              alignItems: 'center',
-              gap: '0.4rem'
-            }}
-          >
-            <Zap size={16} /> ACCELERATE (+1 SCROLL)
-          </button>
-        </div>
-      )}
-
-      {/* Sleek Digital Pop-up Modal: WORDS OF ENCOURAGEMENT / AFFIRMATION */}
-      {arrived && (
-        <div style={{
-          position: 'absolute',
-          inset: 0,
-          background: 'rgba(6, 1, 13, 0.82)',
-          backdropFilter: 'blur(8px)',
-          display: 'flex',
-          alignItems: 'center',
-          justifyContent: 'center',
+          top: '22%',
+          left: '50%',
+          transform: 'translateX(-50%)',
           zIndex: 50,
-          padding: '1.5rem',
+          width: '90%',
+          maxWidth: '440px',
+          animation: 'fadeInUp 0.4s cubic-bezier(0.16, 1, 0.3, 1)'
         }}>
           <div style={{
             background: 'rgba(12, 4, 28, 0.94)',
-            backdropFilter: 'blur(18px)',
+            backdropFilter: 'blur(20px)',
             color: '#FFFFFF',
             border: '1.5px solid rgba(0, 240, 255, 0.7)',
-            borderRadius: '20px',
-            padding: '2.25rem 2.5rem',
-            width: '100%',
-            maxWidth: '500px',
-            boxShadow: '0 0 40px rgba(0, 240, 255, 0.45), inset 0 0 20px rgba(0, 240, 255, 0.2)',
+            borderRadius: '16px',
+            padding: '1.25rem 1.5rem',
+            boxShadow: '0 0 35px rgba(0, 240, 255, 0.45), inset 0 0 15px rgba(0, 240, 255, 0.15)',
             textAlign: 'center',
             position: 'relative'
           }}>
             
-            {/* Affirmation Badge Header */}
-            <div style={{
-              background: 'rgba(255, 230, 0, 0.15)',
-              border: '1px solid #FFE600',
-              borderRadius: '20px',
-              padding: '0.4rem 1rem',
-              fontFamily: 'var(--font-mono)',
-              fontSize: '0.75rem',
-              fontWeight: 800,
-              color: '#FFE600',
-              letterSpacing: '0.1em',
-              display: 'inline-flex',
-              alignItems: 'center',
-              gap: '0.4rem',
-              marginBottom: '1.25rem',
-              boxShadow: '0 0 10px rgba(255, 230, 0, 0.4)'
-            }}>
-              <Flame size={16} /> ⚡ SYNTHWAVE MILESTONE #{milestoneCount + 1}
-            </div>
-
-            {/* Glowing Affirmation Quote Card */}
-            <div style={{
-              background: 'rgba(0, 240, 255, 0.08)',
-              border: '1.5px solid rgba(0, 240, 255, 0.4)',
-              borderRadius: '12px',
-              padding: '1.5rem',
-              marginBottom: '1.5rem',
-              boxShadow: 'inset 0 0 15px rgba(0, 240, 255, 0.15)'
-            }}>
-              <h2 style={{
-                fontFamily: 'var(--font-display)',
-                fontSize: 'clamp(1.4rem, 3.5vw, 1.8rem)',
-                fontWeight: 900,
-                lineHeight: 1.3,
-                color: '#00F0FF',
-                textShadow: '0 0 15px rgba(0, 240, 255, 0.8)',
-                letterSpacing: '0.02em',
-                margin: 0
-              }}>
-                "{currentAffirmation}"
-              </h2>
-            </div>
-
-            {/* Trip Telemetry Stats */}
-            <div style={{
-              background: 'rgba(5, 1, 10, 0.85)',
-              border: '1px solid rgba(0, 240, 255, 0.3)',
-              borderRadius: '12px',
-              padding: '1.25rem',
-              display: 'grid',
-              gridTemplateColumns: '1fr 1fr',
-              gap: '0.75rem',
-              fontFamily: 'var(--font-mono)',
-              fontSize: '0.75rem',
-              marginBottom: '1.75rem',
-              textAlign: 'left'
-            }}>
-              <div>
-                <div style={{ color: '#888', fontSize: '0.65rem' }}>TOTAL DISTANCE:</div>
-                <div style={{ color: '#00F0FF', fontSize: '1.2rem', fontWeight: 900, textShadow: '0 0 8px rgba(0, 240, 255, 0.5)' }}>{distanceKm} KM</div>
-              </div>
-              <div>
-                <div style={{ color: '#888', fontSize: '0.65rem' }}>SCROLLS COMPLETED:</div>
-                <div style={{ color: '#FFE600', fontSize: '1.2rem', fontWeight: 900, textShadow: '0 0 8px rgba(255, 230, 0, 0.5)' }}>{targetScrolls} (RANDOM 10-50)</div>
-              </div>
-            </div>
-
-            {/* Keep Driving Button */}
+            {/* Close Button */}
             <button
-              onClick={handleKeepDriving}
+              onClick={() => setActiveAffirmation(null)}
               style={{
-                width: '100%',
-                background: 'linear-gradient(135deg, #0038FF, #00F0FF)',
-                color: '#FFFFFF',
+                position: 'absolute',
+                top: '10px',
+                right: '12px',
+                background: 'transparent',
                 border: 'none',
-                borderRadius: '10px',
-                padding: '1rem',
-                fontFamily: 'var(--font-mono)',
-                fontSize: '0.95rem',
-                fontWeight: 900,
+                color: '#888',
                 cursor: 'pointer',
-                boxShadow: '0 0 20px rgba(0, 240, 255, 0.6)',
+                padding: '4px',
                 display: 'flex',
                 alignItems: 'center',
                 justifyContent: 'center',
-                gap: '0.5rem',
-                textTransform: 'uppercase'
+                transition: 'color 0.2s'
               }}
+              title="Close Affirmation"
             >
-              <Zap size={18} /> 🏎️ KEEP DRIVING (NEXT MILESTONE) <ArrowRight size={18} />
+              <X size={16} />
             </button>
 
+            {/* Header Badge */}
+            <div style={{
+              display: 'inline-flex',
+              alignItems: 'center',
+              gap: '0.4rem',
+              background: 'rgba(255, 230, 0, 0.12)',
+              border: '1px solid #FFE600',
+              borderRadius: '20px',
+              padding: '0.25rem 0.75rem',
+              fontFamily: 'var(--font-mono)',
+              fontSize: '0.65rem',
+              fontWeight: 800,
+              color: '#FFE600',
+              letterSpacing: '0.12em',
+              marginBottom: '0.75rem',
+              textTransform: 'uppercase',
+              boxShadow: '0 0 8px rgba(255, 230, 0, 0.4)'
+            }}>
+              <Sparkles size={13} /> AFFIRMATION #{activeAffirmation.number}
+            </div>
+
+            {/* Affirmation Text */}
+            <h3 style={{
+              fontFamily: 'var(--font-display)',
+              fontSize: 'clamp(1.1rem, 2.5vw, 1.4rem)',
+              fontWeight: 900,
+              lineHeight: 1.35,
+              color: '#00F0FF',
+              textShadow: '0 0 12px rgba(0, 240, 255, 0.8)',
+              letterSpacing: '0.02em',
+              margin: 0
+            }}>
+              "{activeAffirmation.text}"
+            </h3>
           </div>
         </div>
       )}
