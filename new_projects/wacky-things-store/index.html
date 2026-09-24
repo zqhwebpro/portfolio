@@ -5,15 +5,18 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Zach Heindel | The Wacky Things Store — .NET Full-Stack eCommerce Platform</title>
-    <meta name="description" content="Whimsical full-stack e-commerce storefront engineered on ASP.NET MVC, Entity Framework, C#, and responsive UI architecture." />
-    <meta name="keywords" content="The Wacky Things Store, .NET eCommerce, ASP.NET MVC, C# Web Development, Entity Framework, Full Stack Web App, Zach Heindel" />
+    <meta name="description"
+        content="Whimsical full-stack e-commerce storefront engineered on ASP.NET MVC, Entity Framework, C#, and responsive UI architecture." />
+    <meta name="keywords"
+        content="The Wacky Things Store, .NET eCommerce, ASP.NET MVC, C# Web Development, Entity Framework, Full Stack Web App, Zach Heindel" />
     <meta name="author" content="Zach Heindel" />
     <link rel="icon" href="./favicon.png" type="image/png" />
 
     <!-- Open Graph / Social SEO -->
     <meta property="og:type" content="website" />
     <meta property="og:title" content="The Wacky Things Store — .NET Full-Stack eCommerce Platform" />
-    <meta property="og:description" content="Whimsical full-stack e-commerce storefront engineered on ASP.NET MVC, Entity Framework, C#, and responsive UI architecture." />
+    <meta property="og:description"
+        content="Whimsical full-stack e-commerce storefront engineered on ASP.NET MVC, Entity Framework, C#, and responsive UI architecture." />
     <meta property="og:url" content="https://zqhwebpro.github.io/portfolio/new_projects/wacky-things-store/" />
     <meta property="og:site_name" content="ZQH.WEBPRO" />
 
@@ -38,8 +41,10 @@
     <!-- Google Fonts: Inter (Clean Body) + Outfit (Headings) + JetBrains Mono (Technical Tooltips) -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;500;600;700&family=Outfit:wght@600;700;800;900&display=swap" rel="stylesheet">
-    
+    <link
+        href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;500;600;700&family=Outfit:wght@600;700;800;900&display=swap"
+        rel="stylesheet">
+
     <!-- Font Awesome Icons -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
 
@@ -57,7 +62,7 @@
                     colors: {
                         // Deep Plum & Violet Purples
                         earth: {
-                            50:  '#F5F3FF',
+                            50: '#F5F3FF',
                             100: '#EDE9FE',
                             200: '#DDD6FE',
                             300: '#C4B5FD',
@@ -71,7 +76,7 @@
                         },
                         // Vibrant Teal & Cyan
                         appetite: {
-                            50:  '#F0FDFA',
+                            50: '#F0FDFA',
                             100: '#CCFBF1',
                             200: '#99F6E4',
                             300: '#5EEAD4',
@@ -82,19 +87,19 @@
                             800: '#115E59',
                             900: '#134E4A',
                         },
-                        // Cool Silver & Metallic
+                        // Warm Amber & Gold (Replaced cool silver/blue)
                         honey: {
-                            50:  '#F8FAFC',
-                            100: '#F1F5F9',
-                            200: '#E2E8F0',
-                            300: '#CBD5E1',
-                            400: '#94A3B8',
-                            500: '#64748B',
-                            600: '#475569',
-                            700: '#334155',
-                            800: '#1E293B',
-                            900: '#0F172A',
-                            950: '#020617',
+                            50: '#FFFBEB',
+                            100: '#FEF3C7',
+                            200: '#FDE68A',
+                            300: '#FCD34D',
+                            400: '#FBBF24',
+                            500: '#F59E0B',
+                            600: '#D97706',
+                            700: '#B45309',
+                            800: '#92400E',
+                            900: '#78350F',
+                            950: '#451A03',
                         },
                         // Light lavender canvases
                         canvas: {
@@ -138,18 +143,21 @@
             padding-left: 1rem;
             padding-right: 1rem;
         }
+
         @media (min-width: 640px) {
             .store-fluid-container {
                 padding-left: 1.5rem;
                 padding-right: 1.5rem;
             }
         }
+
         @media (min-width: 1024px) {
             .store-fluid-container {
                 padding-left: 2rem;
                 padding-right: 2rem;
             }
         }
+
         @media (min-width: 1536px) {
             .store-fluid-container {
                 padding-left: 3rem;
@@ -249,13 +257,16 @@
             width: 7px;
             height: 7px;
         }
+
         ::-webkit-scrollbar-track {
             background: #FAF8FF;
         }
+
         ::-webkit-scrollbar-thumb {
             background: #C4B5FD;
             border-radius: 4px;
         }
+
         ::-webkit-scrollbar-thumb:hover {
             background: #7C3AED;
         }
@@ -266,10 +277,12 @@
                 transform: translateY(0) rotate(0deg) scale(1);
                 opacity: 1;
             }
+
             25% {
                 transform: translateY(30px) rotate(var(--fall-tilt, -4deg)) scale(1.02);
                 opacity: 0.95;
             }
+
             100% {
                 transform: translateY(115vh) rotate(var(--fall-tilt-end, 18deg)) scale(0.85);
                 opacity: 0;
@@ -288,6 +301,7 @@
                 transform: translateY(60px) scale(0.96);
                 opacity: 0;
             }
+
             100% {
                 transform: translateY(0) scale(1);
                 opacity: 1;
@@ -300,7 +314,8 @@
 
         /* --- DARK MODE SYSTEM (Obsidian Slate, Deep Purple, Glowing Teal) --- */
         body.dark-mode {
-            background-color: #030712 !important; /* Pitch Obsidian 950 */
+            background-color: #030712 !important;
+            /* Pitch Obsidian 950 */
             color: #f8fafc !important;
             --bg-canvas: #030712;
             --bg-card: #0b0f19;
@@ -360,7 +375,8 @@
         body.dark-mode .product-card,
         body.dark-mode .bg-white,
         body.dark-mode .bg-canvas-card {
-            background-color: #0b0f19 !important; /* Pitch Obsidian Card */
+            background-color: #0b0f19 !important;
+            /* Pitch Obsidian Card */
             color: #f8fafc !important;
             border-color: #1f2937 !important;
         }
@@ -370,7 +386,8 @@
         }
 
         body.dark-mode .product-card:hover {
-            border-color: #8b5cf6 !important; /* Radiant Purple hover border */
+            border-color: #8b5cf6 !important;
+            /* Radiant Purple hover border */
             box-shadow: 0 16px 32px -4px rgba(139, 92, 246, 0.35), 0 4px 16px -2px rgba(20, 184, 166, 0.3) !important;
         }
 
@@ -457,11 +474,11 @@
         }
 
         /* Modals & Drawers in Dark Mode */
-        body.dark-mode #cart-drawer-backdrop > div,
-        body.dark-mode #checkout-modal-backdrop > div,
-        body.dark-mode #receipt-modal-backdrop > div,
-        body.dark-mode #admin-modal-backdrop > div,
-        body.dark-mode #arch-modal-backdrop > div {
+        body.dark-mode #cart-drawer-backdrop>div,
+        body.dark-mode #checkout-modal-backdrop>div,
+        body.dark-mode #receipt-modal-backdrop>div,
+        body.dark-mode #admin-modal-backdrop>div,
+        body.dark-mode #arch-modal-backdrop>div {
             background-color: #1e293b !important;
             color: #f8fafc !important;
             border-color: #334155 !important;
@@ -472,22 +489,25 @@
 <body class="flex flex-col min-h-screen selection:bg-honey-400 selection:text-earth-950">
 
     <!-- FLOATING ARCHITECTURAL & DOM/CSS BLUEPRINT TOOLTIP -->
-    <div id="blueprint-tooltip" class="bg-[#1F1610]/95 backdrop-blur-xl border border-honey-500/70 rounded-xl p-4 shadow-2xl text-xs space-y-3 font-sans text-earth-100">
-        
+    <div id="blueprint-tooltip"
+        class="bg-[#1F1610]/95 backdrop-blur-xl border border-honey-500/70 rounded-xl p-4 shadow-2xl text-xs space-y-3 font-sans text-earth-100">
+
         <!-- Header: Component Role & Framework Layer -->
         <div class="flex items-center justify-between gap-3 border-b border-earth-800 pb-2.5">
             <div class="flex items-center gap-1.5 font-mono font-bold text-honey-400 text-[11.5px] truncate">
                 <i class="fa-solid fa-layer-group text-[12px]"></i>
                 <span id="tt-role">MVC Component</span>
             </div>
-            <span id="tt-layer-badge" class="px-2 py-0.5 rounded bg-appetite-700/40 text-appetite-300 border border-appetite-500/40 text-[9.5px] font-mono uppercase font-bold">
+            <span id="tt-layer-badge"
+                class="px-2 py-0.5 rounded bg-appetite-700/40 text-appetite-300 border border-appetite-500/40 text-[9.5px] font-mono uppercase font-bold">
                 Presentation Layer
             </span>
         </div>
 
         <!-- Section 1: DOM & CSS Implementation -->
         <div class="space-y-1 bg-black/40 p-2.5 rounded-lg border border-earth-800">
-            <div class="text-[10px] text-honey-400 font-mono font-bold uppercase tracking-wider flex items-center gap-1.5">
+            <div
+                class="text-[10px] text-honey-400 font-mono font-bold uppercase tracking-wider flex items-center gap-1.5">
                 <i class="fa-brands fa-css3-alt text-honey-400"></i> DOM &amp; CSS Styling:
             </div>
             <div id="tt-dom-css" class="text-earth-200 text-[11px] leading-relaxed font-mono">
@@ -500,17 +520,20 @@
             <div class="text-[10px] text-earth-400 font-mono uppercase tracking-wider flex items-center gap-1">
                 <i class="fa-solid fa-code text-appetite-400"></i> ASP.NET MVC 5 File &amp; Code:
             </div>
-            <div id="tt-file" class="font-mono text-[11px] font-bold text-honey-300 bg-black/50 p-1.5 rounded border border-earth-800 break-all">
+            <div id="tt-file"
+                class="font-mono text-[11px] font-bold text-honey-300 bg-black/50 p-1.5 rounded border border-earth-800 break-all">
                 WackyStore.WebUI/Views/...
             </div>
-            <div id="tt-code" class="font-mono text-[10.5px] text-appetite-300 bg-black/50 p-1.5 rounded border border-earth-800 overflow-x-auto">
+            <div id="tt-code"
+                class="font-mono text-[10.5px] text-appetite-300 bg-black/50 p-1.5 rounded border border-earth-800 overflow-x-auto">
                 // C# action mapping
             </div>
         </div>
 
         <!-- Section 3: Key .NET Learning & Engineering Takeaway -->
         <div class="pt-2 border-t border-earth-800 space-y-1">
-            <div class="text-[10px] font-mono font-bold text-appetite-400 uppercase tracking-wider flex items-center gap-1.5">
+            <div
+                class="text-[10px] font-mono font-bold text-appetite-400 uppercase tracking-wider flex items-center gap-1.5">
                 <i class="fa-solid fa-graduation-cap text-appetite-400"></i> Key .NET Learning:
             </div>
             <p id="tt-desc" class="text-earth-100 text-[11.5px] leading-relaxed">
@@ -521,16 +544,16 @@
 
     <!-- 1. VALUE PROPOSITION ANNOUNCEMENT BAR (Full Width) -->
     <div class="bg-earth-900 text-earth-100 border-b border-earth-800 store-fluid-container py-2 text-xs font-semibold text-center tracking-wide flex items-center justify-between gap-4 flex-wrap"
-         data-blueprint-file="WackyStore.WebUI/Views/Shared/_Layout.cshtml"
-         data-blueprint-role="Global Marketing Banner"
-         data-blueprint-layer="WebUI / Presentation"
-         data-blueprint-dom="Semantic <header> sub-banner with full horizontal width, deep purple background, and silver accents."
-         data-blueprint-desc="In enterprise MVC applications, promotional banners are driven by cached site configuration to display region-specific free shipping incentives."
-         data-blueprint-code="@Html.Partial(&quot;_GlobalBanner&quot;, Model.BannerSettings)">
-        
+        data-blueprint-file="WackyStore.WebUI/Views/Shared/_Layout.cshtml" data-blueprint-role="Global Marketing Banner"
+        data-blueprint-layer="WebUI / Presentation"
+        data-blueprint-dom="Semantic <header> sub-banner with full horizontal width, deep purple background, and silver accents."
+        data-blueprint-desc="In enterprise MVC applications, promotional banners are driven by cached site configuration to display region-specific free shipping incentives."
+        data-blueprint-code="@Html.Partial(&quot;_GlobalBanner&quot;, Model.BannerSettings)">
+
         <div class="flex items-center gap-4 mx-auto sm:mx-0 flex-wrap justify-center">
             <span class="flex items-center gap-1.5 text-honey-400 font-bold">
-                <i class="fa-solid fa-wand-magic-sparkles text-appetite-400"></i> Free 2-Day Shipping on Oddities Over $35
+                <i class="fa-solid fa-wand-magic-sparkles text-appetite-400"></i> Free 2-Day Shipping on Oddities Over
+                $35
             </span>
             <span class="hidden md:inline text-earth-600">&bull;</span>
             <span class="hidden md:flex items-center gap-1.5 text-earth-200">
@@ -550,29 +573,29 @@
 
     <!-- 2. MAIN STORE HEADER (Full Width) -->
     <header class="border-b border-canvas-border bg-canvas-base/95 sticky top-0 z-40 backdrop-blur-md"
-            data-blueprint-file="WackyStore.WebUI/Views/Shared/_Layout.cshtml"
-            data-blueprint-role="Master Site Header"
-            data-blueprint-layer="WebUI / Master Layout"
-            data-blueprint-dom="HTML5 <header> element with sticky top positioning, full width container, and light lavender styling."
-            data-blueprint-desc="The master Razor layout (_Layout.cshtml) bundles CSS/JS assets, initializes Ninject-resolved partials, and renders the central body content."
-            data-blueprint-code="<!DOCTYPE html><html><head>@Styles.Render(&quot;~/Content/css&quot;)</head><body>@RenderBody()</body></html>">
-        
+        data-blueprint-file="WackyStore.WebUI/Views/Shared/_Layout.cshtml" data-blueprint-role="Master Site Header"
+        data-blueprint-layer="WebUI / Master Layout"
+        data-blueprint-dom="HTML5 <header> element with sticky top positioning, full width container, and light lavender styling."
+        data-blueprint-desc="The master Razor layout (_Layout.cshtml) bundles CSS/JS assets, initializes Ninject-resolved partials, and renders the central body content."
+        data-blueprint-code="<!DOCTYPE html><html><head>@Styles.Render(&quot;~/Content/css&quot;)</head><body>@RenderBody()</body></html>">
+
         <div class="store-fluid-container py-3.5 flex items-center justify-between gap-4 flex-wrap">
-            
+
             <!-- Brand Logo -->
-            <div class="cursor-pointer select-none flex items-center gap-3 group" 
-                 data-blueprint-file="WackyStore.WebUI/Controllers/ProductController.cs"
-                 data-blueprint-role="Brand Identity &amp; Catalog Root"
-                 data-blueprint-layer="WebUI / Presentation"
-                 data-blueprint-dom="Typographic brand heading with playful icon in deep purple with teal accents."
-                 data-blueprint-desc="Clicking the logo triggers ProductController.List() with default parameters, demonstrating ASP.NET standard MVC route resolution (~/Product/List)."
-                 data-blueprint-code="@Html.ActionLink(&quot;WACKY THINGS CO.&quot;, &quot;List&quot;, &quot;Product&quot;, new { category = (string)null }, new { @class = &quot;navbar-brand&quot; })"
-                 onclick="window.resetFilters()">
-                <div class="h-10 w-10 rounded-xl bg-appetite-700 text-white flex items-center justify-center text-lg shadow-md shadow-appetite-800/20 group-hover:scale-105 transition-transform">
+            <div class="cursor-pointer select-none flex items-center gap-3 group"
+                data-blueprint-file="WackyStore.WebUI/Controllers/ProductController.cs"
+                data-blueprint-role="Brand Identity &amp; Catalog Root" data-blueprint-layer="WebUI / Presentation"
+                data-blueprint-dom="Typographic brand heading with playful icon in deep purple with teal accents."
+                data-blueprint-desc="Clicking the logo triggers ProductController.List() with default parameters, demonstrating ASP.NET standard MVC route resolution (~/Product/List)."
+                data-blueprint-code="@Html.ActionLink(&quot;WACKY THINGS CO.&quot;, &quot;List&quot;, &quot;Product&quot;, new { category = (string)null }, new { @class = &quot;navbar-brand&quot; })"
+                onclick="window.resetFilters()">
+                <div
+                    class="h-10 w-10 rounded-xl bg-appetite-700 text-white flex items-center justify-center text-lg shadow-md shadow-appetite-800/20 group-hover:scale-105 transition-transform">
                     <i class="fa-solid fa-hat-wizard"></i>
                 </div>
                 <div>
-                    <div class="font-heading font-black text-xl sm:text-2xl text-earth-950 tracking-tight flex items-center gap-1.5 leading-none">
+                    <div
+                        class="font-heading font-black text-xl sm:text-2xl text-earth-950 tracking-tight flex items-center gap-1.5 leading-none">
                         WACKY<span class="text-appetite-700">THINGS</span>
                     </div>
                     <div class="text-[11px] text-earth-600 font-medium mt-0.5">Gloriously Bizarre Gadgets</div>
@@ -581,19 +604,19 @@
 
             <!-- E-Commerce Search Bar -->
             <div class="flex-1 max-w-xl min-w-[260px]"
-                 data-blueprint-file="WackyStore.WebUI/Controllers/ProductController.cs"
-                 data-blueprint-role="Catalog Search Query Action"
-                 data-blueprint-layer="WebUI / Controller &amp; LINQ"
-                 data-blueprint-dom="Search input with off-white card background, purple border, and silver highlight focus state."
-                 data-blueprint-desc="In ASP.NET MVC, search parameters are bound to action arguments (string search). LINQ translates .Where(p => p.Name.Contains(search)) into parameterized SQL LIKE queries."
-                 data-blueprint-code="public ViewResult List(string category, string search, int page = 1) { ... }">
+                data-blueprint-file="WackyStore.WebUI/Controllers/ProductController.cs"
+                data-blueprint-role="Catalog Search Query Action" data-blueprint-layer="WebUI / Controller &amp; LINQ"
+                data-blueprint-dom="Search input with off-white card background, purple border, and silver highlight focus state."
+                data-blueprint-desc="In ASP.NET MVC, search parameters are bound to action arguments (string search). LINQ translates .Where(p => p.Name.Contains(search)) into parameterized SQL LIKE queries."
+                data-blueprint-code="public ViewResult List(string category, string search, int page = 1) { ... }">
                 <div class="relative flex items-center">
-                    <input type="text" id="search-input" 
-                           placeholder="Search bizarre items (e.g. rubber chicken, whoopee cushion, googly eyes)..."
-                           oninput="window.handleSearchInput()"
-                           class="w-full bg-white border border-canvas-border rounded-xl pl-10 pr-9 py-2.5 text-xs text-earth-900 placeholder-earth-400 focus:outline-none focus:border-honey-600 focus:ring-2 focus:ring-honey-300/40 shadow-xs transition-all">
+                    <input type="text" id="search-input"
+                        placeholder="Search bizarre items (e.g. rubber chicken, whoopee cushion, googly eyes)..."
+                        oninput="window.handleSearchInput()"
+                        class="w-full bg-white border border-canvas-border rounded-xl pl-10 pr-9 py-2.5 text-xs text-earth-900 placeholder-earth-400 focus:outline-none focus:border-honey-600 focus:ring-2 focus:ring-honey-300/40 shadow-xs transition-all">
                     <i class="fa-solid fa-magnifying-glass absolute left-3.5 text-earth-500 text-sm"></i>
-                    <button id="search-clear-btn" onclick="window.clearSearch()" class="absolute right-3 text-earth-400 hover:text-earth-900 text-sm hidden">
+                    <button id="search-clear-btn" onclick="window.clearSearch()"
+                        class="absolute right-3 text-earth-400 hover:text-earth-900 text-sm hidden">
                         <i class="fa-solid fa-xmark"></i>
                     </button>
                 </div>
@@ -601,30 +624,28 @@
 
             <!-- Header Action Buttons -->
             <div class="flex items-center gap-2.5">
-                
+
 
                 <!-- Architecture Modal Trigger -->
-                <button onclick="window.openArchitectureModal()" 
-                        data-blueprint-file="WackyStore.Domain/Abstract/IProductRepository.cs"
-                        data-blueprint-role="N-Tier Dependency Architecture Map"
-                        data-blueprint-layer="Domain / Abstraction"
-                        data-blueprint-dom="Off-white button styled with purple text and subtle border."
-                        data-blueprint-desc="Demonstrates how Ninject IoC binds interface contracts (IProductRepository, IOrderProcessor) to concrete EF6 database implementations at runtime."
-                        data-blueprint-code="kernel.Bind<IProductRepository>().To<EFProductRepository>();"
-                        class="px-3.5 py-2 rounded-xl bg-white border border-canvas-border hover:border-appetite-700 text-earth-800 hover:text-appetite-800 text-xs font-bold flex items-center gap-1.5 transition-all shadow-xs">
+                <button onclick="window.openArchitectureModal()"
+                    data-blueprint-file="WackyStore.Domain/Abstract/IProductRepository.cs"
+                    data-blueprint-role="N-Tier Dependency Architecture Map" data-blueprint-layer="Domain / Abstraction"
+                    data-blueprint-dom="Off-white button styled with purple text and subtle border."
+                    data-blueprint-desc="Demonstrates how Ninject IoC binds interface contracts (IProductRepository, IOrderProcessor) to concrete EF6 database implementations at runtime."
+                    data-blueprint-code="kernel.Bind<IProductRepository>().To<EFProductRepository>();"
+                    class="px-3.5 py-2 rounded-xl bg-white border border-canvas-border hover:border-appetite-700 text-earth-800 hover:text-appetite-800 text-xs font-bold flex items-center gap-1.5 transition-all shadow-xs">
                     <i class="fa-solid fa-sitemap text-appetite-700"></i>
                     <span class="hidden sm:inline">.NET Arch</span>
                 </button>
 
                 <!-- Admin Inventory CRUD Trigger -->
-                <button onclick="window.openAdminModal()" 
-                        data-blueprint-file="WackyStore.WebUI/Controllers/AdminController.cs"
-                        data-blueprint-role="Admin CRUD Controller"
-                        data-blueprint-layer="WebUI / Admin Portal"
-                        data-blueprint-dom="Action button with silver accent and accessible click handler."
-                        data-blueprint-desc="Protected AdminController provides Index, Edit, Save, and Delete endpoints connected to Entity Framework 6 DbSet<Product>."
-                        data-blueprint-code="public ViewResult Index() => View(repository.Products);"
-                        class="px-3.5 py-2 rounded-xl bg-white border border-canvas-border hover:border-honey-700 text-earth-800 hover:text-honey-900 text-xs font-bold flex items-center gap-1.5 transition-all shadow-xs">
+                <button onclick="window.openAdminModal()"
+                    data-blueprint-file="WackyStore.WebUI/Controllers/AdminController.cs"
+                    data-blueprint-role="Admin CRUD Controller" data-blueprint-layer="WebUI / Admin Portal"
+                    data-blueprint-dom="Action button with silver accent and accessible click handler."
+                    data-blueprint-desc="Protected AdminController provides Index, Edit, Save, and Delete endpoints connected to Entity Framework 6 DbSet<Product>."
+                    data-blueprint-code="public ViewResult Index() => View(repository.Products);"
+                    class="px-3.5 py-2 rounded-xl bg-white border border-canvas-border hover:border-honey-700 text-earth-800 hover:text-honey-900 text-xs font-bold flex items-center gap-1.5 transition-all shadow-xs">
                     <i class="fa-solid fa-sliders text-honey-700"></i>
                     <span class="hidden sm:inline">Admin CRUD</span>
                 </button>
@@ -646,34 +667,26 @@
                 END CASE STUDY LINK BUTTON -->
 
                 <!-- Header Cart Widget -->
-                <button onclick="window.openCartDrawer()" 
-                        data-blueprint-file="WackyStore.WebUI/Views/Cart/Summary.cshtml"
-                        data-blueprint-role="Custom Model-Bound Cart Partial"
-                        data-blueprint-layer="WebUI / View Component"
-                        data-blueprint-dom="Interactive cart widget with vibrant teal background and count pill badge."
-                        data-blueprint-desc="CartModelBinder automatically extracts the user's Cart from Session and injects it into controller methods without manual session casting."
-                        data-blueprint-code="@Html.Action(&quot;Summary&quot;, &quot;Cart&quot;)"
-                        class="px-4 py-2 rounded-xl bg-appetite-700 hover:bg-appetite-800 text-white font-bold text-xs flex items-center gap-2 transition-all shadow-md shadow-appetite-800/20">
+                <button onclick="window.openCartDrawer()"
+                    data-blueprint-file="WackyStore.WebUI/Views/Cart/Summary.cshtml"
+                    data-blueprint-role="Custom Model-Bound Cart Partial" data-blueprint-layer="WebUI / View Component"
+                    data-blueprint-dom="Interactive cart widget with vibrant teal background and count pill badge."
+                    data-blueprint-desc="CartModelBinder automatically extracts the user's Cart from Session and injects it into controller methods without manual session casting."
+                    data-blueprint-code="@Html.Action(&quot;Summary&quot;, &quot;Cart&quot;)"
+                    class="px-4 py-2 rounded-xl bg-appetite-700 hover:bg-appetite-800 text-white font-bold text-xs flex items-center gap-2 transition-all shadow-md shadow-appetite-800/20">
                     <i class="fa-solid fa-cart-shopping text-honey-300"></i>
                     <span class="hidden sm:inline">Cart:</span>
                     <span id="header-cart-total" class="font-mono text-honey-200 font-extrabold">$0.00</span>
-                    <span id="header-cart-count" class="h-5 min-w-5 px-1.5 rounded-full bg-honey-400 text-earth-950 font-black text-[10px] flex items-center justify-center shadow-xs">0</span>
+                    <span id="header-cart-count"
+                        class="h-5 min-w-5 px-1.5 rounded-full bg-honey-400 text-earth-950 font-black text-[10px] flex items-center justify-center shadow-xs">0</span>
                 </button>
-                
-                <!-- Minigame Trigger (Purple Dice) -->
-                <button onclick="window.triggerMinigame()"
-                        id="header-luck-btn"
-                        class="px-3.5 py-2 rounded-xl bg-appetite-700 hover:bg-appetite-800 text-white text-xs font-bold flex items-center justify-center transition-all shadow-md shadow-appetite-800/20"
-                        title="Press Your Luck">
-                    <i class="fa-solid fa-dice text-lg" id="headerSpinIcon"></i>
-                </button>
+
 
 
                 <!-- Blog Reading Portal Trigger -->
-                <button onclick="window.toggleViewStoreBlog()"
-                        id="header-blog-btn"
-                        class="px-3.5 py-2 rounded-xl bg-white border border-canvas-border hover:border-earth-700 text-earth-800 hover:text-earth-900 text-xs font-bold flex items-center gap-1.5 transition-all shadow-xs"
-                        title="Read The Mischief Gazette">
+                <button onclick="window.toggleViewStoreBlog()" id="header-blog-btn"
+                    class="px-3.5 py-2 rounded-xl bg-white border border-canvas-border hover:border-earth-700 text-earth-800 hover:text-earth-900 text-xs font-bold flex items-center gap-1.5 transition-all shadow-xs"
+                    title="Read The Mischief Gazette">
                     <i class="fa-solid fa-newspaper text-earth-700"></i>
                     <span id="headerBlogText" class="hidden sm:inline">The Wacky Blog</span>
                 </button>
@@ -687,31 +700,32 @@
     <!-- 3. MAIN STORE LAYOUT (Full Horizontal Width with Left Category & Filter Sidebar) -->
     <main id="store-main-view" class="bg-canvas-base text-earth-950 py-8 flex-1 w-full">
         <div class="store-fluid-container">
-            
+
             <!-- Side-by-Side Flex Layout: Left Sidebar + Right Product Catalog -->
             <div class="flex flex-col lg:flex-row gap-8 items-start w-full">
-                
+
                 <!-- ============================================================================== -->
                 <!-- LEFT FILTER SIDEBAR (Categories, Price Range, Ratings & Perks) -->
                 <!-- ============================================================================== -->
                 <aside class="w-full lg:w-72 xl:w-80 shrink-0 space-y-6 lg:sticky lg:top-24"
-                       data-blueprint-file="WackyStore.WebUI/Views/Nav/Menu.cshtml"
-                       data-blueprint-role="Category Navigation &amp; Filter Sidebar Partial"
-                       data-blueprint-layer="WebUI / Partial View &amp; Navigation"
-                       data-blueprint-dom="Semantic <aside> filter sidebar containing category buttons, price filters, rating filters, and active indicators."
-                       data-blueprint-desc="NavController.Menu() returns the distinct category list from IProductRepository and highlights the active route category."
-                       data-blueprint-code="@Html.Action(&quot;Menu&quot;, &quot;Nav&quot;, new { category = ViewBag.SelectedCategory })">
-                    
+                    data-blueprint-file="WackyStore.WebUI/Views/Nav/Menu.cshtml"
+                    data-blueprint-role="Category Navigation &amp; Filter Sidebar Partial"
+                    data-blueprint-layer="WebUI / Partial View &amp; Navigation"
+                    data-blueprint-dom="Semantic <aside> filter sidebar containing category buttons, price filters, rating filters, and active indicators."
+                    data-blueprint-desc="NavController.Menu() returns the distinct category list from IProductRepository and highlights the active route category."
+                    data-blueprint-code="@Html.Action(&quot;Menu&quot;, &quot;Nav&quot;, new { category = ViewBag.SelectedCategory })">
+
                     <!-- Sidebar Card Container -->
                     <div class="bg-white border border-canvas-border rounded-2xl p-5 space-y-6 shadow-xs">
-                        
+
                         <!-- Sidebar Header -->
                         <div class="flex items-center justify-between border-b border-canvas-border pb-3.5">
                             <div class="flex items-center gap-2 font-heading font-black text-base text-earth-950">
                                 <i class="fa-solid fa-filter text-appetite-700"></i>
                                 <span>Filter Oddities</span>
                             </div>
-                            <button onclick="window.resetFilters()" class="text-xs text-honey-800 hover:text-earth-950 font-semibold transition-colors flex items-center gap-1">
+                            <button onclick="window.resetFilters()"
+                                class="text-xs text-honey-800 hover:text-earth-950 font-semibold transition-colors flex items-center gap-1">
                                 <i class="fa-solid fa-rotate-left text-[10px]"></i>
                                 <span>Reset</span>
                             </button>
@@ -719,7 +733,8 @@
 
                         <!-- 1. CATEGORIES FILTER SECTION -->
                         <div class="space-y-2.5">
-                            <div class="text-[11px] font-mono font-bold uppercase tracking-wider text-earth-500 flex items-center justify-between">
+                            <div
+                                class="text-[11px] font-mono font-bold uppercase tracking-wider text-earth-500 flex items-center justify-between">
                                 <span>Categories</span>
                                 <span class="text-[10px] text-earth-400">Linq .Distinct()</span>
                             </div>
@@ -731,38 +746,51 @@
 
                         <!-- 2. PRICE RANGE FILTER SECTION -->
                         <div class="space-y-3 pt-4 border-t border-canvas-border">
-                            <div class="text-[11px] font-mono font-bold uppercase tracking-wider text-earth-500 flex items-center justify-between">
+                            <div
+                                class="text-[11px] font-mono font-bold uppercase tracking-wider text-earth-500 flex items-center justify-between">
                                 <span>Price Range</span>
                                 <span id="price-filter-label" class="text-honey-900 font-bold text-xs">All Prices</span>
                             </div>
 
                             <div class="space-y-1.5 text-xs">
-                                <label class="flex items-center justify-between p-2 rounded-xl hover:bg-canvas-surface cursor-pointer transition-colors">
+                                <label
+                                    class="flex items-center justify-between p-2 rounded-xl hover:bg-canvas-surface cursor-pointer transition-colors">
                                     <span class="flex items-center gap-2 text-earth-800 font-medium">
-                                        <input type="radio" name="price-filter" value="all" checked onchange="window.setPriceFilter('all')" class="text-appetite-700 focus:ring-appetite-500">
+                                        <input type="radio" name="price-filter" value="all" checked
+                                            onchange="window.setPriceFilter('all')"
+                                            class="text-appetite-700 focus:ring-appetite-500">
                                         <span>All Prices</span>
                                     </span>
                                 </label>
 
-                                <label class="flex items-center justify-between p-2 rounded-xl hover:bg-canvas-surface cursor-pointer transition-colors">
+                                <label
+                                    class="flex items-center justify-between p-2 rounded-xl hover:bg-canvas-surface cursor-pointer transition-colors">
                                     <span class="flex items-center gap-2 text-earth-800 font-medium">
-                                        <input type="radio" name="price-filter" value="under-15" onchange="window.setPriceFilter('under-15')" class="text-appetite-700 focus:ring-appetite-500">
+                                        <input type="radio" name="price-filter" value="under-15"
+                                            onchange="window.setPriceFilter('under-15')"
+                                            class="text-appetite-700 focus:ring-appetite-500">
                                         <span>Under $15.00</span>
                                     </span>
                                     <span class="text-[10px] font-mono text-earth-400">Budget</span>
                                 </label>
 
-                                <label class="flex items-center justify-between p-2 rounded-xl hover:bg-canvas-surface cursor-pointer transition-colors">
+                                <label
+                                    class="flex items-center justify-between p-2 rounded-xl hover:bg-canvas-surface cursor-pointer transition-colors">
                                     <span class="flex items-center gap-2 text-earth-800 font-medium">
-                                        <input type="radio" name="price-filter" value="15-25" onchange="window.setPriceFilter('15-25')" class="text-appetite-700 focus:ring-appetite-500">
+                                        <input type="radio" name="price-filter" value="15-25"
+                                            onchange="window.setPriceFilter('15-25')"
+                                            class="text-appetite-700 focus:ring-appetite-500">
                                         <span>$15.00 &ndash; $25.00</span>
                                     </span>
                                     <span class="text-[10px] font-mono text-earth-400">Standard</span>
                                 </label>
 
-                                <label class="flex items-center justify-between p-2 rounded-xl hover:bg-canvas-surface cursor-pointer transition-colors">
+                                <label
+                                    class="flex items-center justify-between p-2 rounded-xl hover:bg-canvas-surface cursor-pointer transition-colors">
                                     <span class="flex items-center gap-2 text-earth-800 font-medium">
-                                        <input type="radio" name="price-filter" value="over-25" onchange="window.setPriceFilter('over-25')" class="text-appetite-700 focus:ring-appetite-500">
+                                        <input type="radio" name="price-filter" value="over-25"
+                                            onchange="window.setPriceFilter('over-25')"
+                                            class="text-appetite-700 focus:ring-appetite-500">
                                         <span>$25.00 &amp; Above</span>
                                     </span>
                                     <span class="text-[10px] font-mono text-earth-400"></span>
@@ -777,13 +805,16 @@
                             </div>
 
                             <div class="flex flex-wrap gap-1.5 text-xs">
-                                <button onclick="window.setRatingFilter(0)" id="rating-btn-all" class="px-2.5 py-1 rounded-lg border border-appetite-700 bg-appetite-700 text-white font-bold text-xs transition-all">
+                                <button onclick="window.setRatingFilter(0)" id="rating-btn-all"
+                                    class="px-2.5 py-1 rounded-lg border border-appetite-700 bg-appetite-700 text-white font-bold text-xs transition-all">
                                     All
                                 </button>
-                                <button onclick="window.setRatingFilter(4.8)" id="rating-btn-48" class="px-2.5 py-1 rounded-lg border border-canvas-border bg-white hover:bg-canvas-surface text-earth-800 text-xs font-semibold transition-all">
+                                <button onclick="window.setRatingFilter(4.8)" id="rating-btn-48"
+                                    class="px-2.5 py-1 rounded-lg border border-canvas-border bg-white hover:bg-canvas-surface text-earth-800 text-xs font-semibold transition-all">
                                     4.8★ &amp; up
                                 </button>
-                                <button onclick="window.setRatingFilter(4.6)" id="rating-btn-46" class="px-2.5 py-1 rounded-lg border border-canvas-border bg-white hover:bg-canvas-surface text-earth-800 text-xs font-semibold transition-all">
+                                <button onclick="window.setRatingFilter(4.6)" id="rating-btn-46"
+                                    class="px-2.5 py-1 rounded-lg border border-canvas-border bg-white hover:bg-canvas-surface text-earth-800 text-xs font-semibold transition-all">
                                     4.6★ &amp; up
                                 </button>
                             </div>
@@ -796,7 +827,8 @@
                                 <span>Free Shipping Threshold</span>
                             </div>
                             <p class="text-[11px] text-earth-600 leading-relaxed">
-                                Add $35.00 of bizarre gadgets to your cart for automated free 2-day delivery across all regions.
+                                Add $35.00 of bizarre gadgets to your cart for automated free 2-day delivery across all
+                                regions.
                             </p>
                         </div>
 
@@ -808,35 +840,40 @@
                 <!-- RIGHT PRODUCT CATALOG & CONTROLS -->
                 <!-- ============================================================================== -->
                 <div class="flex-1 min-w-0 space-y-6">
-                    
+
                     <!-- Catalog Header & Sorting Controls -->
                     <div class="bg-white border border-canvas-border rounded-2xl p-5 flex items-center justify-between flex-wrap gap-4 shadow-xs"
-                         data-blueprint-file="WackyStore.WebUI/Models/ProductsListViewModel.cs"
-                         data-blueprint-role="Catalog ViewModel &amp; Query Controls"
-                         data-blueprint-layer="WebUI / ViewModel"
-                         data-blueprint-dom="Responsive flex container with items-center alignment, status text counters, and custom dropdown styling."
-                         data-blueprint-desc="ProductsListViewModel encapsulates the IEnumerable<Product> collection, CurrentCategory, and PagingInfo object passed to the List.cshtml view."
-                         data-blueprint-code="public class ProductsListViewModel { public IEnumerable<Product> Products { get; set; } public PagingInfo PagingInfo { get; set; } public string CurrentCategory { get; set; } }">
-                        
+                        data-blueprint-file="WackyStore.WebUI/Models/ProductsListViewModel.cs"
+                        data-blueprint-role="Catalog ViewModel &amp; Query Controls"
+                        data-blueprint-layer="WebUI / ViewModel"
+                        data-blueprint-dom="Responsive flex container with items-center alignment, status text counters, and custom dropdown styling."
+                        data-blueprint-desc="ProductsListViewModel encapsulates the IEnumerable<Product> collection, CurrentCategory, and PagingInfo object passed to the List.cshtml view."
+                        data-blueprint-code="public class ProductsListViewModel { public IEnumerable<Product> Products { get; set; } public PagingInfo PagingInfo { get; set; } public string CurrentCategory { get; set; } }">
+
                         <div>
                             <div class="flex items-center gap-2">
                                 <span class="h-2 w-2 rounded-full bg-appetite-600 inline-block animate-pulse"></span>
-                                <span class="text-[11px] font-mono text-earth-500 uppercase tracking-wider font-semibold">Active Category:</span>
+                                <span
+                                    class="text-[11px] font-mono text-earth-500 uppercase tracking-wider font-semibold">Active
+                                    Category:</span>
                             </div>
-                            <h2 id="active-category-title" class="font-heading font-black text-2xl sm:text-3xl text-earth-950 tracking-tight mt-0.5">
+                            <h2 id="active-category-title"
+                                class="font-heading font-black text-2xl sm:text-3xl text-earth-950 tracking-tight mt-0.5">
                                 All Bizarre Gadgets &amp; Novelties
                             </h2>
                             <p class="text-xs text-earth-600 mt-1">
-                                Showing <strong id="visible-count" class="text-honey-900 font-bold">12</strong> items ready for immediate dispatch
+                                Showing <strong id="visible-count" class="text-honey-900 font-bold">12</strong> items
+                                ready for immediate dispatch
                             </p>
                         </div>
 
                         <!-- Sorting Selector & Mobile Filter Trigger -->
                         <div class="flex items-center gap-3 text-xs">
                             <div class="flex items-center gap-2">
-                                <label for="sort-select" class="text-earth-700 font-bold hidden sm:inline">Sort By:</label>
-                                <select id="sort-select" onchange="window.handleSortChange()" 
-                                        class="bg-white border border-canvas-border rounded-xl px-3.5 py-2 text-xs text-earth-900 focus:outline-none focus:border-honey-700 focus:ring-2 focus:ring-honey-300/40 font-semibold cursor-pointer shadow-xs">
+                                <label for="sort-select" class="text-earth-700 font-bold hidden sm:inline">Sort
+                                    By:</label>
+                                <select id="sort-select" onchange="window.handleSortChange()"
+                                    class="bg-white border border-canvas-border rounded-xl px-3.5 py-2 text-xs text-earth-900 focus:outline-none focus:border-honey-700 focus:ring-2 focus:ring-honey-300/40 font-semibold cursor-pointer shadow-xs">
                                     <option value="default">Featured &bull; Popularity</option>
                                     <option value="price-asc">Price: Low to High</option>
                                     <option value="price-desc">Price: High to Low</option>
@@ -849,24 +886,27 @@
                     </div>
 
                     <!-- PRODUCT CATALOG GRID (Fluid Responsive Grid: 1 to 4 columns) -->
-                    <section id="product-grid-section" 
-                             data-blueprint-file="WackyStore.WebUI/Views/Shared/_ProductSummary.cshtml"
-                             data-blueprint-role="Product Summary Razor Partial"
-                             data-blueprint-layer="WebUI / Partial View"
-                             data-blueprint-dom="CSS Grid container spanning full horizontal space (grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6)."
-                             data-blueprint-desc="Rendered for each item in Model.Products. Maps Domain.Entities.Product properties (ProductID, Name, Description, Price, Category, ImageData) to HTML markup."
-                             data-blueprint-code="@model WackyStore.Domain.Entities.Product">
-                        
-                        <div id="product-grid" class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 2xl:grid-cols-4 gap-6">
+                    <section id="product-grid-section"
+                        data-blueprint-file="WackyStore.WebUI/Views/Shared/_ProductSummary.cshtml"
+                        data-blueprint-role="Product Summary Razor Partial" data-blueprint-layer="WebUI / Partial View"
+                        data-blueprint-dom="CSS Grid container spanning full horizontal space (grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6)."
+                        data-blueprint-desc="Rendered for each item in Model.Products. Maps Domain.Entities.Product properties (ProductID, Name, Description, Price, Category, ImageData) to HTML markup."
+                        data-blueprint-code="@model WackyStore.Domain.Entities.Product">
+
+                        <div id="product-grid"
+                            class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 2xl:grid-cols-4 gap-6">
                             <!-- Products injected dynamically via JS -->
                         </div>
 
                         <!-- Empty State -->
-                        <div id="empty-state" class="hidden bg-white border border-canvas-border rounded-2xl p-12 text-center space-y-4 max-w-md mx-auto shadow-sm my-6">
+                        <div id="empty-state"
+                            class="hidden bg-white border border-canvas-border rounded-2xl p-12 text-center space-y-4 max-w-md mx-auto shadow-sm my-6">
                             <div class="text-4xl text-honey-700">🔍</div>
                             <h3 class="font-heading font-bold text-lg text-earth-950">No Gadgets Found</h3>
-                            <p class="text-xs text-earth-600 leading-relaxed">No bizarre items match your active filters. Try adjusting price range or keyword search.</p>
-                            <button onclick="window.resetFilters()" class="px-5 py-2.5 rounded-xl bg-appetite-700 text-white font-bold text-xs hover:bg-appetite-800 transition-all shadow-md">
+                            <p class="text-xs text-earth-600 leading-relaxed">No bizarre items match your active
+                                filters. Try adjusting price range or keyword search.</p>
+                            <button onclick="window.resetFilters()"
+                                class="px-5 py-2.5 rounded-xl bg-appetite-700 text-white font-bold text-xs hover:bg-appetite-800 transition-all shadow-md">
                                 Reset Filter &amp; Show All Oddities
                             </button>
                         </div>
@@ -875,13 +915,12 @@
 
                     <!-- PAGINATION BAR -->
                     <div class="bg-white border border-canvas-border rounded-2xl p-4 flex items-center justify-between flex-wrap gap-4 shadow-xs"
-                         data-blueprint-file="WackyStore.WebUI/HtmlHelpers/PagingHelpers.cs"
-                         data-blueprint-role="Custom Razor HTML Helper"
-                         data-blueprint-layer="WebUI / HtmlHelpers"
-                         data-blueprint-dom="Flex container displaying pagination status label and dynamic button list."
-                         data-blueprint-desc="The @Html.PageLinks() custom HTML extension method calculates PagingInfo (TotalPages, CurrentPage) and builds SEO-optimized anchor links with proper query strings."
-                         data-blueprint-code="public static MvcHtmlString PageLinks(this HtmlHelper html, PagingInfo pagingInfo, Func<int, string> pageUrl) { ... }">
-                        
+                        data-blueprint-file="WackyStore.WebUI/HtmlHelpers/PagingHelpers.cs"
+                        data-blueprint-role="Custom Razor HTML Helper" data-blueprint-layer="WebUI / HtmlHelpers"
+                        data-blueprint-dom="Flex container displaying pagination status label and dynamic button list."
+                        data-blueprint-desc="The @Html.PageLinks() custom HTML extension method calculates PagingInfo (TotalPages, CurrentPage) and builds SEO-optimized anchor links with proper query strings."
+                        data-blueprint-code="public static MvcHtmlString PageLinks(this HtmlHelper html, PagingInfo pagingInfo, Func<int, string> pageUrl) { ... }">
+
                         <div class="text-xs text-earth-600 flex items-center gap-2">
                             <i class="fa-solid fa-list-ol text-honey-700"></i>
                             <span id="page-info-label" class="font-semibold text-earth-800">Page 1 of 2</span>
@@ -901,47 +940,64 @@
     </main>
 
     <!-- 3.4 PRESS YOUR LUCK LAYOUT -->
-    <main id="luck-main-view" class="bg-white text-earth-950 py-16 flex-1 w-full hidden flex-col items-center justify-center min-h-[80vh]">
-        <div class="w-full max-w-2xl px-4 space-y-6 flex flex-col items-center">
+    <main id="luck-main-view"
+        class="bg-white text-earth-950 py-16 flex-1 w-full hidden flex-col items-center justify-center min-h-[80vh]">
+        <div class="w-full max-w-5xl px-4 space-y-6 flex flex-col items-center">
 
 
             <!-- Press Your Luck Board Container -->
-            <div id="prize-luck-board" class="relative w-full mx-auto my-6 grid grid-cols-3 gap-3 sm:gap-4 p-4 sm:p-6 bg-earth-900 rounded-2xl border-4 border-earth-800 shadow-2xl">
+            <div id="prize-luck-board"
+                class="relative w-full mx-auto my-6 grid grid-cols-3 gap-3 sm:gap-4 p-4 sm:p-6 bg-earth-900 rounded-2xl border-4 border-earth-800 shadow-2xl">
                 <!-- Squares -->
-                <div class="luck-sq aspect-square bg-earth-800 rounded-xl flex items-center justify-center text-center font-black text-white text-sm sm:text-lg border-2 border-earth-700 transition-all shadow-md" data-prize="10% OFF" data-prize-idx="0">10% OFF</div>
-                <div class="luck-sq aspect-square bg-earth-800 rounded-xl flex items-center justify-center text-center font-black text-white text-sm sm:text-lg border-2 border-earth-700 transition-all shadow-md" data-prize="TRY AGAIN" data-prize-idx="1">TRY AGAIN</div>
-                <div class="luck-sq aspect-square bg-earth-800 rounded-xl flex items-center justify-center text-center font-black text-white text-sm sm:text-lg border-2 border-earth-700 transition-all shadow-md" data-prize="15% OFF" data-prize-idx="2">15% OFF</div>
-                
-                <div class="luck-sq aspect-square bg-earth-800 rounded-xl flex items-center justify-center text-center font-black text-white text-sm sm:text-lg border-2 border-earth-700 transition-all shadow-md" data-prize="10% OFF" data-prize-idx="7">10% OFF</div>
-                
-                <button id="spin-wheel-btn" onclick="window.playPressYourLuckGame()" class="aspect-square bg-teal-500 rounded-xl flex items-center justify-center text-center font-black text-white text-xl border-4 border-white shadow-[0_0_15px_rgba(20,184,166,0.5)] overflow-hidden cursor-pointer hover:scale-105 transition-transform active:scale-95">
-                    <i class="fa-solid fa-dice text-5xl sm:text-6xl"></i>
+                <div class="luck-sq aspect-square bg-earth-800 rounded-xl flex items-center justify-center text-center font-black text-white text-sm sm:text-2xl border-2 border-earth-700 transition-all shadow-[0_0_15px_rgba(20,184,166,0.3)]"
+                    data-prize="10% OFF" data-prize-idx="0">10% OFF</div>
+                <div class="luck-sq aspect-square bg-earth-800 rounded-xl flex items-center justify-center text-center font-black text-white text-sm sm:text-2xl border-2 border-earth-700 transition-all shadow-[0_0_15px_rgba(20,184,166,0.3)]"
+                    data-prize="TRY AGAIN" data-prize-idx="1">TRY AGAIN</div>
+                <div class="luck-sq aspect-square bg-earth-800 rounded-xl flex items-center justify-center text-center font-black text-white text-sm sm:text-2xl border-2 border-earth-700 transition-all shadow-[0_0_15px_rgba(20,184,166,0.3)]"
+                    data-prize="15% OFF" data-prize-idx="2">15% OFF</div>
+
+                <div class="luck-sq aspect-square bg-earth-800 rounded-xl flex items-center justify-center text-center font-black text-white text-sm sm:text-2xl border-2 border-earth-700 transition-all shadow-[0_0_15px_rgba(20,184,166,0.3)]"
+                    data-prize="10% OFF" data-prize-idx="7">10% OFF</div>
+
+                <button id="spin-wheel-btn" onclick="window.playPressYourLuckGame()"
+                    class="aspect-square bg-teal-500 rounded-xl flex items-center justify-center text-center font-black text-white text-xl border-4 border-white shadow-[0_0_20px_rgba(20,184,166,0.8)] overflow-hidden cursor-pointer hover:scale-105 transition-transform active:scale-95">
+                    <i class="fa-solid fa-dice text-5xl sm:text-7xl"></i>
                 </button>
-                
-                <div class="luck-sq aspect-square bg-earth-800 rounded-xl flex items-center justify-center text-center font-black text-white text-sm sm:text-lg border-2 border-earth-700 transition-all shadow-md" data-prize="20% OFF" data-prize-idx="3">20% OFF</div>
-                
-                <div class="luck-sq aspect-square bg-earth-800 rounded-xl flex items-center justify-center text-center font-black text-white text-sm sm:text-lg border-2 border-earth-700 transition-all shadow-md" data-prize="50% OFF!" data-prize-idx="6">50% OFF!</div>
-                <div class="luck-sq aspect-square bg-earth-800 rounded-xl flex items-center justify-center text-center font-black text-white text-sm sm:text-lg border-2 border-earth-700 transition-all shadow-md" data-prize="TRY AGAIN" data-prize-idx="5">TRY AGAIN</div>
-                <div class="luck-sq aspect-square bg-earth-800 rounded-xl flex items-center justify-center text-center font-black text-white text-sm sm:text-lg border-2 border-earth-700 transition-all shadow-md" data-prize="10% OFF" data-prize-idx="4">10% OFF</div>
+
+                <div class="luck-sq aspect-square bg-earth-800 rounded-xl flex items-center justify-center text-center font-black text-white text-sm sm:text-2xl border-2 border-earth-700 transition-all shadow-[0_0_15px_rgba(20,184,166,0.3)]"
+                    data-prize="20% OFF" data-prize-idx="3">20% OFF</div>
+
+                <div class="luck-sq aspect-square bg-earth-800 rounded-xl flex items-center justify-center text-center font-black text-white text-sm sm:text-2xl border-2 border-earth-700 transition-all shadow-[0_0_15px_rgba(20,184,166,0.3)]"
+                    data-prize="50% OFF!" data-prize-idx="6">50% OFF!</div>
+                <div class="luck-sq aspect-square bg-earth-800 rounded-xl flex items-center justify-center text-center font-black text-white text-sm sm:text-2xl border-2 border-earth-700 transition-all shadow-[0_0_15px_rgba(20,184,166,0.3)]"
+                    data-prize="TRY AGAIN" data-prize-idx="5">TRY AGAIN</div>
+                <div class="luck-sq aspect-square bg-earth-800 rounded-xl flex items-center justify-center text-center font-black text-white text-sm sm:text-2xl border-2 border-earth-700 transition-all shadow-[0_0_15px_rgba(20,184,166,0.3)]"
+                    data-prize="10% OFF" data-prize-idx="4">10% OFF</div>
             </div>
 
             <!-- Result Announcement Banner -->
-            <div id="prize-result-box" class="hidden p-6 rounded-2xl bg-earth-800 border border-earth-700 space-y-3 animate-rise-up text-center shadow-xl w-full">
+            <div id="prize-result-box"
+                class="hidden p-6 rounded-2xl bg-earth-800 border border-earth-700 space-y-3 animate-rise-up text-center shadow-xl w-full">
                 <div id="prize-result-title" class="font-heading font-black text-2xl text-white"></div>
                 <div id="prize-result-desc" class="text-sm text-earth-300"></div>
-                <div id="prize-coupon-code-container" class="hidden flex flex-col items-center justify-center gap-3 pt-2">
+                <div id="prize-coupon-code-container"
+                    class="hidden flex flex-col items-center justify-center gap-3 pt-2">
                     <div class="flex items-center gap-3">
-                        <span id="prize-coupon-badge" class="px-5 py-2 rounded-xl bg-appetite-700 text-white font-mono font-black text-lg tracking-widest shadow-md"></span>
-                        <button onclick="window.copyCouponCode()" class="px-4 py-2 rounded-xl bg-earth-700 hover:bg-earth-600 text-white font-bold text-sm transition-all border border-earth-500">
+                        <span id="prize-coupon-badge"
+                            class="px-5 py-2 rounded-xl bg-appetite-700 text-white font-mono font-black text-lg tracking-widest shadow-md"></span>
+                        <button onclick="window.copyCouponCode()"
+                            class="px-4 py-2 rounded-xl bg-earth-700 hover:bg-earth-600 text-white font-bold text-sm transition-all border border-earth-500">
                             <i class="fa-solid fa-copy mr-1"></i> Copy
                         </button>
                     </div>
-                    <button onclick="window.returnToStore()" class="mt-4 px-6 py-3 rounded-xl bg-teal-500 hover:bg-teal-600 text-white font-bold text-base transition-all shadow-lg">
+                    <button onclick="window.returnToStore()"
+                        class="mt-4 px-6 py-3 rounded-xl bg-teal-500 hover:bg-teal-600 text-white font-bold text-base transition-all shadow-lg">
                         <i class="fa-solid fa-shop mr-2"></i> Back to Store
                     </button>
                 </div>
                 <!-- Try again back to store button -->
-                <button id="try-again-back-btn" onclick="window.returnToStore()" class="hidden mx-auto mt-4 px-6 py-3 rounded-xl bg-teal-500 hover:bg-teal-600 text-white font-bold text-base transition-all shadow-lg">
+                <button id="try-again-back-btn" onclick="window.returnToStore()"
+                    class="hidden mx-auto mt-4 px-6 py-3 rounded-xl bg-teal-500 hover:bg-teal-600 text-white font-bold text-base transition-all shadow-lg">
                     <i class="fa-solid fa-shop mr-2"></i> Back to Store
                 </button>
             </div>
@@ -950,39 +1006,44 @@
 
 
     <!-- 3.5 MAIN BLOG LAYOUT (The Mischief Gazette & Wacky Chronicles) -->
-    <main id="blog-main-view" 
-          data-blueprint-file="WackyStore.WebUI/Controllers/BlogController.cs"
-          data-blueprint-role="Blog Index Controller &amp; ViewModel Engine"
-          data-blueprint-layer="WebUI / Blog Portal"
-          data-blueprint-dom="Main container displaying active Wacky Chronicles articles and category filter queries."
-          data-blueprint-desc="BlogController queries IBlogRepository to supply IEnumerable<BlogPost> items to the Index view with category filtering."
-          data-blueprint-code="public ViewResult Index(string cat) => View(repository.GetArticles(cat));"
-          class="bg-canvas-base text-earth-950 py-8 flex-1 w-full hidden">
+    <main id="blog-main-view" data-blueprint-file="WackyStore.WebUI/Controllers/BlogController.cs"
+        data-blueprint-role="Blog Index Controller &amp; ViewModel Engine" data-blueprint-layer="WebUI / Blog Portal"
+        data-blueprint-dom="Main container displaying active Wacky Chronicles articles and category filter queries."
+        data-blueprint-desc="BlogController queries IBlogRepository to supply IEnumerable<BlogPost> items to the Index view with category filtering."
+        data-blueprint-code="public ViewResult Index(string cat) => View(repository.GetArticles(cat));"
+        class="bg-canvas-base text-earth-950 py-8 flex-1 w-full hidden">
         <div class="store-fluid-container space-y-6">
-            
+
             <!-- Blog Header Bar: Category Filters on LEFT, Non-Bold Grey Paragraph Aligned Next to It -->
             <div class="bg-white border border-canvas-border rounded-2xl p-4 flex items-center flex-wrap md:flex-nowrap gap-4 shadow-xs"
-                 data-blueprint-file="WackyStore.WebUI/Models/BlogListViewModel.cs"
-                 data-blueprint-role="Blog Index Header &amp; Filter Bar"
-                 data-blueprint-layer="WebUI / View"
-                 data-blueprint-dom="Combined header container placing category filter pills on the left side-by-side with grey introductory paragraph."
-                 data-blueprint-desc="BlogListViewModel encapsulates Article list, CurrentCategory, and PagingInfo."
-                 data-blueprint-code="public class BlogListViewModel { public IEnumerable<BlogPost> Articles { get; set; } }">
-                
+                data-blueprint-file="WackyStore.WebUI/Models/BlogListViewModel.cs"
+                data-blueprint-role="Blog Index Header &amp; Filter Bar" data-blueprint-layer="WebUI / View"
+                data-blueprint-dom="Combined header container placing category filter pills on the left side-by-side with grey introductory paragraph."
+                data-blueprint-desc="BlogListViewModel encapsulates Article list, CurrentCategory, and PagingInfo."
+                data-blueprint-code="public class BlogListViewModel { public IEnumerable<BlogPost> Articles { get; set; } }">
+
                 <!-- Blog Category Filter Buttons (Left Aligned) -->
                 <div class="flex flex-wrap items-center gap-2 text-xs shrink-0">
-                    <button onclick="window.filterBlogCategory('all')" 
-                            data-blueprint-file="WackyStore.Domain/Abstract/IBlogRepository.cs"
-                            data-blueprint-role="Linq Category Filter Action"
-                            data-blueprint-layer="Domain / Query"
-                            data-blueprint-dom="Pill button triggering .Where(a => category == null || a.Category == cat) query."
-                            data-blueprint-desc="Filters displayed articles by category parameter."
-                            data-blueprint-code="repository.GetArticles('all')"
-                            class="blog-cat-btn px-3.5 py-1.5 rounded-xl font-bold transition-all bg-appetite-700 text-white shadow-xs">All Chronicles</button>
-                    <button onclick="window.filterBlogCategory('Quantum Gastronomy')" class="blog-cat-btn px-3.5 py-1.5 rounded-xl font-bold transition-all bg-canvas-surface hover:bg-canvas-border text-earth-800 border border-canvas-border">Quantum Gastronomy</button>
-                    <button onclick="window.filterBlogCategory('Pet Care & Illusion')" class="blog-cat-btn px-3.5 py-1.5 rounded-xl font-bold transition-all bg-canvas-surface hover:bg-canvas-border text-earth-800 border border-canvas-border">Pet Care</button>
-                    <button onclick="window.filterBlogCategory('Botanical Gossip')" class="blog-cat-btn px-3.5 py-1.5 rounded-xl font-bold transition-all bg-canvas-surface hover:bg-canvas-border text-earth-800 border border-canvas-border">Botanical Gossip</button>
-                    <button onclick="window.filterBlogCategory('Cosmic Anomalies')" class="blog-cat-btn px-3.5 py-1.5 rounded-xl font-bold transition-all bg-canvas-surface hover:bg-canvas-border text-earth-800 border border-canvas-border">Cosmic Anomalies</button>
+                    <button onclick="window.filterBlogCategory('all')"
+                        data-blueprint-file="WackyStore.Domain/Abstract/IBlogRepository.cs"
+                        data-blueprint-role="Linq Category Filter Action" data-blueprint-layer="Domain / Query"
+                        data-blueprint-dom="Pill button triggering .Where(a => category == null || a.Category == cat) query."
+                        data-blueprint-desc="Filters displayed articles by category parameter."
+                        data-blueprint-code="repository.GetArticles('all')"
+                        class="blog-cat-btn px-3.5 py-1.5 rounded-xl font-bold transition-all bg-appetite-700 text-white shadow-xs">All
+                        Chronicles</button>
+                    <button onclick="window.filterBlogCategory('Quantum Gastronomy')"
+                        class="blog-cat-btn px-3.5 py-1.5 rounded-xl font-bold transition-all bg-canvas-surface hover:bg-canvas-border text-earth-800 border border-canvas-border">Quantum
+                        Gastronomy</button>
+                    <button onclick="window.filterBlogCategory('Pet Care & Illusion')"
+                        class="blog-cat-btn px-3.5 py-1.5 rounded-xl font-bold transition-all bg-canvas-surface hover:bg-canvas-border text-earth-800 border border-canvas-border">Pet
+                        Care</button>
+                    <button onclick="window.filterBlogCategory('Botanical Gossip')"
+                        class="blog-cat-btn px-3.5 py-1.5 rounded-xl font-bold transition-all bg-canvas-surface hover:bg-canvas-border text-earth-800 border border-canvas-border">Botanical
+                        Gossip</button>
+                    <button onclick="window.filterBlogCategory('Cosmic Anomalies')"
+                        class="blog-cat-btn px-3.5 py-1.5 rounded-xl font-bold transition-all bg-canvas-surface hover:bg-canvas-border text-earth-800 border border-canvas-border">Cosmic
+                        Anomalies</button>
                 </div>
 
                 <!-- Vertical Divider on md+ screens -->
@@ -990,20 +1051,21 @@
 
                 <!-- Non-Bold Grey Paragraph Aligned Next to Filter Container -->
                 <p class="text-xs sm:text-sm font-normal text-gray-600 leading-relaxed text-left flex-1 m-0">
-                    Welcome to the official field notes, lab documentation, and mischievous user guides for our absurd store inventions! Here you will find scientific breakdowns on dehydrated water, care instructions for invisible chameleons, windowsill botanical gossip, and fluid dynamics for left-handed coffee mugs.
+                    Welcome to the official field notes, lab documentation, and mischievous user guides for our absurd
+                    store inventions! Here you will find scientific breakdowns on dehydrated water, care instructions
+                    for invisible chameleons, windowsill botanical gossip, and fluid dynamics for left-handed coffee
+                    mugs.
                 </p>
 
             </div>
 
             <!-- Blog Posts Grid -->
-            <div id="blog-posts-grid" 
-                 data-blueprint-file="WackyStore.WebUI/Views/Blog/_ArticleSummary.cshtml"
-                 data-blueprint-role="Article Summary Grid Container"
-                 data-blueprint-layer="WebUI / Partial View"
-                 data-blueprint-dom="Fluid CSS Grid container rendering article summary cards."
-                 data-blueprint-desc="Iterates through Model.Articles rendering card previews with full click-to-open reader modal functionality."
-                 data-blueprint-code="@foreach (var item in Model.Articles) { @Html.Partial(&quot;_ArticleSummary&quot;, item) }"
-                 class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 sm:gap-8">
+            <div id="blog-posts-grid" data-blueprint-file="WackyStore.WebUI/Views/Blog/_ArticleSummary.cshtml"
+                data-blueprint-role="Article Summary Grid Container" data-blueprint-layer="WebUI / Partial View"
+                data-blueprint-dom="Fluid CSS Grid container rendering article summary cards."
+                data-blueprint-desc="Iterates through Model.Articles rendering card previews with full click-to-open reader modal functionality."
+                data-blueprint-code="@foreach (var item in Model.Articles) { @Html.Partial(&quot;_ArticleSummary&quot;, item) }"
+                class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 sm:gap-8">
                 <!-- Posts dynamically rendered via JS -->
             </div>
 
@@ -1011,23 +1073,27 @@
     </main>
 
     <!-- 4. CART DRAWER COMPONENT (Off-White & Warm Espresso) -->
-    <div id="cart-drawer-backdrop" class="fixed inset-0 bg-black/60 backdrop-blur-xs z-50 hidden flex justify-end" onclick="if(event.target===this) window.closeCartDrawer()">
+    <div id="cart-drawer-backdrop" class="fixed inset-0 bg-black/60 backdrop-blur-xs z-50 hidden flex justify-end"
+        onclick="if(event.target===this) window.closeCartDrawer()">
         <div class="bg-canvas-base border-l border-canvas-border w-full max-w-md h-full flex flex-col shadow-2xl p-6 space-y-4"
-             data-blueprint-file="WackyStore.WebUI/Views/Cart/Index.cshtml"
-             data-blueprint-role="Shopping Cart View &amp; Domain Cart Engine"
-             data-blueprint-layer="WebUI / View &amp; Domain / Entity"
-             data-blueprint-dom="Off-canvas slide-out drawer utilizing fixed positioning, full viewport height, and flex column layout."
-             data-blueprint-desc="Displays the user's CartLine items. Manipulations invoke Cart.AddItem(), Cart.RemoveLine(), and Cart.ComputeTotalValue() in WackyStore.Domain.Entities.Cart."
-             data-blueprint-code="public class Cart { public void AddItem(Product p, int qty); public void RemoveLine(Product p); public decimal ComputeTotalValue(); }">
-            
+            data-blueprint-file="WackyStore.WebUI/Views/Cart/Index.cshtml"
+            data-blueprint-role="Shopping Cart View &amp; Domain Cart Engine"
+            data-blueprint-layer="WebUI / View &amp; Domain / Entity"
+            data-blueprint-dom="Off-canvas slide-out drawer utilizing fixed positioning, full viewport height, and flex column layout."
+            data-blueprint-desc="Displays the user's CartLine items. Manipulations invoke Cart.AddItem(), Cart.RemoveLine(), and Cart.ComputeTotalValue() in WackyStore.Domain.Entities.Cart."
+            data-blueprint-code="public class Cart { public void AddItem(Product p, int qty); public void RemoveLine(Product p); public decimal ComputeTotalValue(); }">
+
             <!-- Cart Header -->
             <div class="flex items-center justify-between border-b border-canvas-border pb-4">
                 <div class="flex items-center gap-2.5">
                     <i class="fa-solid fa-cart-shopping text-appetite-700 text-lg"></i>
                     <h3 class="font-heading font-black text-xl text-earth-950">Cart</h3>
-                    <span id="drawer-cart-count-badge" class="px-2.5 py-0.5 rounded-full bg-honey-100 border border-honey-300 text-honey-900 text-xs font-bold">0 items</span>
+                    <span id="drawer-cart-count-badge"
+                        class="px-2.5 py-0.5 rounded-full bg-honey-100 border border-honey-300 text-honey-900 text-xs font-bold">0
+                        items</span>
                 </div>
-                <button onclick="window.closeCartDrawer()" class="text-earth-500 hover:text-earth-950 p-1 rounded-lg hover:bg-canvas-surface transition-colors">
+                <button onclick="window.closeCartDrawer()"
+                    class="text-earth-500 hover:text-earth-950 p-1 rounded-lg hover:bg-canvas-surface transition-colors">
                     <i class="fa-solid fa-xmark text-lg"></i>
                 </button>
             </div>
@@ -1035,11 +1101,13 @@
             <!-- Free Shipping Progress Tracker -->
             <div class="bg-white p-3.5 rounded-xl border border-canvas-border space-y-2 text-xs shadow-xs">
                 <div class="flex justify-between items-center text-xs">
-                    <span id="shipping-progress-text" class="text-earth-700 font-medium">Add $35.00 for Free 2-Day Shipping</span>
+                    <span id="shipping-progress-text" class="text-earth-700 font-medium">Add $35.00 for Free 2-Day
+                        Shipping</span>
                     <span id="shipping-status-badge" class="text-honey-900 font-bold">$35.00 Left</span>
                 </div>
                 <div class="w-full bg-canvas-surface h-2 rounded-full overflow-hidden border border-canvas-border">
-                    <div id="shipping-progress-bar" class="bg-appetite-700 h-full w-0 transition-all duration-300"></div>
+                    <div id="shipping-progress-bar" class="bg-appetite-700 h-full w-0 transition-all duration-300">
+                    </div>
                 </div>
             </div>
 
@@ -1058,17 +1126,20 @@
                     <span>Estimated Shipping:</span>
                     <span class="text-appetite-700 font-bold">FREE ($35+ eligible)</span>
                 </div>
-                <div class="flex justify-between text-earth-950 font-black text-base border-t border-canvas-border pt-2">
+                <div
+                    class="flex justify-between text-earth-950 font-black text-base border-t border-canvas-border pt-2">
                     <span>Total Billed:</span>
                     <span id="drawer-total" class="font-mono text-appetite-700">$0.00</span>
                 </div>
 
-                <button onclick="window.openCheckoutModal()" class="w-full py-3 rounded-xl bg-appetite-700 hover:bg-appetite-800 text-white font-bold text-xs flex items-center justify-center gap-2 transition-all shadow-lg shadow-appetite-800/30">
+                <button onclick="window.openCheckoutModal()"
+                    class="w-full py-3 rounded-xl bg-appetite-700 hover:bg-appetite-800 text-white font-bold text-xs flex items-center justify-center gap-2 transition-all shadow-lg shadow-appetite-800/30">
                     <i class="fa-solid fa-lock text-honey-300"></i>
                     <span>Proceed to Checkout</span>
                 </button>
 
-                <button onclick="window.clearCart()" class="w-full py-1.5 text-[11px] text-earth-500 hover:text-rose-600 font-semibold transition-colors text-center">
+                <button onclick="window.clearCart()"
+                    class="w-full py-1.5 text-[11px] text-earth-500 hover:text-rose-600 font-semibold transition-colors text-center">
                     Clear Entire Cart
                 </button>
             </div>
@@ -1077,101 +1148,118 @@
     </div>
 
     <!-- 5. CHECKOUT MODAL (Views/Cart/Checkout.cshtml) -->
-    <div id="checkout-modal-backdrop" class="fixed inset-0 bg-black/60 backdrop-blur-xs z-50 hidden flex items-center justify-center p-4" onclick="if(event.target===this) window.closeCheckoutModal()">
+    <div id="checkout-modal-backdrop"
+        class="fixed inset-0 bg-black/60 backdrop-blur-xs z-50 hidden flex items-center justify-center p-4"
+        onclick="if(event.target===this) window.closeCheckoutModal()">
         <div class="bg-canvas-base border border-canvas-border rounded-2xl max-w-md w-full p-6 space-y-4 shadow-2xl text-earth-950"
-             data-blueprint-file="WackyStore.WebUI/Controllers/CartController.cs"
-             data-blueprint-role="Checkout Action &amp; EmailOrderProcessor"
-             data-blueprint-layer="WebUI / Controller &amp; Domain / OrderProcessor"
-             data-blueprint-dom="Modal dialog with off-white card backgrounds, warm brown borders, and responsive form grid."
-             data-blueprint-desc="Validates ShippingDetails DataAnnotations model state and invokes IOrderProcessor.ProcessOrder() via Ninject dependency injection."
-             data-blueprint-code="[HttpPost] public ViewResult Checkout(Cart cart, ShippingDetails shippingDetails) { ... }">
-            
+            data-blueprint-file="WackyStore.WebUI/Controllers/CartController.cs"
+            data-blueprint-role="Checkout Action &amp; EmailOrderProcessor"
+            data-blueprint-layer="WebUI / Controller &amp; Domain / OrderProcessor"
+            data-blueprint-dom="Modal dialog with off-white card backgrounds, warm brown borders, and responsive form grid."
+            data-blueprint-desc="Validates ShippingDetails DataAnnotations model state and invokes IOrderProcessor.ProcessOrder() via Ninject dependency injection."
+            data-blueprint-code="[HttpPost] public ViewResult Checkout(Cart cart, ShippingDetails shippingDetails) { ... }">
+
             <div class="flex items-center justify-between border-b border-canvas-border pb-3.5">
                 <div class="flex items-center gap-2.5">
                     <i class="fa-solid fa-hat-wizard text-appetite-700 text-lg"></i>
                     <h3 class="font-heading font-black text-xl text-earth-950">Checkout</h3>
                 </div>
-                <button onclick="window.closeCheckoutModal()" class="text-earth-500 hover:text-earth-950 p-1 rounded-lg hover:bg-canvas-surface">
+                <button onclick="window.closeCheckoutModal()"
+                    class="text-earth-500 hover:text-earth-950 p-1 rounded-lg hover:bg-canvas-surface">
                     <i class="fa-solid fa-xmark text-lg"></i>
                 </button>
             </div>
 
-            <form id="checkout-form" onsubmit="event.preventDefault(); window.processCheckout();" class="space-y-3 text-xs">
+            <form id="checkout-form" onsubmit="event.preventDefault(); window.processCheckout();"
+                class="space-y-3 text-xs">
                 <div>
                     <label class="font-bold text-earth-800">Full Name / Head Weirdo *</label>
-                    <input type="text" id="co-name" required value="Alex Oddity" class="w-full bg-white border border-canvas-border rounded-lg px-3 py-2 text-earth-950 mt-1 focus:border-honey-700 focus:outline-none">
+                    <input type="text" id="co-name" required value="Alex Oddity"
+                        class="w-full bg-white border border-canvas-border rounded-lg px-3 py-2 text-earth-950 mt-1 focus:border-honey-700 focus:outline-none">
                 </div>
                 <div>
                     <label class="font-bold text-earth-800">Destination Address *</label>
-                    <input type="text" id="co-address" required value="742 Evergreen Terrace" class="w-full bg-white border border-canvas-border rounded-lg px-3 py-2 text-earth-950 mt-1 focus:border-honey-700 focus:outline-none">
+                    <input type="text" id="co-address" required value="742 Evergreen Terrace"
+                        class="w-full bg-white border border-canvas-border rounded-lg px-3 py-2 text-earth-950 mt-1 focus:border-honey-700 focus:outline-none">
                 </div>
                 <div class="grid grid-cols-2 gap-2">
                     <div>
                         <label class="font-bold text-earth-800">City / Camp *</label>
-                        <input type="text" id="co-city" required value="Boulder" class="w-full bg-white border border-canvas-border rounded-lg px-3 py-2 text-earth-950 mt-1 focus:border-honey-700 focus:outline-none">
+                        <input type="text" id="co-city" required value="Boulder"
+                            class="w-full bg-white border border-canvas-border rounded-lg px-3 py-2 text-earth-950 mt-1 focus:border-honey-700 focus:outline-none">
                     </div>
                     <div>
                         <label class="font-bold text-earth-800">State / Region *</label>
-                        <input type="text" id="co-state" required value="CO" class="w-full bg-white border border-canvas-border rounded-lg px-3 py-2 text-earth-950 mt-1 focus:border-honey-700 focus:outline-none">
+                        <input type="text" id="co-state" required value="CO"
+                            class="w-full bg-white border border-canvas-border rounded-lg px-3 py-2 text-earth-950 mt-1 focus:border-honey-700 focus:outline-none">
                     </div>
                 </div>
 
                 <div class="pt-2 border-t border-canvas-border flex items-center justify-between text-xs font-bold">
                     <span>Total Amount:</span>
-                    <span id="checkout-total-display" class="font-mono text-appetite-700 text-sm font-black">$0.00</span>
+                    <span id="checkout-total-display"
+                        class="font-mono text-appetite-700 text-sm font-black">$0.00</span>
                 </div>
 
-                <button type="submit" class="w-full py-2.5 rounded-xl bg-appetite-700 hover:bg-appetite-800 text-white font-bold text-xs transition-all shadow-md">
+                <button type="submit"
+                    class="w-full py-2.5 rounded-xl bg-appetite-700 hover:bg-appetite-800 text-white font-bold text-xs transition-all shadow-md">
                     Confirm &amp; Place Order
                 </button>
             </form>
         </div>
     </div>
 
-    
+
     <!-- 5.5 PRODUCT DETAILS MODAL -->
-    <div id="product-modal-backdrop" class="fixed inset-0 bg-black/60 backdrop-blur-xs z-50 hidden flex items-center justify-center p-4" onclick="if(event.target===this) window.closeProductModal()">
+    <div id="product-modal-backdrop"
+        class="fixed inset-0 bg-black/60 backdrop-blur-xs z-50 hidden flex items-center justify-center p-4"
+        onclick="if(event.target===this) window.closeProductModal()">
         <div class="bg-canvas-base border border-canvas-border rounded-2xl max-w-2xl w-full flex flex-col md:flex-row overflow-hidden shadow-2xl relative"
-             data-blueprint-file="WackyStore.WebUI/Views/Product/Details.cshtml"
-             data-blueprint-role="Product Details View"
-             data-blueprint-layer="WebUI / View"
-             data-blueprint-dom="Modal with flex layout for image and details, including next/back navigation."
-             data-blueprint-desc="Displays full product details and allows navigation between products."
-             data-blueprint-code="return View(product);">
-             
+            data-blueprint-file="WackyStore.WebUI/Views/Product/Details.cshtml"
+            data-blueprint-role="Product Details View" data-blueprint-layer="WebUI / View"
+            data-blueprint-dom="Modal with flex layout for image and details, including next/back navigation."
+            data-blueprint-desc="Displays full product details and allows navigation between products."
+            data-blueprint-code="return View(product);">
+
             <!-- Close Button -->
-            <button onclick="window.closeProductModal()" class="absolute top-3 right-3 h-8 w-8 rounded-full bg-white/80 hover:bg-white text-earth-900 flex items-center justify-center z-10 transition-colors shadow-sm">
+            <button onclick="window.closeProductModal()"
+                class="absolute top-3 right-3 h-8 w-8 rounded-full bg-white/80 hover:bg-white text-earth-900 flex items-center justify-center z-10 transition-colors shadow-sm">
                 <i class="fa-solid fa-xmark"></i>
             </button>
 
             <!-- Navigation Arrows -->
-            <button onclick="window.modalPrevProduct()" class="absolute top-1/2 left-3 -translate-y-1/2 h-10 w-10 rounded-full bg-white/80 hover:bg-white text-earth-900 flex items-center justify-center z-10 transition-colors shadow-md">
+            <button onclick="window.modalPrevProduct()"
+                class="absolute top-1/2 left-3 -translate-y-1/2 h-10 w-10 rounded-full bg-white/80 hover:bg-white text-earth-900 flex items-center justify-center z-10 transition-colors shadow-md">
                 <i class="fa-solid fa-chevron-left"></i>
             </button>
-            <button onclick="window.modalNextProduct()" class="absolute top-1/2 right-3 -translate-y-1/2 h-10 w-10 rounded-full bg-white/80 hover:bg-white text-earth-900 flex items-center justify-center z-10 transition-colors shadow-md border-r-0 md:border-r md:right-auto md:left-[calc(50%-20px)] lg:left-[calc(50%-20px)] xl:left-[calc(50%-20px)]" style="right: 3px !important;">
+            <button onclick="window.modalNextProduct()"
+                class="absolute top-1/2 right-3 -translate-y-1/2 h-10 w-10 rounded-full bg-white/80 hover:bg-white text-earth-900 flex items-center justify-center z-10 transition-colors shadow-md border-r-0 md:border-r md:right-auto md:left-[calc(50%-20px)] lg:left-[calc(50%-20px)] xl:left-[calc(50%-20px)]"
+                style="right: 3px !important;">
                 <i class="fa-solid fa-chevron-right"></i>
             </button>
 
             <!-- Product Image -->
             <div class="w-full md:w-1/2 bg-canvas-surface relative h-64 md:h-auto">
                 <img id="pm-image" src="" alt="Product" class="w-full h-full object-cover" />
-                <span id="pm-badge" class="absolute top-4 left-4 px-3 py-1.5 rounded-full bg-earth-950/85 backdrop-blur-md text-honey-400 border border-honey-500/30 text-xs font-bold tracking-wide uppercase shadow-sm"></span>
+                <span id="pm-badge"
+                    class="absolute top-4 left-4 px-3 py-1.5 rounded-full bg-earth-950/85 backdrop-blur-md text-honey-400 border border-honey-500/30 text-xs font-bold tracking-wide uppercase shadow-sm"></span>
             </div>
 
             <!-- Product Info -->
             <div class="w-full md:w-1/2 p-6 md:p-8 flex flex-col">
                 <div class="flex items-center gap-2 mb-3">
-                    <span id="pm-category" class="px-2 py-1 rounded-full text-[10px] font-bold tracking-wider uppercase bg-earth-200 text-earth-900"></span>
+                    <span id="pm-category"
+                        class="px-2 py-1 rounded-full text-[10px] font-bold tracking-wider uppercase bg-earth-200 text-earth-900"></span>
                     <div class="flex items-center gap-1 text-honey-600 text-xs">
                         <span>★★★★★</span>
                         <span id="pm-rating" class="text-earth-600 font-medium ml-1"></span>
                     </div>
                 </div>
-                
+
                 <h2 id="pm-name" class="font-heading font-black text-2xl text-earth-950 mb-4 leading-tight"></h2>
-                
+
                 <p id="pm-desc" class="text-earth-600 text-sm leading-relaxed mb-6 flex-1"></p>
-                
+
                 <div class="flex items-end justify-between mb-6">
                     <div>
                         <span id="pm-price" class="text-3xl font-black text-earth-950 font-heading"></span>
@@ -1179,7 +1267,7 @@
                     </div>
                     <span id="pm-stock" class="text-xs text-appetite-700 font-semibold font-mono"></span>
                 </div>
-                
+
                 <div id="pm-action-container">
                     <!-- Action button injected here by JS -->
                 </div>
@@ -1188,16 +1276,18 @@
     </div>
 
     <!-- 6. ORDER RECEIPT MODAL -->
-    <div id="receipt-modal-backdrop" class="fixed inset-0 bg-black/60 backdrop-blur-xs z-50 hidden flex items-center justify-center p-4" onclick="if(event.target===this) window.closeReceiptModal()">
+    <div id="receipt-modal-backdrop"
+        class="fixed inset-0 bg-black/60 backdrop-blur-xs z-50 hidden flex items-center justify-center p-4"
+        onclick="if(event.target===this) window.closeReceiptModal()">
         <div class="bg-canvas-base border border-canvas-border rounded-2xl max-w-sm w-full p-6 text-center space-y-4 shadow-2xl text-earth-950"
-             data-blueprint-file="WackyStore.WebUI/Views/Cart/Completed.cshtml"
-             data-blueprint-role="Order Completed Razor View"
-             data-blueprint-layer="WebUI / View &amp; Domain / Concrete"
-             data-blueprint-dom="Centered modal container with emerald status ring icon and styled receipt data card."
-             data-blueprint-desc="Confirmation view rendered after successful order processing by WackyStore.Domain.Concrete.EmailOrderProcessor.cs."
-             data-blueprint-code="orderProcessor.ProcessOrder(cart, shippingDetails);">
-            
-            <div class="h-14 w-14 rounded-full bg-appetite-100 text-appetite-700 border border-appetite-300 flex items-center justify-center text-2xl mx-auto">
+            data-blueprint-file="WackyStore.WebUI/Views/Cart/Completed.cshtml"
+            data-blueprint-role="Order Completed Razor View" data-blueprint-layer="WebUI / View &amp; Domain / Concrete"
+            data-blueprint-dom="Centered modal container with emerald status ring icon and styled receipt data card."
+            data-blueprint-desc="Confirmation view rendered after successful order processing by WackyStore.Domain.Concrete.EmailOrderProcessor.cs."
+            data-blueprint-code="orderProcessor.ProcessOrder(cart, shippingDetails);">
+
+            <div
+                class="h-14 w-14 rounded-full bg-appetite-100 text-appetite-700 border border-appetite-300 flex items-center justify-center text-2xl mx-auto">
                 <i class="fa-solid fa-check"></i>
             </div>
 
@@ -1225,51 +1315,60 @@
                 </div>
             </div>
 
-            <button onclick="window.closeReceiptModal()" class="w-full py-2.5 rounded-xl bg-earth-900 hover:bg-earth-950 text-white font-bold text-xs transition-all shadow-md">
+            <button onclick="window.closeReceiptModal()"
+                class="w-full py-2.5 rounded-xl bg-earth-900 hover:bg-earth-950 text-white font-bold text-xs transition-all shadow-md">
                 Continue Browsing Catalog
             </button>
         </div>
     </div>
 
     <!-- 7. ADMIN INVENTORY CRUD MODAL -->
-    <div id="admin-modal-backdrop" class="fixed inset-0 bg-black/60 backdrop-blur-xs z-50 hidden flex items-center justify-center p-4" onclick="if(event.target===this) window.closeAdminModal()">
+    <div id="admin-modal-backdrop"
+        class="fixed inset-0 bg-black/60 backdrop-blur-xs z-50 hidden flex items-center justify-center p-4"
+        onclick="if(event.target===this) window.closeAdminModal()">
         <div class="bg-canvas-base border border-canvas-border rounded-2xl max-w-2xl w-full max-h-[85vh] flex flex-col p-6 space-y-4 shadow-2xl text-earth-950"
-             data-blueprint-file="WackyStore.WebUI/Controllers/AdminController.cs"
-             data-blueprint-role="Entity Framework CRUD Portal"
-             data-blueprint-layer="WebUI / Admin &amp; Domain / EF6"
-             data-blueprint-dom="Modal dialog containing catalog table list, add new product form, and action edit buttons."
-             data-blueprint-desc="Demonstrates administrative CRUD workflows mapped to EFProductRepository.SaveProduct() and DeleteProduct()."
-             data-blueprint-code="public ActionResult Edit(int productId) => View(repository.Products.FirstOrDefault(p => p.ProductID == productId));">
-            
+            data-blueprint-file="WackyStore.WebUI/Controllers/AdminController.cs"
+            data-blueprint-role="Entity Framework CRUD Portal" data-blueprint-layer="WebUI / Admin &amp; Domain / EF6"
+            data-blueprint-dom="Modal dialog containing catalog table list, add new product form, and action edit buttons."
+            data-blueprint-desc="Demonstrates administrative CRUD workflows mapped to EFProductRepository.SaveProduct() and DeleteProduct()."
+            data-blueprint-code="public ActionResult Edit(int productId) => View(repository.Products.FirstOrDefault(p => p.ProductID == productId));">
+
             <div class="flex items-center justify-between border-b border-canvas-border pb-3.5">
                 <div class="flex items-center gap-2.5">
                     <i class="fa-solid fa-sliders text-honey-700 text-lg"></i>
                     <h3 class="font-heading font-black text-xl text-earth-950">Admin Catalog Management (EF6 CRUD)</h3>
                 </div>
-                <button onclick="window.closeAdminModal()" class="text-earth-500 hover:text-earth-950 p-1 rounded-lg hover:bg-canvas-surface">
+                <button onclick="window.closeAdminModal()"
+                    class="text-earth-500 hover:text-earth-950 p-1 rounded-lg hover:bg-canvas-surface">
                     <i class="fa-solid fa-xmark text-lg"></i>
                 </button>
             </div>
 
             <!-- New Product Form -->
-            <form id="admin-add-form" onsubmit="event.preventDefault(); window.handleAdminAddProduct();" class="bg-white p-4 rounded-xl border border-canvas-border space-y-3 text-xs">
+            <form id="admin-add-form" onsubmit="event.preventDefault(); window.handleAdminAddProduct();"
+                class="bg-white p-4 rounded-xl border border-canvas-border space-y-3 text-xs">
                 <div class="font-bold text-earth-950 flex items-center gap-1.5">
                     <i class="fa-solid fa-plus text-appetite-700"></i> Add New Gadget to EF Repository
                 </div>
                 <div class="grid grid-cols-1 sm:grid-cols-3 gap-2.5">
-                    <input type="text" id="adm-name" placeholder="Product Name" required class="bg-canvas-surface border border-canvas-border rounded-lg px-3 py-1.5 text-xs text-earth-950 focus:border-honey-700 focus:outline-none">
-                    <select id="adm-cat" required class="bg-canvas-surface border border-canvas-border rounded-lg px-3 py-1.5 text-xs text-earth-950 focus:border-honey-700 focus:outline-none">
+                    <input type="text" id="adm-name" placeholder="Product Name" required
+                        class="bg-canvas-surface border border-canvas-border rounded-lg px-3 py-1.5 text-xs text-earth-950 focus:border-honey-700 focus:outline-none">
+                    <select id="adm-cat" required
+                        class="bg-canvas-surface border border-canvas-border rounded-lg px-3 py-1.5 text-xs text-earth-950 focus:border-honey-700 focus:outline-none">
                         <option value="Bunkums">Bunkums (Useless Machines)</option>
                         <option value="Skuttlebutts">Skuttlebutts (Pranks &amp; Traps)</option>
                         <option value="Balderdash">Balderdash (Illusion &amp; Magic)</option>
                         <option value="Flummery">Flummery (Absurd Apparel)</option>
                         <option value="Codswallop">Codswallop (Questionable Novelties)</option>
                     </select>
-                    <input type="number" step="0.01" id="adm-price" placeholder="Price (USD)" required class="bg-canvas-surface border border-canvas-border rounded-lg px-3 py-1.5 text-xs text-earth-950 focus:border-honey-700 focus:outline-none">
+                    <input type="number" step="0.01" id="adm-price" placeholder="Price (USD)" required
+                        class="bg-canvas-surface border border-canvas-border rounded-lg px-3 py-1.5 text-xs text-earth-950 focus:border-honey-700 focus:outline-none">
                 </div>
-                <input type="text" id="adm-desc" placeholder="Product Description &amp; Technical Specs" required class="w-full bg-canvas-surface border border-canvas-border rounded-lg px-3 py-1.5 text-xs text-earth-950 focus:border-honey-700 focus:outline-none">
+                <input type="text" id="adm-desc" placeholder="Product Description &amp; Technical Specs" required
+                    class="w-full bg-canvas-surface border border-canvas-border rounded-lg px-3 py-1.5 text-xs text-earth-950 focus:border-honey-700 focus:outline-none">
                 <div class="flex justify-end">
-                    <button type="submit" class="px-4 py-1.5 rounded-lg bg-appetite-700 hover:bg-appetite-800 text-white font-bold text-xs flex items-center gap-1.5 transition-all">
+                    <button type="submit"
+                        class="px-4 py-1.5 rounded-lg bg-appetite-700 hover:bg-appetite-800 text-white font-bold text-xs flex items-center gap-1.5 transition-all">
                         <i class="fa-solid fa-floppy-disk"></i>
                         <span>Save to EF Repository</span>
                     </button>
@@ -1288,15 +1387,16 @@
     </div>
 
     <!-- 8. ARCHITECTURE MODAL -->
-    <div id="arch-modal-backdrop" class="fixed inset-0 bg-black/60 backdrop-blur-xs z-50 hidden flex items-center justify-center p-4" onclick="if(event.target===this) window.closeArchitectureModal()">
+    <div id="arch-modal-backdrop"
+        class="fixed inset-0 bg-black/60 backdrop-blur-xs z-50 hidden flex items-center justify-center p-4"
+        onclick="if(event.target===this) window.closeArchitectureModal()">
         <div class="bg-canvas-base border border-canvas-border rounded-2xl max-w-2xl w-full max-h-[85vh] overflow-y-auto p-6 space-y-4 shadow-2xl text-earth-950"
-             data-blueprint-file="WackyStore.Domain/Concrete/EFDbContext.cs"
-             data-blueprint-role="Enterprise Solution Blueprint"
-             data-blueprint-layer="Domain / Entity Framework"
-             data-blueprint-dom="Architecture breakdown modal styled with off-white cards and monospace code blocks."
-             data-blueprint-desc="Demonstrates how clean separation of concerns decouples domain entities from web UI controllers."
-             data-blueprint-code="public class EFDbContext : DbContext { public DbSet<Product> Products { get; set; } }">
-            
+            data-blueprint-file="WackyStore.Domain/Concrete/EFDbContext.cs"
+            data-blueprint-role="Enterprise Solution Blueprint" data-blueprint-layer="Domain / Entity Framework"
+            data-blueprint-dom="Architecture breakdown modal styled with off-white cards and monospace code blocks."
+            data-blueprint-desc="Demonstrates how clean separation of concerns decouples domain entities from web UI controllers."
+            data-blueprint-code="public class EFDbContext : DbContext { public DbSet<Product> Products { get; set; } }">
+
             <div class="flex items-center justify-between border-b border-canvas-border pb-3.5">
                 <div class="flex items-center gap-2.5">
                     <i class="fa-solid fa-sitemap text-appetite-700 text-xl"></i>
@@ -1305,16 +1405,21 @@
                         <p class="text-[11px] text-earth-600">Enterprise N-Tier Solution Architecture Breakdown</p>
                     </div>
                 </div>
-                <button onclick="window.closeArchitectureModal()" class="text-earth-500 hover:text-earth-950 p-1 rounded-lg hover:bg-canvas-surface">
+                <button onclick="window.closeArchitectureModal()"
+                    class="text-earth-500 hover:text-earth-950 p-1 rounded-lg hover:bg-canvas-surface">
                     <i class="fa-solid fa-xmark text-lg"></i>
                 </button>
             </div>
 
             <div class="space-y-5 text-xs">
-                
+
                 <!-- Intro -->
                 <p class="text-[11.5px] text-earth-700 leading-relaxed border-l-2 border-appetite-500 pl-3">
-                    This project embodies the philosophy of <strong>N-Tier Enterprise Architecture</strong>, rooted in the psychological principle of <em>Separation of Concerns</em> (SoC). By isolating the database, the business logic, and the user interface into distinct realms of responsibility, we prevent cognitive overload within the codebase. The application becomes a resilient, self-aware system—highly testable, infinitely scalable, and impervious to the existential threats of framework changes.
+                    This project embodies the philosophy of <strong>N-Tier Enterprise Architecture</strong>, rooted in
+                    the psychological principle of <em>Separation of Concerns</em> (SoC). By isolating the database, the
+                    business logic, and the user interface into distinct realms of responsibility, we prevent cognitive
+                    overload within the codebase. The application becomes a resilient, self-aware system—highly
+                    testable, infinitely scalable, and impervious to the existential threats of framework changes.
                 </p>
 
                 <!-- Section 1: The Domain Layer -->
@@ -1323,16 +1428,28 @@
                         <i class="fa-solid fa-cube text-appetite-600"></i> 1. The Domain Layer (The Unconscious Core)
                     </div>
                     <p class="text-[11.5px] text-earth-700 leading-relaxed mb-2">
-                        The <strong>Domain Layer</strong> exists as the absolute center of truth—the unconscious mind of the architecture. It is entirely agnostic to the external world of web browsers or databases. It simply <em>is</em>. If we stripped away its environment and placed it in a desktop app tomorrow, its identity would remain untouched.
+                        The <strong>Domain Layer</strong> exists as the absolute center of truth—the unconscious mind of
+                        the architecture. It is entirely agnostic to the external world of web browsers or databases. It
+                        simply <em>is</em>. If we stripped away its environment and placed it in a desktop app tomorrow,
+                        its identity would remain untouched.
                     </p>
-                    <ul class="list-disc list-inside space-y-2 pl-1 text-[11.5px] text-earth-700 border-t border-canvas-border pt-3">
+                    <ul
+                        class="list-disc list-inside space-y-2 pl-1 text-[11.5px] text-earth-700 border-t border-canvas-border pt-3">
                         <li class="pl-2 -indent-2">
-                            <strong class="text-earth-950">Rich Domain Models (Entities):</strong> 
-                            Rather than existing as empty vessels waiting for database rows to give them meaning, business logic breathes life into C# objects. For instance, the <code class="bg-earth-100 px-1 rounded text-[10px]">Cart.cs</code> entity possesses the innate knowledge to compute its own totals and manage its internal state, without needing validation from an external controller.
+                            <strong class="text-earth-950">Rich Domain Models (Entities):</strong>
+                            Rather than existing as empty vessels waiting for database rows to give them meaning,
+                            business logic breathes life into C# objects. For instance, the <code
+                                class="bg-earth-100 px-1 rounded text-[10px]">Cart.cs</code> entity possesses the innate
+                            knowledge to compute its own totals and manage its internal state, without needing
+                            validation from an external controller.
                         </li>
                         <li class="pl-2 -indent-2">
-                            <strong class="text-earth-950">The Repository Pattern (Abstractions):</strong> 
-                            The Domain layer projects an ideal interface called <code class="bg-earth-100 px-1 rounded text-[10px]">IProductRepository</code>. It demands <em>what</em> it needs to survive, while remaining blissfully ignorant of <em>where</em> it comes from. This inversion of dependency frees the core logic from the burdensome reality of SQL.
+                            <strong class="text-earth-950">The Repository Pattern (Abstractions):</strong>
+                            The Domain layer projects an ideal interface called <code
+                                class="bg-earth-100 px-1 rounded text-[10px]">IProductRepository</code>. It demands
+                            <em>what</em> it needs to survive, while remaining blissfully ignorant of <em>where</em> it
+                            comes from. This inversion of dependency frees the core logic from the burdensome reality of
+                            SQL.
                         </li>
                     </ul>
                 </div>
@@ -1340,19 +1457,30 @@
                 <!-- Section 2: Data Access Layer (Entity Framework) -->
                 <div class="bg-white p-4 rounded-xl border border-canvas-border space-y-2 shadow-xs">
                     <div class="flex items-center gap-2 text-earth-900 font-bold text-sm">
-                        <i class="fa-solid fa-database text-earth-600"></i> 2. Data Access Layer (The Subconscious Memory)
+                        <i class="fa-solid fa-database text-earth-600"></i> 2. Data Access Layer (The Subconscious
+                        Memory)
                     </div>
                     <p class="text-[11.5px] text-earth-700 leading-relaxed mb-2">
-                        This layer serves as the subconscious memory bank, providing tangible manifestation to our Domain's abstract desires. It acts as the vital synaptic bridge between ephemeral C# thoughts and the permanent reality of Microsoft SQL Server.
+                        This layer serves as the subconscious memory bank, providing tangible manifestation to our
+                        Domain's abstract desires. It acts as the vital synaptic bridge between ephemeral C# thoughts
+                        and the permanent reality of Microsoft SQL Server.
                     </p>
-                    <ul class="list-disc list-inside space-y-2 pl-1 text-[11.5px] text-earth-700 border-t border-canvas-border pt-3">
+                    <ul
+                        class="list-disc list-inside space-y-2 pl-1 text-[11.5px] text-earth-700 border-t border-canvas-border pt-3">
                         <li class="pl-2 -indent-2">
-                            <strong class="text-earth-950">EF DbContext Mapping:</strong> 
-                            The <code class="bg-earth-100 px-1 rounded text-[10px]">EFDbContext</code> acts as the great translator, automatically projecting our idealized C# <code class="bg-earth-100 px-1 rounded text-[10px]">Product</code> entities into rigid SQL tables using Code-First conventions.
+                            <strong class="text-earth-950">EF DbContext Mapping:</strong>
+                            The <code class="bg-earth-100 px-1 rounded text-[10px]">EFDbContext</code> acts as the great
+                            translator, automatically projecting our idealized C# <code
+                                class="bg-earth-100 px-1 rounded text-[10px]">Product</code> entities into rigid SQL
+                            tables using Code-First conventions.
                         </li>
                         <li class="pl-2 -indent-2">
-                            <strong class="text-earth-950">Concrete Repository:</strong> 
-                            The <code class="bg-earth-100 px-1 rounded text-[10px]">EFProductRepository</code> fulfills the existential need of <code class="bg-earth-100 px-1 rounded text-[10px]">IProductRepository</code>, executing highly optimized LINQ-to-Entities queries to retrieve and filter the physical data required to sustain the system.
+                            <strong class="text-earth-950">Concrete Repository:</strong>
+                            The <code class="bg-earth-100 px-1 rounded text-[10px]">EFProductRepository</code> fulfills
+                            the existential need of <code
+                                class="bg-earth-100 px-1 rounded text-[10px]">IProductRepository</code>, executing
+                            highly optimized LINQ-to-Entities queries to retrieve and filter the physical data required
+                            to sustain the system.
                         </li>
                     </ul>
                 </div>
@@ -1363,63 +1491,96 @@
                         <i class="fa-solid fa-desktop text-honey-600"></i> 3. WebUI Layer (The Conscious Persona)
                     </div>
                     <p class="text-[11.5px] text-earth-700 leading-relaxed mb-2">
-                        The Presentation Layer is the outward-facing persona—the mask the application wears to interact with the HTTP universe. It routes external stimuli to the correct cognitive action and returns beautifully formatted HTML Razor views. Psychologically, it is kept intentionally thin and unburdened by deep thought; it contains absolutely zero core business logic.
+                        The Presentation Layer is the outward-facing persona—the mask the application wears to interact
+                        with the HTTP universe. It routes external stimuli to the correct cognitive action and returns
+                        beautifully formatted HTML Razor views. Psychologically, it is kept intentionally thin and
+                        unburdened by deep thought; it contains absolutely zero core business logic.
                     </p>
-                    <ul class="list-disc list-inside space-y-2 pl-1 text-[11.5px] text-earth-700 border-t border-canvas-border pt-3">
+                    <ul
+                        class="list-disc list-inside space-y-2 pl-1 text-[11.5px] text-earth-700 border-t border-canvas-border pt-3">
                         <li class="pl-2 -indent-2">
-                            <strong class="text-earth-950">Thin Controllers &amp; ViewModels:</strong> 
-                            Controllers act as simple messengers. They ask the Repository for memories, package that raw data into a digestible <code class="bg-earth-100 px-1 rounded text-[10px]">ProductsListViewModel</code>, and hand it to the View for outward expression.
+                            <strong class="text-earth-950">Thin Controllers &amp; ViewModels:</strong>
+                            Controllers act as simple messengers. They ask the Repository for memories, package that raw
+                            data into a digestible <code
+                                class="bg-earth-100 px-1 rounded text-[10px]">ProductsListViewModel</code>, and hand it
+                            to the View for outward expression.
                         </li>
                         <li class="pl-2 -indent-2">
-                            <strong class="text-earth-950">Custom Model Binders:</strong> 
-                            To prevent the chaos of HTTP Session state from traumatizing the Controllers, a <code class="bg-earth-100 px-1 rounded text-[10px]">CartModelBinder</code> acts as a psychological buffer. It subconsciously deserializes the user's intent from their browser session and injects it cleanly as a pure method parameter.
+                            <strong class="text-earth-950">Custom Model Binders:</strong>
+                            To prevent the chaos of HTTP Session state from traumatizing the Controllers, a <code
+                                class="bg-earth-100 px-1 rounded text-[10px]">CartModelBinder</code> acts as a
+                            psychological buffer. It subconsciously deserializes the user's intent from their browser
+                            session and injects it cleanly as a pure method parameter.
                         </li>
                         <li class="pl-2 -indent-2">
-                            <strong class="text-earth-950">Razor HTML Helpers:</strong> 
-                            Custom behavioral extensions (like <code class="bg-earth-100 px-1 rounded text-[10px]">@Html.PageLinks</code>) dynamically manifest SEO-friendly pagination paths, guiding the user's journey based on their current active filters.
+                            <strong class="text-earth-950">Razor HTML Helpers:</strong>
+                            Custom behavioral extensions (like <code
+                                class="bg-earth-100 px-1 rounded text-[10px]">@Html.PageLinks</code>) dynamically
+                            manifest SEO-friendly pagination paths, guiding the user's journey based on their current
+                            active filters.
                         </li>
                     </ul>
                 </div>
 
                 <!-- Section 4: Dependency Injection (Ninject) -->
-                <div class="bg-white p-4 rounded-xl border border-canvas-border space-y-2 shadow-xs bg-gradient-to-br from-white to-earth-50">
+                <div
+                    class="bg-white p-4 rounded-xl border border-canvas-border space-y-2 shadow-xs bg-gradient-to-br from-white to-earth-50">
                     <div class="flex items-center gap-2 text-earth-950 font-bold text-sm">
                         <i class="fa-solid fa-link text-earth-900"></i> 4. Inversion of Control (The Architect of Fate)
                     </div>
                     <p class="text-[11.5px] text-earth-700 leading-relaxed">
-                        If the Conscious Persona and the Subconscious Memory are entirely decoupled, how do they communicate? Enter <strong>Ninject</strong>, the invisible architect of fate. At the moment of genesis (startup), Ninject is psychically bound to map <code class="bg-earth-100 px-1 rounded text-[10px]">IProductRepository</code> to <code class="bg-earth-100 px-1 rounded text-[10px]">EFProductRepository</code>. When the <code class="bg-earth-100 px-1 rounded text-[10px]">ProductController</code> asks for a repository to fulfill its purpose, Ninject seamlessly injects the reality of Entity Framework. This profound inversion allows us to completely sever the system from SQL during Unit Testing, simulating an alternate reality without changing a single line of behavioral code!
+                        If the Conscious Persona and the Subconscious Memory are entirely decoupled, how do they
+                        communicate? Enter <strong>Ninject</strong>, the invisible architect of fate. At the moment of
+                        genesis (startup), Ninject is psychically bound to map <code
+                            class="bg-earth-100 px-1 rounded text-[10px]">IProductRepository</code> to <code
+                            class="bg-earth-100 px-1 rounded text-[10px]">EFProductRepository</code>. When the <code
+                            class="bg-earth-100 px-1 rounded text-[10px]">ProductController</code> asks for a repository
+                        to fulfill its purpose, Ninject seamlessly injects the reality of Entity Framework. This
+                        profound inversion allows us to completely sever the system from SQL during Unit Testing,
+                        simulating an alternate reality without changing a single line of behavioral code!
                     </p>
                 </div>
 
                 <!-- Section 5: Learning Tips -->
                 <div class="bg-appetite-50 p-4 rounded-xl border border-appetite-200 space-y-2 shadow-xs">
                     <div class="flex items-center gap-2 text-appetite-800 font-bold text-sm">
-                        <i class="fa-solid fa-graduation-cap text-appetite-600"></i> Psychological Mantras for .NET Mastery
+                        <i class="fa-solid fa-graduation-cap text-appetite-600"></i> Psychological Mantras for .NET
+                        Mastery
                     </div>
-                    <ul class="list-disc list-inside space-y-2 pl-1 text-[11.5px] text-appetite-900 border-t border-appetite-200 pt-3">
-                        <li class="pl-2 -indent-2"><strong class="text-appetite-950">Cultivate from the Inside Out:</strong> Nurture your inner truth (Domain Entities and Interfaces) before seeking external validation. Never build a Web Project until your business logic can survive the isolation of a Unit Test.</li>
-                        <li class="pl-2 -indent-2"><strong class="text-appetite-950">Master the Repository Pattern:</strong> Abstracting database dependencies is the ultimate practice of detachment. It is the single most vital leap required to free your application from the physical constraints of SQL Server.</li>
-                        <li class="pl-2 -indent-2"><strong class="text-appetite-950">Keep Controllers Thin:</strong> Ego is the enemy. If your Controller is bloated with complex IF statements, it is overstepping its boundaries. Relinquish control and push that cognitive burden down into the Domain layer!</li>
+                    <ul
+                        class="list-disc list-inside space-y-2 pl-1 text-[11.5px] text-appetite-900 border-t border-appetite-200 pt-3">
+                        <li class="pl-2 -indent-2"><strong class="text-appetite-950">Cultivate from the Inside
+                                Out:</strong> Nurture your inner truth (Domain Entities and Interfaces) before seeking
+                            external validation. Never build a Web Project until your business logic can survive the
+                            isolation of a Unit Test.</li>
+                        <li class="pl-2 -indent-2"><strong class="text-appetite-950">Master the Repository
+                                Pattern:</strong> Abstracting database dependencies is the ultimate practice of
+                            detachment. It is the single most vital leap required to free your application from the
+                            physical constraints of SQL Server.</li>
+                        <li class="pl-2 -indent-2"><strong class="text-appetite-950">Keep Controllers Thin:</strong> Ego
+                            is the enemy. If your Controller is bloated with complex IF statements, it is overstepping
+                            its boundaries. Relinquish control and push that cognitive burden down into the Domain
+                            layer!</li>
                     </ul>
                 </div>
 
             </div>
 
             <div class="text-[11px] text-earth-600 text-center pt-2 border-t border-canvas-border">
-                💡 Tip: Hover over any element on the store to inspect its specific DOM, CSS, and .NET architecture role!
+                💡 Tip: Hover over any element on the store to inspect its specific DOM, CSS, and .NET architecture
+                role!
             </div>
         </div>
     </div>
 
     <!-- 9. STORE FOOTER (Full Width) -->
     <footer class="border-t border-earth-800 bg-earth-950 py-8 text-xs text-earth-300 mt-auto"
-            data-blueprint-file="WackyStore.WebUI/Views/Shared/_Layout.cshtml"
-            data-blueprint-role="Site Footer Layout"
-            data-blueprint-layer="WebUI / Presentation"
-            data-blueprint-dom="Semantic <footer> container with dark purple background and silver highlights."
-            data-blueprint-desc="Shared master footer layout displaying security badges, links to the interactive case study, and framework metadata."
-            data-blueprint-code="<footer>&copy; @DateTime.Now.Year Wacky Things Co.</footer>">
-        
+        data-blueprint-file="WackyStore.WebUI/Views/Shared/_Layout.cshtml" data-blueprint-role="Site Footer Layout"
+        data-blueprint-layer="WebUI / Presentation"
+        data-blueprint-dom="Semantic <footer> container with dark purple background and silver highlights."
+        data-blueprint-desc="Shared master footer layout displaying security badges, links to the interactive case study, and framework metadata."
+        data-blueprint-code="<footer>&copy; @DateTime.Now.Year Wacky Things Co.</footer>">
+
         <div class="store-fluid-container flex flex-col sm:flex-row items-center justify-between gap-4">
             <div class="flex items-center gap-3">
                 <span class="text-honey-400 font-black font-heading text-sm">WACKY THINGS CO.</span>
@@ -1768,7 +1929,7 @@
 
         function setRatingFilter(min) {
             minRatingFilter = min;
-            
+
             const btnAll = document.getElementById('rating-btn-all');
             const btn48 = document.getElementById('rating-btn-48');
             const btn46 = document.getElementById('rating-btn-46');
@@ -2234,7 +2395,7 @@
          * MODAL CONTROLS & CHECKOUT WORKFLOW (Views/Cart/Checkout.cshtml)
          * ==============================================================================
          */
-        
+
         /**
          * ==============================================================================
          * PRODUCT DETAILS MODAL LOGIC
@@ -2243,7 +2404,7 @@
         function openProductModal(productId) {
             const index = currentFilteredProducts.findIndex(p => p.id === productId);
             if (index === -1) return;
-            
+
             currentModalIndex = index;
             renderProductModal();
             document.getElementById('product-modal-backdrop').classList.remove('hidden');
@@ -2544,7 +2705,7 @@
         });
 
         // Global Dark Mode Toggle Logic
-        window.updateThemeUI = function(isDark) {
+        window.updateThemeUI = function (isDark) {
             const headerIcon = document.getElementById('headerThemeIcon');
             const headerText = document.getElementById('headerThemeText');
             const path = document.getElementById('wavyTrianglePath');
@@ -2566,7 +2727,7 @@
             }
         };
 
-        window.toggleDarkMode = function() {
+        window.toggleDarkMode = function () {
             document.body.classList.toggle('dark-mode');
             const isDark = document.body.classList.contains('dark-mode');
             window.updateThemeUI(isDark);
@@ -2702,25 +2863,31 @@
         window.currentView = 'store'; // 'store' or 'blog'
         window.activeBlogCategory = 'all';
 
-        window.playSpinMinigame = function() {
+        window.playSpinMinigame = function () {
             window.triggerMinigame(); // Forward to the same function for consistency
         };
 
-        window.triggerMinigame = function() {
+        window.triggerMinigame = function () {
             if (window.currentView === 'luck') return;
             const storeMain = document.getElementById('store-main-view');
             const blogMain = document.getElementById('blog-main-view');
             const luckMain = document.getElementById('luck-main-view');
-            
-            const btnIcon = document.getElementById('headerSpinIcon');
+
+            const btnIcon = document.getElementById('viewToggleIcon');
             if (btnIcon) btnIcon.classList.add('fa-spin');
+
+            const cornerBtn = document.getElementById('wacky-corner-toggle');
+            if (cornerBtn) {
+                cornerBtn.classList.add('hidden');
+                cornerBtn.style.display = 'none';
+            }
 
             // Pick whatever view is active
             const isStoreView = window.currentView === 'store';
-            const selector = isStoreView 
+            const selector = isStoreView
                 ? '#store-main-view header, #store-main-view section, #store-main-view aside, #product-grid > div, #store-main-view .store-fluid-container > *'
                 : '#blog-main-view .store-fluid-container > div, #blog-posts-grid > article';
-            
+
             const elements = Array.from(document.querySelectorAll(selector));
             elements.forEach((el, idx) => {
                 const tiltStart = (Math.random() - 0.5) * 16;
@@ -2734,7 +2901,7 @@
 
             setTimeout(() => {
                 if (btnIcon) btnIcon.classList.remove('fa-spin');
-                
+
                 elements.forEach(el => {
                     el.classList.remove('animate-fall-sporadic');
                     el.style.animationDelay = '';
@@ -2747,7 +2914,7 @@
                 luckMain.classList.remove('hidden');
                 luckMain.classList.add('animate-rise-up');
                 window.currentView = 'luck';
-                
+
                 window.scrollTo({ top: 0, behavior: 'smooth' });
 
                 // Reset game board state
@@ -2755,25 +2922,25 @@
                 document.getElementById('spin-wheel-btn').innerHTML = '<i class="fa-solid fa-dice text-5xl sm:text-6xl"></i>';
                 document.getElementById('prize-result-box').classList.add('hidden');
                 document.querySelectorAll('.luck-sq').forEach(s => {
-                    s.classList.remove('bg-appetite-500', 'border-appetite-300', 'scale-105', 'z-10', 'bg-amber-400', 'border-amber-200', 'animate-pulse');
-                    s.classList.add('bg-earth-800', 'border-earth-700');
+                    s.classList.remove('bg-appetite-500', 'border-appetite-300', 'scale-105', 'z-10', 'bg-amber-400', 'border-amber-200', 'animate-pulse', 'shadow-[0_0_30px_rgba(251,191,36,0.8)]');
+                    s.classList.add('bg-earth-800', 'border-earth-700', 'shadow-[0_0_15px_rgba(20,184,166,0.3)]');
                 });
-                
+
                 setTimeout(() => luckMain.classList.remove('animate-rise-up'), 500);
             }, 550);
         };
 
-        window.toggleViewStoreBlog = function(forceTarget) {
+        window.toggleViewStoreBlog = function (forceTarget) {
             const storeMain = document.getElementById('store-main-view');
             const blogMain = document.getElementById('blog-main-view');
             const luckMain = document.getElementById('luck-main-view');
             const hBlogText = document.getElementById('headerBlogText');
-            
+
             const isCurrentlyLuck = window.currentView === 'luck';
             const isCurrentlyStore = window.currentView === 'store';
             const intendedTarget = (hBlogText && hBlogText.innerText.includes('Store')) ? 'store' : 'blog';
             const targetView = forceTarget || intendedTarget;
-            
+
             if (window.currentView === targetView) return; // already there
 
             // Determine which elements to animate out based on current view
@@ -2808,12 +2975,19 @@
                 else if (isCurrentlyLuck) luckMain.classList.add('hidden');
                 else blogMain.classList.add('hidden');
 
+                // Explicitly show the corner button in case it was hidden
+                const cornerBtn = document.getElementById('wacky-corner-toggle');
+                if (cornerBtn) {
+                    cornerBtn.classList.remove('hidden');
+                    cornerBtn.style.display = 'flex';
+                }
+
                 if (targetView === 'blog') {
                     blogMain.classList.remove('hidden');
                     blogMain.classList.add('animate-rise-up');
                     window.renderBlogPosts(window.activeBlogCategory);
                     window.currentView = 'blog';
-                    
+
                     const hBlogText = document.getElementById('headerBlogText');
                     const hBlogIcon = document.getElementById('headerBlogIcon');
                     if (hBlogText) hBlogText.innerText = 'Store Catalog';
@@ -2822,7 +2996,7 @@
                     storeMain.classList.remove('hidden');
                     storeMain.classList.add('animate-rise-up');
                     window.currentView = 'store';
-                    
+
                     const hBlogText = document.getElementById('headerBlogText');
                     const hBlogIcon = document.getElementById('headerBlogIcon');
                     if (hBlogText) hBlogText.innerText = 'Wacky Blog';
@@ -2838,11 +3012,11 @@
             }, 520);
         };
 
-        window.returnToStore = function() {
+        window.returnToStore = function () {
             window.toggleViewStoreBlog('store');
         };
 
-        window.playPressYourLuckGame = function() {
+        window.playPressYourLuckGame = function () {
             const btn = document.getElementById('spin-wheel-btn');
             const resultBox = document.getElementById('prize-result-box');
             const resultTitle = document.getElementById('prize-result-title');
@@ -2851,7 +3025,7 @@
             const couponBadge = document.getElementById('prize-coupon-badge');
             const squares = Array.from(document.querySelectorAll('.luck-sq')).sort((a, b) => parseInt(a.dataset.prizeIdx) - parseInt(b.dataset.prizeIdx));
 
-            if(btn.disabled) return;
+            if (btn.disabled) return;
             btn.disabled = true;
             btn.innerHTML = '<i class="fa-solid fa-spinner fa-spin text-white text-5xl sm:text-6xl"></i>';
             resultBox.classList.add('hidden');
@@ -2864,10 +3038,10 @@
 
             const r = Math.random();
             let targetPrize;
-            if(r < 0.20) targetPrize = "TRY AGAIN";
-            else if(r < 0.70) targetPrize = "10% OFF";
-            else if(r < 0.85) targetPrize = "15% OFF";
-            else if(r < 0.95) targetPrize = "20% OFF";
+            if (r < 0.20) targetPrize = "TRY AGAIN";
+            else if (r < 0.70) targetPrize = "10% OFF";
+            else if (r < 0.85) targetPrize = "15% OFF";
+            else if (r < 0.95) targetPrize = "20% OFF";
             else targetPrize = "50% OFF!";
 
             const targetSquares = squares.filter(s => s.dataset.prize === targetPrize);
@@ -2877,37 +3051,37 @@
             const highlightSquare = (idx) => {
                 squares.forEach(s => {
                     s.classList.remove('bg-appetite-500', 'border-appetite-300', 'scale-105', 'z-10');
-                    s.classList.add('bg-earth-800', 'border-earth-700');
+                    s.classList.add('bg-earth-800', 'border-earth-700', 'shadow-[0_0_15px_rgba(20,184,166,0.3)]');
                 });
                 const sq = squares[idx];
-                sq.classList.remove('bg-earth-800', 'border-earth-700');
-                sq.classList.add('bg-appetite-500', 'border-appetite-300', 'scale-105', 'z-10');
+                sq.classList.remove('bg-earth-800', 'border-earth-700', 'shadow-[0_0_15px_rgba(20,184,166,0.3)]');
+                sq.classList.add('bg-appetite-500', 'border-appetite-300', 'scale-105', 'z-10', 'shadow-[0_0_25px_rgba(20,184,166,0.8)]');
             };
 
             const jump = () => {
                 highlightSquare(currentIdx);
                 jumps++;
-                
+
                 if (jumps > minJumps) {
                     speed += 15;
                 }
 
                 if (jumps >= maxJumps && currentIdx === finalTargetIdx) {
                     setTimeout(() => {
-                        squares[currentIdx].classList.remove('bg-appetite-500');
-                        squares[currentIdx].classList.add('bg-amber-400', 'border-amber-200', 'animate-pulse');
-                        
-                        btn.innerHTML = '<i class="fa-solid fa-check text-white text-5xl sm:text-6xl"></i>';
+                        squares[currentIdx].classList.remove('bg-appetite-500', 'shadow-[0_0_25px_rgba(20,184,166,0.8)]');
+                        squares[currentIdx].classList.add('bg-amber-400', 'border-amber-200', 'animate-pulse', 'shadow-[0_0_30px_rgba(251,191,36,0.8)]');
+
+                        btn.innerHTML = '<i class="fa-solid fa-check text-white text-5xl sm:text-7xl"></i>';
                         resultTitle.innerText = targetPrize === 'TRY AGAIN' ? 'So Close!' : 'You Won ' + targetPrize;
                         resultDesc.innerText = targetPrize === 'TRY AGAIN' ? 'Better luck next time! Keep shopping.' : 'Use this code at checkout to claim your wacky discount.';
-                        
-                        if(targetPrize !== 'TRY AGAIN') {
+
+                        if (targetPrize !== 'TRY AGAIN') {
                             couponContainer.classList.remove('hidden');
                             document.getElementById('try-again-back-btn').classList.add('hidden');
                             const val = targetPrize.replace('% OFF', '').replace('!', '');
                             const code = 'WACKY' + val;
                             couponBadge.innerText = code;
-                            
+
                             window.currentWonCoupon = code;
                             window.activeDiscount = parseInt(val) / 100;
                             if (window.updateCartUI) window.updateCartUI();
@@ -2916,7 +3090,7 @@
                             couponContainer.classList.add('hidden');
                             document.getElementById('try-again-back-btn').classList.remove('hidden');
                         }
-                        
+
                         resultBox.classList.remove('hidden');
                     }, 500);
                     return;
@@ -2929,14 +3103,14 @@
             jump();
         };
 
-        window.copyCouponCode = function() {
+        window.copyCouponCode = function () {
             if (window.currentWonCoupon) {
                 navigator.clipboard.writeText(window.currentWonCoupon);
                 if (window.showToast) window.showToast(`Copied ${window.currentWonCoupon} to clipboard!`);
             }
         };
 
-        window.renderBlogPosts = function(categoryFilter = 'all') {
+        window.renderBlogPosts = function (categoryFilter = 'all') {
             const grid = document.getElementById('blog-posts-grid');
             if (!grid) return;
 
@@ -2991,7 +3165,7 @@
             `).join('');
         };
 
-        window.filterBlogCategory = function(cat) {
+        window.filterBlogCategory = function (cat) {
             window.activeBlogCategory = cat;
             window.renderBlogPosts(cat);
 
@@ -3004,7 +3178,7 @@
             });
         };
 
-        window.openBlogReaderModal = function(postId) {
+        window.openBlogReaderModal = function (postId) {
             const post = window.BLOG_POSTS.find(p => p.id === postId);
             if (!post) return;
 
@@ -3019,7 +3193,7 @@
             document.getElementById('blog-reader-modal').classList.remove('hidden');
         };
 
-        window.closeBlogReaderModal = function() {
+        window.closeBlogReaderModal = function () {
             document.getElementById('blog-reader-modal').classList.add('hidden');
         };
 
@@ -3047,31 +3221,35 @@
     </script>
 
     <!-- BLOG POST READER MODAL -->
-    <div id="blog-reader-modal" 
-         data-blueprint-file="WackyStore.WebUI/Views/Blog/ReaderModal.cshtml"
-         data-blueprint-role="Article Reader Modal Partial"
-         data-blueprint-layer="WebUI / View Component"
-         data-blueprint-dom="Modal dialog displaying full article content, cover image, author info, and navigation action."
-         data-blueprint-desc="Renders full BlogPost content when an article card is selected."
-         data-blueprint-code="public ViewResult ArticleModal(string id) => View(repository.GetById(id));"
-         class="fixed inset-0 bg-black/70 backdrop-blur-sm z-50 hidden flex items-center justify-center p-4 sm:p-6" onclick="if(event.target===this) window.closeBlogReaderModal()">
-        <div class="bg-white border border-canvas-border rounded-3xl w-full max-w-3xl max-h-[90vh] flex flex-col shadow-2xl overflow-hidden relative animate-rise-up">
-            
+    <div id="blog-reader-modal" data-blueprint-file="WackyStore.WebUI/Views/Blog/ReaderModal.cshtml"
+        data-blueprint-role="Article Reader Modal Partial" data-blueprint-layer="WebUI / View Component"
+        data-blueprint-dom="Modal dialog displaying full article content, cover image, author info, and navigation action."
+        data-blueprint-desc="Renders full BlogPost content when an article card is selected."
+        data-blueprint-code="public ViewResult ArticleModal(string id) => View(repository.GetById(id));"
+        class="fixed inset-0 bg-black/70 backdrop-blur-sm z-50 hidden flex items-center justify-center p-4 sm:p-6"
+        onclick="if(event.target===this) window.closeBlogReaderModal()">
+        <div
+            class="bg-white border border-canvas-border rounded-3xl w-full max-w-3xl max-h-[90vh] flex flex-col shadow-2xl overflow-hidden relative animate-rise-up">
+
             <!-- Modal Header / Cover -->
             <div class="relative h-48 sm:h-64 w-full overflow-hidden bg-earth-950">
                 <img id="blog-modal-cover" src="" alt="Blog Cover" class="w-full h-full object-cover opacity-85" />
                 <div class="absolute inset-0 bg-gradient-to-t from-earth-950 via-earth-950/40 to-transparent"></div>
-                <button onclick="window.closeBlogReaderModal()" class="absolute top-4 right-4 h-10 w-10 rounded-full bg-black/50 hover:bg-black/80 text-white flex items-center justify-center transition-all border border-white/20 z-20">
+                <button onclick="window.closeBlogReaderModal()"
+                    class="absolute top-4 right-4 h-10 w-10 rounded-full bg-black/50 hover:bg-black/80 text-white flex items-center justify-center transition-all border border-white/20 z-20">
                     <i class="fa-solid fa-xmark text-lg"></i>
                 </button>
                 <div class="absolute bottom-4 left-6 right-6 text-white space-y-1 z-10">
-                    <span id="blog-modal-category" class="px-3 py-1 rounded-full bg-honey-400 text-earth-950 text-xs font-mono font-black uppercase">Category</span>
-                    <h2 id="blog-modal-title" class="font-heading font-black text-xl sm:text-3xl text-amber-100 leading-tight">Title</h2>
+                    <span id="blog-modal-category"
+                        class="px-3 py-1 rounded-full bg-honey-400 text-earth-950 text-xs font-mono font-black uppercase">Category</span>
+                    <h2 id="blog-modal-title"
+                        class="font-heading font-black text-xl sm:text-3xl text-amber-100 leading-tight">Title</h2>
                 </div>
             </div>
 
             <!-- Modal Meta Info -->
-            <div class="px-6 sm:px-8 py-3 bg-canvas-surface border-b border-canvas-border flex items-center justify-between text-xs text-earth-600 font-medium flex-wrap gap-2">
+            <div
+                class="px-6 sm:px-8 py-3 bg-canvas-surface border-b border-canvas-border flex items-center justify-between text-xs text-earth-600 font-medium flex-wrap gap-2">
                 <div class="flex items-center gap-4 flex-wrap">
                     <span id="blog-modal-author" class="flex items-center gap-1.5 font-bold text-earth-900">
                         <i class="fa-solid fa-user-astronaut text-appetite-700"></i>
@@ -3089,16 +3267,21 @@
             </div>
 
             <!-- Modal Article Body -->
-            <div id="blog-modal-body" class="p-6 sm:p-8 overflow-y-auto space-y-4 text-earth-900 font-sans leading-relaxed text-sm sm:text-base">
+            <div id="blog-modal-body"
+                class="p-6 sm:p-8 overflow-y-auto space-y-4 text-earth-900 font-sans leading-relaxed text-sm sm:text-base">
                 <!-- Inserted by JS -->
             </div>
 
             <!-- Modal Footer -->
-            <div class="px-6 sm:px-8 py-4 bg-canvas-base border-t border-canvas-border flex items-center justify-between">
-                <button onclick="window.closeBlogReaderModal()" class="px-5 py-2.5 rounded-xl bg-earth-200 hover:bg-earth-300 text-earth-900 font-bold text-xs transition-all">
+            <div
+                class="px-6 sm:px-8 py-4 bg-canvas-base border-t border-canvas-border flex items-center justify-between">
+                <button onclick="window.closeBlogReaderModal()"
+                    class="px-5 py-2.5 rounded-xl bg-earth-200 hover:bg-earth-300 text-earth-900 font-bold text-xs transition-all">
                     Close Article
                 </button>
-                <button onclick="window.toggleViewStoreBlog(); window.closeBlogReaderModal();" class="px-5 py-2.5 rounded-xl bg-appetite-700 hover:bg-appetite-800 text-white font-bold text-xs flex items-center gap-2 transition-all shadow-md">
+                <button onclick="window.toggleViewStoreBlog(); window.closeBlogReaderModal();"
+                    class="px-5 py-2.5 rounded-xl bg-appetite-700 hover:bg-appetite-800 text-white font-bold text-xs flex items-center gap-2 transition-all shadow-md">
+                    <i class="fa-solid fa-store"></i>
                     <i class="fa-solid fa-store"></i>
                     <span>Browse Wacky Store</span>
                 </button>
@@ -3110,27 +3293,21 @@
 
 
     <!-- CORNER TRIANGLE MINIGAME BUTTON (SPIN & WIN) -->
-    <div id="wacky-corner-toggle"
-         onclick="window.triggerMinigame()"
-         data-blueprint-file="WackyStore.WebUI/Views/Shared/_Layout.cshtml"
-         data-blueprint-role="Wacky Minigame (Prize Wheel)"
-         data-blueprint-layer="WebUI / View Component"
-         data-blueprint-dom="Bottom-left corner triangle button triggering Prize Wheel minigame &amp; falling item animation."
-         data-blueprint-desc="Triggers item gravity drop animation and opens the interactive Spin &amp; Win Discount Wheel."
-         data-blueprint-code="window.triggerMinigame();"
-         class="fixed bottom-0 left-0 z-50 group cursor-pointer select-none filter drop-shadow-xl transition-transform duration-300 hover:scale-110 active:scale-95"
-         title="Spin the Prize Wheel for Secret Coupons!">
-        
-        <svg width="95" height="95" viewBox="0 0 95 95" fill="none" xmlns="http://www.w3.org/2000/svg" class="block w-[85px] h-[85px] sm:w-[95px] sm:h-[95px]">
+    <div id="wacky-corner-toggle" onclick="window.triggerMinigame()"
+        data-blueprint-file="WackyStore.WebUI/Views/Shared/_Layout.cshtml"
+        data-blueprint-role="Wacky Minigame (Prize Wheel)" data-blueprint-layer="WebUI / View Component"
+        data-blueprint-dom="Bottom-left corner triangle button triggering Prize Wheel minigame &amp; falling item animation."
+        data-blueprint-desc="Triggers item gravity drop animation and opens the interactive Spin &amp; Win Discount Wheel."
+        data-blueprint-code="window.triggerMinigame();"
+        class="fixed bottom-0 left-0 z-50 group cursor-pointer select-none filter drop-shadow-xl transition-transform duration-300 hover:scale-110 active:scale-95"
+        title="Spin the Prize Wheel for Secret Coupons!">
+
+        <svg width="95" height="95" viewBox="0 0 95 95" fill="none" xmlns="http://www.w3.org/2000/svg"
+            class="block w-[85px] h-[85px] sm:w-[95px] sm:h-[95px]">
             <!-- Straight Corner Triangle Background Path: Solid Teal -->
-            <path id="wavyTrianglePath"
-                  d="M 0 95 L 0 0 L 95 95 Z"
-                  fill="url(#wavyGradientLight)"
-                  stroke="#0D9488"
-                  stroke-width="2.5"
-                  stroke-linejoin="round"
-                  class="transition-all duration-500" />
-            
+            <path id="wavyTrianglePath" d="M 0 95 L 0 0 L 95 95 Z" fill="url(#wavyGradientLight)" stroke="#0D9488"
+                stroke-width="2.5" stroke-linejoin="round" class="transition-all duration-500" />
+
             <defs>
                 <!-- Light Mode Gradient: Solid Whimsical Teal -->
                 <linearGradient id="wavyGradientLight" x1="0" y1="95" x2="65" y2="0" gradientUnits="userSpaceOnUse">
@@ -3149,9 +3326,11 @@
         </svg>
 
         <!-- Centered Icon and Text Label inside the Corner Triangle -->
-        <div class="absolute bottom-2 left-2 sm:bottom-3 sm:left-3 flex flex-col items-center justify-center text-white pointer-events-none transition-transform duration-300 group-hover:scale-110">
+        <div
+            class="absolute bottom-2 left-2 sm:bottom-3 sm:left-3 flex flex-col items-center justify-center text-white pointer-events-none transition-transform duration-300 group-hover:scale-110">
             <i id="viewToggleIcon" class="fa-solid fa-dice text-xl sm:text-2xl text-white"></i>
-            <span id="viewToggleText" class="text-[9px] sm:text-[10px] font-extrabold uppercase tracking-wider text-white leading-tight mt-0.5">PLAY!</span>
+            <span id="viewToggleText"
+                class="text-[9px] sm:text-[10px] font-extrabold uppercase tracking-wider text-white leading-tight mt-0.5">PLAY!</span>
         </div>
     </div>
 </body>

@@ -125,8 +125,6 @@ export function WaveformVisualizer({ isAudioPlaying = true, speedMph = 0 }) {
       ctx.lineTo(width * 0.65, horizonY - 70);
       ctx.lineTo(width * 0.8, horizonY - 30);
       ctx.lineTo(width, horizonY);
-      ctx.lineTo(width, height);
-      ctx.lineTo(0, height);
       ctx.closePath();
       ctx.fill();
 

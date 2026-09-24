@@ -271,8 +271,8 @@ export function SynthwaveDrive() {
 
         // Calculate X position matching the pink perspective lines
         const isLeft = (popup.id % 2) === 0;
-        // Outer paths: near -22 to -18 for left, 18 to 22 for right
-        const lineIndex = isLeft ? (-22 + (popup.id % 5)) : (22 - (popup.id % 5));
+        // Outer paths: near -5 to -4 for left, 4 to 5 for right
+        const lineIndex = isLeft ? (-5 + (popup.id % 2)) : (4 + (popup.id % 2));
         
         // At progress p, topPct determines the vertical position.
         const progressY = Math.max(0, (topPct - 55) / 45); // 0 at horizon, 1 at bottom of screen
