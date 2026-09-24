@@ -251,29 +251,29 @@ export function SynthwaveDrive() {
       {/* 3. DIRECT SPOTIFY EMBED PLAYLIST (WITHOUT EXTRA CONTAINER OR BUTTONS) */}
       <SpotifyRadio onAudioStateChange={(active) => setIsAudioPlaying(active)} />
 
-      {/* POP-UPS POSITIONED LOW CLOSER TO THE PLANE & SPREAD FAR APART (NO ALL CAPS, NO CLOSE BUTTON, NO STARTUP POPUP) */}
+      {/* POP-UPS TRAVELING DOWNWARD ALONG THE ROAD FLOOR PLANE (57% -> 84% -> 98%) */}
       {popups.map((popup) => {
         const totalDist = popup.targetDist - popup.startDist;
         const rawProgress = (driveDistance - popup.startDist) / totalDist;
-        const progress = Math.max(0, Math.min(1.05, rawProgress));
+        const progress = Math.max(0, Math.min(1.08, rawProgress));
 
-        // 3D Perspective Calculations: Kept low right on the 3D grid floor plane
+        // 3D Road Floor Perspective Calculations: Moves downward along floor plane from horizon (57%) to bottom (84%+)
         let topPct, scale, opacity, rotateX;
 
-        if (progress <= 0.82) {
-          // Approaching along 3D grid floor plane (low near road plane)
-          const p = progress / 0.82;
-          topPct = 55 - p * 16; // 55% down to 39% (right on the road plane!)
-          scale = 0.06 + Math.pow(p, 2.0) * 1.1; // 0.06 -> 1.16
-          opacity = Math.min(1, p * 3.5);
-          rotateX = (1 - p) * 35;
+        if (progress <= 0.85) {
+          // Approaching along 3D grid floor plane (57% down to 84%)
+          const p = progress / 0.85;
+          topPct = 57 + Math.pow(p, 1.8) * 27; // 57% (horizon) -> 84% (foreground floor)
+          scale = 0.05 + Math.pow(p, 2.2) * 1.12; // 0.05 -> 1.17
+          opacity = Math.min(1, p * 4.0); // Fades in quickly at horizon
+          rotateX = (1 - p) * 48; // 48deg road tilt at horizon -> 0deg flat at front
         } else {
-          // Passing past driver
-          const p = (progress - 0.82) / 0.23;
-          topPct = 39 - p * 14; // 39% -> 25%
-          scale = 1.16 + p * 0.3;
-          opacity = Math.max(0, 1 - p * 1.2);
-          rotateX = -p * 10;
+          // Passing past driver / bottom of viewport
+          const p = (progress - 0.85) / 0.23;
+          topPct = 84 + p * 15; // 84% -> 99% (bottom edge of floor)
+          scale = 1.17 + p * 0.35;
+          opacity = Math.max(0, 1 - p * 1.3);
+          rotateX = -p * 15;
         }
 
         return (
@@ -303,19 +303,20 @@ export function SynthwaveDrive() {
               textAlign: 'center',
               position: 'relative'
             }}>
-              {/* Clean Sentence Case Affirmation Text (No All Caps, No Close Button) */}
-              <h3 style={{
+              {/* Clean Sentence Case Affirmation Text (No All Caps, Explicit textTransform none) */}
+              <div style={{
                 fontFamily: 'var(--font-display)',
                 fontSize: 'clamp(1.15rem, 2.6vw, 1.55rem)',
-                fontWeight: 800,
+                fontWeight: 700,
                 lineHeight: 1.35,
                 color: '#FFFFFF',
                 textShadow: '0 0 15px rgba(255, 255, 255, 0.95), 0 0 35px rgba(0, 240, 255, 0.9), 0 0 50px rgba(0, 240, 255, 0.7)',
                 letterSpacing: '0.01em',
-                margin: 0
+                margin: 0,
+                textTransform: 'none'
               }}>
                 "{popup.text}"
-              </h3>
+              </div>
             </div>
           </div>
         );

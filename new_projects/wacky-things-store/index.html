@@ -888,30 +888,17 @@
           class="bg-canvas-base text-earth-950 py-8 flex-1 w-full hidden">
         <div class="store-fluid-container space-y-6">
             
-            <!-- Full-Width Left-Aligned Blog Intro Paragraph (No White Card Box, Dark Grey Text) -->
-            <div class="w-full text-left py-1"
-                 data-blueprint-file="WackyStore.WebUI/Views/Blog/Index.cshtml"
-                 data-blueprint-role="Blog Overview &amp; Field Guide Intro"
-                 data-blueprint-layer="WebUI / View Header"
-                 data-blueprint-dom="Full width left-aligned dark grey paragraph explaining the purpose of the Wacky Chronicles blog."
-                 data-blueprint-desc="Provides introductory context detailing research notes, invention guides, and field logs."
-                 data-blueprint-code="ViewBag.Title = &quot;Wacky Chronicles &amp; Field Notes&quot;;">
-                <p class="text-sm sm:text-base font-semibold text-earth-800 leading-relaxed text-left w-full m-0">
-                    Welcome to the official field notes, lab documentation, and mischievous user guides for our absurd store inventions! Here you will find scientific breakdowns on dehydrated water, care instructions for invisible chameleons, windowsill botanical gossip, and fluid dynamics for left-handed coffee mugs.
-                </p>
-            </div>
-
-            <!-- Clean Blog Category Filter Bar (Only Filters) -->
-            <div class="bg-white border border-canvas-border rounded-2xl p-4 flex items-center justify-center flex-wrap gap-2.5 shadow-xs"
+            <!-- Blog Header Bar: Category Filters on LEFT, Non-Bold Grey Paragraph Aligned Next to It -->
+            <div class="bg-white border border-canvas-border rounded-2xl p-4 flex items-center flex-wrap md:flex-nowrap gap-4 shadow-xs"
                  data-blueprint-file="WackyStore.WebUI/Models/BlogListViewModel.cs"
-                 data-blueprint-role="Blog Query Filter Bar"
-                 data-blueprint-layer="WebUI / ViewModel"
-                 data-blueprint-dom="Clean filter header bar containing category filter pills."
+                 data-blueprint-role="Blog Index Header &amp; Filter Bar"
+                 data-blueprint-layer="WebUI / View"
+                 data-blueprint-dom="Combined header container placing category filter pills on the left side-by-side with grey introductory paragraph."
                  data-blueprint-desc="BlogListViewModel encapsulates Article list, CurrentCategory, and PagingInfo."
                  data-blueprint-code="public class BlogListViewModel { public IEnumerable<BlogPost> Articles { get; set; } }">
                 
-                <!-- Blog Category Filter Buttons -->
-                <div class="flex flex-wrap items-center justify-center gap-2 text-xs">
+                <!-- Blog Category Filter Buttons (Left Aligned) -->
+                <div class="flex flex-wrap items-center gap-2 text-xs shrink-0">
                     <button onclick="window.filterBlogCategory('all')" 
                             data-blueprint-file="WackyStore.Domain/Abstract/IBlogRepository.cs"
                             data-blueprint-role="Linq Category Filter Action"
@@ -925,6 +912,14 @@
                     <button onclick="window.filterBlogCategory('Botanical Gossip')" class="blog-cat-btn px-3.5 py-1.5 rounded-xl font-bold transition-all bg-canvas-surface hover:bg-canvas-border text-earth-800 border border-canvas-border">Botanical Gossip</button>
                     <button onclick="window.filterBlogCategory('Cosmic Anomalies')" class="blog-cat-btn px-3.5 py-1.5 rounded-xl font-bold transition-all bg-canvas-surface hover:bg-canvas-border text-earth-800 border border-canvas-border">Cosmic Anomalies</button>
                 </div>
+
+                <!-- Vertical Divider on md+ screens -->
+                <div class="hidden md:block h-9 w-[1px] bg-canvas-border shrink-0"></div>
+
+                <!-- Non-Bold Grey Paragraph Aligned Next to Filter Container -->
+                <p class="text-xs sm:text-sm font-normal text-gray-600 leading-relaxed text-left flex-1 m-0">
+                    Welcome to the official field notes, lab documentation, and mischievous user guides for our absurd store inventions! Here you will find scientific breakdowns on dehydrated water, care instructions for invisible chameleons, windowsill botanical gossip, and fluid dynamics for left-handed coffee mugs.
+                </p>
 
             </div>
 
@@ -2669,7 +2664,7 @@
 
                     window.currentView = 'blog';
 
-                    if (iconEl) iconEl.className = 'fa-solid fa-store text-xs text-white mb-0.5 filter drop-shadow-[0_1.5px_3px_rgba(0,0,0,0.6)]';
+                    if (iconEl) iconEl.className = 'fa-solid fa-store text-xl sm:text-2xl text-white filter drop-shadow-[0_2px_4px_rgba(0,0,0,0.5)]';
                     if (textEl) textEl.innerText = 'STORE';
                     if (toggleBadge) toggleBadge.title = 'Switch Back to Wacky Shop Store';
 
@@ -2704,7 +2699,7 @@
 
                     window.currentView = 'store';
 
-                    if (iconEl) iconEl.className = 'fa-solid fa-newspaper text-xs text-white mb-0.5 filter drop-shadow-[0_1.5px_3px_rgba(0,0,0,0.6)]';
+                    if (iconEl) iconEl.className = 'fa-solid fa-newspaper text-xl sm:text-2xl text-white filter drop-shadow-[0_2px_4px_rgba(0,0,0,0.5)]';
                     if (textEl) textEl.innerText = 'BLOG';
                     if (toggleBadge) toggleBadge.title = 'Switch to Wacky Chronicles Blog';
 
@@ -2899,7 +2894,7 @@
          title="Switch to Wacky Chronicles Blog">
         
         <svg width="95" height="95" viewBox="0 0 95 95" fill="none" xmlns="http://www.w3.org/2000/svg" class="block w-[85px] h-[85px] sm:w-[95px] sm:h-[95px]">
-            <!-- Wavy Corner Triangle Background Path: Solid Teal -->
+            <!-- Wavy Corner Triangle Background Path: Solid Teal (No Purple Stroke) -->
             <path id="wavyTrianglePath"
                   d="M 0 95 L 0 0 C 12 10 22 17 31 12 C 40 7 48 16 58 26 C 67 37 75 31 82 47 C 90 63 85 75 95 95 Z"
                   fill="url(#wavyGradientLight)"
@@ -2925,10 +2920,9 @@
             </defs>
         </svg>
 
-        <!-- Centered Icon & Label inside the Corner Triangle -->
-        <div class="absolute bottom-4 left-4 sm:bottom-5 sm:left-5 flex flex-col items-center justify-center text-white pointer-events-none transition-transform duration-300">
-            <i id="viewToggleIcon" class="fa-solid fa-newspaper text-xs text-white mb-0.5 filter drop-shadow-[0_1.5px_3px_rgba(0,0,0,0.6)]"></i>
-            <span id="viewToggleText" class="font-heading font-black text-[11px] sm:text-[11.5px] tracking-wider uppercase leading-none filter drop-shadow-[0_1.5px_3px_rgba(0,0,0,0.6)]">BLOG</span>
+        <!-- Centered Big Icon inside the Corner Triangle (No Text Label) -->
+        <div class="absolute bottom-4 left-4 sm:bottom-5 sm:left-5 flex items-center justify-center text-white pointer-events-none transition-transform duration-300">
+            <i id="viewToggleIcon" class="fa-solid fa-newspaper text-xl sm:text-2xl text-white filter drop-shadow-[0_2px_4px_rgba(0,0,0,0.5)]"></i>
         </div>
     </div>
 </body>
