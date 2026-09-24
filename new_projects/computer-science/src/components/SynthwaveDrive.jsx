@@ -253,35 +253,21 @@ export function SynthwaveDrive() {
       {/* 3. DIRECT SPOTIFY EMBED PLAYLIST (WITHOUT EXTRA CONTAINER OR BUTTONS) */}
       <SpotifyRadio onAudioStateChange={(active) => setIsAudioPlaying(active)} />
 
-      {/* POP-UPS TRAVELING DOWNWARD ALONG THE ROAD FLOOR PLANE (57% -> 84% -> 98%) */}
+      {/* POP-UPS TRAVELING DOWNWARD ALONG THE ROAD FLOOR PLANE */}
       {popups.map((popup) => {
         const totalDist = popup.targetDist - popup.startDist;
         const rawProgress = (driveDistance - popup.startDist) / totalDist;
-        const progress = Math.max(0, Math.min(1.08, rawProgress));
+        const p = Math.max(0, Math.min(1, rawProgress));
 
-        // 3D Road Sign Perspective Calculations: Starts at vanishing point (55%), moves upwards/outwards
-        let topPct, scale, opacity, rotateX, translateY;
-
-        // Give them a random altitude variation based on their ID
-        const signHeightOffset = (popup.id % 20) - 10; // -10 to +10
-
-        if (progress <= 0.85) {
-          // Approaching from horizon (55%) flying up overhead
-          const p = progress / 0.85;
-          topPct = 55 - Math.pow(p, 1.5) * 45; // 55% -> 10%
-          scale = 0.05 + Math.pow(p, 2.5) * 1.25; // 0.05 -> 1.30
-          opacity = Math.min(1, p * 4);
-          rotateX = 0; // Flat like a highway sign
-          translateY = signHeightOffset * p; // Height variation scales with approach
-        } else {
-          // Passing directly overhead / behind camera
-          const p = (progress - 0.85) / 0.23;
-          topPct = 10 - p * 35; // Fly over (10% -> -25%)
-          scale = 1.30 + p * 1.5;
-          opacity = Math.max(0, 1 - p * 1.5);
-          rotateX = p * 15; // Slight tilt as it passes overhead
-          translateY = signHeightOffset;
-        }
+        // 3D Road Sign Perspective Calculations: Starts at vanishing point (55%), moves down the screen
+        const topPct = 55 + Math.pow(p, 2.5) * 65; 
+        const scale = 0.02 + Math.pow(p, 2.5) * 2.5;
+        
+        // Fade in quickly, fade out as it passes the camera (p > 0.85)
+        const opacity = Math.min(1, p * 8) * (p > 0.85 ? Math.max(0, 1 - (p - 0.85) * 6.6) : 1);
+        
+        const stemHeight = 30 + (popup.id % 50); // Stem height between 30 and 80px
+        const stemWidth = 6;
 
         return (
           <div
@@ -290,11 +276,12 @@ export function SynthwaveDrive() {
               position: 'absolute',
               top: `${topPct}%`,
               left: popup.leftPos,
-              transform: `translate(-50%, -50%) scale(${scale}) rotateX(${rotateX}deg) translateY(${translateY}px)`,
+              transform: `translate(-50%, -100%) scale(${scale})`, // Origin at bottom center
               opacity: opacity,
-              zIndex: Math.round(45 + progress * 20),
-              width: '88%',
-              maxWidth: '440px',
+              zIndex: Math.round(45 + p * 20),
+              display: 'flex',
+              flexDirection: 'column',
+              alignItems: 'center',
               transition: 'top 0.08s linear, transform 0.08s linear, opacity 0.08s linear',
               pointerEvents: opacity > 0.3 ? 'auto' : 'none',
             }}
@@ -311,50 +298,34 @@ export function SynthwaveDrive() {
               {/* Clean Sentence Case Affirmation Text (No All Caps, Explicit textTransform none) */}
               <div style={{
                 fontFamily: 'var(--font-display)',
-                fontSize: 'clamp(1.15rem, 2.6vw, 1.55rem)',
+                fontSize: '1.25rem',
                 fontWeight: 700,
                 lineHeight: 1.35,
                 color: '#FFFFFF',
                 textShadow: '0 0 15px rgba(255, 255, 255, 0.95), 0 0 35px rgba(0, 240, 255, 0.9), 0 0 50px rgba(0, 240, 255, 0.7)',
                 letterSpacing: '0.01em',
                 margin: 0,
-                textTransform: 'none'
+                textTransform: 'none',
+                whiteSpace: 'nowrap'
               }}>
                 "{popup.text}"
               </div>
             </div>
+            
+            {/* The Stem */}
+            <div style={{
+              width: `${stemWidth}px`,
+              height: `${stemHeight}px`,
+              background: 'linear-gradient(to right, #666, #aaa, #666)',
+              borderLeft: '1px solid #fff',
+              borderRight: '1px solid #333',
+              boxShadow: '5px 0 15px rgba(0, 0, 0, 0.5)'
+            }} />
           </div>
         );
       })}
 
-      {/* 4. DRIVER'S STEERING WHEEL & HANDS */}
-      <div style={{
-        position: 'absolute',
-        bottom: '-15%', 
-        left: '50%',
-        transform: 'translateX(-50%)',
-        width: '600px',
-        height: '600px',
-        zIndex: 50, 
-        pointerEvents: 'none', 
-        opacity: 0.95,
-      }}>
-        <svg viewBox="0 0 100 100" style={{ width: '100%', height: '100%', filter: 'drop-shadow(0 -10px 25px rgba(0,0,0,0.8))' }}>
-          <circle cx="50" cy="50" r="45" fill="none" stroke="#111" strokeWidth="8" />
-          <circle cx="50" cy="50" r="45" fill="none" stroke="#2a2a2a" strokeWidth="4" />
-          <circle cx="50" cy="50" r="12" fill="#1a1a1a" stroke="#00F0FF" strokeWidth="0.5" />
-          <path d="M50 62 L50 90 M38 50 L10 50 M62 50 L90 50 M42 58 L20 75 M58 58 L80 75" stroke="#111" strokeWidth="6" />
-          <path d="M50 62 L50 90 M38 50 L10 50 M62 50 L90 50 M42 58 L20 75 M58 58 L80 75" stroke="#222" strokeWidth="3" />
-          
-          <path d="M5 45 C -2 55, 12 65, 20 52 C 24 45, 15 35, 5 45" fill="#FF007F" />
-          <path d="M95 45 C 102 55, 88 65, 80 52 C 76 45, 85 35, 95 45" fill="#00F0FF" />
-          
-          <circle cx="9" cy="50" r="2" fill="#111" />
-          <circle cx="13" cy="53" r="2" fill="#111" />
-          <circle cx="91" cy="50" r="2" fill="#111" />
-          <circle cx="87" cy="53" r="2" fill="#111" />
-        </svg>
-      </div>
+
     </div>
   );
 }

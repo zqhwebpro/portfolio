@@ -660,22 +660,14 @@
                     <span id="header-cart-count" class="h-5 min-w-5 px-1.5 rounded-full bg-honey-400 text-earth-950 font-black text-[10px] flex items-center justify-center shadow-xs">0</span>
                 </button>
 
-                <!-- Press Your Luck Minigame Button -->
-                <button id="header-spin-btn"
-                        onclick="window.playSpinMinigame()"
-                        class="px-3.5 py-2 rounded-xl bg-appetite-100 border border-appetite-300 hover:border-appetite-700 text-appetite-900 text-xs font-bold flex items-center gap-1.5 transition-all shadow-xs"
-                        title="Press Your Luck!">
-                    <i id="headerSpinIcon" class="fa-solid fa-dice text-appetite-700"></i>
-                    <span id="headerSpinText" class="hidden sm:inline">Press Your Luck</span>
-                </button>
 
                 <!-- Blog Reading Portal Trigger -->
-                <button onclick="window.toggleBlogView()"
+                <button onclick="window.toggleViewStoreBlog()"
                         id="header-blog-btn"
                         class="px-3.5 py-2 rounded-xl bg-white border border-canvas-border hover:border-earth-700 text-earth-800 hover:text-earth-900 text-xs font-bold flex items-center gap-1.5 transition-all shadow-xs"
                         title="Read The Mischief Gazette">
                     <i class="fa-solid fa-newspaper text-earth-700"></i>
-                    <span class="hidden sm:inline">The Wacky Blog</span>
+                    <span id="headerBlogText" class="hidden sm:inline">The Wacky Blog</span>
                 </button>
 
             </div>
@@ -899,6 +891,65 @@
 
         </div>
     </main>
+
+    <!-- 3.4 PRESS YOUR LUCK LAYOUT -->
+    <main id="luck-main-view" class="bg-earth-950 text-earth-100 py-16 flex-1 w-full hidden flex-col items-center justify-center min-h-[80vh]">
+        <div class="w-full max-w-2xl px-4 space-y-6">
+            <!-- Header -->
+            <div class="space-y-2 text-center">
+                <div class="inline-flex items-center gap-2 px-3.5 py-1 rounded-full bg-appetite-100 text-appetite-900 text-xs font-black uppercase tracking-wider">
+                    <i class="fa-solid fa-dice text-appetite-700"></i> Wacky Press Your Luck
+                </div>
+                <h3 class="font-heading font-black text-4xl sm:text-5xl text-white tracking-tight">Press Your Luck!</h3>
+                <p class="text-sm text-earth-400">Stop the board to win up to 50% OFF your entire cart!</p>
+            </div>
+
+            <!-- Press Your Luck Board Container -->
+            <div id="prize-luck-board" class="relative w-full mx-auto my-6 grid grid-cols-3 gap-3 sm:gap-4 p-4 sm:p-6 bg-earth-900 rounded-2xl border-4 border-earth-800 shadow-2xl">
+                <!-- Squares -->
+                <div class="luck-sq aspect-square bg-earth-800 rounded-xl flex items-center justify-center text-center font-black text-white text-sm sm:text-lg border-2 border-earth-700 transition-all shadow-md" data-prize="10% OFF" data-prize-idx="0">10% OFF</div>
+                <div class="luck-sq aspect-square bg-earth-800 rounded-xl flex items-center justify-center text-center font-black text-white text-sm sm:text-lg border-2 border-earth-700 transition-all shadow-md" data-prize="TRY AGAIN" data-prize-idx="1">TRY AGAIN</div>
+                <div class="luck-sq aspect-square bg-earth-800 rounded-xl flex items-center justify-center text-center font-black text-white text-sm sm:text-lg border-2 border-earth-700 transition-all shadow-md" data-prize="15% OFF" data-prize-idx="2">15% OFF</div>
+                
+                <div class="luck-sq aspect-square bg-earth-800 rounded-xl flex items-center justify-center text-center font-black text-white text-sm sm:text-lg border-2 border-earth-700 transition-all shadow-md" data-prize="10% OFF" data-prize-idx="7">10% OFF</div>
+                
+                <div class="aspect-square bg-black rounded-xl flex items-center justify-center text-center font-black text-appetite-500 text-xl border-2 border-earth-900 shadow-inner overflow-hidden">
+                    <i class="fa-solid fa-dice text-5xl sm:text-6xl opacity-70"></i>
+                </div>
+                
+                <div class="luck-sq aspect-square bg-earth-800 rounded-xl flex items-center justify-center text-center font-black text-white text-sm sm:text-lg border-2 border-earth-700 transition-all shadow-md" data-prize="20% OFF" data-prize-idx="3">20% OFF</div>
+                
+                <div class="luck-sq aspect-square bg-earth-800 rounded-xl flex items-center justify-center text-center font-black text-white text-sm sm:text-lg border-2 border-earth-700 transition-all shadow-md" data-prize="50% OFF!" data-prize-idx="6">50% OFF!</div>
+                <div class="luck-sq aspect-square bg-earth-800 rounded-xl flex items-center justify-center text-center font-black text-white text-sm sm:text-lg border-2 border-earth-700 transition-all shadow-md" data-prize="TRY AGAIN" data-prize-idx="5">TRY AGAIN</div>
+                <div class="luck-sq aspect-square bg-earth-800 rounded-xl flex items-center justify-center text-center font-black text-white text-sm sm:text-lg border-2 border-earth-700 transition-all shadow-md" data-prize="10% OFF" data-prize-idx="4">10% OFF</div>
+            </div>
+
+            <!-- Result Announcement Banner -->
+            <div id="prize-result-box" class="hidden p-6 rounded-2xl bg-earth-800 border border-earth-700 space-y-3 animate-rise-up text-center">
+                <div id="prize-result-title" class="font-heading font-black text-2xl text-white"></div>
+                <div id="prize-result-desc" class="text-sm text-earth-300"></div>
+                <div id="prize-coupon-code-container" class="hidden flex items-center justify-center gap-3 pt-2">
+                    <span id="prize-coupon-badge" class="px-5 py-2 rounded-xl bg-appetite-700 text-white font-mono font-black text-lg tracking-widest shadow-md"></span>
+                    <button onclick="window.copyCouponCode()" class="px-4 py-2 rounded-xl bg-earth-700 hover:bg-earth-600 text-white font-bold text-sm transition-all border border-earth-500">
+                        <i class="fa-solid fa-copy mr-1"></i> Copy
+                    </button>
+                </div>
+            </div>
+
+            <!-- Spin Trigger / Actions -->
+            <div class="flex flex-col sm:flex-row items-center justify-center gap-4 pt-4">
+                <button id="spin-wheel-btn" onclick="window.playPressYourLuckGame()" class="w-full sm:w-auto px-8 py-4 rounded-xl bg-gradient-to-r from-appetite-700 to-appetite-600 hover:from-appetite-800 hover:to-appetite-700 text-white font-black text-base flex items-center justify-center gap-2 transition-all shadow-lg shadow-appetite-800/30 active:scale-95">
+                    <i class="fa-solid fa-stopwatch text-amber-300 text-xl"></i>
+                    <span>PRESS YOUR LUCK NOW!</span>
+                </button>
+                <button onclick="window.returnToStore()" class="w-full sm:w-auto px-8 py-4 rounded-xl bg-earth-800 hover:bg-earth-700 text-white border border-earth-600 font-bold text-base flex items-center justify-center gap-2 transition-all">
+                    <i class="fa-solid fa-shop"></i>
+                    <span>Back to Store</span>
+                </button>
+            </div>
+        </div>
+    </main>
+
 
     <!-- 3.5 MAIN BLOG LAYOUT (The Mischief Gazette & Wacky Chronicles) -->
     <main id="blog-main-view" 
@@ -2654,11 +2705,25 @@
         window.activeBlogCategory = 'all';
 
         window.playSpinMinigame = function() {
+            window.triggerMinigame(); // Forward to the same function for consistency
+        };
+
+        window.triggerMinigame = function() {
+            const storeMain = document.getElementById('store-main-view');
+            const blogMain = document.getElementById('blog-main-view');
+            const luckMain = document.getElementById('luck-main-view');
+            
             const btnIcon = document.getElementById('headerSpinIcon');
             if (btnIcon) btnIcon.classList.add('fa-spin');
 
-            const storeElements = Array.from(document.querySelectorAll('#store-main-view header, #store-main-view section, #store-main-view aside, #product-grid > div, #store-main-view .store-fluid-container > *'));
-            storeElements.forEach((el, idx) => {
+            // Pick whatever view is active
+            const isStoreView = window.currentView === 'store';
+            const selector = isStoreView 
+                ? '#store-main-view header, #store-main-view section, #store-main-view aside, #product-grid > div, #store-main-view .store-fluid-container > *'
+                : '#blog-main-view .store-fluid-container > div, #blog-posts-grid > article';
+            
+            const elements = Array.from(document.querySelectorAll(selector));
+            elements.forEach((el, idx) => {
                 const tiltStart = (Math.random() - 0.5) * 16;
                 const tiltEnd = (Math.random() - 0.5) * 44;
                 el.style.setProperty('--fall-tilt', `${tiltStart}deg`);
@@ -2671,37 +2736,31 @@
             setTimeout(() => {
                 if (btnIcon) btnIcon.classList.remove('fa-spin');
                 
-                const r = Math.random();
-                let prize = "";
-                let code = "";
-                if (r < 0.20) {
-                    prize = "Try again";
-                } else if (r < 0.70) {
-                    prize = "10% off";
-                    code = "WACKY10";
-                } else if (r < 0.85) {
-                    prize = "15% off";
-                    code = "WACKY15";
-                } else if (r < 0.95) {
-                    prize = "20% off";
-                    code = "WACKY20";
-                } else {
-                    prize = "50% off";
-                    code = "WACKY50";
-                }
-
-                if (prize === "Try again") {
-                    alert("Aww, you didn't win this time. Try again!");
-                } else {
-                    alert(`Congratulations! You won ${prize}! Use coupon code: ${code}`);
-                }
-
-                storeElements.forEach(el => {
+                elements.forEach(el => {
                     el.classList.remove('animate-fall-sporadic');
                     el.style.animationDelay = '';
                     el.style.animationDuration = '';
                 });
-            }, 520);
+
+                if (isStoreView) storeMain.classList.add('hidden');
+                else blogMain.classList.add('hidden');
+
+                luckMain.classList.remove('hidden');
+                luckMain.classList.add('animate-rise-up');
+                
+                window.scrollTo({ top: 0, behavior: 'smooth' });
+
+                // Reset game board state
+                document.getElementById('spin-wheel-btn').disabled = false;
+                document.getElementById('spin-wheel-btn').innerHTML = '<i class="fa-solid fa-stopwatch text-amber-300 text-xl"></i><span>PRESS YOUR LUCK NOW!</span>';
+                document.getElementById('prize-result-box').classList.add('hidden');
+                document.querySelectorAll('.luck-sq').forEach(s => {
+                    s.classList.remove('bg-appetite-500', 'border-appetite-300', 'scale-105', 'z-10', 'bg-amber-400', 'border-amber-200', 'animate-pulse');
+                    s.classList.add('bg-earth-800', 'border-earth-700');
+                });
+                
+                setTimeout(() => luckMain.classList.remove('animate-rise-up'), 500);
+            }, 550);
         };
 
         window.toggleViewStoreBlog = function() {
@@ -2786,121 +2845,127 @@
             }
         };
 
-        // ==============================================================================
-        // SPIN PRIZE WHEEL MINIGAME LOGIC
-        // ==============================================================================
-        window.wheelRotation = 0;
-        window.activeDiscount = 0;
-        window.currentWonCoupon = null;
-
-        window.triggerMinigame = function() {
-            // Keep falling items animation when button is clicked as requested!
-            window.triggerFallingItemsAnimation();
-            window.openPrizeWheelModal();
-        };
-
-        window.triggerFallingItemsAnimation = function() {
-            const isStoreView = window.currentView === 'store';
-            const selector = isStoreView 
-                ? '#store-main-view header, #store-main-view section, #store-main-view aside, #product-grid > div, #store-main-view .store-fluid-container > *'
-                : '#blog-main-view .store-fluid-container > div, #blog-posts-grid > article';
+        window.returnToStore = function() {
+            const storeMain = document.getElementById('store-main-view');
+            const luckMain = document.getElementById('luck-main-view');
             
-            const elements = Array.from(document.querySelectorAll(selector));
-            elements.forEach((el, idx) => {
+            // Just like the toggle store/blog, let's make the luck board fall!
+            const luckElements = Array.from(document.querySelectorAll('#luck-main-view > div > div'));
+            luckElements.forEach((el, idx) => {
                 const tiltStart = (Math.random() - 0.5) * 16;
                 const tiltEnd = (Math.random() - 0.5) * 44;
                 el.style.setProperty('--fall-tilt', `${tiltStart}deg`);
                 el.style.setProperty('--fall-tilt-end', `${tiltEnd}deg`);
-                el.style.animationDelay = `${(idx % 10) * 0.04 + Math.random() * 0.05}s`;
-                el.style.animationDuration = `${0.45 + (idx % 4) * 0.07}s`;
+                el.style.animationDelay = `${(idx % 4) * 0.04 + Math.random() * 0.05}s`;
+                el.style.animationDuration = `${0.45}s`;
                 el.classList.add('animate-fall-sporadic');
             });
 
             setTimeout(() => {
-                elements.forEach(el => {
+                luckElements.forEach(el => {
                     el.classList.remove('animate-fall-sporadic');
                     el.style.animationDelay = '';
                     el.style.animationDuration = '';
                 });
-            }, 550);
+                
+                luckMain.classList.add('hidden');
+                storeMain.classList.remove('hidden');
+                storeMain.classList.add('animate-rise-up');
+                
+                window.currentView = 'store';
+                const hBlogText = document.getElementById('headerBlogText');
+                const hBlogIcon = document.getElementById('headerBlogIcon');
+                if (hBlogText) hBlogText.innerText = 'Wacky Blog';
+                if (hBlogIcon) hBlogIcon.className = 'fa-solid fa-book-open-reader text-appetite-700';
+
+                window.scrollTo({ top: 0, behavior: 'smooth' });
+                setTimeout(() => storeMain.classList.remove('animate-rise-up'), 500);
+            }, 500);
         };
 
-        window.openPrizeWheelModal = function() {
-            const modal = document.getElementById('prize-wheel-modal');
-            if (modal) modal.classList.remove('hidden');
-        };
-
-        window.closePrizeWheelModal = function() {
-            const modal = document.getElementById('prize-wheel-modal');
-            if (modal) modal.classList.add('hidden');
-        };
-
-        window.spinPrizeWheel = function() {
+        window.playPressYourLuckGame = function() {
             const btn = document.getElementById('spin-wheel-btn');
-            const wheel = document.getElementById('prize-wheel-svg');
             const resultBox = document.getElementById('prize-result-box');
             const resultTitle = document.getElementById('prize-result-title');
             const resultDesc = document.getElementById('prize-result-desc');
-            const couponBox = document.getElementById('prize-coupon-code-container');
+            const couponContainer = document.getElementById('prize-coupon-code-container');
             const couponBadge = document.getElementById('prize-coupon-badge');
+            const squares = Array.from(document.querySelectorAll('.luck-sq')).sort((a, b) => parseInt(a.dataset.prizeIdx) - parseInt(b.dataset.prizeIdx));
 
-            if (btn) btn.disabled = true;
-            if (resultBox) resultBox.classList.add('hidden');
+            if(btn.disabled) return;
+            btn.disabled = true;
+            btn.innerHTML = '<i class="fa-solid fa-spinner fa-spin text-amber-300 text-xl"></i><span> STOPPING...</span>';
+            resultBox.classList.add('hidden');
 
-            // Probability distribution:
-            // 20% -> Try Again
-            // 50% -> 10% OFF
-            // 15% -> 15% OFF
-            // 10% -> 20% OFF
-            // 5%  -> 50% OFF
-            const rand = Math.random() * 100;
-            let outcome;
-            if (rand < 20) { // 20%
-                outcome = { type: 'retry', label: 'Try Again', code: null, text: 'So close! Give it another spin!', centerAngle: 90 };
-            } else if (rand < 70) { // 50%
-                const isSeg0 = Math.random() < 0.5;
-                outcome = { type: 'win', label: '10% OFF', discount: 0.10, code: 'WACKY10', text: 'Sweet! You won 10% OFF your entire cart!', centerAngle: isSeg0 ? 30 : 210 };
-            } else if (rand < 85) { // 15%
-                outcome = { type: 'win', label: '15% OFF', discount: 0.15, code: 'WACKY15', text: 'Awesome! You unlocked 15% OFF!', centerAngle: 150 };
-            } else if (rand < 95) { // 10%
-                outcome = { type: 'win', label: '20% OFF', discount: 0.20, code: 'WACKY20', text: 'JACKPOT! You bagged 20% OFF your order!', centerAngle: 270 };
-            } else { // 5%
-                outcome = { type: 'win', label: '50% OFF', discount: 0.50, code: 'WACKY50', text: '🎉 MEGA GRAND PRIZE! You won 50% OFF!', centerAngle: 330 };
-            }
+            let currentIdx = 0;
+            let speed = 50;
+            let jumps = 0;
+            const minJumps = 40;
+            const maxJumps = 60 + Math.floor(Math.random() * 20);
 
-            // Calculate exact target rotation (5 full 360° spins + target segment alignment)
-            const targetOffset = (360 - outcome.centerAngle) % 360;
-            const currentMod = window.wheelRotation % 360;
-            let needed = targetOffset - currentMod;
-            if (needed < 0) needed += 360;
+            const r = Math.random();
+            let targetPrize;
+            if(r < 0.20) targetPrize = "TRY AGAIN";
+            else if(r < 0.70) targetPrize = "10% OFF";
+            else if(r < 0.85) targetPrize = "15% OFF";
+            else if(r < 0.95) targetPrize = "20% OFF";
+            else targetPrize = "50% OFF!";
 
-            window.wheelRotation += 1800 + needed;
-            if (wheel) wheel.style.transform = `rotate(${window.wheelRotation}deg)`;
+            const targetSquares = squares.filter(s => s.dataset.prize === targetPrize);
+            const finalSquare = targetSquares[Math.floor(Math.random() * targetSquares.length)];
+            const finalTargetIdx = parseInt(finalSquare.dataset.prizeIdx);
 
-            setTimeout(() => {
-                if (resultBox && resultTitle && resultDesc) {
-                    resultBox.classList.remove('hidden');
-                    if (outcome.type === 'win') {
-                        resultTitle.innerHTML = `🎉 YOU WON ${outcome.label}!`;
-                        resultTitle.className = 'font-heading font-black text-xl text-appetite-700';
-                        resultDesc.innerText = outcome.text;
-                        if (couponBox && couponBadge) {
-                            couponBox.classList.remove('hidden');
-                            couponBadge.innerText = outcome.code;
-                            window.currentWonCoupon = outcome.code;
-                            window.activeDiscount = outcome.discount;
-                            if (window.updateCartUI) window.updateCartUI();
-                            if (window.showToast) window.showToast(`🎉 Coupon ${outcome.code} auto-applied for ${outcome.label}!`);
-                        }
-                    } else {
-                        resultTitle.innerHTML = `😅 ${outcome.label}!`;
-                        resultTitle.className = 'font-heading font-black text-xl text-earth-700';
-                        resultDesc.innerText = outcome.text;
-                        if (couponBox) couponBox.classList.add('hidden');
-                    }
+            const highlightSquare = (idx) => {
+                squares.forEach(s => {
+                    s.classList.remove('bg-appetite-500', 'border-appetite-300', 'scale-105', 'z-10');
+                    s.classList.add('bg-earth-800', 'border-earth-700');
+                });
+                const sq = squares[idx];
+                sq.classList.remove('bg-earth-800', 'border-earth-700');
+                sq.classList.add('bg-appetite-500', 'border-appetite-300', 'scale-105', 'z-10');
+            };
+
+            const jump = () => {
+                highlightSquare(currentIdx);
+                jumps++;
+                
+                if (jumps > minJumps) {
+                    speed += 15;
                 }
-                if (btn) btn.disabled = false;
-            }, 3600);
+
+                if (jumps >= maxJumps && currentIdx === finalTargetIdx) {
+                    setTimeout(() => {
+                        squares[currentIdx].classList.remove('bg-appetite-500');
+                        squares[currentIdx].classList.add('bg-amber-400', 'border-amber-200', 'animate-pulse');
+                        
+                        btn.innerHTML = '<i class="fa-solid fa-check text-amber-300 text-xl"></i><span> COMPLETED</span>';
+                        resultTitle.innerText = targetPrize === 'TRY AGAIN' ? 'So Close!' : 'You Won ' + targetPrize;
+                        resultDesc.innerText = targetPrize === 'TRY AGAIN' ? 'Better luck next time! Keep shopping.' : 'Use this code at checkout to claim your wacky discount.';
+                        
+                        if(targetPrize !== 'TRY AGAIN') {
+                            couponContainer.classList.remove('hidden');
+                            const val = targetPrize.replace('% OFF', '').replace('!', '');
+                            const code = 'WACKY' + val;
+                            couponBadge.innerText = code;
+                            
+                            window.currentWonCoupon = code;
+                            window.activeDiscount = parseInt(val) / 100;
+                            if (window.updateCartUI) window.updateCartUI();
+                            if (window.showToast) window.showToast(`🎉 Coupon ${code} auto-applied!`);
+                        } else {
+                            couponContainer.classList.add('hidden');
+                        }
+                        
+                        resultBox.classList.remove('hidden');
+                    }, 500);
+                    return;
+                }
+
+                currentIdx = (currentIdx + 1) % 8;
+                setTimeout(jump, speed);
+            };
+
+            jump();
         };
 
         window.copyCouponCode = function() {
@@ -3081,148 +3146,7 @@
         </div>
     </div>
 
-    <!-- 10. SPIN PRIZE WHEEL MINIGAME MODAL -->
-    <div id="prize-wheel-modal" 
-         class="fixed inset-0 bg-black/75 backdrop-blur-md z-50 hidden flex items-center justify-center p-4 sm:p-6" 
-         onclick="if(event.target===this) window.closePrizeWheelModal()">
-        <div class="bg-white border-2 border-appetite-600 rounded-3xl w-full max-w-lg flex flex-col shadow-2xl overflow-hidden relative animate-rise-up p-6 text-center space-y-4">
-            
-            <button onclick="window.closePrizeWheelModal()" class="absolute top-4 right-4 h-9 w-9 rounded-full bg-earth-100 hover:bg-earth-200 text-earth-800 flex items-center justify-center transition-all border border-earth-300">
-                <i class="fa-solid fa-xmark text-lg"></i>
-            </button>
 
-            <!-- Header -->
-            <div class="space-y-1">
-                <div class="inline-flex items-center gap-2 px-3.5 py-1 rounded-full bg-appetite-100 text-appetite-900 text-xs font-black uppercase tracking-wider">
-                    <i class="fa-solid fa-dice text-appetite-700"></i> Wacky Press Your Luck
-                </div>
-                <h3 class="font-heading font-black text-2xl sm:text-3xl text-earth-950 tracking-tight">Press Your Luck!</h3>
-                <p class="text-xs text-earth-600">Stop the board to win up to 50% OFF your entire cart!</p>
-            </div>
-
-            <!-- Press Your Luck Board Container -->
-            <div id="prize-luck-board" class="relative w-full mx-auto my-2 grid grid-cols-3 gap-2 sm:gap-3 p-3 bg-earth-950 rounded-xl border-4 border-earth-800 shadow-inner">
-                <!-- Squares -->
-                <div class="luck-sq aspect-square bg-earth-800 rounded-lg flex items-center justify-center text-center font-black text-white text-[10px] sm:text-xs border-2 border-earth-700 transition-all shadow-md" data-prize="10% OFF" data-prize-idx="0">10% OFF</div>
-                <div class="luck-sq aspect-square bg-earth-800 rounded-lg flex items-center justify-center text-center font-black text-white text-[10px] sm:text-xs border-2 border-earth-700 transition-all shadow-md" data-prize="TRY AGAIN" data-prize-idx="1">TRY AGAIN</div>
-                <div class="luck-sq aspect-square bg-earth-800 rounded-lg flex items-center justify-center text-center font-black text-white text-[10px] sm:text-xs border-2 border-earth-700 transition-all shadow-md" data-prize="15% OFF" data-prize-idx="2">15% OFF</div>
-                
-                <div class="luck-sq aspect-square bg-earth-800 rounded-lg flex items-center justify-center text-center font-black text-white text-[10px] sm:text-xs border-2 border-earth-700 transition-all shadow-md" data-prize="10% OFF" data-prize-idx="7">10% OFF</div>
-                
-                <div class="aspect-square bg-black rounded-lg flex items-center justify-center text-center font-black text-appetite-500 text-sm border-2 border-earth-900 shadow-inner overflow-hidden">
-                    <i class="fa-solid fa-dice text-3xl sm:text-4xl opacity-70"></i>
-                </div>
-                
-                <div class="luck-sq aspect-square bg-earth-800 rounded-lg flex items-center justify-center text-center font-black text-white text-[10px] sm:text-xs border-2 border-earth-700 transition-all shadow-md" data-prize="20% OFF" data-prize-idx="3">20% OFF</div>
-                
-                <div class="luck-sq aspect-square bg-earth-800 rounded-lg flex items-center justify-center text-center font-black text-white text-[10px] sm:text-xs border-2 border-earth-700 transition-all shadow-md" data-prize="50% OFF!" data-prize-idx="6">50% OFF!</div>
-                <div class="luck-sq aspect-square bg-earth-800 rounded-lg flex items-center justify-center text-center font-black text-white text-[10px] sm:text-xs border-2 border-earth-700 transition-all shadow-md" data-prize="TRY AGAIN" data-prize-idx="5">TRY AGAIN</div>
-                <div class="luck-sq aspect-square bg-earth-800 rounded-lg flex items-center justify-center text-center font-black text-white text-[10px] sm:text-xs border-2 border-earth-700 transition-all shadow-md" data-prize="10% OFF" data-prize-idx="4">10% OFF</div>
-            </div>
-
-            <!-- Result Announcement Banner -->
-            <div id="prize-result-box" class="hidden p-4 rounded-2xl bg-earth-50 border border-canvas-border space-y-2 animate-rise-up">
-                <div id="prize-result-title" class="font-heading font-black text-xl text-earth-950"></div>
-                <div id="prize-result-desc" class="text-xs text-earth-700"></div>
-                <div id="prize-coupon-code-container" class="hidden flex items-center justify-center gap-2 pt-1">
-                    <span id="prize-coupon-badge" class="px-4 py-1.5 rounded-xl bg-appetite-700 text-white font-mono font-black text-sm tracking-widest shadow-sm"></span>
-                    <button onclick="window.copyCouponCode()" class="px-3 py-1.5 rounded-xl bg-earth-200 hover:bg-earth-300 text-earth-900 font-bold text-xs transition-all border border-earth-300">
-                        <i class="fa-solid fa-copy mr-1"></i> Copy
-                    </button>
-                </div>
-            </div>
-
-            <!-- Spin Trigger / Actions -->
-            <div class="flex items-center justify-center gap-3 pt-2">
-                <button id="spin-wheel-btn" onclick="window.playPressYourLuckGame()" class="w-full py-3.5 rounded-xl bg-gradient-to-r from-appetite-700 to-appetite-600 hover:from-appetite-800 hover:to-appetite-700 text-white font-black text-sm flex items-center justify-center gap-2 transition-all shadow-lg shadow-appetite-800/30 active:scale-95">
-                    <i class="fa-solid fa-stopwatch text-amber-300 text-lg"></i>
-                    <span>PRESS YOUR LUCK NOW!</span>
-                </button>
-            </div>
-
-            <script>
-                window.playPressYourLuckGame = function() {
-                    const btn = document.getElementById('spin-wheel-btn');
-                    const resultBox = document.getElementById('prize-result-box');
-                    const resultTitle = document.getElementById('prize-result-title');
-                    const resultDesc = document.getElementById('prize-result-desc');
-                    const couponContainer = document.getElementById('prize-coupon-code-container');
-                    const couponBadge = document.getElementById('prize-coupon-badge');
-                    const squares = Array.from(document.querySelectorAll('.luck-sq')).sort((a, b) => parseInt(a.dataset.prizeIdx) - parseInt(b.dataset.prizeIdx));
-
-                    if(btn.disabled) return;
-                    btn.disabled = true;
-                    btn.innerHTML = '<i class="fa-solid fa-spinner fa-spin text-amber-300 text-lg"></i><span> STOPPING...</span>';
-                    resultBox.classList.add('hidden');
-
-                    let currentIdx = 0;
-                    let speed = 50;
-                    let jumps = 0;
-                    const minJumps = 40;
-                    const maxJumps = 60 + Math.floor(Math.random() * 20);
-
-                    const r = Math.random();
-                    let targetPrize;
-                    if(r < 0.20) targetPrize = "TRY AGAIN";
-                    else if(r < 0.70) targetPrize = "10% OFF";
-                    else if(r < 0.85) targetPrize = "15% OFF";
-                    else if(r < 0.95) targetPrize = "20% OFF";
-                    else targetPrize = "50% OFF!";
-
-                    const targetSquares = squares.filter(s => s.dataset.prize === targetPrize);
-                    const finalSquare = targetSquares[Math.floor(Math.random() * targetSquares.length)];
-                    const finalTargetIdx = parseInt(finalSquare.dataset.prizeIdx);
-
-                    const highlightSquare = (idx) => {
-                        squares.forEach(s => {
-                            s.classList.remove('bg-appetite-500', 'border-appetite-300', 'scale-105', 'z-10');
-                            s.classList.add('bg-earth-800', 'border-earth-700');
-                        });
-                        const sq = squares[idx];
-                        sq.classList.remove('bg-earth-800', 'border-earth-700');
-                        sq.classList.add('bg-appetite-500', 'border-appetite-300', 'scale-105', 'z-10');
-                    };
-
-                    const jump = () => {
-                        highlightSquare(currentIdx);
-                        jumps++;
-                        
-                        if (jumps > minJumps) {
-                            speed += 15;
-                        }
-
-                        if (jumps >= maxJumps && currentIdx === finalTargetIdx) {
-                            setTimeout(() => {
-                                squares[currentIdx].classList.remove('bg-appetite-500');
-                                squares[currentIdx].classList.add('bg-amber-400', 'border-amber-200', 'animate-pulse');
-                                
-                                btn.innerHTML = '<i class="fa-solid fa-check text-amber-300 text-lg"></i><span> COMPLETED</span>';
-                                resultTitle.innerText = targetPrize === 'TRY AGAIN' ? 'So Close!' : 'You Won ' + targetPrize;
-                                resultDesc.innerText = targetPrize === 'TRY AGAIN' ? 'Better luck next time! Keep shopping.' : 'Use this code at checkout to claim your wacky discount.';
-                                
-                                if(targetPrize !== 'TRY AGAIN') {
-                                    couponContainer.classList.remove('hidden');
-                                    const val = targetPrize.replace('% OFF', '').replace('!', '');
-                                    couponBadge.innerText = 'WACKY' + val;
-                                } else {
-                                    couponContainer.classList.add('hidden');
-                                }
-                                
-                                resultBox.classList.remove('hidden');
-                            }, 500);
-                            return;
-                        }
-
-                        currentIdx = (currentIdx + 1) % 8;
-                        setTimeout(jump, speed);
-                    };
-
-                    jump();
-                };
-            </script>
-
-        </div>
-    </div>
 
     <!-- CORNER TRIANGLE MINIGAME BUTTON (SPIN & WIN) -->
     <div id="wacky-corner-toggle"

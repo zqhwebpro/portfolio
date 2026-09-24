@@ -26,7 +26,7 @@ export function WaveformVisualizer({ isAudioPlaying = true, speedMph = 0 }) {
 
       ctx.clearRect(0, 0, width, height);
 
-      const horizonY = height * 0.55;
+      const horizonY = height * 0.55 - 75; // Moved up to sit just above the mountain peaks
       const time = Date.now() / 1000;
       const beat1 = Math.max(0, Math.sin(time * Math.PI * 2 * 1.8)); // ~108 BPM
       const beat2 = Math.max(0, Math.sin(time * Math.PI * 2 * 2.2)); // ~132 BPM
