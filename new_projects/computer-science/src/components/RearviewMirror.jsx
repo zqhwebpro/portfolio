@@ -133,7 +133,7 @@ export function RearviewMirror({ speedMph }) {
           letterSpacing: '0.08em',
           textShadow: '0 0 8px rgba(0, 240, 255, 0.9)'
         }}>
-          {speedMph} MPH
+          {Math.max(0, Math.round(speedMph))} MPH
         </div>
       </div>
     </div>

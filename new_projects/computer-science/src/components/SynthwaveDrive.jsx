@@ -2,25 +2,25 @@ import React, { useState, useEffect, useRef } from 'react';
 import { RearviewMirror } from './RearviewMirror';
 import { WaveformVisualizer } from './WaveformVisualizer';
 import { SpotifyRadio } from './SpotifyRadio';
-import { Sparkles, X } from 'lucide-react';
+import { Sparkles } from 'lucide-react';
 import { SoundEngine } from '../utils/soundEngine';
 
 const AFFIRMATIONS = [
-  "YOU ARE UNSTOPPABLE. KEEP PUSHING FORWARD.",
-  "CODE IS CREATIVITY IN MOTION. DESIGN YOUR FUTURE.",
-  "EVERY SCROLL BRINGS YOU CLOSER TO MASTERY.",
-  "GREATNESS IS CREATED ONE STEP AT A TIME.",
-  "THE HORIZON BELONGS TO THOSE WHO DARE TO DRIVE.",
-  "INNOVATION LIVES AT THE EDGE OF FREEDOM.",
-  "FOCUS ON THE JOURNEY. RESULTS WILL FOLLOW.",
-  "YOUR POTENTIAL IS INFINITE. RIDE THE NEON WAVE.",
-  "PERSISTENCE MASTERS EVERY ALGORITHM.",
-  "SYNTHESIZE YOUR IDEAS INTO REALITY.",
-  "YOUR LOGIC SHINES BRIGHTER THAN A NEON SUNRISE.",
-  "THE DIGITAL GRID EXPANDS WITH YOUR VISION.",
-  "YOU ARE BENDING REALITY WITH EVERY LINE OF CODE.",
-  "KEEP DRIVING. THE FUTURE IS CRAFTED BY YOU.",
-  "MASTER THE FUNDAMENTALS, COMMAND ANY LANGUAGE."
+  "You are unstoppable. Keep pushing forward.",
+  "Code is creativity in motion. Design your future.",
+  "Every scroll brings you closer to mastery.",
+  "Greatness is created one step at a time.",
+  "The horizon belongs to those who dare to drive.",
+  "Innovation lives at the edge of freedom.",
+  "Focus on the journey. Results will follow.",
+  "Your potential is infinite. Ride the neon wave.",
+  "Persistence masters every algorithm.",
+  "Synthesize your ideas into reality.",
+  "Your logic shines brighter than a neon sunrise.",
+  "The digital grid expands with your vision.",
+  "You are bending reality with every line of code.",
+  "Keep driving. The future is crafted by you.",
+  "Master the fundamentals, command any language."
 ];
 
 const HORIZONTAL_POSITIONS = ['25%', '50%', '75%'];
@@ -32,16 +32,21 @@ export function SynthwaveDrive() {
   const [speedMph, setSpeedMph] = useState(0);
   const [driveDistance, setDriveDistance] = useState(0);
   const [popups, setPopups] = useState([]);
-  const [isAudioPlaying, setIsAudioPlaying] = useState(false);
+  const [isAudioPlaying, setIsAudioPlaying] = useState(true);
 
   const speedRef = useRef(0);
   const offsetRef = useRef(0);
   const phaseRef = useRef(0);
   const driveDistanceRef = useRef(0);
-  const nextMilestoneDistRef = useRef(6);
+  const nextMilestoneDistRef = useRef(20);
   const milestoneCountRef = useRef(0);
+  const isAudioPlayingRef = useRef(true);
 
-  // Handle Wheel / Scroll Interaction (Scroll Down = Drive Forward, Scroll Up = Reverse)
+  useEffect(() => {
+    isAudioPlayingRef.current = isAudioPlaying;
+  }, [isAudioPlaying]);
+
+  // Handle Wheel / Scroll Interaction (Scroll Down = Drive Forward, Speed is NEVER negative)
   useEffect(() => {
     const handleWheel = (e) => {
       e.preventDefault();
@@ -51,17 +56,18 @@ export function SynthwaveDrive() {
       if (e.deltaY > 0) {
         speedRef.current = Math.min(320, speedRef.current + 35);
       } else {
-        speedRef.current = Math.max(-240, speedRef.current - 35);
+        speedRef.current = Math.max(0, speedRef.current - 35);
       }
 
-      setSpeedMph(Math.round(speedRef.current));
+      // Enforce speed is NEVER negative
+      setSpeedMph(Math.max(0, Math.round(speedRef.current)));
 
       // Advance 3D Driving Distance
       driveDistanceRef.current += scrollDelta;
       const currentDist = driveDistanceRef.current;
       setDriveDistance(currentDist);
 
-      // Trigger new affirmation popup far down the road horizon when reaching distance milestones
+      // Trigger new affirmation popup far down the road horizon when reaching spread-apart milestones
       if (currentDist >= nextMilestoneDistRef.current) {
         milestoneCountRef.current += 1;
         const randomAff = AFFIRMATIONS[Math.floor(Math.random() * AFFIRMATIONS.length)];
@@ -73,13 +79,13 @@ export function SynthwaveDrive() {
           number: milestoneCountRef.current,
           leftPos: randomPos,
           startDist: currentDist,
-          targetDist: currentDist + 18 // Distance traveled for full road passage
+          targetDist: currentDist + 22 // Distance traveled for full road passage
         };
 
         setPopups((prev) => [...prev, newPopup]);
 
-        // Next milestone 8 to 15 distance units away
-        const nextGap = Math.floor(Math.random() * 8) + 8;
+        // Spread pop-ups far apart (30 to 50 distance units)
+        const nextGap = Math.floor(Math.random() * 20) + 30;
         nextMilestoneDistRef.current = currentDist + nextGap;
       }
     };
@@ -96,7 +102,7 @@ export function SynthwaveDrive() {
     };
   }, []);
 
-  // Remove popups that have traveled completely past the driver
+  // Remove popups that have traveled past the driver
   useEffect(() => {
     setPopups((prev) =>
       prev.filter((p) => {
@@ -106,7 +112,7 @@ export function SynthwaveDrive() {
     );
   }, [driveDistance]);
 
-  // Canvas 3D Perspective Grid & Sun Circle Waves Render Loop
+  // Canvas 3D Perspective Grid & Dynamic Sun Wave Render Loop
   useEffect(() => {
     const canvas = canvasRef.current;
     if (!canvas) return;
@@ -118,21 +124,21 @@ export function SynthwaveDrive() {
       const width = (canvas.width = parent ? parent.clientWidth : window.innerWidth);
       const height = (canvas.height = parent ? parent.clientHeight : window.innerHeight);
 
-      // Decelerate speed smoothly to 0 when not scrolling
-      if (Math.abs(speedRef.current) > 0.1) {
+      // Decelerate speed smoothly to 0 when not scrolling (speed is never negative)
+      if (speedRef.current > 0.1) {
         speedRef.current = speedRef.current * 0.92;
       } else {
         speedRef.current = 0;
       }
-      setSpeedMph(Math.round(speedRef.current));
+      setSpeedMph(Math.max(0, Math.round(speedRef.current)));
 
-      // Advance grid offset forward or backward depending on speedRef
-      if (speedRef.current !== 0) {
+      // Advance grid offset forward
+      if (speedRef.current > 0) {
         const baseVel = speedRef.current * 0.16;
         offsetRef.current = (offsetRef.current + baseVel) % 40;
       }
 
-      // 1. Deep Space Night Sky Gradient (Clean)
+      // 1. Deep Space Night Sky Gradient
       const skyGrad = ctx.createLinearGradient(0, 0, 0, height * 0.55);
       skyGrad.addColorStop(0, '#040008');
       skyGrad.addColorStop(0.5, '#18042e');
@@ -167,21 +173,23 @@ export function SynthwaveDrive() {
       ctx.fillRect(0, 0, width, height);
       ctx.restore();
 
-      // 2.5 TRANSPARENT CONCENTRIC SUN CIRCLE WAVES (Behind mountain & foreground grid)
+      // 2.5 SUN CIRCLE LINES DYNAMICALLY DRIVEN & AFFECTED BY MUSIC
       const numRings = 5;
-      const baseAmp = isAudioPlaying ? 22 : Math.abs(speedRef.current) > 0 ? 12 : 5;
-      phaseRef.current += 0.03 + (Math.abs(speedRef.current) * 0.001);
+      const baseAmp = isAudioPlayingRef.current ? 40 : speedRef.current > 0 ? 18 : 6;
+      phaseRef.current += isAudioPlayingRef.current ? 0.05 : 0.02;
 
       ctx.save();
       for (let rIdx = 0; rIdx < numRings; rIdx++) {
-        const ringBaseR = sunRadius + 18 + rIdx * 26 + ((phaseRef.current * 16) % 26);
-        const ringAlpha = Math.max(0.04, 0.25 - (rIdx * 0.04));
+        const ringBaseR = sunRadius + 18 + rIdx * 28 + ((phaseRef.current * 16) % 28);
+        const ringAlpha = isAudioPlayingRef.current
+          ? Math.max(0.1, 0.42 - (rIdx * 0.06))
+          : Math.max(0.04, 0.2 - (rIdx * 0.04));
 
         ctx.globalAlpha = ringAlpha;
         ctx.strokeStyle = rIdx % 2 === 0 ? '#00F0FF' : '#FF007F';
-        ctx.lineWidth = 1.8;
+        ctx.lineWidth = isAudioPlayingRef.current ? 2.5 : 1.8;
         ctx.shadowColor = rIdx % 2 === 0 ? '#00F0FF' : '#FF007F';
-        ctx.shadowBlur = 8;
+        ctx.shadowBlur = isAudioPlayingRef.current ? 12 : 6;
 
         ctx.beginPath();
         const steps = 90;
@@ -224,7 +232,7 @@ export function SynthwaveDrive() {
       ctx.fillStyle = floorGrad;
       ctx.fillRect(0, horizonY, width, height - horizonY);
 
-      // Perspective Grid Lines (Horizontal moving forward/backward)
+      // Perspective Grid Lines (Horizontal moving forward)
       ctx.lineWidth = 2;
       const numH = 18;
       for (let i = 0; i < numH; i++) {
@@ -261,12 +269,7 @@ export function SynthwaveDrive() {
 
     render();
     return () => cancelAnimationFrame(animId);
-  }, [isAudioPlaying]);
-
-  const dismissPopup = (id) => {
-    SoundEngine.playSuccess();
-    setPopups((prev) => prev.filter((p) => p.id !== id));
-  };
+  }, []);
 
   return (
     <div
@@ -282,20 +285,20 @@ export function SynthwaveDrive() {
       {/* 3D Canvas Scene */}
       <canvas ref={canvasRef} style={{ width: '100%', height: '100%', display: 'block' }} />
 
-      {/* 1. TOP CENTER REARVIEW MIRROR (FLUSH AT VERY TOP) */}
+      {/* 1. TOP CENTER REARVIEW MIRROR */}
       <RearviewMirror speedMph={speedMph} />
 
       {/* 2. LIVE WAVEFORM SCOPE */}
       <WaveformVisualizer isAudioPlaying={isAudioPlaying} speedMph={speedMph} />
 
-      {/* 3. SPOTIFY RADIO PLAYER WITH OFFICIAL SPOTIFY EMBED */}
+      {/* 3. REDESIGNED SPOTIFY RADIO (NO WORDS, PURE DESIGN & API) */}
       <SpotifyRadio onAudioStateChange={(active) => setIsAudioPlaying(active)} />
 
-      {/* Initial Start Instructions */}
+      {/* Initial Start Banner */}
       {driveDistance === 0 && (
         <div style={{
           position: 'absolute',
-          top: '52%',
+          top: '50%',
           left: '50%',
           transform: 'translate(-50%, -50%)',
           zIndex: 40,
@@ -351,100 +354,73 @@ export function SynthwaveDrive() {
               margin: 0,
               lineHeight: 1.45
             }}>
-              Scroll down to accelerate forward. Affirmations move up in 3D perspective along the road as you drive past them.
+              Scroll down to drive along the grid. Affirmations appear along the road plane as you travel.
             </p>
           </div>
         </div>
       )}
 
-      {/* DYNAMIC SCROLL-DRIVEN 3D ROAD PERSPECTIVE POP-UPS */}
+      {/* POP-UPS POSITIONED LOW CLOSER TO THE PLANE & SPREAD FAR APART (NO ALL CAPS, NO CLOSE BUTTON) */}
       {popups.map((popup) => {
         const totalDist = popup.targetDist - popup.startDist;
         const rawProgress = (driveDistance - popup.startDist) / totalDist;
         const progress = Math.max(0, Math.min(1.05, rawProgress));
 
-        // 3D Perspective Calculations based on road distance progress
+        // 3D Perspective Calculations: Kept low closer to the road plane
         let topPct, scale, opacity, rotateX;
 
-        if (progress <= 0.8) {
-          // Approaching along synthwave perspective road
-          const p = progress / 0.8;
-          topPct = 54 - p * 30; // 54% -> 24%
-          scale = 0.06 + Math.pow(p, 2.2) * 1.25; // 0.06 -> 1.31
+        if (progress <= 0.82) {
+          // Approaching along 3D grid floor plane (lower closer to road)
+          const p = progress / 0.82;
+          topPct = 54 - p * 18; // 54% down to 36% (low near plane!)
+          scale = 0.06 + Math.pow(p, 2.0) * 1.1; // 0.06 -> 1.16
           opacity = Math.min(1, p * 3.5);
-          rotateX = (1 - p) * 45;
+          rotateX = (1 - p) * 35;
         } else {
-          // Passing overhead/past the driver
-          const p = (progress - 0.8) / 0.25;
-          topPct = 24 - p * 20; // 24% -> 4%
-          scale = 1.31 + p * 0.4;
+          // Passing past driver
+          const p = (progress - 0.82) / 0.23;
+          topPct = 36 - p * 14; // 36% -> 22%
+          scale = 1.16 + p * 0.3;
           opacity = Math.max(0, 1 - p * 1.2);
-          rotateX = -p * 12;
+          rotateX = -p * 10;
         }
 
         return (
           <div
             key={popup.id}
-            onClick={() => dismissPopup(popup.id)}
             style={{
               position: 'absolute',
               top: `${topPct}%`,
               left: popup.leftPos,
               transform: `translate(-50%, -50%) scale(${scale}) rotateX(${rotateX}deg)`,
               opacity: opacity,
-              zIndex: Math.round(50 + progress * 20),
+              zIndex: Math.round(45 + progress * 20),
               width: '88%',
-              maxWidth: '460px',
-              cursor: 'pointer',
+              maxWidth: '440px',
               transition: 'top 0.08s linear, transform 0.08s linear, opacity 0.08s linear',
               pointerEvents: opacity > 0.3 ? 'auto' : 'none',
             }}
           >
             <div style={{
-              background: 'rgba(6, 1, 18, 0.4)',
+              background: 'rgba(6, 1, 18, 0.45)',
               backdropFilter: 'blur(20px)',
               WebkitBackdropFilter: 'blur(20px)',
               border: '1.5px solid rgba(0, 240, 255, 0.85)',
-              borderRadius: '20px',
-              padding: '1.4rem 1.7rem',
-              boxShadow: '0 0 50px rgba(0, 240, 255, 0.5), inset 0 0 25px rgba(0, 240, 255, 0.25)',
+              borderRadius: '18px',
+              padding: '1.3rem 1.6rem',
+              boxShadow: '0 0 45px rgba(0, 240, 255, 0.5), inset 0 0 20px rgba(0, 240, 255, 0.2)',
               textAlign: 'center',
               position: 'relative'
             }}>
-              {/* Close Button */}
-              <button
-                onClick={(e) => {
-                  e.stopPropagation();
-                  dismissPopup(popup.id);
-                }}
-                style={{
-                  position: 'absolute',
-                  top: '12px',
-                  right: '14px',
-                  background: 'rgba(0, 240, 255, 0.1)',
-                  border: '1px solid rgba(0, 240, 255, 0.4)',
-                  borderRadius: '50%',
-                  color: '#00F0FF',
-                  cursor: 'pointer',
-                  padding: '5px',
-                  display: 'flex',
-                  alignItems: 'center',
-                  justifyContent: 'center',
-                }}
-                title="Acknowledge Affirmation"
-              >
-                <X size={15} />
-              </button>
-
-              {/* High Contrast White Text */}
+              {/* Clean Sentence Case Affirmation Text (No All Caps, No Close Button) */}
               <h3 style={{
                 fontFamily: 'var(--font-display)',
-                fontSize: 'clamp(1.2rem, 2.8vw, 1.6rem)',
-                fontWeight: 900,
+                fontSize: 'clamp(1.15rem, 2.6vw, 1.55rem)',
+                fontWeight: 800,
                 lineHeight: 1.35,
                 color: '#FFFFFF',
-                textShadow: '0 0 15px rgba(255, 255, 255, 0.95), 0 0 35px rgba(0, 240, 255, 0.9), 0 0 55px rgba(0, 240, 255, 0.7)',
-                letterSpacing: '0.03em',
+                textShadow: '0 0 15px rgba(255, 255, 255, 0.95), 0 0 35px rgba(0, 240, 255, 0.9), 0 0 50px rgba(0, 240, 255, 0.7)',
+                letterSpacing: '0.01em',
                 margin: 0
               }}>
                 "{popup.text}"

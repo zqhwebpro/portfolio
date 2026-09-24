@@ -895,6 +895,23 @@
           class="bg-canvas-base text-earth-950 py-8 flex-1 w-full hidden">
         <div class="store-fluid-container space-y-6">
             
+            <!-- Blog Intro Paragraph Explaining What the Blog is For -->
+            <div class="bg-white border border-canvas-border rounded-2xl p-5 shadow-xs text-center max-w-3xl mx-auto space-y-2"
+                 data-blueprint-file="WackyStore.WebUI/Views/Blog/Index.cshtml"
+                 data-blueprint-role="Blog Overview &amp; Field Guide Intro"
+                 data-blueprint-layer="WebUI / View Header"
+                 data-blueprint-dom="Centered explanatory hero card explaining the purpose of the Wacky Chronicles portal."
+                 data-blueprint-desc="Provides introductory context detailing research notes, invention guides, and field logs."
+                 data-blueprint-code="ViewBag.Title = &quot;Wacky Chronicles &amp; Field Notes&quot;;">
+                <div class="flex items-center justify-center gap-2">
+                    <span class="h-2 w-2 rounded-full bg-teal-500 inline-block animate-pulse"></span>
+                    <span class="text-[11px] font-mono text-earth-500 uppercase tracking-widest font-bold">Wacky Chronicles Portal</span>
+                </div>
+                <p class="text-sm sm:text-base font-semibold text-earth-800 leading-relaxed m-0">
+                    Welcome to the official field notes, lab documentation, and mischievous user guides for our absurd store inventions! Here you will find scientific breakdowns on dehydrated water, care instructions for invisible chameleons, windowsill botanical gossip, and fluid dynamics for left-handed coffee mugs.
+                </p>
+            </div>
+
             <!-- Clean Blog Category Filter Bar (Only Filters) -->
             <div class="bg-white border border-canvas-border rounded-2xl p-4 flex items-center justify-center flex-wrap gap-2.5 shadow-xs"
                  data-blueprint-file="WackyStore.WebUI/Models/BlogListViewModel.cs"
@@ -2889,25 +2906,25 @@
          data-blueprint-dom="Bottom-left corner triangle badge with wavy edge facing the webpage body."
          data-blueprint-desc="Triggers sporadic item gravity drop animation and toggles view between Store Catalog and Wacky Chronicles Blog."
          data-blueprint-code="window.toggleViewStoreBlog();"
-         class="fixed bottom-0 left-0 z-50 group cursor-pointer select-none filter drop-shadow-md transition-transform duration-300 hover:scale-105 active:scale-95"
+         class="fixed bottom-0 left-0 z-50 group cursor-pointer select-none filter drop-shadow-xl transition-transform duration-300 hover:scale-110 active:scale-95"
          title="Switch to Wacky Chronicles Blog">
         
-        <svg width="70" height="70" viewBox="0 0 95 95" fill="none" xmlns="http://www.w3.org/2000/svg" class="block w-[58px] h-[58px] sm:w-[68px] sm:h-[68px]">
+        <svg width="95" height="95" viewBox="0 0 95 95" fill="none" xmlns="http://www.w3.org/2000/svg" class="block w-[85px] h-[85px] sm:w-[95px] sm:h-[95px]">
             <!-- Wavy Corner Triangle Background Path: Left & Bottom are flush with corner, top-right edge is wavy -->
             <path id="wavyTrianglePath"
                   d="M 0 95 L 0 0 C 12 10 22 17 31 12 C 40 7 48 16 58 26 C 67 37 75 31 82 47 C 90 63 85 75 95 95 Z"
                   fill="url(#wavyGradientLight)"
-                  stroke="#7C3AED"
+                  stroke="#0D9488"
                   stroke-width="2"
                   stroke-linejoin="round"
                   class="transition-all duration-500" />
             
             <defs>
-                <!-- Light Mode Gradient: Whimsical Purple Triad -->
+                <!-- Light Mode Gradient: Vibrant Whimsical Teal/Cyan -->
                 <linearGradient id="wavyGradientLight" x1="0" y1="95" x2="65" y2="0" gradientUnits="userSpaceOnUse">
-                    <stop offset="0%" stop-color="#2E1065" />
-                    <stop offset="60%" stop-color="#6D28D9" />
-                    <stop offset="100%" stop-color="#7C3AED" />
+                    <stop offset="0%" stop-color="#042F2E" />
+                    <stop offset="60%" stop-color="#0D9488" />
+                    <stop offset="100%" stop-color="#14B8A6" />
                 </linearGradient>
 
                 <!-- Dark Mode Gradient: Neon Cyberpunk Teal/Cyan -->
@@ -2920,9 +2937,9 @@
         </svg>
 
         <!-- Centered Icon & Label inside the Corner Triangle -->
-        <div class="absolute bottom-2 left-2 sm:bottom-2.5 sm:left-2.5 flex flex-col items-center justify-center text-white pointer-events-none transition-transform duration-300">
-            <i id="viewToggleIcon" class="fa-solid fa-newspaper text-xs sm:text-sm text-white mb-0.5 filter drop-shadow-xs"></i>
-            <span id="viewToggleText" class="font-heading font-black text-[7.5px] sm:text-[8px] tracking-wider uppercase leading-none drop-shadow">BLOG</span>
+        <div class="absolute bottom-4 left-4 sm:bottom-5 sm:left-5 flex flex-col items-center justify-center text-white pointer-events-none transition-transform duration-300">
+            <i id="viewToggleIcon" class="fa-solid fa-newspaper text-xs text-white mb-0.5 filter drop-shadow-xs"></i>
+            <span id="viewToggleText" class="font-heading font-black text-[9px] sm:text-[9.5px] tracking-wider uppercase leading-none drop-shadow">BLOG</span>
         </div>
     </div>
 </body>
