@@ -255,6 +255,42 @@
             background: #7C3AED;
         }
 
+        /* Wacky Falling & Rising View Transition Animations */
+        @keyframes fallDownExit {
+            0% {
+                transform: translateY(0) rotate(0deg);
+                opacity: 1;
+            }
+            35% {
+                transform: translateY(40px) rotate(-3deg);
+                opacity: 0.95;
+            }
+            100% {
+                transform: translateY(125vh) rotate(16deg);
+                opacity: 0;
+            }
+        }
+
+        .animate-fall-down {
+            animation: fallDownExit 0.55s cubic-bezier(0.55, 0.055, 0.675, 0.19) forwards !important;
+            pointer-events: none !important;
+        }
+
+        @keyframes riseUpEnter {
+            0% {
+                transform: translateY(70px) scale(0.95);
+                opacity: 0;
+            }
+            100% {
+                transform: translateY(0) scale(1);
+                opacity: 1;
+            }
+        }
+
+        .animate-rise-up {
+            animation: riseUpEnter 0.5s cubic-bezier(0.175, 0.885, 0.32, 1.275) forwards;
+        }
+
         /* --- DARK MODE SYSTEM (Obsidian Slate, Deep Purple, Glowing Teal) --- */
         body.dark-mode {
             background-color: #030712 !important; /* Pitch Obsidian 950 */
@@ -559,6 +595,14 @@
             <!-- Header Action Buttons -->
             <div class="flex items-center gap-2.5">
                 
+                <!-- Dark/Light Theme Header Toggle -->
+                <button onclick="window.toggleDarkMode()" 
+                        class="px-3 py-2 rounded-xl bg-white border border-canvas-border hover:border-earth-700 text-earth-800 text-xs font-bold flex items-center gap-1.5 transition-all shadow-xs"
+                        title="Toggle Light / Dark Mode">
+                    <i id="headerThemeIcon" class="fa-solid fa-moon text-amber-500"></i>
+                    <span id="headerThemeText" class="hidden sm:inline">Theme</span>
+                </button>
+
                 <!-- Architecture Modal Trigger -->
                 <button onclick="window.openArchitectureModal()" 
                         data-blueprint-file="WackyStore.Domain/Abstract/IProductRepository.cs"
@@ -623,7 +667,7 @@
     </header>
 
     <!-- 3. MAIN STORE LAYOUT (Full Horizontal Width with Left Category & Filter Sidebar) -->
-    <main class="bg-canvas-base text-earth-950 py-8 flex-1 w-full">
+    <main id="store-main-view" class="bg-canvas-base text-earth-950 py-8 flex-1 w-full">
         <div class="store-fluid-container">
             
             <!-- Side-by-Side Flex Layout: Left Sidebar + Right Product Catalog -->
@@ -833,6 +877,44 @@
 
                 </div>
 
+            </div>
+
+        </div>
+    </main>
+
+    <!-- 3.5 MAIN BLOG LAYOUT (The Mischief Gazette & Wacky Chronicles) -->
+    <main id="blog-main-view" class="bg-canvas-base text-earth-950 py-8 flex-1 w-full hidden">
+        <div class="store-fluid-container space-y-8">
+            
+            <!-- Blog Hero Banner -->
+            <div class="bg-gradient-to-r from-earth-950 via-purple-950 to-earth-900 text-white rounded-3xl p-6 sm:p-10 shadow-xl relative overflow-hidden border border-purple-800/40">
+                <div class="absolute -right-12 -bottom-12 w-64 h-64 bg-amber-500/10 rounded-full blur-3xl pointer-events-none"></div>
+                <div class="relative z-10 max-w-3xl space-y-3">
+                    <div class="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-amber-400/20 border border-amber-300/30 text-amber-200 text-xs font-mono font-bold tracking-widest uppercase">
+                        <i class="fa-solid fa-feather text-amber-300"></i>
+                        <span>The Mischief Gazette</span>
+                    </div>
+                    <h1 class="font-heading font-black text-3xl sm:text-5xl text-amber-100 tracking-tight leading-tight">
+                        Wacky Chronicles &amp; Bizarre Field Notes
+                    </h1>
+                    <p class="text-sm sm:text-base text-amber-200/90 font-sans max-w-2xl leading-relaxed">
+                        Deep dives, scientific breakthroughs, and absurd observations from our team of certified oddities researchers.
+                    </p>
+
+                    <!-- Blog Category Filters -->
+                    <div class="pt-4 flex flex-wrap items-center gap-2.5">
+                        <button onclick="window.filterBlogCategory('all')" class="blog-cat-btn px-4 py-2 rounded-xl text-xs font-bold transition-all bg-amber-400 text-earth-950 shadow-md">All Chronicles</button>
+                        <button onclick="window.filterBlogCategory('Quantum Gastronomy')" class="blog-cat-btn px-4 py-2 rounded-xl text-xs font-bold transition-all bg-white/10 hover:bg-white/20 text-white border border-white/20">Quantum Gastronomy</button>
+                        <button onclick="window.filterBlogCategory('Pet Care & Illusion')" class="blog-cat-btn px-4 py-2 rounded-xl text-xs font-bold transition-all bg-white/10 hover:bg-white/20 text-white border border-white/20">Pet Care</button>
+                        <button onclick="window.filterBlogCategory('Botanical Gossip')" class="blog-cat-btn px-4 py-2 rounded-xl text-xs font-bold transition-all bg-white/10 hover:bg-white/20 text-white border border-white/20">Botanical Gossip</button>
+                        <button onclick="window.filterBlogCategory('Cosmic Anomalies')" class="blog-cat-btn px-4 py-2 rounded-xl text-xs font-bold transition-all bg-white/10 hover:bg-white/20 text-white border border-white/20">Cosmic Anomalies</button>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Blog Posts Grid -->
+            <div id="blog-posts-grid" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 sm:gap-8">
+                <!-- Posts dynamically rendered via JS -->
             </div>
 
         </div>
@@ -2373,20 +2455,20 @@
 
         // Global Dark Mode Toggle Logic
         window.updateThemeUI = function(isDark) {
-            const themeIcon = document.getElementById('themeIcon');
-            const themeText = document.getElementById('themeText');
+            const headerIcon = document.getElementById('headerThemeIcon');
+            const headerText = document.getElementById('headerThemeText');
             const path = document.getElementById('wavyTrianglePath');
 
             if (isDark) {
-                if (themeIcon) themeIcon.className = 'fa-solid fa-sun text-xl sm:text-2xl text-amber-300 mb-0.5 filter drop-shadow-md';
-                if (themeText) themeText.innerText = 'LIGHT';
+                if (headerIcon) headerIcon.className = 'fa-solid fa-sun text-amber-400';
+                if (headerText) headerText.innerText = 'Light';
                 if (path) {
                     path.setAttribute('fill', 'url(#wavyGradientDark)');
                     path.setAttribute('stroke', '#5EEAD4');
                 }
             } else {
-                if (themeIcon) themeIcon.className = 'fa-solid fa-moon text-xl sm:text-2xl text-yellow-300 mb-0.5 filter drop-shadow-md';
-                if (themeText) themeText.innerText = 'DARK';
+                if (headerIcon) headerIcon.className = 'fa-solid fa-moon text-amber-500';
+                if (headerText) headerText.innerText = 'Theme';
                 if (path) {
                     path.setAttribute('fill', 'url(#wavyGradientLight)');
                     path.setAttribute('stroke', '#7C3AED');
@@ -2399,6 +2481,252 @@
             const isDark = document.body.classList.contains('dark-mode');
             window.updateThemeUI(isDark);
             localStorage.setItem('wacky_store_theme', isDark ? 'dark' : 'light');
+        };
+
+        // ==============================================================================
+        // WACKY STORE <-> BLOG VIEW SWITCHER WITH FALL-DOWN ANIMATION
+        // ==============================================================================
+        window.BLOG_POSTS = [
+            {
+                id: 'un-popcorn',
+                title: 'The Secret Science of Un-Popcorn: Why Kernels Un-Pop Under Lunar Light',
+                category: 'Quantum Gastronomy',
+                author: 'Dr. Barnaby Fizz',
+                authorRole: 'Chief Mischief Scientist',
+                date: 'October 14, 2026',
+                readTime: '3 min read',
+                image: 'https://images.unsplash.com/photo-1585647347483-22b66260dfff?auto=format&fit=crop&w=600&q=80',
+                excerpt: 'Have you ever wondered why our Inverse Popcorn Kernels return to raw corn when exposed to moonlight? We sat down with our lead laboratory gnome to understand reverse munching.',
+                content: `
+                    <p class="text-base font-semibold text-earth-800 leading-relaxed">It began as an accidental laboratory mishap during our midnight popcorn experiments. When senior researcher Dr. Barnaby left a bowl of freshly popped buttered popcorn under direct full-moon illumination, something astonishing occurred: every single white fluffy kernel imploded backward into a shiny, raw, un-popped kernel!</p>
+                    <h3 class="font-heading font-black text-xl text-earth-950 pt-2">The Lunar Reversion Effect</h3>
+                    <p>Our quantum physics division isolated the phenomenon down to subatomic moonlight resonance. Unlike sunlight, moonlight carries a unique phase-shifted photon energy that vibrates at precisely 432 Hz. When these photons collide with expanded corn starch matrixes, they cause instant thermo-kinetic deflation.</p>
+                    <blockquote class="p-4 rounded-2xl bg-amber-50 border-l-4 border-amber-500 italic text-earth-900 font-serif my-4">
+                        "It's the only food on Earth that lets you un-snack your movie night mistakes. Ate too much? Just step onto the balcony under the moon!" &mdash; Dr. Barnaby Fizz
+                    </blockquote>
+                    <h3 class="font-heading font-black text-xl text-earth-950 pt-2">How to Store Your Un-Popcorn</h3>
+                    <p>To prevent accidental un-popping during daytime storage, keep your kernels sealed inside our certified lead-lined Mischief Tin. For gourmet results, serve under artificial neon lamps!</p>
+                `
+            },
+            {
+                id: 'invisible-chameleon',
+                title: "How to Train Your Invisible Pet Chameleon: A Beginner's Guide",
+                category: 'Pet Care & Illusion',
+                author: 'Lady Genevieve Void',
+                authorRole: 'Subtle Specimen Specialist',
+                date: 'October 12, 2026',
+                readTime: '5 min read',
+                image: 'https://images.unsplash.com/photo-1563281577-a7be47e20db9?auto=format&fit=crop&w=600&q=80',
+                excerpt: "Invisible chameleons are notoriously hard to spot (literally). Here are 4 essential tricks to ensure your invisible companion doesn't get lost behind the sofa cushions.",
+                content: `
+                    <p class="text-base font-semibold text-earth-800 leading-relaxed">Adopting an Invisible Pet Chameleon is one of the most rewarding decisions a wacky enthusiast can make. However, owners frequently report misplacing their pets on day one. Here is our official handbook for happy, non-visible pet parenting.</p>
+                    <h3 class="font-heading font-black text-xl text-earth-950 pt-2">1. The Flour Powder Trick</h3>
+                    <p>Dust a tiny sprinkle of organic baking flour across your chameleon's designated lounging rock. When your pet climbs onto the rock, tiny invisible footprints will appear in the flour, confirming their exact coordinates!</p>
+                    <h3 class="font-heading font-black text-xl text-earth-950 pt-2">2. Bell Harness Etiquette</h3>
+                    <p>Attach our ultra-lightweight micro brass bell harness around your chameleon's neck. A gentle <em>tinkle-tinkle</em> sound will announce when your pet is stalking a housefly or taking an afternoon stroll across your desk.</p>
+                    <blockquote class="p-4 rounded-2xl bg-teal-50 border-l-4 border-teal-500 italic text-earth-900 font-serif my-4">
+                        "Remember: If you accidentally sit on a warm, squishy air pocket on your couch, apologize immediately!"
+                    </blockquote>
+                `
+            },
+            {
+                id: 'talking-cactus',
+                title: 'Interview with a Talking Cactus: Life on the Windowsill',
+                category: 'Botanical Gossip',
+                author: 'Professor Needlewick',
+                authorRole: 'Flora Telepathist',
+                date: 'October 09, 2026',
+                readTime: '4 min read',
+                image: 'https://images.unsplash.com/photo-1509316975850-ff9c5deb0cd9?auto=format&fit=crop&w=600&q=80',
+                excerpt: 'We spoke with Spike, a 7-year-old potted saguaro who claims to know all the secret family drama in house #42. Here is what he had to say about ambient sunbathing.',
+                content: `
+                    <p class="text-base font-semibold text-earth-800 leading-relaxed">Spike the Cactus has spent the last seven years perched on a sunny windowsill overlooking Elm Street. Thanks to our Botanical Speech Translator, we conducted a 45-minute exclusive interview with him.</p>
+                    <h3 class="font-heading font-black text-xl text-earth-950 pt-2">The Daily Routine of a Prickly Observer</h3>
+                    <p><em>"People think house plants just sit around drinking water,"</em> Spike grunted via output frequency. <em>"In reality, we keep tabs on everything. I saw the mailman drop a package last Tuesday, and the dog across the street knows exactly what he did."</em></p>
+                    <h3 class="font-heading font-black text-xl text-earth-950 pt-2">Spike's Top Care Advice for Humans</h3>
+                    <ul class="list-disc pl-5 space-y-1 text-earth-800">
+                        <li>Stop over-watering us when you get emotional.</li>
+                        <li>Rotate our pots 90 degrees every Sunday so we get an even tan.</li>
+                        <li>Play 80s synthwave music; the bass vibrations stimulate root cell growth!</li>
+                    </ul>
+                `
+            },
+            {
+                id: 'tuesday-gravity',
+                title: 'Why Gravity Is Just a Suggestion on Tuesdays: A Scientific Investigation',
+                category: 'Cosmic Anomalies',
+                author: 'Archimedes Wobble',
+                authorRole: 'Levitation Engineer',
+                date: 'October 04, 2026',
+                readTime: '6 min read',
+                image: 'https://images.unsplash.com/photo-1506703719100-a0f3a48c0f86?auto=format&fit=crop&w=600&q=80',
+                excerpt: 'Ever feel lighter on Tuesday mornings? Our astrophysics department confirmed that Tuesdays experience a 14% drop in planetary pull due to cosmic laughter waves.',
+                content: `
+                    <p class="text-base font-semibold text-earth-800 leading-relaxed">Have you ever noticed your coffee spoon drifting slightly upward off the table on Tuesday mornings? You are not imagining things. According to our planetary sensors, Earth's gravitational pull fluctuates significantly every Tuesday.</p>
+                    <h3 class="font-heading font-black text-xl text-earth-950 pt-2">The Tuesday Dip Phenomenon</h3>
+                    <p>Our orbital satellite <em>Mischief-1</em> recorded a recurring 14.2% drop in gravitational acceleration between 8:00 AM and 11:30 AM every Tuesday. Scientists believe this is caused by a tidal resonance between Jupiter and Earth's magnetic core.</p>
+                    <h3 class="font-heading font-black text-xl text-earth-950 pt-2">Practical Uses for Reduced Tuesday Gravity</h3>
+                    <p>Take advantage of Tuesday buoyancy! It is the perfect day to practice high jumps, reorganize top shelf books without a step stool, or float your morning pancakes directly into your mouth.</p>
+                `
+            },
+            {
+                id: 'dehydrated-water',
+                title: 'The History of Dehydrated Water: From Emergency Use to Gourmet Dining',
+                category: 'Quantum Gastronomy',
+                author: 'Chef Lorenzo Vapor',
+                authorRole: 'Dry Hydration Master',
+                date: 'September 28, 2026',
+                readTime: '4 min read',
+                image: 'https://images.unsplash.com/photo-1548839140-29a749e1bc4e?auto=format&fit=crop&w=600&q=80',
+                excerpt: 'Dehydrated water has revolutionized camping and space exploration. Learn how to reconstitute your canned dry moisture using genuine tap water.',
+                content: `
+                    <p class="text-base font-semibold text-earth-800 leading-relaxed">First patented in 1924 by eccentric inventor Barnaby Dry, Dehydrated Water remains one of the greatest inventions of the modern age. By removing 100% of H2O content from water, we created a lightweight powder that weighs zero grams!</p>
+                    <h3 class="font-heading font-black text-xl text-earth-950 pt-2">Reconstitution Instructions</h3>
+                    <p>To enjoy a refreshing glass of reconstituted water, simply pour 1 can of Dehydrated Water powder into a glass, add 8 oz of liquid tap water, stir for 10 seconds, and voila! You now have fresh, wet water ready to drink.</p>
+                    <blockquote class="p-4 rounded-2xl bg-purple-50 border-l-4 border-purple-500 italic text-earth-900 font-serif my-4">
+                        "It's ideal for dry hiking! Carry 10 cans without any weight penalty!"
+                    </blockquote>
+                `
+            }
+        ];
+
+        window.currentView = 'store'; // 'store' or 'blog'
+        window.activeBlogCategory = 'all';
+
+        window.toggleViewStoreBlog = function() {
+            const storeMain = document.getElementById('store-main-view');
+            const blogMain = document.getElementById('blog-main-view');
+            const iconEl = document.getElementById('viewToggleIcon');
+            const textEl = document.getElementById('viewToggleText');
+            const toggleBadge = document.getElementById('wacky-corner-toggle');
+
+            if (window.currentView === 'store') {
+                // FALL STORE -> REVEAL BLOG
+                storeMain.classList.add('animate-fall-down');
+                triggerFlashToast('Items falling away... Opening Wacky Blog!');
+
+                setTimeout(() => {
+                    storeMain.classList.add('hidden');
+                    storeMain.classList.remove('animate-fall-down');
+                    
+                    blogMain.classList.remove('hidden');
+                    blogMain.classList.add('animate-rise-up');
+                    window.renderBlogPosts(window.activeBlogCategory);
+
+                    window.currentView = 'blog';
+
+                    if (iconEl) iconEl.className = 'fa-solid fa-store text-xl sm:text-2xl text-amber-300 mb-0.5 filter drop-shadow-md';
+                    if (textEl) textEl.innerText = 'STORE';
+                    if (toggleBadge) toggleBadge.title = 'Switch Back to Wacky Shop Store';
+
+                    window.scrollTo({ top: 0, behavior: 'smooth' });
+
+                    setTimeout(() => blogMain.classList.remove('animate-rise-up'), 500);
+                }, 480);
+
+            } else {
+                // FALL BLOG -> REVEAL STORE
+                blogMain.classList.add('animate-fall-down');
+                triggerFlashToast('Chronicles falling away... Returning to Store!');
+
+                setTimeout(() => {
+                    blogMain.classList.add('hidden');
+                    blogMain.classList.remove('animate-fall-down');
+
+                    storeMain.classList.remove('hidden');
+                    storeMain.classList.add('animate-rise-up');
+
+                    window.currentView = 'store';
+
+                    if (iconEl) iconEl.className = 'fa-solid fa-newspaper text-xl sm:text-2xl text-amber-300 mb-0.5 filter drop-shadow-md';
+                    if (textEl) textEl.innerText = 'BLOG';
+                    if (toggleBadge) toggleBadge.title = 'Switch to Wacky Chronicles Blog';
+
+                    window.scrollTo({ top: 0, behavior: 'smooth' });
+
+                    setTimeout(() => storeMain.classList.remove('animate-rise-up'), 500);
+                }, 480);
+            }
+        };
+
+        window.renderBlogPosts = function(categoryFilter = 'all') {
+            const grid = document.getElementById('blog-posts-grid');
+            if (!grid) return;
+
+            const filtered = categoryFilter === 'all'
+                ? window.BLOG_POSTS
+                : window.BLOG_POSTS.filter(p => p.category === categoryFilter);
+
+            grid.innerHTML = filtered.map(post => `
+                <article class="bg-white border border-canvas-border rounded-3xl overflow-hidden shadow-xs hover:shadow-xl transition-all duration-300 flex flex-col group hover:-translate-y-1">
+                    <div class="relative h-48 w-full overflow-hidden bg-earth-900">
+                        <img src="${post.image}" alt="${post.title}" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500 opacity-90" />
+                        <div class="absolute top-3 left-3">
+                            <span class="px-3 py-1 rounded-full bg-honey-400 text-earth-950 font-mono font-black text-[10px] uppercase tracking-wider shadow-sm">
+                                ${post.category}
+                            </span>
+                        </div>
+                    </div>
+
+                    <div class="p-6 flex-1 flex flex-col justify-between space-y-4">
+                        <div class="space-y-2">
+                            <div class="flex items-center justify-between text-xs text-earth-500 font-medium">
+                                <span>${post.date}</span>
+                                <span class="font-mono text-purple-700 font-bold">${post.readTime}</span>
+                            </div>
+                            <h3 class="font-heading font-black text-xl text-earth-950 leading-tight group-hover:text-purple-700 transition-colors">
+                                ${post.title}
+                            </h3>
+                            <p class="text-xs sm:text-sm text-earth-600 line-clamp-3 leading-relaxed">
+                                ${post.excerpt}
+                            </p>
+                        </div>
+
+                        <div class="pt-4 border-t border-canvas-border flex items-center justify-between">
+                            <div class="flex items-center gap-2 text-xs font-bold text-earth-900">
+                                <i class="fa-solid fa-user-astronaut text-appetite-700"></i>
+                                <span>${post.author}</span>
+                            </div>
+                            <button onclick="window.openBlogReaderModal('${post.id}')" class="px-3.5 py-1.5 rounded-xl bg-canvas-surface hover:bg-purple-100 text-purple-900 font-bold text-xs transition-all flex items-center gap-1.5">
+                                <span>Read</span>
+                                <i class="fa-solid fa-arrow-right text-[10px]"></i>
+                            </button>
+                        </div>
+                    </div>
+                </article>
+            `).join('');
+        };
+
+        window.filterBlogCategory = function(cat) {
+            window.activeBlogCategory = cat;
+            window.renderBlogPosts(cat);
+
+            document.querySelectorAll('.blog-cat-btn').forEach(btn => {
+                if (btn.innerText.toLowerCase().includes(cat.toLowerCase()) || (cat === 'all' && btn.innerText.includes('All'))) {
+                    btn.className = 'blog-cat-btn px-4 py-2 rounded-xl text-xs font-bold transition-all bg-amber-400 text-earth-950 shadow-md';
+                } else {
+                    btn.className = 'blog-cat-btn px-4 py-2 rounded-xl text-xs font-bold transition-all bg-white/10 hover:bg-white/20 text-white border border-white/20';
+                }
+            });
+        };
+
+        window.openBlogReaderModal = function(postId) {
+            const post = window.BLOG_POSTS.find(p => p.id === postId);
+            if (!post) return;
+
+            document.getElementById('blog-modal-cover').src = post.image;
+            document.getElementById('blog-modal-category').innerText = post.category;
+            document.getElementById('blog-modal-title').innerText = post.title;
+            document.getElementById('blog-modal-author').innerHTML = `<i class="fa-solid fa-user-astronaut text-appetite-700"></i> ${post.author} (${post.authorRole})`;
+            document.getElementById('blog-modal-date').innerHTML = `<i class="fa-regular fa-calendar text-honey-800"></i> ${post.date}`;
+            document.getElementById('blog-modal-readtime').innerHTML = `<i class="fa-solid fa-clock"></i> ${post.readTime}`;
+            document.getElementById('blog-modal-body').innerHTML = post.content;
+
+            document.getElementById('blog-reader-modal').classList.remove('hidden');
+        };
+
+        window.closeBlogReaderModal = function() {
+            document.getElementById('blog-reader-modal').classList.add('hidden');
         };
 
         // Initialize Theme State on Load
@@ -2424,17 +2752,71 @@
         }
     </script>
 
-    <!-- WACKY WAVY CORNER TRIANGLE LIGHT & DARK MODE SWITCHER -->
+    <!-- BLOG POST READER MODAL -->
+    <div id="blog-reader-modal" class="fixed inset-0 bg-black/70 backdrop-blur-sm z-50 hidden flex items-center justify-center p-4 sm:p-6" onclick="if(event.target===this) window.closeBlogReaderModal()">
+        <div class="bg-white border border-canvas-border rounded-3xl w-full max-w-3xl max-h-[90vh] flex flex-col shadow-2xl overflow-hidden relative animate-rise-up">
+            
+            <!-- Modal Header / Cover -->
+            <div class="relative h-48 sm:h-64 w-full overflow-hidden bg-earth-950">
+                <img id="blog-modal-cover" src="" alt="Blog Cover" class="w-full h-full object-cover opacity-85" />
+                <div class="absolute inset-0 bg-gradient-to-t from-earth-950 via-earth-950/40 to-transparent"></div>
+                <button onclick="window.closeBlogReaderModal()" class="absolute top-4 right-4 h-10 w-10 rounded-full bg-black/50 hover:bg-black/80 text-white flex items-center justify-center transition-all border border-white/20 z-20">
+                    <i class="fa-solid fa-xmark text-lg"></i>
+                </button>
+                <div class="absolute bottom-4 left-6 right-6 text-white space-y-1 z-10">
+                    <span id="blog-modal-category" class="px-3 py-1 rounded-full bg-amber-400 text-earth-950 text-xs font-mono font-black uppercase">Category</span>
+                    <h2 id="blog-modal-title" class="font-heading font-black text-xl sm:text-3xl text-amber-100 leading-tight">Title</h2>
+                </div>
+            </div>
+
+            <!-- Modal Meta Info -->
+            <div class="px-6 sm:px-8 py-3 bg-canvas-surface border-b border-canvas-border flex items-center justify-between text-xs text-earth-600 font-medium flex-wrap gap-2">
+                <div class="flex items-center gap-4 flex-wrap">
+                    <span id="blog-modal-author" class="flex items-center gap-1.5 font-bold text-earth-900">
+                        <i class="fa-solid fa-user-astronaut text-appetite-700"></i>
+                        <span>Author</span>
+                    </span>
+                    <span id="blog-modal-date" class="flex items-center gap-1.5">
+                        <i class="fa-regular fa-calendar text-honey-800"></i>
+                        <span>Date</span>
+                    </span>
+                </div>
+                <span id="blog-modal-readtime" class="flex items-center gap-1 font-mono text-purple-700 font-bold">
+                    <i class="fa-solid fa-clock"></i>
+                    <span>Read time</span>
+                </span>
+            </div>
+
+            <!-- Modal Article Body -->
+            <div id="blog-modal-body" class="p-6 sm:p-8 overflow-y-auto space-y-4 text-earth-900 font-sans leading-relaxed text-sm sm:text-base">
+                <!-- Inserted by JS -->
+            </div>
+
+            <!-- Modal Footer -->
+            <div class="px-6 sm:px-8 py-4 bg-canvas-base border-t border-canvas-border flex items-center justify-between">
+                <button onclick="window.closeBlogReaderModal()" class="px-5 py-2.5 rounded-xl bg-earth-200 hover:bg-earth-300 text-earth-900 font-bold text-xs transition-all">
+                    Close Article
+                </button>
+                <button onclick="window.toggleViewStoreBlog(); window.closeBlogReaderModal();" class="px-5 py-2.5 rounded-xl bg-appetite-700 hover:bg-appetite-800 text-white font-bold text-xs flex items-center gap-2 transition-all shadow-md">
+                    <i class="fa-solid fa-store"></i>
+                    <span>Browse Wacky Store</span>
+                </button>
+            </div>
+
+        </div>
+    </div>
+
+    <!-- WACKY WAVY CORNER TRIANGLE VIEW SWITCHER (STORE <-> BLOG) -->
     <div id="wacky-corner-toggle"
-         onclick="window.toggleDarkMode()"
+         onclick="window.toggleViewStoreBlog()"
          data-blueprint-file="WackyStore.WebUI/Views/Shared/_Layout.cshtml"
-         data-blueprint-role="Wavy Corner Theme Switcher"
-         data-blueprint-layer="WebUI / Master Layout"
+         data-blueprint-role="Wacky View Switcher (Store &amp; Blog)"
+         data-blueprint-layer="WebUI / View Navigation"
          data-blueprint-dom="Bottom-left corner triangle badge with wavy edge facing the webpage body."
-         data-blueprint-desc="Toggles body class dark-mode and persists theme selection in localStorage."
-         data-blueprint-code="document.body.classList.toggle('dark-mode');"
+         data-blueprint-desc="Triggers falling item exit animation and toggles view between Store Catalog and Wacky Chronicles Blog."
+         data-blueprint-code="window.toggleViewStoreBlog();"
          class="fixed bottom-0 left-0 z-50 group cursor-pointer select-none filter drop-shadow-xl transition-transform duration-300 hover:scale-110 active:scale-95"
-         title="Toggle Light / Dark Theme">
+         title="Switch to Wacky Chronicles Blog">
         
         <svg width="95" height="95" viewBox="0 0 95 95" fill="none" xmlns="http://www.w3.org/2000/svg" class="block w-[85px] h-[85px] sm:w-[95px] sm:h-[95px]">
             <!-- Wavy Corner Triangle Background Path: Left & Bottom are flush with corner, top-right edge is wavy -->
@@ -2465,8 +2847,8 @@
 
         <!-- Centered Icon & Label inside the Corner Triangle -->
         <div class="absolute bottom-4 left-4 sm:bottom-5 sm:left-5 flex flex-col items-center justify-center text-white pointer-events-none transition-transform duration-300">
-            <i id="themeIcon" class="fa-solid fa-moon text-xl sm:text-2xl text-yellow-300 mb-0.5 filter drop-shadow-md"></i>
-            <span id="themeText" class="font-heading font-black text-[9px] sm:text-[9.5px] tracking-wider uppercase leading-none drop-shadow">DARK</span>
+            <i id="viewToggleIcon" class="fa-solid fa-newspaper text-xl sm:text-2xl text-amber-300 mb-0.5 filter drop-shadow-md"></i>
+            <span id="viewToggleText" class="font-heading font-black text-[9px] sm:text-[9.5px] tracking-wider uppercase leading-none drop-shadow">BLOG</span>
         </div>
     </div>
 </body>

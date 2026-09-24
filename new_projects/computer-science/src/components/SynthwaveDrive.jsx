@@ -265,23 +265,20 @@ export function SynthwaveDrive() {
             boxShadow: '0 0 40px rgba(0, 240, 255, 0.4), inset 0 0 20px rgba(0, 240, 255, 0.15)',
           }}>
             <div style={{
-              display: 'inline-flex',
-              alignItems: 'center',
-              gap: '0.4rem',
-              background: 'rgba(255, 230, 0, 0.14)',
-              border: '1px solid #FFE600',
-              borderRadius: '20px',
-              padding: '0.25rem 0.75rem',
               fontFamily: 'var(--font-mono)',
               fontSize: '0.65rem',
               fontWeight: 800,
-              color: '#FFE600',
-              letterSpacing: '0.12em',
-              marginBottom: '0.75rem',
+              color: '#00F0FF',
+              letterSpacing: '0.14em',
+              marginBottom: '0.6rem',
               textTransform: 'uppercase',
-              boxShadow: '0 0 10px rgba(255, 230, 0, 0.5)'
+              textShadow: '0 0 10px rgba(0, 240, 255, 0.8)',
+              display: 'flex',
+              alignItems: 'center',
+              justifyContent: 'center',
+              gap: '0.4rem'
             }}>
-              <Sparkles size={13} /> INFINITE SYNTH DRIVE
+              <Sparkles size={13} color="#00F0FF" /> INFINITE SYNTH DRIVE
             </div>
 
             <h2 style={{
@@ -305,34 +302,34 @@ export function SynthwaveDrive() {
               margin: 0,
               lineHeight: 1.45
             }}>
-              Scroll down to accelerate forward. Scroll up to reverse. Affirmations float into view as you travel.
+              Scroll down to accelerate forward. Scroll up to reverse. Affirmations zoom into view along the floor plane as you travel.
             </p>
           </div>
         </div>
       )}
 
-      {/* SLEEK TRANSPARENT FUTURISTIC FLOATING AFFIRMATION CARD SCROLLING UP INTO VIEW */}
+      {/* SLEEK TRANSPARENT FUTURISTIC FLOATING AFFIRMATION CARD DRIVING INTO VIEW ALONG FLOOR */}
       {activeAffirmation && (
         <div
           key={activeAffirmation.id}
           style={{
             position: 'absolute',
             left: activeAffirmation.leftPos,
-            transform: 'translateX(-50%)',
+            transform: 'translate(-50%, -50%)',
             zIndex: 50,
-            width: '90%',
+            width: '88%',
             maxWidth: '430px',
-            animation: 'scrollUpFloat 0.7s cubic-bezier(0.16, 1, 0.3, 1) forwards'
+            animation: 'drivePerspectiveApproach 1.4s cubic-bezier(0.12, 0.9, 0.25, 1) forwards'
           }}
         >
           <div style={{
-            background: 'rgba(10, 2, 26, 0.45)',
+            background: 'rgba(10, 2, 26, 0.55)',
             backdropFilter: 'blur(16px)',
             color: '#FFFFFF',
-            border: '1.5px solid rgba(0, 240, 255, 0.8)',
+            border: '1.5px solid rgba(0, 240, 255, 0.85)',
             borderRadius: '16px',
             padding: '1.35rem 1.6rem',
-            boxShadow: '0 0 40px rgba(0, 240, 255, 0.4), inset 0 0 20px rgba(0, 240, 255, 0.15)',
+            boxShadow: '0 0 45px rgba(0, 240, 255, 0.45), inset 0 0 20px rgba(0, 240, 255, 0.2)',
             textAlign: 'center',
             position: 'relative'
           }}>
@@ -358,25 +355,22 @@ export function SynthwaveDrive() {
               <X size={16} />
             </button>
 
-            {/* Header Badge */}
+            {/* Sub-Header Text */}
             <div style={{
-              display: 'inline-flex',
-              alignItems: 'center',
-              gap: '0.4rem',
-              background: 'rgba(255, 230, 0, 0.14)',
-              border: '1px solid #FFE600',
-              borderRadius: '20px',
-              padding: '0.25rem 0.75rem',
               fontFamily: 'var(--font-mono)',
               fontSize: '0.65rem',
               fontWeight: 800,
-              color: '#FFE600',
-              letterSpacing: '0.12em',
-              marginBottom: '0.75rem',
+              color: '#FF007F',
+              letterSpacing: '0.14em',
+              marginBottom: '0.5rem',
               textTransform: 'uppercase',
-              boxShadow: '0 0 10px rgba(255, 230, 0, 0.5)'
+              textShadow: '0 0 10px rgba(255, 0, 127, 0.8)',
+              display: 'flex',
+              alignItems: 'center',
+              justifyContent: 'center',
+              gap: '0.35rem'
             }}>
-              <Sparkles size={13} /> AFFIRMATION #{activeAffirmation.number}
+              <Sparkles size={13} color="#FF007F" /> AFFIRMATION #{activeAffirmation.number}
             </div>
 
             {/* Affirmation Text */}
@@ -386,7 +380,7 @@ export function SynthwaveDrive() {
               fontWeight: 900,
               lineHeight: 1.35,
               color: '#00F0FF',
-              textShadow: '0 0 15px rgba(0, 240, 255, 0.9)',
+              textShadow: '0 0 18px rgba(0, 240, 255, 0.95)',
               letterSpacing: '0.02em',
               margin: 0
             }}>
@@ -396,21 +390,28 @@ export function SynthwaveDrive() {
         </div>
       )}
 
-      {/* Keyframe animation for scrolling pop-ups */}
+      {/* 3D Floor Perspective Drive Approach Keyframe Animation */}
       <style>{`
-        @keyframes scrollUpFloat {
+        @keyframes drivePerspectiveApproach {
           0% {
-            top: 75%;
+            top: 55%;
             opacity: 0;
-            transform: translateX(-50%) scale(0.85);
+            transform: translate(-50%, -50%) scale(0.18) rotateX(40deg);
+            filter: blur(4px);
           }
-          40% {
+          30% {
+            opacity: 0.9;
+            filter: blur(0px);
+          }
+          70% {
+            top: 36%;
             opacity: 1;
+            transform: translate(-50%, -50%) scale(1.05) rotateX(0deg);
           }
           100% {
-            top: 26%;
+            top: 24%;
             opacity: 1;
-            transform: translateX(-50%) scale(1);
+            transform: translate(-50%, -50%) scale(1.18) rotateX(-6deg);
           }
         }
       `}</style>

@@ -11,72 +11,75 @@ export function WaveformVisualizer({ isAudioPlaying = false, speedMph = 0 }) {
     let phase = 0;
 
     const render = () => {
-      const width = (canvas.width = canvas.clientWidth || 300);
-      const height = (canvas.height = canvas.clientHeight || 55);
+      const width = (canvas.width = canvas.clientWidth || 800);
+      const height = (canvas.height = canvas.clientHeight || 110);
 
       ctx.clearRect(0, 0, width, height);
 
-      // Deep Space Glass Fill
-      ctx.fillStyle = '#06020c';
-      ctx.fillRect(0, 0, width, height);
-
-      // Cyber Grid Mesh lines on scope
-      ctx.strokeStyle = 'rgba(0, 240, 255, 0.12)';
-      ctx.lineWidth = 1;
-      for (let x = 0; x < width; x += 16) {
-        ctx.beginPath();
-        ctx.moveTo(x, 0);
-        ctx.lineTo(x, height);
-        ctx.stroke();
-      }
-      for (let y = 0; y < height; y += 12) {
-        ctx.beginPath();
-        ctx.moveTo(0, y);
-        ctx.lineTo(width, y);
-        ctx.stroke();
-      }
-
       // Compute sound intensity
-      const baseAmp = isAudioPlaying ? 20 : speedMph > 0 ? 14 : 5;
-      phase += 0.08 + (speedMph * 0.002);
+      const baseAmp = isAudioPlaying ? 28 : speedMph > 0 ? 18 : 8;
+      phase += 0.05 + (speedMph * 0.0015);
 
-      // Draw 28 Neon Equalizer Spectrum Bars
-      const numBars = 28;
-      const barW = (width - 24) / numBars;
+      // 1. Draw Ethereal Glowing Celestial Spectrum Bars (Sky Aurora Effect)
+      const numBars = 42;
+      const barW = (width - 40) / numBars;
+      ctx.globalAlpha = 0.3;
+
       for (let i = 0; i < numBars; i++) {
-        const x = 12 + i * barW;
-        const noise = Math.sin(i * 0.6 + phase * 2) * Math.cos(i * 0.35 - phase);
-        const barH = Math.max(4, Math.abs(noise) * baseAmp + (Math.sin(phase + i) * 4 + 4));
+        const x = 20 + i * barW;
+        const noise = Math.sin(i * 0.45 + phase * 1.8) * Math.cos(i * 0.25 - phase);
+        const barH = Math.max(6, Math.abs(noise) * baseAmp * 1.4 + (Math.sin(phase + i) * 6 + 6));
         const barY = height / 2 - barH / 2;
 
-        // Gradient by frequency band (Magenta -> Cyan -> Yellow)
         const grad = ctx.createLinearGradient(0, barY, 0, barY + barH);
-        grad.addColorStop(0, '#FFE600');
-        grad.addColorStop(0.5, '#FF007F');
-        grad.addColorStop(1, '#00F0FF');
+        grad.addColorStop(0, '#FF007F');
+        grad.addColorStop(0.5, '#00F0FF');
+        grad.addColorStop(1, '#FFE600');
 
         ctx.fillStyle = grad;
-        ctx.fillRect(x, barY, barW - 2, barH);
+        ctx.fillRect(x, barY, barW - 3, barH);
       }
 
-      // Overlay Glowing Sine Wave Oscillograph Line
+      // 2. Overlay Dual Glowing Sine Oscillograph Waves across Sky
+      ctx.globalAlpha = 0.55;
+      
+      // Wave 1: Neon Cyan Sky Wave
       ctx.strokeStyle = '#00F0FF';
-      ctx.lineWidth = 2.5;
+      ctx.lineWidth = 2;
       ctx.shadowColor = '#00F0FF';
-      ctx.shadowBlur = 10;
+      ctx.shadowBlur = 12;
       ctx.beginPath();
 
       const centerY = height / 2;
-      for (let x = 0; x <= width; x += 2) {
+      for (let x = 0; x <= width; x += 4) {
         const normX = x / width;
-        const wave = Math.sin(normX * Math.PI * 6 + phase) * (baseAmp * 0.65) +
-                     Math.cos(normX * Math.PI * 12 - phase * 1.5) * (baseAmp * 0.25);
+        const wave = Math.sin(normX * Math.PI * 4 + phase) * (baseAmp * 0.8) +
+                     Math.cos(normX * Math.PI * 8 - phase * 1.2) * (baseAmp * 0.3);
         const y = centerY + wave;
         if (x === 0) ctx.moveTo(x, y);
         else ctx.lineTo(x, y);
       }
       ctx.stroke();
+
+      // Wave 2: Neon Magenta Sky Wave
+      ctx.strokeStyle = '#FF007F';
+      ctx.lineWidth = 1.8;
+      ctx.shadowColor = '#FF007F';
+      ctx.shadowBlur = 10;
+      ctx.beginPath();
+
+      for (let x = 0; x <= width; x += 4) {
+        const normX = x / width;
+        const wave = Math.cos(normX * Math.PI * 5 - phase * 1.4) * (baseAmp * 0.6) +
+                     Math.sin(normX * Math.PI * 10 + phase) * (baseAmp * 0.25);
+        const y = centerY + wave;
+        if (x === 0) ctx.moveTo(x, y);
+        else ctx.lineTo(x, y);
+      }
+      ctx.stroke();
+
       ctx.shadowBlur = 0;
+      ctx.globalAlpha = 1.0;
 
       animId = requestAnimationFrame(render);
     };
@@ -89,23 +92,22 @@ export function WaveformVisualizer({ isAudioPlaying = false, speedMph = 0 }) {
     <div
       style={{
         position: 'absolute',
-        bottom: '0.85rem',
+        top: '70px',
         left: '50%',
         transform: 'translateX(-50%)',
-        zIndex: 25,
-        background: 'rgba(9, 3, 20, 0.85)',
-        backdropFilter: 'blur(12px)',
-        border: '1.2px solid rgba(0, 240, 255, 0.5)',
-        borderRadius: '10px',
-        boxShadow: '0 0 15px rgba(0, 240, 255, 0.35)',
-        padding: '0.35rem 0.5rem',
+        zIndex: 15,
+        width: '85vw',
+        maxWidth: '920px',
+        height: '110px',
+        pointerEvents: 'none',
         display: 'flex',
         alignItems: 'center',
         justifyContent: 'center',
-        pointerEvents: 'none',
+        opacity: 0.85
       }}
     >
-      <canvas ref={canvasRef} style={{ width: '190px', height: '36px', display: 'block' }} />
+      <canvas ref={canvasRef} style={{ width: '100%', height: '100%', display: 'block' }} />
     </div>
   );
 }
+
