@@ -2522,6 +2522,8 @@ function App() {
     const [quizStatus, setQuizStatus] = useState('in_progress'); // 'in_progress' | 'loser' | 'success'
     const [quizErrorDetails, setQuizErrorDetails] = useState([]);
 
+    const answeredCount = Object.keys(userAnswers).length;
+
     const toneGenRef = useRef(null);
     const hasInitializedRef = useRef(false);
 

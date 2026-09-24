@@ -362,21 +362,35 @@
 
         body.dark-mode .text-earth-900,
         body.dark-mode .text-earth-950,
-        body.dark-mode .text-gray-900 {
+        body.dark-mode .text-gray-900,
+        body.dark-mode .text-honey-900,
+        body.dark-mode .text-honey-950,
+        body.dark-mode .text-honey-800 {
             color: #f8fafc !important;
         }
 
         body.dark-mode .text-earth-700,
         body.dark-mode .text-earth-800,
         body.dark-mode .text-gray-700,
-        body.dark-mode .text-gray-800 {
+        body.dark-mode .text-gray-800,
+        body.dark-mode .text-honey-700,
+        body.dark-mode .text-honey-600 {
             color: #cbd5e1 !important;
         }
 
-        body.dark-mode .text-earth-600,
-        body.dark-mode .text-gray-600,
-        body.dark-mode .text-gray-500 {
-            color: #94a3b8 !important;
+        body.dark-mode .bg-honey-50,
+        body.dark-mode .bg-honey-100 {
+            background-color: #1e293b !important;
+        }
+
+        body.dark-mode .border-honey-200,
+        body.dark-mode .border-honey-300 {
+            border-color: #334155 !important;
+        }
+
+        body.dark-mode .hover\:text-honey-900:hover,
+        body.dark-mode .hover\:text-honey-800:hover {
+            color: #c4b5fd !important;
         }
 
         /* Category Filter Sidebar in Dark Mode */
@@ -544,20 +558,6 @@
 
             <!-- Header Action Buttons -->
             <div class="flex items-center gap-2.5">
-                
-                <!-- Dark Mode Theme Toggle Button -->
-                <button id="themeToggleBtn"
-                        data-blueprint-file="WackyStore.WebUI/Views/Shared/_Layout.cshtml"
-                        data-blueprint-role="Theme Mode Switcher"
-                        data-blueprint-layer="WebUI / Master Layout"
-                        data-blueprint-dom="Theme toggle button switching between light mode and deep slate mode."
-                        data-blueprint-desc="Toggles body class dark-mode and persists theme selection in localStorage."
-                        data-blueprint-code="document.body.classList.toggle('dark-mode');"
-                        class="px-3.5 py-2 rounded-xl bg-white border border-canvas-border hover:border-appetite-700 text-earth-800 hover:text-appetite-800 text-xs font-bold flex items-center gap-1.5 transition-all shadow-xs"
-                        title="Toggle Light/Dark Theme">
-                    <i id="themeIcon" class="fa-solid fa-moon text-appetite-700 text-sm"></i>
-                    <span id="themeText" class="hidden sm:inline">Dark</span>
-                </button>
                 
                 <!-- Architecture Modal Trigger -->
                 <button onclick="window.openArchitectureModal()" 
@@ -2376,17 +2376,26 @@
         const themeIcon = document.getElementById('themeIcon');
         const themeText = document.getElementById('themeText');
         if (themeToggleBtn && themeIcon) {
+            const updateThemeUI = (isDark) => {
+                if (isDark) {
+                    themeIcon.className = 'fa-solid fa-sun text-amber-400 text-xs';
+                    if (themeText) themeText.innerText = 'Light Mode';
+                } else {
+                    themeIcon.className = 'fa-solid fa-moon text-appetite-700 text-xs';
+                    if (themeText) themeText.innerText = 'Dark Mode';
+                }
+            };
+
             themeToggleBtn.addEventListener('click', () => {
                 document.body.classList.toggle('dark-mode');
                 const isDark = document.body.classList.contains('dark-mode');
-                themeIcon.className = isDark ? 'fa-solid fa-sun text-amber-400 text-sm' : 'fa-solid fa-moon text-appetite-700 text-sm';
-                if (themeText) themeText.innerText = isDark ? 'Light' : 'Dark';
+                updateThemeUI(isDark);
                 localStorage.setItem('wacky_store_theme', isDark ? 'dark' : 'light');
             });
+
             if (localStorage.getItem('wacky_store_theme') === 'dark') {
                 document.body.classList.add('dark-mode');
-                themeIcon.className = 'fa-solid fa-sun text-amber-400 text-sm';
-                if (themeText) themeText.innerText = 'Light';
+                updateThemeUI(true);
             }
         }
 
@@ -2403,6 +2412,22 @@
             updateCartUI();
         }
     </script>
+
+    <!-- FLOATING LOWER-LEFT LIGHT & DARK MODE SWITCHER -->
+    <button id="themeToggleBtn"
+            data-blueprint-file="WackyStore.WebUI/Views/Shared/_Layout.cshtml"
+            data-blueprint-role="Floating Theme Switcher"
+            data-blueprint-layer="WebUI / Master Layout"
+            data-blueprint-dom="Fixed lower-left floating glassmorphism button for switching light/dark mode."
+            data-blueprint-desc="Toggles body class dark-mode and persists theme selection in localStorage."
+            data-blueprint-code="document.body.classList.toggle('dark-mode');"
+            class="fixed bottom-6 left-6 z-50 px-4 py-2.5 rounded-full bg-white/95 dark:bg-slate-900/95 backdrop-blur-md border border-earth-300/80 dark:border-slate-700/80 text-earth-900 dark:text-slate-100 hover:text-earth-950 dark:hover:text-white text-xs font-bold flex items-center gap-2.5 transition-all duration-300 shadow-xl hover:shadow-2xl hover:-translate-y-1 active:scale-95 group cursor-pointer"
+            title="Toggle Light/Dark Theme">
+        <div class="w-6 h-6 rounded-full bg-earth-100 dark:bg-slate-800 flex items-center justify-center transition-transform group-hover:rotate-12">
+            <i id="themeIcon" class="fa-solid fa-moon text-appetite-700 text-xs"></i>
+        </div>
+        <span id="themeText" class="font-heading tracking-wide uppercase text-[11px] font-extrabold text-earth-900 dark:text-slate-100">Dark Mode</span>
+    </button>
 </body>
 
 </html>
