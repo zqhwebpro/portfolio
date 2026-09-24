@@ -27,7 +27,7 @@ export function ReferenceTable({ onSelect }) {
         </div>
 
         {/* Table */}
-        <div style={{ border: '3px solid #FFE600', overflow: 'hidden', boxShadow: '8px 8px 0 #FFE600' }}>
+        <div style={{ border: '3px solid #0A0A0A', overflow: 'hidden', boxShadow: '8px 8px 0 #0A0A0A' }}>
 
           {/* Table header */}
           <div style={{

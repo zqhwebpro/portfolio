@@ -42,9 +42,9 @@
   --shadow-active: 1px 1px 0px #0A0A0A;
 
   /* Typography */
-  --font-display: 'Syne', 'Space Grotesk', -apple-system, BlinkMacSystemFont, sans-serif;
+  --font-display: 'Space Grotesk', 'JetBrains Mono', -apple-system, BlinkMacSystemFont, sans-serif;
   --font-heading: 'Space Grotesk', -apple-system, BlinkMacSystemFont, sans-serif;
-  --font-mono: 'JetBrains Mono', 'Space Mono', monospace;
+  --font-mono: 'JetBrains Mono', monospace;
   --font-body: 'Space Grotesk', -apple-system, BlinkMacSystemFont, sans-serif;
 
   /* Geometry & Grid */
