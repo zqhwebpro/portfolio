@@ -260,7 +260,7 @@ export function SynthwaveDrive() {
         const p = Math.max(0, Math.min(1, rawProgress));
 
         // 3D Road Sign Perspective Calculations: Starts at vanishing point (55%), moves down the screen
-        const topPct = 55 + Math.pow(p, 2.5) * 65; 
+        const topPct = 55 + Math.pow(p, 2.5) * 45; 
         const scale = 0.02 + Math.pow(p, 2.5) * 2.5;
         
         // Fade in quickly, fade out as it passes the camera (p > 0.85)
@@ -289,9 +289,9 @@ export function SynthwaveDrive() {
             key={popup.id}
             style={{
               position: 'absolute',
-              top: `${topPct}%`,
+              bottom: `${100 - topPct}%`,
               left: `${currentX}px`,
-              transform: `translate(-50%, -100%) scale(${scale})`, // Origin at bottom center
+              transform: `translateX(-50%) scale(${scale})`, // Origin at bottom center
               transformOrigin: 'bottom center',
               opacity: opacity,
               zIndex: Math.round(45 + p * 20),
