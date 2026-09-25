@@ -123,7 +123,7 @@ export function SynthwaveDrive() {
 
       if (autoDriveRef.current) {
         directionRef.current = 1;
-        speedRef.current = speedRef.current + (120 - speedRef.current) * 0.05; // Ease towards 120 mph
+        speedRef.current = speedRef.current + (40 - speedRef.current) * 0.05; // Ease towards 40 mph
       } else {
         // Decelerate speed smoothly to 0 when not scrolling (Exponential smoothing)
         if (speedRef.current > 0.1) {

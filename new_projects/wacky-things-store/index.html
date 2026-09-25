@@ -1550,7 +1550,7 @@
 
     
     <!-- NEWSLETTER SIGNUP -->
-    <section class="bg-primary py-12 border-t-8 border-b-8 border-earth-900 overflow-hidden relative" style="background-image: radial-gradient(#FACC15 10%, transparent 11%), radial-gradient(#FACC15 10%, transparent 11%); background-size: 40px 40px; background-position: 0 0, 20px 20px;">
+    <section class="bg-appetite-500 py-12 border-t-8 border-b-8 border-earth-900 overflow-hidden relative" style="background-image: radial-gradient(#FACC15 10%, transparent 11%), radial-gradient(#FACC15 10%, transparent 11%); background-size: 40px 40px; background-position: 0 0, 20px 20px;">
         <div class="store-fluid-container relative z-10 flex flex-col items-center text-center">
             <h2 class="text-4xl sm:text-5xl font-black font-heading text-earth-900 mb-4 transform -rotate-2" style="-webkit-text-stroke: 1.5px white;">GET WACKY MAIL!</h2>
             <p class="text-lg font-bold text-earth-800 bg-white px-4 py-1 rounded border-2 border-earth-900 transform rotate-1 mb-6">Sign up for exclusive nonsense and 0% useful information!</p>
@@ -2697,47 +2697,6 @@
 
 
 
-    <!-- CORNER TRIANGLE MINIGAME BUTTON (SPIN & WIN) -->
-    <div id="wacky-corner-toggle" onclick="window.triggerMinigame()"
-        data-blueprint-file="WackyStore.WebUI/Views/Shared/_Layout.cshtml"
-        data-blueprint-role="Wacky Minigame (Prize Wheel)" data-blueprint-layer="WebUI / View Component"
-        data-blueprint-dom="Bottom-left corner triangle button triggering Prize Wheel minigame &amp; falling item animation."
-        data-blueprint-desc="Triggers item gravity drop animation and opens the interactive Spin &amp; Win Discount Wheel."
-        data-blueprint-code="window.triggerMinigame();"
-        class="fixed bottom-0 left-0 z-50 group cursor-pointer select-none filter drop-shadow-xl transition-transform duration-300 hover:scale-110 active:scale-95"
-        title="Spin the Prize Wheel for Secret Coupons!">
-
-        <svg width="95" height="95" viewBox="0 0 95 95" fill="none" xmlns="http://www.w3.org/2000/svg"
-            class="block w-[85px] h-[85px] sm:w-[95px] sm:h-[95px]">
-            <!-- Straight Corner Triangle Background Path: Light Purple -->
-            <path id="wavyTrianglePath" d="M 0 95 L 0 0 L 95 95 Z" fill="url(#wavyGradientLight)" stroke="#6B21A8"
-                stroke-width="2.5" stroke-linejoin="round" class="transition-all duration-500" />
-
-            <defs>
-                <!-- Light Mode Gradient: Solid Whimsical Purple -->
-                <linearGradient id="wavyGradientLight" x1="0" y1="95" x2="65" y2="0" gradientUnits="userSpaceOnUse">
-                    <stop offset="0%" stop-color="#4C1D95" />
-                    <stop offset="60%" stop-color="#6B21A8" />
-                    <stop offset="100%" stop-color="#9333EA" />
-                </linearGradient>
-
-                <!-- Dark Mode Gradient: Solid Cyberpunk Purple -->
-                <linearGradient id="wavyGradientDark" x1="0" y1="95" x2="65" y2="0" gradientUnits="userSpaceOnUse">
-                    <stop offset="0%" stop-color="#4C1D95" />
-                    <stop offset="60%" stop-color="#6B21A8" />
-                    <stop offset="100%" stop-color="#9333EA" />
-                </linearGradient>
-            </defs>
-        </svg>
-
-        <!-- Centered Icon and Text Label inside the Corner Triangle -->
-        <div
-            class="absolute bottom-2 left-2 sm:bottom-3 sm:left-3 flex flex-col items-center justify-center text-white pointer-events-none transition-transform duration-300 group-hover:scale-110">
-            <i id="viewToggleIcon" class="fa-solid fa-dice text-xl sm:text-2xl text-white"></i>
-            <span id="viewToggleText"
-                class="text-[9px] sm:text-[10px] font-extrabold uppercase tracking-wider text-white leading-tight mt-0.5">PLAY!</span>
-        </div>
-    </div>
 </body>
 
 </html>
