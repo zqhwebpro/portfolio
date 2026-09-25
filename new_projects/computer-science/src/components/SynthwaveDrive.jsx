@@ -289,8 +289,8 @@ export function SynthwaveDrive() {
         // Calculate X position matching the pink perspective lines
         const isLeft = (popup.number % 2) === 0;
         
-        // Tighter inner paths: directly under the sun vector within the pink road
-        const lineIndex = isLeft ? -0.8 : 0.8;
+        // Exact integer ensures the sign perfectly rides the magenta grid line i = -1 or i = 1
+        const lineIndex = isLeft ? -1 : 1;
         
         const sunCenterX = w * 0.5;
         const startX = sunCenterX + (lineIndex / 26) * (w * 0.05);

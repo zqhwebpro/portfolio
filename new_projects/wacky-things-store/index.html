@@ -116,6 +116,7 @@
     </script>
 
     <style>
+        .luck-sq.active-sq .sq-bulb { opacity: 1; box-shadow: 0 0 10px #5EEAD4; background-color: #5EEAD4; }
         :root {
             --bg-canvas: #FAF8FF;
             --bg-card: #FFFFFF;
@@ -967,30 +968,78 @@
             <div id="prize-luck-board"
                 class="relative w-full mx-auto grid grid-cols-3 gap-3 sm:gap-4 z-10">
                 <!-- Squares -->
-                <div class="luck-sq aspect-square bg-earth-800 rounded-xl flex items-center justify-center text-center font-black text-white text-sm sm:text-2xl border-2 border-earth-700 transition-all shadow-[0_0_15px_rgba(20,184,166,0.3)]"
-                    data-prize="10% OFF" data-prize-idx="0">10% OFF</div>
-                <div class="luck-sq aspect-square bg-earth-800 rounded-xl flex items-center justify-center text-center font-black text-white text-sm sm:text-2xl border-2 border-earth-700 transition-all shadow-[0_0_15px_rgba(20,184,166,0.3)]"
-                    data-prize="TRY AGAIN TOMORROW" data-prize-idx="1">TRY AGAIN<br/>TOMORROW</div>
-                <div class="luck-sq aspect-square bg-earth-800 rounded-xl flex items-center justify-center text-center font-black text-white text-sm sm:text-2xl border-2 border-earth-700 transition-all shadow-[0_0_15px_rgba(20,184,166,0.3)]"
-                    data-prize="15% OFF" data-prize-idx="2">15% OFF</div>
+                <div class="luck-sq relative aspect-square bg-earth-800 rounded-xl flex items-center justify-center text-center font-black text-white text-sm sm:text-2xl border-2 border-earth-700 transition-all shadow-[0_0_15px_rgba(20,184,166,0.3)]"
+                    data-prize="10% OFF" data-prize-idx="0">
+                    <div class="absolute top-1.5 left-1.5 w-1.5 h-1.5 rounded-full bg-teal-300 opacity-20 transition-all duration-300 sq-bulb"></div>
+                    <div class="absolute top-1.5 right-1.5 w-1.5 h-1.5 rounded-full bg-teal-300 opacity-20 transition-all duration-300 sq-bulb"></div>
+                    <div class="absolute bottom-1.5 left-1.5 w-1.5 h-1.5 rounded-full bg-teal-300 opacity-20 transition-all duration-300 sq-bulb"></div>
+                    <div class="absolute bottom-1.5 right-1.5 w-1.5 h-1.5 rounded-full bg-teal-300 opacity-20 transition-all duration-300 sq-bulb"></div>
+                    <span class="relative z-10">10% OFF</span>
+                </div>
+                <div class="luck-sq relative aspect-square bg-earth-800 rounded-xl flex items-center justify-center text-center font-black text-white text-sm sm:text-2xl border-2 border-earth-700 transition-all shadow-[0_0_15px_rgba(20,184,166,0.3)]"
+                    data-prize="TRY AGAIN TOMORROW" data-prize-idx="1">
+                    <div class="absolute top-1.5 left-1.5 w-1.5 h-1.5 rounded-full bg-teal-300 opacity-20 transition-all duration-300 sq-bulb"></div>
+                    <div class="absolute top-1.5 right-1.5 w-1.5 h-1.5 rounded-full bg-teal-300 opacity-20 transition-all duration-300 sq-bulb"></div>
+                    <div class="absolute bottom-1.5 left-1.5 w-1.5 h-1.5 rounded-full bg-teal-300 opacity-20 transition-all duration-300 sq-bulb"></div>
+                    <div class="absolute bottom-1.5 right-1.5 w-1.5 h-1.5 rounded-full bg-teal-300 opacity-20 transition-all duration-300 sq-bulb"></div>
+                    <span class="relative z-10">TRY AGAIN<br/>TOMORROW</span>
+                </div>
+                <div class="luck-sq relative aspect-square bg-earth-800 rounded-xl flex items-center justify-center text-center font-black text-white text-sm sm:text-2xl border-2 border-earth-700 transition-all shadow-[0_0_15px_rgba(20,184,166,0.3)]"
+                    data-prize="15% OFF" data-prize-idx="2">
+                    <div class="absolute top-1.5 left-1.5 w-1.5 h-1.5 rounded-full bg-teal-300 opacity-20 transition-all duration-300 sq-bulb"></div>
+                    <div class="absolute top-1.5 right-1.5 w-1.5 h-1.5 rounded-full bg-teal-300 opacity-20 transition-all duration-300 sq-bulb"></div>
+                    <div class="absolute bottom-1.5 left-1.5 w-1.5 h-1.5 rounded-full bg-teal-300 opacity-20 transition-all duration-300 sq-bulb"></div>
+                    <div class="absolute bottom-1.5 right-1.5 w-1.5 h-1.5 rounded-full bg-teal-300 opacity-20 transition-all duration-300 sq-bulb"></div>
+                    <span class="relative z-10">15% OFF</span>
+                </div>
 
-                <div class="luck-sq aspect-square bg-earth-800 rounded-xl flex items-center justify-center text-center font-black text-white text-sm sm:text-2xl border-2 border-earth-700 transition-all shadow-[0_0_15px_rgba(20,184,166,0.3)]"
-                    data-prize="10% OFF" data-prize-idx="7">10% OFF</div>
+                <div class="luck-sq relative aspect-square bg-earth-800 rounded-xl flex items-center justify-center text-center font-black text-white text-sm sm:text-2xl border-2 border-earth-700 transition-all shadow-[0_0_15px_rgba(20,184,166,0.3)]"
+                    data-prize="10% OFF" data-prize-idx="7">
+                    <div class="absolute top-1.5 left-1.5 w-1.5 h-1.5 rounded-full bg-teal-300 opacity-20 transition-all duration-300 sq-bulb"></div>
+                    <div class="absolute top-1.5 right-1.5 w-1.5 h-1.5 rounded-full bg-teal-300 opacity-20 transition-all duration-300 sq-bulb"></div>
+                    <div class="absolute bottom-1.5 left-1.5 w-1.5 h-1.5 rounded-full bg-teal-300 opacity-20 transition-all duration-300 sq-bulb"></div>
+                    <div class="absolute bottom-1.5 right-1.5 w-1.5 h-1.5 rounded-full bg-teal-300 opacity-20 transition-all duration-300 sq-bulb"></div>
+                    <span class="relative z-10">10% OFF</span>
+                </div>
 
                 <button id="spin-wheel-btn" onclick="window.playPressYourLuckGame()"
                     class="aspect-square bg-teal-500 rounded-xl flex items-center justify-center text-center font-black text-white text-xl border-4 border-white shadow-[0_0_20px_rgba(20,184,166,0.8)] overflow-hidden cursor-pointer hover:scale-105 transition-transform active:scale-95">
                     <i class="fa-solid fa-dice text-5xl sm:text-7xl"></i>
                 </button>
 
-                <div class="luck-sq aspect-square bg-earth-800 rounded-xl flex items-center justify-center text-center font-black text-white text-sm sm:text-2xl border-2 border-earth-700 transition-all shadow-[0_0_15px_rgba(20,184,166,0.3)]"
-                    data-prize="20% OFF" data-prize-idx="3">20% OFF</div>
+                <div class="luck-sq relative aspect-square bg-earth-800 rounded-xl flex items-center justify-center text-center font-black text-white text-sm sm:text-2xl border-2 border-earth-700 transition-all shadow-[0_0_15px_rgba(20,184,166,0.3)]"
+                    data-prize="20% OFF" data-prize-idx="3">
+                    <div class="absolute top-1.5 left-1.5 w-1.5 h-1.5 rounded-full bg-teal-300 opacity-20 transition-all duration-300 sq-bulb"></div>
+                    <div class="absolute top-1.5 right-1.5 w-1.5 h-1.5 rounded-full bg-teal-300 opacity-20 transition-all duration-300 sq-bulb"></div>
+                    <div class="absolute bottom-1.5 left-1.5 w-1.5 h-1.5 rounded-full bg-teal-300 opacity-20 transition-all duration-300 sq-bulb"></div>
+                    <div class="absolute bottom-1.5 right-1.5 w-1.5 h-1.5 rounded-full bg-teal-300 opacity-20 transition-all duration-300 sq-bulb"></div>
+                    <span class="relative z-10">20% OFF</span>
+                </div>
 
-                <div class="luck-sq aspect-square bg-earth-800 rounded-xl flex items-center justify-center text-center font-black text-white text-sm sm:text-2xl border-2 border-earth-700 transition-all shadow-[0_0_15px_rgba(20,184,166,0.3)]"
-                    data-prize="50% OFF!" data-prize-idx="6">50% OFF!</div>
-                <div class="luck-sq aspect-square bg-earth-800 rounded-xl flex items-center justify-center text-center font-black text-white text-sm sm:text-2xl border-2 border-earth-700 transition-all shadow-[0_0_15px_rgba(20,184,166,0.3)]"
-                    data-prize="TRY AGAIN TOMORROW" data-prize-idx="5">TRY AGAIN<br/>TOMORROW</div>
-                <div class="luck-sq aspect-square bg-earth-800 rounded-xl flex items-center justify-center text-center font-black text-white text-sm sm:text-2xl border-2 border-earth-700 transition-all shadow-[0_0_15px_rgba(20,184,166,0.3)]"
-                    data-prize="10% OFF" data-prize-idx="4">10% OFF</div>
+                <div class="luck-sq relative aspect-square bg-earth-800 rounded-xl flex items-center justify-center text-center font-black text-white text-sm sm:text-2xl border-2 border-earth-700 transition-all shadow-[0_0_15px_rgba(20,184,166,0.3)]"
+                    data-prize="50% OFF!" data-prize-idx="6">
+                    <div class="absolute top-1.5 left-1.5 w-1.5 h-1.5 rounded-full bg-teal-300 opacity-20 transition-all duration-300 sq-bulb"></div>
+                    <div class="absolute top-1.5 right-1.5 w-1.5 h-1.5 rounded-full bg-teal-300 opacity-20 transition-all duration-300 sq-bulb"></div>
+                    <div class="absolute bottom-1.5 left-1.5 w-1.5 h-1.5 rounded-full bg-teal-300 opacity-20 transition-all duration-300 sq-bulb"></div>
+                    <div class="absolute bottom-1.5 right-1.5 w-1.5 h-1.5 rounded-full bg-teal-300 opacity-20 transition-all duration-300 sq-bulb"></div>
+                    <span class="relative z-10">50% OFF!</span>
+                </div>
+                <div class="luck-sq relative aspect-square bg-earth-800 rounded-xl flex items-center justify-center text-center font-black text-white text-sm sm:text-2xl border-2 border-earth-700 transition-all shadow-[0_0_15px_rgba(20,184,166,0.3)]"
+                    data-prize="TRY AGAIN TOMORROW" data-prize-idx="5">
+                    <div class="absolute top-1.5 left-1.5 w-1.5 h-1.5 rounded-full bg-teal-300 opacity-20 transition-all duration-300 sq-bulb"></div>
+                    <div class="absolute top-1.5 right-1.5 w-1.5 h-1.5 rounded-full bg-teal-300 opacity-20 transition-all duration-300 sq-bulb"></div>
+                    <div class="absolute bottom-1.5 left-1.5 w-1.5 h-1.5 rounded-full bg-teal-300 opacity-20 transition-all duration-300 sq-bulb"></div>
+                    <div class="absolute bottom-1.5 right-1.5 w-1.5 h-1.5 rounded-full bg-teal-300 opacity-20 transition-all duration-300 sq-bulb"></div>
+                    <span class="relative z-10">TRY AGAIN<br/>TOMORROW</span>
+                </div>
+                <div class="luck-sq relative aspect-square bg-earth-800 rounded-xl flex items-center justify-center text-center font-black text-white text-sm sm:text-2xl border-2 border-earth-700 transition-all shadow-[0_0_15px_rgba(20,184,166,0.3)]"
+                    data-prize="10% OFF" data-prize-idx="4">
+                    <div class="absolute top-1.5 left-1.5 w-1.5 h-1.5 rounded-full bg-teal-300 opacity-20 transition-all duration-300 sq-bulb"></div>
+                    <div class="absolute top-1.5 right-1.5 w-1.5 h-1.5 rounded-full bg-teal-300 opacity-20 transition-all duration-300 sq-bulb"></div>
+                    <div class="absolute bottom-1.5 left-1.5 w-1.5 h-1.5 rounded-full bg-teal-300 opacity-20 transition-all duration-300 sq-bulb"></div>
+                    <div class="absolute bottom-1.5 right-1.5 w-1.5 h-1.5 rounded-full bg-teal-300 opacity-20 transition-all duration-300 sq-bulb"></div>
+                    <span class="relative z-10">10% OFF</span>
+                </div>
             </div>
 
             <!-- Result Announcement Banner -->
@@ -2887,6 +2936,7 @@
         };
 
         window.triggerMinigame = function () {
+            window.minigamePlayed = true;
             const luckMain = document.getElementById('luck-main-view');
             luckMain.classList.remove('hidden');
             luckMain.classList.add('flex', 'animate-rise-up');
@@ -3283,22 +3333,22 @@
         <svg width="95" height="95" viewBox="0 0 95 95" fill="none" xmlns="http://www.w3.org/2000/svg"
             class="block w-[85px] h-[85px] sm:w-[95px] sm:h-[95px]">
             <!-- Straight Corner Triangle Background Path: Solid Teal -->
-            <path id="wavyTrianglePath" d="M 0 95 L 0 0 L 95 95 Z" fill="url(#wavyGradientLight)" stroke="#0D9488"
+            <path id="wavyTrianglePath" d="M 0 95 L 0 0 L 95 95 Z" fill="url(#wavyGradientLight)" stroke="#6B21A8"
                 stroke-width="2.5" stroke-linejoin="round" class="transition-all duration-500" />
 
             <defs>
                 <!-- Light Mode Gradient: Solid Whimsical Teal -->
                 <linearGradient id="wavyGradientLight" x1="0" y1="95" x2="65" y2="0" gradientUnits="userSpaceOnUse">
-                    <stop offset="0%" stop-color="#0F766E" />
-                    <stop offset="60%" stop-color="#0D9488" />
-                    <stop offset="100%" stop-color="#14B8A6" />
+                    <stop offset="0%" stop-color="#4C1D95" />
+                    <stop offset="60%" stop-color="#6B21A8" />
+                    <stop offset="100%" stop-color="#9333EA" />
                 </linearGradient>
 
                 <!-- Dark Mode Gradient: Solid Cyberpunk Teal -->
                 <linearGradient id="wavyGradientDark" x1="0" y1="95" x2="65" y2="0" gradientUnits="userSpaceOnUse">
-                    <stop offset="0%" stop-color="#0F766E" />
-                    <stop offset="60%" stop-color="#0D9488" />
-                    <stop offset="100%" stop-color="#14B8A6" />
+                    <stop offset="0%" stop-color="#4C1D95" />
+                    <stop offset="60%" stop-color="#6B21A8" />
+                    <stop offset="100%" stop-color="#9333EA" />
                 </linearGradient>
             </defs>
         </svg>
