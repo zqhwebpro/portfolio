@@ -3,7 +3,7 @@ import { RearviewMirror } from './RearviewMirror';
 import { WaveformVisualizer } from './WaveformVisualizer';
 import { SpotifyRadio } from './SpotifyRadio';
 import { Sparkles } from 'lucide-react';
-import { SoundEngine } from '../utils/soundEngine';
+
 
 const AFFIRMATIONS = [
   "You are unstoppable. Keep pushing forward.",
@@ -320,7 +320,7 @@ export function SynthwaveDrive() {
               display: 'flex',
               flexDirection: 'column',
               alignItems: 'center',
-              transition: 'bottom 0.08s linear, transform 0.08s linear, opacity 0.08s linear',
+              transition: 'opacity 0.08s linear',
               pointerEvents: opacity > 0.3 ? 'auto' : 'none',
             }}
           >
@@ -328,7 +328,12 @@ export function SynthwaveDrive() {
               background: '#043818',
               border: '3px solid #FFFFFF',
               borderRadius: '8px',
-              padding: '1.5rem 2rem',
+              padding: '1.5rem',
+              width: '250px',
+              height: '250px',
+              display: 'flex',
+              justifyContent: 'center',
+              alignItems: 'center',
               boxShadow: '0 10px 30px rgba(0, 240, 255, 0.4), inset 0 0 15px rgba(255, 255, 255, 0.3)',
               textAlign: 'center',
               position: 'relative'
@@ -344,21 +349,12 @@ export function SynthwaveDrive() {
                 letterSpacing: '0.01em',
                 margin: 0,
                 textTransform: 'none',
-                whiteSpace: 'nowrap'
+                whiteSpace: 'normal',
+                wordWrap: 'break-word'
               }}>
                 "{popup.text}"
               </div>
             </div>
-            
-            {/* The Stem */}
-            <div style={{
-              width: `${stemWidth}px`,
-              height: `${stemHeight}px`,
-              background: 'linear-gradient(to right, #666, #aaa, #666)',
-              borderLeft: '1px solid #fff',
-              borderRight: '1px solid #333',
-              boxShadow: '5px 0 15px rgba(0, 0, 0, 0.5)'
-            }} />
           </div>
         );
       })}

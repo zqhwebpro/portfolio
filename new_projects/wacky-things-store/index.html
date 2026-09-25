@@ -219,7 +219,17 @@
             transition: all 0.2s ease;
         }
 
-        /* Interactive Hover Blueprint Tooltip Target */
+        @keyframes sq-bulb-blink {
+    0%, 100% { opacity: 0.1; box-shadow: none; }
+    50% { opacity: 1; box-shadow: 0 0 5px rgba(168,85,247,0.8); }
+}
+.sq-bulb {
+    animation: sq-bulb-blink 1s infinite alternate;
+}
+.sq-bulb:nth-child(even) { animation-delay: 0.5s; }
+.sq-bulb:nth-child(3n) { animation-delay: 0.2s; }
+
+/* Interactive Hover Blueprint Tooltip Target */
         [data-blueprint-file] {
             position: relative;
             cursor: pointer;
@@ -960,6 +970,11 @@
                       <div class="absolute top-1.5 left-1.5 w-1.5 h-1.5 rounded-full bg-purple-400 opacity-20 transition-all duration-300 sq-bulb"></div><div class="absolute top-1.5 left-1/2 -translate-x-1/2 w-1.5 h-1.5 rounded-full bg-purple-400 opacity-20 transition-all duration-300 sq-bulb"></div><div class="absolute top-1.5 right-1.5 w-1.5 h-1.5 rounded-full bg-purple-400 opacity-20 transition-all duration-300 sq-bulb"></div><div class="absolute top-1/2 -translate-y-1/2 left-1.5 w-1.5 h-1.5 rounded-full bg-purple-400 opacity-20 transition-all duration-300 sq-bulb"></div><div class="absolute top-1/2 -translate-y-1/2 right-1.5 w-1.5 h-1.5 rounded-full bg-purple-400 opacity-20 transition-all duration-300 sq-bulb"></div><div class="absolute bottom-1.5 left-1.5 w-1.5 h-1.5 rounded-full bg-purple-400 opacity-20 transition-all duration-300 sq-bulb"></div><div class="absolute bottom-1.5 left-1/2 -translate-x-1/2 w-1.5 h-1.5 rounded-full bg-purple-400 opacity-20 transition-all duration-300 sq-bulb"></div><div class="absolute bottom-1.5 right-1.5 w-1.5 h-1.5 rounded-full bg-purple-400 opacity-20 transition-all duration-300 sq-bulb"></div>
                       <span class="relative z-10">15% OFF</span>
                 </div>
+                <div class="luck-sq relative aspect-square bg-earth-800 rounded-xl flex items-center justify-center text-center font-black text-white text-sm sm:text-2xl border-2 border-earth-700 transition-all shadow-[0_0_15px_rgba(88,28,135,0.3)]"
+                    data-prize="20% OFF" data-prize-idx="2">
+                      <div class="absolute top-1.5 left-1.5 w-1.5 h-1.5 rounded-full bg-purple-400 opacity-20 transition-all duration-300 sq-bulb"></div><div class="absolute top-1.5 left-1/2 -translate-x-1/2 w-1.5 h-1.5 rounded-full bg-purple-400 opacity-20 transition-all duration-300 sq-bulb"></div><div class="absolute top-1.5 right-1.5 w-1.5 h-1.5 rounded-full bg-purple-400 opacity-20 transition-all duration-300 sq-bulb"></div><div class="absolute top-1/2 -translate-y-1/2 left-1.5 w-1.5 h-1.5 rounded-full bg-purple-400 opacity-20 transition-all duration-300 sq-bulb"></div><div class="absolute top-1/2 -translate-y-1/2 right-1.5 w-1.5 h-1.5 rounded-full bg-purple-400 opacity-20 transition-all duration-300 sq-bulb"></div><div class="absolute bottom-1.5 left-1.5 w-1.5 h-1.5 rounded-full bg-purple-400 opacity-20 transition-all duration-300 sq-bulb"></div><div class="absolute bottom-1.5 left-1/2 -translate-x-1/2 w-1.5 h-1.5 rounded-full bg-purple-400 opacity-20 transition-all duration-300 sq-bulb"></div><div class="absolute bottom-1.5 right-1.5 w-1.5 h-1.5 rounded-full bg-purple-400 opacity-20 transition-all duration-300 sq-bulb"></div>
+                      <span class="relative z-10">20% OFF</span>
+                </div>
 
                 <div class="luck-sq relative aspect-square bg-earth-800 rounded-xl flex items-center justify-center text-center font-black text-white text-sm sm:text-2xl border-2 border-earth-700 transition-all shadow-[0_0_15px_rgba(88,28,135,0.3)]"
                     data-prize="10% OFF" data-prize-idx="7">
@@ -968,7 +983,7 @@
                 </div>
 
                 <button id="spin-wheel-btn" onclick="window.playPressYourLuckGame()"
-                    class="aspect-square bg-purple-900 rounded-xl flex items-center justify-center text-center font-black text-white text-xl border-4 border-white shadow-[0_0_20px_rgba(88,28,135,0.8)] overflow-hidden cursor-pointer hover:scale-105 transition-transform active:scale-95">
+                    class="aspect-square bg-teal-500 rounded-xl flex items-center justify-center text-center font-black text-white text-xl border-4 border-white shadow-[0_0_20px_rgba(20,184,166,0.8)] overflow-hidden cursor-pointer hover:scale-105 transition-transform active:scale-95">
                     <i class="fa-solid fa-dice text-5xl sm:text-7xl"></i>
                 </button>
 
@@ -987,6 +1002,11 @@
                     data-prize="Try again tomorrow" data-prize-idx="5">
                       <div class="absolute top-1.5 left-1.5 w-1.5 h-1.5 rounded-full bg-purple-400 opacity-20 transition-all duration-300 sq-bulb"></div><div class="absolute top-1.5 left-1/2 -translate-x-1/2 w-1.5 h-1.5 rounded-full bg-purple-400 opacity-20 transition-all duration-300 sq-bulb"></div><div class="absolute top-1.5 right-1.5 w-1.5 h-1.5 rounded-full bg-purple-400 opacity-20 transition-all duration-300 sq-bulb"></div><div class="absolute top-1/2 -translate-y-1/2 left-1.5 w-1.5 h-1.5 rounded-full bg-purple-400 opacity-20 transition-all duration-300 sq-bulb"></div><div class="absolute top-1/2 -translate-y-1/2 right-1.5 w-1.5 h-1.5 rounded-full bg-purple-400 opacity-20 transition-all duration-300 sq-bulb"></div><div class="absolute bottom-1.5 left-1.5 w-1.5 h-1.5 rounded-full bg-purple-400 opacity-20 transition-all duration-300 sq-bulb"></div><div class="absolute bottom-1.5 left-1/2 -translate-x-1/2 w-1.5 h-1.5 rounded-full bg-purple-400 opacity-20 transition-all duration-300 sq-bulb"></div><div class="absolute bottom-1.5 right-1.5 w-1.5 h-1.5 rounded-full bg-purple-400 opacity-20 transition-all duration-300 sq-bulb"></div>
                       <span class="relative z-10">10% OFF</span>
+                </div>
+                <div class="luck-sq relative aspect-square bg-earth-800 rounded-xl flex items-center justify-center text-center font-black text-white text-sm sm:text-2xl border-2 border-earth-700 transition-all shadow-[0_0_15px_rgba(88,28,135,0.3)]"
+                    data-prize="15% OFF" data-prize-idx="4">
+                      <div class="absolute top-1.5 left-1.5 w-1.5 h-1.5 rounded-full bg-purple-400 opacity-20 transition-all duration-300 sq-bulb"></div><div class="absolute top-1.5 left-1/2 -translate-x-1/2 w-1.5 h-1.5 rounded-full bg-purple-400 opacity-20 transition-all duration-300 sq-bulb"></div><div class="absolute top-1.5 right-1.5 w-1.5 h-1.5 rounded-full bg-purple-400 opacity-20 transition-all duration-300 sq-bulb"></div><div class="absolute top-1/2 -translate-y-1/2 left-1.5 w-1.5 h-1.5 rounded-full bg-purple-400 opacity-20 transition-all duration-300 sq-bulb"></div><div class="absolute top-1/2 -translate-y-1/2 right-1.5 w-1.5 h-1.5 rounded-full bg-purple-400 opacity-20 transition-all duration-300 sq-bulb"></div><div class="absolute bottom-1.5 left-1.5 w-1.5 h-1.5 rounded-full bg-purple-400 opacity-20 transition-all duration-300 sq-bulb"></div><div class="absolute bottom-1.5 left-1/2 -translate-x-1/2 w-1.5 h-1.5 rounded-full bg-purple-400 opacity-20 transition-all duration-300 sq-bulb"></div><div class="absolute bottom-1.5 right-1.5 w-1.5 h-1.5 rounded-full bg-purple-400 opacity-20 transition-all duration-300 sq-bulb"></div>
+                      <span class="relative z-10">15% OFF</span>
                 </div>
             </div>
 
@@ -2878,8 +2898,7 @@
             luckMain.classList.remove('flex');
             const cornerBtn = document.getElementById('wacky-corner-toggle');
                 if (cornerBtn && window.minigamePlayed) {
-                cornerBtn.classList.add('hidden');
-                cornerBtn.style.display = 'none';
+                cornerBtn.classList.add('opacity-50', 'pointer-events-none', 'grayscale');
             }
         };
 
@@ -2948,6 +2967,10 @@
                 // Explicitly show the corner button in case it was hidden
                 const cornerBtn = document.getElementById('wacky-corner-toggle');
                 if (cornerBtn && !window.minigamePlayed) {
+                    cornerBtn.classList.remove('hidden', 'opacity-50', 'pointer-events-none', 'grayscale');
+                    cornerBtn.style.display = 'flex';
+                } else if (cornerBtn && window.minigamePlayed) {
+                    cornerBtn.classList.add('opacity-50', 'pointer-events-none', 'grayscale');
                     cornerBtn.classList.remove('hidden');
                     cornerBtn.style.display = 'flex';
                 }
@@ -3281,19 +3304,19 @@
 
         <svg width="95" height="95" viewBox="0 0 95 95" fill="none" xmlns="http://www.w3.org/2000/svg"
             class="block w-[85px] h-[85px] sm:w-[95px] sm:h-[95px]">
-            <!-- Straight Corner Triangle Background Path: Solid Teal -->
+            <!-- Straight Corner Triangle Background Path: Light Purple -->
             <path id="wavyTrianglePath" d="M 0 95 L 0 0 L 95 95 Z" fill="url(#wavyGradientLight)" stroke="#6B21A8"
                 stroke-width="2.5" stroke-linejoin="round" class="transition-all duration-500" />
 
             <defs>
-                <!-- Light Mode Gradient: Solid Whimsical Teal -->
+                <!-- Light Mode Gradient: Solid Whimsical Purple -->
                 <linearGradient id="wavyGradientLight" x1="0" y1="95" x2="65" y2="0" gradientUnits="userSpaceOnUse">
                     <stop offset="0%" stop-color="#4C1D95" />
                     <stop offset="60%" stop-color="#6B21A8" />
                     <stop offset="100%" stop-color="#9333EA" />
                 </linearGradient>
 
-                <!-- Dark Mode Gradient: Solid Cyberpunk Teal -->
+                <!-- Dark Mode Gradient: Solid Cyberpunk Purple -->
                 <linearGradient id="wavyGradientDark" x1="0" y1="95" x2="65" y2="0" gradientUnits="userSpaceOnUse">
                     <stop offset="0%" stop-color="#4C1D95" />
                     <stop offset="60%" stop-color="#6B21A8" />

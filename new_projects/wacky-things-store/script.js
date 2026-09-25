@@ -1270,8 +1270,9 @@
             luckMain.classList.remove('flex');
             const cornerBtn = document.getElementById('wacky-corner-toggle');
                 if (cornerBtn && window.minigamePlayed) {
-                cornerBtn.classList.add('hidden');
-                cornerBtn.style.display = 'none';
+                cornerBtn.classList.add('opacity-50', 'pointer-events-none', 'grayscale');
+                cornerBtn.classList.remove('hidden');
+                cornerBtn.style.display = 'flex';
             }
         };
 
