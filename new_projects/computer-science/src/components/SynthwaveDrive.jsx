@@ -97,7 +97,7 @@ export function SynthwaveDrive() {
     setPopups((prev) =>
       prev.filter((p) => {
         const progress = (driveDistance - p.startDist) / 36;
-        return progress <= 1.05;
+        return progress <= 3.0;
       })
     );
   }, [driveDistance]);
@@ -293,7 +293,7 @@ export function SynthwaveDrive() {
       <canvas ref={canvasRef} style={{ width: '100%', height: '100%', display: 'block' }} />
 
       {/* 1. TOP CENTER REARVIEW MIRROR */}
-      <RearviewMirror speedMph={speedMph} />
+      <RearviewMirror speedMph={speedMph} popups={popups} driveDistance={driveDistance} />
 
       {/* 2. LIVE WAVEFORM SCOPE & HORIZON SOUND WAVES ALONG MOUNTAINS */}
       <WaveformVisualizer isAudioPlaying={isAudioPlaying} speedMph={speedMph} />
@@ -330,6 +330,8 @@ export function SynthwaveDrive() {
       {/* POP-UPS TRAVELING DOWNWARD ALONG THE ROAD FLOOR PLANE */}
       {popups.map((popup) => {
         const rawProgress = (driveDistance - popup.startDist) / 36;
+        if (rawProgress > 1.05) return null;
+        
         const p = Math.max(0, Math.min(1, rawProgress));
 
         // Use exact pixel dimensions tracked by component

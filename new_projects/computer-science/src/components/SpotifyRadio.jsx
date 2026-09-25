@@ -24,7 +24,7 @@ export function SpotifyRadio({ onAudioStateChange }) {
     >
       <iframe 
         style={{ borderRadius: '12px', background: 'transparent' }} 
-        src="https://open.spotify.com/embed/playlist/4sgUux9hmykyWYmVoe4W6p?utm_source=generator&theme=0" 
+        src="https://open.spotify.com/embed/playlist/37i9dQZF1DXdLEN7aqioXM?utm_source=generator&theme=0" 
         width="100%" 
         height="152" 
         frameBorder="0" 

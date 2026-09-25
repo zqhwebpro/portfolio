@@ -1,6 +1,6 @@
 import React, { useEffect, useRef } from 'react';
 
-export function RearviewMirror({ speedMph }) {
+export function RearviewMirror({ speedMph, popups = [], driveDistance = 0 }) {
   const canvasRef = useRef(null);
   const offsetRef = useRef(0);
 
@@ -121,6 +121,80 @@ export function RearviewMirror({ speedMph }) {
         {/* Mirror Canvas */}
         <canvas ref={canvasRef} style={{ width: '100%', height: '100%', display: 'block' }} />
 
+        {/* Popups reflecting in the rearview mirror */}
+        {popups && popups.map(popup => {
+          const rawProgress = (driveDistance - popup.startDist) / 36;
+          
+          // Only show in the rearview mirror AFTER they pass the camera
+          if (rawProgress < 0.95) return null;
+          
+          // p ranges from 0 (closest to mirror edge) to > 1 (receding into horizon)
+          const p = rawProgress - 1.0;
+          if (p > 1.5) return null; // Disappears in the distance
+          
+          // Shrinks and moves UP towards horizon (45%)
+          const progressY = Math.pow(Math.max(0, 1 - (p / 1.5)), 2.5); // 1 to 0
+          
+          // Horizon is 45%, bottom is 100%
+          const topPct = 45 + progressY * 65; 
+          
+          // Scale from 1.0 (large, bottom of mirror) down to 0.01 (tiny, at horizon)
+          const scale = Math.max(0.01, progressY * 0.9);
+          
+          // Fade in initially as it enters the mirror, fade out at horizon
+          const opacity = p < 0.1 ? (p / 0.1) : (p > 1.2 ? 1 - (p - 1.2) / 0.3 : 1);
+          
+          // In rearview mirror, left and right are visually swapped naturally!
+          // If it passed on the left (number % 2 == 0), it appears on the left side of the mirror.
+          const isLeft = (popup.number % 2) === 0;
+          const lineIndex = isLeft ? -1.5 : 1.5; 
+          
+          const startX_pct = 50 + (lineIndex / 16) * 16; // horizon X
+          const endX_pct = 50 + lineIndex * 20; // bottom X
+          
+          const currentX_pct = startX_pct + (endX_pct - startX_pct) * progressY;
+
+          return (
+            <div key={popup.id} style={{
+               position: 'absolute',
+               top: `${topPct}%`,
+               left: `${currentX_pct}%`,
+               transform: `translate(-50%, -100%) scale(${scale})`,
+               transformOrigin: '50% 100%',
+               opacity: opacity,
+               zIndex: Math.round(10 + progressY * 20),
+               display: 'flex',
+               flexDirection: 'column',
+               alignItems: 'center',
+            }}>
+                <div style={{
+                   background: '#043818',
+                   border: '2px solid #FFFFFF',
+                   borderRadius: '4px',
+                   padding: '0.4rem 0.8rem',
+                   width: '180px',
+                   textAlign: 'center',
+                   boxShadow: '0 5px 15px rgba(0, 240, 255, 0.4), inset 0 0 10px rgba(255, 255, 255, 0.3)',
+                }}>
+                    <div style={{
+                       fontFamily: 'var(--font-display)',
+                       fontSize: '0.75rem',
+                       fontWeight: 700,
+                       lineHeight: 1.25,
+                       color: '#FFFFFF',
+                       textShadow: '0 0 5px rgba(255, 255, 255, 0.95), 0 0 15px rgba(0, 240, 255, 0.9)',
+                       margin: 0,
+                       textTransform: 'none',
+                       whiteSpace: 'normal',
+                       wordWrap: 'break-word'
+                    }}>
+                       "{popup.text}"
+                    </div>
+                </div>
+            </div>
+          );
+        })}
+
         {/* Speedometer readout */}
         <div style={{
           position: 'absolute',
@@ -131,7 +205,8 @@ export function RearviewMirror({ speedMph }) {
           fontWeight: 900,
           color: '#00F0FF',
           letterSpacing: '0.08em',
-          textShadow: '0 0 8px rgba(0, 240, 255, 0.9)'
+          textShadow: '0 0 8px rgba(0, 240, 255, 0.9)',
+          zIndex: 40
         }}>
           {Math.max(0, Math.round(speedMph))} MPH
         </div>

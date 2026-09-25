@@ -61,7 +61,7 @@ if (!html.includes('id="admin-main-view"')) {
 const footerStart = html.indexOf('<footer');
 const newsletterHTML = `
     <!-- NEWSLETTER SIGNUP -->
-    <section class="bg-primary py-12 border-t-8 border-b-8 border-earth-900 overflow-hidden relative" style="background-image: radial-gradient(#FACC15 10%, transparent 11%), radial-gradient(#FACC15 10%, transparent 11%); background-size: 40px 40px; background-position: 0 0, 20px 20px;">
+    <section class="bg-appetite-500 py-12 border-t-8 border-b-8 border-earth-900 overflow-hidden relative">
         <div class="store-fluid-container relative z-10 flex flex-col items-center text-center">
             <h2 class="text-4xl sm:text-5xl font-black font-heading text-earth-900 mb-4 transform -rotate-2" style="-webkit-text-stroke: 1.5px white;">GET WACKY MAIL!</h2>
             <p class="text-lg font-bold text-earth-800 bg-white px-4 py-1 rounded border-2 border-earth-900 transform rotate-1 mb-6">Sign up for exclusive nonsense and 0% useful information!</p>
@@ -69,8 +69,6 @@ const newsletterHTML = `
                 <input type="email" placeholder="Enter your email (we dare you)" required class="flex-1 p-4 rounded-xl border-4 border-earth-900 font-bold focus:outline-none focus:ring-4 focus:ring-appetite-400 text-lg shadow-[4px_4px_0px_#1C1917]" />
                 <button type="submit" class="px-8 py-4 bg-appetite-500 hover:bg-appetite-600 text-white font-black text-xl uppercase tracking-widest rounded-xl border-4 border-earth-900 shadow-[6px_6px_0px_#1C1917] hover:shadow-[4px_4px_0px_#1C1917] hover:translate-x-[2px] hover:translate-y-[2px] active:shadow-none active:translate-x-[6px] active:translate-y-[6px] transition-all">SIGN ME UP</button>
             </form>
-            <div class="absolute -top-6 -left-6 text-6xl transform -rotate-12">??</div>
-            <div class="absolute -bottom-6 -right-6 text-6xl transform rotate-12">??</div>
         </div>
     </section>
 `;
