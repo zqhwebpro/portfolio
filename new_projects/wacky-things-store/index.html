@@ -661,6 +661,13 @@
                     <span class="hidden sm:inline">Admin CRUD</span>
                 </button>
 
+                <!-- Admin Panel Trigger -->
+                <button onclick="window.toggleAdminPanel()" id="header-admin-btn"
+                    class="px-3.5 py-2 rounded-xl bg-white border border-canvas-border hover:border-earth-700 text-earth-800 hover:text-earth-900 text-xs font-bold flex items-center gap-1.5 transition-all shadow-xs">
+                    <i class="fa-solid fa-cog text-earth-700"></i>
+                    <span class="hidden sm:inline">Admin</span>
+                </button>
+
                 <!-- CASE STUDY LINK BUTTON — commented out until ready to review
                 <a href="./case-study.html" 
                    data-blueprint-file="WackyStore.Docs/CaseStudy.md"
@@ -694,19 +701,12 @@
 
 
 
-                <!-- Blog Reading Portal Trigger -->
                 
-                <!-- Admin Panel Trigger -->
-                <button onclick="window.toggleAdminPanel()" id="header-admin-btn"
-                    class="group relative flex items-center gap-2 sm:gap-3 px-3 sm:px-5 py-2 sm:py-2.5 rounded-full overflow-hidden transition-all duration-300 shadow-[0_0_15px_rgba(255,255,255,0.1)] border-2 border-earth-700 bg-earth-800 hover:bg-earth-700 hover:border-earth-600 hover:shadow-[0_0_20px_rgba(255,255,255,0.2)]">
-                    <i class="fa-solid fa-cog text-base sm:text-lg text-earth-300 group-hover:text-white transition-colors duration-300"></i>
-                    <span class="hidden sm:inline font-bold text-sm text-earth-300 group-hover:text-white uppercase tracking-wider">Admin</span>
-                </button>
-
-<button onclick="window.toggleViewStoreBlog()" id="header-blog-btn"
-                    class="px-3.5 py-2 rounded-xl bg-white border border-canvas-border hover:border-earth-700 text-earth-800 hover:text-earth-900 text-xs font-bold flex items-center gap-1.5 transition-all shadow-xs"
+                <!-- Blog Reading Portal Trigger -->
+                <button onclick="window.toggleViewStoreBlog()" id="header-blog-btn"
+                    class="px-3.5 py-2 rounded-xl bg-earth-800 hover:bg-earth-900 border border-earth-700 text-white text-xs font-bold flex items-center gap-1.5 transition-all shadow-xs"
                     title="Read The Mischief Gazette">
-                    <i class="fa-solid fa-newspaper text-earth-700"></i>
+                    <i class="fa-solid fa-newspaper text-earth-300"></i>
                     <span id="headerBlogText" class="hidden sm:inline">The Wacky Blog</span>
                 </button>
 
@@ -1550,9 +1550,15 @@
 
     
     <!-- NEWSLETTER SIGNUP -->
-    <section class="bg-appetite-500 py-12 border-t-8 border-b-8 border-earth-900 overflow-hidden relative">
+    <section class="bg-appetite-500 py-12 border-t-8 border-b-8 border-earth-900 overflow-hidden relative"
+        data-blueprint-file="WackyStore.WebUI/Views/Shared/_NewsletterSignup.cshtml" 
+        data-blueprint-role="Newsletter Signup Partial View"
+        data-blueprint-layer="WebUI / View Component"
+        data-blueprint-dom="Semantic <section> container featuring an inline form and vibrant styling."
+        data-blueprint-desc="Renders the newsletter signup form. Posts email subscriptions to the Newsletter controller."
+        data-blueprint-code="[HttpPost] public ActionResult Subscribe(string email) { ... }">
         <div class="store-fluid-container relative z-10 flex flex-col items-center text-center">
-            <h2 class="text-4xl sm:text-5xl font-black font-heading text-earth-900 mb-4">GET WACKY MAIL!</h2>
+            <h2 class="text-4xl sm:text-5xl font-black font-heading text-earth-900 mb-4 transform -rotate-2" style="-webkit-text-stroke: 1.5px white;">GET WACKY MAIL!</h2>
             <p class="text-lg font-bold text-earth-800 bg-white px-4 py-1 rounded border-2 border-earth-900 transform rotate-1 mb-6">Sign up for exclusive nonsense and 0% useful information!</p>
             <form onsubmit="event.preventDefault(); alert('You are now subscribed to the nonsense!');" class="flex flex-col sm:flex-row gap-3 w-full max-w-lg">
                 <input type="email" placeholder="Enter your email (we dare you)" required class="flex-1 p-4 rounded-xl border-4 border-earth-900 font-bold focus:outline-none focus:ring-4 focus:ring-appetite-400 text-lg shadow-[4px_4px_0px_#1C1917]" />
@@ -1667,3 +1673,4 @@
 
 </body>
 </html>
+

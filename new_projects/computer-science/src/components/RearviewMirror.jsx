@@ -168,28 +168,31 @@ export function RearviewMirror({ speedMph, popups = [], driveDistance = 0 }) {
                alignItems: 'center',
             }}>
                 <div style={{
-                   background: '#043818',
-                   border: '2px solid #FFFFFF',
+                   background: '#1C1917', // Dark metal back
+                   border: '2px solid #44403C',
                    borderRadius: '4px',
-                   padding: '0.4rem 0.8rem',
                    width: '180px',
-                   textAlign: 'center',
-                   boxShadow: '0 5px 15px rgba(0, 240, 255, 0.4), inset 0 0 10px rgba(255, 255, 255, 0.3)',
+                   height: '70px',
+                   position: 'relative',
+                   boxShadow: 'inset 0 0 15px rgba(0,0,0,0.8), 0 5px 15px rgba(0, 240, 255, 0.2)',
                 }}>
-                    <div style={{
-                       fontFamily: 'var(--font-display)',
-                       fontSize: '0.75rem',
-                       fontWeight: 700,
-                       lineHeight: 1.25,
-                       color: '#FFFFFF',
-                       textShadow: '0 0 5px rgba(255, 255, 255, 0.95), 0 0 15px rgba(0, 240, 255, 0.9)',
-                       margin: 0,
-                       textTransform: 'none',
-                       whiteSpace: 'normal',
-                       wordWrap: 'break-word'
-                    }}>
-                       "{popup.text}"
-                    </div>
+                   {/* Metal posts supporting the sign */}
+                   <div style={{
+                       position: 'absolute',
+                       top: '100%',
+                       left: '25%',
+                       width: '8px',
+                       height: '120px',
+                       background: 'linear-gradient(to right, #292524, #0c0a09)'
+                   }}></div>
+                   <div style={{
+                       position: 'absolute',
+                       top: '100%',
+                       right: '25%',
+                       width: '8px',
+                       height: '120px',
+                       background: 'linear-gradient(to right, #292524, #0c0a09)'
+                   }}></div>
                 </div>
             </div>
           );
