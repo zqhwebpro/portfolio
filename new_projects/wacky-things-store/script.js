@@ -1112,14 +1112,14 @@
                 if (headerText) headerText.innerText = 'Light';
                 if (path) {
                     path.setAttribute('fill', 'url(#wavyGradientDark)');
-                    path.setAttribute('stroke', '#14B8A6');
+                    path.setAttribute('stroke', '#6B21A8');
                 }
             } else {
                 if (headerIcon) headerIcon.className = 'fa-solid fa-moon text-amber-500';
                 if (headerText) headerText.innerText = 'Theme';
                 if (path) {
                     path.setAttribute('fill', 'url(#wavyGradientLight)');
-                    path.setAttribute('stroke', '#0D9488');
+                    path.setAttribute('stroke', '#4C1D95');
                 }
             }
         };
@@ -1225,7 +1225,7 @@
                 authorRole: 'Dry Hydration Master',
                 date: 'September 28, 2026',
                 readTime: '4 min read',
-                image: 'https://images.unsplash.com/photo-1548839140-29a749e1bc4e?auto=format&fit=crop&w=600&q=80',
+                image: 'https://images.unsplash.com/photo-1546377791-bebc64f4340d?auto=format&fit=crop&w=600&q=80',
                 excerpt: 'Dehydrated water has revolutionized camping and space exploration. Learn how to reconstitute your canned dry moisture using genuine tap water.',
                 content: `
                     <p class="text-base font-semibold text-earth-800 leading-relaxed">First patented in 1924 by eccentric inventor Barnaby Dry, Dehydrated Water remains one of the greatest inventions of the modern age. By removing 100% of H2O content from water, we created a lightweight powder that weighs zero grams!</p>
@@ -1393,10 +1393,10 @@
             resultBox.classList.add('hidden');
 
             let currentIdx = 0;
-            let speed = 50;
+            let speed = 20;
             let jumps = 0;
-            const minJumps = 40;
-            const maxJumps = 60 + Math.floor(Math.random() * 20);
+            const minJumps = 20;
+            const maxJumps = 30 + Math.floor(Math.random() * 10);
 
             const r = Math.random();
             let targetPrize;

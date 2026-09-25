@@ -34,13 +34,22 @@ export function SynthwaveDrive() {
   const [popups, setPopups] = useState([]);
   const [isAudioPlaying, setIsAudioPlaying] = useState(true);
   const [dimensions, setDimensions] = useState({ w: 1000, h: 800 });
+  const [autoDrive, setAutoDrive] = useState(false);
 
+  const autoDriveRef = useRef(false);
   const speedRef = useRef(0);
   const directionRef = useRef(1); // 1 = Forward, -1 = Reverse
   const offsetRef = useRef(0);
   const driveDistanceRef = useRef(0);
   const nextMilestoneDistRef = useRef(28); // Spaced apart, no initial popup at startup
   const milestoneCountRef = useRef(0);
+
+  const toggleAutoDrive = () => {
+    setAutoDrive(prev => {
+      autoDriveRef.current = !prev;
+      return !prev;
+    });
+  };
 
   // Handle Wheel / Scroll Interaction (Smooth fluid momentum calculation)
   useEffect(() => {
@@ -101,11 +110,16 @@ export function SynthwaveDrive() {
         return prev;
       });
 
-      // Decelerate speed smoothly to 0 when not scrolling (Exponential smoothing)
-      if (speedRef.current > 0.1) {
-        speedRef.current = speedRef.current * 0.95;
+      if (autoDriveRef.current) {
+        directionRef.current = 1;
+        speedRef.current = speedRef.current + (120 - speedRef.current) * 0.05; // Ease towards 120 mph
       } else {
-        speedRef.current = 0;
+        // Decelerate speed smoothly to 0 when not scrolling (Exponential smoothing)
+        if (speedRef.current > 0.1) {
+          speedRef.current = speedRef.current * 0.95;
+        } else {
+          speedRef.current = 0;
+        }
       }
       
       // Smooth 60fps state updates
@@ -271,6 +285,32 @@ export function SynthwaveDrive() {
       {/* 3. DIRECT SPOTIFY EMBED PLAYLIST (WITHOUT EXTRA CONTAINER OR BUTTONS) */}
       <SpotifyRadio onAudioStateChange={(active) => setIsAudioPlaying(active)} />
 
+      {/* 4. AUTO DRIVE TOGGLE */}
+      <button
+        onClick={toggleAutoDrive}
+        style={{
+          position: 'absolute',
+          top: '1.5rem',
+          right: '1.5rem',
+          zIndex: 40,
+          background: autoDrive ? 'rgba(0, 240, 255, 0.2)' : 'rgba(10, 2, 20, 0.75)',
+          border: `1px solid ${autoDrive ? '#00F0FF' : 'rgba(0, 240, 255, 0.3)'}`,
+          color: autoDrive ? '#00F0FF' : 'rgba(255,255,255,0.7)',
+          padding: '0.75rem 1.25rem',
+          borderRadius: '8px',
+          fontFamily: 'var(--font-sans, sans-serif)',
+          fontWeight: 'bold',
+          letterSpacing: '0.1em',
+          textTransform: 'uppercase',
+          cursor: 'pointer',
+          backdropFilter: 'blur(12px)',
+          boxShadow: autoDrive ? '0 0 15px rgba(0, 240, 255, 0.4)' : 'none',
+          transition: 'all 0.3s ease'
+        }}
+      >
+        {autoDrive ? 'Auto Drive: ON' : 'Auto Drive: OFF'}
+      </button>
+
       {/* POP-UPS TRAVELING DOWNWARD ALONG THE ROAD FLOOR PLANE */}
       {popups.map((popup) => {
         const rawProgress = (driveDistance - popup.startDist) / 18;
@@ -328,9 +368,9 @@ export function SynthwaveDrive() {
               background: '#043818',
               border: '3px solid #FFFFFF',
               borderRadius: '8px',
-              padding: '1.5rem',
-              width: '250px',
-              height: '250px',
+              padding: '1.5rem 2rem',
+              width: '320px',
+              height: 'auto',
               display: 'flex',
               justifyContent: 'center',
               alignItems: 'center',
