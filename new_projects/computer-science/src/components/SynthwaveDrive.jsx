@@ -4,7 +4,6 @@ import { WaveformVisualizer } from './WaveformVisualizer';
 import { SpotifyRadio } from './SpotifyRadio';
 import { Sparkles } from 'lucide-react';
 
-
 const AFFIRMATIONS = [
   "You are unstoppable. Keep pushing forward.",
   "Code is creativity in motion. Design your future.",
@@ -35,6 +34,18 @@ export function SynthwaveDrive() {
   const [isAudioPlaying, setIsAudioPlaying] = useState(true);
   const [dimensions, setDimensions] = useState({ w: 1000, h: 800 });
   const [autoDrive, setAutoDrive] = useState(false);
+  const [shows, setShows] = useState([]);
+  const showsRef = useRef([]);
+
+  useEffect(() => {
+    fetch('https://api.tvmaze.com/shows')
+      .then(res => res.json())
+      .then(data => {
+        setShows(data);
+        showsRef.current = data;
+      })
+      .catch(err => console.error(err));
+  }, []);
 
   const autoDriveRef = useRef(false);
   const speedRef = useRef(0);
@@ -85,7 +96,7 @@ export function SynthwaveDrive() {
   useEffect(() => {
     setPopups((prev) =>
       prev.filter((p) => {
-        const progress = (driveDistance - p.startDist) / 18;
+        const progress = (driveDistance - p.startDist) / 36;
         return progress <= 1.05;
       })
     );
@@ -138,17 +149,22 @@ export function SynthwaveDrive() {
       // Trigger new affirmation popup far down the road horizon when reaching distance milestones
       if (currentDist >= nextMilestoneDistRef.current) {
         milestoneCountRef.current += 1;
-        const randomAff = AFFIRMATIONS[Math.floor(Math.random() * AFFIRMATIONS.length)];
+        
+        let popupText = AFFIRMATIONS[Math.floor(Math.random() * AFFIRMATIONS.length)];
+        if (showsRef.current.length > 0) {
+          const show = showsRef.current[Math.floor(Math.random() * showsRef.current.length)];
+          popupText = show.name;
+        }
 
         // Snap startDist to the next integer so it perfectly rides a blue grid line!
         const startDist = Math.ceil(currentDist);
 
         const newPopup = {
           id: Date.now() + Math.random(),
-          text: randomAff,
+          text: popupText,
           number: milestoneCountRef.current,
           startDist: startDist,
-          targetDist: startDist + 18 // exactly 18 grid squares to match numH
+          targetDist: startDist + 36 // exactly 36 grid squares to match numH * 2
         };
 
         setPopups((prev) => [...prev, newPopup]);
@@ -313,7 +329,7 @@ export function SynthwaveDrive() {
 
       {/* POP-UPS TRAVELING DOWNWARD ALONG THE ROAD FLOOR PLANE */}
       {popups.map((popup) => {
-        const rawProgress = (driveDistance - popup.startDist) / 18;
+        const rawProgress = (driveDistance - popup.startDist) / 36;
         const p = Math.max(0, Math.min(1, rawProgress));
 
         // Use exact pixel dimensions tracked by component
@@ -323,8 +339,8 @@ export function SynthwaveDrive() {
 
         const progressY = Math.pow(p, 2.5);
 
-        // Calculate Y as a percentage (horizon is 55%)
-        const topPct = 55 + progressY * 45; 
+        // Calculate Y as a percentage (horizon is 55%) - Moved up by 3%
+        const topPct = 52 + progressY * 45; 
         
         // Scale starts extremely small at horizon
         const scale = Math.max(0.01, progressY * 3.0); 
