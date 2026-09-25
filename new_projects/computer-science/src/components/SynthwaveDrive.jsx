@@ -311,7 +311,7 @@ export function SynthwaveDrive() {
               display: 'flex',
               flexDirection: 'column',
               alignItems: 'center',
-              transition: 'top 0.08s linear, transform 0.08s linear, opacity 0.08s linear',
+              transition: 'bottom 0.08s linear, transform 0.08s linear, opacity 0.08s linear',
               pointerEvents: opacity > 0.3 ? 'auto' : 'none',
             }}
           >
