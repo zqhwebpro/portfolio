@@ -1,29 +1,16 @@
 const fs = require('fs');
-const file = 'c:/Users/zqhwe/OneDrive/Desktop/Art/portfolio-git/portfolio/new_projects/mischief-store/index.html';
-let content = fs.readFileSync(file, 'utf8');
+let js = fs.readFileSync('script.js', 'utf8');
 
-const cutOffStr = "            document.getElementById('pm-price').innerText = '";
-const cutOffIndex = content.indexOf(cutOffStr);
+js = js.replace(/sq\.classList\.add\('bg-appetite-500', 'border-appetite-300', 'scale-105', 'z-10', 'shadow-\[0_0_25px_rgba\(20,184,166,0\.8\)\]'\);/g, 
+  "sq.classList.add('bg-appetite-500', 'border-appetite-300', 'scale-105', 'z-10', 'shadow-[0_0_25px_rgba(20,184,166,0.8)]', 'active-sq');");
 
-if (cutOffIndex !== -1) {
-    const startOfGoodCode = content.substring(0, cutOffIndex);
-    
-    // Find where the orphaned block starts
-    const orphanStartStr = " + prod.price.toFixed(2);";
-    const orphanStartIndex = content.indexOf(orphanStartStr);
-    
-    if (orphanStartIndex !== -1) {
-        const orphanBlock = content.substring(orphanStartIndex);
-        
-        // Let's assemble it
-        const replacement = "            document.getElementById('pm-price').innerText = '$'" + orphanBlock;
-        
-        const finalContent = startOfGoodCode + replacement;
-        fs.writeFileSync(file, finalContent);
-        console.log('Fixed index.html successfully!');
-    } else {
-        console.log('Could not find orphan start');
-    }
-} else {
-    console.log('Could not find cutoff');
-}
+js = js.replace(/s\.classList\.remove\('bg-appetite-500', 'border-appetite-300', 'scale-105', 'z-10'\);/g, 
+  "s.classList.remove('bg-appetite-500', 'border-appetite-300', 'scale-105', 'z-10', 'active-sq');");
+
+js = js.replace(/window\.currentWonCoupon = code;/g, 
+  "window.currentWonCoupon = code;\n                            window.minigamePlayed = true;");
+
+js = js.replace(/window\.closeMinigameModal\(\);\n\s*\}, 3000\);/g, 
+  "window.minigamePlayed = true;\n                                window.closeMinigameModal();\n                            }, 3000);");
+
+fs.writeFileSync('script.js', js);

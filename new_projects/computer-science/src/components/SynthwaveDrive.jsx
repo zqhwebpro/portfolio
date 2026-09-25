@@ -33,6 +33,7 @@ export function SynthwaveDrive() {
   const [driveDistance, setDriveDistance] = useState(0);
   const [popups, setPopups] = useState([]);
   const [isAudioPlaying, setIsAudioPlaying] = useState(true);
+  const [dimensions, setDimensions] = useState({ w: 1000, h: 800 });
 
   const speedRef = useRef(0);
   const directionRef = useRef(1); // 1 = Forward, -1 = Reverse
@@ -90,8 +91,15 @@ export function SynthwaveDrive() {
 
     const render = () => {
       const parent = canvas.parentElement;
-      const width = (canvas.width = parent ? parent.clientWidth : window.innerWidth);
-      const height = (canvas.height = parent ? parent.clientHeight : window.innerHeight);
+      const width = parent ? parent.clientWidth : window.innerWidth;
+      const height = parent ? parent.clientHeight : window.innerHeight;
+      canvas.width = width;
+      canvas.height = height;
+      
+      setDimensions(prev => {
+        if (prev.w !== width || prev.h !== height) return { w: width, h: height };
+        return prev;
+      });
 
       // Decelerate speed smoothly to 0 when not scrolling (Exponential smoothing)
       if (speedRef.current > 0.1) {
@@ -268,17 +276,18 @@ export function SynthwaveDrive() {
         const rawProgress = (driveDistance - popup.startDist) / 18;
         const p = Math.max(0, Math.min(1, rawProgress));
 
-        // Use exact pixel dimensions to match canvas perfectly
-        const w = typeof window !== 'undefined' ? window.innerWidth : 1000;
-        const h = typeof window !== 'undefined' ? window.innerHeight : 800;
+        // Use exact pixel dimensions tracked by component
+        const w = dimensions.w;
+        const h = dimensions.h;
         const horizonY = h * 0.55;
 
-        // 3D Road Sign Perspective Calculations
         const progressY = Math.pow(p, 2.5);
-        const topPx = horizonY + progressY * (h - horizonY); 
+
+        // Calculate Y as a percentage (horizon is 55%)
+        const topPct = 55 + progressY * 45; 
         
-        // Start exactly at 0 scale at the horizon so it doesn't float above it
-        const scale = progressY * 3.0; 
+        // Scale starts extremely small at horizon
+        const scale = Math.max(0.01, progressY * 3.0); 
         
         // Fully opaque until it passes the camera
         const opacity = p > 0.85 ? Math.max(0, 1 - (p - 0.85) * 6.6) : 1;
@@ -289,22 +298,22 @@ export function SynthwaveDrive() {
         // Calculate X position matching the pink perspective lines
         const isLeft = (popup.number % 2) === 0;
         
-        // Exact integer ensures the sign perfectly rides the magenta grid line i = -1 or i = 1
-        const lineIndex = isLeft ? -1 : 1;
+        // Precisely track the first magenta track line (i=2 and i=-2)
+        const lineIndex = isLeft ? -2 : 2;
         
-        const sunCenterX = w * 0.5;
-        const startX = sunCenterX + (lineIndex / 26) * (w * 0.05);
-        const endX = sunCenterX + lineIndex * (w * 0.08);
-        const currentX = startX + (endX - startX) * progressY;
+        // X starts at 50% (center) + offset
+        const startX_pct = 50 + (lineIndex / 26) * 5;
+        const endX_pct = 50 + lineIndex * 8;
+        const currentX_pct = startX_pct + (endX_pct - startX_pct) * progressY;
 
         return (
           <div
             key={popup.id}
             style={{
               position: 'absolute',
-              bottom: `${h - topPx}px`,
-              left: `${currentX}px`,
-              transform: `translateX(-50%) scale(${scale})`, // Origin at bottom center
+              top: `${topPct}%`,
+              left: `${currentX_pct}%`,
+              transform: `translate(-50%, -100%) scale(${scale})`, // Origin at bottom center
               transformOrigin: '50% 100%',
               opacity: opacity,
               zIndex: Math.round(45 + p * 20),
