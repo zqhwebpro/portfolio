@@ -1268,12 +1268,7 @@
             const luckMain = document.getElementById('luck-main-view');
             luckMain.classList.add('hidden');
             luckMain.classList.remove('flex');
-            const cornerBtn = document.getElementById('wacky-corner-toggle');
-                if (cornerBtn && window.minigamePlayed) {
-                cornerBtn.classList.add('opacity-50', 'pointer-events-none', 'grayscale');
-                cornerBtn.classList.remove('hidden');
-                cornerBtn.style.display = 'flex';
-            }
+            
         };
 
         window.triggerMinigame = function () {
@@ -1341,6 +1336,10 @@
                 // Explicitly show the corner button in case it was hidden
                 const cornerBtn = document.getElementById('wacky-corner-toggle');
                 if (cornerBtn && !window.minigamePlayed) {
+                    cornerBtn.classList.remove('hidden', 'opacity-50', 'pointer-events-none', 'grayscale');
+                    cornerBtn.style.display = 'flex';
+                } else if (cornerBtn && window.minigamePlayed) {
+                    cornerBtn.classList.add('opacity-50', 'pointer-events-none', 'grayscale');
                     cornerBtn.classList.remove('hidden');
                     cornerBtn.style.display = 'flex';
                 }
@@ -1400,7 +1399,7 @@
 
             const r = Math.random();
             let targetPrize;
-            if (r < 0.20) targetPrize = "Try again tomorrow";
+            if (r < 0.20) targetPrize = "TRY AGAIN TOMORROW";
             else if (r < 0.70) targetPrize = "10% OFF";
             else if (r < 0.85) targetPrize = "15% OFF";
             else if (r < 0.95) targetPrize = "20% OFF";
@@ -1434,9 +1433,9 @@
                         squares[currentIdx].classList.add('bg-purple-500', 'border-purple-300', 'animate-pulse', 'shadow-[0_0_30px_rgba(168,85,247,0.8)]');
 
                         btn.innerHTML = '<i class="fa-solid fa-check text-white text-5xl sm:text-7xl"></i>';
-                        resultTitle.innerText = targetPrize === 'Try again tomorrow' ? 'Better luck tomorrow!' : 'You Won ' + targetPrize;
+                        resultTitle.innerText = targetPrize === 'TRY AGAIN TOMORROW' ? 'Better luck tomorrow!' : 'You Won ' + targetPrize;
 
-                        if (targetPrize !== 'Try again tomorrow') {
+                        if (targetPrize !== 'TRY AGAIN TOMORROW') {
                             couponContainer.classList.remove('hidden');
                             const val = targetPrize.replace('% OFF', '').replace('!', '');
                             const code = 'WACKY' + val;
@@ -1588,121 +1587,115 @@
             renderCatalog();
             updateCartUI();
         }
-    </script>
-
-    <!-- BLOG POST READER MODAL -->
-    <div id="blog-reader-modal" data-blueprint-file="WackyStore.WebUI/Views/Blog/ReaderModal.cshtml"
-        data-blueprint-role="Article Reader Modal Partial" data-blueprint-layer="WebUI / View Component"
-        data-blueprint-dom="Modal dialog displaying full article content, cover image, author info, and navigation action."
-        data-blueprint-desc="Renders full BlogPost content when an article card is selected."
-        data-blueprint-code="public ViewResult ArticleModal(string id) => View(repository.GetById(id));"
-        class="fixed inset-0 bg-black/70 backdrop-blur-sm z-50 hidden flex items-center justify-center p-4 sm:p-6"
-        onclick="if(event.target===this) window.closeBlogReaderModal()">
-        <div
-            class="bg-white border border-canvas-border rounded-3xl w-full max-w-3xl max-h-[90vh] flex flex-col shadow-2xl overflow-hidden relative animate-rise-up">
-
-            <!-- Modal Header / Cover -->
-            <div class="relative h-48 sm:h-64 w-full overflow-hidden bg-earth-950">
-                <img id="blog-modal-cover" src="" alt="Blog Cover" class="w-full h-full object-cover opacity-85" />
-                <div class="absolute inset-0 bg-gradient-to-t from-earth-950 via-earth-950/40 to-transparent"></div>
-                <button onclick="window.closeBlogReaderModal()"
-                    class="absolute top-4 right-4 h-10 w-10 rounded-full bg-black/50 hover:bg-black/80 text-white flex items-center justify-center transition-all border border-white/20 z-20">
-                    <i class="fa-solid fa-xmark text-lg"></i>
-                </button>
-                <div class="absolute bottom-4 left-6 right-6 text-white space-y-1 z-10">
-                    <span id="blog-modal-category"
-                        class="px-3 py-1 rounded-full bg-teal-400 text-earth-950 text-xs font-mono font-black uppercase">Category</span>
-                    <h2 id="blog-modal-title"
-                        class="font-heading font-black text-xl sm:text-3xl text-amber-100 leading-tight">Title</h2>
-                </div>
-            </div>
-
-            <!-- Modal Meta Info -->
-            <div
-                class="px-6 sm:px-8 py-3 bg-canvas-surface border-b border-canvas-border flex items-center justify-between text-xs text-earth-600 font-medium flex-wrap gap-2">
-                <div class="flex items-center gap-4 flex-wrap">
-                    <span id="blog-modal-author" class="flex items-center gap-1.5 font-bold text-earth-900">
-                        <i class="fa-solid fa-user-astronaut text-appetite-700"></i>
-                        <span>Author</span>
-                    </span>
-                    <span id="blog-modal-date" class="flex items-center gap-1.5">
-                        <i class="fa-regular fa-calendar text-teal-800"></i>
-                        <span>Date</span>
-                    </span>
-                </div>
-                <span id="blog-modal-readtime" class="flex items-center gap-1 font-mono text-purple-700 font-bold">
-                    <i class="fa-solid fa-clock"></i>
-                    <span>Read time</span>
-                </span>
-            </div>
-
-            <!-- Modal Article Body -->
-            <div id="blog-modal-body"
-                class="p-6 sm:p-8 overflow-y-auto space-y-4 text-earth-900 font-sans leading-relaxed text-sm sm:text-base">
-                <!-- Inserted by JS -->
-            </div>
-
-            <!-- Modal Footer -->
-            <div
-                class="px-6 sm:px-8 py-4 bg-canvas-base border-t border-canvas-border flex items-center justify-between">
-                <button onclick="window.closeBlogReaderModal()"
-                    class="px-5 py-2.5 rounded-xl bg-earth-200 hover:bg-earth-300 text-earth-900 font-bold text-xs transition-all">
-                    Close Article
-                </button>
-                <button onclick="window.toggleViewStoreBlog(); window.closeBlogReaderModal();"
-                    class="px-5 py-2.5 rounded-xl bg-appetite-700 hover:bg-appetite-800 text-white font-bold text-xs flex items-center gap-2 transition-all shadow-md">
-                    <i class="fa-solid fa-store"></i>
-                    <i class="fa-solid fa-store"></i>
-                    <span>Browse Wacky Store</span>
-                </button>
-            </div>
-
-        </div>
-    </div>
+    
 
 
+        window.toggleAdminPanel = function() {
+            const storeMain = document.getElementById('store-main-view');
+            const blogMain = document.getElementById('blog-main-view');
+            const adminMain = document.getElementById('admin-main-view');
+            
+            if(storeMain) {
+                storeMain.classList.add('hidden');
+                storeMain.classList.remove('flex');
+            }
+            if(blogMain) {
+                blogMain.classList.add('hidden');
+                blogMain.classList.remove('flex');
+            }
+            if(adminMain) {
+                adminMain.classList.remove('hidden');
+                adminMain.classList.add('flex');
+            }
+            
+            window.currentView = 'admin';
+            renderAdminPosts();
+        };
 
-    <!-- CORNER TRIANGLE MINIGAME BUTTON (SPIN & WIN) -->
-    <div id="wacky-corner-toggle" onclick="window.triggerMinigame()"
-        data-blueprint-file="WackyStore.WebUI/Views/Shared/_Layout.cshtml"
-        data-blueprint-role="Wacky Minigame (Prize Wheel)" data-blueprint-layer="WebUI / View Component"
-        data-blueprint-dom="Bottom-left corner triangle button triggering Prize Wheel minigame &amp; falling item animation."
-        data-blueprint-desc="Triggers item gravity drop animation and opens the interactive Spin &amp; Win Discount Wheel."
-        data-blueprint-code="window.triggerMinigame();"
-        class="fixed bottom-0 left-0 z-50 group cursor-pointer select-none filter drop-shadow-xl transition-transform duration-300 hover:scale-110 active:scale-95"
-        title="Spin the Prize Wheel for Secret Coupons!">
+        const originalToggleStoreBlog = window.toggleViewStoreBlog;
+        window.toggleViewStoreBlog = function(forceTarget) {
+            const adminMain = document.getElementById('admin-main-view');
+            if(adminMain) {
+                adminMain.classList.add('hidden');
+                adminMain.classList.remove('flex');
+            }
+            if(typeof originalToggleStoreBlog === 'function') {
+                originalToggleStoreBlog(forceTarget);
+            }
+        };
 
-        <svg width="95" height="95" viewBox="0 0 95 95" fill="none" xmlns="http://www.w3.org/2000/svg"
-            class="block w-[85px] h-[85px] sm:w-[95px] sm:h-[95px]">
-            <!-- Straight Corner Triangle Background Path: Solid Teal -->
-            <path id="wavyTrianglePath" d="M 0 95 L 0 0 L 95 95 Z" fill="url(#wavyGradientLight)" stroke="#6B21A8"
-                stroke-width="2.5" stroke-linejoin="round" class="transition-all duration-500" />
+        window.renderAdminPosts = function() {
+            const container = document.getElementById('admin-post-list');
+            if(!container) return;
+            container.innerHTML = '';
+            window.BLOG_POSTS.forEach((post, index) => {
+                const el = document.createElement('div');
+                el.className = 'bg-white p-4 rounded-xl border-2 border-earth-300 flex justify-between items-center';
+                el.innerHTML = `
+                    <div>
+                        <h3 class="font-bold text-lg">${post.title}</h3>
+                        <p class="text-sm text-earth-500">${post.category}</p>
+                    </div>
+                    <div>
+                        <button onclick="window.editPost(${index})" class="px-4 py-2 bg-yellow-400 text-earth-900 font-bold rounded mr-2 hover:bg-yellow-500 transition-colors">Edit</button>
+                        <button onclick="window.deletePost(${index})" class="px-4 py-2 bg-red-500 text-white font-bold rounded hover:bg-red-600 transition-colors">Delete</button>
+                    </div>
+                `;
+                container.appendChild(el);
+            });
+        };
 
-            <defs>
-                <!-- Light Mode Gradient: Solid Whimsical Teal -->
-                <linearGradient id="wavyGradientLight" x1="0" y1="95" x2="65" y2="0" gradientUnits="userSpaceOnUse">
-                    <stop offset="0%" stop-color="#4C1D95" />
-                    <stop offset="60%" stop-color="#6B21A8" />
-                    <stop offset="100%" stop-color="#9333EA" />
-                </linearGradient>
+        window.deletePost = function(index) {
+            window.BLOG_POSTS.splice(index, 1);
+            renderAdminPosts();
+            if(typeof window.renderBlogPosts === 'function') {
+                window.renderBlogPosts('all');
+            }
+        };
 
-                <!-- Dark Mode Gradient: Solid Cyberpunk Teal -->
-                <linearGradient id="wavyGradientDark" x1="0" y1="95" x2="65" y2="0" gradientUnits="userSpaceOnUse">
-                    <stop offset="0%" stop-color="#4C1D95" />
-                    <stop offset="60%" stop-color="#6B21A8" />
-                    <stop offset="100%" stop-color="#9333EA" />
-                </linearGradient>
-            </defs>
-        </svg>
+        window.editPost = function(index) {
+            const post = window.BLOG_POSTS[index];
+            document.getElementById('admin-title').value = post.title || '';
+            document.getElementById('admin-category').value = post.category || '';
+            document.getElementById('admin-date').value = post.date || '';
+            document.getElementById('admin-author').value = post.author || '';
+            document.getElementById('admin-image').value = post.image || '';
+            document.getElementById('admin-content').value = post.content || '';
+            
+            // Delete old one so user resaves it
+            window.deletePost(index);
+            window.scrollTo({top: 0, behavior: 'smooth'});
+        };
 
-        <!-- Centered Icon and Text Label inside the Corner Triangle -->
-        <div
-            class="absolute bottom-2 left-2 sm:bottom-3 sm:left-3 flex flex-col items-center justify-center text-white pointer-events-none transition-transform duration-300 group-hover:scale-110">
-            <i id="viewToggleIcon" class="fa-solid fa-dice text-xl sm:text-2xl text-white"></i>
-            <span id="viewToggleText"
-                class="text-[9px] sm:text-[10px] font-extrabold uppercase tracking-wider text-white leading-tight mt-0.5">PLAY!</span>
-        </div>
-    </div>
-</body>
-
-</html>
+        window.saveNewPost = function() {
+            const title = document.getElementById('admin-title').value;
+            const category = document.getElementById('admin-category').value;
+            const dateStr = document.getElementById('admin-date').value;
+            const author = document.getElementById('admin-author').value;
+            const image = document.getElementById('admin-image').value;
+            const content = document.getElementById('admin-content').value;
+            
+            if(!title || !content) return alert('Title and Content required!');
+            
+            window.BLOG_POSTS.unshift({
+                id: 'post-' + Date.now(),
+                title: title,
+                date: dateStr,
+                category: category,
+                author: author,
+                image: image,
+                content: content
+            });
+            
+            document.getElementById('admin-title').value = '';
+            document.getElementById('admin-category').value = '';
+            document.getElementById('admin-date').value = '';
+            document.getElementById('admin-author').value = '';
+            document.getElementById('admin-image').value = '';
+            document.getElementById('admin-content').value = '';
+            
+            renderAdminPosts();
+            if(typeof window.renderBlogPosts === 'function') {
+                window.renderBlogPosts('all');
+            }
+        };
