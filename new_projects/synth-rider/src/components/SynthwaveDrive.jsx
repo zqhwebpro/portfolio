@@ -7,33 +7,165 @@ import { SpotifyRadio } from './SpotifyRadio';
 // Wikipedia API helpers
 // ---------------------------------------------------------------------------
 
-/** Fetch a single random Wikipedia article summary with thumbnail */
-async function fetchRandomWikiArticle() {
-  const url = 'https://en.wikipedia.org/api/rest_v1/page/random/summary';
-  const res = await fetch(url, { headers: { Accept: 'application/json' } });
-  if (!res.ok) throw new Error(`Wiki API ${res.status}`);
-  const data = await res.json();
-  return {
-    title: data.title,
-    extract: data.extract_html
-      ? data.extract_html.replace(/<[^>]*>/g, '').slice(0, 200)
-      : (data.extract || '').slice(0, 200),
-    image: data.thumbnail?.source || null,
-    url:
-      data.content_urls?.desktop?.page ||
-      `https://en.wikipedia.org/wiki/${encodeURIComponent(data.title)}`,
-  };
+// ---------------------------------------------------------------------------
+// Wikipedia API helpers & Curated Reserve
+// ---------------------------------------------------------------------------
+
+/** Curated thematic Wikipedia articles for instant zero-latency billboard display */
+const CURATED_WIKI_FALLBACKS = [
+  {
+    title: 'Synthwave',
+    extract: 'Synthwave is an electronic music microgenre based predominantly on 1980s film soundtracks, retrofuturistic synth art, and vintage analog synthesizers like the Prophet-5 and Juno-106.',
+    image: 'https://upload.wikimedia.org/wikipedia/commons/thumb/d/d4/Synthwave_art.png/640px-Synthwave_art.png',
+    url: 'https://en.wikipedia.org/wiki/Synthwave',
+  },
+  {
+    title: 'Information superhighway',
+    extract: 'The information superhighway was a popular 1990s telecommunications term referring to digital communication systems and the Internet infrastructure facilitating instant global data exchange.',
+    image: 'https://upload.wikimedia.org/wikipedia/commons/thumb/e/e1/Internet_map_1024.jpg/640px-Internet_map_1024.jpg',
+    url: 'https://en.wikipedia.org/wiki/Information_superhighway',
+  },
+  {
+    title: 'Tron',
+    extract: 'Tron is a 1982 American science fiction action-adventure film produced by Walt Disney Productions, pioneering extensive use of CGI and glowing light-cycle grid arenas.',
+    image: 'https://upload.wikimedia.org/wikipedia/en/thumb/1/17/Tron_poster.jpg/440px-Tron_poster.jpg',
+    url: 'https://en.wikipedia.org/wiki/Tron',
+  },
+  {
+    title: 'Blade Runner',
+    extract: 'Blade Runner is a 1982 cyberpunk neo-noir science fiction film directed by Ridley Scott, set in a dystopian future Los Angeles filled with holographic billboards and flying spinner vehicles.',
+    image: 'https://upload.wikimedia.org/wikipedia/en/thumb/9/9b/Blade_Runner_%281982_poster%29.png/440px-Blade_Runner_%281982_poster%29.png',
+    url: 'https://en.wikipedia.org/wiki/Blade_Runner',
+  },
+  {
+    title: 'Commodore 64',
+    extract: 'The Commodore 64 is an 8-bit home computer introduced in January 1982 by Commodore International. It is listed as the highest-selling single computer model of all time, famous for its SID sound chip.',
+    image: 'https://upload.wikimedia.org/wikipedia/commons/thumb/e/e9/Commodore-64-Computer-FL.jpg/640px-Commodore-64-Computer-FL.jpg',
+    url: 'https://en.wikipedia.org/wiki/Commodore_64',
+  },
+  {
+    title: 'DeLorean time machine',
+    extract: 'The DeLorean time machine is a fictional automobile time travel device based on the DMC-12 sports car, conceived for the Back to the Future franchise featuring the iconic flux capacitor.',
+    image: 'https://upload.wikimedia.org/wikipedia/commons/thumb/2/28/BTTF_DeLorean_Time_Machine.jpg/640px-BTTF_DeLorean_Time_Machine.jpg',
+    url: 'https://en.wikipedia.org/wiki/DeLorean_time_machine',
+  },
+  {
+    title: 'Arcade video game',
+    extract: 'An arcade video game takes player input from its controls, processes it through electrical components, and displays the output to a monitor, flourishing during the golden age of arcade games.',
+    image: 'https://upload.wikimedia.org/wikipedia/commons/thumb/d/d8/Video-Game-Arcade-2004.jpg/640px-Video-Game-Arcade-2004.jpg',
+    url: 'https://en.wikipedia.org/wiki/Arcade_video_game',
+  },
+  {
+    title: 'Vector monitor',
+    extract: 'A vector monitor is a cathode-ray tube display used for early computer graphics and 1980s arcade games like Asteroids, Battlezone, and Star Wars using electron beam line rendering.',
+    image: 'https://upload.wikimedia.org/wikipedia/commons/thumb/2/23/Vectrex-Console-Set.jpg/640px-Vectrex-Console-Set.jpg',
+    url: 'https://en.wikipedia.org/wiki/Vector_monitor',
+  },
+  {
+    title: 'Roland TR-808',
+    extract: 'The Roland TR-808 Rhythm Composer is a drum machine manufactured by the Roland Corporation between 1980 and 1983, distinguished by its booming analog bass drum and crisp metallic snare.',
+    image: 'https://upload.wikimedia.org/wikipedia/commons/thumb/9/98/Roland_TR-808.jpg/640px-Roland_TR-808.jpg',
+    url: 'https://en.wikipedia.org/wiki/Roland_TR-808',
+  },
+  {
+    title: 'Cyberpunk',
+    extract: 'Cyberpunk is a subgenre of science fiction in a dystopian futuristic setting that tends to focus on a combination of low life and high tech, featuring advanced technology and cybernetics.',
+    image: 'https://upload.wikimedia.org/wikipedia/commons/thumb/5/5f/Cyberpunk_city_concept.jpg/640px-Cyberpunk_city_concept.jpg',
+    url: 'https://en.wikipedia.org/wiki/Cyberpunk',
+  },
+  {
+    title: 'F-Zero',
+    extract: 'F-Zero is a futuristic racing video game developed by Nintendo for the Super Nintendo Entertainment System, renowned for high speed, Mode 7 pseudo-3D perspective tracks, and pulse synth rock.',
+    image: 'https://upload.wikimedia.org/wikipedia/en/thumb/f/f3/Fzero_snes_box.jpg/440px-Fzero_snes_box.jpg',
+    url: 'https://en.wikipedia.org/wiki/F-Zero',
+  },
+  {
+    title: 'Daft Punk',
+    extract: 'Daft Punk were a French electronic music duo formed in 1993 in Paris by Thomas Bangalter and Guy-Manuel de Homem-Christo, widely regarded as one of the most influential dance acts in history.',
+    image: 'https://upload.wikimedia.org/wikipedia/commons/thumb/0/07/Daft_Punk_in_2013.jpg/640px-Daft_Punk_in_2013.jpg',
+    url: 'https://en.wikipedia.org/wiki/Daft_Punk',
+  },
+];
+
+/** Fetch a batch of live random Wikipedia articles via MediaWiki Action API with timeout */
+async function fetchWikiBatch(count = 6) {
+  const controller = new AbortController();
+  const timeoutId = setTimeout(() => controller.abort(), 4500);
+
+  try {
+    const url = `https://en.wikipedia.org/w/api.php?action=query&format=json&origin=*&generator=random&grnnamespace=0&grnlimit=${count}&prop=extracts|pageimages|info&inprop=url&exintro=1&explaintext=1&exchars=240&piprop=thumbnail&pithumbsize=600`;
+    const res = await fetch(url, {
+      signal: controller.signal,
+      headers: { Accept: 'application/json' },
+    });
+    clearTimeout(timeoutId);
+    if (!res.ok) throw new Error(`Wiki API ${res.status}`);
+    const data = await res.json();
+    const pages = data?.query?.pages ? Object.values(data.query.pages) : [];
+
+    const articles = [];
+    for (const page of pages) {
+      if (!page || !page.title) continue;
+      const cleanExtract = (page.extract || '')
+        .replace(/<[^>]*>/g, '')
+        .replace(/\s+/g, ' ')
+        .trim()
+        .slice(0, 220);
+      articles.push({
+        title: page.title,
+        extract: cleanExtract || 'Read full article and historical records on Wikipedia.',
+        image: page.thumbnail?.source || null,
+        url: page.fullurl || `https://en.wikipedia.org/wiki/${encodeURIComponent(page.title)}`,
+      });
+    }
+    return articles;
+  } catch (err) {
+    clearTimeout(timeoutId);
+    // Secondary fallback: attempt single summary endpoint with 3s timeout
+    try {
+      const single = await fetchSingleWikiSummary();
+      if (single) return [single];
+    } catch (e2) {}
+    return [];
+  }
 }
 
-/** Pre-warm a pool of Wikipedia articles so cards appear instantly */
-async function warmPool(pool, target = 6) {
-  const needed = target - pool.length;
-  if (needed <= 0) return;
-  const fetches = Array.from({ length: needed }, fetchRandomWikiArticle);
-  const results = await Promise.allSettled(fetches);
-  for (const r of results) {
-    if (r.status === 'fulfilled') pool.push(r.value);
+/** Fallback single random summary fetch */
+async function fetchSingleWikiSummary() {
+  const controller = new AbortController();
+  const timeoutId = setTimeout(() => controller.abort(), 3000);
+  try {
+    const res = await fetch('https://en.wikipedia.org/api/rest_v1/page/random/summary', {
+      signal: controller.signal,
+      headers: { Accept: 'application/json' },
+    });
+    clearTimeout(timeoutId);
+    if (!res.ok) return null;
+    const data = await res.json();
+    return {
+      title: data.title,
+      extract: data.extract_html
+        ? data.extract_html.replace(/<[^>]*>/g, '').slice(0, 200)
+        : (data.extract || '').slice(0, 200),
+      image: data.thumbnail?.source || null,
+      url:
+        data.content_urls?.desktop?.page ||
+        `https://en.wikipedia.org/wiki/${encodeURIComponent(data.title)}`,
+    };
+  } catch (err) {
+    clearTimeout(timeoutId);
+    return null;
   }
+}
+
+/** Get next guaranteed article from pool or rotate curated reserve (NEVER returns empty or placeholder) */
+function getNextArticle(poolRef, fallbackIndexRef) {
+  if (poolRef.current && poolRef.current.length > 0) {
+    return poolRef.current.shift();
+  }
+  const idx = fallbackIndexRef.current % CURATED_WIKI_FALLBACKS.length;
+  fallbackIndexRef.current += 1;
+  return { ...CURATED_WIKI_FALLBACKS[idx] };
 }
 
 // ---------------------------------------------------------------------------
@@ -58,8 +190,9 @@ export function SynthwaveDrive() {
   const [autoDrive, setAutoDrive] = useState(false);
   const [playerX, setPlayerX] = useState(0); // Left/Right lateral position (-0.85 to +0.85)
 
-  // Wikipedia article pool (pre-fetched)
-  const wikiPoolRef = useRef([]);
+  // Wikipedia article pool (pre-seeded with curated synth/tech reserve + live AJAX enriched)
+  const wikiPoolRef = useRef([...CURATED_WIKI_FALLBACKS].sort(() => Math.random() - 0.5));
+  const fallbackIndexRef = useRef(0);
   const poolLoadingRef = useRef(false);
 
   // F-Zero Tron bikes (lazy-initialized inside render loop)
@@ -87,24 +220,26 @@ export function SynthwaveDrive() {
     popupsRef.current = popups;
   }, [popups]);
 
-  // Pre-warm the Wikipedia pool on mount
-  useEffect(() => {
-    const load = async () => {
-      if (poolLoadingRef.current) return;
-      poolLoadingRef.current = true;
-      await warmPool(wikiPoolRef.current, 8);
+  // Refill pool asynchronously using high-speed MediaWiki Action API batch
+  const refillPool = useCallback(async () => {
+    if (poolLoadingRef.current || wikiPoolRef.current.length >= 12) return;
+    poolLoadingRef.current = true;
+    try {
+      const articles = await fetchWikiBatch(6);
+      if (articles && articles.length > 0) {
+        wikiPoolRef.current.push(...articles);
+      }
+    } catch (e) {
+      // Network isolated
+    } finally {
       poolLoadingRef.current = false;
-    };
-    load();
+    }
   }, []);
 
-  // Refill pool whenever it dips below 4
-  const refillPool = useCallback(async () => {
-    if (poolLoadingRef.current || wikiPoolRef.current.length >= 6) return;
-    poolLoadingRef.current = true;
-    await warmPool(wikiPoolRef.current, 8);
-    poolLoadingRef.current = false;
-  }, []);
+  // Pre-warm and continuously enrich with live Wikipedia articles on mount
+  useEffect(() => {
+    refillPool();
+  }, [refillPool]);
 
   const toggleAutoDrive = useCallback(() => {
     setAutoDrive((prev) => {
@@ -307,19 +442,13 @@ export function SynthwaveDrive() {
       if (currentDist >= nextMilestoneDistRef.current) {
         milestoneCountRef.current += 1;
 
-        // Pull from pool or use a placeholder
-        let article = wikiPoolRef.current.shift();
-        if (!article) {
-          article = {
-            title: 'Wikipedia',
-            extract: 'Loading random article...',
-            image: null,
-            url: 'https://en.wikipedia.org/wiki/Special:Random',
-          };
-        }
+        // Guaranteed rich article from live pool or curated reserve (never empty, never loading)
+        const article = getNextArticle(wikiPoolRef, fallbackIndexRef);
 
-        // Refill the pool asynchronously
-        refillPool();
+        // Keep the pool topped off with fresh live random articles via AJAX
+        if (wikiPoolRef.current.length < 6) {
+          refillPool();
+        }
 
         const startDist = Math.ceil(currentDist);
         const newPopup = {
@@ -333,7 +462,11 @@ export function SynthwaveDrive() {
           url: article.url,
         };
 
-        setPopups((prev) => [...prev, newPopup]);
+        // Prune cards that have passed beyond the screen to keep DOM and React lean
+        setPopups((prev) => [
+          ...prev.filter((p) => (currentDist - p.startDist) / 36 <= 1.15),
+          newPopup,
+        ]);
         const nextGap = Math.floor(Math.random() * 15) + 20;
         nextMilestoneDistRef.current = startDist + nextGap;
       }
@@ -857,6 +990,18 @@ function WikiCard({ popup, driveDistance, playerX = 0 }) {
   const rawProgress = (driveDistance - popup.startDist) / 36;
   if (rawProgress > 1.05) return null;
 
+  const fallbackArticle = CURATED_WIKI_FALLBACKS[Math.abs(popup.number || 0) % CURATED_WIKI_FALLBACKS.length];
+  const title = (popup.title && popup.title !== 'Wikipedia' && !popup.title.toLowerCase().includes('finding'))
+    ? popup.title
+    : fallbackArticle.title;
+
+  const extract = (popup.extract && !popup.extract.toLowerCase().includes('loading') && !popup.extract.toLowerCase().includes('finding'))
+    ? popup.extract
+    : fallbackArticle.extract;
+
+  const image = popup.image || fallbackArticle.image;
+  const url = popup.url || fallbackArticle.url;
+
   const p = Math.max(0, Math.min(1, rawProgress));
   const progressY = Math.pow(p, 2.5);
 
@@ -877,10 +1022,10 @@ function WikiCard({ popup, driveDistance, playerX = 0 }) {
   const boxShadowBase = `0 12px 35px rgba(0,0,0,0.8), 0 0 30px ${waveGlow}, 0 0 55px ${secondaryGlow}, inset 0 0 20px ${innerGlow}`;
   const boxShadowHover = `0 16px 45px rgba(0,0,0,0.9), 0 0 45px ${waveGlow}, 0 0 75px ${secondaryGlow}, inset 0 0 25px ${innerGlow}`;
 
-  const isClickable = opacity > 0.3 && popup.url;
+  const isClickable = opacity > 0.3 && url;
 
   const handleClick = () => {
-    if (popup.url) window.open(popup.url, '_blank', 'noopener,noreferrer');
+    if (url) window.open(url, '_blank', 'noopener,noreferrer');
   };
 
   return (
@@ -901,7 +1046,7 @@ function WikiCard({ popup, driveDistance, playerX = 0 }) {
         cursor: isClickable ? 'pointer' : 'default',
       }}
       onClick={handleClick}
-      title={popup.url ? `Open "${popup.title}" on Wikipedia` : undefined}
+      title={url ? `Open "${title}" on Wikipedia` : undefined}
     >
       <div
         style={{
@@ -933,7 +1078,7 @@ function WikiCard({ popup, driveDistance, playerX = 0 }) {
         />
 
         {/* Article thumbnail image */}
-        {popup.image && (
+        {image && (
           <div
             style={{
               width: '100%',
@@ -944,8 +1089,8 @@ function WikiCard({ popup, driveDistance, playerX = 0 }) {
             }}
           >
             <img
-              src={popup.image}
-              alt={popup.title}
+              src={image}
+              alt={title}
               style={{
                 width: '100%',
                 height: '100%',
@@ -1018,11 +1163,11 @@ function WikiCard({ popup, driveDistance, playerX = 0 }) {
               letterSpacing: '0.01em',
             }}
           >
-            {popup.title}
+            {title}
           </div>
 
           {/* Article extract / description */}
-          {popup.extract && (
+          {extract && (
             <div
               style={{
                 fontFamily: 'var(--font-sans, sans-serif)',
@@ -1036,7 +1181,7 @@ function WikiCard({ popup, driveDistance, playerX = 0 }) {
                 overflow: 'hidden',
               }}
             >
-              {popup.extract}
+              {extract}
             </div>
           )}
         </div>
