@@ -1,23 +1,40 @@
 <?php
 /**
- * WordPress Core Configuration for "For Hire" - Bones Theme + WooCommerce Integration
+ * The base configuration for WordPress
+ *
+ * The wp-config.php creation script uses this file during the installation.
+ * You don't have to use the web site, you can copy this file to "wp-config.php"
+ * and fill in the values.
  *
  * @package WordPress
- * @subpackage ForHire
- * @version 6.5.3
  */
 
 // ** Database settings - You can get this info from your web host ** //
+/** The name of the database for WordPress */
 define( 'DB_NAME', 'for_hire_wp' );
-define( 'DB_USER', 'wp_dbuser' );
+
+/** Database username */
+define( 'DB_USER', 'zqhmagic' );
+
+/** Database password */
 define( 'DB_PASSWORD', 'Secure_DevPass_2026!#' );
+
+/** Database hostname */
 define( 'DB_HOST', 'localhost' );
+
+/** Database charset to use in creating database tables. */
 define( 'DB_CHARSET', 'utf8mb4' );
+
+/** The database collate type. Don't change this if in doubt. */
 define( 'DB_COLLATE', '' );
 
 /**#@+
  * Authentication unique keys and salts.
- * Generated using WordPress.org secret-key service.
+ *
+ * Change these to different unique phrases! You can generate these using
+ * the {@link https://api.wordpress.org/secret-key/1.1/salt/ WordPress.org secret-key service}.
+ *
+ * @since 2.6.0
  */
 define( 'AUTH_KEY',         'v!8pQ{xT1=e#v%mC4&~ZzL-9+p*K3r]Y0>wU8!oN2?qS6^dV5$hM7@yB4|tA9(jE' );
 define( 'SECURE_AUTH_KEY',  'b@5kR~mY9*vW2^qZ8$uE3(oP7!tI0=fH4}aD6?xL1|sC5&gJ8+nQ9_zK2%rT4]eO' );
@@ -30,33 +47,20 @@ define( 'NONCE_SALT',       'r!2zL$gH7*kN1~mP6@pB4(uT8?vI3=aZ5}xE9^rO0|sD4&hK8+o
 
 /**
  * WordPress database table prefix.
+ *
+ * You can have multiple installations in one database if you give each
+ * a unique prefix. Only numbers, letters, and underscores please!
  */
 $table_prefix = 'wp_';
 
 /**
- * Developer & Architecture Environment Flags
+ * For developers: WordPress debugging mode.
+ *
+ * Change this to true to enable the display of notices during development.
+ * It is strongly recommended that plugin and theme developers use WP_DEBUG
+ * in their development environments.
  */
-define( 'WP_ENVIRONMENT_TYPE', 'development' );
-define( 'WP_DEBUG', true );
-define( 'WP_DEBUG_LOG', true );
-define( 'WP_DEBUG_DISPLAY', false );
-define( 'SCRIPT_DEBUG', true );
-
-/**
- * WooCommerce Specific Configuration
- */
-define( 'WP_MEMORY_LIMIT', '256M' );
-define( 'WP_MAX_MEMORY_LIMIT', '512M' );
-define( 'WC_DISABLE_TRANSIENT_CLEANUP', false );
-
-/**
- * Active Theme and Features Configuration
- */
-define( 'WP_DEFAULT_THEME', 'bones' );
-define( 'AUTOMATIC_UPDATER_DISABLED', true );
-define( 'DISALLOW_FILE_EDIT', true );
-
-/* That's all, stop editing! Happy publishing. */
+define( 'WP_DEBUG', false );
 
 /** Absolute path to the WordPress directory. */
 if ( ! defined( 'ABSPATH' ) ) {
