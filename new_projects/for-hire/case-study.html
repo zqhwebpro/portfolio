@@ -57,6 +57,17 @@
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
     <link rel="stylesheet" href="../case-study-branded.css">
+    <!-- Private Access Gate Styles & Pre-loader -->
+    <link rel="stylesheet" href="./auth-gate.css" />
+    <script>
+      (function () {
+        try {
+          if (sessionStorage.getItem('for_hire_auth_v1') === 'granted' || localStorage.getItem('for_hire_auth_v1') === 'granted') {
+            document.documentElement.classList.add('auth-unlocked');
+          }
+        } catch (e) {}
+      })();
+    </script>
 </head>
 
 <body>
@@ -72,6 +83,9 @@
                 </a>
                 <a href="./index.html" class="nav-btn">
                     <i class="fa-brands fa-wordpress"></i> Launch WP Demo
+                </a>
+                <a href="javascript:void(0)" onclick="window.lockPage()" class="nav-btn" style="color: #f87171; border-color: rgba(239, 68, 68, 0.4);">
+                    <i class="fa-solid fa-lock"></i> Lock
                 </a>
                 <a href="../../2026/index.html" class="nav-btn">
                     <i class="fa-solid fa-arrow-left"></i> Main Portfolio
@@ -283,6 +297,8 @@ define( 'AUTOMATIC_UPDATER_DISABLED', true );</code></pre>
         </div>
     </footer>
 
+    <!-- Private Access Gate Handler -->
+    <script src="./auth-gate.js"></script>
 </body>
 
 </html>

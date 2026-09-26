@@ -57,6 +57,17 @@
     rel="stylesheet">
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css" />
   <link rel="stylesheet" href="./wp-content/themes/bones/library/css/style.css" />
+  <!-- Private Access Gate Styles & Pre-loader -->
+  <link rel="stylesheet" href="./auth-gate.css" />
+  <script>
+    (function () {
+      try {
+        if (sessionStorage.getItem('for_hire_auth_v1') === 'granted' || localStorage.getItem('for_hire_auth_v1') === 'granted') {
+          document.documentElement.classList.add('auth-unlocked');
+        }
+      } catch (e) {}
+    })();
+  </script>
 
   <style>
     /* Interactive Demo Extras & Overlays */
@@ -269,7 +280,8 @@
     </div>
     <div style="display: flex; align-items: center; gap: 8px;">
       <a href="javascript:void(0)" onclick="window.openCodeInspector('wp-config')"><i class="fa-solid fa-file-code"></i> <span>Inspect PHP Source</span></a>
-      <span>Howdy, <strong>Client</strong></span>
+      <span>Howdy, <strong>Zach</strong></span>
+      <a href="javascript:void(0)" onclick="window.lockPage()" class="auth-lock-btn" title="Lock Directory"><i class="fa-solid fa-lock"></i> <span>Lock Page</span></a>
     </div>
   </div>
 
@@ -1006,6 +1018,8 @@ CREATE TABLE wp_wc_orders (
       updateCartBadge();
     });
   </script>
+  <!-- Private Access Gate Handler -->
+  <script src="./auth-gate.js"></script>
 </body>
 
 </html>
