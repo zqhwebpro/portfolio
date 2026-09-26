@@ -364,6 +364,11 @@ export function SynthwaveDrive() {
         const endX_pct = 50 + lineIndex * 8;
         const currentX_pct = startX_pct + (endX_pct - startX_pct) * progressY;
 
+        const primaryWaveColor = isLeft ? '#00F0FF' : '#FF007F';
+        const secondaryWaveColor = isLeft ? '#FF007F' : '#00F0FF';
+        const waveGlowRgba = isLeft ? 'rgba(0, 240, 255, 0.6)' : 'rgba(255, 0, 127, 0.6)';
+        const secondaryGlowRgba = isLeft ? 'rgba(255, 0, 127, 0.35)' : 'rgba(0, 240, 255, 0.35)';
+
         return (
           <div
             key={popup.id}
@@ -383,27 +388,76 @@ export function SynthwaveDrive() {
             }}
           >
             <div style={{
-              background: '#043818',
-              border: '3px solid #FFFFFF',
-              borderRadius: '8px',
-              padding: '1.5rem 2rem',
+              background: 'linear-gradient(135deg, rgba(8, 2, 28, 0.94) 0%, rgba(22, 4, 42, 0.94) 50%, rgba(3, 14, 36, 0.96) 100%)',
+              backdropFilter: 'blur(16px)',
+              border: `2.5px solid ${primaryWaveColor}`,
+              borderRadius: '10px',
+              padding: '1.25rem 1.75rem 1.5rem',
               width: '320px',
               height: 'auto',
               display: 'flex',
+              flexDirection: 'column',
               justifyContent: 'center',
               alignItems: 'center',
-              boxShadow: '0 10px 30px rgba(0, 240, 255, 0.4), inset 0 0 15px rgba(255, 255, 255, 0.3)',
+              boxShadow: `0 12px 35px rgba(0, 0, 0, 0.8), 0 0 30px ${waveGlowRgba}, 0 0 55px ${secondaryGlowRgba}, inset 0 0 20px ${isLeft ? 'rgba(0, 240, 255, 0.18)' : 'rgba(255, 0, 127, 0.18)'}`,
               textAlign: 'center',
-              position: 'relative'
+              position: 'relative',
+              overflow: 'hidden'
             }}>
-              {/* Clean Sentence Case Affirmation Text (No All Caps, Explicit textTransform none) */}
+              {/* Luminous top wave accent line */}
               <div style={{
-                fontFamily: 'var(--font-display)',
+                position: 'absolute',
+                top: 0,
+                left: 0,
+                right: 0,
+                height: '4px',
+                background: 'linear-gradient(90deg, #00F0FF 0%, #FF007F 50%, #FFE600 100%)',
+                boxShadow: '0 0 10px #00F0FF, 0 0 16px #FF007F'
+              }} />
+
+              {/* Synthetic Wave Header Telemetry */}
+              <div style={{
+                display: 'flex',
+                alignItems: 'center',
+                justifyContent: 'space-between',
+                width: '100%',
+                marginBottom: '0.65rem',
+                paddingBottom: '0.45rem',
+                borderBottom: `1px solid ${isLeft ? 'rgba(0, 240, 255, 0.25)' : 'rgba(255, 0, 127, 0.25)'}`
+              }}>
+                <div style={{ display: 'flex', alignItems: 'center', gap: '6px' }}>
+                  <span style={{
+                    width: '6px',
+                    height: '6px',
+                    borderRadius: '50%',
+                    background: primaryWaveColor,
+                    boxShadow: `0 0 8px ${primaryWaveColor}`,
+                    display: 'inline-block'
+                  }}></span>
+                  <span style={{
+                    fontFamily: 'var(--font-mono, monospace)',
+                    fontSize: '0.65rem',
+                    fontWeight: 800,
+                    color: primaryWaveColor,
+                    letterSpacing: '0.12em',
+                    textTransform: 'uppercase'
+                  }}>
+                    SYNTHWAVE FREQ
+                  </span>
+                </div>
+                <svg width="34" height="10" viewBox="0 0 34 10" fill="none">
+                  <path d="M0 5 Q 4.25 0, 8.5 5 T 17 5 T 25.5 5 T 34 5" stroke={secondaryWaveColor} strokeWidth="1.8" strokeLinecap="round" />
+                </svg>
+              </div>
+
+              {/* Clean Sentence Case Affirmation Text */}
+              <div style={{
+                fontFamily: 'var(--font-display, "Space Grotesk", sans-serif)',
                 fontSize: '1.25rem',
                 fontWeight: 700,
                 lineHeight: 1.35,
                 color: '#FFFFFF',
-                textShadow: '0 0 15px rgba(255, 255, 255, 0.95), 0 0 35px rgba(0, 240, 255, 0.9), 0 0 50px rgba(0, 240, 255, 0.7)',
+                textShadow: `0 0 15px rgba(255, 255, 255, 0.95), 0 0 30px ${waveGlowRgba}, 0 0 45px ${secondaryGlowRgba}`,
                 letterSpacing: '0.01em',
                 margin: 0,
                 textTransform: 'none',

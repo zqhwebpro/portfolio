@@ -12,5 +12,6 @@ namespace MischiefStore.Domain.Concrete
         }
 
         public DbSet<Product> Products { get; set; }
+        public DbSet<NewsletterSubscriber> NewsletterSubscribers { get; set; }
     }
 }

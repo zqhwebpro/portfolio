@@ -33,6 +33,9 @@ namespace MischiefStore.WebUI.Infrastructure
             // Bind EF Product Repository
             kernel.Bind<IProductRepository>().To<EFProductRepository>();
 
+            // Bind Newsletter Repository
+            kernel.Bind<INewsletterRepository>().To<EFNewsletterRepository>();
+
             // Configure and Bind Email Order Processor
             EmailSettings emailSettings = new EmailSettings
             {

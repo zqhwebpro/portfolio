@@ -168,13 +168,13 @@ export function RearviewMirror({ speedMph, popups = [], driveDistance = 0 }) {
                alignItems: 'center',
             }}>
                 <div style={{
-                   background: '#1C1917', // Dark metal back
-                   border: '2px solid #44403C',
+                   background: 'linear-gradient(135deg, #120324, #080214)',
+                   border: '2px solid rgba(0, 240, 255, 0.7)',
                    borderRadius: '4px',
                    width: '180px',
                    height: '70px',
                    position: 'relative',
-                   boxShadow: 'inset 0 0 15px rgba(0,0,0,0.8), 0 5px 15px rgba(0, 240, 255, 0.2)',
+                   boxShadow: 'inset 0 0 15px rgba(0,0,0,0.8), 0 0 15px rgba(0, 240, 255, 0.4), 0 0 25px rgba(255, 0, 127, 0.25)',
                 }}>
                    {/* Metal posts supporting the sign */}
                    <div style={{

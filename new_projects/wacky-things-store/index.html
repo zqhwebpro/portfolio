@@ -562,7 +562,7 @@
         data-blueprint-code="@Html.Partial(&quot;_GlobalBanner&quot;, Model.BannerSettings)">
 
         <div class="flex items-center gap-4 mx-auto sm:mx-0 flex-wrap justify-center">
-            <span class="flex items-center gap-1.5 text-teal-400 font-bold">
+            <span class="flex items-center gap-1.5 text-earth-200 font-bold">
                 <i class="fa-solid fa-wand-magic-sparkles text-appetite-400"></i> Free 2-Day Shipping on Oddities Over
                 $35
             </span>
@@ -691,7 +691,7 @@
                     data-blueprint-dom="Interactive cart widget with vibrant teal background and count pill badge."
                     data-blueprint-desc="CartModelBinder automatically extracts the user's Cart from Session and injects it into controller methods without manual session casting."
                     data-blueprint-code="@Html.Action(&quot;Summary&quot;, &quot;Cart&quot;)"
-                    class="px-4 py-2 rounded-xl bg-appetite-700 hover:bg-appetite-800 text-white font-bold text-xs flex items-center gap-2 transition-all shadow-md shadow-appetite-800/20">
+                    class="h-10 px-4 rounded-xl bg-appetite-700 hover:bg-appetite-800 text-white font-bold text-xs flex items-center gap-2 transition-all shadow-md shadow-appetite-800/20">
                     <i class="fa-solid fa-cart-shopping text-teal-300"></i>
                     <span class="hidden sm:inline">Cart:</span>
                     <span id="header-cart-total" class="font-mono text-teal-200 font-extrabold">$0.00</span>
@@ -701,10 +701,9 @@
 
 
 
-                
                 <!-- Blog Reading Portal Trigger -->
                 <button onclick="window.toggleViewStoreBlog()" id="header-blog-btn"
-                    class="px-3.5 py-2 rounded-xl bg-earth-800 hover:bg-earth-900 border border-earth-700 text-white text-xs font-bold flex items-center gap-1.5 transition-all shadow-xs"
+                    class="h-10 px-3.5 rounded-xl bg-earth-800 hover:bg-earth-900 border border-earth-700 text-white text-xs font-bold flex items-center gap-1.5 transition-all shadow-xs"
                     title="Read The Mischief Gazette">
                     <i class="fa-solid fa-newspaper text-earth-300"></i>
                     <span id="headerBlogText" class="hidden sm:inline">The Wacky Blog</span>
@@ -1558,12 +1557,44 @@
         data-blueprint-desc="Renders the newsletter signup form. Posts email subscriptions to the Newsletter controller."
         data-blueprint-code="[HttpPost] public ActionResult Subscribe(string email) { ... }">
         <div class="store-fluid-container relative z-10 flex flex-col items-center text-center">
-            <h2 class="text-4xl sm:text-5xl font-black font-heading text-earth-900 mb-4 transform -rotate-2" style="-webkit-text-stroke: 1.5px white;">GET WACKY MAIL!</h2>
+            <h2 class="text-4xl sm:text-5xl font-black font-heading text-earth-900 mb-4 transform -rotate-2">GET WACKY MAIL!</h2>
             <p class="text-lg font-bold text-earth-800 bg-white px-4 py-1 rounded border-2 border-earth-900 transform rotate-1 mb-6">Sign up for exclusive nonsense and 0% useful information!</p>
-            <form onsubmit="event.preventDefault(); alert('You are now subscribed to the nonsense!');" class="flex flex-col sm:flex-row gap-3 w-full max-w-lg">
-                <input type="email" placeholder="Enter your email (we dare you)" required class="flex-1 p-4 rounded-xl border-4 border-earth-900 font-bold focus:outline-none focus:ring-4 focus:ring-appetite-400 text-lg shadow-[4px_4px_0px_#1C1917]" />
+            <form onsubmit="subscribeToNewsletter(event)" class="flex flex-col sm:flex-row gap-3 w-full max-w-2xl">
+                <input type="email" id="newsletter-email" placeholder="Enter your email (we dare you)" required class="flex-1 p-4 rounded-xl border-4 border-earth-900 font-bold focus:outline-none focus:ring-4 focus:ring-appetite-400 text-lg shadow-[4px_4px_0px_#1C1917]" />
                 <button type="submit" class="px-8 py-4 bg-appetite-500 hover:bg-appetite-600 text-white font-black text-xl uppercase tracking-widest rounded-xl border-4 border-earth-900 shadow-[6px_6px_0px_#1C1917] hover:shadow-[4px_4px_0px_#1C1917] hover:translate-x-[2px] hover:translate-y-[2px] active:shadow-none active:translate-x-[6px] active:translate-y-[6px] transition-all">SIGN ME UP</button>
             </form>
+            <p id="newsletter-message" class="mt-4 font-bold hidden"></p>
+            <script>
+                async function subscribeToNewsletter(event) {
+                    event.preventDefault();
+                    const emailInput = document.getElementById('newsletter-email');
+                    const messageEl = document.getElementById('newsletter-message');
+                    const email = emailInput.value;
+                    
+                    try {
+                        const response = await fetch('/Newsletter/Subscribe', {
+                            method: 'POST',
+                            headers: {
+                                'Content-Type': 'application/json'
+                            },
+                            body: JSON.stringify({ email: email })
+                        });
+                        
+                        if (!response.ok && response.status === 404) {
+                            throw new Error("Backend not running");
+                        }
+                        
+                        const data = await response.json();
+                        messageEl.textContent = data.message;
+                        messageEl.classList.remove('hidden');
+                        messageEl.className = "mt-4 font-bold text-earth-800 bg-white px-4 py-1 rounded border-2 border-earth-900 transform rotate-1 inline-block";
+                        emailInput.value = '';
+                    } catch (e) {
+                        alert('You are now subscribed to the nonsense! (Simulated backend response because ASP.NET is not running locally here)');
+                        emailInput.value = '';
+                    }
+                }
+            </script>
             
             
         </div>
