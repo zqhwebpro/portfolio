@@ -378,6 +378,70 @@ export function SynthwaveDrive() {
       {/* 3D Canvas Scene */}
       <canvas ref={canvasRef} style={{ width: '100%', height: '100%', display: 'block' }} />
 
+      {/* Upper Left Branding Logo — Information Superhighway */}
+      <div
+        id="synth-branding-logo"
+        style={{
+          position: 'absolute',
+          top: '1.5rem',
+          left: '1.5rem',
+          zIndex: 40,
+          display: 'flex',
+          flexDirection: 'column',
+          alignItems: 'flex-start',
+          gap: '4px',
+          padding: '0.6rem 1.1rem',
+          background: 'linear-gradient(135deg, rgba(14, 4, 32, 0.82) 0%, rgba(6, 1, 18, 0.88) 100%)',
+          backdropFilter: 'blur(14px)',
+          WebkitBackdropFilter: 'blur(14px)',
+          border: '1.5px solid rgba(0, 240, 255, 0.45)',
+          borderRadius: '10px',
+          boxShadow: '0 8px 24px rgba(0, 0, 0, 0.7), 0 0 20px rgba(0, 240, 255, 0.3), inset 0 0 14px rgba(255, 0, 127, 0.15)',
+          userSelect: 'none',
+          pointerEvents: 'default',
+          transition: 'all 0.3s ease',
+        }}
+        onMouseEnter={(e) => {
+          e.currentTarget.style.borderColor = 'rgba(255, 0, 127, 0.75)';
+          e.currentTarget.style.boxShadow = '0 10px 30px rgba(0, 0, 0, 0.8), 0 0 28px rgba(0, 240, 255, 0.5), 0 0 45px rgba(255, 0, 127, 0.4), inset 0 0 18px rgba(0, 240, 255, 0.25)';
+          e.currentTarget.style.transform = 'translateY(-1px)';
+        }}
+        onMouseLeave={(e) => {
+          e.currentTarget.style.borderColor = 'rgba(0, 240, 255, 0.45)';
+          e.currentTarget.style.boxShadow = '0 8px 24px rgba(0, 0, 0, 0.7), 0 0 20px rgba(0, 240, 255, 0.3), inset 0 0 14px rgba(255, 0, 127, 0.15)';
+          e.currentTarget.style.transform = 'translateY(0)';
+        }}
+      >
+        <div
+          style={{
+            fontFamily: 'Syne, var(--font-display, "Space Grotesk"), sans-serif',
+            fontSize: '1.18rem',
+            fontWeight: 900,
+            fontStyle: 'italic',
+            letterSpacing: '0.06em',
+            textTransform: 'uppercase',
+            background: 'linear-gradient(90deg, #00F0FF 0%, #FF2A85 52%, #FFE600 100%)',
+            WebkitBackgroundClip: 'text',
+            WebkitTextFillColor: 'transparent',
+            filter: 'drop-shadow(0 0 10px rgba(0, 240, 255, 0.65)) drop-shadow(0 0 20px rgba(255, 0, 127, 0.4))',
+            lineHeight: 1.15,
+            whiteSpace: 'nowrap',
+          }}
+        >
+          Information Superhighway
+        </div>
+        {/* Synth neon horizon underline bar */}
+        <div
+          style={{
+            width: '100%',
+            height: '2px',
+            background: 'linear-gradient(90deg, #00F0FF 0%, #FF007F 55%, rgba(255, 230, 0, 0.8) 100%)',
+            boxShadow: '0 0 8px #00F0FF, 0 0 12px #FF007F',
+            borderRadius: '1px',
+          }}
+        />
+      </div>
+
       {/* Top Center Rearview Mirror */}
       <RearviewMirror
         speedMph={speedMph}

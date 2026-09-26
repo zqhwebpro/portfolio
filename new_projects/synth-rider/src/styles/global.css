@@ -382,3 +382,15 @@ h1, h2, h3, h4, h5, h6 {
   z-index: 50;
   box-shadow: 2px 2px 0px var(--canary-yellow);
 }
+
+@media (max-width: 768px) {
+  #synth-branding-logo {
+    top: 1rem !important;
+    left: 1rem !important;
+    padding: 0.45rem 0.85rem !important;
+  }
+  #synth-branding-logo > div:first-child {
+    font-size: 0.95rem !important;
+  }
+}
+
