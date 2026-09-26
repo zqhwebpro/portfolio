@@ -1,8 +1,40 @@
-import React, { useState, useEffect, useRef } from 'react';
+import React, { useState, useEffect, useRef, useCallback } from 'react';
 import { RearviewMirror } from './RearviewMirror';
 import { WaveformVisualizer } from './WaveformVisualizer';
 import { SpotifyRadio } from './SpotifyRadio';
-import { MOVIE_QUOTES } from '../data/movieQuotes';
+
+// ---------------------------------------------------------------------------
+// Wikipedia API helpers
+// ---------------------------------------------------------------------------
+
+/** Fetch a single random Wikipedia article summary with thumbnail */
+async function fetchRandomWikiArticle() {
+  const url = 'https://en.wikipedia.org/api/rest_v1/page/random/summary';
+  const res = await fetch(url, { headers: { Accept: 'application/json' } });
+  if (!res.ok) throw new Error(`Wiki API ${res.status}`);
+  const data = await res.json();
+  return {
+    title: data.title,
+    extract: data.extract_html
+      ? data.extract_html.replace(/<[^>]*>/g, '').slice(0, 200)
+      : (data.extract || '').slice(0, 200),
+    image: data.thumbnail?.source || null,
+    url:
+      data.content_urls?.desktop?.page ||
+      `https://en.wikipedia.org/wiki/${encodeURIComponent(data.title)}`,
+  };
+}
+
+/** Pre-warm a pool of Wikipedia articles so cards appear instantly */
+async function warmPool(pool, target = 6) {
+  const needed = target - pool.length;
+  if (needed <= 0) return;
+  const fetches = Array.from({ length: needed }, fetchRandomWikiArticle);
+  const results = await Promise.allSettled(fetches);
+  for (const r of results) {
+    if (r.status === 'fulfilled') pool.push(r.value);
+  }
+}
 
 export function SynthwaveDrive() {
   const canvasRef = useRef(null);
@@ -16,7 +48,9 @@ export function SynthwaveDrive() {
   const [autoDrive, setAutoDrive] = useState(false);
   const [playerX, setPlayerX] = useState(0); // Left/Right lateral position (-0.85 to +0.85)
 
-  const quotesRef = useRef(MOVIE_QUOTES);
+  // Wikipedia article pool (pre-fetched)
+  const wikiPoolRef = useRef([]);
+  const poolLoadingRef = useRef(false);
 
   // Animation & simulation refs
   const autoDriveRef = useRef(false);
@@ -32,28 +66,31 @@ export function SynthwaveDrive() {
   const steerVelocityRef = useRef(0);
   const keysPressedRef = useRef({ left: false, right: false });
 
-  // Load movie quotes from F4R4N/movie-quote with fallback to repository dataset
+  // Nearest popup ref for F-key shortcut
+  const popupsRef = useRef([]);
+
+  // Keep popupsRef in sync with state
   useEffect(() => {
-    let isMounted = true;
-    quotesRef.current = MOVIE_QUOTES;
+    popupsRef.current = popups;
+  }, [popups]);
 
-    fetch('https://movie-quote-api.herokuapp.com/v1/quote/')
-      .then((res) => res.json())
-      .then((data) => {
-        if (isMounted && data && data.quote) {
-          quotesRef.current = [
-            { quote: data.quote, show: data.show || 'Movie', role: data.role || 'Character' },
-            ...MOVIE_QUOTES,
-          ];
-        }
-      })
-      .catch(() => {
-        // Silently use the full authentic movie-quote repository dataset
-      });
-
-    return () => {
-      isMounted = false;
+  // Pre-warm the Wikipedia pool on mount
+  useEffect(() => {
+    const load = async () => {
+      if (poolLoadingRef.current) return;
+      poolLoadingRef.current = true;
+      await warmPool(wikiPoolRef.current, 8);
+      poolLoadingRef.current = false;
     };
+    load();
+  }, []);
+
+  // Refill pool whenever it dips below 4
+  const refillPool = useCallback(async () => {
+    if (poolLoadingRef.current || wikiPoolRef.current.length >= 6) return;
+    poolLoadingRef.current = true;
+    await warmPool(wikiPoolRef.current, 8);
+    poolLoadingRef.current = false;
   }, []);
 
   const toggleAutoDrive = () => {
@@ -64,13 +101,20 @@ export function SynthwaveDrive() {
     });
   };
 
-  // Keyboard left/right steering on the Tron road
+  // Keyboard left/right steering + F key to open nearest Wikipedia article
   useEffect(() => {
     const handleKeyDown = (e) => {
       if (e.key === 'ArrowLeft' || e.key === 'a' || e.key === 'A') {
         keysPressedRef.current.left = true;
       } else if (e.key === 'ArrowRight' || e.key === 'd' || e.key === 'D') {
         keysPressedRef.current.right = true;
+      } else if (e.key === 'f' || e.key === 'F') {
+        // Open the most recently spawned (closest/largest) visible popup
+        const visible = popupsRef.current.filter((p) => p.url);
+        if (visible.length > 0) {
+          const latest = visible[visible.length - 1];
+          window.open(latest.url, '_blank', 'noopener,noreferrer');
+        }
       }
     };
 
@@ -190,23 +234,34 @@ export function SynthwaveDrive() {
 
       const currentDist = Math.abs(driveDistanceRef.current);
 
-      // Trigger new movie quote popup far down the road horizon
+      // Spawn a new Wikipedia card popup
       if (currentDist >= nextMilestoneDistRef.current) {
         milestoneCountRef.current += 1;
 
-        const quotesList = quotesRef.current && quotesRef.current.length > 0 ? quotesRef.current : MOVIE_QUOTES;
-        const quoteObj = quotesList[Math.floor(Math.random() * quotesList.length)];
+        // Pull from pool or use a placeholder
+        let article = wikiPoolRef.current.shift();
+        if (!article) {
+          article = {
+            title: 'Wikipedia',
+            extract: 'Loading random article...',
+            image: null,
+            url: 'https://en.wikipedia.org/wiki/Special:Random',
+          };
+        }
+
+        // Refill the pool asynchronously
+        refillPool();
 
         const startDist = Math.ceil(currentDist);
         const newPopup = {
           id: Date.now() + Math.random(),
-          quote: quoteObj.quote,
-          show: quoteObj.show,
-          role: quoteObj.role,
-          text: quoteObj.quote,
           number: milestoneCountRef.current,
-          startDist: startDist,
-          targetDist: startDist + 36, // 36 grid squares
+          startDist,
+          targetDist: startDist + 36,
+          title: article.title,
+          extract: article.extract,
+          image: article.image,
+          url: article.url,
         };
 
         setPopups((prev) => [...prev, newPopup]);
@@ -233,7 +288,7 @@ export function SynthwaveDrive() {
 
     render();
     return () => cancelAnimationFrame(animId);
-  }, []);
+  }, [refillPool]);
 
   return (
     <div
@@ -289,7 +344,11 @@ export function SynthwaveDrive() {
       >
         <span style={{ color: '#00F0FF', fontWeight: 800 }}>← / → or A / D</span>
         <span style={{ color: 'rgba(255,255,255,0.4)' }}>•</span>
-        <span>Steer Across Highway</span>
+        <span>Steer</span>
+        <span style={{ color: 'rgba(255,255,255,0.4)' }}>•</span>
+        <span style={{ color: '#FF007F', fontWeight: 800 }}>F</span>
+        <span style={{ color: 'rgba(255,255,255,0.4)' }}>•</span>
+        <span>Open Article</span>
       </div>
 
       {/* Auto Drive Toggle Button */}
@@ -319,9 +378,9 @@ export function SynthwaveDrive() {
         {autoDrive ? 'Auto Drive: ON' : 'Auto Drive: OFF'}
       </button>
 
-      {/* Popups Traveling Along Roadside Track Lines */}
+      {/* Wikipedia Article Cards traveling down the road */}
       {popups.map((popup) => (
-        <RoadsideSign
+        <WikiCard
           key={popup.id}
           popup={popup}
           driveDistance={driveDistance}
@@ -445,40 +504,38 @@ function drawGridFloor(ctx, width, height, horizonY, sunCenterX, offset, playerX
 }
 
 // ----------------------------------------------------------------------------
-// Roadside Sign Popup Component
+// Wikipedia Article Card Popup Component
 // ----------------------------------------------------------------------------
 
-function RoadsideSign({ popup, driveDistance, playerX = 0 }) {
+function WikiCard({ popup, driveDistance, playerX = 0 }) {
   const rawProgress = (driveDistance - popup.startDist) / 36;
   if (rawProgress > 1.05) return null;
 
   const p = Math.max(0, Math.min(1, rawProgress));
   const progressY = Math.pow(p, 2.5);
 
-  // Calculate Y as a percentage (horizon is 55%) - Moved up by 3%
   const topPct = 52 + progressY * 45;
-
-  // Scale starts extremely small at horizon
   const scale = Math.max(0.01, progressY * 3.0);
-
-  // Fully opaque until it passes the camera
   const opacity = p > 0.85 ? Math.max(0, 1 - (p - 0.85) * 6.6) : 1;
 
-  // Track the first magenta track line (i=2 and i=-2), shifted by playerX steering
   const isLeft = popup.number % 2 === 0;
   const lineIndex = isLeft ? -2 : 2;
-
-  // X starts at 50% (center) + offset, shifted by playerX steering
   const startX_pct = 50 - playerX * 4 + (lineIndex / 26) * 5;
   const endX_pct = 50 - playerX * 40 + lineIndex * 8;
   const currentX_pct = startX_pct + (endX_pct - startX_pct) * progressY;
 
-  const primaryWaveColor = isLeft ? '#00F0FF' : '#FF007F';
-  const waveGlowRgba = isLeft ? 'rgba(0, 240, 255, 0.6)' : 'rgba(255, 0, 127, 0.6)';
-  const secondaryGlowRgba = isLeft ? 'rgba(255, 0, 127, 0.35)' : 'rgba(0, 240, 255, 0.35)';
+  const primaryColor = isLeft ? '#00F0FF' : '#FF007F';
+  const waveGlow = isLeft ? 'rgba(0, 240, 255, 0.6)' : 'rgba(255, 0, 127, 0.6)';
+  const secondaryGlow = isLeft ? 'rgba(255, 0, 127, 0.35)' : 'rgba(0, 240, 255, 0.35)';
+  const innerGlow = isLeft ? 'rgba(0, 240, 255, 0.18)' : 'rgba(255, 0, 127, 0.18)';
+  const boxShadowBase = `0 12px 35px rgba(0,0,0,0.8), 0 0 30px ${waveGlow}, 0 0 55px ${secondaryGlow}, inset 0 0 20px ${innerGlow}`;
+  const boxShadowHover = `0 16px 45px rgba(0,0,0,0.9), 0 0 45px ${waveGlow}, 0 0 75px ${secondaryGlow}, inset 0 0 25px ${innerGlow}`;
 
-  const quoteText = popup.quote || popup.text || '';
-  const isLong = quoteText.length > 95;
+  const isClickable = opacity > 0.3 && popup.url;
+
+  const handleClick = () => {
+    if (popup.url) window.open(popup.url, '_blank', 'noopener,noreferrer');
+  };
 
   return (
     <div
@@ -494,81 +551,161 @@ function RoadsideSign({ popup, driveDistance, playerX = 0 }) {
         flexDirection: 'column',
         alignItems: 'center',
         transition: 'opacity 0.08s linear, transform 0.12s ease-out',
-        pointerEvents: opacity > 0.3 ? 'auto' : 'none',
+        pointerEvents: isClickable ? 'auto' : 'none',
+        cursor: isClickable ? 'pointer' : 'default',
       }}
+      onClick={handleClick}
+      title={popup.url ? `Open "${popup.title}" on Wikipedia` : undefined}
     >
       <div
         style={{
-          background: 'linear-gradient(135deg, rgba(8, 2, 28, 0.94) 0%, rgba(22, 4, 42, 0.94) 50%, rgba(3, 14, 36, 0.96) 100%)',
+          background:
+            'linear-gradient(135deg, rgba(8,2,28,0.96) 0%, rgba(22,4,42,0.96) 50%, rgba(3,14,36,0.98) 100%)',
           backdropFilter: 'blur(16px)',
-          border: `2.5px solid ${primaryWaveColor}`,
-          borderRadius: '12px',
-          padding: '1.25rem 1.6rem',
-          width: '360px',
-          maxWidth: '85vw',
-          height: 'auto',
+          border: `2.5px solid ${primaryColor}`,
+          borderRadius: '14px',
+          width: '340px',
+          maxWidth: '88vw',
+          overflow: 'hidden',
           display: 'flex',
           flexDirection: 'column',
-          justifyContent: 'center',
-          alignItems: 'center',
-          boxShadow: `0 12px 35px rgba(0, 0, 0, 0.8), 0 0 30px ${waveGlowRgba}, 0 0 55px ${secondaryGlowRgba}, inset 0 0 20px ${
-            isLeft ? 'rgba(0, 240, 255, 0.18)' : 'rgba(255, 0, 127, 0.18)'
-          }`,
-          textAlign: 'center',
+          boxShadow: boxShadowBase,
           position: 'relative',
-          overflow: 'hidden',
+          transition: 'box-shadow 0.2s ease',
         }}
+        onMouseEnter={(e) => { e.currentTarget.style.boxShadow = boxShadowHover; }}
+        onMouseLeave={(e) => { e.currentTarget.style.boxShadow = boxShadowBase; }}
       >
-        {/* Orange to Red Luminous Top Gradient Line */}
+        {/* Top accent line */}
         <div
           style={{
-            position: 'absolute',
-            top: 0,
-            left: 0,
-            right: 0,
             height: '4px',
             background: 'linear-gradient(90deg, #FF9900 0%, #FF4400 50%, #FF0055 100%)',
             boxShadow: '0 0 10px #FF5500, 0 0 16px #FF0044',
+            flexShrink: 0,
           }}
         />
 
-        {/* Movie Quote Text */}
-        <div
-          style={{
-            fontFamily: 'var(--font-display, "Space Grotesk", sans-serif)',
-            fontSize: isLong ? '1.02rem' : '1.2rem',
-            fontWeight: 700,
-            lineHeight: 1.35,
-            color: '#FFFFFF',
-            textShadow: `0 0 15px rgba(255, 255, 255, 0.95), 0 0 30px ${waveGlowRgba}, 0 0 45px ${secondaryGlowRgba}`,
-            letterSpacing: '0.01em',
-            margin: 0,
-            textTransform: 'none',
-            whiteSpace: 'normal',
-            wordWrap: 'break-word',
-          }}
-        >
-          "{quoteText}"
-        </div>
-
-        {/* Character & Movie / Series Attribution */}
-        {(popup.role || popup.show) && (
+        {/* Article thumbnail image */}
+        {popup.image && (
           <div
             style={{
-              marginTop: '0.65rem',
-              fontFamily: 'var(--font-mono, monospace)',
-              fontSize: '0.74rem',
-              fontWeight: 700,
-              color: primaryWaveColor,
-              textShadow: `0 0 10px ${primaryWaveColor}`,
-              letterSpacing: '0.05em',
-              textTransform: 'uppercase',
+              width: '100%',
+              height: '160px',
+              overflow: 'hidden',
+              flexShrink: 0,
+              position: 'relative',
             }}
           >
-            — {popup.role} {popup.show && <span style={{ color: 'rgba(255, 255, 255, 0.65)', fontWeight: 400 }}>({popup.show})</span>}
+            <img
+              src={popup.image}
+              alt={popup.title}
+              style={{
+                width: '100%',
+                height: '100%',
+                objectFit: 'cover',
+                display: 'block',
+                filter: 'brightness(0.9) saturate(1.1)',
+              }}
+              onError={(e) => {
+                e.currentTarget.parentElement.style.display = 'none';
+              }}
+            />
+            {/* Gradient overlay fading into card body */}
+            <div
+              style={{
+                position: 'absolute',
+                bottom: 0,
+                left: 0,
+                right: 0,
+                height: '50%',
+                background: 'linear-gradient(to bottom, transparent, rgba(8,2,28,0.96))',
+              }}
+            />
           </div>
         )}
+
+        {/* Text body */}
+        <div style={{ padding: '1rem 1.2rem 1.1rem', display: 'flex', flexDirection: 'column', gap: '0.5rem' }}>
+          {/* Wikipedia badge + open hint */}
+          <div
+            style={{
+              display: 'flex',
+              alignItems: 'center',
+              justifyContent: 'space-between',
+            }}
+          >
+            <span
+              style={{
+                fontFamily: 'var(--font-mono, monospace)',
+                fontSize: '0.6rem',
+                fontWeight: 700,
+                color: primaryColor,
+                textShadow: `0 0 8px ${primaryColor}`,
+                letterSpacing: '0.1em',
+                textTransform: 'uppercase',
+              }}
+            >
+              ◈ Wikipedia
+            </span>
+            <span
+              style={{
+                fontFamily: 'var(--font-mono, monospace)',
+                fontSize: '0.58rem',
+                color: 'rgba(255,255,255,0.4)',
+                letterSpacing: '0.06em',
+              }}
+            >
+              click or press F ↗
+            </span>
+          </div>
+
+          {/* Article title */}
+          <div
+            style={{
+              fontFamily: 'var(--font-display, "Space Grotesk", sans-serif)',
+              fontSize: '1.15rem',
+              fontWeight: 700,
+              lineHeight: 1.25,
+              color: '#FFFFFF',
+              textShadow: `0 0 15px rgba(255,255,255,0.9), 0 0 30px ${waveGlow}`,
+              letterSpacing: '0.01em',
+            }}
+          >
+            {popup.title}
+          </div>
+
+          {/* Article extract / description */}
+          {popup.extract && (
+            <div
+              style={{
+                fontFamily: 'var(--font-sans, sans-serif)',
+                fontSize: '0.78rem',
+                fontWeight: 400,
+                lineHeight: 1.5,
+                color: 'rgba(220, 220, 255, 0.82)',
+                display: '-webkit-box',
+                WebkitLineClamp: 3,
+                WebkitBoxOrient: 'vertical',
+                overflow: 'hidden',
+              }}
+            >
+              {popup.extract}
+            </div>
+          )}
+        </div>
       </div>
+
+      {/* Sign post pole */}
+      <div
+        style={{
+          width: '3px',
+          height: '32px',
+          background: `linear-gradient(to bottom, ${primaryColor}, rgba(0,0,0,0))`,
+          boxShadow: `0 0 6px ${primaryColor}`,
+          borderRadius: '0 0 3px 3px',
+        }}
+      />
     </div>
   );
 }

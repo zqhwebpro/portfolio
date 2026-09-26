@@ -1733,30 +1733,260 @@ body, html {
 /* ========================================================
    Responsive Breakpoints
    ======================================================== */
-@media (max-width: 900px) {
+
+/* 1. TABLET LANDSCAPE & COMPACT SCREENS (901px to 1200px wide, or height <= 820px)
+   Compact, elegant left altar panel menu so it never crowds the astrolabe wheel */
+@media (min-width: 901px) and (max-width: 1200px), (max-height: 820px) and (min-width: 901px) {
   .compass-gesture-nav {
-    position: static;
-    transform: none;
-    width: 90%;
-    max-width: 440px;
-    margin-bottom: 15px;
-    flex-direction: row;
-    flex-wrap: wrap;
-    justify-content: center;
+    left: 14px;
+    width: 175px;
+    padding: 8px 8px;
+    gap: 5px;
+    border-radius: 12px;
   }
+
+  .compass-gesture-nav .panel-corner {
+    width: 8px;
+    height: 8px;
+  }
+
+  /* Compact icon divider */
+  .nav-panel-astral-sigil {
+    padding-bottom: 4px;
+    margin-bottom: 2px;
+  }
+
+  .nav-panel-astral-sigil .sigil-glyph {
+    font-size: 0.85rem;
+    letter-spacing: 0.2em;
+  }
+
+  /* Compact left choice options */
+  .nav-stages-list {
+    gap: 4px;
+  }
+
+  .nav-stage-btn {
+    padding: 6px 8px;
+    gap: 6px;
+    border-radius: 8px;
+  }
+
+  .nav-stage-indicator {
+    width: 3.5px;
+    height: 18px;
+  }
+
+  .nav-stage-gesture {
+    font-size: 0.82rem;
+    gap: 4px;
+  }
+
+  .nav-stage-desc {
+    font-size: 0.72rem;
+    line-height: 1.15;
+    margin-top: 1px;
+  }
+
+  .scrying-mirror-container {
+    bottom: 16px;
+    right: 16px;
+  }
+
+  .scrying-mirror {
+    width: 140px;
+    height: 140px;
+  }
+}
+
+/* 2. TABLET PORTRAIT (601px to 900px wide, e.g. iPad, iPad Air, Galaxy Tab)
+   Transforms the left panel into a sleek, horizontal altar bar above the compass */
+@media (max-width: 900px) {
+  .board-container {
+    height: auto;
+    min-height: 100vh;
+    overflow-y: auto;
+    overflow-x: hidden;
+    padding-top: 68px;
+    padding-bottom: 30px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: flex-start;
+  }
+
   .divination-arena {
     flex-direction: column;
+    align-items: center;
+    justify-content: flex-start;
     height: auto;
-    padding-top: 80px;
+    width: 100%;
+    padding-top: 6px;
   }
+
+  /* Sleek horizontal altar tablet menu */
+  .compass-gesture-nav {
+    position: relative;
+    left: auto;
+    top: auto;
+    transform: none;
+    width: 94%;
+    max-width: 660px;
+    margin: 4px auto 14px auto;
+    padding: 7px 10px 8px 10px;
+    border-radius: 14px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 5px;
+  }
+
+  .compass-gesture-nav .panel-corner {
+    width: 9px;
+    height: 9px;
+  }
+
+  /* Subtle, delicate icon divider */
+  .nav-panel-astral-sigil {
+    width: 100%;
+    padding-bottom: 4px;
+    margin-bottom: 2px;
+    border-bottom: 1px solid rgba(212, 175, 55, 0.3);
+  }
+
+  .nav-panel-astral-sigil .sigil-glyph {
+    font-size: 0.82rem;
+    letter-spacing: 0.25em;
+  }
+
+  /* Choice options arranged in a beautiful 5-column horizontal strip */
+  .nav-stages-list {
+    display: grid;
+    grid-template-columns: repeat(5, 1fr);
+    gap: 6px;
+    width: 100%;
+  }
+
+  .nav-stage-btn {
+    padding: 7px 4px;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+    gap: 2px;
+    border-radius: 8px;
+    min-height: 48px;
+  }
+
+  .nav-stage-btn:hover {
+    transform: translateY(-2px);
+  }
+
+  .nav-stage-indicator {
+    display: none;
+  }
+
+  .nav-stage-content {
+    align-items: center;
+    text-align: center;
+    width: 100%;
+  }
+
+  .nav-stage-gesture {
+    font-size: 0.82rem;
+    justify-content: center;
+    gap: 3px;
+    white-space: nowrap;
+  }
+
+  .nav-stage-desc {
+    font-size: 0.68rem;
+    line-height: 1.15;
+    margin-top: 1px;
+    text-align: center;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    max-width: 100%;
+  }
+
+  .astrolabe-wrapper {
+    width: 80vmin;
+    height: 80vmin;
+    max-width: 520px;
+    max-height: 520px;
+  }
+
+  .crystal-ball-sphere, .crystal-ball-stand-base {
+    width: 65vmin;
+    height: 65vmin;
+    min-width: 290px;
+    min-height: 290px;
+  }
+
+  .scrying-mirror-container {
+    bottom: 16px;
+    right: 16px;
+  }
+
+  .scrying-mirror {
+    width: 130px;
+    height: 130px;
+  }
+}
+
+/* 3. MOBILE VIEWPORTS (<= 600px)
+   Ultra-compact touch-friendly segmented controls */
+@media (max-width: 600px) {
+  .compass-gesture-nav {
+    width: 96%;
+    max-width: 440px;
+    padding: 5px 6px;
+    margin: 4px auto 10px auto;
+    border-radius: 12px;
+    gap: 4px;
+  }
+
+  .nav-panel-astral-sigil {
+    padding-bottom: 2px;
+    margin-bottom: 2px;
+  }
+
+  .nav-panel-astral-sigil .sigil-glyph {
+    font-size: 0.72rem;
+    letter-spacing: 0.2em;
+  }
+
+  .nav-stages-list {
+    gap: 4px;
+  }
+
+  .nav-stage-btn {
+    padding: 5px 2px;
+    min-height: 38px;
+    border-radius: 6px;
+  }
+
+  .nav-stage-gesture {
+    font-size: 0.74rem;
+  }
+
+  .nav-stage-desc {
+    display: none;
+  }
+
   .astrolabe-wrapper {
     width: 86vmin;
     height: 86vmin;
   }
-  .crystal-ball-sphere, .crystal-ball-stand-base {
-    width: 68vmin;
-    height: 68vmin;
-    min-width: 340px;
-    min-height: 340px;
+
+  .scrying-mirror-container {
+    bottom: 12px;
+    right: 12px;
+  }
+
+  .scrying-mirror {
+    width: 95px;
+    height: 95px;
   }
 }

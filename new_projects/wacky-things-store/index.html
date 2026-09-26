@@ -503,6 +503,123 @@
             color: #f8fafc !important;
             border-color: #334155 !important;
         }
+
+        body.dark-mode #blog-reader-modal > div {
+            background-color: #0b0f19 !important;
+            border-color: #1f2937 !important;
+            color: #f8fafc !important;
+        }
+
+        body.dark-mode #blog-reader-modal .bg-canvas-surface {
+            background-color: #030712 !important;
+            border-color: #1f2937 !important;
+        }
+
+        body.dark-mode #blog-reader-modal .bg-canvas-base {
+            background-color: #0b0f19 !important;
+            border-color: #1f2937 !important;
+        }
+
+        body.dark-mode #blog-modal-body {
+            color: #f1f5f9 !important;
+        }
+
+        body.dark-mode #blog-modal-body p,
+        body.dark-mode #blog-modal-body li {
+            color: #cbd5e1 !important;
+        }
+
+        body.dark-mode #blog-modal-body h3 {
+            color: #f8fafc !important;
+        }
+
+        body.dark-mode #blog-modal-body blockquote {
+            background-color: #1e1b4b !important;
+            color: #e2e8f0 !important;
+        }
+
+        /* ========================================================
+           RESPONSIVE & TABLET ADAPTATIONS (WACKY THINGS STORE)
+           ======================================================== */
+        @media (max-width: 1024px) {
+            /* Release sticky lock on tablet & mobile so the filter bar does not collide with header */
+            #blog-filter-bar {
+                position: relative !important;
+                top: 0 !important;
+                z-index: 25;
+            }
+
+            /* Better spacing and sizing for blog reader modal */
+            #blog-reader-modal > div {
+                max-height: 90vh !important;
+                margin: 12px;
+                border-radius: 20px;
+            }
+
+            #blog-modal-cover-wrap {
+                height: 180px !important;
+            }
+
+            #blog-modal-title {
+                font-size: 1.35rem !important;
+                line-height: 1.25 !important;
+            }
+
+            #blog-modal-body {
+                padding: 1.25rem !important;
+                font-size: 0.92rem !important;
+            }
+        }
+
+        @media (max-width: 768px) {
+            .store-fluid-container {
+                padding-left: 0.85rem !important;
+                padding-right: 0.85rem !important;
+            }
+
+            /* Header controls compacting on mobile */
+            header .store-fluid-container {
+                gap: 0.5rem !important;
+                padding-top: 0.6rem !important;
+                padding-bottom: 0.6rem !important;
+            }
+
+            /* Cart drawer full width on mobile */
+            #cart-drawer-backdrop > div {
+                max-width: 100% !important;
+            }
+
+            /* Blog card compacting on mobile */
+            .blog-article-card {
+                border-radius: 18px !important;
+            }
+
+            /* Reader modal compacting */
+            #blog-reader-modal > div {
+                max-height: 94vh !important;
+                margin: 8px;
+                border-radius: 16px;
+            }
+
+            #blog-modal-cover-wrap {
+                height: 145px !important;
+            }
+
+            #blog-modal-title {
+                font-size: 1.15rem !important;
+            }
+
+            #blog-modal-body {
+                padding: 1rem !important;
+                font-size: 0.85rem !important;
+                line-height: 1.6 !important;
+            }
+
+            /* Disable tooltip on touch / small screens to prevent sticky overlays */
+            #blueprint-tooltip {
+                display: none !important;
+            }
+        }
     </style>
 </head>
 
@@ -1047,54 +1164,59 @@
             data-blueprint-dom="Full-width 100% attached toolbar directly under header with category filters and introductory paragraph."
             data-blueprint-desc="BlogListViewModel encapsulates Article list, CurrentCategory, and PagingInfo."
             data-blueprint-code="public class BlogListViewModel { public IEnumerable<BlogPost> Articles { get; set; } }">
-            <div class="store-fluid-container py-3.5 flex items-center flex-wrap md:flex-nowrap justify-between gap-6 w-full">
+            <div class="store-fluid-container py-3.5 sm:py-4 flex flex-col xl:flex-row xl:items-center justify-between gap-3.5 xl:gap-8 w-full">
 
-                <!-- Non-Bold Grey Paragraph Aligned on Left -->
-                <p class="text-xs sm:text-sm font-normal text-gray-600 leading-relaxed text-left flex-1 m-0">
-                    Welcome to the official field notes, lab documentation, and mischievous user guides for our absurd
-                    store inventions! Here you will find scientific breakdowns on dehydrated water, care instructions
-                    for invisible chameleons, windowsill botanical gossip, and fluid dynamics for left-handed coffee
-                    mugs.
-                </p>
+                <!-- Responsive Editorial Introduction -->
+                <div class="flex items-start gap-2.5 sm:gap-3 flex-1 min-w-0">
+                    <div class="h-7 w-7 sm:h-8 sm:w-8 rounded-lg bg-earth-100 text-earth-700 flex items-center justify-center text-xs sm:text-sm shrink-0 mt-0.5">
+                        <i class="fa-solid fa-scroll"></i>
+                    </div>
+                    <p class="text-xs sm:text-sm font-normal text-gray-600 leading-relaxed text-left max-w-4xl m-0">
+                        Welcome to the official field notes, lab documentation, and mischievous user guides for our absurd
+                        store inventions! Here you will find scientific breakdowns on dehydrated water, care instructions
+                        for invisible chameleons, windowsill botanical gossip, and fluid dynamics for left-handed coffee
+                        mugs.
+                    </p>
+                </div>
 
-                <!-- Vertical Divider on md+ screens -->
-                <div class="hidden md:block h-9 w-[1px] bg-canvas-border shrink-0"></div>
+                <!-- Vertical Divider on xl+ screens -->
+                <div class="hidden xl:block h-10 w-[1px] bg-canvas-border shrink-0"></div>
 
-                <!-- Blog Category Filter Buttons (Right Aligned) -->
-                <div class="flex flex-wrap items-center gap-2 text-xs shrink-0">
+                <!-- Blog Category Filter Buttons with smooth horizontal wrapping/scrolling on tablet & mobile -->
+                <div class="blog-cat-filters-container flex flex-wrap items-center gap-1.5 sm:gap-2 text-xs shrink-0 overflow-x-auto pb-1 xl:pb-0">
                     <button onclick="window.filterBlogCategory('all')"
                         data-blueprint-file="WackyStore.Domain/Abstract/IBlogRepository.cs"
                         data-blueprint-role="Linq Category Filter Action" data-blueprint-layer="Domain / Query"
                         data-blueprint-dom="Pill button triggering .Where(a => category == null || a.Category == cat) query."
                         data-blueprint-desc="Filters displayed articles by category parameter."
                         data-blueprint-code="repository.GetArticles('all')"
-                        class="blog-cat-btn px-3.5 py-1.5 rounded-xl font-bold transition-all bg-appetite-700 text-white shadow-xs">All
+                        class="blog-cat-btn px-3 sm:px-3.5 py-1.5 rounded-xl font-bold transition-all bg-appetite-700 text-white shadow-xs text-[11px] sm:text-xs">All
                         Chronicles</button>
                     <button onclick="window.filterBlogCategory('Quantum Gastronomy')"
-                        class="blog-cat-btn px-3.5 py-1.5 rounded-xl font-bold transition-all bg-canvas-surface hover:bg-canvas-border text-earth-800 border border-canvas-border">Quantum
+                        class="blog-cat-btn px-3 sm:px-3.5 py-1.5 rounded-xl font-bold transition-all bg-canvas-surface hover:bg-canvas-border text-earth-800 border border-canvas-border text-[11px] sm:text-xs">Quantum
                         Gastronomy</button>
                     <button onclick="window.filterBlogCategory('Pet Care & Illusion')"
-                        class="blog-cat-btn px-3.5 py-1.5 rounded-xl font-bold transition-all bg-canvas-surface hover:bg-canvas-border text-earth-800 border border-canvas-border">Pet
+                        class="blog-cat-btn px-3 sm:px-3.5 py-1.5 rounded-xl font-bold transition-all bg-canvas-surface hover:bg-canvas-border text-earth-800 border border-canvas-border text-[11px] sm:text-xs">Pet
                         Care</button>
                     <button onclick="window.filterBlogCategory('Botanical Gossip')"
-                        class="blog-cat-btn px-3.5 py-1.5 rounded-xl font-bold transition-all bg-canvas-surface hover:bg-canvas-border text-earth-800 border border-canvas-border">Botanical
+                        class="blog-cat-btn px-3 sm:px-3.5 py-1.5 rounded-xl font-bold transition-all bg-canvas-surface hover:bg-canvas-border text-earth-800 border border-canvas-border text-[11px] sm:text-xs">Botanical
                         Gossip</button>
                     <button onclick="window.filterBlogCategory('Cosmic Anomalies')"
-                        class="blog-cat-btn px-3.5 py-1.5 rounded-xl font-bold transition-all bg-canvas-surface hover:bg-canvas-border text-earth-800 border border-canvas-border">Cosmic
+                        class="blog-cat-btn px-3 sm:px-3.5 py-1.5 rounded-xl font-bold transition-all bg-canvas-surface hover:bg-canvas-border text-earth-800 border border-canvas-border text-[11px] sm:text-xs">Cosmic
                         Anomalies</button>
                 </div>
 
             </div>
         </div>
 
-        <!-- Blog Posts Grid Content (Fluid Container with 4 Columns) -->
-        <div class="store-fluid-container py-8 w-full">
+        <!-- Blog Posts Grid Content (Fluid Container with Responsive 1-4 Columns) -->
+        <div class="store-fluid-container py-6 sm:py-8 w-full">
             <div id="blog-posts-grid" data-blueprint-file="WackyStore.WebUI/Views/Blog/_ArticleSummary.cshtml"
                 data-blueprint-role="Article Summary Grid Container" data-blueprint-layer="WebUI / Partial View"
                 data-blueprint-dom="Fluid CSS Grid container rendering article summary cards."
                 data-blueprint-desc="Iterates through Model.Articles rendering card previews with full click-to-open reader modal functionality."
                 data-blueprint-code="@foreach (var item in Model.Articles) { @Html.Partial(&quot;_ArticleSummary&quot;, item) }"
-                class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 2xl:grid-cols-4 gap-6 sm:gap-8">
+                class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-4 sm:gap-6 lg:gap-8">
                 <!-- Posts dynamically rendered via JS -->
             </div>
         </div>
@@ -1690,31 +1812,32 @@
         data-blueprint-dom="Modal dialog displaying full article content, cover image, author info, and navigation action."
         data-blueprint-desc="Renders full BlogPost content when an article card is selected."
         data-blueprint-code="public ViewResult ArticleModal(string id) => View(repository.GetById(id));"
-        class="fixed inset-0 bg-black/70 backdrop-blur-sm z-50 hidden flex items-center justify-center p-4 sm:p-6"
+        class="fixed inset-0 bg-black/70 backdrop-blur-sm z-50 hidden flex items-center justify-center p-3 sm:p-4 md:p-6"
         onclick="if(event.target===this) window.closeBlogReaderModal()">
         <div
-            class="bg-white border border-canvas-border rounded-3xl w-full max-w-3xl max-h-[90vh] flex flex-col shadow-2xl overflow-hidden relative animate-rise-up">
+            class="bg-white border border-canvas-border rounded-2xl sm:rounded-3xl w-full max-w-3xl max-h-[92vh] sm:max-h-[90vh] flex flex-col shadow-2xl overflow-hidden relative animate-rise-up">
 
             <!-- Modal Header / Cover -->
-            <div class="relative h-48 sm:h-64 w-full overflow-hidden bg-earth-950">
+            <div id="blog-modal-cover-wrap" class="relative h-40 sm:h-52 md:h-60 w-full overflow-hidden bg-earth-950 shrink-0">
                 <img id="blog-modal-cover" src="" alt="Blog Cover" class="w-full h-full object-cover opacity-85" />
                 <div class="absolute inset-0 bg-gradient-to-t from-earth-950 via-earth-950/40 to-transparent"></div>
                 <button onclick="window.closeBlogReaderModal()"
-                    class="absolute top-4 right-4 h-10 w-10 rounded-full bg-black/50 hover:bg-black/80 text-white flex items-center justify-center transition-all border border-white/20 z-20">
-                    <i class="fa-solid fa-xmark text-lg"></i>
+                    class="absolute top-3 right-3 sm:top-4 sm:right-4 h-9 w-9 sm:h-10 sm:w-10 rounded-full bg-black/50 hover:bg-black/80 text-white flex items-center justify-center transition-all border border-white/20 z-20"
+                    aria-label="Close reader">
+                    <i class="fa-solid fa-xmark text-base sm:text-lg"></i>
                 </button>
-                <div class="absolute bottom-4 left-6 right-6 text-white space-y-1 z-10">
+                <div class="absolute bottom-3 left-4 right-4 sm:bottom-4 sm:left-6 sm:right-6 text-white space-y-1 z-10">
                     <span id="blog-modal-category"
-                        class="px-3 py-1 rounded-full bg-teal-400 text-earth-950 text-xs font-mono font-black uppercase">Category</span>
+                        class="px-2.5 sm:px-3 py-0.5 sm:py-1 rounded-full bg-teal-400 text-earth-950 text-[10px] sm:text-xs font-mono font-black uppercase">Category</span>
                     <h2 id="blog-modal-title"
-                        class="font-heading font-black text-xl sm:text-3xl text-amber-100 leading-tight">Title</h2>
+                        class="font-heading font-black text-lg sm:text-2xl md:text-3xl text-amber-100 leading-tight">Title</h2>
                 </div>
             </div>
 
             <!-- Modal Meta Info -->
             <div
-                class="px-6 sm:px-8 py-3 bg-canvas-surface border-b border-canvas-border flex items-center justify-between text-xs text-earth-600 font-medium flex-wrap gap-2">
-                <div class="flex items-center gap-4 flex-wrap">
+                class="px-4 sm:px-6 md:px-8 py-2.5 sm:py-3 bg-canvas-surface border-b border-canvas-border flex items-center justify-between text-[11px] sm:text-xs text-earth-600 font-medium flex-wrap gap-2 shrink-0">
+                <div class="flex items-center gap-3 sm:gap-4 flex-wrap">
                     <span id="blog-modal-author" class="flex items-center gap-1.5 font-bold text-earth-900">
                         <i class="fa-solid fa-user-astronaut text-appetite-700"></i>
                         <span>Author</span>
@@ -1732,20 +1855,19 @@
 
             <!-- Modal Article Body -->
             <div id="blog-modal-body"
-                class="p-6 sm:p-8 overflow-y-auto space-y-4 text-earth-900 font-sans leading-relaxed text-sm sm:text-base">
+                class="p-4 sm:p-6 md:p-8 overflow-y-auto space-y-3 sm:space-y-4 text-earth-900 font-sans leading-relaxed text-xs sm:text-sm md:text-base flex-1">
                 <!-- Inserted by JS -->
             </div>
 
             <!-- Modal Footer -->
             <div
-                class="px-6 sm:px-8 py-4 bg-canvas-base border-t border-canvas-border flex items-center justify-between">
+                class="px-4 sm:px-6 md:px-8 py-3 sm:py-4 bg-canvas-base border-t border-canvas-border flex items-center justify-between flex-wrap gap-2.5 shrink-0">
                 <button onclick="window.closeBlogReaderModal()"
-                    class="px-5 py-2.5 rounded-xl bg-earth-200 hover:bg-earth-300 text-earth-900 font-bold text-xs transition-all">
+                    class="px-4 sm:px-5 py-2 sm:py-2.5 rounded-xl bg-earth-200 hover:bg-earth-300 text-earth-900 font-bold text-xs transition-all">
                     Close Article
                 </button>
                 <button onclick="window.toggleViewStoreBlog(); window.closeBlogReaderModal();"
-                    class="px-5 py-2.5 rounded-xl bg-appetite-700 hover:bg-appetite-800 text-white font-bold text-xs flex items-center gap-2 transition-all shadow-md">
-                    <i class="fa-solid fa-store"></i>
+                    class="px-4 sm:px-5 py-2 sm:py-2.5 rounded-xl bg-appetite-700 hover:bg-appetite-800 text-white font-bold text-xs flex items-center gap-2 transition-all shadow-md">
                     <i class="fa-solid fa-store"></i>
                     <span>Browse Wacky Store</span>
                 </button>

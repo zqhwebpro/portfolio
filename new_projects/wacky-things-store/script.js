@@ -1744,8 +1744,8 @@
                          data-blueprint-dom="Clickable article card opening full blog reader modal."
                          data-blueprint-desc="Maps Domain.Entities.BlogPost entity properties (Title, Author, Excerpt, Content) to HTML preview markup."
                          data-blueprint-code="@model WackyStore.Domain.Entities.BlogPost"
-                         class="bg-white border border-canvas-border rounded-3xl overflow-hidden shadow-xs hover:shadow-xl transition-all duration-300 flex flex-col group hover:-translate-y-1.5 cursor-pointer">
-                    <div class="relative h-48 w-full overflow-hidden bg-earth-900">
+                         class="blog-article-card bg-white border border-canvas-border rounded-2xl sm:rounded-3xl overflow-hidden shadow-xs hover:shadow-xl transition-all duration-300 flex flex-col group hover:-translate-y-1.5 cursor-pointer">
+                    <div class="relative h-44 sm:h-48 w-full overflow-hidden bg-earth-900 shrink-0">
                         <img src="${post.image}" alt="${post.title}" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500 opacity-90" />
                         <div class="absolute top-3 left-3">
                             <span class="px-3 py-1 rounded-full bg-teal-400 text-earth-950 font-mono font-black text-[10px] uppercase tracking-wider shadow-sm">
@@ -1754,13 +1754,13 @@
                         </div>
                     </div>
 
-                    <div class="p-6 flex-1 flex flex-col justify-between space-y-4">
+                    <div class="p-4 sm:p-5 md:p-6 flex-1 flex flex-col justify-between gap-3 sm:gap-4">
                         <div class="space-y-2">
                             <div class="flex items-center justify-between text-xs text-earth-500 font-medium">
                                 <span>${post.date}</span>
                                 <span class="font-mono text-purple-700 font-bold">${post.readTime}</span>
                             </div>
-                            <h3 class="font-heading font-black text-xl text-earth-950 leading-tight group-hover:text-purple-700 transition-colors">
+                            <h3 class="font-heading font-black text-base sm:text-lg md:text-xl text-earth-950 leading-snug group-hover:text-purple-700 transition-colors line-clamp-2">
                                 ${post.title}
                             </h3>
                             <p class="text-xs sm:text-sm text-earth-600 line-clamp-3 leading-relaxed">
@@ -1768,12 +1768,12 @@
                             </p>
                         </div>
 
-                        <div class="pt-4 border-t border-canvas-border flex items-center justify-between">
-                            <div class="flex items-center gap-2 text-xs font-bold text-earth-900">
+                        <div class="pt-3 sm:pt-4 border-t border-canvas-border flex items-center justify-between gap-2 flex-wrap">
+                            <div class="flex items-center gap-1.5 text-xs font-bold text-earth-900 min-w-0 truncate">
                                 <i class="fa-solid fa-user-astronaut text-appetite-700"></i>
-                                <span>${post.author}</span>
+                                <span class="truncate">${post.author}</span>
                             </div>
-                            <span class="px-3.5 py-1.5 rounded-xl bg-canvas-surface group-hover:bg-purple-100 text-purple-900 font-bold text-xs transition-all flex items-center gap-1.5">
+                            <span class="px-2.5 sm:px-3.5 py-1 sm:py-1.5 rounded-xl bg-canvas-surface group-hover:bg-purple-100 text-purple-900 font-bold text-[11px] sm:text-xs transition-all flex items-center gap-1.5 shrink-0">
                                 <span>Read Story</span>
                                 <i class="fa-solid fa-arrow-right text-[10px]"></i>
                             </span>
