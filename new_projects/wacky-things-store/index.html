@@ -464,6 +464,16 @@
             color: #c4b5fd !important;
         }
 
+        /* Attached Blog Filter Bar in Dark Mode */
+        body.dark-mode #blog-filter-bar {
+            background-color: #0b0f19 !important;
+            border-color: #1f2937 !important;
+        }
+
+        body.dark-mode #blog-filter-bar p {
+            color: #94a3b8 !important;
+        }
+
         /* Category Filter Sidebar in Dark Mode */
         body.dark-mode .category-sidebar-card,
         body.dark-mode .bg-surface-card {
@@ -599,7 +609,7 @@
                 data-blueprint-dom="Typographic brand heading with playful icon in deep purple with teal accents."
                 data-blueprint-desc="Clicking the logo triggers ProductController.List() with default parameters, demonstrating ASP.NET standard MVC route resolution (~/Product/List)."
                 data-blueprint-code="@Html.ActionLink(&quot;WACKY THINGS CO.&quot;, &quot;List&quot;, &quot;Product&quot;, new { category = (string)null }, new { @class = &quot;navbar-brand&quot; })"
-                onclick="window.resetFilters()">
+                onclick="window.goToStoreCatalog()">
                 <div
                     class="h-10 w-10 rounded-xl bg-appetite-700 text-white flex items-center justify-center text-lg shadow-md shadow-appetite-800/20 group-hover:scale-105 transition-transform">
                     <i class="fa-solid fa-hat-wizard"></i>
@@ -1029,16 +1039,16 @@
         data-blueprint-dom="Main container displaying active Wacky Chronicles articles and category filter queries."
         data-blueprint-desc="BlogController queries IBlogRepository to supply IEnumerable<BlogPost> items to the Index view with category filtering."
         data-blueprint-code="public ViewResult Index(string cat) => View(repository.GetArticles(cat));"
-        class="bg-canvas-base text-earth-950 py-8 flex-1 w-full hidden">
-        <div class="store-fluid-container space-y-6 max-w-[1400px] mx-auto">
+        class="bg-canvas-base text-earth-950 flex-1 w-full hidden pt-0 pb-12">
 
-            <!-- Blog Header Bar: Category Filters on LEFT, Non-Bold Grey Paragraph Aligned Next to It -->
-            <div class="bg-white border border-canvas-border rounded-2xl p-4 flex items-center flex-wrap md:flex-nowrap gap-4 shadow-xs"
-                data-blueprint-file="WackyStore.WebUI/Models/BlogListViewModel.cs"
-                data-blueprint-role="Blog Index Header &amp; Filter Bar" data-blueprint-layer="WebUI / View"
-                data-blueprint-dom="Combined header container placing category filter pills on the left side-by-side with grey introductory paragraph."
-                data-blueprint-desc="BlogListViewModel encapsulates Article list, CurrentCategory, and PagingInfo."
-                data-blueprint-code="public class BlogListViewModel { public IEnumerable<BlogPost> Articles { get; set; } }">
+        <!-- 100% Width Attached Sub-Header Filter Bar (placed directly under header) -->
+        <div id="blog-filter-bar" class="w-full bg-white border-b border-canvas-border shadow-xs sticky top-[68px] z-30"
+            data-blueprint-file="WackyStore.WebUI/Models/BlogListViewModel.cs"
+            data-blueprint-role="Blog Index Header &amp; Filter Bar" data-blueprint-layer="WebUI / View"
+            data-blueprint-dom="Full-width 100% attached toolbar directly under header with category filters and introductory paragraph."
+            data-blueprint-desc="BlogListViewModel encapsulates Article list, CurrentCategory, and PagingInfo."
+            data-blueprint-code="public class BlogListViewModel { public IEnumerable<BlogPost> Articles { get; set; } }">
+            <div class="store-fluid-container max-w-[1400px] mx-auto py-3.5 px-4 sm:px-6 flex items-center flex-wrap md:flex-nowrap justify-between gap-4">
 
                 <!-- Non-Bold Grey Paragraph Aligned on Left -->
                 <p class="text-xs sm:text-sm font-normal text-gray-600 leading-relaxed text-left flex-1 m-0">
@@ -1076,8 +1086,10 @@
                 </div>
 
             </div>
+        </div>
 
-            <!-- Blog Posts Grid -->
+        <!-- Blog Posts Grid Content (Contained at 1400px) -->
+        <div class="store-fluid-container max-w-[1400px] mx-auto py-8">
             <div id="blog-posts-grid" data-blueprint-file="WackyStore.WebUI/Views/Blog/_ArticleSummary.cshtml"
                 data-blueprint-role="Article Summary Grid Container" data-blueprint-layer="WebUI / Partial View"
                 data-blueprint-dom="Fluid CSS Grid container rendering article summary cards."
@@ -1086,7 +1098,6 @@
                 class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 sm:gap-8">
                 <!-- Posts dynamically rendered via JS -->
             </div>
-
         </div>
     </main>
 
@@ -1601,7 +1612,7 @@
         data-blueprint-desc="Renders the newsletter signup form. Posts email subscriptions to the Newsletter controller."
         data-blueprint-code="[HttpPost] public ActionResult Subscribe(string email) { ... }">
         <div class="store-fluid-container relative z-10 flex flex-col items-center text-center">
-            <h2 class="text-4xl sm:text-5xl font-black font-heading text-earth-900 mb-4 transform -rotate-2">GET WACKY MAIL!</h2>
+            <h2 class="text-4xl sm:text-5xl font-black font-heading text-earth-900 mb-4 transform -rotate-2">GET MAIL!</h2>
             <p class="text-lg font-bold text-earth-800 bg-white px-4 py-1 rounded border-2 border-earth-900 transform rotate-1 mb-6">Sign up for exclusive nonsense and 0% useful information!</p>
             <form onsubmit="subscribeToNewsletter(event)" class="flex flex-col sm:flex-row gap-3 w-full max-w-2xl">
                 <input type="email" id="newsletter-email" placeholder="Enter your email (we dare you)" required class="flex-1 p-4 rounded-xl border-4 border-earth-900 font-bold focus:outline-none focus:ring-4 focus:ring-appetite-400 text-lg shadow-[4px_4px_0px_#1C1917]" />
@@ -1672,7 +1683,7 @@
     </footer>
 
     <!-- CLIENT APPLICATION SCRIPT -->
-    <script src="script.js?v=639259396579471288"></script>
+    <script src="script.js?v=1790392244000"></script>
 
     <!-- BLOG POST READER MODAL -->
     <div id="blog-reader-modal" data-blueprint-file="WackyStore.WebUI/Views/Blog/ReaderModal.cshtml"

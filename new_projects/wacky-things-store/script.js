@@ -989,7 +989,34 @@
             renderCatalog();
         }
 
+        function goToStoreCatalog() {
+            if (typeof closeProductModal === 'function') closeProductModal();
+            if (typeof closeCartDrawer === 'function') closeCartDrawer();
+            if (typeof closeBlogReaderModal === 'function') closeBlogReaderModal();
+            const adminModal = document.getElementById('admin-modal-backdrop');
+            if (adminModal) adminModal.classList.add('hidden');
+            const archModal = document.getElementById('arch-modal-backdrop');
+            if (archModal) archModal.classList.add('hidden');
+            const checkoutModal = document.getElementById('checkout-modal-backdrop');
+            if (checkoutModal) checkoutModal.classList.add('hidden');
+
+            if (window.currentView && window.currentView !== 'store') {
+                if (typeof window.toggleViewStoreBlog === 'function') {
+                    window.toggleViewStoreBlog('store');
+                }
+            }
+
+            resetFilters();
+            window.scrollTo({ top: 0, behavior: 'smooth' });
+        }
+        window.goToStoreCatalog = goToStoreCatalog;
+
         function resetFilters() {
+            if (window.currentView && window.currentView !== 'store') {
+                if (typeof window.toggleViewStoreBlog === 'function') {
+                    window.toggleViewStoreBlog('store');
+                }
+            }
             activeCategory = 'all';
             clearSearch();
             priceFilter = 'all';
