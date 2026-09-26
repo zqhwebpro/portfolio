@@ -1,18 +1,14 @@
 <?php
 /**
- * Front to the WordPress application. This file doesn't do anything, but loads
- * wp-blog-header.php which tells WordPress to load the theme.
- *
- * @package WordPress
- * @subpackage ForHire
+ * ZQH Studio — Freelance Business Website Entrypoint
+ * Supports PHP server hosting with static HTML fallback for GitHub Pages.
  */
 
-/**
- * Tells WordPress to load the WordPress theme and output it.
- *
- * @var bool
- */
-define( 'WP_USE_THEMES', true );
+if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_GET['action']) && $_GET['action'] === 'contact') {
+    require __DIR__ . '/contact-process.php';
+    exit;
+}
 
-/** Loads the WordPress Environment and Template */
-require __DIR__ . '/wp-blog-header.php';
+// Serve the primary freelance application
+readfile(__DIR__ . '/index.html');
+exit;
