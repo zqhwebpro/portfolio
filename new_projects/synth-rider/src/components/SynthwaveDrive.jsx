@@ -4,60 +4,6 @@ import { WaveformVisualizer } from './WaveformVisualizer';
 import { SpotifyRadio } from './SpotifyRadio';
 import { MOVIE_QUOTES } from '../data/movieQuotes';
 
-// Web Audio API collection sound generator
-function playCollectionSound() {
-  try {
-    const AudioContextClass = window.AudioContext || window.webkitAudioContext;
-    if (!AudioContextClass) return;
-    if (!window.__synthwaveAudioCtx) {
-      window.__synthwaveAudioCtx = new AudioContextClass();
-    }
-    const ctx = window.__synthwaveAudioCtx;
-    if (ctx.state === 'suspended') {
-      ctx.resume();
-    }
-    const now = ctx.currentTime;
-
-    const osc1 = ctx.createOscillator();
-    const osc2 = ctx.createOscillator();
-    const gainNode = ctx.createGain();
-
-    osc1.type = 'triangle';
-    osc2.type = 'sine';
-
-    // Arpeggiated upbeat arcade collection chime (E5 -> G#5 -> B5 -> E6)
-    osc1.frequency.setValueAtTime(659.25, now);
-    osc1.frequency.setValueAtTime(830.61, now + 0.05);
-    osc1.frequency.setValueAtTime(987.77, now + 0.10);
-    osc1.frequency.setValueAtTime(1318.51, now + 0.15);
-
-    osc2.frequency.setValueAtTime(1318.51, now);
-    osc2.frequency.setValueAtTime(1661.22, now + 0.05);
-    osc2.frequency.setValueAtTime(1975.53, now + 0.10);
-    osc2.frequency.setValueAtTime(2637.02, now + 0.15);
-
-    gainNode.gain.setValueAtTime(0.28, now);
-    gainNode.gain.exponentialRampToValueAtTime(0.0001, now + 0.45);
-
-    osc1.connect(gainNode);
-    osc2.connect(gainNode);
-    gainNode.connect(ctx.destination);
-
-    osc1.start(now);
-    osc2.start(now);
-    osc1.stop(now + 0.45);
-    osc2.stop(now + 0.45);
-  } catch (err) {
-    // Audio Context might need user interaction first
-  }
-}
-
-function unlockAudio() {
-  if (window.__synthwaveAudioCtx && window.__synthwaveAudioCtx.state === 'suspended') {
-    window.__synthwaveAudioCtx.resume();
-  }
-}
-
 export function SynthwaveDrive() {
   const canvasRef = useRef(null);
   const viewportRef = useRef(null);
@@ -69,11 +15,8 @@ export function SynthwaveDrive() {
   const [isAudioPlaying, setIsAudioPlaying] = useState(true);
   const [autoDrive, setAutoDrive] = useState(false);
   const [playerX, setPlayerX] = useState(0); // Left/Right lateral position (-0.85 to +0.85)
-  const [collectedSignIds, setCollectedSignIds] = useState(new Set());
-  const [collectedCount, setCollectedCount] = useState(0);
 
   const quotesRef = useRef(MOVIE_QUOTES);
-  const hitCheckedSignsRef = useRef(new Set());
 
   // Animation & simulation refs
   const autoDriveRef = useRef(false);
@@ -114,7 +57,6 @@ export function SynthwaveDrive() {
   }, []);
 
   const toggleAutoDrive = () => {
-    unlockAudio();
     setAutoDrive((prev) => {
       const next = !prev;
       autoDriveRef.current = next;
@@ -125,7 +67,6 @@ export function SynthwaveDrive() {
   // Keyboard left/right steering on the Tron road
   useEffect(() => {
     const handleKeyDown = (e) => {
-      unlockAudio();
       if (e.key === 'ArrowLeft' || e.key === 'a' || e.key === 'A') {
         keysPressedRef.current.left = true;
       } else if (e.key === 'ArrowRight' || e.key === 'd' || e.key === 'D') {
@@ -153,7 +94,6 @@ export function SynthwaveDrive() {
   // Fluid momentum wheel / scroll interaction
   useEffect(() => {
     const handleWheel = (e) => {
-      unlockAudio();
       const deltaMag = Math.min(Math.abs(e.deltaY), 120);
       const impulse = deltaMag * 0.35;
 
@@ -189,44 +129,6 @@ export function SynthwaveDrive() {
       })
     );
   }, [driveDistance]);
-
-  // Hit-check detection: play collection sound if user directly runs over a sign
-  useEffect(() => {
-    if (speedRef.current <= 0 || directionRef.current <= 0) return;
-
-    popups.forEach((popup) => {
-      const rawProgress = (driveDistance - popup.startDist) / 36;
-
-      // When the sign is directly at the car's front bumper level
-      if (rawProgress >= 0.90 && rawProgress <= 1.04) {
-        if (!hitCheckedSignsRef.current.has(popup.id)) {
-          const p = Math.max(0, Math.min(1, rawProgress));
-          const progressY = Math.pow(p, 2.5);
-          const isLeft = popup.number % 2 === 0;
-          const lineIndex = isLeft ? -2 : 2;
-
-          const startX_pct = 50 - playerXRef.current * 4 + (lineIndex / 26) * 5;
-          const endX_pct = 50 - playerXRef.current * 40 + lineIndex * 8;
-          const currentX_pct = startX_pct + (endX_pct - startX_pct) * progressY;
-
-          const offsetFromCar = Math.abs(currentX_pct - 50);
-
-          // If car directly runs over the sign (within hit zone tolerance threshold)
-          if (offsetFromCar <= 13) {
-            hitCheckedSignsRef.current.add(popup.id);
-            playCollectionSound();
-            setCollectedCount((prev) => prev + 1);
-            setCollectedSignIds((prev) => new Set(prev).add(popup.id));
-          }
-        }
-      } else if (rawProgress > 1.04) {
-        // Sign has passed the car without a direct hit -> mark as checked (NO sound)
-        if (!hitCheckedSignsRef.current.has(popup.id)) {
-          hitCheckedSignsRef.current.add(popup.id);
-        }
-      }
-    });
-  }, [driveDistance, popups]);
 
   // Canvas 3D Perspective Grid & Scene Render Loop
   useEffect(() => {
@@ -266,7 +168,7 @@ export function SynthwaveDrive() {
       // Handle speed adjustments (auto-drive cruise vs momentum deceleration)
       if (autoDriveRef.current) {
         directionRef.current = 1;
-        speedRef.current = speedRef.current + (40 - speedRef.current) * 0.05; // Ease to 40 mph
+        speedRef.current = speedRef.current + (30 - speedRef.current) * 0.05; // Ease to 30 mph
       } else {
         if (speedRef.current > 0.1) {
           speedRef.current = speedRef.current * 0.95;
@@ -387,13 +289,7 @@ export function SynthwaveDrive() {
       >
         <span style={{ color: '#00F0FF', fontWeight: 800 }}>← / → or A / D</span>
         <span style={{ color: 'rgba(255,255,255,0.4)' }}>•</span>
-        <span>Run Over Signs to Collect Quotes</span>
-        {collectedCount > 0 && (
-          <>
-            <span style={{ color: 'rgba(255,255,255,0.4)' }}>•</span>
-            <span style={{ color: '#00FF66', fontWeight: 800 }}>Collected: {collectedCount}</span>
-          </>
-        )}
+        <span>Steer Across Highway</span>
       </div>
 
       {/* Auto Drive Toggle Button */}
@@ -430,7 +326,6 @@ export function SynthwaveDrive() {
           popup={popup}
           driveDistance={driveDistance}
           playerX={playerX}
-          isCollected={collectedSignIds.has(popup.id)}
         />
       ))}
     </div>
@@ -553,7 +448,7 @@ function drawGridFloor(ctx, width, height, horizonY, sunCenterX, offset, playerX
 // Roadside Sign Popup Component
 // ----------------------------------------------------------------------------
 
-function RoadsideSign({ popup, driveDistance, playerX = 0, isCollected = false }) {
+function RoadsideSign({ popup, driveDistance, playerX = 0 }) {
   const rawProgress = (driveDistance - popup.startDist) / 36;
   if (rawProgress > 1.05) return null;
 
@@ -564,8 +459,7 @@ function RoadsideSign({ popup, driveDistance, playerX = 0, isCollected = false }
   const topPct = 52 + progressY * 45;
 
   // Scale starts extremely small at horizon
-  const baseScale = Math.max(0.01, progressY * 3.0);
-  const scale = isCollected ? baseScale * 1.15 : baseScale;
+  const scale = Math.max(0.01, progressY * 3.0);
 
   // Fully opaque until it passes the camera
   const opacity = p > 0.85 ? Math.max(0, 1 - (p - 0.85) * 6.6) : 1;
@@ -579,9 +473,9 @@ function RoadsideSign({ popup, driveDistance, playerX = 0, isCollected = false }
   const endX_pct = 50 - playerX * 40 + lineIndex * 8;
   const currentX_pct = startX_pct + (endX_pct - startX_pct) * progressY;
 
-  const primaryWaveColor = isCollected ? '#00FF66' : (isLeft ? '#00F0FF' : '#FF007F');
-  const waveGlowRgba = isCollected ? 'rgba(0, 255, 102, 0.9)' : (isLeft ? 'rgba(0, 240, 255, 0.6)' : 'rgba(255, 0, 127, 0.6)');
-  const secondaryGlowRgba = isCollected ? 'rgba(0, 240, 255, 0.7)' : (isLeft ? 'rgba(255, 0, 127, 0.35)' : 'rgba(0, 240, 255, 0.35)');
+  const primaryWaveColor = isLeft ? '#00F0FF' : '#FF007F';
+  const waveGlowRgba = isLeft ? 'rgba(0, 240, 255, 0.6)' : 'rgba(255, 0, 127, 0.6)';
+  const secondaryGlowRgba = isLeft ? 'rgba(255, 0, 127, 0.35)' : 'rgba(0, 240, 255, 0.35)';
 
   const quoteText = popup.quote || popup.text || '';
   const isLong = quoteText.length > 95;
@@ -605,9 +499,7 @@ function RoadsideSign({ popup, driveDistance, playerX = 0, isCollected = false }
     >
       <div
         style={{
-          background: isCollected
-            ? 'linear-gradient(135deg, rgba(0, 35, 20, 0.96) 0%, rgba(10, 50, 40, 0.96) 50%, rgba(3, 14, 36, 0.96) 100%)'
-            : 'linear-gradient(135deg, rgba(8, 2, 28, 0.94) 0%, rgba(22, 4, 42, 0.94) 50%, rgba(3, 14, 36, 0.96) 100%)',
+          background: 'linear-gradient(135deg, rgba(8, 2, 28, 0.94) 0%, rgba(22, 4, 42, 0.94) 50%, rgba(3, 14, 36, 0.96) 100%)',
           backdropFilter: 'blur(16px)',
           border: `2.5px solid ${primaryWaveColor}`,
           borderRadius: '12px',
@@ -620,7 +512,7 @@ function RoadsideSign({ popup, driveDistance, playerX = 0, isCollected = false }
           justifyContent: 'center',
           alignItems: 'center',
           boxShadow: `0 12px 35px rgba(0, 0, 0, 0.8), 0 0 30px ${waveGlowRgba}, 0 0 55px ${secondaryGlowRgba}, inset 0 0 20px ${
-            isCollected ? 'rgba(0, 255, 102, 0.25)' : (isLeft ? 'rgba(0, 240, 255, 0.18)' : 'rgba(255, 0, 127, 0.18)')
+            isLeft ? 'rgba(0, 240, 255, 0.18)' : 'rgba(255, 0, 127, 0.18)'
           }`,
           textAlign: 'center',
           position: 'relative',
@@ -635,31 +527,10 @@ function RoadsideSign({ popup, driveDistance, playerX = 0, isCollected = false }
             left: 0,
             right: 0,
             height: '4px',
-            background: isCollected
-              ? 'linear-gradient(90deg, #00FF66 0%, #00F0FF 100%)'
-              : 'linear-gradient(90deg, #FF9900 0%, #FF4400 50%, #FF0055 100%)',
-            boxShadow: isCollected ? '0 0 12px #00FF66' : '0 0 10px #FF5500, 0 0 16px #FF0044',
+            background: 'linear-gradient(90deg, #FF9900 0%, #FF4400 50%, #FF0055 100%)',
+            boxShadow: '0 0 10px #FF5500, 0 0 16px #FF0044',
           }}
         />
-
-        {/* Collected Badge */}
-        {isCollected && (
-          <div
-            style={{
-              position: 'absolute',
-              top: '8px',
-              right: '12px',
-              fontFamily: 'var(--font-mono, monospace)',
-              fontSize: '0.62rem',
-              fontWeight: 900,
-              color: '#00FF66',
-              letterSpacing: '0.1em',
-              textShadow: '0 0 8px #00FF66',
-            }}
-          >
-            ★ COLLECTED!
-          </div>
-        )}
 
         {/* Movie Quote Text */}
         <div

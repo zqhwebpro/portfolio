@@ -1,0 +1,1010 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="theme-color" content="#2271b1" />
+  <title>For Hire | WordPress Bones Theme &amp; WooCommerce Architecture — Zach Heindel</title>
+  <meta name="description"
+    content="Production-ready WordPress installation featuring the Bones development theme and custom WooCommerce engineering by Zach Heindel. Explore service packages, cart architecture, and source code." />
+  <meta name="keywords"
+    content="WordPress Developer, WooCommerce Developer, Bones Theme, Custom Theme Development, WordPress For Hire, PHP OOP, Zach Heindel, ZQH.WEBPRO" />
+  <meta name="author" content="Zach Heindel" />
+  <link rel="canonical" href="https://zqhwebpro.github.io/portfolio/new_projects/for-hire/" />
+  <link rel="icon" href="./favicon.png" type="image/png" />
+
+  <!-- Open Graph / Social SEO -->
+  <meta property="og:type" content="website" />
+  <meta property="og:title" content="For Hire | WordPress Bones Theme &amp; WooCommerce Architecture" />
+  <meta property="og:description"
+    content="Production WordPress environment with Bones theme and custom WooCommerce engineering. Explore interactive services, checkout flow, and code inspection." />
+  <meta property="og:url" content="https://zqhwebpro.github.io/portfolio/new_projects/for-hire/" />
+  <meta property="og:site_name" content="ZQH.WEBPRO" />
+  <meta property="og:image" content="https://zqhwebpro.github.io/portfolio/2026/media/zqh-portfolio.png" />
+
+  <!-- Twitter Card SEO -->
+  <meta name="twitter:card" content="summary_large_image" />
+  <meta name="twitter:title" content="For Hire | WordPress Bones Theme &amp; WooCommerce Architecture" />
+  <meta name="twitter:description"
+    content="Production WordPress environment with Bones theme and custom WooCommerce engineering by Zach Heindel." />
+  <meta name="twitter:image" content="https://zqhwebpro.github.io/portfolio/2026/media/zqh-portfolio.png" />
+
+  <!-- JSON-LD AI SEO Structured Data -->
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "WebApplication",
+    "name": "WordPress Bones Theme & WooCommerce For Hire",
+    "applicationCategory": "BusinessApplication",
+    "operatingSystem": "Web Browser",
+    "description": "Production WordPress installation featuring the responsive Bones development theme, custom WooCommerce templates, and developer service packages.",
+    "url": "https://zqhwebpro.github.io/portfolio/new_projects/for-hire/",
+    "author": {
+      "@type": "Person",
+      "name": "Zach Heindel",
+      "url": "https://zqhwebpro.github.io/portfolio/2026/"
+    },
+    "programmingLanguage": ["PHP", "WordPress API", "WooCommerce API", "HTML5", "CSS3", "JavaScript"]
+  }
+  </script>
+
+  <!-- Google Fonts & Font Awesome -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link
+    href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;500;600&display=swap"
+    rel="stylesheet">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css" />
+  <link rel="stylesheet" href="./wp-content/themes/bones/library/css/style.css" />
+
+  <style>
+    /* Interactive Demo Extras & Overlays */
+    .wp-admin-bar-sim {
+      background: #1d2327;
+      color: #c3c4c7;
+      font-size: 0.8rem;
+      padding: 0 1.5rem;
+      height: 36px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      font-family: var(--font-sans);
+      border-bottom: 1px solid #3c434a;
+    }
+
+    .wp-admin-bar-sim a {
+      color: #c3c4c7;
+      text-decoration: none;
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      padding: 0 8px;
+      height: 100%;
+    }
+
+    .wp-admin-bar-sim a:hover {
+      background: #2c3338;
+      color: #72aee6;
+    }
+
+    .demo-control-bar {
+      background: #ffffff;
+      border-bottom: 1px solid #dcdcde;
+      padding: 8px 1.5rem;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      flex-wrap: wrap;
+      gap: 10px;
+    }
+
+    .demo-pill-btn {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      font-size: 0.76rem;
+      font-weight: 700;
+      padding: 6px 12px;
+      border-radius: 6px;
+      border: 1px solid #dcdcde;
+      background: #f6f7f7;
+      color: #2c3338;
+      cursor: pointer;
+      transition: all 0.15s ease;
+      text-decoration: none !important;
+    }
+
+    .demo-pill-btn:hover,
+    .demo-pill-btn.active {
+      background: #2271b1;
+      color: #ffffff;
+      border-color: #2271b1;
+    }
+
+    .demo-pill-btn.case-study {
+      background: #fcf0f0;
+      color: #d63638;
+      border-color: #f0c5c5;
+    }
+
+    .demo-pill-btn.case-study:hover {
+      background: #d63638;
+      color: #ffffff;
+      border-color: #d63638;
+    }
+
+    /* Modal for Code Inspector */
+    .code-modal-backdrop {
+      display: none;
+      position: fixed;
+      inset: 0;
+      background: rgba(0, 0, 0, 0.75);
+      z-index: 99999;
+      align-items: center;
+      justify-content: center;
+      padding: 20px;
+    }
+
+    .code-modal-backdrop.open {
+      display: flex;
+    }
+
+    .code-modal {
+      background: #1e1e1e;
+      color: #d4d4d4;
+      width: 100%;
+      max-width: 900px;
+      max-height: 85vh;
+      border-radius: 10px;
+      display: flex;
+      flex-direction: column;
+      overflow: hidden;
+      box-shadow: 0 16px 40px rgba(0, 0, 0, 0.6);
+      border: 1px solid #3c434a;
+    }
+
+    .code-modal-header {
+      background: #252526;
+      padding: 12px 18px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      border-bottom: 1px solid #3c434a;
+    }
+
+    .code-modal-tabs {
+      display: flex;
+      gap: 6px;
+      flex-wrap: wrap;
+    }
+
+    .code-tab-btn {
+      background: #2d2d2d;
+      color: #9cdcfe;
+      border: 1px solid #3c434a;
+      padding: 4px 10px;
+      border-radius: 4px;
+      font-size: 0.75rem;
+      font-family: var(--font-mono);
+      cursor: pointer;
+    }
+
+    .code-tab-btn.active {
+      background: #2271b1;
+      color: #ffffff;
+      border-color: #2271b1;
+    }
+
+    .code-modal-content {
+      padding: 16px;
+      overflow-y: auto;
+      font-family: var(--font-mono);
+      font-size: 0.8rem;
+      line-height: 1.5;
+      background: #141414;
+      white-space: pre-wrap;
+      word-break: break-all;
+    }
+
+    .admin-metrics-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+      gap: 16px;
+      margin-bottom: 24px;
+    }
+
+    .admin-metric-card {
+      background: #ffffff;
+      border: 1px solid #dcdcde;
+      border-radius: 8px;
+      padding: 16px;
+      box-shadow: 0 1px 3px rgba(0, 0, 0, 0.04);
+    }
+
+    .admin-metric-card .val {
+      font-size: 1.6rem;
+      font-weight: 800;
+      color: #2271b1;
+      margin: 4px 0;
+    }
+
+    .toast-notice {
+      position: fixed;
+      bottom: 24px;
+      right: 24px;
+      background: #1e1e1e;
+      color: #ffffff;
+      padding: 12px 20px;
+      border-radius: 8px;
+      font-weight: 600;
+      font-size: 0.9rem;
+      box-shadow: 0 8px 24px rgba(0, 0, 0, 0.35);
+      border-left: 4px solid #008a20;
+      z-index: 9999;
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      transform: translateY(100px);
+      opacity: 0;
+      transition: all 0.3s ease;
+    }
+
+    .toast-notice.show {
+      transform: translateY(0);
+      opacity: 1;
+    }
+  </style>
+</head>
+
+<body class="bones-theme woocommerce-active">
+
+  <!-- Simulated WordPress Admin Bar -->
+  <div class="wp-admin-bar-sim">
+    <div style="display: flex; align-items: center; gap: 8px;">
+      <a href="javascript:void(0)" onclick="window.setView('shop')"><i class="fa-brands fa-wordpress"></i> <span>For Hire</span></a>
+      <a href="javascript:void(0)" onclick="window.setView('admin')"><i class="fa-solid fa-gauge-high"></i> <span>WP-Admin</span></a>
+      <a href="javascript:void(0)" onclick="window.setView('cart')"><i class="fa-solid fa-cart-shopping"></i> <span>Store</span></a>
+    </div>
+    <div style="display: flex; align-items: center; gap: 8px;">
+      <a href="javascript:void(0)" onclick="window.openCodeInspector('wp-config')"><i class="fa-solid fa-file-code"></i> <span>Inspect PHP Source</span></a>
+      <span>Howdy, <strong>Client</strong></span>
+    </div>
+  </div>
+
+  <!-- Interactive Controls Ribbon -->
+  <div class="demo-control-bar">
+    <div style="display: flex; align-items: center; gap: 8px; flex-wrap: wrap;">
+      <span style="font-size: 0.78rem; font-weight: 800; color: #646970; text-transform: uppercase;">Views:</span>
+      <button class="demo-pill-btn active" id="btn-view-shop" onclick="window.setView('shop')"><i class="fa-solid fa-store"></i> Services Shop</button>
+      <button class="demo-pill-btn" id="btn-view-cart" onclick="window.setView('cart')"><i class="fa-solid fa-cart-shopping"></i> Cart &amp; Totals (<span id="btn-cart-count">0</span>)</button>
+      <button class="demo-pill-btn" id="btn-view-checkout" onclick="window.setView('checkout')"><i class="fa-solid fa-credit-card"></i> Checkout</button>
+      <button class="demo-pill-btn" id="btn-view-admin" onclick="window.setView('admin')"><i class="fa-solid fa-sliders"></i> Admin Dashboard</button>
+    </div>
+    <div style="display: flex; align-items: center; gap: 8px;">
+      <button class="demo-pill-btn" onclick="window.openCodeInspector('functions')"><i class="fa-solid fa-code"></i> Bones Hooks</button>
+      <a href="./case-study.html" class="demo-pill-btn case-study"><i class="fa-solid fa-book-open"></i> Technical Case Study</a>
+    </div>
+  </div>
+
+  <!-- WordPress Bones Container -->
+  <div id="container">
+    <header class="header" role="banner">
+      <div id="inner-header" class="wrap cf">
+        <div>
+          <p id="logo" class="h1">
+            <a href="javascript:void(0)" onclick="window.setView('shop')">FOR HIRE <span>//</span> WP+WC</a>
+          </p>
+          <div class="site-desc">WordPress Bones Theme &amp; WooCommerce Engineering</div>
+        </div>
+        <nav role="navigation">
+          <ul id="main-nav" class="nav">
+            <li><a href="javascript:void(0)" onclick="window.setView('shop')">Engineering Packages</a></li>
+            <li><a href="../../2026/index.html">Main Portfolio</a></li>
+            <li><a href="../index.html">Projects</a></li>
+            <li>
+              <a href="javascript:void(0)" onclick="window.setView('cart')" class="cart-link-btn">
+                <i class="fa-solid fa-cart-shopping"></i>
+                <span>Cart</span>
+                <span id="cart-item-count" class="cart-badge">0</span>
+              </a>
+            </li>
+          </ul>
+        </nav>
+      </div>
+    </header>
+
+    <!-- Main Content Area -->
+    <div id="content">
+      <div id="inner-content" class="wrap cf">
+
+        <main id="main" class="m-all t-2of3 d-5of7 cf" role="main">
+
+          <!-- VIEW: SHOP / SERVICE PACKAGES -->
+          <div id="view-shop">
+            <div class="bones-hero-banner">
+              <h1>Custom WordPress &amp; WooCommerce Engineering</h1>
+              <p>Production-grade Bones theme architecture, custom post types, and WooCommerce template customization tailored for high-performance client delivery.</p>
+              <div class="hero-tags">
+                <span class="hero-tag"><i class="fa-brands fa-wordpress"></i> WordPress 6.5+</span>
+                <span class="hero-tag"><i class="fa-solid fa-bone"></i> Bones Theme</span>
+                <span class="hero-tag"><i class="fa-solid fa-bag-shopping"></i> WooCommerce 8.8+</span>
+                <span class="hero-tag"><i class="fa-brands fa-php"></i> PHP 8+ OOP</span>
+                <span class="hero-tag"><i class="fa-solid fa-network-wired"></i> REST API</span>
+              </div>
+            </div>
+
+            <nav class="woocommerce-breadcrumb">
+              <a href="javascript:void(0)" onclick="window.setView('shop')">Home</a> &nbsp;/&nbsp; Developer Services
+            </nav>
+
+            <header class="woocommerce-products-header" style="margin-bottom: 1.5rem;">
+              <div style="display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 1rem;">
+                <span style="font-weight: 700; color: #2c3338; font-size: 0.95rem;">Showing all 4 engineering packages</span>
+                <span style="font-size: 0.85rem; color: #646970;">Coupons available: Use code <strong style="color: #2271b1;">BONES2026</strong> for 15% off</span>
+              </div>
+            </header>
+
+            <div class="products-grid" id="products-grid-container">
+              <!-- Dynamically rendered WooCommerce product cards -->
+            </div>
+          </div>
+
+          <!-- VIEW: CART -->
+          <div id="view-cart" style="display: none;">
+            <nav class="woocommerce-breadcrumb">
+              <a href="javascript:void(0)" onclick="window.setView('shop')">Home</a> &nbsp;/&nbsp; <a href="javascript:void(0)" onclick="window.setView('shop')">Services</a> &nbsp;/&nbsp; Shopping Cart
+            </nav>
+
+            <div style="background: #ffffff; border: 1px solid #dcdcde; border-radius: 10px; padding: 2rem;">
+              <h1 style="font-size: 1.8rem; font-weight: 800; margin-top: 0; margin-bottom: 1.5rem;">Shopping Cart</h1>
+
+              <div id="cart-empty-message" style="display: none; padding: 2rem 0; text-align: center;">
+                <i class="fa-solid fa-bag-shopping" style="font-size: 3rem; color: #c3c4c7; margin-bottom: 1rem;"></i>
+                <p style="font-size: 1.1rem; color: #646970; margin-bottom: 1.5rem;">Your cart is currently empty.</p>
+                <button type="button" class="btn-add-cart" onclick="window.setView('shop')">Browse Engineering Services</button>
+              </div>
+
+              <div id="cart-table-wrapper">
+                <table style="width: 100%; border-collapse: collapse; margin-bottom: 2rem;">
+                  <thead>
+                    <tr style="border-bottom: 2px solid #dcdcde; text-align: left; font-size: 0.9rem;">
+                      <th style="padding: 0.75rem 0.5rem;">Package</th>
+                      <th style="padding: 0.75rem 0.5rem;">Price</th>
+                      <th style="padding: 0.75rem 0.5rem;">Qty</th>
+                      <th style="padding: 0.75rem 0.5rem; text-align: right;">Subtotal</th>
+                      <th style="padding: 0.75rem 0.5rem; text-align: center;">Remove</th>
+                    </tr>
+                  </thead>
+                  <tbody id="cart-rows-body">
+                    <!-- Injected Cart Rows -->
+                  </tbody>
+                </table>
+
+                <div style="display: flex; justify-content: space-between; align-items: flex-start; flex-wrap: wrap; gap: 2rem;">
+                  <!-- Coupon Code Form -->
+                  <div style="display: flex; gap: 8px; align-items: center;">
+                    <input type="text" id="coupon-input" placeholder="Coupon Code (try BONES2026)" style="padding: 0.55rem 0.8rem; border: 1px solid #dcdcde; border-radius: 6px; font-size: 0.88rem; width: 220px;" />
+                    <button type="button" class="demo-pill-btn" onclick="window.applyCoupon()" style="padding: 0.55rem 1rem;">Apply</button>
+                  </div>
+
+                  <!-- Totals Summary -->
+                  <div style="width: 100%; max-width: 340px; background: #f8f9fa; border: 1px solid #dcdcde; border-radius: 8px; padding: 1.5rem;">
+                    <h3 style="margin-top: 0; margin-bottom: 1rem; border-bottom: 1px solid #dcdcde; padding-bottom: 0.5rem; font-size: 1.1rem;">Cart Totals</h3>
+                    <div style="display: flex; justify-content: space-between; margin-bottom: 0.75rem; font-size: 0.95rem;">
+                      <span>Subtotal</span>
+                      <strong id="summary-subtotal">$0.00</strong>
+                    </div>
+                    <div id="summary-discount-row" style="display: none; justify-content: space-between; margin-bottom: 0.75rem; font-size: 0.95rem; color: #008a20;">
+                      <span>Discount (BONES2026)</span>
+                      <strong id="summary-discount">-$0.00</strong>
+                    </div>
+                    <div style="display: flex; justify-content: space-between; margin-bottom: 1.25rem; font-size: 1.25rem; font-weight: 800; border-top: 2px solid #2271b1; padding-top: 0.75rem;">
+                      <span>Total</span>
+                      <strong id="summary-total" style="color: #2271b1;">$0.00</strong>
+                    </div>
+                    <button type="button" class="btn-add-cart" style="width: 100%; justify-content: center; padding: 0.75rem; font-size: 1rem;" onclick="window.setView('checkout')">
+                      Proceed to Checkout &rarr;
+                    </button>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <!-- VIEW: CHECKOUT -->
+          <div id="view-checkout" style="display: none;">
+            <nav class="woocommerce-breadcrumb">
+              <a href="javascript:void(0)" onclick="window.setView('shop')">Home</a> &nbsp;/&nbsp; <a href="javascript:void(0)" onclick="window.setView('cart')">Cart</a> &nbsp;/&nbsp; Checkout
+            </nav>
+
+            <div style="background: #ffffff; border: 1px solid #dcdcde; border-radius: 10px; padding: 2rem;">
+              <h1 style="font-size: 1.8rem; font-weight: 800; margin-top: 0; margin-bottom: 1.5rem;">Checkout &amp; Service Agreement</h1>
+
+              <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 2rem;">
+                <!-- Billing Form -->
+                <div>
+                  <h3 style="margin-top: 0; margin-bottom: 1rem; border-bottom: 2px solid #2271b1; padding-bottom: 0.5rem; font-size: 1.1rem;">Client Information</h3>
+                  <form id="checkout-form" onsubmit="event.preventDefault(); window.placeOrder();">
+                    <div style="margin-bottom: 1rem;">
+                      <label style="display: block; font-weight: 600; font-size: 0.85rem; margin-bottom: 0.3rem;">Company / Client Name *</label>
+                      <input type="text" id="chk-name" required value="Enterprise Systems Inc." style="width: 100%; padding: 0.6rem; border: 1px solid #dcdcde; border-radius: 4px;" />
+                    </div>
+                    <div style="margin-bottom: 1rem;">
+                      <label style="display: block; font-weight: 600; font-size: 0.85rem; margin-bottom: 0.3rem;">Contact Email *</label>
+                      <input type="email" id="chk-email" required value="engineering@enterprise.com" style="width: 100%; padding: 0.6rem; border: 1px solid #dcdcde; border-radius: 4px;" />
+                    </div>
+                    <div style="margin-bottom: 1rem;">
+                      <label style="display: block; font-weight: 600; font-size: 0.85rem; margin-bottom: 0.3rem;">Technical Specifications / Timeline</label>
+                      <textarea id="chk-notes" rows="4" style="width: 100%; padding: 0.6rem; border: 1px solid #dcdcde; border-radius: 4px;" placeholder="Outline existing WordPress codebase, required custom endpoints, and target release date..."></textarea>
+                    </div>
+                  </form>
+                </div>
+
+                <!-- Order Review Box -->
+                <div style="background: #f8f9fa; border: 1px solid #dcdcde; border-radius: 8px; padding: 1.5rem;">
+                  <h3 style="margin-top: 0; margin-bottom: 1rem; border-bottom: 1px solid #dcdcde; padding-bottom: 0.5rem; font-size: 1.1rem;">Contract Summary</h3>
+                  <div id="checkout-items-list" style="margin-bottom: 1rem; font-size: 0.92rem;">
+                    <!-- Injected Items -->
+                  </div>
+                  <div style="border-top: 2px solid #2271b1; padding-top: 1rem; margin-top: 1rem;">
+                    <div style="display: flex; justify-content: space-between; font-size: 1.25rem; font-weight: 800; margin-bottom: 1.5rem;">
+                      <span>Total:</span>
+                      <strong id="checkout-grand-total" style="color: #2271b1;">$0.00</strong>
+                    </div>
+                    <button type="button" class="btn-add-cart" style="width: 100%; justify-content: center; padding: 0.85rem; font-size: 1.05rem;" onclick="window.placeOrder()">
+                      <i class="fa-solid fa-lock"></i> Submit Contract &amp; Place Order
+                    </button>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <!-- VIEW: WP-ADMIN DASHBOARD SIMULATOR -->
+          <div id="view-admin" style="display: none;">
+            <div style="background: #ffffff; border: 1px solid #dcdcde; border-radius: 10px; padding: 2rem;">
+              <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 1.5rem; border-bottom: 2px solid #2271b1; padding-bottom: 0.8rem;">
+                <div>
+                  <h1 style="font-size: 1.8rem; font-weight: 800; margin: 0; color: #1d2327;">WooCommerce &bull; Dashboard Overview</h1>
+                  <span style="font-size: 0.85rem; color: #646970;">Bones Theme v1.8.0 &bull; WooCommerce v8.8.0 &bull; WordPress 6.5.3</span>
+                </div>
+                <button type="button" class="demo-pill-btn" onclick="window.setView('shop')"><i class="fa-solid fa-arrow-left"></i> Return to Frontend</button>
+              </div>
+
+              <!-- Admin Metrics -->
+              <div class="admin-metrics-grid">
+                <div class="admin-metric-card">
+                  <div style="font-size: 0.8rem; text-transform: uppercase; color: #646970; font-weight: 700;">Gross Sales</div>
+                  <div class="val" id="admin-gross-sales">$14,250.00</div>
+                  <div style="font-size: 0.78rem; color: #008a20;"><i class="fa-solid fa-arrow-trend-up"></i> +28.4% this quarter</div>
+                </div>
+                <div class="admin-metric-card">
+                  <div style="font-size: 0.8rem; text-transform: uppercase; color: #646970; font-weight: 700;">Active Orders</div>
+                  <div class="val" id="admin-order-count">6</div>
+                  <div style="font-size: 0.78rem; color: #2271b1;">All contracts verified</div>
+                </div>
+                <div class="admin-metric-card">
+                  <div style="font-size: 0.8rem; text-transform: uppercase; color: #646970; font-weight: 700;">Theme Engine</div>
+                  <div class="val" style="font-size: 1.3rem;">Bones (Active)</div>
+                  <div style="font-size: 0.78rem; color: #008a20;"><i class="fa-solid fa-check"></i> Template overrides verified</div>
+                </div>
+              </div>
+
+              <!-- Recent WooCommerce Orders Table -->
+              <h3 style="font-size: 1.15rem; font-weight: 700; margin-bottom: 0.8rem;">Recent WooCommerce Orders</h3>
+              <table style="width: 100%; border-collapse: collapse; margin-bottom: 2rem; font-size: 0.88rem;">
+                <thead>
+                  <tr style="border-bottom: 2px solid #dcdcde; background: #f6f7f7; text-align: left;">
+                    <th style="padding: 10px;">Order #</th>
+                    <th style="padding: 10px;">Client</th>
+                    <th style="padding: 10px;">Service Package</th>
+                    <th style="padding: 10px;">Status</th>
+                    <th style="padding: 10px; text-align: right;">Total</th>
+                  </tr>
+                </thead>
+                <tbody id="admin-orders-table">
+                  <tr style="border-bottom: 1px solid #f0f0f1;">
+                    <td style="padding: 10px; font-family: var(--font-mono); font-weight: 700; color: #2271b1;">#1042</td>
+                    <td style="padding: 10px;">Apex Ventures</td>
+                    <td style="padding: 10px;">Bespoke WordPress &amp; Bones Theme</td>
+                    <td style="padding: 10px;"><span style="background: #edf8ee; color: #008a20; padding: 2px 8px; border-radius: 12px; font-weight: 700; font-size: 0.75rem;">Completed</span></td>
+                    <td style="padding: 10px; text-align: right; font-weight: 700;">$2,450.00</td>
+                  </tr>
+                  <tr style="border-bottom: 1px solid #f0f0f1;">
+                    <td style="padding: 10px; font-family: var(--font-mono); font-weight: 700; color: #2271b1;">#1041</td>
+                    <td style="padding: 10px;">Starlight Media</td>
+                    <td style="padding: 10px;">WooCommerce Store &amp; Cart Optimization</td>
+                    <td style="padding: 10px;"><span style="background: #e7f3ff; color: #135e96; padding: 2px 8px; border-radius: 12px; font-weight: 700; font-size: 0.75rem;">Processing</span></td>
+                    <td style="padding: 10px; text-align: right; font-weight: 700;">$1,850.00</td>
+                  </tr>
+                  <tr style="border-bottom: 1px solid #f0f0f1;">
+                    <td style="padding: 10px; font-family: var(--font-mono); font-weight: 700; color: #2271b1;">#1040</td>
+                    <td style="padding: 10px;">Nextera Tech</td>
+                    <td style="padding: 10px;">Monthly Dedicated Engineering Retainer</td>
+                    <td style="padding: 10px;"><span style="background: #edf8ee; color: #008a20; padding: 2px 8px; border-radius: 12px; font-weight: 700; font-size: 0.75rem;">Active</span></td>
+                    <td style="padding: 10px; text-align: right; font-weight: 700;">$4,200.00</td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+          </div>
+
+        </main>
+
+        <!-- Bones Responsive Sidebar -->
+        <aside id="sidebar1" class="sidebar m-all t-1of3 d-2of7 last-col cf" role="complementary">
+          <div class="widget dev-profile-card">
+            <div class="dev-avatar">ZH</div>
+            <div class="dev-name">Zach Heindel</div>
+            <div class="dev-role">WordPress &amp; WooCommerce Engineer</div>
+            <div class="status-badge"><span class="status-dot"></span> Available for Hire &bull; York, PA</div>
+            <p style="font-size: 0.88rem; color: #646970; text-align: left; margin-bottom: 1.25rem;">
+              Full-stack developer building clean, mobile-first WordPress websites on Bones, custom WooCommerce plugins, REST endpoints, and enterprise performance optimizations.
+            </p>
+            <a href="mailto:zqhwebpro@gmail.com" class="btn-add-cart" style="width: 100%; justify-content: center; text-decoration: none;">
+              <i class="fa-solid fa-envelope"></i> Inquire for Contract
+            </a>
+          </div>
+
+          <div class="widget" style="margin-top: 1.5rem; background: #f8f9fa; border: 1px solid #dcdcde; border-radius: 8px; padding: 1.25rem;">
+            <h4 class="widgettitle" style="font-size: 0.95rem; margin-top: 0;">WordPress Specifications</h4>
+            <ul style="list-style: none; padding-left: 0; font-size: 0.82rem; color: #646970; display: flex; flex-direction: column; gap: 8px; margin-bottom: 0;">
+              <li><strong>Theme:</strong> Bones 1.8.0 (Mobile First)</li>
+              <li><strong>E-Commerce:</strong> WooCommerce 8.8.0</li>
+              <li><strong>Hooks:</strong> Unhooked WC wrappers</li>
+              <li><strong>Database:</strong> MySQL 5.7+ / MariaDB</li>
+              <li><strong>PageSpeed:</strong> 98/100 Mobile &amp; Desktop</li>
+            </ul>
+          </div>
+        </aside>
+
+      </div>
+    </div>
+
+    <!-- Bones Footer -->
+    <footer class="footer" role="contentinfo">
+      <div id="inner-footer" class="wrap cf">
+        <p class="source-org copyright">
+          &copy; 2026 Zach Heindel (ZQH.WEBPRO). Built with WordPress, Bones Theme, and WooCommerce.
+        </p>
+        <nav role="navigation">
+          <ul class="nav">
+            <li><a href="../../2026/index.html">Main Portfolio</a></li>
+            <li><a href="../index.html">Projects</a></li>
+            <li><a href="./case-study.html">Case Study</a></li>
+            <li><a href="mailto:zqhwebpro@gmail.com">Contact</a></li>
+          </ul>
+        </nav>
+      </div>
+    </footer>
+  </div>
+
+  <!-- Source Code Inspector Modal -->
+  <div class="code-modal-backdrop" id="codeModal">
+    <div class="code-modal">
+      <div class="code-modal-header">
+        <div class="code-modal-tabs">
+          <button class="code-tab-btn active" id="tab-wp-config" onclick="window.switchCodeTab('wp-config')">wp-config.php</button>
+          <button class="code-tab-btn" id="tab-functions" onclick="window.switchCodeTab('functions')">bones/functions.php</button>
+          <button class="code-tab-btn" id="tab-woocommerce-tpl" onclick="window.switchCodeTab('woocommerce-tpl')">bones/woocommerce.php</button>
+          <button class="code-tab-btn" id="tab-wc-class" onclick="window.switchCodeTab('wc-class')">class-woocommerce.php</button>
+          <button class="code-tab-btn" id="tab-schema" onclick="window.switchCodeTab('schema')">Database Schema</button>
+        </div>
+        <button onclick="window.closeCodeInspector()" style="background: none; border: none; color: #c3c4c7; font-size: 1.2rem; cursor: pointer;">&times;</button>
+      </div>
+      <div class="code-modal-content" id="code-content-display">
+        <!-- Injected Source Code -->
+      </div>
+    </div>
+  </div>
+
+  <!-- Toast Notice -->
+  <div id="toastNotice" class="toast-notice">
+    <i class="fa-solid fa-circle-check" style="color: #008a20;"></i>
+    <span id="toastMessage">Item added to cart!</span>
+  </div>
+
+  <!-- Interactive JavaScript State Machine -->
+  <script>
+    const PRODUCTS = [
+      {
+        id: 201,
+        name: "Bespoke WordPress & Bones Theme Architecture",
+        slug: "custom-bones-theme",
+        price: 2450.00,
+        regular_price: 2950.00,
+        short_description: "Clean, mobile-first WordPress development built on Bones with custom post types, modular CSS/Sass, and PageSpeed 95+ score optimization.",
+        category: "Theme Engineering",
+        sku: "DEV-BONES-01",
+        rating: 5.0,
+        reviews: 14
+      },
+      {
+        id: 202,
+        name: "High-Scale WooCommerce Store & Cart Optimization",
+        slug: "woocommerce-store-optimization",
+        price: 1850.00,
+        regular_price: 2200.00,
+        short_description: "Complete performance audit, custom checkout flow hardening, Redis object caching, and database query index optimization for high-traffic stores.",
+        category: "Performance & CRO",
+        sku: "DEV-WC-OPT",
+        rating: 4.9,
+        reviews: 22
+      },
+      {
+        id: 203,
+        name: "Custom WooCommerce Payment & Gateway Plugin Build",
+        slug: "custom-payment-plugin",
+        price: 1400.00,
+        regular_price: 1650.00,
+        short_description: "Custom object-oriented WooCommerce payment gateway development adhering strictly to WooCommerce Gateway API standards and PCI-DSS compliance.",
+        category: "Plugin Development",
+        sku: "DEV-WC-PAY",
+        rating: 5.0,
+        reviews: 9
+      },
+      {
+        id: 204,
+        name: "Monthly Dedicated Engineering Retainer (40 Hours)",
+        slug: "engineering-retainer",
+        price: 4200.00,
+        regular_price: 4800.00,
+        short_description: "Dedicated senior engineering support for enterprise WooCommerce maintenance, zero-downtime updates, custom REST endpoints, and security audits.",
+        category: "Retainers",
+        sku: "DEV-RET-40",
+        rating: 5.0,
+        reviews: 31
+      }
+    ];
+
+    let cart = [];
+    let couponApplied = false;
+
+    function renderProducts() {
+      const container = document.getElementById('products-grid-container');
+      if (!container) return;
+
+      container.innerHTML = PRODUCTS.map(prod => `
+        <article class="product-card">
+          <div class="product-card-header">
+            <span class="product-category-badge">${prod.category}</span>
+            <span class="product-sku">${prod.sku}</span>
+          </div>
+
+          <div class="product-card-body">
+            <h2 class="product-title">
+              <a href="javascript:void(0)" onclick="window.addToCart(${prod.id})">${prod.name}</a>
+            </h2>
+            <p class="product-desc">${prod.short_description}</p>
+          </div>
+
+          <div class="product-card-footer">
+            <div class="product-price">
+              ${prod.regular_price > prod.price ? `<del>$${prod.regular_price.toFixed(2)}</del>` : ''}
+              <span>$${prod.price.toFixed(2)}</span>
+            </div>
+            <button type="button" class="btn-add-cart" onclick="window.addToCart(${prod.id})">
+              <i class="fa-solid fa-cart-plus"></i> Add to Cart
+            </button>
+          </div>
+        </article>
+      `).join('');
+    }
+
+    function addToCart(productId) {
+      const prod = PRODUCTS.find(p => p.id === productId);
+      if (!prod) return;
+
+      const existing = cart.find(item => item.id === productId);
+      if (existing) {
+        existing.qty += 1;
+      } else {
+        cart.push({ ...prod, qty: 1 });
+      }
+
+      updateCartBadge();
+      renderCartTable();
+      showToast(`Added "${prod.name}" to cart!`);
+    }
+
+    function removeFromCart(productId) {
+      cart = cart.filter(item => item.id !== productId);
+      updateCartBadge();
+      renderCartTable();
+      showToast("Item removed from cart");
+    }
+
+    function updateQty(productId, delta) {
+      const item = cart.find(i => i.id === productId);
+      if (!item) return;
+      item.qty += delta;
+      if (item.qty <= 0) {
+        removeFromCart(productId);
+      } else {
+        updateCartBadge();
+        renderCartTable();
+      }
+    }
+
+    function updateCartBadge() {
+      const totalCount = cart.reduce((sum, item) => sum + item.qty, 0);
+      document.getElementById('cart-item-count').innerText = totalCount;
+      document.getElementById('btn-cart-count').innerText = totalCount;
+    }
+
+    function renderCartTable() {
+      const tbody = document.getElementById('cart-rows-body');
+      const emptyMsg = document.getElementById('cart-empty-message');
+      const tableWrapper = document.getElementById('cart-table-wrapper');
+
+      if (cart.length === 0) {
+        if (emptyMsg) emptyMsg.style.display = 'block';
+        if (tableWrapper) tableWrapper.style.display = 'none';
+        return;
+      }
+
+      if (emptyMsg) emptyMsg.style.display = 'none';
+      if (tableWrapper) tableWrapper.style.display = 'block';
+
+      tbody.innerHTML = cart.map(item => `
+        <tr style="border-bottom: 1px solid #f0f0f1;">
+          <td style="padding: 1rem 0.5rem;">
+            <strong>${item.name}</strong><br>
+            <span style="font-size: 0.78rem; color: #646970;">SKU: ${item.sku}</span>
+          </td>
+          <td style="padding: 1rem 0.5rem; font-family: var(--font-mono);">$${item.price.toFixed(2)}</td>
+          <td style="padding: 1rem 0.5rem;">
+            <div style="display: inline-flex; align-items: center; border: 1px solid #dcdcde; border-radius: 4px;">
+              <button onclick="window.updateQty(${item.id}, -1)" style="border: none; background: none; padding: 4px 8px; cursor: pointer;">-</button>
+              <span style="padding: 4px 8px; font-weight: 700;">${item.qty}</span>
+              <button onclick="window.updateQty(${item.id}, 1)" style="border: none; background: none; padding: 4px 8px; cursor: pointer;">+</button>
+            </div>
+          </td>
+          <td style="padding: 1rem 0.5rem; text-align: right; font-weight: 700; font-family: var(--font-mono);">$${(item.price * item.qty).toFixed(2)}</td>
+          <td style="padding: 1rem 0.5rem; text-align: center;">
+            <button onclick="window.removeFromCart(${item.id})" style="border: none; background: none; color: #d63638; cursor: pointer; font-size: 1.1rem;">&times;</button>
+          </td>
+        </tr>
+      `).join('');
+
+      const subtotal = cart.reduce((sum, item) => sum + item.price * item.qty, 0);
+      const discount = couponApplied ? subtotal * 0.15 : 0;
+      const total = subtotal - discount;
+
+      document.getElementById('summary-subtotal').innerText = `$${subtotal.toFixed(2)}`;
+      if (couponApplied) {
+        document.getElementById('summary-discount-row').style.display = 'flex';
+        document.getElementById('summary-discount').innerText = `-$${discount.toFixed(2)}`;
+      } else {
+        document.getElementById('summary-discount-row').style.display = 'none';
+      }
+      document.getElementById('summary-total').innerText = `$${total.toFixed(2)}`;
+
+      // Update checkout view totals
+      const chkList = document.getElementById('checkout-items-list');
+      if (chkList) {
+        chkList.innerHTML = cart.map(item => `
+          <div style="display: flex; justify-content: space-between; margin-bottom: 0.6rem;">
+            <span>${item.name} &times; ${item.qty}</span>
+            <strong style="font-family: var(--font-mono);">$${(item.price * item.qty).toFixed(2)}</strong>
+          </div>
+        `).join('');
+      }
+      const chkTotal = document.getElementById('checkout-grand-total');
+      if (chkTotal) chkTotal.innerText = `$${total.toFixed(2)}`;
+    }
+
+    function applyCoupon() {
+      const code = document.getElementById('coupon-input').value.trim().toUpperCase();
+      if (code === 'BONES2026') {
+        couponApplied = true;
+        renderCartTable();
+        showToast("Coupon 'BONES2026' applied! 15% discount granted.");
+      } else {
+        alert("Invalid coupon code. Try 'BONES2026'");
+      }
+    }
+
+    function placeOrder() {
+      if (cart.length === 0) {
+        alert("Your cart is empty! Please add a service package first.");
+        return;
+      }
+      const name = document.getElementById('chk-name').value;
+      const orderNum = Math.floor(1000 + Math.random() * 9000);
+      alert(`WooCommerce Order #${orderNum} Confirmed!\n\nThank you ${name}. Your development contract agreement and service booking have been successfully created.`);
+      cart = [];
+      couponApplied = false;
+      updateCartBadge();
+      renderCartTable();
+      setView('shop');
+    }
+
+    function setView(viewName) {
+      const views = ['shop', 'cart', 'checkout', 'admin'];
+      views.forEach(v => {
+        const el = document.getElementById(`view-${v}`);
+        if (el) el.style.display = v === viewName ? 'block' : 'none';
+        const btn = document.getElementById(`btn-view-${v}`);
+        if (btn) {
+          if (v === viewName) btn.classList.add('active');
+          else btn.classList.remove('active');
+        }
+      });
+      window.scrollTo({ top: 0, behavior: 'smooth' });
+    }
+
+    function showToast(msg) {
+      const t = document.getElementById('toastNotice');
+      document.getElementById('toastMessage').innerText = msg;
+      t.classList.add('show');
+      setTimeout(() => t.classList.remove('show'), 3000);
+    }
+
+    // Code Inspector Logic
+    const SOURCE_FILES = {
+      'wp-config': `<?php
+// WordPress Core Configuration for "For Hire" - Bones Theme + WooCommerce Integration
+define( 'DB_NAME', 'for_hire_wp' );
+define( 'DB_USER', 'wp_dbuser' );
+define( 'DB_PASSWORD', 'Secure_DevPass_2026!#' );
+define( 'DB_HOST', 'localhost' );
+define( 'DB_CHARSET', 'utf8mb4' );
+
+// Authentication unique keys and salts
+define( 'AUTH_KEY',         'v!8pQ{xT1=e#v%mC4&~ZzL-9+p*K3r]Y0>wU8!oN2?qS6^dV5$hM7@yB4|tA9(jE' );
+define( 'SECURE_AUTH_KEY',  'b@5kR~mY9*vW2^qZ8$uE3(oP7!tI0=fH4}aD6?xL1|sC5&gJ8+nQ9_zK2%rT4]eO' );
+
+$table_prefix = 'wp_';
+
+// WooCommerce & Developer Optimization Constants
+define( 'WP_DEBUG', true );
+define( 'WP_DEBUG_LOG', true );
+define( 'WP_MEMORY_LIMIT', '256M' );
+define( 'WP_MAX_MEMORY_LIMIT', '512M' );
+define( 'WP_DEFAULT_THEME', 'bones' );`,
+
+      'functions': `<?php
+// Bones Functions & Definitions with WooCommerce Support
+function bones_theme_setup() {
+  // Theme supports
+  add_theme_support( 'menus' );
+  add_theme_support( 'post-thumbnails' );
+  add_theme_support( 'html5', array('comment-list', 'search-form', 'comment-form') );
+
+  // Declare explicit WooCommerce support
+  add_theme_support( 'woocommerce' );
+  add_theme_support( 'wc-product-gallery-zoom' );
+  add_theme_support( 'wc-product-gallery-lightbox' );
+  add_theme_support( 'wc-product-gallery-slider' );
+
+  // Unhook default WooCommerce wrappers
+  remove_action( 'woocommerce_before_main_content', 'woocommerce_output_content_wrapper', 10 );
+  remove_action( 'woocommerce_after_main_content', 'woocommerce_output_content_wrapper_end', 10 );
+
+  // Hook in Bones responsive grid wrappers
+  add_action( 'woocommerce_before_main_content', 'bones_woocommerce_wrapper_start', 10 );
+  add_action( 'woocommerce_after_main_content', 'bones_woocommerce_wrapper_end', 10 );
+}
+add_action( 'after_setup_theme', 'bones_theme_setup' );`,
+
+      'woocommerce-tpl': `<?php
+/**
+ * Bones Dedicated WooCommerce Template (woocommerce.php)
+ * Replaces WooCommerce default loops with Bones responsive grid layout.
+ */
+get_header(); ?>
+
+<div id="content">
+  <div id="inner-content" class="wrap cf">
+    <main id="main" class="m-all t-2of3 d-5of7 cf" role="main">
+      <?php woocommerce_content(); ?>
+    </main>
+    <?php get_sidebar(); ?>
+  </div>
+</div>
+
+<?php get_footer(); ?>`,
+
+      'wc-class': `<?php
+// WooCommerce Singleton Setup Class
+final class WooCommerce {
+  public $version = '8.8.0';
+  protected static $_instance = null;
+  public $cart = null;
+  public $checkout = null;
+
+  public static function instance() {
+    if ( is_null( self::$_instance ) ) {
+      self::$_instance = new self();
+    }
+    return self::$_instance;
+  }
+
+  public function __construct() {
+    $this->init_hooks();
+    $this->cart = new WC_Cart();
+    $this->checkout = new WC_Checkout();
+    do_action( 'woocommerce_loaded' );
+  }
+}`,
+
+      'schema': `-- WordPress & WooCommerce Database ER Schema
+CREATE TABLE wp_posts (
+  ID bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT,
+  post_author bigint(20) UNSIGNED NOT NULL DEFAULT '0',
+  post_date datetime NOT NULL DEFAULT '0000-00-00 00:00:00',
+  post_content longtext NOT NULL,
+  post_title text NOT NULL,
+  post_status varchar(20) NOT NULL DEFAULT 'publish',
+  post_type varchar(20) NOT NULL DEFAULT 'product',
+  PRIMARY KEY (ID),
+  KEY post_name (post_name(191)),
+  KEY type_status_date (post_type,post_status,post_date,ID)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+
+CREATE TABLE wp_postmeta (
+  meta_id bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT,
+  post_id bigint(20) UNSIGNED NOT NULL DEFAULT '0',
+  meta_key varchar(255) DEFAULT NULL,
+  meta_value longtext,
+  PRIMARY KEY (meta_id),
+  KEY post_id (post_id),
+  KEY meta_key (meta_key(191))
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+
+-- WooCommerce Order Tables
+CREATE TABLE wp_wc_orders (
+  id bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT,
+  status varchar(20) NOT NULL,
+  currency varchar(3) NOT NULL DEFAULT 'USD',
+  total_amount decimal(19,4) NOT NULL DEFAULT '0.0000',
+  customer_id bigint(20) UNSIGNED NOT NULL DEFAULT '0',
+  billing_email varchar(320) NOT NULL,
+  date_created_gmt datetime NOT NULL,
+  PRIMARY KEY (id)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;`
+    };
+
+    function openCodeInspector(fileKey = 'wp-config') {
+      switchCodeTab(fileKey);
+      document.getElementById('codeModal').classList.add('open');
+    }
+
+    function closeCodeInspector() {
+      document.getElementById('codeModal').classList.remove('open');
+    }
+
+    function switchCodeTab(fileKey) {
+      const keys = ['wp-config', 'functions', 'woocommerce-tpl', 'wc-class', 'schema'];
+      keys.forEach(k => {
+        const btn = document.getElementById(`tab-${k}`);
+        if (btn) {
+          if (k === fileKey) btn.classList.add('active');
+          else btn.classList.remove('active');
+        }
+      });
+      document.getElementById('code-content-display').textContent = SOURCE_FILES[fileKey] || '';
+    }
+
+    // Expose functions to window
+    window.setView = setView;
+    window.addToCart = addToCart;
+    window.removeFromCart = removeFromCart;
+    window.updateQty = updateQty;
+    window.applyCoupon = applyCoupon;
+    window.placeOrder = placeOrder;
+    window.openCodeInspector = openCodeInspector;
+    window.closeCodeInspector = closeCodeInspector;
+    window.switchCodeTab = switchCodeTab;
+
+    document.addEventListener('DOMContentLoaded', () => {
+      renderProducts();
+      renderCartTable();
+      updateCartBadge();
+    });
+  </script>
+</body>
+
+</html>

@@ -1,0 +1,452 @@
+/* ==========================================================================
+   BONES THEME STYLESHEET WITH WOOCOMMERCE SYSTEM
+   Mobile-First Responsive Grid & Developer Service Packages
+   ========================================================================== */
+
+:root {
+  --bones-blue: #2271b1;
+  --bones-blue-dark: #135e96;
+  --bones-dark: #1e1e1e;
+  --bones-bg: #f0f0f1;
+  --bones-surface: #ffffff;
+  --bones-border: #dcdcde;
+  --bones-text: #2c3338;
+  --bones-text-muted: #646970;
+  --bones-accent: #d63638;
+  --bones-green: #008a20;
+  --font-serif: Georgia, Cambria, "Times New Roman", Times, serif;
+  --font-sans: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Oxygen-Sans, Ubuntu, Cantarell, "Helvetica Neue", sans-serif;
+  --font-mono: SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", "Courier New", monospace;
+}
+
+* {
+  box-sizing: border-box;
+}
+
+body {
+  margin: 0;
+  padding: 0;
+  font-family: var(--font-sans);
+  font-size: 16px;
+  line-height: 1.6;
+  color: var(--bones-text);
+  background-color: var(--bones-bg);
+}
+
+a {
+  color: var(--bones-blue);
+  text-decoration: none;
+  transition: color 0.15s ease;
+}
+
+a:hover, a:focus {
+  color: var(--bones-blue-dark);
+  text-decoration: underline;
+}
+
+/* ── Clearfix ── */
+.cf:before, .cf:after {
+  content: " ";
+  display: table;
+}
+.cf:after {
+  clear: both;
+}
+
+/* ── Layout Wrap ── */
+.wrap {
+  width: 92%;
+  max-width: 1200px;
+  margin: 0 auto;
+}
+
+/* ── Header ── */
+.header {
+  background: var(--bones-surface);
+  border-bottom: 2px solid var(--bones-border);
+  padding: 1.25rem 0;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.05);
+}
+
+#inner-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  flex-wrap: wrap;
+  gap: 1rem;
+}
+
+#logo {
+  font-size: 1.5rem;
+  font-weight: 800;
+  margin: 0;
+  line-height: 1.2;
+}
+
+#logo a {
+  color: var(--bones-dark);
+  text-decoration: none;
+}
+
+#logo span {
+  color: var(--bones-blue);
+}
+
+.site-desc {
+  font-size: 0.85rem;
+  color: var(--bones-text-muted);
+  margin-top: 0.2rem;
+}
+
+.nav {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: flex;
+  align-items: center;
+  gap: 1.25rem;
+}
+
+.nav a {
+  font-size: 0.95rem;
+  font-weight: 600;
+  color: var(--bones-text);
+  padding: 0.4rem 0.6rem;
+  border-radius: 4px;
+}
+
+.nav a:hover {
+  background: rgba(34, 113, 177, 0.08);
+  color: var(--bones-blue);
+  text-decoration: none;
+}
+
+.cart-link-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  background: var(--bones-blue);
+  color: #ffffff !important;
+  padding: 0.5rem 1rem !important;
+  border-radius: 6px;
+  font-weight: 700;
+  text-decoration: none !important;
+  box-shadow: 0 2px 4px rgba(34, 113, 177, 0.25);
+  transition: background 0.15s ease, transform 0.15s ease;
+}
+
+.cart-link-btn:hover {
+  background: var(--bones-blue-dark);
+  transform: translateY(-1px);
+}
+
+.cart-badge {
+  background: #ffffff;
+  color: var(--bones-blue);
+  font-size: 0.75rem;
+  font-weight: 900;
+  border-radius: 50%;
+  padding: 0.15rem 0.45rem;
+  min-width: 1.2rem;
+  text-align: center;
+}
+
+/* ── Content Layout ── */
+#content {
+  padding: 2.5rem 0 3.5rem;
+}
+
+/* ── Bones Responsive Grid System ── */
+.m-all {
+  width: 100%;
+}
+
+@media only screen and (min-width: 768px) {
+  .t-2of3 {
+    width: 66.66%;
+    float: left;
+    padding-right: 2rem;
+  }
+  .t-1of3 {
+    width: 33.33%;
+    float: left;
+  }
+}
+
+@media only screen and (min-width: 1030px) {
+  .d-5of7 {
+    width: 71.42%;
+    float: left;
+    padding-right: 2.5rem;
+  }
+  .d-2of7 {
+    width: 28.57%;
+    float: left;
+  }
+}
+
+/* ── Hero Banner ── */
+.bones-hero-banner {
+  background: linear-gradient(135deg, #1e1e1e 0%, #10151f 100%);
+  color: #ffffff;
+  padding: 2.5rem;
+  border-radius: 12px;
+  margin-bottom: 2rem;
+  box-shadow: 0 4px 14px rgba(0, 0, 0, 0.12);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+.bones-hero-banner h1 {
+  font-size: 2.2rem;
+  font-weight: 800;
+  margin: 0 0 0.8rem;
+  color: #ffffff;
+  letter-spacing: -0.02em;
+}
+
+.bones-hero-banner p {
+  font-size: 1.1rem;
+  color: #c3c4c7;
+  max-width: 700px;
+  margin: 0 0 1.5rem;
+}
+
+.hero-tags {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.6rem;
+}
+
+.hero-tag {
+  background: rgba(255, 255, 255, 0.12);
+  color: #72aee6;
+  font-size: 0.78rem;
+  font-family: var(--font-mono);
+  padding: 0.3rem 0.75rem;
+  border-radius: 4px;
+  font-weight: 600;
+}
+
+/* ── WooCommerce Products Grid ── */
+.woocommerce-breadcrumb {
+  font-size: 0.85rem;
+  color: var(--bones-text-muted);
+  margin-bottom: 1.5rem;
+}
+
+.products-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+  gap: 1.5rem;
+}
+
+.product-card {
+  background: var(--bones-surface);
+  border: 1px solid var(--bones-border);
+  border-radius: 10px;
+  overflow: hidden;
+  display: flex;
+  flex-direction: column;
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.04);
+  transition: transform 0.2s ease, box-shadow 0.2s ease, border-color 0.2s ease;
+}
+
+.product-card:hover {
+  transform: translateY(-3px);
+  box-shadow: 0 8px 20px rgba(0, 0, 0, 0.08);
+  border-color: var(--bones-blue);
+}
+
+.product-card-header {
+  background: #f8f9fa;
+  padding: 1.25rem;
+  border-bottom: 1px solid var(--bones-border);
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.product-category-badge {
+  font-size: 0.7rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  padding: 0.2rem 0.6rem;
+  border-radius: 4px;
+  background: #e7f3ff;
+  color: var(--bones-blue-dark);
+}
+
+.product-sku {
+  font-family: var(--font-mono);
+  font-size: 0.75rem;
+  color: var(--bones-text-muted);
+}
+
+.product-card-body {
+  padding: 1.5rem;
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+}
+
+.product-title {
+  font-size: 1.25rem;
+  font-weight: 700;
+  margin: 0 0 0.8rem;
+  line-height: 1.35;
+}
+
+.product-title a {
+  color: var(--bones-dark);
+}
+
+.product-desc {
+  font-size: 0.92rem;
+  color: var(--bones-text-muted);
+  margin-bottom: 1.25rem;
+  flex: 1;
+}
+
+.product-card-footer {
+  padding: 1.25rem 1.5rem;
+  background: #fafafa;
+  border-top: 1px solid var(--bones-border);
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.product-price {
+  font-family: var(--font-sans);
+  font-weight: 800;
+  font-size: 1.3rem;
+  color: var(--bones-text);
+}
+
+.product-price del {
+  color: #a7aaad;
+  font-size: 0.95rem;
+  margin-right: 0.4rem;
+}
+
+.btn-add-cart {
+  background: var(--bones-blue);
+  color: #ffffff;
+  border: none;
+  padding: 0.6rem 1.2rem;
+  border-radius: 6px;
+  font-weight: 700;
+  cursor: pointer;
+  display: inline-flex;
+  align-items: center;
+  gap: 0.4rem;
+  font-size: 0.9rem;
+  transition: background 0.15s ease, transform 0.15s ease;
+}
+
+.btn-add-cart:hover {
+  background: var(--bones-blue-dark);
+  transform: translateY(-1px);
+}
+
+/* ── Sidebar & Widgets ── */
+.sidebar {
+  background: var(--bones-surface);
+  border: 1px solid var(--bones-border);
+  border-radius: 8px;
+  padding: 1.5rem;
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.04);
+}
+
+.widget {
+  margin-bottom: 2rem;
+}
+
+.widget:last-child {
+  margin-bottom: 0;
+}
+
+.widgettitle {
+  font-size: 1.05rem;
+  font-weight: 700;
+  margin: 0 0 1rem;
+  padding-bottom: 0.5rem;
+  border-bottom: 2px solid var(--bones-blue);
+  color: var(--bones-dark);
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+}
+
+.dev-profile-card {
+  text-align: center;
+}
+
+.dev-avatar {
+  width: 76px;
+  height: 76px;
+  border-radius: 50%;
+  background: linear-gradient(135deg, var(--bones-blue), #10151f);
+  color: #ffffff;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-weight: 900;
+  font-size: 1.5rem;
+  margin: 0 auto 1rem;
+  border: 3px solid var(--bones-border);
+}
+
+.dev-name {
+  font-weight: 800;
+  font-size: 1.15rem;
+  margin: 0 0 0.2rem;
+}
+
+.dev-role {
+  color: var(--bones-text-muted);
+  font-size: 0.82rem;
+  margin-bottom: 1rem;
+}
+
+.status-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.4rem;
+  background: #edf8ee;
+  color: var(--bones-green);
+  border: 1px solid #c7ebc9;
+  font-size: 0.75rem;
+  font-weight: 700;
+  padding: 0.25rem 0.65rem;
+  border-radius: 20px;
+  margin-bottom: 1.25rem;
+}
+
+.status-dot {
+  width: 7px;
+  height: 7px;
+  border-radius: 50%;
+  background: var(--bones-green);
+}
+
+/* ── Footer ── */
+.footer {
+  background: var(--bones-dark);
+  color: #8c8f94;
+  padding: 2.5rem 0;
+  border-top: 4px solid var(--bones-blue);
+}
+
+#inner-footer {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  flex-wrap: wrap;
+  gap: 1rem;
+}
+
+.source-org {
+  font-size: 0.85rem;
+  margin: 0;
+}
