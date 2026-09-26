@@ -30,18 +30,24 @@ function initNavigation() {
 // 2. Interactive Project Scope & Investment Estimator
 // -----------------------------------------------------------------------------
 const SERVICE_BASE_RATES = {
-  'wordpress': { name: 'Custom WordPress & PHP Platform', baseMin: 2600, baseMax: 4200, timeWeeks: 3.5 },
-  'react':     { name: 'React / JS Web Application', baseMin: 3400, baseMax: 5600, timeWeeks: 4.5 },
-  'ecommerce': { name: 'Multi-Channel E-Commerce Architecture', baseMin: 3800, baseMax: 6400, timeWeeks: 5.0 },
-  'audit':     { name: 'Full Performance, SEO & CRO Audit', baseMin: 1200, baseMax: 2200, timeWeeks: 1.5 },
-  'retainer':  { name: 'Monthly Dedicated Engineering Retainer', baseMin: 2800, baseMax: 4500, timeWeeks: 0 }
+  'sprint':    { name: 'Sprint: Landing Page / UI Screen (AI-Art Enhanced)', baseMin: 1800, baseMax: 3200, timeWeeks: 1.5 },
+  'build':     { name: 'Build: Full Platform & Design System (WordPress / React)', baseMin: 4200, baseMax: 7500, timeWeeks: 4.0 },
+  'partner':   { name: 'Partner: Dedicated Retainer (Dev + AI Pipeline + CRO)', baseMin: 3200, baseMax: 5500, timeWeeks: 0 },
+  'wordpress': { name: 'Custom WordPress & PHP Platform', baseMin: 3800, baseMax: 6200, timeWeeks: 3.5 },
+  'react':     { name: 'React / JS Web Application', baseMin: 4200, baseMax: 6800, timeWeeks: 4.0 },
+  'ecommerce': { name: 'Multi-Channel E-Commerce Architecture', baseMin: 4500, baseMax: 7800, timeWeeks: 4.5 },
+  'ai-art':    { name: 'AI Art Direction & Worldbuilding Suite', baseMin: 1800, baseMax: 3500, timeWeeks: 2.0 },
+  'audit':     { name: 'Core Web Vitals & CRO Speed Sprint', baseMin: 1200, baseMax: 2200, timeWeeks: 1.0 },
+  'retainer':  { name: 'Monthly Dedicated Engineering Retainer', baseMin: 3200, baseMax: 5500, timeWeeks: 0 }
 };
 
 const ADDON_PRICING = {
-  'api':    { costMin: 700, costMax: 1100, extraWeeks: 0.8 },
-  'wcag':   { costMin: 500, costMax: 800,  extraWeeks: 0.5 },
-  'speed':  { costMin: 450, costMax: 750,  extraWeeks: 0.4 },
-  'emails': { costMin: 600, costMax: 950,  extraWeeks: 0.5 }
+  'ai-pipeline': { costMin: 800, costMax: 1500, extraWeeks: 1.0 },
+  'figma-sys':   { costMin: 700, costMax: 1200, extraWeeks: 0.8 },
+  'api':         { costMin: 700, costMax: 1100, extraWeeks: 0.8 },
+  'wcag':        { costMin: 500, costMax: 800,  extraWeeks: 0.5 },
+  'speed':       { costMin: 450, costMax: 750,  extraWeeks: 0.4 },
+  'emails':      { costMin: 600, costMax: 950,  extraWeeks: 0.5 }
 };
 
 function initEstimator() {
@@ -87,7 +93,7 @@ function initEstimator() {
     const serviceNameDisplay = document.getElementById('calcOutputService');
 
     if (priceDisplay) {
-      if (selectedService === 'retainer') {
+      if (selectedService === 'retainer' || selectedService === 'partner') {
         priceDisplay.textContent = `$${minCost.toLocaleString()} - $${maxCost.toLocaleString()} /mo`;
       } else {
         priceDisplay.textContent = `$${minCost.toLocaleString()} - $${maxCost.toLocaleString()}`;
@@ -95,8 +101,8 @@ function initEstimator() {
     }
 
     if (timeDisplay) {
-      if (selectedService === 'retainer') {
-        timeDisplay.textContent = 'Monthly Ongoing Retainer (Reserved Hours)';
+      if (selectedService === 'retainer' || selectedService === 'partner') {
+        timeDisplay.textContent = 'Monthly Ongoing Retainer (Dedicated Dev + AI Pipeline + CRO)';
       } else {
         timeDisplay.textContent = isExpedited 
           ? `Approx. ${weeks} Weeks (Expedited Priority)`
