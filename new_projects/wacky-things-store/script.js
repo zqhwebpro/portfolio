@@ -735,6 +735,78 @@
          * SEARCH, SORTING & FILTERING (ProductController.cs)
          * ==============================================================================
          */
+        let selectedSearchLetter = 'ALL';
+
+        function initSearchLetters() {
+            const container = document.getElementById('search-letter-pills');
+            if (!container) return;
+
+            const letters = ['ALL', ...'ABCDEFGHIJKLMNOPQRSTUVWXYZ'.split('')];
+            const letterCounts = {};
+            letters.forEach(l => {
+                if (l === 'ALL') {
+                    letterCounts[l] = PRODUCTS.length;
+                } else {
+                    letterCounts[l] = PRODUCTS.filter(p => p.name.toUpperCase().startsWith(l)).length;
+                }
+            });
+
+            container.innerHTML = letters.map(l => {
+                const count = letterCounts[l] || 0;
+                const isSelected = selectedSearchLetter === l;
+                const hasProducts = count > 0;
+                return `
+                    <button type="button" 
+                            onclick="event.stopPropagation(); window.selectSearchLetter('${l}')"
+                            class="px-2 py-0.5 rounded-md font-bold transition-all shrink-0 text-[10px] ${
+                                isSelected 
+                                    ? 'bg-appetite-700 text-white shadow-xs' 
+                                    : hasProducts 
+                                        ? 'bg-white hover:bg-canvas-border text-earth-800 border border-canvas-border' 
+                                        : 'bg-canvas-base text-earth-300 border border-canvas-border/50 opacity-60'
+                            }"
+                            title="${l === 'ALL' ? 'All Products' : `${count} products start with ${l}`}">
+                        ${l}
+                    </button>
+                `;
+            }).join('');
+        }
+
+        function selectSearchLetter(letter) {
+            selectedSearchLetter = letter;
+            const input = document.getElementById('search-input');
+            const clearBtn = document.getElementById('search-clear-btn');
+            
+            if (letter === 'ALL') {
+                if (input) input.value = '';
+                searchQuery = '';
+                if (clearBtn) clearBtn.classList.add('hidden');
+            } else {
+                if (input) input.value = letter;
+                searchQuery = letter;
+                if (clearBtn) clearBtn.classList.remove('hidden');
+            }
+
+            initSearchLetters();
+            renderAjaxDropdownResults();
+
+            currentPage = 1;
+            renderCatalog();
+        }
+
+        function openSearchDropdown() {
+            const dropdown = document.getElementById('search-ajax-dropdown');
+            if (!dropdown) return;
+            initSearchLetters();
+            renderAjaxDropdownResults();
+            dropdown.classList.remove('hidden');
+        }
+
+        function closeSearchDropdown() {
+            const dropdown = document.getElementById('search-ajax-dropdown');
+            if (dropdown) dropdown.classList.add('hidden');
+        }
+
         function handleSearchInput() {
             const input = document.getElementById('search-input');
             const clearBtn = document.getElementById('search-clear-btn');
@@ -742,9 +814,20 @@
 
             if (searchQuery.length > 0) {
                 clearBtn.classList.remove('hidden');
+                const firstChar = searchQuery.charAt(0).toUpperCase();
+                if (/^[A-Z]$/.test(firstChar)) {
+                    selectedSearchLetter = firstChar;
+                } else {
+                    selectedSearchLetter = 'ALL';
+                }
             } else {
                 clearBtn.classList.add('hidden');
+                selectedSearchLetter = 'ALL';
             }
+
+            initSearchLetters();
+            renderAjaxDropdownResults();
+            openSearchDropdown();
 
             currentPage = 1;
             renderCatalog();
@@ -753,12 +836,151 @@
         function clearSearch() {
             const input = document.getElementById('search-input');
             const clearBtn = document.getElementById('search-clear-btn');
-            input.value = '';
+            if (input) input.value = '';
             searchQuery = '';
-            clearBtn.classList.add('hidden');
+            selectedSearchLetter = 'ALL';
+            if (clearBtn) clearBtn.classList.add('hidden');
+            initSearchLetters();
+            closeSearchDropdown();
             currentPage = 1;
             renderCatalog();
         }
+
+        function handleSearchKeydown(e) {
+            if (e.key === 'Escape') {
+                closeSearchDropdown();
+                const input = document.getElementById('search-input');
+                if (input) input.blur();
+            } else if (e.key === 'Enter') {
+                e.preventDefault();
+                viewAllSearchResults();
+            }
+        }
+
+        function viewAllSearchResults() {
+            closeSearchDropdown();
+            if (window.currentView === 'blog') {
+                window.toggleViewStoreBlog();
+            }
+            const catalogSec = document.getElementById('store-main-view');
+            if (catalogSec) {
+                catalogSec.scrollIntoView({ behavior: 'smooth' });
+            }
+        }
+
+        function selectAjaxProduct(productId) {
+            closeSearchDropdown();
+            if (window.currentView === 'blog') {
+                window.toggleViewStoreBlog();
+            }
+            openProductModal(productId);
+        }
+
+        function renderAjaxDropdownResults() {
+            const resultsContainer = document.getElementById('search-ajax-results');
+            const countLabel = document.getElementById('search-results-count');
+            const statusLabel = document.getElementById('search-ajax-status');
+            if (!resultsContainer) return;
+
+            const q = (searchQuery || '').trim().toLowerCase();
+            const letter = (selectedSearchLetter && selectedSearchLetter !== 'ALL') ? selectedSearchLetter.toLowerCase() : null;
+
+            let matches = PRODUCTS;
+
+            if (letter && (!q || q.toLowerCase() === letter)) {
+                matches = PRODUCTS.filter(p => p.name.toLowerCase().startsWith(letter) || p.category.toLowerCase().startsWith(letter));
+                if (statusLabel) statusLabel.innerText = `LINQ .Where(p => p.Name.StartsWith("${letter.toUpperCase()}"))`;
+            } else if (q) {
+                matches = PRODUCTS.filter(p => 
+                    p.name.toLowerCase().includes(q) || 
+                    p.category.toLowerCase().includes(q) || 
+                    p.description.toLowerCase().includes(q)
+                );
+                if (statusLabel) statusLabel.innerText = `LINQ .Where(p => p.Name.Contains("${q}"))`;
+            } else {
+                if (statusLabel) statusLabel.innerText = `LINQ .Take(8) [Live Preview]`;
+                matches = PRODUCTS.slice(0, 8);
+            }
+
+            if (countLabel) {
+                countLabel.innerText = `${matches.length} ${matches.length === 1 ? 'item' : 'items'} found`;
+            }
+
+            if (matches.length === 0) {
+                resultsContainer.innerHTML = `
+                    <div class="p-6 text-center text-earth-500">
+                        <i class="fa-solid fa-ghost text-2xl text-earth-300 mb-2"></i>
+                        <p class="text-xs font-semibold text-earth-800">No bizarre gadgets found matching "${searchQuery || selectedSearchLetter}"</p>
+                        <p class="text-[11px] text-earth-400 mt-1">Try another letter or clear the search to browse all items.</p>
+                        <button type="button" onclick="window.clearSearch()" class="mt-3 px-3 py-1 bg-earth-100 hover:bg-earth-200 text-earth-900 rounded-lg text-xs font-bold transition-all">
+                            Show All Products
+                        </button>
+                    </div>
+                `;
+                return;
+            }
+
+            resultsContainer.innerHTML = matches.map(prod => {
+                const badgeStyle = getCategoryBadgeStyle(prod.category);
+                const categoryIcon = getCategoryIcon(prod.category);
+                let displayName = prod.name;
+                const highlightTerm = q || letter;
+                if (highlightTerm) {
+                    const escaped = highlightTerm.replace(/[-\/\\^$*+?.()|[\]{}]/g, '\\$&');
+                    const regex = new RegExp(`(${escaped})`, 'gi');
+                    displayName = prod.name.replace(regex, '<mark class="bg-yellow-200 text-earth-950 px-0.5 rounded font-black">$1</mark>');
+                }
+
+                return `
+                    <div onclick="window.selectAjaxProduct(${prod.id})" 
+                         class="p-2.5 sm:p-3 hover:bg-canvas-surface cursor-pointer transition-colors flex items-center justify-between gap-3 group">
+                        <div class="flex items-center gap-3 min-w-0">
+                            <img src="${prod.image}" alt="${prod.name}" class="w-11 h-11 rounded-xl object-cover border border-canvas-border shrink-0 shadow-2xs group-hover:scale-105 transition-transform" />
+                            <div class="min-w-0">
+                                <div class="font-bold text-xs text-earth-900 group-hover:text-appetite-700 transition-colors truncate">
+                                    ${displayName}
+                                </div>
+                                <div class="flex items-center gap-2 mt-0.5 flex-wrap">
+                                    <span class="text-[10px] font-bold px-1.5 py-0.2 rounded-md ${badgeStyle} inline-flex items-center gap-1">
+                                        <i class="${categoryIcon} text-[9px]"></i>
+                                        <span>${prod.category}</span>
+                                    </span>
+                                    <span class="text-[10px] text-earth-400 font-medium">★ ${prod.rating.toFixed(1)}</span>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="flex items-center gap-2.5 shrink-0">
+                            <span class="font-mono font-black text-teal-800 text-xs sm:text-sm">$${prod.price.toFixed(2)}</span>
+                            <button type="button" onclick="event.stopPropagation(); window.addToCart(${prod.id});" 
+                                    class="px-2.5 py-1.5 rounded-xl bg-appetite-700 hover:bg-appetite-800 text-white text-[11px] font-bold shadow-xs transition-all flex items-center gap-1"
+                                    title="Add to Cart">
+                                <i class="fa-solid fa-cart-plus text-[10px]"></i>
+                                <span class="hidden sm:inline">Add</span>
+                            </button>
+                        </div>
+                    </div>
+                `;
+            }).join('');
+        }
+
+        // Close search dropdown on click outside
+        document.addEventListener('click', (e) => {
+            const wrapper = document.getElementById('search-bar-wrapper');
+            if (wrapper && !wrapper.contains(e.target)) {
+                closeSearchDropdown();
+            }
+        });
+
+        window.openSearchDropdown = openSearchDropdown;
+        window.closeSearchDropdown = closeSearchDropdown;
+        window.selectSearchLetter = selectSearchLetter;
+        window.handleSearchInput = handleSearchInput;
+        window.clearSearch = clearSearch;
+        window.handleSearchKeydown = handleSearchKeydown;
+        window.viewAllSearchResults = viewAllSearchResults;
+        window.selectAjaxProduct = selectAjaxProduct;
+        window.renderAjaxDropdownResults = renderAjaxDropdownResults;
 
         function handleSortChange() {
             const select = document.getElementById('sort-select');
@@ -1225,7 +1447,7 @@
                 authorRole: 'Dry Hydration Master',
                 date: 'September 28, 2026',
                 readTime: '4 min read',
-                image: 'https://images.unsplash.com/photo-1546377791-bebc64f4340d?auto=format&fit=crop&w=600&q=80',
+                image: 'https://images.unsplash.com/photo-1527661591475-527312dd65f5?auto=format&fit=crop&w=600&q=80',
                 excerpt: 'Dehydrated water has revolutionized camping and space exploration. Learn how to reconstitute your canned dry moisture using genuine tap water.',
                 content: `
                     <p class="text-base font-semibold text-earth-800 leading-relaxed">First patented in 1924 by eccentric inventor Barnaby Dry, Dehydrated Water remains one of the greatest inventions of the modern age. By removing 100% of H2O content from water, we created a lightweight powder that weighs zero grams!</p>

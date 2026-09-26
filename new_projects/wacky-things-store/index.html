@@ -614,22 +614,66 @@
             </div>
 
             <!-- E-Commerce Search Bar -->
-            <div class="flex-1 max-w-xl min-w-[260px]"
+            <div class="flex-1 max-w-xl min-w-[260px] relative" id="search-bar-wrapper"
                 data-blueprint-file="WackyStore.WebUI/Controllers/ProductController.cs"
                 data-blueprint-role="Catalog Search Query Action" data-blueprint-layer="WebUI / Controller &amp; LINQ"
-                data-blueprint-dom="Search input with off-white card background, purple border, and silver highlight focus state."
-                data-blueprint-desc="In ASP.NET MVC, search parameters are bound to action arguments (string search). LINQ translates .Where(p => p.Name.Contains(search)) into parameterized SQL LIKE queries."
-                data-blueprint-code="public ViewResult List(string category, string search, int page = 1) { ... }">
+                data-blueprint-dom="Search input with AJAX live product dropdown and letter selector."
+                data-blueprint-desc="ProductController.LiveSearch(string letter, string query) returns JSON partial view for real-time AJAX auto-complete."
+                data-blueprint-code="[HttpGet] public JsonResult LiveSearch(string q) { var results = repository.Products.Where(p => p.Name.Contains(q)).Take(6); return Json(results, JsonRequestBehavior.AllowGet); }">
                 <div class="relative flex items-center">
                     <input type="text" id="search-input"
                         placeholder="Search bizarre items (e.g. rubber chicken, whoopee cushion, googly eyes)..."
                         oninput="window.handleSearchInput()"
+                        onfocus="window.openSearchDropdown()"
+                        onkeydown="window.handleSearchKeydown(event)"
+                        autocomplete="off"
                         class="w-full bg-white border border-canvas-border rounded-xl pl-10 pr-9 py-2.5 text-xs text-earth-900 placeholder-earth-400 focus:outline-none focus:border-teal-600 focus:ring-2 focus:ring-teal-300/40 shadow-xs transition-all">
                     <i class="fa-solid fa-magnifying-glass absolute left-3.5 text-earth-500 text-sm"></i>
                     <button id="search-clear-btn" onclick="window.clearSearch()"
                         class="absolute right-3 text-earth-400 hover:text-earth-900 text-sm hidden">
                         <i class="fa-solid fa-xmark"></i>
                     </button>
+                </div>
+
+                <!-- Live AJAX Product Dropdown -->
+                <div id="search-ajax-dropdown"
+                    class="absolute top-full left-0 right-0 mt-2 bg-white border border-canvas-border rounded-2xl shadow-2xl z-50 overflow-hidden hidden transition-all duration-200"
+                    style="max-height: 480px;">
+
+                    <!-- Dropdown Header: Alphabetical Letter Quick Filter Ribbon -->
+                    <div class="bg-earth-50/90 border-b border-canvas-border px-3 py-2">
+                        <div class="flex items-center justify-between gap-2 mb-1.5">
+                            <span class="text-[10px] font-mono font-bold uppercase tracking-wider text-earth-500 flex items-center gap-1">
+                                <i class="fa-solid fa-bolt text-appetite-700"></i>
+                                <span>Filter by Letter:</span>
+                            </span>
+                            <span id="search-ajax-status" class="text-[10px] font-mono text-teal-800 font-semibold truncate">
+                                LINQ AJAX Live Query
+                            </span>
+                        </div>
+                        <!-- A-Z Letter Pills -->
+                        <div id="search-letter-pills" class="flex items-center gap-1 overflow-x-auto pb-1 text-[11px] font-mono scrollbar-thin">
+                            <!-- Injected by JS: All, A, B, C, D... -->
+                        </div>
+                    </div>
+
+                    <!-- AJAX Results List -->
+                    <div id="search-ajax-results" class="max-h-[320px] overflow-y-auto divide-y divide-canvas-border">
+                        <!-- Injected by JS: Products matching typed query or selected letter -->
+                    </div>
+
+                    <!-- Dropdown Footer -->
+                    <div class="bg-earth-50 px-3.5 py-2 border-t border-canvas-border flex items-center justify-between text-[11px] text-earth-500">
+                        <span id="search-results-count" class="font-medium">0 items found</span>
+                        <div class="flex items-center gap-3">
+                            <button type="button" onclick="window.viewAllSearchResults()" class="text-teal-800 hover:text-earth-950 font-bold hover:underline">
+                                View in Catalog &rarr;
+                            </button>
+                            <span class="text-earth-400">|</span>
+                            <span class="text-earth-400 text-[10px]">ESC to close</span>
+                        </div>
+                    </div>
+
                 </div>
             </div>
 
@@ -986,7 +1030,7 @@
         data-blueprint-desc="BlogController queries IBlogRepository to supply IEnumerable<BlogPost> items to the Index view with category filtering."
         data-blueprint-code="public ViewResult Index(string cat) => View(repository.GetArticles(cat));"
         class="bg-canvas-base text-earth-950 py-8 flex-1 w-full hidden">
-        <div class="store-fluid-container space-y-6">
+        <div class="store-fluid-container space-y-6 max-w-[1400px] mx-auto">
 
             <!-- Blog Header Bar: Category Filters on LEFT, Non-Bold Grey Paragraph Aligned Next to It -->
             <div class="bg-white border border-canvas-border rounded-2xl p-4 flex items-center flex-wrap md:flex-nowrap gap-4 shadow-xs"
@@ -996,7 +1040,18 @@
                 data-blueprint-desc="BlogListViewModel encapsulates Article list, CurrentCategory, and PagingInfo."
                 data-blueprint-code="public class BlogListViewModel { public IEnumerable<BlogPost> Articles { get; set; } }">
 
-                <!-- Blog Category Filter Buttons (Left Aligned) -->
+                <!-- Non-Bold Grey Paragraph Aligned on Left -->
+                <p class="text-xs sm:text-sm font-normal text-gray-600 leading-relaxed text-left flex-1 m-0">
+                    Welcome to the official field notes, lab documentation, and mischievous user guides for our absurd
+                    store inventions! Here you will find scientific breakdowns on dehydrated water, care instructions
+                    for invisible chameleons, windowsill botanical gossip, and fluid dynamics for left-handed coffee
+                    mugs.
+                </p>
+
+                <!-- Vertical Divider on md+ screens -->
+                <div class="hidden md:block h-9 w-[1px] bg-canvas-border shrink-0"></div>
+
+                <!-- Blog Category Filter Buttons (Right Aligned) -->
                 <div class="flex flex-wrap items-center gap-2 text-xs shrink-0">
                     <button onclick="window.filterBlogCategory('all')"
                         data-blueprint-file="WackyStore.Domain/Abstract/IBlogRepository.cs"
@@ -1019,17 +1074,6 @@
                         class="blog-cat-btn px-3.5 py-1.5 rounded-xl font-bold transition-all bg-canvas-surface hover:bg-canvas-border text-earth-800 border border-canvas-border">Cosmic
                         Anomalies</button>
                 </div>
-
-                <!-- Vertical Divider on md+ screens -->
-                <div class="hidden md:block h-9 w-[1px] bg-canvas-border shrink-0"></div>
-
-                <!-- Non-Bold Grey Paragraph Aligned Next to Filter Container -->
-                <p class="text-xs sm:text-sm font-normal text-gray-600 leading-relaxed text-left flex-1 m-0">
-                    Welcome to the official field notes, lab documentation, and mischievous user guides for our absurd
-                    store inventions! Here you will find scientific breakdowns on dehydrated water, care instructions
-                    for invisible chameleons, windowsill botanical gossip, and fluid dynamics for left-handed coffee
-                    mugs.
-                </p>
 
             </div>
 

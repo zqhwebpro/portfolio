@@ -2,7 +2,6 @@ import React, { useState, useEffect, useRef } from 'react';
 import { RearviewMirror } from './RearviewMirror';
 import { WaveformVisualizer } from './WaveformVisualizer';
 import { SpotifyRadio } from './SpotifyRadio';
-import { Sparkles } from 'lucide-react';
 
 const AFFIRMATIONS = [
   "You are unstoppable. Keep pushing forward.",
@@ -22,31 +21,19 @@ const AFFIRMATIONS = [
   "Master the fundamentals, command any language."
 ];
 
-const HORIZONTAL_POSITIONS = ['25%', '50%', '75%'];
-
 export function SynthwaveDrive() {
   const canvasRef = useRef(null);
+  const viewportRef = useRef(null);
 
-  // Infinite Driving Scroll State
+  // Driving & simulation state
   const [speedMph, setSpeedMph] = useState(0);
   const [driveDistance, setDriveDistance] = useState(0);
   const [popups, setPopups] = useState([]);
   const [isAudioPlaying, setIsAudioPlaying] = useState(true);
-  const [dimensions, setDimensions] = useState({ w: 1000, h: 800 });
   const [autoDrive, setAutoDrive] = useState(false);
-  const [shows, setShows] = useState([]);
   const showsRef = useRef([]);
 
-  useEffect(() => {
-    fetch('https://api.tvmaze.com/shows')
-      .then(res => res.json())
-      .then(data => {
-        setShows(data);
-        showsRef.current = data;
-      })
-      .catch(err => console.error(err));
-  }, []);
-
+  // Animation & simulation refs
   const autoDriveRef = useRef(false);
   const speedRef = useRef(0);
   const directionRef = useRef(1); // 1 = Forward, -1 = Reverse
@@ -55,17 +42,34 @@ export function SynthwaveDrive() {
   const nextMilestoneDistRef = useRef(28); // Spaced apart, no initial popup at startup
   const milestoneCountRef = useRef(0);
 
+  // Fetch optional show names for sign text variety
+  useEffect(() => {
+    let isMounted = true;
+    fetch('https://api.tvmaze.com/shows')
+      .then((res) => res.json())
+      .then((data) => {
+        if (isMounted && Array.isArray(data)) {
+          showsRef.current = data;
+        }
+      })
+      .catch((err) => console.error('Failed to load show titles:', err));
+
+    return () => {
+      isMounted = false;
+    };
+  }, []);
+
   const toggleAutoDrive = () => {
-    setAutoDrive(prev => {
-      autoDriveRef.current = !prev;
-      return !prev;
+    setAutoDrive((prev) => {
+      const next = !prev;
+      autoDriveRef.current = next;
+      return next;
     });
   };
 
-  // Handle Wheel / Scroll Interaction (Smooth fluid momentum calculation)
+  // Fluid momentum wheel / scroll interaction
   useEffect(() => {
     const handleWheel = (e) => {
-      // Smooth continuous velocity impulse based on scroll delta
       const deltaMag = Math.min(Math.abs(e.deltaY), 120);
       const impulse = deltaMag * 0.35;
 
@@ -80,7 +84,7 @@ export function SynthwaveDrive() {
       }
     };
 
-    const container = document.getElementById('synthwave-drive-viewport');
+    const container = viewportRef.current;
     if (container) {
       container.addEventListener('wheel', handleWheel, { passive: true });
     }
@@ -113,163 +117,75 @@ export function SynthwaveDrive() {
       const parent = canvas.parentElement;
       const width = parent ? parent.clientWidth : window.innerWidth;
       const height = parent ? parent.clientHeight : window.innerHeight;
-      canvas.width = width;
-      canvas.height = height;
-      
-      setDimensions(prev => {
-        if (prev.w !== width || prev.h !== height) return { w: width, h: height };
-        return prev;
-      });
 
+      // Only resize canvas buffer when dimensions actually change
+      if (canvas.width !== width || canvas.height !== height) {
+        canvas.width = width;
+        canvas.height = height;
+      }
+
+      // Handle speed adjustments (auto-drive cruise vs momentum deceleration)
       if (autoDriveRef.current) {
         directionRef.current = 1;
-        speedRef.current = speedRef.current + (40 - speedRef.current) * 0.05; // Ease towards 40 mph
+        speedRef.current = speedRef.current + (40 - speedRef.current) * 0.05; // Ease to 40 mph
       } else {
-        // Decelerate speed smoothly to 0 when not scrolling (Exponential smoothing)
         if (speedRef.current > 0.1) {
           speedRef.current = speedRef.current * 0.95;
         } else {
           speedRef.current = 0;
         }
       }
-      
-      // Smooth 60fps state updates
+
+      // Smooth state updates
       setSpeedMph(Math.round(speedRef.current));
       setDriveDistance(Math.abs(driveDistanceRef.current));
 
-      // Advance grid offset forward or backward depending on directionRef
+      // Advance grid offset
       if (speedRef.current > 0) {
         const baseVel = speedRef.current * 0.14 * directionRef.current;
         offsetRef.current = (offsetRef.current + baseVel + 40) % 40;
-        driveDistanceRef.current += (baseVel / 40);
+        driveDistanceRef.current += baseVel / 40;
       }
 
       const currentDist = Math.abs(driveDistanceRef.current);
 
-      // Trigger new affirmation popup far down the road horizon when reaching distance milestones
+      // Trigger new affirmation popup far down the road horizon
       if (currentDist >= nextMilestoneDistRef.current) {
         milestoneCountRef.current += 1;
-        
+
         let popupText = AFFIRMATIONS[Math.floor(Math.random() * AFFIRMATIONS.length)];
         if (showsRef.current.length > 0) {
           const show = showsRef.current[Math.floor(Math.random() * showsRef.current.length)];
           popupText = show.name;
         }
 
-        // Snap startDist to the next integer so it perfectly rides a blue grid line!
         const startDist = Math.ceil(currentDist);
-
         const newPopup = {
           id: Date.now() + Math.random(),
           text: popupText,
           number: milestoneCountRef.current,
           startDist: startDist,
-          targetDist: startDist + 36 // exactly 36 grid squares to match numH * 2
+          targetDist: startDist + 36, // 36 grid squares
         };
 
         setPopups((prev) => [...prev, newPopup]);
-
         const nextGap = Math.floor(Math.random() * 15) + 20;
         nextMilestoneDistRef.current = startDist + nextGap;
       }
-
-      // 1. Deep Space Night Sky Gradient (Clean)
-      const skyGrad = ctx.createLinearGradient(0, 0, 0, height * 0.55);
-      skyGrad.addColorStop(0, '#040008');
-      skyGrad.addColorStop(0.5, '#18042e');
-      skyGrad.addColorStop(1, '#420747');
-      ctx.fillStyle = skyGrad;
-      ctx.fillRect(0, 0, width, height);
 
       const horizonY = height * 0.55;
       const sunCenterX = width * 0.5;
       const sunRadius = Math.min(width, height) * 0.25;
       const sunCenterY = horizonY - sunRadius * 0.35;
 
-      // 2. SYNTHWAVE SUN (Clean uninterrupted neon gradient)
-      const sunGrad = ctx.createLinearGradient(0, sunCenterY - sunRadius, 0, horizonY);
-      sunGrad.addColorStop(0, '#ffe600');
-      sunGrad.addColorStop(0.4, '#ff007f');
-      sunGrad.addColorStop(0.8, '#ff0055');
-      sunGrad.addColorStop(1, '#9d00ff');
-      ctx.fillStyle = sunGrad;
+      // 1. Deep Space Night Sky & Synthwave Sun
+      drawSkyAndSun(ctx, width, height, horizonY, sunCenterX, sunCenterY, sunRadius);
 
-      ctx.save();
-      ctx.beginPath();
-      ctx.arc(sunCenterX, sunCenterY, sunRadius, 0, Math.PI * 2);
-      ctx.fill();
+      // 2. Distant Mountain Silhouettes
+      drawMountains(ctx, width, horizonY);
 
-      // Sun Glow Aura
-      const sunGlow = ctx.createRadialGradient(sunCenterX, sunCenterY, sunRadius * 0.5, sunCenterX, sunCenterY, sunRadius * 2.2);
-      sunGlow.addColorStop(0, 'rgba(255, 0, 127, 0.45)');
-      sunGlow.addColorStop(0.5, 'rgba(0, 240, 255, 0.2)');
-      sunGlow.addColorStop(1, 'rgba(0, 0, 0, 0)');
-      ctx.fillStyle = sunGlow;
-      ctx.fillRect(0, 0, width, height);
-      ctx.restore();
-
-      // 3. Distant Mountain Silhouettes
-      ctx.fillStyle = '#0e041d';
-      ctx.beginPath();
-      ctx.moveTo(0, horizonY);
-      ctx.lineTo(width * 0.15, horizonY - 45);
-      ctx.lineTo(width * 0.28, horizonY - 20);
-      ctx.lineTo(width * 0.4, horizonY - 60);
-      ctx.lineTo(width * 0.5, horizonY - 25);
-      ctx.lineTo(width * 0.65, horizonY - 70);
-      ctx.lineTo(width * 0.8, horizonY - 30);
-      ctx.lineTo(width, horizonY);
-      ctx.fill();
-
-      // 4. 3D Perspective Grid Floor
-      ctx.save();
-      const floorGrad = ctx.createLinearGradient(0, horizonY, 0, height);
-      floorGrad.addColorStop(0, '#120328');
-      floorGrad.addColorStop(1, '#040108');
-      ctx.fillStyle = floorGrad;
-      ctx.fillRect(0, horizonY, width, height - horizonY);
-
-      // Perspective Grid Lines (Horizontal moving forward/backward)
-      ctx.lineWidth = 2;
-      
-      // Draw a solid line exactly at the horizon so it anchors the perspective
-      ctx.strokeStyle = 'rgba(0, 240, 255, 0.8)';
-      ctx.shadowColor = '#00F0FF';
-      ctx.shadowBlur = 4;
-      ctx.beginPath();
-      ctx.moveTo(0, horizonY);
-      ctx.lineTo(width, horizonY);
-      ctx.stroke();
-
-      const numH = 18;
-      for (let i = 0; i < numH; i++) {
-        const progress = (((i + offsetRef.current / 40) % numH) + numH) % numH / numH;
-        const py = horizonY + Math.pow(progress, 2.5) * (height - horizonY);
-
-        ctx.strokeStyle = `rgba(0, 240, 255, ${0.25 + progress * 0.75})`;
-        ctx.shadowColor = '#00F0FF';
-        ctx.shadowBlur = progress * 8;
-        ctx.beginPath();
-        ctx.moveTo(0, py);
-        ctx.lineTo(width, py);
-        ctx.stroke();
-      }
-
-      // Perspective Grid Lines (Vertical fanning outward)
-      const fanning = 26;
-      for (let i = -fanning; i <= fanning; i++) {
-        const startX = sunCenterX + (i / fanning) * (width * 0.05);
-        const endX = sunCenterX + i * (width * 0.08);
-
-        ctx.strokeStyle = 'rgba(255, 0, 127, 0.55)';
-        ctx.shadowColor = '#FF007F';
-        ctx.shadowBlur = 5;
-        ctx.beginPath();
-        ctx.moveTo(startX, horizonY);
-        ctx.lineTo(endX, height);
-        ctx.stroke();
-      }
-      ctx.restore();
+      // 3. 3D Perspective Grid Floor
+      drawGridFloor(ctx, width, height, horizonY, sunCenterX, offsetRef.current);
 
       animId = requestAnimationFrame(render);
     };
@@ -280,6 +196,7 @@ export function SynthwaveDrive() {
 
   return (
     <div
+      ref={viewportRef}
       id="synthwave-drive-viewport"
       style={{
         position: 'relative',
@@ -292,17 +209,18 @@ export function SynthwaveDrive() {
       {/* 3D Canvas Scene */}
       <canvas ref={canvasRef} style={{ width: '100%', height: '100%', display: 'block' }} />
 
-      {/* 1. TOP CENTER REARVIEW MIRROR */}
+      {/* Top Center Rearview Mirror */}
       <RearviewMirror speedMph={speedMph} popups={popups} driveDistance={driveDistance} />
 
-      {/* 2. LIVE WAVEFORM SCOPE & HORIZON SOUND WAVES ALONG MOUNTAINS */}
+      {/* Live Waveform Scope Along Horizon */}
       <WaveformVisualizer isAudioPlaying={isAudioPlaying} speedMph={speedMph} />
 
-      {/* 3. DIRECT SPOTIFY EMBED PLAYLIST (WITHOUT EXTRA CONTAINER OR BUTTONS) */}
+      {/* Direct Spotify Radio Embed */}
       <SpotifyRadio onAudioStateChange={(active) => setIsAudioPlaying(active)} />
 
-      {/* 4. AUTO DRIVE TOGGLE */}
+      {/* Auto Drive Toggle Button */}
       <button
+        type="button"
         onClick={toggleAutoDrive}
         style={{
           position: 'absolute',
@@ -311,7 +229,7 @@ export function SynthwaveDrive() {
           zIndex: 40,
           background: autoDrive ? 'rgba(0, 240, 255, 0.2)' : 'rgba(10, 2, 20, 0.75)',
           border: `1px solid ${autoDrive ? '#00F0FF' : 'rgba(0, 240, 255, 0.3)'}`,
-          color: autoDrive ? '#00F0FF' : 'rgba(255,255,255,0.7)',
+          color: autoDrive ? '#00F0FF' : 'rgba(255, 255, 255, 0.7)',
           padding: '0.75rem 1.25rem',
           borderRadius: '8px',
           fontFamily: 'var(--font-sans, sans-serif)',
@@ -321,157 +239,217 @@ export function SynthwaveDrive() {
           cursor: 'pointer',
           backdropFilter: 'blur(12px)',
           boxShadow: autoDrive ? '0 0 15px rgba(0, 240, 255, 0.4)' : 'none',
-          transition: 'all 0.3s ease'
+          transition: 'all 0.3s ease',
         }}
       >
         {autoDrive ? 'Auto Drive: ON' : 'Auto Drive: OFF'}
       </button>
 
-      {/* POP-UPS TRAVELING DOWNWARD ALONG THE ROAD FLOOR PLANE */}
-      {popups.map((popup) => {
-        const rawProgress = (driveDistance - popup.startDist) / 36;
-        if (rawProgress > 1.05) return null;
-        
-        const p = Math.max(0, Math.min(1, rawProgress));
+      {/* Popups Traveling Along Roadside Track Lines */}
+      {popups.map((popup) => (
+        <RoadsideSign key={popup.id} popup={popup} driveDistance={driveDistance} />
+      ))}
+    </div>
+  );
+}
 
-        // Use exact pixel dimensions tracked by component
-        const w = dimensions.w;
-        const h = dimensions.h;
-        const horizonY = h * 0.55;
+// ----------------------------------------------------------------------------
+// Canvas Layer Render Helpers
+// ----------------------------------------------------------------------------
 
-        const progressY = Math.pow(p, 2.5);
+function drawSkyAndSun(ctx, width, height, horizonY, sunCenterX, sunCenterY, sunRadius) {
+  // Deep space sky gradient
+  const skyGrad = ctx.createLinearGradient(0, 0, 0, horizonY);
+  skyGrad.addColorStop(0, '#040008');
+  skyGrad.addColorStop(0.5, '#18042e');
+  skyGrad.addColorStop(1, '#420747');
+  ctx.fillStyle = skyGrad;
+  ctx.fillRect(0, 0, width, height);
 
-        // Calculate Y as a percentage (horizon is 55%) - Moved up by 3%
-        const topPct = 52 + progressY * 45; 
-        
-        // Scale starts extremely small at horizon
-        const scale = Math.max(0.01, progressY * 3.0); 
-        
-        // Fully opaque until it passes the camera
-        const opacity = p > 0.85 ? Math.max(0, 1 - (p - 0.85) * 6.6) : 1;
-        
-        const stemHeight = 20 + (popup.id % 150); // Stem height between 20 and 170px
-        const stemWidth = 6;
+  // Synthwave sun
+  const sunGrad = ctx.createLinearGradient(0, sunCenterY - sunRadius, 0, horizonY);
+  sunGrad.addColorStop(0, '#ffe600');
+  sunGrad.addColorStop(0.4, '#ff007f');
+  sunGrad.addColorStop(0.8, '#ff0055');
+  sunGrad.addColorStop(1, '#9d00ff');
+  ctx.fillStyle = sunGrad;
 
-        // Calculate X position matching the pink perspective lines
-        const isLeft = (popup.number % 2) === 0;
-        
-        // Precisely track the first magenta track line (i=2 and i=-2)
-        const lineIndex = isLeft ? -2 : 2;
-        
-        // X starts at 50% (center) + offset
-        const startX_pct = 50 + (lineIndex / 26) * 5;
-        const endX_pct = 50 + lineIndex * 8;
-        const currentX_pct = startX_pct + (endX_pct - startX_pct) * progressY;
+  ctx.save();
+  ctx.beginPath();
+  ctx.arc(sunCenterX, sunCenterY, sunRadius, 0, Math.PI * 2);
+  ctx.fill();
 
-        const primaryWaveColor = isLeft ? '#00F0FF' : '#FF007F';
-        const secondaryWaveColor = isLeft ? '#FF007F' : '#00F0FF';
-        const waveGlowRgba = isLeft ? 'rgba(0, 240, 255, 0.6)' : 'rgba(255, 0, 127, 0.6)';
-        const secondaryGlowRgba = isLeft ? 'rgba(255, 0, 127, 0.35)' : 'rgba(0, 240, 255, 0.35)';
+  // Sun glow aura
+  const sunGlow = ctx.createRadialGradient(
+    sunCenterX,
+    sunCenterY,
+    sunRadius * 0.5,
+    sunCenterX,
+    sunCenterY,
+    sunRadius * 2.2
+  );
+  sunGlow.addColorStop(0, 'rgba(255, 0, 127, 0.45)');
+  sunGlow.addColorStop(0.5, 'rgba(0, 240, 255, 0.2)');
+  sunGlow.addColorStop(1, 'rgba(0, 0, 0, 0)');
+  ctx.fillStyle = sunGlow;
+  ctx.fillRect(0, 0, width, height);
+  ctx.restore();
+}
 
-        return (
-          <div
-            key={popup.id}
-            style={{
-              position: 'absolute',
-              top: `${topPct}%`,
-              left: `${currentX_pct}%`,
-              transform: `translate(-50%, -100%) scale(${scale})`, // Origin at bottom center
-              transformOrigin: '50% 100%',
-              opacity: opacity,
-              zIndex: Math.round(45 + p * 20),
-              display: 'flex',
-              flexDirection: 'column',
-              alignItems: 'center',
-              transition: 'opacity 0.08s linear',
-              pointerEvents: opacity > 0.3 ? 'auto' : 'none',
-            }}
-          >
-            <div style={{
-              background: 'linear-gradient(135deg, rgba(8, 2, 28, 0.94) 0%, rgba(22, 4, 42, 0.94) 50%, rgba(3, 14, 36, 0.96) 100%)',
-              backdropFilter: 'blur(16px)',
-              border: `2.5px solid ${primaryWaveColor}`,
-              borderRadius: '10px',
-              padding: '1.25rem 1.75rem 1.5rem',
-              width: '320px',
-              height: 'auto',
-              display: 'flex',
-              flexDirection: 'column',
-              justifyContent: 'center',
-              alignItems: 'center',
-              boxShadow: `0 12px 35px rgba(0, 0, 0, 0.8), 0 0 30px ${waveGlowRgba}, 0 0 55px ${secondaryGlowRgba}, inset 0 0 20px ${isLeft ? 'rgba(0, 240, 255, 0.18)' : 'rgba(255, 0, 127, 0.18)'}`,
-              textAlign: 'center',
-              position: 'relative',
-              overflow: 'hidden'
-            }}>
-              {/* Luminous top wave accent line */}
-              <div style={{
-                position: 'absolute',
-                top: 0,
-                left: 0,
-                right: 0,
-                height: '4px',
-                background: 'linear-gradient(90deg, #00F0FF 0%, #FF007F 50%, #FFE600 100%)',
-                boxShadow: '0 0 10px #00F0FF, 0 0 16px #FF007F'
-              }} />
+function drawMountains(ctx, width, horizonY) {
+  ctx.fillStyle = '#0e041d';
+  ctx.beginPath();
+  ctx.moveTo(0, horizonY);
+  ctx.lineTo(width * 0.15, horizonY - 45);
+  ctx.lineTo(width * 0.28, horizonY - 20);
+  ctx.lineTo(width * 0.4, horizonY - 60);
+  ctx.lineTo(width * 0.5, horizonY - 25);
+  ctx.lineTo(width * 0.65, horizonY - 70);
+  ctx.lineTo(width * 0.8, horizonY - 30);
+  ctx.lineTo(width, horizonY);
+  ctx.fill();
+}
 
-              {/* Synthetic Wave Header Telemetry */}
-              <div style={{
-                display: 'flex',
-                alignItems: 'center',
-                justifyContent: 'space-between',
-                width: '100%',
-                marginBottom: '0.65rem',
-                paddingBottom: '0.45rem',
-                borderBottom: `1px solid ${isLeft ? 'rgba(0, 240, 255, 0.25)' : 'rgba(255, 0, 127, 0.25)'}`
-              }}>
-                <div style={{ display: 'flex', alignItems: 'center', gap: '6px' }}>
-                  <span style={{
-                    width: '6px',
-                    height: '6px',
-                    borderRadius: '50%',
-                    background: primaryWaveColor,
-                    boxShadow: `0 0 8px ${primaryWaveColor}`,
-                    display: 'inline-block'
-                  }}></span>
-                  <span style={{
-                    fontFamily: 'var(--font-mono, monospace)',
-                    fontSize: '0.65rem',
-                    fontWeight: 800,
-                    color: primaryWaveColor,
-                    letterSpacing: '0.12em',
-                    textTransform: 'uppercase'
-                  }}>
-                    SYNTHWAVE FREQ
-                  </span>
-                </div>
-                <svg width="34" height="10" viewBox="0 0 34 10" fill="none">
-                  <path d="M0 5 Q 4.25 0, 8.5 5 T 17 5 T 25.5 5 T 34 5" stroke={secondaryWaveColor} strokeWidth="1.8" strokeLinecap="round" />
-                </svg>
-              </div>
+function drawGridFloor(ctx, width, height, horizonY, sunCenterX, offset) {
+  ctx.save();
+  const floorGrad = ctx.createLinearGradient(0, horizonY, 0, height);
+  floorGrad.addColorStop(0, '#120328');
+  floorGrad.addColorStop(1, '#040108');
+  ctx.fillStyle = floorGrad;
+  ctx.fillRect(0, horizonY, width, height - horizonY);
 
-              {/* Clean Sentence Case Affirmation Text */}
-              <div style={{
-                fontFamily: 'var(--font-display, "Space Grotesk", sans-serif)',
-                fontSize: '1.25rem',
-                fontWeight: 700,
-                lineHeight: 1.35,
-                color: '#FFFFFF',
-                textShadow: `0 0 15px rgba(255, 255, 255, 0.95), 0 0 30px ${waveGlowRgba}, 0 0 45px ${secondaryGlowRgba}`,
-                letterSpacing: '0.01em',
-                margin: 0,
-                textTransform: 'none',
-                whiteSpace: 'normal',
-                wordWrap: 'break-word'
-              }}>
-                "{popup.text}"
-              </div>
-            </div>
-          </div>
-        );
-      })}
+  // Horizon anchor line
+  ctx.lineWidth = 2;
+  ctx.strokeStyle = 'rgba(0, 240, 255, 0.8)';
+  ctx.shadowColor = '#00F0FF';
+  ctx.shadowBlur = 4;
+  ctx.beginPath();
+  ctx.moveTo(0, horizonY);
+  ctx.lineTo(width, horizonY);
+  ctx.stroke();
 
+  // Horizontal perspective lines moving forward/backward
+  const numH = 18;
+  for (let i = 0; i < numH; i++) {
+    const progress = (((i + offset / 40) % numH) + numH) % numH / numH;
+    const py = horizonY + Math.pow(progress, 2.5) * (height - horizonY);
 
+    ctx.strokeStyle = `rgba(0, 240, 255, ${0.25 + progress * 0.75})`;
+    ctx.shadowColor = '#00F0FF';
+    ctx.shadowBlur = progress * 8;
+    ctx.beginPath();
+    ctx.moveTo(0, py);
+    ctx.lineTo(width, py);
+    ctx.stroke();
+  }
+
+  // Vertical perspective lines fanning outward
+  const fanning = 26;
+  for (let i = -fanning; i <= fanning; i++) {
+    const startX = sunCenterX + (i / fanning) * (width * 0.05);
+    const endX = sunCenterX + i * (width * 0.08);
+
+    ctx.strokeStyle = 'rgba(255, 0, 127, 0.55)';
+    ctx.shadowColor = '#FF007F';
+    ctx.shadowBlur = 5;
+    ctx.beginPath();
+    ctx.moveTo(startX, horizonY);
+    ctx.lineTo(endX, height);
+    ctx.stroke();
+  }
+  ctx.restore();
+}
+
+// ----------------------------------------------------------------------------
+// Roadside Sign Popup Component
+// ----------------------------------------------------------------------------
+
+function RoadsideSign({ popup, driveDistance }) {
+  const rawProgress = (driveDistance - popup.startDist) / 36;
+  if (rawProgress > 1.05) return null;
+
+  const p = Math.max(0, Math.min(1, rawProgress));
+  const progressY = Math.pow(p, 2.5);
+
+  // Calculate Y as a percentage (horizon is 55%) - Moved up by 3%
+  const topPct = 52 + progressY * 45;
+
+  // Scale starts extremely small at horizon
+  const scale = Math.max(0.01, progressY * 3.0);
+
+  // Fully opaque until it passes the camera
+  const opacity = p > 0.85 ? Math.max(0, 1 - (p - 0.85) * 6.6) : 1;
+
+  // Track the first magenta track line (i=2 and i=-2)
+  const isLeft = popup.number % 2 === 0;
+  const lineIndex = isLeft ? -2 : 2;
+
+  // X starts at 50% (center) + offset
+  const startX_pct = 50 + (lineIndex / 26) * 5;
+  const endX_pct = 50 + lineIndex * 8;
+  const currentX_pct = startX_pct + (endX_pct - startX_pct) * progressY;
+
+  const primaryWaveColor = isLeft ? '#00F0FF' : '#FF007F';
+  const waveGlowRgba = isLeft ? 'rgba(0, 240, 255, 0.6)' : 'rgba(255, 0, 127, 0.6)';
+  const secondaryGlowRgba = isLeft ? 'rgba(255, 0, 127, 0.35)' : 'rgba(0, 240, 255, 0.35)';
+
+  return (
+    <div
+      style={{
+        position: 'absolute',
+        top: `${topPct}%`,
+        left: `${currentX_pct}%`,
+        transform: `translate(-50%, -100%) scale(${scale})`,
+        transformOrigin: '50% 100%',
+        opacity,
+        zIndex: Math.round(45 + p * 20),
+        display: 'flex',
+        flexDirection: 'column',
+        alignItems: 'center',
+        transition: 'opacity 0.08s linear',
+        pointerEvents: opacity > 0.3 ? 'auto' : 'none',
+      }}
+    >
+      <div
+        style={{
+          background:
+            'linear-gradient(135deg, rgba(8, 2, 28, 0.94) 0%, rgba(22, 4, 42, 0.94) 50%, rgba(3, 14, 36, 0.96) 100%)',
+          backdropFilter: 'blur(16px)',
+          border: `2.5px solid ${primaryWaveColor}`,
+          borderRadius: '10px',
+          padding: '1.4rem 1.75rem',
+          width: '320px',
+          height: 'auto',
+          display: 'flex',
+          flexDirection: 'column',
+          justifyContent: 'center',
+          alignItems: 'center',
+          boxShadow: `0 12px 35px rgba(0, 0, 0, 0.8), 0 0 30px ${waveGlowRgba}, 0 0 55px ${secondaryGlowRgba}, inset 0 0 20px ${
+            isLeft ? 'rgba(0, 240, 255, 0.18)' : 'rgba(255, 0, 127, 0.18)'
+          }`,
+          textAlign: 'center',
+          position: 'relative',
+          overflow: 'hidden',
+        }}
+      >
+        <div
+          style={{
+            fontFamily: 'var(--font-display, "Space Grotesk", sans-serif)',
+            fontSize: '1.25rem',
+            fontWeight: 700,
+            lineHeight: 1.35,
+            color: '#FFFFFF',
+            textShadow: `0 0 15px rgba(255, 255, 255, 0.95), 0 0 30px ${waveGlowRgba}, 0 0 45px ${secondaryGlowRgba}`,
+            letterSpacing: '0.01em',
+            margin: 0,
+            textTransform: 'none',
+            whiteSpace: 'normal',
+            wordWrap: 'break-word',
+          }}
+        >
+          "{popup.text}"
+        </div>
+      </div>
     </div>
   );
 }
