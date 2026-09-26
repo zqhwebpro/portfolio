@@ -100,14 +100,6 @@
           "operatingSystem": "Web Browser",
           "description": "Full-stack e-commerce storefront engineered on ASP.NET Core MVC, C#, Entity Framework Core, and relational SQL schema design.",
           "programmingLanguage": ["ASP.NET Core", "C# 12", "Entity Framework Core", "REST APIs"]
-        },
-        {
-          "@type": "SoftwareApplication",
-          "name": "ZQH Studio (For Hire)",
-          "applicationCategory": "BusinessApplication",
-          "operatingSystem": "Web Browser",
-          "description": "Commercial freelance client portal and interactive scoping platform with dynamic fee estimation math and Web Crypto SHA-256 access gate.",
-          "programmingLanguage": ["JavaScript", "PHP 8", "Web Crypto API", "CSS3 Tech Glass"]
         }
       ]
     }
@@ -279,22 +271,29 @@
             transform: translateY(-1px);
         }
 
-        /* ── Gallery Grid (3 Across on Desktop for rich tech detail) ── */
+        /* ── Gallery Grid (4 Across on Desktop) ── */
         .gallery {
             display: grid;
-            grid-template-columns: repeat(3, 1fr);
-            gap: 24px;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 20px;
         }
 
         /* Responsive Breakpoints */
-        @media (max-width: 1100px) {
+        @media (max-width: 1200px) {
             .gallery {
-                grid-template-columns: repeat(2, 1fr);
-                gap: 20px;
+                grid-template-columns: repeat(3, 1fr);
+                gap: 18px;
             }
         }
 
-        @media (max-width: 680px) {
+        @media (max-width: 860px) {
+            .gallery {
+                grid-template-columns: repeat(2, 1fr);
+                gap: 16px;
+            }
+        }
+
+        @media (max-width: 560px) {
             .gallery {
                 grid-template-columns: 1fr;
             }
@@ -324,11 +323,11 @@
 
         /* Card body */
         .pcard-body {
-            padding: 20px 22px 18px;
+            padding: 18px 18px 16px;
             display: flex;
             flex-direction: column;
             flex: 1;
-            gap: 12px;
+            gap: 10px;
         }
 
         /* Category / Discipline Header */
@@ -351,19 +350,11 @@
 
         .pcard-title {
             font-family: 'Inter', sans-serif;
-            font-size: 1.2rem;
+            font-size: 1.15rem;
             font-weight: 800;
             letter-spacing: -0.015em;
             color: var(--card-text-head);
             line-height: 1.25;
-        }
-
-        /* Engineering & Code Description */
-        .pcard-desc {
-            font-size: 0.84rem;
-            color: var(--card-text-body);
-            line-height: 1.6;
-            flex: 1;
         }
 
         /* Core Code Mechanism Highlight Box */
@@ -508,9 +499,6 @@
                         <i class="fa-solid fa-gamepad"></i> 3D Canvas // Web Audio // Batch AJAX
                     </div>
                     <div class="pcard-title">Synth Rider</div>
-                    <div class="pcard-desc">
-                        Procedural 3D perspective grid driving simulator. Renders horizon vanishing-point perspective transformations, lateral steering momentum physics, real-time MediaWiki Action API batch streaming, and synthetic Web Audio arcade chimes.
-                    </div>
                     <div class="pcard-code-highlight">
                         <span class="code-label">Core Logic:</span> Horizon perspective projection math &amp; zero-latency Wikipedia batch AJAX
                     </div>
@@ -535,9 +523,6 @@
                         <i class="fa-solid fa-hand"></i> Computer Vision // WASM Neural Net
                     </div>
                     <div class="pcard-title">Zodiac Compass</div>
-                    <div class="pcard-desc">
-                        Interactive Tarot and horoscope divination astrolabe driven by MediaPipe's client-side neural network. Extracts 21 3D hand landmarks via WebRTC camera streams in real-time, executing gesture velocity tracking and pinch-raycasting.
-                    </div>
                     <div class="pcard-code-highlight">
                         <span class="code-label">Core Logic:</span> 21-point hand landmark tracking via MediaPipe Vision WASM pipeline
                     </div>
@@ -562,9 +547,6 @@
                         <i class="fa-solid fa-atom"></i> 2D Physics Engine // Vector Calculus
                     </div>
                     <div class="pcard-title">React Pixel Pinball</div>
-                    <div class="pcard-desc">
-                        Custom-built 2D physics and collision resolution engine inside React. Implements sub-stepping Euler integration, circular elastic bumper bounce vectors, flipper line-segment projection math, and particle spark systems without external libraries.
-                    </div>
                     <div class="pcard-code-highlight">
                         <span class="code-label">Core Logic:</span> Sub-stepping Euler integration &amp; flipper line-segment projection math
                     </div>
@@ -589,9 +571,6 @@
                         <i class="fa-solid fa-compass-drafting"></i> Motion Engineering // Matrix 3D
                     </div>
                     <div class="pcard-title">Motion Landing Page</div>
-                    <div class="pcard-desc">
-                        High-framerate promotional experience powered by an n-body mouse gravitational vector field and procedural starfield. Combines hardware-accelerated CSS 3D matrix transforms (perspective, rotateX/Y) with linear interpolation (lerp) camera smoothing.
-                    </div>
                     <div class="pcard-code-highlight">
                         <span class="code-label">Core Logic:</span> Mouse-driven gravitational vector fields &amp; hardware CSS 3D matrix parallax
                     </div>
@@ -616,9 +595,6 @@
                         <i class="fa-solid fa-chess-knight"></i> Heuristic AI // Minimax Matrices
                     </div>
                     <div class="pcard-title">Chess PyCalc</div>
-                    <div class="pcard-desc">
-                        Algorithmic chess evaluation calculator featuring 64-square Piece-Square Table (PST) positional matrices, centipawn material imbalance calculation, dynamic sigmoid win-probability delta curves, and complete FEN string serialization/parsing.
-                    </div>
                     <div class="pcard-code-highlight">
                         <span class="code-label">Core Logic:</span> 64-square PST positional matrices &amp; centipawn sigmoid win delta curves
                     </div>
@@ -643,9 +619,6 @@
                         <i class="fa-solid fa-stopwatch"></i> High-Precision Timers // Web Audio
                     </div>
                     <div class="pcard-title">Workout Mixer</div>
-                    <div class="pcard-desc">
-                        Mobile-first fitness circuit generator featuring weighted muscle group balancing algorithms, delta-time performance.now() drift-free interval countdown timers, Web Audio synthetic frequency alerts, and localStorage routine persistence.
-                    </div>
                     <div class="pcard-code-highlight">
                         <span class="code-label">Core Logic:</span> Delta-time performance.now() drift-free timer &amp; procedural circuit balancer
                     </div>
@@ -670,9 +643,6 @@
                         <i class="fa-solid fa-terminal"></i> State Machine // Audio Synthesis
                     </div>
                     <div class="pcard-title">Survival Quiz</div>
-                    <div class="pcard-desc">
-                        Retro phosphor terminal survival simulation built on a deterministic branching state machine. Renders real-time CRT scanline post-processing shaders with chromatic aberration, paired with a dual-oscillator Web Audio synthesizer generating procedural drone harmonics.
-                    </div>
                     <div class="pcard-code-highlight">
                         <span class="code-label">Core Logic:</span> Deterministic branching state machine &amp; dual-oscillator Web Audio synth
                     </div>
@@ -697,9 +667,6 @@
                         <i class="fa-solid fa-server"></i> ASP.NET Core // C# // Entity Framework
                     </div>
                     <div class="pcard-title">The Wacky Things Store</div>
-                    <div class="pcard-desc">
-                        Full-stack e-commerce platform engineered with ASP.NET Core MVC and C#. Implements Entity Framework Core relational data modeling, repository design patterns, server-side validation, session-backed shopping cart states, and responsive storefront UI.
-                    </div>
                     <div class="pcard-code-highlight">
                         <span class="code-label">Core Logic:</span> ASP.NET Core MVC architecture, Entity Framework Core ORM &amp; C# models
                     </div>
@@ -712,33 +679,6 @@
                     </div>
                     <div class="pcard-footer">
                         <span class="pcard-link-text">View Architecture</span>
-                        <span class="pcard-arrow"><i class="fa-solid fa-arrow-right"></i></span>
-                    </div>
-                </div>
-            </a>
-
-            <!-- 09 ZQH Studio (For Hire) -->
-            <a href="./for-hire/index.html" class="pcard">
-                <div class="pcard-body">
-                    <div class="pcard-category">
-                        <i class="fa-solid fa-microchip"></i> Full-Stack Systems // Web Crypto
-                    </div>
-                    <div class="pcard-title">ZQH Studio (For Hire)</div>
-                    <div class="pcard-desc">
-                        Commercial freelance client portal and interactive scoping platform. Features a real-time multi-variable fee estimation engine, client portal cryptographic SHA-256 gatekeeping, atomic design tokens, and async PHP inquiry pipeline.
-                    </div>
-                    <div class="pcard-code-highlight">
-                        <span class="code-label">Core Logic:</span> Real-time dynamic scope estimator &amp; client-side SHA-256 Web Crypto gate
-                    </div>
-                    <div class="pcard-tags">
-                        <span class="tag">Vanilla JS &amp; PHP 8</span>
-                        <span class="tag">Web Crypto API</span>
-                        <span class="tag">Design System Tokens</span>
-                        <span class="tag">Asynchronous Forms</span>
-                        <span class="tag">CSS3 Tech Glass</span>
-                    </div>
-                    <div class="pcard-footer">
-                        <span class="pcard-link-text">Explore Portal</span>
                         <span class="pcard-arrow"><i class="fa-solid fa-arrow-right"></i></span>
                     </div>
                 </div>
