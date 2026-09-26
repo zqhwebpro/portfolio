@@ -57,6 +57,21 @@ export function SynthwaveDrive() {
   const [isAudioPlaying, setIsAudioPlaying] = useState(true);
   const [autoDrive, setAutoDrive] = useState(false);
   const [playerX, setPlayerX] = useState(0); // Left/Right lateral position (-0.85 to +0.85)
+  const [showScrollPrompt, setShowScrollPrompt] = useState(true);
+
+  // Manage visibility of the center scroll instructions prompt
+  useEffect(() => {
+    let timer;
+    if (speedMph > 2 || autoDrive) {
+      setShowScrollPrompt(false);
+    } else {
+      // Re-show after idle when stopped
+      timer = setTimeout(() => {
+        setShowScrollPrompt(true);
+      }, 1200);
+    }
+    return () => clearTimeout(timer);
+  }, [speedMph, autoDrive]);
 
   // Wikipedia article pool (pre-fetched)
   const wikiPoolRef = useRef([]);
@@ -114,13 +129,23 @@ export function SynthwaveDrive() {
     });
   };
 
-  // Keyboard left/right steering + F key to open nearest Wikipedia article
+  // Keyboard left/right steering + Up/Down drive + F key to open nearest Wikipedia article
   useEffect(() => {
     const handleKeyDown = (e) => {
       if (e.key === 'ArrowLeft' || e.key === 'a' || e.key === 'A') {
         keysPressedRef.current.left = true;
       } else if (e.key === 'ArrowRight' || e.key === 'd' || e.key === 'D') {
         keysPressedRef.current.right = true;
+      } else if (e.key === 'ArrowUp' || e.key === 'w' || e.key === 'W') {
+        directionRef.current = 1;
+        speedRef.current = Math.min(280, speedRef.current + 12);
+      } else if (e.key === 'ArrowDown' || e.key === 's' || e.key === 'S') {
+        if (speedRef.current > 5 && directionRef.current === 1) {
+          speedRef.current = Math.max(0, speedRef.current - 16);
+        } else {
+          directionRef.current = -1;
+          speedRef.current = Math.min(280, speedRef.current + 12);
+        }
       } else if (e.key === 'f' || e.key === 'F') {
         // Open the most recently spawned (closest/largest) visible popup
         const visible = popupsRef.current.filter((p) => p.url);
@@ -165,15 +190,52 @@ export function SynthwaveDrive() {
       }
     };
 
-    const container = viewportRef.current;
-    if (container) {
-      container.addEventListener('wheel', handleWheel, { passive: true });
-    }
+    window.addEventListener('wheel', handleWheel, { passive: true });
 
     return () => {
-      if (container) {
-        container.removeEventListener('wheel', handleWheel);
+      window.removeEventListener('wheel', handleWheel);
+    };
+  }, []);
+
+  // Touch swipe to scroll / drive interaction
+  useEffect(() => {
+    let lastTouchY = null;
+    const handleTouchStart = (e) => {
+      if (e.touches && e.touches[0]) {
+        lastTouchY = e.touches[0].clientY;
       }
+    };
+
+    const handleTouchMove = (e) => {
+      if (!e.touches || !e.touches[0] || lastTouchY === null) return;
+      const currentY = e.touches[0].clientY;
+      const deltaY = lastTouchY - currentY; // swipe up (standard scroll down) = positive deltaY
+      lastTouchY = currentY;
+
+      const deltaMag = Math.min(Math.abs(deltaY), 80);
+      const impulse = deltaMag * 0.45;
+
+      if (deltaY > 0) {
+        directionRef.current = 1;
+        speedRef.current = Math.min(280, speedRef.current + impulse);
+      } else if (deltaY < 0) {
+        directionRef.current = -1;
+        speedRef.current = Math.min(280, speedRef.current + impulse);
+      }
+    };
+
+    const handleTouchEnd = () => {
+      lastTouchY = null;
+    };
+
+    window.addEventListener('touchstart', handleTouchStart, { passive: true });
+    window.addEventListener('touchmove', handleTouchMove, { passive: true });
+    window.addEventListener('touchend', handleTouchEnd);
+
+    return () => {
+      window.removeEventListener('touchstart', handleTouchStart);
+      window.removeEventListener('touchmove', handleTouchMove);
+      window.removeEventListener('touchend', handleTouchEnd);
     };
   }, []);
 
@@ -347,6 +409,7 @@ export function SynthwaveDrive() {
 
       {/* Steering & Drive Controls Hint */}
       <div
+        id="synth-controls-hud"
         style={{
           position: 'absolute',
           bottom: '1.25rem',
@@ -354,20 +417,33 @@ export function SynthwaveDrive() {
           zIndex: 35,
           display: 'flex',
           alignItems: 'center',
+          flexWrap: 'wrap',
           gap: '8px',
-          background: 'rgba(10, 2, 22, 0.85)',
-          backdropFilter: 'blur(10px)',
+          background: 'rgba(10, 2, 22, 0.88)',
+          backdropFilter: 'blur(12px)',
+          WebkitBackdropFilter: 'blur(12px)',
           border: '1px solid rgba(0, 240, 255, 0.35)',
           borderRadius: '8px',
-          padding: '0.45rem 0.85rem',
+          padding: '0.45rem 0.95rem',
           color: 'rgba(255, 255, 255, 0.85)',
           fontFamily: 'var(--font-mono, monospace)',
           fontSize: '0.68rem',
           letterSpacing: '0.08em',
           pointerEvents: 'none',
-          boxShadow: '0 0 15px rgba(0, 0, 0, 0.6)',
+          boxShadow: '0 0 15px rgba(0, 0, 0, 0.7), inset 0 0 10px rgba(0, 240, 255, 0.1)',
+          maxWidth: 'calc(100vw - 3rem)',
         }}
       >
+        <span style={{ display: 'inline-flex', alignItems: 'center', gap: '5px', color: '#FFE600', fontWeight: 800 }}>
+          <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round" style={{ verticalAlign: 'middle' }}>
+            <rect x="5" y="2" width="14" height="20" rx="7" />
+            <path d="M12 6v4" />
+          </svg>
+          SCROLL ↓ / ↑
+        </span>
+        <span style={{ color: 'rgba(255,255,255,0.4)' }}>•</span>
+        <span style={{ color: '#FFFFFF' }}>Drive / Reverse</span>
+        <span style={{ color: 'rgba(255,255,255,0.4)' }}>•</span>
         <span style={{ color: '#00F0FF', fontWeight: 800 }}>← / → or A / D</span>
         <span style={{ color: 'rgba(255,255,255,0.4)' }}>•</span>
         <span>Steer</span>
@@ -375,6 +451,142 @@ export function SynthwaveDrive() {
         <span style={{ color: '#FF007F', fontWeight: 800 }}>F</span>
         <span style={{ color: 'rgba(255,255,255,0.4)' }}>•</span>
         <span>Open Article</span>
+      </div>
+
+      {/* Center "Scroll to Drive" Arcade Instructions Callout */}
+      <div
+        id="scroll-to-drive-banner"
+        style={{
+          position: 'absolute',
+          bottom: '22%',
+          left: '50%',
+          transform: showScrollPrompt ? 'translateX(-50%) translateY(0)' : 'translateX(-50%) translateY(16px)',
+          opacity: showScrollPrompt ? 1 : 0,
+          pointerEvents: showScrollPrompt ? 'auto' : 'none',
+          transition: 'all 0.5s cubic-bezier(0.16, 1, 0.3, 1)',
+          zIndex: 38,
+          display: 'flex',
+          flexDirection: 'column',
+          alignItems: 'center',
+          gap: '10px',
+          background: 'linear-gradient(135deg, rgba(8, 2, 26, 0.94) 0%, rgba(22, 4, 42, 0.95) 50%, rgba(3, 14, 36, 0.96) 100%)',
+          backdropFilter: 'blur(16px)',
+          WebkitBackdropFilter: 'blur(16px)',
+          border: '1.5px solid rgba(0, 240, 255, 0.65)',
+          borderRadius: '16px',
+          padding: '1.1rem 1.6rem',
+          boxShadow: '0 12px 35px rgba(0, 0, 0, 0.85), 0 0 30px rgba(0, 240, 255, 0.35), inset 0 0 20px rgba(255, 0, 127, 0.15)',
+          maxWidth: '90vw',
+          textAlign: 'center',
+        }}
+      >
+        {/* Animated Mouse Scroll Icon with downward pulsing dot */}
+        <div style={{ display: 'flex', alignItems: 'center', gap: '12px' }}>
+          <div
+            style={{
+              width: '26px',
+              height: '40px',
+              borderRadius: '13px',
+              border: '2px solid #00F0FF',
+              boxShadow: '0 0 12px rgba(0, 240, 255, 0.7)',
+              position: 'relative',
+              display: 'flex',
+              justifyContent: 'center',
+              paddingTop: '6px',
+              flexShrink: 0,
+            }}
+          >
+            <div
+              style={{
+                width: '4px',
+                height: '8px',
+                borderRadius: '2px',
+                background: '#FF007F',
+                boxShadow: '0 0 8px #FF007F',
+                animation: 'mouseScrollBounce 1.4s infinite ease-in-out',
+              }}
+            />
+          </div>
+
+          <div style={{ textAlign: 'left' }}>
+            <div
+              style={{
+                fontFamily: 'var(--font-mono, monospace)',
+                fontSize: '0.62rem',
+                fontWeight: 700,
+                color: '#FFE600',
+                letterSpacing: '0.14em',
+                textTransform: 'uppercase',
+                textShadow: '0 0 8px rgba(255, 230, 0, 0.6)',
+              }}
+            >
+              ◈ SPEED CONTROL ◈
+            </div>
+            <div
+              style={{
+                fontFamily: 'var(--font-display, "Space Grotesk", sans-serif)',
+                fontSize: '1.3rem',
+                fontWeight: 800,
+                letterSpacing: '0.04em',
+                color: '#FFFFFF',
+                textShadow: '0 0 16px rgba(0, 240, 255, 0.8), 0 0 24px rgba(255, 0, 127, 0.5)',
+                lineHeight: 1.2,
+              }}
+            >
+              SCROLL TO DRIVE
+            </div>
+          </div>
+        </div>
+
+        {/* Actionable instructions */}
+        <div
+          style={{
+            fontFamily: 'var(--font-mono, monospace)',
+            fontSize: '0.72rem',
+            color: 'rgba(230, 240, 255, 0.95)',
+            display: 'flex',
+            flexDirection: 'column',
+            gap: '4px',
+            marginTop: '2px',
+          }}
+        >
+          <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'center', gap: '8px' }}>
+            <span style={{ color: '#00F0FF', fontWeight: 800 }}>Scroll Down (↓)</span>
+            <span style={{ color: 'rgba(255,255,255,0.4)' }}>→</span>
+            <span>Accelerate Forward</span>
+          </div>
+          <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'center', gap: '8px' }}>
+            <span style={{ color: '#FF007F', fontWeight: 800 }}>Scroll Up (↑)</span>
+            <span style={{ color: 'rgba(255,255,255,0.4)' }}>→</span>
+            <span>Drive in Reverse</span>
+          </div>
+        </div>
+
+        {/* Fallback / quick options */}
+        <div
+          style={{
+            fontFamily: 'var(--font-mono, monospace)',
+            fontSize: '0.62rem',
+            color: 'rgba(255, 255, 255, 0.55)',
+            letterSpacing: '0.04em',
+            borderTop: '1px solid rgba(0, 240, 255, 0.2)',
+            paddingTop: '6px',
+            width: '100%',
+          }}
+        >
+          Use mouse wheel, touchpad swipe, or click{' '}
+          <span
+            onClick={toggleAutoDrive}
+            style={{
+              color: '#00F0FF',
+              textDecoration: 'underline',
+              cursor: 'pointer',
+              fontWeight: 700,
+            }}
+          >
+            Auto Drive: ON
+          </span>
+        </div>
       </div>
 
       {/* Auto Drive Toggle Button */}

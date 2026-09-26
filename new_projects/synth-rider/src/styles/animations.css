@@ -2,6 +2,21 @@
    NEO-BRUTALIST & BAUHAUS KEYFRAMES & MOTION
    ========================================= */
 
+@keyframes mouseScrollBounce {
+  0% {
+    transform: translateY(0);
+    opacity: 1;
+  }
+  50% {
+    transform: translateY(8px);
+    opacity: 0.3;
+  }
+  100% {
+    transform: translateY(0);
+    opacity: 1;
+  }
+}
+
 @keyframes rotateSlow {
   from { transform: rotate(0deg); }
   to { transform: rotate(360deg); }
