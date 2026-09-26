@@ -218,28 +218,6 @@
       word-break: break-all;
     }
 
-    .admin-metrics-grid {
-      display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
-      gap: 16px;
-      margin-bottom: 24px;
-    }
-
-    .admin-metric-card {
-      background: #ffffff;
-      border: 1px solid #dcdcde;
-      border-radius: 8px;
-      padding: 16px;
-      box-shadow: 0 1px 3px rgba(0, 0, 0, 0.04);
-    }
-
-    .admin-metric-card .val {
-      font-size: 1.6rem;
-      font-weight: 800;
-      color: #2271b1;
-      margin: 4px 0;
-    }
-
     .toast-notice {
       position: fixed;
       bottom: 24px;
@@ -275,7 +253,7 @@
   <div class="wp-admin-bar-sim">
     <div style="display: flex; align-items: center; gap: 8px;">
       <a href="javascript:void(0)" onclick="window.setView('shop')"><i class="fa-brands fa-wordpress"></i> <span>For Hire</span></a>
-      <a href="javascript:void(0)" onclick="window.setView('admin')"><i class="fa-solid fa-gauge-high"></i> <span>WP-Admin</span></a>
+      <a href="./wp-admin/"><i class="fa-solid fa-gauge-high"></i> <span>WP-Admin</span></a>
       <a href="javascript:void(0)" onclick="window.setView('cart')"><i class="fa-solid fa-cart-shopping"></i> <span>Store</span></a>
     </div>
     <div style="display: flex; align-items: center; gap: 8px;">
@@ -292,7 +270,6 @@
       <button class="demo-pill-btn active" id="btn-view-shop" onclick="window.setView('shop')"><i class="fa-solid fa-store"></i> Services Shop</button>
       <button class="demo-pill-btn" id="btn-view-cart" onclick="window.setView('cart')"><i class="fa-solid fa-cart-shopping"></i> Cart &amp; Totals (<span id="btn-cart-count">0</span>)</button>
       <button class="demo-pill-btn" id="btn-view-checkout" onclick="window.setView('checkout')"><i class="fa-solid fa-credit-card"></i> Checkout</button>
-      <button class="demo-pill-btn" id="btn-view-admin" onclick="window.setView('admin')"><i class="fa-solid fa-sliders"></i> Admin Dashboard</button>
     </div>
     <div style="display: flex; align-items: center; gap: 8px;">
       <button class="demo-pill-btn" onclick="window.openCodeInspector('functions')"><i class="fa-solid fa-code"></i> Bones Hooks</button>
@@ -471,75 +448,6 @@
                   </div>
                 </div>
               </div>
-            </div>
-          </div>
-
-          <!-- VIEW: WP-ADMIN DASHBOARD SIMULATOR -->
-          <div id="view-admin" style="display: none;">
-            <div style="background: #ffffff; border: 1px solid #dcdcde; border-radius: 10px; padding: 2rem;">
-              <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 1.5rem; border-bottom: 2px solid #2271b1; padding-bottom: 0.8rem;">
-                <div>
-                  <h1 style="font-size: 1.8rem; font-weight: 800; margin: 0; color: #1d2327;">WooCommerce &bull; Dashboard Overview</h1>
-                  <span style="font-size: 0.85rem; color: #646970;">Bones Theme v1.8.0 &bull; WooCommerce v8.8.0 &bull; WordPress 6.5.3</span>
-                </div>
-                <button type="button" class="demo-pill-btn" onclick="window.setView('shop')"><i class="fa-solid fa-arrow-left"></i> Return to Frontend</button>
-              </div>
-
-              <!-- Admin Metrics -->
-              <div class="admin-metrics-grid">
-                <div class="admin-metric-card">
-                  <div style="font-size: 0.8rem; text-transform: uppercase; color: #646970; font-weight: 700;">Gross Sales</div>
-                  <div class="val" id="admin-gross-sales">$14,250.00</div>
-                  <div style="font-size: 0.78rem; color: #008a20;"><i class="fa-solid fa-arrow-trend-up"></i> +28.4% this quarter</div>
-                </div>
-                <div class="admin-metric-card">
-                  <div style="font-size: 0.8rem; text-transform: uppercase; color: #646970; font-weight: 700;">Active Orders</div>
-                  <div class="val" id="admin-order-count">6</div>
-                  <div style="font-size: 0.78rem; color: #2271b1;">All contracts verified</div>
-                </div>
-                <div class="admin-metric-card">
-                  <div style="font-size: 0.8rem; text-transform: uppercase; color: #646970; font-weight: 700;">Theme Engine</div>
-                  <div class="val" style="font-size: 1.3rem;">Bones (Active)</div>
-                  <div style="font-size: 0.78rem; color: #008a20;"><i class="fa-solid fa-check"></i> Template overrides verified</div>
-                </div>
-              </div>
-
-              <!-- Recent WooCommerce Orders Table -->
-              <h3 style="font-size: 1.15rem; font-weight: 700; margin-bottom: 0.8rem;">Recent WooCommerce Orders</h3>
-              <table style="width: 100%; border-collapse: collapse; margin-bottom: 2rem; font-size: 0.88rem;">
-                <thead>
-                  <tr style="border-bottom: 2px solid #dcdcde; background: #f6f7f7; text-align: left;">
-                    <th style="padding: 10px;">Order #</th>
-                    <th style="padding: 10px;">Client</th>
-                    <th style="padding: 10px;">Service Package</th>
-                    <th style="padding: 10px;">Status</th>
-                    <th style="padding: 10px; text-align: right;">Total</th>
-                  </tr>
-                </thead>
-                <tbody id="admin-orders-table">
-                  <tr style="border-bottom: 1px solid #f0f0f1;">
-                    <td style="padding: 10px; font-family: var(--font-mono); font-weight: 700; color: #2271b1;">#1042</td>
-                    <td style="padding: 10px;">Apex Ventures</td>
-                    <td style="padding: 10px;">Bespoke WordPress &amp; Bones Theme</td>
-                    <td style="padding: 10px;"><span style="background: #edf8ee; color: #008a20; padding: 2px 8px; border-radius: 12px; font-weight: 700; font-size: 0.75rem;">Completed</span></td>
-                    <td style="padding: 10px; text-align: right; font-weight: 700;">$2,450.00</td>
-                  </tr>
-                  <tr style="border-bottom: 1px solid #f0f0f1;">
-                    <td style="padding: 10px; font-family: var(--font-mono); font-weight: 700; color: #2271b1;">#1041</td>
-                    <td style="padding: 10px;">Starlight Media</td>
-                    <td style="padding: 10px;">WooCommerce Store &amp; Cart Optimization</td>
-                    <td style="padding: 10px;"><span style="background: #e7f3ff; color: #135e96; padding: 2px 8px; border-radius: 12px; font-weight: 700; font-size: 0.75rem;">Processing</span></td>
-                    <td style="padding: 10px; text-align: right; font-weight: 700;">$1,850.00</td>
-                  </tr>
-                  <tr style="border-bottom: 1px solid #f0f0f1;">
-                    <td style="padding: 10px; font-family: var(--font-mono); font-weight: 700; color: #2271b1;">#1040</td>
-                    <td style="padding: 10px;">Nextera Tech</td>
-                    <td style="padding: 10px;">Monthly Dedicated Engineering Retainer</td>
-                    <td style="padding: 10px;"><span style="background: #edf8ee; color: #008a20; padding: 2px 8px; border-radius: 12px; font-weight: 700; font-size: 0.75rem;">Active</span></td>
-                    <td style="padding: 10px; text-align: right; font-weight: 700;">$4,200.00</td>
-                  </tr>
-                </tbody>
-              </table>
             </div>
           </div>
 
@@ -835,7 +743,7 @@
     }
 
     function setView(viewName) {
-      const views = ['shop', 'cart', 'checkout', 'admin'];
+      const views = ['shop', 'cart', 'checkout'];
       views.forEach(v => {
         const el = document.getElementById(`view-${v}`);
         if (el) el.style.display = v === viewName ? 'block' : 'none';
@@ -1017,11 +925,11 @@ CREATE TABLE wp_wc_orders (
       renderCartTable();
       updateCartBadge();
 
-      // Support deep-linking to views (e.g. ?view=admin or #admin)
+      // Support deep-linking to views (e.g. ?view=cart or #cart)
       try {
         const urlParams = new URLSearchParams(window.location.search);
         const viewParam = urlParams.get('view') || window.location.hash.replace('#', '');
-        if (['admin', 'cart', 'checkout', 'shop'].includes(viewParam)) {
+        if (['cart', 'checkout', 'shop'].includes(viewParam)) {
           setView(viewParam);
         }
       } catch (e) {}
