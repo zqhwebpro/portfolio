@@ -106,17 +106,26 @@ export function SynthwaveDrive() {
     poolLoadingRef.current = false;
   }, []);
 
-  const toggleAutoDrive = () => {
+  const toggleAutoDrive = useCallback(() => {
     setAutoDrive((prev) => {
       const next = !prev;
       autoDriveRef.current = next;
       return next;
     });
-  };
+  }, []);
 
-  // Keyboard left/right steering + Up/Down drive + F key to open nearest Wikipedia article
+  // Keyboard left/right steering + Up/Down drive + Space (Auto Drive) + F key to open nearest Wikipedia article
   useEffect(() => {
     const handleKeyDown = (e) => {
+      const tag = e.target && e.target.tagName;
+      if (tag === 'INPUT' || tag === 'TEXTAREA') return;
+
+      if (e.code === 'Space' || e.key === ' ' || e.key === 'Spacebar') {
+        e.preventDefault();
+        toggleAutoDrive();
+        return;
+      }
+
       if (e.key === 'ArrowLeft' || e.key === 'a' || e.key === 'A') {
         keysPressedRef.current.left = true;
       } else if (e.key === 'ArrowRight' || e.key === 'd' || e.key === 'D') {
@@ -156,7 +165,7 @@ export function SynthwaveDrive() {
       window.removeEventListener('keydown', handleKeyDown);
       window.removeEventListener('keyup', handleKeyUp);
     };
-  }, []);
+  }, [toggleAutoDrive]);
 
   // Fluid momentum wheel / scroll interaction
   useEffect(() => {
@@ -500,13 +509,27 @@ export function SynthwaveDrive() {
         <span style={{ color: '#FF007F', fontWeight: 800 }}>F</span>
         <span style={{ color: 'rgba(255,255,255,0.4)' }}>•</span>
         <span>Open Article</span>
+        <span style={{ color: 'rgba(255,255,255,0.4)' }}>•</span>
+        <span style={{ color: '#00E599', fontWeight: 800 }}>SPACE</span>
+        <span style={{ color: 'rgba(255,255,255,0.4)' }}>•</span>
+        <span>Auto Drive</span>
       </div>
 
 
       {/* Auto Drive Toggle Button */}
       <button
+        id="auto-drive-btn"
         type="button"
-        onClick={toggleAutoDrive}
+        onClick={(e) => {
+          toggleAutoDrive();
+          e.currentTarget.blur();
+        }}
+        onKeyDown={(e) => {
+          if (e.code === 'Space' || e.key === ' ' || e.key === 'Spacebar') {
+            e.preventDefault();
+          }
+        }}
+        title="Toggle Auto Drive (Spacebar)"
         style={{
           position: 'absolute',
           top: '1.5rem',
