@@ -1,11 +1,26 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
 
-  <!-- ROOT 2 -->
+  <!-- ROOT & MAIN PORTFOLIO -->
   <url>
     <loc>https://zqhwebpro.github.io/portfolio/</loc>
-    <lastmod>2026-04-14</lastmod>
+    <lastmod>2026-09-26</lastmod>
     <priority>1.00</priority>
+  </url>
+  <url>
+    <loc>https://zqhwebpro.github.io/portfolio/2026/</loc>
+    <lastmod>2026-09-26</lastmod>
+    <priority>1.00</priority>
+  </url>
+  <url>
+    <loc>https://zqhwebpro.github.io/portfolio/new_projects/</loc>
+    <lastmod>2026-09-26</lastmod>
+    <priority>0.95</priority>
+  </url>
+  <url>
+    <loc>https://zqhwebpro.github.io/portfolio/new_projects/synth-rider/</loc>
+    <lastmod>2026-09-26</lastmod>
+    <priority>0.90</priority>
   </url>
 
   <!-- iNTERACTiVE iNFOGRAPHiCS -->

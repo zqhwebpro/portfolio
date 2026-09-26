@@ -171,9 +171,6 @@ export function RearviewMirror({ speedMph, popups = [], driveDistance = 0, playe
                   transformOrigin: '50% 100%',
                   opacity,
                   zIndex: Math.round(10 + progressY * 20),
-                  display: 'flex',
-                  flexDirection: 'column',
-                  alignItems: 'center',
                 }}
               >
                 <div
@@ -181,53 +178,28 @@ export function RearviewMirror({ speedMph, popups = [], driveDistance = 0, playe
                     background:
                       'linear-gradient(135deg, rgba(8, 2, 28, 0.94) 0%, rgba(22, 4, 42, 0.94) 50%, rgba(3, 14, 36, 0.96) 100%)',
                     backdropFilter: 'blur(12px)',
-                    border: `2px solid ${primaryWaveColor}`,
-                    borderRadius: '6px',
-                    width: '160px',
-                    minHeight: '44px',
-                    padding: '0.4rem 0.6rem',
+                    border: `1.8px solid ${primaryWaveColor}`,
+                    borderRadius: '4px',
+                    width: '84px',
+                    height: '24px',
                     position: 'relative',
-                    display: 'flex',
-                    flexDirection: 'column',
-                    justifyContent: 'center',
-                    alignItems: 'center',
-                    boxShadow: `0 8px 20px rgba(0, 0, 0, 0.8), 0 0 15px ${waveGlowRgba}, 0 0 25px ${secondaryGlowRgba}, inset 0 0 12px ${
+                    boxShadow: `0 6px 16px rgba(0, 0, 0, 0.8), 0 0 12px ${waveGlowRgba}, 0 0 20px ${secondaryGlowRgba}, inset 0 0 8px ${
                       isLeft ? 'rgba(0, 240, 255, 0.18)' : 'rgba(255, 0, 127, 0.18)'
                     }`,
                     overflow: 'hidden',
-                    textAlign: 'center',
                   }}
                 >
-                  {/* Orange to Red Luminous Top Gradient Line */}
                   <div
                     style={{
                       position: 'absolute',
                       top: 0,
                       left: 0,
                       right: 0,
-                      height: '3px',
+                      height: '2.5px',
                       background: 'linear-gradient(90deg, #FF9900 0%, #FF4400 50%, #FF0055 100%)',
-                      boxShadow: '0 0 8px #FF5500, 0 0 12px #FF0044',
+                      boxShadow: '0 0 6px #FF5500, 0 0 10px #FF0044',
                     }}
                   />
-
-                  <div
-                    style={{
-                      fontFamily: 'var(--font-display, "Space Grotesk", sans-serif)',
-                      fontSize: '0.58rem',
-                      fontWeight: 700,
-                      lineHeight: 1.2,
-                      color: '#FFFFFF',
-                      textShadow: `0 0 6px rgba(255, 255, 255, 0.9), 0 0 12px ${waveGlowRgba}`,
-                      letterSpacing: '0.01em',
-                      whiteSpace: 'nowrap',
-                      overflow: 'hidden',
-                      textOverflow: 'ellipsis',
-                      maxWidth: '144px',
-                    }}
-                  >
-                    "{popup.text}"
-                  </div>
                 </div>
               </div>
             );

@@ -282,45 +282,44 @@
             background: #7C3AED;
         }
 
-        /* Wacky Sporadic Falling & Rising View Transition Animations */
-        @keyframes fallSporadic {
+        /* Smooth Blur-Transparent View Transition Animations (~0.6s) */
+        @keyframes blurTransparentFadeOut {
             0% {
-                transform: translateY(0) rotate(0deg) scale(1);
                 opacity: 1;
+                filter: blur(0px);
+                transform: scale(1);
             }
-
-            25% {
-                transform: translateY(30px) rotate(var(--fall-tilt, -4deg)) scale(1.02);
-                opacity: 0.95;
-            }
-
             100% {
-                transform: translateY(115vh) rotate(var(--fall-tilt-end, 18deg)) scale(0.85);
                 opacity: 0;
+                filter: blur(12px);
+                transform: scale(0.985);
             }
         }
 
-        .animate-fall-sporadic {
-            animation-name: fallSporadic !important;
-            animation-timing-function: cubic-bezier(0.55, 0.055, 0.675, 0.19) !important;
-            animation-fill-mode: forwards !important;
+        @keyframes blurTransparentFadeIn {
+            0% {
+                opacity: 0;
+                filter: blur(12px);
+                transform: scale(0.985);
+            }
+            100% {
+                opacity: 1;
+                filter: blur(0px);
+                transform: scale(1);
+            }
+        }
+
+        .animate-blur-fade-out {
+            animation: blurTransparentFadeOut 0.55s cubic-bezier(0.4, 0, 0.2, 1) forwards !important;
             pointer-events: none !important;
         }
 
-        @keyframes riseUpEnter {
-            0% {
-                transform: translateY(60px) scale(0.96);
-                opacity: 0;
-            }
-
-            100% {
-                transform: translateY(0) scale(1);
-                opacity: 1;
-            }
+        .animate-blur-fade-in {
+            animation: blurTransparentFadeIn 0.6s cubic-bezier(0.16, 1, 0.3, 1) forwards !important;
         }
 
         .animate-rise-up {
-            animation: riseUpEnter 0.45s cubic-bezier(0.175, 0.885, 0.32, 1.275) forwards;
+            animation: blurTransparentFadeIn 0.6s cubic-bezier(0.16, 1, 0.3, 1) forwards;
         }
 
         /* --- DARK MODE SYSTEM (Obsidian Slate, Deep Purple, Glowing Teal) --- */
@@ -1048,7 +1047,7 @@
             data-blueprint-dom="Full-width 100% attached toolbar directly under header with category filters and introductory paragraph."
             data-blueprint-desc="BlogListViewModel encapsulates Article list, CurrentCategory, and PagingInfo."
             data-blueprint-code="public class BlogListViewModel { public IEnumerable<BlogPost> Articles { get; set; } }">
-            <div class="store-fluid-container max-w-[1400px] mx-auto py-3.5 px-4 sm:px-6 flex items-center flex-wrap md:flex-nowrap justify-between gap-4">
+            <div class="store-fluid-container py-3.5 flex items-center flex-wrap md:flex-nowrap justify-between gap-6 w-full">
 
                 <!-- Non-Bold Grey Paragraph Aligned on Left -->
                 <p class="text-xs sm:text-sm font-normal text-gray-600 leading-relaxed text-left flex-1 m-0">
@@ -1088,14 +1087,14 @@
             </div>
         </div>
 
-        <!-- Blog Posts Grid Content (Contained at 1400px) -->
-        <div class="store-fluid-container max-w-[1400px] mx-auto py-8">
+        <!-- Blog Posts Grid Content (Fluid Container with 4 Columns) -->
+        <div class="store-fluid-container py-8 w-full">
             <div id="blog-posts-grid" data-blueprint-file="WackyStore.WebUI/Views/Blog/_ArticleSummary.cshtml"
                 data-blueprint-role="Article Summary Grid Container" data-blueprint-layer="WebUI / Partial View"
                 data-blueprint-dom="Fluid CSS Grid container rendering article summary cards."
                 data-blueprint-desc="Iterates through Model.Articles rendering card previews with full click-to-open reader modal functionality."
                 data-blueprint-code="@foreach (var item in Model.Articles) { @Html.Partial(&quot;_ArticleSummary&quot;, item) }"
-                class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 sm:gap-8">
+                class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 2xl:grid-cols-4 gap-6 sm:gap-8">
                 <!-- Posts dynamically rendered via JS -->
             </div>
         </div>
@@ -1683,7 +1682,7 @@
     </footer>
 
     <!-- CLIENT APPLICATION SCRIPT -->
-    <script src="script.js?v=1790392244000"></script>
+    <script src="script.js?v=1790400000000"></script>
 
     <!-- BLOG POST READER MODAL -->
     <div id="blog-reader-modal" data-blueprint-file="WackyStore.WebUI/Views/Blog/ReaderModal.cshtml"

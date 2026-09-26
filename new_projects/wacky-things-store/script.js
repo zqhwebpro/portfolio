@@ -1546,41 +1546,38 @@
             const luckMain = document.getElementById('luck-main-view');
             const hBlogText = document.getElementById('headerBlogText');
 
-            const isCurrentlyLuck = window.currentView === 'luck';
             const isCurrentlyStore = window.currentView === 'store';
             const intendedTarget = (hBlogText && hBlogText.innerText.includes('Store')) ? 'store' : 'blog';
             const targetView = forceTarget || intendedTarget;
 
             if (window.currentView === targetView) return; // already there
 
-            // Determine which elements to animate out based on current view
-            let outSelector = '';
-            if (isCurrentlyStore) {
-                outSelector = '#store-main-view header, #store-main-view section, #store-main-view aside, #product-grid > div, #store-main-view .store-fluid-container > *';
+            // Active view to transition out
+            let currentMain;
+            if (window.currentView === 'luck') {
+                currentMain = luckMain;
+            } else if (isCurrentlyStore) {
+                currentMain = storeMain;
             } else {
-                outSelector = '#blog-main-view .store-fluid-container > div, #blog-posts-grid > article';
+                currentMain = blogMain;
             }
 
-            const outElements = Array.from(document.querySelectorAll(outSelector));
-            outElements.forEach((el, idx) => {
-                const tiltStart = (Math.random() - 0.5) * 16;
-                const tiltEnd = (Math.random() - 0.5) * 44;
-                el.style.setProperty('--fall-tilt', `${tiltStart}deg`);
-                el.style.setProperty('--fall-tilt-end', `${tiltEnd}deg`);
-                el.style.animationDelay = `${(idx % 10) * 0.04 + Math.random() * 0.05}s`;
-                el.style.animationDuration = `${0.45 + (idx % 4) * 0.07}s`;
-                el.classList.add('animate-fall-sporadic');
-            });
+            const nextMain = targetView === 'blog' ? blogMain : storeMain;
+
+            // Smooth blur-transparent transition out (~0.6s)
+            if (currentMain) {
+                currentMain.classList.remove('animate-blur-fade-in');
+                currentMain.classList.add('animate-blur-fade-out');
+            }
 
             setTimeout(() => {
-                outElements.forEach(el => {
-                    el.classList.remove('animate-fall-sporadic');
-                    el.style.animationDelay = '';
-                    el.style.animationDuration = '';
-                });
-
-                if (isCurrentlyStore) storeMain.classList.add('hidden');
-                else blogMain.classList.add('hidden');
+                if (currentMain) {
+                    currentMain.classList.remove('animate-blur-fade-out');
+                    currentMain.classList.add('hidden');
+                }
+                if (luckMain && luckMain !== nextMain) {
+                    luckMain.classList.add('hidden');
+                }
 
                 // Explicitly show the corner button in case it was hidden
                 const cornerBtn = document.getElementById('wacky-corner-toggle');
@@ -1595,7 +1592,7 @@
 
                 if (targetView === 'blog') {
                     blogMain.classList.remove('hidden');
-                    blogMain.classList.add('animate-rise-up');
+                    blogMain.classList.add('animate-blur-fade-in');
                     window.renderBlogPosts(window.activeBlogCategory);
                     window.currentView = 'blog';
 
@@ -1605,22 +1602,25 @@
                     if (hBlogIcon) hBlogIcon.className = 'fa-solid fa-shop text-appetite-700';
                 } else {
                     storeMain.classList.remove('hidden');
-                    storeMain.classList.add('animate-rise-up');
+                    storeMain.classList.add('animate-blur-fade-in');
                     window.currentView = 'store';
 
                     const hBlogText = document.getElementById('headerBlogText');
                     const hBlogIcon = document.getElementById('headerBlogIcon');
-                    if (hBlogText) hBlogText.innerText = 'Wacky Blog';
+                    if (hBlogText) hBlogText.innerText = 'The Wacky Blog';
                     if (hBlogIcon) hBlogIcon.className = 'fa-solid fa-book-open-reader text-appetite-700';
                 }
 
                 window.scrollTo({ top: 0, behavior: 'smooth' });
 
                 setTimeout(() => {
-                    if (targetView === 'blog') blogMain.classList.remove('animate-rise-up');
-                    else storeMain.classList.remove('animate-rise-up');
-                }, 500);
-            }, 520);
+                    nextMain.classList.remove('animate-blur-fade-in');
+                }, 600);
+            }, 550);
+        };
+
+        window.goToStoreCatalog = function () {
+            window.toggleViewStoreBlog('store');
         };
 
         window.returnToStore = function () {

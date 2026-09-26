@@ -1,6 +1,6 @@
 # Walkthrough — Computer Science 8-Concept Interactive Slide Deck
 
-## Summary of Changes in `/computer-science/`
+## Summary of Changes in `/synth-rider/`
 
 We created and integrated a premier **Interactive Slide Presentation System** (`ConceptSlideDeck.jsx`) structured explicitly around the 8 foundational computer science concepts requested:
 
