@@ -1016,6 +1016,15 @@ CREATE TABLE wp_wc_orders (
       renderProducts();
       renderCartTable();
       updateCartBadge();
+
+      // Support deep-linking to views (e.g. ?view=admin or #admin)
+      try {
+        const urlParams = new URLSearchParams(window.location.search);
+        const viewParam = urlParams.get('view') || window.location.hash.replace('#', '');
+        if (['admin', 'cart', 'checkout', 'shop'].includes(viewParam)) {
+          setView(viewParam);
+        }
+      } catch (e) {}
     });
   </script>
   <!-- Private Access Gate Handler -->

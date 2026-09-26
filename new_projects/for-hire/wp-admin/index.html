@@ -1,0 +1,239 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Log In &lsaquo; For Hire &#8212; WordPress</title>
+  <link rel="icon" href="../favicon.png" type="image/png" />
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css" />
+  <!-- Private Directory Gate Styles & Pre-loader -->
+  <link rel="stylesheet" href="../auth-gate.css" />
+  <script>
+    (function () {
+      try {
+        if (sessionStorage.getItem('for_hire_auth_v1') === 'granted' || localStorage.getItem('for_hire_auth_v1') === 'granted') {
+          document.documentElement.classList.add('auth-unlocked');
+        }
+      } catch (e) {}
+    })();
+  </script>
+
+  <style>
+    :root {
+      --wp-blue: #2271b1;
+      --wp-blue-hover: #135e96;
+      --wp-dark: #1d2327;
+      --wp-gray-bg: #f0f0f1;
+      --wp-border: #dcdcde;
+    }
+
+    body {
+      margin: 0;
+      padding: 0;
+      background: var(--wp-gray-bg);
+      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Oxygen-Sans, Ubuntu, Cantarell, "Helvetica Neue", sans-serif;
+      color: #3c434a;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      min-height: 100vh;
+      box-sizing: border-box;
+      padding: 20px;
+    }
+
+    .login-container {
+      width: 100%;
+      max-width: 360px;
+      margin: 0 auto;
+    }
+
+    .wp-logo-wrap {
+      text-align: center;
+      margin-bottom: 24px;
+    }
+
+    .wp-logo-wrap a {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      width: 84px;
+      height: 84px;
+      border-radius: 50%;
+      background: #1d2327;
+      color: #ffffff;
+      font-size: 3rem;
+      text-decoration: none;
+      box-shadow: 0 4px 14px rgba(0, 0, 0, 0.15);
+      transition: transform 0.2s, background 0.2s;
+    }
+
+    .wp-logo-wrap a:hover {
+      transform: scale(1.05);
+      background: var(--wp-blue);
+    }
+
+    .login-card {
+      background: #ffffff;
+      border: 1px solid var(--wp-border);
+      border-radius: 8px;
+      padding: 26px 24px;
+      box-shadow: 0 1px 3px rgba(0, 0, 0, 0.04);
+    }
+
+    .login-notice {
+      background: #f0f6fc;
+      border-left: 4px solid var(--wp-blue);
+      padding: 12px;
+      font-size: 0.85rem;
+      color: #1d2327;
+      border-radius: 0 4px 4px 0;
+      margin-bottom: 1.25rem;
+      line-height: 1.45;
+    }
+
+    .logged-in-box {
+      text-align: center;
+    }
+
+    .logged-in-avatar {
+      width: 64px;
+      height: 64px;
+      border-radius: 50%;
+      background: #2271b1;
+      color: #fff;
+      font-weight: 800;
+      font-size: 1.5rem;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      margin: 0 auto 12px;
+      box-shadow: 0 4px 12px rgba(34, 113, 177, 0.35);
+    }
+
+    .logged-in-title {
+      font-size: 1.15rem;
+      font-weight: 700;
+      margin: 0 0 4px;
+      color: var(--wp-dark);
+    }
+
+    .logged-in-role {
+      font-size: 0.82rem;
+      color: #646970;
+      margin-bottom: 20px;
+    }
+
+    .btn-wp-primary {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 8px;
+      width: 100%;
+      background: var(--wp-blue);
+      color: #ffffff;
+      border: 1px solid var(--wp-blue);
+      border-radius: 6px;
+      padding: 10px 16px;
+      font-size: 0.95rem;
+      font-weight: 600;
+      cursor: pointer;
+      text-decoration: none;
+      box-sizing: border-box;
+      transition: background 0.15s, border-color 0.15s;
+    }
+
+    .btn-wp-primary:hover {
+      background: var(--wp-blue-hover);
+      border-color: var(--wp-blue-hover);
+    }
+
+    .btn-wp-secondary {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 8px;
+      width: 100%;
+      background: #ffffff;
+      color: var(--wp-blue);
+      border: 1px solid var(--wp-border);
+      border-radius: 6px;
+      padding: 9px 16px;
+      font-size: 0.9rem;
+      font-weight: 600;
+      cursor: pointer;
+      text-decoration: none;
+      box-sizing: border-box;
+      margin-top: 10px;
+      transition: background 0.15s, border-color 0.15s;
+    }
+
+    .btn-wp-secondary:hover {
+      background: #f6f7f7;
+      border-color: #c3c4c7;
+    }
+
+    .login-nav {
+      margin-top: 20px;
+      text-align: center;
+      font-size: 0.82rem;
+    }
+
+    .login-nav a {
+      color: #646970;
+      text-decoration: none;
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      transition: color 0.15s;
+    }
+
+    .login-nav a:hover {
+      color: var(--wp-blue);
+    }
+  </style>
+</head>
+
+<body>
+  <div class="login-container">
+    <div class="wp-logo-wrap">
+      <a href="../index.html" title="For Hire &#8212; WordPress &amp; WooCommerce">
+        <i class="fa-brands fa-wordpress"></i>
+      </a>
+    </div>
+
+    <div class="login-card">
+      <div class="login-notice">
+        <i class="fa-solid fa-circle-info" style="color: var(--wp-blue);"></i>
+        <strong>WP-Admin Control Center</strong><br />
+        Bones Theme &amp; WooCommerce Engineering Architecture.
+      </div>
+
+      <div class="logged-in-box">
+        <div class="logged-in-avatar">ZH</div>
+        <div class="logged-in-title">Zach Heindel</div>
+        <div class="logged-in-role">Administrator &bull; Developer</div>
+
+        <a href="../index.html?view=admin" class="btn-wp-primary">
+          <i class="fa-solid fa-gauge-high"></i> Open WP-Admin Dashboard
+        </a>
+        <a href="../index.html" class="btn-wp-secondary">
+          <i class="fa-solid fa-store"></i> View Frontend Store
+        </a>
+        <button type="button" onclick="window.lockPage()" class="btn-wp-secondary" style="color: #d63638; border-color: rgba(214, 54, 56, 0.3); margin-top: 12px;">
+          <i class="fa-solid fa-lock"></i> Lock / Log Out
+        </button>
+      </div>
+    </div>
+
+    <div class="login-nav">
+      <a href="../index.html">&larr; Go to For Hire Frontend</a>
+    </div>
+  </div>
+
+  <!-- Private Access Gate Handler -->
+  <script src="../auth-gate.js"></script>
+</body>
+
+</html>
