@@ -36,6 +36,16 @@ async function warmPool(pool, target = 6) {
   }
 }
 
+// ---------------------------------------------------------------------------
+// F-Zero Tron Bike definitions (module-level constant — never recreated)
+// ---------------------------------------------------------------------------
+const FZERO_BIKES = [
+  { lineIndex: -7,  color: '#00AAFF', exhaust: '#00EEFF', speed: 0.0022, startT: 0.12 }, // Blue Falcon
+  { lineIndex: 7,   color: '#FF3300', exhaust: '#FF8800', speed: 0.0019, startT: 0.37 }, // Fire Stingray
+  { lineIndex: -15, color: '#00DD55', exhaust: '#88FFBB', speed: 0.0027, startT: 0.06 }, // Wild Goose
+  { lineIndex: 15,  color: '#FFD700', exhaust: '#FFFF88', speed: 0.0020, startT: 0.55 }, // Golden Fox
+  { lineIndex: 1,   color: '#CC00FF', exhaust: '#FF77FF', speed: 0.0017, startT: 0.44 }, // Death Anchor
+];
 export function SynthwaveDrive() {
   const canvasRef = useRef(null);
   const viewportRef = useRef(null);
@@ -51,6 +61,9 @@ export function SynthwaveDrive() {
   // Wikipedia article pool (pre-fetched)
   const wikiPoolRef = useRef([]);
   const poolLoadingRef = useRef(false);
+
+  // F-Zero Tron bikes (lazy-initialized inside render loop)
+  const bikesRef = useRef(null);
 
   // Animation & simulation refs
   const autoDriveRef = useRef(false);
@@ -283,6 +296,19 @@ export function SynthwaveDrive() {
       // 3. 3D Perspective Grid Floor (shifting with lateral road steering)
       drawGridFloor(ctx, width, height, horizonY, sunCenterX, offsetRef.current, playerXRef.current);
 
+      // 4. F-Zero Tron bikes riding the pink perspective lanes
+      if (!bikesRef.current) {
+        bikesRef.current = FZERO_BIKES.map(cfg => ({
+          ...cfg,
+          t: cfg.startT,
+          trail: [],
+        }));
+      }
+      updateAndDrawBikes(
+        ctx, width, height, horizonY, sunCenterX,
+        bikesRef.current, playerXRef.current, speedRef.current
+      );
+
       animId = requestAnimationFrame(render);
     };
 
@@ -500,6 +526,177 @@ function drawGridFloor(ctx, width, height, horizonY, sunCenterX, offset, playerX
     ctx.lineTo(endX, height);
     ctx.stroke();
   }
+  ctx.restore();
+}
+
+// ----------------------------------------------------------------------------
+// F-Zero Tron Bike — Canvas Helpers
+// ----------------------------------------------------------------------------
+
+/** Map a bike's (lineIndex, t) to screen (x, y) using the same perspective formula as drawGridFloor */
+function getBikePosOnLine(width, horizonY, height, sunCenterX, lineIndex, t, playerX) {
+  const fanning = 26;
+  const cx = sunCenterX;
+  const startX = cx - playerX * (width * 0.04) + (lineIndex / fanning) * (width * 0.05);
+  const endX   = cx - playerX * (width * 0.40) + lineIndex * (width * 0.08);
+  const progressY = Math.pow(Math.max(0, Math.min(1, t)), 2.5);
+  return {
+    x: startX + (endX - startX) * progressY,
+    y: horizonY + progressY * (height - horizonY),
+    progressY,
+  };
+}
+
+/** Update every bike's position and draw it + its speed trail onto ctx */
+function updateAndDrawBikes(ctx, width, height, horizonY, sunCenterX, bikes, playerX, speed) {
+  for (const bike of bikes) {
+    // Always crawl forward; accelerate slightly with player speed
+    bike.t += bike.speed + Math.max(0, speed) * 0.00012;
+    if (bike.t > 0.93) {
+      bike.t = 0.03 + Math.random() * 0.07;
+      bike.trail = [];
+    }
+
+    const { x, y, progressY } = getBikePosOnLine(
+      width, horizonY, height, sunCenterX, bike.lineIndex, bike.t, playerX
+    );
+    if (y < horizonY) continue; // clip above horizon
+
+    const fadeIn = Math.min(1, bike.t * 6);
+    const scale  = Math.pow(progressY, 0.72) * 0.9;
+
+    // Store trail point
+    bike.trail.push({ x, y });
+    if (bike.trail.length > 28) bike.trail.shift();
+
+    // --- Draw speed / light trail ---
+    ctx.save();
+    for (let i = 1; i < bike.trail.length; i++) {
+      const ratio = i / bike.trail.length;
+      const a = ratio * ratio * 0.85 * fadeIn;
+      ctx.globalAlpha = a;
+      ctx.strokeStyle  = bike.exhaust;
+      ctx.lineWidth    = Math.max(0.4, ratio * progressY * 3.8);
+      ctx.shadowColor  = bike.color;
+      ctx.shadowBlur   = 8;
+      ctx.beginPath();
+      ctx.moveTo(bike.trail[i - 1].x, bike.trail[i - 1].y);
+      ctx.lineTo(bike.trail[i].x,     bike.trail[i].y);
+      ctx.stroke();
+    }
+    ctx.globalAlpha = 1;
+    ctx.restore();
+
+    // --- Draw bike body ---
+    if (scale > 0.03 && fadeIn > 0.08) {
+      const angle = Math.atan2(horizonY - y, sunCenterX - x); // points toward vanishing point
+      ctx.save();
+      ctx.globalAlpha = Math.min(1, fadeIn);
+      drawFZeroBike(ctx, x, y, scale, bike.color, bike.exhaust, angle);
+      ctx.globalAlpha = 1;
+      ctx.restore();
+    }
+  }
+}
+
+/**
+ * Draw a single F-Zero-inspired Tron machine.
+ * The nose (+x axis) points toward angle (vanishing point / horizon).
+ * Canonical size: ~44px × 18px at scale 1.
+ */
+function drawFZeroBike(ctx, x, y, scale, color, exhaustColor, angle) {
+  ctx.save();
+  ctx.translate(x, y);
+  ctx.rotate(angle); // nose toward horizon = forward
+  ctx.scale(scale, scale);
+
+  // Outer glow aura
+  ctx.shadowColor = color;
+  ctx.shadowBlur  = 22;
+
+  // ── Main hull (elongated ovoid) ────────────────────────────────────────
+  ctx.fillStyle = color;
+  ctx.beginPath();
+  ctx.moveTo(22, 0);
+  ctx.bezierCurveTo(16, -5.5,  -8, -5.5, -18, 0);
+  ctx.bezierCurveTo(-8,  5.5,  16,  5.5,  22, 0);
+  ctx.fill();
+
+  // Hull edge highlight
+  ctx.strokeStyle = 'rgba(255,255,255,0.28)';
+  ctx.lineWidth   = 0.7;
+  ctx.shadowBlur  = 0;
+  ctx.beginPath();
+  ctx.moveTo(20, -2);
+  ctx.bezierCurveTo(12, -5.5, -6, -5.5, -16, -1);
+  ctx.stroke();
+
+  // ── Cockpit canopy ──────────────────────────────────────────────────────
+  ctx.shadowColor = 'rgba(160,240,255,0.7)';
+  ctx.shadowBlur  = 6;
+  ctx.fillStyle   = 'rgba(155, 235, 255, 0.90)';
+  ctx.beginPath();
+  ctx.ellipse(6, 0, 7.5, 3.8, 0, 0, Math.PI * 2);
+  ctx.fill();
+  // glare
+  ctx.fillStyle = 'rgba(255,255,255,0.52)';
+  ctx.beginPath();
+  ctx.ellipse(7.5, -1.4, 3.2, 1.4, -0.3, 0, Math.PI * 2);
+  ctx.fill();
+
+  // ── Left stabiliser wing ────────────────────────────────────────────────
+  ctx.shadowColor = color;
+  ctx.shadowBlur  = 12;
+  ctx.fillStyle   = color;
+  ctx.beginPath();
+  ctx.moveTo( 2,  -5);
+  ctx.lineTo(-10, -17);
+  ctx.lineTo(-18, -13);
+  ctx.lineTo( -6,  -4);
+  ctx.closePath();
+  ctx.fill();
+
+  // ── Right stabiliser wing ───────────────────────────────────────────────
+  ctx.beginPath();
+  ctx.moveTo( 2,   5);
+  ctx.lineTo(-10,  17);
+  ctx.lineTo(-18,  13);
+  ctx.lineTo( -6,   4);
+  ctx.closePath();
+  ctx.fill();
+
+  // Wing accent striping
+  ctx.strokeStyle = 'rgba(255,255,255,0.35)';
+  ctx.lineWidth   = 0.9;
+  ctx.shadowBlur  = 0;
+  ctx.beginPath(); ctx.moveTo(0, -5.5); ctx.lineTo(-13, -15); ctx.stroke();
+  ctx.beginPath(); ctx.moveTo(0,  5.5); ctx.lineTo(-13,  15); ctx.stroke();
+
+  // ── Nose bumper (front sensor) ──────────────────────────────────────────
+  ctx.shadowColor = 'rgba(255,255,255,0.9)';
+  ctx.shadowBlur  = 10;
+  ctx.fillStyle   = 'rgba(255,255,255,0.95)';
+  ctx.beginPath();
+  ctx.arc(22, 0, 3.0, 0, Math.PI * 2);
+  ctx.fill();
+
+  // ── Twin engine exhausts ────────────────────────────────────────────────
+  ctx.shadowColor = exhaustColor;
+  ctx.shadowBlur  = 24;
+  // top exhaust pod
+  ctx.fillStyle = exhaustColor;
+  ctx.beginPath();
+  ctx.ellipse(-18, -2.6, 4.0, 2.1, 0.1, 0, Math.PI * 2);
+  ctx.fill();
+  // bottom exhaust pod
+  ctx.beginPath();
+  ctx.ellipse(-18,  2.6, 4.0, 2.1, -0.1, 0, Math.PI * 2);
+  ctx.fill();
+  // bright exhaust cores
+  ctx.fillStyle = 'rgba(255,255,255,0.92)';
+  ctx.beginPath(); ctx.ellipse(-18, -2.6, 1.8, 0.9, 0, 0, Math.PI * 2); ctx.fill();
+  ctx.beginPath(); ctx.ellipse(-18,  2.6, 1.8, 0.9, 0, 0, Math.PI * 2); ctx.fill();
+
   ctx.restore();
 }
 
