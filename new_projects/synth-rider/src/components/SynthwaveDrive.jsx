@@ -1121,22 +1121,7 @@ function WikiCard({ popup, driveDistance, playerX = 0 }) {
             </span>
           </div>
 
-          {/* Article title */}
-          <div
-            style={{
-              fontFamily: 'var(--font-display, "Space Grotesk", sans-serif)',
-              fontSize: '1.15rem',
-              fontWeight: 700,
-              lineHeight: 1.25,
-              color: '#FFFFFF',
-              textShadow: `0 0 15px rgba(255,255,255,0.9), 0 0 30px ${waveGlow}`,
-              letterSpacing: '0.01em',
-            }}
-          >
-            {title}
-          </div>
-
-          {/* Article image — positioned directly on top of the summary */}
+          {/* Article image */}
           <div
             style={{
               width: '100%',
@@ -1178,7 +1163,22 @@ function WikiCard({ popup, driveDistance, playerX = 0 }) {
             />
           </div>
 
-          {/* Article extract / summary — beneath the image */}
+          {/* Article headline / title — positioned below the image */}
+          <div
+            style={{
+              fontFamily: 'var(--font-display, "Space Grotesk", sans-serif)',
+              fontSize: '1.15rem',
+              fontWeight: 700,
+              lineHeight: 1.25,
+              color: '#FFFFFF',
+              textShadow: `0 0 15px rgba(255,255,255,0.9), 0 0 30px ${waveGlow}`,
+              letterSpacing: '0.01em',
+            }}
+          >
+            {title}
+          </div>
+
+          {/* Article extract / summary — beneath the headline */}
           {extract && (
             <div
               style={{
