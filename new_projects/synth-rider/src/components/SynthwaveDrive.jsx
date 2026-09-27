@@ -11,78 +11,78 @@ import { SpotifyRadio } from './SpotifyRadio';
 // Wikipedia API helpers & Curated Reserve
 // ---------------------------------------------------------------------------
 
-/** Curated thematic Wikipedia articles for instant zero-latency billboard display */
+/** Curated thematic Wikipedia articles with verified working thumbnail images */
 const CURATED_WIKI_FALLBACKS = [
   {
     title: 'Synthwave',
     extract: 'Synthwave is an electronic music microgenre based predominantly on 1980s film soundtracks, retrofuturistic synth art, and vintage analog synthesizers like the Prophet-5 and Juno-106.',
-    image: 'https://upload.wikimedia.org/wikipedia/commons/thumb/d/d4/Synthwave_art.png/640px-Synthwave_art.png',
+    image: 'https://thumb.wikimedia.org/wikipedia/commons/thumb/6/6f/Synthwave.svg/330px-Synthwave.svg.png?utm_source=en.wikipedia.org&utm_campaign=api&utm_content=thumbnail',
     url: 'https://en.wikipedia.org/wiki/Synthwave',
   },
   {
     title: 'Information superhighway',
     extract: 'The information superhighway was a popular 1990s telecommunications term referring to digital communication systems and the Internet infrastructure facilitating instant global data exchange.',
-    image: 'https://upload.wikimedia.org/wikipedia/commons/thumb/e/e1/Internet_map_1024.jpg/640px-Internet_map_1024.jpg',
+    image: 'https://thumb.wikimedia.org/wikipedia/commons/thumb/3/3f/Internet_map_1024_-_transparent%2C_inverted.png/330px-Internet_map_1024_-_transparent%2C_inverted.png?utm_source=en.wikipedia.org&utm_campaign=api&utm_content=thumbnail',
     url: 'https://en.wikipedia.org/wiki/Information_superhighway',
   },
   {
     title: 'Tron',
     extract: 'Tron is a 1982 American science fiction action-adventure film produced by Walt Disney Productions, pioneering extensive use of CGI and glowing light-cycle grid arenas.',
-    image: 'https://upload.wikimedia.org/wikipedia/en/thumb/1/17/Tron_poster.jpg/440px-Tron_poster.jpg',
+    image: 'https://upload.wikimedia.org/wikipedia/en/1/17/Tron_poster.jpg?utm_source=en.wikipedia.org&utm_campaign=api&utm_content=thumbnail_unscaled',
     url: 'https://en.wikipedia.org/wiki/Tron',
   },
   {
     title: 'Blade Runner',
     extract: 'Blade Runner is a 1982 cyberpunk neo-noir science fiction film directed by Ridley Scott, set in a dystopian future Los Angeles filled with holographic billboards and flying spinner vehicles.',
-    image: 'https://upload.wikimedia.org/wikipedia/en/thumb/9/9b/Blade_Runner_%281982_poster%29.png/440px-Blade_Runner_%281982_poster%29.png',
+    image: 'https://upload.wikimedia.org/wikipedia/en/9/9f/Blade_Runner_%281982_poster%29.png?utm_source=en.wikipedia.org&utm_campaign=api&utm_content=thumbnail_unscaled',
     url: 'https://en.wikipedia.org/wiki/Blade_Runner',
   },
   {
     title: 'Commodore 64',
     extract: 'The Commodore 64 is an 8-bit home computer introduced in January 1982 by Commodore International. It is listed as the highest-selling single computer model of all time, famous for its SID sound chip.',
-    image: 'https://upload.wikimedia.org/wikipedia/commons/thumb/e/e9/Commodore-64-Computer-FL.jpg/640px-Commodore-64-Computer-FL.jpg',
+    image: 'https://thumb.wikimedia.org/wikipedia/commons/thumb/e/e9/Commodore-64-Computer-FL.jpg/330px-Commodore-64-Computer-FL.jpg?utm_source=en.wikipedia.org&utm_campaign=api&utm_content=thumbnail',
     url: 'https://en.wikipedia.org/wiki/Commodore_64',
   },
   {
     title: 'DeLorean time machine',
     extract: 'The DeLorean time machine is a fictional automobile time travel device based on the DMC-12 sports car, conceived for the Back to the Future franchise featuring the iconic flux capacitor.',
-    image: 'https://upload.wikimedia.org/wikipedia/commons/thumb/2/28/BTTF_DeLorean_Time_Machine.jpg/640px-BTTF_DeLorean_Time_Machine.jpg',
+    image: 'https://thumb.wikimedia.org/wikipedia/commons/thumb/0/0f/DeLorean_Replica_Kovacs_Time_Machine.png/330px-DeLorean_Replica_Kovacs_Time_Machine.png?utm_source=en.wikipedia.org&utm_campaign=api&utm_content=thumbnail',
     url: 'https://en.wikipedia.org/wiki/DeLorean_time_machine',
   },
   {
     title: 'Arcade video game',
     extract: 'An arcade video game takes player input from its controls, processes it through electrical components, and displays the output to a monitor, flourishing during the golden age of arcade games.',
-    image: 'https://upload.wikimedia.org/wikipedia/commons/thumb/d/d8/Video-Game-Arcade-2004.jpg/640px-Video-Game-Arcade-2004.jpg',
+    image: 'https://thumb.wikimedia.org/wikipedia/commons/thumb/9/91/Arcade-20071020-a.jpg/330px-Arcade-20071020-a.jpg?utm_source=en.wikipedia.org&utm_campaign=api&utm_content=thumbnail',
     url: 'https://en.wikipedia.org/wiki/Arcade_video_game',
   },
   {
-    title: 'Vector monitor',
+    title: 'Vectrex',
     extract: 'A vector monitor is a cathode-ray tube display used for early computer graphics and 1980s arcade games like Asteroids, Battlezone, and Star Wars using electron beam line rendering.',
-    image: 'https://upload.wikimedia.org/wikipedia/commons/thumb/2/23/Vectrex-Console-Set.jpg/640px-Vectrex-Console-Set.jpg',
+    image: 'https://thumb.wikimedia.org/wikipedia/commons/thumb/7/7a/Vectrex-Console-Set.jpg/330px-Vectrex-Console-Set.jpg?utm_source=en.wikipedia.org&utm_campaign=api&utm_content=thumbnail',
     url: 'https://en.wikipedia.org/wiki/Vector_monitor',
   },
   {
     title: 'Roland TR-808',
     extract: 'The Roland TR-808 Rhythm Composer is a drum machine manufactured by the Roland Corporation between 1980 and 1983, distinguished by its booming analog bass drum and crisp metallic snare.',
-    image: 'https://upload.wikimedia.org/wikipedia/commons/thumb/9/98/Roland_TR-808.jpg/640px-Roland_TR-808.jpg',
+    image: 'https://thumb.wikimedia.org/wikipedia/commons/thumb/e/e6/TR-808_-_MIM%2C_Phoenix_%282019-08-30_14.59.26_by_Bryan_Pocius%29_%28cropped%29.jpg/330px-TR-808_-_MIM%2C_Phoenix_%282019-08-30_14.59.26_by_Bryan_Pocius%29_%28cropped%29.jpg?utm_source=en.wikipedia.org&utm_campaign=api&utm_content=thumbnail',
     url: 'https://en.wikipedia.org/wiki/Roland_TR-808',
   },
   {
     title: 'Cyberpunk',
     extract: 'Cyberpunk is a subgenre of science fiction in a dystopian futuristic setting that tends to focus on a combination of low life and high tech, featuring advanced technology and cybernetics.',
-    image: 'https://upload.wikimedia.org/wikipedia/commons/thumb/5/5f/Cyberpunk_city_concept.jpg/640px-Cyberpunk_city_concept.jpg',
+    image: 'https://thumb.wikimedia.org/wikipedia/commons/thumb/4/4a/Cyberpunk_city_%284065413356%29.jpg/330px-Cyberpunk_city_%284065413356%29.jpg?utm_source=en.wikipedia.org&utm_campaign=api&utm_content=thumbnail',
     url: 'https://en.wikipedia.org/wiki/Cyberpunk',
   },
   {
     title: 'F-Zero',
     extract: 'F-Zero is a futuristic racing video game developed by Nintendo for the Super Nintendo Entertainment System, renowned for high speed, Mode 7 pseudo-3D perspective tracks, and pulse synth rock.',
-    image: 'https://upload.wikimedia.org/wikipedia/en/thumb/f/f3/Fzero_snes_box.jpg/440px-Fzero_snes_box.jpg',
+    image: 'https://upload.wikimedia.org/wikipedia/en/7/77/F-Zero_logo.png?utm_source=en.wikipedia.org&utm_campaign=api&utm_content=thumbnail_unscaled',
     url: 'https://en.wikipedia.org/wiki/F-Zero',
   },
   {
     title: 'Daft Punk',
     extract: 'Daft Punk were a French electronic music duo formed in 1993 in Paris by Thomas Bangalter and Guy-Manuel de Homem-Christo, widely regarded as one of the most influential dance acts in history.',
-    image: 'https://upload.wikimedia.org/wikipedia/commons/thumb/0/07/Daft_Punk_in_2013.jpg/640px-Daft_Punk_in_2013.jpg',
+    image: 'https://thumb.wikimedia.org/wikipedia/commons/thumb/6/68/Daft_Punk_in_2013_2-_centered.jpg/330px-Daft_Punk_in_2013_2-_centered.jpg?utm_source=en.wikipedia.org&utm_campaign=api&utm_content=thumbnail',
     url: 'https://en.wikipedia.org/wiki/Daft_Punk',
   },
 ];
@@ -93,7 +93,8 @@ async function fetchWikiBatch(count = 6) {
   const timeoutId = setTimeout(() => controller.abort(), 4500);
 
   try {
-    const url = `https://en.wikipedia.org/w/api.php?action=query&format=json&origin=*&generator=random&grnnamespace=0&grnlimit=${count}&prop=extracts|pageimages|info&inprop=url&exintro=1&explaintext=1&exchars=240&piprop=thumbnail&pithumbsize=600`;
+    // Request up to 24 random items so we can filter strictly to articles with a verified thumbnail image
+    const url = `https://en.wikipedia.org/w/api.php?action=query&format=json&origin=*&generator=random&grnnamespace=0&grnlimit=24&prop=extracts|pageimages|info&inprop=url&exintro=1&explaintext=1&exchars=240&piprop=thumbnail&pithumbsize=330`;
     const res = await fetch(url, {
       signal: controller.signal,
       headers: { Accept: 'application/json' },
@@ -105,18 +106,22 @@ async function fetchWikiBatch(count = 6) {
 
     const articles = [];
     for (const page of pages) {
-      if (!page || !page.title) continue;
+      // Must have an image thumbnail, title, and valid extract
+      if (!page || !page.title || !page.thumbnail?.source) continue;
       const cleanExtract = (page.extract || '')
         .replace(/<[^>]*>/g, '')
         .replace(/\s+/g, ' ')
         .trim()
         .slice(0, 220);
+      if (cleanExtract.length < 20) continue;
+
       articles.push({
         title: page.title,
-        extract: cleanExtract || 'Read full article and historical records on Wikipedia.',
-        image: page.thumbnail?.source || null,
+        extract: cleanExtract,
+        image: page.thumbnail.source,
         url: page.fullurl || `https://en.wikipedia.org/wiki/${encodeURIComponent(page.title)}`,
       });
+      if (articles.length >= count) break;
     }
     return articles;
   } catch (err) {
@@ -124,7 +129,7 @@ async function fetchWikiBatch(count = 6) {
     // Secondary fallback: attempt single summary endpoint with 3s timeout
     try {
       const single = await fetchSingleWikiSummary();
-      if (single) return [single];
+      if (single && single.image) return [single];
     } catch (e2) {}
     return [];
   }
@@ -142,12 +147,13 @@ async function fetchSingleWikiSummary() {
     clearTimeout(timeoutId);
     if (!res.ok) return null;
     const data = await res.json();
+    if (!data.thumbnail?.source) return null;
     return {
       title: data.title,
       extract: data.extract_html
         ? data.extract_html.replace(/<[^>]*>/g, '').slice(0, 200)
         : (data.extract || '').slice(0, 200),
-      image: data.thumbnail?.source || null,
+      image: data.thumbnail.source,
       url:
         data.content_urls?.desktop?.page ||
         `https://en.wikipedia.org/wiki/${encodeURIComponent(data.title)}`,
@@ -158,10 +164,13 @@ async function fetchSingleWikiSummary() {
   }
 }
 
-/** Get next guaranteed article from pool or rotate curated reserve (NEVER returns empty or placeholder) */
+/** Get next guaranteed article from pool or rotate curated reserve (NEVER returns empty, image ALWAYS present) */
 function getNextArticle(poolRef, fallbackIndexRef) {
-  if (poolRef.current && poolRef.current.length > 0) {
-    return poolRef.current.shift();
+  while (poolRef.current && poolRef.current.length > 0) {
+    const candidate = poolRef.current.shift();
+    if (candidate && candidate.image) {
+      return candidate;
+    }
   }
   const idx = fallbackIndexRef.current % CURATED_WIKI_FALLBACKS.length;
   fallbackIndexRef.current += 1;
@@ -1077,47 +1086,8 @@ function WikiCard({ popup, driveDistance, playerX = 0 }) {
           }}
         />
 
-        {/* Article thumbnail image */}
-        {image && (
-          <div
-            style={{
-              width: '100%',
-              height: '160px',
-              overflow: 'hidden',
-              flexShrink: 0,
-              position: 'relative',
-            }}
-          >
-            <img
-              src={image}
-              alt={title}
-              style={{
-                width: '100%',
-                height: '100%',
-                objectFit: 'cover',
-                display: 'block',
-                filter: 'brightness(0.9) saturate(1.1)',
-              }}
-              onError={(e) => {
-                e.currentTarget.parentElement.style.display = 'none';
-              }}
-            />
-            {/* Gradient overlay fading into card body */}
-            <div
-              style={{
-                position: 'absolute',
-                bottom: 0,
-                left: 0,
-                right: 0,
-                height: '50%',
-                background: 'linear-gradient(to bottom, transparent, rgba(8,2,28,0.96))',
-              }}
-            />
-          </div>
-        )}
-
         {/* Text body */}
-        <div style={{ padding: '1rem 1.2rem 1.1rem', display: 'flex', flexDirection: 'column', gap: '0.5rem' }}>
+        <div style={{ padding: '0.95rem 1.15rem 1.15rem', display: 'flex', flexDirection: 'column', gap: '0.65rem' }}>
           {/* Wikipedia badge + open hint */}
           <div
             style={{
@@ -1129,11 +1099,11 @@ function WikiCard({ popup, driveDistance, playerX = 0 }) {
             <span
               style={{
                 fontFamily: 'var(--font-mono, monospace)',
-                fontSize: '0.6rem',
+                fontSize: '0.62rem',
                 fontWeight: 700,
                 color: primaryColor,
                 textShadow: `0 0 8px ${primaryColor}`,
-                letterSpacing: '0.1em',
+                letterSpacing: '0.12em',
                 textTransform: 'uppercase',
               }}
             >
@@ -1143,7 +1113,7 @@ function WikiCard({ popup, driveDistance, playerX = 0 }) {
               style={{
                 fontFamily: 'var(--font-mono, monospace)',
                 fontSize: '0.58rem',
-                color: 'rgba(255,255,255,0.4)',
+                color: 'rgba(255,255,255,0.45)',
                 letterSpacing: '0.06em',
               }}
             >
@@ -1166,7 +1136,49 @@ function WikiCard({ popup, driveDistance, playerX = 0 }) {
             {title}
           </div>
 
-          {/* Article extract / description */}
+          {/* Article image — positioned directly on top of the summary */}
+          <div
+            style={{
+              width: '100%',
+              height: '145px',
+              borderRadius: '8px',
+              overflow: 'hidden',
+              flexShrink: 0,
+              position: 'relative',
+              border: `1.5px solid ${isLeft ? 'rgba(0, 240, 255, 0.4)' : 'rgba(255, 0, 127, 0.4)'}`,
+              boxShadow: `0 6px 18px rgba(0,0,0,0.6), inset 0 0 12px ${innerGlow}`,
+              background: 'rgba(4, 2, 16, 0.8)',
+            }}
+          >
+            <img
+              src={image}
+              alt={title}
+              referrerPolicy="no-referrer"
+              style={{
+                width: '100%',
+                height: '100%',
+                objectFit: 'cover',
+                display: 'block',
+                filter: 'brightness(0.95) saturate(1.15)',
+              }}
+              onError={(e) => {
+                if (e.currentTarget.src !== fallbackArticle.image) {
+                  e.currentTarget.src = fallbackArticle.image;
+                }
+              }}
+            />
+            {/* Subtle gradient vignette */}
+            <div
+              style={{
+                position: 'absolute',
+                inset: 0,
+                background: 'linear-gradient(to bottom, transparent 65%, rgba(8,2,28,0.7) 100%)',
+                pointerEvents: 'none',
+              }}
+            />
+          </div>
+
+          {/* Article extract / summary — beneath the image */}
           {extract && (
             <div
               style={{
@@ -1174,7 +1186,7 @@ function WikiCard({ popup, driveDistance, playerX = 0 }) {
                 fontSize: '0.78rem',
                 fontWeight: 400,
                 lineHeight: 1.5,
-                color: 'rgba(220, 220, 255, 0.82)',
+                color: 'rgba(225, 225, 255, 0.88)',
                 display: '-webkit-box',
                 WebkitLineClamp: 3,
                 WebkitBoxOrient: 'vertical',
