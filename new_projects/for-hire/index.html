@@ -2,1061 +2,542 @@
 <html lang="en">
 
 <head>
-  <meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate" />
-  <meta http-equiv="Pragma" content="no-cache" />
-  <meta http-equiv="Expires" content="0" />
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <meta name="theme-color" content="#0b1120" />
-  <title>Zachery Q. Heindel | Senior Web Developer, UI/UX Designer &amp; AI Art Director</title>
+  <meta name="theme-color" content="#f8fafc" />
+  <title>wgmguru — Bespoke Web Engineering, Neo-Brutalist UI &amp; Digital Experiences</title>
   <meta name="description"
-    content="I design and build digital experiences where UI, code, and AI-generated art work as one system — from Figma to production React/WordPress to custom-generated visual worlds." />
+    content="wgmguru crafts high-performance bespoke websites, custom web applications, and digital experiences blending Neo-Brutalist structure with modern glassmorphism." />
   <meta name="keywords"
-    content="Zachery Q. Heindel, Zach Heindel, Web Developer, UI/UX Designer, AI Art Direction, Figma Design Systems, WordPress, PHP, React, Core Web Vitals, York PA, Remote Engineer" />
-  <meta name="author" content="Zachery Q. Heindel" />
+    content="wgmguru, Zach Heindel, Web Development, Neo-Brutalism, Glassmorphism, React, WordPress, UI/UX, Starter Site, Advanced Site, Care Site, Web Agency" />
+  <meta name="author" content="wgmguru" />
   <link rel="canonical" href="https://zqhwebpro.github.io/portfolio/new_projects/for-hire/" />
   <link rel="icon" href="./favicon.png" type="image/png" />
 
   <!-- Open Graph / Social Media -->
   <meta property="og:type" content="website" />
-  <meta property="og:title" content="Zachery Q. Heindel | UI, Code &amp; AI Art As One System" />
+  <meta property="og:title" content="wgmguru — Neo-Brutalist Glassmorphism Web Engineering" />
   <meta property="og:description"
-    content="I design and build digital experiences where UI, code, and AI-generated art work as one system — from Figma to production React/WordPress to custom-generated visual worlds." />
+    content="Bespoke web development, high-impact UI/UX, and performance engineering. Check out our Starter, Advanced, and Care Site tiers." />
   <meta property="og:url" content="https://zqhwebpro.github.io/portfolio/new_projects/for-hire/" />
-  <meta property="og:site_name" content="ZQH Studio" />
-
-  <!-- JSON-LD AI SEO Structured Data -->
-  <script type="application/ld+json">
-  {
-    "@context": "https://schema.org",
-    "@type": "ProfessionalService",
-    "name": "ZQH Studio — Zachery Q. Heindel",
-    "image": "https://zqhwebpro.github.io/portfolio/2026/media/zqh-portfolio.png",
-    "url": "https://zqhwebpro.github.io/portfolio/new_projects/for-hire/",
-    "telephone": "+1-717-818-4455",
-    "email": "zqhwebpro@gmail.com",
-    "address": {
-      "@type": "PostalAddress",
-      "addressLocality": "York",
-      "addressRegion": "PA",
-      "addressCountry": "US"
-    },
-    "founder": {
-      "@type": "Person",
-      "name": "Zachery Q. Heindel",
-      "jobTitle": "Senior Web Developer, UI/UX Designer & AI Art Director"
-    },
-    "description": "I design and build digital experiences where UI, code, and AI-generated art work as one system — from Figma to production React/WordPress to custom-generated visual worlds.",
-    "priceRange": "$$"
-  }
-  </script>
+  <meta property="og:site_name" content="wgmguru" />
 
   <!-- Google Fonts: Space Grotesk, Plus Jakarta Sans, JetBrains Mono -->
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link
-    href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500;600;700;800&family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=Space+Grotesk:wght@400;500;600;700;800&display=swap"
+    href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500;600;700;800&family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=Space+Grotesk:wght@500;600;700;800&display=swap"
     rel="stylesheet">
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css" />
 
-  <!-- Blue & Slate Tech Design System Stylesheet -->
-  <link rel="stylesheet" href="./style.css?v=1790455500000" />
+  <!-- Neo-Brutalist Glassmorphism Stylesheet -->
+  <link rel="stylesheet" href="./style.css" />
 </head>
 
 <body>
-  <!-- Fixed square back button flush to top right -->
-  <a id="back-btn-np" href="../" title="Back to Projects Showcase"
-    style="position:fixed;top:0;right:0;z-index:99999;display:inline-flex;align-items:center;justify-content:center;width:34px;height:34px;background:rgba(11,17,32,0.85);backdrop-filter:blur(12px);-webkit-backdrop-filter:blur(12px);border:0;border-bottom:1px solid rgba(56,189,248,0.3);border-left:1px solid rgba(56,189,248,0.3);border-radius:0 0 0 8px;color:#38bdf8;font-family:system-ui,sans-serif;font-size:1rem;font-weight:700;text-decoration:none;box-shadow:-2px 2px 12px rgba(0,0,0,0.6);transition:background 0.2s,transform 0.15s,color 0.2s;"
-    onmouseover="this.style.background='rgba(37,99,235,0.95)';this.style.color='#ffffff';this.style.transform='scale(1.05)'"
-    onmouseout="this.style.background='rgba(11,17,32,0.85)';this.style.color='#38bdf8';this.style.transform='scale(1)'">&#8592;</a>
+
+  <!-- Background Off-White with Grid Lines -->
+  <div class="grid-bg-canvas"></div>
 
   <!-- Header Navigation -->
-  <nav class="site-nav" id="siteNav">
-    <div class="container nav-wrap">
-      <a href="https://zqhwebpro.github.io/portfolio/2026/" class="brand-logo" title="Back to Portfolio Home (2026)">
-        <div class="brand-symbol">Z</div>
-        <div class="brand-text">
-          <span class="brand-title">Zach Heindel</span>
-          <span class="brand-subtitle">UI &bull; Code &bull; AI Art</span>
-        </div>
-      </a>
-
-      <ul class="nav-links">
-        <li><a href="#work" class="nav-link">The Living Room <span style="font-size:0.65rem; opacity:0.7;">(Work)</span></a></li>
-        <li><a href="#services" class="nav-link">The Kitchen <span style="font-size:0.65rem; opacity:0.7;">(Services)</span></a></li>
-        <li><a href="#tiers" class="nav-link">Service Tiers</a></li>
-        <li><a href="#process" class="nav-link">The Blueprint Room <span style="font-size:0.65rem; opacity:0.7;">(Process)</span></a></li>
-        <li><a href="#about" class="nav-link">The Hallway <span style="font-size:0.65rem; opacity:0.7;">(About)</span></a></li>
-        <li><a href="#pillars" class="nav-link">Pillars</a></li>
-        <li><a href="#estimator" class="nav-link">Scope Estimator</a></li>
-      </ul>
-
-      <div class="nav-actions">
-        <div class="status-badge">
-          <span class="status-dot"></span>
-          <span>Available for Q4 Engagements</span>
-        </div>
-
-        <button type="button" class="btn-portal-trigger open-portal-btn" title="Client Rate Card &amp; Portal">
-          <i class="fa-solid fa-lock" style="color: var(--c-cyan-light);"></i> Rate Card
-        </button>
-
-        <a href="#contact" class="btn-cta">
-          <span>The Front Door</span> <i class="fa-solid fa-arrow-right"></i>
+  <header class="site-nav">
+    <div class="container">
+      <div class="nav-wrap">
+        <a href="index.html" class="brand-logo" title="wgmguru — Digital Engineering">
+          <div class="brand-symbol-box">W</div>
+          <div class="brand-text-wrap">
+            <span class="brand-name">wgm<span>guru</span></span>
+            <span class="brand-sub">UI &bull; Code &bull; Lab</span>
+          </div>
         </a>
-      </div>
-    </div>
-  </nav>
 
-  <!-- ========================================================================
-       SECTION 1: HERO & POSITIONING STATEMENT
-       ======================================================================== -->
-  <header class="hero-section" id="hero">
-    <div class="container hero-grid">
-      <div class="hero-content">
-        <div class="hero-eyebrow">
-          <i class="fa-solid fa-microchip"></i> Senior Web Engineering &bull; UI/UX &bull; AI Art Direction
-        </div>
+        <ul class="nav-links">
+          <li><a href="#hero" class="nav-link">Home</a></li>
+          <li><a href="#features" class="nav-link">Capabilities</a></li>
+          <li><a href="#pricing" class="nav-link">Pricing Tiers</a></li>
+          <li><a href="#footer" class="nav-link">Connect</a></li>
+        </ul>
 
-        <!-- 1. Positioning Statement -->
-        <h1 class="hero-title">
-          I design and build digital experiences where <span class="text-gradient-blue">UI, code, and AI-generated art</span> work as one system.
-        </h1>
-
-        <p class="hero-desc">
-          From high-fidelity Figma design systems to production-grade React &amp; custom WordPress/PHP architectures — expanding through custom-generated visual worlds and generative asset pipelines.
-        </p>
-
-        <div class="hero-ctas">
-          <a href="#work" class="btn-cta">
-            <i class="fa-solid fa-couch"></i> Enter The Living Room (Case Studies)
+        <div class="nav-actions">
+          <!-- Instagram Icon Link -->
+          <a href="https://www.instagram.com/zqhmagic/" target="_blank" rel="noopener noreferrer"
+            class="social-icon-btn instagram" title="Follow on Instagram @zqhmagic">
+            <i class="fa-brands fa-instagram"></i>
           </a>
-          <a href="#estimator" class="btn-cta-secondary">
-            <i class="fa-solid fa-calculator"></i> Estimate Project Scope
+
+          <!-- LinkedIn Icon Link -->
+          <a href="https://www.linkedin.com/in/zqhwebpro" target="_blank" rel="noopener noreferrer"
+            class="social-icon-btn linkedin" title="Connect on LinkedIn /in/zqhwebpro">
+            <i class="fa-brands fa-linkedin-in"></i>
           </a>
-          <a href="#contact" class="btn-cta-outline">
-            <i class="fa-solid fa-door-open"></i> The Front Door (Contact)
+
+          <a href="#pricing" class="btn-nav-cta">
+            <span>Explore Tiers</span> <i class="fa-solid fa-arrow-right"></i>
           </a>
-        </div>
 
-        <!-- Verified Track Record Metrics -->
-        <div class="hero-stats-row">
-          <div class="stat-item">
-            <div class="stat-num">10<span>+</span></div>
-            <div class="stat-label">Years of Full-Stack Web Development &amp; UI/UX</div>
-          </div>
-          <div class="stat-item">
-            <div class="stat-num">$100K<span>+</span></div>
-            <div class="stat-label">Monthly E-Commerce Client Revenue Engineered</div>
-          </div>
-          <div class="stat-item">
-            <div class="stat-num">99.9<span>%</span></div>
-            <div class="stat-label">Verified Production SLA Across SMB Platforms</div>
-          </div>
-        </div>
-      </div>
-
-      <!-- Hero Tech Blueprint Graphic -->
-      <div class="hero-art-composition">
-        <div class="hero-blueprint-card">
-          <div class="blueprint-header">
-            <span class="blueprint-title">System Architecture // Pipeline v2026</span>
-            <span class="status-badge" style="padding: 2px 8px; font-size: 0.65rem;">Active Sync</span>
-          </div>
-
-          <div class="blueprint-system-flow">
-            <!-- Node 1 -->
-            <div class="blueprint-node">
-              <div class="blueprint-node-icon"><i class="fa-brands fa-figma"></i></div>
-              <div class="blueprint-node-text">
-                <strong>01 // UI/UX &amp; Design Systems</strong>
-                <span>Figma components, design tokens, rapid prototypes</span>
-              </div>
-            </div>
-
-            <div class="blueprint-flow-arrow"><i class="fa-solid fa-arrow-down"></i></div>
-
-            <!-- Node 2 -->
-            <div class="blueprint-node">
-              <div class="blueprint-node-icon" style="background: rgba(37, 99, 235, 0.2); color: #60a5fa;"><i class="fa-solid fa-code"></i></div>
-              <div class="blueprint-node-text">
-                <strong>02 // Full-Stack Engineering Core</strong>
-                <span>React, TypeScript, WordPress/PHP 8+, .NET, Shopify</span>
-              </div>
-            </div>
-
-            <div class="blueprint-flow-arrow"><i class="fa-solid fa-arrow-down"></i></div>
-
-            <!-- Node 3 -->
-            <div class="blueprint-node">
-              <div class="blueprint-node-icon" style="background: rgba(99, 102, 241, 0.2); color: #a5b4fc;"><i class="fa-solid fa-wand-magic-sparkles"></i></div>
-              <div class="blueprint-node-text">
-                <strong>03 // AI Art Direction &amp; Worlds</strong>
-                <span>Midjourney pipelines, narrative UX, visual suites</span>
-              </div>
-            </div>
-
-            <div class="blueprint-flow-arrow"><i class="fa-solid fa-arrow-down"></i></div>
-
-            <!-- Node 4 -->
-            <div class="blueprint-node">
-              <div class="blueprint-node-icon" style="background: rgba(16, 185, 129, 0.2); color: #34d399;"><i class="fa-solid fa-gauge-high"></i></div>
-              <div class="blueprint-node-text">
-                <strong>04 // Production Performance &amp; CRO</strong>
-                <span>95+ Core Web Vitals, WCAG 2.1 AA, CRO wins</span>
-              </div>
-            </div>
-          </div>
-
-          <div style="font-family: var(--font-mono); font-size: 0.72rem; color: var(--c-slate-400); text-align: center; border-top: 1px solid var(--c-border); padding-top: 1rem;">
-            Unified Architecture &bull; Zero Fragmented Handoffs
-          </div>
-        </div>
-
-        <!-- Floating Credential Badge -->
-        <div class="hero-floating-badge">
-          <i class="fa-solid fa-graduation-cap"></i>
-          <div>
-            <div class="badge-title">BS in Web Design &amp; Interactive Media</div>
-            <div class="badge-sub">Art Institute of York &bull; 10+ Years Pedigree</div>
-          </div>
+          <!-- Return to main projects gallery button -->
+          <a href="../" class="social-icon-btn" title="Back to All Projects" style="margin-left: 4px;">
+            <i class="fa-solid fa-arrow-left"></i>
+          </a>
         </div>
       </div>
     </div>
   </header>
 
   <!-- ========================================================================
-       SECTION 2: WORK / CASE STUDIES (The Living Room: Where Trust is Built)
+       SECTION 1: HERO (Off-white with Grid Lines, Self-Typing Headline & Colorful Shapes)
        ======================================================================== -->
-  <section class="work-section" id="work">
+  <section class="hero-section" id="hero">
     <div class="container">
-      <div class="section-head-center">
-        <div class="room-badge">
-          <i class="fa-solid fa-couch"></i> The Living Room &bull; Where Trust Is Built
-        </div>
-        <h2 class="section-title">Case Studies &amp; Verified Work</h2>
-        <p class="section-subtitle">
-          Explore real-world platforms engineered to bridge aesthetic storytelling, robust software architecture, and measurable client business outcomes.
-        </p>
-      </div>
+      <div class="hero-layout">
 
-      <div class="work-grid">
-        <!-- Case Study 1: Web/UX Case Studies -->
-        <article class="case-study-card">
-          <div class="case-study-category">01 // Web &amp; UX Engineering</div>
-          <div class="case-study-icon"><i class="fa-solid fa-laptop-code"></i></div>
-          <h3 class="case-study-title">EZMarketing SMB Builds &amp; Workout Web App</h3>
-          <p class="case-study-desc">
-            Led the full design-to-deployment lifecycle for dozens of regional and national SMB platforms. Audited legacy codebases to engineer custom PHP modules, alongside a retrofuturistic workout web app with interactive audio state management and real-time interval timers.
-          </p>
-          <ul class="service-feature-list" style="margin-bottom: 1.5rem;">
-            <li><i class="fa-solid fa-check"></i> Custom WordPress theme &amp; plugin development</li>
-            <li><i class="fa-solid fa-check"></i> Legacy .NET &amp; PHP code auditing and modernization</li>
-            <li><i class="fa-solid fa-check"></i> Interactive audio engine &amp; responsive canvas UI</li>
-          </ul>
-          <div class="case-study-tags">
-            <span class="tech-tag">WordPress/PHP</span>
-            <span class="tech-tag">React / JS</span>
-            <span class="tech-tag">SMB Lifecycle</span>
-            <span class="tech-tag">Figma Systems</span>
-          </div>
-        </article>
-
-        <!-- Case Study 2: AI Art Direction -->
-        <article class="case-study-card">
-          <div class="case-study-category">02 // Narrative UX &amp; AI Art Direction</div>
-          <div class="case-study-icon" style="background: rgba(99, 102, 241, 0.15); color: var(--c-indigo-light);"><i class="fa-solid fa-dragon"></i></div>
-          <h3 class="case-study-title">D&amp;D "Hollow Blessing" Visual Suite</h3>
-          <p class="case-study-desc">
-            A masterclass in worldbuilding as UX: engineered a comprehensive visual suite encompassing eerie carnival-to-doppelganger character progressions, cartographic battlemaps, and virtual tabletop token packs using disciplined generative prompt architecture.
-          </p>
-          <ul class="service-feature-list" style="margin-bottom: 1.5rem;">
-            <li><i class="fa-solid fa-check"></i> Carnival-to-doppelganger visual progression</li>
-            <li><i class="fa-solid fa-check"></i> Atmospheric worldbuilding maps &amp; token asset packs</li>
-            <li><i class="fa-solid fa-check"></i> Narrative UX for games, entertainment &amp; immersive campaigns</li>
-          </ul>
-          <div class="case-study-tags">
-            <span class="tech-tag">GenAI Pipelines</span>
-            <span class="tech-tag">Narrative UX</span>
-            <span class="tech-tag">Visual Worlds</span>
-            <span class="tech-tag">Art Direction</span>
-          </div>
-        </article>
-
-        <!-- Case Study 3: Systems & Infra -->
-        <article class="case-study-card">
-          <div class="case-study-category">03 // Systems &amp; Infrastructure</div>
-          <div class="case-study-icon" style="background: rgba(16, 185, 129, 0.15); color: #34d399;"><i class="fa-solid fa-server"></i></div>
-          <h3 class="case-study-title">Plugins, Core Web Vitals &amp; AWS Dashboards</h3>
-          <p class="case-study-desc">
-            Hardened high-traffic web properties with custom WordPress plugin architecture, automated cPanel/server workflows, and UI/UX alert dashboards deployed on AWS to monitor multi-channel infrastructure with 99.9%+ verified uptime.
-          </p>
-          <ul class="service-feature-list" style="margin-bottom: 1.5rem;">
-            <li><i class="fa-solid fa-check"></i> Engineered platforms generating $100K+ monthly client revenue</li>
-            <li><i class="fa-solid fa-check"></i> 95+ mobile Google Core Web Vitals &amp; WCAG compliance</li>
-            <li><i class="fa-solid fa-check"></i> AWS alert monitoring UI/UX &amp; DevOps collaboration</li>
-          </ul>
-          <div class="case-study-tags">
-            <span class="tech-tag">AWS Dashboards</span>
-            <span class="tech-tag">Core Web Vitals</span>
-            <span class="tech-tag">CRO Wins</span>
-            <span class="tech-tag">99.9% Uptime</span>
-          </div>
-        </article>
-      </div>
-    </div>
-  </section>
-
-  <!-- ========================================================================
-       SECTION 3: SERVICES (The Kitchen: What Visitors Can "Order")
-       ======================================================================== -->
-  <section class="services-section" id="services">
-    <div class="container">
-      <div class="section-head-center">
-        <div class="room-badge">
-          <i class="fa-solid fa-utensils"></i> The Kitchen &bull; What Visitors Can Order
-        </div>
-        <h2 class="section-title">Core Digital Capabilities</h2>
-        <p class="section-subtitle">
-          Modular design, code, and generative asset offerings tailored to eliminate handoff friction and accelerate your production cycle.
-        </p>
-      </div>
-
-      <div class="services-grid">
-        <!-- Service 1: UX/Product Design -->
-        <article class="service-card">
-          <div class="service-num">01 // UI &amp; PRODUCT DESIGN</div>
-          <div class="service-icon"><i class="fa-solid fa-bezier-curve"></i></div>
-          <h3 class="service-card-title">UX/Product Design &amp; Systems</h3>
-          <p class="service-card-desc">
-            Translating complex user journeys into structured Figma component ecosystems, atomic tokens, and rapid clickable prototypes ready for production handoff.
-          </p>
-          <ul class="service-feature-list">
-            <li><i class="fa-solid fa-check"></i> Figma Design Systems &amp; Token Architecture</li>
-            <li><i class="fa-solid fa-check"></i> High-Fidelity Interactive Rapid Prototyping</li>
-            <li><i class="fa-solid fa-check"></i> User Flow Mapping &amp; Conversion Optimization (CRO)</li>
-            <li><i class="fa-solid fa-check"></i> WCAG 2.1 AA Accessibility Standards</li>
-          </ul>
-        </article>
-
-        <!-- Service 2: Full-Stack Web Build -->
-        <article class="service-card">
-          <div class="service-num">02 // WEB ENGINEERING</div>
-          <div class="service-icon"><i class="fa-solid fa-code"></i></div>
-          <h3 class="service-card-title">Full-Stack Web Development</h3>
-          <p class="service-card-desc">
-            Clean, modular web platforms engineered without bloat. High-performance React single-page apps, tailored WordPress/PHP backends, legacy .NET refactoring, and Shopify storefronts.
-          </p>
-          <ul class="service-feature-list">
-            <li><i class="fa-solid fa-check"></i> React, TypeScript &amp; Modern JavaScript SPAs</li>
-            <li><i class="fa-solid fa-check"></i> Custom WordPress Themes &amp; PHP 8+ OOP Plugins</li>
-            <li><i class="fa-solid fa-check"></i> Legacy .NET &amp; PHP Codebase Audits</li>
-            <li><i class="fa-solid fa-check"></i> Multi-Channel E-Commerce (Shopify &amp; WooCommerce)</li>
-          </ul>
-        </article>
-
-        <!-- Service 3: AI-Generated Visual Assets -->
-        <article class="service-card">
-          <div class="service-num">03 // AI ART DIRECTION</div>
-          <div class="service-icon"><i class="fa-solid fa-wand-magic-sparkles"></i></div>
-          <h3 class="service-card-title">AI-Generated Visual Assets</h3>
-          <p class="service-card-desc">
-            Synthesizing art and UI through disciplined prompt pipelines. Bespoke visual worldbuilding, character design suites, token packs, and atmospheric marketing collateral.
-          </p>
-          <ul class="service-feature-list">
-            <li><i class="fa-solid fa-check"></i> Character Concept Design &amp; Entity Progression</li>
-            <li><i class="fa-solid fa-check"></i> Custom Worldbuilding Art &amp; Cartographic Suites</li>
-            <li><i class="fa-solid fa-check"></i> Digital Token &amp; UI Asset Packs for Games/Apps</li>
-            <li><i class="fa-solid fa-check"></i> Consistent Generative Pipeline Workflows</li>
-          </ul>
-        </article>
-      </div>
-    </div>
-  </section>
-
-  <!-- ========================================================================
-       SECTION 4: SERVICE TIERS (Sprint, Build, Partner)
-       ======================================================================== -->
-  <section class="tiers-section" id="tiers">
-    <div class="container">
-      <div class="section-head-center">
-        <div class="room-badge">
-          <i class="fa-solid fa-layer-group"></i> Engagement Models &bull; Transparent Tiers
-        </div>
-        <h2 class="section-title">Structured Service Tiers</h2>
-        <p class="section-subtitle">
-          Select the collaboration framework that matches your scope, from rapid high-impact sprints to comprehensive builds and ongoing partnership.
-        </p>
-      </div>
-
-      <div class="tiers-grid">
-        <!-- Tier 1: Sprint -->
-        <div class="tier-card">
-          <span class="tier-badge">Rapid Sprint</span>
-          <h3 class="tier-name">Sprint</h3>
-          <div class="tier-tagline">Landing page or single UI screen, AI-art enhanced</div>
-
-          <div class="tier-proof">
-            <strong>Proof Point:</strong>
-            Weber Advertising print-to-digital bridging &amp; rapid commercial campaign launches.
+        <div class="hero-content-col">
+          <div class="hero-badge-pill">
+            <span class="badge-dot"></span>
+            <span>WGMGURU DIGITAL LAB &bull; AVAILABLE FOR NEW CLIENT BUILDS</span>
           </div>
 
-          <ul class="tier-bullets">
-            <li><i class="fa-solid fa-circle-check"></i> High-converting landing page or critical product view</li>
-            <li><i class="fa-solid fa-circle-check"></i> Custom AI-generated key visual asset suite</li>
-            <li><i class="fa-solid fa-circle-check"></i> Figma mockup + responsive React or HTML5/CSS3 build</li>
-            <li><i class="fa-solid fa-circle-check"></i> 95+ Mobile Core Web Vitals speed optimization</li>
-            <li><i class="fa-solid fa-circle-check"></i> 1 &ndash; 2 week focused delivery window</li>
-          </ul>
+          <!-- Self-Typing Headline -->
+          <h1 class="hero-title">
+            <span class="static-text">We Engineer Bespoke</span>
+            <span class="typing-wrapper" id="typewriterText">High-Impact Websites</span><span class="typing-cursor">|</span>
+          </h1>
 
-          <a href="#estimator" class="btn-cta-secondary tier-cta">
-            <span>Configure Sprint</span> <i class="fa-solid fa-calculator"></i>
-          </a>
-        </div>
+          <p class="hero-desc">
+            Combining the raw structural power of <strong>Neo-Brutalism</strong> with the elegance of <strong>Glassmorphism</strong>. We build custom websites, performant web applications, and automated growth systems with blues, slates, and surgical precision.
+          </p>
 
-        <!-- Tier 2: Build (Featured) -->
-        <div class="tier-card featured">
-          <span class="tier-badge" style="background: rgba(37,99,235,0.3); border-color: var(--c-cyan-light);">Most Popular</span>
-          <h3 class="tier-name">Build</h3>
-          <div class="tier-tagline">Full site (WordPress/React), design system included</div>
-
-          <div class="tier-proof" style="border-left-color: var(--c-cyan-light);">
-            <strong>Proof Point:</strong>
-            EZMarketing full lifecycle SMB builds from initial prototype to production revenue.
+          <div class="hero-actions">
+            <a href="#pricing" class="btn-brutal-primary">
+              <i class="fa-solid fa-bolt"></i> View Pricing &amp; Tiers
+            </a>
+            <a href="https://www.linkedin.com/in/zqhwebpro" target="_blank" rel="noopener noreferrer" class="btn-brutal-secondary">
+              <i class="fa-brands fa-linkedin"></i> Connect on LinkedIn
+            </a>
           </div>
 
-          <ul class="tier-bullets">
-            <li><i class="fa-solid fa-circle-check"></i> Complete custom WordPress or React/TypeScript build</li>
-            <li><i class="fa-solid fa-circle-check"></i> Full Figma design system with tokens &amp; reusable components</li>
-            <li><i class="fa-solid fa-circle-check"></i> Integrated AI-generated visual identity &amp; imagery</li>
-            <li><i class="fa-solid fa-circle-check"></i> WCAG 2.1 AA accessibility &amp; technical SEO semantic audit</li>
-            <li><i class="fa-solid fa-circle-check"></i> 3 &ndash; 5 week end-to-end milestone schedule</li>
-          </ul>
-
-          <a href="#contact" class="btn-cta tier-cta">
-            <span>Start Full Build</span> <i class="fa-solid fa-arrow-right"></i>
-          </a>
-        </div>
-
-        <!-- Tier 3: Partner -->
-        <div class="tier-card">
-          <span class="tier-badge">Dedicated Retainer</span>
-          <h3 class="tier-name">Partner</h3>
-          <div class="tier-tagline">Ongoing retainer: dev + AI asset pipeline + CRO</div>
-
-          <div class="tier-proof">
-            <strong>Proof Point:</strong>
-            Income Store multi-channel ecommerce work across a 2,000+ property portfolio.
-          </div>
-
-          <ul class="tier-bullets">
-            <li><i class="fa-solid fa-circle-check"></i> 35+ dedicated monthly engineering &amp; design hours</li>
-            <li><i class="fa-solid fa-circle-check"></i> Ongoing generative art creation &amp; marketing collateral pipeline</li>
-            <li><i class="fa-solid fa-circle-check"></i> Conversion Rate Optimization (CRO) &amp; A/B testing sprints</li>
-            <li><i class="fa-solid fa-circle-check"></i> Server maintenance, security hardening &amp; 99.9% uptime SLA</li>
-            <li><i class="fa-solid fa-circle-check"></i> Direct developer communication (no agency intermediaries)</li>
-          </ul>
-
-          <a href="#contact" class="btn-cta-secondary tier-cta">
-            <span>Inquire for Retainer</span> <i class="fa-solid fa-handshake"></i>
-          </a>
-        </div>
-      </div>
-    </div>
-  </section>
-
-  <!-- ========================================================================
-       SECTION 5: PROCESS (The Blueprint Room: How You Work)
-       ======================================================================== -->
-  <section class="process-section" id="process">
-    <div class="container">
-      <div class="section-head-center">
-        <div class="room-badge">
-          <i class="fa-solid fa-compass-drafting"></i> The Blueprint Room &bull; How I Work
-        </div>
-        <h2 class="section-title">The 5-Stage Engineering Pipeline</h2>
-        <p class="section-subtitle">
-          A disciplined, blueprint-driven workflow that unifies prototype validation, robust code architecture, and generative art integration.
-        </p>
-      </div>
-
-      <div class="process-flow">
-        <!-- Step 1 -->
-        <div class="process-step">
-          <div class="step-num">STAGE // 01</div>
-          <h3 class="step-title">Prototype</h3>
-          <p class="step-desc">
-            Map user journeys, architectural blueprints, and interactive wireframes in Figma to de-risk scope before writing a line of code.
-          </p>
-        </div>
-
-        <!-- Step 2 -->
-        <div class="process-step">
-          <div class="step-num">STAGE // 02</div>
-          <h3 class="step-title">Design System</h3>
-          <p class="step-desc">
-            Establish modular design tokens, typography scales, accessibility color contrast grids, and reusable UI components.
-          </p>
-        </div>
-
-        <!-- Step 3 -->
-        <div class="process-step">
-          <div class="step-num">STAGE // 03</div>
-          <h3 class="step-title">Production Build</h3>
-          <p class="step-desc">
-            Engineer clean, maintainable code in React/TypeScript or custom WordPress/PHP 8+ OOP with zero unnecessary plugin bloat.
-          </p>
-        </div>
-
-        <!-- Step 4 -->
-        <div class="process-step">
-          <div class="step-num">STAGE // 04</div>
-          <h3 class="step-title">AI Integration</h3>
-          <p class="step-desc">
-            Generate and infuse custom visual worlds, character assets, and worldbuilding art directly into the frontend interface.
-          </p>
-        </div>
-
-        <!-- Step 5 -->
-        <div class="process-step">
-          <div class="step-num">STAGE // 05</div>
-          <h3 class="step-title">QA &amp; CRO</h3>
-          <p class="step-desc">
-            Audit WCAG 2.1 AA accessibility, benchmark 95+ Core Web Vitals speed, and optimize conversion funnels for measurable ROI.
-          </p>
-        </div>
-      </div>
-    </div>
-  </section>
-
-  <!-- ========================================================================
-       SECTION 6: ABOUT & LINEAGE (The Hallway: Credibility + Voice)
-       ======================================================================== -->
-  <section class="about-section" id="about">
-    <div class="container about-grid">
-      <div>
-        <div class="room-badge">
-          <i class="fa-solid fa-door-open"></i> The Hallway &bull; Credibility &amp; Lineage
-        </div>
-
-        <div class="about-author-header">
-          <h2 class="about-name">Zachery Q. Heindel</h2>
-          <div class="about-role">Senior Web Developer, UI/UX Designer &amp; AI Art Director</div>
-        </div>
-
-        <p class="about-bio">
-          With over ten years of cross-disciplinary experience across agency, commercial portfolio, and independent engineering environments, I build systems where design elegance and software resilience are inseparable. My ethos is collaborative, transparent, and remote-first.
-        </p>
-
-        <!-- Academic Foundations Card -->
-        <div style="background: var(--c-slate-800); border: 1px solid var(--c-border); border-radius: var(--radius-md); padding: 1.5rem; margin-bottom: 2rem;">
-          <h4 style="font-family: var(--font-mono); font-size: 0.78rem; color: var(--c-cyan-light); text-transform: uppercase; letter-spacing: 0.1em; margin-bottom: 12px;">
-            Academic Credentials
-          </h4>
-          <div style="margin-bottom: 14px;">
-            <div style="font-family: var(--font-display); font-size: 1.05rem; font-weight: 700; color: var(--c-slate-100);">
-              Bachelor of Science in Web Design &amp; Interactive Media
+          <div class="hero-metrics-strip">
+            <div class="metric-pill-card">
+              <i class="fa-solid fa-gauge-high"></i>
+              <span class="m-text">100/100 Core Web Vitals</span>
             </div>
-            <div style="font-size: 0.8rem; color: var(--c-slate-400);">Art Institute of York &bull; 2013 &ndash; 2016</div>
+            <div class="metric-pill-card">
+              <i class="fa-solid fa-layer-group"></i>
+              <span class="m-text">Bespoke Design &bull; Zero Bloat</span>
+            </div>
+            <div class="metric-pill-card">
+              <i class="fa-solid fa-shield-halved"></i>
+              <span class="m-text">Managed Site Care</span>
+            </div>
           </div>
+        </div>
+
+        <!-- Right Visual Stage with Colorful Floating Neo-Brutalist Shapes & Glass Card -->
+        <div class="hero-visual-stage">
+          <!-- Colorful Geometric Shapes Floating Around -->
+          <div class="shape shape-1" title="Amber Sparkle"><i class="fa-solid fa-star"></i></div>
+          <div class="shape shape-2" title="Cobalt Code"><i class="fa-solid fa-code"></i></div>
+          <div class="shape shape-3" title="Coral Neo Pill">NEO // GLASS</div>
+          <div class="shape shape-4" title="Sky Blue Cube"><i class="fa-solid fa-cube"></i></div>
+
+          <!-- Central Neo-Brutalist Glass Card -->
+          <div class="floating-glass-card">
+            <div class="glass-card-header">
+              <span class="card-status-chip"><i class="fa-solid fa-circle" style="color: #10b981; font-size: 0.6rem;"></i> LIVE LAB</span>
+              <div class="card-social-pills">
+                <a href="https://www.instagram.com/zqhmagic/" target="_blank" rel="noopener noreferrer" class="social-icon-btn instagram" style="width: 30px; height: 30px; font-size: 0.85rem;" title="Instagram">
+                  <i class="fa-brands fa-instagram"></i>
+                </a>
+                <a href="https://www.linkedin.com/in/zqhwebpro" target="_blank" rel="noopener noreferrer" class="social-icon-btn linkedin" style="width: 30px; height: 30px; font-size: 0.85rem;" title="LinkedIn">
+                  <i class="fa-brands fa-linkedin-in"></i>
+                </a>
+              </div>
+            </div>
+
+            <div class="card-lead-text">
+              <h3>wgmguru architecture</h3>
+              <p>
+                From clean marketing landing pages to full-scale web platforms with custom interactive widgets, responsive databases, and managed maintenance.
+              </p>
+            </div>
+
+            <div class="tech-tags-cloud">
+              <span class="brutal-tag blue">React 18</span>
+              <span class="brutal-tag amber">WordPress</span>
+              <span class="brutal-tag purple">TypeScript</span>
+              <span class="brutal-tag coral">Tailwind &amp; CSS3</span>
+              <span class="brutal-tag blue">Full-Stack PHP</span>
+              <span class="brutal-tag amber">Toast POS / API</span>
+            </div>
+
+            <div class="card-social-connect">
+              <div class="social-connect-title">Connect With The Founder</div>
+              <div class="social-links-row">
+                <a href="https://www.instagram.com/zqhmagic/" target="_blank" rel="noopener noreferrer" class="social-pill-link">
+                  <i class="fa-brands fa-instagram" style="color: #e1306c;"></i> @zqhmagic
+                </a>
+                <a href="https://www.linkedin.com/in/zqhwebpro" target="_blank" rel="noopener noreferrer" class="social-pill-link">
+                  <i class="fa-brands fa-linkedin" style="color: #0077b5;"></i> in/zqhwebpro
+                </a>
+              </div>
+            </div>
+          </div>
+        </div>
+
+      </div>
+    </div>
+  </section>
+
+  <!-- ========================================================================
+       SECTION 2: CORE CAPABILITIES (Bridging Hero to Pricing)
+       ======================================================================== -->
+  <section class="features-section" id="features">
+    <div class="container">
+      <div class="section-head">
+        <span class="section-tag">Engineered For Growth</span>
+        <h2 class="section-title">Why Businesses Partner With wgmguru</h2>
+        <p class="section-subtitle">
+          We strip away the corporate bloat to deliver distinctive, ultra-fast websites that communicate credibility and turn curious visitors into buyers.
+        </p>
+      </div>
+
+      <div class="features-grid">
+        <div class="feature-card">
+          <div class="feature-icon-box blue">
+            <i class="fa-solid fa-wand-magic-sparkles"></i>
+          </div>
+          <h3>Neo-Brutalist &amp; Glass Aesthetics</h3>
+          <p>
+            Break free from generic templates. We craft unforgettable visual identities with crisp geometry, frosted translucent glass, and vibrant modern typography that commands authority.
+          </p>
+        </div>
+
+        <div class="feature-card">
+          <div class="feature-icon-box amber">
+            <i class="fa-solid fa-gauge-simple-high"></i>
+          </div>
+          <h3>Sub-Second Speed &amp; Clean Code</h3>
+          <p>
+            Google penalizes sluggish sites. Every build is optimized for 95+ Google PageSpeed ratings, sub-second First Contentful Paint, and zero unnecessary script bloat.
+          </p>
+        </div>
+
+        <div class="feature-card">
+          <div class="feature-icon-box purple">
+            <i class="fa-solid fa-cubes-stacked"></i>
+          </div>
+          <h3>Full-Stack &amp; POS Integration</h3>
+          <p>
+            Need dynamic databases, delivery POS systems (Toast POS), custom booking calculators, or e-commerce workflows? We engineer custom server integrations that scale smoothly.
+          </p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ========================================================================
+       SECTION 3: PRICING (Starter Site, Advanced Site, Care Site)
+       ======================================================================== -->
+  <section class="pricing-section" id="pricing">
+    <div class="container">
+      <div class="section-head">
+        <span class="section-tag">Clear &amp; Transparent</span>
+        <h2 class="section-title">Website Investment Tiers</h2>
+        <p class="section-subtitle">
+          Choose the tier that matches your company's stage. Transparent pricing, bespoke design, and zero surprise fees.
+        </p>
+      </div>
+
+      <div class="pricing-grid">
+
+        <!-- TIER 1: Starter Site -->
+        <div class="pricing-card">
           <div>
-            <div style="font-family: var(--font-display); font-size: 1.05rem; font-weight: 700; color: var(--c-slate-100);">
-              Associate of Science in Media Arts &amp; Animation
-            </div>
-            <div style="font-size: 0.8rem; color: var(--c-slate-400);">Bradley Academy &bull; 2005 &ndash; 2007</div>
-          </div>
-        </div>
-
-        <div>
-          <a href="#contact" class="btn-cta">
-            <i class="fa-solid fa-comments"></i> Start a Project at The Front Door
-          </a>
-        </div>
-      </div>
-
-      <!-- Verified Career Timeline -->
-      <div class="experience-list">
-        <!-- Role 1: EZMarketing -->
-        <div class="exp-card">
-          <div class="exp-card-head">
-            <span class="exp-card-title">EZMarketing</span>
-            <span class="exp-card-period">Mar 2020 &ndash; Apr 2026</span>
-          </div>
-          <div class="exp-card-role">Web Designer / Developer &bull; Lancaster, PA</div>
-          <div class="exp-card-bullets">
-            Guided the complete development lifecycle for custom SMB web platforms. Audited legacy PHP and .NET systems to build tailored functionality, engineered e-commerce ecosystems generating $100K+ recurring monthly client revenue, and sustained 99.9%+ uptime across hosting servers.
-          </div>
-        </div>
-
-        <!-- Role 2: Income Store -->
-        <div class="exp-card">
-          <div class="exp-card-head">
-            <span class="exp-card-title">Income Store</span>
-            <span class="exp-card-period">Jun 2018 &ndash; Dec 2019</span>
-          </div>
-          <div class="exp-card-role">Front-End Web Developer &bull; Lancaster, PA</div>
-          <div class="exp-card-bullets">
-            Engineered dynamic JavaScript and PHP interfaces across a high-traffic portfolio of 2,000+ web properties. Conducted multivariate CRO testing, designed interactive data visualizations, and collaborated with DevOps to build AWS UI/UX system alert dashboards.
-          </div>
-        </div>
-
-        <!-- Role 3: Weber Advertising -->
-        <div class="exp-card">
-          <div class="exp-card-head">
-            <span class="exp-card-title">Weber Advertising &amp; Marketing</span>
-            <span class="exp-card-period">Apr 2017 &ndash; Apr 2018</span>
-          </div>
-          <div class="exp-card-role">Web Developer &bull; Lancaster, PA</div>
-          <div class="exp-card-bullets">
-            Delivered custom full-stack web solutions and multi-channel advertising assets for commercial clients. Automated Git deployment workflows and bridged digital web engineering with high-fidelity commercial print disciplines.
-          </div>
-        </div>
-      </div>
-    </div>
-  </section>
-
-  <!-- ========================================================================
-       SECTION 7: CONTENT PILLARS FOR ONGOING MARKETING
-       ======================================================================== -->
-  <section class="pillars-section" id="pillars">
-    <div class="container">
-      <div class="section-head-center">
-        <div class="room-badge">
-          <i class="fa-solid fa-bullhorn"></i> Marketing Pillars &bull; Technical Perspectives
-        </div>
-        <h2 class="section-title">Content Pillars for Ongoing Marketing</h2>
-        <p class="section-subtitle">
-          Foundational topics explored across my technical writing, LinkedIn thought leadership, and client architectural consulting.
-        </p>
-      </div>
-
-      <div class="pillars-grid">
-        <!-- Pillar 1 -->
-        <article class="pillar-card">
-          <div class="pillar-card-icon"><i class="fa-solid fa-bezier-curve"></i></div>
-          <h3 class="pillar-card-title">"Design Systems Meet AI Pipelines"</h3>
-          <p class="pillar-card-desc">
-            How modern teams pair Figma token libraries with generative image tools. Breaking down prompt engineering protocols that ensure custom visual worlds align seamlessly with UI color palettes, typography scales, and component constraints.
-          </p>
-        </article>
-
-        <!-- Pillar 2 -->
-        <article class="pillar-card">
-          <div class="pillar-card-icon" style="background: rgba(99, 102, 241, 0.15); color: var(--c-indigo-light);"><i class="fa-solid fa-gamepad"></i></div>
-          <h3 class="pillar-card-title">Worldbuilding as UX</h3>
-          <p class="pillar-card-desc">
-            Framing the D&amp;D "Hollow Blessing" visual suite not as an aside, but as a rigorous portfolio piece in narrative UX and art direction for games, entertainment, and immersive experiential marketing.
-          </p>
-        </article>
-
-        <!-- Pillar 3 -->
-        <article class="pillar-card">
-          <div class="pillar-card-icon" style="background: rgba(16, 185, 129, 0.15); color: #34d399;"><i class="fa-solid fa-chart-line"></i></div>
-          <h3 class="pillar-card-title">Performance-Minded Front-End</h3>
-          <p class="pillar-card-desc">
-            The technical blueprint for achieving 95+ mobile Google PageSpeed scores, WCAG 2.1 AA accessibility, and tangible CRO wins that generated over $100K+ in recurring monthly revenue for real clients.
-          </p>
-        </article>
-
-        <!-- Pillar 4 -->
-        <article class="pillar-card">
-          <div class="pillar-card-icon" style="background: rgba(6, 182, 212, 0.15); color: var(--c-cyan-light);"><i class="fa-solid fa-house-chimney"></i></div>
-          <h3 class="pillar-card-title">Case Study Breakdowns</h3>
-          <p class="pillar-card-desc">
-            Detailed before-and-after breakdowns of real SMB site rebuilds, narrated through our house and blueprint architecture metaphor: from the front door to the living room, kitchen, and blueprint room.
-          </p>
-        </article>
-      </div>
-    </div>
-  </section>
-
-  <!-- ========================================================================
-       SECTION 8: INTERACTIVE SCOPE & INVESTMENT ESTIMATOR
-       ======================================================================== -->
-  <section class="estimator-section" id="estimator">
-    <div class="container">
-      <div class="section-head-center">
-        <div class="room-badge">
-          <i class="fa-solid fa-calculator"></i> Scope Planner &bull; Investment Calculator
-        </div>
-        <h2 class="section-title">Configure Your Scope &amp; Target Budget</h2>
-        <p class="section-subtitle">
-          Select your platform requirements and delivery velocity to generate an immediate estimate of development hours, timeframe, and projected investment range.
-        </p>
-      </div>
-
-      <div class="estimator-card">
-        <!-- Left: Interactive Inputs -->
-        <div>
-          <!-- Step 1: Core Service -->
-          <div class="calc-step-title">
-            <span>1</span> Select Platform Architecture
-          </div>
-          <div class="calc-options-grid">
-            <div class="calc-radio-pill">
-              <input type="radio" name="est-service" id="srv-sprint" value="sprint" />
-              <label for="srv-sprint" class="calc-radio-label">
-                <span class="calc-label-name">Sprint (Landing / UI)</span>
-                <span class="calc-label-hint">AI-Art enhanced &bull; 1-2 wks</span>
-              </label>
-            </div>
-
-            <div class="calc-radio-pill">
-              <input type="radio" name="est-service" id="srv-build" value="build" checked />
-              <label for="srv-build" class="calc-radio-label">
-                <span class="calc-label-name">Build (Full Platform)</span>
-                <span class="calc-label-hint">WordPress/React + Design Sys</span>
-              </label>
-            </div>
-
-            <div class="calc-radio-pill">
-              <input type="radio" name="est-service" id="srv-partner" value="partner" />
-              <label for="srv-partner" class="calc-radio-label">
-                <span class="calc-label-name">Partner Retainer</span>
-                <span class="calc-label-hint">Dev + AI Pipeline + CRO</span>
-              </label>
-            </div>
-
-            <div class="calc-radio-pill">
-              <input type="radio" name="est-service" id="srv-ecom" value="ecommerce" />
-              <label for="srv-ecom" class="calc-radio-label">
-                <span class="calc-label-name">E-Commerce Store</span>
-                <span class="calc-label-hint">Shopify / WooCommerce</span>
-              </label>
-            </div>
-
-            <div class="calc-radio-pill">
-              <input type="radio" name="est-service" id="srv-aiart" value="ai-art" />
-              <label for="srv-aiart" class="calc-radio-label">
-                <span class="calc-label-name">AI Art Direction Suite</span>
-                <span class="calc-label-hint">Worldbuilding &amp; Token Packs</span>
-              </label>
-            </div>
-          </div>
-
-          <!-- Step 2: Add-on Capabilities -->
-          <div class="calc-step-title">
-            <span>2</span> Architectural Add-ons
-          </div>
-          <div>
-            <label class="calc-addon-item">
-              <input type="checkbox" class="calc-addon-check" value="ai-pipeline" checked />
-              <span class="calc-addon-text">AI Visual Asset Pipeline &amp; Custom Worldbuilding Art</span>
-              <span class="calc-addon-price">+$800 - $1,500</span>
-            </label>
-
-            <label class="calc-addon-item">
-              <input type="checkbox" class="calc-addon-check" value="figma-sys" checked />
-              <span class="calc-addon-text">Full Figma Design System &amp; Modular Token Architecture</span>
-              <span class="calc-addon-price">+$700 - $1,200</span>
-            </label>
-
-            <label class="calc-addon-item">
-              <input type="checkbox" class="calc-addon-check" value="speed" checked />
-              <span class="calc-addon-text">95+ Core Web Vitals &amp; Performance Asset Pipeline</span>
-              <span class="calc-addon-price">+$450 - $750</span>
-            </label>
-
-            <label class="calc-addon-item">
-              <input type="checkbox" class="calc-addon-check" value="wcag" />
-              <span class="calc-addon-text">WCAG 2.1 AA Accessibility Certification &amp; Testing</span>
-              <span class="calc-addon-price">+$500 - $800</span>
-            </label>
-
-            <label class="calc-addon-item">
-              <input type="checkbox" class="calc-addon-check" value="api" />
-              <span class="calc-addon-text">Custom REST API &amp; Third-Party Webhook Integrations</span>
-              <span class="calc-addon-price">+$700 - $1,100</span>
-            </label>
-          </div>
-
-          <!-- Step 3: Turnaround Priority -->
-          <div class="calc-step-title" style="margin-top: 20px;">
-            <span>3</span> Delivery Priority
-          </div>
-          <div class="calc-options-grid">
-            <div class="calc-radio-pill">
-              <input type="radio" name="est-speed" id="spd-norm" value="standard" checked />
-              <label for="spd-norm" class="calc-radio-label">
-                <span class="calc-label-name">Standard Sprint</span>
-                <span class="calc-label-hint">Iterative milestones &bull; Thorough QA</span>
-              </label>
-            </div>
-
-            <div class="calc-radio-pill">
-              <input type="radio" name="est-speed" id="spd-rush" value="rush" />
-              <label for="spd-rush" class="calc-radio-label">
-                <span class="calc-label-name">Expedited Priority</span>
-                <span class="calc-label-hint">Dedicated focus &bull; Accelerated launch</span>
-              </label>
-            </div>
-          </div>
-        </div>
-
-        <!-- Right: Live Output Panel -->
-        <div class="estimator-summary-panel">
-          <div>
-            <h3 class="summary-heading">Estimated Project Scope</h3>
-            <p class="summary-sub" id="calcOutputService">Build: Full Platform &amp; Design System</p>
-
-            <div class="summary-metric-row">
-              <div class="summary-metric-label">Projected Investment Range</div>
-              <div class="summary-metric-val" id="calcOutputPrice">$4,200 - $7,500</div>
-            </div>
-
-            <div class="summary-metric-row">
-              <div class="summary-metric-label">Estimated Delivery Timeline</div>
-              <div class="summary-time-val" id="calcOutputTime">Approx. 4 - 5 Weeks Standard</div>
-            </div>
-
-            <p style="font-size: 0.82rem; color: var(--c-slate-400); line-height: 1.5; margin-bottom: 2rem;">
-              * Direct engineering rates with zero agency markups. Final scopes are formalized under a detailed Statement of Work.
+            <div class="tier-category">Tier 01 &bull; Boutique &amp; Launch</div>
+            <h3 class="tier-name">Starter Site</h3>
+            <p class="tier-desc">
+              Ideal for independent professionals, boutique service providers, and emerging brands ready to establish a world-class digital storefront.
             </p>
+            <div class="tier-price-box">
+              <span class="tier-price">$1,850</span>
+              <span class="tier-price-suffix">/ one-time investment</span>
+            </div>
+
+            <ul class="tier-features-list">
+              <li class="tier-feature-item">
+                <i class="fa-solid fa-check"></i>
+                <span><strong>Up to 5 Custom Pages</strong> (Home, About, Services, Portfolio/Work, Contact)</span>
+              </li>
+              <li class="tier-feature-item">
+                <i class="fa-solid fa-check"></i>
+                <span><strong>Neo-Brutalist Glassmorphism UI</strong> custom-tailored to your brand aesthetic</span>
+              </li>
+              <li class="tier-feature-item">
+                <i class="fa-solid fa-check"></i>
+                <span><strong>Mobile-First Responsive</strong> layout tested across iOS, Android, and Desktop</span>
+              </li>
+              <li class="tier-feature-item">
+                <i class="fa-solid fa-check"></i>
+                <span><strong>Lightning Performance</strong> with 95+ Google PageSpeed Core Web Vitals</span>
+              </li>
+              <li class="tier-feature-item">
+                <i class="fa-solid fa-check"></i>
+                <span><strong>On-Page SEO &amp; Schema.org</strong> structured metadata for Google rankings</span>
+              </li>
+              <li class="tier-feature-item">
+                <i class="fa-solid fa-check"></i>
+                <span><strong>Interactive Lead Forms</strong> with instant email &amp; SMS notification routing</span>
+              </li>
+              <li class="tier-feature-item">
+                <i class="fa-solid fa-check"></i>
+                <span><strong>2 Rounds of Revisions</strong> &bull; 2-3 Week Delivery</span>
+              </li>
+            </ul>
           </div>
 
-          <button type="button" id="applyEstimateBtn" class="btn-apply-estimate">
-            <span>Apply Scope to Inquiry</span> <i class="fa-solid fa-arrow-down"></i>
-          </button>
+          <a href="mailto:zqhwebpro@gmail.com?subject=Inquiry:%20Starter%20Site%20Tier" class="btn-tier-cta outline">
+            <span>Select Starter Site</span> <i class="fa-solid fa-arrow-right"></i>
+          </a>
         </div>
+
+        <!-- TIER 2: Advanced Site (Featured) -->
+        <div class="pricing-card featured">
+          <div class="pricing-ribbon">
+            <i class="fa-solid fa-star"></i> MOST POPULAR CHOICE
+          </div>
+
+          <div>
+            <div class="tier-category" style="color: var(--blue-primary);">Tier 02 &bull; Scaling Brands &amp; Platforms</div>
+            <h3 class="tier-name">Advanced Site</h3>
+            <p class="tier-desc">
+              For ambitious businesses needing advanced functionality, dynamic CMS data, custom interactive calculators, or POS &amp; payment integrations.
+            </p>
+            <div class="tier-price-box">
+              <span class="tier-price" style="color: var(--blue-primary);">$3,950</span>
+              <span class="tier-price-suffix">/ one-time investment</span>
+            </div>
+
+            <ul class="tier-features-list">
+              <li class="tier-feature-item">
+                <i class="fa-solid fa-circle-check"></i>
+                <span><strong>Everything in Starter Site</strong> included</span>
+              </li>
+              <li class="tier-feature-item">
+                <i class="fa-solid fa-circle-check"></i>
+                <span><strong>Up to 12 Custom Pages</strong> or dynamic custom post types / portfolio items</span>
+              </li>
+              <li class="tier-feature-item">
+                <i class="fa-solid fa-circle-check"></i>
+                <span><strong>Full-Stack Functionality:</strong> Custom React components, headless CMS, or WordPress</span>
+              </li>
+              <li class="tier-feature-item">
+                <i class="fa-solid fa-circle-check"></i>
+                <span><strong>Interactive Features:</strong> Custom rate calculators, Toast POS bridges, or booking tools</span>
+              </li>
+              <li class="tier-feature-item">
+                <i class="fa-solid fa-circle-check"></i>
+                <span><strong>Micro-Animations:</strong> Smooth parallax, hardware-accelerated transitions &amp; motion</span>
+              </li>
+              <li class="tier-feature-item">
+                <i class="fa-solid fa-circle-check"></i>
+                <span><strong>Conversion Rate Optimization (CRO)</strong> &amp; custom Google Analytics / Meta events</span>
+              </li>
+              <li class="tier-feature-item">
+                <i class="fa-solid fa-circle-check"></i>
+                <span><strong>30 Days Post-Launch Support</strong> &bull; Full CMS training video walkthrough</span>
+              </li>
+            </ul>
+          </div>
+
+          <a href="mailto:zqhwebpro@gmail.com?subject=Inquiry:%20Advanced%20Site%20Tier" class="btn-tier-cta solid">
+            <span>Select Advanced Site</span> <i class="fa-solid fa-arrow-right"></i>
+          </a>
+        </div>
+
+        <!-- TIER 3: Care Site -->
+        <div class="pricing-card">
+          <div>
+            <div class="tier-category">Tier 03 &bull; Hands-Off Peace of Mind</div>
+            <h3 class="tier-name">Care Site</h3>
+            <p class="tier-desc">
+              Ongoing managed maintenance, security hardening, cloud backups, and dedicated development hours so your site stays fast, safe, and modern.
+            </p>
+            <div class="tier-price-box">
+              <span class="tier-price">$195</span>
+              <span class="tier-price-suffix">/ month (No Contract)</span>
+            </div>
+
+            <ul class="tier-features-list">
+              <li class="tier-feature-item">
+                <i class="fa-solid fa-check"></i>
+                <span><strong>High-Performance Cloud Hosting</strong> &amp; global CDN edge caching</span>
+              </li>
+              <li class="tier-feature-item">
+                <i class="fa-solid fa-check"></i>
+                <span><strong>24/7 Real-Time Uptime Monitoring</strong> with automatic downtime recovery</span>
+              </li>
+              <li class="tier-feature-item">
+                <i class="fa-solid fa-check"></i>
+                <span><strong>Daily Automated Off-Site Backups</strong> with instant 1-click restoration</span>
+              </li>
+              <li class="tier-feature-item">
+                <i class="fa-solid fa-check"></i>
+                <span><strong>Weekly Core &amp; Plugin Updates</strong> in isolated staging before production</span>
+              </li>
+              <li class="tier-feature-item">
+                <i class="fa-solid fa-check"></i>
+                <span><strong>2 Hours Monthly Dedicated Dev Time</strong> for new sections, text edits, or banners</span>
+              </li>
+              <li class="tier-feature-item">
+                <i class="fa-solid fa-check"></i>
+                <span><strong>Quarterly Security &amp; Speed Audits</strong> keeping your CWV score at 95+</span>
+              </li>
+              <li class="tier-feature-item">
+                <i class="fa-solid fa-check"></i>
+                <span><strong>Direct Priority Support</strong> via private Slack channel or SMS</span>
+              </li>
+            </ul>
+          </div>
+
+          <a href="mailto:zqhwebpro@gmail.com?subject=Inquiry:%20Care%20Site%20Plan" class="btn-tier-cta outline">
+            <span>Enroll in Care Plan</span> <i class="fa-solid fa-arrow-right"></i>
+          </a>
+        </div>
+
       </div>
     </div>
   </section>
 
   <!-- ========================================================================
-       SECTION 9: CONTACT & NEXT STEPS (The Front Door)
+       SECTION 4: FOOTER (Branding, Social Links, Direct Connect)
        ======================================================================== -->
-  <section class="contact-section" id="contact">
-    <div class="container contact-grid">
-      <!-- Left: Direct Info & Immediate Next Steps -->
-      <div class="contact-info-col">
-        <div class="room-badge">
-          <i class="fa-solid fa-door-open"></i> The Front Door &bull; Start a Project
+  <footer class="site-footer" id="footer">
+    <div class="container">
+      <div class="footer-main-grid">
+
+        <!-- Col 1: Brand Info -->
+        <div class="footer-brand">
+          <h4>wgm<span>guru</span></h4>
+          <p>
+            Bespoke web engineering, high-performance user interfaces, and custom digital systems. Engineered in Central Pennsylvania &bull; Partnering with clients globally.
+          </p>
+          <div style="display: flex; gap: 10px;">
+            <a href="https://www.instagram.com/zqhmagic/" target="_blank" rel="noopener noreferrer" class="social-icon-btn instagram" title="Instagram">
+              <i class="fa-brands fa-instagram"></i>
+            </a>
+            <a href="https://www.linkedin.com/in/zqhwebpro" target="_blank" rel="noopener noreferrer" class="social-icon-btn linkedin" title="LinkedIn">
+              <i class="fa-brands fa-linkedin-in"></i>
+            </a>
+            <a href="mailto:zqhwebpro@gmail.com" class="social-icon-btn" title="Email Us">
+              <i class="fa-solid fa-envelope"></i>
+            </a>
+          </div>
         </div>
 
-        <h2>Ready to build something exceptional?</h2>
-
-        <p>
-          I am currently booking select client engagements for Q4 2026. Whether you need a high-impact Sprint, a complete Build with a design system, or a dedicated Partner retainer, let's connect.
-        </p>
-
-        <!-- 5. Immediate Next Steps Box -->
-        <div style="background: var(--c-slate-800); border: 1px solid var(--c-border); border-radius: var(--radius-md); padding: 1.5rem; margin-bottom: 2rem;">
-          <h4 style="font-family: var(--font-mono); font-size: 0.78rem; color: var(--c-cyan-light); text-transform: uppercase; letter-spacing: 0.1em; margin-bottom: 12px;">
-            <i class="fa-solid fa-list-check"></i> Immediate Next Steps
-          </h4>
-          <ul style="list-style: none; display: flex; flex-direction: column; gap: 8px; font-size: 0.84rem; color: var(--c-slate-300);">
-            <li><i class="fa-solid fa-arrow-right" style="color: var(--c-cyan-light); margin-right: 6px;"></i> Draft custom homepage copy &amp; positioning around your brand</li>
-            <li><i class="fa-solid fa-arrow-right" style="color: var(--c-cyan-light); margin-right: 6px;"></i> Reframe visual assets into a narrative UX / AI art case study</li>
-            <li><i class="fa-solid fa-arrow-right" style="color: var(--c-cyan-light); margin-right: 6px;"></i> Formalize project scope under our house/blueprint roadmap</li>
-            <li><i class="fa-solid fa-arrow-right" style="color: var(--c-cyan-light); margin-right: 6px;"></i> Review rate sheet or generate downloadable SOW PDF</li>
+        <!-- Col 2: Navigation Links -->
+        <div class="footer-col">
+          <h5>Platform Navigation</h5>
+          <ul class="footer-nav">
+            <li><a href="#hero"><i class="fa-solid fa-angle-right"></i> Home Overview</a></li>
+            <li><a href="#features"><i class="fa-solid fa-angle-right"></i> Technical Capabilities</a></li>
+            <li><a href="#pricing"><i class="fa-solid fa-angle-right"></i> Starter Site ($1,850)</a></li>
+            <li><a href="#pricing"><i class="fa-solid fa-angle-right"></i> Advanced Site ($3,950)</a></li>
+            <li><a href="#pricing"><i class="fa-solid fa-angle-right"></i> Care Site ($195/mo)</a></li>
+            <li><a href="https://zqhwebpro.github.io/portfolio/2026/"><i class="fa-solid fa-angle-right"></i> Main Portfolio (2026)</a></li>
           </ul>
         </div>
 
-        <div class="contact-channels">
-          <a href="mailto:zqhwebpro@gmail.com" class="contact-item">
-            <div class="contact-item-icon"><i class="fa-solid fa-envelope"></i></div>
-            <div>
-              <div class="contact-item-label">Direct Email</div>
-              <div class="contact-item-val">zqhwebpro@gmail.com</div>
-            </div>
-          </a>
+        <!-- Col 3: Social & Direct Inquiries -->
+        <div class="footer-col">
+          <h5>Direct Contact</h5>
+          <div class="footer-socials-group">
+            <a href="https://www.instagram.com/zqhmagic/" target="_blank" rel="noopener noreferrer" class="footer-social-card">
+              <i class="fa-brands fa-instagram" style="color: #f43f5e;"></i>
+              <div class="footer-social-info">
+                <span class="f-soc-title">Follow on Instagram</span>
+                <span class="f-soc-sub">@zqhmagic</span>
+              </div>
+            </a>
 
-          <a href="tel:7178184455" class="contact-item">
-            <div class="contact-item-icon"><i class="fa-solid fa-phone"></i></div>
-            <div>
-              <div class="contact-item-label">Direct Phone / Text</div>
-              <div class="contact-item-val">(717) 818-4455</div>
-            </div>
-          </a>
+            <a href="https://www.linkedin.com/in/zqhwebpro" target="_blank" rel="noopener noreferrer" class="footer-social-card">
+              <i class="fa-brands fa-linkedin" style="color: #38bdf8;"></i>
+              <div class="footer-social-info">
+                <span class="f-soc-title">Connect on LinkedIn</span>
+                <span class="f-soc-sub">linkedin.com/in/zqhwebpro</span>
+              </div>
+            </a>
 
-          <div class="contact-item">
-            <div class="contact-item-icon"><i class="fa-solid fa-location-dot"></i></div>
-            <div>
-              <div class="contact-item-label">Location Base</div>
-              <div class="contact-item-val">York, PA &bull; Remote Worldwide</div>
-            </div>
+            <a href="mailto:zqhwebpro@gmail.com" class="footer-social-card">
+              <i class="fa-solid fa-paper-plane" style="color: #facc15;"></i>
+              <div class="footer-social-info">
+                <span class="f-soc-title">Email Directly</span>
+                <span class="f-soc-sub">zqhwebpro@gmail.com</span>
+              </div>
+            </a>
           </div>
         </div>
 
-        <div>
-          <button type="button" class="btn-portal-trigger open-portal-btn" style="border-color: rgba(56,189,248,0.3); color: #ffffff;">
-            <i class="fa-solid fa-key" style="color: var(--c-cyan-light);"></i> Unlock Client Rate Sheet (psycheJ22!)
-          </button>
-        </div>
-      </div>
-
-      <!-- Right: Contact Form -->
-      <div class="contact-form-card">
-        <div id="contactFormAlert" class="form-alert"></div>
-
-        <form id="projectInquiryForm" autocomplete="off">
-          <!-- Anti-spam Honeypot -->
-          <input type="text" name="website_hp" id="contactHp" style="display:none;" tabindex="-1" autocomplete="off" />
-
-          <div class="form-row">
-            <div class="form-group">
-              <label for="contactName">Your Name *</label>
-              <input type="text" id="contactName" class="form-control" placeholder="Alex Morgan" required />
-            </div>
-
-            <div class="form-group">
-              <label for="contactEmail">Email Address *</label>
-              <input type="email" id="contactEmail" class="form-control" placeholder="alex@company.com" required />
-            </div>
-          </div>
-
-          <div class="form-row">
-            <div class="form-group">
-              <label for="contactPhone">Phone (Optional)</label>
-              <input type="tel" id="contactPhone" class="form-control" placeholder="(717) 000-0000" />
-            </div>
-
-            <div class="form-group">
-              <label for="contactService">Engagement Tier / Scope</label>
-              <select id="contactService" class="form-control">
-                <option value="sprint">Sprint: Landing Page / UI Screen (AI-Art Enhanced)</option>
-                <option value="build" selected>Build: Full Platform &amp; Design System</option>
-                <option value="partner">Partner: Ongoing Engineering &amp; AI Retainer</option>
-                <option value="ecommerce">E-Commerce Ecosystem (Shopify / WooCommerce)</option>
-                <option value="ai-art">AI Art Direction &amp; Worldbuilding Suite</option>
-                <option value="other">Bespoke Architectural Project</option>
-              </select>
-            </div>
-          </div>
-
-          <div class="form-group">
-            <label for="contactBudget">Target Investment / Budget Range</label>
-            <input type="text" id="contactBudget" class="form-control" placeholder="e.g. $4,200 - $7,500" />
-          </div>
-
-          <div class="form-group">
-            <label for="contactMessage">Project Scope &amp; Deliverables *</label>
-            <textarea id="contactMessage" class="form-control" style="height: 120px;" placeholder="Tell me about your platform goals, current tech stack, and target launch window..." required></textarea>
-          </div>
-
-          <button type="submit" id="submitInquiryBtn" class="btn-form-submit">
-            <span>Submit Project Inquiry</span> <i class="fa-solid fa-arrow-right"></i>
-          </button>
-        </form>
-      </div>
-    </div>
-  </section>
-
-  <!-- ========================================================================
-       MODAL: PRIVATE CLIENT PORTAL (Protected with psycheJ22!)
-       ======================================================================== -->
-  <div class="portal-modal-backdrop" id="portalModalBackdrop">
-    <div class="portal-modal">
-      <div class="portal-modal-header">
-        <h3 class="portal-modal-title">
-          <i class="fa-solid fa-shield-halved" style="color: var(--c-cyan-light);"></i>
-          <span>Client Access &amp; Rate Sheet</span>
-        </h3>
-        <button type="button" class="btn-close-modal" id="closePortalBtn">&times;</button>
-      </div>
-
-      <div class="portal-modal-body">
-        <!-- State 1: Locked (Password Prompt) -->
-        <div id="portalLockedState">
-          <p style="font-size: 0.92rem; color: var(--c-slate-400); margin-bottom: 1.5rem; line-height: 1.6;">
-            Access to verified rate cards, standard contract templates, and sprint booking is restricted. Please authenticate with your access key.
-          </p>
-
-          <form id="portalAuthForm">
-            <div class="form-group">
-              <label for="portalPasswordInput">Client Passcode</label>
-              <input type="password" id="portalPasswordInput" class="form-control" placeholder="Enter access password..." required />
-            </div>
-
-            <div id="portalPassError" style="display: none; color: #f87171; font-size: 0.85rem; margin-bottom: 1rem;">
-              <i class="fa-solid fa-triangle-exclamation"></i> Incorrect password. Please try again.
-            </div>
-
-            <button type="submit" class="btn-cta" style="width: 100%; justify-content: center;">
-              <i class="fa-solid fa-lock-open"></i> Unlock Rate Card
-            </button>
-          </form>
-        </div>
-
-        <!-- State 2: Unlocked (Private Rates & Retainers) -->
-        <div id="portalUnlockedState" style="display: none;">
-          <div style="background: rgba(37, 99, 235, 0.12); border: 1px solid rgba(56, 189, 248, 0.3); border-radius: var(--radius-sm); padding: 12px; margin-bottom: 1.5rem; display: flex; align-items: center; justify-content: space-between;">
-            <div style="font-size: 0.85rem; color: var(--c-cyan-light); font-weight: 700;">
-              <i class="fa-solid fa-circle-check" style="color: #34d399;"></i> Authenticated as Authorized Client / Zach Heindel
-            </div>
-            <button type="button" id="portalLockOutBtn" style="background: transparent; border: 0; color: #f87171; font-size: 0.78rem; font-weight: 700; cursor: pointer;">
-              Lock Out
-            </button>
-          </div>
-
-          <h4 style="font-family: var(--font-display); font-size: 1.25rem; color: var(--c-slate-50); margin-bottom: 1rem;">
-            2026 Engineering Fee Schedule
-          </h4>
-
-          <div style="display: flex; flex-direction: column; gap: 12px; margin-bottom: 1.5rem;">
-            <div style="display: flex; justify-content: space-between; padding: 10px 14px; background: var(--c-slate-900); border: 1px solid var(--c-border); border-radius: 6px; font-size: 0.9rem;">
-              <span><strong>Standard Hourly Rate:</strong> Architecture &amp; Development</span>
-              <span style="font-family: var(--font-mono); font-weight: 700; color: var(--c-cyan-light);">$95 / hr</span>
-            </div>
-
-            <div style="display: flex; justify-content: space-between; padding: 10px 14px; background: var(--c-slate-900); border: 1px solid var(--c-border); border-radius: 6px; font-size: 0.9rem;">
-              <span><strong>Sprint Tier (Landing Page / UI):</strong> AI-Art Enhanced</span>
-              <span style="font-family: var(--font-mono); font-weight: 700; color: var(--c-cyan-light);">$1,800 &ndash; $3,200</span>
-            </div>
-
-            <div style="display: flex; justify-content: space-between; padding: 10px 14px; background: var(--c-slate-900); border: 1px solid var(--c-border); border-radius: 6px; font-size: 0.9rem;">
-              <span><strong>Build Tier (Full Platform):</strong> WordPress/React + Design Sys</span>
-              <span style="font-family: var(--font-mono); font-weight: 700; color: var(--c-cyan-light);">$4,200 &ndash; $7,500</span>
-            </div>
-
-            <div style="display: flex; justify-content: space-between; padding: 10px 14px; background: var(--c-slate-900); border: 1px solid var(--c-border); border-radius: 6px; font-size: 0.9rem;">
-              <span><strong>Partner Retainer:</strong> 35 Dev Hours + AI Pipeline + CRO</span>
-              <span style="font-family: var(--font-mono); font-weight: 700; color: var(--c-cyan-light);">$3,200 &ndash; $5,500 / mo</span>
-            </div>
-          </div>
-
-          <div style="font-size: 0.82rem; color: var(--c-slate-400); line-height: 1.5;">
-            * Invoices issued bi-weekly via Net-15 or milestone deposits. W-9 and standard mutual NDA available immediately.
-          </div>
-        </div>
-      </div>
-    </div>
-  </div>
-
-  <!-- Site Footer -->
-  <footer class="site-footer">
-    <div class="container">
-      <div class="footer-top-row">
-        <div>
-          <div class="footer-brand-title">Zachery Q. Heindel</div>
-          <div class="footer-brand-desc">UI, code, and AI-generated art working as one system &bull; York, PA &bull; Remote Worldwide</div>
-        </div>
-
-        <ul class="footer-nav">
-          <li><a href="https://zqhwebpro.github.io/portfolio/2026/">Portfolio Home (2026)</a></li>
-          <li><a href="#work">The Living Room (Work)</a></li>
-          <li><a href="#services">The Kitchen (Services)</a></li>
-          <li><a href="#tiers">Tiers</a></li>
-          <li><a href="#process">The Blueprint Room</a></li>
-          <li><a href="#about">The Hallway</a></li>
-          <li><a href="#pillars">Pillars</a></li>
-          <li><a href="#contact">The Front Door</a></li>
-        </ul>
       </div>
 
       <div class="footer-bottom-row">
-        <div>
-          &copy; 2026 Zachery Q. Heindel. Handcrafted with semantic HTML5, Blue &amp; Slate CSS3, and JavaScript.
-        </div>
-        <div>
-          <a href="mailto:zqhwebpro@gmail.com" style="color: var(--c-cyan-light);">zqhwebpro@gmail.com</a> &bull; (717) 818-4455
-        </div>
+        <span>&copy; 2026 <strong>wgmguru</strong>. All Rights Reserved.</span>
+        <span>Aesthetic: <strong>Neo-Brutalist Glassmorphism</strong> &bull; Blues &bull; Whites &bull; Slate</span>
+        <span><a href="../">Back to Interactive Projects &uarr;</a></span>
       </div>
     </div>
   </footer>
 
-  <!-- Interactive JavaScript App -->
-  <script src="./app.js?v=1790455500000"></script>
+  <!-- ========================================================================
+       TYPEWRITER EFFECT JAVASCRIPT
+       ======================================================================== -->
+  <script>
+    (function () {
+      const phrases = [
+        "High-Impact Websites",
+        "Next-Gen Full-Stack Apps",
+        "Custom WordPress & React Systems",
+        "Pixel-Perfect Neo-Brutalist UI",
+        "Conversion-Engineered Platforms"
+      ];
+
+      let phraseIndex = 0;
+      let charIndex = 0;
+      let isDeleting = false;
+      const typeSpeed = 75;
+      const deleteSpeed = 40;
+      const delayBetweenPhrases = 2200;
+      const targetElement = document.getElementById("typewriterText");
+
+      function typeCycle() {
+        const currentPhrase = phrases[phraseIndex];
+
+        if (isDeleting) {
+          charIndex--;
+          targetElement.textContent = currentPhrase.substring(0, charIndex);
+        } else {
+          charIndex++;
+          targetElement.textContent = currentPhrase.substring(0, charIndex);
+        }
+
+        let currentDelay = isDeleting ? deleteSpeed : typeSpeed;
+
+        if (!isDeleting && charIndex === currentPhrase.length) {
+          currentDelay = delayBetweenPhrases;
+          isDeleting = true;
+        } else if (isDeleting && charIndex === 0) {
+          isDeleting = false;
+          phraseIndex = (phraseIndex + 1) % phrases.length;
+          currentDelay = 400;
+        }
+
+        setTimeout(typeCycle, currentDelay);
+      }
+
+      window.addEventListener("DOMContentLoaded", () => {
+        setTimeout(typeCycle, 600);
+      });
+    })();
+  </script>
 </body>
 
 </html>
