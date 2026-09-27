@@ -1669,7 +1669,7 @@
 
         /**
          * ==============================================================================
-         * LEARNDASH-STYLE COURSES & LMS ENGINE (Decoupled from Store Catalog)
+         * WACKYDASH-STYLE COURSES & LMS ENGINE (Decoupled from Store Catalog)
          * ==============================================================================
          */
         window.COURSES = [
@@ -1839,7 +1839,7 @@
                 <div class="course-card bg-white border border-canvas-border rounded-2xl sm:rounded-3xl overflow-hidden shadow-sm hover:shadow-xl transition-all duration-300 flex flex-col justify-between"
                     id="card-${course.id}"
                     data-blueprint-file="WackyStore.Domain/Entities/Course.cs"
-                    data-blueprint-role="LearnDash Course Card Component"
+                    data-blueprint-role="WackyDash Course Card Component"
                     data-blueprint-layer="Domain / Entity &amp; WebUI LMS"
                     data-blueprint-dom="Composite course card with lock authorization gates, instructor metadata, and expandable syllabus."
                     data-blueprint-desc="LMS aggregate root maintaining course identity, pricing, prerequisite modules, and student enrollment claims."
@@ -1928,10 +1928,10 @@
                                 </span>
                             </div>
 
-                            <!-- LearnDash Progress Bar -->
+                            <!-- WackyDash Progress Bar -->
                             <div class="space-y-1.5 pt-1"
-                                data-blueprint-file="WackyStore.WebUI/Views/Course/_LearnDashProgress.cshtml"
-                                data-blueprint-role="LearnDash Progress Indicator"
+                                data-blueprint-file="WackyStore.WebUI/Views/Course/_WackyDashProgress.cshtml"
+                                data-blueprint-role="WackyDash Progress Indicator"
                                 data-blueprint-layer="WebUI / LMS Partial"
                                 data-blueprint-dom="Progress meter displaying completion percentage and enrollment lock state."
                                 data-blueprint-desc="Queries StudentCourseProgress table to calculate completed lesson modules vs total required credits."
@@ -1941,14 +1941,14 @@
                                         <i class="fa-solid ${course.isLocked ? 'fa-lock' : 'fa-unlock'}"></i>
                                         <span>${course.isLocked ? '0% Complete (Enrollment Required)' : '100% Unlocked (Access Granted)'}</span>
                                     </span>
-                                    <span class="text-gray-400 text-[10px]">LearnDash V2.4</span>
+                                    <span class="text-gray-400 text-[10px]">WackyDash V2.4</span>
                                 </div>
                                 <div class="w-full bg-gray-200 h-2 rounded-full overflow-hidden">
                                     <div class="${course.isLocked ? 'bg-amber-400 w-0' : 'bg-teal-500 w-full'} h-full transition-all duration-500"></div>
                                 </div>
                             </div>
 
-                            <!-- Expandable LearnDash Syllabus Accordion -->
+                            <!-- Expandable WackyDash Syllabus Accordion -->
                             <div class="pt-2">
                                 <button onclick="window.toggleCourseSyllabus('${course.id}')"
                                     data-blueprint-file="WackyStore.WebUI/Views/Course/_SyllabusAccordion.cshtml"
@@ -1965,27 +1965,45 @@
                                     <i id="chevron-${course.id}" class="fa-solid fa-chevron-down text-gray-400 text-xs transition-transform"></i>
                                 </button>
 
-                                <div id="syllabus-${course.id}" class="hidden mt-2.5 space-y-2 text-xs border border-canvas-border p-3 rounded-xl bg-canvas-base max-h-60 overflow-y-auto">
+                                <div id="syllabus-${course.id}" class="hidden mt-2.5 space-y-2 text-xs border border-canvas-border p-3 rounded-xl bg-canvas-base max-h-64 overflow-y-auto">
                                     ${course.curriculum.map((mod, modIdx) => `
                                         <div class="space-y-1.5 pb-2 ${modIdx > 0 ? 'border-t border-canvas-border pt-2' : ''}">
-                                            <div class="font-bold text-earth-950 flex items-center justify-between text-[11.5px]">
-                                                <span>${mod.module}</span>
-                                                <span class="text-[10px] text-gray-500 font-mono">${mod.lessons.length} lessons</span>
+                                            <!-- Clickable Module Header with Video Demo Trigger -->
+                                            <div class="font-bold text-earth-950 flex items-center justify-between text-[11.5px] p-1.5 rounded-lg hover:bg-orange-100/70 transition-all cursor-pointer group/mod border border-transparent hover:border-orange-300/60"
+                                                onclick="window.openVideoDemoModal('${course.id}', '${course.title.replace(/'/g, "\\'")}', '${mod.module.replace(/'/g, "\\'")}', '${mod.lessons[0] ? mod.lessons[0].title.replace(/'/g, "\\'") : mod.module.replace(/'/g, "\\'")}', '${mod.lessons[0] ? mod.lessons[0].duration : "20m"}', '${mod.lessons[0] ? mod.lessons[0].code.replace(/'/g, "\\'") : ""}', '${course.instructor ? course.instructor.name.replace(/'/g, "\\'") : "Dr. Barnaby Fizzle"}')"
+                                                title="Click to preview video demo for this module">
+                                                <span class="flex items-center gap-1.5 truncate">
+                                                    <span class="h-4.5 w-4.5 rounded-full bg-orange-100 text-[#F04A23] flex items-center justify-center text-[9px] group-hover/mod:scale-110 transition-transform shrink-0">
+                                                        <i class="fa-solid fa-play"></i>
+                                                    </span>
+                                                    <span class="group-hover/mod:text-[#F04A23] transition-colors truncate">${mod.module}</span>
+                                                </span>
+                                                <span class="text-[10px] text-gray-500 font-mono flex items-center gap-1 shrink-0 ml-1">
+                                                    <span class="text-[#F04A23] font-bold text-[9px] uppercase tracking-wide opacity-0 group-hover/mod:opacity-100 transition-opacity">Watch Demo</span>
+                                                    <span>&bull; ${mod.lessons.length} lessons</span>
+                                                </span>
                                             </div>
+
+                                            <!-- Clickable Individual Lesson Rows -->
                                             <div class="space-y-1 pl-1">
                                                 ${mod.lessons.map(lesson => `
-                                                    <div class="flex items-center justify-between text-[11px] text-gray-600 hover:text-earth-900 py-0.5"
+                                                    <div class="flex items-center justify-between text-[11px] text-gray-600 hover:text-earth-900 py-1 px-1.5 rounded-md hover:bg-orange-50/80 transition-all cursor-pointer group/lesson border border-transparent hover:border-orange-200"
+                                                        onclick="window.openVideoDemoModal('${course.id}', '${course.title.replace(/'/g, "\\'")}', '${mod.module.replace(/'/g, "\\'")}', '${lesson.title.replace(/'/g, "\\'")}', '${lesson.duration}', '${lesson.code.replace(/'/g, "\\'")}', '${course.instructor ? course.instructor.name.replace(/'/g, "\\'") : "Dr. Barnaby Fizzle"}')"
                                                         data-blueprint-file="WackyStore.Domain/Entities/Lesson.cs"
                                                         data-blueprint-role="Course Lesson Entity &amp; Video Claims"
                                                         data-blueprint-layer="Domain / Entities"
-                                                        data-blueprint-dom="List item representing locked video lesson module."
-                                                        data-blueprint-desc="Verifies User.IsInRole(&quot;Enrolled&quot;) before returning streamable BLOB video chunks."
-                                                        data-blueprint-code="${lesson.code}">
+                                                        data-blueprint-dom="List item representing video lesson module. Clickable to open WackyDash video demo pop-up."
+                                                        data-blueprint-desc="Opens interactive video lecture demo for this curriculum unit."
+                                                        data-blueprint-code="${lesson.code}"
+                                                        title="Click to preview video demo of ${lesson.title}">
                                                         <span class="flex items-center gap-1.5 truncate">
-                                                            <i class="fa-solid ${course.isLocked ? 'fa-lock text-amber-500' : 'fa-circle-play text-teal-600'} text-[10px]"></i>
-                                                            <span class="truncate">${lesson.title}</span>
+                                                            <i class="fa-solid fa-circle-play text-[#F04A23] text-[11px] group-hover/lesson:scale-125 transition-transform shrink-0"></i>
+                                                            <span class="truncate group-hover/lesson:text-[#F04A23] transition-colors font-medium">${lesson.title}</span>
                                                         </span>
-                                                        <span class="font-mono text-[10px] text-gray-400 shrink-0 ml-2">${lesson.duration}</span>
+                                                        <span class="flex items-center gap-2 shrink-0 ml-2">
+                                                            <span class="text-[9.5px] px-1.5 py-0.5 rounded bg-orange-100/70 text-[#BA2407] font-mono font-bold opacity-0 group-hover/lesson:opacity-100 transition-opacity">Watch Demo</span>
+                                                            <span class="font-mono text-[10px] text-gray-400">${lesson.duration}</span>
+                                                        </span>
                                                     </div>
                                                 `).join('')}
                                             </div>
@@ -2093,6 +2111,175 @@
             if (card) {
                 card.classList.add('ring-4', 'ring-[#F04A23]', 'animate-pulse');
                 setTimeout(() => card.classList.remove('ring-4', 'ring-[#F04A23]', 'animate-pulse'), 2500);
+            }
+        };
+
+        /**
+         * ==============================================================================
+         * WACKYDASH VIDEO DEMO POP-UP CONTROLLER
+         * ==============================================================================
+         */
+        window.activeVideoDemoCourseId = null;
+        window.isVideoDemoPlaying = false;
+        window.videoDemoInterval = null;
+        window.videoDemoCurrentSec = 255;
+        window.videoDemoTotalSec = 1122;
+
+        function formatSecToMMSS(seconds) {
+            const m = Math.floor(seconds / 60);
+            const s = Math.floor(seconds % 60);
+            return `${String(m).padStart(2, '0')}:${String(s).padStart(2, '0')}`;
+        }
+
+        window.openVideoDemoModal = function (courseId, courseTitle, moduleTitle, lessonTitle, durationStr, codeSnippet, instructorName) {
+            window.activeVideoDemoCourseId = courseId;
+
+            // Stop any ongoing playback
+            if (window.videoDemoInterval) {
+                clearInterval(window.videoDemoInterval);
+                window.videoDemoInterval = null;
+            }
+            window.isVideoDemoPlaying = false;
+
+            // Parse duration or fallback
+            let durationSeconds = 1122;
+            if (durationStr && durationStr.includes('m')) {
+                const mins = parseInt(durationStr.replace('m', '').trim(), 10);
+                if (!isNaN(mins) && mins > 0) {
+                    durationSeconds = mins * 60;
+                }
+            }
+            window.videoDemoTotalSec = durationSeconds;
+            window.videoDemoCurrentSec = Math.min(75, Math.floor(durationSeconds * 0.12));
+
+            // Populate DOM elements
+            const courseNameEl = document.getElementById('video-demo-course-name');
+            const modTitleEl = document.getElementById('video-demo-module-title');
+            const lessonCodeEl = document.getElementById('video-demo-lesson-code');
+            const instructorEl = document.getElementById('video-instructor-name');
+            const totalDurEl = document.getElementById('video-total-duration');
+            const currentDurEl = document.getElementById('video-current-time');
+            const scrubberEl = document.getElementById('video-scrubber-progress');
+            const statusEl = document.getElementById('video-stream-status');
+            const dotEl = document.getElementById('video-stream-dot');
+            const bigPlayIcon = document.getElementById('video-big-play-icon');
+            const ctrlPlayIcon = document.getElementById('video-ctrl-play-icon');
+
+            if (courseNameEl) courseNameEl.innerText = courseTitle || 'WackyDash Academy';
+            if (modTitleEl) modTitleEl.innerText = lessonTitle ? `${moduleTitle} • ${lessonTitle}` : moduleTitle;
+            if (lessonCodeEl) lessonCodeEl.innerText = codeSnippet || 'WackyLecture.StreamVideoChunk()';
+            if (instructorEl) instructorEl.innerText = instructorName || 'Dr. Barnaby Fizzle';
+            if (totalDurEl) totalDurEl.innerText = formatSecToMMSS(window.videoDemoTotalSec);
+            if (currentDurEl) currentDurEl.innerText = formatSecToMMSS(window.videoDemoCurrentSec);
+
+            if (scrubberEl) {
+                const pct = (window.videoDemoCurrentSec / window.videoDemoTotalSec) * 100;
+                scrubberEl.style.width = `${pct}%`;
+            }
+
+            if (statusEl) statusEl.innerText = 'WackyDash HLS Stream • 1080p 60fps';
+            if (dotEl) dotEl.className = 'h-2 w-2 rounded-full bg-emerald-400 animate-pulse';
+            if (bigPlayIcon) bigPlayIcon.className = 'fa-solid fa-play ml-1';
+            if (ctrlPlayIcon) ctrlPlayIcon.className = 'fa-solid fa-play';
+
+            const modal = document.getElementById('module-video-demo-modal');
+            if (modal) modal.classList.remove('hidden');
+        };
+
+        window.closeVideoDemoModal = function () {
+            if (window.videoDemoInterval) {
+                clearInterval(window.videoDemoInterval);
+                window.videoDemoInterval = null;
+            }
+            window.isVideoDemoPlaying = false;
+            const modal = document.getElementById('module-video-demo-modal');
+            if (modal) modal.classList.add('hidden');
+        };
+
+        window.toggleVideoDemoPlayback = function () {
+            const bigPlayIcon = document.getElementById('video-big-play-icon');
+            const ctrlPlayIcon = document.getElementById('video-ctrl-play-icon');
+            const statusEl = document.getElementById('video-stream-status');
+            const dotEl = document.getElementById('video-stream-dot');
+            const currentDurEl = document.getElementById('video-current-time');
+            const scrubberEl = document.getElementById('video-scrubber-progress');
+
+            if (window.isVideoDemoPlaying) {
+                // Pause
+                window.isVideoDemoPlaying = false;
+                if (window.videoDemoInterval) {
+                    clearInterval(window.videoDemoInterval);
+                    window.videoDemoInterval = null;
+                }
+                if (bigPlayIcon) bigPlayIcon.className = 'fa-solid fa-play ml-1';
+                if (ctrlPlayIcon) ctrlPlayIcon.className = 'fa-solid fa-play';
+                if (statusEl) statusEl.innerText = 'Demo Paused • Click to Resume';
+                if (dotEl) dotEl.className = 'h-2 w-2 rounded-full bg-amber-400';
+            } else {
+                // Play
+                window.isVideoDemoPlaying = true;
+                if (bigPlayIcon) bigPlayIcon.className = 'fa-solid fa-pause';
+                if (ctrlPlayIcon) ctrlPlayIcon.className = 'fa-solid fa-pause';
+                if (statusEl) statusEl.innerText = '● STREAMING (WackyDash HLS CDN)';
+                if (dotEl) dotEl.className = 'h-2 w-2 rounded-full bg-emerald-400 animate-ping';
+
+                window.videoDemoInterval = setInterval(() => {
+                    window.videoDemoCurrentSec += 1;
+                    if (window.videoDemoCurrentSec >= window.videoDemoTotalSec) {
+                        window.videoDemoCurrentSec = 0;
+                    }
+                    if (currentDurEl) currentDurEl.innerText = formatSecToMMSS(window.videoDemoCurrentSec);
+                    if (scrubberEl) {
+                        const pct = (window.videoDemoCurrentSec / window.videoDemoTotalSec) * 100;
+                        scrubberEl.style.width = `${pct}%`;
+                    }
+                }, 1000);
+            }
+        };
+
+        window.restartVideoDemo = function () {
+            window.videoDemoCurrentSec = 0;
+            const currentDurEl = document.getElementById('video-current-time');
+            const scrubberEl = document.getElementById('video-scrubber-progress');
+            if (currentDurEl) currentDurEl.innerText = formatSecToMMSS(0);
+            if (scrubberEl) scrubberEl.style.width = '0%';
+            if (!window.isVideoDemoPlaying) {
+                window.toggleVideoDemoPlayback();
+            }
+        };
+
+        window.scrubVideoDemo = function (e) {
+            const scrubberContainer = e.currentTarget;
+            const rect = scrubberContainer.getBoundingClientRect();
+            const clickX = e.clientX - rect.left;
+            const width = rect.width;
+            const pct = Math.max(0, Math.min(1, clickX / width));
+            window.videoDemoCurrentSec = Math.floor(pct * window.videoDemoTotalSec);
+            const currentDurEl = document.getElementById('video-current-time');
+            const scrubberEl = document.getElementById('video-scrubber-progress');
+            if (currentDurEl) currentDurEl.innerText = formatSecToMMSS(window.videoDemoCurrentSec);
+            if (scrubberEl) scrubberEl.style.width = `${pct * 100}%`;
+        };
+
+        window.toggleVideoDemoFullscreen = function () {
+            const modalBox = document.querySelector('#module-video-demo-modal > div');
+            if (!modalBox) return;
+            if (!document.fullscreenElement) {
+                if (modalBox.requestFullscreen) {
+                    modalBox.requestFullscreen();
+                }
+            } else {
+                if (document.exitFullscreen) {
+                    document.exitFullscreen();
+                }
+            }
+        };
+
+        window.enrollFromVideoDemo = function () {
+            const courseId = window.activeVideoDemoCourseId;
+            window.closeVideoDemoModal();
+            if (courseId) {
+                window.openCourseModal(courseId);
             }
         };
 

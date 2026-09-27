@@ -485,7 +485,251 @@ body {
   display: flex;
   align-items: center;
   justify-content: center;
-  padding: 30px 10px;
+  padding: 20px 10px;
+}
+
+/* ==========================================================================
+   QUICK CONTACT CARD (Hero Visual Stage)
+   ========================================================================== */
+.quick-contact-card {
+  position: relative;
+  z-index: 5;
+  width: 100%;
+  max-width: 440px;
+  background: var(--white);
+  border: var(--brutal-border-thick);
+  border-radius: 20px;
+  box-shadow: var(--brutal-shadow-lg);
+  padding: 28px 24px;
+  transition: transform 0.25s ease, box-shadow 0.25s ease;
+}
+
+.quick-contact-card:hover {
+  transform: translateY(-3px);
+  box-shadow: 10px 10px 0px var(--slate-900);
+}
+
+.quick-contact-header {
+  margin-bottom: 18px;
+  padding-bottom: 14px;
+  border-bottom: 2px dashed var(--slate-300);
+}
+
+.quick-contact-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  background: var(--slate-100);
+  border: 1.5px solid var(--slate-900);
+  border-radius: 6px;
+  padding: 4px 10px;
+  font-family: var(--font-mono);
+  font-size: 0.72rem;
+  font-weight: 700;
+  color: var(--slate-800);
+  margin-bottom: 10px;
+}
+
+.quick-contact-title {
+  font-family: var(--font-display);
+  font-size: 1.45rem;
+  font-weight: 800;
+  color: var(--slate-900);
+  margin-bottom: 6px;
+  line-height: 1.15;
+}
+
+.quick-contact-subtitle {
+  font-size: 0.84rem;
+  color: var(--slate-600);
+  line-height: 1.4;
+  margin: 0;
+}
+
+.form-row-2col {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 12px;
+}
+
+@media (max-width: 480px) {
+  .form-row-2col {
+    grid-template-columns: 1fr;
+    gap: 0;
+  }
+}
+
+.form-field-group {
+  display: flex;
+  flex-direction: column;
+  gap: 5px;
+  margin-bottom: 12px;
+}
+
+.form-label {
+  font-family: var(--font-mono);
+  font-size: 0.7rem;
+  font-weight: 700;
+  color: var(--slate-700);
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+}
+
+.brutal-input,
+.brutal-select {
+  font-family: var(--font-body);
+  font-size: 0.88rem;
+  font-weight: 600;
+  color: var(--slate-900);
+  background: var(--slate-50);
+  border: 2px solid var(--slate-900);
+  border-radius: var(--brutal-radius-sm);
+  padding: 9px 12px;
+  box-shadow: 2px 2px 0px var(--slate-900);
+  transition: all 0.2s ease;
+  width: 100%;
+  box-sizing: border-box;
+}
+
+.brutal-input:focus,
+.brutal-select:focus {
+  background: var(--white);
+  border-color: var(--blue-primary);
+  outline: none;
+  box-shadow: 3.5px 3.5px 0px var(--blue-primary);
+}
+
+.brutal-input::placeholder {
+  color: var(--slate-400);
+  font-weight: 500;
+}
+
+.select-wrapper {
+  position: relative;
+  width: 100%;
+}
+
+.select-wrapper .brutal-select {
+  appearance: none;
+  -webkit-appearance: none;
+  padding-right: 36px;
+  cursor: pointer;
+}
+
+.select-chevron {
+  position: absolute;
+  right: 14px;
+  top: 50%;
+  transform: translateY(-50%);
+  pointer-events: none;
+  font-size: 0.75rem;
+  color: var(--slate-700);
+}
+
+.form-checkbox-group {
+  margin: 10px 0 14px;
+}
+
+.custom-checkbox-label {
+  display: flex;
+  align-items: flex-start;
+  gap: 10px;
+  cursor: pointer;
+  user-select: none;
+}
+
+.custom-checkbox-label input[type="checkbox"] {
+  position: absolute;
+  opacity: 0;
+  cursor: pointer;
+  height: 0;
+  width: 0;
+}
+
+.checkbox-indicator {
+  width: 19px;
+  height: 19px;
+  min-width: 19px;
+  background: var(--slate-50);
+  border: 2px solid var(--slate-900);
+  border-radius: 4px;
+  box-shadow: 2px 2px 0px var(--slate-900);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 0.68rem;
+  color: transparent;
+  transition: all 0.15s ease;
+  margin-top: 2px;
+}
+
+.custom-checkbox-label input[type="checkbox"]:checked ~ .checkbox-indicator {
+  background: var(--blue-primary);
+  color: var(--white);
+  border-color: var(--slate-900);
+  box-shadow: 2px 2px 0px var(--slate-900);
+}
+
+.custom-checkbox-label:hover .checkbox-indicator {
+  border-color: var(--blue-primary);
+}
+
+.checkbox-text {
+  font-size: 0.75rem;
+  color: var(--slate-600);
+  line-height: 1.4;
+}
+
+.checkbox-text strong {
+  color: var(--slate-900);
+}
+
+.form-submit-btn {
+  width: 100%;
+  justify-content: center;
+  padding: 12px 18px;
+  font-size: 0.95rem;
+  border-radius: var(--brutal-radius);
+  cursor: pointer;
+}
+
+.form-direct-note {
+  font-family: var(--font-mono);
+  font-size: 0.7rem;
+  color: var(--slate-500);
+  text-align: center;
+  margin-top: 10px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 6px;
+}
+
+.quick-form-alert {
+  padding: 10px 12px;
+  border-radius: 8px;
+  font-size: 0.8rem;
+  line-height: 1.4;
+  margin-bottom: 12px;
+  border: 2px solid var(--slate-900);
+  display: flex;
+  align-items: flex-start;
+  gap: 8px;
+  box-shadow: 3px 3px 0px var(--slate-900);
+}
+
+.quick-form-alert.success {
+  background: #ecfdf5;
+  color: #065f46;
+  border-color: #059669;
+  box-shadow: 3px 3px 0px #059669;
+}
+
+.quick-form-alert.error {
+  background: #fef2f2;
+  color: #991b1b;
+  border-color: #dc2626;
+  box-shadow: 3px 3px 0px #dc2626;
 }
 
 .floating-glass-card {
@@ -975,33 +1219,202 @@ body {
   color: var(--slate-500);
 }
 
-.tier-features-list {
+/* ==========================================================================
+   PRICING TIER FEATURES DROPDOWN (Highlights Blue)
+   ========================================================================== */
+.tier-features-dropdown {
+  width: 100%;
+  margin-bottom: 28px;
+  position: relative;
+  transition: all 0.25s ease;
+}
+
+/* Trigger Button */
+.tier-dropdown-trigger {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 10px;
+  background: var(--white);
+  border: 2px solid var(--slate-900);
+  border-radius: var(--brutal-radius-sm);
+  padding: 10px 14px;
+  box-shadow: 2.5px 2.5px 0px var(--slate-900);
+  cursor: pointer;
+  user-select: none;
+  list-style: none;
+  transition: all 0.2s cubic-bezier(0.16, 1, 0.3, 1);
+  outline: none;
+}
+
+.tier-dropdown-trigger::-webkit-details-marker,
+.tier-dropdown-trigger::marker {
+  display: none;
+}
+
+.tier-dropdown-label {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  font-family: var(--font-display);
+  font-weight: 800;
+  font-size: 0.9rem;
+  color: var(--slate-900);
+  transition: color 0.2s ease;
+}
+
+.tier-dropdown-label .trigger-icon {
+  color: var(--blue-primary);
+  font-size: 0.98rem;
+  transition: color 0.2s ease, transform 0.2s ease;
+}
+
+.tier-dropdown-badge {
+  font-family: var(--font-mono);
+  font-size: 0.72rem;
+  font-weight: 800;
+  background: #eff6ff;
+  color: var(--blue-primary);
+  border: 1.5px solid #bfdbfe;
+  padding: 2px 8px;
+  border-radius: var(--brutal-radius-pill);
+  letter-spacing: 0.02em;
+  transition: all 0.2s ease;
+}
+
+.trigger-chevron {
+  color: var(--blue-primary);
+  font-size: 0.82rem;
+  transition: transform 0.25s cubic-bezier(0.16, 1, 0.3, 1), color 0.2s ease;
+}
+
+/* --- BLUE HIGHLIGHT STATES --- */
+
+/* 1. Hover on Trigger: Highlights Blue */
+.tier-dropdown-trigger:hover {
+  background: #eff6ff;
+  border-color: var(--blue-primary);
+  color: var(--blue-primary);
+  box-shadow: 4px 4px 0px var(--blue-primary);
+  transform: translate(-1.5px, -1.5px);
+}
+
+.tier-dropdown-trigger:hover .tier-dropdown-label {
+  color: var(--blue-primary);
+}
+
+.tier-dropdown-trigger:hover .trigger-icon {
+  color: var(--blue-deep);
+  transform: scale(1.15);
+}
+
+.tier-dropdown-trigger:hover .tier-dropdown-badge {
+  background: var(--blue-primary);
+  color: var(--white);
+  border-color: var(--blue-primary);
+}
+
+.tier-dropdown-trigger:hover .trigger-chevron {
+  color: var(--blue-deep);
+}
+
+/* 2. Focus Visible: Highlights Blue */
+.tier-dropdown-trigger:focus-visible {
+  border-color: var(--blue-primary);
+  box-shadow: 0 0 0 3px rgba(37, 99, 235, 0.25), 3.5px 3.5px 0px var(--blue-primary);
+}
+
+/* 3. Open State: Trigger Highlights Blue & Chevron Rotates */
+.tier-features-dropdown[open] .tier-dropdown-trigger {
+  background: #eff6ff;
+  border-color: var(--blue-primary);
+  box-shadow: 3.5px 3.5px 0px var(--blue-primary);
+}
+
+.tier-features-dropdown[open] .tier-dropdown-label {
+  color: var(--blue-primary);
+}
+
+.tier-features-dropdown[open] .trigger-chevron {
+  transform: rotate(180deg);
+  color: var(--blue-primary);
+}
+
+.tier-features-dropdown[open] .tier-dropdown-badge {
+  background: var(--blue-primary);
+  color: var(--white);
+  border-color: var(--blue-primary);
+}
+
+/* Dropdown Menu Container (Framed with Blue Accent) */
+.tier-dropdown-menu {
+  background: #ffffff;
+  border: 2px solid var(--blue-primary);
+  box-shadow: 4px 4px 0px var(--blue-primary);
+  border-radius: var(--brutal-radius-sm);
+  padding: 12px 12px 10px;
+  margin-top: 10px;
+  animation: dropdownSlideIn 0.22s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+@keyframes dropdownSlideIn {
+  from {
+    opacity: 0;
+    transform: translateY(-6px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+/* Features List Inside Dropdown */
+.tier-dropdown-menu .tier-features-list {
   list-style: none;
   display: flex;
   flex-direction: column;
-  gap: 12px;
-  margin-bottom: 32px;
-  flex-grow: 1;
+  gap: 6px;
+  margin: 0;
+  padding: 0;
 }
 
-.tier-feature-item {
+/* Checkmark Rows Highlight Blue on Hover */
+.tier-dropdown-menu .tier-feature-item {
   display: flex;
   align-items: flex-start;
   gap: 10px;
-  font-size: 0.92rem;
+  font-size: 0.88rem;
   color: var(--slate-700);
-  line-height: 1.4;
+  line-height: 1.45;
+  padding: 8px 10px;
+  border-radius: 6px;
+  border-left: 3px solid transparent;
+  transition: all 0.18s ease;
+  background: transparent;
 }
 
-.tier-feature-item i {
+.tier-dropdown-menu .tier-feature-item:hover {
+  background: #eff6ff;
+  border-left-color: var(--blue-primary);
+  color: var(--slate-900);
+  transform: translateX(4px);
+}
+
+.tier-dropdown-menu .tier-feature-item:hover strong {
+  color: var(--blue-primary);
+}
+
+.tier-dropdown-menu .tier-feature-item i {
   color: var(--blue-primary);
   font-size: 0.95rem;
-  margin-top: 3px;
+  margin-top: 2px;
   flex-shrink: 0;
+  transition: transform 0.2s ease, color 0.2s ease;
 }
 
-.pricing-card.featured .tier-feature-item i {
+.tier-dropdown-menu .tier-feature-item:hover i {
   color: var(--blue-deep);
+  transform: scale(1.2);
 }
 
 .btn-tier-cta {

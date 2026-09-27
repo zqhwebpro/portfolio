@@ -118,9 +118,89 @@
 
         </div>
 
-        <!-- Right Visual Stage with Colorful Floating Neo-Brutalist Shapes & Glass Card -->
+        <!-- Right Visual Stage with Quick Contact Form to zqhwebpro@gmail.com & Neo-Brutalist Shapes -->
         <div class="hero-visual-stage">
-          <img src="images/green arrow smashing out of window.jpeg" alt="Results Placeholder">
+          <!-- Floating Neo-Brutalist Shapes -->
+          <div class="shape shape-1" aria-hidden="true">&#10022;</div>
+          <div class="shape shape-2" aria-hidden="true">&#9679;</div>
+          <div class="shape shape-3" aria-hidden="true">QUICK INQUIRY</div>
+          <div class="shape shape-4" aria-hidden="true">&#9632;</div>
+
+          <div class="quick-contact-card">
+            <div class="quick-contact-header">
+              <div class="quick-contact-badge">
+                <span class="badge-dot"></span>
+                <span>Direct Inbox &bull; zqhwebpro@gmail.com</span>
+              </div>
+              <h3 class="quick-contact-title">Start a Conversation</h3>
+              <p class="quick-contact-subtitle">
+                Have a question or looking to build a new website? Send a message directly to my inbox.
+              </p>
+            </div>
+
+            <!-- In-place Confirmation Message (Hidden Initially) -->
+            <div id="quickContactAlert" class="quick-form-alert" style="display: none;"></div>
+
+            <form id="quickContactForm" onsubmit="handleQuickContactSubmit(event)" action="mailto:zqhwebpro@gmail.com" method="POST" enctype="text/plain">
+              <!-- First Name & Last Name On One Line -->
+              <div class="form-row-2col">
+                <div class="form-field-group">
+                  <label for="contactFirstName" class="form-label">First Name *</label>
+                  <input type="text" id="contactFirstName" name="firstName" class="brutal-input" placeholder="First Name" required autocomplete="given-name" />
+                </div>
+                <div class="form-field-group">
+                  <label for="contactLastName" class="form-label">Last Name *</label>
+                  <input type="text" id="contactLastName" name="lastName" class="brutal-input" placeholder="Last Name" required autocomplete="family-name" />
+                </div>
+              </div>
+
+              <!-- Email Field -->
+              <div class="form-field-group">
+                <label for="contactEmail" class="form-label">Your Email Address *</label>
+                <input type="email" id="contactEmail" name="email" class="brutal-input" placeholder="name@yourbusiness.com" required autocomplete="email" />
+              </div>
+
+              <!-- Dropdown of Questions -->
+              <div class="form-field-group">
+                <label for="contactQuestion" class="form-label">Select Your Question / Topic *</label>
+                <div class="select-wrapper">
+                  <select id="contactQuestion" name="question" class="brutal-select" required>
+                    <option value="" disabled selected>Select a question or topic...</option>
+                    <option value="I need a new website built from scratch ($500+)">I need a new website built from scratch ($500+)</option>
+                    <option value="I want to redesign &amp; upgrade my current site ($2,000+)">I want to redesign &amp; upgrade my current site ($2,000+)</option>
+                    <option value="I need ongoing website care, updates &amp; backups">I need ongoing website care, updates &amp; backups</option>
+                    <option value="How can I get my business found on Google (SEO)?">How can I get my business found on Google (SEO)?</option>
+                    <option value="Can you handle social media &amp; marketing setup?">Can you handle social media &amp; marketing setup?</option>
+                    <option value="Do you build custom web apps, e-commerce, or booking systems?">Do you build custom web apps, e-commerce, or booking systems?</option>
+                    <option value="What is your typical project timeline and process?">What is your typical project timeline and process?</option>
+                    <option value="General question &mdash; let's have a consultation">General question &mdash; let's have a consultation</option>
+                  </select>
+                  <i class="fa-solid fa-chevron-down select-chevron"></i>
+                </div>
+              </div>
+
+              <!-- Newsletter Disclaimer with Checkbox -->
+              <div class="form-checkbox-group">
+                <label class="custom-checkbox-label" for="contactNewsletterOptIn">
+                  <input type="checkbox" id="contactNewsletterOptIn" name="newsletter" class="brutal-checkbox" checked />
+                  <span class="checkbox-indicator"><i class="fa-solid fa-check"></i></span>
+                  <span class="checkbox-text">
+                    <strong>Join my newsletter</strong> &mdash; practical website growth strategies, digital design insights, and honest tech advice. Zero spam, unsubscribe anytime.
+                  </span>
+                </label>
+              </div>
+
+              <!-- Submit Button -->
+              <button type="submit" id="quickContactSubmitBtn" class="btn-brutal-primary form-submit-btn">
+                <span>Send To zqhwebpro@gmail.com</span>
+                <i class="fa-solid fa-arrow-right"></i>
+              </button>
+
+              <div class="form-direct-note">
+                <i class="fa-solid fa-lock"></i> 100% direct reply from Zach within 24 hours
+              </div>
+            </form>
+          </div>
         </div>
 
       </div>
@@ -209,21 +289,34 @@
               <span class="tier-price-suffix">/ one-time investment</span>
             </div>
 
-            <ul class="tier-features-list">
-              <li class="tier-feature-item">
-                <i class="fa-solid fa-circle-check"></i>
-                <span><strong>1&ndash;5 Custom Pages</strong> built around your business</span>
-              </li>
-              <li class="tier-feature-item">
-                <i class="fa-solid fa-circle-check"></i>
-                <span><strong>On-Page SEO</strong> so customers can actually find you on Google</span>
-              </li>
-              <li class="tier-feature-item">
-                <i class="fa-solid fa-circle-check"></i>
-                <span><strong>100% Transparent Consultation</strong> &mdash; I'll tell you honestly if I'm the right
-                  fit</span>
-              </li>
-            </ul>
+            <!-- Dropdown of Checkmark Features -->
+            <details class="tier-features-dropdown">
+              <summary class="tier-dropdown-trigger">
+                <span class="tier-dropdown-label">
+                  <i class="fa-solid fa-circle-check trigger-icon"></i>
+                  <span>What's Included</span>
+                </span>
+                <span class="tier-dropdown-badge">3 Features</span>
+                <i class="fa-solid fa-chevron-down trigger-chevron"></i>
+              </summary>
+              <div class="tier-dropdown-menu">
+                <ul class="tier-features-list">
+                  <li class="tier-feature-item">
+                    <i class="fa-solid fa-circle-check"></i>
+                    <span><strong>1&ndash;5 Custom Pages</strong> built around your business</span>
+                  </li>
+                  <li class="tier-feature-item">
+                    <i class="fa-solid fa-circle-check"></i>
+                    <span><strong>On-Page SEO</strong> so customers can actually find you on Google</span>
+                  </li>
+                  <li class="tier-feature-item">
+                    <i class="fa-solid fa-circle-check"></i>
+                    <span><strong>100% Transparent Consultation</strong> &mdash; I'll tell you honestly if I'm the right
+                      fit</span>
+                  </li>
+                </ul>
+              </div>
+            </details>
           </div>
 
           <a href="mailto:zqhwebpro@gmail.com?subject=Inquiry:%20Simple%20Site%20Tier" class="btn-tier-cta solid">
@@ -244,21 +337,34 @@
               <span class="tier-price-suffix">/ one-time investment</span>
             </div>
 
-            <ul class="tier-features-list">
-              <li class="tier-feature-item">
-                <i class="fa-solid fa-check"></i>
-                <span><strong>Everything in Simple Site</strong> included</span>
-              </li>
-              <li class="tier-feature-item">
-                <i class="fa-solid fa-check"></i>
-                <span><strong>Extras</strong> &mdash; website, social media, ads, needs discussed</span>
-              </li>
-              <li class="tier-feature-item">
-                <i class="fa-solid fa-check"></i>
-                <span><strong>100% Transparent Consultation</strong> &mdash; I'll tell you honestly if I'm the right
-                  fit</span>
-              </li>
-            </ul>
+            <!-- Dropdown of Checkmark Features -->
+            <details class="tier-features-dropdown">
+              <summary class="tier-dropdown-trigger">
+                <span class="tier-dropdown-label">
+                  <i class="fa-solid fa-circle-check trigger-icon"></i>
+                  <span>What's Included</span>
+                </span>
+                <span class="tier-dropdown-badge">3 Features</span>
+                <i class="fa-solid fa-chevron-down trigger-chevron"></i>
+              </summary>
+              <div class="tier-dropdown-menu">
+                <ul class="tier-features-list">
+                  <li class="tier-feature-item">
+                    <i class="fa-solid fa-check"></i>
+                    <span><strong>Everything in Simple Site</strong> included</span>
+                  </li>
+                  <li class="tier-feature-item">
+                    <i class="fa-solid fa-check"></i>
+                    <span><strong>Extras</strong> &mdash; website, social media, ads, needs discussed</span>
+                  </li>
+                  <li class="tier-feature-item">
+                    <i class="fa-solid fa-check"></i>
+                    <span><strong>100% Transparent Consultation</strong> &mdash; I'll tell you honestly if I'm the right
+                      fit</span>
+                  </li>
+                </ul>
+              </div>
+            </details>
           </div>
 
           <a href="mailto:zqhwebpro@gmail.com?subject=Inquiry:%20Advanced%20Site%20Tier" class="btn-tier-cta outline">
@@ -279,21 +385,34 @@
               <span class="tier-price-suffix">for a custom quote</span>
             </div>
 
-            <ul class="tier-features-list">
-              <li class="tier-feature-item">
-                <i class="fa-solid fa-check"></i>
-                <span><strong>Custom Scope</strong> built around your specific business needs</span>
-              </li>
-              <li class="tier-feature-item">
-                <i class="fa-solid fa-check"></i>
-                <span><strong>Full-Stack &amp; Integrations</strong> &mdash; e-commerce, booking, POS, and more</span>
-              </li>
-              <li class="tier-feature-item">
-                <i class="fa-solid fa-check"></i>
-                <span><strong>100% Transparent Consultation</strong> &mdash; I'll tell you honestly if I'm the right
-                  fit</span>
-              </li>
-            </ul>
+            <!-- Dropdown of Checkmark Features -->
+            <details class="tier-features-dropdown">
+              <summary class="tier-dropdown-trigger">
+                <span class="tier-dropdown-label">
+                  <i class="fa-solid fa-circle-check trigger-icon"></i>
+                  <span>What's Included</span>
+                </span>
+                <span class="tier-dropdown-badge">3 Features</span>
+                <i class="fa-solid fa-chevron-down trigger-chevron"></i>
+              </summary>
+              <div class="tier-dropdown-menu">
+                <ul class="tier-features-list">
+                  <li class="tier-feature-item">
+                    <i class="fa-solid fa-check"></i>
+                    <span><strong>Custom Scope</strong> built around your specific business needs</span>
+                  </li>
+                  <li class="tier-feature-item">
+                    <i class="fa-solid fa-check"></i>
+                    <span><strong>Full-Stack &amp; Integrations</strong> &mdash; e-commerce, booking, POS, and more</span>
+                  </li>
+                  <li class="tier-feature-item">
+                    <i class="fa-solid fa-check"></i>
+                    <span><strong>100% Transparent Consultation</strong> &mdash; I'll tell you honestly if I'm the right
+                      fit</span>
+                  </li>
+                </ul>
+              </div>
+            </details>
           </div>
 
           <a href="mailto:zqhwebpro@gmail.com?subject=Inquiry:%20Custom%20Site%20Tier" class="btn-tier-cta outline">
@@ -439,6 +558,64 @@
         setTimeout(typeCycle, 600);
       });
     })();
+
+    function handleQuickContactSubmit(e) {
+      e.preventDefault();
+      const firstName = document.getElementById("contactFirstName") ? document.getElementById("contactFirstName").value.trim() : "";
+      const lastName = document.getElementById("contactLastName") ? document.getElementById("contactLastName").value.trim() : "";
+      const email = document.getElementById("contactEmail") ? document.getElementById("contactEmail").value.trim() : "";
+      const question = document.getElementById("contactQuestion") ? document.getElementById("contactQuestion").value : "";
+      const newsletter = document.getElementById("contactNewsletterOptIn") ? document.getElementById("contactNewsletterOptIn").checked : false;
+      const alertBox = document.getElementById("quickContactAlert");
+      const submitBtn = document.getElementById("quickContactSubmitBtn");
+
+      if (!firstName || !lastName || !email || !question) {
+        if (alertBox) {
+          alertBox.className = "quick-form-alert error";
+          alertBox.innerHTML = '<i class="fa-solid fa-circle-exclamation"></i> <span>Please fill in your first name, last name, email, and choose a question topic.</span>';
+          alertBox.style.display = "flex";
+        }
+        return;
+      }
+
+      // Format mailto link
+      const subject = encodeURIComponent(`Project Inquiry: ${firstName} ${lastName} [${question}]`);
+      const body = encodeURIComponent(
+        `Hi Zach,\n\nName: ${firstName} ${lastName}\nEmail: ${email}\nQuestion / Service Need: ${question}\nNewsletter Signup: ${newsletter ? "Yes, subscribed" : "No"}\n\n---\nSent via for-hire quick contact form.`
+      );
+      const mailtoUrl = `mailto:zqhwebpro@gmail.com?subject=${subject}&body=${body}`;
+
+      // Asynchronously log to contact-process.php if server supports it
+      try {
+        fetch('./contact-process.php', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({
+            name: `${firstName} ${lastName}`,
+            email: email,
+            service: question,
+            message: `Inquiry Topic: ${question}\nNewsletter Opt-in: ${newsletter ? 'Yes' : 'No'}`
+          })
+        }).catch(() => {});
+      } catch (err) {}
+
+      // Trigger mail client
+      window.location.href = mailtoUrl;
+
+      // Show immediate in-card confirmation
+      if (alertBox) {
+        alertBox.className = "quick-form-alert success";
+        alertBox.innerHTML = `<i class="fa-solid fa-circle-check"></i> <div><strong>Thank you, ${firstName}!</strong> Your inquiry has been routed to <strong>zqhwebpro@gmail.com</strong>. I'll follow up directly to ${email} within 24 hours.</div>`;
+        alertBox.style.display = "flex";
+        alertBox.scrollIntoView({ behavior: "smooth", block: "nearest" });
+      }
+
+      if (submitBtn) {
+        submitBtn.innerHTML = '<span>Message Dispatched</span> <i class="fa-solid fa-check"></i>';
+        submitBtn.style.background = 'var(--pop-emerald)';
+        submitBtn.style.borderColor = 'var(--slate-900)';
+      }
+    }
   </script>
 </body>
 

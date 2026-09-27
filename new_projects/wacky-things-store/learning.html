@@ -6,9 +6,9 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Zach Heindel | Wacky Academy &amp; Learning Modules — .NET &amp; Novelty Engineering</title>
     <meta name="description"
-        content="LearnDash-style interactive learning module and courses for novelty engineering, C# ASP.NET architecture, and live Zoom webinars." />
+        content="WackyDash-style interactive learning module and courses for novelty engineering, C# ASP.NET architecture, and live Zoom webinars." />
     <meta name="keywords"
-        content="Wacky Things Academy, LearnDash Courses, ASP.NET MVC, C# Engineering, Educational Store, Zach Heindel" />
+        content="Wacky Things Academy, WackyDash Courses, ASP.NET MVC, C# Engineering, Educational Store, Zach Heindel" />
     <meta name="author" content="Zach Heindel" />
     <link rel="icon" href="./favicon.png" type="image/png" />
 
@@ -199,7 +199,7 @@
                 <i class="fa-brands fa-css3-alt text-orange-400"></i> DOM &amp; CSS Styling:
             </div>
             <div id="tt-dom-css" class="text-earth-200 text-[11px] leading-relaxed font-mono">
-                &lt;div class="course-card"&gt; &bull; LearnDash Flex &amp; Grid
+                &lt;div class="course-card"&gt; &bull; WackyDash Flex &amp; Grid
             </div>
         </div>
         <div class="space-y-1">
@@ -245,7 +245,7 @@
             </span>
         </div>
         <div class="flex items-center gap-3 text-[11px] font-mono mx-auto sm:mx-0 text-earth-400">
-            <span>LearnDash LMS v2.4</span>
+            <span>WackyDash LMS v2.4</span>
         </div>
     </div>
 
@@ -307,7 +307,7 @@
                     data-blueprint-role="Active LMS Learning Portal Button"
                     data-blueprint-layer="WebUI / Education Portal"
                     data-blueprint-dom="Red-orange active button highlighting the current learning page."
-                    data-blueprint-desc="Represents the active Education Store &amp; LearnDash course module view."
+                    data-blueprint-desc="Represents the active Education Store &amp; WackyDash course module view."
                     data-blueprint-code="public ActionResult Learning() => View(courseService.GetCurriculums());"
                     class="h-10 px-3.5 rounded-xl bg-gradient-to-r from-[#F04A23] to-[#DD330D] text-white text-xs font-bold flex items-center gap-1.5 shadow-md shadow-[#F04A23]/30 border border-red-400/40 no-underline ring-2 ring-[#FFAF94]/50">
                     <i class="fa-solid fa-graduation-cap text-orange-100"></i>
@@ -329,7 +329,7 @@
                     <div>
                         <div class="flex items-center gap-2">
                             <span class="px-2 py-0.5 rounded-full bg-[#FFE8DF] text-[#BA2407] text-[10px] font-mono font-black uppercase tracking-wider">
-                                LearnDash LMS Architecture
+                                WackyDash LMS Architecture
                             </span>
                             <span class="text-xs text-earth-500 font-mono hidden sm:inline">&bull; Locked To Purchase</span>
                         </div>
@@ -384,7 +384,7 @@
                 <div class="relative z-10 max-w-4xl space-y-4">
                     <div class="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-[#F04A23]/20 border border-[#F04A23]/40 text-[#FFAF94] font-mono text-xs font-bold uppercase tracking-wider">
                         <i class="fa-solid fa-graduation-cap text-[#F04A23]"></i>
-                        <span>LearnDash-Style Accredited Novelty Academy</span>
+                        <span>WackyDash-Style Accredited Novelty Academy</span>
                     </div>
 
                     <h1 class="font-heading font-black text-2xl sm:text-4xl lg:text-5xl text-white tracking-tight leading-tight">
@@ -404,7 +404,7 @@
                         <div class="flex items-center gap-2 font-mono">
                             <span class="h-2 w-2 rounded-full bg-teal-400"></span>
                             <span class="text-earth-400">Accreditation:</span>
-                            <span class="font-bold text-teal-300">LearnDash Structure</span>
+                            <span class="font-bold text-teal-300">WackyDash Structure</span>
                         </div>
                         <div class="flex items-center gap-2 font-mono">
                             <span class="h-2 w-2 rounded-full bg-purple-400"></span>
@@ -690,7 +690,7 @@
                     <ul class="space-y-1.5 text-xs text-earth-800 list-disc list-inside pl-1">
                         <li>Full, unlocked access to all video lessons &amp; downloadable lab files</li>
                         <li>Source code solution for Visual Studio 2022 (ASP.NET MVC 5 &amp; EF6)</li>
-                        <li>LearnDash-verified digital Certificate of Completion upon 100% progress</li>
+                        <li>WackyDash-verified digital Certificate of Completion upon 100% progress</li>
                         <li>Priority front-row seat &amp; guaranteed Q&amp;A slot for live Zoom webinars</li>
                     </ul>
                 </div>
@@ -720,6 +720,148 @@
         </div>
     </div>
 
+    <!-- WACKYDASH MODULE VIDEO DEMO MODAL -->
+    <div id="module-video-demo-modal"
+        data-blueprint-file="WackyStore.WebUI/Views/Course/VideoDemoModal.cshtml"
+        data-blueprint-role="WackyDash Module Video Demo Player Modal"
+        data-blueprint-layer="WebUI / LMS Media Player"
+        data-blueprint-dom="Modal viewport delivering an interactive demo preview of course video lecture modules."
+        data-blueprint-desc="Demonstration video player showcasing course curriculum preview with interactive playback controls and syllabus details."
+        data-blueprint-code="[HttpGet] public ActionResult DemoStream(int courseId, string moduleName) => PartialView(&quot;_VideoDemoPlayer&quot;);"
+        class="fixed inset-0 bg-black/80 backdrop-blur-md z-50 hidden flex items-center justify-center p-3 sm:p-5 md:p-6"
+        onclick="if(event.target===this) window.closeVideoDemoModal()">
+
+        <div class="bg-[#0D1117] border border-earth-800 rounded-2xl sm:rounded-3xl w-full max-w-4xl max-h-[94vh] flex flex-col shadow-2xl overflow-hidden relative animate-rise-up text-white">
+            <!-- Top Title Bar -->
+            <div class="p-4 sm:p-5 bg-gradient-to-r from-earth-950 via-[#161B22] to-earth-950 border-b border-earth-800/80 flex items-center justify-between gap-3">
+                <div class="flex items-center gap-2.5 min-w-0">
+                    <div class="h-9 w-9 rounded-xl bg-[#F04A23]/20 border border-[#F04A23]/40 text-[#FFAF94] flex items-center justify-center text-sm shrink-0">
+                        <i class="fa-solid fa-play"></i>
+                    </div>
+                    <div class="min-w-0">
+                        <div class="flex items-center gap-2 flex-wrap">
+                            <span class="px-2 py-0.5 rounded-full bg-[#F04A23] text-white text-[10px] font-mono font-black uppercase tracking-wider">
+                                WackyDash Player v3.2
+                            </span>
+                            <span id="video-demo-badge" class="px-2 py-0.5 rounded-full bg-amber-400 text-earth-950 text-[10px] font-mono font-black uppercase font-bold">
+                                ▶ Demo Video Preview
+                            </span>
+                            <span id="video-demo-course-name" class="text-xs text-earth-400 font-mono truncate hidden sm:inline">
+                                Course Title
+                            </span>
+                        </div>
+                        <h3 id="video-demo-module-title" class="font-heading font-black text-sm sm:text-base text-amber-100 truncate mt-0.5">
+                            Module 1: Fluid Dynamics of Whimsical Drinkware
+                        </h3>
+                    </div>
+                </div>
+
+                <div class="flex items-center gap-2 shrink-0">
+                    <button onclick="window.closeVideoDemoModal()"
+                        class="h-8 w-8 rounded-full bg-earth-800 hover:bg-earth-700 text-white flex items-center justify-center transition-colors cursor-pointer"
+                        aria-label="Close video player">
+                        <i class="fa-solid fa-xmark text-sm"></i>
+                    </button>
+                </div>
+            </div>
+
+            <!-- Video Player Frame Area -->
+            <div class="relative bg-black aspect-video sm:max-h-[50vh] flex items-center justify-center overflow-hidden group select-none">
+                <!-- Video Poster Frame (The Cluck-A-Tron 5000 Laboratory Lecture) -->
+                <img id="video-demo-poster" src="images/module_demo_video.jpg" alt="WackyDash Lecture Demo Video"
+                    class="w-full h-full object-cover transition-opacity duration-300" />
+
+                <!-- Ambient Video Vignette Overlay -->
+                <div class="absolute inset-0 bg-gradient-to-t from-black/85 via-transparent to-black/40 pointer-events-none"></div>
+
+                <!-- Top Left Watermark / Lecture Tag -->
+                <div class="absolute top-3 left-4 flex items-center gap-2 pointer-events-none">
+                    <div class="px-2.5 py-1 rounded-md bg-black/60 backdrop-blur-md border border-white/15 text-[11px] font-mono text-white flex items-center gap-1.5 shadow-md">
+                        <span id="video-stream-dot" class="h-2 w-2 rounded-full bg-emerald-400 animate-pulse"></span>
+                        <span id="video-stream-status">WackyDash HLS Stream &bull; 1080p 60fps</span>
+                    </div>
+                </div>
+
+                <!-- Top Right Instructor Badge -->
+                <div class="absolute top-3 right-4 hidden sm:flex items-center gap-2 pointer-events-none">
+                    <div class="px-2.5 py-1 rounded-md bg-black/60 backdrop-blur-md border border-white/15 text-[11px] font-mono text-amber-200 shadow-md">
+                        <i class="fa-solid fa-chalkboard-user mr-1 text-[#F04A23]"></i>
+                        <span id="video-instructor-name">Dr. Barnaby Fizzle</span>
+                    </div>
+                </div>
+
+                <!-- Center Big Play Button Overlay -->
+                <button id="video-big-play-btn" onclick="window.toggleVideoDemoPlayback()"
+                    class="absolute z-20 h-16 w-16 sm:h-20 sm:w-20 rounded-full bg-gradient-to-tr from-[#F04A23] to-[#FF8C69] hover:from-[#DD330D] hover:to-[#FFAF94] text-white flex items-center justify-center text-2xl sm:text-3xl shadow-2xl shadow-[#F04A23]/60 transition-transform hover:scale-110 active:scale-95 cursor-pointer ring-4 ring-white/30 backdrop-blur-xs">
+                    <i id="video-big-play-icon" class="fa-solid fa-play ml-1"></i>
+                </button>
+
+                <!-- Video Controls Bar (Bottom Overlay) -->
+                <div class="absolute bottom-0 inset-x-0 bg-gradient-to-t from-black/95 via-black/80 to-transparent pt-6 pb-2.5 px-4 sm:px-6 space-y-2 z-20">
+                    <!-- Scrubber Timeline Progress Bar -->
+                    <div class="relative w-full h-2 bg-white/20 hover:h-2.5 rounded-full cursor-pointer transition-all overflow-hidden"
+                        onclick="window.scrubVideoDemo(event)">
+                        <div id="video-scrubber-progress" class="h-full bg-gradient-to-r from-[#F04A23] to-amber-400 w-1/4 rounded-full transition-all duration-200"></div>
+                    </div>
+
+                    <!-- Control Buttons Row -->
+                    <div class="flex items-center justify-between text-xs font-mono text-gray-300">
+                        <div class="flex items-center gap-3 sm:gap-4">
+                            <button onclick="window.toggleVideoDemoPlayback()" class="hover:text-white transition-colors cursor-pointer text-sm">
+                                <i id="video-ctrl-play-icon" class="fa-solid fa-play"></i>
+                            </button>
+                            <button onclick="window.restartVideoDemo()" class="hover:text-white transition-colors cursor-pointer" title="Restart Demo">
+                                <i class="fa-solid fa-rotate-left"></i>
+                            </button>
+                            <div class="flex items-center gap-1.5 text-[11px] sm:text-xs">
+                                <span id="video-current-time" class="text-white font-bold">04:15</span>
+                                <span class="text-gray-500">/</span>
+                                <span id="video-total-duration" class="text-gray-400">18:42</span>
+                            </div>
+                        </div>
+
+                        <div class="flex items-center gap-3 sm:gap-4">
+                            <span class="px-2 py-0.5 rounded bg-white/10 text-[10px] font-bold text-teal-300 border border-white/10 hidden sm:inline-block">
+                                1080p HD
+                            </span>
+                            <span class="px-1.5 py-0.5 rounded bg-white/10 text-[10px] text-gray-300 hover:text-white cursor-pointer">
+                                1.0x
+                            </span>
+                            <button onclick="window.toggleVideoDemoFullscreen()" class="hover:text-white transition-colors cursor-pointer" title="Fullscreen">
+                                <i class="fa-solid fa-expand"></i>
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Bottom Lesson Meta & Quick Unlock CTA -->
+            <div class="p-4 sm:p-5 bg-[#161B22] border-t border-earth-800 flex flex-col sm:flex-row sm:items-center justify-between gap-4">
+                <div class="space-y-1 min-w-0">
+                    <div class="flex items-center gap-2 text-xs font-mono text-earth-400">
+                        <i class="fa-solid fa-code text-[#F04A23]"></i>
+                        <span id="video-demo-lesson-code" class="text-amber-300 truncate">Lesson.ExecutePracticum()</span>
+                    </div>
+                    <p class="text-xs text-gray-400 leading-relaxed max-w-xl">
+                        You are watching a WackyDash video lesson demonstration. The complete syllabus, solution files (.sln), and masterclass Zoom Q&amp;A are included when enrolling.
+                    </p>
+                </div>
+
+                <div class="flex items-center gap-2.5 shrink-0">
+                    <button id="video-demo-enroll-cta" onclick="window.enrollFromVideoDemo()"
+                        class="px-4 py-2.5 rounded-xl bg-gradient-to-r from-[#F04A23] to-[#DD330D] hover:from-[#DD330D] hover:to-[#BA2407] text-white font-bold text-xs flex items-center gap-1.5 transition-all shadow-md shadow-[#F04A23]/30 active:scale-95 cursor-pointer">
+                        <i class="fa-solid fa-lock-open"></i>
+                        <span>Unlock Full Course</span>
+                    </button>
+                    <button onclick="window.closeVideoDemoModal()"
+                        class="px-3.5 py-2.5 rounded-xl bg-earth-800 hover:bg-earth-700 text-gray-300 hover:text-white font-bold text-xs transition-colors cursor-pointer">
+                        Close
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+
     <!-- FOOTER -->
     <footer class="border-t-4 border-teal-600 bg-gradient-to-br from-earth-950 to-earth-900 py-12 text-sm text-earth-300 mt-auto relative overflow-hidden">
         <div class="store-fluid-container flex flex-col sm:flex-row items-center justify-between gap-4">
@@ -734,7 +876,7 @@
                 <a href="../index.html" class="hover:text-teal-400 transition-colors no-underline">Interactive Projects</a>
             </div>
             <div class="text-earth-500 text-[11px] font-mono">
-                ASP.NET MVC 5 &bull; LearnDash Architecture &bull; C# &bull; Zoom API
+                ASP.NET MVC 5 &bull; WackyDash Architecture &bull; C# &bull; Zoom API
             </div>
         </div>
     </footer>
