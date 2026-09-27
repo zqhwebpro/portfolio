@@ -24,6 +24,12 @@
   --surface-bg: #180A2E;
   --border-purple: rgba(236, 179, 255, 0.25);
   --border-subtle: rgba(236, 179, 255, 0.15);
+  /* Blood Orange Accent Palette (Learning & Education Store) */
+  --blood-orange: #F04A23;
+  --blood-orange-hover: #DD330D;
+  --blood-orange-dark: #BA2407;
+  --blood-orange-light: #FFE8DF;
+  --blood-orange-glow: rgba(240, 74, 35, 0.4);
 }
 
 body {
@@ -175,6 +181,36 @@ body {
   background: #FDE047;
   color: #000;
   transform: translateY(-2px);
+}
+
+/* Blood Orange Accent Buttons & Badges (Learning Modules & Webinars) */
+.btn-mischief-blood-orange {
+  background: linear-gradient(135deg, var(--blood-orange) 0%, var(--blood-orange-hover) 100%);
+  color: #FFFFFF;
+  font-weight: 800;
+  border: none;
+  border-radius: 9999px;
+  padding: 0.6rem 1.4rem;
+  box-shadow: 0 4px 18px var(--blood-orange-glow);
+  transition: transform 0.15s ease, box-shadow 0.15s ease;
+}
+
+.btn-mischief-blood-orange:hover {
+  background: linear-gradient(135deg, var(--blood-orange-hover) 0%, var(--blood-orange-dark) 100%);
+  color: #FFFFFF;
+  transform: translateY(-2px);
+  box-shadow: 0 8px 25px rgba(240, 74, 35, 0.6);
+}
+
+.badge-blood-orange {
+  background: rgba(240, 74, 35, 0.15);
+  color: var(--blood-orange);
+  border: 1px solid rgba(240, 74, 35, 0.4);
+  font-size: 0.75rem;
+  font-weight: 800;
+  padding: 0.25rem 0.65rem;
+  border-radius: 20px;
+  text-transform: uppercase;
 }
 
 /* Cart Summary Floating Ribbon */

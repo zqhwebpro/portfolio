@@ -1540,31 +1540,43 @@
             setTimeout(() => luckMain.classList.remove('animate-rise-up'), 500);
         };
 
-        window.toggleViewStoreBlog = function (forceTarget) {
+        /**
+         * ==============================================================================
+         * UNIFIED VIEW SWITCHER ENGINE (Store <-> Blog <-> Learning Academy <-> Admin)
+         * ==============================================================================
+         */
+        window.activeBlogCategory = 'all';
+        window.activeCourseCategory = 'all';
+        window.selectedCourseForModal = null;
+
+        window.switchView = function (targetView) {
             const storeMain = document.getElementById('store-main-view');
             const blogMain = document.getElementById('blog-main-view');
+            const learningMain = document.getElementById('learning-main-view');
             const luckMain = document.getElementById('luck-main-view');
+            const adminMain = document.getElementById('admin-main-view');
+
             const hBlogText = document.getElementById('headerBlogText');
+            const hBlogIcon = document.getElementById('headerBlogIcon');
+            const hLearningText = document.getElementById('headerLearningText');
+            const hLearningIcon = document.getElementById('headerLearningIcon');
 
-            const isCurrentlyStore = window.currentView === 'store';
-            const intendedTarget = (hBlogText && hBlogText.innerText.includes('Store')) ? 'store' : 'blog';
-            const targetView = forceTarget || intendedTarget;
-
-            if (window.currentView === targetView) return; // already there
+            if (window.currentView === targetView) return;
 
             // Active view to transition out
             let currentMain;
-            if (window.currentView === 'luck') {
-                currentMain = luckMain;
-            } else if (isCurrentlyStore) {
-                currentMain = storeMain;
-            } else {
-                currentMain = blogMain;
-            }
+            if (window.currentView === 'luck') currentMain = luckMain;
+            else if (window.currentView === 'admin') currentMain = adminMain;
+            else if (window.currentView === 'blog') currentMain = blogMain;
+            else if (window.currentView === 'learning') currentMain = learningMain;
+            else currentMain = storeMain;
 
-            const nextMain = targetView === 'blog' ? blogMain : storeMain;
+            let nextMain;
+            if (targetView === 'blog') nextMain = blogMain;
+            else if (targetView === 'learning') nextMain = learningMain;
+            else if (targetView === 'admin') nextMain = adminMain;
+            else nextMain = storeMain;
 
-            // Smooth blur-transparent transition out (~0.6s)
             if (currentMain) {
                 currentMain.classList.remove('animate-blur-fade-in');
                 currentMain.classList.add('animate-blur-fade-out');
@@ -1575,56 +1587,583 @@
                     currentMain.classList.remove('animate-blur-fade-out');
                     currentMain.classList.add('hidden');
                 }
-                if (luckMain && luckMain !== nextMain) {
-                    luckMain.classList.add('hidden');
-                }
-
-                // Explicitly show the corner button in case it was hidden
-                const cornerBtn = document.getElementById('wacky-corner-toggle');
-                if (cornerBtn && !window.minigamePlayed) {
-                    cornerBtn.classList.remove('hidden', 'opacity-50', 'pointer-events-none', 'grayscale');
-                    cornerBtn.style.display = 'flex';
-                } else if (cornerBtn && window.minigamePlayed) {
-                    cornerBtn.classList.add('opacity-50', 'pointer-events-none', 'grayscale');
-                    cornerBtn.classList.remove('hidden');
-                    cornerBtn.style.display = 'flex';
-                }
+                if (storeMain && storeMain !== nextMain) storeMain.classList.add('hidden');
+                if (blogMain && blogMain !== nextMain) blogMain.classList.add('hidden');
+                if (learningMain && learningMain !== nextMain) learningMain.classList.add('hidden');
+                if (adminMain && adminMain !== nextMain) adminMain.classList.add('hidden');
+                if (luckMain && luckMain !== nextMain) luckMain.classList.add('hidden');
 
                 if (targetView === 'blog') {
-                    blogMain.classList.remove('hidden');
-                    blogMain.classList.add('animate-blur-fade-in');
-                    window.renderBlogPosts(window.activeBlogCategory);
+                    if (blogMain) {
+                        blogMain.classList.remove('hidden');
+                        blogMain.classList.add('animate-blur-fade-in');
+                    }
+                    if (typeof window.renderBlogPosts === 'function') {
+                        window.renderBlogPosts(window.activeBlogCategory || 'all');
+                    }
                     window.currentView = 'blog';
-
-                    const hBlogText = document.getElementById('headerBlogText');
-                    const hBlogIcon = document.getElementById('headerBlogIcon');
                     if (hBlogText) hBlogText.innerText = 'Store Catalog';
                     if (hBlogIcon) hBlogIcon.className = 'fa-solid fa-shop text-appetite-700';
-                } else {
-                    storeMain.classList.remove('hidden');
-                    storeMain.classList.add('animate-blur-fade-in');
-                    window.currentView = 'store';
-
-                    const hBlogText = document.getElementById('headerBlogText');
-                    const hBlogIcon = document.getElementById('headerBlogIcon');
+                    if (hLearningText) hLearningText.innerText = 'Learning Academy';
+                    if (hLearningIcon) hLearningIcon.className = 'fa-solid fa-graduation-cap text-orange-200';
+                } else if (targetView === 'learning') {
+                    if (learningMain) {
+                        learningMain.classList.remove('hidden');
+                        learningMain.classList.add('animate-blur-fade-in');
+                    }
+                    if (typeof window.renderCourses === 'function') {
+                        window.renderCourses(window.activeCourseCategory || 'all');
+                    }
+                    window.currentView = 'learning';
                     if (hBlogText) hBlogText.innerText = 'The Wacky Blog';
-                    if (hBlogIcon) hBlogIcon.className = 'fa-solid fa-book-open-reader text-appetite-700';
+                    if (hBlogIcon) hBlogIcon.className = 'fa-solid fa-newspaper text-earth-300';
+                    if (hLearningText) hLearningText.innerText = 'Store Catalog';
+                    if (hLearningIcon) hLearningIcon.className = 'fa-solid fa-shop text-white';
+                } else {
+                    if (storeMain) {
+                        storeMain.classList.remove('hidden');
+                        storeMain.classList.add('animate-blur-fade-in');
+                    }
+                    window.currentView = 'store';
+                    if (hBlogText) hBlogText.innerText = 'The Wacky Blog';
+                    if (hBlogIcon) hBlogIcon.className = 'fa-solid fa-newspaper text-earth-300';
+                    if (hLearningText) hLearningText.innerText = 'Learning Academy';
+                    if (hLearningIcon) hLearningIcon.className = 'fa-solid fa-graduation-cap text-orange-200';
                 }
 
                 window.scrollTo({ top: 0, behavior: 'smooth' });
 
                 setTimeout(() => {
-                    nextMain.classList.remove('animate-blur-fade-in');
+                    if (nextMain) nextMain.classList.remove('animate-blur-fade-in');
                 }, 600);
             }, 550);
         };
 
+        window.toggleViewStoreBlog = function (forceTarget) {
+            if (forceTarget) {
+                window.switchView(forceTarget);
+            } else if (window.currentView === 'blog') {
+                window.switchView('store');
+            } else {
+                window.switchView('blog');
+            }
+        };
+
+        window.toggleViewStoreLearning = function (forceTarget) {
+            if (forceTarget) {
+                window.switchView(forceTarget);
+            } else if (window.currentView === 'learning') {
+                window.switchView('store');
+            } else {
+                window.switchView('learning');
+            }
+        };
+
         window.goToStoreCatalog = function () {
-            window.toggleViewStoreBlog('store');
+            window.switchView('store');
         };
 
         window.returnToStore = function () {
-            window.toggleViewStoreBlog('store');
+            window.switchView('store');
+        };
+
+        /**
+         * ==============================================================================
+         * LEARNDASH-STYLE COURSES & LMS ENGINE (Decoupled from Store Catalog)
+         * ==============================================================================
+         */
+        window.COURSES = [
+            {
+                id: 'course-101',
+                title: 'The Alchemy of Weird Physics: Quantum Fluidity & Squirting Mechanics',
+                category: 'Absurd Physics',
+                level: 'Intermediate Trickery',
+                rating: 4.9,
+                reviews: 142,
+                price: 129.00,
+                originalPrice: 189.00,
+                image: 'images/course_illusion.jpg',
+                duration: '6 Modules • 18 Lessons • 7.5 Hours',
+                instructor: {
+                    name: 'Dr. Barnaby Fizzle',
+                    title: 'Chair of Non-Newtonian Comedy',
+                    avatar: 'images/coffee_bag.jpg'
+                },
+                description: 'Explore the thermodynamic equations governing left-handed spill-proof mugs, reverse-friction banana skins, and perpetual whoopee bladders. Includes hands-on lab schematics.',
+                isLocked: true,
+                curriculum: [
+                    {
+                        module: 'Module 1: Fluid Dynamics of Whimsical Drinkware',
+                        lessons: [
+                            { title: '1.1 Micro-Vortex Creation in Ceramic Rims', duration: '18m', code: 'FluidDynamics.CalculateEddies()' },
+                            { title: '1.2 Viscosity Calculations for Invisible Gravy', duration: '24m', code: 'GravyViscosity.SimulateFlow()' },
+                            { title: '1.3 Lab Practicum: Fabricating Siphon Nozzles', duration: '32m', code: 'SiphonFabricator.Build()' }
+                        ]
+                    },
+                    {
+                        module: 'Module 2: High-Pressure Acoustic Bladder Rupture Limits',
+                        lessons: [
+                            { title: '2.1 Elastic Acoustic Resonators (Whoopee Theory)', duration: '22m', code: 'ResonanceMatrix.EvaluateFrequencies()' },
+                            { title: '2.2 Chair-Cushion Pressure Triggers & Microswitches', duration: '35m', code: 'SensorTrigger.RegisterEvent()' },
+                            { title: '2.3 Audio Frequency Tuning for Maximum Surprise', duration: '28m', code: 'DecibelOptimizer.Tune()' }
+                        ]
+                    },
+                    {
+                        module: 'Module 3: Enterprise C# Integration & SignalR WebSockets',
+                        lessons: [
+                            { title: '3.1 Remote Bladder Triggering via ASP.NET SignalR Hub', duration: '45m', code: 'Hub.Clients.All.TriggerPrank()' },
+                            { title: '3.2 Ninject Dependency Injection for IoT Gag Devices', duration: '38m', code: 'Kernel.Bind<IGagDevice>().To<WhoopeeIoT>()' },
+                            { title: '3.3 Capstone Lab: Automated Breakroom Prank Server', duration: '50m', code: 'PrankServer.DeployMicroservice()' }
+                        ]
+                    }
+                ]
+            },
+            {
+                id: 'course-102',
+                title: 'Absurd Engineering: The Art & Mechanics of Wacky Inventions',
+                category: 'Novelty Engineering',
+                level: 'Foundational & Applied',
+                rating: 4.8,
+                reviews: 218,
+                price: 149.00,
+                originalPrice: 219.00,
+                image: 'images/course_absurd.jpg',
+                duration: '8 Modules • 26 Lessons • 11.2 Hours',
+                instructor: {
+                    name: 'Prof. Clementine Cogwheel',
+                    title: 'Chief Absurdity Architect',
+                    avatar: 'images/arrow_hat.jpg'
+                },
+                description: 'From ultrasonic fake insect resonance to optical camouflage for invisible chameleons, master physical prototyping, spring-loaded surprises, and foolproof comedic timing.',
+                isLocked: true,
+                curriculum: [
+                    {
+                        module: 'Module 1: Spring-Loaded Trajectory & Ballistics',
+                        lessons: [
+                            { title: '1.1 Compressed Air Springs in Confetti Cannons', duration: '20m', code: 'TrajectoryVector.ComputeVelocity()' },
+                            { title: '1.2 Tension Wire Release Latches & Escapements', duration: '30m', code: 'LatchRelease.Trigger()' },
+                            { title: '1.3 Decibel Measurement & Hearing Safety Standards', duration: '15m', code: 'AcousticThreshold.Validate()' }
+                        ]
+                    },
+                    {
+                        module: 'Module 2: Ultrasonic Acoustics & Audio Camouflage',
+                        lessons: [
+                            { title: '2.1 The 15kHz Chirper: Psychoacoustic Localization', duration: '28m', code: 'ChirpFrequency.Modulate()' },
+                            { title: '2.2 Battery Optimization for Long-Term Desk Deployment', duration: '40m', code: 'PowerManager.SleepCycles()' },
+                            { title: '2.3 Building the Chirp Daemon with C# BackgroundService', duration: '35m', code: 'IHostedService.ExecuteAsync()' }
+                        ]
+                    },
+                    {
+                        module: 'Module 3: Safety Standards & Human Factors in Novelties',
+                        lessons: [
+                            { title: '3.1 The Golden Rule of Novelties: Laughs Over Spills', duration: '25m', code: 'PrankEthics.EvaluateBoundary()' },
+                            { title: '3.2 ISO-9001 Compliance for Rubber Reptiles', duration: '30m', code: 'QualityInspector.CheckCompliance()' },
+                            { title: '3.3 Capstone Project: Automated Cubicle Confetti Sentry', duration: '55m', code: 'ConfettiSentry.EngageTarget()' }
+                        ]
+                    }
+                ]
+            },
+            {
+                id: 'course-103',
+                title: 'Enterprise Gag Architecture: C# Magic, MVC 5 & Ninject DI',
+                category: 'C# & Gag Architecture',
+                level: 'Advanced Master Class',
+                rating: 5.0,
+                reviews: 310,
+                price: 199.00,
+                originalPrice: 279.00,
+                image: 'images/course_architecture.jpg',
+                duration: '5 Modules • 20 Lessons • 9.0 Hours',
+                instructor: {
+                    name: 'Zach Heindel',
+                    title: 'Lead Full-Stack .NET Systems Illusionist',
+                    avatar: 'favicon.png'
+                },
+                description: 'Deconstruct the full-stack architecture behind Mischief & Magic Co. Deep-dive into Ninject IoC binding, custom ModelBinders, EF6 code-first repository patterns, BLOB image streaming, and decoupling domain logic from UI sessions.',
+                isLocked: true,
+                curriculum: [
+                    {
+                        module: 'Module 1: Decoupling Domain Entities from Session State',
+                        lessons: [
+                            { title: '1.1 CartModelBinder: Custom Model Binding Without Session Bloat', duration: '35m', code: 'ModelBinders.Binders.Add(typeof(Cart), new CartModelBinder())' },
+                            { title: '1.2 Pure Domain Testing: Asserting Cart Calculations in Isolation', duration: '40m', code: 'Assert.AreEqual(expectedTotal, cart.ComputeTotalValue())' },
+                            { title: '1.3 Value Objects vs Entity Identity in Novelty Carts', duration: '30m', code: 'CartLine.CreateOrUpdate(product, quantity)' }
+                        ]
+                    },
+                    {
+                        module: 'Module 2: IoC Containers & Entity Framework 6 Code-First',
+                        lessons: [
+                            { title: '2.1 Ninject Dependency Resolver & Kernel Binding Scopes', duration: '45m', code: 'kernel.Bind<IProductRepository>().To<EFProductRepository>()' },
+                            { title: '2.2 Mocking IProductRepository with Moq for Instant Unit Tests', duration: '35m', code: 'mock.Setup(m => m.Products).Returns(fakeProducts)' },
+                            { title: '2.3 Database Initializers & Seeding Bizarre Product Catalogs', duration: '30m', code: 'Database.SetInitializer(new DatabaseInitializer())' }
+                        ]
+                    },
+                    {
+                        module: 'Module 3: Custom Razor HTML Helpers & Enterprise Administration',
+                        lessons: [
+                            { title: '3.1 Building @Html.PageLinks() Fluent Extension Methods', duration: '30m', code: 'public static MvcHtmlString PageLinks(this HtmlHelper html, PagingInfo info, Func<int, string> pageUrl)' },
+                            { title: '3.2 CRUD Administration with BLOB Byte[] Image Streaming', duration: '40m', code: 'File(product.ImageData, product.ImageMimeType)' },
+                            { title: '3.3 Production Hardening, AntiForgeryTokens & Model Validation', duration: '50m', code: '[ValidateAntiForgeryToken] public ActionResult Edit(Product p)' }
+                        ]
+                    }
+                ]
+            }
+        ];
+
+        window.renderCourses = function (filterCategory) {
+            const grid = document.getElementById('courses-grid');
+            if (!grid) return;
+
+            const category = filterCategory || window.activeCourseCategory || 'all';
+            const filtered = category === 'all' 
+                ? window.COURSES 
+                : window.COURSES.filter(c => c.category === category);
+
+            // Update active filter button styles
+            document.querySelectorAll('.course-cat-btn').forEach(btn => {
+                const btnText = btn.innerText.trim();
+                const isMatch = (category === 'all' && btnText.includes('All')) ||
+                                (category === 'Absurd Physics' && btnText.includes('Physics')) ||
+                                (category === 'Novelty Engineering' && btnText.includes('Engineering')) ||
+                                (category === 'C# & Gag Architecture' && btnText.includes('C#'));
+                if (isMatch) {
+                    btn.className = 'course-cat-btn px-3 sm:px-3.5 py-1.5 rounded-xl font-bold transition-all bg-[#F04A23] text-white shadow-xs text-[11px] sm:text-xs cursor-pointer';
+                } else {
+                    btn.className = 'course-cat-btn px-3 sm:px-3.5 py-1.5 rounded-xl font-bold transition-all bg-canvas-surface hover:bg-canvas-border text-earth-800 border border-canvas-border text-[11px] sm:text-xs cursor-pointer';
+                }
+            });
+
+            grid.innerHTML = filtered.map(course => {
+                const totalLessons = course.curriculum.reduce((acc, m) => acc + m.lessons.length, 0);
+                return `
+                <div class="course-card bg-white border border-canvas-border rounded-2xl sm:rounded-3xl overflow-hidden shadow-sm hover:shadow-xl transition-all duration-300 flex flex-col justify-between"
+                    id="card-${course.id}"
+                    data-blueprint-file="WackyStore.Domain/Entities/Course.cs"
+                    data-blueprint-role="LearnDash Course Card Component"
+                    data-blueprint-layer="Domain / Entity &amp; WebUI LMS"
+                    data-blueprint-dom="Composite course card with lock authorization gates, instructor metadata, and expandable syllabus."
+                    data-blueprint-desc="LMS aggregate root maintaining course identity, pricing, prerequisite modules, and student enrollment claims."
+                    data-blueprint-code="public class Course { public int Id { get; set; } public string Title { get; set; } public bool IsLocked { get; set; } }">
+
+                    <!-- Course Cover Image & Floating Badges -->
+                    <div class="relative h-48 sm:h-52 w-full overflow-hidden bg-earth-950">
+                        <img src="${course.image}" alt="${course.title}" class="w-full h-full object-cover transition-transform duration-500 hover:scale-105" />
+                        <div class="absolute inset-0 bg-gradient-to-t from-earth-950/80 via-earth-950/20 to-transparent"></div>
+                        
+                        <!-- Category Badge Top-Left -->
+                        <span class="absolute top-3 left-3 px-2.5 py-0.5 rounded-full bg-[#FFF5F1]/95 text-[#BA2407] border border-[#FFD4C4] font-mono text-[10px] font-bold uppercase tracking-wider backdrop-blur-xs shadow-xs"
+                            data-blueprint-file="WackyStore.Domain/Entities/CourseCategory.cs"
+                            data-blueprint-role="Curriculum Taxonomy Badge"
+                            data-blueprint-layer="Domain / Taxonomy"
+                            data-blueprint-dom="Pill badge displaying mapped course track."
+                            data-blueprint-desc="Categorical taxonomy classification used for route indexing and student prerequisites."
+                            data-blueprint-code="public virtual CourseCategory Category { get; set; }">
+                            ${course.category}
+                        </span>
+
+                        <!-- Lock Status Badge Top-Right -->
+                        <div class="absolute top-3 right-3">
+                            ${course.isLocked ? `
+                                <span class="px-2.5 py-1 rounded-full bg-amber-400 text-earth-950 font-mono text-[10px] font-black uppercase tracking-wider shadow-md flex items-center gap-1.5"
+                                    data-blueprint-file="WackyStore.Infrastructure/Security/CourseAuthorizationFilter.cs"
+                                    data-blueprint-role="Authorization Gate Indicator"
+                                    data-blueprint-layer="Infrastructure / Security"
+                                    data-blueprint-dom="Warning badge indicating course access is locked to purchase."
+                                    data-blueprint-desc="Evaluates ClaimsPrincipal to verify whether current identity possesses active CourseAccess claim for this course ID."
+                                    data-blueprint-code="if (!user.HasCourseClaim(courseId)) return RedirectToAction(&quot;Locked&quot;);">
+                                    <i class="fa-solid fa-lock text-[#92400E]"></i>
+                                    <span>Locked Course</span>
+                                </span>
+                            ` : `
+                                <span class="px-2.5 py-1 rounded-full bg-teal-400 text-earth-950 font-mono text-[10px] font-black uppercase tracking-wider shadow-md flex items-center gap-1.5">
+                                    <i class="fa-solid fa-circle-check text-teal-950"></i>
+                                    <span>Unlocked &bull; Enrolled</span>
+                                </span>
+                            `}
+                        </div>
+
+                        <!-- Course Level Bottom-Left -->
+                        <div class="absolute bottom-3 left-3 text-white text-[11px] font-mono flex items-center gap-1.5">
+                            <i class="fa-solid fa-signal text-amber-300"></i>
+                            <span>${course.level}</span>
+                        </div>
+                    </div>
+
+                    <!-- Course Body -->
+                    <div class="p-5 sm:p-6 space-y-4 flex-1 flex flex-col justify-between">
+                        <div class="space-y-3">
+                            <h3 class="font-heading font-black text-lg sm:text-xl text-earth-950 hover:text-[#F04A23] transition-colors leading-snug cursor-pointer"
+                                onclick="window.toggleCourseSyllabus('${course.id}')"
+                                data-blueprint-file="WackyStore.Domain/Entities/Course.cs"
+                                data-blueprint-role="Course Title &amp; Entity Identity"
+                                data-blueprint-layer="Domain / Entity"
+                                data-blueprint-dom="H3 header bound to Model.Title."
+                                data-blueprint-desc="Primary descriptor and slug route parameter for course syllabus queries."
+                                data-blueprint-code="public string Title { get; set; }">
+                                ${course.title}
+                            </h3>
+
+                            <!-- Instructor Info -->
+                            <div class="flex items-center gap-3 py-1">
+                                <img src="${course.instructor.avatar}" alt="${course.instructor.name}" class="h-9 w-9 rounded-full object-cover border border-canvas-border" />
+                                <div class="text-xs min-w-0">
+                                    <div class="font-bold text-earth-900 truncate">${course.instructor.name}</div>
+                                    <div class="text-[11px] text-gray-500 truncate">${course.instructor.title}</div>
+                                </div>
+                            </div>
+
+                            <p class="text-xs text-gray-600 leading-relaxed">
+                                ${course.description}
+                            </p>
+
+                            <!-- Course Duration / Lessons Strip -->
+                            <div class="flex items-center justify-between text-[11.5px] text-gray-500 font-mono py-2 border-y border-canvas-border">
+                                <span class="flex items-center gap-1">
+                                    <i class="fa-regular fa-clock text-[#F04A23]"></i>
+                                    <span>${course.duration}</span>
+                                </span>
+                                <span class="flex items-center gap-1 text-amber-500 font-bold">
+                                    <i class="fa-solid fa-star"></i>
+                                    <span>${course.rating} (${course.reviews})</span>
+                                </span>
+                            </div>
+
+                            <!-- LearnDash Progress Bar -->
+                            <div class="space-y-1.5 pt-1"
+                                data-blueprint-file="WackyStore.WebUI/Views/Course/_LearnDashProgress.cshtml"
+                                data-blueprint-role="LearnDash Progress Indicator"
+                                data-blueprint-layer="WebUI / LMS Partial"
+                                data-blueprint-dom="Progress meter displaying completion percentage and enrollment lock state."
+                                data-blueprint-desc="Queries StudentCourseProgress table to calculate completed lesson modules vs total required credits."
+                                data-blueprint-code="public decimal CalculateProgress(int studentId, int courseId)">
+                                <div class="flex items-center justify-between text-[11px] font-mono font-bold">
+                                    <span class="${course.isLocked ? 'text-amber-700' : 'text-teal-700'} flex items-center gap-1">
+                                        <i class="fa-solid ${course.isLocked ? 'fa-lock' : 'fa-unlock'}"></i>
+                                        <span>${course.isLocked ? '0% Complete (Enrollment Required)' : '100% Unlocked (Access Granted)'}</span>
+                                    </span>
+                                    <span class="text-gray-400 text-[10px]">LearnDash V2.4</span>
+                                </div>
+                                <div class="w-full bg-gray-200 h-2 rounded-full overflow-hidden">
+                                    <div class="${course.isLocked ? 'bg-amber-400 w-0' : 'bg-teal-500 w-full'} h-full transition-all duration-500"></div>
+                                </div>
+                            </div>
+
+                            <!-- Expandable LearnDash Syllabus Accordion -->
+                            <div class="pt-2">
+                                <button onclick="window.toggleCourseSyllabus('${course.id}')"
+                                    data-blueprint-file="WackyStore.WebUI/Views/Course/_SyllabusAccordion.cshtml"
+                                    data-blueprint-role="Curriculum Accordion Toggle"
+                                    data-blueprint-layer="WebUI / View Component"
+                                    data-blueprint-dom="Accordion toggle exposing module tree, lesson durations, and code references."
+                                    data-blueprint-desc="Renders hierarchical course tree composed of Modules and child Lesson entities."
+                                    data-blueprint-code="@Html.Partial(&quot;_SyllabusAccordion&quot;, Model.Curriculum)"
+                                    class="w-full py-2 px-3 rounded-xl bg-canvas-surface hover:bg-canvas-border text-earth-800 text-xs font-bold flex items-center justify-between transition-colors border border-canvas-border cursor-pointer">
+                                    <span class="flex items-center gap-1.5">
+                                        <i class="fa-solid fa-list-check text-[#F04A23]"></i>
+                                        <span>Curriculum Breakdown (${course.curriculum.length} Modules &bull; ${totalLessons} Lessons)</span>
+                                    </span>
+                                    <i id="chevron-${course.id}" class="fa-solid fa-chevron-down text-gray-400 text-xs transition-transform"></i>
+                                </button>
+
+                                <div id="syllabus-${course.id}" class="hidden mt-2.5 space-y-2 text-xs border border-canvas-border p-3 rounded-xl bg-canvas-base max-h-60 overflow-y-auto">
+                                    ${course.curriculum.map((mod, modIdx) => `
+                                        <div class="space-y-1.5 pb-2 ${modIdx > 0 ? 'border-t border-canvas-border pt-2' : ''}">
+                                            <div class="font-bold text-earth-950 flex items-center justify-between text-[11.5px]">
+                                                <span>${mod.module}</span>
+                                                <span class="text-[10px] text-gray-500 font-mono">${mod.lessons.length} lessons</span>
+                                            </div>
+                                            <div class="space-y-1 pl-1">
+                                                ${mod.lessons.map(lesson => `
+                                                    <div class="flex items-center justify-between text-[11px] text-gray-600 hover:text-earth-900 py-0.5"
+                                                        data-blueprint-file="WackyStore.Domain/Entities/Lesson.cs"
+                                                        data-blueprint-role="Course Lesson Entity &amp; Video Claims"
+                                                        data-blueprint-layer="Domain / Entities"
+                                                        data-blueprint-dom="List item representing locked video lesson module."
+                                                        data-blueprint-desc="Verifies User.IsInRole(&quot;Enrolled&quot;) before returning streamable BLOB video chunks."
+                                                        data-blueprint-code="${lesson.code}">
+                                                        <span class="flex items-center gap-1.5 truncate">
+                                                            <i class="fa-solid ${course.isLocked ? 'fa-lock text-amber-500' : 'fa-circle-play text-teal-600'} text-[10px]"></i>
+                                                            <span class="truncate">${lesson.title}</span>
+                                                        </span>
+                                                        <span class="font-mono text-[10px] text-gray-400 shrink-0 ml-2">${lesson.duration}</span>
+                                                    </div>
+                                                `).join('')}
+                                            </div>
+                                        </div>
+                                    `).join('')}
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Card Action / Pricing Footer -->
+                        <div class="pt-4 border-t border-canvas-border flex items-center justify-between gap-3 mt-4">
+                            <div>
+                                <div class="text-[10.5px] text-gray-400 font-medium">Curriculum Price:</div>
+                                <div class="flex items-baseline gap-1.5">
+                                    <span class="text-xl sm:text-2xl font-black font-heading text-earth-950">${course.price.toFixed(2)}</span>
+                                    <span class="text-xs text-gray-400 line-through">${course.originalPrice.toFixed(2)}</span>
+                                </div>
+                            </div>
+
+                            ${course.isLocked ? `
+                                <button onclick="window.openCourseModal('${course.id}')"
+                                    data-blueprint-file="WackyStore.WebUI/Controllers/CourseController.cs"
+                                    data-blueprint-role="Course Purchase &amp; Enrollment Gate"
+                                    data-blueprint-layer="WebUI / Action Method"
+                                    data-blueprint-dom="Blood-orange CTA button opening enrollment transaction modal."
+                                    data-blueprint-desc="Gated action redirecting unauthorized students to purchase flow before granting curriculum access."
+                                    data-blueprint-code="[Authorize(Roles = &quot;Enrolled&quot;)] public ActionResult ViewLessons(int id)"
+                                    class="px-4 py-2.5 rounded-xl bg-gradient-to-r from-[#F04A23] to-[#DD330D] hover:from-[#DD330D] hover:to-[#BA2407] text-white font-bold text-xs flex items-center justify-center gap-1.5 transition-all shadow-md shadow-[#F04A23]/25 active:scale-95 cursor-pointer">
+                                    <i class="fa-solid fa-lock text-orange-200"></i>
+                                    <span>Unlock Course</span>
+                                </button>
+                            ` : `
+                                <button onclick="alert('Access Granted! Welcome to ${course.title}. All lessons are unlocked for your student account.');"
+                                    class="px-4 py-2.5 rounded-xl bg-teal-600 hover:bg-teal-700 text-white font-bold text-xs flex items-center justify-center gap-1.5 transition-all shadow-md active:scale-95 cursor-pointer">
+                                    <i class="fa-solid fa-circle-play text-white"></i>
+                                    <span>Resume Course</span>
+                                </button>
+                            `}
+                        </div>
+
+                    </div>
+                </div>
+                `;
+            }).join('');
+        };
+
+        window.filterCourseCategory = function (category) {
+            window.activeCourseCategory = category;
+            window.renderCourses(category);
+        };
+
+        window.toggleCourseSyllabus = function (courseId) {
+            const syllabus = document.getElementById(`syllabus-${courseId}`);
+            const chevron = document.getElementById(`chevron-${courseId}`);
+            if (!syllabus) return;
+
+            const isHidden = syllabus.classList.contains('hidden');
+            if (isHidden) {
+                syllabus.classList.remove('hidden');
+                if (chevron) chevron.classList.add('rotate-180');
+            } else {
+                syllabus.classList.add('hidden');
+                if (chevron) chevron.classList.remove('rotate-180');
+            }
+        };
+
+        window.openCourseModal = function (courseId) {
+            const course = window.COURSES.find(c => c.id === courseId);
+            if (!course) return;
+
+            window.selectedCourseForModal = course;
+            const modalTitle = document.getElementById('enroll-modal-title');
+            const modalCat = document.getElementById('enroll-modal-category');
+            const modalPrice = document.getElementById('enroll-modal-price');
+            const modalOrigPrice = document.getElementById('enroll-modal-original-price');
+            const modalDuration = document.getElementById('enroll-modal-duration');
+
+            if (modalTitle) modalTitle.innerText = course.title;
+            if (modalCat) modalCat.innerText = course.category;
+            if (modalPrice) modalPrice.innerText = `${course.price.toFixed(2)}`;
+            if (modalOrigPrice) modalOrigPrice.innerText = `${course.originalPrice.toFixed(2)}`;
+            if (modalDuration) modalDuration.innerText = course.duration;
+
+            const modal = document.getElementById('course-enrollment-modal');
+            if (modal) modal.classList.remove('hidden');
+        };
+
+        window.closeCourseModal = function () {
+            const modal = document.getElementById('course-enrollment-modal');
+            if (modal) modal.classList.add('hidden');
+            window.selectedCourseForModal = null;
+        };
+
+        window.confirmCoursePurchase = function () {
+            if (!window.selectedCourseForModal) return;
+            const course = window.selectedCourseForModal;
+            course.isLocked = false;
+
+            window.closeCourseModal();
+            window.renderCourses(window.activeCourseCategory);
+
+            alert(`🎉 Success! You have enrolled in "${course.title}". All video lessons and lab blueprints are now UNLOCKED!`);
+            
+            const card = document.getElementById(`card-${course.id}`);
+            if (card) {
+                card.classList.add('ring-4', 'ring-[#F04A23]', 'animate-pulse');
+                setTimeout(() => card.classList.remove('ring-4', 'ring-[#F04A23]', 'animate-pulse'), 2500);
+            }
+        };
+
+        /**
+         * ==============================================================================
+         * ZOOM WEBINAR REGISTRATION ENGINE
+         * ==============================================================================
+         */
+        window.handleWebinarSubmit = function (e) {
+            e.preventDefault();
+            const nameInput = document.getElementById('webinar-name');
+            const emailInput = document.getElementById('webinar-email');
+            const form = document.getElementById('zoom-webinar-form');
+            const confirmation = document.getElementById('webinar-confirmation');
+            const confirmedName = document.getElementById('confirmed-attendee-name');
+            const confirmedEmail = document.getElementById('confirmed-attendee-email');
+
+            const name = nameInput ? nameInput.value.trim() : '';
+            const email = emailInput ? emailInput.value.trim() : '';
+
+            if (!name || !email) return alert('Please enter your name and email address.');
+
+            if (confirmedName) confirmedName.innerText = name;
+            if (confirmedEmail) confirmedEmail.innerText = email;
+
+            if (form) form.classList.add('hidden');
+            if (confirmation) confirmation.classList.remove('hidden');
+        };
+
+        window.resetWebinarForm = function () {
+            const form = document.getElementById('zoom-webinar-form');
+            const confirmation = document.getElementById('webinar-confirmation');
+            if (form) {
+                form.reset();
+                form.classList.remove('hidden');
+            }
+            if (confirmation) confirmation.classList.add('hidden');
+        };
+
+        window.scrollToZoomWebinar = function () {
+            const section = document.getElementById('zoom-webinar-section');
+            if (section) {
+                section.scrollIntoView({ behavior: 'smooth' });
+            }
+        };
+
+        window.downloadWebinarCalendarInvite = function () {
+            const icsData = [
+                'BEGIN:VCALENDAR',
+                'VERSION:2.0',
+                'PRODID:-//Mischief & Magic Co.//Wacky Learning Academy//EN',
+                'CALSCALE:GREGORIAN',
+                'METHOD:PUBLISH',
+                'BEGIN:VEVENT',
+                'SUMMARY:Live Zoom Masterclass: Architecting Absurdity & .NET EF6',
+                'DESCRIPTION:Live masterclass with Zach Heindel & Dr. Barnaby Fizzle. Zoom Meeting ID: 984 2490 8812 Passcode: MISCHIEF2026',
+                'LOCATION:https://zoom.us/j/98424908812?pwd=MISCHIEF2026',
+                'DTSTART:20261015T220000Z',
+                'DTEND:20261015T233000Z',
+                'STATUS:CONFIRMED',
+                'END:VEVENT',
+                'END:VCALENDAR'
+            ].join('\r\n');
+
+            const blob = new Blob([icsData], { type: 'text/calendar;charset=utf-8' });
+            const link = document.createElement('a');
+            link.href = window.URL.createObjectURL(blob);
+            link.setAttribute('download', 'WackyStore-Zoom-Webinar.ics');
+            document.body.appendChild(link);
+            link.click();
+            document.body.removeChild(link);
         };
 
         window.playPressYourLuckGame = function () {
@@ -1948,3 +2487,22 @@
                 window.renderBlogPosts('all');
             }
         };
+
+        // Initialize Learning Academy & URL Hash Routing
+        if (typeof window.renderCourses === 'function') {
+            window.renderCourses('all');
+        }
+        if (window.location.hash === '#learning' || window.location.search.includes('view=learning')) {
+            setTimeout(() => {
+                if (typeof window.switchView === 'function') {
+                    window.switchView('learning');
+                }
+            }, 100);
+        } else if (window.location.hash === '#blog' || window.location.search.includes('view=blog')) {
+            setTimeout(() => {
+                if (typeof window.switchView === 'function') {
+                    window.switchView('blog');
+                }
+            }, 100);
+        }
+

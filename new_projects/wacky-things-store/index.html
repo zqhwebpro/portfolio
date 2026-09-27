@@ -108,6 +108,33 @@
                             surface: '#F3F0FF',
                             border: '#DDD6FE',
                             borderDark: '#C4B5FD',
+                        },
+                        // Blood Orange / Red-Orange Accent (Learning Academy & Live Webinars)
+                        bloodOrange: {
+                            50: '#FFF5F1',
+                            100: '#FFE8DF',
+                            200: '#FFD4C4',
+                            300: '#FFAF94',
+                            400: '#FF7D54',
+                            500: '#F04A23',
+                            600: '#DD330D',
+                            700: '#BA2407',
+                            800: '#941F0A',
+                            900: '#7A1D0E',
+                            950: '#420B03',
+                        },
+                        redOrange: {
+                            50: '#FFF5F1',
+                            100: '#FFE8DF',
+                            200: '#FFD4C4',
+                            300: '#FFAF94',
+                            400: '#FF7D54',
+                            500: '#F04A23',
+                            600: '#DD330D',
+                            700: '#BA2407',
+                            800: '#941F0A',
+                            900: '#7A1D0E',
+                            950: '#420B03',
                         }
                     }
                 }
@@ -129,7 +156,17 @@
             --green-hover: #0D9488;
             --gold-honey: #94A3B8;
             --gold-light: #CBD5E1;
+            /* Blood Orange Accent */
+            --blood-orange: #F04A23;
+            --blood-orange-hover: #DD330D;
+            --blood-orange-dark: #BA2407;
+            --blood-orange-light: #FFE8DF;
+            --blood-orange-glow: rgba(240, 74, 35, 0.4);
         }
+
+        .bg-blood-orange { background-color: #F04A23 !important; }
+        .text-blood-orange { color: #F04A23 !important; }
+        .border-blood-orange { border-color: #F04A23 !important; }
 
         body {
             background-color: var(--bg-canvas);
@@ -874,10 +911,30 @@
 
                 <!-- Blog Reading Portal Trigger -->
                 <button onclick="window.toggleViewStoreBlog()" id="header-blog-btn"
+                    data-blueprint-file="WackyStore.WebUI/Controllers/BlogController.cs"
+                    data-blueprint-role="Blog Portal View Trigger"
+                    data-blueprint-layer="WebUI / Navigation"
+                    data-blueprint-dom="Pill button switching view between Store Catalog and The Wacky Blog."
+                    data-blueprint-desc="Triggers view transition into BlogController.Index() displaying chronicles and articles."
+                    data-blueprint-code="public ActionResult Blog() => View(repository.GetArticles());"
                     class="h-10 px-3.5 rounded-xl bg-earth-800 hover:bg-earth-900 border border-earth-700 text-white text-xs font-bold flex items-center gap-1.5 transition-all shadow-xs"
                     title="Read The Mischief Gazette">
-                    <i class="fa-solid fa-newspaper text-earth-300"></i>
+                    <i id="headerBlogIcon" class="fa-solid fa-newspaper text-earth-300"></i>
                     <span id="headerBlogText" class="hidden sm:inline">The Wacky Blog</span>
+                </button>
+
+                <!-- Learning Module Portal Trigger in Red Orange / Blood Orange -->
+                <button onclick="window.toggleViewStoreLearning()" id="header-learning-btn"
+                    data-blueprint-file="WackyStore.WebUI/Controllers/CourseController.cs"
+                    data-blueprint-role="Learning Academy &amp; LMS Portal Trigger"
+                    data-blueprint-layer="WebUI / Education Portal"
+                    data-blueprint-dom="Red-orange action button transitioning into the dedicated LearnDash-style course &amp; academy module."
+                    data-blueprint-desc="Routes user into CourseController.Index() providing enrolled curriculums, locked syllabus modules, and live Zoom webinar registration."
+                    data-blueprint-code="public ActionResult Learning() => View(courseService.GetCurriculums());"
+                    class="h-10 px-3.5 rounded-xl bg-gradient-to-r from-[#F04A23] to-[#DD330D] hover:from-[#DD330D] hover:to-[#BA2407] text-white text-xs font-bold flex items-center gap-1.5 transition-all shadow-md shadow-[#F04A23]/25 hover:shadow-lg hover:shadow-[#F04A23]/40 border border-red-400/30 active:scale-95 cursor-pointer"
+                    title="Visit Wacky Academy &amp; Learning Modules">
+                    <i id="headerLearningIcon" class="fa-solid fa-graduation-cap text-orange-200"></i>
+                    <span id="headerLearningText" class="hidden sm:inline">Learning Academy</span>
                 </button>
 
             </div>
@@ -1222,6 +1279,486 @@
             </div>
         </div>
     </main>
+
+    <!-- 3.7 MAIN LEARNING ACADEMY MODULE LAYOUT (LearnDash-Style Courses & Live Zoom Webinar) -->
+    <main id="learning-main-view"
+        data-blueprint-file="WackyStore.WebUI/Controllers/CourseController.cs"
+        data-blueprint-role="LMS &amp; Academy View Controller"
+        data-blueprint-layer="WebUI / Education Portal"
+        data-blueprint-dom="Main container rendering LearnDash-style courses locked to purchase and live Zoom webinar registration."
+        data-blueprint-desc="CourseController coordinates curriculum catalogs, locked enrollment authorization gates, and external Zoom REST API webinar registrations."
+        data-blueprint-code="public ViewResult Learning(string track) => View(courseService.GetCurriculums(track));"
+        class="bg-canvas-base text-earth-950 flex-1 w-full hidden pt-0 pb-16">
+
+        <!-- 100% Width Attached Sub-Header Bar (pinned directly below navigation) -->
+        <div id="learning-filter-bar" class="w-full bg-white border-b border-canvas-border shadow-xs sticky top-[68px] z-30"
+            data-blueprint-file="WackyStore.WebUI/Models/CourseListViewModel.cs"
+            data-blueprint-role="Learning Academy Attached Filter Bar"
+            data-blueprint-layer="WebUI / Presentation Component"
+            data-blueprint-dom="Attached sticky toolbar displaying academy track filters, enrollment counter, and return action."
+            data-blueprint-desc="Strongly typed ViewModel supplying category tracks and student enrollment authorization claims to the LMS view."
+            data-blueprint-code="public class CourseListViewModel { public IEnumerable<Course> Courses { get; set; } }">
+            <div class="store-fluid-container py-3 sm:py-4 flex flex-col xl:flex-row xl:items-center justify-between gap-3.5 xl:gap-8 w-full">
+
+                <!-- Editorial / Academy Introduction -->
+                <div class="flex items-start gap-2.5 sm:gap-3 flex-1 min-w-0">
+                    <div class="h-8 w-8 rounded-xl bg-[#FFF5F1] text-[#F04A23] border border-[#FFD4C4] flex items-center justify-center text-sm shrink-0 mt-0.5 shadow-xs">
+                        <i class="fa-solid fa-graduation-cap"></i>
+                    </div>
+                    <div>
+                        <div class="flex items-center gap-2">
+                            <span class="px-2 py-0.5 rounded-full bg-[#FFE8DF] text-[#BA2407] text-[10px] font-mono font-black uppercase tracking-wider">
+                                LearnDash LMS Architecture
+                            </span>
+                            <span class="text-xs text-earth-500 font-mono hidden sm:inline">&bull; Locked To Purchase</span>
+                        </div>
+                        <p class="text-xs sm:text-sm font-normal text-gray-600 leading-relaxed text-left max-w-4xl m-0 mt-0.5">
+                            Exclusive university-grade novelty sciences &amp; C# gag architecture. These specialized curriculums are accessible only on this portal and are decoupled from physical store inventory.
+                        </p>
+                    </div>
+                </div>
+
+                <!-- Vertical Divider on xl+ screens -->
+                <div class="hidden xl:block h-10 w-[1px] bg-canvas-border shrink-0"></div>
+
+                <!-- Course Track Filter Buttons -->
+                <div class="flex flex-wrap items-center gap-1.5 sm:gap-2 text-xs shrink-0 overflow-x-auto pb-1 xl:pb-0">
+                    <button onclick="window.filterCourseCategory('all')" id="course-filter-all"
+                        data-blueprint-file="WackyStore.Domain/Abstract/ICourseRepository.cs"
+                        data-blueprint-role="Curriculum Category Filter Action"
+                        data-blueprint-layer="Domain / Service Interface"
+                        data-blueprint-dom="Category pill button filtering courses by active curriculum domain."
+                        data-blueprint-desc="Executes Linq query over ICourseRepository.GetCourses().Where(c => track == null || c.Category == track)."
+                        data-blueprint-code="courseRepo.GetCourses().Where(c => c.IsPublished)"
+                        class="course-cat-btn px-3 sm:px-3.5 py-1.5 rounded-xl font-bold transition-all bg-[#F04A23] text-white shadow-xs text-[11px] sm:text-xs cursor-pointer">
+                        All Tracks
+                    </button>
+                    <button onclick="window.filterCourseCategory('Absurd Physics')" id="course-filter-physics"
+                        class="course-cat-btn px-3 sm:px-3.5 py-1.5 rounded-xl font-bold transition-all bg-canvas-surface hover:bg-canvas-border text-earth-800 border border-canvas-border text-[11px] sm:text-xs cursor-pointer">
+                        Absurd Physics
+                    </button>
+                    <button onclick="window.filterCourseCategory('Novelty Engineering')" id="course-filter-engineering"
+                        class="course-cat-btn px-3 sm:px-3.5 py-1.5 rounded-xl font-bold transition-all bg-canvas-surface hover:bg-canvas-border text-earth-800 border border-canvas-border text-[11px] sm:text-xs cursor-pointer">
+                        Novelty Engineering
+                    </button>
+                    <button onclick="window.filterCourseCategory('C# &amp; Gag Architecture')" id="course-filter-architecture"
+                        class="course-cat-btn px-3 sm:px-3.5 py-1.5 rounded-xl font-bold transition-all bg-canvas-surface hover:bg-canvas-border text-earth-800 border border-canvas-border text-[11px] sm:text-xs cursor-pointer">
+                        C# &amp; Gag Architecture
+                    </button>
+                    <button onclick="window.scrollToZoomWebinar()"
+                        class="px-3 sm:px-3.5 py-1.5 rounded-xl font-bold transition-all bg-gradient-to-r from-blue-600 to-indigo-700 hover:from-blue-700 hover:to-indigo-800 text-white shadow-xs text-[11px] sm:text-xs flex items-center gap-1.5 cursor-pointer">
+                        <i class="fa-solid fa-video text-cyan-200"></i>
+                        <span>Live Webinar</span>
+                    </button>
+                </div>
+
+            </div>
+        </div>
+
+        <!-- Academy Hero Billboard Banner -->
+        <div class="store-fluid-container pt-8 pb-4">
+            <div class="rounded-3xl bg-gradient-to-r from-earth-950 via-earth-900 to-earth-950 border border-earth-800 p-6 sm:p-10 text-white relative overflow-hidden shadow-2xl"
+                data-blueprint-file="WackyStore.WebUI/Views/Course/HeroBanner.cshtml"
+                data-blueprint-role="LMS Hero Billboard Partial"
+                data-blueprint-layer="WebUI / View Component"
+                data-blueprint-dom="Responsive flex container with blood-orange accents, curriculum badges, and enrolled statistics."
+                data-blueprint-desc="Displays Academy enrollment telemetry and accreditation badges rendered via Razor partial."
+                data-blueprint-code="@Html.Partial(&quot;_AcademyHero&quot;, Model.AcademyStats)">
+                
+                <!-- Background ambient decorative glows -->
+                <div class="absolute -top-24 -right-24 w-96 h-96 bg-[#F04A23]/15 rounded-full blur-3xl pointer-events-none"></div>
+                <div class="absolute -bottom-24 -left-24 w-96 h-96 bg-teal-500/10 rounded-full blur-3xl pointer-events-none"></div>
+
+                <div class="relative z-10 max-w-4xl space-y-4">
+                    <div class="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-[#F04A23]/20 border border-[#F04A23]/40 text-[#FFAF94] font-mono text-xs font-bold uppercase tracking-wider">
+                        <i class="fa-solid fa-graduation-cap text-[#F04A23]"></i>
+                        <span>LearnDash-Style Accredited Novelty Academy</span>
+                    </div>
+
+                    <h1 class="font-heading font-black text-2xl sm:text-4xl lg:text-5xl text-white tracking-tight leading-tight">
+                        Deep-Dive Curriculums for <span class="text-transparent bg-clip-text bg-gradient-to-r from-[#FFAF94] via-[#F04A23] to-[#FFD4C4]">Aspiring Gag Engineers</span>
+                    </h1>
+
+                    <p class="text-xs sm:text-base text-earth-200/90 leading-relaxed font-normal max-w-3xl">
+                        Explore locked, syllabus-driven courses covering high-concurrency prank systems, C# model-binding trickery, and non-Newtonian ceramic dynamics. Each course is gated by individual enrollment and includes full video modules, downloadable Visual Studio solution blueprints, and direct Zoom masterclass access.
+                    </p>
+
+                    <!-- Key Metrics Strip -->
+                    <div class="pt-4 flex flex-wrap items-center gap-4 sm:gap-8 border-t border-earth-800/80 text-xs sm:text-sm">
+                        <div class="flex items-center gap-2 font-mono">
+                            <span class="h-2 w-2 rounded-full bg-[#F04A23]"></span>
+                            <span class="text-earth-400">Status:</span>
+                            <span class="font-bold text-amber-300">🔒 Courses Locked To Purchase</span>
+                        </div>
+                        <div class="flex items-center gap-2 font-mono">
+                            <span class="h-2 w-2 rounded-full bg-teal-400"></span>
+                            <span class="text-earth-400">Accreditation:</span>
+                            <span class="font-bold text-teal-300">LearnDash Structure</span>
+                        </div>
+                        <div class="flex items-center gap-2 font-mono">
+                            <span class="h-2 w-2 rounded-full bg-purple-400"></span>
+                            <span class="text-earth-400">Live Component:</span>
+                            <span class="font-bold text-purple-300">Interactive Zoom Webinar</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- COURSES CATALOG GRID (LearnDash Style Course Cards) -->
+        <div class="store-fluid-container py-6 w-full">
+            <div class="flex items-center justify-between mb-6">
+                <div>
+                    <h2 class="font-heading font-black text-xl sm:text-2xl text-earth-950 flex items-center gap-2.5">
+                        <i class="fa-solid fa-layer-group text-[#F04A23]"></i>
+                        <span>Featured Curriculums</span>
+                    </h2>
+                    <p class="text-xs text-earth-600 mt-0.5">
+                        Showing courses accessible exclusively on this academy page. Click any course to inspect curriculum or unlock enrollment.
+                    </p>
+                </div>
+                <button onclick="window.switchView('store')"
+                    class="hidden sm:flex items-center gap-2 px-3.5 py-1.5 rounded-xl bg-earth-100 hover:bg-earth-200 text-earth-800 text-xs font-bold transition-all border border-canvas-border cursor-pointer">
+                    <i class="fa-solid fa-shop text-teal-700"></i>
+                    <span>Store Catalog</span>
+                </button>
+            </div>
+
+            <!-- Injected dynamic LearnDash Course Cards -->
+            <div id="courses-grid"
+                data-blueprint-file="WackyStore.WebUI/Views/Course/_CourseCard.cshtml"
+                data-blueprint-role="LearnDash Course Card Grid Partial"
+                data-blueprint-layer="WebUI / LMS Partial View"
+                data-blueprint-dom="CSS Grid container rendering LearnDash course cards with locked status badges, syllabus accordions, and blood-orange CTA buttons."
+                data-blueprint-desc="Iterates through IEnumerable<Course> domain models rendering locked syllabus modules, lesson trees, and purchase gates."
+                data-blueprint-code="@foreach (var course in Model.Courses) { @Html.Partial(&quot;_CourseCard&quot;, course) }"
+                class="grid grid-cols-1 lg:grid-cols-3 gap-6 sm:gap-8">
+                <!-- Injected via JavaScript -->
+            </div>
+        </div>
+
+        <!-- ============================================================================== -->
+        <!-- LIVE WEBINAR ON ZOOM SIGNUP SECTION (Bottom of the page) -->
+        <!-- ============================================================================== -->
+        <div id="zoom-webinar-section" class="store-fluid-container pt-8 pb-12 w-full"
+            data-blueprint-file="WackyStore.WebUI/Views/Course/_ZoomWebinarSection.cshtml"
+            data-blueprint-role="Live Zoom Webinar Registration Partial"
+            data-blueprint-layer="WebUI / Event Module &amp; Zoom REST Client"
+            data-blueprint-dom="Featured webinar registration container featuring live streaming metadata, speaker credentials, and Zoom OAuth2 registration form."
+            data-blueprint-desc="Connects to Zoom REST API v2 to register students for live architectural masterclasses, automatically emailing Zoom meeting credentials."
+            data-blueprint-code="[HttpPost] public async Task<ActionResult> RegisterWebinar(WebinarRegistrantViewModel model)">
+
+            <div class="rounded-3xl bg-white border-2 border-[#FFD4C4] shadow-xl overflow-hidden">
+                <!-- Webinar Header Strip -->
+                <div class="bg-gradient-to-r from-blue-700 via-indigo-800 to-earth-950 px-6 sm:px-10 py-5 text-white flex flex-wrap items-center justify-between gap-4">
+                    <div class="flex items-center gap-3">
+                        <div class="h-10 w-10 rounded-xl bg-white/10 backdrop-blur-md flex items-center justify-center text-xl text-cyan-300 border border-white/20">
+                            <i class="fa-solid fa-video"></i>
+                        </div>
+                        <div>
+                            <div class="flex items-center gap-2">
+                                <span class="h-2 w-2 rounded-full bg-red-400 animate-ping"></span>
+                                <span class="font-mono text-[11px] font-black uppercase text-red-300 tracking-wider">Live Masterclass via Zoom</span>
+                            </div>
+                            <h3 class="font-heading font-black text-lg sm:text-xl text-white">Upcoming Live Interactive Broadcast</h3>
+                        </div>
+                    </div>
+                    <div class="flex items-center gap-2 font-mono text-xs bg-white/10 px-3 py-1.5 rounded-full border border-white/15">
+                        <i class="fa-regular fa-calendar-check text-cyan-300"></i>
+                        <span>Thursday, Oct 15 &bull; 6:00 PM EST</span>
+                    </div>
+                </div>
+
+                <div class="p-6 sm:p-10 grid grid-cols-1 lg:grid-cols-12 gap-8 items-start">
+                    <!-- Left Column: Webinar Banner & Curriculum Overview -->
+                    <div class="lg:col-span-7 space-y-6">
+                        <div class="rounded-2xl overflow-hidden border border-canvas-border shadow-sm relative group">
+                            <img src="images/webinar_zoom.jpg" alt="Live Zoom Webinar" class="w-full h-56 sm:h-72 object-cover transition-transform duration-500 group-hover:scale-105" />
+                            <div class="absolute inset-0 bg-gradient-to-t from-earth-950/90 via-earth-950/30 to-transparent flex items-end p-5">
+                                <div class="text-white space-y-1">
+                                    <span class="px-2.5 py-0.5 rounded-full bg-[#F04A23] text-white text-[10px] font-mono font-black uppercase">
+                                        Zoom Room #984-2490-8812
+                                    </span>
+                                    <h4 class="font-heading font-black text-lg sm:text-2xl text-amber-100">
+                                        Architecting Absurdity: High-Concurrency Novelty Platforms &amp; EF6 Optimization
+                                    </h4>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="space-y-3 text-xs sm:text-sm text-earth-800 leading-relaxed">
+                            <p class="font-medium">
+                                Join lead instructor <strong class="text-earth-950">Zach Heindel</strong> and guest lecturer <strong class="text-earth-950">Dr. Barnaby Fizzle</strong> for an intensive 90-minute live Zoom code-along. Discover the architectural trade-offs of building whimsical, high-energy e-commerce and learning platforms.
+                            </p>
+                            
+                            <div class="grid grid-cols-1 sm:grid-cols-2 gap-3 pt-2">
+                                <div class="p-3.5 rounded-xl bg-canvas-surface border border-canvas-border space-y-1">
+                                    <div class="font-bold text-earth-950 flex items-center gap-1.5 text-xs">
+                                        <i class="fa-solid fa-code text-[#F04A23]"></i>
+                                        <span>Live Code Architecture</span>
+                                    </div>
+                                    <p class="text-[11px] text-gray-600">
+                                        Refactoring legacy session storage into decoupled custom model binders live on Zoom.
+                                    </p>
+                                </div>
+
+                                <div class="p-3.5 rounded-xl bg-canvas-surface border border-canvas-border space-y-1">
+                                    <div class="font-bold text-earth-950 flex items-center gap-1.5 text-xs">
+                                        <i class="fa-solid fa-comments text-teal-700"></i>
+                                        <span>Interactive Audience Q&amp;A</span>
+                                    </div>
+                                    <p class="text-[11px] text-gray-600">
+                                        Direct voice and screen-share questions with the engineers.
+                                    </p>
+                                </div>
+
+                                <div class="p-3.5 rounded-xl bg-canvas-surface border border-canvas-border space-y-1">
+                                    <div class="font-bold text-earth-950 flex items-center gap-1.5 text-xs">
+                                        <i class="fa-solid fa-certificate text-purple-700"></i>
+                                        <span>Attendance Credentials</span>
+                                    </div>
+                                    <p class="text-[11px] text-gray-600">
+                                        Verified Zoom attendance certificate &amp; source code repository download.
+                                    </p>
+                                </div>
+
+                                <div class="p-3.5 rounded-xl bg-canvas-surface border border-canvas-border space-y-1">
+                                    <div class="font-bold text-earth-950 flex items-center gap-1.5 text-xs">
+                                        <i class="fa-solid fa-ticket text-amber-600"></i>
+                                        <span>$50 Academy Credit</span>
+                                    </div>
+                                    <p class="text-[11px] text-gray-600">
+                                        Every live attendee receives a $50 voucher toward any locked academy course.
+                                    </p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Right Column: Interactive Zoom Registration Form -->
+                    <div class="lg:col-span-5 bg-gradient-to-b from-[#FFF5F1] to-white p-6 sm:p-8 rounded-2xl border-2 border-[#FFD4C4] shadow-md space-y-5">
+                        <div class="space-y-1.5 border-b border-[#FFD4C4] pb-4">
+                            <div class="inline-flex items-center gap-1.5 px-2.5 py-0.5 rounded-full bg-[#FFE8DF] text-[#BA2407] font-mono text-[10.5px] font-bold">
+                                <i class="fa-solid fa-bolt text-[#F04A23]"></i>
+                                <span>Zero Cost &bull; Free Registration</span>
+                            </div>
+                            <h4 class="font-heading font-black text-xl text-earth-950">Reserve Your Zoom Seat</h4>
+                            <p class="text-xs text-gray-600">
+                                Registration takes 10 seconds. Your Zoom join link and calendar invite will be dispatched instantly.
+                            </p>
+                        </div>
+
+                        <!-- Registration Form -->
+                        <form id="zoom-webinar-form" onsubmit="window.handleWebinarSubmit(event)" class="space-y-4"
+                            data-blueprint-file="WackyStore.WebUI/Controllers/WebinarController.cs"
+                            data-blueprint-role="Webinar Registration Form Model"
+                            data-blueprint-layer="WebUI / Forms"
+                            data-blueprint-dom="HTML5 validated form collecting attendee claims and sending asynchronous AJAX payload."
+                            data-blueprint-desc="Submits attendee credentials to WebinarController.Register() returning serialized Zoom join ticket."
+                            data-blueprint-code="[HttpPost] public async Task<JsonResult> Register(WebinarRegistrantDto dto)">
+
+                            <div>
+                                <label for="webinar-name" class="block text-xs font-bold text-earth-900 mb-1">
+                                    Full Name <span class="text-[#F04A23]">*</span>
+                                </label>
+                                <div class="relative">
+                                    <i class="fa-regular fa-user absolute left-3.5 top-3 text-gray-400 text-xs"></i>
+                                    <input type="text" id="webinar-name" required placeholder="e.g. Ada Lovelace"
+                                        class="w-full pl-9 pr-3.5 py-2.5 rounded-xl border border-canvas-border focus:outline-none focus:border-[#F04A23] focus:ring-2 focus:ring-[#FFAF94]/50 text-xs text-earth-950 font-medium bg-white" />
+                                </div>
+                            </div>
+
+                            <div>
+                                <label for="webinar-email" class="block text-xs font-bold text-earth-900 mb-1">
+                                    Email Address (for Zoom invite) <span class="text-[#F04A23]">*</span>
+                                </label>
+                                <div class="relative">
+                                    <i class="fa-regular fa-envelope absolute left-3.5 top-3 text-gray-400 text-xs"></i>
+                                    <input type="email" id="webinar-email" required placeholder="name@domain.com"
+                                        class="w-full pl-9 pr-3.5 py-2.5 rounded-xl border border-canvas-border focus:outline-none focus:border-[#F04A23] focus:ring-2 focus:ring-[#FFAF94]/50 text-xs text-earth-950 font-medium bg-white" />
+                                </div>
+                            </div>
+
+                            <div>
+                                <label for="webinar-experience" class="block text-xs font-bold text-earth-900 mb-1">
+                                    Experience Track
+                                </label>
+                                <select id="webinar-experience"
+                                    class="w-full px-3.5 py-2.5 rounded-xl border border-canvas-border focus:outline-none focus:border-[#F04A23] focus:ring-2 focus:ring-[#FFAF94]/50 text-xs text-earth-950 font-medium bg-white cursor-pointer">
+                                    <option value="dotnet">C# / .NET Developer</option>
+                                    <option value="frontend">Frontend / UI Engineer</option>
+                                    <option value="hobbyist">Novelty Gag Enthusiast</option>
+                                    <option value="architect">Enterprise Systems Architect</option>
+                                    <option value="student">Computer Science Student</option>
+                                </select>
+                            </div>
+
+                            <div>
+                                <label for="webinar-question" class="block text-xs font-bold text-earth-900 mb-1">
+                                    Question for the Live Q&amp;A (Optional)
+                                </label>
+                                <textarea id="webinar-question" rows="2" placeholder="What would you like Zach &amp; Dr. Fizzle to break down?"
+                                    class="w-full px-3.5 py-2 rounded-xl border border-canvas-border focus:outline-none focus:border-[#F04A23] focus:ring-2 focus:ring-[#FFAF94]/50 text-xs text-earth-950 font-medium bg-white resize-none"></textarea>
+                            </div>
+
+                            <button type="submit" id="webinar-submit-btn"
+                                data-blueprint-file="WackyStore.Infrastructure/Services/ZoomClient.cs"
+                                data-blueprint-role="Zoom Webhook Dispatch Trigger"
+                                data-blueprint-layer="Infrastructure / External API"
+                                data-blueprint-dom="Blood-orange submit button executing asynchronous registration pipeline."
+                                data-blueprint-desc="Triggers client-side validation, submits to Zoom webhook endpoint, and displays dynamic meeting access ticket."
+                                data-blueprint-code="await zoomClient.CreateRegistrantAsync(webinarId, registrantPayload);"
+                                class="w-full py-3 px-4 rounded-xl bg-gradient-to-r from-[#F04A23] to-[#DD330D] hover:from-[#DD330D] hover:to-[#BA2407] text-white font-bold text-xs sm:text-sm flex items-center justify-center gap-2 transition-all shadow-md shadow-[#F04A23]/30 hover:shadow-lg hover:shadow-[#F04A23]/40 active:scale-[0.98] cursor-pointer">
+                                <i class="fa-solid fa-video text-white"></i>
+                                <span>Sign Up For Live Zoom Webinar</span>
+                            </button>
+
+                            <div class="text-[10px] text-gray-500 text-center font-mono">
+                                🔒 Secure Zoom OAuth2 Handshake &bull; No Spam Guaranteed
+                            </div>
+                        </form>
+
+                        <!-- Webinar Confirmation Card (Hidden until submitted) -->
+                        <div id="webinar-confirmation" class="hidden space-y-4 p-5 rounded-2xl bg-teal-50 border-2 border-teal-500 animate-rise-up text-left"
+                            data-blueprint-file="WackyStore.WebUI/Views/Course/_ZoomConfirmation.cshtml"
+                            data-blueprint-role="Zoom Ticket Confirmation Partial"
+                            data-blueprint-layer="WebUI / View Partial"
+                            data-blueprint-dom="Dynamic confirmation card displaying generated Zoom URL, meeting ID, and calendar sync."
+                            data-blueprint-desc="Renders personalized Zoom join credentials generated upon successful attendee creation."
+                            data-blueprint-code="@Html.Partial(&quot;_ZoomTicket&quot;, Model.Ticket)">
+                            <div class="flex items-center gap-2 text-teal-900 font-heading font-black text-base">
+                                <i class="fa-solid fa-circle-check text-teal-600 text-lg"></i>
+                                <span>Zoom Seat Reserved!</span>
+                            </div>
+                            <p class="text-xs text-teal-900 leading-relaxed">
+                                Welcome, <strong id="confirmed-attendee-name">Student</strong>! We have dispatched your calendar invite and direct Zoom entry link to <strong id="confirmed-attendee-email" class="break-all">email</strong>.
+                            </p>
+                            <div class="bg-white p-3 rounded-xl border border-teal-200 text-xs font-mono space-y-1.5">
+                                <div class="flex items-center justify-between text-[11px]">
+                                    <span class="text-gray-500">Meeting ID:</span>
+                                    <span class="font-bold text-earth-950">984 2490 8812</span>
+                                </div>
+                                <div class="flex items-center justify-between text-[11px]">
+                                    <span class="text-gray-500">Passcode:</span>
+                                    <span class="font-bold text-[#F04A23]">MISCHIEF2026</span>
+                                </div>
+                                <div class="flex items-center justify-between text-[11px]">
+                                    <span class="text-gray-500">Status:</span>
+                                    <span class="font-bold text-teal-700">✅ Registered</span>
+                                </div>
+                            </div>
+                            <div class="flex gap-2">
+                                <button onclick="window.downloadWebinarCalendarInvite()"
+                                    class="flex-1 py-2 rounded-lg bg-teal-700 hover:bg-teal-800 text-white font-bold text-xs flex items-center justify-center gap-1.5 transition-colors cursor-pointer">
+                                    <i class="fa-regular fa-calendar-plus"></i>
+                                    <span>Add to Calendar</span>
+                                </button>
+                                <button onclick="window.resetWebinarForm()"
+                                    class="px-3 py-2 rounded-lg bg-teal-100 hover:bg-teal-200 text-teal-900 font-bold text-xs transition-colors cursor-pointer">
+                                    Reset
+                                </button>
+                            </div>
+                        </div>
+
+                    </div>
+                </div>
+            </div>
+        </div>
+
+    </main>
+
+    <!-- COURSE PURCHASE & ENROLLMENT MODAL (LearnDash-Style Lock Unlock Simulation) -->
+    <div id="course-enrollment-modal"
+        data-blueprint-file="WackyStore.WebUI/Views/Course/EnrollmentModal.cshtml"
+        data-blueprint-role="Course Checkout &amp; Enrollment Modal Partial"
+        data-blueprint-layer="WebUI / LMS View Component"
+        data-blueprint-dom="Modal dialog allowing purchase and enrollment in locked courses with curriculum breakdown and certificate issuance."
+        data-blueprint-desc="CourseController.Enroll() processes course purchase transaction, creates student claim, and unlocks lesson modules."
+        data-blueprint-code="[HttpPost] public ActionResult Enroll(int courseId, PaymentDetails payment) => Json(new { success = true });"
+        class="fixed inset-0 bg-black/75 backdrop-blur-sm z-50 hidden flex items-center justify-center p-3 sm:p-4 md:p-6"
+        onclick="if(event.target===this) window.closeCourseModal()">
+        
+        <div class="bg-white border border-canvas-border rounded-2xl sm:rounded-3xl w-full max-w-2xl max-h-[92vh] flex flex-col shadow-2xl overflow-hidden relative animate-rise-up">
+            <!-- Modal Header -->
+            <div class="p-5 sm:p-6 bg-gradient-to-r from-earth-950 to-earth-900 text-white relative">
+                <button onclick="window.closeCourseModal()"
+                    class="absolute top-4 right-4 h-9 w-9 rounded-full bg-white/10 hover:bg-white/20 text-white flex items-center justify-center transition-all border border-white/20 cursor-pointer"
+                    aria-label="Close modal">
+                    <i class="fa-solid fa-xmark text-sm"></i>
+                </button>
+                <div class="flex items-center gap-2 mb-2">
+                    <span id="enroll-modal-category" class="px-2.5 py-0.5 rounded-full bg-[#F04A23] text-white text-[10px] font-mono font-black uppercase">
+                        Absurd Physics
+                    </span>
+                    <span class="px-2.5 py-0.5 rounded-full bg-amber-400 text-earth-950 text-[10px] font-mono font-black uppercase">
+                        🔒 Locked Curriculum
+                    </span>
+                </div>
+                <h3 id="enroll-modal-title" class="font-heading font-black text-xl sm:text-2xl text-amber-100 leading-tight">
+                    Course Title
+                </h3>
+            </div>
+
+            <!-- Modal Content -->
+            <div class="p-5 sm:p-6 overflow-y-auto space-y-5 text-earth-900 text-xs sm:text-sm">
+                <div class="flex items-center justify-between p-4 rounded-xl bg-canvas-surface border border-canvas-border">
+                    <div>
+                        <div class="text-xs text-gray-500 font-medium">Lifetime Course Access:</div>
+                        <div class="text-xl sm:text-2xl font-black font-heading text-earth-950 flex items-center gap-2">
+                            <span id="enroll-modal-price" class="text-[#F04A23]">$129.00</span>
+                            <span id="enroll-modal-original-price" class="text-xs text-gray-400 line-through font-normal">$189.00</span>
+                        </div>
+                    </div>
+                    <div class="text-right">
+                        <span class="px-2.5 py-1 rounded-lg bg-teal-100 text-teal-800 font-bold text-xs inline-block">
+                            Instant Access
+                        </span>
+                        <div id="enroll-modal-duration" class="text-[11px] text-gray-500 font-mono mt-1">6 Modules &bull; 18 Lessons</div>
+                    </div>
+                </div>
+
+                <div class="space-y-2">
+                    <h4 class="font-bold text-earth-950 text-xs uppercase tracking-wider text-gray-600">What's Included With Enrollment:</h4>
+                    <ul class="space-y-1.5 text-xs text-earth-800 list-disc list-inside pl-1">
+                        <li>Full, unlocked access to all video lessons &amp; downloadable lab files</li>
+                        <li>Source code solution for Visual Studio 2022 (ASP.NET MVC 5 &amp; EF6)</li>
+                        <li>LearnDash-verified digital Certificate of Completion upon 100% progress</li>
+                        <li>Priority front-row seat &amp; guaranteed Q&amp;A slot for live Zoom webinars</li>
+                    </ul>
+                </div>
+
+                <!-- Simulation Info Alert -->
+                <div class="p-3.5 rounded-xl bg-[#FFF5F1] border border-[#FFD4C4] text-xs text-[#941F0A] space-y-1">
+                    <div class="font-bold flex items-center gap-1.5">
+                        <i class="fa-solid fa-lock text-[#F04A23]"></i>
+                        <span>Course Access Gate</span>
+                    </div>
+                    <p class="text-[11.5px] leading-relaxed">
+                        This course is locked to enrollment. Clicking "Unlock &amp; Purchase Course" will simulate a successful transaction, immediately unlocking all curriculum modules and generating student access.
+                    </p>
+                </div>
+            </div>
+
+            <!-- Modal Footer -->
+            <div class="p-4 sm:p-5 bg-canvas-base border-t border-canvas-border flex items-center justify-between gap-3">
+                <button onclick="window.closeCourseModal()"
+                    class="px-4 py-2.5 rounded-xl bg-earth-200 hover:bg-earth-300 text-earth-900 font-bold text-xs transition-all cursor-pointer">
+                    Cancel
+                </button>
+                <button id="enroll-modal-submit-btn" onclick="window.confirmCoursePurchase()"
+                    data-blueprint-file="WackyStore.WebUI/Controllers/CourseController.cs"
+                    data-blueprint-role="Course Enrollment Purchase Action"
+                    data-blueprint-layer="WebUI / Controller Action"
+                    data-blueprint-dom="Blood-orange action button completing simulated checkout and toggling locked syllabus state."
+                    data-blueprint-desc="Invokes CourseController.ProcessEnrollment(courseId) and updates CourseModel state to IsUnlocked = true."
+                    data-blueprint-code="[HttpPost] public ActionResult ProcessEnrollment(int courseId)"
+                    class="px-6 py-2.5 rounded-xl bg-gradient-to-r from-[#F04A23] to-[#DD330D] hover:from-[#DD330D] hover:to-[#BA2407] text-white font-bold text-xs sm:text-sm flex items-center gap-2 transition-all shadow-md shadow-[#F04A23]/30 cursor-pointer">
+                    <i class="fa-solid fa-unlock-keyhole"></i>
+                    <span>Unlock &amp; Purchase Course</span>
+                </button>
+            </div>
+        </div>
+    </div>
 
     <!-- 4. CART DRAWER COMPONENT (Off-White & Warm Espresso) -->
     <div id="cart-drawer-backdrop" class="fixed inset-0 bg-black/60 backdrop-blur-xs z-50 hidden flex justify-end"
@@ -1879,6 +2416,23 @@
 
 
 
+    <!-- FIXED LOWER-LEFT "EDUCATION STORE" BADGE (Somewhat transparent background, 100% clickable through, opaque text) -->
+    <aside id="education-store-badge"
+        aria-label="Education Store Indicator"
+        data-blueprint-file="WackyStore.WebUI/Views/Shared/_EducationWatermark.cshtml"
+        data-blueprint-role="Fixed Viewport Brand Indicator"
+        data-blueprint-layer="WebUI / Layout Presentation"
+        data-blueprint-dom="Fixed element in bottom-left corner with semi-transparent backdrop and pointer-events: none for 100% click-through behavior."
+        data-blueprint-desc="Persistent brand identifier indicating the certified Education Store module. Uses pointer-events: none so clicks pass cleanly through to any underlying elements without interference."
+        data-blueprint-code="@Html.Partial(&quot;_EducationWatermark&quot;)"
+        class="fixed bottom-5 left-5 z-40 pointer-events-none select-none flex items-center gap-2.5 px-3.5 py-1.5 rounded-full bg-white/75 backdrop-blur-md border border-purple-300/60 shadow-lg shadow-purple-950/10">
+        <span class="h-2.5 w-2.5 rounded-full bg-[#F04A23] animate-pulse shrink-0"></span>
+        <span class="text-earth-950 font-black font-heading tracking-wider uppercase text-xs sm:text-sm opacity-100 whitespace-nowrap">
+            Education Store
+        </span>
+    </aside>
+
 </body>
 </html>
+
 
