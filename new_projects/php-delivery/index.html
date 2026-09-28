@@ -356,278 +356,93 @@
             text-align: center;
         }
 
-        /* Hero Banner modeled on Parma Revolution Slider */
-        .hero-banner-section {
+        /* ==========================================================================
+           Red and White Checker Header (Italian Trattoria & Deli Checkerboard)
+           ========================================================================== */
+        .checker-header-section {
             position: relative;
-            background: #0f1216;
-            color: #ffffff;
-            overflow: hidden;
-            border-bottom: 4px solid var(--parma-red);
+            background-color: #b91c1c;
+            background-image: 
+                linear-gradient(45deg, #ffffff 25%, transparent 25%), 
+                linear-gradient(-45deg, #ffffff 25%, transparent 25%), 
+                linear-gradient(45deg, transparent 75%, #ffffff 75%), 
+                linear-gradient(-45deg, transparent 75%, #ffffff 75%);
+            background-size: 28px 28px;
+            background-position: 0 0, 0 14px, 14px -14px, -14px 0px;
+            background-image: repeating-conic-gradient(#b91c1c 0% 25%, #ffffff 0% 50%);
+            background-size: 28px 28px;
+            padding: 44px 0;
+            border-bottom: 5px solid var(--parma-gold);
+            box-shadow: inset 0 4px 14px rgba(0, 0, 0, 0.25), 0 6px 20px rgba(0, 0, 0, 0.12);
         }
 
-        .hero-banner-bg {
-            position: absolute;
-            inset: 0;
-            background-image: linear-gradient(90deg, rgba(15, 18, 22, 0.95) 0%, rgba(15, 18, 22, 0.85) 55%, rgba(15, 18, 22, 0.6) 100%), url('./images/hero-cheesesteak.jpg');
-            background-size: cover;
-            background-position: center right;
-            opacity: 0.85;
+        .checker-header-card {
+            max-width: 860px;
+            margin: 0 auto;
+            background: #ffffff;
+            border: 3px solid #b91c1c;
+            outline: 2px solid var(--parma-gold);
+            outline-offset: -7px;
+            border-radius: 14px;
+            padding: 34px 44px;
+            text-align: center;
+            box-shadow: 0 12px 34px rgba(0, 0, 0, 0.35);
+            position: relative;
         }
 
-        .hero-inner {
-            position: relative;
-            z-index: 2;
-            padding: 70px 0 60px;
-            display: grid;
-            grid-template-columns: 1.15fr 0.85fr;
-            gap: 40px;
+        .checker-pretitle {
+            font-family: var(--font-sans);
+            font-size: 0.78rem;
+            font-weight: 800;
+            letter-spacing: 0.12em;
+            text-transform: uppercase;
+            color: var(--parma-red);
+            margin-bottom: 12px;
+            display: inline-flex;
             align-items: center;
+            justify-content: center;
+            gap: 8px;
         }
 
-        .hero-content .parma-script {
-            font-family: var(--font-script);
-            font-size: 2.8rem;
-            color: var(--parma-gold);
-            line-height: 1;
-            margin-bottom: 6px;
-            display: block;
-        }
-
-        .hero-content h2 {
+        .checker-headline {
             font-family: var(--font-serif);
-            font-size: 3.2rem;
-            line-height: 1.08;
+            font-size: 2.35rem;
             font-weight: 900;
-            color: #ffffff;
-            margin-bottom: 18px;
+            color: #1e2229;
+            line-height: 1.18;
+            margin-bottom: 14px;
             letter-spacing: -0.01em;
         }
 
-        .hero-content h2 span {
-            color: var(--parma-gold);
-            text-shadow: 0 2px 10px rgba(245, 158, 11, 0.3);
+        .checker-headline span {
+            color: var(--parma-red);
         }
 
-        .hero-lead {
-            font-size: 1.12rem;
-            color: #cbd5e1;
-            margin-bottom: 28px;
+        .checker-summary {
+            font-family: var(--font-sans);
+            font-size: 1.05rem;
             line-height: 1.6;
-            max-width: 580px;
+            color: #475569;
+            max-width: 740px;
+            margin: 0 auto;
+            font-weight: 500;
         }
 
-        /* Quick Toast POS Fulfillment Switcher */
-        .fulfillment-box {
-            background: rgba(30, 41, 59, 0.75);
-            backdrop-filter: blur(12px);
-            border: 1px solid rgba(255, 255, 255, 0.12);
-            border-radius: 12px;
-            padding: 16px 20px;
-            margin-bottom: 30px;
-            max-width: 540px;
-            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
-        }
-
-        .fulfillment-toggle-row {
-            display: flex;
-            gap: 8px;
-            margin-bottom: 12px;
-        }
-
-        .f-toggle-btn {
-            flex: 1;
-            background: rgba(255, 255, 255, 0.08);
-            border: 1px solid rgba(255, 255, 255, 0.15);
-            color: #e2e8f0;
-            padding: 8px 14px;
-            border-radius: 6px;
-            font-size: 0.85rem;
-            font-weight: 700;
-            cursor: pointer;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            gap: 7px;
-            transition: all 0.2s;
-        }
-
-        .f-toggle-btn.active {
-            background: var(--parma-red);
-            border-color: var(--parma-gold);
-            color: #ffffff;
-            box-shadow: 0 2px 10px rgba(158, 27, 27, 0.5);
-        }
-
-        .location-select-row {
-            display: flex;
-            align-items: center;
-            gap: 10px;
-        }
-
-        .location-select-row label {
-            font-size: 0.78rem;
-            color: #94a3b8;
-            font-weight: 600;
-            text-transform: uppercase;
-            white-space: nowrap;
-        }
-
-        .location-dropdown {
-            flex: 1;
-            background: #0f172a;
-            border: 1px solid #334155;
-            color: #ffffff;
-            padding: 8px 12px;
-            border-radius: 6px;
-            font-size: 0.86rem;
-            font-family: inherit;
-            outline: none;
-            cursor: pointer;
-        }
-
-        .location-dropdown:focus {
-            border-color: var(--parma-gold);
-        }
-
-        .hero-cta-group {
-            display: flex;
-            align-items: center;
-            gap: 16px;
-            flex-wrap: wrap;
-        }
-
-        .btn-parma-primary {
-            background: linear-gradient(135deg, var(--parma-red), var(--parma-dark-red));
-            color: #ffffff;
-            font-weight: 800;
-            font-size: 1rem;
-            padding: 14px 28px;
-            border-radius: 8px;
-            border: 2px solid var(--parma-gold);
-            display: inline-flex;
-            align-items: center;
-            gap: 10px;
-            text-decoration: none;
-            cursor: pointer;
-            transition: all 0.25s ease;
-            box-shadow: 0 4px 20px rgba(158, 27, 27, 0.5);
-        }
-
-        .btn-parma-primary:hover {
-            transform: translateY(-2px);
-            background: linear-gradient(135deg, #b91c1c, var(--parma-red));
-            box-shadow: 0 8px 24px rgba(158, 27, 27, 0.7);
-        }
-
-        .btn-parma-secondary {
-            background: transparent;
-            color: #f8fafc;
-            border: 2px solid rgba(255, 255, 255, 0.3);
-            font-weight: 700;
-            font-size: 0.95rem;
-            padding: 14px 24px;
-            border-radius: 8px;
-            display: inline-flex;
-            align-items: center;
-            gap: 8px;
-            text-decoration: none;
-            cursor: pointer;
-            transition: all 0.2s ease;
-        }
-
-        .btn-parma-secondary:hover {
-            background: rgba(255, 255, 255, 0.1);
-            border-color: #ffffff;
-        }
-
-        /* Hero Right Visual Feature Card */
-        .hero-feature-card {
-            background: #ffffff;
-            border-radius: 16px;
-            overflow: hidden;
-            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.4);
-            border: 3px solid var(--parma-gold);
-            color: var(--text-main);
-            position: relative;
-        }
-
-        .hero-feature-card img {
-            width: 100%;
-            height: 220px;
-            object-fit: cover;
-            display: block;
-        }
-
-        .hero-card-badge {
-            position: absolute;
-            top: 14px;
-            right: 14px;
-            background: var(--toast-orange);
-            color: #fff;
-            padding: 6px 12px;
-            border-radius: 6px;
-            font-weight: 800;
-            font-size: 0.75rem;
-            text-transform: uppercase;
-            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.25);
-            display: flex;
-            align-items: center;
-            gap: 6px;
-        }
-
-        .hero-card-body {
-            padding: 20px;
-        }
-
-        .hero-card-header {
-            display: flex;
-            align-items: baseline;
-            justify-content: space-between;
-            margin-bottom: 6px;
-        }
-
-        .hero-card-header h3 {
-            font-family: var(--font-serif);
-            font-size: 1.35rem;
-            color: var(--parma-red);
-            font-weight: 700;
-        }
-
-        .hero-card-price {
-            font-size: 1.25rem;
-            font-weight: 800;
-            color: var(--parma-amber);
-            font-family: var(--font-mono);
-        }
-
-        .hero-card-desc {
-            font-size: 0.88rem;
-            color: #64748b;
-            margin-bottom: 16px;
-            line-height: 1.45;
-        }
-
-        .hero-card-btn {
-            width: 100%;
-            background: #f8fafc;
-            border: 2px dashed #cbd5e1;
-            color: var(--parma-red);
-            padding: 10px;
-            border-radius: 8px;
-            font-weight: 800;
-            font-size: 0.88rem;
-            cursor: pointer;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            gap: 8px;
-            transition: all 0.2s;
-        }
-
-        .hero-card-btn:hover {
-            background: #fff5f5;
-            border-color: var(--parma-red);
-            color: var(--parma-dark-red);
+        @media (max-width: 768px) {
+            .checker-header-section {
+                padding: 28px 12px;
+                background-size: 22px 22px;
+            }
+            .checker-header-card {
+                padding: 24px 18px;
+                outline-offset: -5px;
+            }
+            .checker-headline {
+                font-size: 1.7rem;
+            }
+            .checker-summary {
+                font-size: 0.94rem;
+            }
         }
 
         /* 3 Value Pillars (Parma Welcome Row) */
@@ -1884,13 +1699,6 @@
         }
 
         @media (max-width: 900px) {
-            .hero-inner {
-                grid-template-columns: 1fr;
-                padding: 40px 0;
-            }
-            .hero-content h2 {
-                font-size: 2.4rem;
-            }
             .pillars-grid {
                 grid-template-columns: 1fr;
             }
@@ -1982,81 +1790,33 @@
     </header>
 
     <main>
-        <!-- Hero Section (Modeled after Parma Revolution Slider) -->
-        <section class="hero-banner-section">
-            <div class="hero-banner-bg"></div>
+        <!-- Red & White Checker Header -->
+        <section class="checker-header-section" id="welcome">
             <div class="container">
-                <div class="hero-inner">
-                    <div class="hero-content">
-                        <span class="parma-script">Where Sub Passion Meets Perfection</span>
-                        <h2>Central PA's Legendary <span>Delivery Subs &amp; Fries</span></h2>
-                        <p class="hero-lead">
-                            Freshly baked Italian rolls stuffed with shaved ribeye, imported deli meats, and golden crinkle-cut fries smothered in warm bacon cheddar — delivered directly to your doorstep via our official Toast POS delivery engine.
-                        </p>
-
-                        <!-- Toast POS Fulfillment Selector -->
-                        <div class="fulfillment-box">
-                            <div class="fulfillment-toggle-row">
-                                <button class="f-toggle-btn active" id="fToggleDelivery" onclick="setFulfillmentMode('delivery')">
-                                    <i class="fa-solid fa-truck-fast"></i> Contactless Delivery (35-45m)
-                                </button>
-                                <button class="f-toggle-btn" id="fTogglePickup" onclick="setFulfillmentMode('pickup')">
-                                    <i class="fa-solid fa-bag-shopping"></i> Quick Counter Pickup (15-20m)
-                                </button>
-                            </div>
-                            <div class="location-select-row">
-                                <label><i class="fa-solid fa-location-dot" style="color: var(--parma-gold);"></i> Store:</label>
-                                <select class="location-dropdown" id="storeLocationSelect" onchange="changeStoreLocation(this.value)">
-                                    <option value="Landisville">Landisville PA — 301 Main St (717) 898-3707</option>
-                                    <option value="York">York PA — 905 Grantley Rd (717) 849-6445</option>
-                                    <option value="East York">East York PA — 1041 Haines Rd (717) 755-2900</option>
-                                    <option value="Dallastown">Dallastown PA — 476 E Main St (717) 501-5608</option>
-                                    <option value="Manchester">Manchester PA — 220 Maple St (717) 978-5091</option>
-                                    <option value="Columbia">Columbia PA — 232 Locust St (717) 992-4153</option>
-                                    <option value="Elizabethtown">Elizabethtown PA — 256 S Market St (717) 367-5878</option>
-                                </select>
-                            </div>
-                        </div>
-
-                        <div class="hero-cta-group">
-                            <a href="#menu-subs" class="btn-parma-primary">
-                                <i class="fa-solid fa-fire"></i> Order On Toast POS
-                            </a>
-                            <a href="#menu-fries" class="btn-parma-secondary">
-                                <i class="fa-solid fa-utensils"></i> Explore Loaded Fries
-                            </a>
-                        </div>
+                <div class="checker-header-card">
+                    <div class="checker-pretitle">
+                        <i class="fa-solid fa-utensils"></i>
+                        <span>PARMA PIZZA &amp; GRILL FAMILY &bull; EST. 2005 &bull; 7 CENTRAL PA LOCATIONS</span>
+                        <i class="fa-solid fa-utensils"></i>
                     </div>
-
-                    <!-- Right Feature Card -->
-                    <div class="hero-feature-card">
-                        <img src="./images/hero-cheesesteak.jpg" alt="Philly Cheesesteak on Italian Roll">
-                        <span class="hero-card-badge"><i class="fa-solid fa-crown"></i> #1 Central PA Sub</span>
-                        <div class="hero-card-body">
-                            <div class="hero-card-header">
-                                <h3>Classic Philly Cheesesteak</h3>
-                                <span class="hero-card-price">$11.95</span>
-                            </div>
-                            <p class="hero-card-desc">
-                                Sliced USDA Choice ribeye griddled hot with sweet caramelized onions, melted Cooper Sharp cheddar wiz, served on our hearth-baked toasted Amoroso roll.
-                            </p>
-                            <button class="hero-card-btn" onclick="openCustomizerModal('cheesesteak')">
-                                <i class="fa-solid fa-sliders"></i> Customize &amp; Add to Toast Cart
-                            </button>
-                        </div>
-                    </div>
+                    <h2 class="checker-headline">
+                        Central PA's Destination for <span>Delivery Subs &amp; Loaded Fries</span>
+                    </h2>
+                    <p class="checker-summary">
+                        Scratch-made submarine sandwiches on fresh hearth-baked Italian rolls, shaved ribeye Philly cheesesteaks, and golden crinkle-cut fries smothered in warm bacon cheddar &mdash; crafted fresh daily and delivered directly to your doorstep across York and Lancaster counties.
+                    </p>
                 </div>
             </div>
         </section>
 
         <!-- 3 Value Pillars (Directly modeled on Parma's Welcome Section) -->
-        <section class="welcome-pillars-section" id="welcome">
+        <section class="welcome-pillars-section" id="pillars">
             <div class="container">
                 <div class="section-header-center">
                     <span class="section-tagline">Since 2005 &bull; South Central PA</span>
-                    <h2>Welcome to Parma Sub &amp; Fry Co.</h2>
+                    <h2>The Parma Quality Standard</h2>
                     <p>
-                        Born from the authentic kitchens of Parma Pizza &amp; Grill, we bring the same scratch-made devotion, fresh local bakery rolls, and flame-griddled meats to Central Pennsylvania's ultimate sub and french fry delivery experience.
+                        Every submarine sandwich and side is prepared to order using local bakery deliveries and authentic family recipes.
                     </p>
                 </div>
 

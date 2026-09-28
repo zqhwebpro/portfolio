@@ -118,7 +118,7 @@
 
         </div>
 
-        <!-- Right Visual Stage with Quick Contact Form to zqhwebpro@gmail.com & Neo-Brutalist Shapes -->
+        <!-- Right Visual Stage with Quick Contact Form & Neo-Brutalist Shapes -->
         <div class="hero-visual-stage">
           <!-- Floating Neo-Brutalist Shapes -->
           <div class="shape shape-1" aria-hidden="true">&#10022;</div>
@@ -128,10 +128,6 @@
 
           <div class="quick-contact-card">
             <div class="quick-contact-header">
-              <div class="quick-contact-badge">
-                <span class="badge-dot"></span>
-                <span>Direct Inbox &bull; zqhwebpro@gmail.com</span>
-              </div>
               <h3 class="quick-contact-title">Start a Conversation</h3>
               <p class="quick-contact-subtitle">
                 Have a question or looking to build a new website? Send a message directly to my inbox.
@@ -141,7 +137,7 @@
             <!-- In-place Confirmation Message (Hidden Initially) -->
             <div id="quickContactAlert" class="quick-form-alert" style="display: none;"></div>
 
-            <form id="quickContactForm" onsubmit="handleQuickContactSubmit(event)" action="mailto:zqhwebpro@gmail.com" method="POST" enctype="text/plain">
+            <form id="quickContactForm" onsubmit="handleQuickContactSubmit(event)" method="POST">
               <!-- First Name & Last Name On One Line -->
               <div class="form-row-2col">
                 <div class="form-field-group">
@@ -182,23 +178,19 @@
               <!-- Newsletter Disclaimer with Checkbox -->
               <div class="form-checkbox-group">
                 <label class="custom-checkbox-label" for="contactNewsletterOptIn">
-                  <input type="checkbox" id="contactNewsletterOptIn" name="newsletter" class="brutal-checkbox" checked />
+                  <input type="checkbox" id="contactNewsletterOptIn" name="newsletter" class="brutal-checkbox" />
                   <span class="checkbox-indicator"><i class="fa-solid fa-check"></i></span>
                   <span class="checkbox-text">
-                    <strong>Join my newsletter</strong> &mdash; practical website growth strategies, digital design insights, and honest tech advice. Zero spam, unsubscribe anytime.
+                    <strong>Join my newsletter</strong> &mdash; I'll share seldom tips and secrets.
                   </span>
                 </label>
               </div>
 
               <!-- Submit Button -->
               <button type="submit" id="quickContactSubmitBtn" class="btn-brutal-primary form-submit-btn">
-                <span>Send To zqhwebpro@gmail.com</span>
+                <span>Send Direct Inquiry</span>
                 <i class="fa-solid fa-arrow-right"></i>
               </button>
-
-              <div class="form-direct-note">
-                <i class="fa-solid fa-lock"></i> 100% direct reply from Zach within 24 hours
-              </div>
             </form>
           </div>
         </div>
@@ -213,12 +205,7 @@
   <section class="features-section" id="features">
     <div class="container">
       <div class="section-head">
-        <span class="section-tag">Engineered For Growth</span>
         <h2 class="section-title">Why Businesses Partner With Me</h2>
-        <p class="section-subtitle">
-          No account managers, no outsourced teams, no corporate bloat. Just me, directly building distinctive,
-          ultra-fast websites that communicate credibility and turn curious visitors into buyers.
-        </p>
       </div>
 
       <div class="features-grid">
@@ -282,7 +269,7 @@
           <div>
             <h3 class="tier-name">Simple Site</h3>
             <p class="tier-desc">
-              A clean, professional website built to establish your brand and get found online.
+              A clean, bespoke website built to establish your brand presence, engage ideal clients, and grow your ventures.
             </p>
             <div class="tier-price-box">
               <span class="tier-price" style="color: var(--blue-primary);">$500</span>
@@ -319,7 +306,7 @@
             </details>
           </div>
 
-          <a href="mailto:zqhwebpro@gmail.com?subject=Inquiry:%20Simple%20Site%20Tier" class="btn-tier-cta solid">
+          <a href="#" class="btn-tier-cta solid safe-email-cta" data-safe-subject="Inquiry: Simple Site Tier">
             <span>Select Simple Site</span> <i class="fa-solid fa-arrow-right"></i>
           </a>
         </div>
@@ -329,8 +316,7 @@
           <div>
             <h3 class="tier-name">Advanced Site</h3>
             <p class="tier-desc">
-              Your website, ongoing care, and social media presence &mdash; handled together so your business stays
-              active and visible online.
+              Your web engineering, ongoing site maintenance, and social media reach handled so you stay active and visible.
             </p>
             <div class="tier-price-box">
               <span class="tier-price">$2,000</span>
@@ -367,7 +353,7 @@
             </details>
           </div>
 
-          <a href="mailto:zqhwebpro@gmail.com?subject=Inquiry:%20Advanced%20Site%20Tier" class="btn-tier-cta outline">
+          <a href="#" class="btn-tier-cta outline safe-email-cta" data-safe-subject="Inquiry: Advanced Site Tier">
             <span>Select Advanced Site</span> <i class="fa-solid fa-arrow-right"></i>
           </a>
         </div>
@@ -377,8 +363,7 @@
           <div>
             <h3 class="tier-name">Custom Site</h3>
             <p class="tier-desc">
-              Need something bigger &mdash; custom integrations, e-commerce, booking systems, or a full marketing
-              build-out? Let's talk about exactly what your business needs.
+              Custom web applications, e-commerce stores, and high-performance integrations crafted for your specific needs.
             </p>
             <div class="tier-price-box">
               <span class="tier-price">Contact Me</span>
@@ -415,7 +400,7 @@
             </details>
           </div>
 
-          <a href="mailto:zqhwebpro@gmail.com?subject=Inquiry:%20Custom%20Site%20Tier" class="btn-tier-cta outline">
+          <a href="#" class="btn-tier-cta outline safe-email-cta" data-safe-subject="Inquiry: Custom Site Tier">
             <span>Contact Me</span> <i class="fa-solid fa-arrow-right"></i>
           </a>
         </div>
@@ -447,7 +432,7 @@
               class="social-icon-btn linkedin" title="LinkedIn">
               <i class="fa-brands fa-linkedin-in"></i>
             </a>
-            <a href="mailto:zqhwebpro@gmail.com" class="social-icon-btn" title="Email Us">
+            <a href="#" class="social-icon-btn safe-email-cta" data-safe-subject="Direct Inquiry from Portfolio" title="Email Direct">
               <i class="fa-solid fa-envelope"></i>
             </a>
           </div>
@@ -489,11 +474,11 @@
               </div>
             </a>
 
-            <a href="mailto:zqhwebpro@gmail.com" class="footer-social-card">
+            <a href="#" class="footer-social-card safe-email-cta" data-safe-subject="Direct Inquiry from Portfolio">
               <i class="fa-solid fa-paper-plane" style="color: #facc15;"></i>
               <div class="footer-social-info">
                 <span class="f-soc-title">Email Directly</span>
-                <span class="f-soc-sub">zqhwebpro@gmail.com</span>
+                <span class="f-soc-sub">Send Message &bull; Fast Reply</span>
               </div>
             </a>
           </div>
@@ -559,6 +544,39 @@
       });
     })();
 
+    // ========================================================================
+    // ANTI-BOT SCRAMBLED EMAIL & MAILTO DISPATCH
+    // Prevents automated web crawlers and scraping bots from harvesting the email
+    // ========================================================================
+    function getScrambledRecipient() {
+      // Reconstitutes the address from reversed chunks + character code
+      const u = ['o', 'r', 'p', 'b', 'e', 'w', 'h', 'q', 'z'].reverse().join(''); // zqhwebpro
+      const d = ['m', 'o', 'c', '.', 'l', 'i', 'a', 'm', 'g'].reverse().join(''); // gmail.com
+      return u + String.fromCharCode(64) + d; // @
+    }
+
+    function dispatchSafeMailto(subject = '', body = '') {
+      const scheme = String.fromCharCode(109, 97, 105, 108, 116, 111, 58); // mailto:
+      const address = getScrambledRecipient();
+      let url = scheme + address;
+      const params = [];
+      if (subject) params.push('subject=' + encodeURIComponent(subject));
+      if (body) params.push('body=' + encodeURIComponent(body));
+      if (params.length) url += '?' + params.join('&');
+      window.location.href = url;
+    }
+
+    // Attach click listeners to all anti-bot pricing/social email links
+    document.addEventListener("DOMContentLoaded", () => {
+      document.querySelectorAll(".safe-email-cta").forEach((cta) => {
+        cta.addEventListener("click", (e) => {
+          e.preventDefault();
+          const subject = cta.getAttribute("data-safe-subject") || "Project Inquiry";
+          dispatchSafeMailto(subject);
+        });
+      });
+    });
+
     function handleQuickContactSubmit(e) {
       e.preventDefault();
       const firstName = document.getElementById("contactFirstName") ? document.getElementById("contactFirstName").value.trim() : "";
@@ -578,12 +596,9 @@
         return;
       }
 
-      // Format mailto link
-      const subject = encodeURIComponent(`Project Inquiry: ${firstName} ${lastName} [${question}]`);
-      const body = encodeURIComponent(
-        `Hi Zach,\n\nName: ${firstName} ${lastName}\nEmail: ${email}\nQuestion / Service Need: ${question}\nNewsletter Signup: ${newsletter ? "Yes, subscribed" : "No"}\n\n---\nSent via for-hire quick contact form.`
-      );
-      const mailtoUrl = `mailto:zqhwebpro@gmail.com?subject=${subject}&body=${body}`;
+      // Format email inquiry payload
+      const subject = `Project Inquiry: ${firstName} ${lastName} [${question}]`;
+      const body = `Hi Zach,\n\nName: ${firstName} ${lastName}\nEmail: ${email}\nQuestion / Service Need: ${question}\nNewsletter Signup: ${newsletter ? "Yes, subscribed" : "No"}\n\n---\nSent via for-hire quick contact form.`;
 
       // Asynchronously log to contact-process.php if server supports it
       try {
@@ -599,13 +614,13 @@
         }).catch(() => {});
       } catch (err) {}
 
-      // Trigger mail client
-      window.location.href = mailtoUrl;
+      // Trigger mail client with scrambled address
+      dispatchSafeMailto(subject, body);
 
       // Show immediate in-card confirmation
       if (alertBox) {
         alertBox.className = "quick-form-alert success";
-        alertBox.innerHTML = `<i class="fa-solid fa-circle-check"></i> <div><strong>Thank you, ${firstName}!</strong> Your inquiry has been routed to <strong>zqhwebpro@gmail.com</strong>. I'll follow up directly to ${email} within 24 hours.</div>`;
+        alertBox.innerHTML = `<i class="fa-solid fa-circle-check"></i> <div><strong>Thank you, ${firstName}!</strong> Your inquiry has been dispatched directly to my inbox. I'll follow up to ${email} within 24 hours.</div>`;
         alertBox.style.display = "flex";
         alertBox.scrollIntoView({ behavior: "smooth", block: "nearest" });
       }
