@@ -1461,6 +1461,278 @@ body {
 }
 
 /* ==========================================================================
+   SECTION 3.5: NEWSLETTER BLUE SECTION (100% Full-Width Neo-Brutalist Blue)
+   Tips & Seldomly Shared Secrets of the Industry
+   ========================================================================== */
+.newsletter-blue-section {
+  width: 100%;
+  position: relative;
+  z-index: 2;
+  background: linear-gradient(135deg, #1e40af 0%, #2563eb 55%, #1d4ed8 100%);
+  border-top: var(--brutal-border-thick);
+  border-bottom: var(--brutal-border-thick);
+  padding: 85px 0;
+  color: var(--white);
+  overflow: hidden;
+}
+
+/* Blueprint grid texture overlay on the blue canvas */
+.newsletter-blue-section::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background-image:
+    linear-gradient(to right, rgba(255, 255, 255, 0.08) 1px, transparent 1px),
+    linear-gradient(to bottom, rgba(255, 255, 255, 0.08) 1px, transparent 1px);
+  background-size: 32px 32px;
+  pointer-events: none;
+  z-index: 1;
+}
+
+/* Geometric Radial Accent */
+.newsletter-blue-section::after {
+  content: '';
+  position: absolute;
+  right: -50px;
+  bottom: -50px;
+  width: 260px;
+  height: 260px;
+  border-radius: 50%;
+  background: radial-gradient(circle, rgba(56, 189, 248, 0.22) 0%, transparent 70%);
+  pointer-events: none;
+  z-index: 1;
+}
+
+.newsletter-layout {
+  display: grid;
+  grid-template-columns: 1.15fr 0.85fr;
+  gap: 52px;
+  align-items: center;
+  position: relative;
+  z-index: 2;
+}
+
+.newsletter-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  background: #facc15;
+  color: var(--slate-900);
+  font-family: var(--font-mono);
+  font-size: 0.72rem;
+  font-weight: 800;
+  letter-spacing: 0.08em;
+  padding: 6px 14px;
+  border-radius: var(--brutal-radius-pill);
+  border: 2px solid var(--slate-900);
+  box-shadow: 3px 3px 0px var(--slate-900);
+  margin-bottom: 20px;
+  text-transform: uppercase;
+}
+
+.newsletter-headline {
+  font-family: var(--font-display);
+  font-size: 2.5rem;
+  font-weight: 800;
+  line-height: 1.15;
+  color: var(--white);
+  margin-bottom: 18px;
+  letter-spacing: -0.02em;
+}
+
+.newsletter-headline span {
+  color: #facc15;
+  text-decoration: underline;
+  text-decoration-color: #38bdf8;
+  text-underline-offset: 4px;
+}
+
+.newsletter-lead {
+  font-size: 1.05rem;
+  line-height: 1.65;
+  color: #e0e7ff;
+  margin-bottom: 28px;
+  max-width: 580px;
+}
+
+.newsletter-perks-grid {
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+}
+
+.nl-perk-item {
+  display: flex;
+  align-items: flex-start;
+  gap: 14px;
+  background: rgba(15, 23, 42, 0.35);
+  border: 1.5px solid rgba(255, 255, 255, 0.2);
+  border-radius: 12px;
+  padding: 12px 16px;
+  backdrop-filter: blur(8px);
+  -webkit-backdrop-filter: blur(8px);
+  transition: transform 0.2s ease, border-color 0.2s ease;
+}
+
+.nl-perk-item:hover {
+  transform: translateX(4px);
+  border-color: #facc15;
+  background: rgba(15, 23, 42, 0.5);
+}
+
+.nl-perk-icon {
+  width: 36px;
+  height: 36px;
+  border-radius: 8px;
+  background: #facc15;
+  color: var(--slate-900);
+  border: 2px solid var(--slate-900);
+  box-shadow: 2px 2px 0px var(--slate-900);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 0.95rem;
+  flex-shrink: 0;
+}
+
+.nl-perk-text {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+}
+
+.nl-perk-text strong {
+  font-family: var(--font-display);
+  font-size: 0.92rem;
+  font-weight: 700;
+  color: var(--white);
+}
+
+.nl-perk-text span {
+  font-size: 0.82rem;
+  color: #cbd5e1;
+  line-height: 1.4;
+}
+
+/* Card Styling */
+.newsletter-signup-card {
+  background: #ffffff;
+  border: var(--brutal-border-thick);
+  border-radius: 18px;
+  box-shadow: 9px 9px 0px var(--slate-900);
+  padding: 34px 28px;
+  position: relative;
+  color: var(--slate-900);
+}
+
+.nl-card-header {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  margin-bottom: 22px;
+  padding-bottom: 16px;
+  border-bottom: 2px solid var(--slate-100);
+}
+
+.nl-card-icon {
+  width: 46px;
+  height: 46px;
+  border-radius: 12px;
+  background: #dbeafe;
+  color: var(--blue-primary);
+  border: 2px solid var(--slate-900);
+  box-shadow: 3px 3px 0px var(--slate-900);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 1.25rem;
+  flex-shrink: 0;
+}
+
+.nl-card-title {
+  font-family: var(--font-display);
+  font-size: 1.35rem;
+  font-weight: 800;
+  color: var(--slate-900);
+  margin-bottom: 2px;
+}
+
+.nl-card-subtitle {
+  font-size: 0.84rem;
+  color: var(--slate-600);
+}
+
+.newsletter-input-wrap {
+  position: relative;
+  width: 100%;
+}
+
+.newsletter-mail-icon {
+  position: absolute;
+  left: 14px;
+  top: 50%;
+  transform: translateY(-50%);
+  color: var(--slate-400);
+  font-size: 0.88rem;
+  pointer-events: none;
+}
+
+.newsletter-input {
+  padding-left: 38px !important;
+}
+
+.newsletter-btn {
+  background: var(--blue-primary) !important;
+  color: var(--white) !important;
+  border: 2.5px solid var(--slate-900) !important;
+  box-shadow: 4px 4px 0px var(--slate-900) !important;
+  font-size: 0.95rem !important;
+  padding: 13px !important;
+  margin-top: 6px;
+  transition: all 0.2s ease !important;
+}
+
+.newsletter-btn:hover {
+  background: var(--blue-deep) !important;
+  transform: translate(-2px, -2px) !important;
+  box-shadow: 6px 6px 0px var(--slate-900) !important;
+}
+
+.newsletter-footer-guarantee {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 6px;
+  font-family: var(--font-mono);
+  font-size: 0.72rem;
+  color: var(--slate-500);
+  margin-top: 14px;
+  text-align: center;
+}
+
+@media (max-width: 992px) {
+  .newsletter-layout {
+    grid-template-columns: 1fr;
+    gap: 40px;
+  }
+  .newsletter-headline {
+    font-size: 2.1rem;
+  }
+}
+
+@media (max-width: 640px) {
+  .newsletter-blue-section {
+    padding: 60px 0;
+  }
+  .newsletter-headline {
+    font-size: 1.8rem;
+  }
+  .newsletter-signup-card {
+    padding: 24px 18px;
+  }
+}
+
+/* ==========================================================================
    FOOTER (Neo-Brutalist Glass)
    ========================================================================== */
 .site-footer {

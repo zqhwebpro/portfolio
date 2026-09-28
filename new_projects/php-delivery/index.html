@@ -420,12 +420,27 @@
 
         .checker-summary {
             font-family: var(--font-sans);
-            font-size: 1.05rem;
-            line-height: 1.6;
+            font-size: 0.95rem;
+            line-height: 1.65;
             color: #475569;
-            max-width: 740px;
+            max-width: 760px;
             margin: 0 auto;
             font-weight: 500;
+            text-wrap: pretty;
+        }
+
+        .checker-events-link {
+            color: var(--parma-red);
+            text-decoration: underline;
+            text-decoration-thickness: 1.5px;
+            text-underline-offset: 3px;
+            font-weight: 700;
+            transition: color 0.2s ease, text-decoration-color 0.2s ease;
+        }
+
+        .checker-events-link:hover {
+            color: #991b1b;
+            text-decoration-color: var(--parma-gold);
         }
 
         @media (max-width: 768px) {
@@ -441,7 +456,7 @@
                 font-size: 1.7rem;
             }
             .checker-summary {
-                font-size: 0.94rem;
+                font-size: 0.88rem;
             }
         }
 
@@ -1758,7 +1773,7 @@
                     <div class="brand-title-group">
                         <h1>PARMA SUB &amp; FRY CO.</h1>
                         <div class="sub-crest">
-                            <span class="parma-tag">Parma Pizza &amp; Grill Family</span> &bull; 7 PA Locations
+                            <span class="parma-tag">Pizza Restaurant</span>
                         </div>
                     </div>
                 </a>
@@ -1795,15 +1810,14 @@
             <div class="container">
                 <div class="checker-header-card">
                     <div class="checker-pretitle">
-                        <i class="fa-solid fa-utensils"></i>
-                        <span>PARMA PIZZA &amp; GRILL FAMILY &bull; EST. 2005 &bull; 7 CENTRAL PA LOCATIONS</span>
-                        <i class="fa-solid fa-utensils"></i>
+                        <i class="fa-solid fa-location-dot"></i>
+                        <span>South Central, PA</span>
                     </div>
                     <h2 class="checker-headline">
                         Central PA's Destination for <span>Delivery Subs &amp; Loaded Fries</span>
                     </h2>
                     <p class="checker-summary">
-                        Scratch-made submarine sandwiches on fresh hearth-baked Italian rolls, shaved ribeye Philly cheesesteaks, and golden crinkle-cut fries smothered in warm bacon cheddar &mdash; crafted fresh daily and delivered directly to your doorstep across York and Lancaster counties.
+                        Scratch-made submarine sandwiches on fresh hearth-baked Italian rolls, shaved ribeye Philly cheesesteaks, and golden crinkle-cut fries smothered in warm bacon cheddar &mdash; crafted fresh daily for everyday family dining, game days, and <a href="#events" class="checker-events-link">special community events</a>, delivered steaming hot directly to your doorstep across York and Lancaster counties with friendly local delivery.
                     </p>
                 </div>
             </div>
@@ -1814,10 +1828,6 @@
             <div class="container">
                 <div class="section-header-center">
                     <span class="section-tagline">Since 2005 &bull; South Central PA</span>
-                    <h2>The Parma Quality Standard</h2>
-                    <p>
-                        Every submarine sandwich and side is prepared to order using local bakery deliveries and authentic family recipes.
-                    </p>
                 </div>
 
                 <div class="pillars-grid">
@@ -1837,7 +1847,7 @@
                         </div>
                         <h3>Family Friendly Tradition</h3>
                         <p>
-                            Proudly family-owned and serving South Central Pennsylvania across 7 locations. Friendly smiles, giant portions, and recipes perfected over two decades.
+                            Proudly family-owned and serving South Central Pennsylvania. Friendly smiles, giant portions, and recipes perfected over two decades.
                         </p>
                     </div>
 
@@ -2299,7 +2309,7 @@
             <div class="container">
                 <div class="section-header-center">
                     <span class="section-tagline">Serving South Central PA</span>
-                    <h2>Our 7 Neighborhood Store Locations</h2>
+                    <h2>Our Neighborhood Store Locations</h2>
                     <p>
                         Choose your closest Parma location for hot delivery or quick store counter pickup. All locations powered by Toast POS.
                     </p>
@@ -2395,6 +2405,32 @@
                             <button class="loc-order-btn" onclick="selectStoreAndOrder('Elizabethtown')">Order Toast POS</button>
                             <a href="#menu-subs" class="loc-info-btn">View Menu</a>
                         </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Catering & Events Section Anchor -->
+        <section class="events-section" id="events" style="background: #fafaf9; padding: 50px 0; border-top: 1px solid #f1f5f9; border-bottom: 1px solid #f1f5f9;">
+            <div class="container">
+                <div style="background: #ffffff; border: 2px solid #e2e8f0; border-left: 6px solid var(--parma-red); border-radius: 12px; padding: 32px 36px; display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: 24px; box-shadow: 0 4px 16px rgba(0,0,0,0.04);">
+                    <div style="max-width: 620px;">
+                        <span style="font-family: var(--font-sans); font-size: 0.78rem; font-weight: 800; text-transform: uppercase; letter-spacing: 0.12em; color: var(--parma-red); display: block; margin-bottom: 6px;">
+                            <i class="fa-solid fa-calendar-check" style="margin-right: 6px;"></i> Catering &amp; Special Events
+                        </span>
+                        <h3 style="font-family: var(--font-serif); font-size: 1.65rem; color: #1e2229; font-weight: 800; margin-bottom: 8px;">
+                            Hosting a Party, Game Night, or Community Event?
+                        </h3>
+                        <p style="color: #64748b; font-size: 0.95rem; line-height: 1.55; margin: 0;">
+                            We craft jumbo party submarine sandwich platters, toasted Philly cheesesteak bars, and loaded fry stations tailored for school banquets, church gatherings, office luncheons, and family celebrations across York and Lancaster counties.
+                        </p>
+                    </div>
+                    <div style="display: flex; flex-direction: column; gap: 10px; min-width: 220px;">
+                        <a href="tel:7178983707" class="toast-order-btn" style="text-align: center; justify-content: center; padding: 12px 20px; font-size: 0.92rem;">
+                            <i class="fa-solid fa-phone"></i>
+                            <span>Call to Book Event</span>
+                        </a>
+                        <span style="font-size: 0.78rem; text-align: center; color: #94a3b8; font-weight: 600;">Custom group packages available</span>
                     </div>
                 </div>
             </div>
@@ -2732,7 +2768,8 @@
                         <li><a href="#welcome"><i class="fa-solid fa-angle-right"></i> Home &amp; Tradition</a></li>
                         <li><a href="#menu-subs"><i class="fa-solid fa-angle-right"></i> Delivery Subs Menu</a></li>
                         <li><a href="#menu-fries"><i class="fa-solid fa-angle-right"></i> Loaded French Fries</a></li>
-                        <li><a href="#locations"><i class="fa-solid fa-angle-right"></i> 7 Store Locations</a></li>
+                        <li><a href="#locations"><i class="fa-solid fa-angle-right"></i> Store Locations</a></li>
+                        <li><a href="#events"><i class="fa-solid fa-angle-right"></i> Catering &amp; Events</a></li>
                         <li><a href="case-study.html"><i class="fa-solid fa-angle-right"></i> WordPress &amp; Toast Tech Docs</a></li>
                     </ul>
                 </div>
