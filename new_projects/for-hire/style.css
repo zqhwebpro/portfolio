@@ -1199,6 +1199,293 @@ body {
   white-space: nowrap;
 }
 
+/* ==========================================================================
+   FLYING SHAPES FOR PRICING CARDS (Left & Right Cards Extending Outward)
+   ========================================================================== */
+.pricing-card-left,
+.pricing-card-right {
+  position: relative;
+}
+
+.pricing-shape-fly {
+  position: absolute;
+  pointer-events: auto;
+  cursor: default;
+  z-index: 12;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-weight: 800;
+  border: var(--brutal-border);
+  box-shadow: var(--brutal-shadow);
+  transition: transform 0.25s ease, box-shadow 0.25s ease;
+  user-select: none;
+}
+
+.pricing-shape-fly:hover {
+  transform: scale(1.18) !important;
+  z-index: 25;
+  box-shadow: 7px 7px 0px var(--slate-900);
+}
+
+/* --- Left Card Flying Shapes (Extending Out to the Left) --- */
+.shape-left-star {
+  width: 54px;
+  height: 54px;
+  background: var(--pop-amber);
+  top: -18px;
+  left: -32px;
+  border-radius: 12px;
+  font-size: 1.4rem;
+  color: var(--slate-900);
+  animation: fly-out-left-star 4.8s ease-in-out infinite alternate;
+}
+
+@keyframes fly-out-left-star {
+  0% {
+    transform: rotate(14deg) translate(0px, 0px);
+  }
+  50% {
+    transform: rotate(6deg) translate(-14px, -6px);
+  }
+  100% {
+    transform: rotate(24deg) translate(-26px, -2px);
+  }
+}
+
+.shape-left-circle {
+  width: 48px;
+  height: 48px;
+  background: var(--pop-coral);
+  top: 30%;
+  left: -38px;
+  border-radius: 50%;
+  font-size: 1.15rem;
+  color: var(--white);
+  animation: fly-out-left-circle 5.4s ease-in-out infinite alternate;
+}
+
+@keyframes fly-out-left-circle {
+  0% {
+    transform: translate(0px, 0px) scale(1);
+  }
+  50% {
+    transform: translate(-18px, 10px) scale(1.06);
+  }
+  100% {
+    transform: translate(-32px, -6px) scale(0.96);
+  }
+}
+
+.shape-left-pill {
+  padding: 6px 14px;
+  background: var(--pop-yellow);
+  color: var(--slate-900);
+  font-family: var(--font-mono);
+  font-size: 0.72rem;
+  font-weight: 800;
+  letter-spacing: 0.05em;
+  border-radius: var(--brutal-radius-pill);
+  top: 60%;
+  left: -46px;
+  white-space: nowrap;
+  animation: fly-out-left-pill 5.8s ease-in-out infinite alternate;
+}
+
+@keyframes fly-out-left-pill {
+  0% {
+    transform: rotate(-10deg) translate(0px, 0px);
+  }
+  50% {
+    transform: rotate(-4deg) translate(-16px, -10px);
+  }
+  100% {
+    transform: rotate(-16deg) translate(-30px, 8px);
+  }
+}
+
+.shape-left-square {
+  width: 44px;
+  height: 44px;
+  background: var(--blue-primary);
+  bottom: 22px;
+  left: -28px;
+  border-radius: 10px;
+  font-size: 1.1rem;
+  color: var(--white);
+  animation: fly-out-left-square 4.4s ease-in-out infinite alternate;
+}
+
+@keyframes fly-out-left-square {
+  0% {
+    transform: rotate(8deg) translate(0px, 0px);
+  }
+  50% {
+    transform: rotate(18deg) translate(-14px, 10px);
+  }
+  100% {
+    transform: rotate(0deg) translate(-26px, 18px);
+  }
+}
+
+/* --- Right Card Flying Shapes (Extending Out to the Right) --- */
+.shape-right-star {
+  width: 54px;
+  height: 54px;
+  background: var(--pop-purple);
+  top: -18px;
+  right: -32px;
+  border-radius: 12px;
+  font-size: 1.4rem;
+  color: var(--white);
+  animation: fly-out-right-star 5s ease-in-out infinite alternate;
+}
+
+@keyframes fly-out-right-star {
+  0% {
+    transform: rotate(-14deg) translate(0px, 0px);
+  }
+  50% {
+    transform: rotate(-6deg) translate(14px, -6px);
+  }
+  100% {
+    transform: rotate(-22deg) translate(26px, -2px);
+  }
+}
+
+.shape-right-pill {
+  padding: 6px 14px;
+  background: var(--sky-blue);
+  color: var(--slate-950);
+  font-family: var(--font-mono);
+  font-size: 0.72rem;
+  font-weight: 800;
+  letter-spacing: 0.05em;
+  border-radius: var(--brutal-radius-pill);
+  top: 32%;
+  right: -48px;
+  white-space: nowrap;
+  animation: fly-out-right-pill 5.6s ease-in-out infinite alternate;
+}
+
+@keyframes fly-out-right-pill {
+  0% {
+    transform: rotate(10deg) translate(0px, 0px);
+  }
+  50% {
+    transform: rotate(4deg) translate(16px, 12px);
+  }
+  100% {
+    transform: rotate(18deg) translate(30px, -6px);
+  }
+}
+
+.shape-right-square {
+  width: 46px;
+  height: 46px;
+  background: var(--pop-emerald);
+  top: 62%;
+  right: -34px;
+  border-radius: 10px;
+  font-size: 1.1rem;
+  color: var(--white);
+  animation: fly-out-right-square 4.6s ease-in-out infinite alternate;
+}
+
+@keyframes fly-out-right-square {
+  0% {
+    transform: rotate(12deg) translate(0px, 0px);
+  }
+  50% {
+    transform: rotate(4deg) translate(14px, -10px);
+  }
+  100% {
+    transform: rotate(20deg) translate(26px, 10px);
+  }
+}
+
+.shape-right-circle {
+  width: 48px;
+  height: 48px;
+  background: var(--pop-amber);
+  bottom: 22px;
+  right: -28px;
+  border-radius: 50%;
+  font-size: 1.15rem;
+  color: var(--slate-900);
+  animation: fly-out-right-circle 5.2s ease-in-out infinite alternate;
+}
+
+@keyframes fly-out-right-circle {
+  0% {
+    transform: translate(0px, 0px) scale(1);
+  }
+  50% {
+    transform: translate(14px, 12px) scale(1.06);
+  }
+  100% {
+    transform: translate(26px, 4px) scale(0.96);
+  }
+}
+
+/* Card Hover Reactions for Flying Shapes */
+.pricing-card-left:hover .shape-left-star {
+  box-shadow: 7px 7px 0px var(--slate-900);
+}
+.pricing-card-left:hover .shape-left-pill {
+  box-shadow: 7px 7px 0px var(--slate-900);
+}
+.pricing-card-right:hover .shape-right-star {
+  box-shadow: 7px 7px 0px var(--slate-900);
+}
+.pricing-card-right:hover .shape-right-pill {
+  box-shadow: 7px 7px 0px var(--slate-900);
+}
+
+/* Viewport & Responsive Scaling */
+@media (max-width: 1280px) {
+  .shape-left-star { left: -22px; }
+  .shape-left-circle { left: -26px; }
+  .shape-left-pill { left: -32px; }
+  .shape-left-square { left: -20px; }
+
+  .shape-right-star { right: -22px; }
+  .shape-right-pill { right: -32px; }
+  .shape-right-square { right: -22px; }
+  .shape-right-circle { right: -20px; }
+}
+
+@media (max-width: 992px) {
+  .pricing-shape-fly {
+    transform: scale(0.85);
+  }
+}
+
+@media (max-width: 640px) {
+  .shape-left-circle,
+  .shape-left-square,
+  .shape-right-square,
+  .shape-right-circle {
+    display: none;
+  }
+  .shape-left-star {
+    left: -12px;
+    top: -12px;
+  }
+  .shape-left-pill {
+    left: -12px;
+    top: 50%;
+  }
+  .shape-right-star {
+    right: -12px;
+    top: -12px;
+  }
+  .shape-right-pill {
+    right: -12px;
+    top: 50%;
+  }
+}
+
 .tier-category {
   font-family: var(--font-mono);
   font-size: 0.78rem;

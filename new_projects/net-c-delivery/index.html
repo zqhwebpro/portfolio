@@ -1868,6 +1868,7 @@
             .menu-grid {
                 grid-template-columns: 1fr;
             }
+        }
 
         /* ==========================================================================
            CUSTOM PROGRAMMED EVENTS CALENDAR, POSTS & ADMIN PANEL
@@ -2503,6 +2504,7 @@
             .events-main-layout {
                 grid-template-columns: 1fr;
             }
+
             .calendar-card {
                 position: static;
             }
@@ -2647,7 +2649,8 @@
                 </div>
                 <div class="admin-bar-right">
                     <span class="admin-bar-status" id="topBarApiStatus">
-                        <span class="admin-status-dot"></span> <span id="topBarApiStatusText">.NET 9 Web API Online</span>
+                        <span class="admin-status-dot"></span> <span id="topBarApiStatusText">.NET 9 Web API
+                            Online</span>
                     </span>
                     <span class="admin-bar-divider">|</span>
                     <div class="admin-user-info">
@@ -2669,7 +2672,8 @@
                 <div class="top-promo">
                     <span class="badge-free">TOAST POS DELIVERY</span>
                     <span>Free Direct Delivery on Sub &amp; Fries Orders $25+ | Zero Third-Party App Markup</span>
-                    <span class="dotnet-badge" title="Enterprise .NET 9 C# Backend Solution" style="margin-left: 8px;"><i class="fa-brands fa-microsoft"></i> .NET 9 C#</span>
+                    <span class="dotnet-badge" title="Enterprise .NET 9 C# Backend Solution"
+                        style="margin-left: 8px;"><i class="fa-brands fa-microsoft"></i> .NET 9 C#</span>
                 </div>
                 <div class="top-locations">
                     <span class="toast-status"><span class="pulse-dot"></span> Toast POS Online</span>
@@ -3202,8 +3206,7 @@
              ======================================================================== -->
         <section class="events-section" id="events"
             data-blueprint-file="ParmaDelivery.WebAPI/Controllers/EventsController.cs"
-            data-blueprint-role="RESTful Community Events Controller"
-            data-blueprint-layer="ASP.NET Core 9 Web API"
+            data-blueprint-role="RESTful Community Events Controller" data-blueprint-layer="ASP.NET Core 9 Web API"
             data-blueprint-dom="Section #events &rarr; Custom Calendar &amp; Event Posts Grid"
             data-blueprint-desc="Dispatches community dining specials, team fundraisers, and acoustic sessions from ParmaDelivery.Core."
             data-blueprint-code="[HttpGet] public async Task&lt;ActionResult&lt;IEnumerable&lt;CommunityEvent&gt;&gt;&gt; GetAll([FromQuery] string? date)">
@@ -3214,7 +3217,9 @@
                         <span class="section-tagline">Community &amp; Gatherings</span>
                         <h2>Upcoming Events &amp; Community Calendar</h2>
                         <p>
-                            Explore upcoming school fundraisers, game day tailgate buffets, live patio music, and charity tasting events across South Central PA. Click any date or event card to view details.
+                            Explore upcoming school fundraisers, game day tailgate buffets, live patio music, and
+                            charity tasting events across South Central PA. Click any date or event card to view
+                            details.
                         </p>
                     </div>
                     <div>
@@ -3234,7 +3239,7 @@
 
                 <!-- Main Layout: Calendar Widget + Event Post Cards -->
                 <div class="events-main-layout">
-                    
+
                     <!-- Left: Interactive Calendar Widget -->
                     <aside class="calendar-card"
                         data-blueprint-file="ParmaDelivery.Infrastructure/Repositories/JsonEventRepository.cs"
@@ -3275,7 +3280,8 @@
                         <!-- Active Filter Status -->
                         <div class="calendar-active-filter-bar">
                             <span id="calendarFilterStatus">Showing: All Events</span>
-                            <button class="btn-clear-filter" id="btnClearDateFilter" onclick="clearDateFilter()" style="display: none;">Show All</button>
+                            <button class="btn-clear-filter" id="btnClearDateFilter" onclick="clearDateFilter()"
+                                style="display: none;">Show All</button>
                         </div>
                     </aside>
 
@@ -3362,14 +3368,17 @@
     <div class="modal-overlay" id="eventAdminModal">
         <div class="event-admin-modal-card">
             <div class="event-admin-header">
-                <h3><i class="fa-solid fa-calendar-days" style="color: var(--parma-gold);"></i> Events Manager Backend</h3>
+                <h3><i class="fa-solid fa-calendar-days" style="color: var(--parma-gold);"></i> Events Manager Backend
+                </h3>
                 <button class="modal-close-btn" onclick="closeEventAdminModal()">&times;</button>
             </div>
 
             <!-- .NET 9 Architecture & Connection Status Badge -->
-            <div style="display: flex; align-items: center; justify-content: space-between; flex-wrap: wrap; gap: 8px; margin-bottom: 12px;">
+            <div
+                style="display: flex; align-items: center; justify-content: space-between; flex-wrap: wrap; gap: 8px; margin-bottom: 12px;">
                 <span class="dotnet-badge"><i class="fa-brands fa-microsoft"></i> ASP.NET Core 9 Web API</span>
-                <div id="backendApiStatusBadge"><i class="fa-solid fa-circle-notch fa-spin"></i> Checking .NET API...</div>
+                <div id="backendApiStatusBadge"><i class="fa-solid fa-circle-notch fa-spin"></i> Checking .NET API...
+                </div>
             </div>
 
             <!-- Tabs: Add Event vs Manage/Delete Events -->
@@ -3378,7 +3387,8 @@
                     <i class="fa-solid fa-circle-plus"></i> Add New Event Post
                 </button>
                 <button class="event-admin-tab-btn" id="tabBtnManage" onclick="switchAdminTab('manage')">
-                    <i class="fa-solid fa-list-check"></i> Manage &amp; Delete Events (<span id="adminTabCount">0</span>)
+                    <i class="fa-solid fa-list-check"></i> Manage &amp; Delete Events (<span
+                        id="adminTabCount">0</span>)
                 </button>
             </div>
 
@@ -3392,52 +3402,67 @@
                         </div>
                         <div class="event-form-group">
                             <label for="eventTimeInput">Event Time (Optional)</label>
-                            <input type="text" id="eventTimeInput" class="event-form-input" placeholder="e.g. 5:00 PM - 9:00 PM" />
+                            <input type="text" id="eventTimeInput" class="event-form-input"
+                                placeholder="e.g. 5:00 PM - 9:00 PM" />
                         </div>
                     </div>
 
                     <div class="event-form-group">
                         <label for="eventHeadlineInput">Headline / Event Title *</label>
-                        <input type="text" id="eventHeadlineInput" class="event-form-input" placeholder="e.g. Friday Night Football Tailgate &amp; Sub Buffet" required />
+                        <input type="text" id="eventHeadlineInput" class="event-form-input"
+                            placeholder="e.g. Friday Night Football Tailgate &amp; Sub Buffet" required />
                     </div>
 
                     <div class="event-form-group">
                         <label for="eventTextInput">Event Description &amp; Details *</label>
-                        <textarea id="eventTextInput" class="event-form-textarea" rows="3" placeholder="Describe the community event, food buffet, specials, and venue details..." required></textarea>
+                        <textarea id="eventTextInput" class="event-form-textarea" rows="3"
+                            placeholder="Describe the community event, food buffet, specials, and venue details..."
+                            required></textarea>
                     </div>
 
                     <div class="event-form-group">
                         <label for="eventImageInput">Image URL *</label>
-                        <input type="text" id="eventImageInput" class="event-form-input" value="./images/hero-cheesesteak.jpg" required />
+                        <input type="text" id="eventImageInput" class="event-form-input"
+                            value="./images/hero-cheesesteak.jpg" required />
                         <div class="preset-img-chips">
                             <span style="font-size: 0.76rem; color: #64748b; align-self: center;">Quick Presets:</span>
-                            <button type="button" class="preset-chip-btn" onclick="selectImagePreset('./images/hero-cheesesteak.jpg')">Cheesesteak Sub</button>
-                            <button type="button" class="preset-chip-btn" onclick="selectImagePreset('./images/loaded-fries.jpg')">Loaded Fries</button>
+                            <button type="button" class="preset-chip-btn"
+                                onclick="selectImagePreset('./images/hero-cheesesteak.jpg')">Cheesesteak Sub</button>
+                            <button type="button" class="preset-chip-btn"
+                                onclick="selectImagePreset('./images/loaded-fries.jpg')">Loaded Fries</button>
                         </div>
                     </div>
 
                     <div style="display: grid; grid-template-columns: 1.2fr 0.8fr; gap: 14px;">
                         <div class="event-form-group">
                             <label for="eventBtnTextInput">Button Text *</label>
-                            <input type="text" id="eventBtnTextInput" class="event-form-input" placeholder="e.g. Pre-Order Tailgate Platter" required />
+                            <input type="text" id="eventBtnTextInput" class="event-form-input"
+                                placeholder="e.g. Pre-Order Tailgate Platter" required />
                         </div>
 
                         <div class="event-form-group">
                             <label for="eventBtnColorInput">Button Color *</label>
                             <div class="event-color-picker-row">
-                                <input type="color" id="eventBtnColorInput" value="#b91c1c" style="width: 44px; height: 38px; border: none; cursor: pointer; border-radius: 6px; padding: 0;" />
-                                <button type="button" class="color-swatch-btn" style="background: #b91c1c;" title="Parma Red" onclick="selectColorPreset('#b91c1c')"></button>
-                                <button type="button" class="color-swatch-btn" style="background: #2563eb;" title="Royal Blue" onclick="selectColorPreset('#2563eb')"></button>
-                                <button type="button" class="color-swatch-btn" style="background: #059669;" title="Emerald Green" onclick="selectColorPreset('#059669')"></button>
-                                <button type="button" class="color-swatch-btn" style="background: #d97706;" title="Amber Gold" onclick="selectColorPreset('#d97706')"></button>
-                                <button type="button" class="color-swatch-btn" style="background: #7c3aed;" title="Purple" onclick="selectColorPreset('#7c3aed')"></button>
+                                <input type="color" id="eventBtnColorInput" value="#b91c1c"
+                                    style="width: 44px; height: 38px; border: none; cursor: pointer; border-radius: 6px; padding: 0;" />
+                                <button type="button" class="color-swatch-btn" style="background: #b91c1c;"
+                                    title="Parma Red" onclick="selectColorPreset('#b91c1c')"></button>
+                                <button type="button" class="color-swatch-btn" style="background: #2563eb;"
+                                    title="Royal Blue" onclick="selectColorPreset('#2563eb')"></button>
+                                <button type="button" class="color-swatch-btn" style="background: #059669;"
+                                    title="Emerald Green" onclick="selectColorPreset('#059669')"></button>
+                                <button type="button" class="color-swatch-btn" style="background: #d97706;"
+                                    title="Amber Gold" onclick="selectColorPreset('#d97706')"></button>
+                                <button type="button" class="color-swatch-btn" style="background: #7c3aed;"
+                                    title="Purple" onclick="selectColorPreset('#7c3aed')"></button>
                             </div>
                         </div>
                     </div>
 
                     <div class="event-form-group">
                         <label for="eventBtnLinkInput">Button Action Link (as a Post) *</label>
-                        <input type="text" id="eventBtnLinkInput" class="event-form-input" value="#menu-subs" placeholder="e.g. #menu-subs, #menu-fries, tel:7178983707, or external URL" required />
+                        <input type="text" id="eventBtnLinkInput" class="event-form-input" value="#menu-subs"
+                            placeholder="e.g. #menu-subs, #menu-fries, tel:7178983707, or external URL" required />
                     </div>
 
                     <button type="submit" class="btn-admin-submit">
@@ -3451,7 +3476,8 @@
             <div class="event-admin-body" id="adminTabContentManage" style="display: none;">
                 <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 16px;">
                     <span style="font-size: 0.88rem; font-weight: 700; color: #1e2229;">Active Calendar Events</span>
-                    <button type="button" class="preset-chip-btn" onclick="resetDefaultEvents()" style="color: var(--parma-red);">
+                    <button type="button" class="preset-chip-btn" onclick="resetDefaultEvents()"
+                        style="color: var(--parma-red);">
                         <i class="fa-solid fa-rotate-left"></i> Restore Example Events
                     </button>
                 </div>
@@ -3764,10 +3790,12 @@
                     <h4>Quick Links</h4>
                     <ul class="footer-nav-list">
                         <li><a href="#welcome"><i class="fa-solid fa-angle-right"></i> Home &amp; Tradition</a></li>
-                        <li><a href="#menu-subs"><i class="fa-solid fa-angle-right"></i> Delivery Subs &amp; Fries</a></li>
+                        <li><a href="#menu-subs"><i class="fa-solid fa-angle-right"></i> Delivery Subs &amp; Fries</a>
+                        </li>
                         <li><a href="#events"><i class="fa-solid fa-angle-right"></i> Community Events Calendar</a></li>
                         <li><a href="#reviews"><i class="fa-solid fa-angle-right"></i> Customer Reviews</a></li>
-                        <li><a href="case-study.html"><i class="fa-solid fa-angle-right"></i> .NET 9 &amp; Toast Tech Docs</a></li>
+                        <li><a href="case-study.html"><i class="fa-solid fa-angle-right"></i> .NET 9 &amp; Toast Tech
+                                Docs</a></li>
                     </ul>
                 </div>
 
@@ -4525,7 +4553,7 @@
                 cell.innerText = day;
 
                 const dateStr = `${calendarYear}-${String(calendarMonth + 1).padStart(2, '0')}-${String(day).padStart(2, '0')}`;
-                
+
                 // Check if this date has any events
                 const matchingEvents = parmaEvents.filter(e => e.date === dateStr);
                 if (matchingEvents.length > 0) {
