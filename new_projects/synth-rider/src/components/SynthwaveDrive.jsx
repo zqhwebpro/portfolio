@@ -2,10 +2,7 @@ import React, { useState, useEffect, useRef, useCallback } from 'react';
 import { RearviewMirror } from './RearviewMirror';
 import { WaveformVisualizer } from './WaveformVisualizer';
 import { SpotifyRadio } from './SpotifyRadio';
-
-// ---------------------------------------------------------------------------
-// Wikipedia API helpers
-// ---------------------------------------------------------------------------
+import { RANDOM_WIKI_RESERVE } from '../data/randomWikiArticles';
 
 // ---------------------------------------------------------------------------
 // Wikipedia API helpers & Curated Reserve
@@ -85,19 +82,83 @@ const CURATED_WIKI_FALLBACKS = [
     image: 'https://thumb.wikimedia.org/wikipedia/commons/thumb/6/68/Daft_Punk_in_2013_2-_centered.jpg/330px-Daft_Punk_in_2013_2-_centered.jpg?utm_source=en.wikipedia.org&utm_campaign=api&utm_content=thumbnail',
     url: 'https://en.wikipedia.org/wiki/Daft_Punk',
   },
+  {
+    title: 'Amiga',
+    extract: 'Amiga is a family of personal computers introduced in 1985 by Commodore, celebrated for groundbreaking multitasking, color graphics, and influential demoscene tracker music.',
+    image: 'https://thumb.wikimedia.org/wikipedia/commons/thumb/c/c3/Amiga500_system.jpg/330px-Amiga500_system.jpg?utm_source=en.wikipedia.org&utm_campaign=api&utm_content=thumbnail',
+    url: 'https://en.wikipedia.org/wiki/Amiga',
+  },
+  {
+    title: 'Atari 2600',
+    extract: 'The Atari 2600 is a pioneering home video game console released in 1977 that popularized microprocessor-based hardware and ROM cartridges, defining early arcade gaming at home.',
+    image: 'https://thumb.wikimedia.org/wikipedia/commons/thumb/0/02/Atari-2600-Wood-4Sw-Set.png/330px-Atari-2600-Wood-4Sw-Set.png?utm_source=en.wikipedia.org&utm_campaign=api&utm_content=thumbnail',
+    url: 'https://en.wikipedia.org/wiki/Atari_2600',
+  },
+  {
+    title: 'Hubble Space Telescope',
+    extract: 'The Hubble Space Telescope is a space observatory launched in 1990 into low Earth orbit, providing breathtaking deep space imagery that revolutionized modern astrophysics.',
+    image: 'https://thumb.wikimedia.org/wikipedia/commons/thumb/4/4a/Hubble_2009_close-up_2.jpg/330px-Hubble_2009_close-up_2.jpg?utm_source=en.wikipedia.org&utm_campaign=api&utm_content=thumbnail',
+    url: 'https://en.wikipedia.org/wiki/Hubble_Space_Telescope',
+  },
+  {
+    title: 'Sega Genesis',
+    extract: 'The Sega Genesis is a 16-bit fourth-generation video game console released by Sega in 1989, known for its edgy arcade ports, high blast processing speed, and iconic FM synth audio.',
+    image: 'https://thumb.wikimedia.org/wikipedia/commons/thumb/a/a1/Sega-Mega-Drive-JP-Mk1-Console-Set.jpg/330px-Sega-Mega-Drive-JP-Mk1-Console-Set.jpg?utm_source=en.wikipedia.org&utm_campaign=api&utm_content=thumbnail',
+    url: 'https://en.wikipedia.org/wiki/Sega_Genesis',
+  },
+  {
+    title: 'Floppy disk',
+    extract: 'A floppy disk is an iconic magnetic storage disk enclosed in a square plastic shell, serving as the quintessential universal save icon and primary data exchange format of the 1980s and 1990s.',
+    image: 'https://thumb.wikimedia.org/wikipedia/commons/thumb/a/aa/Floppy_disk_2009_G1.jpg/330px-Floppy_disk_2009_G1.jpg?utm_source=en.wikipedia.org&utm_campaign=api&utm_content=thumbnail',
+    url: 'https://en.wikipedia.org/wiki/Floppy_disk',
+  },
+  {
+    title: 'Game Boy',
+    extract: 'The Game Boy is an 8-bit handheld game console released by Nintendo in 1989, legendary for its rugged design, dot-matrix green LCD screen, and astronomical worldwide popularity.',
+    image: 'https://thumb.wikimedia.org/wikipedia/commons/thumb/7/7c/Game-Boy-FL.png/330px-Game-Boy-FL.png?utm_source=en.wikipedia.org&utm_campaign=api&utm_content=thumbnail',
+    url: 'https://en.wikipedia.org/wiki/Game_Boy',
+  },
+  {
+    title: 'Ferrari Testarossa',
+    extract: 'The Ferrari Testarossa is a 12-cylinder mid-engine sports car produced in 1984, renowned for its side strakes, ultra-wide rear stance, and defining role in 1980s synthwave pop culture.',
+    image: 'https://thumb.wikimedia.org/wikipedia/commons/thumb/0/0c/Ferrari_Testarossa_IMG_3043.jpg/330px-Ferrari_Testarossa_IMG_3043.jpg?utm_source=en.wikipedia.org&utm_campaign=api&utm_content=thumbnail',
+    url: 'https://en.wikipedia.org/wiki/Ferrari_Testarossa',
+  },
+  {
+    title: 'Dodge Viper',
+    extract: 'The Dodge Viper is an iconic American sports car unveiled in 1989, built around an immense 8.0-liter V10 engine delivering raw, unfiltered speed and muscular styling.',
+    image: 'https://thumb.wikimedia.org/wikipedia/commons/thumb/8/89/%22_14_Fiat-Chrysler_SRT_Viper_GTS_%28cropped%29.jpg/330px-%22_14_Fiat-Chrysler_SRT_Viper_GTS_%28cropped%29.jpg?utm_source=en.wikipedia.org&utm_campaign=api&utm_content=thumbnail',
+    url: 'https://en.wikipedia.org/wiki/Dodge_Viper',
+  },
 ];
 
-/** Fetch a batch of live random Wikipedia articles via MediaWiki Action API with timeout */
-async function fetchWikiBatch(count = 6) {
+/** Combined master fallback pool of curated thematic + rich random Wikipedia reserve */
+const ALL_FALLBACK_ARTICLES = [...CURATED_WIKI_FALLBACKS, ...RANDOM_WIKI_RESERVE];
+
+/** Fisher-Yates array shuffle for true non-biased randomness */
+function shuffleArray(arr) {
+  const copy = [...arr];
+  for (let i = copy.length - 1; i > 0; i--) {
+    const j = Math.floor(Math.random() * (i + 1));
+    [copy[i], copy[j]] = [copy[j], copy[i]];
+  }
+  return copy;
+}
+
+/** Fetch a batch of live random Wikipedia articles via MediaWiki Action API with timeout and deduplication */
+async function fetchWikiBatch(count = 10, seenTitles = new Set()) {
   const controller = new AbortController();
-  const timeoutId = setTimeout(() => controller.abort(), 4500);
+  const timeoutId = setTimeout(() => controller.abort(), 5000);
 
   try {
-    // Request up to 24 random items so we can filter strictly to articles with a verified thumbnail image
-    const url = `https://en.wikipedia.org/w/api.php?action=query&format=json&origin=*&generator=random&grnnamespace=0&grnlimit=24&prop=extracts|pageimages|info&inprop=url&exintro=1&explaintext=1&exchars=240&piprop=thumbnail&pithumbsize=330`;
+    // Request up to 50 random items with Api-User-Agent for high yield of articles with thumbnails
+    const url = `https://en.wikipedia.org/w/api.php?action=query&format=json&origin=*&generator=random&grnnamespace=0&grnlimit=50&prop=extracts|pageimages|info&inprop=url&exintro=1&explaintext=1&exchars=240&piprop=thumbnail&pithumbsize=330`;
     const res = await fetch(url, {
       signal: controller.signal,
-      headers: { Accept: 'application/json' },
+      headers: {
+        Accept: 'application/json',
+        'Api-User-Agent': 'SynthRiderGame/2.0 (https://zqhwebpro.github.io/portfolio/; contact@zqh.me)',
+      },
     });
     clearTimeout(timeoutId);
     if (!res.ok) throw new Error(`Wiki API ${res.status}`);
@@ -107,7 +168,10 @@ async function fetchWikiBatch(count = 6) {
     const articles = [];
     for (const page of pages) {
       // Must have an image thumbnail, title, and valid extract
-      if (!page || !page.title || !page.thumbnail?.source) continue;
+      if (!page || !page.title || !page.thumbnail?.source || !page.extract) continue;
+      // Guarantee uniqueness: discard if already seen by user
+      if (seenTitles.has(page.title)) continue;
+
       const cleanExtract = (page.extract || '')
         .replace(/<[^>]*>/g, '')
         .replace(/\s+/g, ' ')
@@ -126,10 +190,10 @@ async function fetchWikiBatch(count = 6) {
     return articles;
   } catch (err) {
     clearTimeout(timeoutId);
-    // Secondary fallback: attempt single summary endpoint with 3s timeout
+    // Secondary fallback: attempt single random summary endpoint with timeout
     try {
       const single = await fetchSingleWikiSummary();
-      if (single && single.image) return [single];
+      if (single && single.image && !seenTitles.has(single.title)) return [single];
     } catch (e2) {}
     return [];
   }
@@ -138,16 +202,19 @@ async function fetchWikiBatch(count = 6) {
 /** Fallback single random summary fetch */
 async function fetchSingleWikiSummary() {
   const controller = new AbortController();
-  const timeoutId = setTimeout(() => controller.abort(), 3000);
+  const timeoutId = setTimeout(() => controller.abort(), 3500);
   try {
     const res = await fetch('https://en.wikipedia.org/api/rest_v1/page/random/summary', {
       signal: controller.signal,
-      headers: { Accept: 'application/json' },
+      headers: {
+        Accept: 'application/json',
+        'Api-User-Agent': 'SynthRiderGame/2.0 (https://zqhwebpro.github.io/portfolio/; contact@zqh.me)',
+      },
     });
     clearTimeout(timeoutId);
     if (!res.ok) return null;
     const data = await res.json();
-    if (!data.thumbnail?.source) return null;
+    if (!data.thumbnail?.source || !data.title) return null;
     return {
       title: data.title,
       extract: data.extract_html
@@ -164,17 +231,47 @@ async function fetchSingleWikiSummary() {
   }
 }
 
-/** Get next guaranteed article from pool or rotate curated reserve (NEVER returns empty, image ALWAYS present) */
-function getNextArticle(poolRef, fallbackIndexRef) {
+/** Get next guaranteed article randomly from pool or reserve (NEVER repeats, NEVER returns empty, image ALWAYS present) */
+function getNextArticle(poolRef, seenTitlesRef, fallbackReserve) {
+  // 1. Pick a random article from poolRef that has not been seen yet
   while (poolRef.current && poolRef.current.length > 0) {
-    const candidate = poolRef.current.shift();
-    if (candidate && candidate.image) {
+    const randIdx = Math.floor(Math.random() * poolRef.current.length);
+    const candidate = poolRef.current.splice(randIdx, 1)[0];
+    if (
+      candidate &&
+      candidate.title &&
+      candidate.image &&
+      !seenTitlesRef.current.has(candidate.title)
+    ) {
+      seenTitlesRef.current.add(candidate.title);
       return candidate;
     }
   }
-  const idx = fallbackIndexRef.current % CURATED_WIKI_FALLBACKS.length;
-  fallbackIndexRef.current += 1;
-  return { ...CURATED_WIKI_FALLBACKS[idx] };
+
+  // 2. Pick randomly from fallback reserve articles that haven't been seen
+  const unseenFallbacks = fallbackReserve.filter(
+    (a) => a && a.title && !seenTitlesRef.current.has(a.title)
+  );
+  if (unseenFallbacks.length > 0) {
+    const chosen = unseenFallbacks[Math.floor(Math.random() * unseenFallbacks.length)];
+    seenTitlesRef.current.add(chosen.title);
+    return { ...chosen };
+  }
+
+  // 3. Fallback exhausted safeguard: If all 70+ reserve articles have been seen,
+  // retain only the most recent 10 seen titles so we don't repeat anything recently seen
+  const recentSeen = Array.from(seenTitlesRef.current).slice(-10);
+  seenTitlesRef.current = new Set(recentSeen);
+
+  const available = fallbackReserve.filter(
+    (a) => a && a.title && !seenTitlesRef.current.has(a.title)
+  );
+  const selected = available.length > 0
+    ? available[Math.floor(Math.random() * available.length)]
+    : fallbackReserve[Math.floor(Math.random() * fallbackReserve.length)];
+
+  seenTitlesRef.current.add(selected.title);
+  return { ...selected };
 }
 
 // ---------------------------------------------------------------------------
@@ -199,9 +296,11 @@ export function SynthwaveDrive() {
   const [autoDrive, setAutoDrive] = useState(false);
   const [playerX, setPlayerX] = useState(0); // Left/Right lateral position (-0.85 to +0.85)
 
-  // Wikipedia article pool (pre-seeded with curated synth/tech reserve + live AJAX enriched)
-  const wikiPoolRef = useRef([...CURATED_WIKI_FALLBACKS].sort(() => Math.random() - 0.5));
-  const fallbackIndexRef = useRef(0);
+  // Set of all article titles seen or queued to prevent any repeats
+  const seenTitlesRef = useRef(new Set());
+
+  // Wikipedia article pool (pre-seeded with randomized reserve + continuous live AJAX enrichment)
+  const wikiPoolRef = useRef(shuffleArray(ALL_FALLBACK_ARTICLES));
   const poolLoadingRef = useRef(false);
 
   // F-Zero Tron bikes (lazy-initialized inside render loop)
@@ -229,14 +328,18 @@ export function SynthwaveDrive() {
     popupsRef.current = popups;
   }, [popups]);
 
-  // Refill pool asynchronously using high-speed MediaWiki Action API batch
+  // Refill pool asynchronously using high-speed MediaWiki Action API batch with Api-User-Agent
   const refillPool = useCallback(async () => {
-    if (poolLoadingRef.current || wikiPoolRef.current.length >= 12) return;
+    if (poolLoadingRef.current || wikiPoolRef.current.length >= 25) return;
     poolLoadingRef.current = true;
     try {
-      const articles = await fetchWikiBatch(6);
+      const articles = await fetchWikiBatch(12, seenTitlesRef.current);
       if (articles && articles.length > 0) {
-        wikiPoolRef.current.push(...articles);
+        const existingInPool = new Set(wikiPoolRef.current.map((a) => a.title));
+        const fresh = articles.filter(
+          (a) => !seenTitlesRef.current.has(a.title) && !existingInPool.has(a.title)
+        );
+        wikiPoolRef.current.push(...fresh);
       }
     } catch (e) {
       // Network isolated
@@ -451,11 +554,11 @@ export function SynthwaveDrive() {
       if (currentDist >= nextMilestoneDistRef.current) {
         milestoneCountRef.current += 1;
 
-        // Guaranteed rich article from live pool or curated reserve (never empty, never loading)
-        const article = getNextArticle(wikiPoolRef, fallbackIndexRef);
+        // Guaranteed rich article chosen randomly from live pool or diverse reserve (never empty, never repeats)
+        const article = getNextArticle(wikiPoolRef, seenTitlesRef, ALL_FALLBACK_ARTICLES);
 
         // Keep the pool topped off with fresh live random articles via AJAX
-        if (wikiPoolRef.current.length < 6) {
+        if (wikiPoolRef.current.length < 15) {
           refillPool();
         }
 
@@ -999,17 +1102,10 @@ function WikiCard({ popup, driveDistance, playerX = 0 }) {
   const rawProgress = (driveDistance - popup.startDist) / 36;
   if (rawProgress > 1.05) return null;
 
-  const fallbackArticle = CURATED_WIKI_FALLBACKS[Math.abs(popup.number || 0) % CURATED_WIKI_FALLBACKS.length];
-  const title = (popup.title && popup.title !== 'Wikipedia' && !popup.title.toLowerCase().includes('finding'))
-    ? popup.title
-    : fallbackArticle.title;
-
-  const extract = (popup.extract && !popup.extract.toLowerCase().includes('loading') && !popup.extract.toLowerCase().includes('finding'))
-    ? popup.extract
-    : fallbackArticle.extract;
-
-  const image = popup.image || fallbackArticle.image;
-  const url = popup.url || fallbackArticle.url;
+  const title = popup.title || CURATED_WIKI_FALLBACKS[0].title;
+  const extract = popup.extract || CURATED_WIKI_FALLBACKS[0].extract;
+  const image = popup.image || CURATED_WIKI_FALLBACKS[0].image;
+  const url = popup.url || CURATED_WIKI_FALLBACKS[0].url;
 
   const p = Math.max(0, Math.min(1, rawProgress));
   const progressY = Math.pow(p, 2.5);
@@ -1147,8 +1243,9 @@ function WikiCard({ popup, driveDistance, playerX = 0 }) {
                 filter: 'brightness(0.95) saturate(1.15)',
               }}
               onError={(e) => {
-                if (e.currentTarget.src !== fallbackArticle.image) {
-                  e.currentTarget.src = fallbackArticle.image;
+                const randomFallback = CURATED_WIKI_FALLBACKS[Math.floor(Math.random() * CURATED_WIKI_FALLBACKS.length)].image;
+                if (e.currentTarget.src !== randomFallback) {
+                  e.currentTarget.src = randomFallback;
                 }
               }}
             />
