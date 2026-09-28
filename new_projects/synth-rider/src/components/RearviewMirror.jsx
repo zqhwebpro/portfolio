@@ -47,6 +47,37 @@ export function RearviewMirror({ speedMph, popups = [], driveDistance = 0, playe
       ctx.fillStyle = '#030007';
       ctx.fillRect(0, horizonY, width, height - horizonY);
 
+      // Central Information Superhighway corridor in rear reflection
+      const fanning = 16;
+      const cx = width / 2;
+      const startLeft  = cx - playerX * (width * 0.04) + (-3 / fanning) * 16;
+      const startRight = cx - playerX * (width * 0.04) + (3 / fanning) * 16;
+      const endLeft    = cx - playerX * (width * 0.35) - 3 * (width * 0.08);
+      const endRight   = cx - playerX * (width * 0.35) + 3 * (width * 0.08);
+
+      ctx.fillStyle = 'rgba(26, 5, 48, 0.85)';
+      ctx.beginPath();
+      ctx.moveTo(startLeft, horizonY);
+      ctx.lineTo(startRight, horizonY);
+      ctx.lineTo(endRight, height);
+      ctx.lineTo(endLeft, height);
+      ctx.closePath();
+      ctx.fill();
+
+      // Rear Center Dashed Line (receding)
+      ctx.save();
+      ctx.setLineDash([14, 10]);
+      ctx.lineDashOffset = offsetRef.current * 1.5;
+      ctx.strokeStyle = '#FFE600';
+      ctx.shadowColor = '#FFE600';
+      ctx.shadowBlur = 6;
+      ctx.lineWidth = 2.0;
+      ctx.beginPath();
+      ctx.moveTo(cx - playerX * (width * 0.04), horizonY);
+      ctx.lineTo(cx - playerX * (width * 0.35), height);
+      ctx.stroke();
+      ctx.restore();
+
       // Horizontal lines receding backward
       ctx.lineWidth = 1.2;
       const numH = 10;
@@ -63,8 +94,6 @@ export function RearviewMirror({ speedMph, popups = [], driveDistance = 0, playe
       }
 
       // Fan vertical lines shifting with playerX steering
-      const fanning = 16;
-      const cx = width / 2;
       for (let i = -fanning; i <= fanning; i++) {
         const startX = cx - playerX * (width * 0.04) + (i / fanning) * 16;
         const endX = cx - playerX * (width * 0.35) + i * (width * 0.08);

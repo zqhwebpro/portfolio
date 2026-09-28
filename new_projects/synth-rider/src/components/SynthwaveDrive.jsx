@@ -145,10 +145,22 @@ function shuffleArray(arr) {
   return copy;
 }
 
-/** Fetch a batch of live random Wikipedia articles via MediaWiki Action API with timeout and deduplication */
-async function fetchWikiBatch(count = 10, seenTitles = new Set()) {
+/** Pre-computed cyberspace starfield for the Information Superhighway night sky */
+const CYBER_STARS = Array.from({ length: 65 }, (_, i) => ({
+  x: ((i * 137.5) % 100) / 100,
+  y: ((i * 73.1) % 46) / 100, // Top 46% of sky (above mountains)
+  size: (i % 3 === 0) ? 2.2 : (i % 2 === 0 ? 1.5 : 1.0),
+  color: (i % 4 === 0) ? '#00F0FF' : ((i % 4 === 1) ? '#FF007F' : ((i % 4 === 2) ? '#FFE600' : '#FFFFFF')),
+  twinklePhase: (i * 0.9) % (Math.PI * 2),
+}));
+
+/**
+ * Fetch a batch of live random Wikipedia articles via MediaWiki Action API with timeout and deduplication.
+ * Returns { articles: Array, quotaHit: Boolean }.
+ */
+async function fetchWikiBatch(count = 12, seenTitles = new Set()) {
   const controller = new AbortController();
-  const timeoutId = setTimeout(() => controller.abort(), 5000);
+  const timeoutId = setTimeout(() => controller.abort(), 6000);
 
   try {
     // Request up to 50 random items with Api-User-Agent for high yield of articles with thumbnails
@@ -161,15 +173,23 @@ async function fetchWikiBatch(count = 10, seenTitles = new Set()) {
       },
     });
     clearTimeout(timeoutId);
-    if (!res.ok) throw new Error(`Wiki API ${res.status}`);
-    const data = await res.json();
-    const pages = data?.query?.pages ? Object.values(data.query.pages) : [];
 
+    // Detect API rate limit / 429 Too Many Requests / 403 Forbidden
+    if (res.status === 429 || res.status === 403) {
+      return { articles: [], quotaHit: true };
+    }
+    if (!res.ok) throw new Error(`Wiki API ${res.status}`);
+
+    const data = await res.json();
+    if (data?.error?.code === 'ratelimited' || data?.error?.code === 'maxlag') {
+      return { articles: [], quotaHit: true };
+    }
+
+    const pages = data?.query?.pages ? Object.values(data.query.pages) : [];
     const articles = [];
+
     for (const page of pages) {
-      // Must have an image thumbnail, title, and valid extract
       if (!page || !page.title || !page.thumbnail?.source || !page.extract) continue;
-      // Guarantee uniqueness: discard if already seen by user
       if (seenTitles.has(page.title)) continue;
 
       const cleanExtract = (page.extract || '')
@@ -184,18 +204,23 @@ async function fetchWikiBatch(count = 10, seenTitles = new Set()) {
         extract: cleanExtract,
         image: page.thumbnail.source,
         url: page.fullurl || `https://en.wikipedia.org/wiki/${encodeURIComponent(page.title)}`,
+        isCuratedFallback: false,
       });
       if (articles.length >= count) break;
     }
-    return articles;
+
+    return { articles, quotaHit: false };
   } catch (err) {
     clearTimeout(timeoutId);
-    // Secondary fallback: attempt single random summary endpoint with timeout
+    // Secondary fallback: attempt single random summary endpoint
     try {
       const single = await fetchSingleWikiSummary();
-      if (single && single.image && !seenTitles.has(single.title)) return [single];
+      if (single && single.image && !seenTitles.has(single.title)) {
+        return { articles: [{ ...single, isCuratedFallback: false }], quotaHit: false };
+      }
     } catch (e2) {}
-    return [];
+    // If network or API unavailable, treat as potential quota limit or offline
+    return { articles: [], quotaHit: err.name === 'AbortError' ? false : true };
   }
 }
 
@@ -231,12 +256,18 @@ async function fetchSingleWikiSummary() {
   }
 }
 
-/** Get next guaranteed article randomly from pool or reserve (NEVER repeats, NEVER returns empty, image ALWAYS present) */
-function getNextArticle(poolRef, seenTitlesRef, fallbackReserve) {
-  // 1. Pick a random article from poolRef that has not been seen yet
-  while (poolRef.current && poolRef.current.length > 0) {
-    const randIdx = Math.floor(Math.random() * poolRef.current.length);
-    const candidate = poolRef.current.splice(randIdx, 1)[0];
+/**
+ * Get next article:
+ * Priority 1: Pull from live random Wikipedia pool (any random article from global Wikipedia).
+ * Priority 2: When API quota is expended, throttled, or pool is temporarily empty,
+ * seamlessly default to the precurated & verified reserve fallbacks.
+ * Never repeats recently seen articles, never shows broken image, never returns empty.
+ */
+function getNextArticle(livePoolRef, fallbackReserveRef, seenTitlesRef, quotaExpendedRef) {
+  // 1. Primary: Draw from live random Wikipedia article pool if available and not quota-locked
+  while (livePoolRef.current && livePoolRef.current.length > 0) {
+    const randIdx = Math.floor(Math.random() * livePoolRef.current.length);
+    const candidate = livePoolRef.current.splice(randIdx, 1)[0];
     if (
       candidate &&
       candidate.title &&
@@ -244,34 +275,35 @@ function getNextArticle(poolRef, seenTitlesRef, fallbackReserve) {
       !seenTitlesRef.current.has(candidate.title)
     ) {
       seenTitlesRef.current.add(candidate.title);
-      return candidate;
+      return { ...candidate, isCuratedFallback: false };
     }
   }
 
-  // 2. Pick randomly from fallback reserve articles that haven't been seen
-  const unseenFallbacks = fallbackReserve.filter(
+  // 2. Secondary: Fallback reserve (precurated thematic + diverse pre-fetched Wikipedia reserve)
+  // Ensure we pick an unseen fallback article
+  const unseenFallbacks = fallbackReserveRef.current.filter(
     (a) => a && a.title && !seenTitlesRef.current.has(a.title)
   );
+
   if (unseenFallbacks.length > 0) {
     const chosen = unseenFallbacks[Math.floor(Math.random() * unseenFallbacks.length)];
     seenTitlesRef.current.add(chosen.title);
-    return { ...chosen };
+    return { ...chosen, isCuratedFallback: true };
   }
 
-  // 3. Fallback exhausted safeguard: If all 70+ reserve articles have been seen,
-  // retain only the most recent 10 seen titles so we don't repeat anything recently seen
+  // 3. Fallback recycle safeguard: Retain only the most recent 10 seen titles so we don't repeat recent ones
   const recentSeen = Array.from(seenTitlesRef.current).slice(-10);
   seenTitlesRef.current = new Set(recentSeen);
 
-  const available = fallbackReserve.filter(
+  const available = fallbackReserveRef.current.filter(
     (a) => a && a.title && !seenTitlesRef.current.has(a.title)
   );
   const selected = available.length > 0
     ? available[Math.floor(Math.random() * available.length)]
-    : fallbackReserve[Math.floor(Math.random() * fallbackReserve.length)];
+    : fallbackReserveRef.current[Math.floor(Math.random() * fallbackReserveRef.current.length)];
 
   seenTitlesRef.current.add(selected.title);
-  return { ...selected };
+  return { ...selected, isCuratedFallback: true };
 }
 
 // ---------------------------------------------------------------------------
@@ -284,6 +316,7 @@ const FZERO_BIKES = [
   { lineIndex: 15,  color: '#FFD700', exhaust: '#FFFF88', speed: 0.0020, startT: 0.55 }, // Golden Fox
   { lineIndex: 1,   color: '#CC00FF', exhaust: '#FF77FF', speed: 0.0017, startT: 0.44 }, // Death Anchor
 ];
+
 export function SynthwaveDrive() {
   const canvasRef = useRef(null);
   const viewportRef = useRef(null);
@@ -296,12 +329,21 @@ export function SynthwaveDrive() {
   const [autoDrive, setAutoDrive] = useState(false);
   const [playerX, setPlayerX] = useState(0); // Left/Right lateral position (-0.85 to +0.85)
 
+  // API Quota & Fallback indicators
+  const [isCuratedFallback, setIsCuratedFallback] = useState(false);
+  const [quotaExpended, setQuotaExpended] = useState(false);
+  const [articlesStreamed, setArticlesStreamed] = useState(0);
+
   // Set of all article titles seen or queued to prevent any repeats
   const seenTitlesRef = useRef(new Set());
 
-  // Wikipedia article pool (pre-seeded with randomized reserve + continuous live AJAX enrichment)
-  const wikiPoolRef = useRef(shuffleArray(ALL_FALLBACK_ARTICLES));
+  // 1. Live Wikipedia article pool: initially empty, rapidly populated by live API queries
+  const liveWikiPoolRef = useRef([]);
+  // 2. Precurated & prefetched backup reserve: used when live API is loading, offline, or quota is reached
+  const fallbackReserveRef = useRef(shuffleArray(ALL_FALLBACK_ARTICLES));
+
   const poolLoadingRef = useRef(false);
+  const quotaExpendedRef = useRef(false);
 
   // F-Zero Tron bikes (lazy-initialized inside render loop)
   const bikesRef = useRef(null);
@@ -328,18 +370,33 @@ export function SynthwaveDrive() {
     popupsRef.current = popups;
   }, [popups]);
 
-  // Refill pool asynchronously using high-speed MediaWiki Action API batch with Api-User-Agent
-  const refillPool = useCallback(async () => {
-    if (poolLoadingRef.current || wikiPoolRef.current.length >= 25) return;
+  // Refill live random pool continuously from MediaWiki Action API until quota limit
+  const refillLivePool = useCallback(async () => {
+    if (poolLoadingRef.current || liveWikiPoolRef.current.length >= 25 || quotaExpendedRef.current) return;
     poolLoadingRef.current = true;
+
     try {
-      const articles = await fetchWikiBatch(12, seenTitlesRef.current);
+      const { articles, quotaHit } = await fetchWikiBatch(15, seenTitlesRef.current);
+
+      if (quotaHit) {
+        quotaExpendedRef.current = true;
+        setQuotaExpended(true);
+        if (liveWikiPoolRef.current.length === 0) {
+          setIsCuratedFallback(true);
+        }
+        return;
+      }
+
       if (articles && articles.length > 0) {
-        const existingInPool = new Set(wikiPoolRef.current.map((a) => a.title));
+        const existingInPool = new Set(liveWikiPoolRef.current.map((a) => a.title));
         const fresh = articles.filter(
           (a) => !seenTitlesRef.current.has(a.title) && !existingInPool.has(a.title)
         );
-        wikiPoolRef.current.push(...fresh);
+        liveWikiPoolRef.current.push(...fresh);
+
+        // Recovered or active live stream
+        quotaExpendedRef.current = false;
+        setQuotaExpended(false);
       }
     } catch (e) {
       // Network isolated
@@ -348,10 +405,10 @@ export function SynthwaveDrive() {
     }
   }, []);
 
-  // Pre-warm and continuously enrich with live Wikipedia articles on mount
+  // Pre-warm with live Wikipedia articles on mount
   useEffect(() => {
-    refillPool();
-  }, [refillPool]);
+    refillLivePool();
+  }, [refillLivePool]);
 
   const toggleAutoDrive = useCallback(() => {
     setAutoDrive((prev) => {
@@ -554,12 +611,14 @@ export function SynthwaveDrive() {
       if (currentDist >= nextMilestoneDistRef.current) {
         milestoneCountRef.current += 1;
 
-        // Guaranteed rich article chosen randomly from live pool or diverse reserve (never empty, never repeats)
-        const article = getNextArticle(wikiPoolRef, seenTitlesRef, ALL_FALLBACK_ARTICLES);
+        // Guaranteed rich article: Live pool first, or precurated fallback reserve if empty/quota reached
+        const article = getNextArticle(liveWikiPoolRef, fallbackReserveRef, seenTitlesRef, quotaExpendedRef);
+        setIsCuratedFallback(article.isCuratedFallback);
+        setArticlesStreamed((prev) => prev + 1);
 
-        // Keep the pool topped off with fresh live random articles via AJAX
-        if (wikiPoolRef.current.length < 15) {
-          refillPool();
+        // Keep the live pool topped off with fresh live random articles via AJAX if quota is not reached
+        if (liveWikiPoolRef.current.length < 15 && !quotaExpendedRef.current) {
+          refillLivePool();
         }
 
         const startDist = Math.ceil(currentDist);
@@ -572,6 +631,7 @@ export function SynthwaveDrive() {
           extract: article.extract,
           image: article.image,
           url: article.url,
+          isCuratedFallback: article.isCuratedFallback,
         };
 
         // Prune cards that have passed beyond the screen to keep DOM and React lean
@@ -588,14 +648,14 @@ export function SynthwaveDrive() {
       const sunRadius = Math.min(width, height) * 0.25;
       const sunCenterY = horizonY - sunRadius * 0.35;
 
-      // 1. Deep Space Night Sky & Synthwave Sun (with subtle steering parallax)
+      // 1. Deep Space Night Sky & Synthwave Sun (with cyber digital stars & retro horizontal slats)
       drawSkyAndSun(ctx, width, height, horizonY, sunCenterX, sunCenterY, sunRadius, playerXRef.current);
 
       // 2. Distant Mountain Silhouettes
       drawMountains(ctx, width, horizonY, playerXRef.current);
 
-      // 3. 3D Perspective Grid Floor (shifting with lateral road steering)
-      drawGridFloor(ctx, width, height, horizonY, sunCenterX, offsetRef.current, playerXRef.current);
+      // 3. 3D Information Superhighway & Grid (cyber-asphalt deck, dashed divider, laser barriers, data packets)
+      drawGridFloor(ctx, width, height, horizonY, sunCenterX, offsetRef.current, playerXRef.current, speedRef.current);
 
       // 4. F-Zero Tron bikes riding the pink perspective lanes
       if (!bikesRef.current) {
@@ -615,7 +675,7 @@ export function SynthwaveDrive() {
 
     render();
     return () => cancelAnimationFrame(animId);
-  }, [refillPool]);
+  }, [refillLivePool]);
 
   return (
     <div
@@ -643,47 +703,75 @@ export function SynthwaveDrive() {
           display: 'flex',
           flexDirection: 'column',
           alignItems: 'flex-start',
-          gap: '4px',
-          padding: '0.6rem 1.1rem',
-          background: 'linear-gradient(135deg, rgba(14, 4, 32, 0.82) 0%, rgba(6, 1, 18, 0.88) 100%)',
-          backdropFilter: 'blur(14px)',
-          WebkitBackdropFilter: 'blur(14px)',
-          border: '1.5px solid rgba(0, 240, 255, 0.45)',
-          borderRadius: '10px',
-          boxShadow: '0 8px 24px rgba(0, 0, 0, 0.7), 0 0 20px rgba(0, 240, 255, 0.3), inset 0 0 14px rgba(255, 0, 127, 0.15)',
+          gap: '6px',
+          padding: '0.75rem 1.25rem',
+          background: 'linear-gradient(135deg, rgba(14, 4, 32, 0.92) 0%, rgba(6, 1, 18, 0.95) 100%)',
+          backdropFilter: 'blur(16px)',
+          WebkitBackdropFilter: 'blur(16px)',
+          border: isCuratedFallback
+            ? '1.5px solid rgba(255, 0, 127, 0.65)'
+            : '1.5px solid rgba(0, 240, 255, 0.55)',
+          borderRadius: '12px',
+          boxShadow: isCuratedFallback
+            ? '0 8px 28px rgba(0, 0, 0, 0.8), 0 0 24px rgba(255, 0, 127, 0.35), inset 0 0 14px rgba(255, 230, 0, 0.12)'
+            : '0 8px 28px rgba(0, 0, 0, 0.8), 0 0 24px rgba(0, 240, 255, 0.35), inset 0 0 14px rgba(255, 0, 127, 0.15)',
           userSelect: 'none',
           pointerEvents: 'default',
           transition: 'all 0.3s ease',
+          maxWidth: '430px',
         }}
         onMouseEnter={(e) => {
-          e.currentTarget.style.borderColor = 'rgba(255, 0, 127, 0.75)';
-          e.currentTarget.style.boxShadow = '0 10px 30px rgba(0, 0, 0, 0.8), 0 0 28px rgba(0, 240, 255, 0.5), 0 0 45px rgba(255, 0, 127, 0.4), inset 0 0 18px rgba(0, 240, 255, 0.25)';
+          e.currentTarget.style.borderColor = 'rgba(255, 0, 127, 0.85)';
+          e.currentTarget.style.boxShadow =
+            '0 10px 32px rgba(0, 0, 0, 0.85), 0 0 32px rgba(0, 240, 255, 0.55), 0 0 45px rgba(255, 0, 127, 0.4), inset 0 0 18px rgba(0, 240, 255, 0.25)';
           e.currentTarget.style.transform = 'translateY(-1px)';
         }}
         onMouseLeave={(e) => {
-          e.currentTarget.style.borderColor = 'rgba(0, 240, 255, 0.45)';
-          e.currentTarget.style.boxShadow = '0 8px 24px rgba(0, 0, 0, 0.7), 0 0 20px rgba(0, 240, 255, 0.3), inset 0 0 14px rgba(255, 0, 127, 0.15)';
+          e.currentTarget.style.borderColor = isCuratedFallback
+            ? 'rgba(255, 0, 127, 0.65)'
+            : 'rgba(0, 240, 255, 0.55)';
+          e.currentTarget.style.boxShadow = isCuratedFallback
+            ? '0 8px 28px rgba(0, 0, 0, 0.8), 0 0 24px rgba(255, 0, 127, 0.35), inset 0 0 14px rgba(255, 230, 0, 0.12)'
+            : '0 8px 28px rgba(0, 0, 0, 0.8), 0 0 24px rgba(0, 240, 255, 0.35), inset 0 0 14px rgba(255, 0, 127, 0.15)';
           e.currentTarget.style.transform = 'translateY(0)';
         }}
       >
-        <div
-          style={{
-            fontFamily: 'Syne, var(--font-display, "Space Grotesk"), sans-serif',
-            fontSize: '1.18rem',
-            fontWeight: 900,
-            fontStyle: 'italic',
-            letterSpacing: '0.06em',
-            textTransform: 'uppercase',
-            background: 'linear-gradient(90deg, #00F0FF 0%, #FF2A85 52%, #FFE600 100%)',
-            WebkitBackgroundClip: 'text',
-            WebkitTextFillColor: 'transparent',
-            filter: 'drop-shadow(0 0 10px rgba(0, 240, 255, 0.65)) drop-shadow(0 0 20px rgba(255, 0, 127, 0.4))',
-            lineHeight: 1.15,
-            whiteSpace: 'nowrap',
-          }}
-        >
-          Information Superhighway
+        <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', width: '100%', gap: '10px' }}>
+          <div
+            style={{
+              fontFamily: 'Syne, var(--font-display, "Space Grotesk"), sans-serif',
+              fontSize: '1.24rem',
+              fontWeight: 900,
+              fontStyle: 'italic',
+              letterSpacing: '0.06em',
+              textTransform: 'uppercase',
+              background: 'linear-gradient(90deg, #00F0FF 0%, #FF2A85 52%, #FFE600 100%)',
+              WebkitBackgroundClip: 'text',
+              WebkitTextFillColor: 'transparent',
+              filter: 'drop-shadow(0 0 10px rgba(0, 240, 255, 0.65)) drop-shadow(0 0 20px rgba(255, 0, 127, 0.4))',
+              lineHeight: 1.15,
+              whiteSpace: 'nowrap',
+            }}
+          >
+            Information Superhighway
+          </div>
+          <span
+            style={{
+              fontFamily: 'var(--font-mono, monospace)',
+              fontSize: '0.62rem',
+              padding: '2px 6px',
+              borderRadius: '4px',
+              background: 'rgba(0, 240, 255, 0.12)',
+              border: '1px solid rgba(0, 240, 255, 0.3)',
+              color: '#00F0FF',
+              letterSpacing: '0.08em',
+              textTransform: 'uppercase',
+            }}
+          >
+            NET // 99
+          </span>
         </div>
+
         {/* Synth neon horizon underline bar */}
         <div
           style={{
@@ -694,6 +782,125 @@ export function SynthwaveDrive() {
             borderRadius: '1px',
           }}
         />
+
+        {/* PROMINENT STATUS NOTE DIRECTLY UNDERNEATH LOGO — "NOT THAT SMALL" */}
+        {isCuratedFallback ? (
+          <div
+            id="superhighway-fallback-status"
+            style={{
+              display: 'flex',
+              alignItems: 'center',
+              gap: '9px',
+              marginTop: '4px',
+              padding: '6px 10px',
+              background: 'linear-gradient(90deg, rgba(255, 0, 127, 0.22) 0%, rgba(255, 230, 0, 0.16) 100%)',
+              border: '1.5px solid rgba(255, 0, 127, 0.65)',
+              borderRadius: '8px',
+              boxShadow: '0 0 16px rgba(255, 0, 127, 0.3), inset 0 0 10px rgba(255, 230, 0, 0.1)',
+              width: '100%',
+              boxSizing: 'border-box',
+            }}
+          >
+            <span
+              style={{
+                width: '10px',
+                height: '10px',
+                borderRadius: '50%',
+                background: '#FFE600',
+                boxShadow: '0 0 8px #FFE600, 0 0 16px #FF007F',
+                flexShrink: 0,
+                display: 'inline-block',
+              }}
+            />
+            <div style={{ display: 'flex', flexDirection: 'column', gap: '2px' }}>
+              <span
+                style={{
+                  fontFamily: 'var(--font-mono, monospace)',
+                  fontSize: '0.82rem', // NOT THAT SMALL! Crisp, bold, clearly legible
+                  fontWeight: 800,
+                  letterSpacing: '0.06em',
+                  color: '#FFE600',
+                  textShadow: '0 0 8px rgba(255, 230, 0, 0.75)',
+                  textTransform: 'uppercase',
+                  lineHeight: 1.2,
+                }}
+              >
+                CURATED WIKI BACKUP • OFFLINE RESERVE
+              </span>
+              <span
+                style={{
+                  fontFamily: 'var(--font-mono, monospace)',
+                  fontSize: '0.68rem', // Not tiny: comfortably legible secondary context
+                  fontWeight: 500,
+                  color: 'rgba(255, 220, 240, 0.92)',
+                  letterSpacing: '0.03em',
+                  lineHeight: 1.25,
+                }}
+              >
+                {quotaExpended
+                  ? 'Wikipedia API quota limit reached • Serving precurated reserve'
+                  : 'Active fallback mode • Streaming precurated encyclopedic pool'}
+              </span>
+            </div>
+          </div>
+        ) : (
+          <div
+            id="superhighway-live-status"
+            style={{
+              display: 'flex',
+              alignItems: 'center',
+              gap: '9px',
+              marginTop: '4px',
+              padding: '6px 10px',
+              background: 'linear-gradient(90deg, rgba(0, 240, 255, 0.16) 0%, rgba(157, 0, 255, 0.12) 100%)',
+              border: '1.5px solid rgba(0, 240, 255, 0.55)',
+              borderRadius: '8px',
+              boxShadow: '0 0 16px rgba(0, 240, 255, 0.25), inset 0 0 10px rgba(0, 240, 255, 0.1)',
+              width: '100%',
+              boxSizing: 'border-box',
+            }}
+          >
+            <span
+              style={{
+                width: '10px',
+                height: '10px',
+                borderRadius: '50%',
+                background: '#00F0FF',
+                boxShadow: '0 0 8px #00F0FF, 0 0 16px #00F0FF',
+                flexShrink: 0,
+                display: 'inline-block',
+              }}
+            />
+            <div style={{ display: 'flex', flexDirection: 'column', gap: '2px' }}>
+              <span
+                style={{
+                  fontFamily: 'var(--font-mono, monospace)',
+                  fontSize: '0.82rem', // NOT THAT SMALL!
+                  fontWeight: 800,
+                  letterSpacing: '0.06em',
+                  color: '#00F0FF',
+                  textShadow: '0 0 8px rgba(0, 240, 255, 0.75)',
+                  textTransform: 'uppercase',
+                  lineHeight: 1.2,
+                }}
+              >
+                LIVE WIKIPEDIA DATASTREAM
+              </span>
+              <span
+                style={{
+                  fontFamily: 'var(--font-mono, monospace)',
+                  fontSize: '0.68rem',
+                  fontWeight: 500,
+                  color: 'rgba(200, 245, 255, 0.90)',
+                  letterSpacing: '0.03em',
+                  lineHeight: 1.25,
+                }}
+              >
+                Streaming random articles from global cyberspace
+              </span>
+            </div>
+          </div>
+        )}
       </div>
 
       {/* Top Center Rearview Mirror */}
@@ -819,7 +1026,7 @@ function drawSkyAndSun(ctx, width, height, horizonY, sunCenterX, sunCenterY, sun
   const shiftX = -playerX * (width * 0.02);
   const cx = sunCenterX + shiftX;
 
-  // Deep space sky gradient
+  // 1. Deep space sky gradient
   const skyGrad = ctx.createLinearGradient(0, 0, 0, horizonY);
   skyGrad.addColorStop(0, '#040008');
   skyGrad.addColorStop(0.5, '#18042e');
@@ -827,11 +1034,31 @@ function drawSkyAndSun(ctx, width, height, horizonY, sunCenterX, sunCenterY, sun
   ctx.fillStyle = skyGrad;
   ctx.fillRect(0, 0, width, height);
 
-  // Synthwave sun
+  // 2. Cyberspace Digital Starfield with lateral steering parallax and twinkle
+  const now = Date.now() * 0.002;
+  ctx.save();
+  for (let i = 0; i < CYBER_STARS.length; i++) {
+    const star = CYBER_STARS[i];
+    const starX = ((star.x * width + shiftX * 0.6) % width + width) % width;
+    const starY = star.y * horizonY;
+    const alpha = 0.4 + 0.5 * Math.sin(now + star.twinklePhase);
+
+    ctx.globalAlpha = Math.max(0.15, alpha);
+    ctx.fillStyle = star.color;
+    ctx.shadowColor = star.color;
+    ctx.shadowBlur = star.size * 3;
+    ctx.beginPath();
+    ctx.arc(starX, starY, star.size, 0, Math.PI * 2);
+    ctx.fill();
+  }
+  ctx.globalAlpha = 1;
+  ctx.restore();
+
+  // 3. Synthwave sun
   const sunGrad = ctx.createLinearGradient(0, sunCenterY - sunRadius, 0, horizonY);
   sunGrad.addColorStop(0, '#ffe600');
-  sunGrad.addColorStop(0.4, '#ff007f');
-  sunGrad.addColorStop(0.8, '#ff0055');
+  sunGrad.addColorStop(0.35, '#ff007f');
+  sunGrad.addColorStop(0.75, '#ff0055');
   sunGrad.addColorStop(1, '#9d00ff');
   ctx.fillStyle = sunGrad;
 
@@ -840,17 +1067,31 @@ function drawSkyAndSun(ctx, width, height, horizonY, sunCenterX, sunCenterY, sun
   ctx.arc(cx, sunCenterY, sunRadius, 0, Math.PI * 2);
   ctx.fill();
 
-  // Sun glow aura
+  // 4. Retro Horizontal Synthwave Sun Slats (iconic outrun blinds cutting through the lower sun)
+  const numSlats = 8;
+  const slatStartY = sunCenterY + sunRadius * 0.05;
+  const slatSpan = (sunCenterY + sunRadius) - slatStartY;
+
+  for (let s = 0; s < numSlats; s++) {
+    const norm = (s + 1) / (numSlats + 1);
+    const slatY = slatStartY + norm * slatSpan;
+    const slatH = 2.0 + norm * 5.0; // Slats get progressively wider towards the bottom
+
+    ctx.fillStyle = '#18042e'; // Color matches deep sky behind sun
+    ctx.fillRect(cx - sunRadius - 10, slatY, (sunRadius + 10) * 2, slatH);
+  }
+
+  // 5. Sun glow aura
   const sunGlow = ctx.createRadialGradient(
     cx,
     sunCenterY,
     sunRadius * 0.5,
     cx,
     sunCenterY,
-    sunRadius * 2.2
+    sunRadius * 2.3
   );
   sunGlow.addColorStop(0, 'rgba(255, 0, 127, 0.45)');
-  sunGlow.addColorStop(0.5, 'rgba(0, 240, 255, 0.2)');
+  sunGlow.addColorStop(0.5, 'rgba(0, 240, 255, 0.22)');
   sunGlow.addColorStop(1, 'rgba(0, 0, 0, 0)');
   ctx.fillStyle = sunGlow;
   ctx.fillRect(0, 0, width, height);
@@ -872,25 +1113,64 @@ function drawMountains(ctx, width, horizonY, playerX = 0) {
   ctx.fill();
 }
 
-function drawGridFloor(ctx, width, height, horizonY, sunCenterX, offset, playerX = 0) {
+function drawGridFloor(ctx, width, height, horizonY, sunCenterX, offset, playerX = 0, speed = 0) {
   ctx.save();
+
+  // 1. Base dark cyberspace ground
   const floorGrad = ctx.createLinearGradient(0, horizonY, 0, height);
-  floorGrad.addColorStop(0, '#120328');
-  floorGrad.addColorStop(1, '#040108');
+  floorGrad.addColorStop(0, '#100324');
+  floorGrad.addColorStop(0.4, '#0a0218');
+  floorGrad.addColorStop(1, '#030008');
   ctx.fillStyle = floorGrad;
   ctx.fillRect(0, horizonY, width, height - horizonY);
 
-  // Horizon anchor line
-  ctx.lineWidth = 2;
-  ctx.strokeStyle = 'rgba(0, 240, 255, 0.8)';
+  const fanning = 26;
+  const cx = sunCenterX;
+
+  // 2. Central Information Superhighway Expressway Deck (Lanes -5 to +5)
+  const startLeft  = cx - playerX * (width * 0.04) + (-5 / fanning) * (width * 0.05);
+  const startRight = cx - playerX * (width * 0.04) + (5 / fanning) * (width * 0.05);
+  const endLeft    = cx - playerX * (width * 0.40) - 5 * (width * 0.08);
+  const endRight   = cx - playerX * (width * 0.40) + 5 * (width * 0.08);
+
+  const highwayDeckGrad = ctx.createLinearGradient(0, horizonY, 0, height);
+  highwayDeckGrad.addColorStop(0, 'rgba(32, 6, 60, 0.85)');
+  highwayDeckGrad.addColorStop(0.5, 'rgba(16, 3, 34, 0.92)');
+  highwayDeckGrad.addColorStop(1, 'rgba(6, 1, 16, 0.98)');
+  ctx.fillStyle = highwayDeckGrad;
+  ctx.beginPath();
+  ctx.moveTo(startLeft, horizonY);
+  ctx.lineTo(startRight, horizonY);
+  ctx.lineTo(endRight, height);
+  ctx.lineTo(endLeft, height);
+  ctx.closePath();
+  ctx.fill();
+
+  // Highway deck road surface sheen
+  const sheenGrad = ctx.createLinearGradient(0, horizonY, 0, height);
+  sheenGrad.addColorStop(0, 'rgba(0, 240, 255, 0.08)');
+  sheenGrad.addColorStop(0.6, 'rgba(255, 0, 127, 0.05)');
+  sheenGrad.addColorStop(1, 'rgba(0, 0, 0, 0.4)');
+  ctx.fillStyle = sheenGrad;
+  ctx.beginPath();
+  ctx.moveTo(startLeft, horizonY);
+  ctx.lineTo(startRight, horizonY);
+  ctx.lineTo(endRight, height);
+  ctx.lineTo(endLeft, height);
+  ctx.closePath();
+  ctx.fill();
+
+  // 3. Horizon anchor neon line
+  ctx.lineWidth = 2.5;
+  ctx.strokeStyle = 'rgba(0, 240, 255, 0.9)';
   ctx.shadowColor = '#00F0FF';
-  ctx.shadowBlur = 4;
+  ctx.shadowBlur = 6;
   ctx.beginPath();
   ctx.moveTo(0, horizonY);
   ctx.lineTo(width, horizonY);
   ctx.stroke();
 
-  // Horizontal perspective lines moving forward/backward
+  // 4. Horizontal perspective grid lines moving forward/backward
   const numH = 18;
   for (let i = 0; i < numH; i++) {
     const progress = (((i + offset / 40) % numH) + numH) % numH / numH;
@@ -899,27 +1179,154 @@ function drawGridFloor(ctx, width, height, horizonY, sunCenterX, offset, playerX
     ctx.strokeStyle = `rgba(0, 240, 255, ${0.25 + progress * 0.75})`;
     ctx.shadowColor = '#00F0FF';
     ctx.shadowBlur = progress * 8;
+    ctx.lineWidth = Math.max(0.8, progress * 2.2);
     ctx.beginPath();
     ctx.moveTo(0, py);
     ctx.lineTo(width, py);
     ctx.stroke();
   }
 
-  // Vertical perspective lines fanning outward, shifting laterally with steering
-  const fanning = 26;
-  const cx = sunCenterX;
+  // 5. Vertical perspective lines fanning outward, shifting laterally with steering
   for (let i = -fanning; i <= fanning; i++) {
     const startX = cx - playerX * (width * 0.04) + (i / fanning) * (width * 0.05);
     const endX = cx - playerX * (width * 0.40) + i * (width * 0.08);
 
-    ctx.strokeStyle = 'rgba(255, 0, 127, 0.55)';
+    const isInnerLane = Math.abs(i) <= 5;
+    ctx.strokeStyle = isInnerLane ? 'rgba(255, 0, 127, 0.65)' : 'rgba(255, 0, 127, 0.42)';
     ctx.shadowColor = '#FF007F';
-    ctx.shadowBlur = 5;
+    ctx.shadowBlur = isInnerLane ? 6 : 4;
+    ctx.lineWidth = isInnerLane ? 1.4 : 1.0;
     ctx.beginPath();
     ctx.moveTo(startX, horizonY);
     ctx.lineTo(endX, height);
     ctx.stroke();
   }
+
+  // 6. Highway Shoulder Laser Barrier Rails (lineIndex = -5 and +5)
+  ctx.lineWidth = 3.2;
+  // Left shoulder laser rail (Cyan)
+  ctx.strokeStyle = '#00F0FF';
+  ctx.shadowColor = '#00F0FF';
+  ctx.shadowBlur = 12;
+  ctx.beginPath();
+  ctx.moveTo(startLeft, horizonY);
+  ctx.lineTo(endLeft, height);
+  ctx.stroke();
+
+  // Right shoulder laser rail (Hot Magenta)
+  ctx.strokeStyle = '#FF007F';
+  ctx.shadowColor = '#FF007F';
+  ctx.shadowBlur = 12;
+  ctx.beginPath();
+  ctx.moveTo(startRight, horizonY);
+  ctx.lineTo(endRight, height);
+  ctx.stroke();
+
+  // Shoulder Light Beacons along the highway edges
+  const numBeacons = 7;
+  for (let b = 1; b <= numBeacons; b++) {
+    const p = Math.pow(b / numBeacons, 2.5);
+    const by = horizonY + p * (height - horizonY);
+    const bxl = startLeft + (endLeft - startLeft) * p;
+    const bxr = startRight + (endRight - startRight) * p;
+    const beaconSize = Math.max(1.5, p * 5.0);
+
+    // Left beacon
+    ctx.fillStyle = '#00F0FF';
+    ctx.shadowColor = '#00F0FF';
+    ctx.shadowBlur = 8;
+    ctx.beginPath();
+    ctx.arc(bxl, by, beaconSize, 0, Math.PI * 2);
+    ctx.fill();
+
+    // Right beacon
+    ctx.fillStyle = '#FF007F';
+    ctx.shadowColor = '#FF007F';
+    ctx.shadowBlur = 8;
+    ctx.beginPath();
+    ctx.arc(bxr, by, beaconSize, 0, Math.PI * 2);
+    ctx.fill();
+  }
+
+  // 7. Center Dashed Highway Divider Line (lineIndex = 0)
+  const centerStartX = cx - playerX * (width * 0.04);
+  const centerEndX   = cx - playerX * (width * 0.40);
+
+  ctx.save();
+  ctx.setLineDash([24, 18]);
+  ctx.lineDashOffset = -offset * 2.2;
+  ctx.strokeStyle = '#FFE600';
+  ctx.shadowColor = '#FFE600';
+  ctx.shadowBlur = 10;
+  ctx.lineWidth = 3.5;
+  ctx.beginPath();
+  ctx.moveTo(centerStartX, horizonY);
+  ctx.lineTo(centerEndX, height);
+  ctx.stroke();
+  ctx.restore();
+
+  // 8. Digital Data Packets / Fiber Light Photons racing along highway lanes
+  const photonSeeds = [
+    { lane: -2.5, speedMult: 1.4, color: '#00F0FF', glow: '#00EEFF', phase: 0.1 },
+    { lane: 2.5,  speedMult: 1.7, color: '#FFE600', glow: '#FFFF88', phase: 0.4 },
+    { lane: -1.2, speedMult: 1.9, color: '#FF007F', glow: '#FF66AA', phase: 0.7 },
+    { lane: 1.2,  speedMult: 1.5, color: '#00E599', glow: '#88FFDD', phase: 0.85 },
+  ];
+
+  const nowSec = Date.now() * 0.001;
+  for (const photon of photonSeeds) {
+    const t = ((nowSec * photon.speedMult + photon.phase) % 1);
+    const p = Math.pow(t, 2.6);
+    if (p < 0.05) continue;
+
+    const startLaneX = cx - playerX * (width * 0.04) + (photon.lane / fanning) * (width * 0.05);
+    const endLaneX   = cx - playerX * (width * 0.40) + photon.lane * (width * 0.08);
+    const px = startLaneX + (endLaneX - startLaneX) * p;
+    const py = horizonY + p * (height - horizonY);
+
+    const pPrev = Math.max(0, p - 0.04);
+    const prevPx = startLaneX + (endLaneX - startLaneX) * pPrev;
+    const prevPy = horizonY + pPrev * (height - horizonY);
+
+    ctx.strokeStyle = photon.glow;
+    ctx.shadowColor = photon.color;
+    ctx.shadowBlur = 12;
+    ctx.lineWidth = Math.max(1.2, p * 4.0);
+    ctx.beginPath();
+    ctx.moveTo(prevPx, prevPy);
+    ctx.lineTo(px, py);
+    ctx.stroke();
+
+    // Bright photon head
+    ctx.fillStyle = '#FFFFFF';
+    ctx.beginPath();
+    ctx.arc(px, py, Math.max(1.5, p * 3.5), 0, Math.PI * 2);
+    ctx.fill();
+  }
+
+  // 9. Peripheral Speed Warp Rays when driving fast (speed > 75 mph)
+  if (speed > 75) {
+    const warpIntensity = Math.min(1, (speed - 75) / 100);
+    ctx.save();
+    ctx.globalAlpha = warpIntensity * 0.35;
+    ctx.strokeStyle = '#00F0FF';
+    ctx.shadowColor = '#00F0FF';
+    ctx.shadowBlur = 10;
+    ctx.lineWidth = 1.8;
+
+    const numWarps = 8;
+    for (let w = 0; w < numWarps; w++) {
+      const side = (w % 2 === 0) ? 0 : width;
+      const wy = horizonY + ((w * 137 + (offset * 8)) % (height - horizonY));
+      const targetX = side === 0 ? width * 0.25 : width * 0.75;
+      ctx.beginPath();
+      ctx.moveTo(side, wy);
+      ctx.lineTo(targetX, wy + 20);
+      ctx.stroke();
+    }
+    ctx.restore();
+  }
+
   ctx.restore();
 }
 
@@ -1192,19 +1599,56 @@ function WikiCard({ popup, driveDistance, playerX = 0 }) {
               justifyContent: 'space-between',
             }}
           >
-            <span
-              style={{
-                fontFamily: 'var(--font-mono, monospace)',
-                fontSize: '0.62rem',
-                fontWeight: 700,
-                color: primaryColor,
-                textShadow: `0 0 8px ${primaryColor}`,
-                letterSpacing: '0.12em',
-                textTransform: 'uppercase',
-              }}
-            >
-              ◈ Wikipedia
-            </span>
+            <div style={{ display: 'flex', alignItems: 'center', gap: '6px' }}>
+              <span
+                style={{
+                  fontFamily: 'var(--font-mono, monospace)',
+                  fontSize: '0.62rem',
+                  fontWeight: 700,
+                  color: primaryColor,
+                  textShadow: `0 0 8px ${primaryColor}`,
+                  letterSpacing: '0.12em',
+                  textTransform: 'uppercase',
+                }}
+              >
+                ◈ Wikipedia
+              </span>
+              {popup.isCuratedFallback ? (
+                <span
+                  style={{
+                    fontFamily: 'var(--font-mono, monospace)',
+                    fontSize: '0.54rem',
+                    fontWeight: 700,
+                    letterSpacing: '0.04em',
+                    padding: '1px 5px',
+                    borderRadius: '3px',
+                    background: 'rgba(255, 230, 0, 0.2)',
+                    border: '1px solid rgba(255, 230, 0, 0.55)',
+                    color: '#FFE600',
+                    textShadow: '0 0 6px rgba(255, 230, 0, 0.6)',
+                  }}
+                >
+                  CURATED BACKUP
+                </span>
+              ) : (
+                <span
+                  style={{
+                    fontFamily: 'var(--font-mono, monospace)',
+                    fontSize: '0.54rem',
+                    fontWeight: 700,
+                    letterSpacing: '0.04em',
+                    padding: '1px 5px',
+                    borderRadius: '3px',
+                    background: 'rgba(0, 240, 255, 0.2)',
+                    border: '1px solid rgba(0, 240, 255, 0.55)',
+                    color: '#00F0FF',
+                    textShadow: '0 0 6px rgba(0, 240, 255, 0.6)',
+                  }}
+                >
+                  LIVE STREAM
+                </span>
+              )}
+            </div>
             <span
               style={{
                 fontFamily: 'var(--font-mono, monospace)',
