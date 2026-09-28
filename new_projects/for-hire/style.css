@@ -1059,19 +1059,18 @@ body {
 }
 
 .feature-icon-box {
-  width: 76px;
-  height: 76px;
+  width: 100%;
+  height: 220px;
   border-radius: 14px;
   border: var(--brutal-border);
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  margin-bottom: 20px;
-  box-shadow: 3.5px 3.5px 0px var(--slate-900);
+  display: block;
+  margin-bottom: 22px;
+  box-shadow: 4px 4px 0px var(--slate-900);
   overflow: hidden;
   padding: 0;
   background: var(--white);
   flex-shrink: 0;
+  position: relative;
 }
 
 .feature-icon-box .feature-img {
@@ -1079,6 +1078,11 @@ body {
   height: 100%;
   object-fit: cover;
   display: block;
+  transition: transform 0.35s ease;
+}
+
+.feature-card:hover .feature-icon-box .feature-img {
+  transform: scale(1.05);
 }
 
 .feature-icon-box.blue {
@@ -1146,31 +1150,21 @@ body {
   box-shadow: var(--brutal-shadow-lg);
 }
 
-/* Pricing Card Backgrounds Matching Feature Icon Colors */
+/* Pricing Card Backgrounds - All Uniform Light Blue */
+.pricing-card,
 .pricing-card.card-blue,
-.pricing-card.featured.card-blue {
+.pricing-card.featured.card-blue,
+.pricing-card.card-amber,
+.pricing-card.card-purple {
   background: #dbeafe !important;
 }
 
-.pricing-card.card-amber {
-  background: #fef3c7 !important;
-}
-
-.pricing-card.card-purple {
-  background: #ede9fe !important;
-}
-
+.pricing-card:hover,
 .pricing-card.card-blue:hover,
-.pricing-card.featured.card-blue:hover {
-  background: #bfdbfe !important;
-}
-
-.pricing-card.card-amber:hover {
-  background: #fde68a !important;
-}
-
+.pricing-card.featured.card-blue:hover,
+.pricing-card.card-amber:hover,
 .pricing-card.card-purple:hover {
-  background: #ddd6fe !important;
+  background: #bfdbfe !important;
 }
 
 /* Highlighted Tier: Simple Site / Featured */
@@ -1500,45 +1494,45 @@ body {
    Tips & Seldomly Shared Secrets of the Industry
    ========================================================================== */
 /* ==========================================================================
-   SECTION 3.5: NEWSLETTER SECTION (Yellow Form Module)
+   SECTION 3.5: NEWSLETTER BLUE SECTION (Inline Row Form: Name | Email | Button)
    ========================================================================== */
-.newsletter-yellow-section {
+.newsletter-blue-section {
   width: 100%;
   position: relative;
   z-index: 2;
-  background: var(--bg-paper);
+  background: #1e3a8a;
   border-top: var(--brutal-border-thick);
   border-bottom: var(--brutal-border-thick);
-  padding: 80px 0;
+  padding: 75px 0;
   overflow: hidden;
 }
 
-.newsletter-signup-card.yellow-theme {
-  background: #ffe600;
+.newsletter-signup-card.blue-theme {
+  background: #2563eb;
   border: var(--brutal-border-thick);
   border-radius: 20px;
   box-shadow: 10px 10px 0px var(--slate-900);
-  padding: 44px 38px;
-  max-width: 680px;
+  padding: 42px 38px;
+  max-width: 960px;
   margin: 0 auto;
   position: relative;
-  color: var(--slate-900);
+  color: var(--white);
 }
 
-.newsletter-signup-card.yellow-theme .nl-card-header {
+.newsletter-signup-card.blue-theme .nl-card-header {
   display: flex;
   align-items: flex-start;
   gap: 16px;
-  margin-bottom: 26px;
+  margin-bottom: 24px;
   padding-bottom: 20px;
-  border-bottom: 2.5px solid var(--slate-900);
+  border-bottom: 2px dashed rgba(255, 255, 255, 0.35);
 }
 
-.newsletter-signup-card.yellow-theme .nl-card-icon {
-  width: 50px;
-  height: 50px;
+.newsletter-signup-card.blue-theme .nl-card-icon {
+  width: 52px;
+  height: 52px;
   border-radius: 14px;
-  background: var(--white);
+  background: #ffe600;
   color: var(--slate-900);
   border: 2.5px solid var(--slate-900);
   box-shadow: 3px 3px 0px var(--slate-900);
@@ -1549,51 +1543,74 @@ body {
   flex-shrink: 0;
 }
 
-.newsletter-signup-card.yellow-theme .nl-card-title {
+.newsletter-signup-card.blue-theme .nl-card-title {
   font-family: var(--font-display);
-  font-size: 1.85rem;
+  font-size: 1.95rem;
   font-weight: 800;
-  color: var(--slate-900);
+  color: var(--white);
   margin-bottom: 6px;
   line-height: 1.2;
 }
 
-.newsletter-signup-card.yellow-theme .nl-card-subtitle {
+.newsletter-signup-card.blue-theme .nl-card-subtitle {
   font-size: 0.96rem;
   line-height: 1.6;
-  color: var(--slate-800);
+  color: #e0e7ff;
 }
 
-.newsletter-signup-card.yellow-theme .form-label {
-  color: var(--slate-900);
-  font-weight: 800;
-  font-size: 0.88rem;
+/* Inline Form: Name (Left) | Email (Center) | Button (Right) */
+.newsletter-inline-form {
+  display: flex;
+  align-items: flex-end;
+  gap: 16px;
+  width: 100%;
 }
 
-.newsletter-signup-card.yellow-theme .brutal-input {
+.nl-field-group {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+
+.nl-field-name {
+  flex: 1;
+}
+
+.nl-field-email {
+  flex: 1.35;
+}
+
+.nl-field-btn {
+  flex: 0 0 auto;
+}
+
+.newsletter-signup-card.blue-theme .form-label {
+  color: var(--white);
+  font-family: var(--font-mono);
+  font-size: 0.74rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+}
+
+.newsletter-signup-card.blue-theme .brutal-input {
   background: var(--white);
   border: 2.5px solid var(--slate-900);
   color: var(--slate-900);
-}
-
-.newsletter-signup-card.yellow-theme .newsletter-btn {
-  background: var(--slate-900) !important;
-  color: var(--white) !important;
-  border: 2.5px solid var(--slate-900) !important;
-  box-shadow: 4px 4px 0px rgba(0, 0, 0, 0.4) !important;
-  font-size: 1rem !important;
-  font-weight: 800 !important;
-  padding: 14px !important;
-  margin-top: 8px;
+  font-size: 0.92rem;
+  font-weight: 600;
+  padding: 12px 14px 12px 38px;
+  border-radius: var(--brutal-radius-sm);
+  box-shadow: 3px 3px 0px var(--slate-900);
   width: 100%;
-  transition: all 0.2s ease !important;
+  box-sizing: border-box;
 }
 
-.newsletter-signup-card.yellow-theme .newsletter-btn:hover {
-  background: var(--blue-primary) !important;
-  color: var(--white) !important;
-  transform: translate(-2px, -2px) !important;
-  box-shadow: 6px 6px 0px var(--slate-900) !important;
+.newsletter-signup-card.blue-theme .brutal-input:focus {
+  background: var(--white);
+  border-color: #ffe600;
+  outline: none;
+  box-shadow: 3.5px 3.5px 0px #ffe600;
 }
 
 .newsletter-input-wrap {
@@ -1601,18 +1618,58 @@ body {
   width: 100%;
 }
 
-.newsletter-mail-icon {
+.newsletter-input-icon {
   position: absolute;
   left: 14px;
   top: 50%;
   transform: translateY(-50%);
-  color: var(--slate-400);
+  color: var(--slate-500);
   font-size: 0.88rem;
   pointer-events: none;
 }
 
-.newsletter-input {
-  padding-left: 38px !important;
+.newsletter-inline-btn {
+  background: #ffe600 !important;
+  color: var(--slate-900) !important;
+  border: 2.5px solid var(--slate-900) !important;
+  box-shadow: 3.5px 3.5px 0px var(--slate-900) !important;
+  font-size: 0.95rem !important;
+  font-weight: 800 !important;
+  padding: 12px 22px !important;
+  height: 48px;
+  border-radius: var(--brutal-radius) !important;
+  cursor: pointer;
+  white-space: nowrap;
+  transition: all 0.2s cubic-bezier(0.16, 1, 0.3, 1) !important;
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.newsletter-inline-btn:hover {
+  background: var(--white) !important;
+  color: var(--slate-900) !important;
+  transform: translate(-2px, -2px) !important;
+  box-shadow: 5.5px 5.5px 0px var(--slate-900) !important;
+}
+
+@media (max-width: 820px) {
+  .newsletter-inline-form {
+    flex-direction: column;
+    align-items: stretch;
+    gap: 14px;
+  }
+
+  .nl-btn-label {
+    display: none;
+  }
+
+  .newsletter-inline-btn {
+    width: 100%;
+    justify-content: center;
+    height: auto;
+    padding: 14px 20px !important;
+  }
 }
 
 @media (max-width: 992px) {

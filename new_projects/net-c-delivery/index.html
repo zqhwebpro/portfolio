@@ -97,6 +97,114 @@
             overflow-x: hidden;
         }
 
+        /* WordPress-Style Admin Bar at the Very Top */
+        .wp-admin-login-bar {
+            background: #1d2327;
+            color: #f0f0f1;
+            font-size: 0.82rem;
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Oxygen-Sans, Ubuntu, Cantarell, "Helvetica Neue", sans-serif;
+            border-bottom: 1px solid #3c434a;
+            padding: 7px 0;
+            position: relative;
+            z-index: 1002;
+        }
+
+        .admin-bar-inner {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            flex-wrap: wrap;
+            gap: 12px;
+        }
+
+        .admin-bar-left,
+        .admin-bar-right {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+
+        .admin-bar-brand {
+            font-weight: 700;
+            color: #ffffff;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            letter-spacing: 0.02em;
+        }
+
+        .admin-bar-brand i {
+            color: var(--parma-gold);
+            font-size: 0.95rem;
+        }
+
+        .admin-bar-divider {
+            color: #4a5568;
+            font-size: 0.85rem;
+        }
+
+        .admin-bar-btn {
+            background: #2c3338;
+            color: #f0f0f1;
+            border: 1px solid #4a5568;
+            padding: 4px 10px;
+            border-radius: 4px;
+            font-size: 0.76rem;
+            font-weight: 600;
+            cursor: pointer;
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
+            transition: all 0.2s ease;
+            text-decoration: none;
+        }
+
+        .admin-bar-btn:hover {
+            background: var(--parma-red);
+            border-color: var(--parma-crimson);
+            color: #ffffff;
+        }
+
+        .admin-bar-btn.gold {
+            background: linear-gradient(135deg, #d97706, #b45309);
+            border-color: #f59e0b;
+            color: #ffffff;
+        }
+
+        .admin-bar-btn.gold:hover {
+            background: #f59e0b;
+            color: #111418;
+        }
+
+        .admin-bar-status {
+            display: flex;
+            align-items: center;
+            gap: 6px;
+            font-size: 0.76rem;
+            color: #cbd5e1;
+        }
+
+        .admin-status-dot {
+            width: 8px;
+            height: 8px;
+            background: #10b981;
+            border-radius: 50%;
+            display: inline-block;
+            box-shadow: 0 0 6px #10b981;
+        }
+
+        .admin-user-info {
+            display: flex;
+            align-items: center;
+            gap: 6px;
+            font-size: 0.78rem;
+            color: #cbd5e1;
+        }
+
+        .admin-user-info strong {
+            color: #ffffff;
+        }
+
         /* WordPress Header & Top Bar */
         .wp-top-bar {
             background: #111418;
@@ -411,6 +519,12 @@
             align-items: center;
             justify-content: center;
             gap: 8px;
+        }
+
+        .checker-pretitle-divider {
+            color: var(--parma-gold);
+            font-size: 0.95rem;
+            margin: 0 4px;
         }
 
         .checker-headline {
@@ -2511,6 +2625,40 @@
 
 <body class="wp-theme-ParmaPizza wpb-js-composer">
 
+    <!-- WordPress-Style Admin Login Bar (Top of Page) -->
+    <div class="wp-admin-login-bar" id="wpadminbar">
+        <div class="container">
+            <div class="admin-bar-inner">
+                <div class="admin-bar-left">
+                    <span class="admin-bar-brand">
+                        <i class="fa-solid fa-gauge-high"></i>
+                        <span>Parma Admin Console</span>
+                    </span>
+                    <span class="admin-bar-divider">|</span>
+                    <button class="admin-bar-btn gold" onclick="openEventAdminModal()">
+                        <i class="fa-solid fa-calendar-plus"></i> Events Manager (<span id="topBarEventCount">5</span>)
+                    </button>
+                    <a href="case-study.html" class="admin-bar-btn">
+                        <i class="fa-brands fa-microsoft"></i> .NET 9 API Blueprints
+                    </a>
+                </div>
+                <div class="admin-bar-right">
+                    <span class="admin-bar-status" id="topBarApiStatus">
+                        <span class="admin-status-dot"></span> <span id="topBarApiStatusText">.NET 9 Web API Online</span>
+                    </span>
+                    <span class="admin-bar-divider">|</span>
+                    <div class="admin-user-info">
+                        <i class="fa-solid fa-circle-user"></i>
+                        <span>Logged in as <strong>Store Manager</strong></span>
+                    </div>
+                    <button class="admin-bar-btn" onclick="openEventAdminModal()" title="Manage Calendar Events">
+                        <i class="fa-solid fa-gear"></i> Manage
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+
     <!-- Top Announcement Bar (Direct from Parma Site) -->
     <div class="wp-top-bar">
         <div class="container">
@@ -2549,10 +2697,8 @@
                 <nav class="site-nav">
                     <ul>
                         <li><a href="#welcome" class="active">Home</a></li>
-                        <li><a href="#menu-subs">Delivery Subs</a></li>
-                        <li><a href="#menu-fries">Loaded French Fries</a></li>
+                        <li><a href="#menu-subs">Order Online Menu</a></li>
                         <li><a href="#events">Community Calendar</a></li>
-                        <li><a href="#locations">Locations</a></li>
                         <li><a href="#reviews">Reviews</a></li>
                         <li><a href="case-study.html" style="color: var(--toast-orange);"><i
                                     class="fa-solid fa-code"></i> .NET Case Study</a></li>
@@ -2582,6 +2728,8 @@
                     <div class="checker-pretitle">
                         <i class="fa-solid fa-location-dot"></i>
                         <span>South Central, PA</span>
+                        <span class="checker-pretitle-divider">&bull;</span>
+                        <span>Since 2005</span>
                     </div>
                     <h2 class="checker-headline">
                         Restaurant Currently: <span>Open</span>
@@ -2593,15 +2741,6 @@
                             class="checker-events-link">special community events</a>, delivered steaming hot directly to
                         your doorstep across York and Lancaster counties with friendly local delivery.
                     </p>
-                </div>
-            </div>
-        </section>
-
-        <!-- 3 Value Pillars (Directly modeled on Parma's Welcome Section) -->
-        <section class="welcome-pillars-section" id="pillars">
-            <div class="container">
-                <div class="section-header-center">
-                    <span class="section-tagline">Since 2005 &bull; South Central PA</span>
                 </div>
             </div>
         </section>
@@ -3052,121 +3191,6 @@
 
                 </div>
 
-            </div>
-        </section>
-
-        <!-- Real Parma Locations Section (York, Landisville, East York, Dallastown, Manchester, Columbia, Elizabethtown) -->
-        <section class="locations-section" id="locations">
-            <div class="container">
-                <div class="section-header-center">
-                    <h2>Our Neighborhood Store Locations</h2>
-                </div>
-
-                <div class="locations-grid">
-                    <!-- 1. Landisville PA -->
-                    <div class="location-card">
-                        <div>
-                            <div class="location-name">Landisville</div>
-                            <p class="location-address">301 Main Street<br>Landisville, PA 17538</p>
-                            <a href="tel:7178983707" class="location-phone"><i class="fa-solid fa-phone"></i> (717)
-                                898-3707</a>
-                        </div>
-                        <div class="location-btn-row">
-                            <button class="loc-order-btn" onclick="selectStoreAndOrder('Landisville')">Order Toast
-                                POS</button>
-                            <a href="#menu-subs" class="loc-info-btn">View Menu</a>
-                        </div>
-                    </div>
-
-                    <!-- 2. York PA -->
-                    <div class="location-card">
-                        <div>
-                            <div class="location-name">York</div>
-                            <p class="location-address">905 Grantley Road<br>York, PA 17403</p>
-                            <a href="tel:7178496445" class="location-phone"><i class="fa-solid fa-phone"></i> (717)
-                                849-6445</a>
-                        </div>
-                        <div class="location-btn-row">
-                            <button class="loc-order-btn" onclick="selectStoreAndOrder('York')">Order Toast POS</button>
-                            <a href="#menu-subs" class="loc-info-btn">View Menu</a>
-                        </div>
-                    </div>
-
-                    <!-- 3. East York PA -->
-                    <div class="location-card">
-                        <div>
-                            <div class="location-name">East York</div>
-                            <p class="location-address">1041 Haines Road<br>York, PA 17403</p>
-                            <a href="tel:7177552900" class="location-phone"><i class="fa-solid fa-phone"></i> (717)
-                                755-2900</a>
-                        </div>
-                        <div class="location-btn-row">
-                            <button class="loc-order-btn" onclick="selectStoreAndOrder('East York')">Order Toast
-                                POS</button>
-                            <a href="#menu-subs" class="loc-info-btn">View Menu</a>
-                        </div>
-                    </div>
-
-                    <!-- 4. Dallastown PA -->
-                    <div class="location-card">
-                        <div>
-                            <div class="location-name">Dallastown</div>
-                            <p class="location-address">476 East Main Street<br>Dallastown, PA 17313</p>
-                            <a href="tel:7175015608" class="location-phone"><i class="fa-solid fa-phone"></i> (717)
-                                501-5608</a>
-                        </div>
-                        <div class="location-btn-row">
-                            <button class="loc-order-btn" onclick="selectStoreAndOrder('Dallastown')">Order Toast
-                                POS</button>
-                            <a href="#menu-subs" class="loc-info-btn">View Menu</a>
-                        </div>
-                    </div>
-
-                    <!-- 5. Manchester PA -->
-                    <div class="location-card">
-                        <div>
-                            <div class="location-name">Manchester PA</div>
-                            <p class="location-address">220 Maple Street<br>Manchester, PA 17345</p>
-                            <a href="tel:7179785091" class="location-phone"><i class="fa-solid fa-phone"></i> (717)
-                                978-5091</a>
-                        </div>
-                        <div class="location-btn-row">
-                            <button class="loc-order-btn" onclick="selectStoreAndOrder('Manchester')">Order Toast
-                                POS</button>
-                            <a href="#menu-subs" class="loc-info-btn">View Menu</a>
-                        </div>
-                    </div>
-
-                    <!-- 6. Columbia PA -->
-                    <div class="location-card">
-                        <div>
-                            <div class="location-name">Columbia PA</div>
-                            <p class="location-address">232 Locust Street<br>Columbia, PA 17512</p>
-                            <a href="tel:7179924153" class="location-phone"><i class="fa-solid fa-phone"></i> (717)
-                                992-4153</a>
-                        </div>
-                        <div class="location-btn-row">
-                            <button class="loc-order-btn" onclick="selectStoreAndOrder('Columbia')">Order Toast
-                                POS</button>
-                            <a href="#menu-subs" class="loc-info-btn">View Menu</a>
-                        </div>
-                    </div>
-
-                    <!-- 7. Elizabethtown PA -->
-                    <div class="location-card">
-                        <div>
-                            <div class="location-name">Elizabethtown</div>
-                            <p class="location-address">256 South Market Street<br>Elizabethtown, PA 17022</p>
-                            <a href="tel:7173675878" class="location-phone"><i class="fa-solid fa-phone"></i> (717)
-                                367-5878</a>
-                        </div>
-                        <div class="location-btn-row">
-                            <button class="loc-order-btn" onclick="selectStoreAndOrder('Elizabethtown')">Order Toast
-                                POS</button>
-                            <a href="#menu-subs" class="loc-info-btn">View Menu</a>
-                        </div>
-                    </div>
-                </div>
             </div>
         </section>
 
@@ -3737,12 +3761,10 @@
                     <h4>Quick Links</h4>
                     <ul class="footer-nav-list">
                         <li><a href="#welcome"><i class="fa-solid fa-angle-right"></i> Home &amp; Tradition</a></li>
-                        <li><a href="#menu-subs"><i class="fa-solid fa-angle-right"></i> Delivery Subs Menu</a></li>
-                        <li><a href="#menu-fries"><i class="fa-solid fa-angle-right"></i> Loaded French Fries</a></li>
-                        <li><a href="#locations"><i class="fa-solid fa-angle-right"></i> Store Locations</a></li>
-                        <li><a href="#events"><i class="fa-solid fa-angle-right"></i> Catering &amp; Events</a></li>
-                        <li><a href="case-study.html"><i class="fa-solid fa-angle-right"></i> WordPress &amp; Toast Tech
-                                Docs</a></li>
+                        <li><a href="#menu-subs"><i class="fa-solid fa-angle-right"></i> Delivery Subs &amp; Fries</a></li>
+                        <li><a href="#events"><i class="fa-solid fa-angle-right"></i> Community Events Calendar</a></li>
+                        <li><a href="#reviews"><i class="fa-solid fa-angle-right"></i> Customer Reviews</a></li>
+                        <li><a href="case-study.html"><i class="fa-solid fa-angle-right"></i> .NET 9 &amp; Toast Tech Docs</a></li>
                     </ul>
                 </div>
 
@@ -4379,17 +4401,27 @@
 
         function updateApiStatusBadge(connected) {
             const badge = document.getElementById('backendApiStatusBadge');
-            if (!badge) return;
-            if (connected) {
-                badge.innerHTML = '<i class="fa-solid fa-server" style="color: #22c55e;"></i> .NET 9 Web API Connected (localhost:5000)';
-                badge.style.borderColor = '#22c55e';
-                badge.style.color = '#15803d';
-                badge.style.background = 'rgba(34, 197, 94, 0.08)';
-            } else {
-                badge.innerHTML = '<i class="fa-brands fa-microsoft" style="color: #512BD4;"></i> .NET C# Architecture (GitHub Pages Sync)';
-                badge.style.borderColor = 'rgba(81, 43, 212, 0.3)';
-                badge.style.color = '#512BD4';
-                badge.style.background = 'rgba(81, 43, 212, 0.08)';
+            const topBarStatusText = document.getElementById('topBarApiStatusText');
+            const topBarStatus = document.getElementById('topBarApiStatus');
+            if (badge) {
+                if (connected) {
+                    badge.innerHTML = '<i class="fa-solid fa-server" style="color: #22c55e;"></i> .NET 9 Web API Connected (localhost:5000)';
+                    badge.style.borderColor = '#22c55e';
+                    badge.style.color = '#15803d';
+                    badge.style.background = 'rgba(34, 197, 94, 0.08)';
+                } else {
+                    badge.innerHTML = '<i class="fa-brands fa-microsoft" style="color: #512BD4;"></i> .NET C# Architecture (GitHub Pages Sync)';
+                    badge.style.borderColor = 'rgba(81, 43, 212, 0.3)';
+                    badge.style.color = '#512BD4';
+                    badge.style.background = 'rgba(81, 43, 212, 0.08)';
+                }
+            }
+            if (topBarStatusText) {
+                topBarStatusText.innerText = connected ? '.NET 9 Web API Online' : '.NET 9 Architecture Active';
+            }
+            if (topBarStatus) {
+                const dot = topBarStatus.querySelector('.admin-status-dot');
+                if (dot) dot.style.background = connected ? '#10b981' : '#a855f7';
             }
         }
 
@@ -4449,9 +4481,13 @@
         function updateAdminBadge() {
             const badge = document.getElementById('adminEventCountBadge');
             const tabCount = document.getElementById('adminTabCount');
+            const topBarCount = document.getElementById('topBarEventCount');
             if (badge) badge.innerText = parmaEvents.length;
             if (tabCount) tabCount.innerText = parmaEvents.length;
+            if (topBarCount) topBarCount.innerText = parmaEvents.length;
         }
+
+        window.openAdminModal = openEventAdminModal;
 
         function renderCalendarGrid() {
             const monthNames = [

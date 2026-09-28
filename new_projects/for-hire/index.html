@@ -310,7 +310,7 @@
         </div>
 
         <!-- TIER 2: Advanced Site -->
-        <div class="pricing-card card-amber">
+        <div class="pricing-card card-blue">
           <div>
             <h3 class="tier-name">Advanced Site</h3>
             <p class="tier-desc">
@@ -358,7 +358,7 @@
         </div>
 
         <!-- TIER 3: Custom Site -->
-        <div class="pricing-card card-purple">
+        <div class="pricing-card card-blue">
           <div>
             <h3 class="tier-name">Custom Site</h3>
             <p class="tier-desc">
@@ -411,11 +411,11 @@
   </section>
 
   <!-- ========================================================================
-       SECTION 3.5: NEWSLETTER YELLOW SECTION (100% Full-Width Div with Container)
+       SECTION 3.5: NEWSLETTER BLUE SECTION (100% Full-Width Div with Container)
        ======================================================================== -->
-  <section class="newsletter-yellow-section" id="newsletter" style="width: 100%;">
+  <section class="newsletter-blue-section" id="newsletter" style="width: 100%;">
     <div class="container">
-      <div class="newsletter-signup-card yellow-theme">
+      <div class="newsletter-signup-card blue-theme">
         <div class="nl-card-header">
           <div class="nl-card-icon">
             <i class="fa-solid fa-paper-plane"></i>
@@ -426,33 +426,40 @@
           </div>
         </div>
 
-        <!-- Form -->
-        <form id="standaloneNewsletterForm" onsubmit="handleStandaloneNewsletterSubmit(event)">
-          <div class="form-field-group">
+        <!-- Inline Form: [Name (Left)] [Email (Center)] [Button (Right)] -->
+        <form id="standaloneNewsletterForm" onsubmit="handleStandaloneNewsletterSubmit(event)" class="newsletter-inline-form">
+          <!-- 1. Name Field (Left) -->
+          <div class="nl-field-group nl-field-name">
+            <label for="newsletterSubscriberName" class="form-label">Your Name</label>
+            <div class="newsletter-input-wrap">
+              <i class="fa-solid fa-user newsletter-input-icon"></i>
+              <input type="text" id="newsletterSubscriberName" name="name" class="brutal-input newsletter-input"
+                placeholder="Your Name (Optional)" />
+            </div>
+          </div>
+
+          <!-- 2. Email Field (Middle / To the right of name) -->
+          <div class="nl-field-group nl-field-email">
             <label for="newsletterSubscriberEmail" class="form-label">Your Email Address *</label>
             <div class="newsletter-input-wrap">
-              <i class="fa-solid fa-envelope newsletter-mail-icon"></i>
+              <i class="fa-solid fa-envelope newsletter-input-icon"></i>
               <input type="email" id="newsletterSubscriberEmail" name="email" class="brutal-input newsletter-input"
                 placeholder="name@yourcompany.com" required autocomplete="email" />
             </div>
           </div>
 
-          <!-- Name Field -->
-          <div class="form-field-group">
-            <label for="newsletterSubscriberName" class="form-label">Your Name (Optional)</label>
-            <input type="text" id="newsletterSubscriberName" name="name" class="brutal-input"
-              placeholder="e.g. Alex" />
+          <!-- 3. Submit Button (Right-most) -->
+          <div class="nl-field-group nl-field-btn">
+            <label class="form-label nl-btn-label" aria-hidden="true">&nbsp;</label>
+            <button type="submit" id="newsletterSubmitBtn" class="btn-brutal-primary newsletter-inline-btn">
+              <span>Get The Secrets &amp; Tips</span>
+              <i class="fa-solid fa-arrow-right"></i>
+            </button>
           </div>
-
-          <!-- In-Card Alert Box -->
-          <div id="newsletterAlert" class="quick-form-alert" style="display: none;"></div>
-
-          <!-- Submit Button -->
-          <button type="submit" id="newsletterSubmitBtn" class="btn-brutal-primary form-submit-btn newsletter-btn">
-            <span>Get The Secrets &amp; Tips</span>
-            <i class="fa-solid fa-arrow-right"></i>
-          </button>
         </form>
+
+        <!-- In-Card Alert Box -->
+        <div id="newsletterAlert" class="quick-form-alert" style="display: none; margin-top: 18px;"></div>
       </div>
     </div>
   </section>
