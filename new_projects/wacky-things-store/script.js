@@ -237,23 +237,23 @@
         function getCategoryBadgeStyle(cat) {
             const normalized = (cat || '').toLowerCase();
             if (normalized.includes('bunkum')) {
-                // Forest Emerald Green
-                return 'bg-emerald-100 text-emerald-900 border border-emerald-300/90 shadow-2xs';
+                // Forest Emerald Green with slight gradient
+                return 'bg-gradient-to-r from-emerald-100/90 to-teal-50 text-emerald-950 border border-emerald-300/80 shadow-2xs';
             } else if (normalized.includes('skuttlebutt')) {
-                // Campfire Amber Gold
-                return 'bg-amber-100 text-amber-950 border border-amber-300/90 shadow-2xs';
+                // Campfire Amber Gold with slight gradient
+                return 'bg-gradient-to-r from-amber-100/90 to-yellow-50 text-amber-950 border border-amber-300/80 shadow-2xs';
             } else if (normalized.includes('balderdash')) {
-                // Alpine Sky Blue
-                return 'bg-sky-100 text-sky-950 border border-sky-300/90 shadow-2xs';
+                // Alpine Sky Blue with slight gradient
+                return 'bg-gradient-to-r from-sky-100/90 to-cyan-50 text-sky-950 border border-sky-300/80 shadow-2xs';
             } else if (normalized.includes('flummery')) {
-                // Cedar Terracotta / Orange
-                return 'bg-orange-100 text-orange-950 border border-orange-300/90 shadow-2xs';
+                // Cedar Terracotta / Orange with slight gradient
+                return 'bg-gradient-to-r from-orange-100/90 to-rose-50 text-orange-950 border border-orange-300/80 shadow-2xs';
             } else if (normalized.includes('codswallop')) {
-                // Mountain Indigo / Pine Purple
-                return 'bg-indigo-100 text-indigo-950 border border-indigo-300/90 shadow-2xs';
+                // Mountain Indigo / Pine Purple with slight gradient
+                return 'bg-gradient-to-r from-indigo-100/90 to-purple-50 text-indigo-950 border border-indigo-300/80 shadow-2xs';
             } else {
-                // Neutral Earth
-                return 'bg-earth-200 text-earth-900 border border-earth-300 shadow-2xs';
+                // Neutral Earth with slight gradient
+                return 'bg-gradient-to-r from-purple-100/90 to-violet-50 text-purple-950 border border-purple-300/80 shadow-2xs';
             }
         }
 
@@ -290,12 +290,12 @@
                 const isActive = activeCategory.toLowerCase() === c.id.toLowerCase();
                 return `
                     <button onclick="window.selectCategory('${c.id}')" 
-                            class="w-full flex items-center justify-between p-2.5 rounded-xl text-xs font-semibold transition-all ${isActive ? 'bg-appetite-700 text-white shadow-sm' : 'bg-transparent text-earth-800 hover:bg-canvas-surface hover:text-earth-950'}">
+                            class="w-full flex items-center justify-between p-2.5 rounded-xl text-xs font-semibold transition-all ${isActive ? 'bg-gradient-to-r from-appetite-700 via-appetite-600 to-teal-800 text-white shadow-md shadow-appetite-900/30 border border-teal-400/30' : 'bg-transparent text-earth-800 hover:bg-gradient-to-r hover:from-canvas-surface hover:to-purple-50/60 hover:text-earth-950'}">
                         <div class="flex items-center gap-2.5 truncate">
                             <i class="fa-solid ${c.icon} ${isActive ? 'text-teal-300' : 'text-appetite-700'} text-xs"></i>
                             <span class="truncate">${c.name}</span>
                         </div>
-                        <span class="px-2 py-0.5 rounded-full text-[10.5px] font-mono font-bold ${isActive ? 'bg-appetite-800 text-teal-200' : 'bg-canvas-surface text-earth-600'}">
+                        <span class="px-2 py-0.5 rounded-full text-[10.5px] font-mono font-bold ${isActive ? 'bg-gradient-to-r from-appetite-900 to-teal-950 text-teal-200 border border-teal-400/30' : 'bg-canvas-surface text-earth-600'}">
                             ${c.count}
                         </span>
                     </button>
@@ -440,13 +440,13 @@
 
                 const actionButtonHtml = inCartQty > 0 ? `
                     <div class="space-y-2">
-                        <div class="w-full py-2 px-3 rounded-xl bg-purple-600 text-white font-bold text-xs flex items-center justify-center gap-1.5 shadow-sm">
-                            <i class="fa-solid fa-check"></i>
+                        <div class="w-full py-2 px-3 rounded-xl bg-gradient-to-r from-emerald-600 via-teal-600 to-teal-700 text-white font-bold text-xs flex items-center justify-center gap-1.5 shadow-md shadow-emerald-700/25 border border-emerald-400/30">
+                            <i class="fa-solid fa-check text-emerald-200"></i>
                             <span>Added to Cart</span>
                         </div>
-                        <div class="flex items-center justify-between bg-canvas-surface border border-canvas-border rounded-xl p-1 text-earth-950">
+                        <div class="flex items-center justify-between bg-gradient-to-r from-canvas-surface to-purple-50/60 border border-canvas-border rounded-xl p-1 text-earth-950">
                             <button onclick="event.stopPropagation(); window.updateCartQty(${prod.id}, -1)" 
-                                    class="h-7 w-7 rounded-lg bg-white border border-canvas-border hover:bg-earth-200 text-earth-900 font-bold text-sm flex items-center justify-center transition-all shadow-xs" 
+                                    class="h-7 w-7 rounded-lg bg-gradient-to-b from-white to-purple-50 border border-canvas-border hover:from-white hover:to-purple-100 text-earth-900 font-bold text-sm flex items-center justify-center transition-all shadow-xs cursor-pointer" 
                                     title="Decrease quantity">
                                 <i class="fa-solid fa-minus text-[10px]"></i>
                             </button>
@@ -460,7 +460,7 @@
                                        class="w-12 text-center bg-white border border-canvas-border rounded-md px-1 py-0.5 text-earth-950 text-xs font-bold focus:outline-none focus:border-teal-700">
                             </div>
                             <button onclick="event.stopPropagation(); window.updateCartQty(${prod.id}, 1)" 
-                                    class="h-7 w-7 rounded-lg bg-white border border-canvas-border hover:bg-earth-200 text-earth-900 font-bold text-sm flex items-center justify-center transition-all shadow-xs" 
+                                    class="h-7 w-7 rounded-lg bg-gradient-to-b from-white to-purple-50 border border-canvas-border hover:from-white hover:to-purple-100 text-earth-900 font-bold text-sm flex items-center justify-center transition-all shadow-xs cursor-pointer" 
                                     title="Increase quantity">
                                 <i class="fa-solid fa-plus text-[10px]"></i>
                             </button>
@@ -468,7 +468,7 @@
                     </div>
                 ` : `
                     <button onclick="event.stopPropagation(); window.addToCart(${prod.id})" 
-                            class="w-full py-2.5 rounded-xl bg-purple-600 hover:bg-purple-700 active:scale-[0.98] text-white font-bold text-xs flex items-center justify-center gap-2 transition-all shadow-md shadow-appetite-800/20">
+                            class="w-full py-2.5 rounded-xl bg-gradient-to-r from-purple-600 via-purple-700 to-indigo-700 hover:from-purple-500 hover:via-purple-600 hover:to-indigo-600 active:scale-[0.98] text-white font-bold text-xs flex items-center justify-center gap-2 transition-all shadow-lg shadow-purple-600/35 hover:shadow-purple-600/50 hover:-translate-y-0.5 border border-purple-400/30 cursor-pointer">
                         <i class="fa-solid fa-cart-plus text-teal-300"></i>
                         <span>Add to Cart</span>
                     </button>
@@ -556,7 +556,7 @@
                 const isActive = i === currentPage;
                 html += `
                     <button onclick="window.goToPage(${i})" 
-                            class="px-3.5 py-1.5 rounded-xl font-bold transition-all ${isActive ? 'bg-appetite-700 text-white shadow-md' : 'bg-white text-earth-800 border border-canvas-border hover:bg-canvas-surface'}">
+                            class="px-3.5 py-1.5 rounded-xl font-bold transition-all cursor-pointer ${isActive ? 'bg-gradient-to-r from-appetite-700 via-appetite-600 to-teal-800 text-white shadow-md shadow-appetite-800/35 border border-teal-400/30' : 'bg-gradient-to-b from-white to-canvas-surface text-earth-800 border border-canvas-border hover:from-white hover:to-purple-100 hover:border-purple-300 shadow-xs'}">
                         ${i}
                     </button>
                 `;
@@ -692,22 +692,22 @@
                     `;
                 } else {
                     container.innerHTML = cart.map(item => `
-                        <div class="flex items-center gap-3 bg-white p-3 rounded-xl border border-canvas-border text-xs shadow-xs">
+                        <div class="flex items-center gap-3 bg-gradient-to-r from-white via-white to-purple-50/40 p-3.5 rounded-xl border border-canvas-border text-xs shadow-xs">
                             <img src="${item.image}" alt="${item.name}" class="h-12 w-12 rounded-lg object-cover bg-canvas-surface border border-canvas-border" />
                             <div class="flex-1 min-w-0">
                                 <div class="font-bold text-earth-950 truncate">${item.name}</div>
                                 <div class="text-earth-600 font-mono text-[11px]">$${item.price.toFixed(2)} each</div>
                             </div>
-                            <div class="flex items-center gap-1.5 bg-canvas-surface border border-canvas-border rounded-lg p-1">
-                                <button onclick="window.updateCartQty(${item.id}, -1)" class="h-5 w-5 rounded bg-white text-earth-900 hover:bg-earth-200 text-xs font-bold flex items-center justify-center">
+                            <div class="flex items-center gap-1.5 bg-canvas-surface/80 border border-canvas-border rounded-lg p-1">
+                                <button onclick="window.updateCartQty(${item.id}, -1)" class="h-6 w-6 rounded-md bg-gradient-to-b from-white to-purple-50 text-earth-900 hover:bg-earth-200 border border-canvas-border text-xs font-bold flex items-center justify-center transition-all cursor-pointer">
                                     -
                                 </button>
                                 <span class="font-bold text-earth-950 px-1 font-mono">${item.quantity}</span>
-                                <button onclick="window.updateCartQty(${item.id}, 1)" class="h-5 w-5 rounded bg-white text-earth-900 hover:bg-earth-200 text-xs font-bold flex items-center justify-center">
+                                <button onclick="window.updateCartQty(${item.id}, 1)" class="h-6 w-6 rounded-md bg-gradient-to-b from-white to-purple-50 text-earth-900 hover:bg-earth-200 border border-canvas-border text-xs font-bold flex items-center justify-center transition-all cursor-pointer">
                                     +
                                 </button>
                             </div>
-                            <button onclick="window.removeCartItem(${item.id})" class="text-earth-400 hover:text-rose-600 p-1">
+                            <button onclick="window.removeCartItem(${item.id})" class="text-earth-400 hover:text-rose-600 p-1.5 hover:bg-rose-50 rounded-lg transition-colors cursor-pointer" title="Remove item">
                                 <i class="fa-solid fa-trash-can"></i>
                             </button>
                         </div>
@@ -953,9 +953,9 @@
                         <div class="flex items-center gap-2.5 shrink-0">
                             <span class="font-mono font-black text-teal-800 text-xs sm:text-sm">$${prod.price.toFixed(2)}</span>
                             <button type="button" onclick="event.stopPropagation(); window.addToCart(${prod.id});" 
-                                    class="px-2.5 py-1.5 rounded-xl bg-appetite-700 hover:bg-appetite-800 text-white text-[11px] font-bold shadow-xs transition-all flex items-center gap-1"
+                                    class="px-3 py-1.5 rounded-xl bg-gradient-to-r from-appetite-700 via-appetite-600 to-teal-800 hover:from-teal-600 hover:to-appetite-700 text-white text-[11px] font-bold shadow-md shadow-appetite-800/30 hover:shadow-appetite-800/40 hover:-translate-y-0.5 active:translate-y-0.5 transition-all flex items-center gap-1.5 border border-teal-400/30 cursor-pointer"
                                     title="Add to Cart">
-                                <i class="fa-solid fa-cart-plus text-[10px]"></i>
+                                <i class="fa-solid fa-cart-plus text-[10px] text-teal-200"></i>
                                 <span class="hidden sm:inline">Add</span>
                             </button>
                         </div>
@@ -1093,24 +1093,24 @@
             if (inCartQty > 0) {
                 container.innerHTML = `
                     <div class="space-y-3">
-                        <div class="w-full py-3 px-4 rounded-xl bg-purple-600 text-white font-bold text-sm flex items-center justify-center gap-2 shadow-sm">
-                            <i class="fa-solid fa-check"></i>
+                        <div class="w-full py-3 px-4 rounded-xl bg-gradient-to-r from-emerald-600 via-teal-600 to-teal-700 text-white font-bold text-sm flex items-center justify-center gap-2 shadow-md shadow-emerald-700/25 border border-emerald-400/30">
+                            <i class="fa-solid fa-check text-emerald-200"></i>
                             <span>Added to Cart</span>
                         </div>
-                        <div class="flex items-center justify-between bg-canvas-surface border border-canvas-border rounded-xl p-1.5 text-earth-950">
+                        <div class="flex items-center justify-between bg-gradient-to-r from-canvas-surface to-purple-50/60 border border-canvas-border rounded-xl p-1.5 text-earth-950">
                             <button onclick="event.stopPropagation(); window.updateCartQty(${prod.id}, -1); window.renderProductModal();" 
-                                    class="h-10 w-10 rounded-lg bg-white border border-canvas-border hover:bg-earth-200 text-earth-900 font-bold text-lg flex items-center justify-center transition-all shadow-xs">
+                                    class="h-10 w-10 rounded-lg bg-gradient-to-b from-white to-purple-50 border border-canvas-border hover:from-white hover:to-purple-100 text-earth-900 font-bold text-lg flex items-center justify-center transition-all shadow-xs cursor-pointer">
                                 <i class="fa-solid fa-minus text-sm"></i>
                             </button>
                             <div class="flex items-center gap-2 text-sm font-semibold">
-                                <span class="text-earth-600">Qty:</span>
+                                <span class="text-earth-600 font-medium">Qty:</span>
                                 <input type="number" min="1" max="99" value="${inCartQty}" 
                                        onclick="event.stopPropagation();"
                                        onchange="window.setProductQuantity(${prod.id}, this.value); window.renderProductModal();" 
-                                       class="w-16 text-center bg-white border border-canvas-border rounded-md px-2 py-1.5 text-earth-950 text-sm font-bold focus:outline-none focus:border-purple-600">
+                                       class="w-16 text-center bg-white border border-canvas-border rounded-lg px-2 py-1.5 text-earth-950 text-sm font-bold focus:outline-none focus:border-teal-700">
                             </div>
                             <button onclick="event.stopPropagation(); window.updateCartQty(${prod.id}, 1); window.renderProductModal();" 
-                                    class="h-10 w-10 rounded-lg bg-white border border-canvas-border hover:bg-earth-200 text-earth-900 font-bold text-lg flex items-center justify-center transition-all shadow-xs">
+                                    class="h-10 w-10 rounded-lg bg-gradient-to-b from-white to-purple-50 border border-canvas-border hover:from-white hover:to-purple-100 text-earth-900 font-bold text-lg flex items-center justify-center transition-all shadow-xs cursor-pointer">
                                 <i class="fa-solid fa-plus text-sm"></i>
                             </button>
                         </div>
@@ -1119,8 +1119,8 @@
             } else {
                 container.innerHTML = `
                     <button onclick="event.stopPropagation(); window.addToCart(${prod.id}); window.renderProductModal();" 
-                            class="w-full py-3.5 rounded-xl bg-purple-600 hover:bg-purple-700 active:scale-[0.98] text-white font-bold text-sm flex items-center justify-center gap-2 transition-all shadow-md shadow-purple-600/20">
-                        <i class="fa-solid fa-cart-plus text-white/90"></i>
+                            class="w-full py-3.5 rounded-xl bg-gradient-to-r from-purple-600 via-purple-700 to-indigo-700 hover:from-purple-500 hover:via-purple-600 hover:to-indigo-600 active:scale-[0.98] text-white font-bold text-sm flex items-center justify-center gap-2 transition-all shadow-xl shadow-purple-600/35 hover:shadow-purple-600/50 hover:-translate-y-0.5 border border-purple-400/30 cursor-pointer">
+                        <i class="fa-solid fa-cart-plus text-teal-300"></i>
                         <span>Add to Cart</span>
                     </button>
                 `;
@@ -2031,13 +2031,13 @@
                                     data-blueprint-dom="Blood-orange CTA button opening enrollment transaction modal."
                                     data-blueprint-desc="Gated action redirecting unauthorized students to purchase flow before granting curriculum access."
                                     data-blueprint-code="[Authorize(Roles = &quot;Enrolled&quot;)] public ActionResult ViewLessons(int id)"
-                                    class="px-4 py-2.5 rounded-xl bg-gradient-to-r from-[#F04A23] to-[#DD330D] hover:from-[#DD330D] hover:to-[#BA2407] text-white font-bold text-xs flex items-center justify-center gap-1.5 transition-all shadow-md shadow-[#F04A23]/25 active:scale-95 cursor-pointer">
+                                    class="px-5 py-2.5 rounded-xl bg-gradient-to-r from-[#FF7D54] via-[#F04A23] to-[#DD330D] hover:from-[#FF8F6B] hover:to-[#BA2407] text-white font-bold text-xs flex items-center justify-center gap-1.5 transition-all shadow-lg shadow-[#F04A23]/35 hover:-translate-y-0.5 hover:shadow-xl hover:shadow-[#F04A23]/40 active:scale-95 cursor-pointer">
                                     <i class="fa-solid fa-lock text-orange-200"></i>
                                     <span>Unlock Course</span>
                                 </button>
                             ` : `
                                 <button onclick="alert('Access Granted! Welcome to ${course.title}. All lessons are unlocked for your student account.');"
-                                    class="px-4 py-2.5 rounded-xl bg-teal-600 hover:bg-teal-700 text-white font-bold text-xs flex items-center justify-center gap-1.5 transition-all shadow-md active:scale-95 cursor-pointer">
+                                    class="px-5 py-2.5 rounded-xl bg-gradient-to-r from-[#00C4B4] via-[#00A396] to-[#007A70] hover:from-[#00E5D2] hover:to-[#008F84] text-white font-bold text-xs flex items-center justify-center gap-1.5 transition-all shadow-lg shadow-teal-500/35 hover:-translate-y-0.5 hover:shadow-xl hover:shadow-teal-500/40 active:scale-95 cursor-pointer">
                                     <i class="fa-solid fa-circle-play text-white"></i>
                                     <span>Resume Course</span>
                                 </button>
@@ -2499,7 +2499,7 @@
                                 <i class="fa-solid fa-user-astronaut text-appetite-700"></i>
                                 <span class="truncate">${post.author}</span>
                             </div>
-                            <span class="px-2.5 sm:px-3.5 py-1 sm:py-1.5 rounded-xl bg-canvas-surface group-hover:bg-purple-100 text-purple-900 font-bold text-[11px] sm:text-xs transition-all flex items-center gap-1.5 shrink-0">
+                            <span class="px-3.5 py-1.5 rounded-xl bg-gradient-to-r from-purple-600 via-purple-700 to-indigo-700 hover:from-purple-500 hover:to-indigo-600 text-white font-bold text-[11px] sm:text-xs transition-all shadow-md shadow-purple-600/30 flex items-center gap-1.5 shrink-0 group-hover:scale-105">
                                 <span>Read Story</span>
                                 <i class="fa-solid fa-arrow-right text-[10px]"></i>
                             </span>
@@ -2515,9 +2515,9 @@
 
             document.querySelectorAll('.blog-cat-btn').forEach(btn => {
                 if (btn.innerText.toLowerCase().includes(cat.toLowerCase()) || (cat === 'all' && btn.innerText.includes('All'))) {
-                    btn.className = 'blog-cat-btn px-3.5 py-1.5 rounded-xl font-bold transition-all bg-appetite-700 text-white shadow-xs';
+                    btn.className = 'blog-cat-btn px-4 py-2 rounded-xl font-bold text-xs transition-all bg-gradient-to-r from-[#FF7D54] via-[#F04A23] to-[#DD330D] text-white shadow-md shadow-[#F04A23]/30 scale-105 cursor-pointer';
                 } else {
-                    btn.className = 'blog-cat-btn px-3.5 py-1.5 rounded-xl font-bold transition-all bg-canvas-surface hover:bg-canvas-border text-earth-800 border border-canvas-border';
+                    btn.className = 'blog-cat-btn px-4 py-2 rounded-xl font-bold text-xs transition-all bg-gradient-to-br from-white via-amber-50/40 to-orange-50/20 dark:from-slate-800 dark:to-slate-900 text-earth-800 dark:text-earth-200 border border-black/5 dark:border-white/10 hover:border-orange-200 shadow-xs cursor-pointer';
                 }
             });
         };
@@ -2605,15 +2605,15 @@
             container.innerHTML = '';
             window.BLOG_POSTS.forEach((post, index) => {
                 const el = document.createElement('div');
-                el.className = 'bg-white p-4 rounded-xl border-2 border-earth-300 flex justify-between items-center';
+                el.className = 'p-4 rounded-2xl bg-gradient-to-br from-white via-amber-50/20 to-orange-50/20 dark:from-slate-800 dark:to-slate-900 border border-black/5 dark:border-white/10 shadow-sm flex flex-col sm:flex-row justify-between items-start sm:items-center gap-3';
                 el.innerHTML = `
                     <div>
-                        <h3 class="font-bold text-lg">${post.title}</h3>
-                        <p class="text-sm text-earth-500">${post.category}</p>
+                        <h3 class="font-bold text-base sm:text-lg text-earth-950 dark:text-earth-100">${post.title}</h3>
+                        <p class="text-xs text-earth-500 font-medium">${post.category}</p>
                     </div>
-                    <div>
-                        <button onclick="window.editPost(${index})" class="px-4 py-2 bg-yellow-400 text-earth-900 font-bold rounded mr-2 hover:bg-yellow-500 transition-colors">Edit</button>
-                        <button onclick="window.deletePost(${index})" class="px-4 py-2 bg-red-500 text-white font-bold rounded hover:bg-red-600 transition-colors">Delete</button>
+                    <div class="flex items-center gap-2 shrink-0">
+                        <button onclick="window.editPost(${index})" class="px-3.5 py-1.5 rounded-xl bg-gradient-to-r from-amber-400 via-amber-500 to-amber-600 hover:from-amber-300 hover:to-amber-500 text-amber-950 font-bold text-xs shadow-md shadow-amber-500/25 transition-all active:scale-95 cursor-pointer">Edit</button>
+                        <button onclick="window.deletePost(${index})" class="px-3.5 py-1.5 rounded-xl bg-gradient-to-r from-rose-500 via-red-500 to-red-600 hover:from-rose-400 hover:to-red-500 text-white font-bold text-xs shadow-md shadow-red-500/25 transition-all active:scale-95 cursor-pointer">Delete</button>
                     </div>
                 `;
                 container.appendChild(el);

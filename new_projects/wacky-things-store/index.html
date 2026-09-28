@@ -145,15 +145,16 @@
     <style>
         .luck-sq.active-sq .sq-bulb {
             opacity: 1;
-            box-shadow: 0 0 10px #5EEAD4;
-            background-color: #5EEAD4;
+            box-shadow: 0 0 12px #5EEAD4;
+            background: linear-gradient(135deg, #99F6E4 0%, #2DD4BF 100%);
         }
 
         :root {
             --bg-canvas: #FAF8FF;
             --bg-card: #FFFFFF;
             --bg-surface: #F3F0FF;
-            --border-warm: #DDD6FE;
+            --border-warm: rgba(221, 214, 254, 0.75);
+            --border-subtle: rgba(221, 214, 254, 0.5);
             --text-espresso: #2E1065;
             --text-mocha: #6D28D9;
             --text-muted: #7C3AED;
@@ -167,77 +168,88 @@
             --blood-orange-dark: #BA2407;
             --blood-orange-light: #FFE8DF;
             --blood-orange-glow: rgba(240, 74, 35, 0.4);
+            
+            /* Elevation & Smooth Shadows */
+            --shadow-smooth-xs: 0 2px 6px -1px rgba(109, 40, 217, 0.05), 0 1px 3px -1px rgba(0, 0, 0, 0.03);
+            --shadow-smooth-sm: 0 4px 14px -2px rgba(109, 40, 217, 0.07), 0 2px 6px -1px rgba(0, 0, 0, 0.03);
+            --shadow-smooth-md: 0 8px 24px -4px rgba(109, 40, 217, 0.09), 0 3px 10px -2px rgba(0, 0, 0, 0.04);
+            --shadow-smooth-lg: 0 16px 36px -6px rgba(109, 40, 217, 0.12), 0 6px 16px -2px rgba(20, 184, 166, 0.08);
+            --shadow-smooth-xl: 0 24px 48px -8px rgba(109, 40, 217, 0.16), 0 8px 24px -4px rgba(0, 0, 0, 0.08);
         }
 
-        .bg-blood-orange {
-            background-color: #F04A23 !important;
-        }
-
-        .text-blood-orange {
-            color: #F04A23 !important;
-        }
-
-        .border-blood-orange {
-            border-color: #F04A23 !important;
-        }
-
+        /* Smooth Base Canvas Gradient */
         body {
-            background-color: var(--bg-canvas);
+            background: linear-gradient(180deg, #FAF8FF 0%, #F5F0FF 40%, #F8F5FF 70%, #FAF8FF 100%);
             color: var(--text-espresso);
             font-family: 'Inter', sans-serif;
             min-height: 100vh;
+            -webkit-font-smoothing: antialiased;
+            -moz-osx-font-smoothing: grayscale;
         }
 
-        /* Full Width Edge-to-Edge Responsive Container */
+        main {
+            background: transparent !important;
+        }
+
+        /* Fluid Responsive Container */
         .store-fluid-container {
             width: 100%;
             padding-left: 1rem;
             padding-right: 1rem;
         }
-
         @media (min-width: 640px) {
-            .store-fluid-container {
-                padding-left: 1.5rem;
-                padding-right: 1.5rem;
-            }
+            .store-fluid-container { padding-left: 1.5rem; padding-right: 1.5rem; }
         }
-
         @media (min-width: 1024px) {
-            .store-fluid-container {
-                padding-left: 2rem;
-                padding-right: 2rem;
-            }
+            .store-fluid-container { padding-left: 2rem; padding-right: 2rem; }
         }
-
         @media (min-width: 1536px) {
-            .store-fluid-container {
-                padding-left: 3rem;
-                padding-right: 3rem;
-            }
+            .store-fluid-container { padding-left: 3rem; padding-right: 3rem; }
         }
 
-        /* Playful Wacky Things Product Card */
+        /* ==============================================================================
+           SURFACES & CONTAINERS: ELEGANT SLIGHT GRADIENTS (EXCEPT TYPE)
+           ============================================================================== */
+
+        /* Header with subtle frosted blur and gentle gradient */
+        header {
+            background: linear-gradient(180deg, rgba(255, 255, 255, 0.96) 0%, rgba(247, 244, 255, 0.92) 100%) !important;
+            border-bottom: 1px solid var(--border-warm) !important;
+            backdrop-filter: blur(16px);
+            -webkit-backdrop-filter: blur(16px);
+            box-shadow: 0 4px 20px -4px rgba(109, 40, 217, 0.05);
+        }
+
+        /* Announcement Bar subtle gradient */
+        .bg-earth-900 {
+            background: linear-gradient(90deg, #250B52 0%, #2E1065 30%, #3B1480 50%, #2E1065 70%, #250B52 100%) !important;
+            border-bottom: 1px solid rgba(221, 214, 254, 0.15) !important;
+        }
+
+        /* Product Cards: Slight Pearlescent Gradient, Soft Rounded Contours & Silky Lift */
         .product-card {
-            background-color: #ffffff;
-            border: 1px solid var(--border-warm);
-            border-radius: 18px;
-            transition: transform 0.22s cubic-bezier(0.4, 0, 0.2, 1), border-color 0.22s ease, box-shadow 0.22s ease;
+            background: linear-gradient(145deg, #ffffff 0%, #fbf9ff 55%, #f6f0ff 100%) !important;
+            border: 1px solid var(--border-warm) !important;
+            border-radius: 20px !important;
+            transition: transform 0.25s cubic-bezier(0.16, 1, 0.3, 1), 
+                        border-color 0.25s ease, 
+                        box-shadow 0.25s cubic-bezier(0.16, 1, 0.3, 1) !important;
             display: flex;
             flex-direction: column;
             overflow: hidden;
-            box-shadow: 0 2px 10px -2px rgba(109, 40, 217, 0.07), 0 1px 3px -1px rgba(109, 40, 217, 0.04);
+            box-shadow: var(--shadow-smooth-sm) !important;
         }
 
         .product-card:hover {
-            transform: translateY(-5px) rotate(0.4deg);
-            border-color: #8B5CF6;
-            box-shadow: 0 16px 32px -4px rgba(109, 40, 217, 0.18), 0 4px 12px -2px rgba(20, 184, 166, 0.12);
+            transform: translateY(-5px) !important;
+            border-color: #A78BFA !important;
+            box-shadow: var(--shadow-smooth-lg) !important;
         }
 
         .product-image-container {
             aspect-ratio: 1 / 1;
             width: 100%;
-            background-color: #F3F0FF;
+            background: linear-gradient(145deg, #f6f3ff 0%, #ede8fe 100%) !important;
             overflow: hidden;
             position: relative;
         }
@@ -246,19 +258,78 @@
             width: 100%;
             height: 100%;
             object-fit: cover;
-            transition: transform 0.35s ease;
+            transition: transform 0.4s cubic-bezier(0.16, 1, 0.3, 1);
         }
 
         .product-card:hover .product-image {
             transform: scale(1.05);
         }
 
-        /* Category Badge Badges with Distinct Colors */
+        /* General Cards & Containers (Sidebar, Filter Bars, Pagination, Modals) */
+        .bg-white,
+        .bg-canvas-card {
+            background: linear-gradient(150deg, #ffffff 0%, #fbf9ff 65%, #f6f1ff 100%);
+            border-color: var(--border-warm);
+        }
+
+        .bg-canvas-surface {
+            background: linear-gradient(135deg, #f7f4ff 0%, #efe9fe 100%) !important;
+        }
+
+        .bg-canvas-base {
+            background: linear-gradient(180deg, #FAF8FF 0%, #F5F0FF 100%);
+        }
+
+        .bg-earth-50 {
+            background: linear-gradient(135deg, #fbfaff 0%, #f3eeff 100%) !important;
+        }
+
+        .bg-earth-100 {
+            background: linear-gradient(135deg, #f5f1ff 0%, #ebe3fe 100%) !important;
+        }
+
+        /* Inputs & Dropdowns with Subtle Gradients and Soft Focus Rings */
+        input[type="text"],
+        input[type="email"],
+        input[type="number"],
+        select,
+        textarea {
+            background: linear-gradient(180deg, #ffffff 0%, #fcfaff 100%) !important;
+            border: 1px solid var(--border-warm) !important;
+            border-radius: 14px;
+            transition: all 0.2s cubic-bezier(0.16, 1, 0.3, 1);
+        }
+
+        input[type="text"]:focus,
+        input[type="email"]:focus,
+        input[type="number"]:focus,
+        select:focus,
+        textarea:focus {
+            outline: none !important;
+            border-color: #0D9488 !important;
+            box-shadow: 0 0 0 3px rgba(45, 212, 191, 0.25), 0 2px 8px rgba(13, 148, 136, 0.1) !important;
+        }
+
+        /* Filter Sidebar Card */
+        aside > div {
+            border-radius: 20px !important;
+            box-shadow: var(--shadow-smooth-sm) !important;
+            border: 1px solid var(--border-warm) !important;
+        }
+
+        /* Catalog Top Control Card */
+        #store-main-view > div > div > div > div:first-child {
+            border-radius: 20px !important;
+            box-shadow: var(--shadow-smooth-sm) !important;
+            border: 1px solid var(--border-warm) !important;
+        }
+
+        /* Category Badge Pills with Delicate Gradients */
         .category-badge-pill {
             display: inline-flex;
             align-items: center;
             gap: 0.35rem;
-            padding: 0.2rem 0.6rem;
+            padding: 0.25rem 0.65rem;
             border-radius: 9999px;
             font-size: 0.68rem;
             font-weight: 700;
@@ -269,59 +340,225 @@
             transition: all 0.2s ease;
         }
 
-        @keyframes sq-bulb-blink {
-
-            0%,
-            100% {
-                opacity: 0.1;
-                box-shadow: none;
-            }
-
-            50% {
-                opacity: 1;
-                box-shadow: 0 0 5px rgba(168, 85, 247, 0.8);
-            }
+        /* Attached Blog Filter Bar */
+        #blog-filter-bar {
+            background: linear-gradient(180deg, rgba(255, 255, 255, 0.98) 0%, rgba(247, 244, 255, 0.95) 100%) !important;
+            border-bottom: 1px solid var(--border-warm) !important;
+            box-shadow: 0 4px 16px -2px rgba(109, 40, 217, 0.05);
         }
 
-        .sq-bulb {
-            animation: sq-bulb-blink 1s infinite alternate;
+        /* Blog Article Cards */
+        .blog-article-card {
+            background: linear-gradient(150deg, #ffffff 0%, #fcfaff 60%, #f6f1ff 100%) !important;
+            border: 1px solid var(--border-warm) !important;
+            border-radius: 22px !important;
+            box-shadow: var(--shadow-smooth-sm) !important;
+            transition: transform 0.25s cubic-bezier(0.16, 1, 0.3, 1), box-shadow 0.25s ease, border-color 0.25s ease !important;
         }
 
-        .sq-bulb:nth-child(even) {
-            animation-delay: 0.5s;
+        .blog-article-card:hover {
+            transform: translateY(-5px) !important;
+            border-color: #8B5CF6 !important;
+            box-shadow: var(--shadow-smooth-lg) !important;
         }
 
-        .sq-bulb:nth-child(3n) {
-            animation-delay: 0.2s;
+        /* Attached Learning Academy Filter Bar */
+        #learning-filter-bar {
+            background: linear-gradient(180deg, rgba(255, 255, 255, 0.98) 0%, rgba(255, 248, 245, 0.95) 100%) !important;
+            border-bottom: 1px solid var(--border-warm) !important;
+            box-shadow: 0 4px 16px -2px rgba(240, 74, 35, 0.05);
         }
 
-        /* Interactive Hover Blueprint Tooltip Target */
-        [data-blueprint-file] {
-            position: relative;
-            cursor: pointer;
-            transition: outline 0.15s ease, box-shadow 0.15s ease;
+        /* Course Cards with Subtle Dual-Tone Gradients */
+        .course-card {
+            background: linear-gradient(150deg, #ffffff 0%, #fdfcff 50%, #fff7f4 100%) !important;
+            border: 1px solid var(--border-warm) !important;
+            border-radius: 24px !important;
+            box-shadow: var(--shadow-smooth-sm) !important;
+            transition: transform 0.25s cubic-bezier(0.16, 1, 0.3, 1), box-shadow 0.25s ease, border-color 0.25s ease !important;
         }
 
-        [data-blueprint-file]:hover {
-            outline: 2px dashed #7C3AED;
-            outline-offset: 2px;
+        .course-card:hover {
+            transform: translateY(-5px) !important;
+            border-color: #FFAF94 !important;
+            box-shadow: 0 20px 40px -6px rgba(240, 74, 35, 0.15), var(--shadow-smooth-md) !important;
         }
 
-        #wacky-corner-toggle:hover,
-        #wacky-corner-toggle:focus {
-            outline: none !important;
+        /* Modals & Drawers: Soft Backdrop Blurs & Gentle Diagonal Gradients */
+        #cart-drawer-backdrop > div,
+        #checkout-modal-backdrop > div,
+        #receipt-modal-backdrop > div,
+        #product-modal-backdrop > div,
+        #admin-modal-backdrop > div,
+        #arch-modal-backdrop > div,
+        #course-enrollment-modal > div,
+        #blog-reader-modal > div {
+            background: linear-gradient(155deg, #ffffff 0%, #fbf9ff 65%, #f4edfe 100%) !important;
+            border: 1px solid rgba(221, 214, 254, 0.8) !important;
+            box-shadow: var(--shadow-smooth-xl) !important;
         }
 
-        /* Floating Tooltip */
+        /* Live Progress Bar with Vibrant Smooth Glow */
+        #shipping-progress-bar,
+        #video-scrubber-progress {
+            background: linear-gradient(90deg, #0D9488 0%, #14B8A6 50%, #2DD4BF 100%) !important;
+            box-shadow: 0 0 10px rgba(45, 212, 191, 0.45);
+        }
+
+        /* ==============================================================================
+           BUTTONS: VIBRANT, RADIANT, STAND-OUT GRADIENTS (HIGHER CONTRAST & LUMINESCENCE)
+           ============================================================================== */
+
+        /* Smooth Base Transition for All Buttons */
+        button,
+        .btn-gradient {
+            transition: all 0.22s cubic-bezier(0.16, 1, 0.3, 1) !important;
+        }
+
+        /* 1. PRIMARY TEAL / CYAN BUTTONS (Cart, Checkout, Add, Save) */
+        .bg-appetite-700,
+        .bg-appetite-600,
+        .btn-teal-primary {
+            background: linear-gradient(135deg, #14B8A6 0%, #0D9488 50%, #0F766E 100%) !important;
+            box-shadow: 0 4px 14px 0 rgba(13, 148, 136, 0.38), inset 0 1px 0 rgba(255, 255, 255, 0.32) !important;
+            border: 1px solid rgba(45, 212, 191, 0.3) !important;
+            color: #ffffff !important;
+        }
+
+        .bg-appetite-700:hover,
+        .bg-appetite-600:hover,
+        .btn-teal-primary:hover {
+            background: linear-gradient(135deg, #2DD4BF 0%, #14B8A6 50%, #0D9488 100%) !important;
+            box-shadow: 0 8px 24px 0 rgba(13, 148, 136, 0.52), inset 0 1px 0 rgba(255, 255, 255, 0.45) !important;
+            transform: translateY(-2px);
+        }
+
+        .bg-appetite-700:active,
+        .bg-appetite-600:active,
+        .btn-teal-primary:active {
+            transform: translateY(1px) scale(0.98);
+            box-shadow: 0 2px 8px 0 rgba(13, 148, 136, 0.4) !important;
+        }
+
+        /* 2. PURPLE / VIOLET BRAND BUTTONS (Catalog Add to Cart, Modals, Active Filter Tabs) */
+        .bg-purple-600,
+        .bg-purple-700,
+        .btn-purple-primary {
+            background: linear-gradient(135deg, #9333EA 0%, #7C3AED 50%, #6D28D9 100%) !important;
+            box-shadow: 0 4px 16px 0 rgba(124, 58, 237, 0.42), inset 0 1px 0 rgba(255, 255, 255, 0.35) !important;
+            border: 1px solid rgba(167, 139, 250, 0.35) !important;
+            color: #ffffff !important;
+        }
+
+        .bg-purple-600:hover,
+        .bg-purple-700:hover,
+        .btn-purple-primary:hover {
+            background: linear-gradient(135deg, #A855F7 0%, #8B5CF6 50%, #7C3AED 100%) !important;
+            box-shadow: 0 8px 26px 0 rgba(124, 58, 237, 0.58), inset 0 1px 0 rgba(255, 255, 255, 0.45) !important;
+            transform: translateY(-2px);
+        }
+
+        .bg-purple-600:active,
+        .bg-purple-700:active,
+        .btn-purple-primary:active {
+            transform: translateY(1px) scale(0.98);
+        }
+
+        /* 3. BLOOD ORANGE / FIRE ACCENT BUTTONS (Learning Academy, Enroll, Webinar, Newsletter) */
+        #header-learning-btn,
+        #webinar-submit-btn,
+        #enroll-modal-submit-btn,
+        #video-demo-enroll-cta,
+        .btn-orange-primary {
+            background: linear-gradient(135deg, #FF7D54 0%, #F04A23 50%, #DD330D 100%) !important;
+            box-shadow: 0 4px 16px 0 rgba(240, 74, 35, 0.45), inset 0 1px 0 rgba(255, 255, 255, 0.35) !important;
+            border: 1px solid rgba(255, 175, 148, 0.4) !important;
+            color: #ffffff !important;
+        }
+
+        #header-learning-btn:hover,
+        #webinar-submit-btn:hover,
+        #enroll-modal-submit-btn:hover,
+        #video-demo-enroll-cta:hover,
+        .btn-orange-primary:hover {
+            background: linear-gradient(135deg, #FF9676 0%, #FF5722 50%, #F04A23 100%) !important;
+            box-shadow: 0 8px 26px 0 rgba(240, 74, 35, 0.62), inset 0 1px 0 rgba(255, 255, 255, 0.48) !important;
+            transform: translateY(-2px);
+        }
+
+        #header-learning-btn:active,
+        #webinar-submit-btn:active,
+        #enroll-modal-submit-btn:active,
+        #video-demo-enroll-cta:active,
+        .btn-orange-primary:active {
+            transform: translateY(1px) scale(0.98);
+        }
+
+        /* 4. SECONDARY / GHOST / NEUTRAL BUTTONS (.NET Arch, Admin CRUD, Admin, Inactive Filters) */
+        header button:not(.bg-appetite-700):not(#header-learning-btn):not(#search-clear-btn):not(#header-blog-btn) {
+            background: linear-gradient(180deg, #ffffff 0%, #F4EFFF 100%) !important;
+            border: 1px solid rgba(167, 139, 250, 0.55) !important;
+            box-shadow: 0 2px 8px -1px rgba(109, 40, 217, 0.12), inset 0 1px 0 #ffffff !important;
+            color: #2E1065 !important;
+        }
+
+        header button:not(.bg-appetite-700):not(#header-learning-btn):not(#search-clear-btn):not(#header-blog-btn):hover {
+            background: linear-gradient(180deg, #ffffff 0%, #E9E1FE 100%) !important;
+            border-color: #8B5CF6 !important;
+            box-shadow: 0 4px 14px -1px rgba(109, 40, 217, 0.22), inset 0 1px 0 #ffffff !important;
+            transform: translateY(-1.5px);
+            color: #1A0845 !important;
+        }
+
+        /* Header Blog Toggle Button (High-Contrast Rich Indigo/Plum Gradient) */
+        #header-blog-btn {
+            background: linear-gradient(135deg, #4C1D95 0%, #2E1065 60%, #1A0845 100%) !important;
+            box-shadow: 0 4px 14px 0 rgba(46, 16, 101, 0.35), inset 0 1px 0 rgba(255, 255, 255, 0.2) !important;
+            border: 1px solid rgba(196, 181, 253, 0.3) !important;
+            color: #ffffff !important;
+        }
+
+        #header-blog-btn:hover {
+            background: linear-gradient(135deg, #6D28D9 0%, #4C1D95 60%, #2E1065 100%) !important;
+            box-shadow: 0 8px 22px 0 rgba(46, 16, 101, 0.5), inset 0 1px 0 rgba(255, 255, 255, 0.3) !important;
+            transform: translateY(-1.5px);
+        }
+
+        /* Category Filter Buttons in Sidebar */
+        #category-sidebar-nav button {
+            transition: all 0.2s cubic-bezier(0.16, 1, 0.3, 1) !important;
+        }
+
+        #category-sidebar-nav button:hover {
+            transform: translateX(3px);
+        }
+
+        /* Video Demo Big Play Button */
+        #video-big-play-btn {
+            background: linear-gradient(135deg, #FF7D54 0%, #F04A23 50%, #DD330D 100%) !important;
+            box-shadow: 0 8px 30px rgba(240, 74, 35, 0.65), 0 0 0 4px rgba(255, 255, 255, 0.35) !important;
+        }
+
+        #video-big-play-btn:hover {
+            background: linear-gradient(135deg, #FF9676 0%, #FF5722 50%, #F04A23 100%) !important;
+            box-shadow: 0 12px 40px rgba(240, 74, 35, 0.8), 0 0 0 6px rgba(255, 255, 255, 0.45) !important;
+            transform: scale(1.1);
+        }
+
+        /* Floating Architectural Tooltip */
         #blueprint-tooltip {
             position: fixed;
             z-index: 99999;
             pointer-events: none;
             opacity: 0;
             transform: translateY(6px);
-            transition: opacity 0.15s ease, transform 0.15s ease;
+            transition: opacity 0.18s cubic-bezier(0.16, 1, 0.3, 1), transform 0.18s cubic-bezier(0.16, 1, 0.3, 1);
             max-width: 440px;
             width: max-content;
+            background: linear-gradient(145deg, rgba(26, 8, 69, 0.97) 0%, rgba(15, 3, 40, 0.98) 100%) !important;
+            border: 1px solid rgba(45, 212, 191, 0.5) !important;
+            border-radius: 16px !important;
+            box-shadow: 0 20px 45px -8px rgba(0, 0, 0, 0.6), 0 0 20px rgba(45, 212, 191, 0.2) !important;
         }
 
         #blueprint-tooltip.visible {
@@ -329,166 +566,147 @@
             transform: translateY(0);
         }
 
-        /* Playful Scrollbar in Purple/Teal */
+        [data-blueprint-file] {
+            position: relative;
+            cursor: pointer;
+            transition: outline 0.15s ease, box-shadow 0.15s ease;
+        }
+
+        [data-blueprint-file]:hover {
+            outline: 2px dashed #8B5CF6;
+            outline-offset: 2px;
+        }
+
+        /* Playful Scrollbar */
         ::-webkit-scrollbar {
             width: 7px;
             height: 7px;
         }
-
         ::-webkit-scrollbar-track {
-            background: #FAF8FF;
+            background: linear-gradient(180deg, #FAF8FF 0%, #F3F0FF 100%);
         }
-
         ::-webkit-scrollbar-thumb {
-            background: #C4B5FD;
-            border-radius: 4px;
+            background: linear-gradient(180deg, #C4B5FD 0%, #A78BFA 100%);
+            border-radius: 6px;
         }
-
         ::-webkit-scrollbar-thumb:hover {
-            background: #7C3AED;
+            background: linear-gradient(180deg, #8B5CF6 0%, #7C3AED 100%);
         }
 
-        /* Smooth Blur-Transparent View Transition Animations (~0.6s) */
+        /* Smooth View Transitions */
         @keyframes blurTransparentFadeOut {
-            0% {
-                opacity: 1;
-                filter: blur(0px);
-                transform: scale(1);
-            }
-
-            100% {
-                opacity: 0;
-                filter: blur(12px);
-                transform: scale(0.985);
-            }
+            0% { opacity: 1; filter: blur(0px); transform: scale(1); }
+            100% { opacity: 0; filter: blur(10px); transform: scale(0.99); }
         }
 
         @keyframes blurTransparentFadeIn {
-            0% {
-                opacity: 0;
-                filter: blur(12px);
-                transform: scale(0.985);
-            }
-
-            100% {
-                opacity: 1;
-                filter: blur(0px);
-                transform: scale(1);
-            }
+            0% { opacity: 0; filter: blur(10px); transform: scale(0.99); }
+            100% { opacity: 1; filter: blur(0px); transform: scale(1); }
         }
 
         .animate-blur-fade-out {
-            animation: blurTransparentFadeOut 0.55s cubic-bezier(0.4, 0, 0.2, 1) forwards !important;
+            animation: blurTransparentFadeOut 0.45s cubic-bezier(0.16, 1, 0.3, 1) forwards !important;
             pointer-events: none !important;
         }
 
         .animate-blur-fade-in {
-            animation: blurTransparentFadeIn 0.6s cubic-bezier(0.16, 1, 0.3, 1) forwards !important;
+            animation: blurTransparentFadeIn 0.5s cubic-bezier(0.16, 1, 0.3, 1) forwards !important;
         }
 
         .animate-rise-up {
-            animation: blurTransparentFadeIn 0.6s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+            animation: blurTransparentFadeIn 0.5s cubic-bezier(0.16, 1, 0.3, 1) forwards;
         }
 
-        /* --- DARK MODE SYSTEM (Obsidian Slate, Deep Purple, Glowing Teal) --- */
+        /* ==============================================================================
+           DARK MODE SYSTEM: OBSIDIAN SLATE SLIGHT GRADIENTS & RADIANT GLOWING BUTTONS
+           ============================================================================== */
         body.dark-mode {
-            background-color: #030712 !important;
-            /* Pitch Obsidian 950 */
-            color: #f8fafc !important;
+            background: linear-gradient(180deg, #030712 0%, #060a17 40%, #080c1d 70%, #030712 100%) !important;
+            color: #F8FAFC !important;
             --bg-canvas: #030712;
-            --bg-card: #0b0f19;
-            --bg-surface: #0b0f19;
-            --border-warm: #1f2937;
-            --text-espresso: #f8fafc;
-            --text-mocha: #c4b5fd;
-            --text-muted: #94a3b8;
-            --green-appetite: #2dd4bf;
-            --green-hover: #5eead4;
+            --bg-card: #0B0F19;
+            --bg-surface: #0E1526;
+            --border-warm: #1F2937;
+            --text-espresso: #F8FAFC;
+            --text-mocha: #C4B5FD;
+            --text-muted: #94A3B8;
+            --green-appetite: #2DD4BF;
+            --green-hover: #5EEAD4;
         }
 
-        /* Dark Mode Header Overrides */
         body.dark-mode header {
-            background-color: rgba(3, 7, 18, 0.96) !important;
-            border-color: #1f2937 !important;
+            background: linear-gradient(180deg, rgba(11, 15, 25, 0.98) 0%, rgba(3, 7, 18, 0.95) 100%) !important;
+            border-color: #1F2937 !important;
         }
 
         body.dark-mode header .text-earth-950,
         body.dark-mode header .font-heading {
-            color: #f8fafc !important;
+            color: #F8FAFC !important;
         }
 
         body.dark-mode header #search-input {
-            background-color: #0b0f19 !important;
-            border-color: #1f2937 !important;
-            color: #f8fafc !important;
+            background: linear-gradient(180deg, #0B0F19 0%, #070B14 100%) !important;
+            border-color: #1F2937 !important;
+            color: #F8FAFC !important;
         }
 
         body.dark-mode header #search-input::placeholder {
-            color: #94a3b8 !important;
+            color: #94A3B8 !important;
         }
 
-        body.dark-mode header button:not(.bg-appetite-700) {
-            background-color: #0b0f19 !important;
-            border-color: #1f2937 !important;
-            color: #cbd5e1 !important;
+        body.dark-mode header button:not(.bg-appetite-700):not(#header-learning-btn) {
+            background: linear-gradient(180deg, #131B2E 0%, #0B0F19 100%) !important;
+            border-color: #334155 !important;
+            color: #CBD5E1 !important;
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.4) !important;
         }
 
-        body.dark-mode header button:not(.bg-appetite-700):hover {
-            border-color: #8b5cf6 !important;
-            color: #f8fafc !important;
+        body.dark-mode header button:not(.bg-appetite-700):not(#header-learning-btn):hover {
+            border-color: #8B5CF6 !important;
+            color: #F8FAFC !important;
+            background: linear-gradient(180deg, #1E293B 0%, #0F172A 100%) !important;
+            box-shadow: 0 4px 14px rgba(139, 92, 246, 0.3) !important;
         }
 
-        /* Announcement bar in dark mode */
         body.dark-mode .bg-earth-900 {
-            background-color: #020617 !important;
-            border-color: #1f2937 !important;
+            background: linear-gradient(90deg, #020617 0%, #0B0F22 50%, #020617 100%) !important;
+            border-color: #1F2937 !important;
         }
 
-        /* Main Container & Section Layouts in Dark Mode */
-        body.dark-mode main {
-            background-color: #030712 !important;
-        }
-
-        /* Cards in Dark Mode with Deep Slate, Purple & Teal accents */
         body.dark-mode .product-card,
         body.dark-mode .bg-white,
         body.dark-mode .bg-canvas-card {
-            background-color: #0b0f19 !important;
-            /* Pitch Obsidian Card */
-            color: #f8fafc !important;
-            border-color: #1f2937 !important;
-        }
-
-        body.dark-mode .product-card {
-            box-shadow: 0 4px 16px -2px rgba(0, 0, 0, 0.8) !important;
+            background: linear-gradient(145deg, #0E1526 0%, #0A0F1D 60%, #070A14 100%) !important;
+            color: #F8FAFC !important;
+            border-color: #1F2937 !important;
+            box-shadow: 0 8px 24px -4px rgba(0, 0, 0, 0.7) !important;
         }
 
         body.dark-mode .product-card:hover {
-            border-color: #8b5cf6 !important;
-            /* Radiant Purple hover border */
-            box-shadow: 0 16px 32px -4px rgba(139, 92, 246, 0.35), 0 4px 16px -2px rgba(20, 184, 166, 0.3) !important;
+            border-color: #8B5CF6 !important;
+            box-shadow: 0 20px 40px -6px rgba(139, 92, 246, 0.4), 0 6px 18px rgba(20, 184, 166, 0.3) !important;
         }
 
         body.dark-mode .product-image-container {
-            background-color: #030712 !important;
+            background: linear-gradient(145deg, #080C18 0%, #0E1424 100%) !important;
         }
 
         body.dark-mode .product-card h3 {
-            color: #f8fafc !important;
+            color: #F8FAFC !important;
         }
 
         body.dark-mode .product-card h3:hover {
-            color: #c4b5fd !important;
+            color: #C4B5FD !important;
         }
 
         body.dark-mode .bg-canvas-base {
-            background-color: #030712 !important;
+            background: linear-gradient(180deg, #030712 0%, #060A17 100%) !important;
         }
 
         body.dark-mode .bg-canvas-surface,
         body.dark-mode .bg-earth-50,
         body.dark-mode .bg-earth-100 {
-            background-color: #0b0f19 !important;
+            background: linear-gradient(135deg, #131B2E 0%, #0D1322 100%) !important;
         }
 
         body.dark-mode .border-canvas-border,
@@ -504,7 +722,7 @@
         body.dark-mode .text-teal-900,
         body.dark-mode .text-teal-950,
         body.dark-mode .text-teal-800 {
-            color: #f8fafc !important;
+            color: #F8FAFC !important;
         }
 
         body.dark-mode .text-earth-700,
@@ -513,127 +731,96 @@
         body.dark-mode .text-gray-800,
         body.dark-mode .text-teal-700,
         body.dark-mode .text-teal-600 {
-            color: #cbd5e1 !important;
+            color: #CBD5E1 !important;
         }
 
-        body.dark-mode .bg-teal-50,
-        body.dark-mode .bg-teal-100 {
-            background-color: #1e293b !important;
-        }
-
-        body.dark-mode .border-teal-200,
-        body.dark-mode .border-teal-300 {
-            border-color: #334155 !important;
-        }
-
-        body.dark-mode .hover\:text-teal-900:hover,
-        body.dark-mode .hover\:text-teal-800:hover {
-            color: #c4b5fd !important;
-        }
-
-        /* Attached Blog Filter Bar in Dark Mode */
         body.dark-mode #blog-filter-bar {
-            background-color: #0b0f19 !important;
-            border-color: #1f2937 !important;
+            background: linear-gradient(180deg, #0B0F19 0%, #070B14 100%) !important;
+            border-color: #1F2937 !important;
         }
 
         body.dark-mode #blog-filter-bar p {
-            color: #94a3b8 !important;
-        }
-
-        /* Category Filter Sidebar in Dark Mode */
-        body.dark-mode .category-sidebar-card,
-        body.dark-mode .bg-surface-card {
-            background-color: #1e293b !important;
-            border-color: #334155 !important;
+            color: #94A3B8 !important;
         }
 
         body.dark-mode .cat-filter-btn {
-            background-color: #0f172a !important;
+            background: linear-gradient(180deg, #0F172A 0%, #0B0F19 100%) !important;
             border-color: #334155 !important;
-            color: #cbd5e1 !important;
+            color: #CBD5E1 !important;
         }
 
         body.dark-mode .cat-filter-btn:hover,
         body.dark-mode .cat-filter-btn.active {
-            background-color: #7c3aed !important;
-            border-color: #8b5cf6 !important;
-            color: #ffffff !important;
+            background: linear-gradient(135deg, #8B5CF6 0%, #6D28D9 100%) !important;
+            border-color: #A78BFA !important;
+            color: #FFFFFF !important;
+            box-shadow: 0 4px 16px rgba(139, 92, 246, 0.5) !important;
         }
 
-        /* Modals & Drawers in Dark Mode */
-        body.dark-mode #cart-drawer-backdrop>div,
-        body.dark-mode #checkout-modal-backdrop>div,
-        body.dark-mode #receipt-modal-backdrop>div,
-        body.dark-mode #admin-modal-backdrop>div,
-        body.dark-mode #arch-modal-backdrop>div {
-            background-color: #1e293b !important;
-            color: #f8fafc !important;
+        body.dark-mode #cart-drawer-backdrop > div,
+        body.dark-mode #checkout-modal-backdrop > div,
+        body.dark-mode #receipt-modal-backdrop > div,
+        body.dark-mode #admin-modal-backdrop > div,
+        body.dark-mode #arch-modal-backdrop > div,
+        body.dark-mode #course-enrollment-modal > div,
+        body.dark-mode #blog-reader-modal > div {
+            background: linear-gradient(155deg, #0E1526 0%, #090E1B 65%, #050812 100%) !important;
+            color: #F8FAFC !important;
             border-color: #334155 !important;
         }
 
-        body.dark-mode #blog-reader-modal>div {
-            background-color: #0b0f19 !important;
-            border-color: #1f2937 !important;
-            color: #f8fafc !important;
-        }
-
         body.dark-mode #blog-reader-modal .bg-canvas-surface {
-            background-color: #030712 !important;
-            border-color: #1f2937 !important;
+            background: linear-gradient(135deg, #0A0F1D 0%, #050812 100%) !important;
+            border-color: #1F2937 !important;
         }
 
         body.dark-mode #blog-reader-modal .bg-canvas-base {
-            background-color: #0b0f19 !important;
-            border-color: #1f2937 !important;
-        }
-
-        body.dark-mode #blog-modal-body {
-            color: #f1f5f9 !important;
+            background: linear-gradient(135deg, #0E1526 0%, #090E1B 100%) !important;
+            border-color: #1F2937 !important;
         }
 
         body.dark-mode #blog-modal-body p,
         body.dark-mode #blog-modal-body li {
-            color: #cbd5e1 !important;
+            color: #CBD5E1 !important;
         }
 
         body.dark-mode #blog-modal-body h3 {
-            color: #f8fafc !important;
+            color: #F8FAFC !important;
         }
 
-        body.dark-mode #blog-modal-body blockquote {
-            background-color: #1e1b4b !important;
-            color: #e2e8f0 !important;
+        /* Buttons glow intensely in Dark Mode */
+        body.dark-mode .bg-appetite-700,
+        body.dark-mode .bg-appetite-600 {
+            box-shadow: 0 4px 18px 0 rgba(45, 212, 191, 0.4) !important;
+        }
+        body.dark-mode .bg-purple-600,
+        body.dark-mode .bg-purple-700 {
+            box-shadow: 0 4px 20px 0 rgba(139, 92, 246, 0.45) !important;
+        }
+        body.dark-mode #header-learning-btn,
+        body.dark-mode #webinar-submit-btn {
+            box-shadow: 0 4px 20px 0 rgba(240, 74, 35, 0.5) !important;
         }
 
-        /* ========================================================
-           RESPONSIVE & TABLET ADAPTATIONS (WACKY THINGS STORE)
-           ======================================================== */
+        /* Responsive Mobile/Tablet Adjustments */
         @media (max-width: 1024px) {
-
-            /* Release sticky lock on tablet & mobile so the filter bar does not collide with header */
             #blog-filter-bar {
                 position: relative !important;
                 top: 0 !important;
                 z-index: 25;
             }
-
-            /* Better spacing and sizing for blog reader modal */
-            #blog-reader-modal>div {
+            #blog-reader-modal > div {
                 max-height: 90vh !important;
                 margin: 12px;
                 border-radius: 20px;
             }
-
             #blog-modal-cover-wrap {
                 height: 180px !important;
             }
-
             #blog-modal-title {
                 font-size: 1.35rem !important;
                 line-height: 1.25 !important;
             }
-
             #blog-modal-body {
                 padding: 1.25rem !important;
                 font-size: 0.92rem !important;
@@ -645,46 +832,33 @@
                 padding-left: 0.85rem !important;
                 padding-right: 0.85rem !important;
             }
-
-            /* Header controls compacting on mobile */
             header .store-fluid-container {
                 gap: 0.5rem !important;
                 padding-top: 0.6rem !important;
                 padding-bottom: 0.6rem !important;
             }
-
-            /* Cart drawer full width on mobile */
-            #cart-drawer-backdrop>div {
+            #cart-drawer-backdrop > div {
                 max-width: 100% !important;
             }
-
-            /* Blog card compacting on mobile */
             .blog-article-card {
                 border-radius: 18px !important;
             }
-
-            /* Reader modal compacting */
-            #blog-reader-modal>div {
+            #blog-reader-modal > div {
                 max-height: 94vh !important;
                 margin: 8px;
-                border-radius: 16px;
+                border-radius: 18px;
             }
-
             #blog-modal-cover-wrap {
                 height: 145px !important;
             }
-
             #blog-modal-title {
                 font-size: 1.15rem !important;
             }
-
             #blog-modal-body {
                 padding: 1rem !important;
                 font-size: 0.85rem !important;
                 line-height: 1.6 !important;
             }
-
-            /* Disable tooltip on touch / small screens to prevent sticky overlays */
             #blueprint-tooltip {
                 display: none !important;
             }
@@ -1227,27 +1401,38 @@
     <main id="admin-main-view" class="bg-canvas-base text-earth-950 py-8 w-full hidden flex-col h-full"
         style="min-height: 80vh">
         <div class="store-fluid-container space-y-6 flex-1 flex flex-col">
-            <h1
-                class="text-3xl font-black font-heading text-earth-900 mb-6 border-b-4 border-appetite-500 pb-2 inline-block">
-                Wacky Blog Admin Panel</h1>
-            <div class="bg-white p-6 rounded-2xl border-4 border-earth-900 shadow-[8px_8px_0px_#1C1917] mb-8">
-                <h2 class="text-xl font-bold mb-4">Add New Post</h2>
+            <div class="flex items-center gap-3 mb-6">
+                <h1 class="text-3xl font-black font-heading text-earth-900 tracking-tight">
+                    Wacky Blog Admin Panel</h1>
+                <span class="px-2.5 py-0.5 rounded-full bg-teal-100 text-teal-800 text-xs font-mono font-bold">CRUD Portal</span>
+            </div>
+            <div class="bg-gradient-to-br from-white via-white to-purple-50/50 p-6 sm:p-8 rounded-2xl border border-canvas-border shadow-md mb-8">
+                <h2 class="text-xl font-bold font-heading text-earth-950 mb-4 flex items-center gap-2">
+                    <i class="fa-solid fa-pen-nib text-appetite-700 text-base"></i>
+                    <span>Add New Post</span>
+                </h2>
                 <div class="space-y-4">
                     <input type="text" id="admin-title" placeholder="Post Title"
-                        class="w-full p-2 border-2 border-earth-300 rounded" />
-                    <input type="text" id="admin-category" placeholder="Category"
-                        class="w-full p-2 border-2 border-earth-300 rounded" />
-                    <input type="text" id="admin-date" placeholder="Date (e.g., April 1, 2024)"
-                        class="w-full p-2 border-2 border-earth-300 rounded" />
-                    <input type="text" id="admin-author" placeholder="Author Name"
-                        class="w-full p-2 border-2 border-earth-300 rounded" />
-                    <input type="text" id="admin-image" placeholder="Image URL"
-                        class="w-full p-2 border-2 border-earth-300 rounded" />
+                        class="w-full px-4 py-2.5 bg-canvas-surface/60 border border-canvas-border rounded-xl text-earth-950 text-sm focus:outline-none focus:border-teal-700 focus:ring-2 focus:ring-teal-300/40 transition-all" />
+                    <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                        <input type="text" id="admin-category" placeholder="Category"
+                            class="w-full px-4 py-2.5 bg-canvas-surface/60 border border-canvas-border rounded-xl text-earth-950 text-sm focus:outline-none focus:border-teal-700 focus:ring-2 focus:ring-teal-300/40 transition-all" />
+                        <input type="text" id="admin-date" placeholder="Date (e.g., April 1, 2024)"
+                            class="w-full px-4 py-2.5 bg-canvas-surface/60 border border-canvas-border rounded-xl text-earth-950 text-sm focus:outline-none focus:border-teal-700 focus:ring-2 focus:ring-teal-300/40 transition-all" />
+                    </div>
+                    <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                        <input type="text" id="admin-author" placeholder="Author Name"
+                            class="w-full px-4 py-2.5 bg-canvas-surface/60 border border-canvas-border rounded-xl text-earth-950 text-sm focus:outline-none focus:border-teal-700 focus:ring-2 focus:ring-teal-300/40 transition-all" />
+                        <input type="text" id="admin-image" placeholder="Image URL"
+                            class="w-full px-4 py-2.5 bg-canvas-surface/60 border border-canvas-border rounded-xl text-earth-950 text-sm focus:outline-none focus:border-teal-700 focus:ring-2 focus:ring-teal-300/40 transition-all" />
+                    </div>
                     <textarea id="admin-content" placeholder="Content (HTML allowed)"
-                        class="w-full p-2 border-2 border-earth-300 rounded h-32"></textarea>
+                        class="w-full px-4 py-2.5 bg-canvas-surface/60 border border-canvas-border rounded-xl text-earth-950 text-sm focus:outline-none focus:border-teal-700 focus:ring-2 focus:ring-teal-300/40 transition-all h-32"></textarea>
                     <button onclick="window.saveNewPost()"
-                        class="px-6 py-2 bg-appetite-500 hover:bg-appetite-600 text-white font-bold rounded-xl shadow-[4px_4px_0px_#1C1917] transition-transform active:translate-y-1 active:shadow-none">Save
-                        Post</button>
+                        class="px-6 py-2.5 bg-gradient-to-r from-appetite-700 via-appetite-600 to-teal-800 hover:from-teal-600 hover:to-appetite-700 text-white font-bold rounded-xl shadow-lg shadow-appetite-800/30 hover:shadow-xl hover:shadow-appetite-700/40 hover:-translate-y-0.5 active:translate-y-0.5 transition-all cursor-pointer border border-teal-400/30">
+                        <i class="fa-solid fa-cloud-arrow-up mr-1.5"></i>
+                        Save Post
+                    </button>
                 </div>
             </div>
             <h2 class="text-2xl font-black font-heading text-earth-900 mb-4">Manage Posts</h2>
@@ -2505,23 +2690,26 @@
 
 
     <!-- NEWSLETTER SIGNUP -->
-    <section class="bg-appetite-500 py-12 border-t-8 border-b-8 border-earth-900 overflow-hidden relative"
+    <section class="py-16 bg-gradient-to-r from-teal-900 via-appetite-800 to-earth-950 border-t border-b border-teal-500/30 overflow-hidden relative shadow-inner"
         data-blueprint-file="WackyStore.WebUI/Views/Shared/_NewsletterSignup.cshtml"
         data-blueprint-role="Newsletter Signup Partial View" data-blueprint-layer="WebUI / View Component"
         data-blueprint-dom="Semantic <section> container featuring an inline form and vibrant styling."
         data-blueprint-desc="Renders the newsletter signup form. Posts email subscriptions to the Newsletter controller."
         data-blueprint-code="[HttpPost] public ActionResult Subscribe(string email) { ... }">
         <div class="store-fluid-container relative z-10 flex flex-col items-center text-center">
-            <h2 class="text-4xl sm:text-5xl font-black font-heading text-earth-900 mb-4 transform -rotate-2">GET MAIL!
-            </h2>
+            <div class="inline-flex items-center gap-2 px-3.5 py-1 rounded-full bg-teal-400/20 border border-teal-400/40 text-teal-200 text-xs font-mono font-bold uppercase tracking-wider mb-3">
+                <i class="fa-solid fa-paper-plane text-teal-300"></i>
+                <span>Wacky Dispatch Network</span>
+            </div>
+            <h2 class="text-3xl sm:text-5xl font-black font-heading text-white mb-3 tracking-tight">GET WACKY DISPATCHES</h2>
             <p
-                class="text-lg font-bold text-earth-800 bg-white px-4 py-1 rounded border-2 border-earth-900 transform rotate-1 mb-6">
-                Sign up for exclusive nonsense and 0% useful information!</p>
+                class="text-sm sm:text-base font-medium text-teal-100/90 max-w-xl mb-8 leading-relaxed">
+                Sign up for exclusive oddities, lab field notes, and 0% useful information delivered directly to your inbox.</p>
             <form onsubmit="subscribeToNewsletter(event)" class="flex flex-col sm:flex-row gap-3 w-full max-w-2xl">
                 <input type="email" id="newsletter-email" placeholder="Enter your email (we dare you)" required
-                    class="flex-1 p-4 rounded-xl border-4 border-earth-900 font-bold focus:outline-none focus:ring-4 focus:ring-appetite-400 text-lg shadow-[4px_4px_0px_#1C1917]" />
+                    class="flex-1 px-5 py-4 rounded-2xl bg-white/95 border border-white/40 font-semibold text-earth-950 placeholder-earth-400 focus:outline-none focus:ring-4 focus:ring-teal-300/40 text-base shadow-lg transition-all" />
                 <button type="submit"
-                    class="px-8 py-4 bg-appetite-500 hover:bg-appetite-600 text-white font-black text-xl uppercase tracking-widest rounded-xl border-4 border-earth-900 shadow-[6px_6px_0px_#1C1917] hover:shadow-[4px_4px_0px_#1C1917] hover:translate-x-[2px] hover:translate-y-[2px] active:shadow-none active:translate-x-[6px] active:translate-y-[6px] transition-all">SIGN
+                    class="px-8 py-4 bg-gradient-to-r from-[#FF7D54] via-[#F04A23] to-[#DD330D] hover:from-[#FF9676] hover:via-[#FF5722] hover:to-[#F04A23] text-white font-black text-lg uppercase tracking-wider rounded-2xl shadow-xl shadow-orange-950/40 hover:shadow-2xl hover:shadow-orange-600/50 hover:-translate-y-0.5 active:translate-y-0.5 active:scale-95 transition-all border border-orange-300/40 cursor-pointer">SIGN
                     ME UP</button>
             </form>
             <p id="newsletter-message" class="mt-4 font-bold hidden"></p>

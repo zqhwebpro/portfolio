@@ -118,9 +118,80 @@
 
         body {
             background-color: var(--bg-canvas);
+            background: 
+                radial-gradient(circle at 10% 12%, rgba(240, 74, 35, 0.04) 0%, transparent 42%),
+                radial-gradient(circle at 90% 88%, rgba(13, 148, 136, 0.05) 0%, transparent 45%),
+                linear-gradient(180deg, #FDFBFF 0%, #F5F1FF 100%);
             color: var(--text-espresso);
             font-family: 'Inter', sans-serif;
             min-height: 100vh;
+        }
+
+        /* Subtle Smooth Surface Gradients */
+        .course-card,
+        .bg-canvas-card,
+        .bg-white {
+            background: linear-gradient(145deg, rgba(255, 255, 255, 0.98) 0%, rgba(254, 250, 246, 0.94) 50%, rgba(250, 245, 255, 0.92) 100%);
+            border: 1px solid rgba(0, 0, 0, 0.06);
+            border-radius: 1.25rem;
+            box-shadow: 0 10px 30px -10px rgba(76, 29, 149, 0.07);
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+
+        .course-card:hover {
+            transform: translateY(-4px);
+            box-shadow: 0 20px 40px -12px rgba(76, 29, 149, 0.12), 0 0 0 1px rgba(240, 74, 35, 0.15);
+        }
+
+        .bg-canvas-surface {
+            background: linear-gradient(135deg, #F3F0FF 0%, #EDE9FE 100%);
+        }
+
+        /* Standout Gradient Buttons with Luminous Elevation */
+        .btn-gradient-standout,
+        .btn-standout-orange {
+            background: linear-gradient(135deg, #FF7D54 0%, #F04A23 50%, #DD330D 100%) !important;
+            color: #FFFFFF !important;
+            border: none !important;
+            box-shadow: 0 8px 24px -4px rgba(240, 74, 35, 0.42), 0 2px 6px 0 rgba(240, 74, 35, 0.2) !important;
+            transition: all 0.25s cubic-bezier(0.4, 0, 0.2, 1) !important;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .btn-gradient-standout:hover,
+        .btn-standout-orange:hover {
+            background: linear-gradient(135deg, #FF8F6B 0%, #F5552F 50%, #BA2407 100%) !important;
+            box-shadow: 0 12px 28px -4px rgba(240, 74, 35, 0.52), 0 4px 10px 0 rgba(240, 74, 35, 0.3) !important;
+            transform: translateY(-2px);
+        }
+
+        .btn-standout-teal {
+            background: linear-gradient(135deg, #00C4B4 0%, #00A396 50%, #007A70 100%) !important;
+            color: #FFFFFF !important;
+            border: none !important;
+            box-shadow: 0 8px 24px -4px rgba(0, 163, 150, 0.42), 0 2px 6px 0 rgba(0, 163, 150, 0.2) !important;
+            transition: all 0.25s cubic-bezier(0.4, 0, 0.2, 1) !important;
+        }
+
+        .btn-standout-teal:hover {
+            background: linear-gradient(135deg, #00E5D2 0%, #00BFA8 50%, #008F84 100%) !important;
+            box-shadow: 0 12px 28px -4px rgba(0, 163, 150, 0.52), 0 4px 10px 0 rgba(0, 163, 150, 0.3) !important;
+            transform: translateY(-2px);
+        }
+
+        .btn-standout-indigo {
+            background: linear-gradient(135deg, #6366F1 0%, #4F46E5 50%, #3730A3 100%) !important;
+            color: #FFFFFF !important;
+            border: none !important;
+            box-shadow: 0 8px 24px -4px rgba(79, 70, 229, 0.42), 0 2px 6px 0 rgba(79, 70, 229, 0.2) !important;
+            transition: all 0.25s cubic-bezier(0.4, 0, 0.2, 1) !important;
+        }
+
+        .btn-standout-indigo:hover {
+            background: linear-gradient(135deg, #818CF8 0%, #6366F1 50%, #4338CA 100%) !important;
+            box-shadow: 0 12px 28px -4px rgba(79, 70, 229, 0.52), 0 4px 10px 0 rgba(79, 70, 229, 0.3) !important;
+            transform: translateY(-2px);
         }
 
         .store-fluid-container {
@@ -309,7 +380,7 @@
                     data-blueprint-dom="Red-orange active button highlighting the current learning page."
                     data-blueprint-desc="Represents the active Education Store &amp; WackyDash course module view."
                     data-blueprint-code="public ActionResult Learning() => View(courseService.GetCurriculums());"
-                    class="h-10 px-3.5 rounded-xl bg-gradient-to-r from-[#F04A23] to-[#DD330D] text-white text-xs font-bold flex items-center gap-1.5 shadow-md shadow-[#F04A23]/30 border border-red-400/40 no-underline ring-2 ring-[#FFAF94]/50">
+                    class="h-10 px-4 rounded-xl bg-gradient-to-r from-[#FF7D54] via-[#F04A23] to-[#DD330D] text-white text-xs font-bold flex items-center gap-1.5 shadow-lg shadow-[#F04A23]/35 border border-red-400/40 no-underline ring-2 ring-[#FFAF94]/50 hover:-translate-y-0.5 transition-all">
                     <i class="fa-solid fa-graduation-cap text-orange-100"></i>
                     <span class="hidden sm:inline">Learning Academy</span>
                 </a>
@@ -320,15 +391,15 @@
     <!-- MAIN LEARNING MODULE CONTENT -->
     <main class="bg-canvas-base text-earth-950 flex-1 w-full pt-0 pb-16">
         <!-- Attached Sub-Header Bar -->
-        <div id="learning-filter-bar" class="w-full bg-white border-b border-canvas-border shadow-xs sticky top-[68px] z-30">
+        <div id="learning-filter-bar" class="w-full bg-white/90 backdrop-blur-md border-b border-canvas-border shadow-xs sticky top-[68px] z-30">
             <div class="store-fluid-container py-3 sm:py-4 flex flex-col xl:flex-row xl:items-center justify-between gap-3.5 xl:gap-8 w-full">
                 <div class="flex items-start gap-2.5 sm:gap-3 flex-1 min-w-0">
-                    <div class="h-8 w-8 rounded-xl bg-[#FFF5F1] text-[#F04A23] border border-[#FFD4C4] flex items-center justify-center text-sm shrink-0 mt-0.5 shadow-xs">
+                    <div class="h-8 w-8 rounded-xl bg-gradient-to-br from-[#FFF5F1] to-[#FFE8DF] text-[#F04A23] border border-[#FFD4C4] flex items-center justify-center text-sm shrink-0 mt-0.5 shadow-xs">
                         <i class="fa-solid fa-graduation-cap"></i>
                     </div>
                     <div>
                         <div class="flex items-center gap-2">
-                            <span class="px-2 py-0.5 rounded-full bg-[#FFE8DF] text-[#BA2407] text-[10px] font-mono font-black uppercase tracking-wider">
+                            <span class="px-2.5 py-0.5 rounded-full bg-gradient-to-r from-[#FFE8DF] to-[#FFD4C4] text-[#BA2407] text-[10px] font-mono font-black uppercase tracking-wider shadow-xs">
                                 WackyDash LMS Architecture
                             </span>
                             <span class="text-xs text-earth-500 font-mono hidden sm:inline">&bull; Locked To Purchase</span>
@@ -344,23 +415,23 @@
                 <!-- Track Filters -->
                 <div class="flex flex-wrap items-center gap-1.5 sm:gap-2 text-xs shrink-0 overflow-x-auto pb-1 xl:pb-0">
                     <button onclick="window.filterCourseCategory('all')" id="course-filter-all"
-                        class="course-cat-btn px-3 sm:px-3.5 py-1.5 rounded-xl font-bold transition-all bg-[#F04A23] text-white shadow-xs text-[11px] sm:text-xs cursor-pointer">
+                        class="course-cat-btn px-4 py-2 rounded-xl font-bold transition-all bg-gradient-to-r from-[#FF7D54] via-[#F04A23] to-[#DD330D] text-white shadow-md shadow-[#F04A23]/30 text-[11px] sm:text-xs cursor-pointer scale-105">
                         All Tracks
                     </button>
                     <button onclick="window.filterCourseCategory('Absurd Physics')" id="course-filter-physics"
-                        class="course-cat-btn px-3 sm:px-3.5 py-1.5 rounded-xl font-bold transition-all bg-canvas-surface hover:bg-canvas-border text-earth-800 border border-canvas-border text-[11px] sm:text-xs cursor-pointer">
+                        class="course-cat-btn px-4 py-2 rounded-xl font-bold transition-all bg-gradient-to-br from-white via-purple-50/40 to-orange-50/20 hover:border-orange-300 text-earth-800 border border-black/5 text-[11px] sm:text-xs shadow-xs cursor-pointer">
                         Absurd Physics
                     </button>
                     <button onclick="window.filterCourseCategory('Novelty Engineering')" id="course-filter-engineering"
-                        class="course-cat-btn px-3 sm:px-3.5 py-1.5 rounded-xl font-bold transition-all bg-canvas-surface hover:bg-canvas-border text-earth-800 border border-canvas-border text-[11px] sm:text-xs cursor-pointer">
+                        class="course-cat-btn px-4 py-2 rounded-xl font-bold transition-all bg-gradient-to-br from-white via-purple-50/40 to-orange-50/20 hover:border-orange-300 text-earth-800 border border-black/5 text-[11px] sm:text-xs shadow-xs cursor-pointer">
                         Novelty Engineering
                     </button>
                     <button onclick="window.filterCourseCategory('C# &amp; Gag Architecture')" id="course-filter-architecture"
-                        class="course-cat-btn px-3 sm:px-3.5 py-1.5 rounded-xl font-bold transition-all bg-canvas-surface hover:bg-canvas-border text-earth-800 border border-canvas-border text-[11px] sm:text-xs cursor-pointer">
+                        class="course-cat-btn px-4 py-2 rounded-xl font-bold transition-all bg-gradient-to-br from-white via-purple-50/40 to-orange-50/20 hover:border-orange-300 text-earth-800 border border-black/5 text-[11px] sm:text-xs shadow-xs cursor-pointer">
                         C# &amp; Gag Architecture
                     </button>
                     <button onclick="window.scrollToZoomWebinar()"
-                        class="px-3 sm:px-3.5 py-1.5 rounded-xl font-bold transition-all bg-gradient-to-r from-blue-600 to-indigo-700 hover:from-blue-700 hover:to-indigo-800 text-white shadow-xs text-[11px] sm:text-xs flex items-center gap-1.5 cursor-pointer">
+                        class="px-4 py-2 rounded-xl font-bold transition-all bg-gradient-to-r from-blue-500 via-indigo-600 to-purple-700 hover:from-blue-400 hover:to-indigo-500 text-white shadow-md shadow-indigo-600/30 hover:shadow-lg hover:shadow-indigo-600/40 text-[11px] sm:text-xs flex items-center gap-1.5 cursor-pointer hover:-translate-y-0.5">
                         <i class="fa-solid fa-video text-cyan-200"></i>
                         <span>Live Webinar</span>
                     </button>
@@ -449,7 +520,7 @@
             data-blueprint-desc="Connects to Zoom REST API v2 to register students for live architectural masterclasses, automatically emailing Zoom meeting credentials."
             data-blueprint-code="[HttpPost] public async Task<ActionResult> RegisterWebinar(WebinarRegistrantViewModel model)">
 
-            <div class="rounded-3xl bg-white border-2 border-[#FFD4C4] shadow-xl overflow-hidden">
+            <div class="rounded-3xl bg-gradient-to-br from-white via-amber-50/20 to-orange-50/20 border border-[#FFD4C4]/60 shadow-2xl overflow-hidden">
                 <div class="bg-gradient-to-r from-blue-700 via-indigo-800 to-earth-950 px-6 sm:px-10 py-5 text-white flex flex-wrap items-center justify-between gap-4">
                     <div class="flex items-center gap-3">
                         <div class="h-10 w-10 rounded-xl bg-white/10 backdrop-blur-md flex items-center justify-center text-xl text-cyan-300 border border-white/20">
@@ -475,7 +546,7 @@
                             <img src="images/webinar_zoom.jpg" alt="Live Zoom Webinar" class="w-full h-56 sm:h-72 object-cover transition-transform duration-500 group-hover:scale-105" />
                             <div class="absolute inset-0 bg-gradient-to-t from-earth-950/90 via-earth-950/30 to-transparent flex items-end p-5">
                                 <div class="text-white space-y-1">
-                                    <span class="px-2.5 py-0.5 rounded-full bg-[#F04A23] text-white text-[10px] font-mono font-black uppercase">
+                                    <span class="px-2.5 py-0.5 rounded-full bg-gradient-to-r from-[#FF7D54] to-[#DD330D] text-white text-[10px] font-mono font-black uppercase shadow-sm">
                                         Zoom Room #984-2490-8812
                                     </span>
                                     <h4 class="font-heading font-black text-lg sm:text-2xl text-amber-100">
@@ -491,7 +562,7 @@
                             </p>
                             
                             <div class="grid grid-cols-1 sm:grid-cols-2 gap-3 pt-2">
-                                <div class="p-3.5 rounded-xl bg-canvas-surface border border-canvas-border space-y-1">
+                                <div class="p-3.5 rounded-xl bg-gradient-to-br from-white via-purple-50/30 to-amber-50/30 border border-black/5 shadow-xs hover:shadow-md transition-all space-y-1">
                                     <div class="font-bold text-earth-950 flex items-center gap-1.5 text-xs">
                                         <i class="fa-solid fa-code text-[#F04A23]"></i>
                                         <span>Live Code Architecture</span>
@@ -501,7 +572,7 @@
                                     </p>
                                 </div>
 
-                                <div class="p-3.5 rounded-xl bg-canvas-surface border border-canvas-border space-y-1">
+                                <div class="p-3.5 rounded-xl bg-gradient-to-br from-white via-teal-50/30 to-purple-50/20 border border-black/5 shadow-xs hover:shadow-md transition-all space-y-1">
                                     <div class="font-bold text-earth-950 flex items-center gap-1.5 text-xs">
                                         <i class="fa-solid fa-comments text-teal-700"></i>
                                         <span>Interactive Audience Q&amp;A</span>
@@ -511,7 +582,7 @@
                                     </p>
                                 </div>
 
-                                <div class="p-3.5 rounded-xl bg-canvas-surface border border-canvas-border space-y-1">
+                                <div class="p-3.5 rounded-xl bg-gradient-to-br from-white via-purple-50/30 to-pink-50/20 border border-black/5 shadow-xs hover:shadow-md transition-all space-y-1">
                                     <div class="font-bold text-earth-950 flex items-center gap-1.5 text-xs">
                                         <i class="fa-solid fa-certificate text-purple-700"></i>
                                         <span>Attendance Credentials</span>
@@ -521,7 +592,7 @@
                                     </p>
                                 </div>
 
-                                <div class="p-3.5 rounded-xl bg-canvas-surface border border-canvas-border space-y-1">
+                                <div class="p-3.5 rounded-xl bg-gradient-to-br from-white via-amber-50/40 to-orange-50/30 border border-black/5 shadow-xs hover:shadow-md transition-all space-y-1">
                                     <div class="font-bold text-earth-950 flex items-center gap-1.5 text-xs">
                                         <i class="fa-solid fa-ticket text-amber-600"></i>
                                         <span>$50 Academy Credit</span>
@@ -535,9 +606,9 @@
                     </div>
 
                     <!-- Registration Form -->
-                    <div class="lg:col-span-5 bg-gradient-to-b from-[#FFF5F1] to-white p-6 sm:p-8 rounded-2xl border-2 border-[#FFD4C4] shadow-md space-y-5">
+                    <div class="lg:col-span-5 bg-gradient-to-b from-[#FFF8F5] via-white to-[#FDF8FF] p-6 sm:p-8 rounded-2xl border border-[#FFD4C4]/60 shadow-lg space-y-5">
                         <div class="space-y-1.5 border-b border-[#FFD4C4] pb-4">
-                            <div class="inline-flex items-center gap-1.5 px-2.5 py-0.5 rounded-full bg-[#FFE8DF] text-[#BA2407] font-mono text-[10.5px] font-bold">
+                            <div class="inline-flex items-center gap-1.5 px-2.5 py-0.5 rounded-full bg-gradient-to-r from-[#FFE8DF] to-[#FFD4C4] text-[#BA2407] font-mono text-[10.5px] font-bold shadow-xs">
                                 <i class="fa-solid fa-bolt text-[#F04A23]"></i>
                                 <span>Zero Cost &bull; Free Registration</span>
                             </div>
@@ -555,7 +626,7 @@
                                 <div class="relative">
                                     <i class="fa-regular fa-user absolute left-3.5 top-3 text-gray-400 text-xs"></i>
                                     <input type="text" id="webinar-name" required placeholder="e.g. Ada Lovelace"
-                                        class="w-full pl-9 pr-3.5 py-2.5 rounded-xl border border-canvas-border focus:outline-none focus:border-[#F04A23] focus:ring-2 focus:ring-[#FFAF94]/50 text-xs text-earth-950 font-medium bg-white" />
+                                        class="w-full pl-9 pr-3.5 py-2.5 rounded-xl border border-canvas-border focus:outline-none focus:border-[#F04A23] focus:ring-2 focus:ring-[#FFAF94]/50 text-xs text-earth-950 font-medium bg-gradient-to-b from-white to-amber-50/20 shadow-xs" />
                                 </div>
                             </div>
 
@@ -566,7 +637,7 @@
                                 <div class="relative">
                                     <i class="fa-regular fa-envelope absolute left-3.5 top-3 text-gray-400 text-xs"></i>
                                     <input type="email" id="webinar-email" required placeholder="name@domain.com"
-                                        class="w-full pl-9 pr-3.5 py-2.5 rounded-xl border border-canvas-border focus:outline-none focus:border-[#F04A23] focus:ring-2 focus:ring-[#FFAF94]/50 text-xs text-earth-950 font-medium bg-white" />
+                                        class="w-full pl-9 pr-3.5 py-2.5 rounded-xl border border-canvas-border focus:outline-none focus:border-[#F04A23] focus:ring-2 focus:ring-[#FFAF94]/50 text-xs text-earth-950 font-medium bg-gradient-to-b from-white to-amber-50/20 shadow-xs" />
                                 </div>
                             </div>
 
@@ -575,7 +646,7 @@
                                     Experience Track
                                 </label>
                                 <select id="webinar-experience"
-                                    class="w-full px-3.5 py-2.5 rounded-xl border border-canvas-border focus:outline-none focus:border-[#F04A23] focus:ring-2 focus:ring-[#FFAF94]/50 text-xs text-earth-950 font-medium bg-white cursor-pointer">
+                                    class="w-full px-3.5 py-2.5 rounded-xl border border-canvas-border focus:outline-none focus:border-[#F04A23] focus:ring-2 focus:ring-[#FFAF94]/50 text-xs text-earth-950 font-medium bg-gradient-to-b from-white to-amber-50/20 shadow-xs cursor-pointer">
                                     <option value="dotnet">C# / .NET Developer</option>
                                     <option value="frontend">Frontend / UI Engineer</option>
                                     <option value="hobbyist">Novelty Gag Enthusiast</option>
@@ -589,11 +660,11 @@
                                     Question for the Live Q&amp;A (Optional)
                                 </label>
                                 <textarea id="webinar-question" rows="2" placeholder="What would you like Zach &amp; Dr. Fizzle to break down?"
-                                    class="w-full px-3.5 py-2 rounded-xl border border-canvas-border focus:outline-none focus:border-[#F04A23] focus:ring-2 focus:ring-[#FFAF94]/50 text-xs text-earth-950 font-medium bg-white resize-none"></textarea>
+                                    class="w-full px-3.5 py-2 rounded-xl border border-canvas-border focus:outline-none focus:border-[#F04A23] focus:ring-2 focus:ring-[#FFAF94]/50 text-xs text-earth-950 font-medium bg-gradient-to-b from-white to-amber-50/20 shadow-xs resize-none"></textarea>
                             </div>
 
                             <button type="submit" id="webinar-submit-btn"
-                                class="w-full py-3 px-4 rounded-xl bg-gradient-to-r from-[#F04A23] to-[#DD330D] hover:from-[#DD330D] hover:to-[#BA2407] text-white font-bold text-xs sm:text-sm flex items-center justify-center gap-2 transition-all shadow-md shadow-[#F04A23]/30 hover:shadow-lg hover:shadow-[#F04A23]/40 active:scale-[0.98] cursor-pointer">
+                                class="w-full py-3.5 px-5 rounded-2xl bg-gradient-to-r from-[#FF7D54] via-[#F04A23] to-[#DD330D] hover:from-[#FF8F6B] hover:to-[#BA2407] text-white font-bold text-xs sm:text-sm flex items-center justify-center gap-2 transition-all shadow-xl shadow-[#F04A23]/35 hover:-translate-y-0.5 hover:shadow-2xl hover:shadow-[#F04A23]/45 active:scale-[0.98] cursor-pointer">
                                 <i class="fa-solid fa-video text-white"></i>
                                 <span>Sign Up For Live Zoom Webinar</span>
                             </button>
@@ -603,7 +674,7 @@
                             </div>
                         </form>
 
-                        <div id="webinar-confirmation" class="hidden space-y-4 p-5 rounded-2xl bg-teal-50 border-2 border-teal-500 animate-rise-up text-left">
+                        <div id="webinar-confirmation" class="hidden space-y-4 p-5 rounded-2xl bg-gradient-to-br from-teal-50 to-teal-100/50 border border-teal-500/40 shadow-lg animate-rise-up text-left">
                             <div class="flex items-center gap-2 text-teal-900 font-heading font-black text-base">
                                 <i class="fa-solid fa-circle-check text-teal-600 text-lg"></i>
                                 <span>Zoom Seat Reserved!</span>
@@ -611,7 +682,7 @@
                             <p class="text-xs text-teal-900 leading-relaxed">
                                 Welcome, <strong id="confirmed-attendee-name">Student</strong>! We have dispatched your calendar invite and direct Zoom entry link to <strong id="confirmed-attendee-email" class="break-all">email</strong>.
                             </p>
-                            <div class="bg-white p-3 rounded-xl border border-teal-200 text-xs font-mono space-y-1.5">
+                            <div class="bg-white/90 p-3 rounded-xl border border-teal-200 text-xs font-mono space-y-1.5 shadow-xs">
                                 <div class="flex items-center justify-between text-[11px]">
                                     <span class="text-gray-500">Meeting ID:</span>
                                     <span class="font-bold text-earth-950">984 2490 8812</span>
@@ -627,12 +698,12 @@
                             </div>
                             <div class="flex gap-2">
                                 <button onclick="window.downloadWebinarCalendarInvite()"
-                                    class="flex-1 py-2 rounded-lg bg-teal-700 hover:bg-teal-800 text-white font-bold text-xs flex items-center justify-center gap-1.5 transition-colors cursor-pointer">
+                                    class="flex-1 py-2.5 rounded-xl bg-gradient-to-r from-teal-600 via-teal-700 to-teal-800 hover:from-teal-500 hover:to-teal-700 text-white font-bold text-xs flex items-center justify-center gap-1.5 shadow-md shadow-teal-700/30 transition-all cursor-pointer">
                                     <i class="fa-regular fa-calendar-plus"></i>
                                     <span>Add to Calendar</span>
                                 </button>
                                 <button onclick="window.resetWebinarForm()"
-                                    class="px-3 py-2 rounded-lg bg-teal-100 hover:bg-teal-200 text-teal-900 font-bold text-xs transition-colors cursor-pointer">
+                                    class="px-3 py-2 rounded-xl bg-teal-100 hover:bg-teal-200 text-teal-900 font-bold text-xs transition-colors cursor-pointer">
                                     Reset
                                 </button>
                             </div>
@@ -712,7 +783,7 @@
                     Cancel
                 </button>
                 <button id="enroll-modal-submit-btn" onclick="window.confirmCoursePurchase()"
-                    class="px-6 py-2.5 rounded-xl bg-gradient-to-r from-[#F04A23] to-[#DD330D] hover:from-[#DD330D] hover:to-[#BA2407] text-white font-bold text-xs sm:text-sm flex items-center gap-2 transition-all shadow-md shadow-[#F04A23]/30 cursor-pointer">
+                    class="px-6 py-3 rounded-xl bg-gradient-to-r from-[#FF7D54] via-[#F04A23] to-[#DD330D] hover:from-[#FF8F6B] hover:to-[#BA2407] text-white font-bold text-xs sm:text-sm flex items-center gap-2 transition-all shadow-xl shadow-[#F04A23]/35 hover:-translate-y-0.5 hover:shadow-2xl hover:shadow-[#F04A23]/45 active:scale-95 cursor-pointer">
                     <i class="fa-solid fa-unlock-keyhole"></i>
                     <span>Unlock &amp; Purchase Course</span>
                 </button>
@@ -849,7 +920,7 @@
 
                 <div class="flex items-center gap-2.5 shrink-0">
                     <button id="video-demo-enroll-cta" onclick="window.enrollFromVideoDemo()"
-                        class="px-4 py-2.5 rounded-xl bg-gradient-to-r from-[#F04A23] to-[#DD330D] hover:from-[#DD330D] hover:to-[#BA2407] text-white font-bold text-xs flex items-center gap-1.5 transition-all shadow-md shadow-[#F04A23]/30 active:scale-95 cursor-pointer">
+                        class="px-5 py-2.5 rounded-xl bg-gradient-to-r from-[#FF7D54] via-[#F04A23] to-[#DD330D] hover:from-[#FF8F6B] hover:to-[#BA2407] text-white font-bold text-xs flex items-center gap-1.5 transition-all shadow-lg shadow-[#F04A23]/35 hover:-translate-y-0.5 hover:shadow-xl hover:shadow-[#F04A23]/45 active:scale-95 cursor-pointer">
                         <i class="fa-solid fa-lock-open"></i>
                         <span>Unlock Full Course</span>
                     </button>
@@ -863,7 +934,7 @@
     </div>
 
     <!-- FOOTER -->
-    <footer class="border-t-4 border-teal-600 bg-gradient-to-br from-earth-950 to-earth-900 py-12 text-sm text-earth-300 mt-auto relative overflow-hidden">
+    <footer class="border-t border-teal-500/30 bg-gradient-to-br from-earth-950 to-earth-900 py-12 text-sm text-earth-300 mt-auto relative overflow-hidden shadow-inner">
         <div class="store-fluid-container flex flex-col sm:flex-row items-center justify-between gap-4">
             <div class="flex items-center gap-3">
                 <span class="text-teal-400 font-black font-heading text-sm">WACKY THINGS CO.</span>
