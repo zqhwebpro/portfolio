@@ -718,7 +718,9 @@ export function SynthwaveDrive() {
           userSelect: 'none',
           pointerEvents: 'default',
           transition: 'all 0.3s ease',
-          maxWidth: '430px',
+          width: 'fit-content',
+          maxWidth: 'calc(100vw - 3rem)',
+          boxSizing: 'border-box',
         }}
         onMouseEnter={(e) => {
           e.currentTarget.style.borderColor = 'rgba(255, 0, 127, 0.85)';
@@ -736,40 +738,23 @@ export function SynthwaveDrive() {
           e.currentTarget.style.transform = 'translateY(0)';
         }}
       >
-        <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', width: '100%', gap: '10px' }}>
-          <div
-            style={{
-              fontFamily: 'Syne, var(--font-display, "Space Grotesk"), sans-serif',
-              fontSize: '1.24rem',
-              fontWeight: 900,
-              fontStyle: 'italic',
-              letterSpacing: '0.06em',
-              textTransform: 'uppercase',
-              background: 'linear-gradient(90deg, #00F0FF 0%, #FF2A85 52%, #FFE600 100%)',
-              WebkitBackgroundClip: 'text',
-              WebkitTextFillColor: 'transparent',
-              filter: 'drop-shadow(0 0 10px rgba(0, 240, 255, 0.65)) drop-shadow(0 0 20px rgba(255, 0, 127, 0.4))',
-              lineHeight: 1.15,
-              whiteSpace: 'nowrap',
-            }}
-          >
-            Information Superhighway
-          </div>
-          <span
-            style={{
-              fontFamily: 'var(--font-mono, monospace)',
-              fontSize: '0.62rem',
-              padding: '2px 6px',
-              borderRadius: '4px',
-              background: 'rgba(0, 240, 255, 0.12)',
-              border: '1px solid rgba(0, 240, 255, 0.3)',
-              color: '#00F0FF',
-              letterSpacing: '0.08em',
-              textTransform: 'uppercase',
-            }}
-          >
-            NET // 99
-          </span>
+        <div
+          style={{
+            fontFamily: 'Syne, var(--font-display, "Space Grotesk"), sans-serif',
+            fontSize: '1.1rem',
+            fontWeight: 900,
+            fontStyle: 'italic',
+            letterSpacing: '0.04em',
+            textTransform: 'uppercase',
+            background: 'linear-gradient(90deg, #00F0FF 0%, #FF2A85 52%, #FFE600 100%)',
+            WebkitBackgroundClip: 'text',
+            WebkitTextFillColor: 'transparent',
+            filter: 'drop-shadow(0 0 8px rgba(0, 240, 255, 0.65)) drop-shadow(0 0 18px rgba(255, 0, 127, 0.4))',
+            lineHeight: 1.15,
+            whiteSpace: 'nowrap',
+          }}
+        >
+          Information Superhighway
         </div>
 
         {/* Synth neon horizon underline bar */}
@@ -783,122 +768,90 @@ export function SynthwaveDrive() {
           }}
         />
 
-        {/* PROMINENT STATUS NOTE DIRECTLY UNDERNEATH LOGO — "NOT THAT SMALL" */}
+        {/* Compact status pill directly underneath logo */}
         {isCuratedFallback ? (
           <div
             id="superhighway-fallback-status"
             style={{
-              display: 'flex',
+              display: 'inline-flex',
               alignItems: 'center',
-              gap: '9px',
-              marginTop: '4px',
-              padding: '6px 10px',
+              gap: '7px',
+              marginTop: '2px',
+              padding: '4px 9px',
               background: 'linear-gradient(90deg, rgba(255, 0, 127, 0.22) 0%, rgba(255, 230, 0, 0.16) 100%)',
-              border: '1.5px solid rgba(255, 0, 127, 0.65)',
-              borderRadius: '8px',
-              boxShadow: '0 0 16px rgba(255, 0, 127, 0.3), inset 0 0 10px rgba(255, 230, 0, 0.1)',
-              width: '100%',
+              border: '1px solid rgba(255, 0, 127, 0.65)',
+              borderRadius: '6px',
+              boxShadow: '0 0 12px rgba(255, 0, 127, 0.25), inset 0 0 8px rgba(255, 230, 0, 0.1)',
               boxSizing: 'border-box',
             }}
           >
             <span
               style={{
-                width: '10px',
-                height: '10px',
+                width: '7px',
+                height: '7px',
                 borderRadius: '50%',
                 background: '#FFE600',
-                boxShadow: '0 0 8px #FFE600, 0 0 16px #FF007F',
+                boxShadow: '0 0 6px #FFE600, 0 0 12px #FF007F',
                 flexShrink: 0,
                 display: 'inline-block',
               }}
             />
-            <div style={{ display: 'flex', flexDirection: 'column', gap: '2px' }}>
-              <span
-                style={{
-                  fontFamily: 'var(--font-mono, monospace)',
-                  fontSize: '0.82rem', // NOT THAT SMALL! Crisp, bold, clearly legible
-                  fontWeight: 800,
-                  letterSpacing: '0.06em',
-                  color: '#FFE600',
-                  textShadow: '0 0 8px rgba(255, 230, 0, 0.75)',
-                  textTransform: 'uppercase',
-                  lineHeight: 1.2,
-                }}
-              >
-                CURATED WIKI BACKUP • OFFLINE RESERVE
-              </span>
-              <span
-                style={{
-                  fontFamily: 'var(--font-mono, monospace)',
-                  fontSize: '0.68rem', // Not tiny: comfortably legible secondary context
-                  fontWeight: 500,
-                  color: 'rgba(255, 220, 240, 0.92)',
-                  letterSpacing: '0.03em',
-                  lineHeight: 1.25,
-                }}
-              >
-                {quotaExpended
-                  ? 'Wikipedia API quota limit reached • Serving precurated reserve'
-                  : 'Active fallback mode • Streaming precurated encyclopedic pool'}
-              </span>
-            </div>
+            <span
+              style={{
+                fontFamily: 'var(--font-mono, monospace)',
+                fontSize: '0.62rem',
+                fontWeight: 800,
+                letterSpacing: '0.06em',
+                color: '#FFE600',
+                textShadow: '0 0 6px rgba(255, 230, 0, 0.75)',
+                textTransform: 'uppercase',
+                lineHeight: 1.2,
+              }}
+            >
+              CURATED WIKI BACKUP • OFFLINE RESERVE
+            </span>
           </div>
         ) : (
           <div
             id="superhighway-live-status"
             style={{
-              display: 'flex',
+              display: 'inline-flex',
               alignItems: 'center',
-              gap: '9px',
-              marginTop: '4px',
-              padding: '6px 10px',
+              gap: '7px',
+              marginTop: '2px',
+              padding: '4px 9px',
               background: 'linear-gradient(90deg, rgba(0, 240, 255, 0.16) 0%, rgba(157, 0, 255, 0.12) 100%)',
-              border: '1.5px solid rgba(0, 240, 255, 0.55)',
-              borderRadius: '8px',
-              boxShadow: '0 0 16px rgba(0, 240, 255, 0.25), inset 0 0 10px rgba(0, 240, 255, 0.1)',
-              width: '100%',
+              border: '1px solid rgba(0, 240, 255, 0.55)',
+              borderRadius: '6px',
+              boxShadow: '0 0 12px rgba(0, 240, 255, 0.2), inset 0 0 8px rgba(0, 240, 255, 0.1)',
               boxSizing: 'border-box',
             }}
           >
             <span
               style={{
-                width: '10px',
-                height: '10px',
+                width: '7px',
+                height: '7px',
                 borderRadius: '50%',
                 background: '#00F0FF',
-                boxShadow: '0 0 8px #00F0FF, 0 0 16px #00F0FF',
+                boxShadow: '0 0 6px #00F0FF, 0 0 12px #00F0FF',
                 flexShrink: 0,
                 display: 'inline-block',
               }}
             />
-            <div style={{ display: 'flex', flexDirection: 'column', gap: '2px' }}>
-              <span
-                style={{
-                  fontFamily: 'var(--font-mono, monospace)',
-                  fontSize: '0.82rem', // NOT THAT SMALL!
-                  fontWeight: 800,
-                  letterSpacing: '0.06em',
-                  color: '#00F0FF',
-                  textShadow: '0 0 8px rgba(0, 240, 255, 0.75)',
-                  textTransform: 'uppercase',
-                  lineHeight: 1.2,
-                }}
-              >
-                LIVE WIKIPEDIA DATASTREAM
-              </span>
-              <span
-                style={{
-                  fontFamily: 'var(--font-mono, monospace)',
-                  fontSize: '0.68rem',
-                  fontWeight: 500,
-                  color: 'rgba(200, 245, 255, 0.90)',
-                  letterSpacing: '0.03em',
-                  lineHeight: 1.25,
-                }}
-              >
-                Streaming random articles from global cyberspace
-              </span>
-            </div>
+            <span
+              style={{
+                fontFamily: 'var(--font-mono, monospace)',
+                fontSize: '0.62rem',
+                fontWeight: 800,
+                letterSpacing: '0.06em',
+                color: '#00F0FF',
+                textShadow: '0 0 6px rgba(0, 240, 255, 0.75)',
+                textTransform: 'uppercase',
+                lineHeight: 1.2,
+              }}
+            >
+              LIVE WIKIPEDIA DATASTREAM
+            </span>
           </div>
         )}
       </div>
