@@ -7,11 +7,11 @@
     <title>Zach Heindel | Case Study: WordPress Restaurant Theme &amp; Toast POS Delivery Integration</title>
     <meta name="description"
         content="Technical case study of Parma Sub &amp; Fry Co: Custom WordPress restaurant website modeled after Parma Pizza &amp; Grill, integrated directly with Toast POS for delivery subs and loaded french fries." />
-    <link rel="canonical" href="https://zqhwebpro.github.io/portfolio/new_projects/php-delivery/case-study.html" />
+    <link rel="canonical" href="https://zqhwebpro.github.io/portfolio/new_projects/net-c-delivery/case-study.html" />
 
     <!-- Open Graph / Facebook -->
     <meta property="og:type" content="article" />
-    <meta property="og:url" content="https://zqhwebpro.github.io/portfolio/new_projects/php-delivery/case-study.html" />
+    <meta property="og:url" content="https://zqhwebpro.github.io/portfolio/new_projects/net-c-delivery/case-study.html" />
     <meta property="og:title" content="Case Study: WordPress Restaurant Website &amp; Toast POS Delivery | Zach Heindel" />
     <meta property="og:description" content="Technical deep-dive into Parma Sub &amp; Fry Co: Custom WordPress restaurant architecture modeled after Parma Pizza &amp; Grill with direct Toast POS delivery integration." />
     <meta property="og:image" content="./images/hero-cheesesteak.jpg" />
@@ -32,7 +32,7 @@
         "@type": "Person",
         "name": "Zach Heindel"
       },
-      "url": "https://zqhwebpro.github.io/portfolio/new_projects/php-delivery/case-study.html",
+      "url": "https://zqhwebpro.github.io/portfolio/new_projects/net-c-delivery/case-study.html",
       "about": [
         { "@type": "Thing", "name": "WordPress Restaurant Theme" },
         { "@type": "Thing", "name": "Toast POS API Integration" },
@@ -78,27 +78,28 @@
 
         <div class="case-hero">
             <div class="accent-line">
-                <span class="section-label">CASE STUDY // WORDPRESS RESTAURANT ARCHITECTURE &amp; TOAST POS INTEGRATION</span>
+                <span class="section-label">CASE STUDY // ENTERPRISE ASP.NET CORE 9 ARCHITECTURE &amp; TOAST POS INTEGRATION</span>
             </div>
             <div class="post-meta-row">
                 <span class="author">Zach Heindel</span>
                 <span class="meta-sep">•</span>
-                <span class="meta-topic">WordPress 6.x / Toast POS API v2 / Restaurant Systems</span>
+                <span class="meta-topic">.NET 9 C# / ASP.NET Core Web API / Toast POS API v2 / Clean Architecture</span>
                 <span class="meta-sep">•</span>
-                <span class="meta-time">8 Min Read</span>
+                <span class="meta-time">9 Min Read</span>
             </div>
             <h1 class="hero-title">
-                Parma Sub &amp; Fry Co: <span class="highlight">WordPress &amp; Toast POS Delivery Engine</span>
+                Parma Sub &amp; Fry Co: <span class="highlight">ASP.NET Core 9 &amp; Toast POS Delivery Engine</span>
             </h1>
             <p class="hero-subtitle">
-                An authentic Central Pennsylvania pizzeria &amp; grill website modeled directly after <strong>Parma Pizza &amp; Grill</strong> (parmapizzaandgrill.com), engineered with a custom WordPress theme structure and integrated with <strong>Toast POS</strong> for online delivery of handcrafted subs and loaded french fries.
+                An authentic Central Pennsylvania pizzeria &amp; grill platform modeled directly after <strong>Parma Pizza &amp; Grill</strong> (parmapizzaandgrill.com), engineered with a decoupled <strong>.NET 9 C# Clean Architecture</strong>, interactive Community Events Calendar API, and direct <strong>Toast POS</strong> delivery integration.
             </p>
             <div class="badge-row">
-                <span class="tag amber"><i class="fa-brands fa-wordpress"></i> WordPress Restaurant Theme</span>
+                <span class="tag" style="background:#512BD4; color:#fff;"><i class="fa-brands fa-microsoft"></i> .NET 9 C# Solution</span>
+                <span class="tag"><i class="fa-solid fa-server"></i> ASP.NET Core Web API</span>
+                <span class="tag"><i class="fa-solid fa-calendar-days"></i> Community Event Engine</span>
                 <span class="tag"><i class="fa-solid fa-bolt"></i> Toast POS API v2</span>
                 <span class="tag"><i class="fa-solid fa-bread-slice"></i> Overstuffed Subs &amp; Fries</span>
                 <span class="tag"><i class="fa-solid fa-truck-fast"></i> Direct Own-Fleet Delivery</span>
-                <span class="tag"><i class="fa-solid fa-map-location-dot"></i> 7 Central PA Locations</span>
                 <span class="tag"><i class="fa-solid fa-percent"></i> 0% DoorDash Commission</span>
             </div>
         </div>
@@ -292,29 +293,38 @@
             </table>
         </section>
 
-        <!-- SECTION 4: WORDPRESS THEME IMPLEMENTATION -->
+        <!-- SECTION 4: .NET 9 C# BACKEND & COMMUNITY CALENDAR ENGINE -->
         <section class="section-block">
             <div class="accent-line">
-                <span class="section-label">04 // WORDPRESS CODEBASE &amp; SEO</span>
+                <span class="section-label">04 // .NET 9 C# CLEAN ARCHITECTURE &amp; EVENT ENGINE</span>
             </div>
             <h2 class="section-title">
-                <i class="fa-brands fa-wordpress"></i> Theme Hierarchy &amp; Schema.org SEO
+                <i class="fa-brands fa-microsoft"></i> Decoupled .NET 9 C# Solution &amp; Events Web API
             </h2>
             <p>
-                The WordPress theme is built following best practices for restaurant websites:
+                To provide high-performance order routing and community event publishing, the backend is architected using <strong>.NET 9 C#</strong> and modern Clean Architecture principles:
             </p>
+
+            <div style="background: #090d16; border-radius: 8px; border: 1px solid rgba(81, 43, 212, 0.3); padding: 18px 20px; margin: 18px 0; font-family: 'JetBrains Mono', monospace; font-size: 0.8rem; color: #f1f5f9;">
+                <div style="color: #a78bfa; font-weight: 700; margin-bottom: 8px;">// Solution Structure: ParmaDelivery.sln (.NET 9.0)</div>
+                <div>├── <strong style="color: #38bdf8;">ParmaDelivery.Core</strong> (Entities: CommunityEvent, DeliveryOrder, MenuItem | Interfaces: IEventRepository)</div>
+                <div>├── <strong style="color: #38bdf8;">ParmaDelivery.Infrastructure</strong> (Repositories: JsonEventRepository with SemaphoreSlim thread-safety)</div>
+                <div>└── <strong style="color: #38bdf8;">ParmaDelivery.WebAPI</strong> (Controllers: EventsController | CORS Policy | Minimal Status Endpoints)</div>
+            </div>
+
             <ul style="padding-left: 20px; line-height: 1.8; color: #334155; margin-top: 10px;">
-                <li><strong>WPBakery &amp; Gutenberg Compatibility:</strong> Modular block layout conforming to the ParmaPizza theme styles, preserving familiar administrative page editing.</li>
-                <li><strong>Schema.org Structured Data:</strong> Embedded <code>FastFoodRestaurant</code> and <code>OrderAction</code> JSON-LD microdata, signaling Google and AI search engines that delivery is directly orderable via Toast POS.</li>
-                <li><strong>Zero-Dependency Vanilla JS Client:</strong> The interactive customizer modal, sliding cart drawer, and live delivery simulator run completely in Vanilla JavaScript (ES6+), resulting in instantaneous 60fps animations and sub-second load times.</li>
+                <li><strong>Community Event Post Engine:</strong> Allows restaurant staff to publish custom promotional post cards directly onto the monthly calendar, with customizable headlines, event descriptions, images, custom button labels, hex accent colors, and post hyperlinks.</li>
+                <li><strong>Thread-Safe Concurrency:</strong> <code>JsonEventRepository</code> utilizes asynchronous I/O and <code>SemaphoreSlim</code> locks to guarantee thread-safe read/write serialization without external database dependencies.</li>
+                <li><strong>Hybrid Client Architecture:</strong> The web client automatically discovers local or remote .NET 9 Web API endpoints (<code>http://localhost:5000/api/events</code>) for live operations, with an instant fallback to <code>localStorage</code> when deployed statically to GitHub Pages.</li>
+                <li><strong>Interactive Blueprint Tooltips:</strong> Hovering over architectural components displays live .NET C# source code references, roles, and implementation layers.</li>
             </ul>
 
-            <div style="text-align: center; margin-top: 40px; padding: 30px; background: #ffffff; border-radius: 12px; border: 2px solid #ff5722;">
-                <h3 style="font-family: var(--font-serif); font-size: 1.6rem; color: #9e1b1b; margin-bottom: 10px;">Experience Parma Sub &amp; Fry Co.</h3>
+            <div style="text-align: center; margin-top: 40px; padding: 30px; background: #ffffff; border-radius: 12px; border: 2px solid #512BD4;">
+                <h3 style="font-family: var(--font-serif); font-size: 1.6rem; color: #512BD4; margin-bottom: 10px;">Experience Parma Sub &amp; Fry Co.</h3>
                 <p style="color: #64748b; margin-bottom: 20px; max-width: 500px; margin-left: auto; margin-right: auto;">
-                    Explore the live interactive restaurant website, customize an authentic Philly cheesesteak, and test the Toast POS delivery engine.
+                    Explore the live interactive restaurant platform, test the custom programmed events calendar and admin backend, and inspect the .NET C# architecture.
                 </p>
-                <a href="./index.html" class="nav-btn" style="background: #ff5722; color: #ffffff; padding: 12px 28px; border-radius: 8px; font-weight: 800; font-size: 1rem; text-decoration: none; display: inline-flex; align-items: center; gap: 8px;">
+                <a href="./index.html" class="nav-btn" style="background: #512BD4; color: #ffffff; padding: 12px 28px; border-radius: 8px; font-weight: 800; font-size: 1rem; text-decoration: none; display: inline-flex; align-items: center; gap: 8px;">
                     <i class="fa-solid fa-play"></i> Launch Live Website
                 </a>
             </div>

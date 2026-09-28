@@ -1059,16 +1059,26 @@ body {
 }
 
 .feature-icon-box {
-  width: 56px;
-  height: 56px;
-  border-radius: 12px;
+  width: 76px;
+  height: 76px;
+  border-radius: 14px;
   border: var(--brutal-border);
   display: flex;
   align-items: center;
   justify-content: center;
-  font-size: 1.5rem;
   margin-bottom: 20px;
-  box-shadow: 3px 3px 0px var(--slate-900);
+  box-shadow: 3.5px 3.5px 0px var(--slate-900);
+  overflow: hidden;
+  padding: 0;
+  background: var(--white);
+  flex-shrink: 0;
+}
+
+.feature-icon-box .feature-img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
 }
 
 .feature-icon-box.blue {
@@ -1134,14 +1144,39 @@ body {
 .pricing-card:hover {
   transform: translateY(-6px);
   box-shadow: var(--brutal-shadow-lg);
-  background: var(--white);
 }
 
-/* Highlighted Tier: Advanced Site */
+/* Pricing Card Backgrounds Matching Feature Icon Colors */
+.pricing-card.card-blue,
+.pricing-card.featured.card-blue {
+  background: #dbeafe !important;
+}
+
+.pricing-card.card-amber {
+  background: #fef3c7 !important;
+}
+
+.pricing-card.card-purple {
+  background: #ede9fe !important;
+}
+
+.pricing-card.card-blue:hover,
+.pricing-card.featured.card-blue:hover {
+  background: #bfdbfe !important;
+}
+
+.pricing-card.card-amber:hover {
+  background: #fde68a !important;
+}
+
+.pricing-card.card-purple:hover {
+  background: #ddd6fe !important;
+}
+
+/* Highlighted Tier: Simple Site / Featured */
 .pricing-card.featured {
   border: var(--brutal-border-thick);
   box-shadow: var(--brutal-shadow-blue);
-  background: var(--white);
   transform: scale(1.03);
   z-index: 3;
 }
@@ -1464,202 +1499,101 @@ body {
    SECTION 3.5: NEWSLETTER BLUE SECTION (100% Full-Width Neo-Brutalist Blue)
    Tips & Seldomly Shared Secrets of the Industry
    ========================================================================== */
-.newsletter-blue-section {
+/* ==========================================================================
+   SECTION 3.5: NEWSLETTER SECTION (Yellow Form Module)
+   ========================================================================== */
+.newsletter-yellow-section {
   width: 100%;
   position: relative;
   z-index: 2;
-  background: linear-gradient(135deg, #1e40af 0%, #2563eb 55%, #1d4ed8 100%);
+  background: var(--bg-paper);
   border-top: var(--brutal-border-thick);
   border-bottom: var(--brutal-border-thick);
-  padding: 85px 0;
-  color: var(--white);
+  padding: 80px 0;
   overflow: hidden;
 }
 
-/* Blueprint grid texture overlay on the blue canvas */
-.newsletter-blue-section::before {
-  content: '';
-  position: absolute;
-  inset: 0;
-  background-image:
-    linear-gradient(to right, rgba(255, 255, 255, 0.08) 1px, transparent 1px),
-    linear-gradient(to bottom, rgba(255, 255, 255, 0.08) 1px, transparent 1px);
-  background-size: 32px 32px;
-  pointer-events: none;
-  z-index: 1;
-}
-
-/* Geometric Radial Accent */
-.newsletter-blue-section::after {
-  content: '';
-  position: absolute;
-  right: -50px;
-  bottom: -50px;
-  width: 260px;
-  height: 260px;
-  border-radius: 50%;
-  background: radial-gradient(circle, rgba(56, 189, 248, 0.22) 0%, transparent 70%);
-  pointer-events: none;
-  z-index: 1;
-}
-
-.newsletter-layout {
-  display: grid;
-  grid-template-columns: 1.15fr 0.85fr;
-  gap: 52px;
-  align-items: center;
+.newsletter-signup-card.yellow-theme {
+  background: #ffe600;
+  border: var(--brutal-border-thick);
+  border-radius: 20px;
+  box-shadow: 10px 10px 0px var(--slate-900);
+  padding: 44px 38px;
+  max-width: 680px;
+  margin: 0 auto;
   position: relative;
-  z-index: 2;
-}
-
-.newsletter-badge {
-  display: inline-flex;
-  align-items: center;
-  gap: 8px;
-  background: #facc15;
   color: var(--slate-900);
-  font-family: var(--font-mono);
-  font-size: 0.72rem;
-  font-weight: 800;
-  letter-spacing: 0.08em;
-  padding: 6px 14px;
-  border-radius: var(--brutal-radius-pill);
-  border: 2px solid var(--slate-900);
-  box-shadow: 3px 3px 0px var(--slate-900);
-  margin-bottom: 20px;
-  text-transform: uppercase;
 }
 
-.newsletter-headline {
-  font-family: var(--font-display);
-  font-size: 2.5rem;
-  font-weight: 800;
-  line-height: 1.15;
-  color: var(--white);
-  margin-bottom: 18px;
-  letter-spacing: -0.02em;
-}
-
-.newsletter-headline span {
-  color: #facc15;
-  text-decoration: underline;
-  text-decoration-color: #38bdf8;
-  text-underline-offset: 4px;
-}
-
-.newsletter-lead {
-  font-size: 1.05rem;
-  line-height: 1.65;
-  color: #e0e7ff;
-  margin-bottom: 28px;
-  max-width: 580px;
-}
-
-.newsletter-perks-grid {
-  display: flex;
-  flex-direction: column;
-  gap: 14px;
-}
-
-.nl-perk-item {
+.newsletter-signup-card.yellow-theme .nl-card-header {
   display: flex;
   align-items: flex-start;
-  gap: 14px;
-  background: rgba(15, 23, 42, 0.35);
-  border: 1.5px solid rgba(255, 255, 255, 0.2);
-  border-radius: 12px;
-  padding: 12px 16px;
-  backdrop-filter: blur(8px);
-  -webkit-backdrop-filter: blur(8px);
-  transition: transform 0.2s ease, border-color 0.2s ease;
+  gap: 16px;
+  margin-bottom: 26px;
+  padding-bottom: 20px;
+  border-bottom: 2.5px solid var(--slate-900);
 }
 
-.nl-perk-item:hover {
-  transform: translateX(4px);
-  border-color: #facc15;
-  background: rgba(15, 23, 42, 0.5);
-}
-
-.nl-perk-icon {
-  width: 36px;
-  height: 36px;
-  border-radius: 8px;
-  background: #facc15;
+.newsletter-signup-card.yellow-theme .nl-card-icon {
+  width: 50px;
+  height: 50px;
+  border-radius: 14px;
+  background: var(--white);
   color: var(--slate-900);
-  border: 2px solid var(--slate-900);
-  box-shadow: 2px 2px 0px var(--slate-900);
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  font-size: 0.95rem;
-  flex-shrink: 0;
-}
-
-.nl-perk-text {
-  display: flex;
-  flex-direction: column;
-  gap: 2px;
-}
-
-.nl-perk-text strong {
-  font-family: var(--font-display);
-  font-size: 0.92rem;
-  font-weight: 700;
-  color: var(--white);
-}
-
-.nl-perk-text span {
-  font-size: 0.82rem;
-  color: #cbd5e1;
-  line-height: 1.4;
-}
-
-/* Card Styling */
-.newsletter-signup-card {
-  background: #ffffff;
-  border: var(--brutal-border-thick);
-  border-radius: 18px;
-  box-shadow: 9px 9px 0px var(--slate-900);
-  padding: 34px 28px;
-  position: relative;
-  color: var(--slate-900);
-}
-
-.nl-card-header {
-  display: flex;
-  align-items: center;
-  gap: 14px;
-  margin-bottom: 22px;
-  padding-bottom: 16px;
-  border-bottom: 2px solid var(--slate-100);
-}
-
-.nl-card-icon {
-  width: 46px;
-  height: 46px;
-  border-radius: 12px;
-  background: #dbeafe;
-  color: var(--blue-primary);
-  border: 2px solid var(--slate-900);
+  border: 2.5px solid var(--slate-900);
   box-shadow: 3px 3px 0px var(--slate-900);
   display: flex;
   align-items: center;
   justify-content: center;
-  font-size: 1.25rem;
+  font-size: 1.4rem;
   flex-shrink: 0;
 }
 
-.nl-card-title {
+.newsletter-signup-card.yellow-theme .nl-card-title {
   font-family: var(--font-display);
-  font-size: 1.35rem;
+  font-size: 1.85rem;
   font-weight: 800;
   color: var(--slate-900);
-  margin-bottom: 2px;
+  margin-bottom: 6px;
+  line-height: 1.2;
 }
 
-.nl-card-subtitle {
-  font-size: 0.84rem;
-  color: var(--slate-600);
+.newsletter-signup-card.yellow-theme .nl-card-subtitle {
+  font-size: 0.96rem;
+  line-height: 1.6;
+  color: var(--slate-800);
+}
+
+.newsletter-signup-card.yellow-theme .form-label {
+  color: var(--slate-900);
+  font-weight: 800;
+  font-size: 0.88rem;
+}
+
+.newsletter-signup-card.yellow-theme .brutal-input {
+  background: var(--white);
+  border: 2.5px solid var(--slate-900);
+  color: var(--slate-900);
+}
+
+.newsletter-signup-card.yellow-theme .newsletter-btn {
+  background: var(--slate-900) !important;
+  color: var(--white) !important;
+  border: 2.5px solid var(--slate-900) !important;
+  box-shadow: 4px 4px 0px rgba(0, 0, 0, 0.4) !important;
+  font-size: 1rem !important;
+  font-weight: 800 !important;
+  padding: 14px !important;
+  margin-top: 8px;
+  width: 100%;
+  transition: all 0.2s ease !important;
+}
+
+.newsletter-signup-card.yellow-theme .newsletter-btn:hover {
+  background: var(--blue-primary) !important;
+  color: var(--white) !important;
+  transform: translate(-2px, -2px) !important;
+  box-shadow: 6px 6px 0px var(--slate-900) !important;
 }
 
 .newsletter-input-wrap {
@@ -1679,35 +1613,6 @@ body {
 
 .newsletter-input {
   padding-left: 38px !important;
-}
-
-.newsletter-btn {
-  background: var(--blue-primary) !important;
-  color: var(--white) !important;
-  border: 2.5px solid var(--slate-900) !important;
-  box-shadow: 4px 4px 0px var(--slate-900) !important;
-  font-size: 0.95rem !important;
-  padding: 13px !important;
-  margin-top: 6px;
-  transition: all 0.2s ease !important;
-}
-
-.newsletter-btn:hover {
-  background: var(--blue-deep) !important;
-  transform: translate(-2px, -2px) !important;
-  box-shadow: 6px 6px 0px var(--slate-900) !important;
-}
-
-.newsletter-footer-guarantee {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  gap: 6px;
-  font-family: var(--font-mono);
-  font-size: 0.72rem;
-  color: var(--slate-500);
-  margin-top: 14px;
-  text-align: center;
 }
 
 @media (max-width: 992px) {
