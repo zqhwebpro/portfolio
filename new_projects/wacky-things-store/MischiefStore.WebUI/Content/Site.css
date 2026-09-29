@@ -18,7 +18,7 @@
   --magenta-neon: #D946EF;
   --magenta-bright: #EC4899;
   --cyan-sparkle: #38BDF8;
-  --gold-magic: #FACC15;
+  --gold-magic: #D4A017;
   --deep-slate: #120524;
   --surface-card: rgba(43, 17, 85, 0.75);
   --surface-bg: #180A2E;
@@ -65,7 +65,7 @@ body {
 }
 
 .brand-badge {
-  background: linear-gradient(135deg, var(--magenta-neon), var(--purple-electric));
+  background: var(--magenta-neon);
   color: #FFF;
   font-size: 0.65rem;
   font-weight: 800;
@@ -95,7 +95,7 @@ body {
 }
 
 .list-group-mischief .list-group-item.active {
-  background: linear-gradient(135deg, var(--purple-electric) 0%, var(--magenta-neon) 100%);
+  background: var(--purple-electric);
   border-color: var(--purple-lilac);
   color: #FFFFFF;
 
@@ -134,7 +134,7 @@ body {
 }
 
 .product-price-badge {
-  background: linear-gradient(135deg, var(--gold-magic), #F59E0B);
+  background: var(--gold-magic);
   color: #110524;
   font-weight: 900;
   font-family: 'Fredoka', cursive;
@@ -156,7 +156,7 @@ body {
 
 /* Button & Action Styling */
 .btn-mischief-primary {
-  background: linear-gradient(135deg, var(--purple-electric) 0%, var(--magenta-neon) 100%);
+  background: var(--purple-electric);
   color: #FFFFFF;
   font-weight: 800;
   border: none;
@@ -166,14 +166,14 @@ body {
 }
 
 .btn-mischief-primary:hover {
-  background: linear-gradient(135deg, #8B5CF6 0%, #EC4899 100%);
+  background: var(--purple-vivid);
   color: #FFFFFF;
   transform: translateY(-2px);
 
 }
 
 .btn-mischief-gold {
-  background: linear-gradient(135deg, var(--gold-magic), #EAB308);
+  background: var(--gold-magic);
   color: #110524;
   font-weight: 900;
   border: none;
@@ -190,7 +190,7 @@ body {
 /* Royal Blue Accent Buttons & Badges (Learning Modules & Webinars) */
 .btn-mischief-blood-orange,
 .btn-mischief-royal-blue {
-  background: linear-gradient(135deg, var(--royal-blue) 0%, var(--royal-blue-hover) 100%);
+  background: var(--royal-blue);
   color: #FFFFFF;
   font-weight: 800;
   border: none;
@@ -201,7 +201,7 @@ body {
 
 .btn-mischief-blood-orange:hover,
 .btn-mischief-royal-blue:hover {
-  background: linear-gradient(135deg, var(--royal-blue-hover) 0%, var(--royal-blue-dark) 100%);
+  background: var(--royal-blue-hover);
   color: #FFFFFF;
   transform: translateY(-2px);
 

@@ -440,13 +440,13 @@ function renderCatalog() {
 
         const actionButtonHtml = inCartQty > 0 ? `
                     <div class="space-y-2">
-                        <div class="w-full py-2 px-3 rounded-xl bg-gradient-to-r from-emerald-600 via-teal-600 to-teal-700 text-white font-bold text-xs flex items-center justify-center gap-1.5 shadow-md shadow-emerald-700/25 border border-emerald-400/30">
+                        <div class="w-full py-2 px-3 rounded-xl bg-teal-700 text-white font-bold text-xs flex items-center justify-center gap-1.5 border border-teal-500/40">
                             <i class="fa-solid fa-check text-emerald-200"></i>
                             <span>Added to Cart</span>
                         </div>
                         <div class="flex items-center justify-between bg-gradient-to-r from-canvas-surface to-purple-50/60 border border-canvas-border rounded-xl p-1 text-earth-950">
                             <button onclick="event.stopPropagation(); window.updateCartQty(${prod.id}, -1)" 
-                                    class="h-7 w-7 rounded-lg bg-gradient-to-b from-white to-purple-50 border border-canvas-border hover:from-white hover:to-purple-100 text-earth-900 font-bold text-sm flex items-center justify-center transition-all shadow-xs cursor-pointer" 
+                                    class="h-7 w-7 rounded-lg bg-white border border-canvas-border hover:bg-purple-50 text-earth-900 font-bold text-sm flex items-center justify-center transition-all cursor-pointer" 
                                     title="Decrease quantity">
                                 <i class="fa-solid fa-minus text-[10px]"></i>
                             </button>
@@ -460,7 +460,7 @@ function renderCatalog() {
                                        class="w-12 text-center bg-white border border-canvas-border rounded-md px-1 py-0.5 text-earth-950 text-xs font-bold focus:outline-none focus:border-teal-700">
                             </div>
                             <button onclick="event.stopPropagation(); window.updateCartQty(${prod.id}, 1)" 
-                                    class="h-7 w-7 rounded-lg bg-gradient-to-b from-white to-purple-50 border border-canvas-border hover:from-white hover:to-purple-100 text-earth-900 font-bold text-sm flex items-center justify-center transition-all shadow-xs cursor-pointer" 
+                                    class="h-7 w-7 rounded-lg bg-white border border-canvas-border hover:bg-purple-50 text-earth-900 font-bold text-sm flex items-center justify-center transition-all cursor-pointer" 
                                     title="Increase quantity">
                                 <i class="fa-solid fa-plus text-[10px]"></i>
                             </button>
@@ -468,7 +468,7 @@ function renderCatalog() {
                     </div>
                 ` : `
                     <button onclick="event.stopPropagation(); window.addToCart(${prod.id})" 
-                            class="w-full py-2.5 rounded-xl bg-gradient-to-r from-teal-600 via-appetite-700 to-teal-800 hover:from-teal-500 hover:via-teal-600 hover:to-appetite-700 active:scale-[0.98] text-white font-bold text-xs flex items-center justify-center gap-2 transition-all hover:-translate-y-0.5 border border-teal-400/30 cursor-pointer">
+                            class="w-full py-2.5 rounded-xl bg-teal-700 hover:bg-teal-600 active:scale-[0.98] text-white font-bold text-xs flex items-center justify-center gap-2 transition-all hover:-translate-y-0.5 border border-teal-500/30 cursor-pointer">
                         <i class="fa-solid fa-cart-plus text-teal-200"></i>
                         <span>Add to Cart</span>
                     </button>
@@ -556,7 +556,7 @@ function renderPagination(totalPages) {
         const isActive = i === currentPage;
         html += `
                     <button onclick="window.goToPage(${i})" 
-                            class="px-3.5 py-1.5 rounded-xl font-bold transition-all cursor-pointer ${isActive ? 'bg-gradient-to-r from-appetite-700 via-appetite-600 to-teal-800 text-white shadow-md shadow-appetite-800/35 border border-teal-400/30' : 'bg-gradient-to-b from-white to-canvas-surface text-earth-800 border border-canvas-border hover:from-white hover:to-purple-100 hover:border-purple-300 shadow-xs'}">
+                            class="px-3.5 py-1.5 rounded-xl font-bold transition-all cursor-pointer ${isActive ? 'bg-teal-700 text-white border border-teal-500/30' : 'bg-white text-earth-800 border border-canvas-border hover:bg-purple-50 hover:border-purple-300'}">
                         ${i}
                     </button>
                 `;
@@ -699,7 +699,7 @@ function updateCartUI() {
                                 <div class="text-earth-600 font-mono text-[11px]">$${item.price.toFixed(2)} each</div>
                             </div>
                             <div class="flex items-center gap-1.5 bg-canvas-surface/80 border border-canvas-border rounded-lg p-1">
-                                <button onclick="window.updateCartQty(${item.id}, -1)" class="h-6 w-6 rounded-md bg-gradient-to-b from-white to-purple-50 text-earth-900 hover:bg-earth-200 border border-canvas-border text-xs font-bold flex items-center justify-center transition-all cursor-pointer">
+                                <button onclick="window.updateCartQty(${item.id}, -1)" class="h-6 w-6 rounded-md bg-white text-earth-900 hover:bg-earth-200 border border-canvas-border text-xs font-bold flex items-center justify-center transition-all cursor-pointer">
                                     -
                                 </button>
                                 <span class="font-bold text-earth-950 px-1 font-mono">${item.quantity}</span>
@@ -952,7 +952,7 @@ function renderAjaxDropdownResults() {
                         <div class="flex items-center gap-2.5 shrink-0">
                             <span class="font-mono font-black text-teal-800 text-xs sm:text-sm">$${prod.price.toFixed(2)}</span>
                             <button type="button" onclick="event.stopPropagation(); window.addToCart(${prod.id});" 
-                                    class="px-3 py-1.5 rounded-xl bg-gradient-to-r from-appetite-700 via-appetite-600 to-teal-800 hover:from-teal-600 hover:to-appetite-700 text-white text-[11px] font-bold shadow-md shadow-appetite-800/30 hover:shadow-appetite-800/40 hover:-translate-y-0.5 active:translate-y-0.5 transition-all flex items-center gap-1.5 border border-teal-400/30 cursor-pointer"
+                                    class="px-3 py-1.5 rounded-xl bg-teal-700 hover:bg-teal-600 text-white text-[11px] font-bold hover:-translate-y-0.5 active:translate-y-0.5 transition-all flex items-center gap-1.5 border border-teal-500/30 cursor-pointer"
                                     title="Add to Cart">
                                 <i class="fa-solid fa-cart-plus text-[10px] text-teal-200"></i>
                                 <span class="hidden sm:inline">Add</span>
@@ -1092,13 +1092,13 @@ function renderProductModal() {
     if (inCartQty > 0) {
         container.innerHTML = `
                     <div class="space-y-3">
-                        <div class="w-full py-3 px-4 rounded-xl bg-gradient-to-r from-emerald-600 via-teal-600 to-teal-700 text-white font-bold text-sm flex items-center justify-center gap-2 shadow-md shadow-emerald-700/25 border border-emerald-400/30">
+                        <div class="w-full py-3 px-4 rounded-xl bg-teal-700 text-white font-bold text-sm flex items-center justify-center gap-2 border border-teal-500/40">
                             <i class="fa-solid fa-check text-emerald-200"></i>
                             <span>Added to Cart</span>
                         </div>
                         <div class="flex items-center justify-between bg-gradient-to-r from-canvas-surface to-purple-50/60 border border-canvas-border rounded-xl p-1.5 text-earth-950">
                             <button onclick="event.stopPropagation(); window.updateCartQty(${prod.id}, -1); window.renderProductModal();" 
-                                    class="h-10 w-10 rounded-lg bg-gradient-to-b from-white to-purple-50 border border-canvas-border hover:from-white hover:to-purple-100 text-earth-900 font-bold text-lg flex items-center justify-center transition-all shadow-xs cursor-pointer">
+                                    class="h-10 w-10 rounded-lg bg-white border border-canvas-border hover:bg-purple-50 text-earth-900 font-bold text-lg flex items-center justify-center transition-all cursor-pointer">
                                 <i class="fa-solid fa-minus text-sm"></i>
                             </button>
                             <div class="flex items-center gap-2 text-sm font-semibold">
@@ -1109,7 +1109,7 @@ function renderProductModal() {
                                        class="w-16 text-center bg-white border border-canvas-border rounded-lg px-2 py-1.5 text-earth-950 text-sm font-bold focus:outline-none focus:border-teal-700">
                             </div>
                             <button onclick="event.stopPropagation(); window.updateCartQty(${prod.id}, 1); window.renderProductModal();" 
-                                    class="h-10 w-10 rounded-lg bg-gradient-to-b from-white to-purple-50 border border-canvas-border hover:from-white hover:to-purple-100 text-earth-900 font-bold text-lg flex items-center justify-center transition-all shadow-xs cursor-pointer">
+                                    class="h-10 w-10 rounded-lg bg-white border border-canvas-border hover:bg-purple-50 text-earth-900 font-bold text-lg flex items-center justify-center transition-all cursor-pointer">
                                 <i class="fa-solid fa-plus text-sm"></i>
                             </button>
                         </div>
@@ -1118,7 +1118,7 @@ function renderProductModal() {
     } else {
         container.innerHTML = `
                     <button onclick="event.stopPropagation(); window.addToCart(${prod.id}); window.renderProductModal();" 
-                            class="w-full py-3.5 rounded-xl bg-gradient-to-r from-teal-600 via-appetite-700 to-teal-800 hover:from-teal-500 hover:via-teal-600 hover:to-appetite-700 active:scale-[0.98] text-white font-bold text-sm flex items-center justify-center gap-2 transition-all hover:-translate-y-0.5 border border-teal-400/30 cursor-pointer">
+                            class="w-full py-3.5 rounded-xl bg-teal-700 hover:bg-teal-600 active:scale-[0.98] text-white font-bold text-sm flex items-center justify-center gap-2 transition-all hover:-translate-y-0.5 border border-teal-500/30 cursor-pointer">
                         <i class="fa-solid fa-cart-plus text-teal-200"></i>
                         <span>Add to Cart</span>
                     </button>
@@ -2030,13 +2030,13 @@ window.renderCourses = function (filterCategory) {
                                     data-blueprint-dom="Royal-blue CTA button opening enrollment transaction modal."
                                     data-blueprint-desc="Gated action redirecting unauthorized students to purchase flow before granting curriculum access."
                                     data-blueprint-code="[Authorize(Roles = &quot;Enrolled&quot;)] public ActionResult ViewLessons(int id)"
-                                    class="px-5 py-2.5 rounded-xl bg-gradient-to-r from-[#3B82F6] via-[#2563EB] to-[#1D4ED8] hover:from-[#60A5FA] hover:to-[#1E40AF] text-white font-bold text-xs flex items-center justify-center gap-1.5 transition-all shadow-lg shadow-[#2563EB]/35 hover:-translate-y-0.5 hover:shadow-xl hover:shadow-[#2563EB]/40 active:scale-95 cursor-pointer">
+                                    class="px-5 py-2.5 rounded-xl bg-[#2563EB] hover:bg-[#1D4ED8] text-white font-bold text-xs flex items-center justify-center gap-1.5 transition-all hover:-translate-y-0.5 active:scale-95 cursor-pointer">
                                     <i class="fa-solid fa-lock text-blue-200"></i>
                                     <span>Unlock Course</span>
                                 </button>
                             ` : `
                                 <button onclick="alert('Access Granted! Welcome to ${course.title}. All lessons are unlocked for your student account.');"
-                                    class="px-5 py-2.5 rounded-xl bg-gradient-to-r from-[#00C4B4] via-[#00A396] to-[#007A70] hover:from-[#00E5D2] hover:to-[#008F84] text-white font-bold text-xs flex items-center justify-center gap-1.5 transition-all shadow-lg shadow-teal-500/35 hover:-translate-y-0.5 hover:shadow-xl hover:shadow-teal-500/40 active:scale-95 cursor-pointer">
+                                    class="px-5 py-2.5 rounded-xl bg-teal-700 hover:bg-teal-600 text-white font-bold text-xs flex items-center justify-center gap-1.5 transition-all hover:-translate-y-0.5 active:scale-95 cursor-pointer">
                                     <i class="fa-solid fa-circle-play text-white"></i>
                                     <span>Resume Course</span>
                                 </button>
@@ -2498,7 +2498,7 @@ window.renderBlogPosts = function (categoryFilter = 'all') {
                                 <i class="fa-solid fa-user-astronaut text-appetite-700"></i>
                                 <span class="truncate">${post.author}</span>
                             </div>
-                            <span class="px-3.5 py-1.5 rounded-xl bg-gradient-to-r from-purple-600 via-purple-700 to-indigo-700 hover:from-purple-500 hover:to-indigo-600 text-white font-bold text-[11px] sm:text-xs transition-all shadow-md shadow-purple-600/30 flex items-center gap-1.5 shrink-0 group-hover:scale-105">
+                            <span class="px-3.5 py-1.5 rounded-xl bg-purple-700 hover:bg-purple-600 text-white font-bold text-[11px] sm:text-xs transition-all flex items-center gap-1.5 shrink-0 group-hover:scale-105">
                                 <span>Read Story</span>
                                 <i class="fa-solid fa-arrow-right text-[10px]"></i>
                             </span>
@@ -2514,9 +2514,9 @@ window.filterBlogCategory = function (cat) {
 
     document.querySelectorAll('.blog-cat-btn').forEach(btn => {
         if (btn.innerText.toLowerCase().includes(cat.toLowerCase()) || (cat === 'all' && btn.innerText.includes('All'))) {
-            btn.className = 'blog-cat-btn px-4 py-2 rounded-xl font-bold text-xs transition-all bg-gradient-to-r from-[#3B82F6] via-[#2563EB] to-[#1D4ED8] text-white shadow-md shadow-[#2563EB]/30 scale-105 cursor-pointer';
+            btn.className = 'blog-cat-btn px-4 py-2 rounded-xl font-bold text-xs transition-all bg-[#2563EB] text-white scale-105 cursor-pointer';
         } else {
-            btn.className = 'blog-cat-btn px-4 py-2 rounded-xl font-bold text-xs transition-all bg-gradient-to-br from-white via-blue-50/40 to-indigo-50/20 dark:from-slate-800 dark:to-slate-900 text-earth-800 dark:text-earth-200 border border-black/5 dark:border-white/10 hover:border-blue-200 shadow-xs cursor-pointer';
+            btn.className = 'blog-cat-btn px-4 py-2 rounded-xl font-bold text-xs transition-all bg-white text-earth-800 border border-black/5 hover:border-blue-200 cursor-pointer';
         }
     });
 };
@@ -2611,8 +2611,8 @@ window.renderAdminPosts = function () {
                         <p class="text-xs text-earth-500 font-medium">${post.category}</p>
                     </div>
                     <div class="flex items-center gap-2 shrink-0">
-                        <button onclick="window.editPost(${index})" class="px-3.5 py-1.5 rounded-xl bg-gradient-to-r from-amber-400 via-amber-500 to-amber-600 hover:from-amber-300 hover:to-amber-500 text-amber-950 font-bold text-xs shadow-md shadow-amber-500/25 transition-all active:scale-95 cursor-pointer">Edit</button>
-                        <button onclick="window.deletePost(${index})" class="px-3.5 py-1.5 rounded-xl bg-gradient-to-r from-rose-500 via-red-500 to-red-600 hover:from-rose-400 hover:to-red-500 text-white font-bold text-xs shadow-md shadow-red-500/25 transition-all active:scale-95 cursor-pointer">Delete</button>
+                        <button onclick="window.editPost(${index})" class="px-3.5 py-1.5 rounded-xl bg-amber-500 hover:bg-amber-400 text-amber-950 font-bold text-xs transition-all active:scale-95 cursor-pointer">Edit</button>
+                        <button onclick="window.deletePost(${index})" class="px-3.5 py-1.5 rounded-xl bg-rose-500 hover:bg-rose-400 text-white font-bold text-xs transition-all active:scale-95 cursor-pointer">Delete</button>
                     </div>
                 `;
         container.appendChild(el);
