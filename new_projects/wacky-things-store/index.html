@@ -186,7 +186,7 @@
             --blood-orange-dark: #1E40AF;
             --blood-orange-light: #EFF6FF;
             --blood-orange-glow: rgba(37, 99, 235, 0.45);
-            
+
             /* Elevation & Smooth Shadows */
             --shadow-smooth-xs: 0 2px 6px -1px rgba(109, 40, 217, 0.05), 0 1px 3px -1px rgba(0, 0, 0, 0.03);
             --shadow-smooth-sm: 0 4px 14px -2px rgba(109, 40, 217, 0.07), 0 2px 6px -1px rgba(0, 0, 0, 0.03);
@@ -215,14 +215,26 @@
             padding-left: 1rem;
             padding-right: 1rem;
         }
+
         @media (min-width: 640px) {
-            .store-fluid-container { padding-left: 1.5rem; padding-right: 1.5rem; }
+            .store-fluid-container {
+                padding-left: 1.5rem;
+                padding-right: 1.5rem;
+            }
         }
+
         @media (min-width: 1024px) {
-            .store-fluid-container { padding-left: 2rem; padding-right: 2rem; }
+            .store-fluid-container {
+                padding-left: 2rem;
+                padding-right: 2rem;
+            }
         }
+
         @media (min-width: 1536px) {
-            .store-fluid-container { padding-left: 3rem; padding-right: 3rem; }
+            .store-fluid-container {
+                padding-left: 3rem;
+                padding-right: 3rem;
+            }
         }
 
         /* ==============================================================================
@@ -249,9 +261,9 @@
             background: linear-gradient(145deg, #ffffff 0%, #fbf9ff 55%, #f6f0ff 100%) !important;
             border: 1px solid var(--border-warm) !important;
             border-radius: 20px !important;
-            transition: transform 0.25s cubic-bezier(0.16, 1, 0.3, 1), 
-                        border-color 0.25s ease, 
-                        box-shadow 0.25s cubic-bezier(0.16, 1, 0.3, 1) !important;
+            transition: transform 0.25s cubic-bezier(0.16, 1, 0.3, 1),
+                border-color 0.25s ease,
+                box-shadow 0.25s cubic-bezier(0.16, 1, 0.3, 1) !important;
             display: flex;
             flex-direction: column;
             overflow: hidden;
@@ -329,14 +341,14 @@
         }
 
         /* Filter Sidebar Card */
-        aside > div {
+        aside>div {
             border-radius: 20px !important;
             box-shadow: var(--shadow-smooth-sm) !important;
             border: 1px solid var(--border-warm) !important;
         }
 
         /* Catalog Top Control Card */
-        #store-main-view > div > div > div > div:first-child {
+        #store-main-view>div>div>div>div:first-child {
             border-radius: 20px !important;
             box-shadow: var(--shadow-smooth-sm) !important;
             border: 1px solid var(--border-warm) !important;
@@ -380,7 +392,7 @@
             box-shadow: var(--shadow-smooth-lg) !important;
         }
 
-        /* Attached Learning Academy Filter Bar */
+        /* Attached Funny Academy Filter Bar */
         #learning-filter-bar {
             background: linear-gradient(180deg, rgba(255, 255, 255, 0.98) 0%, rgba(255, 248, 245, 0.95) 100%) !important;
             border-bottom: 1px solid var(--border-warm) !important;
@@ -403,14 +415,14 @@
         }
 
         /* Modals & Drawers: Soft Backdrop Blurs & Gentle Diagonal Gradients */
-        #cart-drawer-backdrop > div,
-        #checkout-modal-backdrop > div,
-        #receipt-modal-backdrop > div,
-        #product-modal-backdrop > div,
-        #admin-modal-backdrop > div,
-        #arch-modal-backdrop > div,
-        #course-enrollment-modal > div,
-        #blog-reader-modal > div {
+        #cart-drawer-backdrop>div,
+        #checkout-modal-backdrop>div,
+        #receipt-modal-backdrop>div,
+        #product-modal-backdrop>div,
+        #admin-modal-backdrop>div,
+        #arch-modal-backdrop>div,
+        #course-enrollment-modal>div,
+        #blog-reader-modal>div {
             background: linear-gradient(155deg, #ffffff 0%, #fbf9ff 65%, #f4edfe 100%) !important;
             border: 1px solid rgba(221, 214, 254, 0.8) !important;
             box-shadow: var(--shadow-smooth-xl) !important;
@@ -482,7 +494,7 @@
             transform: translateY(1px) scale(0.98);
         }
 
-        /* 3. ROYAL BLUE ACCENT BUTTONS (Learning Academy, Enroll, Webinar) */
+        /* 3. ROYAL BLUE ACCENT BUTTONS (Funny Academy, Enroll, Webinar) */
         #header-learning-btn,
         #webinar-submit-btn,
         #enroll-modal-submit-btn,
@@ -603,26 +615,47 @@
             width: 7px;
             height: 7px;
         }
+
         ::-webkit-scrollbar-track {
             background: linear-gradient(180deg, #FAF8FF 0%, #F3F0FF 100%);
         }
+
         ::-webkit-scrollbar-thumb {
             background: linear-gradient(180deg, #C4B5FD 0%, #A78BFA 100%);
             border-radius: 6px;
         }
+
         ::-webkit-scrollbar-thumb:hover {
             background: linear-gradient(180deg, #8B5CF6 0%, #7C3AED 100%);
         }
 
         /* Smooth View Transitions */
         @keyframes blurTransparentFadeOut {
-            0% { opacity: 1; filter: blur(0px); transform: scale(1); }
-            100% { opacity: 0; filter: blur(10px); transform: scale(0.99); }
+            0% {
+                opacity: 1;
+                filter: blur(0px);
+                transform: scale(1);
+            }
+
+            100% {
+                opacity: 0;
+                filter: blur(10px);
+                transform: scale(0.99);
+            }
         }
 
         @keyframes blurTransparentFadeIn {
-            0% { opacity: 0; filter: blur(10px); transform: scale(0.99); }
-            100% { opacity: 1; filter: blur(0px); transform: scale(1); }
+            0% {
+                opacity: 0;
+                filter: blur(10px);
+                transform: scale(0.99);
+            }
+
+            100% {
+                opacity: 1;
+                filter: blur(0px);
+                transform: scale(1);
+            }
         }
 
         .animate-blur-fade-out {
@@ -778,13 +811,13 @@
             box-shadow: 0 4px 16px rgba(139, 92, 246, 0.5) !important;
         }
 
-        body.dark-mode #cart-drawer-backdrop > div,
-        body.dark-mode #checkout-modal-backdrop > div,
-        body.dark-mode #receipt-modal-backdrop > div,
-        body.dark-mode #admin-modal-backdrop > div,
-        body.dark-mode #arch-modal-backdrop > div,
-        body.dark-mode #course-enrollment-modal > div,
-        body.dark-mode #blog-reader-modal > div {
+        body.dark-mode #cart-drawer-backdrop>div,
+        body.dark-mode #checkout-modal-backdrop>div,
+        body.dark-mode #receipt-modal-backdrop>div,
+        body.dark-mode #admin-modal-backdrop>div,
+        body.dark-mode #arch-modal-backdrop>div,
+        body.dark-mode #course-enrollment-modal>div,
+        body.dark-mode #blog-reader-modal>div {
             background: linear-gradient(155deg, #0E1526 0%, #090E1B 65%, #050812 100%) !important;
             color: #F8FAFC !important;
             border-color: #334155 !important;
@@ -814,10 +847,12 @@
         body.dark-mode .bg-appetite-600 {
             box-shadow: 0 4px 18px 0 rgba(45, 212, 191, 0.4) !important;
         }
+
         body.dark-mode .bg-purple-600,
         body.dark-mode .bg-purple-700 {
             box-shadow: 0 4px 20px 0 rgba(139, 92, 246, 0.45) !important;
         }
+
         body.dark-mode #header-learning-btn,
         body.dark-mode #webinar-submit-btn {
             box-shadow: 0 4px 20px 0 rgba(37, 99, 235, 0.55) !important;
@@ -830,18 +865,22 @@
                 top: 0 !important;
                 z-index: 25;
             }
-            #blog-reader-modal > div {
+
+            #blog-reader-modal>div {
                 max-height: 90vh !important;
                 margin: 12px;
                 border-radius: 20px;
             }
+
             #blog-modal-cover-wrap {
                 height: 180px !important;
             }
+
             #blog-modal-title {
                 font-size: 1.35rem !important;
                 line-height: 1.25 !important;
             }
+
             #blog-modal-body {
                 padding: 1.25rem !important;
                 font-size: 0.92rem !important;
@@ -853,33 +892,41 @@
                 padding-left: 0.85rem !important;
                 padding-right: 0.85rem !important;
             }
+
             header .store-fluid-container {
                 gap: 0.5rem !important;
                 padding-top: 0.6rem !important;
                 padding-bottom: 0.6rem !important;
             }
-            #cart-drawer-backdrop > div {
+
+            #cart-drawer-backdrop>div {
                 max-width: 100% !important;
             }
+
             .blog-article-card {
                 border-radius: 18px !important;
             }
-            #blog-reader-modal > div {
+
+            #blog-reader-modal>div {
                 max-height: 94vh !important;
                 margin: 8px;
                 border-radius: 18px;
             }
+
             #blog-modal-cover-wrap {
                 height: 145px !important;
             }
+
             #blog-modal-title {
                 font-size: 1.15rem !important;
             }
+
             #blog-modal-body {
                 padding: 1rem !important;
                 font-size: 0.85rem !important;
                 line-height: 1.6 !important;
             }
+
             #blueprint-tooltip {
                 display: none !important;
             }
@@ -1256,7 +1303,7 @@
                 <!-- Learning Module Portal Trigger in Royal Blue -->
                 <button onclick="window.toggleViewStoreLearning()" id="header-learning-btn"
                     data-blueprint-file="WackyStore.WebUI/Controllers/CourseController.cs"
-                    data-blueprint-role="Learning Academy &amp; LMS Portal Trigger"
+                    data-blueprint-role="Funny Academy &amp; LMS Portal Trigger"
                     data-blueprint-layer="WebUI / Education Portal"
                     data-blueprint-dom="Royal blue action button transitioning into the dedicated WackyDash-style course &amp; academy module."
                     data-blueprint-desc="Routes user into CourseController.Index() providing enrolled curriculums, locked syllabus modules, and live Zoom webinar registration."
@@ -1264,7 +1311,7 @@
                     class="h-10 px-3.5 rounded-xl bg-gradient-to-r from-[#2563EB] to-[#1D4ED8] hover:from-[#1D4ED8] hover:to-[#1E40AF] text-white text-xs font-bold flex items-center gap-1.5 transition-all shadow-md shadow-[#2563EB]/25 hover:shadow-lg hover:shadow-[#2563EB]/40 border border-blue-400/30 active:scale-95 cursor-pointer"
                     title="Visit Wacky Academy &amp; Learning Modules">
                     <i id="headerLearningIcon" class="fa-solid fa-graduation-cap text-blue-200"></i>
-                    <span id="headerLearningText" class="hidden sm:inline">Learning Academy</span>
+                    <span id="headerLearningText" class="hidden sm:inline">Funny Academy</span>
                 </button>
 
             </div>
@@ -1523,9 +1570,11 @@
             <div class="flex items-center gap-3 mb-6">
                 <h1 class="text-3xl font-black font-heading text-earth-900 tracking-tight">
                     Wacky Blog Admin Panel</h1>
-                <span class="px-2.5 py-0.5 rounded-full bg-teal-100 text-teal-800 text-xs font-mono font-bold">CRUD Portal</span>
+                <span class="px-2.5 py-0.5 rounded-full bg-teal-100 text-teal-800 text-xs font-mono font-bold">CRUD
+                    Portal</span>
             </div>
-            <div class="bg-gradient-to-br from-white via-white to-purple-50/50 p-6 sm:p-8 rounded-2xl border border-canvas-border shadow-md mb-8">
+            <div
+                class="bg-gradient-to-br from-white via-white to-purple-50/50 p-6 sm:p-8 rounded-2xl border border-canvas-border shadow-md mb-8">
                 <h2 class="text-xl font-bold font-heading text-earth-950 mb-4 flex items-center gap-2">
                     <i class="fa-solid fa-pen-nib text-appetite-700 text-base"></i>
                     <span>Add New Post</span>
@@ -1637,7 +1686,7 @@
         </div>
     </main>
 
-    <!-- 3.7 MAIN LEARNING ACADEMY MODULE LAYOUT (WackyDash-Style Courses & Live Zoom Webinar) -->
+    <!-- 3.7 MAIN Funny Academy MODULE LAYOUT (WackyDash-Style Courses & Live Zoom Webinar) -->
     <main id="learning-main-view" data-blueprint-file="WackyStore.WebUI/Controllers/CourseController.cs"
         data-blueprint-role="LMS &amp; Academy View Controller" data-blueprint-layer="WebUI / Education Portal"
         data-blueprint-dom="Main container rendering WackyDash-style courses locked to purchase and live Zoom webinar registration."
@@ -1649,7 +1698,7 @@
         <div id="learning-filter-bar"
             class="w-full bg-white border-b border-canvas-border shadow-xs sticky top-[68px] z-30"
             data-blueprint-file="WackyStore.WebUI/Models/CourseListViewModel.cs"
-            data-blueprint-role="Learning Academy Attached Filter Bar"
+            data-blueprint-role="Funny Academy Attached Filter Bar"
             data-blueprint-layer="WebUI / Presentation Component"
             data-blueprint-dom="Attached sticky toolbar displaying academy track filters, enrollment counter, and return action."
             data-blueprint-desc="Strongly typed ViewModel supplying category tracks and student enrollment authorization claims to the LMS view."
@@ -2165,36 +2214,41 @@
     </div>
 
     <!-- WACKYDASH MODULE VIDEO DEMO MODAL -->
-    <div id="module-video-demo-modal"
-        data-blueprint-file="WackyStore.WebUI/Views/Course/VideoDemoModal.cshtml"
-        data-blueprint-role="WackyDash Module Video Demo Player Modal"
-        data-blueprint-layer="WebUI / LMS Media Player"
+    <div id="module-video-demo-modal" data-blueprint-file="WackyStore.WebUI/Views/Course/VideoDemoModal.cshtml"
+        data-blueprint-role="WackyDash Module Video Demo Player Modal" data-blueprint-layer="WebUI / LMS Media Player"
         data-blueprint-dom="Modal viewport delivering an interactive demo preview of course video lecture modules."
         data-blueprint-desc="Demonstration video player showcasing course curriculum preview with interactive playback controls and syllabus details."
         data-blueprint-code="[HttpGet] public ActionResult DemoStream(int courseId, string moduleName) => PartialView(&quot;_VideoDemoPlayer&quot;);"
         class="fixed inset-0 bg-black/80 backdrop-blur-md z-50 hidden flex items-center justify-center p-3 sm:p-5 md:p-6"
         onclick="if(event.target===this) window.closeVideoDemoModal()">
 
-        <div class="bg-[#0D1117] border border-earth-800 rounded-2xl sm:rounded-3xl w-full max-w-4xl max-h-[94vh] flex flex-col shadow-2xl overflow-hidden relative animate-rise-up text-white">
+        <div
+            class="bg-[#0D1117] border border-earth-800 rounded-2xl sm:rounded-3xl w-full max-w-4xl max-h-[94vh] flex flex-col shadow-2xl overflow-hidden relative animate-rise-up text-white">
             <!-- Top Title Bar -->
-            <div class="p-4 sm:p-5 bg-gradient-to-r from-earth-950 via-[#161B22] to-earth-950 border-b border-earth-800/80 flex items-center justify-between gap-3">
+            <div
+                class="p-4 sm:p-5 bg-gradient-to-r from-earth-950 via-[#161B22] to-earth-950 border-b border-earth-800/80 flex items-center justify-between gap-3">
                 <div class="flex items-center gap-2.5 min-w-0">
-                    <div class="h-9 w-9 rounded-xl bg-[#2563EB]/20 border border-[#2563EB]/40 text-[#93C5FD] flex items-center justify-center text-sm shrink-0">
+                    <div
+                        class="h-9 w-9 rounded-xl bg-[#2563EB]/20 border border-[#2563EB]/40 text-[#93C5FD] flex items-center justify-center text-sm shrink-0">
                         <i class="fa-solid fa-play"></i>
                     </div>
                     <div class="min-w-0">
                         <div class="flex items-center gap-2 flex-wrap">
-                            <span class="px-2 py-0.5 rounded-full bg-[#2563EB] text-white text-[10px] font-mono font-black uppercase tracking-wider">
+                            <span
+                                class="px-2 py-0.5 rounded-full bg-[#2563EB] text-white text-[10px] font-mono font-black uppercase tracking-wider">
                                 WackyDash Player v3.2
                             </span>
-                            <span id="video-demo-badge" class="px-2 py-0.5 rounded-full bg-amber-400 text-earth-950 text-[10px] font-mono font-black uppercase font-bold">
+                            <span id="video-demo-badge"
+                                class="px-2 py-0.5 rounded-full bg-amber-400 text-earth-950 text-[10px] font-mono font-black uppercase font-bold">
                                 ▶ Demo Video Preview
                             </span>
-                            <span id="video-demo-course-name" class="text-xs text-earth-400 font-mono truncate hidden sm:inline">
+                            <span id="video-demo-course-name"
+                                class="text-xs text-earth-400 font-mono truncate hidden sm:inline">
                                 Course Title
                             </span>
                         </div>
-                        <h3 id="video-demo-module-title" class="font-heading font-black text-sm sm:text-base text-amber-100 truncate mt-0.5">
+                        <h3 id="video-demo-module-title"
+                            class="font-heading font-black text-sm sm:text-base text-amber-100 truncate mt-0.5">
                             Module 1: Fluid Dynamics of Whimsical Drinkware
                         </h3>
                     </div>
@@ -2210,17 +2264,21 @@
             </div>
 
             <!-- Video Player Frame Area -->
-            <div class="relative bg-black aspect-video sm:max-h-[50vh] flex items-center justify-center overflow-hidden group select-none">
+            <div
+                class="relative bg-black aspect-video sm:max-h-[50vh] flex items-center justify-center overflow-hidden group select-none">
                 <!-- Video Poster Frame (The Cluck-A-Tron 5000 Laboratory Lecture) -->
                 <img id="video-demo-poster" src="images/module_demo_video.jpg" alt="WackyDash Lecture Demo Video"
                     class="w-full h-full object-cover transition-opacity duration-300" />
 
                 <!-- Ambient Video Vignette Overlay -->
-                <div class="absolute inset-0 bg-gradient-to-t from-black/85 via-transparent to-black/40 pointer-events-none"></div>
+                <div
+                    class="absolute inset-0 bg-gradient-to-t from-black/85 via-transparent to-black/40 pointer-events-none">
+                </div>
 
                 <!-- Top Left Watermark / Lecture Tag -->
                 <div class="absolute top-3 left-4 flex items-center gap-2 pointer-events-none">
-                    <div class="px-2.5 py-1 rounded-md bg-black/60 backdrop-blur-md border border-white/15 text-[11px] font-mono text-white flex items-center gap-1.5 shadow-md">
+                    <div
+                        class="px-2.5 py-1 rounded-md bg-black/60 backdrop-blur-md border border-white/15 text-[11px] font-mono text-white flex items-center gap-1.5 shadow-md">
                         <span id="video-stream-dot" class="h-2 w-2 rounded-full bg-emerald-400 animate-pulse"></span>
                         <span id="video-stream-status">WackyDash HLS Stream &bull; 1080p 60fps</span>
                     </div>
@@ -2228,7 +2286,8 @@
 
                 <!-- Top Right Instructor Badge -->
                 <div class="absolute top-3 right-4 hidden sm:flex items-center gap-2 pointer-events-none">
-                    <div class="px-2.5 py-1 rounded-md bg-black/60 backdrop-blur-md border border-white/15 text-[11px] font-mono text-amber-200 shadow-md">
+                    <div
+                        class="px-2.5 py-1 rounded-md bg-black/60 backdrop-blur-md border border-white/15 text-[11px] font-mono text-amber-200 shadow-md">
                         <i class="fa-solid fa-chalkboard-user mr-1 text-[#2563EB]"></i>
                         <span id="video-instructor-name">Dr. Barnaby Fizzle</span>
                     </div>
@@ -2241,20 +2300,25 @@
                 </button>
 
                 <!-- Video Controls Bar (Bottom Overlay) -->
-                <div class="absolute bottom-0 inset-x-0 bg-gradient-to-t from-black/95 via-black/80 to-transparent pt-6 pb-2.5 px-4 sm:px-6 space-y-2 z-20">
+                <div
+                    class="absolute bottom-0 inset-x-0 bg-gradient-to-t from-black/95 via-black/80 to-transparent pt-6 pb-2.5 px-4 sm:px-6 space-y-2 z-20">
                     <!-- Scrubber Timeline Progress Bar -->
                     <div class="relative w-full h-2 bg-white/20 hover:h-2.5 rounded-full cursor-pointer transition-all overflow-hidden"
                         onclick="window.scrubVideoDemo(event)">
-                        <div id="video-scrubber-progress" class="h-full bg-gradient-to-r from-[#2563EB] to-cyan-400 w-1/4 rounded-full transition-all duration-200"></div>
+                        <div id="video-scrubber-progress"
+                            class="h-full bg-gradient-to-r from-[#2563EB] to-cyan-400 w-1/4 rounded-full transition-all duration-200">
+                        </div>
                     </div>
 
                     <!-- Control Buttons Row -->
                     <div class="flex items-center justify-between text-xs font-mono text-gray-300">
                         <div class="flex items-center gap-3 sm:gap-4">
-                            <button onclick="window.toggleVideoDemoPlayback()" class="hover:text-white transition-colors cursor-pointer text-sm">
+                            <button onclick="window.toggleVideoDemoPlayback()"
+                                class="hover:text-white transition-colors cursor-pointer text-sm">
                                 <i id="video-ctrl-play-icon" class="fa-solid fa-play"></i>
                             </button>
-                            <button onclick="window.restartVideoDemo()" class="hover:text-white transition-colors cursor-pointer" title="Restart Demo">
+                            <button onclick="window.restartVideoDemo()"
+                                class="hover:text-white transition-colors cursor-pointer" title="Restart Demo">
                                 <i class="fa-solid fa-rotate-left"></i>
                             </button>
                             <div class="flex items-center gap-1.5 text-[11px] sm:text-xs">
@@ -2265,13 +2329,16 @@
                         </div>
 
                         <div class="flex items-center gap-3 sm:gap-4">
-                            <span class="px-2 py-0.5 rounded bg-white/10 text-[10px] font-bold text-teal-300 border border-white/10 hidden sm:inline-block">
+                            <span
+                                class="px-2 py-0.5 rounded bg-white/10 text-[10px] font-bold text-teal-300 border border-white/10 hidden sm:inline-block">
                                 1080p HD
                             </span>
-                            <span class="px-1.5 py-0.5 rounded bg-white/10 text-[10px] text-gray-300 hover:text-white cursor-pointer">
+                            <span
+                                class="px-1.5 py-0.5 rounded bg-white/10 text-[10px] text-gray-300 hover:text-white cursor-pointer">
                                 1.0x
                             </span>
-                            <button onclick="window.toggleVideoDemoFullscreen()" class="hover:text-white transition-colors cursor-pointer" title="Fullscreen">
+                            <button onclick="window.toggleVideoDemoFullscreen()"
+                                class="hover:text-white transition-colors cursor-pointer" title="Fullscreen">
                                 <i class="fa-solid fa-expand"></i>
                             </button>
                         </div>
@@ -2280,14 +2347,17 @@
             </div>
 
             <!-- Bottom Lesson Meta & Quick Unlock CTA -->
-            <div class="p-4 sm:p-5 bg-[#161B22] border-t border-earth-800 flex flex-col sm:flex-row sm:items-center justify-between gap-4">
+            <div
+                class="p-4 sm:p-5 bg-[#161B22] border-t border-earth-800 flex flex-col sm:flex-row sm:items-center justify-between gap-4">
                 <div class="space-y-1 min-w-0">
                     <div class="flex items-center gap-2 text-xs font-mono text-earth-400">
                         <i class="fa-solid fa-code text-[#2563EB]"></i>
-                        <span id="video-demo-lesson-code" class="text-amber-300 truncate">Lesson.ExecutePracticum()</span>
+                        <span id="video-demo-lesson-code"
+                            class="text-amber-300 truncate">Lesson.ExecutePracticum()</span>
                     </div>
                     <p class="text-xs text-gray-400 leading-relaxed max-w-xl">
-                        You are watching a WackyDash video lesson demonstration. The complete syllabus, solution files (.sln), and masterclass Zoom Q&amp;A are included when enrolling.
+                        You are watching a WackyDash video lesson demonstration. The complete syllabus, solution files
+                        (.sln), and masterclass Zoom Q&amp;A are included when enrolling.
                     </p>
                 </div>
 
@@ -2809,7 +2879,8 @@
 
 
     <!-- NEWSLETTER SIGNUP -->
-    <section id="newsletter-section" class="py-20 border-t-2 border-b-2 border-purple-800/50 overflow-hidden relative shadow-inner"
+    <section id="newsletter-section"
+        class="py-20 border-t-2 border-b-2 border-purple-800/50 overflow-hidden relative shadow-inner"
         data-blueprint-file="WackyStore.WebUI/Views/Shared/_NewsletterSignup.cshtml"
         data-blueprint-role="Newsletter Signup Partial View" data-blueprint-layer="WebUI / View Component"
         data-blueprint-dom="Semantic &lt;section&gt; with wavy purple and darker purple lines background and an opaque white &amp; black card."
@@ -2823,13 +2894,17 @@
                 <defs>
                     <pattern id="wavy-purple-grid" width="160" height="40" patternUnits="userSpaceOnUse">
                         <!-- Darker purple wave line -->
-                        <path d="M 0 10 C 40 0, 120 20, 160 10" fill="none" stroke="#2E1065" stroke-width="3" stroke-opacity="0.9" />
+                        <path d="M 0 10 C 40 0, 120 20, 160 10" fill="none" stroke="#2E1065" stroke-width="3"
+                            stroke-opacity="0.9" />
                         <!-- Deep violet wave line -->
-                        <path d="M 0 20 C 40 10, 120 30, 160 20" fill="none" stroke="#4C1D95" stroke-width="2.5" stroke-opacity="0.85" />
+                        <path d="M 0 20 C 40 10, 120 30, 160 20" fill="none" stroke="#4C1D95" stroke-width="2.5"
+                            stroke-opacity="0.85" />
                         <!-- Vibrant purple wave line -->
-                        <path d="M 0 30 C 40 40, 120 20, 160 30" fill="none" stroke="#7C3AED" stroke-width="2" stroke-opacity="0.65" />
+                        <path d="M 0 30 C 40 40, 120 20, 160 30" fill="none" stroke="#7C3AED" stroke-width="2"
+                            stroke-opacity="0.65" />
                         <!-- Darkest purple accent line -->
-                        <path d="M 0 40 C 40 30, 120 50, 160 40" fill="none" stroke="#1A0845" stroke-width="3.5" stroke-opacity="0.95" />
+                        <path d="M 0 40 C 40 30, 120 50, 160 40" fill="none" stroke="#1A0845" stroke-width="3.5"
+                            stroke-opacity="0.95" />
                     </pattern>
                     <linearGradient id="purpleWaveGrad1" x1="0%" y1="0%" x2="100%" y2="0%">
                         <stop offset="0%" stop-color="#4C1D95" stop-opacity="0.95" />
@@ -2852,14 +2927,22 @@
                 <rect width="100%" height="100%" fill="url(#wavy-purple-grid)" />
 
                 <!-- Layered Major Undulating Wavy Curves for depth and dynamic motion -->
-                <path d="M -100 50 C 300 -30, 700 130, 1100 40 C 1500 -40, 1850 110, 2200 45" fill="none" stroke="url(#purpleWaveGrad1)" stroke-width="5" />
-                <path d="M -100 95 C 250 15, 650 175, 1050 85 C 1450 -5, 1750 155, 2200 90" fill="none" stroke="url(#darkPurpleWaveGrad)" stroke-width="6.5" stroke-opacity="0.9" />
-                <path d="M -100 145 C 350 225, 700 65, 1100 185 C 1500 305, 1800 125, 2200 155" fill="none" stroke="#6D28D9" stroke-width="3.5" stroke-opacity="0.75" />
-                <path d="M -100 200 C 300 120, 750 270, 1150 170 C 1550 70, 1850 240, 2200 190" fill="none" stroke="url(#purpleWaveGrad2)" stroke-width="4.5" stroke-opacity="0.9" />
-                <path d="M -100 250 C 200 330, 600 190, 1000 290 C 1400 390, 1750 230, 2200 260" fill="none" stroke="#3B0764" stroke-width="5.5" stroke-opacity="0.85" />
-                <path d="M -100 305 C 400 225, 800 355, 1200 275 C 1600 195, 1850 335, 2200 295" fill="none" stroke="#9333EA" stroke-width="3.5" stroke-opacity="0.8" />
-                <path d="M -100 355 C 250 425, 650 285, 1050 385 C 1450 485, 1750 325, 2200 365" fill="none" stroke="#1A0845" stroke-width="7" stroke-opacity="0.95" />
-                <path d="M -100 400 C 350 340, 750 440, 1150 370 C 1550 300, 1850 430, 2200 390" fill="none" stroke="#8B5CF6" stroke-width="3" stroke-opacity="0.7" />
+                <path d="M -100 50 C 300 -30, 700 130, 1100 40 C 1500 -40, 1850 110, 2200 45" fill="none"
+                    stroke="url(#purpleWaveGrad1)" stroke-width="5" />
+                <path d="M -100 95 C 250 15, 650 175, 1050 85 C 1450 -5, 1750 155, 2200 90" fill="none"
+                    stroke="url(#darkPurpleWaveGrad)" stroke-width="6.5" stroke-opacity="0.9" />
+                <path d="M -100 145 C 350 225, 700 65, 1100 185 C 1500 305, 1800 125, 2200 155" fill="none"
+                    stroke="#6D28D9" stroke-width="3.5" stroke-opacity="0.75" />
+                <path d="M -100 200 C 300 120, 750 270, 1150 170 C 1550 70, 1850 240, 2200 190" fill="none"
+                    stroke="url(#purpleWaveGrad2)" stroke-width="4.5" stroke-opacity="0.9" />
+                <path d="M -100 250 C 200 330, 600 190, 1000 290 C 1400 390, 1750 230, 2200 260" fill="none"
+                    stroke="#3B0764" stroke-width="5.5" stroke-opacity="0.85" />
+                <path d="M -100 305 C 400 225, 800 355, 1200 275 C 1600 195, 1850 335, 2200 295" fill="none"
+                    stroke="#9333EA" stroke-width="3.5" stroke-opacity="0.8" />
+                <path d="M -100 355 C 250 425, 650 285, 1050 385 C 1450 485, 1750 325, 2200 365" fill="none"
+                    stroke="#1A0845" stroke-width="7" stroke-opacity="0.95" />
+                <path d="M -100 400 C 350 340, 750 440, 1150 370 C 1550 300, 1850 430, 2200 390" fill="none"
+                    stroke="#8B5CF6" stroke-width="3" stroke-opacity="0.7" />
             </svg>
         </div>
 
@@ -2868,19 +2951,24 @@
             <div id="newsletter-card"
                 class="w-full max-w-2xl bg-white border-4 border-black rounded-3xl p-8 sm:p-12 shadow-[0_25px_60px_rgba(0,0,0,0.5)] text-center relative transition-all"
                 style="background-color: #ffffff !important; opacity: 1 !important;">
-                
-                <div class="newsletter-badge inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-black text-white text-xs font-mono font-black uppercase tracking-wider mb-4 border-2 border-black shadow-sm">
+
+                <div
+                    class="newsletter-badge inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-black text-white text-xs font-mono font-black uppercase tracking-wider mb-4 border-2 border-black shadow-sm">
                     <i class="fa-solid fa-paper-plane text-white"></i>
                     <span>Wacky Dispatch Network</span>
                 </div>
-                
-                <h2 class="text-3xl sm:text-5xl font-black font-heading text-black mb-3 tracking-tight">GET WACKY DISPATCHES</h2>
-                
-                <p class="newsletter-desc text-sm sm:text-base font-semibold text-neutral-800 max-w-xl mx-auto mb-8 leading-relaxed">
-                    Sign up for exclusive oddities, lab field notes, and 0% useful information delivered directly to your inbox.
+
+                <h2 class="text-3xl sm:text-5xl font-black font-heading text-black mb-3 tracking-tight">GET WACKY
+                    DISPATCHES</h2>
+
+                <p
+                    class="newsletter-desc text-sm sm:text-base font-semibold text-neutral-800 max-w-xl mx-auto mb-8 leading-relaxed">
+                    Sign up for exclusive oddities, lab field notes, and 0% useful information delivered directly to
+                    your inbox.
                 </p>
-                
-                <form onsubmit="subscribeToNewsletter(event)" class="flex flex-col sm:flex-row gap-3 w-full max-w-xl mx-auto">
+
+                <form onsubmit="subscribeToNewsletter(event)"
+                    class="flex flex-col sm:flex-row gap-3 w-full max-w-xl mx-auto">
                     <input type="email" id="newsletter-email" placeholder="Enter your email (we dare you)" required
                         class="flex-1 px-5 py-4 rounded-2xl bg-white border-2 border-black font-bold text-black placeholder-neutral-500 focus:outline-none focus:ring-4 focus:ring-purple-600/30 text-base shadow-sm transition-all" />
                     <button type="submit" id="newsletter-submit-btn"
@@ -2890,9 +2978,10 @@
                 </form>
 
                 <p class="newsletter-microcopy text-xs text-neutral-600 font-semibold mt-4">
-                    <i class="fa-solid fa-shield-halved text-black mr-1.5"></i> No spam ever. Unsubscribe with 1-click at any time.
+                    <i class="fa-solid fa-shield-halved text-black mr-1.5"></i> No spam ever. Unsubscribe with 1-click
+                    at any time.
                 </p>
-                
+
                 <p id="newsletter-message" class="mt-4 font-bold hidden"></p>
             </div>
         </div>
