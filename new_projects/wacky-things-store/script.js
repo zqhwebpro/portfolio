@@ -468,8 +468,8 @@ function renderCatalog() {
                     </div>
                 ` : `
                     <button onclick="event.stopPropagation(); window.addToCart(${prod.id})" 
-                            class="w-full py-2.5 rounded-xl bg-gradient-to-r from-purple-600 via-purple-700 to-indigo-700 hover:from-purple-500 hover:via-purple-600 hover:to-indigo-600 active:scale-[0.98] text-white font-bold text-xs flex items-center justify-center gap-2 transition-all shadow-lg shadow-purple-600/35 hover:shadow-purple-600/50 hover:-translate-y-0.5 border border-purple-400/30 cursor-pointer">
-                        <i class="fa-solid fa-cart-plus text-teal-300"></i>
+                            class="w-full py-2.5 rounded-xl bg-gradient-to-r from-teal-600 via-appetite-700 to-teal-800 hover:from-teal-500 hover:via-teal-600 hover:to-appetite-700 active:scale-[0.98] text-white font-bold text-xs flex items-center justify-center gap-2 transition-all hover:-translate-y-0.5 border border-teal-400/30 cursor-pointer">
+                        <i class="fa-solid fa-cart-plus text-teal-200"></i>
                         <span>Add to Cart</span>
                     </button>
                 `;
@@ -1118,8 +1118,8 @@ function renderProductModal() {
     } else {
         container.innerHTML = `
                     <button onclick="event.stopPropagation(); window.addToCart(${prod.id}); window.renderProductModal();" 
-                            class="w-full py-3.5 rounded-xl bg-gradient-to-r from-purple-600 via-purple-700 to-indigo-700 hover:from-purple-500 hover:via-purple-600 hover:to-indigo-600 active:scale-[0.98] text-white font-bold text-sm flex items-center justify-center gap-2 transition-all shadow-xl shadow-purple-600/35 hover:shadow-purple-600/50 hover:-translate-y-0.5 border border-purple-400/30 cursor-pointer">
-                        <i class="fa-solid fa-cart-plus text-teal-300"></i>
+                            class="w-full py-3.5 rounded-xl bg-gradient-to-r from-teal-600 via-appetite-700 to-teal-800 hover:from-teal-500 hover:via-teal-600 hover:to-appetite-700 active:scale-[0.98] text-white font-bold text-sm flex items-center justify-center gap-2 transition-all hover:-translate-y-0.5 border border-teal-400/30 cursor-pointer">
+                        <i class="fa-solid fa-cart-plus text-teal-200"></i>
                         <span>Add to Cart</span>
                     </button>
                 `;
