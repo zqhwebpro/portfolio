@@ -188,11 +188,11 @@
             --blood-orange-glow: rgba(37, 99, 235, 0.45);
 
             /* Elevation & Smooth Shadows */
-            --shadow-smooth-xs: 0 2px 6px -1px rgba(109, 40, 217, 0.05), 0 1px 3px -1px rgba(0, 0, 0, 0.03);
-            --shadow-smooth-sm: 0 4px 14px -2px rgba(109, 40, 217, 0.07), 0 2px 6px -1px rgba(0, 0, 0, 0.03);
-            --shadow-smooth-md: 0 8px 24px -4px rgba(109, 40, 217, 0.09), 0 3px 10px -2px rgba(0, 0, 0, 0.04);
-            --shadow-smooth-lg: 0 16px 36px -6px rgba(109, 40, 217, 0.12), 0 6px 16px -2px rgba(20, 184, 166, 0.08);
-            --shadow-smooth-xl: 0 24px 48px -8px rgba(109, 40, 217, 0.16), 0 8px 24px -4px rgba(0, 0, 0, 0.08);
+            --shadow-smooth-xs: none;
+            --shadow-smooth-sm: none;
+            --shadow-smooth-md: none;
+            --shadow-smooth-lg: none;
+            --shadow-smooth-xl: none;
         }
 
         /* Smooth Base Canvas Gradient */
@@ -247,7 +247,6 @@
             border-bottom: 1px solid var(--border-warm) !important;
             backdrop-filter: blur(16px);
             -webkit-backdrop-filter: blur(16px);
-            box-shadow: 0 4px 20px -4px rgba(109, 40, 217, 0.05);
         }
 
         /* Announcement Bar subtle gradient */
@@ -262,18 +261,17 @@
             border: 1px solid var(--border-warm) !important;
             border-radius: 20px !important;
             transition: transform 0.25s cubic-bezier(0.16, 1, 0.3, 1),
-                border-color 0.25s ease,
-                box-shadow 0.25s cubic-bezier(0.16, 1, 0.3, 1) !important;
+                border-color 0.25s ease !important;
             display: flex;
             flex-direction: column;
             overflow: hidden;
-            box-shadow: var(--shadow-smooth-sm) !important;
+            box-shadow: none !important;
         }
 
         .product-card:hover {
             transform: translateY(-5px) !important;
             border-color: #A78BFA !important;
-            box-shadow: var(--shadow-smooth-lg) !important;
+            box-shadow: none !important;
         }
 
         .product-image-container {
@@ -936,7 +934,7 @@
            NEWSLETTER SECTION (WAVY PURPLE LINES & WHITE/BLACK OPAQUE CARD)
            ======================================================== */
         #newsletter-section {
-            background: linear-gradient(180deg, #130526 0%, #1F0A3D 50%, #120422 100%) !important;
+            background: #7C3AED !important;
             position: relative;
             overflow: hidden;
         }
@@ -2874,7 +2872,7 @@
 
     <!-- NEWSLETTER SIGNUP -->
     <section id="newsletter-section"
-        class="py-20 border-t-2 border-b-2 border-purple-800/50 overflow-hidden relative shadow-inner"
+        class="py-20 border-t-2 border-b-2 border-purple-800/50 overflow-hidden relative"
         data-blueprint-file="WackyStore.WebUI/Views/Shared/_NewsletterSignup.cshtml"
         data-blueprint-role="Newsletter Signup Partial View" data-blueprint-layer="WebUI / View Component"
         data-blueprint-dom="Semantic &lt;section&gt; with wavy purple and darker purple lines background and an opaque white &amp; black card."
@@ -2885,7 +2883,7 @@
         <div class="store-fluid-container relative z-10 flex flex-col items-center">
             <!-- WHITE BLACK OPAQUE CARD ON TOP -->
             <div id="newsletter-card"
-                class="w-full max-w-2xl bg-white border-4 border-black rounded-3xl p-8 sm:p-12 shadow-[0_25px_60px_rgba(0,0,0,0.5)] text-center relative transition-all"
+                class="w-full max-w-2xl bg-white border-4 border-black rounded-3xl p-8 sm:p-12 text-center relative transition-all"
                 style="background-color: #ffffff !important; opacity: 1 !important;">
 
 
@@ -2895,9 +2893,9 @@
                 <form onsubmit="subscribeToNewsletter(event)"
                     class="flex flex-col sm:flex-row gap-3 w-full max-w-xl mx-auto">
                     <input type="email" id="newsletter-email" placeholder="Enter your email (we dare you)" required
-                        class="flex-1 px-5 py-4 rounded-2xl bg-white border-2 border-black font-bold text-black placeholder-neutral-500 focus:outline-none focus:ring-4 focus:ring-purple-600/30 text-base shadow-sm transition-all" />
+                        class="flex-1 px-5 py-4 rounded-2xl bg-white border-2 border-black font-bold text-black placeholder-neutral-500 focus:outline-none focus:ring-4 focus:ring-purple-600/30 text-base transition-all" />
                     <button type="submit" id="newsletter-submit-btn"
-                        class="px-8 py-4 bg-black hover:bg-neutral-800 active:bg-neutral-900 text-white font-black text-base sm:text-lg uppercase tracking-wider rounded-2xl shadow-xl shadow-black/30 hover:shadow-2xl hover:-translate-y-0.5 active:translate-y-0.5 active:scale-95 transition-all border-2 border-black cursor-pointer">
+                        class="px-8 py-4 bg-black hover:bg-neutral-800 active:bg-neutral-900 text-white font-black text-base sm:text-lg uppercase tracking-wider rounded-2xl hover:-translate-y-0.5 active:translate-y-0.5 active:scale-95 transition-all border-2 border-black cursor-pointer">
                         SIGN ME UP
                     </button>
                 </form>
@@ -2933,12 +2931,12 @@
                     const data = await response.json();
                     messageEl.textContent = data.message;
                     messageEl.classList.remove('hidden');
-                    messageEl.className = "mt-4 font-bold text-white bg-black px-5 py-2.5 rounded-xl border-2 border-black inline-block shadow-md";
+                    messageEl.className = "mt-4 font-bold text-white bg-black px-5 py-2.5 rounded-xl border-2 border-black inline-block";
                     emailInput.value = '';
                 } catch (e) {
                     messageEl.textContent = "🎉 You're subscribed to the nonsense! (Simulated dispatch confirmed)";
                     messageEl.classList.remove('hidden');
-                    messageEl.className = "mt-4 font-bold text-white bg-black px-5 py-2.5 rounded-xl border-2 border-black inline-block shadow-md";
+                    messageEl.className = "mt-4 font-bold text-white bg-black px-5 py-2.5 rounded-xl border-2 border-black inline-block";
                     emailInput.value = '';
                 }
             }
