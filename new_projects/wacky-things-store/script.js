@@ -290,12 +290,12 @@ function renderCategorySidebar() {
         const isActive = activeCategory.toLowerCase() === c.id.toLowerCase();
         return `
                     <button onclick="window.selectCategory('${c.id}')" 
-                            class="w-full flex items-center justify-between p-2.5 rounded-xl text-xs font-semibold transition-all ${isActive ? 'bg-gradient-to-r from-appetite-700 via-appetite-600 to-teal-800 text-white shadow-md shadow-appetite-900/30 border border-teal-400/30' : 'bg-transparent text-earth-800 hover:bg-gradient-to-r hover:from-canvas-surface hover:to-purple-50/60 hover:text-earth-950'}">
+                            class="w-full flex items-center justify-between p-2.5 rounded-xl text-xs font-semibold transition-all ${isActive ? 'bg-teal-700 text-white border border-teal-600' : 'bg-transparent text-earth-800 hover:bg-canvas-surface hover:text-earth-950'}">
                         <div class="flex items-center gap-2.5 truncate">
                             <i class="fa-solid ${c.icon} ${isActive ? 'text-teal-300' : 'text-appetite-700'} text-xs"></i>
                             <span class="truncate">${c.name}</span>
                         </div>
-                        <span class="px-2 py-0.5 rounded-full text-[10.5px] font-mono font-bold ${isActive ? 'bg-gradient-to-r from-appetite-900 to-teal-950 text-teal-200 border border-teal-400/30' : 'bg-canvas-surface text-earth-600'}">
+                        <span class="px-2 py-0.5 rounded-full text-[10.5px] font-mono font-bold ${isActive ? 'bg-teal-900 text-teal-200' : 'bg-canvas-surface text-earth-600'}">
                             ${c.count}
                         </span>
                     </button>
