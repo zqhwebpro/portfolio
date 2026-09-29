@@ -2881,64 +2881,6 @@
         data-blueprint-desc="Renders the newsletter signup form featuring dynamic wavy purple lines background and a crisp high-contrast opaque white/black container. Posts email subscriptions to the Newsletter controller."
         data-blueprint-code="[HttpPost] public ActionResult Subscribe(string email) { ... }">
 
-        <!-- WAVY PURPLE & DARKER PURPLE LINES BACKGROUND -->
-        <div class="absolute inset-0 w-full h-full pointer-events-none overflow-hidden select-none" aria-hidden="true">
-            <!-- Repeating Wavy Purple & Darker Purple Lines Pattern -->
-            <svg class="absolute inset-0 w-full h-full" xmlns="http://www.w3.org/2000/svg" preserveAspectRatio="none">
-                <defs>
-                    <pattern id="wavy-purple-grid" width="160" height="40" patternUnits="userSpaceOnUse">
-                        <!-- Darker purple wave line -->
-                        <path d="M 0 10 C 40 0, 120 20, 160 10" fill="none" stroke="#2E1065" stroke-width="3"
-                            stroke-opacity="0.9" />
-                        <!-- Deep violet wave line -->
-                        <path d="M 0 20 C 40 10, 120 30, 160 20" fill="none" stroke="#4C1D95" stroke-width="2.5"
-                            stroke-opacity="0.85" />
-                        <!-- Vibrant purple wave line -->
-                        <path d="M 0 30 C 40 40, 120 20, 160 30" fill="none" stroke="#7C3AED" stroke-width="2"
-                            stroke-opacity="0.65" />
-                        <!-- Darkest purple accent line -->
-                        <path d="M 0 40 C 40 30, 120 50, 160 40" fill="none" stroke="#1A0845" stroke-width="3.5"
-                            stroke-opacity="0.95" />
-                    </pattern>
-                    <linearGradient id="purpleWaveGrad1" x1="0%" y1="0%" x2="100%" y2="0%">
-                        <stop offset="0%" stop-color="#4C1D95" stop-opacity="0.95" />
-                        <stop offset="50%" stop-color="#8B5CF6" stop-opacity="0.85" />
-                        <stop offset="100%" stop-color="#3B0764" stop-opacity="0.95" />
-                    </linearGradient>
-                    <linearGradient id="purpleWaveGrad2" x1="0%" y1="0%" x2="100%" y2="0%">
-                        <stop offset="0%" stop-color="#7C3AED" stop-opacity="0.8" />
-                        <stop offset="50%" stop-color="#A855F7" stop-opacity="0.9" />
-                        <stop offset="100%" stop-color="#581C87" stop-opacity="0.8" />
-                    </linearGradient>
-                    <linearGradient id="darkPurpleWaveGrad" x1="0%" y1="0%" x2="100%" y2="0%">
-                        <stop offset="0%" stop-color="#1A0845" stop-opacity="0.98" />
-                        <stop offset="50%" stop-color="#2E1065" stop-opacity="0.95" />
-                        <stop offset="100%" stop-color="#120524" stop-opacity="0.98" />
-                    </linearGradient>
-                </defs>
-
-                <!-- Pattern fill for continuous wavy lines -->
-                <rect width="100%" height="100%" fill="url(#wavy-purple-grid)" />
-
-                <!-- Layered Major Undulating Wavy Curves for depth and dynamic motion -->
-                <path d="M -100 50 C 300 -30, 700 130, 1100 40 C 1500 -40, 1850 110, 2200 45" fill="none"
-                    stroke="url(#purpleWaveGrad1)" stroke-width="5" />
-                <path d="M -100 95 C 250 15, 650 175, 1050 85 C 1450 -5, 1750 155, 2200 90" fill="none"
-                    stroke="url(#darkPurpleWaveGrad)" stroke-width="6.5" stroke-opacity="0.9" />
-                <path d="M -100 145 C 350 225, 700 65, 1100 185 C 1500 305, 1800 125, 2200 155" fill="none"
-                    stroke="#6D28D9" stroke-width="3.5" stroke-opacity="0.75" />
-                <path d="M -100 200 C 300 120, 750 270, 1150 170 C 1550 70, 1850 240, 2200 190" fill="none"
-                    stroke="url(#purpleWaveGrad2)" stroke-width="4.5" stroke-opacity="0.9" />
-                <path d="M -100 250 C 200 330, 600 190, 1000 290 C 1400 390, 1750 230, 2200 260" fill="none"
-                    stroke="#3B0764" stroke-width="5.5" stroke-opacity="0.85" />
-                <path d="M -100 305 C 400 225, 800 355, 1200 275 C 1600 195, 1850 335, 2200 295" fill="none"
-                    stroke="#9333EA" stroke-width="3.5" stroke-opacity="0.8" />
-                <path d="M -100 355 C 250 425, 650 285, 1050 385 C 1450 485, 1750 325, 2200 365" fill="none"
-                    stroke="#1A0845" stroke-width="7" stroke-opacity="0.95" />
-                <path d="M -100 400 C 350 340, 750 440, 1150 370 C 1550 300, 1850 430, 2200 390" fill="none"
-                    stroke="#8B5CF6" stroke-width="3" stroke-opacity="0.7" />
-            </svg>
-        </div>
 
         <div class="store-fluid-container relative z-10 flex flex-col items-center">
             <!-- WHITE BLACK OPAQUE CARD ON TOP -->
@@ -2950,12 +2892,6 @@
 
                 <h2 class="text-3xl sm:text-5xl font-black font-heading text-black mb-3 tracking-tight">GET WACKY</h2>
 
-                <p
-                    class="newsletter-desc text-sm sm:text-base font-semibold text-neutral-800 max-w-xl mx-auto mb-8 leading-relaxed">
-                    Sign up for exclusive oddities, lab field notes, and 0% useful information delivered directly to
-                    your inbox.
-                </p>
-
                 <form onsubmit="subscribeToNewsletter(event)"
                     class="flex flex-col sm:flex-row gap-3 w-full max-w-xl mx-auto">
                     <input type="email" id="newsletter-email" placeholder="Enter your email (we dare you)" required
@@ -2965,10 +2901,9 @@
                         SIGN ME UP
                     </button>
                 </form>
-
+                <br>
                 <p class="newsletter-microcopy text-xs text-neutral-600 font-semibold mt-4">
-                    <i class="fa-solid fa-shield-halved text-black mr-1.5"></i> No spam ever. Unsubscribe with 1-click
-                    at any time.
+                    No spam ever. Unsubscribe with 1-click at any time.
                 </p>
 
                 <p id="newsletter-message" class="mt-4 font-bold hidden"></p>
