@@ -481,64 +481,6 @@
             </div>
         </div>
 
-        <!-- Academy Hero Billboard Banner -->
-        <div class="store-fluid-container pt-8 pb-4">
-            <div class="rounded-3xl bg-gradient-to-r from-earth-950 via-earth-900 to-earth-950 border border-earth-800 p-6 sm:p-10 text-white relative overflow-hidden shadow-2xl"
-                data-blueprint-file="WackyStore.WebUI/Views/Course/HeroBanner.cshtml"
-                data-blueprint-role="LMS Hero Billboard Partial" data-blueprint-layer="WebUI / View Component"
-                data-blueprint-dom="Responsive flex container with royal-blue accents, curriculum badges, and enrolled statistics."
-                data-blueprint-desc="Displays Academy enrollment telemetry and accreditation badges rendered via Razor partial."
-                data-blueprint-code="@Html.Partial(&quot;_AcademyHero&quot;, Model.AcademyStats)">
-
-                <div
-                    class="absolute -top-24 -right-24 w-96 h-96 bg-[#2563EB]/15 rounded-full blur-3xl pointer-events-none">
-                </div>
-                <div
-                    class="absolute -bottom-24 -left-24 w-96 h-96 bg-teal-500/10 rounded-full blur-3xl pointer-events-none">
-                </div>
-
-                <div class="relative z-10 max-w-4xl space-y-4">
-                    <div
-                        class="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-[#2563EB]/20 border border-[#2563EB]/40 text-[#93C5FD] font-mono text-xs font-bold uppercase tracking-wider">
-                        <i class="fa-solid fa-graduation-cap text-[#2563EB]"></i>
-                        <span>WackyDash-Style Accredited Novelty Academy</span>
-                    </div>
-
-                    <h1
-                        class="font-heading font-black text-2xl sm:text-4xl lg:text-5xl text-white tracking-tight leading-tight">
-                        Deep-Dive Curriculums for <span
-                            class="text-transparent bg-clip-text bg-gradient-to-r from-[#93C5FD] via-[#2563EB] to-[#BFDBFE]">Aspiring
-                            Gag Engineers</span>
-                    </h1>
-
-                    <p class="text-xs sm:text-base text-earth-200/90 leading-relaxed font-normal max-w-3xl">
-                        Explore locked, syllabus-driven courses covering high-concurrency prank systems, C#
-                        model-binding trickery, and non-Newtonian ceramic dynamics. Each course is gated by individual
-                        enrollment and includes full video modules, downloadable Visual Studio solution blueprints, and
-                        direct Zoom masterclass access.
-                    </p>
-
-                    <div
-                        class="pt-4 flex flex-wrap items-center gap-4 sm:gap-8 border-t border-earth-800/80 text-xs sm:text-sm">
-                        <div class="flex items-center gap-2 font-mono">
-                            <span class="h-2 w-2 rounded-full bg-[#2563EB]"></span>
-                            <span class="text-earth-400">Status:</span>
-                            <span class="font-bold text-amber-300">🔒 Courses Locked To Purchase</span>
-                        </div>
-                        <div class="flex items-center gap-2 font-mono">
-                            <span class="h-2 w-2 rounded-full bg-teal-400"></span>
-                            <span class="text-earth-400">Accreditation:</span>
-                            <span class="font-bold text-teal-300">WackyDash Structure</span>
-                        </div>
-                        <div class="flex items-center gap-2 font-mono">
-                            <span class="h-2 w-2 rounded-full bg-purple-400"></span>
-                            <span class="text-earth-400">Live Component:</span>
-                            <span class="font-bold text-purple-300">Interactive Zoom Webinar</span>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
 
         <!-- COURSES CATALOG GRID -->
         <div class="store-fluid-container py-6 w-full">
@@ -582,16 +524,6 @@
                             class="h-10 w-10 rounded-xl bg-white/10 backdrop-blur-md flex items-center justify-center text-xl text-cyan-300 border border-white/20">
                             <i class="fa-solid fa-video"></i>
                         </div>
-                        <div>
-                            <div class="flex items-center gap-2">
-                                <span class="h-2 w-2 rounded-full bg-red-400 animate-ping"></span>
-                                <span
-                                    class="font-mono text-[11px] font-black uppercase text-red-300 tracking-wider">Live
-                                    Masterclass via Zoom</span>
-                            </div>
-                            <h3 class="font-heading font-black text-lg sm:text-xl text-white">Upcoming Live Interactive
-                                Broadcast</h3>
-                        </div>
                     </div>
                     <div
                         class="flex items-center gap-2 font-mono text-xs bg-white/10 px-3 py-1.5 rounded-full border border-white/15">
@@ -621,12 +553,6 @@
                         </div>
 
                         <div class="space-y-3 text-xs sm:text-sm text-earth-800 leading-relaxed">
-                            <p class="font-medium">
-                                Join lead instructor <strong class="text-earth-950">Zach Heindel</strong> and guest
-                                lecturer <strong class="text-earth-950">Dr. Barnaby Fizzle</strong> for an intensive
-                                90-minute live Zoom code-along. Discover the architectural trade-offs of building
-                                whimsical, high-energy e-commerce and learning platforms.
-                            </p>
 
                             <div class="grid grid-cols-1 sm:grid-cols-2 gap-3 pt-2">
                                 <div
@@ -681,16 +607,7 @@
                     <div
                         class="lg:col-span-5 bg-gradient-to-b from-[#EFF6FF] via-white to-[#FDF8FF] p-6 sm:p-8 rounded-2xl border border-[#BFDBFE]/60 shadow-lg space-y-5">
                         <div class="space-y-1.5 border-b border-[#BFDBFE] pb-4">
-                            <div
-                                class="inline-flex items-center gap-1.5 px-2.5 py-0.5 rounded-full bg-gradient-to-r from-[#DBEAFE] to-[#BFDBFE] text-[#1E40AF] font-mono text-[10.5px] font-bold shadow-xs">
-                                <i class="fa-solid fa-bolt text-[#2563EB]"></i>
-                                <span>Zero Cost &bull; Free Registration</span>
-                            </div>
                             <h4 class="font-heading font-black text-xl text-earth-950">Reserve Your Zoom Seat</h4>
-                            <p class="text-xs text-gray-600">
-                                Registration takes 10 seconds. Your Zoom join link and calendar invite will be
-                                dispatched instantly.
-                            </p>
                         </div>
 
                         <form id="zoom-webinar-form" onsubmit="window.handleWebinarSubmit(event)" class="space-y-4">
@@ -744,10 +661,6 @@
                                 <i class="fa-solid fa-video text-white"></i>
                                 <span>Sign Up For Live Zoom Webinar</span>
                             </button>
-
-                            <div class="text-[10px] text-gray-500 text-center font-mono">
-                                🔒 Secure Zoom OAuth2 Handshake &bull; No Spam Guaranteed
-                            </div>
                         </form>
 
                         <div id="webinar-confirmation"
