@@ -246,8 +246,8 @@
                 // Alpine Sky Blue with slight gradient
                 return 'bg-gradient-to-r from-sky-100/90 to-cyan-50 text-sky-950 border border-sky-300/80 shadow-2xs';
             } else if (normalized.includes('flummery')) {
-                // Cedar Terracotta / Orange with slight gradient
-                return 'bg-gradient-to-r from-orange-100/90 to-rose-50 text-orange-950 border border-orange-300/80 shadow-2xs';
+                // Electric Royal Blue with slight gradient
+                return 'bg-gradient-to-r from-blue-100/90 to-indigo-50 text-blue-950 border border-blue-300/80 shadow-2xs';
             } else if (normalized.includes('codswallop')) {
                 // Mountain Indigo / Pine Purple with slight gradient
                 return 'bg-gradient-to-r from-indigo-100/90 to-purple-50 text-indigo-950 border border-indigo-300/80 shadow-2xs';
@@ -1605,7 +1605,7 @@
                     if (hBlogText) hBlogText.innerText = 'Store Catalog';
                     if (hBlogIcon) hBlogIcon.className = 'fa-solid fa-shop text-appetite-700';
                     if (hLearningText) hLearningText.innerText = 'Learning Academy';
-                    if (hLearningIcon) hLearningIcon.className = 'fa-solid fa-graduation-cap text-orange-200';
+                    if (hLearningIcon) hLearningIcon.className = 'fa-solid fa-graduation-cap text-blue-200';
                 } else if (targetView === 'learning') {
                     if (learningMain) {
                         learningMain.classList.remove('hidden');
@@ -1628,7 +1628,7 @@
                     if (hBlogText) hBlogText.innerText = 'The Wacky Blog';
                     if (hBlogIcon) hBlogIcon.className = 'fa-solid fa-newspaper text-earth-300';
                     if (hLearningText) hLearningText.innerText = 'Learning Academy';
-                    if (hLearningIcon) hLearningIcon.className = 'fa-solid fa-graduation-cap text-orange-200';
+                    if (hLearningIcon) hLearningIcon.className = 'fa-solid fa-graduation-cap text-blue-200';
                 }
 
                 window.scrollTo({ top: 0, behavior: 'smooth' });
@@ -1827,7 +1827,7 @@
                                 (category === 'Novelty Engineering' && btnText.includes('Engineering')) ||
                                 (category === 'C# & Gag Architecture' && btnText.includes('C#'));
                 if (isMatch) {
-                    btn.className = 'course-cat-btn px-3 sm:px-3.5 py-1.5 rounded-xl font-bold transition-all bg-[#F04A23] text-white shadow-xs text-[11px] sm:text-xs cursor-pointer';
+                    btn.className = 'course-cat-btn px-3 sm:px-3.5 py-1.5 rounded-xl font-bold transition-all bg-[#2563EB] text-white shadow-xs text-[11px] sm:text-xs cursor-pointer';
                 } else {
                     btn.className = 'course-cat-btn px-3 sm:px-3.5 py-1.5 rounded-xl font-bold transition-all bg-canvas-surface hover:bg-canvas-border text-earth-800 border border-canvas-border text-[11px] sm:text-xs cursor-pointer';
                 }
@@ -1851,7 +1851,7 @@
                         <div class="absolute inset-0 bg-gradient-to-t from-earth-950/80 via-earth-950/20 to-transparent"></div>
                         
                         <!-- Category Badge Top-Left -->
-                        <span class="absolute top-3 left-3 px-2.5 py-0.5 rounded-full bg-[#FFF5F1]/95 text-[#BA2407] border border-[#FFD4C4] font-mono text-[10px] font-bold uppercase tracking-wider backdrop-blur-xs shadow-xs"
+                        <span class="absolute top-3 left-3 px-2.5 py-0.5 rounded-full bg-[#EFF6FF]/95 text-[#1E40AF] border border-[#BFDBFE] font-mono text-[10px] font-bold uppercase tracking-wider backdrop-blur-xs shadow-xs"
                             data-blueprint-file="WackyStore.Domain/Entities/CourseCategory.cs"
                             data-blueprint-role="Curriculum Taxonomy Badge"
                             data-blueprint-layer="Domain / Taxonomy"
@@ -1865,7 +1865,7 @@
                         <div class="absolute top-3 right-3">
                             ${course.isLocked ? `
                                 <span class="px-2.5 py-1 rounded-full bg-amber-400 text-earth-950 font-mono text-[10px] font-black uppercase tracking-wider shadow-md flex items-center gap-1.5"
-                                    data-blueprint-file="WackyStore.Infrastructure/Security/CourseAuthorizationFilter.cs"
+                                     data-blueprint-file="WackyStore.Infrastructure/Security/CourseAuthorizationFilter.cs"
                                     data-blueprint-role="Authorization Gate Indicator"
                                     data-blueprint-layer="Infrastructure / Security"
                                     data-blueprint-dom="Warning badge indicating course access is locked to purchase."
@@ -1892,7 +1892,7 @@
                     <!-- Course Body -->
                     <div class="p-5 sm:p-6 space-y-4 flex-1 flex flex-col justify-between">
                         <div class="space-y-3">
-                            <h3 class="font-heading font-black text-lg sm:text-xl text-earth-950 hover:text-[#F04A23] transition-colors leading-snug cursor-pointer"
+                            <h3 class="font-heading font-black text-lg sm:text-xl text-earth-950 hover:text-[#2563EB] transition-colors leading-snug cursor-pointer"
                                 onclick="window.toggleCourseSyllabus('${course.id}')"
                                 data-blueprint-file="WackyStore.Domain/Entities/Course.cs"
                                 data-blueprint-role="Course Title &amp; Entity Identity"
@@ -1919,7 +1919,7 @@
                             <!-- Course Duration / Lessons Strip -->
                             <div class="flex items-center justify-between text-[11.5px] text-gray-500 font-mono py-2 border-y border-canvas-border">
                                 <span class="flex items-center gap-1">
-                                    <i class="fa-regular fa-clock text-[#F04A23]"></i>
+                                    <i class="fa-regular fa-clock text-[#2563EB]"></i>
                                     <span>${course.duration}</span>
                                 </span>
                                 <span class="flex items-center gap-1 text-amber-500 font-bold">
@@ -1959,7 +1959,7 @@
                                     data-blueprint-code="@Html.Partial(&quot;_SyllabusAccordion&quot;, Model.Curriculum)"
                                     class="w-full py-2 px-3 rounded-xl bg-canvas-surface hover:bg-canvas-border text-earth-800 text-xs font-bold flex items-center justify-between transition-colors border border-canvas-border cursor-pointer">
                                     <span class="flex items-center gap-1.5">
-                                        <i class="fa-solid fa-list-check text-[#F04A23]"></i>
+                                        <i class="fa-solid fa-list-check text-[#2563EB]"></i>
                                         <span>Curriculum Breakdown (${course.curriculum.length} Modules &bull; ${totalLessons} Lessons)</span>
                                     </span>
                                     <i id="chevron-${course.id}" class="fa-solid fa-chevron-down text-gray-400 text-xs transition-transform"></i>
@@ -1969,17 +1969,17 @@
                                     ${course.curriculum.map((mod, modIdx) => `
                                         <div class="space-y-1.5 pb-2 ${modIdx > 0 ? 'border-t border-canvas-border pt-2' : ''}">
                                             <!-- Clickable Module Header with Video Demo Trigger -->
-                                            <div class="font-bold text-earth-950 flex items-center justify-between text-[11.5px] p-1.5 rounded-lg hover:bg-orange-100/70 transition-all cursor-pointer group/mod border border-transparent hover:border-orange-300/60"
+                                            <div class="font-bold text-earth-950 flex items-center justify-between text-[11.5px] p-1.5 rounded-lg hover:bg-blue-100/70 transition-all cursor-pointer group/mod border border-transparent hover:border-blue-300/60"
                                                 onclick="window.openVideoDemoModal('${course.id}', '${course.title.replace(/'/g, "\\'")}', '${mod.module.replace(/'/g, "\\'")}', '${mod.lessons[0] ? mod.lessons[0].title.replace(/'/g, "\\'") : mod.module.replace(/'/g, "\\'")}', '${mod.lessons[0] ? mod.lessons[0].duration : "20m"}', '${mod.lessons[0] ? mod.lessons[0].code.replace(/'/g, "\\'") : ""}', '${course.instructor ? course.instructor.name.replace(/'/g, "\\'") : "Dr. Barnaby Fizzle"}')"
                                                 title="Click to preview video demo for this module">
                                                 <span class="flex items-center gap-1.5 truncate">
-                                                    <span class="h-4.5 w-4.5 rounded-full bg-orange-100 text-[#F04A23] flex items-center justify-center text-[9px] group-hover/mod:scale-110 transition-transform shrink-0">
+                                                    <span class="h-4.5 w-4.5 rounded-full bg-blue-100 text-[#2563EB] flex items-center justify-center text-[9px] group-hover/mod:scale-110 transition-transform shrink-0">
                                                         <i class="fa-solid fa-play"></i>
                                                     </span>
-                                                    <span class="group-hover/mod:text-[#F04A23] transition-colors truncate">${mod.module}</span>
+                                                    <span class="group-hover/mod:text-[#2563EB] transition-colors truncate">${mod.module}</span>
                                                 </span>
                                                 <span class="text-[10px] text-gray-500 font-mono flex items-center gap-1 shrink-0 ml-1">
-                                                    <span class="text-[#F04A23] font-bold text-[9px] uppercase tracking-wide opacity-0 group-hover/mod:opacity-100 transition-opacity">Watch Demo</span>
+                                                    <span class="text-[#2563EB] font-bold text-[9px] uppercase tracking-wide opacity-0 group-hover/mod:opacity-100 transition-opacity">Watch Demo</span>
                                                     <span>&bull; ${mod.lessons.length} lessons</span>
                                                 </span>
                                             </div>
@@ -1987,7 +1987,7 @@
                                             <!-- Clickable Individual Lesson Rows -->
                                             <div class="space-y-1 pl-1">
                                                 ${mod.lessons.map(lesson => `
-                                                    <div class="flex items-center justify-between text-[11px] text-gray-600 hover:text-earth-900 py-1 px-1.5 rounded-md hover:bg-orange-50/80 transition-all cursor-pointer group/lesson border border-transparent hover:border-orange-200"
+                                                    <div class="flex items-center justify-between text-[11px] text-gray-600 hover:text-earth-900 py-1 px-1.5 rounded-md hover:bg-blue-50/80 transition-all cursor-pointer group/lesson border border-transparent hover:border-blue-200"
                                                         onclick="window.openVideoDemoModal('${course.id}', '${course.title.replace(/'/g, "\\'")}', '${mod.module.replace(/'/g, "\\'")}', '${lesson.title.replace(/'/g, "\\'")}', '${lesson.duration}', '${lesson.code.replace(/'/g, "\\'")}', '${course.instructor ? course.instructor.name.replace(/'/g, "\\'") : "Dr. Barnaby Fizzle"}')"
                                                         data-blueprint-file="WackyStore.Domain/Entities/Lesson.cs"
                                                         data-blueprint-role="Course Lesson Entity &amp; Video Claims"
@@ -1997,11 +1997,11 @@
                                                         data-blueprint-code="${lesson.code}"
                                                         title="Click to preview video demo of ${lesson.title}">
                                                         <span class="flex items-center gap-1.5 truncate">
-                                                            <i class="fa-solid fa-circle-play text-[#F04A23] text-[11px] group-hover/lesson:scale-125 transition-transform shrink-0"></i>
-                                                            <span class="truncate group-hover/lesson:text-[#F04A23] transition-colors font-medium">${lesson.title}</span>
+                                                            <i class="fa-solid fa-circle-play text-[#2563EB] text-[11px] group-hover/lesson:scale-125 transition-transform shrink-0"></i>
+                                                            <span class="truncate group-hover/lesson:text-[#2563EB] transition-colors font-medium">${lesson.title}</span>
                                                         </span>
                                                         <span class="flex items-center gap-2 shrink-0 ml-2">
-                                                            <span class="text-[9.5px] px-1.5 py-0.5 rounded bg-orange-100/70 text-[#BA2407] font-mono font-bold opacity-0 group-hover/lesson:opacity-100 transition-opacity">Watch Demo</span>
+                                                            <span class="text-[9.5px] px-1.5 py-0.5 rounded bg-blue-100/70 text-[#1E40AF] font-mono font-bold opacity-0 group-hover/lesson:opacity-100 transition-opacity">Watch Demo</span>
                                                             <span class="font-mono text-[10px] text-gray-400">${lesson.duration}</span>
                                                         </span>
                                                     </div>
@@ -2028,11 +2028,11 @@
                                     data-blueprint-file="WackyStore.WebUI/Controllers/CourseController.cs"
                                     data-blueprint-role="Course Purchase &amp; Enrollment Gate"
                                     data-blueprint-layer="WebUI / Action Method"
-                                    data-blueprint-dom="Blood-orange CTA button opening enrollment transaction modal."
+                                    data-blueprint-dom="Royal-blue CTA button opening enrollment transaction modal."
                                     data-blueprint-desc="Gated action redirecting unauthorized students to purchase flow before granting curriculum access."
                                     data-blueprint-code="[Authorize(Roles = &quot;Enrolled&quot;)] public ActionResult ViewLessons(int id)"
-                                    class="px-5 py-2.5 rounded-xl bg-gradient-to-r from-[#FF7D54] via-[#F04A23] to-[#DD330D] hover:from-[#FF8F6B] hover:to-[#BA2407] text-white font-bold text-xs flex items-center justify-center gap-1.5 transition-all shadow-lg shadow-[#F04A23]/35 hover:-translate-y-0.5 hover:shadow-xl hover:shadow-[#F04A23]/40 active:scale-95 cursor-pointer">
-                                    <i class="fa-solid fa-lock text-orange-200"></i>
+                                    class="px-5 py-2.5 rounded-xl bg-gradient-to-r from-[#3B82F6] via-[#2563EB] to-[#1D4ED8] hover:from-[#60A5FA] hover:to-[#1E40AF] text-white font-bold text-xs flex items-center justify-center gap-1.5 transition-all shadow-lg shadow-[#2563EB]/35 hover:-translate-y-0.5 hover:shadow-xl hover:shadow-[#2563EB]/40 active:scale-95 cursor-pointer">
+                                    <i class="fa-solid fa-lock text-blue-200"></i>
                                     <span>Unlock Course</span>
                                 </button>
                             ` : `
@@ -2109,8 +2109,8 @@
             
             const card = document.getElementById(`card-${course.id}`);
             if (card) {
-                card.classList.add('ring-4', 'ring-[#F04A23]', 'animate-pulse');
-                setTimeout(() => card.classList.remove('ring-4', 'ring-[#F04A23]', 'animate-pulse'), 2500);
+                card.classList.add('ring-4', 'ring-[#2563EB]', 'animate-pulse');
+                setTimeout(() => card.classList.remove('ring-4', 'ring-[#2563EB]', 'animate-pulse'), 2500);
             }
         };
 
@@ -2515,9 +2515,9 @@
 
             document.querySelectorAll('.blog-cat-btn').forEach(btn => {
                 if (btn.innerText.toLowerCase().includes(cat.toLowerCase()) || (cat === 'all' && btn.innerText.includes('All'))) {
-                    btn.className = 'blog-cat-btn px-4 py-2 rounded-xl font-bold text-xs transition-all bg-gradient-to-r from-[#FF7D54] via-[#F04A23] to-[#DD330D] text-white shadow-md shadow-[#F04A23]/30 scale-105 cursor-pointer';
+                    btn.className = 'blog-cat-btn px-4 py-2 rounded-xl font-bold text-xs transition-all bg-gradient-to-r from-[#3B82F6] via-[#2563EB] to-[#1D4ED8] text-white shadow-md shadow-[#2563EB]/30 scale-105 cursor-pointer';
                 } else {
-                    btn.className = 'blog-cat-btn px-4 py-2 rounded-xl font-bold text-xs transition-all bg-gradient-to-br from-white via-amber-50/40 to-orange-50/20 dark:from-slate-800 dark:to-slate-900 text-earth-800 dark:text-earth-200 border border-black/5 dark:border-white/10 hover:border-orange-200 shadow-xs cursor-pointer';
+                    btn.className = 'blog-cat-btn px-4 py-2 rounded-xl font-bold text-xs transition-all bg-gradient-to-br from-white via-blue-50/40 to-indigo-50/20 dark:from-slate-800 dark:to-slate-900 text-earth-800 dark:text-earth-200 border border-black/5 dark:border-white/10 hover:border-blue-200 shadow-xs cursor-pointer';
                 }
             });
         };
@@ -2605,7 +2605,7 @@
             container.innerHTML = '';
             window.BLOG_POSTS.forEach((post, index) => {
                 const el = document.createElement('div');
-                el.className = 'p-4 rounded-2xl bg-gradient-to-br from-white via-amber-50/20 to-orange-50/20 dark:from-slate-800 dark:to-slate-900 border border-black/5 dark:border-white/10 shadow-sm flex flex-col sm:flex-row justify-between items-start sm:items-center gap-3';
+                el.className = 'p-4 rounded-2xl bg-gradient-to-br from-white via-amber-50/20 to-blue-50/20 dark:from-slate-800 dark:to-slate-900 border border-black/5 dark:border-white/10 shadow-sm flex flex-col sm:flex-row justify-between items-start sm:items-center gap-3';
                 el.innerHTML = `
                     <div>
                         <h3 class="font-bold text-base sm:text-lg text-earth-950 dark:text-earth-100">${post.title}</h3>

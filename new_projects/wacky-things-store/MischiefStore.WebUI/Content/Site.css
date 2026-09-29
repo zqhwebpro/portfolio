@@ -24,12 +24,17 @@
   --surface-bg: #180A2E;
   --border-purple: rgba(236, 179, 255, 0.25);
   --border-subtle: rgba(236, 179, 255, 0.15);
-  /* Blood Orange Accent Palette (Learning & Education Store) */
-  --blood-orange: #F04A23;
-  --blood-orange-hover: #DD330D;
-  --blood-orange-dark: #BA2407;
-  --blood-orange-light: #FFE8DF;
-  --blood-orange-glow: rgba(240, 74, 35, 0.4);
+  /* Royal Blue Accent Palette (Learning & Education Store - works harmoniously with Teal and Purple) */
+  --blood-orange: #2563EB;
+  --blood-orange-hover: #1D4ED8;
+  --blood-orange-dark: #1E40AF;
+  --blood-orange-light: #EFF6FF;
+  --blood-orange-glow: rgba(37, 99, 235, 0.45);
+  --royal-blue: #2563EB;
+  --royal-blue-hover: #1D4ED8;
+  --royal-blue-dark: #1E40AF;
+  --royal-blue-light: #EFF6FF;
+  --royal-blue-glow: rgba(37, 99, 235, 0.45);
 }
 
 body {
@@ -183,29 +188,32 @@ body {
   transform: translateY(-2px);
 }
 
-/* Blood Orange Accent Buttons & Badges (Learning Modules & Webinars) */
-.btn-mischief-blood-orange {
-  background: linear-gradient(135deg, var(--blood-orange) 0%, var(--blood-orange-hover) 100%);
+/* Royal Blue Accent Buttons & Badges (Learning Modules & Webinars) */
+.btn-mischief-blood-orange,
+.btn-mischief-royal-blue {
+  background: linear-gradient(135deg, var(--royal-blue) 0%, var(--royal-blue-hover) 100%);
   color: #FFFFFF;
   font-weight: 800;
   border: none;
   border-radius: 9999px;
   padding: 0.6rem 1.4rem;
-  box-shadow: 0 4px 18px var(--blood-orange-glow);
+  box-shadow: 0 4px 18px var(--royal-blue-glow);
   transition: transform 0.15s ease, box-shadow 0.15s ease;
 }
 
-.btn-mischief-blood-orange:hover {
-  background: linear-gradient(135deg, var(--blood-orange-hover) 0%, var(--blood-orange-dark) 100%);
+.btn-mischief-blood-orange:hover,
+.btn-mischief-royal-blue:hover {
+  background: linear-gradient(135deg, var(--royal-blue-hover) 0%, var(--royal-blue-dark) 100%);
   color: #FFFFFF;
   transform: translateY(-2px);
-  box-shadow: 0 8px 25px rgba(240, 74, 35, 0.6);
+  box-shadow: 0 8px 25px rgba(37, 99, 235, 0.6);
 }
 
-.badge-blood-orange {
-  background: rgba(240, 74, 35, 0.15);
-  color: var(--blood-orange);
-  border: 1px solid rgba(240, 74, 35, 0.4);
+.badge-blood-orange,
+.badge-royal-blue {
+  background: rgba(37, 99, 235, 0.15);
+  color: var(--royal-blue);
+  border: 1px solid rgba(37, 99, 235, 0.4);
   font-size: 0.75rem;
   font-weight: 800;
   padding: 0.25rem 0.65rem;

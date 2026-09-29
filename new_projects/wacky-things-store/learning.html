@@ -66,31 +66,44 @@
                             border: '#DDD6FE',
                             borderDark: '#C4B5FD',
                         },
+                        royalBlue: {
+                            50: '#EFF6FF',
+                            100: '#DBEAFE',
+                            200: '#BFDBFE',
+                            300: '#93C5FD',
+                            400: '#60A5FA',
+                            500: '#2563EB',
+                            600: '#1D4ED8',
+                            700: '#1E40AF',
+                            800: '#1E3A8A',
+                            900: '#172554',
+                            950: '#0A1435',
+                        },
                         bloodOrange: {
-                            50: '#FFF5F1',
-                            100: '#FFE8DF',
-                            200: '#FFD4C4',
-                            300: '#FFAF94',
-                            400: '#FF7D54',
-                            500: '#F04A23',
-                            600: '#DD330D',
-                            700: '#BA2407',
-                            800: '#941F0A',
-                            900: '#7A1D0E',
-                            950: '#420B03',
+                            50: '#EFF6FF',
+                            100: '#DBEAFE',
+                            200: '#BFDBFE',
+                            300: '#93C5FD',
+                            400: '#60A5FA',
+                            500: '#2563EB',
+                            600: '#1D4ED8',
+                            700: '#1E40AF',
+                            800: '#1E3A8A',
+                            900: '#172554',
+                            950: '#0A1435',
                         },
                         redOrange: {
-                            50: '#FFF5F1',
-                            100: '#FFE8DF',
-                            200: '#FFD4C4',
-                            300: '#FFAF94',
-                            400: '#FF7D54',
-                            500: '#F04A23',
-                            600: '#DD330D',
-                            700: '#BA2407',
-                            800: '#941F0A',
-                            900: '#7A1D0E',
-                            950: '#420B03',
+                            50: '#EFF6FF',
+                            100: '#DBEAFE',
+                            200: '#BFDBFE',
+                            300: '#93C5FD',
+                            400: '#60A5FA',
+                            500: '#2563EB',
+                            600: '#1D4ED8',
+                            700: '#1E40AF',
+                            800: '#1E3A8A',
+                            900: '#172554',
+                            950: '#0A1435',
                         }
                     }
                 }
@@ -109,17 +122,22 @@
             --text-muted: #7C3AED;
             --green-appetite: #0F766E;
             --green-hover: #0D9488;
-            --blood-orange: #F04A23;
-            --blood-orange-hover: #DD330D;
-            --blood-orange-dark: #BA2407;
-            --blood-orange-light: #FFE8DF;
-            --blood-orange-glow: rgba(240, 74, 35, 0.4);
+            --royal-blue: #2563EB;
+            --royal-blue-hover: #1D4ED8;
+            --royal-blue-dark: #1E40AF;
+            --royal-blue-light: #EFF6FF;
+            --royal-blue-glow: rgba(37, 99, 235, 0.45);
+            --royal-blue: #2563EB;
+            --royal-blue-hover: #1D4ED8;
+            --royal-blue-dark: #1E40AF;
+            --royal-blue-light: #EFF6FF;
+            --royal-blue-glow: rgba(37, 99, 235, 0.45);
         }
 
         body {
             background-color: var(--bg-canvas);
             background: 
-                radial-gradient(circle at 10% 12%, rgba(240, 74, 35, 0.04) 0%, transparent 42%),
+                radial-gradient(circle at 10% 12%, rgba(37, 99, 235, 0.04) 0%, transparent 42%),
                 radial-gradient(circle at 90% 88%, rgba(13, 148, 136, 0.05) 0%, transparent 45%),
                 linear-gradient(180deg, #FDFBFF 0%, #F5F1FF 100%);
             color: var(--text-espresso);
@@ -140,7 +158,7 @@
 
         .course-card:hover {
             transform: translateY(-4px);
-            box-shadow: 0 20px 40px -12px rgba(76, 29, 149, 0.12), 0 0 0 1px rgba(240, 74, 35, 0.15);
+            box-shadow: 0 20px 40px -12px rgba(76, 29, 149, 0.12), 0 0 0 1px rgba(37, 99, 235, 0.2);
         }
 
         .bg-canvas-surface {
@@ -149,20 +167,22 @@
 
         /* Standout Gradient Buttons with Luminous Elevation */
         .btn-gradient-standout,
-        .btn-standout-orange {
-            background: linear-gradient(135deg, #FF7D54 0%, #F04A23 50%, #DD330D 100%) !important;
+        .btn-standout-orange,
+        .btn-standout-blue {
+            background: linear-gradient(135deg, #3B82F6 0%, #2563EB 50%, #1D4ED8 100%) !important;
             color: #FFFFFF !important;
             border: none !important;
-            box-shadow: 0 8px 24px -4px rgba(240, 74, 35, 0.42), 0 2px 6px 0 rgba(240, 74, 35, 0.2) !important;
+            box-shadow: 0 8px 24px -4px rgba(37, 99, 235, 0.42), 0 2px 6px 0 rgba(37, 99, 235, 0.2) !important;
             transition: all 0.25s cubic-bezier(0.4, 0, 0.2, 1) !important;
             position: relative;
             overflow: hidden;
         }
 
         .btn-gradient-standout:hover,
-        .btn-standout-orange:hover {
-            background: linear-gradient(135deg, #FF8F6B 0%, #F5552F 50%, #BA2407 100%) !important;
-            box-shadow: 0 12px 28px -4px rgba(240, 74, 35, 0.52), 0 4px 10px 0 rgba(240, 74, 35, 0.3) !important;
+        .btn-standout-orange:hover,
+        .btn-standout-blue:hover {
+            background: linear-gradient(135deg, #60A5FA 0%, #3B82F6 50%, #2563EB 100%) !important;
+            box-shadow: 0 12px 28px -4px rgba(37, 99, 235, 0.55), 0 4px 10px 0 rgba(37, 99, 235, 0.3) !important;
             transform: translateY(-2px);
         }
 
@@ -218,7 +238,7 @@
         }
 
         [data-blueprint-file]:hover {
-            outline: 2px dashed #F04A23;
+            outline: 2px dashed #2563EB;
             outline-offset: 2px;
         }
 
@@ -245,7 +265,7 @@
     </style>
 </head>
 
-<body class="flex flex-col min-h-screen selection:bg-orange-300 selection:text-earth-950">
+<body class="flex flex-col min-h-screen selection:bg-blue-300 selection:text-earth-950">
     <!-- Back to Projects floating trigger -->
     <a id="back-btn-np" href="../" title="Back to Projects"
         style="position:fixed;top:0;right:0;z-index:99999;display:inline-flex;align-items:center;justify-content:center;width:34px;height:34px;background:rgba(10,10,10,0.82);backdrop-filter:blur(12px);-webkit-backdrop-filter:blur(12px);border:0;border-bottom:1px solid rgba(255,255,255,0.15);border-left:1px solid rgba(255,255,255,0.15);border-radius:0 0 0 8px;color:#fff;font-family:system-ui,sans-serif;font-size:1rem;font-weight:700;text-decoration:none;box-shadow:-2px 2px 10px rgba(0,0,0,0.5);transition:background 0.2s,transform 0.15s;"
@@ -254,20 +274,20 @@
 
     <!-- FLOATING ARCHITECTURAL & DOM/CSS BLUEPRINT TOOLTIP -->
     <div id="blueprint-tooltip"
-        class="bg-[#1F1610]/95 backdrop-blur-xl border border-orange-500/70 rounded-xl p-4 shadow-2xl text-xs space-y-3 font-sans text-earth-100">
+        class="bg-[#1F1610]/95 backdrop-blur-xl border border-blue-500/70 rounded-xl p-4 shadow-2xl text-xs space-y-3 font-sans text-earth-100">
         <div class="flex items-center justify-between gap-3 border-b border-earth-800 pb-2.5">
-            <div class="flex items-center gap-1.5 font-mono font-bold text-orange-400 text-[11.5px] truncate">
+            <div class="flex items-center gap-1.5 font-mono font-bold text-blue-400 text-[11.5px] truncate">
                 <i class="fa-solid fa-layer-group text-[12px]"></i>
                 <span id="tt-role">LMS Component</span>
             </div>
             <span id="tt-layer-badge"
-                class="px-2 py-0.5 rounded bg-orange-700/40 text-orange-200 border border-orange-500/40 text-[9.5px] font-mono uppercase font-bold">
+                class="px-2 py-0.5 rounded bg-blue-700/40 text-blue-200 border border-blue-500/40 text-[9.5px] font-mono uppercase font-bold">
                 Presentation Layer
             </span>
         </div>
         <div class="space-y-1 bg-black/40 p-2.5 rounded-lg border border-earth-800">
-            <div class="text-[10px] text-orange-400 font-mono font-bold uppercase tracking-wider flex items-center gap-1.5">
-                <i class="fa-brands fa-css3-alt text-orange-400"></i> DOM &amp; CSS Styling:
+            <div class="text-[10px] text-blue-400 font-mono font-bold uppercase tracking-wider flex items-center gap-1.5">
+                <i class="fa-brands fa-css3-alt text-blue-400"></i> DOM &amp; CSS Styling:
             </div>
             <div id="tt-dom-css" class="text-earth-200 text-[11px] leading-relaxed font-mono">
                 &lt;div class="course-card"&gt; &bull; WackyDash Flex &amp; Grid
@@ -275,9 +295,9 @@
         </div>
         <div class="space-y-1">
             <div class="text-[10px] text-earth-400 font-mono uppercase tracking-wider flex items-center gap-1">
-                <i class="fa-solid fa-code text-orange-400"></i> ASP.NET MVC 5 File &amp; Code:
+                <i class="fa-solid fa-code text-blue-400"></i> ASP.NET MVC 5 File &amp; Code:
             </div>
-            <div id="tt-file" class="font-mono text-[11px] font-bold text-orange-300 bg-black/50 p-1.5 rounded border border-earth-800 break-all">
+            <div id="tt-file" class="font-mono text-[11px] font-bold text-blue-300 bg-black/50 p-1.5 rounded border border-earth-800 break-all">
                 WackyStore.WebUI/Controllers/CourseController.cs
             </div>
             <div id="tt-code" class="font-mono text-[10.5px] text-purple-300 bg-black/50 p-1.5 rounded border border-earth-800 overflow-x-auto">
@@ -285,8 +305,8 @@
             </div>
         </div>
         <div class="pt-2 border-t border-earth-800 space-y-1">
-            <div class="text-[10px] font-mono font-bold text-orange-400 uppercase tracking-wider flex items-center gap-1.5">
-                <i class="fa-solid fa-graduation-cap text-orange-400"></i> Key .NET Learning:
+            <div class="text-[10px] font-mono font-bold text-blue-400 uppercase tracking-wider flex items-center gap-1.5">
+                <i class="fa-solid fa-graduation-cap text-blue-400"></i> Key .NET Learning:
             </div>
             <p id="tt-desc" class="text-earth-100 text-[11.5px] leading-relaxed">
                 Component explanation and architecture takeaway will appear here.
@@ -304,7 +324,7 @@
         data-blueprint-code="@Html.Partial(&quot;_GlobalBanner&quot;)">
         <div class="flex items-center gap-4 mx-auto sm:mx-0 flex-wrap justify-center">
             <span class="flex items-center gap-1.5 text-earth-200 font-bold">
-                <i class="fa-solid fa-graduation-cap text-[#F04A23]"></i> Wacky Academy: University-Grade Novelty Sciences
+                <i class="fa-solid fa-graduation-cap text-[#2563EB]"></i> Wacky Academy: University-Grade Novelty Sciences
             </span>
             <span class="hidden md:inline text-earth-600">&bull;</span>
             <span class="hidden md:flex items-center gap-1.5 text-earth-200">
@@ -325,7 +345,7 @@
         data-blueprint-file="WackyStore.WebUI/Views/Shared/_Header.cshtml"
         data-blueprint-role="Academy Master Navigation Header"
         data-blueprint-layer="WebUI / Master Navigation"
-        data-blueprint-dom="Header bar with branding, catalog link, blog link, and active red-orange Learning Academy button."
+        data-blueprint-dom="Header bar with branding, catalog link, blog link, and active royal-blue Learning Academy button."
         data-blueprint-desc="Shared navigation layout maintaining active route states across store, blog, and learning portals."
         data-blueprint-code="@Html.Partial(&quot;_HeaderNav&quot;)">
         <div class="store-fluid-container h-16 sm:h-[68px] flex items-center justify-between gap-4">
@@ -336,7 +356,7 @@
                 </div>
                 <div>
                     <span class="font-heading font-black text-lg sm:text-xl tracking-tight text-earth-950 block leading-none">
-                        Wacky Things <span class="text-[#F04A23]">Academy</span>
+                        Wacky Things <span class="text-[#2563EB]">Academy</span>
                     </span>
                     <span class="text-[10px] sm:text-[11px] font-bold text-gray-500 font-mono tracking-wider uppercase">
                         Education &amp; LMS Portal
@@ -377,11 +397,11 @@
                     data-blueprint-file="WackyStore.WebUI/Controllers/CourseController.cs"
                     data-blueprint-role="Active LMS Learning Portal Button"
                     data-blueprint-layer="WebUI / Education Portal"
-                    data-blueprint-dom="Red-orange active button highlighting the current learning page."
+                    data-blueprint-dom="Royal-blue active button highlighting the current learning page."
                     data-blueprint-desc="Represents the active Education Store &amp; WackyDash course module view."
                     data-blueprint-code="public ActionResult Learning() => View(courseService.GetCurriculums());"
-                    class="h-10 px-4 rounded-xl bg-gradient-to-r from-[#FF7D54] via-[#F04A23] to-[#DD330D] text-white text-xs font-bold flex items-center gap-1.5 shadow-lg shadow-[#F04A23]/35 border border-red-400/40 no-underline ring-2 ring-[#FFAF94]/50 hover:-translate-y-0.5 transition-all">
-                    <i class="fa-solid fa-graduation-cap text-orange-100"></i>
+                    class="h-10 px-4 rounded-xl bg-gradient-to-r from-[#3B82F6] via-[#2563EB] to-[#1D4ED8] text-white text-xs font-bold flex items-center gap-1.5 shadow-lg shadow-[#2563EB]/35 border border-red-400/40 no-underline ring-2 ring-[#93C5FD]/50 hover:-translate-y-0.5 transition-all">
+                    <i class="fa-solid fa-graduation-cap text-blue-100"></i>
                     <span class="hidden sm:inline">Learning Academy</span>
                 </a>
             </div>
@@ -394,12 +414,12 @@
         <div id="learning-filter-bar" class="w-full bg-white/90 backdrop-blur-md border-b border-canvas-border shadow-xs sticky top-[68px] z-30">
             <div class="store-fluid-container py-3 sm:py-4 flex flex-col xl:flex-row xl:items-center justify-between gap-3.5 xl:gap-8 w-full">
                 <div class="flex items-start gap-2.5 sm:gap-3 flex-1 min-w-0">
-                    <div class="h-8 w-8 rounded-xl bg-gradient-to-br from-[#FFF5F1] to-[#FFE8DF] text-[#F04A23] border border-[#FFD4C4] flex items-center justify-center text-sm shrink-0 mt-0.5 shadow-xs">
+                    <div class="h-8 w-8 rounded-xl bg-gradient-to-br from-[#EFF6FF] to-[#DBEAFE] text-[#2563EB] border border-[#BFDBFE] flex items-center justify-center text-sm shrink-0 mt-0.5 shadow-xs">
                         <i class="fa-solid fa-graduation-cap"></i>
                     </div>
                     <div>
                         <div class="flex items-center gap-2">
-                            <span class="px-2.5 py-0.5 rounded-full bg-gradient-to-r from-[#FFE8DF] to-[#FFD4C4] text-[#BA2407] text-[10px] font-mono font-black uppercase tracking-wider shadow-xs">
+                            <span class="px-2.5 py-0.5 rounded-full bg-gradient-to-r from-[#DBEAFE] to-[#BFDBFE] text-[#1E40AF] text-[10px] font-mono font-black uppercase tracking-wider shadow-xs">
                                 WackyDash LMS Architecture
                             </span>
                             <span class="text-xs text-earth-500 font-mono hidden sm:inline">&bull; Locked To Purchase</span>
@@ -415,19 +435,19 @@
                 <!-- Track Filters -->
                 <div class="flex flex-wrap items-center gap-1.5 sm:gap-2 text-xs shrink-0 overflow-x-auto pb-1 xl:pb-0">
                     <button onclick="window.filterCourseCategory('all')" id="course-filter-all"
-                        class="course-cat-btn px-4 py-2 rounded-xl font-bold transition-all bg-gradient-to-r from-[#FF7D54] via-[#F04A23] to-[#DD330D] text-white shadow-md shadow-[#F04A23]/30 text-[11px] sm:text-xs cursor-pointer scale-105">
+                        class="course-cat-btn px-4 py-2 rounded-xl font-bold transition-all bg-gradient-to-r from-[#3B82F6] via-[#2563EB] to-[#1D4ED8] text-white shadow-md shadow-[#2563EB]/30 text-[11px] sm:text-xs cursor-pointer scale-105">
                         All Tracks
                     </button>
                     <button onclick="window.filterCourseCategory('Absurd Physics')" id="course-filter-physics"
-                        class="course-cat-btn px-4 py-2 rounded-xl font-bold transition-all bg-gradient-to-br from-white via-purple-50/40 to-orange-50/20 hover:border-orange-300 text-earth-800 border border-black/5 text-[11px] sm:text-xs shadow-xs cursor-pointer">
+                        class="course-cat-btn px-4 py-2 rounded-xl font-bold transition-all bg-gradient-to-br from-white via-purple-50/40 to-blue-50/20 hover:border-blue-300 text-earth-800 border border-black/5 text-[11px] sm:text-xs shadow-xs cursor-pointer">
                         Absurd Physics
                     </button>
                     <button onclick="window.filterCourseCategory('Novelty Engineering')" id="course-filter-engineering"
-                        class="course-cat-btn px-4 py-2 rounded-xl font-bold transition-all bg-gradient-to-br from-white via-purple-50/40 to-orange-50/20 hover:border-orange-300 text-earth-800 border border-black/5 text-[11px] sm:text-xs shadow-xs cursor-pointer">
+                        class="course-cat-btn px-4 py-2 rounded-xl font-bold transition-all bg-gradient-to-br from-white via-purple-50/40 to-blue-50/20 hover:border-blue-300 text-earth-800 border border-black/5 text-[11px] sm:text-xs shadow-xs cursor-pointer">
                         Novelty Engineering
                     </button>
                     <button onclick="window.filterCourseCategory('C# &amp; Gag Architecture')" id="course-filter-architecture"
-                        class="course-cat-btn px-4 py-2 rounded-xl font-bold transition-all bg-gradient-to-br from-white via-purple-50/40 to-orange-50/20 hover:border-orange-300 text-earth-800 border border-black/5 text-[11px] sm:text-xs shadow-xs cursor-pointer">
+                        class="course-cat-btn px-4 py-2 rounded-xl font-bold transition-all bg-gradient-to-br from-white via-purple-50/40 to-blue-50/20 hover:border-blue-300 text-earth-800 border border-black/5 text-[11px] sm:text-xs shadow-xs cursor-pointer">
                         C# &amp; Gag Architecture
                     </button>
                     <button onclick="window.scrollToZoomWebinar()"
@@ -445,21 +465,21 @@
                 data-blueprint-file="WackyStore.WebUI/Views/Course/HeroBanner.cshtml"
                 data-blueprint-role="LMS Hero Billboard Partial"
                 data-blueprint-layer="WebUI / View Component"
-                data-blueprint-dom="Responsive flex container with blood-orange accents, curriculum badges, and enrolled statistics."
+                data-blueprint-dom="Responsive flex container with royal-blue accents, curriculum badges, and enrolled statistics."
                 data-blueprint-desc="Displays Academy enrollment telemetry and accreditation badges rendered via Razor partial."
                 data-blueprint-code="@Html.Partial(&quot;_AcademyHero&quot;, Model.AcademyStats)">
                 
-                <div class="absolute -top-24 -right-24 w-96 h-96 bg-[#F04A23]/15 rounded-full blur-3xl pointer-events-none"></div>
+                <div class="absolute -top-24 -right-24 w-96 h-96 bg-[#2563EB]/15 rounded-full blur-3xl pointer-events-none"></div>
                 <div class="absolute -bottom-24 -left-24 w-96 h-96 bg-teal-500/10 rounded-full blur-3xl pointer-events-none"></div>
 
                 <div class="relative z-10 max-w-4xl space-y-4">
-                    <div class="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-[#F04A23]/20 border border-[#F04A23]/40 text-[#FFAF94] font-mono text-xs font-bold uppercase tracking-wider">
-                        <i class="fa-solid fa-graduation-cap text-[#F04A23]"></i>
+                    <div class="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-[#2563EB]/20 border border-[#2563EB]/40 text-[#93C5FD] font-mono text-xs font-bold uppercase tracking-wider">
+                        <i class="fa-solid fa-graduation-cap text-[#2563EB]"></i>
                         <span>WackyDash-Style Accredited Novelty Academy</span>
                     </div>
 
                     <h1 class="font-heading font-black text-2xl sm:text-4xl lg:text-5xl text-white tracking-tight leading-tight">
-                        Deep-Dive Curriculums for <span class="text-transparent bg-clip-text bg-gradient-to-r from-[#FFAF94] via-[#F04A23] to-[#FFD4C4]">Aspiring Gag Engineers</span>
+                        Deep-Dive Curriculums for <span class="text-transparent bg-clip-text bg-gradient-to-r from-[#93C5FD] via-[#2563EB] to-[#BFDBFE]">Aspiring Gag Engineers</span>
                     </h1>
 
                     <p class="text-xs sm:text-base text-earth-200/90 leading-relaxed font-normal max-w-3xl">
@@ -468,7 +488,7 @@
 
                     <div class="pt-4 flex flex-wrap items-center gap-4 sm:gap-8 border-t border-earth-800/80 text-xs sm:text-sm">
                         <div class="flex items-center gap-2 font-mono">
-                            <span class="h-2 w-2 rounded-full bg-[#F04A23]"></span>
+                            <span class="h-2 w-2 rounded-full bg-[#2563EB]"></span>
                             <span class="text-earth-400">Status:</span>
                             <span class="font-bold text-amber-300">🔒 Courses Locked To Purchase</span>
                         </div>
@@ -492,7 +512,7 @@
             <div class="flex items-center justify-between mb-6">
                 <div>
                     <h2 class="font-heading font-black text-xl sm:text-2xl text-earth-950 flex items-center gap-2.5">
-                        <i class="fa-solid fa-layer-group text-[#F04A23]"></i>
+                        <i class="fa-solid fa-layer-group text-[#2563EB]"></i>
                         <span>Featured Curriculums</span>
                     </h2>
                     <p class="text-xs text-earth-600 mt-0.5">
@@ -520,7 +540,7 @@
             data-blueprint-desc="Connects to Zoom REST API v2 to register students for live architectural masterclasses, automatically emailing Zoom meeting credentials."
             data-blueprint-code="[HttpPost] public async Task<ActionResult> RegisterWebinar(WebinarRegistrantViewModel model)">
 
-            <div class="rounded-3xl bg-gradient-to-br from-white via-amber-50/20 to-orange-50/20 border border-[#FFD4C4]/60 shadow-2xl overflow-hidden">
+            <div class="rounded-3xl bg-gradient-to-br from-white via-amber-50/20 to-blue-50/20 border border-[#BFDBFE]/60 shadow-2xl overflow-hidden">
                 <div class="bg-gradient-to-r from-blue-700 via-indigo-800 to-earth-950 px-6 sm:px-10 py-5 text-white flex flex-wrap items-center justify-between gap-4">
                     <div class="flex items-center gap-3">
                         <div class="h-10 w-10 rounded-xl bg-white/10 backdrop-blur-md flex items-center justify-center text-xl text-cyan-300 border border-white/20">
@@ -546,7 +566,7 @@
                             <img src="images/webinar_zoom.jpg" alt="Live Zoom Webinar" class="w-full h-56 sm:h-72 object-cover transition-transform duration-500 group-hover:scale-105" />
                             <div class="absolute inset-0 bg-gradient-to-t from-earth-950/90 via-earth-950/30 to-transparent flex items-end p-5">
                                 <div class="text-white space-y-1">
-                                    <span class="px-2.5 py-0.5 rounded-full bg-gradient-to-r from-[#FF7D54] to-[#DD330D] text-white text-[10px] font-mono font-black uppercase shadow-sm">
+                                    <span class="px-2.5 py-0.5 rounded-full bg-gradient-to-r from-[#3B82F6] to-[#1D4ED8] text-white text-[10px] font-mono font-black uppercase shadow-sm">
                                         Zoom Room #984-2490-8812
                                     </span>
                                     <h4 class="font-heading font-black text-lg sm:text-2xl text-amber-100">
@@ -564,7 +584,7 @@
                             <div class="grid grid-cols-1 sm:grid-cols-2 gap-3 pt-2">
                                 <div class="p-3.5 rounded-xl bg-gradient-to-br from-white via-purple-50/30 to-amber-50/30 border border-black/5 shadow-xs hover:shadow-md transition-all space-y-1">
                                     <div class="font-bold text-earth-950 flex items-center gap-1.5 text-xs">
-                                        <i class="fa-solid fa-code text-[#F04A23]"></i>
+                                        <i class="fa-solid fa-code text-[#2563EB]"></i>
                                         <span>Live Code Architecture</span>
                                     </div>
                                     <p class="text-[11px] text-gray-600">
@@ -592,7 +612,7 @@
                                     </p>
                                 </div>
 
-                                <div class="p-3.5 rounded-xl bg-gradient-to-br from-white via-amber-50/40 to-orange-50/30 border border-black/5 shadow-xs hover:shadow-md transition-all space-y-1">
+                                <div class="p-3.5 rounded-xl bg-gradient-to-br from-white via-amber-50/40 to-blue-50/30 border border-black/5 shadow-xs hover:shadow-md transition-all space-y-1">
                                     <div class="font-bold text-earth-950 flex items-center gap-1.5 text-xs">
                                         <i class="fa-solid fa-ticket text-amber-600"></i>
                                         <span>$50 Academy Credit</span>
@@ -606,10 +626,10 @@
                     </div>
 
                     <!-- Registration Form -->
-                    <div class="lg:col-span-5 bg-gradient-to-b from-[#FFF8F5] via-white to-[#FDF8FF] p-6 sm:p-8 rounded-2xl border border-[#FFD4C4]/60 shadow-lg space-y-5">
-                        <div class="space-y-1.5 border-b border-[#FFD4C4] pb-4">
-                            <div class="inline-flex items-center gap-1.5 px-2.5 py-0.5 rounded-full bg-gradient-to-r from-[#FFE8DF] to-[#FFD4C4] text-[#BA2407] font-mono text-[10.5px] font-bold shadow-xs">
-                                <i class="fa-solid fa-bolt text-[#F04A23]"></i>
+                    <div class="lg:col-span-5 bg-gradient-to-b from-[#EFF6FF] via-white to-[#FDF8FF] p-6 sm:p-8 rounded-2xl border border-[#BFDBFE]/60 shadow-lg space-y-5">
+                        <div class="space-y-1.5 border-b border-[#BFDBFE] pb-4">
+                            <div class="inline-flex items-center gap-1.5 px-2.5 py-0.5 rounded-full bg-gradient-to-r from-[#DBEAFE] to-[#BFDBFE] text-[#1E40AF] font-mono text-[10.5px] font-bold shadow-xs">
+                                <i class="fa-solid fa-bolt text-[#2563EB]"></i>
                                 <span>Zero Cost &bull; Free Registration</span>
                             </div>
                             <h4 class="font-heading font-black text-xl text-earth-950">Reserve Your Zoom Seat</h4>
@@ -621,23 +641,23 @@
                         <form id="zoom-webinar-form" onsubmit="window.handleWebinarSubmit(event)" class="space-y-4">
                             <div>
                                 <label for="webinar-name" class="block text-xs font-bold text-earth-900 mb-1">
-                                    Full Name <span class="text-[#F04A23]">*</span>
+                                    Full Name <span class="text-[#2563EB]">*</span>
                                 </label>
                                 <div class="relative">
                                     <i class="fa-regular fa-user absolute left-3.5 top-3 text-gray-400 text-xs"></i>
                                     <input type="text" id="webinar-name" required placeholder="e.g. Ada Lovelace"
-                                        class="w-full pl-9 pr-3.5 py-2.5 rounded-xl border border-canvas-border focus:outline-none focus:border-[#F04A23] focus:ring-2 focus:ring-[#FFAF94]/50 text-xs text-earth-950 font-medium bg-gradient-to-b from-white to-amber-50/20 shadow-xs" />
+                                        class="w-full pl-9 pr-3.5 py-2.5 rounded-xl border border-canvas-border focus:outline-none focus:border-[#2563EB] focus:ring-2 focus:ring-[#93C5FD]/50 text-xs text-earth-950 font-medium bg-gradient-to-b from-white to-amber-50/20 shadow-xs" />
                                 </div>
                             </div>
 
                             <div>
                                 <label for="webinar-email" class="block text-xs font-bold text-earth-900 mb-1">
-                                    Email Address (for Zoom invite) <span class="text-[#F04A23]">*</span>
+                                    Email Address (for Zoom invite) <span class="text-[#2563EB]">*</span>
                                 </label>
                                 <div class="relative">
                                     <i class="fa-regular fa-envelope absolute left-3.5 top-3 text-gray-400 text-xs"></i>
                                     <input type="email" id="webinar-email" required placeholder="name@domain.com"
-                                        class="w-full pl-9 pr-3.5 py-2.5 rounded-xl border border-canvas-border focus:outline-none focus:border-[#F04A23] focus:ring-2 focus:ring-[#FFAF94]/50 text-xs text-earth-950 font-medium bg-gradient-to-b from-white to-amber-50/20 shadow-xs" />
+                                        class="w-full pl-9 pr-3.5 py-2.5 rounded-xl border border-canvas-border focus:outline-none focus:border-[#2563EB] focus:ring-2 focus:ring-[#93C5FD]/50 text-xs text-earth-950 font-medium bg-gradient-to-b from-white to-amber-50/20 shadow-xs" />
                                 </div>
                             </div>
 
@@ -646,7 +666,7 @@
                                     Experience Track
                                 </label>
                                 <select id="webinar-experience"
-                                    class="w-full px-3.5 py-2.5 rounded-xl border border-canvas-border focus:outline-none focus:border-[#F04A23] focus:ring-2 focus:ring-[#FFAF94]/50 text-xs text-earth-950 font-medium bg-gradient-to-b from-white to-amber-50/20 shadow-xs cursor-pointer">
+                                    class="w-full px-3.5 py-2.5 rounded-xl border border-canvas-border focus:outline-none focus:border-[#2563EB] focus:ring-2 focus:ring-[#93C5FD]/50 text-xs text-earth-950 font-medium bg-gradient-to-b from-white to-amber-50/20 shadow-xs cursor-pointer">
                                     <option value="dotnet">C# / .NET Developer</option>
                                     <option value="frontend">Frontend / UI Engineer</option>
                                     <option value="hobbyist">Novelty Gag Enthusiast</option>
@@ -660,11 +680,11 @@
                                     Question for the Live Q&amp;A (Optional)
                                 </label>
                                 <textarea id="webinar-question" rows="2" placeholder="What would you like Zach &amp; Dr. Fizzle to break down?"
-                                    class="w-full px-3.5 py-2 rounded-xl border border-canvas-border focus:outline-none focus:border-[#F04A23] focus:ring-2 focus:ring-[#FFAF94]/50 text-xs text-earth-950 font-medium bg-gradient-to-b from-white to-amber-50/20 shadow-xs resize-none"></textarea>
+                                    class="w-full px-3.5 py-2 rounded-xl border border-canvas-border focus:outline-none focus:border-[#2563EB] focus:ring-2 focus:ring-[#93C5FD]/50 text-xs text-earth-950 font-medium bg-gradient-to-b from-white to-amber-50/20 shadow-xs resize-none"></textarea>
                             </div>
 
                             <button type="submit" id="webinar-submit-btn"
-                                class="w-full py-3.5 px-5 rounded-2xl bg-gradient-to-r from-[#FF7D54] via-[#F04A23] to-[#DD330D] hover:from-[#FF8F6B] hover:to-[#BA2407] text-white font-bold text-xs sm:text-sm flex items-center justify-center gap-2 transition-all shadow-xl shadow-[#F04A23]/35 hover:-translate-y-0.5 hover:shadow-2xl hover:shadow-[#F04A23]/45 active:scale-[0.98] cursor-pointer">
+                                class="w-full py-3.5 px-5 rounded-2xl bg-gradient-to-r from-[#3B82F6] via-[#2563EB] to-[#1D4ED8] hover:from-[#60A5FA] hover:to-[#1E40AF] text-white font-bold text-xs sm:text-sm flex items-center justify-center gap-2 transition-all shadow-xl shadow-[#2563EB]/35 hover:-translate-y-0.5 hover:shadow-2xl hover:shadow-[#2563EB]/45 active:scale-[0.98] cursor-pointer">
                                 <i class="fa-solid fa-video text-white"></i>
                                 <span>Sign Up For Live Zoom Webinar</span>
                             </button>
@@ -689,7 +709,7 @@
                                 </div>
                                 <div class="flex items-center justify-between text-[11px]">
                                     <span class="text-gray-500">Passcode:</span>
-                                    <span class="font-bold text-[#F04A23]">MISCHIEF2026</span>
+                                    <span class="font-bold text-[#2563EB]">MISCHIEF2026</span>
                                 </div>
                                 <div class="flex items-center justify-between text-[11px]">
                                     <span class="text-gray-500">Status:</span>
@@ -727,7 +747,7 @@
                     <i class="fa-solid fa-xmark text-sm"></i>
                 </button>
                 <div class="flex items-center gap-2 mb-2">
-                    <span id="enroll-modal-category" class="px-2.5 py-0.5 rounded-full bg-[#F04A23] text-white text-[10px] font-mono font-black uppercase">
+                    <span id="enroll-modal-category" class="px-2.5 py-0.5 rounded-full bg-[#2563EB] text-white text-[10px] font-mono font-black uppercase">
                         Absurd Physics
                     </span>
                     <span class="px-2.5 py-0.5 rounded-full bg-amber-400 text-earth-950 text-[10px] font-mono font-black uppercase">
@@ -744,7 +764,7 @@
                     <div>
                         <div class="text-xs text-gray-500 font-medium">Lifetime Course Access:</div>
                         <div class="text-xl sm:text-2xl font-black font-heading text-earth-950 flex items-center gap-2">
-                            <span id="enroll-modal-price" class="text-[#F04A23]">$129.00</span>
+                            <span id="enroll-modal-price" class="text-[#2563EB]">$129.00</span>
                             <span id="enroll-modal-original-price" class="text-xs text-gray-400 line-through font-normal">$189.00</span>
                         </div>
                     </div>
@@ -766,9 +786,9 @@
                     </ul>
                 </div>
 
-                <div class="p-3.5 rounded-xl bg-[#FFF5F1] border border-[#FFD4C4] text-xs text-[#941F0A] space-y-1">
+                <div class="p-3.5 rounded-xl bg-[#EFF6FF] border border-[#BFDBFE] text-xs text-[#1E3A8A] space-y-1">
                     <div class="font-bold flex items-center gap-1.5">
-                        <i class="fa-solid fa-lock text-[#F04A23]"></i>
+                        <i class="fa-solid fa-lock text-[#2563EB]"></i>
                         <span>Course Access Gate</span>
                     </div>
                     <p class="text-[11.5px] leading-relaxed">
@@ -783,7 +803,7 @@
                     Cancel
                 </button>
                 <button id="enroll-modal-submit-btn" onclick="window.confirmCoursePurchase()"
-                    class="px-6 py-3 rounded-xl bg-gradient-to-r from-[#FF7D54] via-[#F04A23] to-[#DD330D] hover:from-[#FF8F6B] hover:to-[#BA2407] text-white font-bold text-xs sm:text-sm flex items-center gap-2 transition-all shadow-xl shadow-[#F04A23]/35 hover:-translate-y-0.5 hover:shadow-2xl hover:shadow-[#F04A23]/45 active:scale-95 cursor-pointer">
+                    class="px-6 py-3 rounded-xl bg-gradient-to-r from-[#3B82F6] via-[#2563EB] to-[#1D4ED8] hover:from-[#60A5FA] hover:to-[#1E40AF] text-white font-bold text-xs sm:text-sm flex items-center gap-2 transition-all shadow-xl shadow-[#2563EB]/35 hover:-translate-y-0.5 hover:shadow-2xl hover:shadow-[#2563EB]/45 active:scale-95 cursor-pointer">
                     <i class="fa-solid fa-unlock-keyhole"></i>
                     <span>Unlock &amp; Purchase Course</span>
                 </button>
@@ -806,12 +826,12 @@
             <!-- Top Title Bar -->
             <div class="p-4 sm:p-5 bg-gradient-to-r from-earth-950 via-[#161B22] to-earth-950 border-b border-earth-800/80 flex items-center justify-between gap-3">
                 <div class="flex items-center gap-2.5 min-w-0">
-                    <div class="h-9 w-9 rounded-xl bg-[#F04A23]/20 border border-[#F04A23]/40 text-[#FFAF94] flex items-center justify-center text-sm shrink-0">
+                    <div class="h-9 w-9 rounded-xl bg-[#2563EB]/20 border border-[#2563EB]/40 text-[#93C5FD] flex items-center justify-center text-sm shrink-0">
                         <i class="fa-solid fa-play"></i>
                     </div>
                     <div class="min-w-0">
                         <div class="flex items-center gap-2 flex-wrap">
-                            <span class="px-2 py-0.5 rounded-full bg-[#F04A23] text-white text-[10px] font-mono font-black uppercase tracking-wider">
+                            <span class="px-2 py-0.5 rounded-full bg-[#2563EB] text-white text-[10px] font-mono font-black uppercase tracking-wider">
                                 WackyDash Player v3.2
                             </span>
                             <span id="video-demo-badge" class="px-2 py-0.5 rounded-full bg-amber-400 text-earth-950 text-[10px] font-mono font-black uppercase font-bold">
@@ -856,14 +876,14 @@
                 <!-- Top Right Instructor Badge -->
                 <div class="absolute top-3 right-4 hidden sm:flex items-center gap-2 pointer-events-none">
                     <div class="px-2.5 py-1 rounded-md bg-black/60 backdrop-blur-md border border-white/15 text-[11px] font-mono text-amber-200 shadow-md">
-                        <i class="fa-solid fa-chalkboard-user mr-1 text-[#F04A23]"></i>
+                        <i class="fa-solid fa-chalkboard-user mr-1 text-[#2563EB]"></i>
                         <span id="video-instructor-name">Dr. Barnaby Fizzle</span>
                     </div>
                 </div>
 
                 <!-- Center Big Play Button Overlay -->
                 <button id="video-big-play-btn" onclick="window.toggleVideoDemoPlayback()"
-                    class="absolute z-20 h-16 w-16 sm:h-20 sm:w-20 rounded-full bg-gradient-to-tr from-[#F04A23] to-[#FF8C69] hover:from-[#DD330D] hover:to-[#FFAF94] text-white flex items-center justify-center text-2xl sm:text-3xl shadow-2xl shadow-[#F04A23]/60 transition-transform hover:scale-110 active:scale-95 cursor-pointer ring-4 ring-white/30 backdrop-blur-xs">
+                    class="absolute z-20 h-16 w-16 sm:h-20 sm:w-20 rounded-full bg-gradient-to-tr from-[#2563EB] to-[#60A5FA] hover:from-[#1D4ED8] hover:to-[#93C5FD] text-white flex items-center justify-center text-2xl sm:text-3xl shadow-2xl shadow-[#2563EB]/60 transition-transform hover:scale-110 active:scale-95 cursor-pointer ring-4 ring-white/30 backdrop-blur-xs">
                     <i id="video-big-play-icon" class="fa-solid fa-play ml-1"></i>
                 </button>
 
@@ -872,7 +892,7 @@
                     <!-- Scrubber Timeline Progress Bar -->
                     <div class="relative w-full h-2 bg-white/20 hover:h-2.5 rounded-full cursor-pointer transition-all overflow-hidden"
                         onclick="window.scrubVideoDemo(event)">
-                        <div id="video-scrubber-progress" class="h-full bg-gradient-to-r from-[#F04A23] to-amber-400 w-1/4 rounded-full transition-all duration-200"></div>
+                        <div id="video-scrubber-progress" class="h-full bg-gradient-to-r from-[#2563EB] to-amber-400 w-1/4 rounded-full transition-all duration-200"></div>
                     </div>
 
                     <!-- Control Buttons Row -->
@@ -910,7 +930,7 @@
             <div class="p-4 sm:p-5 bg-[#161B22] border-t border-earth-800 flex flex-col sm:flex-row sm:items-center justify-between gap-4">
                 <div class="space-y-1 min-w-0">
                     <div class="flex items-center gap-2 text-xs font-mono text-earth-400">
-                        <i class="fa-solid fa-code text-[#F04A23]"></i>
+                        <i class="fa-solid fa-code text-[#2563EB]"></i>
                         <span id="video-demo-lesson-code" class="text-amber-300 truncate">Lesson.ExecutePracticum()</span>
                     </div>
                     <p class="text-xs text-gray-400 leading-relaxed max-w-xl">
@@ -920,7 +940,7 @@
 
                 <div class="flex items-center gap-2.5 shrink-0">
                     <button id="video-demo-enroll-cta" onclick="window.enrollFromVideoDemo()"
-                        class="px-5 py-2.5 rounded-xl bg-gradient-to-r from-[#FF7D54] via-[#F04A23] to-[#DD330D] hover:from-[#FF8F6B] hover:to-[#BA2407] text-white font-bold text-xs flex items-center gap-1.5 transition-all shadow-lg shadow-[#F04A23]/35 hover:-translate-y-0.5 hover:shadow-xl hover:shadow-[#F04A23]/45 active:scale-95 cursor-pointer">
+                        class="px-5 py-2.5 rounded-xl bg-gradient-to-r from-[#3B82F6] via-[#2563EB] to-[#1D4ED8] hover:from-[#60A5FA] hover:to-[#1E40AF] text-white font-bold text-xs flex items-center gap-1.5 transition-all shadow-lg shadow-[#2563EB]/35 hover:-translate-y-0.5 hover:shadow-xl hover:shadow-[#2563EB]/45 active:scale-95 cursor-pointer">
                         <i class="fa-solid fa-lock-open"></i>
                         <span>Unlock Full Course</span>
                     </button>
@@ -962,7 +982,7 @@
         data-blueprint-desc="Persistent brand identifier indicating the certified Education Store module. Uses pointer-events: none so clicks pass cleanly through to any underlying elements without interference."
         data-blueprint-code="@Html.Partial(&quot;_EducationWatermark&quot;)"
         class="fixed bottom-5 left-5 z-40 pointer-events-none select-none flex items-center gap-2.5 px-3.5 py-1.5 rounded-full bg-white/75 backdrop-blur-md border border-purple-300/60 shadow-lg shadow-purple-950/10">
-        <span class="h-2.5 w-2.5 rounded-full bg-[#F04A23] animate-pulse shrink-0"></span>
+        <span class="h-2.5 w-2.5 rounded-full bg-[#2563EB] animate-pulse shrink-0"></span>
         <span class="text-earth-950 font-black font-heading tracking-wider uppercase text-xs sm:text-sm opacity-100 whitespace-nowrap">
             Education Store
         </span>

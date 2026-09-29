@@ -109,32 +109,45 @@
                             border: '#DDD6FE',
                             borderDark: '#C4B5FD',
                         },
-                        // Blood Orange / Red-Orange Accent (Learning Academy & Live Webinars)
+                        // Royal Blue Accent (Harmonizes seamlessly with Teal & Purple)
+                        royalBlue: {
+                            50: '#EFF6FF',
+                            100: '#DBEAFE',
+                            200: '#BFDBFE',
+                            300: '#93C5FD',
+                            400: '#60A5FA',
+                            500: '#2563EB',
+                            600: '#1D4ED8',
+                            700: '#1E40AF',
+                            800: '#1E3A8A',
+                            900: '#172554',
+                            950: '#0F172A',
+                        },
                         bloodOrange: {
-                            50: '#FFF5F1',
-                            100: '#FFE8DF',
-                            200: '#FFD4C4',
-                            300: '#FFAF94',
-                            400: '#FF7D54',
-                            500: '#F04A23',
-                            600: '#DD330D',
-                            700: '#BA2407',
-                            800: '#941F0A',
-                            900: '#7A1D0E',
-                            950: '#420B03',
+                            50: '#EFF6FF',
+                            100: '#DBEAFE',
+                            200: '#BFDBFE',
+                            300: '#93C5FD',
+                            400: '#60A5FA',
+                            500: '#2563EB',
+                            600: '#1D4ED8',
+                            700: '#1E40AF',
+                            800: '#1E3A8A',
+                            900: '#172554',
+                            950: '#0F172A',
                         },
                         redOrange: {
-                            50: '#FFF5F1',
-                            100: '#FFE8DF',
-                            200: '#FFD4C4',
-                            300: '#FFAF94',
-                            400: '#FF7D54',
-                            500: '#F04A23',
-                            600: '#DD330D',
-                            700: '#BA2407',
-                            800: '#941F0A',
-                            900: '#7A1D0E',
-                            950: '#420B03',
+                            50: '#EFF6FF',
+                            100: '#DBEAFE',
+                            200: '#BFDBFE',
+                            300: '#93C5FD',
+                            400: '#60A5FA',
+                            500: '#2563EB',
+                            600: '#1D4ED8',
+                            700: '#1E40AF',
+                            800: '#1E3A8A',
+                            900: '#172554',
+                            950: '#0F172A',
                         }
                     }
                 }
@@ -162,12 +175,17 @@
             --green-hover: #0D9488;
             --gold-honey: #94A3B8;
             --gold-light: #CBD5E1;
-            /* Blood Orange Accent */
-            --blood-orange: #F04A23;
-            --blood-orange-hover: #DD330D;
-            --blood-orange-dark: #BA2407;
-            --blood-orange-light: #FFE8DF;
-            --blood-orange-glow: rgba(240, 74, 35, 0.4);
+            /* Royal / Electric Blue Accent (Harmonizes with Teal & Purple) */
+            --royal-blue: #2563EB;
+            --royal-blue-hover: #1D4ED8;
+            --royal-blue-dark: #1E40AF;
+            --royal-blue-light: #EFF6FF;
+            --royal-blue-glow: rgba(37, 99, 235, 0.45);
+            --blood-orange: #2563EB;
+            --blood-orange-hover: #1D4ED8;
+            --blood-orange-dark: #1E40AF;
+            --blood-orange-light: #EFF6FF;
+            --blood-orange-glow: rgba(37, 99, 235, 0.45);
             
             /* Elevation & Smooth Shadows */
             --shadow-smooth-xs: 0 2px 6px -1px rgba(109, 40, 217, 0.05), 0 1px 3px -1px rgba(0, 0, 0, 0.03);
@@ -380,8 +398,8 @@
 
         .course-card:hover {
             transform: translateY(-5px) !important;
-            border-color: #FFAF94 !important;
-            box-shadow: 0 20px 40px -6px rgba(240, 74, 35, 0.15), var(--shadow-smooth-md) !important;
+            border-color: #93C5FD !important;
+            box-shadow: 0 20px 40px -6px rgba(37, 99, 235, 0.18), var(--shadow-smooth-md) !important;
         }
 
         /* Modals & Drawers: Soft Backdrop Blurs & Gentle Diagonal Gradients */
@@ -464,15 +482,16 @@
             transform: translateY(1px) scale(0.98);
         }
 
-        /* 3. BLOOD ORANGE / FIRE ACCENT BUTTONS (Learning Academy, Enroll, Webinar, Newsletter) */
+        /* 3. ROYAL BLUE ACCENT BUTTONS (Learning Academy, Enroll, Webinar) */
         #header-learning-btn,
         #webinar-submit-btn,
         #enroll-modal-submit-btn,
         #video-demo-enroll-cta,
-        .btn-orange-primary {
-            background: linear-gradient(135deg, #FF7D54 0%, #F04A23 50%, #DD330D 100%) !important;
-            box-shadow: 0 4px 16px 0 rgba(240, 74, 35, 0.45), inset 0 1px 0 rgba(255, 255, 255, 0.35) !important;
-            border: 1px solid rgba(255, 175, 148, 0.4) !important;
+        .btn-orange-primary,
+        .btn-blue-primary {
+            background: linear-gradient(135deg, #3B82F6 0%, #2563EB 50%, #1D4ED8 100%) !important;
+            box-shadow: 0 4px 16px 0 rgba(37, 99, 235, 0.45), inset 0 1px 0 rgba(255, 255, 255, 0.35) !important;
+            border: 1px solid rgba(147, 197, 253, 0.4) !important;
             color: #ffffff !important;
         }
 
@@ -480,9 +499,10 @@
         #webinar-submit-btn:hover,
         #enroll-modal-submit-btn:hover,
         #video-demo-enroll-cta:hover,
-        .btn-orange-primary:hover {
-            background: linear-gradient(135deg, #FF9676 0%, #FF5722 50%, #F04A23 100%) !important;
-            box-shadow: 0 8px 26px 0 rgba(240, 74, 35, 0.62), inset 0 1px 0 rgba(255, 255, 255, 0.48) !important;
+        .btn-orange-primary:hover,
+        .btn-blue-primary:hover {
+            background: linear-gradient(135deg, #60A5FA 0%, #3B82F6 50%, #2563EB 100%) !important;
+            box-shadow: 0 8px 26px 0 rgba(37, 99, 235, 0.62), inset 0 1px 0 rgba(255, 255, 255, 0.48) !important;
             transform: translateY(-2px);
         }
 
@@ -490,7 +510,8 @@
         #webinar-submit-btn:active,
         #enroll-modal-submit-btn:active,
         #video-demo-enroll-cta:active,
-        .btn-orange-primary:active {
+        .btn-orange-primary:active,
+        .btn-blue-primary:active {
             transform: translateY(1px) scale(0.98);
         }
 
@@ -535,13 +556,13 @@
 
         /* Video Demo Big Play Button */
         #video-big-play-btn {
-            background: linear-gradient(135deg, #FF7D54 0%, #F04A23 50%, #DD330D 100%) !important;
-            box-shadow: 0 8px 30px rgba(240, 74, 35, 0.65), 0 0 0 4px rgba(255, 255, 255, 0.35) !important;
+            background: linear-gradient(135deg, #3B82F6 0%, #2563EB 50%, #1D4ED8 100%) !important;
+            box-shadow: 0 8px 30px rgba(37, 99, 235, 0.65), 0 0 0 4px rgba(255, 255, 255, 0.35) !important;
         }
 
         #video-big-play-btn:hover {
-            background: linear-gradient(135deg, #FF9676 0%, #FF5722 50%, #F04A23 100%) !important;
-            box-shadow: 0 12px 40px rgba(240, 74, 35, 0.8), 0 0 0 6px rgba(255, 255, 255, 0.45) !important;
+            background: linear-gradient(135deg, #60A5FA 0%, #3B82F6 50%, #2563EB 100%) !important;
+            box-shadow: 0 12px 40px rgba(37, 99, 235, 0.8), 0 0 0 6px rgba(255, 255, 255, 0.45) !important;
             transform: scale(1.1);
         }
 
@@ -799,7 +820,7 @@
         }
         body.dark-mode #header-learning-btn,
         body.dark-mode #webinar-submit-btn {
-            box-shadow: 0 4px 20px 0 rgba(240, 74, 35, 0.5) !important;
+            box-shadow: 0 4px 20px 0 rgba(37, 99, 235, 0.55) !important;
         }
 
         /* Responsive Mobile/Tablet Adjustments */
@@ -1232,17 +1253,17 @@
                     <span id="headerBlogText" class="hidden sm:inline">The Wacky Blog</span>
                 </button>
 
-                <!-- Learning Module Portal Trigger in Red Orange / Blood Orange -->
+                <!-- Learning Module Portal Trigger in Royal Blue -->
                 <button onclick="window.toggleViewStoreLearning()" id="header-learning-btn"
                     data-blueprint-file="WackyStore.WebUI/Controllers/CourseController.cs"
                     data-blueprint-role="Learning Academy &amp; LMS Portal Trigger"
                     data-blueprint-layer="WebUI / Education Portal"
-                    data-blueprint-dom="Red-orange action button transitioning into the dedicated WackyDash-style course &amp; academy module."
+                    data-blueprint-dom="Royal blue action button transitioning into the dedicated WackyDash-style course &amp; academy module."
                     data-blueprint-desc="Routes user into CourseController.Index() providing enrolled curriculums, locked syllabus modules, and live Zoom webinar registration."
                     data-blueprint-code="public ActionResult Learning() => View(courseService.GetCurriculums());"
-                    class="h-10 px-3.5 rounded-xl bg-gradient-to-r from-[#F04A23] to-[#DD330D] hover:from-[#DD330D] hover:to-[#BA2407] text-white text-xs font-bold flex items-center gap-1.5 transition-all shadow-md shadow-[#F04A23]/25 hover:shadow-lg hover:shadow-[#F04A23]/40 border border-red-400/30 active:scale-95 cursor-pointer"
+                    class="h-10 px-3.5 rounded-xl bg-gradient-to-r from-[#2563EB] to-[#1D4ED8] hover:from-[#1D4ED8] hover:to-[#1E40AF] text-white text-xs font-bold flex items-center gap-1.5 transition-all shadow-md shadow-[#2563EB]/25 hover:shadow-lg hover:shadow-[#2563EB]/40 border border-blue-400/30 active:scale-95 cursor-pointer"
                     title="Visit Wacky Academy &amp; Learning Modules">
-                    <i id="headerLearningIcon" class="fa-solid fa-graduation-cap text-orange-200"></i>
+                    <i id="headerLearningIcon" class="fa-solid fa-graduation-cap text-blue-200"></i>
                     <span id="headerLearningText" class="hidden sm:inline">Learning Academy</span>
                 </button>
 
@@ -1639,13 +1660,13 @@
                 <!-- Editorial / Academy Introduction -->
                 <div class="flex items-start gap-2.5 sm:gap-3 flex-1 min-w-0">
                     <div
-                        class="h-8 w-8 rounded-xl bg-[#FFF5F1] text-[#F04A23] border border-[#FFD4C4] flex items-center justify-center text-sm shrink-0 mt-0.5 shadow-xs">
+                        class="h-8 w-8 rounded-xl bg-[#EFF6FF] text-[#2563EB] border border-[#BFDBFE] flex items-center justify-center text-sm shrink-0 mt-0.5 shadow-xs">
                         <i class="fa-solid fa-graduation-cap"></i>
                     </div>
                     <div>
                         <div class="flex items-center gap-2">
                             <span
-                                class="px-2 py-0.5 rounded-full bg-[#FFE8DF] text-[#BA2407] text-[10px] font-mono font-black uppercase tracking-wider">
+                                class="px-2 py-0.5 rounded-full bg-[#DBEAFE] text-[#1E40AF] text-[10px] font-mono font-black uppercase tracking-wider">
                                 WackyDash LMS Architecture
                             </span>
                             <span class="text-xs text-earth-500 font-mono hidden sm:inline">&bull; Locked To
@@ -1672,7 +1693,7 @@
                         data-blueprint-dom="Category pill button filtering courses by active curriculum domain."
                         data-blueprint-desc="Executes Linq query over ICourseRepository.GetCourses().Where(c => track == null || c.Category == track)."
                         data-blueprint-code="courseRepo.GetCourses().Where(c => c.IsPublished)"
-                        class="course-cat-btn px-3 sm:px-3.5 py-1.5 rounded-xl font-bold transition-all bg-[#F04A23] text-white shadow-xs text-[11px] sm:text-xs cursor-pointer">
+                        class="course-cat-btn px-3 sm:px-3.5 py-1.5 rounded-xl font-bold transition-all bg-[#2563EB] text-white shadow-xs text-[11px] sm:text-xs cursor-pointer">
                         All Tracks
                     </button>
                     <button onclick="window.filterCourseCategory('Absurd Physics')" id="course-filter-physics"
@@ -1703,13 +1724,13 @@
             <div class="rounded-3xl bg-gradient-to-r from-earth-950 via-earth-900 to-earth-950 border border-earth-800 p-6 sm:p-10 text-white relative overflow-hidden shadow-2xl"
                 data-blueprint-file="WackyStore.WebUI/Views/Course/HeroBanner.cshtml"
                 data-blueprint-role="LMS Hero Billboard Partial" data-blueprint-layer="WebUI / View Component"
-                data-blueprint-dom="Responsive flex container with blood-orange accents, curriculum badges, and enrolled statistics."
+                data-blueprint-dom="Responsive flex container with royal blue accents, curriculum badges, and enrolled statistics."
                 data-blueprint-desc="Displays Academy enrollment telemetry and accreditation badges rendered via Razor partial."
                 data-blueprint-code="@Html.Partial(&quot;_AcademyHero&quot;, Model.AcademyStats)">
 
                 <!-- Background ambient decorative glows -->
                 <div
-                    class="absolute -top-24 -right-24 w-96 h-96 bg-[#F04A23]/15 rounded-full blur-3xl pointer-events-none">
+                    class="absolute -top-24 -right-24 w-96 h-96 bg-[#2563EB]/15 rounded-full blur-3xl pointer-events-none">
                 </div>
                 <div
                     class="absolute -bottom-24 -left-24 w-96 h-96 bg-teal-500/10 rounded-full blur-3xl pointer-events-none">
@@ -1717,15 +1738,15 @@
 
                 <div class="relative z-10 space-y-4">
                     <div
-                        class="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-[#F04A23]/20 border border-[#F04A23]/40 text-[#FFAF94] font-mono text-xs font-bold uppercase tracking-wider">
-                        <i class="fa-solid fa-graduation-cap text-[#F04A23]"></i>
+                        class="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-[#2563EB]/20 border border-[#2563EB]/40 text-[#93C5FD] font-mono text-xs font-bold uppercase tracking-wider">
+                        <i class="fa-solid fa-graduation-cap text-[#2563EB]"></i>
                         <span>WackyDash-Style Accredited Novelty Academy</span>
                     </div>
 
                     <h1
                         class="font-heading font-black text-2xl sm:text-4xl lg:text-5xl text-white tracking-tight leading-tight">
                         Deep-Dive Curriculums for <span
-                            class="text-transparent bg-clip-text bg-gradient-to-r from-[#FFAF94] via-[#F04A23] to-[#FFD4C4]">Aspiring
+                            class="text-transparent bg-clip-text bg-gradient-to-r from-[#93C5FD] via-[#3B82F6] to-[#BFDBFE]">Aspiring
                             Gag Engineers</span>
                     </h1>
 
@@ -1740,7 +1761,7 @@
                     <div
                         class="pt-4 flex flex-wrap items-center gap-4 sm:gap-8 border-t border-earth-800/80 text-xs sm:text-sm">
                         <div class="flex items-center gap-2 font-mono">
-                            <span class="h-2 w-2 rounded-full bg-[#F04A23]"></span>
+                            <span class="h-2 w-2 rounded-full bg-[#2563EB]"></span>
                             <span class="text-earth-400">Status:</span>
                             <span class="font-bold text-amber-300">🔒 Courses Locked To Purchase</span>
                         </div>
@@ -1764,7 +1785,7 @@
             <div class="flex items-center justify-between mb-6">
                 <div>
                     <h2 class="font-heading font-black text-xl sm:text-2xl text-earth-950 flex items-center gap-2.5">
-                        <i class="fa-solid fa-layer-group text-[#F04A23]"></i>
+                        <i class="fa-solid fa-layer-group text-[#2563EB]"></i>
                         <span>Featured Curriculums</span>
                     </h2>
                     <p class="text-xs text-earth-600 mt-0.5">
@@ -1801,7 +1822,7 @@
             data-blueprint-desc="Connects to Zoom REST API v2 to register students for live architectural masterclasses, automatically emailing Zoom meeting credentials."
             data-blueprint-code="[HttpPost] public async Task<ActionResult> RegisterWebinar(WebinarRegistrantViewModel model)">
 
-            <div class="rounded-3xl bg-white border-2 border-[#FFD4C4] shadow-xl overflow-hidden">
+            <div class="rounded-3xl bg-white border-2 border-[#BFDBFE] shadow-xl overflow-hidden">
                 <!-- Webinar Header Strip -->
                 <div
                     class="bg-gradient-to-r from-blue-700 via-indigo-800 to-earth-950 px-6 sm:px-10 py-5 text-white flex flex-wrap items-center justify-between gap-4">
@@ -1838,7 +1859,7 @@
                                 class="absolute inset-0 bg-gradient-to-t from-earth-950/90 via-earth-950/30 to-transparent flex items-end p-5">
                                 <div class="text-white space-y-1">
                                     <span
-                                        class="px-2.5 py-0.5 rounded-full bg-[#F04A23] text-white text-[10px] font-mono font-black uppercase">
+                                        class="px-2.5 py-0.5 rounded-full bg-[#2563EB] text-white text-[10px] font-mono font-black uppercase">
                                         Zoom Room #984-2490-8812
                                     </span>
                                     <h4 class="font-heading font-black text-lg sm:text-2xl text-amber-100">
@@ -1860,7 +1881,7 @@
                             <div class="grid grid-cols-1 sm:grid-cols-2 gap-3 pt-2">
                                 <div class="p-3.5 rounded-xl bg-canvas-surface border border-canvas-border space-y-1">
                                     <div class="font-bold text-earth-950 flex items-center gap-1.5 text-xs">
-                                        <i class="fa-solid fa-code text-[#F04A23]"></i>
+                                        <i class="fa-solid fa-code text-[#2563EB]"></i>
                                         <span>Live Code Architecture</span>
                                     </div>
                                     <p class="text-[11px] text-gray-600">
@@ -1904,11 +1925,11 @@
 
                     <!-- Right Column: Interactive Zoom Registration Form -->
                     <div
-                        class="lg:col-span-5 bg-gradient-to-b from-[#FFF5F1] to-white p-6 sm:p-8 rounded-2xl border-2 border-[#FFD4C4] shadow-md space-y-5">
-                        <div class="space-y-1.5 border-b border-[#FFD4C4] pb-4">
+                        class="lg:col-span-5 bg-gradient-to-b from-[#EFF6FF] to-white p-6 sm:p-8 rounded-2xl border-2 border-[#BFDBFE] shadow-md space-y-5">
+                        <div class="space-y-1.5 border-b border-[#BFDBFE] pb-4">
                             <div
-                                class="inline-flex items-center gap-1.5 px-2.5 py-0.5 rounded-full bg-[#FFE8DF] text-[#BA2407] font-mono text-[10.5px] font-bold">
-                                <i class="fa-solid fa-bolt text-[#F04A23]"></i>
+                                class="inline-flex items-center gap-1.5 px-2.5 py-0.5 rounded-full bg-[#DBEAFE] text-[#1E40AF] font-mono text-[10.5px] font-bold">
+                                <i class="fa-solid fa-bolt text-[#2563EB]"></i>
                                 <span>Zero Cost &bull; Free Registration</span>
                             </div>
                             <h4 class="font-heading font-black text-xl text-earth-950">Reserve Your Zoom Seat</h4>
@@ -1928,23 +1949,23 @@
 
                             <div>
                                 <label for="webinar-name" class="block text-xs font-bold text-earth-900 mb-1">
-                                    Full Name <span class="text-[#F04A23]">*</span>
+                                    Full Name <span class="text-[#2563EB]">*</span>
                                 </label>
                                 <div class="relative">
                                     <i class="fa-regular fa-user absolute left-3.5 top-3 text-gray-400 text-xs"></i>
                                     <input type="text" id="webinar-name" required placeholder="e.g. Ada Lovelace"
-                                        class="w-full pl-9 pr-3.5 py-2.5 rounded-xl border border-canvas-border focus:outline-none focus:border-[#F04A23] focus:ring-2 focus:ring-[#FFAF94]/50 text-xs text-earth-950 font-medium bg-white" />
+                                        class="w-full pl-9 pr-3.5 py-2.5 rounded-xl border border-canvas-border focus:outline-none focus:border-[#2563EB] focus:ring-2 focus:ring-[#93C5FD]/50 text-xs text-earth-950 font-medium bg-white" />
                                 </div>
                             </div>
 
                             <div>
                                 <label for="webinar-email" class="block text-xs font-bold text-earth-900 mb-1">
-                                    Email Address (for Zoom invite) <span class="text-[#F04A23]">*</span>
+                                    Email Address (for Zoom invite) <span class="text-[#2563EB]">*</span>
                                 </label>
                                 <div class="relative">
                                     <i class="fa-regular fa-envelope absolute left-3.5 top-3 text-gray-400 text-xs"></i>
                                     <input type="email" id="webinar-email" required placeholder="name@domain.com"
-                                        class="w-full pl-9 pr-3.5 py-2.5 rounded-xl border border-canvas-border focus:outline-none focus:border-[#F04A23] focus:ring-2 focus:ring-[#FFAF94]/50 text-xs text-earth-950 font-medium bg-white" />
+                                        class="w-full pl-9 pr-3.5 py-2.5 rounded-xl border border-canvas-border focus:outline-none focus:border-[#2563EB] focus:ring-2 focus:ring-[#93C5FD]/50 text-xs text-earth-950 font-medium bg-white" />
                                 </div>
                             </div>
 
@@ -1953,7 +1974,7 @@
                                     Experience Track
                                 </label>
                                 <select id="webinar-experience"
-                                    class="w-full px-3.5 py-2.5 rounded-xl border border-canvas-border focus:outline-none focus:border-[#F04A23] focus:ring-2 focus:ring-[#FFAF94]/50 text-xs text-earth-950 font-medium bg-white cursor-pointer">
+                                    class="w-full px-3.5 py-2.5 rounded-xl border border-canvas-border focus:outline-none focus:border-[#2563EB] focus:ring-2 focus:ring-[#93C5FD]/50 text-xs text-earth-950 font-medium bg-white cursor-pointer">
                                     <option value="dotnet">C# / .NET Developer</option>
                                     <option value="frontend">Frontend / UI Engineer</option>
                                     <option value="hobbyist">Novelty Gag Enthusiast</option>
@@ -1968,17 +1989,17 @@
                                 </label>
                                 <textarea id="webinar-question" rows="2"
                                     placeholder="What would you like Zach &amp; Dr. Fizzle to break down?"
-                                    class="w-full px-3.5 py-2 rounded-xl border border-canvas-border focus:outline-none focus:border-[#F04A23] focus:ring-2 focus:ring-[#FFAF94]/50 text-xs text-earth-950 font-medium bg-white resize-none"></textarea>
+                                    class="w-full px-3.5 py-2 rounded-xl border border-canvas-border focus:outline-none focus:border-[#2563EB] focus:ring-2 focus:ring-[#93C5FD]/50 text-xs text-earth-950 font-medium bg-white resize-none"></textarea>
                             </div>
 
                             <button type="submit" id="webinar-submit-btn"
                                 data-blueprint-file="WackyStore.Infrastructure/Services/ZoomClient.cs"
                                 data-blueprint-role="Zoom Webhook Dispatch Trigger"
                                 data-blueprint-layer="Infrastructure / External API"
-                                data-blueprint-dom="Blood-orange submit button executing asynchronous registration pipeline."
+                                data-blueprint-dom="Royal-blue submit button executing asynchronous registration pipeline."
                                 data-blueprint-desc="Triggers client-side validation, submits to Zoom webhook endpoint, and displays dynamic meeting access ticket."
                                 data-blueprint-code="await zoomClient.CreateRegistrantAsync(webinarId, registrantPayload);"
-                                class="w-full py-3 px-4 rounded-xl bg-gradient-to-r from-[#F04A23] to-[#DD330D] hover:from-[#DD330D] hover:to-[#BA2407] text-white font-bold text-xs sm:text-sm flex items-center justify-center gap-2 transition-all shadow-md shadow-[#F04A23]/30 hover:shadow-lg hover:shadow-[#F04A23]/40 active:scale-[0.98] cursor-pointer">
+                                class="w-full py-3 px-4 rounded-xl bg-gradient-to-r from-[#2563EB] to-[#1D4ED8] hover:from-[#1D4ED8] hover:to-[#1E40AF] text-white font-bold text-xs sm:text-sm flex items-center justify-center gap-2 transition-all shadow-md shadow-[#2563EB]/30 hover:shadow-lg hover:shadow-[#2563EB]/40 active:scale-[0.98] cursor-pointer">
                                 <i class="fa-solid fa-video text-white"></i>
                                 <span>Sign Up For Live Zoom Webinar</span>
                             </button>
@@ -2013,7 +2034,7 @@
                                 </div>
                                 <div class="flex items-center justify-between text-[11px]">
                                     <span class="text-gray-500">Passcode:</span>
-                                    <span class="font-bold text-[#F04A23]">MISCHIEF2026</span>
+                                    <span class="font-bold text-[#2563EB]">MISCHIEF2026</span>
                                 </div>
                                 <div class="flex items-center justify-between text-[11px]">
                                     <span class="text-gray-500">Status:</span>
@@ -2061,7 +2082,7 @@
                 </button>
                 <div class="flex items-center gap-2 mb-2">
                     <span id="enroll-modal-category"
-                        class="px-2.5 py-0.5 rounded-full bg-[#F04A23] text-white text-[10px] font-mono font-black uppercase">
+                        class="px-2.5 py-0.5 rounded-full bg-[#2563EB] text-white text-[10px] font-mono font-black uppercase">
                         Absurd Physics
                     </span>
                     <span
@@ -2082,7 +2103,7 @@
                     <div>
                         <div class="text-xs text-gray-500 font-medium">Lifetime Course Access:</div>
                         <div class="text-xl sm:text-2xl font-black font-heading text-earth-950 flex items-center gap-2">
-                            <span id="enroll-modal-price" class="text-[#F04A23]">$129.00</span>
+                            <span id="enroll-modal-price" class="text-[#2563EB]">$129.00</span>
                             <span id="enroll-modal-original-price"
                                 class="text-xs text-gray-400 line-through font-normal">$189.00</span>
                         </div>
@@ -2108,9 +2129,9 @@
                 </div>
 
                 <!-- Simulation Info Alert -->
-                <div class="p-3.5 rounded-xl bg-[#FFF5F1] border border-[#FFD4C4] text-xs text-[#941F0A] space-y-1">
+                <div class="p-3.5 rounded-xl bg-[#EFF6FF] border border-[#BFDBFE] text-xs text-[#1E40AF] space-y-1">
                     <div class="font-bold flex items-center gap-1.5">
-                        <i class="fa-solid fa-lock text-[#F04A23]"></i>
+                        <i class="fa-solid fa-lock text-[#2563EB]"></i>
                         <span>Course Access Gate</span>
                     </div>
                     <p class="text-[11.5px] leading-relaxed">
@@ -2132,10 +2153,10 @@
                     data-blueprint-file="WackyStore.WebUI/Controllers/CourseController.cs"
                     data-blueprint-role="Course Enrollment Purchase Action"
                     data-blueprint-layer="WebUI / Controller Action"
-                    data-blueprint-dom="Blood-orange action button completing simulated checkout and toggling locked syllabus state."
+                    data-blueprint-dom="Royal-blue action button completing simulated checkout and toggling locked syllabus state."
                     data-blueprint-desc="Invokes CourseController.ProcessEnrollment(courseId) and updates CourseModel state to IsUnlocked = true."
                     data-blueprint-code="[HttpPost] public ActionResult ProcessEnrollment(int courseId)"
-                    class="px-6 py-2.5 rounded-xl bg-gradient-to-r from-[#F04A23] to-[#DD330D] hover:from-[#DD330D] hover:to-[#BA2407] text-white font-bold text-xs sm:text-sm flex items-center gap-2 transition-all shadow-md shadow-[#F04A23]/30 cursor-pointer">
+                    class="px-6 py-2.5 rounded-xl bg-gradient-to-r from-[#2563EB] to-[#1D4ED8] hover:from-[#1D4ED8] hover:to-[#1E40AF] text-white font-bold text-xs sm:text-sm flex items-center gap-2 transition-all shadow-md shadow-[#2563EB]/30 cursor-pointer">
                     <i class="fa-solid fa-unlock-keyhole"></i>
                     <span>Unlock &amp; Purchase Course</span>
                 </button>
@@ -2158,12 +2179,12 @@
             <!-- Top Title Bar -->
             <div class="p-4 sm:p-5 bg-gradient-to-r from-earth-950 via-[#161B22] to-earth-950 border-b border-earth-800/80 flex items-center justify-between gap-3">
                 <div class="flex items-center gap-2.5 min-w-0">
-                    <div class="h-9 w-9 rounded-xl bg-[#F04A23]/20 border border-[#F04A23]/40 text-[#FFAF94] flex items-center justify-center text-sm shrink-0">
+                    <div class="h-9 w-9 rounded-xl bg-[#2563EB]/20 border border-[#2563EB]/40 text-[#93C5FD] flex items-center justify-center text-sm shrink-0">
                         <i class="fa-solid fa-play"></i>
                     </div>
                     <div class="min-w-0">
                         <div class="flex items-center gap-2 flex-wrap">
-                            <span class="px-2 py-0.5 rounded-full bg-[#F04A23] text-white text-[10px] font-mono font-black uppercase tracking-wider">
+                            <span class="px-2 py-0.5 rounded-full bg-[#2563EB] text-white text-[10px] font-mono font-black uppercase tracking-wider">
                                 WackyDash Player v3.2
                             </span>
                             <span id="video-demo-badge" class="px-2 py-0.5 rounded-full bg-amber-400 text-earth-950 text-[10px] font-mono font-black uppercase font-bold">
@@ -2208,14 +2229,14 @@
                 <!-- Top Right Instructor Badge -->
                 <div class="absolute top-3 right-4 hidden sm:flex items-center gap-2 pointer-events-none">
                     <div class="px-2.5 py-1 rounded-md bg-black/60 backdrop-blur-md border border-white/15 text-[11px] font-mono text-amber-200 shadow-md">
-                        <i class="fa-solid fa-chalkboard-user mr-1 text-[#F04A23]"></i>
+                        <i class="fa-solid fa-chalkboard-user mr-1 text-[#2563EB]"></i>
                         <span id="video-instructor-name">Dr. Barnaby Fizzle</span>
                     </div>
                 </div>
 
                 <!-- Center Big Play Button Overlay -->
                 <button id="video-big-play-btn" onclick="window.toggleVideoDemoPlayback()"
-                    class="absolute z-20 h-16 w-16 sm:h-20 sm:w-20 rounded-full bg-gradient-to-tr from-[#F04A23] to-[#FF8C69] hover:from-[#DD330D] hover:to-[#FFAF94] text-white flex items-center justify-center text-2xl sm:text-3xl shadow-2xl shadow-[#F04A23]/60 transition-transform hover:scale-110 active:scale-95 cursor-pointer ring-4 ring-white/30 backdrop-blur-xs">
+                    class="absolute z-20 h-16 w-16 sm:h-20 sm:w-20 rounded-full bg-gradient-to-tr from-[#2563EB] to-[#60A5FA] hover:from-[#1D4ED8] hover:to-[#93C5FD] text-white flex items-center justify-center text-2xl sm:text-3xl shadow-2xl shadow-[#2563EB]/60 transition-transform hover:scale-110 active:scale-95 cursor-pointer ring-4 ring-white/30 backdrop-blur-xs">
                     <i id="video-big-play-icon" class="fa-solid fa-play ml-1"></i>
                 </button>
 
@@ -2224,7 +2245,7 @@
                     <!-- Scrubber Timeline Progress Bar -->
                     <div class="relative w-full h-2 bg-white/20 hover:h-2.5 rounded-full cursor-pointer transition-all overflow-hidden"
                         onclick="window.scrubVideoDemo(event)">
-                        <div id="video-scrubber-progress" class="h-full bg-gradient-to-r from-[#F04A23] to-amber-400 w-1/4 rounded-full transition-all duration-200"></div>
+                        <div id="video-scrubber-progress" class="h-full bg-gradient-to-r from-[#2563EB] to-cyan-400 w-1/4 rounded-full transition-all duration-200"></div>
                     </div>
 
                     <!-- Control Buttons Row -->
@@ -2262,7 +2283,7 @@
             <div class="p-4 sm:p-5 bg-[#161B22] border-t border-earth-800 flex flex-col sm:flex-row sm:items-center justify-between gap-4">
                 <div class="space-y-1 min-w-0">
                     <div class="flex items-center gap-2 text-xs font-mono text-earth-400">
-                        <i class="fa-solid fa-code text-[#F04A23]"></i>
+                        <i class="fa-solid fa-code text-[#2563EB]"></i>
                         <span id="video-demo-lesson-code" class="text-amber-300 truncate">Lesson.ExecutePracticum()</span>
                     </div>
                     <p class="text-xs text-gray-400 leading-relaxed max-w-xl">
@@ -2272,7 +2293,7 @@
 
                 <div class="flex items-center gap-2.5 shrink-0">
                     <button id="video-demo-enroll-cta" onclick="window.enrollFromVideoDemo()"
-                        class="px-4 py-2.5 rounded-xl bg-gradient-to-r from-[#F04A23] to-[#DD330D] hover:from-[#DD330D] hover:to-[#BA2407] text-white font-bold text-xs flex items-center gap-1.5 transition-all shadow-md shadow-[#F04A23]/30 active:scale-95 cursor-pointer">
+                        class="px-4 py-2.5 rounded-xl bg-gradient-to-r from-[#2563EB] to-[#1D4ED8] hover:from-[#1D4ED8] hover:to-[#1E40AF] text-white font-bold text-xs flex items-center gap-1.5 transition-all shadow-md shadow-[#2563EB]/30 active:scale-95 cursor-pointer">
                         <i class="fa-solid fa-lock-open"></i>
                         <span>Unlock Full Course</span>
                     </button>
@@ -3025,7 +3046,7 @@
         data-blueprint-desc="Persistent brand identifier indicating the certified Education Store module. Uses pointer-events: none so clicks pass cleanly through to any underlying elements without interference."
         data-blueprint-code="@Html.Partial(&quot;_EducationWatermark&quot;)"
         class="fixed bottom-5 left-5 z-40 pointer-events-none select-none flex items-center gap-2.5 px-3.5 py-1.5 rounded-full bg-white/75 backdrop-blur-md border border-purple-300/60 shadow-lg shadow-purple-950/10">
-        <span class="h-2.5 w-2.5 rounded-full bg-[#F04A23] animate-pulse shrink-0"></span>
+        <span class="h-2.5 w-2.5 rounded-full bg-[#2563EB] animate-pulse shrink-0"></span>
         <span
             class="text-earth-950 font-black font-heading tracking-wider uppercase text-xs sm:text-sm opacity-100 whitespace-nowrap">
             Education Store
