@@ -4,51 +4,32 @@
 <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Zach Heindel | Case Study: Workout Mixer & Drift-Free Fitness Engine</title>
+    <title>Zach Heindel | Case Study: Workout Mixer Audio Timer Engine</title>
     <meta name="description"
-        content="Technical case study of Workout Mixer: randomized exercise algorithms, anatomical SVG mapping, slot-level lock state machines, and drift-proof timing." />
-    <link rel="canonical" href="https://heindel.org/new_projects/workout-mixer/case-study.html" />
+        content="Technical case study of Workout Mixer: Precision delta-time interval scheduling, multi-oscillator Web Audio sound design, and localized fitness state persistence." />
+    <link rel="canonical" href="https://zqhwebpro.github.io/portfolio/new_projects/workout-mixer/case-study.html" />
 
     <!-- Open Graph / Facebook -->
     <meta property="og:type" content="article" />
-    <meta property="og:url" content="https://heindel.org/new_projects/workout-mixer/case-study.html" />
-    <meta property="og:title" content="Case Study: Workout Mixer — Mobile-First Circuit Generator | Zach Heindel" />
-    <meta property="og:description" content="Technical deep-dive into building a mobile-first fitness circuit generator, Fisher-Yates shuffling with slot locks, and drift-free delta timers." />
-    <meta property="og:image" content="https://heindel.org/2026/media/zqh-portfolio.png" />
-
-    <!-- Twitter -->
-    <meta name="twitter:card" content="summary_large_image" />
-    <meta name="twitter:title" content="Case Study: Workout Mixer — Mobile-First Circuit Generator | Zach Heindel" />
-    <meta name="twitter:description" content="Engineering Fisher-Yates slot locking, anatomical target mapping, and precise Web Workers timing." />
-    <meta name="twitter:image" content="https://heindel.org/2026/media/zqh-portfolio.png" />
+    <meta property="og:url" content="https://zqhwebpro.github.io/portfolio/new_projects/workout-mixer/case-study.html" />
+    <meta property="og:title" content="Case Study: Workout Mixer Audio Engine | Zach Heindel" />
+    <meta property="og:description" content="Technical deep-dive into precision interval timing, Web Audio synthesis, and dynamic circuit configuration." />
 
     <!-- AI SEO & Search Engine Structured Data -->
     <script type="application/ld+json">
     {
       "@context": "https://schema.org",
       "@type": "TechArticle",
-      "headline": "Workout Mixer: Randomized Fitness Circuit Generator & Drift-Free Timers",
-      "description": "Comprehensive technical case study covering slot-machine state locking, weighted Fisher-Yates shuffling, dynamic anatomical SVG highlights, and performance-counter interval engines.",
+      "headline": "Workout Mixer: Precision Delta-Time Scheduling & Web Audio Synthesis",
+      "description": "Comprehensive engineering case study analyzing precision interval timers, zero-drift performance.now() clocks, multi-oscillator Web Audio API acoustic synthesis, and responsive Tailwind workout generation.",
       "author": {
-        "@type": "Person",
-        "name": "Zach Heindel",
-        "url": "https://heindel.org"
-      },
-      "publisher": {
         "@type": "Person",
         "name": "Zach Heindel"
       },
-      "url": "https://heindel.org/new_projects/workout-mixer/case-study.html",
-      "about": [
-        { "@type": "Thing", "name": "Fisher-Yates Shuffle Algorithm" },
-        { "@type": "Thing", "name": "Drift-Free Delta Timers" },
-        { "@type": "Thing", "name": "Mobile UX Engineering" },
-        { "@type": "Thing", "name": "Web Audio API Metronome" }
-      ],
-      "inLanguage": "en"
+      "dependencies": "JavaScript (ES6+), Web Audio API, Tailwind CSS, LocalStorage",
+      "proficiencyLevel": "Intermediate"
     }
     </script>
-
     <link href="../../2026/media/zqh-portfolio.png" rel="icon" type="image/png">
 
     <!-- Fonts & Icons -->
@@ -70,6 +51,9 @@
                 <a href="../index.html" class="nav-btn">
                     <i class="fa-solid fa-arrow-left"></i> Interactive Portfolio
                 </a>
+                <a href="./index.html" class="nav-btn nav-btn-project">
+                    <i class="fa-solid fa-dumbbell"></i> Launch Workout Mixer
+                </a>
             </div>
         </div>
     </header>
@@ -78,295 +62,34 @@
 
         <div class="case-hero">
             <div class="accent-line">
-                <span class="section-label">CASE STUDY // CIRCUIT ENGINE &amp; KINETIC ALGORITHMS</span>
+                <span class="section-label">CASE STUDY // SUMMARY OF LEARNINGS</span>
             </div>
             <div class="post-meta-row">
                 <span class="author">Zach Heindel</span>
                 <span class="meta-sep">•</span>
-                <span class="meta-topic">Circuit Engine &amp; Mobile UX Constraints</span>
+                <span class="meta-topic">Precision Delta Timers &amp; Multi-Track Audio DSP</span>
                 <span class="meta-sep">•</span>
-                <span class="meta-time">6 Min Read</span>
+                <span class="meta-time">3 Min Read</span>
             </div>
             <h1 class="hero-title">
-                Workout Mixer: <span class="highlight">Circuit Generation Engine</span>
+                Workout Mixer: <span class="highlight">Adaptive Audio Interval Timer</span>
             </h1>
             <p class="hero-subtitle">
-                An adaptive fitness randomizer and circuit training application engineered with antagonist muscle balance constraints, real-time rest interval state machines, and high-contrast mobile-first ergonomics.
+                Precision delta-time workout circuit generator with procedural Web Audio synthesis, interactive SVG beat visualizers, and zero-drift scheduling.
             </p>
             <div class="badge-row">
-                <span class="tag amber"><i class="fa-solid fa-code"></i> React 18 + SPA Architecture</span>
-                <span class="tag"><i class="fa-solid fa-bolt"></i> Client-Side Algorithms</span>
-                <span class="tag"><i class="fa-solid fa-stopwatch"></i> Monotonic Interval Timers</span>
-                <span class="tag"><i class="fa-solid fa-dna"></i> Anatomical SVG Mapping</span>
-                <span class="tag"><i class="fa-solid fa-database"></i> Zero-Telemetry LocalStorage</span>
+                <span class="tag amber"><i class="fa-solid fa-code"></i> JavaScript (ES6+)</span>
+                <span class="tag"><i class="fa-solid fa-stopwatch"></i> Zero-Drift Timer</span>
+                <span class="tag"><i class="fa-solid fa-volume-high"></i> Web Audio API</span>
+                <span class="tag"><i class="fa-solid fa-heart-pulse"></i> Circuit Balancer</span>
+                <span class="tag"><i class="fa-solid fa-database"></i> LocalStorage Persistence</span>
             </div>
         </div>
 
-        <!-- Metric Highlights -->
-        <div class="metrics-grid">
-            <div class="metric-card">
-                <div class="metric-value">
-                    <i class="fa-solid fa-dumbbell"></i> 800+
-                </div>
-                <div class="metric-label">Exercise Variations Indexed</div>
-            </div>
-            <div class="metric-card">
-                <div class="metric-value">
-                    <i class="fa-solid fa-gauge-high"></i> 0ms
-                </div>
-                <div class="metric-label">Server Latency (100% Client-Side)</div>
-            </div>
-            <div class="metric-card">
-                <div class="metric-value">
-                    <i class="fa-solid fa-arrows-split-up-and-left"></i> 100%
-                </div>
-                <div class="metric-label">Antagonist Kinetic Balance</div>
-            </div>
-            <div class="metric-card">
-                <div class="metric-value">
-                    <i class="fa-solid fa-shield-check"></i> 0 KB
-                </div>
-                <div class="metric-label">External Audio Assets (Web Audio)</div>
-            </div>
-        </div>
-
-        <!-- SECTION 1: EDUCATIONAL FOUNDATION -->
+        <!-- SECTION: WHAT WAS LEARNED -->
         <section class="section-block">
             <div class="accent-line">
-                <span class="section-label">01 // EDUCATIONAL FOUNDATION &amp; CORE TECHNOLOGIES</span>
-            </div>
-            <h2 class="section-title">
-                <i class="fa-solid fa-graduation-cap"></i> Understanding Array Shuffling, Kinetic Balance &amp; State Persistence
-            </h2>
-            <p>
-                <strong>Workout Mixer</strong> uses client-side algorithms to generate balanced exercise circuits. It combines the unbiased <strong>Fisher-Yates Shuffle Algorithm</strong> with kinetic antagonist balance rules and browser <strong>LocalStorage</strong>.
-            </p>
-
-            <div class="tech-stack-grid">
-                <div class="tech-item">
-                    <div class="tech-label">UNBIASED RANDOMNESS</div>
-                    <div class="tech-value">Fisher-Yates Shuffle</div>
-                    <div class="tech-desc">An $O(n)$ array randomizing algorithm that guarantees every possible permutation of exercise movements has an exactly equal probability.</div>
-                </div>
-
-                <div class="tech-item">
-                    <div class="tech-label">KINETIC RULES</div>
-                    <div class="tech-value">Antagonist Muscle Mapping</div>
-                    <div class="tech-desc">Filters generated workout slots so push movements (Push-ups) are balanced with pull movements (Rows), preventing muscle over-fatigue.</div>
-                </div>
-
-                <div class="tech-item">
-                    <div class="tech-label">PRECISION TIMERS</div>
-                    <div class="tech-value">Monotonic Interval Timers</div>
-                    <div class="tech-desc">Uses <code>performance.now()</code> elapsed delta calculations to prevent interval timer drift when mobile browser tabs are backgrounded.</div>
-                </div>
-
-                <div class="tech-item">
-                    <div class="tech-label">DATA PERSISTENCE</div>
-                    <div class="tech-value">Client-Side LocalStorage</div>
-                    <div class="tech-desc">Saves user workout history and custom routine locks locally inside the browser with zero cloud server tracking.</div>
-                </div>
-            </div>
-
-            <h3>How Fisher-Yates Array Shuffling Works in Simple Terms</h3>
-            <p>
-                Imagine shuffling a deck of cards. A common beginner mistake is picking random pairs and swapping them 100 times. That simple approach actually creates mathematical bias, where certain card orders appear more often than others!
-            </p>
-            <p>
-                The <strong>Fisher-Yates Shuffle</strong> iterates backwards through the array from element $N-1$ down to 1. At each step $i$, it picks a random index $j \le i$ and swaps element $i$ with element $j$. This guarantees true mathematical randomness in linear time $O(n)$!
-            </p>
-        </section>
-            <p>
-                Athletes frequently waste 15 to 20 minutes before a session agonizing over workout structure or dealing with congested gym machines. Existing workout applications exacerbate this problem by burying simple routines behind paywalls, cloud accounts, or bloated 8-week structured calendars.
-            </p>
-            <p>
-                <strong>Workout Mixer</strong> solves this with an instant, client-side circuit generation engine. The user chooses their available equipment, selects a target split, and receives an ergonomically sequenced workout circuit in under 50 milliseconds. Crucially, the engine enforces physiological balance rules: it prevents consecutive redundant movements (e.g. back-to-back heavy chest presses) and provides tactile visual feedback showing exactly which muscle groups will be stimulated.
-            </p>
-        </section>
-
-        <!-- SECTION 2 -->
-        <section class="section-block">
-            <div class="accent-line">
-                <span class="section-label">02 // CORE TECHNOLOGIES &amp; WHY THEY WERE CHOSEN</span>
-            </div>
-            <h2 class="section-title">
-                <i class="fa-solid fa-microchip"></i> Technology Stack Breakdown
-            </h2>
-            <p>
-                Every technology was chosen to optimize for immediate execution, high readability in sweaty gym environments, and zero network dependency:
-            </p>
-
-            <div class="tech-stack-grid">
-                <div class="tech-item">
-                    <div class="tech-label">Core Runtime</div>
-                    <div class="tech-value">React 18 + Hooks</div>
-                    <div class="tech-desc">Provides declarative UI state synchronization. <code>useMemo</code> caches heavy exercise filtering operations across 800+ items, preventing UI lag during slider adjustments.</div>
-                </div>
-                <div class="tech-item">
-                    <div class="tech-label">Vector Graphics</div>
-                    <div class="tech-value">Interactive SVG Mannequin</div>
-                    <div class="tech-desc">Pure mathematical SVG paths rendered directly in the DOM. Eliminates bitmap asset downloads and enables dynamic color-fill binding to active muscle groups.</div>
-                </div>
-                <div class="tech-item">
-                    <div class="tech-label">Audio Engine</div>
-                    <div class="tech-value">Native Web Audio API</div>
-                    <div class="tech-desc">Synthesizes 880Hz and 1760Hz alert beeps using browser-native oscillators and gain envelopes. Zero MP3/WAV audio files downloaded over mobile networks.</div>
-                </div>
-                <div class="tech-item">
-                    <div class="tech-label">Persistence</div>
-                    <div class="tech-value">LocalStorage State Engine</div>
-                    <div class="tech-desc">Saves user custom pins, equipment inventory, and timer configurations locally on the device with zero cloud tracking and full offline functionality.</div>
-                </div>
-            </div>
-        </section>
-
-        <!-- SECTION 3 -->
-        <section class="section-block">
-            <div class="accent-line">
-                <span class="section-label">03 // CODING TECHNIQUES &amp; IMPLEMENTATION</span>
-            </div>
-            <h2 class="section-title">
-                <i class="fa-solid fa-code"></i> Engineering Mechanics &amp; Algorithms
-            </h2>
-
-            <h3>1. Anatomical Taxonomy Matching Engine (`MUSCLE_TAG_MAP`)</h3>
-            <p>
-                The underlying open exercise dataset uses inconsistent anatomical nomenclature—some records say <em>"pectoralis major"</em>, others say <em>"chest"</em>, while leg exercises might specify <em>"quadriceps"</em> or <em>"rectus femoris"</em>. A naive string match causes severe bugs: for instance, matching <code>"triceps"</code> will accidentally match <code>"quadriceps"</code> because the substring <em>"riceps"</em> overlaps.
-            </p>
-            <p>
-                To resolve this, I implemented an anatomical taxonomy dictionary combined with regex boundary detection:
-            </p>
-
-            <pre class="code-block"><code>const MUSCLE_TAG_MAP = {
-    chest: ['chest', 'pectorals', 'pectoralis major', 'pectoralis minor'],
-    back: ['lats', 'latissimus dorsi', 'middle back', 'lower back', 'traps', 'rhomboids'],
-    biceps: ['biceps', 'biceps brachii', 'brachialis'],
-    triceps: ['triceps', 'triceps brachii'],
-    quads: ['quadriceps', 'quads', 'rectus femoris', 'vastus lateralis'],
-    hamstrings: ['hamstrings', 'biceps femoris']
-};
-
-// Strict boundary matching avoids substring collisions (e.g., triceps vs quadriceps)
-const isExerciseInMuscleGroup = (exercise, groupKey) => {
-    if (!exercise || groupKey === 'all') return true;
-    const validTags = MUSCLE_TAG_MAP[groupKey];
-    if (!validTags) return false;
-
-    const rawTargets = [
-        ...(Array.isArray(exercise.primaryMuscles) ? exercise.primaryMuscles : []),
-        exercise.target,
-        exercise.bodyPart
-    ].filter(Boolean).map(s => s.toLowerCase().trim());
-
-    return rawTargets.some(raw => {
-        if (groupKey === 'triceps' && raw.includes('quadriceps')) return false;
-        return validTags.some(tag => {
-            const regex = new RegExp(`(^|\\b|_|\\s)${tag}(\\b|_|\\s|$)`, 'i');
-            return regex.test(raw);
-        });
-    });
-};</code></pre>
-
-            <h3>2. Dynamic SVG Path Activation for Physiological Feedback</h3>
-            <p>
-                Instead of static illustrations, the application features an interactive anatomical mannequin composed of discrete SVG vector paths (`&lt;path d="..." /&gt;`). Each path corresponds to an anatomical muscle group. When a workout circuit is generated, the component computes the aggregate activated muscle groups and dynamically binds accent fills to the matching SVG nodes:
-            </p>
-
-            <pre class="code-block"><code>function RenderIsolatedMusclePath({ muscleKey, isActivated }) {
-    const fillColor = isActivated ? "#1d4ed8" : "rgba(255, 255, 255, 0.08)";
-    const strokeColor = isActivated ? "#ffb81c" : "rgba(255, 255, 255, 0.15)";
-
-    switch (muscleKey) {
-        case 'chest':
-            return (
-                &lt;g transform="translate(-10, 8)"&gt;
-                    &lt;path d="M 44 42 C 54 41 61 44 62 54 C 62 68 48 72 42 70 Z" 
-                          fill={fillColor} stroke={strokeColor} strokeWidth="2" /&gt;
-                    &lt;path d="M 76 42 C 66 41 59 44 58 54 C 58 68 72 72 78 70 Z" 
-                          fill={fillColor} stroke={strokeColor} strokeWidth="2" /&gt;
-                &lt;/g&gt;
-            );
-        // ... additional anatomical muscle paths
-    }
-}</code></pre>
-
-            <h3>3. Slot-Level Lock &amp; Pin Randomization Algorithm</h3>
-            <p>
-                Athletes often like four exercises in a generated circuit but want to replace a single exercise (e.g. swapping out pull-ups if all pull-up bars are occupied). 
-                The circuit engine implements an immutable slot-anchored pinning state machine. Locked exercises are indexed by slot; running a re-shuffle maps through the slots, preserving locked items in-place while drawing unique candidates for unlocked slots:
-            </p>
-
-            <pre class="code-block"><code>const shuffleCircuit = (currentCircuit, lockedSlots, exercisePool) => {
-    const usedIds = new Set(
-        currentCircuit.filter((_, idx) => lockedSlots.has(idx)).map(e => e.id)
-    );
-
-    return currentCircuit.map((exercise, index) => {
-        if (lockedSlots.has(index)) return exercise; // Preserve user-pinned exercise
-
-        // Find available candidate not already present in the active circuit
-        const candidates = exercisePool.filter(candidate => !usedIds.has(candidate.id));
-        const chosen = candidates[Math.floor(Math.random() * candidates.length)] || exercise;
-        usedIds.add(chosen.id);
-        return chosen;
-    });
-};</code></pre>
-
-            <h3>4. Drift-Proof Monotonic Timing Engine</h3>
-            <p>
-                Standard JavaScript <code>setInterval(fn, 1000)</code> drifts significantly on mobile devices because operating systems throttle background tabs to conserve battery. If an athlete locks their phone between sets, a naive timer can lose 10 to 30 seconds.
-            </p>
-            <p>
-                Workout Mixer prevents timer drift by anchoring interval calculations to monotonic epoch timestamps:
-            </p>
-
-            <pre class="code-block"><code>// Drift-proof countdown state machine
-const startIntervalTimer = (targetDurationSeconds, onTick, onComplete) => {
-    const targetEndTime = Date.now() + (targetDurationSeconds * 1000);
-
-    const intervalId = setInterval(() => {
-        const remainingMs = targetEndTime - Date.now();
-        const remainingSec = Math.max(0, Math.ceil(remainingMs / 1000));
-
-        onTick(remainingSec);
-
-        if (remainingSec &lt;= 0) {
-            clearInterval(intervalId);
-            onComplete();
-        }
-    }, 250); // High-frequency polling checks true system time
-
-    return () => clearInterval(intervalId);
-};</code></pre>
-
-            <h3>5. Zero-Asset Procedural Audio Alert</h3>
-            <p>
-                Instead of fetching audio assets over 4G/5G in basement gym settings, countdown warnings are procedurally synthesized using the browser's <code>AudioContext</code>. A short 880Hz high beep signifies countdown warning, while a 1760Hz double-tone signifies transition:
-            </p>
-
-            <pre class="code-block"><code>const playCountdownBeep = (freq = 880, duration = 0.08) => {
-    const AudioCtx = window.AudioContext || window.webkitAudioContext;
-    const ctx = new AudioCtx();
-    const osc = ctx.createOscillator();
-    const gain = ctx.createGain();
-
-    osc.type = 'triangle';
-    osc.frequency.setValueAtTime(freq, ctx.currentTime);
-
-    gain.gain.setValueAtTime(0.2, ctx.currentTime);
-    gain.gain.exponentialRampToValueAtTime(0.001, ctx.currentTime + duration);
-
-    osc.connect(gain);
-    gain.connect(ctx.destination);
-    osc.start();
-    osc.stop(ctx.currentTime + duration);
-};</code></pre>
-        </section>
-
-        <!-- SECTION 4: WHAT WAS LEARNED -->
-        <section class="section-block">
-            <div class="accent-line">
-                <span class="section-label">04 // KEY TAKEAWAYS</span>
+                <span class="section-label">KEY TAKEAWAYS // ENGINEERING SUMMARY</span>
             </div>
             <h2 class="section-title">
                 <i class="fa-solid fa-graduation-cap"></i> Summary of What Was Learned
@@ -376,6 +99,11 @@ const startIntervalTimer = (targetDurationSeconds, onTick, onComplete) => {
                 <p>
                     Developing the Workout Mixer demonstrated how multi-track procedural audio scheduling in the Web Audio API can generate dynamic, tempo-synced soundscapes that adapt to interval training intensities. Designing reactive SVG beat meters and tempo controls required strict separation between UI rendering and the low-latency audio hardware clock to avoid timing drift. Implementing smooth gain node crossfades and stereo panners provided seamless transitions between high-energy circuits and ambient recovery phases without acoustic clipping. The project emphasized that procedural sound design combined with clear timer state machines can elevate fitness applications far beyond static recorded playlists.
                 </p>
+                <div class="summary-action-area">
+                    <a href="./index.html" class="btn-launch-project">
+                        <i class="fa-solid fa-play"></i> Launch Workout Mixer
+                    </a>
+                </div>
             </div>
         </section>
 

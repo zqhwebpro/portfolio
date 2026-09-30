@@ -4,51 +4,32 @@
 <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Zach Heindel | Case Study: Chess PyCalc &amp; Win Probability Engine</title>
+    <title>Zach Heindel | Case Study: Chess PyCalc Position Evaluation Engine</title>
     <meta name="description"
-        content="Technical case study of Chess PyCalc: full FIDE move generation, Piece-Square Table (PST) positional evaluation, and logistic sigmoid win probability heuristics." />
-    <link rel="canonical" href="https://heindel.org/new_projects/python-calculator/case-study.html" />
+        content="Technical case study of Chess PyCalc: Heuristic chess position evaluation, Piece-Square Table matrices, dynamic sigmoid probability curves, and CRT terminal shaders." />
+    <link rel="canonical" href="https://zqhwebpro.github.io/portfolio/new_projects/python-calculator/case-study.html" />
 
     <!-- Open Graph / Facebook -->
     <meta property="og:type" content="article" />
-    <meta property="og:url" content="https://heindel.org/new_projects/python-calculator/case-study.html" />
-    <meta property="og:title" content="Case Study: Chess PyCalc &amp; Win Probability Engine | Zach Heindel" />
-    <meta property="og:description" content="Technical analysis of building a FIDE-compliant chess move generator, Piece-Square positional evaluations, and sigmoid win-probability model." />
-    <meta property="og:image" content="https://heindel.org/2026/media/zqh-portfolio.png" />
-
-    <!-- Twitter -->
-    <meta name="twitter:card" content="summary_large_image" />
-    <meta name="twitter:title" content="Case Study: Chess PyCalc &amp; Win Probability Engine | Zach Heindel" />
-    <meta name="twitter:description" content="Exploring FIDE move generation, Piece-Square Tables (PST), and real-time centipawn positional evaluations." />
-    <meta name="twitter:image" content="https://heindel.org/2026/media/zqh-portfolio.png" />
+    <meta property="og:url" content="https://zqhwebpro.github.io/portfolio/new_projects/python-calculator/case-study.html" />
+    <meta property="og:title" content="Case Study: Chess PyCalc Engine | Zach Heindel" />
+    <meta property="og:description" content="Technical deep-dive into heuristic position evaluation algorithms, 64-square Piece-Square Tables, and FEN parsing." />
 
     <!-- AI SEO & Search Engine Structured Data -->
     <script type="application/ld+json">
     {
       "@context": "https://schema.org",
       "@type": "TechArticle",
-      "headline": "Chess PyCalc: Win Probability Engine & Centipawn Positional Evaluation",
-      "description": "In-depth engineering article covering FIDE chess rules validation, bitboard-style positional tables, and mathematical win probability calculation.",
+      "headline": "Chess PyCalc: Algorithmic Heuristic Position Evaluation & FEN Analysis",
+      "description": "Comprehensive engineering case study analyzing heuristic chess piece valuation, Piece-Square Table spatial positional weighting, sigmoid win probability curves, and CRT scanline terminal design.",
       "author": {
-        "@type": "Person",
-        "name": "Zach Heindel",
-        "url": "https://heindel.org"
-      },
-      "publisher": {
         "@type": "Person",
         "name": "Zach Heindel"
       },
-      "url": "https://heindel.org/new_projects/python-calculator/case-study.html",
-      "about": [
-        { "@type": "Thing", "name": "Chess Engine Architecture" },
-        { "@type": "Thing", "name": "Game Theory" },
-        { "@type": "Thing", "name": "Piece-Square Tables (PST)" },
-        { "@type": "Thing", "name": "Probability Theory" }
-      ],
-      "inLanguage": "en"
+      "dependencies": "Vanilla JavaScript (ES6+), Tailwind CSS, Game Theory Algorithms",
+      "proficiencyLevel": "Intermediate"
     }
     </script>
-
     <link href="../../2026/media/zqh-portfolio.png" rel="icon" type="image/png">
 
     <!-- Fonts & Icons -->
@@ -70,6 +51,9 @@
                 <a href="../index.html" class="nav-btn">
                     <i class="fa-solid fa-arrow-left"></i> Interactive Portfolio
                 </a>
+                <a href="./index.html" class="nav-btn nav-btn-project">
+                    <i class="fa-solid fa-terminal"></i> Launch Chess PyCalc
+                </a>
             </div>
         </div>
     </header>
@@ -78,244 +62,34 @@
 
         <div class="case-hero">
             <div class="accent-line">
-                <span class="section-label">CASE STUDY // GAME THEORY &amp; HEURISTIC ENGINES</span>
+                <span class="section-label">CASE STUDY // SUMMARY OF LEARNINGS</span>
             </div>
             <div class="post-meta-row">
                 <span class="author">Zach Heindel</span>
                 <span class="meta-sep">•</span>
-                <span class="meta-topic">Game Theory &amp; Heuristic Evaluation Matrices</span>
+                <span class="meta-topic">Heuristic AI &amp; Lexer-Parser Math Engines</span>
                 <span class="meta-sep">•</span>
-                <span class="meta-time">6 Min Read</span>
+                <span class="meta-time">3 Min Read</span>
             </div>
             <h1 class="hero-title">
-                Chess PyCalc: <span class="highlight">Tactical Calculus &amp; Win Evaluator</span>
+                Chess PyCalc: <span class="highlight">Heuristic Position Evaluator</span>
             </h1>
             <p class="hero-subtitle">
-                An opulent chess calculus workbench combining complete piece move generation, Piece-Square Table (PST) positional evaluation matrices, real-time win probability heuristics, and move delta previews.
+                Retro terminal chess evaluation engine with dynamic Piece-Square Table matrices, FEN parsing, and sigmoid win-probability delta curves.
             </p>
             <div class="badge-row">
-                <span class="tag amber"><i class="fa-brands fa-python"></i> Python 3 + Architecture</span>
-                <span class="tag"><i class="fa-solid fa-chess"></i> Full Rule Validation</span>
-                <span class="tag"><i class="fa-solid fa-chart-line"></i> PST Evaluation Matrix</span>
-                <span class="tag"><i class="fa-solid fa-percent"></i> Win Probability Sigmoid</span>
-                <span class="tag"><i class="fa-solid fa-clock-rotate-left"></i> History Scrubber</span>
+                <span class="tag amber"><i class="fa-solid fa-code"></i> Vanilla JS (ES6+)</span>
+                <span class="tag"><i class="fa-solid fa-chess-knight"></i> Heuristic AI</span>
+                <span class="tag"><i class="fa-solid fa-table-cells"></i> Piece-Square Tables</span>
+                <span class="tag"><i class="fa-solid fa-square-root-variable"></i> FEN Parser</span>
+                <span class="tag"><i class="fa-solid fa-terminal"></i> CRT Scanline UI</span>
             </div>
         </div>
 
-        <!-- Metric Highlights -->
-        <div class="metrics-grid">
-            <div class="metric-card">
-                <div class="metric-value">
-                    <i class="fa-solid fa-chess-board"></i> 100%
-                </div>
-                <div class="metric-label">FIDE Rule Compliance (En-Passant, Castling)</div>
-            </div>
-            <div class="metric-card">
-                <div class="metric-value">
-                    <i class="fa-solid fa-table-cells"></i> 64 Squares
-                </div>
-                <div class="metric-label">Piece-Square Table (PST) Spatial Weights</div>
-            </div>
-            <div class="metric-card">
-                <div class="metric-value">
-                    <i class="fa-solid fa-calculator"></i> &plusmn;400 CP
-                </div>
-                <div class="metric-label">Logistic Sigmoid 10x Odds Threshold</div>
-            </div>
-            <div class="metric-card">
-                <div class="metric-value">
-                    <i class="fa-solid fa-bolt"></i> &lt;2ms
-                </div>
-                <div class="metric-label">Full Board Move Generation &amp; Score Latency</div>
-            </div>
-        </div>
-
-        <!-- SECTION 1: EDUCATIONAL FOUNDATION -->
+        <!-- SECTION: WHAT WAS LEARNED -->
         <section class="section-block">
             <div class="accent-line">
-                <span class="section-label">01 // EDUCATIONAL FOUNDATION &amp; CORE TECHNOLOGIES</span>
-            </div>
-            <h2 class="section-title">
-                <i class="fa-solid fa-graduation-cap"></i> Understanding Python 3, Heuristic Evaluation &amp; Game Theory
-            </h2>
-            <p>
-                <strong>Python 3</strong> is an elegant, high-level programming language renowned for clear syntax, powerful data manipulation, and game theory modeling. <strong>Chess PyCalc</strong> leverages Python's expressive object model to generate chess moves and evaluate board positions in real time.
-            </p>
-
-            <div class="tech-stack-grid">
-                <div class="tech-item">
-                    <div class="tech-label">CORE ENGINE</div>
-                    <div class="tech-value">Python 3 Data Structures</div>
-                    <div class="tech-desc">Uses 8x8 nested matrices, bitmasks, and dictionary objects to represent the 64 squares of a chessboard and calculate legal piece movement.</div>
-                </div>
-
-                <div class="tech-item">
-                    <div class="tech-label">POSITIONAL HEURISTICS</div>
-                    <div class="tech-value">Piece-Square Tables (PST)</div>
-                    <div class="tech-desc">64-element numerical weight grids that assign extra score bonuses to pieces controlling central squares ($d4, d5, e4, e5$) versus weak edge squares.</div>
-                </div>
-
-                <div class="tech-item">
-                    <div class="tech-label">STATISTICAL MODELING</div>
-                    <div class="tech-value">Logistic Sigmoid Function</div>
-                    <div class="tech-desc">Converts raw centipawn material evaluation scores into a smooth 0% to 100% win probability percentage curve.</div>
-                </div>
-
-                <div class="tech-item">
-                    <div class="tech-label">TACTICAL ANALYSIS</div>
-                    <div class="tech-value">Move Delta Previewer</div>
-                    <div class="tech-desc">Calculates instantaneous centipawn deltas ($\Delta$) before and after a move to highlight tactical blunders and grandmaster moves.</div>
-                </div>
-            </div>
-
-            <h3>How Chess Evaluation &amp; Sigmoid Probability Work in Simple Terms</h3>
-            <p>
-                <strong>1. Centipawn Evaluation:</strong> In chess programming, 1 Pawn is worth 100 Centipawns ($+1.00$). A Knight or Bishop is worth $+3.00$ (300 CP), a Rook $+5.00$ (500 CP), and a Queen $+9.00$ (900 CP). Positional bonuses (like controlling the center) add or subtract small centipawn values.
-            </p>
-            <p>
-                <strong>2. The Logistic Sigmoid Win Curve:</strong> A raw evaluation score of $+4.00$ doesn't mean White has 400% win chance—percentages must stay between 0% and 100%. The mathematical **Sigmoid S-Curve** converts raw evaluation scores into a smooth win probability:
-            </p>
-
-            $$P(\text{Win}) = \frac{1}{1 + 10^{-\text{Score} / 400}}$$
-
-            <p>
-                An evaluation of $0.00$ yields $50\%$ win probability. An advantage of $+400\text{ CP}$ (+4 Pawns) shifts win probability to $90.9\%$, creating an intuitive probability bar!
-            </p>
-        </section>
-            <p>
-                In chess, beginners often judge a position strictly by counting captured pieces: <em>"I have an extra knight, so I am winning."</em> However, grandmasters evaluate positions through a much more nuanced lens: spatial control, king safety, open files for rooks, and piece activity. A player down material can possess overwhelming positional pressure that makes victory inevitable.
-            </p>
-            <p>
-                <strong>Chess PyCalc</strong> is an analytical game engine and calculus tutor designed to bridge this cognitive gap. Beyond enforcing complete legal chess move generation, it computes continuous positional evaluation scores (in centipawns) and translates them into an intuitive Win Probability percentage using the Elo rating logistic curve.
-            </p>
-        </section>
-
-        <!-- SECTION 2 -->
-        <section class="section-block">
-            <div class="accent-line">
-                <span class="section-label">02 // CORE TECHNOLOGIES &amp; WHY THEY WERE CHOSEN</span>
-            </div>
-            <h2 class="section-title">
-                <i class="fa-solid fa-microchip"></i> Technology Stack Breakdown
-            </h2>
-            <p>
-                The game engine was designed to maximize computational clarity and algorithmic readability:
-            </p>
-
-            <div class="tech-stack-grid">
-                <div class="tech-item">
-                    <div class="tech-label">Core Logic</div>
-                    <div class="tech-value">Python 3 Class Engine</div>
-                    <div class="tech-desc">Provides object-oriented state encapsulation with immutable move history snapshots, en-passant coordinates, and castling bitmasks.</div>
-                </div>
-                <div class="tech-item">
-                    <div class="tech-label">Positional Model</div>
-                    <div class="tech-value">Piece-Square Tables (PST)</div>
-                    <div class="tech-desc">Static 8x8 weight matrices that award or penalize pieces based on their coordinate location, rewarding central control and king safety.</div>
-                </div>
-                <div class="tech-item">
-                    <div class="tech-label">Probability Math</div>
-                    <div class="tech-value">Logistic Sigmoid Curve</div>
-                    <div class="tech-desc">Transforms non-linear centipawn evaluations into calibrated winning probabilities ranging from 0.1% to 99.9%.</div>
-                </div>
-                <div class="tech-item">
-                    <div class="tech-label">Notation</div>
-                    <div class="tech-value">Standard Algebraic (SAN)</div>
-                    <div class="tech-desc">Parses and outputs canonical FIDE algebraic notation (e.g. <code>Nf3</code>, <code>e4</code>, <code>O-O</code>) for game recording and review.</div>
-                </div>
-            </div>
-        </section>
-
-        <!-- SECTION 3 -->
-        <section class="section-block">
-            <div class="accent-line">
-                <span class="section-label">03 // CODING TECHNIQUES &amp; IMPLEMENTATION</span>
-            </div>
-            <h2 class="section-title">
-                <i class="fa-solid fa-code"></i> Engineering Mechanics &amp; Evaluation Algorithms
-            </h2>
-
-            <h3>1. Complete FIDE Move Generation &amp; Check Detection</h3>
-            <p>
-                Generating legal moves requires a two-pass algorithm. The engine first calculates pseudo-legal candidate moves based on piece kinematics (raycasting along diagonals/orthogonals for bishops, rooks, and queens; 8 L-hops for knights; 1-step and 2-step forward pushes with diagonal captures for pawns). 
-                In the second pass, the engine tests whether executing the move leaves the friendly king in check:
-            </p>
-
-            <pre class="code-block"><code>def get_all_legal_moves(self):
-    legal_moves = []
-    for r in range(8):
-        for c in range(8):
-            piece = self.board[r][c]
-            if piece and piece[0] == self.turn:
-                # 1. Compute pseudo-legal candidate moves for the piece
-                candidates = self.get_pseudo_legal_moves(r, c)
-                for move in candidates:
-                    # 2. Simulate move on a deep copy of the board
-                    sim = copy.deepcopy(self)
-                    sim.apply_move(move)
-                    # 3. Discard move if friendly king remains under attack
-                    if not sim.is_in_check(self.turn):
-                        legal_moves.append(move)
-    return legal_moves</code></pre>
-
-            <h3>2. 8x8 Piece-Square Table (PST) Positional Valuation</h3>
-            <p>
-                Material values alone (Pawn=100, Knight=320, Bishop=335, Rook=500, Queen=900 centipawns) fail to capture positional advantage. To model strategic value, the engine applies an 8x8 Piece-Square Table for each piece type:
-            </p>
-
-            <pre class="code-block"><code># Knight Positional Evaluation Matrix (Centipawns)
-PST_KNIGHT = [
-    [-50, -40, -30, -30, -30, -30, -40, -50], # 8th rank
-    [-40, -20,   0,   0,   0,   0, -20, -40], # 7th rank
-    [-30,   0,  10,  15,  15,  10,   0, -30], # 6th rank
-    [-30,   5,  15,  20,  20,  15,   5, -30], # 5th rank (Outposts: +20 CP)
-    [-30,   0,  15,  20,  20,  15,   0, -30], # 4th rank (Outposts: +20 CP)
-    [-30,   5,  10,  15,  15,  10,   5, -30], # 3rd rank
-    [-40, -20,   0,   5,   5,   0, -20, -40], # 2nd rank
-    [-50, -40, -30, -30, -30, -30, -40, -50]  # 1st rank (Rim penalty: -50 CP)
-]</code></pre>
-
-            <p>
-                Knights occupying the rim (e.g. <code>a1</code>, <code>h1</code>) are penalized by -50 CP because they control only 2 squares, whereas knights occupying central outpost squares (<code>d4</code>, <code>d5</code>, <code>e4</code>, <code>e5</code>) are awarded +20 CP bonuses for dominating 8 active squares.
-            </p>
-
-            <h3>3. Logistic Sigmoid Win Probability Heuristic</h3>
-            <p>
-                Centipawn scores (e.g. <code>+2.45</code>) are abstract to human players. In Chess PyCalc, centipawn balance is transformed into a calibrated winning probability percentage using a logistic sigmoid equation derived from FIDE Elo mechanics:
-            </p>
-
-            <div class="diagram-card" style="text-align: center; padding: 24px;">
-                <code style="font-size: 1.1rem; color: var(--amber);">P(White Win) = 100 / (1 + 10^(-cp / 400))</code>
-            </div>
-
-            <pre class="code-block"><code>def calculate_win_probability(centipawns):
-    # In standard Elo models, a 400 centipawn (+4.0) advantage equates to a 10:1 odds ratio
-    exponent = -centipawns / 400.0
-    try:
-        white_win_pct = 100.0 / (1.0 + math.pow(10, exponent))
-    except OverflowError:
-        white_win_pct = 99.9 if centipawns > 0 else 0.1
-
-    # Clamp bounds to [0.1%, 99.9%]
-    white_win_pct = max(0.1, min(99.9, white_win_pct))
-    black_win_pct = 100.0 - white_win_pct
-
-    return round(white_win_pct, 1), round(black_win_pct, 1)</code></pre>
-
-            <p>
-                When the position is dead equal (<code>0 CP</code>), the formula yields <code>50.0%</code>. When White is up a full bishop (<code>+335 CP</code>), the probability climbs to <code>~87.3%</code>. If White is up a queen (<code>+900 CP</code>), the probability approaches <code>99.4%</code>.
-            </p>
-
-            <h3>4. Move Scrubber &amp; State Rollback Stack</h3>
-            <p>
-                Every move commits a lightweight state snapshot to a history stack containing the board array, active turn, castling rights dictionary, en-passant square, and captured pieces. Pressing "Undo" or scrubbing the timeline restores the prior board state in <em>O(1)</em> constant time.
-            </p>
-        </section>
-
-        <!-- SECTION 4: WHAT WAS LEARNED -->
-        <section class="section-block">
-            <div class="accent-line">
-                <span class="section-label">04 // KEY TAKEAWAYS</span>
+                <span class="section-label">KEY TAKEAWAYS // ENGINEERING SUMMARY</span>
             </div>
             <h2 class="section-title">
                 <i class="fa-solid fa-graduation-cap"></i> Summary of What Was Learned
@@ -325,6 +99,11 @@ PST_KNIGHT = [
                 <p>
                     Building this project demonstrated how a robust Lexer-Parser tokenizer architecture transforms raw mathematical input into structured syntax trees, cleanly handling complex operator precedence and nested parentheses. Simulating a vintage CRT terminal interface highlighted the value of monospace typography, phosphor glow filters, and scanline shaders in establishing a focused user experience. Decoupling the arithmetic evaluation engine from UI state management ensured testable calculation logic and prevented edge cases with floating-point arithmetic. The implementation proved that pairing retro computer aesthetics with strict mathematical parsing creates an engaging, reliable developer utility.
                 </p>
+                <div class="summary-action-area">
+                    <a href="./index.html" class="btn-launch-project">
+                        <i class="fa-solid fa-play"></i> Launch Chess PyCalc
+                    </a>
+                </div>
             </div>
         </section>
 

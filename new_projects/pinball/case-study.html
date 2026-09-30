@@ -7,20 +7,13 @@
     <title>Zach Heindel | Case Study: React Pixel Pinball Engine</title>
     <meta name="description"
         content="Technical case study of React Pixel Pinball: 2D physics integration, continuous collision detection, line-segment projection, and flipper torque." />
-    <link rel="canonical" href="https://heindel.org/new_projects/pinball/case-study.html" />
+    <link rel="canonical" href="https://zqhwebpro.github.io/portfolio/new_projects/pinball/case-study.html" />
 
     <!-- Open Graph / Facebook -->
     <meta property="og:type" content="article" />
-    <meta property="og:url" content="https://heindel.org/new_projects/pinball/case-study.html" />
+    <meta property="og:url" content="https://zqhwebpro.github.io/portfolio/new_projects/pinball/case-study.html" />
     <meta property="og:title" content="Case Study: React Pixel Pinball Engine | Zach Heindel" />
     <meta property="og:description" content="Technical deep-dive into engineering a 2D physics engine, continuous collision detection, spring dynamics, and Web Audio synthesized soundscapes." />
-    <meta property="og:image" content="https://heindel.org/2026/media/zqh-portfolio.png" />
-
-    <!-- Twitter -->
-    <meta name="twitter:card" content="summary_large_image" />
-    <meta name="twitter:title" content="Case Study: React Pixel Pinball Engine | Zach Heindel" />
-    <meta name="twitter:description" content="Engineering a custom HTML5 Canvas 2D pinball physics simulation with raycasting and flipper torque." />
-    <meta name="twitter:image" content="https://heindel.org/2026/media/zqh-portfolio.png" />
 
     <!-- AI SEO & Search Engine Structured Data -->
     <script type="application/ld+json">
@@ -31,24 +24,12 @@
       "description": "Comprehensive engineering analysis of constructing a high-performance 2D pinball physics simulator using HTML5 Canvas, impulse resolution, line-segment projection, and Web Audio API synthesis.",
       "author": {
         "@type": "Person",
-        "name": "Zach Heindel",
-        "url": "https://heindel.org"
-      },
-      "publisher": {
-        "@type": "Person",
         "name": "Zach Heindel"
       },
-      "url": "https://heindel.org/new_projects/pinball/case-study.html",
-      "about": [
-        { "@type": "Thing", "name": "2D Physics Engine" },
-        { "@type": "Thing", "name": "Continuous Collision Detection" },
-        { "@type": "Thing", "name": "HTML5 Canvas" },
-        { "@type": "Thing", "name": "Web Audio API" }
-      ],
-      "inLanguage": "en"
+      "dependencies": "React 18, HTML5 Canvas, Vector Physics, Web Audio API",
+      "proficiencyLevel": "Advanced"
     }
     </script>
-
     <link href="../../2026/media/zqh-portfolio.png" rel="icon" type="image/png">
 
     <!-- Fonts & Icons -->
@@ -70,6 +51,9 @@
                 <a href="../index.html" class="nav-btn">
                     <i class="fa-solid fa-arrow-left"></i> Interactive Portfolio
                 </a>
+                <a href="./index.html" class="nav-btn nav-btn-project">
+                    <i class="fa-solid fa-circle-dot"></i> Launch Pixel Pinball
+                </a>
             </div>
         </div>
     </header>
@@ -78,14 +62,14 @@
 
         <div class="case-hero">
             <div class="accent-line">
-                <span class="section-label">CASE STUDY // 2D PHYSICS &amp; CANVAS ARCADE</span>
+                <span class="section-label">CASE STUDY // SUMMARY OF LEARNINGS</span>
             </div>
             <div class="post-meta-row">
                 <span class="author">Zach Heindel</span>
                 <span class="meta-sep">•</span>
-                <span class="meta-topic">2D Physics Engine &amp; Continuous Collision Detection</span>
+                <span class="meta-topic">2D Vector Physics &amp; Continuous Collision Detection</span>
                 <span class="meta-sep">•</span>
-                <span class="meta-time">6 Min Read</span>
+                <span class="meta-time">3 Min Read</span>
             </div>
             <h1 class="hero-title">
                 React Pixel Pinball: <span class="highlight">2D Arcade Engine</span>
@@ -98,234 +82,14 @@
                 <span class="tag"><i class="fa-solid fa-gamepad"></i> 2D Physics Engine</span>
                 <span class="tag"><i class="fa-solid fa-circle-notch"></i> Raycast Collision Detection</span>
                 <span class="tag"><i class="fa-solid fa-arrows-spin"></i> Flipper Angular Torque</span>
-                <span class="tag"><i class="fa-solid fa-volume-high"></i> Procedural Audio</span>
+                <span class="tag"><i class="fa-solid fa-volume-high"></i> Web Audio API</span>
             </div>
         </div>
 
-        <!-- Metric Highlights -->
-        <div class="metrics-grid">
-            <div class="metric-card">
-                <div class="metric-value">
-                    <i class="fa-solid fa-gauge-high"></i> 60 FPS
-                </div>
-                <div class="metric-label">Stable Physics Loop</div>
-            </div>
-            <div class="metric-card">
-                <div class="metric-value">
-                    <i class="fa-solid fa-layer-group"></i> 4 Sub-Steps
-                </div>
-                <div class="metric-label">Continuous Collision Detection</div>
-            </div>
-            <div class="metric-card">
-                <div class="metric-value">
-                    <i class="fa-solid fa-calculator"></i> 0
-                </div>
-                <div class="metric-label">External Physics Libraries (Pure Math)</div>
-            </div>
-            <div class="metric-card">
-                <div class="metric-value">
-                    <i class="fa-solid fa-shield-halved"></i> 0 KB
-                </div>
-                <div class="metric-label">Audio Asset Overhead</div>
-            </div>
-        </div>
-
-        <!-- SECTION 1: EDUCATIONAL FOUNDATION -->
+        <!-- SECTION: WHAT WAS LEARNED -->
         <section class="section-block">
             <div class="accent-line">
-                <span class="section-label">01 // EDUCATIONAL FOUNDATION &amp; CORE TECHNOLOGIES</span>
-            </div>
-            <h2 class="section-title">
-                <i class="fa-solid fa-graduation-cap"></i> Understanding 2D Physics Engines, Vector Math &amp; Collisions
-            </h2>
-            <p>
-                A <strong>2D Physics Engine</strong> is a software system that simulates physical dynamics—such as gravity, velocity, restitution (bounciness), friction, and impulse collisions—using Newtonian mechanics.
-            </p>
-
-            <div class="tech-stack-grid">
-                <div class="tech-item">
-                    <div class="tech-label">PHYSICS STATE</div>
-                    <div class="tech-value">Vector Kinematics</div>
-                    <div class="tech-desc">Stores pinball position $\vec{P}(x, y)$ and velocity $\vec{V}(vx, vy)$. Every frame, gravity accelerates velocity $\vec{V} += \vec{G} \cdot \Delta t$, and velocity updates position.</div>
-                </div>
-
-                <div class="tech-item">
-                    <div class="tech-label">COLLISION DETECTION</div>
-                    <div class="tech-value">Circle vs Line Raycasting</div>
-                    <div class="tech-desc">Calculates the shortest perpendicular distance between the ball center and bumper segments to detect hits before the ball passes through solid walls.</div>
-                </div>
-
-                <div class="tech-item">
-                    <div class="tech-label">IMPULSE RESPONSE</div>
-                    <div class="tech-value">Elastic Reflection Vectors</div>
-                    <div class="tech-desc">When the ball hits a surface, its velocity vector reflects across the surface normal vector $\hat{N}$ modulated by the coefficient of restitution ($e = 0.85$).</div>
-                </div>
-
-                <div class="tech-item">
-                    <div class="tech-label">FLIPPER MECHANICS</div>
-                    <div class="tech-value">Angular Velocity Torque</div>
-                    <div class="tech-desc">Flippers rotate around a fixed pivot point $\vec{O}$. Striking the ball transfers instant kinetic energy based on angular velocity $\omega \cdot r$.</div>
-                </div>
-            </div>
-
-            <h3>How Pinball Collision Reflection Works in Simple Terms</h3>
-            <p>
-                Imagine throwing a rubber ball against a wall at an angle. The ball bounces off at the exact same angle on the opposite side of the wall's normal (perpendicular) line.
-            </p>
-            <p>
-                In 2D physics vector math, the reflected velocity vector $\vec{V}_{\text{new}}$ is calculated using the vector dot product formula:
-            </p>
-
-            $$\vec{V}_{\text{new}} = \vec{V} - (1 + e)(\vec{V} \cdot \hat{N})\hat{N}$$
-
-            <p>
-                Where $\hat{N}$ is the surface normal vector and $e = 0.85$ is the bounciness coefficient. When you hit a flipper moving upwards, the flipper's angular speed adds extra kinetic speed to $\vec{V}_{\text{new}}$, sending the pinball shooting up the ramp!
-            </p>
-        </section>
-            <p>
-                Pinball looks deceptively simple, but simulating it on a computer screen is notoriously difficult. Unlike platformer games where objects move at predictable speeds along fixed grids, a pinball accelerates rapidly under gravity, deflects off curved bumpers at sharp angles, and strikes rapidly rotating mechanical flippers.
-            </p>
-            <p>
-                In a naive physics engine running at 60 FPS, a fast-moving ball can travel 30 pixels in a single frame. If a barrier or flipper is only 10 pixels thick, the ball can teleport completely through the barrier without ever colliding—a catastrophic bug known as <em>tunneling</em>.
-            </p>
-            <p>
-                <strong>React Pixel Pinball</strong> was built from scratch without bloated third-party game engines (like Matter.js or Box2D). It implements an optimized custom 2D Newtonian physics loop with continuous collision sub-stepping, scalar line-segment projection, and angular torque transfer directly on an HTML5 Canvas.
-            </p>
-        </section>
-
-        <!-- SECTION 2 -->
-        <section class="section-block">
-            <div class="accent-line">
-                <span class="section-label">02 // CORE TECHNOLOGIES &amp; WHY THEY WERE CHOSEN</span>
-            </div>
-            <h2 class="section-title">
-                <i class="fa-solid fa-microchip"></i> Technology Stack Breakdown
-            </h2>
-            <p>
-                The game engine was designed to maximize framerate consistency and eliminate input lag:
-            </p>
-
-            <div class="tech-stack-grid">
-                <div class="tech-item">
-                    <div class="tech-label">Render Pipeline</div>
-                    <div class="tech-value">HTML5 2D Canvas</div>
-                    <div class="tech-desc">Provides direct bitmap drawing access. Completely avoids DOM node recalculation or reflow bottlenecks during high-frequency particle and bumper updates.</div>
-                </div>
-                <div class="tech-item">
-                    <div class="tech-label">State Architecture</div>
-                    <div class="tech-value">React Hooks + Ref Inputs</div>
-                    <div class="tech-desc">Synchronizes game score and high scores to React UI, while routing real-time flipper key states through mutable <code>useRef</code> objects to bypass React closure staleness.</div>
-                </div>
-                <div class="tech-item">
-                    <div class="tech-label">Collision Math</div>
-                    <div class="tech-value">Vector Projection CCD</div>
-                    <div class="tech-desc">Uses 4-step sub-frame integration with scalar point-to-segment projection, ensuring 100% bounce reliability even during maximum plunger launch velocity.</div>
-                </div>
-                <div class="tech-item">
-                    <div class="tech-label">Audio DSP</div>
-                    <div class="tech-value">Web Audio Synthesizer</div>
-                    <div class="tech-desc">Synthesizes retro chime dings, bumper thuds, and flipper solenoid snaps using sine and triangle oscillator nodes with zero MP3 downloads.</div>
-                </div>
-            </div>
-        </section>
-
-        <!-- SECTION 3 -->
-        <section class="section-block">
-            <div class="accent-line">
-                <span class="section-label">03 // CODING TECHNIQUES &amp; IMPLEMENTATION</span>
-            </div>
-            <h2 class="section-title">
-                <i class="fa-solid fa-code"></i> Engineering Mechanics &amp; Physics Algorithms
-            </h2>
-
-            <h3>1. Sub-Step Continuous Collision Detection (CCD)</h3>
-            <p>
-                To eliminate the tunneling phenomenon, each animation frame is subdivided into four discrete physics ticks (<code>steps = 4</code>). Gravity, position integration, and boundary collisions are evaluated at 240Hz, preventing high-velocity balls from penetrating geometric boundaries:
-            </p>
-
-            <pre class="code-block"><code>const updatePhysics = () => {
-    const steps = 4; // Sub-stepping eliminates tunneling
-    const gravity = 0.28 / steps;
-
-    for (let step = 0; step &lt; steps; step++) {
-        ball.vy += gravity;
-        ball.x += (ball.vx * 0.9) / steps;
-        ball.y += (ball.vy * 0.9) / steps;
-
-        // Perform boundary, bumper, and flipper checks at high sub-frequency...
-        resolveCollisions(ball);
-    }
-};</code></pre>
-
-            <h3>2. Line-Segment Capsule Collision Detection</h3>
-            <p>
-                Flippers are not static rectangles; they are rotating capsules defined by a pivot point <code>(f.x, f.y)</code>, an angle, and a length. To determine whether the ball has collided with a flipper, the engine projects the ball's center onto the flipper line segment using scalar vector projection:
-            </p>
-
-            <pre class="code-block"><code>const checkFlipperCollision = (flipper, isLeft) => {
-    // 1. Calculate the tip of the flipper from pivot & angle
-    const tipX = flipper.x + Math.cos(flipper.angle) * flipper.length;
-    const tipY = flipper.y + Math.sin(flipper.angle) * flipper.length;
-
-    const fx = tipX - flipper.x;
-    const fy = tipY - flipper.y;
-    const flipperLengthSq = fx * fx + fy * fy;
-
-    // 2. Scalar projection: find closest point t on segment [0, 1]
-    let t = ((ball.x - flipper.x) * fx + (ball.y - flipper.y) * fy) / flipperLengthSq;
-    t = Math.max(0, Math.min(1, t));
-
-    // 3. Measure Euclidean distance from ball to closest point
-    const closestX = flipper.x + t * fx;
-    const closestY = flipper.y + t * fy;
-    const dist = Math.sqrt((ball.x - closestX) ** 2 + (ball.y - closestY) ** 2);
-
-    // 4. Resolve collision if within radius threshold
-    if (dist &lt; ball.radius + flipper.baseRadius) {
-        resolveFlipperImpulse(flipper, isLeft);
-    }
-};</code></pre>
-
-            <h3>3. Flipper Angular Torque &amp; Dynamic Impulse Transfer</h3>
-            <p>
-                When a player triggers a flipper, the flipper sweeps upward at high angular velocity. If the ball strikes the flipper mid-stroke, kinetic energy must transfer into the ball. Conversely, if the flipper is resting at its maximum elevation, the ball should roll down the incline under gravity.
-            </p>
-            <p>
-                The engine distinguishes between active stroke torque and passive sliding resting states:
-            </p>
-
-            <pre class="code-block"><code>const resolveFlipperImpulse = (flipper, isLeft) => {
-    const isActivelyFlipping = isLeft 
-        ? inputsRef.current.leftFlipper 
-        : inputsRef.current.rightFlipper;
-
-    if (isActivelyFlipping) {
-        // High vertical impulse imparted by the upward stroke
-        ball.vy = -14.0;
-        ball.vx = isLeft ? 4.0 : -4.0;
-    } else {
-        // Resting bounce & natural gravity roll along the incline
-        ball.vy = -2.5;
-        ball.vx = isLeft ? 1.5 : -1.5;
-
-        // Slide momentum along the flipper's cosine slope
-        const slideDir = isLeft ? Math.cos(flipper.angle) : -Math.cos(flipper.angle);
-        ball.vx += slideDir * 1.8;
-        ball.vy += Math.sin(flipper.angle) * 1.2;
-    }
-};</code></pre>
-
-            <h3>4. Bypassing React Render Closures with Input Refs</h3>
-            <p>
-                In a standard React application, referencing component state inside a <code>requestAnimationFrame</code> loop captures stale closures, requiring the effect to tear down and recreate itself on every key press. 
-                In Pixel Pinball, keyboard input listeners mutate an <code>inputsRef.current</code> object directly. The 60 FPS animation loop reads this ref synchronously without triggering unnecessary React renders.
-            </p>
-        </section>
-
-        <!-- SECTION 4: WHAT WAS LEARNED -->
-        <section class="section-block">
-            <div class="accent-line">
-                <span class="section-label">04 // KEY TAKEAWAYS</span>
+                <span class="section-label">KEY TAKEAWAYS // ENGINEERING SUMMARY</span>
             </div>
             <h2 class="section-title">
                 <i class="fa-solid fa-graduation-cap"></i> Summary of What Was Learned
@@ -335,6 +99,11 @@
                 <p>
                     Architecting Pixel Pinball reinforced the necessity of continuous raycasting and sub-stepped physics when modeling high-velocity ballistic motion on an HTML5 canvas. Isolating keyboard event listeners and canvas rendering loops from React's virtual DOM reconciliation cycle ensured a deterministic, jitter-free 60 FPS update loop. Computing Euclidean point-to-segment projections mathematically eliminated flipper tunneling bugs and provided authentic angular rebound impulses. Overall, the project demonstrated that building custom 2D vector physics engines yields superior performance and tactile feedback compared to importing monolithic third-party gaming libraries.
                 </p>
+                <div class="summary-action-area">
+                    <a href="./index.html" class="btn-launch-project">
+                        <i class="fa-solid fa-play"></i> Launch Pixel Pinball
+                    </a>
+                </div>
             </div>
         </section>
 

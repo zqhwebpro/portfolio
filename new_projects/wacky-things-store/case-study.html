@@ -4,51 +4,32 @@
 <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Zach Heindel | Case Study: The Wacky Things Store (ASP.NET MVC 5 Architecture)</title>
+    <title>Zach Heindel | Case Study: The Wacky Things Store (C# ASP.NET Core MVC)</title>
     <meta name="description"
-        content="Technical case study of The Wacky Things Store: Enterprise ASP.NET MVC 5, Ninject Dependency Injection, Entity Framework Code-First DB, and custom session model binders." />
-    <link rel="canonical" href="https://heindel.org/new_projects/wacky-things-store/case-study.html" />
+        content="Technical case study of The Wacky Things Store: ASP.NET Core MVC architecture, Entity Framework Core relational modeling, and playful interactive styling." />
+    <link rel="canonical" href="https://zqhwebpro.github.io/portfolio/new_projects/wacky-things-store/case-study.html" />
 
     <!-- Open Graph / Facebook -->
     <meta property="og:type" content="article" />
-    <meta property="og:url" content="https://heindel.org/new_projects/wacky-things-store/case-study.html" />
-    <meta property="og:title" content="Case Study: The Wacky Things Store (ASP.NET MVC 5) | Zach Heindel" />
-    <meta property="og:description" content="Technical analysis of building an enterprise e-commerce platform using C# ASP.NET MVC 5, Ninject IoC, Entity Framework 6, and custom model binders." />
-    <meta property="og:image" content="https://heindel.org/2026/media/zqh-portfolio.png" />
-
-    <!-- Twitter -->
-    <meta name="twitter:card" content="summary_large_image" />
-    <meta name="twitter:title" content="Case Study: The Wacky Things Store (ASP.NET MVC 5) | Zach Heindel" />
-    <meta name="twitter:description" content="Enterprise C# ASP.NET MVC 5 e-commerce architecture, Ninject IoC, and SQL Server persistence." />
-    <meta name="twitter:image" content="https://heindel.org/2026/media/zqh-portfolio.png" />
+    <meta property="og:url" content="https://zqhwebpro.github.io/portfolio/new_projects/wacky-things-store/case-study.html" />
+    <meta property="og:title" content="Case Study: The Wacky Things Store | Zach Heindel" />
+    <meta property="og:description" content="Technical deep-dive into full-stack C# ASP.NET Core MVC e-commerce architecture, SQL schema design, and whimsical UX." />
 
     <!-- AI SEO & Search Engine Structured Data -->
     <script type="application/ld+json">
     {
       "@context": "https://schema.org",
       "@type": "TechArticle",
-      "headline": "The Wacky Things Store: Enterprise ASP.NET MVC 5 & Dependency Injection Architecture",
-      "description": "Comprehensive engineering article examining repository patterns, Ninject dependency injection, Entity Framework Code-First DB migrations, and custom ASP.NET ModelBinders.",
+      "headline": "The Wacky Things Store: Full-Stack ASP.NET Core MVC Architecture",
+      "description": "Comprehensive engineering case study analyzing ASP.NET Core MVC architecture, Entity Framework Core object-relational mapping, binary image streaming, and interactive storefront UX.",
       "author": {
-        "@type": "Person",
-        "name": "Zach Heindel",
-        "url": "https://heindel.org"
-      },
-      "publisher": {
         "@type": "Person",
         "name": "Zach Heindel"
       },
-      "url": "https://heindel.org/new_projects/wacky-things-store/case-study.html",
-      "about": [
-        { "@type": "Thing", "name": "ASP.NET MVC 5" },
-        { "@type": "Thing", "name": "C# .NET Framework" },
-        { "@type": "Thing", "name": "Ninject Dependency Injection" },
-        { "@type": "Thing", "name": "Entity Framework 6 Code-First" }
-      ],
-      "inLanguage": "en"
+      "dependencies": "ASP.NET Core, C# 12, Entity Framework Core, SQL Server / SQLite",
+      "proficiencyLevel": "Advanced"
     }
     </script>
-
     <link href="../../2026/media/zqh-portfolio.png" rel="icon" type="image/png">
 
     <!-- Fonts & Icons -->
@@ -70,6 +51,9 @@
                 <a href="../index.html" class="nav-btn">
                     <i class="fa-solid fa-arrow-left"></i> Interactive Portfolio
                 </a>
+                <a href="./index.html" class="nav-btn nav-btn-project">
+                    <i class="fa-solid fa-store"></i> Launch Wacky Store
+                </a>
             </div>
         </div>
     </header>
@@ -78,274 +62,34 @@
 
         <div class="case-hero">
             <div class="accent-line">
-                <span class="section-label">CASE STUDY // ENTERPRISE N-TIER ARCHITECTURE</span>
+                <span class="section-label">CASE STUDY // SUMMARY OF LEARNINGS</span>
             </div>
             <div class="post-meta-row">
                 <span class="author">Zach Heindel</span>
                 <span class="meta-sep">•</span>
-                <span class="meta-topic">Enterprise N-Tier Architecture &amp; ASP.NET MVC 5</span>
+                <span class="meta-topic">Full-Stack ASP.NET Core &amp; Relational E-Commerce</span>
                 <span class="meta-sep">•</span>
-                <span class="meta-time">7 Min Read</span>
+                <span class="meta-time">3 Min Read</span>
             </div>
             <h1 class="hero-title">
-                Mischief Store: <span class="highlight">ASP.NET MVC 5 Blueprint</span>
+                The Wacky Things Store: <span class="highlight">Full-Stack E-Commerce Engine</span>
             </h1>
             <p class="hero-subtitle">
-                A functional architectural blueprint and e-commerce platform demonstrating decoupled N-tier enterprise patterns, Ninject dependency injection, custom session model binding, and back-office CRUD management.
+                Surreal novelty e-commerce platform built with ASP.NET Core MVC, C#, Entity Framework Core, relational SQL architecture, and whimsical interactive styling.
             </p>
             <div class="badge-row">
-                <span class="tag amber"><i class="fa-solid fa-code"></i> C# .NET Framework 4.8</span>
-                <span class="tag"><i class="fa-solid fa-layer-group"></i> N-Tier Decoupling</span>
-                <span class="tag"><i class="fa-solid fa-cubes"></i> Ninject IoC Container</span>
-                <span class="tag"><i class="fa-solid fa-database"></i> Entity Framework 6</span>
-                <span class="tag"><i class="fa-solid fa-cart-shopping"></i> Custom Model Binders</span>
+                <span class="tag amber"><i class="fa-solid fa-code"></i> ASP.NET Core</span>
+                <span class="tag"><i class="fa-solid fa-server"></i> C# 12 / MVC</span>
+                <span class="tag"><i class="fa-solid fa-database"></i> Entity Framework Core</span>
+                <span class="tag"><i class="fa-solid fa-cart-shopping"></i> Reactive Cart State</span>
+                <span class="tag"><i class="fa-solid fa-wand-magic-sparkles"></i> Whimsical UI</span>
             </div>
         </div>
 
-        <!-- Metric Highlights -->
-        <div class="metrics-grid">
-            <div class="metric-card">
-                <div class="metric-value">
-                    <i class="fa-solid fa-layer-group"></i> 2 Projects
-                </div>
-                <div class="metric-label">Domain vs WebUI Tier Isolation</div>
-            </div>
-            <div class="metric-card">
-                <div class="metric-value">
-                    <i class="fa-solid fa-plug"></i> 100%
-                </div>
-                <div class="metric-label">Inversion of Control (Ninject DI)</div>
-            </div>
-            <div class="metric-card">
-                <div class="metric-value">
-                    <i class="fa-solid fa-database"></i> Code-First
-                </div>
-                <div class="metric-label">EF6 Schema &amp; Seed Initializer</div>
-            </div>
-            <div class="metric-card">
-                <div class="metric-value">
-                    <i class="fa-solid fa-shield-halved"></i> Zero
-                </div>
-                <div class="metric-label">Controller Coupling to HttpContext.Session</div>
-            </div>
-        </div>
-
-        <!-- SECTION 1: EDUCATIONAL FOUNDATION -->
+        <!-- SECTION: WHAT WAS LEARNED -->
         <section class="section-block">
             <div class="accent-line">
-                <span class="section-label">01 // EDUCATIONAL FOUNDATION &amp; CORE TECHNOLOGIES</span>
-            </div>
-            <h2 class="section-title">
-                <i class="fa-solid fa-graduation-cap"></i> Understanding C#, ASP.NET MVC 5 &amp; Dependency Injection
-            </h2>
-            <p>
-                <strong>Mischief Store</strong> demonstrates enterprise-grade backend development using <strong>C# .NET Framework 4.8</strong>, the <strong>ASP.NET MVC 5</strong> design pattern, and <strong>N-Tier Architecture</strong>.
-            </p>
-
-            <div class="tech-stack-grid">
-                <div class="tech-item">
-                    <div class="tech-label">BACKEND FRAMEWORK</div>
-                    <div class="tech-value">ASP.NET MVC 5</div>
-                    <div class="tech-desc">Model-View-Controller pattern separating database models (<code>M</code>), Razor HTML views (<code>V</code>), and request controllers (<code>C</code>) into clean decoupled layers.</div>
-                </div>
-
-                <div class="tech-item">
-                    <div class="tech-label">INVERSION OF CONTROL</div>
-                    <div class="tech-value">Ninject Dependency Injection</div>
-                    <div class="tech-desc">IoC container that injects repository dependencies (<code>IProductRepository</code>) into controllers automatically, decoupling code for unit testing.</div>
-                </div>
-
-                <div class="tech-item">
-                    <div class="tech-label">ORM DATABASE TIER</div>
-                    <div class="tech-value">Entity Framework 6 (EF6)</div>
-                    <div class="tech-desc">Object-Relational Mapping (ORM) framework that maps C# class entities directly to SQL Server database tables without writing raw SQL strings.</div>
-                </div>
-
-                <div class="tech-item">
-                    <div class="tech-label">MODEL BINDING</div>
-                    <div class="tech-value">Custom Cart ModelBinder</div>
-                    <div class="tech-desc">Extracts e-commerce cart state from <code>HttpContext.Session</code> automatically before controller actions execute, keeping controllers 100% testable.</div>
-                </div>
-            </div>
-
-            <h3>How N-Tier Architecture &amp; Dependency Injection Work in Simple Terms</h3>
-            <p>
-                <strong>1. N-Tier Architecture:</strong> Imagine a restaurant. The waiter (Controller) takes your order, the kitchen (Domain Logic) prepares the food, and the pantry (Database Tier) holds the ingredients. The waiter never cooks food directly, and the kitchen never serves tables directly. This separation of concerns makes large enterprise applications maintainable.
-            </p>
-            <p>
-                <strong>2. Inversion of Control (Dependency Injection):</strong> Instead of a Controller creating its own database connection (e.g. <code>new SqlProductRepository()</code>), an IoC container (Ninject) supplies the repository automatically. This allows developers to swap a real SQL database for a mock testing repository instantly!
-            </p>
-        </section>
-            <p>
-                In enterprise software development, building an e-commerce platform requires far more than rendering a list of items and a checkout button. Production applications must be resilient against schema migrations, easily testable via unit test suites, and architecturally decoupled so that changing a database or replacing an email provider requires zero modifications to presentation controllers.
-            </p>
-            <p>
-                <strong>Mischief &amp; Magic Co.</strong> is an enterprise-grade ASP.NET MVC 5 web application engineered with strict Clean Architecture and N-Tier separation. While the product catalog embraces a humorous novelty magic theme, the underlying software architecture adheres to rigorous enterprise standards: Inversion of Control with Ninject, Entity Framework 6 Code-First migrations, automated model binding, and back-office CRUD administration with binary image streaming.
-            </p>
-        </section>
-
-        <!-- SECTION 2 -->
-        <section class="section-block">
-            <div class="accent-line">
-                <span class="section-label">02 // CORE TECHNOLOGIES &amp; WHY THEY WERE CHOSEN</span>
-            </div>
-            <h2 class="section-title">
-                <i class="fa-solid fa-microchip"></i> Technology Stack Breakdown
-            </h2>
-            <p>
-                Every layer of the application was constructed to demonstrate enterprise separation of concerns:
-            </p>
-
-            <div class="tech-stack-grid">
-                <div class="tech-item">
-                    <div class="tech-label">Framework</div>
-                    <div class="tech-value">ASP.NET MVC 5.2.7</div>
-                    <div class="tech-desc">Provides the Model-View-Controller foundation, Razor view engine, custom route configuration, and extensible action filter pipelines.</div>
-                </div>
-                <div class="tech-item">
-                    <div class="tech-label">ORM</div>
-                    <div class="tech-value">Entity Framework 6.4</div>
-                    <div class="tech-desc">Code-First database modeling with automated schema migrations, LINQ to Entities query optimization, and byte-array BLOB storage for product images.</div>
-                </div>
-                <div class="tech-item">
-                    <div class="tech-label">IoC Container</div>
-                    <div class="tech-value">Ninject 3.3.4</div>
-                    <div class="tech-desc">Manages object lifecycles and dynamically injects repository contracts into controller constructors, enabling complete unit-test isolation.</div>
-                </div>
-                <div class="tech-item">
-                    <div class="tech-label">Model Binding</div>
-                    <div class="tech-value">Custom IModelBinder</div>
-                    <div class="tech-desc">Extracts shopping cart session state out of controller actions and binds it transparently as strongly-typed action method parameters.</div>
-                </div>
-            </div>
-        </section>
-
-        <!-- SECTION 3 -->
-        <section class="section-block">
-            <div class="accent-line">
-                <span class="section-label">03 // CODING TECHNIQUES &amp; IMPLEMENTATION</span>
-            </div>
-            <h2 class="section-title">
-                <i class="fa-solid fa-code"></i> Engineering Mechanics &amp; Enterprise Patterns
-            </h2>
-
-            <h3>1. Decoupled N-Tier Class Library Isolation</h3>
-            <p>
-                The solution is divided into two physically distinct assemblies to enforce architectural boundaries:
-            </p>
-            <ul class="bullet-list">
-                <li><strong><code>MischiefStore.Domain</code>:</strong> Contains pure domain entities (<code>Product</code>, <code>Cart</code>, <code>ShippingDetails</code>), repository interfaces (<code>IProductRepository</code>, <code>IOrderProcessor</code>), and EF6 data contexts (<code>EFDbContext</code>). It has <em>zero reference</em> to System.Web or ASP.NET MVC.</li>
-                <li><strong><code>MischiefStore.WebUI</code>:</strong> The presentation web application containing MVC controllers, Razor views, custom HTML helpers, and view models. It depends only on the Domain abstractions.</li>
-            </ul>
-
-            <h3>2. Ninject Inversion of Control &amp; Dependency Injection</h3>
-            <p>
-                Controllers never instantiate concrete database repositories. Instead, dependencies are declared as constructor interfaces. At runtime, Ninject resolves these interfaces to their concrete implementations:
-            </p>
-
-            <pre class="code-block"><code>// Presentation Controller: Pure dependency on abstraction
-public class ProductController : Controller {
-    private readonly IProductRepository repository;
-    public int PageSize = 4;
-
-    // Ninject automatically injects the concrete EFProductRepository here
-    public ProductController(IProductRepository productRepository) {
-        this.repository = productRepository;
-    }
-
-    public ViewResult List(string category, int page = 1) {
-        ProductsListViewModel model = new ProductsListViewModel {
-            Products = repository.Products
-                .Where(p => category == null || p.Category == category)
-                .OrderBy(p => p.ProductID)
-                .Skip((page - 1) * PageSize)
-                .Take(PageSize),
-            PagingInfo = new PagingInfo {
-                CurrentPage = page,
-                ItemsPerPage = PageSize,
-                TotalItems = repository.Products.Count(p => category == null || p.Category == category)
-            },
-            CurrentCategory = category
-        };
-        return View(model);
-    }
-}</code></pre>
-
-            <p>
-                The bindings are configured in a custom <code>NinjectDependencyResolver</code>:
-            </p>
-
-            <pre class="code-block"><code>private void AddBindings() {
-    // Bind contract to Entity Framework 6 implementation
-    kernel.Bind&lt;IProductRepository&gt;().To&lt;EFProductRepository&gt;();
-
-    // Bind email ordering processor with configuration settings
-    EmailSettings emailSettings = new EmailSettings {
-        WriteAsFile = bool.Parse(ConfigurationManager.AppSettings["Email.WriteAsFile"] ?? "false")
-    };
-    kernel.Bind&lt;IOrderProcessor&gt;().To&lt;EmailOrderProcessor&gt;()
-          .WithConstructorArgument("settings", emailSettings);
-}</code></pre>
-
-            <h3>3. Session-Decoupled Custom Cart Model Binder</h3>
-            <p>
-                In poor ASP.NET implementations, controllers frequently reach into <code>Session["Cart"]</code>, tightly coupling controller logic to HTTP context and making unit testing painful.
-                To eliminate this, I implemented an <code>IModelBinder</code> that extracts the cart from the session automatically:
-            </p>
-
-            <pre class="code-block"><code>public class CartModelBinder : IModelBinder {
-    private const string sessionKey = "Cart";
-
-    public object BindModel(ControllerContext controllerContext, ModelBindingContext bindingContext) {
-        // Retrieve cart from session, or create and store if null
-        Cart cart = null;
-        if (controllerContext.HttpContext.Session != null) {
-            cart = (Cart)controllerContext.HttpContext.Session[sessionKey];
-        }
-        if (cart == null) {
-            cart = new Cart();
-            if (controllerContext.HttpContext.Session != null) {
-                controllerContext.HttpContext.Session[sessionKey] = cart;
-            }
-        }
-        return cart;
-    }
-}
-
-// Registered globally in Global.asax.cs:
-// ModelBinders.Binders.Add(typeof(Cart), new CartModelBinder());</code></pre>
-
-            <p>
-                Controller actions now accept <code>Cart</code> as a plain parameter, allowing clean unit tests with mocked carts without touching <code>HttpContext</code>:
-            </p>
-
-            <pre class="code-block"><code>// The Cart is injected seamlessly by the model binder!
-public RedirectToRouteResult AddToCart(Cart cart, int productId, string returnUrl) {
-    Product product = repository.Products.FirstOrDefault(p => p.ProductID == productId);
-    if (product != null) {
-        cart.AddItem(product, 1);
-    }
-    return RedirectToAction("Index", new { returnUrl });
-}</code></pre>
-
-            <h3>4. Entity Framework 6 BLOB Binary Image Streaming</h3>
-            <p>
-                To avoid file system path permissions issues across cloud web farm deployments, product images are uploaded as binary arrays (<code>byte[] ImageData</code>) directly into database BLOB columns. The <code>ProductController</code> streams images directly to the client with appropriate MIME headers:
-            </p>
-
-            <pre class="code-block"><code>public FileContentResult GetImage(int productId) {
-    Product prod = repository.Products.FirstOrDefault(p => p.ProductID == productId);
-    if (prod != null && prod.ImageData != null) {
-        return File(prod.ImageData, prod.ImageMimeType);
-    }
-    return null;
-}</code></pre>
-        </section>
-
-        <!-- SECTION 4: WHAT WAS LEARNED -->
-        <section class="section-block">
-            <div class="accent-line">
-                <span class="section-label">04 // KEY TAKEAWAYS</span>
+                <span class="section-label">KEY TAKEAWAYS // ENGINEERING SUMMARY</span>
             </div>
             <h2 class="section-title">
                 <i class="fa-solid fa-graduation-cap"></i> Summary of What Was Learned
@@ -355,6 +99,11 @@ public RedirectToRouteResult AddToCart(Cart cart, int productId, string returnUr
                 <p>
                     Building the Wacky Things Store demonstrated how playful, surreal UX patterns and unexpected visual interactions can revitalize traditional e-commerce browsing without sacrificing core checkout usability. Managing an immutable shopping cart state with reactive totals, coupon logic, and persistent storage showed the importance of predictable unidirectional data flow. Pairing vibrant, harmonious color schemes with micro-interactions and quirky inventory cards boosted user delight and exploratory clicking. The project highlighted that e-commerce interfaces can be daring, artistic, and characterful while maintaining clear transactional clarity and accessible product navigation.
                 </p>
+                <div class="summary-action-area">
+                    <a href="./index.html" class="btn-launch-project">
+                        <i class="fa-solid fa-play"></i> Launch Wacky Store
+                    </a>
+                </div>
             </div>
         </section>
 

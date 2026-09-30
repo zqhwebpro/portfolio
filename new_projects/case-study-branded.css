@@ -156,8 +156,8 @@ body {
   display: none !important;
 }
 
-/* Hide Unnecessary Decorative Icons for Clean, Comprehensible Layout */
-.navbar i,
+/* Hide Unnecessary Decorative Icons for Clean, Comprehensible Layout (preserve button icons) */
+.navbar i:not(.nav-btn i),
 .hero-title i,
 .section-title i,
 .card-title i,
@@ -167,6 +167,28 @@ body {
 .takeaway-icon i,
 .learning-icon i {
   display: none !important;
+}
+
+.nav-btn i,
+.btn-launch-project i,
+.summary-project-btn i,
+.dock-card i {
+  display: inline-block !important;
+}
+
+.nav-btn.nav-btn-project {
+  background: #f5a623;
+  color: #000000;
+  border-color: #f5a623;
+  font-weight: 800;
+}
+
+.nav-btn.nav-btn-project:hover {
+  background: #ffb84d;
+  border-color: #ffb84d;
+  color: #000000;
+  transform: translateY(-1px);
+  box-shadow: 0 4px 14px rgba(245, 166, 35, 0.35);
 }
 
 /* ─── MAIN PSEUDO BLOG POST CONTAINER (OFF-WHITE READABLE CANVAS) ─── */
@@ -621,9 +643,9 @@ ul.bullet-list li::before,
   border: 1px solid var(--border-card);
   border-left: 5px solid var(--amber);
   border-radius: var(--radius-md);
-  padding: 24px 28px;
+  padding: 28px 32px;
   box-shadow: 0 4px 16px rgba(0, 0, 0, 0.04);
-  margin-top: 14px;
+  margin-top: 18px;
 }
 
 .learnings-summary-box p {
@@ -631,6 +653,45 @@ ul.bullet-list li::before,
   line-height: 1.85;
   color: var(--text-body);
   margin: 0;
+}
+
+.summary-action-area {
+  margin-top: 24px;
+  padding-top: 20px;
+  border-top: 1px solid var(--border-card);
+  display: flex;
+  align-items: center;
+  justify-content: flex-start;
+  gap: 16px;
+  flex-wrap: wrap;
+}
+
+.btn-launch-project {
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+  padding: 12px 24px;
+  background: #f5a623;
+  color: #000000;
+  border: 1px solid #d97706;
+  border-radius: var(--radius-sm);
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 0.82rem;
+  font-weight: 800;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  text-decoration: none;
+  transition: all 0.25s cubic-bezier(0.2, 0.8, 0.2, 1);
+  box-shadow: 0 4px 14px rgba(217, 119, 6, 0.25);
+  cursor: pointer;
+}
+
+.btn-launch-project:hover {
+  background: #ffb84d;
+  border-color: #f5a623;
+  color: #000000;
+  transform: translateY(-2px);
+  box-shadow: 0 6px 20px rgba(245, 166, 35, 0.4);
 }
 
 /* ─── FIXED BOTTOM INTERACTIVE PROJECTS BAR (DOCK) ─── */

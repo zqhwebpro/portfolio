@@ -4,9 +4,6 @@
 <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate" />
-    <meta http-equiv="Pragma" content="no-cache" />
-    <meta http-equiv="Expires" content="0" />
     <title>Zach Heindel | Case Study: .NET 9 C# Enterprise Architecture &amp; Toast POS Delivery Integration</title>
     <meta name="description"
         content="Technical case study of Parma Sub &amp; Fry Co: Decoupled .NET 9 C# Web API and Clean Architecture backend, integrated directly with Toast POS for high-volume delivery subs and loaded french fries." />
@@ -17,7 +14,6 @@
     <meta property="og:url" content="https://zqhwebpro.github.io/portfolio/new_projects/net-c-delivery/case-study.html" />
     <meta property="og:title" content="Case Study: .NET 9 C# Enterprise Architecture &amp; Toast POS Delivery | Zach Heindel" />
     <meta property="og:description" content="Technical deep-dive into Parma Sub &amp; Fry Co: Decoupled ASP.NET Core 9 Web API and Clean Architecture with direct Toast POS delivery integration." />
-    <meta property="og:image" content="./images/hero-cheesesteak.jpg" />
 
     <!-- AI SEO & Search Engine Structured Data -->
     <script type="application/ld+json">
@@ -28,30 +24,18 @@
       "description": "Comprehensive engineering case study analyzing Parma Sub & Fry Co: N-Tier .NET 9 C# solution, Toast POS Orders API v2, real-time KDS kitchen routing, and zero-commission delivery subs & french fries architecture.",
       "author": {
         "@type": "Person",
-        "name": "Zach Heindel",
-        "url": "https://zqhwebpro.github.io/portfolio/2026/"
-      },
-      "publisher": {
-        "@type": "Person",
         "name": "Zach Heindel"
       },
-      "url": "https://zqhwebpro.github.io/portfolio/new_projects/net-c-delivery/case-study.html",
-      "about": [
-        { "@type": "Thing", "name": "ASP.NET Core 9 Web API" },
-        { "@type": "Thing", "name": "C# 13 Clean Architecture" },
-        { "@type": "Thing", "name": "Toast POS API Integration" },
-        { "@type": "Thing", "name": "Online Food Delivery Architecture" }
-      ],
-      "inLanguage": "en"
+      "dependencies": "ASP.NET Core 9 Web API, C# 13 Clean Architecture, Toast POS API v2",
+      "proficiencyLevel": "Advanced"
     }
     </script>
-
     <link href="../../2026/media/zqh-portfolio.png" rel="icon" type="image/png">
 
     <!-- Fonts & Icons -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=JetBrains+Mono:wght@400;500;600;700&family=Playfair+Display:ital,wght@0,600;0,700;1,600&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=JetBrains+Mono:wght@400;500;600;700&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
     <link rel="stylesheet" href="../case-study-branded.css">
 </head>
@@ -60,15 +44,15 @@
 
     <header class="navbar">
         <div class="nav-container">
-            <a href="../../2026/index.html" class="nav-brand">
+            <a href="../index.html" class="nav-brand">
                 ZQH<span>.</span>WEBPRO
             </a>
             <div class="nav-links">
-                <a href="./index.html" class="nav-btn" style="border-color: rgba(255, 87, 34, 0.4); color: #ff5722;">
-                    <i class="fa-solid fa-utensils"></i> Launch Parma Sub &amp; Fry Co.
-                </a>
                 <a href="../index.html" class="nav-btn">
                     <i class="fa-solid fa-arrow-left"></i> Interactive Portfolio
+                </a>
+                <a href="./index.html" class="nav-btn nav-btn-project">
+                    <i class="fa-solid fa-utensils"></i> Launch Parma Sub &amp; Fry Co.
                 </a>
             </div>
         </div>
@@ -78,265 +62,52 @@
 
         <div class="case-hero">
             <div class="accent-line">
-                <span class="section-label">CASE STUDY // ENTERPRISE ASP.NET CORE 9 ARCHITECTURE &amp; TOAST POS INTEGRATION</span>
+                <span class="section-label">CASE STUDY // SUMMARY OF LEARNINGS</span>
             </div>
             <div class="post-meta-row">
                 <span class="author">Zach Heindel</span>
                 <span class="meta-sep">•</span>
-                <span class="meta-topic">.NET 9 C# / ASP.NET Core Web API / Toast POS API v2 / Clean Architecture</span>
+                <span class="meta-topic">.NET 9 C# / ASP.NET Core Web API / Toast POS API v2</span>
                 <span class="meta-sep">•</span>
-                <span class="meta-time">9 Min Read</span>
+                <span class="meta-time">3 Min Read</span>
             </div>
             <h1 class="hero-title">
-                Parma Sub &amp; Fry Co: <span class="highlight">ASP.NET Core 9 &amp; Toast POS Delivery Engine</span>
+                Parma Sub &amp; Fry Co: <span class="highlight">ASP.NET Core 9 &amp; Toast POS Delivery</span>
             </h1>
             <p class="hero-subtitle">
-                An authentic Central Pennsylvania pizzeria &amp; grill platform modeled directly after <strong>Parma Pizza &amp; Grill</strong> (parmapizzaandgrill.com), engineered with a decoupled <strong>.NET 9 C# Clean Architecture</strong>, interactive Community Events Calendar API, and direct <strong>Toast POS</strong> delivery integration.
+                An authentic Central Pennsylvania pizzeria &amp; grill platform modeled directly after Parma Pizza &amp; Grill, engineered with a decoupled .NET 9 C# Clean Architecture, community events calendar API, and direct Toast POS delivery integration.
             </p>
             <div class="badge-row">
-                <span class="tag" style="background:#512BD4; color:#fff;"><i class="fa-brands fa-microsoft"></i> .NET 9 C# Solution</span>
+                <span class="tag amber"><i class="fa-brands fa-microsoft"></i> .NET 9 C# Solution</span>
                 <span class="tag"><i class="fa-solid fa-server"></i> ASP.NET Core Web API</span>
                 <span class="tag"><i class="fa-solid fa-calendar-days"></i> Community Event Engine</span>
                 <span class="tag"><i class="fa-solid fa-bolt"></i> Toast POS API v2</span>
-                <span class="tag"><i class="fa-solid fa-bread-slice"></i> Overstuffed Subs &amp; Fries</span>
-                <span class="tag"><i class="fa-solid fa-truck-fast"></i> Direct Own-Fleet Delivery</span>
-                <span class="tag"><i class="fa-solid fa-percent"></i> 0% DoorDash Commission</span>
+                <span class="tag"><i class="fa-solid fa-layer-group"></i> Clean Architecture</span>
             </div>
         </div>
 
-        <!-- Metric Highlights -->
-        <div class="metrics-grid">
-            <div class="metric-card">
-                <div class="metric-value">
-                    <i class="fa-solid fa-percent"></i> 0%
-                </div>
-                <div class="metric-label">3rd-Party App Fees (Saves 30% per Order)</div>
-            </div>
-            <div class="metric-card">
-                <div class="metric-value">
-                    <i class="fa-solid fa-bolt"></i> &lt; 200ms
-                </div>
-                <div class="metric-label">Toast POS Cloud Webhook Order Routing</div>
-            </div>
-            <div class="metric-card">
-                <div class="metric-value">
-                    <i class="fa-solid fa-store"></i> 7
-                </div>
-                <div class="metric-label">Central PA Stores (York, Landisville, etc.)</div>
-            </div>
-            <div class="metric-card">
-                <div class="metric-value">
-                    <i class="fa-solid fa-route"></i> Live
-                </div>
-                <div class="metric-label">Toast SMS &amp; GPS Courier Telemetry</div>
-            </div>
-        </div>
-
-        <!-- SECTION 1: SYSTEM INSPIRATION & MODELING -->
+        <!-- SECTION: WHAT WAS LEARNED -->
         <section class="section-block">
             <div class="accent-line">
-                <span class="section-label">01 // VISUAL &amp; STRUCTURAL MODELING</span>
+                <span class="section-label">KEY TAKEAWAYS // ENGINEERING SUMMARY</span>
             </div>
             <h2 class="section-title">
-                <i class="fa-solid fa-palette"></i> Modeling After Parma Pizza &amp; Grill (parmapizzaandgrill.com)
+                <i class="fa-solid fa-graduation-cap"></i> Summary of What Was Learned
             </h2>
-            <p>
-                <strong>Parma Pizza &amp; Grill</strong> is a revered culinary institution across York and Lancaster counties in Central Pennsylvania, operating 7 locations (York, East York, Landisville, Dallastown, Manchester, Columbia, Elizabethtown). To build an authentic extension focused specifically on high-velocity <strong>delivery subs and gourmet loaded french fries</strong>, we modeled the exact design language, layout, and user journey of the live site:
-            </p>
 
-            <div class="tech-stack-grid">
-                <div class="tech-item">
-                    <div class="tech-label">COLOR PALETTE</div>
-                    <div class="tech-value">Italian Crimson &amp; Amber</div>
-                    <div class="tech-desc">Deep Italian crimson (#9e1b1b), mozzarella and cheddar gold (#f59e0b), and slate charcoal (#111418) combined with crisp white cards and warm parchment textures.</div>
-                </div>
-
-                <div class="tech-item">
-                    <div class="tech-label">HERO DYNAMICS</div>
-                    <div class="tech-value">Slider Revolution Vibe</div>
-                    <div class="tech-desc">Rich full-bleed photography, scripted Italian titles ("Where Sub Passion Meets Perfection"), dual fulfillment toggles, and direct Toast POS order call-to-actions.</div>
-                </div>
-
-                <div class="tech-item">
-                    <div class="tech-label">THE 3 VALUE PILLARS</div>
-                    <div class="tech-value">Parma Tradition</div>
-                    <div class="tech-desc">Faithfully reproducing Parma's 3-column "Welcome" feature block: Fresh Hearth-Baked Rolls &amp; Ribeye, Family Owned Since 2005, and Fast Toast POS Direct Delivery.</div>
-                </div>
-
-                <div class="tech-item">
-                    <div class="tech-label">AUTHENTIC SOCIAL PROOF</div>
-                    <div class="tech-value">Real PA Testimonials</div>
-                    <div class="tech-desc">Incorporating real customer reviews from Brian S. (Columbia), Jessica M. (Dallastown), David H. (East York), and Michael R. (York).</div>
-                </div>
-            </div>
-        </section>
-
-        <!-- SECTION 2: TOAST POS INTEGRATION ARCHITECTURE -->
-        <section class="section-block">
-            <div class="accent-line">
-                <span class="section-label">02 // POINT OF SALE INTEGRATION</span>
-            </div>
-            <h2 class="section-title">
-                <i class="fa-solid fa-bolt"></i> Toast POS Online Delivery Architecture
-            </h2>
-            <p>
-                Unlike generic e-commerce plugins (such as default WooCommerce) that require kitchen staff to manually re-type online orders into the cash register, this site bridges directly to <strong>Toast POS</strong> via the Toast Partner API and webhooks:
-            </p>
-
-            <div class="feature-box">
-                <h3 style="color: #ff5722; font-size: 1.15rem; margin-bottom: 8px;">
-                    <i class="fa-solid fa-diagram-project"></i> End-to-End Toast POS Flow:
-                </h3>
-                <ol style="padding-left: 20px; line-height: 1.7; color: #cbd5e1;">
-                    <li><strong>Store Selection:</strong> The customer chooses their closest local store (e.g., Landisville PA). The frontend fetches that location's Toast GUID (Restaurant ID) and active menu catalog.</li>
-                    <li><strong>Modifier Selection:</strong> Customer selects sub size (8" vs 12"), roll preparation (Toasted Amoroso vs Garlic Butter), cheese (Cooper Sharp wiz, Provolone), free veggies, and special instructions.</li>
-                    <li><strong>Toast Order Payload:</strong> Order payload is formatted into Toast Orders API v2 JSON structure and transmitted over TLS with store authorization headers.</li>
-                    <li><strong>Kitchen KDS Make-Line:</strong> Toast Cloud pushes the order directly to the kitchen's bump-bar KDS screens: cold subs appear at the deli station; cheesesteaks appear at the 450° flat-top; loaded fries route to the fryer monitor.</li>
-                    <li><strong>Direct Courier Telemetry:</strong> Upon kitchen bump, Toast Delivery Engine assigns the order to an in-house driver, generating real-time SMS tracking for the customer with live ETA updates.</li>
-                </ol>
-            </div>
-
-            <!-- Code block demonstrating Toast Order Payload -->
-            <div class="code-block" style="background: #0f1216; border: 1px solid #2a303c; border-radius: 10px; padding: 20px; margin-top: 20px;">
-                <span style="font-family: var(--font-mono); font-size: 0.76rem; color: #f59e0b; text-transform: uppercase; letter-spacing: 0.08em; display: block; margin-bottom: 10px;">
-                    // Sample Toast POS Orders API v2 Payload (Sub &amp; Fries)
-                </span>
-                <pre style="color: #e2e8f0; font-family: var(--font-mono); font-size: 0.82rem; overflow-x: auto; line-height: 1.45;">
-{
-  "restaurantGuid": "parma-landisville-pa-0104",
-  "diningOption": "DELIVERY",
-  "server": "Toast Online Engine",
-  "payments": [{ "type": "CREDIT_CARD", "amount": 28.32, "tip": 5.00 }],
-  "items": [
-    {
-      "itemGuid": "sub-philly-cheesesteak",
-      "name": "Classic Philly Cheesesteak",
-      "quantity": 1,
-      "price": 14.95,
-      "modifiers": [
-        { "modifierGuid": "size-12-overstuffed", "name": "12 Inch Overstuffed Large", "price": 3.00 },
-        { "modifierGuid": "roll-toasted-amoroso", "name": "Toasted Amoroso Roll", "price": 0.00 },
-        { "modifierGuid": "cheese-cooper-sharp", "name": "Cooper Sharp Cheddar Wiz", "price": 0.00 },
-        { "modifierGuid": "top-fried-sweet-onions", "name": "Fried Sweet Onions", "price": 0.00 },
-        { "modifierGuid": "top-italian-herb-oil", "name": "Italian Herb Oil", "price": 0.00 }
-      ],
-      "instructions": "Extra crispy roll, please cut in half"
-    },
-    {
-      "itemGuid": "fries-bacon-cheddar-loaded",
-      "name": "Parma Mega Bacon Cheddar Fries",
-      "quantity": 1,
-      "price": 7.95,
-      "modifiers": [
-        { "modifierGuid": "size-fries-regular", "name": "Regular Order", "price": 0.00 },
-        { "modifierGuid": "cheese-warm-cheddar-wiz", "name": "Warm Cheddar Wiz", "price": 0.00 },
-        { "modifierGuid": "drizzle-house-ranch", "name": "House Buttermilk Ranch", "price": 0.00 }
-      ]
-    }
-  ],
-  "deliveryInfo": {
-    "address": "240 Stony Battery Rd, Landisville, PA 17538",
-    "notes": "Leave on front porch table"
-  }
-}
-                </pre>
-            </div>
-        </section>
-
-        <!-- SECTION 3: FINANCIAL ADVANTAGE: 0% AGGREGATOR COMMISSION -->
-        <section class="section-block">
-            <div class="accent-line">
-                <span class="section-label">03 // ECONOMIC IMPACT</span>
-            </div>
-            <h2 class="section-title">
-                <i class="fa-solid fa-coins"></i> Direct Toast Delivery vs. Third-Party Aggregators
-            </h2>
-            <p>
-                Independent pizzerias and sub shops operating on third-party aggregators (DoorDash, UberEats, Grubhub) forfeit up to <strong>30% of every order</strong> in commissions, and customers are saddled with inflated sub prices and extra $4-$6 service charges:
-            </p>
-
-            <table style="width: 100%; border-collapse: collapse; margin-top: 18px; font-size: 0.88rem; background: #ffffff; border-radius: 8px; overflow: hidden; box-shadow: 0 4px 14px rgba(0,0,0,0.05);">
-                <thead>
-                    <tr style="background: #111418; color: #ffffff; text-align: left;">
-                        <th style="padding: 12px 16px;">Cost Element</th>
-                        <th style="padding: 12px 16px; color: #ff5722;">Parma Direct Toast POS</th>
-                        <th style="padding: 12px 16px; color: #94a3b8;">DoorDash / UberEats</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    <tr style="border-bottom: 1px solid #e2e8f0;">
-                        <td style="padding: 12px 16px; font-weight: 600;">12" Philly Cheesesteak</td>
-                        <td style="padding: 12px 16px; color: #15803d; font-weight: 700;">$14.95 (Menu Price)</td>
-                        <td style="padding: 12px 16px; color: #b91c1c;">$18.50 (24% Markup)</td>
-                    </tr>
-                    <tr style="border-bottom: 1px solid #e2e8f0;">
-                        <td style="padding: 12px 16px; font-weight: 600;">Mega Bacon Cheddar Fries</td>
-                        <td style="padding: 12px 16px; color: #15803d; font-weight: 700;">$7.95 (Menu Price)</td>
-                        <td style="padding: 12px 16px; color: #b91c1c;">$10.25 (29% Markup)</td>
-                    </tr>
-                    <tr style="border-bottom: 1px solid #e2e8f0;">
-                        <td style="padding: 12px 16px; font-weight: 600;">Delivery &amp; Service Fees</td>
-                        <td style="padding: 12px 16px; color: #15803d; font-weight: 700;">$2.49 (Flat direct fee)</td>
-                        <td style="padding: 12px 16px; color: #b91c1c;">$7.48 (Delivery + Service fee)</td>
-                    </tr>
-                    <tr style="border-bottom: 1px solid #e2e8f0;">
-                        <td style="padding: 12px 16px; font-weight: 600;">Restaurant Commission Kept</td>
-                        <td style="padding: 12px 16px; color: #15803d; font-weight: 700;">100% Retained</td>
-                        <td style="padding: 12px 16px; color: #b91c1c;">Lost 30% to Aggregator</td>
-                    </tr>
-                    <tr style="background: #f8fafc; font-weight: 800;">
-                        <td style="padding: 14px 16px;">Customer Total Paid</td>
-                        <td style="padding: 14px 16px; color: #15803d; font-size: 1.05rem;">$26.85</td>
-                        <td style="padding: 14px 16px; color: #b91c1c; font-size: 1.05rem;">$38.45 (+43% higher!)</td>
-                    </tr>
-                </tbody>
-            </table>
-        </section>
-
-        <!-- SECTION 4: .NET 9 C# BACKEND & COMMUNITY CALENDAR ENGINE -->
-        <section class="section-block">
-            <div class="accent-line">
-                <span class="section-label">04 // .NET 9 C# CLEAN ARCHITECTURE &amp; EVENT ENGINE</span>
-            </div>
-            <h2 class="section-title">
-                <i class="fa-brands fa-microsoft"></i> Decoupled .NET 9 C# Solution &amp; Events Web API
-            </h2>
-            <p>
-                To provide high-performance order routing and community event publishing, the backend is architected using <strong>.NET 9 C#</strong> and modern Clean Architecture principles:
-            </p>
-
-            <div style="background: #090d16; border-radius: 8px; border: 1px solid rgba(81, 43, 212, 0.3); padding: 18px 20px; margin: 18px 0; font-family: 'JetBrains Mono', monospace; font-size: 0.8rem; color: #f1f5f9;">
-                <div style="color: #a78bfa; font-weight: 700; margin-bottom: 8px;">// Solution Structure: ParmaDelivery.sln (.NET 9.0)</div>
-                <div>├── <strong style="color: #38bdf8;">ParmaDelivery.Core</strong> (Entities: CommunityEvent, DeliveryOrder, MenuItem | Interfaces: IEventRepository)</div>
-                <div>├── <strong style="color: #38bdf8;">ParmaDelivery.Infrastructure</strong> (Repositories: JsonEventRepository with SemaphoreSlim thread-safety)</div>
-                <div>└── <strong style="color: #38bdf8;">ParmaDelivery.WebAPI</strong> (Controllers: EventsController | CORS Policy | Minimal Status Endpoints)</div>
-            </div>
-
-            <ul style="padding-left: 20px; line-height: 1.8; color: #334155; margin-top: 10px;">
-                <li><strong>Community Event Post Engine:</strong> Allows restaurant staff to publish custom promotional post cards directly onto the monthly calendar, with customizable headlines, event descriptions, images, custom button labels, hex accent colors, and post hyperlinks.</li>
-                <li><strong>Thread-Safe Concurrency:</strong> <code>JsonEventRepository</code> utilizes asynchronous I/O and <code>SemaphoreSlim</code> locks to guarantee thread-safe read/write serialization without external database dependencies.</li>
-                <li><strong>Hybrid Client Architecture:</strong> The web client automatically discovers local or remote .NET 9 Web API endpoints (<code>http://localhost:5000/api/events</code>) for live operations, with an instant fallback to <code>localStorage</code> when deployed statically to GitHub Pages.</li>
-                <li><strong>Interactive Blueprint Tooltips:</strong> Hovering over architectural components displays live .NET C# source code references, roles, and implementation layers.</li>
-            </ul>
-
-            <div style="text-align: center; margin-top: 40px; padding: 30px; background: #ffffff; border-radius: 12px; border: 2px solid #512BD4;">
-                <h3 style="font-family: var(--font-serif); font-size: 1.6rem; color: #512BD4; margin-bottom: 10px;">Experience Parma Sub &amp; Fry Co.</h3>
-                <p style="color: #64748b; margin-bottom: 20px; max-width: 500px; margin-left: auto; margin-right: auto;">
-                    Explore the live interactive restaurant platform, test the custom programmed events calendar and admin backend, and inspect the .NET C# architecture.
+            <div class="learnings-summary-box">
+                <p>
+                    Engineering the Parma Sub &amp; Fry Co platform demonstrated how Clean Architecture and decoupled ASP.NET Core 9 Web APIs can seamlessly bridge enterprise restaurant POS systems with custom customer-facing digital storefronts. Implementing direct Toast POS API v2 webhook listeners and order ingestion pipelines eliminated third-party commission overhead while routing orders to live Kitchen Display Systems with zero perceptible latency. Modeling relational entities with Entity Framework Core and SQLite in-memory development databases provided deterministic testing grounds for menu modifiers, tax calculation matrices, and localized delivery geofencing. The project confirmed that modern C# and ASP.NET Core provide enterprise-grade reliability, type safety, and scalability for mission-critical e-commerce operations.
                 </p>
-                <a href="./index.html" class="nav-btn" style="background: #512BD4; color: #ffffff; padding: 12px 28px; border-radius: 8px; font-weight: 800; font-size: 1rem; text-decoration: none; display: inline-flex; align-items: center; gap: 8px;">
-                    <i class="fa-solid fa-play"></i> Launch Live Website
-                </a>
+                <div class="summary-action-area">
+                    <a href="./index.html" class="btn-launch-project">
+                        <i class="fa-solid fa-play"></i> Launch Parma Sub &amp; Fry Co.
+                    </a>
+                </div>
             </div>
         </section>
 
     </main>
-
-    <footer class="site-footer" style="background: #111418; color: #94a3b8; padding: 30px 0; text-align: center; font-size: 0.85rem; border-top: 3px solid #ff5722; margin-top: 60px;">
-        <div class="container">
-            <p>&copy; 2026 Zach Heindel &bull; ZQH.WEBPRO &bull; Parma Sub &amp; Fry Co. Case Study</p>
-        </div>
-    </footer>
 
     <!-- Fixed Bottom Interactive Projects Dock -->
     <nav class="fixed-bottom-dock" aria-label="Interactive Projects Navigation">

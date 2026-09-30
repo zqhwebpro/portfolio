@@ -2,53 +2,36 @@
 <html lang="en">
 
 <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Zach Heindel | Case Study: Zodiac Compass & Computer Vision Astrolabe</title>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Zach Heindel | Case Study: Zodiac Fortune Board &amp; MediaPipe Vision</title>
     <meta name="description"
-        content="An engineering deep dive into Zodiac Compass: MediaPipe hand landmark tracking, sacred geometry polar math, 3-second hold gesture mechanics, and zero-asset procedural Web Audio synthesis." />
-    <link rel="canonical" href="https://heindel.org/new_projects/zodiac-fortune-board/case-study.html" />
+        content="Technical case study of Zodiac Fortune Board: MediaPipe computer vision hand tracking, procedural Web Audio generation, and gesture hysteresis." />
+    <meta name="keywords" content="MediaPipe, Computer Vision, Web Audio API, Hand Tracking, Technical Case Study, Zach Heindel, React" />
+    <meta name="author" content="Zach Heindel" />
+    <link rel="canonical" href="https://zqhwebpro.github.io/portfolio/new_projects/zodiac-fortune-board/case-study.html" />
 
-    <!-- Open Graph / Facebook -->
+    <!-- Open Graph / Social SEO -->
     <meta property="og:type" content="article" />
-    <meta property="og:url" content="https://heindel.org/new_projects/zodiac-fortune-board/case-study.html" />
-    <meta property="og:title" content="Case Study: Zodiac Compass — Computer Vision & Sacred Geometry | Zach Heindel" />
-    <meta property="og:description" content="Technical deep-dive into MediaPipe hand landmark tracking, trigonometric ring rotations, and procedural Web Audio synthesis in React." />
-    <meta property="og:image" content="https://heindel.org/2026/media/zqh-portfolio.png" />
+    <meta property="og:title" content="Zach Heindel | Technical Case Study: Zodiac Fortune Board" />
+    <meta property="og:description" content="Technical architecture analysis of touchless spatial divination using MediaPipe hand tracking and procedural Web Audio." />
+    <meta property="og:url" content="https://zqhwebpro.github.io/portfolio/new_projects/zodiac-fortune-board/case-study.html" />
 
-    <!-- Twitter -->
-    <meta name="twitter:card" content="summary_large_image" />
-    <meta name="twitter:title" content="Case Study: Zodiac Compass — Computer Vision & Sacred Geometry | Zach Heindel" />
-    <meta name="twitter:description" content="MediaPipe hand tracking, trigonometric polar math, and ambient Web Audio drones." />
-    <meta name="twitter:image" content="https://heindel.org/2026/media/zqh-portfolio.png" />
-
-    <!-- AI SEO & Search Engine Structured Data -->
+    <!-- JSON-LD AI SEO Structured Data -->
     <script type="application/ld+json">
     {
       "@context": "https://schema.org",
       "@type": "TechArticle",
-      "headline": "Zodiac Compass: Computer Vision, Sacred Geometry & Procedural Web Audio",
-      "description": "Comprehensive engineering article detailing real-time webcam gesture control via MediaPipe Hands, polar-coordinate Canvas particle systems, and web audio synthesizer pipelines.",
+      "headline": "Zodiac Fortune Board: MediaPipe Hand Tracking & Procedural Audio",
+      "description": "Technical case study analyzing touchless computer vision spatial interfaces, temporal gesture hysteresis, and procedural sound synthesis.",
       "author": {
-        "@type": "Person",
-        "name": "Zach Heindel",
-        "url": "https://heindel.org"
-      },
-      "publisher": {
         "@type": "Person",
         "name": "Zach Heindel"
       },
-      "url": "https://heindel.org/new_projects/zodiac-fortune-board/case-study.html",
-      "about": [
-        { "@type": "Thing", "name": "MediaPipe Hand Tracking" },
-        { "@type": "Thing", "name": "Computer Vision in JS" },
-        { "@type": "Thing", "name": "Sacred Geometry Polar Mathematics" },
-        { "@type": "Thing", "name": "Web Audio Synthesis" }
-      ],
-      "inLanguage": "en"
+      "dependencies": "React, MediaPipe ML WASM, WebRTC, WebGL, Web Audio API",
+      "proficiencyLevel": "Advanced"
     }
     </script>
-
     <link href="../../2026/media/zqh-portfolio.png" rel="icon" type="image/png">
 
     <!-- Fonts & Icons -->
@@ -71,499 +54,63 @@
                 <a href="../index.html" class="nav-btn">
                     <i class="fa-solid fa-arrow-left"></i> Interactive Portfolio
                 </a>
+                <a href="./index.html" class="nav-btn nav-btn-project">
+                    <i class="fa-solid fa-compass"></i> Launch Zodiac Compass
+                </a>
             </div>
         </div>
     </header>
 
-    <!-- Main Flowing Article Container -->
-    <article class="blog-container">
+    <main class="container blog-container">
 
-        <!-- Article Header -->
-        <header class="post-header">
+        <div class="case-hero">
             <div class="accent-line">
-                <span class="section-label">ENGINEERING JOURNAL // INTERACTIVE ARCHITECTURE</span>
+                <span class="section-label">CASE STUDY // SUMMARY OF LEARNINGS</span>
             </div>
-            
             <div class="post-meta-row">
                 <span class="author">Zach Heindel</span>
                 <span class="meta-sep">•</span>
-                <span class="meta-topic">Computer Vision &amp; Web Audio DSP</span>
+                <span class="meta-topic">Edge Computer Vision &amp; Touchless Spatial Interfaces</span>
                 <span class="meta-sep">•</span>
-                <span class="meta-time">11 Min Read</span>
+                <span class="meta-time">3 Min Read</span>
             </div>
-
-            <h1 class="post-title">
-                Building an Eldritch Astrolabe: <em>Computer Vision</em>, Sacred Geometry &amp; Procedural Audio
+            <h1 class="hero-title">
+                Zodiac Compass: <span class="highlight">MediaPipe Vision Astrolabe</span>
             </h1>
-
-            <p class="post-lead">
-                A technical breakdown of how I bypassed generic UI buttons to build a browser-native celestial divination instrument—fusing real-time MediaPipe hand landmark tracking, a deliberate 3-second fist hold state machine, polar coordinate sacred geometry, and zero-asset procedural Web Audio synthesis.
+            <p class="hero-subtitle">
+                Touchless celestial divination board combining edge machine learning hand tracking, real-time 3D landmark detection, procedural Web Audio runic bells, and WebGL particle dynamics.
             </p>
-
             <div class="badge-row">
-                <span class="tag amber"><i class="fa-solid fa-code"></i> React 19 + Vite</span>
-                <span class="tag"><i class="fa-solid fa-camera"></i> MediaPipe Tasks-Vision</span>
-                <span class="tag"><i class="fa-solid fa-waveform-lines"></i> Web Audio API</span>
-                <span class="tag"><i class="fa-solid fa-compass-drafting"></i> Polar Trigonometry</span>
-                <span class="tag"><i class="fa-solid fa-bolt"></i> Zero Cloud Latency</span>
-            </div>
-        </header>
-
-        <!-- Key Metrics Banner (Focused on Build & Tracking) -->
-        <div class="stat-banner">
-            <div class="stat-box">
-                <div class="stat-number">~30 FPS</div>
-                <div class="stat-title">Edge ML Loop</div>
-                <div class="metric-desc">Throttled tensor graph</div>
-            </div>
-            <div class="stat-box">
-                <div class="stat-number">5 Gestures</div>
-                <div class="stat-title">Tracked Hand States</div>
-                <div class="metric-desc">Euclidean distance ratios</div>
-            </div>
-            <div class="stat-box">
-                <div class="stat-number">3.0s Hold</div>
-                <div class="stat-title">State Machine Lock</div>
-                <div class="metric-desc">Zero inadvertent drift</div>
-            </div>
-            <div class="stat-box">
-                <div class="stat-number">0 KB</div>
-                <div class="stat-title">Audio File Size</div>
-                <div class="metric-desc">100% procedural synthesis</div>
+                <span class="tag amber"><i class="fa-solid fa-code"></i> React 18</span>
+                <span class="tag"><i class="fa-solid fa-hand"></i> MediaPipe ML / WASM</span>
+                <span class="tag"><i class="fa-solid fa-video"></i> WebRTC Camera</span>
+                <span class="tag"><i class="fa-solid fa-circle-nodes"></i> WebGL Particles</span>
+                <span class="tag"><i class="fa-solid fa-volume-high"></i> Web Audio Oscillators</span>
             </div>
         </div>
 
-        <!-- Flowing Post Content -->
-        <div class="post-content">
-
-            <p>
-                When you look at modern web interfaces, almost every interaction is reduced to the same mechanical paradigm: mouse clicks, touch taps, or keyboard strokes. But throughout history, divination instruments weren't passive forms—they were tactile, physical, and deliberate. A medieval astronomer turning a brass astrolabe felt the weight of concentric rings aligning with the celestial zenith. A cartomancer drawing tarot cards felt the card stock flex beneath their fingers.
-            </p>
-
-            <p>
-                With <strong>Zodiac Fortune Board</strong>, I wanted to see if I could bring that same ritualistic, physical presence into a standard browser tab. I wanted the webcam to act as a <em>Scrying Mirror</em>—interpreting natural hand kinematics directly on the device without clunky hardware peripherals, external cloud APIs, or laggy UI feedback.
-            </p>
-
-            <p>
-                Making touchless computer vision feel satisfying rather than gimmicky is surprisingly difficult. If the tracking jitters by a few pixels, the wheel shakes. If there is even 150 milliseconds of processing delay, the illusion of direct physical control collapses. And if you rely on instant gesture triggers, accidental hand movements ruin the user's focus. 
-            </p>
-
-            <p>
-                Solving this required engineering across four distinct technical pillars: our architectural build choices, the underlying polar math, the hand tracking classifier pipeline, and procedural audio synthesis.
-            </p>
-
-            <!-- SECTION 1: EDUCATIONAL FOUNDATION -->
-            <h2>
-                <i class="fa-solid fa-graduation-cap"></i> 1. Educational Foundation: Understanding the Core Technologies
-            </h2>
-
-            <p>
-                To understand how <strong>Zodiac Fortune Board</strong> works under the hood, it helps to first understand the four core technologies that power it: <strong>React 19</strong>, <strong>Google MediaPipe Tasks-Vision</strong>, the browser-native <strong>Web Audio API</strong>, and <strong>HTML5 Canvas 2D Trigonometry</strong>.
-            </p>
-
-            <div class="tech-stack-grid">
-                <div class="tech-item">
-                    <div class="tech-label">CORE FRONTEND</div>
-                    <div class="tech-value">React 19 &amp; Vite 8</div>
-                    <div class="tech-desc">A modern UI framework that manages component state declaratively. It re-renders interface elements automatically whenever user selection, divination stages, or audio toggles change.</div>
-                </div>
-
-                <div class="tech-item">
-                    <div class="tech-label">EDGE MACHINE LEARNING</div>
-                    <div class="tech-value">MediaPipe Tasks-Vision</div>
-                    <div class="tech-desc">Google's lightweight computer vision runtime. It detects 21 skeletal hand landmarks from a webcam feed directly inside the browser using WebAssembly (WASM) and WebGL GPU acceleration.</div>
-                </div>
-
-                <div class="tech-item">
-                    <div class="tech-label">PROCEDURAL SOUND</div>
-                    <div class="tech-value">Web Audio API (DSP)</div>
-                    <div class="tech-desc">A browser engine for real-time sound synthesis. Instead of playing MP3 files, it creates audio waves from mathematical equations using electronic oscillators, filters, and gain nodes.</div>
-                </div>
-
-                <div class="tech-item">
-                    <div class="tech-label">GRAPHICS &amp; MATH</div>
-                    <div class="tech-value">Canvas 2D &amp; Polar Geometry</div>
-                    <div class="tech-desc">Renders particle sparks and dynamic overlays. Uses Sine ($\sin$) and Cosine ($\cos$) trigonometry to map the 12 zodiac houses equidistant along a $360^\circ$ circle.</div>
-                </div>
+        <!-- SECTION: WHAT WAS LEARNED -->
+        <section class="section-block">
+            <div class="accent-line">
+                <span class="section-label">KEY TAKEAWAYS // ENGINEERING SUMMARY</span>
             </div>
-
-            <h3>How Hand Vision Machine Learning Works in Simple Terms</h3>
-            <p>
-                Imagine drawing 21 invisible dots on your hand—one at the wrist, one at each knuckle, and one at every fingertip. Every 33 milliseconds (~30 times per second), MediaPipe analyzes the video pixels from your camera and returns the exact 3D coordinates $(x, y, z)$ of those 21 dots.
-            </p>
-
-            <p>
-                Rather than sending your video feed to an external cloud server (which would introduce lag and privacy risks), the machine learning model runs 100% locally inside your web browser. The code calculates the physical distance between your fingertips and knuckles using the 3D distance formula:
-            </p>
-
-            $$\text{Distance} = \sqrt{(x_2 - x_1)^2 + (y_2 - y_1)^2 + (z_2 - z_1)^2}$$
-
-            <p>
-                If all four fingertips are close to your wrist, the system recognizes a <code>✊ Clenched Fist</code>. If only your index finger is extended, it recognizes a <code>☝️ Pointing Wand</code>. This allows seamless gesture control without touching your mouse or keyboard!
-            </p>
-
-            <!-- SECTION 2: ARCHITECTURE & BUILD CHOICES -->
-            <h2>
-                <i class="fa-solid fa-layer-group"></i> 2. Build Choices: Zero-Cloud Latency &amp; Performance Budgets
-            </h2>
-
-            <p>
-                Before writing any UI code, I set three strict constraints to make sure the application remained lightweight, responsive, and privacy-respecting:
-            </p>
-
-            <div class="diagram-card">
-                <div class="diagram-title"><i class="fa-solid fa-shield-halved"></i> Core Architectural Decisions</div>
-                <ul class="takeaway-list" style="margin: 0;">
-                    <li class="takeaway-item">
-                        <div class="takeaway-icon"><i class="fa-solid fa-lock"></i></div>
-                        <div class="takeaway-content">
-                            <h4>Zero Cloud Latency &amp; Complete Edge Privacy</h4>
-                            <p>Video frames from the webcam should never leave the client. No cloud endpoints, no backend computer vision microservices, and no telemetry. Everything runs locally on the browser's WebAssembly and GPU thread via Google's MediaPipe runtime, giving us sub-millisecond local inference.</p>
-                        </div>
-                    </li>
-                    <li class="takeaway-item">
-                        <div class="takeaway-icon"><i class="fa-solid fa-feather"></i></div>
-                        <div class="takeaway-content">
-                            <h4>Trigonometric SVG &amp; CSS 3D Over Heavy 3D Engines</h4>
-                            <p>The standard instinct for this kind of project is to reach for Three.js or Babylon.js. But bundling a full WebGL engine adds 800KB–1.5MB of gzipped overhead, increases initial bundle parsing time, and burns battery on laptops. Instead, I rendered the entire astrolabe using pure mathematical SVG polar projections and GPU-accelerated CSS 3D matrix transforms.</p>
-                        </div>
-                    </li>
-                    <li class="takeaway-item">
-                        <div class="takeaway-icon"><i class="fa-solid fa-bolt"></i></div>
-                        <div class="takeaway-content">
-                            <h4>React 19 &amp; Vite 8 State Machine</h4>
-                            <p>Divination rituals are inherently sequential: Wheel Alignment → Destiny Covenant → Major Arcana Draw → Elder Rune Casting. React 19 handles the higher-level stage transitions cleanly, while Vite ensures sub-200ms production builds with tiny runtime chunks.</p>
-                        </div>
-                    </li>
-                </ul>
-            </div>
-
-            <p>
-                By keeping all computation strictly inside the browser sandbox, the application boots instantaneously, requires zero server infrastructure, and works completely offline once cached.
-            </p>
-
-            <!-- SECTION 2 -->
-            <h2>
-                <i class="fa-solid fa-compass"></i> 2. The Building Blocks: Sacred Geometry &amp; Polar Horology
-            </h2>
-
-            <p>
-                The central astrolabe wheel isn't a static image rotated with CSS—it is an interactive trigonometric instrument. The 12 houses of the zodiac are mapped equidistant along a 360-degree circle. To position every node dynamically without hardcoding pixel offsets, the engine converts polar coordinates $(r, \theta)$ into Cartesian space:
-            </p>
-
-            <div class="code-container">
-                <div class="code-header">
-                    <span class="file-badge"><i class="fa-solid fa-file-code"></i> Polar Coordinate Projection</span>
-                    <span>Trigonometric Placement</span>
-                </div>
-<pre><code><span class="token-comment">// Equidistant polar placement for 12 celestial houses</span>
-<span class="token-keyword">const</span> radius = <span class="token-number">40</span>; <span class="token-comment">// Percentage offset from center</span>
-<span class="token-keyword">const</span> angleStep = (<span class="token-number">2</span> * Math.PI) / <span class="token-number">12</span>; <span class="token-comment">// Exactly 30° (π/6 rad) per house</span>
-
-<span class="token-keyword">const</span> signPositions = ZODIAC_SIGNS.<span class="token-fn">map</span>((sign, index) => {
-  <span class="token-comment">// Offset by -π/2 so index 0 begins directly at the top Zenith</span>
-  <span class="token-keyword">const</span> theta = index * angleStep - (Math.PI / <span class="token-number">2</span>);
-  <span class="token-keyword">return</span> {
-    ...sign,
-    x: <span class="token-number">50</span> + radius * Math.<span class="token-fn">cos</span>(theta),
-    y: <span class="token-number">50</span> + radius * Math.<span class="token-fn">sin</span>(theta)
-  };
-});</code></pre>
-            </div>
-
-            <p>
-                Once the nodes exist in vector space, the engine calculates geometric aspect chords between them. In classical horology, angles between signs define harmonic relationships:
-            </p>
-
-            <ul class="takeaway-list">
-                <li class="takeaway-item">
-                    <div class="takeaway-icon"><i class="fa-solid fa-draw-polygon"></i></div>
-                    <div class="takeaway-content">
-                        <h4>Trine Chords ($120^\circ$ Separation)</h4>
-                        <p>Signs of the same element (Fire, Earth, Air, Water) sit exactly 4 houses apart. The SVG canvas generates triangular vector chords linking these triads, which brighten and pulse when elemental affinities align.</p>
-                    </div>
-                </li>
-                <li class="takeaway-item">
-                    <div class="takeaway-icon"><i class="fa-solid fa-arrows-split-up-and-left"></i></div>
-                    <div class="takeaway-content">
-                        <h4>Opposition Vectors ($180^\circ$ Polarity)</h4>
-                        <p>Diametrically opposed signs create structural tension lines across the circle diameter, completing the complex sacred geometry mandala reminiscent of Renaissance astronomical clocks.</p>
-                    </div>
-                </li>
-                <li class="takeaway-item">
-                    <div class="takeaway-icon"><i class="fa-solid fa-location-crosshairs"></i></div>
-                    <div class="takeaway-content">
-                        <h4>Zenith Needle &amp; 30° Angular Normalization</h4>
-                        <p>A fixed top pointer determines which house is currently aligned by normalizing the cumulative wheel rotation: <code>normalizedAngle = (-rotation % 360 + 360) % 360</code>. Whenever the wheel crosses a $30^\circ$ house boundary, a synthesized mechanical detent clicks, giving tactile acoustic feedback.</p>
-                    </div>
-                </li>
-            </ul>
-
-            <!-- SECTION 3 -->
-            <h2>
-                <i class="fa-solid fa-hand"></i> 3. Hand Gesture Code Tech: Kinematics &amp; Temporal Hold States
-            </h2>
-
-            <p>
-                Computer vision in the browser has a reputation for being sluggish and erratic. If a developer naively pipes webcam frames into React component state, the application will drop frames immediately. Hand tremors, low ambient lighting, and finger occlusion cause constant flickering.
-            </p>
-
-            <p>
-                To make the interaction feel as rock-solid as a physical trackball, I built a specialized tracking and classification pipeline on top of <code>@mediapipe/tasks-vision</code>:
-            </p>
-
-            <h3>Decoupled Animation &amp; ML Inference Loops</h3>
-            <p>
-                The human visual system notices dropped frames in UI animations at 60 FPS, but neural landmark detection does not need to execute on every single animation frame. Running full hand landmark inference at 60 FPS creates thermal throttling on most laptops:
-            </p>
-
-            <ul class="takeaway-list">
-                <li class="takeaway-item">
-                    <div class="takeaway-icon"><i class="fa-solid fa-gauge-high"></i></div>
-                    <div class="takeaway-content">
-                        <h4>Throttled Inference Budget (~32ms / 30 FPS)</h4>
-                        <p>The browser’s <code>requestAnimationFrame</code> loop runs at 60 FPS to keep cursor positions and canvas overlays butter-smooth. However, MediaPipe's tensor graph is capped at ~30 FPS using <code>performance.now()</code>. This cuts computational overhead in half without any perceptible loss in tracking responsiveness.</p>
-                    </div>
-                </li>
-                <li class="takeaway-item">
-                    <div class="takeaway-icon"><i class="fa-solid fa-memory"></i></div>
-                    <div class="takeaway-content">
-                        <h4>Ref-Based Landmark Buffering</h4>
-                        <p>All 21 skeletal hand landmarks are written directly to mutable React refs (<code>rawLandmarksRef.current</code>). React state is only updated when a discrete gesture classification changes or when a deliberate lock triggers, preventing thousands of unnecessary component re-renders.</p>
-                    </div>
-                </li>
-            </ul>
-
-            <h3>The 5 Tracked Hand Gestures</h3>
-            <p>
-                Instead of simple finger counters (which easily get confused by curled thumbs or angled knuckles), the classifier uses **normalized Euclidean distance ratios** across four anatomical landmarks per finger: the wrist root, the metacarpophalangeal (MCP) knuckle base, the proximal interphalangeal (PIP) joint, and the fingertip.
-            </p>
-
-            <div class="gesture-deck">
-                <div class="gesture-card">
-                    <div class="gesture-card-header">
-                        <span class="gesture-name">☝️ Pointing Vector</span>
-                        <span class="gesture-pill">Continuous Nav</span>
-                    </div>
-                    <p class="gesture-desc">Index extended; middle, ring, pinky curled. Calculates angular coordinates around the wheel center via <code>Math.atan2(dy, dx)</code> to spin the astrolabe with smooth rotational velocity.</p>
-                </div>
-
-                <div class="gesture-card">
-                    <div class="gesture-card-header">
-                        <span class="gesture-name">✊ Clenched Fist</span>
-                        <span class="gesture-pill">Temporal Lock</span>
-                    </div>
-                    <p class="gesture-desc">All 4 fingers curled down tightly toward the palm. Triggers the 3.0-second continuous hold state machine to lock or unlock the wheel.</p>
-                </div>
-
-                <div class="gesture-card">
-                    <div class="gesture-card-header">
-                        <span class="gesture-name">✌️ Peace / V-Sign</span>
-                        <span class="gesture-pill">Destiny Panel</span>
-                    </div>
-                    <p class="gesture-desc">Index and middle extended apart; ring and pinky curled. Unveils the Destiny Covenant horoscope summary for the active sign.</p>
-                </div>
-
-                <div class="gesture-card">
-                    <div class="gesture-card-header">
-                        <span class="gesture-name">✋ Open Palm</span>
-                        <span class="gesture-pill">Tarot Draw</span>
-                    </div>
-                    <p class="gesture-desc">All 4 fingers extended wide. Triggers the Major Arcana tarot card manifestation corresponding to the selected house.</p>
-                </div>
-
-                <div class="gesture-card" style="grid-column: 1 / -1;">
-                    <div class="gesture-card-header">
-                        <span class="gesture-name">🤘 Mystic Horns</span>
-                        <span class="gesture-pill">Rune Casting</span>
-                    </div>
-                    <p class="gesture-desc">Index and pinky extended; middle and ring curled down. Casts the Three Sacred Elder Runes (Past, Present, and Outcome triad).</p>
-                </div>
-            </div>
-
-            <div class="code-container">
-                <div class="code-header">
-                    <span class="file-badge"><i class="fa-solid fa-code"></i> useHandTracking.js</span>
-                    <span>Normalized Euclidean Knuckle Classifier</span>
-                </div>
-<pre><code><span class="token-comment">// Geometric knuckle extension check using dual-ratio Euclidean distances</span>
-<span class="token-keyword">const</span> isFingerExtended = (tip, pip, mcp, wrist) => {
-  <span class="token-keyword">const</span> tipToWrist = <span class="token-fn">dist</span>(tip, wrist);
-  <span class="token-keyword">const</span> pipToWrist = <span class="token-fn">dist</span>(pip, wrist);
-  <span class="token-keyword">const</span> tipToMcp = <span class="token-fn">dist</span>(tip, mcp);
-  <span class="token-keyword">const</span> pipToMcp = <span class="token-fn">dist</span>(pip, mcp);
-
-  <span class="token-comment">// A finger is only extended if its tip is strictly further than the PIP joint</span>
-  <span class="token-keyword">return</span> (tipToWrist > pipToWrist * <span class="token-number">1.05</span>) && (tipToMcp > pipToMcp * <span class="token-number">1.08</span>);
-};
-
-<span class="token-comment">// Feature extraction across all four fingers</span>
-<span class="token-keyword">const</span> isIndexExtended = <span class="token-fn">isFingerExtended</span>(indexTip, indexPIP, indexMCP, wrist);
-<span class="token-keyword">const</span> isMiddleExtended = <span class="token-fn">isFingerExtended</span>(middleTip, middlePIP, middleMCP, wrist);
-<span class="token-keyword">const</span> isRingExtended = <span class="token-fn">isFingerExtended</span>(ringTip, ringPIP, ringMCP, wrist);
-<span class="token-keyword">const</span> isPinkyExtended = <span class="token-fn">isFingerExtended</span>(pinkyTip, pinkyPIP, pinkyMCP, wrist);
-
-<span class="token-comment">// 1. CLENCHED FIST: All 4 digits curled tight</span>
-<span class="token-keyword">if</span> (!isIndexExtended && !isMiddleExtended && !isRingExtended && !isPinkyExtended) {
-  <span class="token-keyword">return</span> { gesture: <span class="token-string">'FIST'</span>, isPinch: <span class="token-keyword">false</span> };
-}
-
-<span class="token-comment">// 2. POINTING: Index extended, others curled</span>
-<span class="token-keyword">if</span> (isIndexExtended && !isMiddleExtended && !isRingExtended && !isPinkyExtended) {
-  <span class="token-keyword">return</span> { gesture: <span class="token-string">'POINTING'</span>, isPinch: <span class="token-keyword">false</span> };
-}</code></pre>
-            </div>
-
-            <h3>The 3-Second Hold Lock Architecture</h3>
-            <p>
-                One of the most persistent failure modes in spatial computing is <strong>inadvertent drift</strong>. When a user points to align Scorpio at the Zenith and then lowers their hand to read the text, trailing wrist movement will accidentally spin the dial away.
-            </p>
-
-            <blockquote>
-                <p>
-                    <strong>The Deliberate Hold State Machine:</strong> To guarantee intent, the interface requires the user to hold a clenched fist (<code>✊ Fist</code>) for <strong>3.0 continuous seconds</strong> to lock or unlock the board.
-                </p>
-            </blockquote>
-
-            <p>
-                When a fist is detected, a high-precision timer initiates. A radial SVG countdown HUD overlay renders on screen, counting down from <code>3.0s</code> to <code>0.0s</code> with an animated golden circular progress ring. If the user breaks the fist pose early (e.g., at 2.1 seconds), the sequence resets cleanly without modifying application state.
-            </p>
-
-            <p>
-                Once the 3.0-second threshold completes:
-            </p>
-
-            <ul class="takeaway-list">
-                <li class="takeaway-item">
-                    <div class="takeaway-icon"><i class="fa-solid fa-lock"></i></div>
-                    <div class="takeaway-content">
-                        <h4>Rotational Lockout</h4>
-                        <p>Angular dragging is disabled, ensuring accidental pointer movements cannot disturb the Zenith alignment while reading fortunes.</p>
-                    </div>
-                </li>
-                <li class="takeaway-item">
-                    <div class="takeaway-icon"><i class="fa-solid fa-crown"></i></div>
-                    <div class="takeaway-content">
-                        <h4>Unmistakable Node Highlighting</h4>
-                        <p>The locked sign node scales up to <code>1.34x</code> with an illuminated gold border, a dual-layer glowing aura, a pulsing beacon animation, and an illuminated <code>👑 SELECTED</code> badge.</p>
-                    </div>
-                </li>
-                <li class="takeaway-item">
-                    <div class="takeaway-icon"><i class="fa-solid fa-gem"></i></div>
-                    <div class="takeaway-content">
-                        <h4>Central Crystal Ball Status</h4>
-                        <p>The center orb illuminates with an imperial status pill: <code>🔒 [SIGN] LOCKED · Hold ✊ 3s to Unlock</code>.</p>
-                    </div>
-                </li>
-            </ul>
-
-            <!-- SECTION 4 -->
-            <h2>
-                <i class="fa-solid fa-waveform"></i> 4. Procedural Audio Tech: 100% Web Audio DSP
-            </h2>
-
-            <p>
-                Most web experiences load 15MB to 30MB of static MP3 or WAV audio assets. For Zodiac Fortune Board, I took a fundamentally different approach: <strong>every frequency in the application is synthesized mathematically in real time using the native Web Audio API</strong>.
-            </p>
-
-            <p>
-                Zero external audio assets means zero network requests, zero broken CDN links, and instantaneous response times. Even better, procedural audio can be modulated dynamically based on user interaction physics.
-            </p>
-
-            <h3>The 432Hz Sub-Bass Harmonic Drone</h3>
-            <p>
-                To give the altar an immersive presence the moment it opens, a continuous harmonic drone plays in the background. It uses dual oscillators tuned to ancient Phrygian harmonic intervals (Root A1 at 54Hz and Fifth E2 at 81Hz, aligned with 432Hz tuning) routed through a 140Hz low-pass Biquad filter:
-            </p>
-
-            <div class="code-container">
-                <div class="code-header">
-                    <span class="file-badge"><i class="fa-solid fa-music"></i> mysticAudio.js</span>
-                    <span>Continuous Harmonic Drone Synthesizer</span>
-                </div>
-<pre><code><span class="token-comment">// Sub-bass harmonic foundation: Root A1 (54Hz) + Fifth E2 (81Hz)</span>
-<span class="token-keyword">this</span>.droneOsc1 = <span class="token-keyword">this</span>.ctx.<span class="token-fn">createOscillator</span>();
-<span class="token-keyword">this</span>.droneOsc1.type = <span class="token-string">'sine'</span>;
-<span class="token-keyword">this</span>.droneOsc1.frequency.<span class="token-fn">setValueAtTime</span>(<span class="token-number">54</span>, now);
-
-<span class="token-keyword">this</span>.droneOsc2 = <span class="token-keyword">this</span>.ctx.<span class="token-fn">createOscillator</span>();
-<span class="token-keyword">this</span>.droneOsc2.type = <span class="token-string">'triangle'</span>;
-<span class="token-keyword">this</span>.droneOsc2.frequency.<span class="token-fn">setValueAtTime</span>(<span class="token-number">81</span>, now);
-
-<span class="token-comment">// Low-pass filter creates warm, subterranean ambient presence</span>
-<span class="token-keyword">const</span> filter = <span class="token-keyword">this</span>.ctx.<span class="token-fn">createBiquadFilter</span>();
-filter.type = <span class="token-string">'lowpass'</span>;
-filter.frequency.<span class="token-fn">setValueAtTime</span>(<span class="token-number">140</span>, now);
-
-<span class="token-keyword">this</span>.droneOsc1.<span class="token-fn">connect</span>(filter);
-<span class="token-keyword">this</span>.droneOsc2.<span class="token-fn">connect</span>(filter);
-filter.<span class="token-fn">connect</span>(<span class="token-keyword">this</span>.droneGain);</code></pre>
-            </div>
-
-            <h3>Solfeggio Bell Harmonics via Physical Overtone Ratios</h3>
-            <p>
-                When a destiny covenant or tarot card is revealed, the synthesizer generates crystal bell chimes tuned to sacred Solfeggio frequencies (<code>528Hz, 639Hz, 741Hz, 852Hz, 963Hz</code>). 
-            </p>
-
-            <p>
-                Real physical bells don't sound like simple sine waves; their acoustic properties produce non-harmonic overtones. To recreate this metallic shimmer, the engine pairs the fundamental frequency with a secondary oscillator tuned to an acoustic bell ratio of **2.76x**, decaying with an exponential volume ramp:
-            </p>
-
-            <div class="code-container">
-                <div class="code-header">
-                    <span class="file-badge"><i class="fa-solid fa-bell"></i> mysticAudio.js</span>
-                    <span>Acoustic Bell Harmonic Chime</span>
-                </div>
-<pre><code><span class="token-comment">// Fundamental chime (e.g., 528Hz Solfeggio frequency)</span>
-<span class="token-keyword">const</span> osc = <span class="token-keyword">this</span>.ctx.<span class="token-fn">createOscillator</span>();
-osc.type = <span class="token-string">'sine'</span>;
-osc.frequency.<span class="token-fn">setValueAtTime</span>(freq, now);
-
-<span class="token-comment">// Shimmering overtone at physical acoustic bell ratio 2.76x</span>
-<span class="token-keyword">const</span> overtone = <span class="token-keyword">this</span>.ctx.<span class="token-fn">createOscillator</span>();
-overtone.type = <span class="token-string">'sine'</span>;
-overtone.frequency.<span class="token-fn">setValueAtTime</span>(freq * <span class="token-number">2.76</span>, now);
-
-<span class="token-comment">// Exponential volume decay over 2.2 seconds</span>
-gain.gain.<span class="token-fn">setValueAtTime</span>(<span class="token-number">0.18</span>, now);
-gain.gain.<span class="token-fn">exponentialRampToValueAtTime</span>(<span class="token-number">0.0001</span>, now + <span class="token-number">2.2</span>);</code></pre>
-            </div>
-
-            <h3>Velocity-Modulated Sweeps &amp; Stochastic Dice Clatter</h3>
-            <p>
-                Other procedural sound design highlights include:
-            </p>
-
-            <ul class="takeaway-list">
-                <li class="takeaway-item">
-                    <div class="takeaway-icon"><i class="fa-solid fa-arrows-spin"></i></div>
-                    <div class="takeaway-content">
-                        <h4>Angular Velocity Filter Sweeps</h4>
-                        <p>When spinning the wheel with the pointing gesture, a bandpass filter (Q=3.0, center=350Hz) modulates its frequency dynamically based on the wheel's angular velocity, creating an organic mechanical whoosh that matches physical speed.</p>
-                    </div>
-                </li>
-                <li class="takeaway-item">
-                    <div class="takeaway-icon"><i class="fa-solid fa-dice-d20"></i></div>
-                    <div class="takeaway-content">
-                        <h4>Stochastic Rune &amp; Dice Bursts</h4>
-                        <p>For elder runes and the 100-sided fate die, a micro-scheduler fires 5 rapid randomized square-wave clicks (between 400Hz and 900Hz) spaced 70ms apart. This clatter resolves into an upward sine sweep (E5 at 659Hz ramping to E6 at 1318Hz), simulating the physical rattle of bone runestones settling onto an altar.</p>
-                    </div>
-                </li>
-            </ul>
-
-            <!-- SECTION 5: WHAT WAS LEARNED -->
-            <h2>
-                <i class="fa-solid fa-graduation-cap"></i> 5. Summary of What Was Learned
+            <h2 class="section-title">
+                <i class="fa-solid fa-graduation-cap"></i> Summary of What Was Learned
             </h2>
 
             <div class="learnings-summary-box">
                 <p>
                     Developing the Zodiac Fortune Board demonstrated how edge machine learning with MediaPipe hand tracking can replace conventional buttons with intuitive, touchless spatial interactions. Implementing temporal hysteresis on the gesture recognition loop proved crucial, ensuring deliberate fist holds register reliably while preventing accidental triggers during natural hand movements. Generating polyphonic bells, filter sweeps, and runic clatter purely through mathematical Web Audio oscillators eliminated external audio assets and zeroed out network latency. The project ultimately proved that complex geometric trigonometry, real-time computer vision, and procedural sound design can merge seamlessly in a standard browser tab without server dependencies.
                 </p>
+                <div class="summary-action-area">
+                    <a href="./index.html" class="btn-launch-project">
+                        <i class="fa-solid fa-play"></i> Launch Zodiac Compass
+                    </a>
+                </div>
             </div>
+        </section>
 
-        </div>
-
-    </article>
+    </main>
 
     <!-- Fixed Bottom Interactive Projects Dock -->
     <nav class="fixed-bottom-dock" aria-label="Interactive Projects Navigation">
