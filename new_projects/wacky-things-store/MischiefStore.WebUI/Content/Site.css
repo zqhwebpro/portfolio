@@ -24,17 +24,17 @@
   --surface-bg: #180A2E;
   --border-purple: rgba(236, 179, 255, 0.25);
   --border-subtle: rgba(236, 179, 255, 0.15);
-  /* Royal Blue Accent Palette (Learning & Education Store - works harmoniously with Teal and Purple) */
-  --blood-orange: #2563EB;
-  --blood-orange-hover: #1D4ED8;
-  --blood-orange-dark: #1E40AF;
-  --blood-orange-light: #EFF6FF;
-  --blood-orange-glow: rgba(37, 99, 235, 0.45);
-  --royal-blue: #2563EB;
-  --royal-blue-hover: #1D4ED8;
-  --royal-blue-dark: #1E40AF;
-  --royal-blue-light: #EFF6FF;
-  --royal-blue-glow: rgba(37, 99, 235, 0.45);
+  /* Warm Yellow/Orange Accent Palette (Learning & Education Store - pairs harmoniously with Teal and Purple) */
+  --blood-orange: #F97316;
+  --blood-orange-hover: #EA580C;
+  --blood-orange-dark: #C2410C;
+  --blood-orange-light: #FFF7ED;
+  --blood-orange-glow: rgba(249, 115, 22, 0.45);
+  --royal-blue: #F59E0B;
+  --royal-blue-hover: #D97706;
+  --royal-blue-dark: #B45309;
+  --royal-blue-light: #FFFBEB;
+  --royal-blue-glow: rgba(245, 158, 11, 0.45);
 }
 
 body {
@@ -209,9 +209,9 @@ body {
 
 .badge-blood-orange,
 .badge-royal-blue {
-  background: rgba(37, 99, 235, 0.15);
+  background: rgba(245, 158, 11, 0.15);
   color: var(--royal-blue);
-  border: 1px solid rgba(37, 99, 235, 0.4);
+  border: 1px solid rgba(245, 158, 11, 0.4);
   font-size: 0.75rem;
   font-weight: 800;
   padding: 0.25rem 0.65rem;

@@ -1,8 +1,17 @@
 import React, { useEffect, useRef } from 'react';
 
-export function RearviewMirror({ speedMph, popups = [], driveDistance = 0, playerX = 0 }) {
+export const RearviewMirror = React.memo(function RearviewMirror({
+  speedMph = 0,
+  popups = [],
+  driveDistance = 0,
+  playerX = 0,
+}) {
   const canvasRef = useRef(null);
   const offsetRef = useRef(0);
+  const speedRef = useRef(speedMph);
+  speedRef.current = speedMph;
+  const playerXRef = useRef(playerX);
+  playerXRef.current = playerX;
 
   useEffect(() => {
     const canvas = canvasRef.current;
@@ -11,14 +20,23 @@ export function RearviewMirror({ speedMph, popups = [], driveDistance = 0, playe
     let animId;
 
     const render = () => {
-      const width = (canvas.width = canvas.clientWidth || 380);
-      const height = (canvas.height = canvas.clientHeight || 100);
+      const parent = canvas.parentElement;
+      const width = parent?.clientWidth || canvas.clientWidth || 380;
+      const height = parent?.clientHeight || canvas.clientHeight || 100;
+
+      // Only resize canvas buffer when dimensions actually change
+      if (canvas.width !== width || canvas.height !== height) {
+        canvas.width = width;
+        canvas.height = height;
+      }
 
       const horizonY = height * 0.45;
+      const curSpeed = speedRef.current;
+      const curPX = playerXRef.current;
 
-      // Grid moves in reverse for rear mirror reflection ONLY when speedMph > 0
-      if (Math.abs(speedMph) > 0) {
-        offsetRef.current = (offsetRef.current - (0.6 + speedMph * 0.06) + 40) % 40;
+      // Grid moves in reverse for rear mirror reflection ONLY when speed > 0
+      if (Math.abs(curSpeed) > 0) {
+        offsetRef.current = (offsetRef.current - (0.6 + curSpeed * 0.06) + 40) % 40;
       }
 
       // 1. Deep Space Sky & Reflection Gradient
@@ -29,8 +47,8 @@ export function RearviewMirror({ speedMph, popups = [], driveDistance = 0, playe
       ctx.fillStyle = skyGrad;
       ctx.fillRect(0, 0, width, height);
 
-      // Distant Rear Mountain Silhouettes (Darker Silhouette)
-      const mountainShift = -playerX * 6;
+      // Distant Rear Mountain Silhouettes
+      const mountainShift = -curPX * 6;
       ctx.fillStyle = '#06010d';
       ctx.beginPath();
       ctx.moveTo(0, horizonY);
@@ -50,10 +68,10 @@ export function RearviewMirror({ speedMph, popups = [], driveDistance = 0, playe
       // Central Information Superhighway corridor in rear reflection
       const fanning = 16;
       const cx = width / 2;
-      const startLeft  = cx - playerX * (width * 0.04) + (-3 / fanning) * 16;
-      const startRight = cx - playerX * (width * 0.04) + (3 / fanning) * 16;
-      const endLeft    = cx - playerX * (width * 0.35) - 3 * (width * 0.08);
-      const endRight   = cx - playerX * (width * 0.35) + 3 * (width * 0.08);
+      const startLeft  = cx - curPX * (width * 0.04) + (-3 / fanning) * 16;
+      const startRight = cx - curPX * (width * 0.04) + (3 / fanning) * 16;
+      const endLeft    = cx - curPX * (width * 0.35) - 3 * (width * 0.08);
+      const endRight   = cx - curPX * (width * 0.35) + 3 * (width * 0.08);
 
       ctx.fillStyle = 'rgba(26, 5, 48, 0.85)';
       ctx.beginPath();
@@ -64,19 +82,25 @@ export function RearviewMirror({ speedMph, popups = [], driveDistance = 0, playe
       ctx.closePath();
       ctx.fill();
 
-      // Rear Center Dashed Line (receding)
-      ctx.save();
-      ctx.setLineDash([14, 10]);
-      ctx.lineDashOffset = offsetRef.current * 1.5;
-      ctx.strokeStyle = '#FFE600';
-      ctx.shadowColor = '#FFE600';
-      ctx.shadowBlur = 6;
-      ctx.lineWidth = 2.0;
+      // Left shoulder barrier rail (Cyan) - transparent and glowy (no yellow)
+      ctx.strokeStyle = 'rgba(0, 240, 255, 0.50)';
+      ctx.shadowColor = '#00F0FF';
+      ctx.shadowBlur = 12;
+      ctx.lineWidth = 1.8;
       ctx.beginPath();
-      ctx.moveTo(cx - playerX * (width * 0.04), horizonY);
-      ctx.lineTo(cx - playerX * (width * 0.35), height);
+      ctx.moveTo(startLeft, horizonY);
+      ctx.lineTo(endLeft, height);
       ctx.stroke();
-      ctx.restore();
+
+      // Right shoulder barrier rail (Magenta) - transparent and glowy (no yellow)
+      ctx.strokeStyle = 'rgba(255, 0, 127, 0.50)';
+      ctx.shadowColor = '#FF007F';
+      ctx.shadowBlur = 12;
+      ctx.lineWidth = 1.8;
+      ctx.beginPath();
+      ctx.moveTo(startRight, horizonY);
+      ctx.lineTo(endRight, height);
+      ctx.stroke();
 
       // Horizontal lines receding backward
       ctx.lineWidth = 1.2;
@@ -84,7 +108,7 @@ export function RearviewMirror({ speedMph, popups = [], driveDistance = 0, playe
       for (let i = 0; i < numH; i++) {
         const progress = (((i + offsetRef.current / 40) % numH) + numH) % numH / numH;
         const py = horizonY + Math.pow(progress, 2.2) * (height - horizonY);
-        ctx.strokeStyle = `rgba(0, 240, 255, ${0.3 + progress * 0.7})`;
+        ctx.strokeStyle = `rgba(0, 240, 255, ${0.25 + progress * 0.65})`;
         ctx.shadowColor = '#00F0FF';
         ctx.shadowBlur = progress * 6;
         ctx.beginPath();
@@ -93,23 +117,34 @@ export function RearviewMirror({ speedMph, popups = [], driveDistance = 0, playe
         ctx.stroke();
       }
 
-      // Fan vertical lines shifting with playerX steering
+      // Fan vertical lines shifting with player steering (no center yellow line, transparent & glowy)
       for (let i = -fanning; i <= fanning; i++) {
-        const startX = cx - playerX * (width * 0.04) + (i / fanning) * 16;
-        const endX = cx - playerX * (width * 0.35) + i * (width * 0.08);
-        ctx.strokeStyle = 'rgba(255, 0, 127, 0.5)';
-        ctx.shadowColor = '#FF007F';
+        if (i === 0) continue; // Skip center line - yellow line completely removed
+        const startX = cx - curPX * (width * 0.04) + (i / fanning) * 16;
+        const endX   = cx - curPX * (width * 0.35) + i * (width * 0.08);
+
+        if (i < 0) {
+          ctx.strokeStyle = 'rgba(0, 240, 255, 0.32)';
+          ctx.shadowColor = '#00F0FF';
+        } else {
+          ctx.strokeStyle = 'rgba(255, 0, 127, 0.32)';
+          ctx.shadowColor = '#FF007F';
+        }
         ctx.shadowBlur = 4;
+        ctx.lineWidth = 1.0;
         ctx.beginPath();
         ctx.moveTo(startX, horizonY);
         ctx.lineTo(endX, height);
         ctx.stroke();
       }
 
+      // Clear shadow blur
+      ctx.shadowBlur = 0;
+
       // Sleek glass reflection glare
       const sheen = ctx.createLinearGradient(0, 0, width, height);
-      sheen.addColorStop(0, 'rgba(0, 240, 255, 0.22)');
-      sheen.addColorStop(0.35, 'rgba(255, 255, 255, 0.12)');
+      sheen.addColorStop(0, 'rgba(0, 240, 255, 0.18)');
+      sheen.addColorStop(0.35, 'rgba(255, 255, 255, 0.08)');
       sheen.addColorStop(1, 'rgba(0, 0, 0, 0.45)');
       ctx.fillStyle = sheen;
       ctx.fillRect(0, 0, width, height);
@@ -119,7 +154,7 @@ export function RearviewMirror({ speedMph, popups = [], driveDistance = 0, playe
 
     render();
     return () => cancelAnimationFrame(animId);
-  }, [speedMph, playerX]);
+  }, []);
 
   return (
     <div
@@ -159,7 +194,7 @@ export function RearviewMirror({ speedMph, popups = [], driveDistance = 0, playe
             const rawProgress = (driveDistance - popup.startDist) / 36;
 
             // Only show in the rearview mirror AFTER they pass the camera
-            if (rawProgress < 0.95) return null;
+            if (rawProgress < 0.98) return null;
 
             // p ranges from 0 (closest to mirror edge) to > 1 (receding into horizon)
             const p = rawProgress - 1.0;
@@ -168,20 +203,20 @@ export function RearviewMirror({ speedMph, popups = [], driveDistance = 0, playe
             // Shrinks and moves UP towards horizon (45%)
             const progressY = Math.pow(Math.max(0, 1 - p / 1.5), 2.5); // 1 to 0
 
-            // Horizon is 45%, lower the signs onto the road surface (no stems)
+            // Horizon is 45%, lower the signs onto the road surface
             const topPct = 47 + progressY * 45;
 
             // Scale from 0.85 down to 0.01 at horizon
             const scale = Math.max(0.01, progressY * 0.85);
 
             // Fade in initially as it enters the mirror, fade out at horizon
-            const opacity = p < 0.1 ? p / 0.1 : p > 1.2 ? 1 - (p - 1.2) / 0.3 : 1;
+            const opacity = p < 0.08 ? p / 0.08 : p > 1.2 ? 1 - (p - 1.2) / 0.3 : 1;
 
             const isLeft = popup.number % 2 === 0;
             const lineIndex = isLeft ? -1.5 : 1.5;
 
-            const startX_pct = 50 - playerX * 4 + (lineIndex / 16) * 16; // horizon X
-            const endX_pct = 50 - playerX * 35 + lineIndex * 20; // bottom X
+            const startX_pct = 50 - playerX * 4 + (lineIndex / 16) * 16;
+            const endX_pct   = 50 - playerX * 35 + lineIndex * 20;
 
             const currentX_pct = startX_pct + (endX_pct - startX_pct) * progressY;
 
@@ -225,8 +260,8 @@ export function RearviewMirror({ speedMph, popups = [], driveDistance = 0, playe
                       left: 0,
                       right: 0,
                       height: '2.5px',
-                      background: 'linear-gradient(90deg, #FF9900 0%, #FF4400 50%, #FF0055 100%)',
-                      boxShadow: '0 0 6px #FF5500, 0 0 10px #FF0044',
+                      background: 'linear-gradient(90deg, #00F0FF 0%, #9D00FF 50%, #FF007F 100%)',
+                      boxShadow: '0 0 6px #00F0FF, 0 0 10px #FF007F',
                     }}
                   />
                 </div>
@@ -240,7 +275,7 @@ export function RearviewMirror({ speedMph, popups = [], driveDistance = 0, playe
             position: 'absolute',
             bottom: '8px',
             right: '16px',
-            fontFamily: 'var(--font-mono)',
+            fontFamily: 'var(--font-mono, monospace)',
             fontSize: '0.75rem',
             fontWeight: 900,
             color: '#00F0FF',
@@ -254,4 +289,4 @@ export function RearviewMirror({ speedMph, popups = [], driveDistance = 0, playe
       </div>
     </div>
   );
-}
+});

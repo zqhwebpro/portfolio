@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useRef, useCallback } from 'react';
+import React, { useState, useEffect, useRef, useCallback, useMemo } from 'react';
 import { RearviewMirror } from './RearviewMirror';
 import { WaveformVisualizer } from './WaveformVisualizer';
 import { SpotifyRadio } from './SpotifyRadio';
@@ -135,7 +135,7 @@ const CURATED_WIKI_FALLBACKS = [
 /** Combined master fallback pool of curated thematic + rich random Wikipedia reserve */
 const ALL_FALLBACK_ARTICLES = [...CURATED_WIKI_FALLBACKS, ...RANDOM_WIKI_RESERVE];
 
-/** Fisher-Yates array shuffle for true non-biased randomness */
+/** Fisher-Yates array shuffle */
 function shuffleArray(arr) {
   const copy = [...arr];
   for (let i = copy.length - 1; i > 0; i--) {
@@ -145,25 +145,38 @@ function shuffleArray(arr) {
   return copy;
 }
 
-/** Pre-computed cyberspace starfield for the Information Superhighway night sky */
+/** Pre-computed cyberspace starfield for night sky (no yellow) */
 const CYBER_STARS = Array.from({ length: 65 }, (_, i) => ({
   x: ((i * 137.5) % 100) / 100,
-  y: ((i * 73.1) % 46) / 100, // Top 46% of sky (above mountains)
-  size: (i % 3 === 0) ? 2.2 : (i % 2 === 0 ? 1.5 : 1.0),
-  color: (i % 4 === 0) ? '#00F0FF' : ((i % 4 === 1) ? '#FF007F' : ((i % 4 === 2) ? '#FFE600' : '#FFFFFF')),
+  y: ((i * 73.1) % 46) / 100,
+  size: i % 3 === 0 ? 2.0 : i % 2 === 0 ? 1.4 : 1.0,
+  color:
+    i % 4 === 0
+      ? '#00F0FF'
+      : i % 4 === 1
+        ? '#FF007F'
+        : i % 4 === 2
+          ? '#9D00FF'
+          : '#FFFFFF',
   twinklePhase: (i * 0.9) % (Math.PI * 2),
 }));
 
+/** Module-level constant photon definitions (no yellow) */
+const PHOTON_SEEDS = [
+  { lane: -2.5, speedMult: 1.4, color: '#00F0FF', glow: '#00EEFF', phase: 0.1 },
+  { lane: 2.5,  speedMult: 1.7, color: '#9D00FF', glow: '#D177FF', phase: 0.4 },
+  { lane: -1.2, speedMult: 1.9, color: '#FF007F', glow: '#FF66AA', phase: 0.7 },
+  { lane: 1.2,  speedMult: 1.5, color: '#00E599', glow: '#88FFDD', phase: 0.85 },
+];
+
 /**
  * Fetch a batch of live random Wikipedia articles via MediaWiki Action API with timeout and deduplication.
- * Returns { articles: Array, quotaHit: Boolean }.
  */
 async function fetchWikiBatch(count = 12, seenTitles = new Set()) {
   const controller = new AbortController();
   const timeoutId = setTimeout(() => controller.abort(), 6000);
 
   try {
-    // Request up to 50 random items with Api-User-Agent for high yield of articles with thumbnails
     const url = `https://en.wikipedia.org/w/api.php?action=query&format=json&origin=*&generator=random&grnnamespace=0&grnlimit=50&prop=extracts|pageimages|info&inprop=url&exintro=1&explaintext=1&exchars=240&piprop=thumbnail&pithumbsize=330`;
     const res = await fetch(url, {
       signal: controller.signal,
@@ -174,7 +187,6 @@ async function fetchWikiBatch(count = 12, seenTitles = new Set()) {
     });
     clearTimeout(timeoutId);
 
-    // Detect API rate limit / 429 Too Many Requests / 403 Forbidden
     if (res.status === 429 || res.status === 403) {
       return { articles: [], quotaHit: true };
     }
@@ -212,14 +224,12 @@ async function fetchWikiBatch(count = 12, seenTitles = new Set()) {
     return { articles, quotaHit: false };
   } catch (err) {
     clearTimeout(timeoutId);
-    // Secondary fallback: attempt single random summary endpoint
     try {
       const single = await fetchSingleWikiSummary();
       if (single && single.image && !seenTitles.has(single.title)) {
         return { articles: [{ ...single, isCuratedFallback: false }], quotaHit: false };
       }
     } catch (e2) {}
-    // If network or API unavailable, treat as potential quota limit or offline
     return { articles: [], quotaHit: err.name === 'AbortError' ? false : true };
   }
 }
@@ -257,14 +267,9 @@ async function fetchSingleWikiSummary() {
 }
 
 /**
- * Get next article:
- * Priority 1: Pull from live random Wikipedia pool (any random article from global Wikipedia).
- * Priority 2: When API quota is expended, throttled, or pool is temporarily empty,
- * seamlessly default to the precurated & verified reserve fallbacks.
- * Never repeats recently seen articles, never shows broken image, never returns empty.
+ * Get next article: Live pool first, then fallback reserve
  */
 function getNextArticle(livePoolRef, fallbackReserveRef, seenTitlesRef, quotaExpendedRef) {
-  // 1. Primary: Draw from live random Wikipedia article pool if available and not quota-locked
   while (livePoolRef.current && livePoolRef.current.length > 0) {
     const randIdx = Math.floor(Math.random() * livePoolRef.current.length);
     const candidate = livePoolRef.current.splice(randIdx, 1)[0];
@@ -279,8 +284,6 @@ function getNextArticle(livePoolRef, fallbackReserveRef, seenTitlesRef, quotaExp
     }
   }
 
-  // 2. Secondary: Fallback reserve (precurated thematic + diverse pre-fetched Wikipedia reserve)
-  // Ensure we pick an unseen fallback article
   const unseenFallbacks = fallbackReserveRef.current.filter(
     (a) => a && a.title && !seenTitlesRef.current.has(a.title)
   );
@@ -291,30 +294,30 @@ function getNextArticle(livePoolRef, fallbackReserveRef, seenTitlesRef, quotaExp
     return { ...chosen, isCuratedFallback: true };
   }
 
-  // 3. Fallback recycle safeguard: Retain only the most recent 10 seen titles so we don't repeat recent ones
   const recentSeen = Array.from(seenTitlesRef.current).slice(-10);
   seenTitlesRef.current = new Set(recentSeen);
 
   const available = fallbackReserveRef.current.filter(
     (a) => a && a.title && !seenTitlesRef.current.has(a.title)
   );
-  const selected = available.length > 0
-    ? available[Math.floor(Math.random() * available.length)]
-    : fallbackReserveRef.current[Math.floor(Math.random() * fallbackReserveRef.current.length)];
+  const selected =
+    available.length > 0
+      ? available[Math.floor(Math.random() * available.length)]
+      : fallbackReserveRef.current[Math.floor(Math.random() * fallbackReserveRef.current.length)];
 
   seenTitlesRef.current.add(selected.title);
   return { ...selected, isCuratedFallback: true };
 }
 
 // ---------------------------------------------------------------------------
-// F-Zero Tron Bike definitions (module-level constant — never recreated)
+// F-Zero Tron Bike definitions
 // ---------------------------------------------------------------------------
 const FZERO_BIKES = [
-  { lineIndex: -7,  color: '#00AAFF', exhaust: '#00EEFF', speed: 0.0022, startT: 0.12 }, // Blue Falcon
-  { lineIndex: 7,   color: '#FF3300', exhaust: '#FF8800', speed: 0.0019, startT: 0.37 }, // Fire Stingray
-  { lineIndex: -15, color: '#00DD55', exhaust: '#88FFBB', speed: 0.0027, startT: 0.06 }, // Wild Goose
-  { lineIndex: 15,  color: '#FFD700', exhaust: '#FFFF88', speed: 0.0020, startT: 0.55 }, // Golden Fox
-  { lineIndex: 1,   color: '#CC00FF', exhaust: '#FF77FF', speed: 0.0017, startT: 0.44 }, // Death Anchor
+  { lineIndex: -7,  color: '#00AAFF', exhaust: '#00EEFF', speed: 0.0022, startT: 0.12 },
+  { lineIndex: 7,   color: '#FF3300', exhaust: '#FF8800', speed: 0.0019, startT: 0.37 },
+  { lineIndex: -15, color: '#00DD55', exhaust: '#88FFBB', speed: 0.0027, startT: 0.06 },
+  { lineIndex: 15,  color: '#9D00FF', exhaust: '#D177FF', speed: 0.0020, startT: 0.55 },
+  { lineIndex: 1,   color: '#CC00FF', exhaust: '#FF77FF', speed: 0.0017, startT: 0.44 },
 ];
 
 export function SynthwaveDrive() {
@@ -327,25 +330,23 @@ export function SynthwaveDrive() {
   const [popups, setPopups] = useState([]);
   const [isAudioPlaying, setIsAudioPlaying] = useState(true);
   const [autoDrive, setAutoDrive] = useState(false);
-  const [playerX, setPlayerX] = useState(0); // Left/Right lateral position (-0.85 to +0.85)
+  const [playerX, setPlayerX] = useState(0);
 
   // API Quota & Fallback indicators
   const [isCuratedFallback, setIsCuratedFallback] = useState(false);
   const [quotaExpended, setQuotaExpended] = useState(false);
   const [articlesStreamed, setArticlesStreamed] = useState(0);
 
-  // Set of all article titles seen or queued to prevent any repeats
+  // Set of all article titles seen
   const seenTitlesRef = useRef(new Set());
 
-  // 1. Live Wikipedia article pool: initially empty, rapidly populated by live API queries
+  // Article pools
   const liveWikiPoolRef = useRef([]);
-  // 2. Precurated & prefetched backup reserve: used when live API is loading, offline, or quota is reached
   const fallbackReserveRef = useRef(shuffleArray(ALL_FALLBACK_ARTICLES));
-
   const poolLoadingRef = useRef(false);
   const quotaExpendedRef = useRef(false);
 
-  // F-Zero Tron bikes (lazy-initialized inside render loop)
+  // F-Zero Tron bikes
   const bikesRef = useRef(null);
 
   // Animation & simulation refs
@@ -354,7 +355,7 @@ export function SynthwaveDrive() {
   const directionRef = useRef(1); // 1 = Forward, -1 = Reverse
   const offsetRef = useRef(0);
   const driveDistanceRef = useRef(0);
-  const nextMilestoneDistRef = useRef(28); // Spaced apart, no initial popup at startup
+  const nextMilestoneDistRef = useRef(28);
   const milestoneCountRef = useRef(0);
 
   // Steering physics refs
@@ -362,15 +363,18 @@ export function SynthwaveDrive() {
   const steerVelocityRef = useRef(0);
   const keysPressedRef = useRef({ left: false, right: false });
 
-  // Nearest popup ref for F-key shortcut
+  // Popups reference for F-key handler & physics loop
   const popupsRef = useRef([]);
-
-  // Keep popupsRef in sync with state
   useEffect(() => {
     popupsRef.current = popups;
   }, [popups]);
 
-  // Refill live random pool continuously from MediaWiki Action API until quota limit
+  // Performance throttling refs to prevent redundant React renders
+  const lastSpeedMphRef = useRef(-1);
+  const lastPlayerXRef = useRef(0);
+  const frameCountRef = useRef(0);
+
+  // Refill live random pool
   const refillLivePool = useCallback(async () => {
     if (poolLoadingRef.current || liveWikiPoolRef.current.length >= 25 || quotaExpendedRef.current) return;
     poolLoadingRef.current = true;
@@ -393,8 +397,6 @@ export function SynthwaveDrive() {
           (a) => !seenTitlesRef.current.has(a.title) && !existingInPool.has(a.title)
         );
         liveWikiPoolRef.current.push(...fresh);
-
-        // Recovered or active live stream
         quotaExpendedRef.current = false;
         setQuotaExpended(false);
       }
@@ -410,20 +412,23 @@ export function SynthwaveDrive() {
     refillLivePool();
   }, [refillLivePool]);
 
+  // Toggle Auto Drive cruise mode
   const toggleAutoDrive = useCallback(() => {
     setAutoDrive((prev) => {
       const next = !prev;
       autoDriveRef.current = next;
+      if (next) {
+        directionRef.current = 1;
+        speedRef.current = Math.max(30, speedRef.current);
+      }
       return next;
     });
   }, []);
 
-  // Keyboard left/right steering + Up/Down drive + Space (Auto Drive) + F key to open nearest Wikipedia article
+  // Keyboard controls
   useEffect(() => {
     const handleKeyDown = (e) => {
-      const tag = e.target && e.target.tagName;
-      if (tag === 'INPUT' || tag === 'TEXTAREA') return;
-
+      // Toggle auto-drive with Spacebar
       if (e.code === 'Space' || e.key === ' ' || e.key === 'Spacebar') {
         e.preventDefault();
         toggleAutoDrive();
@@ -445,11 +450,24 @@ export function SynthwaveDrive() {
           speedRef.current = Math.min(280, speedRef.current + 12);
         }
       } else if (e.key === 'f' || e.key === 'F') {
-        // Open the most recently spawned (closest/largest) visible popup
-        const visible = popupsRef.current.filter((p) => p.url);
-        if (visible.length > 0) {
-          const latest = visible[visible.length - 1];
-          window.open(latest.url, '_blank', 'noopener,noreferrer');
+        // ALWAYS TARGET THE CLOSEST ARTICLE IN FRONT OF THE DRIVER!
+        // Once an article passes (prog > 1.02), it is gone into the rearview mirror and cannot be selected.
+        const currentDist = Math.abs(driveDistanceRef.current);
+        const ahead = popupsRef.current
+          .filter((p) => {
+            if (!p.url) return false;
+            const prog = (currentDist - p.startDist) / 36;
+            return prog >= 0 && prog <= 1.02;
+          })
+          .sort((a, b) => {
+            const progA = (currentDist - a.startDist) / 36;
+            const progB = (currentDist - b.startDist) / 36;
+            return progB - progA; // Descending: largest progress = closest to car!
+          });
+
+        if (ahead.length > 0) {
+          const closest = ahead[0];
+          window.open(closest.url, '_blank', 'noopener,noreferrer');
         }
       }
     };
@@ -471,18 +489,16 @@ export function SynthwaveDrive() {
     };
   }, [toggleAutoDrive]);
 
-  // Fluid momentum wheel / scroll interaction
+  // Momentum wheel / scroll interaction
   useEffect(() => {
     const handleWheel = (e) => {
       const deltaMag = Math.min(Math.abs(e.deltaY), 120);
       const impulse = deltaMag * 0.35;
 
       if (e.deltaY > 0) {
-        // Scroll DOWN = Drive Forward
         directionRef.current = 1;
         speedRef.current = Math.min(280, speedRef.current + impulse);
       } else if (e.deltaY < 0) {
-        // Scroll UP = Drive Reverse
         directionRef.current = -1;
         speedRef.current = Math.min(280, speedRef.current + impulse);
       }
@@ -495,7 +511,7 @@ export function SynthwaveDrive() {
     };
   }, []);
 
-  // Touch swipe to scroll / drive interaction
+  // Touch swipe to drive
   useEffect(() => {
     let lastTouchY = null;
     const handleTouchStart = (e) => {
@@ -507,7 +523,7 @@ export function SynthwaveDrive() {
     const handleTouchMove = (e) => {
       if (!e.touches || !e.touches[0] || lastTouchY === null) return;
       const currentY = e.touches[0].clientY;
-      const deltaY = lastTouchY - currentY; // swipe up (standard scroll down) = positive deltaY
+      const deltaY = lastTouchY - currentY;
       lastTouchY = currentY;
 
       const deltaMag = Math.min(Math.abs(deltaY), 80);
@@ -537,16 +553,6 @@ export function SynthwaveDrive() {
     };
   }, []);
 
-  // Filter out popups that have traveled past the driver
-  useEffect(() => {
-    setPopups((prev) =>
-      prev.filter((p) => {
-        const progress = (driveDistance - p.startDist) / 36;
-        return progress <= 3.0;
-      })
-    );
-  }, [driveDistance]);
-
   // Canvas 3D Perspective Grid & Scene Render Loop
   useEffect(() => {
     const canvas = canvasRef.current;
@@ -573,19 +579,18 @@ export function SynthwaveDrive() {
         steerVelocityRef.current = Math.min(0.045, steerVelocityRef.current + 0.008);
       }
       if (!keysPressedRef.current.left && !keysPressedRef.current.right) {
-        steerVelocityRef.current *= 0.88; // Smooth inertia damping
+        steerVelocityRef.current *= 0.88;
       }
 
       if (Math.abs(steerVelocityRef.current) > 0.0001) {
         playerXRef.current += steerVelocityRef.current;
         playerXRef.current = Math.max(-0.85, Math.min(0.85, playerXRef.current));
-        setPlayerX(playerXRef.current);
       }
 
       // Handle speed adjustments (auto-drive cruise vs momentum deceleration)
       if (autoDriveRef.current) {
         directionRef.current = 1;
-        speedRef.current = speedRef.current + (30 - speedRef.current) * 0.05; // Ease to 30 mph
+        speedRef.current = speedRef.current + (30 - speedRef.current) * 0.05;
       } else {
         if (speedRef.current > 0.1) {
           speedRef.current = speedRef.current * 0.95;
@@ -594,11 +599,7 @@ export function SynthwaveDrive() {
         }
       }
 
-      // Smooth state updates
-      setSpeedMph(Math.round(speedRef.current));
-      setDriveDistance(Math.abs(driveDistanceRef.current));
-
-      // Advance grid offset
+      // Advance grid offset & distance
       if (speedRef.current > 0) {
         const baseVel = speedRef.current * 0.14 * directionRef.current;
         offsetRef.current = (offsetRef.current + baseVel + 40) % 40;
@@ -607,16 +608,37 @@ export function SynthwaveDrive() {
 
       const currentDist = Math.abs(driveDistanceRef.current);
 
+      // Throttled React state updates to avoid chopping and garbage collection pauses
+      const roundedSpeed = Math.max(0, Math.round(speedRef.current));
+      if (roundedSpeed !== lastSpeedMphRef.current) {
+        lastSpeedMphRef.current = roundedSpeed;
+        setSpeedMph(roundedSpeed);
+      }
+
+      setDriveDistance(currentDist);
+
+      if (Math.abs(playerXRef.current - lastPlayerXRef.current) > 0.008) {
+        lastPlayerXRef.current = playerXRef.current;
+        setPlayerX(playerXRef.current);
+      }
+
+      // Periodic pruning of cards that have passed past the rearview mirror horizon (> 2.6)
+      frameCountRef.current++;
+      if (frameCountRef.current % 90 === 0) {
+        setPopups((prev) => {
+          const active = prev.filter((p) => (currentDist - p.startDist) / 36 <= 2.6);
+          return active.length === prev.length ? prev : active;
+        });
+      }
+
       // Spawn a new Wikipedia card popup
       if (currentDist >= nextMilestoneDistRef.current) {
         milestoneCountRef.current += 1;
 
-        // Guaranteed rich article: Live pool first, or precurated fallback reserve if empty/quota reached
         const article = getNextArticle(liveWikiPoolRef, fallbackReserveRef, seenTitlesRef, quotaExpendedRef);
         setIsCuratedFallback(article.isCuratedFallback);
         setArticlesStreamed((prev) => prev + 1);
 
-        // Keep the live pool topped off with fresh live random articles via AJAX if quota is not reached
         if (liveWikiPoolRef.current.length < 15 && !quotaExpendedRef.current) {
           refillLivePool();
         }
@@ -634,9 +656,9 @@ export function SynthwaveDrive() {
           isCuratedFallback: article.isCuratedFallback,
         };
 
-        // Prune cards that have passed beyond the screen to keep DOM and React lean
+        // Keep cards alive through both forward approach and rearview mirror exit
         setPopups((prev) => [
-          ...prev.filter((p) => (currentDist - p.startDist) / 36 <= 1.15),
+          ...prev.filter((p) => (currentDist - p.startDist) / 36 <= 2.6),
           newPopup,
         ]);
         const nextGap = Math.floor(Math.random() * 15) + 20;
@@ -648,26 +670,32 @@ export function SynthwaveDrive() {
       const sunRadius = Math.min(width, height) * 0.25;
       const sunCenterY = horizonY - sunRadius * 0.35;
 
-      // 1. Deep Space Night Sky & Synthwave Sun (with cyber digital stars & retro horizontal slats)
+      // 1. Deep Space Night Sky & Synthwave Sun
       drawSkyAndSun(ctx, width, height, horizonY, sunCenterX, sunCenterY, sunRadius, playerXRef.current);
 
       // 2. Distant Mountain Silhouettes
       drawMountains(ctx, width, horizonY, playerXRef.current);
 
-      // 3. 3D Information Superhighway & Grid (cyber-asphalt deck, dashed divider, laser barriers, data packets)
+      // 3. 3D Information Superhighway & Grid (glowy transparent rails, NO yellow lines)
       drawGridFloor(ctx, width, height, horizonY, sunCenterX, offsetRef.current, playerXRef.current, speedRef.current);
 
-      // 4. F-Zero Tron bikes riding the pink perspective lanes
+      // 4. F-Zero Tron bikes riding the perspective lanes
       if (!bikesRef.current) {
-        bikesRef.current = FZERO_BIKES.map(cfg => ({
+        bikesRef.current = FZERO_BIKES.map((cfg) => ({
           ...cfg,
           t: cfg.startT,
           trail: [],
         }));
       }
       updateAndDrawBikes(
-        ctx, width, height, horizonY, sunCenterX,
-        bikesRef.current, playerXRef.current, speedRef.current
+        ctx,
+        width,
+        height,
+        horizonY,
+        sunCenterX,
+        bikesRef.current,
+        playerXRef.current,
+        speedRef.current
       );
 
       animId = requestAnimationFrame(render);
@@ -677,22 +705,52 @@ export function SynthwaveDrive() {
     return () => cancelAnimationFrame(animId);
   }, [refillLivePool]);
 
+  const handleAudioStateChange = useCallback((active) => {
+    setIsAudioPlaying(active);
+  }, []);
+
+  // Determine closest article ahead of the car for [F] indicator
+  const closestPopup = useMemo(() => {
+    return popups
+      .filter((p) => {
+        const prog = (driveDistance - p.startDist) / 36;
+        return prog >= 0 && prog <= 1.02;
+      })
+      .sort((a, b) => {
+        const progA = (driveDistance - a.startDist) / 36;
+        const progB = (driveDistance - b.startDist) / 36;
+        return progB - progA;
+      })[0];
+  }, [popups, driveDistance]);
+
+  const closestPopupId = closestPopup?.id;
+
   return (
     <div
       ref={viewportRef}
-      id="synthwave-drive-viewport"
       style={{
         position: 'relative',
-        width: '100vw',
-        height: '100vh',
+        width: '100%',
+        height: '100%',
         overflow: 'hidden',
         background: '#040008',
       }}
     >
-      {/* 3D Canvas Scene */}
-      <canvas ref={canvasRef} style={{ width: '100%', height: '100%', display: 'block' }} />
+      {/* 3D Canvas Perspective Viewport */}
+      <canvas
+        ref={canvasRef}
+        style={{
+          position: 'absolute',
+          top: 0,
+          left: 0,
+          width: '100%',
+          height: '100%',
+          display: 'block',
+          zIndex: 10,
+        }}
+      />
 
-      {/* Upper Left Branding Logo — Information Superhighway */}
+      {/* Cyber Brand Title Top Left */}
       <div
         id="synth-branding-logo"
         style={{
@@ -704,38 +762,22 @@ export function SynthwaveDrive() {
           flexDirection: 'column',
           alignItems: 'flex-start',
           gap: '6px',
-          padding: '0.75rem 1.25rem',
-          background: 'linear-gradient(135deg, rgba(14, 4, 32, 0.92) 0%, rgba(6, 1, 18, 0.95) 100%)',
+          background: 'rgba(8, 2, 22, 0.78)',
           backdropFilter: 'blur(16px)',
           WebkitBackdropFilter: 'blur(16px)',
           border: isCuratedFallback
             ? '1.5px solid rgba(255, 0, 127, 0.65)'
             : '1.5px solid rgba(0, 240, 255, 0.55)',
           borderRadius: '12px',
+          padding: '0.65rem 1.25rem',
           boxShadow: isCuratedFallback
-            ? '0 8px 28px rgba(0, 0, 0, 0.8), 0 0 24px rgba(255, 0, 127, 0.35), inset 0 0 14px rgba(255, 230, 0, 0.12)'
+            ? '0 8px 28px rgba(0, 0, 0, 0.8), 0 0 24px rgba(255, 0, 127, 0.35), inset 0 0 14px rgba(255, 0, 127, 0.15)'
             : '0 8px 28px rgba(0, 0, 0, 0.8), 0 0 24px rgba(0, 240, 255, 0.35), inset 0 0 14px rgba(255, 0, 127, 0.15)',
-          userSelect: 'none',
-          pointerEvents: 'default',
-          transition: 'all 0.3s ease',
+          cursor: 'pointer',
+          transition: 'border-color 0.3s ease, box-shadow 0.3s ease',
           width: 'fit-content',
           maxWidth: 'calc(100vw - 3rem)',
           boxSizing: 'border-box',
-        }}
-        onMouseEnter={(e) => {
-          e.currentTarget.style.borderColor = 'rgba(255, 0, 127, 0.85)';
-          e.currentTarget.style.boxShadow =
-            '0 10px 32px rgba(0, 0, 0, 0.85), 0 0 32px rgba(0, 240, 255, 0.55), 0 0 45px rgba(255, 0, 127, 0.4), inset 0 0 18px rgba(0, 240, 255, 0.25)';
-          e.currentTarget.style.transform = 'translateY(-1px)';
-        }}
-        onMouseLeave={(e) => {
-          e.currentTarget.style.borderColor = isCuratedFallback
-            ? 'rgba(255, 0, 127, 0.65)'
-            : 'rgba(0, 240, 255, 0.55)';
-          e.currentTarget.style.boxShadow = isCuratedFallback
-            ? '0 8px 28px rgba(0, 0, 0, 0.8), 0 0 24px rgba(255, 0, 127, 0.35), inset 0 0 14px rgba(255, 230, 0, 0.12)'
-            : '0 8px 28px rgba(0, 0, 0, 0.8), 0 0 24px rgba(0, 240, 255, 0.35), inset 0 0 14px rgba(255, 0, 127, 0.15)';
-          e.currentTarget.style.transform = 'translateY(0)';
         }}
       >
         <div
@@ -746,10 +788,11 @@ export function SynthwaveDrive() {
             fontStyle: 'italic',
             letterSpacing: '0.04em',
             textTransform: 'uppercase',
-            background: 'linear-gradient(90deg, #00F0FF 0%, #FF2A85 52%, #FFE600 100%)',
+            background: 'linear-gradient(90deg, #00F0FF 0%, #FF007F 50%, #9D00FF 100%)',
             WebkitBackgroundClip: 'text',
             WebkitTextFillColor: 'transparent',
-            filter: 'drop-shadow(0 0 8px rgba(0, 240, 255, 0.65)) drop-shadow(0 0 18px rgba(255, 0, 127, 0.4))',
+            filter:
+              'drop-shadow(0 0 8px rgba(0, 240, 255, 0.65)) drop-shadow(0 0 18px rgba(255, 0, 127, 0.4))',
             lineHeight: 1.15,
             whiteSpace: 'nowrap',
           }}
@@ -762,7 +805,7 @@ export function SynthwaveDrive() {
           style={{
             width: '100%',
             height: '2px',
-            background: 'linear-gradient(90deg, #00F0FF 0%, #FF007F 55%, rgba(255, 230, 0, 0.8) 100%)',
+            background: 'linear-gradient(90deg, #00F0FF 0%, #FF007F 55%, rgba(157, 0, 255, 0.8) 100%)',
             boxShadow: '0 0 8px #00F0FF, 0 0 12px #FF007F',
             borderRadius: '1px',
           }}
@@ -778,10 +821,10 @@ export function SynthwaveDrive() {
               gap: '7px',
               marginTop: '2px',
               padding: '4px 9px',
-              background: 'linear-gradient(90deg, rgba(255, 0, 127, 0.22) 0%, rgba(255, 230, 0, 0.16) 100%)',
+              background: 'linear-gradient(90deg, rgba(255, 0, 127, 0.22) 0%, rgba(157, 0, 255, 0.16) 100%)',
               border: '1px solid rgba(255, 0, 127, 0.65)',
               borderRadius: '6px',
-              boxShadow: '0 0 12px rgba(255, 0, 127, 0.25), inset 0 0 8px rgba(255, 230, 0, 0.1)',
+              boxShadow: '0 0 12px rgba(255, 0, 127, 0.25), inset 0 0 8px rgba(157, 0, 255, 0.1)',
               boxSizing: 'border-box',
             }}
           >
@@ -790,8 +833,8 @@ export function SynthwaveDrive() {
                 width: '7px',
                 height: '7px',
                 borderRadius: '50%',
-                background: '#FFE600',
-                boxShadow: '0 0 6px #FFE600, 0 0 12px #FF007F',
+                background: '#FF007F',
+                boxShadow: '0 0 6px #FF007F, 0 0 12px #FF007F',
                 flexShrink: 0,
                 display: 'inline-block',
               }}
@@ -802,8 +845,8 @@ export function SynthwaveDrive() {
                 fontSize: '0.62rem',
                 fontWeight: 800,
                 letterSpacing: '0.06em',
-                color: '#FFE600',
-                textShadow: '0 0 6px rgba(255, 230, 0, 0.75)',
+                color: '#FF007F',
+                textShadow: '0 0 6px rgba(255, 0, 127, 0.75)',
                 textTransform: 'uppercase',
                 lineHeight: 1.2,
               }}
@@ -868,7 +911,7 @@ export function SynthwaveDrive() {
       <WaveformVisualizer isAudioPlaying={isAudioPlaying} speedMph={speedMph} />
 
       {/* Direct Spotify Radio Embed */}
-      <SpotifyRadio onAudioStateChange={(active) => setIsAudioPlaying(active)} />
+      <SpotifyRadio onAudioStateChange={handleAudioStateChange} />
 
       {/* Steering & Drive Controls Hint */}
       <div
@@ -897,7 +940,7 @@ export function SynthwaveDrive() {
           maxWidth: 'calc(100vw - 3rem)',
         }}
       >
-        <span style={{ display: 'inline-flex', alignItems: 'center', gap: '5px', color: '#FFE600', fontWeight: 800 }}>
+        <span style={{ display: 'inline-flex', alignItems: 'center', gap: '5px', color: '#00F0FF', fontWeight: 800 }}>
           <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round" style={{ verticalAlign: 'middle' }}>
             <rect x="5" y="2" width="14" height="20" rx="7" />
             <path d="M12 6v4" />
@@ -919,7 +962,6 @@ export function SynthwaveDrive() {
         <span style={{ color: 'rgba(255,255,255,0.4)' }}>•</span>
         <span>Auto Drive</span>
       </div>
-
 
       {/* Auto Drive Toggle Button */}
       <button
@@ -965,6 +1007,7 @@ export function SynthwaveDrive() {
           popup={popup}
           driveDistance={driveDistance}
           playerX={playerX}
+          isClosest={popup.id === closestPopupId}
         />
       ))}
     </div>
@@ -987,7 +1030,7 @@ function drawSkyAndSun(ctx, width, height, horizonY, sunCenterX, sunCenterY, sun
   ctx.fillStyle = skyGrad;
   ctx.fillRect(0, 0, width, height);
 
-  // 2. Cyberspace Digital Starfield with lateral steering parallax and twinkle
+  // 2. Cyberspace Digital Starfield (optimized, no shadow blur on each star)
   const now = Date.now() * 0.002;
   ctx.save();
   for (let i = 0; i < CYBER_STARS.length; i++) {
@@ -998,8 +1041,6 @@ function drawSkyAndSun(ctx, width, height, horizonY, sunCenterX, sunCenterY, sun
 
     ctx.globalAlpha = Math.max(0.15, alpha);
     ctx.fillStyle = star.color;
-    ctx.shadowColor = star.color;
-    ctx.shadowBlur = star.size * 3;
     ctx.beginPath();
     ctx.arc(starX, starY, star.size, 0, Math.PI * 2);
     ctx.fill();
@@ -1007,9 +1048,9 @@ function drawSkyAndSun(ctx, width, height, horizonY, sunCenterX, sunCenterY, sun
   ctx.globalAlpha = 1;
   ctx.restore();
 
-  // 3. Synthwave sun
+  // 3. Synthwave sun (neon pink to magenta/purple, NO YELLOW)
   const sunGrad = ctx.createLinearGradient(0, sunCenterY - sunRadius, 0, horizonY);
-  sunGrad.addColorStop(0, '#ffe600');
+  sunGrad.addColorStop(0, '#FF4D94');
   sunGrad.addColorStop(0.35, '#ff007f');
   sunGrad.addColorStop(0.75, '#ff0055');
   sunGrad.addColorStop(1, '#9d00ff');
@@ -1020,17 +1061,17 @@ function drawSkyAndSun(ctx, width, height, horizonY, sunCenterX, sunCenterY, sun
   ctx.arc(cx, sunCenterY, sunRadius, 0, Math.PI * 2);
   ctx.fill();
 
-  // 4. Retro Horizontal Synthwave Sun Slats (iconic outrun blinds cutting through the lower sun)
+  // 4. Retro Horizontal Synthwave Sun Slats
   const numSlats = 8;
   const slatStartY = sunCenterY + sunRadius * 0.05;
-  const slatSpan = (sunCenterY + sunRadius) - slatStartY;
+  const slatSpan = sunCenterY + sunRadius - slatStartY;
 
   for (let s = 0; s < numSlats; s++) {
     const norm = (s + 1) / (numSlats + 1);
     const slatY = slatStartY + norm * slatSpan;
-    const slatH = 2.0 + norm * 5.0; // Slats get progressively wider towards the bottom
+    const slatH = 2.0 + norm * 5.0;
 
-    ctx.fillStyle = '#18042e'; // Color matches deep sky behind sun
+    ctx.fillStyle = '#18042e';
     ctx.fillRect(cx - sunRadius - 10, slatY, (sunRadius + 10) * 2, slatH);
   }
 
@@ -1063,6 +1104,7 @@ function drawMountains(ctx, width, horizonY, playerX = 0) {
   ctx.lineTo(width * 0.65 + shift, horizonY - 70);
   ctx.lineTo(width * 0.8 + shift, horizonY - 30);
   ctx.lineTo(width, horizonY);
+  ctx.closePath();
   ctx.fill();
 }
 
@@ -1114,8 +1156,8 @@ function drawGridFloor(ctx, width, height, horizonY, sunCenterX, offset, playerX
   ctx.fill();
 
   // 3. Horizon anchor neon line
-  ctx.lineWidth = 2.5;
-  ctx.strokeStyle = 'rgba(0, 240, 255, 0.9)';
+  ctx.lineWidth = 2.0;
+  ctx.strokeStyle = 'rgba(0, 240, 255, 0.75)';
   ctx.shadowColor = '#00F0FF';
   ctx.shadowBlur = 6;
   ctx.beginPath();
@@ -1129,10 +1171,10 @@ function drawGridFloor(ctx, width, height, horizonY, sunCenterX, offset, playerX
     const progress = (((i + offset / 40) % numH) + numH) % numH / numH;
     const py = horizonY + Math.pow(progress, 2.5) * (height - horizonY);
 
-    ctx.strokeStyle = `rgba(0, 240, 255, ${0.25 + progress * 0.75})`;
+    ctx.strokeStyle = `rgba(0, 240, 255, ${0.20 + progress * 0.70})`;
     ctx.shadowColor = '#00F0FF';
-    ctx.shadowBlur = progress * 8;
-    ctx.lineWidth = Math.max(0.8, progress * 2.2);
+    ctx.shadowBlur = progress * 6;
+    ctx.lineWidth = Math.max(0.7, progress * 2.0);
     ctx.beginPath();
     ctx.moveTo(0, py);
     ctx.lineTo(width, py);
@@ -1140,15 +1182,28 @@ function drawGridFloor(ctx, width, height, horizonY, sunCenterX, offset, playerX
   }
 
   // 5. Vertical perspective lines fanning outward, shifting laterally with steering
+  // NO center yellow line! Skip i === 0. Left lanes = Cyan, Right lanes = Magenta, transparent and glowy.
   for (let i = -fanning; i <= fanning; i++) {
+    if (i === 0) continue; // Yellow center line completely removed!
+
     const startX = cx - playerX * (width * 0.04) + (i / fanning) * (width * 0.05);
-    const endX = cx - playerX * (width * 0.40) + i * (width * 0.08);
+    const endX   = cx - playerX * (width * 0.40) + i * (width * 0.08);
 
     const isInnerLane = Math.abs(i) <= 5;
-    ctx.strokeStyle = isInnerLane ? 'rgba(255, 0, 127, 0.65)' : 'rgba(255, 0, 127, 0.42)';
-    ctx.shadowColor = '#FF007F';
-    ctx.shadowBlur = isInnerLane ? 6 : 4;
-    ctx.lineWidth = isInnerLane ? 1.4 : 1.0;
+    if (i < 0) {
+      // Left side: glowing transparent Cyan
+      ctx.strokeStyle = isInnerLane ? 'rgba(0, 240, 255, 0.42)' : 'rgba(0, 240, 255, 0.20)';
+      ctx.shadowColor = '#00F0FF';
+      ctx.shadowBlur = isInnerLane ? 8 : 3;
+      ctx.lineWidth = isInnerLane ? 1.2 : 0.85;
+    } else {
+      // Right side: glowing transparent Magenta
+      ctx.strokeStyle = isInnerLane ? 'rgba(255, 0, 127, 0.42)' : 'rgba(255, 0, 127, 0.20)';
+      ctx.shadowColor = '#FF007F';
+      ctx.shadowBlur = isInnerLane ? 8 : 3;
+      ctx.lineWidth = isInnerLane ? 1.2 : 0.85;
+    }
+
     ctx.beginPath();
     ctx.moveTo(startX, horizonY);
     ctx.lineTo(endX, height);
@@ -1156,20 +1211,22 @@ function drawGridFloor(ctx, width, height, horizonY, sunCenterX, offset, playerX
   }
 
   // 6. Highway Shoulder Laser Barrier Rails (lineIndex = -5 and +5)
-  ctx.lineWidth = 3.2;
+  // Transparent and glowy (user request: "the cyan and magent line around the yellow line should be more transparent and glowy")
+  ctx.lineWidth = 2.4;
+
   // Left shoulder laser rail (Cyan)
-  ctx.strokeStyle = '#00F0FF';
+  ctx.strokeStyle = 'rgba(0, 240, 255, 0.50)';
   ctx.shadowColor = '#00F0FF';
-  ctx.shadowBlur = 12;
+  ctx.shadowBlur = 18;
   ctx.beginPath();
   ctx.moveTo(startLeft, horizonY);
   ctx.lineTo(endLeft, height);
   ctx.stroke();
 
   // Right shoulder laser rail (Hot Magenta)
-  ctx.strokeStyle = '#FF007F';
+  ctx.strokeStyle = 'rgba(255, 0, 127, 0.50)';
   ctx.shadowColor = '#FF007F';
-  ctx.shadowBlur = 12;
+  ctx.shadowBlur = 18;
   ctx.beginPath();
   ctx.moveTo(startRight, horizonY);
   ctx.lineTo(endRight, height);
@@ -1182,10 +1239,10 @@ function drawGridFloor(ctx, width, height, horizonY, sunCenterX, offset, playerX
     const by = horizonY + p * (height - horizonY);
     const bxl = startLeft + (endLeft - startLeft) * p;
     const bxr = startRight + (endRight - startRight) * p;
-    const beaconSize = Math.max(1.5, p * 5.0);
+    const beaconSize = Math.max(1.5, p * 4.5);
 
     // Left beacon
-    ctx.fillStyle = '#00F0FF';
+    ctx.fillStyle = 'rgba(0, 240, 255, 0.85)';
     ctx.shadowColor = '#00F0FF';
     ctx.shadowBlur = 8;
     ctx.beginPath();
@@ -1193,7 +1250,7 @@ function drawGridFloor(ctx, width, height, horizonY, sunCenterX, offset, playerX
     ctx.fill();
 
     // Right beacon
-    ctx.fillStyle = '#FF007F';
+    ctx.fillStyle = 'rgba(255, 0, 127, 0.85)';
     ctx.shadowColor = '#FF007F';
     ctx.shadowBlur = 8;
     ctx.beginPath();
@@ -1201,34 +1258,12 @@ function drawGridFloor(ctx, width, height, horizonY, sunCenterX, offset, playerX
     ctx.fill();
   }
 
-  // 7. Center Dashed Highway Divider Line (lineIndex = 0)
-  const centerStartX = cx - playerX * (width * 0.04);
-  const centerEndX   = cx - playerX * (width * 0.40);
+  // 7. Yellow center highway divider line: COMPLETELY REMOVED!
 
-  ctx.save();
-  ctx.setLineDash([24, 18]);
-  ctx.lineDashOffset = -offset * 2.2;
-  ctx.strokeStyle = '#FFE600';
-  ctx.shadowColor = '#FFE600';
-  ctx.shadowBlur = 10;
-  ctx.lineWidth = 3.5;
-  ctx.beginPath();
-  ctx.moveTo(centerStartX, horizonY);
-  ctx.lineTo(centerEndX, height);
-  ctx.stroke();
-  ctx.restore();
-
-  // 8. Digital Data Packets / Fiber Light Photons racing along highway lanes
-  const photonSeeds = [
-    { lane: -2.5, speedMult: 1.4, color: '#00F0FF', glow: '#00EEFF', phase: 0.1 },
-    { lane: 2.5,  speedMult: 1.7, color: '#FFE600', glow: '#FFFF88', phase: 0.4 },
-    { lane: -1.2, speedMult: 1.9, color: '#FF007F', glow: '#FF66AA', phase: 0.7 },
-    { lane: 1.2,  speedMult: 1.5, color: '#00E599', glow: '#88FFDD', phase: 0.85 },
-  ];
-
+  // 8. Digital Data Packets / Fiber Light Photons racing along highway lanes (no yellow)
   const nowSec = Date.now() * 0.001;
-  for (const photon of photonSeeds) {
-    const t = ((nowSec * photon.speedMult + photon.phase) % 1);
+  for (const photon of PHOTON_SEEDS) {
+    const t = (nowSec * photon.speedMult + photon.phase) % 1;
     const p = Math.pow(t, 2.6);
     if (p < 0.05) continue;
 
@@ -1243,8 +1278,8 @@ function drawGridFloor(ctx, width, height, horizonY, sunCenterX, offset, playerX
 
     ctx.strokeStyle = photon.glow;
     ctx.shadowColor = photon.color;
-    ctx.shadowBlur = 12;
-    ctx.lineWidth = Math.max(1.2, p * 4.0);
+    ctx.shadowBlur = 10;
+    ctx.lineWidth = Math.max(1.0, p * 3.5);
     ctx.beginPath();
     ctx.moveTo(prevPx, prevPy);
     ctx.lineTo(px, py);
@@ -1253,7 +1288,7 @@ function drawGridFloor(ctx, width, height, horizonY, sunCenterX, offset, playerX
     // Bright photon head
     ctx.fillStyle = '#FFFFFF';
     ctx.beginPath();
-    ctx.arc(px, py, Math.max(1.5, p * 3.5), 0, Math.PI * 2);
+    ctx.arc(px, py, Math.max(1.2, p * 3.0), 0, Math.PI * 2);
     ctx.fill();
   }
 
@@ -1261,16 +1296,16 @@ function drawGridFloor(ctx, width, height, horizonY, sunCenterX, offset, playerX
   if (speed > 75) {
     const warpIntensity = Math.min(1, (speed - 75) / 100);
     ctx.save();
-    ctx.globalAlpha = warpIntensity * 0.35;
+    ctx.globalAlpha = warpIntensity * 0.30;
     ctx.strokeStyle = '#00F0FF';
     ctx.shadowColor = '#00F0FF';
-    ctx.shadowBlur = 10;
-    ctx.lineWidth = 1.8;
+    ctx.shadowBlur = 8;
+    ctx.lineWidth = 1.5;
 
     const numWarps = 8;
     for (let w = 0; w < numWarps; w++) {
-      const side = (w % 2 === 0) ? 0 : width;
-      const wy = horizonY + ((w * 137 + (offset * 8)) % (height - horizonY));
+      const side = w % 2 === 0 ? 0 : width;
+      const wy = horizonY + ((w * 137 + offset * 8) % (height - horizonY));
       const targetX = side === 0 ? width * 0.25 : width * 0.75;
       ctx.beginPath();
       ctx.moveTo(side, wy);
@@ -1280,6 +1315,7 @@ function drawGridFloor(ctx, width, height, horizonY, sunCenterX, offset, playerX
     ctx.restore();
   }
 
+  ctx.shadowBlur = 0;
   ctx.restore();
 }
 
@@ -1287,7 +1323,6 @@ function drawGridFloor(ctx, width, height, horizonY, sunCenterX, offset, playerX
 // F-Zero Tron Bike — Canvas Helpers
 // ----------------------------------------------------------------------------
 
-/** Map a bike's (lineIndex, t) to screen (x, y) using the same perspective formula as drawGridFloor */
 function getBikePosOnLine(width, horizonY, height, sunCenterX, lineIndex, t, playerX) {
   const fanning = 26;
   const cx = sunCenterX;
@@ -1301,10 +1336,8 @@ function getBikePosOnLine(width, horizonY, height, sunCenterX, lineIndex, t, pla
   };
 }
 
-/** Update every bike's position and draw it + its speed trail onto ctx */
 function updateAndDrawBikes(ctx, width, height, horizonY, sunCenterX, bikes, playerX, speed) {
   for (const bike of bikes) {
-    // Always crawl forward; accelerate slightly with player speed
     bike.t += bike.speed + Math.max(0, speed) * 0.00012;
     if (bike.t > 0.93) {
       bike.t = 0.03 + Math.random() * 0.07;
@@ -1312,63 +1345,59 @@ function updateAndDrawBikes(ctx, width, height, horizonY, sunCenterX, bikes, pla
     }
 
     const { x, y, progressY } = getBikePosOnLine(
-      width, horizonY, height, sunCenterX, bike.lineIndex, bike.t, playerX
+      width,
+      horizonY,
+      height,
+      sunCenterX,
+      bike.lineIndex,
+      bike.t,
+      playerX
     );
-    if (y < horizonY) continue; // clip above horizon
+    if (y < horizonY) continue;
 
     const fadeIn = Math.min(1, bike.t * 6);
     const scale  = Math.pow(progressY, 0.72) * 0.9;
 
-    // Store trail point
     bike.trail.push({ x, y });
-    if (bike.trail.length > 28) bike.trail.shift();
+    if (bike.trail.length > 20) bike.trail.shift();
 
-    // --- Draw speed / light trail ---
+    // Draw speed trail
     ctx.save();
+    ctx.strokeStyle = bike.exhaust;
+    ctx.shadowColor = bike.color;
+    ctx.shadowBlur = 6;
     for (let i = 1; i < bike.trail.length; i++) {
       const ratio = i / bike.trail.length;
-      const a = ratio * ratio * 0.85 * fadeIn;
-      ctx.globalAlpha = a;
-      ctx.strokeStyle  = bike.exhaust;
-      ctx.lineWidth    = Math.max(0.4, ratio * progressY * 3.8);
-      ctx.shadowColor  = bike.color;
-      ctx.shadowBlur   = 8;
+      ctx.globalAlpha = ratio * ratio * 0.85 * fadeIn;
+      ctx.lineWidth = Math.max(0.4, ratio * progressY * 3.8);
       ctx.beginPath();
       ctx.moveTo(bike.trail[i - 1].x, bike.trail[i - 1].y);
       ctx.lineTo(bike.trail[i].x,     bike.trail[i].y);
       ctx.stroke();
     }
-    ctx.globalAlpha = 1;
     ctx.restore();
 
-    // --- Draw bike body ---
+    // Draw bike body
     if (scale > 0.03 && fadeIn > 0.08) {
-      const angle = Math.atan2(horizonY - y, sunCenterX - x); // points toward vanishing point
+      const angle = Math.atan2(horizonY - y, sunCenterX - x);
       ctx.save();
       ctx.globalAlpha = Math.min(1, fadeIn);
       drawFZeroBike(ctx, x, y, scale, bike.color, bike.exhaust, angle);
-      ctx.globalAlpha = 1;
       ctx.restore();
     }
   }
 }
 
-/**
- * Draw a single F-Zero-inspired Tron machine.
- * The nose (+x axis) points toward angle (vanishing point / horizon).
- * Canonical size: ~44px × 18px at scale 1.
- */
 function drawFZeroBike(ctx, x, y, scale, color, exhaustColor, angle) {
   ctx.save();
   ctx.translate(x, y);
-  ctx.rotate(angle); // nose toward horizon = forward
+  ctx.rotate(angle);
   ctx.scale(scale, scale);
 
-  // Outer glow aura
   ctx.shadowColor = color;
-  ctx.shadowBlur  = 22;
+  ctx.shadowBlur  = 16;
 
-  // ── Main hull (elongated ovoid) ────────────────────────────────────────
+  // Main hull
   ctx.fillStyle = color;
   ctx.beginPath();
   ctx.moveTo(22, 0);
@@ -1385,22 +1414,23 @@ function drawFZeroBike(ctx, x, y, scale, color, exhaustColor, angle) {
   ctx.bezierCurveTo(12, -5.5, -6, -5.5, -16, -1);
   ctx.stroke();
 
-  // ── Cockpit canopy ──────────────────────────────────────────────────────
+  // Cockpit canopy
   ctx.shadowColor = 'rgba(160,240,255,0.7)';
   ctx.shadowBlur  = 6;
   ctx.fillStyle   = 'rgba(155, 235, 255, 0.90)';
   ctx.beginPath();
   ctx.ellipse(6, 0, 7.5, 3.8, 0, 0, Math.PI * 2);
   ctx.fill();
-  // glare
+
+  // Glare
   ctx.fillStyle = 'rgba(255,255,255,0.52)';
   ctx.beginPath();
   ctx.ellipse(7.5, -1.4, 3.2, 1.4, -0.3, 0, Math.PI * 2);
   ctx.fill();
 
-  // ── Left stabiliser wing ────────────────────────────────────────────────
+  // Left stabiliser wing
   ctx.shadowColor = color;
-  ctx.shadowBlur  = 12;
+  ctx.shadowBlur  = 8;
   ctx.fillStyle   = color;
   ctx.beginPath();
   ctx.moveTo( 2,  -5);
@@ -1410,7 +1440,7 @@ function drawFZeroBike(ctx, x, y, scale, color, exhaustColor, angle) {
   ctx.closePath();
   ctx.fill();
 
-  // ── Right stabiliser wing ───────────────────────────────────────────────
+  // Right stabiliser wing
   ctx.beginPath();
   ctx.moveTo( 2,   5);
   ctx.lineTo(-10,  17);
@@ -1426,41 +1456,43 @@ function drawFZeroBike(ctx, x, y, scale, color, exhaustColor, angle) {
   ctx.beginPath(); ctx.moveTo(0, -5.5); ctx.lineTo(-13, -15); ctx.stroke();
   ctx.beginPath(); ctx.moveTo(0,  5.5); ctx.lineTo(-13,  15); ctx.stroke();
 
-  // ── Nose bumper (front sensor) ──────────────────────────────────────────
+  // Nose bumper
   ctx.shadowColor = 'rgba(255,255,255,0.9)';
-  ctx.shadowBlur  = 10;
+  ctx.shadowBlur  = 8;
   ctx.fillStyle   = 'rgba(255,255,255,0.95)';
   ctx.beginPath();
   ctx.arc(22, 0, 3.0, 0, Math.PI * 2);
   ctx.fill();
 
-  // ── Twin engine exhausts ────────────────────────────────────────────────
+  // Twin engine exhausts
   ctx.shadowColor = exhaustColor;
-  ctx.shadowBlur  = 24;
-  // top exhaust pod
+  ctx.shadowBlur  = 16;
   ctx.fillStyle = exhaustColor;
   ctx.beginPath();
   ctx.ellipse(-18, -2.6, 4.0, 2.1, 0.1, 0, Math.PI * 2);
   ctx.fill();
-  // bottom exhaust pod
   ctx.beginPath();
   ctx.ellipse(-18,  2.6, 4.0, 2.1, -0.1, 0, Math.PI * 2);
   ctx.fill();
-  // bright exhaust cores
-  ctx.fillStyle = 'rgba(255,255,255,0.92)';
-  ctx.beginPath(); ctx.ellipse(-18, -2.6, 1.8, 0.9, 0, 0, Math.PI * 2); ctx.fill();
-  ctx.beginPath(); ctx.ellipse(-18,  2.6, 1.8, 0.9, 0, 0, Math.PI * 2); ctx.fill();
 
+  ctx.shadowBlur = 0;
   ctx.restore();
 }
 
 // ----------------------------------------------------------------------------
-// Wikipedia Article Card Popup Component
+// WikiCard Component (Hardware-accelerated, memoized, with [F] targeting badge)
 // ----------------------------------------------------------------------------
 
-function WikiCard({ popup, driveDistance, playerX = 0 }) {
+const WikiCard = React.memo(function WikiCard({
+  popup,
+  driveDistance,
+  playerX = 0,
+  isClosest = false,
+}) {
   const rawProgress = (driveDistance - popup.startDist) / 36;
-  if (rawProgress > 1.05) return null;
+
+  // Once it passes the camera (rawProgress > 1.02), it is GONE into the rearview mirror!
+  if (rawProgress > 1.02) return null;
 
   const title = popup.title || CURATED_WIKI_FALLBACKS[0].title;
   const extract = popup.extract || CURATED_WIKI_FALLBACKS[0].extract;
@@ -1472,19 +1504,22 @@ function WikiCard({ popup, driveDistance, playerX = 0 }) {
 
   const topPct = 52 + progressY * 45;
   const scale = Math.max(0.01, progressY * 3.0);
-  const opacity = p > 0.85 ? Math.max(0, 1 - (p - 0.85) * 6.6) : 1;
+  const opacity = p > 0.84 ? Math.max(0, 1 - (p - 0.84) * 6.0) : 1;
 
   const isLeft = popup.number % 2 === 0;
   const lineIndex = isLeft ? -2 : 2;
   const startX_pct = 50 - playerX * 4 + (lineIndex / 26) * 5;
-  const endX_pct = 50 - playerX * 40 + lineIndex * 8;
+  const endX_pct   = 50 - playerX * 40 + lineIndex * 8;
   const currentX_pct = startX_pct + (endX_pct - startX_pct) * progressY;
 
   const primaryColor = isLeft ? '#00F0FF' : '#FF007F';
   const waveGlow = isLeft ? 'rgba(0, 240, 255, 0.6)' : 'rgba(255, 0, 127, 0.6)';
   const secondaryGlow = isLeft ? 'rgba(255, 0, 127, 0.35)' : 'rgba(0, 240, 255, 0.35)';
   const innerGlow = isLeft ? 'rgba(0, 240, 255, 0.18)' : 'rgba(255, 0, 127, 0.18)';
-  const boxShadowBase = `0 12px 35px rgba(0,0,0,0.8), 0 0 30px ${waveGlow}, 0 0 55px ${secondaryGlow}, inset 0 0 20px ${innerGlow}`;
+
+  const boxShadowBase = isClosest
+    ? `0 14px 40px rgba(0,0,0,0.85), 0 0 35px ${waveGlow}, 0 0 60px ${secondaryGlow}, 0 0 16px #00F0FF, inset 0 0 20px ${innerGlow}`
+    : `0 12px 35px rgba(0,0,0,0.8), 0 0 30px ${waveGlow}, 0 0 55px ${secondaryGlow}, inset 0 0 20px ${innerGlow}`;
   const boxShadowHover = `0 16px 45px rgba(0,0,0,0.9), 0 0 45px ${waveGlow}, 0 0 75px ${secondaryGlow}, inset 0 0 25px ${innerGlow}`;
 
   const isClickable = opacity > 0.3 && url;
@@ -1506,19 +1541,19 @@ function WikiCard({ popup, driveDistance, playerX = 0 }) {
         display: 'flex',
         flexDirection: 'column',
         alignItems: 'center',
-        transition: 'opacity 0.08s linear, transform 0.12s ease-out',
+        willChange: 'transform, opacity',
         pointerEvents: isClickable ? 'auto' : 'none',
         cursor: isClickable ? 'pointer' : 'default',
       }}
       onClick={handleClick}
-      title={url ? `Open "${title}" on Wikipedia` : undefined}
+      title={url ? `Open "${title}" on Wikipedia (Press F)` : undefined}
     >
       <div
         style={{
           background:
             'linear-gradient(135deg, rgba(8,2,28,0.96) 0%, rgba(22,4,42,0.96) 50%, rgba(3,14,36,0.98) 100%)',
           backdropFilter: 'blur(16px)',
-          border: `2.5px solid ${primaryColor}`,
+          border: `2.5px solid ${isClosest ? '#00F0FF' : primaryColor}`,
           borderRadius: '14px',
           width: '340px',
           maxWidth: '88vw',
@@ -1527,24 +1562,35 @@ function WikiCard({ popup, driveDistance, playerX = 0 }) {
           flexDirection: 'column',
           boxShadow: boxShadowBase,
           position: 'relative',
-          transition: 'box-shadow 0.2s ease',
+          transition: 'box-shadow 0.2s ease, border-color 0.2s ease',
         }}
-        onMouseEnter={(e) => { e.currentTarget.style.boxShadow = boxShadowHover; }}
-        onMouseLeave={(e) => { e.currentTarget.style.boxShadow = boxShadowBase; }}
+        onMouseEnter={(e) => {
+          e.currentTarget.style.boxShadow = boxShadowHover;
+        }}
+        onMouseLeave={(e) => {
+          e.currentTarget.style.boxShadow = boxShadowBase;
+        }}
       >
-        {/* Top accent line */}
+        {/* Top accent line (Cyan to Purple to Magenta - NO YELLOW) */}
         <div
           style={{
             height: '4px',
-            background: 'linear-gradient(90deg, #FF9900 0%, #FF4400 50%, #FF0055 100%)',
-            boxShadow: '0 0 10px #FF5500, 0 0 16px #FF0044',
+            background: 'linear-gradient(90deg, #00F0FF 0%, #9D00FF 50%, #FF007F 100%)',
+            boxShadow: '0 0 10px #00F0FF, 0 0 16px #FF007F',
             flexShrink: 0,
           }}
         />
 
         {/* Text body */}
-        <div style={{ padding: '0.95rem 1.15rem 1.15rem', display: 'flex', flexDirection: 'column', gap: '0.65rem' }}>
-          {/* Wikipedia badge + open hint */}
+        <div
+          style={{
+            padding: '0.95rem 1.15rem 1.15rem',
+            display: 'flex',
+            flexDirection: 'column',
+            gap: '0.65rem',
+          }}
+        >
+          {/* Wikipedia badge + status / F shortcut indicator */}
           <div
             style={{
               display: 'flex',
@@ -1575,10 +1621,10 @@ function WikiCard({ popup, driveDistance, playerX = 0 }) {
                     letterSpacing: '0.04em',
                     padding: '1px 5px',
                     borderRadius: '3px',
-                    background: 'rgba(255, 230, 0, 0.2)',
-                    border: '1px solid rgba(255, 230, 0, 0.55)',
-                    color: '#FFE600',
-                    textShadow: '0 0 6px rgba(255, 230, 0, 0.6)',
+                    background: 'rgba(255, 0, 127, 0.2)',
+                    border: '1px solid rgba(255, 0, 127, 0.55)',
+                    color: '#FF007F',
+                    textShadow: '0 0 6px rgba(255, 0, 127, 0.6)',
                   }}
                 >
                   CURATED BACKUP
@@ -1602,16 +1648,39 @@ function WikiCard({ popup, driveDistance, playerX = 0 }) {
                 </span>
               )}
             </div>
-            <span
-              style={{
-                fontFamily: 'var(--font-mono, monospace)',
-                fontSize: '0.58rem',
-                color: 'rgba(255,255,255,0.45)',
-                letterSpacing: '0.06em',
-              }}
-            >
-              click or press F ↗
-            </span>
+
+            {isClosest ? (
+              <span
+                style={{
+                  fontFamily: 'var(--font-mono, monospace)',
+                  fontSize: '0.62rem',
+                  fontWeight: 800,
+                  color: '#00F0FF',
+                  letterSpacing: '0.06em',
+                  background: 'rgba(0, 240, 255, 0.22)',
+                  border: '1px solid #00F0FF',
+                  padding: '2px 7px',
+                  borderRadius: '4px',
+                  boxShadow: '0 0 10px rgba(0, 240, 255, 0.5)',
+                  display: 'inline-flex',
+                  alignItems: 'center',
+                  gap: '4px',
+                }}
+              >
+                PRESS [F] ↗
+              </span>
+            ) : (
+              <span
+                style={{
+                  fontFamily: 'var(--font-mono, monospace)',
+                  fontSize: '0.58rem',
+                  color: 'rgba(255,255,255,0.45)',
+                  letterSpacing: '0.06em',
+                }}
+              >
+                click or press F ↗
+              </span>
+            )}
           </div>
 
           {/* Article image */}
@@ -1640,7 +1709,10 @@ function WikiCard({ popup, driveDistance, playerX = 0 }) {
                 filter: 'brightness(0.95) saturate(1.15)',
               }}
               onError={(e) => {
-                const randomFallback = CURATED_WIKI_FALLBACKS[Math.floor(Math.random() * CURATED_WIKI_FALLBACKS.length)].image;
+                const randomFallback =
+                  CURATED_WIKI_FALLBACKS[
+                    Math.floor(Math.random() * CURATED_WIKI_FALLBACKS.length)
+                  ].image;
                 if (e.currentTarget.src !== randomFallback) {
                   e.currentTarget.src = randomFallback;
                 }
@@ -1651,13 +1723,14 @@ function WikiCard({ popup, driveDistance, playerX = 0 }) {
               style={{
                 position: 'absolute',
                 inset: 0,
-                background: 'linear-gradient(to bottom, transparent 65%, rgba(8,2,28,0.7) 100%)',
+                background:
+                  'linear-gradient(to bottom, transparent 65%, rgba(8,2,28,0.7) 100%)',
                 pointerEvents: 'none',
               }}
             />
           </div>
 
-          {/* Article headline / title — positioned below the image */}
+          {/* Article headline / title */}
           <div
             style={{
               fontFamily: 'var(--font-display, "Space Grotesk", sans-serif)',
@@ -1672,7 +1745,7 @@ function WikiCard({ popup, driveDistance, playerX = 0 }) {
             {title}
           </div>
 
-          {/* Article extract / summary — beneath the headline */}
+          {/* Article extract / summary */}
           {extract && (
             <div
               style={{
@@ -1705,4 +1778,4 @@ function WikiCard({ popup, driveDistance, playerX = 0 }) {
       />
     </div>
   );
-}
+});

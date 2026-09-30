@@ -1,6 +1,6 @@
 import React, { useEffect } from 'react';
 
-export function SpotifyRadio({ onAudioStateChange }) {
+export const SpotifyRadio = React.memo(function SpotifyRadio({ onAudioStateChange }) {
   // Since we use an iframe, we can't detect play state directly.
   // The waveform visualizer can just run constantly.
   useEffect(() => {
@@ -34,4 +34,4 @@ export function SpotifyRadio({ onAudioStateChange }) {
       ></iframe>
     </div>
   );
-}
+});
