@@ -275,46 +275,63 @@
         .gallery {
             display: grid;
             grid-template-columns: repeat(4, 1fr);
-            gap: 20px;
+            row-gap: 34px;
+            column-gap: 20px;
         }
 
         /* Responsive Breakpoints */
         @media (max-width: 1200px) {
             .gallery {
                 grid-template-columns: repeat(3, 1fr);
-                gap: 18px;
+                row-gap: 32px;
+                column-gap: 18px;
             }
         }
 
         @media (max-width: 860px) {
             .gallery {
                 grid-template-columns: repeat(2, 1fr);
-                gap: 16px;
+                row-gap: 30px;
+                column-gap: 16px;
             }
         }
 
         @media (max-width: 560px) {
             .gallery {
                 grid-template-columns: 1fr;
+                row-gap: 28px;
             }
         }
 
-        /* ── Solid High-Contrast Tech Cards ── */
+        /* ── Card Outer Container ── */
+        .pcard-container {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            position: relative;
+        }
+
+        /* ── Solid High-Contrast Tech Cards (Clicks to Project) ── */
         .pcard {
             display: flex;
             flex-direction: column;
+            width: 100%;
+            text-decoration: none;
             color: inherit;
             background: #ffffff;
             border: 1px solid var(--card-border);
             border-top: 4px solid var(--amber);
-            border-radius: 12px;
+            border-radius: 12px 12px 4px 4px;
             overflow: hidden;
             box-shadow: 0 8px 24px rgba(0, 0, 0, 0.4);
             transition: transform 0.24s cubic-bezier(.22, .68, 0, 1.2), box-shadow 0.24s ease, border-color 0.24s ease;
+            position: relative;
+            z-index: 2;
+            cursor: pointer;
         }
 
         .pcard:hover {
-            transform: translateY(-6px);
+            transform: translateY(-5px);
             border-top-color: var(--ember);
             border-color: #cbd5e1;
             box-shadow: 0 18px 40px rgba(0, 0, 0, 0.65), 0 0 24px rgba(245, 166, 35, 0.22);
@@ -347,12 +364,6 @@
             font-size: 0.72rem;
         }
 
-        .pcard-title-link {
-            text-decoration: none;
-            color: inherit;
-            display: block;
-        }
-
         .pcard-title {
             font-family: 'Inter', sans-serif;
             font-size: 1.15rem;
@@ -363,69 +374,8 @@
             transition: color 0.18s ease;
         }
 
-        .pcard-title-link:hover .pcard-title {
+        .pcard:hover .pcard-title {
             color: #b45309;
-        }
-
-        /* Case Study Box */
-        .pcard-case-study {
-            display: block;
-            text-decoration: none;
-            background: #f8fafc;
-            border: 1px solid #e2e8f0;
-            border-left: 3px solid #b45309;
-            border-radius: 6px;
-            padding: 9px 12px;
-            font-family: 'JetBrains Mono', monospace;
-            color: #334155;
-            transition: all 0.2s ease;
-            box-shadow: inset 0 1px 2px rgba(0, 0, 0, 0.02);
-            margin: 2px 0;
-        }
-
-        .pcard-case-study:hover {
-            border-left-color: var(--ember);
-            background: #fffbeb;
-            border-color: #fde68a;
-            transform: translateY(-1px);
-            box-shadow: 0 4px 12px rgba(245, 166, 35, 0.15);
-        }
-
-        .case-study-head {
-            display: flex;
-            align-items: center;
-            justify-content: space-between;
-            margin-bottom: 5px;
-        }
-
-        .case-study-label {
-            font-weight: 800;
-            color: #b45309;
-            text-transform: uppercase;
-            font-size: 0.68rem;
-            letter-spacing: 0.08em;
-            display: inline-flex;
-            align-items: center;
-            gap: 5px;
-        }
-
-        .case-study-cta {
-            font-size: 0.65rem;
-            font-weight: 700;
-            color: var(--ember);
-            display: inline-flex;
-            align-items: center;
-            gap: 4px;
-        }
-
-        .case-study-desc {
-            font-size: 0.72rem;
-            line-height: 1.45;
-            color: #475569;
-        }
-
-        .pcard-case-study:hover .case-study-desc {
-            color: #1e293b;
         }
 
         /* Tech Stack Tags */
@@ -433,7 +383,7 @@
             display: flex;
             flex-wrap: wrap;
             gap: 6px;
-            margin-top: 4px;
+            margin-top: 2px;
         }
 
         .tag {
@@ -461,19 +411,9 @@
             display: flex;
             align-items: center;
             justify-content: space-between;
-            gap: 8px;
             padding-top: 14px;
             border-top: 1px solid #f1f5f9;
             margin-top: auto;
-        }
-
-        .pcard-launch-btn {
-            display: flex;
-            align-items: center;
-            justify-content: space-between;
-            width: 100%;
-            text-decoration: none;
-            color: inherit;
         }
 
         .pcard-link-text {
@@ -489,7 +429,7 @@
             gap: 6px;
         }
 
-        .pcard-launch-btn:hover .pcard-link-text {
+        .pcard:hover .pcard-link-text {
             color: var(--ember);
         }
 
@@ -507,13 +447,68 @@
             transition: all 0.2s ease;
         }
 
-        .pcard-launch-btn:hover .pcard-arrow,
         .pcard:hover .pcard-arrow {
             border-color: var(--ember);
             background: var(--ember);
             color: #ffffff;
             transform: translateX(4px);
             box-shadow: 0 0 12px rgba(255, 107, 26, 0.4);
+        }
+
+        /* ── Case Study Box (Beneath Card, Attached, Smaller, Slides Down on Hover) ── */
+        .pcard-case-study {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            gap: 7px;
+            width: 84%;
+            padding: 8px 12px;
+            background: #f1f5f9;
+            border: 1px solid #cbd5e1;
+            border-top: none;
+            border-radius: 0 0 8px 8px;
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 0.70rem;
+            font-weight: 800;
+            letter-spacing: 0.08em;
+            text-transform: uppercase;
+            color: #475569;
+            text-decoration: none;
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.25);
+            transition: transform 0.25s cubic-bezier(0.2, 0.8, 0.2, 1), background-color 0.2s ease, border-color 0.2s ease, color 0.2s ease, box-shadow 0.2s ease;
+            position: relative;
+            z-index: 1;
+            margin-top: -1px;
+            cursor: pointer;
+        }
+
+        .pcard-case-study:hover {
+            transform: translateY(7px);
+            background: #fffbeb;
+            border-color: #f59e0b;
+            color: #b45309;
+            box-shadow: 0 8px 20px rgba(0, 0, 0, 0.35), 0 0 12px rgba(245, 158, 11, 0.3);
+        }
+
+        .pcard-case-study i.tab-icon {
+            font-size: 0.76rem;
+            color: #64748b;
+            transition: color 0.2s ease;
+        }
+
+        .pcard-case-study:hover i.tab-icon {
+            color: var(--ember);
+        }
+
+        .pcard-case-study i.tab-ext {
+            font-size: 0.60rem;
+            opacity: 0.65;
+            transition: transform 0.2s ease, opacity 0.2s ease;
+        }
+
+        .pcard-case-study:hover i.tab-ext {
+            opacity: 1;
+            transform: translate(2px, -2px);
         }
     </style>
 </head>
@@ -543,259 +538,227 @@
         <div class="gallery">
 
             <!-- 01 Synth Rider -->
-            <div class="pcard">
-                <div class="pcard-body">
-                    <div class="pcard-category">
-                        <i class="fa-solid fa-gamepad"></i> 3D Canvas // Web Audio // Batch AJAX
-                    </div>
-                    <a href="./synth-rider/index.html" class="pcard-title-link">
-                        <div class="pcard-title">Synth Rider</div>
-                    </a>
-                    <a href="./synth-rider/case-study.html" class="pcard-case-study" title="View Synth Rider Technical Case Study">
-                        <div class="case-study-head">
-                            <span class="case-study-label"><i class="fa-solid fa-book-open"></i> Case Study</span>
-                            <span class="case-study-cta">Read <i class="fa-solid fa-arrow-right"></i></span>
+            <div class="pcard-container">
+                <a href="./synth-rider/index.html" class="pcard">
+                    <div class="pcard-body">
+                        <div class="pcard-category">
+                            <i class="fa-solid fa-gamepad"></i> 3D Canvas // Web Audio // Batch AJAX
                         </div>
-                        <div class="case-study-desc">Horizon perspective projection math &amp; zero-latency Wikipedia batch AJAX</div>
-                    </a>
-                    <div class="pcard-tags">
-                        <span class="tag">React 18</span>
-                        <span class="tag">Canvas 3D Projection</span>
-                        <span class="tag">Web Audio API</span>
-                        <span class="tag">Wikipedia Action API</span>
-                        <span class="tag">Vite</span>
-                    </div>
-                    <div class="pcard-footer">
-                        <a href="./synth-rider/index.html" class="pcard-launch-btn">
+                        <div class="pcard-title">Synth Rider</div>
+                        <div class="pcard-tags">
+                            <span class="tag">React 18</span>
+                            <span class="tag">Canvas 3D Projection</span>
+                            <span class="tag">Web Audio API</span>
+                            <span class="tag">Wikipedia Action API</span>
+                            <span class="tag">Vite</span>
+                        </div>
+                        <div class="pcard-footer">
                             <span class="pcard-link-text">Launch Simulation</span>
                             <span class="pcard-arrow"><i class="fa-solid fa-arrow-right"></i></span>
-                        </a>
+                        </div>
                     </div>
-                </div>
+                </a>
+                <a href="./synth-rider/case-study.html" target="_blank" rel="noopener noreferrer" class="pcard-case-study" title="Open Synth Rider Case Study in a new window">
+                    <i class="fa-solid fa-file-lines tab-icon"></i>
+                    <span>Case Study</span>
+                    <i class="fa-solid fa-arrow-up-right-from-square tab-ext"></i>
+                </a>
             </div>
 
             <!-- 02 Zodiac Compass -->
-            <div class="pcard">
-                <div class="pcard-body">
-                    <div class="pcard-category">
-                        <i class="fa-solid fa-hand"></i> Computer Vision // WASM Neural Net
-                    </div>
-                    <a href="./zodiac-fortune-board/index.html" class="pcard-title-link">
-                        <div class="pcard-title">Zodiac Compass</div>
-                    </a>
-                    <a href="./zodiac-fortune-board/case-study.html" class="pcard-case-study" title="View Zodiac Compass Technical Case Study">
-                        <div class="case-study-head">
-                            <span class="case-study-label"><i class="fa-solid fa-book-open"></i> Case Study</span>
-                            <span class="case-study-cta">Read <i class="fa-solid fa-arrow-right"></i></span>
+            <div class="pcard-container">
+                <a href="./zodiac-fortune-board/index.html" class="pcard">
+                    <div class="pcard-body">
+                        <div class="pcard-category">
+                            <i class="fa-solid fa-hand"></i> Computer Vision // WASM Neural Net
                         </div>
-                        <div class="case-study-desc">21-point hand landmark tracking via MediaPipe Vision WASM pipeline</div>
-                    </a>
-                    <div class="pcard-tags">
-                        <span class="tag">React 18</span>
-                        <span class="tag">MediaPipe ML / WASM</span>
-                        <span class="tag">WebRTC Camera</span>
-                        <span class="tag">WebGL Particles</span>
-                        <span class="tag">CSS 3D</span>
-                    </div>
-                    <div class="pcard-footer">
-                        <a href="./zodiac-fortune-board/index.html" class="pcard-launch-btn">
+                        <div class="pcard-title">Zodiac Compass</div>
+                        <div class="pcard-tags">
+                            <span class="tag">React 18</span>
+                            <span class="tag">MediaPipe ML / WASM</span>
+                            <span class="tag">WebRTC Camera</span>
+                            <span class="tag">WebGL Particles</span>
+                            <span class="tag">CSS 3D</span>
+                        </div>
+                        <div class="pcard-footer">
                             <span class="pcard-link-text">Launch Astrolabe</span>
                             <span class="pcard-arrow"><i class="fa-solid fa-arrow-right"></i></span>
-                        </a>
+                        </div>
                     </div>
-                </div>
+                </a>
+                <a href="./zodiac-fortune-board/case-study.html" target="_blank" rel="noopener noreferrer" class="pcard-case-study" title="Open Zodiac Compass Case Study in a new window">
+                    <i class="fa-solid fa-file-lines tab-icon"></i>
+                    <span>Case Study</span>
+                    <i class="fa-solid fa-arrow-up-right-from-square tab-ext"></i>
+                </a>
             </div>
 
             <!-- 03 React Pixel Pinball -->
-            <div class="pcard">
-                <div class="pcard-body">
-                    <div class="pcard-category">
-                        <i class="fa-solid fa-atom"></i> 2D Physics Engine // Vector Calculus
-                    </div>
-                    <a href="./pinball/index.html" class="pcard-title-link">
-                        <div class="pcard-title">React Pixel Pinball</div>
-                    </a>
-                    <a href="./pinball/case-study.html" class="pcard-case-study" title="View React Pixel Pinball Technical Case Study">
-                        <div class="case-study-head">
-                            <span class="case-study-label"><i class="fa-solid fa-book-open"></i> Case Study</span>
-                            <span class="case-study-cta">Read <i class="fa-solid fa-arrow-right"></i></span>
+            <div class="pcard-container">
+                <a href="./pinball/index.html" class="pcard">
+                    <div class="pcard-body">
+                        <div class="pcard-category">
+                            <i class="fa-solid fa-atom"></i> 2D Physics Engine // Vector Calculus
                         </div>
-                        <div class="case-study-desc">Sub-stepping Euler integration &amp; flipper line-segment projection math</div>
-                    </a>
-                    <div class="pcard-tags">
-                        <span class="tag">React 18</span>
-                        <span class="tag">Canvas 2D API</span>
-                        <span class="tag">Vector Physics</span>
-                        <span class="tag">requestAnimationFrame</span>
-                        <span class="tag">Zero Physics Libs</span>
-                    </div>
-                    <div class="pcard-footer">
-                        <a href="./pinball/index.html" class="pcard-launch-btn">
+                        <div class="pcard-title">React Pixel Pinball</div>
+                        <div class="pcard-tags">
+                            <span class="tag">React 18</span>
+                            <span class="tag">Canvas 2D API</span>
+                            <span class="tag">Vector Physics</span>
+                            <span class="tag">requestAnimationFrame</span>
+                            <span class="tag">Zero Physics Libs</span>
+                        </div>
+                        <div class="pcard-footer">
                             <span class="pcard-link-text">Play Pinball</span>
                             <span class="pcard-arrow"><i class="fa-solid fa-arrow-right"></i></span>
-                        </a>
+                        </div>
                     </div>
-                </div>
+                </a>
+                <a href="./pinball/case-study.html" target="_blank" rel="noopener noreferrer" class="pcard-case-study" title="Open React Pixel Pinball Case Study in a new window">
+                    <i class="fa-solid fa-file-lines tab-icon"></i>
+                    <span>Case Study</span>
+                    <i class="fa-solid fa-arrow-up-right-from-square tab-ext"></i>
+                </a>
             </div>
 
             <!-- 04 Motion Landing Page -->
-            <div class="pcard">
-                <div class="pcard-body">
-                    <div class="pcard-category">
-                        <i class="fa-solid fa-compass-drafting"></i> Motion Engineering // Matrix 3D
-                    </div>
-                    <a href="./animated_landing_page/index.html" class="pcard-title-link">
-                        <div class="pcard-title">Motion Landing Page</div>
-                    </a>
-                    <a href="./animated_landing_page/case-study.html" class="pcard-case-study" title="View Motion Landing Page Technical Case Study">
-                        <div class="case-study-head">
-                            <span class="case-study-label"><i class="fa-solid fa-book-open"></i> Case Study</span>
-                            <span class="case-study-cta">Read <i class="fa-solid fa-arrow-right"></i></span>
+            <div class="pcard-container">
+                <a href="./animated_landing_page/index.html" class="pcard">
+                    <div class="pcard-body">
+                        <div class="pcard-category">
+                            <i class="fa-solid fa-compass-drafting"></i> Motion Engineering // Matrix 3D
                         </div>
-                        <div class="case-study-desc">Mouse-driven gravitational vector fields &amp; hardware CSS 3D matrix parallax</div>
-                    </a>
-                    <div class="pcard-tags">
-                        <span class="tag">Vanilla JS</span>
-                        <span class="tag">HTML5 Canvas 2D</span>
-                        <span class="tag">CSS 3D Transforms</span>
-                        <span class="tag">Hardware Acceleration</span>
-                        <span class="tag">Vector Math</span>
-                    </div>
-                    <div class="pcard-footer">
-                        <a href="./animated_landing_page/index.html" class="pcard-launch-btn">
+                        <div class="pcard-title">Motion Landing Page</div>
+                        <div class="pcard-tags">
+                            <span class="tag">Vanilla JS</span>
+                            <span class="tag">HTML5 Canvas 2D</span>
+                            <span class="tag">CSS 3D Transforms</span>
+                            <span class="tag">Hardware Acceleration</span>
+                            <span class="tag">Vector Math</span>
+                        </div>
+                        <div class="pcard-footer">
                             <span class="pcard-link-text">Explore Motion</span>
                             <span class="pcard-arrow"><i class="fa-solid fa-arrow-right"></i></span>
-                        </a>
+                        </div>
                     </div>
-                </div>
+                </a>
+                <a href="./animated_landing_page/case-study.html" target="_blank" rel="noopener noreferrer" class="pcard-case-study" title="Open Motion Landing Page Case Study in a new window">
+                    <i class="fa-solid fa-file-lines tab-icon"></i>
+                    <span>Case Study</span>
+                    <i class="fa-solid fa-arrow-up-right-from-square tab-ext"></i>
+                </a>
             </div>
 
             <!-- 05 Chess PyCalc -->
-            <div class="pcard">
-                <div class="pcard-body">
-                    <div class="pcard-category">
-                        <i class="fa-solid fa-chess-knight"></i> Heuristic AI // Minimax Matrices
-                    </div>
-                    <a href="./python-calculator/index.html" class="pcard-title-link">
-                        <div class="pcard-title">Chess PyCalc</div>
-                    </a>
-                    <a href="./python-calculator/case-study.html" class="pcard-case-study" title="View Chess PyCalc Technical Case Study">
-                        <div class="case-study-head">
-                            <span class="case-study-label"><i class="fa-solid fa-book-open"></i> Case Study</span>
-                            <span class="case-study-cta">Read <i class="fa-solid fa-arrow-right"></i></span>
+            <div class="pcard-container">
+                <a href="./python-calculator/index.html" class="pcard">
+                    <div class="pcard-body">
+                        <div class="pcard-category">
+                            <i class="fa-solid fa-chess-knight"></i> Heuristic AI // Minimax Matrices
                         </div>
-                        <div class="case-study-desc">64-square PST positional matrices &amp; centipawn sigmoid win delta curves</div>
-                    </a>
-                    <div class="pcard-tags">
-                        <span class="tag">Vanilla JS (ES6+)</span>
-                        <span class="tag">Heuristic AI</span>
-                        <span class="tag">FEN Parser</span>
-                        <span class="tag">Piece-Square Tables</span>
-                        <span class="tag">Tailwind CSS</span>
-                    </div>
-                    <div class="pcard-footer">
-                        <a href="./python-calculator/index.html" class="pcard-launch-btn">
+                        <div class="pcard-title">Chess PyCalc</div>
+                        <div class="pcard-tags">
+                            <span class="tag">Vanilla JS (ES6+)</span>
+                            <span class="tag">Heuristic AI</span>
+                            <span class="tag">FEN Parser</span>
+                            <span class="tag">Piece-Square Tables</span>
+                            <span class="tag">Tailwind CSS</span>
+                        </div>
+                        <div class="pcard-footer">
                             <span class="pcard-link-text">Calculate Delta</span>
                             <span class="pcard-arrow"><i class="fa-solid fa-arrow-right"></i></span>
-                        </a>
+                        </div>
                     </div>
-                </div>
+                </a>
+                <a href="./python-calculator/case-study.html" target="_blank" rel="noopener noreferrer" class="pcard-case-study" title="Open Chess PyCalc Case Study in a new window">
+                    <i class="fa-solid fa-file-lines tab-icon"></i>
+                    <span>Case Study</span>
+                    <i class="fa-solid fa-arrow-up-right-from-square tab-ext"></i>
+                </a>
             </div>
 
             <!-- 06 Workout Mixer -->
-            <div class="pcard">
-                <div class="pcard-body">
-                    <div class="pcard-category">
-                        <i class="fa-solid fa-stopwatch"></i> High-Precision Timers // Web Audio
-                    </div>
-                    <a href="./workout-mixer/index.html" class="pcard-title-link">
-                        <div class="pcard-title">Workout Mixer</div>
-                    </a>
-                    <a href="./workout-mixer/case-study.html" class="pcard-case-study" title="View Workout Mixer Technical Case Study">
-                        <div class="case-study-head">
-                            <span class="case-study-label"><i class="fa-solid fa-book-open"></i> Case Study</span>
-                            <span class="case-study-cta">Read <i class="fa-solid fa-arrow-right"></i></span>
+            <div class="pcard-container">
+                <a href="./workout-mixer/index.html" class="pcard">
+                    <div class="pcard-body">
+                        <div class="pcard-category">
+                            <i class="fa-solid fa-stopwatch"></i> High-Precision Timers // Web Audio
                         </div>
-                        <div class="case-study-desc">Delta-time performance.now() drift-free timer &amp; procedural circuit balancer</div>
-                    </a>
-                    <div class="pcard-tags">
-                        <span class="tag">JavaScript (ES6+)</span>
-                        <span class="tag">Precision Delta Timer</span>
-                        <span class="tag">Web Audio API</span>
-                        <span class="tag">HTML5 LocalStorage</span>
-                        <span class="tag">Tailwind CSS</span>
-                    </div>
-                    <div class="pcard-footer">
-                        <a href="./workout-mixer/index.html" class="pcard-launch-btn">
+                        <div class="pcard-title">Workout Mixer</div>
+                        <div class="pcard-tags">
+                            <span class="tag">JavaScript (ES6+)</span>
+                            <span class="tag">Precision Delta Timer</span>
+                            <span class="tag">Web Audio API</span>
+                            <span class="tag">HTML5 LocalStorage</span>
+                            <span class="tag">Tailwind CSS</span>
+                        </div>
+                        <div class="pcard-footer">
                             <span class="pcard-link-text">Launch Timer</span>
                             <span class="pcard-arrow"><i class="fa-solid fa-arrow-right"></i></span>
-                        </a>
+                        </div>
                     </div>
-                </div>
+                </a>
+                <a href="./workout-mixer/case-study.html" target="_blank" rel="noopener noreferrer" class="pcard-case-study" title="Open Workout Mixer Case Study in a new window">
+                    <i class="fa-solid fa-file-lines tab-icon"></i>
+                    <span>Case Study</span>
+                    <i class="fa-solid fa-arrow-up-right-from-square tab-ext"></i>
+                </a>
             </div>
 
             <!-- 07 Survival Quiz -->
-            <div class="pcard">
-                <div class="pcard-body">
-                    <div class="pcard-category">
-                        <i class="fa-solid fa-terminal"></i> State Machine // Audio Synthesis
-                    </div>
-                    <a href="./survival-quiz/index.html" class="pcard-title-link">
-                        <div class="pcard-title">Survival Quiz</div>
-                    </a>
-                    <a href="./survival-quiz/case-study.html" class="pcard-case-study" title="View Survival Quiz Technical Case Study">
-                        <div class="case-study-head">
-                            <span class="case-study-label"><i class="fa-solid fa-book-open"></i> Case Study</span>
-                            <span class="case-study-cta">Read <i class="fa-solid fa-arrow-right"></i></span>
+            <div class="pcard-container">
+                <a href="./survival-quiz/index.html" class="pcard">
+                    <div class="pcard-body">
+                        <div class="pcard-category">
+                            <i class="fa-solid fa-terminal"></i> State Machine // Audio Synthesis
                         </div>
-                        <div class="case-study-desc">Deterministic branching state machine &amp; dual-oscillator Web Audio synth</div>
-                    </a>
-                    <div class="pcard-tags">
-                        <span class="tag">JavaScript (ES6+)</span>
-                        <span class="tag">Finite State Machine</span>
-                        <span class="tag">Web Audio Synthesizer</span>
-                        <span class="tag">CRT Scanline Shaders</span>
-                        <span class="tag">CSS Grid</span>
-                    </div>
-                    <div class="pcard-footer">
-                        <a href="./survival-quiz/index.html" class="pcard-launch-btn">
+                        <div class="pcard-title">Survival Quiz</div>
+                        <div class="pcard-tags">
+                            <span class="tag">JavaScript (ES6+)</span>
+                            <span class="tag">Finite State Machine</span>
+                            <span class="tag">Web Audio Synthesizer</span>
+                            <span class="tag">CRT Scanline Shaders</span>
+                            <span class="tag">CSS Grid</span>
+                        </div>
+                        <div class="pcard-footer">
                             <span class="pcard-link-text">Enter Terminal</span>
                             <span class="pcard-arrow"><i class="fa-solid fa-arrow-right"></i></span>
-                        </a>
+                        </div>
                     </div>
-                </div>
+                </a>
+                <a href="./survival-quiz/case-study.html" target="_blank" rel="noopener noreferrer" class="pcard-case-study" title="Open Survival Quiz Case Study in a new window">
+                    <i class="fa-solid fa-file-lines tab-icon"></i>
+                    <span>Case Study</span>
+                    <i class="fa-solid fa-arrow-up-right-from-square tab-ext"></i>
+                </a>
             </div>
 
             <!-- 08 The Wacky Things Store -->
-            <div class="pcard">
-                <div class="pcard-body">
-                    <div class="pcard-category">
-                        <i class="fa-solid fa-server"></i> ASP.NET Core // C# // Entity Framework
-                    </div>
-                    <a href="./wacky-things-store/index.html" class="pcard-title-link">
-                        <div class="pcard-title">The Wacky Things Store</div>
-                    </a>
-                    <a href="./wacky-things-store/case-study.html" class="pcard-case-study" title="View Wacky Things Store Technical Case Study">
-                        <div class="case-study-head">
-                            <span class="case-study-label"><i class="fa-solid fa-book-open"></i> Case Study</span>
-                            <span class="case-study-cta">Read <i class="fa-solid fa-arrow-right"></i></span>
+            <div class="pcard-container">
+                <a href="./wacky-things-store/index.html" class="pcard">
+                    <div class="pcard-body">
+                        <div class="pcard-category">
+                            <i class="fa-solid fa-server"></i> ASP.NET Core // C# // Entity Framework
                         </div>
-                        <div class="case-study-desc">ASP.NET Core MVC architecture, Entity Framework Core ORM &amp; C# models</div>
-                    </a>
-                    <div class="pcard-tags">
-                        <span class="tag">ASP.NET Core</span>
-                        <span class="tag">C# 12</span>
-                        <span class="tag">Entity Framework Core</span>
-                        <span class="tag">MVC Architecture</span>
-                        <span class="tag">REST Services</span>
-                    </div>
-                    <div class="pcard-footer">
-                        <a href="./wacky-things-store/index.html" class="pcard-launch-btn">
+                        <div class="pcard-title">The Wacky Things Store</div>
+                        <div class="pcard-tags">
+                            <span class="tag">ASP.NET Core</span>
+                            <span class="tag">C# 12</span>
+                            <span class="tag">Entity Framework Core</span>
+                            <span class="tag">MVC Architecture</span>
+                            <span class="tag">REST Services</span>
+                        </div>
+                        <div class="pcard-footer">
                             <span class="pcard-link-text">View Architecture</span>
                             <span class="pcard-arrow"><i class="fa-solid fa-arrow-right"></i></span>
-                        </a>
+                        </div>
                     </div>
-                </div>
+                </a>
+                <a href="./wacky-things-store/case-study.html" target="_blank" rel="noopener noreferrer" class="pcard-case-study" title="Open Wacky Things Store Case Study in a new window">
+                    <i class="fa-solid fa-file-lines tab-icon"></i>
+                    <span>Case Study</span>
+                    <i class="fa-solid fa-arrow-up-right-from-square tab-ext"></i>
+                </a>
             </div>
 
         </div>
