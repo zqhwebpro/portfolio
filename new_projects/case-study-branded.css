@@ -6,25 +6,34 @@
 @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=JetBrains+Mono:wght@400;500;600&display=swap');
 
 :root {
-  --amber: #d97706;          /* Rich Amber Accent */
+  --amber: #d97706;
+  /* Rich Amber Accent */
   --amber-dark: #b45309;
   --amber-light: #fef3c7;
   --amber-border: #fde68a;
-  
-  --bg-header: #000000;       /* Solid Black Header */
-  --bg-page: #f7f6f2;         /* Soft, Non-Glare Warm Off-White Page */
-  --bg-card: #ffffff;         /* Crisp Clean Cards */
-  
-  --text-header: #ffffff;     /* White Header Text */
-  --text-heading: #09090b;    /* Deep Charcoal Headings */
-  --text-body: #27272a;       /* High-Contrast Readable Body Text */
-  --text-muted: #64748b;      /* Slate Muted Text */
+
+  --bg-header: #000000;
+  /* Solid Black Header */
+  --bg-page: #f7f6f2;
+  /* Soft, Non-Glare Warm Off-White Page */
+  --bg-card: #ffffff;
+  /* Crisp Clean Cards */
+
+  --text-header: #ffffff;
+  /* White Header Text */
+  --text-heading: #09090b;
+  /* Deep Charcoal Headings */
+  --text-body: #27272a;
+  /* High-Contrast Readable Body Text */
+  --text-muted: #64748b;
+  /* Slate Muted Text */
   --text-dim: #94a3b8;
-  
-  --border-subtle: #e2e8f0;   /* Clean Subtle Border */
+
+  --border-subtle: #e2e8f0;
+  /* Clean Subtle Border */
   --border-card: #e2e8f0;
   --border-accent: #d97706;
-  
+
   --radius-sm: 6px;
   --radius-md: 8px;
   --radius-lg: 12px;
@@ -53,16 +62,16 @@ body {
   -moz-osx-font-smoothing: grayscale;
 }
 
-/* ─── FIXED TOP NAVBAR (SOLID BLACK HEADER WITH WHITE TEXT) ─── */
+/* ─── FIXED TOP NAVBAR (SOLID BLACK HEADER WITH BRANDED LOGO & BUTTONS) ─── */
 .navbar {
   position: sticky;
   top: 0;
   z-index: 1000;
   width: 100%;
-  background: var(--bg-header);
-  border-bottom: 1px solid rgba(255, 255, 255, 0.12);
-  padding: 18px 0;
-  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.4);
+  background: #08080a;
+  border-bottom: 1px solid rgba(245, 166, 35, 0.25);
+  padding: 16px 0;
+  box-shadow: 0 2px 14px rgba(0, 0, 0, 0.6);
 }
 
 /* Shared Aligned Layout Container (Exact Width & Left/Right Alignment) */
@@ -70,7 +79,8 @@ body {
 .container,
 .blog-container {
   width: 100%;
-  max-width: 1240px;   /* Wider layout for optimal reading */
+  max-width: 1240px;
+  /* Wider layout for optimal reading */
   margin: 0 auto;
   padding-left: 32px;
   padding-right: 32px;
@@ -84,18 +94,19 @@ body {
   gap: 16px;
 }
 
-/* Brand logo ZQH.WEBPRO */
+/* Brand logo ZQH.WEBPRO matching /new_projects/index */
 .nav-brand {
+  font-family: 'JetBrains Mono', monospace;
   font-size: 0.85rem;
-  letter-spacing: 0.28em;
+  letter-spacing: 0.25em;
   text-transform: uppercase;
-  color: var(--text-header);
+  color: #9ca3af;
   text-decoration: none;
   font-weight: 800;
   display: flex;
   align-items: center;
   gap: 0;
-  transition: color 0.2s;
+  transition: color 0.2s ease;
 }
 
 .nav-brand span {
@@ -103,53 +114,64 @@ body {
 }
 
 .nav-brand:hover {
-  color: #f5a623;
+  color: #ffffff;
 }
 
 .nav-links {
   display: flex;
-  gap: 10px;
+  gap: 12px;
   align-items: center;
   flex-wrap: wrap;
 }
 
-/* Header Buttons */
+/* Header Buttons matching /new_projects/index .back-btn */
 .nav-btn {
   display: inline-flex;
   align-items: center;
-  gap: 6px;
-  padding: 8px 16px;
-  font-family: inherit;
-  font-size: 0.7rem;
+  gap: 8px;
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 0.72rem;
   font-weight: 700;
+  letter-spacing: 0.12em;
   text-transform: uppercase;
-  letter-spacing: 0.14em;
+  color: #f5a623;
   text-decoration: none;
-  color: #ffffff;
-  border: 1px solid rgba(255, 255, 255, 0.25);
-  background: rgba(255, 255, 255, 0.08);
-  border-radius: var(--radius-sm);
-  transition: all 0.2s ease-in-out;
+  border: 1px solid rgba(245, 166, 35, 0.35);
+  padding: 8px 16px;
+  background: rgba(245, 166, 35, 0.08);
+  border-radius: 6px;
+  transition: all 0.2s ease;
+  white-space: nowrap;
   cursor: pointer;
 }
 
 .nav-btn:hover {
-  color: #f5a623;
+  color: #ffffff;
   border-color: #f5a623;
-  background: rgba(245, 166, 35, 0.15);
+  background: rgba(245, 166, 35, 0.2);
+  box-shadow: 0 0 18px rgba(245, 166, 35, 0.3);
   transform: translateY(-1px);
 }
 
+/* Launch Button: Highlighted Action matching brand aesthetic */
+.nav-btn.nav-btn-launch,
+.nav-btn.nav-btn-project,
 .nav-btn.primary {
   background: #f5a623;
-  color: #000000;
-  font-weight: 800;
+  color: #08080a;
   border: 1px solid #f5a623;
+  font-weight: 800;
+  box-shadow: 0 2px 10px rgba(245, 166, 35, 0.25);
 }
 
+.nav-btn.nav-btn-launch:hover,
+.nav-btn.nav-btn-project:hover,
 .nav-btn.primary:hover {
   background: #ffb84d;
+  border-color: #ffb84d;
   color: #000000;
+  box-shadow: 0 0 20px rgba(245, 166, 35, 0.45);
+  transform: translateY(-1px);
 }
 
 .btn-projects {
@@ -176,21 +198,6 @@ body {
   display: inline-block !important;
 }
 
-.nav-btn.nav-btn-project {
-  background: #f5a623;
-  color: #000000;
-  border-color: #f5a623;
-  font-weight: 800;
-}
-
-.nav-btn.nav-btn-project:hover {
-  background: #ffb84d;
-  border-color: #ffb84d;
-  color: #000000;
-  transform: translateY(-1px);
-  box-shadow: 0 4px 14px rgba(245, 166, 35, 0.35);
-}
-
 /* ─── MAIN PSEUDO BLOG POST CONTAINER (OFF-WHITE READABLE CANVAS) ─── */
 .container,
 .blog-container {
@@ -208,7 +215,8 @@ body {
 }
 
 .section-label {
-  font-size: 0.7rem;
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 0.72rem;
   letter-spacing: 0.22em;
   text-transform: uppercase;
   color: var(--amber-dark);
@@ -216,7 +224,8 @@ body {
   display: inline-block;
 }
 
-.accent-line {
+.accent-line,
+.summary-label-row {
   display: inline-flex;
   align-items: center;
   gap: 12px;
@@ -225,12 +234,7 @@ body {
 
 .accent-line::before,
 .accent-line::after {
-  content: '';
-  display: block;
-  height: 2px;
-  width: 28px;
-  background: var(--amber-dark);
-  opacity: 0.8;
+  display: none !important;
 }
 
 .hero-title,
@@ -449,7 +453,8 @@ blockquote p:last-child {
 /* ─── HIGH-CONTRAST CODE SNIPPETS ─── */
 .code-container,
 pre {
-  background: #0f172a; /* Dark Slate container for high-contrast syntax */
+  background: #0f172a;
+  /* Dark Slate container for high-contrast syntax */
   border: 1px solid #1e293b;
   border-left: 4px solid var(--amber-dark);
   border-radius: var(--radius-md);
@@ -505,11 +510,28 @@ pre code {
   border: none;
 }
 
-.token-keyword { color: #fbbf24; font-weight: 600; }
-.token-fn { color: #38bdf8; font-weight: 500; }
-.token-comment { color: #94a3b8; font-style: italic; }
-.token-number { color: #f472b6; }
-.token-string { color: #4ade80; }
+.token-keyword {
+  color: #fbbf24;
+  font-weight: 600;
+}
+
+.token-fn {
+  color: #38bdf8;
+  font-weight: 500;
+}
+
+.token-comment {
+  color: #94a3b8;
+  font-style: italic;
+}
+
+.token-number {
+  color: #f472b6;
+}
+
+.token-string {
+  color: #4ade80;
+}
 
 /* ─── TECH STACK GRID ─── */
 .tech-stack-grid {
@@ -630,22 +652,41 @@ ul.bullet-list li::before,
 }
 
 @media (max-width: 768px) {
-  .nav-container, .container, .blog-container { padding-left: 18px; padding-right: 18px; }
-  .navbar { padding: 14px 0; }
-  .hero-title, .post-title { font-size: 2.1rem; }
-  .metrics-grid, .stat-banner { grid-template-columns: 1fr; }
-  .tech-stack-grid { grid-template-columns: 1fr; }
+
+  .nav-container,
+  .container,
+  .blog-container {
+    padding-left: 18px;
+    padding-right: 18px;
+  }
+
+  .navbar {
+    padding: 14px 0;
+  }
+
+  .hero-title,
+  .post-title {
+    font-size: 2.1rem;
+  }
+
+  .metrics-grid,
+  .stat-banner {
+    grid-template-columns: 1fr;
+  }
+
+  .tech-stack-grid {
+    grid-template-columns: 1fr;
+  }
 }
 
 /* ─── SUMMARY OF WHAT WAS LEARNED (EDITORIAL CALLOUT BOX) ─── */
 .learnings-summary-box {
   background: var(--bg-card);
   border: 1px solid var(--border-card);
-  border-left: 5px solid var(--amber);
   border-radius: var(--radius-md);
   padding: 28px 32px;
   box-shadow: 0 4px 16px rgba(0, 0, 0, 0.04);
-  margin-top: 18px;
+  margin-top: 14px;
 }
 
 .learnings-summary-box p {
@@ -666,32 +707,51 @@ ul.bullet-list li::before,
   flex-wrap: wrap;
 }
 
+/* Branded Case Study Bottom Button */
 .btn-launch-project {
   display: inline-flex;
   align-items: center;
-  gap: 10px;
-  padding: 12px 24px;
-  background: #f5a623;
-  color: #000000;
-  border: 1px solid #d97706;
-  border-radius: var(--radius-sm);
+  gap: 12px;
+  padding: 14px 28px;
+  background: #08080a;
+  color: #f5a623;
+  border: 1.5px solid #f5a623;
+  border-radius: 6px;
   font-family: 'JetBrains Mono', monospace;
-  font-size: 0.82rem;
+  font-size: 0.80rem;
   font-weight: 800;
-  letter-spacing: 0.08em;
+  letter-spacing: 0.12em;
   text-transform: uppercase;
   text-decoration: none;
-  transition: all 0.25s cubic-bezier(0.2, 0.8, 0.2, 1);
-  box-shadow: 0 4px 14px rgba(217, 119, 6, 0.25);
+  transition: all 0.22s cubic-bezier(0.2, 0.8, 0.2, 1);
+  box-shadow: 0 4px 16px rgba(0, 0, 0, 0.2), 0 0 12px rgba(245, 166, 35, 0.18);
   cursor: pointer;
 }
 
+.btn-launch-project i.fa-play {
+  color: #f5a623;
+  font-size: 0.75rem;
+  transition: transform 0.2s ease, color 0.2s ease;
+}
+
+.btn-launch-project i.fa-arrow-right {
+  color: #f5a623;
+  font-size: 0.75rem;
+  transition: transform 0.2s ease, color 0.2s ease;
+}
+
 .btn-launch-project:hover {
-  background: #ffb84d;
+  background: #f5a623;
+  color: #08080a;
   border-color: #f5a623;
-  color: #000000;
   transform: translateY(-2px);
-  box-shadow: 0 6px 20px rgba(245, 166, 35, 0.4);
+  box-shadow: 0 8px 24px rgba(245, 166, 35, 0.42), 0 0 20px rgba(245, 166, 35, 0.3);
+}
+
+.btn-launch-project:hover i.fa-play,
+.btn-launch-project:hover i.fa-arrow-right {
+  color: #08080a;
+  transform: translateX(3px);
 }
 
 /* ─── FIXED BOTTOM INTERACTIVE PROJECTS BAR (DOCK) ─── */
@@ -706,11 +766,11 @@ body {
   right: 0;
   width: 100%;
   z-index: 9999;
-  background: rgba(13, 17, 23, 0.94);
+  background: #08080a;
   backdrop-filter: blur(16px);
   -webkit-backdrop-filter: blur(16px);
-  border-top: 1px solid rgba(255, 255, 255, 0.12);
-  box-shadow: 0 -8px 28px rgba(0, 0, 0, 0.5);
+  border-top: 1px solid rgba(245, 166, 35, 0.25);
+  box-shadow: 0 -8px 28px rgba(0, 0, 0, 0.65);
   padding: 8px 16px;
 }
 
@@ -731,7 +791,7 @@ body {
   font-weight: 800;
   letter-spacing: 0.14em;
   text-transform: uppercase;
-  color: var(--amber);
+  color: #f5a623;
   white-space: nowrap;
   padding-right: 12px;
   border-right: 1px solid rgba(255, 255, 255, 0.14);
@@ -742,10 +802,23 @@ body {
   align-items: center;
   gap: 10px;
   overflow-x: auto;
+  overflow-y: hidden;
+  -webkit-overflow-scrolling: touch;
+  touch-action: pan-x;
+  overscroll-behavior-x: contain;
   scrollbar-width: thin;
   scrollbar-color: rgba(245, 166, 35, 0.4) transparent;
   padding-bottom: 2px;
   flex: 1;
+  cursor: grab;
+  user-select: none;
+  -webkit-user-select: none;
+}
+
+.dock-cards-scroll.is-dragging {
+  cursor: grabbing;
+  user-select: none;
+  -webkit-user-select: none;
 }
 
 .dock-cards-scroll::-webkit-scrollbar {
@@ -761,25 +834,27 @@ body {
   display: flex;
   flex-direction: column;
   justify-content: center;
-  min-width: 132px;
-  padding: 6px 12px;
+  min-width: 136px;
+  padding: 7px 13px;
   background: rgba(255, 255, 255, 0.05);
   border: 1px solid rgba(255, 255, 255, 0.1);
   border-radius: 6px;
   text-decoration: none;
   transition: all 0.2s cubic-bezier(0.2, 0.8, 0.2, 1);
   flex-shrink: 0;
+  user-select: none;
+  -webkit-user-drag: none;
 }
 
 .dock-card:hover {
   background: rgba(245, 166, 35, 0.16);
   border-color: rgba(245, 166, 35, 0.5);
   transform: translateY(-2px);
-  box-shadow: 0 4px 12px rgba(245, 166, 35, 0.2);
+  box-shadow: 0 4px 14px rgba(245, 166, 35, 0.25);
 }
 
 .dock-card.active-dock-card {
-  border-color: rgba(245, 166, 35, 0.7);
+  border-color: rgba(245, 166, 35, 0.75);
   background: rgba(245, 166, 35, 0.14);
 }
 
@@ -791,7 +866,7 @@ body {
   white-space: nowrap;
   display: flex;
   align-items: center;
-  gap: 5px;
+  gap: 6px;
 }
 
 .dock-card:hover .dock-card-title {
@@ -802,7 +877,7 @@ body {
   font-size: 0.60rem;
   color: #94a3b8;
   white-space: nowrap;
-  margin-top: 1px;
+  margin-top: 2px;
 }
 
 .dock-card:hover .dock-card-summary {
@@ -813,9 +888,9 @@ body {
   .dock-header-label span {
     display: none;
   }
+
   .dock-card {
     min-width: 120px;
-    padding: 5px 10px;
+    padding: 6px 10px;
   }
 }
-
