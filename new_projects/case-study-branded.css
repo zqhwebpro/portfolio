@@ -614,3 +614,147 @@ ul.bullet-list li::before,
   .metrics-grid, .stat-banner { grid-template-columns: 1fr; }
   .tech-stack-grid { grid-template-columns: 1fr; }
 }
+
+/* ─── SUMMARY OF WHAT WAS LEARNED (EDITORIAL CALLOUT BOX) ─── */
+.learnings-summary-box {
+  background: var(--bg-card);
+  border: 1px solid var(--border-card);
+  border-left: 5px solid var(--amber);
+  border-radius: var(--radius-md);
+  padding: 24px 28px;
+  box-shadow: 0 4px 16px rgba(0, 0, 0, 0.04);
+  margin-top: 14px;
+}
+
+.learnings-summary-box p {
+  font-size: 1.05rem;
+  line-height: 1.85;
+  color: var(--text-body);
+  margin: 0;
+}
+
+/* ─── FIXED BOTTOM INTERACTIVE PROJECTS BAR (DOCK) ─── */
+body {
+  padding-bottom: 96px !important;
+}
+
+.fixed-bottom-dock {
+  position: fixed;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  width: 100%;
+  z-index: 9999;
+  background: rgba(13, 17, 23, 0.94);
+  backdrop-filter: blur(16px);
+  -webkit-backdrop-filter: blur(16px);
+  border-top: 1px solid rgba(255, 255, 255, 0.12);
+  box-shadow: 0 -8px 28px rgba(0, 0, 0, 0.5);
+  padding: 8px 16px;
+}
+
+.dock-inner {
+  max-width: 1360px;
+  margin: 0 auto;
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.dock-header-label {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 0.65rem;
+  font-weight: 800;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: var(--amber);
+  white-space: nowrap;
+  padding-right: 12px;
+  border-right: 1px solid rgba(255, 255, 255, 0.14);
+}
+
+.dock-cards-scroll {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  overflow-x: auto;
+  scrollbar-width: thin;
+  scrollbar-color: rgba(245, 166, 35, 0.4) transparent;
+  padding-bottom: 2px;
+  flex: 1;
+}
+
+.dock-cards-scroll::-webkit-scrollbar {
+  height: 4px;
+}
+
+.dock-cards-scroll::-webkit-scrollbar-thumb {
+  background: rgba(245, 166, 35, 0.4);
+  border-radius: 4px;
+}
+
+.dock-card {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  min-width: 132px;
+  padding: 6px 12px;
+  background: rgba(255, 255, 255, 0.05);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  border-radius: 6px;
+  text-decoration: none;
+  transition: all 0.2s cubic-bezier(0.2, 0.8, 0.2, 1);
+  flex-shrink: 0;
+}
+
+.dock-card:hover {
+  background: rgba(245, 166, 35, 0.16);
+  border-color: rgba(245, 166, 35, 0.5);
+  transform: translateY(-2px);
+  box-shadow: 0 4px 12px rgba(245, 166, 35, 0.2);
+}
+
+.dock-card.active-dock-card {
+  border-color: rgba(245, 166, 35, 0.7);
+  background: rgba(245, 166, 35, 0.14);
+}
+
+.dock-card-title {
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 0.68rem;
+  font-weight: 700;
+  color: #ffffff;
+  white-space: nowrap;
+  display: flex;
+  align-items: center;
+  gap: 5px;
+}
+
+.dock-card:hover .dock-card-title {
+  color: #fbbf24;
+}
+
+.dock-card-summary {
+  font-size: 0.60rem;
+  color: #94a3b8;
+  white-space: nowrap;
+  margin-top: 1px;
+}
+
+.dock-card:hover .dock-card-summary {
+  color: #cbd5e1;
+}
+
+@media (max-width: 768px) {
+  .dock-header-label span {
+    display: none;
+  }
+  .dock-card {
+    min-width: 120px;
+    padding: 5px 10px;
+  }
+}
+

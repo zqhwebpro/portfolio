@@ -63,15 +63,12 @@
 
     <header class="navbar">
         <div class="nav-container">
-            <a href="../../2026/index.html" class="nav-brand">
+            <a href="../index.html" class="nav-brand">
                 ZQH<span>.</span>WEBPRO
             </a>
             <div class="nav-links">
                 <a href="../index.html" class="nav-btn">
-                    Interactive Projects
-                </a>
-                <a href="../../2026/index.html" class="nav-btn">
-                    <i class="fa-solid fa-arrow-left"></i> Main Portfolio
+                    <i class="fa-solid fa-arrow-left"></i> Interactive Portfolio
                 </a>
             </div>
         </div>
@@ -366,41 +363,66 @@ const startIntervalTimer = (targetDurationSeconds, onTick, onComplete) => {
 };</code></pre>
         </section>
 
-        <!-- SECTION 4 -->
+        <!-- SECTION 4: WHAT WAS LEARNED -->
         <section class="section-block">
             <div class="accent-line">
-                <span class="section-label">04 // ARCHITECTURAL TAKEAWAYS</span>
+                <span class="section-label">04 // KEY TAKEAWAYS</span>
             </div>
             <h2 class="section-title">
-                <i class="fa-solid fa-graduation-cap"></i> Production Takeaways &amp; Engineering Decisions
+                <i class="fa-solid fa-graduation-cap"></i> Summary of What Was Learned
             </h2>
 
-            <ul class="learnings-list">
-                <li class="learning-item">
-                    <div class="learning-icon"><i class="fa-solid fa-bolt"></i></div>
-                    <div class="learning-content">
-                        <h4>Zero-Telemetry Client-Side Autonomy</h4>
-                        <p>Running the entire dataset and search indexing inside the client eliminates backend infrastructure costs, ensures sub-millisecond response times, and guarantees 100% offline usability inside subterranean gym environments.</p>
-                    </div>
-                </li>
-                <li class="learning-item">
-                    <div class="learning-icon"><i class="fa-solid fa-mobile-screen"></i></div>
-                    <div class="learning-content">
-                        <h4>Touch-Target Ergonomics</h4>
-                        <p>All critical operational controls (shuffle, lock, timer toggle) are sized at minimum 52px touch targets with high-contrast active states, engineered specifically for sweaty hands and vibrating treadmill use.</p>
-                    </div>
-                </li>
-                <li class="learning-item">
-                    <div class="learning-icon"><i class="fa-solid fa-volume-high"></i></div>
-                    <div class="learning-content">
-                        <h4>Procedural Synthesis Over Audio Assets</h4>
-                        <p>Synthesizing audio on the fly with native Web Audio eliminates audio decoding latency, network drops, and mobile autoplay restrictions on external media files.</p>
-                    </div>
-                </li>
-            </ul>
+            <div class="learnings-summary-box">
+                <p>
+                    Developing the Workout Mixer demonstrated how multi-track procedural audio scheduling in the Web Audio API can generate dynamic, tempo-synced soundscapes that adapt to interval training intensities. Designing reactive SVG beat meters and tempo controls required strict separation between UI rendering and the low-latency audio hardware clock to avoid timing drift. Implementing smooth gain node crossfades and stereo panners provided seamless transitions between high-energy circuits and ambient recovery phases without acoustic clipping. The project emphasized that procedural sound design combined with clear timer state machines can elevate fitness applications far beyond static recorded playlists.
+                </p>
+            </div>
         </section>
 
     </main>
+
+    <!-- Fixed Bottom Interactive Projects Dock -->
+    <nav class="fixed-bottom-dock" aria-label="Interactive Projects Navigation">
+        <div class="dock-inner">
+            <div class="dock-header-label">
+                <i class="fa-solid fa-shapes"></i> Projects
+            </div>
+            <div class="dock-cards-scroll">
+                <a href="../synth-rider/index.html" class="dock-card">
+                    <span class="dock-card-title"><i class="fa-solid fa-gamepad"></i> Synth Rider</span>
+                    <span class="dock-card-summary">3D Highway Cyberpunk Simulation</span>
+                </a>
+                <a href="../zodiac-fortune-board/index.html" class="dock-card">
+                    <span class="dock-card-title"><i class="fa-solid fa-compass"></i> Zodiac Board</span>
+                    <span class="dock-card-summary">Hand Tracking Celestial Divination</span>
+                </a>
+                <a href="../pinball/index.html" class="dock-card">
+                    <span class="dock-card-title"><i class="fa-solid fa-circle-dot"></i> Pixel Pinball</span>
+                    <span class="dock-card-summary">Retro Canvas Physics Arcade</span>
+                </a>
+                <a href="../animated_landing_page/index.html" class="dock-card">
+                    <span class="dock-card-title"><i class="fa-solid fa-layer-group"></i> Motion Showcase</span>
+                    <span class="dock-card-summary">3D Perspective Glass Cards</span>
+                </a>
+                <a href="../python-calculator/index.html" class="dock-card">
+                    <span class="dock-card-title"><i class="fa-solid fa-terminal"></i> PyCalculator</span>
+                    <span class="dock-card-summary">Retro Terminal Math Engine</span>
+                </a>
+                <a href="../workout-mixer/index.html" class="dock-card active-dock-card">
+                    <span class="dock-card-title"><i class="fa-solid fa-dumbbell"></i> Workout Mixer</span>
+                    <span class="dock-card-summary">Adaptive Procedural Audio Timer</span>
+                </a>
+                <a href="../survival-quiz/index.html" class="dock-card">
+                    <span class="dock-card-title"><i class="fa-solid fa-skull"></i> Survival Quiz</span>
+                    <span class="dock-card-summary">Branching Narrative Choice Engine</span>
+                </a>
+                <a href="../wacky-things-store/index.html" class="dock-card">
+                    <span class="dock-card-title"><i class="fa-solid fa-store"></i> Wacky Store</span>
+                    <span class="dock-card-summary">Surreal Whimsical Novelty Shop</span>
+                </a>
+            </div>
+        </div>
+    </nav>
 
 </body>
 

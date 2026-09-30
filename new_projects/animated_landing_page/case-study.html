@@ -45,15 +45,12 @@
 
     <header class="navbar">
         <div class="nav-container">
-            <a href="../../2026/index.html" class="nav-brand">
+            <a href="../index.html" class="nav-brand">
                 ZQH<span>.</span>WEBPRO
             </a>
             <div class="nav-links">
                 <a href="../index.html" class="nav-btn">
-                    Interactive Projects
-                </a>
-                <a href="../../2026/index.html" class="nav-btn">
-                    <i class="fa-solid fa-arrow-left"></i> Main Portfolio
+                    <i class="fa-solid fa-arrow-left"></i> Interactive Portfolio
                 </a>
             </div>
         </div>
@@ -284,41 +281,66 @@ stars.forEach(star => {
             </p>
         </section>
 
-        <!-- SECTION 4 -->
+        <!-- SECTION 4: WHAT WAS LEARNED -->
         <section class="section-block">
             <div class="accent-line">
-                <span class="section-label">04 // ARCHITECTURAL TAKEAWAYS</span>
+                <span class="section-label">04 // KEY TAKEAWAYS</span>
             </div>
             <h2 class="section-title">
-                <i class="fa-solid fa-graduation-cap"></i> Production Takeaways &amp; Engineering Decisions
+                <i class="fa-solid fa-graduation-cap"></i> Summary of What Was Learned
             </h2>
 
-            <ul class="learnings-list">
-                <li class="learning-item">
-                    <div class="learning-icon"><i class="fa-solid fa-bolt"></i></div>
-                    <div class="learning-content">
-                        <h4>Direct DOM Mutation Prevents Jitter</h4>
-                        <p>Bypassing React state setters during 60 FPS animation loops eliminated virtual DOM reconciliation overhead and eradicated micro-stutter on mobile devices.</p>
-                    </div>
-                </li>
-                <li class="learning-item">
-                    <div class="learning-icon"><i class="fa-solid fa-mobile-screen"></i></div>
-                    <div class="learning-content">
-                        <h4>DPR Clamping Protects Battery &amp; RAM</h4>
-                        <p>Capping canvas buffer allocation to 1.5x DPR cut GPU fill-rate overhead by over 50% on Retina displays without perceptible loss of sharpness.</p>
-                    </div>
-                </li>
-                <li class="learning-item">
-                    <div class="learning-icon"><i class="fa-solid fa-cubes"></i></div>
-                    <div class="learning-content">
-                        <h4>Hardware CSS 3D Over WebGL Overhead</h4>
-                        <p>Leveraging native CSS 3D perspective transforms allowed rich depth parallax while keeping total JavaScript bundle size under 25KB.</p>
-                    </div>
-                </li>
-            </ul>
+            <div class="learnings-summary-box">
+                <p>
+                    Creating this motion showcase emphasized how hardware-accelerated CSS 3D transforms, perspective planes, and pointer tracking can produce deeply tactile interfaces with minimal runtime overhead. Orchestrating stagger delays and dynamic lighting reflections across glassmorphic layers created an illusion of physical depth while preserving silky 60 FPS interaction. Calibrating easing curves and velocity damping proved essential for making interactive spring physics feel weighted and premium rather than abrupt or floaty. In the end, the project showcased how modern browser rendering engines can achieve native-app visual polish entirely through standards-compliant CSS and vanilla JavaScript.
+                </p>
+            </div>
         </section>
 
     </main>
+
+    <!-- Fixed Bottom Interactive Projects Dock -->
+    <nav class="fixed-bottom-dock" aria-label="Interactive Projects Navigation">
+        <div class="dock-inner">
+            <div class="dock-header-label">
+                <i class="fa-solid fa-shapes"></i> Projects
+            </div>
+            <div class="dock-cards-scroll">
+                <a href="../synth-rider/index.html" class="dock-card">
+                    <span class="dock-card-title"><i class="fa-solid fa-gamepad"></i> Synth Rider</span>
+                    <span class="dock-card-summary">3D Highway Cyberpunk Simulation</span>
+                </a>
+                <a href="../zodiac-fortune-board/index.html" class="dock-card">
+                    <span class="dock-card-title"><i class="fa-solid fa-compass"></i> Zodiac Board</span>
+                    <span class="dock-card-summary">Hand Tracking Celestial Divination</span>
+                </a>
+                <a href="../pinball/index.html" class="dock-card">
+                    <span class="dock-card-title"><i class="fa-solid fa-circle-dot"></i> Pixel Pinball</span>
+                    <span class="dock-card-summary">Retro Canvas Physics Arcade</span>
+                </a>
+                <a href="../animated_landing_page/index.html" class="dock-card active-dock-card">
+                    <span class="dock-card-title"><i class="fa-solid fa-layer-group"></i> Motion Showcase</span>
+                    <span class="dock-card-summary">3D Perspective Glass Cards</span>
+                </a>
+                <a href="../python-calculator/index.html" class="dock-card">
+                    <span class="dock-card-title"><i class="fa-solid fa-terminal"></i> PyCalculator</span>
+                    <span class="dock-card-summary">Retro Terminal Math Engine</span>
+                </a>
+                <a href="../workout-mixer/index.html" class="dock-card">
+                    <span class="dock-card-title"><i class="fa-solid fa-dumbbell"></i> Workout Mixer</span>
+                    <span class="dock-card-summary">Adaptive Procedural Audio Timer</span>
+                </a>
+                <a href="../survival-quiz/index.html" class="dock-card">
+                    <span class="dock-card-title"><i class="fa-solid fa-skull"></i> Survival Quiz</span>
+                    <span class="dock-card-summary">Branching Narrative Choice Engine</span>
+                </a>
+                <a href="../wacky-things-store/index.html" class="dock-card">
+                    <span class="dock-card-title"><i class="fa-solid fa-store"></i> Wacky Store</span>
+                    <span class="dock-card-summary">Surreal Whimsical Novelty Shop</span>
+                </a>
+            </div>
+        </div>
+    </nav>
 
 </body>
 

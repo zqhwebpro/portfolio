@@ -275,7 +275,7 @@
         .gallery {
             display: grid;
             grid-template-columns: repeat(4, 1fr);
-            row-gap: 34px;
+            row-gap: 42px;
             column-gap: 20px;
         }
 
@@ -283,7 +283,7 @@
         @media (max-width: 1200px) {
             .gallery {
                 grid-template-columns: repeat(3, 1fr);
-                row-gap: 32px;
+                row-gap: 38px;
                 column-gap: 18px;
             }
         }
@@ -291,7 +291,7 @@
         @media (max-width: 860px) {
             .gallery {
                 grid-template-columns: repeat(2, 1fr);
-                row-gap: 30px;
+                row-gap: 36px;
                 column-gap: 16px;
             }
         }
@@ -299,7 +299,7 @@
         @media (max-width: 560px) {
             .gallery {
                 grid-template-columns: 1fr;
-                row-gap: 28px;
+                row-gap: 32px;
             }
         }
 
@@ -462,9 +462,12 @@
             justify-content: center;
             gap: 7px;
             width: 84%;
-            padding: 8px 12px;
-            background: #f1f5f9;
-            border: 1px solid #cbd5e1;
+            margin-top: -30px;
+            padding: 37px 12px 7px;
+            background: #e2e8f0;
+            border-left: 1px solid #cbd5e1;
+            border-right: 1px solid #cbd5e1;
+            border-bottom: 1px solid #cbd5e1;
             border-top: none;
             border-radius: 0 0 8px 8px;
             font-family: 'JetBrains Mono', monospace;
@@ -478,16 +481,21 @@
             transition: transform 0.25s cubic-bezier(0.2, 0.8, 0.2, 1), background-color 0.2s ease, border-color 0.2s ease, color 0.2s ease, box-shadow 0.2s ease;
             position: relative;
             z-index: 1;
-            margin-top: -1px;
             cursor: pointer;
         }
 
+        /* Moves up smoothly with the card when the card itself is hovered */
+        .pcard:hover ~ .pcard-case-study {
+            transform: translateY(-5px);
+        }
+
+        /* Slides down when hovering on the case study tab, revealing the grey tab tucked behind the card */
         .pcard-case-study:hover {
-            transform: translateY(7px);
-            background: #fffbeb;
-            border-color: #f59e0b;
-            color: #b45309;
-            box-shadow: 0 8px 20px rgba(0, 0, 0, 0.35), 0 0 12px rgba(245, 158, 11, 0.3);
+            transform: translateY(14px) !important;
+            background: #cbd5e1;
+            border-color: #94a3b8;
+            color: #0f172a;
+            box-shadow: 0 8px 18px rgba(0, 0, 0, 0.35);
         }
 
         .pcard-case-study i.tab-icon {
@@ -503,12 +511,13 @@
         .pcard-case-study i.tab-ext {
             font-size: 0.60rem;
             opacity: 0.65;
-            transition: transform 0.2s ease, opacity 0.2s ease;
+            transition: transform 0.2s ease, opacity 0.2s ease, color 0.2s ease;
         }
 
         .pcard-case-study:hover i.tab-ext {
             opacity: 1;
             transform: translate(2px, -2px);
+            color: var(--ember);
         }
     </style>
 </head>

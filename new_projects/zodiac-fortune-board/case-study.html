@@ -64,15 +64,12 @@
     <!-- Top Sticky Header -->
     <header class="navbar">
         <div class="nav-container">
-            <a href="../../2026/index.html" class="nav-brand">
+            <a href="../index.html" class="nav-brand">
                 ZQH<span>.</span>WEBPRO
             </a>
             <div class="nav-links">
                 <a href="../index.html" class="nav-btn">
-                    Interactive Projects
-                </a>
-                <a href="../../2026/index.html" class="nav-btn">
-                    <i class="fa-solid fa-arrow-left"></i> Main Portfolio
+                    <i class="fa-solid fa-arrow-left"></i> Interactive Portfolio
                 </a>
             </div>
         </div>
@@ -553,42 +550,63 @@ gain.gain.<span class="token-fn">exponentialRampToValueAtTime</span>(<span class
                 </li>
             </ul>
 
-            <!-- SECTION 5 -->
+            <!-- SECTION 5: WHAT WAS LEARNED -->
             <h2>
-                <i class="fa-solid fa-graduation-cap"></i> 5. Key Engineering Takeaways
+                <i class="fa-solid fa-graduation-cap"></i> 5. Summary of What Was Learned
             </h2>
 
-            <p>
-                Building Zodiac Fortune Board taught me several practical lessons about the intersection of computer vision, interaction design, and browser performance:
-            </p>
-
-            <ul class="takeaway-list">
-                <li class="takeaway-item">
-                    <div class="takeaway-icon"><i class="fa-solid fa-lightbulb"></i></div>
-                    <div class="takeaway-content">
-                        <h4>Temporal Hysteresis is Essential for Spatial Interfaces</h4>
-                        <p>Instantaneous gesture detection sounds good on paper, but in practice it leads to constant false positives and user frustration. Requiring a deliberate 3-second hold turned the fist gesture from an accidental hazard into a satisfying, intentional ritual.</p>
-                    </div>
-                </li>
-                <li class="takeaway-item">
-                    <div class="takeaway-icon"><i class="fa-solid fa-microchip"></i></div>
-                    <div class="takeaway-content">
-                        <h4>Procedural Audio is an Undervalued Superpower</h4>
-                        <p>The Web Audio API can replace megabytes of static sound effects with clean, mathematical synthesis. It eliminates network latency completely and allows audio to respond directly to interactive physics.</p>
-                    </div>
-                </li>
-                <li class="takeaway-item">
-                    <div class="takeaway-icon"><i class="fa-solid fa-shield-halved"></i></div>
-                    <div class="takeaway-content">
-                        <h4>Edge Machine Learning is Production Ready</h4>
-                        <p>Modern WebAssembly runtimes and WebGL/WebGPU delegates allow complex multi-landmark neural models to run smoothly in standard browser tabs without cloud servers, subscription fees, or user privacy compromises.</p>
-                    </div>
-                </li>
-            </ul>
+            <div class="learnings-summary-box">
+                <p>
+                    Developing the Zodiac Fortune Board demonstrated how edge machine learning with MediaPipe hand tracking can replace conventional buttons with intuitive, touchless spatial interactions. Implementing temporal hysteresis on the gesture recognition loop proved crucial, ensuring deliberate fist holds register reliably while preventing accidental triggers during natural hand movements. Generating polyphonic bells, filter sweeps, and runic clatter purely through mathematical Web Audio oscillators eliminated external audio assets and zeroed out network latency. The project ultimately proved that complex geometric trigonometry, real-time computer vision, and procedural sound design can merge seamlessly in a standard browser tab without server dependencies.
+                </p>
+            </div>
 
         </div>
 
     </article>
+
+    <!-- Fixed Bottom Interactive Projects Dock -->
+    <nav class="fixed-bottom-dock" aria-label="Interactive Projects Navigation">
+        <div class="dock-inner">
+            <div class="dock-header-label">
+                <i class="fa-solid fa-shapes"></i> Projects
+            </div>
+            <div class="dock-cards-scroll">
+                <a href="../synth-rider/index.html" class="dock-card">
+                    <span class="dock-card-title"><i class="fa-solid fa-gamepad"></i> Synth Rider</span>
+                    <span class="dock-card-summary">3D Highway Cyberpunk Simulation</span>
+                </a>
+                <a href="../zodiac-fortune-board/index.html" class="dock-card active-dock-card">
+                    <span class="dock-card-title"><i class="fa-solid fa-compass"></i> Zodiac Board</span>
+                    <span class="dock-card-summary">Hand Tracking Celestial Divination</span>
+                </a>
+                <a href="../pinball/index.html" class="dock-card">
+                    <span class="dock-card-title"><i class="fa-solid fa-circle-dot"></i> Pixel Pinball</span>
+                    <span class="dock-card-summary">Retro Canvas Physics Arcade</span>
+                </a>
+                <a href="../animated_landing_page/index.html" class="dock-card">
+                    <span class="dock-card-title"><i class="fa-solid fa-layer-group"></i> Motion Showcase</span>
+                    <span class="dock-card-summary">3D Perspective Glass Cards</span>
+                </a>
+                <a href="../python-calculator/index.html" class="dock-card">
+                    <span class="dock-card-title"><i class="fa-solid fa-terminal"></i> PyCalculator</span>
+                    <span class="dock-card-summary">Retro Terminal Math Engine</span>
+                </a>
+                <a href="../workout-mixer/index.html" class="dock-card">
+                    <span class="dock-card-title"><i class="fa-solid fa-dumbbell"></i> Workout Mixer</span>
+                    <span class="dock-card-summary">Adaptive Procedural Audio Timer</span>
+                </a>
+                <a href="../survival-quiz/index.html" class="dock-card">
+                    <span class="dock-card-title"><i class="fa-solid fa-skull"></i> Survival Quiz</span>
+                    <span class="dock-card-summary">Branching Narrative Choice Engine</span>
+                </a>
+                <a href="../wacky-things-store/index.html" class="dock-card">
+                    <span class="dock-card-title"><i class="fa-solid fa-store"></i> Wacky Store</span>
+                    <span class="dock-card-summary">Surreal Whimsical Novelty Shop</span>
+                </a>
+            </div>
+        </div>
+    </nav>
 
 </body>
 
