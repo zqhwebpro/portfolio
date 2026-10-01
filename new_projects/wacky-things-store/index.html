@@ -585,28 +585,28 @@
             color: #1A0845 !important;
         }
 
-        /* 5. SHIPPING ESTIMATOR BUTTON: DARK MAGENTA WITH WHITE TEXT */
+        /* 5. SHIPPING ESTIMATOR BUTTON: VIBRANT BRAND DEEP PINK MAGENTA (Matches Shopping Page) */
         #header-shipping-btn,
         button#header-shipping-btn,
         a#header-shipping-btn,
         header #header-shipping-btn {
-            background: #701A75 !important;
-            background: linear-gradient(135deg, #701A75 0%, #86198F 50%, #701A75 100%) !important;
-            border: 1px solid #A21CAF !important;
+            background: #FF1493 !important;
+            background: linear-gradient(135deg, #FF1493 0%, #D946EF 50%, #FF1493 100%) !important;
+            border: 1px solid rgba(255, 20, 147, 0.7) !important;
             color: #ffffff !important;
-            box-shadow: 0 4px 14px -2px rgba(112, 26, 117, 0.45) !important;
+            box-shadow: 0 4px 15px -2px rgba(255, 20, 147, 0.45) !important;
         }
 
         #header-shipping-btn:hover,
         button#header-shipping-btn:hover,
         a#header-shipping-btn:hover,
         header #header-shipping-btn:hover {
-            background: #58135D !important;
-            background: linear-gradient(135deg, #86198F 0%, #A21CAF 50%, #86198F 100%) !important;
-            border-color: #D946EF !important;
+            background: #E0115F !important;
+            background: linear-gradient(135deg, #E0115F 0%, #C026D3 50%, #E0115F 100%) !important;
+            border-color: #F472B6 !important;
             color: #ffffff !important;
             transform: translateY(-1.5px) !important;
-            box-shadow: 0 6px 18px -2px rgba(112, 26, 117, 0.55) !important;
+            box-shadow: 0 6px 20px -2px rgba(255, 20, 147, 0.6) !important;
         }
 
         #header-shipping-btn i,
@@ -1329,57 +1329,77 @@
         </div>
     </div>
 
-    <!-- 0. ADMIN PANEL BAR (At the top above the top bar) -->
+    <!-- 0. ADMIN BAR (Positioned at the top above the current top panel) -->
     <div id="admin-top-bar"
         data-blueprint-file="WackyStore.WebUI/Controllers/AdminController.cs"
-        data-blueprint-role="Persistent Admin Panel Bar"
+        data-blueprint-role="Persistent Top Admin Bar"
         data-blueprint-layer="WebUI / Administration"
-        data-blueprint-dom="Top-level administration panel placed directly above the announcement and navigation bars."
+        data-blueprint-dom="Top-level administration panel placed directly above the announcement and main storefront panels."
         data-blueprint-desc="Consolidated administrative navigation providing rapid access to .NET Architecture maps, EF6 Product CRUD inventory, and Blog CMS management."
-        class="w-full bg-[#181024] border-b border-purple-900/60 text-purple-100 py-1.5 px-3 sm:px-6 relative z-50">
+        class="w-full bg-[#10081E] border-b border-purple-900/60 text-purple-100 py-1.5 px-3 sm:px-6 relative z-50 shadow-md">
         <div class="store-fluid-container flex items-center justify-between flex-wrap gap-2 text-xs">
             <!-- Left: Admin Brand & Primary Management Triggers -->
-            <div class="flex items-center gap-2 sm:gap-3 flex-wrap">
-                <span class="inline-flex items-center gap-1.5 font-heading font-black text-amber-400 tracking-wide text-xs">
+            <div class="flex items-center gap-2 sm:gap-2.5 flex-wrap">
+                <span class="inline-flex items-center gap-1.5 font-heading font-black text-amber-400 tracking-wider text-xs uppercase px-2 py-0.5 rounded bg-amber-400/10 border border-amber-400/25">
                     <i class="fa-solid fa-gauge-high text-amber-400"></i>
-                    <span>ADMIN CONSOLE</span>
+                    <span>ADMIN BAR</span>
                 </span>
-                <span class="text-purple-400/40 hidden sm:inline">|</span>
+                <span class="text-purple-400/30 hidden sm:inline">|</span>
+
+                <!-- Prominent Admin Tools Button (Moved into this admin bar above top panel) -->
+                <button type="button" onclick="window.toggleAdminPanel()" id="topbar-admin-main-btn"
+                    data-blueprint-file="WackyStore.WebUI/Controllers/AdminController.cs"
+                    data-blueprint-role="Admin Console Toggle"
+                    class="admin-top-btn px-3 py-1.5 rounded-lg bg-gradient-to-r from-amber-500 to-amber-600 hover:from-amber-600 hover:to-amber-700 text-earth-950 font-black text-xs flex items-center gap-1.5 transition-all cursor-pointer shadow-sm active:scale-95"
+                    title="Open Complete Enterprise Solution Admin Console">
+                    <i class="fa-solid fa-screwdriver-wrench text-earth-950"></i>
+                    <span>Admin Tools</span>
+                </button>
+
+                <!-- Product Inventory CRUD Trigger -->
+                <button type="button" onclick="window.openAdminTab('products')" id="topbar-crud-btn"
+                    data-blueprint-file="WackyStore.Domain/Concrete/EFProductRepository.cs"
+                    data-blueprint-role="Product CRUD Management"
+                    class="admin-top-btn px-2.5 py-1.5 rounded-lg bg-teal-900/80 hover:bg-teal-800 text-teal-200 hover:text-white border border-teal-700/60 text-[11px] font-bold flex items-center gap-1.5 transition-all cursor-pointer shadow-xs"
+                    title="Manage Product Catalog (Entity Framework 6 CRUD)">
+                    <i class="fa-solid fa-boxes-stacked text-teal-300"></i>
+                    <span>Product CRUD (EF6)</span>
+                </button>
+
+                <!-- Order Dispatch Log Trigger -->
+                <button type="button" onclick="window.openAdminTab('orders')" id="topbar-orders-btn"
+                    data-blueprint-file="WackyStore.Domain/Concrete/EmailOrderProcessor.cs"
+                    data-blueprint-role="Order Dispatch Telemetry"
+                    class="admin-top-btn px-2.5 py-1.5 rounded-lg bg-indigo-900/80 hover:bg-indigo-800 text-indigo-200 hover:text-white border border-indigo-700/60 text-[11px] font-bold flex items-center gap-1.5 transition-all cursor-pointer shadow-xs"
+                    title="View Order Dispatch &amp; Fulfillment Logs (IOrderProcessor)">
+                    <i class="fa-solid fa-truck-ramp-box text-cyan-300"></i>
+                    <span>Orders Log</span>
+                </button>
 
                 <!-- .NET Architecture Modal Trigger -->
-                <button type="button" onclick="window.openArchitectureModal()"
+                <button type="button" onclick="window.openArchitectureModal()" id="topbar-arch-btn"
                     data-blueprint-file="WackyStore.Domain/Abstract/IProductRepository.cs"
                     data-blueprint-role="N-Tier Architecture Map"
-                    class="admin-top-btn px-2.5 py-1 rounded-lg bg-purple-900/70 hover:bg-purple-800 text-purple-200 hover:text-white border border-purple-700/60 text-[11px] font-bold flex items-center gap-1.5 transition-all cursor-pointer shadow-xs"
+                    class="admin-top-btn px-2.5 py-1.5 rounded-lg bg-purple-900/70 hover:bg-purple-800 text-purple-200 hover:text-white border border-purple-700/60 text-[11px] font-bold flex items-center gap-1.5 transition-all cursor-pointer shadow-xs"
                     title="View .NET Solution N-Tier Architecture Map">
                     <i class="fa-solid fa-sitemap text-teal-300"></i>
                     <span>.NET Arch</span>
                 </button>
 
-                <!-- Admin Inventory CRUD Modal Trigger -->
-                <button type="button" onclick="window.openAdminModal()"
-                    data-blueprint-file="WackyStore.WebUI/Controllers/AdminController.cs"
-                    data-blueprint-role="Product CRUD Management"
-                    class="admin-top-btn px-2.5 py-1 rounded-lg bg-teal-900/70 hover:bg-teal-800 text-teal-200 hover:text-white border border-teal-700/60 text-[11px] font-bold flex items-center gap-1.5 transition-all cursor-pointer shadow-xs"
-                    title="Manage Product Catalog (Entity Framework 6 CRUD)">
-                    <i class="fa-solid fa-sliders text-teal-300"></i>
-                    <span>Product CRUD</span>
-                </button>
-
-                <!-- Wacky Blog Admin Panel Toggle Trigger (Works the way it used to) -->
-                <button type="button" onclick="window.toggleAdminPanel()" id="topbar-blog-admin-btn"
+                <!-- Blog CMS Trigger -->
+                <button type="button" onclick="window.openAdminTab('blog')" id="topbar-blog-admin-btn"
                     data-blueprint-file="WackyStore.WebUI/Controllers/BlogController.cs"
-                    data-blueprint-role="Blog CMS Portal Toggle"
-                    class="admin-top-btn px-2.5 py-1 rounded-lg bg-purple-800/80 hover:bg-purple-700 text-amber-300 hover:text-white border border-amber-500/40 text-[11px] font-bold flex items-center gap-1.5 transition-all cursor-pointer shadow-xs"
-                    title="Toggle Wacky Blog Admin CMS Panel (Works the way it used to)">
+                    data-blueprint-role="Blog CMS Management"
+                    class="admin-top-btn px-2.5 py-1.5 rounded-lg bg-purple-800/80 hover:bg-purple-700 text-amber-300 hover:text-white border border-amber-500/40 text-[11px] font-bold flex items-center gap-1.5 transition-all cursor-pointer shadow-xs"
+                    title="Manage The Mischief Gazette Articles">
                     <i class="fa-solid fa-pen-to-square text-amber-300"></i>
-                    <span>Blog Admin</span>
+                    <span>Blog CMS</span>
                 </button>
 
                 <!-- Reset Catalog Button -->
                 <button type="button" onclick="window.resetStoreCatalog()"
-                    class="admin-top-btn px-2 py-1 rounded-lg bg-white/5 hover:bg-white/10 text-purple-300 hover:text-purple-100 border border-purple-400/20 text-[11px] font-medium hidden md:inline-flex items-center gap-1 transition-all cursor-pointer"
-                    title="Restore default product catalog">
+                    class="admin-top-btn px-2 py-1.5 rounded-lg bg-white/5 hover:bg-white/10 text-purple-300 hover:text-purple-100 border border-purple-400/20 text-[11px] font-medium hidden md:inline-flex items-center gap-1 transition-all cursor-pointer"
+                    title="Restore default product catalog to EF6 seed data">
                     <i class="fa-solid fa-rotate-left text-xs"></i>
                     <span>Reset Catalog</span>
                 </button>
@@ -1389,13 +1409,13 @@
             <div class="flex items-center gap-3 text-[11px] font-mono text-purple-300 shrink-0">
                 <span class="inline-flex items-center gap-1.5">
                     <span class="h-2 w-2 rounded-full bg-emerald-400 animate-pulse"></span>
-                    <span class="hidden sm:inline">ASP.NET MVC 5 &bull; EF6 Online</span>
-                    <span class="sm:hidden">Online</span>
+                    <span class="hidden sm:inline">ASP.NET MVC 5.2.7 &bull; EF 6.4.4 Active</span>
+                    <span class="sm:hidden">EF6 Online</span>
                 </span>
                 <span class="text-purple-400/40 hidden lg:inline">|</span>
                 <button type="button" onclick="window.clearCart()"
-                    class="text-purple-300 hover:text-pink-300 transition-colors hidden lg:inline-flex items-center gap-1 cursor-pointer"
-                    title="Clear Shopping Cart Session">
+                    class="text-purple-300 hover:text-pink-300 transition-colors hidden lg:inline-flex items-center gap-1 cursor-pointer font-mono text-[11px]"
+                    title="Clear Active Shopping Cart Session">
                     <i class="fa-solid fa-trash-can text-xs"></i> Clear Cart
                 </button>
             </div>
@@ -1533,15 +1553,15 @@
             <div class="flex items-center gap-2.5">
 
 
-                <!-- Shipping Distance Map Estimator Trigger (Dark Magenta with White Text) -->
+                <!-- Shipping Distance Map Estimator Trigger (Vibrant Deep Pink Magenta Brand Color) -->
                 <button onclick="window.openShippingModal()" id="header-shipping-btn"
                     data-blueprint-file="WackyStore.WebUI/Controllers/ShippingCalculatorController.cs"
                     data-blueprint-role="Geodesic Shipping Distance Estimator Portal"
                     data-blueprint-layer="WebUI / Navigation &amp; Spatial Routing"
-                    data-blueprint-dom="Dark magenta action button with white text opening the interactive US map shipping calculator modal."
+                    data-blueprint-dom="Vibrant deep pink &amp; magenta gradient action button opening the interactive US map shipping calculator modal."
                     data-blueprint-desc="Opens dedicated US map shipping distance estimator using real Leaflet GIS cartography, Haversine spherical math, and carrier rate calculation."
                     data-blueprint-code="public ActionResult ShippingCalculator() => PartialView(&quot;_DistanceMatrixCalculator&quot;);"
-                    class="h-10 px-3.5 rounded-xl bg-[#701A75] hover:bg-[#58135D] text-white text-xs font-bold flex items-center gap-1.5 transition-all shadow-md active:scale-95 cursor-pointer border border-[#A21CAF]/50"
+                    class="h-10 px-3.5 rounded-xl bg-gradient-to-r from-[#FF1493] via-[#D946EF] to-[#FF1493] hover:from-[#E0115F] hover:to-[#C026D3] text-white text-xs font-bold flex items-center gap-1.5 transition-all shadow-md shadow-pink-500/30 active:scale-95 cursor-pointer border border-pink-400/50"
                     title="Estimate Shipping Distance Across America">
                     <i class="fa-solid fa-map-location-dot text-white"></i>
                     <span class="hidden md:inline text-white">Shipping Estimator</span>
@@ -1850,48 +1870,438 @@
         </div>
     </main>
 
-    <!-- 3.6 ADMIN PANEL LAYOUT -->
+    <!-- 3.6 ENTERPRISE SOLUTION ADMIN CONSOLE (Rewritten Technologically) -->
     <main id="admin-main-view" class="bg-canvas-base text-earth-950 py-8 w-full hidden flex-col h-full"
-        style="min-height: 80vh">
+        style="min-height: 85vh"
+        data-blueprint-file="WackyStore.WebUI/Controllers/AdminController.cs"
+        data-blueprint-role="Enterprise Solution Administration Portal"
+        data-blueprint-layer="WebUI / Administration &amp; EF6 Core">
         <div class="store-fluid-container space-y-6 flex-1 flex flex-col">
-            <div class="flex items-center gap-3 mb-6">
-                <h1 class="text-3xl font-black font-heading text-earth-900 tracking-tight">
-                    Wacky Blog Admin Panel</h1>
-                <span class="px-2.5 py-0.5 rounded-full bg-teal-100 text-teal-800 text-xs font-mono font-bold">CRUD
-                    Portal</span>
-            </div>
-            <div
-                class="bg-gradient-to-br from-white via-white to-purple-50/50 p-6 sm:p-8 rounded-2xl border border-canvas-border   mb-8">
-                <h2 class="text-xl font-bold font-heading text-earth-950 mb-4 flex items-center gap-2">
-                    <i class="fa-solid fa-pen-nib text-appetite-700 text-base"></i>
-                    <span>Add New Post</span>
-                </h2>
-                <div class="space-y-4">
-                    <input type="text" id="admin-title" placeholder="Post Title"
-                        class="w-full px-4 py-2.5 bg-canvas-surface/60 border border-canvas-border rounded-xl text-earth-950 text-sm focus:outline-none focus:border-teal-700 focus:ring-2 focus:ring-teal-300/40 transition-all" />
-                    <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
-                        <input type="text" id="admin-category" placeholder="Category"
-                            class="w-full px-4 py-2.5 bg-canvas-surface/60 border border-canvas-border rounded-xl text-earth-950 text-sm focus:outline-none focus:border-teal-700 focus:ring-2 focus:ring-teal-300/40 transition-all" />
-                        <input type="text" id="admin-date" placeholder="Date (e.g., April 1, 2024)"
-                            class="w-full px-4 py-2.5 bg-canvas-surface/60 border border-canvas-border rounded-xl text-earth-950 text-sm focus:outline-none focus:border-teal-700 focus:ring-2 focus:ring-teal-300/40 transition-all" />
+            
+            <!-- 1. Admin Top Console Header -->
+            <div class="bg-white border border-canvas-border rounded-2xl p-6 sm:p-7 shadow-xs space-y-5">
+                <div class="flex flex-col lg:flex-row lg:items-center justify-between gap-5 border-b border-canvas-border pb-5">
+                    <div>
+                        <div class="flex items-center gap-2 text-[11px] font-mono text-earth-500 mb-1.5 flex-wrap">
+                            <span class="px-2 py-0.5 rounded bg-purple-100 text-purple-800 font-bold">MischiefStore.WebUI</span>
+                            <span>&gt;</span>
+                            <span class="text-earth-700 font-semibold">Controllers</span>
+                            <span>&gt;</span>
+                            <span class="text-teal-800 font-bold">AdminController.cs</span>
+                            <span class="text-earth-400">|</span>
+                            <span class="text-amber-700 font-mono font-bold">ASP.NET MVC 5.2.7 &bull; EF 6.4.4</span>
+                        </div>
+                        <h1 class="text-2xl sm:text-3xl font-black font-heading text-earth-950 tracking-tight flex items-center gap-3 flex-wrap">
+                            <span>Enterprise Solution Admin Console</span>
+                            <span class="px-2.5 py-0.5 rounded-full bg-amber-100 text-amber-800 text-xs font-mono font-bold border border-amber-300/60">[Authorize(Roles = "MischiefAdmin")]</span>
+                        </h1>
+                        <p class="text-xs sm:text-sm text-earth-600 mt-1 max-w-3xl leading-relaxed">
+                            Comprehensive administrative cockpit for Entity Framework 6 Code-First catalog mutations, Ninject IoC dependency telemetry, and real-time order dispatch verification.
+                        </p>
                     </div>
-                    <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
-                        <input type="text" id="admin-author" placeholder="Author Name"
-                            class="w-full px-4 py-2.5 bg-canvas-surface/60 border border-canvas-border rounded-xl text-earth-950 text-sm focus:outline-none focus:border-teal-700 focus:ring-2 focus:ring-teal-300/40 transition-all" />
-                        <input type="text" id="admin-image" placeholder="Image URL"
-                            class="w-full px-4 py-2.5 bg-canvas-surface/60 border border-canvas-border rounded-xl text-earth-950 text-sm focus:outline-none focus:border-teal-700 focus:ring-2 focus:ring-teal-300/40 transition-all" />
+
+                    <div class="flex items-center gap-2.5 shrink-0 flex-wrap">
+                        <button type="button" onclick="window.goToStoreCatalog()"
+                            class="px-4 py-2.5 rounded-xl bg-appetite-700 hover:bg-appetite-800 text-white font-bold text-xs flex items-center gap-2 transition-all cursor-pointer shadow-sm">
+                            <i class="fa-solid fa-store text-teal-300"></i>
+                            <span>Return to Storefront</span>
+                        </button>
+                        <button type="button" onclick="window.openProductEditModal(null)"
+                            class="px-4 py-2.5 rounded-xl bg-gradient-to-r from-[#FF1493] via-[#D946EF] to-[#FF1493] hover:from-[#E0115F] hover:to-[#C026D3] text-white font-bold text-xs flex items-center gap-1.5 transition-all cursor-pointer shadow-md shadow-pink-500/25 active:scale-95">
+                            <i class="fa-solid fa-plus text-white"></i>
+                            <span>Add New Product (EF6)</span>
+                        </button>
                     </div>
-                    <textarea id="admin-content" placeholder="Content (HTML allowed)"
-                        class="w-full px-4 py-2.5 bg-canvas-surface/60 border border-canvas-border rounded-xl text-earth-950 text-sm focus:outline-none focus:border-teal-700 focus:ring-2 focus:ring-teal-300/40 transition-all h-32"></textarea>
-                    <button onclick="window.saveNewPost()"
-                        class="px-6 py-2.5 bg-teal-700 hover:bg-teal-600 text-white font-bold rounded-xl hover:-translate-y-0.5 active:translate-y-0.5 transition-all cursor-pointer border border-teal-500/30">
-                        <i class="fa-solid fa-cloud-arrow-up mr-1.5"></i>
-                        Save Post
+                </div>
+
+                <!-- Admin Tab Navigation Ribbon -->
+                <div class="flex items-center gap-2 overflow-x-auto pb-1 scrollbar-thin text-xs font-bold" id="admin-tab-nav">
+                    <button type="button" onclick="window.switchAdminTab('products')" id="adm-tab-btn-products"
+                        class="px-4 py-2.5 rounded-xl bg-teal-50 border border-teal-700 text-teal-800 font-extrabold flex items-center gap-2 transition-all cursor-pointer shadow-xs">
+                        <i class="fa-solid fa-boxes-stacked text-teal-700"></i>
+                        <span>Product Inventory (EF6 CRUD)</span>
+                        <span id="adm-badge-product-count" class="px-2 py-0.5 rounded-full bg-teal-200 text-teal-900 text-[10px] font-mono">14</span>
+                    </button>
+                    <button type="button" onclick="window.switchAdminTab('orders')" id="adm-tab-btn-orders"
+                        class="px-4 py-2.5 rounded-xl bg-white border border-canvas-border hover:border-earth-400 text-earth-700 font-bold flex items-center gap-2 transition-all cursor-pointer">
+                        <i class="fa-solid fa-truck-ramp-box text-indigo-700"></i>
+                        <span>Order Dispatch (IOrderProcessor)</span>
+                        <span id="adm-badge-order-count" class="px-2 py-0.5 rounded-full bg-earth-100 text-earth-800 text-[10px] font-mono">3</span>
+                    </button>
+                    <button type="button" onclick="window.switchAdminTab('arch')" id="adm-tab-btn-arch"
+                        class="px-4 py-2.5 rounded-xl bg-white border border-canvas-border hover:border-earth-400 text-earth-700 font-bold flex items-center gap-2 transition-all cursor-pointer">
+                        <i class="fa-solid fa-sitemap text-purple-700"></i>
+                        <span>.NET N-Tier &amp; Ninject IoC</span>
+                    </button>
+                    <button type="button" onclick="window.switchAdminTab('blog')" id="adm-tab-btn-blog"
+                        class="px-4 py-2.5 rounded-xl bg-white border border-canvas-border hover:border-earth-400 text-earth-700 font-bold flex items-center gap-2 transition-all cursor-pointer">
+                        <i class="fa-solid fa-newspaper text-amber-700"></i>
+                        <span>Mischief Gazette CMS</span>
+                    </button>
+                    <button type="button" onclick="window.switchAdminTab('telemetry')" id="adm-tab-btn-telemetry"
+                        class="px-4 py-2.5 rounded-xl bg-white border border-canvas-border hover:border-earth-400 text-earth-700 font-bold flex items-center gap-2 transition-all cursor-pointer">
+                        <i class="fa-solid fa-database text-rose-700"></i>
+                        <span>EF6 Telemetry &amp; State</span>
                     </button>
                 </div>
             </div>
-            <h2 class="text-2xl font-black font-heading text-earth-900 mb-4">Manage Posts</h2>
-            <div id="admin-post-list" class="space-y-4"></div>
+
+            <!-- TAB 1: PRODUCT INVENTORY CRUD -->
+            <div id="adm-panel-products" class="space-y-6">
+                <!-- KPI Statistics Ribbon -->
+                <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
+                    <div class="bg-white p-5 rounded-2xl border border-canvas-border shadow-xs flex items-center justify-between">
+                        <div>
+                            <div class="text-[11px] font-mono font-bold uppercase tracking-wider text-earth-500">DbSet&lt;Product&gt; Total</div>
+                            <div id="kpi-total-products" class="text-2xl font-black font-heading text-earth-950 mt-1">14</div>
+                            <div class="text-[10.5px] text-teal-700 font-semibold mt-0.5">Code-First Seeded</div>
+                        </div>
+                        <div class="h-11 w-11 rounded-xl bg-teal-50 text-teal-700 flex items-center justify-center text-lg">
+                            <i class="fa-solid fa-boxes-stacked"></i>
+                        </div>
+                    </div>
+
+                    <div class="bg-white p-5 rounded-2xl border border-canvas-border shadow-xs flex items-center justify-between">
+                        <div>
+                            <div class="text-[11px] font-mono font-bold uppercase tracking-wider text-earth-500">Inventory Valuation</div>
+                            <div id="kpi-total-value" class="text-2xl font-black font-heading text-earth-950 mt-1">$0.00</div>
+                            <div class="text-[10.5px] text-purple-700 font-semibold mt-0.5">Price &times; Stock Volume</div>
+                        </div>
+                        <div class="h-11 w-11 rounded-xl bg-purple-50 text-purple-700 flex items-center justify-center text-lg">
+                            <i class="fa-solid fa-vault"></i>
+                        </div>
+                    </div>
+
+                    <div class="bg-white p-5 rounded-2xl border border-canvas-border shadow-xs flex items-center justify-between">
+                        <div>
+                            <div class="text-[11px] font-mono font-bold uppercase tracking-wider text-earth-500">Average Unit Price</div>
+                            <div id="kpi-avg-price" class="text-2xl font-black font-heading text-earth-950 mt-1">$0.00</div>
+                            <div class="text-[10.5px] text-amber-700 font-semibold mt-0.5">Across All Gags</div>
+                        </div>
+                        <div class="h-11 w-11 rounded-xl bg-amber-50 text-amber-700 flex items-center justify-center text-lg">
+                            <i class="fa-solid fa-tags"></i>
+                        </div>
+                    </div>
+
+                    <div class="bg-white p-5 rounded-2xl border border-canvas-border shadow-xs flex items-center justify-between">
+                        <div>
+                            <div class="text-[11px] font-mono font-bold uppercase tracking-wider text-earth-500">Novelty Categories</div>
+                            <div id="kpi-categories-count" class="text-2xl font-black font-heading text-earth-950 mt-1">5</div>
+                            <div class="text-[10.5px] text-emerald-700 font-semibold mt-0.5">Partitioned via LINQ</div>
+                        </div>
+                        <div class="h-11 w-11 rounded-xl bg-emerald-50 text-emerald-700 flex items-center justify-center text-lg">
+                            <i class="fa-solid fa-sitemap"></i>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Product Table Controls & Filters -->
+                <div class="bg-white p-5 rounded-2xl border border-canvas-border shadow-xs space-y-4">
+                    <div class="flex flex-col md:flex-row md:items-center justify-between gap-4">
+                        <div class="flex items-center gap-3 flex-1 max-w-xl">
+                            <div class="relative flex-1">
+                                <input type="text" id="adm-product-search" oninput="window.renderAdminProductsTable()"
+                                    placeholder="Filter products by name, specs, or category..."
+                                    class="w-full bg-canvas-surface border border-canvas-border rounded-xl pl-9 pr-4 py-2 text-xs text-earth-950 focus:border-teal-700 focus:outline-none" />
+                                <i class="fa-solid fa-magnifying-glass absolute left-3 top-2.5 text-earth-400 text-xs"></i>
+                            </div>
+
+                            <select id="adm-product-cat-filter" onchange="window.renderAdminProductsTable()"
+                                class="bg-canvas-surface border border-canvas-border rounded-xl px-3 py-2 text-xs text-earth-950 focus:border-teal-700 focus:outline-none font-semibold cursor-pointer">
+                                <option value="all">All Categories</option>
+                                <option value="Bunkums">Bunkums (Useless Machines)</option>
+                                <option value="Skuttlebutts">Skuttlebutts (Pranks &amp; Traps)</option>
+                                <option value="Balderdash">Balderdash (Illusion &amp; Magic)</option>
+                                <option value="Flummery">Flummery (Absurd Apparel)</option>
+                                <option value="Codswallop">Codswallop (Questionable Novelties)</option>
+                            </select>
+
+                            <select id="adm-product-stock-filter" onchange="window.renderAdminProductsTable()"
+                                class="bg-canvas-surface border border-canvas-border rounded-xl px-3 py-2 text-xs text-earth-950 focus:border-teal-700 focus:outline-none font-semibold cursor-pointer hidden sm:block">
+                                <option value="all">All Stock Statuses</option>
+                                <option value="instock">In Stock (&ge; 20 units)</option>
+                                <option value="low">Low Stock (&lt; 20 units)</option>
+                                <option value="out">Backordered (0 units)</option>
+                            </select>
+                        </div>
+
+                        <div class="flex items-center gap-2 shrink-0">
+                            <button type="button" onclick="window.exportCatalogJson()"
+                                class="px-3 py-2 rounded-xl bg-canvas-surface hover:bg-canvas-border border border-canvas-border text-earth-800 text-xs font-bold flex items-center gap-1.5 transition-all cursor-pointer"
+                                title="Export catalog as JSON format">
+                                <i class="fa-solid fa-file-export text-teal-700"></i>
+                                <span class="hidden sm:inline">Export JSON</span>
+                            </button>
+                            <button type="button" onclick="window.openProductEditModal(null)"
+                                class="px-4 py-2 rounded-xl bg-appetite-700 hover:bg-appetite-800 text-white text-xs font-bold flex items-center gap-1.5 transition-all cursor-pointer shadow-sm">
+                                <i class="fa-solid fa-plus text-teal-200"></i>
+                                <span>Create Product</span>
+                            </button>
+                        </div>
+                    </div>
+
+                    <!-- Products Table -->
+                    <div class="overflow-x-auto rounded-xl border border-canvas-border">
+                        <table class="w-full text-left text-xs">
+                            <thead class="bg-earth-50 border-b border-canvas-border text-earth-600 font-mono text-[11px] uppercase tracking-wider">
+                                <tr>
+                                    <th class="py-3 px-3.5 w-12 text-center">ID</th>
+                                    <th class="py-3 px-3.5">Product &amp; Category</th>
+                                    <th class="py-3 px-3.5 w-28 text-right">Price</th>
+                                    <th class="py-3 px-3.5 w-24 text-center">Stock</th>
+                                    <th class="py-3 px-3.5 w-24 text-center">Rating</th>
+                                    <th class="py-3 px-3.5 hidden lg:table-cell">Technical Description</th>
+                                    <th class="py-3 px-3.5 w-36 text-center">EF6 Actions</th>
+                                </tr>
+                            </thead>
+                            <tbody id="adm-products-table-body" class="divide-y divide-canvas-border bg-white">
+                                <!-- Populated dynamically by window.renderAdminProductsTable() -->
+                            </tbody>
+                        </table>
+                    </div>
+                    <div id="adm-table-empty" class="hidden p-8 text-center text-earth-500 text-xs">
+                        No products match the selected criteria. Try adjusting your search query.
+                    </div>
+                </div>
+            </div>
+
+            <!-- TAB 2: ORDER DISPATCH & FULFILLMENT -->
+            <div id="adm-panel-orders" class="space-y-6 hidden">
+                <div class="bg-white p-6 rounded-2xl border border-canvas-border shadow-xs space-y-4">
+                    <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-4 border-b border-canvas-border pb-4">
+                        <div>
+                            <div class="flex items-center gap-2">
+                                <h2 class="text-xl font-black font-heading text-earth-950">IOrderProcessor Dispatch Manifests</h2>
+                                <span class="px-2.5 py-0.5 rounded-full bg-indigo-100 text-indigo-800 text-[10px] font-mono font-bold">SMTP Dispatcher</span>
+                            </div>
+                            <p class="text-xs text-earth-600 mt-0.5">
+                                Orders model-bound through <code class="bg-earth-100 px-1 py-0.5 rounded text-earth-800 font-mono">CartModelBinder</code> and transmitted to <code class="bg-earth-100 px-1 py-0.5 rounded text-earth-800 font-mono">EmailOrderProcessor.cs</code>.
+                            </p>
+                        </div>
+                        <div class="flex items-center gap-2">
+                            <button type="button" onclick="window.seedDemoOrders()"
+                                class="px-3 py-1.5 rounded-xl bg-canvas-surface hover:bg-canvas-border border border-canvas-border text-earth-800 font-bold text-xs flex items-center gap-1.5 transition-all cursor-pointer">
+                                <i class="fa-solid fa-rotate text-teal-700"></i>
+                                <span>Seed Demo Orders</span>
+                            </button>
+                        </div>
+                    </div>
+
+                    <!-- Orders Table -->
+                    <div class="overflow-x-auto rounded-xl border border-canvas-border">
+                        <table class="w-full text-left text-xs">
+                            <thead class="bg-earth-50 border-b border-canvas-border text-earth-600 font-mono text-[11px] uppercase tracking-wider">
+                                <tr>
+                                    <th class="py-3 px-3.5">Order ID</th>
+                                    <th class="py-3 px-3.5">Customer &amp; Destination</th>
+                                    <th class="py-3 px-3.5">Carrier Tier</th>
+                                    <th class="py-3 px-3.5">Items Ordered</th>
+                                    <th class="py-3 px-3.5 text-right">Total Billed</th>
+                                    <th class="py-3 px-3.5 text-center">Fulfillment Status</th>
+                                    <th class="py-3 px-3.5 text-center">Manifest</th>
+                                </tr>
+                            </thead>
+                            <tbody id="adm-orders-table-body" class="divide-y divide-canvas-border bg-white">
+                                <!-- Populated dynamically by window.renderAdminOrdersTable() -->
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+
+            <!-- TAB 3: .NET N-TIER ARCHITECTURE & NINJECT IOC -->
+            <div id="adm-panel-arch" class="space-y-6 hidden">
+                <div class="bg-white p-6 rounded-2xl border border-canvas-border shadow-xs space-y-6">
+                    <div class="border-b border-canvas-border pb-4">
+                        <h2 class="text-xl font-black font-heading text-earth-950 flex items-center gap-2">
+                            <i class="fa-solid fa-sitemap text-purple-700"></i>
+                            <span>N-Tier Solution Topology &amp; Ninject Inversion of Control</span>
+                        </h2>
+                        <p class="text-xs text-earth-600 mt-1">
+                            Live visualization of physical class libraries, dependency injection contracts, and session decoupling mechanisms.
+                        </p>
+                    </div>
+
+                    <!-- Visual Architecture Stack -->
+                    <div class="grid grid-cols-1 md:grid-cols-3 gap-4 text-xs font-mono">
+                        <div class="p-4 rounded-xl bg-purple-50/70 border border-purple-200 space-y-2">
+                            <div class="font-black text-purple-950 flex items-center gap-1.5 text-sm">
+                                <i class="fa-solid fa-layer-group text-purple-700"></i>
+                                <span>1. WebUI Layer</span>
+                            </div>
+                            <div class="text-[11px] text-purple-900 leading-relaxed font-sans">
+                                <strong>MischiefStore.WebUI.dll</strong><br/>
+                                Contains Controllers, Razor Views, Custom Model Binders, and Ninject bootstrapper.
+                            </div>
+                            <ul class="text-[10.5px] space-y-1 text-purple-800 list-disc list-inside">
+                                <li>AdminController.cs (CRUD)</li>
+                                <li>ProductController.cs (LINQ)</li>
+                                <li>CartModelBinder.cs (Session)</li>
+                                <li>PagingHelpers.cs (@Html)</li>
+                            </ul>
+                        </div>
+
+                        <div class="p-4 rounded-xl bg-teal-50/70 border border-teal-200 space-y-2">
+                            <div class="font-black text-teal-950 flex items-center gap-1.5 text-sm">
+                                <i class="fa-solid fa-handshake text-teal-700"></i>
+                                <span>2. Abstraction Layer</span>
+                            </div>
+                            <div class="text-[11px] text-teal-900 leading-relaxed font-sans">
+                                <strong>MischiefStore.Domain / Abstract</strong><br/>
+                                Decoupled interfaces bound at runtime by Ninject IoC container.
+                            </div>
+                            <ul class="text-[10.5px] space-y-1 text-teal-800 list-disc list-inside">
+                                <li>IProductRepository.cs</li>
+                                <li>IOrderProcessor.cs</li>
+                                <li>NinjectDependencyResolver.cs</li>
+                                <li>Inversion of Control</li>
+                            </ul>
+                        </div>
+
+                        <div class="p-4 rounded-xl bg-amber-50/70 border border-amber-200 space-y-2">
+                            <div class="font-black text-amber-950 flex items-center gap-1.5 text-sm">
+                                <i class="fa-solid fa-database text-amber-700"></i>
+                                <span>3. Domain &amp; EF6 Layer</span>
+                            </div>
+                            <div class="text-[11px] text-amber-900 leading-relaxed font-sans">
+                                <strong>MischiefStore.Domain / Concrete</strong><br/>
+                                Entity Framework 6.4.4 DbContext and Code-First entity schema.
+                            </div>
+                            <ul class="text-[10.5px] space-y-1 text-amber-800 list-disc list-inside">
+                                <li>EFDbContext.cs (DbSet&lt;Product&gt;)</li>
+                                <li>EFProductRepository.cs</li>
+                                <li>EmailOrderProcessor.cs</li>
+                                <li>DatabaseInitializer.cs (Seeds)</li>
+                            </ul>
+                        </div>
+                    </div>
+
+                    <!-- Interactive C# Source Code Viewer -->
+                    <div class="border border-canvas-border rounded-xl overflow-hidden">
+                        <div class="bg-earth-900 text-earth-100 px-4 py-2.5 flex items-center justify-between flex-wrap gap-2 text-xs">
+                            <div class="flex items-center gap-1.5 font-mono text-[11px]">
+                                <i class="fa-solid fa-code text-teal-400"></i>
+                                <span class="font-bold">C# Implementation Inspector</span>
+                            </div>
+                            <div class="flex items-center gap-1 font-mono text-[10.5px]">
+                                <button type="button" onclick="window.showAdminSourceCode('admin')" id="adm-code-btn-admin"
+                                    class="px-2.5 py-1 rounded bg-teal-700 text-white font-bold cursor-pointer transition-all">AdminController.cs</button>
+                                <button type="button" onclick="window.showAdminSourceCode('repo')" id="adm-code-btn-repo"
+                                    class="px-2.5 py-1 rounded bg-black/40 text-earth-300 hover:text-white cursor-pointer transition-all">EFProductRepository.cs</button>
+                                <button type="button" onclick="window.showAdminSourceCode('binder')" id="adm-code-btn-binder"
+                                    class="px-2.5 py-1 rounded bg-black/40 text-earth-300 hover:text-white cursor-pointer transition-all">CartModelBinder.cs</button>
+                                <button type="button" onclick="window.showAdminSourceCode('ninject')" id="adm-code-btn-ninject"
+                                    class="px-2.5 py-1 rounded bg-black/40 text-earth-300 hover:text-white cursor-pointer transition-all">NinjectWebCommon.cs</button>
+                            </div>
+                        </div>
+                        <pre id="adm-source-code-pre" class="p-4 bg-[#0B0F19] text-earth-100 font-mono text-xs overflow-x-auto max-h-96 leading-relaxed select-all"></pre>
+                    </div>
+                </div>
+            </div>
+
+            <!-- TAB 4: MISCHIEF GAZETTE CMS -->
+            <div id="adm-panel-blog" class="space-y-6 hidden">
+                <div class="bg-white p-6 sm:p-7 rounded-2xl border border-canvas-border shadow-xs space-y-6">
+                    <div class="border-b border-canvas-border pb-4 flex items-center justify-between">
+                        <div>
+                            <h2 class="text-xl font-bold font-heading text-earth-950 flex items-center gap-2">
+                                <i class="fa-solid fa-pen-nib text-appetite-700"></i>
+                                <span>The Mischief Gazette CMS</span>
+                            </h2>
+                            <p class="text-xs text-earth-600 mt-0.5">Author and manage satire field guides and scientific novelty chronicles.</p>
+                        </div>
+                        <span class="px-2.5 py-0.5 rounded-full bg-amber-100 text-amber-800 text-xs font-mono font-bold">Articles Engine</span>
+                    </div>
+
+                    <!-- Post Creation Form -->
+                    <div class="bg-gradient-to-br from-white via-white to-purple-50/50 p-5 rounded-2xl border border-canvas-border space-y-4">
+                        <div class="font-bold text-earth-950 text-sm flex items-center gap-2">
+                            <i class="fa-solid fa-circle-plus text-teal-700"></i>
+                            <span>Create New Gazette Chronicle</span>
+                        </div>
+                        <div class="grid grid-cols-1 sm:grid-cols-2 gap-3 text-xs">
+                            <input type="text" id="admin-title" placeholder="Chronicle Title (e.g. Field Guide to Office Pranks)"
+                                class="w-full px-3.5 py-2 bg-canvas-surface/60 border border-canvas-border rounded-xl text-earth-950 focus:border-teal-700 focus:outline-none" />
+                            <input type="text" id="admin-category" placeholder="Category (e.g. Mischief Engineering, Prank Science)"
+                                class="w-full px-3.5 py-2 bg-canvas-surface/60 border border-canvas-border rounded-xl text-earth-950 focus:border-teal-700 focus:outline-none" />
+                            <input type="text" id="admin-author" placeholder="Author Name &amp; Title"
+                                class="w-full px-3.5 py-2 bg-canvas-surface/60 border border-canvas-border rounded-xl text-earth-950 focus:border-teal-700 focus:outline-none" />
+                            <input type="text" id="admin-date" placeholder="Date (e.g. October 1, 2026)"
+                                class="w-full px-3.5 py-2 bg-canvas-surface/60 border border-canvas-border rounded-xl text-earth-950 focus:border-teal-700 focus:outline-none" />
+                        </div>
+                        <input type="text" id="admin-image" placeholder="Cover Image URL (e.g. ./images/coffee_bag.jpg or web URL)"
+                            class="w-full px-3.5 py-2 bg-canvas-surface/60 border border-canvas-border rounded-xl text-earth-950 text-xs focus:border-teal-700 focus:outline-none" />
+                        <textarea id="admin-content" placeholder="Chronicle Body Content (HTML or formatted text allowed)..."
+                            class="w-full px-3.5 py-2 bg-canvas-surface/60 border border-canvas-border rounded-xl text-earth-950 text-xs focus:border-teal-700 focus:outline-none h-28"></textarea>
+                        <div class="flex justify-end">
+                            <button onclick="window.saveNewPost()"
+                                class="px-5 py-2 bg-teal-700 hover:bg-teal-600 text-white font-bold rounded-xl transition-all cursor-pointer text-xs flex items-center gap-1.5 shadow-sm">
+                                <i class="fa-solid fa-cloud-arrow-up"></i>
+                                <span>Publish Article</span>
+                            </button>
+                        </div>
+                    </div>
+
+                    <!-- Manage Articles List -->
+                    <div class="space-y-3">
+                        <h3 class="text-base font-bold text-earth-950">Published Gazette Chronicles</h3>
+                        <div id="admin-post-list" class="space-y-3"></div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- TAB 5: EF6 CONTEXT & TELEMETRY -->
+            <div id="adm-panel-telemetry" class="space-y-6 hidden">
+                <div class="bg-white p-6 rounded-2xl border border-canvas-border shadow-xs space-y-6">
+                    <div class="border-b border-canvas-border pb-4">
+                        <h2 class="text-xl font-black font-heading text-earth-950 flex items-center gap-2">
+                            <i class="fa-solid fa-database text-rose-700"></i>
+                            <span>Entity Framework 6 Database Context &amp; Live Telemetry</span>
+                        </h2>
+                        <p class="text-xs text-earth-600 mt-1">Direct inspection of LocalDB connection strings, Entity ChangeTracker states, and session persistence.</p>
+                    </div>
+
+                    <div class="grid grid-cols-1 lg:grid-cols-2 gap-4 text-xs font-mono">
+                        <div class="p-4 rounded-xl bg-earth-50 border border-canvas-border space-y-2">
+                            <div class="font-bold text-earth-950 text-[11px] uppercase tracking-wider flex items-center gap-1.5">
+                                <i class="fa-solid fa-server text-teal-700"></i> LocalDB Connection String
+                            </div>
+                            <div class="p-2.5 rounded bg-black/90 text-teal-300 text-[10.5px] break-all">
+                                Server=(localdb)\v11.0;Database=MischiefStoreDb;Integrated Security=True;MultipleActiveResultSets=true;
+                            </div>
+                            <div class="text-[11px] text-earth-600">
+                                <strong>Provider:</strong> System.Data.SqlClient<br/>
+                                <strong>Initializer:</strong> Database.SetInitializer(new DatabaseInitializer());
+                            </div>
+                        </div>
+
+                        <div class="p-4 rounded-xl bg-earth-50 border border-canvas-border space-y-2">
+                            <div class="font-bold text-earth-950 text-[11px] uppercase tracking-wider flex items-center gap-1.5">
+                                <i class="fa-solid fa-arrows-spin text-purple-700"></i> EF6 ChangeTracker State
+                            </div>
+                            <div class="space-y-1 text-[11px] text-earth-700">
+                                <div class="flex justify-between"><span>EntityState.Unchanged:</span> <strong id="telemetry-unchanged-count" class="text-emerald-700">14 entities</strong></div>
+                                <div class="flex justify-between"><span>EntityState.Modified:</span> <strong id="telemetry-modified-count" class="text-amber-700">0 entities</strong></div>
+                                <div class="flex justify-between"><span>EntityState.Added:</span> <strong id="telemetry-added-count" class="text-teal-700">0 entities</strong></div>
+                                <div class="flex justify-between"><span>EntityState.Deleted:</span> <strong id="telemetry-deleted-count" class="text-rose-700">0 entities</strong></div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Backup & Restore -->
+                    <div class="p-4 rounded-xl bg-purple-50/60 border border-purple-200/80 flex flex-col sm:flex-row items-center justify-between gap-4 text-xs">
+                        <div>
+                            <div class="font-bold text-purple-950">Database State Management</div>
+                            <div class="text-purple-800 text-[11px]">Reset all products back to the original C# DatabaseInitializer seed data.</div>
+                        </div>
+                        <button type="button" onclick="window.resetStoreCatalog()"
+                            class="px-4 py-2 rounded-xl bg-purple-900 hover:bg-purple-950 text-white font-bold transition-all cursor-pointer shadow-xs shrink-0">
+                            <i class="fa-solid fa-rotate-left mr-1.5 text-teal-300"></i> Reset to Default Seeds
+                        </button>
+                    </div>
+                </div>
+            </div>
+
         </div>
     </main>
 
@@ -2898,67 +3308,173 @@
         </div>
     </div>
 
-    <!-- 7. ADMIN INVENTORY CRUD MODAL -->
-    <div id="admin-modal-backdrop"
+    <!-- 7. PRODUCT CREATE & EDIT MODAL (AdminController.Edit / Create) -->
+    <div id="product-editor-modal"
         class="fixed inset-0 bg-black/60 backdrop-blur-xs z-50 hidden flex items-center justify-center p-4"
-        onclick="if(event.target===this) window.closeAdminModal()">
-        <div class="bg-canvas-base border border-canvas-border rounded-2xl max-w-2xl w-full max-h-[85vh] flex flex-col p-6 space-y-4 shadow-2xl text-earth-950"
+        onclick="if(event.target===this) window.closeProductEditModal()">
+        <div class="bg-canvas-base border border-canvas-border rounded-2xl max-w-2xl w-full max-h-[90vh] flex flex-col p-6 space-y-4 shadow-2xl text-earth-950 overflow-y-auto"
             data-blueprint-file="WackyStore.WebUI/Controllers/AdminController.cs"
-            data-blueprint-role="Entity Framework CRUD Portal" data-blueprint-layer="WebUI / Admin &amp; Domain / EF6"
-            data-blueprint-dom="Modal dialog containing catalog table list, add new product form, and action edit buttons."
-            data-blueprint-desc="Demonstrates administrative CRUD workflows mapped to EFProductRepository.SaveProduct() and DeleteProduct()."
-            data-blueprint-code="public ActionResult Edit(int productId) => View(repository.Products.FirstOrDefault(p => p.ProductID == productId));">
-
+            data-blueprint-role="EF6 Entity Form Portal" data-blueprint-layer="WebUI / Admin &amp; EF6"
+            data-blueprint-desc="Model-bound entity form backing AdminController.Edit(Product, HttpPostedFileBase).">
+            
             <div class="flex items-center justify-between border-b border-canvas-border pb-3.5">
                 <div class="flex items-center gap-2.5">
-                    <i class="fa-solid fa-sliders text-teal-700 text-lg"></i>
-                    <h3 class="font-heading font-black text-xl text-earth-950">Admin Catalog Management (EF6 CRUD)</h3>
+                    <div class="h-9 w-9 rounded-xl bg-appetite-700 text-white flex items-center justify-center text-sm shadow-xs">
+                        <i class="fa-solid fa-pen-to-square"></i>
+                    </div>
+                    <div>
+                        <h3 id="product-editor-title" class="font-heading font-black text-lg text-earth-950">Add New Gadget to EF6 Repository</h3>
+                        <p class="text-[11px] text-earth-600 font-mono">Mapped to EFProductRepository.SaveProduct(Product)</p>
+                    </div>
                 </div>
-                <button onclick="window.closeAdminModal()"
-                    class="text-earth-500 hover:text-earth-950 p-1 rounded-lg hover:bg-canvas-surface">
+                <button type="button" onclick="window.closeProductEditModal()"
+                    class="text-earth-400 hover:text-earth-950 p-1.5 rounded-lg hover:bg-canvas-surface transition-all cursor-pointer">
                     <i class="fa-solid fa-xmark text-lg"></i>
                 </button>
             </div>
 
-            <!-- New Product Form -->
-            <form id="admin-add-form" onsubmit="event.preventDefault(); window.handleAdminAddProduct();"
-                class="bg-white p-4 rounded-xl border border-canvas-border space-y-3 text-xs">
-                <div class="font-bold text-earth-950 flex items-center gap-1.5">
-                    <i class="fa-solid fa-plus text-appetite-700"></i> Add New Gadget to EF Repository
+            <!-- Product Form -->
+            <form id="product-editor-form" onsubmit="window.saveAdminProduct(event)" class="space-y-4 text-xs">
+                <input type="hidden" id="edit-prod-id" value="" />
+
+                <div class="grid grid-cols-1 sm:grid-cols-2 gap-3.5">
+                    <div>
+                        <label class="block font-bold text-earth-800 mb-1">Product Title / Name *</label>
+                        <input type="text" id="edit-prod-name" placeholder="e.g. Ultrasonic Whoopee Cushion" required
+                            class="w-full bg-canvas-surface border border-canvas-border rounded-xl px-3 py-2 text-xs text-earth-950 focus:border-teal-700 focus:outline-none" />
+                    </div>
+
+                    <div>
+                        <label class="block font-bold text-earth-800 mb-1">Novelty Category *</label>
+                        <select id="edit-prod-cat" required
+                            class="w-full bg-canvas-surface border border-canvas-border rounded-xl px-3 py-2 text-xs text-earth-950 focus:border-teal-700 focus:outline-none font-medium cursor-pointer">
+                            <option value="Bunkums">Bunkums (Useless Machines)</option>
+                            <option value="Skuttlebutts">Skuttlebutts (Pranks &amp; Traps)</option>
+                            <option value="Balderdash">Balderdash (Illusion &amp; Magic)</option>
+                            <option value="Flummery">Flummery (Absurd Apparel)</option>
+                            <option value="Codswallop">Codswallop (Questionable Novelties)</option>
+                        </select>
+                    </div>
                 </div>
-                <div class="grid grid-cols-1 sm:grid-cols-3 gap-2.5">
-                    <input type="text" id="adm-name" placeholder="Product Name" required
-                        class="bg-canvas-surface border border-canvas-border rounded-lg px-3 py-1.5 text-xs text-earth-950 focus:border-teal-700 focus:outline-none">
-                    <select id="adm-cat" required
-                        class="bg-canvas-surface border border-canvas-border rounded-lg px-3 py-1.5 text-xs text-earth-950 focus:border-teal-700 focus:outline-none">
-                        <option value="Bunkums">Bunkums (Useless Machines)</option>
-                        <option value="Skuttlebutts">Skuttlebutts (Pranks &amp; Traps)</option>
-                        <option value="Balderdash">Balderdash (Illusion &amp; Magic)</option>
-                        <option value="Flummery">Flummery (Absurd Apparel)</option>
-                        <option value="Codswallop">Codswallop (Questionable Novelties)</option>
-                    </select>
-                    <input type="number" step="0.01" id="adm-price" placeholder="Price (USD)" required
-                        class="bg-canvas-surface border border-canvas-border rounded-lg px-3 py-1.5 text-xs text-earth-950 focus:border-teal-700 focus:outline-none">
+
+                <div class="grid grid-cols-2 sm:grid-cols-4 gap-3">
+                    <div>
+                        <label class="block font-bold text-earth-800 mb-1">Unit Price ($) *</label>
+                        <input type="number" step="0.01" min="0.50" id="edit-prod-price" placeholder="19.95" required
+                            class="w-full bg-canvas-surface border border-canvas-border rounded-xl px-3 py-2 text-xs text-earth-950 focus:border-teal-700 focus:outline-none" />
+                    </div>
+
+                    <div>
+                        <label class="block font-bold text-earth-800 mb-1">Stock Level *</label>
+                        <input type="number" step="1" min="0" id="edit-prod-stock" placeholder="25" required
+                            class="w-full bg-canvas-surface border border-canvas-border rounded-xl px-3 py-2 text-xs text-earth-950 focus:border-teal-700 focus:outline-none" />
+                    </div>
+
+                    <div>
+                        <label class="block font-bold text-earth-800 mb-1">Rating (1-5)</label>
+                        <input type="number" step="0.1" min="1.0" max="5.0" id="edit-prod-rating" value="4.8"
+                            class="w-full bg-canvas-surface border border-canvas-border rounded-xl px-3 py-2 text-xs text-earth-950 focus:border-teal-700 focus:outline-none" />
+                    </div>
+
+                    <div>
+                        <label class="block font-bold text-earth-800 mb-1">Reviews Count</label>
+                        <input type="number" step="1" min="0" id="edit-prod-reviews" value="120"
+                            class="w-full bg-canvas-surface border border-canvas-border rounded-xl px-3 py-2 text-xs text-earth-950 focus:border-teal-700 focus:outline-none" />
+                    </div>
                 </div>
-                <input type="text" id="adm-desc" placeholder="Product Description &amp; Technical Specs" required
-                    class="w-full bg-canvas-surface border border-canvas-border rounded-lg px-3 py-1.5 text-xs text-earth-950 focus:border-teal-700 focus:outline-none">
-                <div class="flex justify-end">
+
+                <div class="grid grid-cols-1 sm:grid-cols-2 gap-3.5">
+                    <div>
+                        <label class="block font-bold text-earth-800 mb-1">Marketing Badge Text</label>
+                        <input type="text" id="edit-prod-badge" placeholder="e.g. Staff Pick, Best Seller, New Arrival"
+                            class="w-full bg-canvas-surface border border-canvas-border rounded-xl px-3 py-2 text-xs text-earth-950 focus:border-teal-700 focus:outline-none" />
+                    </div>
+
+                    <div>
+                        <label class="block font-bold text-earth-800 mb-1">Badge Accent Color</label>
+                        <select id="edit-prod-badge-color"
+                            class="w-full bg-canvas-surface border border-canvas-border rounded-xl px-3 py-2 text-xs text-earth-950 focus:border-teal-700 focus:outline-none font-medium cursor-pointer">
+                            <option value="amber">Amber Gold (Best Seller)</option>
+                            <option value="cyan">Cyan Electric (Staff Pick)</option>
+                            <option value="purple">Purple Mystic (Classic)</option>
+                            <option value="emerald">Emerald Spark (Trending)</option>
+                            <option value="rose">Rose Red (Top Rated)</option>
+                        </select>
+                    </div>
+                </div>
+
+                <div>
+                    <label class="block font-bold text-earth-800 mb-1">Product Image Asset</label>
+                    <div class="flex items-center gap-2">
+                        <select id="edit-prod-image-select" onchange="document.getElementById('edit-prod-image').value = this.value"
+                            class="flex-1 bg-canvas-surface border border-canvas-border rounded-xl px-3 py-2 text-xs text-earth-950 focus:border-teal-700 focus:outline-none font-medium cursor-pointer">
+                            <option value="./images/beeper.jpg">Annoying Beeper (./images/beeper.jpg)</option>
+                            <option value="./images/usb.jpg">Shock USB Drive (./images/usb.jpg)</option>
+                            <option value="./images/pen.jpg">Disappearing Ink Pen (./images/pen.jpg)</option>
+                            <option value="./images/chair_wheel.jpg">Squeaky Chair Wheel (./images/chair_wheel.jpg)</option>
+                            <option value="./images/coffee_bag.jpg">Caffeinated Sleepy Tea (./images/coffee_bag.jpg)</option>
+                            <option value="./images/missile_turret.jpg">Desktop Missile Turret (./images/missile_turret.jpg)</option>
+                            <option value="./images/fake_bugs.jpg">Fake Cockroaches (./images/fake_bugs.jpg)</option>
+                            <option value="./images/car_key.jpg">Fake Car Key Shock (./images/car_key.jpg)</option>
+                            <option value="./images/spy_kit.jpg">Reverse Peephole Viewer (./images/spy_kit.jpg)</option>
+                            <option value="./images/arrow_hat.jpg">Arrow Through Head (./images/arrow_hat.jpg)</option>
+                            <option value="./images/stink_bomb.jpg">Super Stink Bag (./images/stink_bomb.jpg)</option>
+                            <option value="./images/golf_balls.jpg">Exploding Golf Balls (./images/golf_balls.jpg)</option>
+                            <option value="./images/toilet_paper.jpg">No-Tear Toilet Paper (./images/toilet_paper.jpg)</option>
+                            <option value="./images/whoopee_cushion.jpg">Self-Inflating Whoopee (./images/whoopee_cushion.jpg)</option>
+                            <option value="./images/confetti_can.jpg">Fake Peanut Can Confetti (./images/confetti_can.jpg)</option>
+                        </select>
+                    </div>
+                    <input type="text" id="edit-prod-image" placeholder="Or custom Image URL" value="./images/beeper.jpg"
+                        class="mt-1.5 w-full bg-canvas-surface border border-canvas-border rounded-xl px-3 py-1.5 text-xs text-earth-950 focus:border-teal-700 focus:outline-none" />
+                </div>
+
+                <div>
+                    <label class="block font-bold text-earth-800 mb-1">Product Description &amp; Technical Specifications *</label>
+                    <textarea id="edit-prod-desc" rows="3" placeholder="Enter engineering explanation, absurd mechanism, and package contents..." required
+                        class="w-full bg-canvas-surface border border-canvas-border rounded-xl px-3 py-2 text-xs text-earth-950 focus:border-teal-700 focus:outline-none leading-relaxed"></textarea>
+                </div>
+
+                <div class="flex items-center justify-between border-t border-canvas-border pt-4">
+                    <button type="button" onclick="window.closeProductEditModal()"
+                        class="px-4 py-2 rounded-xl bg-earth-100 hover:bg-earth-200 text-earth-800 font-bold transition-all cursor-pointer">
+                        Cancel
+                    </button>
                     <button type="submit"
-                        class="px-4 py-1.5 rounded-lg bg-appetite-700 hover:bg-appetite-800 text-white font-bold text-xs flex items-center gap-1.5 transition-all">
-                        <i class="fa-solid fa-floppy-disk"></i>
+                        class="px-5 py-2 rounded-xl bg-appetite-700 hover:bg-appetite-800 text-white font-bold flex items-center gap-2 transition-all cursor-pointer shadow-sm">
+                        <i class="fa-solid fa-floppy-disk text-teal-300"></i>
                         <span>Save to EF Repository</span>
                     </button>
                 </div>
             </form>
+        </div>
+    </div>
 
-            <!-- Current Inventory Table -->
-            <div class="flex-1 overflow-y-auto space-y-2 pr-1">
-                <div class="text-[11px] font-bold text-earth-700 uppercase tracking-wider">Live Inventory Store:</div>
-                <div id="admin-inventory-list" class="space-y-1.5 text-xs">
-                    <!-- Injected via JS -->
+    <!-- 7.1 ORDER DISPATCH MANIFEST SLIP MODAL -->
+    <div id="order-slip-modal"
+        class="fixed inset-0 bg-black/60 backdrop-blur-xs z-50 hidden flex items-center justify-center p-4"
+        onclick="if(event.target===this) window.closeOrderSlipModal()">
+        <div class="bg-white border border-canvas-border rounded-2xl max-w-lg w-full p-6 space-y-4 shadow-2xl text-earth-950 font-mono text-xs overflow-y-auto max-h-[85vh]">
+            <div class="flex items-center justify-between border-b border-canvas-border pb-3">
+                <div class="flex items-center gap-2">
+                    <i class="fa-solid fa-file-invoice text-teal-700 text-base"></i>
+                    <h3 class="font-bold text-sm text-earth-950">IOrderProcessor Packing Manifest</h3>
                 </div>
+                <button type="button" onclick="window.closeOrderSlipModal()"
+                    class="text-earth-400 hover:text-earth-950 p-1 rounded-lg hover:bg-canvas-surface transition-all cursor-pointer">
+                    <i class="fa-solid fa-xmark text-lg"></i>
+                </button>
             </div>
-
+            <div id="order-slip-content" class="space-y-3 font-sans">
+                <!-- Injected via window.viewOrderSlip(id) -->
+            </div>
+            <div class="border-t border-canvas-border pt-3 flex justify-between items-center font-sans">
+                <span class="text-[11px] text-earth-500 font-mono">Dispatched via SMTP Transport</span>
+                <button type="button" onclick="window.closeOrderSlipModal()"
+                    class="px-4 py-1.5 rounded-xl bg-earth-900 text-white font-bold text-xs cursor-pointer hover:bg-earth-950 transition-colors">
+                    Close Slip
+                </button>
+            </div>
         </div>
     </div>
 

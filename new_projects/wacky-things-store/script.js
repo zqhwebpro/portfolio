@@ -217,6 +217,23 @@ let PRODUCTS = [
     }
 ];
 
+// Preserve pristine initial seed inventory for Reset Catalog functionality
+window.INITIAL_PRODUCTS = JSON.parse(JSON.stringify(PRODUCTS));
+
+// Load persisted products from localStorage if available
+try {
+    const savedProducts = localStorage.getItem('mischief_products');
+    if (savedProducts) {
+        const parsed = JSON.parse(savedProducts);
+        if (Array.isArray(parsed) && parsed.length > 0) {
+            PRODUCTS = parsed;
+        }
+    }
+} catch (e) {
+    console.warn('Could not load mischief_products from localStorage', e);
+}
+window.PRODUCTS = PRODUCTS;
+
 // State Store
 let activeCategory = 'all';
 let searchQuery = '';
@@ -1147,19 +1164,122 @@ function closeCheckoutModal() {
     document.getElementById('checkout-modal-backdrop').classList.add('hidden');
 }
 
+// Global Orders Seed & Persistence
+window.DEFAULT_ORDERS = [
+    {
+        id: '#WT-849201',
+        date: 'Oct 01, 2026, 02:45 PM',
+        customer: 'Alex Oddity',
+        address: '742 Evergreen Terrace, Boulder, CO',
+        carrierTier: 'Jetstream Air Cargo',
+        lines: [
+            { id: 1, name: 'Annoying Hidden Beeper', price: 9.98, quantity: 2, total: 19.96, image: './images/beeper.jpg' },
+            { id: 3, name: 'Disappearing Ink Magic Pen', price: 14.99, quantity: 1, total: 14.99, image: './images/pen.jpg' }
+        ],
+        itemCount: 3,
+        subtotal: 34.95,
+        freight: 10.00,
+        total: 44.95,
+        status: 'Dispatched (SMTP Delivered)'
+    },
+    {
+        id: '#WT-712944',
+        date: 'Sep 30, 2026, 11:15 AM',
+        customer: 'Beatrice Baffle',
+        address: '104 Pike Place, Seattle, WA',
+        carrierTier: 'Supersonic Drone Dash',
+        lines: [
+            { id: 6, name: 'Desktop Missile Defense Turret', price: 34.95, quantity: 1, total: 34.95, image: './images/missile_turret.jpg' },
+            { id: 8, name: 'Fake Car Key Shock Prank', price: 9.95, quantity: 1, total: 9.95, image: './images/car_key.jpg' }
+        ],
+        itemCount: 2,
+        subtotal: 44.90,
+        freight: 0.00,
+        total: 44.90,
+        status: 'In Transit (Overland Highway)'
+    },
+    {
+        id: '#WT-539108',
+        date: 'Sep 29, 2026, 04:20 PM',
+        customer: 'Dr. Barnaby Fizzle',
+        address: '350 5th Ave, New York, NY',
+        carrierTier: 'Wacky Ground Express',
+        lines: [
+            { id: 7, name: 'Ultra-Realistic Fake Cockroaches (50pcs)', price: 11.95, quantity: 3, total: 35.85, image: './images/fake_bugs.jpg' },
+            { id: 9, name: 'Self-Inflating Whoopee Cushion', price: 6.99, quantity: 2, total: 13.98, image: './images/whoopee_cushion.jpg' }
+        ],
+        itemCount: 5,
+        subtotal: 49.83,
+        freight: 0.00,
+        total: 49.83,
+        status: 'Packed & Staged at Hub'
+    }
+];
+
+try {
+    const savedOrders = localStorage.getItem('mischief_orders');
+    if (savedOrders) {
+        window.ORDERS = JSON.parse(savedOrders);
+    } else {
+        window.ORDERS = JSON.parse(JSON.stringify(window.DEFAULT_ORDERS));
+    }
+} catch (e) {
+    window.ORDERS = JSON.parse(JSON.stringify(window.DEFAULT_ORDERS));
+}
+
 function processCheckout() {
     const subtotal = cart.reduce((sum, item) => sum + (item.price * item.quantity), 0);
-    const name = document.getElementById('co-name').value;
-    const city = document.getElementById('co-city').value;
+    const name = document.getElementById('co-name')?.value || 'Valued Weirdo';
+    const address = document.getElementById('co-address')?.value || '742 Evergreen Terrace';
+    const city = document.getElementById('co-city')?.value || 'Boulder';
+    const state = document.getElementById('co-state')?.value || 'CO';
 
     // Generate Order Id
     const orderId = '#WT-' + Math.floor(100000 + Math.random() * 900000);
+    const carrier = window.selectedShippingTier || (subtotal >= 35 ? 'Wacky Ground Express (Free)' : 'Wacky Ground Express');
+    const freightFee = subtotal >= 35 ? 0 : 4.99;
+    const grandTotal = subtotal + freightFee;
 
     // Populate Receipt
-    document.getElementById('rec-order-id').innerText = orderId;
-    document.getElementById('rec-name').innerText = name;
-    document.getElementById('rec-dest').innerText = city;
-    document.getElementById('rec-total').innerText = `$${subtotal.toFixed(2)}`;
+    const recId = document.getElementById('rec-order-id');
+    const recName = document.getElementById('rec-name');
+    const recDest = document.getElementById('rec-dest');
+    const recTotal = document.getElementById('rec-total');
+    if (recId) recId.innerText = orderId;
+    if (recName) recName.innerText = name;
+    if (recDest) recDest.innerText = `${city}, ${state}`;
+    if (recTotal) recTotal.innerText = `$${grandTotal.toFixed(2)}`;
+
+    // Build Order Record for IOrderProcessor
+    const orderLines = cart.map(item => ({
+        id: item.id,
+        name: item.name,
+        price: item.price,
+        quantity: item.quantity,
+        total: item.price * item.quantity,
+        image: item.image
+    }));
+
+    const newOrder = {
+        id: orderId,
+        date: new Date().toLocaleDateString('en-US', { month: 'short', day: 'numeric', year: 'numeric', hour: '2-digit', minute: '2-digit' }),
+        customer: name,
+        address: `${address}, ${city}, ${state}`,
+        carrierTier: carrier,
+        lines: orderLines,
+        itemCount: orderLines.reduce((s, l) => s + l.quantity, 0),
+        subtotal: subtotal,
+        freight: freightFee,
+        total: grandTotal,
+        status: 'Dispatched (SMTP Delivered)'
+    };
+
+    if (Array.isArray(window.ORDERS)) {
+        window.ORDERS.unshift(newOrder);
+        try {
+            localStorage.setItem('mischief_orders', JSON.stringify(window.ORDERS));
+        } catch (e) {}
+    }
 
     // Clear Cart & Close Modal
     cart = [];
@@ -1167,85 +1287,725 @@ function processCheckout() {
     closeCheckoutModal();
 
     // Open Receipt
-    document.getElementById('receipt-modal-backdrop').classList.remove('hidden');
+    document.getElementById('receipt-modal-backdrop')?.classList.remove('hidden');
+
+    if (typeof window.renderAdminOrdersTable === 'function') {
+        window.renderAdminOrdersTable();
+    }
 }
 
 function closeReceiptModal() {
-    document.getElementById('receipt-modal-backdrop').classList.add('hidden');
+    document.getElementById('receipt-modal-backdrop')?.classList.add('hidden');
 }
 
 /**
  * ==============================================================================
- * ADMIN CRUD PORTAL (AdminController.cs & EFProductRepository.cs)
+ * ENTERPRISE SOLUTION ADMIN CONSOLE (ASP.NET MVC 5 + EF6 + Ninject IoC)
  * ==============================================================================
  */
-function openAdminModal() {
-    renderAdminInventoryList();
-    document.getElementById('admin-modal-backdrop').classList.remove('hidden');
-}
 
-function closeAdminModal() {
-    document.getElementById('admin-modal-backdrop').classList.add('hidden');
-}
-
-function renderAdminInventoryList() {
-    const container = document.getElementById('admin-inventory-list');
-    if (!container) return;
-
-    container.innerHTML = PRODUCTS.map(p => `
-                <div class="flex items-center justify-between bg-white p-2.5 rounded-lg border border-canvas-border">
-                    <div class="flex items-center gap-2.5">
-                        <img src="${p.image}" alt="${p.name}" class="h-8 w-8 rounded object-cover border border-canvas-border" />
-                        <div>
-                            <div class="font-bold text-earth-950">${p.name}</div>
-                            <div class="text-[10.5px] text-earth-600 font-mono">${p.category} &bull; $${p.price.toFixed(2)}</div>
-                        </div>
-                    </div>
-                    <button onclick="window.handleAdminDelete(${p.id})" class="px-2 py-1 rounded bg-earth-100 text-rose-600 hover:bg-rose-600 hover:text-white transition-all text-xs font-bold">
-                        Delete
-                    </button>
-                </div>
-            `).join('');
-}
-
-function handleAdminAddProduct() {
-    const name = document.getElementById('adm-name').value;
-    const cat = document.getElementById('adm-cat').value;
-    const price = parseFloat(document.getElementById('adm-price').value);
-    const desc = document.getElementById('adm-desc').value;
-
-    const newId = PRODUCTS.length > 0 ? Math.max(...PRODUCTS.map(p => p.id)) + 1 : 1;
-
-    PRODUCTS.unshift({
-        id: newId,
-        name: name,
-        category: cat,
-        categoryLabel: `${cat}: Wacky Thing`,
-        price: price,
-        rating: 5.0,
-        reviews: 1,
-        badge: "New Arrival",
-        badgeColor: "emerald",
-        description: desc,
-        image: "./images/beeper.jpg",
-        stock: 20
+// Tab Switching
+window.switchAdminTab = function (tabName) {
+    const tabs = ['products', 'orders', 'arch', 'blog', 'telemetry'];
+    tabs.forEach(t => {
+        const panel = document.getElementById(`adm-panel-${t}`);
+        const btn = document.getElementById(`adm-tab-btn-${t}`);
+        if (panel) {
+            if (t === tabName) {
+                panel.classList.remove('hidden');
+            } else {
+                panel.classList.add('hidden');
+            }
+        }
+        if (btn) {
+            if (t === tabName) {
+                btn.className = 'px-4 py-2.5 rounded-xl bg-teal-50 border border-teal-700 text-teal-800 font-extrabold flex items-center gap-2 transition-all cursor-pointer shadow-xs';
+            } else {
+                btn.className = 'px-4 py-2.5 rounded-xl bg-white border border-canvas-border hover:border-earth-400 text-earth-700 font-bold flex items-center gap-2 transition-all cursor-pointer';
+            }
+        }
     });
 
-    document.getElementById('admin-add-form').reset();
-    renderAdminInventoryList();
-    renderCategorySidebar();
-    renderCatalog();
-    triggerFlashToast(`Added "${name}" to database`);
-}
+    if (tabName === 'products') {
+        window.renderAdminProductsTable();
+    } else if (tabName === 'orders') {
+        window.renderAdminOrdersTable();
+    } else if (tabName === 'arch') {
+        window.showAdminSourceCode('admin');
+    } else if (tabName === 'blog') {
+        if (typeof window.renderAdminPosts === 'function') window.renderAdminPosts();
+    } else if (tabName === 'telemetry') {
+        window.updateTelemetryReadout();
+    }
+};
 
-function handleAdminDelete(productId) {
+window.openAdminTab = function (tabName) {
+    const adminMain = document.getElementById('admin-main-view');
+    if (adminMain && adminMain.classList.contains('hidden')) {
+        window.toggleAdminPanel();
+    }
+    setTimeout(() => {
+        window.switchAdminTab(tabName);
+    }, 50);
+};
+
+// Render Products Table & KPIs
+window.renderAdminProductsTable = function () {
+    const tbody = document.getElementById('adm-products-table-body');
+    if (!tbody) return;
+
+    const searchInput = document.getElementById('adm-product-search')?.value.toLowerCase().trim() || '';
+    const catFilter = document.getElementById('adm-product-cat-filter')?.value || 'all';
+    const stockFilter = document.getElementById('adm-product-stock-filter')?.value || 'all';
+
+    let filtered = PRODUCTS.filter(p => {
+        if (catFilter !== 'all' && p.category !== catFilter) return false;
+        if (stockFilter === 'instock' && (p.stock || 0) < 20) return false;
+        if (stockFilter === 'low' && ((p.stock || 0) >= 20 || (p.stock || 0) === 0)) return false;
+        if (stockFilter === 'out' && (p.stock || 0) > 0) return false;
+        if (searchInput) {
+            const matchName = (p.name || '').toLowerCase().includes(searchInput);
+            const matchDesc = (p.description || '').toLowerCase().includes(searchInput);
+            const matchCat = (p.category || '').toLowerCase().includes(searchInput);
+            if (!matchName && !matchDesc && !matchCat) return false;
+        }
+        return true;
+    });
+
+    const emptyBox = document.getElementById('adm-table-empty');
+    if (filtered.length === 0) {
+        tbody.innerHTML = '';
+        if (emptyBox) emptyBox.classList.remove('hidden');
+    } else {
+        if (emptyBox) emptyBox.classList.add('hidden');
+        tbody.innerHTML = filtered.map(p => {
+            const stockVal = p.stock || 0;
+            let stockBadge = `<span class="px-2 py-0.5 rounded-full bg-emerald-100 text-emerald-800 text-[10px] font-mono font-bold">${stockVal} in stock</span>`;
+            if (stockVal === 0) {
+                stockBadge = `<span class="px-2 py-0.5 rounded-full bg-rose-100 text-rose-800 text-[10px] font-mono font-bold">Backordered</span>`;
+            } else if (stockVal < 20) {
+                stockBadge = `<span class="px-2 py-0.5 rounded-full bg-amber-100 text-amber-800 text-[10px] font-mono font-bold">${stockVal} low stock</span>`;
+            }
+
+            return `
+                <tr class="hover:bg-earth-50/70 transition-colors">
+                    <td class="py-3 px-3.5 text-center font-mono text-earth-500 font-bold">${p.id}</td>
+                    <td class="py-3 px-3.5">
+                        <div class="flex items-center gap-3">
+                            <img src="${p.image}" alt="${p.name}" class="h-10 w-10 rounded-lg object-cover border border-canvas-border shrink-0 shadow-2xs" />
+                            <div>
+                                <div class="font-bold text-earth-950 flex items-center gap-1.5 flex-wrap">
+                                    <span>${p.name}</span>
+                                    ${p.badge ? `<span class="px-1.5 py-0.2 rounded text-[9.5px] font-bold bg-amber-100 text-amber-900 border border-amber-300">${p.badge}</span>` : ''}
+                                </div>
+                                <div class="text-[11px] text-teal-800 font-mono">${p.category}</div>
+                            </div>
+                        </div>
+                    </td>
+                    <td class="py-3 px-3.5 text-right font-mono font-bold text-earth-950 text-sm">$${p.price.toFixed(2)}</td>
+                    <td class="py-3 px-3.5 text-center">${stockBadge}</td>
+                    <td class="py-3 px-3.5 text-center font-mono text-amber-600 font-bold">★ ${p.rating || 4.8} <span class="text-earth-400 text-[10px]">(${p.reviews || 0})</span></td>
+                    <td class="py-3 px-3.5 hidden lg:table-cell text-earth-600 text-[11px] max-w-xs truncate" title="${p.description || ''}">${p.description || ''}</td>
+                    <td class="py-3 px-3.5 text-center">
+                        <div class="flex items-center justify-center gap-1.5">
+                            <button type="button" onclick="window.openProductEditModal(${p.id})"
+                                class="p-1.5 rounded-lg bg-teal-50 hover:bg-teal-700 text-teal-700 hover:text-white transition-all cursor-pointer text-xs" title="Edit EF6 Entity">
+                                <i class="fa-solid fa-pen-to-square"></i>
+                            </button>
+                            <button type="button" onclick="window.duplicateAdminProduct(${p.id})"
+                                class="p-1.5 rounded-lg bg-purple-50 hover:bg-purple-700 text-purple-700 hover:text-white transition-all cursor-pointer text-xs" title="Clone / Duplicate Product">
+                                <i class="fa-solid fa-clone"></i>
+                            </button>
+                            <button type="button" onclick="window.deleteAdminProduct(${p.id})"
+                                class="p-1.5 rounded-lg bg-rose-50 hover:bg-rose-600 text-rose-600 hover:text-white transition-all cursor-pointer text-xs" title="Delete from DbSet<Product>">
+                                <i class="fa-solid fa-trash-can"></i>
+                            </button>
+                        </div>
+                    </td>
+                </tr>
+            `;
+        }).join('');
+    }
+
+    // Update KPI Counters
+    const totalCount = PRODUCTS.length;
+    const totalVal = PRODUCTS.reduce((sum, p) => sum + (p.price * (p.stock || 0)), 0);
+    const avgPrice = totalCount > 0 ? (PRODUCTS.reduce((sum, p) => sum + p.price, 0) / totalCount) : 0;
+    const categoriesCount = new Set(PRODUCTS.map(p => p.category)).size;
+
+    const elTotal = document.getElementById('kpi-total-products');
+    const elVal = document.getElementById('kpi-total-value');
+    const elAvg = document.getElementById('kpi-avg-price');
+    const elCats = document.getElementById('kpi-categories-count');
+    const elBadge = document.getElementById('adm-badge-product-count');
+
+    if (elTotal) elTotal.innerText = totalCount;
+    if (elVal) elVal.innerText = `$${totalVal.toLocaleString('en-US', { minimumFractionDigits: 2, maximumFractionDigits: 2 })}`;
+    if (elAvg) elAvg.innerText = `$${avgPrice.toFixed(2)}`;
+    if (elCats) elCats.innerText = categoriesCount;
+    if (elBadge) elBadge.innerText = totalCount;
+
+    window.updateTelemetryReadout();
+};
+
+window.updateTelemetryReadout = function () {
+    const unch = document.getElementById('telemetry-unchanged-count');
+    const mod = document.getElementById('telemetry-modified-count');
+    const add = document.getElementById('telemetry-added-count');
+    const del = document.getElementById('telemetry-deleted-count');
+
+    const initialIds = new Set((window.INITIAL_PRODUCTS || []).map(p => p.id));
+    const currentIds = new Set(PRODUCTS.map(p => p.id));
+
+    let added = 0;
+    let modified = 0;
+    let unchanged = 0;
+
+    PRODUCTS.forEach(p => {
+        if (!initialIds.has(p.id)) {
+            added++;
+        } else {
+            const initP = (window.INITIAL_PRODUCTS || []).find(x => x.id === p.id);
+            if (initP && (initP.price !== p.price || initP.name !== p.name || initP.stock !== p.stock)) {
+                modified++;
+            } else {
+                unchanged++;
+            }
+        }
+    });
+
+    let deleted = 0;
+    (window.INITIAL_PRODUCTS || []).forEach(p => {
+        if (!currentIds.has(p.id)) deleted++;
+    });
+
+    if (unch) unch.innerText = `${unchanged} entities`;
+    if (mod) mod.innerText = `${modified} entities`;
+    if (add) add.innerText = `${added} entities`;
+    if (del) del.innerText = `${deleted} entities`;
+};
+
+// Product Modal CRUD
+window.openProductEditModal = function (productId) {
+    const modal = document.getElementById('product-editor-modal');
+    const form = document.getElementById('product-editor-form');
+    const titleEl = document.getElementById('product-editor-title');
+    if (!modal || !form) return;
+
+    if (productId) {
+        const prod = PRODUCTS.find(p => p.id === productId);
+        if (!prod) return;
+        if (titleEl) titleEl.innerText = `Edit Product #${prod.id}: ${prod.name} (EF6 DbContext)`;
+        document.getElementById('edit-prod-id').value = prod.id;
+        document.getElementById('edit-prod-name').value = prod.name || '';
+        document.getElementById('edit-prod-cat').value = prod.category || 'Bunkums';
+        document.getElementById('edit-prod-price').value = prod.price || 9.99;
+        document.getElementById('edit-prod-stock').value = prod.stock || 20;
+        document.getElementById('edit-prod-rating').value = prod.rating || 4.8;
+        document.getElementById('edit-prod-reviews').value = prod.reviews || 100;
+        document.getElementById('edit-prod-badge').value = prod.badge || '';
+        document.getElementById('edit-prod-badge-color').value = prod.badgeColor || 'amber';
+        document.getElementById('edit-prod-image').value = prod.image || './images/beeper.jpg';
+        document.getElementById('edit-prod-desc').value = prod.description || '';
+    } else {
+        if (titleEl) titleEl.innerText = 'Add New Gadget to EF6 Repository';
+        form.reset();
+        document.getElementById('edit-prod-id').value = '';
+        document.getElementById('edit-prod-image').value = './images/beeper.jpg';
+        document.getElementById('edit-prod-rating').value = '4.9';
+        document.getElementById('edit-prod-reviews').value = '25';
+        document.getElementById('edit-prod-stock').value = '35';
+    }
+
+    modal.classList.remove('hidden');
+};
+
+window.closeProductEditModal = function () {
+    const modal = document.getElementById('product-editor-modal');
+    if (modal) modal.classList.add('hidden');
+};
+
+window.saveAdminProduct = function (e) {
+    if (e) e.preventDefault();
+    const idVal = document.getElementById('edit-prod-id').value;
+    const name = document.getElementById('edit-prod-name').value.trim();
+    const cat = document.getElementById('edit-prod-cat').value;
+    const price = parseFloat(document.getElementById('edit-prod-price').value) || 9.99;
+    const stock = parseInt(document.getElementById('edit-prod-stock').value, 10) || 0;
+    const rating = parseFloat(document.getElementById('edit-prod-rating').value) || 4.8;
+    const reviews = parseInt(document.getElementById('edit-prod-reviews').value, 10) || 0;
+    const badge = document.getElementById('edit-prod-badge').value.trim();
+    const badgeColor = document.getElementById('edit-prod-badge-color').value;
+    const image = document.getElementById('edit-prod-image').value.trim() || './images/beeper.jpg';
+    const desc = document.getElementById('edit-prod-desc').value.trim();
+
+    if (!name) return alert('Product Title is required.');
+
+    if (idVal) {
+        // Update existing
+        const targetId = parseInt(idVal, 10);
+        const idx = PRODUCTS.findIndex(p => p.id === targetId);
+        if (idx !== -1) {
+            PRODUCTS[idx] = {
+                ...PRODUCTS[idx],
+                name,
+                category: cat,
+                categoryLabel: `${cat}: Wacky Thing`,
+                price,
+                stock,
+                rating,
+                reviews,
+                badge: badge || null,
+                badgeColor,
+                image,
+                description: desc
+            };
+            triggerFlashToast(`Saved "${name}" to EF6 Repository`);
+        }
+    } else {
+        // Create new
+        const maxId = PRODUCTS.length > 0 ? Math.max(...PRODUCTS.map(p => p.id)) : 0;
+        const newProduct = {
+            id: maxId + 1,
+            name,
+            category: cat,
+            categoryLabel: `${cat}: Wacky Thing`,
+            price,
+            stock,
+            rating,
+            reviews,
+            badge: badge || 'New Arrival',
+            badgeColor: badgeColor || 'emerald',
+            image,
+            description: desc
+        };
+        PRODUCTS.unshift(newProduct);
+        triggerFlashToast(`Added "${name}" to EF6 Repository`);
+    }
+
+    try {
+        localStorage.setItem('mischief_products', JSON.stringify(PRODUCTS));
+    } catch (err) {}
+
+    window.closeProductEditModal();
+    window.renderAdminProductsTable();
+    if (typeof renderCategorySidebar === 'function') renderCategorySidebar();
+    if (typeof renderCatalog === 'function') renderCatalog();
+    if (typeof updateCartUI === 'function') updateCartUI();
+};
+
+window.deleteAdminProduct = function (productId) {
+    const prod = PRODUCTS.find(p => p.id === productId);
+    const prodName = prod ? prod.name : `Product #${productId}`;
+    if (!confirm(`Are you sure you want to delete "${prodName}" from the EF6 DbContext?`)) {
+        return;
+    }
+
     PRODUCTS = PRODUCTS.filter(p => p.id !== productId);
     cart = cart.filter(c => c.id !== productId);
-    renderAdminInventoryList();
-    renderCategorySidebar();
-    updateCartUI();
-    triggerFlashToast('Product deleted from EF repository');
-}
+
+    try {
+        localStorage.setItem('mischief_products', JSON.stringify(PRODUCTS));
+    } catch (err) {}
+
+    window.renderAdminProductsTable();
+    if (typeof renderCategorySidebar === 'function') renderCategorySidebar();
+    if (typeof renderCatalog === 'function') renderCatalog();
+    if (typeof updateCartUI === 'function') updateCartUI();
+    triggerFlashToast(`Deleted "${prodName}" from EF6`);
+};
+
+window.duplicateAdminProduct = function (productId) {
+    const prod = PRODUCTS.find(p => p.id === productId);
+    if (!prod) return;
+
+    const maxId = PRODUCTS.length > 0 ? Math.max(...PRODUCTS.map(p => p.id)) : 0;
+    const cloned = JSON.parse(JSON.stringify(prod));
+    cloned.id = maxId + 1;
+    cloned.name = `${cloned.name} (Copy)`;
+
+    PRODUCTS.unshift(cloned);
+    try {
+        localStorage.setItem('mischief_products', JSON.stringify(PRODUCTS));
+    } catch (err) {}
+
+    window.renderAdminProductsTable();
+    if (typeof renderCategorySidebar === 'function') renderCategorySidebar();
+    if (typeof renderCatalog === 'function') renderCatalog();
+    triggerFlashToast(`Duplicated "${cloned.name}" in EF6 DbSet`);
+};
+
+window.exportCatalogJson = function () {
+    const dataStr = "data:text/json;charset=utf-8," + encodeURIComponent(JSON.stringify(PRODUCTS, null, 2));
+    const downloadAnchor = document.createElement('a');
+    downloadAnchor.setAttribute("href", dataStr);
+    downloadAnchor.setAttribute("download", `mischief_catalog_ef6_${Date.now()}.json`);
+    document.body.appendChild(downloadAnchor);
+    downloadAnchor.click();
+    downloadAnchor.remove();
+    triggerFlashToast('Catalog JSON exported successfully');
+};
+
+window.resetStoreCatalog = function () {
+    if (!confirm('Reset all catalog items to original EF6 seed data? Any custom products will be cleared.')) {
+        return;
+    }
+    localStorage.removeItem('mischief_products');
+    if (window.INITIAL_PRODUCTS) {
+        PRODUCTS = JSON.parse(JSON.stringify(window.INITIAL_PRODUCTS));
+    }
+    window.renderAdminProductsTable();
+    if (typeof renderCategorySidebar === 'function') renderCategorySidebar();
+    if (typeof renderCatalog === 'function') renderCatalog();
+    if (typeof updateCartUI === 'function') updateCartUI();
+    triggerFlashToast('Catalog reset to original EF6 seed entities');
+};
+
+// Orders Management (IOrderProcessor)
+window.renderAdminOrdersTable = function () {
+    const tbody = document.getElementById('adm-orders-table-body');
+    const badge = document.getElementById('adm-badge-order-count');
+    if (badge) badge.innerText = (window.ORDERS || []).length;
+    if (!tbody) return;
+
+    if (!window.ORDERS || window.ORDERS.length === 0) {
+        tbody.innerHTML = `<tr><td colspan="7" class="py-8 text-center text-earth-500 font-mono text-xs">No order dispatch manifests currently recorded.</td></tr>`;
+        return;
+    }
+
+    tbody.innerHTML = window.ORDERS.map(order => {
+        let statusBadge = `<span class="px-2.5 py-0.5 rounded-full bg-emerald-100 text-emerald-800 text-[10.5px] font-mono font-bold">${order.status}</span>`;
+        if (order.status.includes('Transit')) {
+            statusBadge = `<span class="px-2.5 py-0.5 rounded-full bg-teal-100 text-teal-800 text-[10.5px] font-mono font-bold">${order.status}</span>`;
+        } else if (order.status.includes('Packed')) {
+            statusBadge = `<span class="px-2.5 py-0.5 rounded-full bg-amber-100 text-amber-800 text-[10.5px] font-mono font-bold">${order.status}</span>`;
+        }
+
+        const linesPreview = order.lines.map(l => `${l.quantity}x ${l.name}`).join(', ');
+
+        return `
+            <tr class="hover:bg-earth-50/70 transition-colors">
+                <td class="py-3 px-3.5 font-mono font-bold text-teal-900">${order.id}</td>
+                <td class="py-3 px-3.5">
+                    <div class="font-bold text-earth-950">${order.customer}</div>
+                    <div class="text-[11px] text-earth-500 font-mono">${order.address}</div>
+                </td>
+                <td class="py-3 px-3.5 font-mono text-[11px] text-purple-900 font-semibold">${order.carrierTier}</td>
+                <td class="py-3 px-3.5 text-earth-700 text-xs max-w-xs truncate" title="${linesPreview}">
+                    <span class="font-bold font-mono text-earth-900">${order.itemCount} items:</span> ${linesPreview}
+                </td>
+                <td class="py-3 px-3.5 text-right font-mono font-bold text-earth-950 text-sm">$${order.total.toFixed(2)}</td>
+                <td class="py-3 px-3.5 text-center">${statusBadge}</td>
+                <td class="py-3 px-3.5 text-center">
+                    <button type="button" onclick="window.viewOrderSlip('${order.id}')"
+                        class="px-2.5 py-1 rounded-lg bg-indigo-50 hover:bg-indigo-600 text-indigo-700 hover:text-white font-bold text-xs transition-all cursor-pointer">
+                        <i class="fa-solid fa-file-lines mr-1"></i> Slip
+                    </button>
+                </td>
+            </tr>
+        `;
+    }).join('');
+};
+
+window.viewOrderSlip = function (orderId) {
+    const order = (window.ORDERS || []).find(o => o.id === orderId);
+    if (!order) return;
+
+    const modal = document.getElementById('order-slip-modal');
+    const content = document.getElementById('order-slip-content');
+    if (!modal || !content) return;
+
+    content.innerHTML = `
+        <div class="bg-earth-50 p-3.5 rounded-xl border border-canvas-border space-y-2 text-xs">
+            <div class="flex justify-between border-b border-canvas-border pb-2">
+                <span class="text-earth-500 font-bold">MANIFEST REF:</span>
+                <span class="font-mono font-bold text-teal-900">${order.id}</span>
+            </div>
+            <div class="flex justify-between">
+                <span class="text-earth-500">TIMESTAMP:</span>
+                <span class="font-mono font-semibold text-earth-800">${order.date}</span>
+            </div>
+            <div class="flex justify-between">
+                <span class="text-earth-500">RECIPIENT:</span>
+                <span class="font-bold text-earth-950">${order.customer}</span>
+            </div>
+            <div class="flex justify-between">
+                <span class="text-earth-500">SHIPPING ADDR:</span>
+                <span class="font-mono text-earth-800">${order.address}</span>
+            </div>
+            <div class="flex justify-between">
+                <span class="text-earth-500">CARRIER VELOCITY:</span>
+                <span class="font-mono text-purple-900 font-bold">${order.carrierTier}</span>
+            </div>
+        </div>
+
+        <div class="space-y-1.5 pt-1">
+            <div class="font-bold text-xs text-earth-900">Itemized Gadget Manifest:</div>
+            <div class="divide-y divide-canvas-border border border-canvas-border rounded-xl overflow-hidden">
+                ${order.lines.map(line => `
+                    <div class="p-2.5 flex items-center justify-between bg-white text-xs">
+                        <div class="flex items-center gap-2">
+                            <span class="h-6 w-6 rounded bg-teal-100 text-teal-900 font-mono font-bold text-[11px] flex items-center justify-center">${line.quantity}x</span>
+                            <span class="font-bold text-earth-900">${line.name}</span>
+                        </div>
+                        <span class="font-mono text-earth-800 font-semibold">$${line.total.toFixed(2)}</span>
+                    </div>
+                `).join('')}
+            </div>
+        </div>
+
+        <div class="space-y-1 pt-2 border-t border-canvas-border text-xs font-mono">
+            <div class="flex justify-between text-earth-600"><span>Subtotal:</span><span>$${order.subtotal.toFixed(2)}</span></div>
+            <div class="flex justify-between text-earth-600"><span>Freight Quoted:</span><span>${order.freight === 0 ? 'FREE' : '$' + order.freight.toFixed(2)}</span></div>
+            <div class="flex justify-between font-bold text-sm text-earth-950 border-t border-canvas-border pt-1"><span>Total Charged:</span><span class="text-teal-800">$${order.total.toFixed(2)}</span></div>
+        </div>
+
+        <div class="bg-black/90 text-teal-300 p-2.5 rounded-lg text-[10.5px] font-mono space-y-0.5">
+            <div>SMTP Transport: localhost:25 (Development Pickup Directory)</div>
+            <div>X-Order-Engine: WackyStore.Domain.Concrete.EmailOrderProcessor</div>
+            <div>Status: 250 2.1.5 Ok - Dispatched to carrier warehouse</div>
+        </div>
+    `;
+
+    modal.classList.remove('hidden');
+};
+
+window.closeOrderSlipModal = function () {
+    const modal = document.getElementById('order-slip-modal');
+    if (modal) modal.classList.add('hidden');
+};
+
+window.seedDemoOrders = function () {
+    window.ORDERS = JSON.parse(JSON.stringify(window.DEFAULT_ORDERS));
+    try {
+        localStorage.setItem('mischief_orders', JSON.stringify(window.ORDERS));
+    } catch (e) {}
+    window.renderAdminOrdersTable();
+    triggerFlashToast('Seeded 3 demo order manifests into SMTP pipeline');
+};
+
+// C# Architecture Source Code Inspector
+window.ADMIN_SOURCE_CODES = {
+    admin: `// MischiefStore.WebUI/Controllers/AdminController.cs
+using System.Linq;
+using System.Web;
+using System.Web.Mvc;
+using MischiefStore.Domain.Abstract;
+using MischiefStore.Domain.Entities;
+
+namespace MischiefStore.WebUI.Controllers
+{
+    [Authorize(Roles = "MischiefAdmin")]
+    public class AdminController : Controller
+    {
+        private readonly IProductRepository repository;
+
+        // Injected via Ninject Inversion of Control
+        public AdminController(IProductRepository repo)
+        {
+            this.repository = repo;
+        }
+
+        public ViewResult Index()
+        {
+            return View(repository.Products.OrderBy(p => p.ProductID));
+        }
+
+        public ViewResult Edit(int productId)
+        {
+            Product product = repository.Products
+                .FirstOrDefault(p => p.ProductID == productId);
+            return View(product);
+        }
+
+        [HttpPost]
+        public ActionResult Edit(Product product, HttpPostedFileBase image = null)
+        {
+            if (ModelState.IsValid)
+            {
+                if (image != null)
+                {
+                    product.ImageMimeType = image.ContentType;
+                    product.ImageData = new byte[image.ContentLength];
+                    image.InputStream.Read(product.ImageData, 0, image.ContentLength);
+                }
+                repository.SaveProduct(product);
+                TempData["message"] = $"{product.Name} has been committed to EF6!";
+                return RedirectToAction("Index");
+            }
+            return View(product);
+        }
+
+        public ViewResult Create()
+        {
+            return View("Edit", new Product());
+        }
+
+        [HttpPost]
+        public ActionResult Delete(int productId)
+        {
+            Product deletedProduct = repository.DeleteProduct(productId);
+            if (deletedProduct != null)
+            {
+                TempData["message"] = $"{deletedProduct.Name} was deleted from database.";
+            }
+            return RedirectToAction("Index");
+        }
+    }
+}`,
+    repo: `// MischiefStore.Domain/Concrete/EFProductRepository.cs
+using System.Collections.Generic;
+using System.Data.Entity;
+using System.Linq;
+using MischiefStore.Domain.Abstract;
+using MischiefStore.Domain.Entities;
+
+namespace MischiefStore.Domain.Concrete
+{
+    public class EFProductRepository : IProductRepository
+    {
+        private readonly EFDbContext context = new EFDbContext();
+
+        public IEnumerable<Product> Products => context.Products;
+
+        public void SaveProduct(Product product)
+        {
+            if (product.ProductID == 0)
+            {
+                context.Products.Add(product);
+            }
+            else
+            {
+                Product dbEntry = context.Products.Find(product.ProductID);
+                if (dbEntry != null)
+                {
+                    dbEntry.Name = product.Name;
+                    dbEntry.Description = product.Description;
+                    dbEntry.Price = product.Price;
+                    dbEntry.Category = product.Category;
+                    dbEntry.Stock = product.Stock;
+                    dbEntry.Rating = product.Rating;
+                    dbEntry.ImageData = product.ImageData;
+                    dbEntry.ImageMimeType = product.ImageMimeType;
+                }
+            }
+            context.SaveChanges();
+        }
+
+        public Product DeleteProduct(int productID)
+        {
+            Product dbEntry = context.Products.Find(productID);
+            if (dbEntry != null)
+            {
+                context.Products.Remove(dbEntry);
+                context.SaveChanges();
+            }
+            return dbEntry;
+        }
+    }
+}`,
+    binder: `// MischiefStore.WebUI/Infrastructure/Binders/CartModelBinder.cs
+using System.Web.Mvc;
+using MischiefStore.Domain.Entities;
+
+namespace MischiefStore.WebUI.Infrastructure.Binders
+{
+    public class CartModelBinder : IModelBinder
+    {
+        private const string SessionKey = "Cart";
+
+        public object BindModel(ControllerContext controllerContext,
+            ModelBindingContext bindingContext)
+        {
+            // Decouple controllers from raw HttpContext.Session:
+            Cart cart = null;
+            if (controllerContext.HttpContext.Session != null)
+            {
+                cart = (Cart)controllerContext.HttpContext.Session[SessionKey];
+            }
+
+            // Create new Cart if nonexistent in active session:
+            if (cart == null)
+            {
+                cart = new Cart();
+                if (controllerContext.HttpContext.Session != null)
+                {
+                    controllerContext.HttpContext.Session[SessionKey] = cart;
+                }
+            }
+
+            return cart;
+        }
+    }
+}`,
+    ninject: `// MischiefStore.WebUI/App_Start/NinjectWebCommon.cs
+using System;
+using System.Configuration;
+using System.Web;
+using Microsoft.Web.Infrastructure.DynamicModuleHelper;
+using Ninject;
+using Ninject.Web.Common;
+using MischiefStore.Domain.Abstract;
+using MischiefStore.Domain.Concrete;
+
+namespace MischiefStore.WebUI.App_Start
+{
+    public static class NinjectWebCommon
+    {
+        private static void RegisterServices(IKernel kernel)
+        {
+            // Entity Framework Repository binding
+            kernel.Bind<IProductRepository>().To<EFProductRepository>();
+
+            // Email Order Processing with web.config credentials
+            EmailSettings emailSettings = new EmailSettings
+            {
+                WriteAsFile = bool.Parse(ConfigurationManager
+                    .AppSettings["Email.WriteAsFile"] ?? "true"),
+                MailToAddress = "orders@wackythings.store"
+            };
+
+            kernel.Bind<IOrderProcessor>().To<EmailOrderProcessor>()
+                .WithConstructorArgument("settings", emailSettings);
+        }
+    }
+}`
+};
+
+window.showAdminSourceCode = function (key) {
+    const pre = document.getElementById('adm-source-code-pre');
+    if (!pre) return;
+    pre.textContent = window.ADMIN_SOURCE_CODES[key] || window.ADMIN_SOURCE_CODES.admin;
+
+    ['admin', 'repo', 'binder', 'ninject'].forEach(k => {
+        const btn = document.getElementById(`adm-code-btn-${k}`);
+        if (!btn) return;
+        if (k === key) {
+            btn.className = 'px-2.5 py-1 rounded bg-teal-700 text-white font-bold cursor-pointer transition-all';
+        } else {
+            btn.className = 'px-2.5 py-1 rounded bg-black/40 text-earth-300 hover:text-white cursor-pointer transition-all';
+        }
+    });
+};
+
+// Backward-Compatibility Aliases
+window.openAdminModal = function (id) {
+    window.openProductEditModal(id);
+};
+window.closeAdminModal = function () {
+    window.closeProductEditModal();
+};
+window.handleAdminDelete = function (id) {
+    window.deleteAdminProduct(id);
+};
+window.openAdminToolsPanel = function () {
+    const el = document.getElementById('admin-tools-panel-backdrop');
+    if (el) el.classList.remove('hidden');
+};
+window.closeAdminToolsPanel = function () {
+    const el = document.getElementById('admin-tools-panel-backdrop');
+    if (el) el.classList.add('hidden');
+};
 
 /**
  * ==============================================================================
@@ -1613,11 +2373,19 @@ window.switchView = function (targetView) {
             if (typeof window.renderCourses === 'function') {
                 window.renderCourses(window.activeCourseCategory || 'all');
             }
-            window.currentView = 'learning';
+        } else if (targetView === 'admin') {
+            if (adminMain) {
+                adminMain.classList.remove('hidden');
+                adminMain.classList.add('flex', 'animate-blur-fade-in');
+            }
+            window.currentView = 'admin';
+            if (typeof window.renderAdminProductsTable === 'function') {
+                window.renderAdminProductsTable();
+            }
             if (hBlogText) hBlogText.innerText = 'The Wacky Blog';
             if (hBlogIcon) hBlogIcon.className = 'fa-solid fa-newspaper text-earth-300';
-            if (hLearningText) hLearningText.innerText = 'Store Catalog';
-            if (hLearningIcon) hLearningIcon.className = 'fa-solid fa-shop text-white';
+            if (hLearningText) hLearningText.innerText = 'Funny Academy';
+            if (hLearningIcon) hLearningIcon.className = 'fa-solid fa-graduation-cap text-amber-200';
         } else {
             if (storeMain) {
                 storeMain.classList.remove('hidden');
@@ -2605,6 +3373,11 @@ window.toggleAdminPanel = function () {
     adminMain.classList.add('flex');
 
     window.currentView = 'admin';
+    if (typeof window.switchAdminTab === 'function') {
+        window.switchAdminTab('products');
+    } else if (typeof window.renderAdminProductsTable === 'function') {
+        window.renderAdminProductsTable();
+    }
     if (typeof window.renderAdminPosts === 'function') {
         window.renderAdminPosts();
     }
@@ -3664,7 +4437,7 @@ document.addEventListener('DOMContentLoaded', () => {
         window.INITIAL_PRODUCTS = JSON.parse(JSON.stringify(window.PRODUCTS));
     }
 
-    // Auto-open modals if targeted via URL query or hash
+    // Auto-open modals and views if targeted via URL query or hash
     const params = new URLSearchParams(window.location.search);
     if (params.get('open') === 'shipping' || window.location.hash === '#shipping') {
         setTimeout(() => {
@@ -3674,9 +4447,17 @@ document.addEventListener('DOMContentLoaded', () => {
         setTimeout(() => {
             if (typeof window.toggleAdminPanel === 'function') window.toggleAdminPanel();
         }, 300);
-    } else if (params.get('open') === 'admin-crud') {
+    } else if (params.get('open') === 'admin-products' || params.get('open') === 'admin-crud') {
         setTimeout(() => {
-            if (typeof window.openAdminModal === 'function') window.openAdminModal();
+            if (typeof window.openAdminTab === 'function') window.openAdminTab('products');
+        }, 300);
+    } else if (params.get('open') === 'admin-orders') {
+        setTimeout(() => {
+            if (typeof window.openAdminTab === 'function') window.openAdminTab('orders');
+        }, 300);
+    } else if (params.get('open') === 'admin-blog') {
+        setTimeout(() => {
+            if (typeof window.openAdminTab === 'function') window.openAdminTab('blog');
         }, 300);
     } else if (params.get('open') === 'arch') {
         setTimeout(() => {
