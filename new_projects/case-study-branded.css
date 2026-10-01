@@ -697,9 +697,7 @@ ul.bullet-list li::before,
 }
 
 .summary-action-area {
-  margin-top: 24px;
-  padding-top: 20px;
-  border-top: 1px solid var(--border-card);
+  margin-top: 20px;
   display: flex;
   align-items: center;
   justify-content: flex-start;
@@ -707,50 +705,43 @@ ul.bullet-list li::before,
   flex-wrap: wrap;
 }
 
-/* Branded Case Study Bottom Button */
+/* Branded Case Study Launch Button - Orange matching header button */
 .btn-launch-project {
   display: inline-flex;
   align-items: center;
-  gap: 12px;
-  padding: 14px 28px;
-  background: #08080a;
-  color: #f5a623;
-  border: 1.5px solid #f5a623;
+  gap: 10px;
+  padding: 12px 24px;
+  background: #f5a623;
+  color: #08080a;
+  border: 1px solid #f5a623;
   border-radius: 6px;
   font-family: 'JetBrains Mono', monospace;
-  font-size: 0.80rem;
+  font-size: 0.78rem;
   font-weight: 800;
   letter-spacing: 0.12em;
   text-transform: uppercase;
   text-decoration: none;
   transition: all 0.22s cubic-bezier(0.2, 0.8, 0.2, 1);
-  box-shadow: 0 4px 16px rgba(0, 0, 0, 0.2), 0 0 12px rgba(245, 166, 35, 0.18);
+  box-shadow: 0 4px 14px rgba(245, 166, 35, 0.3);
   cursor: pointer;
 }
 
-.btn-launch-project i.fa-play {
-  color: #f5a623;
-  font-size: 0.75rem;
-  transition: transform 0.2s ease, color 0.2s ease;
-}
-
+.btn-launch-project i.fa-play,
 .btn-launch-project i.fa-arrow-right {
-  color: #f5a623;
+  color: #08080a;
   font-size: 0.75rem;
-  transition: transform 0.2s ease, color 0.2s ease;
+  transition: transform 0.2s ease;
 }
 
 .btn-launch-project:hover {
-  background: #f5a623;
-  color: #08080a;
-  border-color: #f5a623;
+  background: #ffb84d;
+  border-color: #ffb84d;
+  color: #000000;
   transform: translateY(-2px);
-  box-shadow: 0 8px 24px rgba(245, 166, 35, 0.42), 0 0 20px rgba(245, 166, 35, 0.3);
+  box-shadow: 0 0 20px rgba(245, 166, 35, 0.5);
 }
 
-.btn-launch-project:hover i.fa-play,
 .btn-launch-project:hover i.fa-arrow-right {
-  color: #08080a;
   transform: translateX(3px);
 }
 
