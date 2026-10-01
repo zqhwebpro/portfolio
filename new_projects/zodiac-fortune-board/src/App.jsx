@@ -368,10 +368,6 @@ function App() {
         </div>
 
         <div className="header-actions">
-          <a href="../index.html" className="astral-btn back-btn">
-            <i className="fa-solid fa-arrow-left"></i> Back to Projects
-          </a>
-
           {/* Audio Mute/Unmute */}
           <button 
             className="astral-btn icon-btn" 
