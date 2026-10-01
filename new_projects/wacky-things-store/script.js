@@ -2690,5 +2690,752 @@ if (window.location.hash === '#learning' || window.location.search.includes('vie
             window.switchView('blog');
         }
     }, 100);
+} else if (window.location.hash === '#shipping' || window.location.search.includes('view=shipping')) {
+    setTimeout(() => {
+        if (typeof window.scrollToShippingCalculator === 'function') {
+            window.scrollToShippingCalculator();
+        }
+    }, 150);
 }
+
+/**
+ * ==============================================================================
+ * GEODESIC SHIPPING DISTANCE & FREIGHT CALCULATOR ENGINE
+ * (.NET C# Spherical Trigonometry & Interactive Map Coordinates)
+ * ==============================================================================
+ */
+
+// Fulfillment Hub Presets (Point A - Origin)
+window.SHIPPING_HUBS = {
+    area51: { id: 'area51', name: 'Area 51 Oddities Depot', code: 'HUB-NV', lat: 37.2431, lon: -115.7930, x: 225, y: 240, city: 'Area 51, NV' },
+    roswell: { id: 'roswell', name: 'Roswell Prank Vault', code: 'HUB-NM', lat: 33.3943, lon: -104.5230, x: 353, y: 292, city: 'Roswell, NM' },
+    bermuda: { id: 'bermuda', name: 'Bermuda Triangle Freight Dock', code: 'HUB-FL', lat: 25.7617, lon: -80.1918, x: 630, y: 396, city: 'Miami / Bermuda, FL' },
+    chicago: { id: 'chicago', name: 'Cluck-A-Tron Central Hangar', code: 'HUB-IL', lat: 41.8781, lon: -87.6298, x: 545, y: 177, city: 'Chicago, IL' },
+    seattle: { id: 'seattle', name: 'Weirdo HQ North', code: 'HUB-WA', lat: 47.6062, lon: -122.3321, x: 150, y: 99, city: 'Seattle, WA' },
+    nyc: { id: 'nyc', name: 'Absurdity Distribution Hub', code: 'HUB-NY', lat: 40.7128, lon: -74.0060, x: 700, y: 193, city: 'New York, NY' }
+};
+
+// Destination Presets (Point B - Delivery Destination)
+window.SHIPPING_DESTINATIONS = {
+    austin: { id: 'austin', name: 'Austin, TX', code: 'DEST-TX', lat: 30.2672, lon: -97.7431, x: 430, y: 335, city: 'Austin, TX' },
+    la: { id: 'la', name: 'Los Angeles, CA', code: 'DEST-CA', lat: 34.0522, lon: -118.2437, x: 197, y: 283, city: 'Los Angeles, CA' },
+    denver: { id: 'denver', name: 'Denver, CO', code: 'DEST-CO', lat: 39.7392, lon: -104.9903, x: 348, y: 206, city: 'Denver, CO' },
+    miami: { id: 'miami', name: 'Miami, FL', code: 'DEST-FL', lat: 25.7617, lon: -80.1918, x: 630, y: 396, city: 'Miami, FL' },
+    boston: { id: 'boston', name: 'Boston, MA', code: 'DEST-MA', lat: 42.3601, lon: -71.0589, x: 734, y: 170, city: 'Boston, MA' },
+    atlanta: { id: 'atlanta', name: 'Atlanta, GA', code: 'DEST-GA', lat: 33.7490, lon: -84.3880, x: 582, y: 287, city: 'Atlanta, GA' },
+    honolulu: { id: 'honolulu', name: 'Honolulu, HI', code: 'DEST-HI', lat: 21.3069, lon: -157.8583, x: 95, y: 430, city: 'Honolulu, HI' },
+    london: { id: 'london', name: 'London, UK', code: 'DEST-UK', lat: 51.5074, lon: -0.1278, x: 885, y: 90, city: 'London, UK' },
+    tokyo: { id: 'tokyo', name: 'Tokyo, Japan', code: 'DEST-JP', lat: 35.6762, lon: 139.6503, x: 885, y: 430, city: 'Tokyo, Japan' }
+};
+
+// Current Shipping State
+window.currentOrigin = { ...window.SHIPPING_HUBS.area51 };
+window.currentDest = { ...window.SHIPPING_DESTINATIONS.austin };
+window.activeShippingTier = 'ground';
+window.activeWeightKey = 'standard';
+window.distanceUnit = 'mi';
+window.mapClickMode = 'origin'; // 'origin' or 'destination'
+window.isDraggingShippingPin = null; // 'a' or 'b' or null
+
+// C# Haversine Algorithm in JavaScript
+window.calculateHaversineMiles = function (lat1, lon1, lat2, lon2) {
+    const R = 3958.8; // Earth's mean radius in statute miles
+    const dLat = (lat2 - lat1) * Math.PI / 180;
+    const dLon = (lon2 - lon1) * Math.PI / 180;
+    const a =
+        Math.sin(dLat / 2) * Math.sin(dLat / 2) +
+        Math.cos(lat1 * Math.PI / 180) * Math.cos(lat2 * Math.PI / 180) *
+        Math.sin(dLon / 2) * Math.sin(dLon / 2);
+    const c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1 - a));
+    return R * c;
+};
+
+// Initial Azimuth / Compass Bearing
+window.calculateBearingDegrees = function (lat1, lon1, lat2, lon2) {
+    const phi1 = lat1 * Math.PI / 180;
+    const phi2 = lat2 * Math.PI / 180;
+    const deltaLambda = (lon2 - lon1) * Math.PI / 180;
+    const y = Math.sin(deltaLambda) * Math.cos(phi2);
+    const x = Math.cos(phi1) * Math.sin(phi2) - Math.sin(phi1) * Math.cos(phi2) * Math.cos(deltaLambda);
+    const theta = Math.atan2(y, x);
+    const deg = (theta * 180 / Math.PI + 360) % 360;
+    const compassDirections = ['N', 'NNE', 'NE', 'ENE', 'E', 'ESE', 'SE', 'SSE', 'S', 'SSW', 'SW', 'WSW', 'W', 'WNW', 'NW', 'NNW'];
+    const idx = Math.round(deg / 22.5) % 16;
+    return { degrees: deg.toFixed(1), direction: compassDirections[idx] };
+};
+
+// Weight Multipliers
+window.WEIGHT_FACTORS = {
+    pocket: { factor: 1.0, label: 'Pocket Gag (< 1.0 lb)' },
+    standard: { factor: 1.25, label: 'Novelty Parcel (3.5 lbs)' },
+    crate: { factor: 2.1, label: 'Absurd Crate (25.0 lbs)' }
+};
+
+// Velocity & Rate Calculation Engine
+window.updateShippingCalculation = function () {
+    const orig = window.currentOrigin;
+    const dest = window.currentDest;
+    if (!orig || !dest) return;
+
+    const miles = window.calculateHaversineMiles(orig.lat, orig.lon, dest.lat, dest.lon);
+    const km = miles * 1.60934;
+    const overlandMiles = miles * 1.18; // Highway commercial circuity factor
+    const overlandKm = overlandMiles * 1.60934;
+    const bearing = window.calculateBearingDegrees(orig.lat, orig.lon, dest.lat, dest.lon);
+    const weightFactor = (window.WEIGHT_FACTORS[window.activeWeightKey] || window.WEIGHT_FACTORS.standard).factor;
+
+    // Display Coordinates
+    const coordsA = document.getElementById('coords-display-a');
+    const coordsB = document.getElementById('coords-display-b');
+    const coordsBearing = document.getElementById('coords-display-bearing');
+    if (coordsA) coordsA.innerText = `${orig.lat.toFixed(2)}°N, ${Math.abs(orig.lon).toFixed(2)}°${orig.lon < 0 ? 'W' : 'E'} (${orig.city || orig.name})`;
+    if (coordsB) coordsB.innerText = `${dest.lat.toFixed(2)}°N, ${Math.abs(dest.lon).toFixed(2)}°${dest.lon < 0 ? 'W' : 'E'} (${dest.city || dest.name})`;
+    if (coordsBearing) coordsBearing.innerText = `${bearing.degrees}° ${bearing.direction}`;
+
+    // Pin Labels
+    const pinALabel = document.getElementById('pin-a-label');
+    const pinBLabel = document.getElementById('pin-b-label');
+    if (pinALabel) pinALabel.innerText = (orig.city || orig.name).toUpperCase();
+    if (pinBLabel) pinBLabel.innerText = (dest.city || dest.name).toUpperCase();
+
+    // Telemetry HUD Readouts
+    const distVal = document.getElementById('telemetry-distance-val');
+    const distUnit = document.getElementById('telemetry-distance-unit');
+    const altUnitVal = document.getElementById('telemetry-alt-unit-val');
+    const overlandVal = document.getElementById('telemetry-overland-val');
+    const overlandUnit = document.getElementById('telemetry-overland-unit');
+
+    if (window.distanceUnit === 'km') {
+        if (distVal) distVal.innerText = km.toLocaleString(undefined, { minimumFractionDigits: 1, maximumFractionDigits: 1 });
+        if (distUnit) distUnit.innerText = 'KILOMETERS';
+        if (altUnitVal) altUnitVal.innerText = `= ${miles.toLocaleString(undefined, { minimumFractionDigits: 1, maximumFractionDigits: 1 })} statute miles`;
+        if (overlandVal) overlandVal.innerText = overlandKm.toLocaleString(undefined, { minimumFractionDigits: 1, maximumFractionDigits: 1 });
+        if (overlandUnit) overlandUnit.innerText = 'KM';
+    } else {
+        if (distVal) distVal.innerText = miles.toLocaleString(undefined, { minimumFractionDigits: 1, maximumFractionDigits: 1 });
+        if (distUnit) distUnit.innerText = 'MILES';
+        if (altUnitVal) altUnitVal.innerText = `= ${km.toLocaleString(undefined, { minimumFractionDigits: 1, maximumFractionDigits: 1 })} kilometers`;
+        if (overlandVal) overlandVal.innerText = overlandMiles.toLocaleString(undefined, { minimumFractionDigits: 1, maximumFractionDigits: 1 });
+        if (overlandUnit) overlandUnit.innerText = 'MILES';
+    }
+
+    // Carrier Tier Pricing & Transit Times
+    // Tier 1: Ground (52 mph overland)
+    const groundDays = Math.max(1, Math.ceil(overlandMiles / 520));
+    const groundPrice = (4.99 + (miles * 0.0035 * weightFactor));
+    const groundElPrice = document.getElementById('tier-ground-price');
+    const groundElEta = document.getElementById('tier-ground-eta');
+    if (groundElPrice) groundElPrice.innerText = `$${groundPrice.toFixed(2)}`;
+    if (groundElEta) groundElEta.innerText = `ETA: ${groundDays} Business Day${groundDays > 1 ? 's' : ''}`;
+
+    // Tier 2: Jetstream Express (480 mph)
+    const expressHours = Math.max(1.5, Math.round((miles / 480 + 1.2) * 10) / 10);
+    const expressPrice = (14.99 + (miles * 0.0075 * weightFactor));
+    const expressElPrice = document.getElementById('tier-express-price');
+    const expressElEta = document.getElementById('tier-express-eta');
+    if (expressElPrice) expressElPrice.innerText = `$${expressPrice.toFixed(2)}`;
+    if (expressElEta) expressElEta.innerText = `ETA: ${expressHours} Hours Air Freight`;
+
+    // Tier 3: Supersonic Drone (220 mph)
+    const droneHours = Math.max(0.8, Math.round((miles / 220) * 10) / 10);
+    const dronePrice = (24.99 + (miles * 0.012 * weightFactor));
+    const droneElPrice = document.getElementById('tier-drone-price');
+    const droneElEta = document.getElementById('tier-drone-eta');
+    if (droneElPrice) droneElPrice.innerText = `$${dronePrice.toFixed(2)}`;
+    if (droneElEta) droneElEta.innerText = `ETA: ${droneHours} Hours Direct Flight`;
+
+    // Active Selected Tier Total Fee
+    let activeFee = groundPrice;
+    let activeEta = `${groundDays} Business Days`;
+
+    if (window.activeShippingTier === 'express') {
+        activeFee = expressPrice;
+        activeEta = `${expressHours} Hours Air Express`;
+    } else if (window.activeShippingTier === 'drone') {
+        activeFee = dronePrice;
+        activeEta = `${droneHours} Hours Geodesic Drone`;
+    } else if (window.activeShippingTier === 'quantum') {
+        activeFee = 99.99;
+        activeEta = '0.004 Seconds (Instant)';
+    }
+
+    // Check cart subtotal for free shipping eligibility on ground
+    const cartSubtotal = (typeof window.cart !== 'undefined' && Array.isArray(window.cart))
+        ? window.cart.reduce((sum, item) => sum + (item.price * item.quantity), 0)
+        : 0;
+
+    const calcFeeEl = document.getElementById('calculated-shipping-fee');
+    const eligBadge = document.getElementById('shipping-eligibility-badge');
+    const quoteEta = document.getElementById('quote-delivery-eta');
+
+    if (window.activeShippingTier === 'ground' && cartSubtotal >= 35.00) {
+        if (calcFeeEl) calcFeeEl.innerHTML = `<span class="line-through text-pink-400/50 text-lg mr-1">$${groundPrice.toFixed(2)}</span> <span class="text-emerald-400 font-extrabold">FREE</span>`;
+        if (eligBadge) {
+            eligBadge.innerText = '🎉 Cart Over $35 Qualified for Free Shipping!';
+            eligBadge.className = 'px-2 py-0.5 rounded-full bg-emerald-500/20 text-emerald-300 border border-emerald-500/40 text-[10px] font-mono font-bold';
+        }
+    } else {
+        if (calcFeeEl) calcFeeEl.innerText = `$${activeFee.toFixed(2)}`;
+        if (eligBadge) {
+            if (cartSubtotal >= 35.00 && window.activeShippingTier !== 'ground') {
+                eligBadge.innerText = 'Ground is FREE with order over $35';
+                eligBadge.className = 'px-2 py-0.5 rounded-full bg-pink-500/20 text-pink-300 border border-pink-500/40 text-[10px] font-mono font-bold';
+            } else {
+                eligBadge.innerText = 'FREE Standard Shipping on Orders $35+';
+                eligBadge.className = 'px-2 py-0.5 rounded-full bg-fuchsia-500/20 text-fuchsia-300 border border-fuchsia-500/40 text-[10px] font-mono font-bold';
+            }
+        }
+    }
+
+    if (quoteEta) quoteEta.innerText = activeEta;
+
+    // Update SVG Map Pins and Geodesic Arc Path
+    window.renderGeodesicArcOnSvg(orig.x, orig.y, dest.x, dest.y, miles, km);
+};
+
+// Render Geodesic Arc and Position Apex Pill
+window.renderGeodesicArcOnSvg = function (x1, y1, x2, y2, miles, km) {
+    const pinA = document.getElementById('map-pin-a');
+    const pinB = document.getElementById('map-pin-b');
+    const arcPath = document.getElementById('route-geodesic-path');
+    const apexPill = document.getElementById('route-apex-pill');
+    const apexText = document.getElementById('route-apex-distance-text');
+
+    if (pinA) pinA.setAttribute('transform', `translate(${x1}, ${y1})`);
+    if (pinB) pinB.setAttribute('transform', `translate(${x2}, ${y2})`);
+
+    // Parabolic Great-Circle Curve Calculation
+    const dx = x2 - x1;
+    const dy = y2 - y1;
+    const dist = Math.sqrt(dx * dx + dy * dy);
+    const mx = (x1 + x2) / 2;
+    const my = (y1 + y2) / 2;
+
+    // Curve height proportional to distance with bounds
+    const curveHeight = Math.min(130, Math.max(35, dist * 0.28));
+    const cx = mx;
+    const cy = my - curveHeight;
+
+    const pathData = `M ${x1},${y1} Q ${cx},${cy} ${x2},${y2}`;
+    if (arcPath) arcPath.setAttribute('d', pathData);
+
+    // Apex Coordinate at t = 0.5 on Quadratic Bezier: B(0.5) = 0.25*P0 + 0.5*P1 + 0.25*P2
+    const apexX = 0.25 * x1 + 0.5 * cx + 0.25 * x2;
+    const apexY = 0.25 * y1 + 0.5 * cy + 0.25 * y2;
+
+    // Position HTML overlay pill relative to SVG container percentage
+    if (apexPill) {
+        const svgWrap = document.getElementById('shipping-map-svg-wrap');
+        if (svgWrap) {
+            const pctX = (apexX / 960) * 100;
+            const pctY = (apexY / 520) * 100;
+            apexPill.style.left = `${pctX}%`;
+            apexPill.style.top = `${Math.max(8, pctY - 6)}%`;
+        }
+    }
+
+    if (apexText) {
+        if (window.distanceUnit === 'km') {
+            apexText.innerText = `${km.toFixed(1)} km • ${miles.toFixed(1)} mi`;
+        } else {
+            apexText.innerText = `${miles.toFixed(1)} mi • ${km.toFixed(1)} km`;
+        }
+    }
+};
+
+// Selection Change Handlers
+window.handleOriginChange = function (hubId) {
+    const hub = window.SHIPPING_HUBS[hubId];
+    if (hub) {
+        window.currentOrigin = { ...hub };
+        window.updateShippingCalculation();
+    }
+};
+
+window.handleDestinationChange = function (destId) {
+    const dest = window.SHIPPING_DESTINATIONS[destId];
+    if (dest) {
+        window.currentDest = { ...dest };
+        window.updateShippingCalculation();
+    }
+};
+
+// Swap Points A & B
+window.swapShippingPoints = function () {
+    const temp = { ...window.currentOrigin };
+    window.currentOrigin = { ...window.currentDest };
+    window.currentDest = { ...temp };
+
+    // Update select dropdowns if presets match
+    const origSelect = document.getElementById('origin-hub-select');
+    const destSelect = document.getElementById('dest-city-select');
+    if (origSelect && window.currentOrigin.id) origSelect.value = window.currentOrigin.id;
+    if (destSelect && window.currentDest.id) destSelect.value = window.currentDest.id;
+
+    window.updateShippingCalculation();
+    triggerFlashToast('Swapped Origin Point A and Destination Point B');
+};
+
+// Randomize Route
+window.randomizeShippingRoute = function () {
+    const hubKeys = Object.keys(window.SHIPPING_HUBS);
+    const destKeys = Object.keys(window.SHIPPING_DESTINATIONS);
+
+    const randHubKey = hubKeys[Math.floor(Math.random() * hubKeys.length)];
+    let randDestKey = destKeys[Math.floor(Math.random() * destKeys.length)];
+
+    window.currentOrigin = { ...window.SHIPPING_HUBS[randHubKey] };
+    window.currentDest = { ...window.SHIPPING_DESTINATIONS[randDestKey] };
+
+    const origSelect = document.getElementById('origin-hub-select');
+    const destSelect = document.getElementById('dest-city-select');
+    if (origSelect) origSelect.value = randHubKey;
+    if (destSelect) destSelect.value = randDestKey;
+
+    window.updateShippingCalculation();
+    triggerFlashToast(`Generated Random Geodesic Route: ${window.currentOrigin.city} → ${window.currentDest.city}`);
+};
+
+// Unit Toggle (Miles / Km)
+window.toggleDistanceUnit = function () {
+    window.distanceUnit = window.distanceUnit === 'mi' ? 'km' : 'mi';
+    const label = document.getElementById('unit-toggle-label');
+    if (label) label.innerText = window.distanceUnit === 'km' ? 'Units: Km (km)' : 'Units: Miles (mi)';
+    window.updateShippingCalculation();
+};
+
+// Package Weight Selection
+window.setPackageWeight = function (key) {
+    window.activeWeightKey = key;
+    ['pocket', 'standard', 'crate'].forEach(k => {
+        const btn = document.getElementById(`pkg-btn-${k}`);
+        if (!btn) return;
+        if (k === key) {
+            btn.className = 'p-2 rounded-xl bg-[#FF1493]/20 border-2 border-[#FF1493] text-white font-bold text-center transition-all cursor-pointer shadow-sm shadow-pink-500/20';
+        } else {
+            btn.className = 'p-2 rounded-xl bg-black/40 border border-fuchsia-900/60 hover:border-pink-500 text-fuchsia-200 font-bold text-center transition-all cursor-pointer';
+        }
+    });
+
+    const activeLabel = document.getElementById('active-weight-label');
+    if (activeLabel && window.WEIGHT_FACTORS[key]) {
+        activeLabel.innerText = window.WEIGHT_FACTORS[key].label;
+    }
+    window.updateShippingCalculation();
+};
+
+// Carrier Velocity Tier Selection
+window.setShippingTier = function (tier) {
+    window.activeShippingTier = tier;
+    window.updateShippingCalculation();
+};
+
+// Map Mode Selection (Point A vs Point B Placement)
+window.setMapClickMode = function (mode) {
+    window.mapClickMode = mode;
+    const btnA = document.getElementById('map-mode-origin-btn');
+    const btnB = document.getElementById('map-mode-dest-btn');
+
+    if (mode === 'origin') {
+        if (btnA) btnA.className = 'px-2.5 py-1 rounded-lg bg-[#FF1493] text-white font-bold transition-all flex items-center gap-1 cursor-pointer';
+        if (btnB) btnB.className = 'px-2.5 py-1 rounded-lg text-fuchsia-300 hover:text-white font-bold transition-all flex items-center gap-1 cursor-pointer';
+    } else {
+        if (btnA) btnA.className = 'px-2.5 py-1 rounded-lg text-pink-300 hover:text-white font-bold transition-all flex items-center gap-1 cursor-pointer';
+        if (btnB) btnB.className = 'px-2.5 py-1 rounded-lg bg-[#D946EF] text-white font-bold transition-all flex items-center gap-1 cursor-pointer';
+    }
+};
+
+// Interactive Drag & Click Coordinates Engine for SVG
+window.initShippingMapInteractions = function () {
+    const svgWrap = document.getElementById('shipping-map-svg-wrap');
+    const svgEl = document.getElementById('shipping-map-svg');
+    const pinA = document.getElementById('map-pin-a');
+    const pinB = document.getElementById('map-pin-b');
+
+    if (!svgWrap || !svgEl || !pinA || !pinB) return;
+
+    function getSvgCoordinates(e) {
+        const rect = svgEl.getBoundingClientRect();
+        const clientX = e.touches ? e.touches[0].clientX : e.clientX;
+        const clientY = e.touches ? e.touches[0].clientY : e.clientY;
+        const x = Math.max(30, Math.min(930, ((clientX - rect.left) / rect.width) * 960));
+        const y = Math.max(30, Math.min(490, ((clientY - rect.top) / rect.height) * 520));
+
+        // Invert to Latitude & Longitude in North America view bounds
+        const lon = -125 + ((x - 120) / 660) * 58;
+        const lat = 49 - ((y - 80) / 340) * 25;
+
+        return { x: Math.round(x), y: Math.round(y), lat: parseFloat(lat.toFixed(2)), lon: parseFloat(lon.toFixed(2)) };
+    }
+
+    // Pin Drag Listeners
+    pinA.addEventListener('mousedown', (e) => {
+        e.stopPropagation();
+        window.isDraggingShippingPin = 'a';
+    });
+    pinA.addEventListener('touchstart', (e) => {
+        e.stopPropagation();
+        window.isDraggingShippingPin = 'a';
+    }, { passive: true });
+
+    pinB.addEventListener('mousedown', (e) => {
+        e.stopPropagation();
+        window.isDraggingShippingPin = 'b';
+    });
+    pinB.addEventListener('touchstart', (e) => {
+        e.stopPropagation();
+        window.isDraggingShippingPin = 'b';
+    }, { passive: true });
+
+    window.addEventListener('mousemove', (e) => {
+        if (!window.isDraggingShippingPin) return;
+        const coords = getSvgCoordinates(e);
+        if (window.isDraggingShippingPin === 'a') {
+            window.currentOrigin = {
+                id: 'custom_a',
+                name: 'Custom Origin Pin',
+                city: `Custom Map Pin (${coords.lat}°N, ${Math.abs(coords.lon)}°W)`,
+                lat: coords.lat,
+                lon: coords.lon,
+                x: coords.x,
+                y: coords.y
+            };
+        } else if (window.isDraggingShippingPin === 'b') {
+            window.currentDest = {
+                id: 'custom_b',
+                name: 'Custom Dest Pin',
+                city: `Custom Map Pin (${coords.lat}°N, ${Math.abs(coords.lon)}°W)`,
+                lat: coords.lat,
+                lon: coords.lon,
+                x: coords.x,
+                y: coords.y
+            };
+        }
+        window.updateShippingCalculation();
+    });
+
+    window.addEventListener('touchmove', (e) => {
+        if (!window.isDraggingShippingPin) return;
+        const coords = getSvgCoordinates(e);
+        if (window.isDraggingShippingPin === 'a') {
+            window.currentOrigin = {
+                id: 'custom_a',
+                name: 'Custom Origin Pin',
+                city: `Custom Map Pin (${coords.lat}°N, ${Math.abs(coords.lon)}°W)`,
+                lat: coords.lat,
+                lon: coords.lon,
+                x: coords.x,
+                y: coords.y
+            };
+        } else if (window.isDraggingShippingPin === 'b') {
+            window.currentDest = {
+                id: 'custom_b',
+                name: 'Custom Dest Pin',
+                city: `Custom Map Pin (${coords.lat}°N, ${Math.abs(coords.lon)}°W)`,
+                lat: coords.lat,
+                lon: coords.lon,
+                x: coords.x,
+                y: coords.y
+            };
+        }
+        window.updateShippingCalculation();
+    }, { passive: true });
+
+    window.addEventListener('mouseup', () => {
+        window.isDraggingShippingPin = null;
+    });
+    window.addEventListener('touchend', () => {
+        window.isDraggingShippingPin = null;
+    });
+
+    // Canvas Click Listener (Place selected pin mode)
+    svgWrap.addEventListener('click', (e) => {
+        if (e.target.closest('#map-pin-a') || e.target.closest('#map-pin-b')) return;
+        const coords = getSvgCoordinates(e);
+        if (window.mapClickMode === 'origin') {
+            window.currentOrigin = {
+                id: 'custom_a',
+                name: 'Custom Origin Pin',
+                city: `Custom Pin A (${coords.lat}°N, ${Math.abs(coords.lon)}°W)`,
+                lat: coords.lat,
+                lon: coords.lon,
+                x: coords.x,
+                y: coords.y
+            };
+        } else {
+            window.currentDest = {
+                id: 'custom_b',
+                name: 'Custom Dest Pin',
+                city: `Custom Pin B (${coords.lat}°N, ${Math.abs(coords.lon)}°W)`,
+                lat: coords.lat,
+                lon: coords.lon,
+                x: coords.x,
+                y: coords.y
+            };
+        }
+        window.updateShippingCalculation();
+    });
+};
+
+// Animated Courier Moving Along the Great-Circle Geodesic Arc
+let courierProgress = 0;
+window.startCourierAnimation = function () {
+    const path = document.getElementById('route-geodesic-path');
+    const courier = document.getElementById('route-courier-particle');
+    if (path && courier && typeof path.getTotalLength === 'function') {
+        const len = path.getTotalLength();
+        if (len > 0) {
+            courierProgress = (courierProgress + 0.0035) % 1.0;
+            const pt = path.getPointAtLength(courierProgress * len);
+            courier.setAttribute('transform', `translate(${pt.x}, ${pt.y})`);
+        }
+    }
+    requestAnimationFrame(window.startCourierAnimation);
+};
+
+// Apply Shipping Rate to Cart Action
+window.applyShippingToCart = function () {
+    const orig = window.currentOrigin;
+    const dest = window.currentDest;
+    const miles = window.calculateHaversineMiles(orig.lat, orig.lon, dest.lat, dest.lon);
+    const weightFactor = (window.WEIGHT_FACTORS[window.activeWeightKey] || window.WEIGHT_FACTORS.standard).factor;
+
+    let fee = (4.99 + (miles * 0.0035 * weightFactor));
+    let tierName = 'Standard Wacky Ground';
+    if (window.activeShippingTier === 'express') {
+        fee = (14.99 + (miles * 0.0075 * weightFactor));
+        tierName = 'Jetstream Express Air';
+    } else if (window.activeShippingTier === 'drone') {
+        fee = (24.99 + (miles * 0.012 * weightFactor));
+        tierName = 'Supersonic Novelty Drone';
+    } else if (window.activeShippingTier === 'quantum') {
+        fee = 99.99;
+        tierName = 'Quantum Teleportation';
+    }
+
+    // Check if free shipping applies
+    const cartSubtotal = (typeof window.cart !== 'undefined' && Array.isArray(window.cart))
+        ? window.cart.reduce((sum, item) => sum + (item.price * item.quantity), 0)
+        : 0;
+
+    if (window.activeShippingTier === 'ground' && cartSubtotal >= 35.00) {
+        fee = 0.00;
+    }
+
+    const shippingDrawerDisplay = document.getElementById('drawer-shipping-display');
+    if (shippingDrawerDisplay) {
+        shippingDrawerDisplay.innerHTML = `<span class="text-pink-600 font-bold">${tierName}:</span> ${fee === 0 ? '<span class="text-emerald-600 font-black">FREE ($35+ order)</span>' : '$' + fee.toFixed(2)}`;
+    }
+
+    triggerFlashToast(`Applied ${tierName} shipping quote ($${fee.toFixed(2)}) for ${miles.toFixed(0)} miles to your cart!`);
+};
+
+// Copy Logistics Route Manifest JSON
+window.copyShippingManifest = function () {
+    const orig = window.currentOrigin;
+    const dest = window.currentDest;
+    const miles = window.calculateHaversineMiles(orig.lat, orig.lon, dest.lat, dest.lon);
+    const km = miles * 1.60934;
+    const bearing = window.calculateBearingDegrees(orig.lat, orig.lon, dest.lat, dest.lon);
+
+    const manifest = {
+        application: "The Wacky Things Store - .NET C# Geodesic Logistics Engine",
+        timestampUtc: new Date().toISOString(),
+        origin: {
+            hub: orig.name,
+            code: orig.code,
+            coordinates: { lat: orig.lat, lon: orig.lon }
+        },
+        destination: {
+            endpoint: dest.name,
+            code: dest.code,
+            coordinates: { lat: dest.lat, lon: dest.lon }
+        },
+        geodesicTelemetry: {
+            greatCircleMiles: parseFloat(miles.toFixed(2)),
+            greatCircleKilometers: parseFloat(km.toFixed(2)),
+            overlandHighwayMiles: parseFloat((miles * 1.18).toFixed(2)),
+            compassHeading: `${bearing.degrees}° ${bearing.direction}`
+        },
+        selectedCarrierTier: window.activeShippingTier,
+        weightClassification: window.activeWeightKey
+    };
+
+    navigator.clipboard.writeText(JSON.stringify(manifest, null, 2)).then(() => {
+        triggerFlashToast('Logistics Route Manifest JSON copied to clipboard!');
+    }).catch(() => {
+        triggerFlashToast('Route manifest calculated: ' + miles.toFixed(0) + ' miles');
+    });
+};
+
+// Scroll to Shipping Calculator Portal
+window.scrollToShippingCalculator = function () {
+    if (window.currentView !== 'store') {
+        window.switchView('store');
+    }
+    setTimeout(() => {
+        const target = document.getElementById('shipping-distance-calculator');
+        if (target) {
+            target.scrollIntoView({ behavior: 'smooth', block: 'start' });
+            target.classList.add('ring-4', 'ring-[#FF1493]', 'transition-all', 'duration-500');
+            setTimeout(() => {
+                target.classList.remove('ring-4', 'ring-[#FF1493]');
+            }, 1800);
+        }
+    }, 250);
+};
+
+// Toggle C# Architecture Inspector Panel
+window.toggleCodeInspector = function () {
+    const el = document.getElementById('shipping-code-inspector');
+    if (!el) return;
+    el.classList.toggle('hidden');
+    if (!el.classList.contains('hidden')) {
+        window.showCodeTab('haversine');
+    }
+};
+
+// C# Code Snippets for Code Inspector
+window.CS_CODE_SNIPPETS = {
+    haversine: `// WackyStore.Domain/Services/GeodesicShippingService.cs
+using System;
+using WackyStore.Domain.Entities;
+
+namespace WackyStore.Domain.Services
+{
+    /// <summary>
+    /// Implements Great-Circle Haversine spherical trigonometry equation 
+    /// for accurate planetary distance calculation between fulfillment hubs.
+    /// </summary>
+    public class GeodesicShippingService : IShippingRateCalculator
+    {
+        private const double EarthRadiusMiles = 3958.8; // Mean spherical Earth radius
+        private const double HighwayCircuityFactor = 1.18; // Standard commercial freight road circuity
+
+        public DistanceMatrix ComputeDistance(GeoLocation origin, GeoLocation destination)
+        {
+            if (origin == null || destination == null)
+                throw new ArgumentNullException("Coordinates cannot be null.");
+
+            // Convert decimal degrees to radians
+            double dLat = ToRadians(destination.Latitude - origin.Latitude);
+            double dLon = ToRadians(destination.Longitude - origin.Longitude);
+
+            double lat1Rad = ToRadians(origin.Latitude);
+            double lat2Rad = ToRadians(destination.Latitude);
+
+            // Haversine spherical formula
+            double a = Math.Sin(dLat / 2) * Math.Sin(dLat / 2) +
+                       Math.Cos(lat1Rad) * Math.Cos(lat2Rad) *
+                       Math.Sin(dLon / 2) * Math.Sin(dLon / 2);
+
+            double c = 2 * Math.Atan2(Math.Sqrt(a), Math.Sqrt(1 - a));
+            double greatCircleMiles = EarthRadiusMiles * c;
+
+            return new DistanceMatrix
+            {
+                GreatCircleMiles = Math.Round(greatCircleMiles, 2),
+                GreatCircleKilometers = Math.Round(greatCircleMiles * 1.60934, 2),
+                OverlandMiles = Math.Round(greatCircleMiles * HighwayCircuityFactor, 2),
+                BearingDegrees = CalculateInitialAzimuth(origin, destination)
+            };
+        }
+
+        private static double ToRadians(double degrees) => degrees * Math.PI / 180.0;
+    }
+}`,
+    controller: `// WackyStore.WebUI/Controllers/ShippingCalculatorController.cs
+using System.Threading.Tasks;
+using System.Web.Mvc;
+using WackyStore.Domain.Abstract;
+using WackyStore.Domain.Entities;
+
+namespace WackyStore.WebUI.Controllers
+{
+    public class ShippingCalculatorController : Controller
+    {
+        private readonly IShippingRateCalculator _shippingCalculator;
+
+        public ShippingCalculatorController(IShippingRateCalculator shippingCalculator)
+        {
+            _shippingCalculator = shippingCalculator; // Ninject dependency injection
+        }
+
+        [HttpPost]
+        public async Task<JsonResult> EstimateShipping(GeoLocation origin, GeoLocation destination, ShippingTier tier)
+        {
+            if (!ModelState.IsValid)
+                return Json(new { success = false, message = "Invalid geo-coordinate payload." });
+
+            var matrix = await Task.Run(() => _shippingCalculator.ComputeDistance(origin, destination));
+            decimal freightCost = _shippingCalculator.ComputeFreightRate(matrix.GreatCircleMiles, tier);
+
+            return Json(new
+            {
+                success = true,
+                miles = matrix.GreatCircleMiles,
+                kilometers = matrix.GreatCircleKilometers,
+                overlandMiles = matrix.OverlandMiles,
+                bearing = matrix.BearingDegrees,
+                freightCost = freightCost
+            }, JsonRequestBehavior.AllowGet);
+        }
+    }
+}`,
+    entity: `// WackyStore.Domain/Entities/ShippingRoute.cs
+using System;
+
+namespace WackyStore.Domain.Entities
+{
+    public class ShippingRoute
+    {
+        public int RouteId { get; set; }
+        public string OriginCode { get; set; }
+        public string DestinationCode { get; set; }
+        public GeoLocation OriginCoords { get; set; }
+        public GeoLocation DestinationCoords { get; set; }
+        public double DistanceMiles { get; set; }
+        public ShippingTier CarrierTier { get; set; }
+        public decimal QuotedFee { get; set; }
+        public DateTime EstimatedDeliveryUtc { get; set; }
+    }
+
+    public enum ShippingTier
+    {
+        StandardGround = 1,
+        JetstreamExpress = 2,
+        SupersonicDrone = 3,
+        QuantumTeleportation = 4
+    }
+}`
+};
+
+window.showCodeTab = function (tab) {
+    const pre = document.getElementById('shipping-code-pre');
+    if (!pre) return;
+    pre.textContent = window.CS_CODE_SNIPPETS[tab] || window.CS_CODE_SNIPPETS.haversine;
+
+    ['haversine', 'controller', 'entity'].forEach(t => {
+        const btn = document.getElementById(`codetab-${t}`);
+        if (!btn) return;
+        if (t === tab) {
+            btn.className = 'px-3 py-1 rounded-lg bg-[#FF1493] text-white font-bold transition-all cursor-pointer';
+        } else {
+            btn.className = 'px-3 py-1 rounded-lg bg-black/40 hover:bg-fuchsia-950 text-fuchsia-300 font-bold transition-all cursor-pointer border border-fuchsia-800/40';
+        }
+    });
+};
+
+// Initialize Shipping Calculator on DOM load
+setTimeout(() => {
+    if (typeof window.initShippingMapInteractions === 'function') {
+        window.initShippingMapInteractions();
+    }
+    if (typeof window.updateShippingCalculation === 'function') {
+        window.updateShippingCalculation();
+    }
+    if (typeof window.startCourierAnimation === 'function') {
+        window.startCourierAnimation();
+    }
+}, 200);
 
