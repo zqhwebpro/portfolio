@@ -2568,7 +2568,26 @@ window.toggleAdminPanel = function () {
     const storeMain = document.getElementById('store-main-view');
     const blogMain = document.getElementById('blog-main-view');
     const adminMain = document.getElementById('admin-main-view');
+    const learningMain = document.getElementById('learning-main-view');
 
+    if (!adminMain) return;
+
+    const isCurrentlyVisible = !adminMain.classList.contains('hidden');
+
+    if (isCurrentlyVisible) {
+        // Toggle OFF: return to store
+        adminMain.classList.add('hidden');
+        adminMain.classList.remove('flex');
+        if (storeMain) {
+            storeMain.classList.remove('hidden');
+            storeMain.classList.add('flex');
+        }
+        window.currentView = 'store';
+        window.scrollTo({ top: 0, behavior: 'smooth' });
+        return;
+    }
+
+    // Toggle ON
     if (storeMain) {
         storeMain.classList.add('hidden');
         storeMain.classList.remove('flex');
@@ -2577,13 +2596,47 @@ window.toggleAdminPanel = function () {
         blogMain.classList.add('hidden');
         blogMain.classList.remove('flex');
     }
-    if (adminMain) {
-        adminMain.classList.remove('hidden');
-        adminMain.classList.add('flex');
+    if (learningMain) {
+        learningMain.classList.add('hidden');
+        learningMain.classList.remove('flex');
     }
 
+    adminMain.classList.remove('hidden');
+    adminMain.classList.add('flex');
+
     window.currentView = 'admin';
-    renderAdminPosts();
+    if (typeof window.renderAdminPosts === 'function') {
+        window.renderAdminPosts();
+    }
+    window.scrollTo({ top: 0, behavior: 'smooth' });
+};
+
+window.goToStoreCatalog = function () {
+    const storeMain = document.getElementById('store-main-view');
+    const blogMain = document.getElementById('blog-main-view');
+    const adminMain = document.getElementById('admin-main-view');
+    const learningMain = document.getElementById('learning-main-view');
+    if (adminMain) {
+        adminMain.classList.add('hidden');
+        adminMain.classList.remove('flex');
+    }
+    if (blogMain) {
+        blogMain.classList.add('hidden');
+        blogMain.classList.remove('flex');
+    }
+    if (learningMain) {
+        learningMain.classList.add('hidden');
+        learningMain.classList.remove('flex');
+    }
+    if (storeMain) {
+        storeMain.classList.remove('hidden');
+        storeMain.classList.add('flex');
+    }
+    window.currentView = 'store';
+    if (typeof window.filterCategory === 'function') {
+        window.filterCategory('all');
+    }
+    window.scrollTo({ top: 0, behavior: 'smooth' });
 };
 
 const originalToggleStoreBlog = window.toggleViewStoreBlog;
@@ -3309,13 +3362,16 @@ window.openShippingModal = function () {
     if (!modal) return;
 
     modal.classList.remove('hidden');
+    modal.style.display = 'flex';
 
     setTimeout(() => {
         if (!window.shippingLeafletMap) {
-            window.initLeafletShippingMap();
+            if (typeof window.initLeafletShippingMap === 'function') {
+                window.initLeafletShippingMap();
+            }
         } else {
             window.shippingLeafletMap.invalidateSize();
-            if (window.shippingMarkerA && window.shippingMarkerB) {
+            if (window.shippingMarkerA && window.shippingMarkerB && typeof L !== 'undefined') {
                 const group = new L.featureGroup([window.shippingMarkerA, window.shippingMarkerB]);
                 window.shippingLeafletMap.fitBounds(group.getBounds().pad(0.35));
             }
@@ -3325,7 +3381,10 @@ window.openShippingModal = function () {
 
 window.closeShippingModal = function () {
     const modal = document.getElementById('shipping-modal-backdrop');
-    if (modal) modal.classList.add('hidden');
+    if (modal) {
+        modal.classList.add('hidden');
+        modal.style.display = 'none';
+    }
 };
 
 // Open & Close Admin Tools Slide-Over Panel
@@ -3613,7 +3672,15 @@ document.addEventListener('DOMContentLoaded', () => {
         }, 300);
     } else if (params.get('open') === 'admin' || window.location.hash === '#admin') {
         setTimeout(() => {
-            if (typeof window.openAdminToolsPanel === 'function') window.openAdminToolsPanel();
+            if (typeof window.toggleAdminPanel === 'function') window.toggleAdminPanel();
+        }, 300);
+    } else if (params.get('open') === 'admin-crud') {
+        setTimeout(() => {
+            if (typeof window.openAdminModal === 'function') window.openAdminModal();
+        }, 300);
+    } else if (params.get('open') === 'arch') {
+        setTimeout(() => {
+            if (typeof window.openArchitectureModal === 'function') window.openArchitectureModal();
         }, 300);
     }
 });

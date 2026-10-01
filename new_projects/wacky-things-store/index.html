@@ -570,19 +570,66 @@
         }
 
         /* 4. SECONDARY / GHOST / NEUTRAL BUTTONS (.NET Arch, Admin CRUD, Admin, Inactive Filters) */
-        header button:not(.bg-appetite-700):not(#header-learning-btn):not(#search-clear-btn):not(#header-blog-btn) {
+        header button:not(.bg-appetite-700):not(#header-learning-btn):not(#search-clear-btn):not(#header-blog-btn):not(#header-shipping-btn) {
             background: #ffffff !important;
             border: 1px solid rgba(167, 139, 250, 0.55) !important;
 
             color: #2E1065 !important;
         }
 
-        header button:not(.bg-appetite-700):not(#header-learning-btn):not(#search-clear-btn):not(#header-blog-btn):hover {
+        header button:not(.bg-appetite-700):not(#header-learning-btn):not(#search-clear-btn):not(#header-blog-btn):not(#header-shipping-btn):hover {
             background: #F4EFFF !important;
             border-color: #8B5CF6 !important;
 
             transform: translateY(-1.5px);
             color: #1A0845 !important;
+        }
+
+        /* 5. SHIPPING ESTIMATOR BUTTON: DARK MAGENTA WITH WHITE TEXT */
+        #header-shipping-btn,
+        button#header-shipping-btn,
+        a#header-shipping-btn,
+        header #header-shipping-btn {
+            background: #701A75 !important;
+            background: linear-gradient(135deg, #701A75 0%, #86198F 50%, #701A75 100%) !important;
+            border: 1px solid #A21CAF !important;
+            color: #ffffff !important;
+            box-shadow: 0 4px 14px -2px rgba(112, 26, 117, 0.45) !important;
+        }
+
+        #header-shipping-btn:hover,
+        button#header-shipping-btn:hover,
+        a#header-shipping-btn:hover,
+        header #header-shipping-btn:hover {
+            background: #58135D !important;
+            background: linear-gradient(135deg, #86198F 0%, #A21CAF 50%, #86198F 100%) !important;
+            border-color: #D946EF !important;
+            color: #ffffff !important;
+            transform: translateY(-1.5px) !important;
+            box-shadow: 0 6px 18px -2px rgba(112, 26, 117, 0.55) !important;
+        }
+
+        #header-shipping-btn i,
+        #header-shipping-btn span {
+            color: #ffffff !important;
+        }
+
+        /* 6. ADMIN TOP BAR (Above the Top Bar) */
+        #admin-top-bar {
+            background: #181024;
+            border-bottom: 1px solid rgba(139, 92, 246, 0.3);
+            color: #ede9fe;
+            font-size: 0.78rem;
+            position: relative;
+            z-index: 50;
+        }
+
+        #admin-top-bar .admin-top-btn {
+            transition: all 0.2s cubic-bezier(0.16, 1, 0.3, 1);
+        }
+
+        #admin-top-bar .admin-top-btn:hover {
+            transform: translateY(-1px);
         }
 
         /* Header Blog Toggle Button (High-Contrast Rich Indigo/Plum Gradient) */
@@ -1282,6 +1329,79 @@
         </div>
     </div>
 
+    <!-- 0. ADMIN PANEL BAR (At the top above the top bar) -->
+    <div id="admin-top-bar"
+        data-blueprint-file="WackyStore.WebUI/Controllers/AdminController.cs"
+        data-blueprint-role="Persistent Admin Panel Bar"
+        data-blueprint-layer="WebUI / Administration"
+        data-blueprint-dom="Top-level administration panel placed directly above the announcement and navigation bars."
+        data-blueprint-desc="Consolidated administrative navigation providing rapid access to .NET Architecture maps, EF6 Product CRUD inventory, and Blog CMS management."
+        class="w-full bg-[#181024] border-b border-purple-900/60 text-purple-100 py-1.5 px-3 sm:px-6 relative z-50">
+        <div class="store-fluid-container flex items-center justify-between flex-wrap gap-2 text-xs">
+            <!-- Left: Admin Brand & Primary Management Triggers -->
+            <div class="flex items-center gap-2 sm:gap-3 flex-wrap">
+                <span class="inline-flex items-center gap-1.5 font-heading font-black text-amber-400 tracking-wide text-xs">
+                    <i class="fa-solid fa-gauge-high text-amber-400"></i>
+                    <span>ADMIN CONSOLE</span>
+                </span>
+                <span class="text-purple-400/40 hidden sm:inline">|</span>
+
+                <!-- .NET Architecture Modal Trigger -->
+                <button type="button" onclick="window.openArchitectureModal()"
+                    data-blueprint-file="WackyStore.Domain/Abstract/IProductRepository.cs"
+                    data-blueprint-role="N-Tier Architecture Map"
+                    class="admin-top-btn px-2.5 py-1 rounded-lg bg-purple-900/70 hover:bg-purple-800 text-purple-200 hover:text-white border border-purple-700/60 text-[11px] font-bold flex items-center gap-1.5 transition-all cursor-pointer shadow-xs"
+                    title="View .NET Solution N-Tier Architecture Map">
+                    <i class="fa-solid fa-sitemap text-teal-300"></i>
+                    <span>.NET Arch</span>
+                </button>
+
+                <!-- Admin Inventory CRUD Modal Trigger -->
+                <button type="button" onclick="window.openAdminModal()"
+                    data-blueprint-file="WackyStore.WebUI/Controllers/AdminController.cs"
+                    data-blueprint-role="Product CRUD Management"
+                    class="admin-top-btn px-2.5 py-1 rounded-lg bg-teal-900/70 hover:bg-teal-800 text-teal-200 hover:text-white border border-teal-700/60 text-[11px] font-bold flex items-center gap-1.5 transition-all cursor-pointer shadow-xs"
+                    title="Manage Product Catalog (Entity Framework 6 CRUD)">
+                    <i class="fa-solid fa-sliders text-teal-300"></i>
+                    <span>Product CRUD</span>
+                </button>
+
+                <!-- Wacky Blog Admin Panel Toggle Trigger (Works the way it used to) -->
+                <button type="button" onclick="window.toggleAdminPanel()" id="topbar-blog-admin-btn"
+                    data-blueprint-file="WackyStore.WebUI/Controllers/BlogController.cs"
+                    data-blueprint-role="Blog CMS Portal Toggle"
+                    class="admin-top-btn px-2.5 py-1 rounded-lg bg-purple-800/80 hover:bg-purple-700 text-amber-300 hover:text-white border border-amber-500/40 text-[11px] font-bold flex items-center gap-1.5 transition-all cursor-pointer shadow-xs"
+                    title="Toggle Wacky Blog Admin CMS Panel (Works the way it used to)">
+                    <i class="fa-solid fa-pen-to-square text-amber-300"></i>
+                    <span>Blog Admin</span>
+                </button>
+
+                <!-- Reset Catalog Button -->
+                <button type="button" onclick="window.resetStoreCatalog()"
+                    class="admin-top-btn px-2 py-1 rounded-lg bg-white/5 hover:bg-white/10 text-purple-300 hover:text-purple-100 border border-purple-400/20 text-[11px] font-medium hidden md:inline-flex items-center gap-1 transition-all cursor-pointer"
+                    title="Restore default product catalog">
+                    <i class="fa-solid fa-rotate-left text-xs"></i>
+                    <span>Reset Catalog</span>
+                </button>
+            </div>
+
+            <!-- Right: Diagnostics & Status Telemetry -->
+            <div class="flex items-center gap-3 text-[11px] font-mono text-purple-300 shrink-0">
+                <span class="inline-flex items-center gap-1.5">
+                    <span class="h-2 w-2 rounded-full bg-emerald-400 animate-pulse"></span>
+                    <span class="hidden sm:inline">ASP.NET MVC 5 &bull; EF6 Online</span>
+                    <span class="sm:hidden">Online</span>
+                </span>
+                <span class="text-purple-400/40 hidden lg:inline">|</span>
+                <button type="button" onclick="window.clearCart()"
+                    class="text-purple-300 hover:text-pink-300 transition-colors hidden lg:inline-flex items-center gap-1 cursor-pointer"
+                    title="Clear Shopping Cart Session">
+                    <i class="fa-solid fa-trash-can text-xs"></i> Clear Cart
+                </button>
+            </div>
+        </div>
+    </div>
+
     <!-- 1. VALUE PROPOSITION ANNOUNCEMENT BAR (Full Width) -->
     <div class="bg-earth-900 text-earth-100 border-b border-earth-800 store-fluid-container py-2 text-xs font-semibold text-center tracking-wide flex items-center justify-between gap-4 flex-wrap"
         data-blueprint-file="WackyStore.WebUI/Views/Shared/_Layout.cshtml" data-blueprint-role="Global Marketing Banner"
@@ -1413,31 +1533,18 @@
             <div class="flex items-center gap-2.5">
 
 
-                <!-- Admin & Engineering Tools Panel Trigger -->
-                <button onclick="window.openAdminToolsPanel()" id="header-admin-tools-btn"
-                    data-blueprint-file="WackyStore.WebUI/Controllers/AdminController.cs"
-                    data-blueprint-role="Admin &amp; Engineering Panel Trigger" data-blueprint-layer="WebUI / Admin Portal"
-                    data-blueprint-dom="Action button opening consolidated administrative drawer for .NET Architecture, Product CRUD, and Blog CMS."
-                    data-blueprint-desc="Opens slide-over developer and administrator portal consolidating N-tier architecture maps, EF6 CRUD operations, and diagnostics."
-                    data-blueprint-code="[Authorize(Roles = &quot;Admin&quot;)] public ActionResult AdminPanel() => PartialView();"
-                    class="h-10 px-3.5 rounded-xl bg-white border border-canvas-border hover:border-earth-700 text-earth-800 hover:text-earth-900 text-xs font-bold flex items-center gap-1.5 transition-all shadow-xs cursor-pointer"
-                    title="Open Admin &amp; Engineering Tools Panel">
-                    <i class="fa-solid fa-screwdriver-wrench text-earth-700"></i>
-                    <span class="hidden sm:inline">Admin Tools</span>
-                </button>
-
-                <!-- Shipping Distance Map Estimator Trigger (Deep Pink & Vibrant Magenta) -->
+                <!-- Shipping Distance Map Estimator Trigger (Dark Magenta with White Text) -->
                 <button onclick="window.openShippingModal()" id="header-shipping-btn"
                     data-blueprint-file="WackyStore.WebUI/Controllers/ShippingCalculatorController.cs"
                     data-blueprint-role="Geodesic Shipping Distance Estimator Portal"
                     data-blueprint-layer="WebUI / Navigation &amp; Spatial Routing"
-                    data-blueprint-dom="Deep pink &amp; vibrant magenta gradient action button opening the interactive US map shipping calculator modal."
+                    data-blueprint-dom="Dark magenta action button with white text opening the interactive US map shipping calculator modal."
                     data-blueprint-desc="Opens dedicated US map shipping distance estimator using real Leaflet GIS cartography, Haversine spherical math, and carrier rate calculation."
                     data-blueprint-code="public ActionResult ShippingCalculator() => PartialView(&quot;_DistanceMatrixCalculator&quot;);"
-                    class="h-10 px-3.5 rounded-xl bg-gradient-to-r from-[#FF1493] via-[#D946EF] to-[#FF1493] hover:from-[#E0115F] hover:to-[#C026D3] text-white text-xs font-bold flex items-center gap-1.5 transition-all shadow-md shadow-pink-500/25 active:scale-95 cursor-pointer border border-pink-400/40"
+                    class="h-10 px-3.5 rounded-xl bg-[#701A75] hover:bg-[#58135D] text-white text-xs font-bold flex items-center gap-1.5 transition-all shadow-md active:scale-95 cursor-pointer border border-[#A21CAF]/50"
                     title="Estimate Shipping Distance Across America">
-                    <i class="fa-solid fa-map-location-dot text-pink-200"></i>
-                    <span class="hidden md:inline">Shipping Estimator</span>
+                    <i class="fa-solid fa-map-location-dot text-white"></i>
+                    <span class="hidden md:inline text-white">Shipping Estimator</span>
                 </button>
 
                 <!-- CASE STUDY LINK BUTTON — commented out until ready to review
@@ -1739,45 +1846,6 @@
 
             </div>
 
-            <!-- ============================================================================== -->
-            <!-- 3.4 GEODESIC SHIPPING & TRANSIT ESTIMATOR BANNER (Shopping Page Style) -->
-            <!-- ============================================================================== -->
-            <section class="w-full mt-8 mb-4 rounded-2xl bg-white border border-canvas-border p-6 sm:p-8 shadow-xs flex flex-col md:flex-row items-center justify-between gap-6"
-                data-blueprint-file="WackyStore.Domain/Services/GeodesicShippingService.cs"
-                data-blueprint-role="Geodesic Shipping Distance Estimator Portal"
-                data-blueprint-layer="Domain / Spatial Logistics &amp; C# Algorithm"
-                data-blueprint-dom="Shopping page promotional card connecting users to interactive Leaflet US Map Shipping Estimator studio modal."
-                data-blueprint-desc="Launches dedicated US geographic logistics studio calculating Great-Circle nautical and overland freight miles between any two American locations."
-                data-blueprint-code="public class GeodesicShippingService : IShippingRateCalculator { ... }">
-                
-                <div class="flex items-start gap-4">
-                    <div class="h-12 w-12 rounded-2xl bg-gradient-to-br from-[#FF1493] to-[#D946EF] text-white flex items-center justify-center text-xl shrink-0 shadow-md shadow-pink-500/25">
-                        <i class="fa-solid fa-map-location-dot"></i>
-                    </div>
-                    <div class="space-y-1">
-                        <div class="flex items-center gap-2 flex-wrap">
-                            <span class="px-2.5 py-0.5 rounded-full bg-pink-100 text-[#BE123C] font-mono text-[10.5px] font-bold uppercase tracking-wider">
-                                Real US Map &bull; Leaflet GIS
-                            </span>
-                            <span class="text-xs text-earth-500 font-mono hidden sm:inline">&bull; Great-Circle Haversine Math</span>
-                        </div>
-                        <h2 class="font-heading font-black text-xl sm:text-2xl text-earth-950 tracking-tight">
-                            Interactive US Shipping Distance &amp; Freight Estimator
-                        </h2>
-                        <p class="text-xs sm:text-sm text-earth-700 max-w-2xl leading-relaxed">
-                            Click any two points on America, drag fulfillment and delivery pins, or select major logistics hubs to calculate exact Great-Circle miles, highway transit times, and live carrier rates.
-                        </p>
-                    </div>
-                </div>
-
-                <div class="flex items-center gap-3 shrink-0 w-full sm:w-auto justify-end">
-                    <button onclick="window.openShippingModal()" type="button"
-                        class="w-full sm:w-auto px-5 py-3 rounded-xl bg-gradient-to-r from-[#FF1493] via-[#D946EF] to-[#FF1493] hover:from-[#E0115F] hover:to-[#C026D3] text-white font-bold text-xs sm:text-sm flex items-center justify-center gap-2 shadow-md shadow-pink-500/30 hover:scale-105 active:scale-95 transition-all cursor-pointer border border-pink-400/40">
-                        <i class="fa-solid fa-calculator text-pink-200"></i>
-                        <span>Launch Shipping Estimator</span>
-                    </button>
-                </div>
-            </section>
 
         </div>
     </main>
@@ -3696,6 +3764,9 @@
             Education Store
         </span>
     </aside>
+
+    <!-- CLIENT APPLICATION SCRIPT -->
+    <script src="script.js?v=1790400000000"></script>
 
 </body>
 
