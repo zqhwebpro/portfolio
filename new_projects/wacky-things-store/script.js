@@ -3715,13 +3715,57 @@ window.initLeafletShippingMap = function () {
     window.shippingLeafletMap = map;
 
     // CARTO API Token for Authenticated Basemap Requests
-    window.CARTO_API_TOKEN = 'eyJhbGciOiJIUzI1NiJ9.eyJhIjoiYWNfYzB2ODd0dTQiLCJqdGkiOiIzOGJkZGRiNDEwOWI5YWMyNjI2MmMyMzkzOWU5NjhhMyJ9.ZL_ZbbsEx-yWu7ok1G5lGqb-0d95oO604IPlGlE4bn8';
+    window.CARTO_API_TOKEN = localStorage.getItem('carto_basemap_key') || 'eyJhbGciOiJIUzI1NiJ9.eyJhIjoiYWNfYzB2ODd0dTQiLCJqdGkiOiIzOGJkZGRiNDEwOWI5YWMyNjI2MmMyMzkzOWU5NjhhMyJ9.ZL_ZbbsEx-yWu7ok1G5lGqb-0d95oO604IPlGlE4bn8';
+    window.currentBasemapProvider = 'carto-voyager';
 
     window.getCartoTileUrl = function (isDark) {
-        const base = isDark
+        if (window.currentBasemapProvider === 'osm') {
+            return 'https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png';
+        }
+        const key = encodeURIComponent(window.CARTO_API_TOKEN.trim());
+        const base = (isDark || window.currentBasemapProvider === 'carto-dark')
             ? 'https://{s}.basemaps.cartocdn.com/dark_all/{z}/{x}/{y}{r}.png'
             : 'https://{s}.basemaps.cartocdn.com/rastertiles/voyager/{z}/{x}/{y}{r}.png';
-        return `${base}?api_key=${window.CARTO_API_TOKEN}`;
+        // CARTO Basemaps API strictly requires ?key= parameter (and accept ?api_key= as alias)
+        return `${base}?key=${key}&api_key=${key}`;
+    };
+
+    window.switchBasemapLayer = function (provider) {
+        window.currentBasemapProvider = provider;
+        if (window.shippingTileLayer && window.shippingLeafletMap) {
+            const isDark = document.body.classList.contains('dark-mode');
+            const tileUrl = window.getCartoTileUrl(isDark);
+            window.shippingTileLayer.setUrl(tileUrl);
+            
+            ['voyager', 'osm', 'dark'].forEach(p => {
+                const btn = document.getElementById(`basemap-btn-${p}`);
+                if (btn) {
+                    if ((p === 'voyager' && provider === 'carto-voyager') ||
+                        (p === 'osm' && provider === 'osm') ||
+                        (p === 'dark' && provider === 'carto-dark')) {
+                        btn.className = 'px-2 py-0.5 rounded-md bg-[#FF1493] text-white font-bold text-[10.5px] shadow-xs cursor-pointer';
+                    } else {
+                        btn.className = 'px-2 py-0.5 rounded-md text-earth-700 hover:text-earth-950 text-[10.5px] cursor-pointer';
+                    }
+                }
+            });
+        }
+    };
+
+    window.saveCartoApiKey = function (customKey) {
+        const input = document.getElementById('carto-token-input');
+        const keyToSave = customKey || (input ? input.value : '');
+        if (keyToSave && keyToSave.trim()) {
+            window.CARTO_API_TOKEN = keyToSave.trim();
+            localStorage.setItem('carto_basemap_key', window.CARTO_API_TOKEN);
+            if (window.shippingTileLayer) {
+                const isDark = document.body.classList.contains('dark-mode');
+                window.shippingTileLayer.setUrl(window.getCartoTileUrl(isDark));
+            }
+            if (typeof triggerFlashToast === 'function') {
+                triggerFlashToast('CARTO API Key updated & map reloaded!');
+            }
+        }
     };
 
     // CartoDB Voyager tiles (clean, light, e-commerce tailored for America) with CARTO API Token
@@ -3733,6 +3777,7 @@ window.initLeafletShippingMap = function () {
         subdomains: 'abcd',
         maxZoom: 19,
         api_key: window.CARTO_API_TOKEN,
+        key: window.CARTO_API_TOKEN,
         token: window.CARTO_API_TOKEN
     }).addTo(map);
 

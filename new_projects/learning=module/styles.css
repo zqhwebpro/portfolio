@@ -1,460 +1,303 @@
 /* ═══════════════════════════════════════════════════════════════════
-   ENGINEERING KNOWLEDGE MATRIX — FUTURISTIC SCI-FI HUD CYBERNETIC STYLES
-   Visual Architecture: Deep Midnight Navy, Electric Cyan & Cobalt Glow
+   ENGINEERING KNOWLEDGE MATRIX — NEXT-GEN OS SYSTEM STYLES
+   Visual Architecture: Crisp White Cards, Ambient OS Glassmorphism,
+   Cinematic Video Vignette & Polished Modern Operating System Chrome
    ═══════════════════════════════════════════════════════════════════ */
 
 :root {
-  --bg-void: #02040a;
-  --bg-deep: #030712;
-  --bg-card: rgba(11, 19, 43, 0.65);
-  --bg-card-hover: rgba(15, 27, 60, 0.85);
-  --bg-terminal: rgba(4, 9, 23, 0.95);
+  --os-bg: #030712;
+  --os-panel-bg: rgba(255, 255, 255, 0.85);
+  --os-panel-border: rgba(255, 255, 255, 0.5);
+  --os-card-white: #ffffff;
   
-  --cyan-primary: #00f0ff;
-  --cyan-bright: #38bdf8;
-  --cyan-glow: rgba(0, 240, 255, 0.3);
-  --cyan-border: rgba(0, 240, 255, 0.28);
-  --cyan-border-active: rgba(0, 240, 255, 0.8);
+  --os-blue: #0284c7;
+  --os-blue-light: #e0f2fe;
+  --os-cyan: #00f0ff;
+  --os-indigo: #4f46e5;
+  --os-slate-900: #0f172a;
+  --os-slate-800: #1e293b;
+  --os-slate-600: #475569;
+  --os-slate-400: #94a3b8;
+  --os-slate-100: #f1f5f9;
   
-  --cobalt-dark: #0a192f;
-  --cobalt-mid: #1e3a8a;
-  --cobalt-glow: rgba(30, 58, 138, 0.4);
-  
-  --emerald-live: #10b981;
-  --amber-warn: #f59e0b;
-  --crimson-alert: #f43f5e;
-  
-  --text-pure: #ffffff;
-  --text-ice: #e0f2fe;
-  --text-cyan: #7dd3fc;
-  --text-muted: #94a3b8;
-  --text-dim: #64748b;
-  
-  --font-display: 'Orbitron', -apple-system, sans-serif;
-  --font-heading: 'Rajdhani', -apple-system, sans-serif;
-  --font-sans: 'Inter', -apple-system, sans-serif;
+  --font-sans: 'Inter', -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+  --font-heading: 'Outfit', 'Inter', sans-serif;
   --font-mono: 'JetBrains Mono', monospace;
 }
 
-/* Custom Scrollbars */
+/* Custom Clean Scrollbars */
 ::-webkit-scrollbar {
-  width: 7px;
-  height: 7px;
+  width: 8px;
+  height: 8px;
 }
 ::-webkit-scrollbar-track {
-  background: var(--bg-void);
+  background: rgba(15, 23, 42, 0.4);
 }
 ::-webkit-scrollbar-thumb {
-  background: rgba(0, 240, 255, 0.25);
-  border-radius: 2px;
+  background: rgba(148, 163, 184, 0.35);
+  border-radius: 4px;
 }
 ::-webkit-scrollbar-thumb:hover {
-  background: var(--cyan-primary);
-  box-shadow: 0 0 10px var(--cyan-primary);
+  background: rgba(148, 163, 184, 0.6);
 }
 
-/* Base Body Grid & Ambient Glow */
 body {
-  background-color: var(--bg-deep);
-  color: var(--text-ice);
+  margin: 0;
+  padding: 0;
+  background-color: var(--os-bg);
   font-family: var(--font-sans);
+  color: #0f172a;
+  min-height: 100vh;
   overflow-x: hidden;
   position: relative;
-  min-height: 100vh;
+  -webkit-font-smoothing: antialiased;
 }
 
-/* Background Cyber Grid */
-.cyber-grid-canvas {
+/* ═══════════════════════════════════════════════════════════════════
+   1. BACKGROUND VIDEO & CINEMATIC VIGNETTE
+   ═══════════════════════════════════════════════════════════════════ */
+.video-bg-container {
   position: fixed;
   top: 0;
   left: 0;
   width: 100vw;
   height: 100vh;
-  z-index: 0;
+  overflow: hidden;
+  z-index: -3;
   pointer-events: none;
-  opacity: 0.55;
 }
 
-/* Subtle CRT Scanline Overlay */
-.scanline-overlay {
-  position: fixed;
-  top: 0;
-  left: 0;
-  width: 100vw;
-  height: 100vh;
-  z-index: 1;
-  pointer-events: none;
-  background: linear-gradient(
-    rgba(18, 16, 16, 0) 50%, 
-    rgba(0, 240, 255, 0.015) 50%
-  );
-  background-size: 100% 4px;
-  opacity: 0.7;
-}
-
-/* Ambient Radial Glow Spots */
-.ambient-glow-top {
+.video-bg-iframe {
   position: absolute;
-  top: -150px;
+  top: 50%;
   left: 50%;
-  transform: translateX(-50%);
-  width: 900px;
-  height: 450px;
-  background: radial-gradient(circle, rgba(0, 240, 255, 0.12) 0%, rgba(30, 58, 138, 0.08) 50%, transparent 75%);
+  width: 100vw;
+  height: 56.25vw; /* 16:9 aspect ratio */
+  min-height: 100vh;
+  min-width: 177.77vh; /* 16:9 aspect ratio */
+  transform: translate(-50%, -50%) scale(1.08);
   pointer-events: none;
-  z-index: 1;
-  filter: blur(40px);
+  filter: contrast(108%) saturate(115%) brightness(92%);
 }
 
-/* HUD Chamfer Polygon Shapes */
-.hud-chamfer {
-  clip-path: polygon(
-    0 0, 
-    calc(100% - 16px) 0, 
-    100% 16px, 
-    100% 100%, 
-    16px 100%, 
-    0 calc(100% - 16px)
+/* Deep Atmospheric Vignette Overlay */
+.video-vignette-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+  z-index: -2;
+  pointer-events: none;
+  background: radial-gradient(
+    circle at 50% 40%, 
+    rgba(15, 23, 42, 0.62) 0%, 
+    rgba(3, 7, 18, 0.82) 65%, 
+    rgba(2, 6, 23, 0.96) 100%
   );
+  box-shadow: inset 0 0 160px rgba(0, 0, 0, 0.85);
 }
 
-.hud-chamfer-sm {
-  clip-path: polygon(
-    0 0, 
-    calc(100% - 8px) 0, 
-    100% 8px, 
-    100% 100%, 
-    8px 100%, 
-    0 calc(100% - 8px)
-  );
-}
+/* ═══════════════════════════════════════════════════════════════════
+   2. NEW STYLED OS WINDOWS & WHITE CARDS
+   ═══════════════════════════════════════════════════════════════════ */
 
-.hud-chamfer-btn {
-  clip-path: polygon(
-    0 0, 
-    calc(100% - 12px) 0, 
-    100% 12px, 
-    100% 100%, 
-    12px 100%, 
-    0 calc(100% - 12px)
-  );
-}
-
-.hud-chamfer-tag {
-  clip-path: polygon(
-    0 0, 
-    calc(100% - 6px) 0, 
-    100% 6px, 
-    100% 100%, 
-    6px 100%, 
-    0 calc(100% - 6px)
-  );
-}
-
-/* Cybernetic Glassmorphism Panel */
-.hud-panel {
-  background: var(--bg-card);
-  backdrop-filter: blur(16px);
-  -webkit-backdrop-filter: blur(16px);
-  border: 1px solid var(--cyan-border);
-  box-shadow: 0 0 15px rgba(0, 240, 255, 0.07), inset 0 0 20px rgba(0, 240, 255, 0.02);
+/* Crisp Premium White Cards */
+.os-white-card {
+  background: #ffffff;
+  border-radius: 1.5rem;
+  border: 1px solid rgba(226, 232, 240, 0.9);
+  box-shadow: 
+    0 20px 40px -15px rgba(0, 0, 0, 0.35),
+    0 0 1px 1px rgba(255, 255, 255, 0.8) inset;
   transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1);
   position: relative;
 }
 
-.hud-panel:hover {
-  border-color: rgba(0, 240, 255, 0.6);
-  box-shadow: 0 0 25px rgba(0, 240, 255, 0.18), inset 0 0 30px rgba(0, 240, 255, 0.04);
-}
-
-/* Glowing Neon Cyan Border Effect */
-.hud-neon-border {
-  border: 1px solid var(--cyan-border);
-  box-shadow: 0 0 15px rgba(0, 240, 255, 0.15);
-}
-
-/* HUD Corner Reticles / Brackets */
-.hud-bracketed {
-  position: relative;
-}
-
-.hud-bracketed::before,
-.hud-bracketed::after {
-  content: '';
-  position: absolute;
-  width: 10px;
-  height: 10px;
-  pointer-events: none;
-  transition: all 0.3s ease;
-}
-
-.hud-bracketed::before {
-  top: -1px;
-  left: -1px;
-  border-top: 2px solid var(--cyan-primary);
-  border-left: 2px solid var(--cyan-primary);
-}
-
-.hud-bracketed::after {
-  bottom: -1px;
-  right: -1px;
-  border-bottom: 2px solid var(--cyan-primary);
-  border-right: 2px solid var(--cyan-primary);
-}
-
-.hud-bracketed:hover::before,
-.hud-bracketed:hover::after {
-  width: 16px;
-  height: 16px;
-  border-color: #ffffff;
-  box-shadow: 0 0 8px var(--cyan-primary);
-}
-
-/* Futuristic Angled Button */
-.btn-cyber-primary {
-  background: linear-gradient(135deg, rgba(0, 240, 255, 0.15) 0%, rgba(30, 58, 138, 0.35) 100%);
-  border: 1px solid var(--cyan-primary);
-  color: var(--text-pure);
-  font-family: var(--font-heading);
-  font-weight: 700;
-  letter-spacing: 0.08em;
-  text-transform: uppercase;
-  position: relative;
-  overflow: hidden;
-  transition: all 0.25s cubic-bezier(0.4, 0, 0.2, 1);
-  box-shadow: 0 0 15px rgba(0, 240, 255, 0.2), inset 0 0 10px rgba(0, 240, 255, 0.1);
-}
-
-.btn-cyber-primary::before {
-  content: '';
-  position: absolute;
-  top: 0;
-  left: -100%;
-  width: 100%;
-  height: 100%;
-  background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.3), transparent);
-  transition: 0.5s;
-}
-
-.btn-cyber-primary:hover {
-  background: linear-gradient(135deg, rgba(0, 240, 255, 0.35) 0%, rgba(14, 165, 233, 0.5) 100%);
-  border-color: #ffffff;
-  box-shadow: 0 0 25px rgba(0, 240, 255, 0.55), inset 0 0 15px rgba(0, 240, 255, 0.25);
+.os-white-card:hover {
+  box-shadow: 
+    0 25px 50px -12px rgba(0, 0, 0, 0.45),
+    0 0 0 1px rgba(56, 189, 248, 0.35);
   transform: translateY(-2px);
-  color: #ffffff;
 }
 
-.btn-cyber-primary:hover::before {
-  left: 100%;
+/* OS Glassmorphism Panel (Desktop Taskbars / Dialogs) */
+.os-glass-panel {
+  background: rgba(15, 23, 42, 0.72);
+  backdrop-filter: blur(24px);
+  -webkit-backdrop-filter: blur(24px);
+  border: 1px solid rgba(255, 255, 255, 0.12);
+  box-shadow: 0 12px 36px 0 rgba(0, 0, 0, 0.45);
 }
 
-.btn-cyber-primary:active {
-  transform: translateY(0);
-  box-shadow: 0 0 12px rgba(0, 240, 255, 0.4);
+.os-glass-panel-light {
+  background: rgba(255, 255, 255, 0.88);
+  backdrop-filter: blur(20px);
+  -webkit-backdrop-filter: blur(20px);
+  border: 1px solid rgba(255, 255, 255, 0.8);
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.15);
 }
 
-/* Secondary Cyber Button */
-.btn-cyber-ghost {
-  background: rgba(11, 19, 43, 0.6);
-  border: 1px solid rgba(0, 240, 255, 0.3);
-  color: var(--text-ice);
-  font-family: var(--font-heading);
-  letter-spacing: 0.05em;
-  transition: all 0.2s ease;
-}
-
-.btn-cyber-ghost:hover {
-  background: rgba(0, 240, 255, 0.15);
-  border-color: var(--cyan-primary);
-  color: #ffffff;
-  box-shadow: 0 0 15px rgba(0, 240, 255, 0.3);
-}
-
-/* Filter Chip Pill (HUD Terminal Toggle) */
-.hud-filter-chip {
-  background: rgba(11, 19, 43, 0.7);
-  border: 1px solid rgba(0, 240, 255, 0.2);
-  color: var(--text-cyan);
-  font-family: var(--font-mono);
-  font-size: 0.75rem;
-  letter-spacing: 0.05em;
-  padding: 0.5rem 1rem;
-  transition: all 0.2s ease;
-  cursor: pointer;
-  user-select: none;
-}
-
-.hud-filter-chip:hover {
-  border-color: var(--cyan-primary);
-  background: rgba(0, 240, 255, 0.1);
-  box-shadow: 0 0 12px rgba(0, 240, 255, 0.25);
-  color: #ffffff;
-}
-
-.hud-filter-chip.active {
-  background: linear-gradient(135deg, rgba(0, 240, 255, 0.25) 0%, rgba(30, 58, 138, 0.5) 100%);
-  border-color: var(--cyan-primary);
-  color: #ffffff;
-  box-shadow: 0 0 18px rgba(0, 240, 255, 0.4), inset 0 0 10px rgba(0, 240, 255, 0.15);
-}
-
-/* Pulsing Status Indicators */
-.hud-beacon {
-  width: 8px;
-  height: 8px;
+/* Window Chrome Dots (macOS / Modern OS Style) */
+.os-window-dot {
+  width: 11px;
+  height: 11px;
   border-radius: 50%;
   display: inline-block;
-  position: relative;
 }
+.os-dot-red { background: #ff5f56; border: 1px solid #e0443e; }
+.os-dot-yellow { background: #ffbd2e; border: 1px solid #dea123; }
+.os-dot-green { background: #27c93f; border: 1px solid #1aab29; }
 
-.hud-beacon::after {
-  content: '';
-  position: absolute;
-  top: -4px;
-  left: -4px;
-  right: -4px;
-  bottom: -4px;
-  border-radius: 50%;
-  border: 1px solid currentColor;
-  animation: beacon-pulse 2s cubic-bezier(0, 0.2, 0.8, 1) infinite;
-}
+/* ═══════════════════════════════════════════════════════════════════
+   3. OS TABBED WORKBENCH NAVIGATION
+   ═══════════════════════════════════════════════════════════════════ */
 
-@keyframes beacon-pulse {
-  0% {
-    transform: scale(0.6);
-    opacity: 1;
-  }
-  100% {
-    transform: scale(2.2);
-    opacity: 0;
-  }
-}
-
-.beacon-online {
-  background-color: var(--emerald-live);
-  color: var(--emerald-live);
-  box-shadow: 0 0 10px var(--emerald-live);
-}
-
-.beacon-cyan {
-  background-color: var(--cyan-primary);
-  color: var(--cyan-primary);
-  box-shadow: 0 0 10px var(--cyan-primary);
-}
-
-/* Architecture Interactive Flow Component */
-.arch-tier-box {
-  background: rgba(11, 19, 43, 0.85);
-  border: 1px solid rgba(0, 240, 255, 0.3);
-  backdrop-filter: blur(12px);
-  transition: all 0.3s ease;
-  position: relative;
-}
-
-.arch-tier-box:hover {
-  border-color: var(--cyan-primary);
-  box-shadow: 0 0 25px rgba(0, 240, 255, 0.25);
-  transform: translateY(-2px);
-}
-
-.arch-tier-box.active-pulse {
-  border-color: #ffffff;
-  box-shadow: 0 0 30px rgba(0, 240, 255, 0.6);
-}
-
-/* Animated Data Flow SVG */
-.flow-line {
-  stroke: rgba(0, 240, 255, 0.35);
-  stroke-dasharray: 6 6;
-  animation: flow-dash 1.8s linear infinite;
-}
-
-@keyframes flow-dash {
-  to {
-    stroke-dashoffset: -24;
-  }
-}
-
-/* Modal Dialog Glassmorphism Backdrop */
-dialog::backdrop {
-  background: rgba(2, 4, 10, 0.85);
+/* Outer Track Selector Tabs */
+.os-track-tab-btn {
+  background: rgba(255, 255, 255, 0.1);
   backdrop-filter: blur(12px);
   -webkit-backdrop-filter: blur(12px);
-}
-
-dialog[open] {
-  animation: hud-modal-reveal 0.3s cubic-bezier(0.16, 1, 0.3, 1) forwards;
-}
-
-@keyframes hud-modal-reveal {
-  from {
-    opacity: 0;
-    transform: scale(0.96) translateY(10px);
-  }
-  to {
-    opacity: 1;
-    transform: scale(1) translateY(0);
-  }
-}
-
-/* Cybernetic Glitch Micro-Hover */
-.glitch-hover:hover {
-  text-shadow: 2px 0 var(--cyan-primary), -2px 0 #3b82f6;
-}
-
-/* Code Preview Terminal Container */
-.cyber-code-box {
-  background: #030816;
-  border: 1px solid rgba(0, 240, 255, 0.25);
-  font-family: var(--font-mono);
-  box-shadow: inset 0 0 20px rgba(0, 0, 0, 0.8);
-}
-
-/* Tag Pill Styles */
-.competency-pill {
-  background: rgba(14, 165, 233, 0.12);
-  border: 1px solid rgba(56, 189, 248, 0.3);
-  color: #bae6fd;
-  font-family: var(--font-mono);
-  font-size: 0.72rem;
-  padding: 0.25rem 0.6rem;
-  transition: all 0.2s ease;
-}
-
-.competency-pill:hover {
-  background: rgba(0, 240, 255, 0.25);
-  border-color: var(--cyan-primary);
-  color: #ffffff;
-  box-shadow: 0 0 8px rgba(0, 240, 255, 0.3);
-}
-
-/* Terminal Log Stream Simulation */
-.terminal-stream-line {
-  display: flex;
-  align-items: flex-start;
+  color: #e2e8f0;
+  border: 1px solid rgba(255, 255, 255, 0.15);
+  border-radius: 1rem;
+  padding: 0.65rem 1.15rem;
+  font-family: var(--font-heading);
+  font-weight: 600;
+  font-size: 0.85rem;
+  letter-spacing: 0.02em;
+  display: inline-flex;
+  align-items: center;
   gap: 0.5rem;
-  line-height: 1.5;
-  font-size: 0.78rem;
+  transition: all 0.22s ease;
+  cursor: pointer;
+  white-space: nowrap;
+}
+
+.os-track-tab-btn:hover {
+  background: rgba(255, 255, 255, 0.22);
+  color: #ffffff;
+  border-color: rgba(255, 255, 255, 0.35);
+  transform: translateY(-1px);
+}
+
+.os-track-tab-btn.active {
+  background: #ffffff;
+  color: #0f172a;
+  border-color: #ffffff;
+  box-shadow: 0 8px 20px rgba(0, 0, 0, 0.35), 0 0 15px rgba(255, 255, 255, 0.3);
+  font-weight: 700;
+  transform: translateY(-2px);
+}
+
+/* Inner White Card Sub-Tabs */
+.os-sub-tab-btn {
+  padding: 0.5rem 1rem;
+  border-radius: 0.75rem;
+  font-family: var(--font-heading);
+  font-weight: 600;
+  font-size: 0.82rem;
+  color: #64748b;
+  background: transparent;
+  border: none;
+  transition: all 0.2s ease;
+  cursor: pointer;
+}
+
+.os-sub-tab-btn:hover {
+  color: #0f172a;
+  background: #f1f5f9;
+}
+
+.os-sub-tab-btn.active {
+  background: #0f172a;
+  color: #ffffff;
+  box-shadow: 0 4px 12px rgba(15, 23, 42, 0.25);
+}
+
+/* Modern OS Action Button */
+.os-btn-primary {
+  background: linear-gradient(135deg, #0284c7 0%, #0369a1 100%);
+  color: #ffffff;
+  font-family: var(--font-heading);
+  font-weight: 700;
+  font-size: 0.85rem;
+  border-radius: 0.85rem;
+  padding: 0.65rem 1.4rem;
+  border: none;
+  box-shadow: 0 4px 14px rgba(2, 132, 199, 0.35);
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  transition: all 0.2s ease;
+  cursor: pointer;
+}
+
+.os-btn-primary:hover {
+  background: linear-gradient(135deg, #0369a1 0%, #075985 100%);
+  box-shadow: 0 6px 20px rgba(2, 132, 199, 0.5);
+  transform: translateY(-1px);
+}
+
+.os-btn-secondary {
+  background: #f1f5f9;
+  color: #1e293b;
+  font-family: var(--font-heading);
+  font-weight: 600;
+  font-size: 0.85rem;
+  border-radius: 0.85rem;
+  padding: 0.65rem 1.2rem;
+  border: 1px solid #e2e8f0;
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  transition: all 0.2s ease;
+  cursor: pointer;
+}
+
+.os-btn-secondary:hover {
+  background: #e2e8f0;
+  color: #0f172a;
+}
+
+/* Competency Pill Tag */
+.os-pill-tag {
+  background: #f8fafc;
+  color: #0369a1;
+  border: 1px solid #e0f2fe;
   font-family: var(--font-mono);
+  font-size: 0.75rem;
+  font-weight: 600;
+  padding: 0.35rem 0.75rem;
+  border-radius: 9999px;
+  display: inline-flex;
+  align-items: center;
+  gap: 0.35rem;
+  transition: all 0.15s ease;
 }
 
-.terminal-stream-line .ts {
-  color: var(--text-dim);
-  user-select: none;
-}
-.terminal-stream-line .prefix {
-  color: var(--cyan-primary);
-}
-.terminal-stream-line .msg {
-  color: var(--text-ice);
+.os-pill-tag:hover {
+  background: #e0f2fe;
+  border-color: #bae6fd;
+  color: #0284c7;
 }
 
-/* Sound Effect Waveform Graphic in HUD */
-.audio-waveform-bar {
-  display: inline-block;
-  width: 2px;
-  background-color: var(--cyan-primary);
-  margin: 0 1px;
-  border-radius: 1px;
-  transition: height 0.15s ease;
+/* Clean Terminal Box inside White Card */
+.os-terminal-box {
+  background: #0f172a;
+  border-radius: 1rem;
+  padding: 1.25rem;
+  color: #e2e8f0;
+  font-family: var(--font-mono);
+  font-size: 0.82rem;
+  line-height: 1.6;
+  border: 1px solid #1e293b;
+  box-shadow: inset 0 2px 8px rgba(0, 0, 0, 0.4);
+}
+
+/* Dialog Backdrop Blur */
+dialog::backdrop {
+  background: rgba(2, 6, 23, 0.75);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
 }

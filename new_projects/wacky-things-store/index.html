@@ -3776,15 +3776,56 @@
                             </div>
                         </div>
 
+                        <!-- Basemap Provider Selector -->
+                        <div class="flex items-center gap-1.5 flex-wrap">
+                            <span class="text-[10.5px] font-mono text-earth-500 font-bold hidden sm:inline">Tiles:</span>
+                            <div class="inline-flex rounded-xl bg-canvas-surface p-1 border border-canvas-border text-[10.5px] font-mono">
+                                <button type="button" id="basemap-btn-voyager" onclick="window.switchBasemapLayer('carto-voyager')"
+                                    class="px-2 py-0.5 rounded-md bg-[#FF1493] text-white font-bold text-[10.5px] shadow-xs cursor-pointer"
+                                    title="CARTO Voyager Basemap with API Token">
+                                    CARTO Voyager
+                                </button>
+                                <button type="button" id="basemap-btn-osm" onclick="window.switchBasemapLayer('osm')"
+                                    class="px-2 py-0.5 rounded-md text-earth-700 hover:text-earth-950 text-[10.5px] cursor-pointer"
+                                    title="Clean OpenStreetMap Standard (100% Watermark-Free)">
+                                    OSM Clean
+                                </button>
+                                <button type="button" id="basemap-btn-dark" onclick="window.switchBasemapLayer('carto-dark')"
+                                    class="px-2 py-0.5 rounded-md text-earth-700 hover:text-earth-950 text-[10.5px] cursor-pointer"
+                                    title="CARTO Dark Matter Basemap">
+                                    Dark
+                                </button>
+                            </div>
+                        </div>
+
                         <!-- City / Zip Geocode Input -->
-                        <div class="flex items-center gap-1.5 flex-1 max-w-[240px] relative">
-                            <input type="text" id="map-city-search-input" placeholder="Search US City or Zip..."
+                        <div class="flex items-center gap-1.5 flex-1 max-w-[220px] relative">
+                            <input type="text" id="map-city-search-input" placeholder="Search US City / Zip..."
                                 onkeydown="if(event.key==='Enter') window.searchAndLocateCity()"
                                 class="w-full bg-canvas-surface border border-canvas-border rounded-xl px-2.5 py-1 text-xs text-earth-900 placeholder-earth-400 focus:outline-none focus:border-[#FF1493] font-sans" />
                             <button type="button" onclick="window.searchAndLocateCity()"
                                 class="px-2.5 py-1 rounded-lg bg-[#2E1065] text-white text-[11px] font-bold hover:bg-[#4C1D95] transition-all cursor-pointer shrink-0">
                                 Locate
                             </button>
+                        </div>
+                    </div>
+
+                    <!-- CARTO API Key Telemetry & Watermark Notice Bar -->
+                    <div class="bg-pink-500/10 border border-pink-500/30 rounded-xl px-3 py-2 text-xs flex flex-col sm:flex-row sm:items-center justify-between gap-2 text-earth-800">
+                        <div class="flex items-center gap-2">
+                            <i class="fa-solid fa-key text-pink-600"></i>
+                            <span class="font-mono text-[11px]">
+                                <strong>CARTO Token Active:</strong> <code class="bg-white/80 px-1.5 py-0.5 rounded text-[10px] text-earth-700 border border-canvas-border">eyJhbGciOi...4bn8</code>
+                            </span>
+                        </div>
+                        <div class="flex items-center gap-2 text-[11px]">
+                            <span class="text-earth-600 hidden md:inline">Watermark still showing?</span>
+                            <button type="button" onclick="window.switchBasemapLayer('osm')" class="px-2 py-0.5 rounded bg-emerald-600 hover:bg-emerald-700 text-white font-bold cursor-pointer transition-all">
+                                <i class="fa-solid fa-check mr-1 text-[9px]"></i> Use OSM Clean (No Watermark)
+                            </button>
+                            <a href="https://carto.com/basemaps/apikey" target="_blank" rel="noopener noreferrer" class="text-pink-600 hover:text-pink-800 font-bold underline">
+                                Free Basemap Key ↗
+                            </a>
                         </div>
                     </div>
 

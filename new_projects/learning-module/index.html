@@ -5,28 +5,28 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <meta name="theme-color" content="#030712" />
-  <title>Engineering Knowledge Matrix | Cybernetic Directory &amp; Full-Stack Curriculum</title>
+  <title>Engineering Knowledge Matrix | Next-Gen OS Learning Directory</title>
   <meta name="description"
-    content="Futuristic sci-fi HUD engineering directory and architectural matrix covering modern JavaScript, TypeScript, React, PHP 8.x, .NET Core C#, DNS infrastructure, and DevOps." />
+    content="Next-Gen OS engineering curriculum directory covering modern JavaScript, TypeScript, React 19, PHP 8.x, .NET Core C#, DNS infrastructure, and DevOps in crisp tabbed cards." />
   <meta name="keywords"
     content="Engineering Knowledge Matrix, Full-Stack Architecture, JavaScript V8, TypeScript, React Server Components, PHP 8 OOP, .NET 9 C#, DNS Anycast, DevOps Docker Nginx" />
   <meta name="author" content="Zach Heindel | ZQH.WEBPRO" />
 
   <!-- Open Graph / Social Media Meta -->
   <meta property="og:type" content="website" />
-  <meta property="og:title" content="Engineering Knowledge Matrix — Cybernetic Tech Directory" />
+  <meta property="og:title" content="Engineering Knowledge Matrix — Next-Gen OS Directory" />
   <meta property="og:description"
-    content="Explore the holistic engineering stack: Client Tier (React/TS/JS) → Server Tier (PHP/.NET) → Infrastructure (DNS & Hosting)." />
+    content="Explore the holistic engineering stack in a sleek, tabbed OS workspace: Client Tier → Server Tier → Infrastructure." />
   <meta property="og:image" content="../favicon.png" />
 
   <!-- Favicon -->
   <link rel="icon" href="../favicon.png" type="image/png" />
 
-  <!-- Google Fonts: Orbitron, Rajdhani, Inter, JetBrains Mono -->
+  <!-- Google Fonts: Outfit (Headings) + Inter (Body) + JetBrains Mono (Code/Telemetry) -->
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
   <link
-    href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;500;600;700&family=Orbitron:wght@500;600;700;800;900&family=Rajdhani:wght@500;600;700&display=swap"
+    href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500;600;700&family=Outfit:wght@500;600;700;800;900&display=swap"
     rel="stylesheet" />
 
   <!-- Font Awesome 6.5.1 CDN -->
@@ -38,17 +38,8 @@
     tailwind.config = {
       theme: {
         extend: {
-          colors: {
-            midnight: '#030712',
-            surface: '#0b132b',
-            cyanAccent: '#00f0ff',
-            cyanGlow: '#38bdf8',
-            cobalt: '#1e3a8a',
-            ice: '#e0f2fe'
-          },
           fontFamily: {
-            display: ['Orbitron', 'sans-serif'],
-            heading: ['Rajdhani', 'sans-serif'],
+            heading: ['Outfit', 'sans-serif'],
             sans: ['Inter', 'sans-serif'],
             mono: ['"JetBrains Mono"', 'monospace']
           }
@@ -57,230 +48,210 @@
     };
   </script>
 
-  <!-- Futuristic Sci-Fi HUD Stylesheet -->
+  <!-- Next-Gen OS Stylesheet -->
   <link rel="stylesheet" href="./styles.css" />
 </head>
 
-<body class="bg-[#030712] text-[#e0f2fe] selection:bg-cyan-500/30 selection:text-white">
-
-  <!-- Ambient Background Canvas & Scanlines -->
-  <canvas id="cyberGridCanvas" class="cyber-grid-canvas" aria-hidden="true"></canvas>
-  <div class="scanline-overlay" aria-hidden="true"></div>
-  <div class="ambient-glow-top" aria-hidden="true"></div>
+<body class="selection:bg-sky-500/30 selection:text-slate-900">
 
   <!-- ═══════════════════════════════════════════════════════════════════
-       1. TOP SYSTEM HUD TELEMETRY BAR
+       1. BACKGROUND VIDEO (LOOPING, MUTED) & CINEMATIC VIGNETTE
        ═══════════════════════════════════════════════════════════════════ -->
-  <header class="relative z-20 border-b border-cyan-500/20 bg-[#030712]/80 backdrop-blur-md sticky top-0">
-    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-2.5 flex items-center justify-between gap-4">
+  <div class="video-bg-container" aria-hidden="true">
+    <iframe
+      class="video-bg-iframe"
+      src="https://www.youtube-nocookie.com/embed/-3HFs3Qu7Mc?autoplay=1&mute=1&loop=1&playlist=-3HFs3Qu7Mc&controls=0&showinfo=0&rel=0&iv_load_policy=3&disablekb=1&modestbranding=1&playsinline=1&enablejsapi=1"
+      title="Background Ambience Video"
+      frameborder="0"
+      allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+      tabindex="-1">
+    </iframe>
+  </div>
+
+  <!-- Deep Atmospheric Vignette Overlay (Dims video and adds radial depth) -->
+  <div class="video-vignette-overlay" aria-hidden="true"></div>
+
+  <!-- ═══════════════════════════════════════════════════════════════════
+       2. NEXT-GEN OS TOP TASKBAR / MENU BAR
+       ═══════════════════════════════════════════════════════════════════ -->
+  <header class="sticky top-0 z-30 px-3 sm:px-6 py-3">
+    <div class="max-w-7xl mx-auto os-glass-panel rounded-2xl px-4 py-2.5 flex items-center justify-between gap-4">
       
-      <!-- System Identity & Online Status -->
+      <!-- OS Brand Identity -->
       <div class="flex items-center gap-3">
-        <a href="../index.html" class="flex items-center gap-2 text-cyan-400 hover:text-white transition-colors group">
-          <span class="w-2.5 h-2.5 bg-cyan-400 rounded-sm shadow-[0_0_8px_#00f0ff] group-hover:scale-125 transition-transform"></span>
-          <span class="font-['Orbitron'] font-bold text-sm tracking-widest text-white">
-            MATRIX<span class="text-cyan-400">::OS</span>
-          </span>
+        <a href="../index.html" class="flex items-center gap-2.5 text-white hover:text-sky-300 transition-colors group">
+          <div class="w-8 h-8 rounded-xl bg-gradient-to-tr from-sky-500 to-indigo-600 flex items-center justify-center text-white shadow-md shadow-sky-500/20 group-hover:scale-105 transition-transform">
+            <i class="fa-solid fa-shapes text-sm"></i>
+          </div>
+          <div>
+            <span class="font-['Outfit'] font-black text-sm tracking-wide text-white block leading-tight">
+              NEXUS<span class="text-sky-400">::OS</span>
+            </span>
+            <span class="font-mono text-[10px] text-slate-400 block leading-tight">
+              KNOWLEDGE MATRIX
+            </span>
+          </div>
         </a>
-        <span class="text-slate-600 font-mono text-xs hidden md:inline">|</span>
-        <div class="hidden md:flex items-center gap-2 font-mono text-xs text-slate-300">
-          <span class="hud-beacon beacon-online"></span>
-          <span class="tracking-wide">STATUS: [ ALL SUBSYSTEMS NOMINAL ]</span>
+
+        <div class="hidden md:flex items-center gap-2 pl-3 border-l border-white/10 font-mono text-xs text-slate-300">
+          <span class="w-2 h-2 rounded-full bg-emerald-400 animate-pulse"></span>
+          <span>SYSTEM ACTIVE</span>
         </div>
       </div>
 
-      <!-- Telemetry Readouts (Live UTC Clock & CPU Jitter) -->
-      <div class="hidden lg:flex items-center gap-6 font-mono text-xs text-slate-400">
-        <div class="flex items-center gap-1.5">
-          <i class="fa-regular fa-clock text-cyan-400"></i>
-          <span id="hudTelemetryClock" class="text-cyan-300">2026.10.02 // 17:50:24 UTC</span>
+      <!-- Center OS Search Input -->
+      <div class="flex-1 max-w-md hidden sm:block relative">
+        <label for="osGlobalSearchInput" class="sr-only">Search Curriculum</label>
+        <div class="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none text-slate-400 text-xs">
+          <i class="fa-solid fa-magnifying-glass"></i>
         </div>
-        <div class="flex items-center gap-1.5">
-          <i class="fa-solid fa-microchip text-cyan-400"></i>
-          <span>CORE FREQ:</span>
-          <span id="hudCpuFreq" class="text-white font-semibold">3.84 GHz</span>
-        </div>
-        <div class="flex items-center gap-1.5">
-          <i class="fa-solid fa-shield-halved text-emerald-400"></i>
-          <span class="text-emerald-400">CLEARANCE: LVL_5</span>
-        </div>
-      </div>
-
-      <!-- Quick Action Controls (Audio Toggle + Return Link) -->
-      <div class="flex items-center gap-2">
+        <input 
+          type="search" 
+          id="osGlobalSearchInput" 
+          placeholder="Filter tracks or competencies (e.g. Generics, Event Loop, EF Core)..."
+          class="w-full pl-9 pr-8 py-1.5 bg-white/10 border border-white/15 text-white placeholder-slate-400 text-xs rounded-xl focus:outline-none focus:bg-white/20 focus:border-sky-400 transition-all font-sans"
+          autocomplete="off" />
         <button 
-          id="audioToggleBtn" 
+          id="osClearSearchBtn" 
           type="button" 
-          class="hud-filter-chip hud-chamfer-tag flex items-center gap-1.5 text-cyan-300 border-cyan-500/30 hover:border-cyan-400 transition-all text-xs"
-          title="Toggle Synthesized Audio Feedback"
-          aria-label="Toggle Sound Effects">
-          <i class="fa-solid fa-volume-high text-cyan-400"></i>
-          <span id="audioStatusText" class="hidden sm:inline">AUDIO: ON</span>
+          class="hidden absolute inset-y-0 right-0 pr-2.5 flex items-center text-slate-400 hover:text-white text-xs"
+          aria-label="Clear Search">
+          <i class="fa-solid fa-xmark"></i>
+        </button>
+      </div>
+
+      <!-- Right Controls: Audio Toggle, Clock, Return Button -->
+      <div class="flex items-center gap-3">
+        <!-- Live OS Clock -->
+        <span id="osMenuClock" class="font-mono text-xs text-slate-300 font-medium hidden lg:inline">
+          Fri Oct 2, 2:45 PM
+        </span>
+
+        <!-- Audio Toggle -->
+        <button 
+          id="osAudioToggleBtn" 
+          type="button" 
+          class="w-8 h-8 rounded-xl bg-white/10 hover:bg-white/20 border border-white/15 flex items-center justify-center text-sky-400 text-xs transition-colors cursor-pointer"
+          title="Toggle Sound Effects">
+          <i class="fa-solid fa-volume-high"></i>
         </button>
 
+        <!-- Back to Showcase Link -->
         <a 
           href="../index.html" 
-          class="btn-cyber-ghost hud-chamfer-btn px-3 py-1.5 text-xs flex items-center gap-1.5"
-          title="Return to Engineering Showcase">
+          class="os-btn-primary text-xs py-1.5 px-3">
           <i class="fa-solid fa-arrow-left text-[11px]"></i>
-          <span class="font-['Rajdhani'] font-bold tracking-wider">LAB DIRECTORY</span>
+          <span class="hidden sm:inline">Portfolio</span>
         </a>
       </div>
+
     </div>
   </header>
 
   <!-- ═══════════════════════════════════════════════════════════════════
-       2. HERO SECTION & HOLISTIC ARCHITECTURAL OVERVIEW
+       3. HERO HEADER & HOLISTIC ARCHITECTURAL OVERVIEW
        ═══════════════════════════════════════════════════════════════════ -->
-  <main class="relative z-10 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8 sm:py-12">
+  <main class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-6 sm:py-10">
     
-    <!-- Hero Title Header -->
-    <header class="text-center max-w-4xl mx-auto mb-12 sm:mb-16">
-      <div class="inline-flex items-center gap-2 font-mono text-xs uppercase tracking-widest text-cyan-400 bg-cyan-950/40 border border-cyan-500/30 px-3.5 py-1 mb-4 hud-chamfer-tag shadow-[0_0_15px_rgba(0,240,255,0.1)]">
-        <i class="fa-solid fa-network-wired text-[10px] animate-pulse"></i>
-        <span>FULL-STACK ARCHITECTURAL DIRECTORY // V4.8.0</span>
+    <!-- Hero Title -->
+    <section class="text-center max-w-3xl mx-auto mb-10 sm:mb-12">
+      <div class="inline-flex items-center gap-2 font-mono text-xs font-semibold uppercase tracking-wider text-sky-300 bg-sky-950/60 border border-sky-400/30 px-3.5 py-1 rounded-full mb-3 shadow-lg">
+        <i class="fa-solid fa-microchip text-[10px]"></i>
+        <span>Full-Stack Engineering Framework</span>
       </div>
 
-      <h1 class="font-['Orbitron'] font-black text-3xl sm:text-5xl lg:text-6xl text-white tracking-wider leading-tight mb-4 drop-shadow-[0_0_25px_rgba(0,240,255,0.25)]">
-        ENGINEERING <span class="text-transparent bg-clip-text bg-gradient-to-r from-cyan-400 via-sky-300 to-blue-500">KNOWLEDGE MATRIX</span>
+      <h1 class="font-['Outfit'] font-black text-3xl sm:text-5xl text-white tracking-tight leading-tight mb-3 drop-shadow-md">
+        ENGINEERING <span class="text-transparent bg-clip-text bg-gradient-to-r from-sky-400 to-indigo-300">KNOWLEDGE MATRIX</span>
       </h1>
 
-      <p class="font-['Inter'] text-slate-300 text-sm sm:text-base lg:text-lg max-w-3xl mx-auto leading-relaxed">
-        Production-grade engineering curriculum detailing how modern web platforms scale: from high-concurrency client interfaces to resilient server runtimes and automated cloud infrastructure.
+      <p class="font-['Inter'] text-slate-300 text-sm sm:text-base leading-relaxed">
+        Next-generation tabbed workspace mapping how modern enterprise systems scale across the Client Tier, Server Tier, and Infrastructure Tier.
       </p>
-
-      <!-- Technical Quick Stats HUD -->
-      <div class="grid grid-cols-2 sm:grid-cols-4 gap-3 mt-8 max-w-3xl mx-auto">
-        <div class="hud-panel p-3 text-center">
-          <div class="font-mono text-[10px] text-slate-400 uppercase tracking-wider">CORE TRACKS</div>
-          <div class="font-['Orbitron'] font-bold text-xl text-cyan-300">07 NODES</div>
-        </div>
-        <div class="hud-panel p-3 text-center">
-          <div class="font-mono text-[10px] text-slate-400 uppercase tracking-wider">TOTAL RUNTIME</div>
-          <div class="font-['Orbitron'] font-bold text-xl text-white">296 HOURS</div>
-        </div>
-        <div class="hud-panel p-3 text-center">
-          <div class="font-mono text-[10px] text-slate-400 uppercase tracking-wider">TIER DEPTH</div>
-          <div class="font-['Orbitron'] font-bold text-xl text-sky-400">3 LAYERS</div>
-        </div>
-        <div class="hud-panel p-3 text-center">
-          <div class="font-mono text-[10px] text-slate-400 uppercase tracking-wider">COMPLIANCE</div>
-          <div class="font-['Orbitron'] font-bold text-xl text-emerald-400">PROD-READY</div>
-        </div>
-      </div>
-    </header>
+    </section>
 
     <!-- ═══════════════════════════════════════════════════════════════════
-         3. EXECUTIVE SUMMARY & HOLISTIC STACK ARCHITECTURE SECTION
+         4. HOLISTIC ARCHITECTURE OVERVIEW (CLIENT → SERVER → INFRA)
          ═══════════════════════════════════════════════════════════════════ -->
-    <section class="mb-14 sm:mb-20" aria-labelledby="exec-summary-heading">
-      <div class="hud-panel hud-chamfer hud-bracketed p-6 sm:p-8 relative overflow-hidden">
+    <section class="mb-10 sm:mb-12" aria-labelledby="holistic-arch-heading">
+      <div class="os-glass-panel rounded-3xl p-6 sm:p-8">
         
-        <!-- Header of Executive Summary -->
-        <div class="flex flex-col md:flex-row md:items-center justify-between gap-4 pb-6 border-b border-cyan-500/20 mb-6">
+        <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-4 pb-5 border-b border-white/10 mb-6">
           <div>
-            <div class="flex items-center gap-2 font-mono text-xs text-cyan-400 font-semibold mb-1">
-              <i class="fa-solid fa-diagram-project"></i>
-              <span>EXECUTIVE ARCHITECTURE REPORT // HOLISTIC STACK INTEGRATION</span>
+            <div class="flex items-center gap-2 font-mono text-xs text-sky-400 font-semibold mb-1">
+              <i class="fa-solid fa-network-wired"></i>
+              <span>ARCHITECTURAL STACK BLUEPRINT</span>
             </div>
-            <h2 id="exec-summary-heading" class="font-['Rajdhani'] font-bold text-2xl sm:text-3xl text-white tracking-wide">
-              How the Enterprise Web Stack Interconnects
+            <h2 id="holistic-arch-heading" class="font-['Outfit'] font-bold text-xl sm:text-2xl text-white">
+              End-to-End Enterprise Stack Connectivity
             </h2>
           </div>
-          
-          <!-- Interactive Trace Trigger Button -->
+
           <button 
-            id="simulateArchTraceBtn" 
+            id="execArchTraceBtn" 
             type="button" 
-            class="btn-cyber-primary hud-chamfer-btn px-4 py-2.5 text-xs flex items-center gap-2 self-start md:self-auto shrink-0 shadow-[0_0_15px_rgba(0,240,255,0.2)]">
-            <i class="fa-solid fa-play text-cyan-300"></i>
-            <span>SIMULATE PACKET DISPATCH FLOW</span>
+            class="os-btn-primary self-start sm:self-auto shrink-0 text-xs">
+            <i class="fa-solid fa-play text-sky-300 mr-1.5"></i>
+            <span>Trace Stack Dispatch</span>
           </button>
         </div>
 
-        <!-- 3-Tier Interactive Diagram Grid -->
-        <div class="grid grid-cols-1 md:grid-cols-3 gap-5 relative z-10 mb-6">
+        <!-- 3 Tier Summary Cards -->
+        <div class="grid grid-cols-1 md:grid-cols-3 gap-4 mb-5">
           
-          <!-- Tier 1: Client Tier -->
-          <div id="tierClientBox" class="arch-tier-box p-5 hud-chamfer-sm flex flex-col justify-between">
-            <div>
-              <div class="flex items-center justify-between mb-3">
-                <span class="font-mono text-xs text-cyan-400 font-semibold tracking-wider">[ TIER_01 // CLIENT ]</span>
-                <span class="w-2 h-2 rounded-full bg-cyan-400 shadow-[0_0_6px_#00f0ff]"></span>
-              </div>
-              <h3 class="font-['Rajdhani'] font-bold text-xl text-white mb-2">
-                Presentation &amp; UI Layer
-              </h3>
-              <p class="font-['Inter'] text-xs text-slate-300 leading-relaxed mb-4">
-                React 19 Fiber reconciliation, custom asynchronous hooks, and strict TypeScript types execute deterministically in the client browser V8 runtime.
-              </p>
+          <!-- Client Tier -->
+          <div id="execTierClient" class="bg-white/95 rounded-2xl p-5 border border-slate-200/90 shadow-md transition-all">
+            <div class="flex items-center justify-between mb-2">
+              <span class="font-mono text-xs font-bold text-sky-700 bg-sky-50 px-2 py-0.5 rounded-md border border-sky-200">
+                TIER 01 // CLIENT
+              </span>
+              <span class="w-2.5 h-2.5 rounded-full bg-sky-500"></span>
             </div>
-            <div class="bg-slate-950/70 p-3 border border-cyan-500/20 font-mono text-[11px] text-cyan-200 space-y-1">
-              <div>• React / Next.js SSR</div>
-              <div>• TypeScript Compiler</div>
-              <div>• Modern ES6+ Web APIs</div>
-            </div>
+            <h3 class="font-['Outfit'] font-bold text-slate-900 text-lg mb-1">
+              React &amp; TypeScript UI
+            </h3>
+            <p class="text-xs text-slate-600 leading-relaxed">
+              React 19 concurrent reconciliation, custom async hooks, and strict compile-time types executing on the browser V8 engine.
+            </p>
           </div>
 
-          <!-- Tier 2: Server Tier -->
-          <div id="tierServerBox" class="arch-tier-box p-5 hud-chamfer-sm flex flex-col justify-between">
-            <div>
-              <div class="flex items-center justify-between mb-3">
-                <span class="font-mono text-xs text-sky-400 font-semibold tracking-wider">[ TIER_02 // SERVER ]</span>
-                <span class="w-2 h-2 rounded-full bg-sky-400 shadow-[0_0_6px_#38bdf8]"></span>
-              </div>
-              <h3 class="font-['Rajdhani'] font-bold text-xl text-white mb-2">
-                Business Logic &amp; APIs
-              </h3>
-              <p class="font-['Inter'] text-xs text-slate-300 leading-relaxed mb-4">
-                ASP.NET Core 9 C# Web APIs and modern PHP 8.3 OOP services handle secure authentication, middleware routing, and high-performance ORM queries.
-              </p>
+          <!-- Server Tier -->
+          <div id="execTierServer" class="bg-white/95 rounded-2xl p-5 border border-slate-200/90 shadow-md transition-all">
+            <div class="flex items-center justify-between mb-2">
+              <span class="font-mono text-xs font-bold text-indigo-700 bg-indigo-50 px-2 py-0.5 rounded-md border border-indigo-200">
+                TIER 02 // SERVER
+              </span>
+              <span class="w-2.5 h-2.5 rounded-full bg-indigo-500"></span>
             </div>
-            <div class="bg-slate-950/70 p-3 border border-cyan-500/20 font-mono text-[11px] text-sky-200 space-y-1">
-              <div>• .NET 9 Kestrel &amp; EF Core</div>
-              <div>• PHP 8.3 JIT &amp; PSR-15</div>
-              <div>• Scoped DI &amp; REST / gRPC</div>
-            </div>
+            <h3 class="font-['Outfit'] font-bold text-slate-900 text-lg mb-1">
+              .NET 9 &amp; PHP 8.x Services
+            </h3>
+            <p class="text-xs text-slate-600 leading-relaxed">
+              High-throughput ASP.NET Core minimal APIs, scoped DI containers, and modern PHP 8.3 OOP services for business logic and ORM queries.
+            </p>
           </div>
 
-          <!-- Tier 3: Infrastructure Tier -->
-          <div id="tierInfraBox" class="arch-tier-box p-5 hud-chamfer-sm flex flex-col justify-between">
-            <div>
-              <div class="flex items-center justify-between mb-3">
-                <span class="font-mono text-xs text-emerald-400 font-semibold tracking-wider">[ TIER_03 // INFRA ]</span>
-                <span class="w-2 h-2 rounded-full bg-emerald-400 shadow-[0_0_6px_#10b981]"></span>
-              </div>
-              <h3 class="font-['Rajdhani'] font-bold text-xl text-white mb-2">
-                Network &amp; Edge DevOps
-              </h3>
-              <p class="font-['Inter'] text-xs text-slate-300 leading-relaxed mb-4">
-                Global Anycast DNS resolution routes incoming TCP/UDP traffic through hardened Nginx reverse proxies, Docker orchestrators, and automated CI/CD pipelines.
-              </p>
+          <!-- Infrastructure Tier -->
+          <div id="execTierInfra" class="bg-white/95 rounded-2xl p-5 border border-slate-200/90 shadow-md transition-all">
+            <div class="flex items-center justify-between mb-2">
+              <span class="font-mono text-xs font-bold text-emerald-700 bg-emerald-50 px-2 py-0.5 rounded-md border border-emerald-200">
+                TIER 03 // INFRASTRUCTURE
+              </span>
+              <span class="w-2.5 h-2.5 rounded-full bg-emerald-500"></span>
             </div>
-            <div class="bg-slate-950/70 p-3 border border-cyan-500/20 font-mono text-[11px] text-emerald-200 space-y-1">
-              <div>• Authoritative DNS &amp; TTL</div>
-              <div>• Linux / Nginx HTTP/3 QUIC</div>
-              <div>• Docker &amp; Let's Encrypt SSL</div>
-            </div>
+            <h3 class="font-['Outfit'] font-bold text-slate-900 text-lg mb-1">
+              DNS &amp; Cloud DevOps
+            </h3>
+            <p class="text-xs text-slate-600 leading-relaxed">
+              Global Anycast DNS resolution, Nginx HTTP/3 reverse proxy routing, multi-stage Docker containers, and automated CI/CD pipelines.
+            </p>
           </div>
 
         </div>
 
-        <!-- Terminal Output Stream for Architecture Simulation -->
-        <div class="bg-[#030816] border border-cyan-500/30 p-4 hud-chamfer-sm font-mono">
-          <div class="flex items-center justify-between pb-2 mb-2 border-b border-cyan-500/15 text-[11px] text-slate-400">
-            <span class="flex items-center gap-1.5 text-cyan-300">
-              <i class="fa-solid fa-terminal text-[10px]"></i>
-              <span>PACKET DISPATCH TELEMETRY LOG</span>
-            </span>
-            <span>CHANNEL: SECURE_WSS</span>
-          </div>
-          <div id="archTerminalOutput" class="space-y-1 max-h-36 overflow-y-auto pr-1">
-            <div class="terminal-stream-line text-xs">
-              <span class="ts">[SYS_BOOT]</span>
-              <span class="prefix">DAEMON &gt;&gt;</span>
-              <span class="msg">Architecture telemetry active. Click "SIMULATE PACKET DISPATCH FLOW" to trace request lifecycles.</span>
-            </div>
+        <!-- Trace Terminal Feed -->
+        <div class="os-terminal-box space-y-1 text-xs" id="execArchLogOutput">
+          <div class="text-slate-400">
+            <span class="text-sky-400">[DISPATCH]</span> System ready. Click "Trace Stack Dispatch" to simulate an end-to-end request lifecycle.
           </div>
         </div>
 
@@ -288,115 +259,18 @@
     </section>
 
     <!-- ═══════════════════════════════════════════════════════════════════
-         4. COMMAND TERMINAL SEARCH & FILTER BAR
+         5. TABBED WHITE CARD WORKSPACE (THE 7 CORE TRACKS)
          ═══════════════════════════════════════════════════════════════════ -->
-    <section class="mb-10" aria-label="Module Search and Filters">
-      <div class="hud-panel p-4 sm:p-5 hud-chamfer flex flex-col lg:flex-row items-stretch lg:items-center justify-between gap-4">
-        
-        <!-- Sci-Fi Terminal Search Bar -->
-        <div class="relative flex-1">
-          <label for="globalSearchInput" class="sr-only">Search modules, competencies, or frameworks</label>
-          <div class="absolute inset-y-0 left-0 pl-3.5 flex items-center pointer-events-none text-cyan-400 font-mono text-sm">
-            <span>&gt;_</span>
-          </div>
-          <input 
-            type="search" 
-            id="globalSearchInput" 
-            placeholder="Search competencies (e.g. Event Loop, Generics, EF Core, DNS, Docker)..."
-            class="w-full pl-10 pr-24 py-2.5 bg-[#030816] border border-cyan-500/30 text-white placeholder-slate-500 text-xs sm:text-sm font-mono focus:outline-none focus:border-cyan-400 focus:ring-1 focus:ring-cyan-400/50 hud-chamfer-sm transition-all"
-            autocomplete="off"
-            spellcheck="false" />
-          
-          <div class="absolute inset-y-0 right-0 pr-3 flex items-center gap-2">
-            <button 
-              id="clearSearchBtn" 
-              type="button" 
-              class="hidden text-slate-400 hover:text-cyan-300 text-xs font-mono"
-              aria-label="Clear Search Input">
-              <i class="fa-solid fa-xmark"></i>
-            </button>
-            <span class="hidden sm:inline-block font-mono text-[10px] text-cyan-400/70 bg-cyan-950/60 border border-cyan-500/20 px-1.5 py-0.5 hud-chamfer-tag">
-              [Ctrl+K]
-            </span>
-          </div>
-        </div>
-
-        <!-- Filter Chips (Sci-Fi Command Terminal Style) -->
-        <div class="flex items-center gap-2 flex-wrap">
-          <button 
-            type="button" 
-            class="hud-filter-chip hud-chamfer-tag active" 
-            data-filter="all"
-            aria-label="Filter all tracks">
-            <i class="fa-solid fa-border-all mr-1.5 text-[10px]"></i>ALL (7)
-          </button>
-          
-          <button 
-            type="button" 
-            class="hud-filter-chip hud-chamfer-tag" 
-            data-filter="frontend"
-            aria-label="Filter frontend tracks">
-            <i class="fa-brands fa-js mr-1.5 text-[10px]"></i>FRONTEND (3)
-          </button>
-          
-          <button 
-            type="button" 
-            class="hud-filter-chip hud-chamfer-tag" 
-            data-filter="backend"
-            aria-label="Filter backend tracks">
-            <i class="fa-solid fa-server mr-1.5 text-[10px]"></i>BACKEND (2)
-          </button>
-          
-          <button 
-            type="button" 
-            class="hud-filter-chip hud-chamfer-tag" 
-            data-filter="infrastructure"
-            aria-label="Filter infrastructure tracks">
-            <i class="fa-solid fa-cloud mr-1.5 text-[10px]"></i>INFRASTRUCTURE (2)
-          </button>
-        </div>
-
-      </div>
-
-      <!-- Live Search & Filter Status Feed -->
-      <div class="flex items-center justify-between text-xs font-mono text-slate-400 px-2 mt-3">
-        <span id="activeNodesCounter" class="text-cyan-400 font-semibold tracking-wider">
-          [ MATCHING MODULES: 7 / 7 ]
-        </span>
-        <span class="hidden md:inline text-slate-500">
-          SELECT "INITIALIZE MODULE" TO INSPECT COMPLETE SYLLABUS &amp; ARCHITECTURAL CODE
-        </span>
-      </div>
-    </section>
-
-    <!-- ═══════════════════════════════════════════════════════════════════
-         5. CORE MODULE CARDS DIRECTORY GRID (7 TRACKS)
-         ═══════════════════════════════════════════════════════════════════ -->
-    <section aria-label="Core Engineering Curriculum Grid">
+    <section aria-label="Curriculum Learning Modules">
       
-      <!-- Dynamic Module Grid populated via matrix.js -->
-      <div id="modulesGrid" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+      <!-- Top Track Selector Tabs (Pill Tabs) -->
+      <div class="flex items-center gap-2 overflow-x-auto pb-4 mb-6 scrollbar-none" id="osTrackTabsContainer">
         <!-- Rendered dynamically by matrix.js -->
       </div>
 
-      <!-- Empty State (When search has no matches) -->
-      <div id="emptyState" class="hidden hud-panel p-12 text-center hud-chamfer max-w-xl mx-auto my-8">
-        <div class="w-16 h-16 mx-auto mb-4 bg-slate-900 border border-cyan-500/30 flex items-center justify-center text-cyan-400 text-2xl hud-chamfer-sm">
-          <i class="fa-solid fa-magnifying-glass"></i>
-        </div>
-        <h3 class="font-['Rajdhani'] font-bold text-2xl text-white mb-2">
-          NO MATCHING NODES DETECTED
-        </h3>
-        <p class="font-['Inter'] text-sm text-slate-300 mb-6">
-          Zero modules satisfied the current search query or filter parameter. Reset search filter criteria to restore full directory access.
-        </p>
-        <button 
-          id="resetFiltersBtn" 
-          type="button" 
-          class="btn-cyber-primary hud-chamfer-btn px-5 py-2.5 text-xs inline-flex items-center gap-2">
-          <i class="fa-solid fa-rotate-left"></i>
-          <span>RESET ALL FILTERS</span>
-        </button>
+      <!-- Main Dynamic Content Area (Active White Card or Grid of White Cards) -->
+      <div id="osMainContentArea">
+        <!-- Rendered dynamically by matrix.js -->
       </div>
 
     </section>
@@ -404,126 +278,21 @@
   </main>
 
   <!-- ═══════════════════════════════════════════════════════════════════
-       6. CYBERNETIC MODULE INSPECTION MODAL (<dialog>)
+       6. OS SYSTEM FOOTER
        ═══════════════════════════════════════════════════════════════════ -->
-  <dialog 
-    id="moduleModal" 
-    class="hud-panel p-0 max-w-3xl w-[92vw] text-slate-200 hud-chamfer hud-bracketed border-cyan-400 shadow-[0_0_50px_rgba(0,240,255,0.25)] m-auto backdrop:bg-black/85"
-    aria-labelledby="modalTitle">
-    
-    <div class="p-6 sm:p-8 max-h-[88vh] overflow-y-auto">
-      
-      <!-- Modal Top Bar -->
-      <div class="flex items-start justify-between gap-4 pb-4 border-b border-cyan-500/20 mb-5">
-        <div>
-          <span id="modalCategoryBadge" class="font-mono text-xs text-cyan-400 font-semibold tracking-wider">
-            [ SYSTEM // TRACK ]
-          </span>
-          <h2 id="modalTitle" class="font-['Rajdhani'] font-bold text-2xl sm:text-3xl text-white mt-1">
-            Module Title
-          </h2>
-          <div class="flex items-center gap-3 mt-1.5 font-mono text-xs text-emerald-400">
-            <span id="modalLevel">Level: Production Ready // 42 Hours</span>
-            <span class="text-slate-600">•</span>
-            <span class="text-cyan-300">STATUS: ACCREDITED</span>
-          </div>
-        </div>
-
-        <button 
-          id="closeModalBtn" 
-          type="button" 
-          class="w-8 h-8 rounded-none bg-slate-900 border border-cyan-500/30 flex items-center justify-center text-slate-400 hover:text-white hover:border-cyan-400 transition-colors hud-chamfer-tag"
-          aria-label="Close Inspection Modal">
-          <i class="fa-solid fa-xmark text-sm"></i>
-        </button>
-      </div>
-
-      <!-- Summary -->
-      <div class="mb-6">
-        <h4 class="font-mono text-xs text-cyan-400/80 uppercase tracking-widest mb-1.5">
-          <i class="fa-solid fa-circle-info mr-1"></i> EXECUTIVE SUMMARY
-        </h4>
-        <p id="modalSummary" class="text-sm text-slate-300 leading-relaxed font-['Inter']">
-          Module description...
-        </p>
-      </div>
-
-      <!-- Syllabus Chapters List -->
-      <div class="mb-6">
-        <h4 class="font-mono text-xs text-cyan-400/80 uppercase tracking-widest mb-2.5">
-          <i class="fa-solid fa-list-check mr-1"></i> CURRICULUM SYLLABUS BREAKDOWN
-        </h4>
-        <div id="modalSyllabusList" class="space-y-2">
-          <!-- Dynamically filled by matrix.js -->
-        </div>
-      </div>
-
-      <!-- Code Architecture Artifact Box -->
-      <div class="mb-6">
-        <div class="flex items-center justify-between mb-2">
-          <h4 class="font-mono text-xs text-cyan-400/80 uppercase tracking-widest">
-            <i class="fa-solid fa-code mr-1"></i> ARCHITECTURAL CODE ARTIFACT
-          </h4>
-          <button 
-            id="copyCodeSnippetBtn" 
-            type="button" 
-            class="font-mono text-[11px] text-cyan-300 bg-slate-900/80 border border-cyan-500/30 px-2.5 py-1 hover:border-cyan-400 transition-colors hud-chamfer-tag">
-            <i class="fa-regular fa-copy mr-1"></i> COPY CODE
-          </button>
-        </div>
-        <div class="cyber-code-box p-4 hud-chamfer-sm text-xs text-cyan-200 overflow-x-auto">
-          <pre><code id="modalCodeSnippet">/* Code snippet loaded dynamically */</code></pre>
-        </div>
-      </div>
-
-      <!-- Runtime Simulation Output (Appears on click) -->
-      <div id="runtimeSimulationOutput" class="hidden mb-6 bg-slate-950 p-4 border border-cyan-500/30 hud-chamfer-sm font-mono">
-        <div class="flex items-center justify-between text-xs text-cyan-300 mb-2">
-          <span id="simStatusText">INITIALIZING TRAINING ENVIRONMENT...</span>
-          <span class="hud-beacon beacon-online"></span>
-        </div>
-        <!-- Progress Bar -->
-        <div class="w-full bg-slate-900 h-2 border border-cyan-500/30 mb-3 overflow-hidden">
-          <div id="simProgressBar" class="h-full bg-gradient-to-r from-cyan-500 to-sky-400 transition-all duration-300" style="width: 0%;"></div>
-        </div>
-        <div id="simTerminalLogs" class="space-y-1 max-h-32 overflow-y-auto text-xs text-slate-300"></div>
-      </div>
-
-      <!-- Modal Footer Action Buttons -->
-      <div class="pt-4 border-t border-cyan-500/20 flex flex-col sm:flex-row items-center justify-between gap-3">
-        <span class="font-mono text-xs text-slate-400 hidden sm:inline">
-          PRESS [ESC] TO CLOSE INSPECTOR
-        </span>
-        <div class="flex items-center gap-2 w-full sm:w-auto">
-          <button 
-            id="executeSimBtn" 
-            type="button" 
-            class="btn-cyber-primary hud-chamfer-btn px-5 py-2.5 text-xs flex items-center gap-2 w-full sm:w-auto justify-center">
-            <i class="fa-solid fa-terminal"></i>
-            <span>EXECUTE RUNTIME SIMULATION</span>
-          </button>
-        </div>
-      </div>
-
-    </div>
-  </dialog>
-
-  <!-- ═══════════════════════════════════════════════════════════════════
-       7. SYSTEM FOOTER & COPYRIGHT
-       ═══════════════════════════════════════════════════════════════════ -->
-  <footer class="relative z-10 border-t border-cyan-500/20 bg-[#02040a]/90 mt-16 sm:mt-24 py-8">
+  <footer class="mt-20 py-8 border-t border-white/10 bg-slate-950/80 backdrop-blur-md">
     <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 flex flex-col sm:flex-row items-center justify-between gap-4 font-mono text-xs text-slate-400">
       
       <div class="flex items-center gap-2">
-        <span class="w-2 h-2 bg-emerald-400 rounded-sm"></span>
-        <span>ENGINEERING KNOWLEDGE MATRIX</span>
-        <span class="text-slate-600">//</span>
-        <span class="text-cyan-400">PROD_RELEASE_2026.10</span>
+        <span class="w-2 h-2 rounded-full bg-emerald-400"></span>
+        <span class="text-slate-300 font-bold">NEXUS//OS</span>
+        <span>•</span>
+        <span>ENGINEERING KNOWLEDGE MATRIX 2026</span>
       </div>
 
-      <div class="text-center sm:text-right">
+      <div>
         <span>ARCHITECTED BY </span>
-        <a href="../index.html" class="text-cyan-300 hover:text-white transition-colors underline decoration-cyan-500/40">
+        <a href="../index.html" class="text-sky-400 hover:text-white transition-colors underline font-medium">
           ZACH HEINDEL (ZQH.WEBPRO)
         </a>
       </div>
@@ -531,7 +300,7 @@
     </div>
   </footer>
 
-  <!-- Interactive Matrix Logic Script -->
+  <!-- Core Matrix Engine Script -->
   <script src="./matrix.js"></script>
 </body>
 
