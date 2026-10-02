@@ -1,4 +1,4 @@
-# Parma Sub & Fry Co. — Enterprise ASP.NET Core 9 / C# Delivery & Event Architecture
+# DineDispatch Sub & Grill Co. — Enterprise ASP.NET Core 9 / C# Delivery & Event Architecture
 
 > **Modern high-volume sub, cheesesteak, and loaded fry online delivery platform with an interactive Community Calendar and Event Administration API, built with .NET 9 C# N-Tier architecture.**
 
@@ -12,7 +12,7 @@
 
 ## 🥪 Executive Summary & Domain
 
-**Parma Sub & Fry Co.** is an artisan sub and loaded fry delivery operation modeled after the celebrated South Central Pennsylvania institution, **Parma Pizza & Grill**. 
+**DineDispatch Sub & Grill Co.** is an artisan sub and loaded fry delivery operation designed with enterprise restaurant delivery API architecture. 
 
 This repository delivers a decoupled, enterprise-grade **.NET 9 C#** backend paired with an interactive frontend that features:
 1. **Multi-Carrier Delivery Service Admin Console:** Comprehensive administration panel for connecting website orders to top demographic delivery providers (Toast POS, DoorDash Drive, Uber Direct, Grubhub, Square, and Clover) with live API verification and outward developer onboarding.

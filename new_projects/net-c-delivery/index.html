@@ -7,20 +7,25 @@
     <meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate" />
     <meta http-equiv="Pragma" content="no-cache" />
     <meta http-equiv="Expires" content="0" />
-    <title>Delivery Dispatch Admin Console | Connect Delivery Services &amp; Top Demographic Choice APIs | .NET 9</title>
+    <title>Delivery Dispatch Admin Console | Restaurant Delivery &amp; POS API Setup | .NET 9</title>
     <meta name="description"
-        content="Enterprise delivery service integration admin panel. Connect restaurant websites directly to top demographic delivery choices including Toast POS, DoorDash Drive, Uber Direct, Grubhub, and Square APIs using Bootstrap UI." />
+        content="Enterprise delivery service integration admin panel and setup guide. Connect restaurant websites directly to top demographic delivery choices including Toast POS, DoorDash Drive, Uber Direct, Grubhub, and Square APIs." />
     <meta name="keywords"
-        content="Delivery Service API, Toast POS, DoorDash Drive, Uber Direct, Grubhub Direct, Square Delivery, Restaurant Admin Panel, .NET 9, ASP.NET Core, Bootstrap 5 Admin" />
-    <meta name="author" content="Parma Pizza &amp; Grill Engineering" />
+        content="Delivery Service API, Toast POS, DoorDash Drive, Uber Direct, Grubhub Direct, Square Delivery, Restaurant Admin Panel, .NET 9, ASP.NET Core, Bootstrap 5 Admin, WordPress Delivery Plugin" />
+    <meta name="author" content="Restaurant Delivery Gateway Engineering" />
     <link rel="canonical" href="https://zqhwebpro.github.io/portfolio/new_projects/net-c-delivery/index.html" />
 
     <!-- Open Graph / Social -->
     <meta property="og:type" content="website" />
-    <meta property="og:title" content="Delivery Dispatch Admin Console — Multi-Platform Delivery API Integration" />
+    <meta property="og:title" content="Delivery Dispatch Admin Console — Restaurant Delivery API Integration" />
     <meta property="og:description"
-        content="Admin panel for connecting websites to top demographic delivery services (Toast, DoorDash, Uber Direct, Grubhub) with live API verification and outward developer onboarding." />
+        content="Step-by-step guide and admin console for connecting restaurant websites to top demographic delivery services with live verification and WordPress site generation." />
     <meta property="og:image" content="./images/hero-cheesesteak.jpg" />
+
+    <!-- Sitewide Favicon -->
+    <link rel="icon" href="./favicon.png" type="image/png" />
+    <link rel="shortcut icon" href="./favicon.png" type="image/png" />
+    <link rel="alternate icon" href="../../favicon.png" type="image/png" />
 
     <!-- Bootstrap 5.3.3 CSS -->
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet"
@@ -65,6 +70,11 @@
         .admin-page-view.active-view {
             display: block;
         }
+
+        /* Bottom padding when bottom bar is active */
+        body.has-bottom-bar {
+            padding-bottom: 90px;
+        }
     </style>
 </head>
 
@@ -98,7 +108,7 @@
                 </button>
                 <span class="navbar-brand fw-bold mb-0 d-flex align-items-center gap-2">
                     <i class="fa-solid fa-truck-fast text-danger"></i>
-                    <span>Parma Delivery Admin</span>
+                    <span>DineDispatch Admin</span>
                 </span>
                 <span class="text-secondary d-none d-sm-inline">|</span>
                 <span class="text-secondary small font-monospace d-none d-md-inline">ASP.NET Core 9 Gateway</span>
@@ -109,8 +119,8 @@
                 <span class="badge text-bg-success">
                     <i class="fa-solid fa-circle text-white me-1" style="font-size: 7px;"></i>Online
                 </span>
-                <span class="badge text-bg-warning text-dark">
-                    <i class="fa-solid fa-bolt me-1"></i><span id="activePlatformsCount">3</span>/6 Verified
+                <span class="badge text-bg-secondary text-white" id="activePlatformsBadge">
+                    <i class="fa-solid fa-bolt me-1"></i><span id="activePlatformsCount">0</span>/6 Verified
                 </span>
                 <a href="./case-study.html" target="_blank" class="btn btn-outline-light btn-sm font-monospace">
                     <i class="fa-solid fa-code me-1"></i>.NET Case Study
@@ -137,7 +147,7 @@
                             </div>
                             <div>
                                 <h6 class="mb-0 fw-bold text-dark">Delivery Hub</h6>
-                                <small class="text-body-secondary font-monospace">.NET 9 Dispatch Console</small>
+                                <small class="text-body-secondary font-monospace">Restaurant API Console</small>
                             </div>
                         </div>
                     </div>
@@ -150,13 +160,14 @@
                                 id="tab-btn-delivery" onclick="switchAdminTab('delivery-services')"
                                 title="Connect to top demographic delivery services (Toast, DoorDash, Uber Direct, etc.)">
                                 <span><i class="fa-solid fa-plug-circle-bolt me-2"></i>Delivery Services</span>
-                                <span class="badge text-bg-primary" id="sidebarVerifiedCount">3 Active</span>
+                                <span class="badge text-bg-secondary" id="sidebarVerifiedCount">0 Active</span>
                             </button>
-                            <button type="button" class="nav-link text-start text-secondary d-flex justify-content-between align-items-center"
+                            <!-- Menu Items: Hidden until an API is selected / verified -->
+                            <button type="button" class="nav-link text-start text-secondary d-none justify-content-between align-items-center"
                                 id="tab-btn-menu" onclick="switchAdminTab('menu-items')"
-                                title="Click to view Menu Items Setup">
+                                title="Click to view synchronized Menu Items Setup">
                                 <span><i class="fa-solid fa-utensils me-2"></i>Menu Items</span>
-                                <span class="badge text-bg-secondary">Draft</span>
+                                <span class="badge text-bg-success">Unlocked</span>
                             </button>
                         </div>
 
@@ -181,8 +192,8 @@
                         <div class="d-flex align-items-center gap-2">
                             <i class="fa-solid fa-store text-secondary fs-5"></i>
                             <div>
-                                <div class="fw-bold small text-dark">Parma Pizza &amp; Grill</div>
-                                <small class="text-body-secondary">Store #104 &bull; Landisville PA</small>
+                                <div class="fw-bold small text-dark">Artisan Kitchen &amp; Grill</div>
+                                <small class="text-body-secondary">Store #104 &bull; Central Metro</small>
                             </div>
                         </div>
                     </div>
@@ -198,12 +209,112 @@
                      PAGE 1: CONNECT DELIVERY SERVICES (TOP DEMOGRAPHIC CHOICES)
                      ---------------------------------------------------------------- -->
                 <section class="admin-page-view active-view" id="view-delivery-services">
+
+                    <!-- ============================================================
+                         GUIDE SECTION: HOW TO SET UP THE API FOR A RESTAURANT SITE
+                         ============================================================ -->
+                    <div class="card shadow-sm border mb-4">
+                        <div class="card-header bg-white py-3 border-bottom d-flex flex-wrap justify-content-between align-items-center gap-2">
+                            <div class="d-flex align-items-center gap-2">
+                                <div class="rounded-3 p-2 bg-primary text-white d-flex align-items-center justify-content-center"
+                                    style="width: 38px; height: 38px;">
+                                    <i class="fa-solid fa-graduation-cap fs-5"></i>
+                                </div>
+                                <div>
+                                    <h2 class="h5 fw-bold text-dark mb-0">Restaurant Delivery &amp; POS API Setup Guide</h2>
+                                    <small class="text-body-secondary font-monospace">Step-by-Step Architecture Onboarding for Restaurant Websites</small>
+                                </div>
+                            </div>
+                            <span class="badge text-bg-primary">Onboarding Guide</span>
+                        </div>
+                        <div class="card-body p-4">
+                            <p class="text-secondary mb-3">
+                                Welcome to the restaurant delivery configuration hub. To accept orders and dispatch couriers, your restaurant website connects to either a <strong>Direct Point-of-Sale (POS)</strong> network or an <strong>On-Demand Courier Fleet</strong>. Follow this guide to configure your credentials, verify the live handshake, unlock your menu catalog, and generate an integrated blank WordPress site.
+                            </p>
+
+                            <!-- 4 Step Flow Grid -->
+                            <div class="row g-3 mb-3">
+                                <!-- Step 1 -->
+                                <div class="col-12 col-sm-6 col-xl-3">
+                                    <div class="card h-100 border bg-light">
+                                        <div class="card-body p-3">
+                                            <div class="d-flex align-items-center justify-content-between mb-2">
+                                                <span class="badge text-bg-dark rounded-pill font-monospace">Step 1</span>
+                                                <i class="fa-solid fa-network-wired text-primary fs-5"></i>
+                                            </div>
+                                            <h6 class="fw-bold text-dark mb-1">Choose API Model</h6>
+                                            <p class="text-secondary small mb-0">
+                                                Select <strong>Direct POS</strong> (Toast, Square, Clover) for direct kitchen tickets, or <strong>Courier Fleets</strong> (DoorDash, Uber Direct) for on-demand drivers.
+                                            </p>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <!-- Step 2 -->
+                                <div class="col-12 col-sm-6 col-xl-3">
+                                    <div class="card h-100 border bg-light">
+                                        <div class="card-body p-3">
+                                            <div class="d-flex align-items-center justify-content-between mb-2">
+                                                <span class="badge text-bg-dark rounded-pill font-monospace">Step 2</span>
+                                                <i class="fa-solid fa-key text-warning fs-5"></i>
+                                            </div>
+                                            <h6 class="fw-bold text-dark mb-1">Get Developer Keys</h6>
+                                            <p class="text-secondary small mb-0">
+                                                Use each provider's <strong>Setup Link</strong> to open their developer portal and generate your <code>Client ID</code>, <code>Secret Key</code>, and <code>Store Location GUID</code>.
+                                            </p>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <!-- Step 3 -->
+                                <div class="col-12 col-sm-6 col-xl-3">
+                                    <div class="card h-100 border bg-light">
+                                        <div class="card-body p-3">
+                                            <div class="d-flex align-items-center justify-content-between mb-2">
+                                                <span class="badge text-bg-dark rounded-pill font-monospace">Step 3</span>
+                                                <i class="fa-solid fa-shield-halved text-success fs-5"></i>
+                                            </div>
+                                            <h6 class="fw-bold text-dark mb-1">Verify Handshake</h6>
+                                            <p class="text-secondary small mb-0">
+                                                Click <strong>Configure API</strong> on your chosen platform below, paste keys (or click 1-Click Demo), and run the TLS 1.3 encrypted authentication test.
+                                            </p>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <!-- Step 4 -->
+                                <div class="col-12 col-sm-6 col-xl-3">
+                                    <div class="card h-100 border bg-light">
+                                        <div class="card-body p-3">
+                                            <div class="d-flex align-items-center justify-content-between mb-2">
+                                                <span class="badge text-bg-dark rounded-pill font-monospace">Step 4</span>
+                                                <i class="fa-brands fa-wordpress text-info fs-5"></i>
+                                            </div>
+                                            <h6 class="fw-bold text-dark mb-1">Deploy Blank WP Site</h6>
+                                            <p class="text-secondary small mb-0">
+                                                When verified, the <strong>Menu Items</strong> catalog unlocks, and the bottom bar enables: <em>"create site with this configuration"</em> for instant WordPress delivery setup.
+                                            </p>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <!-- Initial Alert Banner -->
+                            <div class="alert alert-secondary d-flex align-items-center gap-2 mb-0 py-2 px-3 small" id="guideNoticeBanner">
+                                <i class="fa-solid fa-circle-info text-primary fs-6"></i>
+                                <div>
+                                    <strong>No APIs are currently preconnected (0/6).</strong> Please choose a delivery provider below and click <strong>Configure API</strong> to get started.
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
                     <!-- Page Header Row -->
                     <div class="d-flex flex-column flex-lg-row justify-content-between align-items-lg-center gap-3 mb-4 pb-2 border-bottom">
                         <div>
                             <h1 class="h3 fw-bold text-dark mb-1">Delivery Service Integrations</h1>
                             <p class="text-secondary small mb-0">
-                                Connect this website directly to top demographic food delivery providers, restaurant POS networks, and on-demand courier dispatch APIs.
+                                Select and configure delivery providers for your restaurant site.
                             </p>
                         </div>
                         <div class="d-flex align-items-center gap-2 shrink-0">
@@ -216,71 +327,12 @@
                         </div>
                     </div>
 
-                    <!-- Top Demographic Market Metrics Bar (Bootstrap Cards) -->
-                    <div class="row g-3 mb-4">
-                        <!-- KPI 1 -->
-                        <div class="col-12 col-sm-6 col-xl-3">
-                            <div class="card shadow-sm border-0 border-top border-4 border-danger h-100">
-                                <div class="card-body">
-                                    <div class="text-uppercase text-body-secondary small fw-bold font-monospace mb-1">#1 US Demographic Choice</div>
-                                    <div class="d-flex align-items-baseline justify-content-between mb-2">
-                                        <h4 class="fw-bold text-dark mb-0">DoorDash</h4>
-                                        <span class="badge text-bg-danger">67% US Share</span>
-                                    </div>
-                                    <p class="text-secondary small mb-0">Dominant nationwide suburban &amp; dinner delivery reach.</p>
-                                </div>
-                            </div>
-                        </div>
-
-                        <!-- KPI 2 -->
-                        <div class="col-12 col-sm-6 col-xl-3">
-                            <div class="card shadow-sm border-0 border-top border-4 border-warning h-100">
-                                <div class="card-body">
-                                    <div class="text-uppercase text-body-secondary small fw-bold font-monospace mb-1">Top Direct Restaurant POS</div>
-                                    <div class="d-flex align-items-baseline justify-content-between mb-2">
-                                        <h4 class="fw-bold text-dark mb-0">Toast POS</h4>
-                                        <span class="badge text-bg-warning text-dark">0% Fee Direct</span>
-                                    </div>
-                                    <p class="text-secondary small mb-0">Direct KDS printing &amp; hybrid DoorDash/Uber dispatch fleet.</p>
-                                </div>
-                            </div>
-                        </div>
-
-                        <!-- KPI 3 -->
-                        <div class="col-12 col-sm-6 col-xl-3">
-                            <div class="card shadow-sm border-0 border-top border-4 border-success h-100">
-                                <div class="card-body">
-                                    <div class="text-uppercase text-body-secondary small fw-bold font-monospace mb-1">Urban &amp; Gen-Z Choice</div>
-                                    <div class="d-flex align-items-baseline justify-content-between mb-2">
-                                        <h4 class="fw-bold text-dark mb-0">Uber Direct</h4>
-                                        <span class="badge text-bg-success">23% US Share</span>
-                                    </div>
-                                    <p class="text-secondary small mb-0">High-density metropolitan courier network with 20-min dispatch.</p>
-                                </div>
-                            </div>
-                        </div>
-
-                        <!-- KPI 4 -->
-                        <div class="col-12 col-sm-6 col-xl-3">
-                            <div class="card shadow-sm border-0 border-top border-4 border-primary h-100">
-                                <div class="card-body">
-                                    <div class="text-uppercase text-body-secondary small fw-bold font-monospace mb-1">.NET 9 Gateway</div>
-                                    <div class="d-flex align-items-baseline justify-content-between mb-2">
-                                        <h4 class="fw-bold text-dark mb-0 font-monospace" id="kpiAvgLatency">31 ms</h4>
-                                        <span class="badge text-bg-primary">TLS 1.3 Active</span>
-                                    </div>
-                                    <p class="text-secondary small mb-0">Unified multi-carrier order injection and webhook ingestion.</p>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-
                     <!-- Filter & Search Toolbar (Bootstrap Card) -->
                     <div class="card shadow-sm border mb-4">
                         <div class="card-body py-2 d-flex flex-wrap justify-content-between align-items-center gap-2">
                             <div class="btn-group btn-group-sm" role="group" aria-label="Filter Services">
                                 <button type="button" class="btn btn-outline-secondary active" onclick="filterServices('all', this)">All Services (6)</button>
-                                <button type="button" class="btn btn-outline-secondary" onclick="filterServices('connected', this)">Connected (3)</button>
+                                <button type="button" class="btn btn-outline-secondary" onclick="filterServices('connected', this)">Connected (<span id="filterConnectedCount">0</span>)</button>
                                 <button type="button" class="btn btn-outline-secondary" onclick="filterServices('pos', this)">POS Direct (3)</button>
                                 <button type="button" class="btn btn-outline-secondary" onclick="filterServices('fleet', this)">Courier Fleets (3)</button>
                             </div>
@@ -292,11 +344,11 @@
                         </div>
                     </div>
 
-                    <!-- Services Grid: Top Demographic Choices -->
+                    <!-- Services Grid: Top Demographic Choices (ALL INITIALLY NOT CONNECTED) -->
                     <div class="row g-4" id="servicesGrid">
 
                         <!-- 1. TOAST POS -->
-                        <div class="col-12 col-lg-6 service-col" data-category="pos" data-status="connected" data-service-id="toast">
+                        <div class="col-12 col-lg-6 service-col" data-category="pos" data-status="pending" data-service-id="toast">
                             <div class="card shadow-sm border h-100 d-flex flex-column justify-content-between">
                                 <div>
                                     <div class="card-header bg-white py-3 border-bottom d-flex justify-content-between align-items-center">
@@ -310,7 +362,7 @@
                                                 <small class="text-body-secondary font-monospace">Toast Delivery Services (TDS)</small>
                                             </div>
                                         </div>
-                                        <span class="badge text-bg-success" id="status-badge-toast">Verified &amp; Active</span>
+                                        <span class="badge text-bg-secondary" id="status-badge-toast">Not Configured</span>
                                     </div>
                                     <div class="card-body">
                                         <div class="alert alert-warning py-2 px-3 small mb-3">
@@ -326,7 +378,7 @@
                                             </li>
                                             <li class="list-group-item px-0 d-flex justify-content-between">
                                                 <span class="text-body-secondary">Location GUID:</span>
-                                                <span class="fw-semibold font-monospace" id="spec-loc-toast">parma-landisville-pa-01</span>
+                                                <span class="fw-semibold font-monospace" id="spec-loc-toast">Pending Setup</span>
                                             </li>
                                             <li class="list-group-item px-0 d-flex justify-content-between">
                                                 <span class="text-body-secondary">Delivery Mode:</span>
@@ -347,7 +399,7 @@
                         </div>
 
                         <!-- 2. DOORDASH DRIVE -->
-                        <div class="col-12 col-lg-6 service-col" data-category="fleet" data-status="connected" data-service-id="doordash">
+                        <div class="col-12 col-lg-6 service-col" data-category="fleet" data-status="pending" data-service-id="doordash">
                             <div class="card shadow-sm border h-100 d-flex flex-column justify-content-between">
                                 <div>
                                     <div class="card-header bg-white py-3 border-bottom d-flex justify-content-between align-items-center">
@@ -361,7 +413,7 @@
                                                 <small class="text-body-secondary font-monospace">White-Label Fulfillment API</small>
                                             </div>
                                         </div>
-                                        <span class="badge text-bg-success" id="status-badge-doordash">Verified &amp; Active</span>
+                                        <span class="badge text-bg-secondary" id="status-badge-doordash">Not Configured</span>
                                     </div>
                                     <div class="card-body">
                                         <div class="alert alert-danger py-2 px-3 small mb-3">
@@ -377,7 +429,7 @@
                                             </li>
                                             <li class="list-group-item px-0 d-flex justify-content-between">
                                                 <span class="text-body-secondary">Fulfillment Radius:</span>
-                                                <span class="fw-semibold">12.5 Miles (York &amp; Lancaster)</span>
+                                                <span class="fw-semibold">12.5 Miles Metro Radius</span>
                                             </li>
                                             <li class="list-group-item px-0 d-flex justify-content-between">
                                                 <span class="text-body-secondary">Fleet SLA:</span>
@@ -398,7 +450,7 @@
                         </div>
 
                         <!-- 3. UBER DIRECT -->
-                        <div class="col-12 col-lg-6 service-col" data-category="fleet" data-status="connected" data-service-id="uber">
+                        <div class="col-12 col-lg-6 service-col" data-category="fleet" data-status="pending" data-service-id="uber">
                             <div class="card shadow-sm border h-100 d-flex flex-column justify-content-between">
                                 <div>
                                     <div class="card-header bg-white py-3 border-bottom d-flex justify-content-between align-items-center">
@@ -412,7 +464,7 @@
                                                 <small class="text-body-secondary font-monospace">On-Demand Merchant Delivery</small>
                                             </div>
                                         </div>
-                                        <span class="badge text-bg-success" id="status-badge-uber">Verified &amp; Active</span>
+                                        <span class="badge text-bg-secondary" id="status-badge-uber">Not Configured</span>
                                     </div>
                                     <div class="card-body">
                                         <div class="alert alert-success py-2 px-3 small mb-3">
@@ -432,7 +484,7 @@
                                             </li>
                                             <li class="list-group-item px-0 d-flex justify-content-between">
                                                 <span class="text-body-secondary">Webhooks:</span>
-                                                <span class="fw-semibold">Active (Status &amp; Driver Location)</span>
+                                                <span class="fw-semibold">Pending Connection</span>
                                             </li>
                                         </ul>
                                     </div>
@@ -463,7 +515,7 @@
                                                 <small class="text-body-secondary font-monospace">Direct Storefront &amp; API</small>
                                             </div>
                                         </div>
-                                        <span class="badge text-bg-warning text-dark" id="status-badge-grubhub">Ready to Connect</span>
+                                        <span class="badge text-bg-secondary" id="status-badge-grubhub">Not Configured</span>
                                     </div>
                                     <div class="card-body">
                                         <div class="alert alert-secondary py-2 px-3 small mb-3">
@@ -605,33 +657,114 @@
                 </section>
 
                 <!-- ----------------------------------------------------------------
-                     PAGE 2: MENU ITEMS SETUP PAGE
+                     PAGE 2: MENU ITEMS SETUP PAGE (HIDDEN UNTIL AN API IS SELECTED)
                      ---------------------------------------------------------------- -->
                 <section class="admin-page-view" id="view-menu-items">
                     <div class="card shadow-sm border">
-                        <div class="card-header bg-white py-3 border-bottom">
-                            <h2 class="h4 fw-bold text-dark mb-1">Menu Items Setup</h2>
-                            <p class="text-secondary small mb-0">
-                                Configure your restaurant menu items, categories, options, modifiers, and prices for synchronized dispatch across all connected delivery platforms.
-                            </p>
+                        <div class="card-header bg-white py-3 border-bottom d-flex flex-wrap justify-content-between align-items-center gap-2">
+                            <div>
+                                <h2 class="h4 fw-bold text-dark mb-1">Menu Items Setup &amp; Catalog Sync</h2>
+                                <p class="text-secondary small mb-0">
+                                    Configure your restaurant menu items, categories, and options for automated synchronization across your connected delivery APIs.
+                                </p>
+                            </div>
+                            <span class="badge text-bg-success" id="menuSyncBadge">Catalog Live &bull; Synced</span>
                         </div>
-                        <div class="card-body p-4 p-md-5 text-center">
-                            <div class="rounded-circle bg-light border d-inline-flex align-items-center justify-content-center p-4 mb-3 text-secondary" style="width: 72px; height: 72px;">
-                                <i class="fa-solid fa-utensils fs-3"></i>
+                        <div class="card-body p-4">
+                            <!-- Sync status alert -->
+                            <div class="alert alert-success d-flex align-items-center gap-2 mb-4 py-2 px-3 small">
+                                <i class="fa-solid fa-cloud-arrow-up fs-5"></i>
+                                <div>
+                                    <strong>API Connection Active:</strong> Changes made here will automatically synchronize with your connected POS and delivery platforms (<span id="menuActivePlatformsText">Toast POS</span>).
+                                </div>
                             </div>
-                            <h3 class="h5 fw-bold text-dark mb-2">Menu Catalog &amp; Category Mapping</h3>
-                            <p class="text-secondary small mx-auto mb-4" style="max-width: 540px;">
-                                Menu setup is staged and ready for catalog ingestion. Once your delivery services are verified, items created here will automatically synchronize with Toast POS, DoorDash Drive, and Uber Direct.
-                            </p>
-                            <div class="d-flex flex-wrap justify-content-center gap-2 mb-4">
-                                <span class="badge text-bg-light border text-dark py-2 px-3"><i class="fa-solid fa-bread-slice me-1 text-danger"></i> Hot Italian Delivery Subs</span>
-                                <span class="badge text-bg-light border text-dark py-2 px-3"><i class="fa-solid fa-drumstick-bite me-1 text-warning"></i> Philly Cheesesteaks</span>
-                                <span class="badge text-bg-light border text-dark py-2 px-3"><i class="fa-solid fa-bowl-food me-1 text-success"></i> Loaded Gourmet Fries</span>
-                                <span class="badge text-bg-light border text-dark py-2 px-3"><i class="fa-solid fa-pizza-slice me-1 text-primary"></i> Artisan Strombolis</span>
+
+                            <!-- Menu Catalog Categories Table -->
+                            <div class="table-responsive">
+                                <table class="table table-hover table-striped align-middle border mb-4">
+                                    <thead class="table-light">
+                                        <tr>
+                                            <th style="width: 60px;">Image</th>
+                                            <th>Item &amp; Category</th>
+                                            <th>Description</th>
+                                            <th class="text-end">Base Price</th>
+                                            <th>Synced Gateways</th>
+                                            <th class="text-center">Status</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <tr>
+                                            <td>
+                                                <div class="rounded bg-danger-subtle text-danger d-flex align-items-center justify-content-center" style="width: 44px; height: 44px;">
+                                                    <i class="fa-solid fa-bread-slice fs-5"></i>
+                                                </div>
+                                            </td>
+                                            <td>
+                                                <div class="fw-bold text-dark">Artisan Cheesesteak Supreme</div>
+                                                <small class="text-body-secondary">Subs &bull; Hot Signature</small>
+                                            </td>
+                                            <td class="small text-secondary">Shaved ribeye, sautéed onions, sweet peppers, melted provolone on toasted hearth roll.</td>
+                                            <td class="text-end font-monospace fw-bold">$13.95</td>
+                                            <td><span class="badge text-bg-dark font-monospace" id="menuRowSync1">Active Gateway</span></td>
+                                            <td class="text-center"><span class="badge text-bg-success">In Stock</span></td>
+                                        </tr>
+                                        <tr>
+                                            <td>
+                                                <div class="rounded bg-warning-subtle text-warning d-flex align-items-center justify-content-center" style="width: 44px; height: 44px;">
+                                                    <i class="fa-solid fa-bacon fs-5"></i>
+                                                </div>
+                                            </td>
+                                            <td>
+                                                <div class="fw-bold text-dark">Loaded Truffle Parmesan Fries</div>
+                                                <small class="text-body-secondary">Sides &bull; Gourmet Fries</small>
+                                            </td>
+                                            <td class="small text-secondary">Double-crisped hand-cut fries, white truffle oil, shaved parmesan, garlic rosemary aioli.</td>
+                                            <td class="text-end font-monospace fw-bold">$8.50</td>
+                                            <td><span class="badge text-bg-dark font-monospace" id="menuRowSync2">Active Gateway</span></td>
+                                            <td class="text-center"><span class="badge text-bg-success">In Stock</span></td>
+                                        </tr>
+                                        <tr>
+                                            <td>
+                                                <div class="rounded bg-primary-subtle text-primary d-flex align-items-center justify-content-center" style="width: 44px; height: 44px;">
+                                                    <i class="fa-solid fa-pizza-slice fs-5"></i>
+                                                </div>
+                                            </td>
+                                            <td>
+                                                <div class="fw-bold text-dark">Classic Italian Deli Sub (12-inch)</div>
+                                                <small class="text-body-secondary">Subs &bull; Cold Deli Classics</small>
+                                            </td>
+                                            <td class="small text-secondary">Genoa salami, capicola, prosciutto cotto, aged provolone, shredduce, EVOO red vinegar.</td>
+                                            <td class="text-end font-monospace fw-bold">$12.50</td>
+                                            <td><span class="badge text-bg-dark font-monospace" id="menuRowSync3">Active Gateway</span></td>
+                                            <td class="text-center"><span class="badge text-bg-success">In Stock</span></td>
+                                        </tr>
+                                        <tr>
+                                            <td>
+                                                <div class="rounded bg-success-subtle text-success d-flex align-items-center justify-content-center" style="width: 44px; height: 44px;">
+                                                    <i class="fa-solid fa-bowl-food fs-5"></i>
+                                                </div>
+                                            </td>
+                                            <td>
+                                                <div class="fw-bold text-dark">Charred Buffalo Chicken Wrap</div>
+                                                <small class="text-body-secondary">Wraps &bull; Grilled Specialties</small>
+                                            </td>
+                                            <td class="small text-secondary">Grilled chicken tenders tossed in tangy buffalo glaze, romaine, house buttermilk ranch.</td>
+                                            <td class="text-end font-monospace fw-bold">$11.25</td>
+                                            <td><span class="badge text-bg-dark font-monospace" id="menuRowSync4">Active Gateway</span></td>
+                                            <td class="text-center"><span class="badge text-bg-success">In Stock</span></td>
+                                        </tr>
+                                    </tbody>
+                                </table>
                             </div>
-                            <button class="btn btn-primary" onclick="switchAdminTab('delivery-services')">
-                                &larr; Back to Delivery Services Setup
-                            </button>
+
+                            <div class="d-flex flex-wrap justify-content-between align-items-center gap-2 pt-2 border-top">
+                                <button class="btn btn-outline-secondary btn-sm" onclick="switchAdminTab('delivery-services')">
+                                    &larr; Back to Delivery Services
+                                </button>
+                                <button class="btn btn-success btn-sm" onclick="openWpSiteGeneratorModal()">
+                                    <i class="fa-brands fa-wordpress me-1"></i> Create site with this configuration
+                                </button>
+                            </div>
                         </div>
                     </div>
                 </section>
@@ -667,28 +800,12 @@
                                 </thead>
                                 <tbody id="telemetryTableBody" class="small">
                                     <tr>
-                                        <td class="font-monospace text-secondary">2026-10-02 13:02:18</td>
-                                        <td class="fw-bold">Toast POS</td>
-                                        <td><code class="text-dark bg-light px-1 py-0.5 border rounded">ORDERS_API.INJECT_TICKET</code></td>
-                                        <td><span class="badge text-bg-success">200 OK</span></td>
-                                        <td class="font-monospace">24 ms</td>
-                                        <td class="font-monospace text-secondary">#SUB-2026-9812 (Italian Sub)</td>
-                                    </tr>
-                                    <tr>
-                                        <td class="font-monospace text-secondary">2026-10-02 13:01:42</td>
-                                        <td class="fw-bold">DoorDash Drive</td>
-                                        <td><code class="text-dark bg-light px-1 py-0.5 border rounded">DELIVERY.COURIER_ASSIGNED</code></td>
-                                        <td><span class="badge text-bg-success">200 OK</span></td>
-                                        <td class="font-monospace">38 ms</td>
-                                        <td class="font-monospace text-secondary">#DASHER-7492 (Driver En Route)</td>
-                                    </tr>
-                                    <tr>
-                                        <td class="font-monospace text-secondary">2026-10-02 12:58:05</td>
-                                        <td class="fw-bold">Uber Direct</td>
-                                        <td><code class="text-dark bg-light px-1 py-0.5 border rounded">WEBHOOK.DISPATCH_ACCEPTED</code></td>
-                                        <td><span class="badge text-bg-success">200 OK</span></td>
-                                        <td class="font-monospace">19 ms</td>
-                                        <td class="font-monospace text-secondary">#UBR-8491 (Loaded Fries x2)</td>
+                                        <td class="font-monospace text-secondary">Ready</td>
+                                        <td class="fw-bold">System Dispatcher</td>
+                                        <td><code class="text-dark bg-light px-1 py-0.5 border rounded">GATEWAY.STANDBY</code></td>
+                                        <td><span class="badge text-bg-secondary">Waiting</span></td>
+                                        <td class="font-monospace">0 ms</td>
+                                        <td class="font-monospace text-secondary">Configure an API to begin dispatch</td>
                                     </tr>
                                 </tbody>
                             </table>
@@ -704,7 +821,7 @@
                         <div>
                             <h2 class="h3 fw-bold text-dark mb-1">Live Storefront &amp; Community Calendar Preview</h2>
                             <p class="text-secondary small mb-0">
-                                Review how customers experience Parma Sub &amp; Fry Co. with real-time specials, online ordering bag, and community events.
+                                Review how customers experience the online ordering bag and community events on your restaurant storefront.
                             </p>
                         </div>
                         <button class="btn btn-outline-primary btn-sm" onclick="switchAdminTab('delivery-services')">
@@ -713,10 +830,10 @@
                     </div>
 
                     <div class="card shadow-sm border text-center p-4 p-md-5">
-                        <img src="./images/hero-cheesesteak.jpg" alt="Parma Hero Cheesesteak" class="img-fluid rounded shadow-sm mx-auto mb-4" style="max-width: 520px;">
-                        <h3 class="h4 fw-bold text-dark mb-2">Parma Sub &amp; Fry Co. Storefront</h3>
+                        <img src="./images/hero-cheesesteak.jpg" alt="Artisan Deli Hero Cheesesteak" class="img-fluid rounded shadow-sm mx-auto mb-4" style="max-width: 520px;">
+                        <h3 class="h4 fw-bold text-dark mb-2">Artisan Kitchen &amp; Sub Co. Storefront</h3>
                         <p class="text-secondary small mx-auto mb-4" style="max-width: 540px;">
-                            The full public customer frontend, loaded subs menu, and monthly community calendar are operational and ready to receive dispatch requests from your connected delivery APIs.
+                            The public customer frontend, loaded subs menu, and monthly community calendar are operational and ready to route delivery requests through your configured APIs.
                         </p>
                         <div>
                             <a href="./case-study.html" class="btn btn-outline-secondary">
@@ -726,6 +843,37 @@
                     </div>
                 </section>
 
+            </div>
+        </div>
+    </div>
+
+    <!-- ====================================================================
+         BOTTOM BAR: "CREATE SITE WITH THIS CONFIGURATION"
+         (Appears as soon as at least one API is selected and verified)
+         ==================================================================== -->
+    <div id="createSiteBottomBar" class="fixed-bottom bg-dark text-white border-top border-secondary py-3 px-3 px-md-4 shadow-lg d-none" style="z-index: 1040;">
+        <div class="container-fluid d-flex flex-column flex-md-row justify-content-between align-items-md-center gap-3 px-0">
+            <div class="d-flex align-items-center gap-3">
+                <div class="rounded-circle bg-primary text-white d-flex align-items-center justify-content-center shadow-sm" style="width: 44px; height: 44px;">
+                    <i class="fa-brands fa-wordpress fs-4"></i>
+                </div>
+                <div>
+                    <div class="fw-bold small d-flex align-items-center gap-2">
+                        <span id="bottomBarConfigTitle">Configuration Selected</span>
+                        <span class="badge text-bg-success">Verified</span>
+                    </div>
+                    <div class="text-secondary small font-monospace" id="bottomBarConfigDetails">
+                        Ready to deploy blank WordPress site with active delivery gateway plugins
+                    </div>
+                </div>
+            </div>
+            <div class="d-flex align-items-center gap-2">
+                <button class="btn btn-outline-light btn-sm font-monospace" onclick="switchAdminTab('menu-items')">
+                    <i class="fa-solid fa-utensils me-1"></i> View Menu Items
+                </button>
+                <button class="btn btn-success fw-bold px-3 py-2 shadow-sm" id="btnCreateWpSite" onclick="openWpSiteGeneratorModal()">
+                    <i class="fa-brands fa-wordpress me-2"></i>create site with this configuration
+                </button>
             </div>
         </div>
     </div>
@@ -751,104 +899,306 @@
                     <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                 </div>
 
-                <!-- Modal Body -->
+                <!-- Modal Body Form -->
                 <form id="apiConfigForm" onsubmit="handleApiVerification(event)">
                     <div class="modal-body p-4">
-                        <!-- Outward Link Alert -->
-                        <div class="alert alert-light border d-flex justify-content-between align-items-center mb-3 py-2 px-3">
-                            <span class="small text-secondary">Need developer credentials or portal onboarding for this platform?</span>
-                            <a href="#" target="_blank" rel="noopener noreferrer" id="modalOutwardLink" class="btn btn-sm btn-outline-dark">
-                                Provider Portal <i class="fa-solid fa-arrow-up-right-from-square ms-1"></i>
+                        <input type="hidden" id="modalCurrentServiceId" value="toast">
+
+                        <!-- Outward Link Banner -->
+                        <div class="alert alert-secondary py-2 px-3 small d-flex justify-content-between align-items-center mb-4">
+                            <span><i class="fa-solid fa-arrow-up-right-from-square me-1"></i>Need API keys from this platform?</span>
+                            <a href="https://pos.toasttab.com/" target="_blank" rel="noopener noreferrer"
+                                class="btn btn-outline-dark btn-sm fw-semibold" id="modalOutwardLink">
+                                Developer Portal <i class="fa-solid fa-arrow-up-right-from-square ms-1"></i>
                             </a>
                         </div>
 
-                        <input type="hidden" id="modalCurrentServiceId" value="toast">
-
-                        <!-- Client ID Input -->
+                        <!-- Environment Selector -->
                         <div class="mb-3">
-                            <label class="form-label small fw-bold text-dark" for="apiClientIdInput">
-                                Client ID / App Public Key <span class="text-danger">*</span>
-                            </label>
-                            <input type="text" id="apiClientIdInput" class="form-control font-monospace" placeholder="e.g. tst_app_98214fa7621bc" required>
-                        </div>
+                            <label class="form-label small fw-bold text-secondary text-uppercase font-monospace mb-1">Target Environment</label>
+                            <div class="btn-group w-100" role="group">
+                                <input type="radio" class="btn-check" name="apiEnv" id="envProd" autocomplete="off" checked onclick="selectEnvironment('prod')">
+                                <label class="btn btn-outline-dark btn-sm" for="envProd"><i class="fa-solid fa-shield-halved me-1 text-success"></i> Production Live</label>
 
-                        <!-- API Secret Input -->
-                        <div class="mb-3">
-                            <label class="form-label small fw-bold text-dark" for="apiSecretInput">
-                                API Secret / Private Token <span class="text-danger">*</span>
-                            </label>
-                            <input type="password" id="apiSecretInput" class="form-control font-monospace" placeholder="••••••••••••••••••••••••••••••••" required>
-                        </div>
-
-                        <!-- Merchant Location ID Input -->
-                        <div class="mb-3">
-                            <label class="form-label small fw-bold text-dark" for="apiLocationIdInput">
-                                Merchant / Location ID <span class="text-danger">*</span>
-                            </label>
-                            <input type="text" id="apiLocationIdInput" class="form-control font-monospace" placeholder="e.g. parma-landisville-store-104" required>
-                        </div>
-
-                        <!-- Gateway Environment Selector (Bootstrap Radio Button Group) -->
-                        <div class="mb-3">
-                            <label class="form-label small fw-bold text-dark">Gateway Environment Mode</label>
-                            <div class="btn-group w-100" role="group" aria-label="Environment Selection">
-                                <input type="radio" class="btn-check" name="envRadio" id="envProductionRadio" autocomplete="off" checked onclick="selectEnvironment('prod')">
-                                <label class="btn btn-outline-success" for="envProductionRadio">
-                                    <i class="fa-solid fa-circle-check me-1"></i> Production Live (Order Dispatch)
-                                </label>
-                                <input type="radio" class="btn-check" name="envRadio" id="envSandboxRadio" autocomplete="off" onclick="selectEnvironment('sandbox')">
-                                <label class="btn btn-outline-primary" for="envSandboxRadio">
-                                    <i class="fa-solid fa-flask me-1"></i> Developer Sandbox (Testing)
-                                </label>
+                                <input type="radio" class="btn-check" name="apiEnv" id="envSandbox" autocomplete="off" onclick="selectEnvironment('sandbox')">
+                                <label class="btn btn-outline-dark btn-sm" for="envSandbox"><i class="fa-solid fa-vial me-1 text-warning"></i> Sandbox / Test</label>
                             </div>
                         </div>
 
-                        <!-- Webhook Callback URL Display -->
-                        <div class="mb-3">
-                            <label class="form-label small fw-bold text-dark">Inbound Webhook Listener (.NET 9 Gateway)</label>
-                            <input type="text" id="apiWebhookUrlDisplay" class="form-control font-monospace bg-light" readonly
-                                value="https://api.parmapizzaandgrill.com/api/webhooks/dispatch/">
-                        </div>
-
-                        <!-- Verification Progress & Console -->
-                        <div class="d-none mt-3" id="verificationConsole">
-                            <div class="card bg-dark text-light font-monospace p-3 small border-secondary">
-                                <div class="d-flex justify-content-between align-items-center border-bottom border-secondary pb-2 mb-2 text-secondary">
-                                    <span><i class="fa-solid fa-terminal me-1"></i> .NET 9 API Handshake Simulator</span>
-                                    <span id="consoleTimer">0 ms</span>
-                                </div>
-                                <div class="progress mb-3" style="height: 6px;" role="progressbar" aria-valuenow="100" aria-valuemin="0" aria-valuemax="100">
-                                    <div class="progress-bar progress-bar-striped progress-bar-animated bg-success" style="width: 100%;"></div>
-                                </div>
-                                <div class="text-info mb-1" id="step1">
-                                    <span class="spinner-border spinner-border-sm me-1" role="status" aria-hidden="true"></span> Initializing TLS 1.3 encrypted handshake...
-                                </div>
-                                <div class="text-secondary mb-1 d-none" id="step2">
-                                    <span class="spinner-border spinner-border-sm me-1" role="status" aria-hidden="true"></span> Authenticating Client ID &amp; Signing Secret...
-                                </div>
-                                <div class="text-secondary mb-1 d-none" id="step3">
-                                    <span class="spinner-border spinner-border-sm me-1" role="status" aria-hidden="true"></span> Validating Location ID &amp; Courier Geofence...
-                                </div>
-                                <div class="text-success fw-bold d-none" id="step4">
-                                    <i class="fa-solid fa-check me-1"></i> Connection verified! Health check HTTP 200 OK.
-                                </div>
+                        <!-- Credentials Inputs -->
+                        <div class="row g-3 mb-3">
+                            <div class="col-12 col-md-6">
+                                <label for="apiClientIdInput" class="form-label small fw-bold text-secondary text-uppercase font-monospace mb-1">Client ID / App Key</label>
+                                <input type="text" id="apiClientIdInput" class="form-control font-monospace" placeholder="e.g. toast_app_live_8819" required>
+                            </div>
+                            <div class="col-12 col-md-6">
+                                <label for="apiSecretInput" class="form-label small fw-bold text-secondary text-uppercase font-monospace mb-1">API Secret / HMAC Signing Key</label>
+                                <input type="password" id="apiSecretInput" class="form-control font-monospace" placeholder="••••••••••••••••••••••••" required>
                             </div>
                         </div>
+
+                        <div class="row g-3 mb-4">
+                            <div class="col-12 col-md-6">
+                                <label for="apiLocationIdInput" class="form-label small fw-bold text-secondary text-uppercase font-monospace mb-1">Restaurant Store / Location GUID</label>
+                                <input type="text" id="apiLocationIdInput" class="form-control font-monospace" placeholder="e.g. store-downtown-104" required>
+                            </div>
+                            <div class="col-12 col-md-6">
+                                <label class="form-label small fw-bold text-secondary text-uppercase font-monospace mb-1">One-Click Demonstration</label>
+                                <button type="button" class="btn btn-outline-primary btn-sm w-100 font-monospace" onclick="fillDemoCredentials()">
+                                    <i class="fa-solid fa-wand-magic-sparkles me-1"></i> Auto-Fill Test Keys
+                                </button>
+                            </div>
+                        </div>
+
+                        <!-- Webhook Callback URL (Copyable) -->
+                        <div class="mb-4">
+                            <label class="form-label small fw-bold text-secondary text-uppercase font-monospace mb-1">Inbound Webhook Dispatch URL</label>
+                            <div class="input-group">
+                                <span class="input-group-text bg-white"><i class="fa-solid fa-link text-secondary"></i></span>
+                                <input type="text" class="form-control font-monospace small bg-light" id="apiWebhookUrlDisplay" readonly
+                                    value="https://api.dinedispatch.io/api/webhooks/dispatch/toast">
+                                <button class="btn btn-outline-secondary btn-sm" type="button" onclick="navigator.clipboard.writeText(document.getElementById('apiWebhookUrlDisplay').value); alert('Webhook URL copied to clipboard!');">
+                                    <i class="fa-regular fa-copy"></i>
+                                </button>
+                            </div>
+                            <small class="text-body-secondary">Provide this URL in your delivery platform developer portal to receive courier updates.</small>
+                        </div>
+
+                        <!-- Simulated Live Terminal / Handshake Console -->
+                        <div class="card bg-dark text-white border-0 p-3 font-monospace small d-none" id="verificationConsole">
+                            <div class="d-flex justify-content-between text-secondary border-bottom border-secondary pb-1 mb-2">
+                                <span><i class="fa-solid fa-terminal me-1"></i>HANDSHAKE_TELEMETRY</span>
+                                <span id="consoleTimer">0 ms</span>
+                            </div>
+                            <div id="step1" class="text-info mb-1"><span class="spinner-border spinner-border-sm me-1" role="status"></span> Initializing TLS 1.3 encrypted handshake...</div>
+                            <div id="step2" class="text-secondary mb-1 d-none"><i class="fa-solid fa-angle-right me-1"></i> Authenticating Client ID with OAuth provider...</div>
+                            <div id="step3" class="text-secondary mb-1 d-none"><i class="fa-solid fa-angle-right me-1"></i> Validating Location ID &amp; Courier Geofence...</div>
+                            <div id="step4" class="text-success fw-bold d-none"><i class="fa-solid fa-circle-check me-1"></i> Handshake Successful (200 OK). Gateway Active!</div>
+                        </div>
+
                     </div>
 
                     <!-- Modal Footer -->
-                    <div class="modal-footer bg-light border-top d-flex justify-content-between">
-                        <button type="button" class="btn btn-outline-secondary btn-sm" onclick="fillDemoCredentials()">
-                            <i class="fa-solid fa-wand-magic-sparkles me-1"></i> Fill Demo Credentials
+                    <div class="modal-footer bg-light">
+                        <button type="button" class="btn btn-secondary btn-sm" data-bs-dismiss="modal">Cancel</button>
+                        <button type="submit" class="btn btn-danger btn-sm" id="btnSubmitVerify">
+                            <i class="fa-solid fa-shield-check me-1"></i> Submit &amp; Verify API
                         </button>
-                        <div class="d-flex gap-2">
-                            <button type="button" class="btn btn-secondary btn-sm" data-bs-dismiss="modal">Cancel</button>
-                            <button type="submit" class="btn btn-success btn-sm" id="btnSubmitVerify">
-                                <i class="fa-solid fa-shield-check me-1"></i> Submit &amp; Verify API
-                            </button>
-                        </div>
                     </div>
                 </form>
+            </div>
+        </div>
+    </div>
+
+    <!-- ====================================================================
+         WORDPRESS BLANK SITE GENERATOR MODAL
+         (Triggered by "create site with this configuration")
+         ==================================================================== -->
+    <div class="modal fade" id="wpSiteGeneratorModal" tabindex="-1" aria-labelledby="wpModalTitle" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered modal-xl">
+            <div class="modal-content shadow border">
+                <!-- Header -->
+                <div class="modal-header bg-dark text-white">
+                    <div class="d-flex align-items-center gap-3">
+                        <div class="rounded-3 p-2 bg-primary text-white d-flex align-items-center justify-content-center" style="width: 44px; height: 44px;">
+                            <i class="fa-brands fa-wordpress fs-4"></i>
+                        </div>
+                        <div>
+                            <h5 class="modal-title fw-bold mb-0" id="wpModalTitle">Blank WordPress Site Deployment</h5>
+                            <small class="text-light-emphasis font-monospace" id="wpModalSubtitle">Deploying Clean WordPress 6.7 Instance with Integrated APIs</small>
+                        </div>
+                    </div>
+                    <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+
+                <!-- Body -->
+                <div class="modal-body p-4 bg-light">
+
+                    <!-- Generation Progress Stage (Animated) -->
+                    <div id="wpProgressStage" class="card shadow-sm border p-4 mb-4">
+                        <h6 class="fw-bold text-dark mb-2 d-flex align-items-center gap-2">
+                            <span class="spinner-border spinner-border-sm text-primary" role="status" id="wpSpinner"></span>
+                            <span id="wpProgressLabel">Compiling Blank WordPress Site with Selected API Configuration...</span>
+                        </h6>
+                        <div class="progress mb-3" style="height: 10px;">
+                            <div class="progress-bar progress-bar-striped progress-bar-animated bg-success" id="wpProgressBar" role="progressbar" style="width: 25%"></div>
+                        </div>
+                        <div class="bg-dark text-white p-3 rounded font-monospace small" style="max-height: 130px; overflow-y: auto;" id="wpTerminalLogs">
+                            <div class="text-secondary">[WP-CLI 2.10.0] Initializing clean WordPress 6.7 environment...</div>
+                        </div>
+                    </div>
+
+                    <!-- Deployed Site Explorer (Shown once ready) -->
+                    <div id="wpDeployedView" class="d-none">
+                        <!-- Navigation Tabs inside the Mockup -->
+                        <ul class="nav nav-tabs mb-3" id="wpMockupTabs" role="tablist">
+                            <li class="nav-item" role="presentation">
+                                <button class="nav-link active fw-bold text-dark" id="wp-tab-frontend" data-bs-toggle="tab" data-bs-target="#wp-frontend-content" type="button" role="tab">
+                                    <i class="fa-solid fa-globe me-1 text-primary"></i> Blank WordPress Site Frontend
+                                </button>
+                            </li>
+                            <li class="nav-item" role="presentation">
+                                <button class="nav-link fw-bold text-dark" id="wp-tab-admin" data-bs-toggle="tab" data-bs-target="#wp-admin-content" type="button" role="tab">
+                                    <i class="fa-brands fa-wordpress me-1 text-danger"></i> WordPress Admin (Plugins &amp; Settings)
+                                </button>
+                            </li>
+                            <li class="nav-item" role="presentation">
+                                <button class="nav-link fw-bold text-dark" id="wp-tab-code" data-bs-toggle="tab" data-bs-target="#wp-code-content" type="button" role="tab">
+                                    <i class="fa-solid fa-code me-1 text-success"></i> wp-config.php &amp; Gateway Hook
+                                </button>
+                            </li>
+                        </ul>
+
+                        <div class="tab-content" id="wpTabContent">
+                            <!-- TAB 1: BLANK WORDPRESS FRONTEND -->
+                            <div class="tab-pane fade show active" id="wp-frontend-content" role="tabpanel">
+                                <div class="card shadow-sm border overflow-hidden">
+                                    <!-- WordPress Top Admin Bar Simulation -->
+                                    <div class="bg-dark text-white px-3 py-1 d-flex align-items-center justify-content-between small font-monospace">
+                                        <div class="d-flex align-items-center gap-3">
+                                            <span><i class="fa-brands fa-wordpress me-1"></i>Restaurant Site</span>
+                                            <span class="d-none d-sm-inline text-secondary">|</span>
+                                            <span class="badge text-bg-success"><i class="fa-solid fa-plug me-1"></i>Delivery Gateway Active</span>
+                                        </div>
+                                        <div class="text-secondary small">Howdy, Restaurant Admin</div>
+                                    </div>
+
+                                    <!-- Blank Theme Header -->
+                                    <div class="p-4 bg-white border-bottom">
+                                        <div class="d-flex justify-content-between align-items-center">
+                                            <div>
+                                                <h3 class="h4 fw-bold text-dark mb-0">Artisan Kitchen &amp; Sub Co.</h3>
+                                                <small class="text-secondary">Just another WordPress site — Delivery API Integrated</small>
+                                            </div>
+                                            <div class="d-flex gap-2">
+                                                <span class="badge text-bg-light border text-secondary">Home</span>
+                                                <span class="badge text-bg-light border text-secondary">Menu</span>
+                                                <span class="badge text-bg-primary">Order Online</span>
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                    <!-- Blank Site Content -->
+                                    <div class="p-4 p-md-5 bg-white">
+                                        <div class="alert alert-success d-flex align-items-center gap-3 mb-4">
+                                            <i class="fa-solid fa-circle-check fs-3"></i>
+                                            <div>
+                                                <h5 class="alert-heading fw-bold mb-1">Blank WordPress Site Created Successfully!</h5>
+                                                <div class="small">
+                                                    Your new WordPress environment is initialized with clean starter templates, zero bloat, and your verified delivery APIs pre-configured for instant checkout dispatch.
+                                                </div>
+                                            </div>
+                                        </div>
+
+                                        <div class="card border bg-light mb-4">
+                                            <div class="card-header bg-white py-2 border-bottom fw-bold small text-uppercase font-monospace text-secondary">
+                                                Integrated Delivery Gateway Architecture
+                                            </div>
+                                            <div class="card-body">
+                                                <div class="row g-3">
+                                                    <div class="col-12 col-md-6">
+                                                        <div class="small text-secondary">Installed Gateway Plugin:</div>
+                                                        <div class="fw-bold text-dark fs-6" id="wpInstalledPluginName">Toast POS TDS Gateway for WordPress v2.4.1</div>
+                                                    </div>
+                                                    <div class="col-12 col-md-6">
+                                                        <div class="small text-secondary">Webhook Ingestion Endpoint:</div>
+                                                        <div class="font-monospace text-dark small bg-white p-1 border rounded" id="wpWebhookEndpoint">
+                                                            /wp-json/delivery-gateway/v1/dispatch
+                                                        </div>
+                                                    </div>
+                                                    <div class="col-12 col-md-6">
+                                                        <div class="small text-secondary">Active Credentials Hooked:</div>
+                                                        <div class="font-monospace text-dark small" id="wpConnectedCredsDisplay">
+                                                            Client ID: Verified &bull; Secret: Secured &bull; TLS 1.3 Active
+                                                        </div>
+                                                    </div>
+                                                    <div class="col-12 col-md-6">
+                                                        <div class="small text-secondary">Catalog Sync:</div>
+                                                        <div class="font-monospace text-success fw-bold small">
+                                                            <i class="fa-solid fa-check me-1"></i> Ready for Gutenberg &amp; WooCommerce Blocks
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+
+                                        <div class="text-center py-3 border rounded bg-body-tertiary">
+                                            <h6 class="fw-bold text-dark mb-1">Blank Starter Page</h6>
+                                            <p class="text-secondary small mb-3">
+                                                Add your custom restaurant content, banners, and ordering menus using standard WordPress Gutenberg blocks.
+                                            </p>
+                                            <button class="btn btn-outline-dark btn-sm" onclick="sendWpTestOrder()">
+                                                <i class="fa-solid fa-paper-plane me-1 text-danger"></i> Dispatch Simulated Test Order through WordPress
+                                            </button>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <!-- TAB 2: WP-ADMIN PLUGINS & SETTINGS -->
+                            <div class="tab-pane fade" id="wp-admin-content" role="tabpanel">
+                                <div class="card shadow-sm border p-4 bg-white">
+                                    <h5 class="fw-bold text-dark mb-3"><i class="fa-solid fa-plug me-2 text-primary"></i>WordPress Plugins (Active in this Configuration)</h5>
+                                    <div class="table-responsive">
+                                        <table class="table table-bordered align-middle small mb-3">
+                                            <thead class="table-light">
+                                                <tr>
+                                                    <th>Plugin Name</th>
+                                                    <th>Description</th>
+                                                    <th>Integration State</th>
+                                                </tr>
+                                            </thead>
+                                            <tbody id="wpPluginsTableBody">
+                                                <!-- Populated dynamically based on configured APIs -->
+                                            </tbody>
+                                        </table>
+                                    </div>
+                                    <div class="alert alert-secondary small mb-0">
+                                        <i class="fa-solid fa-key me-1"></i> All API tokens and credentials configured in the admin console are automatically bound to the WordPress <code>wp_options</code> table and encrypted via <code>wp_salt</code>.
+                                    </div>
+                                </div>
+                            </div>
+
+                            <!-- TAB 3: CODE & CONFIG -->
+                            <div class="tab-pane fade" id="wp-code-content" role="tabpanel">
+                                <div class="card shadow-sm border p-3 bg-dark text-white font-monospace small">
+                                    <div class="d-flex justify-content-between align-items-center mb-2 pb-2 border-bottom border-secondary">
+                                        <span><i class="fa-solid fa-file-code me-1 text-warning"></i>wp-config.php Snippet &amp; Delivery Hook</span>
+                                        <button class="btn btn-outline-light btn-sm font-monospace" onclick="navigator.clipboard.writeText(document.getElementById('wpCodeSnippet').innerText); alert('PHP code copied to clipboard!');">
+                                            <i class="fa-regular fa-copy me-1"></i> Copy Code
+                                        </button>
+                                    </div>
+                                    <pre id="wpCodeSnippet" class="mb-0 text-light" style="overflow-x: auto;">
+/**
+ * Delivery Gateway Configuration for WordPress
+ * Generated based on active API credentials
+ */
+define('DELIVERY_GATEWAY_ACTIVE', true);
+define('DELIVERY_GATEWAY_PROVIDER', 'TOAST_POS');
+define('DELIVERY_GATEWAY_CLIENT_ID', 'toast_app_dinedispatch_982');
+define('DELIVERY_GATEWAY_LOCATION_ID', 'loc_downtown_toast_01');
+define('DELIVERY_GATEWAY_TLS_VERIFIED', true);
+
+// WordPress Action Hook: Automatically dispatch orders to connected delivery fleet
+add_action('woocommerce_checkout_order_processed', function($order_id) {
+    $order = wc_get_order($order_id);
+    Delivery_Gateway_Client::dispatch_ticket($order);
+});
+                                    </pre>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                </div>
+
+                <!-- Footer -->
+                <div class="modal-footer bg-white border-top">
+                    <button type="button" class="btn btn-secondary btn-sm" data-bs-dismiss="modal">Close</button>
+                    <button type="button" class="btn btn-primary btn-sm" onclick="switchAdminTab('dispatch-logs'); bootstrap.Modal.getInstance(document.getElementById('wpSiteGeneratorModal')).hide();">
+                        <i class="fa-solid fa-chart-line me-1"></i> View Dispatch Telemetry
+                    </button>
+                </div>
             </div>
         </div>
     </div>
@@ -863,6 +1213,7 @@
          ==================================================================== -->
     <script>
         // Delivery Platforms Registry & Metadata
+        // NOTE: No APIs are preconnected (all verified: false by default)
         const DELIVERY_SERVICES = {
             toast: {
                 id: 'toast',
@@ -873,11 +1224,13 @@
                 demographicRank: 'Top In-House Restaurant Direct POS',
                 demographicDesc: 'Eliminates 30% commissions via native in-house ordering with flat-rate DoorDash courier pass-through.',
                 portalUrl: 'https://pos.toasttab.com/',
-                defaultClientId: 'toast_app_parma_live_982',
+                defaultClientId: 'toast_app_dinedispatch_982',
                 defaultSecret: 'tst_sec_89234bfa09e1889c201',
-                defaultLocationId: 'parma-landisville-pa-01',
+                defaultLocationId: 'loc_downtown_toast_01',
                 category: 'pos',
-                verified: true
+                pluginSlug: 'toast-delivery-gateway',
+                pluginTitle: 'Toast POS Direct Delivery Gateway for WordPress',
+                verified: false
             },
             doordash: {
                 id: 'doordash',
@@ -888,11 +1241,13 @@
                 demographicRank: '#1 Demographic Choice (67% US Market)',
                 demographicDesc: 'Dominant nationwide suburban footprint; highest brand recognition and driver availability across family dining.',
                 portalUrl: 'https://developer.doordash.com/',
-                defaultClientId: 'dd_drive_client_parma_prod',
+                defaultClientId: 'dd_drive_client_prod_441',
                 defaultSecret: 'dd_jwt_secret_88192aacc7712',
-                defaultLocationId: 'store_york_parma_771',
+                defaultLocationId: 'store_metro_dd_771',
                 category: 'fleet',
-                verified: true
+                pluginSlug: 'doordash-drive-wp',
+                pluginTitle: 'DoorDash Drive White-Label Courier for WordPress',
+                verified: false
             },
             uber: {
                 id: 'uber',
@@ -903,11 +1258,13 @@
                 demographicRank: 'Urban & Gen-Z Demographic Choice (23% US Share)',
                 demographicDesc: 'Top preference for metropolitan, college campus, and late-night demographics with dense local courier pooling.',
                 portalUrl: 'https://developer.uber.com/docs/deliveries/overview',
-                defaultClientId: 'uber_direct_client_parma',
+                defaultClientId: 'uber_direct_client_metro',
                 defaultSecret: 'ubr_sec_99120aa8772bc',
-                defaultLocationId: 'uber_loc_central_pa_104',
+                defaultLocationId: 'uber_loc_metro_104',
                 category: 'fleet',
-                verified: true
+                pluginSlug: 'uber-direct-wp',
+                pluginTitle: 'Uber Direct On-Demand Fleet for WordPress',
+                verified: false
             },
             grubhub: {
                 id: 'grubhub',
@@ -918,10 +1275,12 @@
                 demographicRank: 'East Coast & Campus Stronghold',
                 demographicDesc: 'Favored by Northeast corporate lunch programs, regional diners, and student meal account payment ecosystems.',
                 portalUrl: 'https://get.grubhub.com/',
-                defaultClientId: 'gh_partner_parma_902',
+                defaultClientId: 'gh_partner_store_902',
                 defaultSecret: 'gh_sec_token_55219bc001',
                 defaultLocationId: 'gh_merchant_8829',
                 category: 'pos',
+                pluginSlug: 'grubhub-direct-wp',
+                pluginTitle: 'Grubhub Direct Branded Storefront for WordPress',
                 verified: false
             },
             square: {
@@ -935,8 +1294,10 @@
                 portalUrl: 'https://developer.squareup.com/',
                 defaultClientId: 'sq0idp-88291047192aa',
                 defaultSecret: 'sq0csp-99214710188bc',
-                defaultLocationId: 'L8829104PA',
+                defaultLocationId: 'L8829104METRO',
                 category: 'pos',
+                pluginSlug: 'square-delivery-wp',
+                pluginTitle: 'Square Orders & Terminal Bridge for WordPress',
                 verified: false
             },
             clover: {
@@ -952,21 +1313,30 @@
                 defaultSecret: 'clv_token_8821901aa',
                 defaultLocationId: 'CLV_MERCH_7718',
                 category: 'pos',
+                pluginSlug: 'clover-pos-wp',
+                pluginTitle: 'Clover Station Queue & Thermal Print Gateway for WP',
                 verified: false
             }
         };
 
-        // Initialize state from localStorage if present
+        // Clear any old legacy cache
+        try {
+            localStorage.removeItem('parma_delivery_api_state');
+        } catch (e) { }
+
+        // Initialize state from storage if present
         let savedApiState = {};
         try {
-            const raw = localStorage.getItem('parma_delivery_api_state');
+            const raw = localStorage.getItem('dinedispatch_delivery_api_state');
             if (raw) savedApiState = JSON.parse(raw);
         } catch (e) { }
 
-        // Sync verified state
+        // Sync verified state from storage
         Object.keys(DELIVERY_SERVICES).forEach(k => {
-            if (savedApiState[k] !== undefined) {
-                DELIVERY_SERVICES[k].verified = savedApiState[k].verified;
+            if (savedApiState[k] !== undefined && savedApiState[k].verified) {
+                DELIVERY_SERVICES[k].verified = true;
+            } else {
+                DELIVERY_SERVICES[k].verified = false;
             }
         });
 
@@ -1068,7 +1438,7 @@
             document.getElementById('modalLogoIcon').className = `${s.icon} fs-5`;
             document.getElementById('modalOutwardLink').href = s.portalUrl;
             document.getElementById('modalOutwardLink').innerHTML = `${s.name} Portal <i class="fa-solid fa-arrow-up-right-from-square ms-1"></i>`;
-            document.getElementById('apiWebhookUrlDisplay').value = `https://api.parmapizzaandgrill.com/api/webhooks/dispatch/${s.id}`;
+            document.getElementById('apiWebhookUrlDisplay').value = `https://api.dinedispatch.io/api/webhooks/dispatch/${s.id}`;
 
             const saved = savedApiState[s.id];
             if (saved) {
@@ -1160,7 +1530,7 @@
 
             setTimeout(() => {
                 step3.className = 'text-success mb-1';
-                step3.innerHTML = `<i class="fa-solid fa-check me-1"></i> Store location verified: [${locationId}] (South Central PA delivery zone active)`;
+                step3.innerHTML = `<i class="fa-solid fa-check me-1"></i> Store location verified: [${locationId}] (Metro delivery zone active)`;
                 step4.classList.remove('d-none');
                 clearInterval(interval);
 
@@ -1176,7 +1546,7 @@
                 };
 
                 try {
-                    localStorage.setItem('parma_delivery_api_state', JSON.stringify(savedApiState));
+                    localStorage.setItem('dinedispatch_delivery_api_state', JSON.stringify(savedApiState));
                 } catch (err) { }
 
                 // Update Card in DOM
@@ -1185,6 +1555,9 @@
                     badge.className = 'badge text-bg-success';
                     badge.innerHTML = 'Verified &amp; Active';
                 }
+
+                const locEl = document.getElementById(`spec-loc-${sId}`);
+                if (locEl) locEl.innerText = locationId;
 
                 const col = document.querySelector(`.service-col[data-service-id="${sId}"]`);
                 if (col) {
@@ -1206,17 +1579,201 @@
             }, 1050);
         }
 
+        // Update Counters, Menu Items visibility, and Bottom Bar state
         function updateVerifiedCounters() {
             let count = 0;
+            const verifiedNames = [];
+
             Object.keys(DELIVERY_SERVICES).forEach(k => {
-                if (DELIVERY_SERVICES[k].verified) count++;
+                if (DELIVERY_SERVICES[k].verified) {
+                    count++;
+                    verifiedNames.push(DELIVERY_SERVICES[k].name);
+                }
             });
 
+            // Top navbar count
             const ribbon = document.getElementById('activePlatformsCount');
             if (ribbon) ribbon.innerText = count;
 
+            const ribbonBadge = document.getElementById('activePlatformsBadge');
+            if (ribbonBadge) {
+                if (count > 0) {
+                    ribbonBadge.className = 'badge text-bg-warning text-dark';
+                } else {
+                    ribbonBadge.className = 'badge text-bg-secondary text-white';
+                }
+            }
+
+            // Sidebar count
             const sb = document.getElementById('sidebarVerifiedCount');
-            if (sb) sb.innerText = `${count} Active`;
+            if (sb) {
+                sb.innerText = `${count} Active`;
+                sb.className = count > 0 ? 'badge text-bg-primary' : 'badge text-bg-secondary';
+            }
+
+            // Filter button count
+            const fc = document.getElementById('filterConnectedCount');
+            if (fc) fc.innerText = count;
+
+            // Guide notice banner
+            const gnb = document.getElementById('guideNoticeBanner');
+            if (gnb) {
+                if (count > 0) {
+                    gnb.className = 'alert alert-success d-flex align-items-center gap-2 mb-0 py-2 px-3 small';
+                    gnb.innerHTML = `<i class="fa-solid fa-circle-check text-success fs-6"></i><div><strong>${count} API${count > 1 ? 's' : ''} Connected (${verifiedNames.join(', ')}).</strong> Menu Items unlocked! Click the bottom bar to create your WordPress site.</div>`;
+                } else {
+                    gnb.className = 'alert alert-secondary d-flex align-items-center gap-2 mb-0 py-2 px-3 small';
+                    gnb.innerHTML = `<i class="fa-solid fa-circle-info text-primary fs-6"></i><div><strong>No APIs are currently preconnected (0/6).</strong> Please choose a delivery provider below and click <strong>Configure API</strong> to get started.</div>`;
+                }
+            }
+
+            // REQUIREMENT: Menu items should be hidden until an API is selected
+            const menuTabBtn = document.getElementById('tab-btn-menu');
+            if (menuTabBtn) {
+                if (count > 0) {
+                    menuTabBtn.classList.remove('d-none');
+                    menuTabBtn.classList.add('d-flex');
+                } else {
+                    menuTabBtn.classList.add('d-none');
+                    menuTabBtn.classList.remove('d-flex');
+                    if (activeAdminTab === 'menu-items') {
+                        switchAdminTab('delivery-services');
+                    }
+                }
+            }
+
+            // Sync text on Menu Items view
+            const activeText = document.getElementById('menuActivePlatformsText');
+            if (activeText) {
+                activeText.innerText = verifiedNames.length > 0 ? verifiedNames.join(' & ') : 'None';
+            }
+
+            // REQUIREMENT: After an API is selected, a bottom bar says "create site with this configuration"
+            const bottomBar = document.getElementById('createSiteBottomBar');
+            if (bottomBar) {
+                if (count > 0) {
+                    bottomBar.classList.remove('d-none');
+                    document.body.classList.add('has-bottom-bar');
+                    const titleEl = document.getElementById('bottomBarConfigTitle');
+                    if (titleEl) {
+                        titleEl.innerText = `Configuration Ready: ${verifiedNames.join(' + ')}`;
+                    }
+                } else {
+                    bottomBar.classList.add('d-none');
+                    document.body.classList.remove('has-bottom-bar');
+                }
+            }
+        }
+
+        // Launch WordPress Site Generator Modal
+        function openWpSiteGeneratorModal() {
+            const verifiedKeys = Object.keys(DELIVERY_SERVICES).filter(k => DELIVERY_SERVICES[k].verified);
+            if (verifiedKeys.length === 0) {
+                alert('Please connect at least one delivery API before creating a WordPress site.');
+                return;
+            }
+
+            const modalEl = document.getElementById('wpSiteGeneratorModal');
+            const wpModal = bootstrap.Modal.getOrCreateInstance(modalEl);
+            wpModal.show();
+
+            // Reset Animation Stages
+            const progressStage = document.getElementById('wpProgressStage');
+            const deployedView = document.getElementById('wpDeployedView');
+            const progressBar = document.getElementById('wpProgressBar');
+            const progressLabel = document.getElementById('wpProgressLabel');
+            const terminalLogs = document.getElementById('wpTerminalLogs');
+
+            progressStage.classList.remove('d-none');
+            deployedView.classList.add('d-none');
+            progressBar.style.width = '20%';
+            progressBar.className = 'progress-bar progress-bar-striped progress-bar-animated bg-primary';
+
+            terminalLogs.innerHTML = `
+                <div class="text-secondary">[WP-CLI] Initializing blank WordPress 6.7 environment...</div>
+                <div class="text-info">[DATABASE] Creating blank MySQL tables: wp_posts, wp_options, wp_terms...</div>
+            `;
+
+            const primaryService = DELIVERY_SERVICES[verifiedKeys[0]];
+            const allServiceNames = verifiedKeys.map(k => DELIVERY_SERVICES[k].name).join(' & ');
+
+            setTimeout(() => {
+                progressBar.style.width = '50%';
+                terminalLogs.innerHTML += `
+                    <div class="text-warning">[PLUGINS] Installing delivery gateway: ${primaryService.pluginSlug}.zip...</div>
+                    <div class="text-light">[PLUGINS] Activating ${primaryService.pluginTitle}...</div>
+                `;
+            }, 600);
+
+            setTimeout(() => {
+                progressBar.style.width = '80%';
+                terminalLogs.innerHTML += `
+                    <div class="text-info">[CONFIG] Binding Client ID &amp; Location GUID to wp_options table...</div>
+                    <div class="text-success">[GATEWAY] Webhook listener registered: /wp-json/delivery-gateway/v1/dispatch</div>
+                `;
+            }, 1200);
+
+            setTimeout(() => {
+                progressBar.style.width = '100%';
+                progressBar.className = 'progress-bar bg-success';
+                progressLabel.innerText = 'Blank WordPress Site Created & Configured!';
+                terminalLogs.innerHTML += `
+                    <div class="text-success fw-bold">[SUCCESS] Blank WordPress instance online with ${allServiceNames} integration active!</div>
+                `;
+
+                // Update details in Deployed View
+                document.getElementById('wpInstalledPluginName').innerText = primaryService.pluginTitle;
+                document.getElementById('wpWebhookEndpoint').innerText = `/wp-json/delivery-gateway/v1/dispatch/${primaryService.id}`;
+                document.getElementById('wpConnectedCredsDisplay').innerText = `Gateway: ${allServiceNames} • TLS 1.3 Active • Webhook Registered`;
+
+                // Populate plugins list
+                const pluginsTbody = document.getElementById('wpPluginsTableBody');
+                pluginsTbody.innerHTML = '';
+                verifiedKeys.forEach(k => {
+                    const s = DELIVERY_SERVICES[k];
+                    const tr = document.createElement('tr');
+                    tr.innerHTML = `
+                        <td class="fw-bold"><i class="${s.icon} me-1" style="color: ${s.color};"></i> ${s.pluginTitle}</td>
+                        <td class="text-secondary">Official delivery and ticket injection adapter for ${s.name}. Handles live webhook dispatches and checkout processing.</td>
+                        <td><span class="badge text-bg-success">Active &amp; Connected</span></td>
+                    `;
+                    pluginsTbody.appendChild(tr);
+                });
+
+                // Update Code Snippet
+                document.getElementById('wpCodeSnippet').innerText = `/**
+ * Delivery Gateway Configuration for WordPress
+ * Generated for active APIs: ${allServiceNames}
+ */
+define('DELIVERY_GATEWAY_ACTIVE', true);
+define('DELIVERY_PRIMARY_PROVIDER', '${primaryService.name.toUpperCase()}');
+define('DELIVERY_CLIENT_ID', '${primaryService.defaultClientId}');
+define('DELIVERY_LOCATION_ID', '${primaryService.defaultLocationId}');
+define('DELIVERY_WEBHOOK_URL', 'https://api.dinedispatch.io/api/webhooks/dispatch/${primaryService.id}');
+
+// WordPress Action Hook: Automatically dispatch orders to ${allServiceNames}
+add_action('woocommerce_checkout_order_processed', function($order_id) {
+    $order = wc_get_order($order_id);
+    Delivery_Gateway_Client::dispatch_ticket($order);
+});`;
+
+                setTimeout(() => {
+                    progressStage.classList.add('d-none');
+                    deployedView.classList.remove('d-none');
+                }, 500);
+
+            }, 1800);
+        }
+
+        // Send a simulated order from WordPress frontend
+        function sendWpTestOrder() {
+            const verifiedKeys = Object.keys(DELIVERY_SERVICES).filter(k => DELIVERY_SERVICES[k].verified);
+            const p = verifiedKeys.length > 0 ? DELIVERY_SERVICES[verifiedKeys[0]].name : 'Toast POS';
+            const orderNum = Math.floor(Math.random() * 8999) + 1000;
+            const lat = Math.floor(Math.random() * 18) + 18 + ' ms';
+            
+            addTelemetryLogRow(p, 'WP_CHECKOUT.DISPATCH', lat, `#WP-ORDER-${orderNum} (Cheesesteak + Fries)`);
+            alert(`Simulated order #WP-ORDER-${orderNum} dispatched from your blank WordPress site!\nSent to: ${p} (Latency: ${lat}).\nLogged in Dispatch Telemetry.`);
         }
 
         function addTelemetryLogRow(provider, eventName, latency, ref) {
@@ -1238,11 +1795,12 @@
         }
 
         function seedSampleDispatchLog() {
-            const providers = ['Toast POS', 'DoorDash Drive', 'Uber Direct', 'Grubhub Direct', 'Square Delivery'];
+            const verifiedKeys = Object.keys(DELIVERY_SERVICES).filter(k => DELIVERY_SERVICES[k].verified);
+            const providers = verifiedKeys.length > 0 ? verifiedKeys.map(k => DELIVERY_SERVICES[k].name) : ['Toast POS', 'DoorDash Drive'];
             const p = providers[Math.floor(Math.random() * providers.length)];
             const lat = Math.floor(Math.random() * 25) + 18 + ' ms';
             const orderNum = Math.floor(Math.random() * 8999) + 1000;
-            addTelemetryLogRow(p, 'DISPATCH.COURIER_PING', lat, `#PARMA-${orderNum} (Cheesesteak Combo)`);
+            addTelemetryLogRow(p, 'DISPATCH.COURIER_PING', lat, `#ORDER-${orderNum} (Gourmet Sub Combo)`);
             alert(`Simulated real-time dispatch ping sent to ${p}!\nLogged with response time: ${lat}.`);
         }
 
@@ -1250,9 +1808,7 @@
             const btn = document.querySelector('button[onclick="simulateFullApiHealthCheck()"]');
             if (btn) btn.innerHTML = '<span class="spinner-border spinner-border-sm me-1" role="status" aria-hidden="true"></span> Checking All...';
             setTimeout(() => {
-                if (btn) btn.innerHTML = '<i class="fa-solid fa-circle-check text-success me-1"></i> All Active APIs Healthy';
-                const latEl = document.getElementById('kpiAvgLatency');
-                if (latEl) latEl.innerText = `${Math.floor(Math.random() * 10) + 24} ms`;
+                if (btn) btn.innerHTML = '<i class="fa-solid fa-circle-check text-success me-1"></i> Health Check Completed';
                 setTimeout(() => {
                     if (btn) btn.innerHTML = '<i class="fa-solid fa-arrows-rotate me-1"></i> Ping All APIs';
                 }, 2000);
@@ -1261,6 +1817,26 @@
 
         // Initialize on DOM load
         document.addEventListener('DOMContentLoaded', () => {
+            // Apply loaded verification status to cards in DOM
+            Object.keys(DELIVERY_SERVICES).forEach(sId => {
+                const s = DELIVERY_SERVICES[sId];
+                const badge = document.getElementById(`status-badge-${sId}`);
+                const col = document.querySelector(`.service-col[data-service-id="${sId}"]`);
+                if (badge && col) {
+                    if (s.verified) {
+                        badge.className = 'badge text-bg-success';
+                        badge.innerHTML = 'Verified &amp; Active';
+                        col.setAttribute('data-status', 'connected');
+                        const locEl = document.getElementById(`spec-loc-${sId}`);
+                        if (locEl) locEl.innerText = s.defaultLocationId;
+                    } else {
+                        badge.className = 'badge text-bg-secondary';
+                        badge.innerHTML = 'Not Configured';
+                        col.setAttribute('data-status', 'pending');
+                    }
+                }
+            });
+
             updateVerifiedCounters();
             switchAdminTab('delivery-services');
         });

@@ -3718,7 +3718,7 @@ window.initLeafletShippingMap = function () {
     const CARTO_OFFICIAL_TOKEN = 'eyJhbGciOiJIUzI1NiJ9.eyJhIjoiYWNfYzB2ODd0dTQiLCJqdGkiOiIzOGJkZGRiNDEwOWI5YWMyNjI2MmMyMzkzOWU5NjhhMyJ9.ZL_ZbbsEx-yWu7ok1G5lGqb-0d95oO604IPlGlE4bn8';
     window.CARTO_API_TOKEN = CARTO_OFFICIAL_TOKEN;
     localStorage.setItem('carto_basemap_key', CARTO_OFFICIAL_TOKEN);
-    window.currentBasemapProvider = 'carto-voyager';
+    window.currentBasemapProvider = 'osm';
 
     window.getCartoTileUrl = function (isDark) {
         if (window.currentBasemapProvider === 'osm') {
