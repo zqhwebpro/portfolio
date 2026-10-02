@@ -477,16 +477,10 @@ server {
       <div class="os-white-card w-full">
         
         <!-- Titanium Grey Window Titlebar -->
-        <div class="os-window-header">
-          <div class="flex items-center gap-3">
-            <div class="flex items-center gap-1.5">
-              <span class="os-dot os-dot-close" title="Close"></span>
-              <span class="os-dot os-dot-min" title="Minimize"></span>
-              <span class="os-dot os-dot-max" title="Maximize"></span>
-            </div>
-            <span class="text-slate-400 font-mono text-xs">|</span>
-            <div class="font-mono text-xs text-slate-700 flex items-center gap-1.5 font-semibold">
-              <i class="fa-solid fa-terminal text-slate-500 text-[10px]"></i>
+        <div class="os-window-header px-6 sm:px-10 lg:px-14 py-3">
+          <div class="flex items-center gap-2.5">
+            <div class="font-mono text-xs text-slate-700 flex items-center gap-2 font-semibold">
+              <i class="fa-solid fa-terminal text-slate-500 text-[11px]"></i>
               <span>/usr/local/matrix/kernel/${mod.fileName}</span>
             </div>
           </div>
@@ -497,7 +491,7 @@ server {
         </div>
 
         <!-- Main Card Body -->
-        <div class="p-6 md:p-8 space-y-6">
+        <div class="py-6 sm:py-8 px-6 sm:px-10 lg:px-14 space-y-6">
           
           <!-- Title & Tier Bar -->
           <div class="flex items-start gap-4">
