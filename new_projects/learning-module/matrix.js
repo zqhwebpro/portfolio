@@ -448,25 +448,25 @@ server {
     const competenciesHtml = mod.competencies
       .map(
         (c) =>
-          `<span class="os-tech-pill"><i class="fa-solid fa-cube text-[10px] text-sky-600"></i> ${c}</span>`
+          `<div class="p-3 bg-slate-50 border border-slate-200 rounded-lg font-mono text-xs sm:text-sm font-semibold text-slate-800 flex items-center gap-2">
+            <span class="text-sky-500 font-black">&bull;</span>
+            <span>${c}</span>
+          </div>`
       )
       .join('');
 
     const syllabusHtml = mod.syllabus
       .map(
         (s, idx) => `
-        <div class="p-3.5 bg-slate-50 border border-slate-200 rounded-lg flex items-start gap-3 hover:bg-slate-100/80 transition-colors">
-          <div class="w-7 h-7 rounded bg-white border border-slate-300 flex items-center justify-center font-mono font-bold text-xs text-slate-800 shadow-xs shrink-0">
+        <div class="p-4 bg-slate-50 border border-slate-200 rounded-lg flex items-start gap-3 hover:bg-slate-100/80 transition-colors">
+          <div class="w-8 h-8 rounded bg-white border border-slate-300 flex items-center justify-center font-mono font-bold text-xs text-slate-800 shadow-xs shrink-0">
             0${idx + 1}
           </div>
           <div class="flex-1">
-            <div class="font-mono font-bold text-slate-900 text-xs md:text-sm flex items-center gap-2">
-              <span>${s.chapter}</span>
-              <span class="text-[10px] text-emerald-700 bg-emerald-100/70 border border-emerald-300 px-1.5 py-0.2 rounded font-normal">
-                <i class="fa-solid fa-check text-[9px] mr-1"></i>VERIFIED
-              </span>
-            </div>
-            <p class="text-xs text-slate-600 mt-1 leading-relaxed font-sans">${s.desc}</p>
+            <h4 class="font-headline font-bold text-slate-900 text-sm sm:text-base mb-1">
+              ${s.chapter}
+            </h4>
+            <p class="text-xs sm:text-sm text-slate-600 leading-relaxed font-sans">${s.desc}</p>
           </div>
         </div>
       `
@@ -474,7 +474,7 @@ server {
       .join('');
 
     container.innerHTML = `
-      <div class="os-white-card">
+      <div class="os-white-card w-full">
         
         <!-- Titanium Grey Window Titlebar -->
         <div class="os-window-header">
@@ -485,19 +485,14 @@ server {
               <span class="os-dot os-dot-max" title="Maximize"></span>
             </div>
             <span class="text-slate-400 font-mono text-xs">|</span>
-            <span class="font-mono text-xs text-slate-700 flex items-center gap-1.5 font-semibold">
+            <div class="font-mono text-xs text-slate-700 flex items-center gap-1.5 font-semibold">
               <i class="fa-solid fa-terminal text-slate-500 text-[10px]"></i>
               <span>/usr/local/matrix/kernel/${mod.fileName}</span>
-            </span>
+            </div>
           </div>
 
-          <div class="flex items-center gap-2 font-mono text-[11px]">
-            <span class="bg-slate-200/90 text-slate-700 font-semibold px-2 py-0.5 rounded border border-slate-300">
-              ${mod.duration}
-            </span>
-            <span class="bg-emerald-100 text-emerald-800 font-bold px-2 py-0.5 rounded border border-emerald-300">
-              <i class="fa-solid fa-shield-halved text-[10px] mr-1"></i>${mod.level}
-            </span>
+          <div class="font-mono text-xs text-slate-500 font-bold">
+            ${mod.duration} &bull; ${mod.level}
           </div>
         </div>
 
@@ -506,21 +501,17 @@ server {
           
           <!-- Title & Tier Bar -->
           <div class="flex items-start gap-4">
-            <div class="w-12 h-12 rounded-lg bg-slate-100 border border-slate-300 flex items-center justify-center text-2xl shrink-0 shadow-xs">
+            <div class="w-14 h-14 rounded-lg bg-slate-100 border border-slate-300 flex items-center justify-center text-3xl shrink-0 shadow-xs">
               <i class="${mod.icon}"></i>
             </div>
-            <div>
-              <div class="flex items-center gap-2 mb-1">
-                <span class="font-mono text-[11px] font-bold uppercase tracking-wider px-2 py-0.5 rounded ${mod.badgeColor} border">
-                  ${mod.categoryBadge}
-                </span>
-                <span class="text-xs font-mono text-slate-400">•</span>
-                <span class="font-mono text-xs text-slate-500 font-semibold">PID: 4092 // THREAD: RUNNING</span>
+            <div class="flex-1">
+              <div class="font-mono text-xs font-bold text-slate-500 uppercase tracking-wider mb-1.5">
+                ${mod.tier} // ${mod.category.toUpperCase()}
               </div>
-              <h2 class="font-mono font-bold text-xl md:text-2xl text-slate-900 tracking-tight leading-snug">
+              <h2 class="font-headline font-black text-2xl sm:text-3xl lg:text-4xl text-slate-900 tracking-tight leading-tight mb-2">
                 ${mod.title}
               </h2>
-              <p class="font-sans text-xs md:text-sm text-slate-600 mt-1.5 leading-relaxed max-w-4xl">
+              <p class="font-sans text-xs sm:text-sm text-slate-600 mt-1.5 leading-relaxed">
                 ${mod.summary}
               </p>
             </div>
@@ -549,38 +540,37 @@ server {
           <!-- 01: Overview & Competencies Tab Content -->
           <div id="subContent-overview" class="${currentSubTab === 'overview' ? 'block' : 'hidden'} space-y-5">
             <div>
-              <div class="font-mono text-xs font-bold text-slate-700 uppercase tracking-wider mb-2.5 flex items-center gap-1.5">
-                <i class="fa-solid fa-cubes text-sky-600 text-[11px]"></i>
-                <span>CORE SYSTEM COMPETENCIES:</span>
-              </div>
-              <div class="flex flex-wrap gap-2">
+              <h3 class="font-headline font-bold text-slate-800 text-base uppercase tracking-wider mb-3">
+                Core System Competencies
+              </h3>
+              <div class="grid grid-cols-1 sm:grid-cols-2 gap-3">
                 ${competenciesHtml}
               </div>
             </div>
 
-            <div class="grid grid-cols-1 md:grid-cols-3 gap-3 pt-2">
-              <div class="p-3.5 bg-slate-50 border border-slate-200 rounded-lg">
-                <div class="font-mono text-[11px] text-slate-500 font-bold uppercase">
-                  <i class="fa-solid fa-server mr-1 text-slate-400"></i> SYSTEM LAYER
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-4 pt-2">
+              <div class="p-5 bg-slate-50 border border-slate-200 rounded-lg">
+                <div class="font-mono text-xs font-bold text-slate-500 uppercase tracking-wider mb-1">
+                  System Layer
                 </div>
-                <div class="font-mono font-bold text-slate-900 text-sm mt-1">${mod.tier}</div>
-                <div class="font-sans text-xs text-slate-600 mt-1">Holistic integration into enterprise distributed service mesh.</div>
+                <h4 class="font-headline font-black text-slate-900 text-lg mb-1.5">${mod.tier}</h4>
+                <p class="font-sans text-xs text-slate-600 leading-relaxed">Holistic integration into enterprise distributed service mesh.</p>
               </div>
 
-              <div class="p-3.5 bg-slate-50 border border-slate-200 rounded-lg">
-                <div class="font-mono text-[11px] text-slate-500 font-bold uppercase">
-                  <i class="fa-solid fa-gauge-high mr-1 text-slate-400"></i> BENCHMARK STATUS
+              <div class="p-5 bg-slate-50 border border-slate-200 rounded-lg">
+                <div class="font-mono text-xs font-bold text-slate-500 uppercase tracking-wider mb-1">
+                  Benchmark Status
                 </div>
-                <div class="font-mono font-bold text-slate-900 text-sm mt-1">Production Ready</div>
-                <div class="font-sans text-xs text-slate-600 mt-1">Validated against 99.99% uptime zero-downtime SLA criteria.</div>
+                <h4 class="font-headline font-black text-slate-900 text-lg mb-1.5">Production Ready</h4>
+                <p class="font-sans text-xs text-slate-600 leading-relaxed">Validated against 99.99% uptime zero-downtime SLA criteria.</p>
               </div>
 
-              <div class="p-3.5 bg-slate-50 border border-slate-200 rounded-lg">
-                <div class="font-mono text-[11px] text-slate-500 font-bold uppercase">
-                  <i class="fa-solid fa-certificate mr-1 text-slate-400"></i> ACCREDITATION
+              <div class="p-5 bg-slate-50 border border-slate-200 rounded-lg">
+                <div class="font-mono text-xs font-bold text-slate-500 uppercase tracking-wider mb-1">
+                  Accreditation
                 </div>
-                <div class="font-mono font-bold text-slate-900 text-sm mt-1">Full Certification</div>
-                <div class="font-sans text-xs text-slate-600 mt-1">Mastery verified via automated sandbox benchmark unit tests.</div>
+                <h4 class="font-headline font-black text-slate-900 text-lg mb-1.5">Full Certification</h4>
+                <p class="font-sans text-xs text-slate-600 leading-relaxed">Mastery verified via automated sandbox benchmark unit tests.</p>
               </div>
             </div>
           </div>
@@ -731,51 +721,41 @@ server {
 
     const cardsHtml = filtered
       .map((mod) => {
-        const pills = mod.competencies
-          .slice(0, 3)
-          .map((c) => `<span class="os-tech-pill text-[10.5px] py-0.5 px-2">${c}</span>`)
-          .join('');
-
         return `
-          <div class="os-white-card flex flex-col justify-between cursor-pointer group" data-card-track-id="${mod.id}">
+          <div class="os-white-card flex flex-col justify-between cursor-pointer group hover:shadow-2xl transition-all" data-card-track-id="${mod.id}">
             <!-- Titlebar -->
-            <div class="os-window-header py-1.5 px-3">
-              <span class="font-mono text-[10.5px] text-slate-600 font-semibold flex items-center gap-1.5">
+            <div class="os-window-header py-2 px-4">
+              <div class="font-mono text-xs text-slate-600 font-semibold flex items-center gap-1.5">
                 <i class="${mod.icon}"></i> ${mod.fileName}
-              </span>
-              <span class="font-mono text-[10.5px] text-slate-500">${mod.duration}</span>
+              </div>
+              <div class="font-mono text-xs text-slate-500 font-semibold">${mod.duration}</div>
             </div>
 
             <!-- Body -->
-            <div class="p-5 flex-1 flex flex-col justify-between">
+            <div class="p-6 flex-1 flex flex-col justify-between">
               <div>
-                <div class="flex items-center justify-between mb-2">
-                  <span class="font-mono text-[10px] font-bold uppercase tracking-wider px-2 py-0.5 rounded ${mod.badgeColor} border">
-                    ${mod.tier}
-                  </span>
-                  <span class="text-[10px] text-emerald-700 font-mono font-bold">
-                    <i class="fa-solid fa-circle-check text-[9px] mr-1"></i>READY
-                  </span>
+                <div class="font-mono text-xs font-bold text-slate-500 uppercase tracking-wider mb-2">
+                  ${mod.tier}
                 </div>
 
-                <h3 class="font-mono font-bold text-base text-slate-900 leading-snug group-hover:text-sky-600 transition-colors mb-2">
-                  ${mod.tabTitle}
+                <h3 class="font-headline font-black text-xl sm:text-2xl text-slate-900 leading-tight group-hover:text-sky-600 transition-colors mb-3 tracking-tight">
+                  ${mod.title}
                 </h3>
 
-                <p class="font-sans text-xs text-slate-600 leading-relaxed mb-4 line-clamp-3">
+                <p class="font-sans text-xs sm:text-sm text-slate-600 leading-relaxed mb-4">
                   ${mod.summary}
                 </p>
 
-                <div class="flex flex-wrap gap-1.5 mb-5">
-                  ${pills}
+                <div class="font-mono text-xs text-slate-500 mb-5">
+                  ${mod.competencies.slice(0, 3).join(' • ')}
                 </div>
               </div>
 
               <!-- Action Bar -->
-              <div class="pt-3 border-t border-slate-200 flex items-center justify-between">
-                <span class="text-[11px] font-mono text-slate-400">4 Chapters</span>
-                <button type="button" class="os-tech-btn-primary text-xs py-1 px-2.5">
-                  <span>Open Tab</span>
+              <div class="pt-4 border-t border-slate-200 flex items-center justify-between">
+                <span class="text-xs font-mono text-slate-500">4 Chapters</span>
+                <button type="button" class="os-tech-btn-primary text-xs py-1.5 px-3">
+                  <span>Open Track</span>
                   <i class="fa-solid fa-arrow-right text-[10px]"></i>
                 </button>
               </div>

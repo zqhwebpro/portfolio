@@ -24,11 +24,11 @@
   <link rel="shortcut icon" href="./favicon.png" type="image/png" />
   <link rel="alternate icon" href="../../favicon.png" type="image/png" />
 
-  <!-- Google Fonts: JetBrains Mono (Code/OS Primary), Space Grotesk (Tech Headings), Inter (Body) -->
+  <!-- Google Fonts: JetBrains Mono (Code/OS Primary), Outfit (Big Bold Headlines), Space Grotesk (Tech Headings), Inter (Body) -->
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
   <link
-    href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=JetBrains+Mono:ital,wght@0,300;0,400;0,500;0,600;0,700;0,800;1,400&family=Space+Grotesk:wght@500;600;700&display=swap"
+    href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=JetBrains+Mono:ital,wght@0,300;0,400;0,500;0,600;0,700;0,800;1,400&family=Outfit:wght@600;700;800;900&family=Space+Grotesk:wght@500;600;700&display=swap"
     rel="stylesheet" />
 
   <!-- Font Awesome 6.5.1 CDN -->
@@ -42,12 +42,13 @@
         extend: {
           fontFamily: {
             mono: ['"JetBrains Mono"', 'monospace'],
+            headline: ['"Outfit"', '"Space Grotesk"', 'sans-serif'],
             tech: ['"Space Grotesk"', 'sans-serif'],
             sans: ['Inter', 'sans-serif']
           },
           colors: {
             os: {
-              bg: '#030712',
+              bg: '#000000',
               slate950: '#020617',
               slate900: '#0f172a',
               slate800: '#1e293b',
@@ -97,8 +98,8 @@
     <!-- ═══════════════════════════════════════════════════════════════════
          3. TITANIUM GREY OS SYSTEM MENUBAR
          ═══════════════════════════════════════════════════════════════════ -->
-    <header class="sticky top-0 z-40 px-3 sm:px-6 py-2.5">
-      <div class="max-w-7xl mx-auto os-system-menubar px-4 py-2 flex items-center justify-between gap-3">
+    <header class="sticky top-0 z-40 px-3 sm:px-6 py-2.5 w-full">
+      <div class="w-full os-system-menubar px-4 py-2 flex items-center justify-between gap-3">
         
         <!-- OS Brand & Kernel Identity -->
         <div class="flex items-center gap-3">
@@ -194,31 +195,12 @@
       </div>
     </header>
 
-    <!-- ═══════════════════════════════════════════════════════════════════
-         4. HERO HEADER & SYSTEM DIRECTORY BANNER
-         ═══════════════════════════════════════════════════════════════════ -->
-    <main class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-6 sm:py-9">
+    <main class="w-full px-3 sm:px-6 lg:px-8 py-4 sm:py-6">
       
-      <!-- Hero Header -->
-      <section class="text-center max-w-3xl mx-auto mb-9">
-        <div class="inline-flex items-center gap-2 font-mono text-xs font-semibold text-slate-300 bg-slate-900/90 border border-slate-700 px-3.5 py-1 rounded-md mb-3 shadow-md">
-          <i class="fa-solid fa-folder-tree text-sky-400 text-[11px]"></i>
-          <span>/sys/curriculum/learning_module/</span>
-        </div>
-
-        <h1 class="font-mono font-extrabold text-2xl sm:text-4xl lg:text-5xl text-white tracking-tight leading-tight mb-3 drop-shadow-md">
-          ENGINEERING <span class="text-sky-400">KNOWLEDGE MATRIX</span>
-        </h1>
-
-        <p class="font-sans text-slate-300 text-xs sm:text-sm leading-relaxed max-w-2xl mx-auto">
-          Technical curriculum workbench mapping full-stack architectural mastery across Client Tier, Server Tier, and Cloud Infrastructure in crisp tabbed cards.
-        </p>
-      </section>
-
       <!-- ═══════════════════════════════════════════════════════════════════
            5. HOLISTIC ARCHITECTURE BLUEPRINT (CLIENT → SERVER → INFRA)
            ═══════════════════════════════════════════════════════════════════ -->
-      <section class="mb-10" aria-labelledby="holistic-arch-heading">
+      <section class="mb-8" aria-labelledby="holistic-arch-heading">
         <div class="os-arch-blueprint">
           
           <!-- OS Window Header for Architecture -->
@@ -235,9 +217,9 @@
                   <i class="fa-solid fa-diagram-project"></i>
                   <span id="holistic-arch-heading">sys/blueprint/end_to_end_stack.trace</span>
                 </div>
-                <div class="font-mono text-xs text-slate-300 font-bold">
-                  Three-Tier Distributed Architecture Execution Trace
-                </div>
+                <h2 class="font-headline font-black text-xl sm:text-2xl text-white tracking-tight leading-tight mt-0.5">
+                  Three-Tier Distributed Architecture Trace
+                </h2>
               </div>
             </div>
 
@@ -251,53 +233,44 @@
             </button>
           </div>
 
-          <!-- 3 Tier White Summary Cards -->
+          <!-- 3 Tier White Summary Cards (Clean text, no span badge designs, big bold headlines) -->
           <div class="grid grid-cols-1 md:grid-cols-3 gap-4 mb-4">
             
             <!-- Tier 01: Client -->
-            <div id="execTierClient" class="os-white-card p-4 transition-all">
-              <div class="flex items-center justify-between mb-2">
-                <span class="font-mono text-[11px] font-bold text-sky-800 bg-sky-100 px-2 py-0.5 rounded border border-sky-300">
-                  <i class="fa-solid fa-desktop mr-1 text-[10px]"></i> TIER 01 // CLIENT
-                </span>
-                <span class="w-2.5 h-2.5 rounded-full bg-sky-500"></span>
+            <div id="execTierClient" class="os-white-card p-5 sm:p-6 transition-all">
+              <div class="font-mono text-xs font-bold text-slate-500 uppercase tracking-wider mb-1">
+                Tier 01 // Client
               </div>
-              <h3 class="font-mono font-bold text-slate-900 text-base mb-1">
+              <h3 class="font-headline font-black text-slate-900 text-xl sm:text-2xl mb-2 tracking-tight leading-snug">
                 React 19 &amp; TypeScript UI
               </h3>
-              <p class="font-sans text-xs text-slate-600 leading-relaxed">
+              <p class="font-sans text-xs sm:text-sm text-slate-600 leading-relaxed">
                 Concurrent Fiber reconciliation, typed API bindings, async hooks, and zero-layout-shift UI execution on browser V8.
               </p>
             </div>
 
             <!-- Tier 02: Server -->
-            <div id="execTierServer" class="os-white-card p-4 transition-all">
-              <div class="flex items-center justify-between mb-2">
-                <span class="font-mono text-[11px] font-bold text-indigo-800 bg-indigo-100 px-2 py-0.5 rounded border border-indigo-300">
-                  <i class="fa-solid fa-server mr-1 text-[10px]"></i> TIER 02 // SERVER
-                </span>
-                <span class="w-2.5 h-2.5 rounded-full bg-indigo-500"></span>
+            <div id="execTierServer" class="os-white-card p-5 sm:p-6 transition-all">
+              <div class="font-mono text-xs font-bold text-slate-500 uppercase tracking-wider mb-1">
+                Tier 02 // Server
               </div>
-              <h3 class="font-mono font-bold text-slate-900 text-base mb-1">
+              <h3 class="font-headline font-black text-slate-900 text-xl sm:text-2xl mb-2 tracking-tight leading-snug">
                 .NET 9 &amp; PHP 8.3 Services
               </h3>
-              <p class="font-sans text-xs text-slate-600 leading-relaxed">
+              <p class="font-sans text-xs sm:text-sm text-slate-600 leading-relaxed">
                 Kestrel ASP.NET Core minimal APIs, scoped DI containers, and modern PHP 8.3 OOP services executing domain queries.
               </p>
             </div>
 
             <!-- Tier 03: Infrastructure -->
-            <div id="execTierInfra" class="os-white-card p-4 transition-all">
-              <div class="flex items-center justify-between mb-2">
-                <span class="font-mono text-[11px] font-bold text-emerald-800 bg-emerald-100 px-2 py-0.5 rounded border border-emerald-300">
-                  <i class="fa-solid fa-network-wired mr-1 text-[10px]"></i> TIER 03 // INFRA
-                </span>
-                <span class="w-2.5 h-2.5 rounded-full bg-emerald-500"></span>
+            <div id="execTierInfra" class="os-white-card p-5 sm:p-6 transition-all">
+              <div class="font-mono text-xs font-bold text-slate-500 uppercase tracking-wider mb-1">
+                Tier 03 // Infra
               </div>
-              <h3 class="font-mono font-bold text-slate-900 text-base mb-1">
+              <h3 class="font-headline font-black text-slate-900 text-xl sm:text-2xl mb-2 tracking-tight leading-snug">
                 DNS &amp; Cloud DevOps
               </h3>
-              <p class="font-sans text-xs text-slate-600 leading-relaxed">
+              <p class="font-sans text-xs sm:text-sm text-slate-600 leading-relaxed">
                 Global Anycast DNS resolution, Nginx reverse proxy edge caching, multi-stage Docker containers, and CI/CD pipelines.
               </p>
             </div>
@@ -336,8 +309,8 @@
     <!-- ═══════════════════════════════════════════════════════════════════
          7. OS SYSTEM STATUS FOOTER
          ═══════════════════════════════════════════════════════════════════ -->
-    <footer class="mt-16 py-6 border-t border-slate-800 bg-slate-950/90 backdrop-blur-md">
-      <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 flex flex-col sm:flex-row items-center justify-between gap-4 font-mono text-xs text-slate-400">
+    <footer class="mt-16 py-6 border-t border-slate-800 bg-slate-950/90 backdrop-blur-md w-full">
+      <div class="w-full px-4 sm:px-6 lg:px-8 flex flex-col sm:flex-row items-center justify-between gap-4 font-mono text-xs text-slate-400">
         
         <div class="flex items-center gap-2">
           <span class="w-2 h-2 rounded-full bg-emerald-400"></span>
