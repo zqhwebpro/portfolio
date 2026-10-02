@@ -833,67 +833,7 @@ server {
     });
   }
 
-  // ═══════════════════════════════════════════════════════════════════
-  // 6. EXECUTIVE ARCHITECTURE PACKET TRACER
-  // ═══════════════════════════════════════════════════════════════════
-  function initArchitectureSimulator() {
-    const traceBtn = document.getElementById('execArchTraceBtn');
-    const logOutput = document.getElementById('execArchLogOutput');
-    const tierClient = document.getElementById('execTierClient');
-    const tierServer = document.getElementById('execTierServer');
-    const tierInfra = document.getElementById('execTierInfra');
 
-    if (!traceBtn || !logOutput) return;
-
-    traceBtn.addEventListener('click', () => {
-      playOsClick(850, 0.03);
-      traceBtn.disabled = true;
-      traceBtn.innerHTML = `<i class="fa-solid fa-spinner fa-spin mr-1.5"></i> Tracing Stack Dispatch...`;
-      logOutput.innerHTML = '';
-
-      const traceEvents = [
-        {
-          target: tierInfra,
-          delay: 200,
-          text: 'PHASE 1 [INFRASTRUCTURE]: DNS Query resolved via Anycast nameserver (8.2ms). TLS 1.3 negotiated via Nginx proxy.'
-        },
-        {
-          target: tierServer,
-          delay: 750,
-          text: 'PHASE 2 [SERVER TIER]: Nginx routes to Kestrel ASP.NET Core 9 / PHP 8.3 FPM. EF Core query completes in 1.4ms.'
-        },
-        {
-          target: tierClient,
-          delay: 1300,
-          text: 'PHASE 3 [CLIENT TIER]: React 19 Fiber tree reconciles state. TypeScript validated payload hydrated with 0 frame drops.'
-        }
-      ];
-
-      traceEvents.forEach((ev, idx) => {
-        setTimeout(() => {
-          if (ev.target) {
-            ev.target.classList.add('ring-2', 'ring-sky-400');
-            setTimeout(() => ev.target.classList.remove('ring-2', 'ring-sky-400'), 600);
-          }
-
-          const line = document.createElement('div');
-          line.className = 'text-xs font-mono text-slate-200 py-0.5';
-          const time = new Date().toLocaleTimeString();
-          line.innerHTML = `<span class="text-slate-500">[${time}]</span> <span class="text-sky-400">TRACE &gt;&gt;</span> ${ev.text}`;
-          logOutput.appendChild(line);
-          logOutput.scrollTop = logOutput.scrollHeight;
-          playOsClick(600 + idx * 120, 0.02);
-
-          if (idx === traceEvents.length - 1) {
-            setTimeout(() => {
-              traceBtn.disabled = false;
-              traceBtn.innerHTML = `<i class="fa-solid fa-play text-sky-400 mr-1.5"></i> <span>Trace Stack Dispatch</span>`;
-            }, 400);
-          }
-        }, ev.delay);
-      });
-    });
-  }
 
   // ═══════════════════════════════════════════════════════════════════
   // 7. OS CLOCK & SEARCH
@@ -922,7 +862,6 @@ server {
     initOsClock();
     renderIdeTabs();
     renderMainView();
-    initArchitectureSimulator();
 
     // Global Search Input
     const searchInput = document.getElementById('osGlobalSearchInput');

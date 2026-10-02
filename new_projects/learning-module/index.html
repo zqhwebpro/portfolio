@@ -101,79 +101,18 @@
     <header class="sticky top-0 z-40 px-3 sm:px-6 py-2.5 w-full">
       <div class="w-full os-system-menubar px-4 py-2 flex items-center justify-between gap-3">
         
-        <!-- OS Brand & Kernel Identity -->
-        <div class="flex items-center gap-3">
-          <a href="../index.html" class="flex items-center gap-2.5 text-slate-100 hover:text-sky-300 transition-colors group">
-            <div class="w-7 h-7 rounded-lg bg-slate-800 border border-slate-600 flex items-center justify-center text-sky-400 group-hover:bg-slate-700 transition-colors shadow-xs">
-              <i class="fa-solid fa-terminal text-xs"></i>
-            </div>
-            <div>
-              <div class="font-mono font-bold text-xs tracking-wide text-white flex items-center gap-1.5 leading-tight">
-                <span>MATRIX<span class="text-sky-400">::OS</span></span>
-                <span class="text-[10px] text-slate-400 font-normal">[v4.2-x86_64]</span>
-              </div>
-              <div class="font-mono text-[9.5px] text-slate-400 leading-tight">
-                SYS_KERNEL // CURRICULUM_MATRIX
-              </div>
-            </div>
-          </a>
-
-          <!-- Telemetry Badges (Hidden on mobile) -->
-          <div class="hidden md:flex items-center gap-2 pl-3 border-l border-slate-700 font-mono text-[11px] text-slate-400">
-            <span class="inline-flex items-center gap-1 text-emerald-400">
-              <i class="fa-solid fa-circle-dot text-[8px] animate-pulse"></i> ONLINE
-            </span>
-            <span class="text-slate-600">|</span>
-            <span class="inline-flex items-center gap-1 text-slate-300">
-              <i class="fa-solid fa-microchip text-[10px] text-sky-400"></i> CPU 14%
-            </span>
-            <span class="text-slate-600">|</span>
-            <span class="inline-flex items-center gap-1 text-slate-300">
-              <i class="fa-solid fa-memory text-[10px] text-indigo-400"></i> 3.2/16GB
-            </span>
-          </div>
-        </div>
-
-        <!-- Center Global OS Search Filter -->
-        <div class="flex-1 max-w-md hidden sm:block relative">
-          <label for="osGlobalSearchInput" class="sr-only">Search Curriculum Matrix</label>
-          <div class="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none text-slate-400 text-xs">
-            <i class="fa-solid fa-magnifying-glass"></i>
-          </div>
-          <input 
-            type="search" 
-            id="osGlobalSearchInput" 
-            placeholder="grep curriculum (e.g. V8, Generics, Event Loop, EF Core)..."
-            class="w-full pl-8 pr-8 py-1.5 bg-slate-900/90 border border-slate-700 text-slate-100 placeholder-slate-500 text-xs rounded-lg focus:outline-none focus:border-sky-500 focus:ring-1 focus:ring-sky-500 transition-all font-mono"
-            autocomplete="off" />
-          <button 
-            id="osClearSearchBtn" 
-            type="button" 
-            class="hidden absolute inset-y-0 right-0 pr-2.5 flex items-center text-slate-400 hover:text-white text-xs"
-            aria-label="Clear Search Filter">
-            <i class="fa-solid fa-xmark"></i>
-          </button>
-        </div>
-
-        <!-- Right Controls: Background Stream Indicator, Audio, Clock, Return -->
-        <div class="flex items-center gap-2.5">
-          <!-- Background Stream Link & Indicator -->
+        <!-- Left Terminal Icon Link -->
+        <div class="flex items-center">
           <a 
-            href="https://youtu.be/-3HFs3Qu7Mc?si=vGrHWaKnTePpEzhy" 
-            target="_blank" 
-            rel="noopener noreferrer"
-            class="hidden lg:inline-flex items-center gap-1.5 px-2.5 py-1 rounded bg-slate-800 hover:bg-slate-700 border border-slate-700 text-[10.5px] font-mono text-slate-300 hover:text-white transition-colors"
-            title="Active Background Video Stream: Blue Streaks Geometric Loop (-3HFs3Qu7Mc)">
-            <i class="fa-brands fa-youtube text-red-500 text-xs"></i>
-            <span>STREAM: -3HFs3Qu7Mc</span>
-            <i class="fa-solid fa-arrow-up-right-from-square text-[9px] text-slate-400"></i>
+            href="../index.html" 
+            class="w-8 h-8 rounded-lg bg-slate-800 border border-slate-700 flex items-center justify-center text-sky-400 hover:bg-slate-700 hover:border-slate-600 transition-colors shadow-xs" 
+            title="Return to Portfolio">
+            <i class="fa-solid fa-terminal text-xs"></i>
           </a>
+        </div>
 
-          <!-- Live OS Clock -->
-          <span id="osMenuClock" class="font-mono text-xs text-slate-300 font-medium hidden md:inline px-2 py-1 rounded bg-slate-900 border border-slate-800">
-            Fri Oct 2, 3:00 PM
-          </span>
-
+        <!-- Right Controls: Sound Icon to the Left & Live OS Clock -->
+        <div class="flex items-center gap-2.5">
           <!-- Audio FX Toggle -->
           <button 
             id="osAudioToggleBtn" 
@@ -183,13 +122,10 @@
             <i class="fa-solid fa-volume-high"></i>
           </button>
 
-          <!-- Back to Showcase Link -->
-          <a 
-            href="../index.html" 
-            class="os-tech-btn-primary text-xs py-1.5 px-3">
-            <i class="fa-solid fa-arrow-left text-[10px]"></i>
-            <span class="hidden sm:inline">Portfolio</span>
-          </a>
+          <!-- Live OS Clock -->
+          <span id="osMenuClock" class="font-mono text-xs text-slate-300 font-medium px-2.5 py-1 rounded bg-slate-900 border border-slate-800">
+            Fri Oct 2, 3:00 PM
+          </span>
         </div>
 
       </div>
@@ -197,89 +133,7 @@
 
     <main class="w-full px-4 sm:px-8 lg:px-12 py-4 sm:py-6">
       
-      <!-- ═══════════════════════════════════════════════════════════════════
-           5. HOLISTIC ARCHITECTURE BLUEPRINT (CLIENT → SERVER → INFRA)
-           ═══════════════════════════════════════════════════════════════════ -->
-      <section class="mb-8" aria-labelledby="holistic-arch-heading">
-        <div class="os-arch-blueprint px-5 sm:px-10 lg:px-14 py-6 sm:py-7">
-          
-          <!-- OS Window Header for Architecture -->
-          <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-4 pb-4 border-b border-slate-700/80 mb-5">
-            <div class="flex items-center gap-3">
-              <div>
-                <div class="flex items-center gap-2 font-mono text-xs text-sky-400 font-semibold">
-                  <i class="fa-solid fa-diagram-project"></i>
-                  <span id="holistic-arch-heading">sys/blueprint/end_to_end_stack.trace</span>
-                </div>
-                <h2 class="font-headline font-black text-xl sm:text-2xl text-white tracking-tight leading-tight mt-0.5">
-                  Three-Tier Distributed Architecture Trace
-                </h2>
-              </div>
-            </div>
 
-            <!-- Trace Dispatch Button -->
-            <button 
-              id="execArchTraceBtn" 
-              type="button" 
-              class="os-tech-btn-primary self-start sm:self-auto shrink-0 text-xs">
-              <i class="fa-solid fa-play text-sky-400 text-xs"></i>
-              <span>Trace Stack Dispatch</span>
-            </button>
-          </div>
-
-          <!-- 3 Tier White Summary Cards (Clean text, no span badge designs, big bold headlines) -->
-          <div class="grid grid-cols-1 md:grid-cols-3 gap-4 mb-4">
-            
-            <!-- Tier 01: Client -->
-            <div id="execTierClient" class="os-white-card p-5 sm:p-6 transition-all">
-              <div class="font-mono text-xs font-bold text-slate-500 uppercase tracking-wider mb-1">
-                Tier 01 // Client
-              </div>
-              <h3 class="font-headline font-black text-slate-900 text-xl sm:text-2xl mb-2 tracking-tight leading-snug">
-                React 19 &amp; TypeScript UI
-              </h3>
-              <p class="font-sans text-xs sm:text-sm text-slate-600 leading-relaxed">
-                Concurrent Fiber reconciliation, typed API bindings, async hooks, and zero-layout-shift UI execution on browser V8.
-              </p>
-            </div>
-
-            <!-- Tier 02: Server -->
-            <div id="execTierServer" class="os-white-card p-5 sm:p-6 transition-all">
-              <div class="font-mono text-xs font-bold text-slate-500 uppercase tracking-wider mb-1">
-                Tier 02 // Server
-              </div>
-              <h3 class="font-headline font-black text-slate-900 text-xl sm:text-2xl mb-2 tracking-tight leading-snug">
-                .NET 9 &amp; PHP 8.3 Services
-              </h3>
-              <p class="font-sans text-xs sm:text-sm text-slate-600 leading-relaxed">
-                Kestrel ASP.NET Core minimal APIs, scoped DI containers, and modern PHP 8.3 OOP services executing domain queries.
-              </p>
-            </div>
-
-            <!-- Tier 03: Infrastructure -->
-            <div id="execTierInfra" class="os-white-card p-5 sm:p-6 transition-all">
-              <div class="font-mono text-xs font-bold text-slate-500 uppercase tracking-wider mb-1">
-                Tier 03 // Infra
-              </div>
-              <h3 class="font-headline font-black text-slate-900 text-xl sm:text-2xl mb-2 tracking-tight leading-snug">
-                DNS &amp; Cloud DevOps
-              </h3>
-              <p class="font-sans text-xs sm:text-sm text-slate-600 leading-relaxed">
-                Global Anycast DNS resolution, Nginx reverse proxy edge caching, multi-stage Docker containers, and CI/CD pipelines.
-              </p>
-            </div>
-
-          </div>
-
-          <!-- Trace Terminal Feed (Titanium Code Editor Style) -->
-          <div class="os-code-editor-box space-y-1 text-xs" id="execArchLogOutput">
-            <div class="text-slate-400">
-              <span class="text-sky-400">[DISPATCH_IDLE]</span> Click "Trace Stack Dispatch" to simulate an end-to-end multi-tier request lifecycle.
-            </div>
-          </div>
-
-        </div>
-      </section>
 
       <!-- ═══════════════════════════════════════════════════════════════════
            6. TABBED WHITE CARD WORKBENCH (7 CORE TRACKS)

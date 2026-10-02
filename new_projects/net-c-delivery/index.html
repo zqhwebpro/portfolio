@@ -470,7 +470,7 @@
                         </div>
 
                         <!-- 3. UBER DIRECT -->
-                        <div class="col-12 col-lg-6 service-col" data-category="fleet" data-status="pending" data-service-id="uber">
+                        <div class="col-12 col-lg-6 service-col" data-category="fleet" data-status="connected" data-service-id="uber">
                             <div class="card shadow-sm border h-100 d-flex flex-column justify-content-between">
                                 <div>
                                     <div class="card-header bg-white py-3 border-bottom d-flex justify-content-between align-items-center">
@@ -484,7 +484,7 @@
                                                 <small class="text-body-secondary font-monospace">On-Demand Merchant Delivery</small>
                                             </div>
                                         </div>
-                                        <span class="badge text-bg-secondary" id="status-badge-uber">Not Configured</span>
+                                        <span class="badge text-bg-success" id="status-badge-uber">Verified &amp; Active</span>
                                     </div>
                                     <div class="card-body">
                                         <div class="alert alert-success py-2 px-3 small mb-3">
@@ -495,23 +495,23 @@
                                         </p>
                                         <ul class="list-group list-group-flush small mb-3">
                                             <li class="list-group-item px-0 d-flex justify-content-between">
-                                                <span class="text-body-secondary">Security:</span>
-                                                <span class="fw-semibold">OAuth 2.0 Client Credentials</span>
+                                                <span class="text-body-secondary">Client ID / Key:</span>
+                                                <span class="fw-semibold font-monospace small text-truncate text-success" style="max-width: 220px;" id="spec-client-uber">6ImzVINJ53LfMWCPoh_gBblTL55hqUNfIBN-7TG2</span>
                                             </li>
                                             <li class="list-group-item px-0 d-flex justify-content-between">
-                                                <span class="text-body-secondary">Proof of Delivery:</span>
-                                                <span class="fw-semibold">Barcode / Photo Required</span>
+                                                <span class="text-body-secondary">Location GUID:</span>
+                                                <span class="fw-semibold font-monospace" id="spec-loc-uber">uber_loc_metro_104</span>
                                             </li>
                                             <li class="list-group-item px-0 d-flex justify-content-between">
-                                                <span class="text-body-secondary">Webhooks:</span>
-                                                <span class="fw-semibold">Pending Connection</span>
+                                                <span class="text-body-secondary">Delivery Mode:</span>
+                                                <span class="fw-semibold">On-Demand Courier Fleet</span>
                                             </li>
                                         </ul>
                                     </div>
                                 </div>
                                 <div class="card-footer bg-white border-top p-3 d-flex gap-2">
-                                    <button class="btn btn-dark btn-sm flex-grow-1" onclick="openApiConfigModal('uber')">
-                                        <i class="fa-solid fa-key me-1"></i> Configure API
+                                    <button class="btn btn-outline-success btn-sm flex-grow-1" onclick="openApiConfigModal('uber')">
+                                        <i class="fa-solid fa-sliders me-1"></i> Manage Uber API
                                     </button>
                                     <a href="https://developer.uber.com/docs/deliveries/overview" target="_blank" rel="noopener noreferrer" class="btn btn-outline-secondary btn-sm" title="Open Uber Direct Developer Portal">
                                         Setup Link <i class="fa-solid fa-arrow-up-right-from-square ms-1"></i>
@@ -1105,8 +1105,81 @@
                 <!-- Body -->
                 <div class="modal-body p-4 bg-light">
 
+                    <!-- WordPress Setup / Admin Credentials Stage (Prompt for username & password) -->
+                    <div id="wpCredentialsStage" class="card shadow-sm border p-4 mb-4 bg-white">
+                        <div class="d-flex align-items-center justify-content-between pb-3 mb-3 border-bottom">
+                            <div class="d-flex align-items-center gap-2">
+                                <div class="rounded-3 p-2 bg-primary text-white d-flex align-items-center justify-content-center" style="width: 38px; height: 38px;">
+                                    <i class="fa-brands fa-wordpress fs-5"></i>
+                                </div>
+                                <div>
+                                    <h5 class="fw-bold text-dark mb-0">WordPress Administrator Credentials</h5>
+                                    <small class="text-secondary">Provide username and password credentials to pseudo-install your restaurant WordPress site.</small>
+                                </div>
+                            </div>
+                            <span class="badge text-bg-warning text-dark font-monospace"><i class="fa-solid fa-flask me-1"></i>Demo Mode</span>
+                        </div>
+
+                        <!-- Active Gateway Summary Banner -->
+                        <div class="alert alert-success d-flex align-items-center gap-2 py-2 px-3 small mb-3">
+                            <i class="fa-brands fa-uber text-success fs-5"></i>
+                            <div>
+                                <strong>Active Delivery Service:</strong> <span id="wpConfigActiveServiceText">Uber Direct</span> &bull; 
+                                Client ID / API Key: <code class="text-dark bg-white px-2 py-0.5 rounded border font-monospace fw-bold" id="wpConfigClientIdText">6ImzVINJ53LfMWCPoh_gBblTL55hqUNfIBN-7TG2</code>
+                            </div>
+                        </div>
+
+                        <form id="wpCredentialsForm" onsubmit="handleWpCredentialsSubmit(event)">
+                            <div class="row g-3 mb-3">
+                                <div class="col-12 col-md-6">
+                                    <label for="wpSiteTitleInput" class="form-label small fw-bold text-secondary text-uppercase font-monospace mb-1">Site Title</label>
+                                    <input type="text" id="wpSiteTitleInput" class="form-control" value="Artisan Kitchen &amp; Sub Co." required>
+                                </div>
+                                <div class="col-12 col-md-6">
+                                    <label for="wpAdminEmailInput" class="form-label small fw-bold text-secondary text-uppercase font-monospace mb-1">Admin Email</label>
+                                    <input type="email" id="wpAdminEmailInput" class="form-control" value="admin@artisankitchen.delivery" required>
+                                </div>
+                            </div>
+
+                            <div class="row g-3 mb-3">
+                                <div class="col-12 col-md-6">
+                                    <label for="wpAdminUsernameInput" class="form-label small fw-bold text-secondary text-uppercase font-monospace mb-1">
+                                        WordPress Username <span class="text-danger">*</span>
+                                    </label>
+                                    <div class="input-group">
+                                        <span class="input-group-text bg-white"><i class="fa-solid fa-user text-secondary"></i></span>
+                                        <input type="text" id="wpAdminUsernameInput" class="form-control font-monospace" placeholder="Enter username (e.g. admin)" value="admin" required autocomplete="username">
+                                    </div>
+                                    <div class="form-text small text-secondary">Username for logging into <code>/wp-admin</code>.</div>
+                                </div>
+                                <div class="col-12 col-md-6">
+                                    <label for="wpAdminPasswordInput" class="form-label small fw-bold text-secondary text-uppercase font-monospace mb-1">
+                                        WordPress Password <span class="text-danger">*</span>
+                                    </label>
+                                    <div class="input-group">
+                                        <span class="input-group-text bg-white"><i class="fa-solid fa-lock text-secondary"></i></span>
+                                        <input type="password" id="wpAdminPasswordInput" class="form-control font-monospace" placeholder="Enter password" value="UberDirect_WP_2026!" required autocomplete="current-password">
+                                        <button class="btn btn-outline-secondary" type="button" onclick="toggleWpPasswordVisibility()" title="Show/Hide Password">
+                                            <i class="fa-solid fa-eye" id="wpPasswordToggleIcon"></i>
+                                        </button>
+                                    </div>
+                                    <div class="form-text small text-secondary">Hashed via <code>wp_hash_password()</code> in pseudo-installation.</div>
+                                </div>
+                            </div>
+
+                            <div class="d-flex justify-content-between align-items-center pt-2">
+                                <button type="button" class="btn btn-outline-secondary btn-sm font-monospace" onclick="fillWpDemoCredentials()">
+                                    <i class="fa-solid fa-wand-magic-sparkles me-1"></i> Fill Demo Credentials
+                                </button>
+                                <button type="submit" class="btn btn-success fw-bold px-4 py-2 shadow-sm" id="btnSubmitWpInstall">
+                                    <i class="fa-brands fa-wordpress me-2"></i>Install WordPress &amp; Connect Uber Direct &rarr;
+                                </button>
+                            </div>
+                        </form>
+                    </div>
+
                     <!-- Generation Progress Stage (Animated) -->
-                    <div id="wpProgressStage" class="card shadow-sm border p-4 mb-4">
+                    <div id="wpProgressStage" class="card shadow-sm border p-4 mb-4 d-none">
                         <h6 class="fw-bold text-dark mb-2 d-flex align-items-center gap-2">
                             <span class="spinner-border spinner-border-sm text-primary" role="status" id="wpSpinner"></span>
                             <span id="wpProgressLabel">Compiling Blank WordPress Site with Selected API Configuration...</span>
@@ -1114,7 +1187,7 @@
                         <div class="progress mb-3" style="height: 10px;">
                             <div class="progress-bar progress-bar-striped progress-bar-animated bg-success" id="wpProgressBar" role="progressbar" style="width: 25%"></div>
                         </div>
-                        <div class="bg-dark text-white p-3 rounded font-monospace small" style="max-height: 130px; overflow-y: auto;" id="wpTerminalLogs">
+                        <div class="bg-dark text-white p-3 rounded font-monospace small" style="max-height: 140px; overflow-y: auto;" id="wpTerminalLogs">
                             <div class="text-secondary">[WP-CLI 2.10.0] Initializing clean WordPress 6.7 environment...</div>
                         </div>
                     </div>
@@ -1162,7 +1235,7 @@
                                             <span class="d-none d-sm-inline text-secondary">|</span>
                                             <span class="badge text-bg-success"><i class="fa-solid fa-plug me-1"></i>Delivery Gateway Active</span>
                                         </div>
-                                        <div class="text-secondary small">Howdy, Restaurant Admin</div>
+                                        <div class="text-secondary small">Howdy, <span class="wp-admin-username-display fw-bold text-white">admin</span> <span class="badge text-bg-secondary ms-1">Administrator</span></div>
                                     </div>
 
                                     <!-- Blank Theme Header -->
@@ -1288,6 +1361,9 @@ add_action('woocommerce_checkout_order_processed', function($order_id) {
                 <div class="modal-footer bg-white border-top d-flex justify-content-between">
                     <button type="button" class="btn btn-secondary btn-sm" data-bs-dismiss="modal">Close</button>
                     <div class="d-flex gap-2 d-none" id="wpModalFooterActions">
+                        <button type="button" class="btn btn-outline-secondary btn-sm" onclick="reconfigureWpSite()">
+                            <i class="fa-solid fa-rotate me-1"></i> Re-configure Credentials
+                        </button>
                         <button type="button" class="btn btn-outline-primary btn-sm" onclick="switchAdminTab('dispatch-logs'); bootstrap.Modal.getOrCreateInstance(document.getElementById('wpSiteGeneratorModal')).hide();">
                             <i class="fa-solid fa-chart-line me-1"></i> View Telemetry
                         </button>
@@ -1355,13 +1431,13 @@ add_action('woocommerce_checkout_order_processed', function($order_id) {
                 demographicRank: 'Urban & Gen-Z Demographic Choice (23% US Share)',
                 demographicDesc: 'Top preference for metropolitan, college campus, and late-night demographics with dense local courier pooling.',
                 portalUrl: 'https://developer.uber.com/docs/deliveries/overview',
-                defaultClientId: 'uber_direct_client_metro',
+                defaultClientId: '6ImzVINJ53LfMWCPoh_gBblTL55hqUNfIBN-7TG2',
                 defaultSecret: 'ubr_sec_99120aa8772bc',
                 defaultLocationId: 'uber_loc_metro_104',
                 category: 'fleet',
                 pluginSlug: 'uber-direct-wp',
                 pluginTitle: 'Uber Direct On-Demand Fleet for WordPress',
-                verified: false
+                verified: true
             },
             grubhub: {
                 id: 'grubhub',
@@ -1434,11 +1510,26 @@ add_action('woocommerce_checkout_order_processed', function($order_id) {
             siteGenerated = localStorage.getItem('dinedispatch_site_generated') === 'true';
         } catch (e) { }
 
+        // Ensure Uber Direct defaults to verified (1/6 Verified for testing purposes)
+        if (savedApiState.uber === undefined) {
+            savedApiState.uber = {
+                verified: true,
+                clientId: '6ImzVINJ53LfMWCPoh_gBblTL55hqUNfIBN-7TG2',
+                secret: 'ubr_sec_99120aa8772bc',
+                locationId: 'uber_loc_metro_104',
+                environment: 'prod',
+                verifiedAt: new Date().toISOString()
+            };
+        }
+
         // Sync verified state from storage
         let verifiedCountInitial = 0;
         Object.keys(DELIVERY_SERVICES).forEach(k => {
             if (savedApiState[k] !== undefined && savedApiState[k].verified) {
                 DELIVERY_SERVICES[k].verified = true;
+                if (savedApiState[k].clientId) {
+                    DELIVERY_SERVICES[k].defaultClientId = savedApiState[k].clientId;
+                }
                 verifiedCountInitial++;
             } else {
                 DELIVERY_SERVICES[k].verified = false;
@@ -1461,6 +1552,7 @@ add_action('woocommerce_checkout_order_processed', function($order_id) {
                 try {
                     localStorage.removeItem('dinedispatch_delivery_api_state');
                     localStorage.removeItem('dinedispatch_site_generated');
+                    localStorage.removeItem('dinedispatch_wp_creds');
                     localStorage.removeItem('parma_delivery_api_state');
                 } catch (e) { }
                 location.reload();
@@ -1969,19 +2061,68 @@ add_action('woocommerce_checkout_order_processed', function($order_id) {
             }
         }
 
-        // Launch WordPress Site Generator Modal
-        function openWpSiteGeneratorModal() {
-            const verifiedKeys = Object.keys(DELIVERY_SERVICES).filter(k => DELIVERY_SERVICES[k].verified);
-            if (verifiedKeys.length === 0) {
-                alert('Please connect at least one delivery API before creating a WordPress site.');
+        // Helper: Toggle Password Visibility
+        function toggleWpPasswordVisibility() {
+            const passInput = document.getElementById('wpAdminPasswordInput');
+            const icon = document.getElementById('wpPasswordToggleIcon');
+            if (!passInput || !icon) return;
+            if (passInput.type === 'password') {
+                passInput.type = 'text';
+                icon.className = 'fa-solid fa-eye-slash';
+            } else {
+                passInput.type = 'password';
+                icon.className = 'fa-solid fa-eye';
+            }
+        }
+
+        // Helper: Fill Demo Credentials
+        function fillWpDemoCredentials() {
+            const u = document.getElementById('wpAdminUsernameInput');
+            const p = document.getElementById('wpAdminPasswordInput');
+            const t = document.getElementById('wpSiteTitleInput');
+            const e = document.getElementById('wpAdminEmailInput');
+            if (u) u.value = 'admin';
+            if (p) p.value = 'UberDirect_WP_2026!';
+            if (t) t.value = 'Artisan Kitchen & Sub Co.';
+            if (e) e.value = 'admin@artisankitchen.delivery';
+        }
+
+        // Helper: Reconfigure WordPress Site
+        function reconfigureWpSite() {
+            siteGenerated = false;
+            try { localStorage.removeItem('dinedispatch_site_generated'); } catch (e) {}
+            openWpSiteGeneratorModal();
+            updateProgressiveState();
+        }
+
+        // Handle WordPress Credentials Form Submit
+        function handleWpCredentialsSubmit(e) {
+            e.preventDefault();
+            const usernameInput = document.getElementById('wpAdminUsernameInput');
+            const passwordInput = document.getElementById('wpAdminPasswordInput');
+            const siteTitleInput = document.getElementById('wpSiteTitleInput');
+            const emailInput = document.getElementById('wpAdminEmailInput');
+
+            const username = usernameInput ? usernameInput.value.trim() : 'admin';
+            const password = passwordInput ? passwordInput.value.trim() : 'UberDirect_WP_2026!';
+            const siteTitle = siteTitleInput ? siteTitleInput.value.trim() : 'Artisan Kitchen & Sub Co.';
+            const email = emailInput ? emailInput.value.trim() : 'admin@artisankitchen.delivery';
+
+            if (!username || !password) {
+                alert('Please enter both a WordPress username and password to proceed with the pseudo-installation.');
                 return;
             }
 
-            const modalEl = document.getElementById('wpSiteGeneratorModal');
-            const wpModal = bootstrap.Modal.getOrCreateInstance(modalEl);
-            wpModal.show();
+            try {
+                localStorage.setItem('dinedispatch_wp_creds', JSON.stringify({ username, siteTitle, email }));
+            } catch (err) {}
 
-            // Reset Animation Stages
+            startWordPressPseudoInstall(username, password, siteTitle, email);
+        }
+
+        // Execute Simulated WordPress Pseudo-Installation
+        function startWordPressPseudoInstall(username, password, siteTitle, email) {
+            const credentialsStage = document.getElementById('wpCredentialsStage');
             const progressStage = document.getElementById('wpProgressStage');
             const deployedView = document.getElementById('wpDeployedView');
             const progressBar = document.getElementById('wpProgressBar');
@@ -1989,30 +2130,29 @@ add_action('woocommerce_checkout_order_processed', function($order_id) {
             const terminalLogs = document.getElementById('wpTerminalLogs');
             const footerActions = document.getElementById('wpModalFooterActions');
 
-            if (siteGenerated) {
-                progressStage.classList.add('d-none');
-                deployedView.classList.remove('d-none');
-                if (footerActions) footerActions.classList.remove('d-none');
-                return;
-            }
-
+            if (credentialsStage) credentialsStage.classList.add('d-none');
+            if (progressStage) progressStage.classList.remove('d-none');
+            if (deployedView) deployedView.classList.add('d-none');
             if (footerActions) footerActions.classList.add('d-none');
-            progressStage.classList.remove('d-none');
-            deployedView.classList.add('d-none');
+
             progressBar.style.width = '20%';
             progressBar.className = 'progress-bar progress-bar-striped progress-bar-animated bg-primary';
+            progressLabel.innerText = `Pseudo-installing WordPress for admin "${username}"...`;
+
+            const verifiedKeys = Object.keys(DELIVERY_SERVICES).filter(k => DELIVERY_SERVICES[k].verified);
+            const primaryService = DELIVERY_SERVICES[verifiedKeys[0]] || DELIVERY_SERVICES.uber;
+            const allServiceNames = verifiedKeys.map(k => DELIVERY_SERVICES[k].name).join(' & ');
 
             terminalLogs.innerHTML = `
-                <div class="text-secondary">[WP-CLI] Initializing blank WordPress 6.7 environment...</div>
-                <div class="text-info">[DATABASE] Creating blank MySQL tables: wp_posts, wp_options, wp_terms...</div>
+                <div class="text-secondary">[WP-CLI 2.10.0] Initializing clean WordPress 6.7 environment...</div>
+                <div class="text-info">[DATABASE] Creating MySQL schema &amp; tables: wp_posts, wp_users, wp_options...</div>
             `;
-
-            const primaryService = DELIVERY_SERVICES[verifiedKeys[0]];
-            const allServiceNames = verifiedKeys.map(k => DELIVERY_SERVICES[k].name).join(' & ');
 
             setTimeout(() => {
                 progressBar.style.width = '50%';
                 terminalLogs.innerHTML += `
+                    <div class="text-success">[AUTH] Provisioning administrator user "${username}" (Email: ${email})...</div>
+                    <div class="text-light">[AUTH] Password hash generated via wp_hash_password()...</div>
                     <div class="text-warning">[PLUGINS] Installing delivery gateway: ${primaryService.pluginSlug}.zip...</div>
                     <div class="text-light">[PLUGINS] Activating ${primaryService.pluginTitle}...</div>
                 `;
@@ -2021,7 +2161,7 @@ add_action('woocommerce_checkout_order_processed', function($order_id) {
             setTimeout(() => {
                 progressBar.style.width = '80%';
                 terminalLogs.innerHTML += `
-                    <div class="text-info">[CONFIG] Binding Client ID &amp; Location GUID to wp_options table...</div>
+                    <div class="text-info">[CONFIG] Binding ${primaryService.name} Client ID [${primaryService.defaultClientId}] to wp_options...</div>
                     <div class="text-success">[GATEWAY] Webhook listener registered: /wp-json/delivery-gateway/v1/dispatch</div>
                 `;
             }, 1200);
@@ -2029,37 +2169,46 @@ add_action('woocommerce_checkout_order_processed', function($order_id) {
             setTimeout(() => {
                 progressBar.style.width = '100%';
                 progressBar.className = 'progress-bar bg-success';
-                progressLabel.innerText = 'Blank WordPress Site Created & Configured!';
+                progressLabel.innerText = `Blank WordPress Site Pseudo-Installed for "${username}"!`;
                 terminalLogs.innerHTML += `
                     <div class="text-success fw-bold">[SUCCESS] Blank WordPress instance online with ${allServiceNames} integration active!</div>
                 `;
 
                 // Update details in Deployed View
+                const wpAdminUserDisplays = document.querySelectorAll('.wp-admin-username-display');
+                wpAdminUserDisplays.forEach(el => el.innerText = username);
+
                 document.getElementById('wpInstalledPluginName').innerText = primaryService.pluginTitle;
                 document.getElementById('wpWebhookEndpoint').innerText = `/wp-json/delivery-gateway/v1/dispatch/${primaryService.id}`;
-                document.getElementById('wpConnectedCredsDisplay').innerText = `Gateway: ${allServiceNames} • TLS 1.3 Active • Webhook Registered`;
+                document.getElementById('wpConnectedCredsDisplay').innerText = `Gateway: ${allServiceNames} • Client ID: ${primaryService.defaultClientId} • User: ${username} • TLS 1.3 Active`;
 
                 // Populate plugins list
                 const pluginsTbody = document.getElementById('wpPluginsTableBody');
-                pluginsTbody.innerHTML = '';
-                verifiedKeys.forEach(k => {
-                    const s = DELIVERY_SERVICES[k];
-                    const tr = document.createElement('tr');
-                    tr.innerHTML = `
-                        <td class="fw-bold"><i class="${s.icon} me-1" style="color: ${s.color};"></i> ${s.pluginTitle}</td>
-                        <td class="text-secondary">Official delivery and ticket injection adapter for ${s.name}. Handles live webhook dispatches and checkout processing.</td>
-                        <td><span class="badge text-bg-success">Active &amp; Connected</span></td>
-                    `;
-                    pluginsTbody.appendChild(tr);
-                });
+                if (pluginsTbody) {
+                    pluginsTbody.innerHTML = '';
+                    verifiedKeys.forEach(k => {
+                        const s = DELIVERY_SERVICES[k];
+                        const tr = document.createElement('tr');
+                        tr.innerHTML = `
+                            <td class="fw-bold"><i class="${s.icon} me-1" style="color: ${s.color};"></i> ${s.pluginTitle}</td>
+                            <td class="text-secondary">Official delivery and ticket injection adapter for ${s.name} (Client ID: <code>${s.defaultClientId}</code>). Handles live webhook dispatches and checkout processing.</td>
+                            <td><span class="badge text-bg-success">Active &amp; Connected</span></td>
+                        `;
+                        pluginsTbody.appendChild(tr);
+                    });
+                }
 
                 // Update Code Snippet
                 document.getElementById('wpCodeSnippet').innerText = `/**
- * Delivery Gateway Configuration for WordPress
+ * Delivery Gateway Configuration for WordPress (Demo Pseudo-Install)
+ * Site: ${siteTitle}
+ * Admin: ${username} <${email}>
  * Generated for active APIs: ${allServiceNames}
  */
+define('WP_SITE_TITLE', '${siteTitle.replace(/'/g, "\\'")}');
+define('WP_ADMIN_USER', '${username}');
 define('DELIVERY_GATEWAY_ACTIVE', true);
-define('DELIVERY_PRIMARY_PROVIDER', '${primaryService.name.toUpperCase()}');
+define('DELIVERY_PRIMARY_PROVIDER', '${primaryService.name.toUpperCase().replace(/\s+/g, '_')}');
 define('DELIVERY_CLIENT_ID', '${primaryService.defaultClientId}');
 define('DELIVERY_LOCATION_ID', '${primaryService.defaultLocationId}');
 define('DELIVERY_WEBHOOK_URL', 'https://api.dinedispatch.io/api/webhooks/dispatch/${primaryService.id}');
@@ -2086,6 +2235,61 @@ add_action('woocommerce_checkout_order_processed', function($order_id) {
                 }, 500);
 
             }, 1800);
+        }
+
+        // Launch WordPress Site Generator Modal
+        function openWpSiteGeneratorModal() {
+            const verifiedKeys = Object.keys(DELIVERY_SERVICES).filter(k => DELIVERY_SERVICES[k].verified);
+            if (verifiedKeys.length === 0) {
+                alert('Please connect at least one delivery API before creating a WordPress site.');
+                return;
+            }
+
+            const modalEl = document.getElementById('wpSiteGeneratorModal');
+            const wpModal = bootstrap.Modal.getOrCreateInstance(modalEl);
+            wpModal.show();
+
+            const credentialsStage = document.getElementById('wpCredentialsStage');
+            const progressStage = document.getElementById('wpProgressStage');
+            const deployedView = document.getElementById('wpDeployedView');
+            const footerActions = document.getElementById('wpModalFooterActions');
+
+            const allServiceNames = verifiedKeys.map(k => DELIVERY_SERVICES[k].name).join(' & ');
+            const primaryService = DELIVERY_SERVICES[verifiedKeys[0]] || DELIVERY_SERVICES.uber;
+
+            const activeServiceEl = document.getElementById('wpConfigActiveServiceText');
+            if (activeServiceEl) activeServiceEl.innerText = allServiceNames;
+
+            const clientIdEl = document.getElementById('wpConfigClientIdText');
+            if (clientIdEl) clientIdEl.innerText = primaryService.defaultClientId;
+
+            // Load saved credentials if present
+            try {
+                const creds = JSON.parse(localStorage.getItem('dinedispatch_wp_creds') || '{}');
+                if (creds.username && document.getElementById('wpAdminUsernameInput')) {
+                    document.getElementById('wpAdminUsernameInput').value = creds.username;
+                }
+                if (creds.siteTitle && document.getElementById('wpSiteTitleInput')) {
+                    document.getElementById('wpSiteTitleInput').value = creds.siteTitle;
+                }
+                if (creds.email && document.getElementById('wpAdminEmailInput')) {
+                    document.getElementById('wpAdminEmailInput').value = creds.email;
+                }
+            } catch (e) {}
+
+            if (siteGenerated) {
+                if (credentialsStage) credentialsStage.classList.add('d-none');
+                if (progressStage) progressStage.classList.add('d-none');
+                if (deployedView) deployedView.classList.remove('d-none');
+                if (footerActions) footerActions.classList.remove('d-none');
+                return;
+            }
+
+            // Site not yet generated: show credentials input form first!
+            if (credentialsStage) credentialsStage.classList.remove('d-none');
+            if (progressStage) progressStage.classList.add('d-none');
+            if (deployedView) deployedView.classList.add('d-none');
+            if (footerActions) footerActions.classList.add('d-none');
         }
 
         // Close WordPress Modal and Switch to Storefront Preview
@@ -2173,6 +2377,8 @@ add_action('woocommerce_checkout_order_processed', function($order_id) {
                         col.setAttribute('data-status', 'connected');
                         const locEl = document.getElementById(`spec-loc-${sId}`);
                         if (locEl) locEl.innerText = s.defaultLocationId;
+                        const clientEl = document.getElementById(`spec-client-${sId}`);
+                        if (clientEl) clientEl.innerText = s.defaultClientId;
                     } else {
                         badge.className = 'badge text-bg-secondary';
                         badge.innerHTML = 'Not Configured';
