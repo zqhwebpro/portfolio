@@ -10,6 +10,7 @@
     <meta name="keywords"
         content="The Wacky Things Store, .NET eCommerce, ASP.NET MVC, C# Web Development, Entity Framework, Full Stack Web App, Zach Heindel" />
     <meta name="author" content="Zach Heindel" />
+    <meta name="referrer" content="no-referrer-when-downgrade" />
     <link rel="icon" href="./favicon.png" type="image/png" />
 
     <!-- Open Graph / Social SEO -->
@@ -3812,20 +3813,25 @@
 
                     <!-- CARTO API Key Telemetry & Watermark Notice Bar -->
                     <div class="bg-pink-500/10 border border-pink-500/30 rounded-xl px-3 py-2 text-xs flex flex-col sm:flex-row sm:items-center justify-between gap-2 text-earth-800">
-                        <div class="flex items-center gap-2">
-                            <i class="fa-solid fa-key text-pink-600"></i>
-                            <span class="font-mono text-[11px]">
-                                <strong>CARTO Token Active:</strong> <code class="bg-white/80 px-1.5 py-0.5 rounded text-[10px] text-earth-700 border border-canvas-border">eyJhbGciOi...4bn8</code>
+                        <div class="flex items-center gap-2 flex-wrap">
+                            <span class="inline-flex items-center gap-1.5 px-2 py-0.5 rounded-md bg-emerald-600 text-white font-mono text-[10px] font-bold shadow-xs">
+                                <i class="fa-solid fa-circle-check text-[9px]"></i> CARTO Cloud API Active
+                            </span>
+                            <span class="font-mono text-[11px] text-earth-700">
+                                <strong>Host:</strong> <code class="bg-white/80 px-1.5 py-0.5 rounded text-[10px] text-earth-700 border border-canvas-border">gcp-us-east1.api.carto.com</code>
+                            </span>
+                            <span class="font-mono text-[10px] text-earth-500 hidden lg:inline">
+                                (Token: <code class="bg-white/80 px-1 py-0.5 rounded text-[9.5px]">eyJhbGciOi...4bn8</code>)
                             </span>
                         </div>
                         <div class="flex items-center gap-2 text-[11px]">
-                            <span class="text-earth-600 hidden md:inline">Watermark still showing?</span>
-                            <button type="button" onclick="window.switchBasemapLayer('osm')" class="px-2 py-0.5 rounded bg-emerald-600 hover:bg-emerald-700 text-white font-bold cursor-pointer transition-all">
-                                <i class="fa-solid fa-check mr-1 text-[9px]"></i> Use OSM Clean (No Watermark)
+                            <span class="text-earth-600 hidden md:inline">Tile Mode:</span>
+                            <button type="button" onclick="window.switchBasemapLayer('carto-voyager')" class="px-2 py-0.5 rounded bg-[#FF1493] text-white font-bold text-[10px] cursor-pointer hover:bg-pink-600 transition-all">
+                                <i class="fa-solid fa-map mr-1 text-[9px]"></i> Voyager
                             </button>
-                            <a href="https://carto.com/basemaps/apikey" target="_blank" rel="noopener noreferrer" class="text-pink-600 hover:text-pink-800 font-bold underline">
-                                Free Basemap Key ↗
-                            </a>
+                            <button type="button" onclick="window.switchBasemapLayer('osm')" class="px-2 py-0.5 rounded bg-emerald-600 hover:bg-emerald-700 text-white font-bold text-[10px] cursor-pointer transition-all" title="Clean OpenStreetMap fallback (100% watermark-free)">
+                                <i class="fa-solid fa-globe mr-1 text-[9px]"></i> OSM Clean
+                            </button>
                         </div>
                     </div>
 

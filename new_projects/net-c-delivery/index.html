@@ -9,9 +9,9 @@
     <meta http-equiv="Expires" content="0" />
     <title>Delivery Dispatch Admin Console | Connect Delivery Services &amp; Top Demographic Choice APIs | .NET 9</title>
     <meta name="description"
-        content="Enterprise delivery service integration admin panel. Connect restaurant websites directly to top demographic delivery choices including Toast POS, DoorDash Drive, Uber Direct, Grubhub, and Square APIs." />
+        content="Enterprise delivery service integration admin panel. Connect restaurant websites directly to top demographic delivery choices including Toast POS, DoorDash Drive, Uber Direct, Grubhub, and Square APIs using Bootstrap UI." />
     <meta name="keywords"
-        content="Delivery Service API, Toast POS, DoorDash Drive, Uber Direct, Grubhub Direct, Square Delivery, Restaurant Admin Panel, .NET 9, ASP.NET Core, Multi-Carrier Dispatch" />
+        content="Delivery Service API, Toast POS, DoorDash Drive, Uber Direct, Grubhub Direct, Square Delivery, Restaurant Admin Panel, .NET 9, ASP.NET Core, Bootstrap 5 Admin" />
     <meta name="author" content="Parma Pizza &amp; Grill Engineering" />
     <link rel="canonical" href="https://zqhwebpro.github.io/portfolio/new_projects/net-c-delivery/index.html" />
 
@@ -22,1777 +22,582 @@
         content="Admin panel for connecting websites to top demographic delivery services (Toast, DoorDash, Uber Direct, Grubhub) with live API verification and outward developer onboarding." />
     <meta property="og:image" content="./images/hero-cheesesteak.jpg" />
 
-    <!-- Google Fonts & FontAwesome -->
+    <!-- Bootstrap 5.3.3 CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet"
+        integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
+
+    <!-- FontAwesome 6.5.1 CDN -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+
+    <!-- Google Fonts: Inter & JetBrains Mono -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link
-        href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&family=JetBrains+Mono:wght@400;500;600;700&family=Playfair+Display:ital,wght@0,600;0,700;0,900;1,600&display=swap"
+        href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;500;600;700&display=swap"
         rel="stylesheet">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
 
     <style>
-        :root {
-            --primary: #c41e3a;
-            --primary-dark: #9e1b1b;
-            --primary-light: #fff1f2;
-            --primary-border: #fecdd3;
-            --sidebar-bg: #ffffff;
-            --sidebar-border: #e2e8f0;
-            --content-bg: #f8fafc;
-            --card-bg: #ffffff;
-            --card-border: #e2e8f0;
-            --text-heading: #0f172a;
-            --text-body: #334155;
-            --text-muted: #64748b;
-            --text-disabled: #94a3b8;
-            --toast-color: #ff5722;
-            --doordash-color: #ff3008;
-            --uber-color: #06c167;
-            --grubhub-color: #f63440;
-            --square-color: #006aff;
-            --clover-color: #1cb24c;
-            --font-sans: 'Inter', -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
-            --font-mono: 'JetBrains Mono', monospace;
-            --font-serif: 'Playfair Display', Georgia, serif;
-        }
-
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-        }
-
         body {
-            font-family: var(--font-sans);
-            color: var(--text-body);
-            background-color: var(--content-bg);
-            line-height: 1.5;
-            overflow-x: hidden;
-            height: 100vh;
+            font-family: 'Inter', system-ui, -apple-system, sans-serif;
+            background-color: #f8f9fa;
         }
 
-        /* Top Admin Status Ribbon */
-        .admin-top-ribbon {
-            background: #111827;
-            color: #f3f4f6;
-            font-size: 0.76rem;
-            padding: 7px 20px;
-            display: flex;
-            align-items: center;
-            justify-content: space-between;
-            border-bottom: 1px solid #1f2937;
-            position: relative;
-            z-index: 100;
+        .font-monospace {
+            font-family: 'JetBrains Mono', monospace !important;
         }
 
-        .admin-top-ribbon a {
-            color: #93c5fd;
-            text-decoration: none;
-            transition: color 0.2s;
+        /* Fixed Portfolio Navigation Buttons */
+        #back-btn-np,
+        #case-study-btn-np {
+            transition: transform 0.15s ease, background 0.2s ease;
         }
 
-        .admin-top-ribbon a:hover {
-            color: #ffffff;
-            text-decoration: underline;
+        #back-btn-np:hover,
+        #case-study-btn-np:hover {
+            transform: scale(1.05);
         }
 
-        .ribbon-badge {
-            display: inline-flex;
-            align-items: center;
-            gap: 6px;
-            padding: 2px 8px;
-            border-radius: 4px;
-            background: #1f2937;
-            border: 1px solid #374151;
-            font-family: var(--font-mono);
-            font-size: 0.72rem;
-        }
-
-        .ribbon-status-dot {
-            width: 7px;
-            height: 7px;
-            border-radius: 50%;
-            background: #10b981;
-            display: inline-block;
-            box-shadow: 0 0 8px #10b981;
-            animation: pulse-dot 2s infinite;
-        }
-
-        @keyframes pulse-dot {
-            0% { transform: scale(0.95); opacity: 0.8; }
-            50% { transform: scale(1.2); opacity: 1; }
-            100% { transform: scale(0.95); opacity: 0.8; }
-        }
-
-        /* Full Height Admin Layout */
-        .admin-layout {
-            display: flex;
-            height: calc(100vh - 36px);
-            overflow: hidden;
-        }
-
-        /* --------------------------------------------------------------------------
-           WHITE LEFT SIDE-PANEL TAB SYSTEM
-           -------------------------------------------------------------------------- */
-        .admin-sidebar {
-            width: 290px;
-            background: var(--sidebar-bg);
-            border-right: 1px solid var(--sidebar-border);
-            display: flex;
-            flex-direction: column;
-            justify-content: space-between;
-            flex-shrink: 0;
-            z-index: 90;
-            box-shadow: 2px 0 12px rgba(0, 0, 0, 0.02);
-            transition: transform 0.3s cubic-bezier(0.16, 1, 0.3, 1);
-        }
-
-        .sidebar-header {
-            padding: 24px 20px 18px;
-            border-bottom: 1px solid var(--sidebar-border);
-        }
-
-        .sidebar-brand-group {
-            display: flex;
-            align-items: center;
-            gap: 12px;
-        }
-
-        .brand-icon-box {
-            width: 42px;
-            height: 42px;
-            border-radius: 12px;
-            background: linear-gradient(135deg, #c41e3a 0%, #7c1414 100%);
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            color: #ffffff;
-            font-size: 1.15rem;
-            box-shadow: 0 4px 12px rgba(196, 30, 58, 0.25);
-            flex-shrink: 0;
-        }
-
-        .brand-meta h2 {
-            font-size: 0.96rem;
-            font-weight: 800;
-            color: var(--text-heading);
-            letter-spacing: -0.01em;
-            line-height: 1.2;
-        }
-
-        .brand-meta span {
-            font-size: 0.72rem;
-            font-family: var(--font-mono);
-            color: var(--text-muted);
-            font-weight: 500;
-            display: block;
-            margin-top: 2px;
-        }
-
-        .sidebar-nav-container {
-            padding: 20px 14px;
-            flex: 1;
-            overflow-y: auto;
-        }
-
-        .nav-section-label {
-            font-size: 0.68rem;
-            font-family: var(--font-mono);
-            text-transform: uppercase;
-            font-weight: 700;
-            color: var(--text-muted);
-            letter-spacing: 0.08em;
-            padding: 0 10px 8px;
-            margin-top: 14px;
-        }
-
-        .nav-section-label:first-of-type {
-            margin-top: 0;
-        }
-
-        .nav-tab-list {
-            list-style: none;
-            display: flex;
-            flex-direction: column;
-            gap: 4px;
-        }
-
-        /* Primary Highlighted Active Tab in White Sidebar */
-        .sidebar-tab-btn {
-            width: 100%;
-            display: flex;
-            align-items: center;
-            justify-content: space-between;
-            padding: 11px 14px;
-            border-radius: 10px;
-            background: transparent;
-            border: 1px solid transparent;
-            font-size: 0.86rem;
-            font-weight: 600;
-            color: var(--text-body);
-            cursor: pointer;
-            text-align: left;
-            transition: all 0.2s cubic-bezier(0.16, 1, 0.3, 1);
-            position: relative;
-        }
-
-        .sidebar-tab-btn:hover {
-            background: #f8fafc;
-            color: var(--text-heading);
-        }
-
-        .sidebar-tab-left {
-            display: flex;
-            align-items: center;
-            gap: 12px;
-        }
-
-        .sidebar-tab-left i {
-            font-size: 1rem;
-            width: 18px;
-            text-align: center;
-            color: var(--text-muted);
-            transition: color 0.2s;
-        }
-
-        /* HIGHLIGHTED STATE FOR DELIVERY SERVICES TAB */
-        .sidebar-tab-btn.highlighted-active {
-            background: #fff1f2;
-            color: var(--primary-dark);
-            border-color: var(--primary-border);
-            font-weight: 800;
-            box-shadow: 0 2px 8px rgba(196, 30, 58, 0.08);
-        }
-
-        .sidebar-tab-btn.highlighted-active .sidebar-tab-left i {
-            color: var(--primary);
-        }
-
-        .sidebar-tab-btn.highlighted-active::before {
-            content: '';
-            position: absolute;
-            left: 0;
-            top: 6px;
-            bottom: 6px;
-            width: 4px;
-            background: var(--primary);
-            border-radius: 0 4px 4px 0;
-        }
-
-        .tab-badge {
-            font-size: 0.68rem;
-            font-weight: 700;
-            font-family: var(--font-mono);
-            padding: 2px 7px;
-            border-radius: 9999px;
-            background: #e2e8f0;
-            color: #475569;
-        }
-
-        .sidebar-tab-btn.highlighted-active .tab-badge {
-            background: var(--primary);
-            color: #ffffff;
-        }
-
-        /* GREYED OUT BUT CLICKABLE MENU ITEMS TAB */
-        .sidebar-tab-btn.greyed-clickable {
-            color: var(--text-disabled) !important;
-            opacity: 0.75;
-            background: transparent;
-            cursor: pointer;
-            border: 1px dashed #e2e8f0;
-        }
-
-        .sidebar-tab-btn.greyed-clickable .sidebar-tab-left i {
-            color: var(--text-disabled) !important;
-        }
-
-        .sidebar-tab-btn.greyed-clickable:hover {
-            color: #64748b !important;
-            background: #f8fafc;
-            opacity: 1;
-            border-color: #cbd5e1;
-            transform: translateX(2px);
-        }
-
-        .sidebar-tab-btn.greyed-clickable:hover .sidebar-tab-left i {
-            color: #64748b !important;
-        }
-
-        .sidebar-tab-btn.greyed-clickable.selected-active {
-            background: #f1f5f9;
-            color: var(--text-heading) !important;
-            border: 1px solid #cbd5e1;
-            opacity: 1;
-            font-weight: 700;
-        }
-
-        .sidebar-tab-btn.greyed-clickable.selected-active .sidebar-tab-left i {
-            color: #475569 !important;
-        }
-
-        .tab-badge.draft {
-            background: #f1f5f9;
-            color: #94a3b8;
-            border: 1px solid #e2e8f0;
-        }
-
-        /* Sidebar Footer */
-        .sidebar-footer {
-            padding: 16px 20px;
-            border-top: 1px solid var(--sidebar-border);
-            background: #ffffff;
-            font-size: 0.78rem;
-        }
-
-        .store-pill {
-            display: flex;
-            align-items: center;
-            gap: 10px;
-            padding: 8px 10px;
-            border-radius: 8px;
-            background: #f8fafc;
-            border: 1px solid #e2e8f0;
-        }
-
-        .store-pill-avatar {
-            width: 28px;
-            height: 28px;
-            border-radius: 6px;
-            background: #fee2e2;
-            color: var(--primary);
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            font-weight: 800;
-            font-size: 0.8rem;
-        }
-
-        .store-pill-info {
-            line-height: 1.25;
-            overflow: hidden;
-        }
-
-        .store-pill-info strong {
-            display: block;
-            font-size: 0.78rem;
-            color: var(--text-heading);
-            white-space: nowrap;
-            text-overflow: ellipsis;
-            overflow: hidden;
-        }
-
-        .store-pill-info span {
-            font-size: 0.7rem;
-            color: var(--text-muted);
-        }
-
-        /* --------------------------------------------------------------------------
-           MAIN CONTENT AREA
-           -------------------------------------------------------------------------- */
-        .admin-main-viewport {
-            flex: 1;
-            overflow-y: auto;
-            background: var(--content-bg);
-            padding: 28px 36px 60px;
-            position: relative;
-        }
-
-        .admin-page-container {
-            max-width: 1200px;
-            margin: 0 auto;
-        }
-
+        /* Viewport switching */
         .admin-page-view {
             display: none;
-            animation: fadeIn 0.25s ease-in-out;
         }
 
         .admin-page-view.active-view {
             display: block;
         }
-
-        @keyframes fadeIn {
-            from { opacity: 0; transform: translateY(4px); }
-            to { opacity: 1; transform: translateY(0); }
-        }
-
-        /* Page Headers */
-        .page-header-row {
-            display: flex;
-            align-items: flex-start;
-            justify-content: space-between;
-            flex-wrap: wrap;
-            gap: 16px;
-            margin-bottom: 24px;
-        }
-
-        .page-title {
-            font-size: 1.75rem;
-            font-weight: 900;
-            color: var(--text-heading);
-            letter-spacing: -0.025em;
-            line-height: 1.2;
-        }
-
-        .page-subtitle {
-            font-size: 0.88rem;
-            color: var(--text-muted);
-            margin-top: 6px;
-            max-width: 760px;
-            line-height: 1.5;
-        }
-
-        .page-actions-group {
-            display: flex;
-            align-items: center;
-            gap: 10px;
-            flex-wrap: wrap;
-        }
-
-        .btn-action {
-            display: inline-flex;
-            align-items: center;
-            gap: 8px;
-            padding: 9px 16px;
-            border-radius: 9px;
-            font-size: 0.82rem;
-            font-weight: 700;
-            cursor: pointer;
-            transition: all 0.2s;
-            text-decoration: none;
-            border: 1px solid transparent;
-        }
-
-        .btn-action.primary {
-            background: var(--primary);
-            color: #ffffff;
-            box-shadow: 0 3px 10px rgba(196, 30, 58, 0.25);
-        }
-
-        .btn-action.primary:hover {
-            background: var(--primary-dark);
-            transform: translateY(-1px);
-        }
-
-        .btn-action.secondary {
-            background: #ffffff;
-            color: var(--text-body);
-            border-color: #cbd5e1;
-        }
-
-        .btn-action.secondary:hover {
-            background: #f8fafc;
-            color: var(--text-heading);
-            border-color: #94a3b8;
-        }
-
-        /* Demographic KPI Overview Cards */
-        .kpi-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
-            gap: 16px;
-            margin-bottom: 28px;
-        }
-
-        .kpi-card {
-            background: #ffffff;
-            border: 1px solid var(--card-border);
-            border-radius: 14px;
-            padding: 18px 20px;
-            box-shadow: 0 1px 3px rgba(0, 0, 0, 0.02);
-            position: relative;
-            overflow: hidden;
-        }
-
-        .kpi-card::before {
-            content: '';
-            position: absolute;
-            top: 0;
-            left: 0;
-            right: 0;
-            height: 3px;
-            background: #cbd5e1;
-        }
-
-        .kpi-card.accent-red::before { background: var(--primary); }
-        .kpi-card.accent-orange::before { background: var(--toast-color); }
-        .kpi-card.accent-green::before { background: var(--uber-color); }
-        .kpi-card.accent-blue::before { background: #3b82f6; }
-
-        .kpi-label {
-            font-size: 0.74rem;
-            font-family: var(--font-mono);
-            text-transform: uppercase;
-            font-weight: 700;
-            color: var(--text-muted);
-            letter-spacing: 0.05em;
-        }
-
-        .kpi-value-row {
-            display: flex;
-            align-items: baseline;
-            gap: 10px;
-            margin-top: 6px;
-        }
-
-        .kpi-value {
-            font-size: 1.55rem;
-            font-weight: 900;
-            color: var(--text-heading);
-            font-family: var(--font-sans);
-            letter-spacing: -0.02em;
-        }
-
-        .kpi-tag {
-            font-size: 0.72rem;
-            font-weight: 700;
-            padding: 2px 7px;
-            border-radius: 6px;
-            background: #ecfdf5;
-            color: #065f46;
-        }
-
-        .kpi-desc {
-            font-size: 0.75rem;
-            color: var(--text-muted);
-            margin-top: 5px;
-            line-height: 1.35;
-        }
-
-        /* Filter Controls */
-        .filter-ribbon {
-            background: #ffffff;
-            border: 1px solid var(--card-border);
-            border-radius: 12px;
-            padding: 8px 12px;
-            display: flex;
-            align-items: center;
-            justify-content: space-between;
-            flex-wrap: wrap;
-            gap: 12px;
-            margin-bottom: 22px;
-        }
-
-        .filter-btn-group {
-            display: flex;
-            align-items: center;
-            gap: 6px;
-            flex-wrap: wrap;
-        }
-
-        .filter-chip {
-            padding: 6px 13px;
-            border-radius: 8px;
-            font-size: 0.78rem;
-            font-weight: 600;
-            border: 1px solid transparent;
-            background: transparent;
-            color: var(--text-muted);
-            cursor: pointer;
-            transition: all 0.15s;
-        }
-
-        .filter-chip:hover {
-            color: var(--text-heading);
-            background: #f1f5f9;
-        }
-
-        .filter-chip.active {
-            background: #0f172a;
-            color: #ffffff;
-            font-weight: 700;
-        }
-
-        .search-box {
-            display: flex;
-            align-items: center;
-            gap: 8px;
-            background: #f8fafc;
-            border: 1px solid #cbd5e1;
-            padding: 6px 12px;
-            border-radius: 8px;
-            width: 240px;
-        }
-
-        .search-box input {
-            border: none;
-            background: transparent;
-            outline: none;
-            font-size: 0.78rem;
-            color: var(--text-heading);
-            width: 100%;
-        }
-
-        /* --------------------------------------------------------------------------
-           DELIVERY SERVICE PLATFORM CARDS
-           -------------------------------------------------------------------------- */
-        .services-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fill, minmax(360px, 1fr));
-            gap: 20px;
-        }
-
-        .service-card {
-            background: #ffffff;
-            border: 1px solid var(--card-border);
-            border-radius: 16px;
-            padding: 22px;
-            box-shadow: 0 2px 6px rgba(0, 0, 0, 0.02);
-            transition: all 0.25s cubic-bezier(0.16, 1, 0.3, 1);
-            display: flex;
-            flex-direction: column;
-            justify-content: space-between;
-            position: relative;
-        }
-
-        .service-card:hover {
-            border-color: #cbd5e1;
-            box-shadow: 0 8px 24px rgba(0, 0, 0, 0.05);
-            transform: translateY(-2px);
-        }
-
-        .service-card-top {
-            display: flex;
-            align-items: flex-start;
-            justify-content: space-between;
-            gap: 12px;
-            margin-bottom: 14px;
-        }
-
-        .service-brand {
-            display: flex;
-            align-items: center;
-            gap: 14px;
-        }
-
-        .service-logo-box {
-            width: 52px;
-            height: 52px;
-            border-radius: 14px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            font-size: 1.6rem;
-            color: #ffffff;
-            flex-shrink: 0;
-            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.08);
-        }
-
-        .service-brand-text h3 {
-            font-size: 1.12rem;
-            font-weight: 800;
-            color: var(--text-heading);
-            line-height: 1.2;
-        }
-
-        .service-category-tag {
-            font-size: 0.7rem;
-            font-family: var(--font-mono);
-            font-weight: 600;
-            color: var(--text-muted);
-            margin-top: 3px;
-        }
-
-        /* Status Pills */
-        .status-pill {
-            display: inline-flex;
-            align-items: center;
-            gap: 6px;
-            font-size: 0.72rem;
-            font-family: var(--font-mono);
-            font-weight: 700;
-            padding: 4px 10px;
-            border-radius: 9999px;
-            flex-shrink: 0;
-        }
-
-        .status-pill.verified {
-            background: #ecfdf5;
-            color: #065f46;
-            border: 1px solid #a7f3d0;
-        }
-
-        .status-pill.not-configured {
-            background: #f1f5f9;
-            color: #64748b;
-            border: 1px solid #e2e8f0;
-        }
-
-        .status-pill.pending {
-            background: #fffbeb;
-            color: #92400e;
-            border: 1px solid #fde68a;
-        }
-
-        .status-dot {
-            width: 6px;
-            height: 6px;
-            border-radius: 50%;
-            display: inline-block;
-        }
-
-        .status-pill.verified .status-dot { background: #10b981; }
-        .status-pill.not-configured .status-dot { background: #94a3b8; }
-        .status-pill.pending .status-dot { background: #f59e0b; }
-
-        /* Demographic Highlight Banner */
-        .demographic-callout {
-            background: #fff8f8;
-            border: 1px solid #fee2e2;
-            border-left: 3px solid var(--primary);
-            border-radius: 8px;
-            padding: 8px 12px;
-            margin-bottom: 12px;
-        }
-
-        .demographic-headline {
-            font-size: 0.72rem;
-            font-weight: 800;
-            color: #991b1b;
-            text-transform: uppercase;
-            letter-spacing: 0.04em;
-            display: flex;
-            align-items: center;
-            gap: 5px;
-        }
-
-        .demographic-subtext {
-            font-size: 0.75rem;
-            color: #7f1d1d;
-            margin-top: 2px;
-            line-height: 1.35;
-        }
-
-        .service-desc {
-            font-size: 0.8rem;
-            color: var(--text-body);
-            line-height: 1.45;
-            margin-bottom: 16px;
-        }
-
-        .service-specs-table {
-            background: #f8fafc;
-            border: 1px solid #e2e8f0;
-            border-radius: 10px;
-            padding: 10px 14px;
-            margin-bottom: 18px;
-            font-size: 0.74rem;
-            font-family: var(--font-mono);
-        }
-
-        .spec-row {
-            display: flex;
-            justify-content: space-between;
-            padding: 3px 0;
-            border-bottom: 1px dashed #e2e8f0;
-        }
-
-        .spec-row:last-child {
-            border-bottom: none;
-        }
-
-        .spec-label {
-            color: var(--text-muted);
-        }
-
-        .spec-val {
-            font-weight: 700;
-            color: var(--text-heading);
-        }
-
-        /* Action Buttons Row */
-        .service-actions-row {
-            display: flex;
-            align-items: center;
-            gap: 10px;
-            margin-top: auto;
-            border-top: 1px solid #f1f5f9;
-            padding-top: 16px;
-        }
-
-        .btn-configure-api {
-            flex: 1;
-            padding: 10px 14px;
-            border-radius: 10px;
-            background: #0f172a;
-            color: #ffffff;
-            font-size: 0.8rem;
-            font-weight: 700;
-            border: none;
-            cursor: pointer;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            gap: 7px;
-            transition: all 0.2s;
-            box-shadow: 0 2px 6px rgba(15, 23, 42, 0.15);
-        }
-
-        .btn-configure-api:hover {
-            background: #1e293b;
-            transform: translateY(-1px);
-        }
-
-        .btn-outward-link {
-            padding: 10px 14px;
-            border-radius: 10px;
-            background: #ffffff;
-            color: #475569;
-            border: 1px solid #cbd5e1;
-            font-size: 0.8rem;
-            font-weight: 700;
-            text-decoration: none;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            gap: 6px;
-            transition: all 0.2s;
-            white-space: nowrap;
-        }
-
-        .btn-outward-link:hover {
-            background: #f8fafc;
-            color: var(--text-heading);
-            border-color: #94a3b8;
-            transform: translateY(-1px);
-        }
-
-        /* --------------------------------------------------------------------------
-           MENU ITEMS SETUP PAGE (GREYED OUT BUT CLICKABLE TARGET)
-           -------------------------------------------------------------------------- */
-        .menu-items-page-container {
-            background: #ffffff;
-            border: 1px solid var(--card-border);
-            border-radius: 18px;
-            padding: 40px;
-            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.02);
-        }
-
-        .menu-page-header-box {
-            border-bottom: 1px solid var(--sidebar-border);
-            padding-bottom: 24px;
-            margin-bottom: 30px;
-        }
-
-        .menu-placeholder-card {
-            background: #f8fafc;
-            border: 2px dashed #cbd5e1;
-            border-radius: 16px;
-            padding: 50px 30px;
-            text-align: center;
-            max-width: 720px;
-            margin: 0 auto;
-        }
-
-        .menu-placeholder-icon {
-            width: 70px;
-            height: 70px;
-            border-radius: 20px;
-            background: #e2e8f0;
-            color: #64748b;
-            font-size: 1.8rem;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            margin: 0 auto 18px;
-        }
-
-        .menu-placeholder-card h2 {
-            font-size: 1.25rem;
-            font-weight: 800;
-            color: var(--text-heading);
-            margin-bottom: 8px;
-        }
-
-        .menu-placeholder-card p {
-            font-size: 0.86rem;
-            color: var(--text-muted);
-            max-width: 520px;
-            margin: 0 auto 20px;
-            line-height: 1.5;
-        }
-
-        .menu-category-chips {
-            display: flex;
-            justify-content: center;
-            gap: 8px;
-            flex-wrap: wrap;
-        }
-
-        .cat-chip {
-            padding: 5px 12px;
-            border-radius: 9999px;
-            background: #ffffff;
-            border: 1px solid #cbd5e1;
-            font-size: 0.74rem;
-            font-weight: 700;
-            color: #475569;
-        }
-
-        /* --------------------------------------------------------------------------
-           MODAL FOR API KEY CONFIGURATION & VERIFICATION
-           -------------------------------------------------------------------------- */
-        .api-modal-backdrop {
-            position: fixed;
-            inset: 0;
-            background: rgba(15, 23, 42, 0.65);
-            backdrop-filter: blur(4px);
-            -webkit-backdrop-filter: blur(4px);
-            z-index: 1000;
-            display: none;
-            align-items: center;
-            justify-content: center;
-            padding: 16px;
-        }
-
-        .api-modal-backdrop.show {
-            display: flex;
-        }
-
-        .api-modal-card {
-            background: #ffffff;
-            border: 1px solid #cbd5e1;
-            border-radius: 20px;
-            width: 100%;
-            max-width: 640px;
-            max-height: 90vh;
-            overflow-y: auto;
-            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.2);
-            animation: modalPop 0.2s cubic-bezier(0.16, 1, 0.3, 1);
-        }
-
-        @keyframes modalPop {
-            from { opacity: 0; transform: scale(0.96) translateY(10px); }
-            to { opacity: 1; transform: scale(1) translateY(0); }
-        }
-
-        .api-modal-header {
-            padding: 22px 26px;
-            border-bottom: 1px solid #e2e8f0;
-            display: flex;
-            align-items: center;
-            justify-content: space-between;
-        }
-
-        .modal-service-badge {
-            display: flex;
-            align-items: center;
-            gap: 12px;
-        }
-
-        .modal-service-logo {
-            width: 44px;
-            height: 44px;
-            border-radius: 12px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            color: #ffffff;
-            font-size: 1.35rem;
-        }
-
-        .modal-service-title h3 {
-            font-size: 1.15rem;
-            font-weight: 800;
-            color: var(--text-heading);
-            line-height: 1.2;
-        }
-
-        .modal-service-title span {
-            font-size: 0.74rem;
-            font-family: var(--font-mono);
-            color: var(--text-muted);
-        }
-
-        .btn-close-modal {
-            background: transparent;
-            border: none;
-            font-size: 1.25rem;
-            color: #94a3b8;
-            cursor: pointer;
-            padding: 6px;
-            border-radius: 8px;
-            transition: all 0.15s;
-        }
-
-        .btn-close-modal:hover {
-            color: #0f172a;
-            background: #f1f5f9;
-        }
-
-        .api-modal-body {
-            padding: 24px 26px;
-        }
-
-        .modal-intro-box {
-            background: #f8fafc;
-            border: 1px solid #e2e8f0;
-            border-radius: 12px;
-            padding: 12px 16px;
-            margin-bottom: 20px;
-            display: flex;
-            align-items: center;
-            justify-content: space-between;
-            gap: 12px;
-        }
-
-        .modal-intro-text {
-            font-size: 0.8rem;
-            color: var(--text-body);
-        }
-
-        .form-group {
-            margin-bottom: 16px;
-        }
-
-        .form-label {
-            display: flex;
-            align-items: center;
-            justify-content: space-between;
-            font-size: 0.78rem;
-            font-weight: 700;
-            color: var(--text-heading);
-            margin-bottom: 6px;
-        }
-
-        .form-label span.req {
-            color: var(--primary);
-        }
-
-        .form-input {
-            width: 100%;
-            padding: 10px 14px;
-            border-radius: 10px;
-            border: 1px solid #cbd5e1;
-            font-size: 0.84rem;
-            font-family: var(--font-mono);
-            color: #0f172a;
-            background: #ffffff;
-            outline: none;
-            transition: border-color 0.2s, box-shadow 0.2s;
-        }
-
-        .form-input:focus {
-            border-color: #0f172a;
-            box-shadow: 0 0 0 3px rgba(15, 23, 42, 0.08);
-        }
-
-        .env-radio-group {
-            display: flex;
-            gap: 12px;
-        }
-
-        .env-radio-card {
-            flex: 1;
-            padding: 10px 14px;
-            border-radius: 10px;
-            border: 1px solid #cbd5e1;
-            cursor: pointer;
-            display: flex;
-            align-items: center;
-            gap: 8px;
-            font-size: 0.8rem;
-            font-weight: 600;
-            color: var(--text-body);
-            background: #f8fafc;
-            transition: all 0.15s;
-        }
-
-        .env-radio-card.selected {
-            background: #ffffff;
-            border-color: #0f172a;
-            color: #0f172a;
-            font-weight: 700;
-            box-shadow: 0 2px 6px rgba(0, 0, 0, 0.04);
-        }
-
-        /* Live Verification Console */
-        .verification-console {
-            margin-top: 20px;
-            background: #0b0f19;
-            border-radius: 12px;
-            padding: 16px;
-            color: #f1f5f9;
-            font-family: var(--font-mono);
-            font-size: 0.74rem;
-            display: none;
-        }
-
-        .verification-console.show {
-            display: block;
-        }
-
-        .console-header {
-            display: flex;
-            align-items: center;
-            justify-content: space-between;
-            border-bottom: 1px solid #1e293b;
-            padding-bottom: 8px;
-            margin-bottom: 10px;
-            color: #94a3b8;
-        }
-
-        .console-step {
-            display: flex;
-            align-items: center;
-            gap: 8px;
-            margin-bottom: 6px;
-            color: #cbd5e1;
-        }
-
-        .console-step.done {
-            color: #34d399;
-        }
-
-        .console-step.active {
-            color: #60a5fa;
-        }
-
-        .api-modal-footer {
-            padding: 18px 26px;
-            border-top: 1px solid #e2e8f0;
-            background: #f8fafc;
-            border-radius: 0 0 20px 20px;
-            display: flex;
-            align-items: center;
-            justify-content: space-between;
-            gap: 12px;
-        }
-
-        /* --------------------------------------------------------------------------
-           ACTIVITY DISPATCH TELEMETRY LOGS VIEW
-           -------------------------------------------------------------------------- */
-        .telemetry-table-card {
-            background: #ffffff;
-            border: 1px solid var(--card-border);
-            border-radius: 16px;
-            overflow: hidden;
-            box-shadow: 0 1px 3px rgba(0, 0, 0, 0.02);
-        }
-
-        .telemetry-table {
-            width: 100%;
-            border-collapse: collapse;
-            font-size: 0.78rem;
-            text-align: left;
-        }
-
-        .telemetry-table th {
-            background: #f8fafc;
-            padding: 12px 18px;
-            font-family: var(--font-mono);
-            font-size: 0.7rem;
-            text-transform: uppercase;
-            color: var(--text-muted);
-            border-bottom: 1px solid #e2e8f0;
-        }
-
-        .telemetry-table td {
-            padding: 14px 18px;
-            border-bottom: 1px solid #f1f5f9;
-            color: var(--text-body);
-        }
-
-        .telemetry-table tr:last-child td {
-            border-bottom: none;
-        }
-
-        /* Mobile Hamburger & Backdrop */
-        .mobile-nav-toggle {
-            display: none;
-            background: transparent;
-            border: none;
-            font-size: 1.25rem;
-            color: #ffffff;
-            cursor: pointer;
-        }
-
-        @media (max-width: 900px) {
-            .admin-sidebar {
-                position: fixed;
-                top: 36px;
-                bottom: 0;
-                left: 0;
-                transform: translateX(-100%);
-            }
-
-            .admin-sidebar.mobile-open {
-                transform: translateX(0);
-            }
-
-            .mobile-nav-toggle {
-                display: block;
-            }
-
-            .admin-main-viewport {
-                padding: 20px 18px;
-            }
-        }
     </style>
 </head>
 
-<body>
+<body class="bg-light">
+
     <!-- Persistent Portfolio Navigation Anchors -->
     <a id="back-btn-np" href="../" title="Back to Projects"
-        style="position:fixed;top:0;right:0;z-index:99999;display:inline-flex;align-items:center;justify-content:center;width:34px;height:34px;background:rgba(10,10,10,0.82);backdrop-filter:blur(12px);-webkit-backdrop-filter:blur(12px);border:0;border-bottom:1px solid rgba(255,255,255,0.15);border-left:1px solid rgba(255,255,255,0.15);border-radius:0 0 0 8px;color:#fff;font-family:system-ui,sans-serif;font-size:1rem;font-weight:700;text-decoration:none;box-shadow:-2px 2px 10px rgba(0,0,0,0.5);transition:background 0.2s,transform 0.15s;"
-        onmouseover="this.style.background='rgba(40,40,40,0.95)';this.style.transform='scale(1.05)'"
-        onmouseout="this.style.background='rgba(10,10,10,0.82)';this.style.transform='scale(1)'">&#8592;</a>
+        style="position:fixed;top:0;right:0;z-index:99999;display:inline-flex;align-items:center;justify-content:center;width:34px;height:34px;background:rgba(10,10,10,0.85);border-bottom:1px solid rgba(255,255,255,0.2);border-left:1px solid rgba(255,255,255,0.2);border-radius:0 0 0 8px;color:#fff;font-family:system-ui,sans-serif;font-size:1rem;font-weight:700;text-decoration:none;box-shadow:-2px 2px 8px rgba(0,0,0,0.4);"
+        aria-label="Back to projects">&larr;</a>
     <a id="case-study-btn-np" href="./case-study.html" title="Case Study" aria-label="Case Study"
-        style="position:fixed;bottom:0;left:0;z-index:99999;display:inline-flex;align-items:center;justify-content:center;width:34px;height:34px;background:rgba(10,10,10,0.82);backdrop-filter:blur(12px);-webkit-backdrop-filter:blur(12px);border:0;border-top:1px solid rgba(255,255,255,0.15);border-right:1px solid rgba(255,255,255,0.15);border-radius:0 8px 0 0;color:#fff;font-family:system-ui,sans-serif;font-size:0.95rem;text-decoration:none;box-shadow:2px -2px 10px rgba(0,0,0,0.5);transition:background 0.2s,transform 0.15s;"
-        onmouseover="this.style.background='rgba(40,40,40,0.95)';this.style.transform='scale(1.05)'"
-        onmouseout="this.style.background='rgba(10,10,10,0.82)';this.style.transform='scale(1)'"><svg width="15"
-            height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
-            stroke-linejoin="round" style="display:block;">
+        style="position:fixed;bottom:0;left:0;z-index:99999;display:inline-flex;align-items:center;justify-content:center;width:34px;height:34px;background:rgba(10,10,10,0.85);border-top:1px solid rgba(255,255,255,0.2);border-right:1px solid rgba(255,255,255,0.2);border-radius:0 8px 0 0;color:#fff;font-family:system-ui,sans-serif;font-size:0.95rem;text-decoration:none;box-shadow:2px -2px 8px rgba(0,0,0,0.4);">
+        <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
+            stroke-linecap="round" stroke-linejoin="round" style="display:block;">
             <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"></path>
             <polyline points="14 2 14 8 20 8"></polyline>
             <line x1="16" y1="13" x2="8" y2="13"></line>
             <line x1="16" y1="17" x2="8" y2="17"></line>
             <polyline points="10 9 9 9 8 9"></polyline>
-        </svg></a>
+        </svg>
+    </a>
 
-    <!-- Top Admin Status Ribbon -->
-    <div class="admin-top-ribbon">
-        <div style="display: flex; align-items: center; gap: 14px;">
-            <button class="mobile-nav-toggle" onclick="toggleMobileSidebar()" aria-label="Toggle navigation">
-                <i class="fa-solid fa-bars"></i>
-            </button>
-            <div style="display: flex; align-items: center; gap: 8px;">
-                <span class="ribbon-status-dot"></span>
-                <span style="font-weight: 700; color: #ffffff;">Parma Delivery API Admin</span>
-                <span style="color: #6b7280;">|</span>
-                <span style="color: #d1d5db; font-family: var(--font-mono); font-size: 0.72rem;">ASP.NET Core 9 Clean Architecture Gateway</span>
+    <!-- Top Admin Status Navbar (Bootstrap Dark Navbar) -->
+    <header class="navbar navbar-expand-lg navbar-dark bg-dark sticky-top border-bottom border-secondary shadow-sm px-3 py-2">
+        <div class="container-fluid px-0">
+            <!-- Brand & Gateway Title -->
+            <div class="d-flex align-items-center gap-2">
+                <button class="navbar-toggler d-md-none me-2" type="button" data-bs-toggle="collapse"
+                    data-bs-target="#sidebarCollapseContainer" aria-controls="sidebarCollapseContainer"
+                    aria-expanded="false" aria-label="Toggle navigation">
+                    <span class="navbar-toggler-icon"></span>
+                </button>
+                <span class="navbar-brand fw-bold mb-0 d-flex align-items-center gap-2">
+                    <i class="fa-solid fa-truck-fast text-danger"></i>
+                    <span>Parma Delivery Admin</span>
+                </span>
+                <span class="text-secondary d-none d-sm-inline">|</span>
+                <span class="text-secondary small font-monospace d-none d-md-inline">ASP.NET Core 9 Gateway</span>
+            </div>
+
+            <!-- Right Telemetry Badges -->
+            <div class="d-flex align-items-center gap-2 ms-auto">
+                <span class="badge text-bg-success">
+                    <i class="fa-solid fa-circle text-white me-1" style="font-size: 7px;"></i>Online
+                </span>
+                <span class="badge text-bg-warning text-dark">
+                    <i class="fa-solid fa-bolt me-1"></i><span id="activePlatformsCount">3</span>/6 Verified
+                </span>
+                <a href="./case-study.html" target="_blank" class="btn btn-outline-light btn-sm font-monospace">
+                    <i class="fa-solid fa-code me-1"></i>.NET Case Study
+                </a>
             </div>
         </div>
-        <div style="display: flex; align-items: center; gap: 14px;">
-            <span class="ribbon-badge">
-                <i class="fa-solid fa-bolt" style="color: #f59e0b;"></i>
-                <span id="activePlatformsCount">3</span>/6 Services Verified
-            </span>
-            <a href="./case-study.html" target="_blank" style="font-family: var(--font-mono); font-size: 0.72rem;">
-                <i class="fa-solid fa-code"></i> .NET Case Study &rarr;
-            </a>
-        </div>
-    </div>
+    </header>
 
-    <!-- Admin Master Layout -->
-    <div class="admin-layout">
+    <!-- Main Admin Container -->
+    <div class="container-fluid py-4 px-3 px-md-4">
+        <div class="row g-4">
 
-        <!-- ====================================================================
-             WHITE LEFT SIDE-PANEL TAB SYSTEM
-             ==================================================================== -->
-        <aside class="admin-sidebar" id="adminSidebar">
-            <div>
-                <!-- Brand / Header -->
-                <div class="sidebar-header">
-                    <div class="sidebar-brand-group">
-                        <div class="brand-icon-box">
-                            <i class="fa-solid fa-truck-fast"></i>
-                        </div>
-                        <div class="brand-meta">
-                            <h2>Delivery Hub</h2>
-                            <span>.NET 9 Dispatch Console</span>
+            <!-- ====================================================================
+                 BOOTSTRAP LEFT SIDEBAR (NAV PILLS)
+                 ==================================================================== -->
+            <div class="col-12 col-md-4 col-xl-3 collapse d-md-block" id="sidebarCollapseContainer">
+                <div class="card shadow-sm border mb-4">
+                    <!-- Sidebar Brand Header -->
+                    <div class="card-header bg-white py-3 border-bottom">
+                        <div class="d-flex align-items-center gap-3">
+                            <div class="rounded-3 bg-danger text-white p-2 d-flex align-items-center justify-content-center"
+                                style="width: 42px; height: 42px;">
+                                <i class="fa-solid fa-pizza-slice fs-5"></i>
+                            </div>
+                            <div>
+                                <h6 class="mb-0 fw-bold text-dark">Delivery Hub</h6>
+                                <small class="text-body-secondary font-monospace">.NET 9 Dispatch Console</small>
+                            </div>
                         </div>
                     </div>
-                </div>
 
-                <!-- Navigation Tabs -->
-                <div class="sidebar-nav-container">
-                    <!-- SECTION 1: CORE INTEGRATIONS -->
-                    <div class="nav-section-label">Delivery &amp; Ordering</div>
-                    <ul class="nav-tab-list">
-                        <!-- TAB 1: HIGHLIGHTED IN WHITE SIDEBAR -->
-                        <li>
-                            <button type="button" class="sidebar-tab-btn highlighted-active" id="tab-btn-delivery"
-                                onclick="switchAdminTab('delivery-services')"
+                    <!-- Sidebar Navigation (Bootstrap Nav-Pills) -->
+                    <div class="card-body p-3">
+                        <div class="text-uppercase text-body-secondary fw-bold small mb-2 px-2">Delivery &amp; Ordering</div>
+                        <div class="nav nav-pills flex-column gap-1 mb-3" role="tablist">
+                            <button type="button" class="nav-link text-start active d-flex justify-content-between align-items-center"
+                                id="tab-btn-delivery" onclick="switchAdminTab('delivery-services')"
                                 title="Connect to top demographic delivery services (Toast, DoorDash, Uber Direct, etc.)">
-                                <div class="sidebar-tab-left">
-                                    <i class="fa-solid fa-plug-circle-bolt"></i>
-                                    <span>Delivery Services</span>
-                                </div>
-                                <span class="tab-badge" id="sidebarVerifiedCount">3 Active</span>
+                                <span><i class="fa-solid fa-plug-circle-bolt me-2"></i>Delivery Services</span>
+                                <span class="badge text-bg-primary" id="sidebarVerifiedCount">3 Active</span>
                             </button>
-                        </li>
-
-                        <!-- TAB 2: GREYED OUT BUT CLICKABLE MENU ITEMS TAB -->
-                        <li>
-                            <button type="button" class="sidebar-tab-btn greyed-clickable" id="tab-btn-menu"
-                                onclick="switchAdminTab('menu-items')"
+                            <button type="button" class="nav-link text-start text-secondary d-flex justify-content-between align-items-center"
+                                id="tab-btn-menu" onclick="switchAdminTab('menu-items')"
                                 title="Click to view Menu Items Setup">
-                                <div class="sidebar-tab-left">
-                                    <i class="fa-solid fa-utensils"></i>
-                                    <span>Menu Items</span>
-                                </div>
-                                <span class="tab-badge draft">Draft</span>
+                                <span><i class="fa-solid fa-utensils me-2"></i>Menu Items</span>
+                                <span class="badge text-bg-secondary">Draft</span>
                             </button>
-                        </li>
-                    </ul>
+                        </div>
 
-                    <!-- SECTION 2: TELEMETRY & OPERATIONS -->
-                    <div class="nav-section-label">Operations &amp; Monitoring</div>
-                    <ul class="nav-tab-list">
-                        <li>
-                            <button type="button" class="sidebar-tab-btn" id="tab-btn-telemetry"
-                                onclick="switchAdminTab('dispatch-logs')"
+                        <div class="text-uppercase text-body-secondary fw-bold small mb-2 px-2">Operations &amp; Monitoring</div>
+                        <div class="nav nav-pills flex-column gap-1" role="tablist">
+                            <button type="button" class="nav-link text-start text-dark d-flex justify-content-between align-items-center"
+                                id="tab-btn-telemetry" onclick="switchAdminTab('dispatch-logs')"
                                 title="View real-time delivery order dispatch logs and webhooks">
-                                <div class="sidebar-tab-left">
-                                    <i class="fa-solid fa-chart-line"></i>
-                                    <span>Dispatch Telemetry</span>
-                                </div>
-                                <span class="tab-badge" style="background:#f1f5f9; color:#64748b;">Live</span>
+                                <span><i class="fa-solid fa-chart-line me-2"></i>Dispatch Telemetry</span>
+                                <span class="badge text-bg-info text-white">Live</span>
                             </button>
-                        </li>
-                        <li>
-                            <button type="button" class="sidebar-tab-btn" id="tab-btn-preview"
-                                onclick="switchAdminTab('store-preview')"
+                            <button type="button" class="nav-link text-start text-dark d-flex justify-content-between align-items-center"
+                                id="tab-btn-preview" onclick="switchAdminTab('store-preview')"
                                 title="Preview customer storefront and community calendar">
-                                <div class="sidebar-tab-left">
-                                    <i class="fa-solid fa-store"></i>
-                                    <span>Storefront Preview</span>
-                                </div>
+                                <span><i class="fa-solid fa-store me-2"></i>Storefront Preview</span>
                             </button>
-                        </li>
-                    </ul>
-                </div>
-            </div>
-
-            <!-- Sidebar Footer -->
-            <div class="sidebar-footer">
-                <div class="store-pill">
-                    <div class="store-pill-avatar">
-                        <i class="fa-solid fa-pizza-slice"></i>
+                        </div>
                     </div>
-                    <div class="store-pill-info">
-                        <strong>Parma Pizza &amp; Grill</strong>
-                        <span>Store #104 &bull; Landisville PA</span>
+
+                    <!-- Sidebar Store Info Footer -->
+                    <div class="card-footer bg-body-tertiary p-3 border-top">
+                        <div class="d-flex align-items-center gap-2">
+                            <i class="fa-solid fa-store text-secondary fs-5"></i>
+                            <div>
+                                <div class="fw-bold small text-dark">Parma Pizza &amp; Grill</div>
+                                <small class="text-body-secondary">Store #104 &bull; Landisville PA</small>
+                            </div>
+                        </div>
                     </div>
                 </div>
             </div>
-        </aside>
 
-        <!-- ====================================================================
-             MAIN CONTENT VIEWPORT
-             ==================================================================== -->
-        <main class="admin-main-viewport">
-            <div class="admin-page-container">
+            <!-- ====================================================================
+                 MAIN CONTENT VIEWPORT
+                 ==================================================================== -->
+            <div class="col-12 col-md-8 col-xl-9">
 
                 <!-- ----------------------------------------------------------------
                      PAGE 1: CONNECT DELIVERY SERVICES (TOP DEMOGRAPHIC CHOICES)
                      ---------------------------------------------------------------- -->
                 <section class="admin-page-view active-view" id="view-delivery-services">
-                    <!-- Page Header -->
-                    <div class="page-header-row">
+                    <!-- Page Header Row -->
+                    <div class="d-flex flex-column flex-lg-row justify-content-between align-items-lg-center gap-3 mb-4 pb-2 border-bottom">
                         <div>
-                            <h1 class="page-title">Delivery Service Integrations</h1>
-                            <p class="page-subtitle">
-                                Connect this website directly to top demographic food delivery providers, restaurant POS networks, and on-demand courier dispatch APIs. Submit and verify your API keys or use direct outward links to configure merchant accounts.
+                            <h1 class="h3 fw-bold text-dark mb-1">Delivery Service Integrations</h1>
+                            <p class="text-secondary small mb-0">
+                                Connect this website directly to top demographic food delivery providers, restaurant POS networks, and on-demand courier dispatch APIs.
                             </p>
                         </div>
-                        <div class="page-actions-group">
-                            <button class="btn-action secondary" onclick="simulateFullApiHealthCheck()">
-                                <i class="fa-solid fa-arrows-rotate"></i> Ping All APIs
+                        <div class="d-flex align-items-center gap-2 shrink-0">
+                            <button class="btn btn-outline-secondary btn-sm" onclick="simulateFullApiHealthCheck()">
+                                <i class="fa-solid fa-arrows-rotate me-1"></i> Ping All APIs
                             </button>
-                            <button class="btn-action primary" onclick="openApiConfigModal('toast')">
-                                <i class="fa-solid fa-plus"></i> Connect New API
+                            <button class="btn btn-danger btn-sm" onclick="openApiConfigModal('toast')">
+                                <i class="fa-solid fa-plus me-1"></i> Connect New API
                             </button>
                         </div>
                     </div>
 
-                    <!-- Top Demographic Market Metrics Bar -->
-                    <div class="kpi-grid">
-                        <div class="kpi-card accent-red">
-                            <div class="kpi-label">#1 US Demographic Choice</div>
-                            <div class="kpi-value-row">
-                                <span class="kpi-value">DoorDash</span>
-                                <span class="kpi-tag">67% US Share</span>
+                    <!-- Top Demographic Market Metrics Bar (Bootstrap Cards) -->
+                    <div class="row g-3 mb-4">
+                        <!-- KPI 1 -->
+                        <div class="col-12 col-sm-6 col-xl-3">
+                            <div class="card shadow-sm border-0 border-top border-4 border-danger h-100">
+                                <div class="card-body">
+                                    <div class="text-uppercase text-body-secondary small fw-bold font-monospace mb-1">#1 US Demographic Choice</div>
+                                    <div class="d-flex align-items-baseline justify-content-between mb-2">
+                                        <h4 class="fw-bold text-dark mb-0">DoorDash</h4>
+                                        <span class="badge text-bg-danger">67% US Share</span>
+                                    </div>
+                                    <p class="text-secondary small mb-0">Dominant nationwide suburban &amp; dinner delivery reach.</p>
+                                </div>
                             </div>
-                            <div class="kpi-desc">Dominant nationwide suburban &amp; dinner delivery reach.</div>
                         </div>
 
-                        <div class="kpi-card accent-orange">
-                            <div class="kpi-label">Top Direct Restaurant POS</div>
-                            <div class="kpi-value-row">
-                                <span class="kpi-value">Toast POS</span>
-                                <span class="kpi-tag" style="background:#fff7ed; color:#c2410c;">0% Fee Direct</span>
+                        <!-- KPI 2 -->
+                        <div class="col-12 col-sm-6 col-xl-3">
+                            <div class="card shadow-sm border-0 border-top border-4 border-warning h-100">
+                                <div class="card-body">
+                                    <div class="text-uppercase text-body-secondary small fw-bold font-monospace mb-1">Top Direct Restaurant POS</div>
+                                    <div class="d-flex align-items-baseline justify-content-between mb-2">
+                                        <h4 class="fw-bold text-dark mb-0">Toast POS</h4>
+                                        <span class="badge text-bg-warning text-dark">0% Fee Direct</span>
+                                    </div>
+                                    <p class="text-secondary small mb-0">Direct KDS printing &amp; hybrid DoorDash/Uber dispatch fleet.</p>
+                                </div>
                             </div>
-                            <div class="kpi-desc">Direct KDS printing &amp; hybrid DoorDash/Uber dispatch fleet.</div>
                         </div>
 
-                        <div class="kpi-card accent-green">
-                            <div class="kpi-label">Urban &amp; Gen-Z Demographic</div>
-                            <div class="kpi-value-row">
-                                <span class="kpi-value">Uber Direct</span>
-                                <span class="kpi-tag" style="background:#ecfdf5; color:#047857;">23% US Share</span>
+                        <!-- KPI 3 -->
+                        <div class="col-12 col-sm-6 col-xl-3">
+                            <div class="card shadow-sm border-0 border-top border-4 border-success h-100">
+                                <div class="card-body">
+                                    <div class="text-uppercase text-body-secondary small fw-bold font-monospace mb-1">Urban &amp; Gen-Z Choice</div>
+                                    <div class="d-flex align-items-baseline justify-content-between mb-2">
+                                        <h4 class="fw-bold text-dark mb-0">Uber Direct</h4>
+                                        <span class="badge text-bg-success">23% US Share</span>
+                                    </div>
+                                    <p class="text-secondary small mb-0">High-density metropolitan courier network with 20-min dispatch.</p>
+                                </div>
                             </div>
-                            <div class="kpi-desc">High-density metropolitan courier network with 20-min dispatch.</div>
                         </div>
 
-                        <div class="kpi-card accent-blue">
-                            <div class="kpi-label">.NET 9 Dispatch Gateway</div>
-                            <div class="kpi-value-row">
-                                <span class="kpi-value" id="kpiAvgLatency">31 ms</span>
-                                <span class="kpi-tag" style="background:#eff6ff; color:#1d4ed8;">TLS 1.3 Active</span>
+                        <!-- KPI 4 -->
+                        <div class="col-12 col-sm-6 col-xl-3">
+                            <div class="card shadow-sm border-0 border-top border-4 border-primary h-100">
+                                <div class="card-body">
+                                    <div class="text-uppercase text-body-secondary small fw-bold font-monospace mb-1">.NET 9 Gateway</div>
+                                    <div class="d-flex align-items-baseline justify-content-between mb-2">
+                                        <h4 class="fw-bold text-dark mb-0 font-monospace" id="kpiAvgLatency">31 ms</h4>
+                                        <span class="badge text-bg-primary">TLS 1.3 Active</span>
+                                    </div>
+                                    <p class="text-secondary small mb-0">Unified multi-carrier order injection and webhook ingestion.</p>
+                                </div>
                             </div>
-                            <div class="kpi-desc">Unified multi-carrier order injection and webhook ingestion.</div>
                         </div>
                     </div>
 
-                    <!-- Filter & Search Toolbar -->
-                    <div class="filter-ribbon">
-                        <div class="filter-btn-group">
-                            <button class="filter-chip active" onclick="filterServices('all', this)">All Services (6)</button>
-                            <button class="filter-chip" onclick="filterServices('connected', this)">Connected (3)</button>
-                            <button class="filter-chip" onclick="filterServices('pos', this)">POS Direct (3)</button>
-                            <button class="filter-chip" onclick="filterServices('fleet', this)">Courier Fleets (3)</button>
-                        </div>
-                        <div class="search-box">
-                            <i class="fa-solid fa-magnifying-glass" style="color: #94a3b8; font-size: 0.8rem;"></i>
-                            <input type="text" id="serviceSearchInput" placeholder="Search delivery platforms..." oninput="handleServiceSearch(this.value)">
+                    <!-- Filter & Search Toolbar (Bootstrap Card) -->
+                    <div class="card shadow-sm border mb-4">
+                        <div class="card-body py-2 d-flex flex-wrap justify-content-between align-items-center gap-2">
+                            <div class="btn-group btn-group-sm" role="group" aria-label="Filter Services">
+                                <button type="button" class="btn btn-outline-secondary active" onclick="filterServices('all', this)">All Services (6)</button>
+                                <button type="button" class="btn btn-outline-secondary" onclick="filterServices('connected', this)">Connected (3)</button>
+                                <button type="button" class="btn btn-outline-secondary" onclick="filterServices('pos', this)">POS Direct (3)</button>
+                                <button type="button" class="btn btn-outline-secondary" onclick="filterServices('fleet', this)">Courier Fleets (3)</button>
+                            </div>
+                            <div class="input-group input-group-sm" style="max-width: 280px;">
+                                <span class="input-group-text bg-white"><i class="fa-solid fa-magnifying-glass text-secondary"></i></span>
+                                <input type="text" class="form-control" id="serviceSearchInput" placeholder="Search delivery platforms..."
+                                    oninput="handleServiceSearch(this.value)">
+                            </div>
                         </div>
                     </div>
 
                     <!-- Services Grid: Top Demographic Choices -->
-                    <div class="services-grid" id="servicesGrid">
+                    <div class="row g-4" id="servicesGrid">
 
-                        <!-- 1. TOAST POS (Explicitly requested in prompt) -->
-                        <div class="service-card" data-category="pos" data-status="connected" data-service-id="toast">
-                            <div>
-                                <div class="service-card-top">
-                                    <div class="service-brand">
-                                        <div class="service-logo-box" style="background: linear-gradient(135deg, #ff5722 0%, #e64a19 100%);">
-                                            <i class="fa-solid fa-bread-slice"></i>
+                        <!-- 1. TOAST POS -->
+                        <div class="col-12 col-lg-6 service-col" data-category="pos" data-status="connected" data-service-id="toast">
+                            <div class="card shadow-sm border h-100 d-flex flex-column justify-content-between">
+                                <div>
+                                    <div class="card-header bg-white py-3 border-bottom d-flex justify-content-between align-items-center">
+                                        <div class="d-flex align-items-center gap-2">
+                                            <div class="rounded-3 p-2 bg-warning text-dark d-flex align-items-center justify-content-center"
+                                                style="width: 38px; height: 38px;">
+                                                <i class="fa-solid fa-bread-slice fs-5"></i>
+                                            </div>
+                                            <div>
+                                                <h5 class="card-title mb-0 fw-bold text-dark">Toast POS</h5>
+                                                <small class="text-body-secondary font-monospace">Toast Delivery Services (TDS)</small>
+                                            </div>
                                         </div>
-                                        <div class="service-brand-text">
-                                            <h3>Toast POS</h3>
-                                            <div class="service-category-tag">Toast Delivery Services (TDS)</div>
+                                        <span class="badge text-bg-success" id="status-badge-toast">Verified &amp; Active</span>
+                                    </div>
+                                    <div class="card-body">
+                                        <div class="alert alert-warning py-2 px-3 small mb-3">
+                                            <i class="fa-solid fa-award me-1"></i><strong>Top Direct Restaurant POS Choice:</strong> Eliminates 30% commissions via in-house ordering.
                                         </div>
-                                    </div>
-                                    <div class="status-pill verified" id="status-badge-toast">
-                                        <span class="status-dot"></span> Verified &amp; Active
-                                    </div>
-                                </div>
-
-                                <div class="demographic-callout">
-                                    <div class="demographic-headline">
-                                        <i class="fa-solid fa-award"></i> Top Direct Restaurant POS Choice
-                                    </div>
-                                    <div class="demographic-subtext">
-                                        Eliminates 30% 3rd-party marketplace commissions via native in-house ordering with flat-rate DoorDash courier pass-through.
-                                    </div>
-                                </div>
-
-                                <p class="service-desc">
-                                    Connects directly to the Toast Orders API v2. Dispatches delivery tickets to kitchen display screens and auto-requests couriers with zero menu markups.
-                                </p>
-
-                                <div class="service-specs-table">
-                                    <div class="spec-row">
-                                        <span class="spec-label">Protocol:</span>
-                                        <span class="spec-val">REST / OAuth 2.0 Token</span>
-                                    </div>
-                                    <div class="spec-row">
-                                        <span class="spec-label">Location GUID:</span>
-                                        <span class="spec-val" id="spec-loc-toast">parma-landisville-pa-01</span>
-                                    </div>
-                                    <div class="spec-row">
-                                        <span class="spec-label">Delivery Mode:</span>
-                                        <span class="spec-val">Hybrid In-House &amp; Flat Fleet</span>
+                                        <p class="card-text text-secondary small">
+                                            Connects directly to Toast Orders API v2. Dispatches delivery tickets to kitchen display screens and auto-requests couriers with zero markups.
+                                        </p>
+                                        <ul class="list-group list-group-flush small mb-3">
+                                            <li class="list-group-item px-0 d-flex justify-content-between">
+                                                <span class="text-body-secondary">Protocol:</span>
+                                                <span class="fw-semibold">REST / OAuth 2.0 Token</span>
+                                            </li>
+                                            <li class="list-group-item px-0 d-flex justify-content-between">
+                                                <span class="text-body-secondary">Location GUID:</span>
+                                                <span class="fw-semibold font-monospace" id="spec-loc-toast">parma-landisville-pa-01</span>
+                                            </li>
+                                            <li class="list-group-item px-0 d-flex justify-content-between">
+                                                <span class="text-body-secondary">Delivery Mode:</span>
+                                                <span class="fw-semibold">Hybrid In-House &amp; Flat Fleet</span>
+                                            </li>
+                                        </ul>
                                     </div>
                                 </div>
-                            </div>
-
-                            <div class="service-actions-row">
-                                <button class="btn-configure-api" onclick="openApiConfigModal('toast')">
-                                    <i class="fa-solid fa-key"></i> Configure API
-                                </button>
-                                <a href="https://pos.toasttab.com/" target="_blank" rel="noopener noreferrer" class="btn-outward-link" title="Open Toast Developer &amp; Merchant Portal">
-                                    Setup Link <i class="fa-solid fa-arrow-up-right-from-square"></i>
-                                </a>
+                                <div class="card-footer bg-white border-top p-3 d-flex gap-2">
+                                    <button class="btn btn-dark btn-sm flex-grow-1" onclick="openApiConfigModal('toast')">
+                                        <i class="fa-solid fa-key me-1"></i> Configure API
+                                    </button>
+                                    <a href="https://pos.toasttab.com/" target="_blank" rel="noopener noreferrer" class="btn btn-outline-secondary btn-sm" title="Open Toast Developer &amp; Merchant Portal">
+                                        Setup Link <i class="fa-solid fa-arrow-up-right-from-square ms-1"></i>
+                                    </a>
+                                </div>
                             </div>
                         </div>
 
-                        <!-- 2. DOORDASH DRIVE (#1 US Demographic Share) -->
-                        <div class="service-card" data-category="fleet" data-status="connected" data-service-id="doordash">
-                            <div>
-                                <div class="service-card-top">
-                                    <div class="service-brand">
-                                        <div class="service-logo-box" style="background: linear-gradient(135deg, #ff3008 0%, #b91c1c 100%);">
-                                            <i class="fa-solid fa-car"></i>
+                        <!-- 2. DOORDASH DRIVE -->
+                        <div class="col-12 col-lg-6 service-col" data-category="fleet" data-status="connected" data-service-id="doordash">
+                            <div class="card shadow-sm border h-100 d-flex flex-column justify-content-between">
+                                <div>
+                                    <div class="card-header bg-white py-3 border-bottom d-flex justify-content-between align-items-center">
+                                        <div class="d-flex align-items-center gap-2">
+                                            <div class="rounded-3 p-2 bg-danger text-white d-flex align-items-center justify-content-center"
+                                                style="width: 38px; height: 38px;">
+                                                <i class="fa-solid fa-car fs-5"></i>
+                                            </div>
+                                            <div>
+                                                <h5 class="card-title mb-0 fw-bold text-dark">DoorDash Drive</h5>
+                                                <small class="text-body-secondary font-monospace">White-Label Fulfillment API</small>
+                                            </div>
                                         </div>
-                                        <div class="service-brand-text">
-                                            <h3>DoorDash Drive</h3>
-                                            <div class="service-category-tag">White-Label Fulfillment API</div>
+                                        <span class="badge text-bg-success" id="status-badge-doordash">Verified &amp; Active</span>
+                                    </div>
+                                    <div class="card-body">
+                                        <div class="alert alert-danger py-2 px-3 small mb-3">
+                                            <i class="fa-solid fa-star me-1"></i><strong>#1 Demographic Choice (67% US Market):</strong> Dominant suburban footprint &amp; family dining reach.
                                         </div>
-                                    </div>
-                                    <div class="status-pill verified" id="status-badge-doordash">
-                                        <span class="status-dot"></span> Verified &amp; Active
-                                    </div>
-                                </div>
-
-                                <div class="demographic-callout">
-                                    <div class="demographic-headline">
-                                        <i class="fa-solid fa-star"></i> #1 Demographic Choice (67% US Market)
-                                    </div>
-                                    <div class="demographic-subtext">
-                                        Dominant nationwide suburban footprint; highest brand recognition and driver availability across family and weekend dining demographics.
-                                    </div>
-                                </div>
-
-                                <p class="service-desc">
-                                    Direct integration with DoorDash Drive API for instant courier dispatch. Customers receive live GPS driver tracking via branded SMS updates.
-                                </p>
-
-                                <div class="service-specs-table">
-                                    <div class="spec-row">
-                                        <span class="spec-label">Auth Method:</span>
-                                        <span class="spec-val">HMAC-SHA256 JWT Keys</span>
-                                    </div>
-                                    <div class="spec-row">
-                                        <span class="spec-label">Fulfillment Radius:</span>
-                                        <span class="spec-val">12.5 Miles (York &amp; Lancaster)</span>
-                                    </div>
-                                    <div class="spec-row">
-                                        <span class="spec-label">Fleet SLA:</span>
-                                        <span class="spec-val">&lt; 32 min average transit</span>
+                                        <p class="card-text text-secondary small">
+                                            Direct integration with DoorDash Drive API for instant courier dispatch. Customers receive live GPS driver tracking via branded SMS updates.
+                                        </p>
+                                        <ul class="list-group list-group-flush small mb-3">
+                                            <li class="list-group-item px-0 d-flex justify-content-between">
+                                                <span class="text-body-secondary">Auth Method:</span>
+                                                <span class="fw-semibold">HMAC-SHA256 JWT Keys</span>
+                                            </li>
+                                            <li class="list-group-item px-0 d-flex justify-content-between">
+                                                <span class="text-body-secondary">Fulfillment Radius:</span>
+                                                <span class="fw-semibold">12.5 Miles (York &amp; Lancaster)</span>
+                                            </li>
+                                            <li class="list-group-item px-0 d-flex justify-content-between">
+                                                <span class="text-body-secondary">Fleet SLA:</span>
+                                                <span class="fw-semibold">&lt; 32 min average transit</span>
+                                            </li>
+                                        </ul>
                                     </div>
                                 </div>
-                            </div>
-
-                            <div class="service-actions-row">
-                                <button class="btn-configure-api" onclick="openApiConfigModal('doordash')">
-                                    <i class="fa-solid fa-key"></i> Configure API
-                                </button>
-                                <a href="https://developer.doordash.com/" target="_blank" rel="noopener noreferrer" class="btn-outward-link" title="Open DoorDash Developer Onboarding">
-                                    Setup Link <i class="fa-solid fa-arrow-up-right-from-square"></i>
-                                </a>
+                                <div class="card-footer bg-white border-top p-3 d-flex gap-2">
+                                    <button class="btn btn-dark btn-sm flex-grow-1" onclick="openApiConfigModal('doordash')">
+                                        <i class="fa-solid fa-key me-1"></i> Configure API
+                                    </button>
+                                    <a href="https://developer.doordash.com/" target="_blank" rel="noopener noreferrer" class="btn btn-outline-secondary btn-sm" title="Open DoorDash Developer Onboarding">
+                                        Setup Link <i class="fa-solid fa-arrow-up-right-from-square ms-1"></i>
+                                    </a>
+                                </div>
                             </div>
                         </div>
 
-                        <!-- 3. UBER DIRECT (Top Urban / Metropolitan Demographic) -->
-                        <div class="service-card" data-category="fleet" data-status="connected" data-service-id="uber">
-                            <div>
-                                <div class="service-card-top">
-                                    <div class="service-brand">
-                                        <div class="service-logo-box" style="background: linear-gradient(135deg, #06c167 0%, #047857 100%);">
-                                            <i class="fa-brands fa-uber"></i>
+                        <!-- 3. UBER DIRECT -->
+                        <div class="col-12 col-lg-6 service-col" data-category="fleet" data-status="connected" data-service-id="uber">
+                            <div class="card shadow-sm border h-100 d-flex flex-column justify-content-between">
+                                <div>
+                                    <div class="card-header bg-white py-3 border-bottom d-flex justify-content-between align-items-center">
+                                        <div class="d-flex align-items-center gap-2">
+                                            <div class="rounded-3 p-2 bg-success text-white d-flex align-items-center justify-content-center"
+                                                style="width: 38px; height: 38px;">
+                                                <i class="fa-brands fa-uber fs-5"></i>
+                                            </div>
+                                            <div>
+                                                <h5 class="card-title mb-0 fw-bold text-dark">Uber Direct</h5>
+                                                <small class="text-body-secondary font-monospace">On-Demand Merchant Delivery</small>
+                                            </div>
                                         </div>
-                                        <div class="service-brand-text">
-                                            <h3>Uber Direct</h3>
-                                            <div class="service-category-tag">On-Demand Merchant Delivery</div>
+                                        <span class="badge text-bg-success" id="status-badge-uber">Verified &amp; Active</span>
+                                    </div>
+                                    <div class="card-body">
+                                        <div class="alert alert-success py-2 px-3 small mb-3">
+                                            <i class="fa-solid fa-bolt me-1"></i><strong>Urban &amp; Fast Choice (23% US Share):</strong> Metropolitan, campus, and late-night pooling.
                                         </div>
-                                    </div>
-                                    <div class="status-pill verified" id="status-badge-uber">
-                                        <span class="status-dot"></span> Verified &amp; Active
-                                    </div>
-                                </div>
-
-                                <div class="demographic-callout">
-                                    <div class="demographic-headline">
-                                        <i class="fa-solid fa-bolt"></i> Urban &amp; Fast Courier Choice (23% US Share)
-                                    </div>
-                                    <div class="demographic-subtext">
-                                        Top preference for metropolitan, college campus, and late-night demographics with dense local courier pooling and rapid dispatch.
-                                    </div>
-                                </div>
-
-                                <p class="service-desc">
-                                    Dispatches high-priority deliveries using Uber's unified courier network with proof of delivery photos and dynamic courier route optimization.
-                                </p>
-
-                                <div class="service-specs-table">
-                                    <div class="spec-row">
-                                        <span class="spec-label">Security:</span>
-                                        <span class="spec-val">OAuth 2.0 Client Credentials</span>
-                                    </div>
-                                    <div class="spec-row">
-                                        <span class="spec-label">Proof of Delivery:</span>
-                                        <span class="spec-val">Barcode / Photo Required</span>
-                                    </div>
-                                    <div class="spec-row">
-                                        <span class="spec-label">Webhooks:</span>
-                                        <span class="spec-val">Active (Status &amp; Driver Location)</span>
+                                        <p class="card-text text-secondary small">
+                                            Dispatches high-priority deliveries using Uber's unified courier network with proof of delivery photos and dynamic courier route optimization.
+                                        </p>
+                                        <ul class="list-group list-group-flush small mb-3">
+                                            <li class="list-group-item px-0 d-flex justify-content-between">
+                                                <span class="text-body-secondary">Security:</span>
+                                                <span class="fw-semibold">OAuth 2.0 Client Credentials</span>
+                                            </li>
+                                            <li class="list-group-item px-0 d-flex justify-content-between">
+                                                <span class="text-body-secondary">Proof of Delivery:</span>
+                                                <span class="fw-semibold">Barcode / Photo Required</span>
+                                            </li>
+                                            <li class="list-group-item px-0 d-flex justify-content-between">
+                                                <span class="text-body-secondary">Webhooks:</span>
+                                                <span class="fw-semibold">Active (Status &amp; Driver Location)</span>
+                                            </li>
+                                        </ul>
                                     </div>
                                 </div>
-                            </div>
-
-                            <div class="service-actions-row">
-                                <button class="btn-configure-api" onclick="openApiConfigModal('uber')">
-                                    <i class="fa-solid fa-key"></i> Configure API
-                                </button>
-                                <a href="https://developer.uber.com/docs/deliveries/overview" target="_blank" rel="noopener noreferrer" class="btn-outward-link" title="Open Uber Direct Developer Portal">
-                                    Setup Link <i class="fa-solid fa-arrow-up-right-from-square"></i>
-                                </a>
+                                <div class="card-footer bg-white border-top p-3 d-flex gap-2">
+                                    <button class="btn btn-dark btn-sm flex-grow-1" onclick="openApiConfigModal('uber')">
+                                        <i class="fa-solid fa-key me-1"></i> Configure API
+                                    </button>
+                                    <a href="https://developer.uber.com/docs/deliveries/overview" target="_blank" rel="noopener noreferrer" class="btn btn-outline-secondary btn-sm" title="Open Uber Direct Developer Portal">
+                                        Setup Link <i class="fa-solid fa-arrow-up-right-from-square ms-1"></i>
+                                    </a>
+                                </div>
                             </div>
                         </div>
 
-                        <!-- 4. GRUBHUB DIRECT (East Coast & Corporate Demographic) -->
-                        <div class="service-card" data-category="pos" data-status="pending" data-service-id="grubhub">
-                            <div>
-                                <div class="service-card-top">
-                                    <div class="service-brand">
-                                        <div class="service-logo-box" style="background: linear-gradient(135deg, #f63440 0%, #991b1b 100%);">
-                                            <i class="fa-solid fa-utensils"></i>
+                        <!-- 4. GRUBHUB DIRECT -->
+                        <div class="col-12 col-lg-6 service-col" data-category="pos" data-status="pending" data-service-id="grubhub">
+                            <div class="card shadow-sm border h-100 d-flex flex-column justify-content-between">
+                                <div>
+                                    <div class="card-header bg-white py-3 border-bottom d-flex justify-content-between align-items-center">
+                                        <div class="d-flex align-items-center gap-2">
+                                            <div class="rounded-3 p-2 bg-danger-subtle text-danger d-flex align-items-center justify-content-center"
+                                                style="width: 38px; height: 38px;">
+                                                <i class="fa-solid fa-utensils fs-5"></i>
+                                            </div>
+                                            <div>
+                                                <h5 class="card-title mb-0 fw-bold text-dark">Grubhub Direct</h5>
+                                                <small class="text-body-secondary font-monospace">Direct Storefront &amp; API</small>
+                                            </div>
                                         </div>
-                                        <div class="service-brand-text">
-                                            <h3>Grubhub Direct</h3>
-                                            <div class="service-category-tag">Direct Storefront &amp; API</div>
+                                        <span class="badge text-bg-warning text-dark" id="status-badge-grubhub">Ready to Connect</span>
+                                    </div>
+                                    <div class="card-body">
+                                        <div class="alert alert-secondary py-2 px-3 small mb-3">
+                                            <i class="fa-solid fa-building-columns me-1"></i><strong>East Coast &amp; Campus Stronghold:</strong> Northeast corporate lunch and student programs.
                                         </div>
-                                    </div>
-                                    <div class="status-pill pending" id="status-badge-grubhub">
-                                        <span class="status-dot"></span> Ready to Connect
-                                    </div>
-                                </div>
-
-                                <div class="demographic-callout">
-                                    <div class="demographic-headline">
-                                        <i class="fa-solid fa-building-columns"></i> East Coast &amp; Campus Stronghold
-                                    </div>
-                                    <div class="demographic-subtext">
-                                        Favored by Northeast corporate lunch programs, regional diners, and student meal account payment ecosystems.
-                                    </div>
-                                </div>
-
-                                <p class="service-desc">
-                                    Direct ordering integration with Grubhub for Restaurants. Synchronizes custom sub combos, loaded fry add-ons, and catering pre-orders.
-                                </p>
-
-                                <div class="service-specs-table">
-                                    <div class="spec-row">
-                                        <span class="spec-label">API Version:</span>
-                                        <span class="spec-val">Grubhub Merchant API v3</span>
-                                    </div>
-                                    <div class="spec-row">
-                                        <span class="spec-label">Status:</span>
-                                        <span class="spec-val">Credentials Not Submitted</span>
-                                    </div>
-                                    <div class="spec-row">
-                                        <span class="spec-label">Commission:</span>
-                                        <span class="spec-val">0% Direct Branded Mode</span>
+                                        <p class="card-text text-secondary small">
+                                            Direct ordering integration with Grubhub for Restaurants. Synchronizes custom sub combos, loaded fry add-ons, and catering pre-orders.
+                                        </p>
+                                        <ul class="list-group list-group-flush small mb-3">
+                                            <li class="list-group-item px-0 d-flex justify-content-between">
+                                                <span class="text-body-secondary">API Version:</span>
+                                                <span class="fw-semibold">Grubhub Merchant API v3</span>
+                                            </li>
+                                            <li class="list-group-item px-0 d-flex justify-content-between">
+                                                <span class="text-body-secondary">Status:</span>
+                                                <span class="fw-semibold">Credentials Not Submitted</span>
+                                            </li>
+                                            <li class="list-group-item px-0 d-flex justify-content-between">
+                                                <span class="text-body-secondary">Commission:</span>
+                                                <span class="fw-semibold">0% Direct Branded Mode</span>
+                                            </li>
+                                        </ul>
                                     </div>
                                 </div>
-                            </div>
-
-                            <div class="service-actions-row">
-                                <button class="btn-configure-api" onclick="openApiConfigModal('grubhub')">
-                                    <i class="fa-solid fa-key"></i> Configure API
-                                </button>
-                                <a href="https://get.grubhub.com/" target="_blank" rel="noopener noreferrer" class="btn-outward-link" title="Open Grubhub Merchant Setup">
-                                    Setup Link <i class="fa-solid fa-arrow-up-right-from-square"></i>
-                                </a>
+                                <div class="card-footer bg-white border-top p-3 d-flex gap-2">
+                                    <button class="btn btn-dark btn-sm flex-grow-1" onclick="openApiConfigModal('grubhub')">
+                                        <i class="fa-solid fa-key me-1"></i> Configure API
+                                    </button>
+                                    <a href="https://get.grubhub.com/" target="_blank" rel="noopener noreferrer" class="btn btn-outline-secondary btn-sm" title="Open Grubhub Merchant Setup">
+                                        Setup Link <i class="fa-solid fa-arrow-up-right-from-square ms-1"></i>
+                                    </a>
+                                </div>
                             </div>
                         </div>
 
-                        <!-- 5. SQUARE FOR RESTAURANTS (Artisan / Independent Demographic) -->
-                        <div class="service-card" data-category="pos" data-status="pending" data-service-id="square">
-                            <div>
-                                <div class="service-card-top">
-                                    <div class="service-brand">
-                                        <div class="service-logo-box" style="background: linear-gradient(135deg, #006aff 0%, #1d4ed8 100%);">
-                                            <i class="fa-solid fa-square"></i>
+                        <!-- 5. SQUARE DELIVERY -->
+                        <div class="col-12 col-lg-6 service-col" data-category="pos" data-status="pending" data-service-id="square">
+                            <div class="card shadow-sm border h-100 d-flex flex-column justify-content-between">
+                                <div>
+                                    <div class="card-header bg-white py-3 border-bottom d-flex justify-content-between align-items-center">
+                                        <div class="d-flex align-items-center gap-2">
+                                            <div class="rounded-3 p-2 bg-primary text-white d-flex align-items-center justify-content-center"
+                                                style="width: 38px; height: 38px;">
+                                                <i class="fa-solid fa-square fs-5"></i>
+                                            </div>
+                                            <div>
+                                                <h5 class="card-title mb-0 fw-bold text-dark">Square Delivery</h5>
+                                                <small class="text-body-secondary font-monospace">Square Orders &amp; Terminal API</small>
+                                            </div>
                                         </div>
-                                        <div class="service-brand-text">
-                                            <h3>Square Delivery</h3>
-                                            <div class="service-category-tag">Square Orders &amp; Terminal API</div>
+                                        <span class="badge text-bg-secondary" id="status-badge-square">Not Configured</span>
+                                    </div>
+                                    <div class="card-body">
+                                        <div class="alert alert-secondary py-2 px-3 small mb-3">
+                                            <i class="fa-solid fa-store me-1"></i><strong>Independent &amp; Craft Deli Demographic:</strong> Unified in-person and digital ticket handling.
                                         </div>
-                                    </div>
-                                    <div class="status-pill not-configured" id="status-badge-square">
-                                        <span class="status-dot"></span> Not Configured
-                                    </div>
-                                </div>
-
-                                <div class="demographic-callout">
-                                    <div class="demographic-headline">
-                                        <i class="fa-solid fa-store"></i> Independent &amp; Craft Deli Demographic
-                                    </div>
-                                    <div class="demographic-subtext">
-                                        Preferred choice for boutique sandwich shops and multi-station counters seeking unified in-person and digital ticket handling.
-                                    </div>
-                                </div>
-
-                                <p class="service-desc">
-                                    Bridges your online sub orders into the Square Point-of-Sale catalog, triggering integrated on-demand driver dispatch via Square's courier partners.
-                                </p>
-
-                                <div class="service-specs-table">
-                                    <div class="spec-row">
-                                        <span class="spec-label">Auth Protocol:</span>
-                                        <span class="spec-val">Square OAuth Access Token</span>
-                                    </div>
-                                    <div class="spec-row">
-                                        <span class="spec-label">Hardware Link:</span>
-                                        <span class="spec-val">Square Terminal / Register</span>
-                                    </div>
-                                    <div class="spec-row">
-                                        <span class="spec-label">Sync Frequency:</span>
-                                        <span class="spec-val">Instant Webhook Callbacks</span>
+                                        <p class="card-text text-secondary small">
+                                            Bridges your online sub orders into the Square Point-of-Sale catalog, triggering integrated on-demand driver dispatch via Square's courier partners.
+                                        </p>
+                                        <ul class="list-group list-group-flush small mb-3">
+                                            <li class="list-group-item px-0 d-flex justify-content-between">
+                                                <span class="text-body-secondary">Auth Protocol:</span>
+                                                <span class="fw-semibold">Square OAuth Access Token</span>
+                                            </li>
+                                            <li class="list-group-item px-0 d-flex justify-content-between">
+                                                <span class="text-body-secondary">Hardware Link:</span>
+                                                <span class="fw-semibold">Square Terminal / Register</span>
+                                            </li>
+                                            <li class="list-group-item px-0 d-flex justify-content-between">
+                                                <span class="text-body-secondary">Sync Frequency:</span>
+                                                <span class="fw-semibold">Instant Webhook Callbacks</span>
+                                            </li>
+                                        </ul>
                                     </div>
                                 </div>
-                            </div>
-
-                            <div class="service-actions-row">
-                                <button class="btn-configure-api" onclick="openApiConfigModal('square')">
-                                    <i class="fa-solid fa-key"></i> Configure API
-                                </button>
-                                <a href="https://developer.squareup.com/" target="_blank" rel="noopener noreferrer" class="btn-outward-link" title="Open Square Developer Portal">
-                                    Setup Link <i class="fa-solid fa-arrow-up-right-from-square"></i>
-                                </a>
+                                <div class="card-footer bg-white border-top p-3 d-flex gap-2">
+                                    <button class="btn btn-dark btn-sm flex-grow-1" onclick="openApiConfigModal('square')">
+                                        <i class="fa-solid fa-key me-1"></i> Configure API
+                                    </button>
+                                    <a href="https://developer.squareup.com/" target="_blank" rel="noopener noreferrer" class="btn btn-outline-secondary btn-sm" title="Open Square Developer Portal">
+                                        Setup Link <i class="fa-solid fa-arrow-up-right-from-square ms-1"></i>
+                                    </a>
+                                </div>
                             </div>
                         </div>
 
-                        <!-- 6. CLOVER POS (Franchise & Retail Food Demographic) -->
-                        <div class="service-card" data-category="pos" data-status="pending" data-service-id="clover">
-                            <div>
-                                <div class="service-card-top">
-                                    <div class="service-brand">
-                                        <div class="service-logo-box" style="background: linear-gradient(135deg, #1cb24c 0%, #0f766e 100%);">
-                                            <i class="fa-solid fa-clover"></i>
+                        <!-- 6. CLOVER POS -->
+                        <div class="col-12 col-lg-6 service-col" data-category="pos" data-status="pending" data-service-id="clover">
+                            <div class="card shadow-sm border h-100 d-flex flex-column justify-content-between">
+                                <div>
+                                    <div class="card-header bg-white py-3 border-bottom d-flex justify-content-between align-items-center">
+                                        <div class="d-flex align-items-center gap-2">
+                                            <div class="rounded-3 p-2 bg-success-subtle text-success d-flex align-items-center justify-content-center"
+                                                style="width: 38px; height: 38px;">
+                                                <i class="fa-solid fa-clover fs-5"></i>
+                                            </div>
+                                            <div>
+                                                <h5 class="card-title mb-0 fw-bold text-dark">Clover POS API</h5>
+                                                <small class="text-body-secondary font-monospace">Clover Online Ordering</small>
+                                            </div>
                                         </div>
-                                        <div class="service-brand-text">
-                                            <h3>Clover POS API</h3>
-                                            <div class="service-category-tag">Clover Online Ordering Platform</div>
+                                        <span class="badge text-bg-secondary" id="status-badge-clover">Not Configured</span>
+                                    </div>
+                                    <div class="card-body">
+                                        <div class="alert alert-secondary py-2 px-3 small mb-3">
+                                            <i class="fa-solid fa-shop me-1"></i><strong>Diner &amp; Family Grill Demographic:</strong> Thermal kitchen printers and counter stations.
                                         </div>
-                                    </div>
-                                    <div class="status-pill not-configured" id="status-badge-clover">
-                                        <span class="status-dot"></span> Not Configured
-                                    </div>
-                                </div>
-
-                                <div class="demographic-callout">
-                                    <div class="demographic-headline">
-                                        <i class="fa-solid fa-shop"></i> Neighborhood Diner &amp; Grill Demographic
-                                    </div>
-                                    <div class="demographic-subtext">
-                                        High market penetration in traditional Italian-American family grills with thermal kitchen printers and dedicated counter stations.
-                                    </div>
-                                </div>
-
-                                <p class="service-desc">
-                                    Connects website orders directly into Clover station queues with table and takeout status tracking and multi-merchant payment authorization.
-                                </p>
-
-                                <div class="service-specs-table">
-                                    <div class="spec-row">
-                                        <span class="spec-label">Environment:</span>
-                                        <span class="spec-val">Clover REST API v3</span>
-                                    </div>
-                                    <div class="spec-row">
-                                        <span class="spec-label">Merchant UUID:</span>
-                                        <span class="spec-val">Unassigned</span>
-                                    </div>
-                                    <div class="spec-row">
-                                        <span class="spec-label">Order Routing:</span>
-                                        <span class="spec-val">Direct Station Printing</span>
+                                        <p class="card-text text-secondary small">
+                                            Connects website orders directly into Clover station queues with table and takeout status tracking and multi-merchant payment authorization.
+                                        </p>
+                                        <ul class="list-group list-group-flush small mb-3">
+                                            <li class="list-group-item px-0 d-flex justify-content-between">
+                                                <span class="text-body-secondary">Environment:</span>
+                                                <span class="fw-semibold">Clover REST API v3</span>
+                                            </li>
+                                            <li class="list-group-item px-0 d-flex justify-content-between">
+                                                <span class="text-body-secondary">Merchant UUID:</span>
+                                                <span class="fw-semibold">Unassigned</span>
+                                            </li>
+                                            <li class="list-group-item px-0 d-flex justify-content-between">
+                                                <span class="text-body-secondary">Order Routing:</span>
+                                                <span class="fw-semibold">Direct Station Printing</span>
+                                            </li>
+                                        </ul>
                                     </div>
                                 </div>
-                            </div>
-
-                            <div class="service-actions-row">
-                                <button class="btn-configure-api" onclick="openApiConfigModal('clover')">
-                                    <i class="fa-solid fa-key"></i> Configure API
-                                </button>
-                                <a href="https://www.clover.com/developers" target="_blank" rel="noopener noreferrer" class="btn-outward-link" title="Open Clover Developer Platform">
-                                    Setup Link <i class="fa-solid fa-arrow-up-right-from-square"></i>
-                                </a>
+                                <div class="card-footer bg-white border-top p-3 d-flex gap-2">
+                                    <button class="btn btn-dark btn-sm flex-grow-1" onclick="openApiConfigModal('clover')">
+                                        <i class="fa-solid fa-key me-1"></i> Configure API
+                                    </button>
+                                    <a href="https://www.clover.com/developers" target="_blank" rel="noopener noreferrer" class="btn btn-outline-secondary btn-sm" title="Open Clover Developer Platform">
+                                        Setup Link <i class="fa-solid fa-arrow-up-right-from-square ms-1"></i>
+                                    </a>
+                                </div>
                             </div>
                         </div>
 
@@ -1801,38 +606,32 @@
 
                 <!-- ----------------------------------------------------------------
                      PAGE 2: MENU ITEMS SETUP PAGE
-                     (GREYED OUT IN SIDEBAR, CLICKABLE, JUST HAS THE TITLE FOR NOW)
                      ---------------------------------------------------------------- -->
                 <section class="admin-page-view" id="view-menu-items">
-                    <div class="menu-items-page-container">
-                        <!-- Specified in prompt: just place the title for now -->
-                        <div class="menu-page-header-box">
-                            <h1 class="page-title">Menu Items Setup</h1>
-                            <p class="page-subtitle">
+                    <div class="card shadow-sm border">
+                        <div class="card-header bg-white py-3 border-bottom">
+                            <h2 class="h4 fw-bold text-dark mb-1">Menu Items Setup</h2>
+                            <p class="text-secondary small mb-0">
                                 Configure your restaurant menu items, categories, options, modifiers, and prices for synchronized dispatch across all connected delivery platforms.
                             </p>
                         </div>
-
-                        <!-- Clean modern placeholder card acknowledging the next phase -->
-                        <div class="menu-placeholder-card">
-                            <div class="menu-placeholder-icon">
-                                <i class="fa-solid fa-utensils"></i>
+                        <div class="card-body p-4 p-md-5 text-center">
+                            <div class="rounded-circle bg-light border d-inline-flex align-items-center justify-content-center p-4 mb-3 text-secondary" style="width: 72px; height: 72px;">
+                                <i class="fa-solid fa-utensils fs-3"></i>
                             </div>
-                            <h2>Menu Catalog &amp; Category Mapping</h2>
-                            <p>
+                            <h3 class="h5 fw-bold text-dark mb-2">Menu Catalog &amp; Category Mapping</h3>
+                            <p class="text-secondary small mx-auto mb-4" style="max-width: 540px;">
                                 Menu setup is staged and ready for catalog ingestion. Once your delivery services are verified, items created here will automatically synchronize with Toast POS, DoorDash Drive, and Uber Direct.
                             </p>
-                            <div class="menu-category-chips">
-                                <span class="cat-chip"><i class="fa-solid fa-bread-slice"></i> Hot Italian Delivery Subs</span>
-                                <span class="cat-chip"><i class="fa-solid fa-drumstick-bite"></i> Philly Cheesesteaks</span>
-                                <span class="cat-chip"><i class="fa-solid fa-bowl-food"></i> Loaded Gourmet Fries</span>
-                                <span class="cat-chip"><i class="fa-solid fa-pizza-slice"></i> Artisan Strombolis</span>
+                            <div class="d-flex flex-wrap justify-content-center gap-2 mb-4">
+                                <span class="badge text-bg-light border text-dark py-2 px-3"><i class="fa-solid fa-bread-slice me-1 text-danger"></i> Hot Italian Delivery Subs</span>
+                                <span class="badge text-bg-light border text-dark py-2 px-3"><i class="fa-solid fa-drumstick-bite me-1 text-warning"></i> Philly Cheesesteaks</span>
+                                <span class="badge text-bg-light border text-dark py-2 px-3"><i class="fa-solid fa-bowl-food me-1 text-success"></i> Loaded Gourmet Fries</span>
+                                <span class="badge text-bg-light border text-dark py-2 px-3"><i class="fa-solid fa-pizza-slice me-1 text-primary"></i> Artisan Strombolis</span>
                             </div>
-                            <div style="margin-top: 24px;">
-                                <button class="btn-action primary" onclick="switchAdminTab('delivery-services')">
-                                    &larr; Back to Delivery Services Setup
-                                </button>
-                            </div>
+                            <button class="btn btn-primary" onclick="switchAdminTab('delivery-services')">
+                                &larr; Back to Delivery Services Setup
+                            </button>
                         </div>
                     </div>
                 </section>
@@ -1841,59 +640,59 @@
                      PAGE 3: DISPATCH TELEMETRY & WEBHOOK ACTIVITY
                      ---------------------------------------------------------------- -->
                 <section class="admin-page-view" id="view-dispatch-logs">
-                    <div class="page-header-row">
+                    <div class="d-flex flex-column flex-sm-row justify-content-between align-items-sm-center gap-3 mb-4 pb-2 border-bottom">
                         <div>
-                            <h1 class="page-title">Dispatch Telemetry &amp; Webhooks</h1>
-                            <p class="page-subtitle">
+                            <h2 class="h3 fw-bold text-dark mb-1">Dispatch Telemetry &amp; Webhooks</h2>
+                            <p class="text-secondary small mb-0">
                                 Real-time order dispatch telemetry, API authentication handshakes, and carrier callback events processed by the ASP.NET Core 9 backend.
                             </p>
                         </div>
-                        <div class="page-actions-group">
-                            <button class="btn-action secondary" onclick="seedSampleDispatchLog()">
-                                <i class="fa-solid fa-satellite-dish"></i> Simulate Dispatch Ping
-                            </button>
-                        </div>
+                        <button class="btn btn-outline-secondary btn-sm" onclick="seedSampleDispatchLog()">
+                            <i class="fa-solid fa-satellite-dish me-1"></i> Simulate Dispatch Ping
+                        </button>
                     </div>
 
-                    <div class="telemetry-table-card">
-                        <table class="telemetry-table">
-                            <thead>
-                                <tr>
-                                    <th>Timestamp</th>
-                                    <th>Provider API</th>
-                                    <th>Dispatch Event</th>
-                                    <th>Status</th>
-                                    <th>Latency</th>
-                                    <th>Order Reference</th>
-                                </tr>
-                            </thead>
-                            <tbody id="telemetryTableBody">
-                                <tr>
-                                    <td style="font-family: var(--font-mono); color: var(--text-muted);">2026-10-02 13:02:18</td>
-                                    <td><strong>Toast POS</strong></td>
-                                    <td><code>ORDERS_API.INJECT_TICKET</code></td>
-                                    <td><span class="status-pill verified"><span class="status-dot"></span> 200 OK</span></td>
-                                    <td style="font-family: var(--font-mono);">24 ms</td>
-                                    <td style="font-family: var(--font-mono);">#SUB-2026-9812 (Italian Sub)</td>
-                                </tr>
-                                <tr>
-                                    <td style="font-family: var(--font-mono); color: var(--text-muted);">2026-10-02 13:01:42</td>
-                                    <td><strong>DoorDash Drive</strong></td>
-                                    <td><code>DELIVERY.COURIER_ASSIGNED</code></td>
-                                    <td><span class="status-pill verified"><span class="status-dot"></span> 200 OK</span></td>
-                                    <td style="font-family: var(--font-mono);">38 ms</td>
-                                    <td style="font-family: var(--font-mono);">#DASHER-7492 (Driver En Route)</td>
-                                </tr>
-                                <tr>
-                                    <td style="font-family: var(--font-mono); color: var(--text-muted);">2026-10-02 12:58:05</td>
-                                    <td><strong>Uber Direct</strong></td>
-                                    <td><code>WEBHOOK.DISPATCH_ACCEPTED</code></td>
-                                    <td><span class="status-pill verified"><span class="status-dot"></span> 200 OK</span></td>
-                                    <td style="font-family: var(--font-mono);">19 ms</td>
-                                    <td style="font-family: var(--font-mono);">#UBR-8491 (Loaded Fries x2)</td>
-                                </tr>
-                            </tbody>
-                        </table>
+                    <div class="card shadow-sm border">
+                        <div class="table-responsive">
+                            <table class="table table-hover table-striped align-middle mb-0">
+                                <thead class="table-light">
+                                    <tr>
+                                        <th class="font-monospace small text-secondary">Timestamp</th>
+                                        <th class="small text-secondary">Provider API</th>
+                                        <th class="small text-secondary">Dispatch Event</th>
+                                        <th class="small text-secondary">Status</th>
+                                        <th class="font-monospace small text-secondary">Latency</th>
+                                        <th class="font-monospace small text-secondary">Order Reference</th>
+                                    </tr>
+                                </thead>
+                                <tbody id="telemetryTableBody" class="small">
+                                    <tr>
+                                        <td class="font-monospace text-secondary">2026-10-02 13:02:18</td>
+                                        <td class="fw-bold">Toast POS</td>
+                                        <td><code class="text-dark bg-light px-1 py-0.5 border rounded">ORDERS_API.INJECT_TICKET</code></td>
+                                        <td><span class="badge text-bg-success">200 OK</span></td>
+                                        <td class="font-monospace">24 ms</td>
+                                        <td class="font-monospace text-secondary">#SUB-2026-9812 (Italian Sub)</td>
+                                    </tr>
+                                    <tr>
+                                        <td class="font-monospace text-secondary">2026-10-02 13:01:42</td>
+                                        <td class="fw-bold">DoorDash Drive</td>
+                                        <td><code class="text-dark bg-light px-1 py-0.5 border rounded">DELIVERY.COURIER_ASSIGNED</code></td>
+                                        <td><span class="badge text-bg-success">200 OK</span></td>
+                                        <td class="font-monospace">38 ms</td>
+                                        <td class="font-monospace text-secondary">#DASHER-7492 (Driver En Route)</td>
+                                    </tr>
+                                    <tr>
+                                        <td class="font-monospace text-secondary">2026-10-02 12:58:05</td>
+                                        <td class="fw-bold">Uber Direct</td>
+                                        <td><code class="text-dark bg-light px-1 py-0.5 border rounded">WEBHOOK.DISPATCH_ACCEPTED</code></td>
+                                        <td><span class="badge text-bg-success">200 OK</span></td>
+                                        <td class="font-monospace">19 ms</td>
+                                        <td class="font-monospace text-secondary">#UBR-8491 (Loaded Fries x2)</td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
                     </div>
                 </section>
 
@@ -1901,164 +700,169 @@
                      PAGE 4: STOREFRONT PREVIEW
                      ---------------------------------------------------------------- -->
                 <section class="admin-page-view" id="view-store-preview">
-                    <div class="page-header-row">
+                    <div class="d-flex flex-column flex-sm-row justify-content-between align-items-sm-center gap-3 mb-4 pb-2 border-bottom">
                         <div>
-                            <h1 class="page-title">Live Storefront &amp; Community Calendar Preview</h1>
-                            <p class="page-subtitle">
+                            <h2 class="h3 fw-bold text-dark mb-1">Live Storefront &amp; Community Calendar Preview</h2>
+                            <p class="text-secondary small mb-0">
                                 Review how customers experience Parma Sub &amp; Fry Co. with real-time specials, online ordering bag, and community events.
                             </p>
                         </div>
-                        <div class="page-actions-group">
-                            <button class="btn-action primary" onclick="switchAdminTab('delivery-services')">
-                                &larr; Return to Admin Integrations
-                            </button>
-                        </div>
+                        <button class="btn btn-outline-primary btn-sm" onclick="switchAdminTab('delivery-services')">
+                            &larr; Return to Admin Integrations
+                        </button>
                     </div>
 
-                    <div style="background: #ffffff; border: 1px solid var(--card-border); border-radius: 16px; padding: 24px; text-align: center;">
-                        <img src="./images/hero-cheesesteak.jpg" alt="Parma Hero Cheesesteak" style="max-width: 480px; width: 100%; border-radius: 12px; margin-bottom: 16px; box-shadow: 0 4px 12px rgba(0,0,0,0.1);">
-                        <h2 style="font-family: var(--font-serif); font-size: 1.5rem; color: #7c1414;">Parma Sub &amp; Fry Co. Storefront</h2>
-                        <p style="color: var(--text-muted); font-size: 0.88rem; max-width: 540px; margin: 8px auto 18px;">
+                    <div class="card shadow-sm border text-center p-4 p-md-5">
+                        <img src="./images/hero-cheesesteak.jpg" alt="Parma Hero Cheesesteak" class="img-fluid rounded shadow-sm mx-auto mb-4" style="max-width: 520px;">
+                        <h3 class="h4 fw-bold text-dark mb-2">Parma Sub &amp; Fry Co. Storefront</h3>
+                        <p class="text-secondary small mx-auto mb-4" style="max-width: 540px;">
                             The full public customer frontend, loaded subs menu, and monthly community calendar are operational and ready to receive dispatch requests from your connected delivery APIs.
                         </p>
-                        <a href="./case-study.html" class="btn-action secondary" style="display: inline-flex;">
-                            <i class="fa-solid fa-book-open"></i> Read Full Engineering Case Study
-                        </a>
+                        <div>
+                            <a href="./case-study.html" class="btn btn-outline-secondary">
+                                <i class="fa-solid fa-book-open me-1"></i> Read Full Engineering Case Study
+                            </a>
+                        </div>
                     </div>
                 </section>
 
             </div>
-        </main>
+        </div>
     </div>
 
     <!-- ====================================================================
-         INTERACTIVE API CONFIGURATION & VERIFICATION MODAL
+         STANDARD BOOTSTRAP 5 MODAL: API CONFIGURATION & VERIFICATION
          ==================================================================== -->
-    <div class="api-modal-backdrop" id="apiConfigModal">
-        <div class="api-modal-card">
-            <!-- Modal Header -->
-            <div class="api-modal-header">
-                <div class="modal-service-badge">
-                    <div class="modal-service-logo" id="modalLogoBox" style="background: #ff5722;">
-                        <i class="fa-solid fa-bread-slice" id="modalLogoIcon"></i>
+    <div class="modal fade" id="apiConfigModal" tabindex="-1" aria-labelledby="modalServiceTitle" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered modal-lg">
+            <div class="modal-content shadow border">
+                <!-- Modal Header -->
+                <div class="modal-header">
+                    <div class="d-flex align-items-center gap-3">
+                        <div class="rounded-3 p-2 text-white d-flex align-items-center justify-content-center" id="modalLogoBox"
+                            style="width: 44px; height: 44px; background: #ff5722;">
+                            <i class="fa-solid fa-bread-slice fs-5" id="modalLogoIcon"></i>
+                        </div>
+                        <div>
+                            <h5 class="modal-title fw-bold text-dark mb-0" id="modalServiceTitle">Toast POS API Configuration</h5>
+                            <small class="text-body-secondary font-monospace" id="modalServiceSubtitle">Direct POS Ingestion &amp; Dispatch</small>
+                        </div>
                     </div>
-                    <div class="modal-service-title">
-                        <h3 id="modalServiceTitle">Toast POS API Configuration</h3>
-                        <span id="modalServiceSubtitle">Direct POS Ingestion &amp; Dispatch</span>
-                    </div>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                 </div>
-                <button type="button" class="btn-close-modal" onclick="closeApiConfigModal()">
-                    <i class="fa-solid fa-xmark"></i>
-                </button>
+
+                <!-- Modal Body -->
+                <form id="apiConfigForm" onsubmit="handleApiVerification(event)">
+                    <div class="modal-body p-4">
+                        <!-- Outward Link Alert -->
+                        <div class="alert alert-light border d-flex justify-content-between align-items-center mb-3 py-2 px-3">
+                            <span class="small text-secondary">Need developer credentials or portal onboarding for this platform?</span>
+                            <a href="#" target="_blank" rel="noopener noreferrer" id="modalOutwardLink" class="btn btn-sm btn-outline-dark">
+                                Provider Portal <i class="fa-solid fa-arrow-up-right-from-square ms-1"></i>
+                            </a>
+                        </div>
+
+                        <input type="hidden" id="modalCurrentServiceId" value="toast">
+
+                        <!-- Client ID Input -->
+                        <div class="mb-3">
+                            <label class="form-label small fw-bold text-dark" for="apiClientIdInput">
+                                Client ID / App Public Key <span class="text-danger">*</span>
+                            </label>
+                            <input type="text" id="apiClientIdInput" class="form-control font-monospace" placeholder="e.g. tst_app_98214fa7621bc" required>
+                        </div>
+
+                        <!-- API Secret Input -->
+                        <div class="mb-3">
+                            <label class="form-label small fw-bold text-dark" for="apiSecretInput">
+                                API Secret / Private Token <span class="text-danger">*</span>
+                            </label>
+                            <input type="password" id="apiSecretInput" class="form-control font-monospace" placeholder="••••••••••••••••••••••••••••••••" required>
+                        </div>
+
+                        <!-- Merchant Location ID Input -->
+                        <div class="mb-3">
+                            <label class="form-label small fw-bold text-dark" for="apiLocationIdInput">
+                                Merchant / Location ID <span class="text-danger">*</span>
+                            </label>
+                            <input type="text" id="apiLocationIdInput" class="form-control font-monospace" placeholder="e.g. parma-landisville-store-104" required>
+                        </div>
+
+                        <!-- Gateway Environment Selector (Bootstrap Radio Button Group) -->
+                        <div class="mb-3">
+                            <label class="form-label small fw-bold text-dark">Gateway Environment Mode</label>
+                            <div class="btn-group w-100" role="group" aria-label="Environment Selection">
+                                <input type="radio" class="btn-check" name="envRadio" id="envProductionRadio" autocomplete="off" checked onclick="selectEnvironment('prod')">
+                                <label class="btn btn-outline-success" for="envProductionRadio">
+                                    <i class="fa-solid fa-circle-check me-1"></i> Production Live (Order Dispatch)
+                                </label>
+                                <input type="radio" class="btn-check" name="envRadio" id="envSandboxRadio" autocomplete="off" onclick="selectEnvironment('sandbox')">
+                                <label class="btn btn-outline-primary" for="envSandboxRadio">
+                                    <i class="fa-solid fa-flask me-1"></i> Developer Sandbox (Testing)
+                                </label>
+                            </div>
+                        </div>
+
+                        <!-- Webhook Callback URL Display -->
+                        <div class="mb-3">
+                            <label class="form-label small fw-bold text-dark">Inbound Webhook Listener (.NET 9 Gateway)</label>
+                            <input type="text" id="apiWebhookUrlDisplay" class="form-control font-monospace bg-light" readonly
+                                value="https://api.parmapizzaandgrill.com/api/webhooks/dispatch/">
+                        </div>
+
+                        <!-- Verification Progress & Console -->
+                        <div class="d-none mt-3" id="verificationConsole">
+                            <div class="card bg-dark text-light font-monospace p-3 small border-secondary">
+                                <div class="d-flex justify-content-between align-items-center border-bottom border-secondary pb-2 mb-2 text-secondary">
+                                    <span><i class="fa-solid fa-terminal me-1"></i> .NET 9 API Handshake Simulator</span>
+                                    <span id="consoleTimer">0 ms</span>
+                                </div>
+                                <div class="progress mb-3" style="height: 6px;" role="progressbar" aria-valuenow="100" aria-valuemin="0" aria-valuemax="100">
+                                    <div class="progress-bar progress-bar-striped progress-bar-animated bg-success" style="width: 100%;"></div>
+                                </div>
+                                <div class="text-info mb-1" id="step1">
+                                    <span class="spinner-border spinner-border-sm me-1" role="status" aria-hidden="true"></span> Initializing TLS 1.3 encrypted handshake...
+                                </div>
+                                <div class="text-secondary mb-1 d-none" id="step2">
+                                    <span class="spinner-border spinner-border-sm me-1" role="status" aria-hidden="true"></span> Authenticating Client ID &amp; Signing Secret...
+                                </div>
+                                <div class="text-secondary mb-1 d-none" id="step3">
+                                    <span class="spinner-border spinner-border-sm me-1" role="status" aria-hidden="true"></span> Validating Location ID &amp; Courier Geofence...
+                                </div>
+                                <div class="text-success fw-bold d-none" id="step4">
+                                    <i class="fa-solid fa-check me-1"></i> Connection verified! Health check HTTP 200 OK.
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Modal Footer -->
+                    <div class="modal-footer bg-light border-top d-flex justify-content-between">
+                        <button type="button" class="btn btn-outline-secondary btn-sm" onclick="fillDemoCredentials()">
+                            <i class="fa-solid fa-wand-magic-sparkles me-1"></i> Fill Demo Credentials
+                        </button>
+                        <div class="d-flex gap-2">
+                            <button type="button" class="btn btn-secondary btn-sm" data-bs-dismiss="modal">Cancel</button>
+                            <button type="submit" class="btn btn-success btn-sm" id="btnSubmitVerify">
+                                <i class="fa-solid fa-shield-check me-1"></i> Submit &amp; Verify API
+                            </button>
+                        </div>
+                    </div>
+                </form>
             </div>
-
-            <!-- Modal Body -->
-            <form id="apiConfigForm" onsubmit="handleApiVerification(event)">
-                <div class="api-modal-body">
-                    <!-- Outward Link Banner -->
-                    <div class="modal-intro-box">
-                        <div class="modal-intro-text">
-                            Need credentials or developer onboarding for this platform?
-                        </div>
-                        <a href="#" target="_blank" rel="noopener noreferrer" id="modalOutwardLink" class="btn-action secondary" style="padding: 6px 12px; font-size: 0.76rem;">
-                            Provider Portal <i class="fa-solid fa-arrow-up-right-from-square"></i>
-                        </a>
-                    </div>
-
-                    <input type="hidden" id="modalCurrentServiceId" value="toast">
-
-                    <!-- Form Inputs -->
-                    <div class="form-group">
-                        <label class="form-label" for="apiClientIdInput">
-                            <span>Client ID / App Public Key <span class="req">*</span></span>
-                            <span style="font-size: 0.7rem; color: #94a3b8; font-family: var(--font-mono);">GUID / Alphanumeric</span>
-                        </label>
-                        <input type="text" id="apiClientIdInput" class="form-input" placeholder="e.g. tst_app_98214fa7621bc" required>
-                    </div>
-
-                    <div class="form-group">
-                        <label class="form-label" for="apiSecretInput">
-                            <span>API Secret / Private Token <span class="req">*</span></span>
-                            <span style="font-size: 0.7rem; color: #94a3b8; font-family: var(--font-mono);">Stored in secure vault</span>
-                        </label>
-                        <input type="password" id="apiSecretInput" class="form-input" placeholder="••••••••••••••••••••••••••••••••" required>
-                    </div>
-
-                    <div class="form-group">
-                        <label class="form-label" for="apiLocationIdInput">
-                            <span>Merchant / Location ID <span class="req">*</span></span>
-                            <span style="font-size: 0.7rem; color: #94a3b8; font-family: var(--font-mono);">Store Identifier</span>
-                        </label>
-                        <input type="text" id="apiLocationIdInput" class="form-input" placeholder="e.g. parma-landisville-store-104" required>
-                    </div>
-
-                    <!-- Environment Selector -->
-                    <div class="form-group">
-                        <label class="form-label">
-                            <span>Gateway Environment Mode</span>
-                        </label>
-                        <div class="env-radio-group">
-                            <div class="env-radio-card selected" id="envProductionCard" onclick="selectEnvironment('prod')">
-                                <i class="fa-solid fa-circle-check" style="color: #10b981;"></i>
-                                <div>
-                                    <div>Production Live</div>
-                                    <div style="font-size: 0.68rem; color: #64748b; font-weight: normal;">Live Order Dispatch</div>
-                                </div>
-                            </div>
-                            <div class="env-radio-card" id="envSandboxCard" onclick="selectEnvironment('sandbox')">
-                                <i class="fa-solid fa-flask" style="color: #6366f1;"></i>
-                                <div>
-                                    <div>Developer Sandbox</div>
-                                    <div style="font-size: 0.68rem; color: #64748b; font-weight: normal;">Test Simulator Mode</div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-
-                    <!-- Webhook Callback URL -->
-                    <div class="form-group">
-                        <label class="form-label">
-                            <span>Inbound Webhook Listener (.NET 9 Gateway)</span>
-                        </label>
-                        <input type="text" id="apiWebhookUrlDisplay" class="form-input" readonly style="background: #f1f5f9; color: #475569;" value="https://api.parmapizzaandgrill.com/api/webhooks/dispatch/">
-                    </div>
-
-                    <!-- Live Verification Terminal / Progress -->
-                    <div class="verification-console" id="verificationConsole">
-                        <div class="console-header">
-                            <span><i class="fa-solid fa-terminal"></i> .NET 9 API Handshake Simulator</span>
-                            <span id="consoleTimer">0 ms</span>
-                        </div>
-                        <div class="console-step" id="step1"><i class="fa-solid fa-spinner fa-spin"></i> Initializing TLS 1.3 encrypted handshake...</div>
-                        <div class="console-step" id="step2" style="display:none;"><i class="fa-solid fa-spinner fa-spin"></i> Authenticating Client ID &amp; Signing Secret...</div>
-                        <div class="console-step" id="step3" style="display:none;"><i class="fa-solid fa-spinner fa-spin"></i> Validating Location ID &amp; Courier Geofence...</div>
-                        <div class="console-step" id="step4" style="display:none;"><i class="fa-solid fa-check"></i> Connection verified! Health check HTTP 200 OK.</div>
-                    </div>
-                </div>
-
-                <!-- Modal Footer -->
-                <div class="api-modal-footer">
-                    <button type="button" class="btn-action secondary" onclick="fillDemoCredentials()">
-                        <i class="fa-solid fa-wand-magic-sparkles"></i> Fill Demo Credentials
-                    </button>
-                    <div style="display: flex; gap: 8px;">
-                        <button type="button" class="btn-action secondary" onclick="closeApiConfigModal()">
-                            Cancel
-                        </button>
-                        <button type="submit" class="btn-action primary" id="btnSubmitVerify">
-                            <i class="fa-solid fa-shield-check"></i> Submit &amp; Verify API
-                        </button>
-                    </div>
-                </div>
-            </form>
         </div>
     </div>
+
+    <!-- Bootstrap 5.3.3 JS Bundle -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"
+        integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz"
+        crossorigin="anonymous"></script>
 
     <!-- ====================================================================
          CLIENT LOGIC & API VERIFICATION ENGINE
          ==================================================================== -->
     <script>
-        // Delivery Platforms Registry & Top Demographic Metadata
+        // Delivery Platforms Registry & Metadata
         const DELIVERY_SERVICES = {
             toast: {
                 id: 'toast',
@@ -2066,9 +870,8 @@
                 categoryTag: 'Toast Delivery Services (TDS)',
                 icon: 'fa-solid fa-bread-slice',
                 color: '#ff5722',
-                gradient: 'linear-gradient(135deg, #ff5722 0%, #e64a19 100%)',
                 demographicRank: 'Top In-House Restaurant Direct POS',
-                demographicDesc: 'Eliminates 30% 3rd-party marketplace commissions via native in-house ordering with flat-rate DoorDash courier pass-through.',
+                demographicDesc: 'Eliminates 30% commissions via native in-house ordering with flat-rate DoorDash courier pass-through.',
                 portalUrl: 'https://pos.toasttab.com/',
                 defaultClientId: 'toast_app_parma_live_982',
                 defaultSecret: 'tst_sec_89234bfa09e1889c201',
@@ -2082,9 +885,8 @@
                 categoryTag: 'White-Label Fulfillment API',
                 icon: 'fa-solid fa-car',
                 color: '#ff3008',
-                gradient: 'linear-gradient(135deg, #ff3008 0%, #b91c1c 100%)',
                 demographicRank: '#1 Demographic Choice (67% US Market)',
-                demographicDesc: 'Dominant nationwide suburban footprint; highest brand recognition and driver availability across family and weekend dining demographics.',
+                demographicDesc: 'Dominant nationwide suburban footprint; highest brand recognition and driver availability across family dining.',
                 portalUrl: 'https://developer.doordash.com/',
                 defaultClientId: 'dd_drive_client_parma_prod',
                 defaultSecret: 'dd_jwt_secret_88192aacc7712',
@@ -2098,9 +900,8 @@
                 categoryTag: 'On-Demand Merchant Delivery',
                 icon: 'fa-brands fa-uber',
                 color: '#06c167',
-                gradient: 'linear-gradient(135deg, #06c167 0%, #047857 100%)',
                 demographicRank: 'Urban & Gen-Z Demographic Choice (23% US Share)',
-                demographicDesc: 'Top preference for metropolitan, college campus, and late-night demographics with dense local courier pooling and rapid dispatch.',
+                demographicDesc: 'Top preference for metropolitan, college campus, and late-night demographics with dense local courier pooling.',
                 portalUrl: 'https://developer.uber.com/docs/deliveries/overview',
                 defaultClientId: 'uber_direct_client_parma',
                 defaultSecret: 'ubr_sec_99120aa8772bc',
@@ -2114,7 +915,6 @@
                 categoryTag: 'Direct Storefront & API',
                 icon: 'fa-solid fa-utensils',
                 color: '#f63440',
-                gradient: 'linear-gradient(135deg, #f63440 0%, #991b1b 100%)',
                 demographicRank: 'East Coast & Campus Stronghold',
                 demographicDesc: 'Favored by Northeast corporate lunch programs, regional diners, and student meal account payment ecosystems.',
                 portalUrl: 'https://get.grubhub.com/',
@@ -2130,9 +930,8 @@
                 categoryTag: 'Square Orders & Terminal API',
                 icon: 'fa-solid fa-square',
                 color: '#006aff',
-                gradient: 'linear-gradient(135deg, #006aff 0%, #1d4ed8 100%)',
                 demographicRank: 'Independent & Craft Deli Demographic',
-                demographicDesc: 'Preferred choice for boutique sandwich shops and multi-station counters seeking unified in-person and digital ticket handling.',
+                demographicDesc: 'Preferred choice for boutique sandwich shops and multi-station counters seeking unified digital ticket handling.',
                 portalUrl: 'https://developer.squareup.com/',
                 defaultClientId: 'sq0idp-88291047192aa',
                 defaultSecret: 'sq0csp-99214710188bc',
@@ -2146,9 +945,8 @@
                 categoryTag: 'Clover Online Ordering Platform',
                 icon: 'fa-solid fa-clover',
                 color: '#1cb24c',
-                gradient: 'linear-gradient(135deg, #1cb24c 0%, #0f766e 100%)',
                 demographicRank: 'Neighborhood Diner & Grill Demographic',
-                demographicDesc: 'High market penetration in traditional Italian-American family grills with thermal kitchen printers and dedicated counter stations.',
+                demographicDesc: 'High market penetration in traditional family grills with thermal kitchen printers and dedicated counter stations.',
                 portalUrl: 'https://www.clover.com/developers',
                 defaultClientId: 'clover_app_991823',
                 defaultSecret: 'clv_token_8821901aa',
@@ -2172,15 +970,14 @@
             }
         });
 
-        // Current Active Tab
         let activeAdminTab = 'delivery-services';
         let currentEnvironment = 'prod';
+        let bsModalInstance = null;
 
         // Tab Switching Engine
         function switchAdminTab(tabName) {
             activeAdminTab = tabName;
 
-            // Update Viewports
             const views = {
                 'delivery-services': document.getElementById('view-delivery-services'),
                 'menu-items': document.getElementById('view-menu-items'),
@@ -2198,49 +995,48 @@
                 }
             });
 
-            // Update Sidebar Tabs State
-            const btnDelivery = document.getElementById('tab-btn-delivery');
-            const btnMenu = document.getElementById('tab-btn-menu');
-            const btnTelemetry = document.getElementById('tab-btn-telemetry');
-            const btnPreview = document.getElementById('tab-btn-preview');
+            // Update Nav Pill Classes
+            const buttons = [
+                { id: 'tab-btn-delivery', key: 'delivery-services' },
+                { id: 'tab-btn-menu', key: 'menu-items' },
+                { id: 'tab-btn-telemetry', key: 'dispatch-logs' },
+                { id: 'tab-btn-preview', key: 'store-preview' }
+            ];
 
-            // Reset classes
-            if (btnDelivery) {
-                btnDelivery.className = 'sidebar-tab-btn' + (tabName === 'delivery-services' ? ' highlighted-active' : '');
+            buttons.forEach(b => {
+                const el = document.getElementById(b.id);
+                if (el) {
+                    if (b.key === tabName) {
+                        el.classList.add('active');
+                        el.classList.remove('text-dark', 'text-secondary');
+                    } else {
+                        el.classList.remove('active');
+                        el.classList.add(b.key === 'menu-items' ? 'text-secondary' : 'text-dark');
+                    }
+                }
+            });
+
+            // Close mobile sidebar if collapsed
+            const collapseEl = document.getElementById('sidebarCollapseContainer');
+            if (collapseEl && window.innerWidth < 768) {
+                const bsCollapse = bootstrap.Collapse.getInstance(collapseEl);
+                if (bsCollapse) bsCollapse.hide();
             }
 
-            if (btnMenu) {
-                // Keep the greyed-clickable base class, and add selected-active if active
-                btnMenu.className = 'sidebar-tab-btn greyed-clickable' + (tabName === 'menu-items' ? ' selected-active' : '');
-            }
-
-            if (btnTelemetry) {
-                btnTelemetry.className = 'sidebar-tab-btn' + (tabName === 'dispatch-logs' ? ' highlighted-active' : '');
-            }
-
-            if (btnPreview) {
-                btnPreview.className = 'sidebar-tab-btn' + (tabName === 'store-preview' ? ' highlighted-active' : '');
-            }
-
-            // Close mobile sidebar if open
-            const sidebar = document.getElementById('adminSidebar');
-            if (sidebar) sidebar.classList.remove('mobile-open');
-
-            // Scroll viewport to top
-            const vp = document.querySelector('.admin-main-viewport');
-            if (vp) vp.scrollTo({ top: 0, behavior: 'smooth' });
+            window.scrollTo({ top: 0, behavior: 'smooth' });
         }
 
         // Filter Services in Grid
         function filterServices(category, element) {
-            // Update filter buttons
-            document.querySelectorAll('.filter-chip').forEach(b => b.classList.remove('active'));
-            if (element) element.classList.add('active');
+            if (element && element.parentElement) {
+                element.parentElement.querySelectorAll('button').forEach(b => b.classList.remove('active'));
+                element.classList.add('active');
+            }
 
-            const cards = document.querySelectorAll('.service-card');
-            cards.forEach(c => {
-                const serviceCategory = c.getAttribute('data-category');
-                const isVerified = c.getAttribute('data-status') === 'connected';
+            const cols = document.querySelectorAll('.service-col');
+            cols.forEach(col => {
+                const serviceCategory = col.getAttribute('data-category');
+                const isVerified = col.getAttribute('data-status') === 'connected';
 
                 let match = false;
                 if (category === 'all') match = true;
@@ -2248,17 +1044,17 @@
                 else if (category === 'pos') match = serviceCategory === 'pos';
                 else if (category === 'fleet') match = serviceCategory === 'fleet';
 
-                c.style.display = match ? 'flex' : 'none';
+                col.style.display = match ? 'block' : 'none';
             });
         }
 
         // Search Filter
         function handleServiceSearch(query) {
             const q = query.toLowerCase().trim();
-            const cards = document.querySelectorAll('.service-card');
-            cards.forEach(c => {
-                const text = c.textContent.toLowerCase();
-                c.style.display = text.includes(q) ? 'flex' : 'none';
+            const cols = document.querySelectorAll('.service-col');
+            cols.forEach(col => {
+                const text = col.textContent.toLowerCase();
+                col.style.display = text.includes(q) ? 'block' : 'none';
             });
         }
 
@@ -2267,14 +1063,13 @@
             const s = DELIVERY_SERVICES[serviceId] || DELIVERY_SERVICES.toast;
             document.getElementById('modalCurrentServiceId').value = s.id;
             document.getElementById('modalServiceTitle').innerText = `${s.name} API Configuration`;
-            document.getElementById('modalServiceSubtitle').innerText = `${s.categoryTag} &bull; ${s.demographicRank}`;
+            document.getElementById('modalServiceSubtitle').innerText = `${s.categoryTag} • ${s.demographicRank}`;
             document.getElementById('modalLogoBox').style.background = s.color;
-            document.getElementById('modalLogoIcon').className = s.icon;
+            document.getElementById('modalLogoIcon').className = `${s.icon} fs-5`;
             document.getElementById('modalOutwardLink').href = s.portalUrl;
-            document.getElementById('modalOutwardLink').innerHTML = `${s.name} Portal <i class="fa-solid fa-arrow-up-right-from-square"></i>`;
+            document.getElementById('modalOutwardLink').innerHTML = `${s.name} Portal <i class="fa-solid fa-arrow-up-right-from-square ms-1"></i>`;
             document.getElementById('apiWebhookUrlDisplay').value = `https://api.parmapizzaandgrill.com/api/webhooks/dispatch/${s.id}`;
 
-            // Populate existing values if available
             const saved = savedApiState[s.id];
             if (saved) {
                 document.getElementById('apiClientIdInput').value = saved.clientId || s.defaultClientId;
@@ -2286,32 +1081,22 @@
                 document.getElementById('apiLocationIdInput').value = s.defaultLocationId;
             }
 
-            // Reset verification console
-            document.getElementById('verificationConsole').classList.remove('show');
-            document.getElementById('apiConfigModal').classList.add('show');
+            document.getElementById('verificationConsole').classList.add('d-none');
+            
+            const modalEl = document.getElementById('apiConfigModal');
+            bsModalInstance = bootstrap.Modal.getOrCreateInstance(modalEl);
+            bsModalInstance.show();
         }
 
         function closeApiConfigModal() {
-            document.getElementById('apiConfigModal').classList.remove('show');
+            if (bsModalInstance) {
+                bsModalInstance.hide();
+            }
         }
 
-        // Close on backdrop click
-        document.getElementById('apiConfigModal')?.addEventListener('click', (e) => {
-            if (e.target.id === 'apiConfigModal') closeApiConfigModal();
-        });
-
-        // Environment Toggle
+        // Environment Selection
         function selectEnvironment(env) {
             currentEnvironment = env;
-            const p = document.getElementById('envProductionCard');
-            const s = document.getElementById('envSandboxCard');
-            if (env === 'prod') {
-                p.classList.add('selected');
-                s.classList.remove('selected');
-            } else {
-                s.classList.add('selected');
-                p.classList.remove('selected');
-            }
         }
 
         // One-Click Demo Credentials
@@ -2340,15 +1125,16 @@
             const step4 = document.getElementById('step4');
             const submitBtn = document.getElementById('btnSubmitVerify');
 
-            consoleBox.classList.add('show');
+            consoleBox.classList.remove('d-none');
             submitBtn.disabled = true;
-            submitBtn.innerHTML = '<i class="fa-solid fa-spinner fa-spin"></i> Verifying...';
+            submitBtn.innerHTML = '<span class="spinner-border spinner-border-sm me-1" role="status" aria-hidden="true"></span> Verifying...';
 
-            step1.style.display = 'flex';
-            step1.className = 'console-step active';
-            step2.style.display = 'none';
-            step3.style.display = 'none';
-            step4.style.display = 'none';
+            step1.classList.remove('d-none');
+            step1.className = 'text-info mb-1';
+            step1.innerHTML = '<span class="spinner-border spinner-border-sm me-1" role="status" aria-hidden="true"></span> Initializing TLS 1.3 encrypted handshake...';
+            step2.classList.add('d-none');
+            step3.classList.add('d-none');
+            step4.classList.add('d-none');
 
             let ms = 0;
             const interval = setInterval(() => {
@@ -2357,24 +1143,25 @@
             }, 15);
 
             setTimeout(() => {
-                step1.className = 'console-step done';
-                step1.innerHTML = '<i class="fa-solid fa-check"></i> TLS 1.3 encrypted handshake established (256-bit)';
-                step2.style.display = 'flex';
-                step2.className = 'console-step active';
+                step1.className = 'text-success mb-1';
+                step1.innerHTML = '<i class="fa-solid fa-check me-1"></i> TLS 1.3 encrypted handshake established (256-bit)';
+                step2.classList.remove('d-none');
+                step2.className = 'text-info mb-1';
+                step2.innerHTML = '<span class="spinner-border spinner-border-sm me-1" role="status" aria-hidden="true"></span> Authenticating Client ID &amp; Signing Secret...';
             }, 300);
 
             setTimeout(() => {
-                step2.className = 'console-step done';
-                step2.innerHTML = `<i class="fa-solid fa-check"></i> Client ID [${clientId.substring(0, 10)}...] authenticated with OAuth token`;
-                step3.style.display = 'flex';
-                step3.className = 'console-step active';
+                step2.className = 'text-success mb-1';
+                step2.innerHTML = `<i class="fa-solid fa-check me-1"></i> Client ID [${clientId.substring(0, 10)}...] authenticated with OAuth token`;
+                step3.classList.remove('d-none');
+                step3.className = 'text-info mb-1';
+                step3.innerHTML = '<span class="spinner-border spinner-border-sm me-1" role="status" aria-hidden="true"></span> Validating Location ID &amp; Courier Geofence...';
             }, 650);
 
             setTimeout(() => {
-                step3.className = 'console-step done';
-                step3.innerHTML = `<i class="fa-solid fa-check"></i> Store location verified: [${locationId}] (South Central PA delivery zone active)`;
-                step4.style.display = 'flex';
-                step4.className = 'console-step done';
+                step3.className = 'text-success mb-1';
+                step3.innerHTML = `<i class="fa-solid fa-check me-1"></i> Store location verified: [${locationId}] (South Central PA delivery zone active)`;
+                step4.classList.remove('d-none');
                 clearInterval(interval);
 
                 // Update Service Registry
@@ -2395,25 +1182,25 @@
                 // Update Card in DOM
                 const badge = document.getElementById(`status-badge-${sId}`);
                 if (badge) {
-                    badge.className = 'status-pill verified';
-                    badge.innerHTML = '<span class="status-dot"></span> Verified &amp; Active';
+                    badge.className = 'badge text-bg-success';
+                    badge.innerHTML = 'Verified &amp; Active';
                 }
 
-                const card = document.querySelector(`.service-card[data-service-id="${sId}"]`);
-                if (card) {
-                    card.setAttribute('data-status', 'connected');
+                const col = document.querySelector(`.service-col[data-service-id="${sId}"]`);
+                if (col) {
+                    col.setAttribute('data-status', 'connected');
                 }
 
                 updateVerifiedCounters();
                 submitBtn.disabled = false;
-                submitBtn.innerHTML = '<i class="fa-solid fa-circle-check"></i> Verified Successfully!';
+                submitBtn.innerHTML = '<i class="fa-solid fa-circle-check me-1"></i> Verified Successfully!';
 
                 // Add to Dispatch Log table
                 addTelemetryLogRow(s.name, 'API.VERIFICATION_HANDSHAKE', `${ms} ms`, `#${locationId.toUpperCase()}`);
 
                 setTimeout(() => {
                     closeApiConfigModal();
-                    submitBtn.innerHTML = '<i class="fa-solid fa-shield-check"></i> Submit &amp; Verify API';
+                    submitBtn.innerHTML = '<i class="fa-solid fa-shield-check me-1"></i> Submit &amp; Verify API';
                 }, 900);
 
             }, 1050);
@@ -2440,12 +1227,12 @@
 
             const tr = document.createElement('tr');
             tr.innerHTML = `
-                <td style="font-family: var(--font-mono); color: var(--text-muted);">${timeStr}</td>
-                <td><strong>${provider}</strong></td>
-                <td><code>${eventName}</code></td>
-                <td><span class="status-pill verified"><span class="status-dot"></span> 200 OK</span></td>
-                <td style="font-family: var(--font-mono);">${latency}</td>
-                <td style="font-family: var(--font-mono);">${ref}</td>
+                <td class="font-monospace text-secondary">${timeStr}</td>
+                <td class="fw-bold">${provider}</td>
+                <td><code class="text-dark bg-light px-1 py-0.5 border rounded">${eventName}</code></td>
+                <td><span class="badge text-bg-success">200 OK</span></td>
+                <td class="font-monospace">${latency}</td>
+                <td class="font-monospace text-secondary">${ref}</td>
             `;
             tbody.insertBefore(tr, tbody.firstChild);
         }
@@ -2456,31 +1243,25 @@
             const lat = Math.floor(Math.random() * 25) + 18 + ' ms';
             const orderNum = Math.floor(Math.random() * 8999) + 1000;
             addTelemetryLogRow(p, 'DISPATCH.COURIER_PING', lat, `#PARMA-${orderNum} (Cheesesteak Combo)`);
-            alert(`🎉 Simulated real-time dispatch ping sent to ${p}!\nLogged with response time: ${lat}.`);
+            alert(`Simulated real-time dispatch ping sent to ${p}!\nLogged with response time: ${lat}.`);
         }
 
         function simulateFullApiHealthCheck() {
-            const btn = document.querySelector('.page-actions-group .btn-action.secondary');
-            if (btn) btn.innerHTML = '<i class="fa-solid fa-spinner fa-spin"></i> Checking All...';
+            const btn = document.querySelector('button[onclick="simulateFullApiHealthCheck()"]');
+            if (btn) btn.innerHTML = '<span class="spinner-border spinner-border-sm me-1" role="status" aria-hidden="true"></span> Checking All...';
             setTimeout(() => {
-                if (btn) btn.innerHTML = '<i class="fa-solid fa-circle-check" style="color:#10b981;"></i> All Active APIs Healthy';
+                if (btn) btn.innerHTML = '<i class="fa-solid fa-circle-check text-success me-1"></i> All Active APIs Healthy';
                 const latEl = document.getElementById('kpiAvgLatency');
                 if (latEl) latEl.innerText = `${Math.floor(Math.random() * 10) + 24} ms`;
                 setTimeout(() => {
-                    if (btn) btn.innerHTML = '<i class="fa-solid fa-arrows-rotate"></i> Ping All APIs';
+                    if (btn) btn.innerHTML = '<i class="fa-solid fa-arrows-rotate me-1"></i> Ping All APIs';
                 }, 2000);
             }, 600);
-        }
-
-        function toggleMobileSidebar() {
-            const sb = document.getElementById('adminSidebar');
-            if (sb) sb.classList.toggle('mobile-open');
         }
 
         // Initialize on DOM load
         document.addEventListener('DOMContentLoaded', () => {
             updateVerifiedCounters();
-            // Default to delivery services tab
             switchAdminTab('delivery-services');
         });
     </script>

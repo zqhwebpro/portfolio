@@ -3714,8 +3714,10 @@ window.initLeafletShippingMap = function () {
 
     window.shippingLeafletMap = map;
 
-    // CARTO API Token for Authenticated Basemap Requests
-    window.CARTO_API_TOKEN = localStorage.getItem('carto_basemap_key') || 'eyJhbGciOiJIUzI1NiJ9.eyJhIjoiYWNfYzB2ODd0dTQiLCJqdGkiOiIzOGJkZGRiNDEwOWI5YWMyNjI2MmMyMzkzOWU5NjhhMyJ9.ZL_ZbbsEx-yWu7ok1G5lGqb-0d95oO604IPlGlE4bn8';
+    // CARTO API Token for Authenticated Basemap Requests (https://gcp-us-east1.api.carto.com)
+    const CARTO_OFFICIAL_TOKEN = 'eyJhbGciOiJIUzI1NiJ9.eyJhIjoiYWNfYzB2ODd0dTQiLCJqdGkiOiIzOGJkZGRiNDEwOWI5YWMyNjI2MmMyMzkzOWU5NjhhMyJ9.ZL_ZbbsEx-yWu7ok1G5lGqb-0d95oO604IPlGlE4bn8';
+    window.CARTO_API_TOKEN = CARTO_OFFICIAL_TOKEN;
+    localStorage.setItem('carto_basemap_key', CARTO_OFFICIAL_TOKEN);
     window.currentBasemapProvider = 'carto-voyager';
 
     window.getCartoTileUrl = function (isDark) {

@@ -1,7 +1,7 @@
 /**
- * ENGINEERING KNOWLEDGE MATRIX — NEXT-GEN OS ENGINE
- * Tabbed White Cards, Interactive Architecture Sandbox & Clean OS Chrome
- * No CRT / No moving dots or lines. Full responsive OS interface.
+ * ENGINEERING KNOWLEDGE MATRIX — UNIQUE TECH OS ENGINE
+ * Monospace Code Fonts, Font Awesome Icons, Crisp White Cards,
+ * Interactive IDE Tabs, and Cloud Runtime Sandbox
  */
 
 (function () {
@@ -13,15 +13,16 @@
   const MODULES_DATA = [
     {
       id: 'javascript',
-      tabName: 'JavaScript',
+      fileName: 'js_engine.es6',
+      tabTitle: 'js_engine.es6',
       category: 'frontend',
-      categoryBadge: 'CLIENT TIER // JAVASCRIPT',
+      categoryBadge: 'TIER.01 // CLIENT_JS',
       tier: 'Client Tier',
       icon: 'fa-brands fa-js text-amber-500',
-      tagColor: 'bg-amber-50 text-amber-700 border-amber-200',
+      badgeColor: 'bg-amber-100 text-amber-900 border-amber-300',
       title: 'JavaScript (Modern ES6+, Async/Event Loop, DOM & Web APIs)',
-      level: 'Level: Production Ready',
-      duration: '42 Hours',
+      level: 'LEVEL: PRODUCTION_READY',
+      duration: '42.0_HRS',
       summary: 'Deep-dive into modern V8 engine mechanics, event loop execution queues, microtasks vs macrotasks, prototypical inheritance, advanced asynchronous patterns, and high-performance Web APIs.',
       competencies: [
         'V8 Event Loop & Call Stack',
@@ -35,8 +36,8 @@
         { chapter: '03. Advanced Asynchrony', desc: 'AbortController, AsyncGenerators, Web Workers multithreading, and shared memory (Atomics).' },
         { chapter: '04. Modern Web Platform APIs', desc: 'IntersectionObserver, ResizeObserver, BroadcastChannel, and Web Audio API synthesis.' }
       ],
-      codeSnippet: `// ⚡ V8 Event Loop Priority Demystified
-console.log('1. Script Execution Starts');
+      codeSnippet: `// ⚡ V8 Event Loop Execution Order Benchmark
+console.log('1. Call Stack: Synchronous Main Thread');
 
 setTimeout(() => console.log('5. MacroTask: setTimeout (Timer Queue)'), 0);
 
@@ -46,20 +47,21 @@ Promise.resolve().then(() => {
   console.log('4. MicroTask: Promise.then (Microtask Drain)');
 });
 
-console.log('2. Synchronous Call Stack Cleared');
-// Execution Order: 1 -> 2 -> 3 -> 4 -> 5`
+console.log('2. Call Stack: Synchronous Phase End');
+// Standard Output: 1 -> 2 -> 3 -> 4 -> 5`
     },
     {
       id: 'typescript',
-      tabName: 'TypeScript',
+      fileName: 'ts_types.d.ts',
+      tabTitle: 'ts_types.d.ts',
       category: 'frontend',
-      categoryBadge: 'CLIENT TIER // TYPE SYSTEM',
+      categoryBadge: 'TIER.01 // STATIC_TYPES',
       tier: 'Client Tier',
-      icon: 'fa-solid fa-code text-sky-600',
-      tagColor: 'bg-sky-50 text-sky-700 border-sky-200',
+      icon: 'fa-solid fa-code text-blue-600',
+      badgeColor: 'bg-blue-100 text-blue-900 border-blue-300',
       title: 'TypeScript (Strict Typing, Generics, Utility Types, Ambient Declarations)',
-      level: 'Level: Production Ready',
-      duration: '38 Hours',
+      level: 'LEVEL: PRODUCTION_READY',
+      duration: '38.0_HRS',
       summary: 'Master compile-time type safety with conditional types, template literal types, complex recursive generics, custom declaration files (.d.ts), and AST transformation workflows for large-scale codebases.',
       competencies: [
         'Conditional & Distributive Types',
@@ -88,15 +90,16 @@ type HandlerMatrix = EventRoutes<Payload>;`
     },
     {
       id: 'react',
-      tabName: 'React 19 / SSR',
+      fileName: 'react_fiber.tsx',
+      tabTitle: 'react_fiber.tsx',
       category: 'frontend',
-      categoryBadge: 'CLIENT TIER // REACTIVE UI',
+      categoryBadge: 'TIER.01 // REACTIVE_UI',
       tier: 'Client Tier',
-      icon: 'fa-brands fa-react text-cyan-600',
-      tagColor: 'bg-cyan-50 text-cyan-700 border-cyan-200',
+      icon: 'fa-brands fa-react text-sky-500',
+      badgeColor: 'bg-sky-100 text-sky-900 border-sky-300',
       title: 'React (Component Lifecycle, Custom Hooks, State Machines, Next.js / Modern SSR)',
-      level: 'Level: Production Ready',
-      duration: '48 Hours',
+      level: 'LEVEL: PRODUCTION_READY',
+      duration: '48.0_HRS',
       summary: 'Engineer deterministic enterprise interfaces with concurrent rendering, custom memoization hooks, finite state machines, Server Components (RSC), and hybrid Next.js SSR/SSG architectures.',
       competencies: [
         'Fiber Reconciliation Engine',
@@ -131,15 +134,16 @@ export function useTelemetryStream<T>(sourceUrl: string) {
     },
     {
       id: 'php',
-      tabName: 'PHP 8.x',
+      fileName: 'php_backend.php',
+      tabTitle: 'php_backend.php',
       category: 'backend',
-      categoryBadge: 'SERVER TIER // ENTERPRISE BACKEND',
+      categoryBadge: 'TIER.02 // SERVER_PHP',
       tier: 'Server Tier',
       icon: 'fa-brands fa-php text-indigo-600',
-      tagColor: 'bg-indigo-50 text-indigo-700 border-indigo-200',
+      badgeColor: 'bg-indigo-100 text-indigo-900 border-indigo-300',
       title: 'PHP (PHP 8.x modern OOP, PSR standards, Composer, Custom MVC & Theme Architecture)',
-      level: 'Level: Production Ready',
-      duration: '40 Hours',
+      level: 'LEVEL: PRODUCTION_READY',
+      duration: '40.0_HRS',
       summary: 'Build robust server-side backends harnessing PHP 8.3+ features: attributes, JIT compilation, fibers, strict typing, PSR-12/PSR-4 adherence, enterprise Composer packaging, and custom modular MVC frameworks.',
       competencies: [
         'PHP 8.3 Attributes & JIT Compiler',
@@ -181,15 +185,16 @@ final readonly class TelemetryController {
     },
     {
       id: 'dotnet',
-      tabName: '.NET / C#',
+      fileName: 'dotnet_kestrel.cs',
+      tabTitle: 'dotnet_kestrel.cs',
       category: 'backend',
-      categoryBadge: 'SERVER TIER // ENTERPRISE SERVICES',
+      categoryBadge: 'TIER.02 // SERVER_DOTNET',
       tier: 'Server Tier',
       icon: 'fa-brands fa-windows text-blue-600',
-      tagColor: 'bg-blue-50 text-blue-700 border-blue-200',
+      badgeColor: 'bg-blue-100 text-blue-900 border-blue-300',
       title: '.NET / C# (ASP.NET Core Web APIs, Entity Framework Core, Dependency Injection, Middleware)',
-      level: 'Level: Production Ready',
-      duration: '52 Hours',
+      level: 'LEVEL: PRODUCTION_READY',
+      duration: '52.0_HRS',
       summary: 'Construct high-throughput distributed microservices and RESTful Web APIs on .NET 9 using Kestrel server pipelines, asynchronous EF Core query optimization, pipeline middleware, and native DI.',
       competencies: [
         'ASP.NET Core 9 Minimal APIs',
@@ -227,15 +232,16 @@ app.Run();`
     },
     {
       id: 'dns',
-      tabName: 'DNS & Protocols',
+      fileName: 'dns_records.zone',
+      tabTitle: 'dns_records.zone',
       category: 'infrastructure',
-      categoryBadge: 'INFRASTRUCTURE // NETWORK LAYER',
+      categoryBadge: 'TIER.03 // NETWORK_DNS',
       tier: 'Infrastructure',
       icon: 'fa-solid fa-network-wired text-emerald-600',
-      tagColor: 'bg-emerald-50 text-emerald-700 border-emerald-200',
+      badgeColor: 'bg-emerald-100 text-emerald-900 border-emerald-300',
       title: 'DNS (Nameservers, A/AAAA/CNAME/MX/TXT records, Propagation, TTL, SSL/TLS handshake)',
-      level: 'Level: Production Ready',
-      duration: '26 Hours',
+      level: 'LEVEL: PRODUCTION_READY',
+      duration: '26.0_HRS',
       summary: 'Demystify the distributed backbone of the global internet. Understand authoritative vs recursive nameservers, zone transfers, DNSSEC validation, global TTL propagation latencies, and TLS 1.3 cryptographic handshakes.',
       competencies: [
         'Zone Files & Record Types (A/AAAA/CNAME/TXT)',
@@ -272,15 +278,16 @@ api     IN      CNAME   ingress.matrixnet.io.
     },
     {
       id: 'devops',
-      tabName: 'Web Hosting & DevOps',
+      fileName: 'devops_nginx.conf',
+      tabTitle: 'devops_nginx.conf',
       category: 'infrastructure',
-      categoryBadge: 'INFRASTRUCTURE // CLOUD & OPS',
+      categoryBadge: 'TIER.03 // CLOUD_DEVOPS',
       tier: 'Infrastructure',
       icon: 'fa-solid fa-server text-purple-600',
-      tagColor: 'bg-purple-50 text-purple-700 border-purple-200',
+      badgeColor: 'bg-purple-100 text-purple-900 border-purple-300',
       title: 'Web Hosting & DevOps (Linux/Nginx configuration, Apache vhosts, Docker containers, CI/CD pipelines, SSL provisioning)',
-      level: 'Level: Production Ready',
-      duration: '50 Hours',
+      level: 'LEVEL: PRODUCTION_READY',
+      duration: '50.0_HRS',
       summary: 'Orchestrate zero-downtime production environments through hardened Linux kernels, high-concurrency Nginx reverse proxy tuning, multi-stage Docker container builds, automated GitHub Actions CI/CD pipelines, and Let\'s Encrypt automated ACME SSL provisioning.',
       competencies: [
         'Nginx Reverse Proxy & HTTP/3 QUIC',
@@ -324,27 +331,27 @@ server {
   ];
 
   // ═══════════════════════════════════════════════════════════════════
-  // 2. SOUND EFFECTS (CLEAN OS CLICKS)
+  // 2. AUDIO SYNTHESIZER (DISCRETE OS CLICKS)
   // ═══════════════════════════════════════════════════════════════════
   let audioCtx = null;
   let soundEnabled = true;
 
   function initAudio() {
     if (!audioCtx) {
-      const AudioContextClass = window.AudioContext || window.webkitAudioContext;
-      if (AudioContextClass) audioCtx = new AudioContextClass();
+      const AudioClass = window.AudioContext || window.webkitAudioContext;
+      if (AudioClass) audioCtx = new AudioClass();
     }
     if (audioCtx && audioCtx.state === 'suspended') audioCtx.resume();
   }
 
-  function playOsClick(freq = 600, duration = 0.04) {
+  function playOsClick(freq = 750, duration = 0.035) {
     if (!soundEnabled) return;
     try {
       initAudio();
       if (!audioCtx) return;
       const osc = audioCtx.createOscillator();
       const gain = audioCtx.createGain();
-      osc.type = 'sine';
+      osc.type = 'triangle';
       osc.frequency.setValueAtTime(freq, audioCtx.currentTime);
       gain.gain.setValueAtTime(0.04, audioCtx.currentTime);
       gain.gain.exponentialRampToValueAtTime(0.0001, audioCtx.currentTime + duration);
@@ -359,7 +366,7 @@ server {
   // 3. APPLICATION STATE
   // ═══════════════════════════════════════════════════════════════════
   let currentActiveTrackId = 'javascript';
-  let currentInnerTab = 'overview'; // 'overview', 'syllabus', 'code', 'sandbox'
+  let currentSubTab = 'overview'; // 'overview', 'syllabus', 'code', 'sandbox'
   let currentViewMode = 'tabbed'; // 'tabbed' or 'grid'
   let activeSearchQuery = '';
 
@@ -367,9 +374,9 @@ server {
   // 4. RENDERERS
   // ═══════════════════════════════════════════════════════════════════
 
-  // Render the horizontal track tab buttons
-  function renderTrackTabs() {
-    const tabsContainer = document.getElementById('osTrackTabsContainer');
+  // Render Horizontal IDE Tab Switcher
+  function renderIdeTabs() {
+    const tabsContainer = document.getElementById('osIdeTabsContainer');
     if (!tabsContainer) return;
 
     const filtered = MODULES_DATA.filter((m) => {
@@ -378,6 +385,7 @@ server {
       return (
         m.title.toLowerCase().includes(q) ||
         m.summary.toLowerCase().includes(q) ||
+        m.fileName.toLowerCase().includes(q) ||
         m.competencies.some((c) => c.toLowerCase().includes(q))
       );
     });
@@ -388,33 +396,35 @@ server {
         return `
           <button 
             type="button" 
-            class="os-track-tab-btn ${isActive ? 'active' : ''}" 
-            data-track-id="${mod.id}">
+            class="os-ide-tab-btn ${isActive ? 'active' : ''}" 
+            data-track-id="${mod.id}"
+            title="Inspect ${mod.fileName}">
             <i class="${mod.icon}"></i>
-            <span>${mod.tabName}</span>
+            <span>${mod.fileName}</span>
           </button>
         `;
       })
       .join('');
 
-    // Also include "Browse All (Grid)" tab
+    // Directory Grid Switcher Tab
     const isGridActive = currentViewMode === 'grid';
     html += `
       <button 
         type="button" 
-        class="os-track-tab-btn ${isGridActive ? 'active' : ''}" 
-        data-view="grid">
-        <i class="fa-solid fa-table-cells text-slate-300"></i>
-        <span>Directory Grid (All 7)</span>
+        class="os-ide-tab-btn ${isGridActive ? 'active' : ''}" 
+        data-view="grid"
+        title="View All Modules in Grid">
+        <i class="fa-solid fa-table-cells text-slate-400"></i>
+        <span>directory_grid.all</span>
       </button>
     `;
 
     tabsContainer.innerHTML = html;
 
-    // Attach listeners
-    tabsContainer.querySelectorAll('.os-track-tab-btn').forEach((btn) => {
+    // Attach click listeners
+    tabsContainer.querySelectorAll('.os-ide-tab-btn').forEach((btn) => {
       btn.addEventListener('click', () => {
-        playOsClick(700, 0.03);
+        playOsClick(800, 0.03);
         const view = btn.getAttribute('data-view');
         if (view === 'grid') {
           currentViewMode = 'grid';
@@ -423,12 +433,12 @@ server {
           currentActiveTrackId = btn.getAttribute('data-track-id');
         }
         renderMainView();
-        renderTrackTabs();
+        renderIdeTabs();
       });
     });
   }
 
-  // Render the Tabbed White Card for the selected track
+  // Render the Active Track in a Crisp White Card
   function renderActiveTabbedCard() {
     const container = document.getElementById('osMainContentArea');
     if (!container) return;
@@ -436,188 +446,224 @@ server {
     const mod = MODULES_DATA.find((m) => m.id === currentActiveTrackId) || MODULES_DATA[0];
 
     const competenciesHtml = mod.competencies
-      .map((c) => `<span class="os-pill-tag"><i class="fa-solid fa-check text-[10px] text-sky-600"></i> ${c}</span>`)
+      .map(
+        (c) =>
+          `<span class="os-tech-pill"><i class="fa-solid fa-cube text-[10px] text-sky-600"></i> ${c}</span>`
+      )
       .join('');
 
     const syllabusHtml = mod.syllabus
       .map(
         (s, idx) => `
-        <div class="p-4 bg-slate-50 border border-slate-200/80 rounded-2xl flex items-start gap-3.5 hover:bg-slate-100/70 transition-colors">
-          <div class="w-8 h-8 rounded-xl bg-white border border-slate-200 flex items-center justify-center font-bold text-xs text-sky-700 shadow-xs shrink-0">
+        <div class="p-3.5 bg-slate-50 border border-slate-200 rounded-lg flex items-start gap-3 hover:bg-slate-100/80 transition-colors">
+          <div class="w-7 h-7 rounded bg-white border border-slate-300 flex items-center justify-center font-mono font-bold text-xs text-slate-800 shadow-xs shrink-0">
             0${idx + 1}
           </div>
           <div class="flex-1">
-            <h4 class="font-['Outfit'] font-bold text-slate-900 text-sm md:text-base">${s.chapter}</h4>
-            <p class="text-xs md:text-sm text-slate-600 mt-0.5 leading-relaxed">${s.desc}</p>
+            <div class="font-mono font-bold text-slate-900 text-xs md:text-sm flex items-center gap-2">
+              <span>${s.chapter}</span>
+              <span class="text-[10px] text-emerald-700 bg-emerald-100/70 border border-emerald-300 px-1.5 py-0.2 rounded font-normal">
+                <i class="fa-solid fa-check text-[9px] mr-1"></i>VERIFIED
+              </span>
+            </div>
+            <p class="text-xs text-slate-600 mt-1 leading-relaxed font-sans">${s.desc}</p>
           </div>
-          <span class="text-xs font-mono text-emerald-600 bg-emerald-50 px-2 py-0.5 rounded-md font-semibold border border-emerald-200 shrink-0">
-            Active
-          </span>
         </div>
       `
       )
       .join('');
 
     container.innerHTML = `
-      <div class="os-white-card p-6 md:p-9 shadow-2xl">
+      <div class="os-white-card">
         
-        <!-- White Card OS Titlebar -->
-        <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-4 pb-6 border-b border-slate-200/80 mb-6">
+        <!-- Titanium Grey Window Titlebar -->
+        <div class="os-window-header">
           <div class="flex items-center gap-3">
-            <div class="flex items-center gap-1.5 bg-slate-100 px-3 py-1.5 rounded-full border border-slate-200">
-              <span class="os-window-dot os-dot-red"></span>
-              <span class="os-window-dot os-dot-yellow"></span>
-              <span class="os-window-dot os-dot-green"></span>
+            <div class="flex items-center gap-1.5">
+              <span class="os-dot os-dot-close" title="Close"></span>
+              <span class="os-dot os-dot-min" title="Minimize"></span>
+              <span class="os-dot os-dot-max" title="Maximize"></span>
             </div>
-            <span class="font-mono text-xs font-bold uppercase tracking-wider px-3 py-1 rounded-full ${mod.tagColor} border">
-              ${mod.categoryBadge}
+            <span class="text-slate-400 font-mono text-xs">|</span>
+            <span class="font-mono text-xs text-slate-700 flex items-center gap-1.5 font-semibold">
+              <i class="fa-solid fa-terminal text-slate-500 text-[10px]"></i>
+              <span>/usr/local/matrix/kernel/${mod.fileName}</span>
             </span>
           </div>
 
-          <div class="flex items-center gap-2">
-            <span class="text-xs font-mono bg-slate-100 text-slate-700 font-semibold px-3 py-1 rounded-full border border-slate-200">
-              <i class="fa-regular fa-clock mr-1 text-slate-500"></i> ${mod.duration}
+          <div class="flex items-center gap-2 font-mono text-[11px]">
+            <span class="bg-slate-200/90 text-slate-700 font-semibold px-2 py-0.5 rounded border border-slate-300">
+              ${mod.duration}
             </span>
-            <span class="text-xs font-mono bg-emerald-50 text-emerald-700 font-semibold px-3 py-1 rounded-full border border-emerald-200">
-              ${mod.level}
+            <span class="bg-emerald-100 text-emerald-800 font-bold px-2 py-0.5 rounded border border-emerald-300">
+              <i class="fa-solid fa-shield-halved text-[10px] mr-1"></i>${mod.level}
             </span>
           </div>
         </div>
 
-        <!-- Main Title & Summary -->
-        <div class="flex items-start gap-4 mb-6">
-          <div class="w-14 h-14 rounded-2xl bg-slate-50 border border-slate-200/90 flex items-center justify-center text-3xl shadow-sm shrink-0">
-            <i class="${mod.icon}"></i>
-          </div>
-          <div>
-            <h2 class="font-['Outfit'] font-extrabold text-2xl md:text-3xl text-slate-900 tracking-tight leading-snug">
-              ${mod.title}
-            </h2>
-            <p class="text-sm md:text-base text-slate-600 mt-1.5 leading-relaxed max-w-4xl">
-              ${mod.summary}
-            </p>
-          </div>
-        </div>
-
-        <!-- Inner White Card Tab Navigation -->
-        <div class="flex items-center gap-1.5 bg-slate-100 p-1.5 rounded-2xl border border-slate-200/80 mb-6 overflow-x-auto">
-          <button type="button" class="os-sub-tab-btn ${currentInnerTab === 'overview' ? 'active' : ''}" data-sub-tab="overview">
-            <i class="fa-solid fa-compass mr-1.5"></i> Overview &amp; Competencies
-          </button>
-          <button type="button" class="os-sub-tab-btn ${currentInnerTab === 'syllabus' ? 'active' : ''}" data-sub-tab="syllabus">
-            <i class="fa-solid fa-list-check mr-1.5"></i> Curriculum Syllabus (4 Chapters)
-          </button>
-          <button type="button" class="os-sub-tab-btn ${currentInnerTab === 'code' ? 'active' : ''}" data-sub-tab="code">
-            <i class="fa-solid fa-code mr-1.5"></i> Architecture Code Artifact
-          </button>
-          <button type="button" class="os-sub-tab-btn ${currentInnerTab === 'sandbox' ? 'active' : ''}" data-sub-tab="sandbox">
-            <i class="fa-solid fa-play mr-1.5"></i> Runtime Sandbox Simulation
-          </button>
-        </div>
-
-        <!-- Tab 1: Overview & Competencies -->
-        <div id="subTabContent-overview" class="${currentInnerTab === 'overview' ? 'block' : 'hidden'} space-y-6">
-          <div>
-            <h3 class="font-['Outfit'] font-bold text-slate-900 text-lg mb-3 flex items-center gap-2">
-              <i class="fa-solid fa-microchip text-sky-600"></i> Core Architectural Competencies
-            </h3>
-            <div class="flex flex-wrap gap-2.5">
-              ${competenciesHtml}
+        <!-- Main Card Body -->
+        <div class="p-6 md:p-8 space-y-6">
+          
+          <!-- Title & Tier Bar -->
+          <div class="flex items-start gap-4">
+            <div class="w-12 h-12 rounded-lg bg-slate-100 border border-slate-300 flex items-center justify-center text-2xl shrink-0 shadow-xs">
+              <i class="${mod.icon}"></i>
             </div>
-          </div>
-
-          <div class="grid grid-cols-1 md:grid-cols-3 gap-4 pt-2">
-            <div class="p-4 bg-slate-50 border border-slate-200/80 rounded-2xl">
-              <div class="font-mono text-xs text-slate-500 uppercase font-semibold">ENGINEERING TIER</div>
-              <div class="font-['Outfit'] font-bold text-slate-900 text-lg mt-0.5">${mod.tier}</div>
-              <div class="text-xs text-slate-600 mt-1">Holistic integration into enterprise distributed architecture.</div>
-            </div>
-            <div class="p-4 bg-slate-50 border border-slate-200/80 rounded-2xl">
-              <div class="font-mono text-xs text-slate-500 uppercase font-semibold">EXECUTION PARADIGM</div>
-              <div class="font-['Outfit'] font-bold text-slate-900 text-lg mt-0.5">Production Standard</div>
-              <div class="text-xs text-slate-600 mt-1">Validated against high-throughput zero-downtime benchmarks.</div>
-            </div>
-            <div class="p-4 bg-slate-50 border border-slate-200/80 rounded-2xl">
-              <div class="font-mono text-xs text-slate-500 uppercase font-semibold">CERTIFICATION CREDENTIAL</div>
-              <div class="font-['Outfit'] font-bold text-slate-900 text-lg mt-0.5">Accredited</div>
-              <div class="text-xs text-slate-600 mt-1">Full chapter mastery verified upon sandbox execution.</div>
-            </div>
-          </div>
-        </div>
-
-        <!-- Tab 2: Syllabus Breakdown -->
-        <div id="subTabContent-syllabus" class="${currentInnerTab === 'syllabus' ? 'block' : 'hidden'} space-y-3">
-          <h3 class="font-['Outfit'] font-bold text-slate-900 text-lg mb-2 flex items-center gap-2">
-            <i class="fa-solid fa-graduation-cap text-sky-600"></i> Chapter-by-Chapter Curriculum
-          </h3>
-          <div class="space-y-2.5">
-            ${syllabusHtml}
-          </div>
-        </div>
-
-        <!-- Tab 3: Code Artifact -->
-        <div id="subTabContent-code" class="${currentInnerTab === 'code' ? 'block' : 'hidden'} space-y-3">
-          <div class="flex items-center justify-between">
-            <h3 class="font-['Outfit'] font-bold text-slate-900 text-lg flex items-center gap-2">
-              <i class="fa-solid fa-file-code text-sky-600"></i> Production Code Snippet
-            </h3>
-            <button 
-              id="copyCodeBtn" 
-              type="button" 
-              class="os-btn-secondary text-xs py-1.5 px-3">
-              <i class="fa-regular fa-copy"></i> Copy Snippet
-            </button>
-          </div>
-          <div class="os-terminal-box overflow-x-auto">
-            <pre><code id="activeCodeSnippetText">${mod.codeSnippet}</code></pre>
-          </div>
-        </div>
-
-        <!-- Tab 4: Interactive Sandbox Simulation -->
-        <div id="subTabContent-sandbox" class="${currentInnerTab === 'sandbox' ? 'block' : 'hidden'} space-y-4">
-          <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-3">
             <div>
-              <h3 class="font-['Outfit'] font-bold text-slate-900 text-lg flex items-center gap-2">
-                <i class="fa-solid fa-terminal text-sky-600"></i> Cloud Runtime Simulator
-              </h3>
-              <p class="text-xs text-slate-600 mt-0.5">
-                Simulate environment bootstrap, strict validation tests, and runtime telemetry.
+              <div class="flex items-center gap-2 mb-1">
+                <span class="font-mono text-[11px] font-bold uppercase tracking-wider px-2 py-0.5 rounded ${mod.badgeColor} border">
+                  ${mod.categoryBadge}
+                </span>
+                <span class="text-xs font-mono text-slate-400">•</span>
+                <span class="font-mono text-xs text-slate-500 font-semibold">PID: 4092 // THREAD: RUNNING</span>
+              </div>
+              <h2 class="font-mono font-bold text-xl md:text-2xl text-slate-900 tracking-tight leading-snug">
+                ${mod.title}
+              </h2>
+              <p class="font-sans text-xs md:text-sm text-slate-600 mt-1.5 leading-relaxed max-w-4xl">
+                ${mod.summary}
               </p>
             </div>
-            <button 
-              id="runModuleSandboxBtn" 
-              type="button" 
-              class="os-btn-primary">
-              <i class="fa-solid fa-bolt"></i> Execute Simulation
+          </div>
+
+          <!-- Sub-Tab Switcher (Grey Tech Buttons with Font Awesome) -->
+          <div class="flex items-center gap-2 bg-slate-100 p-1.5 rounded-lg border border-slate-200 overflow-x-auto">
+            <button type="button" class="os-sub-tab-chip ${currentSubTab === 'overview' ? 'active' : ''}" data-sub="overview">
+              <i class="fa-solid fa-layer-group text-[11px]"></i>
+              <span>01 // OVERVIEW &amp; COMPETENCIES</span>
+            </button>
+            <button type="button" class="os-sub-tab-chip ${currentSubTab === 'syllabus' ? 'active' : ''}" data-sub="syllabus">
+              <i class="fa-solid fa-list-check text-[11px]"></i>
+              <span>02 // CURRICULUM SYLLABUS</span>
+            </button>
+            <button type="button" class="os-sub-tab-chip ${currentSubTab === 'code' ? 'active' : ''}" data-sub="code">
+              <i class="fa-solid fa-file-code text-[11px]"></i>
+              <span>03 // ARCHITECTURE CODE ARTIFACT</span>
+            </button>
+            <button type="button" class="os-sub-tab-chip ${currentSubTab === 'sandbox' ? 'active' : ''}" data-sub="sandbox">
+              <i class="fa-solid fa-terminal text-[11px]"></i>
+              <span>04 // LIVE RUNTIME SANDBOX</span>
             </button>
           </div>
 
-          <!-- Progress Bar -->
-          <div class="w-full bg-slate-200 h-2.5 rounded-full overflow-hidden">
-            <div id="sandboxProgressBar" class="h-full bg-gradient-to-r from-sky-500 to-indigo-600 transition-all duration-300 rounded-full" style="width: 0%;"></div>
-          </div>
+          <!-- 01: Overview & Competencies Tab Content -->
+          <div id="subContent-overview" class="${currentSubTab === 'overview' ? 'block' : 'hidden'} space-y-5">
+            <div>
+              <div class="font-mono text-xs font-bold text-slate-700 uppercase tracking-wider mb-2.5 flex items-center gap-1.5">
+                <i class="fa-solid fa-cubes text-sky-600 text-[11px]"></i>
+                <span>CORE SYSTEM COMPETENCIES:</span>
+              </div>
+              <div class="flex flex-wrap gap-2">
+                ${competenciesHtml}
+              </div>
+            </div>
 
-          <!-- Output Terminal -->
-          <div class="os-terminal-box space-y-1.5 max-h-56 overflow-y-auto" id="sandboxTerminalOutput">
-            <div class="text-slate-400 text-xs">
-              <span class="text-sky-400">[READY]</span> Click "Execute Simulation" to bootstrap runtime container for ${mod.tabName}.
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-3 pt-2">
+              <div class="p-3.5 bg-slate-50 border border-slate-200 rounded-lg">
+                <div class="font-mono text-[11px] text-slate-500 font-bold uppercase">
+                  <i class="fa-solid fa-server mr-1 text-slate-400"></i> SYSTEM LAYER
+                </div>
+                <div class="font-mono font-bold text-slate-900 text-sm mt-1">${mod.tier}</div>
+                <div class="font-sans text-xs text-slate-600 mt-1">Holistic integration into enterprise distributed service mesh.</div>
+              </div>
+
+              <div class="p-3.5 bg-slate-50 border border-slate-200 rounded-lg">
+                <div class="font-mono text-[11px] text-slate-500 font-bold uppercase">
+                  <i class="fa-solid fa-gauge-high mr-1 text-slate-400"></i> BENCHMARK STATUS
+                </div>
+                <div class="font-mono font-bold text-slate-900 text-sm mt-1">Production Ready</div>
+                <div class="font-sans text-xs text-slate-600 mt-1">Validated against 99.99% uptime zero-downtime SLA criteria.</div>
+              </div>
+
+              <div class="p-3.5 bg-slate-50 border border-slate-200 rounded-lg">
+                <div class="font-mono text-[11px] text-slate-500 font-bold uppercase">
+                  <i class="fa-solid fa-certificate mr-1 text-slate-400"></i> ACCREDITATION
+                </div>
+                <div class="font-mono font-bold text-slate-900 text-sm mt-1">Full Certification</div>
+                <div class="font-sans text-xs text-slate-600 mt-1">Mastery verified via automated sandbox benchmark unit tests.</div>
+              </div>
             </div>
           </div>
-        </div>
 
+          <!-- 02: Syllabus Breakdown Tab Content -->
+          <div id="subContent-syllabus" class="${currentSubTab === 'syllabus' ? 'block' : 'hidden'} space-y-3">
+            <div class="font-mono text-xs font-bold text-slate-700 uppercase tracking-wider mb-1 flex items-center gap-1.5">
+              <i class="fa-solid fa-folder-tree text-sky-600 text-[11px]"></i>
+              <span>CURRICULUM CHAPTER DIRECTORY (4 MODULES):</span>
+            </div>
+            <div class="space-y-2">
+              ${syllabusHtml}
+            </div>
+          </div>
+
+          <!-- 03: Architecture Code Artifact Tab Content -->
+          <div id="subContent-code" class="${currentSubTab === 'code' ? 'block' : 'hidden'} space-y-3">
+            <div class="flex items-center justify-between">
+              <div class="font-mono text-xs font-bold text-slate-700 uppercase tracking-wider flex items-center gap-1.5">
+                <i class="fa-solid fa-code text-sky-600 text-[11px]"></i>
+                <span>PRODUCTION CODE ARTIFACT:</span>
+              </div>
+              <button 
+                id="copyCodeBtn" 
+                type="button" 
+                class="os-tech-btn-secondary">
+                <i class="fa-regular fa-copy"></i>
+                <span>Copy Code</span>
+              </button>
+            </div>
+            <div class="os-code-editor-box">
+              <pre><code id="activeCodeSnippetText">${mod.codeSnippet}</code></pre>
+            </div>
+          </div>
+
+          <!-- 04: Runtime Sandbox Simulation Tab Content -->
+          <div id="subContent-sandbox" class="${currentSubTab === 'sandbox' ? 'block' : 'hidden'} space-y-4">
+            <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-3">
+              <div>
+                <div class="font-mono text-xs font-bold text-slate-800 uppercase tracking-wider flex items-center gap-1.5">
+                  <i class="fa-solid fa-terminal text-sky-600 text-[11px]"></i>
+                  <span>CLOUD RUNTIME TERMINAL SIMULATOR</span>
+                </div>
+                <p class="font-sans text-xs text-slate-600 mt-0.5">
+                  Execute cloud container bootstrap, verify AST type soundness, and stream runtime diagnostics.
+                </p>
+              </div>
+              <button 
+                id="runModuleSandboxBtn" 
+                type="button" 
+                class="os-tech-btn-primary">
+                <i class="fa-solid fa-play text-xs"></i>
+                <span>Execute Simulation</span>
+              </button>
+            </div>
+
+            <!-- Progress Bar -->
+            <div class="w-full bg-slate-200 h-2 rounded-full overflow-hidden border border-slate-300">
+              <div id="sandboxProgressBar" class="h-full bg-gradient-to-r from-sky-600 to-indigo-600 transition-all duration-300 rounded-full" style="width: 0%;"></div>
+            </div>
+
+            <!-- Terminal Output -->
+            <div class="os-code-editor-box space-y-1.5 max-h-56" id="sandboxTerminalOutput">
+              <div class="text-slate-400 text-xs">
+                <span class="text-emerald-400">nexus@matrix-os:~$</span> ready. Click "Execute Simulation" to launch sandbox for [${mod.fileName}].
+              </div>
+            </div>
+          </div>
+
+        </div>
       </div>
     `;
 
     // Attach sub-tab event listeners
-    container.querySelectorAll('.os-sub-tab-btn').forEach((btn) => {
+    container.querySelectorAll('.os-sub-tab-chip').forEach((btn) => {
       btn.addEventListener('click', () => {
-        playOsClick(800, 0.03);
-        currentInnerTab = btn.getAttribute('data-sub-tab');
+        playOsClick(900, 0.03);
+        currentSubTab = btn.getAttribute('data-sub');
         renderActiveTabbedCard();
       });
     });
 
-    // Copy code button
+    // Copy code button listener
     const copyBtn = document.getElementById('copyCodeBtn');
     if (copyBtn) {
       copyBtn.addEventListener('click', () => {
@@ -627,7 +673,7 @@ server {
             playOsClick(1200, 0.05);
             copyBtn.innerHTML = `<i class="fa-solid fa-check text-emerald-600"></i> Copied!`;
             setTimeout(() => {
-              copyBtn.innerHTML = `<i class="fa-regular fa-copy"></i> Copy Snippet`;
+              copyBtn.innerHTML = `<i class="fa-regular fa-copy"></i> Copy Code`;
             }, 2000);
           });
         }
@@ -654,6 +700,7 @@ server {
       return (
         m.title.toLowerCase().includes(q) ||
         m.summary.toLowerCase().includes(q) ||
+        m.fileName.toLowerCase().includes(q) ||
         m.competencies.some((c) => c.toLowerCase().includes(q))
       );
     });
@@ -661,13 +708,14 @@ server {
     if (filtered.length === 0) {
       container.innerHTML = `
         <div class="os-white-card p-12 text-center max-w-xl mx-auto">
-          <div class="w-14 h-14 bg-slate-100 text-slate-500 rounded-2xl flex items-center justify-center text-2xl mx-auto mb-3">
+          <div class="w-12 h-12 bg-slate-100 text-slate-500 rounded-lg flex items-center justify-center text-xl mx-auto mb-3 border border-slate-300">
             <i class="fa-solid fa-magnifying-glass"></i>
           </div>
-          <h3 class="font-['Outfit'] font-bold text-xl text-slate-900 mb-1">No Modules Match Your Query</h3>
-          <p class="text-sm text-slate-600 mb-4">Clear or adjust your search filter to see available curriculum tracks.</p>
-          <button id="clearSearchFromEmptyBtn" type="button" class="os-btn-primary">
-            Clear Search Filter
+          <h3 class="font-mono font-bold text-lg text-slate-900 mb-1">NO_MODULES_FOUND</h3>
+          <p class="font-sans text-xs text-slate-600 mb-4">No tracks match your current search query.</p>
+          <button id="clearSearchFromEmptyBtn" type="button" class="os-tech-btn-primary">
+            <i class="fa-solid fa-rotate-left"></i>
+            <span>Clear Search Filter</span>
           </button>
         </div>
       `;
@@ -675,7 +723,7 @@ server {
         const input = document.getElementById('osGlobalSearchInput');
         if (input) input.value = '';
         activeSearchQuery = '';
-        renderTrackTabs();
+        renderIdeTabs();
         renderMainView();
       });
       return;
@@ -685,55 +733,52 @@ server {
       .map((mod) => {
         const pills = mod.competencies
           .slice(0, 3)
-          .map((c) => `<span class="os-pill-tag text-[11px] py-1 px-2.5">${c}</span>`)
+          .map((c) => `<span class="os-tech-pill text-[10.5px] py-0.5 px-2">${c}</span>`)
           .join('');
 
         return `
-          <div class="os-white-card p-6 flex flex-col justify-between cursor-pointer group" data-card-track-id="${mod.id}">
-            <div>
-              <!-- Window top header -->
-              <div class="flex items-center justify-between mb-4">
-                <span class="font-mono text-[11px] font-bold uppercase tracking-wider px-2.5 py-0.5 rounded-full ${mod.tagColor} border">
-                  ${mod.tier}
-                </span>
-                <span class="font-mono text-xs text-slate-500 bg-slate-100 px-2 py-0.5 rounded-md">
-                  ${mod.duration}
-                </span>
-              </div>
-
-              <!-- Title & Icon -->
-              <div class="flex items-start gap-3.5 mb-3">
-                <div class="w-10 h-10 rounded-xl bg-slate-50 border border-slate-200/90 flex items-center justify-center text-xl shrink-0 group-hover:scale-105 transition-transform">
-                  <i class="${mod.icon}"></i>
-                </div>
-                <div>
-                  <h3 class="font-['Outfit'] font-bold text-lg text-slate-900 leading-snug group-hover:text-sky-600 transition-colors">
-                    ${mod.tabName}
-                  </h3>
-                  <div class="text-xs text-emerald-600 font-semibold font-mono mt-0.5">
-                    ${mod.level}
-                  </div>
-                </div>
-              </div>
-
-              <!-- Summary -->
-              <p class="text-xs md:text-sm text-slate-600 leading-relaxed mb-4 line-clamp-3">
-                ${mod.summary}
-              </p>
-
-              <!-- Competencies -->
-              <div class="flex flex-wrap gap-1.5 mb-6">
-                ${pills}
-              </div>
+          <div class="os-white-card flex flex-col justify-between cursor-pointer group" data-card-track-id="${mod.id}">
+            <!-- Titlebar -->
+            <div class="os-window-header py-1.5 px-3">
+              <span class="font-mono text-[10.5px] text-slate-600 font-semibold flex items-center gap-1.5">
+                <i class="${mod.icon}"></i> ${mod.fileName}
+              </span>
+              <span class="font-mono text-[10.5px] text-slate-500">${mod.duration}</span>
             </div>
 
-            <!-- Action Button -->
-            <div class="pt-4 border-t border-slate-100 flex items-center justify-between">
-              <span class="text-xs font-mono text-slate-400">4 Chapters</span>
-              <button type="button" class="os-btn-primary text-xs py-1.5 px-3 select-track-btn" data-track="${mod.id}">
-                <span>Open Tab</span>
-                <i class="fa-solid fa-arrow-right text-[10px]"></i>
-              </button>
+            <!-- Body -->
+            <div class="p-5 flex-1 flex flex-col justify-between">
+              <div>
+                <div class="flex items-center justify-between mb-2">
+                  <span class="font-mono text-[10px] font-bold uppercase tracking-wider px-2 py-0.5 rounded ${mod.badgeColor} border">
+                    ${mod.tier}
+                  </span>
+                  <span class="text-[10px] text-emerald-700 font-mono font-bold">
+                    <i class="fa-solid fa-circle-check text-[9px] mr-1"></i>READY
+                  </span>
+                </div>
+
+                <h3 class="font-mono font-bold text-base text-slate-900 leading-snug group-hover:text-sky-600 transition-colors mb-2">
+                  ${mod.tabTitle}
+                </h3>
+
+                <p class="font-sans text-xs text-slate-600 leading-relaxed mb-4 line-clamp-3">
+                  ${mod.summary}
+                </p>
+
+                <div class="flex flex-wrap gap-1.5 mb-5">
+                  ${pills}
+                </div>
+              </div>
+
+              <!-- Action Bar -->
+              <div class="pt-3 border-t border-slate-200 flex items-center justify-between">
+                <span class="text-[11px] font-mono text-slate-400">4 Chapters</span>
+                <button type="button" class="os-tech-btn-primary text-xs py-1 px-2.5">
+                  <span>Open Tab</span>
+                  <i class="fa-solid fa-arrow-right text-[10px]"></i>
+                </button>
+              </div>
             </div>
           </div>
         `;
@@ -741,19 +786,19 @@ server {
       .join('');
 
     container.innerHTML = `
-      <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+      <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-5">
         ${cardsHtml}
       </div>
     `;
 
-    // Click handler on cards
+    // Click handler on cards to switch to tabbed view
     container.querySelectorAll('[data-card-track-id]').forEach((card) => {
-      card.addEventListener('click', (e) => {
+      card.addEventListener('click', () => {
         const id = card.getAttribute('data-card-track-id');
         currentActiveTrackId = id;
         currentViewMode = 'tabbed';
-        playOsClick(700, 0.03);
-        renderTrackTabs();
+        playOsClick(800, 0.03);
+        renderIdeTabs();
         renderMainView();
       });
     });
@@ -771,7 +816,7 @@ server {
   // 5. RUNTIME SANDBOX SIMULATION
   // ═══════════════════════════════════════════════════════════════════
   function executeSandboxSimulation(mod) {
-    playOsClick(900, 0.04);
+    playOsClick(950, 0.04);
     const bar = document.getElementById('sandboxProgressBar');
     const term = document.getElementById('sandboxTerminalOutput');
     const runBtn = document.getElementById('runModuleSandboxBtn');
@@ -786,7 +831,7 @@ server {
     bar.style.width = '0%';
 
     const steps = [
-      { pct: 25, delay: 200, text: `BOOTSTRAP: Initializing isolated cloud container for [${mod.categoryBadge}]` },
+      { pct: 25, delay: 200, text: `BOOTSTRAP: Initializing container sandbox for [${mod.fileName}] (RAM: 128MB)` },
       { pct: 50, delay: 600, text: `COMPILATION: Validating AST and verifying static type soundess (100% compliance)` },
       { pct: 80, delay: 1000, text: `PIPELINE: Synchronizing benchmark test suite with distributed Kestrel cluster` },
       { pct: 100, delay: 1400, text: `SUCCESS: Runtime operational. All curriculum benchmarks passing with zero regression.` }
@@ -798,7 +843,7 @@ server {
         const line = document.createElement('div');
         line.className = 'text-xs font-mono text-slate-200';
         const time = new Date().toLocaleTimeString();
-        line.innerHTML = `<span class="text-slate-500">[${time}]</span> <span class="text-sky-400">SYS &gt;&gt;</span> ${s.text}`;
+        line.innerHTML = `<span class="text-slate-500">[${time}]</span> <span class="text-sky-400">SYS_EXEC &gt;&gt;</span> ${s.text}`;
         term.appendChild(line);
         term.scrollTop = term.scrollHeight;
         playOsClick(700 + idx * 100, 0.02);
@@ -807,7 +852,7 @@ server {
           runBtn.disabled = false;
           runBtn.innerHTML = `<i class="fa-solid fa-check text-emerald-400"></i> Simulation Complete`;
           setTimeout(() => {
-            runBtn.innerHTML = `<i class="fa-solid fa-bolt"></i> Execute Simulation`;
+            runBtn.innerHTML = `<i class="fa-solid fa-play text-xs"></i> <span>Execute Simulation</span>`;
           }, 3000);
         }
       }, s.delay);
@@ -827,7 +872,7 @@ server {
     if (!traceBtn || !logOutput) return;
 
     traceBtn.addEventListener('click', () => {
-      playOsClick(800, 0.03);
+      playOsClick(850, 0.03);
       traceBtn.disabled = true;
       traceBtn.innerHTML = `<i class="fa-solid fa-spinner fa-spin mr-1.5"></i> Tracing Stack Dispatch...`;
       logOutput.innerHTML = '';
@@ -836,12 +881,12 @@ server {
         {
           target: tierInfra,
           delay: 200,
-          text: 'PHASE 1 [INFRASTRUCTURE]: DNS Query dispatched to Anycast nameserver (8.2ms). TLS 1.3 negotiated via Nginx.'
+          text: 'PHASE 1 [INFRASTRUCTURE]: DNS Query resolved via Anycast nameserver (8.2ms). TLS 1.3 negotiated via Nginx proxy.'
         },
         {
           target: tierServer,
           delay: 750,
-          text: 'PHASE 2 [SERVER TIER]: Nginx routes to Kestrel ASP.NET Core 9 / PHP 8.3. EF Core query completes in 1.4ms.'
+          text: 'PHASE 2 [SERVER TIER]: Nginx routes to Kestrel ASP.NET Core 9 / PHP 8.3 FPM. EF Core query completes in 1.4ms.'
         },
         {
           target: tierClient,
@@ -868,7 +913,7 @@ server {
           if (idx === traceEvents.length - 1) {
             setTimeout(() => {
               traceBtn.disabled = false;
-              traceBtn.innerHTML = `<i class="fa-solid fa-play text-sky-400 mr-1.5"></i> Trace Stack Dispatch`;
+              traceBtn.innerHTML = `<i class="fa-solid fa-play text-sky-400 mr-1.5"></i> <span>Trace Stack Dispatch</span>`;
             }, 400);
           }
         }, ev.delay);
@@ -901,11 +946,11 @@ server {
   // ═══════════════════════════════════════════════════════════════════
   document.addEventListener('DOMContentLoaded', () => {
     initOsClock();
-    renderTrackTabs();
+    renderIdeTabs();
     renderMainView();
     initArchitectureSimulator();
 
-    // Global Search Bar
+    // Global Search Input
     const searchInput = document.getElementById('osGlobalSearchInput');
     const clearSearchBtn = document.getElementById('osClearSearchBtn');
 
@@ -915,7 +960,7 @@ server {
         if (clearSearchBtn) {
           clearSearchBtn.classList.toggle('hidden', !activeSearchQuery);
         }
-        renderTrackTabs();
+        renderIdeTabs();
         renderMainView();
       });
     }
@@ -927,7 +972,7 @@ server {
         clearSearchBtn.classList.add('hidden');
         searchInput.focus();
         playOsClick(500, 0.03);
-        renderTrackTabs();
+        renderIdeTabs();
         renderMainView();
       });
     }

@@ -5,28 +5,28 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <meta name="theme-color" content="#030712" />
-  <title>Engineering Knowledge Matrix | Next-Gen OS Learning Directory</title>
+  <title>Engineering Knowledge Matrix | Unique Tech OS Learning Directory</title>
   <meta name="description"
-    content="Next-Gen OS engineering curriculum directory covering modern JavaScript, TypeScript, React 19, PHP 8.x, .NET Core C#, DNS infrastructure, and DevOps in crisp tabbed cards." />
+    content="Next-Gen Engineering Knowledge Matrix OS. Interactive technical curriculum covering modern JavaScript V8, TypeScript, React 19, PHP 8.x OOP, .NET 9 C#, DNS Anycast, and DevOps in crisp tabbed white cards." />
   <meta name="keywords"
-    content="Engineering Knowledge Matrix, Full-Stack Architecture, JavaScript V8, TypeScript, React Server Components, PHP 8 OOP, .NET 9 C#, DNS Anycast, DevOps Docker Nginx" />
+    content="Engineering Knowledge Matrix, Tech OS, Full-Stack Architecture, JavaScript V8, TypeScript, React Server Components, PHP 8, .NET 9 C#, DNS Anycast, DevOps Docker Nginx" />
   <meta name="author" content="Zach Heindel | ZQH.WEBPRO" />
 
   <!-- Open Graph / Social Media Meta -->
   <meta property="og:type" content="website" />
-  <meta property="og:title" content="Engineering Knowledge Matrix — Next-Gen OS Directory" />
+  <meta property="og:title" content="Engineering Knowledge Matrix — Tech OS Directory" />
   <meta property="og:description"
-    content="Explore the holistic engineering stack in a sleek, tabbed OS workspace: Client Tier → Server Tier → Infrastructure." />
+    content="Explore the holistic engineering stack in a unique grey tech OS workspace: Client Tier → Server Tier → Infrastructure." />
   <meta property="og:image" content="../favicon.png" />
 
   <!-- Favicon -->
   <link rel="icon" href="../favicon.png" type="image/png" />
 
-  <!-- Google Fonts: Outfit (Headings) + Inter (Body) + JetBrains Mono (Code/Telemetry) -->
+  <!-- Google Fonts: JetBrains Mono (Code/OS Primary), Space Grotesk (Tech Headings), Inter (Body) -->
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
   <link
-    href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500;600;700&family=Outfit:wght@500;600;700;800;900&display=swap"
+    href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=JetBrains+Mono:ital,wght@0,300;0,400;0,500;0,600;0,700;0,800;1,400&family=Space+Grotesk:wght@500;600;700&display=swap"
     rel="stylesheet" />
 
   <!-- Font Awesome 6.5.1 CDN -->
@@ -39,266 +39,324 @@
       theme: {
         extend: {
           fontFamily: {
-            heading: ['Outfit', 'sans-serif'],
-            sans: ['Inter', 'sans-serif'],
-            mono: ['"JetBrains Mono"', 'monospace']
+            mono: ['"JetBrains Mono"', 'monospace'],
+            tech: ['"Space Grotesk"', 'sans-serif'],
+            sans: ['Inter', 'sans-serif']
+          },
+          colors: {
+            os: {
+              bg: '#030712',
+              slate950: '#020617',
+              slate900: '#0f172a',
+              slate800: '#1e293b',
+              slate700: '#334155',
+              slate600: '#475569',
+              slate400: '#94a3b8',
+              slate300: '#cbd5e1',
+              slate100: '#f1f5f9',
+              accent: '#0284c7'
+            }
           }
         }
       }
     };
   </script>
 
-  <!-- Next-Gen OS Stylesheet -->
+  <!-- Unique Tech OS Stylesheet -->
   <link rel="stylesheet" href="./styles.css" />
 </head>
 
-<body class="selection:bg-sky-500/30 selection:text-slate-900">
+<body class="selection:bg-sky-500/30 selection:text-white">
 
   <!-- ═══════════════════════════════════════════════════════════════════
-       1. BACKGROUND VIDEO (LOOPING, MUTED) & CINEMATIC VIGNETTE
+       1. FULLSCREEN BACKGROUND VIDEO (https://youtu.be/-3HFs3Qu7Mc)
+          Blue Streaks Abstract Shapes Geometric Moving Animated Loop
        ═══════════════════════════════════════════════════════════════════ -->
-  <div class="video-bg-container" aria-hidden="true">
+  <div class="os-video-background-layer" aria-hidden="true">
     <iframe
-      class="video-bg-iframe"
-      src="https://www.youtube-nocookie.com/embed/-3HFs3Qu7Mc?autoplay=1&mute=1&loop=1&playlist=-3HFs3Qu7Mc&controls=0&showinfo=0&rel=0&iv_load_policy=3&disablekb=1&modestbranding=1&playsinline=1&enablejsapi=1"
-      title="Background Ambience Video"
+      id="osBackgroundVideoIframe"
+      class="os-video-iframe"
+      src="https://www.youtube.com/embed/-3HFs3Qu7Mc?autoplay=1&mute=1&loop=1&playlist=-3HFs3Qu7Mc&controls=0&showinfo=0&rel=0&iv_load_policy=3&disablekb=1&modestbranding=1&playsinline=1&enablejsapi=1"
+      title="Background Geometric Stream (-3HFs3Qu7Mc)"
       frameborder="0"
       allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
       tabindex="-1">
     </iframe>
   </div>
 
-  <!-- Deep Atmospheric Vignette Overlay (Dims video and adds radial depth) -->
-  <div class="video-vignette-overlay" aria-hidden="true"></div>
+  <!-- Atmospheric Vignette Overlay (Dims video glare & focuses desktop content) -->
+  <div class="os-video-vignette" aria-hidden="true"></div>
 
   <!-- ═══════════════════════════════════════════════════════════════════
-       2. NEXT-GEN OS TOP TASKBAR / MENU BAR
+       2. FOREGROUND OS WORKSPACE CONTAINER
        ═══════════════════════════════════════════════════════════════════ -->
-  <header class="sticky top-0 z-30 px-3 sm:px-6 py-3">
-    <div class="max-w-7xl mx-auto os-glass-panel rounded-2xl px-4 py-2.5 flex items-center justify-between gap-4">
-      
-      <!-- OS Brand Identity -->
-      <div class="flex items-center gap-3">
-        <a href="../index.html" class="flex items-center gap-2.5 text-white hover:text-sky-300 transition-colors group">
-          <div class="w-8 h-8 rounded-xl bg-gradient-to-tr from-sky-500 to-indigo-600 flex items-center justify-center text-white shadow-md shadow-sky-500/20 group-hover:scale-105 transition-transform">
-            <i class="fa-solid fa-shapes text-sm"></i>
-          </div>
-          <div>
-            <span class="font-['Outfit'] font-black text-sm tracking-wide text-white block leading-tight">
-              NEXUS<span class="text-sky-400">::OS</span>
-            </span>
-            <span class="font-mono text-[10px] text-slate-400 block leading-tight">
-              KNOWLEDGE MATRIX
-            </span>
-          </div>
-        </a>
-
-        <div class="hidden md:flex items-center gap-2 pl-3 border-l border-white/10 font-mono text-xs text-slate-300">
-          <span class="w-2 h-2 rounded-full bg-emerald-400 animate-pulse"></span>
-          <span>SYSTEM ACTIVE</span>
-        </div>
-      </div>
-
-      <!-- Center OS Search Input -->
-      <div class="flex-1 max-w-md hidden sm:block relative">
-        <label for="osGlobalSearchInput" class="sr-only">Search Curriculum</label>
-        <div class="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none text-slate-400 text-xs">
-          <i class="fa-solid fa-magnifying-glass"></i>
-        </div>
-        <input 
-          type="search" 
-          id="osGlobalSearchInput" 
-          placeholder="Filter tracks or competencies (e.g. Generics, Event Loop, EF Core)..."
-          class="w-full pl-9 pr-8 py-1.5 bg-white/10 border border-white/15 text-white placeholder-slate-400 text-xs rounded-xl focus:outline-none focus:bg-white/20 focus:border-sky-400 transition-all font-sans"
-          autocomplete="off" />
-        <button 
-          id="osClearSearchBtn" 
-          type="button" 
-          class="hidden absolute inset-y-0 right-0 pr-2.5 flex items-center text-slate-400 hover:text-white text-xs"
-          aria-label="Clear Search">
-          <i class="fa-solid fa-xmark"></i>
-        </button>
-      </div>
-
-      <!-- Right Controls: Audio Toggle, Clock, Return Button -->
-      <div class="flex items-center gap-3">
-        <!-- Live OS Clock -->
-        <span id="osMenuClock" class="font-mono text-xs text-slate-300 font-medium hidden lg:inline">
-          Fri Oct 2, 2:45 PM
-        </span>
-
-        <!-- Audio Toggle -->
-        <button 
-          id="osAudioToggleBtn" 
-          type="button" 
-          class="w-8 h-8 rounded-xl bg-white/10 hover:bg-white/20 border border-white/15 flex items-center justify-center text-sky-400 text-xs transition-colors cursor-pointer"
-          title="Toggle Sound Effects">
-          <i class="fa-solid fa-volume-high"></i>
-        </button>
-
-        <!-- Back to Showcase Link -->
-        <a 
-          href="../index.html" 
-          class="os-btn-primary text-xs py-1.5 px-3">
-          <i class="fa-solid fa-arrow-left text-[11px]"></i>
-          <span class="hidden sm:inline">Portfolio</span>
-        </a>
-      </div>
-
-    </div>
-  </header>
-
-  <!-- ═══════════════════════════════════════════════════════════════════
-       3. HERO HEADER & HOLISTIC ARCHITECTURAL OVERVIEW
-       ═══════════════════════════════════════════════════════════════════ -->
-  <main class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-6 sm:py-10">
-    
-    <!-- Hero Title -->
-    <section class="text-center max-w-3xl mx-auto mb-10 sm:mb-12">
-      <div class="inline-flex items-center gap-2 font-mono text-xs font-semibold uppercase tracking-wider text-sky-300 bg-sky-950/60 border border-sky-400/30 px-3.5 py-1 rounded-full mb-3 shadow-lg">
-        <i class="fa-solid fa-microchip text-[10px]"></i>
-        <span>Full-Stack Engineering Framework</span>
-      </div>
-
-      <h1 class="font-['Outfit'] font-black text-3xl sm:text-5xl text-white tracking-tight leading-tight mb-3 drop-shadow-md">
-        ENGINEERING <span class="text-transparent bg-clip-text bg-gradient-to-r from-sky-400 to-indigo-300">KNOWLEDGE MATRIX</span>
-      </h1>
-
-      <p class="font-['Inter'] text-slate-300 text-sm sm:text-base leading-relaxed">
-        Next-generation tabbed workspace mapping how modern enterprise systems scale across the Client Tier, Server Tier, and Infrastructure Tier.
-      </p>
-    </section>
+  <div class="os-desktop-workspace">
 
     <!-- ═══════════════════════════════════════════════════════════════════
-         4. HOLISTIC ARCHITECTURE OVERVIEW (CLIENT → SERVER → INFRA)
+         3. TITANIUM GREY OS SYSTEM MENUBAR
          ═══════════════════════════════════════════════════════════════════ -->
-    <section class="mb-10 sm:mb-12" aria-labelledby="holistic-arch-heading">
-      <div class="os-glass-panel rounded-3xl p-6 sm:p-8">
+    <header class="sticky top-0 z-40 px-3 sm:px-6 py-2.5">
+      <div class="max-w-7xl mx-auto os-system-menubar px-4 py-2 flex items-center justify-between gap-3">
         
-        <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-4 pb-5 border-b border-white/10 mb-6">
-          <div>
-            <div class="flex items-center gap-2 font-mono text-xs text-sky-400 font-semibold mb-1">
-              <i class="fa-solid fa-network-wired"></i>
-              <span>ARCHITECTURAL STACK BLUEPRINT</span>
+        <!-- OS Brand & Kernel Identity -->
+        <div class="flex items-center gap-3">
+          <a href="../index.html" class="flex items-center gap-2.5 text-slate-100 hover:text-sky-300 transition-colors group">
+            <div class="w-7 h-7 rounded-lg bg-slate-800 border border-slate-600 flex items-center justify-center text-sky-400 group-hover:bg-slate-700 transition-colors shadow-xs">
+              <i class="fa-solid fa-terminal text-xs"></i>
             </div>
-            <h2 id="holistic-arch-heading" class="font-['Outfit'] font-bold text-xl sm:text-2xl text-white">
-              End-to-End Enterprise Stack Connectivity
-            </h2>
-          </div>
+            <div>
+              <div class="font-mono font-bold text-xs tracking-wide text-white flex items-center gap-1.5 leading-tight">
+                <span>MATRIX<span class="text-sky-400">::OS</span></span>
+                <span class="text-[10px] text-slate-400 font-normal">[v4.2-x86_64]</span>
+              </div>
+              <div class="font-mono text-[9.5px] text-slate-400 leading-tight">
+                SYS_KERNEL // CURRICULUM_MATRIX
+              </div>
+            </div>
+          </a>
 
+          <!-- Telemetry Badges (Hidden on mobile) -->
+          <div class="hidden md:flex items-center gap-2 pl-3 border-l border-slate-700 font-mono text-[11px] text-slate-400">
+            <span class="inline-flex items-center gap-1 text-emerald-400">
+              <i class="fa-solid fa-circle-dot text-[8px] animate-pulse"></i> ONLINE
+            </span>
+            <span class="text-slate-600">|</span>
+            <span class="inline-flex items-center gap-1 text-slate-300">
+              <i class="fa-solid fa-microchip text-[10px] text-sky-400"></i> CPU 14%
+            </span>
+            <span class="text-slate-600">|</span>
+            <span class="inline-flex items-center gap-1 text-slate-300">
+              <i class="fa-solid fa-memory text-[10px] text-indigo-400"></i> 3.2/16GB
+            </span>
+          </div>
+        </div>
+
+        <!-- Center Global OS Search Filter -->
+        <div class="flex-1 max-w-md hidden sm:block relative">
+          <label for="osGlobalSearchInput" class="sr-only">Search Curriculum Matrix</label>
+          <div class="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none text-slate-400 text-xs">
+            <i class="fa-solid fa-magnifying-glass"></i>
+          </div>
+          <input 
+            type="search" 
+            id="osGlobalSearchInput" 
+            placeholder="grep curriculum (e.g. V8, Generics, Event Loop, EF Core)..."
+            class="w-full pl-8 pr-8 py-1.5 bg-slate-900/90 border border-slate-700 text-slate-100 placeholder-slate-500 text-xs rounded-lg focus:outline-none focus:border-sky-500 focus:ring-1 focus:ring-sky-500 transition-all font-mono"
+            autocomplete="off" />
           <button 
-            id="execArchTraceBtn" 
+            id="osClearSearchBtn" 
             type="button" 
-            class="os-btn-primary self-start sm:self-auto shrink-0 text-xs">
-            <i class="fa-solid fa-play text-sky-300 mr-1.5"></i>
-            <span>Trace Stack Dispatch</span>
+            class="hidden absolute inset-y-0 right-0 pr-2.5 flex items-center text-slate-400 hover:text-white text-xs"
+            aria-label="Clear Search Filter">
+            <i class="fa-solid fa-xmark"></i>
           </button>
         </div>
 
-        <!-- 3 Tier Summary Cards -->
-        <div class="grid grid-cols-1 md:grid-cols-3 gap-4 mb-5">
-          
-          <!-- Client Tier -->
-          <div id="execTierClient" class="bg-white/95 rounded-2xl p-5 border border-slate-200/90 shadow-md transition-all">
-            <div class="flex items-center justify-between mb-2">
-              <span class="font-mono text-xs font-bold text-sky-700 bg-sky-50 px-2 py-0.5 rounded-md border border-sky-200">
-                TIER 01 // CLIENT
-              </span>
-              <span class="w-2.5 h-2.5 rounded-full bg-sky-500"></span>
-            </div>
-            <h3 class="font-['Outfit'] font-bold text-slate-900 text-lg mb-1">
-              React &amp; TypeScript UI
-            </h3>
-            <p class="text-xs text-slate-600 leading-relaxed">
-              React 19 concurrent reconciliation, custom async hooks, and strict compile-time types executing on the browser V8 engine.
-            </p>
-          </div>
+        <!-- Right Controls: Background Stream Indicator, Audio, Clock, Return -->
+        <div class="flex items-center gap-2.5">
+          <!-- Background Stream Link & Indicator -->
+          <a 
+            href="https://youtu.be/-3HFs3Qu7Mc?si=vGrHWaKnTePpEzhy" 
+            target="_blank" 
+            rel="noopener noreferrer"
+            class="hidden lg:inline-flex items-center gap-1.5 px-2.5 py-1 rounded bg-slate-800 hover:bg-slate-700 border border-slate-700 text-[10.5px] font-mono text-slate-300 hover:text-white transition-colors"
+            title="Active Background Video Stream: Blue Streaks Geometric Loop (-3HFs3Qu7Mc)">
+            <i class="fa-brands fa-youtube text-red-500 text-xs"></i>
+            <span>STREAM: -3HFs3Qu7Mc</span>
+            <i class="fa-solid fa-arrow-up-right-from-square text-[9px] text-slate-400"></i>
+          </a>
 
-          <!-- Server Tier -->
-          <div id="execTierServer" class="bg-white/95 rounded-2xl p-5 border border-slate-200/90 shadow-md transition-all">
-            <div class="flex items-center justify-between mb-2">
-              <span class="font-mono text-xs font-bold text-indigo-700 bg-indigo-50 px-2 py-0.5 rounded-md border border-indigo-200">
-                TIER 02 // SERVER
-              </span>
-              <span class="w-2.5 h-2.5 rounded-full bg-indigo-500"></span>
-            </div>
-            <h3 class="font-['Outfit'] font-bold text-slate-900 text-lg mb-1">
-              .NET 9 &amp; PHP 8.x Services
-            </h3>
-            <p class="text-xs text-slate-600 leading-relaxed">
-              High-throughput ASP.NET Core minimal APIs, scoped DI containers, and modern PHP 8.3 OOP services for business logic and ORM queries.
-            </p>
-          </div>
+          <!-- Live OS Clock -->
+          <span id="osMenuClock" class="font-mono text-xs text-slate-300 font-medium hidden md:inline px-2 py-1 rounded bg-slate-900 border border-slate-800">
+            Fri Oct 2, 3:00 PM
+          </span>
 
-          <!-- Infrastructure Tier -->
-          <div id="execTierInfra" class="bg-white/95 rounded-2xl p-5 border border-slate-200/90 shadow-md transition-all">
-            <div class="flex items-center justify-between mb-2">
-              <span class="font-mono text-xs font-bold text-emerald-700 bg-emerald-50 px-2 py-0.5 rounded-md border border-emerald-200">
-                TIER 03 // INFRASTRUCTURE
-              </span>
-              <span class="w-2.5 h-2.5 rounded-full bg-emerald-500"></span>
-            </div>
-            <h3 class="font-['Outfit'] font-bold text-slate-900 text-lg mb-1">
-              DNS &amp; Cloud DevOps
-            </h3>
-            <p class="text-xs text-slate-600 leading-relaxed">
-              Global Anycast DNS resolution, Nginx HTTP/3 reverse proxy routing, multi-stage Docker containers, and automated CI/CD pipelines.
-            </p>
-          </div>
+          <!-- Audio FX Toggle -->
+          <button 
+            id="osAudioToggleBtn" 
+            type="button" 
+            class="w-8 h-8 rounded-lg bg-slate-800 hover:bg-slate-700 border border-slate-700 flex items-center justify-center text-sky-400 text-xs transition-colors cursor-pointer"
+            title="Toggle OS Audio Synthesizer">
+            <i class="fa-solid fa-volume-high"></i>
+          </button>
 
-        </div>
-
-        <!-- Trace Terminal Feed -->
-        <div class="os-terminal-box space-y-1 text-xs" id="execArchLogOutput">
-          <div class="text-slate-400">
-            <span class="text-sky-400">[DISPATCH]</span> System ready. Click "Trace Stack Dispatch" to simulate an end-to-end request lifecycle.
-          </div>
+          <!-- Back to Showcase Link -->
+          <a 
+            href="../index.html" 
+            class="os-tech-btn-primary text-xs py-1.5 px-3">
+            <i class="fa-solid fa-arrow-left text-[10px]"></i>
+            <span class="hidden sm:inline">Portfolio</span>
+          </a>
         </div>
 
       </div>
-    </section>
+    </header>
 
     <!-- ═══════════════════════════════════════════════════════════════════
-         5. TABBED WHITE CARD WORKSPACE (THE 7 CORE TRACKS)
+         4. HERO HEADER & SYSTEM DIRECTORY BANNER
          ═══════════════════════════════════════════════════════════════════ -->
-    <section aria-label="Curriculum Learning Modules">
+    <main class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-6 sm:py-9">
       
-      <!-- Top Track Selector Tabs (Pill Tabs) -->
-      <div class="flex items-center gap-2 overflow-x-auto pb-4 mb-6 scrollbar-none" id="osTrackTabsContainer">
-        <!-- Rendered dynamically by matrix.js -->
+      <!-- Hero Header -->
+      <section class="text-center max-w-3xl mx-auto mb-9">
+        <div class="inline-flex items-center gap-2 font-mono text-xs font-semibold text-slate-300 bg-slate-900/90 border border-slate-700 px-3.5 py-1 rounded-md mb-3 shadow-md">
+          <i class="fa-solid fa-folder-tree text-sky-400 text-[11px]"></i>
+          <span>/sys/curriculum/learning_module/</span>
+        </div>
+
+        <h1 class="font-mono font-extrabold text-2xl sm:text-4xl lg:text-5xl text-white tracking-tight leading-tight mb-3 drop-shadow-md">
+          ENGINEERING <span class="text-sky-400">KNOWLEDGE MATRIX</span>
+        </h1>
+
+        <p class="font-sans text-slate-300 text-xs sm:text-sm leading-relaxed max-w-2xl mx-auto">
+          Technical curriculum workbench mapping full-stack architectural mastery across Client Tier, Server Tier, and Cloud Infrastructure in crisp tabbed cards.
+        </p>
+      </section>
+
+      <!-- ═══════════════════════════════════════════════════════════════════
+           5. HOLISTIC ARCHITECTURE BLUEPRINT (CLIENT → SERVER → INFRA)
+           ═══════════════════════════════════════════════════════════════════ -->
+      <section class="mb-10" aria-labelledby="holistic-arch-heading">
+        <div class="os-arch-blueprint">
+          
+          <!-- OS Window Header for Architecture -->
+          <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-4 pb-4 border-b border-slate-700/80 mb-5">
+            <div class="flex items-center gap-3">
+              <!-- Window control dots -->
+              <div class="flex items-center gap-1.5">
+                <span class="os-dot os-dot-close"></span>
+                <span class="os-dot os-dot-min"></span>
+                <span class="os-dot os-dot-max"></span>
+              </div>
+              <div>
+                <div class="flex items-center gap-2 font-mono text-xs text-sky-400 font-semibold">
+                  <i class="fa-solid fa-diagram-project"></i>
+                  <span id="holistic-arch-heading">sys/blueprint/end_to_end_stack.trace</span>
+                </div>
+                <div class="font-mono text-xs text-slate-300 font-bold">
+                  Three-Tier Distributed Architecture Execution Trace
+                </div>
+              </div>
+            </div>
+
+            <!-- Trace Dispatch Button -->
+            <button 
+              id="execArchTraceBtn" 
+              type="button" 
+              class="os-tech-btn-primary self-start sm:self-auto shrink-0 text-xs">
+              <i class="fa-solid fa-play text-sky-400 text-xs"></i>
+              <span>Trace Stack Dispatch</span>
+            </button>
+          </div>
+
+          <!-- 3 Tier White Summary Cards -->
+          <div class="grid grid-cols-1 md:grid-cols-3 gap-4 mb-4">
+            
+            <!-- Tier 01: Client -->
+            <div id="execTierClient" class="os-white-card p-4 transition-all">
+              <div class="flex items-center justify-between mb-2">
+                <span class="font-mono text-[11px] font-bold text-sky-800 bg-sky-100 px-2 py-0.5 rounded border border-sky-300">
+                  <i class="fa-solid fa-desktop mr-1 text-[10px]"></i> TIER 01 // CLIENT
+                </span>
+                <span class="w-2.5 h-2.5 rounded-full bg-sky-500"></span>
+              </div>
+              <h3 class="font-mono font-bold text-slate-900 text-base mb-1">
+                React 19 &amp; TypeScript UI
+              </h3>
+              <p class="font-sans text-xs text-slate-600 leading-relaxed">
+                Concurrent Fiber reconciliation, typed API bindings, async hooks, and zero-layout-shift UI execution on browser V8.
+              </p>
+            </div>
+
+            <!-- Tier 02: Server -->
+            <div id="execTierServer" class="os-white-card p-4 transition-all">
+              <div class="flex items-center justify-between mb-2">
+                <span class="font-mono text-[11px] font-bold text-indigo-800 bg-indigo-100 px-2 py-0.5 rounded border border-indigo-300">
+                  <i class="fa-solid fa-server mr-1 text-[10px]"></i> TIER 02 // SERVER
+                </span>
+                <span class="w-2.5 h-2.5 rounded-full bg-indigo-500"></span>
+              </div>
+              <h3 class="font-mono font-bold text-slate-900 text-base mb-1">
+                .NET 9 &amp; PHP 8.3 Services
+              </h3>
+              <p class="font-sans text-xs text-slate-600 leading-relaxed">
+                Kestrel ASP.NET Core minimal APIs, scoped DI containers, and modern PHP 8.3 OOP services executing domain queries.
+              </p>
+            </div>
+
+            <!-- Tier 03: Infrastructure -->
+            <div id="execTierInfra" class="os-white-card p-4 transition-all">
+              <div class="flex items-center justify-between mb-2">
+                <span class="font-mono text-[11px] font-bold text-emerald-800 bg-emerald-100 px-2 py-0.5 rounded border border-emerald-300">
+                  <i class="fa-solid fa-network-wired mr-1 text-[10px]"></i> TIER 03 // INFRA
+                </span>
+                <span class="w-2.5 h-2.5 rounded-full bg-emerald-500"></span>
+              </div>
+              <h3 class="font-mono font-bold text-slate-900 text-base mb-1">
+                DNS &amp; Cloud DevOps
+              </h3>
+              <p class="font-sans text-xs text-slate-600 leading-relaxed">
+                Global Anycast DNS resolution, Nginx reverse proxy edge caching, multi-stage Docker containers, and CI/CD pipelines.
+              </p>
+            </div>
+
+          </div>
+
+          <!-- Trace Terminal Feed (Titanium Code Editor Style) -->
+          <div class="os-code-editor-box space-y-1 text-xs" id="execArchLogOutput">
+            <div class="text-slate-400">
+              <span class="text-sky-400">[DISPATCH_IDLE]</span> Click "Trace Stack Dispatch" to simulate an end-to-end multi-tier request lifecycle.
+            </div>
+          </div>
+
+        </div>
+      </section>
+
+      <!-- ═══════════════════════════════════════════════════════════════════
+           6. TABBED WHITE CARD WORKBENCH (7 CORE TRACKS)
+           ═══════════════════════════════════════════════════════════════════ -->
+      <section aria-label="Curriculum Learning Modules">
+        
+        <!-- IDE File-Tabs Container (Rendered dynamically by matrix.js) -->
+        <div class="flex items-center gap-1.5 overflow-x-auto pb-1 mb-0 scrollbar-none" id="osIdeTabsContainer">
+          <!-- Rendered dynamically by matrix.js -->
+        </div>
+
+        <!-- Main Dynamic Content Area (Active Tabbed White Card or Grid of White Cards) -->
+        <div id="osMainContentArea">
+          <!-- Rendered dynamically by matrix.js -->
+        </div>
+
+      </section>
+
+    </main>
+
+    <!-- ═══════════════════════════════════════════════════════════════════
+         7. OS SYSTEM STATUS FOOTER
+         ═══════════════════════════════════════════════════════════════════ -->
+    <footer class="mt-16 py-6 border-t border-slate-800 bg-slate-950/90 backdrop-blur-md">
+      <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 flex flex-col sm:flex-row items-center justify-between gap-4 font-mono text-xs text-slate-400">
+        
+        <div class="flex items-center gap-2">
+          <span class="w-2 h-2 rounded-full bg-emerald-400"></span>
+          <span class="text-slate-300 font-bold">MATRIX//OS</span>
+          <span>•</span>
+          <span>ENGINEERING KNOWLEDGE MATRIX</span>
+          <span class="hidden sm:inline">•</span>
+          <span class="hidden sm:inline text-slate-500">VIDEO_ID: -3HFs3Qu7Mc</span>
+        </div>
+
+        <div>
+          <span>ARCHITECTED BY </span>
+          <a href="../index.html" class="text-sky-400 hover:text-white transition-colors underline font-medium">
+            ZACH HEINDEL (ZQH.WEBPRO)
+          </a>
+        </div>
+
       </div>
+    </footer>
 
-      <!-- Main Dynamic Content Area (Active White Card or Grid of White Cards) -->
-      <div id="osMainContentArea">
-        <!-- Rendered dynamically by matrix.js -->
-      </div>
-
-    </section>
-
-  </main>
-
-  <!-- ═══════════════════════════════════════════════════════════════════
-       6. OS SYSTEM FOOTER
-       ═══════════════════════════════════════════════════════════════════ -->
-  <footer class="mt-20 py-8 border-t border-white/10 bg-slate-950/80 backdrop-blur-md">
-    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 flex flex-col sm:flex-row items-center justify-between gap-4 font-mono text-xs text-slate-400">
-      
-      <div class="flex items-center gap-2">
-        <span class="w-2 h-2 rounded-full bg-emerald-400"></span>
-        <span class="text-slate-300 font-bold">NEXUS//OS</span>
-        <span>•</span>
-        <span>ENGINEERING KNOWLEDGE MATRIX 2026</span>
-      </div>
-
-      <div>
-        <span>ARCHITECTED BY </span>
-        <a href="../index.html" class="text-sky-400 hover:text-white transition-colors underline font-medium">
-          ZACH HEINDEL (ZQH.WEBPRO)
-        </a>
-      </div>
-
-    </div>
-  </footer>
+  </div>
 
   <!-- Core Matrix Engine Script -->
   <script src="./matrix.js"></script>
