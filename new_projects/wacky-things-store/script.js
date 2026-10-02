@@ -3714,16 +3714,26 @@ window.initLeafletShippingMap = function () {
 
     window.shippingLeafletMap = map;
 
-    // CartoDB Voyager tiles (clean, light, e-commerce tailored for America)
+    // CARTO API Token for Authenticated Basemap Requests
+    window.CARTO_API_TOKEN = 'eyJhbGciOiJIUzI1NiJ9.eyJhIjoiYWNfYzB2ODd0dTQiLCJqdGkiOiIzOGJkZGRiNDEwOWI5YWMyNjI2MmMyMzkzOWU5NjhhMyJ9.ZL_ZbbsEx-yWu7ok1G5lGqb-0d95oO604IPlGlE4bn8';
+
+    window.getCartoTileUrl = function (isDark) {
+        const base = isDark
+            ? 'https://{s}.basemaps.cartocdn.com/dark_all/{z}/{x}/{y}{r}.png'
+            : 'https://{s}.basemaps.cartocdn.com/rastertiles/voyager/{z}/{x}/{y}{r}.png';
+        return `${base}?api_key=${window.CARTO_API_TOKEN}`;
+    };
+
+    // CartoDB Voyager tiles (clean, light, e-commerce tailored for America) with CARTO API Token
     const isDarkMode = document.body.classList.contains('dark-mode');
-    const tileUrl = isDarkMode
-        ? 'https://{s}.basemaps.cartocdn.com/dark_all/{z}/{x}/{y}{r}.png'
-        : 'https://{s}.basemaps.cartocdn.com/rastertiles/voyager/{z}/{x}/{y}{r}.png';
+    const tileUrl = window.getCartoTileUrl(isDarkMode);
 
     window.shippingTileLayer = L.tileLayer(tileUrl, {
         attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> &copy; <a href="https://carto.com/">CARTO</a>',
         subdomains: 'abcd',
-        maxZoom: 19
+        maxZoom: 19,
+        api_key: window.CARTO_API_TOKEN,
+        token: window.CARTO_API_TOKEN
     }).addTo(map);
 
     // Draggable Point A Marker (Origin Hub)
@@ -3743,6 +3753,45 @@ window.initLeafletShippingMap = function () {
         title: 'Point B: Customer Destination'
     }).addTo(map);
 
+    // Update marker popups with rich geocoding and coordinates
+    window.updateShippingMarkerPopups = function () {
+        const o = window.currentOrigin;
+        const d = window.currentDest;
+        if (window.shippingMarkerA && o) {
+            window.shippingMarkerA.bindPopup(`
+                <div style="font-family: 'Inter', system-ui, sans-serif; padding: 4px; min-width: 200px;">
+                    <div style="font-weight: 800; font-size: 13px; color: #FF1493; display: flex; align-items: center; gap: 6px; margin-bottom: 4px;">
+                        <i class="fa-solid fa-warehouse"></i> Point A: Origin Fulfillment Hub
+                    </div>
+                    <div style="font-size: 13px; font-weight: 700; color: #1e1b4b;">${o.city || o.name || 'Origin'}</div>
+                    <div style="font-size: 11px; font-family: monospace; color: #64748b; margin-top: 3px;">
+                        ${o.lat.toFixed(3)}°N, ${Math.abs(o.lon).toFixed(3)}°W
+                    </div>
+                    <div style="font-size: 10.5px; color: #a855f7; margin-top: 5px; font-weight: 600;">
+                        <i class="fa-solid fa-arrows-up-down-left-right text-[10px]"></i> Drag pin or click map to move
+                    </div>
+                </div>
+            `, { offset: [0, -32], className: 'wacky-leaflet-popup' });
+        }
+        if (window.shippingMarkerB && d) {
+            window.shippingMarkerB.bindPopup(`
+                <div style="font-family: 'Inter', system-ui, sans-serif; padding: 4px; min-width: 200px;">
+                    <div style="font-weight: 800; font-size: 13px; color: #D946EF; display: flex; align-items: center; gap: 6px; margin-bottom: 4px;">
+                        <i class="fa-solid fa-house-chimney"></i> Point B: Customer Destination
+                    </div>
+                    <div style="font-size: 13px; font-weight: 700; color: #1e1b4b;">${d.city || d.name || 'Destination'}</div>
+                    <div style="font-size: 11px; font-family: monospace; color: #64748b; margin-top: 3px;">
+                        ${d.lat.toFixed(3)}°N, ${Math.abs(d.lon).toFixed(3)}°W
+                    </div>
+                    <div style="font-size: 10.5px; color: #a855f7; margin-top: 5px; font-weight: 600;">
+                        <i class="fa-solid fa-arrows-up-down-left-right text-[10px]"></i> Drag pin or click map to move
+                    </div>
+                </div>
+            `, { offset: [0, -32], className: 'wacky-leaflet-popup' });
+        }
+    };
+    window.updateShippingMarkerPopups();
+
     // Marker Drag Events
     window.shippingMarkerA.on('drag', function (e) {
         const pos = e.target.getLatLng();
@@ -3754,6 +3803,7 @@ window.initLeafletShippingMap = function () {
 
     window.shippingMarkerA.on('dragend', function () {
         window.updateShippingCalculation(true);
+        if (typeof window.updateShippingMarkerPopups === 'function') window.updateShippingMarkerPopups();
     });
 
     window.shippingMarkerB.on('drag', function (e) {
@@ -3766,6 +3816,7 @@ window.initLeafletShippingMap = function () {
 
     window.shippingMarkerB.on('dragend', function () {
         window.updateShippingCalculation(true);
+        if (typeof window.updateShippingMarkerPopups === 'function') window.updateShippingMarkerPopups();
     });
 
     // Map Click to Place Pins
@@ -3790,6 +3841,7 @@ window.initLeafletShippingMap = function () {
         }
 
         window.updateShippingCalculation(true);
+        if (typeof window.updateShippingMarkerPopups === 'function') window.updateShippingMarkerPopups();
     });
 
     // Animated Courier Marker
@@ -4432,9 +4484,11 @@ window.toggleDarkMode = function () {
     }
     if (window.shippingLeafletMap && window.shippingTileLayer) {
         const isDark = document.body.classList.contains('dark-mode');
-        const tileUrl = isDark
-            ? 'https://{s}.basemaps.cartocdn.com/dark_all/{z}/{x}/{y}{r}.png'
-            : 'https://{s}.basemaps.cartocdn.com/rastertiles/voyager/{z}/{x}/{y}{r}.png';
+        const tileUrl = typeof window.getCartoTileUrl === 'function'
+            ? window.getCartoTileUrl(isDark)
+            : (isDark
+                ? `https://{s}.basemaps.cartocdn.com/dark_all/{z}/{x}/{y}{r}.png?api_key=${window.CARTO_API_TOKEN}`
+                : `https://{s}.basemaps.cartocdn.com/rastertiles/voyager/{z}/{x}/{y}{r}.png?api_key=${window.CARTO_API_TOKEN}`);
         window.shippingTileLayer.setUrl(tileUrl);
     }
 };

@@ -707,10 +707,39 @@
         /* Leaflet Map & Real-World US Map Pin Styles */
         #shipping-leaflet-map {
             width: 100%;
-            height: 420px;
+            height: 580px;
+            min-height: 480px;
             background: #f7f4ff;
             border-radius: 18px;
             z-index: 10;
+        }
+
+        @media (max-width: 1024px) {
+            #shipping-leaflet-map {
+                height: 500px;
+            }
+        }
+
+        @media (max-width: 640px) {
+            #shipping-leaflet-map {
+                height: 420px;
+            }
+        }
+
+        .leaflet-popup-content-wrapper {
+            border-radius: 16px;
+            padding: 6px;
+            box-shadow: 0 15px 35px -5px rgba(0, 0, 0, 0.25), 0 10px 10px -5px rgba(0, 0, 0, 0.1);
+            border: 1px solid rgba(255, 20, 147, 0.2);
+            background: #ffffff;
+        }
+        body.dark-mode .leaflet-popup-content-wrapper {
+            background: #0f172a;
+            color: #f1f5f9;
+            border-color: rgba(217, 70, 239, 0.3);
+        }
+        body.dark-mode .leaflet-popup-tip {
+            background: #0f172a;
         }
 
         .leaflet-container {
@@ -3270,7 +3299,7 @@
     <div id="product-modal-backdrop"
         class="fixed inset-0 bg-black/60 backdrop-blur-xs z-50 hidden flex items-center justify-center p-4"
         onclick="if(event.target===this) window.closeProductModal()">
-        <div class="bg-canvas-base border border-canvas-border rounded-2xl max-w-2xl w-full flex flex-col md:flex-row overflow-hidden shadow-2xl relative"
+        <div class="bg-canvas-base border border-canvas-border rounded-2xl max-w-4xl w-full flex flex-col md:flex-row overflow-hidden shadow-2xl relative"
             data-blueprint-file="WackyStore.WebUI/Views/Product/Details.cshtml"
             data-blueprint-role="Product Details View" data-blueprint-layer="WebUI / View"
             data-blueprint-dom="Modal with flex layout for image and details, including next/back navigation."
@@ -3676,7 +3705,7 @@
     <div id="shipping-modal-backdrop"
         class="fixed inset-0 bg-black/60 backdrop-blur-xs z-50 hidden flex items-center justify-center p-3 sm:p-5"
         onclick="if(event.target===this) window.closeShippingModal()">
-        <div class="bg-canvas-base border border-canvas-border rounded-3xl max-w-5xl w-full max-h-[92vh] overflow-y-auto p-5 sm:p-7 shadow-2xl text-earth-950 flex flex-col gap-5"
+        <div class="bg-canvas-base border border-canvas-border rounded-3xl max-w-7xl lg:max-w-[1440px] w-full max-h-[96vh] overflow-y-auto p-5 sm:p-8 shadow-2xl text-earth-950 flex flex-col gap-6"
             data-blueprint-file="WackyStore.Domain/Services/GeodesicShippingService.cs"
             data-blueprint-role="Real US Map Logistics Studio Modal" data-blueprint-layer="Domain / Spatial Algorithm"
             data-blueprint-dom="Full-scale interactive Leaflet US Map shipping modal with draggable Point A & Point B markers, Great-Circle geodesic arc, and live carrier rates."
@@ -3761,7 +3790,7 @@
 
                     <!-- Genuine Leaflet Map Container -->
                     <div class="relative w-full rounded-2xl overflow-hidden border-2 border-canvas-border shadow-md">
-                        <div id="shipping-leaflet-map" style="height: 420px; width: 100%;"></div>
+                        <div id="shipping-leaflet-map" style="height: 580px; width: 100%; min-height: 480px;"></div>
                     </div>
 
                     <!-- Preset US Logistics Hubs -->

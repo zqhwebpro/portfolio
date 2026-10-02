@@ -1,0 +1,460 @@
+/* ═══════════════════════════════════════════════════════════════════
+   ENGINEERING KNOWLEDGE MATRIX — FUTURISTIC SCI-FI HUD CYBERNETIC STYLES
+   Visual Architecture: Deep Midnight Navy, Electric Cyan & Cobalt Glow
+   ═══════════════════════════════════════════════════════════════════ */
+
+:root {
+  --bg-void: #02040a;
+  --bg-deep: #030712;
+  --bg-card: rgba(11, 19, 43, 0.65);
+  --bg-card-hover: rgba(15, 27, 60, 0.85);
+  --bg-terminal: rgba(4, 9, 23, 0.95);
+  
+  --cyan-primary: #00f0ff;
+  --cyan-bright: #38bdf8;
+  --cyan-glow: rgba(0, 240, 255, 0.3);
+  --cyan-border: rgba(0, 240, 255, 0.28);
+  --cyan-border-active: rgba(0, 240, 255, 0.8);
+  
+  --cobalt-dark: #0a192f;
+  --cobalt-mid: #1e3a8a;
+  --cobalt-glow: rgba(30, 58, 138, 0.4);
+  
+  --emerald-live: #10b981;
+  --amber-warn: #f59e0b;
+  --crimson-alert: #f43f5e;
+  
+  --text-pure: #ffffff;
+  --text-ice: #e0f2fe;
+  --text-cyan: #7dd3fc;
+  --text-muted: #94a3b8;
+  --text-dim: #64748b;
+  
+  --font-display: 'Orbitron', -apple-system, sans-serif;
+  --font-heading: 'Rajdhani', -apple-system, sans-serif;
+  --font-sans: 'Inter', -apple-system, sans-serif;
+  --font-mono: 'JetBrains Mono', monospace;
+}
+
+/* Custom Scrollbars */
+::-webkit-scrollbar {
+  width: 7px;
+  height: 7px;
+}
+::-webkit-scrollbar-track {
+  background: var(--bg-void);
+}
+::-webkit-scrollbar-thumb {
+  background: rgba(0, 240, 255, 0.25);
+  border-radius: 2px;
+}
+::-webkit-scrollbar-thumb:hover {
+  background: var(--cyan-primary);
+  box-shadow: 0 0 10px var(--cyan-primary);
+}
+
+/* Base Body Grid & Ambient Glow */
+body {
+  background-color: var(--bg-deep);
+  color: var(--text-ice);
+  font-family: var(--font-sans);
+  overflow-x: hidden;
+  position: relative;
+  min-height: 100vh;
+}
+
+/* Background Cyber Grid */
+.cyber-grid-canvas {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+  z-index: 0;
+  pointer-events: none;
+  opacity: 0.55;
+}
+
+/* Subtle CRT Scanline Overlay */
+.scanline-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+  z-index: 1;
+  pointer-events: none;
+  background: linear-gradient(
+    rgba(18, 16, 16, 0) 50%, 
+    rgba(0, 240, 255, 0.015) 50%
+  );
+  background-size: 100% 4px;
+  opacity: 0.7;
+}
+
+/* Ambient Radial Glow Spots */
+.ambient-glow-top {
+  position: absolute;
+  top: -150px;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 900px;
+  height: 450px;
+  background: radial-gradient(circle, rgba(0, 240, 255, 0.12) 0%, rgba(30, 58, 138, 0.08) 50%, transparent 75%);
+  pointer-events: none;
+  z-index: 1;
+  filter: blur(40px);
+}
+
+/* HUD Chamfer Polygon Shapes */
+.hud-chamfer {
+  clip-path: polygon(
+    0 0, 
+    calc(100% - 16px) 0, 
+    100% 16px, 
+    100% 100%, 
+    16px 100%, 
+    0 calc(100% - 16px)
+  );
+}
+
+.hud-chamfer-sm {
+  clip-path: polygon(
+    0 0, 
+    calc(100% - 8px) 0, 
+    100% 8px, 
+    100% 100%, 
+    8px 100%, 
+    0 calc(100% - 8px)
+  );
+}
+
+.hud-chamfer-btn {
+  clip-path: polygon(
+    0 0, 
+    calc(100% - 12px) 0, 
+    100% 12px, 
+    100% 100%, 
+    12px 100%, 
+    0 calc(100% - 12px)
+  );
+}
+
+.hud-chamfer-tag {
+  clip-path: polygon(
+    0 0, 
+    calc(100% - 6px) 0, 
+    100% 6px, 
+    100% 100%, 
+    6px 100%, 
+    0 calc(100% - 6px)
+  );
+}
+
+/* Cybernetic Glassmorphism Panel */
+.hud-panel {
+  background: var(--bg-card);
+  backdrop-filter: blur(16px);
+  -webkit-backdrop-filter: blur(16px);
+  border: 1px solid var(--cyan-border);
+  box-shadow: 0 0 15px rgba(0, 240, 255, 0.07), inset 0 0 20px rgba(0, 240, 255, 0.02);
+  transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+  position: relative;
+}
+
+.hud-panel:hover {
+  border-color: rgba(0, 240, 255, 0.6);
+  box-shadow: 0 0 25px rgba(0, 240, 255, 0.18), inset 0 0 30px rgba(0, 240, 255, 0.04);
+}
+
+/* Glowing Neon Cyan Border Effect */
+.hud-neon-border {
+  border: 1px solid var(--cyan-border);
+  box-shadow: 0 0 15px rgba(0, 240, 255, 0.15);
+}
+
+/* HUD Corner Reticles / Brackets */
+.hud-bracketed {
+  position: relative;
+}
+
+.hud-bracketed::before,
+.hud-bracketed::after {
+  content: '';
+  position: absolute;
+  width: 10px;
+  height: 10px;
+  pointer-events: none;
+  transition: all 0.3s ease;
+}
+
+.hud-bracketed::before {
+  top: -1px;
+  left: -1px;
+  border-top: 2px solid var(--cyan-primary);
+  border-left: 2px solid var(--cyan-primary);
+}
+
+.hud-bracketed::after {
+  bottom: -1px;
+  right: -1px;
+  border-bottom: 2px solid var(--cyan-primary);
+  border-right: 2px solid var(--cyan-primary);
+}
+
+.hud-bracketed:hover::before,
+.hud-bracketed:hover::after {
+  width: 16px;
+  height: 16px;
+  border-color: #ffffff;
+  box-shadow: 0 0 8px var(--cyan-primary);
+}
+
+/* Futuristic Angled Button */
+.btn-cyber-primary {
+  background: linear-gradient(135deg, rgba(0, 240, 255, 0.15) 0%, rgba(30, 58, 138, 0.35) 100%);
+  border: 1px solid var(--cyan-primary);
+  color: var(--text-pure);
+  font-family: var(--font-heading);
+  font-weight: 700;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  position: relative;
+  overflow: hidden;
+  transition: all 0.25s cubic-bezier(0.4, 0, 0.2, 1);
+  box-shadow: 0 0 15px rgba(0, 240, 255, 0.2), inset 0 0 10px rgba(0, 240, 255, 0.1);
+}
+
+.btn-cyber-primary::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: -100%;
+  width: 100%;
+  height: 100%;
+  background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.3), transparent);
+  transition: 0.5s;
+}
+
+.btn-cyber-primary:hover {
+  background: linear-gradient(135deg, rgba(0, 240, 255, 0.35) 0%, rgba(14, 165, 233, 0.5) 100%);
+  border-color: #ffffff;
+  box-shadow: 0 0 25px rgba(0, 240, 255, 0.55), inset 0 0 15px rgba(0, 240, 255, 0.25);
+  transform: translateY(-2px);
+  color: #ffffff;
+}
+
+.btn-cyber-primary:hover::before {
+  left: 100%;
+}
+
+.btn-cyber-primary:active {
+  transform: translateY(0);
+  box-shadow: 0 0 12px rgba(0, 240, 255, 0.4);
+}
+
+/* Secondary Cyber Button */
+.btn-cyber-ghost {
+  background: rgba(11, 19, 43, 0.6);
+  border: 1px solid rgba(0, 240, 255, 0.3);
+  color: var(--text-ice);
+  font-family: var(--font-heading);
+  letter-spacing: 0.05em;
+  transition: all 0.2s ease;
+}
+
+.btn-cyber-ghost:hover {
+  background: rgba(0, 240, 255, 0.15);
+  border-color: var(--cyan-primary);
+  color: #ffffff;
+  box-shadow: 0 0 15px rgba(0, 240, 255, 0.3);
+}
+
+/* Filter Chip Pill (HUD Terminal Toggle) */
+.hud-filter-chip {
+  background: rgba(11, 19, 43, 0.7);
+  border: 1px solid rgba(0, 240, 255, 0.2);
+  color: var(--text-cyan);
+  font-family: var(--font-mono);
+  font-size: 0.75rem;
+  letter-spacing: 0.05em;
+  padding: 0.5rem 1rem;
+  transition: all 0.2s ease;
+  cursor: pointer;
+  user-select: none;
+}
+
+.hud-filter-chip:hover {
+  border-color: var(--cyan-primary);
+  background: rgba(0, 240, 255, 0.1);
+  box-shadow: 0 0 12px rgba(0, 240, 255, 0.25);
+  color: #ffffff;
+}
+
+.hud-filter-chip.active {
+  background: linear-gradient(135deg, rgba(0, 240, 255, 0.25) 0%, rgba(30, 58, 138, 0.5) 100%);
+  border-color: var(--cyan-primary);
+  color: #ffffff;
+  box-shadow: 0 0 18px rgba(0, 240, 255, 0.4), inset 0 0 10px rgba(0, 240, 255, 0.15);
+}
+
+/* Pulsing Status Indicators */
+.hud-beacon {
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  display: inline-block;
+  position: relative;
+}
+
+.hud-beacon::after {
+  content: '';
+  position: absolute;
+  top: -4px;
+  left: -4px;
+  right: -4px;
+  bottom: -4px;
+  border-radius: 50%;
+  border: 1px solid currentColor;
+  animation: beacon-pulse 2s cubic-bezier(0, 0.2, 0.8, 1) infinite;
+}
+
+@keyframes beacon-pulse {
+  0% {
+    transform: scale(0.6);
+    opacity: 1;
+  }
+  100% {
+    transform: scale(2.2);
+    opacity: 0;
+  }
+}
+
+.beacon-online {
+  background-color: var(--emerald-live);
+  color: var(--emerald-live);
+  box-shadow: 0 0 10px var(--emerald-live);
+}
+
+.beacon-cyan {
+  background-color: var(--cyan-primary);
+  color: var(--cyan-primary);
+  box-shadow: 0 0 10px var(--cyan-primary);
+}
+
+/* Architecture Interactive Flow Component */
+.arch-tier-box {
+  background: rgba(11, 19, 43, 0.85);
+  border: 1px solid rgba(0, 240, 255, 0.3);
+  backdrop-filter: blur(12px);
+  transition: all 0.3s ease;
+  position: relative;
+}
+
+.arch-tier-box:hover {
+  border-color: var(--cyan-primary);
+  box-shadow: 0 0 25px rgba(0, 240, 255, 0.25);
+  transform: translateY(-2px);
+}
+
+.arch-tier-box.active-pulse {
+  border-color: #ffffff;
+  box-shadow: 0 0 30px rgba(0, 240, 255, 0.6);
+}
+
+/* Animated Data Flow SVG */
+.flow-line {
+  stroke: rgba(0, 240, 255, 0.35);
+  stroke-dasharray: 6 6;
+  animation: flow-dash 1.8s linear infinite;
+}
+
+@keyframes flow-dash {
+  to {
+    stroke-dashoffset: -24;
+  }
+}
+
+/* Modal Dialog Glassmorphism Backdrop */
+dialog::backdrop {
+  background: rgba(2, 4, 10, 0.85);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+}
+
+dialog[open] {
+  animation: hud-modal-reveal 0.3s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+}
+
+@keyframes hud-modal-reveal {
+  from {
+    opacity: 0;
+    transform: scale(0.96) translateY(10px);
+  }
+  to {
+    opacity: 1;
+    transform: scale(1) translateY(0);
+  }
+}
+
+/* Cybernetic Glitch Micro-Hover */
+.glitch-hover:hover {
+  text-shadow: 2px 0 var(--cyan-primary), -2px 0 #3b82f6;
+}
+
+/* Code Preview Terminal Container */
+.cyber-code-box {
+  background: #030816;
+  border: 1px solid rgba(0, 240, 255, 0.25);
+  font-family: var(--font-mono);
+  box-shadow: inset 0 0 20px rgba(0, 0, 0, 0.8);
+}
+
+/* Tag Pill Styles */
+.competency-pill {
+  background: rgba(14, 165, 233, 0.12);
+  border: 1px solid rgba(56, 189, 248, 0.3);
+  color: #bae6fd;
+  font-family: var(--font-mono);
+  font-size: 0.72rem;
+  padding: 0.25rem 0.6rem;
+  transition: all 0.2s ease;
+}
+
+.competency-pill:hover {
+  background: rgba(0, 240, 255, 0.25);
+  border-color: var(--cyan-primary);
+  color: #ffffff;
+  box-shadow: 0 0 8px rgba(0, 240, 255, 0.3);
+}
+
+/* Terminal Log Stream Simulation */
+.terminal-stream-line {
+  display: flex;
+  align-items: flex-start;
+  gap: 0.5rem;
+  line-height: 1.5;
+  font-size: 0.78rem;
+  font-family: var(--font-mono);
+}
+
+.terminal-stream-line .ts {
+  color: var(--text-dim);
+  user-select: none;
+}
+.terminal-stream-line .prefix {
+  color: var(--cyan-primary);
+}
+.terminal-stream-line .msg {
+  color: var(--text-ice);
+}
+
+/* Sound Effect Waveform Graphic in HUD */
+.audio-waveform-bar {
+  display: inline-block;
+  width: 2px;
+  background-color: var(--cyan-primary);
+  margin: 0 1px;
+  border-radius: 1px;
+  transition: height 0.15s ease;
+}
