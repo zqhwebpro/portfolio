@@ -214,29 +214,29 @@
             transform: translateY(-2px);
         }
 
-        /* Shipping Estimator: Vibrant Brand Deep Pink Magenta */
+        /* Shipping Estimator: Solid Dark Pink Bold Color (No Gradient) */
         #header-shipping-btn,
         a#header-shipping-btn {
-            background: #FF1493 !important;
-            background: linear-gradient(135deg, #FF1493 0%, #D946EF 50%, #FF1493 100%) !important;
-            border: 1px solid rgba(255, 20, 147, 0.7) !important;
+            background: #BE185D !important;
+            border: 1px solid #9D174D !important;
             color: #ffffff !important;
-            box-shadow: 0 4px 15px -2px rgba(255, 20, 147, 0.45) !important;
+            font-weight: 700 !important;
+            box-shadow: 0 4px 14px -2px rgba(190, 24, 93, 0.45) !important;
         }
 
         #header-shipping-btn:hover,
         a#header-shipping-btn:hover {
-            background: #E0115F !important;
-            background: linear-gradient(135deg, #E0115F 0%, #C026D3 50%, #E0115F 100%) !important;
-            border-color: #F472B6 !important;
+            background: #9D174D !important;
+            border-color: #831843 !important;
             color: #ffffff !important;
             transform: translateY(-1.5px) !important;
-            box-shadow: 0 6px 20px -2px rgba(255, 20, 147, 0.6) !important;
+            box-shadow: 0 6px 18px -2px rgba(157, 23, 77, 0.55) !important;
         }
 
         #header-shipping-btn i,
         #header-shipping-btn span {
             color: #ffffff !important;
+            font-weight: 700 !important;
         }
 
         /* Top Admin Bar */
@@ -378,12 +378,6 @@
         class="w-full bg-[#181024] border-b border-purple-900/60 text-purple-100 py-1.5 px-3 sm:px-6 relative z-50">
         <div class="store-fluid-container flex items-center justify-between flex-wrap gap-2 text-xs">
             <div class="flex items-center gap-2 sm:gap-3 flex-wrap">
-                <span class="inline-flex items-center gap-1.5 font-heading font-black text-amber-400 tracking-wider text-xs uppercase px-2 py-0.5 rounded bg-amber-400/10 border border-amber-400/25">
-                    <i class="fa-solid fa-gauge-high text-amber-400"></i>
-                    <span>ADMIN BAR</span>
-                </span>
-                <span class="text-purple-400/30 hidden sm:inline">|</span>
-
                 <!-- Prominent Admin Tools Button (Moved to top admin bar) -->
                 <a href="./index.html?open=admin" id="topbar-admin-main-btn"
                     class="px-3 py-1.5 rounded-lg bg-gradient-to-r from-amber-500 to-amber-600 hover:from-amber-600 hover:to-amber-700 text-earth-950 font-black text-xs flex items-center gap-1.5 transition-all no-underline shadow-sm active:scale-95"
@@ -408,10 +402,10 @@
                     <span>Orders Log</span>
                 </a>
 
-                <!-- .NET Architecture Link -->
+                <!-- .NET Architecture Page Link -->
                 <a href="./index.html?open=arch"
                     class="px-2.5 py-1.5 rounded-lg bg-purple-900/70 hover:bg-purple-800 text-purple-200 hover:text-white border border-purple-700/60 text-[11px] font-bold flex items-center gap-1.5 transition-all no-underline shadow-xs"
-                    title="View .NET Architecture Map">
+                    title="View .NET Architecture Page">
                     <i class="fa-solid fa-sitemap text-teal-300"></i>
                     <span>.NET Arch</span>
                 </a>
@@ -507,18 +501,18 @@
                     <span class="hidden sm:inline">Store Catalog</span>
                 </a>
 
-                <!-- Shipping Distance Map Estimator Trigger (Vibrant Deep Pink Magenta Brand Color) -->
+                <!-- Shipping Distance Map Estimator Trigger (Solid Dark Pink Bold Color) -->
                 <a href="./index.html?open=shipping" id="header-shipping-btn"
                     data-blueprint-file="WackyStore.WebUI/Controllers/ShippingCalculatorController.cs"
                     data-blueprint-role="Geodesic Shipping Distance Estimator Portal"
                     data-blueprint-layer="WebUI / Navigation &amp; Spatial Routing"
-                    data-blueprint-dom="Vibrant deep pink &amp; magenta gradient action button opening the interactive US map shipping calculator modal."
+                    data-blueprint-dom="Solid bold dark pink action button opening the interactive US map shipping calculator modal."
                     data-blueprint-desc="Opens dedicated US map shipping distance estimator using real Leaflet GIS cartography, Haversine spherical math, and carrier rate calculation."
                     data-blueprint-code="public ActionResult ShippingCalculator() => PartialView(&quot;_DistanceMatrixCalculator&quot;);"
-                    class="h-10 px-3.5 rounded-xl bg-gradient-to-r from-[#FF1493] via-[#D946EF] to-[#FF1493] hover:from-[#E0115F] hover:to-[#C026D3] text-white text-xs font-bold flex items-center gap-1.5 transition-all shadow-md shadow-pink-500/30 active:scale-95 border border-pink-400/50 no-underline cursor-pointer"
+                    class="h-10 px-3.5 rounded-xl bg-[#BE185D] hover:bg-[#9D174D] text-white text-xs font-bold flex items-center gap-1.5 transition-all shadow-md shadow-pink-900/30 active:scale-95 border border-[#9D174D] no-underline cursor-pointer"
                     title="Estimate Shipping Distance Across America">
                     <i class="fa-solid fa-map-location-dot text-white"></i>
-                    <span class="hidden md:inline text-white">Shipping Estimator</span>
+                    <span class="hidden md:inline text-white font-bold">Shipping Estimator</span>
                 </a>
 
                 <!-- The Wacky Blog Button -->

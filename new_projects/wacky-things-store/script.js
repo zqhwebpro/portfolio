@@ -1346,6 +1346,7 @@ window.openAdminTab = function (tabName) {
     }
     setTimeout(() => {
         window.switchAdminTab(tabName);
+        window.scrollTo({ top: 0, behavior: 'smooth' });
     }, 50);
 };
 
@@ -2013,12 +2014,20 @@ window.closeAdminToolsPanel = function () {
  * ==============================================================================
  */
 function openArchitectureModal() {
-    document.getElementById('arch-modal-backdrop').classList.remove('hidden');
+    if (typeof window.openAdminTab === 'function') {
+        window.openAdminTab('arch');
+    } else {
+        const modal = document.getElementById('arch-modal-backdrop');
+        if (modal) modal.classList.remove('hidden');
+    }
 }
+window.openArchitectureModal = openArchitectureModal;
 
 function closeArchitectureModal() {
-    document.getElementById('arch-modal-backdrop').classList.add('hidden');
+    const modal = document.getElementById('arch-modal-backdrop');
+    if (modal) modal.classList.add('hidden');
 }
+window.closeArchitectureModal = closeArchitectureModal;
 
 /**
  * ==============================================================================
@@ -4459,9 +4468,9 @@ document.addEventListener('DOMContentLoaded', () => {
         setTimeout(() => {
             if (typeof window.openAdminTab === 'function') window.openAdminTab('blog');
         }, 300);
-    } else if (params.get('open') === 'arch') {
+    } else if (params.get('open') === 'arch' || params.get('open') === 'admin-arch' || window.location.hash === '#arch') {
         setTimeout(() => {
-            if (typeof window.openArchitectureModal === 'function') window.openArchitectureModal();
+            if (typeof window.openAdminTab === 'function') window.openAdminTab('arch');
         }, 300);
     }
 });

@@ -15,10 +15,11 @@
 **Parma Sub & Fry Co.** is an artisan sub and loaded fry delivery operation modeled after the celebrated South Central Pennsylvania institution, **Parma Pizza & Grill**. 
 
 This repository delivers a decoupled, enterprise-grade **.NET 9 C#** backend paired with an interactive frontend that features:
-1. **Interactive Community Calendar:** Custom-programmed monthly calendar showing dining specials, live patio sessions, youth sports fundraisers, and seasonal community events.
-2. **Back-Office Event Management Panel:** Full CRUD administration allowing managers to publish, customize (image, headline, description, button text, button color, button link), and delete event posts.
-3. **RESTful Web API Endpoints:** Clean controllers managing community events and orders with thread-safe persistence and validation.
-4. **Resilient Hybrid Client:** Connects to the local/hosted .NET Web API (`/api/events`) with seamless graceful fallback to `localStorage` when hosted statically on GitHub Pages.
+1. **Multi-Carrier Delivery Service Admin Console:** Comprehensive administration panel for connecting website orders to top demographic delivery providers (Toast POS, DoorDash Drive, Uber Direct, Grubhub, Square, and Clover) with live API verification and outward developer onboarding.
+2. **Interactive Community Calendar:** Custom-programmed monthly calendar showing dining specials, live patio sessions, youth sports fundraisers, and seasonal community events.
+3. **Back-Office Event Management Panel:** Full CRUD administration allowing managers to publish, customize, and manage restaurant event telemetry.
+4. **RESTful Web API Endpoints:** Clean controllers managing community events and orders with thread-safe persistence and validation.
+5. **Resilient Hybrid Client:** Connects to the local/hosted .NET Web API with seamless graceful fallback to `localStorage` when hosted statically on GitHub Pages.
 
 ---
 

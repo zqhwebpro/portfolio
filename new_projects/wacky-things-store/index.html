@@ -585,33 +585,33 @@
             color: #1A0845 !important;
         }
 
-        /* 5. SHIPPING ESTIMATOR BUTTON: VIBRANT BRAND DEEP PINK MAGENTA (Matches Shopping Page) */
+        /* 5. SHIPPING ESTIMATOR BUTTON: SOLID DARK PINK BOLD COLOR (No Gradient) */
         #header-shipping-btn,
         button#header-shipping-btn,
         a#header-shipping-btn,
         header #header-shipping-btn {
-            background: #FF1493 !important;
-            background: linear-gradient(135deg, #FF1493 0%, #D946EF 50%, #FF1493 100%) !important;
-            border: 1px solid rgba(255, 20, 147, 0.7) !important;
+            background: #BE185D !important;
+            border: 1px solid #9D174D !important;
             color: #ffffff !important;
-            box-shadow: 0 4px 15px -2px rgba(255, 20, 147, 0.45) !important;
+            font-weight: 700 !important;
+            box-shadow: 0 4px 14px -2px rgba(190, 24, 93, 0.45) !important;
         }
 
         #header-shipping-btn:hover,
         button#header-shipping-btn:hover,
         a#header-shipping-btn:hover,
         header #header-shipping-btn:hover {
-            background: #E0115F !important;
-            background: linear-gradient(135deg, #E0115F 0%, #C026D3 50%, #E0115F 100%) !important;
-            border-color: #F472B6 !important;
+            background: #9D174D !important;
+            border-color: #831843 !important;
             color: #ffffff !important;
             transform: translateY(-1.5px) !important;
-            box-shadow: 0 6px 20px -2px rgba(255, 20, 147, 0.6) !important;
+            box-shadow: 0 6px 18px -2px rgba(157, 23, 77, 0.55) !important;
         }
 
         #header-shipping-btn i,
         #header-shipping-btn span {
             color: #ffffff !important;
+            font-weight: 700 !important;
         }
 
         /* 6. ADMIN TOP BAR (Above the Top Bar) */
@@ -1338,14 +1338,8 @@
         data-blueprint-desc="Consolidated administrative navigation providing rapid access to .NET Architecture maps, EF6 Product CRUD inventory, and Blog CMS management."
         class="w-full bg-[#10081E] border-b border-purple-900/60 text-purple-100 py-1.5 px-3 sm:px-6 relative z-50 shadow-md">
         <div class="store-fluid-container flex items-center justify-between flex-wrap gap-2 text-xs">
-            <!-- Left: Admin Brand & Primary Management Triggers -->
+            <!-- Left: Admin Primary Management Triggers -->
             <div class="flex items-center gap-2 sm:gap-2.5 flex-wrap">
-                <span class="inline-flex items-center gap-1.5 font-heading font-black text-amber-400 tracking-wider text-xs uppercase px-2 py-0.5 rounded bg-amber-400/10 border border-amber-400/25">
-                    <i class="fa-solid fa-gauge-high text-amber-400"></i>
-                    <span>ADMIN BAR</span>
-                </span>
-                <span class="text-purple-400/30 hidden sm:inline">|</span>
-
                 <!-- Prominent Admin Tools Button (Moved into this admin bar above top panel) -->
                 <button type="button" onclick="window.toggleAdminPanel()" id="topbar-admin-main-btn"
                     data-blueprint-file="WackyStore.WebUI/Controllers/AdminController.cs"
@@ -1376,12 +1370,12 @@
                     <span>Orders Log</span>
                 </button>
 
-                <!-- .NET Architecture Modal Trigger -->
-                <button type="button" onclick="window.openArchitectureModal()" id="topbar-arch-btn"
+                <!-- .NET Architecture Page Trigger -->
+                <button type="button" onclick="window.openAdminTab('arch')" id="topbar-arch-btn"
                     data-blueprint-file="WackyStore.Domain/Abstract/IProductRepository.cs"
-                    data-blueprint-role="N-Tier Architecture Map"
+                    data-blueprint-role="N-Tier Architecture Page"
                     class="admin-top-btn px-2.5 py-1.5 rounded-lg bg-purple-900/70 hover:bg-purple-800 text-purple-200 hover:text-white border border-purple-700/60 text-[11px] font-bold flex items-center gap-1.5 transition-all cursor-pointer shadow-xs"
-                    title="View .NET Solution N-Tier Architecture Map">
+                    title="View .NET Solution N-Tier Architecture Page">
                     <i class="fa-solid fa-sitemap text-teal-300"></i>
                     <span>.NET Arch</span>
                 </button>
@@ -1553,18 +1547,18 @@
             <div class="flex items-center gap-2.5">
 
 
-                <!-- Shipping Distance Map Estimator Trigger (Vibrant Deep Pink Magenta Brand Color) -->
+                <!-- Shipping Distance Map Estimator Trigger (Solid Dark Pink Bold Color) -->
                 <button onclick="window.openShippingModal()" id="header-shipping-btn"
                     data-blueprint-file="WackyStore.WebUI/Controllers/ShippingCalculatorController.cs"
                     data-blueprint-role="Geodesic Shipping Distance Estimator Portal"
                     data-blueprint-layer="WebUI / Navigation &amp; Spatial Routing"
-                    data-blueprint-dom="Vibrant deep pink &amp; magenta gradient action button opening the interactive US map shipping calculator modal."
+                    data-blueprint-dom="Solid bold dark pink action button opening the interactive US map shipping calculator modal."
                     data-blueprint-desc="Opens dedicated US map shipping distance estimator using real Leaflet GIS cartography, Haversine spherical math, and carrier rate calculation."
                     data-blueprint-code="public ActionResult ShippingCalculator() => PartialView(&quot;_DistanceMatrixCalculator&quot;);"
-                    class="h-10 px-3.5 rounded-xl bg-gradient-to-r from-[#FF1493] via-[#D946EF] to-[#FF1493] hover:from-[#E0115F] hover:to-[#C026D3] text-white text-xs font-bold flex items-center gap-1.5 transition-all shadow-md shadow-pink-500/30 active:scale-95 cursor-pointer border border-pink-400/50"
+                    class="h-10 px-3.5 rounded-xl bg-[#BE185D] hover:bg-[#9D174D] text-white text-xs font-bold flex items-center gap-1.5 transition-all shadow-md shadow-pink-900/30 active:scale-95 cursor-pointer border border-[#9D174D]"
                     title="Estimate Shipping Distance Across America">
                     <i class="fa-solid fa-map-location-dot text-white"></i>
-                    <span class="hidden md:inline text-white">Shipping Estimator</span>
+                    <span class="hidden md:inline text-white font-bold">Shipping Estimator</span>
                 </button>
 
                 <!-- CASE STUDY LINK BUTTON — commented out until ready to review
@@ -2173,6 +2167,82 @@
                                 <li>EmailOrderProcessor.cs</li>
                                 <li>DatabaseInitializer.cs (Seeds)</li>
                             </ul>
+                        </div>
+                    </div>
+
+                    <!-- Comprehensive Architectural Deep Dive -->
+                    <div class="space-y-4">
+                        <div class="border-b border-canvas-border pb-2">
+                            <h3 class="text-sm font-black font-heading text-earth-950 uppercase tracking-wider flex items-center gap-2">
+                                <i class="fa-solid fa-brain text-purple-700"></i>
+                                <span>Separation of Concerns &amp; Psychological Architectural Flow</span>
+                            </h3>
+                            <p class="text-[11.5px] text-earth-600 mt-0.5">
+                                By isolating the database, domain logic, and user interface into distinct realms of responsibility, cognitive overload is eliminated and components remain independently testable.
+                            </p>
+                        </div>
+
+                        <div class="grid grid-cols-1 md:grid-cols-2 gap-4 text-xs">
+                            <!-- 1. The Domain Layer -->
+                            <div class="bg-white p-4 rounded-xl border border-canvas-border space-y-2">
+                                <div class="flex items-center gap-2 text-appetite-800 font-bold text-sm">
+                                    <i class="fa-solid fa-cube text-appetite-600"></i>
+                                    <span>1. The Domain Layer (Core Truth)</span>
+                                </div>
+                                <p class="text-[11.5px] text-earth-700 leading-relaxed mb-1">
+                                    The <strong>Domain Layer</strong> exists as the absolute center of truth. It is entirely agnostic to HTTP requests or SQL database tables—it encapsulates pure C# business rules.
+                                </p>
+                                <ul class="list-disc list-inside space-y-1.5 pl-1 text-[11px] text-earth-700 border-t border-canvas-border pt-2">
+                                    <li><strong class="text-earth-950">Rich Domain Models:</strong> <code class="bg-earth-100 px-1 rounded text-[10px]">Cart.cs</code> encapsulates line item mutations, computation, and validation without external controller dependencies.</li>
+                                    <li><strong class="text-earth-950">The Repository Pattern:</strong> Projects abstract contracts like <code class="bg-earth-100 px-1 rounded text-[10px]">IProductRepository</code>, decoupling consumer logic from database query mechanics.</li>
+                                </ul>
+                            </div>
+
+                            <!-- 2. Data Access Layer -->
+                            <div class="bg-white p-4 rounded-xl border border-canvas-border space-y-2">
+                                <div class="flex items-center gap-2 text-earth-900 font-bold text-sm">
+                                    <i class="fa-solid fa-database text-earth-600"></i>
+                                    <span>2. Data Access Layer (EF6 Storage)</span>
+                                </div>
+                                <p class="text-[11.5px] text-earth-700 leading-relaxed mb-1">
+                                    Acts as the persistent memory bridge between ephemeral C# domain objects and relational storage in Microsoft SQL Server via Entity Framework 6.4.4.
+                                </p>
+                                <ul class="list-disc list-inside space-y-1.5 pl-1 text-[11px] text-earth-700 border-t border-canvas-border pt-2">
+                                    <li><strong class="text-earth-950">EF DbContext Mapping:</strong> <code class="bg-earth-100 px-1 rounded text-[10px]">EFDbContext</code> projects C# entities into typed SQL tables using Code-First conventions.</li>
+                                    <li><strong class="text-earth-950">Concrete Repository:</strong> <code class="bg-earth-100 px-1 rounded text-[10px]">EFProductRepository</code> implements <code class="bg-earth-100 px-1 rounded text-[10px]">IProductRepository</code> using optimized LINQ-to-Entities queries.</li>
+                                </ul>
+                            </div>
+
+                            <!-- 3. Presentation Layer -->
+                            <div class="bg-white p-4 rounded-xl border border-canvas-border space-y-2">
+                                <div class="flex items-center gap-2 text-teal-900 font-bold text-sm">
+                                    <i class="fa-solid fa-desktop text-teal-600"></i>
+                                    <span>3. Presentation Layer (ASP.NET MVC 5)</span>
+                                </div>
+                                <p class="text-[11.5px] text-earth-700 leading-relaxed mb-1">
+                                    The outward-facing HTTP persona. Intentionally thin with zero core business calculations; focuses on routing, validation, and Razor view rendering.
+                                </p>
+                                <ul class="list-disc list-inside space-y-1.5 pl-1 text-[11px] text-earth-700 border-t border-canvas-border pt-2">
+                                    <li><strong class="text-earth-950">Thin Controllers:</strong> Request data from repositories, package it into strongly-typed ViewModels, and return Razor views.</li>
+                                    <li><strong class="text-earth-950">Custom Model Binders:</strong> <code class="bg-earth-100 px-1 rounded text-[10px]">CartModelBinder</code> deserializes session state and injects it cleanly as controller action arguments.</li>
+                                    <li><strong class="text-earth-950">Razor Helpers:</strong> <code class="bg-earth-100 px-1 rounded text-[10px]">@Html.PageLinks</code> generates fluid pagination links preserving active categories.</li>
+                                </ul>
+                            </div>
+
+                            <!-- 4. Inversion of Control -->
+                            <div class="bg-white p-4 rounded-xl border border-canvas-border space-y-2">
+                                <div class="flex items-center gap-2 text-purple-950 font-bold text-sm">
+                                    <i class="fa-solid fa-link text-purple-700"></i>
+                                    <span>4. Inversion of Control (Ninject IoC)</span>
+                                </div>
+                                <p class="text-[11.5px] text-earth-700 leading-relaxed mb-1">
+                                    Connects decoupled layers at application startup without hard dependencies between the Presentation and Data tiers.
+                                </p>
+                                <ul class="list-disc list-inside space-y-1.5 pl-1 text-[11px] text-earth-700 border-t border-canvas-border pt-2">
+                                    <li><strong class="text-earth-950">Dynamic Binding:</strong> Binds <code class="bg-earth-100 px-1 rounded text-[10px]">IProductRepository</code> to <code class="bg-earth-100 px-1 rounded text-[10px]">EFProductRepository</code> in <code class="bg-earth-100 px-1 rounded text-[10px]">NinjectWebCommon.cs</code>.</li>
+                                    <li><strong class="text-earth-950">Zero Coupling:</strong> Controllers only depend on interfaces; implementations can be swapped for mocks in unit tests without touching UI code.</li>
+                                </ul>
+                            </div>
                         </div>
                     </div>
 
@@ -3513,10 +3583,10 @@
                 <p class="text-[11.5px] text-earth-600 leading-relaxed">
                     Inspect the dependency injection contracts, repository patterns, and session decoupling architecture.
                 </p>
-                <button onclick="window.closeAdminToolsPanel(); window.openArchitectureModal();"
+                <button onclick="window.closeAdminToolsPanel(); window.openAdminTab('arch');"
                     class="w-full py-2.5 px-4 rounded-xl bg-canvas-surface hover:bg-canvas-border border border-canvas-border text-earth-900 font-bold text-xs flex items-center justify-center gap-2 transition-all cursor-pointer">
                     <i class="fa-solid fa-layer-group text-appetite-700"></i>
-                    <span>Open .NET Architecture Map</span>
+                    <span>Open .NET Architecture Page</span>
                 </button>
             </div>
 
@@ -3879,7 +3949,7 @@
                         <!-- Action Buttons -->
                         <div class="pt-1 flex flex-col sm:flex-row gap-2">
                             <button type="button" onclick="window.applyShippingToCart()"
-                                class="flex-1 py-3 px-4 rounded-xl bg-gradient-to-r from-[#FF1493] via-[#D946EF] to-[#FF1493] hover:from-[#E0115F] hover:to-[#C026D3] text-white font-bold text-xs sm:text-sm flex items-center justify-center gap-2 shadow-md shadow-pink-500/25 active:scale-98 transition-all cursor-pointer border border-pink-400/40">
+                                class="flex-1 py-3 px-4 rounded-xl bg-[#BE185D] hover:bg-[#9D174D] text-white font-bold text-xs sm:text-sm flex items-center justify-center gap-2 shadow-md shadow-pink-900/25 active:scale-98 transition-all cursor-pointer border border-[#9D174D]">
                                 <i class="fa-solid fa-cart-arrow-down text-pink-200"></i>
                                 <span>Apply Rate to Cart</span>
                             </button>
