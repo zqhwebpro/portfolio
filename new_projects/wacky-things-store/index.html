@@ -1310,16 +1310,13 @@
         }
 
         #site-horizontal-track {
-            display: flex;
-            flex-direction: row;
+            display: block;
             width: 100%;
-            will-change: transform;
+            position: relative;
         }
 
         #screen-regular {
             width: 100%;
-            min-width: 100%;
-            flex-shrink: 0;
             display: flex;
             flex-direction: column;
             min-height: 100vh;
@@ -1327,13 +1324,69 @@
 
         #screen-academy {
             width: 100%;
-            min-width: 100%;
-            flex-shrink: 0;
             display: none;
             flex-direction: column;
             min-height: 100vh;
             background: #1e2430;
             color: #f1f5f9;
+        }
+
+        /* Smooth View Blur & Color Transition */
+        @keyframes viewBlurOut {
+            0% {
+                opacity: 1;
+                filter: blur(0px);
+                transform: scale(1);
+            }
+            100% {
+                opacity: 0;
+                filter: blur(14px);
+                transform: scale(0.985);
+            }
+        }
+
+        @keyframes viewBlurIn {
+            0% {
+                opacity: 0;
+                filter: blur(14px);
+                transform: scale(0.985);
+            }
+            100% {
+                opacity: 1;
+                filter: blur(0px);
+                transform: scale(1);
+            }
+        }
+
+        .view-blur-out {
+            animation: viewBlurOut 0.36s cubic-bezier(0.16, 1, 0.3, 1) forwards !important;
+            pointer-events: none !important;
+        }
+
+        .view-blur-in {
+            animation: viewBlurIn 0.4s cubic-bezier(0.16, 1, 0.3, 1) forwards !important;
+        }
+
+        /* Contained Max-Width Container for Learning Modules and Webinar (Wide & Centered) */
+        .academy-wide-container {
+            width: 100%;
+            max-width: 1440px;
+            margin-left: auto;
+            margin-right: auto;
+            padding-left: 1rem;
+            padding-right: 1rem;
+        }
+        @media (min-width: 640px) {
+            .academy-wide-container {
+                padding-left: 1.5rem;
+                padding-right: 1.5rem;
+            }
+        }
+        @media (min-width: 1024px) {
+            .academy-wide-container {
+                padding-left: 2rem;
+                padding-right: 2rem;
+            }
         }
 
         /* ==============================================================================
@@ -3097,7 +3150,7 @@
         class="bg-[#1e2430] text-white flex-1 w-full pt-4 pb-16">
 
         <!-- COURSES CATALOG GRID (WackyDash Style Course Cards) -->
-        <div class="store-fluid-container py-6 w-full">
+        <div class="academy-wide-container py-6 w-full">
             <div class="flex flex-col lg:flex-row lg:items-center justify-between gap-4 mb-6">
                 <div>
                     <h2 class="font-heading font-black text-xl sm:text-2xl text-white flex items-center gap-2.5">
@@ -3156,7 +3209,7 @@
         <!-- ============================================================================== -->
         <!-- LIVE WEBINAR ON ZOOM SIGNUP SECTION (Bottom of the page) -->
         <!-- ============================================================================== -->
-        <div id="zoom-webinar-section" class="store-fluid-container pt-8 pb-12 w-full"
+        <div id="zoom-webinar-section" class="academy-wide-container pt-8 pb-12 w-full"
             data-blueprint-file="WackyStore.WebUI/Views/Course/_ZoomWebinarSection.cshtml"
             data-blueprint-role="Live Zoom Webinar Registration Partial"
             data-blueprint-layer="WebUI / Event Module &amp; Zoom REST Client"

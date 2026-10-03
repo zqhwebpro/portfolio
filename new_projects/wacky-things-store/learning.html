@@ -230,6 +230,27 @@
             color: #f1f5f9 !important;
         }
 
+        .academy-wide-container {
+            width: 100%;
+            max-width: 1440px;
+            margin-left: auto;
+            margin-right: auto;
+            padding-left: 1rem;
+            padding-right: 1rem;
+        }
+        @media (min-width: 640px) {
+            .academy-wide-container {
+                padding-left: 1.5rem;
+                padding-right: 1.5rem;
+            }
+        }
+        @media (min-width: 1024px) {
+            .academy-wide-container {
+                padding-left: 2rem;
+                padding-right: 2rem;
+            }
+        }
+
         /* Standout Gradient Buttons with Luminous Elevation */
         .btn-gradient-standout,
         .btn-standout-orange,
@@ -609,7 +630,7 @@
     <!-- MAIN LEARNING MODULE CONTENT -->
     <main class="bg-[#1e2430] text-white flex-1 w-full pt-4 pb-16">
         <!-- COURSES CATALOG GRID -->
-        <div class="store-fluid-container py-6 w-full">
+        <div class="academy-wide-container py-6 w-full">
             <div class="flex flex-col lg:flex-row lg:items-center justify-between gap-4 mb-6">
                 <div>
                     <h2 class="font-heading font-black text-xl sm:text-2xl text-white flex items-center gap-2.5">
@@ -669,7 +690,7 @@
         </div>
 
         <!-- LIVE WEBINAR ON ZOOM SIGNUP SECTION -->
-        <div id="zoom-webinar-section" class="store-fluid-container pt-8 pb-12 w-full"
+        <div id="zoom-webinar-section" class="academy-wide-container pt-8 pb-12 w-full"
             data-blueprint-file="WackyStore.WebUI/Views/Course/_ZoomWebinarSection.cshtml"
             data-blueprint-role="Live Zoom Webinar Registration Partial"
             data-blueprint-layer="WebUI / Event Module &amp; Zoom REST Client"

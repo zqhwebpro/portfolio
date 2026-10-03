@@ -2349,135 +2349,132 @@ window.switchView = function (targetView) {
     if (regCartTotal && acadCartTotal) acadCartTotal.innerText = regCartTotal.innerText;
     if (regCartCount && acadCartCount) acadCartCount.innerText = regCartCount.innerText;
 
-    // SCENARIO 1: Entering Funny Academy (Scroll screen to the left)
+    // SCENARIO 1: Entering Funny Academy (Blur out with color wash to reverse theme)
     if (targetView === 'learning') {
         window.isTransitioningView = true;
 
-        if (screenAcademy) {
-            screenAcademy.style.display = 'flex';
-            screenAcademy.style.width = '100vw';
-            screenAcademy.style.minWidth = '100vw';
-        }
         if (screenRegular) {
-            screenRegular.style.width = '100vw';
-            screenRegular.style.minWidth = '100vw';
-        }
-        if (track) {
-            track.style.width = '200vw';
-            track.style.transition = 'none';
-            track.style.transform = 'translateX(0)';
-            void track.offsetWidth; // Force reflow
+            screenRegular.classList.remove('view-blur-in');
+            screenRegular.classList.add('view-blur-out');
         }
 
-        if (learningMain) {
-            learningMain.classList.remove('hidden');
-        }
-        if (typeof window.renderCourses === 'function') {
-            window.renderCourses(window.activeCourseCategory || 'all');
-        }
-
-        window.scrollTo({ top: 0, behavior: 'smooth' });
-
-        if (track) {
-            track.style.transition = 'transform 0.68s cubic-bezier(0.22, 1, 0.36, 1)';
-            track.style.transform = 'translateX(-100vw)';
-        }
-
-        window.currentView = 'learning';
+        // Color wash to new color: deep slate grey academy background
+        document.body.style.transition = 'background-color 0.38s ease-in-out';
+        document.body.style.backgroundColor = '#1e2430';
         document.body.classList.add('academy-reverse-theme');
 
         setTimeout(() => {
-            if (screenRegular) screenRegular.style.display = 'none';
-            if (track) {
-                track.style.transition = 'none';
-                track.style.transform = 'none';
-                track.style.width = '100%';
+            if (screenRegular) {
+                screenRegular.style.display = 'none';
+                screenRegular.classList.remove('view-blur-out');
             }
+
             if (screenAcademy) {
+                screenAcademy.style.display = 'flex';
                 screenAcademy.style.width = '100%';
                 screenAcademy.style.minWidth = '100%';
+                screenAcademy.classList.remove('view-blur-out');
+                screenAcademy.classList.add('view-blur-in');
             }
-            window.isTransitioningView = false;
-        }, 700);
+
+            if (learningMain) {
+                learningMain.classList.remove('hidden');
+            }
+            if (typeof window.renderCourses === 'function') {
+                window.renderCourses(window.activeCourseCategory || 'all');
+            }
+
+            window.scrollTo({ top: 0, behavior: 'instant' });
+            window.currentView = 'learning';
+
+            setTimeout(() => {
+                if (screenAcademy) {
+                    screenAcademy.classList.remove('view-blur-in');
+                }
+                window.isTransitioningView = false;
+            }, 400);
+        }, 360);
+
         return;
     }
 
-    // SCENARIO 2: Leaving Funny Academy (Scroll screen back to the right)
+    // SCENARIO 2: Leaving Funny Academy (Blur out with color wash back to store theme)
     if (window.currentView === 'learning') {
         window.isTransitioningView = true;
 
-        if (screenRegular) {
-            screenRegular.style.display = 'flex';
-            screenRegular.style.width = '100vw';
-            screenRegular.style.minWidth = '100vw';
-        }
         if (screenAcademy) {
-            screenAcademy.style.width = '100vw';
-            screenAcademy.style.minWidth = '100vw';
-        }
-        if (track) {
-            track.style.width = '200vw';
-            track.style.transition = 'none';
-            track.style.transform = 'translateX(-100vw)';
-            void track.offsetWidth; // Force reflow
+            screenAcademy.classList.remove('view-blur-in');
+            screenAcademy.classList.add('view-blur-out');
         }
 
-        // Set up the destination view inside regular screen
-        if (storeMain) storeMain.classList.add('hidden');
-        if (blogMain) blogMain.classList.add('hidden');
-        if (adminMain) adminMain.classList.add('hidden');
-        if (luckMain) luckMain.classList.add('hidden');
-
-        if (targetView === 'blog') {
-            if (blogMain) {
-                blogMain.classList.remove('hidden');
-                blogMain.classList.add('animate-blur-fade-in');
-            }
-            if (typeof window.renderBlogPosts === 'function') {
-                window.renderBlogPosts(window.activeBlogCategory || 'all');
-            }
-            if (hBlogText) hBlogText.innerText = 'Store Catalog';
-            if (hBlogIcon) hBlogIcon.className = 'fa-solid fa-shop text-appetite-700';
-        } else if (targetView === 'admin') {
-            if (adminMain) {
-                adminMain.classList.remove('hidden');
-                adminMain.classList.add('flex', 'animate-blur-fade-in');
-            }
-            if (typeof window.renderAdminProductsTable === 'function') {
-                window.renderAdminProductsTable();
-            }
-        } else {
-            if (storeMain) {
-                storeMain.classList.remove('hidden');
-                storeMain.classList.add('animate-blur-fade-in');
-            }
-            if (hBlogText) hBlogText.innerText = 'The Wacky Blog';
-            if (hBlogIcon) hBlogIcon.className = 'fa-solid fa-newspaper text-earth-300';
-        }
-
-        window.scrollTo({ top: 0, behavior: 'smooth' });
-
-        if (track) {
-            track.style.transition = 'transform 0.68s cubic-bezier(0.22, 1, 0.36, 1)';
-            track.style.transform = 'translateX(0)';
-        }
-
-        window.currentView = targetView;
+        // Color wash to new color: light store canvas
+        document.body.style.transition = 'background-color 0.38s ease-in-out';
+        document.body.style.backgroundColor = '';
         document.body.classList.remove('academy-reverse-theme');
 
         setTimeout(() => {
-            if (screenAcademy) screenAcademy.style.display = 'none';
-            if (track) {
-                track.style.transition = 'none';
-                track.style.transform = 'none';
-                track.style.width = '100%';
+            if (screenAcademy) {
+                screenAcademy.style.display = 'none';
+                screenAcademy.classList.remove('view-blur-out');
             }
+
+            // Set up the destination view inside regular screen
+            if (storeMain) storeMain.classList.add('hidden');
+            if (blogMain) blogMain.classList.add('hidden');
+            if (adminMain) adminMain.classList.add('hidden');
+            if (luckMain) luckMain.classList.add('hidden');
+
+            if (targetView === 'blog') {
+                if (blogMain) {
+                    blogMain.classList.remove('hidden');
+                    blogMain.classList.add('animate-blur-fade-in');
+                }
+                if (typeof window.renderBlogPosts === 'function') {
+                    window.renderBlogPosts(window.activeBlogCategory || 'all');
+                }
+                if (hBlogText) hBlogText.innerText = 'Store Catalog';
+                if (hBlogIcon) hBlogIcon.className = 'fa-solid fa-shop text-appetite-700';
+            } else if (targetView === 'admin') {
+                if (adminMain) {
+                    adminMain.classList.remove('hidden');
+                    adminMain.classList.add('flex', 'animate-blur-fade-in');
+                }
+                if (typeof window.renderAdminProductsTable === 'function') {
+                    window.renderAdminProductsTable();
+                }
+            } else if (targetView === 'luck') {
+                if (luckMain) {
+                    luckMain.classList.remove('hidden');
+                    luckMain.classList.add('flex', 'animate-blur-fade-in');
+                }
+            } else {
+                if (storeMain) {
+                    storeMain.classList.remove('hidden');
+                    storeMain.classList.add('animate-blur-fade-in');
+                }
+                if (hBlogText) hBlogText.innerText = 'The Wacky Blog';
+                if (hBlogIcon) hBlogIcon.className = 'fa-solid fa-newspaper text-earth-300';
+            }
+
             if (screenRegular) {
+                screenRegular.style.display = 'flex';
                 screenRegular.style.width = '100%';
                 screenRegular.style.minWidth = '100%';
+                screenRegular.classList.remove('view-blur-out');
+                screenRegular.classList.add('view-blur-in');
             }
-            window.isTransitioningView = false;
-        }, 700);
+
+            window.scrollTo({ top: 0, behavior: 'instant' });
+            window.currentView = targetView;
+
+            setTimeout(() => {
+                if (screenRegular) {
+                    screenRegular.classList.remove('view-blur-in');
+                }
+                window.isTransitioningView = false;
+            }, 400);
+        }, 360);
+
         return;
     }
 
