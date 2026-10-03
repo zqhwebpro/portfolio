@@ -1,6 +1,6 @@
-# DineDispatch Sub & Grill Co. — Enterprise ASP.NET Core 9 / C# Delivery & Event Architecture
+# DinerDashboard — Enterprise Diner Kitchen POS & Delivery Fleet Dispatch Architecture
 
-> **Modern high-volume sub, cheesesteak, and loaded fry online delivery platform with an interactive Community Calendar and Event Administration API, built with .NET 9 C# N-Tier architecture.**
+> **Modern high-volume diner kitchen POS, online delivery dispatch console, and telemetry architecture, built with tactile 3D touch push buttons and .NET 9 C# N-Tier architecture.**
 
 [![.NET](https://img.shields.io/badge/.NET-9.0-512BD4?logo=dotnet)](https://dotnet.microsoft.com/)
 [![ASP.NET Core](https://img.shields.io/badge/ASP.NET%20Core-Web%20API-blue)](https://dotnet.microsoft.com/apps/aspnet)
@@ -12,7 +12,7 @@
 
 ## 🥪 Executive Summary & Domain
 
-**DineDispatch Sub & Grill Co.** is an artisan sub and loaded fry delivery operation designed with enterprise restaurant delivery API architecture. 
+**DinerDashboard** is a modern diner kitchen POS and delivery fleet dispatch console designed with enterprise restaurant delivery API architecture. 
 
 This repository delivers a decoupled, enterprise-grade **.NET 9 C#** backend paired with an interactive frontend that features:
 1. **Multi-Carrier Delivery Service Admin Console:** Comprehensive administration panel for connecting website orders to top demographic delivery providers (Toast POS, DoorDash Drive, Uber Direct, Grubhub, Square, and Clover) with live API verification and outward developer onboarding.

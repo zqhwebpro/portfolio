@@ -2884,11 +2884,7 @@
                     </div>
                     <p class="text-xs sm:text-sm font-normal text-gray-600 leading-relaxed text-left max-w-4xl m-0">
                         Welcome to the official field notes, lab documentation, and mischievous user guides for our
-                        absurd
-                        store inventions! Here you will find scientific breakdowns on dehydrated water, care
-                        instructions
-                        for invisible chameleons, windowsill botanical gossip, and fluid dynamics for left-handed coffee
-                        mugs.
+                        absurd store inventions from <strong>/wacky-things-store/</strong>! Each article features a real product you can place straight into your cart with the <strong>Buy Now</strong> peel button.
                     </p>
                 </div>
 
@@ -2898,6 +2894,12 @@
                 <!-- Blog Category Filter Buttons with smooth horizontal wrapping/scrolling on tablet & mobile -->
                 <div
                     class="blog-cat-filters-container flex flex-wrap items-center gap-1.5 sm:gap-2 text-xs shrink-0 overflow-x-auto pb-1 xl:pb-0">
+                    <button onclick="window.toggleViewStoreBlog('store')"
+                        title="Return to /wacky-things-store/ Catalog"
+                        class="px-3 sm:px-3.5 py-1.5 rounded-xl font-bold transition-all bg-purple-900 hover:bg-purple-950 text-white border border-purple-800 text-[11px] sm:text-xs flex items-center gap-1.5 cursor-pointer shadow-sm shrink-0">
+                        <i class="fa-solid fa-shop text-teal-300"></i>
+                        <span>/wacky-things-store/</span>
+                    </button>
                     <button onclick="window.filterBlogCategory('all')"
                         data-blueprint-file="WackyStore.Domain/Abstract/IBlogRepository.cs"
                         data-blueprint-role="Linq Category Filter Action" data-blueprint-layer="Domain / Query"

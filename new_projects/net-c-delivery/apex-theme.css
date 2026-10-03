@@ -1,5 +1,5 @@
 /* ═══════════════════════════════════════════════════════════════════
-   DINEDISPATCH // APEX-OS LIGHT DESIGN SYSTEM
+   DINERDASHBOARD // TACTILE 3D TOUCH & LIGHT DESIGN SYSTEM
    Strict 5-Color Palette (https://www.color-hex.com/palettes/1018292.png):
    1. Pure White Canvas       : #ffffff
    2. Vibrant Cyber Cyan      : #00c5cd
@@ -183,37 +183,45 @@ html, body {
 }
 
 .apex-os-menu-btn {
-  background: transparent;
-  border: 1px solid transparent;
+  background: linear-gradient(180deg, #ffffff 0%, #f1f5f9 100%);
+  border: 1.5px solid #cbd5e1;
   color: var(--apex-charcoal);
-  font-family: var(--font-mono);
-  font-size: 11.5px;
-  font-weight: 600;
-  padding: 4px 10px;
+  font-family: var(--font-headline);
+  font-size: 12px;
+  font-weight: 700;
+  padding: 6px 14px;
   cursor: pointer;
-  transition: all 0.15s ease;
+  transition: transform 0.08s ease, box-shadow 0.08s ease, background 0.15s ease;
   display: inline-flex;
   align-items: center;
-  gap: 6px;
+  gap: 7px;
   text-decoration: none;
-  border-radius: 2px;
+  border-radius: 12px;
+  box-shadow: 0 3px 0 #94a3b8, 0 6px 12px rgba(0, 0, 0, 0.05);
+  user-select: none;
 }
 
 .apex-os-menu-btn:hover {
+  transform: translateY(-1.5px);
   color: var(--apex-black);
-  background: var(--apex-surface-muted);
-  border-color: var(--apex-silver);
+  box-shadow: 0 4.5px 0 #94a3b8, 0 8px 16px rgba(0, 0, 0, 0.08);
+}
+
+.apex-os-menu-btn:active {
+  transform: translateY(2px) !important;
+  box-shadow: 0 1px 0 #94a3b8 !important;
 }
 
 .apex-os-menu-btn.active {
-  color: var(--apex-black);
-  background: var(--apex-cyan-dim);
-  border-color: var(--apex-cyan);
-  font-weight: 700;
+  color: #002224 !important;
+  background: linear-gradient(180deg, #37e4ec 0%, #00c5cd 100%);
+  border-color: #009aa1;
+  font-weight: 800;
+  box-shadow: 0 3px 0 #007a80, 0 6px 14px rgba(0, 197, 205, 0.35);
 }
 
 .apex-os-menu-btn.active i {
-  color: var(--apex-cyan-dark);
+  color: #002224;
 }
 
 /* OS Right Action Bar */
@@ -342,25 +350,28 @@ html, body {
 
 .apex-metric-card {
   background: var(--apex-white);
-  border: 1px solid var(--apex-silver);
-  padding: 10px 14px;
+  border: 1.5px solid #cbd5e1;
+  border-radius: 16px;
+  padding: 12px 16px;
   position: relative;
   transition: all 0.15s ease;
-  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.02);
+  box-shadow: 0 4px 0 #cbd5e1, 0 8px 16px rgba(0, 0, 0, 0.05);
 }
 
 .apex-metric-card:hover {
+  transform: translateY(-2px);
   border-color: var(--apex-cyan);
-  box-shadow: 0 2px 8px var(--apex-cyan-glow);
+  box-shadow: 0 6px 0 var(--apex-cyan), 0 12px 24px rgba(0, 197, 205, 0.2);
 }
 
 .apex-metric-card::before {
   content: '';
   position: absolute;
-  top: 0;
+  top: 12px;
   left: 0;
-  width: 3px;
-  height: 100%;
+  width: 4px;
+  height: calc(100% - 24px);
+  border-radius: 0 4px 4px 0;
   background: var(--apex-silver);
   transition: background 0.15s ease;
 }
@@ -502,30 +513,40 @@ html, body {
 }
 
 .apex-filter-btn {
-  background: var(--apex-white);
-  border: 1px solid var(--apex-silver);
+  background: linear-gradient(180deg, #ffffff 0%, #f1f5f9 100%);
+  border: 1.5px solid #cbd5e1;
   color: var(--apex-charcoal);
-  font-family: var(--font-mono);
-  font-size: 11px;
-  font-weight: 600;
-  padding: 4px 10px;
+  font-family: var(--font-headline);
+  font-size: 11.5px;
+  font-weight: 700;
+  padding: 6px 12px;
   cursor: pointer;
-  transition: all 0.15s ease;
-  border-radius: 2px;
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  border-radius: 12px;
+  box-shadow: 0 3px 0 #94a3b8, 0 4px 8px rgba(0, 0, 0, 0.04);
+  transition: transform 0.08s ease, box-shadow 0.08s ease, background 0.15s ease;
+  user-select: none;
 }
 
 .apex-filter-btn:hover {
+  transform: translateY(-1.5px);
   color: var(--apex-black);
-  border-color: var(--apex-black);
-  background: var(--apex-surface-muted);
+  box-shadow: 0 4px 0 #94a3b8, 0 6px 12px rgba(0, 0, 0, 0.08);
+}
+
+.apex-filter-btn:active {
+  transform: translateY(2px) !important;
+  box-shadow: 0 1px 0 #94a3b8 !important;
 }
 
 .apex-filter-btn.active {
-  background: var(--apex-cyan);
-  color: var(--apex-black);
-  border-color: var(--apex-cyan-dark);
+  background: linear-gradient(180deg, #37e4ec 0%, #00c5cd 100%);
+  color: #002224 !important;
+  border-color: #009aa1;
   font-weight: 800;
-  box-shadow: 0 0 6px var(--apex-cyan-glow);
+  box-shadow: 0 3px 0 #007a80, 0 6px 12px rgba(0, 197, 205, 0.3);
 }
 
 .apex-search-wrapper {
@@ -913,5 +934,216 @@ html, body {
   }
   .apex-search-wrapper {
     min-width: 100%;
+  }
+}
+
+/* ═══════════════════════════════════════════════════════════════════
+   11. DINERDASHBOARD // TACTILE 3D TOUCH BUTTON DESIGN SYSTEM
+   "Big fun CTAs like baby toys make buttons, but sophisticated for DinerDashboard"
+   ═══════════════════════════════════════════════════════════════════ */
+
+/* Universal Tactile Push Button Base */
+.tactile-btn {
+  position: relative;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  font-family: var(--font-headline);
+  font-weight: 800;
+  letter-spacing: 0.03em;
+  text-transform: uppercase;
+  border-radius: 16px;
+  border: 2px solid;
+  cursor: pointer;
+  user-select: none;
+  touch-action: manipulation;
+  white-space: nowrap;
+  text-decoration: none;
+  transition: transform 0.08s cubic-bezier(0.4, 0, 0.2, 1), box-shadow 0.08s cubic-bezier(0.4, 0, 0.2, 1), filter 0.15s ease;
+  line-height: 1;
+}
+
+/* Hover & Active / Physical Depress States */
+.tactile-btn:hover {
+  transform: translateY(-2px);
+  filter: brightness(1.05);
+}
+
+.tactile-btn:active,
+.tactile-btn.is-pressed {
+  transform: translateY(4px) !important;
+}
+
+/* Sizes */
+.tactile-btn-lg {
+  padding: 12px 20px;
+  font-size: 13.5px;
+  border-radius: 18px;
+}
+.tactile-btn-md {
+  padding: 9px 15px;
+  font-size: 12px;
+  border-radius: 14px;
+}
+.tactile-btn-sm {
+  padding: 5px 12px;
+  font-size: 11px;
+  border-radius: 11px;
+}
+
+/* 1. Golden Brass Diner Service Bell CTA ("ORDER UP!") */
+.tactile-btn-bell {
+  background: linear-gradient(180deg, #ffdf5d 0%, #f59e0b 100%);
+  border-color: #d97706;
+  color: #2b1300 !important;
+  box-shadow: 0 5px 0 #b45309, 0 10px 18px rgba(245, 158, 11, 0.35);
+}
+.tactile-btn-bell:hover {
+  box-shadow: 0 7px 0 #b45309, 0 14px 22px rgba(245, 158, 11, 0.45);
+}
+.tactile-btn-bell:active,
+.tactile-btn-bell.is-pressed {
+  box-shadow: 0 1px 0 #b45309, 0 3px 6px rgba(245, 158, 11, 0.25) !important;
+}
+
+/* 2. Signature Diner Cyan CTA (Brand Cyan / Teal) */
+.tactile-btn-cyan {
+  background: linear-gradient(180deg, #37e4ec 0%, #00c5cd 100%);
+  border-color: #009aa1;
+  color: #002224 !important;
+  box-shadow: 0 5px 0 #007a80, 0 10px 18px rgba(0, 197, 205, 0.35);
+}
+.tactile-btn-cyan:hover {
+  box-shadow: 0 7px 0 #007a80, 0 14px 22px rgba(0, 197, 205, 0.45);
+}
+.tactile-btn-cyan:active,
+.tactile-btn-cyan.is-pressed {
+  box-shadow: 0 1px 0 #007a80, 0 3px 6px rgba(0, 197, 205, 0.25) !important;
+}
+
+/* 3. Sizzling Diner Coral / Red CTA (Rush Orders / New Ticket) */
+.tactile-btn-coral {
+  background: linear-gradient(180deg, #ff6b81 0%, #ff4757 100%);
+  border-color: #e84118;
+  color: #ffffff !important;
+  box-shadow: 0 5px 0 #b32e12, 0 10px 18px rgba(255, 71, 87, 0.35);
+}
+.tactile-btn-coral:hover {
+  box-shadow: 0 7px 0 #b32e12, 0 14px 22px rgba(255, 71, 87, 0.45);
+}
+.tactile-btn-coral:active,
+.tactile-btn-coral.is-pressed {
+  box-shadow: 0 1px 0 #b32e12, 0 3px 6px rgba(255, 71, 87, 0.25) !important;
+}
+
+/* 4. Fresh Kitchen Mint CTA (Verified / Synchronized) */
+.tactile-btn-mint {
+  background: linear-gradient(180deg, #34d399 0%, #10b981 100%);
+  border-color: #059669;
+  color: #022c22 !important;
+  box-shadow: 0 5px 0 #047857, 0 10px 18px rgba(16, 185, 129, 0.35);
+}
+.tactile-btn-mint:hover {
+  box-shadow: 0 7px 0 #047857, 0 14px 22px rgba(16, 185, 129, 0.45);
+}
+.tactile-btn-mint:active,
+.tactile-btn-mint.is-pressed {
+  box-shadow: 0 1px 0 #047857, 0 3px 6px rgba(16, 185, 129, 0.25) !important;
+}
+
+/* 5. Clean White / Cream Diner Key CTA */
+.tactile-btn-white {
+  background: linear-gradient(180deg, #ffffff 0%, #f1f5f9 100%);
+  border-color: #cbd5e1;
+  color: #0f172a !important;
+  box-shadow: 0 5px 0 #94a3b8, 0 8px 16px rgba(0, 0, 0, 0.08);
+}
+.tactile-btn-white:hover {
+  box-shadow: 0 7px 0 #94a3b8, 0 12px 20px rgba(0, 0, 0, 0.12);
+}
+.tactile-btn-white:active,
+.tactile-btn-white.is-pressed {
+  box-shadow: 0 1px 0 #94a3b8, 0 3px 6px rgba(0, 0, 0, 0.06) !important;
+}
+
+/* 6. Dark Slate Register Key CTA */
+.tactile-btn-dark {
+  background: linear-gradient(180deg, #334155 0%, #1e293b 100%);
+  border-color: #0f172a;
+  color: #f8fafc !important;
+  box-shadow: 0 5px 0 #020617, 0 10px 18px rgba(0, 0, 0, 0.25);
+}
+.tactile-btn-dark:hover {
+  box-shadow: 0 7px 0 #020617, 0 14px 22px rgba(0, 0, 0, 0.35);
+}
+.tactile-btn-dark:active,
+.tactile-btn-dark.is-pressed {
+  box-shadow: 0 1px 0 #020617, 0 3px 6px rgba(0, 0, 0, 0.2) !important;
+}
+
+/* ═══════════════════════════════════════════════════════════════════
+   DINER TOUCHPAD BAR: BIG FUN CTAS CONTROL STATION
+   ═══════════════════════════════════════════════════════════════════ */
+.diner-touchpad-bar {
+  background: linear-gradient(180deg, #f8fafc 0%, #edf2f7 100%);
+  border-bottom: 2px solid #cbd5e1;
+  padding: 10px 16px;
+  position: relative;
+  z-index: 50;
+  box-shadow: inset 0 2px 4px rgba(0, 0, 0, 0.03);
+}
+
+.diner-touchpad-container {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  flex-wrap: wrap;
+}
+
+/* Diner Brand Logo Badge */
+.diner-brand-icon {
+  width: 32px;
+  height: 32px;
+  border-radius: 10px;
+  background: linear-gradient(180deg, #ffdf5d 0%, #f59e0b 100%);
+  border: 1.5px solid #d97706;
+  color: #2b1300;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 15px;
+  box-shadow: 0 3px 0 #b45309, 0 4px 8px rgba(245, 158, 11, 0.3);
+}
+
+/* Diner Floating Toast Notification */
+.diner-toast-notification {
+  position: fixed;
+  top: 80px;
+  right: 20px;
+  z-index: 9999;
+  background: linear-gradient(180deg, #ffffff 0%, #fffbeb 100%);
+  border: 2px solid #f59e0b;
+  border-radius: 18px;
+  padding: 14px 20px;
+  box-shadow: 0 8px 0 #b45309, 0 16px 32px rgba(0, 0, 0, 0.15);
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  font-family: var(--font-headline);
+  font-weight: 700;
+  color: #0f172a;
+  animation: dinerToastSlideIn 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+  pointer-events: none;
+}
+
+@keyframes dinerToastSlideIn {
+  from {
+    transform: translateY(-20px) scale(0.9);
+    opacity: 0;
+  }
+  to {
+    transform: translateY(0) scale(1);
+    opacity: 1;
   }
 }

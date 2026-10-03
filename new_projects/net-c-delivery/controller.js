@@ -1,4 +1,4 @@
-// Audio synthesizer for discrete OS feedback
+// Audio synthesizer for discrete OS feedback & tactile diner physical buttons
 let audioCtx = null;
 let soundEnabled = true;
 
@@ -7,9 +7,12 @@ function initAudio() {
         const AudioClass = window.AudioContext || window.webkitAudioContext;
         if (AudioClass) audioCtx = new AudioClass();
     }
-    if (audioCtx && audioCtx.state === 'suspended') audioCtx.resume();
+    if (audioCtx && audioCtx.state === 'suspended') {
+        audioCtx.resume();
+    }
 }
 
+// Discrete micro-click for regular OS elements
 function playOsClick(freq = 750, duration = 0.035) {
     if (!soundEnabled) return;
     try {
@@ -28,6 +31,91 @@ function playOsClick(freq = 750, duration = 0.035) {
     } catch (e) {}
 }
 
+// Chunky, squishy baby-toy-style mechanical push button switch sound
+function playToyClick(startFreq = 480, duration = 0.04) {
+    if (!soundEnabled) return;
+    try {
+        initAudio();
+        if (!audioCtx) return;
+        const t = audioCtx.currentTime;
+        
+        // Primary tactile "chunk" oscillator (rapid pitch drop mimics physical micro-switch)
+        const osc = audioCtx.createOscillator();
+        const gain = audioCtx.createGain();
+        osc.type = 'triangle';
+        osc.frequency.setValueAtTime(startFreq, t);
+        osc.frequency.exponentialRampToValueAtTime(120, t + duration);
+        
+        gain.gain.setValueAtTime(0.09, t);
+        gain.gain.exponentialRampToValueAtTime(0.001, t + duration);
+        
+        osc.connect(gain);
+        gain.connect(audioCtx.destination);
+        osc.start(t);
+        osc.stop(t + duration);
+
+        // Secondary subtle sub-click for plastic chassis resonance
+        const sub = audioCtx.createOscillator();
+        const subGain = audioCtx.createGain();
+        sub.type = 'sine';
+        sub.frequency.setValueAtTime(220, t);
+        sub.frequency.exponentialRampToValueAtTime(80, t + 0.025);
+        subGain.gain.setValueAtTime(0.05, t);
+        subGain.gain.exponentialRampToValueAtTime(0.001, t + 0.025);
+        sub.connect(subGain);
+        subGain.connect(audioCtx.destination);
+        sub.start(t);
+        sub.stop(t + 0.025);
+    } catch (e) {}
+}
+
+// Authentic metallic Diner Service Bell ("Order Up!") with resonant dual harmonics
+function playDinerBell() {
+    if (!soundEnabled) return;
+    try {
+        initAudio();
+        if (!audioCtx) return;
+        const t = audioCtx.currentTime;
+        const strikeDuration = 1.35;
+
+        // Fundamental bell frequency (A6 ~ 1760 Hz)
+        const osc1 = audioCtx.createOscillator();
+        const gain1 = audioCtx.createGain();
+        osc1.type = 'sine';
+        osc1.frequency.setValueAtTime(1760, t);
+        gain1.gain.setValueAtTime(0.14, t);
+        gain1.gain.exponentialRampToValueAtTime(0.0001, t + strikeDuration);
+        osc1.connect(gain1);
+        gain1.connect(audioCtx.destination);
+        osc1.start(t);
+        osc1.stop(t + strikeDuration);
+
+        // High harmonic partial (E7 ~ 2640 Hz) gives authentic brass dome ring
+        const osc2 = audioCtx.createOscillator();
+        const gain2 = audioCtx.createGain();
+        osc2.type = 'sine';
+        osc2.frequency.setValueAtTime(2640, t);
+        gain2.gain.setValueAtTime(0.08, t);
+        gain2.gain.exponentialRampToValueAtTime(0.0001, t + (strikeDuration * 0.75));
+        osc2.connect(gain2);
+        gain2.connect(audioCtx.destination);
+        osc2.start(t);
+        osc2.stop(t + (strikeDuration * 0.75));
+
+        // High strike transient (A7 ~ 3520 Hz) for initial metal tapper click
+        const strike = audioCtx.createOscillator();
+        const strikeGain = audioCtx.createGain();
+        strike.type = 'triangle';
+        strike.frequency.setValueAtTime(3520, t);
+        strikeGain.gain.setValueAtTime(0.09, t);
+        strikeGain.gain.exponentialRampToValueAtTime(0.0001, t + 0.08);
+        strike.connect(strikeGain);
+        strikeGain.connect(audioCtx.destination);
+        strike.start(t);
+        strike.stop(t + 0.08);
+    } catch (e) {}
+}
+
 function toggleAudio() {
     initAudio();
     soundEnabled = !soundEnabled;
@@ -36,7 +124,7 @@ function toggleAudio() {
         btn.innerHTML = soundEnabled ? '<i class="fa-solid fa-volume-high"></i>' : '<i class="fa-solid fa-volume-xmark"></i>';
         btn.style.color = soundEnabled ? 'var(--apex-cyan)' : 'var(--apex-mid-grey)';
     }
-    if (soundEnabled) playOsClick(900, 0.04);
+    if (soundEnabled) playToyClick(600, 0.05);
 }
 
 // Live OS Clock
@@ -74,7 +162,7 @@ const DELIVERY_SERVICES = {
         defaultLocationId: 'loc_parma_grill_01',
         category: 'pos',
         protocol: 'REST / TDS Webhooks',
-        endpointUrl: 'https://api.dinedispatch.io/webhooks/toast',
+        endpointUrl: 'https://api.dinerdashboard.io/webhooks/toast',
         marketShare: 'Top In-House POS (US Market)',
         latency: '16 ms',
         verified: false
@@ -93,7 +181,7 @@ const DELIVERY_SERVICES = {
         defaultLocationId: 'store_parma_dd_771',
         category: 'fleet',
         protocol: 'REST / JWT Bearer',
-        endpointUrl: 'https://api.dinedispatch.io/webhooks/doordash',
+        endpointUrl: 'https://api.dinerdashboard.io/webhooks/doordash',
         marketShare: '#1 Nationwide Choice (67%)',
         latency: '22 ms',
         verified: false
@@ -112,7 +200,7 @@ const DELIVERY_SERVICES = {
         defaultLocationId: 'uber_loc_parma_104',
         category: 'fleet',
         protocol: 'OAuth 2.0 / Webhooks',
-        endpointUrl: 'https://api.dinedispatch.io/webhooks/uber',
+        endpointUrl: 'https://api.dinerdashboard.io/webhooks/uber',
         marketShare: 'Urban & Gen-Z Choice (23%)',
         latency: '18 ms',
         verified: false
@@ -131,7 +219,7 @@ const DELIVERY_SERVICES = {
         defaultLocationId: 'gh_merchant_parma_8829',
         category: 'pos',
         protocol: 'REST / Mutual TLS',
-        endpointUrl: 'https://api.dinedispatch.io/webhooks/grubhub',
+        endpointUrl: 'https://api.dinerdashboard.io/webhooks/grubhub',
         marketShare: 'East Coast & Campus (10%)',
         latency: '24 ms',
         verified: false
@@ -150,7 +238,7 @@ const DELIVERY_SERVICES = {
         defaultLocationId: 'L8829104PARMA',
         category: 'pos',
         protocol: 'OAuth 2.0 / v2 Orders',
-        endpointUrl: 'https://api.dinedispatch.io/webhooks/square',
+        endpointUrl: 'https://api.dinerdashboard.io/webhooks/square',
         marketShare: 'Craft & Independent Delis',
         latency: '19 ms',
         verified: false
@@ -169,17 +257,18 @@ const DELIVERY_SERVICES = {
         defaultLocationId: 'CLV_MERCH_PARMA_7718',
         category: 'pos',
         protocol: 'REST / Clover Station',
-        endpointUrl: 'https://api.dinedispatch.io/webhooks/clover',
+        endpointUrl: 'https://api.dinerdashboard.io/webhooks/clover',
         marketShare: 'Family Grills & Diners',
         latency: '26 ms',
         verified: false
     }
 };
 
-// Saved persistent state in LocalStorage
+// Saved persistent state in LocalStorage (supports DinerDashboard rebrand with fallback)
 let savedApiState = {};
 try {
-    savedApiState = JSON.parse(localStorage.getItem('dinedispatch_delivery_api_state') || '{}');
+    const rawSaved = localStorage.getItem('dinerdashboard_delivery_api_state') || localStorage.getItem('dinedispatch_delivery_api_state');
+    savedApiState = JSON.parse(rawSaved || '{}');
     Object.keys(savedApiState).forEach(k => {
         if (DELIVERY_SERVICES[k] && savedApiState[k].verified) {
             DELIVERY_SERVICES[k].verified = true;
@@ -195,7 +284,7 @@ let currentActiveSheet = 'delivery';
 let currentSelectedRowKey = 'uber';
 let currentFilter = 'all';
 
-// Render the Apex/Spider Data Grid
+// Render the Apex/Spider Data Grid with Tactile Push Buttons
 function renderSpiderTable() {
     const tbody = document.getElementById('spiderTableBody');
     if (!tbody) return;
@@ -240,18 +329,18 @@ function renderSpiderTable() {
                 <td class="text-center">
                     ${s.verified 
                         ? `<div class="d-flex align-items-center justify-content-center gap-1.5">
-                            <button type="button" class="apex-btn-subtle" onclick="event.stopPropagation(); openApiConfigModal('${key}')" title="Edit Configuration">
+                            <button type="button" class="tactile-btn tactile-btn-mint tactile-btn-sm" onclick="event.stopPropagation(); openApiConfigModal('${key}')" title="Configure Gateway">
                                 <i class="fa-solid fa-gear"></i>
                             </button>
-                            <button type="button" class="apex-btn-subtle" style="color: var(--apex-cyan-dark);" onclick="event.stopPropagation(); seedSampleDispatchLog('${key}')" title="Test Dispatch Ping">
+                            <button type="button" class="tactile-btn tactile-btn-coral tactile-btn-sm" onclick="event.stopPropagation(); seedSampleDispatchLog('${key}')" title="Test Dispatch Ping">
                                 <i class="fa-solid fa-paper-plane"></i>
                             </button>
-                            <button type="button" class="apex-btn-subtle" onclick="event.stopPropagation(); disconnectApi('${key}')" title="Disconnect Gateway">
+                            <button type="button" class="tactile-btn tactile-btn-white tactile-btn-sm" onclick="event.stopPropagation(); disconnectApi('${key}')" title="Disconnect Gateway">
                                 <i class="fa-solid fa-xmark"></i>
                             </button>
                            </div>`
-                        : `<button type="button" class="apex-btn-primary" onclick="event.stopPropagation(); openApiConfigModal('${key}')">
-                            <i class="fa-solid fa-plug"></i> Configure API
+                        : `<button type="button" class="tactile-btn tactile-btn-cyan tactile-btn-sm" onclick="event.stopPropagation(); openApiConfigModal('${key}')">
+                            <i class="fa-solid fa-bolt"></i> Connect API
                            </button>`
                     }
                 </td>
@@ -261,6 +350,7 @@ function renderSpiderTable() {
 
     tbody.innerHTML = html;
     updateSpiderDrawer(currentSelectedRowKey);
+    attachTactileSounds();
 }
 
 // Select a row in the table
@@ -305,7 +395,7 @@ function updateSpiderDrawer(serviceKey) {
                 <div class="col-md-6">
                     <span class="text-secondary fw-bold d-block mb-1" style="color: var(--apex-charcoal) !important;">INBOUND REQUEST HEADERS (REST HTTP/2):</span>
                     <div class="p-2 border" style="background: var(--apex-surface-subtle); border-color: var(--apex-silver) !important; color: var(--apex-black);">
-                        <div><span style="color: var(--apex-cyan-dark); font-weight: 600;">Host:</span> api.dinedispatch.io</div>
+                        <div><span style="color: var(--apex-cyan-dark); font-weight: 600;">Host:</span> api.dinerdashboard.io</div>
                         <div><span style="color: var(--apex-cyan-dark); font-weight: 600;">Authorization:</span> Bearer ${s.verified ? s.defaultClientId.substring(0, 16) + '...' : '[PENDING_BEARER_TOKEN]'}</div>
                         <div><span style="color: var(--apex-cyan-dark); font-weight: 600;">X-Gateway-Protocol:</span> ${s.protocol}</div>
                         <div><span style="color: var(--apex-cyan-dark); font-weight: 600;">X-Location-GUID:</span> ${s.defaultLocationId}</div>
@@ -521,7 +611,8 @@ function disconnectApi(serviceId) {
         DELIVERY_SERVICES[serviceId].verified = false;
         delete savedApiState[serviceId];
         try {
-            localStorage.setItem('dinedispatch_delivery_api_state', JSON.stringify(savedApiState));
+            localStorage.setItem('dinerdashboard_delivery_api_state', JSON.stringify(savedApiState));
+            localStorage.removeItem('dinedispatch_delivery_api_state');
         } catch (e) {}
         updateProgressiveState();
         renderSpiderTable();
@@ -600,7 +691,8 @@ function handleApiVerification(event) {
         };
 
         try {
-            localStorage.setItem('dinedispatch_delivery_api_state', JSON.stringify(savedApiState));
+            localStorage.setItem('dinerdashboard_delivery_api_state', JSON.stringify(savedApiState));
+            localStorage.removeItem('dinedispatch_delivery_api_state');
         } catch (err) {}
 
         updateProgressiveState();
@@ -771,6 +863,7 @@ function resetWalkthrough() {
     playOsClick(600, 0.05);
     if (confirm('Reset setup walkthrough to Step 1? This will unconfigure all simulated delivery APIs.')) {
         try {
+            localStorage.removeItem('dinerdashboard_delivery_api_state');
             localStorage.removeItem('dinedispatch_delivery_api_state');
         } catch (e) {}
         savedApiState = {};
@@ -780,7 +873,174 @@ function resetWalkthrough() {
         updateProgressiveState();
         renderSpiderTable();
         switchSheet('delivery');
+        showDinerToast('Reset Completed', 'All gateways set back to Step 1 pending state.', 'fa-arrow-rotate-left');
     }
+}
+
+// ═══════════════════════════════════════════════════════════════════
+// TACTILE DINER INTERACTIVE ACTIONS & AUDIO FEEDBACK
+// ═══════════════════════════════════════════════════════════════════
+
+// Floating Diner Toast Notification
+function showDinerToast(title, message, iconClass = 'fa-bell-concierge') {
+    let container = document.getElementById('dinerToastContainer');
+    if (!container) {
+        container = document.createElement('div');
+        container.id = 'dinerToastContainer';
+        container.style.cssText = 'position:fixed;bottom:48px;right:20px;z-index:99998;display:flex;flex-direction:column;gap:10px;pointer-events:none;';
+        document.body.appendChild(container);
+    }
+
+    const toast = document.createElement('div');
+    toast.className = 'diner-toast-notification';
+    toast.style.pointerEvents = 'auto';
+    toast.innerHTML = `
+        <div class="diner-toast-icon">
+            <i class="fa-solid ${iconClass}"></i>
+        </div>
+        <div class="diner-toast-content">
+            <div class="diner-toast-title">${title}</div>
+            <div class="diner-toast-desc">${message}</div>
+        </div>
+        <button type="button" class="btn-close ms-2" style="font-size:0.75rem;" onclick="this.parentElement.remove()"></button>
+    `;
+
+    container.appendChild(toast);
+
+    setTimeout(() => {
+        if (toast && toast.parentElement) {
+            toast.style.opacity = '0';
+            toast.style.transform = 'translateY(10px)';
+            toast.style.transition = 'all 0.3s ease';
+            setTimeout(() => toast.remove(), 320);
+        }
+    }, 4200);
+}
+
+// 1. Ring Diner Service Bell ("Order Up!")
+function ringDinerBell() {
+    playDinerBell();
+    const bellBtn = document.getElementById('dinerBellBtn');
+    if (bellBtn) {
+        bellBtn.classList.remove('animate-press');
+        void bellBtn.offsetWidth;
+        bellBtn.classList.add('animate-press');
+    }
+
+    showDinerToast(
+        'Order Up! 🔔',
+        'Kitchen service bell rang! All grill tickets expedited for courier pickup.',
+        'fa-bell-concierge'
+    );
+
+    addTelemetryLogRow('Kitchen Counter', 'COUNTER.ORDER_UP_BELL', '3 ms', '#EXPEDITE-ALL-STATIONS');
+}
+
+// 2. Fast-Sync All 6 Delivery Gateways (Instant 1-Click Connect)
+function autoConnectAllGateways() {
+    playToyClick(620, 0.08);
+
+    const keys = Object.keys(DELIVERY_SERVICES);
+    keys.forEach(k => {
+        DELIVERY_SERVICES[k].verified = true;
+        savedApiState[k] = {
+            verified: true,
+            clientId: DELIVERY_SERVICES[k].defaultClientId,
+            secret: DELIVERY_SERVICES[k].defaultSecret,
+            locationId: DELIVERY_SERVICES[k].defaultLocationId,
+            verifiedAt: new Date().toISOString()
+        };
+    });
+
+    try {
+        localStorage.setItem('dinerdashboard_delivery_api_state', JSON.stringify(savedApiState));
+        localStorage.removeItem('dinedispatch_delivery_api_state');
+    } catch (e) {}
+
+    updateProgressiveState();
+    renderSpiderTable();
+
+    showDinerToast(
+        '6/6 Gateways Online! ⚡',
+        'Toast POS, DoorDash, Uber Direct, Grubhub, Square, and Clover fully authenticated.',
+        'fa-bolt'
+    );
+
+    addTelemetryLogRow('FastSync Hub', 'GATEWAY.BULK_CONNECT_200', '14 ms', '#ALL_6_ACTIVE');
+}
+
+// 3. Spawn Diner Kitchen Ticket
+const DINER_MENU_ORDERS = [
+    { name: 'Artisan Ribeye Cheesesteak Supreme', side: 'Garlic Truffle Fries' },
+    { name: 'Double Bacon Smash Burger', side: 'Hand-Cut Sea Salt Fries' },
+    { name: 'Charred Buffalo Chicken Wrap', side: 'Crispy Onion Rings' },
+    { name: 'Classic 12" Italian Deli Sub', side: 'Kettle Chips & Pickle' },
+    { name: 'Pastrami Melt on Hearth Rye', side: 'Sweet Vinegar Slaw' }
+];
+
+function spawnDinerTicket() {
+    playToyClick(540, 0.05);
+
+    const orderItem = DINER_MENU_ORDERS[Math.floor(Math.random() * DINER_MENU_ORDERS.length)];
+    const ticketNum = Math.floor(Math.random() * 8999) + 1000;
+    const ticketId = `#TKT-${ticketNum}`;
+
+    const verifiedKeys = Object.keys(DELIVERY_SERVICES).filter(k => DELIVERY_SERVICES[k].verified);
+    let chosenGateway = 'Toast POS';
+    if (verifiedKeys.length > 0) {
+        chosenGateway = DELIVERY_SERVICES[verifiedKeys[Math.floor(Math.random() * verifiedKeys.length)]].name;
+    }
+
+    showDinerToast(
+        `New Ticket: ${ticketId} 🍳`,
+        `${orderItem.name} + ${orderItem.side} sent to grill line via ${chosenGateway}.`,
+        'fa-fire-burner'
+    );
+
+    addTelemetryLogRow(chosenGateway, 'KITCHEN.TICKET_SPAWN', '11 ms', `${ticketId}: ${orderItem.name}`);
+}
+
+// 4. Rush Courier Fleet
+function rushFleetDispatch() {
+    playToyClick(720, 0.06);
+
+    const verifiedKeys = Object.keys(DELIVERY_SERVICES).filter(k => DELIVERY_SERVICES[k].verified);
+    const fleetName = verifiedKeys.includes('doordash') ? 'DoorDash Drive' : (verifiedKeys.includes('uber') ? 'Uber Direct' : 'Active Fleet Couriers');
+
+    showDinerToast(
+        'Priority Courier Rushed! 🛵',
+        `${fleetName} dispatched nearest driver to counter bay. ETA: 3.8 mins.`,
+        'fa-motorcycle'
+    );
+
+    addTelemetryLogRow(fleetName, 'COURIER.PRIORITY_RUSH', '9 ms', '#RUSH_PICKUP_ZONE_A');
+}
+
+// 5. Synchronize Individual Menu Item
+function syncMenuItem(sku, name) {
+    playToyClick(640, 0.04);
+    showDinerToast(
+        `Synced: ${sku} 🔄`,
+        `"${name}" live pricing & inventory broadcast to active gateways.`,
+        'fa-arrows-rotate'
+    );
+    addTelemetryLogRow('POS Catalog', 'CATALOG.SKU_SYNC_OK', '15 ms', `${sku} (${name})`);
+}
+
+// 6. Attach physical tactile sounds to all buttons
+function attachTactileSounds() {
+    document.querySelectorAll('.tactile-btn, .apex-os-menu-btn, .apex-filter-btn').forEach(btn => {
+        if (!btn.dataset.soundAttached) {
+            btn.dataset.soundAttached = 'true';
+            btn.addEventListener('pointerdown', () => {
+                if (btn.id === 'dinerBellBtn') {
+                    // Handled by ringDinerBell
+                } else {
+                    playToyClick(480, 0.04);
+                }
+            });
+        }
+    });
 }
 
 // Initialize on DOM Load
@@ -788,7 +1048,9 @@ document.addEventListener('DOMContentLoaded', () => {
     initApexClock();
     renderSpiderTable();
     updateProgressiveState();
+    attachTactileSounds();
 
+    addTelemetryLogRow('DinerDashboard', 'KERNEL.BOOT_READY', '6 ms', '#KITCHEN_DISPATCH_ONLINE');
     addTelemetryLogRow('System Gateway', 'GATEWAY.BOOT_SEQUENCE', '8 ms', '#SYSTEM_INITIALIZE');
     addTelemetryLogRow('Cloud Router', 'DNS.ANYCAST_SYNC', '12 ms', '#GLOBAL_ROUTE_READY');
 });

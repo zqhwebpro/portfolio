@@ -7,19 +7,19 @@
     <meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate" />
     <meta http-equiv="Pragma" content="no-cache" />
     <meta http-equiv="Expires" content="0" />
-    <title>DineDispatch // Apex-OS Delivery Matrix | Google Analytics x SEO Spider x Excel</title>
+    <title>DinerDashboard // Modern Diner Kitchen POS & Fleet Dispatch OS</title>
     <meta name="description"
-        content="Enterprise delivery gateway console. Hybrid Google Analytics telemetry, SEO Spider technical crawl matrix, and Microsoft Excel spreadsheet architecture for POS and delivery fleet integration." />
+        content="DinerDashboard modern diner kitchen POS & delivery dispatch system. Hybrid Google Analytics telemetry, SEO Spider technical crawl matrix, and Microsoft Excel spreadsheet architecture for POS and delivery fleet integration." />
     <meta name="keywords"
-        content="Delivery API Spider, Google Analytics Dashboard, SEO Spider Audit Matrix, Excel Spreadsheet UI, Toast POS, DoorDash Drive, Uber Direct, Grubhub Direct, Square, Clover, .NET 9" />
-    <meta name="author" content="Zach Heindel - Restaurant Delivery Gateway Engineering" />
+        content="DinerDashboard, Diner POS, Delivery API Spider, Google Analytics Dashboard, SEO Spider Audit Matrix, Excel Spreadsheet UI, Toast POS, DoorDash Drive, Uber Direct, Grubhub Direct, Square, Clover, .NET 9" />
+    <meta name="author" content="Zach Heindel - DinerDashboard Kitchen & Delivery Dispatch" />
     <link rel="canonical" href="https://zqhwebpro.github.io/portfolio/new_projects/net-c-delivery/index.html" />
 
     <!-- Open Graph / Social -->
     <meta property="og:type" content="website" />
-    <meta property="og:title" content="DineDispatch // Apex-OS Delivery Matrix Console" />
+    <meta property="og:title" content="DinerDashboard // Modern Diner Kitchen POS & Fleet Dispatch OS" />
     <meta property="og:description"
-        content="Google Analytics meets SEO Spider meets Microsoft Excel for restaurant delivery fleet and POS gateway management in a custom simplified OS workspace." />
+        content="DinerDashboard: Big tactile push-button kitchen dispatch and delivery fleet control. Google Analytics telemetry meets SEO Spider crawl matrix meets Excel spreadsheet engine." />
     <meta property="og:image" content="./images/hero-cheesesteak.jpg" />
 
     <!-- Sitewide Favicon -->
@@ -65,17 +65,19 @@
     </a>
 
     <!-- ═══════════════════════════════════════════════════════════════════
-         1. APEX-OS SIMPLIFIED SYSTEM MENUBAR
+         1. DINERDASHBOARD SIMPLIFIED SYSTEM MENUBAR
          Custom Non-Mac, Non-Windows, Non-Linux OS Menubar
          ═══════════════════════════════════════════════════════════════════ -->
     <header class="apex-os-menubar">
         <!-- Left: OS Kernel Identifier & Navigation Buttons -->
         <div class="d-flex align-items-center gap-3">
             <div class="apex-os-brand">
-                <div class="apex-os-logo-cube" title="Apex-OS Kernel v4.2">Δ</div>
+                <div class="diner-brand-icon" title="DinerDashboard Kitchen Dispatch OS">
+                    <i class="fa-solid fa-bell-concierge"></i>
+                </div>
                 <div class="apex-os-title">
-                    <span class="apex-os-title-name">DineDispatch</span>
-                    <span class="apex-os-kernel-badge">APEX-OS // .NET 9</span>
+                    <span class="apex-os-title-name">DinerDashboard</span>
+                    <span class="apex-os-kernel-badge">KITCHEN DISPATCH // .NET 9</span>
                 </div>
             </div>
 
@@ -123,6 +125,49 @@
             <span class="apex-clock d-none d-lg-inline-block" id="apexLiveClock">--:-- --</span>
         </div>
     </header>
+
+    <!-- ═══════════════════════════════════════════════════════════════════
+         DINER TOUCHPAD ACTION BAR (Playful & Sophisticated Push Buttons)
+         ═══════════════════════════════════════════════════════════════════ -->
+    <div class="diner-touchpad-bar" aria-label="Diner Quick Touch Controls">
+        <div class="diner-touchpad-container">
+            <!-- Iconic Brass Service Bell Button -->
+            <button type="button" class="tactile-btn tactile-btn-bell tactile-btn-lg" id="dinerBellBtn" onclick="ringDinerBell()" title="Ring Diner Kitchen Bell - Order Up!">
+                <i class="fa-solid fa-bell-concierge fa-lg"></i>
+                <span>Order Up! Bell</span>
+            </button>
+
+            <!-- Instant Connect All 6 Delivery Gateways -->
+            <button type="button" class="tactile-btn tactile-btn-cyan tactile-btn-md" id="dinerSyncAllBtn" onclick="autoConnectAllGateways()" title="Instant 1-Click Connect All 6 Delivery Gateways">
+                <i class="fa-solid fa-bolt"></i>
+                <span>Fast-Sync 6/6</span>
+            </button>
+
+            <!-- Push Ticket to Kitchen Line -->
+            <button type="button" class="tactile-btn tactile-btn-coral tactile-btn-md" id="dinerNewTicketBtn" onclick="spawnDinerTicket()" title="Push New Live Order to Kitchen Line">
+                <i class="fa-solid fa-fire-burner"></i>
+                <span>New Ticket</span>
+            </button>
+
+            <!-- Rush Courier Fleet -->
+            <button type="button" class="tactile-btn tactile-btn-mint tactile-btn-md" id="dinerRushFleetBtn" onclick="rushFleetDispatch()" title="Priority Dispatch Nearest Active Courier">
+                <i class="fa-solid fa-motorcycle"></i>
+                <span>Rush Couriers</span>
+            </button>
+
+            <!-- Network Ping Radar -->
+            <button type="button" class="tactile-btn tactile-btn-white tactile-btn-sm" id="dinerPingRadarBtn" onclick="simulateFullApiHealthCheck()" title="Ping All POS and Delivery APIs">
+                <i class="fa-solid fa-arrows-rotate"></i>
+                <span>Ping Radar</span>
+            </button>
+
+            <!-- Reset Setup State -->
+            <button type="button" class="tactile-btn tactile-btn-dark tactile-btn-sm" id="dinerResetBtn" onclick="resetWalkthrough()" title="Clear and Reset Walkthrough">
+                <i class="fa-solid fa-arrow-rotate-left"></i>
+                <span>Reset</span>
+            </button>
+        </div>
+    </div>
 
     <!-- ═══════════════════════════════════════════════════════════════════
          2. APEX WORKBOOK FORMULA BAR
@@ -235,8 +280,8 @@
                 <i class="fa-solid fa-magnifying-glass" style="color: var(--apex-mid-grey);"></i>
                 <input type="text" id="spiderSearchInput" placeholder="Filter by endpoint, provider, ID..." oninput="handleSpiderSearch(this.value)">
             </div>
-            <button type="button" class="apex-btn-subtle" onclick="seedSampleDispatchLog()" title="Simulate a real-time courier ping">
-                <i class="fa-solid fa-paper-plane" style="color: var(--apex-cyan);"></i> Ping Test
+            <button type="button" class="tactile-btn tactile-btn-coral tactile-btn-sm" onclick="seedSampleDispatchLog()" title="Simulate a real-time courier ping">
+                <i class="fa-solid fa-paper-plane"></i> Test Ping
             </button>
         </div>
     </div>
@@ -321,7 +366,7 @@
                         <td class="font-mono fw-bold" style="color: var(--apex-cyan-dark);">$16.04</td>
                         <td><span class="apex-status-pill apex-status-200"><i class="fa-solid fa-check"></i> SYNCED</span></td>
                         <td><span class="apex-status-pill apex-status-200">100% IN STOCK</span></td>
-                        <td class="text-center"><button class="apex-btn-subtle" onclick="alert('Menu item CHK-01 synchronized across active gateways.')"><i class="fa-solid fa-arrows-rotate"></i> Sync</button></td>
+                        <td class="text-center"><button class="tactile-btn tactile-btn-mint tactile-btn-sm" onclick="syncMenuItem('CHK-01', 'Artisan Cheesesteak Supreme')"><i class="fa-solid fa-arrows-rotate"></i> Sync</button></td>
                     </tr>
                     <tr onclick="updateFormulaBar('B3', '=POS.CATALOG(SKU=\"FRY-02\", Name=\"Loaded Truffle Parmesan Fries\", Base=$8.50)')">
                         <td class="apex-row-num">2</td>
@@ -337,7 +382,7 @@
                         <td class="font-mono fw-bold" style="color: var(--apex-cyan-dark);">$9.78</td>
                         <td><span class="apex-status-pill apex-status-200"><i class="fa-solid fa-check"></i> SYNCED</span></td>
                         <td><span class="apex-status-pill apex-status-200">100% IN STOCK</span></td>
-                        <td class="text-center"><button class="apex-btn-subtle" onclick="alert('Menu item FRY-02 synchronized across active gateways.')"><i class="fa-solid fa-arrows-rotate"></i> Sync</button></td>
+                        <td class="text-center"><button class="tactile-btn tactile-btn-mint tactile-btn-sm" onclick="syncMenuItem('FRY-02', 'Loaded Truffle Parmesan Fries')"><i class="fa-solid fa-arrows-rotate"></i> Sync</button></td>
                     </tr>
                     <tr onclick="updateFormulaBar('B4', '=POS.CATALOG(SKU=\"SUB-03\", Name=\"Classic Italian Deli Sub (12-inch)\", Base=$12.50)')">
                         <td class="apex-row-num">3</td>
@@ -353,7 +398,7 @@
                         <td class="font-mono fw-bold" style="color: var(--apex-cyan-dark);">$14.38</td>
                         <td><span class="apex-status-pill apex-status-200"><i class="fa-solid fa-check"></i> SYNCED</span></td>
                         <td><span class="apex-status-pill apex-status-200">100% IN STOCK</span></td>
-                        <td class="text-center"><button class="apex-btn-subtle" onclick="alert('Menu item SUB-03 synchronized across active gateways.')"><i class="fa-solid fa-arrows-rotate"></i> Sync</button></td>
+                        <td class="text-center"><button class="tactile-btn tactile-btn-mint tactile-btn-sm" onclick="syncMenuItem('SUB-03', 'Classic Italian Deli Sub')"><i class="fa-solid fa-arrows-rotate"></i> Sync</button></td>
                     </tr>
                     <tr onclick="updateFormulaBar('B5', '=POS.CATALOG(SKU=\"WRP-04\", Name=\"Charred Buffalo Chicken Wrap\", Base=$11.25)')">
                         <td class="apex-row-num">4</td>
@@ -369,7 +414,7 @@
                         <td class="font-mono fw-bold" style="color: var(--apex-cyan-dark);">$12.94</td>
                         <td><span class="apex-status-pill apex-status-200"><i class="fa-solid fa-check"></i> SYNCED</span></td>
                         <td><span class="apex-status-pill apex-status-200">100% IN STOCK</span></td>
-                        <td class="text-center"><button class="apex-btn-subtle" onclick="alert('Menu item WRP-04 synchronized across active gateways.')"><i class="fa-solid fa-arrows-rotate"></i> Sync</button></td>
+                        <td class="text-center"><button class="tactile-btn tactile-btn-mint tactile-btn-sm" onclick="syncMenuItem('WRP-04', 'Charred Buffalo Chicken Wrap')"><i class="fa-solid fa-arrows-rotate"></i> Sync</button></td>
                     </tr>
                 </tbody>
             </table>
@@ -531,13 +576,13 @@
                         </div>
 
                         <div class="d-flex align-items-center justify-content-between pt-2">
-                            <button type="button" class="apex-btn-subtle" onclick="fillDemoCredentials()">
+                            <button type="button" class="tactile-btn tactile-btn-white tactile-btn-sm" onclick="fillDemoCredentials()">
                                 <i class="fa-solid fa-wand-magic-sparkles me-1" style="color: var(--apex-cyan-dark);"></i> Fill Demo Credentials
                             </button>
 
                             <div class="d-flex gap-2">
-                                <button type="button" class="apex-btn-subtle" data-bs-dismiss="modal">Cancel</button>
-                                <button type="submit" id="btnSubmitVerify" class="apex-btn-primary">
+                                <button type="button" class="tactile-btn tactile-btn-dark tactile-btn-sm" data-bs-dismiss="modal">Cancel</button>
+                                <button type="submit" id="btnSubmitVerify" class="tactile-btn tactile-btn-cyan tactile-btn-md">
                                     <i class="fa-solid fa-shield-check me-1"></i> Submit &amp; Verify API
                                 </button>
                             </div>

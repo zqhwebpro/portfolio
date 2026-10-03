@@ -612,6 +612,7 @@ function addToCart(productId) {
     updateCartUI();
     triggerFlashToast(`Added "${product.name}" to cart`);
 }
+window.addToCart = addToCart;
 
 function updateCartQty(productId, delta) {
     const item = cart.find(c => c.id === productId);
@@ -3363,6 +3364,56 @@ window.copyCouponCode = function () {
     }
 };
 
+// ==============================================================================
+// BLOG <-> STORE PRODUCT INTEGRATION & BUY NOW ENGINE
+// ==============================================================================
+window.getFeaturedProductForPost = function (post) {
+    if (!post) return (window.PRODUCTS || PRODUCTS)[0];
+    if (post.productId) {
+        const found = (window.PRODUCTS || PRODUCTS).find(x => x.id === post.productId);
+        if (found) return found;
+    }
+    const map = {
+        'un-popcorn': 5,           // Caffeinated Sleepy Time Tea ($18.50)
+        'invisible-chameleon': 13,  // Invisible Ink UV Spy Kit ($12.95)
+        'talking-cactus': 1,       // Annoying Hidden Beeper ($9.98)
+        'tuesday-gravity': 6,      // Desktop Missile Defense Turret ($34.95)
+        'dehydrated-water': 11,    // No-Tear Unrippable Toilet Paper ($8.50)
+        'left-handed-mug': 4       // Squeaky Office Chair Wheel ($16.95)
+    };
+    const prodId = map[post.id] || 1;
+    return (window.PRODUCTS || PRODUCTS).find(x => x.id === prodId) || (window.PRODUCTS || PRODUCTS)[0];
+};
+
+window.buyNowFromBlog = function (productId, event) {
+    if (event) {
+        event.stopPropagation();
+        event.preventDefault();
+    }
+    const product = (window.PRODUCTS || PRODUCTS).find(p => p.id === productId);
+    if (!product) return;
+
+    if (typeof window.addToCart === 'function') {
+        window.addToCart(productId);
+    } else if (typeof addToCart === 'function') {
+        addToCart(productId);
+    }
+
+    // Dynamic visual feedback on the Buy Now button
+    const btn = event && event.currentTarget ? event.currentTarget : null;
+    if (btn) {
+        const origHtml = btn.innerHTML;
+        btn.innerHTML = '<i class="fa-solid fa-check text-[10px]"></i> In Cart!';
+        btn.classList.add('bg-emerald-400', 'text-emerald-950');
+        btn.classList.remove('bg-teal-400');
+        setTimeout(() => {
+            btn.innerHTML = origHtml;
+            btn.classList.remove('bg-emerald-400', 'text-emerald-950');
+            btn.classList.add('bg-teal-400');
+        }, 1500);
+    }
+};
+
 window.renderBlogPosts = function (categoryFilter = 'all') {
     const grid = document.getElementById('blog-posts-grid');
     if (!grid) return;
@@ -3371,51 +3422,99 @@ window.renderBlogPosts = function (categoryFilter = 'all') {
         ? window.BLOG_POSTS
         : window.BLOG_POSTS.filter(p => p.category === categoryFilter);
 
-    grid.innerHTML = filtered.map(post => `
-                <article onclick="window.openBlogReaderModal('${post.id}')"
-                         data-blueprint-file="WackyStore.WebUI/Views/Blog/_ArticleSummary.cshtml"
-                         data-blueprint-role="BlogPost Summary Partial Model"
-                         data-blueprint-layer="WebUI / Partial View"
-                         data-blueprint-dom="Clickable article card opening full blog reader modal."
-                         data-blueprint-desc="Maps Domain.Entities.BlogPost entity properties (Title, Author, Excerpt, Content) to HTML preview markup."
-                         data-blueprint-code="@model WackyStore.Domain.Entities.BlogPost"
-                         class="blog-article-card bg-white border border-canvas-border rounded-2xl sm:rounded-3xl overflow-hidden shadow-xs hover:shadow-xl transition-all duration-300 flex flex-col group hover:-translate-y-1.5 cursor-pointer">
-                    <div class="relative h-44 sm:h-48 w-full overflow-hidden bg-earth-900 shrink-0">
-                        <img src="${post.image}" alt="${post.title}" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500 opacity-90" />
-                        <div class="absolute top-3 left-3">
-                            <span class="px-3 py-1 rounded-full bg-teal-400 text-earth-950 font-mono font-black text-[10px] uppercase tracking-wider shadow-sm">
-                                ${post.category}
-                            </span>
+    grid.innerHTML = filtered.map(post => {
+        const featuredProduct = window.getFeaturedProductForPost(post);
+
+        return `
+            <article onclick="window.openBlogReaderModal('${post.id}')"
+                     data-blueprint-file="WackyStore.WebUI/Views/Blog/_ArticleSummary.cshtml"
+                     data-blueprint-role="BlogPost Summary Partial Model"
+                     data-blueprint-layer="WebUI / Partial View"
+                     data-blueprint-dom="Clickable article card opening full blog reader modal with featured Wacky Store product."
+                     data-blueprint-desc="Maps Domain.Entities.BlogPost entity properties and featured Wacky Things Store product with direct Buy Now cart action."
+                     data-blueprint-code="@model WackyStore.Domain.Entities.BlogPost"
+                     class="blog-article-card bg-white border border-canvas-border rounded-2xl sm:rounded-3xl overflow-hidden shadow-xs hover:shadow-xl transition-all duration-300 flex flex-col group hover:-translate-y-1.5 cursor-pointer relative">
+                
+                <!-- Card Hero Header with Featured Product Circle Badge & Buy Now Peel -->
+                <div class="relative h-48 sm:h-52 md:h-56 w-full overflow-hidden bg-earth-900 shrink-0">
+                    <img src="${post.image}" alt="${post.title}" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500 opacity-85" />
+                    <div class="absolute inset-0 bg-gradient-to-t from-black/60 via-transparent to-black/20 pointer-events-none"></div>
+
+                    <!-- FEATURED WACKY PRODUCT CIRCLE & BUY NOW PEEL (Takes up > 1/3 of upper left) -->
+                    <div class="absolute top-2.5 left-2.5 sm:top-3 sm:left-3 z-20 flex flex-col items-center group/badge">
+                        <!-- Product Circle: Takes up more than 1/3 of the card's upper left -->
+                        <div onclick="window.buyNowFromBlog(${featuredProduct.id}, event);"
+                             title="Click to add ${featuredProduct.name} to cart ($${featuredProduct.price.toFixed(2)})"
+                             class="w-24 h-24 sm:w-28 sm:h-28 md:w-30 md:h-30 rounded-full border-3 sm:border-4 border-white shadow-2xl bg-white overflow-hidden relative cursor-pointer transition-all duration-300 hover:scale-105 active:scale-95 ring-2 ring-black/20 flex items-center justify-center">
+                            <img src="${featuredProduct.image}" alt="${featuredProduct.name}" class="w-full h-full object-cover p-0.5 transition-transform duration-300 group-hover/badge:scale-110" />
+                            
+                            <!-- Hover Quick-Add Overlay -->
+                            <div class="absolute inset-0 bg-teal-500/25 opacity-0 group-hover/badge:opacity-100 transition-opacity flex items-center justify-center">
+                                <i class="fa-solid fa-cart-plus text-white text-base sm:text-lg drop-shadow-md"></i>
+                            </div>
                         </div>
+
+                        <!-- Teal Peel under circle: Buy Now (Click to Add to Cart) -->
+                        <button type="button"
+                                onclick="window.buyNowFromBlog(${featuredProduct.id}, event);"
+                                title="Buy Now - Add ${featuredProduct.name} to cart ($${featuredProduct.price.toFixed(2)})"
+                                class="mt-1.5 px-3.5 py-1 sm:px-4 sm:py-1 rounded-full bg-teal-400 hover:bg-teal-300 active:bg-teal-500 text-earth-950 font-heading font-black text-[11px] sm:text-xs uppercase tracking-wider shadow-xl border-2 border-white hover:scale-105 active:scale-95 transition-all flex items-center justify-center gap-1 cursor-pointer">
+                            <i class="fa-solid fa-cart-shopping text-[10px]"></i>
+                            <span>Buy Now</span>
+                        </button>
                     </div>
 
-                    <div class="p-4 sm:p-5 md:p-6 flex-1 flex flex-col justify-between gap-3 sm:gap-4">
-                        <div class="space-y-2">
-                            <div class="flex items-center justify-between text-xs text-earth-500 font-medium">
+                    <!-- Subtle Featured Store Product Tag in Upper Right -->
+                    <div class="absolute top-3 right-3 z-10">
+                        <span class="px-2.5 py-1 rounded-full bg-black/65 backdrop-blur-md text-white font-mono font-bold text-[9px] sm:text-[10px] uppercase tracking-wider border border-white/20 shadow-xs flex items-center gap-1">
+                            <i class="fa-solid fa-tag text-teal-300 text-[8px]"></i>
+                            <span class="max-w-[110px] sm:max-w-[130px] truncate">${featuredProduct.name}</span>
+                        </span>
+                    </div>
+                </div>
+
+                <div class="p-4 sm:p-5 md:p-6 flex-1 flex flex-col justify-between gap-3 sm:gap-4">
+                    <div class="space-y-2">
+                        <div class="flex items-center justify-between text-xs text-earth-500 font-medium flex-wrap gap-1">
+                            <span class="px-2.5 py-0.5 rounded-full bg-earth-100 text-earth-800 font-mono font-bold text-[10px] uppercase tracking-wider">
+                                ${post.category}
+                            </span>
+                            <div class="flex items-center gap-2">
                                 <span>${post.date}</span>
                                 <span class="font-mono text-purple-700 font-bold">${post.readTime}</span>
                             </div>
-                            <h3 class="font-heading font-black text-base sm:text-lg md:text-xl text-earth-950 leading-snug group-hover:text-purple-700 transition-colors line-clamp-2">
-                                ${post.title}
-                            </h3>
-                            <p class="text-xs sm:text-sm text-earth-600 line-clamp-3 leading-relaxed">
-                                ${post.excerpt}
-                            </p>
                         </div>
+                        <h3 class="font-heading font-black text-base sm:text-lg md:text-xl text-earth-950 leading-snug group-hover:text-purple-700 transition-colors line-clamp-2">
+                            ${post.title}
+                        </h3>
+                        <p class="text-xs sm:text-sm text-earth-600 line-clamp-3 leading-relaxed">
+                            ${post.excerpt}
+                        </p>
+                    </div>
 
-                        <div class="pt-3 sm:pt-4 border-t border-canvas-border flex items-center justify-between gap-2 flex-wrap">
-                            <div class="flex items-center gap-1.5 text-xs font-bold text-earth-900 min-w-0 truncate">
-                                <i class="fa-solid fa-user-astronaut text-appetite-700"></i>
-                                <span class="truncate">${post.author}</span>
-                            </div>
+                    <div class="pt-3 sm:pt-4 border-t border-canvas-border flex items-center justify-between gap-2 flex-wrap">
+                        <div class="flex items-center gap-1.5 text-xs font-bold text-earth-900 min-w-0 truncate">
+                            <i class="fa-solid fa-user-astronaut text-appetite-700"></i>
+                            <span class="truncate">${post.author}</span>
+                        </div>
+                        <div class="flex items-center gap-2">
+                            <button type="button"
+                                    onclick="event.stopPropagation(); window.toggleViewStoreBlog('store');"
+                                    class="text-[11px] font-bold text-earth-500 hover:text-purple-700 transition-colors flex items-center gap-1"
+                                    title="View full /wacky-things-store/ catalog">
+                                <i class="fa-solid fa-store text-[10px]"></i>
+                                <span class="hidden sm:inline">Store</span>
+                            </button>
                             <span class="px-3.5 py-1.5 rounded-xl bg-purple-700 hover:bg-purple-600 text-white font-bold text-[11px] sm:text-xs transition-all flex items-center gap-1.5 shrink-0 group-hover:scale-105">
                                 <span>Read Story</span>
                                 <i class="fa-solid fa-arrow-right text-[10px]"></i>
                             </span>
                         </div>
                     </div>
-                </article>
-            `).join('');
+                </div>
+            </article>
+        `;
+    }).join('');
 };
 
 window.filterBlogCategory = function (cat) {
@@ -3435,13 +3534,35 @@ window.openBlogReaderModal = function (postId) {
     const post = window.BLOG_POSTS.find(p => p.id === postId);
     if (!post) return;
 
+    const featuredProduct = typeof window.getFeaturedProductForPost === 'function'
+        ? window.getFeaturedProductForPost(post)
+        : ((window.PRODUCTS || PRODUCTS)[0]);
+
     document.getElementById('blog-modal-cover').src = post.image;
     document.getElementById('blog-modal-category').innerText = post.category;
     document.getElementById('blog-modal-title').innerText = post.title;
     document.getElementById('blog-modal-author').innerHTML = `<i class="fa-solid fa-user-astronaut text-appetite-700"></i> ${post.author} (${post.authorRole})`;
     document.getElementById('blog-modal-date').innerHTML = `<i class="fa-regular fa-calendar text-teal-800"></i> ${post.date}`;
     document.getElementById('blog-modal-readtime').innerHTML = `<i class="fa-solid fa-clock"></i> ${post.readTime}`;
-    document.getElementById('blog-modal-body').innerHTML = post.content;
+
+    // Include featured product banner from /wacky-things-store/ inside the article modal
+    const productBanner = `
+        <div class="my-4 p-3.5 sm:p-4 rounded-2xl bg-teal-50 border-2 border-teal-300/80 flex items-center justify-between gap-3 flex-wrap">
+            <div class="flex items-center gap-3">
+                <img src="${featuredProduct.image}" alt="${featuredProduct.name}" class="w-14 h-14 sm:w-16 sm:h-16 rounded-full border-2 border-white shadow-md object-cover bg-white shrink-0" />
+                <div>
+                    <div class="text-[10px] font-mono uppercase font-bold text-teal-800 tracking-wider">Featured Invention from /wacky-things-store/</div>
+                    <div class="font-heading font-black text-sm sm:text-base text-earth-950">${featuredProduct.name}</div>
+                    <div class="font-mono font-bold text-xs text-earth-700">$${featuredProduct.price.toFixed(2)}</div>
+                </div>
+            </div>
+            <button type="button" onclick="window.buyNowFromBlog(${featuredProduct.id}, event)" class="px-4 py-2 rounded-full bg-teal-400 hover:bg-teal-300 active:bg-teal-500 text-earth-950 font-heading font-black text-xs uppercase tracking-wider shadow-md border border-teal-500/30 flex items-center gap-1.5 cursor-pointer">
+                <i class="fa-solid fa-cart-shopping"></i> Buy Now
+            </button>
+        </div>
+    `;
+
+    document.getElementById('blog-modal-body').innerHTML = productBanner + post.content;
 
     document.getElementById('blog-reader-modal').classList.remove('hidden');
 };
