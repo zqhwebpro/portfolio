@@ -4218,7 +4218,7 @@ function getTrackCodeSample(trackId, moduleNum, sectionId, secTitle) {
         '  return (\n' +
         '    <div className="flex items-center gap-2 p-2 bg-slate-900 text-white rounded">\n' +
         '      <span className="font-bold">{label}</span>\n' +
-        '      <span className="px-2 py-0.5 bg-sky-500 rounded-full text-xs">{count}</span>\n' +
+        '      <span className="px-2 py-0.5 bg-sky-500 rounded-md text-xs">{count}</span>\n' +
         '    </div>\n' +
         '  );\n' +
         '}';
@@ -4876,7 +4876,7 @@ function getTrackConsoleOutput(trackId, moduleNum, sectionId) {
       headerTag.textContent = theme.specPrefix + ' // MODULE_' + moduleNum + ' // SEC_' + sectionId;
       headerTag.className = 'text-slate-950 font-black tracking-wide';
     }
-    if (dot) dot.className = 'w-2.5 h-2.5 rounded-full bg-slate-950 animate-ping';
+    if (dot) dot.remove();
     if (moduleBadge) {
       moduleBadge.textContent = currModule ? currModule.title : 'MODULE ' + moduleNum;
       moduleBadge.className = 'font-mono text-xs sm:text-sm font-extrabold text-slate-950 mb-2 flex items-center gap-2 uppercase tracking-wider';

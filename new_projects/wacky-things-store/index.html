@@ -724,50 +724,45 @@
             font-size: 1.35rem !important;
         }
 
-        /* NAV DROPDOWN PUSHDOWN PANELS & POOF ANIMATIONS */
+        /* NAV DROPDOWN PUSHDOWN PANELS: SMOOTH SLIDE DOWN & PUSH STORE DOWN */
         .nav-push-panel {
-            transform-origin: top center;
-            will-change: transform, opacity, filter;
+            overflow: hidden !important;
+            max-height: 0;
+            opacity: 0;
+            transform: translateY(-20px);
+            transition: max-height 0.45s cubic-bezier(0.16, 1, 0.3, 1),
+                        opacity 0.35s ease,
+                        transform 0.4s cubic-bezier(0.16, 1, 0.3, 1) !important;
+            will-change: max-height, opacity, transform;
+            display: block;
         }
 
-        .nav-push-panel.poof-out {
-            animation: panelPoofOut 0.28s cubic-bezier(0.2, 0.9, 0.3, 1) forwards !important;
-            pointer-events: none;
+        .nav-push-panel.hidden {
+            display: none !important;
+            max-height: 0 !important;
+            opacity: 0 !important;
         }
 
-        @keyframes panelPoofOut {
-            0% {
-                opacity: 1;
-                transform: scale(1) translateY(0);
-                filter: blur(0px);
-            }
-            40% {
-                opacity: 0.7;
-                transform: scale(1.02) translateY(-4px);
-                filter: blur(2px);
-            }
-            100% {
-                opacity: 0;
-                transform: scale(0.92) translateY(-20px);
-                filter: blur(8px);
-            }
+        .nav-push-panel.is-open {
+            display: block !important;
+            max-height: 4500px !important;
+            opacity: 1 !important;
+            transform: translateY(0) !important;
         }
 
-        .nav-push-panel.drop-down {
-            animation: panelDropDown 0.4s cubic-bezier(0.16, 1, 0.3, 1) forwards !important;
+        .nav-push-panel.is-closing {
+            display: block !important;
+            max-height: 0 !important;
+            opacity: 0 !important;
+            transform: translateY(-20px) !important;
+            transition: max-height 0.32s cubic-bezier(0.16, 1, 0.3, 1),
+                        opacity 0.25s ease,
+                        transform 0.28s cubic-bezier(0.16, 1, 0.3, 1) !important;
         }
 
-        @keyframes panelDropDown {
-            0% {
-                opacity: 0;
-                transform: translateY(-35px) scale(0.97);
-                filter: blur(4px);
-            }
-            100% {
-                opacity: 1;
-                transform: translateY(0) scale(1);
-                filter: blur(0px);
-            }
+        /* Modal popup ensures shipping estimator always pops up above everything */
+        #shipping-modal-backdrop {
+            z-index: 99999 !important;
         }
 
         /* 6. ADMIN TOP BAR (Above the Top Bar) */
@@ -1351,22 +1346,65 @@
         }
 
         /* ========================================================
-           NEWSLETTER SECTION (GRADIENT FROM 4 NAV BUTTONS & WHITE/BLACK OPAQUE CARD)
+           NEWSLETTER SECTION (INFINITE ANIMATED 4-COLOR GRADIENT WITH LEFT-AND-RIGHT MOTION)
            ======================================================== */
         #newsletter-section {
-            background: linear-gradient(90deg, #0D9488 0%, #7C3AED 25%, #F59E0B 50%, #D946EF 75%, #0D9488 100%) !important;
-            background-size: 300% 100% !important;
-            animation: flowNewsletterGradient 7s ease-in-out infinite alternate !important;
-            position: relative;
-            overflow: hidden;
+            position: relative !important;
+            overflow: hidden !important;
+            background-color: #0f172a !important;
         }
 
-        @keyframes flowNewsletterGradient {
+        /* 1. Main 4-Color Gradient Layer: Sweeps Left-and-Right Accross Section */
+        .newsletter-gradient-layer {
+            position: absolute !important;
+            top: 0 !important;
+            left: 0 !important;
+            width: 250% !important;
+            height: 100% !important;
+            background: linear-gradient(90deg, 
+                #0D9488 0%, 
+                #7C3AED 18%, 
+                #F59E0B 36%, 
+                #D946EF 54%, 
+                #0D9488 72%, 
+                #7C3AED 90%, 
+                #F59E0B 100%
+            ) !important;
+            animation: newsletterMoveLeftRight 6s ease-in-out infinite alternate !important;
+            will-change: transform !important;
+            pointer-events: none !important;
+            z-index: 1 !important;
+        }
+
+        @keyframes newsletterMoveLeftRight {
             0% {
-                background-position: 0% 50%;
+                transform: translate3d(0, 0, 0);
             }
             100% {
-                background-position: 100% 50%;
+                transform: translate3d(-55%, 0, 0);
+            }
+        }
+
+        /* 2. Secondary Radiant Glow: Sweeps Horizontally to amplify left-right motion */
+        .newsletter-glow-layer {
+            position: absolute !important;
+            inset: -30% !important;
+            background: radial-gradient(circle at 30% 50%, rgba(13, 148, 136, 0.6), transparent 50%),
+                        radial-gradient(circle at 60% 50%, rgba(217, 70, 239, 0.6), transparent 50%),
+                        radial-gradient(circle at 85% 50%, rgba(245, 158, 11, 0.55), transparent 50%) !important;
+            animation: newsletterGlowLeftRight 8s ease-in-out infinite alternate !important;
+            pointer-events: none !important;
+            mix-blend-mode: screen !important;
+            z-index: 2 !important;
+            will-change: transform !important;
+        }
+
+        @keyframes newsletterGlowLeftRight {
+            0% {
+                transform: translate3d(-18%, 0, 0);
+            }
+            100% {
+                transform: translate3d(18%, 0, 0);
             }
         }
 
@@ -3437,6 +3475,10 @@
         data-blueprint-desc="Renders the newsletter signup form featuring dynamic 4-color nav gradient background and a crisp high-contrast opaque white/black container. Posts email subscriptions to the Newsletter controller."
         data-blueprint-code="[HttpPost] public ActionResult Subscribe(string email) { ... }">
 
+
+            <!-- Infinite Animated Gradient Layers with Left-and-Right Motion -->
+        <div class="newsletter-gradient-layer" aria-hidden="true"></div>
+        <div class="newsletter-glow-layer" aria-hidden="true"></div>
 
         <div class="store-fluid-container relative z-10 flex flex-col items-center">
             <!-- WHITE BLACK OPAQUE CARD ON TOP -->

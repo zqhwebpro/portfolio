@@ -106,11 +106,11 @@ body {
   height: 100vh;
   z-index: 1;
   pointer-events: none;
-  background: radial-gradient(
-    circle at 50% 50%, 
-    rgba(2, 6, 23, 0.20) 0%, 
-    rgba(2, 6, 23, 0.50) 65%, 
-    rgba(1, 4, 9, 0.82) 100%
+  background: linear-gradient(
+    180deg, 
+    rgba(2, 6, 23, 0.35) 0%, 
+    rgba(1, 4, 9, 0.60) 50%, 
+    rgba(1, 4, 9, 0.85) 100%
   );
   box-shadow: inset 0 0 100px rgba(0, 0, 0, 0.7);
 }

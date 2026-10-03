@@ -790,27 +790,38 @@ function openApiConfigModal(serviceId) {
     if (!s) return;
 
     currentSelectedGateway = serviceId;
-    document.getElementById('modalCurrentServiceId').value = serviceId;
-    document.getElementById('modalServiceTitle').innerText = `${s.name} API Setup`;
-    document.getElementById('modalServiceSubtitle').innerText = `${s.categoryTag} • REST Webhooks • TLS 1.3`;
+    const currentIdEl = document.getElementById('modalCurrentServiceId');
+    if (currentIdEl) currentIdEl.value = serviceId;
+
+    const titleEl = document.getElementById('modalServiceTitle');
+    if (titleEl) titleEl.innerText = `${s.name} API Setup`;
+
+    const subEl = document.getElementById('modalServiceSubtitle');
+    if (subEl) subEl.innerText = `${s.categoryTag} • ${s.protocol} • TLS 1.3`;
 
     const iconBox = document.getElementById('modalLogoBox');
     if (iconBox) iconBox.innerHTML = `<i class="${s.icon} fs-5 text-primary"></i>`;
 
-    const endpointBadge = document.getElementById('modalEndpointBadge');
-    if (endpointBadge) endpointBadge.innerText = s.endpointUrl;
+    const rankEl = document.getElementById('modalDemoRank');
+    if (rankEl) rankEl.innerText = s.demographicRank || 'Demographic Target';
 
-    const latencyEst = document.getElementById('modalLatencyEst');
-    if (latencyEst) latencyEst.innerText = `Est. ~${s.latency}`;
+    const descEl = document.getElementById('modalDemoDesc');
+    if (descEl) descEl.innerText = s.demographicDesc || '';
 
-    // Populate inputs if already saved, or prefill with demo key
-    const keyInput = document.getElementById('modalApiKey');
-    const secretInput = document.getElementById('modalApiSecret');
-    const webhookInput = document.getElementById('modalWebhookUrl');
+    const linkEl = document.getElementById('modalOutwardLink');
+    if (linkEl && s.portalUrl) linkEl.href = s.portalUrl;
 
-    if (keyInput) keyInput.value = (savedApiState[serviceId]?.clientId) || s.defaultClientId || '';
-    if (secretInput) secretInput.value = (savedApiState[serviceId]?.secret) || s.defaultSecret || '';
-    if (webhookInput) webhookInput.value = (savedApiState[serviceId]?.webhook) || s.endpointUrl || '';
+    const webhookDisplay = document.getElementById('apiWebhookUrlDisplay');
+    if (webhookDisplay) webhookDisplay.value = s.endpointUrl || '';
+
+    // Populate inputs if already saved, or leave clean
+    const keyInput = document.getElementById('apiClientIdInput');
+    const secretInput = document.getElementById('apiSecretInput');
+    const locInput = document.getElementById('apiLocationIdInput');
+
+    if (keyInput) keyInput.value = (savedApiState[serviceId]?.clientId) || '';
+    if (secretInput) secretInput.value = (savedApiState[serviceId]?.secret) || '';
+    if (locInput) locInput.value = (savedApiState[serviceId]?.locationId) || '';
 
     const modalEl = document.getElementById('apiConfigModal');
     const modal = bootstrap.Modal.getOrCreateInstance(modalEl);
@@ -820,24 +831,50 @@ function openApiConfigModal(serviceId) {
     modal.show();
 }
 
-function handleApiGatewaySubmit(event) {
-    event.preventDefault();
-    const sId = document.getElementById('modalCurrentServiceId').value;
+function fillDemoCredentials() {
+    playToyClick(720, 0.04);
+    const sId = document.getElementById('modalCurrentServiceId')?.value || currentSelectedGateway || 'uber';
+    const s = DELIVERY_SERVICES[sId] || DELIVERY_SERVICES.uber;
+
+    const keyInput = document.getElementById('apiClientIdInput');
+    const secretInput = document.getElementById('apiSecretInput');
+    const locInput = document.getElementById('apiLocationIdInput');
+    const webhookInput = document.getElementById('apiWebhookUrlDisplay');
+
+    if (keyInput) keyInput.value = s.defaultClientId || `demo_client_${sId}_2026`;
+    if (secretInput) secretInput.value = s.defaultSecret || `demo_sec_${sId}_982741`;
+    if (locInput) locInput.value = s.defaultLocationId || `loc_parma_${sId}_01`;
+    if (webhookInput) webhookInput.value = s.endpointUrl || `https://api.dinerdashboard.io/webhooks/${sId}`;
+
+    showDinerToast(
+        'Demo Keys Filled 🔑',
+        `Filled production demo credentials & location ID for ${s.name}.`,
+        'fa-wand-magic-sparkles'
+    );
+}
+
+function handleApiVerification(event) {
+    if (event) event.preventDefault();
+    playToyClick(720, 0.05);
+
+    const sId = document.getElementById('modalCurrentServiceId')?.value || currentSelectedGateway || 'uber';
     const s = DELIVERY_SERVICES[sId];
     if (!s) return;
 
-    const apiKey = (document.getElementById('modalApiKey')?.value || '').trim();
-    const apiSecret = (document.getElementById('modalApiSecret')?.value || '').trim();
-    const webhookUrl = (document.getElementById('modalWebhookUrl')?.value || '').trim();
+    const apiKey = (document.getElementById('apiClientIdInput')?.value || '').trim();
+    const apiSecret = (document.getElementById('apiSecretInput')?.value || '').trim();
+    const locationId = (document.getElementById('apiLocationIdInput')?.value || '').trim();
+    const webhookUrl = (document.getElementById('apiWebhookUrlDisplay')?.value || '').trim();
 
     if (!apiKey || !apiSecret) {
-        alert('Please enter both Client API Key and Secret to connect the delivery API.');
+        alert('Please enter both Client ID / Application API Key and Secret to connect the delivery API. (You can also click "Fill Demo Keys" to auto-populate test credentials.)');
         return;
     }
 
     s.verified = true;
     s.defaultClientId = apiKey;
     s.defaultSecret = apiSecret;
+    if (locationId) s.defaultLocationId = locationId;
     if (webhookUrl) s.endpointUrl = webhookUrl;
     currentSelectedGateway = sId;
 
@@ -845,6 +882,7 @@ function handleApiGatewaySubmit(event) {
         verified: true,
         clientId: apiKey,
         secret: apiSecret,
+        locationId: locationId || s.defaultLocationId,
         webhook: webhookUrl || s.endpointUrl,
         verifiedAt: new Date().toISOString()
     };
@@ -855,8 +893,10 @@ function handleApiGatewaySubmit(event) {
 
     // Close config modal
     const modalEl = document.getElementById('apiConfigModal');
-    const modal = bootstrap.Modal.getInstance(modalEl);
-    if (modal) modal.hide();
+    if (modalEl) {
+        const modal = bootstrap.Modal.getInstance(modalEl);
+        if (modal) modal.hide();
+    }
 
     updateProgressiveState();
     renderGatewayCards();
@@ -864,7 +904,7 @@ function handleApiGatewaySubmit(event) {
 
     showDinerToast(
         `${s.name} Connected! 🚀`,
-        `API credentials validated for ${s.name}.`,
+        `API credentials validated for ${s.name} (Location: ${locationId || s.defaultLocationId}).`,
         'fa-circle-check'
     );
 
@@ -875,7 +915,7 @@ function handleApiGatewaySubmit(event) {
         const verifiedTitle = document.getElementById('verifiedModalTitle');
         const verifiedSubtitle = document.getElementById('verifiedModalSubtitle');
         if (verifiedTitle) verifiedTitle.innerText = `${s.name} Authenticated!`;
-        if (verifiedSubtitle) verifiedSubtitle.innerText = `Protocol: ${s.protocol} • 200 OK Handshake`;
+        if (verifiedSubtitle) verifiedSubtitle.innerText = `Protocol: ${s.protocol} • Location: ${locationId || s.defaultLocationId} • 200 OK Handshake`;
 
         const nextModalEl = document.getElementById('apiVerifiedNextStepModal');
         if (nextModalEl) {
@@ -887,6 +927,8 @@ function handleApiGatewaySubmit(event) {
         }
     }, 380);
 }
+
+const handleApiGatewaySubmit = handleApiVerification;
 
 function proceedToMenuScreenFromModal() {
     const nextModalEl = document.getElementById('apiVerifiedNextStepModal');
@@ -961,9 +1003,13 @@ function populateWebsiteBuilderForm() {
         bannerDesc.innerText = `Your customer site will automatically route on-demand delivery dispatches through ${activeGw.name} (${activeGw.protocol}).`;
     }
 
+    const guidanceText = document.getElementById('step2GuidanceText');
+    if (guidanceText) {
+        guidanceText.innerText = `${activeGw.name} Authenticated • Ready to Build Website`;
+    }
+
     // Populate inputs from currentSiteConfig
     const nameEl = document.getElementById('siteRestaurantName');
-    const slugEl = document.getElementById('siteSlug');
     const streetEl = document.getElementById('siteStreet');
     const unitEl = document.getElementById('siteUnit');
     const cityEl = document.getElementById('siteCity');
@@ -971,65 +1017,45 @@ function populateWebsiteBuilderForm() {
     const zipEl = document.getElementById('siteZip');
     const countryEl = document.getElementById('siteCountry');
     const msgEl = document.getElementById('siteMessage');
-    const photoUrlEl = document.getElementById('sitePhotoUrl');
+    const photoImg = document.getElementById('sitePhotoPreview');
 
-    if (nameEl) nameEl.value = currentSiteConfig.restaurantName || '';
-    if (slugEl) slugEl.value = currentSiteConfig.slug || makeDirectorySlug(currentSiteConfig.restaurantName);
-    if (streetEl) streetEl.value = currentSiteConfig.street || '';
-    if (unitEl) unitEl.value = currentSiteConfig.unit || '';
-    if (cityEl) cityEl.value = currentSiteConfig.city || '';
-    if (stateEl) stateEl.value = currentSiteConfig.state || 'OH';
-    if (zipEl) zipEl.value = currentSiteConfig.zip || '';
-    if (countryEl) countryEl.value = currentSiteConfig.country || 'US';
-    if (msgEl) msgEl.value = currentSiteConfig.message || '';
-    if (photoUrlEl) photoUrlEl.value = currentSiteConfig.photoUrl || '';
+    if (nameEl && currentSiteConfig.restaurantName) nameEl.value = currentSiteConfig.restaurantName;
+    if (streetEl && currentSiteConfig.street) streetEl.value = currentSiteConfig.street;
+    if (unitEl && currentSiteConfig.unit) unitEl.value = currentSiteConfig.unit;
+    if (cityEl && currentSiteConfig.city) cityEl.value = currentSiteConfig.city;
+    if (stateEl && currentSiteConfig.state) stateEl.value = currentSiteConfig.state;
+    if (zipEl && currentSiteConfig.zip) zipEl.value = currentSiteConfig.zip;
+    if (countryEl && currentSiteConfig.country) countryEl.value = currentSiteConfig.country;
+    if (msgEl && currentSiteConfig.message) msgEl.value = currentSiteConfig.message;
+    if (photoImg && currentSiteConfig.photoUrl) photoImg.src = currentSiteConfig.photoUrl;
 
     updateSlugPreview();
-    updatePhotoPreview();
 }
 
 function updateSlugPreview() {
-    const name = document.getElementById('siteRestaurantName')?.value || '';
-    const slugInput = document.getElementById('siteSlug');
-    const slug = slugInput ? (slugInput.value || makeDirectorySlug(name)) : makeDirectorySlug(name);
-    
-    if (slugInput && !slugInput.dataset.manualEdit) {
-        slugInput.value = makeDirectorySlug(name);
+    const name = document.getElementById('siteRestaurantName')?.value || 'Parma Sub & Fry Co';
+    const slug = makeDirectorySlug(name);
+    const liveSlug = document.getElementById('liveSlugDisplay');
+    if (liveSlug) {
+        liveSlug.innerText = slug;
     }
-
-    const previewEl = document.getElementById('siteSlugPreviewText');
-    if (previewEl) {
-        previewEl.innerText = `/net-c-delivery/${slugInput ? slugInput.value : slug}/index.html`;
-    }
-}
-
-function updatePhotoPreview() {
-    const url = document.getElementById('sitePhotoUrl')?.value || currentSiteConfig.photoUrl;
-    const box = document.getElementById('sitePhotoPreviewBox');
-    if (!box) return;
-
-    if (url) {
-        box.innerHTML = `<img src="${url}" alt="Business Photo" style="width: 100%; height: 100%; object-fit: cover; border-radius: 8px;" onerror="this.parentElement.innerHTML='<i class=\\'fa-solid fa-store fa-2x text-primary\\'></i>'">`;
-    } else {
-        box.innerHTML = `<i class="fa-solid fa-store fa-2x text-primary"></i>`;
-    }
+    return slug;
 }
 
 function setPresetPhoto(type) {
     playToyClick(640, 0.03);
     const presets = {
-        sub: 'https://images.unsplash.com/photo-1509722747041-616f39b57569?auto=format&fit=crop&w=800&q=80',
-        burger: 'https://images.unsplash.com/photo-1568901346375-23c9450c58cd?auto=format&fit=crop&w=800&q=80',
-        deli: 'https://images.unsplash.com/photo-1528735602780-2552fd46c7af?auto=format&fit=crop&w=800&q=80',
-        pizza: 'https://images.unsplash.com/photo-1513104890138-7c749659a591?auto=format&fit=crop&w=800&q=80'
+        diner: 'https://images.unsplash.com/photo-1555396273-367ea4eb4db5?auto=format&fit=crop&w=400&q=80',
+        sub: 'https://images.unsplash.com/photo-1509722747041-616f39b57569?auto=format&fit=crop&w=400&q=80',
+        burger: 'https://images.unsplash.com/photo-1568901346375-23c9450c58cd?auto=format&fit=crop&w=400&q=80'
     };
-    const chosen = presets[type] || presets.sub;
-    const urlInput = document.getElementById('sitePhotoUrl');
-    if (urlInput) {
-        urlInput.value = chosen;
-        updatePhotoPreview();
+    const chosen = presets[type] || presets.diner;
+    const photoImg = document.getElementById('sitePhotoPreview');
+    if (photoImg) {
+        photoImg.src = chosen;
     }
-    showDinerToast('Photo Selected 📸', `Loaded ${type.toUpperCase()} storefront image preset.`, 'fa-camera');
+    currentSiteConfig.photoUrl = chosen;
+    showDinerToast('Photo Selected 📸', `Loaded ${type.toUpperCase()} business photo preset.`, 'fa-camera');
 }
 
 function handlePhotoUpload(event) {
@@ -1040,9 +1066,9 @@ function handlePhotoUpload(event) {
     const reader = new FileReader();
     reader.onload = function(e) {
         const dataUrl = e.target.result;
-        const urlInput = document.getElementById('sitePhotoUrl');
-        if (urlInput) urlInput.value = dataUrl;
-        updatePhotoPreview();
+        const photoImg = document.getElementById('sitePhotoPreview');
+        if (photoImg) photoImg.src = dataUrl;
+        currentSiteConfig.photoUrl = dataUrl;
         showDinerToast('Photo Uploaded 🖼️', `Selected custom business image (${(file.size / 1024).toFixed(0)} KB).`, 'fa-image');
     };
     reader.readAsDataURL(file);
@@ -1182,19 +1208,20 @@ function syncMenuItem(sku, name) {
 // ═══════════════════════════════════════════════════════════════════
 // GENERATE & DEPLOY WEBSITE WITH DIRECTORY SLUG
 // ═══════════════════════════════════════════════════════════════════
-function handleWebsiteGeneratorSubmit(event) {
+function generateAndDeployWebsite(event) {
     if (event) event.preventDefault();
     playToyClick(720, 0.06);
 
-    const restaurantName = (document.getElementById('siteRestaurantName')?.value || '').trim();
-    const street = (document.getElementById('siteStreet')?.value || '').trim();
+    const restaurantName = (document.getElementById('siteRestaurantName')?.value || 'Parma Sub & Fry Co').trim();
+    const street = (document.getElementById('siteStreet')?.value || '5842 Ridge Rd').trim();
     const unit = (document.getElementById('siteUnit')?.value || '').trim();
-    const city = (document.getElementById('siteCity')?.value || '').trim();
-    const state = (document.getElementById('siteState')?.value || '').trim();
-    const zip = (document.getElementById('siteZip')?.value || '').trim();
-    const country = (document.getElementById('siteCountry')?.value || 'US').trim();
+    const city = (document.getElementById('siteCity')?.value || 'Parma').trim();
+    const state = (document.getElementById('siteState')?.value || 'OH').trim();
+    const zip = (document.getElementById('siteZip')?.value || '44129').trim();
+    const country = (document.getElementById('siteCountry')?.value || 'United States').trim();
     const message = (document.getElementById('siteMessage')?.value || '').trim();
-    const photoUrl = (document.getElementById('sitePhotoUrl')?.value || '').trim();
+    const photoImg = document.getElementById('sitePhotoPreview');
+    const photoUrl = photoImg?.src || currentSiteConfig.photoUrl || 'https://images.unsplash.com/photo-1555396273-367ea4eb4db5?auto=format&fit=crop&w=400&q=80';
 
     if (!restaurantName) {
         alert('Please enter a Restaurant Name.');
@@ -1207,12 +1234,12 @@ function handleWebsiteGeneratorSubmit(event) {
         return;
     }
 
-    const selectedItems = DINER_MENU_ITEMS.filter(i => i.selected);
+    let selectedItems = DINER_MENU_ITEMS.filter(i => i.selected);
     if (selectedItems.length === 0) {
-        alert('Please select at least 1 Menu Item SKU from the catalog below to publish on your site.');
-        const catCard = document.getElementById('menuCatalogCard');
-        if (catCard) catCard.scrollIntoView({ behavior: 'smooth' });
-        return;
+        // Auto-select all 7 items if none selected so user is never blocked
+        DINER_MENU_ITEMS.forEach(i => i.selected = true);
+        selectedItems = DINER_MENU_ITEMS.filter(i => i.selected);
+        renderMenuCatalog();
     }
 
     const slug = makeDirectorySlug(restaurantName);
@@ -1230,13 +1257,14 @@ function handleWebsiteGeneratorSubmit(event) {
         zip: zip,
         country: country,
         message: message,
-        photoUrl: photoUrl || 'https://images.unsplash.com/photo-1509722747041-616f39b57569?auto=format&fit=crop&w=800&q=80',
+        photoUrl: photoUrl,
         deployedDirectory: `/net-c-delivery/${slug}/index.html`,
         api: {
             id: activeGw.id,
             name: activeGw.name,
             protocol: activeGw.protocol,
             endpoint: activeGw.endpointUrl,
+            locationId: activeGw.defaultLocationId,
             verified: true
         },
         selectedSkus: selectedItems.map(i => i.sku),
@@ -1257,10 +1285,14 @@ function handleWebsiteGeneratorSubmit(event) {
 
     addTelemetryLogRow('Site Generator', 'SITE.DEPLOY_DIRECTORY_200', '19 ms', `/${slug}/index.html`);
 
+    renderDeployedSiteBanner();
+
     setTimeout(() => {
         goToStep(3);
-    }, 450);
+    }, 400);
 }
+
+const handleWebsiteGeneratorSubmit = generateAndDeployWebsite;
 
 // ═══════════════════════════════════════════════════════════════════
 // STEP 3: DEPLOYED SITE BANNER & KITCHEN KDS
@@ -1293,11 +1325,11 @@ function renderDeployedSiteBanner() {
     if (nameEl) nameEl.innerText = currentSiteConfig.restaurantName || 'Parma Sub & Fry Co.';
     if (msgEl) msgEl.innerText = `"${currentSiteConfig.message || 'Artisanal cold cuts & triple-cooked hand-cut fries since 1988.'}"`;
     if (dirEl) dirEl.innerText = `/net-c-delivery/${slug}/index.html`;
-    if (addrEl) addrEl.innerText = fullAddress || '5420 Ridge Rd, Suite B, Parma, OH 44129, US';
+    if (addrEl) addrEl.innerText = fullAddress || '5842 Ridge Rd, Suite 104, Parma, OH 44129, United States';
     if (apiEl) apiEl.innerText = `${activeGw.name} • Verified (${activeGw.protocol})`;
     if (skuEl) skuEl.innerText = `${selectedCount} Menu Items Configured`;
 
-    const targetUrl = `./${slug}/index.html`;
+    const targetUrl = (slug === 'parma-sub-fry-co') ? `./parma-sub-fry-co/index.html` : `./your-site/index.html`;
     if (liveLink) liveLink.href = targetUrl;
 
     if (avatar && currentSiteConfig.photoUrl) {
@@ -1854,4 +1886,40 @@ if (typeof document !== 'undefined') {
         addTelemetryLogRow('System Gateway', 'GATEWAY.BOOT_SEQUENCE', '8 ms', '#SYSTEM_INITIALIZE');
         addTelemetryLogRow('Cloud Router', 'DNS.ANYCAST_SYNC', '12 ms', '#GLOBAL_ROUTE_READY');
     });
+}
+
+// ═══════════════════════════════════════════════════════════════════
+// GLOBAL WINDOW EVENT HANDLERS EXPORT
+// ═══════════════════════════════════════════════════════════════════
+if (typeof window !== 'undefined') {
+    window.fillDemoCredentials = fillDemoCredentials;
+    window.handleApiVerification = handleApiVerification;
+    window.handleApiGatewaySubmit = handleApiVerification;
+    window.generateAndDeployWebsite = generateAndDeployWebsite;
+    window.handleWebsiteGeneratorSubmit = generateAndDeployWebsite;
+    window.goToStep = goToStep;
+    window.selectAndProceedGateway = selectAndProceedGateway;
+    window.openApiConfigModal = openApiConfigModal;
+    window.disconnectApi = disconnectApi;
+    window.filterGateways = filterGateways;
+    window.handleGatewaySearch = handleGatewaySearch;
+    window.selectAllMenuItems = selectAllMenuItems;
+    window.clearMenuItemSelections = clearMenuItemSelections;
+    window.toggleMenuItemSelection = toggleMenuItemSelection;
+    window.adjustItemPrice = adjustItemPrice;
+    window.toggleItemStock = toggleItemStock;
+    window.syncMenuItem = syncMenuItem;
+    window.setPresetPhoto = setPresetPhoto;
+    window.handlePhotoUpload = handlePhotoUpload;
+    window.updateSlugPreview = updateSlugPreview;
+    window.openInAppSitePreview = openInAppSitePreview;
+    window.downloadSiteIndexHtml = downloadSiteIndexHtml;
+    window.ringDinerBell = ringDinerBell;
+    window.spawnDinerTicket = spawnDinerTicket;
+    window.rushFleetDispatch = rushFleetDispatch;
+    window.simulateFullApiHealthCheck = simulateFullApiHealthCheck;
+    window.resetWalkthrough = resetWalkthrough;
+    window.toggleAudio = toggleAudio;
+    window.proceedToMenuScreenFromModal = proceedToMenuScreenFromModal;
+    window.expediteTicket = expediteTicket;
 }

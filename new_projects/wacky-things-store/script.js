@@ -4487,6 +4487,7 @@ window.openShippingModal = function () {
 
     modal.classList.remove('hidden');
     modal.style.display = 'flex';
+    modal.style.zIndex = '99999';
 
     if (typeof window.updateNavButtonStyles === 'function') {
         window.updateNavButtonStyles('shipping');
@@ -4901,6 +4902,7 @@ window.isPanelTransitioning = false;
 window.toggleNavPanel = function (panelName) {
     if (window.isPanelTransitioning) return;
 
+    // Shipping Estimator is dedicated popup modal (never slides down / pushes)
     if (panelName === 'shipping') {
         if (typeof window.openShippingModal === 'function') {
             window.openShippingModal();
@@ -4918,56 +4920,56 @@ window.toggleNavPanel = function (panelName) {
     const targetPanel = panelMap[panelName];
     if (!targetPanel) return;
 
-    // Case 1: Clicking the already active panel -> Poof out and close, returning to catalog
+    // Case 1: Clicking the already active panel -> Slide up and close, returning catalog to top
     if (window.activeNavPanel === panelName) {
         window.closeActiveNavPanel();
         return;
     }
 
-    // Case 2: Another panel is open -> Poof out current panel, then drop down new panel
+    // Case 2: Another panel is open -> Slide up current panel, then slide down new panel
     if (window.activeNavPanel && window.activeNavPanel !== panelName) {
         window.isPanelTransitioning = true;
         const currentPanel = panelMap[window.activeNavPanel];
 
         if (currentPanel) {
-            currentPanel.classList.remove('drop-down');
-            currentPanel.classList.add('poof-out');
+            currentPanel.classList.remove('is-open');
+            currentPanel.classList.add('is-closing');
         }
 
         setTimeout(() => {
             if (currentPanel) {
                 currentPanel.classList.add('hidden');
-                currentPanel.classList.remove('poof-out');
+                currentPanel.classList.remove('is-closing');
             }
 
-            // Drop down the target panel
+            // Slide down the target panel, pushing the catalog store down
             targetPanel.classList.remove('hidden');
-            targetPanel.classList.remove('poof-out');
-            targetPanel.classList.add('drop-down');
+            targetPanel.classList.remove('is-closing');
+            void targetPanel.offsetHeight; // trigger reflow for smooth slide down
+            targetPanel.classList.add('is-open');
             window.activeNavPanel = panelName;
             window.isPanelTransitioning = false;
 
             window.initNavPanelContent(panelName);
             window.updateNavButtonStyles(panelName);
-            // Screen remains stationary directly under the header
-        }, 260);
+        }, 320);
         return;
     }
 
-    // Case 3: No panel is currently open -> Drop down target panel directly
+    // Case 3: No panel is currently open -> Slide down target panel directly, pushing catalog store down
     window.isPanelTransitioning = true;
     targetPanel.classList.remove('hidden');
-    targetPanel.classList.remove('poof-out');
-    targetPanel.classList.add('drop-down');
+    targetPanel.classList.remove('is-closing');
+    void targetPanel.offsetHeight; // trigger reflow for smooth slide down
+    targetPanel.classList.add('is-open');
     window.activeNavPanel = panelName;
 
     setTimeout(() => {
         window.isPanelTransitioning = false;
-    }, 380);
+    }, 450);
 
     window.initNavPanelContent(panelName);
     window.updateNavButtonStyles(panelName);
-    // Screen remains stationary directly under the header
 };
 
 window.closeActiveNavPanel = function (callback) {
@@ -4988,22 +4990,21 @@ window.closeActiveNavPanel = function (callback) {
     window.isPanelTransitioning = true;
 
     if (currentPanel) {
-        currentPanel.classList.remove('drop-down');
-        currentPanel.classList.add('poof-out');
+        currentPanel.classList.remove('is-open');
+        currentPanel.classList.add('is-closing');
     }
 
     setTimeout(() => {
         if (currentPanel) {
             currentPanel.classList.add('hidden');
-            currentPanel.classList.remove('poof-out');
-            currentPanel.classList.remove('drop-down');
+            currentPanel.classList.remove('is-closing');
         }
         window.activeNavPanel = null;
         window.isPanelTransitioning = false;
         window.updateNavButtonStyles('catalog');
 
         if (typeof callback === 'function') callback();
-    }, 260);
+    }, 320);
 };
 
 window.navigateToCatalog = function () {
@@ -5012,24 +5013,18 @@ window.navigateToCatalog = function () {
         if (storeView) {
             storeView.classList.remove('hidden');
         }
+        // Smoothly scroll to the catalog store
+        const headerEl = document.querySelector('header');
+        const headerOffset = headerEl ? headerEl.offsetHeight : 70;
+        const catalogEl = document.getElementById('store-main-view') || document.getElementById('catalog-products-container');
+        if (catalogEl) {
+            const elementPosition = catalogEl.getBoundingClientRect().top + window.pageYOffset;
+            window.scrollTo({
+                top: Math.max(0, elementPosition - headerOffset),
+                behavior: 'smooth'
+            });
+        }
     });
-    window.updateNavButtonStyles('catalog');
-};
-
-window.initNavPanelContent = function (panelName) {
-    if (panelName === 'shipping') {
-        if (typeof window.openShippingModal === 'function') {
-            window.openShippingModal();
-        }
-    } else if (panelName === 'blog') {
-        if (typeof window.renderBlogPosts === 'function') {
-            window.renderBlogPosts(window.activeBlogCategory || 'all');
-        }
-    } else if (panelName === 'academy') {
-        if (typeof window.renderCourses === 'function') {
-            window.renderCourses(window.activeCourseCategory || 'all');
-        }
-    }
 };
 
 window.updateNavButtonStyles = function (activeName) {
