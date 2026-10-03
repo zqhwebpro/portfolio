@@ -2708,13 +2708,31 @@
     </section>
 
                 <!-- 9. STORE FOOTER (Full Width) -->
-    <footer
-        class="border-t-4 border-teal-600 bg-gradient-to-br from-earth-950 to-earth-900 py-12 text-sm text-earth-300 mt-auto relative overflow-hidden"
-        data-blueprint-file="WackyStore.WebUI/Views/Shared/_Layout.cshtml" data-blueprint-role="Site Footer Layout"
-        data-blueprint-layer="WebUI / Presentation"
-        data-blueprint-dom="Semantic <footer> container with dark purple gradient and vibrant teal highlights."
-        data-blueprint-desc="Shared master footer layout displaying security badges, links to the interactive case study, and framework metadata."
-        data-blueprint-code="<footer>&copy; @DateTime.Now.Year Wacky Things Co.</footer>
+                <footer
+                    class="border-t-4 border-teal-600 bg-gradient-to-br from-earth-950 to-earth-900 py-12 text-sm text-earth-300 mt-auto relative overflow-hidden"
+                    data-blueprint-file="WackyStore.WebUI/Views/Shared/_Layout.cshtml" data-blueprint-role="Site Footer Layout"
+                    data-blueprint-layer="WebUI / Presentation"
+                    data-blueprint-dom="Semantic &lt;footer&gt; container with dark purple gradient and vibrant teal highlights."
+                    data-blueprint-desc="Shared master footer layout displaying security badges, links to the interactive case study, and framework metadata."
+                    data-blueprint-code="&lt;footer&gt;&copy; @DateTime.Now.Year Wacky Things Co.&lt;/footer&gt;">
+                    <div class="store-fluid-container flex flex-col sm:flex-row items-center justify-between gap-4">
+                        <div class="flex items-center gap-3">
+                            <span class="text-teal-400 font-black font-heading text-sm">WACKY THINGS CO.</span>
+                            <span class="text-earth-700">|</span>
+                            <span class="text-earth-300 font-medium">Gloriously Bizarre Gadgets &amp; Oddities</span>
+                        </div>
+                        <div class="flex items-center gap-4 text-earth-300 font-medium flex-wrap justify-center">
+                            <button onclick="window.switchView('store')" class="hover:text-teal-400 transition-colors cursor-pointer bg-transparent border-none p-0 text-sm font-medium text-earth-300">Store Catalog</button>
+                            <button onclick="window.switchView('blog')" class="hover:text-teal-400 transition-colors cursor-pointer bg-transparent border-none p-0 text-sm font-medium text-earth-300">The Wacky Blog</button>
+                            <button onclick="window.switchView('learning')" class="hover:text-amber-400 transition-colors cursor-pointer bg-transparent border-none p-0 text-sm font-medium text-earth-300">Funny Academy</button>
+                            <a href="../index.html" class="hover:text-teal-400 transition-colors">Interactive Projects</a>
+                            <a href="../../2026/" class="hover:text-teal-400 transition-colors">Main Portfolio</a>
+                        </div>
+                        <div class="text-earth-500 text-[11px] font-mono">
+                            ASP.NET MVC 5 &bull; EF6 &bull; Ninject 3.3 &bull; Razor
+                        </div>
+                    </div>
+                </footer>
 
             </div><!-- /#screen-regular -->
 
@@ -2815,7 +2833,7 @@
         data-blueprint-dom="Main container rendering WackyDash-style courses locked to purchase and live Zoom webinar registration."
         data-blueprint-desc="CourseController coordinates curriculum catalogs, locked enrollment authorization gates, and external Zoom REST API webinar registrations."
         data-blueprint-code="public ViewResult Learning(string track) => View(courseService.GetCurriculums(track));"
-        class="bg-canvas-base text-earth-950 flex-1 w-full hidden pt-0 pb-16">
+        class="bg-canvas-base text-earth-950 flex-1 w-full pt-0 pb-16">
 
         <!-- 100% Width Attached Sub-Header Bar (pinned directly below navigation) -->
         <div id="learning-filter-bar" class="w-full bg-white border-b border-canvas-border    sticky top-[68px] z-30"
