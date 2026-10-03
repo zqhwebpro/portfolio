@@ -261,8 +261,8 @@
             <ul class="space-y-2 text-slate-400 list-none p-0 m-0">
               <li>
                 <a href="javascript:void(0)" onclick="window.openMatrixTrack('javascript')" class="hover:text-sky-400 transition-colors flex items-center justify-between no-underline text-slate-400">
-                  <span>JavaScript Engine</span>
-                  <span class="text-[10px] text-slate-500 font-mono">42h</span>
+                  <span>JavaScript Essentials (JSE 1)</span>
+                  <span class="text-[10px] text-slate-500 font-mono">6 Mods</span>
                 </a>
               </li>
               <li>
@@ -378,6 +378,71 @@
       </div>
     </footer>
 
+  </div>
+
+  <!-- ═══════════════════════════════════════════════════════════════════
+       INTERACTIVE JSE LESSON STARTER MODAL
+       ═══════════════════════════════════════════════════════════════════ -->
+  <div id="jseLessonModal" class="fixed inset-0 z-50 bg-black/80 backdrop-blur-md hidden items-center justify-center p-4" aria-modal="true" role="dialog">
+    <div class="os-white-card w-full max-w-2xl max-h-[90vh] flex flex-col overflow-hidden border border-slate-300 shadow-2xl">
+      
+      <!-- Modal Header -->
+      <div class="os-window-header px-4 sm:px-6 py-3 flex items-center justify-between border-b border-slate-200 bg-slate-100">
+        <div class="flex items-center gap-2 font-mono text-xs text-slate-700 font-semibold">
+          <i class="fa-brands fa-js text-amber-500 text-sm"></i>
+          <span id="jseModalHeaderTag">JSE.1 // LESSON_RUNNER</span>
+        </div>
+        <button type="button" onclick="window.closeJseModal()" class="w-7 h-7 rounded bg-slate-200 hover:bg-slate-300 text-slate-600 hover:text-slate-900 flex items-center justify-center text-xs font-mono transition-colors cursor-pointer" title="Close Modal">
+          <i class="fa-solid fa-xmark"></i>
+        </button>
+      </div>
+
+      <!-- Modal Body -->
+      <div class="p-6 overflow-y-auto space-y-5">
+        <div class="border-b border-slate-200 pb-3">
+          <div class="font-mono text-xs text-amber-600 font-bold mb-1 flex items-center gap-2">
+            <span class="w-2 h-2 rounded-full bg-amber-500 animate-ping"></span>
+            <span id="jseModalModuleBadge">JSE: MODULE 1</span>
+          </div>
+          <h3 id="jseModalLessonTitle" class="font-headline font-bold text-xl sm:text-2xl text-slate-900 leading-snug">
+            1.0. Welcome to JavaScript Essentials 1
+          </h3>
+          <p id="jseModalLessonDesc" class="font-sans text-xs sm:text-sm text-slate-600 mt-2 leading-relaxed">
+            Module lesson syllabus overview and execution sandbox.
+          </p>
+        </div>
+
+        <!-- Code Sandbox / Execution Terminal -->
+        <div class="rounded-xl bg-slate-950 p-4 border border-slate-800 text-slate-200 font-mono text-xs space-y-2 shadow-inner">
+          <div class="flex items-center justify-between text-slate-400 pb-2 border-b border-slate-800 text-[11px]">
+            <span>RUNNER // live_interpreter.js</span>
+            <span class="text-emerald-400"><i class="fa-solid fa-circle text-[8px]"></i> RUNTIME_ACTIVE</span>
+          </div>
+          <pre id="jseModalCodeSnippet" class="overflow-x-auto text-emerald-300 font-mono text-xs py-2"></pre>
+        </div>
+
+        <!-- Interactive Output Console -->
+        <div id="jseModalConsoleOutput" class="p-3 rounded-lg bg-slate-100 border border-slate-300 font-mono text-xs text-slate-800 hidden"></div>
+
+        <!-- Action Controls -->
+        <div class="pt-3 border-t border-slate-200 flex items-center justify-between flex-wrap gap-2.5 font-mono text-xs">
+          <div class="flex items-center gap-2 text-slate-500">
+            <i class="fa-solid fa-graduation-cap text-amber-500"></i>
+            <span>JavaScript Essentials Certification Track</span>
+          </div>
+          <div class="flex items-center gap-2">
+            <button type="button" onclick="window.runJseDemo()" class="px-3.5 py-1.5 rounded-lg bg-amber-500 hover:bg-amber-400 text-slate-950 font-bold transition-colors cursor-pointer flex items-center gap-1.5 shadow-xs">
+              <i class="fa-solid fa-play text-xs"></i>
+              <span>EXECUTE_SANDBOX</span>
+            </button>
+            <button type="button" onclick="window.closeJseModal()" class="px-3 py-1.5 rounded-lg bg-slate-200 hover:bg-slate-300 text-slate-800 font-semibold transition-colors cursor-pointer">
+              Close
+            </button>
+          </div>
+        </div>
+      </div>
+
+    </div>
   </div>
 
   <!-- Core Matrix Engine Script -->

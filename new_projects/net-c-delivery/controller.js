@@ -269,30 +269,63 @@ const DELIVERY_SERVICES = {
 
 // Application State
 let currentStep = 1;
-let currentSelectedGateway = 'doordash';
+let currentSelectedGateway = null;
 let currentFilter = 'all';
 
-// Load saved state
+// Load saved state (starts uninstalled unless explicitly authenticated)
 let savedApiState = {};
 try {
     const rawSaved = localStorage.getItem('dinerdashboard_delivery_api_state');
     savedApiState = JSON.parse(rawSaved || '{}');
+    let hasAnyVerified = false;
     Object.keys(savedApiState).forEach(k => {
         if (DELIVERY_SERVICES[k] && savedApiState[k].verified) {
             DELIVERY_SERVICES[k].verified = true;
             if (savedApiState[k].clientId) DELIVERY_SERVICES[k].defaultClientId = savedApiState[k].clientId;
             if (savedApiState[k].locationId) DELIVERY_SERVICES[k].defaultLocationId = savedApiState[k].locationId;
+            hasAnyVerified = true;
+            if (!currentSelectedGateway) currentSelectedGateway = k;
         }
     });
+    if (!hasAnyVerified) {
+        currentSelectedGateway = null;
+    }
 } catch (e) {
     savedApiState = {};
+    currentSelectedGateway = null;
 }
 
 // ═══════════════════════════════════════════════════════════════════
-// STEPPER WIZARD ENGINE
+// STEPPER WIZARD ENGINE (SIDE PANEL & OS FOLDER TABS SYNC)
 // ═══════════════════════════════════════════════════════════════════
 function goToStep(stepNum) {
     playToyClick(580, 0.04);
+
+    const hasVerifiedGateway = Object.keys(DELIVERY_SERVICES).some(k => DELIVERY_SERVICES[k].verified);
+    const selectedSkuCount = DINER_MENU_ITEMS.filter(i => i.selected).length;
+
+    // Gateways must be verified before moving to Step 2
+    if (stepNum >= 2 && !hasVerifiedGateway) {
+        playToyClick(320, 0.08);
+        showDinerToast(
+            'API Verification Required ⚠️',
+            'No POS Gateway is currently installed. Please configure and verify an API in Step 1 first.',
+            'fa-plug-circle-exclamation'
+        );
+        stepNum = 1;
+    }
+
+    // Menu SKUs must be selected before moving to Step 3
+    if (stepNum === 3 && selectedSkuCount === 0) {
+        playToyClick(340, 0.08);
+        showDinerToast(
+            'No Menu Items Selected ⚠️',
+            'Please select at least 1 menu item in Step 2 before launching Kitchen KDS & Dispatch.',
+            'fa-clipboard-check'
+        );
+        stepNum = 2;
+    }
+
     currentStep = stepNum;
 
     // View visibility
@@ -304,21 +337,46 @@ function goToStep(stepNum) {
     if (s2) s2.classList.toggle('d-none', stepNum !== 2);
     if (s3) s3.classList.toggle('d-none', stepNum !== 3);
 
-    // Update stepper tabs
-    const tab1 = document.getElementById('stepTab1');
-    const tab2 = document.getElementById('stepTab2');
-    const tab3 = document.getElementById('stepTab3');
+    // Update side panel buttons
+    const side1 = document.getElementById('sideStepTab1');
+    const side2 = document.getElementById('sideStepTab2');
+    const side3 = document.getElementById('sideStepTab3');
 
-    if (tab1) {
-        tab1.classList.toggle('active', stepNum === 1);
-        const hasVerified = Object.keys(DELIVERY_SERVICES).some(k => DELIVERY_SERVICES[k].verified);
-        tab1.classList.toggle('verified', hasVerified);
+    if (side1) {
+        side1.classList.toggle('active', stepNum === 1);
+        side1.classList.toggle('verified', hasVerifiedGateway);
     }
-    if (tab2) {
-        tab2.classList.toggle('active', stepNum === 2);
+    if (side2) {
+        side2.classList.toggle('active', stepNum === 2);
+        side2.classList.toggle('verified', selectedSkuCount > 0);
     }
-    if (tab3) {
-        tab3.classList.toggle('active', stepNum === 3);
+    if (side3) {
+        side3.classList.toggle('active', stepNum === 3);
+    }
+
+    // Update OS folder tabs
+    const f1 = document.getElementById('folderTab1');
+    const f2 = document.getElementById('folderTab2');
+    const f3 = document.getElementById('folderTab3');
+
+    const icon1 = document.getElementById('folderIcon1');
+    const icon2 = document.getElementById('folderIcon2');
+    const icon3 = document.getElementById('folderIcon3');
+
+    if (f1) f1.classList.toggle('active', stepNum === 1);
+    if (f2) f2.classList.toggle('active', stepNum === 2);
+    if (f3) f3.classList.toggle('active', stepNum === 3);
+
+    if (icon1) icon1.className = stepNum === 1 ? 'fa-solid fa-folder-open folder-icon' : 'fa-solid fa-folder folder-icon';
+    if (icon2) icon2.className = stepNum === 2 ? 'fa-solid fa-folder-open folder-icon' : 'fa-solid fa-folder folder-icon';
+    if (icon3) icon3.className = stepNum === 3 ? 'fa-solid fa-folder-open folder-icon' : 'fa-solid fa-folder folder-icon';
+
+    // Update OS Breadcrumb ribbon
+    const bc = document.getElementById('osActiveFolderBreadcrumb');
+    if (bc) {
+        if (stepNum === 1) bc.innerHTML = '<i class="fa-regular fa-folder-open me-1 text-primary"></i>01_gateways';
+        else if (stepNum === 2) bc.innerHTML = '<i class="fa-regular fa-folder-open me-1 text-primary"></i>02_menu_catalog';
+        else if (stepNum === 3) bc.innerHTML = '<i class="fa-regular fa-folder-open me-1 text-primary"></i>03_kitchen_kds';
     }
 
     if (stepNum === 2) {
@@ -326,6 +384,8 @@ function goToStep(stepNum) {
     } else if (stepNum === 3) {
         renderKdsTickets();
     }
+
+    updateProgressiveState();
 
     // Smooth scroll to top of viewport
     window.scrollTo({ top: 0, behavior: 'smooth' });
@@ -339,44 +399,37 @@ function switchSheet(sheetKey) {
 }
 
 // ═══════════════════════════════════════════════════════════════════
-// GATEWAY SELECTION & STEP ADVANCEMENT (CORE REQUIREMENT)
+// GATEWAY SELECTION & STEP ADVANCEMENT (ENFORCES API VERIFICATION)
 // ═══════════════════════════════════════════════════════════════════
 function selectAndProceedGateway(serviceKey) {
-    playToyClick(620, 0.07);
-    currentSelectedGateway = serviceKey;
+    playToyClick(620, 0.05);
     const s = DELIVERY_SERVICES[serviceKey];
     if (!s) return;
 
-    // Authenticate and verify this gateway
-    s.verified = true;
-    savedApiState[serviceKey] = {
-        verified: true,
-        clientId: s.defaultClientId,
-        secret: s.defaultSecret,
-        locationId: s.defaultLocationId,
-        verifiedAt: new Date().toISOString()
-    };
+    // The user MUST be required to add an API and verify it works!
+    if (!s.verified) {
+        openApiConfigModal(serviceKey);
+        showDinerToast(
+            'API Verification Required 🔑',
+            `Please configure credentials and verify the ${s.name} API connection before selecting it.`,
+            'fa-key'
+        );
+        return;
+    }
 
-    try {
-        localStorage.setItem('dinerdashboard_delivery_api_state', JSON.stringify(savedApiState));
-    } catch (e) {}
-
-    // Update telemetry and UI
-    addTelemetryLogRow(s.name, 'GATEWAY.AUTHENTICATED_200', s.latency, `#${s.defaultLocationId}`);
+    currentSelectedGateway = serviceKey;
     updateProgressiveState();
     renderGatewayCards();
 
-    // Show celebratory toast
     showDinerToast(
-        `${s.name} Selected! 🚀`,
-        `Connected via ${s.protocol}. Moving to Step 2: Menu Catalog Sync...`,
+        `${s.name} Active 🚀`,
+        `Connected via ${s.protocol}. Moving to Step 2: Menu Catalog...`,
         'fa-circle-check'
     );
 
-    // Immediately advance to Step 2!
     setTimeout(() => {
         goToStep(2);
-    }, 450);
+    }, 350);
 }
 
 // Render Gateway Cards Grid (Step 1)
@@ -390,7 +443,7 @@ function renderGatewayCards() {
 
     serviceKeys.forEach((key) => {
         const s = DELIVERY_SERVICES[key];
-        const isVerified = s.verified;
+        const isVerified = !!s.verified;
         const isSelected = key === currentSelectedGateway;
 
         // Apply filters
@@ -422,8 +475,8 @@ function renderGatewayCards() {
                             </div>
                         </div>
                         <span class="gw-status-badge ${isVerified ? 'ok' : 'pending'}">
-                            <i class="fa-solid ${isVerified ? 'fa-circle-check' : 'fa-circle-nodes'}"></i>
-                            ${isVerified ? '200 OK' : 'READY'}
+                            <i class="fa-solid ${isVerified ? 'fa-circle-check' : 'fa-plug'}"></i>
+                            ${isVerified ? '200 OK' : 'NOT INSTALLED'}
                         </span>
                     </div>
 
@@ -433,33 +486,38 @@ function renderGatewayCards() {
                     <div class="gw-telemetry-specs">
                         <div><strong style="color: var(--diner-text-dark);">Protocol:</strong> ${s.protocol}</div>
                         <div><strong style="color: var(--diner-text-dark);">Webhook:</strong> ${s.endpointUrl}</div>
-                        <div><strong style="color: var(--diner-text-dark);">Latency:</strong> ${isVerified ? s.latency : '18ms (Estimated)'}</div>
+                        <div><strong style="color: var(--diner-text-dark);">Latency:</strong> ${isVerified ? s.latency : 'Unverified (18ms est.)'}</div>
                     </div>
                 </div>
 
                 <div class="gw-actions-row">
-                    <button type="button" 
-                            class="tactile-btn ${isVerified ? 'tactile-btn-mint' : 'tactile-btn-primary'} gw-select-btn" 
-                            onclick="selectAndProceedGateway('${key}')">
-                        <i class="fa-solid ${isVerified ? 'fa-arrow-right' : 'fa-bolt'}"></i>
-                        <span>${isVerified ? 'Select & Next Step ➔' : 'Select & Connect (Next Step ➔)'}</span>
-                    </button>
-                    
-                    <button type="button" 
-                            class="tactile-btn tactile-btn-white tactile-btn-sm" 
-                            onclick="openApiConfigModal('${key}')" 
-                            title="Configure Custom Keys">
-                        <i class="fa-solid fa-key"></i>
-                    </button>
-
                     ${isVerified ? `
+                        <button type="button" 
+                                class="tactile-btn tactile-btn-mint gw-select-btn" 
+                                onclick="selectAndProceedGateway('${key}')">
+                            <i class="fa-solid fa-arrow-right me-1"></i>
+                            <span>Select Active Gateway ➔</span>
+                        </button>
+                        <button type="button" 
+                                class="tactile-btn tactile-btn-white tactile-btn-sm" 
+                                onclick="openApiConfigModal('${key}')" 
+                                title="Reconfigure API Keys">
+                            <i class="fa-solid fa-key"></i>
+                        </button>
                         <button type="button" 
                                 class="tactile-btn tactile-btn-white tactile-btn-sm" 
                                 onclick="disconnectApi('${key}')" 
-                                title="Disconnect">
+                                title="Disconnect Gateway">
                             <i class="fa-solid fa-power-off text-danger"></i>
                         </button>
-                    ` : ''}
+                    ` : `
+                        <button type="button" 
+                                class="tactile-btn tactile-btn-primary gw-select-btn" 
+                                onclick="openApiConfigModal('${key}')">
+                            <i class="fa-solid fa-plug me-1"></i>
+                            <span>+ Install &amp; Verify API ➔</span>
+                        </button>
+                    `}
                 </div>
             </div>
         `;
@@ -492,7 +550,8 @@ const DINER_MENU_ITEMS = [
         price: 14.95,
         icon: '🥩',
         category: 'Grill',
-        inStock: true
+        inStock: true,
+        selected: false
     },
     {
         sku: 'BUR-02',
@@ -501,7 +560,8 @@ const DINER_MENU_ITEMS = [
         price: 12.50,
         icon: '🍔',
         category: 'Grill',
-        inStock: true
+        inStock: true,
+        selected: false
     },
     {
         sku: 'WRP-03',
@@ -510,7 +570,8 @@ const DINER_MENU_ITEMS = [
         price: 11.75,
         icon: '🌯',
         category: 'Deli',
-        inStock: true
+        inStock: true,
+        selected: false
     },
     {
         sku: 'SUB-04',
@@ -519,7 +580,8 @@ const DINER_MENU_ITEMS = [
         price: 13.25,
         icon: '🥖',
         category: 'Deli',
-        inStock: true
+        inStock: true,
+        selected: false
     },
     {
         sku: 'MEL-05',
@@ -528,7 +590,8 @@ const DINER_MENU_ITEMS = [
         price: 13.95,
         icon: '🥪',
         category: 'Grill',
-        inStock: true
+        inStock: true,
+        selected: false
     },
     {
         sku: 'FRY-06',
@@ -537,7 +600,8 @@ const DINER_MENU_ITEMS = [
         price: 5.50,
         icon: '🍟',
         category: 'Fryer',
-        inStock: true
+        inStock: true,
+        selected: false
     },
     {
         sku: 'RNG-07',
@@ -546,7 +610,8 @@ const DINER_MENU_ITEMS = [
         price: 5.25,
         icon: '🧅',
         category: 'Fryer',
-        inStock: true
+        inStock: true,
+        selected: false
     }
 ];
 
@@ -554,7 +619,15 @@ function renderMenuCatalog() {
     const tableBody = document.getElementById('menuTableBody');
     if (!tableBody) return;
 
-    const activeGw = DELIVERY_SERVICES[currentSelectedGateway] || DELIVERY_SERVICES.doordash;
+    const activeGw = (currentSelectedGateway && DELIVERY_SERVICES[currentSelectedGateway]) 
+        ? DELIVERY_SERVICES[currentSelectedGateway] 
+        : {
+            name: 'Direct POS Gateway',
+            categoryTag: 'Integrated POS Gateway',
+            defaultLocationId: 'loc_parma_grill_01',
+            protocol: 'REST / TDS Webhooks',
+            icon: 'fa-solid fa-bread-slice'
+        };
 
     // Update banner
     const bannerTitle = document.getElementById('activeGwTitle');
@@ -565,10 +638,38 @@ function renderMenuCatalog() {
     if (bannerSubtitle) bannerSubtitle.innerText = `${activeGw.categoryTag} • Store Location GUID: ${activeGw.defaultLocationId} • ${activeGw.protocol}`;
     if (bannerIcon) bannerIcon.className = `active-gw-icon ${activeGw.icon}`;
 
+    // Update Alert Guidance Banner (No menu items preselected)
+    const selectedCount = DINER_MENU_ITEMS.filter(i => i.selected).length;
+    const bannerBox = document.getElementById('menuSelectionBanner');
+    const bannerHead = document.getElementById('menuBannerHeadline');
+    const bannerSub = document.getElementById('menuBannerSub');
+
+    if (bannerBox && bannerHead && bannerSub) {
+        if (selectedCount === 0) {
+            bannerBox.className = 'menu-selection-alert-banner alert alert-warning border-0 rounded-4 p-3 mb-3 d-flex align-items-center justify-content-between flex-wrap gap-3';
+            bannerHead.innerText = `Notice: No Menu Items Preselected for ${activeGw.name}`;
+            bannerSub.innerText = `To stage items for this gateway and push orders to the kitchen grill, click "+ Add SKU" on the items below. At least 1 item is required to launch Kitchen KDS.`;
+        } else {
+            bannerBox.className = 'menu-selection-alert-banner alert alert-success border-0 rounded-4 p-3 mb-3 d-flex align-items-center justify-content-between flex-wrap gap-3';
+            bannerHead.innerText = `${selectedCount} of 7 Menu SKUs Active on ${activeGw.name}`;
+            bannerSub.innerText = `Selected items will sync pricing and modifiers directly to ${activeGw.name} and route tickets to Kitchen KDS.`;
+        }
+    }
+
     let html = '';
     DINER_MENU_ITEMS.forEach((item, index) => {
+        const isSel = !!item.selected;
         html += `
-            <tr>
+            <tr class="${isSel ? 'item-selected' : ''}">
+                <td>
+                    <button type="button" 
+                            class="item-select-btn ${isSel ? 'selected' : ''}" 
+                            onclick="toggleMenuItemSelection(${index})"
+                            title="${isSel ? 'Click to remove SKU from Gateway' : 'Click to add SKU to Gateway'}">
+                        <i class="fa-solid ${isSel ? 'fa-square-check' : 'fa-square'}"></i>
+                        <span>${isSel ? 'In Gateway' : '+ Add SKU'}</span>
+                    </button>
+                </td>
                 <td class="font-mono text-secondary" style="font-weight:700;">${item.sku}</td>
                 <td>
                     <div class="menu-item-cell">
@@ -609,6 +710,56 @@ function renderMenuCatalog() {
     tableBody.innerHTML = html;
 }
 
+function toggleMenuItemSelection(index) {
+    playToyClick(640, 0.03);
+    DINER_MENU_ITEMS[index].selected = !DINER_MENU_ITEMS[index].selected;
+    renderMenuCatalog();
+    updateProgressiveState();
+
+    const item = DINER_MENU_ITEMS[index];
+    const gwName = (currentSelectedGateway && DELIVERY_SERVICES[currentSelectedGateway]?.name) || 'POS Gateway';
+    showDinerToast(
+        item.selected ? `${item.sku} Added to Gateway 🛒` : `${item.sku} Removed from Gateway ↩️`,
+        `"${item.name}" is ${item.selected ? 'now active on' : 'removed from'} ${gwName}.`,
+        item.selected ? 'fa-circle-check' : 'fa-minus'
+    );
+}
+
+function selectAllMenuItems() {
+    playToyClick(720, 0.04);
+    DINER_MENU_ITEMS.forEach(i => i.selected = true);
+    renderMenuCatalog();
+    updateProgressiveState();
+    showDinerToast('All 7 SKUs Selected! ✅', 'All menu items configured for POS gateway sync.', 'fa-check-double');
+}
+
+function clearMenuItemSelections() {
+    playToyClick(480, 0.04);
+    DINER_MENU_ITEMS.forEach(i => i.selected = false);
+    renderMenuCatalog();
+    updateProgressiveState();
+    showDinerToast('Selection Cleared', 'No menu items are currently selected.', 'fa-xmark');
+}
+
+function validateAndProceedToStep3() {
+    const selectedCount = DINER_MENU_ITEMS.filter(i => i.selected).length;
+    if (selectedCount === 0) {
+        playToyClick(350, 0.08);
+        showDinerToast(
+            'No Menu Items Selected! ⚠️',
+            'Please select at least 1 menu item before proceeding to Kitchen KDS & Dispatch.',
+            'fa-triangle-exclamation'
+        );
+        const banner = document.getElementById('menuSelectionBanner');
+        if (banner) {
+            banner.classList.add('border', 'border-danger');
+            setTimeout(() => banner.classList.remove('border-danger'), 1500);
+        }
+        return;
+    }
+    goToStep(3);
+}
+
 function adjustItemPrice(index, delta) {
     playToyClick(720, 0.03);
     DINER_MENU_ITEMS[index].price = Math.max(1.00, +(DINER_MENU_ITEMS[index].price + delta).toFixed(2));
@@ -620,22 +771,38 @@ function toggleItemStock(index) {
     DINER_MENU_ITEMS[index].inStock = !DINER_MENU_ITEMS[index].inStock;
     renderMenuCatalog();
     const item = DINER_MENU_ITEMS[index];
+    const gwName = (currentSelectedGateway && DELIVERY_SERVICES[currentSelectedGateway]) 
+        ? DELIVERY_SERVICES[currentSelectedGateway].name 
+        : 'POS Gateway';
     showDinerToast(
         `${item.sku} ${item.inStock ? 'Available' : '86\'d'} 📋`,
-        `"${item.name}" updated on ${DELIVERY_SERVICES[currentSelectedGateway].name}.`,
+        `"${item.name}" stock updated on ${gwName}.`,
         item.inStock ? 'fa-check' : 'fa-ban'
     );
 }
 
 function syncAllMenuItems() {
     playToyClick(800, 0.05);
-    const s = DELIVERY_SERVICES[currentSelectedGateway];
+    const selectedItems = DINER_MENU_ITEMS.filter(i => i.selected);
+    const s = (currentSelectedGateway && DELIVERY_SERVICES[currentSelectedGateway]) 
+        ? DELIVERY_SERVICES[currentSelectedGateway] 
+        : DELIVERY_SERVICES.toast;
+
+    if (selectedItems.length === 0) {
+        showDinerToast(
+            'No Menu SKUs Selected ⚠️',
+            `Select items using the "+ Add SKU" button before syncing to ${s.name}.`,
+            'fa-triangle-exclamation'
+        );
+        return;
+    }
+
     showDinerToast(
-        `All 7 Menu SKUs Synced! ⚡`,
-        `Prices & modifiers broadcast to ${s.name} at ${s.endpointUrl}.`,
+        `${selectedItems.length} SKUs Synced! ⚡`,
+        `Selected prices & modifiers broadcast to ${s.name} at ${s.endpointUrl}.`,
         'fa-arrows-rotate'
     );
-    addTelemetryLogRow(s.name, 'CATALOG.BULK_SYNC_200', s.latency, `#ALL_SKUS_OK`);
+    addTelemetryLogRow(s.name, 'CATALOG.BULK_SYNC_200', s.latency, `#${selectedItems.length}_SKUS_OK`);
 }
 
 // ═══════════════════════════════════════════════════════════════════
@@ -738,10 +905,14 @@ function ringDinerBell() {
 function spawnDinerTicket() {
     playToyClick(540, 0.05);
 
-    const menu = DINER_MENU_ITEMS[Math.floor(Math.random() * DINER_MENU_ITEMS.length)];
+    const selectedPool = DINER_MENU_ITEMS.filter(i => i.selected);
+    const pool = selectedPool.length > 0 ? selectedPool : DINER_MENU_ITEMS;
+    const menu = pool[Math.floor(Math.random() * pool.length)];
     const ticketNum = Math.floor(Math.random() * 8999) + 1000;
     const ticketId = `#TKT-${ticketNum}`;
-    const activeGw = DELIVERY_SERVICES[currentSelectedGateway] || DELIVERY_SERVICES.toast;
+    const activeGw = (currentSelectedGateway && DELIVERY_SERVICES[currentSelectedGateway]) 
+        ? DELIVERY_SERVICES[currentSelectedGateway] 
+        : DELIVERY_SERVICES.toast;
 
     const newTicket = {
         id: ticketId,
@@ -757,6 +928,7 @@ function spawnDinerTicket() {
 
     LIVE_KDS_TICKETS.unshift(newTicket);
     renderKdsTickets();
+    updateProgressiveState();
 
     showDinerToast(
         `New Ticket: ${ticketId} 🍳`,
@@ -769,7 +941,9 @@ function spawnDinerTicket() {
 
 function rushFleetDispatch() {
     playToyClick(720, 0.06);
-    const activeGw = DELIVERY_SERVICES[currentSelectedGateway] || DELIVERY_SERVICES.doordash;
+    const activeGw = (currentSelectedGateway && DELIVERY_SERVICES[currentSelectedGateway]) 
+        ? DELIVERY_SERVICES[currentSelectedGateway] 
+        : DELIVERY_SERVICES.doordash;
 
     showDinerToast(
         'Priority Courier Rushed! 🛵',
@@ -780,51 +954,25 @@ function rushFleetDispatch() {
     addTelemetryLogRow(activeGw.name, 'COURIER.PRIORITY_RUSH', '8 ms', '#RUSH_PICKUP_ZONE_A');
 }
 
-function autoConnectAllGateways() {
-    playToyClick(620, 0.08);
-
-    Object.keys(DELIVERY_SERVICES).forEach(k => {
-        DELIVERY_SERVICES[k].verified = true;
-        savedApiState[k] = {
-            verified: true,
-            clientId: DELIVERY_SERVICES[k].defaultClientId,
-            secret: DELIVERY_SERVICES[k].defaultSecret,
-            locationId: DELIVERY_SERVICES[k].defaultLocationId,
-            verifiedAt: new Date().toISOString()
-        };
-    });
-
-    try {
-        localStorage.setItem('dinerdashboard_delivery_api_state', JSON.stringify(savedApiState));
-    } catch (e) {}
-
-    updateProgressiveState();
-    renderGatewayCards();
-
-    showDinerToast(
-        '6/6 Gateways Online! ⚡',
-        'Toast POS, DoorDash, Uber Direct, Grubhub, Square, and Clover fully authenticated.',
-        'fa-bolt'
-    );
-
-    addTelemetryLogRow('FastSync Hub', 'GATEWAY.BULK_CONNECT_200', '14 ms', '#ALL_6_ACTIVE');
-}
-
 function simulateFullApiHealthCheck() {
     playOsClick(800, 0.03);
+    const activeCount = Object.keys(DELIVERY_SERVICES).filter(k => DELIVERY_SERVICES[k].verified).length;
     showDinerToast(
         'Ping Radar Broadcast 📡',
-        'All 6 POS & Delivery APIs verified online with avg 18.4ms latency.',
+        `Diagnostic scan completed. ${activeCount} active, ${6 - activeCount} pending with avg 18.4ms latency.`,
         'fa-arrows-rotate'
     );
-    addTelemetryLogRow('Ping Radar', 'HEALTH_CHECK.PING_OK', '18 ms', '#6_OF_6_HEALTHY');
+    addTelemetryLogRow('Ping Radar', 'HEALTH_CHECK.PING_OK', '18 ms', `#${activeCount}_OF_6_VERIFIED`);
 }
 
 function syncMenuItem(sku, name) {
     playToyClick(640, 0.04);
+    const gwName = (currentSelectedGateway && DELIVERY_SERVICES[currentSelectedGateway]) 
+        ? DELIVERY_SERVICES[currentSelectedGateway].name 
+        : 'POS Gateway';
     showDinerToast(
         `Synced: ${sku} 🔄`,
-        `"${name}" live pricing & inventory broadcast to ${DELIVERY_SERVICES[currentSelectedGateway].name}.`,
+        `"${name}" live pricing & inventory broadcast to ${gwName}.`,
         'fa-arrows-rotate'
     );
     addTelemetryLogRow('POS Catalog', 'CATALOG.SKU_SYNC_OK', '15 ms', `${sku} (${name})`);
@@ -866,17 +1014,90 @@ function addTelemetryLogRow(provider, eventName, latency, ref) {
 // ═══════════════════════════════════════════════════════════════════
 // SCORECARD METRIC BAR UPDATES
 // ═══════════════════════════════════════════════════════════════════
+// ═══════════════════════════════════════════════════════════════════
+// SCORECARD METRIC BAR, OS FOLDER TABS & SIDE PANEL SYNC
+// ═══════════════════════════════════════════════════════════════════
 function updateProgressiveState() {
-    let count = 0;
+    let activeCount = 0;
     Object.keys(DELIVERY_SERVICES).forEach(k => {
-        if (DELIVERY_SERVICES[k].verified) count++;
+        if (DELIVERY_SERVICES[k].verified) activeCount++;
     });
 
-    const activeCountEl = document.getElementById('metricActiveCount');
-    if (activeCountEl) activeCountEl.innerText = `${count} / 6`;
+    const selectedSkuCount = DINER_MENU_ITEMS.filter(i => i.selected).length;
+    const activeGw = (currentSelectedGateway && DELIVERY_SERVICES[currentSelectedGateway] && DELIVERY_SERVICES[currentSelectedGateway].verified)
+        ? DELIVERY_SERVICES[currentSelectedGateway]
+        : null;
 
-    const statusPill = document.getElementById('realtimeStatusText');
-    if (statusPill) statusPill.innerText = count > 0 ? `${count}/6 STREAMING` : '0/6 CONNECTED';
+    // 1. Top OS Folder Tabs & Chips
+    const folderGwBadge = document.getElementById('folderGatewaysBadge');
+    if (folderGwBadge) folderGwBadge.innerText = `${activeCount}/6 Active`;
+
+    const folderMenuBadge = document.getElementById('folderMenuBadge');
+    if (folderMenuBadge) folderMenuBadge.innerText = `${selectedSkuCount}/7 Selected`;
+
+    const folderKdsBadge = document.getElementById('folderKdsBadge');
+    if (folderKdsBadge) folderKdsBadge.innerText = `${LIVE_KDS_TICKETS.length} Prep Queue`;
+
+    // 2. OS Bar Status Pill & Metrics
+    const osApiStatusPill = document.getElementById('osApiStatusPill');
+    const osApiStatusText = document.getElementById('osApiStatusText');
+    if (osApiStatusPill && osApiStatusText) {
+        if (activeGw) {
+            osApiStatusPill.className = 'os-status-pill active';
+            osApiStatusText.innerText = `${activeGw.name.toUpperCase()} (200 OK)`;
+        } else {
+            osApiStatusPill.className = 'os-status-pill pending';
+            osApiStatusText.innerText = 'API NOT INSTALLED';
+        }
+    }
+
+    const osWebhookDisplay = document.getElementById('osWebhookDisplay');
+    if (osWebhookDisplay) osWebhookDisplay.innerText = `${activeCount}/6 CONNECTED`;
+
+    const osLatencyDisplay = document.getElementById('osLatencyDisplay');
+    if (osLatencyDisplay) osLatencyDisplay.innerText = activeGw ? activeGw.latency : '18.4 ms';
+
+    // 3. Side Panel Badges & States
+    const side1Badge = document.getElementById('sideStep1StatusBadge');
+    if (side1Badge) {
+        side1Badge.className = activeCount > 0 ? 'side-step-badge verified' : 'side-step-badge pending';
+        side1Badge.innerText = activeCount > 0 ? `${activeCount}/6 Verified` : 'Not Installed';
+    }
+
+    const side2Badge = document.getElementById('sideStep2StatusBadge');
+    if (side2Badge) {
+        side2Badge.className = selectedSkuCount > 0 ? 'side-step-badge verified' : 'side-step-badge neutral';
+        side2Badge.innerText = `${selectedSkuCount}/7 Selected`;
+    }
+
+    const side3Badge = document.getElementById('sideStep3StatusBadge');
+    if (side3Badge) {
+        side3Badge.className = 'side-step-badge neutral';
+        side3Badge.innerText = `${LIVE_KDS_TICKETS.length} Live Queue`;
+    }
+
+    // 4. Side Panel Active Gateway Widget Card
+    const sideGwIconBox = document.getElementById('sideGwIconBox');
+    const sideGwIcon = document.getElementById('sideGwIcon');
+    const sideGwName = document.getElementById('sideGwName');
+    const sideGwSub = document.getElementById('sideGwSub');
+    const sideGwTlsBadge = document.getElementById('sideGwTlsBadge');
+
+    if (sideGwName && sideGwSub) {
+        if (activeGw) {
+            if (sideGwIconBox) sideGwIconBox.className = 'side-gw-icon';
+            if (sideGwIcon) sideGwIcon.className = activeGw.icon;
+            sideGwName.innerText = activeGw.name;
+            sideGwSub.innerText = `${activeGw.defaultLocationId} • 200 OK`;
+            if (sideGwTlsBadge) sideGwTlsBadge.innerText = 'ONLINE TLS 1.3';
+        } else {
+            if (sideGwIconBox) sideGwIconBox.className = 'side-gw-icon unverified';
+            if (sideGwIcon) sideGwIcon.className = 'fa-solid fa-triangle-exclamation';
+            sideGwName.innerText = 'No Gateway Active';
+            sideGwSub.innerText = 'Install & verify API in Step 1';
+            if (sideGwTlsBadge) sideGwTlsBadge.innerText = 'PENDING';
+        }
+    }
 }
 
 // ═══════════════════════════════════════════════════════════════════
@@ -979,9 +1200,15 @@ function handleApiVerification(event) {
     const secret = document.getElementById('apiSecretInput').value.trim();
     const locationId = document.getElementById('apiLocationIdInput').value.trim();
 
+    if (!clientId || !secret || !locationId) {
+        alert('Please fill out all credentials to verify the POS Gateway API.');
+        return;
+    }
+
     s.verified = true;
     s.defaultClientId = clientId;
     s.defaultLocationId = locationId;
+    currentSelectedGateway = sId;
 
     savedApiState[sId] = {
         verified: true,
@@ -995,21 +1222,44 @@ function handleApiVerification(event) {
         localStorage.setItem('dinerdashboard_delivery_api_state', JSON.stringify(savedApiState));
     } catch (err) {}
 
+    closeApiConfigModal();
     updateProgressiveState();
     renderGatewayCards();
-    closeApiConfigModal();
+
+    // Sound effect & bell
+    playDinerBell();
 
     showDinerToast(
-        `${s.name} Verified! ✅`,
-        `Credentials authenticated. Moving to Step 2: Menu Catalog...`,
+        `${s.name} Verified & Connected! 🚀`,
+        `API credentials validated for ${locationId}.`,
         'fa-circle-check'
     );
 
     addTelemetryLogRow(s.name, 'API.HANDSHAKE_VERIFIED', s.latency, `#${locationId.toUpperCase()}`);
 
+    // Prompt user to move to menu screen to set it up (since no menu items are preselected)
     setTimeout(() => {
-        goToStep(2);
-    }, 400);
+        const verifiedTitle = document.getElementById('verifiedModalTitle');
+        const verifiedSubtitle = document.getElementById('verifiedModalSubtitle');
+        if (verifiedTitle) verifiedTitle.innerText = `${s.name} Authenticated!`;
+        if (verifiedSubtitle) verifiedSubtitle.innerText = `Store: ${locationId} • Protocol: ${s.protocol} • 200 OK Handshake`;
+
+        const nextModalEl = document.getElementById('apiVerifiedNextStepModal');
+        if (nextModalEl) {
+            const nextModal = bootstrap.Modal.getOrCreateInstance(nextModalEl);
+            nextModal.show();
+        }
+    }, 380);
+}
+
+function proceedToMenuScreenFromModal() {
+    const nextModalEl = document.getElementById('apiVerifiedNextStepModal');
+    if (nextModalEl) {
+        const nextModal = bootstrap.Modal.getInstance(nextModalEl);
+        if (nextModal) nextModal.hide();
+    }
+    playToyClick(680, 0.05);
+    goToStep(2);
 }
 
 function disconnectApi(serviceId) {
@@ -1019,9 +1269,15 @@ function disconnectApi(serviceId) {
         try {
             localStorage.setItem('dinerdashboard_delivery_api_state', JSON.stringify(savedApiState));
         } catch (e) {}
+
+        if (currentSelectedGateway === serviceId) {
+            const remaining = Object.keys(DELIVERY_SERVICES).find(k => DELIVERY_SERVICES[k].verified);
+            currentSelectedGateway = remaining || null;
+        }
+
         updateProgressiveState();
         renderGatewayCards();
-        showDinerToast('Gateway Disconnected', `${DELIVERY_SERVICES[serviceId]?.name} set to pending.`, 'fa-power-off');
+        showDinerToast('Gateway Disconnected', `${DELIVERY_SERVICES[serviceId]?.name} set to uninstalled.`, 'fa-power-off');
     }
 }
 

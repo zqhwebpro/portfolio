@@ -4875,3 +4875,217 @@ window.filterCoursesByQuery = function (query) {
             </div>`;
     }).join('');
 };
+
+
+/**
+ * ==============================================================================
+ * DYNAMIC NAV DROPDOWN & "POOF" ANIMATION ENGINE
+ * ==============================================================================
+ */
+window.activeNavPanel = null;
+window.isPanelTransitioning = false;
+
+window.toggleNavPanel = function (panelName) {
+    if (window.isPanelTransitioning) return;
+
+    const panelShipping = document.getElementById('panel-shipping');
+    const panelBlog = document.getElementById('panel-blog');
+    const panelAcademy = document.getElementById('panel-academy');
+    const panelMap = {
+        'shipping': panelShipping,
+        'blog': panelBlog,
+        'academy': panelAcademy
+    };
+
+    const targetPanel = panelMap[panelName];
+    if (!targetPanel) return;
+
+    // Case 1: Clicking the already active panel -> Poof out and close, returning to catalog
+    if (window.activeNavPanel === panelName) {
+        window.closeActiveNavPanel();
+        return;
+    }
+
+    // Case 2: Another panel is open -> Poof out current panel, then drop down new panel
+    if (window.activeNavPanel && window.activeNavPanel !== panelName) {
+        window.isPanelTransitioning = true;
+        const currentPanel = panelMap[window.activeNavPanel];
+
+        if (currentPanel) {
+            currentPanel.classList.remove('drop-down');
+            currentPanel.classList.add('poof-out');
+        }
+
+        setTimeout(() => {
+            if (currentPanel) {
+                currentPanel.classList.add('hidden');
+                currentPanel.classList.remove('poof-out');
+            }
+
+            // Drop down the target panel
+            targetPanel.classList.remove('hidden');
+            targetPanel.classList.remove('poof-out');
+            targetPanel.classList.add('drop-down');
+            window.activeNavPanel = panelName;
+            window.isPanelTransitioning = false;
+
+            window.initNavPanelContent(panelName);
+            window.updateNavButtonStyles(panelName);
+
+            // Smooth scroll so the dropdown top is directly under the header
+            const navArea = document.getElementById('nav-dropdown-area');
+            if (navArea) {
+                const y = navArea.getBoundingClientRect().top + window.pageYOffset - 72;
+                window.scrollTo({ top: Math.max(0, y), behavior: 'smooth' });
+            }
+        }, 260);
+        return;
+    }
+
+    // Case 3: No panel is currently open -> Drop down target panel directly
+    window.isPanelTransitioning = true;
+    targetPanel.classList.remove('hidden');
+    targetPanel.classList.remove('poof-out');
+    targetPanel.classList.add('drop-down');
+    window.activeNavPanel = panelName;
+
+    setTimeout(() => {
+        window.isPanelTransitioning = false;
+    }, 380);
+
+    window.initNavPanelContent(panelName);
+    window.updateNavButtonStyles(panelName);
+
+    const navArea = document.getElementById('nav-dropdown-area');
+    if (navArea) {
+        const y = navArea.getBoundingClientRect().top + window.pageYOffset - 72;
+        window.scrollTo({ top: Math.max(0, y), behavior: 'smooth' });
+    }
+};
+
+window.closeActiveNavPanel = function (callback) {
+    if (window.isPanelTransitioning) return;
+    if (!window.activeNavPanel) {
+        if (typeof callback === 'function') callback();
+        return;
+    }
+
+    const panelShipping = document.getElementById('panel-shipping');
+    const panelBlog = document.getElementById('panel-blog');
+    const panelAcademy = document.getElementById('panel-academy');
+    const panelMap = {
+        'shipping': panelShipping,
+        'blog': panelBlog,
+        'academy': panelAcademy
+    };
+
+    const currentPanel = panelMap[window.activeNavPanel];
+    window.isPanelTransitioning = true;
+
+    if (currentPanel) {
+        currentPanel.classList.remove('drop-down');
+        currentPanel.classList.add('poof-out');
+    }
+
+    setTimeout(() => {
+        if (currentPanel) {
+            currentPanel.classList.add('hidden');
+            currentPanel.classList.remove('poof-out');
+            currentPanel.classList.remove('drop-down');
+        }
+        window.activeNavPanel = null;
+        window.isPanelTransitioning = false;
+        window.updateNavButtonStyles('catalog');
+
+        if (typeof callback === 'function') callback();
+    }, 260);
+};
+
+window.navigateToCatalog = function () {
+    window.closeActiveNavPanel(() => {
+        const storeView = document.getElementById('store-main-view');
+        if (storeView) {
+            storeView.classList.remove('hidden');
+            const y = storeView.getBoundingClientRect().top + window.pageYOffset - 75;
+            window.scrollTo({ top: Math.max(0, y), behavior: 'smooth' });
+        }
+    });
+    window.updateNavButtonStyles('catalog');
+};
+
+window.initNavPanelContent = function (panelName) {
+    if (panelName === 'shipping') {
+        setTimeout(() => {
+            if (!window.shippingLeafletMap) {
+                if (typeof window.initLeafletShippingMap === 'function') {
+                    window.initLeafletShippingMap();
+                }
+            } else {
+                window.shippingLeafletMap.invalidateSize();
+                if (window.shippingMarkerA && window.shippingMarkerB && typeof L !== 'undefined') {
+                    const group = new L.featureGroup([window.shippingMarkerA, window.shippingMarkerB]);
+                    window.shippingLeafletMap.fitBounds(group.getBounds().pad(0.35));
+                }
+            }
+        }, 120);
+    } else if (panelName === 'blog') {
+        if (typeof window.renderBlogPosts === 'function') {
+            window.renderBlogPosts(window.activeBlogCategory || 'all');
+        }
+    } else if (panelName === 'academy') {
+        if (typeof window.renderCourses === 'function') {
+            window.renderCourses(window.activeCourseCategory || 'all');
+        }
+    }
+};
+
+window.updateNavButtonStyles = function (activeName) {
+    const catalogBtn = document.getElementById('header-catalog-btn');
+    const shippingBtn = document.getElementById('header-shipping-btn');
+    const blogBtn = document.getElementById('header-blog-btn');
+    const learningBtn = document.getElementById('header-learning-btn');
+
+    [catalogBtn, shippingBtn, blogBtn, learningBtn].forEach(b => {
+        if (b) {
+            b.classList.remove('ring-4', 'ring-offset-2', 'ring-pink-300', 'ring-teal-300', 'ring-purple-300', 'ring-amber-300', 'scale-105');
+        }
+    });
+
+    if (activeName === 'catalog' || activeName === null) {
+        if (catalogBtn) catalogBtn.classList.add('ring-4', 'ring-pink-300/80');
+    } else if (activeName === 'shipping') {
+        if (shippingBtn) shippingBtn.classList.add('ring-4', 'ring-teal-300/80');
+    } else if (activeName === 'blog') {
+        if (blogBtn) blogBtn.classList.add('ring-4', 'ring-purple-300/80');
+    } else if (activeName === 'academy') {
+        if (learningBtn) learningBtn.classList.add('ring-4', 'ring-amber-300/80');
+    }
+};
+
+// Aliases for backward compatibility
+window.goToStoreCatalog = function () {
+    window.navigateToCatalog();
+};
+window.returnToStore = function () {
+    window.navigateToCatalog();
+};
+window.toggleViewStoreBlog = function (forceTarget) {
+    if (forceTarget === 'store') {
+        window.navigateToCatalog();
+    } else {
+        window.toggleNavPanel('blog');
+    }
+};
+window.toggleViewStoreLearning = function (forceTarget) {
+    if (forceTarget === 'store') {
+        window.navigateToCatalog();
+    } else {
+        window.toggleNavPanel('academy');
+    }
+};
+window.openShippingModal = function () {
+    window.toggleNavPanel('shipping');
+};
+window.closeShippingModal = function () {
+    window.closeActiveNavPanel();
+};

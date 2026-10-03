@@ -70,33 +70,11 @@
                     </div>
                 </div>
 
-                <!-- Center Multi-Step Stepper Bar -->
-                <nav class="diner-stepper" aria-label="Setup Pipeline Steps">
-                    <button type="button" class="step-tab-btn active" id="stepTab1" onclick="goToStep(1)">
-                        <span class="step-tab-num">1</span>
-                        <span>Gateways</span>
-                    </button>
-                    <i class="fa-solid fa-chevron-right stepper-arrow"></i>
-                    <button type="button" class="step-tab-btn" id="stepTab2" onclick="goToStep(2)">
-                        <span class="step-tab-num">2</span>
-                        <span>Menu Catalog</span>
-                    </button>
-                    <i class="fa-solid fa-chevron-right stepper-arrow"></i>
-                    <button type="button" class="step-tab-btn" id="stepTab3" onclick="goToStep(3)">
-                        <span class="step-tab-num">3</span>
-                        <span>Kitchen KDS &amp; Dispatch</span>
-                    </button>
-                </nav>
-
                 <!-- Header Actions -->
                 <div class="diner-header-actions">
                     <button type="button" class="tactile-btn tactile-btn-bell tactile-btn-sm" onclick="ringDinerBell()" title="Ring Brass Diner Kitchen Bell">
                         <i class="fa-solid fa-bell-concierge"></i>
                         <span>Order Up!</span>
-                    </button>
-                    <button type="button" class="tactile-btn tactile-btn-cyan tactile-btn-sm" onclick="autoConnectAllGateways()" title="Fast-Sync All 6 Delivery Gateways">
-                        <i class="fa-solid fa-bolt"></i>
-                        <span>Fast-Sync 6/6</span>
                     </button>
                     <button type="button" class="tactile-btn tactile-btn-white tactile-btn-sm" id="osAudioToggleBtn" onclick="toggleAudio()" title="Sound Feedback">
                         <i class="fa-solid fa-volume-high"></i>
@@ -107,49 +85,148 @@
             </div>
         </header>
 
-        <!-- 2. FULL-WIDTH METRICS SCORECARD STRIP -->
-        <section class="diner-scorecard-strip" aria-label="System Metrics">
-            <div class="scorecard-inner">
-                <div class="scorecard-item">
-                    <div class="scorecard-icon blue"><i class="fa-solid fa-network-wired"></i></div>
-                    <div class="scorecard-content">
-                        <span class="scorecard-label">Active Gateways</span>
-                        <span class="scorecard-val" id="metricActiveCount">0 / 6</span>
+        <!-- 2. OS APP FOLDER EXPLORER BAR (UNDER HEADER) -->
+        <section class="diner-os-folder-bar" aria-label="Operating System Folder Explorer">
+            <div class="os-folder-bar-inner">
+                <!-- OS Window Breadcrumb Ribbon -->
+                <div class="os-folder-breadcrumbs">
+                    <div class="os-window-dots">
+                        <span class="dot dot-red"></span>
+                        <span class="dot dot-amber"></span>
+                        <span class="dot dot-green"></span>
+                    </div>
+                    <div class="os-path-ribbon">
+                        <i class="fa-solid fa-hard-drive os-drive-icon"></i>
+                        <span class="os-root">DinerOS</span>
+                        <span class="os-sep">/</span>
+                        <span class="os-dir"><i class="fa-regular fa-folder me-1"></i>delivery-engine</span>
+                        <span class="os-sep">/</span>
+                        <span class="os-leaf" id="osActiveFolderBreadcrumb">
+                            <i class="fa-regular fa-folder-open me-1 text-primary"></i>01_gateways
+                        </span>
                     </div>
                 </div>
-                <div class="scorecard-item">
-                    <div class="scorecard-icon green"><i class="fa-solid fa-bolt"></i></div>
-                    <div class="scorecard-content">
-                        <span class="scorecard-label">Round-Trip Latency</span>
-                        <span class="scorecard-val" id="metricAvgLatency">18.4 ms</span>
-                    </div>
+
+                <!-- OS Folder Tabs -->
+                <div class="os-folder-tabs" role="tablist">
+                    <button type="button" class="os-folder-tab active" id="folderTab1" onclick="goToStep(1)" role="tab" aria-selected="true" title="Folder 01: Gateways Setup">
+                        <i class="fa-solid fa-folder-open folder-icon" id="folderIcon1"></i>
+                        <span class="folder-title">01_gateways</span>
+                        <span class="folder-chip" id="folderGatewaysBadge">0/6 Active</span>
+                    </button>
+                    <button type="button" class="os-folder-tab" id="folderTab2" onclick="goToStep(2)" role="tab" aria-selected="false" title="Folder 02: Menu Catalog Sync">
+                        <i class="fa-solid fa-folder folder-icon" id="folderIcon2"></i>
+                        <span class="folder-title">02_menu_catalog</span>
+                        <span class="folder-chip" id="folderMenuBadge">0/7 Selected</span>
+                    </button>
+                    <button type="button" class="os-folder-tab" id="folderTab3" onclick="goToStep(3)" role="tab" aria-selected="false" title="Folder 03: Kitchen KDS & Dispatch">
+                        <i class="fa-solid fa-folder folder-icon" id="folderIcon3"></i>
+                        <span class="folder-title">03_kitchen_kds</span>
+                        <span class="folder-chip" id="folderKdsBadge">Live Queue</span>
+                    </button>
                 </div>
-                <div class="scorecard-item">
-                    <div class="scorecard-icon amber"><i class="fa-solid fa-fire-burner"></i></div>
-                    <div class="scorecard-content">
-                        <span class="scorecard-label">KDS Active Tickets</span>
-                        <span class="scorecard-val">3 Preparing</span>
+
+                <!-- OS Status & Telemetry Indicators -->
+                <div class="os-system-status">
+                    <div class="os-status-pill pending" id="osApiStatusPill">
+                        <span class="pulse-indicator"></span>
+                        <span id="osApiStatusText">API NOT INSTALLED</span>
                     </div>
-                </div>
-                <div class="scorecard-item">
-                    <div class="scorecard-icon violet"><i class="fa-solid fa-motorcycle"></i></div>
-                    <div class="scorecard-content">
-                        <span class="scorecard-label">Courier Fleet ETA</span>
-                        <span class="scorecard-val">3.8 min avg</span>
+                    <div class="os-meta-item" title="Round-Trip Latency">
+                        <i class="fa-solid fa-bolt text-amber"></i>
+                        <span id="osLatencyDisplay">18.4 ms</span>
                     </div>
-                </div>
-                <div class="scorecard-item">
-                    <div class="scorecard-icon blue"><i class="fa-solid fa-signal"></i></div>
-                    <div class="scorecard-content">
-                        <span class="scorecard-label">Webhook Stream</span>
-                        <span class="scorecard-val text-success" id="realtimeStatusText">0/6 CONNECTED</span>
+                    <div class="os-meta-item" title="Active Webhook Gateway Stream">
+                        <i class="fa-solid fa-signal text-primary"></i>
+                        <span id="osWebhookDisplay">0/6 CONNECTED</span>
                     </div>
                 </div>
             </div>
         </section>
 
-        <!-- 3. FULL-WIDTH RESPONSIVE MAIN VIEWPORT -->
-        <main class="diner-main-viewport">
+        <!-- 3. WORKSPACE CONTAINER WITH DEDICATED SIDE PANEL -->
+        <div class="diner-workspace-container">
+
+            <!-- DEDICATED SIDE PANEL: STEPS 1, 2, 3 -->
+            <aside class="diner-side-panel" aria-label="Pipeline Workflow Steps">
+                <div class="side-panel-header">
+                    <div class="side-panel-title">
+                        <i class="fa-solid fa-layer-group text-primary"></i>
+                        <span>Workflow Pipeline</span>
+                    </div>
+                    <span class="side-panel-badge">3 STEPS</span>
+                </div>
+
+                <!-- Step 1, 2, 3 Navigation Buttons -->
+                <nav class="side-steps-nav" aria-label="Side Pipeline Steps">
+                    <!-- Step 1: Gateways -->
+                    <button type="button" class="side-step-btn active" id="sideStepTab1" onclick="goToStep(1)">
+                        <div class="side-step-num" id="sideStepNum1">1</div>
+                        <div class="side-step-content">
+                            <div class="side-step-name">Gateways</div>
+                            <div class="side-step-sub">POS &amp; Delivery Bridge</div>
+                        </div>
+                        <span class="side-step-badge pending" id="sideStep1StatusBadge">Not Installed</span>
+                    </button>
+
+                    <!-- Step 2: Menu Catalog -->
+                    <button type="button" class="side-step-btn" id="sideStepTab2" onclick="goToStep(2)">
+                        <div class="side-step-num" id="sideStepNum2">2</div>
+                        <div class="side-step-content">
+                            <div class="side-step-name">Menu Catalog</div>
+                            <div class="side-step-sub">Pricing &amp; SKU Setup</div>
+                        </div>
+                        <span class="side-step-badge neutral" id="sideStep2StatusBadge">0/7 Selected</span>
+                    </button>
+
+                    <!-- Step 3: Kitchen KDS & Dispatch -->
+                    <button type="button" class="side-step-btn" id="sideStepTab3" onclick="goToStep(3)">
+                        <div class="side-step-num" id="sideStepNum3">3</div>
+                        <div class="side-step-content">
+                            <div class="side-step-name">Kitchen KDS &amp; Dispatch</div>
+                            <div class="side-step-sub">Grill Tickets &amp; Fleet</div>
+                        </div>
+                        <span class="side-step-badge neutral" id="sideStep3StatusBadge">Queue Ready</span>
+                    </button>
+                </nav>
+
+                <!-- Active POS Gateway Widget in Side Panel -->
+                <div class="side-active-gw-card" id="sideActiveGwCard">
+                    <div class="side-gw-status-header">
+                        <span>Active POS Gateway</span>
+                        <span class="badge bg-light text-secondary border font-mono" id="sideGwTlsBadge">TLS 1.3</span>
+                    </div>
+                    <div class="side-gw-body">
+                        <div class="side-gw-icon unverified" id="sideGwIconBox">
+                            <i class="fa-solid fa-triangle-exclamation" id="sideGwIcon"></i>
+                        </div>
+                        <div class="side-gw-info">
+                            <div class="side-gw-name" id="sideGwName">No Gateway Active</div>
+                            <div class="side-gw-sub" id="sideGwSub">Install &amp; verify API in Step 1</div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Side Panel Quick OS Tools -->
+                <div class="side-quick-tools">
+                    <div class="side-tools-title">System Tools</div>
+                    <button type="button" class="tactile-btn tactile-btn-bell tactile-btn-sm w-100 justify-content-center" onclick="ringDinerBell()">
+                        <i class="fa-solid fa-bell-concierge"></i>
+                        <span>Order Up! Bell</span>
+                    </button>
+                    <button type="button" class="tactile-btn tactile-btn-cyan tactile-btn-sm w-100 justify-content-center" onclick="simulateFullApiHealthCheck()">
+                        <i class="fa-solid fa-arrows-rotate"></i>
+                        <span>Ping Radar Telemetry</span>
+                    </button>
+                    <button type="button" class="tactile-btn tactile-btn-white tactile-btn-sm w-100 justify-content-center" onclick="resetWalkthrough()">
+                        <i class="fa-solid fa-arrow-rotate-left text-danger"></i>
+                        <span>Reset / New Install</span>
+                    </button>
+                </div>
+            </aside>
+
+            <!-- 4. FULL-WIDTH RESPONSIVE MAIN VIEWPORT -->
+            <main class="diner-main-viewport">
 
             <!-- ═══════════════════════════════════════════════════════════
                  STEP 1 VIEW: DINER GATEWAYS GRID
@@ -158,12 +235,12 @@
                 <!-- View Banner -->
                 <div class="view-header-banner">
                     <div class="view-header-title-box">
-                        <h2>Step 1: Select a Diner Delivery or POS Gateway</h2>
-                        <p>Choose an ordering platform to connect. Selecting a gateway authenticates the API and automatically moves you to Step 2 for Menu Catalog Sync.</p>
+                        <h2>Step 1: Install &amp; Verify Delivery or POS Gateway</h2>
+                        <p>APIs are not pre-installed. The POS Gateway must be installed and verified before proceeding. Select any gateway below to add API keys and run the live handshake verification.</p>
                     </div>
-                    <div class="step-guidance-pill">
-                        <i class="fa-solid fa-circle-info"></i>
-                        <span>Click any gateway below to select and proceed directly to Step 2</span>
+                    <div class="step-guidance-pill" id="step1GuidancePill">
+                        <i class="fa-solid fa-plug-circle-exclamation text-amber"></i>
+                        <span>API Verification Required: Click any gateway below to configure &amp; verify keys</span>
                     </div>
                 </div>
 
@@ -171,8 +248,8 @@
                 <div class="gateways-toolbar">
                     <div class="filter-pills-group">
                         <button type="button" class="filter-pill active" onclick="filterGateways('all', this)">All Gateways (6)</button>
-                        <button type="button" class="filter-pill" onclick="filterGateways('connected', this)">Connected</button>
-                        <button type="button" class="filter-pill" onclick="filterGateways('pending', this)">Pending</button>
+                        <button type="button" class="filter-pill" onclick="filterGateways('connected', this)">Verified Active</button>
+                        <button type="button" class="filter-pill" onclick="filterGateways('pending', this)">Not Installed</button>
                         <button type="button" class="filter-pill" onclick="filterGateways('pos', this)">In-House Direct POS</button>
                         <button type="button" class="filter-pill" onclick="filterGateways('fleet', this)">Courier Delivery Fleets</button>
                     </div>
@@ -197,11 +274,11 @@
                 <div class="active-gateway-banner mb-3">
                     <div class="active-gw-info">
                         <div class="active-gw-icon" id="activeGwIcon">
-                            <i class="fa-solid fa-car"></i>
+                            <i class="fa-solid fa-bread-slice"></i>
                         </div>
                         <div class="active-gw-text">
-                            <h3 id="activeGwTitle">Active Gateway: DoorDash Drive</h3>
-                            <p id="activeGwSubtitle">White-Label Fulfillment API • Store Location GUID: store_parma_dd_771 • REST / JWT Bearer</p>
+                            <h3 id="activeGwTitle">Active Gateway: Toast POS</h3>
+                            <p id="activeGwSubtitle">In-House Direct POS • Store Location GUID: loc_parma_grill_01 • REST / TDS Webhooks</p>
                         </div>
                     </div>
                     <div class="d-flex align-items-center gap-2">
@@ -209,20 +286,41 @@
                             <i class="fa-solid fa-arrow-left"></i> Switch Gateway
                         </button>
                         <button type="button" class="tactile-btn tactile-btn-mint tactile-btn-sm" onclick="syncAllMenuItems()">
-                            <i class="fa-solid fa-arrows-rotate"></i> Sync All 7 SKUs
+                            <i class="fa-solid fa-arrows-rotate"></i> Sync Selected SKUs
                         </button>
                     </div>
                 </div>
 
                 <!-- View Banner -->
-                <div class="view-header-banner">
+                <div class="view-header-banner mb-3">
                     <div class="view-header-title-box">
                         <h2>Step 2: Menu Catalog &amp; Pricing Synchronization</h2>
-                        <p>Configure live prices, mark 86'd out-of-stock ingredients, and broadcast updates directly to the connected delivery gateway.</p>
+                        <p>Configure live prices, mark 86'd out-of-stock ingredients, and select which menu items to include for this POS gateway.</p>
                     </div>
-                    <div class="step-guidance-pill success">
+                    <div class="step-guidance-pill success" id="step2GuidancePill">
                         <i class="fa-solid fa-circle-check"></i>
-                        <span>Gateway Authenticated &bull; Ready for Kitchen Dispatch</span>
+                        <span>Gateway Authenticated &bull; Ready for Menu Selection</span>
+                    </div>
+                </div>
+
+                <!-- Guidance & Notice Alert Banner (No menu items preselected) -->
+                <div class="menu-selection-alert-banner alert alert-warning border-0 rounded-4 p-3 mb-3 d-flex align-items-center justify-content-between flex-wrap gap-3" id="menuSelectionBanner">
+                    <div class="d-flex align-items-center gap-3">
+                        <div class="p-2 rounded-circle bg-warning bg-opacity-25 text-warning-emphasis fs-4">
+                            <i class="fa-solid fa-clipboard-check"></i>
+                        </div>
+                        <div>
+                            <strong id="menuBannerHeadline">Notice: No Menu Items Preselected for Gateway</strong>
+                            <p class="text-xs text-secondary mb-0" id="menuBannerSub">Select the items below to include them in the POS gateway sync and Kitchen KDS queue. At least 1 item is required to launch Kitchen KDS.</p>
+                        </div>
+                    </div>
+                    <div class="d-flex align-items-center gap-2">
+                        <button type="button" class="tactile-btn tactile-btn-white tactile-btn-sm" onclick="selectAllMenuItems()">
+                            <i class="fa-solid fa-check-double text-primary me-1"></i> Select All (7)
+                        </button>
+                        <button type="button" class="tactile-btn tactile-btn-white tactile-btn-sm" onclick="clearMenuItemSelections()">
+                            <i class="fa-solid fa-xmark text-danger me-1"></i> Clear
+                        </button>
                     </div>
                 </div>
 
@@ -232,12 +330,13 @@
                         <table class="menu-table">
                             <thead>
                                 <tr>
+                                    <th style="width: 135px;">POS Gateway</th>
                                     <th style="width: 85px;">SKU</th>
                                     <th>Menu Item &amp; Recipe Specs</th>
-                                    <th style="width: 110px;">Station</th>
+                                    <th style="width: 100px;">Station</th>
                                     <th style="width: 140px;">Live Price</th>
                                     <th style="width: 140px;">Kitchen Stock</th>
-                                    <th style="width: 100px;" class="text-end">Action</th>
+                                    <th style="width: 90px;" class="text-end">Action</th>
                                 </tr>
                             </thead>
                             <tbody id="menuTableBody">
@@ -253,7 +352,7 @@
                         <i class="fa-solid fa-arrow-left"></i>
                         <span>Back to Step 1: Gateways</span>
                     </button>
-                    <button type="button" class="tactile-btn tactile-btn-mint tactile-btn-lg" onclick="goToStep(3)">
+                    <button type="button" class="tactile-btn tactile-btn-mint tactile-btn-lg" onclick="validateAndProceedToStep3()">
                         <span>Proceed to Step 3: Launch Kitchen KDS &amp; Dispatch</span>
                         <i class="fa-solid fa-arrow-right"></i>
                     </button>
@@ -348,6 +447,7 @@
             </section>
 
         </main>
+        </div><!-- /.diner-workspace-container -->
 
         <!-- 4. FULL-WIDTH FOOTER -->
         <footer class="diner-footer">
@@ -427,11 +527,50 @@
                             <div class="d-flex gap-2">
                                 <button type="button" class="tactile-btn tactile-btn-white tactile-btn-sm" data-bs-dismiss="modal">Cancel</button>
                                 <button type="submit" id="btnSubmitVerify" class="tactile-btn tactile-btn-mint tactile-btn-sm">
-                                    <i class="fa-solid fa-shield-check me-1"></i> Verify &amp; Next Step ➔
+                                    <i class="fa-solid fa-shield-check me-1"></i> Verify &amp; Connect API ➔
                                 </button>
                             </div>
                         </div>
                     </form>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- ═══════════════════════════════════════════════════════════════════
+         POST-VERIFICATION NOTICE MODAL (Prompt user to Move to Menu Setup)
+         ═══════════════════════════════════════════════════════════════════ -->
+    <div class="modal fade" id="apiVerifiedNextStepModal" tabindex="-1" aria-labelledby="verifiedModalTitle" aria-hidden="true" data-bs-backdrop="static">
+        <div class="modal-dialog modal-dialog-centered modal-md">
+            <div class="modal-content apex-modal border-0 shadow-lg">
+                <div class="modal-body p-4 text-center">
+                    <div class="mx-auto mb-3 d-flex align-items-center justify-content-center rounded-circle bg-success bg-opacity-10 text-success" style="width: 72px; height: 72px; font-size: 32px;">
+                        <i class="fa-solid fa-shield-check"></i>
+                    </div>
+                    
+                    <h4 class="fw-bold text-dark mb-1" id="verifiedModalTitle">POS Gateway Authenticated!</h4>
+                    <p class="text-secondary text-sm mb-3" id="verifiedModalSubtitle">Toast POS Connected • 200 OK Live Handshake</p>
+                    
+                    <div class="p-3 mb-4 rounded-4 bg-warning bg-opacity-10 border border-warning text-start">
+                        <div class="d-flex gap-3 align-items-start">
+                            <i class="fa-solid fa-triangle-exclamation text-warning fs-4 mt-1"></i>
+                            <div>
+                                <strong class="text-dark d-block mb-1">Notice: No Menu Items Preselected</strong>
+                                <span class="text-secondary text-xs" style="line-height: 1.4; display: block;">
+                                    The gateway API is successfully authenticated, but <strong>no menu items are preselected yet</strong>. You must now move to the <strong>Menu Catalog</strong> screen to set up your pricing and select items to dispatch to the kitchen grill.
+                                </span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="d-flex flex-column gap-2">
+                        <button type="button" class="tactile-btn tactile-btn-mint tactile-btn-lg w-100 justify-content-center" onclick="proceedToMenuScreenFromModal()">
+                            <span>Move to Menu Screen to Set Up ➔</span>
+                        </button>
+                        <button type="button" class="tactile-btn tactile-btn-white tactile-btn-sm w-100 justify-content-center" data-bs-dismiss="modal">
+                            Stay on Gateways Screen
+                        </button>
+                    </div>
                 </div>
             </div>
         </div>

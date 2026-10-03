@@ -8,8 +8,89 @@
   'use strict';
 
   // ═══════════════════════════════════════════════════════════════════
-  // 1. MODULE REPOSITORY DATA (7 CORE TRACKS WITH 3x3 SYLLABUS)
+  // 1. MODULE REPOSITORY DATA (JSE 1 CURRICULUM & 7 CORE TRACKS)
   // ═══════════════════════════════════════════════════════════════════
+  const JSE_MODULES = [
+    {
+      num: "01",
+      code: "1.0 – 1.4",
+      title: "JSE: Module 1: Introduction to JavaScript and Computer Programming",
+      shortTitle: "Intro & Computer Programming",
+      desc: "Foundations of computation, language history, modern JS engines, dev environment setup, and execution lifecycle.",
+      sections: [
+        { id: "1.0", title: "1.0. Welcome to JavaScript Essentials 1", summary: "Orientation to modern JavaScript fundamentals, computational thinking, and developer tooling." },
+        { id: "1.1", title: "1.1. Section 1 – About JavaScript", summary: "History, ECMAScript standards, engine runtime architecture, and client vs server execution." },
+        { id: "1.2", title: "1.2. Section 2 – Setting up programming environment", summary: "Node.js, browser developer tools, code editors (VS Code), and command line basics." },
+        { id: "1.3", title: "1.3. Section 3 – Hello, World!", summary: "Writing, linking, and running your first executable JavaScript programs in browser and console." },
+        { id: "1.4", title: "1.4. Module 1 Completion – Module Test", summary: "Comprehensive assessment covering programming basics, syntax rules, and environment setup." }
+      ]
+    },
+    {
+      num: "02",
+      code: "2.0 – 2.4",
+      title: "JSE: Module 2: Variables, Data Types, Type Casting, and Comments",
+      shortTitle: "Variables, Types & Comments",
+      desc: "Memory management with let/const/var, primitive types, type coercion, dynamic casting, and code documentation.",
+      sections: [
+        { id: "2.0", title: "2.0. Section 1 – Variables", summary: "Variable declaration, initialization, assignment, identifier naming rules, and block scoping." },
+        { id: "2.1", title: "2.1. Section 2 – Data types and type casting – Part 1", summary: "Primitive types: numbers, strings, booleans, undefined, null, and typeof operator inspections." },
+        { id: "2.2", title: "2.2. Section 3 – Data types and type casting – Part 2", summary: "Explicit vs implicit type conversion, BigInt, Symbols, and common NaN conversion pitfalls." },
+        { id: "2.3", title: "2.3. Section 4 – Comments", summary: "Single-line and multi-line comments, JSDoc annotations, and code self-documentation best practices." },
+        { id: "2.4", title: "2.4. Module 2 Completion – Module Test", summary: "Comprehensive examination testing type coercion, variable scope, and primitive allocations." }
+      ]
+    },
+    {
+      num: "03",
+      code: "3.0 – 3.3",
+      title: "JSE: Module 3: Operators and User Interaction",
+      shortTitle: "Operators & User Interaction",
+      desc: "Arithmetic, assignment, logical operators, string concatenation, dialog prompts, and basic input/output.",
+      sections: [
+        { id: "3.0", title: "3.0. Section 1 – Assignment, arithmetic, and logical operators", summary: "Binary/unary operators, precedence rules, logical AND/OR/NOT, and short-circuit evaluation." },
+        { id: "3.1", title: "3.1. Section 2 – String, comparison, and other JS operators", summary: "Strict equality (===) vs loose equality (==), relational operators, template literals, and ternary operator." },
+        { id: "3.2", title: "3.2. Section 3 – Interacting with the user", summary: "Modal interaction dialogs: window.alert(), window.prompt(), window.confirm(), and console logging." },
+        { id: "3.3", title: "3.3. Module 3 Completion – Module Test", summary: "Assessment testing operator evaluation precedence, truthy/falsy logic, and user dialog handling." }
+      ]
+    },
+    {
+      num: "04",
+      code: "4.0 – 4.2",
+      title: "JSE: Module 4: Control Flow – Conditional Execution and Loops",
+      shortTitle: "Control Flow & Loops",
+      desc: "Decision branching with if/else/switch, deterministic loops, while iterations, and loop jump controls.",
+      sections: [
+        { id: "4.0", title: "4.0. Section 1 – Conditional execution", summary: "Conditional branching using if, if-else cascades, nested conditions, and switch-case statements." },
+        { id: "4.1", title: "4.1. Section 2 – Loops", summary: "Iteration mechanics: while loops, do-while loops, for loops, break and continue flow control." },
+        { id: "4.2", title: "4.2. Module 4 Completion – Module Test", summary: "Module examination validating loop termination invariants, nested iteration, and condition trees." }
+      ]
+    },
+    {
+      num: "05",
+      code: "5.0 – 5.2",
+      title: "JSE: Module 5: Functions",
+      shortTitle: "Functions & Execution Context",
+      desc: "Function declarations, expressions, arrow functions, parameter defaults, return statements, and call stack scoping.",
+      sections: [
+        { id: "5.0", title: "5.0. Section 1 – Functions – Part 1", summary: "Function declaration syntax, parameter passing, return statements, and local vs global scope." },
+        { id: "5.1", title: "5.1. Section 2 – Functions – Part 2", summary: "Function expressions, first-class functions, arrow syntax, callbacks, and recursion basics." },
+        { id: "5.2", title: "5.2. Module 5 Completion – Module Test", summary: "Comprehensive test covering functional modularity, return value flow, and closure scoping." }
+      ]
+    },
+    {
+      num: "06",
+      code: "6.0 – 6.3",
+      title: "JSE: Module 6: Errors, exceptions, debugging, and troubleshooting",
+      shortTitle: "Errors, Debugging & Troubleshooting",
+      desc: "Error categories, runtime exceptions, try/catch/finally error handling, throw statements, and DevTools troubleshooting.",
+      sections: [
+        { id: "6.0", title: "6.0. Section 1 – Errors and Exceptions – Part 1", summary: "Syntax errors, reference errors, type errors, range errors, and error propagation mechanics." },
+        { id: "6.1", title: "6.1. Section 2 – Errors and Exceptions – Part 2", summary: "Structured exception handling with try-catch-finally blocks and throwing custom Error objects." },
+        { id: "6.2", title: "6.2. Section 3 – Code Debugging and Troubleshooting", summary: "Using browser debugger, setting breakpoints, stepping through call frames, and watch expressions." },
+        { id: "6.3", title: "6.3. Module 6 Completion – Module Test", summary: "Final certification module test evaluating error interception, debugging techniques, and troubleshooting." }
+      ]
+    }
+  ];
+
   const MODULES_DATA = [
   {
     "id": "javascript",
@@ -20,108 +101,82 @@
     "tier": "Client Tier",
     "icon": "fa-brands fa-js text-amber-500",
     "badgeColor": "bg-amber-100 text-amber-900 border-amber-300",
-    "title": "JavaScript (Modern ES6+, Async/Event Loop, DOM & Web APIs)",
-    "level": "LEVEL: PRODUCTION_READY",
-    "duration": "42.0_HRS",
-    "summary": "Deep-dive into modern V8 engine mechanics, event loop execution queues, microtasks vs macrotasks, prototypal inheritance, advanced asynchronous patterns, and high-performance Web APIs.",
+    "title": "JavaScript Essentials (JSE: Modules 1–6 Outline)",
+    "level": "LEVEL: ESSENTIALS_TO_PRO",
+    "duration": "48.0_HRS",
+    "summary": "Comprehensive 6-module curriculum outline for JavaScript Essentials 1 (JSE 1): from computer programming and variable mechanics to operators, control flow loops, functions, and runtime error debugging.",
+    "jseModules": JSE_MODULES,
     "syllabus": [
       {
         "num": "01",
         "tier": "Beginner",
-        "chapter": "Execution Contexts, Hoisting & Lexical Scope",
-        "desc": "Master the V8 execution context lifecycle (creation vs execution phases), lexical environments, variable hoisting rules, the temporal dead zone (TDZ), block scoping with let/const, and call stack frame management.",
+        "chapter": "JSE: Module 1: Introduction to JavaScript and Computer Programming",
+        "desc": "1.0. Welcome to JavaScript Essentials 1 | 1.1. Section 1 – About JavaScript | 1.2. Section 2 – Setting up programming environment | 1.3. Section 3 – Hello, World! | 1.4. Module 1 Completion – Module Test",
         "keyConcepts": [
-          "Call Stack Frames",
-          "Temporal Dead Zone",
-          "Lexical Environments"
+          "1.0. Welcome to JSE 1",
+          "1.1. About JavaScript",
+          "1.2. Dev Environment",
+          "1.3. Hello, World!",
+          "1.4. Module 1 Test"
         ]
       },
       {
         "num": "02",
         "tier": "Beginner",
-        "chapter": "Prototypal Inheritance & Object Prototypes",
-        "desc": "Understand prototype chains (__proto__ vs prototype), constructor functions, class syntax desugaring, Object.create(), prototypal delegation, and mitigating prototype pollution security vectors.",
+        "chapter": "JSE: Module 2: Variables, Data Types, Type Casting, and Comments",
+        "desc": "2.0. Section 1 – Variables | 2.1. Section 2 – Data types and type casting – Part 1 | 2.2. Section 3 – Data types and type casting – Part 2 | 2.3. Section 4 – Comments | 2.4. Module 2 Completion – Module Test",
         "keyConcepts": [
-          "Prototype Chain",
-          "Object.create()",
-          "Class Desugaring"
+          "2.0. Variables",
+          "2.1. Data Types Pt 1",
+          "2.2. Data Types Pt 2",
+          "2.3. Comments",
+          "2.4. Module 2 Test"
         ]
       },
       {
         "num": "03",
         "tier": "Beginner",
-        "chapter": "Asynchronous Foundations & Promises Architecture",
-        "desc": "Transition from callback patterns to Promises. Grasp Promise state machines (pending, fulfilled, rejected), chaining, microtask queue scheduling, Promise.all vs Promise.allSettled vs Promise.race, and async/await syntax.",
+        "chapter": "JSE: Module 3: Operators and User Interaction",
+        "desc": "3.0. Section 1 – Assignment, arithmetic, and logical operators | 3.1. Section 2 – String, comparison, and other JS operators | 3.2. Section 3 – Interacting with the user | 3.3. Module 3 Completion – Module Test",
         "keyConcepts": [
-          "Promise State Machine",
-          "Async/Await",
-          "Promise Combinators"
+          "3.0. Arithmetic & Logic",
+          "3.1. Comparison & String",
+          "3.2. User Interaction",
+          "3.3. Module 3 Test"
         ]
       },
       {
         "num": "04",
         "tier": "Advanced",
-        "chapter": "V8 Event Loop & Queue Scheduling Mechanics",
-        "desc": "In-depth study of the browser event loop: Call Stack execution, Microtasks (Promise resolutions, queueMicrotask, MutationObserver) draining, Macrotasks (setTimeout, setImmediate, I/O), render frame intervals, and starvation avoidance.",
+        "chapter": "JSE: Module 4: Control Flow – Conditional Execution and Loops",
+        "desc": "4.0. Section 1 – Conditional execution | 4.1. Section 2 – Loops | 4.2. Module 4 Completion – Module Test",
         "keyConcepts": [
-          "Microtask Drain",
-          "Macrotask Queue",
-          "Render Timing"
+          "4.0. Conditional execution",
+          "4.1. Loops & Iterations",
+          "4.2. Module 4 Test"
         ]
       },
       {
         "num": "05",
         "tier": "Advanced",
-        "chapter": "Metaprogramming with Proxies & Reflect API",
-        "desc": "Intercept core object operations using Proxy handlers and traps (get, set, has, apply, construct), paired with the Reflect API for reflection. Leverage unique Symbol keys and Well-Known Symbols (Symbol.iterator, Symbol.toPrimitive).",
+        "chapter": "JSE: Module 5: Functions",
+        "desc": "5.0. Section 1 – Functions – Part 1 | 5.1. Section 2 – Functions – Part 2 | 5.2. Module 5 Completion – Module Test",
         "keyConcepts": [
-          "Proxy Traps",
-          "Reflect API",
-          "Well-Known Symbols"
+          "5.0. Functions Pt 1",
+          "5.1. Functions Pt 2",
+          "5.2. Module 5 Test"
         ]
       },
       {
         "num": "06",
-        "tier": "Advanced",
-        "chapter": "High-Throughput Web APIs & Stream Processing",
-        "desc": "Harness performance-critical browser APIs: IntersectionObserver for lazy layout, ResizeObserver for responsive containers, BroadcastChannel for zero-latency cross-tab sync, Structured Clone algorithm, and Web Streams (ReadableStream/WritableStream).",
-        "keyConcepts": [
-          "IntersectionObserver",
-          "BroadcastChannel",
-          "Web Streams"
-        ]
-      },
-      {
-        "num": "07",
         "tier": "Expert",
-        "chapter": "V8 JIT Pipeline: Ignition, TurboFan & Hidden Classes",
-        "desc": "Examine V8 internals: parsing ASTs, Ignition bytecode interpreter execution, TurboFan feedback vectors and speculative JIT compilation, Hidden Classes (Shapes), transition trees, Inline Caches (ICs), and avoiding catastrophic deoptimizations.",
+        "chapter": "JSE: Module 6: Errors, exceptions, debugging, and troubleshooting",
+        "desc": "6.0. Section 1 – Errors and Exceptions – Part 1 | 6.1. Section 2 – Errors and Exceptions – Part 2 | 6.2. Section 3 – Code Debugging and Troubleshooting | 6.3. Module 6 Completion – Module Test",
         "keyConcepts": [
-          "Ignition & TurboFan",
-          "Hidden Shapes",
-          "Inline Caches"
-        ]
-      },
-      {
-        "num": "08",
-        "tier": "Expert",
-        "chapter": "Multithreading with Web Workers, SharedArrayBuffer & Atomics",
-        "desc": "True multi-threaded JavaScript execution using dedicated/shared Web Workers, SharedArrayBuffer memory allocations, and synchronization primitives with Atomics (Atomics.wait, Atomics.notify, Atomics.compareExchange) for lock-free parallel data structures.",
-        "keyConcepts": [
-          "SharedArrayBuffer",
-          "Atomics Concurrency",
-          "Lock-Free Queues"
-        ]
-      },
-      {
-        "num": "09",
-        "tier": "Expert",
-        "chapter": "Garbage Collection Internals & Memory Leak Profiling",
-        "desc": "Low-level memory management: V8 generational heap architecture, Scavenger Minor GC (semi-spaces copying algorithm), Major Mark-Sweep-Compact GC, analyzing heap snapshots, allocation timelines, and weak references with WeakRef & FinalizationRegistry.",
-        "keyConcepts": [
-          "Minor/Major GC",
-          "Heap Snapshots",
-          "WeakRef & Memory Profiling"
+          "6.0. Errors & Exceptions Pt 1",
+          "6.1. Errors & Exceptions Pt 2",
+          "6.2. Debugging & Tools",
+          "6.3. Module 6 Test"
         ]
       }
     ]
@@ -851,11 +906,96 @@
   }
 
   // ═══════════════════════════════════════════════════════════════════
-  // 3. APPLICATION STATE
+  // 3. APPLICATION STATE & JSE CURRICULUM PAGINATION
   // ═══════════════════════════════════════════════════════════════════
   let currentActiveTrackId = 'javascript';
   let currentViewMode = 'tabbed'; // 'tabbed' or 'grid'
   let activeSearchQuery = '';
+  let jseCurriculumPage = 0; // 0 for modules 01-03, 1 for modules 04-06
+
+  window.switchJsePage = function (targetPage) {
+    if (typeof targetPage === 'number') {
+      jseCurriculumPage = targetPage;
+    } else {
+      jseCurriculumPage = jseCurriculumPage === 0 ? 1 : 0;
+    }
+    playOsClick(840, 0.035);
+    renderActiveTabbedCard();
+    const anchor = document.getElementById('jseCurriculumOutlineAnchor');
+    if (anchor) {
+      anchor.scrollIntoView({ behavior: 'smooth', block: 'start' });
+    }
+  };
+
+  window.startJseSection = function (moduleNum, sectionId) {
+    playOsClick(840, 0.04);
+    const modal = document.getElementById('jseLessonModal');
+    if (!modal) return;
+
+    const mod = JSE_MODULES.find((m) => m.num === moduleNum);
+    const sec = mod ? mod.sections.find((s) => s.id === sectionId) : null;
+    if (!sec) return;
+
+    const headerTag = document.getElementById('jseModalHeaderTag');
+    const moduleBadge = document.getElementById('jseModalModuleBadge');
+    const lessonTitle = document.getElementById('jseModalLessonTitle');
+    const lessonDesc = document.getElementById('jseModalLessonDesc');
+    const codeSnippetEl = document.getElementById('jseModalCodeSnippet');
+    const consoleOutput = document.getElementById('jseModalConsoleOutput');
+
+    if (headerTag) headerTag.textContent = `JSE.1 // MODULE_${moduleNum} // SEC_${sectionId}`;
+    if (moduleBadge) moduleBadge.textContent = mod ? mod.title : `MODULE ${moduleNum}`;
+    if (lessonTitle) lessonTitle.textContent = sec.title;
+    if (lessonDesc) lessonDesc.textContent = sec.summary || 'Interactive lesson runtime and syllabus objectives.';
+
+    if (consoleOutput) {
+      consoleOutput.classList.add('hidden');
+      consoleOutput.innerHTML = '';
+    }
+
+    let sampleCode = `// JavaScript Essentials 1: Section ${sectionId}\n// ${sec.title}\n\n`;
+    if (moduleNum === '01') {
+      sampleCode += `console.log("Welcome to JavaScript Essentials 1!");\nconsole.log("Environment: Ready. Execution Context: Active.");\nconsole.log("Status: Hello, World! program executed successfully.");`;
+    } else if (moduleNum === '02') {
+      sampleCode += `let userRole = "Software Engineer";\nconst version = 1.0;\nlet isVerified = Boolean(userRole);\nconsole.log("Variable:", userRole, "Type:", typeof userRole);\nconsole.log("Type Casting Check:", isVerified);`;
+    } else if (moduleNum === '03') {
+      sampleCode += `let price = 49.99;\nlet quantity = 3;\nlet total = price * quantity;\nlet isFreeShipping = total > 100;\nconsole.log("Total: $" + total.toFixed(2), "Free Shipping:", isFreeShipping);`;
+    } else if (moduleNum === '04') {
+      sampleCode += `let counter = 0;\nwhile (counter < 3) {\n  counter++;\n  console.log("Loop iteration", counter, "executing conditional logic.");\n}`;
+    } else if (moduleNum === '05') {
+      sampleCode += `function calculateSquare(num) {\n  return num * num;\n}\nconst result = calculateSquare(8);\nconsole.log("Function Return Output:", result);`;
+    } else {
+      sampleCode += `try {\n  console.log("Diagnosing runtime execution...");\n  // Error prevention and breakpoint logging\n  console.log("Diagnostics pass: 0 errors detected.");\n} catch (err) {\n  console.error("Intercepted exception:", err.message);\n}`;
+    }
+    if (codeSnippetEl) codeSnippetEl.textContent = sampleCode;
+
+    modal.classList.remove('hidden');
+    modal.classList.add('flex');
+  };
+
+  window.runJseDemo = function () {
+    playOsClick(980, 0.05);
+    const consoleOutput = document.getElementById('jseModalConsoleOutput');
+    if (!consoleOutput) return;
+
+    consoleOutput.classList.remove('hidden');
+    consoleOutput.innerHTML = `<span class="text-slate-400 font-bold">&gt; OUTPUT:</span><br/><span class="text-emerald-700 font-bold">&gt;&gt; Executing script in sandbox environment...</span><br/><span class="text-slate-700">&gt;&gt; Compilation successful: 0 errors, 0 warnings.</span><br/><span class="text-sky-700 font-semibold">&gt;&gt; Console output: [Sandbox execution completed in 14ms]</span>`;
+  };
+
+  window.closeJseModal = function () {
+    playOsClick(600, 0.03);
+    const modal = document.getElementById('jseLessonModal');
+    if (modal) {
+      modal.classList.add('hidden');
+      modal.classList.remove('flex');
+    }
+  };
+
+  document.addEventListener('keydown', (e) => {
+    if (e.key === 'Escape') {
+      window.closeJseModal();
+    }
+  });
 
   // ═══════════════════════════════════════════════════════════════════
   // 4. RENDERERS
@@ -873,7 +1013,8 @@
         m.title.toLowerCase().includes(q) ||
         m.summary.toLowerCase().includes(q) ||
         m.fileName.toLowerCase().includes(q) ||
-        m.syllabus.some((s) => s.chapter.toLowerCase().includes(q) || s.desc.toLowerCase().includes(q))
+        (m.syllabus && m.syllabus.some((s) => s.chapter.toLowerCase().includes(q) || s.desc.toLowerCase().includes(q))) ||
+        (m.id === 'javascript' && JSE_MODULES.some((jm) => jm.title.toLowerCase().includes(q) || jm.sections.some((sec) => sec.title.toLowerCase().includes(q))))
       );
     });
 
@@ -925,12 +1066,231 @@
     });
   }
 
+  // Render JavaScript Custom 3-Block Outline View (01. 02 in middle to 03 on right)
+  function renderJsCurriculumPanel(container, mod) {
+    const activeModules = jseCurriculumPage === 0 ? JSE_MODULES.slice(0, 3) : JSE_MODULES.slice(3, 6);
+
+    const blocksHtml = activeModules
+      .map((m, idx) => {
+        const isMiddle = idx === 1; // "01. 02 in the middle to 03 on the right"
+
+        const sectionsHtml = m.sections
+          .map((sec) => `
+            <div class="p-2 sm:p-2.5 rounded-lg bg-slate-50 border border-slate-200 hover:bg-amber-50/80 hover:border-amber-300 transition-all flex items-center justify-between gap-2.5 group/item">
+              <div class="flex items-center gap-2 min-w-0">
+                <span class="w-1.5 h-1.5 rounded-full bg-amber-500 shrink-0"></span>
+                <span class="font-mono text-xs font-semibold text-slate-800 leading-snug truncate" title="${sec.title}">
+                  ${sec.title}
+                </span>
+              </div>
+              <button 
+                type="button" 
+                onclick="window.startJseSection('${m.num}', '${sec.id}')"
+                class="shrink-0 px-2.5 py-1 rounded bg-slate-900 hover:bg-amber-500 text-white hover:text-slate-950 font-mono text-[11px] font-bold transition-all shadow-xs flex items-center gap-1 cursor-pointer">
+                <span>start</span>
+                <i class="fa-solid fa-play text-[8px]"></i>
+              </button>
+            </div>
+          `)
+          .join('');
+
+        let blockNavHtml = '';
+        if (m.num === '01') {
+          blockNavHtml = `
+            <div class="text-[11px] text-slate-500 font-mono flex items-center justify-between">
+              <span>PREREQUISITES: NONE</span>
+              <span class="text-amber-600 font-bold">NEXT: MOD 02 &rarr;</span>
+            </div>
+          `;
+        } else if (m.num === '02') {
+          blockNavHtml = `
+            <div class="text-[11px] text-slate-500 font-mono flex items-center justify-between">
+              <span>CORE_TYPES: PRIMITIVES</span>
+              <span class="text-amber-600 font-bold">NEXT: MOD 03 &rarr;</span>
+            </div>
+          `;
+        } else if (m.num === '03') {
+          blockNavHtml = `
+            <div class="flex items-center justify-between">
+              <span class="text-[11px] text-slate-500 font-mono">STAGE 1 WRAP-UP</span>
+              <button type="button" onclick="window.switchJsePage(1)" class="px-2.5 py-1 rounded bg-amber-500 hover:bg-amber-400 text-slate-950 text-xs font-mono font-bold transition-colors cursor-pointer flex items-center gap-1 shadow-xs">
+                <span>Next: Modules 04–06</span>
+                <i class="fa-solid fa-arrow-right text-[10px]"></i>
+              </button>
+            </div>
+          `;
+        } else if (m.num === '04') {
+          blockNavHtml = `
+            <div class="flex items-center justify-between">
+              <button type="button" onclick="window.switchJsePage(0)" class="px-2 py-1 rounded bg-slate-200 hover:bg-slate-300 text-slate-800 text-xs font-mono font-bold transition-colors cursor-pointer flex items-center gap-1">
+                <i class="fa-solid fa-arrow-left text-[10px]"></i>
+                <span>Modules 01–03</span>
+              </button>
+              <span class="text-[11px] text-amber-600 font-mono font-bold">NEXT: MOD 05 &rarr;</span>
+            </div>
+          `;
+        } else if (m.num === '05') {
+          blockNavHtml = `
+            <div class="text-[11px] text-slate-500 font-mono flex items-center justify-between">
+              <span>CALL_STACK: FUNCTIONAL</span>
+              <span class="text-amber-600 font-bold">NEXT: MOD 06 &rarr;</span>
+            </div>
+          `;
+        } else if (m.num === '06') {
+          blockNavHtml = `
+            <div class="flex items-center justify-between">
+              <span class="text-[11px] text-emerald-600 font-mono font-bold flex items-center gap-1">
+                <i class="fa-solid fa-certificate"></i> JSE 1 FINAL EXAM
+              </span>
+              <button type="button" onclick="window.switchJsePage(0)" class="px-2.5 py-1 rounded bg-slate-200 hover:bg-slate-300 text-slate-800 text-xs font-mono font-bold transition-colors cursor-pointer flex items-center gap-1">
+                <span>&larr; Back to 01</span>
+              </button>
+            </div>
+          `;
+        }
+
+        return `
+          <div class="p-5 sm:p-6 bg-white border-2 ${isMiddle ? 'border-amber-400 shadow-md ring-1 ring-amber-400/20' : 'border-slate-300'} rounded-xl flex flex-col justify-between hover:border-slate-500 transition-all group">
+            <div>
+              <!-- Top Header Strip with Outline Number -->
+              <div class="flex items-center justify-between pb-3 mb-3 border-b border-slate-200">
+                <div class="flex items-center gap-2.5">
+                  <span class="font-mono text-3xl sm:text-4xl font-black text-amber-500 tracking-tight leading-none">${m.num}.</span>
+                  <div class="flex flex-col">
+                    <span class="font-mono text-[10px] font-bold text-slate-400 uppercase tracking-widest">
+                      ${isMiddle ? 'MIDDLE_BLOCK' : (idx === 0 ? 'START_BLOCK' : 'RIGHT_BLOCK')}
+                    </span>
+                    <span class="font-mono text-xs font-semibold text-slate-700">${m.code}</span>
+                  </div>
+                </div>
+                <span class="px-2 py-0.5 rounded text-[10px] font-mono font-bold bg-amber-100 text-amber-900 border border-amber-300">
+                  STAGE § ${m.num}
+                </span>
+              </div>
+
+              <!-- Module Title & Outline Scope -->
+              <h4 class="font-headline font-bold text-slate-900 text-base sm:text-lg mb-2 leading-snug group-hover:text-amber-600 transition-colors">
+                ${m.title}
+              </h4>
+              <p class="text-xs text-slate-600 leading-relaxed font-sans mb-4">
+                ${m.desc}
+              </p>
+
+              <!-- Outline Checklist -->
+              <div class="space-y-2 pt-2 border-t border-slate-100">
+                <div class="flex items-center justify-between text-[11px] font-mono text-slate-400 font-bold uppercase tracking-wider pb-1">
+                  <span>Curriculum Outline</span>
+                  <span>Interactive</span>
+                </div>
+                ${sectionsHtml}
+              </div>
+            </div>
+
+            <!-- Block Navigation / Footer -->
+            <div class="pt-4 mt-5 border-t border-slate-200">
+              ${blockNavHtml}
+            </div>
+          </div>
+        `;
+      })
+      .join('');
+
+    container.innerHTML = `
+      <div class="os-white-card w-full">
+        <!-- Scientific Specification Window Titlebar -->
+        <div class="os-window-header px-6 sm:px-10 lg:px-14 py-3" id="jseCurriculumOutlineAnchor">
+          <div class="flex items-center gap-2.5">
+            <div class="font-mono text-xs text-slate-700 flex items-center gap-2 font-semibold">
+              <i class="fa-solid fa-terminal text-amber-500 text-[11px]"></i>
+              <span>/usr/local/matrix/curriculum/js_engine.es6</span>
+            </div>
+          </div>
+
+          <div class="font-mono text-xs text-slate-600 font-bold flex items-center gap-2">
+            <span class="px-2 py-0.5 rounded bg-amber-100 text-amber-900 border border-amber-300">JSE 1</span>
+            <span>06 MODULES // 3-BLOCK OUTLINE</span>
+          </div>
+        </div>
+
+        <!-- Main Card Body -->
+        <div class="py-6 sm:py-8 px-6 sm:px-10 lg:px-14 space-y-8">
+          
+          <!-- Scientific Header & Technical Parameters -->
+          <div class="pb-5 border-b border-slate-200">
+            <div class="font-mono text-xs text-slate-500 tracking-wider mb-2.5 flex items-center gap-2 flex-wrap">
+              <span class="font-bold text-slate-800">SPEC_ID: JSE_ESSENTIALS_1</span>
+              <span class="text-slate-300">/</span>
+              <span>TIER: CLIENT TIER</span>
+              <span class="text-slate-300">/</span>
+              <span>DOMAIN: JAVASCRIPT ESSENTIALS</span>
+              <span class="text-slate-300">/</span>
+              <span>DURATION: 48.0_HRS</span>
+              <span class="text-slate-300">/</span>
+              <span class="text-amber-600 font-bold">STRUCTURE: 3 BLOCKS IN A ROW</span>
+            </div>
+            <h2 class="font-headline font-bold text-2xl sm:text-3xl text-slate-900 tracking-tight leading-tight mb-2.5">
+              ${mod.title}
+            </h2>
+            <p class="font-sans text-xs sm:text-sm text-slate-600 leading-relaxed max-w-4xl">
+              ${mod.summary}
+            </p>
+          </div>
+
+          <!-- 3-Block Outline Interactive Switcher / Pagination Toolbar -->
+          <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-3 p-3.5 bg-slate-100 border border-slate-300 rounded-xl font-mono text-xs">
+            <div class="flex items-center gap-2.5 flex-wrap">
+              <span class="font-bold text-slate-700 flex items-center gap-1.5">
+                <i class="fa-solid fa-layer-group text-amber-500"></i>
+                <span>OUTLINE_BLOCKS:</span>
+              </span>
+              <div class="inline-flex rounded-lg border border-slate-300 bg-white p-0.5 shadow-2xs">
+                <button 
+                  type="button" 
+                  onclick="window.switchJsePage(0)"
+                  class="px-3.5 py-1.5 rounded-md text-xs font-bold transition-all cursor-pointer ${jseCurriculumPage === 0 ? 'bg-amber-500 text-slate-950 shadow-xs' : 'text-slate-600 hover:text-slate-950'}">
+                  01. 02. 03. Modules 1–3
+                </button>
+                <button 
+                  type="button" 
+                  onclick="window.switchJsePage(1)"
+                  class="px-3.5 py-1.5 rounded-md text-xs font-bold transition-all cursor-pointer ${jseCurriculumPage === 1 ? 'bg-amber-500 text-slate-950 shadow-xs' : 'text-slate-600 hover:text-slate-950'}">
+                  04. 05. 06. Modules 4–6
+                </button>
+              </div>
+            </div>
+
+            <div class="flex items-center gap-2">
+              <button 
+                type="button" 
+                onclick="window.switchJsePage()"
+                class="px-4 py-1.5 rounded-lg bg-slate-900 hover:bg-amber-500 text-white hover:text-slate-950 font-bold transition-all flex items-center gap-2 cursor-pointer shadow-xs">
+                <span>${jseCurriculumPage === 0 ? 'Next Modules (04–06) →' : '← Previous Modules (01–03)'}</span>
+              </button>
+            </div>
+          </div>
+
+          <!-- THE THREE BLOCKS IN A ROW (01., 02. IN THE MIDDLE, 03. ON THE RIGHT) -->
+          <div class="grid grid-cols-1 md:grid-cols-3 gap-5 lg:gap-6">
+            ${blocksHtml}
+          </div>
+
+        </div>
+      </div>
+    `;
+  }
+
   // Render the Active Track in a Crisp White Card (Directly Showing the 3x3 Curriculum Syllabus)
   function renderActiveTabbedCard() {
     const container = document.getElementById('osMainContentArea');
     if (!container) return;
 
     const mod = MODULES_DATA.find((m) => m.id === currentActiveTrackId) || MODULES_DATA[0];
+
+    // If JavaScript track is selected, render custom 3-block outline design
+    if (mod.id === 'javascript') {
+      renderJsCurriculumPanel(container, mod);
+      return;
+    }
 
     // Helper to render each 3-module progression tier with scientific formatting
     function renderSyllabusTier(tierName, tierNumber, modules) {
@@ -1059,7 +1419,8 @@
         m.title.toLowerCase().includes(q) ||
         m.summary.toLowerCase().includes(q) ||
         m.fileName.toLowerCase().includes(q) ||
-        m.syllabus.some((s) => s.chapter.toLowerCase().includes(q) || s.desc.toLowerCase().includes(q))
+        (m.syllabus && m.syllabus.some((s) => s.chapter.toLowerCase().includes(q) || s.desc.toLowerCase().includes(q))) ||
+        (m.id === 'javascript' && JSE_MODULES.some((jm) => jm.title.toLowerCase().includes(q) || jm.sections.some((sec) => sec.title.toLowerCase().includes(q))))
       );
     });
 
@@ -1078,6 +1439,7 @@
 
     const cardsHtml = filtered
       .map((mod) => {
+        const isJs = mod.id === 'javascript';
         return `
           <div class="os-white-card flex flex-col justify-between cursor-pointer group hover:shadow-xl transition-all border border-slate-200" data-card-track-id="${mod.id}">
             <!-- Titlebar -->
@@ -1103,19 +1465,28 @@
                   ${mod.summary}
                 </p>
 
-                <!-- Scientific 3x3 Breakdown -->
-                <div class="py-2.5 px-3 bg-slate-50 border border-slate-200 font-mono text-xs text-slate-700 mb-4 space-y-1">
-                  <div class="flex justify-between"><span>[01-03] Beginner Foundations:</span><span class="font-bold">3 Chapters</span></div>
-                  <div class="flex justify-between"><span>[04-06] Advanced Architecture:</span><span class="font-bold">3 Chapters</span></div>
-                  <div class="flex justify-between"><span>[07-09] Expert Internals:</span><span class="font-bold">3 Chapters</span></div>
-                </div>
+                ${isJs ? `
+                  <!-- JSE 6-Module Breakdown -->
+                  <div class="py-2.5 px-3 bg-amber-50/80 border border-amber-200 font-mono text-xs text-slate-800 mb-4 space-y-1 rounded-lg">
+                    <div class="flex justify-between font-bold text-amber-900"><span>JSE 1: 6-Module Curriculum Outline</span><span class="text-amber-600">[01–06]</span></div>
+                    <div class="flex justify-between text-slate-600"><span>[01–03] Intro, Variables, Operators:</span><span class="font-bold text-slate-800">3 Blocks</span></div>
+                    <div class="flex justify-between text-slate-600"><span>[04–06] Control Flow, Functions, Errors:</span><span class="font-bold text-slate-800">3 Blocks</span></div>
+                  </div>
+                ` : `
+                  <!-- Scientific 3x3 Breakdown -->
+                  <div class="py-2.5 px-3 bg-slate-50 border border-slate-200 font-mono text-xs text-slate-700 mb-4 space-y-1">
+                    <div class="flex justify-between"><span>[01-03] Beginner Foundations:</span><span class="font-bold">3 Chapters</span></div>
+                    <div class="flex justify-between"><span>[04-06] Advanced Architecture:</span><span class="font-bold">3 Chapters</span></div>
+                    <div class="flex justify-between"><span>[07-09] Expert Internals:</span><span class="font-bold">3 Chapters</span></div>
+                  </div>
+                `}
               </div>
 
               <!-- Action Bar -->
               <div class="pt-4 border-t border-slate-200 flex items-center justify-between">
-                <span class="text-xs font-mono text-slate-500 font-semibold">9 PROGRESSIVE MODULES</span>
+                <span class="text-xs font-mono text-slate-500 font-semibold">${isJs ? '6 OUTLINE MODULES' : '9 PROGRESSIVE MODULES'}</span>
                 <button type="button" class="font-mono text-xs font-bold text-slate-900 hover:text-sky-600 flex items-center gap-1.5 transition-colors">
-                  <span>INSPECT_SYLLABUS &rarr;</span>
+                  <span>${isJs ? 'INSPECT_OUTLINE &rarr;' : 'INSPECT_SYLLABUS &rarr;'}</span>
                 </button>
               </div>
             </div>
