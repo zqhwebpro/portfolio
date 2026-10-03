@@ -2,9 +2,13 @@
 // DINERDASHBOARD // MODERN KITCHEN POS & MULTI-GATEWAY DISPATCH ENGINE
 // ═══════════════════════════════════════════════════════════════════
 
-// Automated Client-Side Cache Cleanup & Cache Storage Purge
+// Automated Client-Side Cache Cleanup & Purge Legacy LocalStorage
 (function purgeClientCaches() {
     try {
+        // Clear old un-versioned storage keys that caused auto-connected state in regular browsers
+        localStorage.removeItem('dinerdashboard_delivery_api_state');
+        localStorage.removeItem('dinerdashboard_delivery_api_state_v2');
+
         if ('caches' in window) {
             caches.keys().then((cacheNames) => {
                 cacheNames.forEach((cacheName) => {
@@ -22,10 +26,16 @@
     } catch (e) {}
 })();
 
+// Storage Keys
+const STORAGE_KEY_API = 'dinerdashboard_delivery_api_state_v4';
+const STORAGE_KEY_SITE = 'dinerdashboard_site_config_v2';
+
 // Manual user cache clear & hard refresh
 function clearDinerAppCache() {
     playToyClick(720, 0.05);
     try {
+        localStorage.removeItem(STORAGE_KEY_API);
+        localStorage.removeItem(STORAGE_KEY_SITE);
         localStorage.removeItem('dinerdashboard_delivery_api_state');
         sessionStorage.clear();
         if ('caches' in window) {
@@ -35,17 +45,10 @@ function clearDinerAppCache() {
                 }
             }).catch(() => {});
         }
-        if ('serviceWorker' in navigator) {
-            navigator.serviceWorker.getRegistrations().then((registrations) => {
-                for (const registration of registrations) {
-                    registration.unregister();
-                }
-            }).catch(() => {});
-        }
     } catch (e) {}
 
     const base = window.location.origin + window.location.pathname;
-    const cacheBusterUrl = base + '?nocache=' + Date.now() + (window.location.hash || '#step1');
+    const cacheBusterUrl = base + '?nocache=' + Date.now() + '#step1';
     window.location.replace(cacheBusterUrl);
 }
 
@@ -53,7 +56,9 @@ if (typeof window !== 'undefined') {
     window.clearDinerAppCache = clearDinerAppCache;
 }
 
-// Audio synthesizer for discrete OS feedback & tactile diner physical buttons
+// ═══════════════════════════════════════════════════════════════════
+// AUDIO SYNTHESIZER FOR DISCRETE OS FEEDBACK & TACTILE BUTTONS
+// ═══════════════════════════════════════════════════════════════════
 let audioCtx = null;
 let soundEnabled = true;
 
@@ -67,7 +72,6 @@ function initAudio() {
     }
 }
 
-// Discrete micro-click for regular OS elements
 function playOsClick(freq = 750, duration = 0.035) {
     if (!soundEnabled) return;
     try {
@@ -86,7 +90,6 @@ function playOsClick(freq = 750, duration = 0.035) {
     } catch (e) {}
 }
 
-// Chunky mechanical baby-toy-style tactile push button click
 function playToyClick(startFreq = 520, duration = 0.05) {
     if (!soundEnabled) return;
     try {
@@ -108,7 +111,6 @@ function playToyClick(startFreq = 520, duration = 0.05) {
         osc.start(t);
         osc.stop(t + duration);
 
-        // Sub click for chassis resonance
         const sub = audioCtx.createOscillator();
         const subGain = audioCtx.createGain();
         sub.type = 'sine';
@@ -123,7 +125,6 @@ function playToyClick(startFreq = 520, duration = 0.05) {
     } catch (e) {}
 }
 
-// Authentic brass metallic Diner Service Bell ("Order Up!")
 function playDinerBell() {
     if (!soundEnabled) return;
     try {
@@ -132,7 +133,6 @@ function playDinerBell() {
         const t = audioCtx.currentTime;
         const strikeDuration = 1.4;
 
-        // Fundamental bell frequency (A6 ~ 1760 Hz)
         const osc1 = audioCtx.createOscillator();
         const gain1 = audioCtx.createGain();
         osc1.type = 'sine';
@@ -144,7 +144,6 @@ function playDinerBell() {
         osc1.start(t);
         osc1.stop(t + strikeDuration);
 
-        // High harmonic partial (E7 ~ 2640 Hz)
         const osc2 = audioCtx.createOscillator();
         const gain2 = audioCtx.createGain();
         osc2.type = 'sine';
@@ -156,7 +155,6 @@ function playDinerBell() {
         osc2.start(t);
         osc2.stop(t + (strikeDuration * 0.75));
 
-        // High strike transient (A7 ~ 3520 Hz)
         const strike = audioCtx.createOscillator();
         const strikeGain = audioCtx.createGain();
         strike.type = 'triangle';
@@ -202,23 +200,23 @@ function initDinerClock() {
 // DELIVERY PLATFORMS & GATEWAYS REGISTRY
 // ═══════════════════════════════════════════════════════════════════
 const DELIVERY_SERVICES = {
-    toast: {
-        id: 'toast',
-        name: 'Toast POS',
-        categoryTag: 'Toast Delivery Services (TDS)',
-        icon: 'fa-solid fa-bread-slice',
-        color: '#0284c7',
-        demographicRank: 'Top In-House Restaurant Direct POS',
-        demographicDesc: 'Eliminates 30% third-party marketplace commissions via native in-house ordering with flat-rate DoorDash courier pass-through.',
-        portalUrl: 'https://pos.toasttab.com/',
-        defaultClientId: 'toast_app_parma_982',
-        defaultSecret: 'tst_sec_89234bfa09e1889c201',
-        defaultLocationId: 'loc_parma_grill_01',
-        category: 'pos',
-        protocol: 'REST / TDS Webhooks',
-        endpointUrl: 'https://api.dinerdashboard.io/webhooks/toast',
-        marketShare: 'Top In-House POS',
-        latency: '16 ms',
+    uber: {
+        id: 'uber',
+        name: 'Uber Direct',
+        categoryTag: 'On-Demand Merchant Delivery',
+        icon: 'fa-brands fa-uber',
+        color: '#0f172a',
+        demographicRank: 'Urban & Gen-Z Demographic Choice (23% US Share)',
+        demographicDesc: 'Top preference for metropolitan, college campus, and late-night demographics with dense local courier pooling.',
+        portalUrl: 'https://developer.uber.com/docs/deliveries/overview',
+        defaultClientId: '6ImzVINJ53LfMWCPoh_gBblTL55hqUNfIBN-7TG2',
+        defaultSecret: 'ubr_sec_99120aa8772bc',
+        defaultLocationId: 'uber_loc_parma_104',
+        category: 'fleet',
+        protocol: 'OAuth 2.0 / Webhooks',
+        endpointUrl: 'https://api.dinerdashboard.io/webhooks/uber',
+        marketShare: 'Urban & Gen-Z (23%)',
+        latency: '18 ms',
         verified: false
     },
     doordash: {
@@ -240,23 +238,23 @@ const DELIVERY_SERVICES = {
         latency: '22 ms',
         verified: false
     },
-    uber: {
-        id: 'uber',
-        name: 'Uber Direct',
-        categoryTag: 'On-Demand Merchant Delivery',
-        icon: 'fa-brands fa-uber',
-        color: '#0f172a',
-        demographicRank: 'Urban & Gen-Z Demographic Choice (23% US Share)',
-        demographicDesc: 'Top preference for metropolitan, college campus, and late-night demographics with dense local courier pooling.',
-        portalUrl: 'https://developer.uber.com/docs/deliveries/overview',
-        defaultClientId: '6ImzVINJ53LfMWCPoh_gBblTL55hqUNfIBN-7TG2',
-        defaultSecret: 'ubr_sec_99120aa8772bc',
-        defaultLocationId: 'uber_loc_parma_104',
-        category: 'fleet',
-        protocol: 'OAuth 2.0 / Webhooks',
-        endpointUrl: 'https://api.dinerdashboard.io/webhooks/uber',
-        marketShare: 'Urban & Gen-Z (23%)',
-        latency: '18 ms',
+    toast: {
+        id: 'toast',
+        name: 'Toast POS',
+        categoryTag: 'Toast Delivery Services (TDS)',
+        icon: 'fa-solid fa-bread-slice',
+        color: '#0284c7',
+        demographicRank: 'Top In-House Restaurant Direct POS',
+        demographicDesc: 'Eliminates 30% third-party marketplace commissions via native in-house ordering with flat-rate DoorDash courier pass-through.',
+        portalUrl: 'https://pos.toasttab.com/',
+        defaultClientId: 'toast_app_parma_982',
+        defaultSecret: 'tst_sec_89234bfa09e1889c201',
+        defaultLocationId: 'loc_parma_grill_01',
+        category: 'pos',
+        protocol: 'REST / TDS Webhooks',
+        endpointUrl: 'https://api.dinerdashboard.io/webhooks/toast',
+        marketShare: 'Top In-House POS',
+        latency: '16 ms',
         verified: false
     },
     grubhub: {
@@ -318,387 +316,8 @@ const DELIVERY_SERVICES = {
     }
 };
 
-// Application State
-let currentStep = 1;
-let currentSelectedGateway = null;
-let currentFilter = 'all';
-
-// Load saved state (starts uninstalled unless explicitly authenticated)
-let savedApiState = {};
-try {
-    const rawSaved = localStorage.getItem('dinerdashboard_delivery_api_state');
-    savedApiState = JSON.parse(rawSaved || '{}');
-    let hasAnyVerified = false;
-    Object.keys(savedApiState).forEach(k => {
-        if (DELIVERY_SERVICES[k] && savedApiState[k].verified) {
-            DELIVERY_SERVICES[k].verified = true;
-            if (savedApiState[k].clientId) DELIVERY_SERVICES[k].defaultClientId = savedApiState[k].clientId;
-            if (savedApiState[k].locationId) DELIVERY_SERVICES[k].defaultLocationId = savedApiState[k].locationId;
-            hasAnyVerified = true;
-            if (!currentSelectedGateway) currentSelectedGateway = k;
-        }
-    });
-    if (!hasAnyVerified) {
-        currentSelectedGateway = null;
-    }
-} catch (e) {
-    savedApiState = {};
-    currentSelectedGateway = null;
-}
-
 // ═══════════════════════════════════════════════════════════════════
-// STEPPER WIZARD ENGINE (SIDE PANEL & OS FOLDER TABS SYNC)
-// ═══════════════════════════════════════════════════════════════════
-function goToStep(stepNum, pushToHistory = true) {
-    playToyClick(580, 0.04);
-
-    const hasVerifiedGateway = Object.keys(DELIVERY_SERVICES).some(k => DELIVERY_SERVICES[k].verified);
-    const selectedSkuCount = DINER_MENU_ITEMS.filter(i => i.selected).length;
-
-    // Gateways must be verified before moving to Step 2
-    if (stepNum >= 2 && !hasVerifiedGateway) {
-        playToyClick(320, 0.08);
-        showDinerToast(
-            'API Verification Required ⚠️',
-            'No POS Gateway is currently installed. Please configure and verify an API in Step 1 first.',
-            'fa-plug-circle-exclamation'
-        );
-        stepNum = 1;
-    }
-
-    // Menu SKUs must be selected before moving to Step 3
-    if (stepNum === 3 && selectedSkuCount === 0) {
-        playToyClick(340, 0.08);
-        showDinerToast(
-            'No Menu Items Selected ⚠️',
-            'Please select at least 1 menu item in Step 2 before launching Kitchen KDS & Dispatch.',
-            'fa-clipboard-check'
-        );
-        stepNum = 2;
-    }
-
-    currentStep = stepNum;
-
-    // View visibility
-    const s1 = document.getElementById('step1View');
-    const s2 = document.getElementById('step2View');
-    const s3 = document.getElementById('step3View');
-
-    if (s1) s1.classList.toggle('d-none', stepNum !== 1);
-    if (s2) s2.classList.toggle('d-none', stepNum !== 2);
-    if (s3) s3.classList.toggle('d-none', stepNum !== 3);
-
-    // Update side panel buttons
-    const side1 = document.getElementById('sideStepTab1');
-    const side2 = document.getElementById('sideStepTab2');
-    const side3 = document.getElementById('sideStepTab3');
-
-    if (side1) {
-        side1.classList.toggle('active', stepNum === 1);
-        side1.classList.toggle('verified', hasVerifiedGateway);
-    }
-    if (side2) {
-        side2.classList.toggle('active', stepNum === 2);
-        side2.classList.toggle('verified', selectedSkuCount > 0);
-    }
-    if (side3) {
-        side3.classList.toggle('active', stepNum === 3);
-    }
-
-    // Update OS folder tabs
-    const f1 = document.getElementById('folderTab1');
-    const f2 = document.getElementById('folderTab2');
-    const f3 = document.getElementById('folderTab3');
-
-    const icon1 = document.getElementById('folderIcon1');
-    const icon2 = document.getElementById('folderIcon2');
-    const icon3 = document.getElementById('folderIcon3');
-
-    if (f1) f1.classList.toggle('active', stepNum === 1);
-    if (f2) f2.classList.toggle('active', stepNum === 2);
-    if (f3) f3.classList.toggle('active', stepNum === 3);
-
-    if (icon1) icon1.className = stepNum === 1 ? 'fa-solid fa-folder-open folder-icon' : 'fa-solid fa-folder folder-icon';
-    if (icon2) icon2.className = stepNum === 2 ? 'fa-solid fa-folder-open folder-icon' : 'fa-solid fa-folder folder-icon';
-    if (icon3) icon3.className = stepNum === 3 ? 'fa-solid fa-folder-open folder-icon' : 'fa-solid fa-folder folder-icon';
-
-    // Update OS Breadcrumb ribbon
-    const bc = document.getElementById('osActiveFolderBreadcrumb');
-    if (bc) {
-        if (stepNum === 1) bc.innerHTML = '<i class="fa-regular fa-folder-open me-1 text-primary"></i>01_gateways';
-        else if (stepNum === 2) bc.innerHTML = '<i class="fa-regular fa-folder-open me-1 text-primary"></i>02_menu_catalog';
-        else if (stepNum === 3) bc.innerHTML = '<i class="fa-regular fa-folder-open me-1 text-primary"></i>03_kitchen_kds';
-    }
-
-    if (stepNum === 2) {
-        renderMenuCatalog();
-    } else if (stepNum === 3) {
-        renderKdsTickets();
-    }
-
-    updateProgressiveState();
-
-    // Push browser history state so browser Back button navigates back INSIDE this app
-    if (pushToHistory && window.history && window.history.pushState) {
-        const targetHash = '#step' + stepNum;
-        if (window.location.hash !== targetHash) {
-            window.history.pushState({ step: stepNum, modal: null }, '', window.location.pathname + targetHash);
-        }
-    } else if (!pushToHistory && window.history && window.history.replaceState) {
-        const targetHash = '#step' + stepNum;
-        if (window.location.hash !== targetHash && !window.location.hash.startsWith('#api-')) {
-            window.history.replaceState({ step: stepNum, modal: null }, '', window.location.pathname + targetHash);
-        }
-    }
-
-    // Update in-app top-right back button behavior and title
-    updateBackBtnState();
-
-    // Smooth scroll to top of viewport
-    window.scrollTo({ top: 0, behavior: 'smooth' });
-}
-
-// Update top-right back button label & tooltip based on current step
-function updateBackBtnState() {
-    const backBtn = document.getElementById('back-btn-np');
-    if (!backBtn) return;
-    if (currentStep === 3) {
-        backBtn.setAttribute('title', 'Back to Step 2: Menu Catalog');
-        backBtn.setAttribute('aria-label', 'Back to Step 2: Menu Catalog');
-    } else if (currentStep === 2) {
-        backBtn.setAttribute('title', 'Back to Step 1: Gateways Setup');
-        backBtn.setAttribute('aria-label', 'Back to Step 1: Gateways Setup');
-    } else {
-        backBtn.setAttribute('title', 'Back to Projects Hub');
-        backBtn.setAttribute('aria-label', 'Back to Projects Hub');
-    }
-}
-
-// In-App Back Navigation & Browser History Popstate Controller
-function initBackNavigation() {
-    const backBtn = document.getElementById('back-btn-np');
-    if (backBtn) {
-        backBtn.addEventListener('click', (e) => {
-            // 1. If any Bootstrap modal is currently open, close it instead of leaving the application
-            const openModalEl = document.querySelector('.modal.show');
-            if (openModalEl) {
-                e.preventDefault();
-                const modalInstance = bootstrap.Modal.getInstance(openModalEl);
-                if (modalInstance) {
-                    modalInstance.hide();
-                    return;
-                }
-            }
-
-            // 2. If on Step 3, go back to Step 2 inside the application
-            if (currentStep === 3) {
-                e.preventDefault();
-                goToStep(2);
-                return;
-            }
-
-            // 3. If on Step 2, go back to Step 1 inside the application
-            if (currentStep === 2) {
-                e.preventDefault();
-                goToStep(1);
-                return;
-            }
-
-            // 4. If on Step 1, normal navigation to href="../" (Projects Hub) proceeds
-        });
-    }
-
-    // Intercept browser back/forward buttons
-    window.addEventListener('popstate', (e) => {
-        // If a modal is open, close it
-        const openModalEl = document.querySelector('.modal.show');
-        if (openModalEl) {
-            const modalInstance = bootstrap.Modal.getInstance(openModalEl);
-            if (modalInstance) {
-                modalInstance.hide();
-                return;
-            }
-        }
-
-        let targetStep = 1;
-        if (e.state && e.state.step) {
-            targetStep = e.state.step;
-        } else if (window.location.hash === '#step3') {
-            targetStep = 3;
-        } else if (window.location.hash === '#step2') {
-            targetStep = 2;
-        } else {
-            targetStep = 1;
-        }
-
-        goToStep(targetStep, false);
-    });
-
-    // Cleanup URL hash when modals hide
-    ['apiConfigModal', 'apiVerifiedNextStepModal'].forEach((id) => {
-        const el = document.getElementById(id);
-        if (el && typeof el.addEventListener === 'function') {
-            el.addEventListener('hidden.bs.modal', () => {
-                if (window.location.hash.startsWith('#api-')) {
-                    if (window.history && window.history.replaceState) {
-                        window.history.replaceState({ step: currentStep, modal: null }, '', window.location.pathname + '#step' + currentStep);
-                    }
-                }
-            });
-        }
-    });
-}
-
-// Switch Workbook compatibility
-function switchSheet(sheetKey) {
-    if (sheetKey === 'delivery') goToStep(1);
-    else if (sheetKey === 'menu') goToStep(2);
-    else if (sheetKey === 'telemetry') goToStep(3);
-}
-
-// ═══════════════════════════════════════════════════════════════════
-// GATEWAY SELECTION & STEP ADVANCEMENT (ENFORCES API VERIFICATION)
-// ═══════════════════════════════════════════════════════════════════
-function selectAndProceedGateway(serviceKey) {
-    playToyClick(620, 0.05);
-    const s = DELIVERY_SERVICES[serviceKey];
-    if (!s) return;
-
-    // The user MUST be required to add an API and verify it works!
-    if (!s.verified) {
-        openApiConfigModal(serviceKey);
-        showDinerToast(
-            'API Verification Required 🔑',
-            `Please configure credentials and verify the ${s.name} API connection before selecting it.`,
-            'fa-key'
-        );
-        return;
-    }
-
-    currentSelectedGateway = serviceKey;
-    updateProgressiveState();
-    renderGatewayCards();
-
-    showDinerToast(
-        `${s.name} Active 🚀`,
-        `Connected via ${s.protocol}. Moving to Step 2: Menu Catalog...`,
-        'fa-circle-check'
-    );
-
-    setTimeout(() => {
-        goToStep(2);
-    }, 350);
-}
-
-// Render Gateway Cards Grid (Step 1)
-function renderGatewayCards() {
-    const container = document.getElementById('gatewaysGrid');
-    if (!container) return;
-
-    const searchVal = (document.getElementById('gatewaySearchInput')?.value || '').toLowerCase().trim();
-    const serviceKeys = Object.keys(DELIVERY_SERVICES);
-    let html = '';
-
-    serviceKeys.forEach((key) => {
-        const s = DELIVERY_SERVICES[key];
-        const isVerified = !!s.verified;
-        const isSelected = key === currentSelectedGateway;
-
-        // Apply filters
-        let matchesFilter = true;
-        if (currentFilter === 'connected') matchesFilter = isVerified;
-        else if (currentFilter === 'pending') matchesFilter = !isVerified;
-        else if (currentFilter === 'pos') matchesFilter = (s.category === 'pos');
-        else if (currentFilter === 'fleet') matchesFilter = (s.category === 'fleet');
-
-        const matchesSearch = !searchVal || (
-            s.name.toLowerCase().includes(searchVal) ||
-            s.categoryTag.toLowerCase().includes(searchVal) ||
-            s.demographicDesc.toLowerCase().includes(searchVal)
-        );
-
-        if (!matchesFilter || !matchesSearch) return;
-
-        html += `
-            <div class="gateway-card ${isVerified ? 'connected' : ''} ${isSelected ? 'selected-active' : ''}" id="gwCard_${key}">
-                <div>
-                    <div class="gw-top">
-                        <div class="gw-brand">
-                            <div class="gw-brand-icon">
-                                <i class="${s.icon}"></i>
-                            </div>
-                            <div class="gw-title-group">
-                                <h3>${s.name}</h3>
-                                <span class="gw-cat-tag">${s.categoryTag}</span>
-                            </div>
-                        </div>
-                        <span class="gw-status-badge ${isVerified ? 'ok' : 'pending'}">
-                            <i class="fa-solid ${isVerified ? 'fa-circle-check' : 'fa-plug'}"></i>
-                            ${isVerified ? '200 OK' : 'NOT INSTALLED'}
-                        </span>
-                    </div>
-
-                    <span class="gw-demo-rank"><i class="fa-solid fa-award me-1"></i> ${s.demographicRank}</span>
-                    <p class="gw-desc">${s.demographicDesc}</p>
-
-                    <div class="gw-telemetry-specs">
-                        <div><strong style="color: var(--diner-text-dark);">Protocol:</strong> ${s.protocol}</div>
-                        <div><strong style="color: var(--diner-text-dark);">Webhook:</strong> ${s.endpointUrl}</div>
-                        <div><strong style="color: var(--diner-text-dark);">Latency:</strong> ${isVerified ? s.latency : 'Unverified (18ms est.)'}</div>
-                    </div>
-                </div>
-
-                <div class="gw-actions-row">
-                    ${isVerified ? `
-                        <button type="button" 
-                                class="tactile-btn tactile-btn-mint gw-select-btn" 
-                                onclick="selectAndProceedGateway('${key}')">
-                            <i class="fa-solid fa-arrow-right me-1"></i>
-                            <span>Select Active Gateway ➔</span>
-                        </button>
-                        <button type="button" 
-                                class="tactile-btn tactile-btn-white tactile-btn-sm" 
-                                onclick="openApiConfigModal('${key}')" 
-                                title="Reconfigure API Keys">
-                            <i class="fa-solid fa-key"></i>
-                        </button>
-                        <button type="button" 
-                                class="tactile-btn tactile-btn-white tactile-btn-sm" 
-                                onclick="disconnectApi('${key}')" 
-                                title="Disconnect Gateway">
-                            <i class="fa-solid fa-power-off text-danger"></i>
-                        </button>
-                    ` : `
-                        <button type="button" 
-                                class="tactile-btn tactile-btn-primary gw-select-btn" 
-                                onclick="openApiConfigModal('${key}')">
-                            <i class="fa-solid fa-plug me-1"></i>
-                            <span>+ Install &amp; Verify API ➔</span>
-                        </button>
-                    `}
-                </div>
-            </div>
-        `;
-    });
-
-    container.innerHTML = html;
-}
-
-// Filter buttons
-function filterGateways(filter, btnEl) {
-    playToyClick(680, 0.03);
-    currentFilter = filter;
-    document.querySelectorAll('.filter-pill').forEach(b => b.classList.remove.call(b.classList, 'active'));
-    if (btnEl) btnEl.classList.add('active');
-    renderGatewayCards();
-}
-
-function handleGatewaySearch() {
-    renderGatewayCards();
-}
-
-// ═══════════════════════════════════════════════════════════════════
-// STEP 2: MENU CATALOG & PRICING SYNCHRONIZATION
+// MENU ITEMS CATALOG (STARTS UNSELECTED PER SPEC)
 // ═══════════════════════════════════════════════════════════════════
 const DINER_MENU_ITEMS = [
     {
@@ -773,45 +392,676 @@ const DINER_MENU_ITEMS = [
     }
 ];
 
+// Application State
+let currentStep = 1;
+let currentSelectedGateway = null;
+let currentFilter = 'all';
+
+// Load saved API state from versioned key (uninstalled by default)
+let savedApiState = {};
+try {
+    const rawSaved = localStorage.getItem(STORAGE_KEY_API);
+    if (rawSaved) {
+        savedApiState = JSON.parse(rawSaved || '{}');
+        Object.keys(savedApiState).forEach(k => {
+            if (DELIVERY_SERVICES[k] && savedApiState[k].verified) {
+                DELIVERY_SERVICES[k].verified = true;
+                if (savedApiState[k].clientId) DELIVERY_SERVICES[k].defaultClientId = savedApiState[k].clientId;
+                if (savedApiState[k].locationId) DELIVERY_SERVICES[k].defaultLocationId = savedApiState[k].locationId;
+                if (!currentSelectedGateway) currentSelectedGateway = k;
+            }
+        });
+    }
+} catch (e) {
+    savedApiState = {};
+    currentSelectedGateway = null;
+}
+
+// Default Site Configuration
+let currentSiteConfig = {
+    restaurantName: 'Parma Sub & Fry Co.',
+    slug: 'parma-sub-fry-co',
+    street: '5420 Ridge Rd',
+    unit: 'Suite B',
+    city: 'Parma',
+    state: 'OH',
+    zip: '44129',
+    country: 'US',
+    message: 'Artisanal cold cuts & triple-cooked hand-cut fries since 1988.',
+    photoUrl: 'https://images.unsplash.com/photo-1509722747041-616f39b57569?auto=format&fit=crop&w=800&q=80',
+    deployedDirectory: '/net-c-delivery/parma-sub-fry-co/index.html',
+    selectedSkus: []
+};
+
+// Load saved site configuration if present
+try {
+    const rawSite = localStorage.getItem(STORAGE_KEY_SITE);
+    if (rawSite) {
+        const parsed = JSON.parse(rawSite);
+        currentSiteConfig = { ...currentSiteConfig, ...parsed };
+        // Restore selected SKUs if saved
+        if (Array.isArray(currentSiteConfig.selectedSkus) && currentSiteConfig.selectedSkus.length > 0) {
+            DINER_MENU_ITEMS.forEach(item => {
+                if (currentSiteConfig.selectedSkus.includes(item.sku)) {
+                    item.selected = true;
+                }
+            });
+        }
+    }
+} catch (e) {}
+
+// Helper: convert restaurant name to safe directory slug
+function makeDirectorySlug(name) {
+    return (name || 'my-restaurant')
+        .toLowerCase()
+        .replace(/['"’]/g, '')
+        .replace(/[^a-z0-9]+/g, '-')
+        .replace(/^-+|-+$/g, '') || 'restaurant-site';
+}
+
+// ═══════════════════════════════════════════════════════════════════
+// STEPPER WIZARD ENGINE (SIDE PANEL & OS FOLDER TABS SYNC)
+// ═══════════════════════════════════════════════════════════════════
+function goToStep(stepNum, pushToHistory = true) {
+    playToyClick(580, 0.04);
+
+    const hasVerifiedGateway = Object.keys(DELIVERY_SERVICES).some(k => DELIVERY_SERVICES[k].verified);
+    const selectedSkuCount = DINER_MENU_ITEMS.filter(i => i.selected).length;
+
+    // Gateways must be verified before moving to Step 2
+    if (stepNum >= 2 && !hasVerifiedGateway) {
+        playToyClick(320, 0.08);
+        showDinerToast(
+            'API Connection Required ⚠️',
+            'No Delivery API is connected yet. Please install and verify Uber Direct or another gateway in Step 1 first.',
+            'fa-plug-circle-exclamation'
+        );
+        stepNum = 1;
+    }
+
+    currentStep = stepNum;
+
+    // View visibility
+    const s1 = document.getElementById('step1View');
+    const s2 = document.getElementById('step2View');
+    const s3 = document.getElementById('step3View');
+
+    if (s1) s1.classList.toggle('d-none', stepNum !== 1);
+    if (s2) s2.classList.toggle('d-none', stepNum !== 2);
+    if (s3) s3.classList.toggle('d-none', stepNum !== 3);
+
+    // Update side panel buttons
+    const side1 = document.getElementById('sideStepTab1');
+    const side2 = document.getElementById('sideStepTab2');
+    const side3 = document.getElementById('sideStepTab3');
+
+    if (side1) {
+        side1.classList.toggle('active', stepNum === 1);
+        side1.classList.toggle('verified', hasVerifiedGateway);
+    }
+    if (side2) {
+        side2.classList.toggle('active', stepNum === 2);
+        side2.classList.toggle('verified', selectedSkuCount > 0);
+    }
+    if (side3) {
+        side3.classList.toggle('active', stepNum === 3);
+    }
+
+    // Update OS folder tabs
+    const f1 = document.getElementById('folderTab1');
+    const f2 = document.getElementById('folderTab2');
+    const f3 = document.getElementById('folderTab3');
+
+    const icon1 = document.getElementById('folderIcon1');
+    const icon2 = document.getElementById('folderIcon2');
+    const icon3 = document.getElementById('folderIcon3');
+
+    if (f1) f1.classList.toggle('active', stepNum === 1);
+    if (f2) f2.classList.toggle('active', stepNum === 2);
+    if (f3) f3.classList.toggle('active', stepNum === 3);
+
+    if (icon1) icon1.className = stepNum === 1 ? 'fa-solid fa-folder-open folder-icon' : 'fa-solid fa-folder folder-icon';
+    if (icon2) icon2.className = stepNum === 2 ? 'fa-solid fa-folder-open folder-icon' : 'fa-solid fa-folder folder-icon';
+    if (icon3) icon3.className = stepNum === 3 ? 'fa-solid fa-folder-open folder-icon' : 'fa-solid fa-folder folder-icon';
+
+    // Update OS Breadcrumb ribbon
+    const bc = document.getElementById('osActiveFolderBreadcrumb');
+    if (bc) {
+        if (stepNum === 1) bc.innerHTML = '<i class="fa-regular fa-folder-open me-1 text-primary"></i>01_gateways';
+        else if (stepNum === 2) bc.innerHTML = '<i class="fa-regular fa-folder-open me-1 text-primary"></i>02_create_website';
+        else if (stepNum === 3) bc.innerHTML = '<i class="fa-regular fa-folder-open me-1 text-primary"></i>03_your_site';
+    }
+
+    if (stepNum === 2) {
+        populateWebsiteBuilderForm();
+        renderMenuCatalog();
+    } else if (stepNum === 3) {
+        renderDeployedSiteBanner();
+        renderKdsTickets();
+    }
+
+    updateProgressiveState();
+
+    // Push browser history state so browser Back button navigates back INSIDE this app
+    if (pushToHistory && window.history && window.history.pushState) {
+        const targetHash = '#step' + stepNum;
+        if (window.location.hash !== targetHash) {
+            window.history.pushState({ step: stepNum, modal: null }, '', window.location.pathname + targetHash);
+        }
+    } else if (!pushToHistory && window.history && window.history.replaceState) {
+        const targetHash = '#step' + stepNum;
+        if (window.location.hash !== targetHash && !window.location.hash.startsWith('#api-')) {
+            window.history.replaceState({ step: stepNum, modal: null }, '', window.location.pathname + targetHash);
+        }
+    }
+
+    updateBackBtnState();
+    window.scrollTo({ top: 0, behavior: 'smooth' });
+}
+
+function updateBackBtnState() {
+    const backBtn = document.getElementById('back-btn-np');
+    if (!backBtn) return;
+    if (currentStep === 3) {
+        backBtn.setAttribute('title', 'Back to Step 2: Create Website');
+        backBtn.setAttribute('aria-label', 'Back to Step 2: Create Website');
+    } else if (currentStep === 2) {
+        backBtn.setAttribute('title', 'Back to Step 1: Gateways Setup');
+        backBtn.setAttribute('aria-label', 'Back to Step 1: Gateways Setup');
+    } else {
+        backBtn.setAttribute('title', 'Back to Projects Hub');
+        backBtn.setAttribute('aria-label', 'Back to Projects Hub');
+    }
+}
+
+// In-App Back Navigation & Browser History Popstate Controller
+function initBackNavigation() {
+    const backBtn = document.getElementById('back-btn-np');
+    if (backBtn) {
+        backBtn.addEventListener('click', (e) => {
+            const openModalEl = document.querySelector('.modal.show');
+            if (openModalEl) {
+                e.preventDefault();
+                const modalInstance = bootstrap.Modal.getInstance(openModalEl);
+                if (modalInstance) {
+                    modalInstance.hide();
+                    return;
+                }
+            }
+
+            if (currentStep === 3) {
+                e.preventDefault();
+                goToStep(2);
+                return;
+            }
+
+            if (currentStep === 2) {
+                e.preventDefault();
+                goToStep(1);
+                return;
+            }
+        });
+    }
+
+    window.addEventListener('popstate', (e) => {
+        const openModalEl = document.querySelector('.modal.show');
+        if (openModalEl) {
+            const modalInstance = bootstrap.Modal.getInstance(openModalEl);
+            if (modalInstance) {
+                modalInstance.hide();
+                return;
+            }
+        }
+
+        let targetStep = 1;
+        if (e.state && e.state.step) {
+            targetStep = e.state.step;
+        } else if (window.location.hash === '#step3') {
+            targetStep = 3;
+        } else if (window.location.hash === '#step2') {
+            targetStep = 2;
+        } else {
+            targetStep = 1;
+        }
+
+        goToStep(targetStep, false);
+    });
+
+    ['apiConfigModal', 'apiVerifiedNextStepModal', 'sitePreviewModal'].forEach((id) => {
+        const el = document.getElementById(id);
+        if (el && typeof el.addEventListener === 'function') {
+            el.addEventListener('hidden.bs.modal', () => {
+                if (window.location.hash.startsWith('#api-')) {
+                    if (window.history && window.history.replaceState) {
+                        window.history.replaceState({ step: currentStep, modal: null }, '', window.location.pathname + '#step' + currentStep);
+                    }
+                }
+            });
+        }
+    });
+}
+
+function switchSheet(sheetKey) {
+    if (sheetKey === 'delivery') goToStep(1);
+    else if (sheetKey === 'menu') goToStep(2);
+    else if (sheetKey === 'telemetry') goToStep(3);
+}
+
+// ═══════════════════════════════════════════════════════════════════
+// STEP 1: GATEWAY CARDS & API CONNECTION
+// ═══════════════════════════════════════════════════════════════════
+function selectAndProceedGateway(serviceKey) {
+    playToyClick(620, 0.05);
+    const s = DELIVERY_SERVICES[serviceKey];
+    if (!s) return;
+
+    if (!s.verified) {
+        openApiConfigModal(serviceKey);
+        showDinerToast(
+            'API Connection Required 🔑',
+            `Please configure credentials and connect the ${s.name} API before selecting it.`,
+            'fa-key'
+        );
+        return;
+    }
+
+    currentSelectedGateway = serviceKey;
+    updateProgressiveState();
+    renderGatewayCards();
+
+    showDinerToast(
+        `${s.name} Active 🚀`,
+        `Connected via ${s.protocol}. Moving to Step 2: Create Website...`,
+        'fa-circle-check'
+    );
+
+    setTimeout(() => {
+        goToStep(2);
+    }, 350);
+}
+
+function renderGatewayCards() {
+    const container = document.getElementById('gatewaysGrid');
+    if (!container) return;
+
+    const searchVal = (document.getElementById('gatewaySearchInput')?.value || '').toLowerCase().trim();
+    const serviceKeys = Object.keys(DELIVERY_SERVICES);
+    let html = '';
+
+    serviceKeys.forEach((key) => {
+        const s = DELIVERY_SERVICES[key];
+        const isVerified = !!s.verified;
+        const isSelected = key === currentSelectedGateway;
+
+        let matchesFilter = true;
+        if (currentFilter === 'connected') matchesFilter = isVerified;
+        else if (currentFilter === 'pending') matchesFilter = !isVerified;
+        else if (currentFilter === 'pos') matchesFilter = (s.category === 'pos');
+        else if (currentFilter === 'fleet') matchesFilter = (s.category === 'fleet');
+
+        const matchesSearch = !searchVal || (
+            s.name.toLowerCase().includes(searchVal) ||
+            s.categoryTag.toLowerCase().includes(searchVal) ||
+            s.demographicDesc.toLowerCase().includes(searchVal)
+        );
+
+        if (!matchesFilter || !matchesSearch) return;
+
+        html += `
+            <div class="gateway-card ${isVerified ? 'connected' : ''} ${isSelected ? 'selected-active' : ''}" id="gwCard_${key}">
+                <div>
+                    <div class="gw-top">
+                        <div class="gw-brand">
+                            <div class="gw-brand-icon">
+                                <i class="${s.icon}"></i>
+                            </div>
+                            <div class="gw-title-group">
+                                <h3>${s.name}</h3>
+                                <span class="gw-cat-tag">${s.categoryTag}</span>
+                            </div>
+                        </div>
+                        <span class="gw-status-badge ${isVerified ? 'ok' : 'pending'}">
+                            <i class="fa-solid ${isVerified ? 'fa-circle-check' : 'fa-plug'}"></i>
+                            ${isVerified ? '200 OK' : 'NOT INSTALLED'}
+                        </span>
+                    </div>
+
+                    <span class="gw-demo-rank"><i class="fa-solid fa-award me-1"></i> ${s.demographicRank}</span>
+                    <p class="gw-desc">${s.demographicDesc}</p>
+
+                    <div class="gw-telemetry-specs">
+                        <div><strong style="color: var(--diner-text-dark);">Protocol:</strong> ${s.protocol}</div>
+                        <div><strong style="color: var(--diner-text-dark);">Webhook:</strong> ${s.endpointUrl}</div>
+                        <div><strong style="color: var(--diner-text-dark);">Latency:</strong> ${isVerified ? s.latency : 'Unverified (18ms est.)'}</div>
+                    </div>
+                </div>
+
+                <div class="gw-actions-row">
+                    ${isVerified ? `
+                        <button type="button" 
+                                class="tactile-btn tactile-btn-mint gw-select-btn" 
+                                onclick="selectAndProceedGateway('${key}')">
+                            <i class="fa-solid fa-arrow-right me-1"></i>
+                            <span>Select &amp; Proceed to Website Setup ➔</span>
+                        </button>
+                        <button type="button" 
+                                class="tactile-btn tactile-btn-white tactile-btn-sm" 
+                                onclick="openApiConfigModal('${key}')" 
+                                title="Reconfigure API Keys">
+                            <i class="fa-solid fa-key"></i>
+                        </button>
+                        <button type="button" 
+                                class="tactile-btn tactile-btn-white tactile-btn-sm" 
+                                onclick="disconnectApi('${key}')" 
+                                title="Disconnect Gateway">
+                            <i class="fa-solid fa-power-off text-danger"></i>
+                        </button>
+                    ` : `
+                        <button type="button" 
+                                class="tactile-btn tactile-btn-primary gw-select-btn" 
+                                onclick="openApiConfigModal('${key}')">
+                            <i class="fa-solid fa-plug me-1"></i>
+                            <span>+ Connect ${s.name} API ➔</span>
+                        </button>
+                    `}
+                </div>
+            </div>
+        `;
+    });
+
+    container.innerHTML = html;
+}
+
+function filterGateways(filter, btnEl) {
+    playToyClick(680, 0.03);
+    currentFilter = filter;
+    document.querySelectorAll('.filter-pill').forEach(b => b.classList.remove('active'));
+    if (btnEl) btnEl.classList.add('active');
+    renderGatewayCards();
+}
+
+function handleGatewaySearch() {
+    renderGatewayCards();
+}
+
+function openApiConfigModal(serviceId) {
+    playOsClick(900, 0.04);
+    const s = DELIVERY_SERVICES[serviceId];
+    if (!s) return;
+
+    currentSelectedGateway = serviceId;
+    document.getElementById('modalCurrentServiceId').value = serviceId;
+    document.getElementById('modalServiceTitle').innerText = `${s.name} API Setup`;
+    document.getElementById('modalServiceSubtitle').innerText = `${s.categoryTag} • REST Webhooks • TLS 1.3`;
+
+    const iconBox = document.getElementById('modalLogoBox');
+    if (iconBox) iconBox.innerHTML = `<i class="${s.icon} fs-5 text-primary"></i>`;
+
+    const endpointBadge = document.getElementById('modalEndpointBadge');
+    if (endpointBadge) endpointBadge.innerText = s.endpointUrl;
+
+    const latencyEst = document.getElementById('modalLatencyEst');
+    if (latencyEst) latencyEst.innerText = `Est. ~${s.latency}`;
+
+    // Populate inputs if already saved, or prefill with demo key
+    const keyInput = document.getElementById('modalApiKey');
+    const secretInput = document.getElementById('modalApiSecret');
+    const webhookInput = document.getElementById('modalWebhookUrl');
+
+    if (keyInput) keyInput.value = (savedApiState[serviceId]?.clientId) || s.defaultClientId || '';
+    if (secretInput) secretInput.value = (savedApiState[serviceId]?.secret) || s.defaultSecret || '';
+    if (webhookInput) webhookInput.value = (savedApiState[serviceId]?.webhook) || s.endpointUrl || '';
+
+    const modalEl = document.getElementById('apiConfigModal');
+    const modal = bootstrap.Modal.getOrCreateInstance(modalEl);
+    if (window.history && window.history.pushState) {
+        window.history.pushState({ step: currentStep, modal: 'apiConfigModal' }, '', window.location.pathname + '#api-config');
+    }
+    modal.show();
+}
+
+function handleApiGatewaySubmit(event) {
+    event.preventDefault();
+    const sId = document.getElementById('modalCurrentServiceId').value;
+    const s = DELIVERY_SERVICES[sId];
+    if (!s) return;
+
+    const apiKey = (document.getElementById('modalApiKey')?.value || '').trim();
+    const apiSecret = (document.getElementById('modalApiSecret')?.value || '').trim();
+    const webhookUrl = (document.getElementById('modalWebhookUrl')?.value || '').trim();
+
+    if (!apiKey || !apiSecret) {
+        alert('Please enter both Client API Key and Secret to connect the delivery API.');
+        return;
+    }
+
+    s.verified = true;
+    s.defaultClientId = apiKey;
+    s.defaultSecret = apiSecret;
+    if (webhookUrl) s.endpointUrl = webhookUrl;
+    currentSelectedGateway = sId;
+
+    savedApiState[sId] = {
+        verified: true,
+        clientId: apiKey,
+        secret: apiSecret,
+        webhook: webhookUrl || s.endpointUrl,
+        verifiedAt: new Date().toISOString()
+    };
+
+    try {
+        localStorage.setItem(STORAGE_KEY_API, JSON.stringify(savedApiState));
+    } catch (err) {}
+
+    // Close config modal
+    const modalEl = document.getElementById('apiConfigModal');
+    const modal = bootstrap.Modal.getInstance(modalEl);
+    if (modal) modal.hide();
+
+    updateProgressiveState();
+    renderGatewayCards();
+    playDinerBell();
+
+    showDinerToast(
+        `${s.name} Connected! 🚀`,
+        `API credentials validated for ${s.name}.`,
+        'fa-circle-check'
+    );
+
+    addTelemetryLogRow(s.name, 'API.HANDSHAKE_VERIFIED', s.latency, `#KEY_${apiKey.substring(0, 8)}...`);
+
+    // Prompt user with modal to proceed to Step 2: Create Website
+    setTimeout(() => {
+        const verifiedTitle = document.getElementById('verifiedModalTitle');
+        const verifiedSubtitle = document.getElementById('verifiedModalSubtitle');
+        if (verifiedTitle) verifiedTitle.innerText = `${s.name} Authenticated!`;
+        if (verifiedSubtitle) verifiedSubtitle.innerText = `Protocol: ${s.protocol} • 200 OK Handshake`;
+
+        const nextModalEl = document.getElementById('apiVerifiedNextStepModal');
+        if (nextModalEl) {
+            const nextModal = bootstrap.Modal.getOrCreateInstance(nextModalEl);
+            if (window.history && window.history.pushState) {
+                window.history.pushState({ step: currentStep, modal: 'apiVerifiedNextStepModal' }, '', window.location.pathname + '#api-verified');
+            }
+            nextModal.show();
+        }
+    }, 380);
+}
+
+function proceedToMenuScreenFromModal() {
+    const nextModalEl = document.getElementById('apiVerifiedNextStepModal');
+    if (nextModalEl) {
+        const nextModal = bootstrap.Modal.getInstance(nextModalEl);
+        if (nextModal) nextModal.hide();
+    }
+    playToyClick(680, 0.05);
+    goToStep(2);
+}
+
+function disconnectApi(serviceId) {
+    if (confirm(`Disconnect ${DELIVERY_SERVICES[serviceId]?.name} gateway?`)) {
+        DELIVERY_SERVICES[serviceId].verified = false;
+        delete savedApiState[serviceId];
+        try {
+            localStorage.setItem(STORAGE_KEY_API, JSON.stringify(savedApiState));
+        } catch (e) {}
+
+        if (currentSelectedGateway === serviceId) {
+            const remaining = Object.keys(DELIVERY_SERVICES).find(k => DELIVERY_SERVICES[k].verified);
+            currentSelectedGateway = remaining || null;
+        }
+
+        updateProgressiveState();
+        renderGatewayCards();
+        showDinerToast('Gateway Disconnected', `${DELIVERY_SERVICES[serviceId]?.name} uninstalled.`, 'fa-power-off');
+    }
+}
+
+function resetWalkthrough() {
+    if (confirm('Reset setup to Step 1? This will clear configured gateways and website settings.')) {
+        try {
+            localStorage.removeItem(STORAGE_KEY_API);
+            localStorage.removeItem(STORAGE_KEY_SITE);
+        } catch (e) {}
+        savedApiState = {};
+        Object.keys(DELIVERY_SERVICES).forEach(k => {
+            DELIVERY_SERVICES[k].verified = false;
+        });
+        DINER_MENU_ITEMS.forEach(i => i.selected = false);
+        currentSelectedGateway = null;
+        updateProgressiveState();
+        renderGatewayCards();
+        goToStep(1);
+        showDinerToast('Reset Completed', 'All configurations reset to pending.', 'fa-arrow-rotate-left');
+    }
+}
+
+// ═══════════════════════════════════════════════════════════════════
+// STEP 2: CREATE WEBSITE, SEPARATE ADDRESS FIELDS & MENU CATALOG
+// ═══════════════════════════════════════════════════════════════════
+function populateWebsiteBuilderForm() {
+    // Populate Connected Gateway Banner
+    const activeGw = (currentSelectedGateway && DELIVERY_SERVICES[currentSelectedGateway])
+        ? DELIVERY_SERVICES[currentSelectedGateway]
+        : {
+            name: 'Uber Direct',
+            categoryTag: 'On-Demand Merchant Delivery',
+            endpointUrl: 'https://api.dinerdashboard.io/webhooks/uber',
+            protocol: 'OAuth 2.0 / Webhooks',
+            icon: 'fa-brands fa-uber'
+        };
+
+    const gwBadge = document.getElementById('step2GwStatusBadge');
+    if (gwBadge) {
+        gwBadge.innerHTML = `<i class="${activeGw.icon} me-1"></i> ${activeGw.name} Connected`;
+    }
+
+    const bannerDesc = document.getElementById('step2GwDescription');
+    if (bannerDesc) {
+        bannerDesc.innerText = `Your customer site will automatically route on-demand delivery dispatches through ${activeGw.name} (${activeGw.protocol}).`;
+    }
+
+    // Populate inputs from currentSiteConfig
+    const nameEl = document.getElementById('siteRestaurantName');
+    const slugEl = document.getElementById('siteSlug');
+    const streetEl = document.getElementById('siteStreet');
+    const unitEl = document.getElementById('siteUnit');
+    const cityEl = document.getElementById('siteCity');
+    const stateEl = document.getElementById('siteState');
+    const zipEl = document.getElementById('siteZip');
+    const countryEl = document.getElementById('siteCountry');
+    const msgEl = document.getElementById('siteMessage');
+    const photoUrlEl = document.getElementById('sitePhotoUrl');
+
+    if (nameEl) nameEl.value = currentSiteConfig.restaurantName || '';
+    if (slugEl) slugEl.value = currentSiteConfig.slug || makeDirectorySlug(currentSiteConfig.restaurantName);
+    if (streetEl) streetEl.value = currentSiteConfig.street || '';
+    if (unitEl) unitEl.value = currentSiteConfig.unit || '';
+    if (cityEl) cityEl.value = currentSiteConfig.city || '';
+    if (stateEl) stateEl.value = currentSiteConfig.state || 'OH';
+    if (zipEl) zipEl.value = currentSiteConfig.zip || '';
+    if (countryEl) countryEl.value = currentSiteConfig.country || 'US';
+    if (msgEl) msgEl.value = currentSiteConfig.message || '';
+    if (photoUrlEl) photoUrlEl.value = currentSiteConfig.photoUrl || '';
+
+    updateSlugPreview();
+    updatePhotoPreview();
+}
+
+function updateSlugPreview() {
+    const name = document.getElementById('siteRestaurantName')?.value || '';
+    const slugInput = document.getElementById('siteSlug');
+    const slug = slugInput ? (slugInput.value || makeDirectorySlug(name)) : makeDirectorySlug(name);
+    
+    if (slugInput && !slugInput.dataset.manualEdit) {
+        slugInput.value = makeDirectorySlug(name);
+    }
+
+    const previewEl = document.getElementById('siteSlugPreviewText');
+    if (previewEl) {
+        previewEl.innerText = `/net-c-delivery/${slugInput ? slugInput.value : slug}/index.html`;
+    }
+}
+
+function updatePhotoPreview() {
+    const url = document.getElementById('sitePhotoUrl')?.value || currentSiteConfig.photoUrl;
+    const box = document.getElementById('sitePhotoPreviewBox');
+    if (!box) return;
+
+    if (url) {
+        box.innerHTML = `<img src="${url}" alt="Business Photo" style="width: 100%; height: 100%; object-fit: cover; border-radius: 8px;" onerror="this.parentElement.innerHTML='<i class=\\'fa-solid fa-store fa-2x text-primary\\'></i>'">`;
+    } else {
+        box.innerHTML = `<i class="fa-solid fa-store fa-2x text-primary"></i>`;
+    }
+}
+
+function setPresetPhoto(type) {
+    playToyClick(640, 0.03);
+    const presets = {
+        sub: 'https://images.unsplash.com/photo-1509722747041-616f39b57569?auto=format&fit=crop&w=800&q=80',
+        burger: 'https://images.unsplash.com/photo-1568901346375-23c9450c58cd?auto=format&fit=crop&w=800&q=80',
+        deli: 'https://images.unsplash.com/photo-1528735602780-2552fd46c7af?auto=format&fit=crop&w=800&q=80',
+        pizza: 'https://images.unsplash.com/photo-1513104890138-7c749659a591?auto=format&fit=crop&w=800&q=80'
+    };
+    const chosen = presets[type] || presets.sub;
+    const urlInput = document.getElementById('sitePhotoUrl');
+    if (urlInput) {
+        urlInput.value = chosen;
+        updatePhotoPreview();
+    }
+    showDinerToast('Photo Selected 📸', `Loaded ${type.toUpperCase()} storefront image preset.`, 'fa-camera');
+}
+
+function handlePhotoUpload(event) {
+    const file = event.target.files?.[0];
+    if (!file) return;
+
+    playOsClick(800, 0.03);
+    const reader = new FileReader();
+    reader.onload = function(e) {
+        const dataUrl = e.target.result;
+        const urlInput = document.getElementById('sitePhotoUrl');
+        if (urlInput) urlInput.value = dataUrl;
+        updatePhotoPreview();
+        showDinerToast('Photo Uploaded 🖼️', `Selected custom business image (${(file.size / 1024).toFixed(0)} KB).`, 'fa-image');
+    };
+    reader.readAsDataURL(file);
+}
+
+// ═══════════════════════════════════════════════════════════════════
+// MENU CATALOG RENDERING & SKUS SELECTION
+// ═══════════════════════════════════════════════════════════════════
 function renderMenuCatalog() {
     const tableBody = document.getElementById('menuTableBody');
     if (!tableBody) return;
 
-    const activeGw = (currentSelectedGateway && DELIVERY_SERVICES[currentSelectedGateway]) 
-        ? DELIVERY_SERVICES[currentSelectedGateway] 
-        : {
-            name: 'Direct POS Gateway',
-            categoryTag: 'Integrated POS Gateway',
-            defaultLocationId: 'loc_parma_grill_01',
-            protocol: 'REST / TDS Webhooks',
-            icon: 'fa-solid fa-bread-slice'
-        };
-
-    // Update banner
-    const bannerTitle = document.getElementById('activeGwTitle');
-    const bannerSubtitle = document.getElementById('activeGwSubtitle');
-    const bannerIcon = document.getElementById('activeGwIcon');
-
-    if (bannerTitle) bannerTitle.innerText = `Active Gateway: ${activeGw.name}`;
-    if (bannerSubtitle) bannerSubtitle.innerText = `${activeGw.categoryTag} • Store Location GUID: ${activeGw.defaultLocationId} • ${activeGw.protocol}`;
-    if (bannerIcon) bannerIcon.className = `active-gw-icon ${activeGw.icon}`;
-
-    // Update Alert Guidance Banner (No menu items preselected)
     const selectedCount = DINER_MENU_ITEMS.filter(i => i.selected).length;
-    const bannerBox = document.getElementById('menuSelectionBanner');
-    const bannerHead = document.getElementById('menuBannerHeadline');
-    const bannerSub = document.getElementById('menuBannerSub');
-
-    if (bannerBox && bannerHead && bannerSub) {
-        if (selectedCount === 0) {
-            bannerBox.className = 'menu-selection-alert-banner alert alert-warning border-0 rounded-4 p-3 mb-3 d-flex align-items-center justify-content-between flex-wrap gap-3';
-            bannerHead.innerText = `Notice: No Menu Items Preselected for ${activeGw.name}`;
-            bannerSub.innerText = `To stage items for this gateway and push orders to the kitchen grill, click "+ Add SKU" on the items below. At least 1 item is required to launch Kitchen KDS.`;
-        } else {
-            bannerBox.className = 'menu-selection-alert-banner alert alert-success border-0 rounded-4 p-3 mb-3 d-flex align-items-center justify-content-between flex-wrap gap-3';
-            bannerHead.innerText = `${selectedCount} of 7 Menu SKUs Active on ${activeGw.name}`;
-            bannerSub.innerText = `Selected items will sync pricing and modifiers directly to ${activeGw.name} and route tickets to Kitchen KDS.`;
-        }
+    const counterBadge = document.getElementById('menuSelectionCounterBadge');
+    if (counterBadge) {
+        counterBadge.innerText = `${selectedCount} of 7 SKUs Selected`;
+        counterBadge.className = selectedCount > 0 
+            ? 'badge bg-success rounded-pill font-mono' 
+            : 'badge bg-warning text-dark rounded-pill font-mono';
     }
 
     let html = '';
@@ -823,9 +1073,9 @@ function renderMenuCatalog() {
                     <button type="button" 
                             class="item-select-btn ${isSel ? 'selected' : ''}" 
                             onclick="toggleMenuItemSelection(${index})"
-                            title="${isSel ? 'Click to remove SKU from Gateway' : 'Click to add SKU to Gateway'}">
+                            title="${isSel ? 'Click to remove SKU from Site' : 'Click to add SKU to Site'}">
                         <i class="fa-solid ${isSel ? 'fa-square-check' : 'fa-square'}"></i>
-                        <span>${isSel ? 'In Gateway' : '+ Add SKU'}</span>
+                        <span>${isSel ? 'Selected' : '+ Add SKU'}</span>
                     </button>
                 </td>
                 <td class="font-mono text-secondary" style="font-weight:700;">${item.sku}</td>
@@ -875,10 +1125,9 @@ function toggleMenuItemSelection(index) {
     updateProgressiveState();
 
     const item = DINER_MENU_ITEMS[index];
-    const gwName = (currentSelectedGateway && DELIVERY_SERVICES[currentSelectedGateway]?.name) || 'POS Gateway';
     showDinerToast(
-        item.selected ? `${item.sku} Added to Gateway 🛒` : `${item.sku} Removed from Gateway ↩️`,
-        `"${item.name}" is ${item.selected ? 'now active on' : 'removed from'} ${gwName}.`,
+        item.selected ? `${item.sku} Added to Site 🛒` : `${item.sku} Removed from Site ↩️`,
+        `"${item.name}" is ${item.selected ? 'now included on your customer site' : 'removed'}.`,
         item.selected ? 'fa-circle-check' : 'fa-minus'
     );
 }
@@ -888,7 +1137,7 @@ function selectAllMenuItems() {
     DINER_MENU_ITEMS.forEach(i => i.selected = true);
     renderMenuCatalog();
     updateProgressiveState();
-    showDinerToast('All 7 SKUs Selected! ✅', 'All menu items configured for POS gateway sync.', 'fa-check-double');
+    showDinerToast('All 7 SKUs Selected! ✅', 'All menu items are now active on your customer site.', 'fa-check-double');
 }
 
 function clearMenuItemSelections() {
@@ -897,25 +1146,6 @@ function clearMenuItemSelections() {
     renderMenuCatalog();
     updateProgressiveState();
     showDinerToast('Selection Cleared', 'No menu items are currently selected.', 'fa-xmark');
-}
-
-function validateAndProceedToStep3() {
-    const selectedCount = DINER_MENU_ITEMS.filter(i => i.selected).length;
-    if (selectedCount === 0) {
-        playToyClick(350, 0.08);
-        showDinerToast(
-            'No Menu Items Selected! ⚠️',
-            'Please select at least 1 menu item before proceeding to Kitchen KDS & Dispatch.',
-            'fa-triangle-exclamation'
-        );
-        const banner = document.getElementById('menuSelectionBanner');
-        if (banner) {
-            banner.classList.add('border', 'border-danger');
-            setTimeout(() => banner.classList.remove('border-danger'), 1500);
-        }
-        return;
-    }
-    goToStep(3);
 }
 
 function adjustItemPrice(index, delta) {
@@ -929,50 +1159,384 @@ function toggleItemStock(index) {
     DINER_MENU_ITEMS[index].inStock = !DINER_MENU_ITEMS[index].inStock;
     renderMenuCatalog();
     const item = DINER_MENU_ITEMS[index];
-    const gwName = (currentSelectedGateway && DELIVERY_SERVICES[currentSelectedGateway]) 
-        ? DELIVERY_SERVICES[currentSelectedGateway].name 
-        : 'POS Gateway';
     showDinerToast(
         `${item.sku} ${item.inStock ? 'Available' : '86\'d'} 📋`,
-        `"${item.name}" stock updated on ${gwName}.`,
+        `"${item.name}" stock updated.`,
         item.inStock ? 'fa-check' : 'fa-ban'
     );
 }
 
-function syncAllMenuItems() {
-    playToyClick(800, 0.05);
-    const selectedItems = DINER_MENU_ITEMS.filter(i => i.selected);
-    const s = (currentSelectedGateway && DELIVERY_SERVICES[currentSelectedGateway]) 
-        ? DELIVERY_SERVICES[currentSelectedGateway] 
-        : DELIVERY_SERVICES.toast;
-
-    if (selectedItems.length === 0) {
-        showDinerToast(
-            'No Menu SKUs Selected ⚠️',
-            `Select items using the "+ Add SKU" button before syncing to ${s.name}.`,
-            'fa-triangle-exclamation'
-        );
-        return;
-    }
-
+function syncMenuItem(sku, name) {
+    playToyClick(640, 0.04);
+    const gwName = (currentSelectedGateway && DELIVERY_SERVICES[currentSelectedGateway]) 
+        ? DELIVERY_SERVICES[currentSelectedGateway].name 
+        : 'Uber Direct';
     showDinerToast(
-        `${selectedItems.length} SKUs Synced! ⚡`,
-        `Selected prices & modifiers broadcast to ${s.name} at ${s.endpointUrl}.`,
+        `Synced: ${sku} 🔄`,
+        `"${name}" price & stock broadcast to ${gwName}.`,
         'fa-arrows-rotate'
     );
-    addTelemetryLogRow(s.name, 'CATALOG.BULK_SYNC_200', s.latency, `#${selectedItems.length}_SKUS_OK`);
+    addTelemetryLogRow('Catalog Sync', 'SKU.BROADCAST_OK', '14 ms', `${sku} (${name})`);
 }
 
 // ═══════════════════════════════════════════════════════════════════
-// STEP 3: LIVE KITCHEN KDS & FLEET QUEUE
+// GENERATE & DEPLOY WEBSITE WITH DIRECTORY SLUG
+// ═══════════════════════════════════════════════════════════════════
+function handleWebsiteGeneratorSubmit(event) {
+    if (event) event.preventDefault();
+    playToyClick(720, 0.06);
+
+    const restaurantName = (document.getElementById('siteRestaurantName')?.value || '').trim();
+    const street = (document.getElementById('siteStreet')?.value || '').trim();
+    const unit = (document.getElementById('siteUnit')?.value || '').trim();
+    const city = (document.getElementById('siteCity')?.value || '').trim();
+    const state = (document.getElementById('siteState')?.value || '').trim();
+    const zip = (document.getElementById('siteZip')?.value || '').trim();
+    const country = (document.getElementById('siteCountry')?.value || 'US').trim();
+    const message = (document.getElementById('siteMessage')?.value || '').trim();
+    const photoUrl = (document.getElementById('sitePhotoUrl')?.value || '').trim();
+
+    if (!restaurantName) {
+        alert('Please enter a Restaurant Name.');
+        document.getElementById('siteRestaurantName')?.focus();
+        return;
+    }
+
+    if (!street || !city || !state || !zip) {
+        alert('Please fill out all required separate address fields (Street, City, State, ZIP).');
+        return;
+    }
+
+    const selectedItems = DINER_MENU_ITEMS.filter(i => i.selected);
+    if (selectedItems.length === 0) {
+        alert('Please select at least 1 Menu Item SKU from the catalog below to publish on your site.');
+        const catCard = document.getElementById('menuCatalogCard');
+        if (catCard) catCard.scrollIntoView({ behavior: 'smooth' });
+        return;
+    }
+
+    const slug = makeDirectorySlug(restaurantName);
+    const activeGw = (currentSelectedGateway && DELIVERY_SERVICES[currentSelectedGateway])
+        ? DELIVERY_SERVICES[currentSelectedGateway]
+        : DELIVERY_SERVICES.uber;
+
+    currentSiteConfig = {
+        restaurantName: restaurantName,
+        slug: slug,
+        street: street,
+        unit: unit,
+        city: city,
+        state: state,
+        zip: zip,
+        country: country,
+        message: message,
+        photoUrl: photoUrl || 'https://images.unsplash.com/photo-1509722747041-616f39b57569?auto=format&fit=crop&w=800&q=80',
+        deployedDirectory: `/net-c-delivery/${slug}/index.html`,
+        api: {
+            id: activeGw.id,
+            name: activeGw.name,
+            protocol: activeGw.protocol,
+            endpoint: activeGw.endpointUrl,
+            verified: true
+        },
+        selectedSkus: selectedItems.map(i => i.sku),
+        menuItems: selectedItems,
+        generatedAt: new Date().toISOString()
+    };
+
+    try {
+        localStorage.setItem(STORAGE_KEY_SITE, JSON.stringify(currentSiteConfig));
+    } catch (e) {}
+
+    playDinerBell();
+    showDinerToast(
+        'Website Generated & Deployed! 🌐',
+        `Directory "/net-c-delivery/${slug}/index.html" created and live!`,
+        'fa-store'
+    );
+
+    addTelemetryLogRow('Site Generator', 'SITE.DEPLOY_DIRECTORY_200', '19 ms', `/${slug}/index.html`);
+
+    setTimeout(() => {
+        goToStep(3);
+    }, 450);
+}
+
+// ═══════════════════════════════════════════════════════════════════
+// STEP 3: DEPLOYED SITE BANNER & KITCHEN KDS
+// ═══════════════════════════════════════════════════════════════════
+function renderDeployedSiteBanner() {
+    const nameEl = document.getElementById('deployedSiteName');
+    const msgEl = document.getElementById('deployedSiteMsg');
+    const dirEl = document.getElementById('deployedSiteDirectory');
+    const addrEl = document.getElementById('deployedSiteAddress');
+    const apiEl = document.getElementById('deployedSiteApiStatus');
+    const skuEl = document.getElementById('deployedSiteSkuCount');
+    const liveLink = document.getElementById('deployedSiteLiveLink');
+    const avatar = document.getElementById('deployedSiteAvatar');
+
+    const fullAddress = [
+        currentSiteConfig.street,
+        currentSiteConfig.unit,
+        currentSiteConfig.city,
+        `${currentSiteConfig.state} ${currentSiteConfig.zip}`,
+        currentSiteConfig.country
+    ].filter(Boolean).join(', ');
+
+    const activeGw = (currentSelectedGateway && DELIVERY_SERVICES[currentSelectedGateway])
+        ? DELIVERY_SERVICES[currentSelectedGateway]
+        : DELIVERY_SERVICES.uber;
+
+    const selectedCount = DINER_MENU_ITEMS.filter(i => i.selected).length;
+    const slug = currentSiteConfig.slug || 'parma-sub-fry-co';
+
+    if (nameEl) nameEl.innerText = currentSiteConfig.restaurantName || 'Parma Sub & Fry Co.';
+    if (msgEl) msgEl.innerText = `"${currentSiteConfig.message || 'Artisanal cold cuts & triple-cooked hand-cut fries since 1988.'}"`;
+    if (dirEl) dirEl.innerText = `/net-c-delivery/${slug}/index.html`;
+    if (addrEl) addrEl.innerText = fullAddress || '5420 Ridge Rd, Suite B, Parma, OH 44129, US';
+    if (apiEl) apiEl.innerText = `${activeGw.name} • Verified (${activeGw.protocol})`;
+    if (skuEl) skuEl.innerText = `${selectedCount} Menu Items Configured`;
+
+    const targetUrl = `./${slug}/index.html`;
+    if (liveLink) liveLink.href = targetUrl;
+
+    if (avatar && currentSiteConfig.photoUrl) {
+        avatar.innerHTML = `<img src="${currentSiteConfig.photoUrl}" alt="Store Photo" style="width: 100%; height: 100%; object-fit: cover; border-radius: 10px;" onerror="this.parentElement.innerHTML='<i class=\\'fa-solid fa-store fa-2x text-primary\\'></i>'">`;
+    }
+
+    // Update In-App Preview modal iframe src
+    const iframe = document.getElementById('sitePreviewIframe');
+    if (iframe) iframe.src = targetUrl;
+
+    const previewSlug = document.getElementById('previewModalSlugDisplay');
+    if (previewSlug) previewSlug.innerText = `/net-c-delivery/${slug}/index.html`;
+
+    const previewTabLink = document.getElementById('previewModalOpenNewTab');
+    if (previewTabLink) previewTabLink.href = targetUrl;
+}
+
+function openInAppSitePreview() {
+    playOsClick(900, 0.04);
+    renderDeployedSiteBanner();
+    const modalEl = document.getElementById('sitePreviewModal');
+    if (modalEl) {
+        const modal = bootstrap.Modal.getOrCreateInstance(modalEl);
+        modal.show();
+    }
+}
+
+// Generate and trigger download of standalone index.html file
+function downloadSiteIndexHtml() {
+    playToyClick(720, 0.05);
+    const htmlContent = generateStandaloneStorefrontHtml(currentSiteConfig);
+    const blob = new Blob([htmlContent], { type: 'text/html;charset=utf-8' });
+    const url = URL.createObjectURL(blob);
+    const a = document.createElement('a');
+    a.href = url;
+    a.download = `index.html`;
+    document.body.appendChild(a);
+    a.click();
+    document.body.removeChild(a);
+    URL.revokeObjectURL(url);
+
+    showDinerToast(
+        'index.html Downloaded! 📥',
+        `Exported standalone website file for "${currentSiteConfig.restaurantName}".`,
+        'fa-file-arrow-down'
+    );
+    addTelemetryLogRow('Site Exporter', 'SITE.FILE_EXPORT_DOWNLOAD', '7 ms', `index.html`);
+}
+
+// Generate the standalone HTML markup for the customer site
+function generateStandaloneStorefrontHtml(config) {
+    const selected = DINER_MENU_ITEMS.filter(i => i.selected);
+    const items = selected.length > 0 ? selected : DINER_MENU_ITEMS;
+    const activeGw = (currentSelectedGateway && DELIVERY_SERVICES[currentSelectedGateway])
+        ? DELIVERY_SERVICES[currentSelectedGateway]
+        : DELIVERY_SERVICES.uber;
+
+    return `<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>${config.restaurantName} • Official Online Ordering</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;600;700;800&family=JetBrains+Mono:wght@500;700&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --primary: #0284c7;
+            --primary-dark: #0369a1;
+            --accent: #f59e0b;
+            --success: #10b981;
+            --bg: #f8fafc;
+            --surface: #ffffff;
+            --text-dark: #0f172a;
+            --text-muted: #64748b;
+            --border: #e2e8f0;
+        }
+        * { box-sizing: border-box; margin: 0; padding: 0; }
+        body { font-family: 'Plus Jakarta Sans', sans-serif; background: var(--bg); color: var(--text-dark); line-height: 1.5; }
+        .hero { position: relative; background: #0f172a; color: #fff; overflow: hidden; padding: 60px 24px; }
+        .hero-bg { position: absolute; inset: 0; background-image: url('${config.photoUrl}'); background-size: cover; background-position: center; opacity: 0.28; filter: blur(2px); }
+        .hero-inner { position: relative; max-width: 1100px; margin: 0 auto; display: flex; align-items: center; justify-content: space-between; gap: 32px; flex-wrap: wrap; }
+        .hero-brand { display: flex; align-items: center; gap: 24px; }
+        .hero-avatar { width: 96px; height: 96px; border-radius: 20px; object-fit: cover; border: 3px solid rgba(255,255,255,0.4); box-shadow: 0 10px 25px rgba(0,0,0,0.3); }
+        .hero-title { font-size: 2.2rem; font-weight: 800; letter-spacing: -0.02em; margin-bottom: 6px; }
+        .hero-message { font-size: 1.05rem; opacity: 0.9; max-width: 600px; font-style: italic; }
+        .api-badge { display: inline-flex; align-items: center; gap: 8px; background: rgba(255,255,255,0.15); backdrop-filter: blur(10px); padding: 8px 16px; border-radius: 999px; font-size: 0.85rem; font-family: 'JetBrains Mono', monospace; border: 1px solid rgba(255,255,255,0.25); }
+        
+        .address-bar { background: #fff; border-bottom: 1px solid var(--border); padding: 16px 24px; }
+        .address-inner { max-width: 1100px; margin: 0 auto; display: flex; align-items: center; justify-content: space-between; flex-wrap: wrap; gap: 16px; font-size: 0.9rem; }
+        .addr-chip { display: flex; align-items: center; gap: 8px; color: var(--text-dark); font-weight: 600; }
+        .addr-pill { background: #f1f5f9; padding: 4px 10px; border-radius: 6px; font-size: 0.8rem; font-family: 'JetBrains Mono', monospace; }
+
+        .main-content { max-width: 1100px; margin: 36px auto; padding: 0 24px; display: grid; grid-template-columns: 1fr 340px; gap: 32px; }
+        @media (max-width: 900px) { .main-content { grid-template-columns: 1fr; } }
+        
+        .menu-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(280px, 1fr)); gap: 20px; }
+        .menu-card { background: #fff; border: 1px solid var(--border); border-radius: 16px; padding: 20px; display: flex; flex-direction: column; justify-content: space-between; transition: transform 0.15s, box-shadow 0.15s; }
+        .menu-card:hover { transform: translateY(-3px); box-shadow: 0 10px 20px -5px rgba(0,0,0,0.06); }
+        .item-icon { font-size: 2rem; margin-bottom: 12px; }
+        .item-name { font-size: 1.1rem; font-weight: 700; margin-bottom: 6px; }
+        .item-desc { font-size: 0.85rem; color: var(--text-muted); margin-bottom: 16px; line-height: 1.4; }
+        .item-bottom { display: flex; align-items: center; justify-content: space-between; margin-top: auto; }
+        .item-price { font-size: 1.15rem; font-weight: 800; color: var(--text-dark); font-family: 'JetBrains Mono', monospace; }
+        .add-cart-btn { background: var(--primary); color: #fff; border: none; padding: 8px 16px; border-radius: 10px; font-weight: 700; font-size: 0.85rem; cursor: pointer; display: flex; align-items: center; gap: 6px; }
+        .add-cart-btn:hover { background: var(--primary-dark); }
+
+        .cart-card { background: #fff; border: 1px solid var(--border); border-radius: 16px; padding: 24px; position: sticky; top: 24px; height: fit-content; }
+        .cart-title { font-size: 1.2rem; font-weight: 800; margin-bottom: 16px; display: flex; align-items: center; justify-content: space-between; }
+        .cart-list { list-style: none; margin-bottom: 20px; min-height: 80px; }
+        .cart-item { display: flex; align-items: center; justify-content: space-between; padding: 8px 0; border-bottom: 1px dashed var(--border); font-size: 0.88rem; }
+        .checkout-btn { width: 100%; background: var(--success); color: #fff; border: none; padding: 14px; border-radius: 12px; font-size: 1rem; font-weight: 800; cursor: pointer; display: flex; align-items: center; justify-content: center; gap: 8px; box-shadow: 0 4px 12px rgba(16,185,129,0.3); }
+        .checkout-btn:hover { background: #059669; }
+    </style>
+</head>
+<body>
+    <header class="hero">
+        <div class="hero-bg"></div>
+        <div class="hero-inner">
+            <div class="hero-brand">
+                <img src="${config.photoUrl}" alt="${config.restaurantName}" class="hero-avatar" onerror="this.src='https://images.unsplash.com/photo-1509722747041-616f39b57569?auto=format&fit=crop&w=800&q=80'">
+                <div>
+                    <h1 class="hero-title">${config.restaurantName}</h1>
+                    <p class="hero-message">"${config.message || 'Authentic dining & fresh orders.'}"</p>
+                </div>
+            </div>
+            <div class="api-badge">
+                <i class="${activeGw.icon}"></i>
+                <span>Powered by ${activeGw.name} API</span>
+            </div>
+        </div>
+    </header>
+
+    <div class="address-bar">
+        <div class="address-inner">
+            <div class="addr-chip">
+                <i class="fa-solid fa-location-dot" style="color: #ef4444;"></i>
+                <span>${config.street}${config.unit ? ' ' + config.unit : ''}, ${config.city}, ${config.state} ${config.zip}, ${config.country}</span>
+            </div>
+            <div style="display:flex; gap:8px;">
+                <span class="addr-pill">Street: ${config.street}</span>
+                <span class="addr-pill">City: ${config.city}</span>
+                <span class="addr-pill">State: ${config.state}</span>
+                <span class="addr-pill">ZIP: ${config.zip}</span>
+            </div>
+        </div>
+    </div>
+
+    <main class="main-content">
+        <div>
+            <h2 style="font-size: 1.4rem; font-weight: 800; margin-bottom: 20px;">Featured Menu Items (${items.length})</h2>
+            <div class="menu-grid">
+                ${items.map(item => `
+                    <div class="menu-card">
+                        <div>
+                            <div class="item-icon">${item.icon}</div>
+                            <div class="item-name">${item.name}</div>
+                            <div class="item-desc">${item.desc}</div>
+                        </div>
+                        <div class="item-bottom">
+                            <span class="item-price">$${item.price.toFixed(2)}</span>
+                            <button type="button" class="add-cart-btn" onclick="addToOrder('${item.sku}', '${item.name}', ${item.price})">
+                                <i class="fa-solid fa-plus"></i> Add
+                            </button>
+                        </div>
+                    </div>
+                `).join('')}
+            </div>
+        </div>
+
+        <aside>
+            <div class="cart-card">
+                <div class="cart-title">
+                    <span>Your Order</span>
+                    <span id="orderItemCount" style="font-size:0.85rem; background:#f1f5f9; padding:2px 8px; border-radius:10px;">0 Items</span>
+                </div>
+                <ul class="cart-list" id="orderList">
+                    <li style="color:#94a3b8; font-size:0.85rem; text-align:center; padding:24px 0;">Cart is empty. Select items to order!</li>
+                </ul>
+                <div style="display:flex; justify-content:space-between; font-weight:800; font-size:1.1rem; margin-bottom:16px;">
+                    <span>Total:</span>
+                    <span id="orderTotal" style="font-family:'JetBrains Mono',monospace;">$0.00</span>
+                </div>
+                <button type="button" class="checkout-btn" onclick="checkoutOrder()">
+                    <i class="fa-solid fa-motorcycle"></i>
+                    <span>Order via ${activeGw.name} ➔</span>
+                </button>
+            </div>
+        </aside>
+    </main>
+
+    <script>
+        const cart = [];
+        function addToOrder(sku, name, price) {
+            cart.push({ sku, name, price });
+            renderCart();
+        }
+        function renderCart() {
+            const list = document.getElementById('orderList');
+            const totalEl = document.getElementById('orderTotal');
+            const countEl = document.getElementById('orderItemCount');
+            if (cart.length === 0) {
+                list.innerHTML = '<li style="color:#94a3b8; font-size:0.85rem; text-align:center; padding:24px 0;">Cart is empty.</li>';
+                totalEl.innerText = '$0.00';
+                countEl.innerText = '0 Items';
+                return;
+            }
+            let total = 0;
+            list.innerHTML = cart.map(item => {
+                total += item.price;
+                return '<li class="cart-item"><span>' + item.name + '</span><strong>$' + item.price.toFixed(2) + '</strong></li>';
+            }).join('');
+            totalEl.innerText = '$' + total.toFixed(2);
+            countEl.innerText = cart.length + ' Items';
+        }
+        function checkoutOrder() {
+            if (cart.length === 0) {
+                alert('Please add items to your cart first.');
+                return;
+            }
+            alert('Order submitted successfully! Dispatched to Kitchen Grill and routed via ${activeGw.name} courier fleet.');
+            cart.length = 0;
+            renderCart();
+        }
+    <\/script>
+</body>
+</html>`;
+}
+
+// ═══════════════════════════════════════════════════════════════════
+// KITCHEN KDS TICKETS QUEUE & TELEMETRY STREAM
 // ═══════════════════════════════════════════════════════════════════
 let LIVE_KDS_TICKETS = [
     {
         id: '#TKT-4829',
         item: 'Artisan Ribeye Cheesesteak Supreme',
         side: 'Garlic Truffle Fries',
-        gateway: 'Toast POS',
-        courier: 'DoorDash Drive (Courier #DD-81)',
+        gateway: 'Uber Direct',
+        courier: 'Uber Courier (Toyota Prius)',
         eta: '2.4 mins',
         status: 'PREPARING',
         timeAgo: '3m 12s',
@@ -983,7 +1547,7 @@ let LIVE_KDS_TICKETS = [
         item: 'Double Bacon Smash Burger',
         side: 'Sea Salt Fries + Pickle',
         gateway: 'Uber Direct',
-        courier: 'Uber Courier (Toyota Prius)',
+        courier: 'Uber Direct Courier #UB-41',
         eta: '4.8 mins',
         status: 'READY FOR COURIER',
         timeAgo: '1m 45s',
@@ -993,8 +1557,8 @@ let LIVE_KDS_TICKETS = [
         id: '#TKT-4831',
         item: 'Charred Buffalo Chicken Wrap',
         side: 'Crispy Onion Rings',
-        gateway: 'DoorDash Drive',
-        courier: 'DoorDash Courier (Honda Scooter)',
+        gateway: 'Uber Direct',
+        courier: 'Uber Courier (Honda Scooter)',
         eta: '6.1 mins',
         status: 'IN GRILL QUEUE',
         timeAgo: '38s',
@@ -1046,10 +1610,6 @@ function expediteTicket(ticketId) {
     addTelemetryLogRow('Kitchen KDS', 'TICKET.BUMP_PICKUP', '4 ms', ticketId);
 }
 
-// ═══════════════════════════════════════════════════════════════════
-// TACTILE ACTIONS (BELL, NEW TICKET, RUSH FLEET)
-// ═══════════════════════════════════════════════════════════════════
-
 function ringDinerBell() {
     playDinerBell();
     showDinerToast(
@@ -1070,7 +1630,7 @@ function spawnDinerTicket() {
     const ticketId = `#TKT-${ticketNum}`;
     const activeGw = (currentSelectedGateway && DELIVERY_SERVICES[currentSelectedGateway]) 
         ? DELIVERY_SERVICES[currentSelectedGateway] 
-        : DELIVERY_SERVICES.toast;
+        : DELIVERY_SERVICES.uber;
 
     const newTicket = {
         id: ticketId,
@@ -1101,11 +1661,11 @@ function rushFleetDispatch() {
     playToyClick(720, 0.06);
     const activeGw = (currentSelectedGateway && DELIVERY_SERVICES[currentSelectedGateway]) 
         ? DELIVERY_SERVICES[currentSelectedGateway] 
-        : DELIVERY_SERVICES.doordash;
+        : DELIVERY_SERVICES.uber;
 
     showDinerToast(
         'Priority Courier Rushed! 🛵',
-        `${activeGw.name} expedited courier re-routed to Parma Diner pickup window. ETA: 2.1 mins.`,
+        `${activeGw.name} expedited courier re-routed to Parma pickup window. ETA: 2.1 mins.`,
         'fa-motorcycle'
     );
 
@@ -1117,28 +1677,12 @@ function simulateFullApiHealthCheck() {
     const activeCount = Object.keys(DELIVERY_SERVICES).filter(k => DELIVERY_SERVICES[k].verified).length;
     showDinerToast(
         'Ping Radar Broadcast 📡',
-        `Diagnostic scan completed. ${activeCount} active, ${6 - activeCount} pending with avg 18.4ms latency.`,
+        `Diagnostic scan completed. ${activeCount} active with avg 18.4ms latency.`,
         'fa-arrows-rotate'
     );
     addTelemetryLogRow('Ping Radar', 'HEALTH_CHECK.PING_OK', '18 ms', `#${activeCount}_OF_6_VERIFIED`);
 }
 
-function syncMenuItem(sku, name) {
-    playToyClick(640, 0.04);
-    const gwName = (currentSelectedGateway && DELIVERY_SERVICES[currentSelectedGateway]) 
-        ? DELIVERY_SERVICES[currentSelectedGateway].name 
-        : 'POS Gateway';
-    showDinerToast(
-        `Synced: ${sku} 🔄`,
-        `"${name}" live pricing & inventory broadcast to ${gwName}.`,
-        'fa-arrows-rotate'
-    );
-    addTelemetryLogRow('POS Catalog', 'CATALOG.SKU_SYNC_OK', '15 ms', `${sku} (${name})`);
-}
-
-// ═══════════════════════════════════════════════════════════════════
-// TELEMETRY LOG STREAM (STEP 3)
-// ═══════════════════════════════════════════════════════════════════
 function addTelemetryLogRow(provider, eventName, latency, ref) {
     const list = document.getElementById('telemetryStreamList');
     if (!list) return;
@@ -1160,20 +1704,10 @@ function addTelemetryLogRow(provider, eventName, latency, ref) {
     if (list.children.length > 25) {
         list.lastChild.remove();
     }
-
-    // Update scorecard metric
-    const eventMetric = document.getElementById('metricEventCount');
-    if (eventMetric) {
-        const cur = parseInt(eventMetric.innerText.replace(/,/g, '')) || 1428;
-        eventMetric.innerText = (cur + 1).toLocaleString();
-    }
 }
 
 // ═══════════════════════════════════════════════════════════════════
-// SCORECARD METRIC BAR UPDATES
-// ═══════════════════════════════════════════════════════════════════
-// ═══════════════════════════════════════════════════════════════════
-// SCORECARD METRIC BAR, OS FOLDER TABS & SIDE PANEL SYNC
+// SCORECARD & PROGRESSIVE STATE SYNC
 // ═══════════════════════════════════════════════════════════════════
 function updateProgressiveState() {
     let activeCount = 0;
@@ -1191,7 +1725,7 @@ function updateProgressiveState() {
     if (folderGwBadge) folderGwBadge.innerText = `${activeCount}/6 Active`;
 
     const folderMenuBadge = document.getElementById('folderMenuBadge');
-    if (folderMenuBadge) folderMenuBadge.innerText = `${selectedSkuCount}/7 Selected`;
+    if (folderMenuBadge) folderMenuBadge.innerText = `${selectedSkuCount}/7 SKUs`;
 
     const folderKdsBadge = document.getElementById('folderKdsBadge');
     if (folderKdsBadge) folderKdsBadge.innerText = `${LIVE_KDS_TICKETS.length} Prep Queue`;
@@ -1225,7 +1759,7 @@ function updateProgressiveState() {
     const side2Badge = document.getElementById('sideStep2StatusBadge');
     if (side2Badge) {
         side2Badge.className = selectedSkuCount > 0 ? 'side-step-badge verified' : 'side-step-badge neutral';
-        side2Badge.innerText = `${selectedSkuCount}/7 Selected`;
+        side2Badge.innerText = `${selectedSkuCount}/7 SKUs`;
     }
 
     const side3Badge = document.getElementById('sideStep3StatusBadge');
@@ -1297,171 +1831,6 @@ function showDinerToast(title, message, iconClass = 'fa-bell-concierge') {
 }
 
 // ═══════════════════════════════════════════════════════════════════
-// MODAL DIALOG HANDLERS
-// ═══════════════════════════════════════════════════════════════════
-function openApiConfigModal(serviceId) {
-    playOsClick(900, 0.04);
-    const s = DELIVERY_SERVICES[serviceId];
-    if (!s) return;
-
-    currentSelectedGateway = serviceId;
-    document.getElementById('modalCurrentServiceId').value = serviceId;
-    document.getElementById('modalServiceTitle').innerText = `${s.name} API Configuration`;
-    document.getElementById('modalServiceSubtitle').innerText = `${s.categoryTag} • REST Webhooks • TLS 1.3`;
-
-    document.getElementById('modalDemoRank').innerText = s.demographicRank;
-    document.getElementById('modalDemoDesc').innerText = s.demographicDesc;
-
-    const linkEl = document.getElementById('modalOutwardLink');
-    if (linkEl) linkEl.href = s.portalUrl;
-
-    document.getElementById('apiWebhookUrlDisplay').value = s.endpointUrl;
-
-    if (s.verified) {
-        document.getElementById('apiClientIdInput').value = s.defaultClientId;
-        document.getElementById('apiSecretInput').value = s.defaultSecret;
-        document.getElementById('apiLocationIdInput').value = s.defaultLocationId;
-    } else {
-        document.getElementById('apiClientIdInput').value = s.defaultClientId;
-        document.getElementById('apiSecretInput').value = s.defaultSecret;
-        document.getElementById('apiLocationIdInput').value = s.defaultLocationId;
-    }
-
-    const modalEl = document.getElementById('apiConfigModal');
-    const modal = bootstrap.Modal.getOrCreateInstance(modalEl);
-    if (window.history && window.history.pushState) {
-        window.history.pushState({ step: currentStep, modal: 'apiConfigModal' }, '', window.location.pathname + '#api-config');
-    }
-    modal.show();
-}
-
-function closeApiConfigModal() {
-    const modalEl = document.getElementById('apiConfigModal');
-    const modal = bootstrap.Modal.getInstance(modalEl);
-    if (modal) modal.hide();
-}
-
-function fillDemoCredentials() {
-    playOsClick(700, 0.02);
-    const sId = document.getElementById('modalCurrentServiceId').value;
-    const s = DELIVERY_SERVICES[sId];
-    if (!s) return;
-    document.getElementById('apiClientIdInput').value = s.defaultClientId;
-    document.getElementById('apiSecretInput').value = s.defaultSecret;
-    document.getElementById('apiLocationIdInput').value = s.defaultLocationId;
-}
-
-function handleApiVerification(event) {
-    event.preventDefault();
-    const sId = document.getElementById('modalCurrentServiceId').value;
-    const s = DELIVERY_SERVICES[sId];
-    if (!s) return;
-
-    const clientId = document.getElementById('apiClientIdInput').value.trim();
-    const secret = document.getElementById('apiSecretInput').value.trim();
-    const locationId = document.getElementById('apiLocationIdInput').value.trim();
-
-    if (!clientId || !secret || !locationId) {
-        alert('Please fill out all credentials to verify the POS Gateway API.');
-        return;
-    }
-
-    s.verified = true;
-    s.defaultClientId = clientId;
-    s.defaultLocationId = locationId;
-    currentSelectedGateway = sId;
-
-    savedApiState[sId] = {
-        verified: true,
-        clientId: clientId,
-        secret: secret,
-        locationId: locationId,
-        verifiedAt: new Date().toISOString()
-    };
-
-    try {
-        localStorage.setItem('dinerdashboard_delivery_api_state', JSON.stringify(savedApiState));
-    } catch (err) {}
-
-    closeApiConfigModal();
-    updateProgressiveState();
-    renderGatewayCards();
-
-    // Sound effect & bell
-    playDinerBell();
-
-    showDinerToast(
-        `${s.name} Verified & Connected! 🚀`,
-        `API credentials validated for ${locationId}.`,
-        'fa-circle-check'
-    );
-
-    addTelemetryLogRow(s.name, 'API.HANDSHAKE_VERIFIED', s.latency, `#${locationId.toUpperCase()}`);
-
-    // Prompt user to move to menu screen to set it up (since no menu items are preselected)
-    setTimeout(() => {
-        const verifiedTitle = document.getElementById('verifiedModalTitle');
-        const verifiedSubtitle = document.getElementById('verifiedModalSubtitle');
-        if (verifiedTitle) verifiedTitle.innerText = `${s.name} Authenticated!`;
-        if (verifiedSubtitle) verifiedSubtitle.innerText = `Store: ${locationId} • Protocol: ${s.protocol} • 200 OK Handshake`;
-
-        const nextModalEl = document.getElementById('apiVerifiedNextStepModal');
-        if (nextModalEl) {
-            const nextModal = bootstrap.Modal.getOrCreateInstance(nextModalEl);
-            if (window.history && window.history.pushState) {
-                window.history.pushState({ step: currentStep, modal: 'apiVerifiedNextStepModal' }, '', window.location.pathname + '#api-verified');
-            }
-            nextModal.show();
-        }
-    }, 380);
-}
-
-function proceedToMenuScreenFromModal() {
-    const nextModalEl = document.getElementById('apiVerifiedNextStepModal');
-    if (nextModalEl) {
-        const nextModal = bootstrap.Modal.getInstance(nextModalEl);
-        if (nextModal) nextModal.hide();
-    }
-    playToyClick(680, 0.05);
-    goToStep(2);
-}
-
-function disconnectApi(serviceId) {
-    if (confirm(`Disconnect ${DELIVERY_SERVICES[serviceId]?.name} gateway?`)) {
-        DELIVERY_SERVICES[serviceId].verified = false;
-        delete savedApiState[serviceId];
-        try {
-            localStorage.setItem('dinerdashboard_delivery_api_state', JSON.stringify(savedApiState));
-        } catch (e) {}
-
-        if (currentSelectedGateway === serviceId) {
-            const remaining = Object.keys(DELIVERY_SERVICES).find(k => DELIVERY_SERVICES[k].verified);
-            currentSelectedGateway = remaining || null;
-        }
-
-        updateProgressiveState();
-        renderGatewayCards();
-        showDinerToast('Gateway Disconnected', `${DELIVERY_SERVICES[serviceId]?.name} set to uninstalled.`, 'fa-power-off');
-    }
-}
-
-function resetWalkthrough() {
-    if (confirm('Reset setup to Step 1? This will clear all configured gateways.')) {
-        try {
-            localStorage.removeItem('dinerdashboard_delivery_api_state');
-        } catch (e) {}
-        savedApiState = {};
-        Object.keys(DELIVERY_SERVICES).forEach(k => {
-            DELIVERY_SERVICES[k].verified = false;
-        });
-        updateProgressiveState();
-        renderGatewayCards();
-        goToStep(1);
-        showDinerToast('Reset Completed', 'All gateways reset to pending.', 'fa-arrow-rotate-left');
-    }
-}
-
-// ═══════════════════════════════════════════════════════════════════
 // INITIALIZATION
 // ═══════════════════════════════════════════════════════════════════
 if (typeof document !== 'undefined') {
@@ -1470,7 +1839,6 @@ if (typeof document !== 'undefined') {
         renderGatewayCards();
         updateProgressiveState();
 
-        // Initialize in-app back navigation & browser history
         if (typeof window !== 'undefined' && window.history && window.history.replaceState) {
             const hash = window.location.hash;
             const initialStep = (hash === '#step3') ? 3 : ((hash === '#step2') ? 2 : 1);

@@ -2432,8 +2432,8 @@ window.switchView = function (targetView) {
                 if (typeof window.renderBlogPosts === 'function') {
                     window.renderBlogPosts(window.activeBlogCategory || 'all');
                 }
-                if (hBlogText) hBlogText.innerText = 'Store Catalog';
-                if (hBlogIcon) hBlogIcon.className = 'fa-solid fa-shop text-appetite-700';
+                if (hBlogText) hBlogText.innerText = 'Blog';
+                if (hBlogIcon) hBlogIcon.className = 'fa-solid fa-newspaper text-white';
             } else if (targetView === 'admin') {
                 if (adminMain) {
                     adminMain.classList.remove('hidden');
@@ -2452,7 +2452,7 @@ window.switchView = function (targetView) {
                     storeMain.classList.remove('hidden');
                     storeMain.classList.add('animate-blur-fade-in');
                 }
-                if (hBlogText) hBlogText.innerText = 'The Wacky Blog';
+                if (hBlogText) hBlogText.innerText = 'Blog';
                 if (hBlogIcon) hBlogIcon.className = 'fa-solid fa-newspaper text-earth-300';
             }
 
@@ -2515,8 +2515,8 @@ window.switchView = function (targetView) {
                 window.renderBlogPosts(window.activeBlogCategory || 'all');
             }
             window.currentView = 'blog';
-            if (hBlogText) hBlogText.innerText = 'Store Catalog';
-            if (hBlogIcon) hBlogIcon.className = 'fa-solid fa-shop text-appetite-700';
+            if (hBlogText) hBlogText.innerText = 'Blog';
+            if (hBlogIcon) hBlogIcon.className = 'fa-solid fa-newspaper text-white';
         } else if (targetView === 'admin') {
             if (adminMain) {
                 adminMain.classList.remove('hidden');
@@ -2526,7 +2526,7 @@ window.switchView = function (targetView) {
             if (typeof window.renderAdminProductsTable === 'function') {
                 window.renderAdminProductsTable();
             }
-            if (hBlogText) hBlogText.innerText = 'The Wacky Blog';
+            if (hBlogText) hBlogText.innerText = 'Blog';
             if (hBlogIcon) hBlogIcon.className = 'fa-solid fa-newspaper text-earth-300';
         } else {
             if (storeMain) {
@@ -2534,7 +2534,7 @@ window.switchView = function (targetView) {
                 storeMain.classList.add('animate-blur-fade-in');
             }
             window.currentView = 'store';
-            if (hBlogText) hBlogText.innerText = 'The Wacky Blog';
+            if (hBlogText) hBlogText.innerText = 'Blog';
             if (hBlogIcon) hBlogIcon.className = 'fa-solid fa-newspaper text-earth-300';
         }
 
@@ -5045,13 +5045,13 @@ window.updateNavButtonStyles = function (activeName) {
     });
 
     if (activeName === 'catalog' || activeName === null) {
-        if (catalogBtn) catalogBtn.classList.add('ring-4', 'ring-pink-300/80');
+        if (catalogBtn) catalogBtn.classList.add('ring-4', 'ring-teal-300/80');
     } else if (activeName === 'shipping') {
-        if (shippingBtn) shippingBtn.classList.add('ring-4', 'ring-teal-300/80');
+        if (shippingBtn) shippingBtn.classList.add('ring-4', 'ring-amber-300/80');
     } else if (activeName === 'blog') {
         if (blogBtn) blogBtn.classList.add('ring-4', 'ring-purple-300/80');
     } else if (activeName === 'academy') {
-        if (learningBtn) learningBtn.classList.add('ring-4', 'ring-amber-300/80');
+        if (learningBtn) learningBtn.classList.add('ring-4', 'ring-pink-300/80');
     }
 };
 

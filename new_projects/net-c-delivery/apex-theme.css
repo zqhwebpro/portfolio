@@ -1642,3 +1642,140 @@ html, body {
   font-size: 0.76rem;
   color: var(--diner-text-muted);
 }
+
+/* ═══════════════════════════════════════════════════════════════════
+   STEP 2: CREATE WEBSITE BUILDER & ADDRESS FORM STYLING
+   ═══════════════════════════════════════════════════════════════════ */
+.site-builder-section {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+}
+
+.site-builder-card {
+  background: #ffffff;
+  border: 1px solid var(--diner-border);
+  border-radius: 18px;
+  padding: 24px;
+  box-shadow: 0 4px 16px rgba(0, 0, 0, 0.04);
+}
+
+.site-builder-card-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 18px;
+  padding-bottom: 14px;
+  border-bottom: 1px solid var(--diner-border);
+  flex-wrap: wrap;
+  gap: 10px;
+}
+
+.site-builder-card-header h3 {
+  font-size: 1.05rem;
+  font-weight: 800;
+  margin: 0;
+  color: var(--diner-text-dark);
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.address-form-grid {
+  display: grid;
+  grid-template-columns: repeat(12, 1fr);
+  gap: 14px;
+}
+
+.address-col-8 { grid-column: span 8; }
+.address-col-4 { grid-column: span 4; }
+.address-col-6 { grid-column: span 6; }
+.address-col-3 { grid-column: span 3; }
+
+@media (max-width: 768px) {
+  .address-col-8,
+  .address-col-4,
+  .address-col-6,
+  .address-col-3 {
+    grid-column: span 12;
+  }
+}
+
+.photo-uploader-wrap {
+  display: flex;
+  align-items: center;
+  gap: 18px;
+  flex-wrap: wrap;
+}
+
+.photo-preview-box {
+  width: 96px;
+  height: 96px;
+  border-radius: 16px;
+  border: 2px dashed var(--diner-border);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  overflow: hidden;
+  background: #f8fafc;
+  flex-shrink: 0;
+}
+
+.photo-preview-box img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.slug-preview-chip {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  padding: 4px 10px;
+  background: #f1f5f9;
+  border: 1px solid var(--diner-border);
+  border-radius: 8px;
+  font-family: var(--font-mono);
+  font-size: 0.76rem;
+  color: var(--diner-text-dark);
+}
+
+/* ═══════════════════════════════════════════════════════════════════
+   STEP 3: DEPLOYED SITE CONFIGURATION BANNER
+   ═══════════════════════════════════════════════════════════════════ */
+.deployed-site-banner-card {
+  background: linear-gradient(135deg, #ffffff 0%, #f0fdf4 100%);
+  border: 1.5px solid #86efac;
+  border-radius: 18px;
+  padding: 22px 24px;
+  margin-bottom: 20px;
+  box-shadow: 0 10px 25px -5px rgba(34, 197, 94, 0.12);
+}
+
+.deployed-site-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  flex-wrap: wrap;
+  gap: 14px;
+  margin-bottom: 16px;
+}
+
+.deployed-site-details-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+  gap: 14px;
+  background: #ffffff;
+  padding: 16px;
+  border-radius: 14px;
+  border: 1px solid #dcfce7;
+}
+
+.deployed-site-actions {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  flex-wrap: wrap;
+  margin-top: 16px;
+}
+

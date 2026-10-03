@@ -303,20 +303,20 @@
         /* Shipping Estimator: Solid Dark Pink Bold Color (No Gradient) */
         #header-shipping-btn,
         a#header-shipping-btn {
-            background: #BE185D !important;
-            border: 1px solid #9D174D !important;
+            background: #F59E0B !important;
+            border: 1px solid #D97706 !important;
             color: #ffffff !important;
             font-weight: 700 !important;
-            box-shadow: 0 4px 14px -2px rgba(190, 24, 93, 0.45) !important;
+            box-shadow: 0 4px 14px -2px rgba(245, 158, 11, 0.45) !important;
         }
 
         #header-shipping-btn:hover,
         a#header-shipping-btn:hover {
-            background: #9D174D !important;
-            border-color: #831843 !important;
+            background: #D97706 !important;
+            border-color: #B45309 !important;
             color: #ffffff !important;
             transform: translateY(-1.5px) !important;
-            box-shadow: 0 6px 18px -2px rgba(157, 23, 77, 0.55) !important;
+            box-shadow: 0 6px 18px -2px rgba(217, 119, 6, 0.55) !important;
         }
 
         #header-shipping-btn i,
@@ -573,55 +573,37 @@
                 </div>
             </a>
 
-            <!-- Action Navigation Buttons -->
+            <!-- Action Navigation Buttons: Store, Blog, Shipping Estimator, Funny Academy (just shown by the icon) -->
             <div class="flex items-center gap-2 sm:gap-2.5">
-                <!-- Store Catalog Button -->
-                <a href="./index.html" data-blueprint-file="WackyStore.WebUI/Controllers/ProductController.cs"
-                    data-blueprint-role="Store Catalog Navigation Link" data-blueprint-layer="WebUI / Navigation"
-                    data-blueprint-dom="Anchor button linking to main store catalog."
-                    data-blueprint-desc="Navigates back to the main e-commerce product catalog."
-                    data-blueprint-code="public ActionResult List() => View(productRepo.Products);"
-                    class="h-10 px-3.5 rounded-xl bg-purple-900/80 hover:bg-purple-800 border border-purple-700/60 text-purple-100 text-xs font-bold flex items-center gap-1.5 transition-all shadow-xs no-underline"
-                    title="Return to Store Catalog">
-                    <i class="fa-solid fa-shop text-amber-300"></i>
-                    <span class="hidden sm:inline">Store Catalog</span>
+                <!-- 1. Store (TEAL) -->
+                <a href="./index.html" id="header-catalog-btn"
+                    class="h-10 px-3.5 rounded-xl bg-teal-600 hover:bg-teal-700 text-white text-xs font-bold flex items-center gap-1.5 transition-all shadow-md shadow-teal-900/20 active:scale-95 no-underline border border-teal-500"
+                    title="Store">
+                    <i class="fa-solid fa-shop text-white"></i>
+                    <span class="hidden sm:inline text-white font-bold">Store</span>
                 </a>
 
-                <!-- Shipping Distance Map Estimator Trigger (Solid Dark Pink Bold Color) -->
+                <!-- 2. Blog (PURPLE) -->
+                <a href="./index.html#blog" id="header-blog-btn"
+                    class="h-10 px-3.5 rounded-xl bg-[#7C3AED] hover:bg-[#6D28D9] border border-[#6D28D9] text-white text-xs font-bold flex items-center gap-1.5 transition-all shadow-md shadow-purple-900/20 active:scale-95 no-underline"
+                    title="Blog">
+                    <i class="fa-solid fa-newspaper text-white"></i>
+                    <span class="hidden sm:inline text-white font-bold">Blog</span>
+                </a>
+
+                <!-- 3. Shipping Distance Map Estimator Trigger (YELLOW) -->
                 <a href="./index.html?open=shipping" id="header-shipping-btn"
-                    data-blueprint-file="WackyStore.WebUI/Controllers/ShippingCalculatorController.cs"
-                    data-blueprint-role="Geodesic Shipping Distance Estimator Portal"
-                    data-blueprint-layer="WebUI / Navigation &amp; Spatial Routing"
-                    data-blueprint-dom="Solid bold dark pink action button opening the interactive US map shipping calculator modal."
-                    data-blueprint-desc="Opens dedicated US map shipping distance estimator using real Leaflet GIS cartography, Haversine spherical math, and carrier rate calculation."
-                    data-blueprint-code="public ActionResult ShippingCalculator() => PartialView(&quot;_DistanceMatrixCalculator&quot;);"
-                    class="h-10 px-3.5 rounded-xl bg-[#BE185D] hover:bg-[#9D174D] text-white text-xs font-bold flex items-center gap-1.5 transition-all shadow-md shadow-pink-900/30 active:scale-95 border border-[#9D174D] no-underline cursor-pointer"
-                    title="Estimate Shipping Distance Across America">
+                    class="h-10 px-3.5 rounded-xl bg-[#F59E0B] hover:bg-[#D97706] text-white text-xs font-bold flex items-center gap-1.5 transition-all shadow-md shadow-amber-900/20 active:scale-95 border border-amber-400/40 no-underline cursor-pointer"
+                    title="Shipping Estimator">
                     <i class="fa-solid fa-map-location-dot text-white"></i>
                     <span class="hidden md:inline text-white font-bold">Shipping Estimator</span>
                 </a>
 
-                <!-- The Wacky Blog Button -->
-                <a href="./index.html#blog" data-blueprint-file="WackyStore.WebUI/Controllers/BlogController.cs"
-                    data-blueprint-role="Blog Reading Portal Link" data-blueprint-layer="WebUI / Navigation"
-                    data-blueprint-dom="Anchor button linking to The Wacky Blog section."
-                    data-blueprint-desc="Routes to BlogController.Index() displaying chronicles."
-                    data-blueprint-code="public ActionResult Blog() => View(blogRepo.GetArticles());"
-                    class="h-10 px-3.5 rounded-xl bg-purple-900/80 hover:bg-purple-800 border border-purple-700/60 text-purple-100 text-xs font-bold flex items-center gap-1.5 transition-all shadow-xs no-underline">
-                    <i class="fa-solid fa-newspaper text-purple-300"></i>
-                    <span class="hidden sm:inline">The Wacky Blog</span>
-                </a>
-
-                <!-- Active Learning Button in Warm Amber/Orange -->
-                <a href="./learning.html" data-blueprint-file="WackyStore.WebUI/Controllers/CourseController.cs"
-                    data-blueprint-role="Active LMS Learning Portal Button"
-                    data-blueprint-layer="WebUI / Education Portal"
-                    data-blueprint-dom="Warm amber active button highlighting the current learning page."
-                    data-blueprint-desc="Represents the active Education Store &amp; WackyDash course module view."
-                    data-blueprint-code="public ActionResult Learning() => View(courseService.GetCurriculums());"
-                    class="h-10 px-4 rounded-xl bg-amber-400 hover:bg-amber-300 text-earth-950 text-xs font-bold flex items-center gap-1.5 shadow-md shadow-amber-400/25 border border-amber-300 no-underline ring-2 ring-amber-400/50">
-                    <i class="fa-solid fa-graduation-cap text-earth-950"></i>
-                    <span class="hidden sm:inline">Funny Academy</span>
+                <!-- 4. Funny Academy (MAGENTA - Just shown by the icon) -->
+                <a href="./learning.html" id="header-learning-btn"
+                    class="h-10 px-3.5 rounded-xl bg-[#D946EF] hover:bg-[#C026D3] text-white text-xs font-bold flex items-center justify-center gap-1.5 transition-all shadow-md shadow-pink-900/20 active:scale-95 no-underline border border-[#C026D3] shrink-0"
+                    title="Funny Academy">
+                    <i class="fa-solid fa-graduation-cap text-base text-white"></i>
                 </a>
             </div>
         </div>

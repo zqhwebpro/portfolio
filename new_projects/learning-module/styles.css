@@ -189,51 +189,133 @@ body {
 
 /* Outer IDE Track Switcher Tabs (File-tabs style) */
 .os-ide-tab-btn {
-  background: rgba(15, 23, 42, 0.75);
+  background: rgba(15, 23, 42, 0.85);
   backdrop-filter: blur(14px);
   -webkit-backdrop-filter: blur(14px);
-  color: #94a3b8;
-  border: 1px solid rgba(255, 255, 255, 0.12);
+  color: #cbd5e1;
+  border: 1px solid rgba(255, 255, 255, 0.14);
   border-bottom: none;
-  border-top-left-radius: 8px;
-  border-top-right-radius: 8px;
-  padding: 0.55rem 0.95rem;
+  border-top-left-radius: 10px;
+  border-top-right-radius: 10px;
+  padding: 0.65rem 1.15rem;
   font-family: var(--font-mono);
-  font-size: 0.78rem;
-  font-weight: 600;
+  font-size: 0.82rem;
+  font-weight: 700;
   display: inline-flex;
   align-items: center;
-  gap: 0.5rem;
-  transition: all 0.18s ease;
+  gap: 0.6rem;
+  transition: all 0.2s cubic-bezier(0.16, 1, 0.3, 1);
   cursor: pointer;
   white-space: nowrap;
-}
-
-.os-ide-tab-btn:hover {
-  background: rgba(30, 41, 59, 0.9);
-  color: #ffffff;
-  border-color: rgba(255, 255, 255, 0.25);
-}
-
-.os-ide-tab-btn.active {
-  background: #ffffff;
-  color: #0f172a;
-  border-color: #cbd5e1;
-  box-shadow: 0 -3px 10px rgba(0, 0, 0, 0.2);
-  font-weight: 700;
   position: relative;
 }
 
+.os-ide-tab-btn:hover {
+  background: rgba(30, 41, 59, 0.95);
+  color: #ffffff;
+  border-color: rgba(255, 255, 255, 0.28);
+  transform: translateY(-1px);
+}
+
+/* Individual Unselected Tab Icons keep their coding language color */
+.os-ide-tab-btn i {
+  font-size: 0.92rem;
+  transition: all 0.2s ease;
+}
+
+/* ACTIVE / SELECTED TABS:
+   The tab is selected the icon color with the icon and text in REVERSE */
+.os-ide-tab-btn.active {
+  box-shadow: 0 -4px 18px rgba(0, 0, 0, 0.45);
+  font-weight: 800;
+  border-color: transparent;
+  transform: translateY(0);
+}
+
 .os-ide-tab-btn.active::before {
-  content: '';
-  position: absolute;
-  top: 0;
-  left: 0;
-  right: 0;
-  height: 2.5px;
-  background: #0284c7;
-  border-top-left-radius: 8px;
-  border-top-right-radius: 8px;
+  display: none;
+}
+
+/* Active JavaScript Tab: Amber background, reversed dark text & icon */
+.os-ide-tab-btn.active[data-track-id="javascript"] {
+  background: #f59e0b !important;
+  color: #0f172a !important;
+}
+.os-ide-tab-btn.active[data-track-id="javascript"] i {
+  color: #0f172a !important;
+}
+
+/* Active TypeScript Tab: Blue background, reversed white text & icon */
+.os-ide-tab-btn.active[data-track-id="typescript"] {
+  background: #2563eb !important;
+  color: #ffffff !important;
+}
+.os-ide-tab-btn.active[data-track-id="typescript"] i {
+  color: #ffffff !important;
+}
+
+/* Active React Tab: Sky background, reversed white text & icon */
+.os-ide-tab-btn.active[data-track-id="react"] {
+  background: #0284c7 !important;
+  color: #ffffff !important;
+}
+.os-ide-tab-btn.active[data-track-id="react"] i {
+  color: #ffffff !important;
+}
+
+/* Active PHP Tab: Indigo background, reversed white text & icon */
+.os-ide-tab-btn.active[data-track-id="php"] {
+  background: #4f46e5 !important;
+  color: #ffffff !important;
+}
+.os-ide-tab-btn.active[data-track-id="php"] i {
+  color: #ffffff !important;
+}
+
+/* Active .NET Tab: Purple background, reversed white text & icon */
+.os-ide-tab-btn.active[data-track-id="dotnet"] {
+  background: #7c3aed !important;
+  color: #ffffff !important;
+}
+.os-ide-tab-btn.active[data-track-id="dotnet"] i {
+  color: #ffffff !important;
+}
+
+/* Active DNS Tab: Emerald background, reversed white text & icon */
+.os-ide-tab-btn.active[data-track-id="dns"] {
+  background: #059669 !important;
+  color: #ffffff !important;
+}
+.os-ide-tab-btn.active[data-track-id="dns"] i {
+  color: #ffffff !important;
+}
+
+/* Active DevOps Tab: Fuchsia background, reversed white text & icon */
+.os-ide-tab-btn.active[data-track-id="devops"] {
+  background: #c026d3 !important;
+  color: #ffffff !important;
+}
+.os-ide-tab-btn.active[data-track-id="devops"] i {
+  color: #ffffff !important;
+}
+
+/* Active Matrix Grid Tab */
+.os-ide-tab-btn.active#osMatrixGridTabBtn {
+  background: #0ea5e9 !important;
+  color: #ffffff !important;
+}
+.os-ide-tab-btn.active#osMatrixGridTabBtn i {
+  color: #ffffff !important;
+}
+
+/* High Readability Lesson Rows & Popups */
+.lesson-card-item {
+  transition: all 0.18s cubic-bezier(0.16, 1, 0.3, 1);
+}
+.lesson-card-item:hover {
+  background: #f1f5f9;
+  border-color: #94a3b8;
+  transform: translateX(2px);
 }
 
 /* Inner Sub-Tab Switcher (Grey Tech Style) */

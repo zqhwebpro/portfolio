@@ -101,7 +101,7 @@
     "hoverBg": "hover:bg-purple-50/80",
     "btnText": "text-white",
     "btnBg": "bg-purple-600 hover:bg-purple-500 text-white",
-    "icon": "fa-brands fa-windows text-blue-600",
+    "icon": "fa-brands fa-windows text-purple-500",
     "runnerExt": "cs",
     "specPrefix": "DOTNET.9",
     "certName": ".NET 9 & C# Enterprise Systems Certification Track"
@@ -139,7 +139,7 @@
     "hoverBg": "hover:bg-fuchsia-50/80",
     "btnText": "text-white",
     "btnBg": "bg-fuchsia-600 hover:bg-fuchsia-500 text-white",
-    "icon": "fa-solid fa-server text-purple-600",
+    "icon": "fa-solid fa-server text-fuchsia-500",
     "runnerExt": "conf",
     "specPrefix": "DEVOPS.CI",
     "certName": "DevOps, Cloud Containers & CI/CD Certification Track"
@@ -3216,7 +3216,7 @@
     "category": "backend",
     "categoryBadge": "TIER.02 // SERVER_DOTNET",
     "tier": "Server Tier",
-    "icon": "fa-brands fa-windows text-blue-600",
+    "icon": "fa-brands fa-windows text-purple-500",
     "badgeColor": "bg-purple-100 text-purple-900 border-purple-300",
     "title": ".NET / C# (ASP.NET Core Web APIs, Entity Framework Core, Dependency Injection)",
     "level": "LEVEL: HIGH_THROUGHPUT_DISTRIBUTED",
@@ -3794,7 +3794,7 @@
     "category": "infrastructure",
     "categoryBadge": "TIER.03 // CLOUD_DEVOPS",
     "tier": "Infrastructure",
-    "icon": "fa-solid fa-server text-purple-600",
+    "icon": "fa-solid fa-server text-fuchsia-500",
     "badgeColor": "bg-fuchsia-100 text-fuchsia-900 border-fuchsia-300",
     "title": "Web Hosting & DevOps (Linux/Nginx, Apache vhosts, Docker, CI/CD, SSL)",
     "level": "LEVEL: CLOUD_PRODUCTION_INFRA",
@@ -4871,21 +4871,33 @@ function getTrackConsoleOutput(trackId, moduleNum, sectionId) {
     const footerLabel = document.getElementById('jseModalFooterLabel') || document.getElementById('osModalTrackFooterLabel');
     const executeBtn = document.getElementById('jseModalExecuteBtn') || document.getElementById('osModalExecuteBtn');
 
-    if (headerIcon) headerIcon.className = theme.icon + ' text-sm';
-    if (headerTag) headerTag.textContent = theme.specPrefix + ' // MODULE_' + moduleNum + ' // SEC_' + sectionId;
-    if (dot) dot.className = 'w-2 h-2 rounded-full ' + theme.accentBg + ' animate-ping';
+    if (headerIcon) headerIcon.className = theme.icon + ' text-base';
+    if (headerTag) {
+      headerTag.textContent = theme.specPrefix + ' // MODULE_' + moduleNum + ' // SEC_' + sectionId;
+      headerTag.className = 'text-slate-950 font-black tracking-wide';
+    }
+    if (dot) dot.className = 'w-2.5 h-2.5 rounded-full bg-slate-950 animate-ping';
     if (moduleBadge) {
       moduleBadge.textContent = currModule ? currModule.title : 'MODULE ' + moduleNum;
-      moduleBadge.className = 'font-mono text-xs ' + theme.accentTextDark + ' font-bold mb-1 flex items-center gap-2';
+      moduleBadge.className = 'font-mono text-xs sm:text-sm font-extrabold text-slate-950 mb-2 flex items-center gap-2 uppercase tracking-wider';
     }
-    if (lessonTitle) lessonTitle.textContent = sec.title;
-    if (lessonDesc) lessonDesc.textContent = sec.summary || 'Interactive lesson runtime and syllabus objectives.';
+    if (lessonTitle) {
+      lessonTitle.textContent = sec.title;
+      lessonTitle.className = 'font-headline font-black text-2xl sm:text-3xl lg:text-4xl text-slate-950 leading-tight';
+    }
+    if (lessonDesc) {
+      lessonDesc.textContent = sec.summary || 'Interactive lesson runtime and syllabus objectives.';
+      lessonDesc.className = 'font-sans text-sm sm:text-base lg:text-lg text-slate-800 mt-3 leading-relaxed font-medium';
+    }
     if (runnerFilename) runnerFilename.textContent = 'RUNNER // live_interpreter.' + theme.runnerExt;
 
-    if (footerIcon) footerIcon.className = 'fa-solid fa-graduation-cap ' + theme.accentText;
-    if (footerLabel) footerLabel.textContent = theme.certName;
+    if (footerIcon) footerIcon.className = 'fa-solid fa-graduation-cap text-slate-950 text-base';
+    if (footerLabel) {
+      footerLabel.textContent = theme.certName;
+      footerLabel.className = 'text-slate-800 font-bold';
+    }
     if (executeBtn) {
-      executeBtn.className = 'px-3.5 py-1.5 rounded-lg ' + theme.btnBg + ' font-bold transition-colors cursor-pointer flex items-center gap-1.5 shadow-xs';
+      executeBtn.className = 'px-5 py-2.5 rounded-xl bg-slate-950 hover:bg-slate-800 text-white font-bold transition-colors cursor-pointer flex items-center gap-2 shadow-xs text-xs sm:text-sm';
     }
 
     if (consoleOutput) {
@@ -5024,16 +5036,16 @@ function getTrackConsoleOutput(trackId, moduleNum, sectionId) {
         const isLastInTrack = globalModuleIndex === modules.length - 1;
 
         const sectionsHtml = m.sections
-          .map((sec) => (
-            '<div class="p-2 sm:p-2.5 rounded-lg bg-slate-50 border border-slate-200 ' + theme.hoverBg + ' ' + theme.hoverBorder + ' transition-all flex items-center justify-between gap-2.5 group/item">' +
-              '<div class="flex items-center gap-2 min-w-0">' +
-                '<span class="w-1.5 h-1.5 rounded-full ' + theme.accentBg + ' shrink-0"></span>' +
-                '<span class="font-mono text-xs font-semibold text-slate-800 leading-snug truncate" title="' + sec.title + '">' +
+          .map((sec, secIdx) => (
+            '<div class="p-3 sm:p-3.5 rounded-xl bg-slate-50 border border-slate-200 hover:bg-slate-100/90 hover:border-slate-400 transition-all flex items-center justify-between gap-3 group/item lesson-card-item">' +
+              '<div class="flex items-center gap-3 min-w-0 flex-1">' +
+                '<span class="w-6 h-6 rounded-md bg-slate-200 text-slate-900 font-mono text-xs font-black flex items-center justify-center shrink-0">' + (secIdx + 1) + '</span>' +
+                '<span class="font-sans text-sm sm:text-base font-bold text-slate-900 leading-snug break-words" title="' + sec.title + '">' +
                   sec.title +
                 '</span>' +
               '</div>' +
-              '<button type="button" onclick="window.startCurriculumSection(\'' + m.num + '\', \'' + sec.id + '\', \'' + mod.id + '\')" class="shrink-0 px-2.5 py-1 rounded bg-slate-900 hover:' + theme.accentBg + ' text-white hover:' + theme.btnText + ' font-mono text-[11px] font-bold transition-all shadow-xs flex items-center gap-1 cursor-pointer">' +
-                '<span>start</span>' +
+              '<button type="button" onclick="window.startCurriculumSection(\'' + m.num + '\', \'' + sec.id + '\', \'' + mod.id + '\')" class="shrink-0 px-3.5 py-1.5 rounded-lg bg-slate-950 hover:bg-slate-800 text-white font-mono text-xs font-bold transition-all shadow-xs flex items-center gap-1.5 cursor-pointer">' +
+                '<span>Start Lesson</span>' +
                 '<i class="fa-solid fa-play text-[8px]"></i>' +
               '</button>' +
             '</div>'
@@ -5044,18 +5056,18 @@ function getTrackConsoleOutput(trackId, moduleNum, sectionId) {
         if (globalModuleIndex === 0) {
           const nextModNum = modules[1] ? modules[1].num : '02';
           blockNavHtml = (
-            '<div class="text-[11px] text-slate-500 font-mono flex items-center justify-between">' +
-              '<span>PREREQUISITES: NONE</span>' +
-              '<span class="' + theme.accentTextDark + ' font-bold">NEXT: MOD ' + nextModNum + ' &rarr;</span>' +
+            '<div class="text-xs text-slate-600 font-mono flex items-center justify-between">' +
+              '<span class="font-bold">PREREQUISITES: NONE</span>' +
+              '<span class="text-slate-950 font-black">NEXT: MOD ' + nextModNum + ' &rarr;</span>' +
             '</div>'
           );
         } else if (isLastInTrack) {
           blockNavHtml = (
             '<div class="flex items-center justify-between">' +
-              '<span class="text-[11px] text-emerald-600 font-mono font-bold flex items-center gap-1">' +
-                '<i class="fa-solid fa-certificate"></i> ' + mod.trackBadge + ' FINAL EXAM' +
+              '<span class="text-xs text-slate-900 font-mono font-black flex items-center gap-1">' +
+                '<i class="fa-solid fa-certificate text-emerald-600"></i> ' + mod.trackBadge + ' FINAL EXAM' +
               '</span>' +
-              '<button type="button" onclick="window.switchCurriculumPage(0, \'' + mod.id + '\')" class="px-2.5 py-1 rounded bg-slate-200 hover:bg-slate-300 text-slate-800 text-xs font-mono font-bold transition-colors cursor-pointer flex items-center gap-1">' +
+              '<button type="button" onclick="window.switchCurriculumPage(0, \'' + mod.id + '\')" class="px-3 py-1.5 rounded-lg bg-slate-200 hover:bg-slate-300 text-slate-900 text-xs font-mono font-bold transition-colors cursor-pointer flex items-center gap-1">' +
                 '<span>&larr; Back to 01</span>' +
               '</button>' +
             '</div>'
@@ -5068,8 +5080,8 @@ function getTrackConsoleOutput(trackId, moduleNum, sectionId) {
           const nextPageLabel = 'Modules ' + nextStart + '–' + nextEnd;
           blockNavHtml = (
             '<div class="flex items-center justify-between">' +
-              '<span class="text-[11px] text-slate-500 font-mono">STAGE ' + (currentPage + 1) + ' COMPLETE</span>' +
-              '<button type="button" onclick="window.switchCurriculumPage(' + nextPage + ', \'' + mod.id + '\')" class="px-2.5 py-1 rounded ' + theme.btnBg + ' text-xs font-mono font-bold transition-colors cursor-pointer flex items-center gap-1 shadow-xs">' +
+              '<span class="text-xs text-slate-600 font-mono font-bold">STAGE ' + (currentPage + 1) + ' COMPLETE</span>' +
+              '<button type="button" onclick="window.switchCurriculumPage(' + nextPage + ', \'' + mod.id + '\')" class="px-3.5 py-1.5 rounded-lg bg-slate-950 hover:bg-slate-800 text-white text-xs font-mono font-bold transition-colors cursor-pointer flex items-center gap-1 shadow-xs">' +
                 '<span>Next: ' + nextPageLabel + '</span>' +
                 '<i class="fa-solid fa-arrow-right text-[10px]"></i>' +
               '</button>' +
@@ -5084,69 +5096,69 @@ function getTrackConsoleOutput(trackId, moduleNum, sectionId) {
           const nextModNum = modules[globalModuleIndex + 1] ? modules[globalModuleIndex + 1].num : '';
           blockNavHtml = (
             '<div class="flex items-center justify-between">' +
-              '<button type="button" onclick="window.switchCurriculumPage(' + prevPage + ', \'' + mod.id + '\')" class="px-2 py-1 rounded bg-slate-200 hover:bg-slate-300 text-slate-800 text-xs font-mono font-bold transition-colors cursor-pointer flex items-center gap-1">' +
+              '<button type="button" onclick="window.switchCurriculumPage(' + prevPage + ', \'' + mod.id + '\')" class="px-2.5 py-1 rounded-lg bg-slate-200 hover:bg-slate-300 text-slate-900 text-xs font-mono font-bold transition-colors cursor-pointer flex items-center gap-1">' +
                 '<i class="fa-solid fa-arrow-left text-[10px]"></i>' +
                 '<span>' + prevPageLabel + '</span>' +
               '</button>' +
-              '<span class="text-[11px] ' + theme.accentTextDark + ' font-mono font-bold">NEXT: MOD ' + nextModNum + ' &rarr;</span>' +
+              '<span class="text-xs text-slate-950 font-mono font-black">NEXT: MOD ' + nextModNum + ' &rarr;</span>' +
             '</div>'
           );
         } else {
           // Standard middle block or inner progression
           const nextModNum = modules[globalModuleIndex + 1] ? modules[globalModuleIndex + 1].num : '';
           blockNavHtml = (
-            '<div class="text-[11px] text-slate-500 font-mono flex items-center justify-between">' +
-              '<span>CORE_STAGE: ' + (m.shortTitle || 'FOUNDATIONS') + '</span>' +
-              '<span class="' + theme.accentTextDark + ' font-bold">NEXT: MOD ' + nextModNum + ' &rarr;</span>' +
+            '<div class="text-xs text-slate-600 font-mono flex items-center justify-between">' +
+              '<span class="font-bold">CORE_STAGE: ' + (m.shortTitle || 'FOUNDATIONS') + '</span>' +
+              '<span class="text-slate-950 font-black">NEXT: MOD ' + nextModNum + ' &rarr;</span>' +
             '</div>'
           );
         }
 
         const borderClass = isMiddle
-          ? (theme.middleBorder + ' shadow-md ring-1 ' + theme.middleRing)
+          ? 'border-slate-800 shadow-md ring-1 ring-slate-400/30'
           : 'border-slate-300';
 
         const positionLabel = isMiddle ? 'MIDDLE_BLOCK' : (idx === 0 ? 'START_BLOCK' : 'RIGHT_BLOCK');
 
         return (
-          '<div class="p-5 sm:p-6 bg-white border-2 ' + borderClass + ' rounded-xl flex flex-col justify-between hover:border-slate-500 transition-all group">' +
+          '<div class="p-5 sm:p-6 bg-white border-2 ' + borderClass + ' rounded-2xl flex flex-col justify-between hover:border-slate-600 transition-all group shadow-sm">' +
             '<div>' +
               '<!-- Top Header Strip with Outline Number -->' +
-              '<div class="flex items-center justify-between pb-3 mb-3 border-b border-slate-200">' +
-                '<div class="flex items-center gap-2.5">' +
-                  '<span class="font-mono text-3xl sm:text-4xl font-black ' + theme.accentText + ' tracking-tight leading-none">' + m.num + '.</span>' +
+              '<div class="flex items-center justify-between pb-3.5 mb-3.5 border-b border-slate-200">' +
+                '<div class="flex items-center gap-3">' +
+                  '<span class="font-mono text-4xl sm:text-5xl font-black text-slate-950 tracking-tight leading-none">' + m.num + '.</span>' +
                   '<div class="flex flex-col">' +
-                    '<span class="font-mono text-[10px] font-bold text-slate-400 uppercase tracking-widest">' +
+                    '<span class="font-mono text-[10px] font-bold text-slate-500 uppercase tracking-widest">' +
                       positionLabel +
                     '</span>' +
-                    '<span class="font-mono text-xs font-semibold text-slate-700">' + m.code + '</span>' +
+                    '<span class="font-mono text-xs font-extrabold text-slate-800">' + m.code + '</span>' +
                   '</div>' +
                 '</div>' +
-                '<span class="px-2 py-0.5 rounded text-[10px] font-mono font-bold ' + theme.accentBgLight + ' ' + theme.accentTextBadge + ' border ' + theme.accentBorderBadge + '">' +
+                '<span class="px-2.5 py-1 rounded text-xs font-mono font-bold bg-slate-100 text-slate-900 border border-slate-300">' +
                   'STAGE § ' + m.num +
                 '</span>' +
               '</div>' +
 
               '<!-- Module Title & Outline Scope -->' +
-              '<h4 class="font-headline font-bold text-slate-900 text-base sm:text-lg mb-2 leading-snug group-hover:' + theme.accentTextDark + ' transition-colors">' +
+              '<h4 class="font-headline font-black text-slate-950 text-xl sm:text-2xl mb-2.5 leading-snug">' +
                 m.title +
               '</h4>' +
-              '<p class="text-xs text-slate-600 leading-relaxed font-sans mb-4">' +
+              '<p class="text-sm text-slate-700 leading-relaxed font-sans mb-5 font-normal">' +
                 m.desc +
               '</p>' +
 
               '<!-- Outline Checklist -->' +
-              '<div class="space-y-2 pt-2 border-t border-slate-100">' +
-                '<div class="flex items-center justify-between text-[11px] font-mono text-slate-400 font-bold uppercase tracking-wider pb-1">' +
+              '<div class="space-y-2.5 pt-3 border-t border-slate-100">' +
+                '<div class="flex items-center justify-between text-xs font-mono text-slate-600 font-extrabold uppercase tracking-wider pb-1">' +
                   '<span>Curriculum Outline</span>' +
-                  '<span>Interactive</span>' +
+                  '<span class="text-slate-900 font-bold">Interactive</span>' +
                 '</div>' +
                 sectionsHtml +
               '</div>' +
             '</div>' +
 
             '<!-- Block Navigation / Footer -->' +
-            '<div class="pt-4 mt-5 border-t border-slate-200">' +
+            '<div class="pt-4 mt-6 border-t border-slate-200">' +
               blockNavHtml +
             '</div>' +
           '</div>'
@@ -5161,9 +5173,9 @@ function getTrackConsoleOutput(trackId, moduleNum, sectionId) {
       const endNum = Math.min(modules.length, (pIdx + 1) * 3).toString().padStart(2, '0');
       const midNum = (pIdx * 3 + 2).toString().padStart(2, '0');
       const label = startNum + '. ' + midNum + '. ' + endNum + '. Modules ' + parseInt(startNum, 10) + '–' + parseInt(endNum, 10);
-      const activeClass = isPageActive ? (theme.btnBg + ' shadow-xs') : 'text-slate-600 hover:text-slate-950';
+      const activeClass = isPageActive ? 'bg-slate-950 text-white shadow-xs font-black' : 'text-slate-700 hover:text-slate-950 font-bold';
       return (
-        '<button type="button" onclick="window.switchCurriculumPage(' + pIdx + ', \'' + mod.id + '\')" class="px-3.5 py-1.5 rounded-md text-xs font-bold transition-all cursor-pointer ' + activeClass + '">' +
+        '<button type="button" onclick="window.switchCurriculumPage(' + pIdx + ', \'' + mod.id + '\')" class="px-4 py-2 rounded-lg text-xs transition-all cursor-pointer ' + activeClass + '">' +
           label +
         '</button>'
       );
@@ -5179,16 +5191,16 @@ function getTrackConsoleOutput(trackId, moduleNum, sectionId) {
     container.innerHTML = (
       '<div class="os-white-card w-full">' +
         '<!-- Scientific Specification Window Titlebar -->' +
-        '<div class="os-window-header px-6 sm:px-10 lg:px-14 py-3" id="matrixCurriculumOutlineAnchor">' +
+        '<div class="os-window-header px-6 sm:px-10 lg:px-14 py-3.5" id="matrixCurriculumOutlineAnchor">' +
           '<div class="flex items-center gap-2.5">' +
-            '<div class="font-mono text-xs text-slate-700 flex items-center gap-2 font-semibold">' +
-              '<i class="' + mod.icon + ' text-[12px]"></i>' +
+            '<div class="font-mono text-xs sm:text-sm text-slate-800 flex items-center gap-2 font-bold">' +
+              '<i class="' + mod.icon + ' text-[14px]"></i>' +
               '<span>/usr/local/matrix/curriculum/' + mod.fileName + '</span>' +
             '</div>' +
           '</div>' +
 
-          '<div class="font-mono text-xs text-slate-600 font-bold flex items-center gap-2">' +
-            '<span class="px-2 py-0.5 rounded ' + theme.accentBgLight + ' ' + theme.accentTextBadge + ' border ' + theme.accentBorderBadge + '">' + mod.trackBadge + '</span>' +
+          '<div class="font-mono text-xs sm:text-sm text-slate-800 font-extrabold flex items-center gap-2">' +
+            '<span class="px-2.5 py-1 rounded bg-slate-100 text-slate-900 border border-slate-300 font-bold">' + mod.trackBadge + '</span>' +
             '<span>' + modules.length.toString().padStart(2, '0') + ' MODULES // 3-BLOCK OUTLINE</span>' +
           '</div>' +
         '</div>' +
@@ -5198,21 +5210,21 @@ function getTrackConsoleOutput(trackId, moduleNum, sectionId) {
           
           '<!-- Scientific Header & Technical Parameters -->' +
           '<div class="pb-5 border-b border-slate-200">' +
-            '<div class="font-mono text-xs text-slate-500 tracking-wider mb-2.5 flex items-center gap-2 flex-wrap">' +
-              '<span class="font-bold text-slate-800">SPEC_ID: ' + mod.specId + '</span>' +
+            '<div class="font-mono text-xs text-slate-600 tracking-wider mb-3 flex items-center gap-2 flex-wrap">' +
+              '<span class="font-black text-slate-900">SPEC_ID: ' + mod.specId + '</span>' +
               '<span class="text-slate-300">/</span>' +
-              '<span>TIER: ' + mod.tier.toUpperCase() + '</span>' +
+              '<span class="font-bold text-slate-800">TIER: ' + mod.tier.toUpperCase() + '</span>' +
               '<span class="text-slate-300">/</span>' +
-              '<span>DOMAIN: ' + mod.category.toUpperCase() + '</span>' +
+              '<span class="font-bold text-slate-800">DOMAIN: ' + mod.category.toUpperCase() + '</span>' +
               '<span class="text-slate-300">/</span>' +
-              '<span>DURATION: ' + mod.duration + '</span>' +
+              '<span class="font-bold text-slate-800">DURATION: ' + mod.duration + '</span>' +
               '<span class="text-slate-300">/</span>' +
-              '<span class="' + theme.accentTextDark + ' font-bold">STRUCTURE: 3 BLOCKS IN A ROW</span>' +
+              '<span class="text-slate-950 font-black">STRUCTURE: 3 BLOCKS IN A ROW</span>' +
             '</div>' +
-            '<h2 class="font-headline font-bold text-2xl sm:text-3xl text-slate-900 tracking-tight leading-tight mb-2.5">' +
+            '<h2 class="font-headline font-black text-3xl sm:text-4xl text-slate-950 tracking-tight leading-tight mb-3">' +
               mod.title +
             '</h2>' +
-            '<p class="font-sans text-xs sm:text-sm text-slate-600 leading-relaxed max-w-4xl">' +
+            '<p class="font-sans text-sm sm:text-base text-slate-800 leading-relaxed max-w-5xl font-medium">' +
               mod.summary +
             '</p>' +
           '</div>' +
@@ -5220,17 +5232,17 @@ function getTrackConsoleOutput(trackId, moduleNum, sectionId) {
           '<!-- 3-Block Outline Interactive Switcher / Pagination Toolbar -->' +
           '<div class="flex flex-col sm:flex-row sm:items-center justify-between gap-3 p-3.5 bg-slate-100 border border-slate-300 rounded-xl font-mono text-xs">' +
             '<div class="flex items-center gap-2.5 flex-wrap">' +
-              '<span class="font-bold text-slate-700 flex items-center gap-1.5">' +
-                '<i class="fa-solid fa-layer-group ' + theme.accentText + '"></i>' +
+              '<span class="font-black text-slate-900 flex items-center gap-1.5 text-xs sm:text-sm">' +
+                '<i class="fa-solid fa-layer-group text-slate-900"></i>' +
                 '<span>OUTLINE_BLOCKS:</span>' +
               '</span>' +
-              '<div class="inline-flex rounded-lg border border-slate-300 bg-white p-0.5 shadow-2xs">' +
+              '<div class="inline-flex rounded-lg border border-slate-300 bg-white p-1 shadow-2xs">' +
                 pageButtonsHtml +
               '</div>' +
             '</div>' +
 
             '<div class="flex items-center gap-2">' +
-              '<button type="button" onclick="window.switchCurriculumPage(null, \'' + mod.id + '\')" class="px-4 py-1.5 rounded-lg bg-slate-900 hover:' + theme.accentBg + ' text-white hover:' + theme.btnText + ' font-bold transition-all flex items-center gap-2 cursor-pointer shadow-xs">' +
+              '<button type="button" onclick="window.switchCurriculumPage(null, \'' + mod.id + '\')" class="px-5 py-2 rounded-lg bg-slate-950 hover:bg-slate-800 text-white font-black text-xs transition-all flex items-center gap-2 cursor-pointer shadow-sm">' +
                 '<span>' + nextButtonText + '</span>' +
               '</button>' +
             '</div>' +
@@ -5291,7 +5303,6 @@ function getTrackConsoleOutput(trackId, moduleNum, sectionId) {
 
     const cardsHtml = filtered
       .map((mod) => {
-        const theme = TRACK_THEMES[mod.id] || TRACK_THEMES.javascript;
         const totalMods = mod.modules ? mod.modules.length : 6;
         const mod1 = mod.modules[0] ? mod.modules[0].shortTitle : 'Stage 1';
         const mod2 = mod.modules[1] ? mod.modules[1].shortTitle : 'Stage 2';
@@ -5299,49 +5310,49 @@ function getTrackConsoleOutput(trackId, moduleNum, sectionId) {
         return (
           '<div class="os-white-card flex flex-col justify-between cursor-pointer group hover:shadow-xl transition-all border border-slate-200" data-card-track-id="' + mod.id + '">' +
             '<!-- Titlebar -->' +
-            '<div class="os-window-header py-2 px-4">' +
-              '<div class="font-mono text-xs text-slate-600 font-semibold flex items-center gap-1.5">' +
+            '<div class="os-window-header py-2.5 px-4">' +
+              '<div class="font-mono text-xs text-slate-700 font-bold flex items-center gap-1.5">' +
                 '<i class="' + mod.icon + '"></i> ' + mod.fileName +
               '</div>' +
-              '<div class="font-mono text-xs text-slate-500 font-semibold">' + mod.duration + '</div>' +
+              '<div class="font-mono text-xs text-slate-600 font-semibold">' + mod.duration + '</div>' +
             '</div>' +
 
             '<!-- Body -->' +
             '<div class="p-6 flex-1 flex flex-col justify-between">' +
               '<div>' +
-                '<div class="font-mono text-xs text-slate-500 uppercase tracking-wider mb-2 font-bold">' +
+                '<div class="font-mono text-xs text-slate-600 uppercase tracking-wider mb-2 font-black">' +
                   mod.tier + ' // ' + mod.category.toUpperCase() +
                 '</div>' +
 
-                '<h3 class="font-headline font-bold text-xl sm:text-2xl text-slate-900 leading-tight group-hover:text-sky-600 transition-colors mb-3 tracking-tight">' +
+                '<h3 class="font-headline font-black text-xl sm:text-2xl text-slate-950 leading-tight group-hover:text-black transition-colors mb-3 tracking-tight">' +
                   mod.title +
                 '</h3>' +
 
-                '<p class="font-sans text-xs sm:text-sm text-slate-600 leading-relaxed mb-4">' +
+                '<p class="font-sans text-sm text-slate-700 leading-relaxed mb-4">' +
                   mod.summary +
                 '</p>' +
 
                 '<!-- Outline Breakdown -->' +
-                '<div class="py-2.5 px-3 ' + theme.accentBgLight + ' border ' + theme.accentBorderBadge + ' font-mono text-xs text-slate-800 mb-4 space-y-1 rounded-lg">' +
-                  '<div class="flex justify-between font-bold ' + theme.accentTextBadge + '">' +
+                '<div class="py-3 px-3.5 bg-slate-100 border border-slate-300 font-mono text-xs text-slate-900 mb-4 space-y-1.5 rounded-xl">' +
+                  '<div class="flex justify-between font-black text-slate-950">' +
                     '<span>' + mod.trackBadge + ': ' + totalMods + '-Module Curriculum Outline</span>' +
-                    '<span class="' + theme.accentTextDark + '">[01–' + totalMods.toString().padStart(2, '0') + ']</span>' +
+                    '<span class="text-slate-950">[01–' + totalMods.toString().padStart(2, '0') + ']</span>' +
                   '</div>' +
-                  '<div class="flex justify-between text-slate-600">' +
+                  '<div class="flex justify-between text-slate-700">' +
                     '<span>[01–03] ' + mod1 + ', ' + mod2 + ':</span>' +
-                    '<span class="font-bold text-slate-800">3 Blocks</span>' +
+                    '<span class="font-black text-slate-900">3 Blocks</span>' +
                   '</div>' +
-                  '<div class="flex justify-between text-slate-600">' +
+                  '<div class="flex justify-between text-slate-700">' +
                     '<span>[04–' + totalMods.toString().padStart(2, '0') + '] Advanced &amp; Internals:</span>' +
-                    '<span class="font-bold text-slate-800">' + (totalMods - 3) + ' Blocks</span>' +
+                    '<span class="font-black text-slate-900">' + (totalMods - 3) + ' Blocks</span>' +
                   '</div>' +
                 '</div>' +
               '</div>' +
 
               '<!-- Action Bar -->' +
               '<div class="pt-4 border-t border-slate-200 flex items-center justify-between">' +
-                '<span class="text-xs font-mono text-slate-500 font-semibold">' + totalMods + ' OUTLINE MODULES</span>' +
-                '<button type="button" class="font-mono text-xs font-bold text-slate-900 hover:' + theme.accentTextDark + ' flex items-center gap-1.5 transition-colors">' +
+                '<span class="text-xs font-mono text-slate-600 font-bold">' + totalMods + ' OUTLINE MODULES</span>' +
+                '<button type="button" class="font-mono text-xs font-black text-slate-950 hover:text-black flex items-center gap-1.5 transition-colors">' +
                   '<span>INSPECT_OUTLINE &rarr;</span>' +
                 '</button>' +
               '</div>' +

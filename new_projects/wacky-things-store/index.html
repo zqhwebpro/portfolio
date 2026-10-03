@@ -539,31 +539,26 @@
             transform: translateY(1px) scale(0.98);
         }
 
-        /* 3. WARM YELLOW / ORANGE ACCENT BUTTONS (Funny Academy, Enroll, Webinar) */
-        #header-learning-btn,
+        /* 3. WARM YELLOW / ORANGE ACCENT BUTTONS (Enroll, Webinar) */
         #webinar-submit-btn,
         #enroll-modal-submit-btn,
         #video-demo-enroll-cta,
         .btn-orange-primary,
         .btn-blue-primary {
             background: #F59E0B !important;
-
             border: 1px solid rgba(245, 158, 11, 0.4) !important;
             color: #ffffff !important;
         }
 
-        #header-learning-btn:hover,
         #webinar-submit-btn:hover,
         #enroll-modal-submit-btn:hover,
         #video-demo-enroll-cta:hover,
         .btn-orange-primary:hover,
         .btn-blue-primary:hover {
             background: #D97706 !important;
-
             transform: translateY(-2px);
         }
 
-        #header-learning-btn:active,
         #webinar-submit-btn:active,
         #enroll-modal-submit-btn:active,
         #video-demo-enroll-cta:active,
@@ -572,7 +567,6 @@
             transform: translateY(1px) scale(0.98);
         }
 
-        /* 4. SECONDARY / GHOST / NEUTRAL BUTTONS (.NET Arch, Admin CRUD, Admin, Inactive Filters) */
         /* 4. SECONDARY / GHOST / NEUTRAL BUTTONS */
         #screen-regular header button:not(.bg-appetite-700):not(#header-learning-btn):not(#search-clear-btn):not(#header-blog-btn):not(#header-shipping-btn):not(#header-catalog-btn):not(#floating-cart-btn) {
             background: #ffffff !important;
@@ -587,25 +581,25 @@
             color: #1A0845 !important;
         }
 
-        /* 5. CATALOG BUTTON: SOLID MAGENTA BOLD COLOR */
+        /* HEADER BUTTON 1: STORE (TEAL) */
         #header-catalog-btn,
         button#header-catalog-btn,
         header #header-catalog-btn {
-            background: #D946EF !important;
-            border: 1px solid #C026D3 !important;
+            background: #0D9488 !important;
+            border: 1px solid #0F766E !important;
             color: #ffffff !important;
             font-weight: 700 !important;
-            box-shadow: 0 4px 14px -2px rgba(217, 70, 239, 0.45) !important;
+            box-shadow: 0 4px 14px -2px rgba(13, 148, 136, 0.45) !important;
         }
 
         #header-catalog-btn:hover,
         button#header-catalog-btn:hover,
         header #header-catalog-btn:hover {
-            background: #C026D3 !important;
-            border-color: #A21CAF !important;
+            background: #0F766E !important;
+            border-color: #115E59 !important;
             color: #ffffff !important;
             transform: translateY(-1.5px) !important;
-            box-shadow: 0 6px 18px -2px rgba(192, 38, 211, 0.55) !important;
+            box-shadow: 0 6px 18px -2px rgba(15, 118, 110, 0.55) !important;
         }
 
         #header-catalog-btn i,
@@ -614,31 +608,84 @@
             font-weight: 700 !important;
         }
 
-        /* SHIPPING ESTIMATOR BUTTON: SOLID TEAL / APPETITE BOLD COLOR */
+        /* HEADER BUTTON 2: BLOG (PURPLE) */
+        #header-blog-btn,
+        button#header-blog-btn,
+        header #header-blog-btn {
+            background: #7C3AED !important;
+            border: 1px solid #6D28D9 !important;
+            color: #ffffff !important;
+            font-weight: 700 !important;
+            box-shadow: 0 4px 14px -2px rgba(124, 58, 237, 0.45) !important;
+        }
+
+        #header-blog-btn:hover,
+        button#header-blog-btn:hover,
+        header #header-blog-btn:hover {
+            background: #6D28D9 !important;
+            border-color: #5B21B6 !important;
+            color: #ffffff !important;
+            transform: translateY(-1.5px) !important;
+            box-shadow: 0 6px 18px -2px rgba(109, 40, 217, 0.55) !important;
+        }
+
+        #header-blog-btn i,
+        #header-blog-btn span {
+            color: #ffffff !important;
+            font-weight: 700 !important;
+        }
+
+        /* HEADER BUTTON 3: SHIPPING ESTIMATOR (YELLOW) */
         #header-shipping-btn,
         button#header-shipping-btn,
         header #header-shipping-btn {
-            background: #0D9488 !important;
-            border: 1px solid #0F766E !important;
+            background: #F59E0B !important;
+            border: 1px solid #D97706 !important;
             color: #ffffff !important;
             font-weight: 700 !important;
-            box-shadow: 0 4px 14px -2px rgba(13, 148, 136, 0.45) !important;
+            box-shadow: 0 4px 14px -2px rgba(245, 158, 11, 0.45) !important;
         }
 
         #header-shipping-btn:hover,
         button#header-shipping-btn:hover,
         header #header-shipping-btn:hover {
-            background: #0F766E !important;
-            border-color: #115E59 !important;
+            background: #D97706 !important;
+            border-color: #B45309 !important;
             color: #ffffff !important;
             transform: translateY(-1.5px) !important;
-            box-shadow: 0 6px 18px -2px rgba(15, 118, 110, 0.55) !important;
+            box-shadow: 0 6px 18px -2px rgba(217, 119, 6, 0.55) !important;
         }
 
         #header-shipping-btn i,
         #header-shipping-btn span {
             color: #ffffff !important;
             font-weight: 700 !important;
+        }
+
+        /* HEADER BUTTON 4: FUNNY ACADEMY (MAGENTA - ICON ONLY) */
+        #header-learning-btn,
+        button#header-learning-btn,
+        header #header-learning-btn {
+            background: #D946EF !important;
+            border: 1px solid #C026D3 !important;
+            color: #ffffff !important;
+            font-weight: 700 !important;
+            box-shadow: 0 4px 14px -2px rgba(217, 70, 239, 0.45) !important;
+        }
+
+        #header-learning-btn:hover,
+        button#header-learning-btn:hover,
+        header #header-learning-btn:hover {
+            background: #C026D3 !important;
+            border-color: #A21CAF !important;
+            color: #ffffff !important;
+            transform: translateY(-1.5px) !important;
+            box-shadow: 0 6px 18px -2px rgba(192, 38, 211, 0.55) !important;
+        }
+
+        #header-learning-btn i {
+            color: #ffffff !important;
+            font-size: 1.15rem !important;
         }
 
         /* FLOATING CART CIRCULAR BUTTON (FIXED LOWER RIGHT - TEAL WITH ONLY AN ICON) */
@@ -1307,19 +1354,19 @@
            NEWSLETTER SECTION (GRADIENT FROM 4 NAV BUTTONS & WHITE/BLACK OPAQUE CARD)
            ======================================================== */
         #newsletter-section {
-            background: linear-gradient(90deg, #BE185D 0%, #2E1065 25%, #0D9488 50%, #F59E0B 75%, #BE185D 100%) !important;
-            background-size: 200% 100% !important;
-            animation: flowNewsletterGradient 9s linear infinite !important;
+            background: linear-gradient(90deg, #0D9488 0%, #7C3AED 25%, #F59E0B 50%, #D946EF 75%, #0D9488 100%) !important;
+            background-size: 300% 100% !important;
+            animation: flowNewsletterGradient 7s ease-in-out infinite alternate !important;
             position: relative;
             overflow: hidden;
         }
 
         @keyframes flowNewsletterGradient {
             0% {
-                background-position: 100% 50%;
+                background-position: 0% 50%;
             }
             100% {
-                background-position: -100% 50%;
+                background-position: 100% 50%;
             }
         }
 
@@ -2155,20 +2202,21 @@
             </div>
 
             <!-- Header Action Buttons: Starts Teal, Purple, Yellow, then Magenta -->
+            <!-- Order: Store, Blog, Shipping Estimator, Funny Academy (just shown by the icon) -->
             <div class="flex items-center gap-2.5">
 
-                <!-- 1. Shipping Distance Map Estimator Trigger (TEAL) -->
-                <button type="button" onclick="window.openShippingModal()" id="header-shipping-btn"
-                    data-blueprint-file="WackyStore.WebUI/Controllers/ShippingCalculatorController.cs"
-                    data-blueprint-role="Geodesic Shipping Distance Estimator Portal"
-                    data-blueprint-layer="WebUI / Navigation &amp; Spatial Routing"
-                    data-blueprint-dom="Solid bold teal action button opening the interactive US map shipping calculator popup modal."
-                    data-blueprint-desc="Opens dedicated US map shipping distance estimator popup modal using real Leaflet GIS cartography and Haversine spherical math."
-                    data-blueprint-code="public ActionResult ShippingCalculator() => PartialView(&quot;_DistanceMatrixCalculator&quot;);"
+                <!-- 1. Store (Catalog View) Trigger (TEAL) -->
+                <button type="button" onclick="window.navigateToCatalog()" id="header-catalog-btn"
+                    data-blueprint-file="WackyStore.WebUI/Controllers/CatalogController.cs"
+                    data-blueprint-role="Catalog View Controller"
+                    data-blueprint-layer="WebUI / Navigation &amp; Store"
+                    data-blueprint-dom="Solid bold teal action button navigating to the store catalog."
+                    data-blueprint-desc="Closes active pushdown panels and returns to the product catalog as the primary section."
+                    data-blueprint-code="public ActionResult Catalog() => View(repository.GetProducts());"
                     class="h-10 px-3.5 rounded-xl bg-teal-600 hover:bg-teal-700 text-white text-xs font-bold flex items-center gap-1.5 transition-all shadow-md shadow-teal-900/20 active:scale-95 cursor-pointer border border-teal-500"
-                    title="Estimate Shipping Distance Across America">
-                    <i class="fa-solid fa-map-location-dot text-white"></i>
-                    <span class="hidden md:inline text-white font-bold">Shipping Estimator</span>
+                    title="Store">
+                    <i class="fa-solid fa-shop text-white"></i>
+                    <span class="hidden md:inline text-white font-bold">Store</span>
                 </button>
 
                 <!-- 2. Blog Reading Portal Trigger (PURPLE) -->
@@ -2179,37 +2227,36 @@
                     data-blueprint-desc="Drops down the blog chronicles panel pushing catalog down, poofing out previous panels."
                     data-blueprint-code="public ActionResult Blog() => View(repository.GetArticles());"
                     class="h-10 px-3.5 rounded-xl bg-[#7C3AED] hover:bg-[#6D28D9] border border-[#6D28D9] text-white text-xs font-bold flex items-center gap-1.5 transition-all shadow-md shadow-purple-900/20 active:scale-95 cursor-pointer"
-                    title="Read The Mischief Gazette">
-                    <i id="headerBlogIcon" class="fa-solid fa-newspaper text-purple-200"></i>
-                    <span id="headerBlogText" class="hidden sm:inline">The Wacky Blog</span>
+                    title="Blog">
+                    <i id="headerBlogIcon" class="fa-solid fa-newspaper text-white"></i>
+                    <span id="headerBlogText" class="hidden sm:inline">Blog</span>
                 </button>
 
-                <!-- 3. Yellow Academy Portal Trigger (YELLOW) -->
+                <!-- 3. Shipping Distance Map Estimator Trigger (YELLOW) -->
+                <button type="button" onclick="window.openShippingModal()" id="header-shipping-btn"
+                    data-blueprint-file="WackyStore.WebUI/Controllers/ShippingCalculatorController.cs"
+                    data-blueprint-role="Geodesic Shipping Distance Estimator Portal"
+                    data-blueprint-layer="WebUI / Navigation &amp; Spatial Routing"
+                    data-blueprint-dom="Solid bold yellow action button opening the interactive US map shipping calculator popup modal."
+                    data-blueprint-desc="Opens dedicated US map shipping distance estimator popup modal using real Leaflet GIS cartography and Haversine spherical math."
+                    data-blueprint-code="public ActionResult ShippingCalculator() => PartialView(&quot;_DistanceMatrixCalculator&quot;);"
+                    class="h-10 px-3.5 rounded-xl bg-[#F59E0B] hover:bg-[#D97706] text-white text-xs font-bold flex items-center gap-1.5 transition-all shadow-md shadow-amber-900/20 active:scale-95 cursor-pointer border border-amber-400/40"
+                    title="Estimate Shipping Distance Across America">
+                    <i class="fa-solid fa-map-location-dot text-white"></i>
+                    <span class="hidden md:inline text-white font-bold">Shipping Estimator</span>
+                </button>
+
+                <!-- 4. Funny Academy Portal Trigger (MAGENTA - Just shown by the icon) -->
                 <button type="button" onclick="window.toggleNavPanel('academy')" id="header-learning-btn"
                     data-blueprint-file="WackyStore.WebUI/Controllers/CourseController.cs"
                     data-blueprint-role="Funny Academy &amp; LMS Portal Trigger"
                     data-blueprint-layer="WebUI / Education Portal"
-                    data-blueprint-dom="Warm yellow action button dropping down the dedicated WackyDash-style course &amp; academy module."
+                    data-blueprint-dom="Solid bold magenta action button dropping down the dedicated course &amp; academy module, displayed icon-only."
                     data-blueprint-desc="Drops down enrolled curriculums and live Zoom webinar registration."
                     data-blueprint-code="public ActionResult Learning() => View(courseService.GetCurriculums());"
-                    class="h-10 px-3.5 rounded-xl bg-[#F59E0B] hover:bg-[#D97706] text-white text-xs font-bold flex items-center gap-1.5 transition-all border border-amber-400/40 active:scale-95 cursor-pointer shadow-md shadow-amber-900/20 shrink-0"
+                    class="h-10 px-3.5 rounded-xl bg-[#D946EF] hover:bg-[#C026D3] text-white text-xs font-bold flex items-center justify-center gap-1.5 transition-all shadow-md shadow-pink-900/20 active:scale-95 cursor-pointer border border-[#C026D3] shrink-0"
                     title="Funny Academy">
-                    <i id="headerLearningIcon" class="fa-solid fa-graduation-cap text-base text-amber-100"></i>
-                    <span class="hidden sm:inline font-bold">Yellow Academy</span>
-                </button>
-
-                <!-- 4. Catalog View Trigger (MAGENTA) -->
-                <button type="button" onclick="window.navigateToCatalog()" id="header-catalog-btn"
-                    data-blueprint-file="WackyStore.WebUI/Controllers/CatalogController.cs"
-                    data-blueprint-role="Catalog View Controller"
-                    data-blueprint-layer="WebUI / Navigation &amp; Store"
-                    data-blueprint-dom="Solid bold magenta action button navigating to the store catalog."
-                    data-blueprint-desc="Closes active pushdown panels and returns to the product catalog as the primary section."
-                    data-blueprint-code="public ActionResult Catalog() => View(repository.GetProducts());"
-                    class="h-10 px-3.5 rounded-xl bg-[#D946EF] hover:bg-[#C026D3] text-white text-xs font-bold flex items-center gap-1.5 transition-all shadow-md shadow-pink-900/20 active:scale-95 cursor-pointer border border-[#C026D3]"
-                    title="Store Catalog">
-                    <i class="fa-solid fa-shop text-white"></i>
-                    <span class="hidden md:inline text-white font-bold">Catalog</span>
+                    <i id="headerLearningIcon" class="fa-solid fa-graduation-cap text-base text-white"></i>
                 </button>
 
             </div>
