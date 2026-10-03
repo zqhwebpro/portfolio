@@ -1,47 +1,51 @@
 /* ═══════════════════════════════════════════════════════════════════
-   DINEDISPATCH // APEX-OS KERNEL DESIGN SYSTEM
-   Palette Extracted Directly from User Color Scheme Pattern:
-   1. Pure Carbon Black : #000000 / #0a0e14 / #0f141c
-   2. Vibrant Cyber Cyan: #00d2df (and #00bcd4 / #38e1ed)
-   3. Pure White High Contrast: #ffffff
-   4. Deep Charcoal Slate: #4b5154 / #2a2e33 / #1b2026
-   5. Medium Platinum Grey: #8e9599 / #a3a9ad / #b6bcbf
-   Aesthetic: Custom Simplified OS with Top System Menubar, Command Ribbon,
-   Excel-Spider Telemetry Matrix, Bottom OS Dock & Diagnostic Drawer
+   DINEDISPATCH // APEX-OS LIGHT DESIGN SYSTEM
+   Strict 5-Color Palette (https://www.color-hex.com/palettes/1018292.png):
+   1. Pure White Canvas       : #ffffff
+   2. Vibrant Cyber Cyan      : #00c5cd
+   3. Pitch Black Typography  : #000000
+   4. Charcoal Slate          : #545454
+   5. Medium Silver Gray      : #999999
    ═══════════════════════════════════════════════════════════════════ */
 
 :root {
-  /* Pattern Color Tokens */
-  --apex-black: #000000;
-  --apex-dark-surface: #0a0e14;
-  --apex-panel: #11161f;
-  --apex-panel-alt: #161d27;
-  --apex-charcoal: #2a2e33;
-  --apex-deep-grey: #4b5154;
-  --apex-mid-grey: #8e9599;
-  --apex-light-grey: #cbd1d6;
+  /* Strict 5-Color Palette Tokens */
   --apex-white: #ffffff;
-  --apex-cyan: #00d2df;
-  --apex-cyan-glow: rgba(0, 210, 223, 0.35);
-  --apex-cyan-dim: rgba(0, 210, 223, 0.12);
-  --apex-cyan-hover: #38e1ed;
-  --apex-cyan-dark: #008f99;
+  --apex-cyan: #00c5cd;
+  --apex-black: #000000;
+  --apex-charcoal: #545454;
+  --apex-silver: #999999;
 
-  /* Semantic UI State Tokens */
-  --apex-border: #222933;
-  --apex-border-bright: #364150;
-  --apex-border-cyan: rgba(0, 210, 223, 0.4);
+  /* Semantic Light UI Tokens */
+  --apex-bg: #ffffff;
+  --apex-surface: #ffffff;
+  --apex-surface-subtle: #f8f9fa;
+  --apex-surface-muted: #f1f3f5;
+  --apex-surface-highlight: #e6f9fa;
   
+  --apex-text-primary: #000000;
+  --apex-text-secondary: #545454;
+  --apex-text-muted: #999999;
+  
+  --apex-border: #999999;
+  --apex-border-subtle: #d6dadf;
+  --apex-border-cyan: #00c5cd;
+
+  --apex-cyan-glow: rgba(0, 197, 205, 0.3);
+  --apex-cyan-dim: rgba(0, 197, 205, 0.12);
+  --apex-cyan-hover: #00b3bb;
+  --apex-cyan-dark: #007a80;
+
   --font-mono: 'JetBrains Mono', 'Roboto Mono', monospace;
   --font-headline: 'Outfit', 'Space Grotesk', -apple-system, sans-serif;
   --font-sans: 'Inter', -apple-system, sans-serif;
 
   /* Status Colors */
-  --status-ok: #00d2df;
-  --status-ok-bg: rgba(0, 210, 223, 0.12);
-  --status-pending: #8e9599;
-  --status-pending-bg: rgba(142, 149, 153, 0.15);
-  --status-warn: #fbbf24;
+  --status-ok: #007a80;
+  --status-ok-bg: rgba(0, 197, 205, 0.15);
+  --status-pending: #545454;
+  --status-pending-bg: rgba(153, 153, 153, 0.15);
+  --status-warn: #545454;
 }
 
 * {
@@ -51,8 +55,8 @@
 }
 
 html, body {
-  background-color: var(--apex-black);
-  color: var(--apex-white);
+  background-color: var(--apex-bg);
+  color: var(--apex-text-primary);
   font-family: var(--font-sans);
   min-height: 100vh;
   overflow-x: hidden;
@@ -61,15 +65,15 @@ html, body {
 
 /* Custom Scrollbar */
 ::-webkit-scrollbar {
-  width: 6px;
-  height: 6px;
+  width: 7px;
+  height: 7px;
 }
 ::-webkit-scrollbar-track {
-  background: #06090e;
+  background: var(--apex-surface-subtle);
 }
 ::-webkit-scrollbar-thumb {
-  background: var(--apex-deep-grey);
-  border-radius: 0px;
+  background: var(--apex-silver);
+  border-radius: 2px;
 }
 ::-webkit-scrollbar-thumb:hover {
   background: var(--apex-cyan);
@@ -80,27 +84,39 @@ html, body {
   font-family: var(--font-mono) !important;
 }
 
+/* Typography Overrides for Light Scheme */
+.text-white {
+  color: var(--apex-black) !important;
+}
+.text-secondary {
+  color: var(--apex-charcoal) !important;
+}
+.text-xs {
+  font-size: 0.75rem !important;
+}
+
 /* Persistent Navigation Anchors */
 #back-btn-np,
 #case-study-btn-np {
   transition: transform 0.15s ease, background 0.2s ease, border-color 0.2s ease;
+  background: var(--apex-white) !important;
+  color: var(--apex-black) !important;
+  border-color: var(--apex-silver) !important;
 }
 #back-btn-np:hover,
 #case-study-btn-np:hover {
   transform: scale(1.08);
-  background: rgba(0, 210, 223, 0.2) !important;
+  background: var(--apex-surface-highlight) !important;
   border-color: var(--apex-cyan) !important;
-  color: var(--apex-cyan) !important;
+  color: var(--apex-cyan-dark) !important;
 }
 
 /* ═══════════════════════════════════════════════════════════════════
    1. APEX-OS SYSTEM MENUBAR (TOP FIXED HEADER)
    ═══════════════════════════════════════════════════════════════════ */
 .apex-os-menubar {
-  background: rgba(10, 14, 20, 0.95);
-  backdrop-filter: blur(16px);
-  -webkit-backdrop-filter: blur(16px);
-  border-bottom: 1px solid var(--apex-border);
+  background: var(--apex-white);
+  border-bottom: 1px solid var(--apex-silver);
   padding: 6px 16px;
   display: flex;
   align-items: center;
@@ -109,6 +125,7 @@ html, body {
   position: sticky;
   top: 0;
   z-index: 1000;
+  box-shadow: 0 1px 4px rgba(0, 0, 0, 0.04);
 }
 
 .apex-os-brand {
@@ -129,7 +146,7 @@ html, body {
   font-family: var(--font-mono);
   font-weight: 900;
   font-size: 14px;
-  box-shadow: 0 0 10px var(--apex-cyan-glow);
+  box-shadow: 0 0 8px var(--apex-cyan-glow);
   position: relative;
 }
 
@@ -144,17 +161,17 @@ html, body {
   font-weight: 800;
   font-size: 15px;
   letter-spacing: 0.5px;
-  color: var(--apex-white);
+  color: var(--apex-black);
 }
 
 .apex-os-kernel-badge {
   font-family: var(--font-mono);
-  font-size: 10.5px;
+  font-size: 10px;
   padding: 2px 6px;
-  background: rgba(0, 210, 223, 0.1);
-  border: 1px solid var(--apex-border-cyan);
-  color: var(--apex-cyan);
-  font-weight: 600;
+  background: var(--apex-cyan-dim);
+  border: 1px solid var(--apex-cyan);
+  color: var(--apex-cyan-dark);
+  font-weight: 700;
   letter-spacing: 0.3px;
 }
 
@@ -162,13 +179,13 @@ html, body {
 .apex-os-menu-items {
   display: flex;
   align-items: center;
-  gap: 4px;
+  gap: 6px;
 }
 
 .apex-os-menu-btn {
   background: transparent;
   border: 1px solid transparent;
-  color: var(--apex-mid-grey);
+  color: var(--apex-charcoal);
   font-family: var(--font-mono);
   font-size: 11.5px;
   font-weight: 600;
@@ -179,25 +196,31 @@ html, body {
   align-items: center;
   gap: 6px;
   text-decoration: none;
+  border-radius: 2px;
 }
 
 .apex-os-menu-btn:hover {
-  color: var(--apex-white);
-  background: rgba(255, 255, 255, 0.05);
-  border-color: var(--apex-deep-grey);
+  color: var(--apex-black);
+  background: var(--apex-surface-muted);
+  border-color: var(--apex-silver);
 }
 
 .apex-os-menu-btn.active {
-  color: var(--apex-cyan);
+  color: var(--apex-black);
   background: var(--apex-cyan-dim);
-  border-color: var(--apex-border-cyan);
+  border-color: var(--apex-cyan);
+  font-weight: 700;
 }
 
-/* OS Right Action Bar (Sound, Ping, Realtime Beacon, Live Clock) */
+.apex-os-menu-btn.active i {
+  color: var(--apex-cyan-dark);
+}
+
+/* OS Right Action Bar */
 .apex-os-actions {
   display: flex;
   align-items: center;
-  gap: 12px;
+  gap: 10px;
 }
 
 .apex-realtime-badge {
@@ -205,11 +228,11 @@ html, body {
   align-items: center;
   gap: 8px;
   padding: 3px 9px;
-  background: #06090e;
-  border: 1px solid var(--apex-border);
+  background: var(--apex-surface-subtle);
+  border: 1px solid var(--apex-silver);
   font-family: var(--font-mono);
   font-size: 11px;
-  color: var(--apex-mid-grey);
+  color: var(--apex-charcoal);
 }
 
 .apex-pulse-dot {
@@ -222,27 +245,28 @@ html, body {
 }
 
 @keyframes apexPulse {
-  0% { transform: scale(0.95); opacity: 0.6; }
+  0% { transform: scale(0.95); opacity: 0.7; }
   50% { transform: scale(1.3); opacity: 1; box-shadow: 0 0 10px var(--apex-cyan); }
-  100% { transform: scale(0.95); opacity: 0.6; }
+  100% { transform: scale(0.95); opacity: 0.7; }
 }
 
 .apex-icon-btn {
   width: 28px;
   height: 28px;
-  background: transparent;
-  border: 1px solid var(--apex-deep-grey);
-  color: var(--apex-mid-grey);
+  background: var(--apex-white);
+  border: 1px solid var(--apex-silver);
+  color: var(--apex-charcoal);
   display: flex;
   align-items: center;
   justify-content: center;
   cursor: pointer;
   font-size: 12px;
   transition: all 0.15s ease;
+  border-radius: 2px;
 }
 
 .apex-icon-btn:hover {
-  color: var(--apex-cyan);
+  color: var(--apex-black);
   border-color: var(--apex-cyan);
   background: var(--apex-cyan-dim);
 }
@@ -250,18 +274,18 @@ html, body {
 .apex-clock {
   font-family: var(--font-mono);
   font-size: 11.5px;
-  color: var(--apex-light-grey);
+  color: var(--apex-charcoal);
   padding: 3px 8px;
-  background: var(--apex-panel);
-  border: 1px solid var(--apex-border);
+  background: var(--apex-surface-subtle);
+  border: 1px solid var(--apex-silver);
 }
 
 /* ═══════════════════════════════════════════════════════════════════
    2. APEX WORKBOOK FORMULA & COORDINATE BAR
    ═══════════════════════════════════════════════════════════════════ */
 .apex-formula-strip {
-  background: #080c12;
-  border-bottom: 1px solid var(--apex-border);
+  background: var(--apex-surface-muted);
+  border-bottom: 1px solid var(--apex-silver);
   padding: 5px 16px;
   display: flex;
   align-items: center;
@@ -271,9 +295,9 @@ html, body {
 }
 
 .apex-cell-coord {
-  background: var(--apex-panel);
-  border: 1px solid var(--apex-deep-grey);
-  color: var(--apex-cyan);
+  background: var(--apex-white);
+  border: 1px solid var(--apex-silver);
+  color: var(--apex-black);
   font-weight: 700;
   padding: 2px 10px;
   min-width: 60px;
@@ -281,16 +305,16 @@ html, body {
 }
 
 .apex-fx-symbol {
-  color: var(--apex-mid-grey);
+  color: var(--apex-charcoal);
   font-style: italic;
   font-weight: 700;
 }
 
 .apex-formula-display {
   flex: 1;
-  background: var(--apex-panel);
-  border: 1px solid var(--apex-border);
-  color: var(--apex-white);
+  background: var(--apex-white);
+  border: 1px solid var(--apex-silver);
+  color: var(--apex-black);
   padding: 3px 10px;
   font-family: var(--font-mono);
   font-size: 11.5px;
@@ -298,6 +322,10 @@ html, body {
   white-space: nowrap;
   overflow: hidden;
   text-overflow: ellipsis;
+}
+
+.apex-formula-display:focus {
+  border-color: var(--apex-cyan);
 }
 
 /* ═══════════════════════════════════════════════════════════════════
@@ -308,21 +336,22 @@ html, body {
   grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
   gap: 12px;
   padding: 14px 16px;
-  background: #090d14;
-  border-bottom: 1px solid var(--apex-border);
+  background: var(--apex-surface-subtle);
+  border-bottom: 1px solid var(--apex-silver);
 }
 
 .apex-metric-card {
-  background: var(--apex-panel);
-  border: 1px solid var(--apex-border);
+  background: var(--apex-white);
+  border: 1px solid var(--apex-silver);
   padding: 10px 14px;
   position: relative;
   transition: all 0.15s ease;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.02);
 }
 
 .apex-metric-card:hover {
   border-color: var(--apex-cyan);
-  box-shadow: 0 0 14px rgba(0, 210, 223, 0.1);
+  box-shadow: 0 2px 8px var(--apex-cyan-glow);
 }
 
 .apex-metric-card::before {
@@ -332,7 +361,7 @@ html, body {
   left: 0;
   width: 3px;
   height: 100%;
-  background: var(--apex-deep-grey);
+  background: var(--apex-silver);
   transition: background 0.15s ease;
 }
 
@@ -346,17 +375,18 @@ html, body {
   justify-content: space-between;
   font-family: var(--font-mono);
   font-size: 10.5px;
-  color: var(--apex-mid-grey);
+  color: var(--apex-charcoal);
   text-transform: uppercase;
   letter-spacing: 0.5px;
   margin-bottom: 6px;
+  font-weight: 600;
 }
 
 .apex-metric-val {
   font-family: var(--font-headline);
   font-size: 22px;
   font-weight: 800;
-  color: var(--apex-white);
+  color: var(--apex-black);
   display: flex;
   align-items: baseline;
   gap: 8px;
@@ -365,25 +395,25 @@ html, body {
 .apex-metric-tag {
   font-family: var(--font-mono);
   font-size: 10.5px;
-  font-weight: 600;
-  padding: 1px 6px;
-  background: rgba(0, 210, 223, 0.12);
-  border: 1px solid var(--apex-border-cyan);
-  color: var(--apex-cyan);
+  font-weight: 700;
+  padding: 2px 6px;
+  background: var(--apex-cyan-dim);
+  border: 1px solid var(--apex-cyan);
+  color: var(--apex-cyan-dark);
 }
 
 .apex-metric-tag.neutral {
-  background: rgba(142, 149, 153, 0.12);
-  border-color: var(--apex-deep-grey);
-  color: var(--apex-mid-grey);
+  background: var(--status-pending-bg);
+  border-color: var(--apex-silver);
+  color: var(--apex-charcoal);
 }
 
 /* ═══════════════════════════════════════════════════════════════════
    4. STEPPER PROGRESS NOTICE STRIP
    ═══════════════════════════════════════════════════════════════════ */
 .apex-stepper-strip {
-  background: #0c1017;
-  border-bottom: 1px solid var(--apex-border);
+  background: var(--apex-white);
+  border-bottom: 1px solid var(--apex-silver);
   padding: 8px 16px;
   display: flex;
   flex-wrap: wrap;
@@ -395,7 +425,7 @@ html, body {
 .apex-stepper-steps {
   display: flex;
   align-items: center;
-  gap: 6px;
+  gap: 8px;
   flex-wrap: wrap;
 }
 
@@ -407,45 +437,55 @@ html, body {
   display: inline-flex;
   align-items: center;
   gap: 6px;
-  border: 1px solid var(--apex-deep-grey);
-  background: var(--apex-panel);
-  color: var(--apex-mid-grey);
+  border: 1px solid var(--apex-silver);
+  background: var(--apex-white);
+  color: var(--apex-charcoal);
+  border-radius: 2px;
 }
 
 .apex-step-chip.active {
   background: var(--apex-cyan-dim);
   border-color: var(--apex-cyan);
-  color: var(--apex-cyan);
-  box-shadow: 0 0 10px rgba(0, 210, 223, 0.15);
+  color: var(--apex-black);
+  box-shadow: 0 0 6px var(--apex-cyan-glow);
+}
+
+.apex-step-chip.active i {
+  color: var(--apex-cyan-dark);
 }
 
 .apex-step-chip.verified {
-  background: rgba(0, 210, 223, 0.18);
+  background: var(--apex-surface-highlight);
   border-color: var(--apex-cyan);
-  color: var(--apex-white);
+  color: var(--apex-black);
+}
+
+.apex-step-chip.verified i {
+  color: var(--apex-cyan-dark);
 }
 
 .apex-step-chip.locked {
-  opacity: 0.55;
+  opacity: 0.6;
   cursor: not-allowed;
+  background: var(--apex-surface-muted);
 }
 
 .apex-stepper-help {
   font-family: var(--font-mono);
   font-size: 11.5px;
-  color: var(--apex-mid-grey);
+  color: var(--apex-charcoal);
 }
 
 .apex-stepper-help strong {
-  color: var(--apex-white);
+  color: var(--apex-black);
 }
 
 /* ═══════════════════════════════════════════════════════════════════
    5. SEO SPIDER CONTROL & FILTER TOOLBAR
    ═══════════════════════════════════════════════════════════════════ */
 .apex-spider-toolbar {
-  background: #0d131c;
-  border-bottom: 1px solid var(--apex-border);
+  background: var(--apex-surface-subtle);
+  border-bottom: 1px solid var(--apex-silver);
   padding: 8px 16px;
   display: flex;
   flex-wrap: wrap;
@@ -462,53 +502,61 @@ html, body {
 }
 
 .apex-filter-btn {
-  background: var(--apex-panel);
-  border: 1px solid var(--apex-border);
-  color: var(--apex-mid-grey);
+  background: var(--apex-white);
+  border: 1px solid var(--apex-silver);
+  color: var(--apex-charcoal);
   font-family: var(--font-mono);
   font-size: 11px;
   font-weight: 600;
   padding: 4px 10px;
   cursor: pointer;
   transition: all 0.15s ease;
+  border-radius: 2px;
 }
 
 .apex-filter-btn:hover {
-  color: var(--apex-white);
-  border-color: var(--apex-mid-grey);
+  color: var(--apex-black);
+  border-color: var(--apex-black);
+  background: var(--apex-surface-muted);
 }
 
 .apex-filter-btn.active {
   background: var(--apex-cyan);
   color: var(--apex-black);
-  border-color: var(--apex-cyan);
+  border-color: var(--apex-cyan-dark);
   font-weight: 800;
+  box-shadow: 0 0 6px var(--apex-cyan-glow);
 }
 
 .apex-search-wrapper {
   display: flex;
   align-items: center;
   gap: 8px;
-  background: #070a0f;
-  border: 1px solid var(--apex-deep-grey);
+  background: var(--apex-white);
+  border: 1px solid var(--apex-silver);
   padding: 4px 10px;
   min-width: 250px;
+  border-radius: 2px;
 }
 
 .apex-search-wrapper input {
   background: transparent;
   border: none;
   outline: none;
-  color: var(--apex-white);
+  color: var(--apex-black);
   font-family: var(--font-mono);
   font-size: 11.5px;
   width: 100%;
 }
 
+.apex-search-wrapper input::placeholder {
+  color: var(--apex-silver);
+}
+
 .apex-btn-primary {
   background: var(--apex-cyan);
   color: var(--apex-black);
-  border: 1px solid var(--apex-cyan);
+  border: 1px solid var(--apex-cyan-dark);
   font-family: var(--font-mono);
   font-size: 11px;
   font-weight: 800;
@@ -518,17 +566,18 @@ html, body {
   align-items: center;
   gap: 6px;
   transition: all 0.15s ease;
+  border-radius: 2px;
 }
 
 .apex-btn-primary:hover {
   background: var(--apex-cyan-hover);
-  box-shadow: 0 0 10px var(--apex-cyan-glow);
+  box-shadow: 0 0 8px var(--apex-cyan-glow);
 }
 
 .apex-btn-subtle {
-  background: var(--apex-panel);
-  color: var(--apex-light-grey);
-  border: 1px solid var(--apex-deep-grey);
+  background: var(--apex-white);
+  color: var(--apex-charcoal);
+  border: 1px solid var(--apex-silver);
   font-family: var(--font-mono);
   font-size: 11px;
   font-weight: 600;
@@ -538,12 +587,13 @@ html, body {
   align-items: center;
   gap: 6px;
   transition: all 0.15s ease;
+  border-radius: 2px;
 }
 
 .apex-btn-subtle:hover {
-  background: var(--apex-charcoal);
-  color: var(--apex-white);
-  border-color: var(--apex-cyan);
+  background: var(--apex-surface-muted);
+  color: var(--apex-black);
+  border-color: var(--apex-black);
 }
 
 /* ═══════════════════════════════════════════════════════════════════
@@ -552,63 +602,64 @@ html, body {
 .apex-grid-viewport {
   flex: 1;
   overflow-x: auto;
-  background: var(--apex-black);
+  background: var(--apex-white);
 }
 
 .apex-table {
   width: 100%;
   border-collapse: collapse;
   font-size: 12px;
-  color: var(--apex-light-grey);
-  background: #090e16;
+  color: var(--apex-black);
+  background: var(--apex-white);
 }
 
 /* Coordinate Row & Columns */
 .apex-col-coord {
-  background: var(--apex-panel);
-  color: var(--apex-mid-grey);
+  background: var(--apex-surface-muted);
+  color: var(--apex-charcoal);
   font-family: var(--font-mono);
   font-size: 11px;
   font-weight: 700;
   text-align: center;
-  border: 1px solid var(--apex-border);
+  border: 1px solid var(--apex-border-subtle);
   padding: 3px 6px;
   user-select: none;
 }
 
 .apex-table th {
-  background: #0f1520;
-  color: var(--apex-white);
+  background: var(--apex-surface-subtle);
+  color: var(--apex-black);
   font-family: var(--font-mono);
   font-weight: 700;
   font-size: 11px;
   text-transform: uppercase;
   letter-spacing: 0.5px;
   padding: 8px 12px;
-  border: 1px solid var(--apex-border);
+  border: 1px solid var(--apex-border-subtle);
   white-space: nowrap;
   text-align: left;
 }
 
 .apex-row-num {
-  background: #0f1520;
-  color: var(--apex-mid-grey);
+  background: var(--apex-surface-subtle);
+  color: var(--apex-charcoal);
   font-family: var(--font-mono);
   font-size: 11px;
   font-weight: 700;
   text-align: center;
   width: 38px;
-  border: 1px solid var(--apex-border);
+  border: 1px solid var(--apex-border-subtle);
   padding: 6px;
   user-select: none;
 }
 
 .apex-table td {
   padding: 8px 12px;
-  border: 1px solid var(--apex-border);
+  border: 1px solid var(--apex-border-subtle);
   vertical-align: middle;
   white-space: nowrap;
   transition: background 0.1s ease;
+  color: var(--apex-black);
 }
 
 .apex-table tbody tr {
@@ -616,18 +667,19 @@ html, body {
 }
 
 .apex-table tbody tr:hover td {
-  background: #111a26 !important;
+  background: var(--apex-surface-subtle) !important;
 }
 
 .apex-table tbody tr.row-selected td {
-  background: #142030 !important;
-  border-color: var(--apex-border-cyan);
+  background: var(--apex-surface-highlight) !important;
+  border-color: rgba(0, 197, 205, 0.4);
 }
 
 .apex-table tbody tr.row-selected .apex-row-num {
   background: var(--apex-cyan-dim);
-  color: var(--apex-cyan);
+  color: var(--apex-black);
   border-left: 3px solid var(--apex-cyan);
+  font-weight: 800;
 }
 
 /* Status Chips */
@@ -640,26 +692,40 @@ html, body {
   display: inline-flex;
   align-items: center;
   gap: 5px;
+  border-radius: 2px;
 }
 
 .apex-status-200 {
   background: var(--status-ok-bg);
-  color: var(--apex-cyan);
+  color: var(--apex-cyan-dark);
   border-color: var(--apex-cyan);
 }
 
 .apex-status-401 {
   background: var(--status-pending-bg);
-  color: var(--apex-light-grey);
-  border-color: var(--apex-deep-grey);
+  color: var(--apex-charcoal);
+  border-color: var(--apex-silver);
+}
+
+/* Demographic / Rank Badges */
+.apex-rank-badge {
+  background: var(--apex-surface-subtle);
+  color: var(--apex-charcoal);
+  border: 1px solid var(--apex-silver);
+  font-family: var(--font-mono);
+  font-size: 11px;
+  font-weight: 600;
+  padding: 2px 6px;
+  border-radius: 2px;
 }
 
 /* ═══════════════════════════════════════════════════════════════════
    7. SEO SPIDER TECHNICAL INSPECTION DRAWER
    ═══════════════════════════════════════════════════════════════════ */
 .apex-spider-drawer {
-  background: #0a0e14;
+  background: var(--apex-white);
   border-top: 2px solid var(--apex-cyan);
+  border-bottom: 1px solid var(--apex-silver);
   max-height: 250px;
   overflow-y: auto;
   display: flex;
@@ -667,8 +733,8 @@ html, body {
 }
 
 .apex-drawer-tabs {
-  background: #0f1520;
-  border-bottom: 1px solid var(--apex-border);
+  background: var(--apex-surface-subtle);
+  border-bottom: 1px solid var(--apex-border-subtle);
   display: flex;
   align-items: center;
   gap: 2px;
@@ -681,7 +747,7 @@ html, body {
   background: transparent;
   border: none;
   border-bottom: 2px solid transparent;
-  color: var(--apex-mid-grey);
+  color: var(--apex-charcoal);
   padding: 8px 14px;
   cursor: pointer;
   font-weight: 600;
@@ -689,30 +755,36 @@ html, body {
 }
 
 .apex-drawer-tab-btn:hover {
-  color: var(--apex-white);
-  background: rgba(255, 255, 255, 0.03);
+  color: var(--apex-black);
+  background: var(--apex-surface-muted);
 }
 
 .apex-drawer-tab-btn.active {
-  color: var(--apex-cyan);
+  color: var(--apex-black);
   border-bottom-color: var(--apex-cyan);
-  background: #141d2a;
+  background: var(--apex-white);
+  font-weight: 700;
+}
+
+.apex-drawer-tab-btn.active i {
+  color: var(--apex-cyan-dark);
 }
 
 .apex-drawer-body {
   padding: 12px 16px;
   font-size: 12px;
   font-family: var(--font-mono);
-  color: var(--apex-light-grey);
+  color: var(--apex-black);
   line-height: 1.6;
+  background: var(--apex-white);
 }
 
 /* ═══════════════════════════════════════════════════════════════════
    8. APEX-OS BOTTOM DOCK (EXCEL SHEETS & OS STATUS)
    ═══════════════════════════════════════════════════════════════════ */
 .apex-bottom-dock {
-  background: #0c1017;
-  border-top: 1px solid var(--apex-border);
+  background: var(--apex-surface-subtle);
+  border-top: 1px solid var(--apex-silver);
   display: flex;
   flex-wrap: wrap;
   align-items: center;
@@ -730,10 +802,10 @@ html, body {
 }
 
 .apex-sheet-tab {
-  background: #070a0f;
-  border: 1px solid var(--apex-border);
+  background: var(--apex-surface-muted);
+  border: 1px solid var(--apex-silver);
   border-bottom: none;
-  color: var(--apex-mid-grey);
+  color: var(--apex-charcoal);
   padding: 6px 14px;
   cursor: pointer;
   font-weight: 700;
@@ -746,27 +818,32 @@ html, body {
 }
 
 .apex-sheet-tab:hover {
-  color: var(--apex-white);
-  background: #131a24;
+  color: var(--apex-black);
+  background: var(--apex-white);
 }
 
 .apex-sheet-tab.active {
-  background: #090e16;
-  color: var(--apex-cyan);
+  background: var(--apex-white);
+  color: var(--apex-black);
   border-top: 2px solid var(--apex-cyan);
-  border-bottom: 1px solid #090e16;
+  border-bottom: 1px solid var(--apex-white);
+}
+
+.apex-sheet-tab.active i {
+  color: var(--apex-cyan-dark);
 }
 
 .apex-sheet-tab.is-locked {
   opacity: 0.55;
   cursor: not-allowed;
+  background: var(--apex-surface-muted);
 }
 
 .apex-status-telemetry {
   display: flex;
   align-items: center;
   gap: 14px;
-  color: var(--apex-mid-grey);
+  color: var(--apex-charcoal);
   padding: 6px 0;
   font-size: 11px;
 }
@@ -775,29 +852,29 @@ html, body {
    9. APEX-OS MODAL DIALOG
    ═══════════════════════════════════════════════════════════════════ */
 .modal-content.apex-modal {
-  background: #0a0e14;
-  border: 1px solid var(--apex-cyan);
-  color: var(--apex-white);
-  box-shadow: 0 0 40px rgba(0, 210, 223, 0.2);
+  background: var(--apex-white);
+  border: 2px solid var(--apex-cyan);
+  color: var(--apex-black);
+  box-shadow: 0 8px 30px rgba(0, 0, 0, 0.15);
   border-radius: 0px;
 }
 
 .apex-modal .modal-header {
-  background: #101622;
-  border-bottom: 1px solid var(--apex-border);
+  background: var(--apex-surface-subtle);
+  border-bottom: 1px solid var(--apex-silver);
   border-radius: 0px;
 }
 
 .apex-modal .modal-footer {
-  background: #0c111a;
-  border-top: 1px solid var(--apex-border);
+  background: var(--apex-surface-subtle);
+  border-top: 1px solid var(--apex-silver);
   border-radius: 0px;
 }
 
 .apex-form-control {
-  background: #06090e;
-  border: 1px solid var(--apex-deep-grey);
-  color: var(--apex-white);
+  background: var(--apex-white);
+  border: 1px solid var(--apex-silver);
+  color: var(--apex-black);
   font-family: var(--font-mono);
   font-size: 12px;
   padding: 8px 12px;
@@ -809,4 +886,32 @@ html, body {
 .apex-form-control:focus {
   border-color: var(--apex-cyan);
   box-shadow: 0 0 0 2px var(--apex-cyan-glow);
+}
+
+.apex-form-control[readonly] {
+  background: var(--apex-surface-muted) !important;
+  color: var(--apex-charcoal) !important;
+}
+
+/* ═══════════════════════════════════════════════════════════════════
+   10. RESPONSIVE OPTIMIZATIONS
+   ═══════════════════════════════════════════════════════════════════ */
+@media (max-width: 768px) {
+  .apex-telemetry-grid {
+    grid-template-columns: 1fr;
+    gap: 8px;
+  }
+  .apex-os-menubar {
+    padding: 6px 10px;
+  }
+  .apex-formula-strip {
+    padding: 4px 10px;
+  }
+  .apex-spider-toolbar {
+    flex-direction: column;
+    align-items: stretch;
+  }
+  .apex-search-wrapper {
+    min-width: 100%;
+  }
 }

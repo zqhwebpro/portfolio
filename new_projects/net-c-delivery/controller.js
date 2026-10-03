@@ -226,27 +226,27 @@ function renderSpiderTable() {
                     </span>
                 </td>
                 <td>
-                    <div class="fw-bold text-white d-flex align-items-center gap-2">
-                        <i class="${s.icon}" style="color: var(--apex-cyan);"></i>
+                    <div class="fw-bold d-flex align-items-center gap-2" style="color: var(--apex-black);">
+                        <i class="${s.icon}" style="color: var(--apex-cyan-dark);"></i>
                         <span>${s.name}</span>
                     </div>
                     <span class="font-mono text-secondary text-xs">${s.categoryTag}</span>
                 </td>
                 <td class="font-mono text-secondary">${s.protocol}</td>
-                <td><span class="badge text-bg-dark border border-secondary border-opacity-40 font-mono text-xs">${s.demographicRank}</span></td>
-                <td class="font-mono text-info text-xs" style="color: var(--apex-cyan) !important;">${clientDisplay}</td>
+                <td><span class="apex-rank-badge">${s.demographicRank}</span></td>
+                <td class="font-mono text-xs fw-semibold" style="color: var(--apex-cyan-dark) !important;">${clientDisplay}</td>
                 <td class="font-mono text-secondary text-xs">${locationDisplay}</td>
-                <td class="font-mono fw-bold" style="color: ${s.verified ? 'var(--apex-cyan)' : 'var(--apex-mid-grey)'};">${latencyText}</td>
+                <td class="font-mono fw-bold" style="color: ${s.verified ? 'var(--apex-cyan-dark)' : 'var(--apex-silver)'};">${latencyText}</td>
                 <td class="text-center">
                     ${s.verified 
                         ? `<div class="d-flex align-items-center justify-content-center gap-1.5">
                             <button type="button" class="apex-btn-subtle" onclick="event.stopPropagation(); openApiConfigModal('${key}')" title="Edit Configuration">
                                 <i class="fa-solid fa-gear"></i>
                             </button>
-                            <button type="button" class="apex-btn-subtle" style="color: var(--apex-cyan);" onclick="event.stopPropagation(); seedSampleDispatchLog('${key}')" title="Test Dispatch Ping">
+                            <button type="button" class="apex-btn-subtle" style="color: var(--apex-cyan-dark);" onclick="event.stopPropagation(); seedSampleDispatchLog('${key}')" title="Test Dispatch Ping">
                                 <i class="fa-solid fa-paper-plane"></i>
                             </button>
-                            <button type="button" class="apex-btn-subtle text-danger" onclick="event.stopPropagation(); disconnectApi('${key}')" title="Disconnect Gateway">
+                            <button type="button" class="apex-btn-subtle" onclick="event.stopPropagation(); disconnectApi('${key}')" title="Disconnect Gateway">
                                 <i class="fa-solid fa-xmark"></i>
                             </button>
                            </div>`
@@ -303,21 +303,21 @@ function updateSpiderDrawer(serviceKey) {
         contentPane.innerHTML = `
             <div class="row g-3">
                 <div class="col-md-6">
-                    <span class="text-secondary fw-bold d-block mb-1" style="color: var(--apex-mid-grey) !important;">INBOUND REQUEST HEADERS (REST HTTP/2):</span>
-                    <div class="p-2 border" style="background: var(--apex-black); border-color: var(--apex-border) !important;">
-                        <div><span style="color: var(--apex-cyan);">Host:</span> api.dinedispatch.io</div>
-                        <div><span style="color: var(--apex-cyan);">Authorization:</span> Bearer ${s.verified ? s.defaultClientId.substring(0, 16) + '...' : '[PENDING_BEARER_TOKEN]'}</div>
-                        <div><span style="color: var(--apex-cyan);">X-Gateway-Protocol:</span> ${s.protocol}</div>
-                        <div><span style="color: var(--apex-cyan);">X-Location-GUID:</span> ${s.defaultLocationId}</div>
-                        <div><span style="color: var(--apex-cyan);">Content-Type:</span> application/json; charset=utf-8</div>
+                    <span class="text-secondary fw-bold d-block mb-1" style="color: var(--apex-charcoal) !important;">INBOUND REQUEST HEADERS (REST HTTP/2):</span>
+                    <div class="p-2 border" style="background: var(--apex-surface-subtle); border-color: var(--apex-silver) !important; color: var(--apex-black);">
+                        <div><span style="color: var(--apex-cyan-dark); font-weight: 600;">Host:</span> api.dinedispatch.io</div>
+                        <div><span style="color: var(--apex-cyan-dark); font-weight: 600;">Authorization:</span> Bearer ${s.verified ? s.defaultClientId.substring(0, 16) + '...' : '[PENDING_BEARER_TOKEN]'}</div>
+                        <div><span style="color: var(--apex-cyan-dark); font-weight: 600;">X-Gateway-Protocol:</span> ${s.protocol}</div>
+                        <div><span style="color: var(--apex-cyan-dark); font-weight: 600;">X-Location-GUID:</span> ${s.defaultLocationId}</div>
+                        <div><span style="color: var(--apex-cyan-dark); font-weight: 600;">Content-Type:</span> application/json; charset=utf-8</div>
                     </div>
                 </div>
                 <div class="col-md-6">
-                    <span class="text-secondary fw-bold d-block mb-1" style="color: var(--apex-mid-grey) !important;">SECURITY &amp; TLS SPECIFICATION:</span>
-                    <div class="p-2 border" style="background: var(--apex-black); border-color: var(--apex-border) !important;">
-                        <div><span style="color: var(--apex-cyan);">&bull; Cipher Suite:</span> TLS_AES_256_GCM_SHA384 (TLS 1.3)</div>
-                        <div><span style="color: var(--apex-cyan);">&bull; Geofence Verification:</span> loc_parma_grill_01 (40.7128 N, -74.0060 W)</div>
-                        <div><span style="color: var(--apex-cyan);">&bull; Verification Status:</span> ${s.verified ? '<span style="color: var(--apex-cyan); font-weight: bold;">ONLINE (200 OK)</span>' : '<span style="color: var(--apex-mid-grey); font-weight: bold;">UNCONFIGURED (401 PENDING)</span>'}</div>
+                    <span class="text-secondary fw-bold d-block mb-1" style="color: var(--apex-charcoal) !important;">SECURITY &amp; TLS SPECIFICATION:</span>
+                    <div class="p-2 border" style="background: var(--apex-surface-subtle); border-color: var(--apex-silver) !important; color: var(--apex-black);">
+                        <div><span style="color: var(--apex-cyan-dark); font-weight: 600;">&bull; Cipher Suite:</span> TLS_AES_256_GCM_SHA384 (TLS 1.3)</div>
+                        <div><span style="color: var(--apex-cyan-dark); font-weight: 600;">&bull; Geofence Verification:</span> loc_parma_grill_01 (40.7128 N, -74.0060 W)</div>
+                        <div><span style="color: var(--apex-cyan-dark); font-weight: 600;">&bull; Verification Status:</span> ${s.verified ? '<span style="color: var(--apex-cyan-dark); font-weight: bold;">ONLINE (200 OK)</span>' : '<span style="color: var(--apex-charcoal); font-weight: bold;">UNCONFIGURED (401 PENDING)</span>'}</div>
                     </div>
                 </div>
             </div>
@@ -325,31 +325,31 @@ function updateSpiderDrawer(serviceKey) {
     } else if (activeTab.includes('pipeline')) {
         contentPane.innerHTML = `
             <div class="d-flex align-items-center gap-3 py-2 flex-wrap font-mono">
-                <div class="p-2 border" style="background: var(--apex-panel); border-color: var(--apex-border) !important;">
+                <div class="p-2 border" style="background: var(--apex-surface-subtle); border-color: var(--apex-silver) !important;">
                     <span class="text-secondary text-xs d-block">STEP 1. POS DISPATCH</span>
-                    <strong class="text-white">Kitchen Ticket #4829</strong>
+                    <strong style="color: var(--apex-black);">Kitchen Ticket #4829</strong>
                 </div>
-                <i class="fa-solid fa-arrow-right" style="color: var(--apex-cyan);"></i>
-                <div class="p-2 border" style="background: var(--apex-panel); border-color: var(--apex-border) !important;">
+                <i class="fa-solid fa-arrow-right" style="color: var(--apex-cyan-dark);"></i>
+                <div class="p-2 border" style="background: var(--apex-surface-subtle); border-color: var(--apex-silver) !important;">
                     <span class="text-secondary text-xs d-block">STEP 2. ${s.name.toUpperCase()} GATEWAY</span>
-                    <strong style="color: var(--apex-cyan);">${s.endpointUrl}</strong>
+                    <strong style="color: var(--apex-cyan-dark);">${s.endpointUrl}</strong>
                 </div>
-                <i class="fa-solid fa-arrow-right" style="color: var(--apex-cyan);"></i>
-                <div class="p-2 border" style="background: var(--apex-panel); border-color: var(--apex-border) !important;">
+                <i class="fa-solid fa-arrow-right" style="color: var(--apex-cyan-dark);"></i>
+                <div class="p-2 border" style="background: var(--apex-surface-subtle); border-color: var(--apex-silver) !important;">
                     <span class="text-secondary text-xs d-block">STEP 3. COURIER TELEMETRY</span>
-                    <strong style="color: var(--apex-white);">Round-trip ${s.verified ? s.latency : 'Pending'}</strong>
+                    <strong style="color: var(--apex-black);">Round-trip ${s.verified ? s.latency : 'Pending'}</strong>
                 </div>
             </div>
         `;
     } else if (activeTab.includes('schema')) {
         contentPane.innerHTML = `
-            <pre class="mb-0 p-2 border" style="background: var(--apex-black); border-color: var(--apex-border) !important; color: var(--apex-cyan); max-height: 120px; overflow-y: auto;">{
-  "event": "dispatch.order.created",
-  "gateway": "${s.id}",
-  "location_id": "${s.defaultLocationId}",
-  "status": "${s.verified ? "VERIFIED_ACTIVE" : "PENDING_CONFIGURATION"}",
-  "latency_ms": ${s.verified ? parseInt(s.latency) : 0},
-  "auth_type": "OAuth2.0_Bearer"
+            <pre class="mb-0 p-2 border font-mono text-xs" style="background: var(--apex-surface-subtle); border-color: var(--apex-silver) !important; color: var(--apex-black); max-height: 120px; overflow-y: auto;">{
+  "<span style="color: var(--apex-cyan-dark);">event</span>": "dispatch.order.created",
+  "<span style="color: var(--apex-cyan-dark);">gateway</span>": "${s.id}",
+  "<span style="color: var(--apex-cyan-dark);">location_id</span>": "${s.defaultLocationId}",
+  "<span style="color: var(--apex-cyan-dark);">status</span>": "${s.verified ? "VERIFIED_ACTIVE" : "PENDING_CONFIGURATION"}",
+  "<span style="color: var(--apex-cyan-dark);">latency_ms</span>": ${s.verified ? parseInt(s.latency) : 0},
+  "<span style="color: var(--apex-cyan-dark);">auth_type</span>": "OAuth2.0_Bearer"
 }</pre>
         `;
     } else {
@@ -357,14 +357,14 @@ function updateSpiderDrawer(serviceKey) {
         contentPane.innerHTML = `
             <div class="d-flex flex-column flex-md-row justify-content-between gap-3">
                 <div>
-                    <span class="text-secondary fw-bold text-xs d-block mb-1" style="color: var(--apex-mid-grey) !important;">AUDIT SUMMARY &bull; ${s.name.toUpperCase()}</span>
-                    <p class="font-sans text-xs text-white mb-1.5">${s.demographicDesc}</p>
-                    <span class="badge text-bg-dark border border-secondary border-opacity-40 font-mono text-xs">${s.demographicRank}</span>
+                    <span class="text-secondary fw-bold text-xs d-block mb-1" style="color: var(--apex-charcoal) !important;">AUDIT SUMMARY &bull; ${s.name.toUpperCase()}</span>
+                    <p class="font-sans text-xs mb-1.5" style="color: var(--apex-black);">${s.demographicDesc}</p>
+                    <span class="apex-rank-badge">${s.demographicRank}</span>
                 </div>
                 <div class="font-mono text-xs text-secondary shrink-0">
-                    <div><strong class="text-white">Developer Portal:</strong> <a href="${s.portalUrl}" target="_blank" style="color: var(--apex-cyan); text-decoration: none;">${s.portalUrl}</a></div>
-                    <div><strong class="text-white">Webhook Route:</strong> <span class="text-secondary">${s.endpointUrl}</span></div>
-                    <div><strong class="text-white">Status:</strong> ${s.verified ? '<span style="color: var(--apex-cyan); font-weight: bold;">Active 200 OK</span>' : '<span style="color: var(--apex-mid-grey); font-weight: bold;">Step 1 Pending</span>'}</div>
+                    <div><strong style="color: var(--apex-black);">Developer Portal:</strong> <a href="${s.portalUrl}" target="_blank" style="color: var(--apex-cyan-dark); text-decoration: none; font-weight: 600;">${s.portalUrl}</a></div>
+                    <div><strong style="color: var(--apex-black);">Webhook Route:</strong> <span class="text-secondary">${s.endpointUrl}</span></div>
+                    <div><strong style="color: var(--apex-black);">Status:</strong> ${s.verified ? '<span style="color: var(--apex-cyan-dark); font-weight: bold;">Active 200 OK</span>' : '<span style="color: var(--apex-charcoal); font-weight: bold;">Step 1 Pending</span>'}</div>
                 </div>
             </div>
         `;
@@ -720,10 +720,10 @@ function addTelemetryLogRow(provider, eventName, latency, ref) {
     tr.innerHTML = `
         <td class="apex-row-num">${rowCount}</td>
         <td class="font-mono text-secondary">${timeStr} UTC</td>
-        <td class="fw-bold text-white">${provider}</td>
-        <td><code class="px-1.5 py-0.5 border font-mono text-xs" style="color: var(--apex-cyan); background: var(--apex-black); border-color: var(--apex-border);">${eventName}</code></td>
+        <td class="fw-bold" style="color: var(--apex-black);">${provider}</td>
+        <td><code class="px-1.5 py-0.5 border font-mono text-xs" style="color: var(--apex-cyan-dark); background: var(--apex-surface-subtle); border-color: var(--apex-silver);">${eventName}</code></td>
         <td><span class="apex-status-pill apex-status-200">200 OK</span></td>
-        <td class="font-mono fw-bold" style="color: var(--apex-cyan);">${latency}</td>
+        <td class="font-mono fw-bold" style="color: var(--apex-cyan-dark);">${latency}</td>
         <td class="font-mono text-secondary text-xs">${ref}</td>
     `;
     tbody.insertBefore(tr, tbody.firstChild);

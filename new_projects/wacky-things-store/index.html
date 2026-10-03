@@ -286,8 +286,8 @@
            SURFACES & CONTAINERS: ELEGANT SLIGHT GRADIENTS (EXCEPT TYPE)
            ============================================================================== */
 
-        /* Header with subtle frosted blur and gentle gradient */
-        header {
+        /* Header with subtle frosted blur and gentle gradient (Store regular theme) */
+        body:not(.academy-reverse-theme) header:not(#academy-main-header) {
             background: linear-gradient(180deg, rgba(255, 255, 255, 0.96) 0%, rgba(247, 244, 255, 0.92) 100%) !important;
             border-bottom: 1px solid var(--border-warm) !important;
             backdrop-filter: blur(16px);
@@ -573,14 +573,14 @@
         }
 
         /* 4. SECONDARY / GHOST / NEUTRAL BUTTONS (.NET Arch, Admin CRUD, Admin, Inactive Filters) */
-        header button:not(.bg-appetite-700):not(#header-learning-btn):not(#search-clear-btn):not(#header-blog-btn):not(#header-shipping-btn) {
+        #screen-regular header button:not(.bg-appetite-700):not(#header-learning-btn):not(#search-clear-btn):not(#header-blog-btn):not(#header-shipping-btn) {
             background: #ffffff !important;
             border: 1px solid rgba(167, 139, 250, 0.55) !important;
 
             color: #2E1065 !important;
         }
 
-        header button:not(.bg-appetite-700):not(#header-learning-btn):not(#search-clear-btn):not(#header-blog-btn):not(#header-shipping-btn):hover {
+        #screen-regular header button:not(.bg-appetite-700):not(#header-learning-btn):not(#search-clear-btn):not(#header-blog-btn):not(#header-shipping-btn):hover {
             background: #F4EFFF !important;
             border-color: #8B5CF6 !important;
 
@@ -1347,10 +1347,212 @@
             color: #F5F3FF;
         }
 
-        /* Academy Reversed Theme Overrides for Funny Academy Screen (Deep Cosmic Obsidian Contrast Theme) */
-        #screen-academy #academy-main-header {
+        /* ==============================================================================
+           ACADEMY REVERSED HEADER (Deep Cosmic Obsidian Contrast Theme)
+           ============================================================================== */
+        #screen-academy #academy-main-header,
+        body.academy-reverse-theme #academy-main-header,
+        body.academy-reverse-theme header,
+        body.academy-reverse-theme #screen-regular header {
+            background: #0E0422 !important;
             background-color: #0E0422 !important;
-            border-color: #38146F !important;
+            background-image: none !important;
+            border-bottom: 1px solid #38146F !important;
+            color: #FFFFFF !important;
+            backdrop-filter: blur(16px);
+            -webkit-backdrop-filter: blur(16px);
+        }
+
+        /* Academy Header Branding */
+        #screen-academy #academy-main-header .font-heading,
+        body.academy-reverse-theme #academy-main-header .font-heading,
+        body.academy-reverse-theme header .font-heading {
+            font-family: 'Outfit', sans-serif !important;
+            color: #FFFFFF !important;
+        }
+
+        #screen-academy #academy-main-header .font-heading span,
+        body.academy-reverse-theme #academy-main-header .font-heading span {
+            color: #FBBF24 !important;
+        }
+
+        #screen-academy #academy-main-header .text-purple-300,
+        body.academy-reverse-theme #academy-main-header .text-purple-300 {
+            color: #C4B5FD !important;
+        }
+
+        /* Academy Header Search Input */
+        #screen-academy #academy-search-input,
+        body.academy-reverse-theme #academy-search-input,
+        body.academy-reverse-theme header #academy-search-input,
+        body.academy-reverse-theme header #search-input {
+            background: #180838 !important;
+            background-image: none !important;
+            border: 1px solid #3E1878 !important;
+            color: #FFFFFF !important;
+        }
+
+        #screen-academy #academy-search-input::placeholder,
+        body.academy-reverse-theme #academy-search-input::placeholder,
+        body.academy-reverse-theme header #search-input::placeholder {
+            color: rgba(221, 214, 254, 0.65) !important;
+        }
+
+        #screen-academy #academy-main-header .fa-magnifying-glass,
+        body.academy-reverse-theme #academy-main-header .fa-magnifying-glass {
+            color: #A78BFA !important;
+        }
+
+        /* Academy Header Action Buttons */
+        #screen-academy #academy-main-header button,
+        body.academy-reverse-theme #academy-main-header button {
+            background-image: none !important;
+        }
+
+        /* Shipping Estimator button in Academy Header */
+        #screen-academy #academy-main-header button[onclick*="openShippingModal"],
+        #screen-academy #academy-header-shipping-btn,
+        body.academy-reverse-theme #academy-main-header button[onclick*="openShippingModal"] {
+            background: #BE185D !important;
+            border: 1px solid #9D174D !important;
+            color: #FFFFFF !important;
+            box-shadow: 0 4px 14px -2px rgba(190, 24, 93, 0.45) !important;
+        }
+
+        #screen-academy #academy-main-header button[onclick*="openShippingModal"]:hover,
+        #screen-academy #academy-header-shipping-btn:hover,
+        body.academy-reverse-theme #academy-main-header button[onclick*="openShippingModal"]:hover {
+            background: #9D174D !important;
+            border-color: #831843 !important;
+            color: #FFFFFF !important;
+            transform: translateY(-1.5px);
+        }
+
+        #screen-academy #academy-main-header button[onclick*="openShippingModal"] i,
+        #screen-academy #academy-main-header button[onclick*="openShippingModal"] span,
+        #screen-academy #academy-header-shipping-btn i,
+        #screen-academy #academy-header-shipping-btn span,
+        body.academy-reverse-theme #academy-main-header button[onclick*="openShippingModal"] i,
+        body.academy-reverse-theme #academy-main-header button[onclick*="openShippingModal"] span {
+            color: #FFFFFF !important;
+        }
+
+        /* Cart button in Academy Header */
+        #screen-academy #academy-main-header button[onclick*="openCartDrawer"],
+        #screen-academy #academy-header-cart-btn,
+        body.academy-reverse-theme #academy-main-header button[onclick*="openCartDrawer"] {
+            background: #115E59 !important;
+            border: 1px solid rgba(20, 184, 166, 0.5) !important;
+            color: #FFFFFF !important;
+        }
+
+        #screen-academy #academy-main-header button[onclick*="openCartDrawer"]:hover,
+        #screen-academy #academy-header-cart-btn:hover,
+        body.academy-reverse-theme #academy-main-header button[onclick*="openCartDrawer"]:hover {
+            background: #0F766E !important;
+            border-color: #14B8A6 !important;
+            color: #FFFFFF !important;
+            transform: translateY(-1.5px);
+        }
+
+        #screen-academy #academy-main-header button[onclick*="openCartDrawer"] i,
+        body.academy-reverse-theme #academy-main-header button[onclick*="openCartDrawer"] i {
+            color: #5EEAD4 !important;
+        }
+
+        #screen-academy #academy-header-cart-total,
+        body.academy-reverse-theme #academy-header-cart-total {
+            color: #99F6E4 !important;
+        }
+
+        #screen-academy #academy-header-cart-count,
+        body.academy-reverse-theme #academy-header-cart-count {
+            background: #2DD4BF !important;
+            color: #042F2E !important;
+        }
+
+        /* Return to Store Catalog button in Academy Header */
+        #screen-academy #academy-main-header button[onclick*="switchView('store')"],
+        #screen-academy #academy-header-store-btn,
+        body.academy-reverse-theme #academy-main-header button[onclick*="switchView('store')"] {
+            background: #240A4E !important;
+            border: 1px solid #4C1D95 !important;
+            color: #DDD6FE !important;
+        }
+
+        #screen-academy #academy-main-header button[onclick*="switchView('store')"]:hover,
+        #screen-academy #academy-header-store-btn:hover,
+        body.academy-reverse-theme #academy-main-header button[onclick*="switchView('store')"]:hover {
+            background: #3B0E78 !important;
+            border-color: #6D28D9 !important;
+            color: #FFFFFF !important;
+            transform: translateY(-1.5px);
+        }
+
+        #screen-academy #academy-main-header button[onclick*="switchView('store')"] i,
+        #screen-academy #academy-header-store-btn i,
+        body.academy-reverse-theme #academy-main-header button[onclick*="switchView('store')"] i {
+            color: #FBBF24 !important;
+        }
+
+        #screen-academy #academy-main-header button[onclick*="switchView('store')"] span,
+        #screen-academy #academy-header-store-btn span,
+        body.academy-reverse-theme #academy-main-header button[onclick*="switchView('store')"] span {
+            color: #DDD6FE !important;
+        }
+
+        /* Funny Academy button in Academy Header (#academy-header-learning-btn) */
+        #academy-header-learning-btn,
+        #screen-academy #academy-header-learning-btn,
+        body.academy-reverse-theme #academy-header-learning-btn {
+            background: #F59E0B !important;
+            border: 1px solid #FBBF24 !important;
+            color: #0F0426 !important;
+            box-shadow: 0 4px 14px -2px rgba(245, 158, 11, 0.4) !important;
+        }
+
+        #academy-header-learning-btn:hover,
+        #screen-academy #academy-header-learning-btn:hover,
+        body.academy-reverse-theme #academy-header-learning-btn:hover {
+            background: #FBBF24 !important;
+            border-color: #FDE68A !important;
+            color: #0F0426 !important;
+            transform: translateY(-1.5px);
+        }
+
+        #academy-header-learning-btn i,
+        #screen-academy #academy-header-learning-btn i,
+        body.academy-reverse-theme #academy-header-learning-btn i {
+            color: #0F0426 !important;
+        }
+
+        /* If body has academy-reverse-theme, reverse regular header elements as well */
+        body.academy-reverse-theme #screen-regular header {
+            background: #0E0422 !important;
+            background-color: #0E0422 !important;
+            background-image: none !important;
+            border-bottom: 1px solid #38146F !important;
+            color: #FFFFFF !important;
+        }
+
+        body.academy-reverse-theme #screen-regular header .text-earth-950,
+        body.academy-reverse-theme #screen-regular header .font-heading {
+            color: #FFFFFF !important;
+        }
+
+        body.academy-reverse-theme #screen-regular header .text-earth-600 {
+            color: #DDD6FE !important;
+        }
+
+        body.academy-reverse-theme #screen-regular header #search-input {
+            background: #180838 !important;
+            background-image: none !important;
+            border: 1px solid #3E1878 !important;
+            color: #FFFFFF !important;
+        }
+
+        body.academy-reverse-theme #screen-regular header #search-input::placeholder {
+            color: rgba(221, 214, 254, 0.65) !important;
         }
 
         #screen-academy #learning-main-view {
@@ -2891,7 +3093,7 @@
                         <!-- Academy Action Buttons -->
                         <div class="flex items-center gap-2.5">
                             <!-- Shipping Estimator -->
-                            <button onclick="window.openShippingModal()"
+                            <button onclick="window.openShippingModal()" id="academy-header-shipping-btn"
                                 class="h-10 px-3.5 rounded-xl bg-[#BE185D] hover:bg-[#9D174D] text-white text-xs font-bold flex items-center gap-1.5 transition-all shadow-md active:scale-95 cursor-pointer border border-[#9D174D]"
                                 title="Estimate Shipping Distance">
                                 <i class="fa-solid fa-map-location-dot text-white"></i>
@@ -2899,7 +3101,7 @@
                             </button>
 
                             <!-- Cart Widget -->
-                            <button onclick="window.openCartDrawer()"
+                            <button onclick="window.openCartDrawer()" id="academy-header-cart-btn"
                                 class="h-10 px-4 rounded-xl bg-teal-800 hover:bg-teal-700 text-white font-bold text-xs flex items-center gap-2 transition-all border border-teal-600/50">
                                 <i class="fa-solid fa-cart-shopping text-teal-300"></i>
                                 <span class="hidden sm:inline">Cart:</span>
@@ -2909,7 +3111,7 @@
                             </button>
 
                             <!-- Return to Store Catalog Button -->
-                            <button onclick="window.switchView('store')"
+                            <button onclick="window.switchView('store')" id="academy-header-store-btn"
                                 class="h-10 px-3.5 rounded-xl bg-purple-900/80 hover:bg-purple-800 border border-purple-700/60 text-purple-100 text-xs font-bold flex items-center gap-1.5 transition-all cursor-pointer"
                                 title="Return to Store Catalog">
                                 <i class="fa-solid fa-shop text-amber-300"></i>

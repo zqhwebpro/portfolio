@@ -49,11 +49,11 @@
 
     <!-- Persistent Portfolio Navigation Anchors -->
     <a id="back-btn-np" href="../" title="Back to Projects"
-        style="position:fixed;top:0;right:0;z-index:99999;display:inline-flex;align-items:center;justify-content:center;width:34px;height:34px;background:rgba(0,0,0,0.85);backdrop-filter:blur(12px);-webkit-backdrop-filter:blur(12px);border:0;border-bottom:1px solid #222933;border-left:1px solid #222933;border-radius:0 0 0 8px;color:#fff;font-family:system-ui,sans-serif;font-size:1rem;font-weight:700;text-decoration:none;box-shadow:-2px 2px 10px rgba(0,0,0,0.6);">
+        style="position:fixed;top:0;right:0;z-index:99999;display:inline-flex;align-items:center;justify-content:center;width:34px;height:34px;background:#ffffff;border:0;border-bottom:1px solid #999999;border-left:1px solid #999999;border-radius:0 0 0 8px;color:#000000;font-family:system-ui,sans-serif;font-size:1rem;font-weight:700;text-decoration:none;box-shadow:-2px 2px 8px rgba(0,0,0,0.08);">
         &#8592;
     </a>
     <a id="case-study-btn-np" href="./case-study.html" title="Case Study" aria-label="Case Study"
-        style="position:fixed;bottom:0;left:0;z-index:99999;display:inline-flex;align-items:center;justify-content:center;width:34px;height:34px;background:rgba(0,0,0,0.85);backdrop-filter:blur(12px);-webkit-backdrop-filter:blur(12px);border:0;border-top:1px solid #222933;border-right:1px solid #222933;border-radius:0 8px 0 0;color:#fff;font-family:system-ui,sans-serif;font-size:0.95rem;text-decoration:none;box-shadow:2px -2px 10px rgba(0,0,0,0.6);">
+        style="position:fixed;bottom:0;left:0;z-index:99999;display:inline-flex;align-items:center;justify-content:center;width:34px;height:34px;background:#ffffff;border:0;border-top:1px solid #999999;border-right:1px solid #999999;border-radius:0 8px 0 0;color:#000000;font-family:system-ui,sans-serif;font-size:0.95rem;text-decoration:none;box-shadow:2px -2px 8px rgba(0,0,0,0.08);">
         <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
             stroke-linecap="round" stroke-linejoin="round" style="display:block;">
             <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"></path>
@@ -101,7 +101,7 @@
             <!-- Realtime Telemetry Indicator -->
             <div class="apex-realtime-badge" id="realtimeIndicatorPill">
                 <span class="apex-pulse-dot"></span>
-                <span id="realtimeStatusText" class="text-white fw-bold">0/6 CONNECTED</span>
+                <span id="realtimeStatusText" class="fw-bold" style="color: var(--apex-black);">0/6 CONNECTED</span>
             </div>
 
             <!-- Audio Synthesizer Toggle -->
@@ -115,7 +115,7 @@
             </button>
 
             <!-- Reset Walkthrough -->
-            <button type="button" class="apex-btn-subtle text-danger" onclick="resetWalkthrough()" title="Reset to initial unconfigured state">
+            <button type="button" class="apex-btn-subtle" onclick="resetWalkthrough()" title="Reset to initial unconfigured state">
                 <i class="fa-solid fa-rotate-left"></i> Reset
             </button>
 
@@ -152,7 +152,7 @@
         <div class="apex-metric-card">
             <div class="apex-metric-top">
                 <span>Average Response Latency</span>
-                <i class="fa-solid fa-bolt text-warning"></i>
+                <i class="fa-solid fa-bolt" style="color: var(--apex-cyan);"></i>
             </div>
             <div class="apex-metric-val">
                 <span id="metricAvgLatency">18.4 ms</span>
@@ -174,7 +174,7 @@
         <div class="apex-metric-card">
             <div class="apex-metric-top">
                 <span>POS Catalog Sync</span>
-                <i class="fa-solid fa-utensils text-secondary"></i>
+                <i class="fa-solid fa-utensils" style="color: var(--apex-charcoal);"></i>
             </div>
             <div class="apex-metric-val">
                 <span id="metricCatalogSync">Pending API</span>
@@ -201,7 +201,7 @@
 
         <div>
             <span class="apex-stepper-help" id="stepperGuidanceMessage">
-                <i class="fa-solid fa-circle-info me-1" style="color: var(--apex-cyan);"></i>
+                <i class="fa-solid fa-circle-info me-1" style="color: var(--apex-cyan-dark);"></i>
                 Select a delivery provider row below and click <strong>Configure API</strong> to initiate Step 1.
             </span>
         </div>
@@ -212,7 +212,7 @@
          ═══════════════════════════════════════════════════════════════════ -->
     <div class="apex-spider-toolbar">
         <div class="apex-filter-btns">
-            <span class="font-mono text-xs text-secondary me-1 fw-bold" style="color: var(--apex-mid-grey) !important;">SPIDER FILTER:</span>
+            <span class="font-mono text-xs fw-bold me-1" style="color: var(--apex-charcoal);">SPIDER FILTER:</span>
             <button type="button" class="apex-filter-btn active" onclick="filterSpiderRows('all', this)">
                 All Platforms (<span id="filterCountAll">6</span>)
             </button>
@@ -310,15 +310,15 @@
                     <tr class="row-selected" onclick="updateFormulaBar('B2', '=POS.CATALOG(SKU=\"CHK-01\", Name=\"Artisan Cheesesteak Supreme\", Base=$13.95)')">
                         <td class="apex-row-num">1</td>
                         <td>
-                            <div class="fw-bold text-white d-flex align-items-center gap-2">
-                                <i class="fa-solid fa-bread-slice" style="color: var(--apex-cyan);"></i>
+                            <div class="fw-bold d-flex align-items-center gap-2" style="color: var(--apex-black);">
+                                <i class="fa-solid fa-bread-slice" style="color: var(--apex-cyan-dark);"></i>
                                 <span>Artisan Cheesesteak Supreme</span>
                             </div>
                             <span class="font-mono text-secondary text-xs">Hot Subs &bull; Signature Ribeye</span>
                         </td>
                         <td class="text-secondary">Shaved ribeye, sautéed sweet peppers &amp; onions, melted aged provolone on hearth-baked roll.</td>
-                        <td class="font-mono fw-bold" style="color: var(--apex-white);">$13.95</td>
-                        <td class="font-mono fw-bold" style="color: var(--apex-cyan);">$16.04</td>
+                        <td class="font-mono fw-bold" style="color: var(--apex-black);">$13.95</td>
+                        <td class="font-mono fw-bold" style="color: var(--apex-cyan-dark);">$16.04</td>
                         <td><span class="apex-status-pill apex-status-200"><i class="fa-solid fa-check"></i> SYNCED</span></td>
                         <td><span class="apex-status-pill apex-status-200">100% IN STOCK</span></td>
                         <td class="text-center"><button class="apex-btn-subtle" onclick="alert('Menu item CHK-01 synchronized across active gateways.')"><i class="fa-solid fa-arrows-rotate"></i> Sync</button></td>
@@ -326,15 +326,15 @@
                     <tr onclick="updateFormulaBar('B3', '=POS.CATALOG(SKU=\"FRY-02\", Name=\"Loaded Truffle Parmesan Fries\", Base=$8.50)')">
                         <td class="apex-row-num">2</td>
                         <td>
-                            <div class="fw-bold text-white d-flex align-items-center gap-2">
-                                <i class="fa-solid fa-bacon" style="color: var(--apex-cyan);"></i>
+                            <div class="fw-bold d-flex align-items-center gap-2" style="color: var(--apex-black);">
+                                <i class="fa-solid fa-bacon" style="color: var(--apex-cyan-dark);"></i>
                                 <span>Loaded Truffle Parmesan Fries</span>
                             </div>
                             <span class="font-mono text-secondary text-xs">Sides &bull; Gourmet Hand-Cut</span>
                         </td>
                         <td class="text-secondary">Double-crisped hand-cut fries, aromatic white truffle oil, shaved parmesan, rosemary aioli.</td>
-                        <td class="font-mono fw-bold" style="color: var(--apex-white);">$8.50</td>
-                        <td class="font-mono fw-bold" style="color: var(--apex-cyan);">$9.78</td>
+                        <td class="font-mono fw-bold" style="color: var(--apex-black);">$8.50</td>
+                        <td class="font-mono fw-bold" style="color: var(--apex-cyan-dark);">$9.78</td>
                         <td><span class="apex-status-pill apex-status-200"><i class="fa-solid fa-check"></i> SYNCED</span></td>
                         <td><span class="apex-status-pill apex-status-200">100% IN STOCK</span></td>
                         <td class="text-center"><button class="apex-btn-subtle" onclick="alert('Menu item FRY-02 synchronized across active gateways.')"><i class="fa-solid fa-arrows-rotate"></i> Sync</button></td>
@@ -342,15 +342,15 @@
                     <tr onclick="updateFormulaBar('B4', '=POS.CATALOG(SKU=\"SUB-03\", Name=\"Classic Italian Deli Sub (12-inch)\", Base=$12.50)')">
                         <td class="apex-row-num">3</td>
                         <td>
-                            <div class="fw-bold text-white d-flex align-items-center gap-2">
-                                <i class="fa-solid fa-pizza-slice" style="color: var(--apex-cyan);"></i>
+                            <div class="fw-bold d-flex align-items-center gap-2" style="color: var(--apex-black);">
+                                <i class="fa-solid fa-pizza-slice" style="color: var(--apex-cyan-dark);"></i>
                                 <span>Classic Italian Deli Sub (12-inch)</span>
                             </div>
                             <span class="font-mono text-secondary text-xs">Cold Subs &bull; EVOO Vinaigrette</span>
                         </td>
                         <td class="text-secondary">Genoa salami, spicy capicola, prosciutto cotto, aged provolone, shredduce, EVOO.</td>
-                        <td class="font-mono fw-bold" style="color: var(--apex-white);">$12.50</td>
-                        <td class="font-mono fw-bold" style="color: var(--apex-cyan);">$14.38</td>
+                        <td class="font-mono fw-bold" style="color: var(--apex-black);">$12.50</td>
+                        <td class="font-mono fw-bold" style="color: var(--apex-cyan-dark);">$14.38</td>
                         <td><span class="apex-status-pill apex-status-200"><i class="fa-solid fa-check"></i> SYNCED</span></td>
                         <td><span class="apex-status-pill apex-status-200">100% IN STOCK</span></td>
                         <td class="text-center"><button class="apex-btn-subtle" onclick="alert('Menu item SUB-03 synchronized across active gateways.')"><i class="fa-solid fa-arrows-rotate"></i> Sync</button></td>
@@ -358,15 +358,15 @@
                     <tr onclick="updateFormulaBar('B5', '=POS.CATALOG(SKU=\"WRP-04\", Name=\"Charred Buffalo Chicken Wrap\", Base=$11.25)')">
                         <td class="apex-row-num">4</td>
                         <td>
-                            <div class="fw-bold text-white d-flex align-items-center gap-2">
-                                <i class="fa-solid fa-bowl-food" style="color: var(--apex-cyan);"></i>
+                            <div class="fw-bold d-flex align-items-center gap-2" style="color: var(--apex-black);">
+                                <i class="fa-solid fa-bowl-food" style="color: var(--apex-cyan-dark);"></i>
                                 <span>Charred Buffalo Chicken Wrap</span>
                             </div>
                             <span class="font-mono text-secondary text-xs">Wraps &bull; Cayenne Buffalo Glaze</span>
                         </td>
                         <td class="text-secondary">Char-grilled chicken breast glazed in spicy cayenne buffalo sauce, crisp romaine, ranch.</td>
-                        <td class="font-mono fw-bold" style="color: var(--apex-white);">$11.25</td>
-                        <td class="font-mono fw-bold" style="color: var(--apex-cyan);">$12.94</td>
+                        <td class="font-mono fw-bold" style="color: var(--apex-black);">$11.25</td>
+                        <td class="font-mono fw-bold" style="color: var(--apex-cyan-dark);">$12.94</td>
                         <td><span class="apex-status-pill apex-status-200"><i class="fa-solid fa-check"></i> SYNCED</span></td>
                         <td><span class="apex-status-pill apex-status-200">100% IN STOCK</span></td>
                         <td class="text-center"><button class="apex-btn-subtle" onclick="alert('Menu item WRP-04 synchronized across active gateways.')"><i class="fa-solid fa-arrows-rotate"></i> Sync</button></td>
@@ -472,25 +472,25 @@
             <div class="modal-content apex-modal">
                 <div class="modal-header d-flex justify-content-between align-items-center">
                     <div class="d-flex align-items-center gap-3">
-                        <div class="d-flex align-items-center justify-content-center text-white p-2 border" id="modalLogoBox" style="width: 38px; height: 38px; background: var(--apex-black); border-color: var(--apex-cyan);">
-                            <i id="modalLogoIcon" class="fa-solid fa-plug" style="color: var(--apex-cyan);"></i>
+                        <div class="d-flex align-items-center justify-content-center p-2 border" id="modalLogoBox" style="width: 38px; height: 38px; background: var(--apex-surface-muted); border-color: var(--apex-cyan);">
+                            <i id="modalLogoIcon" class="fa-solid fa-plug" style="color: var(--apex-cyan-dark);"></i>
                         </div>
                         <div>
-                            <h5 class="modal-title font-mono fw-bold fs-6 mb-0 text-white" id="modalServiceTitle">API Gateway Setup</h5>
+                            <h5 class="modal-title font-mono fw-bold fs-6 mb-0 text-dark" id="modalServiceTitle">API Gateway Setup</h5>
                             <span class="font-mono text-secondary text-xs" id="modalServiceSubtitle">REST Webhooks &bull; TLS 1.3</span>
                         </div>
                     </div>
-                    <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal" aria-label="Close"></button>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                 </div>
 
                 <div class="modal-body p-4">
                     <input type="hidden" id="modalCurrentServiceId" value="">
 
                     <!-- Demographics banner -->
-                    <div class="p-3 mb-3 border" style="background: var(--apex-panel); border-color: var(--apex-border) !important;">
+                    <div class="p-3 mb-3 border" style="background: var(--apex-surface-subtle); border-color: var(--apex-silver) !important;">
                         <div class="d-flex align-items-center justify-content-between mb-1">
-                            <span class="font-mono text-xs fw-bold" style="color: var(--apex-cyan);" id="modalDemoRank">Demographic Target</span>
-                            <a href="#" target="_blank" rel="noopener" id="modalOutwardLink" class="font-mono text-xs text-decoration-none" style="color: var(--apex-cyan);">
+                            <span class="font-mono text-xs fw-bold" style="color: var(--apex-cyan-dark);" id="modalDemoRank">Demographic Target</span>
+                            <a href="#" target="_blank" rel="noopener" id="modalOutwardLink" class="font-mono text-xs text-decoration-none fw-semibold" style="color: var(--apex-cyan-dark);">
                                 Developer Portal <i class="fa-solid fa-arrow-up-right-from-square ms-1"></i>
                             </a>
                         </div>
@@ -515,24 +515,24 @@
 
                         <div class="mb-3">
                             <label class="form-label font-mono text-xs text-secondary fw-semibold">Inbound Webhook Endpoint URL</label>
-                            <input type="text" id="apiWebhookUrlDisplay" class="apex-form-control text-secondary" style="background: var(--apex-black);" readonly>
+                            <input type="text" id="apiWebhookUrlDisplay" class="apex-form-control" readonly>
                         </div>
 
                         <!-- Live Diagnostic Handshake Console -->
-                        <div id="verificationConsole" class="p-3 border font-mono text-xs d-none mb-3" style="background: var(--apex-black); border-color: var(--apex-cyan) !important;">
-                            <div class="d-flex align-items-center justify-content-between text-secondary border-bottom border-secondary border-opacity-30 pb-1 mb-2">
-                                <span><i class="fa-solid fa-terminal me-1"></i> HANDSHAKE DIAGNOSTIC STREAM</span>
-                                <span id="consoleTimer" style="color: var(--apex-cyan);">0 ms</span>
+                        <div id="verificationConsole" class="p-3 border font-mono text-xs d-none mb-3" style="background: var(--apex-surface-subtle); border-color: var(--apex-cyan) !important;">
+                            <div class="d-flex align-items-center justify-content-between text-secondary border-bottom pb-1 mb-2" style="border-color: var(--apex-silver) !important;">
+                                <span class="fw-bold text-dark"><i class="fa-solid fa-terminal me-1"></i> HANDSHAKE DIAGNOSTIC STREAM</span>
+                                <span id="consoleTimer" style="color: var(--apex-cyan-dark); font-weight: 700;">0 ms</span>
                             </div>
-                            <div id="step1" class="text-info mb-1"><i class="fa-solid fa-spinner fa-spin me-1"></i> [TLS 1.3] Handshake initialization...</div>
+                            <div id="step1" class="text-dark mb-1"><i class="fa-solid fa-spinner fa-spin me-1" style="color: var(--apex-cyan-dark);"></i> [TLS 1.3] Handshake initialization...</div>
                             <div id="step2" class="text-secondary mb-1 d-none">[OAuth 2.0] Authenticating bearer token...</div>
                             <div id="step3" class="text-secondary mb-1 d-none">[Location GUID] Validating store geofence...</div>
-                            <div id="step4" class="fw-bold d-none" style="color: var(--apex-cyan);"><i class="fa-solid fa-circle-check me-1"></i> [200 OK] Handshake verified and online!</div>
+                            <div id="step4" class="fw-bold d-none" style="color: var(--apex-cyan-dark);"><i class="fa-solid fa-circle-check me-1"></i> [200 OK] Handshake verified and online!</div>
                         </div>
 
                         <div class="d-flex align-items-center justify-content-between pt-2">
                             <button type="button" class="apex-btn-subtle" onclick="fillDemoCredentials()">
-                                <i class="fa-solid fa-wand-magic-sparkles me-1" style="color: var(--apex-cyan);"></i> Fill Demo Credentials
+                                <i class="fa-solid fa-wand-magic-sparkles me-1" style="color: var(--apex-cyan-dark);"></i> Fill Demo Credentials
                             </button>
 
                             <div class="d-flex gap-2">
