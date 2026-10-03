@@ -932,19 +932,15 @@
 
     const mod = MODULES_DATA.find((m) => m.id === currentActiveTrackId) || MODULES_DATA[0];
 
-    // Helper to render each 3-module progression tier
-    function renderSyllabusTier(tierName, tierBadgeStyle, tierDotColor, tierPillStyle, tierNumber, modules) {
+    // Helper to render each 3-module progression tier with scientific formatting
+    function renderSyllabusTier(tierName, tierNumber, modules) {
       const modulesHtml = modules
         .map((m) => `
-          <div class="p-4 sm:p-5 bg-slate-50 border border-slate-200/90 rounded-xl hover:bg-white hover:border-slate-300 hover:shadow-md transition-all flex flex-col justify-between">
+          <div class="p-4 sm:p-5 bg-white border border-slate-200 hover:border-slate-400 transition-colors flex flex-col justify-between">
             <div>
-              <div class="flex items-center justify-between gap-2 mb-2.5">
-                <span class="font-mono text-[11px] font-bold px-2 py-0.5 rounded ${tierBadgeStyle} border">
-                  ${m.tier.toUpperCase()} // ${m.num}
-                </span>
-                <span class="font-mono text-[11px] text-slate-400 font-semibold">
-                  STAGE ${m.num} / 09
-                </span>
+              <div class="flex items-center justify-between font-mono text-[11px] text-slate-500 mb-2 pb-1.5 border-b border-slate-100">
+                <span class="font-bold text-slate-800 tracking-wider">MODULE § ${m.num}</span>
+                <span class="text-slate-400 tracking-wider">${m.tier.toUpperCase()} [STAGE ${m.num}/09]</span>
               </div>
               <h4 class="font-headline font-bold text-slate-900 text-sm sm:text-base mb-2 leading-snug">
                 ${m.chapter}
@@ -953,16 +949,8 @@
                 ${m.desc}
               </p>
             </div>
-            <div class="pt-3 border-t border-slate-200/80 flex flex-wrap gap-1.5 mt-auto">
-              ${m.keyConcepts
-                .map(
-                  (c) => `
-                <span class="text-[10.5px] font-mono font-medium px-2 py-0.5 rounded bg-white border border-slate-200 text-slate-700">
-                  ${c}
-                </span>
-              `
-                )
-                .join('')}
+            <div class="pt-2.5 border-t border-slate-100 font-mono text-[11px] text-slate-600 mt-auto leading-relaxed">
+              <span class="text-slate-400 font-semibold">CORE_CONCEPTS:</span> ${m.keyConcepts.join('; ')}
             </div>
           </div>
         `)
@@ -970,16 +958,13 @@
 
       return `
         <div class="space-y-3.5">
-          <!-- Progression Header Strip -->
-          <div class="flex items-center justify-between gap-3 pb-2 border-b border-slate-200">
-            <div class="flex items-center gap-2.5">
-              <span class="w-2.5 h-2.5 rounded-full ${tierDotColor}"></span>
-              <h3 class="font-headline font-black text-slate-900 text-sm sm:text-base uppercase tracking-wider">
-                ${tierName}
-              </h3>
-            </div>
-            <span class="font-mono text-xs font-bold px-2.5 py-0.5 rounded ${tierPillStyle} border">
-              3 Modules &bull; Advancement Tier ${tierNumber}
+          <!-- Scientific Section Header Strip -->
+          <div class="flex items-baseline justify-between gap-3 pb-2 border-b-2 border-slate-300">
+            <h3 class="font-mono font-bold text-slate-900 text-sm sm:text-base tracking-wide uppercase">
+              ${tierName}
+            </h3>
+            <span class="font-mono text-xs text-slate-500 font-semibold tracking-wider">
+              [ ADVANCEMENT_TIER_${tierNumber} // 03_MODULES ]
             </span>
           </div>
 
@@ -998,7 +983,7 @@
     container.innerHTML = `
       <div class="os-white-card w-full">
         
-        <!-- Titanium Grey Window Titlebar -->
+        <!-- Scientific Specification Window Titlebar -->
         <div class="os-window-header px-6 sm:px-10 lg:px-14 py-3">
           <div class="flex items-center gap-2.5">
             <div class="font-mono text-xs text-slate-700 flex items-center gap-2 font-semibold">
@@ -1008,62 +993,50 @@
           </div>
 
           <div class="font-mono text-xs text-slate-500 font-bold">
-            ${mod.duration} &bull; 9 CURRICULUM CHAPTERS (3x3)
+            ${mod.duration} // 09 PROGRESSIVE MODULES (3x3)
           </div>
         </div>
 
         <!-- Main Card Body -->
         <div class="py-6 sm:py-8 px-6 sm:px-10 lg:px-14 space-y-8">
           
-          <!-- Title & Tier Bar -->
-          <div class="flex items-start gap-4 pb-4 border-b border-slate-200">
-            <div class="w-14 h-14 rounded-lg bg-slate-100 border border-slate-300 flex items-center justify-center text-3xl shrink-0 shadow-xs">
-              <i class="${mod.icon}"></i>
+          <!-- Scientific Header & Technical Parameters -->
+          <div class="pb-5 border-b border-slate-200">
+            <div class="font-mono text-xs text-slate-500 tracking-wider mb-2.5 flex items-center gap-2 flex-wrap">
+              <span class="font-bold text-slate-800">SPEC_ID: ${mod.id.toUpperCase()}</span>
+              <span class="text-slate-300">/</span>
+              <span>TIER: ${mod.tier.toUpperCase()}</span>
+              <span class="text-slate-300">/</span>
+              <span>DOMAIN: ${mod.category.toUpperCase()}</span>
+              <span class="text-slate-300">/</span>
+              <span>EST_HOURS: ${mod.duration}</span>
+              <span class="text-slate-300">/</span>
+              <span>STRUCTURE: 3x3 PROGRESSIVE MATRIX</span>
             </div>
-            <div class="flex-1">
-              <div class="flex items-center gap-2 mb-1.5 flex-wrap">
-                <span class="font-mono text-xs font-bold text-slate-500 uppercase tracking-wider">
-                  ${mod.tier} // ${mod.category.toUpperCase()}
-                </span>
-                <span class="text-slate-300">&bull;</span>
-                <span class="font-mono text-xs text-sky-700 font-bold bg-sky-50 px-2 py-0.5 rounded border border-sky-200">
-                  3x3 CURRICULUM SYLLABUS (9 PROGRESSIVE CHAPTERS)
-                </span>
-              </div>
-              <h2 class="font-headline font-black text-2xl sm:text-3xl text-slate-900 tracking-tight leading-tight mb-2">
-                ${mod.title}
-              </h2>
-              <p class="font-sans text-xs sm:text-sm text-slate-600 leading-relaxed">
-                ${mod.summary}
-              </p>
-            </div>
+            <h2 class="font-headline font-bold text-2xl sm:text-3xl text-slate-900 tracking-tight leading-tight mb-2.5">
+              ${mod.title}
+            </h2>
+            <p class="font-sans text-xs sm:text-sm text-slate-600 leading-relaxed max-w-4xl">
+              ${mod.summary}
+            </p>
           </div>
 
           <!-- THE 3x3 CURRICULUM SYLLABUSES (3 Beginner, 3 Advanced, 3 Expert) -->
           <div class="space-y-8">
             ${renderSyllabusTier(
-              '01. Beginner Foundations (Building Core Knowledge)',
-              'bg-emerald-100 text-emerald-900 border-emerald-300',
-              'bg-emerald-500',
-              'bg-emerald-50 text-emerald-800 border-emerald-200',
+              '01. Beginner Foundations (Core Mechanics & Execution Lifecycle)',
               '01',
               beginnerTier
             )}
 
             ${renderSyllabusTier(
               '02. Advanced Architecture (System Design & Concurrency)',
-              'bg-sky-100 text-sky-900 border-sky-300',
-              'bg-sky-500',
-              'bg-sky-50 text-sky-800 border-sky-200',
               '02',
               advancedTier
             )}
 
             ${renderSyllabusTier(
               '03. Expert Internals (Low-Level Mastery & Enterprise Scaling)',
-              'bg-purple-100 text-purple-900 border-purple-300',
-              'bg-purple-500',
-              'bg-purple-50 text-purple-800 border-purple-200',
               '03',
               expertTier
             )}
@@ -1092,8 +1065,8 @@
 
     if (filtered.length === 0) {
       container.innerHTML = `
-        <div class="os-white-card p-12 text-center max-w-xl mx-auto">
-          <div class="w-12 h-12 bg-slate-100 text-slate-500 rounded-lg flex items-center justify-center text-xl mx-auto mb-3 border border-slate-300">
+        <div class="os-white-card p-12 text-center max-w-xl mx-auto border border-slate-200">
+          <div class="w-12 h-12 bg-slate-100 text-slate-500 rounded flex items-center justify-center text-xl mx-auto mb-3 border border-slate-300">
             <i class="fa-solid fa-magnifying-glass"></i>
           </div>
           <h3 class="font-mono font-bold text-lg text-slate-900 mb-1">NO_MODULES_FOUND</h3>
@@ -1106,7 +1079,7 @@
     const cardsHtml = filtered
       .map((mod) => {
         return `
-          <div class="os-white-card flex flex-col justify-between cursor-pointer group hover:shadow-2xl transition-all" data-card-track-id="${mod.id}">
+          <div class="os-white-card flex flex-col justify-between cursor-pointer group hover:shadow-xl transition-all border border-slate-200" data-card-track-id="${mod.id}">
             <!-- Titlebar -->
             <div class="os-window-header py-2 px-4">
               <div class="font-mono text-xs text-slate-600 font-semibold flex items-center gap-1.5">
@@ -1118,11 +1091,11 @@
             <!-- Body -->
             <div class="p-6 flex-1 flex flex-col justify-between">
               <div>
-                <div class="font-mono text-xs font-bold text-slate-500 uppercase tracking-wider mb-2">
-                  ${mod.tier}
+                <div class="font-mono text-xs text-slate-500 uppercase tracking-wider mb-2 font-bold">
+                  ${mod.tier} // ${mod.category.toUpperCase()}
                 </div>
 
-                <h3 class="font-headline font-black text-xl sm:text-2xl text-slate-900 leading-tight group-hover:text-sky-600 transition-colors mb-3 tracking-tight">
+                <h3 class="font-headline font-bold text-xl sm:text-2xl text-slate-900 leading-tight group-hover:text-sky-600 transition-colors mb-3 tracking-tight">
                   ${mod.title}
                 </h3>
 
@@ -1130,26 +1103,19 @@
                   ${mod.summary}
                 </p>
 
-                <!-- 3x3 Advancement Badges -->
-                <div class="grid grid-cols-3 gap-2 text-center font-mono text-[11px] mb-5">
-                  <div class="p-2 rounded bg-emerald-50 border border-emerald-200 text-emerald-800 font-bold">
-                    3 Beginner
-                  </div>
-                  <div class="p-2 rounded bg-sky-50 border border-sky-200 text-sky-800 font-bold">
-                    3 Advanced
-                  </div>
-                  <div class="p-2 rounded bg-purple-50 border border-purple-200 text-purple-800 font-bold">
-                    3 Expert
-                  </div>
+                <!-- Scientific 3x3 Breakdown -->
+                <div class="py-2.5 px-3 bg-slate-50 border border-slate-200 font-mono text-xs text-slate-700 mb-4 space-y-1">
+                  <div class="flex justify-between"><span>[01-03] Beginner Foundations:</span><span class="font-bold">3 Chapters</span></div>
+                  <div class="flex justify-between"><span>[04-06] Advanced Architecture:</span><span class="font-bold">3 Chapters</span></div>
+                  <div class="flex justify-between"><span>[07-09] Expert Internals:</span><span class="font-bold">3 Chapters</span></div>
                 </div>
               </div>
 
               <!-- Action Bar -->
               <div class="pt-4 border-t border-slate-200 flex items-center justify-between">
-                <span class="text-xs font-mono text-slate-500">9 Progressive Modules</span>
-                <button type="button" class="os-tech-btn-primary text-xs py-1.5 px-3">
-                  <span>Open Syllabus</span>
-                  <i class="fa-solid fa-arrow-right text-[10px]"></i>
+                <span class="text-xs font-mono text-slate-500 font-semibold">9 PROGRESSIVE MODULES</span>
+                <button type="button" class="font-mono text-xs font-bold text-slate-900 hover:text-sky-600 flex items-center gap-1.5 transition-colors">
+                  <span>INSPECT_SYLLABUS &rarr;</span>
                 </button>
               </div>
             </div>

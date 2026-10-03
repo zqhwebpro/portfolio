@@ -2738,14 +2738,14 @@ window.renderCourses = function (filterCategory) {
         if (isMatch) {
             btn.className = 'course-cat-btn px-3 sm:px-3.5 py-1.5 rounded-xl font-bold transition-all bg-[#F59E0B] text-white shadow-xs text-[11px] sm:text-xs cursor-pointer';
         } else {
-            btn.className = 'course-cat-btn px-3 sm:px-3.5 py-1.5 rounded-xl font-bold transition-all bg-canvas-surface hover:bg-canvas-border text-earth-800 border border-canvas-border text-[11px] sm:text-xs cursor-pointer';
+            btn.className = 'course-cat-btn px-3 sm:px-3.5 py-1.5 rounded-xl font-bold transition-all bg-[#1A0736] hover:bg-[#2A0E52] text-purple-200 border border-[#3E1777] text-[11px] sm:text-xs cursor-pointer';
         }
     });
 
     grid.innerHTML = filtered.map(course => {
         const totalLessons = course.curriculum.reduce((acc, m) => acc + m.lessons.length, 0);
         return `
-                <div class="course-card bg-white border border-canvas-border rounded-2xl sm:rounded-3xl overflow-hidden shadow-sm hover:shadow-xl transition-all duration-300 flex flex-col justify-between"
+                <div class="course-card bg-[#130628] border border-[#3B1578] rounded-2xl sm:rounded-3xl overflow-hidden shadow-lg hover:shadow-2xl hover:border-amber-400/60 transition-all duration-300 flex flex-col justify-between text-white"
                     id="card-${course.id}"
                     data-blueprint-file="WackyStore.Domain/Entities/Course.cs"
                     data-blueprint-role="WackyDash Course Card Component"
@@ -2757,10 +2757,10 @@ window.renderCourses = function (filterCategory) {
                     <!-- Course Cover Image & Floating Badges -->
                     <div class="relative h-48 sm:h-52 w-full overflow-hidden bg-earth-950">
                         <img src="${course.image}" alt="${course.title}" class="w-full h-full object-cover transition-transform duration-500 hover:scale-105" />
-                        <div class="absolute inset-0 bg-gradient-to-t from-earth-950/80 via-earth-950/20 to-transparent"></div>
+                        <div class="absolute inset-0 bg-gradient-to-t from-earth-950/90 via-earth-950/30 to-transparent"></div>
                         
                         <!-- Category Badge Top-Left -->
-                        <span class="absolute top-3 left-3 px-2.5 py-0.5 rounded-full bg-[#FFFBEB]/95 text-[#92400E] border border-[#FDE68A] font-mono text-[10px] font-bold uppercase tracking-wider backdrop-blur-xs shadow-xs"
+                        <span class="absolute top-3 left-3 px-2.5 py-0.5 rounded-full bg-[#1F0A38]/90 text-amber-300 border border-amber-400/40 font-mono text-[10px] font-bold uppercase tracking-wider backdrop-blur-xs shadow-xs"
                             data-blueprint-file="WackyStore.Domain/Entities/CourseCategory.cs"
                             data-blueprint-role="Curriculum Taxonomy Badge"
                             data-blueprint-layer="Domain / Taxonomy"
@@ -2801,7 +2801,7 @@ window.renderCourses = function (filterCategory) {
                     <!-- Course Body -->
                     <div class="p-5 sm:p-6 space-y-4 flex-1 flex flex-col justify-between">
                         <div class="space-y-3">
-                            <h3 class="font-heading font-black text-lg sm:text-xl text-earth-950 hover:text-[#D97706] transition-colors leading-snug cursor-pointer"
+                            <h3 class="font-heading font-black text-lg sm:text-xl text-white hover:text-amber-400 transition-colors leading-snug cursor-pointer"
                                 onclick="window.toggleCourseSyllabus('${course.id}')"
                                 data-blueprint-file="WackyStore.Domain/Entities/Course.cs"
                                 data-blueprint-role="Course Title &amp; Entity Identity"
@@ -2814,24 +2814,24 @@ window.renderCourses = function (filterCategory) {
 
                             <!-- Instructor Info -->
                             <div class="flex items-center gap-3 py-1">
-                                <img src="${course.instructor.avatar}" alt="${course.instructor.name}" class="h-9 w-9 rounded-full object-cover border border-canvas-border" />
+                                <img src="${course.instructor.avatar}" alt="${course.instructor.name}" class="h-9 w-9 rounded-full object-cover border border-[#3B1578]" />
                                 <div class="text-xs min-w-0">
-                                    <div class="font-bold text-earth-900 truncate">${course.instructor.name}</div>
-                                    <div class="text-[11px] text-gray-500 truncate">${course.instructor.title}</div>
+                                    <div class="font-bold text-white truncate">${course.instructor.name}</div>
+                                    <div class="text-[11px] text-purple-300/80 truncate">${course.instructor.title}</div>
                                 </div>
                             </div>
 
-                            <p class="text-xs text-gray-600 leading-relaxed">
+                            <p class="text-xs text-purple-200/80 leading-relaxed">
                                 ${course.description}
                             </p>
 
                             <!-- Course Duration / Lessons Strip -->
-                            <div class="flex items-center justify-between text-[11.5px] text-gray-500 font-mono py-2 border-y border-canvas-border">
+                            <div class="flex items-center justify-between text-[11.5px] text-purple-300/80 font-mono py-2 border-y border-[#3B1578]">
                                 <span class="flex items-center gap-1">
                                     <i class="fa-regular fa-clock text-[#F59E0B]"></i>
                                     <span>${course.duration}</span>
                                 </span>
-                                <span class="flex items-center gap-1 text-amber-500 font-bold">
+                                <span class="flex items-center gap-1 text-amber-400 font-bold">
                                     <i class="fa-solid fa-star"></i>
                                     <span>${course.rating} (${course.reviews})</span>
                                 </span>
@@ -2846,13 +2846,13 @@ window.renderCourses = function (filterCategory) {
                                 data-blueprint-desc="Queries StudentCourseProgress table to calculate completed lesson modules vs total required credits."
                                 data-blueprint-code="public decimal CalculateProgress(int studentId, int courseId)">
                                 <div class="flex items-center justify-between text-[11px] font-mono font-bold">
-                                    <span class="${course.isLocked ? 'text-amber-700' : 'text-teal-700'} flex items-center gap-1">
+                                    <span class="${course.isLocked ? 'text-amber-400' : 'text-teal-400'} flex items-center gap-1">
                                         <i class="fa-solid ${course.isLocked ? 'fa-lock' : 'fa-unlock'}"></i>
                                         <span>${course.isLocked ? '0% Complete (Enrollment Required)' : '100% Unlocked (Access Granted)'}</span>
                                     </span>
-                                    <span class="text-gray-400 text-[10px]">WackyDash V2.4</span>
+                                    <span class="text-purple-400/80 text-[10px]">WackyDash V2.4</span>
                                 </div>
-                                <div class="w-full bg-gray-200 h-2 rounded-full overflow-hidden">
+                                <div class="w-full bg-[#200A40] h-2 rounded-full overflow-hidden">
                                     <div class="${course.isLocked ? 'bg-amber-400 w-0' : 'bg-teal-500 w-full'} h-full transition-all duration-500"></div>
                                 </div>
                             </div>
@@ -2866,29 +2866,29 @@ window.renderCourses = function (filterCategory) {
                                     data-blueprint-dom="Accordion toggle exposing module tree, lesson durations, and code references."
                                     data-blueprint-desc="Renders hierarchical course tree composed of Modules and child Lesson entities."
                                     data-blueprint-code="@Html.Partial(&quot;_SyllabusAccordion&quot;, Model.Curriculum)"
-                                    class="w-full py-2 px-3 rounded-xl bg-canvas-surface hover:bg-canvas-border text-earth-800 text-xs font-bold flex items-center justify-between transition-colors border border-canvas-border cursor-pointer">
+                                    class="w-full py-2 px-3 rounded-xl bg-[#1D083A] hover:bg-[#2A0C54] text-purple-100 text-xs font-bold flex items-center justify-between transition-colors border border-[#3E1777] cursor-pointer">
                                     <span class="flex items-center gap-1.5">
                                         <i class="fa-solid fa-list-check text-[#F59E0B]"></i>
                                         <span>Curriculum Breakdown (${course.curriculum.length} Modules &bull; ${totalLessons} Lessons)</span>
                                     </span>
-                                    <i id="chevron-${course.id}" class="fa-solid fa-chevron-down text-gray-400 text-xs transition-transform"></i>
+                                    <i id="chevron-${course.id}" class="fa-solid fa-chevron-down text-purple-400 text-xs transition-transform"></i>
                                 </button>
 
-                                <div id="syllabus-${course.id}" class="hidden mt-2.5 space-y-2 text-xs border border-canvas-border p-3 rounded-xl bg-canvas-base max-h-64 overflow-y-auto">
+                                <div id="syllabus-${course.id}" class="hidden mt-2.5 space-y-2 text-xs border border-[#3B1578] p-3 rounded-xl bg-[#0F0422] max-h-64 overflow-y-auto">
                                     ${course.curriculum.map((mod, modIdx) => `
-                                        <div class="space-y-1.5 pb-2 ${modIdx > 0 ? 'border-t border-canvas-border pt-2' : ''}">
+                                        <div class="space-y-1.5 pb-2 ${modIdx > 0 ? 'border-t border-[#3B1578] pt-2' : ''}">
                                             <!-- Clickable Module Header with Video Demo Trigger -->
-                                            <div class="font-bold text-earth-950 flex items-center justify-between text-[11.5px] p-1.5 rounded-lg hover:bg-amber-100/70 transition-all cursor-pointer group/mod border border-transparent hover:border-amber-300/60"
+                                            <div class="font-bold text-white flex items-center justify-between text-[11.5px] p-1.5 rounded-lg hover:bg-amber-400/20 transition-all cursor-pointer group/mod border border-transparent hover:border-amber-400/40"
                                                 onclick="window.openVideoDemoModal('${course.id}', '${course.title.replace(/'/g, "\\'")}', '${mod.module.replace(/'/g, "\\'")}', '${mod.lessons[0] ? mod.lessons[0].title.replace(/'/g, "\\'") : mod.module.replace(/'/g, "\\'")}', '${mod.lessons[0] ? mod.lessons[0].duration : "20m"}', '${mod.lessons[0] ? mod.lessons[0].code.replace(/'/g, "\\'") : ""}', '${course.instructor ? course.instructor.name.replace(/'/g, "\\'") : "Dr. Barnaby Fizzle"}')"
                                                 title="Click to preview video demo for this module">
                                                 <span class="flex items-center gap-1.5 truncate">
-                                                    <span class="h-4.5 w-4.5 rounded-full bg-amber-100 text-[#D97706] flex items-center justify-center text-[9px] group-hover/mod:scale-110 transition-transform shrink-0">
+                                                    <span class="h-4.5 w-4.5 rounded-full bg-amber-400/20 text-amber-300 flex items-center justify-center text-[9px] group-hover/mod:scale-110 transition-transform shrink-0">
                                                         <i class="fa-solid fa-play"></i>
                                                     </span>
-                                                    <span class="group-hover/mod:text-[#D97706] transition-colors truncate">${mod.module}</span>
+                                                    <span class="group-hover/mod:text-amber-300 transition-colors truncate text-white">${mod.module}</span>
                                                 </span>
-                                                <span class="text-[10px] text-gray-500 font-mono flex items-center gap-1 shrink-0 ml-1">
-                                                    <span class="text-[#D97706] font-bold text-[9px] uppercase tracking-wide opacity-0 group-hover/mod:opacity-100 transition-opacity">Watch Demo</span>
+                                                <span class="text-[10px] text-purple-300/80 font-mono flex items-center gap-1 shrink-0 ml-1">
+                                                    <span class="text-amber-400 font-bold text-[9px] uppercase tracking-wide opacity-0 group-hover/mod:opacity-100 transition-opacity">Watch Demo</span>
                                                     <span>&bull; ${mod.lessons.length} lessons</span>
                                                 </span>
                                             </div>
@@ -2896,7 +2896,7 @@ window.renderCourses = function (filterCategory) {
                                             <!-- Clickable Individual Lesson Rows -->
                                             <div class="space-y-1 pl-1">
                                                 ${mod.lessons.map(lesson => `
-                                                    <div class="flex items-center justify-between text-[11px] text-gray-600 hover:text-earth-900 py-1 px-1.5 rounded-md hover:bg-amber-50/80 transition-all cursor-pointer group/lesson border border-transparent hover:border-amber-200"
+                                                    <div class="flex items-center justify-between text-[11px] text-purple-200 hover:text-white py-1 px-1.5 rounded-md hover:bg-amber-400/10 transition-all cursor-pointer group/lesson border border-transparent hover:border-amber-400/30"
                                                         onclick="window.openVideoDemoModal('${course.id}', '${course.title.replace(/'/g, "\\'")}', '${mod.module.replace(/'/g, "\\'")}', '${lesson.title.replace(/'/g, "\\'")}', '${lesson.duration}', '${lesson.code.replace(/'/g, "\\'")}', '${course.instructor ? course.instructor.name.replace(/'/g, "\\'") : "Dr. Barnaby Fizzle"}')"
                                                         data-blueprint-file="WackyStore.Domain/Entities/Lesson.cs"
                                                         data-blueprint-role="Course Lesson Entity &amp; Video Claims"
@@ -2906,12 +2906,12 @@ window.renderCourses = function (filterCategory) {
                                                         data-blueprint-code="${lesson.code}"
                                                         title="Click to preview video demo of ${lesson.title}">
                                                         <span class="flex items-center gap-1.5 truncate">
-                                                            <i class="fa-solid fa-circle-play text-[#F59E0B] text-[11px] group-hover/lesson:scale-125 transition-transform shrink-0"></i>
-                                                            <span class="truncate group-hover/lesson:text-[#D97706] transition-colors font-medium">${lesson.title}</span>
+                                                            <i class="fa-solid fa-circle-play text-amber-400 text-[11px] group-hover/lesson:scale-125 transition-transform shrink-0"></i>
+                                                            <span class="truncate group-hover/lesson:text-amber-300 transition-colors font-medium">${lesson.title}</span>
                                                         </span>
                                                         <span class="flex items-center gap-2 shrink-0 ml-2">
-                                                            <span class="text-[9.5px] px-1.5 py-0.5 rounded bg-amber-100/70 text-[#92400E] font-mono font-bold opacity-0 group-hover/lesson:opacity-100 transition-opacity">Watch Demo</span>
-                                                            <span class="font-mono text-[10px] text-gray-400">${lesson.duration}</span>
+                                                            <span class="text-[9.5px] px-1.5 py-0.5 rounded bg-amber-400/20 text-amber-300 font-mono font-bold opacity-0 group-hover/lesson:opacity-100 transition-opacity">Watch Demo</span>
+                                                            <span class="font-mono text-[10px] text-purple-400/80">${lesson.duration}</span>
                                                         </span>
                                                     </div>
                                                 `).join('')}
@@ -2923,12 +2923,12 @@ window.renderCourses = function (filterCategory) {
                         </div>
 
                         <!-- Card Action / Pricing Footer -->
-                        <div class="pt-4 border-t border-canvas-border flex items-center justify-between gap-3 mt-4">
+                        <div class="pt-4 border-t border-[#3B1578] flex items-center justify-between gap-3 mt-4">
                             <div>
-                                <div class="text-[10.5px] text-gray-400 font-medium">Curriculum Price:</div>
+                                <div class="text-[10.5px] text-purple-300 font-medium">Curriculum Price:</div>
                                 <div class="flex items-baseline gap-1.5">
-                                    <span class="text-xl sm:text-2xl font-black font-heading text-earth-950">${course.price.toFixed(2)}</span>
-                                    <span class="text-xs text-gray-400 line-through">${course.originalPrice.toFixed(2)}</span>
+                                    <span class="text-xl sm:text-2xl font-black font-heading text-white">$${course.price.toFixed(2)}</span>
+                                    <span class="text-xs text-purple-400/70 line-through">$${course.originalPrice.toFixed(2)}</span>
                                 </div>
                             </div>
 
@@ -4712,12 +4712,12 @@ window.filterCoursesByQuery = function (query) {
     grid.innerHTML = filtered.map(course => {
         const totalLessons = course.curriculum.reduce((acc, m) => acc + m.lessons.length, 0);
         return `
-            <div class="course-card bg-white border border-canvas-border rounded-2xl sm:rounded-3xl overflow-hidden shadow-sm hover:shadow-xl transition-all duration-300 flex flex-col justify-between"
+            <div class="course-card bg-[#130628] border border-[#3B1578] rounded-2xl sm:rounded-3xl overflow-hidden shadow-lg hover:shadow-2xl hover:border-amber-400/60 transition-all duration-300 flex flex-col justify-between text-white"
                 id="card-${course.id}">
                 <div class="relative h-48 sm:h-52 w-full overflow-hidden bg-earth-950">
                     <img src="${course.image}" alt="${course.title}" class="w-full h-full object-cover transition-transform duration-500 hover:scale-105" />
-                    <div class="absolute inset-0 bg-gradient-to-t from-earth-950/80 via-earth-950/20 to-transparent"></div>
-                    <span class="absolute top-3 left-3 px-2.5 py-0.5 rounded-full bg-[#FFFBEB]/95 text-[#92400E] border border-[#FDE68A] font-mono text-[10px] font-bold uppercase tracking-wider">
+                    <div class="absolute inset-0 bg-gradient-to-t from-earth-950/90 via-earth-950/30 to-transparent"></div>
+                    <span class="absolute top-3 left-3 px-2.5 py-0.5 rounded-full bg-[#1F0A38]/90 text-amber-300 border border-amber-400/40 font-mono text-[10px] font-bold uppercase tracking-wider">
                         ${course.category}
                     </span>
                     <div class="absolute top-3 right-3">
@@ -4736,21 +4736,21 @@ window.filterCoursesByQuery = function (query) {
                 </div>
                 <div class="p-5 sm:p-6 space-y-4 flex-1 flex flex-col justify-between">
                     <div class="space-y-3">
-                        <h3 class="font-heading font-black text-lg sm:text-xl text-earth-950 hover:text-[#D97706] transition-colors cursor-pointer"
+                        <h3 class="font-heading font-black text-lg sm:text-xl text-white hover:text-amber-400 transition-colors cursor-pointer"
                             onclick="window.toggleCourseSyllabus('${course.id}')">
                             ${course.title}
                         </h3>
                         <div class="flex items-center gap-3 py-1">
-                            <img src="${course.instructor.avatar}" alt="${course.instructor.name}" class="h-9 w-9 rounded-full object-cover border border-canvas-border" />
+                            <img src="${course.instructor.avatar}" alt="${course.instructor.name}" class="h-9 w-9 rounded-full object-cover border border-[#3B1578]" />
                             <div class="text-xs min-w-0">
-                                <div class="font-bold text-earth-900 truncate">${course.instructor.name}</div>
-                                <div class="text-[11px] text-gray-500 truncate">${course.instructor.title}</div>
+                                <div class="font-bold text-white truncate">${course.instructor.name}</div>
+                                <div class="text-[11px] text-purple-300/80 truncate">${course.instructor.title}</div>
                             </div>
                         </div>
-                        <p class="text-xs text-gray-600 leading-relaxed">${course.description}</p>
+                        <p class="text-xs text-purple-200/80 leading-relaxed">${course.description}</p>
                     </div>
-                    <div class="pt-3 border-t border-canvas-border flex items-center justify-between">
-                        <button onclick="window.toggleCourseSyllabus('${course.id}')" class="text-xs font-bold text-amber-500 hover:text-amber-400">View Curriculum &rarr;</button>
+                    <div class="pt-3 border-t border-[#3B1578] flex items-center justify-between">
+                        <button onclick="window.toggleCourseSyllabus('${course.id}')" class="text-xs font-bold text-amber-400 hover:text-amber-300">View Curriculum &rarr;</button>
                         <button onclick="window.openCourseModal('${course.id}')" class="px-3.5 py-1.5 rounded-xl bg-amber-500 text-white font-bold text-xs hover:bg-amber-600">${course.isLocked ? 'Unlock Course' : 'Enter Classroom'}</button>
                     </div>
                 </div>
