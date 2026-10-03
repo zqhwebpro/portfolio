@@ -1,0 +1,812 @@
+/* ═══════════════════════════════════════════════════════════════════
+   DINEDISPATCH // APEX-OS KERNEL DESIGN SYSTEM
+   Palette Extracted Directly from User Color Scheme Pattern:
+   1. Pure Carbon Black : #000000 / #0a0e14 / #0f141c
+   2. Vibrant Cyber Cyan: #00d2df (and #00bcd4 / #38e1ed)
+   3. Pure White High Contrast: #ffffff
+   4. Deep Charcoal Slate: #4b5154 / #2a2e33 / #1b2026
+   5. Medium Platinum Grey: #8e9599 / #a3a9ad / #b6bcbf
+   Aesthetic: Custom Simplified OS with Top System Menubar, Command Ribbon,
+   Excel-Spider Telemetry Matrix, Bottom OS Dock & Diagnostic Drawer
+   ═══════════════════════════════════════════════════════════════════ */
+
+:root {
+  /* Pattern Color Tokens */
+  --apex-black: #000000;
+  --apex-dark-surface: #0a0e14;
+  --apex-panel: #11161f;
+  --apex-panel-alt: #161d27;
+  --apex-charcoal: #2a2e33;
+  --apex-deep-grey: #4b5154;
+  --apex-mid-grey: #8e9599;
+  --apex-light-grey: #cbd1d6;
+  --apex-white: #ffffff;
+  --apex-cyan: #00d2df;
+  --apex-cyan-glow: rgba(0, 210, 223, 0.35);
+  --apex-cyan-dim: rgba(0, 210, 223, 0.12);
+  --apex-cyan-hover: #38e1ed;
+  --apex-cyan-dark: #008f99;
+
+  /* Semantic UI State Tokens */
+  --apex-border: #222933;
+  --apex-border-bright: #364150;
+  --apex-border-cyan: rgba(0, 210, 223, 0.4);
+  
+  --font-mono: 'JetBrains Mono', 'Roboto Mono', monospace;
+  --font-headline: 'Outfit', 'Space Grotesk', -apple-system, sans-serif;
+  --font-sans: 'Inter', -apple-system, sans-serif;
+
+  /* Status Colors */
+  --status-ok: #00d2df;
+  --status-ok-bg: rgba(0, 210, 223, 0.12);
+  --status-pending: #8e9599;
+  --status-pending-bg: rgba(142, 149, 153, 0.15);
+  --status-warn: #fbbf24;
+}
+
+* {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+html, body {
+  background-color: var(--apex-black);
+  color: var(--apex-white);
+  font-family: var(--font-sans);
+  min-height: 100vh;
+  overflow-x: hidden;
+  -webkit-font-smoothing: antialiased;
+}
+
+/* Custom Scrollbar */
+::-webkit-scrollbar {
+  width: 6px;
+  height: 6px;
+}
+::-webkit-scrollbar-track {
+  background: #06090e;
+}
+::-webkit-scrollbar-thumb {
+  background: var(--apex-deep-grey);
+  border-radius: 0px;
+}
+::-webkit-scrollbar-thumb:hover {
+  background: var(--apex-cyan);
+}
+
+/* Monospace Utilities */
+.font-mono {
+  font-family: var(--font-mono) !important;
+}
+
+/* Persistent Navigation Anchors */
+#back-btn-np,
+#case-study-btn-np {
+  transition: transform 0.15s ease, background 0.2s ease, border-color 0.2s ease;
+}
+#back-btn-np:hover,
+#case-study-btn-np:hover {
+  transform: scale(1.08);
+  background: rgba(0, 210, 223, 0.2) !important;
+  border-color: var(--apex-cyan) !important;
+  color: var(--apex-cyan) !important;
+}
+
+/* ═══════════════════════════════════════════════════════════════════
+   1. APEX-OS SYSTEM MENUBAR (TOP FIXED HEADER)
+   ═══════════════════════════════════════════════════════════════════ */
+.apex-os-menubar {
+  background: rgba(10, 14, 20, 0.95);
+  backdrop-filter: blur(16px);
+  -webkit-backdrop-filter: blur(16px);
+  border-bottom: 1px solid var(--apex-border);
+  padding: 6px 16px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 16px;
+  position: sticky;
+  top: 0;
+  z-index: 1000;
+}
+
+.apex-os-brand {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.apex-os-logo-cube {
+  width: 28px;
+  height: 28px;
+  background: var(--apex-black);
+  border: 1px solid var(--apex-cyan);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: var(--apex-cyan);
+  font-family: var(--font-mono);
+  font-weight: 900;
+  font-size: 14px;
+  box-shadow: 0 0 10px var(--apex-cyan-glow);
+  position: relative;
+}
+
+.apex-os-title {
+  display: flex;
+  align-items: baseline;
+  gap: 8px;
+}
+
+.apex-os-title-name {
+  font-family: var(--font-headline);
+  font-weight: 800;
+  font-size: 15px;
+  letter-spacing: 0.5px;
+  color: var(--apex-white);
+}
+
+.apex-os-kernel-badge {
+  font-family: var(--font-mono);
+  font-size: 10.5px;
+  padding: 2px 6px;
+  background: rgba(0, 210, 223, 0.1);
+  border: 1px solid var(--apex-border-cyan);
+  color: var(--apex-cyan);
+  font-weight: 600;
+  letter-spacing: 0.3px;
+}
+
+/* OS Menubar Quick Nav Tabs */
+.apex-os-menu-items {
+  display: flex;
+  align-items: center;
+  gap: 4px;
+}
+
+.apex-os-menu-btn {
+  background: transparent;
+  border: 1px solid transparent;
+  color: var(--apex-mid-grey);
+  font-family: var(--font-mono);
+  font-size: 11.5px;
+  font-weight: 600;
+  padding: 4px 10px;
+  cursor: pointer;
+  transition: all 0.15s ease;
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  text-decoration: none;
+}
+
+.apex-os-menu-btn:hover {
+  color: var(--apex-white);
+  background: rgba(255, 255, 255, 0.05);
+  border-color: var(--apex-deep-grey);
+}
+
+.apex-os-menu-btn.active {
+  color: var(--apex-cyan);
+  background: var(--apex-cyan-dim);
+  border-color: var(--apex-border-cyan);
+}
+
+/* OS Right Action Bar (Sound, Ping, Realtime Beacon, Live Clock) */
+.apex-os-actions {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.apex-realtime-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  padding: 3px 9px;
+  background: #06090e;
+  border: 1px solid var(--apex-border);
+  font-family: var(--font-mono);
+  font-size: 11px;
+  color: var(--apex-mid-grey);
+}
+
+.apex-pulse-dot {
+  width: 7px;
+  height: 7px;
+  background: var(--apex-cyan);
+  box-shadow: 0 0 6px var(--apex-cyan);
+  display: inline-block;
+  animation: apexPulse 1.8s infinite;
+}
+
+@keyframes apexPulse {
+  0% { transform: scale(0.95); opacity: 0.6; }
+  50% { transform: scale(1.3); opacity: 1; box-shadow: 0 0 10px var(--apex-cyan); }
+  100% { transform: scale(0.95); opacity: 0.6; }
+}
+
+.apex-icon-btn {
+  width: 28px;
+  height: 28px;
+  background: transparent;
+  border: 1px solid var(--apex-deep-grey);
+  color: var(--apex-mid-grey);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  font-size: 12px;
+  transition: all 0.15s ease;
+}
+
+.apex-icon-btn:hover {
+  color: var(--apex-cyan);
+  border-color: var(--apex-cyan);
+  background: var(--apex-cyan-dim);
+}
+
+.apex-clock {
+  font-family: var(--font-mono);
+  font-size: 11.5px;
+  color: var(--apex-light-grey);
+  padding: 3px 8px;
+  background: var(--apex-panel);
+  border: 1px solid var(--apex-border);
+}
+
+/* ═══════════════════════════════════════════════════════════════════
+   2. APEX WORKBOOK FORMULA & COORDINATE BAR
+   ═══════════════════════════════════════════════════════════════════ */
+.apex-formula-strip {
+  background: #080c12;
+  border-bottom: 1px solid var(--apex-border);
+  padding: 5px 16px;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  font-family: var(--font-mono);
+  font-size: 11.5px;
+}
+
+.apex-cell-coord {
+  background: var(--apex-panel);
+  border: 1px solid var(--apex-deep-grey);
+  color: var(--apex-cyan);
+  font-weight: 700;
+  padding: 2px 10px;
+  min-width: 60px;
+  text-align: center;
+}
+
+.apex-fx-symbol {
+  color: var(--apex-mid-grey);
+  font-style: italic;
+  font-weight: 700;
+}
+
+.apex-formula-display {
+  flex: 1;
+  background: var(--apex-panel);
+  border: 1px solid var(--apex-border);
+  color: var(--apex-white);
+  padding: 3px 10px;
+  font-family: var(--font-mono);
+  font-size: 11.5px;
+  outline: none;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+/* ═══════════════════════════════════════════════════════════════════
+   3. GOOGLE ANALYTICS x SEO SPIDER TELEMETRY SCORECARDS
+   ═══════════════════════════════════════════════════════════════════ */
+.apex-telemetry-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+  gap: 12px;
+  padding: 14px 16px;
+  background: #090d14;
+  border-bottom: 1px solid var(--apex-border);
+}
+
+.apex-metric-card {
+  background: var(--apex-panel);
+  border: 1px solid var(--apex-border);
+  padding: 10px 14px;
+  position: relative;
+  transition: all 0.15s ease;
+}
+
+.apex-metric-card:hover {
+  border-color: var(--apex-cyan);
+  box-shadow: 0 0 14px rgba(0, 210, 223, 0.1);
+}
+
+.apex-metric-card::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 3px;
+  height: 100%;
+  background: var(--apex-deep-grey);
+  transition: background 0.15s ease;
+}
+
+.apex-metric-card:hover::before {
+  background: var(--apex-cyan);
+}
+
+.apex-metric-top {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  font-family: var(--font-mono);
+  font-size: 10.5px;
+  color: var(--apex-mid-grey);
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+  margin-bottom: 6px;
+}
+
+.apex-metric-val {
+  font-family: var(--font-headline);
+  font-size: 22px;
+  font-weight: 800;
+  color: var(--apex-white);
+  display: flex;
+  align-items: baseline;
+  gap: 8px;
+}
+
+.apex-metric-tag {
+  font-family: var(--font-mono);
+  font-size: 10.5px;
+  font-weight: 600;
+  padding: 1px 6px;
+  background: rgba(0, 210, 223, 0.12);
+  border: 1px solid var(--apex-border-cyan);
+  color: var(--apex-cyan);
+}
+
+.apex-metric-tag.neutral {
+  background: rgba(142, 149, 153, 0.12);
+  border-color: var(--apex-deep-grey);
+  color: var(--apex-mid-grey);
+}
+
+/* ═══════════════════════════════════════════════════════════════════
+   4. STEPPER PROGRESS NOTICE STRIP
+   ═══════════════════════════════════════════════════════════════════ */
+.apex-stepper-strip {
+  background: #0c1017;
+  border-bottom: 1px solid var(--apex-border);
+  padding: 8px 16px;
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+}
+
+.apex-stepper-steps {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  flex-wrap: wrap;
+}
+
+.apex-step-chip {
+  padding: 4px 10px;
+  font-family: var(--font-mono);
+  font-size: 11px;
+  font-weight: 700;
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  border: 1px solid var(--apex-deep-grey);
+  background: var(--apex-panel);
+  color: var(--apex-mid-grey);
+}
+
+.apex-step-chip.active {
+  background: var(--apex-cyan-dim);
+  border-color: var(--apex-cyan);
+  color: var(--apex-cyan);
+  box-shadow: 0 0 10px rgba(0, 210, 223, 0.15);
+}
+
+.apex-step-chip.verified {
+  background: rgba(0, 210, 223, 0.18);
+  border-color: var(--apex-cyan);
+  color: var(--apex-white);
+}
+
+.apex-step-chip.locked {
+  opacity: 0.55;
+  cursor: not-allowed;
+}
+
+.apex-stepper-help {
+  font-family: var(--font-mono);
+  font-size: 11.5px;
+  color: var(--apex-mid-grey);
+}
+
+.apex-stepper-help strong {
+  color: var(--apex-white);
+}
+
+/* ═══════════════════════════════════════════════════════════════════
+   5. SEO SPIDER CONTROL & FILTER TOOLBAR
+   ═══════════════════════════════════════════════════════════════════ */
+.apex-spider-toolbar {
+  background: #0d131c;
+  border-bottom: 1px solid var(--apex-border);
+  padding: 8px 16px;
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+}
+
+.apex-filter-btns {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  flex-wrap: wrap;
+}
+
+.apex-filter-btn {
+  background: var(--apex-panel);
+  border: 1px solid var(--apex-border);
+  color: var(--apex-mid-grey);
+  font-family: var(--font-mono);
+  font-size: 11px;
+  font-weight: 600;
+  padding: 4px 10px;
+  cursor: pointer;
+  transition: all 0.15s ease;
+}
+
+.apex-filter-btn:hover {
+  color: var(--apex-white);
+  border-color: var(--apex-mid-grey);
+}
+
+.apex-filter-btn.active {
+  background: var(--apex-cyan);
+  color: var(--apex-black);
+  border-color: var(--apex-cyan);
+  font-weight: 800;
+}
+
+.apex-search-wrapper {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  background: #070a0f;
+  border: 1px solid var(--apex-deep-grey);
+  padding: 4px 10px;
+  min-width: 250px;
+}
+
+.apex-search-wrapper input {
+  background: transparent;
+  border: none;
+  outline: none;
+  color: var(--apex-white);
+  font-family: var(--font-mono);
+  font-size: 11.5px;
+  width: 100%;
+}
+
+.apex-btn-primary {
+  background: var(--apex-cyan);
+  color: var(--apex-black);
+  border: 1px solid var(--apex-cyan);
+  font-family: var(--font-mono);
+  font-size: 11px;
+  font-weight: 800;
+  padding: 4px 10px;
+  cursor: pointer;
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  transition: all 0.15s ease;
+}
+
+.apex-btn-primary:hover {
+  background: var(--apex-cyan-hover);
+  box-shadow: 0 0 10px var(--apex-cyan-glow);
+}
+
+.apex-btn-subtle {
+  background: var(--apex-panel);
+  color: var(--apex-light-grey);
+  border: 1px solid var(--apex-deep-grey);
+  font-family: var(--font-mono);
+  font-size: 11px;
+  font-weight: 600;
+  padding: 4px 9px;
+  cursor: pointer;
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  transition: all 0.15s ease;
+}
+
+.apex-btn-subtle:hover {
+  background: var(--apex-charcoal);
+  color: var(--apex-white);
+  border-color: var(--apex-cyan);
+}
+
+/* ═══════════════════════════════════════════════════════════════════
+   6. EXCEL SPREADSHEET MATRIX (TABLE VIEW 1, 2, 3)
+   ═══════════════════════════════════════════════════════════════════ */
+.apex-grid-viewport {
+  flex: 1;
+  overflow-x: auto;
+  background: var(--apex-black);
+}
+
+.apex-table {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 12px;
+  color: var(--apex-light-grey);
+  background: #090e16;
+}
+
+/* Coordinate Row & Columns */
+.apex-col-coord {
+  background: var(--apex-panel);
+  color: var(--apex-mid-grey);
+  font-family: var(--font-mono);
+  font-size: 11px;
+  font-weight: 700;
+  text-align: center;
+  border: 1px solid var(--apex-border);
+  padding: 3px 6px;
+  user-select: none;
+}
+
+.apex-table th {
+  background: #0f1520;
+  color: var(--apex-white);
+  font-family: var(--font-mono);
+  font-weight: 700;
+  font-size: 11px;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+  padding: 8px 12px;
+  border: 1px solid var(--apex-border);
+  white-space: nowrap;
+  text-align: left;
+}
+
+.apex-row-num {
+  background: #0f1520;
+  color: var(--apex-mid-grey);
+  font-family: var(--font-mono);
+  font-size: 11px;
+  font-weight: 700;
+  text-align: center;
+  width: 38px;
+  border: 1px solid var(--apex-border);
+  padding: 6px;
+  user-select: none;
+}
+
+.apex-table td {
+  padding: 8px 12px;
+  border: 1px solid var(--apex-border);
+  vertical-align: middle;
+  white-space: nowrap;
+  transition: background 0.1s ease;
+}
+
+.apex-table tbody tr {
+  cursor: pointer;
+}
+
+.apex-table tbody tr:hover td {
+  background: #111a26 !important;
+}
+
+.apex-table tbody tr.row-selected td {
+  background: #142030 !important;
+  border-color: var(--apex-border-cyan);
+}
+
+.apex-table tbody tr.row-selected .apex-row-num {
+  background: var(--apex-cyan-dim);
+  color: var(--apex-cyan);
+  border-left: 3px solid var(--apex-cyan);
+}
+
+/* Status Chips */
+.apex-status-pill {
+  font-family: var(--font-mono);
+  font-size: 11px;
+  font-weight: 700;
+  padding: 2px 7px;
+  border: 1px solid transparent;
+  display: inline-flex;
+  align-items: center;
+  gap: 5px;
+}
+
+.apex-status-200 {
+  background: var(--status-ok-bg);
+  color: var(--apex-cyan);
+  border-color: var(--apex-cyan);
+}
+
+.apex-status-401 {
+  background: var(--status-pending-bg);
+  color: var(--apex-light-grey);
+  border-color: var(--apex-deep-grey);
+}
+
+/* ═══════════════════════════════════════════════════════════════════
+   7. SEO SPIDER TECHNICAL INSPECTION DRAWER
+   ═══════════════════════════════════════════════════════════════════ */
+.apex-spider-drawer {
+  background: #0a0e14;
+  border-top: 2px solid var(--apex-cyan);
+  max-height: 250px;
+  overflow-y: auto;
+  display: flex;
+  flex-direction: column;
+}
+
+.apex-drawer-tabs {
+  background: #0f1520;
+  border-bottom: 1px solid var(--apex-border);
+  display: flex;
+  align-items: center;
+  gap: 2px;
+  padding: 0 12px;
+  font-family: var(--font-mono);
+  font-size: 11px;
+}
+
+.apex-drawer-tab-btn {
+  background: transparent;
+  border: none;
+  border-bottom: 2px solid transparent;
+  color: var(--apex-mid-grey);
+  padding: 8px 14px;
+  cursor: pointer;
+  font-weight: 600;
+  transition: all 0.15s ease;
+}
+
+.apex-drawer-tab-btn:hover {
+  color: var(--apex-white);
+  background: rgba(255, 255, 255, 0.03);
+}
+
+.apex-drawer-tab-btn.active {
+  color: var(--apex-cyan);
+  border-bottom-color: var(--apex-cyan);
+  background: #141d2a;
+}
+
+.apex-drawer-body {
+  padding: 12px 16px;
+  font-size: 12px;
+  font-family: var(--font-mono);
+  color: var(--apex-light-grey);
+  line-height: 1.6;
+}
+
+/* ═══════════════════════════════════════════════════════════════════
+   8. APEX-OS BOTTOM DOCK (EXCEL SHEETS & OS STATUS)
+   ═══════════════════════════════════════════════════════════════════ */
+.apex-bottom-dock {
+  background: #0c1017;
+  border-top: 1px solid var(--apex-border);
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0 12px;
+  font-size: 11.5px;
+  font-family: var(--font-mono);
+  z-index: 1000;
+}
+
+.apex-sheet-tabs {
+  display: flex;
+  align-items: center;
+  gap: 2px;
+}
+
+.apex-sheet-tab {
+  background: #070a0f;
+  border: 1px solid var(--apex-border);
+  border-bottom: none;
+  color: var(--apex-mid-grey);
+  padding: 6px 14px;
+  cursor: pointer;
+  font-weight: 700;
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  transition: all 0.15s ease;
+  position: relative;
+  top: 1px;
+}
+
+.apex-sheet-tab:hover {
+  color: var(--apex-white);
+  background: #131a24;
+}
+
+.apex-sheet-tab.active {
+  background: #090e16;
+  color: var(--apex-cyan);
+  border-top: 2px solid var(--apex-cyan);
+  border-bottom: 1px solid #090e16;
+}
+
+.apex-sheet-tab.is-locked {
+  opacity: 0.55;
+  cursor: not-allowed;
+}
+
+.apex-status-telemetry {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  color: var(--apex-mid-grey);
+  padding: 6px 0;
+  font-size: 11px;
+}
+
+/* ═══════════════════════════════════════════════════════════════════
+   9. APEX-OS MODAL DIALOG
+   ═══════════════════════════════════════════════════════════════════ */
+.modal-content.apex-modal {
+  background: #0a0e14;
+  border: 1px solid var(--apex-cyan);
+  color: var(--apex-white);
+  box-shadow: 0 0 40px rgba(0, 210, 223, 0.2);
+  border-radius: 0px;
+}
+
+.apex-modal .modal-header {
+  background: #101622;
+  border-bottom: 1px solid var(--apex-border);
+  border-radius: 0px;
+}
+
+.apex-modal .modal-footer {
+  background: #0c111a;
+  border-top: 1px solid var(--apex-border);
+  border-radius: 0px;
+}
+
+.apex-form-control {
+  background: #06090e;
+  border: 1px solid var(--apex-deep-grey);
+  color: var(--apex-white);
+  font-family: var(--font-mono);
+  font-size: 12px;
+  padding: 8px 12px;
+  width: 100%;
+  outline: none;
+  border-radius: 0px;
+}
+
+.apex-form-control:focus {
+  border-color: var(--apex-cyan);
+  box-shadow: 0 0 0 2px var(--apex-cyan-glow);
+}

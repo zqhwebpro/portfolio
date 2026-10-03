@@ -7,7 +7,7 @@
     <meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate" />
     <meta http-equiv="Pragma" content="no-cache" />
     <meta http-equiv="Expires" content="0" />
-    <title>DineDispatch // API Spider & POS Analytics Console | Google Analytics x SEO Spider x Excel</title>
+    <title>DineDispatch // Apex-OS Delivery Matrix | Google Analytics x SEO Spider x Excel</title>
     <meta name="description"
         content="Enterprise delivery gateway console. Hybrid Google Analytics telemetry, SEO Spider technical crawl matrix, and Microsoft Excel spreadsheet architecture for POS and delivery fleet integration." />
     <meta name="keywords"
@@ -17,9 +17,9 @@
 
     <!-- Open Graph / Social -->
     <meta property="og:type" content="website" />
-    <meta property="og:title" content="DineDispatch // API Spider & POS Analytics Console" />
+    <meta property="og:title" content="DineDispatch // Apex-OS Delivery Matrix Console" />
     <meta property="og:description"
-        content="Google Analytics meets SEO Spider meets Microsoft Excel for restaurant delivery fleet and POS gateway management." />
+        content="Google Analytics meets SEO Spider meets Microsoft Excel for restaurant delivery fleet and POS gateway management in a custom simplified OS workspace." />
     <meta property="og:image" content="./images/hero-cheesesteak.jpg" />
 
     <!-- Sitewide Favicon -->
@@ -30,717 +30,30 @@
     <!-- FontAwesome 6.5.1 CDN -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
 
-    <!-- Google Fonts: Inter & JetBrains Mono -->
+    <!-- Google Fonts: Inter, JetBrains Mono, Space Grotesk & Outfit -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link
-        href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;500;600;700&display=swap"
+        href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;500;600;700&family=Outfit:wght@600;700;800;900&family=Space+Grotesk:wght@500;600;700&display=swap"
         rel="stylesheet">
 
     <!-- Bootstrap 5.3.3 CSS for Modal Dialog Support -->
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet"
         integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
 
-    <style>
-        :root {
-            /* Excel Iconic Colors */
-            --excel-green-header: #107c41;
-            --excel-green-dark: #0b552c;
-            --excel-green-accent: #0f6f39;
-            --excel-selection: #107c41;
-            --excel-grid-line: #2d3748;
-            --excel-grid-bg: #0f172a;
-            --excel-cell-active: #1e293b;
-            
-            /* Google Analytics Colors */
-            --ga-blue: #1a73e8;
-            --ga-blue-hover: #1765cc;
-            --ga-surface: #131d31;
-            --ga-border: #1e293b;
-            --ga-pill-blue: #e8f0fe;
-            --ga-metric-green: #00e676;
-            --ga-pulse: #34a853;
-
-            /* SEO Spider Status Badges */
-            --spider-200: #059669;
-            --spider-200-bg: rgba(5, 150, 105, 0.18);
-            --spider-401: #d97706;
-            --spider-401-bg: rgba(217, 119, 6, 0.18);
-            --spider-500: #dc2626;
-            --spider-500-bg: rgba(220, 38, 38, 0.18);
-
-            /* Dark Technical Theme Variables */
-            --bg-app: #080c14;
-            --bg-panel: #0d131f;
-            --bg-panel-alt: #111827;
-            --text-main: #f1f5f9;
-            --text-sub: #94a3b8;
-            --text-dim: #64748b;
-            --border-tech: #1f293d;
-            --border-tech-bright: #334155;
-            --font-mono: 'JetBrains Mono', monospace;
-            --font-sans: 'Inter', system-ui, -apple-system, sans-serif;
-        }
-
-        * {
-            box-sizing: border-box;
-            margin: 0;
-            padding: 0;
-        }
-
-        body {
-            font-family: var(--font-sans);
-            background-color: var(--bg-app);
-            color: var(--text-main);
-            min-height: 100vh;
-            display: flex;
-            flex-direction: column;
-            overflow-x: hidden;
-            -webkit-font-smoothing: antialiased;
-        }
-
-        .font-mono {
-            font-family: var(--font-mono) !important;
-        }
-
-        /* Persistent Navigation Anchors */
-        #back-btn-np,
-        #case-study-btn-np {
-            transition: transform 0.15s ease, background 0.2s ease, border-color 0.2s ease;
-        }
-        #back-btn-np:hover,
-        #case-study-btn-np:hover {
-            transform: scale(1.08);
-            background: rgba(30, 41, 59, 0.95) !important;
-            border-color: #38bdf8 !important;
-        }
-
-        /* 1. TOP EXCEL & GOOGLE ANALYTICS APP TITLEBAR */
-        .app-top-ribbon {
-            background: linear-gradient(90deg, #107c41 0%, #0c5a2f 35%, #0f172a 100%);
-            border-bottom: 1px solid rgba(255, 255, 255, 0.15);
-            padding: 8px 16px;
-            display: flex;
-            align-items: center;
-            justify-content: space-between;
-            gap: 12px;
-            z-index: 30;
-        }
-
-        .app-brand-lockup {
-            display: flex;
-            align-items: center;
-            gap: 10px;
-        }
-
-        .excel-icon-tile {
-            width: 30px;
-            height: 30px;
-            background: #ffffff;
-            border-radius: 4px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            color: #107c41;
-            font-weight: 900;
-            font-size: 17px;
-            font-family: var(--font-sans);
-            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.3);
-        }
-
-        .app-title-text {
-            font-size: 13px;
-            font-weight: 700;
-            letter-spacing: 0.3px;
-            color: #ffffff;
-            display: flex;
-            align-items: center;
-            gap: 8px;
-        }
-
-        .app-title-tag {
-            font-size: 11px;
-            font-family: var(--font-mono);
-            font-weight: 600;
-            background: rgba(0, 0, 0, 0.25);
-            border: 1px solid rgba(255, 255, 255, 0.2);
-            padding: 2px 7px;
-            border-radius: 4px;
-            color: #a7f3d0;
-        }
-
-        /* GA4 Realtime Stream Pill */
-        .ga-realtime-indicator {
-            display: flex;
-            align-items: center;
-            gap: 8px;
-            background: rgba(15, 23, 42, 0.85);
-            border: 1px solid var(--border-tech-bright);
-            padding: 4px 10px;
-            border-radius: 20px;
-            font-size: 11.5px;
-            font-family: var(--font-mono);
-            color: #38bdf8;
-        }
-
-        .pulse-beacon {
-            width: 8px;
-            height: 8px;
-            border-radius: 50%;
-            background: #10b981;
-            box-shadow: 0 0 0 0 rgba(16, 185, 129, 0.7);
-            animation: pulse-ring 1.8s infinite cubic-bezier(0.66, 0, 0, 1);
-        }
-
-        @keyframes pulse-ring {
-            0% { box-shadow: 0 0 0 0 rgba(16, 185, 129, 0.7); }
-            70% { box-shadow: 0 0 0 8px rgba(16, 185, 129, 0); }
-            100% { box-shadow: 0 0 0 0 rgba(16, 185, 129, 0); }
-        }
-
-        /* 2. EXCEL FORMULA BAR */
-        .excel-formula-bar {
-            background: #0f172a;
-            border-bottom: 1px solid var(--border-tech);
-            padding: 4px 14px;
-            display: flex;
-            align-items: center;
-            gap: 8px;
-            font-family: var(--font-mono);
-            font-size: 12px;
-            z-index: 25;
-        }
-
-        .excel-name-box {
-            background: #1e293b;
-            border: 1px solid #334155;
-            color: #f8fafc;
-            padding: 3px 10px;
-            min-width: 60px;
-            text-align: center;
-            font-weight: 700;
-            border-radius: 2px;
-        }
-
-        .excel-fx-icon {
-            color: #94a3b8;
-            font-weight: 700;
-            font-style: italic;
-            font-size: 13px;
-            padding: 0 4px;
-        }
-
-        .excel-formula-input {
-            flex: 1;
-            background: #1e293b;
-            border: 1px solid #334155;
-            color: #38bdf8;
-            padding: 3px 10px;
-            border-radius: 2px;
-            outline: none;
-            font-family: var(--font-mono);
-            font-size: 12px;
-            white-space: nowrap;
-            overflow: hidden;
-            text-overflow: ellipsis;
-        }
-
-        /* 3. GOOGLE ANALYTICS METRIC SCORECARDS */
-        .ga-metric-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(210px, 1fr));
-            gap: 12px;
-            padding: 14px 16px 8px 16px;
-            background: #0b111c;
-            border-bottom: 1px solid var(--border-tech);
-        }
-
-        .ga-metric-card {
-            background: #101726;
-            border: 1px solid var(--border-tech);
-            border-radius: 6px;
-            padding: 10px 14px;
-            position: relative;
-            transition: border-color 0.15s ease, background 0.15s ease;
-        }
-
-        .ga-metric-card:hover {
-            border-color: #38bdf8;
-            background: #131d31;
-        }
-
-        .ga-metric-label {
-            font-size: 11px;
-            font-family: var(--font-mono);
-            color: var(--text-sub);
-            text-transform: uppercase;
-            letter-spacing: 0.5px;
-            display: flex;
-            align-items: center;
-            justify-content: space-between;
-            margin-bottom: 4px;
-        }
-
-        .ga-metric-value {
-            font-size: 20px;
-            font-weight: 800;
-            color: #ffffff;
-            font-family: var(--font-sans);
-            display: flex;
-            align-items: baseline;
-            gap: 6px;
-        }
-
-        .ga-metric-delta {
-            font-size: 11px;
-            font-family: var(--font-mono);
-            font-weight: 700;
-            padding: 1px 5px;
-            border-radius: 3px;
-        }
-
-        .delta-positive {
-            color: #34d399;
-            background: rgba(52, 211, 153, 0.15);
-        }
-
-        .delta-neutral {
-            color: #38bdf8;
-            background: rgba(56, 189, 248, 0.15);
-        }
-
-        /* 4. SEO SPIDER AUDIT RIBBON & TABS */
-        .spider-toolbar {
-            background: #0e1524;
-            border-bottom: 1px solid var(--border-tech);
-            padding: 8px 16px;
-            display: flex;
-            flex-wrap: wrap;
-            align-items: center;
-            justify-content: space-between;
-            gap: 10px;
-        }
-
-        .spider-filter-group {
-            display: flex;
-            align-items: center;
-            gap: 6px;
-            flex-wrap: wrap;
-        }
-
-        .spider-filter-pill {
-            background: #182234;
-            border: 1px solid var(--border-tech-bright);
-            color: var(--text-sub);
-            padding: 4px 10px;
-            border-radius: 4px;
-            font-size: 11.5px;
-            font-family: var(--font-mono);
-            font-weight: 600;
-            cursor: pointer;
-            transition: all 0.15s ease;
-            display: inline-flex;
-            align-items: center;
-            gap: 6px;
-        }
-
-        .spider-filter-pill:hover {
-            background: #233048;
-            color: #ffffff;
-            border-color: #38bdf8;
-        }
-
-        .spider-filter-pill.active {
-            background: #107c41;
-            border-color: #16a34a;
-            color: #ffffff;
-        }
-
-        .spider-search-box {
-            background: #131d31;
-            border: 1px solid var(--border-tech-bright);
-            border-radius: 4px;
-            padding: 4px 10px;
-            display: flex;
-            align-items: center;
-            gap: 8px;
-            color: var(--text-sub);
-            font-size: 12px;
-            min-width: 240px;
-        }
-
-        .spider-search-box input {
-            background: transparent;
-            border: none;
-            outline: none;
-            color: #ffffff;
-            font-size: 12px;
-            font-family: var(--font-mono);
-            width: 100%;
-        }
-
-        /* 5. PROGRESSIVE NOTICE BANNER (STEPPER) */
-        .stepper-notice-strip {
-            background: #0d1726;
-            border-bottom: 1px solid var(--border-tech);
-            padding: 8px 16px;
-            display: flex;
-            flex-wrap: wrap;
-            align-items: center;
-            justify-content: space-between;
-            gap: 10px;
-            font-size: 12px;
-        }
-
-        .stepper-step-badges {
-            display: flex;
-            align-items: center;
-            gap: 8px;
-        }
-
-        .step-pill {
-            padding: 3px 9px;
-            border-radius: 4px;
-            font-family: var(--font-mono);
-            font-size: 11px;
-            font-weight: 700;
-            display: inline-flex;
-            align-items: center;
-            gap: 5px;
-            border: 1px solid transparent;
-        }
-
-        .step-pill.active {
-            background: #1e3a8a;
-            color: #93c5fd;
-            border-color: #3b82f6;
-        }
-
-        .step-pill.verified {
-            background: rgba(16, 185, 129, 0.2);
-            color: #34d399;
-            border-color: #10b981;
-        }
-
-        .step-pill.locked {
-            background: #1e293b;
-            color: #64748b;
-            border-color: #334155;
-        }
-
-        /* 6. EXCEL SPREADSHEET & SEO SPIDER DATA GRID */
-        .spreadsheet-container {
-            flex: 1;
-            overflow-x: auto;
-            background: #080c14;
-        }
-
-        .excel-table {
-            width: 100%;
-            border-collapse: collapse;
-            font-size: 12px;
-            color: #e2e8f0;
-            background: #0b111c;
-        }
-
-        /* Excel Column Header Letters (A, B, C, D...) */
-        .excel-col-letter {
-            background: #1e293b;
-            color: #94a3b8;
-            font-family: var(--font-mono);
-            font-size: 11px;
-            font-weight: 700;
-            text-align: center;
-            border: 1px solid #334155;
-            padding: 3px 6px;
-            user-select: none;
-        }
-
-        /* Technical Column Headers */
-        .excel-table th {
-            background: #131d31;
-            color: #cbd5e1;
-            font-family: var(--font-mono);
-            font-weight: 700;
-            font-size: 11px;
-            text-transform: uppercase;
-            letter-spacing: 0.5px;
-            padding: 8px 12px;
-            border: 1px solid var(--border-tech);
-            white-space: nowrap;
-            text-align: left;
-        }
-
-        /* Excel Row Index Column (1, 2, 3...) */
-        .excel-row-num {
-            background: #131d31;
-            color: #64748b;
-            font-family: var(--font-mono);
-            font-size: 11px;
-            font-weight: 700;
-            text-align: center;
-            width: 36px;
-            border: 1px solid var(--border-tech);
-            padding: 6px;
-            user-select: none;
-        }
-
-        .excel-table td {
-            padding: 8px 12px;
-            border: 1px solid var(--border-tech);
-            vertical-align: middle;
-            white-space: nowrap;
-            transition: background 0.1s ease;
-        }
-
-        .excel-table tbody tr {
-            cursor: pointer;
-        }
-
-        .excel-table tbody tr:hover td {
-            background: #141f33 !important;
-        }
-
-        .excel-table tbody tr.row-selected td {
-            background: #17243c !important;
-            border-color: #3b82f6;
-        }
-
-        .excel-table tbody tr.row-selected .excel-row-num {
-            background: #1e3a8a;
-            color: #60a5fa;
-            font-weight: 800;
-        }
-
-        /* SEO Spider Status Badges */
-        .status-pill {
-            font-family: var(--font-mono);
-            font-size: 11px;
-            font-weight: 700;
-            padding: 3px 8px;
-            border-radius: 3px;
-            display: inline-flex;
-            align-items: center;
-            gap: 5px;
-        }
-
-        .status-pill-200 {
-            background: var(--spider-200-bg);
-            color: #34d399;
-            border: 1px solid var(--spider-200);
-        }
-
-        .status-pill-401 {
-            background: var(--spider-401-bg);
-            color: #fbbf24;
-            border: 1px solid var(--spider-401);
-        }
-
-        /* 7. SEO SPIDER BOTTOM INSPECTION DRAWER */
-        .spider-bottom-drawer {
-            background: #0d1424;
-            border-top: 2px solid #107c41;
-            max-height: 250px;
-            overflow-y: auto;
-            display: flex;
-            flex-direction: column;
-        }
-
-        .spider-drawer-tabs {
-            background: #111a2e;
-            border-bottom: 1px solid var(--border-tech);
-            display: flex;
-            align-items: center;
-            gap: 2px;
-            padding: 0 12px;
-            font-family: var(--font-mono);
-            font-size: 11px;
-        }
-
-        .drawer-tab-btn {
-            background: transparent;
-            border: none;
-            border-bottom: 2px solid transparent;
-            color: var(--text-sub);
-            padding: 8px 14px;
-            cursor: pointer;
-            font-weight: 600;
-            transition: all 0.15s ease;
-        }
-
-        .drawer-tab-btn:hover {
-            color: #ffffff;
-            background: rgba(255, 255, 255, 0.04);
-        }
-
-        .drawer-tab-btn.active {
-            color: #38bdf8;
-            border-bottom-color: #38bdf8;
-            background: #16223b;
-        }
-
-        .drawer-content-pane {
-            padding: 12px 16px;
-            font-size: 12px;
-            font-family: var(--font-mono);
-            color: #cbd5e1;
-            line-height: 1.6;
-        }
-
-        /* 8. EXCEL WORKBOOK SHEET TABS & STATUS BAR (BOTTOM) */
-        .excel-bottom-dock {
-            background: #1e293b;
-            border-top: 1px solid #334155;
-            display: flex;
-            flex-wrap: wrap;
-            align-items: center;
-            justify-content: space-between;
-            padding: 0 12px;
-            font-size: 11.5px;
-            font-family: var(--font-mono);
-            z-index: 30;
-        }
-
-        .excel-sheet-tabs {
-            display: flex;
-            align-items: center;
-            gap: 2px;
-        }
-
-        .excel-sheet-tab {
-            background: #0f172a;
-            border: 1px solid #334155;
-            border-bottom: none;
-            color: #94a3b8;
-            padding: 6px 14px;
-            cursor: pointer;
-            font-weight: 700;
-            display: flex;
-            align-items: center;
-            gap: 6px;
-            transition: all 0.15s ease;
-            position: relative;
-            top: 1px;
-            border-top-left-radius: 4px;
-            border-top-right-radius: 4px;
-        }
-
-        .excel-sheet-tab:hover {
-            color: #ffffff;
-            background: #182234;
-        }
-
-        .excel-sheet-tab.active {
-            background: #0b111c;
-            color: #38bdf8;
-            border-top: 2px solid #107c41;
-            border-bottom: 1px solid #0b111c;
-        }
-
-        .excel-sheet-tab.is-locked {
-            opacity: 0.6;
-            cursor: not-allowed;
-        }
-
-        .excel-status-bar {
-            display: flex;
-            align-items: center;
-            gap: 16px;
-            color: #94a3b8;
-            padding: 5px 0;
-            font-size: 11px;
-        }
-
-        /* Action Buttons */
-        .btn-excel {
-            background: #107c41;
-            color: #ffffff;
-            border: 1px solid #16a34a;
-            font-family: var(--font-mono);
-            font-size: 11px;
-            font-weight: 700;
-            padding: 4px 10px;
-            border-radius: 3px;
-            cursor: pointer;
-            transition: all 0.15s ease;
-            display: inline-flex;
-            align-items: center;
-            gap: 5px;
-        }
-
-        .btn-excel:hover {
-            background: #0c5a2f;
-            color: #ffffff;
-        }
-
-        .btn-excel-subtle {
-            background: #1e293b;
-            color: #cbd5e1;
-            border: 1px solid #334155;
-            font-family: var(--font-mono);
-            font-size: 11px;
-            font-weight: 600;
-            padding: 4px 8px;
-            border-radius: 3px;
-            cursor: pointer;
-            transition: all 0.15s ease;
-            display: inline-flex;
-            align-items: center;
-            gap: 5px;
-        }
-
-        .btn-excel-subtle:hover {
-            background: #334155;
-            color: #ffffff;
-            border-color: #475569;
-        }
-
-        /* Modal Dialog Styling (Dark Technical Excel / Spider Theme) */
-        .modal-content.tech-modal {
-            background: #0f172a;
-            border: 1px solid #334155;
-            color: #f1f5f9;
-            box-shadow: 0 10px 40px rgba(0, 0, 0, 0.8);
-        }
-
-        .tech-modal .modal-header {
-            background: #1e293b;
-            border-bottom: 1px solid #334155;
-        }
-
-        .tech-modal .modal-footer {
-            background: #131d31;
-            border-top: 1px solid #334155;
-        }
-
-        .tech-form-control {
-            background: #0b111c;
-            border: 1px solid #334155;
-            color: #f8fafc;
-            font-family: var(--font-mono);
-            font-size: 12px;
-            border-radius: 4px;
-            padding: 8px 12px;
-            width: 100%;
-            outline: none;
-        }
-
-        .tech-form-control:focus {
-            border-color: #38bdf8;
-            box-shadow: 0 0 0 2px rgba(56, 189, 248, 0.2);
-        }
-    </style>
+    <!-- Custom Apex-OS Stylesheet Based on User Color Scheme Pattern -->
+    <link rel="stylesheet" href="./apex-theme.css">
 </head>
 
 <body>
 
     <!-- Persistent Portfolio Navigation Anchors -->
     <a id="back-btn-np" href="../" title="Back to Projects"
-        style="position:fixed;top:0;right:0;z-index:99999;display:inline-flex;align-items:center;justify-content:center;width:34px;height:34px;background:rgba(10,10,10,0.82);backdrop-filter:blur(12px);-webkit-backdrop-filter:blur(12px);border:0;border-bottom:1px solid rgba(255,255,255,0.15);border-left:1px solid rgba(255,255,255,0.15);border-radius:0 0 0 8px;color:#fff;font-family:system-ui,sans-serif;font-size:1rem;font-weight:700;text-decoration:none;box-shadow:-2px 2px 10px rgba(0,0,0,0.5);">
+        style="position:fixed;top:0;right:0;z-index:99999;display:inline-flex;align-items:center;justify-content:center;width:34px;height:34px;background:rgba(0,0,0,0.85);backdrop-filter:blur(12px);-webkit-backdrop-filter:blur(12px);border:0;border-bottom:1px solid #222933;border-left:1px solid #222933;border-radius:0 0 0 8px;color:#fff;font-family:system-ui,sans-serif;font-size:1rem;font-weight:700;text-decoration:none;box-shadow:-2px 2px 10px rgba(0,0,0,0.6);">
         &#8592;
     </a>
     <a id="case-study-btn-np" href="./case-study.html" title="Case Study" aria-label="Case Study"
-        style="position:fixed;bottom:0;left:0;z-index:99999;display:inline-flex;align-items:center;justify-content:center;width:34px;height:34px;background:rgba(10,10,10,0.82);backdrop-filter:blur(12px);-webkit-backdrop-filter:blur(12px);border:0;border-top:1px solid rgba(255,255,255,0.15);border-right:1px solid rgba(255,255,255,0.15);border-radius:0 8px 0 0;color:#fff;font-family:system-ui,sans-serif;font-size:0.95rem;text-decoration:none;box-shadow:2px -2px 10px rgba(0,0,0,0.5);">
+        style="position:fixed;bottom:0;left:0;z-index:99999;display:inline-flex;align-items:center;justify-content:center;width:34px;height:34px;background:rgba(0,0,0,0.85);backdrop-filter:blur(12px);-webkit-backdrop-filter:blur(12px);border:0;border-top:1px solid #222933;border-right:1px solid #222933;border-radius:0 8px 0 0;color:#fff;font-family:system-ui,sans-serif;font-size:0.95rem;text-decoration:none;box-shadow:2px -2px 10px rgba(0,0,0,0.6);">
         <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
             stroke-linecap="round" stroke-linejoin="round" style="display:block;">
             <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"></path>
@@ -752,177 +65,202 @@
     </a>
 
     <!-- ═══════════════════════════════════════════════════════════════════
-         1. TOP EXCEL & GOOGLE ANALYTICS TITLEBAR RIBBON
+         1. APEX-OS SIMPLIFIED SYSTEM MENUBAR
+         Custom Non-Mac, Non-Windows, Non-Linux OS Menubar
          ═══════════════════════════════════════════════════════════════════ -->
-    <header class="app-top-ribbon">
-        <div class="app-brand-lockup">
-            <div class="excel-icon-tile">X</div>
-            <div class="app-title-text">
-                <span>DineDispatch</span>
-                <span class="text-white opacity-40">|</span>
-                <span class="app-title-tag">API Spider &bull; POS Matrix .NET 9</span>
+    <header class="apex-os-menubar">
+        <!-- Left: OS Kernel Identifier & Navigation Buttons -->
+        <div class="d-flex align-items-center gap-3">
+            <div class="apex-os-brand">
+                <div class="apex-os-logo-cube" title="Apex-OS Kernel v4.2">Δ</div>
+                <div class="apex-os-title">
+                    <span class="apex-os-title-name">DineDispatch</span>
+                    <span class="apex-os-kernel-badge">APEX-OS // .NET 9</span>
+                </div>
             </div>
-            <!-- Google Analytics Property Selector -->
-            <div class="d-none d-md-flex align-items-center gap-2 ms-3 px-2 py-1 rounded bg-black bg-opacity-30 border border-white border-opacity-15 font-mono text-xs text-white">
-                <span class="text-success"><i class="fa-solid fa-circle text-[9px]"></i></span>
-                <span class="fw-semibold">Production Gateway:</span>
-                <span class="text-info">loc_parma_grill_01</span>
-                <i class="fa-solid fa-caret-down text-white opacity-50 ms-1"></i>
-            </div>
+
+            <!-- Simplified OS In-Workspace View Switcher -->
+            <nav class="apex-os-menu-items d-none d-md-flex ms-2">
+                <button type="button" class="apex-os-menu-btn active" id="menuBtnStep1" onclick="switchSheet('delivery')">
+                    <i class="fa-solid fa-network-wired"></i>
+                    <span>Step 1: Gateways</span>
+                </button>
+                <button type="button" class="apex-os-menu-btn" id="menuBtnStep2" onclick="switchSheet('menu')">
+                    <i class="fa-solid fa-utensils"></i>
+                    <span>Step 2: Menu Catalog</span>
+                </button>
+                <button type="button" class="apex-os-menu-btn" id="menuBtnStep3" onclick="switchSheet('telemetry')">
+                    <i class="fa-solid fa-chart-line"></i>
+                    <span>Step 3: Telemetry</span>
+                </button>
+            </nav>
         </div>
 
-        <!-- Right Side: Realtime Telemetry Status & Controls -->
-        <div class="d-flex align-items-center gap-3">
-            <div class="ga-realtime-indicator" id="realtimeIndicatorPill">
-                <div class="pulse-beacon"></div>
-                <span>REALTIME: <strong id="realtimeStatusText" class="text-white">0/6 CONNECTED</strong></span>
+        <!-- Right Side: Realtime Telemetry Status, Audio Toggle, Ping & Clock -->
+        <div class="apex-os-actions">
+            <!-- Realtime Telemetry Indicator -->
+            <div class="apex-realtime-badge" id="realtimeIndicatorPill">
+                <span class="apex-pulse-dot"></span>
+                <span id="realtimeStatusText" class="text-white fw-bold">0/6 CONNECTED</span>
             </div>
 
-            <button type="button" class="btn-excel-subtle d-none d-sm-inline-flex" onclick="simulateFullApiHealthCheck()" title="Ping all gateway routes">
+            <!-- Audio Synthesizer Toggle -->
+            <button type="button" class="apex-icon-btn" id="osAudioToggleBtn" onclick="toggleAudio()" title="Toggle OS Acoustic Feedback">
+                <i class="fa-solid fa-volume-high"></i>
+            </button>
+
+            <!-- Ping All Gateways -->
+            <button type="button" class="apex-btn-subtle d-none d-sm-inline-flex" onclick="simulateFullApiHealthCheck()" title="Ping all gateway routes">
                 <i class="fa-solid fa-arrows-rotate"></i> Ping All
             </button>
 
-            <button type="button" class="btn-excel-subtle text-danger" onclick="resetWalkthrough()" title="Reset to initial unconfigured state">
+            <!-- Reset Walkthrough -->
+            <button type="button" class="apex-btn-subtle text-danger" onclick="resetWalkthrough()" title="Reset to initial unconfigured state">
                 <i class="fa-solid fa-rotate-left"></i> Reset
             </button>
+
+            <!-- Live OS Clock -->
+            <span class="apex-clock d-none d-lg-inline-block" id="apexLiveClock">--:-- --</span>
         </div>
     </header>
 
     <!-- ═══════════════════════════════════════════════════════════════════
-         2. MICROSOFT EXCEL FORMULA BAR
+         2. APEX WORKBOOK FORMULA BAR
          ═══════════════════════════════════════════════════════════════════ -->
-    <div class="excel-formula-bar">
-        <div class="excel-name-box" id="excelActiveCellLabel">B4</div>
-        <div class="excel-fx-icon">fx</div>
-        <input type="text" readonly class="excel-formula-input" id="excelFormulaInput"
+    <div class="apex-formula-strip">
+        <div class="apex-cell-coord" id="excelActiveCellLabel">B4</div>
+        <div class="apex-fx-symbol">fx</div>
+        <input type="text" readonly class="apex-formula-display" id="excelFormulaInput"
             value='=GATEWAY.DISPATCH(Provider="Uber Direct", Status="VERIFIED", Protocol="REST_OAuth2", Latency="18ms")'>
     </div>
 
     <!-- ═══════════════════════════════════════════════════════════════════
-         3. GOOGLE ANALYTICS METRIC SCORECARDS (KPI TILES)
+         3. GOOGLE ANALYTICS TELEMETRY SCORECARDS (KPI TILES)
          ═══════════════════════════════════════════════════════════════════ -->
-    <section class="ga-metric-grid" aria-label="Live Telemetry Scorecards">
-        <div class="ga-metric-card">
-            <div class="ga-metric-label">
+    <section class="apex-telemetry-grid" aria-label="Live Telemetry Scorecards">
+        <div class="apex-metric-card">
+            <div class="apex-metric-top">
                 <span>Active Gateways</span>
-                <i class="fa-solid fa-network-wired text-info"></i>
+                <i class="fa-solid fa-network-wired" style="color: var(--apex-cyan);"></i>
             </div>
-            <div class="ga-metric-value">
+            <div class="apex-metric-val">
                 <span id="metricActiveCount">0 / 6</span>
-                <span class="ga-metric-delta delta-neutral" id="metricActiveDelta">Step 1 Ready</span>
+                <span class="apex-metric-tag neutral" id="metricActiveDelta">Step 1 Ready</span>
             </div>
         </div>
 
-        <div class="ga-metric-card">
-            <div class="ga-metric-label">
+        <div class="apex-metric-card">
+            <div class="apex-metric-top">
                 <span>Average Response Latency</span>
                 <i class="fa-solid fa-bolt text-warning"></i>
             </div>
-            <div class="ga-metric-value">
+            <div class="apex-metric-val">
                 <span id="metricAvgLatency">18.4 ms</span>
-                <span class="ga-metric-delta delta-positive">99.98% SLA</span>
+                <span class="apex-metric-tag">99.98% SLA</span>
             </div>
         </div>
 
-        <div class="ga-metric-card">
-            <div class="ga-metric-label">
+        <div class="apex-metric-card">
+            <div class="apex-metric-top">
                 <span>Dispatched Telemetry Events</span>
-                <i class="fa-solid fa-chart-line text-success"></i>
+                <i class="fa-solid fa-chart-line" style="color: var(--apex-cyan);"></i>
             </div>
-            <div class="ga-metric-value">
+            <div class="apex-metric-val">
                 <span id="metricEventCount">1,428</span>
-                <span class="ga-metric-delta delta-positive">+22.4% Today</span>
+                <span class="apex-metric-tag">+22.4% Today</span>
             </div>
         </div>
 
-        <div class="ga-metric-card">
-            <div class="ga-metric-label">
+        <div class="apex-metric-card">
+            <div class="apex-metric-top">
                 <span>POS Catalog Sync</span>
-                <i class="fa-solid fa-utensils text-primary"></i>
+                <i class="fa-solid fa-utensils text-secondary"></i>
             </div>
-            <div class="ga-metric-value">
+            <div class="apex-metric-val">
                 <span id="metricCatalogSync">Pending API</span>
-                <span class="ga-metric-delta delta-neutral" id="metricCatalogDelta">Step 2 Target</span>
+                <span class="apex-metric-tag neutral" id="metricCatalogDelta">Step 2 Target</span>
             </div>
         </div>
     </section>
 
     <!-- ═══════════════════════════════════════════════════════════════════
-         4. SEO SPIDER AUDIT RIBBON & STEPPER NOTIFICATION
+         4. STEPPER PROGRESS NOTICE STRIP
          ═══════════════════════════════════════════════════════════════════ -->
-    <div class="stepper-notice-strip">
-        <div class="stepper-step-badges">
-            <span class="step-pill active" id="badgeStep1">
+    <div class="apex-stepper-strip">
+        <div class="apex-stepper-steps">
+            <span class="apex-step-chip active" id="badgeStep1">
                 <i class="fa-solid fa-circle-dot"></i> Step 1: Gateway Integration
             </span>
-            <span class="step-pill locked" id="badgeStep2">
+            <span class="apex-step-chip locked" id="badgeStep2">
                 <i class="fa-solid fa-lock"></i> Step 2: Menu Catalog
             </span>
-            <span class="step-pill locked" id="badgeStep3">
+            <span class="apex-step-chip locked" id="badgeStep3">
                 <i class="fa-solid fa-lock"></i> Step 3: Telemetry Stream
             </span>
         </div>
 
-        <div class="d-flex align-items-center gap-2">
-            <span class="text-secondary font-mono text-xs" id="stepperGuidanceMessage">
-                <i class="fa-solid fa-circle-info text-info me-1"></i>
+        <div>
+            <span class="apex-stepper-help" id="stepperGuidanceMessage">
+                <i class="fa-solid fa-circle-info me-1" style="color: var(--apex-cyan);"></i>
                 Select a delivery provider row below and click <strong>Configure API</strong> to initiate Step 1.
             </span>
         </div>
     </div>
 
-    <!-- SEO Spider Quick Filter Bar -->
-    <div class="spider-toolbar">
-        <div class="spider-filter-group">
-            <span class="font-mono text-xs text-secondary me-1 fw-bold">SPIDER CRAWL FILTER:</span>
-            <button type="button" class="spider-filter-pill active" onclick="filterSpiderRows('all', this)">
+    <!-- ═══════════════════════════════════════════════════════════════════
+         5. SEO SPIDER CONTROL & FILTER TOOLBAR
+         ═══════════════════════════════════════════════════════════════════ -->
+    <div class="apex-spider-toolbar">
+        <div class="apex-filter-btns">
+            <span class="font-mono text-xs text-secondary me-1 fw-bold" style="color: var(--apex-mid-grey) !important;">SPIDER FILTER:</span>
+            <button type="button" class="apex-filter-btn active" onclick="filterSpiderRows('all', this)">
                 All Platforms (<span id="filterCountAll">6</span>)
             </button>
-            <button type="button" class="spider-filter-pill" onclick="filterSpiderRows('connected', this)">
-                <span class="text-success">&bull;</span> Connected (<span id="filterCountConnected">0</span>)
+            <button type="button" class="apex-filter-btn" onclick="filterSpiderRows('connected', this)">
+                Connected (<span id="filterCountConnected">0</span>)
             </button>
-            <button type="button" class="spider-filter-pill" onclick="filterSpiderRows('pending', this)">
-                <span class="text-warning">&bull;</span> Pending (<span id="filterCountPending">6</span>)
+            <button type="button" class="apex-filter-btn" onclick="filterSpiderRows('pending', this)">
+                Pending (<span id="filterCountPending">6</span>)
             </button>
-            <button type="button" class="spider-filter-pill" onclick="filterSpiderRows('pos', this)">
+            <button type="button" class="apex-filter-btn" onclick="filterSpiderRows('pos', this)">
                 POS Gateways (4)
             </button>
-            <button type="button" class="spider-filter-pill" onclick="filterSpiderRows('fleet', this)">
+            <button type="button" class="apex-filter-btn" onclick="filterSpiderRows('fleet', this)">
                 White-Label Fleets (2)
             </button>
         </div>
 
         <div class="d-flex align-items-center gap-2">
-            <div class="spider-search-box">
-                <i class="fa-solid fa-magnifying-glass"></i>
+            <div class="apex-search-wrapper">
+                <i class="fa-solid fa-magnifying-glass" style="color: var(--apex-mid-grey);"></i>
                 <input type="text" id="spiderSearchInput" placeholder="Filter by endpoint, provider, ID..." oninput="handleSpiderSearch(this.value)">
             </div>
-            <button type="button" class="btn-excel-subtle" onclick="seedSampleDispatchLog()" title="Simulate a real-time courier ping">
-                <i class="fa-solid fa-paper-plane text-info"></i> Ping Test
+            <button type="button" class="apex-btn-subtle" onclick="seedSampleDispatchLog()" title="Simulate a real-time courier ping">
+                <i class="fa-solid fa-paper-plane" style="color: var(--apex-cyan);"></i> Ping Test
             </button>
         </div>
     </div>
 
     <!-- ═══════════════════════════════════════════════════════════════════
-         5. MAIN WORKBOOK AREA: SPREADSHEET VIEWS (STEPS 1, 2, 3)
+         6. MAIN WORKBOOK AREA: SPREADSHEET VIEWS (STEPS 1, 2, 3)
          ═══════════════════════════════════════════════════════════════════ -->
-    <main class="spreadsheet-container">
+    <main class="apex-grid-viewport">
 
         <!-- VIEW 1: STEP 1 INTEGRATION (API CRAWL SPREADSHEET) -->
-        <section id="sheet-view-delivery" class="active-sheet-view">
-            <table class="excel-table" id="spiderDataTable">
+        <section id="sheet-view-delivery">
+            <table class="apex-table" id="spiderDataTable">
                 <thead>
                     <!-- Excel Column Coordinates -->
                     <tr>
-                        <th class="excel-col-letter" style="width: 36px;">#</th>
-                        <th class="excel-col-letter">A</th>
-                        <th class="excel-col-letter">B</th>
-                        <th class="excel-col-letter">C</th>
-                        <th class="excel-col-letter">D</th>
-                        <th class="excel-col-letter">E</th>
-                        <th class="excel-col-letter">F</th>
-                        <th class="excel-col-letter">G</th>
-                        <th class="excel-col-letter text-center">H</th>
+                        <th class="apex-col-coord" style="width: 38px;">#</th>
+                        <th class="apex-col-coord">A</th>
+                        <th class="apex-col-coord">B</th>
+                        <th class="apex-col-coord">C</th>
+                        <th class="apex-col-coord">D</th>
+                        <th class="apex-col-coord">E</th>
+                        <th class="apex-col-coord">F</th>
+                        <th class="apex-col-coord">G</th>
+                        <th class="apex-col-coord text-center">H</th>
                     </tr>
                     <!-- Semantic Data Headers -->
                     <tr>
@@ -938,24 +276,24 @@
                     </tr>
                 </thead>
                 <tbody id="spiderTableBody">
-                    <!-- Rendered dynamically and populated with live data -->
+                    <!-- Rendered dynamically by controller.js -->
                 </tbody>
             </table>
         </section>
 
         <!-- VIEW 2: STEP 2 MENU (POS CATALOG SPREADSHEET) -->
         <section id="sheet-view-menu" class="d-none">
-            <table class="excel-table">
+            <table class="apex-table">
                 <thead>
                     <tr>
-                        <th class="excel-col-letter" style="width: 36px;">#</th>
-                        <th class="excel-col-letter">A</th>
-                        <th class="excel-col-letter">B</th>
-                        <th class="excel-col-letter">C</th>
-                        <th class="excel-col-letter">D</th>
-                        <th class="excel-col-letter">E</th>
-                        <th class="excel-col-letter">F</th>
-                        <th class="excel-col-letter text-center">G</th>
+                        <th class="apex-col-coord" style="width: 38px;">#</th>
+                        <th class="apex-col-coord">A</th>
+                        <th class="apex-col-coord">B</th>
+                        <th class="apex-col-coord">C</th>
+                        <th class="apex-col-coord">D</th>
+                        <th class="apex-col-coord">E</th>
+                        <th class="apex-col-coord">F</th>
+                        <th class="apex-col-coord text-center">G</th>
                     </tr>
                     <tr>
                         <th class="text-center">SKU</th>
@@ -969,69 +307,69 @@
                     </tr>
                 </thead>
                 <tbody id="menuTableBody">
-                    <tr class="row-selected" onclick="updateFormulaBar('B2', '=POS.CATALOG(SKU="CHK-01", Name="Artisan Cheesesteak Supreme", Base=$13.95)')">
-                        <td class="excel-row-num">1</td>
+                    <tr class="row-selected" onclick="updateFormulaBar('B2', '=POS.CATALOG(SKU=\"CHK-01\", Name=\"Artisan Cheesesteak Supreme\", Base=$13.95)')">
+                        <td class="apex-row-num">1</td>
                         <td>
                             <div class="fw-bold text-white d-flex align-items-center gap-2">
-                                <i class="fa-solid fa-bread-slice text-amber-500"></i>
+                                <i class="fa-solid fa-bread-slice" style="color: var(--apex-cyan);"></i>
                                 <span>Artisan Cheesesteak Supreme</span>
                             </div>
                             <span class="font-mono text-secondary text-xs">Hot Subs &bull; Signature Ribeye</span>
                         </td>
                         <td class="text-secondary">Shaved ribeye, sautéed sweet peppers &amp; onions, melted aged provolone on hearth-baked roll.</td>
-                        <td class="font-mono text-success fw-bold">$13.95</td>
-                        <td class="font-mono text-info fw-bold">$16.04</td>
-                        <td><span class="status-pill status-pill-200 menu-sync-badge"><i class="fa-solid fa-check"></i> SYNCED</span></td>
-                        <td><span class="badge text-bg-success font-mono">100% IN STOCK</span></td>
-                        <td class="text-center"><button class="btn-excel-subtle" onclick="alert('Menu item CHK-01 synchronized across active gateways.')"><i class="fa-solid fa-arrows-rotate"></i> Sync</button></td>
+                        <td class="font-mono fw-bold" style="color: var(--apex-white);">$13.95</td>
+                        <td class="font-mono fw-bold" style="color: var(--apex-cyan);">$16.04</td>
+                        <td><span class="apex-status-pill apex-status-200"><i class="fa-solid fa-check"></i> SYNCED</span></td>
+                        <td><span class="apex-status-pill apex-status-200">100% IN STOCK</span></td>
+                        <td class="text-center"><button class="apex-btn-subtle" onclick="alert('Menu item CHK-01 synchronized across active gateways.')"><i class="fa-solid fa-arrows-rotate"></i> Sync</button></td>
                     </tr>
-                    <tr onclick="updateFormulaBar('B3', '=POS.CATALOG(SKU="FRY-02", Name="Loaded Truffle Parmesan Fries", Base=$8.50)')">
-                        <td class="excel-row-num">2</td>
+                    <tr onclick="updateFormulaBar('B3', '=POS.CATALOG(SKU=\"FRY-02\", Name=\"Loaded Truffle Parmesan Fries\", Base=$8.50)')">
+                        <td class="apex-row-num">2</td>
                         <td>
                             <div class="fw-bold text-white d-flex align-items-center gap-2">
-                                <i class="fa-solid fa-bacon text-warning"></i>
+                                <i class="fa-solid fa-bacon" style="color: var(--apex-cyan);"></i>
                                 <span>Loaded Truffle Parmesan Fries</span>
                             </div>
                             <span class="font-mono text-secondary text-xs">Sides &bull; Gourmet Hand-Cut</span>
                         </td>
                         <td class="text-secondary">Double-crisped hand-cut fries, aromatic white truffle oil, shaved parmesan, rosemary aioli.</td>
-                        <td class="font-mono text-success fw-bold">$8.50</td>
-                        <td class="font-mono text-info fw-bold">$9.78</td>
-                        <td><span class="status-pill status-pill-200 menu-sync-badge"><i class="fa-solid fa-check"></i> SYNCED</span></td>
-                        <td><span class="badge text-bg-success font-mono">100% IN STOCK</span></td>
-                        <td class="text-center"><button class="btn-excel-subtle" onclick="alert('Menu item FRY-02 synchronized across active gateways.')"><i class="fa-solid fa-arrows-rotate"></i> Sync</button></td>
+                        <td class="font-mono fw-bold" style="color: var(--apex-white);">$8.50</td>
+                        <td class="font-mono fw-bold" style="color: var(--apex-cyan);">$9.78</td>
+                        <td><span class="apex-status-pill apex-status-200"><i class="fa-solid fa-check"></i> SYNCED</span></td>
+                        <td><span class="apex-status-pill apex-status-200">100% IN STOCK</span></td>
+                        <td class="text-center"><button class="apex-btn-subtle" onclick="alert('Menu item FRY-02 synchronized across active gateways.')"><i class="fa-solid fa-arrows-rotate"></i> Sync</button></td>
                     </tr>
-                    <tr onclick="updateFormulaBar('B4', '=POS.CATALOG(SKU="SUB-03", Name="Classic Italian Deli Sub (12-inch)", Base=$12.50)')">
-                        <td class="excel-row-num">3</td>
+                    <tr onclick="updateFormulaBar('B4', '=POS.CATALOG(SKU=\"SUB-03\", Name=\"Classic Italian Deli Sub (12-inch)\", Base=$12.50)')">
+                        <td class="apex-row-num">3</td>
                         <td>
                             <div class="fw-bold text-white d-flex align-items-center gap-2">
-                                <i class="fa-solid fa-pizza-slice text-primary"></i>
+                                <i class="fa-solid fa-pizza-slice" style="color: var(--apex-cyan);"></i>
                                 <span>Classic Italian Deli Sub (12-inch)</span>
                             </div>
                             <span class="font-mono text-secondary text-xs">Cold Subs &bull; EVOO Vinaigrette</span>
                         </td>
                         <td class="text-secondary">Genoa salami, spicy capicola, prosciutto cotto, aged provolone, shredduce, EVOO.</td>
-                        <td class="font-mono text-success fw-bold">$12.50</td>
-                        <td class="font-mono text-info fw-bold">$14.38</td>
-                        <td><span class="status-pill status-pill-200 menu-sync-badge"><i class="fa-solid fa-check"></i> SYNCED</span></td>
-                        <td><span class="badge text-bg-success font-mono">100% IN STOCK</span></td>
-                        <td class="text-center"><button class="btn-excel-subtle" onclick="alert('Menu item SUB-03 synchronized across active gateways.')"><i class="fa-solid fa-arrows-rotate"></i> Sync</button></td>
+                        <td class="font-mono fw-bold" style="color: var(--apex-white);">$12.50</td>
+                        <td class="font-mono fw-bold" style="color: var(--apex-cyan);">$14.38</td>
+                        <td><span class="apex-status-pill apex-status-200"><i class="fa-solid fa-check"></i> SYNCED</span></td>
+                        <td><span class="apex-status-pill apex-status-200">100% IN STOCK</span></td>
+                        <td class="text-center"><button class="apex-btn-subtle" onclick="alert('Menu item SUB-03 synchronized across active gateways.')"><i class="fa-solid fa-arrows-rotate"></i> Sync</button></td>
                     </tr>
-                    <tr onclick="updateFormulaBar('B5', '=POS.CATALOG(SKU="WRP-04", Name="Charred Buffalo Chicken Wrap", Base=$11.25)')">
-                        <td class="excel-row-num">4</td>
+                    <tr onclick="updateFormulaBar('B5', '=POS.CATALOG(SKU=\"WRP-04\", Name=\"Charred Buffalo Chicken Wrap\", Base=$11.25)')">
+                        <td class="apex-row-num">4</td>
                         <td>
                             <div class="fw-bold text-white d-flex align-items-center gap-2">
-                                <i class="fa-solid fa-bowl-food text-danger"></i>
+                                <i class="fa-solid fa-bowl-food" style="color: var(--apex-cyan);"></i>
                                 <span>Charred Buffalo Chicken Wrap</span>
                             </div>
                             <span class="font-mono text-secondary text-xs">Wraps &bull; Cayenne Buffalo Glaze</span>
                         </td>
                         <td class="text-secondary">Char-grilled chicken breast glazed in spicy cayenne buffalo sauce, crisp romaine, ranch.</td>
-                        <td class="font-mono text-success fw-bold">$11.25</td>
-                        <td class="font-mono text-info fw-bold">$12.94</td>
-                        <td><span class="status-pill status-pill-200 menu-sync-badge"><i class="fa-solid fa-check"></i> SYNCED</span></td>
-                        <td><span class="badge text-bg-success font-mono">100% IN STOCK</span></td>
-                        <td class="text-center"><button class="btn-excel-subtle" onclick="alert('Menu item WRP-04 synchronized across active gateways.')"><i class="fa-solid fa-arrows-rotate"></i> Sync</button></td>
+                        <td class="font-mono fw-bold" style="color: var(--apex-white);">$11.25</td>
+                        <td class="font-mono fw-bold" style="color: var(--apex-cyan);">$12.94</td>
+                        <td><span class="apex-status-pill apex-status-200"><i class="fa-solid fa-check"></i> SYNCED</span></td>
+                        <td><span class="apex-status-pill apex-status-200">100% IN STOCK</span></td>
+                        <td class="text-center"><button class="apex-btn-subtle" onclick="alert('Menu item WRP-04 synchronized across active gateways.')"><i class="fa-solid fa-arrows-rotate"></i> Sync</button></td>
                     </tr>
                 </tbody>
             </table>
@@ -1039,16 +377,16 @@
 
         <!-- VIEW 3: STEP 3 TELEMETRY (REAL-TIME EVENT LOG SPREADSHEET) -->
         <section id="sheet-view-telemetry" class="d-none">
-            <table class="excel-table">
+            <table class="apex-table">
                 <thead>
                     <tr>
-                        <th class="excel-col-letter" style="width: 36px;">#</th>
-                        <th class="excel-col-letter">A</th>
-                        <th class="excel-col-letter">B</th>
-                        <th class="excel-col-letter">C</th>
-                        <th class="excel-col-letter">D</th>
-                        <th class="excel-col-letter">E</th>
-                        <th class="excel-col-letter">F</th>
+                        <th class="apex-col-coord" style="width: 38px;">#</th>
+                        <th class="apex-col-coord">A</th>
+                        <th class="apex-col-coord">B</th>
+                        <th class="apex-col-coord">C</th>
+                        <th class="apex-col-coord">D</th>
+                        <th class="apex-col-coord">E</th>
+                        <th class="apex-col-coord">F</th>
                     </tr>
                     <tr>
                         <th class="text-center">EVENT #</th>
@@ -1069,56 +407,56 @@
     </main>
 
     <!-- ═══════════════════════════════════════════════════════════════════
-         6. SEO SPIDER TECHNICAL INSPECTION DRAWER (BOTTOM PANE)
+         7. SEO SPIDER TECHNICAL INSPECTION DRAWER (BOTTOM PANE)
          ═══════════════════════════════════════════════════════════════════ -->
-    <aside class="spider-bottom-drawer" id="spiderInspectionDrawer">
-        <div class="spider-drawer-tabs">
-            <button type="button" class="drawer-tab-btn active" onclick="switchDrawerTab('overview', this)">
+    <aside class="apex-spider-drawer" id="spiderInspectionDrawer">
+        <div class="apex-drawer-tabs">
+            <button type="button" class="apex-drawer-tab-btn active" onclick="switchDrawerTab('overview', this)">
                 <i class="fa-solid fa-microscope me-1"></i> Overview &amp; Demographics
             </button>
-            <button type="button" class="drawer-tab-btn" onclick="switchDrawerTab('headers', this)">
+            <button type="button" class="apex-drawer-tab-btn" onclick="switchDrawerTab('headers', this)">
                 <i class="fa-solid fa-key me-1"></i> OAuth 2.0 &amp; Headers
             </button>
-            <button type="button" class="drawer-tab-btn" onclick="switchDrawerTab('pipeline', this)">
+            <button type="button" class="apex-drawer-tab-btn" onclick="switchDrawerTab('pipeline', this)">
                 <i class="fa-solid fa-route me-1"></i> Webhook Pipeline
             </button>
-            <button type="button" class="drawer-tab-btn" onclick="switchDrawerTab('schema', this)">
+            <button type="button" class="apex-drawer-tab-btn" onclick="switchDrawerTab('schema', this)">
                 <i class="fa-solid fa-code me-1"></i> REST Payload Schema
             </button>
         </div>
 
-        <div class="drawer-content-pane" id="drawerPaneContent">
+        <div class="apex-drawer-body" id="drawerPaneContent">
             <!-- Dynamic technical content of selected row -->
         </div>
     </aside>
 
     <!-- ═══════════════════════════════════════════════════════════════════
-         7. MICROSOFT EXCEL WORKBOOK SHEET TABS & STATUS BAR (BOTTOM)
+         8. APEX-OS WORKBOOK BOTTOM DOCK & STATUS TELEMETRY
          ═══════════════════════════════════════════════════════════════════ -->
-    <footer class="excel-bottom-dock">
-        <div class="excel-sheet-tabs">
-            <button type="button" class="excel-sheet-tab active" id="sheetTab1" onclick="switchSheet('delivery')">
-                <i class="fa-solid fa-table-cells text-success"></i>
+    <footer class="apex-bottom-dock">
+        <div class="apex-sheet-tabs">
+            <button type="button" class="apex-sheet-tab active" id="sheetTab1" onclick="switchSheet('delivery')">
+                <i class="fa-solid fa-table-cells" style="color: var(--apex-cyan);"></i>
                 <span>Sheet1: API_Integrations</span>
             </button>
-            <button type="button" class="excel-sheet-tab is-locked" id="sheetTab2" onclick="switchSheet('menu')">
-                <i class="fa-solid fa-utensils text-info"></i>
+            <button type="button" class="apex-sheet-tab is-locked" id="sheetTab2" onclick="switchSheet('menu')">
+                <i class="fa-solid fa-utensils"></i>
                 <span>Sheet2: Menu_Catalog_Sync</span>
                 <i class="fa-solid fa-lock text-[10px] opacity-60 ms-1" id="sheet2LockIcon"></i>
             </button>
-            <button type="button" class="excel-sheet-tab is-locked" id="sheetTab3" onclick="switchSheet('telemetry')">
-                <i class="fa-solid fa-chart-line text-warning"></i>
+            <button type="button" class="apex-sheet-tab is-locked" id="sheetTab3" onclick="switchSheet('telemetry')">
+                <i class="fa-solid fa-chart-line"></i>
                 <span>Sheet3: Live_Telemetry_Log</span>
                 <i class="fa-solid fa-lock text-[10px] opacity-60 ms-1" id="sheet3LockIcon"></i>
             </button>
         </div>
 
-        <div class="excel-status-bar">
-            <span>READY</span>
+        <div class="apex-status-telemetry">
+            <span>KERNEL: READY</span>
             <span class="d-none d-md-inline">&bull;</span>
             <span class="d-none d-md-inline">6 PLATFORMS IN MATRIX</span>
             <span class="d-none d-md-inline">&bull;</span>
-            <span id="excelStatusVerifiedCount" class="text-info fw-bold">0 ACTIVE</span>
+            <span id="excelStatusVerifiedCount" style="color: var(--apex-cyan); font-weight: bold;">0 ACTIVE</span>
             <span class="d-none d-lg-inline">&bull;</span>
             <span class="d-none d-lg-inline">CALCULATION: 100%</span>
             <span>&bull;</span>
@@ -1127,18 +465,18 @@
     </footer>
 
     <!-- ═══════════════════════════════════════════════════════════════════
-         8. API CONFIGURATION & CREDENTIALS MODAL
+         9. API CONFIGURATION & CREDENTIALS MODAL
          ═══════════════════════════════════════════════════════════════════ -->
     <div class="modal fade" id="apiConfigModal" tabindex="-1" aria-labelledby="modalServiceTitle" aria-hidden="true">
         <div class="modal-dialog modal-dialog-centered modal-lg">
-            <div class="modal-content tech-modal">
+            <div class="modal-content apex-modal">
                 <div class="modal-header d-flex justify-content-between align-items-center">
                     <div class="d-flex align-items-center gap-3">
-                        <div class="rounded-2 d-flex align-items-center justify-content-center text-white p-2" id="modalLogoBox" style="width: 38px; height: 38px;">
-                            <i id="modalLogoIcon" class="fa-solid fa-plug"></i>
+                        <div class="d-flex align-items-center justify-content-center text-white p-2 border" id="modalLogoBox" style="width: 38px; height: 38px; background: var(--apex-black); border-color: var(--apex-cyan);">
+                            <i id="modalLogoIcon" class="fa-solid fa-plug" style="color: var(--apex-cyan);"></i>
                         </div>
                         <div>
-                            <h5 class="modal-title font-mono fw-bold fs-6 mb-0" id="modalServiceTitle">API Gateway Setup</h5>
+                            <h5 class="modal-title font-mono fw-bold fs-6 mb-0 text-white" id="modalServiceTitle">API Gateway Setup</h5>
                             <span class="font-mono text-secondary text-xs" id="modalServiceSubtitle">REST Webhooks &bull; TLS 1.3</span>
                         </div>
                     </div>
@@ -1149,10 +487,10 @@
                     <input type="hidden" id="modalCurrentServiceId" value="">
 
                     <!-- Demographics banner -->
-                    <div class="p-3 rounded mb-3 bg-black bg-opacity-40 border border-secondary border-opacity-30">
+                    <div class="p-3 mb-3 border" style="background: var(--apex-panel); border-color: var(--apex-border) !important;">
                         <div class="d-flex align-items-center justify-content-between mb-1">
-                            <span class="font-mono text-xs text-warning fw-bold" id="modalDemoRank">Demographic Target</span>
-                            <a href="#" target="_blank" rel="noopener" id="modalOutwardLink" class="font-mono text-xs text-info text-decoration-none">
+                            <span class="font-mono text-xs fw-bold" style="color: var(--apex-cyan);" id="modalDemoRank">Demographic Target</span>
+                            <a href="#" target="_blank" rel="noopener" id="modalOutwardLink" class="font-mono text-xs text-decoration-none" style="color: var(--apex-cyan);">
                                 Developer Portal <i class="fa-solid fa-arrow-up-right-from-square ms-1"></i>
                             </a>
                         </div>
@@ -1162,44 +500,44 @@
                     <form id="apiVerificationForm" onsubmit="handleApiVerification(event)">
                         <div class="mb-3">
                             <label class="form-label font-mono text-xs text-secondary fw-semibold">Client ID / Application API Key</label>
-                            <input type="text" id="apiClientIdInput" class="tech-form-control" placeholder="e.g. 6ImzVINJ53LfMWCPoh_gBblTL55hqUNfIBN-7TG2" required>
+                            <input type="text" id="apiClientIdInput" class="apex-form-control" placeholder="e.g. 6ImzVINJ53LfMWCPoh_gBblTL55hqUNfIBN-7TG2" required>
                         </div>
 
                         <div class="mb-3">
                             <label class="form-label font-mono text-xs text-secondary fw-semibold">Client Secret / Private Signing Token</label>
-                            <input type="password" id="apiSecretInput" class="tech-form-control" placeholder="&bull;&bull;&bull;&bull;&bull;&bull;&bull;&bull;&bull;&bull;&bull;&bull;&bull;&bull;&bull;&bull;" required>
+                            <input type="password" id="apiSecretInput" class="apex-form-control" placeholder="&bull;&bull;&bull;&bull;&bull;&bull;&bull;&bull;&bull;&bull;&bull;&bull;&bull;&bull;&bull;&bull;" required>
                         </div>
 
                         <div class="mb-3">
                             <label class="form-label font-mono text-xs text-secondary fw-semibold">Store Location GUID / Merchant ID</label>
-                            <input type="text" id="apiLocationIdInput" class="tech-form-control" placeholder="e.g. loc_parma_grill_01" required>
+                            <input type="text" id="apiLocationIdInput" class="apex-form-control" placeholder="e.g. loc_parma_grill_01" required>
                         </div>
 
                         <div class="mb-3">
                             <label class="form-label font-mono text-xs text-secondary fw-semibold">Inbound Webhook Endpoint URL</label>
-                            <input type="text" id="apiWebhookUrlDisplay" class="tech-form-control text-secondary bg-black" readonly>
+                            <input type="text" id="apiWebhookUrlDisplay" class="apex-form-control text-secondary" style="background: var(--apex-black);" readonly>
                         </div>
 
                         <!-- Live Diagnostic Handshake Console -->
-                        <div id="verificationConsole" class="p-3 rounded bg-black border border-secondary border-opacity-40 font-mono text-xs d-none mb-3">
+                        <div id="verificationConsole" class="p-3 border font-mono text-xs d-none mb-3" style="background: var(--apex-black); border-color: var(--apex-cyan) !important;">
                             <div class="d-flex align-items-center justify-content-between text-secondary border-bottom border-secondary border-opacity-30 pb-1 mb-2">
                                 <span><i class="fa-solid fa-terminal me-1"></i> HANDSHAKE DIAGNOSTIC STREAM</span>
-                                <span id="consoleTimer" class="text-info">0 ms</span>
+                                <span id="consoleTimer" style="color: var(--apex-cyan);">0 ms</span>
                             </div>
                             <div id="step1" class="text-info mb-1"><i class="fa-solid fa-spinner fa-spin me-1"></i> [TLS 1.3] Handshake initialization...</div>
                             <div id="step2" class="text-secondary mb-1 d-none">[OAuth 2.0] Authenticating bearer token...</div>
                             <div id="step3" class="text-secondary mb-1 d-none">[Location GUID] Validating store geofence...</div>
-                            <div id="step4" class="text-success fw-bold d-none"><i class="fa-solid fa-circle-check me-1"></i> [200 OK] Handshake verified and online!</div>
+                            <div id="step4" class="fw-bold d-none" style="color: var(--apex-cyan);"><i class="fa-solid fa-circle-check me-1"></i> [200 OK] Handshake verified and online!</div>
                         </div>
 
                         <div class="d-flex align-items-center justify-content-between pt-2">
-                            <button type="button" class="btn-excel-subtle" onclick="fillDemoCredentials()">
-                                <i class="fa-solid fa-wand-magic-sparkles text-warning me-1"></i> Fill Demo Credentials
+                            <button type="button" class="apex-btn-subtle" onclick="fillDemoCredentials()">
+                                <i class="fa-solid fa-wand-magic-sparkles me-1" style="color: var(--apex-cyan);"></i> Fill Demo Credentials
                             </button>
 
                             <div class="d-flex gap-2">
-                                <button type="button" class="btn-excel-subtle" data-bs-dismiss="modal">Cancel</button>
-                                <button type="submit" id="btnSubmitVerify" class="btn-excel">
+                                <button type="button" class="apex-btn-subtle" data-bs-dismiss="modal">Cancel</button>
+                                <button type="submit" id="btnSubmitVerify" class="apex-btn-primary">
                                     <i class="fa-solid fa-shield-check me-1"></i> Submit &amp; Verify API
                                 </button>
                             </div>
@@ -1215,745 +553,8 @@
         integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz" crossorigin="anonymous">
     </script>
 
-    <!-- ====================================================================
-         EXCEL x SEO SPIDER x GOOGLE ANALYTICS CONTROLLER ENGINE
-         ==================================================================== -->
-    <script>
-        // Delivery Platforms Registry & Metadata
-        const DELIVERY_SERVICES = {
-            toast: {
-                id: 'toast',
-                name: 'Toast POS',
-                categoryTag: 'Toast Delivery Services (TDS)',
-                icon: 'fa-solid fa-bread-slice',
-                color: '#ff5722',
-                demographicRank: 'Top In-House Restaurant Direct POS',
-                demographicDesc: 'Eliminates 30% commissions via native in-house ordering with flat-rate DoorDash courier pass-through.',
-                portalUrl: 'https://pos.toasttab.com/',
-                defaultClientId: 'toast_app_parma_982',
-                defaultSecret: 'tst_sec_89234bfa09e1889c201',
-                defaultLocationId: 'loc_parma_grill_01',
-                category: 'pos',
-                protocol: 'REST / TDS Webhooks',
-                endpointUrl: 'https://api.dinedispatch.io/webhooks/toast',
-                marketShare: 'Top In-House POS (US Market)',
-                latency: '16 ms',
-                verified: false
-            },
-            doordash: {
-                id: 'doordash',
-                name: 'DoorDash Drive',
-                categoryTag: 'White-Label Fulfillment API',
-                icon: 'fa-solid fa-car',
-                color: '#eb1700',
-                demographicRank: '#1 Demographic Choice (67% US Market)',
-                demographicDesc: 'Dominant nationwide suburban footprint; highest brand recognition and driver availability across family dining.',
-                portalUrl: 'https://developer.doordash.com/',
-                defaultClientId: 'dd_drive_client_parma_441',
-                defaultSecret: 'dd_jwt_secret_88192aacc7712',
-                defaultLocationId: 'store_parma_dd_771',
-                category: 'fleet',
-                protocol: 'REST / JWT Bearer',
-                endpointUrl: 'https://api.dinedispatch.io/webhooks/doordash',
-                marketShare: '#1 Nationwide Choice (67%)',
-                latency: '22 ms',
-                verified: false
-            },
-            uber: {
-                id: 'uber',
-                name: 'Uber Direct',
-                categoryTag: 'On-Demand Merchant Delivery',
-                icon: 'fa-brands fa-uber',
-                color: '#06c167',
-                demographicRank: 'Urban & Gen-Z Demographic Choice (23% US Share)',
-                demographicDesc: 'Top preference for metropolitan, college campus, and late-night demographics with dense local courier pooling.',
-                portalUrl: 'https://developer.uber.com/docs/deliveries/overview',
-                defaultClientId: '6ImzVINJ53LfMWCPoh_gBblTL55hqUNfIBN-7TG2',
-                defaultSecret: 'ubr_sec_99120aa8772bc',
-                defaultLocationId: 'uber_loc_parma_104',
-                category: 'fleet',
-                protocol: 'OAuth 2.0 / Webhooks',
-                endpointUrl: 'https://api.dinedispatch.io/webhooks/uber',
-                marketShare: 'Urban & Gen-Z Choice (23%)',
-                latency: '18 ms',
-                verified: false
-            },
-            grubhub: {
-                id: 'grubhub',
-                name: 'Grubhub Direct',
-                categoryTag: 'Branded Ordering & Dispatch API',
-                icon: 'fa-solid fa-utensils',
-                color: '#f63440',
-                demographicRank: 'East Coast & Campus Stronghold',
-                demographicDesc: 'Favored by Northeast corporate lunch programs, regional diners, and student meal account payment ecosystems.',
-                portalUrl: 'https://get.grubhub.com/',
-                defaultClientId: 'gh_partner_parma_902',
-                defaultSecret: 'gh_sec_token_55219bc001',
-                defaultLocationId: 'gh_merchant_parma_8829',
-                category: 'pos',
-                protocol: 'REST / Mutual TLS',
-                endpointUrl: 'https://api.dinedispatch.io/webhooks/grubhub',
-                marketShare: 'East Coast & Campus (10%)',
-                latency: '24 ms',
-                verified: false
-            },
-            square: {
-                id: 'square',
-                name: 'Square Delivery',
-                categoryTag: 'Square Orders & Terminal Bridge',
-                icon: 'fa-solid fa-square',
-                color: '#006aff',
-                demographicRank: 'Independent & Craft Deli Demographic',
-                demographicDesc: 'Preferred choice for boutique sandwich shops and multi-station counters seeking unified digital ticket handling.',
-                portalUrl: 'https://developer.squareup.com/',
-                defaultClientId: 'sq0idp-parma_88291047192aa',
-                defaultSecret: 'sq0csp-99214710188bc',
-                defaultLocationId: 'L8829104PARMA',
-                category: 'pos',
-                protocol: 'OAuth 2.0 / v2 Orders',
-                endpointUrl: 'https://api.dinedispatch.io/webhooks/square',
-                marketShare: 'Craft & Independent Delis',
-                latency: '19 ms',
-                verified: false
-            },
-            clover: {
-                id: 'clover',
-                name: 'Clover POS API',
-                categoryTag: 'Clover Station Queue & Thermal Gateway',
-                icon: 'fa-solid fa-clover',
-                color: '#1cb24c',
-                demographicRank: 'Neighborhood Diner & Grill Demographic',
-                demographicDesc: 'High market penetration in traditional family grills with thermal kitchen printers and dedicated counter stations.',
-                portalUrl: 'https://www.clover.com/developers',
-                defaultClientId: 'clover_app_parma_991823',
-                defaultSecret: 'clv_token_8821901aa',
-                defaultLocationId: 'CLV_MERCH_PARMA_7718',
-                category: 'pos',
-                protocol: 'REST / Clover Station',
-                endpointUrl: 'https://api.dinedispatch.io/webhooks/clover',
-                marketShare: 'Family Grills & Diners',
-                latency: '26 ms',
-                verified: false
-            }
-        };
-
-        // Saved persistent state in LocalStorage
-        let savedApiState = {};
-        try {
-            savedApiState = JSON.parse(localStorage.getItem('dinedispatch_delivery_api_state') || '{}');
-            Object.keys(savedApiState).forEach(k => {
-                if (DELIVERY_SERVICES[k] && savedApiState[k].verified) {
-                    DELIVERY_SERVICES[k].verified = true;
-                    if (savedApiState[k].clientId) DELIVERY_SERVICES[k].defaultClientId = savedApiState[k].clientId;
-                    if (savedApiState[k].locationId) DELIVERY_SERVICES[k].defaultLocationId = savedApiState[k].locationId;
-                }
-            });
-        } catch (e) {
-            savedApiState = {};
-        }
-
-        let currentActiveSheet = 'delivery';
-        let currentSelectedRowKey = 'uber';
-        let currentFilter = 'all';
-
-        // Render the SEO Spider Data Grid
-        function renderSpiderTable() {
-            const tbody = document.getElementById('spiderTableBody');
-            if (!tbody) return;
-
-            const serviceKeys = Object.keys(DELIVERY_SERVICES);
-            let html = '';
-
-            serviceKeys.forEach((key, index) => {
-                const s = DELIVERY_SERVICES[key];
-                const isSelected = key === currentSelectedRowKey;
-                const statusClass = s.verified ? 'status-pill-200' : 'status-pill-401';
-                const statusText = s.verified ? '200 OK' : '401 PENDING';
-                const latencyText = s.verified ? s.latency : '--';
-                const clientDisplay = s.verified ? s.defaultClientId : 'Pending Configuration';
-                const locationDisplay = s.verified ? s.defaultLocationId : 'Pending Location';
-
-                html += `
-                    <tr class="${isSelected ? 'row-selected' : ''}" 
-                        data-service-key="${key}"
-                        data-category="${s.category}"
-                        data-status="${s.verified ? 'connected' : 'pending'}"
-                        onclick="selectSpiderRow('${key}')">
-                        <td class="excel-row-num">${index + 1}</td>
-                        <td>
-                            <span class="status-pill ${statusClass}">
-                                <i class="fa-solid ${s.verified ? 'fa-circle-check' : 'fa-clock'}"></i>
-                                <span>${statusText}</span>
-                            </span>
-                        </td>
-                        <td>
-                            <div class="fw-bold text-white d-flex align-items-center gap-2">
-                                <i class="${s.icon}" style="color: ${s.color};"></i>
-                                <span>${s.name}</span>
-                            </div>
-                            <span class="font-mono text-secondary text-xs">${s.categoryTag}</span>
-                        </td>
-                        <td class="font-mono text-secondary">${s.protocol}</td>
-                        <td><span class="badge text-bg-dark border border-secondary border-opacity-40 font-mono text-xs">${s.demographicRank}</span></td>
-                        <td class="font-mono text-info text-xs">${clientDisplay}</td>
-                        <td class="font-mono text-secondary text-xs">${locationDisplay}</td>
-                        <td class="font-mono ${s.verified ? 'text-success fw-bold' : 'text-secondary'}">${latencyText}</td>
-                        <td class="text-center">
-                            ${s.verified 
-                                ? `<div class="d-flex align-items-center justify-content-center gap-1.5">
-                                    <button type="button" class="btn-excel-subtle" onclick="event.stopPropagation(); openApiConfigModal('${key}')" title="Edit Configuration">
-                                        <i class="fa-solid fa-gear"></i>
-                                    </button>
-                                    <button type="button" class="btn-excel-subtle text-info" onclick="event.stopPropagation(); seedSampleDispatchLog('${key}')" title="Test Dispatch Ping">
-                                        <i class="fa-solid fa-paper-plane"></i>
-                                    </button>
-                                    <button type="button" class="btn-excel-subtle text-danger" onclick="event.stopPropagation(); disconnectApi('${key}')" title="Disconnect Gateway">
-                                        <i class="fa-solid fa-xmark"></i>
-                                    </button>
-                                   </div>`
-                                : `<button type="button" class="btn-excel" onclick="event.stopPropagation(); openApiConfigModal('${key}')">
-                                    <i class="fa-solid fa-plug"></i> Configure API
-                                   </button>`
-                            }
-                        </td>
-                    </tr>
-                `;
-            });
-
-            tbody.innerHTML = html;
-            updateSpiderDrawer(currentSelectedRowKey);
-        }
-
-        // Select a row in the Excel/Spider table
-        function selectSpiderRow(serviceKey) {
-            currentSelectedRowKey = serviceKey;
-            const s = DELIVERY_SERVICES[serviceKey];
-            if (!s) return;
-
-            // Highlight row in DOM
-            document.querySelectorAll('#spiderTableBody tr').forEach(tr => {
-                if (tr.getAttribute('data-service-key') === serviceKey) {
-                    tr.classList.add('row-selected');
-                } else {
-                    tr.classList.remove('row-selected');
-                }
-            });
-
-            // Update Excel formula bar
-            const rowIdx = Object.keys(DELIVERY_SERVICES).indexOf(serviceKey) + 2;
-            updateFormulaBar(`B${rowIdx}`, `=GATEWAY.DISPATCH(Provider="${s.name}", Status="${s.verified ? '200_OK' : '401_PENDING'}", Protocol="${s.protocol.replace(/\s+/g, '_')}", Latency="${s.verified ? s.latency : '0ms'}")`);
-
-            // Update Bottom Spider Diagnostic Drawer
-            updateSpiderDrawer(serviceKey);
-        }
-
-        // Update Excel Formula Bar
-        function updateFormulaBar(cell, formula) {
-            const cellEl = document.getElementById('excelActiveCellLabel');
-            const formEl = document.getElementById('excelFormulaInput');
-            if (cellEl) cellEl.innerText = cell;
-            if (formEl) formEl.value = formula;
-        }
-
-        // Update Bottom Spider Diagnostic Drawer
-        function updateSpiderDrawer(serviceKey) {
-            const s = DELIVERY_SERVICES[serviceKey];
-            const contentPane = document.getElementById('drawerPaneContent');
-            if (!s || !contentPane) return;
-
-            const activeTab = document.querySelector('.spider-drawer-tabs .drawer-tab-btn.active')?.innerText.toLowerCase() || 'overview';
-
-            if (activeTab.includes('headers')) {
-                contentPane.innerHTML = `
-                    <div class="row g-3">
-                        <div class="col-md-6">
-                            <span class="text-secondary fw-bold d-block mb-1">INBOUND REQUEST HEADERS (REST HTTP/2):</span>
-                            <div class="p-2 rounded bg-black border border-secondary border-opacity-30">
-                                <div><span class="text-info">Host:</span> api.dinedispatch.io</div>
-                                <div><span class="text-info">Authorization:</span> Bearer ${s.verified ? s.defaultClientId.substring(0, 16) + '...' : '[PENDING_BEARER_TOKEN]'}</div>
-                                <div><span class="text-info">X-Gateway-Protocol:</span> ${s.protocol}</div>
-                                <div><span class="text-info">X-Location-GUID:</span> ${s.defaultLocationId}</div>
-                                <div><span class="text-info">Content-Type:</span> application/json; charset=utf-8</div>
-                            </div>
-                        </div>
-                        <div class="col-md-6">
-                            <span class="text-secondary fw-bold d-block mb-1">SECURITY &amp; TLS SPECIFICATION:</span>
-                            <div class="p-2 rounded bg-black border border-secondary border-opacity-30">
-                                <div><span class="text-success">&bull; Cipher Suite:</span> TLS_AES_256_GCM_SHA384 (TLS 1.3)</div>
-                                <div><span class="text-success">&bull; Geofence Verification:</span> loc_parma_grill_01 (40.7128 N, -74.0060 W)</div>
-                                <div><span class="text-success">&bull; Verification Status:</span> ${s.verified ? '<span class="text-success fw-bold">ONLINE (200 OK)</span>' : '<span class="text-warning fw-bold">UNCONFIGURED (401 PENDING)</span>'}</div>
-                            </div>
-                        </div>
-                    </div>
-                `;
-            } else if (activeTab.includes('pipeline')) {
-                contentPane.innerHTML = `
-                    <div class="d-flex align-items-center gap-3 py-2 flex-wrap font-mono">
-                        <div class="p-2 rounded bg-dark border border-secondary border-opacity-40">
-                            <span class="text-secondary text-xs d-block">STEP 1. POS DISPATCH</span>
-                            <strong class="text-white">Kitchen Ticket #4829</strong>
-                        </div>
-                        <i class="fa-solid fa-arrow-right text-success"></i>
-                        <div class="p-2 rounded bg-dark border border-secondary border-opacity-40">
-                            <span class="text-secondary text-xs d-block">STEP 2. ${s.name.toUpperCase()} GATEWAY</span>
-                            <strong class="text-info">${s.endpointUrl}</strong>
-                        </div>
-                        <i class="fa-solid fa-arrow-right text-success"></i>
-                        <div class="p-2 rounded bg-dark border border-secondary border-opacity-40">
-                            <span class="text-secondary text-xs d-block">STEP 3. COURIER TELEMETRY</span>
-                            <strong class="text-success">Round-trip ${s.verified ? s.latency : 'Pending'}</strong>
-                        </div>
-                    </div>
-                `;
-            } else if (activeTab.includes('schema')) {
-                contentPane.innerHTML = `
-                    <pre class="mb-0 text-info p-2 rounded bg-black border border-secondary border-opacity-30" style="max-height: 120px; overflow-y: auto;">{
-  "event": "dispatch.order.created",
-  "gateway": "${s.id}",
-  "location_id": "${s.defaultLocationId}",
-  "status": "${s.verified ? "VERIFIED_ACTIVE" : "PENDING_CONFIGURATION"}",
-  "latency_ms": ${s.verified ? parseInt(s.latency) : 0},
-  "auth_type": "OAuth2.0_Bearer"
-}</pre>
-                `;
-            } else {
-                // Overview
-                contentPane.innerHTML = `
-                    <div class="d-flex flex-column flex-md-row justify-content-between gap-3">
-                        <div>
-                            <span class="text-secondary fw-bold text-xs d-block mb-1">AUDIT SUMMARY &bull; ${s.name.toUpperCase()}</span>
-                            <p class="font-sans text-xs text-white mb-1.5">${s.demographicDesc}</p>
-                            <span class="badge text-bg-dark border border-secondary border-opacity-40 font-mono text-xs">${s.demographicRank}</span>
-                        </div>
-                        <div class="font-mono text-xs text-secondary shrink-0">
-                            <div><strong class="text-white">Developer Portal:</strong> <a href="${s.portalUrl}" target="_blank" class="text-info">${s.portalUrl}</a></div>
-                            <div><strong class="text-white">Webhook Route:</strong> <span class="text-secondary">${s.endpointUrl}</span></div>
-                            <div><strong class="text-white">Status:</strong> ${s.verified ? '<span class="text-success fw-bold">Active 200 OK</span>' : '<span class="text-warning fw-bold">Step 1 Pending</span>'}</div>
-                        </div>
-                    </div>
-                `;
-            }
-        }
-
-        function switchDrawerTab(tabKey, btnEl) {
-            document.querySelectorAll('.spider-drawer-tabs .drawer-tab-btn').forEach(b => b.classList.remove('active'));
-            if (btnEl) btnEl.classList.add('active');
-            updateSpiderDrawer(currentSelectedRowKey);
-        }
-
-        // Filter Rows in Spider Table
-        function filterSpiderRows(filter, btnEl) {
-            currentFilter = filter;
-            if (btnEl) {
-                document.querySelectorAll('.spider-toolbar .spider-filter-pill').forEach(b => b.classList.remove('active'));
-                btnEl.classList.add('active');
-            }
-
-            const searchVal = (document.getElementById('spiderSearchInput')?.value || '').toLowerCase().trim();
-            const rows = document.querySelectorAll('#spiderTableBody tr');
-
-            rows.forEach(tr => {
-                const sKey = tr.getAttribute('data-service-key');
-                const cat = tr.getAttribute('data-category');
-                const status = tr.getAttribute('data-status');
-                const s = DELIVERY_SERVICES[sKey];
-
-                let matchesFilter = true;
-                if (filter === 'connected') matchesFilter = (status === 'connected');
-                else if (filter === 'pending') matchesFilter = (status === 'pending');
-                else if (filter === 'pos') matchesFilter = (cat === 'pos');
-                else if (filter === 'fleet') matchesFilter = (cat === 'fleet');
-
-                const matchesSearch = !searchVal || (s && (s.name.toLowerCase().includes(searchVal) || s.endpointUrl.toLowerCase().includes(searchVal) || s.defaultClientId.toLowerCase().includes(searchVal)));
-
-                tr.style.display = (matchesFilter && matchesSearch) ? '' : 'none';
-            });
-        }
-
-        function handleSpiderSearch(val) {
-            filterSpiderRows(currentFilter, null);
-        }
-
-        // Switch Excel Workbook Sheets (Step 1, Step 2, Step 3)
-        function switchSheet(sheetKey) {
-            const hasVerified = Object.keys(DELIVERY_SERVICES).some(k => DELIVERY_SERVICES[k].verified);
-
-            if ((sheetKey === 'menu' || sheetKey === 'telemetry') && !hasVerified) {
-                alert('Please connect and verify at least one delivery API in Step 1 before accessing Sheet2 or Sheet3.');
-                return;
-            }
-
-            currentActiveSheet = sheetKey;
-
-            // Sheet views toggle
-            document.getElementById('sheet-view-delivery').classList.toggle('d-none', sheetKey !== 'delivery');
-            document.getElementById('sheet-view-menu').classList.toggle('d-none', sheetKey !== 'menu');
-            document.getElementById('sheet-view-telemetry').classList.toggle('d-none', sheetKey !== 'telemetry');
-
-            // Bottom tabs toggle
-            document.getElementById('sheetTab1').classList.toggle('active', sheetKey === 'delivery');
-            document.getElementById('sheetTab2').classList.toggle('active', sheetKey === 'menu');
-            document.getElementById('sheetTab3').classList.toggle('active', sheetKey === 'telemetry');
-
-            // Formula bar updates
-            if (sheetKey === 'delivery') {
-                selectSpiderRow(currentSelectedRowKey);
-            } else if (sheetKey === 'menu') {
-                updateFormulaBar('B2', '=POS.CATALOG(Provider="Active_Gateways", SKUs=4, SyncStatus="100%_SYNCHRONIZED")');
-            } else if (sheetKey === 'telemetry') {
-                updateFormulaBar('B2', '=STREAM.EVENT_LOG(Source="Dispatch_Webhooks", Protocol="HTTP/2_TLS1.3")');
-            }
-        }
-
-        // Open API Modal
-        function openApiConfigModal(serviceId) {
-            const s = DELIVERY_SERVICES[serviceId];
-            if (!s) return;
-
-            document.getElementById('modalCurrentServiceId').value = serviceId;
-            document.getElementById('modalServiceTitle').innerText = `${s.name} API Configuration`;
-            document.getElementById('modalServiceSubtitle').innerText = `${s.categoryTag} &bull; REST Webhooks &bull; TLS 1.3`;
-            
-            const logoBox = document.getElementById('modalLogoBox');
-            if (logoBox) logoBox.style.background = s.color;
-
-            const logoIcon = document.getElementById('modalLogoIcon');
-            if (logoIcon) logoIcon.className = `${s.icon} fs-5`;
-
-            document.getElementById('modalDemoRank').innerText = s.demographicRank;
-            document.getElementById('modalDemoDesc').innerText = s.demographicDesc;
-
-            const linkEl = document.getElementById('modalOutwardLink');
-            if (linkEl) linkEl.href = s.portalUrl;
-
-            document.getElementById('apiWebhookUrlDisplay').value = s.endpointUrl;
-
-            // Autofill existing or clear
-            if (s.verified) {
-                document.getElementById('apiClientIdInput').value = s.defaultClientId;
-                document.getElementById('apiSecretInput').value = s.defaultSecret;
-                document.getElementById('apiLocationIdInput').value = s.defaultLocationId;
-            } else {
-                document.getElementById('apiClientIdInput').value = '';
-                document.getElementById('apiSecretInput').value = '';
-                document.getElementById('apiLocationIdInput').value = '';
-            }
-
-            // Reset console
-            const c = document.getElementById('verificationConsole');
-            if (c) c.classList.add('d-none');
-            document.getElementById('step1').className = 'text-info mb-1';
-            document.getElementById('step2').classList.add('d-none');
-            document.getElementById('step3').classList.add('d-none');
-            document.getElementById('step4').classList.add('d-none');
-
-            const submitBtn = document.getElementById('btnSubmitVerify');
-            if (submitBtn) {
-                submitBtn.disabled = false;
-                submitBtn.innerHTML = '<i class="fa-solid fa-shield-check me-1"></i> Submit &amp; Verify API';
-            }
-
-            const modalEl = document.getElementById('apiConfigModal');
-            const modal = bootstrap.Modal.getOrCreateInstance(modalEl);
-            modal.show();
-        }
-
-        function closeApiConfigModal() {
-            const modalEl = document.getElementById('apiConfigModal');
-            const modal = bootstrap.Modal.getInstance(modalEl);
-            if (modal) modal.hide();
-        }
-
-        function fillDemoCredentials() {
-            const sId = document.getElementById('modalCurrentServiceId').value;
-            const s = DELIVERY_SERVICES[sId];
-            if (!s) return;
-            document.getElementById('apiClientIdInput').value = s.defaultClientId;
-            document.getElementById('apiSecretInput').value = s.defaultSecret;
-            document.getElementById('apiLocationIdInput').value = s.defaultLocationId;
-        }
-
-        // Disconnect API
-        function disconnectApi(serviceId) {
-            if (confirm(`Disconnect ${DELIVERY_SERVICES[serviceId]?.name} gateway?`)) {
-                DELIVERY_SERVICES[serviceId].verified = false;
-                delete savedApiState[serviceId];
-                try {
-                    localStorage.setItem('dinedispatch_delivery_api_state', JSON.stringify(savedApiState));
-                } catch (e) {}
-                updateProgressiveState();
-                renderSpiderTable();
-            }
-        }
-
-        // Handle Verification Submit
-        function handleApiVerification(event) {
-            event.preventDefault();
-            const sId = document.getElementById('modalCurrentServiceId').value;
-            const s = DELIVERY_SERVICES[sId];
-            if (!s) return;
-
-            const clientId = document.getElementById('apiClientIdInput').value.trim();
-            const secret = document.getElementById('apiSecretInput').value.trim();
-            const locationId = document.getElementById('apiLocationIdInput').value.trim();
-
-            if (!clientId || !secret || !locationId) {
-                alert('Please enter all credential fields.');
-                return;
-            }
-
-            const submitBtn = document.getElementById('btnSubmitVerify');
-            submitBtn.disabled = true;
-            submitBtn.innerHTML = '<i class="fa-solid fa-spinner fa-spin me-1"></i> Verifying...';
-
-            const consoleBox = document.getElementById('verificationConsole');
-            consoleBox.classList.remove('d-none');
-
-            const timer = document.getElementById('consoleTimer');
-            const step1 = document.getElementById('step1');
-            const step2 = document.getElementById('step2');
-            const step3 = document.getElementById('step3');
-            const step4 = document.getElementById('step4');
-
-            let ms = 0;
-            const interval = setInterval(() => {
-                ms += 12;
-                timer.innerText = `${ms} ms`;
-            }, 12);
-
-            setTimeout(() => {
-                step1.className = 'text-success mb-1';
-                step1.innerHTML = '<i class="fa-solid fa-check me-1"></i> [TLS 1.3] Encrypted socket established';
-                step2.classList.remove('d-none');
-                step2.className = 'text-info mb-1';
-                step2.innerHTML = '<i class="fa-solid fa-spinner fa-spin me-1"></i> [OAuth 2.0] Authenticating bearer token...';
-            }, 300);
-
-            setTimeout(() => {
-                step2.className = 'text-success mb-1';
-                step2.innerHTML = `<i class="fa-solid fa-check me-1"></i> [OAuth 2.0] Client authenticated: [${clientId.substring(0, 14)}...]`;
-                step3.classList.remove('d-none');
-                step3.className = 'text-info mb-1';
-                step3.innerHTML = '<i class="fa-solid fa-spinner fa-spin me-1"></i> [Location GUID] Validating store geofence...';
-            }, 700);
-
-            setTimeout(() => {
-                step3.className = 'text-success mb-1';
-                step3.innerHTML = `<i class="fa-solid fa-check me-1"></i> [Location GUID] Store verified: [${locationId}]`;
-                step4.classList.remove('d-none');
-                clearInterval(interval);
-
-                // Update internal registry
-                s.verified = true;
-                s.defaultClientId = clientId;
-                s.defaultLocationId = locationId;
-                savedApiState[sId] = {
-                    verified: true,
-                    clientId: clientId,
-                    secret: secret,
-                    locationId: locationId,
-                    verifiedAt: new Date().toISOString()
-                };
-
-                try {
-                    localStorage.setItem('dinedispatch_delivery_api_state', JSON.stringify(savedApiState));
-                } catch (err) {}
-
-                // Update UI state
-                updateProgressiveState();
-                renderSpiderTable();
-
-                submitBtn.disabled = false;
-                submitBtn.innerHTML = '<i class="fa-solid fa-circle-check me-1"></i> Verified Successfully!';
-
-                // Push to Telemetry log
-                addTelemetryLogRow(s.name, 'API.HANDSHAKE_VERIFIED', `${ms} ms`, `#${locationId.toUpperCase()}`);
-
-                setTimeout(() => {
-                    closeApiConfigModal();
-                    submitBtn.innerHTML = '<i class="fa-solid fa-shield-check me-1"></i> Submit &amp; Verify API';
-                }, 800);
-
-            }, 1150);
-        }
-
-        // Progressive State Engine
-        function updateProgressiveState() {
-            let count = 0;
-            const verifiedNames = [];
-
-            Object.keys(DELIVERY_SERVICES).forEach(k => {
-                if (DELIVERY_SERVICES[k].verified) {
-                    count++;
-                    verifiedNames.push(DELIVERY_SERVICES[k].name);
-                }
-            });
-
-            // Update Scorecards
-            const activeCountEl = document.getElementById('metricActiveCount');
-            if (activeCountEl) activeCountEl.innerText = `${count} / 6`;
-
-            const activeDeltaEl = document.getElementById('metricActiveDelta');
-            if (activeDeltaEl) {
-                if (count > 0) {
-                    activeDeltaEl.className = 'ga-metric-delta delta-positive';
-                    activeDeltaEl.innerText = `+${Math.round((count / 6) * 100)}% Active`;
-                } else {
-                    activeDeltaEl.className = 'ga-metric-delta delta-neutral';
-                    activeDeltaEl.innerText = 'Step 1 Ready';
-                }
-            }
-
-            const catSyncEl = document.getElementById('metricCatalogSync');
-            const catDeltaEl = document.getElementById('metricCatalogDelta');
-            if (catSyncEl) catSyncEl.innerText = count > 0 ? '100% Synced' : 'Pending API';
-            if (catDeltaEl) {
-                catDeltaEl.className = count > 0 ? 'ga-metric-delta delta-positive' : 'ga-metric-delta delta-neutral';
-                catDeltaEl.innerText = count > 0 ? 'Step 2 Active' : 'Step 2 Target';
-            }
-
-            // Realtime Indicator Pill
-            const rtText = document.getElementById('realtimeStatusText');
-            if (rtText) rtText.innerText = count > 0 ? `${count}/6 STREAMING` : '0/6 CONNECTED';
-
-            // Filter Counts
-            const fcConnected = document.getElementById('filterCountConnected');
-            const fcPending = document.getElementById('filterCountPending');
-            if (fcConnected) fcConnected.innerText = count;
-            if (fcPending) fcPending.innerText = 6 - count;
-
-            // Excel Bottom Status
-            const excelStatus = document.getElementById('excelStatusVerifiedCount');
-            if (excelStatus) excelStatus.innerText = `${count} ACTIVE`;
-
-            // Stepper Notice Badges
-            const b1 = document.getElementById('badgeStep1');
-            const b2 = document.getElementById('badgeStep2');
-            const b3 = document.getElementById('badgeStep3');
-            const guideMsg = document.getElementById('stepperGuidanceMessage');
-
-            const sheetTab2 = document.getElementById('sheetTab2');
-            const sheetTab3 = document.getElementById('sheetTab3');
-            const lockIcon2 = document.getElementById('sheet2LockIcon');
-            const lockIcon3 = document.getElementById('sheet3LockIcon');
-
-            if (count === 0) {
-                if (b1) b1.className = 'step-pill active';
-                if (b2) b2.className = 'step-pill locked';
-                if (b3) b3.className = 'step-pill locked';
-                if (guideMsg) guideMsg.innerHTML = '<i class="fa-solid fa-circle-info text-info me-1"></i> Select a delivery provider row below and click <strong>Configure API</strong> to initiate Step 1.';
-
-                if (sheetTab2) sheetTab2.classList.add('is-locked');
-                if (sheetTab3) sheetTab3.classList.add('is-locked');
-                if (lockIcon2) lockIcon2.style.display = 'inline-block';
-                if (lockIcon3) lockIcon3.style.display = 'inline-block';
-            } else {
-                if (b1) {
-                    b1.className = 'step-pill verified';
-                    b1.innerHTML = '<i class="fa-solid fa-circle-check"></i> Step 1: Verified';
-                }
-                if (b2) {
-                    b2.className = 'step-pill verified';
-                    b2.innerHTML = '<i class="fa-solid fa-circle-check"></i> Step 2: Menu Synced';
-                }
-                if (b3) {
-                    b3.className = 'step-pill active';
-                    b3.innerHTML = '<i class="fa-solid fa-signal"></i> Step 3: Telemetry Live';
-                }
-                if (guideMsg) {
-                    guideMsg.innerHTML = `<i class="fa-solid fa-circle-check text-success me-1"></i> <strong>${count} API${count > 1 ? 's' : ''} Online (${verifiedNames.join(', ')}).</strong> Click <strong>Sheet2: Menu_Catalog_Sync</strong> or <strong>Sheet3: Live_Telemetry_Log</strong> below to inspect!`;
-                }
-
-                if (sheetTab2) sheetTab2.classList.remove('is-locked');
-                if (sheetTab3) sheetTab3.classList.remove('is-locked');
-                if (lockIcon2) lockIcon2.style.display = 'none';
-                if (lockIcon3) lockIcon3.style.display = 'none';
-            }
-        }
-
-        // Add Row to Telemetry Stream
-        function addTelemetryLogRow(provider, eventName, latency, ref) {
-            const tbody = document.getElementById('telemetryTableBody');
-            if (!tbody) return;
-            const now = new Date();
-            const timeStr = now.toISOString().replace('T', ' ').substring(11, 19);
-            const rowCount = tbody.children.length + 1;
-
-            const tr = document.createElement('tr');
-            tr.innerHTML = `
-                <td class="excel-row-num">${rowCount}</td>
-                <td class="font-mono text-secondary">${timeStr} UTC</td>
-                <td class="fw-bold text-white">${provider}</td>
-                <td><code class="text-info bg-black px-1.5 py-0.5 border border-secondary border-opacity-40 rounded font-mono text-xs">${eventName}</code></td>
-                <td><span class="status-pill status-pill-200">200 OK</span></td>
-                <td class="font-mono text-success fw-bold">${latency}</td>
-                <td class="font-mono text-secondary text-xs">${ref}</td>
-            `;
-            tbody.insertBefore(tr, tbody.firstChild);
-
-            // Increment telemetry metric
-            const eventMetric = document.getElementById('metricEventCount');
-            if (eventMetric) {
-                const current = parseInt(eventMetric.innerText.replace(/,/g, '')) || 1428;
-                eventMetric.innerText = (current + 1).toLocaleString();
-            }
-        }
-
-        // Simulate Test Dispatch Ping
-        function seedSampleDispatchLog(serviceKey) {
-            const verifiedKeys = Object.keys(DELIVERY_SERVICES).filter(k => DELIVERY_SERVICES[k].verified);
-            let providerName = 'Uber Direct';
-            if (serviceKey && DELIVERY_SERVICES[serviceKey]) {
-                providerName = DELIVERY_SERVICES[serviceKey].name;
-            } else if (verifiedKeys.length > 0) {
-                providerName = DELIVERY_SERVICES[verifiedKeys[Math.floor(Math.random() * verifiedKeys.length)]].name;
-            }
-            const lat = Math.floor(Math.random() * 16) + 14 + ' ms';
-            const orderNum = Math.floor(Math.random() * 8999) + 1000;
-            addTelemetryLogRow(providerName, 'DISPATCH.COURIER_PING', lat, `#ORDER-${orderNum} (Cheesesteak Combo)`);
-            alert(`Simulated live courier ping sent to ${providerName}!
-Round-trip latency: ${lat}.
-Logged in Sheet3: Live_Telemetry_Log.`);
-        }
-
-        // Health Check All
-        function simulateFullApiHealthCheck() {
-            const btn = document.querySelector('button[onclick="simulateFullApiHealthCheck()"]');
-            if (btn) btn.innerHTML = '<i class="fa-solid fa-spinner fa-spin"></i> Pinging...';
-            setTimeout(() => {
-                if (btn) btn.innerHTML = '<i class="fa-solid fa-circle-check text-success"></i> All Gateways OK';
-                setTimeout(() => {
-                    if (btn) btn.innerHTML = '<i class="fa-solid fa-arrows-rotate"></i> Ping All';
-                }, 2000);
-            }, 600);
-        }
-
-        // Reset Walkthrough
-        function resetWalkthrough() {
-            if (confirm('Reset setup walkthrough to Step 1? This will unconfigure all simulated delivery APIs.')) {
-                try {
-                    localStorage.removeItem('dinedispatch_delivery_api_state');
-                } catch (e) {}
-                savedApiState = {};
-                Object.keys(DELIVERY_SERVICES).forEach(k => {
-                    DELIVERY_SERVICES[k].verified = false;
-                });
-                updateProgressiveState();
-                renderSpiderTable();
-                switchSheet('delivery');
-            }
-        }
-
-        // Initialize on DOM Load
-        document.addEventListener('DOMContentLoaded', () => {
-            renderSpiderTable();
-            updateProgressiveState();
-
-            // Seed initial telemetry rows
-            addTelemetryLogRow('System Gateway', 'GATEWAY.BOOT_SEQUENCE', '8 ms', '#SYSTEM_INITIALIZE');
-            addTelemetryLogRow('Cloud Router', 'DNS.ANYCAST_SYNC', '12 ms', '#GLOBAL_ROUTE_READY');
-        });
-    </script>
+    <!-- Apex-OS Controller Engine -->
+    <script src="./controller.js"></script>
 </body>
 
 </html>

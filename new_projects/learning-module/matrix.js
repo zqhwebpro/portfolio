@@ -1217,4 +1217,34 @@
       });
     });
   });
+
+  // Global API for Sitemap & In-Page Technical Navigation
+  window.openMatrixTrack = function (trackId) {
+    if (MODULES_DATA.some((m) => m.id === trackId)) {
+      currentActiveTrackId = trackId;
+      currentViewMode = 'tabbed';
+      renderIdeTabs();
+      renderMainView();
+      const mainEl = document.getElementById('osMainContentArea');
+      if (mainEl) {
+        mainEl.scrollIntoView({ behavior: 'smooth', block: 'start' });
+      } else {
+        window.scrollTo({ top: 0, behavior: 'smooth' });
+      }
+      playOsClick(800, 0.04);
+    }
+  };
+
+  window.openMatrixGrid = function () {
+    currentViewMode = 'grid';
+    renderIdeTabs();
+    renderMainView();
+    const mainEl = document.getElementById('osMainContentArea');
+    if (mainEl) {
+      mainEl.scrollIntoView({ behavior: 'smooth', block: 'start' });
+    } else {
+      window.scrollTo({ top: 0, behavior: 'smooth' });
+    }
+    playOsClick(800, 0.04);
+  };
 })();

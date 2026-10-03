@@ -163,26 +163,96 @@
             box-shadow: 0 15px 35px -5px rgba(0, 0, 0, 0.9), 0 0 20px rgba(245, 158, 11, 0.2) !important;
         }
 
-        .course-card h3 {
+        /* Fully Reversible Course Card Typography & Cosmic Contrast */
+        .course-card,
+        .bg-canvas-card {
+            background: #130628 !important;
+            border: 1px solid #3B1578 !important;
+            color: #F5F3FF !important;
+        }
+
+        .course-card h3,
+        .course-card .font-heading,
+        .course-card .course-title {
+            font-family: 'Outfit', sans-serif !important;
             color: #FFFFFF !important;
         }
 
-        .course-card h3:hover {
+        .course-card h3:hover,
+        .course-card .font-heading:hover,
+        .course-card .course-title:hover {
             color: #FBBF24 !important;
         }
 
-        .course-card .text-earth-900,
-        .course-card .text-earth-950 {
+        .course-card .text-gray-900,
+        .course-card .text-gray-800,
+        .course-card .text-slate-900,
+        .course-card .text-black {
             color: #FFFFFF !important;
         }
 
         .course-card .text-gray-500,
-        .course-card .text-gray-600 {
+        .course-card .text-gray-600,
+        .course-card .text-gray-700,
+        .course-card .text-earth-600,
+        .course-card .text-earth-700 {
             color: #DDD6FE !important;
+        }
+
+        .course-card p,
+        .course-card .course-desc {
+            color: #E2D9F3 !important;
+        }
+
+        .course-card .instructor-name,
+        .course-card [class*="instructor"] .font-bold {
+            color: #FFFFFF !important;
+        }
+
+        .course-card .instructor-title {
+            color: #C4B5FD !important;
+        }
+
+        /* Protect badge contrast against dark overrides */
+        .course-card .bg-amber-400,
+        .course-card .bg-amber-400 span,
+        .course-card .bg-amber-400 i {
+            color: #1A0845 !important;
+        }
+
+        .course-card .bg-teal-400,
+        .course-card .bg-teal-400 span,
+        .course-card .bg-teal-400 i {
+            color: #042F2E !important;
         }
 
         .course-card .border-canvas-border {
             border-color: #38156B !important;
+        }
+
+        /* Subheader Bar Color Reversal & High-Contrast Typography */
+        #learning-filter-bar {
+            background: #120526 !important;
+            border-bottom: 1px solid #38146F !important;
+            color: #FFFFFF !important;
+        }
+
+        #learning-filter-bar h1,
+        #learning-filter-bar h2,
+        #learning-filter-bar h3,
+        #learning-filter-bar .font-heading,
+        #learning-filter-bar .subheader-title {
+            font-family: 'Outfit', sans-serif !important;
+            color: #FFFFFF !important;
+        }
+
+        #learning-filter-bar p {
+            color: #E2D9F3 !important;
+        }
+
+        #learning-filter-bar .text-amber-300,
+        #learning-filter-bar .text-amber-400 {
+            color: #FBBF24 !important;
         }
 
         .bg-canvas-surface {
@@ -593,6 +663,9 @@
                             <span class="text-xs text-purple-300 font-mono hidden sm:inline">&bull; Locked To
                                 Purchase</span>
                         </div>
+                        <h1 class="font-heading font-black text-base sm:text-lg text-white tracking-tight leading-snug mt-1 mb-0.5">
+                            Novelty Engineering &amp; C# Gag Architecture
+                        </h1>
                         <p
                             class="text-xs sm:text-sm font-normal text-purple-200/90 leading-relaxed text-left max-w-4xl m-0 mt-0.5">
                             Exclusive university-grade novelty sciences &amp; C# gag architecture. These specialized
