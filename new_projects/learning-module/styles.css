@@ -358,3 +358,545 @@ body {
     padding: 2rem 3.5rem;
   }
 }
+
+/* ═══════════════════════════════════════════════════════════════════
+   4. RETRO CRT TV STACK (3x3 ARRAY) & TV STATIC TRANSITIONS
+   ═══════════════════════════════════════════════════════════════════ */
+
+/* Top Antenna Mast Assembly */
+.tv-antenna-wrapper {
+  display: flex;
+  justify-content: center;
+  align-items: flex-end;
+  height: 38px;
+  position: relative;
+  margin-bottom: -6px;
+  z-index: 15;
+  pointer-events: none;
+}
+
+.tv-antenna-base {
+  width: 48px;
+  height: 12px;
+  background: linear-gradient(180deg, #475569 0%, #1e293b 100%);
+  border: 1px solid #64748b;
+  border-radius: 6px 6px 0 0;
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.6);
+  position: relative;
+}
+
+.tv-antenna-mast {
+  position: absolute;
+  bottom: 8px;
+  width: 3px;
+  height: 44px;
+  background: linear-gradient(180deg, #e2e8f0 0%, #94a3b8 60%, #475569 100%);
+  transform-origin: bottom center;
+  box-shadow: 0 0 6px rgba(255, 255, 255, 0.4);
+}
+
+.tv-antenna-mast.left {
+  left: 14px;
+  transform: rotate(-32deg);
+}
+
+.tv-antenna-mast.right {
+  right: 14px;
+  transform: rotate(32deg);
+}
+
+.tv-antenna-tip {
+  position: absolute;
+  top: -5px;
+  left: -3px;
+  width: 9px;
+  height: 9px;
+  border-radius: 50%;
+  background: #38bdf8;
+  box-shadow: 0 0 10px #38bdf8, 0 0 18px #0284c7;
+  animation: antennaPulse 2.4s infinite ease-in-out;
+}
+
+@keyframes antennaPulse {
+  0%, 100% { opacity: 0.6; transform: scale(0.9); }
+  50% { opacity: 1; transform: scale(1.15); filter: drop-shadow(0 0 8px #38bdf8); }
+}
+
+/* Master TV Stack Rack Cabinet */
+.tv-stack-rack {
+  background: linear-gradient(180deg, #131926 0%, #0a0e17 100%);
+  border: 2px solid #2d3748;
+  border-radius: 18px;
+  box-shadow: 
+    0 25px 60px -15px rgba(0, 0, 0, 0.85),
+    0 0 0 1px rgba(255, 255, 255, 0.08) inset,
+    0 0 35px rgba(2, 132, 199, 0.12);
+  position: relative;
+  overflow: hidden;
+  padding: 1.25rem;
+}
+
+@media (min-width: 640px) {
+  .tv-stack-rack {
+    padding: 1.75rem;
+  }
+}
+
+@media (min-width: 1024px) {
+  .tv-stack-rack {
+    padding: 2.25rem;
+  }
+}
+
+/* Industrial Corner Brackets with Screw Rivets */
+.tv-stack-rack::before,
+.tv-stack-rack::after {
+  content: '';
+  position: absolute;
+  width: 14px;
+  height: 14px;
+  border: 2px solid #64748b;
+  border-radius: 50%;
+  background: radial-gradient(circle, #94a3b8 35%, #1e293b 80%);
+  box-shadow: inset 0 1px 2px rgba(0, 0, 0, 0.8), 0 1px 3px rgba(0, 0, 0, 0.6);
+  z-index: 12;
+}
+
+.tv-stack-rack::before {
+  top: 14px;
+  left: 14px;
+}
+
+.tv-stack-rack::after {
+  top: 14px;
+  right: 14px;
+}
+
+/* TV Stack Crown / Console Header */
+.tv-stack-console-header {
+  background: linear-gradient(90deg, #0e1422 0%, #161e30 50%, #0e1422 100%);
+  border: 1px solid #334155;
+  border-radius: 12px;
+  padding: 0.85rem 1.25rem;
+  margin-bottom: 1.5rem;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  flex-wrap: wrap;
+  gap: 0.85rem;
+  box-shadow: inset 0 2px 4px rgba(0, 0, 0, 0.6), 0 2px 8px rgba(0, 0, 0, 0.4);
+}
+
+/* Retro Ventilation Slits */
+.tv-vent-slits {
+  display: flex;
+  gap: 3.5px;
+}
+
+.tv-vent-slit {
+  width: 3px;
+  height: 16px;
+  background: #020617;
+  border-radius: 2px;
+  box-shadow: inset 0 1px 2px #000000, 0 1px 0 rgba(255, 255, 255, 0.08);
+}
+
+/* Console Status Meters & VU Bars */
+.tv-console-meter {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+.tv-vu-meter-bar {
+  display: flex;
+  gap: 2px;
+  align-items: flex-end;
+  height: 14px;
+}
+
+.tv-vu-pip {
+  width: 3.5px;
+  height: 100%;
+  border-radius: 1px;
+  background: #334155;
+}
+
+.tv-vu-pip.active-green {
+  background: #10b981;
+  box-shadow: 0 0 6px #10b981;
+}
+
+.tv-vu-pip.active-amber {
+  background: #f59e0b;
+  box-shadow: 0 0 6px #f59e0b;
+}
+
+.tv-vu-pip.active-cyan {
+  background: #06b6d4;
+  box-shadow: 0 0 6px #06b6d4;
+}
+
+/* Interactive Degauss / Static Button on Console */
+.tv-degauss-btn {
+  background: linear-gradient(180deg, #1e293b 0%, #0f172a 100%);
+  border: 1px solid #475569;
+  border-radius: 6px;
+  color: #e2e8f0;
+  font-family: var(--font-mono);
+  font-size: 0.72rem;
+  font-weight: 700;
+  padding: 0.35rem 0.75rem;
+  display: inline-flex;
+  align-items: center;
+  gap: 0.4rem;
+  cursor: pointer;
+  box-shadow: 0 3px 6px rgba(0, 0, 0, 0.5), inset 0 1px 0 rgba(255, 255, 255, 0.15);
+  transition: all 0.15s ease;
+}
+
+.tv-degauss-btn:hover {
+  background: linear-gradient(180deg, #334155 0%, #1e293b 100%);
+  border-color: #38bdf8;
+  color: #38bdf8;
+  box-shadow: 0 0 12px rgba(56, 189, 248, 0.4);
+}
+
+.tv-degauss-btn:active {
+  transform: translateY(1px);
+  box-shadow: inset 0 2px 4px rgba(0, 0, 0, 0.8);
+}
+
+/* TV Shelf Tier Divider */
+.tv-shelf-tier {
+  border-top: 2px solid #1e293b;
+  padding-top: 1.5rem;
+  position: relative;
+}
+
+.tv-shelf-tier:first-of-type {
+  border-top: none;
+  padding-top: 0;
+}
+
+.tv-tier-rail {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 1rem;
+  padding-bottom: 0.5rem;
+  border-bottom: 1px solid rgba(51, 65, 85, 0.4);
+}
+
+/* ═══════════════════════════════════════════════════════════════════
+   5. INDIVIDUAL CRT TELEVISION UNIT (3x3 MODULES)
+   ═══════════════════════════════════════════════════════════════════ */
+.tv-crt-unit {
+  background: linear-gradient(160deg, #1e2738 0%, #101624 55%, #0a0e18 100%);
+  border: 1px solid #334155;
+  border-radius: 16px;
+  box-shadow: 
+    0 12px 28px rgba(0, 0, 0, 0.65),
+    0 0 0 1px rgba(255, 255, 255, 0.1) inset,
+    0 2px 0 rgba(255, 255, 255, 0.15) inset;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  padding: 0.85rem;
+  position: relative;
+  transition: transform 0.22s cubic-bezier(0.16, 1, 0.3, 1), box-shadow 0.22s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.tv-crt-unit:hover {
+  transform: translateY(-2px);
+  border-color: #64748b;
+  box-shadow: 
+    0 18px 36px rgba(0, 0, 0, 0.8),
+    0 0 20px rgba(56, 189, 248, 0.2),
+    0 0 0 1px rgba(56, 189, 248, 0.3) inset;
+}
+
+/* Recessed Screen Bezel */
+.tv-crt-bezel {
+  background: #070b13;
+  border: 2px solid #1a2336;
+  border-radius: 12px;
+  padding: 0.85rem 1rem;
+  box-shadow: 
+    inset 0 4px 14px rgba(0, 0, 0, 0.95),
+    0 1px 1px rgba(255, 255, 255, 0.08);
+  position: relative;
+  overflow: hidden;
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  min-height: 220px;
+}
+
+/* Curved CRT Glass Screen Bulb */
+.tv-crt-screen {
+  background: radial-gradient(ellipse at 50% 35%, #0d1527 0%, #050811 75%, #020409 100%);
+  border-radius: 8px;
+  position: relative;
+  z-index: 2;
+  box-shadow: inset 0 0 35px rgba(0, 0, 0, 0.95);
+  padding: 0.25rem;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  height: 100%;
+}
+
+/* CRT Scanlines Overlay */
+.tv-crt-scanlines {
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  background: repeating-linear-gradient(
+    0deg,
+    rgba(0, 0, 0, 0) 0px,
+    rgba(0, 0, 0, 0) 2px,
+    rgba(0, 0, 0, 0.42) 2px,
+    rgba(0, 0, 0, 0.42) 4px
+  );
+  z-index: 5;
+  border-radius: 8px;
+  opacity: 0.85;
+}
+
+/* Glass Glare Reflection Across Upper Corner */
+.tv-crt-glare {
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 45%;
+  background: linear-gradient(135deg, rgba(255, 255, 255, 0.08) 0%, rgba(255, 255, 255, 0.02) 40%, transparent 60%);
+  pointer-events: none;
+  border-top-left-radius: 8px;
+  border-top-right-radius: 8px;
+  z-index: 6;
+}
+
+/* Screen OSD (On-Screen Display) */
+.tv-crt-osd {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  font-family: var(--font-mono);
+  font-size: 0.68rem;
+  font-weight: 700;
+  letter-spacing: 0.05em;
+  padding-bottom: 0.5rem;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+  margin-bottom: 0.65rem;
+  position: relative;
+  z-index: 4;
+}
+
+.tv-osd-rec {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.35rem;
+}
+
+.tv-osd-dot {
+  width: 6px;
+  height: 6px;
+  border-radius: 50%;
+  animation: osdFlicker 1.8s infinite ease-in-out;
+}
+
+@keyframes osdFlicker {
+  0%, 100% { opacity: 0.3; }
+  50% { opacity: 1; box-shadow: 0 0 8px currentColor; }
+}
+
+/* Module Screen Chapter Headline */
+.tv-crt-headline {
+  font-family: var(--font-headline);
+  font-weight: 800;
+  font-size: 1.02rem;
+  line-height: 1.25;
+  margin-bottom: 0.5rem;
+  letter-spacing: -0.015em;
+  position: relative;
+  z-index: 4;
+  text-shadow: 0 0 12px currentColor;
+}
+
+/* Module Description Text on CRT Glass */
+.tv-crt-desc {
+  font-family: var(--font-sans);
+  font-size: 0.76rem;
+  line-height: 1.55;
+  color: #cbd5e1;
+  margin-bottom: 0.75rem;
+  position: relative;
+  z-index: 4;
+}
+
+/* Core Concepts Retro Terminal Tags */
+.tv-crt-tags {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.35rem;
+  font-family: var(--font-mono);
+  font-size: 0.68rem;
+  padding-top: 0.5rem;
+  border-top: 1px solid rgba(255, 255, 255, 0.08);
+  position: relative;
+  z-index: 4;
+}
+
+.tv-crt-chip {
+  padding: 0.15rem 0.45rem;
+  border-radius: 4px;
+  background: rgba(15, 23, 42, 0.8);
+  border: 1px solid rgba(255, 255, 255, 0.12);
+  color: #94a3b8;
+}
+
+/* Physical Hardware Control Strip (Bottom of TV unit) */
+.tv-crt-controls {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding-top: 0.75rem;
+  margin-top: 0.5rem;
+  position: relative;
+  z-index: 3;
+}
+
+/* Rotary Knob Dial */
+.tv-rotary-knob {
+  width: 20px;
+  height: 20px;
+  border-radius: 50%;
+  background: radial-gradient(circle, #475569 35%, #1e293b 85%);
+  border: 1.5px solid #64748b;
+  box-shadow: 0 3px 6px rgba(0, 0, 0, 0.8), inset 0 1px 2px rgba(255, 255, 255, 0.3);
+  position: relative;
+  cursor: pointer;
+  transition: transform 0.2s ease;
+}
+
+.tv-rotary-knob::before {
+  content: '';
+  position: absolute;
+  top: 2px;
+  left: 50%;
+  width: 2px;
+  height: 5px;
+  background: #ffffff;
+  transform: translateX(-50%);
+  border-radius: 1px;
+}
+
+.tv-rotary-knob:hover {
+  transform: rotate(45deg);
+}
+
+/* Speaker Pinholes */
+.tv-speaker-pinholes {
+  display: flex;
+  gap: 3px;
+  align-items: center;
+}
+
+.tv-speaker-dot {
+  width: 2.5px;
+  height: 2.5px;
+  border-radius: 50%;
+  background: #020617;
+  box-shadow: 0 1px 0 rgba(255, 255, 255, 0.1);
+}
+
+/* ═══════════════════════════════════════════════════════════════════
+   6. TV STATIC NOISE OVERLAY & TAB TRANSITION SYSTEM
+   ═══════════════════════════════════════════════════════════════════ */
+#osMainContentArea {
+  position: relative;
+  min-height: 480px;
+}
+
+/* Static Noise Overlay Canvas */
+.tv-static-canvas {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  z-index: 60;
+  pointer-events: none;
+  image-rendering: pixelated;
+  image-rendering: crisp-edges;
+  border-radius: 1rem;
+  opacity: 0;
+  transition: opacity 0.08s ease-in-out;
+}
+
+.tv-static-canvas.active {
+  opacity: 1;
+}
+
+/* CRT Channel Switch Scanline Roll Bar */
+.tv-scan-roll-bar {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 14px;
+  background: linear-gradient(180deg, transparent 0%, rgba(255, 255, 255, 0.85) 50%, transparent 100%);
+  box-shadow: 0 0 15px rgba(255, 255, 255, 0.8);
+  pointer-events: none;
+  z-index: 65;
+  opacity: 0;
+}
+
+.tv-scan-roll-bar.rolling {
+  opacity: 1;
+  animation: tvScanRoll 0.35s linear;
+}
+
+@keyframes tvScanRoll {
+  0% { top: -20px; }
+  100% { top: 100%; }
+}
+
+/* CRT Turn-on / Turn-off Beam Expand Effect */
+.tv-crt-beam-wipe {
+  position: absolute;
+  top: 50%;
+  left: 0;
+  width: 100%;
+  height: 2px;
+  background: #ffffff;
+  box-shadow: 0 0 20px #ffffff, 0 0 40px #38bdf8;
+  z-index: 70;
+  pointer-events: none;
+  opacity: 0;
+  transform: translateY(-50%) scaleX(0);
+}
+
+.tv-crt-beam-wipe.expanding {
+  opacity: 1;
+  animation: tvBeamExpand 0.3s ease-out forwards;
+}
+
+@keyframes tvBeamExpand {
+  0% { transform: translateY(-50%) scaleX(0.01) scaleY(1); opacity: 1; }
+  45% { transform: translateY(-50%) scaleX(1) scaleY(1); opacity: 1; }
+  75% { transform: translateY(-50%) scaleX(1) scaleY(120); opacity: 0.8; }
+  100% { transform: translateY(-50%) scaleX(1) scaleY(1); opacity: 0; }
+}
+
+/* Text Glitch / Static Scramble Animation */
+.tv-scrambling-text {
+  filter: blur(1px) contrast(150%);
+  color: #38bdf8 !important;
+  text-shadow: 2px 0 0 rgba(239, 68, 68, 0.7), -2px 0 0 rgba(14, 165, 233, 0.7) !important;
+  user-select: none;
+}
+

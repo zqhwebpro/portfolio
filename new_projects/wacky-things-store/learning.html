@@ -163,32 +163,33 @@
             box-shadow: 0 15px 35px -5px rgba(0, 0, 0, 0.9), 0 0 20px rgba(245, 158, 11, 0.2) !important;
         }
 
-        /* Fully Reversible Course Card Typography & Cosmic Contrast */
+        /* Fully Reversible Course Card Typography: Pure White Background with Black Text */
         .course-card,
         .bg-canvas-card {
-            background: #130628 !important;
-            border: 1px solid #3B1578 !important;
-            color: #F5F3FF !important;
+            background: #ffffff !important;
+            border: 1px solid #e2e8f0 !important;
+            color: #0f172a !important;
+            box-shadow: 0 10px 25px -5px rgba(0, 0, 0, 0.12), 0 8px 10px -6px rgba(0, 0, 0, 0.06) !important;
         }
 
         .course-card h3,
         .course-card .font-heading,
         .course-card .course-title {
             font-family: 'Outfit', sans-serif !important;
-            color: #FFFFFF !important;
+            color: #0f172a !important;
         }
 
         .course-card h3:hover,
         .course-card .font-heading:hover,
         .course-card .course-title:hover {
-            color: #FBBF24 !important;
+            color: #d97706 !important;
         }
 
         .course-card .text-gray-900,
         .course-card .text-gray-800,
         .course-card .text-slate-900,
         .course-card .text-black {
-            color: #FFFFFF !important;
+            color: #0f172a !important;
         }
 
         .course-card .text-gray-500,
@@ -196,74 +197,37 @@
         .course-card .text-gray-700,
         .course-card .text-earth-600,
         .course-card .text-earth-700 {
-            color: #DDD6FE !important;
+            color: #64748b !important;
         }
 
         .course-card p,
         .course-card .course-desc {
-            color: #E2D9F3 !important;
+            color: #475569 !important;
         }
 
         .course-card .instructor-name,
         .course-card [class*="instructor"] .font-bold {
-            color: #FFFFFF !important;
+            color: #0f172a !important;
         }
 
         .course-card .instructor-title {
-            color: #C4B5FD !important;
+            color: #64748b !important;
         }
 
-        /* Protect badge contrast against dark overrides */
-        .course-card .bg-amber-400,
-        .course-card .bg-amber-400 span,
-        .course-card .bg-amber-400 i {
-            color: #1A0845 !important;
-        }
-
-        .course-card .bg-teal-400,
-        .course-card .bg-teal-400 span,
-        .course-card .bg-teal-400 i {
-            color: #042F2E !important;
-        }
-
-        .course-card .border-canvas-border {
-            border-color: #38156B !important;
-        }
-
-        /* Subheader Bar Color Reversal & High-Contrast Typography */
-        #learning-filter-bar {
-            background: #120526 !important;
-            border-bottom: 1px solid #38146F !important;
-            color: #FFFFFF !important;
-        }
-
-        #learning-filter-bar h1,
-        #learning-filter-bar h2,
-        #learning-filter-bar h3,
-        #learning-filter-bar .font-heading,
-        #learning-filter-bar .subheader-title {
-            font-family: 'Outfit', sans-serif !important;
-            color: #FFFFFF !important;
-        }
-
-        #learning-filter-bar p {
-            color: #E2D9F3 !important;
-        }
-
-        #learning-filter-bar .text-amber-300,
-        #learning-filter-bar .text-amber-400 {
-            color: #FBBF24 !important;
+        .course-card .border-canvas-border,
+        .course-card .border-[#3B1578] {
+            border-color: #e2e8f0 !important;
         }
 
         .bg-canvas-surface {
-            background: #1D083A !important;
-            border-color: #3E1777 !important;
-            color: #F5F3FF !important;
+            background: #222b3a !important;
+            border-color: #334155 !important;
+            color: #f1f5f9 !important;
         }
 
         .bg-canvas-base {
-            background: #0A0318 !important;
-            color: #F5F3FF !important;
+            background: #1e2430 !important;
+            color: #f1f5f9 !important;
         }
 
         /* Standout Gradient Buttons with Luminous Elevation */
@@ -643,77 +607,51 @@
     </header>
 
     <!-- MAIN LEARNING MODULE CONTENT -->
-    <main class="bg-[#0A0318] text-white flex-1 w-full pt-0 pb-16">
-        <!-- Attached Sub-Header Bar -->
-        <div id="learning-filter-bar"
-            class="w-full bg-[#120526] border-b border-[#38146F] shadow-md sticky top-[68px] z-30">
-            <div
-                class="store-fluid-container py-3 sm:py-4 flex flex-col xl:flex-row xl:items-center justify-between gap-3.5 xl:gap-8 w-full">
-                <div class="flex items-start gap-2.5 sm:gap-3 flex-1 min-w-0">
-                    <div
-                        class="h-8 w-8 rounded-xl bg-[#1E0B3C] text-amber-400 border border-[#481A85] flex items-center justify-center text-sm shrink-0 mt-0.5 shadow-xs">
-                        <i class="fa-solid fa-graduation-cap"></i>
-                    </div>
-                    <div>
-                        <div class="flex items-center gap-2">
-                            <span
-                                class="px-2.5 py-0.5 rounded-full bg-amber-400/20 text-amber-300 border border-amber-400/30 text-[10px] font-mono font-black uppercase tracking-wider shadow-xs">
-                                WackyDash LMS Architecture
-                            </span>
-                            <span class="text-xs text-purple-300 font-mono hidden sm:inline">&bull; Locked To
-                                Purchase</span>
-                        </div>
-                        <h1 class="font-heading font-black text-base sm:text-lg text-white tracking-tight leading-snug mt-1 mb-0.5">
-                            Novelty Engineering &amp; C# Gag Architecture
-                        </h1>
-                        <p
-                            class="text-xs sm:text-sm font-normal text-purple-200/90 leading-relaxed text-left max-w-4xl m-0 mt-0.5">
-                            Exclusive university-grade novelty sciences &amp; C# gag architecture. These specialized
-                            curriculums are accessible only on this page and are decoupled from physical store
-                            inventory.
-                        </p>
-                    </div>
-                </div>
-
-                <div class="hidden xl:block h-10 w-[1px] bg-[#38156B] shrink-0"></div>
-
-                <!-- Track Filters -->
-                <div class="flex flex-wrap items-center gap-1.5 sm:gap-2 text-xs shrink-0 overflow-x-auto pb-1 xl:pb-0">
-                    <button onclick="window.filterCourseCategory('all')" id="course-filter-all"
-                        class="course-cat-btn px-4 py-2 rounded-xl font-bold transition-all bg-[#F59E0B] text-white shadow-md shadow-amber-500/30 text-[11px] sm:text-xs cursor-pointer">
-                        All Tracks
-                    </button>
-                    <button onclick="window.filterCourseCategory('Absurd Physics')" id="course-filter-physics"
-                        class="course-cat-btn px-4 py-2 rounded-xl font-bold transition-all bg-[#1A0736] hover:bg-[#2A0E52] text-purple-200 border border-[#3E1777] text-[11px] sm:text-xs shadow-xs cursor-pointer">
-                        Absurd Physics
-                    </button>
-                    <button onclick="window.filterCourseCategory('Novelty Engineering')" id="course-filter-engineering"
-                        class="course-cat-btn px-4 py-2 rounded-xl font-bold transition-all bg-[#1A0736] hover:bg-[#2A0E52] text-purple-200 border border-[#3E1777] text-[11px] sm:text-xs shadow-xs cursor-pointer">
-                        Novelty Engineering
-                    </button>
-                    <button onclick="window.filterCourseCategory('C# &amp; Gag Architecture')"
-                        id="course-filter-architecture"
-                        class="course-cat-btn px-4 py-2 rounded-xl font-bold transition-all bg-[#1A0736] hover:bg-[#2A0E52] text-purple-200 border border-[#3E1777] text-[11px] sm:text-xs shadow-xs cursor-pointer">
-                        C# &amp; Gag Architecture
-                    </button>
-                    <button onclick="window.scrollToZoomWebinar()"
-                        class="px-4 py-2 rounded-xl font-bold transition-all bg-gradient-to-r from-amber-500 to-orange-500 hover:from-amber-600 hover:to-orange-600 text-white shadow-md shadow-orange-600/30 text-[11px] sm:text-xs flex items-center gap-1.5 cursor-pointer">
-                        <i class="fa-solid fa-video text-amber-200"></i>
-                        <span>Live Webinar</span>
-                    </button>
-                </div>
-            </div>
-        </div>
-
-
+    <main class="bg-[#1e2430] text-white flex-1 w-full pt-4 pb-16">
         <!-- COURSES CATALOG GRID -->
         <div class="store-fluid-container py-6 w-full">
-            <div class="flex items-center justify-between mb-6">
+            <div class="flex flex-col lg:flex-row lg:items-center justify-between gap-4 mb-6">
                 <div>
                     <h2 class="font-heading font-black text-xl sm:text-2xl text-white flex items-center gap-2.5">
                         <i class="fa-solid fa-layer-group text-[#F59E0B]"></i>
                         <span>Featured Curriculums</span>
                     </h2>
+                    <p class="text-xs text-slate-300 mt-0.5">
+                        Showing courses accessible exclusively on this page. All modules are locked to purchase.
+                    </p>
+                </div>
+
+                <!-- Track Filters -->
+                <div class="flex flex-wrap items-center gap-1.5 sm:gap-2 text-xs shrink-0 overflow-x-auto pb-1 lg:pb-0">
+                    <button onclick="window.filterCourseCategory('all')" id="course-filter-all"
+                        class="course-cat-btn px-3 sm:px-3.5 py-1.5 rounded-xl font-bold transition-all bg-[#F59E0B] text-white text-[11px] sm:text-xs cursor-pointer shadow-xs">
+                        All Tracks
+                    </button>
+                    <button onclick="window.filterCourseCategory('Absurd Physics')" id="course-filter-physics"
+                        class="course-cat-btn px-3 sm:px-3.5 py-1.5 rounded-xl font-bold transition-all bg-[#273142] hover:bg-[#334155] text-slate-200 border border-[#475569] text-[11px] sm:text-xs cursor-pointer">
+                        Absurd Physics
+                    </button>
+                    <button onclick="window.filterCourseCategory('Novelty Engineering')" id="course-filter-engineering"
+                        class="course-cat-btn px-3 sm:px-3.5 py-1.5 rounded-xl font-bold transition-all bg-[#273142] hover:bg-[#334155] text-slate-200 border border-[#475569] text-[11px] sm:text-xs cursor-pointer">
+                        Novelty Engineering
+                    </button>
+                    <button onclick="window.filterCourseCategory('C# &amp; Gag Architecture')"
+                        id="course-filter-architecture"
+                        class="course-cat-btn px-3 sm:px-3.5 py-1.5 rounded-xl font-bold transition-all bg-[#273142] hover:bg-[#334155] text-slate-200 border border-[#475569] text-[11px] sm:text-xs cursor-pointer">
+                        C# &amp; Gag Architecture
+                    </button>
+                    <button onclick="window.scrollToZoomWebinar()"
+                        class="px-3 sm:px-3.5 py-1.5 rounded-xl font-bold transition-all bg-gradient-to-r from-amber-500 to-orange-500 hover:from-amber-600 hover:to-orange-600 text-white text-[11px] sm:text-xs flex items-center gap-1.5 cursor-pointer shadow-xs">
+                        <i class="fa-solid fa-video text-amber-200"></i>
+                        <span>Live Webinar</span>
+                    </button>
+                    <a href="./index.html"
+                        class="hidden sm:flex items-center gap-2 px-3.5 py-1.5 rounded-xl bg-[#273142] hover:bg-[#334155] text-slate-200 text-xs font-bold transition-all border border-[#475569] no-underline ml-1">
+                        <i class="fa-solid fa-shop text-amber-300"></i>
+                        <span>Store Catalog</span>
+                    </a>
+                </div>
+            </div>
                     <p class="text-xs text-purple-300/80 mt-0.5">
                         Showing courses accessible exclusively on this page. All modules are locked to purchase.
                     </p>

@@ -7,20 +7,13 @@
     <meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate" />
     <meta http-equiv="Pragma" content="no-cache" />
     <meta http-equiv="Expires" content="0" />
-    <title>DinerDashboard // Modern Diner Kitchen POS & Fleet Dispatch OS</title>
+    <title>DinerDashboard // Modern Diner Kitchen POS & Fleet Dispatch</title>
     <meta name="description"
-        content="DinerDashboard modern diner kitchen POS & delivery dispatch system. Hybrid Google Analytics telemetry, SEO Spider technical crawl matrix, and Microsoft Excel spreadsheet architecture for POS and delivery fleet integration." />
+        content="DinerDashboard: Modern diner kitchen POS & delivery dispatch system inspired by clean, tactile Bevel health & telemetry UI architecture." />
     <meta name="keywords"
-        content="DinerDashboard, Diner POS, Delivery API Spider, Google Analytics Dashboard, SEO Spider Audit Matrix, Excel Spreadsheet UI, Toast POS, DoorDash Drive, Uber Direct, Grubhub Direct, Square, Clover, .NET 9" />
+        content="DinerDashboard, Diner POS, Delivery API Spider, Toast POS, DoorDash Drive, Uber Direct, Grubhub Direct, Square, Clover, .NET 9" />
     <meta name="author" content="Zach Heindel - DinerDashboard Kitchen & Delivery Dispatch" />
     <link rel="canonical" href="https://zqhwebpro.github.io/portfolio/new_projects/net-c-delivery/index.html" />
-
-    <!-- Open Graph / Social -->
-    <meta property="og:type" content="website" />
-    <meta property="og:title" content="DinerDashboard // Modern Diner Kitchen POS & Fleet Dispatch OS" />
-    <meta property="og:description"
-        content="DinerDashboard: Big tactile push-button kitchen dispatch and delivery fleet control. Google Analytics telemetry meets SEO Spider crawl matrix meets Excel spreadsheet engine." />
-    <meta property="og:image" content="./images/hero-cheesesteak.jpg" />
 
     <!-- Sitewide Favicon -->
     <link rel="icon" href="./favicon.png" type="image/png" />
@@ -30,30 +23,24 @@
     <!-- FontAwesome 6.5.1 CDN -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
 
-    <!-- Google Fonts: Inter, JetBrains Mono, Space Grotesk & Outfit -->
+    <!-- Google Fonts: Inter & JetBrains Mono -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link
-        href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;500;600;700&family=Outfit:wght@600;700;800;900&family=Space+Grotesk:wght@500;600;700&display=swap"
-        rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&family=JetBrains+Mono:wght@400;500;600;700&display=swap" rel="stylesheet">
 
     <!-- Bootstrap 5.3.3 CSS for Modal Dialog Support -->
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet"
         integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
 
-    <!-- Custom Apex-OS Stylesheet Based on User Color Scheme Pattern -->
+    <!-- Bevel Aesthetic Stylesheet -->
     <link rel="stylesheet" href="./apex-theme.css">
 </head>
 
 <body>
 
     <!-- Persistent Portfolio Navigation Anchors -->
-    <a id="back-btn-np" href="../" title="Back to Projects"
-        style="position:fixed;top:0;right:0;z-index:99999;display:inline-flex;align-items:center;justify-content:center;width:34px;height:34px;background:#ffffff;border:0;border-bottom:1px solid #999999;border-left:1px solid #999999;border-radius:0 0 0 8px;color:#000000;font-family:system-ui,sans-serif;font-size:1rem;font-weight:700;text-decoration:none;box-shadow:-2px 2px 8px rgba(0,0,0,0.08);">
-        &#8592;
-    </a>
-    <a id="case-study-btn-np" href="./case-study.html" title="Case Study" aria-label="Case Study"
-        style="position:fixed;bottom:0;left:0;z-index:99999;display:inline-flex;align-items:center;justify-content:center;width:34px;height:34px;background:#ffffff;border:0;border-top:1px solid #999999;border-right:1px solid #999999;border-radius:0 8px 0 0;color:#000000;font-family:system-ui,sans-serif;font-size:0.95rem;text-decoration:none;box-shadow:2px -2px 8px rgba(0,0,0,0.08);">
+    <a id="back-btn-np" href="../" title="Back to Projects">&#8592;</a>
+    <a id="case-study-btn-np" href="./case-study.html" title="Case Study" aria-label="Case Study">
         <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
             stroke-linecap="round" stroke-linejoin="round" style="display:block;">
             <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"></path>
@@ -65,525 +52,445 @@
     </a>
 
     <!-- ═══════════════════════════════════════════════════════════════════
-         1. DINERDASHBOARD SIMPLIFIED SYSTEM MENUBAR
-         Custom Non-Mac, Non-Windows, Non-Linux OS Menubar
+         BEVEL MOBILE / TABLET APP SHELL
+         Exact Layout & Aesthetics from Inspiration:
+         https://i.pinimg.com/1200x/97/f0/dd/97f0dd71f99ce78413e3c2a2883df60d.jpg
          ═══════════════════════════════════════════════════════════════════ -->
-    <header class="apex-os-menubar">
-        <!-- Left: OS Kernel Identifier & Navigation Buttons -->
-        <div class="d-flex align-items-center gap-3">
-            <div class="apex-os-brand">
-                <div class="diner-brand-icon" title="DinerDashboard Kitchen Dispatch OS">
-                    <i class="fa-solid fa-bell-concierge"></i>
+    <div class="bevel-app-shell">
+
+        <!-- 1. iOS Top Status Bar (9:41, Cellular, WiFi, Battery) -->
+        <header class="bevel-status-bar" aria-label="Device Status Bar">
+            <span id="statusBarClock">9:41</span>
+            <div class="bevel-status-icons">
+                <i class="fa-solid fa-signal" title="5G Full Signal"></i>
+                <i class="fa-solid fa-wifi" title="Kitchen WiFi Connected"></i>
+                <div class="bevel-battery-icon" title="100% Battery Charged">
+                    <div class="bevel-battery-fill"></div>
                 </div>
-                <div class="apex-os-title">
-                    <span class="apex-os-title-name">DinerDashboard</span>
-                    <span class="apex-os-kernel-badge">KITCHEN DISPATCH // .NET 9</span>
+            </div>
+        </header>
+
+        <!-- 2. CARD 1: "Today's food" & "876 kcal" (Dot-Matrix & Segmented Dial) -->
+        <section class="bevel-card" aria-label="Today's Food and Orders Breakdown">
+            <div class="bevel-card-header">
+                <span class="bevel-card-title">Today's food</span>
+                <span class="bevel-card-stat" id="cardTodayKcal">876 kcal</span>
+            </div>
+
+            <div class="food-card-body">
+                <!-- 3 Dot-Matrix Columns (Protein, Carbs, Fats / Dine-in, Delivery, Takeout) -->
+                <div class="dot-matrix-container">
+                    <!-- Column 1: Blue Dots -->
+                    <div class="dot-col">
+                        <div class="dot-grid">
+                            <span class="dot"></span><span class="dot"></span><span class="dot"></span><span class="dot"></span>
+                            <span class="dot"></span><span class="dot"></span><span class="dot"></span><span class="dot"></span>
+                            <span class="dot"></span><span class="dot"></span><span class="dot"></span><span class="dot"></span>
+                            <span class="dot"></span><span class="dot"></span><span class="dot"></span><span class="dot"></span>
+                            <span class="dot blue-active"></span><span class="dot blue-active"></span><span class="dot blue-active"></span><span class="dot"></span>
+                            <span class="dot blue-active"></span><span class="dot blue-active"></span><span class="dot blue-active"></span><span class="dot blue-active"></span>
+                        </div>
+                        <div class="dot-label blue">
+                            <span>🐟</span> <span>33g</span>
+                        </div>
+                    </div>
+
+                    <!-- Column 2: Orange Dots -->
+                    <div class="dot-col">
+                        <div class="dot-grid">
+                            <span class="dot"></span><span class="dot"></span><span class="dot"></span><span class="dot"></span>
+                            <span class="dot"></span><span class="dot"></span><span class="dot"></span><span class="dot"></span>
+                            <span class="dot orange-active"></span><span class="dot orange-active"></span><span class="dot orange-active"></span><span class="dot"></span>
+                            <span class="dot orange-active"></span><span class="dot orange-active"></span><span class="dot orange-active"></span><span class="dot orange-active"></span>
+                            <span class="dot orange-active"></span><span class="dot orange-active"></span><span class="dot orange-active"></span><span class="dot orange-active"></span>
+                            <span class="dot orange-active"></span><span class="dot orange-active"></span><span class="dot orange-active"></span><span class="dot orange-active"></span>
+                        </div>
+                        <div class="dot-label orange">
+                            <span>🌾</span> <span>101g</span>
+                        </div>
+                    </div>
+
+                    <!-- Column 3: Pink Dots -->
+                    <div class="dot-col">
+                        <div class="dot-grid">
+                            <span class="dot"></span><span class="dot"></span><span class="dot"></span><span class="dot"></span>
+                            <span class="dot"></span><span class="dot"></span><span class="dot"></span><span class="dot"></span>
+                            <span class="dot"></span><span class="dot"></span><span class="dot"></span><span class="dot"></span>
+                            <span class="dot"></span><span class="dot"></span><span class="dot"></span><span class="dot"></span>
+                            <span class="dot pink-active"></span><span class="dot pink-active"></span><span class="dot pink-active"></span><span class="dot pink-active"></span>
+                            <span class="dot pink-active"></span><span class="dot pink-active"></span><span class="dot pink-active"></span><span class="dot pink-active"></span>
+                        </div>
+                        <div class="dot-label pink">
+                            <span>🍗</span> <span>47g</span>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Circular Segmented Dial Gauge ("60 fair") -->
+                <div class="segmented-dial-box" title="Nutrition & Health Score: 60 Fair">
+                    <svg class="segmented-dial-svg" viewBox="0 0 100 100">
+                        <circle cx="50" cy="50" r="40" fill="none" stroke="#e5e7eb" stroke-width="6" stroke-dasharray="2.5 5.5" stroke-linecap="round"/>
+                        <circle cx="50" cy="50" r="40" fill="none" stroke="#5b82f6" stroke-width="6" stroke-dasharray="2.5 5.5" stroke-dashoffset="65" stroke-linecap="round"/>
+                    </svg>
+                    <div class="dial-center-text">
+                        <span class="dial-number" id="dialScoreVal">60</span>
+                        <span class="dial-subtext">fair</span>
+                    </div>
                 </div>
             </div>
 
-            <!-- Simplified OS In-Workspace View Switcher -->
-            <nav class="apex-os-menu-items d-none d-md-flex ms-2">
-                <button type="button" class="apex-os-menu-btn active" id="menuBtnStep1" onclick="switchSheet('delivery')">
-                    <i class="fa-solid fa-network-wired"></i>
-                    <span>Step 1: Gateways</span>
+            <!-- Card 1 Bottom Toolbar: 5 Icons -->
+            <div class="food-card-toolbar">
+                <button type="button" class="food-tool-btn" onclick="openMenuCatalogDrawer()" title="Menu Gallery">
+                    <i class="fa-regular fa-image"></i>
                 </button>
-                <button type="button" class="apex-os-menu-btn" id="menuBtnStep2" onclick="switchSheet('menu')">
-                    <i class="fa-solid fa-utensils"></i>
-                    <span>Step 2: Menu Catalog</span>
+                <button type="button" class="food-tool-btn" onclick="simulateTicketScan()" title="Receipt / Ticket Camera Scan">
+                    <i class="fa-solid fa-camera"></i>
                 </button>
-                <button type="button" class="apex-os-menu-btn" id="menuBtnStep3" onclick="switchSheet('telemetry')">
-                    <i class="fa-solid fa-chart-line"></i>
-                    <span>Step 3: Telemetry</span>
+                <button type="button" class="food-tool-btn" onclick="simulateBarcodeScan()" title="Barcode Scanner">
+                    <i class="fa-solid fa-barcode"></i>
                 </button>
-            </nav>
-        </div>
-
-        <!-- Right Side: Realtime Telemetry Status, Audio Toggle, Ping & Clock -->
-        <div class="apex-os-actions">
-            <!-- Realtime Telemetry Indicator -->
-            <div class="apex-realtime-badge" id="realtimeIndicatorPill">
-                <span class="apex-pulse-dot"></span>
-                <span id="realtimeStatusText" class="fw-bold" style="color: var(--apex-black);">0/6 CONNECTED</span>
+                <button type="button" class="food-tool-btn ai-text" onclick="triggerAiOptimization()" title="AI Kitchen Prep Optimizer">
+                    AI
+                </button>
+                <button type="button" class="food-tool-btn" onclick="focusSearchInput()" title="Search Orders & Gateways">
+                    <i class="fa-solid fa-magnifying-glass"></i>
+                </button>
             </div>
-
-            <!-- Audio Synthesizer Toggle -->
-            <button type="button" class="apex-icon-btn" id="osAudioToggleBtn" onclick="toggleAudio()" title="Toggle OS Acoustic Feedback">
-                <i class="fa-solid fa-volume-high"></i>
-            </button>
-
-            <!-- Ping All Gateways -->
-            <button type="button" class="apex-btn-subtle d-none d-sm-inline-flex" onclick="simulateFullApiHealthCheck()" title="Ping all gateway routes">
-                <i class="fa-solid fa-arrows-rotate"></i> Ping All
-            </button>
-
-            <!-- Reset Walkthrough -->
-            <button type="button" class="apex-btn-subtle" onclick="resetWalkthrough()" title="Reset to initial unconfigured state">
-                <i class="fa-solid fa-rotate-left"></i> Reset
-            </button>
-
-            <!-- Live OS Clock -->
-            <span class="apex-clock d-none d-lg-inline-block" id="apexLiveClock">--:-- --</span>
-        </div>
-    </header>
-
-    <!-- ═══════════════════════════════════════════════════════════════════
-         DINER TOUCHPAD ACTION BAR (Playful & Sophisticated Push Buttons)
-         ═══════════════════════════════════════════════════════════════════ -->
-    <div class="diner-touchpad-bar" aria-label="Diner Quick Touch Controls">
-        <div class="diner-touchpad-container">
-            <!-- Iconic Brass Service Bell Button -->
-            <button type="button" class="tactile-btn tactile-btn-bell tactile-btn-lg" id="dinerBellBtn" onclick="ringDinerBell()" title="Ring Diner Kitchen Bell - Order Up!">
-                <i class="fa-solid fa-bell-concierge fa-lg"></i>
-                <span>Order Up! Bell</span>
-            </button>
-
-            <!-- Instant Connect All 6 Delivery Gateways -->
-            <button type="button" class="tactile-btn tactile-btn-cyan tactile-btn-md" id="dinerSyncAllBtn" onclick="autoConnectAllGateways()" title="Instant 1-Click Connect All 6 Delivery Gateways">
-                <i class="fa-solid fa-bolt"></i>
-                <span>Fast-Sync 6/6</span>
-            </button>
-
-            <!-- Push Ticket to Kitchen Line -->
-            <button type="button" class="tactile-btn tactile-btn-coral tactile-btn-md" id="dinerNewTicketBtn" onclick="spawnDinerTicket()" title="Push New Live Order to Kitchen Line">
-                <i class="fa-solid fa-fire-burner"></i>
-                <span>New Ticket</span>
-            </button>
-
-            <!-- Rush Courier Fleet -->
-            <button type="button" class="tactile-btn tactile-btn-mint tactile-btn-md" id="dinerRushFleetBtn" onclick="rushFleetDispatch()" title="Priority Dispatch Nearest Active Courier">
-                <i class="fa-solid fa-motorcycle"></i>
-                <span>Rush Couriers</span>
-            </button>
-
-            <!-- Network Ping Radar -->
-            <button type="button" class="tactile-btn tactile-btn-white tactile-btn-sm" id="dinerPingRadarBtn" onclick="simulateFullApiHealthCheck()" title="Ping All POS and Delivery APIs">
-                <i class="fa-solid fa-arrows-rotate"></i>
-                <span>Ping Radar</span>
-            </button>
-
-            <!-- Reset Setup State -->
-            <button type="button" class="tactile-btn tactile-btn-dark tactile-btn-sm" id="dinerResetBtn" onclick="resetWalkthrough()" title="Clear and Reset Walkthrough">
-                <i class="fa-solid fa-arrow-rotate-left"></i>
-                <span>Reset</span>
-            </button>
-        </div>
-    </div>
-
-    <!-- ═══════════════════════════════════════════════════════════════════
-         2. APEX WORKBOOK FORMULA BAR
-         ═══════════════════════════════════════════════════════════════════ -->
-    <div class="apex-formula-strip">
-        <div class="apex-cell-coord" id="excelActiveCellLabel">B4</div>
-        <div class="apex-fx-symbol">fx</div>
-        <input type="text" readonly class="apex-formula-display" id="excelFormulaInput"
-            value='=GATEWAY.DISPATCH(Provider="Uber Direct", Status="VERIFIED", Protocol="REST_OAuth2", Latency="18ms")'>
-    </div>
-
-    <!-- ═══════════════════════════════════════════════════════════════════
-         3. GOOGLE ANALYTICS TELEMETRY SCORECARDS (KPI TILES)
-         ═══════════════════════════════════════════════════════════════════ -->
-    <section class="apex-telemetry-grid" aria-label="Live Telemetry Scorecards">
-        <div class="apex-metric-card">
-            <div class="apex-metric-top">
-                <span>Active Gateways</span>
-                <i class="fa-solid fa-network-wired" style="color: var(--apex-cyan);"></i>
-            </div>
-            <div class="apex-metric-val">
-                <span id="metricActiveCount">0 / 6</span>
-                <span class="apex-metric-tag neutral" id="metricActiveDelta">Step 1 Ready</span>
-            </div>
-        </div>
-
-        <div class="apex-metric-card">
-            <div class="apex-metric-top">
-                <span>Average Response Latency</span>
-                <i class="fa-solid fa-bolt" style="color: var(--apex-cyan);"></i>
-            </div>
-            <div class="apex-metric-val">
-                <span id="metricAvgLatency">18.4 ms</span>
-                <span class="apex-metric-tag">99.98% SLA</span>
-            </div>
-        </div>
-
-        <div class="apex-metric-card">
-            <div class="apex-metric-top">
-                <span>Dispatched Telemetry Events</span>
-                <i class="fa-solid fa-chart-line" style="color: var(--apex-cyan);"></i>
-            </div>
-            <div class="apex-metric-val">
-                <span id="metricEventCount">1,428</span>
-                <span class="apex-metric-tag">+22.4% Today</span>
-            </div>
-        </div>
-
-        <div class="apex-metric-card">
-            <div class="apex-metric-top">
-                <span>POS Catalog Sync</span>
-                <i class="fa-solid fa-utensils" style="color: var(--apex-charcoal);"></i>
-            </div>
-            <div class="apex-metric-val">
-                <span id="metricCatalogSync">Pending API</span>
-                <span class="apex-metric-tag neutral" id="metricCatalogDelta">Step 2 Target</span>
-            </div>
-        </div>
-    </section>
-
-    <!-- ═══════════════════════════════════════════════════════════════════
-         4. STEPPER PROGRESS NOTICE STRIP
-         ═══════════════════════════════════════════════════════════════════ -->
-    <div class="apex-stepper-strip">
-        <div class="apex-stepper-steps">
-            <span class="apex-step-chip active" id="badgeStep1">
-                <i class="fa-solid fa-circle-dot"></i> Step 1: Gateway Integration
-            </span>
-            <span class="apex-step-chip locked" id="badgeStep2">
-                <i class="fa-solid fa-lock"></i> Step 2: Menu Catalog
-            </span>
-            <span class="apex-step-chip locked" id="badgeStep3">
-                <i class="fa-solid fa-lock"></i> Step 3: Telemetry Stream
-            </span>
-        </div>
-
-        <div>
-            <span class="apex-stepper-help" id="stepperGuidanceMessage">
-                <i class="fa-solid fa-circle-info me-1" style="color: var(--apex-cyan-dark);"></i>
-                Select a delivery provider row below and click <strong>Configure API</strong> to initiate Step 1.
-            </span>
-        </div>
-    </div>
-
-    <!-- ═══════════════════════════════════════════════════════════════════
-         5. SEO SPIDER CONTROL & FILTER TOOLBAR
-         ═══════════════════════════════════════════════════════════════════ -->
-    <div class="apex-spider-toolbar">
-        <div class="apex-filter-btns">
-            <span class="font-mono text-xs fw-bold me-1" style="color: var(--apex-charcoal);">SPIDER FILTER:</span>
-            <button type="button" class="apex-filter-btn active" onclick="filterSpiderRows('all', this)">
-                All Platforms (<span id="filterCountAll">6</span>)
-            </button>
-            <button type="button" class="apex-filter-btn" onclick="filterSpiderRows('connected', this)">
-                Connected (<span id="filterCountConnected">0</span>)
-            </button>
-            <button type="button" class="apex-filter-btn" onclick="filterSpiderRows('pending', this)">
-                Pending (<span id="filterCountPending">6</span>)
-            </button>
-            <button type="button" class="apex-filter-btn" onclick="filterSpiderRows('pos', this)">
-                POS Gateways (4)
-            </button>
-            <button type="button" class="apex-filter-btn" onclick="filterSpiderRows('fleet', this)">
-                White-Label Fleets (2)
-            </button>
-        </div>
-
-        <div class="d-flex align-items-center gap-2">
-            <div class="apex-search-wrapper">
-                <i class="fa-solid fa-magnifying-glass" style="color: var(--apex-mid-grey);"></i>
-                <input type="text" id="spiderSearchInput" placeholder="Filter by endpoint, provider, ID..." oninput="handleSpiderSearch(this.value)">
-            </div>
-            <button type="button" class="tactile-btn tactile-btn-coral tactile-btn-sm" onclick="seedSampleDispatchLog()" title="Simulate a real-time courier ping">
-                <i class="fa-solid fa-paper-plane"></i> Test Ping
-            </button>
-        </div>
-    </div>
-
-    <!-- ═══════════════════════════════════════════════════════════════════
-         6. MAIN WORKBOOK AREA: SPREADSHEET VIEWS (STEPS 1, 2, 3)
-         ═══════════════════════════════════════════════════════════════════ -->
-    <main class="apex-grid-viewport">
-
-        <!-- VIEW 1: STEP 1 INTEGRATION (API CRAWL SPREADSHEET) -->
-        <section id="sheet-view-delivery">
-            <table class="apex-table" id="spiderDataTable">
-                <thead>
-                    <!-- Excel Column Coordinates -->
-                    <tr>
-                        <th class="apex-col-coord" style="width: 38px;">#</th>
-                        <th class="apex-col-coord">A</th>
-                        <th class="apex-col-coord">B</th>
-                        <th class="apex-col-coord">C</th>
-                        <th class="apex-col-coord">D</th>
-                        <th class="apex-col-coord">E</th>
-                        <th class="apex-col-coord">F</th>
-                        <th class="apex-col-coord">G</th>
-                        <th class="apex-col-coord text-center">H</th>
-                    </tr>
-                    <!-- Semantic Data Headers -->
-                    <tr>
-                        <th class="text-center">ROW</th>
-                        <th>HTTP STATUS</th>
-                        <th>SERVICE / PROVIDER</th>
-                        <th>PROTOCOL &amp; ARCHITECTURE</th>
-                        <th>DEMOGRAPHIC MARKET SHARE</th>
-                        <th>CLIENT IDENTIFIER</th>
-                        <th>LOCATION GUID</th>
-                        <th>LATENCY</th>
-                        <th class="text-center">GATEWAY ACTION</th>
-                    </tr>
-                </thead>
-                <tbody id="spiderTableBody">
-                    <!-- Rendered dynamically by controller.js -->
-                </tbody>
-            </table>
         </section>
 
-        <!-- VIEW 2: STEP 2 MENU (POS CATALOG SPREADSHEET) -->
-        <section id="sheet-view-menu" class="d-none">
-            <table class="apex-table">
-                <thead>
-                    <tr>
-                        <th class="apex-col-coord" style="width: 38px;">#</th>
-                        <th class="apex-col-coord">A</th>
-                        <th class="apex-col-coord">B</th>
-                        <th class="apex-col-coord">C</th>
-                        <th class="apex-col-coord">D</th>
-                        <th class="apex-col-coord">E</th>
-                        <th class="apex-col-coord">F</th>
-                        <th class="apex-col-coord text-center">G</th>
-                    </tr>
-                    <tr>
-                        <th class="text-center">SKU</th>
-                        <th>ITEM CLASSIFICATION</th>
-                        <th>DESCRIPTION SPECIFICATION</th>
-                        <th>BASE PRICE</th>
-                        <th>DELIVERY TIER (+15%)</th>
-                        <th>POS SYNC STATUS</th>
-                        <th>STOCK LEVEL</th>
-                        <th class="text-center">AUDIT SYNC</th>
-                    </tr>
-                </thead>
-                <tbody id="menuTableBody">
-                    <tr class="row-selected" onclick="updateFormulaBar('B2', '=POS.CATALOG(SKU=\"CHK-01\", Name=\"Artisan Cheesesteak Supreme\", Base=$13.95)')">
-                        <td class="apex-row-num">1</td>
-                        <td>
-                            <div class="fw-bold d-flex align-items-center gap-2" style="color: var(--apex-black);">
-                                <i class="fa-solid fa-bread-slice" style="color: var(--apex-cyan-dark);"></i>
-                                <span>Artisan Cheesesteak Supreme</span>
-                            </div>
-                            <span class="font-mono text-secondary text-xs">Hot Subs &bull; Signature Ribeye</span>
-                        </td>
-                        <td class="text-secondary">Shaved ribeye, sautéed sweet peppers &amp; onions, melted aged provolone on hearth-baked roll.</td>
-                        <td class="font-mono fw-bold" style="color: var(--apex-black);">$13.95</td>
-                        <td class="font-mono fw-bold" style="color: var(--apex-cyan-dark);">$16.04</td>
-                        <td><span class="apex-status-pill apex-status-200"><i class="fa-solid fa-check"></i> SYNCED</span></td>
-                        <td><span class="apex-status-pill apex-status-200">100% IN STOCK</span></td>
-                        <td class="text-center"><button class="tactile-btn tactile-btn-mint tactile-btn-sm" onclick="syncMenuItem('CHK-01', 'Artisan Cheesesteak Supreme')"><i class="fa-solid fa-arrows-rotate"></i> Sync</button></td>
-                    </tr>
-                    <tr onclick="updateFormulaBar('B3', '=POS.CATALOG(SKU=\"FRY-02\", Name=\"Loaded Truffle Parmesan Fries\", Base=$8.50)')">
-                        <td class="apex-row-num">2</td>
-                        <td>
-                            <div class="fw-bold d-flex align-items-center gap-2" style="color: var(--apex-black);">
-                                <i class="fa-solid fa-bacon" style="color: var(--apex-cyan-dark);"></i>
-                                <span>Loaded Truffle Parmesan Fries</span>
-                            </div>
-                            <span class="font-mono text-secondary text-xs">Sides &bull; Gourmet Hand-Cut</span>
-                        </td>
-                        <td class="text-secondary">Double-crisped hand-cut fries, aromatic white truffle oil, shaved parmesan, rosemary aioli.</td>
-                        <td class="font-mono fw-bold" style="color: var(--apex-black);">$8.50</td>
-                        <td class="font-mono fw-bold" style="color: var(--apex-cyan-dark);">$9.78</td>
-                        <td><span class="apex-status-pill apex-status-200"><i class="fa-solid fa-check"></i> SYNCED</span></td>
-                        <td><span class="apex-status-pill apex-status-200">100% IN STOCK</span></td>
-                        <td class="text-center"><button class="tactile-btn tactile-btn-mint tactile-btn-sm" onclick="syncMenuItem('FRY-02', 'Loaded Truffle Parmesan Fries')"><i class="fa-solid fa-arrows-rotate"></i> Sync</button></td>
-                    </tr>
-                    <tr onclick="updateFormulaBar('B4', '=POS.CATALOG(SKU=\"SUB-03\", Name=\"Classic Italian Deli Sub (12-inch)\", Base=$12.50)')">
-                        <td class="apex-row-num">3</td>
-                        <td>
-                            <div class="fw-bold d-flex align-items-center gap-2" style="color: var(--apex-black);">
-                                <i class="fa-solid fa-pizza-slice" style="color: var(--apex-cyan-dark);"></i>
-                                <span>Classic Italian Deli Sub (12-inch)</span>
-                            </div>
-                            <span class="font-mono text-secondary text-xs">Cold Subs &bull; EVOO Vinaigrette</span>
-                        </td>
-                        <td class="text-secondary">Genoa salami, spicy capicola, prosciutto cotto, aged provolone, shredduce, EVOO.</td>
-                        <td class="font-mono fw-bold" style="color: var(--apex-black);">$12.50</td>
-                        <td class="font-mono fw-bold" style="color: var(--apex-cyan-dark);">$14.38</td>
-                        <td><span class="apex-status-pill apex-status-200"><i class="fa-solid fa-check"></i> SYNCED</span></td>
-                        <td><span class="apex-status-pill apex-status-200">100% IN STOCK</span></td>
-                        <td class="text-center"><button class="tactile-btn tactile-btn-mint tactile-btn-sm" onclick="syncMenuItem('SUB-03', 'Classic Italian Deli Sub')"><i class="fa-solid fa-arrows-rotate"></i> Sync</button></td>
-                    </tr>
-                    <tr onclick="updateFormulaBar('B5', '=POS.CATALOG(SKU=\"WRP-04\", Name=\"Charred Buffalo Chicken Wrap\", Base=$11.25)')">
-                        <td class="apex-row-num">4</td>
-                        <td>
-                            <div class="fw-bold d-flex align-items-center gap-2" style="color: var(--apex-black);">
-                                <i class="fa-solid fa-bowl-food" style="color: var(--apex-cyan-dark);"></i>
-                                <span>Charred Buffalo Chicken Wrap</span>
-                            </div>
-                            <span class="font-mono text-secondary text-xs">Wraps &bull; Cayenne Buffalo Glaze</span>
-                        </td>
-                        <td class="text-secondary">Char-grilled chicken breast glazed in spicy cayenne buffalo sauce, crisp romaine, ranch.</td>
-                        <td class="font-mono fw-bold" style="color: var(--apex-black);">$11.25</td>
-                        <td class="font-mono fw-bold" style="color: var(--apex-cyan-dark);">$12.94</td>
-                        <td><span class="apex-status-pill apex-status-200"><i class="fa-solid fa-check"></i> SYNCED</span></td>
-                        <td><span class="apex-status-pill apex-status-200">100% IN STOCK</span></td>
-                        <td class="text-center"><button class="tactile-btn tactile-btn-mint tactile-btn-sm" onclick="syncMenuItem('WRP-04', 'Charred Buffalo Chicken Wrap')"><i class="fa-solid fa-arrows-rotate"></i> Sync</button></td>
-                    </tr>
-                </tbody>
-            </table>
+        <!-- 3. CARD 2: "67 kcal Net energy" & DUAL GLOWING GRADIENT SLIDER -->
+        <section class="bevel-card net-energy-card" aria-label="Net Energy and Fleet Balance">
+            <div class="net-energy-header">
+                <div>
+                    <div class="net-energy-big" id="netEnergyBigVal">67 kcal</div>
+                    <div class="net-energy-sub">Net energy</div>
+                </div>
+                <div class="net-energy-tags">
+                    <span class="net-tag-orange"><i class="fa-solid fa-fire"></i> <span id="tagBurnVal">809</span></span>
+                    <span class="net-tag-blue"><i class="fa-solid fa-apple-whole"></i> <span id="tagInVal">876</span></span>
+                </div>
+            </div>
+
+            <!-- Glowing Dual-Gradient Range Slider -->
+            <div class="energy-slider-track" id="energySliderTrack" onclick="handleSliderClick(event)">
+                <div class="energy-slider-thumb" id="energySliderThumb" title="Drag to adjust net energy balance"></div>
+            </div>
+
+            <!-- Slider Scale Labels -->
+            <div class="energy-slider-scale">
+                <span>-500</span>
+                <span>-250</span>
+                <span>0</span>
+                <span>250</span>
+                <span>500</span>
+            </div>
         </section>
 
-        <!-- VIEW 3: STEP 3 TELEMETRY (REAL-TIME EVENT LOG SPREADSHEET) -->
-        <section id="sheet-view-telemetry" class="d-none">
-            <table class="apex-table">
-                <thead>
-                    <tr>
-                        <th class="apex-col-coord" style="width: 38px;">#</th>
-                        <th class="apex-col-coord">A</th>
-                        <th class="apex-col-coord">B</th>
-                        <th class="apex-col-coord">C</th>
-                        <th class="apex-col-coord">D</th>
-                        <th class="apex-col-coord">E</th>
-                        <th class="apex-col-coord">F</th>
-                    </tr>
-                    <tr>
-                        <th class="text-center">EVENT #</th>
-                        <th>UTC TIMESTAMP</th>
-                        <th>DISPATCH GATEWAY</th>
-                        <th>EVENT SIGNAL CODE</th>
-                        <th>HTTP CODE</th>
-                        <th>ROUND-TRIP LATENCY</th>
-                        <th>REFERENCE PAYLOAD / ORDER</th>
-                    </tr>
-                </thead>
-                <tbody id="telemetryTableBody">
-                    <!-- Seeded with initial rows and updated in realtime -->
-                </tbody>
-            </table>
+        <!-- 4. 2-COLUMN GRID (Cards 3, 4, 5, 6) -->
+        <div class="bevel-2col-grid">
+
+            <!-- CARD 3: DATE & MULTI-RING PROGRESS CARD -->
+            <section class="bevel-card multi-ring-card" aria-label="Daily Progress Rings">
+                <div class="multi-ring-layout">
+                    <!-- Top Row: Date & Hatched Ring -->
+                    <div class="multi-ring-top">
+                        <div class="multi-ring-date">
+                            <span class="date-day-name">Mon</span>
+                            <span class="date-month">Sep</span>
+                            <span class="date-day-num">15</span>
+                        </div>
+
+                        <!-- Top Right Hatched Striped Ring (0%) -->
+                        <div class="ring-unit ring-sm">
+                            <svg viewBox="0 0 60 60" width="58" height="58">
+                                <defs>
+                                    <pattern id="hatchPattern" width="6" height="6" patternTransform="rotate(45 0 0)" patternUnits="userSpaceOnUse">
+                                        <line x1="0" y1="0" x2="0" y2="6" stroke="#f59e0b" stroke-width="2" />
+                                    </pattern>
+                                </defs>
+                                <circle cx="30" cy="30" r="23" fill="none" stroke="#f3f4f6" stroke-width="7"/>
+                                <circle cx="30" cy="30" r="23" fill="none" stroke="url(#hatchPattern)" stroke-width="7" stroke-dasharray="144" stroke-dashoffset="40"/>
+                            </svg>
+                            <span class="ring-center-stat" style="font-size: 13px;">0%</span>
+                        </div>
+                    </div>
+
+                    <!-- Bottom Row: Lime Green Ring (86%) & Violet Ring (65%) -->
+                    <div class="multi-ring-bottom">
+                        <!-- Bottom Left: Lime Green Ring (86%) -->
+                        <div class="ring-unit ring-md">
+                            <svg viewBox="0 0 70 70" width="68" height="68" style="transform: rotate(-90deg);">
+                                <circle cx="35" cy="35" r="27" fill="none" stroke="#f3f4f6" stroke-width="8"/>
+                                <circle cx="35" cy="35" r="27" fill="none" stroke="#84cc16" stroke-width="8" stroke-linecap="round" stroke-dasharray="170" stroke-dashoffset="24"/>
+                            </svg>
+                            <span class="ring-center-stat" style="color: #111827;">86%</span>
+                        </div>
+
+                        <!-- Bottom Right: Indigo/Violet Ring (65%) -->
+                        <div class="ring-unit ring-md">
+                            <svg viewBox="0 0 70 70" width="68" height="68" style="transform: rotate(-90deg);">
+                                <circle cx="35" cy="35" r="27" fill="none" stroke="#f3f4f6" stroke-width="8"/>
+                                <circle cx="35" cy="35" r="27" fill="none" stroke="#6366f1" stroke-width="8" stroke-linecap="round" stroke-dasharray="170" stroke-dashoffset="60"/>
+                            </svg>
+                            <span class="ring-center-stat" style="color: #111827;">65%</span>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- CARD 4: ACTIVITY / TIMER CONCENTRIC GAUGE -->
+            <section class="bevel-card activity-card" aria-label="Activity Duration and Energy Gauge">
+                <!-- Concentric Dual Ring Gauge with Yellow Bead -->
+                <div class="activity-gauge-box">
+                    <svg viewBox="0 0 100 100" width="100" height="100">
+                        <circle cx="50" cy="50" r="42" fill="none" stroke="#f1f3f7" stroke-width="8"/>
+                        <circle cx="50" cy="50" r="32" fill="none" stroke="#f8fafc" stroke-width="4"/>
+                    </svg>
+                    <div class="activity-bead"></div>
+                    <span class="activity-big-stat">0%</span>
+                </div>
+
+                <!-- Footer Stats -->
+                <div class="activity-footer-stats">
+                    <div class="activity-foot-item">
+                        <span class="foot-label">Duration</span>
+                        <span class="foot-val">30m</span>
+                    </div>
+                    <div class="activity-foot-item text-end">
+                        <span class="foot-label">Energy</span>
+                        <span class="foot-val">808 <span style="font-size: 11px; font-weight:600;">kCal</span></span>
+                    </div>
+                </div>
+            </section>
+
+            <!-- CARD 5: LUSH GREEN GRADIENT "ENERGY BANK" -->
+            <section class="bevel-card energy-bank-card" id="energyBankCard" onclick="autoConnectAllGateways()" title="Click to Fast-Sync All Gateways & Recharge Bank to 100%">
+                <div>
+                    <div class="energy-bank-top">
+                        <i class="fa-solid fa-bolt"></i>
+                        <span>Energy Bank</span>
+                    </div>
+                    <div class="energy-bank-val" id="energyBankPercent">93%</div>
+                    <div class="energy-bank-sub" id="energyBankSubtext">Last charged to 100%</div>
+                </div>
+
+                <!-- White Pill with Vertical Battery Bars -->
+                <div class="battery-pill-box" id="batteryBarsBox">
+                    <span class="battery-bar"></span>
+                    <span class="battery-bar"></span>
+                    <span class="battery-bar"></span>
+                    <span class="battery-bar"></span>
+                    <span class="battery-bar"></span>
+                    <span class="battery-bar"></span>
+                    <span class="battery-bar"></span>
+                    <span class="battery-bar"></span>
+                    <span class="battery-bar"></span>
+                    <span class="battery-bar"></span>
+                    <span class="battery-bar"></span>
+                    <span class="battery-bar"></span>
+                    <span class="battery-bar"></span>
+                    <span class="battery-bar"></span>
+                    <span class="battery-bar"></span>
+                    <span class="battery-bar"></span>
+                    <span class="battery-bar"></span>
+                    <span class="battery-bar empty"></span>
+                    <span class="battery-bar empty"></span>
+                </div>
+
+                <!-- Bottom Delta Badges (+40%, -7%) -->
+                <div class="energy-bank-deltas">
+                    <span class="delta-badge pos">+40%</span>
+                    <span class="delta-badge neg">-7%</span>
+                </div>
+            </section>
+
+            <!-- CARD 6: HYDRATION / DISPATCH ARC WITH CENTER "+" BUTTON -->
+            <section class="bevel-card hydration-card" aria-label="Hydration and Order Dispatch">
+                <div class="hydration-header">
+                    <div class="hydration-title-box">
+                        <span style="color: #3b82f6;">💧</span>
+                        <span>Hydration</span>
+                    </div>
+                    <button type="button" class="hydration-undo-btn" onclick="resetHydrationOrder()" title="Reset Counter">
+                        <i class="fa-solid fa-arrow-rotate-left"></i>
+                    </button>
+                </div>
+
+                <div class="hydration-stats">
+                    <div class="hydration-val" id="hydrationMlVal">2909.8 ml</div>
+                    <div class="hydration-percent" id="hydrationPercentVal">154% complete</div>
+                </div>
+
+                <!-- Blue Horseshoe Arc with Center Round "+" Push Button -->
+                <div class="hydration-arc-container">
+                    <svg class="hydration-arc-svg" viewBox="0 0 110 75">
+                        <path d="M 15 65 A 40 40 0 1 1 95 65" fill="none" stroke="#e2e8f0" stroke-width="12" stroke-linecap="round"/>
+                        <path d="M 15 65 A 40 40 0 1 1 95 65" fill="none" stroke="#3b82f6" stroke-width="12" stroke-linecap="round" stroke-dasharray="190" stroke-dashoffset="30"/>
+                    </svg>
+                    <!-- Iconic Center Plus Touch Button -->
+                    <button type="button" class="hydration-plus-btn" id="hydrationPlusBtn" onclick="logHydrationOrder()" title="Log Ticket / Ring Order Up Bell">
+                        <i class="fa-solid fa-plus"></i>
+                    </button>
+                </div>
+            </section>
+
+        </div>
+
+        <!-- 5. DINER DELIVERY FLEETS & TACTILE ACTIONS SECTION -->
+        <section class="bevel-section-card" aria-label="Delivery Gateways & Fleet Controls">
+            <div class="bevel-section-header">
+                <div class="bevel-section-title">
+                    <i class="fa-solid fa-bell-concierge" style="color: #0284c7;"></i>
+                    <span>DinerDashboard Gateways</span>
+                </div>
+                <div class="gw-status-pill ok" id="realtimeStatusText">0/6 CONNECTED</div>
+            </div>
+
+            <!-- Tactile 3D Action Push Buttons Strip -->
+            <div class="tactile-actions-strip">
+                <button type="button" class="tactile-btn tactile-btn-bell" onclick="ringDinerBell()" title="Ring Brass Diner Kitchen Bell">
+                    <i class="fa-solid fa-bell-concierge fa-lg"></i>
+                    <span>Order Up!</span>
+                </button>
+                <button type="button" class="tactile-btn tactile-btn-cyan" onclick="autoConnectAllGateways()" title="Fast-Sync All 6 Delivery Gateways">
+                    <i class="fa-solid fa-bolt fa-lg"></i>
+                    <span>Fast-Sync 6/6</span>
+                </button>
+                <button type="button" class="tactile-btn tactile-btn-coral" onclick="spawnDinerTicket()" title="Push New Live Kitchen Order">
+                    <i class="fa-solid fa-fire-burner fa-lg"></i>
+                    <span>New Ticket</span>
+                </button>
+                <button type="button" class="tactile-btn tactile-btn-mint" onclick="rushFleetDispatch()" title="Priority Dispatch Couriers">
+                    <i class="fa-solid fa-motorcycle fa-lg"></i>
+                    <span>Rush Fleet</span>
+                </button>
+                <button type="button" class="tactile-btn tactile-btn-white" onclick="simulateFullApiHealthCheck()" title="Ping All POS and Delivery APIs">
+                    <i class="fa-solid fa-arrows-rotate fa-lg"></i>
+                    <span>Ping Radar</span>
+                </button>
+                <button type="button" class="tactile-btn tactile-btn-dark" id="osAudioToggleBtn" onclick="toggleAudio()" title="Toggle Sound Feedback">
+                    <i class="fa-solid fa-volume-high fa-lg"></i>
+                    <span>Audio Sound</span>
+                </button>
+            </div>
+
+            <!-- 6 Gateway Mini-Cards List (Rendered dynamically & connected to controller.js) -->
+            <div class="gateway-cards-grid" id="gatewayCardsList">
+                <!-- Rendered dynamically -->
+            </div>
         </section>
 
-    </main>
+        <!-- Hidden / Compatibility elements required by controller.js -->
+        <div class="d-none">
+            <span id="metricActiveCount">0 / 6</span>
+            <span id="metricAvgLatency">18.4 ms</span>
+            <span id="metricEventCount">1,428</span>
+            <span id="metricCatalogSync">Pending API</span>
+            <span id="realtimeIndicatorPill"></span>
+            <span id="excelActiveCellLabel">B4</span>
+            <input type="text" id="excelFormulaInput" value="">
+            <input type="text" id="spiderSearchInput" value="">
+            <span id="apexLiveClock"></span>
+            <div id="drawerPaneContent"></div>
+            <div id="sheet-view-delivery"></div>
+            <div id="sheet-view-menu"></div>
+            <div id="sheet-view-telemetry"></div>
+            <button id="sheetTab1"></button>
+            <button id="sheetTab2"></button>
+            <button id="sheetTab3"></button>
+            <table><tbody id="spiderTableBody"></tbody></table>
+            <table><tbody id="telemetryTableBody"></tbody></table>
+        </div>
+
+        <!-- 6. Footer Mobbin & Bevel Signature -->
+        <footer class="bevel-footer-credit">
+            <div class="bevel-badge-pill">
+                <i class="fa-solid fa-cubes"></i>
+                <span>Bevel</span>
+            </div>
+            <div>
+                curated by <strong>Mobbin</strong>
+            </div>
+        </footer>
+
+    </div>
 
     <!-- ═══════════════════════════════════════════════════════════════════
-         7. SEO SPIDER TECHNICAL INSPECTION DRAWER (BOTTOM PANE)
-         ═══════════════════════════════════════════════════════════════════ -->
-    <aside class="apex-spider-drawer" id="spiderInspectionDrawer">
-        <div class="apex-drawer-tabs">
-            <button type="button" class="apex-drawer-tab-btn active" onclick="switchDrawerTab('overview', this)">
-                <i class="fa-solid fa-microscope me-1"></i> Overview &amp; Demographics
-            </button>
-            <button type="button" class="apex-drawer-tab-btn" onclick="switchDrawerTab('headers', this)">
-                <i class="fa-solid fa-key me-1"></i> OAuth 2.0 &amp; Headers
-            </button>
-            <button type="button" class="apex-drawer-tab-btn" onclick="switchDrawerTab('pipeline', this)">
-                <i class="fa-solid fa-route me-1"></i> Webhook Pipeline
-            </button>
-            <button type="button" class="apex-drawer-tab-btn" onclick="switchDrawerTab('schema', this)">
-                <i class="fa-solid fa-code me-1"></i> REST Payload Schema
-            </button>
-        </div>
-
-        <div class="apex-drawer-body" id="drawerPaneContent">
-            <!-- Dynamic technical content of selected row -->
-        </div>
-    </aside>
-
-    <!-- ═══════════════════════════════════════════════════════════════════
-         8. APEX-OS WORKBOOK BOTTOM DOCK & STATUS TELEMETRY
-         ═══════════════════════════════════════════════════════════════════ -->
-    <footer class="apex-bottom-dock">
-        <div class="apex-sheet-tabs">
-            <button type="button" class="apex-sheet-tab active" id="sheetTab1" onclick="switchSheet('delivery')">
-                <i class="fa-solid fa-table-cells" style="color: var(--apex-cyan);"></i>
-                <span>Sheet1: API_Integrations</span>
-            </button>
-            <button type="button" class="apex-sheet-tab is-locked" id="sheetTab2" onclick="switchSheet('menu')">
-                <i class="fa-solid fa-utensils"></i>
-                <span>Sheet2: Menu_Catalog_Sync</span>
-                <i class="fa-solid fa-lock text-[10px] opacity-60 ms-1" id="sheet2LockIcon"></i>
-            </button>
-            <button type="button" class="apex-sheet-tab is-locked" id="sheetTab3" onclick="switchSheet('telemetry')">
-                <i class="fa-solid fa-chart-line"></i>
-                <span>Sheet3: Live_Telemetry_Log</span>
-                <i class="fa-solid fa-lock text-[10px] opacity-60 ms-1" id="sheet3LockIcon"></i>
-            </button>
-        </div>
-
-        <div class="apex-status-telemetry">
-            <span>KERNEL: READY</span>
-            <span class="d-none d-md-inline">&bull;</span>
-            <span class="d-none d-md-inline">6 PLATFORMS IN MATRIX</span>
-            <span class="d-none d-md-inline">&bull;</span>
-            <span id="excelStatusVerifiedCount" style="color: var(--apex-cyan); font-weight: bold;">0 ACTIVE</span>
-            <span class="d-none d-lg-inline">&bull;</span>
-            <span class="d-none d-lg-inline">CALCULATION: 100%</span>
-            <span>&bull;</span>
-            <span>ZOOM: 100%</span>
-        </div>
-    </footer>
-
-    <!-- ═══════════════════════════════════════════════════════════════════
-         9. API CONFIGURATION & CREDENTIALS MODAL
+         API CONFIGURATION & CREDENTIALS MODAL
          ═══════════════════════════════════════════════════════════════════ -->
     <div class="modal fade" id="apiConfigModal" tabindex="-1" aria-labelledby="modalServiceTitle" aria-hidden="true">
-        <div class="modal-dialog modal-dialog-centered modal-lg">
+        <div class="modal-dialog modal-dialog-centered modal-md">
             <div class="modal-content apex-modal">
-                <div class="modal-header d-flex justify-content-between align-items-center">
+                <div class="modal-header d-flex justify-content-between align-items-center p-4 pb-2 border-0">
                     <div class="d-flex align-items-center gap-3">
-                        <div class="d-flex align-items-center justify-content-center p-2 border" id="modalLogoBox" style="width: 38px; height: 38px; background: var(--apex-surface-muted); border-color: var(--apex-cyan);">
-                            <i id="modalLogoIcon" class="fa-solid fa-plug" style="color: var(--apex-cyan-dark);"></i>
+                        <div class="d-flex align-items-center justify-content-center p-2 rounded-3 bg-light" id="modalLogoBox" style="width: 42px; height: 42px;">
+                            <i id="modalLogoIcon" class="fa-solid fa-plug text-primary"></i>
                         </div>
                         <div>
-                            <h5 class="modal-title font-mono fw-bold fs-6 mb-0 text-dark" id="modalServiceTitle">API Gateway Setup</h5>
-                            <span class="font-mono text-secondary text-xs" id="modalServiceSubtitle">REST Webhooks &bull; TLS 1.3</span>
+                            <h5 class="fw-bold fs-6 mb-0 text-dark" id="modalServiceTitle">API Gateway Setup</h5>
+                            <span class="text-secondary text-xs" id="modalServiceSubtitle">REST Webhooks &bull; TLS 1.3</span>
                         </div>
                     </div>
                     <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                 </div>
 
-                <div class="modal-body p-4">
+                <div class="modal-body p-4 pt-2">
                     <input type="hidden" id="modalCurrentServiceId" value="">
 
                     <!-- Demographics banner -->
-                    <div class="p-3 mb-3 border" style="background: var(--apex-surface-subtle); border-color: var(--apex-silver) !important;">
+                    <div class="p-3 mb-3 rounded-4 bg-light">
                         <div class="d-flex align-items-center justify-content-between mb-1">
-                            <span class="font-mono text-xs fw-bold" style="color: var(--apex-cyan-dark);" id="modalDemoRank">Demographic Target</span>
-                            <a href="#" target="_blank" rel="noopener" id="modalOutwardLink" class="font-mono text-xs text-decoration-none fw-semibold" style="color: var(--apex-cyan-dark);">
+                            <span class="text-xs fw-bold text-primary" id="modalDemoRank">Demographic Target</span>
+                            <a href="#" target="_blank" rel="noopener" id="modalOutwardLink" class="text-xs text-decoration-none fw-semibold text-primary">
                                 Developer Portal <i class="fa-solid fa-arrow-up-right-from-square ms-1"></i>
                             </a>
                         </div>
-                        <p class="font-sans text-xs text-secondary mb-0" id="modalDemoDesc">Demographic details</p>
+                        <p class="text-xs text-secondary mb-0" id="modalDemoDesc">Demographic details</p>
                     </div>
 
                     <form id="apiVerificationForm" onsubmit="handleApiVerification(event)">
                         <div class="mb-3">
-                            <label class="form-label font-mono text-xs text-secondary fw-semibold">Client ID / Application API Key</label>
+                            <label class="form-label text-xs text-secondary fw-bold">Client ID / Application API Key</label>
                             <input type="text" id="apiClientIdInput" class="apex-form-control" placeholder="e.g. 6ImzVINJ53LfMWCPoh_gBblTL55hqUNfIBN-7TG2" required>
                         </div>
 
                         <div class="mb-3">
-                            <label class="form-label font-mono text-xs text-secondary fw-semibold">Client Secret / Private Signing Token</label>
+                            <label class="form-label text-xs text-secondary fw-bold">Client Secret / Private Token</label>
                             <input type="password" id="apiSecretInput" class="apex-form-control" placeholder="&bull;&bull;&bull;&bull;&bull;&bull;&bull;&bull;&bull;&bull;&bull;&bull;&bull;&bull;&bull;&bull;" required>
                         </div>
 
                         <div class="mb-3">
-                            <label class="form-label font-mono text-xs text-secondary fw-semibold">Store Location GUID / Merchant ID</label>
+                            <label class="form-label text-xs text-secondary fw-bold">Store Location GUID / Merchant ID</label>
                             <input type="text" id="apiLocationIdInput" class="apex-form-control" placeholder="e.g. loc_parma_grill_01" required>
                         </div>
 
                         <div class="mb-3">
-                            <label class="form-label font-mono text-xs text-secondary fw-semibold">Inbound Webhook Endpoint URL</label>
+                            <label class="form-label text-xs text-secondary fw-bold">Inbound Webhook Endpoint URL</label>
                             <input type="text" id="apiWebhookUrlDisplay" class="apex-form-control" readonly>
                         </div>
 
                         <!-- Live Diagnostic Handshake Console -->
-                        <div id="verificationConsole" class="p-3 border font-mono text-xs d-none mb-3" style="background: var(--apex-surface-subtle); border-color: var(--apex-cyan) !important;">
-                            <div class="d-flex align-items-center justify-content-between text-secondary border-bottom pb-1 mb-2" style="border-color: var(--apex-silver) !important;">
-                                <span class="fw-bold text-dark"><i class="fa-solid fa-terminal me-1"></i> HANDSHAKE DIAGNOSTIC STREAM</span>
-                                <span id="consoleTimer" style="color: var(--apex-cyan-dark); font-weight: 700;">0 ms</span>
+                        <div id="verificationConsole" class="p-3 rounded-4 font-mono text-xs d-none mb-3 bg-light border border-info">
+                            <div class="d-flex align-items-center justify-content-between text-secondary border-bottom pb-1 mb-2">
+                                <span class="fw-bold text-dark"><i class="fa-solid fa-terminal me-1"></i> DIAGNOSTIC STREAM</span>
+                                <span id="consoleTimer" class="text-primary fw-bold">0 ms</span>
                             </div>
-                            <div id="step1" class="text-dark mb-1"><i class="fa-solid fa-spinner fa-spin me-1" style="color: var(--apex-cyan-dark);"></i> [TLS 1.3] Handshake initialization...</div>
+                            <div id="step1" class="text-dark mb-1"><i class="fa-solid fa-spinner fa-spin me-1 text-primary"></i> [TLS 1.3] Handshake initialization...</div>
                             <div id="step2" class="text-secondary mb-1 d-none">[OAuth 2.0] Authenticating bearer token...</div>
                             <div id="step3" class="text-secondary mb-1 d-none">[Location GUID] Validating store geofence...</div>
-                            <div id="step4" class="fw-bold d-none" style="color: var(--apex-cyan-dark);"><i class="fa-solid fa-circle-check me-1"></i> [200 OK] Handshake verified and online!</div>
+                            <div id="step4" class="fw-bold d-none text-success"><i class="fa-solid fa-circle-check me-1"></i> [200 OK] Handshake verified and online!</div>
                         </div>
 
                         <div class="d-flex align-items-center justify-content-between pt-2">
-                            <button type="button" class="tactile-btn tactile-btn-white tactile-btn-sm" onclick="fillDemoCredentials()">
-                                <i class="fa-solid fa-wand-magic-sparkles me-1" style="color: var(--apex-cyan-dark);"></i> Fill Demo Credentials
+                            <button type="button" class="btn btn-sm btn-light rounded-pill px-3 fw-bold" onclick="fillDemoCredentials()">
+                                <i class="fa-solid fa-wand-magic-sparkles me-1 text-primary"></i> Demo Keys
                             </button>
 
                             <div class="d-flex gap-2">
-                                <button type="button" class="tactile-btn tactile-btn-dark tactile-btn-sm" data-bs-dismiss="modal">Cancel</button>
-                                <button type="submit" id="btnSubmitVerify" class="tactile-btn tactile-btn-cyan tactile-btn-md">
-                                    <i class="fa-solid fa-shield-check me-1"></i> Submit &amp; Verify API
+                                <button type="button" class="btn btn-sm btn-outline-secondary rounded-pill px-3 fw-bold" data-bs-dismiss="modal">Cancel</button>
+                                <button type="submit" id="btnSubmitVerify" class="btn btn-sm btn-dark rounded-pill px-3 fw-bold">
+                                    <i class="fa-solid fa-shield-check me-1"></i> Verify API
                                 </button>
                             </div>
                         </div>
@@ -598,8 +505,164 @@
         integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz" crossorigin="anonymous">
     </script>
 
-    <!-- Apex-OS Controller Engine -->
+    <!-- DinerDashboard Controller Engine -->
     <script src="./controller.js"></script>
+
+    <!-- Bevel Aesthetic Interactive Script Enhancements -->
+    <script>
+        // Synchronize Clock
+        function syncBevelClock() {
+            const now = new Date();
+            const clockEl = document.getElementById('statusBarClock');
+            if (clockEl) {
+                const hours = now.getHours();
+                const minutes = now.getMinutes().toString().padStart(2, '0');
+                clockEl.innerText = `${hours % 12 || 12}:${minutes}`;
+            }
+        }
+        setInterval(syncBevelClock, 1000);
+        syncBevelClock();
+
+        // Render Gateway Mini-Cards into #gatewayCardsList
+        function renderBevelGatewayCards() {
+            const container = document.getElementById('gatewayCardsList');
+            if (!container || typeof DELIVERY_SERVICES === 'undefined') return;
+
+            const serviceKeys = Object.keys(DELIVERY_SERVICES);
+            let html = '';
+
+            serviceKeys.forEach((key) => {
+                const s = DELIVERY_SERVICES[key];
+                const isVerified = s.verified;
+                html += `
+                    <div class="gateway-item-card ${isVerified ? 'connected' : ''}" onclick="openApiConfigModal('${key}')">
+                        <div class="gw-brand-box">
+                            <div class="gw-icon">
+                                <i class="${s.icon}"></i>
+                            </div>
+                            <div class="gw-info">
+                                <span class="gw-name">${s.name}</span>
+                                <span class="gw-category">${s.categoryTag} &bull; ${isVerified ? s.latency : 'Pending'}</span>
+                            </div>
+                        </div>
+                        <div class="gw-actions">
+                            <span class="gw-status-pill ${isVerified ? 'ok' : 'pending'}">
+                                ${isVerified ? '200 OK' : '401 PENDING'}
+                            </span>
+                            <button type="button" class="gw-connect-btn" onclick="event.stopPropagation(); ${isVerified ? `disconnectApi('${key}')` : `openApiConfigModal('${key}')`}">
+                                ${isVerified ? 'Disconnect' : 'Connect'}
+                            </button>
+                        </div>
+                    </div>
+                `;
+            });
+
+            container.innerHTML = html;
+
+            // Also update the Energy Bank percent based on connected count
+            const connectedCount = serviceKeys.filter(k => DELIVERY_SERVICES[k].verified).length;
+            const energyPercent = Math.min(100, Math.round((connectedCount / 6) * 100));
+            const energyEl = document.getElementById('energyBankPercent');
+            const subEl = document.getElementById('energyBankSubtext');
+            if (energyEl) energyEl.innerText = `${connectedCount === 0 ? '93%' : energyPercent + '%'}`;
+            if (subEl) subEl.innerText = connectedCount === 6 ? 'All 6 Gateways Connected' : `${connectedCount}/6 Gateways Verified`;
+
+            // Update realtime status pill
+            const statusPill = document.getElementById('realtimeStatusText');
+            if (statusPill) statusPill.innerText = `${connectedCount}/6 CONNECTED`;
+        }
+
+        // Listen for updates from controller.js
+        window.addEventListener('DOMContentLoaded', () => {
+            renderBevelGatewayCards();
+        });
+
+        // Patch renderSpiderTable in controller so it updates cards too
+        const origRender = window.renderSpiderTable;
+        window.renderSpiderTable = function() {
+            if (origRender) origRender();
+            renderBevelGatewayCards();
+        };
+
+        // Interactive Hydration / Order Logging
+        let currentMl = 2909.8;
+        let currentPercent = 154;
+        function logHydrationOrder() {
+            if (typeof playDinerBell === 'function') playDinerBell();
+            if (typeof playToyClick === 'function') playToyClick(520, 0.05);
+
+            currentMl = +(currentMl + 250).toFixed(1);
+            currentPercent += 12;
+
+            const mlEl = document.getElementById('hydrationMlVal');
+            const pctEl = document.getElementById('hydrationPercentVal');
+            if (mlEl) mlEl.innerText = `${currentMl} ml`;
+            if (pctEl) pctEl.innerText = `${currentPercent}% complete`;
+
+            // Also spawn a diner ticket if available
+            if (typeof spawnDinerTicket === 'function') {
+                spawnDinerTicket();
+            }
+        }
+
+        function resetHydrationOrder() {
+            if (typeof playToyClick === 'function') playToyClick(350, 0.04);
+            currentMl = 2909.8;
+            currentPercent = 154;
+            const mlEl = document.getElementById('hydrationMlVal');
+            const pctEl = document.getElementById('hydrationPercentVal');
+            if (mlEl) mlEl.innerText = `${currentMl} ml`;
+            if (pctEl) pctEl.innerText = `${currentPercent}% complete`;
+        }
+
+        // Interactive Slider Drag / Click
+        function handleSliderClick(e) {
+            const track = document.getElementById('energySliderTrack');
+            const thumb = document.getElementById('energySliderThumb');
+            if (!track || !thumb) return;
+            const rect = track.getBoundingClientRect();
+            const clickX = Math.max(0, Math.min(e.clientX - rect.left, rect.width));
+            const percent = (clickX / rect.width) * 100;
+            thumb.style.left = `${percent}%`;
+
+            if (typeof playToyClick === 'function') playToyClick(440 + percent * 2, 0.03);
+
+            // Calculate scaled net kcal value between -500 and 500
+            const netVal = Math.round(((percent - 50) / 50) * 500);
+            const bigValEl = document.getElementById('netEnergyBigVal');
+            if (bigValEl) {
+                bigValEl.innerText = `${netVal > 0 ? '+' : ''}${netVal === 0 ? '67' : netVal} kcal`;
+            }
+        }
+
+        function openMenuCatalogDrawer() {
+            if (typeof playToyClick === 'function') playToyClick(600, 0.04);
+            if (typeof switchSheet === 'function') switchSheet('menu');
+        }
+
+        function simulateTicketScan() {
+            if (typeof playToyClick === 'function') playToyClick(750, 0.04);
+            alert('Receipt Scanner: Camera active. Scanned 3 line tickets from Diner Grill station.');
+        }
+
+        function simulateBarcodeScan() {
+            if (typeof playToyClick === 'function') playToyClick(850, 0.04);
+            alert('Barcode Reader: POS SKU #SUB-03 (Classic Italian Deli Sub) verified in stock.');
+        }
+
+        function triggerAiOptimization() {
+            if (typeof playToyClick === 'function') playToyClick(950, 0.05);
+            alert('AI Kitchen Intelligence: Line prep optimized. Estimated ticket throughput +24% during rush hours.');
+        }
+
+        function focusSearchInput() {
+            if (typeof playToyClick === 'function') playToyClick(680, 0.03);
+            const term = prompt('Filter Gateways / Orders by keyword:');
+            if (term !== null && typeof handleSpiderSearch === 'function') {
+                handleSpiderSearch(term);
+            }
+        }
+    </script>
 </body>
 
 </html>

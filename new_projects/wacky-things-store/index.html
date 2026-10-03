@@ -1198,10 +1198,10 @@
         }
 
         /* ========================================================
-           NEWSLETTER SECTION (WAVY PURPLE LINES & WHITE/BLACK OPAQUE CARD)
+           NEWSLETTER SECTION (GRADIENT FROM 4 NAV BUTTONS & WHITE/BLACK OPAQUE CARD)
            ======================================================== */
         #newsletter-section {
-            background: #7C3AED !important;
+            background: linear-gradient(135deg, #BE185D 0%, #2E1065 33%, #0D9488 66%, #F59E0B 100%) !important;
             position: relative;
             overflow: hidden;
         }
@@ -1332,32 +1332,21 @@
             display: none;
             flex-direction: column;
             min-height: 100vh;
-            background: #0A0318;
-            color: #F5F3FF;
-        }
-
-        #screen-academy {
-            width: 100%;
-            min-width: 100%;
-            flex-shrink: 0;
-            display: none;
-            flex-direction: column;
-            min-height: 100vh;
-            background: #0A0318;
-            color: #F5F3FF;
+            background: #1e2430;
+            color: #f1f5f9;
         }
 
         /* ==============================================================================
-           ACADEMY REVERSED HEADER (Deep Cosmic Obsidian Contrast Theme)
+           ACADEMY REVERSED THEME (Sleek Slate Grey Dark Contrast with Warm Yellow Accents)
            ============================================================================== */
         #screen-academy #academy-main-header,
         body.academy-reverse-theme #academy-main-header,
         body.academy-reverse-theme header,
         body.academy-reverse-theme #screen-regular header {
-            background: #0E0422 !important;
-            background-color: #0E0422 !important;
+            background: #141a24 !important;
+            background-color: #141a24 !important;
             background-image: none !important;
-            border-bottom: 1px solid #38146F !important;
+            border-bottom: 1px solid #334155 !important;
             color: #FFFFFF !important;
             backdrop-filter: blur(16px);
             -webkit-backdrop-filter: blur(16px);
@@ -1378,7 +1367,7 @@
 
         #screen-academy #academy-main-header .text-purple-300,
         body.academy-reverse-theme #academy-main-header .text-purple-300 {
-            color: #C4B5FD !important;
+            color: #cbd5e1 !important;
         }
 
         /* Academy Header Search Input */
@@ -1386,21 +1375,21 @@
         body.academy-reverse-theme #academy-search-input,
         body.academy-reverse-theme header #academy-search-input,
         body.academy-reverse-theme header #search-input {
-            background: #180838 !important;
+            background: #252e3d !important;
             background-image: none !important;
-            border: 1px solid #3E1878 !important;
+            border: 1px solid #475569 !important;
             color: #FFFFFF !important;
         }
 
         #screen-academy #academy-search-input::placeholder,
         body.academy-reverse-theme #academy-search-input::placeholder,
         body.academy-reverse-theme header #search-input::placeholder {
-            color: rgba(221, 214, 254, 0.65) !important;
+            color: #94a3b8 !important;
         }
 
         #screen-academy #academy-main-header .fa-magnifying-glass,
         body.academy-reverse-theme #academy-main-header .fa-magnifying-glass {
-            color: #A78BFA !important;
+            color: #cbd5e1 !important;
         }
 
         /* Academy Header Action Buttons */
@@ -1441,7 +1430,7 @@
         #screen-academy #academy-main-header button[onclick*="openCartDrawer"],
         #screen-academy #academy-header-cart-btn,
         body.academy-reverse-theme #academy-main-header button[onclick*="openCartDrawer"] {
-            background: #115E59 !important;
+            background: #0F766E !important;
             border: 1px solid rgba(20, 184, 166, 0.5) !important;
             color: #FFFFFF !important;
         }
@@ -1449,7 +1438,7 @@
         #screen-academy #academy-main-header button[onclick*="openCartDrawer"]:hover,
         #screen-academy #academy-header-cart-btn:hover,
         body.academy-reverse-theme #academy-main-header button[onclick*="openCartDrawer"]:hover {
-            background: #0F766E !important;
+            background: #115E59 !important;
             border-color: #14B8A6 !important;
             color: #FFFFFF !important;
             transform: translateY(-1.5px);
@@ -1475,16 +1464,16 @@
         #screen-academy #academy-main-header button[onclick*="switchView('store')"],
         #screen-academy #academy-header-store-btn,
         body.academy-reverse-theme #academy-main-header button[onclick*="switchView('store')"] {
-            background: #240A4E !important;
-            border: 1px solid #4C1D95 !important;
-            color: #DDD6FE !important;
+            background: #273142 !important;
+            border: 1px solid #475569 !important;
+            color: #e2e8f0 !important;
         }
 
         #screen-academy #academy-main-header button[onclick*="switchView('store')"]:hover,
         #screen-academy #academy-header-store-btn:hover,
         body.academy-reverse-theme #academy-main-header button[onclick*="switchView('store')"]:hover {
-            background: #3B0E78 !important;
-            border-color: #6D28D9 !important;
+            background: #334155 !important;
+            border-color: #64748b !important;
             color: #FFFFFF !important;
             transform: translateY(-1.5px);
         }
@@ -1498,7 +1487,7 @@
         #screen-academy #academy-main-header button[onclick*="switchView('store')"] span,
         #screen-academy #academy-header-store-btn span,
         body.academy-reverse-theme #academy-main-header button[onclick*="switchView('store')"] span {
-            color: #DDD6FE !important;
+            color: #e2e8f0 !important;
         }
 
         /* Funny Academy button in Academy Header (#academy-header-learning-btn) */
@@ -1507,7 +1496,7 @@
         body.academy-reverse-theme #academy-header-learning-btn {
             background: #F59E0B !important;
             border: 1px solid #FBBF24 !important;
-            color: #0F0426 !important;
+            color: #0F172A !important;
             box-shadow: 0 4px 14px -2px rgba(245, 158, 11, 0.4) !important;
         }
 
@@ -1516,22 +1505,22 @@
         body.academy-reverse-theme #academy-header-learning-btn:hover {
             background: #FBBF24 !important;
             border-color: #FDE68A !important;
-            color: #0F0426 !important;
+            color: #0F172A !important;
             transform: translateY(-1.5px);
         }
 
         #academy-header-learning-btn i,
         #screen-academy #academy-header-learning-btn i,
         body.academy-reverse-theme #academy-header-learning-btn i {
-            color: #0F0426 !important;
+            color: #0F172A !important;
         }
 
         /* If body has academy-reverse-theme, reverse regular header elements as well */
         body.academy-reverse-theme #screen-regular header {
-            background: #0E0422 !important;
-            background-color: #0E0422 !important;
+            background: #141a24 !important;
+            background-color: #141a24 !important;
             background-image: none !important;
-            border-bottom: 1px solid #38146F !important;
+            border-bottom: 1px solid #334155 !important;
             color: #FFFFFF !important;
         }
 
@@ -1541,170 +1530,137 @@
         }
 
         body.academy-reverse-theme #screen-regular header .text-earth-600 {
-            color: #DDD6FE !important;
+            color: #94a3b8 !important;
         }
 
         body.academy-reverse-theme #screen-regular header #search-input {
-            background: #180838 !important;
+            background: #252e3d !important;
             background-image: none !important;
-            border: 1px solid #3E1878 !important;
+            border: 1px solid #475569 !important;
             color: #FFFFFF !important;
         }
 
         body.academy-reverse-theme #screen-regular header #search-input::placeholder {
-            color: rgba(221, 214, 254, 0.65) !important;
+            color: #94a3b8 !important;
         }
 
-        #screen-academy #learning-main-view {
-            background-color: #0A0318 !important;
-            color: #F5F3FF !important;
-        }
-
-        #screen-academy #learning-filter-bar {
-            background: #120526 !important;
-            border-bottom: 1px solid #38146F !important;
-            color: #FFFFFF !important;
-        }
-
-        #screen-academy #learning-filter-bar h1,
-        #screen-academy #learning-filter-bar h2,
-        #screen-academy #learning-filter-bar h3,
-        #screen-academy #learning-filter-bar .font-heading,
-        #screen-academy #learning-filter-bar .subheader-title {
-            font-family: 'Outfit', sans-serif !important;
-            color: #FFFFFF !important;
-        }
-
-        #screen-academy #learning-filter-bar p {
-            color: #E2D9F3 !important;
-        }
-
-        #screen-academy #learning-filter-bar .text-amber-300,
-        #screen-academy #learning-filter-bar .text-amber-400 {
-            color: #FBBF24 !important;
+        #screen-academy #learning-main-view,
+        body.academy-reverse-theme #learning-main-view {
+            background-color: #1e2430 !important;
+            color: #f1f5f9 !important;
         }
 
         #screen-academy .course-cat-btn:not(.bg-\[\#F59E0B\]) {
-            background-color: #1E083B !important;
-            color: #DDD6FE !important;
-            border-color: #3E1678 !important;
+            background-color: #273142 !important;
+            color: #e2e8f0 !important;
+            border: 1px solid #475569 !important;
         }
 
         #screen-academy .course-cat-btn:not(.bg-\[\#F59E0B\]):hover {
-            background-color: #2F0E5A !important;
-            border-color: #551FA0 !important;
-        }
-
-        #screen-academy [data-blueprint-role="LMS Hero Header"] {
-            background-color: #14062B !important;
-            border-color: #3A1470 !important;
-            color: #F5F3FF !important;
-            box-shadow: 0 10px 25px -5px rgba(0, 0, 0, 0.7) !important;
-        }
-
-        #screen-academy [data-blueprint-role="LMS Hero Header"] h1 {
-            font-family: 'Outfit', sans-serif !important;
+            background-color: #334155 !important;
+            border-color: #64748b !important;
             color: #FFFFFF !important;
         }
 
-        #screen-academy [data-blueprint-role="LMS Hero Header"] p {
-            color: #E2D9F3 !important;
-        }
-
+        /* ==============================================================================
+           WACKY ACADEMY COURSE CARDS: PURE WHITE BACKGROUND WITH CRISP BLACK TEXT
+           ============================================================================== */
         #screen-academy .course-card {
-            background: #130628 !important;
-            border: 1px solid #3B1578 !important;
-            color: #F5F3FF !important;
-            box-shadow: 0 10px 25px -5px rgba(0, 0, 0, 0.7) !important;
+            background: #ffffff !important;
+            background-color: #ffffff !important;
+            border: 1px solid #e2e8f0 !important;
+            color: #0f172a !important;
+            box-shadow: 0 10px 25px -5px rgba(0, 0, 0, 0.12), 0 8px 10px -6px rgba(0, 0, 0, 0.06) !important;
         }
 
         #screen-academy .course-card:hover {
             border-color: rgba(245, 158, 11, 0.8) !important;
-            box-shadow: 0 15px 35px -5px rgba(0, 0, 0, 0.9), 0 0 20px rgba(245, 158, 11, 0.2) !important;
+            box-shadow: 0 20px 35px -8px rgba(0, 0, 0, 0.18), 0 0 20px rgba(245, 158, 11, 0.25) !important;
         }
 
         #screen-academy .course-card h3,
         #screen-academy .course-card .font-heading,
         #screen-academy .course-card .course-title {
             font-family: 'Outfit', sans-serif !important;
-            color: #FFFFFF !important;
+            color: #0f172a !important;
         }
 
         #screen-academy .course-card h3:hover,
         #screen-academy .course-card .font-heading:hover,
         #screen-academy .course-card .course-title:hover {
-            color: #FBBF24 !important;
+            color: #d97706 !important;
         }
 
         #screen-academy .course-card p,
         #screen-academy .course-card .course-desc {
-            color: #E2D9F3 !important;
+            color: #475569 !important;
         }
 
         #screen-academy .course-card .instructor-name,
         #screen-academy .course-card [class*="instructor"] .font-bold {
-            color: #FFFFFF !important;
+            color: #0f172a !important;
         }
 
         #screen-academy .course-card .instructor-title {
-            color: #C4B5FD !important;
+            color: #64748b !important;
         }
 
-        /* Protect badge contrast against dark overrides */
-        #screen-academy .course-card .bg-amber-400,
-        #screen-academy .course-card .bg-amber-400 span,
-        #screen-academy .course-card .bg-amber-400 i {
-            color: #1A0845 !important;
-        }
-
-        #screen-academy .course-card .bg-teal-400,
-        #screen-academy .course-card .bg-teal-400 span,
-        #screen-academy .course-card .bg-teal-400 i {
-            color: #042F2E !important;
+        #screen-academy .course-card .text-purple-200,
+        #screen-academy .course-card .text-purple-300,
+        #screen-academy .course-card .text-purple-400 {
+            color: #475569 !important;
         }
 
         #screen-academy .course-card .text-gray-500,
         #screen-academy .course-card .text-gray-600 {
-            color: #DDD6FE !important;
+            color: #64748b !important;
         }
 
+        #screen-academy .course-card .border-[#3B1578],
+        #screen-academy .course-card .border-[#3E1777],
         #screen-academy .course-card .border-canvas-border {
-            border-color: #38156B !important;
+            border-color: #e2e8f0 !important;
         }
 
         #screen-academy .course-card .bg-canvas-surface {
-            background-color: #1D083A !important;
-            border-color: #3E1777 !important;
-            color: #F5F3FF !important;
+            background-color: #f8fafc !important;
+            border-color: #e2e8f0 !important;
+            color: #0f172a !important;
         }
 
         #screen-academy .course-card .bg-canvas-base {
-            background-color: #0F0422 !important;
-            border-color: #38156B !important;
+            background-color: #f1f5f9 !important;
+            border-color: #e2e8f0 !important;
         }
 
+        #screen-academy .course-card span.line-through {
+            color: #94a3b8 !important;
+        }
+
+        /* Webinar Section in Slate Grey Theme with Amber Yellow Accents */
         #screen-academy #zoom-webinar-section > div {
-            background-color: #120526 !important;
+            background-color: #161f2e !important;
             border-color: #F59E0B !important;
-            box-shadow: 0 15px 35px -5px rgba(0, 0, 0, 0.8), 0 0 25px rgba(245, 158, 11, 0.2) !important;
+            box-shadow: 0 15px 35px -5px rgba(0, 0, 0, 0.5), 0 0 25px rgba(245, 158, 11, 0.15) !important;
         }
 
-        #screen-academy #zoom-webinar-section .bg-canvas-surface {
-            background-color: #1A0736 !important;
-            border-color: #3E1678 !important;
+        #screen-academy #zoom-webinar-section .bg-canvas-surface,
+        #screen-academy #zoom-webinar-section .bg-\[\#1A0736\] {
+            background-color: #222b3a !important;
+            border-color: #334155 !important;
         }
 
         #screen-academy #zoom-webinar-section input,
         #screen-academy #zoom-webinar-section select,
         #screen-academy #zoom-webinar-section textarea {
-            background-color: #170630 !important;
-            border-color: #42197E !important;
-            color: #F5F3FF !important;
+            background-color: #263345 !important;
+            border-color: #475569 !important;
+            color: #ffffff !important;
         }
 
         #screen-academy #zoom-webinar-section input::placeholder,
         #screen-academy #zoom-webinar-section textarea::placeholder {
-            color: #A78BFA !important;
+            color: #94a3b8 !important;
         }
 
         #screen-academy #zoom-webinar-section label,
@@ -1712,26 +1668,27 @@
         #screen-academy #zoom-webinar-section h2,
         #screen-academy #zoom-webinar-section h3,
         #screen-academy #zoom-webinar-section h4 {
-            color: #F5F3FF !important;
+            color: #ffffff !important;
         }
 
         #screen-academy #academy-site-footer,
         body.academy-reverse-theme #academy-site-footer {
-            background: #080214 !important;
+            background: #111620 !important;
             border-top: 4px solid #F59E0B !important;
-            color: #DDD6FE !important;
-            box-shadow: 0 -10px 30px rgba(0, 0, 0, 0.5) !important;
+            color: #cbd5e1 !important;
+            box-shadow: 0 -10px 30px rgba(0, 0, 0, 0.4) !important;
         }
 
         body.academy-reverse-theme {
-            background: #0A0318 !important;
+            background: #1e2430 !important;
+            background-color: #1e2430 !important;
         }
 
         body.academy-reverse-theme #education-store-badge,
         .academy-reverse-theme #education-store-badge {
-            background-color: rgba(14, 4, 30, 0.92) !important;
+            background-color: rgba(22, 31, 46, 0.95) !important;
             border-color: rgba(245, 158, 11, 0.5) !important;
-            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.6) !important;
+            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.5) !important;
         }
 
         body.academy-reverse-theme #education-store-badge span.text-earth-950,
@@ -2939,11 +2896,12 @@
     </main>
 
                 <!-- NEWSLETTER SIGNUP -->
-    <section id="newsletter-section" class="py-20 border-t-2 border-b-2 border-purple-800/50 overflow-hidden relative"
+    <section id="newsletter-section" class="py-20 border-t-2 border-b-2 border-pink-900/40 overflow-hidden relative"
+        style="background: linear-gradient(135deg, #BE185D 0%, #2E1065 33%, #0D9488 66%, #F59E0B 100%) !important;"
         data-blueprint-file="WackyStore.WebUI/Views/Shared/_NewsletterSignup.cshtml"
         data-blueprint-role="Newsletter Signup Partial View" data-blueprint-layer="WebUI / View Component"
-        data-blueprint-dom="Semantic &lt;section&gt; with wavy purple and darker purple lines background and an opaque white &amp; black card."
-        data-blueprint-desc="Renders the newsletter signup form featuring dynamic wavy purple lines background and a crisp high-contrast opaque white/black container. Posts email subscriptions to the Newsletter controller."
+        data-blueprint-dom="Semantic &lt;section&gt; with 4-color gradient background matching the upper-right navigation buttons and an opaque white &amp; black card."
+        data-blueprint-desc="Renders the newsletter signup form featuring dynamic 4-color nav gradient background and a crisp high-contrast opaque white/black container. Posts email subscriptions to the Newsletter controller."
         data-blueprint-code="[HttpPost] public ActionResult Subscribe(string email) { ... }">
 
 
@@ -3040,33 +2998,33 @@
             </div><!-- /#screen-regular -->
 
             <!-- ============================================================================== -->
-            <!-- SCREEN 2: FUNNY ACADEMY (Reversed Dark Cosmic Theme, Academy Header, Curriculums & Reversed Light Footer) -->
+            <!-- SCREEN 2: FUNNY ACADEMY (Reversed Slate Grey Theme, Academy Header, Curriculums & Light Reverse Footer) -->
             <!-- ============================================================================== -->
             <div id="screen-academy" class="academy-reverse-theme" style="display: none;">
 
-                <!-- Academy Announcement Bar (Reversed Scheme: Deep Cosmic Obsidian Surface with Amber Accents) -->
-                <div class="bg-[#0B0319] text-purple-200 border-b border-[#2A0E54] store-fluid-container py-2 text-xs font-semibold text-center tracking-wide flex items-center justify-between gap-4 flex-wrap">
+                <!-- Academy Announcement Bar (Reversed Scheme: Cool Slate Grey Surface with Amber Accents) -->
+                <div class="bg-[#111620] text-slate-300 border-b border-[#252e3d] store-fluid-container py-2 text-xs font-semibold text-center tracking-wide flex items-center justify-between gap-4 flex-wrap">
                     <div class="flex items-center gap-4 mx-auto sm:mx-0 flex-wrap justify-center">
-                        <span class="flex items-center gap-1.5 text-purple-100 font-bold">
+                        <span class="flex items-center gap-1.5 text-slate-100 font-bold">
                             <i class="fa-solid fa-graduation-cap text-amber-400"></i> WackyDash LMS Architecture &bull; University of Novelty
                         </span>
-                        <span class="hidden md:inline text-purple-600">&bull;</span>
-                        <span class="hidden md:flex items-center gap-1.5 text-purple-200">
+                        <span class="hidden md:inline text-slate-600">&bull;</span>
+                        <span class="hidden md:flex items-center gap-1.5 text-slate-300">
                             <i class="fa-solid fa-certificate text-amber-400"></i> Certified Gag Curriculums
                         </span>
-                        <span class="hidden lg:inline text-purple-600">&bull;</span>
-                        <span class="hidden lg:flex items-center gap-1.5 text-purple-200">
+                        <span class="hidden lg:inline text-slate-600">&bull;</span>
+                        <span class="hidden lg:flex items-center gap-1.5 text-slate-300">
                             <i class="fa-solid fa-video text-amber-400"></i> Live Zoom Masterclasses
                         </span>
                     </div>
-                    <div class="hidden xl:flex items-center gap-2 text-[11px] text-purple-300 font-mono">
+                    <div class="hidden xl:flex items-center gap-2 text-[11px] text-slate-400 font-mono">
                         <i class="fa-solid fa-microchip text-amber-400"></i>
                         <span>Funny Academy Portal</span>
                     </div>
                 </div>
 
-                <!-- Academy Header (Reversed Scheme: Deep Obsidian Dark Mode with Glowing Amber/Gold Accents) -->
-                <header id="academy-main-header" class="border-b border-[#38146F] bg-[#0E0422]/95 sticky top-0 z-40 backdrop-blur-md">
+                <!-- Academy Header (Reversed Scheme: Sleek Slate Grey Dark Mode with Glowing Amber/Gold Accents) -->
+                <header id="academy-main-header" class="border-b border-[#334155] bg-[#141a24]/95 sticky top-0 z-40 backdrop-blur-md">
                     <div class="store-fluid-container py-3.5 flex items-center justify-between gap-4 flex-wrap">
                         <!-- Brand Logo (clicking returns to store) -->
                         <div class="cursor-pointer select-none flex items-center gap-3 group" onclick="window.goToStoreCatalog()">
@@ -3077,7 +3035,7 @@
                                 <div class="font-heading font-black text-xl sm:text-2xl text-white tracking-tight flex items-center gap-1.5 leading-none">
                                     WACKY<span class="text-amber-400">ACADEMY</span>
                                 </div>
-                                <div class="text-[11px] text-purple-300 font-medium mt-0.5">Novelty Science &amp; Gag Architecture</div>
+                                <div class="text-[11px] text-slate-400 font-medium mt-0.5">Novelty Science &amp; Gag Architecture</div>
                             </div>
                         </div>
 
@@ -3087,8 +3045,8 @@
                                 <input type="text" id="academy-search-input"
                                     placeholder="Search academy curriculums &amp; bizarre courses..."
                                     oninput="window.filterCoursesByQuery(this.value)"
-                                    class="w-full bg-[#180838] border border-[#3E1878] rounded-xl pl-10 pr-9 py-2.5 text-xs text-white placeholder-purple-300/60 focus:outline-none focus:border-amber-400 focus:ring-2 focus:ring-amber-400/30 transition-all">
-                                <i class="fa-solid fa-magnifying-glass absolute left-3.5 text-purple-400 text-sm"></i>
+                                    class="w-full bg-[#252e3d] border border-[#475569] rounded-xl pl-10 pr-9 py-2.5 text-xs text-white placeholder-slate-400 focus:outline-none focus:border-amber-400 focus:ring-2 focus:ring-amber-400/30 transition-all">
+                                <i class="fa-solid fa-magnifying-glass absolute left-3.5 text-slate-400 text-sm"></i>
                             </div>
                         </div>
 
@@ -3114,7 +3072,7 @@
 
                             <!-- Return to Store Catalog Button -->
                             <button onclick="window.switchView('store')" id="academy-header-store-btn"
-                                class="h-10 px-3.5 rounded-xl bg-purple-900/80 hover:bg-purple-800 border border-purple-700/60 text-purple-100 text-xs font-bold flex items-center gap-1.5 transition-all cursor-pointer"
+                                class="h-10 px-3.5 rounded-xl bg-[#273142] hover:bg-[#334155] border border-[#475569] text-slate-200 text-xs font-bold flex items-center gap-1.5 transition-all cursor-pointer"
                                 title="Return to Store Catalog">
                                 <i class="fa-solid fa-shop text-amber-300"></i>
                                 <span class="hidden sm:inline">Store Catalog</span>
@@ -3136,72 +3094,39 @@
         data-blueprint-dom="Main container rendering WackyDash-style courses locked to purchase and live Zoom webinar registration."
         data-blueprint-desc="CourseController coordinates curriculum catalogs, locked enrollment authorization gates, and external Zoom REST API webinar registrations."
         data-blueprint-code="public ViewResult Learning(string track) => View(courseService.GetCurriculums(track));"
-        class="bg-[#0A0318] text-white flex-1 w-full pt-0 pb-16">
+        class="bg-[#1e2430] text-white flex-1 w-full pt-4 pb-16">
 
-        <!-- 100% Width Attached Sub-Header Bar (pinned directly below navigation) -->
-        <div id="learning-filter-bar" class="w-full bg-[#120526] border-b border-[#38146F] sticky top-[68px] z-30 shadow-md"
-            data-blueprint-file="WackyStore.WebUI/Models/CourseListViewModel.cs"
-            data-blueprint-role="Funny Academy Attached Filter Bar"
-            data-blueprint-layer="WebUI / Presentation Component"
-            data-blueprint-dom="Attached sticky toolbar displaying academy track filters, enrollment counter, and return action."
-            data-blueprint-desc="Strongly typed ViewModel supplying category tracks and student enrollment authorization claims to the LMS view."
-            data-blueprint-code="public class CourseListViewModel { public IEnumerable<Course> Courses { get; set; } }">
-            <div
-                class="store-fluid-container py-3 sm:py-4 flex flex-col xl:flex-row xl:items-center justify-between gap-3.5 xl:gap-8 w-full">
-
-                <!-- Editorial / Academy Introduction -->
-                <div class="flex items-start gap-2.5 sm:gap-3 flex-1 min-w-0">
-                    <div
-                        class="h-8 w-8 rounded-xl bg-[#1E0B3C] text-amber-400 border border-[#481A85] flex items-center justify-center text-sm shrink-0 mt-0.5 shadow-xs">
-                        <i class="fa-solid fa-graduation-cap"></i>
-                    </div>
-                    <div>
-                        <div class="flex items-center gap-2">
-                            <span
-                                class="px-2 py-0.5 rounded-full bg-amber-400/20 text-amber-300 border border-amber-400/30 text-[10px] font-mono font-black uppercase tracking-wider">
-                                WackyDash LMS Architecture
-                            </span>
-                            <span class="text-xs text-purple-300 font-mono hidden sm:inline">&bull; Locked To
-                                Purchase</span>
-                        </div>
-                        <h1 class="font-heading font-black text-base sm:text-lg text-white tracking-tight leading-snug mt-1 mb-0.5">
-                            Novelty Engineering &amp; C# Gag Architecture
-                        </h1>
-                        <p
-                            class="text-xs sm:text-sm font-normal text-purple-200/90 leading-relaxed text-left max-w-4xl m-0 mt-0.5">
-                            Exclusive university-grade novelty sciences &amp; C# gag architecture. These specialized
-                            curriculums are accessible only on this portal and are decoupled from physical store
-                            inventory.
-                        </p>
-                    </div>
+        <!-- COURSES CATALOG GRID (WackyDash Style Course Cards) -->
+        <div class="store-fluid-container py-6 w-full">
+            <div class="flex flex-col lg:flex-row lg:items-center justify-between gap-4 mb-6">
+                <div>
+                    <h2 class="font-heading font-black text-xl sm:text-2xl text-white flex items-center gap-2.5">
+                        <i class="fa-solid fa-layer-group text-[#F59E0B]"></i>
+                        <span>Featured Curriculums</span>
+                    </h2>
+                    <p class="text-xs text-slate-300 mt-0.5">
+                        Showing courses accessible exclusively on this academy page. Click any course to inspect
+                        curriculum or unlock enrollment.
+                    </p>
                 </div>
 
-                <!-- Vertical Divider on xl+ screens -->
-                <div class="hidden xl:block h-10 w-[1px] bg-[#38156B] shrink-0"></div>
-
                 <!-- Course Track Filter Buttons -->
-                <div class="flex flex-wrap items-center gap-1.5 sm:gap-2 text-xs shrink-0 overflow-x-auto pb-1 xl:pb-0">
+                <div class="flex flex-wrap items-center gap-1.5 sm:gap-2 text-xs shrink-0 overflow-x-auto pb-1 lg:pb-0">
                     <button onclick="window.filterCourseCategory('all')" id="course-filter-all"
-                        data-blueprint-file="WackyStore.Domain/Abstract/ICourseRepository.cs"
-                        data-blueprint-role="Curriculum Category Filter Action"
-                        data-blueprint-layer="Domain / Service Interface"
-                        data-blueprint-dom="Category pill button filtering courses by active curriculum domain."
-                        data-blueprint-desc="Executes Linq query over ICourseRepository.GetCourses().Where(c => track == null || c.Category == track)."
-                        data-blueprint-code="courseRepo.GetCourses().Where(c => c.IsPublished)"
                         class="course-cat-btn px-3 sm:px-3.5 py-1.5 rounded-xl font-bold transition-all bg-[#F59E0B] text-white text-[11px] sm:text-xs cursor-pointer shadow-xs">
                         All Tracks
                     </button>
                     <button onclick="window.filterCourseCategory('Absurd Physics')" id="course-filter-physics"
-                        class="course-cat-btn px-3 sm:px-3.5 py-1.5 rounded-xl font-bold transition-all bg-[#1A0736] hover:bg-[#2A0E52] text-purple-200 border border-[#3E1777] text-[11px] sm:text-xs cursor-pointer">
+                        class="course-cat-btn px-3 sm:px-3.5 py-1.5 rounded-xl font-bold transition-all bg-[#273142] hover:bg-[#334155] text-slate-200 border border-[#475569] text-[11px] sm:text-xs cursor-pointer">
                         Absurd Physics
                     </button>
                     <button onclick="window.filterCourseCategory('Novelty Engineering')" id="course-filter-engineering"
-                        class="course-cat-btn px-3 sm:px-3.5 py-1.5 rounded-xl font-bold transition-all bg-[#1A0736] hover:bg-[#2A0E52] text-purple-200 border border-[#3E1777] text-[11px] sm:text-xs cursor-pointer">
+                        class="course-cat-btn px-3 sm:px-3.5 py-1.5 rounded-xl font-bold transition-all bg-[#273142] hover:bg-[#334155] text-slate-200 border border-[#475569] text-[11px] sm:text-xs cursor-pointer">
                         Novelty Engineering
                     </button>
                     <button onclick="window.filterCourseCategory('C# &amp; Gag Architecture')"
                         id="course-filter-architecture"
-                        class="course-cat-btn px-3 sm:px-3.5 py-1.5 rounded-xl font-bold transition-all bg-[#1A0736] hover:bg-[#2A0E52] text-purple-200 border border-[#3E1777] text-[11px] sm:text-xs cursor-pointer">
+                        class="course-cat-btn px-3 sm:px-3.5 py-1.5 rounded-xl font-bold transition-all bg-[#273142] hover:bg-[#334155] text-slate-200 border border-[#475569] text-[11px] sm:text-xs cursor-pointer">
                         C# &amp; Gag Architecture
                     </button>
                     <button onclick="window.scrollToZoomWebinar()"
@@ -3209,58 +3134,12 @@
                         <i class="fa-solid fa-video text-amber-200"></i>
                         <span>Live Webinar</span>
                     </button>
-                </div>
-
-            </div>
-        </div>
-
-        <!-- Academy Introduction & Banner (Dark Contrast Aesthetic) -->
-        <div class="store-fluid-container pt-6 pb-2">
-            <div class="rounded-2xl bg-[#14062B] border border-[#3A1470] p-6 sm:p-8 text-white shadow-xl flex flex-col md:flex-row items-start md:items-center justify-between gap-6"
-                data-blueprint-file="WackyStore.WebUI/Views/Course/HeroBanner.cshtml"
-                data-blueprint-role="LMS Hero Header" data-blueprint-layer="WebUI / View Component">
-                <div class="space-y-2 max-w-3xl">
-                    <div class="flex items-center gap-2">
-                        <span class="px-2.5 py-0.5 rounded-full bg-amber-400/20 text-amber-300 border border-amber-400/30 font-mono text-[10.5px] font-bold uppercase tracking-wider">
-                            <i class="fa-solid fa-graduation-cap text-amber-400 mr-1"></i> WackyDash LMS
-                        </span>
-                        <span class="text-xs text-purple-300 font-mono hidden sm:inline">&bull; Certified Gag Curriculums</span>
-                    </div>
-                    <h1 class="font-heading font-black text-2xl sm:text-3xl text-white tracking-tight leading-tight">
-                        Novelty Engineering &amp; C# Gag Architecture
-                    </h1>
-                    <p class="text-xs sm:text-sm text-purple-200/90 leading-relaxed">
-                        Curriculums exploring prank physics, decoupled model binding, and comedic mechanics. Modules are gated to enrollment and include syllabus breakdown and live Zoom sessions.
-                    </p>
-                </div>
-                <div class="flex items-center gap-3 shrink-0">
-                    <button onclick="window.scrollToZoomWebinar()"
-                        class="px-4 py-2.5 rounded-xl bg-gradient-to-r from-amber-500 to-orange-500 hover:from-amber-600 hover:to-orange-600 text-white font-bold text-xs flex items-center gap-2 shadow-xs cursor-pointer transition-all">
-                        <i class="fa-solid fa-video text-amber-200"></i>
-                        <span>Upcoming Webinar</span>
+                    <button onclick="window.switchView('store')"
+                        class="hidden sm:flex items-center gap-2 px-3.5 py-1.5 rounded-xl bg-[#273142] hover:bg-[#334155] text-slate-200 text-xs font-bold transition-all border border-[#475569] cursor-pointer ml-1">
+                        <i class="fa-solid fa-shop text-amber-300"></i>
+                        <span>Store Catalog</span>
                     </button>
                 </div>
-            </div>
-        </div>
-
-        <!-- COURSES CATALOG GRID (WackyDash Style Course Cards) -->
-        <div class="store-fluid-container py-6 w-full">
-            <div class="flex items-center justify-between mb-6">
-                <div>
-                    <h2 class="font-heading font-black text-xl sm:text-2xl text-white flex items-center gap-2.5">
-                        <i class="fa-solid fa-layer-group text-[#F59E0B]"></i>
-                        <span>Featured Curriculums</span>
-                    </h2>
-                    <p class="text-xs text-purple-300/80 mt-0.5">
-                        Showing courses accessible exclusively on this academy page. Click any course to inspect
-                        curriculum or unlock enrollment.
-                    </p>
-                </div>
-                <button onclick="window.switchView('store')"
-                    class="hidden sm:flex items-center gap-2 px-3.5 py-1.5 rounded-xl bg-[#1E093C] hover:bg-[#2C0E54] text-purple-200 text-xs font-bold transition-all border border-[#3F187A] cursor-pointer">
-                    <i class="fa-solid fa-shop text-amber-300"></i>
-                    <span>Store Catalog</span>
-                </button>
             </div>
 
             <!-- Injected dynamic WackyDash Course Cards -->

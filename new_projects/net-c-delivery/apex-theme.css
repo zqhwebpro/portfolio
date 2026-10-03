@@ -1,51 +1,35 @@
 /* ═══════════════════════════════════════════════════════════════════
-   DINERDASHBOARD // TACTILE 3D TOUCH & LIGHT DESIGN SYSTEM
-   Strict 5-Color Palette (https://www.color-hex.com/palettes/1018292.png):
-   1. Pure White Canvas       : #ffffff
-   2. Vibrant Cyber Cyan      : #00c5cd
-   3. Pitch Black Typography  : #000000
-   4. Charcoal Slate          : #545454
-   5. Medium Silver Gray      : #999999
+   DINERDASHBOARD // BEVEL AESTHETIC DESIGN SYSTEM
+   Inspiration: https://i.pinimg.com/1200x/97/f0/dd/97f0dd71f99ce78413e3c2a2883df60d.jpg
+   Soft warm grey canvas (#e8e8ec), pure white pillowy cards (radius 28px),
+   exquisite typography, dot-matrix nutrition grids, dual-gradient glow sliders,
+   multi-ring progress gauges, lush green gradient Energy Bank, and arc button.
    ═══════════════════════════════════════════════════════════════════ */
 
 :root {
-  /* Strict 5-Color Palette Tokens */
-  --apex-white: #ffffff;
-  --apex-cyan: #00c5cd;
-  --apex-black: #000000;
-  --apex-charcoal: #545454;
-  --apex-silver: #999999;
+  --bevel-canvas: #e8e8ec;
+  --bevel-card-bg: #ffffff;
+  --bevel-text-dark: #111827;
+  --bevel-text-muted: #6b7280;
+  --bevel-text-faint: #9ca3af;
+  --bevel-border-faint: #f3f4f6;
+  --bevel-border-subtle: #e5e7eb;
 
-  /* Semantic Light UI Tokens */
-  --apex-bg: #ffffff;
-  --apex-surface: #ffffff;
-  --apex-surface-subtle: #f8f9fa;
-  --apex-surface-muted: #f1f3f5;
-  --apex-surface-highlight: #e6f9fa;
-  
-  --apex-text-primary: #000000;
-  --apex-text-secondary: #545454;
-  --apex-text-muted: #999999;
-  
-  --apex-border: #999999;
-  --apex-border-subtle: #d6dadf;
-  --apex-border-cyan: #00c5cd;
+  /* Accent Colors from Inspiration */
+  --bevel-blue: #5b82f6;
+  --bevel-blue-faint: #eff6ff;
+  --bevel-orange: #f59e0b;
+  --bevel-orange-faint: #fffbeb;
+  --bevel-pink: #f43f5e;
+  --bevel-pink-faint: #fff1f2;
+  --bevel-lime: #84cc16;
+  --bevel-violet: #6366f1;
+  --bevel-cyan: #06b6d4;
+  --bevel-green: #10b981;
 
-  --apex-cyan-glow: rgba(0, 197, 205, 0.3);
-  --apex-cyan-dim: rgba(0, 197, 205, 0.12);
-  --apex-cyan-hover: #00b3bb;
-  --apex-cyan-dark: #007a80;
-
+  /* Typography */
+  --font-sans: 'Inter', -apple-system, BlinkMacSystemFont, "SF Pro Display", "Segoe UI", Roboto, sans-serif;
   --font-mono: 'JetBrains Mono', 'Roboto Mono', monospace;
-  --font-headline: 'Outfit', 'Space Grotesk', -apple-system, sans-serif;
-  --font-sans: 'Inter', -apple-system, sans-serif;
-
-  /* Status Colors */
-  --status-ok: #007a80;
-  --status-ok-bg: rgba(0, 197, 205, 0.15);
-  --status-pending: #545454;
-  --status-pending-bg: rgba(153, 153, 153, 0.15);
-  --status-warn: #545454;
 }
 
 * {
@@ -54,1096 +38,1020 @@
   padding: 0;
 }
 
-html, body {
-  background-color: var(--apex-bg);
-  color: var(--apex-text-primary);
+body {
+  background-color: var(--bevel-canvas);
+  color: var(--bevel-text-dark);
   font-family: var(--font-sans);
   min-height: 100vh;
-  overflow-x: hidden;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: 0 0 4rem 0;
   -webkit-font-smoothing: antialiased;
 }
 
-/* Custom Scrollbar */
-::-webkit-scrollbar {
-  width: 7px;
-  height: 7px;
-}
-::-webkit-scrollbar-track {
-  background: var(--apex-surface-subtle);
-}
-::-webkit-scrollbar-thumb {
-  background: var(--apex-silver);
-  border-radius: 2px;
-}
-::-webkit-scrollbar-thumb:hover {
-  background: var(--apex-cyan);
-}
-
-/* Monospace Utilities */
-.font-mono {
-  font-family: var(--font-mono) !important;
-}
-
-/* Typography Overrides for Light Scheme */
-.text-white {
-  color: var(--apex-black) !important;
-}
-.text-secondary {
-  color: var(--apex-charcoal) !important;
-}
-.text-xs {
-  font-size: 0.75rem !important;
-}
-
-/* Persistent Navigation Anchors */
+/* Persistent Navigation Buttons */
 #back-btn-np,
 #case-study-btn-np {
-  transition: transform 0.15s ease, background 0.2s ease, border-color 0.2s ease;
-  background: var(--apex-white) !important;
-  color: var(--apex-black) !important;
-  border-color: var(--apex-silver) !important;
+  position: fixed;
+  z-index: 99999;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 36px;
+  height: 36px;
+  background: #ffffff;
+  border-radius: 12px;
+  box-shadow: 0 4px 14px rgba(0, 0, 0, 0.08);
+  color: #111827;
+  text-decoration: none;
+  font-weight: 700;
+  transition: transform 0.15s ease;
 }
+
+#back-btn-np {
+  top: 14px;
+  right: 14px;
+}
+
+#case-study-btn-np {
+  bottom: 14px;
+  left: 14px;
+}
+
 #back-btn-np:hover,
 #case-study-btn-np:hover {
-  transform: scale(1.08);
-  background: var(--apex-surface-highlight) !important;
-  border-color: var(--apex-cyan) !important;
-  color: var(--apex-cyan-dark) !important;
+  transform: scale(1.05);
 }
 
 /* ═══════════════════════════════════════════════════════════════════
-   1. APEX-OS SYSTEM MENUBAR (TOP FIXED HEADER)
+   APP SHELL & MOBILE / TABLET VIEWPORT
    ═══════════════════════════════════════════════════════════════════ */
-.apex-os-menubar {
-  background: var(--apex-white);
-  border-bottom: 1px solid var(--apex-silver);
-  padding: 6px 16px;
+.bevel-app-shell {
+  width: 100%;
+  max-width: 440px;
+  margin: 0 auto;
+  padding: 0 16px;
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+
+@media (min-width: 768px) {
+  .bevel-app-shell {
+    max-width: 480px;
+    padding-top: 12px;
+  }
+}
+
+/* iOS Top Status Bar (9:41, Cellular, WiFi, Battery) */
+.bevel-status-bar {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 12px 14px 4px 14px;
+  font-size: 15px;
+  font-weight: 700;
+  color: var(--bevel-text-dark);
+  letter-spacing: -0.01em;
+}
+
+.bevel-status-icons {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  font-size: 13px;
+}
+
+.bevel-battery-icon {
+  width: 22px;
+  height: 11px;
+  border: 2px solid var(--bevel-text-dark);
+  border-radius: 3px;
+  padding: 1px;
+  position: relative;
+  display: inline-flex;
+  align-items: center;
+}
+
+.bevel-battery-icon::after {
+  content: '';
+  position: absolute;
+  right: -4px;
+  top: 2px;
+  width: 2px;
+  height: 4px;
+  background: var(--bevel-text-dark);
+  border-radius: 0 1px 1px 0;
+}
+
+.bevel-battery-fill {
+  width: 100%;
+  height: 100%;
+  background: var(--bevel-text-dark);
+  border-radius: 1px;
+}
+
+/* ═══════════════════════════════════════════════════════════════════
+   BEVEL PILLOWY WHITE CARD BASE
+   ═══════════════════════════════════════════════════════════════════ */
+.bevel-card {
+  background: var(--bevel-card-bg);
+  border-radius: 28px;
+  padding: 22px 24px;
+  box-shadow: 
+    0 4px 20px rgba(0, 0, 0, 0.03),
+    0 1px 3px rgba(0, 0, 0, 0.02);
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  position: relative;
+  overflow: hidden;
+  transition: transform 0.18s ease, box-shadow 0.18s ease;
+}
+
+.bevel-card:hover {
+  box-shadow: 
+    0 6px 26px rgba(0, 0, 0, 0.05),
+    0 2px 6px rgba(0, 0, 0, 0.03);
+}
+
+/* Card Header Strip */
+.bevel-card-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 16px;
+}
+
+.bevel-card-title {
+  font-size: 18px;
+  font-weight: 700;
+  color: var(--bevel-text-dark);
+  letter-spacing: -0.01em;
+}
+
+.bevel-card-stat {
+  font-size: 18px;
+  font-weight: 700;
+  color: var(--bevel-text-dark);
+  letter-spacing: -0.01em;
+}
+
+/* ═══════════════════════════════════════════════════════════════════
+   CARD 1: TODAY'S FOOD / ORDERS & DOT MATRIX & DIAL
+   ═══════════════════════════════════════════════════════════════════ */
+.food-card-body {
   display: flex;
   align-items: center;
   justify-content: space-between;
   gap: 16px;
-  position: sticky;
-  top: 0;
-  z-index: 1000;
-  box-shadow: 0 1px 4px rgba(0, 0, 0, 0.04);
+  padding-bottom: 18px;
 }
 
-.apex-os-brand {
+/* 3 Dot-Matrix Columns */
+.dot-matrix-container {
   display: flex;
-  align-items: center;
-  gap: 10px;
-}
-
-.apex-os-logo-cube {
-  width: 28px;
-  height: 28px;
-  background: var(--apex-black);
-  border: 1px solid var(--apex-cyan);
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  color: var(--apex-cyan);
-  font-family: var(--font-mono);
-  font-weight: 900;
-  font-size: 14px;
-  box-shadow: 0 0 8px var(--apex-cyan-glow);
-  position: relative;
-}
-
-.apex-os-title {
-  display: flex;
-  align-items: baseline;
-  gap: 8px;
-}
-
-.apex-os-title-name {
-  font-family: var(--font-headline);
-  font-weight: 800;
-  font-size: 15px;
-  letter-spacing: 0.5px;
-  color: var(--apex-black);
-}
-
-.apex-os-kernel-badge {
-  font-family: var(--font-mono);
-  font-size: 10px;
-  padding: 2px 6px;
-  background: var(--apex-cyan-dim);
-  border: 1px solid var(--apex-cyan);
-  color: var(--apex-cyan-dark);
-  font-weight: 700;
-  letter-spacing: 0.3px;
-}
-
-/* OS Menubar Quick Nav Tabs */
-.apex-os-menu-items {
-  display: flex;
-  align-items: center;
-  gap: 6px;
-}
-
-.apex-os-menu-btn {
-  background: linear-gradient(180deg, #ffffff 0%, #f1f5f9 100%);
-  border: 1.5px solid #cbd5e1;
-  color: var(--apex-charcoal);
-  font-family: var(--font-headline);
-  font-size: 12px;
-  font-weight: 700;
-  padding: 6px 14px;
-  cursor: pointer;
-  transition: transform 0.08s ease, box-shadow 0.08s ease, background 0.15s ease;
-  display: inline-flex;
-  align-items: center;
-  gap: 7px;
-  text-decoration: none;
-  border-radius: 12px;
-  box-shadow: 0 3px 0 #94a3b8, 0 6px 12px rgba(0, 0, 0, 0.05);
-  user-select: none;
-}
-
-.apex-os-menu-btn:hover {
-  transform: translateY(-1.5px);
-  color: var(--apex-black);
-  box-shadow: 0 4.5px 0 #94a3b8, 0 8px 16px rgba(0, 0, 0, 0.08);
-}
-
-.apex-os-menu-btn:active {
-  transform: translateY(2px) !important;
-  box-shadow: 0 1px 0 #94a3b8 !important;
-}
-
-.apex-os-menu-btn.active {
-  color: #002224 !important;
-  background: linear-gradient(180deg, #37e4ec 0%, #00c5cd 100%);
-  border-color: #009aa1;
-  font-weight: 800;
-  box-shadow: 0 3px 0 #007a80, 0 6px 14px rgba(0, 197, 205, 0.35);
-}
-
-.apex-os-menu-btn.active i {
-  color: #002224;
-}
-
-/* OS Right Action Bar */
-.apex-os-actions {
-  display: flex;
-  align-items: center;
-  gap: 10px;
-}
-
-.apex-realtime-badge {
-  display: inline-flex;
-  align-items: center;
-  gap: 8px;
-  padding: 3px 9px;
-  background: var(--apex-surface-subtle);
-  border: 1px solid var(--apex-silver);
-  font-family: var(--font-mono);
-  font-size: 11px;
-  color: var(--apex-charcoal);
-}
-
-.apex-pulse-dot {
-  width: 7px;
-  height: 7px;
-  background: var(--apex-cyan);
-  box-shadow: 0 0 6px var(--apex-cyan);
-  display: inline-block;
-  animation: apexPulse 1.8s infinite;
-}
-
-@keyframes apexPulse {
-  0% { transform: scale(0.95); opacity: 0.7; }
-  50% { transform: scale(1.3); opacity: 1; box-shadow: 0 0 10px var(--apex-cyan); }
-  100% { transform: scale(0.95); opacity: 0.7; }
-}
-
-.apex-icon-btn {
-  width: 28px;
-  height: 28px;
-  background: var(--apex-white);
-  border: 1px solid var(--apex-silver);
-  color: var(--apex-charcoal);
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  cursor: pointer;
-  font-size: 12px;
-  transition: all 0.15s ease;
-  border-radius: 2px;
-}
-
-.apex-icon-btn:hover {
-  color: var(--apex-black);
-  border-color: var(--apex-cyan);
-  background: var(--apex-cyan-dim);
-}
-
-.apex-clock {
-  font-family: var(--font-mono);
-  font-size: 11.5px;
-  color: var(--apex-charcoal);
-  padding: 3px 8px;
-  background: var(--apex-surface-subtle);
-  border: 1px solid var(--apex-silver);
-}
-
-/* ═══════════════════════════════════════════════════════════════════
-   2. APEX WORKBOOK FORMULA & COORDINATE BAR
-   ═══════════════════════════════════════════════════════════════════ */
-.apex-formula-strip {
-  background: var(--apex-surface-muted);
-  border-bottom: 1px solid var(--apex-silver);
-  padding: 5px 16px;
-  display: flex;
-  align-items: center;
-  gap: 10px;
-  font-family: var(--font-mono);
-  font-size: 11.5px;
-}
-
-.apex-cell-coord {
-  background: var(--apex-white);
-  border: 1px solid var(--apex-silver);
-  color: var(--apex-black);
-  font-weight: 700;
-  padding: 2px 10px;
-  min-width: 60px;
-  text-align: center;
-}
-
-.apex-fx-symbol {
-  color: var(--apex-charcoal);
-  font-style: italic;
-  font-weight: 700;
-}
-
-.apex-formula-display {
+  align-items: flex-end;
+  gap: 16px;
   flex: 1;
-  background: var(--apex-white);
-  border: 1px solid var(--apex-silver);
-  color: var(--apex-black);
-  padding: 3px 10px;
-  font-family: var(--font-mono);
-  font-size: 11.5px;
-  outline: none;
-  white-space: nowrap;
-  overflow: hidden;
-  text-overflow: ellipsis;
 }
 
-.apex-formula-display:focus {
-  border-color: var(--apex-cyan);
+.dot-col {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
 }
 
-/* ═══════════════════════════════════════════════════════════════════
-   3. GOOGLE ANALYTICS x SEO SPIDER TELEMETRY SCORECARDS
-   ═══════════════════════════════════════════════════════════════════ */
-.apex-telemetry-grid {
+.dot-grid {
   display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
-  gap: 12px;
-  padding: 14px 16px;
-  background: var(--apex-surface-subtle);
-  border-bottom: 1px solid var(--apex-silver);
+  grid-template-columns: repeat(4, 5px);
+  grid-template-rows: repeat(6, 5px);
+  gap: 3.5px;
 }
 
-.apex-metric-card {
-  background: var(--apex-white);
-  border: 1.5px solid #cbd5e1;
-  border-radius: 16px;
-  padding: 12px 16px;
+.dot {
+  width: 5px;
+  height: 5px;
+  border-radius: 50%;
+  background: #f1f2f6;
+}
+
+.dot.blue-active {
+  background: #5b82f6;
+}
+
+.dot.orange-active {
+  background: #f59e0b;
+}
+
+.dot.pink-active {
+  background: #f43f5e;
+}
+
+.dot-label {
+  display: flex;
+  align-items: center;
+  gap: 4px;
+  font-size: 13px;
+  font-weight: 700;
+  white-space: nowrap;
+}
+
+.dot-label.blue {
+  color: #5b82f6;
+}
+
+.dot-label.orange {
+  color: #f59e0b;
+}
+
+.dot-label.pink {
+  color: #f43f5e;
+}
+
+/* Segmented Dial Gauge ("60 fair") */
+.segmented-dial-box {
+  width: 86px;
+  height: 86px;
   position: relative;
-  transition: all 0.15s ease;
-  box-shadow: 0 4px 0 #cbd5e1, 0 8px 16px rgba(0, 0, 0, 0.05);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  shrink: 0;
 }
 
-.apex-metric-card:hover {
-  transform: translateY(-2px);
-  border-color: var(--apex-cyan);
-  box-shadow: 0 6px 0 var(--apex-cyan), 0 12px 24px rgba(0, 197, 205, 0.2);
-}
-
-.apex-metric-card::before {
-  content: '';
+.segmented-dial-svg {
   position: absolute;
-  top: 12px;
-  left: 0;
-  width: 4px;
-  height: calc(100% - 24px);
-  border-radius: 0 4px 4px 0;
-  background: var(--apex-silver);
-  transition: background 0.15s ease;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  transform: rotate(-90deg);
 }
 
-.apex-metric-card:hover::before {
-  background: var(--apex-cyan);
-}
-
-.apex-metric-top {
+.dial-center-text {
   display: flex;
+  flex-direction: column;
   align-items: center;
-  justify-content: space-between;
-  font-family: var(--font-mono);
-  font-size: 10.5px;
-  color: var(--apex-charcoal);
-  text-transform: uppercase;
-  letter-spacing: 0.5px;
-  margin-bottom: 6px;
-  font-weight: 600;
+  justify-content: center;
+  z-index: 2;
+  margin-top: 2px;
 }
 
-.apex-metric-val {
-  font-family: var(--font-headline);
-  font-size: 22px;
+.dial-number {
+  font-size: 26px;
   font-weight: 800;
-  color: var(--apex-black);
-  display: flex;
-  align-items: baseline;
-  gap: 8px;
+  line-height: 1;
+  color: var(--bevel-text-dark);
+  letter-spacing: -0.02em;
 }
 
-.apex-metric-tag {
-  font-family: var(--font-mono);
-  font-size: 10.5px;
-  font-weight: 700;
-  padding: 2px 6px;
-  background: var(--apex-cyan-dim);
-  border: 1px solid var(--apex-cyan);
-  color: var(--apex-cyan-dark);
-}
-
-.apex-metric-tag.neutral {
-  background: var(--status-pending-bg);
-  border-color: var(--apex-silver);
-  color: var(--apex-charcoal);
-}
-
-/* ═══════════════════════════════════════════════════════════════════
-   4. STEPPER PROGRESS NOTICE STRIP
-   ═══════════════════════════════════════════════════════════════════ */
-.apex-stepper-strip {
-  background: var(--apex-white);
-  border-bottom: 1px solid var(--apex-silver);
-  padding: 8px 16px;
-  display: flex;
-  flex-wrap: wrap;
-  align-items: center;
-  justify-content: space-between;
-  gap: 12px;
-}
-
-.apex-stepper-steps {
-  display: flex;
-  align-items: center;
-  gap: 8px;
-  flex-wrap: wrap;
-}
-
-.apex-step-chip {
-  padding: 4px 10px;
-  font-family: var(--font-mono);
+.dial-subtext {
   font-size: 11px;
-  font-weight: 700;
-  display: inline-flex;
-  align-items: center;
-  gap: 6px;
-  border: 1px solid var(--apex-silver);
-  background: var(--apex-white);
-  color: var(--apex-charcoal);
-  border-radius: 2px;
+  font-weight: 600;
+  color: var(--bevel-text-faint);
+  margin-top: 3px;
 }
 
-.apex-step-chip.active {
-  background: var(--apex-cyan-dim);
-  border-color: var(--apex-cyan);
-  color: var(--apex-black);
-  box-shadow: 0 0 6px var(--apex-cyan-glow);
-}
-
-.apex-step-chip.active i {
-  color: var(--apex-cyan-dark);
-}
-
-.apex-step-chip.verified {
-  background: var(--apex-surface-highlight);
-  border-color: var(--apex-cyan);
-  color: var(--apex-black);
-}
-
-.apex-step-chip.verified i {
-  color: var(--apex-cyan-dark);
-}
-
-.apex-step-chip.locked {
-  opacity: 0.6;
-  cursor: not-allowed;
-  background: var(--apex-surface-muted);
-}
-
-.apex-stepper-help {
-  font-family: var(--font-mono);
-  font-size: 11.5px;
-  color: var(--apex-charcoal);
-}
-
-.apex-stepper-help strong {
-  color: var(--apex-black);
-}
-
-/* ═══════════════════════════════════════════════════════════════════
-   5. SEO SPIDER CONTROL & FILTER TOOLBAR
-   ═══════════════════════════════════════════════════════════════════ */
-.apex-spider-toolbar {
-  background: var(--apex-surface-subtle);
-  border-bottom: 1px solid var(--apex-silver);
-  padding: 8px 16px;
+/* Card 1 Bottom Toolbar (5 Icons) */
+.food-card-toolbar {
+  border-top: 1px solid var(--bevel-border-faint);
+  padding-top: 14px;
   display: flex;
-  flex-wrap: wrap;
   align-items: center;
   justify-content: space-between;
-  gap: 12px;
 }
 
-.apex-filter-btns {
-  display: flex;
-  align-items: center;
-  gap: 6px;
-  flex-wrap: wrap;
-}
-
-.apex-filter-btn {
-  background: linear-gradient(180deg, #ffffff 0%, #f1f5f9 100%);
-  border: 1.5px solid #cbd5e1;
-  color: var(--apex-charcoal);
-  font-family: var(--font-headline);
-  font-size: 11.5px;
-  font-weight: 700;
-  padding: 6px 12px;
-  cursor: pointer;
-  display: inline-flex;
-  align-items: center;
-  gap: 6px;
-  border-radius: 12px;
-  box-shadow: 0 3px 0 #94a3b8, 0 4px 8px rgba(0, 0, 0, 0.04);
-  transition: transform 0.08s ease, box-shadow 0.08s ease, background 0.15s ease;
-  user-select: none;
-}
-
-.apex-filter-btn:hover {
-  transform: translateY(-1.5px);
-  color: var(--apex-black);
-  box-shadow: 0 4px 0 #94a3b8, 0 6px 12px rgba(0, 0, 0, 0.08);
-}
-
-.apex-filter-btn:active {
-  transform: translateY(2px) !important;
-  box-shadow: 0 1px 0 #94a3b8 !important;
-}
-
-.apex-filter-btn.active {
-  background: linear-gradient(180deg, #37e4ec 0%, #00c5cd 100%);
-  color: #002224 !important;
-  border-color: #009aa1;
-  font-weight: 800;
-  box-shadow: 0 3px 0 #007a80, 0 6px 12px rgba(0, 197, 205, 0.3);
-}
-
-.apex-search-wrapper {
-  display: flex;
-  align-items: center;
-  gap: 8px;
-  background: var(--apex-white);
-  border: 1px solid var(--apex-silver);
-  padding: 4px 10px;
-  min-width: 250px;
-  border-radius: 2px;
-}
-
-.apex-search-wrapper input {
-  background: transparent;
+.food-tool-btn {
+  background: none;
   border: none;
-  outline: none;
-  color: var(--apex-black);
-  font-family: var(--font-mono);
-  font-size: 11.5px;
-  width: 100%;
-}
-
-.apex-search-wrapper input::placeholder {
-  color: var(--apex-silver);
-}
-
-.apex-btn-primary {
-  background: var(--apex-cyan);
-  color: var(--apex-black);
-  border: 1px solid var(--apex-cyan-dark);
-  font-family: var(--font-mono);
-  font-size: 11px;
-  font-weight: 800;
-  padding: 4px 10px;
+  color: var(--bevel-text-muted);
+  font-size: 16px;
   cursor: pointer;
+  padding: 6px 12px;
+  border-radius: 8px;
   display: inline-flex;
   align-items: center;
-  gap: 6px;
+  justify-content: center;
   transition: all 0.15s ease;
-  border-radius: 2px;
 }
 
-.apex-btn-primary:hover {
-  background: var(--apex-cyan-hover);
-  box-shadow: 0 0 8px var(--apex-cyan-glow);
+.food-tool-btn:hover {
+  color: var(--bevel-text-dark);
+  background: var(--bevel-canvas);
 }
 
-.apex-btn-subtle {
-  background: var(--apex-white);
-  color: var(--apex-charcoal);
-  border: 1px solid var(--apex-silver);
-  font-family: var(--font-mono);
-  font-size: 11px;
-  font-weight: 600;
-  padding: 4px 9px;
-  cursor: pointer;
-  display: inline-flex;
-  align-items: center;
-  gap: 6px;
-  transition: all 0.15s ease;
-  border-radius: 2px;
-}
-
-.apex-btn-subtle:hover {
-  background: var(--apex-surface-muted);
-  color: var(--apex-black);
-  border-color: var(--apex-black);
+.food-tool-btn.ai-text {
+  font-family: serif;
+  font-size: 16px;
+  font-weight: 700;
+  letter-spacing: -0.05em;
 }
 
 /* ═══════════════════════════════════════════════════════════════════
-   6. EXCEL SPREADSHEET MATRIX (TABLE VIEW 1, 2, 3)
+   CARD 2: 67 KCAL NET ENERGY / DUAL GRADIENT SLIDER
    ═══════════════════════════════════════════════════════════════════ */
-.apex-grid-viewport {
-  flex: 1;
-  overflow-x: auto;
-  background: var(--apex-white);
+.net-energy-card {
+  gap: 12px;
 }
 
-.apex-table {
+.net-energy-header {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+}
+
+.net-energy-big {
+  font-size: 28px;
+  font-weight: 800;
+  color: var(--bevel-text-dark);
+  line-height: 1.1;
+  letter-spacing: -0.02em;
+}
+
+.net-energy-sub {
+  font-size: 15px;
+  color: var(--bevel-text-muted);
+  font-weight: 500;
+  margin-top: 4px;
+}
+
+.net-energy-tags {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  font-size: 16px;
+  font-weight: 700;
+}
+
+.net-tag-orange {
+  color: #f97316;
+  display: flex;
+  align-items: center;
+  gap: 4px;
+}
+
+.net-tag-blue {
+  color: #6366f1;
+  display: flex;
+  align-items: center;
+  gap: 4px;
+}
+
+/* Dual Glowing Gradient Slider */
+.energy-slider-track {
   width: 100%;
-  border-collapse: collapse;
+  height: 16px;
+  border-radius: 9999px;
+  background: linear-gradient(
+    90deg, 
+    #ea580c 0%, 
+    #f97316 25%, 
+    #fbbf24 45%, 
+    #e2e8f0 49%, 
+    #e2e8f0 51%, 
+    #818cf8 60%, 
+    #4f46e5 100%
+  );
+  box-shadow: 
+    0 4px 18px rgba(249, 115, 22, 0.28),
+    0 4px 18px rgba(99, 102, 241, 0.28);
+  position: relative;
+  margin: 12px 0 6px 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.energy-slider-thumb {
+  width: 15px;
+  height: 23px;
+  border-radius: 9999px;
+  background: #ffffff;
+  border: 2px solid #e2e8f0;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.25);
+  position: absolute;
+  left: 50%;
+  transform: translateX(-50%);
+  cursor: pointer;
+  transition: transform 0.15s ease;
+}
+
+.energy-slider-thumb:hover {
+  transform: translateX(-50%) scale(1.1);
+}
+
+.energy-slider-scale {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
   font-size: 12px;
-  color: var(--apex-black);
-  background: var(--apex-white);
-}
-
-/* Coordinate Row & Columns */
-.apex-col-coord {
-  background: var(--apex-surface-muted);
-  color: var(--apex-charcoal);
-  font-family: var(--font-mono);
-  font-size: 11px;
-  font-weight: 700;
-  text-align: center;
-  border: 1px solid var(--apex-border-subtle);
-  padding: 3px 6px;
-  user-select: none;
-}
-
-.apex-table th {
-  background: var(--apex-surface-subtle);
-  color: var(--apex-black);
-  font-family: var(--font-mono);
-  font-weight: 700;
-  font-size: 11px;
-  text-transform: uppercase;
-  letter-spacing: 0.5px;
-  padding: 8px 12px;
-  border: 1px solid var(--apex-border-subtle);
-  white-space: nowrap;
-  text-align: left;
-}
-
-.apex-row-num {
-  background: var(--apex-surface-subtle);
-  color: var(--apex-charcoal);
-  font-family: var(--font-mono);
-  font-size: 11px;
-  font-weight: 700;
-  text-align: center;
-  width: 38px;
-  border: 1px solid var(--apex-border-subtle);
-  padding: 6px;
-  user-select: none;
-}
-
-.apex-table td {
-  padding: 8px 12px;
-  border: 1px solid var(--apex-border-subtle);
-  vertical-align: middle;
-  white-space: nowrap;
-  transition: background 0.1s ease;
-  color: var(--apex-black);
-}
-
-.apex-table tbody tr {
-  cursor: pointer;
-}
-
-.apex-table tbody tr:hover td {
-  background: var(--apex-surface-subtle) !important;
-}
-
-.apex-table tbody tr.row-selected td {
-  background: var(--apex-surface-highlight) !important;
-  border-color: rgba(0, 197, 205, 0.4);
-}
-
-.apex-table tbody tr.row-selected .apex-row-num {
-  background: var(--apex-cyan-dim);
-  color: var(--apex-black);
-  border-left: 3px solid var(--apex-cyan);
-  font-weight: 800;
-}
-
-/* Status Chips */
-.apex-status-pill {
-  font-family: var(--font-mono);
-  font-size: 11px;
-  font-weight: 700;
-  padding: 2px 7px;
-  border: 1px solid transparent;
-  display: inline-flex;
-  align-items: center;
-  gap: 5px;
-  border-radius: 2px;
-}
-
-.apex-status-200 {
-  background: var(--status-ok-bg);
-  color: var(--apex-cyan-dark);
-  border-color: var(--apex-cyan);
-}
-
-.apex-status-401 {
-  background: var(--status-pending-bg);
-  color: var(--apex-charcoal);
-  border-color: var(--apex-silver);
-}
-
-/* Demographic / Rank Badges */
-.apex-rank-badge {
-  background: var(--apex-surface-subtle);
-  color: var(--apex-charcoal);
-  border: 1px solid var(--apex-silver);
-  font-family: var(--font-mono);
-  font-size: 11px;
-  font-weight: 600;
-  padding: 2px 6px;
-  border-radius: 2px;
+  font-weight: 500;
+  color: var(--bevel-text-faint);
+  padding: 0 4px;
 }
 
 /* ═══════════════════════════════════════════════════════════════════
-   7. SEO SPIDER TECHNICAL INSPECTION DRAWER
+   2-COLUMN GRID FOR MODULAR CARDS (3, 4, 5, 6)
    ═══════════════════════════════════════════════════════════════════ */
-.apex-spider-drawer {
-  background: var(--apex-white);
-  border-top: 2px solid var(--apex-cyan);
-  border-bottom: 1px solid var(--apex-silver);
-  max-height: 250px;
-  overflow-y: auto;
+.bevel-2col-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 16px;
+}
+
+/* ═══════════════════════════════════════════════════════════════════
+   CARD 3: DATE & MULTI-RING PROGRESS CARD
+   ═══════════════════════════════════════════════════════════════════ */
+.multi-ring-card {
+  padding: 18px 18px 20px 18px;
+  min-height: 195px;
+}
+
+.multi-ring-layout {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  height: 100%;
+}
+
+.multi-ring-top {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+}
+
+.multi-ring-date {
+  display: flex;
+  flex-direction: column;
+  line-height: 1.15;
+}
+
+.date-day-name {
+  font-size: 15px;
+  font-weight: 700;
+  color: var(--bevel-text-muted);
+}
+
+.date-month {
+  font-size: 18px;
+  font-weight: 800;
+  color: var(--bevel-text-dark);
+}
+
+.date-day-num {
+  font-size: 18px;
+  font-weight: 800;
+  color: var(--bevel-text-dark);
+}
+
+/* Individual Progress Rings */
+.ring-unit {
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.ring-unit.ring-sm {
+  width: 58px;
+  height: 58px;
+}
+
+.ring-unit.ring-md {
+  width: 68px;
+  height: 68px;
+}
+
+.ring-center-stat {
+  position: absolute;
+  font-size: 14px;
+  font-weight: 800;
+  color: var(--bevel-text-dark);
+  z-index: 2;
+}
+
+.multi-ring-bottom {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-top: 10px;
+}
+
+/* ═══════════════════════════════════════════════════════════════════
+   CARD 4: SINGLE CONCENTRIC ACTIVITY GAUGE
+   ═══════════════════════════════════════════════════════════════════ */
+.activity-card {
+  padding: 18px 18px 20px 18px;
+  min-height: 195px;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.activity-gauge-box {
+  width: 100px;
+  height: 100px;
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-top: 4px;
+}
+
+.activity-bead {
+  position: absolute;
+  top: 2px;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 10px;
+  height: 10px;
+  border-radius: 50%;
+  background: #facc15;
+  box-shadow: 0 0 8px rgba(250, 204, 21, 0.7);
+}
+
+.activity-big-stat {
+  font-size: 26px;
+  font-weight: 800;
+  color: var(--bevel-text-dark);
+  letter-spacing: -0.02em;
+}
+
+.activity-footer-stats {
+  display: flex;
+  justify-content: space-between;
+  width: 100%;
+  margin-top: 14px;
+  padding-top: 10px;
+  border-top: 1px solid var(--bevel-border-faint);
+}
+
+.activity-foot-item {
   display: flex;
   flex-direction: column;
 }
 
-.apex-drawer-tabs {
-  background: var(--apex-surface-subtle);
-  border-bottom: 1px solid var(--apex-border-subtle);
-  display: flex;
-  align-items: center;
-  gap: 2px;
-  padding: 0 12px;
-  font-family: var(--font-mono);
+.foot-label {
   font-size: 11px;
-}
-
-.apex-drawer-tab-btn {
-  background: transparent;
-  border: none;
-  border-bottom: 2px solid transparent;
-  color: var(--apex-charcoal);
-  padding: 8px 14px;
-  cursor: pointer;
   font-weight: 600;
-  transition: all 0.15s ease;
+  color: var(--bevel-text-faint);
 }
 
-.apex-drawer-tab-btn:hover {
-  color: var(--apex-black);
-  background: var(--apex-surface-muted);
-}
-
-.apex-drawer-tab-btn.active {
-  color: var(--apex-black);
-  border-bottom-color: var(--apex-cyan);
-  background: var(--apex-white);
-  font-weight: 700;
-}
-
-.apex-drawer-tab-btn.active i {
-  color: var(--apex-cyan-dark);
-}
-
-.apex-drawer-body {
-  padding: 12px 16px;
-  font-size: 12px;
-  font-family: var(--font-mono);
-  color: var(--apex-black);
-  line-height: 1.6;
-  background: var(--apex-white);
+.foot-val {
+  font-size: 14px;
+  font-weight: 800;
+  color: var(--bevel-text-dark);
+  margin-top: 2px;
 }
 
 /* ═══════════════════════════════════════════════════════════════════
-   8. APEX-OS BOTTOM DOCK (EXCEL SHEETS & OS STATUS)
+   CARD 5: LUSH GREEN GRADIENT "ENERGY BANK"
    ═══════════════════════════════════════════════════════════════════ */
-.apex-bottom-dock {
-  background: var(--apex-surface-subtle);
-  border-top: 1px solid var(--apex-silver);
+.energy-bank-card {
+  background: linear-gradient(150deg, #34d399 0%, #10b981 48%, #ecfdf5 100%);
+  color: #ffffff;
+  padding: 20px 18px;
+  min-height: 205px;
   display: flex;
-  flex-wrap: wrap;
-  align-items: center;
+  flex-direction: column;
   justify-content: space-between;
-  padding: 0 12px;
-  font-size: 11.5px;
-  font-family: var(--font-mono);
-  z-index: 1000;
-}
-
-.apex-sheet-tabs {
-  display: flex;
-  align-items: center;
-  gap: 2px;
-}
-
-.apex-sheet-tab {
-  background: var(--apex-surface-muted);
-  border: 1px solid var(--apex-silver);
-  border-bottom: none;
-  color: var(--apex-charcoal);
-  padding: 6px 14px;
+  box-shadow: 
+    0 8px 24px rgba(16, 185, 129, 0.22),
+    0 2px 6px rgba(0, 0, 0, 0.04);
   cursor: pointer;
-  font-weight: 700;
+}
+
+.energy-bank-top {
   display: flex;
   align-items: center;
   gap: 6px;
-  transition: all 0.15s ease;
-  position: relative;
-  top: 1px;
+  font-size: 14px;
+  font-weight: 700;
+  color: #ffffff;
+  letter-spacing: -0.01em;
 }
 
-.apex-sheet-tab:hover {
-  color: var(--apex-black);
-  background: var(--apex-white);
+.energy-bank-val {
+  font-size: 38px;
+  font-weight: 800;
+  line-height: 1.05;
+  color: #ffffff;
+  letter-spacing: -0.02em;
+  margin-top: 6px;
 }
 
-.apex-sheet-tab.active {
-  background: var(--apex-white);
-  color: var(--apex-black);
-  border-top: 2px solid var(--apex-cyan);
-  border-bottom: 1px solid var(--apex-white);
+.energy-bank-sub {
+  font-size: 11px;
+  font-weight: 600;
+  color: rgba(255, 255, 255, 0.88);
+  margin-top: 3px;
+  margin-bottom: 12px;
 }
 
-.apex-sheet-tab.active i {
-  color: var(--apex-cyan-dark);
-}
-
-.apex-sheet-tab.is-locked {
-  opacity: 0.55;
-  cursor: not-allowed;
-  background: var(--apex-surface-muted);
-}
-
-.apex-status-telemetry {
+/* White Pill holding Vertical Battery Bars */
+.battery-pill-box {
+  background: rgba(255, 255, 255, 0.94);
+  border-radius: 9999px;
+  padding: 6px 10px;
   display: flex;
   align-items: center;
-  gap: 14px;
-  color: var(--apex-charcoal);
-  padding: 6px 0;
-  font-size: 11px;
+  justify-content: space-between;
+  gap: 2.5px;
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.08);
 }
 
-/* ═══════════════════════════════════════════════════════════════════
-   9. APEX-OS MODAL DIALOG
-   ═══════════════════════════════════════════════════════════════════ */
-.modal-content.apex-modal {
-  background: var(--apex-white);
-  border: 2px solid var(--apex-cyan);
-  color: var(--apex-black);
-  box-shadow: 0 8px 30px rgba(0, 0, 0, 0.15);
-  border-radius: 0px;
+.battery-bar {
+  width: 3px;
+  height: 13px;
+  border-radius: 2px;
+  background: #10b981;
 }
 
-.apex-modal .modal-header {
-  background: var(--apex-surface-subtle);
-  border-bottom: 1px solid var(--apex-silver);
-  border-radius: 0px;
+.battery-bar.empty {
+  background: #e2e8f0;
 }
 
-.apex-modal .modal-footer {
-  background: var(--apex-surface-subtle);
-  border-top: 1px solid var(--apex-silver);
-  border-radius: 0px;
+/* Bottom Delta Badges (+40%, -7%) */
+.energy-bank-deltas {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-top: 12px;
 }
 
-.apex-form-control {
-  background: var(--apex-white);
-  border: 1px solid var(--apex-silver);
-  color: var(--apex-black);
-  font-family: var(--font-mono);
+.delta-badge {
+  padding: 4px 10px;
+  border-radius: 9999px;
   font-size: 12px;
-  padding: 8px 12px;
-  width: 100%;
-  outline: none;
-  border-radius: 0px;
+  font-weight: 700;
+  background: rgba(255, 255, 255, 0.92);
 }
 
-.apex-form-control:focus {
-  border-color: var(--apex-cyan);
-  box-shadow: 0 0 0 2px var(--apex-cyan-glow);
+.delta-badge.pos {
+  color: #10b981;
 }
 
-.apex-form-control[readonly] {
-  background: var(--apex-surface-muted) !important;
-  color: var(--apex-charcoal) !important;
+.delta-badge.neg {
+  color: #ef4444;
 }
 
 /* ═══════════════════════════════════════════════════════════════════
-   10. RESPONSIVE OPTIMIZATIONS
+   CARD 6: HYDRATION / DISPATCH ARC WITH CENTER "+" BUTTON
    ═══════════════════════════════════════════════════════════════════ */
-@media (max-width: 768px) {
-  .apex-telemetry-grid {
-    grid-template-columns: 1fr;
-    gap: 8px;
-  }
-  .apex-os-menubar {
-    padding: 6px 10px;
-  }
-  .apex-formula-strip {
-    padding: 4px 10px;
-  }
-  .apex-spider-toolbar {
-    flex-direction: column;
-    align-items: stretch;
-  }
-  .apex-search-wrapper {
-    min-width: 100%;
-  }
+.hydration-card {
+  padding: 18px 18px 20px 18px;
+  min-height: 205px;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
 }
 
-/* ═══════════════════════════════════════════════════════════════════
-   11. DINERDASHBOARD // TACTILE 3D TOUCH BUTTON DESIGN SYSTEM
-   "Big fun CTAs like baby toys make buttons, but sophisticated for DinerDashboard"
-   ═══════════════════════════════════════════════════════════════════ */
+.hydration-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
 
-/* Universal Tactile Push Button Base */
-.tactile-btn {
-  position: relative;
+.hydration-title-box {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  font-size: 14px;
+  font-weight: 700;
+  color: var(--bevel-text-dark);
+}
+
+.hydration-undo-btn {
+  background: #f1f3f7;
+  border: none;
+  width: 26px;
+  height: 26px;
+  border-radius: 50%;
+  color: var(--bevel-text-muted);
+  font-size: 11px;
+  cursor: pointer;
   display: inline-flex;
   align-items: center;
   justify-content: center;
-  gap: 8px;
-  font-family: var(--font-headline);
+  transition: all 0.15s ease;
+}
+
+.hydration-undo-btn:hover {
+  background: var(--bevel-canvas);
+  color: var(--bevel-text-dark);
+}
+
+.hydration-stats {
+  margin-top: 4px;
+}
+
+.hydration-val {
+  font-size: 20px;
   font-weight: 800;
-  letter-spacing: 0.03em;
-  text-transform: uppercase;
-  border-radius: 16px;
-  border: 2px solid;
-  cursor: pointer;
-  user-select: none;
-  touch-action: manipulation;
-  white-space: nowrap;
-  text-decoration: none;
-  transition: transform 0.08s cubic-bezier(0.4, 0, 0.2, 1), box-shadow 0.08s cubic-bezier(0.4, 0, 0.2, 1), filter 0.15s ease;
-  line-height: 1;
+  color: var(--bevel-text-dark);
+  letter-spacing: -0.01em;
 }
 
-/* Hover & Active / Physical Depress States */
-.tactile-btn:hover {
-  transform: translateY(-2px);
-  filter: brightness(1.05);
+.hydration-percent {
+  font-size: 13px;
+  font-weight: 700;
+  color: #3b82f6;
+  margin-top: 1px;
 }
 
-.tactile-btn:active,
-.tactile-btn.is-pressed {
-  transform: translateY(4px) !important;
-}
-
-/* Sizes */
-.tactile-btn-lg {
-  padding: 12px 20px;
-  font-size: 13.5px;
-  border-radius: 18px;
-}
-.tactile-btn-md {
-  padding: 9px 15px;
-  font-size: 12px;
-  border-radius: 14px;
-}
-.tactile-btn-sm {
-  padding: 5px 12px;
-  font-size: 11px;
-  border-radius: 11px;
-}
-
-/* 1. Golden Brass Diner Service Bell CTA ("ORDER UP!") */
-.tactile-btn-bell {
-  background: linear-gradient(180deg, #ffdf5d 0%, #f59e0b 100%);
-  border-color: #d97706;
-  color: #2b1300 !important;
-  box-shadow: 0 5px 0 #b45309, 0 10px 18px rgba(245, 158, 11, 0.35);
-}
-.tactile-btn-bell:hover {
-  box-shadow: 0 7px 0 #b45309, 0 14px 22px rgba(245, 158, 11, 0.45);
-}
-.tactile-btn-bell:active,
-.tactile-btn-bell.is-pressed {
-  box-shadow: 0 1px 0 #b45309, 0 3px 6px rgba(245, 158, 11, 0.25) !important;
-}
-
-/* 2. Signature Diner Cyan CTA (Brand Cyan / Teal) */
-.tactile-btn-cyan {
-  background: linear-gradient(180deg, #37e4ec 0%, #00c5cd 100%);
-  border-color: #009aa1;
-  color: #002224 !important;
-  box-shadow: 0 5px 0 #007a80, 0 10px 18px rgba(0, 197, 205, 0.35);
-}
-.tactile-btn-cyan:hover {
-  box-shadow: 0 7px 0 #007a80, 0 14px 22px rgba(0, 197, 205, 0.45);
-}
-.tactile-btn-cyan:active,
-.tactile-btn-cyan.is-pressed {
-  box-shadow: 0 1px 0 #007a80, 0 3px 6px rgba(0, 197, 205, 0.25) !important;
-}
-
-/* 3. Sizzling Diner Coral / Red CTA (Rush Orders / New Ticket) */
-.tactile-btn-coral {
-  background: linear-gradient(180deg, #ff6b81 0%, #ff4757 100%);
-  border-color: #e84118;
-  color: #ffffff !important;
-  box-shadow: 0 5px 0 #b32e12, 0 10px 18px rgba(255, 71, 87, 0.35);
-}
-.tactile-btn-coral:hover {
-  box-shadow: 0 7px 0 #b32e12, 0 14px 22px rgba(255, 71, 87, 0.45);
-}
-.tactile-btn-coral:active,
-.tactile-btn-coral.is-pressed {
-  box-shadow: 0 1px 0 #b32e12, 0 3px 6px rgba(255, 71, 87, 0.25) !important;
-}
-
-/* 4. Fresh Kitchen Mint CTA (Verified / Synchronized) */
-.tactile-btn-mint {
-  background: linear-gradient(180deg, #34d399 0%, #10b981 100%);
-  border-color: #059669;
-  color: #022c22 !important;
-  box-shadow: 0 5px 0 #047857, 0 10px 18px rgba(16, 185, 129, 0.35);
-}
-.tactile-btn-mint:hover {
-  box-shadow: 0 7px 0 #047857, 0 14px 22px rgba(16, 185, 129, 0.45);
-}
-.tactile-btn-mint:active,
-.tactile-btn-mint.is-pressed {
-  box-shadow: 0 1px 0 #047857, 0 3px 6px rgba(16, 185, 129, 0.25) !important;
-}
-
-/* 5. Clean White / Cream Diner Key CTA */
-.tactile-btn-white {
-  background: linear-gradient(180deg, #ffffff 0%, #f1f5f9 100%);
-  border-color: #cbd5e1;
-  color: #0f172a !important;
-  box-shadow: 0 5px 0 #94a3b8, 0 8px 16px rgba(0, 0, 0, 0.08);
-}
-.tactile-btn-white:hover {
-  box-shadow: 0 7px 0 #94a3b8, 0 12px 20px rgba(0, 0, 0, 0.12);
-}
-.tactile-btn-white:active,
-.tactile-btn-white.is-pressed {
-  box-shadow: 0 1px 0 #94a3b8, 0 3px 6px rgba(0, 0, 0, 0.06) !important;
-}
-
-/* 6. Dark Slate Register Key CTA */
-.tactile-btn-dark {
-  background: linear-gradient(180deg, #334155 0%, #1e293b 100%);
-  border-color: #0f172a;
-  color: #f8fafc !important;
-  box-shadow: 0 5px 0 #020617, 0 10px 18px rgba(0, 0, 0, 0.25);
-}
-.tactile-btn-dark:hover {
-  box-shadow: 0 7px 0 #020617, 0 14px 22px rgba(0, 0, 0, 0.35);
-}
-.tactile-btn-dark:active,
-.tactile-btn-dark.is-pressed {
-  box-shadow: 0 1px 0 #020617, 0 3px 6px rgba(0, 0, 0, 0.2) !important;
-}
-
-/* ═══════════════════════════════════════════════════════════════════
-   DINER TOUCHPAD BAR: BIG FUN CTAS CONTROL STATION
-   ═══════════════════════════════════════════════════════════════════ */
-.diner-touchpad-bar {
-  background: linear-gradient(180deg, #f8fafc 0%, #edf2f7 100%);
-  border-bottom: 2px solid #cbd5e1;
-  padding: 10px 16px;
-  position: relative;
-  z-index: 50;
-  box-shadow: inset 0 2px 4px rgba(0, 0, 0, 0.03);
-}
-
-.diner-touchpad-container {
-  display: flex;
-  align-items: center;
-  gap: 12px;
-  flex-wrap: wrap;
-}
-
-/* Diner Brand Logo Badge */
-.diner-brand-icon {
-  width: 32px;
-  height: 32px;
-  border-radius: 10px;
-  background: linear-gradient(180deg, #ffdf5d 0%, #f59e0b 100%);
-  border: 1.5px solid #d97706;
-  color: #2b1300;
+/* Blue Semi-Circle Arc with Center Button */
+.hydration-arc-container {
   display: flex;
   align-items: center;
   justify-content: center;
-  font-size: 15px;
-  box-shadow: 0 3px 0 #b45309, 0 4px 8px rgba(245, 158, 11, 0.3);
+  position: relative;
+  width: 100%;
+  height: 70px;
+  margin-top: 8px;
 }
 
-/* Diner Floating Toast Notification */
-.diner-toast-notification {
-  position: fixed;
-  top: 80px;
-  right: 20px;
-  z-index: 9999;
-  background: linear-gradient(180deg, #ffffff 0%, #fffbeb 100%);
-  border: 2px solid #f59e0b;
-  border-radius: 18px;
-  padding: 14px 20px;
-  box-shadow: 0 8px 0 #b45309, 0 16px 32px rgba(0, 0, 0, 0.15);
+.hydration-arc-svg {
+  position: absolute;
+  top: 0;
+  width: 104px;
+  height: 68px;
+}
+
+.hydration-plus-btn {
+  width: 44px;
+  height: 44px;
+  border-radius: 50%;
+  background: #f1f3f7;
+  border: none;
+  color: var(--bevel-text-dark);
+  font-size: 18px;
+  font-weight: 700;
   display: flex;
   align-items: center;
-  gap: 12px;
-  font-family: var(--font-headline);
-  font-weight: 700;
-  color: #0f172a;
-  animation: dinerToastSlideIn 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
-  pointer-events: none;
+  justify-content: center;
+  cursor: pointer;
+  z-index: 5;
+  box-shadow: 0 3px 8px rgba(0, 0, 0, 0.08);
+  transition: all 0.15s cubic-bezier(0.16, 1, 0.3, 1);
 }
 
-@keyframes dinerToastSlideIn {
-  from {
-    transform: translateY(-20px) scale(0.9);
-    opacity: 0;
-  }
-  to {
-    transform: translateY(0) scale(1);
-    opacity: 1;
-  }
+.hydration-plus-btn:hover {
+  background: #3b82f6;
+  color: #ffffff;
+  transform: scale(1.1);
+  box-shadow: 0 4px 14px rgba(59, 130, 246, 0.4);
+}
+
+.hydration-plus-btn:active {
+  transform: scale(0.92);
+}
+
+/* ═══════════════════════════════════════════════════════════════════
+   7. DINER DELIVERY FLEETS & QUICK TOUCH ACTION BAR
+   ═══════════════════════════════════════════════════════════════════ */
+.bevel-section-card {
+  background: var(--bevel-card-bg);
+  border-radius: 28px;
+  padding: 22px 24px;
+  box-shadow: 
+    0 4px 20px rgba(0, 0, 0, 0.03),
+    0 1px 3px rgba(0, 0, 0, 0.02);
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+
+.bevel-section-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding-bottom: 12px;
+  border-bottom: 1px solid var(--bevel-border-faint);
+}
+
+.bevel-section-title {
+  font-size: 16px;
+  font-weight: 800;
+  color: var(--bevel-text-dark);
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+/* Tactile 3D Action Push Buttons */
+.tactile-actions-strip {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 10px;
+}
+
+.tactile-btn {
+  border: none;
+  border-radius: 18px;
+  font-family: var(--font-sans);
+  font-weight: 700;
+  font-size: 12px;
+  padding: 12px 10px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 6px;
+  cursor: pointer;
+  transition: all 0.12s ease;
+  user-select: none;
+}
+
+.tactile-btn:active {
+  transform: translateY(2px);
+}
+
+.tactile-btn-bell {
+  background: #fef08a;
+  color: #854d0e;
+  box-shadow: 0 4px 0 #eab308, 0 6px 14px rgba(234, 179, 8, 0.35);
+}
+
+.tactile-btn-cyan {
+  background: #e0f2fe;
+  color: #0369a1;
+  box-shadow: 0 4px 0 #38bdf8, 0 6px 14px rgba(56, 189, 248, 0.35);
+}
+
+.tactile-btn-coral {
+  background: #ffe4e6;
+  color: #be123c;
+  box-shadow: 0 4px 0 #fb7185, 0 6px 14px rgba(251, 113, 133, 0.35);
+}
+
+.tactile-btn-mint {
+  background: #dcfce7;
+  color: #15803d;
+  box-shadow: 0 4px 0 #4ade80, 0 6px 14px rgba(74, 222, 128, 0.35);
+}
+
+.tactile-btn-white {
+  background: #f8fafc;
+  color: #334155;
+  box-shadow: 0 4px 0 #cbd5e1, 0 6px 14px rgba(0, 0, 0, 0.05);
+}
+
+.tactile-btn-dark {
+  background: #1e293b;
+  color: #ffffff;
+  box-shadow: 0 4px 0 #0f172a, 0 6px 14px rgba(15, 23, 42, 0.4);
+}
+
+/* Gateway Mini-Cards List */
+.gateway-cards-grid {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.gateway-item-card {
+  background: #f8fafc;
+  border: 1px solid #f1f5f9;
+  border-radius: 18px;
+  padding: 12px 14px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  transition: all 0.15s ease;
+  cursor: pointer;
+}
+
+.gateway-item-card:hover {
+  background: #f1f5f9;
+  border-color: #e2e8f0;
+}
+
+.gateway-item-card.connected {
+  border-color: rgba(16, 185, 129, 0.3);
+  background: rgba(16, 185, 129, 0.03);
+}
+
+.gw-brand-box {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.gw-icon {
+  width: 36px;
+  height: 36px;
+  border-radius: 10px;
+  background: #ffffff;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 16px;
+  color: var(--bevel-blue);
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.04);
+}
+
+.gw-info {
+  display: flex;
+  flex-direction: column;
+}
+
+.gw-name {
+  font-size: 14px;
+  font-weight: 700;
+  color: var(--bevel-text-dark);
+}
+
+.gw-category {
+  font-size: 11px;
+  font-weight: 500;
+  color: var(--bevel-text-muted);
+}
+
+.gw-actions {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.gw-status-pill {
+  padding: 3px 8px;
+  border-radius: 9999px;
+  font-size: 10px;
+  font-weight: 700;
+}
+
+.gw-status-pill.ok {
+  background: #dcfce7;
+  color: #15803d;
+}
+
+.gw-status-pill.pending {
+  background: #f1f5f9;
+  color: #64748b;
+}
+
+.gw-connect-btn {
+  padding: 6px 12px;
+  border-radius: 9999px;
+  border: none;
+  font-size: 11px;
+  font-weight: 700;
+  background: #111827;
+  color: #ffffff;
+  cursor: pointer;
+  transition: all 0.15s ease;
+}
+
+.gw-connect-btn:hover {
+  background: #3b82f6;
+}
+
+/* Modals */
+.apex-modal {
+  border-radius: 28px !important;
+  border: none !important;
+  box-shadow: 0 20px 60px rgba(0, 0, 0, 0.2) !important;
+  overflow: hidden;
+}
+
+.apex-form-control {
+  border-radius: 12px;
+  border: 1px solid #cbd5e1;
+  padding: 10px 14px;
+  font-family: var(--font-mono);
+  font-size: 12px;
+  width: 100%;
+}
+
+.apex-form-control:focus {
+  outline: none;
+  border-color: #3b82f6;
+  box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.15);
+}
+
+/* Footer Credit */
+.bevel-footer-credit {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 14px 18px;
+  font-size: 12px;
+  color: var(--bevel-text-muted);
+  font-weight: 600;
+}
+
+.bevel-badge-pill {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  background: #111827;
+  color: #ffffff;
+  padding: 4px 10px;
+  border-radius: 9999px;
+  font-size: 11px;
+  font-weight: 700;
 }
