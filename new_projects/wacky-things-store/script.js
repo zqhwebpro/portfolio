@@ -671,7 +671,11 @@ function updateCartUI() {
     if (dBadge) dBadge.innerText = `${totalItems} items`;
     if (dSubtotal) dSubtotal.innerText = `$${subtotal.toFixed(2)}`;
     if (dTotal) dTotal.innerText = `$${subtotal.toFixed(2)}`;
-    if (coTotal) coTotal.innerText = `$${subtotal.toFixed(2)}`;
+    if (coTotal) coTotal.innerText = `${subtotal.toFixed(2)}`;
+    const acadHCount = document.getElementById('academy-header-cart-count');
+    const acadHTotal = document.getElementById('academy-header-cart-total');
+    if (acadHCount) acadHCount.innerText = totalItems;
+    if (acadHTotal) acadHTotal.innerText = `${subtotal.toFixed(2)}`;
 
     // Free shipping progress tracker ($35 threshold)
     const threshold = 35.00;
@@ -2317,7 +2321,16 @@ window.activeBlogCategory = 'all';
 window.activeCourseCategory = 'all';
 window.selectedCourseForModal = null;
 
+window.isTransitioningView = false;
+
 window.switchView = function (targetView) {
+    if (window.isTransitioningView) return;
+    if (window.currentView === targetView) return;
+
+    const track = document.getElementById('site-horizontal-track');
+    const screenRegular = document.getElementById('screen-regular');
+    const screenAcademy = document.getElementById('screen-academy');
+
     const storeMain = document.getElementById('store-main-view');
     const blogMain = document.getElementById('blog-main-view');
     const learningMain = document.getElementById('learning-main-view');
@@ -2326,22 +2339,156 @@ window.switchView = function (targetView) {
 
     const hBlogText = document.getElementById('headerBlogText');
     const hBlogIcon = document.getElementById('headerBlogIcon');
-    const hLearningText = document.getElementById('headerLearningText');
-    const hLearningIcon = document.getElementById('headerLearningIcon');
 
-    if (window.currentView === targetView) return;
+    // Sync header cart badges
+    const regCartTotal = document.getElementById('header-cart-total');
+    const regCartCount = document.getElementById('header-cart-count');
+    const acadCartTotal = document.getElementById('academy-header-cart-total');
+    const acadCartCount = document.getElementById('academy-header-cart-count');
+    if (regCartTotal && acadCartTotal) acadCartTotal.innerText = regCartTotal.innerText;
+    if (regCartCount && acadCartCount) acadCartCount.innerText = regCartCount.innerText;
 
-    // Active view to transition out
+    // SCENARIO 1: Entering Funny Academy (Scroll screen to the left)
+    if (targetView === 'learning') {
+        window.isTransitioningView = true;
+
+        if (screenAcademy) {
+            screenAcademy.style.display = 'flex';
+            screenAcademy.style.width = '100vw';
+            screenAcademy.style.minWidth = '100vw';
+        }
+        if (screenRegular) {
+            screenRegular.style.width = '100vw';
+            screenRegular.style.minWidth = '100vw';
+        }
+        if (track) {
+            track.style.width = '200vw';
+            track.style.transition = 'none';
+            track.style.transform = 'translateX(0)';
+            void track.offsetWidth; // Force reflow
+        }
+
+        if (learningMain) {
+            learningMain.classList.remove('hidden');
+        }
+        if (typeof window.renderCourses === 'function') {
+            window.renderCourses(window.activeCourseCategory || 'all');
+        }
+
+        window.scrollTo({ top: 0, behavior: 'smooth' });
+
+        if (track) {
+            track.style.transition = 'transform 0.68s cubic-bezier(0.22, 1, 0.36, 1)';
+            track.style.transform = 'translateX(-100vw)';
+        }
+
+        window.currentView = 'learning';
+        document.body.classList.add('academy-reverse-theme');
+
+        setTimeout(() => {
+            if (screenRegular) screenRegular.style.display = 'none';
+            if (track) {
+                track.style.transition = 'none';
+                track.style.transform = 'none';
+                track.style.width = '100%';
+            }
+            if (screenAcademy) {
+                screenAcademy.style.width = '100%';
+                screenAcademy.style.minWidth = '100%';
+            }
+            window.isTransitioningView = false;
+        }, 700);
+        return;
+    }
+
+    // SCENARIO 2: Leaving Funny Academy (Scroll screen back to the right)
+    if (window.currentView === 'learning') {
+        window.isTransitioningView = true;
+
+        if (screenRegular) {
+            screenRegular.style.display = 'flex';
+            screenRegular.style.width = '100vw';
+            screenRegular.style.minWidth = '100vw';
+        }
+        if (screenAcademy) {
+            screenAcademy.style.width = '100vw';
+            screenAcademy.style.minWidth = '100vw';
+        }
+        if (track) {
+            track.style.width = '200vw';
+            track.style.transition = 'none';
+            track.style.transform = 'translateX(-100vw)';
+            void track.offsetWidth; // Force reflow
+        }
+
+        // Set up the destination view inside regular screen
+        if (storeMain) storeMain.classList.add('hidden');
+        if (blogMain) blogMain.classList.add('hidden');
+        if (adminMain) adminMain.classList.add('hidden');
+        if (luckMain) luckMain.classList.add('hidden');
+
+        if (targetView === 'blog') {
+            if (blogMain) {
+                blogMain.classList.remove('hidden');
+                blogMain.classList.add('animate-blur-fade-in');
+            }
+            if (typeof window.renderBlogPosts === 'function') {
+                window.renderBlogPosts(window.activeBlogCategory || 'all');
+            }
+            if (hBlogText) hBlogText.innerText = 'Store Catalog';
+            if (hBlogIcon) hBlogIcon.className = 'fa-solid fa-shop text-appetite-700';
+        } else if (targetView === 'admin') {
+            if (adminMain) {
+                adminMain.classList.remove('hidden');
+                adminMain.classList.add('flex', 'animate-blur-fade-in');
+            }
+            if (typeof window.renderAdminProductsTable === 'function') {
+                window.renderAdminProductsTable();
+            }
+        } else {
+            if (storeMain) {
+                storeMain.classList.remove('hidden');
+                storeMain.classList.add('animate-blur-fade-in');
+            }
+            if (hBlogText) hBlogText.innerText = 'The Wacky Blog';
+            if (hBlogIcon) hBlogIcon.className = 'fa-solid fa-newspaper text-earth-300';
+        }
+
+        window.scrollTo({ top: 0, behavior: 'smooth' });
+
+        if (track) {
+            track.style.transition = 'transform 0.68s cubic-bezier(0.22, 1, 0.36, 1)';
+            track.style.transform = 'translateX(0)';
+        }
+
+        window.currentView = targetView;
+        document.body.classList.remove('academy-reverse-theme');
+
+        setTimeout(() => {
+            if (screenAcademy) screenAcademy.style.display = 'none';
+            if (track) {
+                track.style.transition = 'none';
+                track.style.transform = 'none';
+                track.style.width = '100%';
+            }
+            if (screenRegular) {
+                screenRegular.style.width = '100%';
+                screenRegular.style.minWidth = '100%';
+            }
+            window.isTransitioningView = false;
+        }, 700);
+        return;
+    }
+
+    // SCENARIO 3: Normal In-Place Switching within Regular Website
     let currentMain;
     if (window.currentView === 'luck') currentMain = luckMain;
     else if (window.currentView === 'admin') currentMain = adminMain;
     else if (window.currentView === 'blog') currentMain = blogMain;
-    else if (window.currentView === 'learning') currentMain = learningMain;
     else currentMain = storeMain;
 
     let nextMain;
     if (targetView === 'blog') nextMain = blogMain;
-    else if (targetView === 'learning') nextMain = learningMain;
     else if (targetView === 'admin') nextMain = adminMain;
     else nextMain = storeMain;
 
@@ -2372,16 +2519,6 @@ window.switchView = function (targetView) {
             window.currentView = 'blog';
             if (hBlogText) hBlogText.innerText = 'Store Catalog';
             if (hBlogIcon) hBlogIcon.className = 'fa-solid fa-shop text-appetite-700';
-            if (hLearningText) hLearningText.innerText = 'Funny Academy';
-            if (hLearningIcon) hLearningIcon.className = 'fa-solid fa-graduation-cap text-amber-200';
-        } else if (targetView === 'learning') {
-            if (learningMain) {
-                learningMain.classList.remove('hidden');
-                learningMain.classList.add('animate-blur-fade-in');
-            }
-            if (typeof window.renderCourses === 'function') {
-                window.renderCourses(window.activeCourseCategory || 'all');
-            }
         } else if (targetView === 'admin') {
             if (adminMain) {
                 adminMain.classList.remove('hidden');
@@ -2393,8 +2530,6 @@ window.switchView = function (targetView) {
             }
             if (hBlogText) hBlogText.innerText = 'The Wacky Blog';
             if (hBlogIcon) hBlogIcon.className = 'fa-solid fa-newspaper text-earth-300';
-            if (hLearningText) hLearningText.innerText = 'Funny Academy';
-            if (hLearningIcon) hLearningIcon.className = 'fa-solid fa-graduation-cap text-amber-200';
         } else {
             if (storeMain) {
                 storeMain.classList.remove('hidden');
@@ -2403,8 +2538,6 @@ window.switchView = function (targetView) {
             window.currentView = 'store';
             if (hBlogText) hBlogText.innerText = 'The Wacky Blog';
             if (hBlogIcon) hBlogIcon.className = 'fa-solid fa-newspaper text-earth-300';
-            if (hLearningText) hLearningText.innerText = 'Funny Academy';
-            if (hLearningIcon) hLearningIcon.className = 'fa-solid fa-graduation-cap text-amber-200';
         }
 
         window.scrollTo({ top: 0, behavior: 'smooth' });
@@ -3394,31 +3527,17 @@ window.toggleAdminPanel = function () {
 };
 
 window.goToStoreCatalog = function () {
-    const storeMain = document.getElementById('store-main-view');
-    const blogMain = document.getElementById('blog-main-view');
     const adminMain = document.getElementById('admin-main-view');
-    const learningMain = document.getElementById('learning-main-view');
     if (adminMain) {
         adminMain.classList.add('hidden');
         adminMain.classList.remove('flex');
     }
-    if (blogMain) {
-        blogMain.classList.add('hidden');
-        blogMain.classList.remove('flex');
+    if (typeof window.switchView === 'function') {
+        window.switchView('store');
     }
-    if (learningMain) {
-        learningMain.classList.add('hidden');
-        learningMain.classList.remove('flex');
-    }
-    if (storeMain) {
-        storeMain.classList.remove('hidden');
-        storeMain.classList.add('flex');
-    }
-    window.currentView = 'store';
     if (typeof window.filterCategory === 'function') {
         window.filterCategory('all');
     }
-    window.scrollTo({ top: 0, behavior: 'smooth' });
 };
 
 const originalToggleStoreBlog = window.toggleViewStoreBlog;
@@ -4575,3 +4694,66 @@ document.addEventListener('DOMContentLoaded', () => {
         }, 300);
     }
 });
+
+window.filterCoursesByQuery = function (query) {
+    if (!query || !query.trim()) {
+        window.renderCourses(window.activeCourseCategory || 'all');
+        return;
+    }
+    const q = query.toLowerCase().trim();
+    const grid = document.getElementById('courses-grid');
+    if (!grid || !window.COURSES) return;
+    const filtered = window.COURSES.filter(c => 
+        (c.title && c.title.toLowerCase().includes(q)) || 
+        (c.category && c.category.toLowerCase().includes(q)) || 
+        (c.description && c.description.toLowerCase().includes(q)) ||
+        (c.instructor && c.instructor.name && c.instructor.name.toLowerCase().includes(q))
+    );
+    grid.innerHTML = filtered.map(course => {
+        const totalLessons = course.curriculum.reduce((acc, m) => acc + m.lessons.length, 0);
+        return `
+            <div class="course-card bg-white border border-canvas-border rounded-2xl sm:rounded-3xl overflow-hidden shadow-sm hover:shadow-xl transition-all duration-300 flex flex-col justify-between"
+                id="card-${course.id}">
+                <div class="relative h-48 sm:h-52 w-full overflow-hidden bg-earth-950">
+                    <img src="${course.image}" alt="${course.title}" class="w-full h-full object-cover transition-transform duration-500 hover:scale-105" />
+                    <div class="absolute inset-0 bg-gradient-to-t from-earth-950/80 via-earth-950/20 to-transparent"></div>
+                    <span class="absolute top-3 left-3 px-2.5 py-0.5 rounded-full bg-[#FFFBEB]/95 text-[#92400E] border border-[#FDE68A] font-mono text-[10px] font-bold uppercase tracking-wider">
+                        ${course.category}
+                    </span>
+                    <div class="absolute top-3 right-3">
+                        ${course.isLocked ? `
+                            <span class="px-2.5 py-1 rounded-full bg-amber-400 text-earth-950 font-mono text-[10px] font-black uppercase tracking-wider shadow-md flex items-center gap-1.5">
+                                <i class="fa-solid fa-lock text-[#92400E]"></i>
+                                <span>Locked</span>
+                            </span>
+                        ` : `
+                            <span class="px-2.5 py-1 rounded-full bg-teal-400 text-earth-950 font-mono text-[10px] font-black uppercase tracking-wider shadow-md flex items-center gap-1.5">
+                                <i class="fa-solid fa-circle-check text-teal-950"></i>
+                                <span>Enrolled</span>
+                            </span>
+                        `}
+                    </div>
+                </div>
+                <div class="p-5 sm:p-6 space-y-4 flex-1 flex flex-col justify-between">
+                    <div class="space-y-3">
+                        <h3 class="font-heading font-black text-lg sm:text-xl text-earth-950 hover:text-[#D97706] transition-colors cursor-pointer"
+                            onclick="window.toggleCourseSyllabus('${course.id}')">
+                            ${course.title}
+                        </h3>
+                        <div class="flex items-center gap-3 py-1">
+                            <img src="${course.instructor.avatar}" alt="${course.instructor.name}" class="h-9 w-9 rounded-full object-cover border border-canvas-border" />
+                            <div class="text-xs min-w-0">
+                                <div class="font-bold text-earth-900 truncate">${course.instructor.name}</div>
+                                <div class="text-[11px] text-gray-500 truncate">${course.instructor.title}</div>
+                            </div>
+                        </div>
+                        <p class="text-xs text-gray-600 leading-relaxed">${course.description}</p>
+                    </div>
+                    <div class="pt-3 border-t border-canvas-border flex items-center justify-between">
+                        <button onclick="window.toggleCourseSyllabus('${course.id}')" class="text-xs font-bold text-amber-500 hover:text-amber-400">View Curriculum &rarr;</button>
+                        <button onclick="window.openCourseModal('${course.id}')" class="px-3.5 py-1.5 rounded-xl bg-amber-500 text-white font-bold text-xs hover:bg-amber-600">${course.isLocked ? 'Unlock Course' : 'Enter Classroom'}</button>
+                    </div>
+                </div>
+            </div>`;
+    }).join('');
+};

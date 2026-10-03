@@ -71,6 +71,10 @@
 
 <body class="selection:bg-sky-500/30 selection:text-white">
 
+  <!-- Persistent Portfolio Navigation Anchors -->
+  <a id="back-btn-np" href="../" title="Back to Projects" style="position:fixed;top:0;right:0;z-index:99999;display:inline-flex;align-items:center;justify-content:center;width:34px;height:34px;background:rgba(10,10,10,0.82);backdrop-filter:blur(12px);-webkit-backdrop-filter:blur(12px);border:0;border-bottom:1px solid rgba(255,255,255,0.15);border-left:1px solid rgba(255,255,255,0.15);border-radius:0 0 0 8px;color:#fff;font-family:system-ui,sans-serif;font-size:1rem;font-weight:700;text-decoration:none;box-shadow:-2px 2px 10px rgba(0,0,0,0.5);transition:background 0.2s,transform 0.15s;" onmouseover="this.style.background='rgba(40,40,40,0.95)';this.style.transform='scale(1.05)'" onmouseout="this.style.background='rgba(10,10,10,0.82)';this.style.transform='scale(1)'">&#8592;</a>
+  <a id="case-study-btn-np" href="./case-study.html" title="Case Study" aria-label="Case Study" style="position:fixed;bottom:0;left:0;z-index:99999;display:inline-flex;align-items:center;justify-content:center;width:34px;height:34px;background:rgba(10,10,10,0.82);backdrop-filter:blur(12px);-webkit-backdrop-filter:blur(12px);border:0;border-top:1px solid rgba(255,255,255,0.15);border-right:1px solid rgba(255,255,255,0.15);border-radius:0 8px 0 0;color:#fff;font-family:system-ui,sans-serif;font-size:0.95rem;text-decoration:none;box-shadow:2px -2px 10px rgba(0,0,0,0.5);transition:background 0.2s,transform 0.15s;" onmouseover="this.style.background='rgba(40,40,40,0.95)';this.style.transform='scale(1.05)'" onmouseout="this.style.background='rgba(10,10,10,0.82)';this.style.transform='scale(1)'"><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="display:block;"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"></path><polyline points="14 2 14 8 20 8"></polyline><line x1="16" y1="13" x2="8" y2="13"></line><line x1="16" y1="17" x2="8" y2="17"></line><polyline points="10 9 9 9 8 9"></polyline></svg></a>
+
   <!-- ═══════════════════════════════════════════════════════════════════
        1. FULLSCREEN BACKGROUND VIDEO (https://youtu.be/-3HFs3Qu7Mc)
           Blue Streaks Abstract Shapes Geometric Moving Animated Loop
@@ -101,12 +105,13 @@
     <header class="sticky top-0 z-40 px-3 sm:px-6 py-2.5 w-full">
       <div class="w-full os-system-menubar px-4 py-2 flex items-center justify-between gap-3">
         
-        <!-- Left Terminal Icon Link -->
+        <!-- Left Terminal Icon Link (Home of the App) -->
         <div class="flex items-center">
           <a 
-            href="../index.html" 
+            href="./index.html" 
             class="w-8 h-8 rounded-lg bg-slate-800 border border-slate-700 flex items-center justify-center text-sky-400 hover:bg-slate-700 hover:border-slate-600 transition-colors shadow-xs" 
-            title="Return to Portfolio">
+            title="App Home"
+            aria-label="App Home">
             <i class="fa-solid fa-terminal text-xs"></i>
           </a>
         </div>
@@ -117,13 +122,14 @@
           <button 
             id="osAudioToggleBtn" 
             type="button" 
-            class="w-8 h-8 rounded-lg bg-slate-800 hover:bg-slate-700 border border-slate-700 flex items-center justify-center text-sky-400 text-xs transition-colors cursor-pointer"
-            title="Toggle OS Audio Synthesizer">
+            class="os-audio-toggle-btn w-8 h-8 rounded-lg bg-slate-800 hover:bg-slate-700 border border-slate-700 flex items-center justify-center text-sky-400 text-xs transition-colors cursor-pointer"
+            title="Toggle OS Audio Synthesizer"
+            aria-label="Toggle OS Audio Synthesizer">
             <i class="fa-solid fa-volume-high"></i>
           </button>
 
           <!-- Live OS Clock -->
-          <span id="osMenuClock" class="font-mono text-xs text-slate-300 font-medium px-2.5 py-1 rounded bg-slate-900 border border-slate-800">
+          <span id="osMenuClock" class="os-menu-clock font-mono text-xs text-slate-300 font-medium px-2.5 py-1 rounded bg-slate-900 border border-slate-800">
             Fri Oct 2, 3:00 PM
           </span>
         </div>
@@ -131,7 +137,7 @@
       </div>
     </header>
 
-    <main class="w-full px-4 sm:px-8 lg:px-12 py-4 sm:py-6">
+    <main class="w-full px-4 sm:px-8 lg:px-12 py-4 sm:py-6 pb-28 sm:pb-32">
       
 
 
@@ -155,25 +161,37 @@
     </main>
 
     <!-- ═══════════════════════════════════════════════════════════════════
-         7. OS SYSTEM STATUS FOOTER
+         7. FIXED BOTTOM OS SYSTEM MENUBAR
          ═══════════════════════════════════════════════════════════════════ -->
-    <footer class="mt-16 py-6 border-t border-slate-800 bg-slate-950/90 backdrop-blur-md w-full">
-      <div class="w-full px-4 sm:px-6 lg:px-8 flex flex-col sm:flex-row items-center justify-between gap-4 font-mono text-xs text-slate-400">
+    <footer class="fixed bottom-0 left-0 right-0 z-40 px-3 sm:px-6 py-2.5 w-full">
+      <div class="w-full os-system-menubar px-4 py-2 flex items-center justify-between gap-3">
         
-        <div class="flex items-center gap-2">
-          <span class="w-2 h-2 rounded-full bg-emerald-400"></span>
-          <span class="text-slate-300 font-bold">MATRIX//OS</span>
-          <span>•</span>
-          <span>ENGINEERING KNOWLEDGE MATRIX</span>
-          <span class="hidden sm:inline">•</span>
-          <span class="hidden sm:inline text-slate-500">VIDEO_ID: -3HFs3Qu7Mc</span>
+        <!-- Left Terminal Icon Link (Home of the App) -->
+        <div class="flex items-center">
+          <a 
+            href="./index.html" 
+            class="w-8 h-8 rounded-lg bg-slate-800 border border-slate-700 flex items-center justify-center text-sky-400 hover:bg-slate-700 hover:border-slate-600 transition-colors shadow-xs" 
+            title="App Home"
+            aria-label="App Home">
+            <i class="fa-solid fa-terminal text-xs"></i>
+          </a>
         </div>
 
-        <div>
-          <span>ARCHITECTED BY </span>
-          <a href="../index.html" class="text-sky-400 hover:text-white transition-colors underline font-medium">
-            ZACH HEINDEL (ZQH.WEBPRO)
-          </a>
+        <!-- Right Controls: Sound Icon to the Left & Live OS Clock -->
+        <div class="flex items-center gap-2.5">
+          <!-- Audio FX Toggle -->
+          <button 
+            type="button" 
+            class="os-audio-toggle-btn w-8 h-8 rounded-lg bg-slate-800 hover:bg-slate-700 border border-slate-700 flex items-center justify-center text-sky-400 text-xs transition-colors cursor-pointer"
+            title="Toggle OS Audio Synthesizer"
+            aria-label="Toggle OS Audio Synthesizer">
+            <i class="fa-solid fa-volume-high"></i>
+          </button>
+
+          <!-- Live OS Clock -->
+          <span class="os-menu-clock font-mono text-xs text-slate-300 font-medium px-2.5 py-1 rounded bg-slate-900 border border-slate-800">
+            Fri Oct 2, 3:00 PM
+          </span>
         </div>
 
       </div>

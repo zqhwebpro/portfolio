@@ -1292,6 +1292,151 @@
         body.dark-mode #newsletter-card .newsletter-microcopy i {
             color: #ffffff !important;
         }
+    
+        /* ==============================================================================
+           HORIZONTAL SCREEN SCROLL & REVERSED THEME FOR FUNNY ACADEMY
+           ============================================================================== */
+        html, body {
+            overflow-x: hidden;
+            max-width: 100vw;
+        }
+
+        #site-horizontal-viewport {
+            width: 100%;
+            overflow-x: hidden;
+            position: relative;
+        }
+
+        #site-horizontal-track {
+            display: flex;
+            flex-direction: row;
+            width: 100%;
+            will-change: transform;
+        }
+
+        #screen-regular {
+            width: 100%;
+            min-width: 100%;
+            flex-shrink: 0;
+            display: flex;
+            flex-direction: column;
+            min-height: 100vh;
+        }
+
+        #screen-academy {
+            width: 100%;
+            min-width: 100%;
+            flex-shrink: 0;
+            display: none;
+            flex-direction: column;
+            min-height: 100vh;
+            background: #0A0318;
+            color: #F5F3FF;
+        }
+
+        /* Academy Reversed Theme Overrides for Funny Academy Screen */
+        #screen-academy #learning-main-view {
+            background-color: #0A0318 !important;
+            color: #F5F3FF !important;
+        }
+
+        #screen-academy #learning-filter-bar {
+            background-color: #14052E !important;
+            border-color: #351266 !important;
+            color: #F5F3FF !important;
+        }
+
+        #screen-academy #learning-filter-bar p {
+            color: #DDD6FE !important;
+        }
+
+        #screen-academy .course-cat-btn:not(.bg-\[\#F59E0B\]) {
+            background-color: #220B48 !important;
+            color: #DDD6FE !important;
+            border-color: #40177D !important;
+        }
+
+        #screen-academy .course-cat-btn:not(.bg-\[\#F59E0B\]):hover {
+            background-color: #321166 !important;
+            border-color: #5821A8 !important;
+        }
+
+        #screen-academy [data-blueprint-role="LMS Hero Header"] {
+            background-color: #160731 !important;
+            border-color: #3E1878 !important;
+            color: #F5F3FF !important;
+            box-shadow: 0 10px 25px -5px rgba(0, 0, 0, 0.5) !important;
+        }
+
+        #screen-academy [data-blueprint-role="LMS Hero Header"] h1 {
+            color: #FFFFFF !important;
+        }
+
+        #screen-academy [data-blueprint-role="LMS Hero Header"] p {
+            color: #DDD6FE !important;
+        }
+
+        #screen-academy .course-card {
+            background-color: #170834 !important;
+            border-color: #38156B !important;
+            color: #F5F3FF !important;
+            box-shadow: 0 10px 25px -5px rgba(0, 0, 0, 0.6) !important;
+        }
+
+        #screen-academy .course-card:hover {
+            border-color: rgba(245, 158, 11, 0.6) !important;
+            box-shadow: 0 15px 30px -5px rgba(0, 0, 0, 0.8), 0 0 20px rgba(245, 158, 11, 0.15) !important;
+        }
+
+        #screen-academy .course-card h3 {
+            color: #FFFFFF !important;
+        }
+
+        #screen-academy .course-card h3:hover {
+            color: #FBBF24 !important;
+        }
+
+        #screen-academy .course-card .text-earth-900,
+        #screen-academy .course-card .text-earth-950 {
+            color: #F5F3FF !important;
+        }
+
+        #screen-academy .course-card .text-gray-500,
+        #screen-academy .course-card .text-gray-600 {
+            color: #DDD6FE !important;
+        }
+
+        #screen-academy .course-card .border-canvas-border {
+            border-color: #38156B !important;
+        }
+
+        #screen-academy #zoom-webinar-section > div {
+            background-color: #15062F !important;
+            border-color: #F59E0B !important;
+            box-shadow: 0 15px 35px -5px rgba(0, 0, 0, 0.7), 0 0 25px rgba(245, 158, 11, 0.15) !important;
+        }
+
+        #screen-academy #zoom-webinar-section input,
+        #screen-academy #zoom-webinar-section select {
+            background-color: #1F0A45 !important;
+            border-color: #441984 !important;
+            color: #F5F3FF !important;
+        }
+
+        #screen-academy #zoom-webinar-section input::placeholder {
+            color: #A78BFA !important;
+        }
+
+        #screen-academy #zoom-webinar-section label,
+        #screen-academy #zoom-webinar-section p,
+        #screen-academy #zoom-webinar-section h2,
+        #screen-academy #zoom-webinar-section h3 {
+            color: #F5F3FF !important;
+        }
+
+        body.academy-reverse-theme {
+            background: #0A0318 !important;
+        }
     </style>
 </head>
 
@@ -1446,7 +1591,15 @@
         </div>
     </div>
 
-    <!-- 1. VALUE PROPOSITION ANNOUNCEMENT BAR (Full Width) -->
+    <!-- HORIZONTAL VIEWPORT WRAPPER (Enables Smooth Full-Screen Horizontal Scroll to Funny Academy) -->
+    <div id="site-horizontal-viewport" class="w-full overflow-x-hidden relative">
+        <div id="site-horizontal-track">
+
+            <!-- ============================================================================== -->
+            <!-- SCREEN 1: REGULAR WEBSITE (Light Lavender Theme, Store, Blog, Admin & Regular Footer) -->
+            <!-- ============================================================================== -->
+            <div id="screen-regular">
+                <!-- 1. VALUE PROPOSITION ANNOUNCEMENT BAR (Full Width) -->
     <div class="bg-earth-900 text-earth-100 border-b border-earth-800 store-fluid-container py-2 text-xs font-semibold text-center tracking-wide flex items-center justify-between gap-4 flex-wrap"
         data-blueprint-file="WackyStore.WebUI/Views/Shared/_Layout.cshtml" data-blueprint-role="Global Marketing Banner"
         data-blueprint-layer="WebUI / Presentation"
@@ -1645,10 +1798,9 @@
                     data-blueprint-dom="Warm yellow/orange action button transitioning into the dedicated WackyDash-style course &amp; academy module."
                     data-blueprint-desc="Routes user into CourseController.Index() providing enrolled curriculums, locked syllabus modules, and live Zoom webinar registration."
                     data-blueprint-code="public ActionResult Learning() => View(courseService.GetCurriculums());"
-                    class="h-10 px-3.5 rounded-xl bg-[#F59E0B] hover:bg-[#D97706] text-white text-xs font-bold flex items-center gap-1.5 transition-all border border-amber-400/30 active:scale-95 cursor-pointer"
-                    title="Visit Wacky Academy &amp; Learning Modules">
-                    <i id="headerLearningIcon" class="fa-solid fa-graduation-cap text-amber-200"></i>
-                    <span id="headerLearningText" class="hidden sm:inline">Funny Academy</span>
+                    class="h-10 w-10 rounded-xl bg-[#F59E0B] hover:bg-[#D97706] text-white flex items-center justify-center transition-all border border-amber-400/30 active:scale-95 cursor-pointer shadow-sm shrink-0"
+                    title="Funny Academy">
+                    <i id="headerLearningIcon" class="fa-solid fa-graduation-cap text-base text-amber-100"></i>
                 </button>
 
             </div>
@@ -2483,7 +2635,181 @@
         </div>
     </main>
 
-    <!-- 3.7 MAIN Funny Academy MODULE LAYOUT (WackyDash-Style Courses & Live Zoom Webinar) -->
+                <!-- NEWSLETTER SIGNUP -->
+    <section id="newsletter-section" class="py-20 border-t-2 border-b-2 border-purple-800/50 overflow-hidden relative"
+        data-blueprint-file="WackyStore.WebUI/Views/Shared/_NewsletterSignup.cshtml"
+        data-blueprint-role="Newsletter Signup Partial View" data-blueprint-layer="WebUI / View Component"
+        data-blueprint-dom="Semantic &lt;section&gt; with wavy purple and darker purple lines background and an opaque white &amp; black card."
+        data-blueprint-desc="Renders the newsletter signup form featuring dynamic wavy purple lines background and a crisp high-contrast opaque white/black container. Posts email subscriptions to the Newsletter controller."
+        data-blueprint-code="[HttpPost] public ActionResult Subscribe(string email) { ... }">
+
+
+        <div class="store-fluid-container relative z-10 flex flex-col items-center">
+            <!-- WHITE BLACK OPAQUE CARD ON TOP -->
+            <div id="newsletter-card"
+                class="w-full max-w-2xl bg-white border-4 border-black rounded-3xl p-8 sm:p-12 text-center relative transition-all"
+                style="background-color: #ffffff !important; opacity: 1 !important;">
+
+
+
+                <h2 class="text-3xl sm:text-5xl font-black font-heading text-black mb-3 tracking-tight">GET WACKY</h2>
+
+                <form onsubmit="subscribeToNewsletter(event)"
+                    class="flex flex-col sm:flex-row gap-3 w-full max-w-xl mx-auto">
+                    <input type="email" id="newsletter-email" placeholder="Enter your email (we dare you)" required
+                        class="flex-1 px-5 py-4 rounded-2xl bg-white border-2 border-black font-bold text-black placeholder-neutral-500 focus:outline-none focus:ring-4 focus:ring-purple-600/30 text-base transition-all" />
+                    <button type="submit" id="newsletter-submit-btn"
+                        class="px-8 py-4 bg-black hover:bg-neutral-800 active:bg-neutral-900 text-white font-black text-base sm:text-lg uppercase tracking-wider rounded-2xl hover:-translate-y-0.5 active:translate-y-0.5 active:scale-95 transition-all border-2 border-black cursor-pointer">
+                        SIGN ME UP
+                    </button>
+                </form>
+                <br>
+                <p class="newsletter-microcopy text-xs text-neutral-600 font-semibold mt-4">
+                    No spam ever. Unsubscribe with 1-click at any time.
+                </p>
+
+                <p id="newsletter-message" class="mt-4 font-bold hidden"></p>
+            </div>
+        </div>
+
+        <script>
+            async function subscribeToNewsletter(event) {
+                event.preventDefault();
+                const emailInput = document.getElementById('newsletter-email');
+                const messageEl = document.getElementById('newsletter-message');
+                const email = emailInput.value;
+
+                try {
+                    const response = await fetch('/Newsletter/Subscribe', {
+                        method: 'POST',
+                        headers: {
+                            'Content-Type': 'application/json'
+                        },
+                        body: JSON.stringify({ email: email })
+                    });
+
+                    if (!response.ok && response.status === 404) {
+                        throw new Error("Backend not running");
+                    }
+
+                    const data = await response.json();
+                    messageEl.textContent = data.message;
+                    messageEl.classList.remove('hidden');
+                    messageEl.className = "mt-4 font-bold text-white bg-black px-5 py-2.5 rounded-xl border-2 border-black inline-block";
+                    emailInput.value = '';
+                } catch (e) {
+                    messageEl.textContent = "🎉 You're subscribed to the nonsense! (Simulated dispatch confirmed)";
+                    messageEl.classList.remove('hidden');
+                    messageEl.className = "mt-4 font-bold text-white bg-black px-5 py-2.5 rounded-xl border-2 border-black inline-block";
+                    emailInput.value = '';
+                }
+            }
+        </script>
+    </section>
+
+                <!-- 9. STORE FOOTER (Full Width) -->
+    <footer
+        class="border-t-4 border-teal-600 bg-gradient-to-br from-earth-950 to-earth-900 py-12 text-sm text-earth-300 mt-auto relative overflow-hidden"
+        data-blueprint-file="WackyStore.WebUI/Views/Shared/_Layout.cshtml" data-blueprint-role="Site Footer Layout"
+        data-blueprint-layer="WebUI / Presentation"
+        data-blueprint-dom="Semantic <footer> container with dark purple gradient and vibrant teal highlights."
+        data-blueprint-desc="Shared master footer layout displaying security badges, links to the interactive case study, and framework metadata."
+        data-blueprint-code="<footer>&copy; @DateTime.Now.Year Wacky Things Co.</footer>
+
+            </div><!-- /#screen-regular -->
+
+            <!-- ============================================================================== -->
+            <!-- SCREEN 2: FUNNY ACADEMY (Reversed Dark Cosmic Theme, Academy Header, Curriculums & Reversed Light Footer) -->
+            <!-- ============================================================================== -->
+            <div id="screen-academy" class="academy-reverse-theme" style="display: none;">
+
+                <!-- Academy Announcement Bar (Reversed Scheme: Light Lavender Surface with Purple Accents) -->
+                <div class="bg-[#F3F0FF] text-[#1A0845] border-b border-[#DDD6FE] store-fluid-container py-2 text-xs font-semibold text-center tracking-wide flex items-center justify-between gap-4 flex-wrap">
+                    <div class="flex items-center gap-4 mx-auto sm:mx-0 flex-wrap justify-center">
+                        <span class="flex items-center gap-1.5 text-purple-950 font-bold">
+                            <i class="fa-solid fa-graduation-cap text-amber-500"></i> WackyDash LMS Architecture &bull; University of Novelty
+                        </span>
+                        <span class="hidden md:inline text-purple-300">&bull;</span>
+                        <span class="hidden md:flex items-center gap-1.5 text-purple-950">
+                            <i class="fa-solid fa-certificate text-amber-500"></i> Certified Gag Curriculums
+                        </span>
+                        <span class="hidden lg:inline text-purple-300">&bull;</span>
+                        <span class="hidden lg:flex items-center gap-1.5 text-purple-950">
+                            <i class="fa-solid fa-video text-amber-500"></i> Live Zoom Masterclasses
+                        </span>
+                    </div>
+                    <div class="hidden xl:flex items-center gap-2 text-[11px] text-purple-700 font-mono">
+                        <i class="fa-solid fa-microchip text-amber-500"></i>
+                        <span>Funny Academy Portal</span>
+                    </div>
+                </div>
+
+                <!-- Academy Header (Reversed Scheme: Deep Obsidian Dark Mode with Glowing Amber/Gold Accents) -->
+                <header id="academy-main-header" class="border-b border-[#38146F] bg-[#0E0422]/95 sticky top-0 z-40 backdrop-blur-md">
+                    <div class="store-fluid-container py-3.5 flex items-center justify-between gap-4 flex-wrap">
+                        <!-- Brand Logo (clicking returns to store) -->
+                        <div class="cursor-pointer select-none flex items-center gap-3 group" onclick="window.goToStoreCatalog()">
+                            <div class="h-10 w-10 rounded-xl bg-amber-500 text-earth-950 flex items-center justify-center text-lg shadow-amber-500/20 group-hover:scale-105 transition-transform">
+                                <i class="fa-solid fa-graduation-cap"></i>
+                            </div>
+                            <div>
+                                <div class="font-heading font-black text-xl sm:text-2xl text-white tracking-tight flex items-center gap-1.5 leading-none">
+                                    WACKY<span class="text-amber-400">ACADEMY</span>
+                                </div>
+                                <div class="text-[11px] text-purple-300 font-medium mt-0.5">Novelty Science &amp; Gag Architecture</div>
+                            </div>
+                        </div>
+
+                        <!-- Academy Search Bar -->
+                        <div class="flex-1 max-w-xl min-w-[260px] relative">
+                            <div class="relative flex items-center">
+                                <input type="text" id="academy-search-input"
+                                    placeholder="Search academy curriculums &amp; bizarre courses..."
+                                    oninput="window.filterCoursesByQuery(this.value)"
+                                    class="w-full bg-[#180838] border border-[#3E1878] rounded-xl pl-10 pr-9 py-2.5 text-xs text-white placeholder-purple-300/60 focus:outline-none focus:border-amber-400 focus:ring-2 focus:ring-amber-400/30 transition-all">
+                                <i class="fa-solid fa-magnifying-glass absolute left-3.5 text-purple-400 text-sm"></i>
+                            </div>
+                        </div>
+
+                        <!-- Academy Action Buttons -->
+                        <div class="flex items-center gap-2.5">
+                            <!-- Shipping Estimator -->
+                            <button onclick="window.openShippingModal()"
+                                class="h-10 px-3.5 rounded-xl bg-[#BE185D] hover:bg-[#9D174D] text-white text-xs font-bold flex items-center gap-1.5 transition-all shadow-md active:scale-95 cursor-pointer border border-[#9D174D]"
+                                title="Estimate Shipping Distance">
+                                <i class="fa-solid fa-map-location-dot text-white"></i>
+                                <span class="hidden md:inline text-white font-bold">Shipping</span>
+                            </button>
+
+                            <!-- Cart Widget -->
+                            <button onclick="window.openCartDrawer()"
+                                class="h-10 px-4 rounded-xl bg-teal-800 hover:bg-teal-700 text-white font-bold text-xs flex items-center gap-2 transition-all border border-teal-600/50">
+                                <i class="fa-solid fa-cart-shopping text-teal-300"></i>
+                                <span class="hidden sm:inline">Cart:</span>
+                                <span id="academy-header-cart-total" class="font-mono text-teal-200 font-extrabold">$0.00</span>
+                                <span id="academy-header-cart-count"
+                                    class="h-5 min-w-5 px-1.5 rounded-full bg-teal-400 text-earth-950 font-black text-[10px] flex items-center justify-center">0</span>
+                            </button>
+
+                            <!-- Return to Store Catalog Button -->
+                            <button onclick="window.switchView('store')"
+                                class="h-10 px-3.5 rounded-xl bg-purple-900/80 hover:bg-purple-800 border border-purple-700/60 text-purple-100 text-xs font-bold flex items-center gap-1.5 transition-all cursor-pointer"
+                                title="Return to Store Catalog">
+                                <i class="fa-solid fa-shop text-amber-300"></i>
+                                <span class="hidden sm:inline">Store Catalog</span>
+                            </button>
+
+                            <!-- Funny Academy Button: ICON ONLY! (Active State, clicking toggles/scrolls back to store) -->
+                            <button onclick="window.toggleViewStoreLearning()" id="academy-header-learning-btn"
+                                class="h-10 w-10 rounded-xl bg-amber-400 hover:bg-amber-300 text-earth-950 flex items-center justify-center transition-all border border-amber-300 active:scale-95 cursor-pointer shadow-md shadow-amber-400/25 shrink-0"
+                                title="Exit Funny Academy (Return to Store)">
+                                <i class="fa-solid fa-graduation-cap text-base text-earth-950"></i>
+                            </button>
+                        </div>
+                    </div>
+                </header>
+
+                <!-- 3.7 MAIN Funny Academy MODULE LAYOUT (WackyDash-Style Courses & Live Zoom Webinar) -->
     <main id="learning-main-view" data-blueprint-file="WackyStore.WebUI/Controllers/CourseController.cs"
         data-blueprint-role="LMS &amp; Academy View Controller" data-blueprint-layer="WebUI / Education Portal"
         data-blueprint-dom="Main container rendering WackyDash-style courses locked to purchase and live Zoom webinar registration."
@@ -2873,6 +3199,35 @@
         </div>
 
     </main>
+
+                <!-- ACADEMY REVERSED FOOTER (Full Width Light Scheme) -->
+                <footer id="academy-site-footer"
+                    class="border-t-4 border-amber-500 bg-gradient-to-br from-[#FAF8FF] to-[#F3F0FF] py-12 text-sm text-earth-900 mt-auto relative overflow-hidden">
+                    <div class="store-fluid-container flex flex-col sm:flex-row items-center justify-between gap-4">
+                        <div class="flex items-center gap-3">
+                            <span class="text-amber-600 font-black font-heading text-sm">FUNNY ACADEMY &bull; WACKY DASH</span>
+                            <span class="text-earth-400">|</span>
+                            <span class="text-earth-700 font-medium">Novelty Science &amp; Gag Architecture</span>
+                        </div>
+                        <div class="flex items-center gap-4 text-earth-700 font-medium">
+                            <button onclick="window.switchView('store')" class="hover:text-amber-600 transition-colors cursor-pointer bg-transparent border-none p-0 text-sm font-medium text-earth-700">Store Catalog</button>
+                            <button onclick="window.switchView('blog')" class="hover:text-amber-600 transition-colors cursor-pointer bg-transparent border-none p-0 text-sm font-medium text-earth-700">The Wacky Blog</button>
+                            <a href="../index.html" class="hover:text-amber-600 transition-colors">Interactive Projects</a>
+                            <a href="../../2026/" class="hover:text-amber-600 transition-colors">Main Portfolio</a>
+                        </div>
+                        <div class="text-earth-500 text-[11px] font-mono">
+                            ASP.NET MVC 5 &bull; EF6 &bull; LMS V2.4 &bull; Zoom API
+                        </div>
+                    </div>
+                </footer>
+
+            </div><!-- /#screen-academy -->
+
+        </div><!-- /#site-horizontal-track -->
+    </div><!-- /#site-horizontal-viewport -->
+
+
+    
 
     <!-- COURSE PURCHASE & ENROLLMENT MODAL (WackyDash-Style Lock Unlock Simulation) -->
     <div id="course-enrollment-modal" data-blueprint-file="WackyStore.WebUI/Views/Course/EnrollmentModal.cshtml"
@@ -4226,86 +4581,7 @@
     </div>
 
 
-    <!-- NEWSLETTER SIGNUP -->
-    <section id="newsletter-section" class="py-20 border-t-2 border-b-2 border-purple-800/50 overflow-hidden relative"
-        data-blueprint-file="WackyStore.WebUI/Views/Shared/_NewsletterSignup.cshtml"
-        data-blueprint-role="Newsletter Signup Partial View" data-blueprint-layer="WebUI / View Component"
-        data-blueprint-dom="Semantic &lt;section&gt; with wavy purple and darker purple lines background and an opaque white &amp; black card."
-        data-blueprint-desc="Renders the newsletter signup form featuring dynamic wavy purple lines background and a crisp high-contrast opaque white/black container. Posts email subscriptions to the Newsletter controller."
-        data-blueprint-code="[HttpPost] public ActionResult Subscribe(string email) { ... }">
-
-
-        <div class="store-fluid-container relative z-10 flex flex-col items-center">
-            <!-- WHITE BLACK OPAQUE CARD ON TOP -->
-            <div id="newsletter-card"
-                class="w-full max-w-2xl bg-white border-4 border-black rounded-3xl p-8 sm:p-12 text-center relative transition-all"
-                style="background-color: #ffffff !important; opacity: 1 !important;">
-
-
-
-                <h2 class="text-3xl sm:text-5xl font-black font-heading text-black mb-3 tracking-tight">GET WACKY</h2>
-
-                <form onsubmit="subscribeToNewsletter(event)"
-                    class="flex flex-col sm:flex-row gap-3 w-full max-w-xl mx-auto">
-                    <input type="email" id="newsletter-email" placeholder="Enter your email (we dare you)" required
-                        class="flex-1 px-5 py-4 rounded-2xl bg-white border-2 border-black font-bold text-black placeholder-neutral-500 focus:outline-none focus:ring-4 focus:ring-purple-600/30 text-base transition-all" />
-                    <button type="submit" id="newsletter-submit-btn"
-                        class="px-8 py-4 bg-black hover:bg-neutral-800 active:bg-neutral-900 text-white font-black text-base sm:text-lg uppercase tracking-wider rounded-2xl hover:-translate-y-0.5 active:translate-y-0.5 active:scale-95 transition-all border-2 border-black cursor-pointer">
-                        SIGN ME UP
-                    </button>
-                </form>
-                <br>
-                <p class="newsletter-microcopy text-xs text-neutral-600 font-semibold mt-4">
-                    No spam ever. Unsubscribe with 1-click at any time.
-                </p>
-
-                <p id="newsletter-message" class="mt-4 font-bold hidden"></p>
-            </div>
-        </div>
-
-        <script>
-            async function subscribeToNewsletter(event) {
-                event.preventDefault();
-                const emailInput = document.getElementById('newsletter-email');
-                const messageEl = document.getElementById('newsletter-message');
-                const email = emailInput.value;
-
-                try {
-                    const response = await fetch('/Newsletter/Subscribe', {
-                        method: 'POST',
-                        headers: {
-                            'Content-Type': 'application/json'
-                        },
-                        body: JSON.stringify({ email: email })
-                    });
-
-                    if (!response.ok && response.status === 404) {
-                        throw new Error("Backend not running");
-                    }
-
-                    const data = await response.json();
-                    messageEl.textContent = data.message;
-                    messageEl.classList.remove('hidden');
-                    messageEl.className = "mt-4 font-bold text-white bg-black px-5 py-2.5 rounded-xl border-2 border-black inline-block";
-                    emailInput.value = '';
-                } catch (e) {
-                    messageEl.textContent = "🎉 You're subscribed to the nonsense! (Simulated dispatch confirmed)";
-                    messageEl.classList.remove('hidden');
-                    messageEl.className = "mt-4 font-bold text-white bg-black px-5 py-2.5 rounded-xl border-2 border-black inline-block";
-                    emailInput.value = '';
-                }
-            }
-        </script>
-    </section>
-
-    <!-- 9. STORE FOOTER (Full Width) -->
-    <footer
-        class="border-t-4 border-teal-600 bg-gradient-to-br from-earth-950 to-earth-900 py-12 text-sm text-earth-300 mt-auto relative overflow-hidden"
-        data-blueprint-file="WackyStore.WebUI/Views/Shared/_Layout.cshtml" data-blueprint-role="Site Footer Layout"
-        data-blueprint-layer="WebUI / Presentation"
-        data-blueprint-dom="Semantic <footer> container with dark purple gradient and vibrant teal highlights."
-        data-blueprint-desc="Shared master footer layout displaying security badges, links to the interactive case study, and framework metadata."
-        data-blueprint-code="<footer>&copy; @DateTime.Now.Year Wacky Things Co.</footer>">
+    ">
 
         <div class="store-fluid-container flex flex-col sm:flex-row items-center justify-between gap-4">
             <div class="flex items-center gap-3">

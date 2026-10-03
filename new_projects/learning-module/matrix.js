@@ -839,16 +839,19 @@ server {
   // 7. OS CLOCK & SEARCH
   // ═══════════════════════════════════════════════════════════════════
   function initOsClock() {
-    const clockEl = document.getElementById('osMenuClock');
-    if (!clockEl) return;
+    const clockEls = document.querySelectorAll('.os-menu-clock, #osMenuClock');
+    if (!clockEls.length) return;
     function tick() {
       const now = new Date();
-      clockEl.textContent = now.toLocaleDateString('en-US', {
+      const timeStr = now.toLocaleDateString('en-US', {
         weekday: 'short',
         month: 'short',
         day: 'numeric',
         hour: 'numeric',
         minute: '2-digit'
+      });
+      clockEls.forEach(el => {
+        el.textContent = timeStr;
       });
     }
     tick();
@@ -890,17 +893,42 @@ server {
       });
     }
 
-    // Audio Mute Toggle
-    const audioBtn = document.getElementById('osAudioToggleBtn');
-    if (audioBtn) {
-      audioBtn.addEventListener('click', () => {
-        initAudio();
-        soundEnabled = !soundEnabled;
-        audioBtn.innerHTML = soundEnabled
+    // Audio Mute Toggle (Synchronized across both header and footer menubars)
+    const audioBtns = document.querySelectorAll('.os-audio-toggle-btn, #osAudioToggleBtn');
+    function updateAudioButtons() {
+      audioBtns.forEach(btn => {
+        btn.innerHTML = soundEnabled
           ? `<i class="fa-solid fa-volume-high text-sky-400"></i>`
           : `<i class="fa-solid fa-volume-xmark text-slate-500"></i>`;
-        if (soundEnabled) playOsClick(900, 0.04);
       });
     }
+
+    audioBtns.forEach(btn => {
+      btn.addEventListener('click', () => {
+        initAudio();
+        soundEnabled = !soundEnabled;
+        updateAudioButtons();
+        if (soundEnabled) playOsClick(900, 0.04);
+      });
+    });
+
+    // In-App Home Icon Navigation (Resets curriculum view to first track smoothly)
+    document.querySelectorAll('a[href="./index.html"]').forEach(homeBtn => {
+      homeBtn.addEventListener('click', (e) => {
+        const path = window.location.pathname;
+        if (path.endsWith('index.html') || path.endsWith('/learning-module/') || path.endsWith('/learning-module')) {
+          e.preventDefault();
+          activeTrackId = 'javascript';
+          activeCategoryFilter = 'all';
+          activeSearchQuery = '';
+          if (searchInput) searchInput.value = '';
+          if (clearSearchBtn) clearSearchBtn.classList.add('hidden');
+          renderIdeTabs();
+          renderMainView();
+          window.scrollTo({ top: 0, behavior: 'smooth' });
+          playOsClick(800, 0.04);
+        }
+      });
+    });
   });
 })();

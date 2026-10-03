@@ -101,42 +101,6 @@
         </svg>
     </a>
 
-    <!-- Top Admin Status Navbar (Bootstrap Dark Navbar) -->
-    <header class="navbar navbar-expand-lg navbar-dark bg-dark sticky-top border-bottom border-secondary shadow-sm px-3 py-2">
-        <div class="container-fluid px-0">
-            <!-- Brand & Gateway Title -->
-            <div class="d-flex align-items-center gap-2">
-                <button class="navbar-toggler d-md-none me-2" type="button" data-bs-toggle="collapse"
-                    data-bs-target="#sidebarCollapseContainer" aria-controls="sidebarCollapseContainer"
-                    aria-expanded="false" aria-label="Toggle navigation">
-                    <span class="navbar-toggler-icon"></span>
-                </button>
-                <span class="navbar-brand fw-bold mb-0 d-flex align-items-center gap-2">
-                    <i class="fa-solid fa-truck-fast text-danger"></i>
-                    <span>DineDispatch Admin</span>
-                </span>
-                <span class="text-secondary d-none d-sm-inline">|</span>
-                <span class="text-secondary small font-monospace d-none d-md-inline">ASP.NET Core 9 Gateway</span>
-            </div>
-
-            <!-- Right Telemetry Badges & Reset Demo Button -->
-            <div class="d-flex align-items-center gap-2 ms-auto">
-                <span class="badge text-bg-success">
-                    <i class="fa-solid fa-circle text-white me-1" style="font-size: 7px;"></i>Online
-                </span>
-                <span class="badge text-bg-secondary text-white" id="activePlatformsBadge">
-                    <i class="fa-solid fa-bolt me-1"></i><span id="activePlatformsCount">0</span>/6 Verified
-                </span>
-                <button class="btn btn-outline-secondary btn-sm font-monospace text-light" onclick="resetWalkthrough()" title="Reset all state to test the step-by-step reveal from scratch">
-                    <i class="fa-solid fa-rotate-left me-1"></i>Reset
-                </button>
-                <a href="./case-study.html" target="_blank" class="btn btn-outline-light btn-sm font-monospace">
-                    <i class="fa-solid fa-code me-1"></i>Case Study
-                </a>
-            </div>
-        </div>
-    </header>
-
     <!-- Main Admin Container -->
     <div class="container-fluid py-4 px-3 px-md-4">
         <div class="row g-4">
@@ -145,10 +109,10 @@
                  BOOTSTRAP LEFT SIDEBAR (NAV PILLS)
                  Progressive disclosure: Each step reveals itself as previous completes
                  ==================================================================== -->
-            <div class="col-12 col-md-4 col-xl-3 collapse d-md-block" id="sidebarCollapseContainer">
+            <div class="col-12 col-md-4 col-xl-3 d-block" id="sidebarCollapseContainer">
                 <div class="card shadow-sm border mb-4">
                     <!-- Sidebar Brand Header -->
-                    <div class="card-header bg-white py-3 border-bottom">
+                    <div class="card-header bg-white py-3 border-bottom d-flex align-items-center justify-content-between">
                         <div class="d-flex align-items-center gap-3">
                             <div class="rounded-3 bg-danger text-white p-2 d-flex align-items-center justify-content-center"
                                 style="width: 42px; height: 42px;">
@@ -159,12 +123,15 @@
                                 <small class="text-body-secondary font-monospace">Restaurant API Console</small>
                             </div>
                         </div>
+                        <button class="btn btn-outline-secondary btn-sm font-monospace" onclick="resetWalkthrough()" title="Reset demo state">
+                            <i class="fa-solid fa-rotate-left me-1"></i>Reset
+                        </button>
                     </div>
 
                     <!-- Sidebar Navigation (Progressively Revealed) -->
                     <div class="card-body p-3">
 
-                        <!-- STEP 1: INITIAL VISIBLE NAVIGATION -->
+                        <!-- STEP 1: INTEGRATION -->
                         <div class="text-uppercase text-body-secondary fw-bold small mb-2 px-2 d-flex justify-content-between align-items-center">
                             <span>Step 1: Integration</span>
                             <span class="badge text-bg-primary font-monospace" id="step1NavBadge">Active</span>
@@ -172,49 +139,47 @@
                         <div class="nav nav-pills flex-column gap-1 mb-3" role="tablist">
                             <button type="button" class="nav-link text-start active d-flex justify-content-between align-items-center"
                                 id="tab-btn-delivery" onclick="switchAdminTab('delivery-services')"
-                                title="Connect to top demographic delivery services (Toast, DoorDash, Uber Direct, etc.)">
+                                title="Connect to top demographic delivery services (Uber Direct, Toast, DoorDash, etc.)">
                                 <span><i class="fa-solid fa-plug-circle-bolt me-2"></i>Delivery Services</span>
                                 <span class="badge text-bg-secondary" id="sidebarVerifiedCount">0 Active</span>
                             </button>
                         </div>
 
-                        <!-- STEP 2: OPERATIONS & CATALOG (REVEALED AFTER API KEY IS CONFIGURED) -->
+                        <!-- STEP 2: MENU (REVEALED AFTER API IS CONFIGURED) -->
                         <div id="sidebarStep2Group" class="d-none">
                             <div class="text-uppercase text-body-secondary fw-bold small mb-2 px-2 d-flex justify-content-between align-items-center">
-                                <span>Step 2: Operations</span>
-                                <span class="badge text-bg-success font-monospace">Unlocked</span>
+                                <span>Step 2: Menu</span>
+                                <span class="badge text-bg-success font-monospace" id="step2NavBadge">Unlocked</span>
                             </div>
                             <div class="nav nav-pills flex-column gap-1 mb-3" role="tablist">
                                 <button type="button" class="nav-link text-start text-dark d-flex justify-content-between align-items-center"
                                     id="tab-btn-menu" onclick="switchAdminTab('menu-items')"
-                                    title="Click to view synchronized Menu Items Setup">
-                                    <span><i class="fa-solid fa-utensils me-2"></i>Menu Items</span>
+                                    title="View restaurant Menu catalog">
+                                    <span><i class="fa-solid fa-utensils me-2"></i>Menu</span>
                                     <span class="badge text-bg-success">Synced</span>
-                                </button>
-                                <button type="button" class="nav-link text-start text-dark d-flex justify-content-between align-items-center"
-                                    id="tab-btn-telemetry" onclick="switchAdminTab('dispatch-logs')"
-                                    title="View real-time delivery order dispatch logs and webhooks">
-                                    <span><i class="fa-solid fa-chart-line me-2"></i>Dispatch Telemetry</span>
-                                    <span class="badge text-bg-info text-white">Live</span>
                                 </button>
                             </div>
                         </div>
 
-                        <!-- STEP 3: STOREFRONT PREVIEW (REVEALED ONLY ONCE A SITE IS GENERATED) -->
+                        <!-- STEP 3: TELEMETRY (REVEALED AFTER API IS CONFIGURED) -->
                         <div id="sidebarStep3Group" class="d-none">
                             <div class="text-uppercase text-body-secondary fw-bold small mb-2 px-2 d-flex justify-content-between align-items-center">
-                                <span>Step 3: Generated Site</span>
-                                <span class="badge text-bg-success font-monospace">Live WP</span>
+                                <span>Step 3: Telemetry</span>
+                                <span class="badge text-bg-info text-white font-monospace" id="step3NavBadge">Live</span>
                             </div>
-                            <div class="nav nav-pills flex-column gap-1" role="tablist">
+                            <div class="nav nav-pills flex-column gap-1 mb-3" role="tablist">
                                 <button type="button" class="nav-link text-start text-dark d-flex justify-content-between align-items-center"
-                                    id="tab-btn-preview" onclick="switchAdminTab('store-preview')"
-                                    title="Preview generated customer storefront">
-                                    <span><i class="fa-solid fa-store me-2"></i>Storefront Preview</span>
-                                    <span class="badge text-bg-success">Live WP</span>
+                                    id="tab-btn-telemetry" onclick="switchAdminTab('dispatch-logs')"
+                                    title="Confirm API is connected and menu on service is verified">
+                                    <span><i class="fa-solid fa-chart-line me-2"></i>Telemetry</span>
+                                    <span class="badge text-bg-success"><i class="fa-solid fa-check me-1"></i>Verified</span>
                                 </button>
                             </div>
                         </div>
+
+                    </div>
+                </div>
+            </div>
 
                     </div>
                 </div>
@@ -252,67 +217,51 @@
                                 Welcome to the restaurant delivery configuration hub. To accept online orders and dispatch couriers, configure your API credentials below. <strong>Each step will reveal itself as the previous step is completed:</strong>
                             </p>
 
-                            <!-- 4 Step Interactive Workflow Grid -->
+                            <!-- 3 Step Interactive Workflow Grid -->
                             <div class="row g-3 mb-3">
                                 <!-- Step 1 Card -->
-                                <div class="col-12 col-sm-6 col-xl-3">
+                                <div class="col-12 col-md-4">
                                     <div class="card h-100 border border-primary step-guide-card shadow-sm" id="guideCardStep1">
                                         <div class="card-body p-3">
                                             <div class="d-flex align-items-center justify-content-between mb-2">
                                                 <span class="badge text-bg-primary rounded-pill font-monospace" id="guideBadgeStep1">Step 1 &bull; Active</span>
                                                 <i class="fa-solid fa-key text-primary fs-5" id="guideIconStep1"></i>
                                             </div>
-                                            <h6 class="fw-bold text-dark mb-1">1. Configure API Key</h6>
+                                            <h6 class="fw-bold text-dark mb-1">1. Integration</h6>
                                             <p class="text-secondary small mb-0">
-                                                Choose a provider below (Toast, DoorDash, Uber Direct) and click <strong>Configure API</strong> to run the live handshake.
+                                                Configure provider credentials (Uber Direct, Toast, DoorDash) and establish the live API handshake.
                                             </p>
                                         </div>
                                     </div>
                                 </div>
 
                                 <!-- Step 2 Card -->
-                                <div class="col-12 col-sm-6 col-xl-3">
+                                <div class="col-12 col-md-4">
                                     <div class="card h-100 border bg-light opacity-50 step-guide-card" id="guideCardStep2">
                                         <div class="card-body p-3">
                                             <div class="d-flex align-items-center justify-content-between mb-2">
                                                 <span class="badge text-bg-secondary rounded-pill font-monospace" id="guideBadgeStep2"><i class="fa-solid fa-lock me-1"></i>Step 2 &bull; Locked</span>
                                                 <i class="fa-solid fa-utensils text-secondary fs-5" id="guideIconStep2"></i>
                                             </div>
-                                            <h6 class="fw-bold text-dark mb-1">2. Menu &amp; Telemetry</h6>
+                                            <h6 class="fw-bold text-dark mb-1">2. Menu</h6>
                                             <p class="text-secondary small mb-0">
-                                                Reveals synchronized restaurant menu catalog and live dispatch telemetry once your API handshake succeeds.
+                                                Synchronized restaurant menu items, categories, pricing, and modifier groups ready for delivery dispatch.
                                             </p>
                                         </div>
                                     </div>
                                 </div>
 
                                 <!-- Step 3 Card -->
-                                <div class="col-12 col-sm-6 col-xl-3">
+                                <div class="col-12 col-md-4">
                                     <div class="card h-100 border bg-light opacity-50 step-guide-card" id="guideCardStep3">
                                         <div class="card-body p-3">
                                             <div class="d-flex align-items-center justify-content-between mb-2">
                                                 <span class="badge text-bg-secondary rounded-pill font-monospace" id="guideBadgeStep3"><i class="fa-solid fa-lock me-1"></i>Step 3 &bull; Locked</span>
-                                                <i class="fa-brands fa-wordpress text-secondary fs-5" id="guideIconStep3"></i>
+                                                <i class="fa-solid fa-chart-line text-secondary fs-5" id="guideIconStep3"></i>
                                             </div>
-                                            <h6 class="fw-bold text-dark mb-1">3. Create WP Site</h6>
+                                            <h6 class="fw-bold text-dark mb-1">3. Telemetry</h6>
                                             <p class="text-secondary small mb-0">
-                                                Enables bottom bar: <em>"create site with this configuration"</em> to generate a blank WordPress site with the APIs integrated.
-                                            </p>
-                                        </div>
-                                    </div>
-                                </div>
-
-                                <!-- Step 4 Card -->
-                                <div class="col-12 col-sm-6 col-xl-3">
-                                    <div class="card h-100 border bg-light opacity-50 step-guide-card" id="guideCardStep4">
-                                        <div class="card-body p-3">
-                                            <div class="d-flex align-items-center justify-content-between mb-2">
-                                                <span class="badge text-bg-secondary rounded-pill font-monospace" id="guideBadgeStep4"><i class="fa-solid fa-lock me-1"></i>Step 4 &bull; Locked</span>
-                                                <i class="fa-solid fa-store text-secondary fs-5" id="guideIconStep4"></i>
-                                            </div>
-                                            <h6 class="fw-bold text-dark mb-1">4. Storefront Preview</h6>
-                                            <p class="text-secondary small mb-0">
-                                                <strong>Reveals only after site is generated:</strong> Live public customer storefront preview with automated checkout dispatch.
+                                                Confirms the API is connected and your menu on the service is verified with live webhook signals.
                                             </p>
                                         </div>
                                     </div>
@@ -790,48 +739,146 @@
                 </section>
 
                 <!-- ----------------------------------------------------------------
-                     PAGE 3: DISPATCH TELEMETRY & WEBHOOK ACTIVITY
-                     (REVEALED AFTER API IS CONFIGURED)
+                     STEP 3: TELEMETRY — CONFIRMS API CONNECTION & SERVICE MENU VERIFIED
                      ---------------------------------------------------------------- -->
                 <section class="admin-page-view" id="view-dispatch-logs">
                     <div class="d-flex flex-column flex-sm-row justify-content-between align-items-sm-center gap-3 mb-4 pb-2 border-bottom">
                         <div>
-                            <h2 class="h3 fw-bold text-dark mb-1">Dispatch Telemetry &amp; Webhooks</h2>
+                            <div class="d-flex align-items-center gap-2 mb-1">
+                                <span class="badge text-bg-primary font-monospace">Step 3</span>
+                                <h2 class="h3 fw-bold text-dark mb-0">Telemetry</h2>
+                            </div>
                             <p class="text-secondary small mb-0">
-                                Real-time order dispatch telemetry, API authentication handshakes, and carrier callback events processed by the ASP.NET Core 9 backend.
+                                Live telemetry gateway confirming that your delivery API is connected and your restaurant menu on the service is verified.
                             </p>
                         </div>
                         <div class="d-flex gap-2">
-                            <button class="btn btn-outline-secondary btn-sm" onclick="seedSampleDispatchLog()">
-                                <i class="fa-solid fa-satellite-dish me-1"></i> Simulate Dispatch Ping
+                            <button class="btn btn-outline-success btn-sm" onclick="seedSampleDispatchLog()">
+                                <i class="fa-solid fa-arrows-rotate me-1"></i> Re-verify Telemetry
                             </button>
-                            <button class="btn btn-outline-primary btn-sm" onclick="switchAdminTab('delivery-services')">
-                                &larr; Back
+                            <button class="btn btn-outline-primary btn-sm" onclick="switchAdminTab('menu-items')">
+                                &larr; Back to Step 2: Menu
                             </button>
                         </div>
                     </div>
 
-                    <div class="card shadow-sm border">
+                    <!-- 2 Confirmation Cards: API Connected & Menu on Service Verified -->
+                    <div class="row g-3 mb-4">
+                        <!-- Card 1: API Connection Confirmation -->
+                        <div class="col-12 col-lg-6">
+                            <div class="card shadow-sm border border-success h-100">
+                                <div class="card-header bg-success-subtle border-success py-3 d-flex justify-content-between align-items-center">
+                                    <div class="d-flex align-items-center gap-2">
+                                        <i class="fa-solid fa-circle-check text-success fs-5"></i>
+                                        <h5 class="fw-bold text-dark mb-0">API Connection Confirmed</h5>
+                                    </div>
+                                    <span class="badge text-bg-success font-monospace" id="telemetryApiStatusBadge">CONNECTED (200 OK)</span>
+                                </div>
+                                <div class="card-body p-3">
+                                    <div class="d-flex align-items-center gap-2 mb-2">
+                                        <span class="badge text-bg-dark font-monospace" id="telemetryProviderBadge">Uber Direct API Gateway v2</span>
+                                        <span class="badge text-bg-light border text-success"><i class="fa-solid fa-signal me-1"></i>18 ms Latency</span>
+                                    </div>
+                                    <p class="text-secondary small mb-3">
+                                        The ASP.NET Core 9 Gateway has established a verified handshake with your carrier endpoint. OAuth bearer tokens and webhook listeners are authenticated.
+                                    </p>
+                                    <ul class="list-group list-group-flush small">
+                                        <li class="list-group-item px-0 py-1.5 d-flex justify-content-between">
+                                            <span class="text-body-secondary">Gateway Protocol:</span>
+                                            <span class="fw-semibold">REST / JSON Webhooks</span>
+                                        </li>
+                                        <li class="list-group-item px-0 py-1.5 d-flex justify-content-between">
+                                            <span class="text-body-secondary">Client ID:</span>
+                                            <span class="fw-semibold font-monospace text-primary text-truncate ms-2" style="max-width: 240px;" id="telemetryClientIdDisplay">6ImzVINJ53LfMWCPoh_gBblTL55hqUNfIBN-7TG2</span>
+                                        </li>
+                                        <li class="list-group-item px-0 py-1.5 d-flex justify-content-between">
+                                            <span class="text-body-secondary">Handshake Verification:</span>
+                                            <span class="fw-bold text-success"><i class="fa-solid fa-check me-1"></i>Active &amp; Connected</span>
+                                        </li>
+                                    </ul>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Card 2: Menu on Service Verified -->
+                        <div class="col-12 col-lg-6">
+                            <div class="card shadow-sm border border-success h-100">
+                                <div class="card-header bg-success-subtle border-success py-3 d-flex justify-content-between align-items-center">
+                                    <div class="d-flex align-items-center gap-2">
+                                        <i class="fa-solid fa-utensils text-success fs-5"></i>
+                                        <h5 class="fw-bold text-dark mb-0">Menu Verified on Service</h5>
+                                    </div>
+                                    <span class="badge text-bg-success font-monospace" id="telemetryMenuStatusBadge">VERIFIED &amp; SYNCED</span>
+                                </div>
+                                <div class="card-body p-3">
+                                    <div class="d-flex align-items-center gap-2 mb-2">
+                                        <span class="badge text-bg-primary font-monospace" id="telemetryItemCountBadge">12 / 12 Catalog Items</span>
+                                        <span class="badge text-bg-light border text-success"><i class="fa-solid fa-check-double me-1"></i>0 Schema Errors</span>
+                                    </div>
+                                    <p class="text-secondary small mb-3">
+                                        Your restaurant menu items, categories, pricing, and modifier schemas have been validated and confirmed live on the carrier service catalog.
+                                    </p>
+                                    <ul class="list-group list-group-flush small">
+                                        <li class="list-group-item px-0 py-1.5 d-flex justify-content-between">
+                                            <span class="text-body-secondary">Service Target:</span>
+                                            <span class="fw-semibold" id="telemetryMenuProviderTarget">Uber Direct Catalog v2</span>
+                                        </li>
+                                        <li class="list-group-item px-0 py-1.5 d-flex justify-content-between">
+                                            <span class="text-body-secondary">Catalog Synchronization:</span>
+                                            <span class="fw-bold text-success"><i class="fa-solid fa-circle-check me-1"></i>100% Synced (12 Items)</span>
+                                        </li>
+                                        <li class="list-group-item px-0 py-1.5 d-flex justify-content-between">
+                                            <span class="text-body-secondary">Service Verification Status:</span>
+                                            <span class="fw-bold text-success"><i class="fa-solid fa-shield-check me-1"></i>Verified on Service</span>
+                                        </li>
+                                    </ul>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Telemetry Event Stream Table -->
+                    <div class="card shadow-sm border mb-4">
+                        <div class="card-header bg-white py-3 border-bottom d-flex justify-content-between align-items-center">
+                            <h6 class="fw-bold text-dark mb-0"><i class="fa-solid fa-network-wired text-primary me-2"></i>Live Telemetry Stream</h6>
+                            <span class="badge text-bg-info text-white font-monospace">Signal: Realtime</span>
+                        </div>
                         <div class="table-responsive">
                             <table class="table table-hover table-striped align-middle mb-0">
                                 <thead class="table-light">
                                     <tr>
                                         <th class="font-monospace small text-secondary">Timestamp</th>
                                         <th class="small text-secondary">Provider API</th>
-                                        <th class="small text-secondary">Dispatch Event</th>
+                                        <th class="small text-secondary">Telemetry Event</th>
                                         <th class="small text-secondary">Status</th>
                                         <th class="font-monospace small text-secondary">Latency</th>
-                                        <th class="font-monospace small text-secondary">Order Reference</th>
+                                        <th class="font-monospace small text-secondary">Verification Details</th>
                                     </tr>
                                 </thead>
                                 <tbody id="telemetryTableBody" class="small">
+                                    <tr>
+                                        <td class="font-monospace text-secondary">Live</td>
+                                        <td class="fw-bold" id="telemetryTableProviderName">Uber Direct</td>
+                                        <td><code class="text-dark bg-light px-1 py-0.5 border rounded">API.HANDSHAKE_CONNECTED</code></td>
+                                        <td><span class="badge text-bg-success">200 OK</span></td>
+                                        <td class="font-monospace">18 ms</td>
+                                        <td class="font-monospace text-secondary">Carrier API gateway handshake confirmed</td>
+                                    </tr>
+                                    <tr>
+                                        <td class="font-monospace text-secondary">Live</td>
+                                        <td class="fw-bold" id="telemetryTableMenuProvider">Uber Direct</td>
+                                        <td><code class="text-dark bg-light px-1 py-0.5 border rounded">MENU.CATALOG_VERIFIED</code></td>
+                                        <td><span class="badge text-bg-success">Verified</span></td>
+                                        <td class="font-monospace">24 ms</td>
+                                        <td class="font-monospace text-secondary">12 Menu items &amp; modifiers verified on service</td>
+                                    </tr>
                                     <tr>
                                         <td class="font-monospace text-secondary">System</td>
                                         <td class="fw-bold">API Dispatcher</td>
                                         <td><code class="text-dark bg-light px-1 py-0.5 border rounded">GATEWAY.INITIALIZED</code></td>
                                         <td><span class="badge text-bg-success">Ready</span></td>
-                                        <td class="font-monospace">18 ms</td>
-                                        <td class="font-monospace text-secondary">Telemetry channel listening</td>
+                                        <td class="font-monospace">12 ms</td>
+                                        <td class="font-monospace text-secondary">Telemetry listener active</td>
                                     </tr>
                                 </tbody>
                             </table>
@@ -1870,45 +1917,57 @@ add_action('woocommerce_checkout_order_processed', function($order_id) {
                 pill.innerText = verifiedNames.length > 0 ? verifiedNames[0] : 'Pending Gateway';
             });
 
-            // --- 3. STEP 3 REVEAL: Storefront Preview (ONLY once site is generated) ---
+            // --- 3. STEP 3 REVEAL: Telemetry (Unlocked when API is configured) ---
             const step3Group = document.getElementById('sidebarStep3Group');
             if (step3Group) {
-                if (siteGenerated) {
+                if (count > 0) {
                     step3Group.classList.remove('d-none');
                 } else {
                     step3Group.classList.add('d-none');
-                    if (activeAdminTab === 'store-preview') {
+                    if (activeAdminTab === 'dispatch-logs' || activeAdminTab === 'menu-items') {
                         switchAdminTab('delivery-services');
                     }
                 }
             }
 
-            // Storefront View Content vs. Locked Banner
-            const lockedFallback = document.getElementById('storePreviewLockedFallback');
-            const unlockedContent = document.getElementById('storePreviewUnlockedContent');
-            if (lockedFallback && unlockedContent) {
-                if (siteGenerated) {
-                    lockedFallback.classList.add('d-none');
-                    unlockedContent.classList.remove('d-none');
-                    const sfGw = document.getElementById('storefrontActiveGatewayText');
-                    if (sfGw) sfGw.innerText = verifiedNames.join(' + ');
-                    const sfTarget = document.getElementById('storefrontDispatchTarget');
-                    if (sfTarget) sfTarget.innerText = verifiedNames.length > 0 ? verifiedNames[0] : 'Toast POS';
-                } else {
-                    lockedFallback.classList.remove('d-none');
-                    unlockedContent.classList.add('d-none');
-                }
+            // Sync Telemetry confirmation cards
+            const telProvBadge = document.getElementById('telemetryProviderBadge');
+            if (telProvBadge) telProvBadge.innerText = verifiedNames.length > 0 ? `${verifiedNames.join(' + ')} Gateway` : 'No Gateway Active';
+
+            const telApiBadge = document.getElementById('telemetryApiStatusBadge');
+            if (telApiBadge) {
+                telApiBadge.className = count > 0 ? 'badge text-bg-success font-monospace' : 'badge text-bg-secondary font-monospace';
+                telApiBadge.innerText = count > 0 ? 'CONNECTED (200 OK)' : 'DISCONNECTED';
             }
 
-            // --- 4. STEPPER GUIDE CARDS IN MAIN VIEW ---
+            const telClientId = document.getElementById('telemetryClientIdDisplay');
+            if (telClientId) {
+                const firstKey = Object.keys(DELIVERY_SERVICES).find(k => DELIVERY_SERVICES[k].verified);
+                telClientId.innerText = firstKey ? DELIVERY_SERVICES[firstKey].defaultClientId : 'None Configured';
+            }
+
+            const telMenuTarget = document.getElementById('telemetryMenuProviderTarget');
+            if (telMenuTarget) telMenuTarget.innerText = verifiedNames.length > 0 ? `${verifiedNames[0]} Catalog v2` : 'Pending Gateway';
+
+            const telMenuBadge = document.getElementById('telemetryMenuStatusBadge');
+            if (telMenuBadge) {
+                telMenuBadge.className = count > 0 ? 'badge text-bg-success font-monospace' : 'badge text-bg-secondary font-monospace';
+                telMenuBadge.innerText = count > 0 ? 'VERIFIED ON SERVICE' : 'PENDING API';
+            }
+
+            const telTblProv = document.getElementById('telemetryTableProviderName');
+            if (telTblProv) telTblProv.innerText = verifiedNames.length > 0 ? verifiedNames[0] : 'API Gateway';
+
+            const telTblMenuProv = document.getElementById('telemetryTableMenuProvider');
+            if (telTblMenuProv) telTblMenuProv.innerText = verifiedNames.length > 0 ? verifiedNames[0] : 'Menu Service';
+
+            // --- 4. STEPPER GUIDE CARDS IN MAIN VIEW (3 STEPS) ---
             const card1 = document.getElementById('guideCardStep1');
             const badge1 = document.getElementById('guideBadgeStep1');
             const card2 = document.getElementById('guideCardStep2');
             const badge2 = document.getElementById('guideBadgeStep2');
             const card3 = document.getElementById('guideCardStep3');
             const badge3 = document.getElementById('guideBadgeStep3');
-            const card4 = document.getElementById('guideCardStep4');
-            const badge4 = document.getElementById('guideBadgeStep4');
             const overallBadge = document.getElementById('guideOverallStageBadge');
 
             if (count === 0) {
@@ -1922,9 +1981,6 @@ add_action('woocommerce_checkout_order_processed', function($order_id) {
 
                 if (card3) card3.className = 'card h-100 border bg-light opacity-50 step-guide-card';
                 if (badge3) badge3.innerHTML = '<i class="fa-solid fa-lock me-1"></i>Step 3 &bull; Locked';
-
-                if (card4) card4.className = 'card h-100 border bg-light opacity-50 step-guide-card';
-                if (badge4) badge4.innerHTML = '<i class="fa-solid fa-lock me-1"></i>Step 4 &bull; Locked';
 
                 if (overallBadge) {
                     overallBadge.className = 'badge text-bg-primary';
@@ -1941,71 +1997,34 @@ add_action('woocommerce_checkout_order_processed', function($order_id) {
                 const storeStatus = document.getElementById('sidebarStoreStatusText');
                 if (storeStatus) storeStatus.innerText = 'Setup in progress (0/6 APIs)';
 
-            } else if (!siteGenerated) {
-                // Step 1 Complete -> Step 2 & 3 Unlocked!
+            } else {
+                // Step 1 Complete -> Step 2 (Menu) & Step 3 (Telemetry) Verified!
                 if (card1) card1.className = 'card h-100 border border-success step-guide-card bg-white';
                 if (badge1) badge1.className = 'badge text-bg-success rounded-pill font-monospace';
                 if (badge1) badge1.innerHTML = '<i class="fa-solid fa-check me-1"></i>Step 1 &bull; Verified';
 
                 if (card2) card2.className = 'card h-100 border border-success step-guide-card bg-white shadow-sm';
                 if (badge2) badge2.className = 'badge text-bg-success rounded-pill font-monospace';
-                if (badge2) badge2.innerHTML = '<i class="fa-solid fa-unlock me-1"></i>Step 2 &bull; Unlocked';
+                if (badge2) badge2.innerHTML = '<i class="fa-solid fa-check me-1"></i>Step 2 &bull; Menu Synced';
 
-                if (card3) card3.className = 'card h-100 border border-warning step-guide-card bg-warning-subtle shadow-sm';
-                if (badge3) badge3.className = 'badge text-bg-warning text-dark rounded-pill font-monospace';
-                if (badge3) badge3.innerHTML = '<i class="fa-solid fa-arrow-right me-1"></i>Step 3 &bull; Ready';
-
-                if (card4) card4.className = 'card h-100 border bg-light opacity-50 step-guide-card';
-                if (badge4) badge4.className = 'badge text-bg-secondary rounded-pill font-monospace';
-                if (badge4) badge4.innerHTML = '<i class="fa-solid fa-lock me-1"></i>Step 4 &bull; Locked until Site Generated';
+                if (card3) card3.className = 'card h-100 border border-success step-guide-card bg-success-subtle shadow-sm';
+                if (badge3) badge3.className = 'badge text-bg-success rounded-pill font-monospace';
+                if (badge3) badge3.innerHTML = '<i class="fa-solid fa-check-double me-1"></i>Step 3 &bull; Telemetry Verified';
 
                 if (overallBadge) {
-                    overallBadge.className = 'badge text-bg-warning text-dark';
-                    overallBadge.innerText = 'Step 3: Ready to Create Site';
+                    overallBadge.className = 'badge text-bg-success';
+                    overallBadge.innerText = 'Step 3: Telemetry Verified (API & Menu Online)';
                 }
 
                 const gnb = document.getElementById('guideNoticeBanner');
                 const gnbt = document.getElementById('guideNoticeBannerText');
                 if (gnb && gnbt) {
                     gnb.className = 'alert alert-success d-flex align-items-center gap-2 mb-0 py-2 px-3 small';
-                    gnbt.innerHTML = `<strong>${count} API${count > 1 ? 's' : ''} Connected (${verifiedNames.join(', ')}).</strong> Step 2 (Menu Items) unlocked! Click <em>"create site with this configuration"</em> on the bottom bar to generate your WordPress site.`;
+                    gnbt.innerHTML = `<strong>${count} API${count > 1 ? 's' : ''} Connected (${verifiedNames.join(', ')}).</strong> Step 2 (Menu) and Step 3 (Telemetry) are verified! Navigate to <strong>Step 3: Telemetry</strong> to confirm API connection and verified menu on service.`;
                 }
 
                 const storeStatus = document.getElementById('sidebarStoreStatusText');
-                if (storeStatus) storeStatus.innerText = `${verifiedNames[0]} Connected &bull; Ready to Deploy`;
-
-            } else {
-                // All Steps Complete & Site Generated!
-                if (card1) card1.className = 'card h-100 border border-success step-guide-card bg-white';
-                if (badge1) badge1.className = 'badge text-bg-success rounded-pill font-monospace';
-                if (badge1) badge1.innerHTML = '<i class="fa-solid fa-check me-1"></i>Step 1 &bull; Verified';
-
-                if (card2) card2.className = 'card h-100 border border-success step-guide-card bg-white';
-                if (badge2) badge2.className = 'badge text-bg-success rounded-pill font-monospace';
-                if (badge2) badge2.innerHTML = '<i class="fa-solid fa-check me-1"></i>Step 2 &bull; Synced';
-
-                if (card3) card3.className = 'card h-100 border border-success step-guide-card bg-white';
-                if (badge3) badge3.className = 'badge text-bg-success rounded-pill font-monospace';
-                if (badge3) badge3.innerHTML = '<i class="fa-solid fa-check me-1"></i>Step 3 &bull; Generated';
-
-                if (card4) card4.className = 'card h-100 border border-success step-guide-card bg-success-subtle shadow-sm';
-                if (badge4) badge4.className = 'badge text-bg-success rounded-pill font-monospace';
-                if (badge4) badge4.innerHTML = '<i class="fa-solid fa-store me-1"></i>Step 4 &bull; Storefront Live';
-
-                if (overallBadge) {
-                    overallBadge.className = 'badge text-bg-success';
-                    overallBadge.innerText = 'Step 4: Storefront Online';
-                }
-
-                const gnb = document.getElementById('guideNoticeBanner');
-                const gnbt = document.getElementById('guideNoticeBannerText');
-                if (gnb && gnbt) {
-                    gnb.className = 'alert alert-success d-flex align-items-center justify-content-between mb-0 py-2 px-3 small';
-                    gnbt.innerHTML = `<div><strong>WordPress Restaurant Site Online!</strong> All steps complete. You can now test customer ordering in the <strong>Storefront Preview</strong> tab.</div>`;
-                }
-
-                const storeStatus = document.getElementById('sidebarStoreStatusText');
-                if (storeStatus) storeStatus.innerText = `WordPress Site Active (${verifiedNames[0]})`;
+                if (storeStatus) storeStatus.innerText = `${verifiedNames[0]} Connected &bull; Telemetry Verified`;
             }
 
             // --- 5. BOTTOM BAR LOGIC ---
