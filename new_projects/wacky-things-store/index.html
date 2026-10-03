@@ -2154,30 +2154,16 @@
                 </div>
             </div>
 
-            <!-- Header Action Buttons -->
+            <!-- Header Action Buttons: Starts Teal, Purple, Yellow, then Magenta -->
             <div class="flex items-center gap-2.5">
 
-                <!-- 1. Catalog View Trigger (Solid Magenta Bold Color - prioritized first section) -->
-                <button onclick="window.navigateToCatalog()" id="header-catalog-btn"
-                    data-blueprint-file="WackyStore.WebUI/Controllers/CatalogController.cs"
-                    data-blueprint-role="Catalog View Controller"
-                    data-blueprint-layer="WebUI / Navigation &amp; Store"
-                    data-blueprint-dom="Solid bold magenta action button closing any active push panels to prioritize the store catalog."
-                    data-blueprint-desc="Closes active pushdown panels and smoothly navigates straight to the product catalog as the primary top section."
-                    data-blueprint-code="public ActionResult Catalog() => View(repository.GetProducts());"
-                    class="h-10 px-3.5 rounded-xl bg-[#D946EF] hover:bg-[#C026D3] text-white text-xs font-bold flex items-center gap-1.5 transition-all shadow-md shadow-pink-900/20 active:scale-95 cursor-pointer border border-[#C026D3]"
-                    title="Store Catalog">
-                    <i class="fa-solid fa-shop text-white"></i>
-                    <span class="hidden md:inline text-white font-bold">Catalog</span>
-                </button>
-
-                <!-- 2. Shipping Distance Map Estimator Trigger (Solid Bold Teal Color) -->
-                <button onclick="window.toggleNavPanel('shipping')" id="header-shipping-btn"
+                <!-- 1. Shipping Distance Map Estimator Trigger (TEAL) -->
+                <button type="button" onclick="window.openShippingModal()" id="header-shipping-btn"
                     data-blueprint-file="WackyStore.WebUI/Controllers/ShippingCalculatorController.cs"
                     data-blueprint-role="Geodesic Shipping Distance Estimator Portal"
                     data-blueprint-layer="WebUI / Navigation &amp; Spatial Routing"
-                    data-blueprint-dom="Solid bold teal action button dropping down the interactive US map shipping calculator from under header."
-                    data-blueprint-desc="Drops down dedicated US map shipping distance estimator using real Leaflet GIS cartography and Haversine spherical math, pushing catalog down."
+                    data-blueprint-dom="Solid bold teal action button opening the interactive US map shipping calculator popup modal."
+                    data-blueprint-desc="Opens dedicated US map shipping distance estimator popup modal using real Leaflet GIS cartography and Haversine spherical math."
                     data-blueprint-code="public ActionResult ShippingCalculator() => PartialView(&quot;_DistanceMatrixCalculator&quot;);"
                     class="h-10 px-3.5 rounded-xl bg-teal-600 hover:bg-teal-700 text-white text-xs font-bold flex items-center gap-1.5 transition-all shadow-md shadow-teal-900/20 active:scale-95 cursor-pointer border border-teal-500"
                     title="Estimate Shipping Distance Across America">
@@ -2185,31 +2171,45 @@
                     <span class="hidden md:inline text-white font-bold">Shipping Estimator</span>
                 </button>
 
-                <!-- 3. Blog Reading Portal Trigger -->
-                <button onclick="window.toggleNavPanel('blog')" id="header-blog-btn"
+                <!-- 2. Blog Reading Portal Trigger (PURPLE) -->
+                <button type="button" onclick="window.toggleNavPanel('blog')" id="header-blog-btn"
                     data-blueprint-file="WackyStore.WebUI/Controllers/BlogController.cs"
                     data-blueprint-role="Blog Portal View Trigger" data-blueprint-layer="WebUI / Navigation"
                     data-blueprint-dom="Action button dropping down The Wacky Blog from under the header."
                     data-blueprint-desc="Drops down the blog chronicles panel pushing catalog down, poofing out previous panels."
                     data-blueprint-code="public ActionResult Blog() => View(repository.GetArticles());"
-                    class="h-10 px-3.5 rounded-xl bg-earth-800 hover:bg-earth-900 border border-earth-700 text-white text-xs font-bold flex items-center gap-1.5 transition-all cursor-pointer"
+                    class="h-10 px-3.5 rounded-xl bg-[#7C3AED] hover:bg-[#6D28D9] border border-[#6D28D9] text-white text-xs font-bold flex items-center gap-1.5 transition-all shadow-md shadow-purple-900/20 active:scale-95 cursor-pointer"
                     title="Read The Mischief Gazette">
-                    <i id="headerBlogIcon" class="fa-solid fa-newspaper text-earth-300"></i>
+                    <i id="headerBlogIcon" class="fa-solid fa-newspaper text-purple-200"></i>
                     <span id="headerBlogText" class="hidden sm:inline">The Wacky Blog</span>
                 </button>
 
-                <!-- 4. Yellow Academy Portal Trigger in Warm Yellow/Orange -->
-                <button onclick="window.toggleNavPanel('academy')" id="header-learning-btn"
+                <!-- 3. Yellow Academy Portal Trigger (YELLOW) -->
+                <button type="button" onclick="window.toggleNavPanel('academy')" id="header-learning-btn"
                     data-blueprint-file="WackyStore.WebUI/Controllers/CourseController.cs"
                     data-blueprint-role="Funny Academy &amp; LMS Portal Trigger"
                     data-blueprint-layer="WebUI / Education Portal"
                     data-blueprint-dom="Warm yellow action button dropping down the dedicated WackyDash-style course &amp; academy module."
-                    data-blueprint-desc="Drops down enrolled curriculums and live Zoom webinar registration, pushing catalog down."
+                    data-blueprint-desc="Drops down enrolled curriculums and live Zoom webinar registration."
                     data-blueprint-code="public ActionResult Learning() => View(courseService.GetCurriculums());"
-                    class="h-10 px-3.5 rounded-xl bg-[#F59E0B] hover:bg-[#D97706] text-white text-xs font-bold flex items-center gap-1.5 transition-all border border-amber-400/40 active:scale-95 cursor-pointer shadow-sm shrink-0"
+                    class="h-10 px-3.5 rounded-xl bg-[#F59E0B] hover:bg-[#D97706] text-white text-xs font-bold flex items-center gap-1.5 transition-all border border-amber-400/40 active:scale-95 cursor-pointer shadow-md shadow-amber-900/20 shrink-0"
                     title="Funny Academy">
                     <i id="headerLearningIcon" class="fa-solid fa-graduation-cap text-base text-amber-100"></i>
                     <span class="hidden sm:inline font-bold">Yellow Academy</span>
+                </button>
+
+                <!-- 4. Catalog View Trigger (MAGENTA) -->
+                <button type="button" onclick="window.navigateToCatalog()" id="header-catalog-btn"
+                    data-blueprint-file="WackyStore.WebUI/Controllers/CatalogController.cs"
+                    data-blueprint-role="Catalog View Controller"
+                    data-blueprint-layer="WebUI / Navigation &amp; Store"
+                    data-blueprint-dom="Solid bold magenta action button navigating to the store catalog."
+                    data-blueprint-desc="Closes active pushdown panels and returns to the product catalog as the primary section."
+                    data-blueprint-code="public ActionResult Catalog() => View(repository.GetProducts());"
+                    class="h-10 px-3.5 rounded-xl bg-[#D946EF] hover:bg-[#C026D3] text-white text-xs font-bold flex items-center gap-1.5 transition-all shadow-md shadow-pink-900/20 active:scale-95 cursor-pointer border border-[#C026D3]"
+                    title="Store Catalog">
+                    <i class="fa-solid fa-shop text-white"></i>
+                    <span class="hidden md:inline text-white font-bold">Catalog</span>
                 </button>
 
             </div>
@@ -2220,176 +2220,12 @@
 
     
     <!-- ============================================================================== -->
-    <!-- DYNAMIC NAV DROPDOWN CONTAINER (Shipping Estimator, Wacky Blog, Yellow Academy) -->
+    <!-- DYNAMIC NAV DROPDOWN CONTAINER (The Wacky Blog, Yellow Academy) -->
     <!-- Drops down from under header and pushes store catalog down; "poofs" out on switch -->
     <!-- ============================================================================== -->
     <div id="nav-dropdown-area" class="w-full">
 
-        <!-- 1. Shipping Estimator Dropdown Panel -->
-        <section id="panel-shipping" class="nav-push-panel hidden w-full bg-canvas-base border-b-2 border-teal-500/20 shadow-md py-6 sm:py-8">
-            <div class="store-fluid-container">
-                <div class="bg-canvas-base border border-canvas-border rounded-3xl max-w-7xl lg:max-w-[1440px] w-full max-h-[96vh] overflow-y-auto p-5 sm:p-8 shadow-2xl text-earth-950 flex flex-col gap-6"
-            data-blueprint-file="WackyStore.Domain/Services/GeodesicShippingService.cs"
-            data-blueprint-role="Real US Map Logistics Studio Modal" data-blueprint-layer="Domain / Spatial Algorithm"
-            data-blueprint-dom="Full-scale interactive Leaflet US Map shipping modal with draggable Point A & Point B markers, Great-Circle geodesic arc, and live carrier rates."
-            data-blueprint-desc="Calculates exact spherical Haversine distances across genuine US geographic coordinates using Leaflet.js and CartoDB Voyager tiles.">
-            
-            <!-- Modal Header -->
-            <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-4 border-b border-canvas-border pb-4">
-                <div>
-                    <div class="flex items-center gap-2 flex-wrap mb-1">
-                        <span class="px-2.5 py-0.5 rounded-full bg-gradient-to-r from-[#FF1493] to-[#D946EF] text-white text-[10.5px] font-mono font-bold uppercase tracking-wider shadow-sm">
-                            <i class="fa-solid fa-map-location-dot mr-1 text-pink-200"></i> Real US Map GIS Engine
-                        </span>
-                        <span class="px-2 py-0.5 rounded-full bg-pink-100 text-[#BE123C] text-[10.5px] font-mono font-bold">
-                            Haversine Spherical Trigonometry
-                        </span>
-                    </div>
-                    <h2 class="font-heading font-black text-2xl sm:text-3xl text-earth-950 tracking-tight">
-                        Wacky Shipping &amp; Geodesic Distance Estimator
-                    </h2>
-                    <p class="text-xs sm:text-sm text-earth-600 mt-0.5">
-                        Drag Point A and Point B anywhere across America, click to reposition, or select logistics hubs to estimate Great-Circle freight miles and live shipping rates.
-                    </p>
-                </div>
-
-                <div class="flex items-center gap-2 shrink-0">
-                    <button onclick="window.swapShippingPoints()" type="button"
-                        class="px-3 py-2 rounded-xl bg-white hover:bg-canvas-surface border border-canvas-border text-earth-800 text-xs font-bold flex items-center gap-1.5 transition-all cursor-pointer shadow-xs"
-                        title="Swap Origin and Destination">
-                        <i class="fa-solid fa-arrow-right-arrow-left text-[#FF1493]"></i>
-                        <span class="hidden sm:inline">Swap A ⇄ B</span>
-                    </button>
-                    <button onclick="window.randomizeShippingRoute()" type="button"
-                        class="px-3 py-2 rounded-xl bg-white hover:bg-canvas-surface border border-canvas-border text-earth-800 text-xs font-bold flex items-center gap-1.5 transition-all cursor-pointer shadow-xs"
-                        title="Randomize Route">
-                        <i class="fa-solid fa-dice text-[#D946EF]"></i>
-                        <span class="hidden sm:inline">Random Route</span>
-                    </button>
-                    <button onclick="window.closeActiveNavPanel()" type="button"
-                        class="h-9 w-9 rounded-xl bg-white hover:bg-canvas-surface border border-canvas-border text-earth-500 hover:text-earth-950 flex items-center justify-center transition-all cursor-pointer shadow-xs">
-                        <i class="fa-solid fa-xmark text-lg"></i>
-                    </button>
-                </div>
-            </div>
-
-            <!-- Main Interactive Map + Controls Grid -->
-            <div class="grid grid-cols-1 lg:grid-cols-12 gap-6 items-start">
-
-                <!-- Left Column: Leaflet Map of America & Hub Selectors (7 Cols) -->
-                <div class="lg:col-span-7 space-y-3">
-                    
-                    <!-- Map Top Toolbar -->
-                    <div class="flex items-center justify-between gap-2 flex-wrap bg-white p-2.5 rounded-2xl border border-canvas-border shadow-xs text-xs">
-                        <div class="flex items-center gap-2">
-                            <span class="text-[11px] font-mono font-bold text-earth-600 flex items-center gap-1">
-                                <i class="fa-solid fa-location-crosshairs text-[#FF1493]"></i> Click Mode:
-                            </span>
-                            <div class="inline-flex rounded-xl bg-canvas-surface p-1 border border-canvas-border text-[11px] font-mono">
-                                <button type="button" id="map-mode-origin-btn" onclick="window.setMapClickMode('origin')"
-                                    class="px-2.5 py-1 rounded-lg bg-[#FF1493] text-white font-bold transition-all flex items-center gap-1 cursor-pointer shadow-xs">
-                                    <span class="h-2 w-2 rounded-full bg-white animate-pulse"></span>
-                                    <span>Point A (Origin)</span>
-                                </button>
-                                <button type="button" id="map-mode-dest-btn" onclick="window.setMapClickMode('destination')"
-                                    class="px-2.5 py-1 rounded-lg text-earth-700 hover:text-earth-950 font-bold transition-all flex items-center gap-1 cursor-pointer">
-                                    <span class="h-2 w-2 rounded-full bg-[#D946EF]"></span>
-                                    <span>Point B (Dest)</span>
-                                </button>
-                            </div>
-                        </div>
-
-                        <!-- Basemap Provider Selector -->
-                        <div class="flex items-center gap-1.5 flex-wrap">
-                            <span class="text-[10.5px] font-mono text-earth-500 font-bold hidden sm:inline">Tiles:</span>
-                            <div class="inline-flex rounded-xl bg-canvas-surface p-1 border border-canvas-border text-[10.5px] font-mono">
-                                <button type="button" id="basemap-btn-osm" onclick="window.switchBasemapLayer('osm')"
-                                    class="px-2 py-0.5 rounded-md bg-[#FF1493] text-white font-bold text-[10.5px] shadow-xs cursor-pointer"
-                                    title="Clean OpenStreetMap Standard (100% Watermark-Free & High-Precision)">
-                                    OSM Clean
-                                </button>
-                                <button type="button" id="basemap-btn-voyager" onclick="window.switchBasemapLayer('carto-voyager')"
-                                    class="px-2 py-0.5 rounded-md text-earth-700 hover:text-earth-950 text-[10.5px] cursor-pointer"
-                                    title="CARTO Voyager Basemap (Authenticated with CARTO Cloud Token)">
-                                    CARTO Voyager
-                                </button>
-                                <button type="button" id="basemap-btn-dark" onclick="window.switchBasemapLayer('carto-dark')"
-                                    class="px-2 py-0.5 rounded-md text-earth-700 hover:text-earth-950 text-[10.5px] cursor-pointer"
-                                    title="CARTO Dark Matter Basemap">
-                                    Dark
-                                </button>
-                            </div>
-                        </div>
-
-                        <!-- City / Zip Geocode Input -->
-                        <div class="flex items-center gap-1.5 flex-1 max-w-[220px] relative">
-                            <input type="text" id="map-city-search-input" placeholder="Search US City / Zip..."
-                                onkeydown="if(event.key==='Enter') window.searchAndLocateCity()"
-                                class="w-full bg-canvas-surface border border-canvas-border rounded-xl px-2.5 py-1 text-xs text-earth-900 placeholder-earth-400 focus:outline-none focus:border-[#FF1493] font-sans" />
-                            <button type="button" onclick="window.searchAndLocateCity()"
-                                class="px-2.5 py-1 rounded-lg bg-[#2E1065] text-white text-[11px] font-bold hover:bg-[#4C1D95] transition-all cursor-pointer shrink-0">
-                                Locate
-                            </button>
-                        </div>
-                    </div>
-
-                    <!-- Real-Time Logistics Routing Status Bar -->
-                    <div class="bg-canvas-surface border border-canvas-border rounded-xl px-3 py-2 text-xs flex flex-col sm:flex-row sm:items-center justify-between gap-2 text-earth-800 shadow-xs">
-                        <div class="flex items-center gap-2">
-                            <span class="inline-flex items-center gap-1.5 px-2 py-0.5 rounded-md bg-emerald-600 text-white font-mono text-[10px] font-bold shadow-xs">
-                                <i class="fa-solid fa-circle-check text-[9px]"></i> GIS DISPATCH ONLINE
-                            </span>
-                            <span class="text-earth-700 text-xs font-sans">
-                                <strong>Live Carrier Routing:</strong> Real-time Haversine distance, speed-adjusted transit &amp; rate estimation.
-                            </span>
-                        </div>
-                        <div class="flex items-center gap-1.5 text-[11px] font-mono">
-                            <span class="text-earth-500">Active Layer:</span>
-                            <span class="font-bold text-[#FF1493]">OpenStreetMap Standard</span>
-                        </div>
-                    </div>
-
-                    <!-- Genuine Leaflet Map Container -->
-                    <div class="relative w-full rounded-2xl overflow-hidden border-2 border-canvas-border shadow-md">
-                        <div id="shipping-leaflet-map" style="height: 580px; width: 100%; min-height: 480px;"></div>
-                    </div>
-
-                    <!-- Preset US Logistics Hubs -->
-                    <div class="bg-white p-3 rounded-2xl border border-canvas-border shadow-xs space-y-2">
-                        <div class="text-[10.5px] font-mono uppercase font-bold text-earth-600 flex items-center justify-between">
-                            <span>US Fulfillment Hubs (Point A):</span>
-                            <span class="text-earth-400 font-normal">Click any hub to relocate</span>
-                        </div>
-                        <div class="flex flex-wrap gap-1.5 text-xs font-mono">
-                            <button type="button" onclick="window.selectShippingHub('seattle')" class="px-2.5 py-1 rounded-lg bg-canvas-surface hover:bg-[#FF1493] text-earth-800 hover:text-white border border-canvas-border text-[11px] transition-all cursor-pointer">
-                                🌲 Seattle (WA)
-                            </button>
-                            <button type="button" onclick="window.selectShippingHub('la')" class="px-2.5 py-1 rounded-lg bg-canvas-surface hover:bg-[#FF1493] text-earth-800 hover:text-white border border-canvas-border text-[11px] transition-all cursor-pointer">
-                                🌴 Los Angeles (CA)
-                            </button>
-                            <button type="button" onclick="window.selectShippingHub('denver')" class="px-2.5 py-1 rounded-lg bg-canvas-surface hover:bg-[#FF1493] text-earth-800 hover:text-white border border-canvas-border text-[11px] transition-all cursor-pointer">
-                                🏔️ Denver (CO)
-                            </button>
-                            <button type="button" onclick="window.selectShippingHub('dallas')" class="px-2.5 py-1 rounded-lg bg-canvas-surface hover:bg-[#FF1493] text-earth-800 hover:text-white border border-canvas-border text-[11px] transition-all cursor-pointer">
-                                🤠 Dallas (TX)
-                            </button>
-                            <button type="button" onclick="window.selectShippingHub('chicago')" class="px-2.5 py-1 rounded-lg bg-canvas-surface hover:bg-[#FF1493] text-earth-800 hover:text-white border border-canvas-border text-[11px] transition-all cursor-pointer">
-                                🏙️ Chicago (IL)
-                            </button>
-                            <button type="button" onclick="window.selectShippingHub('atlanta')" class="px-2.5 py-1 rounded-lg bg-canvas-surface hover:bg-[#FF1493] text-earth-800 hover:text-white border border-canvas-border text-[11px] transition-all cursor-pointer">
-                                🍑 Atlanta (GA)
-                            </button>
-                            <button type="button" onclick="window.selectShippingHub('nyc')" class="px-2.5 py-1 rounded-lg bg-canvas-surface hover:bg-[#FF1493] text-earth-800 hover:text-white border border-canvas-border text-[11px] transition-all cursor-pointer">
-                                🗽 New York (NY)
-                            </button>
-                            <button type="button" onclick="window.selectShippingHub('miami')" class="px-2.5 py-1 rounded-lg bg-canvas-surface hover:bg-[#FF1493] text-earth-800 hover:text-white border border-canvas-border text-[11px] transition-all cursor-pointer">
-                                🏖️ Miami (FL)
-                            </button>
-                        </div>
-            </div>
-        </section>
-
-        <!-- 2. The Wacky Blog Dropdown Panel -->
+        <!-- 1. The Wacky Blog Dropdown Panel -->
         <section id="panel-blog" class="nav-push-panel hidden w-full bg-canvas-base border-b-2 border-purple-900/20 shadow-md py-6 sm:py-8">
             <div class="store-fluid-container">
                 <!-- 3.5 MAIN BLOG LAYOUT (The Mischief Gazette & Wacky Chronicles) -->
@@ -4483,9 +4319,171 @@
         </div>
     </div>
 
-    <!-- Shipping modal moved into dynamic dropdown #panel-shipping -->
+        <!-- REAL US MAP LOGISTICS & FREIGHT ESTIMATOR MODAL -->
+    <div id="shipping-modal-backdrop"
+        class="fixed inset-0 bg-black/60 backdrop-blur-xs z-50 hidden flex items-center justify-center p-3 sm:p-4"
+        onclick="if(event.target===this) window.closeShippingModal()">
+        <div class="bg-canvas-base border border-canvas-border rounded-3xl max-w-7xl lg:max-w-[1440px] w-full max-h-[96vh] overflow-y-auto p-5 sm:p-8 shadow-2xl text-earth-950 flex flex-col gap-6"
+            data-blueprint-file="WackyStore.Domain/Services/GeodesicShippingService.cs"
+            data-blueprint-role="Real US Map Logistics Studio Modal" data-blueprint-layer="Domain / Spatial Algorithm"
+            data-blueprint-dom="Full-scale interactive Leaflet US Map shipping modal with draggable Point A & Point B markers, Great-Circle geodesic arc, and live carrier rates."
+            data-blueprint-desc="Calculates exact spherical Haversine distances across genuine US geographic coordinates using Leaflet.js and CartoDB Voyager tiles.">
+            
+            <!-- Modal Header -->
+            <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-4 border-b border-canvas-border pb-4">
+                <div>
+                    <div class="flex items-center gap-2 flex-wrap mb-1">
+                        <span class="px-2.5 py-0.5 rounded-full bg-gradient-to-r from-[#FF1493] to-[#D946EF] text-white text-[10.5px] font-mono font-bold uppercase tracking-wider shadow-sm">
+                            <i class="fa-solid fa-map-location-dot mr-1 text-pink-200"></i> Real US Map GIS Engine
+                        </span>
+                        <span class="px-2 py-0.5 rounded-full bg-pink-100 text-[#BE123C] text-[10.5px] font-mono font-bold">
+                            Haversine Spherical Trigonometry
+                        </span>
+                    </div>
+                    <h2 class="font-heading font-black text-2xl sm:text-3xl text-earth-950 tracking-tight">
+                        Wacky Shipping &amp; Geodesic Distance Estimator
+                    </h2>
+                    <p class="text-xs sm:text-sm text-earth-600 mt-0.5">
+                        Drag Point A and Point B anywhere across America, click to reposition, or select logistics hubs to estimate Great-Circle freight miles and live shipping rates.
+                    </p>
+                </div>
 
-                <!-- Right Column: Telemetry & Shipping Rate Calculator (5 Cols) -->
+                <div class="flex items-center gap-2 shrink-0">
+                    <button onclick="window.swapShippingPoints()" type="button"
+                        class="px-3 py-2 rounded-xl bg-white hover:bg-canvas-surface border border-canvas-border text-earth-800 text-xs font-bold flex items-center gap-1.5 transition-all cursor-pointer shadow-xs"
+                        title="Swap Origin and Destination">
+                        <i class="fa-solid fa-arrow-right-arrow-left text-[#FF1493]"></i>
+                        <span class="hidden sm:inline">Swap A ⇄ B</span>
+                    </button>
+                    <button onclick="window.randomizeShippingRoute()" type="button"
+                        class="px-3 py-2 rounded-xl bg-white hover:bg-canvas-surface border border-canvas-border text-earth-800 text-xs font-bold flex items-center gap-1.5 transition-all cursor-pointer shadow-xs"
+                        title="Randomize Route">
+                        <i class="fa-solid fa-dice text-[#D946EF]"></i>
+                        <span class="hidden sm:inline">Random Route</span>
+                    </button>
+                    <button onclick="window.closeShippingModal()" type="button"
+                        class="h-9 w-9 rounded-xl bg-white hover:bg-canvas-surface border border-canvas-border text-earth-500 hover:text-earth-950 flex items-center justify-center transition-all cursor-pointer shadow-xs">
+                        <i class="fa-solid fa-xmark text-lg"></i>
+                    </button>
+                </div>
+            </div>
+
+            <!-- Main Interactive Map + Controls Grid -->
+            <div class="grid grid-cols-1 lg:grid-cols-12 gap-6 items-start">
+
+                
+<!-- Left Column: Leaflet Map of America & Hub Selectors (7 Cols) -->
+                <div class="lg:col-span-7 space-y-3">
+                    
+                    <!-- Map Top Toolbar -->
+                    <div class="flex items-center justify-between gap-2 flex-wrap bg-white p-2.5 rounded-2xl border border-canvas-border shadow-xs text-xs">
+                        <div class="flex items-center gap-2">
+                            <span class="text-[11px] font-mono font-bold text-earth-600 flex items-center gap-1">
+                                <i class="fa-solid fa-location-crosshairs text-[#FF1493]"></i> Click Mode:
+                            </span>
+                            <div class="inline-flex rounded-xl bg-canvas-surface p-1 border border-canvas-border text-[11px] font-mono">
+                                <button type="button" id="map-mode-origin-btn" onclick="window.setMapClickMode('origin')"
+                                    class="px-2.5 py-1 rounded-lg bg-[#FF1493] text-white font-bold transition-all flex items-center gap-1 cursor-pointer shadow-xs">
+                                    <span class="h-2 w-2 rounded-full bg-white animate-pulse"></span>
+                                    <span>Point A (Origin)</span>
+                                </button>
+                                <button type="button" id="map-mode-dest-btn" onclick="window.setMapClickMode('destination')"
+                                    class="px-2.5 py-1 rounded-lg text-earth-700 hover:text-earth-950 font-bold transition-all flex items-center gap-1 cursor-pointer">
+                                    <span class="h-2 w-2 rounded-full bg-[#D946EF]"></span>
+                                    <span>Point B (Dest)</span>
+                                </button>
+                            </div>
+                        </div>
+
+                        <!-- Basemap Provider Selector -->
+                        <div class="flex items-center gap-1.5 flex-wrap">
+                            <span class="text-[10.5px] font-mono text-earth-500 font-bold hidden sm:inline">Tiles:</span>
+                            <div class="inline-flex rounded-xl bg-canvas-surface p-1 border border-canvas-border text-[10.5px] font-mono">
+                                <button type="button" id="basemap-btn-osm" onclick="window.switchBasemapLayer('osm')"
+                                    class="px-2 py-0.5 rounded-md bg-[#FF1493] text-white font-bold text-[10.5px] shadow-xs cursor-pointer"
+                                    title="Clean OpenStreetMap Standard (100% Watermark-Free & High-Precision)">
+                                    OSM Clean
+                                </button>
+                                <button type="button" id="basemap-btn-voyager" onclick="window.switchBasemapLayer('carto-voyager')"
+                                    class="px-2 py-0.5 rounded-md text-earth-700 hover:text-earth-950 text-[10.5px] cursor-pointer"
+                                    title="CARTO Voyager Basemap (Authenticated with CARTO Cloud Token)">
+                                    CARTO Voyager
+                                </button>
+                                <button type="button" id="basemap-btn-dark" onclick="window.switchBasemapLayer('carto-dark')"
+                                    class="px-2 py-0.5 rounded-md text-earth-700 hover:text-earth-950 text-[10.5px] cursor-pointer"
+                                    title="CARTO Dark Matter Basemap">
+                                    Dark
+                                </button>
+                            </div>
+                        </div>
+
+                        <!-- City / Zip Geocode Input -->
+                        <div class="flex items-center gap-1.5 flex-1 max-w-[220px] relative">
+                            <input type="text" id="map-city-search-input" placeholder="Search US City / Zip..."
+                                onkeydown="if(event.key==='Enter') window.searchAndLocateCity()"
+                                class="w-full bg-canvas-surface border border-canvas-border rounded-xl px-2.5 py-1 text-xs text-earth-900 placeholder-earth-400 focus:outline-none focus:border-[#FF1493] font-sans" />
+                            <button type="button" onclick="window.searchAndLocateCity()"
+                                class="px-2.5 py-1 rounded-lg bg-[#2E1065] text-white text-[11px] font-bold hover:bg-[#4C1D95] transition-all cursor-pointer shrink-0">
+                                Locate
+                            </button>
+                        </div>
+                    </div>
+
+                    <!-- Real-Time Logistics Routing Status Bar -->
+                    <div class="bg-canvas-surface border border-canvas-border rounded-xl px-3 py-2 text-xs flex flex-col sm:flex-row sm:items-center justify-between gap-2 text-earth-800 shadow-xs">
+                        <div class="flex items-center gap-2">
+                            <span class="inline-flex items-center gap-1.5 px-2 py-0.5 rounded-md bg-emerald-600 text-white font-mono text-[10px] font-bold shadow-xs">
+                                <i class="fa-solid fa-circle-check text-[9px]"></i> GIS DISPATCH ONLINE
+                            </span>
+                            <span class="text-earth-700 text-xs font-sans">
+                                <strong>Live Carrier Routing:</strong> Real-time Haversine distance, speed-adjusted transit &amp; rate estimation.
+                            </span>
+                        </div>
+                        <div class="flex items-center gap-1.5 text-[11px] font-mono">
+                            <span class="text-earth-500">Active Layer:</span>
+                            <span class="font-bold text-[#FF1493]">OpenStreetMap Standard</span>
+                        </div>
+                    </div>
+
+                    <!-- Genuine Leaflet Map Container -->
+                    <div class="relative w-full rounded-2xl overflow-hidden border-2 border-canvas-border shadow-md">
+                        <div id="shipping-leaflet-map" style="height: 580px; width: 100%; min-height: 480px;"></div>
+                    </div>
+
+                    <!-- Preset US Logistics Hubs -->
+                    <div class="bg-white p-3 rounded-2xl border border-canvas-border shadow-xs space-y-2">
+                        <div class="text-[10.5px] font-mono uppercase font-bold text-earth-600 flex items-center justify-between">
+                            <span>US Fulfillment Hubs (Point A):</span>
+                            <span class="text-earth-400 font-normal">Click any hub to relocate</span>
+                        </div>
+                        <div class="flex flex-wrap gap-1.5 text-xs font-mono">
+                            <button type="button" onclick="window.selectShippingHub('seattle')" class="px-2.5 py-1 rounded-lg bg-canvas-surface hover:bg-[#FF1493] text-earth-800 hover:text-white border border-canvas-border text-[11px] transition-all cursor-pointer">
+                                🌲 Seattle (WA)
+                            </button>
+                            <button type="button" onclick="window.selectShippingHub('la')" class="px-2.5 py-1 rounded-lg bg-canvas-surface hover:bg-[#FF1493] text-earth-800 hover:text-white border border-canvas-border text-[11px] transition-all cursor-pointer">
+                                🌴 Los Angeles (CA)
+                            </button>
+                            <button type="button" onclick="window.selectShippingHub('denver')" class="px-2.5 py-1 rounded-lg bg-canvas-surface hover:bg-[#FF1493] text-earth-800 hover:text-white border border-canvas-border text-[11px] transition-all cursor-pointer">
+                                🏔️ Denver (CO)
+                            </button>
+                            <button type="button" onclick="window.selectShippingHub('dallas')" class="px-2.5 py-1 rounded-lg bg-canvas-surface hover:bg-[#FF1493] text-earth-800 hover:text-white border border-canvas-border text-[11px] transition-all cursor-pointer">
+                                🤠 Dallas (TX)
+                            </button>
+                            <button type="button" onclick="window.selectShippingHub('chicago')" class="px-2.5 py-1 rounded-lg bg-canvas-surface hover:bg-[#FF1493] text-earth-800 hover:text-white border border-canvas-border text-[11px] transition-all cursor-pointer">
+                                🏙️ Chicago (IL)
+                            </button>
+                            <button type="button" onclick="window.selectShippingHub('atlanta')" class="px-2.5 py-1 rounded-lg bg-canvas-surface hover:bg-[#FF1493] text-earth-800 hover:text-white border border-canvas-border text-[11px] transition-all cursor-pointer">
+                                🍑 Atlanta (GA)
+                            </button>
+                            <button type="button" onclick="window.selectShippingHub('nyc')" class="px-2.5 py-1 rounded-lg bg-canvas-surface hover:bg-[#FF1493] text-earth-800 hover:text-white border border-canvas-border text-[11px] transition-all cursor-pointer">
+                                🗽 New York (NY)
+                            </button>
+                            <button type="button" onclick="window.selectShippingHub('miami')" class="px-2.5 py-1 rounded-lg bg-canvas-surface hover:bg-[#FF1493] text-earth-800 hover:text-white border border-canvas-border text-[11px] transition-all cursor-pointer">
+                                🏖️ Miami (FL)
+                            </button>
+                        </div>
+
+<!-- Right Column: Telemetry & Shipping Rate Calculator (5 Cols) -->
                 <div class="lg:col-span-5 space-y-4">
 
                     <!-- Distance & Geodesic Telemetry Card -->
@@ -4654,6 +4652,8 @@
 
         </div>
     </div>
+
+    
 
     <!-- 8. ARCHITECTURE MODAL -->
     <div id="arch-modal-backdrop"

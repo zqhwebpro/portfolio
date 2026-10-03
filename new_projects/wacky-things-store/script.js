@@ -3764,11 +3764,17 @@ if (window.location.hash === '#learning' || window.location.search.includes('vie
     }, 100);
 } else if (window.location.hash === '#shipping' || window.location.search.includes('view=shipping')) {
     setTimeout(() => {
-        if (typeof window.scrollToShippingCalculator === 'function') {
-            window.scrollToShippingCalculator();
+        if (typeof window.openShippingModal === 'function') {
+            window.openShippingModal();
         }
     }, 150);
 }
+
+window.scrollToShippingCalculator = function () {
+    if (typeof window.openShippingModal === 'function') {
+        window.openShippingModal();
+    }
+};
 
 /**
  * ==============================================================================
@@ -4482,6 +4488,10 @@ window.openShippingModal = function () {
     modal.classList.remove('hidden');
     modal.style.display = 'flex';
 
+    if (typeof window.updateNavButtonStyles === 'function') {
+        window.updateNavButtonStyles('shipping');
+    }
+
     setTimeout(() => {
         if (!window.shippingLeafletMap) {
             if (typeof window.initLeafletShippingMap === 'function') {
@@ -4502,6 +4512,9 @@ window.closeShippingModal = function () {
     if (modal) {
         modal.classList.add('hidden');
         modal.style.display = 'none';
+    }
+    if (typeof window.updateNavButtonStyles === 'function') {
+        window.updateNavButtonStyles(window.activeNavPanel || 'catalog');
     }
 };
 
@@ -4888,11 +4901,16 @@ window.isPanelTransitioning = false;
 window.toggleNavPanel = function (panelName) {
     if (window.isPanelTransitioning) return;
 
-    const panelShipping = document.getElementById('panel-shipping');
+    if (panelName === 'shipping') {
+        if (typeof window.openShippingModal === 'function') {
+            window.openShippingModal();
+        }
+        return;
+    }
+
     const panelBlog = document.getElementById('panel-blog');
     const panelAcademy = document.getElementById('panel-academy');
     const panelMap = {
-        'shipping': panelShipping,
         'blog': panelBlog,
         'academy': panelAcademy
     };
@@ -4931,13 +4949,7 @@ window.toggleNavPanel = function (panelName) {
 
             window.initNavPanelContent(panelName);
             window.updateNavButtonStyles(panelName);
-
-            // Smooth scroll so the dropdown top is directly under the header
-            const navArea = document.getElementById('nav-dropdown-area');
-            if (navArea) {
-                const y = navArea.getBoundingClientRect().top + window.pageYOffset - 72;
-                window.scrollTo({ top: Math.max(0, y), behavior: 'smooth' });
-            }
+            // Screen remains stationary directly under the header
         }, 260);
         return;
     }
@@ -4955,12 +4967,7 @@ window.toggleNavPanel = function (panelName) {
 
     window.initNavPanelContent(panelName);
     window.updateNavButtonStyles(panelName);
-
-    const navArea = document.getElementById('nav-dropdown-area');
-    if (navArea) {
-        const y = navArea.getBoundingClientRect().top + window.pageYOffset - 72;
-        window.scrollTo({ top: Math.max(0, y), behavior: 'smooth' });
-    }
+    // Screen remains stationary directly under the header
 };
 
 window.closeActiveNavPanel = function (callback) {
@@ -4970,11 +4977,9 @@ window.closeActiveNavPanel = function (callback) {
         return;
     }
 
-    const panelShipping = document.getElementById('panel-shipping');
     const panelBlog = document.getElementById('panel-blog');
     const panelAcademy = document.getElementById('panel-academy');
     const panelMap = {
-        'shipping': panelShipping,
         'blog': panelBlog,
         'academy': panelAcademy
     };
@@ -5006,8 +5011,6 @@ window.navigateToCatalog = function () {
         const storeView = document.getElementById('store-main-view');
         if (storeView) {
             storeView.classList.remove('hidden');
-            const y = storeView.getBoundingClientRect().top + window.pageYOffset - 75;
-            window.scrollTo({ top: Math.max(0, y), behavior: 'smooth' });
         }
     });
     window.updateNavButtonStyles('catalog');
@@ -5015,19 +5018,9 @@ window.navigateToCatalog = function () {
 
 window.initNavPanelContent = function (panelName) {
     if (panelName === 'shipping') {
-        setTimeout(() => {
-            if (!window.shippingLeafletMap) {
-                if (typeof window.initLeafletShippingMap === 'function') {
-                    window.initLeafletShippingMap();
-                }
-            } else {
-                window.shippingLeafletMap.invalidateSize();
-                if (window.shippingMarkerA && window.shippingMarkerB && typeof L !== 'undefined') {
-                    const group = new L.featureGroup([window.shippingMarkerA, window.shippingMarkerB]);
-                    window.shippingLeafletMap.fitBounds(group.getBounds().pad(0.35));
-                }
-            }
-        }, 120);
+        if (typeof window.openShippingModal === 'function') {
+            window.openShippingModal();
+        }
     } else if (panelName === 'blog') {
         if (typeof window.renderBlogPosts === 'function') {
             window.renderBlogPosts(window.activeBlogCategory || 'all');
@@ -5083,9 +5076,4 @@ window.toggleViewStoreLearning = function (forceTarget) {
         window.toggleNavPanel('academy');
     }
 };
-window.openShippingModal = function () {
-    window.toggleNavPanel('shipping');
-};
-window.closeShippingModal = function () {
-    window.closeActiveNavPanel();
-};
+

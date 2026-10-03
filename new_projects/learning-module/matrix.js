@@ -1,96 +1,1978 @@
 /**
  * ENGINEERING KNOWLEDGE MATRIX — UNIQUE TECH OS ENGINE
  * Monospace Code Fonts, Font Awesome Icons, Crisp White Cards,
- * Interactive IDE Tabs, and 3x3 Progressive Curriculum Syllabuses
+ * Interactive IDE Tabs, and Progressive 3-Block Curriculum Outlines for ALL 7 Tracks
  */
 
 (function () {
   'use strict';
 
   // ═══════════════════════════════════════════════════════════════════
-  // 1. MODULE REPOSITORY DATA (JSE 1 CURRICULUM & 7 CORE TRACKS)
+  // 1. TRACK THEMES & VISUAL TOKENS
+  // ═══════════════════════════════════════════════════════════════════
+  const TRACK_THEMES = {
+  "javascript": {
+    "accentText": "text-amber-500",
+    "accentTextDark": "text-amber-600",
+    "accentBg": "bg-amber-500",
+    "accentBgHover": "hover:bg-amber-400",
+    "accentBgLight": "bg-amber-100",
+    "accentTextBadge": "text-amber-900",
+    "accentBorderBadge": "border-amber-300",
+    "middleBorder": "border-amber-400",
+    "middleRing": "ring-amber-400/20",
+    "hoverBorder": "hover:border-amber-300",
+    "hoverBg": "hover:bg-amber-50/80",
+    "btnText": "text-slate-950",
+    "btnBg": "bg-amber-500 hover:bg-amber-400 text-slate-950",
+    "icon": "fa-brands fa-js text-amber-500",
+    "runnerExt": "js",
+    "specPrefix": "JSE.1",
+    "certName": "JavaScript Essentials Certification Track"
+  },
+  "typescript": {
+    "accentText": "text-blue-500",
+    "accentTextDark": "text-blue-600",
+    "accentBg": "bg-blue-600",
+    "accentBgHover": "hover:bg-blue-500",
+    "accentBgLight": "bg-blue-100",
+    "accentTextBadge": "text-blue-900",
+    "accentBorderBadge": "border-blue-300",
+    "middleBorder": "border-blue-400",
+    "middleRing": "ring-blue-400/20",
+    "hoverBorder": "hover:border-blue-300",
+    "hoverBg": "hover:bg-blue-50/80",
+    "btnText": "text-white",
+    "btnBg": "bg-blue-600 hover:bg-blue-500 text-white",
+    "icon": "fa-solid fa-code text-blue-600",
+    "runnerExt": "ts",
+    "specPrefix": "TS.5",
+    "certName": "TypeScript Advanced Type System Certification Track"
+  },
+  "react": {
+    "accentText": "text-sky-500",
+    "accentTextDark": "text-sky-600",
+    "accentBg": "bg-sky-500",
+    "accentBgHover": "hover:bg-sky-400",
+    "accentBgLight": "bg-sky-100",
+    "accentTextBadge": "text-sky-900",
+    "accentBorderBadge": "border-sky-300",
+    "middleBorder": "border-sky-400",
+    "middleRing": "ring-sky-400/20",
+    "hoverBorder": "hover:border-sky-300",
+    "hoverBg": "hover:bg-sky-50/80",
+    "btnText": "text-slate-950",
+    "btnBg": "bg-sky-500 hover:bg-sky-400 text-slate-950",
+    "icon": "fa-brands fa-react text-sky-500",
+    "runnerExt": "tsx",
+    "specPrefix": "REACT.19",
+    "certName": "React 19 & Concurrent Fiber Architecture Certification Track"
+  },
+  "php": {
+    "accentText": "text-indigo-500",
+    "accentTextDark": "text-indigo-600",
+    "accentBg": "bg-indigo-600",
+    "accentBgHover": "hover:bg-indigo-500",
+    "accentBgLight": "bg-indigo-100",
+    "accentTextBadge": "text-indigo-900",
+    "accentBorderBadge": "border-indigo-300",
+    "middleBorder": "border-indigo-400",
+    "middleRing": "ring-indigo-400/20",
+    "hoverBorder": "hover:border-indigo-300",
+    "hoverBg": "hover:bg-indigo-50/80",
+    "btnText": "text-white",
+    "btnBg": "bg-indigo-600 hover:bg-indigo-500 text-white",
+    "icon": "fa-brands fa-php text-indigo-600",
+    "runnerExt": "php",
+    "specPrefix": "PHP.8",
+    "certName": "PHP 8.x Enterprise Backend Architecture Certification Track"
+  },
+  "dotnet": {
+    "accentText": "text-purple-600",
+    "accentTextDark": "text-purple-700",
+    "accentBg": "bg-purple-600",
+    "accentBgHover": "hover:bg-purple-500",
+    "accentBgLight": "bg-purple-100",
+    "accentTextBadge": "text-purple-900",
+    "accentBorderBadge": "border-purple-300",
+    "middleBorder": "border-purple-400",
+    "middleRing": "ring-purple-400/20",
+    "hoverBorder": "hover:border-purple-300",
+    "hoverBg": "hover:bg-purple-50/80",
+    "btnText": "text-white",
+    "btnBg": "bg-purple-600 hover:bg-purple-500 text-white",
+    "icon": "fa-brands fa-windows text-blue-600",
+    "runnerExt": "cs",
+    "specPrefix": "DOTNET.9",
+    "certName": ".NET 9 & C# Enterprise Systems Certification Track"
+  },
+  "dns": {
+    "accentText": "text-emerald-500",
+    "accentTextDark": "text-emerald-600",
+    "accentBg": "bg-emerald-600",
+    "accentBgHover": "hover:bg-emerald-500",
+    "accentBgLight": "bg-emerald-100",
+    "accentTextBadge": "text-emerald-900",
+    "accentBorderBadge": "border-emerald-300",
+    "middleBorder": "border-emerald-400",
+    "middleRing": "ring-emerald-400/20",
+    "hoverBorder": "hover:border-emerald-300",
+    "hoverBg": "hover:bg-emerald-50/80",
+    "btnText": "text-white",
+    "btnBg": "bg-emerald-600 hover:bg-emerald-500 text-white",
+    "icon": "fa-solid fa-network-wired text-emerald-600",
+    "runnerExt": "zone",
+    "specPrefix": "DNS.RFC",
+    "certName": "Global DNS & Network Infrastructure Certification Track"
+  },
+  "devops": {
+    "accentText": "text-fuchsia-500",
+    "accentTextDark": "text-fuchsia-600",
+    "accentBg": "bg-fuchsia-600",
+    "accentBgHover": "hover:bg-fuchsia-500",
+    "accentBgLight": "bg-fuchsia-100",
+    "accentTextBadge": "text-fuchsia-900",
+    "accentBorderBadge": "border-fuchsia-300",
+    "middleBorder": "border-fuchsia-400",
+    "middleRing": "ring-fuchsia-400/20",
+    "hoverBorder": "hover:border-fuchsia-300",
+    "hoverBg": "hover:bg-fuchsia-50/80",
+    "btnText": "text-white",
+    "btnBg": "bg-fuchsia-600 hover:bg-fuchsia-500 text-white",
+    "icon": "fa-solid fa-server text-purple-600",
+    "runnerExt": "conf",
+    "specPrefix": "DEVOPS.CI",
+    "certName": "DevOps, Cloud Containers & CI/CD Certification Track"
+  }
+};
+
+  // ═══════════════════════════════════════════════════════════════════
+  // 2. CURRICULUM MODULES DATA FOR ALL 7 TRACKS
   // ═══════════════════════════════════════════════════════════════════
   const JSE_MODULES = [
-    {
-      num: "01",
-      code: "1.0 – 1.4",
-      title: "JSE: Module 1: Introduction to JavaScript and Computer Programming",
-      shortTitle: "Intro & Computer Programming",
-      desc: "Foundations of computation, language history, modern JS engines, dev environment setup, and execution lifecycle.",
-      sections: [
-        { id: "1.0", title: "1.0. Welcome to JavaScript Essentials 1", summary: "Orientation to modern JavaScript fundamentals, computational thinking, and developer tooling." },
-        { id: "1.1", title: "1.1. Section 1 – About JavaScript", summary: "History, ECMAScript standards, engine runtime architecture, and client vs server execution." },
-        { id: "1.2", title: "1.2. Section 2 – Setting up programming environment", summary: "Node.js, browser developer tools, code editors (VS Code), and command line basics." },
-        { id: "1.3", title: "1.3. Section 3 – Hello, World!", summary: "Writing, linking, and running your first executable JavaScript programs in browser and console." },
-        { id: "1.4", title: "1.4. Module 1 Completion – Module Test", summary: "Comprehensive assessment covering programming basics, syntax rules, and environment setup." }
-      ]
-    },
-    {
-      num: "02",
-      code: "2.0 – 2.4",
-      title: "JSE: Module 2: Variables, Data Types, Type Casting, and Comments",
-      shortTitle: "Variables, Types & Comments",
-      desc: "Memory management with let/const/var, primitive types, type coercion, dynamic casting, and code documentation.",
-      sections: [
-        { id: "2.0", title: "2.0. Section 1 – Variables", summary: "Variable declaration, initialization, assignment, identifier naming rules, and block scoping." },
-        { id: "2.1", title: "2.1. Section 2 – Data types and type casting – Part 1", summary: "Primitive types: numbers, strings, booleans, undefined, null, and typeof operator inspections." },
-        { id: "2.2", title: "2.2. Section 3 – Data types and type casting – Part 2", summary: "Explicit vs implicit type conversion, BigInt, Symbols, and common NaN conversion pitfalls." },
-        { id: "2.3", title: "2.3. Section 4 – Comments", summary: "Single-line and multi-line comments, JSDoc annotations, and code self-documentation best practices." },
-        { id: "2.4", title: "2.4. Module 2 Completion – Module Test", summary: "Comprehensive examination testing type coercion, variable scope, and primitive allocations." }
-      ]
-    },
-    {
-      num: "03",
-      code: "3.0 – 3.3",
-      title: "JSE: Module 3: Operators and User Interaction",
-      shortTitle: "Operators & User Interaction",
-      desc: "Arithmetic, assignment, logical operators, string concatenation, dialog prompts, and basic input/output.",
-      sections: [
-        { id: "3.0", title: "3.0. Section 1 – Assignment, arithmetic, and logical operators", summary: "Binary/unary operators, precedence rules, logical AND/OR/NOT, and short-circuit evaluation." },
-        { id: "3.1", title: "3.1. Section 2 – String, comparison, and other JS operators", summary: "Strict equality (===) vs loose equality (==), relational operators, template literals, and ternary operator." },
-        { id: "3.2", title: "3.2. Section 3 – Interacting with the user", summary: "Modal interaction dialogs: window.alert(), window.prompt(), window.confirm(), and console logging." },
-        { id: "3.3", title: "3.3. Module 3 Completion – Module Test", summary: "Assessment testing operator evaluation precedence, truthy/falsy logic, and user dialog handling." }
-      ]
-    },
-    {
-      num: "04",
-      code: "4.0 – 4.2",
-      title: "JSE: Module 4: Control Flow – Conditional Execution and Loops",
-      shortTitle: "Control Flow & Loops",
-      desc: "Decision branching with if/else/switch, deterministic loops, while iterations, and loop jump controls.",
-      sections: [
-        { id: "4.0", title: "4.0. Section 1 – Conditional execution", summary: "Conditional branching using if, if-else cascades, nested conditions, and switch-case statements." },
-        { id: "4.1", title: "4.1. Section 2 – Loops", summary: "Iteration mechanics: while loops, do-while loops, for loops, break and continue flow control." },
-        { id: "4.2", title: "4.2. Module 4 Completion – Module Test", summary: "Module examination validating loop termination invariants, nested iteration, and condition trees." }
-      ]
-    },
-    {
-      num: "05",
-      code: "5.0 – 5.2",
-      title: "JSE: Module 5: Functions",
-      shortTitle: "Functions & Execution Context",
-      desc: "Function declarations, expressions, arrow functions, parameter defaults, return statements, and call stack scoping.",
-      sections: [
-        { id: "5.0", title: "5.0. Section 1 – Functions – Part 1", summary: "Function declaration syntax, parameter passing, return statements, and local vs global scope." },
-        { id: "5.1", title: "5.1. Section 2 – Functions – Part 2", summary: "Function expressions, first-class functions, arrow syntax, callbacks, and recursion basics." },
-        { id: "5.2", title: "5.2. Module 5 Completion – Module Test", summary: "Comprehensive test covering functional modularity, return value flow, and closure scoping." }
-      ]
-    },
-    {
-      num: "06",
-      code: "6.0 – 6.3",
-      title: "JSE: Module 6: Errors, exceptions, debugging, and troubleshooting",
-      shortTitle: "Errors, Debugging & Troubleshooting",
-      desc: "Error categories, runtime exceptions, try/catch/finally error handling, throw statements, and DevTools troubleshooting.",
-      sections: [
-        { id: "6.0", title: "6.0. Section 1 – Errors and Exceptions – Part 1", summary: "Syntax errors, reference errors, type errors, range errors, and error propagation mechanics." },
-        { id: "6.1", title: "6.1. Section 2 – Errors and Exceptions – Part 2", summary: "Structured exception handling with try-catch-finally blocks and throwing custom Error objects." },
-        { id: "6.2", title: "6.2. Section 3 – Code Debugging and Troubleshooting", summary: "Using browser debugger, setting breakpoints, stepping through call frames, and watch expressions." },
-        { id: "6.3", title: "6.3. Module 6 Completion – Module Test", summary: "Final certification module test evaluating error interception, debugging techniques, and troubleshooting." }
-      ]
-    }
-  ];
+  {
+    "num": "01",
+    "code": "1.0 – 1.4",
+    "title": "JSE: Module 1: Introduction to JavaScript and Computer Programming",
+    "shortTitle": "Intro & Computer Programming",
+    "desc": "Foundations of computation, language history, modern JS engines, dev environment setup, and execution lifecycle.",
+    "sections": [
+      {
+        "id": "1.0",
+        "title": "1.0. Welcome to JavaScript Essentials 1",
+        "summary": "Orientation to modern JavaScript fundamentals, computational thinking, and developer tooling."
+      },
+      {
+        "id": "1.1",
+        "title": "1.1. Section 1 – About JavaScript",
+        "summary": "History, ECMAScript standards, engine runtime architecture, and client vs server execution."
+      },
+      {
+        "id": "1.2",
+        "title": "1.2. Section 2 – Setting up programming environment",
+        "summary": "Node.js, browser developer tools, code editors (VS Code), and command line basics."
+      },
+      {
+        "id": "1.3",
+        "title": "1.3. Section 3 – Hello, World!",
+        "summary": "Writing, linking, and running your first executable JavaScript programs in browser and console."
+      },
+      {
+        "id": "1.4",
+        "title": "1.4. Module 1 Completion – Module Test",
+        "summary": "Comprehensive assessment covering programming basics, syntax rules, and environment setup."
+      }
+    ]
+  },
+  {
+    "num": "02",
+    "code": "2.0 – 2.4",
+    "title": "JSE: Module 2: Variables, Data Types, Type Casting, and Comments",
+    "shortTitle": "Variables, Types & Comments",
+    "desc": "Memory management with let/const/var, primitive types, type coercion, dynamic casting, and code documentation.",
+    "sections": [
+      {
+        "id": "2.0",
+        "title": "2.0. Section 1 – Variables",
+        "summary": "Variable declaration, initialization, assignment, identifier naming rules, and block scoping."
+      },
+      {
+        "id": "2.1",
+        "title": "2.1. Section 2 – Data types and type casting – Part 1",
+        "summary": "Primitive types: numbers, strings, booleans, undefined, null, and typeof operator inspections."
+      },
+      {
+        "id": "2.2",
+        "title": "2.2. Section 3 – Data types and type casting – Part 2",
+        "summary": "Explicit vs implicit type conversion, BigInt, Symbols, and common NaN conversion pitfalls."
+      },
+      {
+        "id": "2.3",
+        "title": "2.3. Section 4 – Comments",
+        "summary": "Single-line and multi-line comments, JSDoc annotations, and code self-documentation best practices."
+      },
+      {
+        "id": "2.4",
+        "title": "2.4. Module 2 Completion – Module Test",
+        "summary": "Comprehensive examination testing type coercion, variable scope, and primitive allocations."
+      }
+    ]
+  },
+  {
+    "num": "03",
+    "code": "3.0 – 3.3",
+    "title": "JSE: Module 3: Operators and User Interaction",
+    "shortTitle": "Operators & User Interaction",
+    "desc": "Arithmetic, assignment, logical operators, string concatenation, dialog prompts, and basic input/output.",
+    "sections": [
+      {
+        "id": "3.0",
+        "title": "3.0. Section 1 – Assignment, arithmetic, and logical operators",
+        "summary": "Binary/unary operators, precedence rules, logical AND/OR/NOT, and short-circuit evaluation."
+      },
+      {
+        "id": "3.1",
+        "title": "3.1. Section 2 – String, comparison, and other JS operators",
+        "summary": "Strict equality (===) vs loose equality (==), relational operators, template literals, and ternary operator."
+      },
+      {
+        "id": "3.2",
+        "title": "3.2. Section 3 – Interacting with the user",
+        "summary": "Modal interaction dialogs: window.alert(), window.prompt(), window.confirm(), and console logging."
+      },
+      {
+        "id": "3.3",
+        "title": "3.3. Module 3 Completion – Module Test",
+        "summary": "Assessment testing operator evaluation precedence, truthy/falsy logic, and user dialog handling."
+      }
+    ]
+  },
+  {
+    "num": "04",
+    "code": "4.0 – 4.2",
+    "title": "JSE: Module 4: Control Flow – Conditional Execution and Loops",
+    "shortTitle": "Control Flow & Loops",
+    "desc": "Decision branching with if/else/switch, deterministic loops, while iterations, and loop jump controls.",
+    "sections": [
+      {
+        "id": "4.0",
+        "title": "4.0. Section 1 – Conditional execution",
+        "summary": "Conditional branching using if, if-else cascades, nested conditions, and switch-case statements."
+      },
+      {
+        "id": "4.1",
+        "title": "4.1. Section 2 – Loops",
+        "summary": "Iteration mechanics: while loops, do-while loops, for loops, break and continue flow control."
+      },
+      {
+        "id": "4.2",
+        "title": "4.2. Module 4 Completion – Module Test",
+        "summary": "Module examination validating loop termination invariants, nested iteration, and condition trees."
+      }
+    ]
+  },
+  {
+    "num": "05",
+    "code": "5.0 – 5.2",
+    "title": "JSE: Module 5: Functions",
+    "shortTitle": "Functions & Execution Context",
+    "desc": "Function declarations, expressions, arrow functions, parameter defaults, return statements, and call stack scoping.",
+    "sections": [
+      {
+        "id": "5.0",
+        "title": "5.0. Section 1 – Functions – Part 1",
+        "summary": "Function declaration syntax, parameter passing, return statements, and local vs global scope."
+      },
+      {
+        "id": "5.1",
+        "title": "5.1. Section 2 – Functions – Part 2",
+        "summary": "Function expressions, first-class functions, arrow syntax, callbacks, and recursion basics."
+      },
+      {
+        "id": "5.2",
+        "title": "5.2. Module 5 Completion – Module Test",
+        "summary": "Comprehensive test covering functional modularity, return value flow, and closure scoping."
+      }
+    ]
+  },
+  {
+    "num": "06",
+    "code": "6.0 – 6.3",
+    "title": "JSE: Module 6: Errors, exceptions, debugging, and troubleshooting",
+    "shortTitle": "Errors, Debugging & Troubleshooting",
+    "desc": "Error categories, runtime exceptions, try/catch/finally error handling, throw statements, and DevTools troubleshooting.",
+    "sections": [
+      {
+        "id": "6.0",
+        "title": "6.0. Section 1 – Errors and Exceptions – Part 1",
+        "summary": "Syntax errors, reference errors, type errors, range errors, and error propagation mechanics."
+      },
+      {
+        "id": "6.1",
+        "title": "6.1. Section 2 – Errors and Exceptions – Part 2",
+        "summary": "Structured exception handling with try-catch-finally blocks and throwing custom Error objects."
+      },
+      {
+        "id": "6.2",
+        "title": "6.2. Section 3 – Code Debugging and Troubleshooting",
+        "summary": "Using browser debugger, setting breakpoints, stepping through call frames, and watch expressions."
+      },
+      {
+        "id": "6.3",
+        "title": "6.3. Module 6 Completion – Module Test",
+        "summary": "Final certification module test evaluating error interception, debugging techniques, and troubleshooting."
+      }
+    ]
+  }
+];
 
+  const TS_MODULES = [
+  {
+    "num": "01",
+    "code": "1.0 – 1.4",
+    "title": "TS: Module 1: Static Type Foundations & Compiler Configuration",
+    "shortTitle": "Static Types & Compiler Config",
+    "desc": "Architect robust enterprise applications with tsc compiler options, strict mode verification, primitives, unions, and interfaces.",
+    "sections": [
+      {
+        "id": "1.0",
+        "title": "1.0. Welcome to TypeScript 5 Type System",
+        "summary": "Introduction to JavaScript superset mechanics, compiler architecture, and static type safety."
+      },
+      {
+        "id": "1.1",
+        "title": "1.1. Section 1 – Compiler Configuration & Strict Modes (tsconfig.json)",
+        "summary": "Configuring strict flags, target ECMAScript versions, module resolution, and path aliases."
+      },
+      {
+        "id": "1.2",
+        "title": "1.2. Section 2 – Primitives, Literal Types & Type Inference",
+        "summary": "Static primitives, string/number literals, any vs unknown, void, never, and contextual typing."
+      },
+      {
+        "id": "1.3",
+        "title": "1.3. Section 3 – Interfaces vs Type Aliases & Structural Subtyping",
+        "summary": "Duck typing mental model, interface extension, declaration merging, and union/intersection types."
+      },
+      {
+        "id": "1.4",
+        "title": "1.4. Module 1 Completion – Compiler & Type Assignment Test",
+        "summary": "Evaluation testing tsconfig strictness, type compatibility, and structural duck typing."
+      }
+    ]
+  },
+  {
+    "num": "02",
+    "code": "2.0 – 2.4",
+    "title": "TS: Module 2: Function Signatures, Labeled Tuples & Type Guards",
+    "shortTitle": "Functions, Tuples & Type Guards",
+    "desc": "Construct robust function overloads, labeled tuples, custom type predicates, and discriminated unions.",
+    "sections": [
+      {
+        "id": "2.0",
+        "title": "2.0. Section 1 – Function Overloads & Implementation Signatures",
+        "summary": "Defining multiple call signatures, implementation contracts, and return type narrowing."
+      },
+      {
+        "id": "2.1",
+        "title": "2.1. Section 2 – Labeled Tuples, Rest Elements & Readonly Tuples",
+        "summary": "Fixed-length arrays, labeled elements for IDE auto-complete, and immutable readonly tuples."
+      },
+      {
+        "id": "2.2",
+        "title": "2.2. Section 3 – Custom Type Predicates (val is Type) & Assertion Functions",
+        "summary": "Building user-defined type guards, assertion functions (asserts condition), and control flow narrowing."
+      },
+      {
+        "id": "2.3",
+        "title": "2.3. Section 4 – Discriminated Unions & Exhaustiveness Checking",
+        "summary": "Tagging objects with literal discriminant keys and ensuring compile-time completeness via never."
+      },
+      {
+        "id": "2.4",
+        "title": "2.4. Module 2 Completion – Signatures & Type Guards Exam",
+        "summary": "Assessment covering function overload dispatch, type predicates, and exhaustiveness guards."
+      }
+    ]
+  },
+  {
+    "num": "03",
+    "code": "3.0 – 3.3",
+    "title": "TS: Module 3: Reusable Generics & Parameter Constraints",
+    "shortTitle": "Generics & Parameter Constraints",
+    "desc": "Architect reusable generic components, class factories, extends constraints, and keyof lookup indexing.",
+    "sections": [
+      {
+        "id": "3.0",
+        "title": "3.0. Section 1 – Generic Functions, Interfaces & Classes",
+        "summary": "Type variables <T>, generic identity functions, multi-parameter type signatures, and class factories."
+      },
+      {
+        "id": "3.1",
+        "title": "3.1. Section 2 – Generic Constraints with extends & Default Types",
+        "summary": "Restricting type parameters with interface bounds, conditional defaults, and primitive constraints."
+      },
+      {
+        "id": "3.2",
+        "title": "3.2. Section 3 – The keyof Index Operator & Indexed Access Types",
+        "summary": "Extracting property keys (keyof T), indexed access types (T[K]), and type-safe property extractors."
+      },
+      {
+        "id": "3.3",
+        "title": "3.3. Module 3 Completion – Generic Abstraction Assessment",
+        "summary": "Comprehensive test evaluating generic container design, constraint enforcement, and key indexing."
+      }
+    ]
+  },
+  {
+    "num": "04",
+    "code": "4.0 – 4.3",
+    "title": "TS: Module 4: Conditional Types & Pattern Matching with 'infer'",
+    "shortTitle": "Conditional Types & 'infer'",
+    "desc": "Type-level ternary expressions, distributive conditional branching, and pattern matching return types with infer.",
+    "sections": [
+      {
+        "id": "4.0",
+        "title": "4.0. Section 1 – Conditional Type Syntax (T extends U ? X : Y)",
+        "summary": "Type-level ternary expressions, boolean logic at compile time, and non-nullable type extraction."
+      },
+      {
+        "id": "4.1",
+        "title": "4.1. Section 2 – Distributive Conditional Types & Union Filtering",
+        "summary": "Automatic distribution over naked type parameters, Exclude<T, U>, and Extract<T, U> mechanics."
+      },
+      {
+        "id": "4.2",
+        "title": "4.2. Section 3 – Pattern Matching with the infer Keyword",
+        "summary": "Unpacking promise resolutions (Awaited<T>), function return types (ReturnType<T>), and parameters."
+      },
+      {
+        "id": "4.3",
+        "title": "4.3. Module 4 Completion – Type-Level Logic Assessment",
+        "summary": "Examination testing conditional type algebra, distribution suppression, and infer unpacking."
+      }
+    ]
+  },
+  {
+    "num": "05",
+    "code": "5.0 – 5.3",
+    "title": "TS: Module 5: Mapped Types & Template Literal Remapping",
+    "shortTitle": "Mapped Types & Template Literals",
+    "desc": "Transform object shapes dynamically with mapped types, modifiers, key remapping via as, and template literal strings.",
+    "sections": [
+      {
+        "id": "5.0",
+        "title": "5.0. Section 1 – Mapped Type Foundations ([K in keyof T])",
+        "summary": "Iterating object keys, homomorphic mapping, and building Partial<T>, Required<T>, Readonly<T>."
+      },
+      {
+        "id": "5.1",
+        "title": "5.1. Section 2 – Modifier Prefixing (+readonly, -readonly, +?, -?)",
+        "summary": "Stripping optionality and mutability flags to produce strict immutable schemas."
+      },
+      {
+        "id": "5.2",
+        "title": "5.2. Section 3 – Key Remapping via as & Template Literal Types",
+        "summary": "Prefixing getters/setters with key remapping, string union interpolation, and regex string patterns."
+      },
+      {
+        "id": "5.3",
+        "title": "5.3. Module 5 Completion – Advanced Type Transformation Test",
+        "summary": "Assessment validating custom mapped utility types, template literal concatenation, and key remapping."
+      }
+    ]
+  },
+  {
+    "num": "06",
+    "code": "6.0 – 6.3",
+    "title": "TS: Module 6: Recursive Types & Branded Nominal Type Systems",
+    "shortTitle": "Recursive Types & Nominal Branding",
+    "desc": "Infinite data structures with recursive type aliases and nominal type safety using unique symbol branding.",
+    "sections": [
+      {
+        "id": "6.0",
+        "title": "6.0. Section 1 – Recursive Types (JSONValue, DeepPartial, DeepReadonly)",
+        "summary": "Self-referencing type definitions, arbitrary nested JSON objects, and recursive tree walking."
+      },
+      {
+        "id": "6.1",
+        "title": "6.1. Section 2 – Nominal Typing via Unique Symbol Branding",
+        "summary": "Overcoming structural typing limitations: creating distinct UserId, OrderId, and Currency types."
+      },
+      {
+        "id": "6.2",
+        "title": "6.2. Section 3 – Type-Safe Domain Identifiers & Validated Primitives",
+        "summary": "Sanitized strings, validated email brand tags, and preventing accidental ID swaps at compile time."
+      },
+      {
+        "id": "6.3",
+        "title": "6.3. Module 6 Completion – Type Safety & Branding Exam",
+        "summary": "Test covering recursive compiler depth limits, nominal branding tags, and domain primitive validation."
+      }
+    ]
+  },
+  {
+    "num": "07",
+    "code": "7.0 – 7.3",
+    "title": "TS: Module 7: Ambient Declarations & Library Definitions (.d.ts)",
+    "shortTitle": "Ambient Declarations & .d.ts",
+    "desc": "Type legacy JavaScript with ambient declarations, module augmentations, declare global, and definitely typed packages.",
+    "sections": [
+      {
+        "id": "7.0",
+        "title": "7.0. Section 1 – Ambient Declarations & declare Keyword",
+        "summary": "Declaring external variables, functions, and global constants without emitting runtime JavaScript."
+      },
+      {
+        "id": "7.1",
+        "title": "7.1. Section 2 – Module Declarations (.d.ts) & Triple-Slash Directives",
+        "summary": "Writing module definition files for non-typed npm libraries and managing reference paths."
+      },
+      {
+        "id": "7.2",
+        "title": "7.2. Section 3 – Declaration Merging & Global Namespace Augmentation",
+        "summary": "Extending window, express Request, and process.env with type-safe environmental variables."
+      },
+      {
+        "id": "7.3",
+        "title": "7.3. Module 7 Completion – Definition File Authoring Test",
+        "summary": "Assessment covering library typing, ambient module resolution, and declaration merging."
+      }
+    ]
+  },
+  {
+    "num": "08",
+    "code": "8.0 – 8.3",
+    "title": "TS: Module 8: TypeScript Compiler API & Custom AST Transformers",
+    "shortTitle": "Compiler API & AST Transformers",
+    "desc": "Inspect, analyze, and transform TypeScript source code programmatically using the compiler API and AST transformers.",
+    "sections": [
+      {
+        "id": "8.0",
+        "title": "8.0. Section 1 – Program, SourceFile & Abstract Syntax Tree (AST)",
+        "summary": "Parsing source code into Node trees, token scanning, syntax kinds, and AST inspection tools."
+      },
+      {
+        "id": "8.1",
+        "title": "8.1. Section 2 – TypeChecker API & Symbol Resolution",
+        "summary": "Querying semantic information: resolved types, interface definitions, call signatures, and diagnostics."
+      },
+      {
+        "id": "8.2",
+        "title": "8.2. Section 3 – Custom AST Transformation Pipelines",
+        "summary": "Writing visitor functions to inject telemetry, auto-generate serializers, and rewrite decorators."
+      },
+      {
+        "id": "8.3",
+        "title": "8.3. Module 8 Completion – AST Metaprogramming Assessment",
+        "summary": "Evaluation testing syntax tree traversal, symbol lookup, and custom node factory emission."
+      }
+    ]
+  },
+  {
+    "num": "09",
+    "code": "9.0 – 9.3",
+    "title": "TS: Module 9: Strict Soundness, Variance & Monorepo Scaling",
+    "shortTitle": "Soundness, Variance & Monorepos",
+    "desc": "Master structural vs nominal subtyping, function parameter contravariance, Project References, and monorepos.",
+    "sections": [
+      {
+        "id": "9.0",
+        "title": "9.0. Section 1 – Subtyping, Covariance, Contravariance & Invariance",
+        "summary": "Type soundness rules: strictFunctionTypes parameter contravariance and return type covariance."
+      },
+      {
+        "id": "9.1",
+        "title": "9.1. Section 2 – TypeScript Project References & Composite Builds",
+        "summary": "Architecting large monorepos with tsconfig references, incremental compilation, and build caches."
+      },
+      {
+        "id": "9.2",
+        "title": "9.2. Section 3 – Enterprise Monorepo Compilation Tuning",
+        "summary": "Optimizing type-checking latency, skipLibCheck tradeoffs, and CI validation pipelines."
+      },
+      {
+        "id": "9.3",
+        "title": "9.3. Module 9 Completion – TypeScript Master Certification Exam",
+        "summary": "Comprehensive certification exam evaluating type theory soundness, variance, and monorepo scaling."
+      }
+    ]
+  }
+];
+
+  const REACT_MODULES = [
+  {
+    "num": "01",
+    "code": "1.0 – 1.4",
+    "title": "React: Module 1: Component Model, JSX & Virtual DOM Mechanics",
+    "shortTitle": "Component Model & Virtual DOM",
+    "desc": "Understand the foundational mental model: component tree composition, JSX compilation, Virtual DOM, and reconciliation keys.",
+    "sections": [
+      {
+        "id": "1.0",
+        "title": "1.0. Welcome to React 19 & Component Architecture",
+        "summary": "Foundations of declarative UI rendering, pure functions with props, and UI as a function of state."
+      },
+      {
+        "id": "1.1",
+        "title": "1.1. Section 1 – JSX Transpilation & React Element Objects",
+        "summary": "How JSX compiles to jsxRuntime calls, element immutability, and component vs element distinctions."
+      },
+      {
+        "id": "1.2",
+        "title": "1.2. Section 2 – Virtual DOM Diffing & Reconciliation Keys",
+        "summary": "Heuristic O(n) diffing algorithm, key prop identity preservation, and list reordering hazards."
+      },
+      {
+        "id": "1.3",
+        "title": "1.3. Section 3 – Component Composition & Prop Drilling Mitigation",
+        "summary": "Children composition patterns, slots, render props, and building compound components."
+      },
+      {
+        "id": "1.4",
+        "title": "1.4. Module 1 Completion – Virtual DOM & Component Fundamentals",
+        "summary": "Assessment testing element tree reconciliation, key mechanics, and declarative composition."
+      }
+    ]
+  },
+  {
+    "num": "02",
+    "code": "2.0 – 2.4",
+    "title": "React: Module 2: Core Hooks Lifecycle & State Batching",
+    "shortTitle": "Hooks Lifecycle & State Batching",
+    "desc": "Master execution lifecycle: useState setter batching, useEffect cleanup timing, useRef instance preservation, and hook dispatcher queues.",
+    "sections": [
+      {
+        "id": "2.0",
+        "title": "2.0. Section 1 – useState Execution Semantics & Automatic Batching",
+        "summary": "State setter queues, functional updater forms, and automatic microtask batching in React 19."
+      },
+      {
+        "id": "2.1",
+        "title": "2.1. Section 2 – useEffect Dependencies, Subscriptions & Cleanup Timing",
+        "summary": "Synchronizing with external systems, passive effect scheduling, and memory leak cleanup cycles."
+      },
+      {
+        "id": "2.2",
+        "title": "2.2. Section 3 – useRef Mutable Values & DOM Node Referencing",
+        "summary": "Preserving mutable references without triggering re-renders, forwardRef, and DOM measurement."
+      },
+      {
+        "id": "2.3",
+        "title": "2.3. Section 4 – Hook Rules & Internal Dispatcher Call Stacks",
+        "summary": "Rules of Hooks, internal linked-list state storage in Fiber nodes, and debugging hook mismatches."
+      },
+      {
+        "id": "2.4",
+        "title": "2.4. Module 2 Completion – Core Hooks Lifecycle Assessment",
+        "summary": "Examination testing effect execution order, updater closures, and state batching invariants."
+      }
+    ]
+  },
+  {
+    "num": "03",
+    "code": "3.0 – 3.3",
+    "title": "React: Module 3: Synthetic Events, Controlled UI & Form Architectures",
+    "shortTitle": "Synthetic Events & Form Actions",
+    "desc": "Event delegation pool, controlled vs uncontrolled inputs, React 19 useActionState, and native server action binding.",
+    "sections": [
+      {
+        "id": "3.0",
+        "title": "3.0. Section 1 – React SyntheticEvent System & Event Delegation",
+        "summary": "Cross-browser event normalization, bubbling phases, and root container event delegation."
+      },
+      {
+        "id": "3.1",
+        "title": "3.1. Section 2 – Controlled vs Uncontrolled Form Components",
+        "summary": "Two-way state binding vs uncontrolled ref inputs, defaultValue, and form validation."
+      },
+      {
+        "id": "3.2",
+        "title": "3.2. Section 3 – React 19 useActionState & Server Action Form Handlers",
+        "summary": "Handling async form submissions natively with pending states, optimistic UI, and FormData."
+      },
+      {
+        "id": "3.3",
+        "title": "3.3. Module 3 Completion – Event Handling & Form Binding Test",
+        "summary": "Assessment covering synthetic event propagation, input synchronization, and form actions."
+      }
+    ]
+  },
+  {
+    "num": "04",
+    "code": "4.0 – 4.3",
+    "title": "React: Module 4: Performance Optimization & Referential Stability",
+    "shortTitle": "Performance & Referential Stability",
+    "desc": "Audit and eliminate unnecessary renders: memoizing expensive calculations, stable function references, and Profiler auditing.",
+    "sections": [
+      {
+        "id": "4.0",
+        "title": "4.0. Section 1 – Re-render Causes & The React Compiler Mental Model",
+        "summary": "Tracking why components re-render: state updates, parent re-renders, and context consumers."
+      },
+      {
+        "id": "4.1",
+        "title": "4.1. Section 2 – useMemo, useCallback & Referential Equality",
+        "summary": "Caches across renders, shallow dependency comparison, and preventing child invalidations."
+      },
+      {
+        "id": "4.2",
+        "title": "4.2. Section 3 – Component Memoization (React.memo) & Profiler DevTools",
+        "summary": "Custom arePropsEqual comparators, flamegraphs, commit timing, and interaction tracing."
+      },
+      {
+        "id": "4.3",
+        "title": "4.3. Module 4 Completion – Performance Optimization Assessment",
+        "summary": "Test evaluating render bottleneck diagnostics, memoization trade-offs, and referential stability."
+      }
+    ]
+  },
+  {
+    "num": "05",
+    "code": "5.0 – 5.3",
+    "title": "React: Module 5: Custom Reusable Hook Pipelines & Subscriptions",
+    "shortTitle": "Custom Hooks & Subscriptions",
+    "desc": "Package complex stateful workflows into testable custom hooks, external store subscriptions, and AbortController integration.",
+    "sections": [
+      {
+        "id": "5.0",
+        "title": "5.0. Section 1 – Custom Hook Design & State Logic Encapsulation",
+        "summary": "Extracting reusable behavioral primitives, composable hook pipelines, and API ergonomics."
+      },
+      {
+        "id": "5.1",
+        "title": "5.1. Section 2 – useSyncExternalStore for Concurrent-Safe Stores",
+        "summary": "Subscribing to external stores without tearing under concurrent rendering, snapshot memoization."
+      },
+      {
+        "id": "5.2",
+        "title": "5.2. Section 3 – Network Request Hooks with AbortController Cleanups",
+        "summary": "Race-condition prevention, request cancellation on unmount, and automated error retries."
+      },
+      {
+        "id": "5.3",
+        "title": "5.3. Module 5 Completion – Custom Hook Pipeline Examination",
+        "summary": "Assessment covering custom hook composability, external store subscriptions, and async cleanups."
+      }
+    ]
+  },
+  {
+    "num": "06",
+    "code": "6.0 – 6.3",
+    "title": "React: Module 6: Finite State Machines & Strategic Context Splitting",
+    "shortTitle": "FSM & Context Architecture",
+    "desc": "Replace fragile boolean flags with deterministic state machines via useReducer and split React Context to prevent tree re-renders.",
+    "sections": [
+      {
+        "id": "6.0",
+        "title": "6.0. Section 1 – Complex State with useReducer & Action Creators",
+        "summary": "Deterministic transition tables, discriminated union actions, and predictable state transitions."
+      },
+      {
+        "id": "6.1",
+        "title": "6.1. Section 2 – React Context API & Provider Hierarchy",
+        "summary": "Propagating global dependencies, Theme/Auth providers, and custom hook access wrappers."
+      },
+      {
+        "id": "6.2",
+        "title": "6.2. Section 3 – Context Splitting to Prevent Unnecessary Tree Re-renders",
+        "summary": "Separating State and Dispatch contexts to isolate active consumers from passive listeners."
+      },
+      {
+        "id": "6.3",
+        "title": "6.3. Module 6 Completion – Global State & FSM Architecture Test",
+        "summary": "Test evaluating reducer purity, context subscription boundaries, and FSM transition safety."
+      }
+    ]
+  },
+  {
+    "num": "07",
+    "code": "7.0 – 7.3",
+    "title": "React: Module 7: React Fiber Reconciliation & Concurrent Engine",
+    "shortTitle": "Fiber Architecture & Concurrency",
+    "desc": "Deep-dive into Fiber nodes, double-buffering work trees, Lanes priority bitmasks, and non-blocking transitions.",
+    "sections": [
+      {
+        "id": "7.0",
+        "title": "7.0. Section 1 – Fiber Node Architecture (Child, Sibling, Return)",
+        "summary": "Linked-list tree data structure, units of work, and alternate work-in-progress double buffering."
+      },
+      {
+        "id": "7.1",
+        "title": "7.1. Section 2 – WorkLoop, Render Phase vs Commit Phase",
+        "summary": "Interruptible render phase, time-slicing scheduler, and synchronous DOM mutation commit phase."
+      },
+      {
+        "id": "7.2",
+        "title": "7.2. Section 3 – Concurrent Transitions (useTransition) & Lanes Priority",
+        "summary": "Urgent vs non-urgent updates, 31-bit Lanes priority allocation, and cooperative multitasking."
+      },
+      {
+        "id": "7.3",
+        "title": "7.3. Module 7 Completion – Fiber Engine & Concurrency Exam",
+        "summary": "Comprehensive exam testing Fiber traversal, double buffering, and Lane priority preemption."
+      }
+    ]
+  },
+  {
+    "num": "08",
+    "code": "8.0 – 8.3",
+    "title": "React: Module 8: React Server Components (RSC) & Streaming SSR Pipeline",
+    "shortTitle": "Server Components & Streaming SSR",
+    "desc": "Unify server and client: zero-bundle-size server components, HTML streaming with Suspense, and Server Actions.",
+    "sections": [
+      {
+        "id": "8.0",
+        "title": "8.0. Section 1 – Server Components vs Client Components ('use client')",
+        "summary": "The client-server boundary, module graph splitting, and serializable prop restrictions."
+      },
+      {
+        "id": "8.1",
+        "title": "8.1. Section 2 – Streaming SSR with <Suspense> & Progressive Hydration",
+        "summary": "Out-of-order HTML chunk delivery over HTTP, selective hydration, and instant First Contentful Paint."
+      },
+      {
+        "id": "8.2",
+        "title": "8.2. Section 3 – Zero-Bundle-Size Server Dependencies & Direct DB Queries",
+        "summary": "Executing database queries directly in components without client bundle weight or REST endpoints."
+      },
+      {
+        "id": "8.3",
+        "title": "8.3. Module 8 Completion – RSC Architecture & Streaming Assessment",
+        "summary": "Evaluation testing component graph serialization, selective hydration, and streaming SSR."
+      }
+    ]
+  },
+  {
+    "num": "09",
+    "code": "9.0 – 9.3",
+    "title": "React: Module 9: Custom Reconcilers & Low-Level Architectural Embedding",
+    "shortTitle": "Custom Reconcilers & Embedding",
+    "desc": "Implement custom host renderers utilizing package react-reconciler (rendering to Canvas, Terminal, or Three.js).",
+    "sections": [
+      {
+        "id": "9.0",
+        "title": "9.0. Section 1 – The react-reconciler Package & Host Config",
+        "summary": "Implementing appendInitialChild, createInstance, prepareUpdate, and commitUpdate methods."
+      },
+      {
+        "id": "9.1",
+        "title": "9.1. Section 2 – Building Custom Renderers (Terminal/Canvas/Three.js)",
+        "summary": "Translating React declarative trees into custom graphics or CLI terminal primitives."
+      },
+      {
+        "id": "9.2",
+        "title": "9.2. Section 3 – Micro-Frontend Lifecycle & Custom Element Hydration",
+        "summary": "Wrapping React trees into Web Components, shadow DOM style isolation, and multi-root mounting."
+      },
+      {
+        "id": "9.3",
+        "title": "9.3. Module 9 Completion – React 19 Master Architect Certification",
+        "summary": "Master certification examination covering custom reconciler pipelines and enterprise scalability."
+      }
+    ]
+  }
+];
+
+  const PHP_MODULES = [
+  {
+    "num": "01",
+    "code": "1.0 – 1.4",
+    "title": "PHP: Module 1: Modern PHP 8.x Syntax & Strict Type System",
+    "shortTitle": "Modern PHP 8 Syntax & Types",
+    "desc": "Execute with declare(strict_types=1), match expressions, nullsafe operator (?->), and named arguments.",
+    "sections": [
+      {
+        "id": "1.0",
+        "title": "1.0. Welcome to PHP 8 & Zend Engine Overview",
+        "summary": "Architecture of modern PHP, Zend Engine compilation, opcodes, and strict typing mental model."
+      },
+      {
+        "id": "1.1",
+        "title": "1.1. Section 1 – declare(strict_types=1) & Scalar Type Declarations",
+        "summary": "Enforcing scalar parameter types, return type declarations, and union types (int|float)."
+      },
+      {
+        "id": "1.2",
+        "title": "1.2. Section 2 – Match Expressions vs Switch & Nullsafe Operator (?->)",
+        "summary": "Strict equality matching, value returning expressions, and chaining safe navigation operators."
+      },
+      {
+        "id": "1.3",
+        "title": "1.3. Section 3 – Named Arguments, Mixed Type & Intersection Types",
+        "summary": "Calling functions with named parameters, mixed return types, and intersection types (&)."
+      },
+      {
+        "id": "1.4",
+        "title": "1.4. Module 1 Completion – PHP 8 Modern Syntax Test",
+        "summary": "Assessment covering strict type coercion prevention, match expression returns, and null handling."
+      }
+    ]
+  },
+  {
+    "num": "02",
+    "code": "2.0 – 2.4",
+    "title": "PHP: Module 2: Object-Oriented Programming (OOP) Core & Attributes",
+    "shortTitle": "OOP Core & Native Attributes",
+    "desc": "Constructor property promotion, readonly classes, backed enums, interfaces, and native PHP 8 attributes.",
+    "sections": [
+      {
+        "id": "2.0",
+        "title": "2.0. Section 1 – Constructor Property Promotion & Readonly Classes",
+        "summary": "Boilerplate reduction, immutable data transfer objects (DTOs), and readonly class modifiers."
+      },
+      {
+        "id": "2.1",
+        "title": "2.1. Section 2 – Enums with Backed Values & Interface Implementation",
+        "summary": "String/int backed enums, match integration, and implementing custom methods on enums."
+      },
+      {
+        "id": "2.2",
+        "title": "2.2. Section 3 – PHP 8 Native Attributes (#[Route], #[Inject])",
+        "summary": "Replacing docblock annotations with native structured metadata and ReflectionAttribute parsing."
+      },
+      {
+        "id": "2.3",
+        "title": "2.3. Section 4 – Interfaces, Abstract Classes & Trait Precedence",
+        "summary": "Polymorphism, interface segregation, trait conflict resolution, and abstract templates."
+      },
+      {
+        "id": "2.4",
+        "title": "2.4. Module 2 Completion – OOP Core & Attributes Exam",
+        "summary": "Comprehensive test covering constructor promotion, readonly invariants, and attribute reflection."
+      }
+    ]
+  },
+  {
+    "num": "03",
+    "code": "3.0 – 3.3",
+    "title": "PHP: Module 3: Secure Database Connectivity with PDO",
+    "shortTitle": "Secure Database with PDO",
+    "desc": "Robust database access using PDO: parameterized prepared statements, ACID transactions, and error handling.",
+    "sections": [
+      {
+        "id": "3.0",
+        "title": "3.0. Section 1 – PDO Connection DSN & Error Modes (ERRMODE_EXCEPTION)",
+        "summary": "Configuring PostgreSQL/MySQL DSN strings, connection pooling, and exception attributes."
+      },
+      {
+        "id": "3.1",
+        "title": "3.1. Section 2 – Prepared Statements & Parameter Binding",
+        "summary": "Eliminating SQL injection through parameterized bindValue/bindParam, and fetch object hydration."
+      },
+      {
+        "id": "3.2",
+        "title": "3.2. Section 3 – ACID Transaction Isolation & Rollback Handling",
+        "summary": "Atomic multi-table mutations, beginTransaction, commit, and catching PDOExceptions to rollback."
+      },
+      {
+        "id": "3.3",
+        "title": "3.3. Module 3 Completion – Secure Database Operations Test",
+        "summary": "Assessment testing SQL injection defenses, transaction boundaries, and prepared statement caching."
+      }
+    ]
+  },
+  {
+    "num": "04",
+    "code": "4.0 – 4.3",
+    "title": "PHP: Module 4: PSR Standards Compliance & Modular Namespaces",
+    "shortTitle": "PSR Standards & Namespaces",
+    "desc": "Build interoperable enterprise backends: PSR-4 autoloading, PSR-7 HTTP messages, and PSR-15 middleware.",
+    "sections": [
+      {
+        "id": "4.0",
+        "title": "4.0. Section 1 – PSR-4 Autoloading Standard & Namespace Architecture",
+        "summary": "Mapping namespace hierarchies to file directories and eliminating manual require/include."
+      },
+      {
+        "id": "4.1",
+        "title": "4.1. Section 2 – PSR-7 HTTP Message Interfaces (Request / Response)",
+        "summary": "Immutable ServerRequestInterface, ResponseInterface, URI parsing, and stream bodies."
+      },
+      {
+        "id": "4.2",
+        "title": "4.2. Section 3 – PSR-15 HTTP Server Handlers & Middleware Pipelines",
+        "summary": "Building onion-architecture middleware pipelines (authentication, CORS, logging, compression)."
+      },
+      {
+        "id": "4.3",
+        "title": "4.3. Module 4 Completion – PSR Compliance & Standards Exam",
+        "summary": "Test evaluating autoloading resolution, immutable HTTP message transformations, and middleware chains."
+      }
+    ]
+  },
+  {
+    "num": "05",
+    "code": "5.0 – 5.3",
+    "title": "PHP: Module 5: Enterprise Composer Architecture & Package Management",
+    "shortTitle": "Composer Architecture & Packages",
+    "desc": "Dependency management: composer.json schema, classmap optimization (-o), lock files, and semantic versioning.",
+    "sections": [
+      {
+        "id": "5.0",
+        "title": "5.0. Section 1 – composer.json Schema & Classmap Optimization (-o)",
+        "summary": "Managing require vs require-dev, optimizing the autoloader for production with dump-autoload -o."
+      },
+      {
+        "id": "5.1",
+        "title": "5.1. Section 2 – Semantic Version Constraints (^, ~) & Lock Files",
+        "summary": "Deterministic reproducible builds via composer.lock, version resolution, and security audits."
+      },
+      {
+        "id": "5.2",
+        "title": "5.2. Section 3 – Authoring & Publishing Custom Packagist Libraries",
+        "summary": "Package anatomy, creating reusable enterprise packages, and configuring private Git repositories."
+      },
+      {
+        "id": "5.3",
+        "title": "5.3. Module 5 Completion – Dependency Management & Composer Test",
+        "summary": "Assessment covering autoloader optimization benchmarks, version constraint solving, and package release."
+      }
+    ]
+  },
+  {
+    "num": "06",
+    "code": "6.0 – 6.3",
+    "title": "PHP: Module 6: Custom Modular MVC Framework Engineering",
+    "shortTitle": "Custom MVC Framework Design",
+    "desc": "Engineer a decoupled MVC framework: front controller pattern, attribute routing, and PSR-11 DI container.",
+    "sections": [
+      {
+        "id": "6.0",
+        "title": "6.0. Section 1 – Front Controller Pattern & .htaccess URL Rewriting",
+        "summary": "Directing all HTTP traffic through public/index.php, request parsing, and environment loading."
+      },
+      {
+        "id": "6.1",
+        "title": "6.1. Section 2 – Attribute-Based Routing Engine & Controller Dispatch",
+        "summary": "Matching HTTP methods and URI paths with regex parameters to invoke controller actions."
+      },
+      {
+        "id": "6.2",
+        "title": "6.2. Section 3 – PSR-11 Dependency Injection Container & Reflection",
+        "summary": "Recursive constructor auto-wiring via ReflectionClass, service bindings, and singletons."
+      },
+      {
+        "id": "6.3",
+        "title": "6.3. Module 6 Completion – Custom MVC Framework Architecture Exam",
+        "summary": "Examination testing front controller routing, DI container auto-wiring, and MVC response flow."
+      }
+    ]
+  },
+  {
+    "num": "07",
+    "code": "7.0 – 7.3",
+    "title": "PHP: Module 7: PHP 8 JIT Compiler & OPcache Internal Optimization",
+    "shortTitle": "PHP JIT Compiler & OPcache",
+    "desc": "Zend OPcache internals, bytecode optimization, Tracing JIT compilation, and opcache.preload configuration.",
+    "sections": [
+      {
+        "id": "7.0",
+        "title": "7.0. Section 1 – OPcache Bytecode Compilation & Memory Internals",
+        "summary": "How PHP caches AST opcode compilations in shared memory (SHM) to skip redundant parsing."
+      },
+      {
+        "id": "7.1",
+        "title": "7.1. Section 2 – Tracing JIT vs Function JIT Compilation Modes",
+        "summary": "Compiling hot opcode traces directly into machine code (x86_64) for CPU-bound computations."
+      },
+      {
+        "id": "7.2",
+        "title": "7.2. Section 3 – OPcache Preloading (opcache.preload) for Fast Boot",
+        "summary": "Compiling framework classes into permanent memory at server boot to achieve near-instant requests."
+      },
+      {
+        "id": "7.3",
+        "title": "7.3. Module 7 Completion – OPcache & JIT Compilation Assessment",
+        "summary": "Test covering shared memory tuning, JIT buffer sizing, and preloading script verification."
+      }
+    ]
+  },
+  {
+    "num": "08",
+    "code": "8.0 – 8.3",
+    "title": "PHP: Module 8: Fibers Concurrency & Asynchronous Event Loops",
+    "shortTitle": "Fibers Concurrency & Event Loops",
+    "desc": "Non-blocking concurrency with PHP 8.1 Fibers (suspend/resume), streams, and async event loops with Revolt and ReactPHP.",
+    "sections": [
+      {
+        "id": "8.0",
+        "title": "8.0. Section 1 – PHP 8.1 Fibers Architecture (Suspend & Resume)",
+        "summary": "Full-stack coroutines, managing execution stack contexts, and cooperative multitasking."
+      },
+      {
+        "id": "8.1",
+        "title": "8.1. Section 2 – Non-Blocking I/O with Streams (stream_select)",
+        "summary": "Multiplexing network sockets without blocking the main process, timeout management."
+      },
+      {
+        "id": "8.2",
+        "title": "8.2. Section 3 – Async Concurrency with Revolt, ReactPHP & Amp",
+        "summary": "Building asynchronous HTTP clients, concurrent file reading, and event loop scheduling."
+      },
+      {
+        "id": "8.3",
+        "title": "8.3. Module 8 Completion – Asynchronous Execution & Fibers Exam",
+        "summary": "Assessment testing fiber stack switching, non-blocking socket loops, and async flow control."
+      }
+    ]
+  },
+  {
+    "num": "09",
+    "code": "9.0 – 9.3",
+    "title": "PHP: Module 9: High-Throughput Runtimes & Performance Profiling",
+    "shortTitle": "High-Throughput Runtimes & Profiling",
+    "desc": "Eliminate traditional request lifecycle overhead: RoadRunner and Swoole application servers and profiling.",
+    "sections": [
+      {
+        "id": "9.0",
+        "title": "9.0. Section 1 – Persistent Worker Runtimes: RoadRunner & Swoole",
+        "summary": "Booting framework once in memory, processing thousands of requests per second with worker pools."
+      },
+      {
+        "id": "9.1",
+        "title": "9.1. Section 2 – Memory Leak Prevention in Long-Running PHP Daemons",
+        "summary": "Garbage collection cycles, clearing static caches, and unsetting circular references."
+      },
+      {
+        "id": "9.2",
+        "title": "9.2. Section 3 – Performance Bottleneck Profiling with Xdebug & Blackfire",
+        "summary": "Generating call graphs, memory allocation flame charts, and micro-optimizing critical paths."
+      },
+      {
+        "id": "9.3",
+        "title": "9.3. Module 9 Completion – PHP 8 Backend Master Certification Exam",
+        "summary": "Master certification examination evaluating persistent daemon runtimes and high-concurrency architectures."
+      }
+    ]
+  }
+];
+
+  const DOTNET_MODULES = [
+  {
+    "num": "01",
+    "code": "1.0 – 1.4",
+    "title": ".NET: Module 1: Modern C# Syntax & Type System Foundations",
+    "shortTitle": "Modern C# Syntax & Type System",
+    "desc": "Master modern C# features: value types vs reference types, immutable records, pattern matching, and nullable references.",
+    "sections": [
+      {
+        "id": "1.0",
+        "title": "1.0. Welcome to .NET 9 & CLR Runtime Architecture",
+        "summary": "Overview of Common Language Runtime (CLR), Common Intermediate Language (CIL), and modern C# 13."
+      },
+      {
+        "id": "1.1",
+        "title": "1.1. Section 1 – Value Types vs Reference Types & Memory Layout",
+        "summary": "Stack vs Heap allocation, structs vs classes, boxing/unboxing overhead, and readonly structs."
+      },
+      {
+        "id": "1.2",
+        "title": "1.2. Section 2 – Records, Pattern Matching & Positional Deconstruction",
+        "summary": "Record structs/classes, with-expressions, switch expressions, property patterns, and relational patterns."
+      },
+      {
+        "id": "1.3",
+        "title": "1.3. Section 3 – Nullable Reference Types & ValueTask<T> Async Basics",
+        "summary": "Compiler null-state analysis, null-forgiving operator (!), and zero-allocation ValueTask for synchronous returns."
+      },
+      {
+        "id": "1.4",
+        "title": "1.4. Module 1 Completion – Modern C# Language Fundamentals Test",
+        "summary": "Assessment covering stack/heap memory, pattern matching exhaustiveness, and null safety."
+      }
+    ]
+  },
+  {
+    "num": "02",
+    "code": "2.0 – 2.4",
+    "title": ".NET: Module 2: ASP.NET Core Architecture & Host Bootstrap",
+    "shortTitle": "ASP.NET Core Host & DI Bootstrap",
+    "desc": "Understand WebApplicationBuilder bootstrap, dependency injection service lifetimes, and configuration providers.",
+    "sections": [
+      {
+        "id": "2.0",
+        "title": "2.0. Section 1 – WebApplicationBuilder & Host Configuration",
+        "summary": "Configuring Kestrel server options, environment-specific configs, and building the web application host."
+      },
+      {
+        "id": "2.1",
+        "title": "2.1. Section 2 – Native Dependency Injection: Scoped, Transient, Singleton",
+        "summary": "Service container registrations, captive dependency hazards, and IServiceScopeFactory disposal."
+      },
+      {
+        "id": "2.2",
+        "title": "2.2. Section 3 – Configuration Providers (appsettings.json, Env Vars)",
+        "summary": "Hierarchical configuration, strongly-typed Options pattern (IOptions<T>, IOptionsSnapshot<T>)."
+      },
+      {
+        "id": "2.3",
+        "title": "2.3. Section 4 – Structured Logging with Serilog & OpenTelemetry",
+        "summary": "Log event formatting, structured semantic tokens, and exporting distributed traces via OTLP."
+      },
+      {
+        "id": "2.4",
+        "title": "2.4. Module 2 Completion – Host Bootstrap & DI Lifecycle Exam",
+        "summary": "Evaluation testing DI scope validation, captive dependency detection, and configuration binding."
+      }
+    ]
+  },
+  {
+    "num": "03",
+    "code": "3.0 – 3.3",
+    "title": ".NET: Module 3: Minimal APIs & Route Endpoint Binding",
+    "shortTitle": "Minimal APIs & Route Endpoints",
+    "desc": "Build lightning-fast HTTP endpoints: route mapping, parameter binding, endpoint filters, and TypedResults.",
+    "sections": [
+      {
+        "id": "3.0",
+        "title": "3.0. Section 1 – Minimal API Route Handlers (app.MapGet, MapPost)",
+        "summary": "High-performance endpoint routing without controller overhead, lambda handlers, and route groups."
+      },
+      {
+        "id": "3.1",
+        "title": "3.1. Section 2 – Model Binding, Route Parameters & Validation",
+        "summary": "Binding from route, query, headers, and JSON body; integrating FluentValidation."
+      },
+      {
+        "id": "3.2",
+        "title": "3.2. Section 3 – Response Formatting with TypedResults & OpenAPI",
+        "summary": "Type-safe HTTP responses (Results.Ok, Results.NotFound), OpenAPI metadata, and Swagger generation."
+      },
+      {
+        "id": "3.3",
+        "title": "3.3. Module 3 Completion – Minimal APIs Architecture Test",
+        "summary": "Assessment covering route constraint matching, typed result union return types, and endpoint filters."
+      }
+    ]
+  },
+  {
+    "num": "04",
+    "code": "4.0 – 4.3",
+    "title": ".NET: Module 4: Entity Framework Core 9 Query Optimization",
+    "shortTitle": "EF Core 9 Query Optimization",
+    "desc": "Master EF Core data access: DbContext pooling, compiled LINQ queries, AsNoTracking, and split query execution.",
+    "sections": [
+      {
+        "id": "4.0",
+        "title": "4.0. Section 1 – DbContext Configuration, Pooling & Migrations",
+        "summary": "AddDbContextPool for high-throughput connection recycling, code-first migrations, and model caching."
+      },
+      {
+        "id": "4.1",
+        "title": "4.1. Section 2 – LINQ Queries, AsNoTracking & Compiled Queries",
+        "summary": "Eliminating change tracker overhead for read queries, and pre-compiled LINQ queries (EF.CompileQuery)."
+      },
+      {
+        "id": "4.2",
+        "title": "4.2. Section 3 – Split Queries, Batch Updates & Raw SQL Interpolation",
+        "summary": "Mitigating cartesian explosion via AsSplitQuery, ExecuteUpdate/ExecuteDelete batching, and FromSqlRaw."
+      },
+      {
+        "id": "4.3",
+        "title": "4.3. Module 4 Completion – EF Core 9 High-Performance Data Access",
+        "summary": "Test evaluating query plan diagnostics, change tracker performance, and database indexing."
+      }
+    ]
+  },
+  {
+    "num": "05",
+    "code": "5.0 – 5.3",
+    "title": ".NET: Module 5: Custom Pipeline Middleware & Action Filters",
+    "shortTitle": "Custom Middleware & Filters",
+    "desc": "Construct enterprise middleware: RequestDelegate pipelines, global exception handlers, and correlation logging.",
+    "sections": [
+      {
+        "id": "5.0",
+        "title": "5.0. Section 1 – RequestDelegate Middleware Execution Pipeline",
+        "summary": "The bidirectional HTTP pipeline, invoke next delegate, short-circuiting responses, and branch routes."
+      },
+      {
+        "id": "5.1",
+        "title": "5.1. Section 2 – Centralized Exception Handling Middleware",
+        "summary": "ProblemDetails standard (RFC 7807), exception interception, and hiding internal stack traces in prod."
+      },
+      {
+        "id": "5.2",
+        "title": "5.2. Section 3 – Correlation ID Propagation & Request Timing Headers",
+        "summary": "Injecting X-Correlation-ID into HttpContext and logging scopes for distributed microservice tracing."
+      },
+      {
+        "id": "5.3",
+        "title": "5.3. Module 5 Completion – HTTP Pipeline Middleware Assessment",
+        "summary": "Evaluation testing middleware order invariants, error masking, and correlation tracing."
+      }
+    ]
+  },
+  {
+    "num": "06",
+    "code": "6.0 – 6.3",
+    "title": ".NET: Module 6: Clean Architecture & CQRS with MediatR",
+    "shortTitle": "Clean Architecture & CQRS",
+    "desc": "Architect enterprise microservices: Domain-Driven Design (DDD), CQRS commands/queries, and MediatR pipeline behaviors.",
+    "sections": [
+      {
+        "id": "6.0",
+        "title": "6.0. Section 1 – Clean Architecture Layers (Domain, App, Infra, Web)",
+        "summary": "Dependency inversion principle: domain entities at the core, decoupled persistence, and ports/adapters."
+      },
+      {
+        "id": "6.1",
+        "title": "6.1. Section 2 – CQRS Commands & Queries Separation with MediatR",
+        "summary": "Decoupling mutations from queries with IRequest and IRequestHandler interfaces for single responsibility."
+      },
+      {
+        "id": "6.2",
+        "title": "6.2. Section 3 – MediatR Pipeline Behaviors (Validation, Caching, Logging)",
+        "summary": "Cross-cutting concerns via IPipelineBehavior<TRequest, TResponse>, fluent validation decorators."
+      },
+      {
+        "id": "6.3",
+        "title": "6.3. Module 6 Completion – Enterprise Clean Architecture Exam",
+        "summary": "Test covering domain encapsulation, command/query separation, and pipeline behavior sequencing."
+      }
+    ]
+  },
+  {
+    "num": "07",
+    "code": "7.0 – 7.3",
+    "title": ".NET: Module 7: High-Performance Memory Engineering with Span & Memory",
+    "shortTitle": "Zero-Allocation Memory & Span",
+    "desc": "Zero-allocation memory mastery: Span<T>, ReadOnlySpan<char>, stackalloc, and ArrayPool buffer recycling.",
+    "sections": [
+      {
+        "id": "7.0",
+        "title": "7.0. Section 1 – Span<T> and ReadOnlySpan<char> Zero-Copy Slicing",
+        "summary": "Ref structs on the stack, sub-string slicing without heap allocations, and contiguous memory access."
+      },
+      {
+        "id": "7.1",
+        "title": "7.1. Section 2 – stackalloc Memory Allocation & Safety Limits",
+        "summary": "Direct stack memory buffers for fast operations, avoiding Garbage Collection overhead completely."
+      },
+      {
+        "id": "7.2",
+        "title": "7.2. Section 3 – Buffer Pooling with ArrayPool<T>.Shared",
+        "summary": "Renting and returning byte buffers for high-volume network streams and file I/O operations."
+      },
+      {
+        "id": "7.3",
+        "title": "7.3. Module 7 Completion – Zero-Allocation Memory Engineering Test",
+        "summary": "Assessment covering Span ref struct lifetime rules, stackoverflow prevention, and pool returns."
+      }
+    ]
+  },
+  {
+    "num": "08",
+    "code": "8.0 – 8.3",
+    "title": ".NET: Module 8: Kestrel Web Server Tuning & HTTP/3 QUIC Protocol",
+    "shortTitle": "Kestrel Tuning & HTTP/3 QUIC",
+    "desc": "Tune Kestrel for extreme throughput: socket transport layer, connection limits, and HTTP/3 QUIC protocol.",
+    "sections": [
+      {
+        "id": "8.0",
+        "title": "8.0. Section 1 – Kestrel Socket Transport & Connection Multiplexing",
+        "summary": "SocketsHttpHandler, epoll/kqueue IO loops, connection limits, and Keep-Alive timeouts."
+      },
+      {
+        "id": "8.1",
+        "title": "8.1. Section 2 – ThreadPool Tuning & Starvation Prevention",
+        "summary": "Configuring worker and I/O completion threads, avoiding sync-over-async deadlocks (.Result / .Wait())."
+      },
+      {
+        "id": "8.2",
+        "title": "8.2. Section 3 – HTTP/3 over QUIC UDP Transport Setup",
+        "summary": "Eliminating head-of-line blocking with UDP-based QUIC, multiplexed streams, and 0-RTT handshakes."
+      },
+      {
+        "id": "8.3",
+        "title": "8.3. Module 8 Completion – Kestrel Server Throughput & QUIC Exam",
+        "summary": "Examination testing socket transport benchmarks, thread starvation diagnostics, and QUIC packet flows."
+      }
+    ]
+  },
+  {
+    "num": "09",
+    "code": "9.0 – 9.3",
+    "title": ".NET: Module 9: CLR Internals, Garbage Collection & Native AOT",
+    "shortTitle": "CLR Internals, GC & Native AOT",
+    "desc": "Explore runtime execution: Generational GC (Gen 0, 1, 2, LOH, POH), Tiered JIT compilation, and Native AOT compilation.",
+    "sections": [
+      {
+        "id": "9.0",
+        "title": "9.0. Section 1 – Generational Garbage Collection: Gen 0, 1, 2, LOH & POH",
+        "summary": "Ephemeron collector, Large Object Heap (LOH), Pinned Object Heap (POH), and Server vs Workstation GC."
+      },
+      {
+        "id": "9.1",
+        "title": "9.1. Section 2 – Tiered JIT Compilation & Dynamic PGO Optimization",
+        "summary": "QuickJit startup speed, Profile-Guided Optimization (PGO), and re-compiling hot methods with Tier 1."
+      },
+      {
+        "id": "9.2",
+        "title": "9.2. Section 3 – Native AOT Compilation for Instant Cold Starts",
+        "summary": "Ahead-of-Time native binary compilation, zero JIT overhead, minimal memory footprints, and trimmer warnings."
+      },
+      {
+        "id": "9.3",
+        "title": "9.3. Module 9 Completion – .NET 9 Enterprise Architect Certification",
+        "summary": "Master certification exam testing GC pressure reduction, native AOT compatibility, and runtime tuning."
+      }
+    ]
+  }
+];
+
+  const DNS_MODULES = [
+  {
+    "num": "01",
+    "code": "1.0 – 1.4",
+    "title": "DNS: Module 1: Distributed DNS Architecture & Global Root Hierarchy",
+    "shortTitle": "Distributed DNS & Root Hierarchy",
+    "desc": "Understand the global resolution hierarchy: Root nameservers, TLDs, Authoritative vs Recursive resolvers, and lookups.",
+    "sections": [
+      {
+        "id": "1.0",
+        "title": "1.0. Welcome to DNS & Global Distributed Name Resolution",
+        "summary": "The architectural foundation of the internet: distributed namespace, RFC 1034/1035, and UDP port 53."
+      },
+      {
+        "id": "1.1",
+        "title": "1.1. Section 1 – The 13 Root Server Clusters & Top-Level Domains (TLDs)",
+        "summary": "Global root server clusters (A through M), Anycast distribution, generic TLDs (gTLDs), and country codes."
+      },
+      {
+        "id": "1.2",
+        "title": "1.2. Section 2 – Authoritative vs Recursive Resolver Functions",
+        "summary": "Recursive resolver caching layers (ISP/1.1.1.1/8.8.8.8) vs Authoritative zone custodians."
+      },
+      {
+        "id": "1.3",
+        "title": "1.3. Section 3 – Iterative Resolution Walkthrough with dig +trace",
+        "summary": "Tracing packet delegations from root (.) to TLD (.com) down to domain authoritative nameservers."
+      },
+      {
+        "id": "1.4",
+        "title": "1.4. Module 1 Completion – DNS Global Hierarchy Assessment",
+        "summary": "Assessment testing resolver recursion, delegation referrals, and dig packet analysis."
+      }
+    ]
+  },
+  {
+    "num": "02",
+    "code": "2.0 – 2.4",
+    "title": "DNS: Module 2: Core Resource Records: A, AAAA, CNAME, MX & TXT",
+    "shortTitle": "Core Resource Records (A/MX/TXT)",
+    "desc": "Master fundamental DNS resource record types: IPv4/IPv6 host addresses, canonical alias chains, and mail routing.",
+    "sections": [
+      {
+        "id": "2.0",
+        "title": "2.0. Section 1 – A (IPv4) & AAAA (IPv6) Host Address Records",
+        "summary": "Mapping fully qualified domain names (FQDN) directly to 32-bit IPv4 and 128-bit IPv6 network endpoints."
+      },
+      {
+        "id": "2.1",
+        "title": "2.1. Section 2 – CNAME Alias Records & Canonical Chain Limits",
+        "summary": "Aliasing domain names, the zone apex restriction (CNAME at root domain), and ALIAS/ANAME workarounds."
+      },
+      {
+        "id": "2.2",
+        "title": "2.2. Section 3 – MX Mail Routing Priorities & Server Fallback",
+        "summary": "Mail exchanger records, priority metric integers, fallback backup mail servers, and MX host FQDN rules."
+      },
+      {
+        "id": "2.3",
+        "title": "2.3. Section 4 – TXT Records for Domain Verification & Custom Metadata",
+        "summary": "Arbitrary text attributes, Google/Domain ownership challenges, and security policy containers."
+      },
+      {
+        "id": "2.4",
+        "title": "2.4. Module 2 Completion – Core DNS Records Configuration Exam",
+        "summary": "Comprehensive test evaluating record syntax, apex restrictions, and MX routing priorities."
+      }
+    ]
+  },
+  {
+    "num": "03",
+    "code": "3.0 – 3.3",
+    "title": "DNS: Module 3: TTL Mechanics, Caching Layers & Propagation Dynamics",
+    "shortTitle": "TTL Caching & Propagation",
+    "desc": "Deconstruct caching: Time-to-Live (TTL) countdown timers, recursive resolver cache eviction, and negative caching.",
+    "sections": [
+      {
+        "id": "3.0",
+        "title": "3.0. Section 1 – Time-To-Live (TTL) Seconds & Cache Eviction Timers",
+        "summary": "Authoritative TTL headers, intermediate cache countdowns, and balancing performance vs flexibility."
+      },
+      {
+        "id": "3.1",
+        "title": "3.1. Section 2 – Negative Caching & SOA Minimum TTL Records",
+        "summary": "Caching NXDOMAIN errors (RFC 2308), SOA minimum field, and preventing resolver denial-of-service."
+      },
+      {
+        "id": "3.2",
+        "title": "3.2. Section 3 – Zero-Downtime Migration Strategies & TTL Pre-Lowering",
+        "summary": "Pre-lowering TTL 48 hours prior to server IP cutover to guarantee immediate global traffic migration."
+      },
+      {
+        "id": "3.3",
+        "title": "3.3. Module 3 Completion – DNS Caching & Propagation Test",
+        "summary": "Assessment covering caching hierarchies, negative caching rules, and migration execution plans."
+      }
+    ]
+  },
+  {
+    "num": "04",
+    "code": "4.0 – 4.3",
+    "title": "DNS: Module 4: Anycast BGP Routing & Edge Traffic Steering",
+    "shortTitle": "Anycast BGP & Geo-DNS Steering",
+    "desc": "Deploy resilient global DNS: BGP Anycast IP routing topology, latency-based Geo-DNS steering, and health checks.",
+    "sections": [
+      {
+        "id": "4.0",
+        "title": "4.0. Section 1 – Unicast vs BGP Anycast Single-IP Routing Topology",
+        "summary": "Announcing identical IP prefixes from 200+ PoPs via BGP, automatic shortest AS-path routing."
+      },
+      {
+        "id": "4.1",
+        "title": "4.1. Section 2 – Latency-Based Geo-DNS Steering & EDNS Client Subnet (ECS)",
+        "summary": "Routing clients to the closest edge server using EDNS0 client IP subnet information (RFC 7871)."
+      },
+      {
+        "id": "4.2",
+        "title": "4.2. Section 3 – Health Probing & Automated Failover DNS Routing",
+        "summary": "Continuous synthetic HTTP/ICMP health probes, withdrawing dead IP addresses within 30 seconds."
+      },
+      {
+        "id": "4.3",
+        "title": "4.3. Module 4 Completion – Global Edge Routing Assessment",
+        "summary": "Test evaluating BGP route propagation, Geo-DNS policy configuration, and automated failover."
+      }
+    ]
+  },
+  {
+    "num": "05",
+    "code": "5.0 – 5.3",
+    "title": "DNS: Module 5: Enterprise Email Authentication: SPF, DKIM & DMARC",
+    "shortTitle": "Email Security: SPF, DKIM & DMARC",
+    "desc": "Harden email deliverability and prevent spoofing: SPF mechanisms, DKIM public key signatures, and DMARC enforcement.",
+    "sections": [
+      {
+        "id": "5.0",
+        "title": "5.0. Section 1 – SPF (Sender Policy Framework) Mechanics & IP Includes",
+        "summary": "Specifying authorized mail server IPs (v=spf1), ip4, include mechanisms, and hard fail (-all)."
+      },
+      {
+        "id": "5.1",
+        "title": "5.1. Section 2 – DKIM (DomainKeys Identified Mail) Public Key Records",
+        "summary": "Asymmetric cryptography in email: selector TXT records, private key header signing, and public verification."
+      },
+      {
+        "id": "5.2",
+        "title": "5.2. Section 3 – DMARC Policy Enforcement (p=reject) & Forensic Reports",
+        "summary": "Aligning SPF and DKIM domains, quarantine vs reject policies, and aggregate rua reporting."
+      },
+      {
+        "id": "5.3",
+        "title": "5.3. Module 5 Completion – Email Security & Anti-Spoofing Exam",
+        "summary": "Examination testing SPF lookup limits (10 DNS lookups max), DKIM key rotation, and DMARC alignment."
+      }
+    ]
+  },
+  {
+    "num": "06",
+    "code": "6.0 – 6.3",
+    "title": "DNS: Module 6: Encrypted Transport Protocols & TLS 1.3 Handshake",
+    "shortTitle": "Encrypted DNS & TLS 1.3 Handshake",
+    "desc": "Secure name resolution against eavesdropping: DNS over HTTPS (DoH), DNS over TLS (DoT), and TLS 1.3 handshakes.",
+    "sections": [
+      {
+        "id": "6.0",
+        "title": "6.0. Section 1 – DNS over HTTPS (DoH) & DNS over TLS (DoT) Architecture",
+        "summary": "Encrypting last-mile resolver queries via port 853 (DoT) and port 443 (DoH RFC 8484) against ISP snooping."
+      },
+      {
+        "id": "6.1",
+        "title": "6.1. Section 2 – TLS 1.3 1-RTT Handshake & Key Exchange (ECDHE)",
+        "summary": "Diffie-Hellman ephemeral key exchange, eliminating plaintext SNI snooping, and forward secrecy."
+      },
+      {
+        "id": "6.2",
+        "title": "6.2. Section 3 – Encrypted Client Hello (ECH) & Server Name Indication",
+        "summary": "Next-generation cryptographic privacy preventing on-path observers from seeing visited domain names."
+      },
+      {
+        "id": "6.3",
+        "title": "6.3. Module 6 Completion – Secure Transport Protocols Assessment",
+        "summary": "Assessment covering DoH binary wire format, TLS certificate validation, and ECH key distribution."
+      }
+    ]
+  },
+  {
+    "num": "07",
+    "code": "7.0 – 7.3",
+    "title": "DNS: Module 7: DNSSEC Cryptographic Zone Signing & Trust Chains",
+    "shortTitle": "DNSSEC Zone Signing & Trust Chains",
+    "desc": "Protect against cache poisoning (Kaminsky attacks): asymmetric signatures (RRSIG), DNSKEY, and DS record trust chains.",
+    "sections": [
+      {
+        "id": "7.0",
+        "title": "7.0. Section 1 – Cache Poisoning Attacks (Kaminsky) & DNSSEC Defenses",
+        "summary": "Vulnerabilities of classic DNS spoofing, transaction ID guessing, and cryptographic proof of authenticity."
+      },
+      {
+        "id": "7.1",
+        "title": "7.1. Section 2 – RRSIG Signatures, DNSKEY Public Keys & DS Hashes",
+        "summary": "Zone Signing Keys (ZSK), Key Signing Keys (KSK), signing resource record sets (RRsets), and DS digests."
+      },
+      {
+        "id": "7.2",
+        "title": "7.2. Section 3 – Cryptographic Chain of Trust from Root to Leaf",
+        "summary": "Validating signatures upward to the IANA Root trust anchor, NSEC/NSEC3 authenticated denial of existence."
+      },
+      {
+        "id": "7.3",
+        "title": "7.3. Module 7 Completion – DNSSEC Cryptographic Signing Test",
+        "summary": "Test evaluating KSK rollovers, validating resolver verification logs, and NSEC3 hash collisions."
+      }
+    ]
+  },
+  {
+    "num": "08",
+    "code": "8.0 – 8.3",
+    "title": "DNS: Module 8: BIND9 Zone File Authoring & Secure Zone Transfers",
+    "shortTitle": "BIND9 Zone Files & Zone Transfers",
+    "desc": "Enterprise nameserver operations: RFC 1035 zone file syntax, SOA serial number conventions, AXFR/IXFR, and TSIG keys.",
+    "sections": [
+      {
+        "id": "8.0",
+        "title": "8.0. Section 1 – RFC 1035 Zone File Syntax & SOA Serial Number Rules",
+        "summary": "Start of Authority (SOA) parameters: primary nameserver, admin email, refresh, retry, expire, and YYYYMMDDNN serials."
+      },
+      {
+        "id": "8.1",
+        "title": "8.1. Section 2 – AXFR Full & IXFR Incremental Zone Transfers",
+        "summary": "Synchronizing secondary nameservers over TCP port 53, zone serial comparisons, and transfer logs."
+      },
+      {
+        "id": "8.2",
+        "title": "8.2. Section 3 – TSIG Transaction Signature Shared Key Security",
+        "summary": "Authenticating primary-secondary communications with HMAC-SHA256 secret keys to prevent rogue zone injection."
+      },
+      {
+        "id": "8.3",
+        "title": "8.3. Module 8 Completion – Authoritative Zone Authoring Exam",
+        "summary": "Assessment covering BIND9 syntax errors, named-checkzone diagnostics, and secure transfer configs."
+      }
+    ]
+  },
+  {
+    "num": "09",
+    "code": "9.0 – 9.3",
+    "title": "DNS: Module 9: Certificate Authority Authorization & Low-Level Protocols",
+    "shortTitle": "CAA Records & Low-Level Protocols",
+    "desc": "Advanced security and low-level protocol engineering: RFC 8659 CAA records, DNS binary wire format, and proxy servers.",
+    "sections": [
+      {
+        "id": "9.0",
+        "title": "9.0. Section 1 – CAA Records for SSL/TLS Issuer Restriction",
+        "summary": "Restricting authorized Certificate Authorities (issue/issuewild), incident reporting (iodef), and rogue cert prevention."
+      },
+      {
+        "id": "9.1",
+        "title": "9.1. Section 2 – DNS Binary Wire Format Packets (UDP 512b & TCP Fallback)",
+        "summary": "Header bit flags (QR, Opcode, AA, TC, RD, RA, RCODE), question/answer sections, and EDNS0 buffer expansion."
+      },
+      {
+        "id": "9.2",
+        "title": "9.2. Section 3 – Writing Custom DNS Proxies in Rust/Go",
+        "summary": "Parsing UDP datagrams, implementing in-memory bloom filter ad-blockers, and upstream forwarding."
+      },
+      {
+        "id": "9.3",
+        "title": "9.3. Module 9 Completion – DNS & Internet Infrastructure Master Certification",
+        "summary": "Master certification examination covering binary wire packet inspection and enterprise DNS architectures."
+      }
+    ]
+  }
+];
+
+  const DEVOPS_MODULES = [
+  {
+    "num": "01",
+    "code": "1.0 – 1.4",
+    "title": "DevOps: Module 1: Linux Server Administration & Hardening Essentials",
+    "shortTitle": "Linux Server Hardening Essentials",
+    "desc": "Core server administration: SSH public key authentication, Linux user permissions, systemd service daemons, and firewalls.",
+    "sections": [
+      {
+        "id": "1.0",
+        "title": "1.0. Welcome to Linux Server Administration & DevOps Engineering",
+        "summary": "Linux kernel architecture, user space vs kernel space, file system hierarchy (FHS), and POSIX security."
+      },
+      {
+        "id": "1.1",
+        "title": "1.1. Section 1 – User Privilege Separation, Sudoers & SSH Key Hardening",
+        "summary": "Disabling root password login, Ed25519 SSH keys, configuring /etc/sudoers.d, and sshd_config hardening."
+      },
+      {
+        "id": "1.2",
+        "title": "1.2. Section 2 – Systemd Service Daemons & Journalctl Log Analysis",
+        "summary": "Writing custom .service unit files, restart policies (on-failure), timers, and querying system logs with journalctl."
+      },
+      {
+        "id": "1.3",
+        "title": "1.3. Section 3 – UFW & Iptables Firewall Security Rules",
+        "summary": "Default drop policy, rate-limiting SSH connections, and opening ports 80/443 with Uncomplicated Firewall."
+      },
+      {
+        "id": "1.4",
+        "title": "1.4. Module 1 Completion – Linux Server Administration Assessment",
+        "summary": "Assessment covering systemd service orchestration, permission modes (chmod/chown), and firewall validation."
+      }
+    ]
+  },
+  {
+    "num": "02",
+    "code": "2.0 – 2.4",
+    "title": "DevOps: Module 2: Web Server Foundations: Nginx & Apache Virtual Hosts",
+    "shortTitle": "Web Server Foundations (Nginx/Apache)",
+    "desc": "Host web applications: static asset serving, Nginx server blocks, Apache VirtualHosts, .htaccess, and MIME types.",
+    "sections": [
+      {
+        "id": "2.0",
+        "title": "2.0. Section 1 – Nginx Architecture (Event-Driven vs Process-Per-Connection)",
+        "summary": "Master/worker process model, asynchronous non-blocking event loops, and handling 10,000+ concurrent connections."
+      },
+      {
+        "id": "2.1",
+        "title": "2.1. Section 2 – Server Blocks, Locations & Static Asset Caching",
+        "summary": "Location block regex matching precedence, root vs alias, try_files directives, and Cache-Control headers."
+      },
+      {
+        "id": "2.2",
+        "title": "2.2. Section 3 – Apache VirtualHosts, .htaccess Rules & Mod_Rewrite",
+        "summary": "Configuring Apache vhosts, directory permissions (AllowOverride), and URL rewriting rules."
+      },
+      {
+        "id": "2.3",
+        "title": "2.3. Section 4 – MIME Types, Gzip & Brotli Compression Tuning",
+        "summary": "Text/binary MIME mappings, tuning gzip_comp_level, and Brotli dynamic stream compression."
+      },
+      {
+        "id": "2.4",
+        "title": "2.4. Module 2 Completion – Web Server Virtual Hosting Exam",
+        "summary": "Comprehensive test evaluating server block routing, location precedence rules, and compression headers."
+      }
+    ]
+  },
+  {
+    "num": "03",
+    "code": "3.0 – 3.3",
+    "title": "DevOps: Module 3: Automated SSL Provisioning with Let's Encrypt & Certbot",
+    "shortTitle": "Automated SSL with Let's Encrypt",
+    "desc": "Implement ubiquitous HTTPS: ACME protocol automation, Certbot CLI, automated certificate renewal, and TLS 1.3.",
+    "sections": [
+      {
+        "id": "3.0",
+        "title": "3.0. Section 1 – ACME Protocol Fundamentals & Challenge Types (HTTP-01, DNS-01)",
+        "summary": "Automated Certificate Management Environment (ACME), cryptographic challenge verification, and SAN certs."
+      },
+      {
+        "id": "3.1",
+        "title": "3.1. Section 2 – Certbot CLI Automation & Nginx Configuration Injection",
+        "summary": "Running certbot --nginx, automated SSL block generation, and strong DH parameter generation."
+      },
+      {
+        "id": "3.2",
+        "title": "3.2. Section 3 – Automated Certificate Renewal with Systemd Timers & Reloads",
+        "summary": "Scheduling dry-run renewals, post-renewal hooks (nginx -s reload), and monitoring expiration alerts."
+      },
+      {
+        "id": "3.3",
+        "title": "3.3. Module 3 Completion – HTTPS & Automated SSL Assessment",
+        "summary": "Assessment covering ACME HTTP-01 token placement, renewal hook scripts, and SSL Labs A+ rating checks."
+      }
+    ]
+  },
+  {
+    "num": "04",
+    "code": "4.0 – 4.3",
+    "title": "DevOps: Module 4: Nginx High-Concurrency Reverse Proxy Tuning",
+    "shortTitle": "Nginx Reverse Proxy & Load Balancing",
+    "desc": "Scale high-traffic gateways: upstream load balancing algorithms, proxy micro-caching, and leaky bucket rate limiting.",
+    "sections": [
+      {
+        "id": "4.0",
+        "title": "4.0. Section 1 – Reverse Proxy Configuration & Upstream Load Balancing",
+        "summary": "proxy_pass directives, HTTP header forwarding (X-Forwarded-For), and algorithms (round_robin, least_conn, ip_hash)."
+      },
+      {
+        "id": "4.1",
+        "title": "4.1. Section 2 – FastCGI Caching & Proxy Micro-Caching",
+        "summary": "In-memory caching of dynamic PHP/Node responses for 1 second to withstand massive traffic spikes (Slashdot effect)."
+      },
+      {
+        "id": "4.2",
+        "title": "4.2. Section 3 – Leaky Bucket Rate Limiting (limit_req_zone) against DDoS",
+        "summary": "Defining rate limit zones, burst buffers, nodelay directives, and blocking abusive scraper IP ranges."
+      },
+      {
+        "id": "4.3",
+        "title": "4.3. Module 4 Completion – Reverse Proxy Architecture Exam",
+        "summary": "Test evaluating upstream connection pooling, micro-cache bypass headers, and rate limiting rules."
+      }
+    ]
+  },
+  {
+    "num": "05",
+    "code": "5.0 – 5.3",
+    "title": "DevOps: Module 5: Docker Containerization & Multi-Stage Builds",
+    "shortTitle": "Docker & Multi-Stage Container Builds",
+    "desc": "Containerize enterprise workloads: Dockerfile optimization, layer caching, non-root security, and Docker Compose orchestration.",
+    "sections": [
+      {
+        "id": "5.0",
+        "title": "5.0. Section 1 – Docker Engine Architecture, Namespaces & Cgroups",
+        "summary": "Linux kernel primitives: PID/Network namespaces, cgroup resource limits (CPU/Memory), and overlay2 storage."
+      },
+      {
+        "id": "5.1",
+        "title": "5.1. Section 2 – Multi-Stage Dockerfile Optimization & Minimal Base Images",
+        "summary": "Separating compile-time SDK tools from runtime production images (Alpine/Distroless) to reduce sizes by 90%."
+      },
+      {
+        "id": "5.2",
+        "title": "5.2. Section 3 – Container Security: Non-Root Users & Read-Only Filesystems",
+        "summary": "Creating unprivileged appuser accounts, drop Linux capabilities, and mounting ephemeral volume mounts."
+      },
+      {
+        "id": "5.3",
+        "title": "5.3. Module 5 Completion – Docker Containerization Test",
+        "summary": "Assessment covering Docker layer cache optimization, multi-stage artifact extraction, and container security."
+      }
+    ]
+  },
+  {
+    "num": "06",
+    "code": "6.0 – 6.3",
+    "title": "DevOps: Module 6: Automated CI/CD Pipelines with GitHub Actions",
+    "shortTitle": "CI/CD with GitHub Actions",
+    "desc": "Automate delivery pipelines: GitHub Actions workflow YAML syntax, automated test suites, secrets management, and deployments.",
+    "sections": [
+      {
+        "id": "6.0",
+        "title": "6.0. Section 1 – GitHub Actions Workflow Syntax, Triggers & Runners",
+        "summary": "Configuring on: [push, pull_request], hosted ubuntu-latest runners, and concurrency group cancellation."
+      },
+      {
+        "id": "6.1",
+        "title": "6.1. Section 2 – Automated Testing, Linting & Build Matrix Execution",
+        "summary": "Parallel test execution across Node/PHP/Python versions using strategy: matrix, and caching node_modules."
+      },
+      {
+        "id": "6.2",
+        "title": "6.2. Section 3 – Secure Secrets Injection & Container Registry Push",
+        "summary": "GitHub Encrypted Secrets, OpenID Connect (OIDC) cloud authentication, and pushing to Docker Hub / GHCR."
+      },
+      {
+        "id": "6.3",
+        "title": "6.3. Module 6 Completion – Continuous Integration & Delivery Assessment",
+        "summary": "Test covering YAML pipeline syntax, artifact passing between jobs, and production deployment gating."
+      }
+    ]
+  },
+  {
+    "num": "07",
+    "code": "7.0 – 7.3",
+    "title": "DevOps: Module 7: Linux Kernel Performance & TCP Socket Optimization",
+    "shortTitle": "Kernel Performance & TCP Sockets",
+    "desc": "Tune operating system limits: sysctl.conf network parameters, TCP BBR congestion control, and file descriptor limits.",
+    "sections": [
+      {
+        "id": "7.0",
+        "title": "7.0. Section 1 – sysctl.conf Network Tuning (somaxconn, tcp_max_syn_backlog)",
+        "summary": "Expanding the TCP listen backlog, enabling TCP SYN cookies, and preventing packet drops during traffic surges."
+      },
+      {
+        "id": "7.1",
+        "title": "7.1. Section 2 – TCP BBR Congestion Control Protocol Enablement",
+        "summary": "Replacing legacy CUBIC with Google BBR model-based congestion control for higher throughput and lower latency."
+      },
+      {
+        "id": "7.2",
+        "title": "7.2. Section 3 – File Descriptor Limits (ulimit -n) & Epoll Concurrency",
+        "summary": "Tuning /etc/security/limits.conf (nofile 65535) and worker_rlimit_nofile for high-scale reverse proxies."
+      },
+      {
+        "id": "7.3",
+        "title": "7.3. Module 7 Completion – Kernel & Socket Performance Test",
+        "summary": "Assessment testing sysctl parameter benchmarking, TIME_WAIT socket recycling, and ulimit configurations."
+      }
+    ]
+  },
+  {
+    "num": "08",
+    "code": "8.0 – 8.3",
+    "title": "DevOps: Module 8: Zero-Downtime Deployment & Traffic Rollouts",
+    "shortTitle": "Zero-Downtime Deployments & Rollouts",
+    "desc": "Orchestrate zero-downtime upgrades: Blue/Green deployments, Canary traffic weighting, and graceful process reloading.",
+    "sections": [
+      {
+        "id": "8.0",
+        "title": "8.0. Section 1 – Blue/Green Deployment Topology & Load Balancer Switching",
+        "summary": "Maintaining duplicate identical production clusters, running smoke tests on Green, and flipping upstream router."
+      },
+      {
+        "id": "8.1",
+        "title": "8.1. Section 2 – Canary Releases & Weighted Traffic Routing",
+        "summary": "Routing 5% of production traffic to the new version, monitoring error rate metrics, and expanding rollout."
+      },
+      {
+        "id": "8.2",
+        "title": "8.2. Section 3 – Graceful Application Process Reloads without Dropping Conns",
+        "summary": "Nginx master binary upgrade (USR2 signal) and Node/Gunicorn graceful shutdown (SIGTERM waiting for requests)."
+      },
+      {
+        "id": "8.3",
+        "title": "8.3. Module 8 Completion – Zero-Downtime Deployment Exam",
+        "summary": "Evaluation testing health check circuit breakers, zero-drop reload validation, and automated rollback triggers."
+      }
+    ]
+  },
+  {
+    "num": "09",
+    "code": "9.0 – 9.3",
+    "title": "DevOps: Module 9: Enterprise Container Hardening & Telemetry Monitoring",
+    "shortTitle": "Container Hardening & Telemetry",
+    "desc": "Secure and observe production clusters: Distroless containers, Trivy CVE vulnerability scans, and Prometheus/Grafana monitoring.",
+    "sections": [
+      {
+        "id": "9.0",
+        "title": "9.0. Section 1 – Distroless & Scratch Containers for CVE Attack Surface Reduction",
+        "summary": "Stripping package managers, shells, and utilities from container images so attackers cannot execute commands."
+      },
+      {
+        "id": "9.1",
+        "title": "9.1. Section 2 – Container Vulnerability Scanning with Trivy in CI",
+        "summary": "Automated vulnerability scanning in pull requests, blocking builds with Critical/High CVE disclosures."
+      },
+      {
+        "id": "9.2",
+        "title": "9.2. Section 3 – Telemetry Collection with Prometheus, Grafana & Loki",
+        "summary": "Scraping application metrics (RED method: Rate, Errors, Duration), log aggregation, and real-time alerts."
+      },
+      {
+        "id": "9.3",
+        "title": "9.3. Module 9 Completion – Cloud Infrastructure & DevOps Master Certification",
+        "summary": "Master certification examination covering zero-trust container security, Prometheus metrics, and automated alerts."
+      }
+    ]
+  }
+];
+
+  // ═══════════════════════════════════════════════════════════════════
+  // 3. COMPLETE MODULES REPOSITORY (7 TRACKS)
+  // ═══════════════════════════════════════════════════════════════════
   const MODULES_DATA = [
   {
     "id": "javascript",
@@ -104,79 +1986,358 @@
     "title": "JavaScript Essentials (JSE: Modules 1–6 Outline)",
     "level": "LEVEL: ESSENTIALS_TO_PRO",
     "duration": "48.0_HRS",
+    "specId": "JSE_ESSENTIALS_1",
+    "trackBadge": "JSE 1",
     "summary": "Comprehensive 6-module curriculum outline for JavaScript Essentials 1 (JSE 1): from computer programming and variable mechanics to operators, control flow loops, functions, and runtime error debugging.",
-    "jseModules": JSE_MODULES,
-    "syllabus": [
+    "modules": [
       {
         "num": "01",
-        "tier": "Beginner",
-        "chapter": "JSE: Module 1: Introduction to JavaScript and Computer Programming",
-        "desc": "1.0. Welcome to JavaScript Essentials 1 | 1.1. Section 1 – About JavaScript | 1.2. Section 2 – Setting up programming environment | 1.3. Section 3 – Hello, World! | 1.4. Module 1 Completion – Module Test",
-        "keyConcepts": [
-          "1.0. Welcome to JSE 1",
-          "1.1. About JavaScript",
-          "1.2. Dev Environment",
-          "1.3. Hello, World!",
-          "1.4. Module 1 Test"
+        "code": "1.0 – 1.4",
+        "title": "JSE: Module 1: Introduction to JavaScript and Computer Programming",
+        "shortTitle": "Intro & Computer Programming",
+        "desc": "Foundations of computation, language history, modern JS engines, dev environment setup, and execution lifecycle.",
+        "sections": [
+          {
+            "id": "1.0",
+            "title": "1.0. Welcome to JavaScript Essentials 1",
+            "summary": "Orientation to modern JavaScript fundamentals, computational thinking, and developer tooling."
+          },
+          {
+            "id": "1.1",
+            "title": "1.1. Section 1 – About JavaScript",
+            "summary": "History, ECMAScript standards, engine runtime architecture, and client vs server execution."
+          },
+          {
+            "id": "1.2",
+            "title": "1.2. Section 2 – Setting up programming environment",
+            "summary": "Node.js, browser developer tools, code editors (VS Code), and command line basics."
+          },
+          {
+            "id": "1.3",
+            "title": "1.3. Section 3 – Hello, World!",
+            "summary": "Writing, linking, and running your first executable JavaScript programs in browser and console."
+          },
+          {
+            "id": "1.4",
+            "title": "1.4. Module 1 Completion – Module Test",
+            "summary": "Comprehensive assessment covering programming basics, syntax rules, and environment setup."
+          }
         ]
       },
       {
         "num": "02",
-        "tier": "Beginner",
-        "chapter": "JSE: Module 2: Variables, Data Types, Type Casting, and Comments",
-        "desc": "2.0. Section 1 – Variables | 2.1. Section 2 – Data types and type casting – Part 1 | 2.2. Section 3 – Data types and type casting – Part 2 | 2.3. Section 4 – Comments | 2.4. Module 2 Completion – Module Test",
-        "keyConcepts": [
-          "2.0. Variables",
-          "2.1. Data Types Pt 1",
-          "2.2. Data Types Pt 2",
-          "2.3. Comments",
-          "2.4. Module 2 Test"
+        "code": "2.0 – 2.4",
+        "title": "JSE: Module 2: Variables, Data Types, Type Casting, and Comments",
+        "shortTitle": "Variables, Types & Comments",
+        "desc": "Memory management with let/const/var, primitive types, type coercion, dynamic casting, and code documentation.",
+        "sections": [
+          {
+            "id": "2.0",
+            "title": "2.0. Section 1 – Variables",
+            "summary": "Variable declaration, initialization, assignment, identifier naming rules, and block scoping."
+          },
+          {
+            "id": "2.1",
+            "title": "2.1. Section 2 – Data types and type casting – Part 1",
+            "summary": "Primitive types: numbers, strings, booleans, undefined, null, and typeof operator inspections."
+          },
+          {
+            "id": "2.2",
+            "title": "2.2. Section 3 – Data types and type casting – Part 2",
+            "summary": "Explicit vs implicit type conversion, BigInt, Symbols, and common NaN conversion pitfalls."
+          },
+          {
+            "id": "2.3",
+            "title": "2.3. Section 4 – Comments",
+            "summary": "Single-line and multi-line comments, JSDoc annotations, and code self-documentation best practices."
+          },
+          {
+            "id": "2.4",
+            "title": "2.4. Module 2 Completion – Module Test",
+            "summary": "Comprehensive examination testing type coercion, variable scope, and primitive allocations."
+          }
         ]
       },
       {
         "num": "03",
-        "tier": "Beginner",
-        "chapter": "JSE: Module 3: Operators and User Interaction",
-        "desc": "3.0. Section 1 – Assignment, arithmetic, and logical operators | 3.1. Section 2 – String, comparison, and other JS operators | 3.2. Section 3 – Interacting with the user | 3.3. Module 3 Completion – Module Test",
-        "keyConcepts": [
-          "3.0. Arithmetic & Logic",
-          "3.1. Comparison & String",
-          "3.2. User Interaction",
-          "3.3. Module 3 Test"
+        "code": "3.0 – 3.3",
+        "title": "JSE: Module 3: Operators and User Interaction",
+        "shortTitle": "Operators & User Interaction",
+        "desc": "Arithmetic, assignment, logical operators, string concatenation, dialog prompts, and basic input/output.",
+        "sections": [
+          {
+            "id": "3.0",
+            "title": "3.0. Section 1 – Assignment, arithmetic, and logical operators",
+            "summary": "Binary/unary operators, precedence rules, logical AND/OR/NOT, and short-circuit evaluation."
+          },
+          {
+            "id": "3.1",
+            "title": "3.1. Section 2 – String, comparison, and other JS operators",
+            "summary": "Strict equality (===) vs loose equality (==), relational operators, template literals, and ternary operator."
+          },
+          {
+            "id": "3.2",
+            "title": "3.2. Section 3 – Interacting with the user",
+            "summary": "Modal interaction dialogs: window.alert(), window.prompt(), window.confirm(), and console logging."
+          },
+          {
+            "id": "3.3",
+            "title": "3.3. Module 3 Completion – Module Test",
+            "summary": "Assessment testing operator evaluation precedence, truthy/falsy logic, and user dialog handling."
+          }
         ]
       },
       {
         "num": "04",
-        "tier": "Advanced",
-        "chapter": "JSE: Module 4: Control Flow – Conditional Execution and Loops",
-        "desc": "4.0. Section 1 – Conditional execution | 4.1. Section 2 – Loops | 4.2. Module 4 Completion – Module Test",
-        "keyConcepts": [
-          "4.0. Conditional execution",
-          "4.1. Loops & Iterations",
-          "4.2. Module 4 Test"
+        "code": "4.0 – 4.2",
+        "title": "JSE: Module 4: Control Flow – Conditional Execution and Loops",
+        "shortTitle": "Control Flow & Loops",
+        "desc": "Decision branching with if/else/switch, deterministic loops, while iterations, and loop jump controls.",
+        "sections": [
+          {
+            "id": "4.0",
+            "title": "4.0. Section 1 – Conditional execution",
+            "summary": "Conditional branching using if, if-else cascades, nested conditions, and switch-case statements."
+          },
+          {
+            "id": "4.1",
+            "title": "4.1. Section 2 – Loops",
+            "summary": "Iteration mechanics: while loops, do-while loops, for loops, break and continue flow control."
+          },
+          {
+            "id": "4.2",
+            "title": "4.2. Module 4 Completion – Module Test",
+            "summary": "Module examination validating loop termination invariants, nested iteration, and condition trees."
+          }
         ]
       },
       {
         "num": "05",
-        "tier": "Advanced",
-        "chapter": "JSE: Module 5: Functions",
-        "desc": "5.0. Section 1 – Functions – Part 1 | 5.1. Section 2 – Functions – Part 2 | 5.2. Module 5 Completion – Module Test",
-        "keyConcepts": [
-          "5.0. Functions Pt 1",
-          "5.1. Functions Pt 2",
-          "5.2. Module 5 Test"
+        "code": "5.0 – 5.2",
+        "title": "JSE: Module 5: Functions",
+        "shortTitle": "Functions & Execution Context",
+        "desc": "Function declarations, expressions, arrow functions, parameter defaults, return statements, and call stack scoping.",
+        "sections": [
+          {
+            "id": "5.0",
+            "title": "5.0. Section 1 – Functions – Part 1",
+            "summary": "Function declaration syntax, parameter passing, return statements, and local vs global scope."
+          },
+          {
+            "id": "5.1",
+            "title": "5.1. Section 2 – Functions – Part 2",
+            "summary": "Function expressions, first-class functions, arrow syntax, callbacks, and recursion basics."
+          },
+          {
+            "id": "5.2",
+            "title": "5.2. Module 5 Completion – Module Test",
+            "summary": "Comprehensive test covering functional modularity, return value flow, and closure scoping."
+          }
         ]
       },
       {
         "num": "06",
-        "tier": "Expert",
-        "chapter": "JSE: Module 6: Errors, exceptions, debugging, and troubleshooting",
-        "desc": "6.0. Section 1 – Errors and Exceptions – Part 1 | 6.1. Section 2 – Errors and Exceptions – Part 2 | 6.2. Section 3 – Code Debugging and Troubleshooting | 6.3. Module 6 Completion – Module Test",
-        "keyConcepts": [
-          "6.0. Errors & Exceptions Pt 1",
-          "6.1. Errors & Exceptions Pt 2",
-          "6.2. Debugging & Tools",
-          "6.3. Module 6 Test"
+        "code": "6.0 – 6.3",
+        "title": "JSE: Module 6: Errors, exceptions, debugging, and troubleshooting",
+        "shortTitle": "Errors, Debugging & Troubleshooting",
+        "desc": "Error categories, runtime exceptions, try/catch/finally error handling, throw statements, and DevTools troubleshooting.",
+        "sections": [
+          {
+            "id": "6.0",
+            "title": "6.0. Section 1 – Errors and Exceptions – Part 1",
+            "summary": "Syntax errors, reference errors, type errors, range errors, and error propagation mechanics."
+          },
+          {
+            "id": "6.1",
+            "title": "6.1. Section 2 – Errors and Exceptions – Part 2",
+            "summary": "Structured exception handling with try-catch-finally blocks and throwing custom Error objects."
+          },
+          {
+            "id": "6.2",
+            "title": "6.2. Section 3 – Code Debugging and Troubleshooting",
+            "summary": "Using browser debugger, setting breakpoints, stepping through call frames, and watch expressions."
+          },
+          {
+            "id": "6.3",
+            "title": "6.3. Module 6 Completion – Module Test",
+            "summary": "Final certification module test evaluating error interception, debugging techniques, and troubleshooting."
+          }
+        ]
+      }
+    ],
+    "jseModules": [
+      {
+        "num": "01",
+        "code": "1.0 – 1.4",
+        "title": "JSE: Module 1: Introduction to JavaScript and Computer Programming",
+        "shortTitle": "Intro & Computer Programming",
+        "desc": "Foundations of computation, language history, modern JS engines, dev environment setup, and execution lifecycle.",
+        "sections": [
+          {
+            "id": "1.0",
+            "title": "1.0. Welcome to JavaScript Essentials 1",
+            "summary": "Orientation to modern JavaScript fundamentals, computational thinking, and developer tooling."
+          },
+          {
+            "id": "1.1",
+            "title": "1.1. Section 1 – About JavaScript",
+            "summary": "History, ECMAScript standards, engine runtime architecture, and client vs server execution."
+          },
+          {
+            "id": "1.2",
+            "title": "1.2. Section 2 – Setting up programming environment",
+            "summary": "Node.js, browser developer tools, code editors (VS Code), and command line basics."
+          },
+          {
+            "id": "1.3",
+            "title": "1.3. Section 3 – Hello, World!",
+            "summary": "Writing, linking, and running your first executable JavaScript programs in browser and console."
+          },
+          {
+            "id": "1.4",
+            "title": "1.4. Module 1 Completion – Module Test",
+            "summary": "Comprehensive assessment covering programming basics, syntax rules, and environment setup."
+          }
+        ]
+      },
+      {
+        "num": "02",
+        "code": "2.0 – 2.4",
+        "title": "JSE: Module 2: Variables, Data Types, Type Casting, and Comments",
+        "shortTitle": "Variables, Types & Comments",
+        "desc": "Memory management with let/const/var, primitive types, type coercion, dynamic casting, and code documentation.",
+        "sections": [
+          {
+            "id": "2.0",
+            "title": "2.0. Section 1 – Variables",
+            "summary": "Variable declaration, initialization, assignment, identifier naming rules, and block scoping."
+          },
+          {
+            "id": "2.1",
+            "title": "2.1. Section 2 – Data types and type casting – Part 1",
+            "summary": "Primitive types: numbers, strings, booleans, undefined, null, and typeof operator inspections."
+          },
+          {
+            "id": "2.2",
+            "title": "2.2. Section 3 – Data types and type casting – Part 2",
+            "summary": "Explicit vs implicit type conversion, BigInt, Symbols, and common NaN conversion pitfalls."
+          },
+          {
+            "id": "2.3",
+            "title": "2.3. Section 4 – Comments",
+            "summary": "Single-line and multi-line comments, JSDoc annotations, and code self-documentation best practices."
+          },
+          {
+            "id": "2.4",
+            "title": "2.4. Module 2 Completion – Module Test",
+            "summary": "Comprehensive examination testing type coercion, variable scope, and primitive allocations."
+          }
+        ]
+      },
+      {
+        "num": "03",
+        "code": "3.0 – 3.3",
+        "title": "JSE: Module 3: Operators and User Interaction",
+        "shortTitle": "Operators & User Interaction",
+        "desc": "Arithmetic, assignment, logical operators, string concatenation, dialog prompts, and basic input/output.",
+        "sections": [
+          {
+            "id": "3.0",
+            "title": "3.0. Section 1 – Assignment, arithmetic, and logical operators",
+            "summary": "Binary/unary operators, precedence rules, logical AND/OR/NOT, and short-circuit evaluation."
+          },
+          {
+            "id": "3.1",
+            "title": "3.1. Section 2 – String, comparison, and other JS operators",
+            "summary": "Strict equality (===) vs loose equality (==), relational operators, template literals, and ternary operator."
+          },
+          {
+            "id": "3.2",
+            "title": "3.2. Section 3 – Interacting with the user",
+            "summary": "Modal interaction dialogs: window.alert(), window.prompt(), window.confirm(), and console logging."
+          },
+          {
+            "id": "3.3",
+            "title": "3.3. Module 3 Completion – Module Test",
+            "summary": "Assessment testing operator evaluation precedence, truthy/falsy logic, and user dialog handling."
+          }
+        ]
+      },
+      {
+        "num": "04",
+        "code": "4.0 – 4.2",
+        "title": "JSE: Module 4: Control Flow – Conditional Execution and Loops",
+        "shortTitle": "Control Flow & Loops",
+        "desc": "Decision branching with if/else/switch, deterministic loops, while iterations, and loop jump controls.",
+        "sections": [
+          {
+            "id": "4.0",
+            "title": "4.0. Section 1 – Conditional execution",
+            "summary": "Conditional branching using if, if-else cascades, nested conditions, and switch-case statements."
+          },
+          {
+            "id": "4.1",
+            "title": "4.1. Section 2 – Loops",
+            "summary": "Iteration mechanics: while loops, do-while loops, for loops, break and continue flow control."
+          },
+          {
+            "id": "4.2",
+            "title": "4.2. Module 4 Completion – Module Test",
+            "summary": "Module examination validating loop termination invariants, nested iteration, and condition trees."
+          }
+        ]
+      },
+      {
+        "num": "05",
+        "code": "5.0 – 5.2",
+        "title": "JSE: Module 5: Functions",
+        "shortTitle": "Functions & Execution Context",
+        "desc": "Function declarations, expressions, arrow functions, parameter defaults, return statements, and call stack scoping.",
+        "sections": [
+          {
+            "id": "5.0",
+            "title": "5.0. Section 1 – Functions – Part 1",
+            "summary": "Function declaration syntax, parameter passing, return statements, and local vs global scope."
+          },
+          {
+            "id": "5.1",
+            "title": "5.1. Section 2 – Functions – Part 2",
+            "summary": "Function expressions, first-class functions, arrow syntax, callbacks, and recursion basics."
+          },
+          {
+            "id": "5.2",
+            "title": "5.2. Module 5 Completion – Module Test",
+            "summary": "Comprehensive test covering functional modularity, return value flow, and closure scoping."
+          }
+        ]
+      },
+      {
+        "num": "06",
+        "code": "6.0 – 6.3",
+        "title": "JSE: Module 6: Errors, exceptions, debugging, and troubleshooting",
+        "shortTitle": "Errors, Debugging & Troubleshooting",
+        "desc": "Error categories, runtime exceptions, try/catch/finally error handling, throw statements, and DevTools troubleshooting.",
+        "sections": [
+          {
+            "id": "6.0",
+            "title": "6.0. Section 1 – Errors and Exceptions – Part 1",
+            "summary": "Syntax errors, reference errors, type errors, range errors, and error propagation mechanics."
+          },
+          {
+            "id": "6.1",
+            "title": "6.1. Section 2 – Errors and Exceptions – Part 2",
+            "summary": "Structured exception handling with try-catch-finally blocks and throwing custom Error objects."
+          },
+          {
+            "id": "6.2",
+            "title": "6.2. Section 3 – Code Debugging and Troubleshooting",
+            "summary": "Using browser debugger, setting breakpoints, stepping through call frames, and watch expressions."
+          },
+          {
+            "id": "6.3",
+            "title": "6.3. Module 6 Completion – Module Test",
+            "summary": "Final certification module test evaluating error interception, debugging techniques, and troubleshooting."
+          }
         ]
       }
     ]
@@ -190,108 +2351,282 @@
     "tier": "Client Tier",
     "icon": "fa-solid fa-code text-blue-600",
     "badgeColor": "bg-blue-100 text-blue-900 border-blue-300",
-    "title": "TypeScript (Strict Typing, Generics, Utility Types, Ambient Declarations)",
-    "level": "LEVEL: PRODUCTION_READY",
+    "title": "TypeScript (Static Typing, Generics, Utility Types, Interfaces, Modules)",
+    "level": "LEVEL: ADVANCED_TYPE_ENGINE",
     "duration": "38.0_HRS",
-    "summary": "Master compile-time type safety with conditional types, template literal types, complex recursive generics, custom declaration files (.d.ts), and AST transformation workflows for large-scale codebases.",
-    "syllabus": [
+    "specId": "TS_SYSTEM_5",
+    "trackBadge": "TS 5",
+    "summary": "Architect bulletproof web applications with compile-time correctness: recursive generic abstractions, distributive conditional types, template literal key remapping, and compiler AST transformations.",
+    "modules": [
       {
         "num": "01",
-        "tier": "Beginner",
-        "chapter": "Static Type Foundations & Compiler Configuration",
-        "desc": "Establish rock-solid static type fundamentals: primitive types, type annotations vs inference, union and intersection types, interfaces vs type aliases, and configuring strict compiler flags in tsconfig.json (noImplicitAny, strictNullChecks).",
-        "keyConcepts": [
-          "Strict tsconfig",
-          "Union & Intersection",
-          "Interfaces vs Types"
+        "code": "1.0 – 1.4",
+        "title": "TS: Module 1: Static Type Foundations & Compiler Configuration",
+        "shortTitle": "Static Types & Compiler Config",
+        "desc": "Architect robust enterprise applications with tsc compiler options, strict mode verification, primitives, unions, and interfaces.",
+        "sections": [
+          {
+            "id": "1.0",
+            "title": "1.0. Welcome to TypeScript 5 Type System",
+            "summary": "Introduction to JavaScript superset mechanics, compiler architecture, and static type safety."
+          },
+          {
+            "id": "1.1",
+            "title": "1.1. Section 1 – Compiler Configuration & Strict Modes (tsconfig.json)",
+            "summary": "Configuring strict flags, target ECMAScript versions, module resolution, and path aliases."
+          },
+          {
+            "id": "1.2",
+            "title": "1.2. Section 2 – Primitives, Literal Types & Type Inference",
+            "summary": "Static primitives, string/number literals, any vs unknown, void, never, and contextual typing."
+          },
+          {
+            "id": "1.3",
+            "title": "1.3. Section 3 – Interfaces vs Type Aliases & Structural Subtyping",
+            "summary": "Duck typing mental model, interface extension, declaration merging, and union/intersection types."
+          },
+          {
+            "id": "1.4",
+            "title": "1.4. Module 1 Completion – Compiler & Type Assignment Test",
+            "summary": "Evaluation testing tsconfig strictness, type compatibility, and structural duck typing."
+          }
         ]
       },
       {
         "num": "02",
-        "tier": "Beginner",
-        "chapter": "Function Signatures, Labeled Tuples & Type Guards",
-        "desc": "Construct robust function overloads, optional and rest parameters, labeled tuple types, literal types, and deterministic control flow analysis using type narrowing guards (typeof, instanceof, in, and custom is type predicates).",
-        "keyConcepts": [
-          "Function Overloads",
-          "Type Predicates",
-          "Control Flow Narrowing"
+        "code": "2.0 – 2.4",
+        "title": "TS: Module 2: Function Signatures, Labeled Tuples & Type Guards",
+        "shortTitle": "Functions, Tuples & Type Guards",
+        "desc": "Construct robust function overloads, labeled tuples, custom type predicates, and discriminated unions.",
+        "sections": [
+          {
+            "id": "2.0",
+            "title": "2.0. Section 1 – Function Overloads & Implementation Signatures",
+            "summary": "Defining multiple call signatures, implementation contracts, and return type narrowing."
+          },
+          {
+            "id": "2.1",
+            "title": "2.1. Section 2 – Labeled Tuples, Rest Elements & Readonly Tuples",
+            "summary": "Fixed-length arrays, labeled elements for IDE auto-complete, and immutable readonly tuples."
+          },
+          {
+            "id": "2.2",
+            "title": "2.2. Section 3 – Custom Type Predicates (val is Type) & Assertion Functions",
+            "summary": "Building user-defined type guards, assertion functions (asserts condition), and control flow narrowing."
+          },
+          {
+            "id": "2.3",
+            "title": "2.3. Section 4 – Discriminated Unions & Exhaustiveness Checking",
+            "summary": "Tagging objects with literal discriminant keys and ensuring compile-time completeness via never."
+          },
+          {
+            "id": "2.4",
+            "title": "2.4. Module 2 Completion – Signatures & Type Guards Exam",
+            "summary": "Assessment covering function overload dispatch, type predicates, and exhaustiveness guards."
+          }
         ]
       },
       {
         "num": "03",
-        "tier": "Beginner",
-        "chapter": "Reusable Generics & Parameter Constraints",
-        "desc": "Architect type-safe, reusable collection components and utility functions using generic parameters, extends constraints (T extends object), default type arguments, and keyof constraint lookups for dictionary data structures.",
-        "keyConcepts": [
-          "Generic Constraints",
-          "keyof Indexing",
-          "Reusable Type Factories"
+        "code": "3.0 – 3.3",
+        "title": "TS: Module 3: Reusable Generics & Parameter Constraints",
+        "shortTitle": "Generics & Parameter Constraints",
+        "desc": "Architect reusable generic components, class factories, extends constraints, and keyof lookup indexing.",
+        "sections": [
+          {
+            "id": "3.0",
+            "title": "3.0. Section 1 – Generic Functions, Interfaces & Classes",
+            "summary": "Type variables <T>, generic identity functions, multi-parameter type signatures, and class factories."
+          },
+          {
+            "id": "3.1",
+            "title": "3.1. Section 2 – Generic Constraints with extends & Default Types",
+            "summary": "Restricting type parameters with interface bounds, conditional defaults, and primitive constraints."
+          },
+          {
+            "id": "3.2",
+            "title": "3.2. Section 3 – The keyof Index Operator & Indexed Access Types",
+            "summary": "Extracting property keys (keyof T), indexed access types (T[K]), and type-safe property extractors."
+          },
+          {
+            "id": "3.3",
+            "title": "3.3. Module 3 Completion – Generic Abstraction Assessment",
+            "summary": "Comprehensive test evaluating generic container design, constraint enforcement, and key indexing."
+          }
         ]
       },
       {
         "num": "04",
-        "tier": "Advanced",
-        "chapter": "Conditional Types & Pattern Matching with 'infer'",
-        "desc": "Implement type-level branching logic using conditional types (T extends U ? X : Y), distributive conditional types over naked type parameters, and unpacking nested types using the infer keyword (extracting ReturnType, Promise unwrap, and tuple tails).",
-        "keyConcepts": [
-          "Conditional Branching",
-          "infer Keyword",
-          "Distributive Types"
+        "code": "4.0 – 4.3",
+        "title": "TS: Module 4: Conditional Types & Pattern Matching with 'infer'",
+        "shortTitle": "Conditional Types & 'infer'",
+        "desc": "Type-level ternary expressions, distributive conditional branching, and pattern matching return types with infer.",
+        "sections": [
+          {
+            "id": "4.0",
+            "title": "4.0. Section 1 – Conditional Type Syntax (T extends U ? X : Y)",
+            "summary": "Type-level ternary expressions, boolean logic at compile time, and non-nullable type extraction."
+          },
+          {
+            "id": "4.1",
+            "title": "4.1. Section 2 – Distributive Conditional Types & Union Filtering",
+            "summary": "Automatic distribution over naked type parameters, Exclude<T, U>, and Extract<T, U> mechanics."
+          },
+          {
+            "id": "4.2",
+            "title": "4.2. Section 3 – Pattern Matching with the infer Keyword",
+            "summary": "Unpacking promise resolutions (Awaited<T>), function return types (ReturnType<T>), and parameters."
+          },
+          {
+            "id": "4.3",
+            "title": "4.3. Module 4 Completion – Type-Level Logic Assessment",
+            "summary": "Examination testing conditional type algebra, distribution suppression, and infer unpacking."
+          }
         ]
       },
       {
         "num": "05",
-        "tier": "Advanced",
-        "chapter": "Mapped Types & Template Literal Remapping",
-        "desc": "Engineer dynamic mapped types: iterating over keys with in keyof, property modifier toggling (-readonly, -?), template literal type manipulation, and key remapping with as clauses to generate type-safe event handler maps.",
-        "keyConcepts": [
-          "Mapped Types",
-          "Template Literal Types",
-          "Key Remapping (as)"
+        "code": "5.0 – 5.3",
+        "title": "TS: Module 5: Mapped Types & Template Literal Remapping",
+        "shortTitle": "Mapped Types & Template Literals",
+        "desc": "Transform object shapes dynamically with mapped types, modifiers, key remapping via as, and template literal strings.",
+        "sections": [
+          {
+            "id": "5.0",
+            "title": "5.0. Section 1 – Mapped Type Foundations ([K in keyof T])",
+            "summary": "Iterating object keys, homomorphic mapping, and building Partial<T>, Required<T>, Readonly<T>."
+          },
+          {
+            "id": "5.1",
+            "title": "5.1. Section 2 – Modifier Prefixing (+readonly, -readonly, +?, -?)",
+            "summary": "Stripping optionality and mutability flags to produce strict immutable schemas."
+          },
+          {
+            "id": "5.2",
+            "title": "5.2. Section 3 – Key Remapping via as & Template Literal Types",
+            "summary": "Prefixing getters/setters with key remapping, string union interpolation, and regex string patterns."
+          },
+          {
+            "id": "5.3",
+            "title": "5.3. Module 5 Completion – Advanced Type Transformation Test",
+            "summary": "Assessment validating custom mapped utility types, template literal concatenation, and key remapping."
+          }
         ]
       },
       {
         "num": "06",
-        "tier": "Advanced",
-        "chapter": "Recursive Types & Branded Nominal Type Systems",
-        "desc": "Design deeply recursive data structures including DeepReadonly<T>, DeepPartial<T>, and JSON AST types. Implement nominal type safety via branded primitive wrappers (e.g. UserId vs OrderId) to prevent compile-time domain leakage.",
-        "keyConcepts": [
-          "DeepReadonly<T>",
-          "Recursive AST Types",
-          "Nominal Branded Types"
+        "code": "6.0 – 6.3",
+        "title": "TS: Module 6: Recursive Types & Branded Nominal Type Systems",
+        "shortTitle": "Recursive Types & Nominal Branding",
+        "desc": "Infinite data structures with recursive type aliases and nominal type safety using unique symbol branding.",
+        "sections": [
+          {
+            "id": "6.0",
+            "title": "6.0. Section 1 – Recursive Types (JSONValue, DeepPartial, DeepReadonly)",
+            "summary": "Self-referencing type definitions, arbitrary nested JSON objects, and recursive tree walking."
+          },
+          {
+            "id": "6.1",
+            "title": "6.1. Section 2 – Nominal Typing via Unique Symbol Branding",
+            "summary": "Overcoming structural typing limitations: creating distinct UserId, OrderId, and Currency types."
+          },
+          {
+            "id": "6.2",
+            "title": "6.2. Section 3 – Type-Safe Domain Identifiers & Validated Primitives",
+            "summary": "Sanitized strings, validated email brand tags, and preventing accidental ID swaps at compile time."
+          },
+          {
+            "id": "6.3",
+            "title": "6.3. Module 6 Completion – Type Safety & Branding Exam",
+            "summary": "Test covering recursive compiler depth limits, nominal branding tags, and domain primitive validation."
+          }
         ]
       },
       {
         "num": "07",
-        "tier": "Expert",
-        "chapter": "Ambient Declarations & Library Definitions (.d.ts)",
-        "desc": "Author production-grade ambient declaration packages (.d.ts): typing untyped legacy C/WASM libraries, global namespace augmentation (declare global), module augmentation for existing NPM packages, and UMD wrapper definitions.",
-        "keyConcepts": [
-          "Ambient .d.ts",
-          "declare global",
-          "Module Augmentation"
+        "code": "7.0 – 7.3",
+        "title": "TS: Module 7: Ambient Declarations & Library Definitions (.d.ts)",
+        "shortTitle": "Ambient Declarations & .d.ts",
+        "desc": "Type legacy JavaScript with ambient declarations, module augmentations, declare global, and definitely typed packages.",
+        "sections": [
+          {
+            "id": "7.0",
+            "title": "7.0. Section 1 – Ambient Declarations & declare Keyword",
+            "summary": "Declaring external variables, functions, and global constants without emitting runtime JavaScript."
+          },
+          {
+            "id": "7.1",
+            "title": "7.1. Section 2 – Module Declarations (.d.ts) & Triple-Slash Directives",
+            "summary": "Writing module definition files for non-typed npm libraries and managing reference paths."
+          },
+          {
+            "id": "7.2",
+            "title": "7.2. Section 3 – Declaration Merging & Global Namespace Augmentation",
+            "summary": "Extending window, express Request, and process.env with type-safe environmental variables."
+          },
+          {
+            "id": "7.3",
+            "title": "7.3. Module 7 Completion – Definition File Authoring Test",
+            "summary": "Assessment covering library typing, ambient module resolution, and declaration merging."
+          }
         ]
       },
       {
         "num": "08",
-        "tier": "Expert",
-        "chapter": "TypeScript Compiler API & Custom AST Transformers",
-        "desc": "Harness the internal TypeScript Compiler API (ts.createProgram, ts.TypeChecker): traversing and inspecting the Abstract Syntax Tree (AST), using visitor patterns, and building custom compile-time codegen transformers for build pipelines.",
-        "keyConcepts": [
-          "Compiler API",
-          "AST Traversal",
-          "Custom Transformers"
+        "code": "8.0 – 8.3",
+        "title": "TS: Module 8: TypeScript Compiler API & Custom AST Transformers",
+        "shortTitle": "Compiler API & AST Transformers",
+        "desc": "Inspect, analyze, and transform TypeScript source code programmatically using the compiler API and AST transformers.",
+        "sections": [
+          {
+            "id": "8.0",
+            "title": "8.0. Section 1 – Program, SourceFile & Abstract Syntax Tree (AST)",
+            "summary": "Parsing source code into Node trees, token scanning, syntax kinds, and AST inspection tools."
+          },
+          {
+            "id": "8.1",
+            "title": "8.1. Section 2 – TypeChecker API & Symbol Resolution",
+            "summary": "Querying semantic information: resolved types, interface definitions, call signatures, and diagnostics."
+          },
+          {
+            "id": "8.2",
+            "title": "8.2. Section 3 – Custom AST Transformation Pipelines",
+            "summary": "Writing visitor functions to inject telemetry, auto-generate serializers, and rewrite decorators."
+          },
+          {
+            "id": "8.3",
+            "title": "8.3. Module 8 Completion – AST Metaprogramming Assessment",
+            "summary": "Evaluation testing syntax tree traversal, symbol lookup, and custom node factory emission."
+          }
         ]
       },
       {
         "num": "09",
-        "tier": "Expert",
-        "chapter": "Strict Soundness, Variance & Monorepo Scaling",
-        "desc": "Master structural vs nominal subtyping, function parameter contravariance vs return covariance, tsconfig Project References (composite: true), declaration maps, path aliases, and diagnosing type-checker compiler performance bottlenecks.",
-        "keyConcepts": [
-          "Type Variance",
-          "Project References",
-          "Monorepo Compilation Tuning"
+        "code": "9.0 – 9.3",
+        "title": "TS: Module 9: Strict Soundness, Variance & Monorepo Scaling",
+        "shortTitle": "Soundness, Variance & Monorepos",
+        "desc": "Master structural vs nominal subtyping, function parameter contravariance, Project References, and monorepos.",
+        "sections": [
+          {
+            "id": "9.0",
+            "title": "9.0. Section 1 – Subtyping, Covariance, Contravariance & Invariance",
+            "summary": "Type soundness rules: strictFunctionTypes parameter contravariance and return type covariance."
+          },
+          {
+            "id": "9.1",
+            "title": "9.1. Section 2 – TypeScript Project References & Composite Builds",
+            "summary": "Architecting large monorepos with tsconfig references, incremental compilation, and build caches."
+          },
+          {
+            "id": "9.2",
+            "title": "9.2. Section 3 – Enterprise Monorepo Compilation Tuning",
+            "summary": "Optimizing type-checking latency, skipLibCheck tradeoffs, and CI validation pipelines."
+          },
+          {
+            "id": "9.3",
+            "title": "9.3. Module 9 Completion – TypeScript Master Certification Exam",
+            "summary": "Comprehensive certification exam evaluating type theory soundness, variance, and monorepo scaling."
+          }
         ]
       }
     ]
@@ -305,108 +2640,282 @@
     "tier": "Client Tier",
     "icon": "fa-brands fa-react text-sky-500",
     "badgeColor": "bg-sky-100 text-sky-900 border-sky-300",
-    "title": "React (Component Lifecycle, Custom Hooks, State Machines, Next.js / Modern SSR)",
-    "level": "LEVEL: PRODUCTION_READY",
-    "duration": "48.0_HRS",
-    "summary": "Engineer deterministic enterprise interfaces with concurrent rendering, custom memoization hooks, finite state machines, Server Components (RSC), and hybrid Next.js SSR/SSG architectures.",
-    "syllabus": [
+    "title": "React (Components, Hooks, State Management, Virtual DOM, React 19)",
+    "level": "LEVEL: ARCHITECT_CONCURRENT",
+    "duration": "45.0_HRS",
+    "specId": "REACT_19_FIBER",
+    "trackBadge": "REACT 19",
+    "summary": "Engineer deterministic enterprise interfaces with concurrent rendering, Fiber double-buffering reconciliation, custom hook pipelines, and streaming React Server Components.",
+    "modules": [
       {
         "num": "01",
-        "tier": "Beginner",
-        "chapter": "Component Model, JSX & Virtual DOM Mechanics",
-        "desc": "Understand the foundational mental model: component tree composition, JSX transpilations to createElement/_jsx, immutable props contracts, conditional rendering patterns, list reconciliation keys, and unidirectional data flow.",
-        "keyConcepts": [
-          "Component Composition",
-          "Virtual DOM",
-          "Reconciliation Keys"
+        "code": "1.0 – 1.4",
+        "title": "React: Module 1: Component Model, JSX & Virtual DOM Mechanics",
+        "shortTitle": "Component Model & Virtual DOM",
+        "desc": "Understand the foundational mental model: component tree composition, JSX compilation, Virtual DOM, and reconciliation keys.",
+        "sections": [
+          {
+            "id": "1.0",
+            "title": "1.0. Welcome to React 19 & Component Architecture",
+            "summary": "Foundations of declarative UI rendering, pure functions with props, and UI as a function of state."
+          },
+          {
+            "id": "1.1",
+            "title": "1.1. Section 1 – JSX Transpilation & React Element Objects",
+            "summary": "How JSX compiles to jsxRuntime calls, element immutability, and component vs element distinctions."
+          },
+          {
+            "id": "1.2",
+            "title": "1.2. Section 2 – Virtual DOM Diffing & Reconciliation Keys",
+            "summary": "Heuristic O(n) diffing algorithm, key prop identity preservation, and list reordering hazards."
+          },
+          {
+            "id": "1.3",
+            "title": "1.3. Section 3 – Component Composition & Prop Drilling Mitigation",
+            "summary": "Children composition patterns, slots, render props, and building compound components."
+          },
+          {
+            "id": "1.4",
+            "title": "1.4. Module 1 Completion – Virtual DOM & Component Fundamentals",
+            "summary": "Assessment testing element tree reconciliation, key mechanics, and declarative composition."
+          }
         ]
       },
       {
         "num": "02",
-        "tier": "Beginner",
-        "chapter": "Core Hooks Lifecycle & State Batching",
-        "desc": "Master essential state and lifecycle hooks: useState asynchronous update batching, useEffect dependency array mechanics and cleanup handlers, useRef mutable memory containers, and resolving stale closure pitfalls.",
-        "keyConcepts": [
-          "useState Batching",
-          "useEffect Cleanups",
-          "useRef Persistence"
+        "code": "2.0 – 2.4",
+        "title": "React: Module 2: Core Hooks Lifecycle & State Batching",
+        "shortTitle": "Hooks Lifecycle & State Batching",
+        "desc": "Master execution lifecycle: useState setter batching, useEffect cleanup timing, useRef instance preservation, and hook dispatcher queues.",
+        "sections": [
+          {
+            "id": "2.0",
+            "title": "2.0. Section 1 – useState Execution Semantics & Automatic Batching",
+            "summary": "State setter queues, functional updater forms, and automatic microtask batching in React 19."
+          },
+          {
+            "id": "2.1",
+            "title": "2.1. Section 2 – useEffect Dependencies, Subscriptions & Cleanup Timing",
+            "summary": "Synchronizing with external systems, passive effect scheduling, and memory leak cleanup cycles."
+          },
+          {
+            "id": "2.2",
+            "title": "2.2. Section 3 – useRef Mutable Values & DOM Node Referencing",
+            "summary": "Preserving mutable references without triggering re-renders, forwardRef, and DOM measurement."
+          },
+          {
+            "id": "2.3",
+            "title": "2.3. Section 4 – Hook Rules & Internal Dispatcher Call Stacks",
+            "summary": "Rules of Hooks, internal linked-list state storage in Fiber nodes, and debugging hook mismatches."
+          },
+          {
+            "id": "2.4",
+            "title": "2.4. Module 2 Completion – Core Hooks Lifecycle Assessment",
+            "summary": "Examination testing effect execution order, updater closures, and state batching invariants."
+          }
         ]
       },
       {
         "num": "03",
-        "tier": "Beginner",
-        "chapter": "Synthetic Events, Controlled UI & Form Architectures",
-        "desc": "Explore synthetic event pooling and delegation, controlled vs uncontrolled inputs using useId and FormData, building resilient custom input components, and form validation state architectures.",
-        "keyConcepts": [
-          "SyntheticEvent",
-          "Controlled Components",
-          "useId Form Binding"
+        "code": "3.0 – 3.3",
+        "title": "React: Module 3: Synthetic Events, Controlled UI & Form Architectures",
+        "shortTitle": "Synthetic Events & Form Actions",
+        "desc": "Event delegation pool, controlled vs uncontrolled inputs, React 19 useActionState, and native server action binding.",
+        "sections": [
+          {
+            "id": "3.0",
+            "title": "3.0. Section 1 – React SyntheticEvent System & Event Delegation",
+            "summary": "Cross-browser event normalization, bubbling phases, and root container event delegation."
+          },
+          {
+            "id": "3.1",
+            "title": "3.1. Section 2 – Controlled vs Uncontrolled Form Components",
+            "summary": "Two-way state binding vs uncontrolled ref inputs, defaultValue, and form validation."
+          },
+          {
+            "id": "3.2",
+            "title": "3.2. Section 3 – React 19 useActionState & Server Action Form Handlers",
+            "summary": "Handling async form submissions natively with pending states, optimistic UI, and FormData."
+          },
+          {
+            "id": "3.3",
+            "title": "3.3. Module 3 Completion – Event Handling & Form Binding Test",
+            "summary": "Assessment covering synthetic event propagation, input synchronization, and form actions."
+          }
         ]
       },
       {
         "num": "04",
-        "tier": "Advanced",
-        "chapter": "Performance Optimization & Referential Stability",
-        "desc": "Audit and eliminate unnecessary renders: memoizing expensive calculations with useMemo, stabilizing function references with useCallback, shallow props comparisons with React.memo, and React DevTools Profiler audits.",
-        "keyConcepts": [
-          "useMemo & useCallback",
-          "React.memo",
-          "Profiler Auditing"
+        "code": "4.0 – 4.3",
+        "title": "React: Module 4: Performance Optimization & Referential Stability",
+        "shortTitle": "Performance & Referential Stability",
+        "desc": "Audit and eliminate unnecessary renders: memoizing expensive calculations, stable function references, and Profiler auditing.",
+        "sections": [
+          {
+            "id": "4.0",
+            "title": "4.0. Section 1 – Re-render Causes & The React Compiler Mental Model",
+            "summary": "Tracking why components re-render: state updates, parent re-renders, and context consumers."
+          },
+          {
+            "id": "4.1",
+            "title": "4.1. Section 2 – useMemo, useCallback & Referential Equality",
+            "summary": "Caches across renders, shallow dependency comparison, and preventing child invalidations."
+          },
+          {
+            "id": "4.2",
+            "title": "4.2. Section 3 – Component Memoization (React.memo) & Profiler DevTools",
+            "summary": "Custom arePropsEqual comparators, flamegraphs, commit timing, and interaction tracing."
+          },
+          {
+            "id": "4.3",
+            "title": "4.3. Module 4 Completion – Performance Optimization Assessment",
+            "summary": "Test evaluating render bottleneck diagnostics, memoization trade-offs, and referential stability."
+          }
         ]
       },
       {
         "num": "05",
-        "tier": "Advanced",
-        "chapter": "Custom Reusable Hook Pipelines & Subscriptions",
-        "desc": "Decouple complex UI logic from presentation: building bespoke hooks for WebSocket/SSE event subscriptions, high-frequency throttled scroll/resize listeners, and abortable HTTP query pipelines with AbortController.",
-        "keyConcepts": [
-          "Custom Hook Design",
-          "Event Subscriptions",
-          "AbortController Integration"
+        "code": "5.0 – 5.3",
+        "title": "React: Module 5: Custom Reusable Hook Pipelines & Subscriptions",
+        "shortTitle": "Custom Hooks & Subscriptions",
+        "desc": "Package complex stateful workflows into testable custom hooks, external store subscriptions, and AbortController integration.",
+        "sections": [
+          {
+            "id": "5.0",
+            "title": "5.0. Section 1 – Custom Hook Design & State Logic Encapsulation",
+            "summary": "Extracting reusable behavioral primitives, composable hook pipelines, and API ergonomics."
+          },
+          {
+            "id": "5.1",
+            "title": "5.1. Section 2 – useSyncExternalStore for Concurrent-Safe Stores",
+            "summary": "Subscribing to external stores without tearing under concurrent rendering, snapshot memoization."
+          },
+          {
+            "id": "5.2",
+            "title": "5.2. Section 3 – Network Request Hooks with AbortController Cleanups",
+            "summary": "Race-condition prevention, request cancellation on unmount, and automated error retries."
+          },
+          {
+            "id": "5.3",
+            "title": "5.3. Module 5 Completion – Custom Hook Pipeline Examination",
+            "summary": "Assessment covering custom hook composability, external store subscriptions, and async cleanups."
+          }
         ]
       },
       {
         "num": "06",
-        "tier": "Advanced",
-        "chapter": "Finite State Machines & Strategic Context Splitting",
-        "desc": "Replace fragile boolean flags with deterministic state machines via useReducer and XState. Implement strategic Context splitting (separating State from Dispatch) to completely prevent cascade re-renders across consumers.",
-        "keyConcepts": [
-          "useReducer & XState",
-          "Deterministic State",
-          "Context Splitting"
+        "code": "6.0 – 6.3",
+        "title": "React: Module 6: Finite State Machines & Strategic Context Splitting",
+        "shortTitle": "FSM & Context Architecture",
+        "desc": "Replace fragile boolean flags with deterministic state machines via useReducer and split React Context to prevent tree re-renders.",
+        "sections": [
+          {
+            "id": "6.0",
+            "title": "6.0. Section 1 – Complex State with useReducer & Action Creators",
+            "summary": "Deterministic transition tables, discriminated union actions, and predictable state transitions."
+          },
+          {
+            "id": "6.1",
+            "title": "6.1. Section 2 – React Context API & Provider Hierarchy",
+            "summary": "Propagating global dependencies, Theme/Auth providers, and custom hook access wrappers."
+          },
+          {
+            "id": "6.2",
+            "title": "6.2. Section 3 – Context Splitting to Prevent Unnecessary Tree Re-renders",
+            "summary": "Separating State and Dispatch contexts to isolate active consumers from passive listeners."
+          },
+          {
+            "id": "6.3",
+            "title": "6.3. Module 6 Completion – Global State & FSM Architecture Test",
+            "summary": "Test evaluating reducer purity, context subscription boundaries, and FSM transition safety."
+          }
         ]
       },
       {
         "num": "07",
-        "tier": "Expert",
-        "chapter": "React Fiber Reconciliation & Concurrent Engine",
-        "desc": "Demystify Fiber internals: double-buffering work-in-progress trees, Fiber node properties (child, sibling, return), cooperative time-slicing scheduler, lanes priority levels, and concurrent UI transitions with useTransition and useDeferredValue.",
-        "keyConcepts": [
-          "Fiber Work Trees",
-          "Lanes Priority",
-          "Concurrent useTransition"
+        "code": "7.0 – 7.3",
+        "title": "React: Module 7: React Fiber Reconciliation & Concurrent Engine",
+        "shortTitle": "Fiber Architecture & Concurrency",
+        "desc": "Deep-dive into Fiber nodes, double-buffering work trees, Lanes priority bitmasks, and non-blocking transitions.",
+        "sections": [
+          {
+            "id": "7.0",
+            "title": "7.0. Section 1 – Fiber Node Architecture (Child, Sibling, Return)",
+            "summary": "Linked-list tree data structure, units of work, and alternate work-in-progress double buffering."
+          },
+          {
+            "id": "7.1",
+            "title": "7.1. Section 2 – WorkLoop, Render Phase vs Commit Phase",
+            "summary": "Interruptible render phase, time-slicing scheduler, and synchronous DOM mutation commit phase."
+          },
+          {
+            "id": "7.2",
+            "title": "7.2. Section 3 – Concurrent Transitions (useTransition) & Lanes Priority",
+            "summary": "Urgent vs non-urgent updates, 31-bit Lanes priority allocation, and cooperative multitasking."
+          },
+          {
+            "id": "7.3",
+            "title": "7.3. Module 7 Completion – Fiber Engine & Concurrency Exam",
+            "summary": "Comprehensive exam testing Fiber traversal, double buffering, and Lane priority preemption."
+          }
         ]
       },
       {
         "num": "08",
-        "tier": "Expert",
-        "chapter": "React Server Components (RSC) & Streaming SSR Pipeline",
-        "desc": "Master the server-client continuum: zero-bundle-size React Server Components (RSC), flight data streaming protocol, Suspense HTML streaming boundaries, Server Actions execution flow, and client-server boundary boundaries.",
-        "keyConcepts": [
-          "RSC Architecture",
-          "Suspense HTML Streaming",
-          "Server Actions"
+        "code": "8.0 – 8.3",
+        "title": "React: Module 8: React Server Components (RSC) & Streaming SSR Pipeline",
+        "shortTitle": "Server Components & Streaming SSR",
+        "desc": "Unify server and client: zero-bundle-size server components, HTML streaming with Suspense, and Server Actions.",
+        "sections": [
+          {
+            "id": "8.0",
+            "title": "8.0. Section 1 – Server Components vs Client Components ('use client')",
+            "summary": "The client-server boundary, module graph splitting, and serializable prop restrictions."
+          },
+          {
+            "id": "8.1",
+            "title": "8.1. Section 2 – Streaming SSR with <Suspense> & Progressive Hydration",
+            "summary": "Out-of-order HTML chunk delivery over HTTP, selective hydration, and instant First Contentful Paint."
+          },
+          {
+            "id": "8.2",
+            "title": "8.2. Section 3 – Zero-Bundle-Size Server Dependencies & Direct DB Queries",
+            "summary": "Executing database queries directly in components without client bundle weight or REST endpoints."
+          },
+          {
+            "id": "8.3",
+            "title": "8.3. Module 8 Completion – RSC Architecture & Streaming Assessment",
+            "summary": "Evaluation testing component graph serialization, selective hydration, and streaming SSR."
+          }
         ]
       },
       {
         "num": "09",
-        "tier": "Expert",
-        "chapter": "Custom Reconcilers & Low-Level Architectural Embedding",
-        "desc": "Implement custom host renderers utilizing package react-reconciler (rendering React trees into Canvas, WebGL, or Terminal viewports), micro-frontend mounting/unmounting lifecycles, and memory leak mitigation in long-running SPAs.",
-        "keyConcepts": [
-          "react-reconciler",
-          "Custom Host Renderers",
-          "Micro-Frontend Lifecycles"
+        "code": "9.0 – 9.3",
+        "title": "React: Module 9: Custom Reconcilers & Low-Level Architectural Embedding",
+        "shortTitle": "Custom Reconcilers & Embedding",
+        "desc": "Implement custom host renderers utilizing package react-reconciler (rendering to Canvas, Terminal, or Three.js).",
+        "sections": [
+          {
+            "id": "9.0",
+            "title": "9.0. Section 1 – The react-reconciler Package & Host Config",
+            "summary": "Implementing appendInitialChild, createInstance, prepareUpdate, and commitUpdate methods."
+          },
+          {
+            "id": "9.1",
+            "title": "9.1. Section 2 – Building Custom Renderers (Terminal/Canvas/Three.js)",
+            "summary": "Translating React declarative trees into custom graphics or CLI terminal primitives."
+          },
+          {
+            "id": "9.2",
+            "title": "9.2. Section 3 – Micro-Frontend Lifecycle & Custom Element Hydration",
+            "summary": "Wrapping React trees into Web Components, shadow DOM style isolation, and multi-root mounting."
+          },
+          {
+            "id": "9.3",
+            "title": "9.3. Module 9 Completion – React 19 Master Architect Certification",
+            "summary": "Master certification examination covering custom reconciler pipelines and enterprise scalability."
+          }
         ]
       }
     ]
@@ -420,108 +2929,282 @@
     "tier": "Server Tier",
     "icon": "fa-brands fa-php text-indigo-600",
     "badgeColor": "bg-indigo-100 text-indigo-900 border-indigo-300",
-    "title": "PHP (PHP 8.x modern OOP, PSR standards, Composer, Custom MVC & Theme Architecture)",
-    "level": "LEVEL: PRODUCTION_READY",
+    "title": "PHP 8 (OOP, PDO, Composer, PSR standards, Modern PHP 8.x features)",
+    "level": "LEVEL: ENTERPRISE_BACKEND",
     "duration": "40.0_HRS",
-    "summary": "Build robust server-side backends harnessing PHP 8.3+ features: attributes, JIT compilation, fibers, strict typing, PSR-12/PSR-4 adherence, enterprise Composer packaging, and custom modular MVC frameworks.",
-    "syllabus": [
+    "specId": "PHP_8_BACKEND",
+    "trackBadge": "PHP 8.3",
+    "summary": "Build ultra-reliable server-side business engines utilizing PHP 8.3 strict types, constructor property promotion, PDO prepared transactions, PSR-4 autoloading, and RoadRunner worker runtimes.",
+    "modules": [
       {
         "num": "01",
-        "tier": "Beginner",
-        "chapter": "Modern PHP 8.x Syntax & Strict Type System",
-        "desc": "Master contemporary language features: strict type declarations (declare(strict_types=1)), scalar and compound type hints, union & intersection types, named arguments, match expressions, and the nullsafe operator (?->).",
-        "keyConcepts": [
-          "declare(strict_types=1)",
-          "Match Expressions",
-          "Nullsafe Operator"
+        "code": "1.0 – 1.4",
+        "title": "PHP: Module 1: Modern PHP 8.x Syntax & Strict Type System",
+        "shortTitle": "Modern PHP 8 Syntax & Types",
+        "desc": "Execute with declare(strict_types=1), match expressions, nullsafe operator (?->), and named arguments.",
+        "sections": [
+          {
+            "id": "1.0",
+            "title": "1.0. Welcome to PHP 8 & Zend Engine Overview",
+            "summary": "Architecture of modern PHP, Zend Engine compilation, opcodes, and strict typing mental model."
+          },
+          {
+            "id": "1.1",
+            "title": "1.1. Section 1 – declare(strict_types=1) & Scalar Type Declarations",
+            "summary": "Enforcing scalar parameter types, return type declarations, and union types (int|float)."
+          },
+          {
+            "id": "1.2",
+            "title": "1.2. Section 2 – Match Expressions vs Switch & Nullsafe Operator (?->)",
+            "summary": "Strict equality matching, value returning expressions, and chaining safe navigation operators."
+          },
+          {
+            "id": "1.3",
+            "title": "1.3. Section 3 – Named Arguments, Mixed Type & Intersection Types",
+            "summary": "Calling functions with named parameters, mixed return types, and intersection types (&)."
+          },
+          {
+            "id": "1.4",
+            "title": "1.4. Module 1 Completion – PHP 8 Modern Syntax Test",
+            "summary": "Assessment covering strict type coercion prevention, match expression returns, and null handling."
+          }
         ]
       },
       {
         "num": "02",
-        "tier": "Beginner",
-        "chapter": "Object-Oriented Programming (OOP) Core & Attributes",
-        "desc": "Construct clean OOP systems: constructor property promotion, readonly classes and properties, interfaces, abstract classes, traits, typed class constants, and metadata decoration using PHP 8 Attributes (#[Attribute]).",
-        "keyConcepts": [
-          "Constructor Promotion",
-          "Readonly Classes",
-          "PHP 8 Attributes"
+        "code": "2.0 – 2.4",
+        "title": "PHP: Module 2: Object-Oriented Programming (OOP) Core & Attributes",
+        "shortTitle": "OOP Core & Native Attributes",
+        "desc": "Constructor property promotion, readonly classes, backed enums, interfaces, and native PHP 8 attributes.",
+        "sections": [
+          {
+            "id": "2.0",
+            "title": "2.0. Section 1 – Constructor Property Promotion & Readonly Classes",
+            "summary": "Boilerplate reduction, immutable data transfer objects (DTOs), and readonly class modifiers."
+          },
+          {
+            "id": "2.1",
+            "title": "2.1. Section 2 – Enums with Backed Values & Interface Implementation",
+            "summary": "String/int backed enums, match integration, and implementing custom methods on enums."
+          },
+          {
+            "id": "2.2",
+            "title": "2.2. Section 3 – PHP 8 Native Attributes (#[Route], #[Inject])",
+            "summary": "Replacing docblock annotations with native structured metadata and ReflectionAttribute parsing."
+          },
+          {
+            "id": "2.3",
+            "title": "2.3. Section 4 – Interfaces, Abstract Classes & Trait Precedence",
+            "summary": "Polymorphism, interface segregation, trait conflict resolution, and abstract templates."
+          },
+          {
+            "id": "2.4",
+            "title": "2.4. Module 2 Completion – OOP Core & Attributes Exam",
+            "summary": "Comprehensive test covering constructor promotion, readonly invariants, and attribute reflection."
+          }
         ]
       },
       {
         "num": "03",
-        "tier": "Beginner",
-        "chapter": "Secure Database Connectivity with PDO",
-        "desc": "Build secure data layers using PDO: prepared statements, parameterized query binding, SQL injection immunity, database transactions (commit/rollback), and robust error handling with PDOException modes.",
-        "keyConcepts": [
-          "PDO Prepared Statements",
-          "Transaction Isolation",
-          "SQL Injection Mitigation"
+        "code": "3.0 – 3.3",
+        "title": "PHP: Module 3: Secure Database Connectivity with PDO",
+        "shortTitle": "Secure Database with PDO",
+        "desc": "Robust database access using PDO: parameterized prepared statements, ACID transactions, and error handling.",
+        "sections": [
+          {
+            "id": "3.0",
+            "title": "3.0. Section 1 – PDO Connection DSN & Error Modes (ERRMODE_EXCEPTION)",
+            "summary": "Configuring PostgreSQL/MySQL DSN strings, connection pooling, and exception attributes."
+          },
+          {
+            "id": "3.1",
+            "title": "3.1. Section 2 – Prepared Statements & Parameter Binding",
+            "summary": "Eliminating SQL injection through parameterized bindValue/bindParam, and fetch object hydration."
+          },
+          {
+            "id": "3.2",
+            "title": "3.2. Section 3 – ACID Transaction Isolation & Rollback Handling",
+            "summary": "Atomic multi-table mutations, beginTransaction, commit, and catching PDOExceptions to rollback."
+          },
+          {
+            "id": "3.3",
+            "title": "3.3. Module 3 Completion – Secure Database Operations Test",
+            "summary": "Assessment testing SQL injection defenses, transaction boundaries, and prepared statement caching."
+          }
         ]
       },
       {
         "num": "04",
-        "tier": "Advanced",
-        "chapter": "PSR Standards Compliance & Modular Namespaces",
-        "desc": "Adopt PHP-FIG enterprise standards: PSR-4 class autoloading hierarchies, PSR-12 coding standard compliance, PSR-7 HTTP message abstractions, and PSR-15 HTTP server request handlers and middleware stacks.",
-        "keyConcepts": [
-          "PSR-4 Autoloading",
-          "PSR-7 HTTP Messages",
-          "PSR-15 Middleware"
+        "code": "4.0 – 4.3",
+        "title": "PHP: Module 4: PSR Standards Compliance & Modular Namespaces",
+        "shortTitle": "PSR Standards & Namespaces",
+        "desc": "Build interoperable enterprise backends: PSR-4 autoloading, PSR-7 HTTP messages, and PSR-15 middleware.",
+        "sections": [
+          {
+            "id": "4.0",
+            "title": "4.0. Section 1 – PSR-4 Autoloading Standard & Namespace Architecture",
+            "summary": "Mapping namespace hierarchies to file directories and eliminating manual require/include."
+          },
+          {
+            "id": "4.1",
+            "title": "4.1. Section 2 – PSR-7 HTTP Message Interfaces (Request / Response)",
+            "summary": "Immutable ServerRequestInterface, ResponseInterface, URI parsing, and stream bodies."
+          },
+          {
+            "id": "4.2",
+            "title": "4.2. Section 3 – PSR-15 HTTP Server Handlers & Middleware Pipelines",
+            "summary": "Building onion-architecture middleware pipelines (authentication, CORS, logging, compression)."
+          },
+          {
+            "id": "4.3",
+            "title": "4.3. Module 4 Completion – PSR Compliance & Standards Exam",
+            "summary": "Test evaluating autoloading resolution, immutable HTTP message transformations, and middleware chains."
+          }
         ]
       },
       {
         "num": "05",
-        "tier": "Advanced",
-        "chapter": "Enterprise Composer Architecture & Package Management",
-        "desc": "Manage enterprise dependencies: composer.json configuration, private Git repository hosting, semantic versioning constraints, autoloader optimization (composer dump-autoload -o), and custom Composer automation scripts.",
-        "keyConcepts": [
-          "Composer Optimization",
-          "Semantic Versioning",
-          "Private Package Repositories"
+        "code": "5.0 – 5.3",
+        "title": "PHP: Module 5: Enterprise Composer Architecture & Package Management",
+        "shortTitle": "Composer Architecture & Packages",
+        "desc": "Dependency management: composer.json schema, classmap optimization (-o), lock files, and semantic versioning.",
+        "sections": [
+          {
+            "id": "5.0",
+            "title": "5.0. Section 1 – composer.json Schema & Classmap Optimization (-o)",
+            "summary": "Managing require vs require-dev, optimizing the autoloader for production with dump-autoload -o."
+          },
+          {
+            "id": "5.1",
+            "title": "5.1. Section 2 – Semantic Version Constraints (^, ~) & Lock Files",
+            "summary": "Deterministic reproducible builds via composer.lock, version resolution, and security audits."
+          },
+          {
+            "id": "5.2",
+            "title": "5.2. Section 3 – Authoring & Publishing Custom Packagist Libraries",
+            "summary": "Package anatomy, creating reusable enterprise packages, and configuring private Git repositories."
+          },
+          {
+            "id": "5.3",
+            "title": "5.3. Module 5 Completion – Dependency Management & Composer Test",
+            "summary": "Assessment covering autoloader optimization benchmarks, version constraint solving, and package release."
+          }
         ]
       },
       {
         "num": "06",
-        "tier": "Advanced",
-        "chapter": "Custom Modular MVC Framework Engineering",
-        "desc": "Engineer a decoupled MVC framework: front controller pattern, attribute-based routing (#[Route('/api/v1/...')]), PSR-11 dependency injection container, and secure template rendering engines.",
-        "keyConcepts": [
-          "Front Controller",
-          "Attribute Routing",
-          "PSR-11 DI Container"
+        "code": "6.0 – 6.3",
+        "title": "PHP: Module 6: Custom Modular MVC Framework Engineering",
+        "shortTitle": "Custom MVC Framework Design",
+        "desc": "Engineer a decoupled MVC framework: front controller pattern, attribute routing, and PSR-11 DI container.",
+        "sections": [
+          {
+            "id": "6.0",
+            "title": "6.0. Section 1 – Front Controller Pattern & .htaccess URL Rewriting",
+            "summary": "Directing all HTTP traffic through public/index.php, request parsing, and environment loading."
+          },
+          {
+            "id": "6.1",
+            "title": "6.1. Section 2 – Attribute-Based Routing Engine & Controller Dispatch",
+            "summary": "Matching HTTP methods and URI paths with regex parameters to invoke controller actions."
+          },
+          {
+            "id": "6.2",
+            "title": "6.2. Section 3 – PSR-11 Dependency Injection Container & Reflection",
+            "summary": "Recursive constructor auto-wiring via ReflectionClass, service bindings, and singletons."
+          },
+          {
+            "id": "6.3",
+            "title": "6.3. Module 6 Completion – Custom MVC Framework Architecture Exam",
+            "summary": "Examination testing front controller routing, DI container auto-wiring, and MVC response flow."
+          }
         ]
       },
       {
         "num": "07",
-        "tier": "Expert",
-        "chapter": "PHP 8 JIT Compiler & OPcache Internal Optimization",
-        "desc": "Analyze low-level execution: OPcache shared memory buffers, opcode generation and caching, Tracing JIT compilation pipeline, compiling hot opcodes to native x86/ARM machine code, and server preloading (opcache.preload).",
-        "keyConcepts": [
-          "Tracing JIT Engine",
-          "OPcache Buffers",
-          "opcache.preload Preloading"
+        "code": "7.0 – 7.3",
+        "title": "PHP: Module 7: PHP 8 JIT Compiler & OPcache Internal Optimization",
+        "shortTitle": "PHP JIT Compiler & OPcache",
+        "desc": "Zend OPcache internals, bytecode optimization, Tracing JIT compilation, and opcache.preload configuration.",
+        "sections": [
+          {
+            "id": "7.0",
+            "title": "7.0. Section 1 – OPcache Bytecode Compilation & Memory Internals",
+            "summary": "How PHP caches AST opcode compilations in shared memory (SHM) to skip redundant parsing."
+          },
+          {
+            "id": "7.1",
+            "title": "7.1. Section 2 – Tracing JIT vs Function JIT Compilation Modes",
+            "summary": "Compiling hot opcode traces directly into machine code (x86_64) for CPU-bound computations."
+          },
+          {
+            "id": "7.2",
+            "title": "7.2. Section 3 – OPcache Preloading (opcache.preload) for Fast Boot",
+            "summary": "Compiling framework classes into permanent memory at server boot to achieve near-instant requests."
+          },
+          {
+            "id": "7.3",
+            "title": "7.3. Module 7 Completion – OPcache & JIT Compilation Assessment",
+            "summary": "Test covering shared memory tuning, JIT buffer sizing, and preloading script verification."
+          }
         ]
       },
       {
         "num": "08",
-        "tier": "Expert",
-        "chapter": "Fibers Concurrency & Asynchronous Event Loops",
-        "desc": "Harness lightweight cooperative multitasking: PHP 8.1+ Fiber primitives, asynchronous non-blocking event loops with ReactPHP / Amp, concurrent socket handling, and cooperative promise resolution.",
-        "keyConcepts": [
-          "PHP 8.1 Fibers",
-          "Non-blocking I/O",
-          "ReactPHP / Amp Event Loops"
+        "code": "8.0 – 8.3",
+        "title": "PHP: Module 8: Fibers Concurrency & Asynchronous Event Loops",
+        "shortTitle": "Fibers Concurrency & Event Loops",
+        "desc": "Non-blocking concurrency with PHP 8.1 Fibers (suspend/resume), streams, and async event loops with Revolt and ReactPHP.",
+        "sections": [
+          {
+            "id": "8.0",
+            "title": "8.0. Section 1 – PHP 8.1 Fibers Architecture (Suspend & Resume)",
+            "summary": "Full-stack coroutines, managing execution stack contexts, and cooperative multitasking."
+          },
+          {
+            "id": "8.1",
+            "title": "8.1. Section 2 – Non-Blocking I/O with Streams (stream_select)",
+            "summary": "Multiplexing network sockets without blocking the main process, timeout management."
+          },
+          {
+            "id": "8.2",
+            "title": "8.2. Section 3 – Async Concurrency with Revolt, ReactPHP & Amp",
+            "summary": "Building asynchronous HTTP clients, concurrent file reading, and event loop scheduling."
+          },
+          {
+            "id": "8.3",
+            "title": "8.3. Module 8 Completion – Asynchronous Execution & Fibers Exam",
+            "summary": "Assessment testing fiber stack switching, non-blocking socket loops, and async flow control."
+          }
         ]
       },
       {
         "num": "09",
-        "tier": "Expert",
-        "chapter": "High-Throughput Runtimes & Performance Profiling",
-        "desc": "Deploy long-running PHP applications with Swoole / RoadRunner (bypassing traditional CGI process restart overhead), request state isolation, and low-level memory profiling with Xdebug and Blackfire.",
-        "keyConcepts": [
-          "RoadRunner / Swoole Runtimes",
-          "State Isolation",
-          "Blackfire Profiling"
+        "code": "9.0 – 9.3",
+        "title": "PHP: Module 9: High-Throughput Runtimes & Performance Profiling",
+        "shortTitle": "High-Throughput Runtimes & Profiling",
+        "desc": "Eliminate traditional request lifecycle overhead: RoadRunner and Swoole application servers and profiling.",
+        "sections": [
+          {
+            "id": "9.0",
+            "title": "9.0. Section 1 – Persistent Worker Runtimes: RoadRunner & Swoole",
+            "summary": "Booting framework once in memory, processing thousands of requests per second with worker pools."
+          },
+          {
+            "id": "9.1",
+            "title": "9.1. Section 2 – Memory Leak Prevention in Long-Running PHP Daemons",
+            "summary": "Garbage collection cycles, clearing static caches, and unsetting circular references."
+          },
+          {
+            "id": "9.2",
+            "title": "9.2. Section 3 – Performance Bottleneck Profiling with Xdebug & Blackfire",
+            "summary": "Generating call graphs, memory allocation flame charts, and micro-optimizing critical paths."
+          },
+          {
+            "id": "9.3",
+            "title": "9.3. Module 9 Completion – PHP 8 Backend Master Certification Exam",
+            "summary": "Master certification examination evaluating persistent daemon runtimes and high-concurrency architectures."
+          }
         ]
       }
     ]
@@ -534,109 +3217,283 @@
     "categoryBadge": "TIER.02 // SERVER_DOTNET",
     "tier": "Server Tier",
     "icon": "fa-brands fa-windows text-blue-600",
-    "badgeColor": "bg-blue-100 text-blue-900 border-blue-300",
-    "title": ".NET / C# (ASP.NET Core Web APIs, Entity Framework Core, Dependency Injection, Middleware)",
-    "level": "LEVEL: PRODUCTION_READY",
+    "badgeColor": "bg-purple-100 text-purple-900 border-purple-300",
+    "title": ".NET / C# (ASP.NET Core Web APIs, Entity Framework Core, Dependency Injection)",
+    "level": "LEVEL: HIGH_THROUGHPUT_DISTRIBUTED",
     "duration": "52.0_HRS",
+    "specId": "DOTNET_9_KESTREL",
+    "trackBadge": ".NET 9",
     "summary": "Construct high-throughput distributed microservices and RESTful Web APIs on .NET 9 using Kestrel server pipelines, asynchronous EF Core query optimization, pipeline middleware, and native DI.",
-    "syllabus": [
+    "modules": [
       {
         "num": "01",
-        "tier": "Beginner",
-        "chapter": "Modern C# Syntax & Type System Foundations",
-        "desc": "Master modern C# features: value types vs reference types, immutable records and record structs, pattern matching expressions, nullable reference types, and asynchronous task foundations (Task, ValueTask, CancellationToken).",
-        "keyConcepts": [
-          "Records & Pattern Matching",
-          "Nullable Reference Types",
-          "ValueTask & CancellationTokens"
+        "code": "1.0 – 1.4",
+        "title": ".NET: Module 1: Modern C# Syntax & Type System Foundations",
+        "shortTitle": "Modern C# Syntax & Type System",
+        "desc": "Master modern C# features: value types vs reference types, immutable records, pattern matching, and nullable references.",
+        "sections": [
+          {
+            "id": "1.0",
+            "title": "1.0. Welcome to .NET 9 & CLR Runtime Architecture",
+            "summary": "Overview of Common Language Runtime (CLR), Common Intermediate Language (CIL), and modern C# 13."
+          },
+          {
+            "id": "1.1",
+            "title": "1.1. Section 1 – Value Types vs Reference Types & Memory Layout",
+            "summary": "Stack vs Heap allocation, structs vs classes, boxing/unboxing overhead, and readonly structs."
+          },
+          {
+            "id": "1.2",
+            "title": "1.2. Section 2 – Records, Pattern Matching & Positional Deconstruction",
+            "summary": "Record structs/classes, with-expressions, switch expressions, property patterns, and relational patterns."
+          },
+          {
+            "id": "1.3",
+            "title": "1.3. Section 3 – Nullable Reference Types & ValueTask<T> Async Basics",
+            "summary": "Compiler null-state analysis, null-forgiving operator (!), and zero-allocation ValueTask for synchronous returns."
+          },
+          {
+            "id": "1.4",
+            "title": "1.4. Module 1 Completion – Modern C# Language Fundamentals Test",
+            "summary": "Assessment covering stack/heap memory, pattern matching exhaustiveness, and null safety."
+          }
         ]
       },
       {
         "num": "02",
-        "tier": "Beginner",
-        "chapter": "ASP.NET Core Architecture & Host Bootstrap",
-        "desc": "Understand WebApplicationBuilder bootstrap, dependency injection service lifecycles (Transient, Scoped, Singleton), configuration providers (appsettings.json, environment variables), and the built-in ILogger pipeline.",
-        "keyConcepts": [
-          "WebApplicationBuilder",
-          "DI Lifecycles (Scoped/Singleton)",
-          "Configuration Providers"
+        "code": "2.0 – 2.4",
+        "title": ".NET: Module 2: ASP.NET Core Architecture & Host Bootstrap",
+        "shortTitle": "ASP.NET Core Host & DI Bootstrap",
+        "desc": "Understand WebApplicationBuilder bootstrap, dependency injection service lifetimes, and configuration providers.",
+        "sections": [
+          {
+            "id": "2.0",
+            "title": "2.0. Section 1 – WebApplicationBuilder & Host Configuration",
+            "summary": "Configuring Kestrel server options, environment-specific configs, and building the web application host."
+          },
+          {
+            "id": "2.1",
+            "title": "2.1. Section 2 – Native Dependency Injection: Scoped, Transient, Singleton",
+            "summary": "Service container registrations, captive dependency hazards, and IServiceScopeFactory disposal."
+          },
+          {
+            "id": "2.2",
+            "title": "2.2. Section 3 – Configuration Providers (appsettings.json, Env Vars)",
+            "summary": "Hierarchical configuration, strongly-typed Options pattern (IOptions<T>, IOptionsSnapshot<T>)."
+          },
+          {
+            "id": "2.3",
+            "title": "2.3. Section 4 – Structured Logging with Serilog & OpenTelemetry",
+            "summary": "Log event formatting, structured semantic tokens, and exporting distributed traces via OTLP."
+          },
+          {
+            "id": "2.4",
+            "title": "2.4. Module 2 Completion – Host Bootstrap & DI Lifecycle Exam",
+            "summary": "Evaluation testing DI scope validation, captive dependency detection, and configuration binding."
+          }
         ]
       },
       {
         "num": "03",
-        "tier": "Beginner",
-        "chapter": "Minimal APIs & Route Endpoint Binding",
-        "desc": "Build lightning-fast HTTP endpoints: route mapping, route groups, model binding from JSON/query/route parameters, data validation, and returning strongly-typed HTTP results using TypedResults (Ok, NotFound, Created).",
-        "keyConcepts": [
-          "Minimal APIs",
-          "Model Binding",
-          "TypedResults"
+        "code": "3.0 – 3.3",
+        "title": ".NET: Module 3: Minimal APIs & Route Endpoint Binding",
+        "shortTitle": "Minimal APIs & Route Endpoints",
+        "desc": "Build lightning-fast HTTP endpoints: route mapping, parameter binding, endpoint filters, and TypedResults.",
+        "sections": [
+          {
+            "id": "3.0",
+            "title": "3.0. Section 1 – Minimal API Route Handlers (app.MapGet, MapPost)",
+            "summary": "High-performance endpoint routing without controller overhead, lambda handlers, and route groups."
+          },
+          {
+            "id": "3.1",
+            "title": "3.1. Section 2 – Model Binding, Route Parameters & Validation",
+            "summary": "Binding from route, query, headers, and JSON body; integrating FluentValidation."
+          },
+          {
+            "id": "3.2",
+            "title": "3.2. Section 3 – Response Formatting with TypedResults & OpenAPI",
+            "summary": "Type-safe HTTP responses (Results.Ok, Results.NotFound), OpenAPI metadata, and Swagger generation."
+          },
+          {
+            "id": "3.3",
+            "title": "3.3. Module 3 Completion – Minimal APIs Architecture Test",
+            "summary": "Assessment covering route constraint matching, typed result union return types, and endpoint filters."
+          }
         ]
       },
       {
         "num": "04",
-        "tier": "Advanced",
-        "chapter": "Entity Framework Core 9 Query Optimization",
-        "desc": "Master EF Core data access: DbContext pooling, compiled LINQ queries, AsNoTracking read optimization, eager vs explicit vs lazy loading, split queries for 1:N relations, and code-first database migrations.",
-        "keyConcepts": [
-          "DbContext Pooling",
-          "AsNoTracking Optimization",
-          "Split Query Execution"
+        "code": "4.0 – 4.3",
+        "title": ".NET: Module 4: Entity Framework Core 9 Query Optimization",
+        "shortTitle": "EF Core 9 Query Optimization",
+        "desc": "Master EF Core data access: DbContext pooling, compiled LINQ queries, AsNoTracking, and split query execution.",
+        "sections": [
+          {
+            "id": "4.0",
+            "title": "4.0. Section 1 – DbContext Configuration, Pooling & Migrations",
+            "summary": "AddDbContextPool for high-throughput connection recycling, code-first migrations, and model caching."
+          },
+          {
+            "id": "4.1",
+            "title": "4.1. Section 2 – LINQ Queries, AsNoTracking & Compiled Queries",
+            "summary": "Eliminating change tracker overhead for read queries, and pre-compiled LINQ queries (EF.CompileQuery)."
+          },
+          {
+            "id": "4.2",
+            "title": "4.2. Section 3 – Split Queries, Batch Updates & Raw SQL Interpolation",
+            "summary": "Mitigating cartesian explosion via AsSplitQuery, ExecuteUpdate/ExecuteDelete batching, and FromSqlRaw."
+          },
+          {
+            "id": "4.3",
+            "title": "4.3. Module 4 Completion – EF Core 9 High-Performance Data Access",
+            "summary": "Test evaluating query plan diagnostics, change tracker performance, and database indexing."
+          }
         ]
       },
       {
         "num": "05",
-        "tier": "Advanced",
-        "chapter": "Custom Pipeline Middleware & Action Filters",
-        "desc": "Construct enterprise middleware: RequestDelegate pipelines, centralized exception handling middleware, distributed correlation ID tracking headers, endpoint action filters, and response compression.",
-        "keyConcepts": [
-          "RequestDelegate Pipeline",
-          "Centralized Exception Middleware",
-          "Correlation ID Logging"
+        "code": "5.0 – 5.3",
+        "title": ".NET: Module 5: Custom Pipeline Middleware & Action Filters",
+        "shortTitle": "Custom Middleware & Filters",
+        "desc": "Construct enterprise middleware: RequestDelegate pipelines, global exception handlers, and correlation logging.",
+        "sections": [
+          {
+            "id": "5.0",
+            "title": "5.0. Section 1 – RequestDelegate Middleware Execution Pipeline",
+            "summary": "The bidirectional HTTP pipeline, invoke next delegate, short-circuiting responses, and branch routes."
+          },
+          {
+            "id": "5.1",
+            "title": "5.1. Section 2 – Centralized Exception Handling Middleware",
+            "summary": "ProblemDetails standard (RFC 7807), exception interception, and hiding internal stack traces in prod."
+          },
+          {
+            "id": "5.2",
+            "title": "5.2. Section 3 – Correlation ID Propagation & Request Timing Headers",
+            "summary": "Injecting X-Correlation-ID into HttpContext and logging scopes for distributed microservice tracing."
+          },
+          {
+            "id": "5.3",
+            "title": "5.3. Module 5 Completion – HTTP Pipeline Middleware Assessment",
+            "summary": "Evaluation testing middleware order invariants, error masking, and correlation tracing."
+          }
         ]
       },
       {
         "num": "06",
-        "tier": "Advanced",
-        "chapter": "Clean Architecture & CQRS with MediatR",
-        "desc": "Architect enterprise microservices: Domain-Driven Design (DDD) layer separation, Command Query Responsibility Segregation (CQRS) using MediatR, pipeline validation behaviors with FluentValidation, and repository patterns.",
-        "keyConcepts": [
-          "Clean Architecture",
-          "CQRS with MediatR",
-          "Pipeline Validation Behaviors"
+        "code": "6.0 – 6.3",
+        "title": ".NET: Module 6: Clean Architecture & CQRS with MediatR",
+        "shortTitle": "Clean Architecture & CQRS",
+        "desc": "Architect enterprise microservices: Domain-Driven Design (DDD), CQRS commands/queries, and MediatR pipeline behaviors.",
+        "sections": [
+          {
+            "id": "6.0",
+            "title": "6.0. Section 1 – Clean Architecture Layers (Domain, App, Infra, Web)",
+            "summary": "Dependency inversion principle: domain entities at the core, decoupled persistence, and ports/adapters."
+          },
+          {
+            "id": "6.1",
+            "title": "6.1. Section 2 – CQRS Commands & Queries Separation with MediatR",
+            "summary": "Decoupling mutations from queries with IRequest and IRequestHandler interfaces for single responsibility."
+          },
+          {
+            "id": "6.2",
+            "title": "6.2. Section 3 – MediatR Pipeline Behaviors (Validation, Caching, Logging)",
+            "summary": "Cross-cutting concerns via IPipelineBehavior<TRequest, TResponse>, fluent validation decorators."
+          },
+          {
+            "id": "6.3",
+            "title": "6.3. Module 6 Completion – Enterprise Clean Architecture Exam",
+            "summary": "Test covering domain encapsulation, command/query separation, and pipeline behavior sequencing."
+          }
         ]
       },
       {
         "num": "07",
-        "tier": "Expert",
-        "chapter": "High-Performance Memory Engineering with Span & Memory",
-        "desc": "Zero-allocation memory mastery: Span<T>, ReadOnlySpan<char>, Memory<T>, stackalloc stack memory, zero-allocation string slicing, ArrayPool<T> buffer reuse, and avoiding garbage collection overhead.",
-        "keyConcepts": [
-          "Span<T> & Memory<T>",
-          "stackalloc",
-          "ArrayPool<T> Recycling"
+        "code": "7.0 – 7.3",
+        "title": ".NET: Module 7: High-Performance Memory Engineering with Span & Memory",
+        "shortTitle": "Zero-Allocation Memory & Span",
+        "desc": "Zero-allocation memory mastery: Span<T>, ReadOnlySpan<char>, stackalloc, and ArrayPool buffer recycling.",
+        "sections": [
+          {
+            "id": "7.0",
+            "title": "7.0. Section 1 – Span<T> and ReadOnlySpan<char> Zero-Copy Slicing",
+            "summary": "Ref structs on the stack, sub-string slicing without heap allocations, and contiguous memory access."
+          },
+          {
+            "id": "7.1",
+            "title": "7.1. Section 2 – stackalloc Memory Allocation & Safety Limits",
+            "summary": "Direct stack memory buffers for fast operations, avoiding Garbage Collection overhead completely."
+          },
+          {
+            "id": "7.2",
+            "title": "7.2. Section 3 – Buffer Pooling with ArrayPool<T>.Shared",
+            "summary": "Renting and returning byte buffers for high-volume network streams and file I/O operations."
+          },
+          {
+            "id": "7.3",
+            "title": "7.3. Module 7 Completion – Zero-Allocation Memory Engineering Test",
+            "summary": "Assessment covering Span ref struct lifetime rules, stackoverflow prevention, and pool returns."
+          }
         ]
       },
       {
         "num": "08",
-        "tier": "Expert",
-        "chapter": "Kestrel Web Server Tuning & HTTP/3 QUIC Protocol",
-        "desc": "Tune Kestrel for extreme throughput: socket transport layer configuration, connection pooling, thread pool starvation mitigation, HTTP/2 multiplexing, and configuring HTTP/3 over QUIC transport.",
-        "keyConcepts": [
-          "Kestrel Socket Transport",
-          "Thread Pool Tuning",
-          "HTTP/3 QUIC Protocol"
+        "code": "8.0 – 8.3",
+        "title": ".NET: Module 8: Kestrel Web Server Tuning & HTTP/3 QUIC Protocol",
+        "shortTitle": "Kestrel Tuning & HTTP/3 QUIC",
+        "desc": "Tune Kestrel for extreme throughput: socket transport layer, connection limits, and HTTP/3 QUIC protocol.",
+        "sections": [
+          {
+            "id": "8.0",
+            "title": "8.0. Section 1 – Kestrel Socket Transport & Connection Multiplexing",
+            "summary": "SocketsHttpHandler, epoll/kqueue IO loops, connection limits, and Keep-Alive timeouts."
+          },
+          {
+            "id": "8.1",
+            "title": "8.1. Section 2 – ThreadPool Tuning & Starvation Prevention",
+            "summary": "Configuring worker and I/O completion threads, avoiding sync-over-async deadlocks (.Result / .Wait())."
+          },
+          {
+            "id": "8.2",
+            "title": "8.2. Section 3 – HTTP/3 over QUIC UDP Transport Setup",
+            "summary": "Eliminating head-of-line blocking with UDP-based QUIC, multiplexed streams, and 0-RTT handshakes."
+          },
+          {
+            "id": "8.3",
+            "title": "8.3. Module 8 Completion – Kestrel Server Throughput & QUIC Exam",
+            "summary": "Examination testing socket transport benchmarks, thread starvation diagnostics, and QUIC packet flows."
+          }
         ]
       },
       {
         "num": "09",
-        "tier": "Expert",
-        "chapter": "CLR Internals, Garbage Collection & Native AOT",
-        "desc": "Explore runtime execution: Generational GC (Gen 0, 1, 2, LOH, POH), server vs workstation GC modes, JIT tiered compilation, and ahead-of-time (Native AOT) compilation producing lightning-fast native binary executables.",
-        "keyConcepts": [
-          "Generational GC (Gen 0/1/2/LOH)",
-          "Tiered JIT Compilation",
-          "Native AOT Compilation"
+        "code": "9.0 – 9.3",
+        "title": ".NET: Module 9: CLR Internals, Garbage Collection & Native AOT",
+        "shortTitle": "CLR Internals, GC & Native AOT",
+        "desc": "Explore runtime execution: Generational GC (Gen 0, 1, 2, LOH, POH), Tiered JIT compilation, and Native AOT compilation.",
+        "sections": [
+          {
+            "id": "9.0",
+            "title": "9.0. Section 1 – Generational Garbage Collection: Gen 0, 1, 2, LOH & POH",
+            "summary": "Ephemeron collector, Large Object Heap (LOH), Pinned Object Heap (POH), and Server vs Workstation GC."
+          },
+          {
+            "id": "9.1",
+            "title": "9.1. Section 2 – Tiered JIT Compilation & Dynamic PGO Optimization",
+            "summary": "QuickJit startup speed, Profile-Guided Optimization (PGO), and re-compiling hot methods with Tier 1."
+          },
+          {
+            "id": "9.2",
+            "title": "9.2. Section 3 – Native AOT Compilation for Instant Cold Starts",
+            "summary": "Ahead-of-Time native binary compilation, zero JIT overhead, minimal memory footprints, and trimmer warnings."
+          },
+          {
+            "id": "9.3",
+            "title": "9.3. Module 9 Completion – .NET 9 Enterprise Architect Certification",
+            "summary": "Master certification exam testing GC pressure reduction, native AOT compatibility, and runtime tuning."
+          }
         ]
       }
     ]
@@ -650,108 +3507,282 @@
     "tier": "Infrastructure",
     "icon": "fa-solid fa-network-wired text-emerald-600",
     "badgeColor": "bg-emerald-100 text-emerald-900 border-emerald-300",
-    "title": "DNS (Nameservers, A/AAAA/CNAME/MX/TXT records, Propagation, TTL, SSL/TLS handshake)",
-    "level": "LEVEL: PRODUCTION_READY",
+    "title": "DNS (Nameservers, A/AAAA/CNAME/MX/TXT records, Propagation, TTL, TLS 1.3)",
+    "level": "LEVEL: DISTRIBUTED_BACKBONE",
     "duration": "26.0_HRS",
-    "summary": "Demystify the distributed backbone of the global internet. Understand authoritative vs recursive nameservers, zone transfers, DNSSEC validation, global TTL propagation latencies, and TLS 1.3 cryptographic handshakes.",
-    "syllabus": [
+    "specId": "DNS_NETWORKING_RFC",
+    "trackBadge": "DNS RFC",
+    "summary": "Demystify the distributed backbone of the global internet: authoritative vs recursive nameservers, zone transfers, DNSSEC validation, global TTL propagation latencies, and TLS 1.3 cryptographic handshakes.",
+    "modules": [
       {
         "num": "01",
-        "tier": "Beginner",
-        "chapter": "Distributed DNS Architecture & Global Root Hierarchy",
-        "desc": "Understand the global resolution hierarchy: Root nameservers (A through M), Top-Level Domain (TLD) registries, authoritative vs recursive resolver nameservers, and tracing an end-to-end recursive lookup.",
-        "keyConcepts": [
-          "Root & TLD Servers",
-          "Authoritative vs Recursive",
-          "Iterative Lookup Traces"
+        "code": "1.0 – 1.4",
+        "title": "DNS: Module 1: Distributed DNS Architecture & Global Root Hierarchy",
+        "shortTitle": "Distributed DNS & Root Hierarchy",
+        "desc": "Understand the global resolution hierarchy: Root nameservers, TLDs, Authoritative vs Recursive resolvers, and lookups.",
+        "sections": [
+          {
+            "id": "1.0",
+            "title": "1.0. Welcome to DNS & Global Distributed Name Resolution",
+            "summary": "The architectural foundation of the internet: distributed namespace, RFC 1034/1035, and UDP port 53."
+          },
+          {
+            "id": "1.1",
+            "title": "1.1. Section 1 – The 13 Root Server Clusters & Top-Level Domains (TLDs)",
+            "summary": "Global root server clusters (A through M), Anycast distribution, generic TLDs (gTLDs), and country codes."
+          },
+          {
+            "id": "1.2",
+            "title": "1.2. Section 2 – Authoritative vs Recursive Resolver Functions",
+            "summary": "Recursive resolver caching layers (ISP/1.1.1.1/8.8.8.8) vs Authoritative zone custodians."
+          },
+          {
+            "id": "1.3",
+            "title": "1.3. Section 3 – Iterative Resolution Walkthrough with dig +trace",
+            "summary": "Tracing packet delegations from root (.) to TLD (.com) down to domain authoritative nameservers."
+          },
+          {
+            "id": "1.4",
+            "title": "1.4. Module 1 Completion – DNS Global Hierarchy Assessment",
+            "summary": "Assessment testing resolver recursion, delegation referrals, and dig packet analysis."
+          }
         ]
       },
       {
         "num": "02",
-        "tier": "Beginner",
-        "chapter": "Core Resource Records: A, AAAA, CNAME, MX & TXT",
-        "desc": "Master the fundamental DNS resource record types: A (IPv4) and AAAA (IPv6) host mappings, CNAME canonical alias chaining, MX mail exchanger routing priorities, and TXT generic data records.",
-        "keyConcepts": [
-          "A & AAAA Records",
-          "CNAME Chaining",
-          "MX Routing Priorities"
+        "code": "2.0 – 2.4",
+        "title": "DNS: Module 2: Core Resource Records: A, AAAA, CNAME, MX & TXT",
+        "shortTitle": "Core Resource Records (A/MX/TXT)",
+        "desc": "Master fundamental DNS resource record types: IPv4/IPv6 host addresses, canonical alias chains, and mail routing.",
+        "sections": [
+          {
+            "id": "2.0",
+            "title": "2.0. Section 1 – A (IPv4) & AAAA (IPv6) Host Address Records",
+            "summary": "Mapping fully qualified domain names (FQDN) directly to 32-bit IPv4 and 128-bit IPv6 network endpoints."
+          },
+          {
+            "id": "2.1",
+            "title": "2.1. Section 2 – CNAME Alias Records & Canonical Chain Limits",
+            "summary": "Aliasing domain names, the zone apex restriction (CNAME at root domain), and ALIAS/ANAME workarounds."
+          },
+          {
+            "id": "2.2",
+            "title": "2.2. Section 3 – MX Mail Routing Priorities & Server Fallback",
+            "summary": "Mail exchanger records, priority metric integers, fallback backup mail servers, and MX host FQDN rules."
+          },
+          {
+            "id": "2.3",
+            "title": "2.3. Section 4 – TXT Records for Domain Verification & Custom Metadata",
+            "summary": "Arbitrary text attributes, Google/Domain ownership challenges, and security policy containers."
+          },
+          {
+            "id": "2.4",
+            "title": "2.4. Module 2 Completion – Core DNS Records Configuration Exam",
+            "summary": "Comprehensive test evaluating record syntax, apex restrictions, and MX routing priorities."
+          }
         ]
       },
       {
         "num": "03",
-        "tier": "Beginner",
-        "chapter": "TTL Mechanics, Caching Layers & Propagation Dynamics",
-        "desc": "Deconstruct caching: Time-to-Live (TTL) countdown timers, recursive resolver caching layers, negative caching via SOA minimum TTL, and orchestrating zero-downtime DNS cutover migration strategies.",
-        "keyConcepts": [
-          "TTL Caching Expiration",
-          "SOA Minimum Negative Cache",
-          "Zero-Downtime DNS Cutovers"
+        "code": "3.0 – 3.3",
+        "title": "DNS: Module 3: TTL Mechanics, Caching Layers & Propagation Dynamics",
+        "shortTitle": "TTL Caching & Propagation",
+        "desc": "Deconstruct caching: Time-to-Live (TTL) countdown timers, recursive resolver cache eviction, and negative caching.",
+        "sections": [
+          {
+            "id": "3.0",
+            "title": "3.0. Section 1 – Time-To-Live (TTL) Seconds & Cache Eviction Timers",
+            "summary": "Authoritative TTL headers, intermediate cache countdowns, and balancing performance vs flexibility."
+          },
+          {
+            "id": "3.1",
+            "title": "3.1. Section 2 – Negative Caching & SOA Minimum TTL Records",
+            "summary": "Caching NXDOMAIN errors (RFC 2308), SOA minimum field, and preventing resolver denial-of-service."
+          },
+          {
+            "id": "3.2",
+            "title": "3.2. Section 3 – Zero-Downtime Migration Strategies & TTL Pre-Lowering",
+            "summary": "Pre-lowering TTL 48 hours prior to server IP cutover to guarantee immediate global traffic migration."
+          },
+          {
+            "id": "3.3",
+            "title": "3.3. Module 3 Completion – DNS Caching & Propagation Test",
+            "summary": "Assessment covering caching hierarchies, negative caching rules, and migration execution plans."
+          }
         ]
       },
       {
         "num": "04",
-        "tier": "Advanced",
-        "chapter": "Anycast BGP Routing & Edge Traffic Steering",
-        "desc": "Deploy resilient global DNS: BGP Anycast IP routing topology, latency-based geo-DNS routing, multi-CDN edge traffic steering, health-checking probes, and automated DNS failover during datacenter outages.",
-        "keyConcepts": [
-          "BGP Anycast Routing",
-          "Geo-DNS Latency Steering",
-          "Automated Health Failover"
+        "code": "4.0 – 4.3",
+        "title": "DNS: Module 4: Anycast BGP Routing & Edge Traffic Steering",
+        "shortTitle": "Anycast BGP & Geo-DNS Steering",
+        "desc": "Deploy resilient global DNS: BGP Anycast IP routing topology, latency-based Geo-DNS steering, and health checks.",
+        "sections": [
+          {
+            "id": "4.0",
+            "title": "4.0. Section 1 – Unicast vs BGP Anycast Single-IP Routing Topology",
+            "summary": "Announcing identical IP prefixes from 200+ PoPs via BGP, automatic shortest AS-path routing."
+          },
+          {
+            "id": "4.1",
+            "title": "4.1. Section 2 – Latency-Based Geo-DNS Steering & EDNS Client Subnet (ECS)",
+            "summary": "Routing clients to the closest edge server using EDNS0 client IP subnet information (RFC 7871)."
+          },
+          {
+            "id": "4.2",
+            "title": "4.2. Section 3 – Health Probing & Automated Failover DNS Routing",
+            "summary": "Continuous synthetic HTTP/ICMP health probes, withdrawing dead IP addresses within 30 seconds."
+          },
+          {
+            "id": "4.3",
+            "title": "4.3. Module 4 Completion – Global Edge Routing Assessment",
+            "summary": "Test evaluating BGP route propagation, Geo-DNS policy configuration, and automated failover."
+          }
         ]
       },
       {
         "num": "05",
-        "tier": "Advanced",
-        "chapter": "Enterprise Email Authentication: SPF, DKIM & DMARC",
-        "desc": "Harden email deliverability and prevent spoofing: SPF mechanism syntax (v=spf1), DKIM cryptographic public key TXT records, and DMARC enforcement policies (p=reject) with aggregate XML telemetry reporting.",
-        "keyConcepts": [
-          "SPF Verification",
-          "DKIM Public Keys",
-          "DMARC Enforcement (p=reject)"
+        "code": "5.0 – 5.3",
+        "title": "DNS: Module 5: Enterprise Email Authentication: SPF, DKIM & DMARC",
+        "shortTitle": "Email Security: SPF, DKIM & DMARC",
+        "desc": "Harden email deliverability and prevent spoofing: SPF mechanisms, DKIM public key signatures, and DMARC enforcement.",
+        "sections": [
+          {
+            "id": "5.0",
+            "title": "5.0. Section 1 – SPF (Sender Policy Framework) Mechanics & IP Includes",
+            "summary": "Specifying authorized mail server IPs (v=spf1), ip4, include mechanisms, and hard fail (-all)."
+          },
+          {
+            "id": "5.1",
+            "title": "5.1. Section 2 – DKIM (DomainKeys Identified Mail) Public Key Records",
+            "summary": "Asymmetric cryptography in email: selector TXT records, private key header signing, and public verification."
+          },
+          {
+            "id": "5.2",
+            "title": "5.2. Section 3 – DMARC Policy Enforcement (p=reject) & Forensic Reports",
+            "summary": "Aligning SPF and DKIM domains, quarantine vs reject policies, and aggregate rua reporting."
+          },
+          {
+            "id": "5.3",
+            "title": "5.3. Module 5 Completion – Email Security & Anti-Spoofing Exam",
+            "summary": "Examination testing SPF lookup limits (10 DNS lookups max), DKIM key rotation, and DMARC alignment."
+          }
         ]
       },
       {
         "num": "06",
-        "tier": "Advanced",
-        "chapter": "Encrypted Transport Protocols & TLS 1.3 Handshake",
-        "desc": "Secure name resolution against eavesdropping: DNS over HTTPS (DoH), DNS over TLS (DoT), privacy against ISP surveillance, and the modern TLS 1.3 1-RTT/0-RTT cryptographic key exchange handshake.",
-        "keyConcepts": [
-          "DNS over HTTPS (DoH)",
-          "DNS over TLS (DoT)",
-          "TLS 1.3 Handshake"
+        "code": "6.0 – 6.3",
+        "title": "DNS: Module 6: Encrypted Transport Protocols & TLS 1.3 Handshake",
+        "shortTitle": "Encrypted DNS & TLS 1.3 Handshake",
+        "desc": "Secure name resolution against eavesdropping: DNS over HTTPS (DoH), DNS over TLS (DoT), and TLS 1.3 handshakes.",
+        "sections": [
+          {
+            "id": "6.0",
+            "title": "6.0. Section 1 – DNS over HTTPS (DoH) & DNS over TLS (DoT) Architecture",
+            "summary": "Encrypting last-mile resolver queries via port 853 (DoT) and port 443 (DoH RFC 8484) against ISP snooping."
+          },
+          {
+            "id": "6.1",
+            "title": "6.1. Section 2 – TLS 1.3 1-RTT Handshake & Key Exchange (ECDHE)",
+            "summary": "Diffie-Hellman ephemeral key exchange, eliminating plaintext SNI snooping, and forward secrecy."
+          },
+          {
+            "id": "6.2",
+            "title": "6.2. Section 3 – Encrypted Client Hello (ECH) & Server Name Indication",
+            "summary": "Next-generation cryptographic privacy preventing on-path observers from seeing visited domain names."
+          },
+          {
+            "id": "6.3",
+            "title": "6.3. Module 6 Completion – Secure Transport Protocols Assessment",
+            "summary": "Assessment covering DoH binary wire format, TLS certificate validation, and ECH key distribution."
+          }
         ]
       },
       {
         "num": "07",
-        "tier": "Expert",
-        "chapter": "DNSSEC Cryptographic Zone Signing & Trust Chains",
-        "desc": "Protect against cache poisoning (Kaminsky attacks): asymmetric cryptographic signing, RRSIG signature records, DNSKEY public keys, DS delegation signer records, and root trust anchor validation.",
-        "keyConcepts": [
-          "DNSSEC Trust Anchors",
-          "RRSIG & DNSKEY Records",
-          "Kaminsky Attack Mitigation"
+        "code": "7.0 – 7.3",
+        "title": "DNS: Module 7: DNSSEC Cryptographic Zone Signing & Trust Chains",
+        "shortTitle": "DNSSEC Zone Signing & Trust Chains",
+        "desc": "Protect against cache poisoning (Kaminsky attacks): asymmetric signatures (RRSIG), DNSKEY, and DS record trust chains.",
+        "sections": [
+          {
+            "id": "7.0",
+            "title": "7.0. Section 1 – Cache Poisoning Attacks (Kaminsky) & DNSSEC Defenses",
+            "summary": "Vulnerabilities of classic DNS spoofing, transaction ID guessing, and cryptographic proof of authenticity."
+          },
+          {
+            "id": "7.1",
+            "title": "7.1. Section 2 – RRSIG Signatures, DNSKEY Public Keys & DS Hashes",
+            "summary": "Zone Signing Keys (ZSK), Key Signing Keys (KSK), signing resource record sets (RRsets), and DS digests."
+          },
+          {
+            "id": "7.2",
+            "title": "7.2. Section 3 – Cryptographic Chain of Trust from Root to Leaf",
+            "summary": "Validating signatures upward to the IANA Root trust anchor, NSEC/NSEC3 authenticated denial of existence."
+          },
+          {
+            "id": "7.3",
+            "title": "7.3. Module 7 Completion – DNSSEC Cryptographic Signing Test",
+            "summary": "Test evaluating KSK rollovers, validating resolver verification logs, and NSEC3 hash collisions."
+          }
         ]
       },
       {
         "num": "08",
-        "tier": "Expert",
-        "chapter": "BIND9 Zone File Authoring & Secure Zone Transfers",
-        "desc": "Enterprise nameserver operations: RFC 1035 zone file syntax, SOA serial increment automation (YYYYMMDDNN), authoritative AXFR (full) and IXFR (incremental) zone transfer security with TSIG shared keys.",
-        "keyConcepts": [
-          "RFC 1035 Zone Files",
-          "AXFR & IXFR Transfers",
-          "TSIG Shared Key Auth"
+        "code": "8.0 – 8.3",
+        "title": "DNS: Module 8: BIND9 Zone File Authoring & Secure Zone Transfers",
+        "shortTitle": "BIND9 Zone Files & Zone Transfers",
+        "desc": "Enterprise nameserver operations: RFC 1035 zone file syntax, SOA serial number conventions, AXFR/IXFR, and TSIG keys.",
+        "sections": [
+          {
+            "id": "8.0",
+            "title": "8.0. Section 1 – RFC 1035 Zone File Syntax & SOA Serial Number Rules",
+            "summary": "Start of Authority (SOA) parameters: primary nameserver, admin email, refresh, retry, expire, and YYYYMMDDNN serials."
+          },
+          {
+            "id": "8.1",
+            "title": "8.1. Section 2 – AXFR Full & IXFR Incremental Zone Transfers",
+            "summary": "Synchronizing secondary nameservers over TCP port 53, zone serial comparisons, and transfer logs."
+          },
+          {
+            "id": "8.2",
+            "title": "8.2. Section 3 – TSIG Transaction Signature Shared Key Security",
+            "summary": "Authenticating primary-secondary communications with HMAC-SHA256 secret keys to prevent rogue zone injection."
+          },
+          {
+            "id": "8.3",
+            "title": "8.3. Module 8 Completion – Authoritative Zone Authoring Exam",
+            "summary": "Assessment covering BIND9 syntax errors, named-checkzone diagnostics, and secure transfer configs."
+          }
         ]
       },
       {
         "num": "09",
-        "tier": "Expert",
-        "chapter": "Certificate Authority Authorization & Low-Level Protocols",
-        "desc": "Advanced security and low-level protocol engineering: RFC 8659 CAA record restrictions (certificate authority pinning), parsing raw binary DNS UDP/TCP wire format packets, and building custom DNS servers.",
-        "keyConcepts": [
-          "CAA Certificate Pinning",
-          "DNS Wire Format Packets",
-          "Custom DNS Proxy Servers"
+        "code": "9.0 – 9.3",
+        "title": "DNS: Module 9: Certificate Authority Authorization & Low-Level Protocols",
+        "shortTitle": "CAA Records & Low-Level Protocols",
+        "desc": "Advanced security and low-level protocol engineering: RFC 8659 CAA records, DNS binary wire format, and proxy servers.",
+        "sections": [
+          {
+            "id": "9.0",
+            "title": "9.0. Section 1 – CAA Records for SSL/TLS Issuer Restriction",
+            "summary": "Restricting authorized Certificate Authorities (issue/issuewild), incident reporting (iodef), and rogue cert prevention."
+          },
+          {
+            "id": "9.1",
+            "title": "9.1. Section 2 – DNS Binary Wire Format Packets (UDP 512b & TCP Fallback)",
+            "summary": "Header bit flags (QR, Opcode, AA, TC, RD, RA, RCODE), question/answer sections, and EDNS0 buffer expansion."
+          },
+          {
+            "id": "9.2",
+            "title": "9.2. Section 3 – Writing Custom DNS Proxies in Rust/Go",
+            "summary": "Parsing UDP datagrams, implementing in-memory bloom filter ad-blockers, and upstream forwarding."
+          },
+          {
+            "id": "9.3",
+            "title": "9.3. Module 9 Completion – DNS & Internet Infrastructure Master Certification",
+            "summary": "Master certification examination covering binary wire packet inspection and enterprise DNS architectures."
+          }
         ]
       }
     ]
@@ -764,109 +3795,283 @@
     "categoryBadge": "TIER.03 // CLOUD_DEVOPS",
     "tier": "Infrastructure",
     "icon": "fa-solid fa-server text-purple-600",
-    "badgeColor": "bg-purple-100 text-purple-900 border-purple-300",
-    "title": "Web Hosting & DevOps (Linux/Nginx configuration, Apache vhosts, Docker containers, CI/CD pipelines, SSL provisioning)",
-    "level": "LEVEL: PRODUCTION_READY",
+    "badgeColor": "bg-fuchsia-100 text-fuchsia-900 border-fuchsia-300",
+    "title": "Web Hosting & DevOps (Linux/Nginx, Apache vhosts, Docker, CI/CD, SSL)",
+    "level": "LEVEL: CLOUD_PRODUCTION_INFRA",
     "duration": "50.0_HRS",
-    "summary": "Orchestrate zero-downtime production environments through hardened Linux kernels, high-concurrency Nginx reverse proxy tuning, multi-stage Docker container builds, automated GitHub Actions CI/CD pipelines, and Let's Encrypt automated ACME SSL provisioning.",
-    "syllabus": [
+    "specId": "DEVOPS_CONTAINERS_CI",
+    "trackBadge": "DEVOPS",
+    "summary": "Orchestrate zero-downtime production environments through hardened Linux kernels, high-concurrency Nginx reverse proxy tuning, multi-stage Docker builds, automated GitHub Actions CI/CD, and ACME SSL.",
+    "modules": [
       {
         "num": "01",
-        "tier": "Beginner",
-        "chapter": "Linux Server Administration & Hardening Essentials",
-        "desc": "Core server administration: SSH public key authentication, Linux user permissions (chmod, chown, sudoers), systemd service management (systemctl, journalctl), and firewall configuration with UFW / firewalld.",
-        "keyConcepts": [
-          "SSH Hardening",
-          "systemd Service Daemons",
-          "UFW / Firewalld Rules"
+        "code": "1.0 – 1.4",
+        "title": "DevOps: Module 1: Linux Server Administration & Hardening Essentials",
+        "shortTitle": "Linux Server Hardening Essentials",
+        "desc": "Core server administration: SSH public key authentication, Linux user permissions, systemd service daemons, and firewalls.",
+        "sections": [
+          {
+            "id": "1.0",
+            "title": "1.0. Welcome to Linux Server Administration & DevOps Engineering",
+            "summary": "Linux kernel architecture, user space vs kernel space, file system hierarchy (FHS), and POSIX security."
+          },
+          {
+            "id": "1.1",
+            "title": "1.1. Section 1 – User Privilege Separation, Sudoers & SSH Key Hardening",
+            "summary": "Disabling root password login, Ed25519 SSH keys, configuring /etc/sudoers.d, and sshd_config hardening."
+          },
+          {
+            "id": "1.2",
+            "title": "1.2. Section 2 – Systemd Service Daemons & Journalctl Log Analysis",
+            "summary": "Writing custom .service unit files, restart policies (on-failure), timers, and querying system logs with journalctl."
+          },
+          {
+            "id": "1.3",
+            "title": "1.3. Section 3 – UFW & Iptables Firewall Security Rules",
+            "summary": "Default drop policy, rate-limiting SSH connections, and opening ports 80/443 with Uncomplicated Firewall."
+          },
+          {
+            "id": "1.4",
+            "title": "1.4. Module 1 Completion – Linux Server Administration Assessment",
+            "summary": "Assessment covering systemd service orchestration, permission modes (chmod/chown), and firewall validation."
+          }
         ]
       },
       {
         "num": "02",
-        "tier": "Beginner",
-        "chapter": "Web Server Foundations: Nginx & Apache Virtual Hosts",
-        "desc": "Host web applications: static asset serving, Nginx server blocks vs Apache virtual hosts, MIME types, directory index routing, and crafting custom HTTP error response pages.",
-        "keyConcepts": [
-          "Nginx Server Blocks",
-          "Apache Virtual Hosts",
-          "MIME Type Handling"
+        "code": "2.0 – 2.4",
+        "title": "DevOps: Module 2: Web Server Foundations: Nginx & Apache Virtual Hosts",
+        "shortTitle": "Web Server Foundations (Nginx/Apache)",
+        "desc": "Host web applications: static asset serving, Nginx server blocks, Apache VirtualHosts, .htaccess, and MIME types.",
+        "sections": [
+          {
+            "id": "2.0",
+            "title": "2.0. Section 1 – Nginx Architecture (Event-Driven vs Process-Per-Connection)",
+            "summary": "Master/worker process model, asynchronous non-blocking event loops, and handling 10,000+ concurrent connections."
+          },
+          {
+            "id": "2.1",
+            "title": "2.1. Section 2 – Server Blocks, Locations & Static Asset Caching",
+            "summary": "Location block regex matching precedence, root vs alias, try_files directives, and Cache-Control headers."
+          },
+          {
+            "id": "2.2",
+            "title": "2.2. Section 3 – Apache VirtualHosts, .htaccess Rules & Mod_Rewrite",
+            "summary": "Configuring Apache vhosts, directory permissions (AllowOverride), and URL rewriting rules."
+          },
+          {
+            "id": "2.3",
+            "title": "2.3. Section 4 – MIME Types, Gzip & Brotli Compression Tuning",
+            "summary": "Text/binary MIME mappings, tuning gzip_comp_level, and Brotli dynamic stream compression."
+          },
+          {
+            "id": "2.4",
+            "title": "2.4. Module 2 Completion – Web Server Virtual Hosting Exam",
+            "summary": "Comprehensive test evaluating server block routing, location precedence rules, and compression headers."
+          }
         ]
       },
       {
         "num": "03",
-        "tier": "Beginner",
-        "chapter": "Automated SSL Provisioning with Let's Encrypt & Certbot",
-        "desc": "Implement ubiquitous HTTPS: ACME protocol automation, Certbot client operations, HTTP-01 vs DNS-01 verification challenges, and configuring automated systemd timers for zero-touch SSL certificate renewal.",
-        "keyConcepts": [
-          "ACME Protocol",
-          "Certbot Automation",
-          "Systemd Renewal Timers"
+        "code": "3.0 – 3.3",
+        "title": "DevOps: Module 3: Automated SSL Provisioning with Let's Encrypt & Certbot",
+        "shortTitle": "Automated SSL with Let's Encrypt",
+        "desc": "Implement ubiquitous HTTPS: ACME protocol automation, Certbot CLI, automated certificate renewal, and TLS 1.3.",
+        "sections": [
+          {
+            "id": "3.0",
+            "title": "3.0. Section 1 – ACME Protocol Fundamentals & Challenge Types (HTTP-01, DNS-01)",
+            "summary": "Automated Certificate Management Environment (ACME), cryptographic challenge verification, and SAN certs."
+          },
+          {
+            "id": "3.1",
+            "title": "3.1. Section 2 – Certbot CLI Automation & Nginx Configuration Injection",
+            "summary": "Running certbot --nginx, automated SSL block generation, and strong DH parameter generation."
+          },
+          {
+            "id": "3.2",
+            "title": "3.2. Section 3 – Automated Certificate Renewal with Systemd Timers & Reloads",
+            "summary": "Scheduling dry-run renewals, post-renewal hooks (nginx -s reload), and monitoring expiration alerts."
+          },
+          {
+            "id": "3.3",
+            "title": "3.3. Module 3 Completion – HTTPS & Automated SSL Assessment",
+            "summary": "Assessment covering ACME HTTP-01 token placement, renewal hook scripts, and SSL Labs A+ rating checks."
+          }
         ]
       },
       {
         "num": "04",
-        "tier": "Advanced",
-        "chapter": "Nginx High-Concurrency Reverse Proxy Tuning",
-        "desc": "Scale high-traffic gateways: upstream load balancing algorithms (round-robin, least_conn, ip_hash), fastcgi/proxy micro-caching, gzip and brotli compression, rate limiting with leaky bucket, and connection keep-alives.",
-        "keyConcepts": [
-          "Upstream Load Balancing",
-          "Proxy Micro-Caching",
-          "Leaky Bucket Rate Limiting"
+        "code": "4.0 – 4.3",
+        "title": "DevOps: Module 4: Nginx High-Concurrency Reverse Proxy Tuning",
+        "shortTitle": "Nginx Reverse Proxy & Load Balancing",
+        "desc": "Scale high-traffic gateways: upstream load balancing algorithms, proxy micro-caching, and leaky bucket rate limiting.",
+        "sections": [
+          {
+            "id": "4.0",
+            "title": "4.0. Section 1 – Reverse Proxy Configuration & Upstream Load Balancing",
+            "summary": "proxy_pass directives, HTTP header forwarding (X-Forwarded-For), and algorithms (round_robin, least_conn, ip_hash)."
+          },
+          {
+            "id": "4.1",
+            "title": "4.1. Section 2 – FastCGI Caching & Proxy Micro-Caching",
+            "summary": "In-memory caching of dynamic PHP/Node responses for 1 second to withstand massive traffic spikes (Slashdot effect)."
+          },
+          {
+            "id": "4.2",
+            "title": "4.2. Section 3 – Leaky Bucket Rate Limiting (limit_req_zone) against DDoS",
+            "summary": "Defining rate limit zones, burst buffers, nodelay directives, and blocking abusive scraper IP ranges."
+          },
+          {
+            "id": "4.3",
+            "title": "4.3. Module 4 Completion – Reverse Proxy Architecture Exam",
+            "summary": "Test evaluating upstream connection pooling, micro-cache bypass headers, and rate limiting rules."
+          }
         ]
       },
       {
         "num": "05",
-        "tier": "Advanced",
-        "chapter": "Docker Containerization & Multi-Stage Builds",
-        "desc": "Containerize enterprise workloads: Dockerfile optimization, layer caching, multi-stage builds producing minimal images, non-root user security execution, and multi-container Docker Compose networks.",
-        "keyConcepts": [
-          "Multi-Stage Dockerfiles",
-          "Layer Cache Optimization",
-          "Non-Root Security"
+        "code": "5.0 – 5.3",
+        "title": "DevOps: Module 5: Docker Containerization & Multi-Stage Builds",
+        "shortTitle": "Docker & Multi-Stage Container Builds",
+        "desc": "Containerize enterprise workloads: Dockerfile optimization, layer caching, non-root security, and Docker Compose orchestration.",
+        "sections": [
+          {
+            "id": "5.0",
+            "title": "5.0. Section 1 – Docker Engine Architecture, Namespaces & Cgroups",
+            "summary": "Linux kernel primitives: PID/Network namespaces, cgroup resource limits (CPU/Memory), and overlay2 storage."
+          },
+          {
+            "id": "5.1",
+            "title": "5.1. Section 2 – Multi-Stage Dockerfile Optimization & Minimal Base Images",
+            "summary": "Separating compile-time SDK tools from runtime production images (Alpine/Distroless) to reduce sizes by 90%."
+          },
+          {
+            "id": "5.2",
+            "title": "5.2. Section 3 – Container Security: Non-Root Users & Read-Only Filesystems",
+            "summary": "Creating unprivileged appuser accounts, drop Linux capabilities, and mounting ephemeral volume mounts."
+          },
+          {
+            "id": "5.3",
+            "title": "5.3. Module 5 Completion – Docker Containerization Test",
+            "summary": "Assessment covering Docker layer cache optimization, multi-stage artifact extraction, and container security."
+          }
         ]
       },
       {
         "num": "06",
-        "tier": "Advanced",
-        "chapter": "Automated CI/CD Pipelines with GitHub Actions",
-        "desc": "Automate delivery pipelines: GitHub Actions workflow YAML syntax, matrix testing builds, secret management, container registry publishing, and automated zero-downtime SSH deployment scripts.",
-        "keyConcepts": [
-          "GitHub Actions Workflows",
-          "Secrets Management",
-          "Automated Registry Pushes"
+        "code": "6.0 – 6.3",
+        "title": "DevOps: Module 6: Automated CI/CD Pipelines with GitHub Actions",
+        "shortTitle": "CI/CD with GitHub Actions",
+        "desc": "Automate delivery pipelines: GitHub Actions workflow YAML syntax, automated test suites, secrets management, and deployments.",
+        "sections": [
+          {
+            "id": "6.0",
+            "title": "6.0. Section 1 – GitHub Actions Workflow Syntax, Triggers & Runners",
+            "summary": "Configuring on: [push, pull_request], hosted ubuntu-latest runners, and concurrency group cancellation."
+          },
+          {
+            "id": "6.1",
+            "title": "6.1. Section 2 – Automated Testing, Linting & Build Matrix Execution",
+            "summary": "Parallel test execution across Node/PHP/Python versions using strategy: matrix, and caching node_modules."
+          },
+          {
+            "id": "6.2",
+            "title": "6.2. Section 3 – Secure Secrets Injection & Container Registry Push",
+            "summary": "GitHub Encrypted Secrets, OpenID Connect (OIDC) cloud authentication, and pushing to Docker Hub / GHCR."
+          },
+          {
+            "id": "6.3",
+            "title": "6.3. Module 6 Completion – Continuous Integration & Delivery Assessment",
+            "summary": "Test covering YAML pipeline syntax, artifact passing between jobs, and production deployment gating."
+          }
         ]
       },
       {
         "num": "07",
-        "tier": "Expert",
-        "chapter": "Linux Kernel Performance & TCP Socket Optimization",
-        "desc": "Tune operating system limits: sysctl.conf network parameters, TCP BBR congestion control algorithm, mitigating ephemeral port exhaustion, and epoll file descriptor limits (ulimit -n) for 100k+ concurrent sockets.",
-        "keyConcepts": [
-          "sysctl.conf Socket Tuning",
-          "TCP BBR Congestion Control",
-          "epoll ulimit Tuning"
+        "code": "7.0 – 7.3",
+        "title": "DevOps: Module 7: Linux Kernel Performance & TCP Socket Optimization",
+        "shortTitle": "Kernel Performance & TCP Sockets",
+        "desc": "Tune operating system limits: sysctl.conf network parameters, TCP BBR congestion control, and file descriptor limits.",
+        "sections": [
+          {
+            "id": "7.0",
+            "title": "7.0. Section 1 – sysctl.conf Network Tuning (somaxconn, tcp_max_syn_backlog)",
+            "summary": "Expanding the TCP listen backlog, enabling TCP SYN cookies, and preventing packet drops during traffic surges."
+          },
+          {
+            "id": "7.1",
+            "title": "7.1. Section 2 – TCP BBR Congestion Control Protocol Enablement",
+            "summary": "Replacing legacy CUBIC with Google BBR model-based congestion control for higher throughput and lower latency."
+          },
+          {
+            "id": "7.2",
+            "title": "7.2. Section 3 – File Descriptor Limits (ulimit -n) & Epoll Concurrency",
+            "summary": "Tuning /etc/security/limits.conf (nofile 65535) and worker_rlimit_nofile for high-scale reverse proxies."
+          },
+          {
+            "id": "7.3",
+            "title": "7.3. Module 7 Completion – Kernel & Socket Performance Test",
+            "summary": "Assessment testing sysctl parameter benchmarking, TIME_WAIT socket recycling, and ulimit configurations."
+          }
         ]
       },
       {
         "num": "08",
-        "tier": "Expert",
-        "chapter": "Zero-Downtime Deployment & Traffic Rollouts",
-        "desc": "Orchestrate zero-downtime upgrades: Blue/Green deployments, Canary rollouts with weighted Nginx upstreams, health-check gating, database migration rollback strategies, and graceful Nginx reloads (nginx -s reload).",
-        "keyConcepts": [
-          "Blue/Green Deployments",
-          "Canary Rollouts",
-          "Graceful Process Reloads"
+        "code": "8.0 – 8.3",
+        "title": "DevOps: Module 8: Zero-Downtime Deployment & Traffic Rollouts",
+        "shortTitle": "Zero-Downtime Deployments & Rollouts",
+        "desc": "Orchestrate zero-downtime upgrades: Blue/Green deployments, Canary traffic weighting, and graceful process reloading.",
+        "sections": [
+          {
+            "id": "8.0",
+            "title": "8.0. Section 1 – Blue/Green Deployment Topology & Load Balancer Switching",
+            "summary": "Maintaining duplicate identical production clusters, running smoke tests on Green, and flipping upstream router."
+          },
+          {
+            "id": "8.1",
+            "title": "8.1. Section 2 – Canary Releases & Weighted Traffic Routing",
+            "summary": "Routing 5% of production traffic to the new version, monitoring error rate metrics, and expanding rollout."
+          },
+          {
+            "id": "8.2",
+            "title": "8.2. Section 3 – Graceful Application Process Reloads without Dropping Conns",
+            "summary": "Nginx master binary upgrade (USR2 signal) and Node/Gunicorn graceful shutdown (SIGTERM waiting for requests)."
+          },
+          {
+            "id": "8.3",
+            "title": "8.3. Module 8 Completion – Zero-Downtime Deployment Exam",
+            "summary": "Evaluation testing health check circuit breakers, zero-drop reload validation, and automated rollback triggers."
+          }
         ]
       },
       {
         "num": "09",
-        "tier": "Expert",
-        "chapter": "Enterprise Container Hardening & Telemetry Monitoring",
-        "desc": "Secure and observe production clusters: Distroless / Scratch minimal attack-surface base images, CVE vulnerability scanning with Trivy, Prometheus metrics scraping endpoints, and centralized Grafana/Loki logging.",
-        "keyConcepts": [
-          "Distroless Containers",
-          "Trivy CVE Scanning",
-          "Prometheus & Loki Monitoring"
+        "code": "9.0 – 9.3",
+        "title": "DevOps: Module 9: Enterprise Container Hardening & Telemetry Monitoring",
+        "shortTitle": "Container Hardening & Telemetry",
+        "desc": "Secure and observe production clusters: Distroless containers, Trivy CVE vulnerability scans, and Prometheus/Grafana monitoring.",
+        "sections": [
+          {
+            "id": "9.0",
+            "title": "9.0. Section 1 – Distroless & Scratch Containers for CVE Attack Surface Reduction",
+            "summary": "Stripping package managers, shells, and utilities from container images so attackers cannot execute commands."
+          },
+          {
+            "id": "9.1",
+            "title": "9.1. Section 2 – Container Vulnerability Scanning with Trivy in CI",
+            "summary": "Automated vulnerability scanning in pull requests, blocking builds with Critical/High CVE disclosures."
+          },
+          {
+            "id": "9.2",
+            "title": "9.2. Section 3 – Telemetry Collection with Prometheus, Grafana & Loki",
+            "summary": "Scraping application metrics (RED method: Rate, Errors, Duration), log aggregation, and real-time alerts."
+          },
+          {
+            "id": "9.3",
+            "title": "9.3. Module 9 Completion – Cloud Infrastructure & DevOps Master Certification",
+            "summary": "Master certification examination covering zero-trust container security, Prometheus metrics, and automated alerts."
+          }
         ]
       }
     ]
@@ -874,115 +4079,852 @@
 ];
 
   // ═══════════════════════════════════════════════════════════════════
-  // 2. AUDIO SYNTHESIZER (DISCRETE OS CLICKS)
+  // 4. CODE SAMPLES & RUNTIME EXECUTOR
   // ═══════════════════════════════════════════════════════════════════
-  let audioCtx = null;
-  let soundEnabled = true;
+// Code samples and console outputs for all 7 tracks
 
-  function initAudio() {
-    if (!audioCtx) {
-      const AudioClass = window.AudioContext || window.webkitAudioContext;
-      if (AudioClass) audioCtx = new AudioClass();
+function getTrackCodeSample(trackId, moduleNum, sectionId, secTitle) {
+  if (trackId === 'javascript') {
+    if (moduleNum === '01') {
+      return '// JavaScript Essentials 1: Section ' + sectionId + ' - ' + secTitle + '\n' +
+        'console.log("Welcome to JavaScript Essentials 1!");\n' +
+        'console.log("Environment: Ready. Execution Context: Active.");\n' +
+        'console.log("Status: Hello, World! program executed successfully.");';
+    } else if (moduleNum === '02') {
+      return '// Variable declarations and dynamic type casting\n' +
+        'let userRole = "Software Engineer";\n' +
+        'const version = 1.0;\n' +
+        'let isVerified = Boolean(userRole);\n' +
+        'console.log("Variable:", userRole, "Type:", typeof userRole);\n' +
+        'console.log("Type Casting Check:", isVerified);';
+    } else if (moduleNum === '03') {
+      return '// Operator precedence and user interaction\n' +
+        'let price = 49.99;\n' +
+        'let quantity = 3;\n' +
+        'let total = price * quantity;\n' +
+        'let isFreeShipping = total > 100;\n' +
+        'console.log("Total: $" + total.toFixed(2), "Free Shipping:", isFreeShipping);';
+    } else if (moduleNum === '04') {
+      return '// Control flow conditional iterations\n' +
+        'let counter = 0;\n' +
+        'while (counter < 3) {\n' +
+        '  counter++;\n' +
+        '  console.log("Loop iteration", counter, "executing conditional logic.");\n' +
+        '}';
+    } else if (moduleNum === '05') {
+      return '// Function declarations and invocation call stack\n' +
+        'function calculateSquare(num) {\n' +
+        '  return num * num;\n' +
+        '}\n' +
+        'const result = calculateSquare(8);\n' +
+        'console.log("Function Return Output:", result);';
+    } else {
+      return '// Structured exception handling\n' +
+        'try {\n' +
+        '  console.log("Diagnosing runtime execution...");\n' +
+        '  console.log("Diagnostics pass: 0 errors detected.");\n' +
+        '} catch (err) {\n' +
+        '  console.error("Intercepted exception:", err.message);\n' +
+        '}';
     }
-    if (audioCtx && audioCtx.state === 'suspended') audioCtx.resume();
   }
 
-  function playOsClick(freq = 750, duration = 0.035) {
-    if (!soundEnabled) return;
-    try {
-      initAudio();
-      if (!audioCtx) return;
-      const osc = audioCtx.createOscillator();
-      const gain = audioCtx.createGain();
-      osc.type = 'triangle';
-      osc.frequency.setValueAtTime(freq, audioCtx.currentTime);
-      gain.gain.setValueAtTime(0.04, audioCtx.currentTime);
-      gain.gain.exponentialRampToValueAtTime(0.0001, audioCtx.currentTime + duration);
-      osc.connect(gain);
-      gain.connect(audioCtx.destination);
-      osc.start();
-      osc.stop(audioCtx.currentTime + duration);
-    } catch (e) {}
+  if (trackId === 'typescript') {
+    if (moduleNum === '01') {
+      return '// TypeScript: ' + secTitle + '\n' +
+        'interface UserProfile {\n' +
+        '  readonly id: string;\n' +
+        '  name: string;\n' +
+        '  role: "admin" | "engineer" | "guest";\n' +
+        '}\n\n' +
+        'const currentDev: UserProfile = {\n' +
+        '  id: "usr_9981",\n' +
+        '  name: "Alex Vance",\n' +
+        '  role: "engineer"\n' +
+        '};\n' +
+        'console.log("Active User:", currentDev.name, "| Role:", currentDev.role);';
+    } else if (moduleNum === '02') {
+      return '// Function Overloads and Type Predicates\n' +
+        'type ResponseSuccess<T> = { status: "success"; data: T };\n' +
+        'type ResponseError = { status: "error"; message: string };\n' +
+        'type ApiResponse<T> = ResponseSuccess<T> | ResponseError;\n\n' +
+        'function isSuccess<T>(res: ApiResponse<T>): res is ResponseSuccess<T> {\n' +
+        '  return res.status === "success";\n' +
+        '}\n\n' +
+        'const res: ApiResponse<string[]> = { status: "success", data: ["app.ts", "server.ts"] };\n' +
+        'if (isSuccess(res)) {\n' +
+        '  console.log("Payload items count:", res.data.length);\n' +
+        '}';
+    } else if (moduleNum === '03') {
+      return '// Generic Containers & Keyof Indexing\n' +
+        'function getProperty<T, K extends keyof T>(obj: T, key: K): T[K] {\n' +
+        '  return obj[key];\n' +
+        '}\n\n' +
+        'const serverConfig = { port: 8080, env: "production", ssl: true };\n' +
+        'const activePort = getProperty(serverConfig, "port");\n' +
+        'console.log("Server listening on port:", activePort);';
+    } else if (moduleNum === '04') {
+      return '// Conditional Types & Pattern Matching with infer\n' +
+        'type UnpackPromise<T> = T extends Promise<infer U> ? U : T;\n\n' +
+        'type AsyncData = Promise<{ token: string; expires: number }>;\n' +
+        'type ResolvedData = UnpackPromise<AsyncData>;\n\n' +
+        'console.log("Type-level conditional resolution validated successfully.");';
+    } else if (moduleNum === '05') {
+      return '// Mapped Types with Key Remapping via as\n' +
+        'type Getters<T> = {\n' +
+        '  [K in keyof T as `get${Capitalize<string & K>}`]: () => T[K];\n' +
+        '};\n\n' +
+        'interface SystemMetrics {\n' +
+        '  cpu: number;\n' +
+        '  memory: number;\n' +
+        '}\n' +
+        'type MetricGetters = Getters<SystemMetrics>;\n' +
+        'console.log("Mapped type interface created: getCpu() and getMemory().");';
+    } else if (moduleNum === '06') {
+      return '// Nominal Branded Types for Safety\n' +
+        'declare const __brand: unique symbol;\n' +
+        'type Brand<K, T> = K & { readonly [__brand]: T };\n\n' +
+        'type UserId = Brand<string, "UserId">;\n' +
+        'type OrderId = Brand<string, "OrderId">;\n\n' +
+        'const id = "usr_001" as UserId;\n' +
+        'console.log("Branded UserId validated with compile-time nominal isolation:", id);';
+    } else if (moduleNum === '07') {
+      return '// Ambient Declaration & Module Augmentation\n' +
+        'declare global {\n' +
+        '  interface Window {\n' +
+        '    __ENGINE_DEBUG_BUILD: boolean;\n' +
+        '  }\n' +
+        '}\n' +
+        'const debugMode = typeof window !== "undefined" ? window.__ENGINE_DEBUG_BUILD : false;\n' +
+        'console.log("Ambient window declaration loaded. Debug mode:", Boolean(debugMode));';
+    } else if (moduleNum === '08') {
+      return '// TypeScript Compiler API & AST Traversal\n' +
+        'import ts from "typescript";\n\n' +
+        'const sourceCode = "const latencyMs: number = 42;";\n' +
+        'const sourceFile = ts.createSourceFile("sample.ts", sourceCode, ts.ScriptTarget.Latest);\n\n' +
+        'console.log("Root AST Node:", ts.SyntaxKind[sourceFile.kind], "| Statements:", sourceFile.statements.length);';
+    } else {
+      return '// Soundness & Project References\n' +
+        '// tsconfig.json { "compilerOptions": { "strict": true, "composite": true } }\n' +
+        'console.log("Composite monorepo project reference type check passed with 0 errors.");';
+    }
   }
+
+  if (trackId === 'react') {
+    if (moduleNum === '01') {
+      return '// React 19: ' + secTitle + '\n' +
+        'import React from "react";\n\n' +
+        'export function NavigationBadge({ label, count }: { label: string; count: number }) {\n' +
+        '  return (\n' +
+        '    <div className="flex items-center gap-2 p-2 bg-slate-900 text-white rounded">\n' +
+        '      <span className="font-bold">{label}</span>\n' +
+        '      <span className="px-2 py-0.5 bg-sky-500 rounded-full text-xs">{count}</span>\n' +
+        '    </div>\n' +
+        '  );\n' +
+        '}';
+    } else if (moduleNum === '02') {
+      return '// Core Hooks Lifecycle & State Batching\n' +
+        'import { useState, useEffect } from "react";\n\n' +
+        'export function MetricsWatcher() {\n' +
+        '  const [ticks, setTicks] = useState(0);\n\n' +
+        '  useEffect(() => {\n' +
+        '    const timer = setInterval(() => setTicks(t => t + 1), 1000);\n' +
+        '    return () => clearInterval(timer);\n' +
+        '  }, []);\n\n' +
+        '  return <div>Active Ticks: {ticks}</div>;\n' +
+        '}';
+    } else if (moduleNum === '03') {
+      return '// React 19 useActionState Form Binding\n' +
+        'import { useActionState } from "react";\n\n' +
+        'async function submitOrder(previousState: any, formData: FormData) {\n' +
+        '  const item = formData.get("item");\n' +
+        '  return { status: "success", message: `Ordered: ${item}` };\n' +
+        '}\n\n' +
+        'export function OrderForm() {\n' +
+        '  const [state, formAction, isPending] = useActionState(submitOrder, null);\n' +
+        '  return (\n' +
+        '    <form action={formAction}>\n' +
+        '      <input name="item" defaultValue="Enterprise Cloud License" />\n' +
+        '      <button disabled={isPending}>{isPending ? "Submitting..." : "Order"}</button>\n' +
+        '    </form>\n' +
+        '  );\n' +
+        '}';
+    } else if (moduleNum === '04') {
+      return '// Performance Optimization with useMemo & React.memo\n' +
+        'import React, { useMemo } from "react";\n\n' +
+        'export const ExpensiveList = React.memo(({ items }: { items: number[] }) => {\n' +
+        '  const total = useMemo(() => items.reduce((acc, n) => acc + n, 0), [items]);\n' +
+        '  return <div className="font-mono">Aggregated Sum: {total}</div>;\n' +
+        '});';
+    } else if (moduleNum === '05') {
+      return '// Custom Hook with AbortController Cleanup\n' +
+        'import { useState, useEffect } from "react";\n\n' +
+        'export function useFetchData<T>(url: string) {\n' +
+        '  const [data, setData] = useState<T | null>(null);\n\n' +
+        '  useEffect(() => {\n' +
+        '    const controller = new AbortController();\n' +
+        '    fetch(url, { signal: controller.signal })\n' +
+        '      .then(res => res.json())\n' +
+        '      .then(setData)\n' +
+        '      .catch(() => {});\n' +
+        '    return () => controller.abort();\n' +
+        '  }, [url]);\n\n' +
+        '  return data;\n' +
+        '}';
+    } else if (moduleNum === '06') {
+      return '// Finite State Machine with useReducer\n' +
+        'type State = { status: "idle" } | { status: "loading" } | { status: "success"; data: string };\n' +
+        'type Action = { type: "FETCH" } | { type: "RESOLVE"; payload: string };\n\n' +
+        'function fsmReducer(state: State, action: Action): State {\n' +
+        '  switch (action.type) {\n' +
+        '    case "FETCH": return { status: "loading" };\n' +
+        '    case "RESOLVE": return { status: "success", data: action.payload };\n' +
+        '    default: return state;\n' +
+        '  }\n' +
+        '}';
+    } else if (moduleNum === '07') {
+      return '// React Fiber Concurrency with useTransition\n' +
+        'import { useState, useTransition } from "react";\n\n' +
+        'export function SearchFilter() {\n' +
+        '  const [isPending, startTransition] = useTransition();\n' +
+        '  const [query, setQuery] = useState("");\n\n' +
+        '  function handleChange(e: React.ChangeEvent<HTMLInputElement>) {\n' +
+        '    startTransition(() => {\n' +
+        '      setQuery(e.target.value);\n' +
+        '    });\n' +
+        '  }\n' +
+        '  return <input onChange={handleChange} placeholder="Instant responsiveness..." />;\n' +
+        '}';
+    } else if (moduleNum === '08') {
+      return '// React Server Component (RSC)\n' +
+        'import { Suspense } from "react";\n\n' +
+        'export default async function DashboardPage() {\n' +
+        '  return (\n' +
+        '    <main>\n' +
+        '      <h1>Enterprise Server Dashboard</h1>\n' +
+        '      <Suspense fallback={<div>Streaming metrics HTML chunk...</div>}>\n' +
+        '        <MetricsServerStream />\n' +
+        '      </Suspense>\n' +
+        '    </main>\n' +
+        '  );\n' +
+        '}';
+    } else {
+      return '// Custom React Reconciler\n' +
+        'import ReactReconciler from "react-reconciler";\n\n' +
+        'const HostConfig = {\n' +
+        '  createInstance(type, props) { return { type, props, children: [] }; },\n' +
+        '  appendInitialChild(parent, child) { parent.children.push(child); },\n' +
+        '  finalizeInitialChildren() { return false; },\n' +
+        '  supportsMutation: true\n' +
+        '};\n' +
+        'const customRenderer = ReactReconciler(HostConfig);\n' +
+        'console.log("Custom reconciler initialized successfully.");';
+    }
+  }
+
+  if (trackId === 'php') {
+    if (moduleNum === '01') {
+      return '<?php\ndeclare(strict_types=1);\n\n' +
+        '// PHP 8.3 Match Expressions and Nullsafe Operator\n' +
+        'function getTierLabel(string $role): string {\n' +
+        '    return match($role) {\n' +
+        '        "admin" => "System Administrator",\n' +
+        '        "dev"   => "Core Engineer",\n' +
+        '        default => "Standard User"\n' +
+        '    };\n' +
+        '}\n\n' +
+        '$user = (object)["role" => "dev", "session" => null];\n' +
+        'echo "Assigned Tier: " . getTierLabel($user->role) . "\\n";\n' +
+        'echo "Session ID: " . ($user->session?->id ?? "ANONYMOUS");';
+    } else if (moduleNum === '02') {
+      return '<?php\ndeclare(strict_types=1);\n\n' +
+        '// Constructor Property Promotion & Readonly Class\n' +
+        'readonly class MicroserviceEndpoint {\n' +
+        '    public function __construct(\n' +
+        '        public string $host,\n' +
+        '        public int $port = 8443,\n' +
+        '        public array $headers = []\n' +
+        '    ) {}\n' +
+        '}\n\n' +
+        '$ep = new MicroserviceEndpoint("api.internal.cluster", 9000);\n' +
+        'echo "Connected to: {$ep->host}:{$ep->port}\\n";';
+    } else if (moduleNum === '03') {
+      return '<?php\ndeclare(strict_types=1);\n\n' +
+        '// Secure PDO Prepared Statements\n' +
+        '$dsn = "pgsql:host=localhost;port=5432;dbname=matrix_db;sslmode=require";\n' +
+        '$pdo = new PDO($dsn, "db_admin", "vault_secret", [\n' +
+        '    PDO::ATTR_ERRMODE => PDO::ERRMODE_EXCEPTION,\n' +
+        '    PDO::ATTR_DEFAULT_FETCH_MODE => PDO::FETCH_ASSOC\n' +
+        ']);\n\n' +
+        '$stmt = $pdo->prepare("SELECT id, username, email FROM users WHERE status = :status");\n' +
+        '$stmt->execute(["status" => "active"]);\n' +
+        '$users = $stmt->fetchAll();\n' +
+        'echo "Hydrated " . count($users) . " active user records.\\n";';
+    } else if (moduleNum === '04') {
+      return '<?php\ndeclare(strict_types=1);\n\n' +
+        '// PSR-7 HTTP Message & Middleware Pipeline\n' +
+        'use Psr\\Http\\Message\\ServerRequestInterface;\n' +
+        'use Psr\\Http\\Message\\ResponseInterface;\n' +
+        'use Psr\\Http\\Server\\MiddlewareInterface;\n' +
+        'use Psr\\Http\\Server\\RequestHandlerInterface;\n\n' +
+        'class AuthMiddleware implements MiddlewareInterface {\n' +
+        '    public function process(ServerRequestInterface $request, RequestHandlerInterface $handler): ResponseInterface {\n' +
+        '        return $handler->handle($request);\n' +
+        '    }\n' +
+        '}';
+    } else if (moduleNum === '05') {
+      return '// composer.json Optimization\n' +
+        '{\n' +
+        '    "name": "enterprise/matrix-core",\n' +
+        '    "type": "project",\n' +
+        '    "require": {\n' +
+        '        "php": ">=8.3",\n' +
+        '        "psr/http-message": "^1.1",\n' +
+        '        "monolog/monolog": "^3.5"\n' +
+        '    },\n' +
+        '    "autoload": {\n' +
+        '        "psr-4": { "Matrix\\\\": "src/" }\n' +
+        '    },\n' +
+        '    "config": { "optimize-autoloader": true }\n' +
+        '}';
+    } else if (moduleNum === '06') {
+      return '<?php\ndeclare(strict_types=1);\n\n' +
+        '// Custom Attribute Routing Engine\n' +
+        '#[Attribute(Attribute::TARGET_METHOD)]\n' +
+        'class Route {\n' +
+        '    public function __construct(public string $path, public string $method = "GET") {}\n' +
+        '}\n\n' +
+        'class DashboardController {\n' +
+        '    #[Route("/api/v1/metrics", method: "GET")]\n' +
+        '    public function getMetrics(): array {\n' +
+        '        return ["status" => "healthy", "uptime" => 99.99];\n' +
+        '    }\n' +
+        '}';
+    } else if (moduleNum === '07') {
+      return '// php.ini OPcache & JIT Configuration\n' +
+        'opcache.enable=1\n' +
+        'opcache.enable_cli=1\n' +
+        'opcache.memory_consumption=256\n' +
+        'opcache.interned_strings_buffer=16\n' +
+        'opcache.max_accelerated_files=20000\n' +
+        'opcache.jit=tracing\n' +
+        'opcache.jit_buffer_size=128M\n' +
+        'opcache.preload=/var/www/preload.php';
+    } else if (moduleNum === '08') {
+      return '<?php\ndeclare(strict_types=1);\n\n' +
+        '// PHP 8.1 Fibers Coroutines\n' +
+        '$fiber = new Fiber(function (): void {\n' +
+        '    echo "[Fiber] Starting async workload...\\n";\n' +
+        '    $val = Fiber::suspend("WAITING_FOR_IO");\n' +
+        '    echo "[Fiber] Resumed with data: {$val}\\n";\n' +
+        '});\n\n' +
+        '$result = $fiber->start();\n' +
+        'echo "[Main] Fiber suspended with status: {$result}\\n";\n' +
+        '$fiber->resume("PAYLOAD_RECEIVED");';
+    } else {
+      return '// RoadRunner Application Daemon Bootstrapper\n' +
+        'use Spiral\\RoadRunner\\Worker;\n' +
+        'use Nyholm\\Psr7\\Factory\\Psr17Factory;\n\n' +
+        '$worker = Worker::create();\n' +
+        '$factory = new Psr17Factory();\n' +
+        'while ($req = $worker->waitRequest()) {\n' +
+        '    $res = $factory->createResponse(200)->withBody($factory->createStream("OK"));\n' +
+        '    $worker->respond($res);\n' +
+        '}';
+    }
+  }
+
+  if (trackId === 'dotnet') {
+    if (moduleNum === '01') {
+      return '// .NET 9: ' + secTitle + '\n' +
+        'using System;\n\n' +
+        'public record struct SystemHealth(string Service, bool IsHealthy, double LatencyMs);\n\n' +
+        'var status = new SystemHealth("Kestrel_Gateway", true, 1.45);\n' +
+        'var report = status switch {\n' +
+        '    { IsHealthy: true, LatencyMs: < 2.0 } => "HEALTHY_OPTIMAL",\n' +
+        '    { IsHealthy: true } => "HEALTHY_DEGRADED",\n' +
+        '    _ => "CRITICAL_UNAVAILABLE"\n' +
+        '};\n' +
+        'Console.WriteLine($"Service: {status.Service} | Status: {report}");';
+    } else if (moduleNum === '02') {
+      return '// ASP.NET Core Host Bootstrap\n' +
+        'var builder = WebApplication.CreateBuilder(args);\n\n' +
+        '// Native Dependency Injection Lifecycles\n' +
+        'builder.Services.AddSingleton<ITelemetryMetrics, OpenTelemetryMetrics>();\n' +
+        'builder.Services.AddScoped<IOrderService, OrderProcessingService>();\n' +
+        'builder.Services.AddTransient<ITransactionHasher, Sha256Hasher>();\n\n' +
+        'var app = builder.Build();\n' +
+        'app.MapGet("/health", () => Results.Ok(new { status = "online", clr = Environment.Version.ToString() }));\n' +
+        'app.Run();';
+    } else if (moduleNum === '03') {
+      return '// Minimal APIs with TypedResults\n' +
+        'app.MapGet("/api/v1/orders/{id:guid}", async (Guid id, IOrderService service) => {\n' +
+        '    var order = await service.GetOrderByIdAsync(id);\n' +
+        '    return order is not null \n' +
+        '        ? TypedResults.Ok(order) \n' +
+        '        : (IResult)TypedResults.NotFound();\n' +
+        '})\n' +
+        '.WithName("GetOrderById")\n' +
+        '.WithOpenApi();';
+    } else if (moduleNum === '04') {
+      return '// EF Core 9 Query Optimization\n' +
+        'using Microsoft.EntityFrameworkCore;\n\n' +
+        'var activeUsers = await dbContext.Users\n' +
+        '    .AsNoTracking()\n' +
+        '    .Where(u => u.IsActive && u.TenantId == tenantId)\n' +
+        '    .Select(u => new UserDto(u.Id, u.Email, u.Role))\n' +
+        '    .ToListAsync(cancellationToken);';
+    } else if (moduleNum === '05') {
+      return '// Custom Middleware Pipeline\n' +
+        'public class CorrelationMiddleware\n' +
+        '{\n' +
+        '    private readonly RequestDelegate _next;\n' +
+        '    public CorrelationMiddleware(RequestDelegate next) => _next = next;\n\n' +
+        '    public async Task InvokeAsync(HttpContext context)\n' +
+        '    {\n' +
+        '        var correlationId = context.Request.Headers["X-Correlation-ID"].FirstOrDefault() ?? Guid.NewGuid().ToString();\n' +
+        '        context.Response.Headers.Append("X-Correlation-ID", correlationId);\n' +
+        '        await _next(context);\n' +
+        '    }\n' +
+        '}';
+    } else if (moduleNum === '06') {
+      return '// Clean Architecture & CQRS with MediatR\n' +
+        'public record CreateUserCommand(string Email, string Name) : IRequest<Guid>;\n\n' +
+        'public class CreateUserHandler : IRequestHandler<CreateUserCommand, Guid>\n' +
+        '{\n' +
+        '    public async Task<Guid> Handle(CreateUserCommand cmd, CancellationToken ct)\n' +
+        '    {\n' +
+        '        var user = User.Create(cmd.Email, cmd.Name);\n' +
+        '        return user.Id;\n' +
+        '    }\n' +
+        '}';
+    } else if (moduleNum === '07') {
+      return '// Zero-Allocation Memory with Span<T>\n' +
+        'using System;\n' +
+        'using System.Buffers;\n\n' +
+        'ReadOnlySpan<char> payload = "AUTH_TOKEN_788912903_VALID".AsSpan();\n' +
+        'ReadOnlySpan<char> token = payload.Slice(11, 9);\n\n' +
+        'Console.WriteLine($"Zero-copy sliced token: {token.ToString()}");';
+    } else if (moduleNum === '08') {
+      return '// Kestrel HTTP/3 over QUIC Configuration\n' +
+        'builder.WebHost.ConfigureKestrel(serverOptions =>\n' +
+        '{\n' +
+        '    serverOptions.ListenAnyIP(5001, listenOptions =>\n' +
+        '    {\n' +
+        '        listenOptions.Protocols = HttpProtocols.Http1AndHttp2AndHttp3;\n' +
+        '        listenOptions.UseHttps();\n' +
+        '    });\n' +
+        '});';
+    } else {
+      return '// Native AOT Compilation & Generational GC\n' +
+        '// Project.csproj: <PublishAot>true</PublishAot>\n' +
+        'Console.WriteLine($"GC Total Memory: {GC.GetTotalMemory(false) / 1024} KB");\n' +
+        'Console.WriteLine($"Gen 0 Collections: {GC.CollectionCount(0)} | Gen 2: {GC.CollectionCount(2)}");';
+    }
+  }
+
+  if (trackId === 'dns') {
+    if (moduleNum === '01') {
+      return ';; DNS Root & Authoritative Delegation Trace\n' +
+        ';; dig +trace example.com\n' +
+        '.                       518400  IN      NS      a.root-servers.net.\n' +
+        'com.                    172800  IN      NS      a.gtld-servers.net.\n' +
+        'example.com.            172800  IN      NS      ns1.cloudprovider.net.\n' +
+        ';; Received 452 bytes from 198.41.0.4#53(a.root-servers.net) in 12 ms';
+    } else if (moduleNum === '02') {
+      return ';; Core Resource Records: A, AAAA, CNAME, MX, TXT\n' +
+        '$ORIGIN enterprise-matrix.com.\n' +
+        '$TTL 3600\n\n' +
+        '@       IN      A       192.0.2.1\n' +
+        '@       IN      AAAA    2001:db8::1\n' +
+        'www     IN      CNAME   @\n' +
+        '@       IN      MX      10 mail.enterprise-matrix.com.\n' +
+        '@       IN      TXT     "v=spf1 mx ~all"';
+    } else if (moduleNum === '03') {
+      return ';; TTL Mechanics & SOA Configuration\n' +
+        '@       IN      SOA     ns1.matrix.com. admin.matrix.com. (\n' +
+        '                        2026100301 ; Serial YYYYMMDDNN\n' +
+        '                        7200       ; Refresh (2 hours)\n' +
+        '                        3600       ; Retry (1 hour)\n' +
+        '                        1209600    ; Expire (2 weeks)\n' +
+        '                        300        ; Negative Cache Minimum TTL (5 mins)\n' +
+        '                        )';
+    } else if (moduleNum === '04') {
+      return ';; BGP Anycast Routing & Geo-DNS Policy\n' +
+        '; Global Anycast IP: 198.51.100.1 announced from 250+ Edge PoPs\n' +
+        '; EDNS Client Subnet (ECS) routes clients to closest regional cluster:\n' +
+        '; EU-West clients -> 198.51.100.1 (Frankfurt PoP)\n' +
+        '; US-East clients -> 198.51.100.1 (Ashburn PoP)';
+    } else if (moduleNum === '05') {
+      return ';; Email Authentication: SPF, DKIM & DMARC\n' +
+        '@               IN  TXT  "v=spf1 ip4:192.0.2.0/24 include:_spf.google.com ~all"\n' +
+        's1._domainkey   IN  TXT  "v=DKIM1; k=rsa; p=MIIBIjANBgkqhkiG9w0BAQEFAAOCAQ8AMIIBC..."\n' +
+        '_dmarc          IN  TXT  "v=DMARC1; p=reject; rua=mailto:dmarc-reports@matrix.com; pct=100"';
+    } else if (moduleNum === '06') {
+      return ';; Encrypted DNS over HTTPS (DoH) & TLS 1.3\n' +
+        '; Resolver: https://dns.google/dns-query\n' +
+        '; Method: POST /dns-query HTTP/2\n' +
+        '; Content-Type: application/dns-message\n' +
+        '; TLS 1.3 1-RTT Handshake: Cipher TLS_AES_256_GCM_SHA384';
+    } else if (moduleNum === '07') {
+      return ';; DNSSEC RRSIG and DNSKEY Validation\n' +
+        '@       IN      DNSKEY  256 3 13 ( mdsswUyr3DPW132mOi8V9x6... ) ; ZSK\n' +
+        '@       IN      DNSKEY  257 3 13 ( oJMRESz5E4gYzS098... )     ; KSK\n' +
+        '@       IN      RRSIG   A 13 2 3600 20261101000000 20261001000000 12345 enterprise-matrix.com. ...';
+    } else if (moduleNum === '08') {
+      return ';; BIND9 named.conf Zone Declaration with TSIG\n' +
+        'key "transfer-key" {\n' +
+        '    algorithm hmac-sha256;\n' +
+        '    secret "K3Y_S3CR3T_TR4NSF3R==";\n' +
+        '};\n\n' +
+        'zone "matrix.internal" {\n' +
+        '    type master;\n' +
+        '    file "/etc/bind/zones/db.matrix.internal";\n' +
+        '    allow-transfer { key transfer-key; };\n' +
+        '};';
+    } else {
+      return ';; Certificate Authority Authorization (CAA RFC 8659)\n' +
+        '@       IN      CAA     0 issue "letsencrypt.org"\n' +
+        '@       IN      CAA     0 issuewild "letsencrypt.org"\n' +
+        '@       IN      CAA     0 iodef "mailto:security-alerts@matrix.com"';
+    }
+  }
+
+  if (trackId === 'devops') {
+    if (moduleNum === '01') {
+      return '# Linux Systemd Service Unit: /etc/systemd/system/matrix-api.service\n' +
+        '[Unit]\n' +
+        'Description=Matrix Core Backend Microservice\n' +
+        'After=network.target\n\n' +
+        '[Service]\n' +
+        'Type=simple\n' +
+        'User=matrixapp\n' +
+        'WorkingDirectory=/var/www/matrix\n' +
+        'ExecStart=/usr/bin/node dist/server.js\n' +
+        'Restart=on-failure\n' +
+        'RestartSec=5s\n' +
+        'Environment=NODE_ENV=production PORT=3000\n\n' +
+        '[Install]\n' +
+        'WantedBy=multi-user.target';
+    } else if (moduleNum === '02') {
+      return '# Nginx Server Block: /etc/nginx/sites-available/matrix.conf\n' +
+        'server {\n' +
+        '    listen 80;\n' +
+        '    server_name matrix.enterprise.com;\n' +
+        '    root /var/www/matrix/public;\n' +
+        '    index index.html;\n\n' +
+        '    location / {\n' +
+        '        try_files $uri $uri/ /index.html;\n' +
+        '    }\n\n' +
+        '    location ~* \\.(js|css|png|jpg|svg|woff2)$ {\n' +
+        '        expires 30d;\n' +
+        '        add_header Cache-Control "public, no-transform";\n' +
+        '    }\n' +
+        '}';
+    } else if (moduleNum === '03') {
+      return '# Certbot Automated SSL Let\'s Encrypt Provisioning\n' +
+        'certbot --nginx \\\n' +
+        '  -d matrix.enterprise.com \\\n' +
+        '  --non-interactive \\\n' +
+        '  --agree-tos \\\n' +
+        '  -m admin@matrix.enterprise.com \\\n' +
+        '  --redirect\n\n' +
+        '# Systemd Auto-Renewal Timer Verification\n' +
+        'systemctl list-timers certbot.timer';
+    } else if (moduleNum === '04') {
+      return '# Nginx High-Concurrency Reverse Proxy & Leaky Bucket Rate Limiting\n' +
+        'limit_req_zone $binary_remote_addr zone=api_limit:10m rate=20r/s;\n\n' +
+        'upstream backend_nodes {\n' +
+        '    least_conn;\n' +
+        '    server 10.0.1.11:8080 max_fails=3 fail_timeout=10s;\n' +
+        '    server 10.0.1.12:8080 max_fails=3 fail_timeout=10s;\n' +
+        '    keepalive 64;\n' +
+        '}\n\n' +
+        'server {\n' +
+        '    listen 443 ssl http2;\n' +
+        '    location /api/ {\n' +
+        '        limit_req zone=api_limit burst=10 nodelay;\n' +
+        '        proxy_pass http://backend_nodes;\n' +
+        '        proxy_set_header Host $host;\n' +
+        '        proxy_set_header X-Real-IP $remote_addr;\n' +
+        '        proxy_set_header Connection "";\n' +
+        '        proxy_http_version 1.1;\n' +
+        '    }\n' +
+        '}';
+    } else if (moduleNum === '05') {
+      return '# Multi-Stage Dockerfile Optimization\n' +
+        '# Stage 1: Build & Compile\n' +
+        'FROM node:20-alpine AS builder\n' +
+        'WORKDIR /app\n' +
+        'COPY package*.json ./\n' +
+        'RUN npm ci\n' +
+        'COPY . .\n' +
+        'RUN npm run build\n\n' +
+        '# Stage 2: Minimal Distroless Production Runtime\n' +
+        'FROM gcr.io/distroless/nodejs20-debian12\n' +
+        'WORKDIR /app\n' +
+        'COPY --from=builder /app/dist ./dist\n' +
+        'COPY --from=builder /app/node_modules ./node_modules\n' +
+        'USER nonroot\n' +
+        'EXPOSE 3000\n' +
+        'CMD ["dist/server.js"]';
+    } else if (moduleNum === '06') {
+      return '# GitHub Actions CI/CD: .github/workflows/deploy.yml\n' +
+        'name: Build, Test & Deploy\n' +
+        'on:\n' +
+        '  push:\n' +
+        '    branches: [main]\n\n' +
+        'jobs:\n' +
+        '  test-and-build:\n' +
+        '    runs-on: ubuntu-latest\n' +
+        '    steps:\n' +
+        '      - uses: actions/checkout@v4\n' +
+        '      - uses: actions/setup-node@v4\n' +
+        '        with:\n' +
+        '          node-version: 20\n' +
+        '          cache: "npm"\n' +
+        '      - run: npm ci\n' +
+        '      - run: npm run test -- --ci\n' +
+        '      - run: npm run build';
+    } else if (moduleNum === '07') {
+      return '# Kernel Socket Performance Tuning: /etc/sysctl.d/99-network.conf\n' +
+        'net.core.somaxconn = 65535\n' +
+        'net.ipv4.tcp_max_syn_backlog = 16384\n' +
+        'net.ipv4.tcp_congestion_control = bbr\n' +
+        'net.core.default_qdisc = fq\n' +
+        'net.ipv4.ip_local_port_range = 1024 65535\n' +
+        'fs.file-max = 2097152';
+    } else if (moduleNum === '08') {
+      return '# Zero-Downtime Blue/Green Deployment Script\n' +
+        '#!/bin/bash\n' +
+        'TARGET_PORT=$1 # Switch between 8081 (Blue) and 8082 (Green)\n' +
+        'echo "Running healthcheck on port ${TARGET_PORT}..."\n' +
+        'curl -f http://127.0.0.1:${TARGET_PORT}/health || exit 1\n\n' +
+        '# Reload Nginx upstream with zero dropped connections\n' +
+        'sed -i "s/server 127.0.0.1:.*/server 127.0.0.1:${TARGET_PORT};/" /etc/nginx/conf.d/upstream.conf\n' +
+        'nginx -s reload\n' +
+        'echo "Zero-downtime cutover to port ${TARGET_PORT} completed."';
+    } else {
+      return '# Prometheus Telemetry & Trivy Container Security\n' +
+        'trivy image --severity HIGH,CRITICAL matrix-api:latest\n\n' +
+        '# Prometheus Scrape Target: prometheus.yml\n' +
+        'scrape_configs:\n' +
+        '  - job_name: "matrix_microservices"\n' +
+        '    scrape_interval: 5s\n' +
+        '    static_configs:\n' +
+        '      - targets: ["api-node-1:3000", "api-node-2:3000"]';
+    }
+  }
+
+  return '// Code execution sample for ' + trackId + ' - Module ' + moduleNum;
+}
+
+function getTrackConsoleOutput(trackId, moduleNum, sectionId) {
+  if (trackId === 'javascript') {
+    return '<span class="text-slate-400 font-bold">&gt; OUTPUT:</span><br/><span class="text-emerald-700 font-bold">&gt;&gt; Executing script in sandbox environment...</span><br/><span class="text-slate-700">&gt;&gt; Compilation successful: 0 errors, 0 warnings.</span><br/><span class="text-sky-700 font-semibold">&gt;&gt; Console output: [Sandbox execution completed in 14ms]</span>';
+  }
+  if (trackId === 'typescript') {
+    return '<span class="text-slate-400 font-bold">&gt; RUNNER // tsc --strict --noEmit ts_types.ts</span><br/><span class="text-blue-700 font-bold">&gt;&gt; Running TypeScript 5 TypeChecker &amp; AST validation...</span><br/><span class="text-emerald-700 font-bold">&gt;&gt; Compilation successful: 0 type errors, 0 warnings.</span><br/><span class="text-slate-700">&gt;&gt; Emitted bundle: ts_types.js + ts_types.d.ts (Declaration map generated).</span><br/><span class="text-sky-700 font-semibold">&gt;&gt; Type checking completed in 18ms.</span>';
+  }
+  if (trackId === 'react') {
+    return '<span class="text-slate-400 font-bold">&gt; RUNNER // react_fiber_runtime.tsx</span><br/><span class="text-sky-700 font-bold">&gt;&gt; Initializing React 19 Fiber tree &amp; Concurrent Scheduler...</span><br/><span class="text-emerald-700 font-bold">&gt;&gt; Root mounted successfully. Fiber work loop executed across Lanes 0b0001.</span><br/><span class="text-slate-700">&gt;&gt; Render phase: 1.8ms | Commit phase: 0.4ms | DOM reconciliation complete.</span><br/><span class="text-sky-700 font-semibold">&gt;&gt; Active listeners bound to synthetic event delegation pool.</span>';
+  }
+  if (trackId === 'php') {
+    return '<span class="text-slate-400 font-bold">&gt; RUNNER // php -d opcache.enable_cli=1 php_backend.php</span><br/><span class="text-indigo-700 font-bold">&gt;&gt; Booting Zend Engine 4.3 + PHP 8.3 OPcache JIT...</span><br/><span class="text-emerald-700 font-bold">&gt;&gt; Script executed with strict types: declare(strict_types=1).</span><br/><span class="text-slate-700">&gt;&gt; Output stream flushed: HTTP 200 OK [Content-Type: application/json].</span><br/><span class="text-sky-700 font-semibold">&gt;&gt; Peak memory usage: 2.14 MB | Execution time: 6.2ms.</span>';
+  }
+  if (trackId === 'dotnet') {
+    return '<span class="text-slate-400 font-bold">&gt; RUNNER // dotnet run --configuration Release</span><br/><span class="text-purple-700 font-bold">&gt;&gt; Compiling with Roslyn C# 13 compiler &amp; Native AOT...</span><br/><span class="text-emerald-700 font-bold">&gt;&gt; Build succeeded: 0 Warning(s), 0 Error(s).</span><br/><span class="text-slate-700">&gt;&gt; Kestrel Web Server started on https://localhost:5001 [HTTP/3 enabled].</span><br/><span class="text-sky-700 font-semibold">&gt;&gt; Zero-allocation Span&lt;T&gt; pipeline benchmark: 0 bytes Gen0/Gen1 GC heap allocated.</span>';
+  }
+  if (trackId === 'dns') {
+    return '<span class="text-slate-400 font-bold">&gt; RUNNER // dig +trace +dnssec dns_records.zone</span><br/><span class="text-emerald-700 font-bold">&gt;&gt; Initiating recursive iterative lookup from Root [198.41.0.4#53]...</span><br/><span class="text-slate-700">&gt;&gt; TLD authoritative delegation verified: DS key digest match validated.</span><br/><span class="text-emerald-700 font-bold">&gt;&gt; DNSSEC RRSIG cryptographic signature: VALID (Trust anchor confirmed).</span><br/><span class="text-sky-700 font-semibold">&gt;&gt; Query time: 14 msec | Status: NOERROR | Answers: 1.</span>';
+  }
+  if (trackId === 'devops') {
+    return '<span class="text-slate-400 font-bold">&gt; RUNNER // nginx -t &amp;&amp; docker compose up -d</span><br/><span class="text-fuchsia-700 font-bold">&gt;&gt; Validating Nginx configuration syntax &amp; upstream pool health...</span><br/><span class="text-emerald-700 font-bold">&gt;&gt; nginx: the configuration file /etc/nginx/nginx.conf syntax is ok.</span><br/><span class="text-slate-700">&gt;&gt; Docker multi-stage container image verified [trivy security scan: 0 critical].</span><br/><span class="text-sky-700 font-semibold">&gt;&gt; Container devops-web-1 Started [HTTP 443 TLS 1.3 active].</span>';
+  }
+  return '<span class="text-emerald-700 font-bold">&gt;&gt; Sandbox execution completed successfully.</span>';
+}
+
+// Exports omitted
+
 
   // ═══════════════════════════════════════════════════════════════════
-  // 3. APPLICATION STATE & JSE CURRICULUM PAGINATION
+  // 5. APPLICATION STATE & AUDIO SYNTHESIZER
   // ═══════════════════════════════════════════════════════════════════
   let currentActiveTrackId = 'javascript';
   let currentViewMode = 'tabbed'; // 'tabbed' or 'grid'
   let activeSearchQuery = '';
-  let jseCurriculumPage = 0; // 0 for modules 01-03, 1 for modules 04-06
+  
+  // Track active page for each module (0 for 01-03, 1 for 04-06, 2 for 07-09)
+  const trackPages = {
+    javascript: 0,
+    typescript: 0,
+    react: 0,
+    php: 0,
+    dotnet: 0,
+    dns: 0,
+    devops: 0
+  };
 
-  window.switchJsePage = function (targetPage) {
-    if (typeof targetPage === 'number') {
-      jseCurriculumPage = targetPage;
-    } else {
-      jseCurriculumPage = jseCurriculumPage === 0 ? 1 : 0;
+  // Active lesson modal context
+  let activeLessonContext = {
+    trackId: 'javascript',
+    moduleNum: '01',
+    sectionId: '1.0'
+  };
+
+  // Web Audio Context Synthesizer
+  let audioCtx = null;
+  let isAudioMuted = false;
+
+  function initAudio() {
+    if (!audioCtx && typeof window !== 'undefined' && (window.AudioContext || window.webkitAudioContext)) {
+      const AudioContextClass = window.AudioContext || window.webkitAudioContext;
+      audioCtx = new AudioContextClass();
     }
+  }
+
+  function playOsClick(freq, duration) {
+    if (typeof freq !== 'number') freq = 750;
+    if (typeof duration !== 'number') duration = 0.035;
+    if (isAudioMuted) return;
+    try {
+      initAudio();
+      if (!audioCtx) return;
+      if (audioCtx.state === 'suspended') {
+        audioCtx.resume();
+      }
+
+      const osc = audioCtx.createOscillator();
+      const gain = audioCtx.createGain();
+      osc.type = 'sine';
+      osc.frequency.setValueAtTime(freq, audioCtx.currentTime);
+      gain.gain.setValueAtTime(0.06, audioCtx.currentTime);
+      gain.gain.exponentialRampToValueAtTime(0.0001, audioCtx.currentTime + duration);
+
+      osc.connect(gain);
+      gain.connect(audioCtx.destination);
+      osc.start();
+      osc.stop(audioCtx.currentTime + duration);
+    } catch (e) {
+      // Audio autoplay policy quiet fallback
+    }
+  }
+
+  // ═══════════════════════════════════════════════════════════════════
+  // 6. GLOBAL WINDOW NAVIGATION & INTERACTIVE MODAL HANDLERS
+  // ═══════════════════════════════════════════════════════════════════
+
+  // Switch between 3-block curriculum pages (01-03, 04-06, 07-09)
+  window.switchCurriculumPage = function (targetPage, trackId) {
+    const tid = trackId || currentActiveTrackId;
+    const mod = MODULES_DATA.find((m) => m.id === tid) || MODULES_DATA[0];
+    const totalPages = Math.ceil(mod.modules.length / 3);
+
+    if (typeof targetPage === 'number') {
+      trackPages[tid] = Math.max(0, Math.min(targetPage, totalPages - 1));
+    } else {
+      trackPages[tid] = (trackPages[tid] + 1) % totalPages;
+    }
+
     playOsClick(840, 0.035);
     renderActiveTabbedCard();
-    const anchor = document.getElementById('jseCurriculumOutlineAnchor');
+    const anchor = document.getElementById('matrixCurriculumOutlineAnchor');
     if (anchor) {
       anchor.scrollIntoView({ behavior: 'smooth', block: 'start' });
     }
   };
 
-  window.startJseSection = function (moduleNum, sectionId) {
+  // Backward compatibility alias for JSE page switcher
+  window.switchJsePage = function (targetPage) {
+    window.switchCurriculumPage(targetPage, 'javascript');
+  };
+
+  // Launch the Interactive Lesson Sandbox Modal
+  window.startCurriculumSection = function (moduleNum, sectionId, trackId) {
     playOsClick(840, 0.04);
     const modal = document.getElementById('jseLessonModal');
     if (!modal) return;
 
-    const mod = JSE_MODULES.find((m) => m.num === moduleNum);
-    const sec = mod ? mod.sections.find((s) => s.id === sectionId) : null;
+    const tid = trackId || currentActiveTrackId;
+    const mod = MODULES_DATA.find((m) => m.id === tid);
+    if (!mod) return;
+
+    const currModule = mod.modules.find((m) => m.num === moduleNum);
+    const sec = currModule ? currModule.sections.find((s) => s.id === sectionId) : null;
     if (!sec) return;
 
+    activeLessonContext = { trackId: tid, moduleNum: moduleNum, sectionId: sectionId };
+
+    const theme = TRACK_THEMES[tid] || TRACK_THEMES.javascript;
+
+    // Elements in Modal
+    const headerIcon = document.getElementById('jseModalHeaderIcon') || document.getElementById('osModalHeaderIcon');
     const headerTag = document.getElementById('jseModalHeaderTag');
+    const dot = document.getElementById('jseModalDot') || document.getElementById('osModalDot');
     const moduleBadge = document.getElementById('jseModalModuleBadge');
     const lessonTitle = document.getElementById('jseModalLessonTitle');
     const lessonDesc = document.getElementById('jseModalLessonDesc');
+    const runnerFilename = document.getElementById('jseModalRunnerFilename') || document.getElementById('osModalRunnerFilename');
     const codeSnippetEl = document.getElementById('jseModalCodeSnippet');
     const consoleOutput = document.getElementById('jseModalConsoleOutput');
+    const footerIcon = document.getElementById('jseModalFooterIcon') || document.getElementById('osModalTrackFooterIcon');
+    const footerLabel = document.getElementById('jseModalFooterLabel') || document.getElementById('osModalTrackFooterLabel');
+    const executeBtn = document.getElementById('jseModalExecuteBtn') || document.getElementById('osModalExecuteBtn');
 
-    if (headerTag) headerTag.textContent = `JSE.1 // MODULE_${moduleNum} // SEC_${sectionId}`;
-    if (moduleBadge) moduleBadge.textContent = mod ? mod.title : `MODULE ${moduleNum}`;
+    if (headerIcon) headerIcon.className = theme.icon + ' text-sm';
+    if (headerTag) headerTag.textContent = theme.specPrefix + ' // MODULE_' + moduleNum + ' // SEC_' + sectionId;
+    if (dot) dot.className = 'w-2 h-2 rounded-full ' + theme.accentBg + ' animate-ping';
+    if (moduleBadge) {
+      moduleBadge.textContent = currModule ? currModule.title : 'MODULE ' + moduleNum;
+      moduleBadge.className = 'font-mono text-xs ' + theme.accentTextDark + ' font-bold mb-1 flex items-center gap-2';
+    }
     if (lessonTitle) lessonTitle.textContent = sec.title;
     if (lessonDesc) lessonDesc.textContent = sec.summary || 'Interactive lesson runtime and syllabus objectives.';
+    if (runnerFilename) runnerFilename.textContent = 'RUNNER // live_interpreter.' + theme.runnerExt;
+
+    if (footerIcon) footerIcon.className = 'fa-solid fa-graduation-cap ' + theme.accentText;
+    if (footerLabel) footerLabel.textContent = theme.certName;
+    if (executeBtn) {
+      executeBtn.className = 'px-3.5 py-1.5 rounded-lg ' + theme.btnBg + ' font-bold transition-colors cursor-pointer flex items-center gap-1.5 shadow-xs';
+    }
 
     if (consoleOutput) {
       consoleOutput.classList.add('hidden');
       consoleOutput.innerHTML = '';
     }
 
-    let sampleCode = `// JavaScript Essentials 1: Section ${sectionId}\n// ${sec.title}\n\n`;
-    if (moduleNum === '01') {
-      sampleCode += `console.log("Welcome to JavaScript Essentials 1!");\nconsole.log("Environment: Ready. Execution Context: Active.");\nconsole.log("Status: Hello, World! program executed successfully.");`;
-    } else if (moduleNum === '02') {
-      sampleCode += `let userRole = "Software Engineer";\nconst version = 1.0;\nlet isVerified = Boolean(userRole);\nconsole.log("Variable:", userRole, "Type:", typeof userRole);\nconsole.log("Type Casting Check:", isVerified);`;
-    } else if (moduleNum === '03') {
-      sampleCode += `let price = 49.99;\nlet quantity = 3;\nlet total = price * quantity;\nlet isFreeShipping = total > 100;\nconsole.log("Total: $" + total.toFixed(2), "Free Shipping:", isFreeShipping);`;
-    } else if (moduleNum === '04') {
-      sampleCode += `let counter = 0;\nwhile (counter < 3) {\n  counter++;\n  console.log("Loop iteration", counter, "executing conditional logic.");\n}`;
-    } else if (moduleNum === '05') {
-      sampleCode += `function calculateSquare(num) {\n  return num * num;\n}\nconst result = calculateSquare(8);\nconsole.log("Function Return Output:", result);`;
-    } else {
-      sampleCode += `try {\n  console.log("Diagnosing runtime execution...");\n  // Error prevention and breakpoint logging\n  console.log("Diagnostics pass: 0 errors detected.");\n} catch (err) {\n  console.error("Intercepted exception:", err.message);\n}`;
-    }
+    const sampleCode = getTrackCodeSample(tid, moduleNum, sectionId, sec.title);
     if (codeSnippetEl) codeSnippetEl.textContent = sampleCode;
 
     modal.classList.remove('hidden');
     modal.classList.add('flex');
   };
 
-  window.runJseDemo = function () {
+  // Backward compatibility alias for JSE start section
+  window.startJseSection = function (moduleNum, sectionId) {
+    window.startCurriculumSection(moduleNum, sectionId, currentActiveTrackId);
+  };
+
+  // Execute Code in the Live Sandbox Console
+  window.runLessonDemo = function () {
     playOsClick(980, 0.05);
     const consoleOutput = document.getElementById('jseModalConsoleOutput');
     if (!consoleOutput) return;
 
+    const trackId = activeLessonContext.trackId;
+    const moduleNum = activeLessonContext.moduleNum;
+    const sectionId = activeLessonContext.sectionId;
     consoleOutput.classList.remove('hidden');
-    consoleOutput.innerHTML = `<span class="text-slate-400 font-bold">&gt; OUTPUT:</span><br/><span class="text-emerald-700 font-bold">&gt;&gt; Executing script in sandbox environment...</span><br/><span class="text-slate-700">&gt;&gt; Compilation successful: 0 errors, 0 warnings.</span><br/><span class="text-sky-700 font-semibold">&gt;&gt; Console output: [Sandbox execution completed in 14ms]</span>`;
+    consoleOutput.innerHTML = getTrackConsoleOutput(trackId, moduleNum, sectionId);
   };
 
-  window.closeJseModal = function () {
+  // Backward compatibility alias
+  window.runJseDemo = function () {
+    window.runLessonDemo();
+  };
+
+  // Close Lesson Modal
+  window.closeLessonModal = function () {
     playOsClick(600, 0.03);
     const modal = document.getElementById('jseLessonModal');
     if (modal) {
@@ -991,14 +4933,18 @@
     }
   };
 
+  window.closeJseModal = function () {
+    window.closeLessonModal();
+  };
+
   document.addEventListener('keydown', (e) => {
     if (e.key === 'Escape') {
-      window.closeJseModal();
+      window.closeLessonModal();
     }
   });
 
   // ═══════════════════════════════════════════════════════════════════
-  // 4. RENDERERS
+  // 7. RENDERERS: IDE TABS, 3-BLOCK OUTLINE PANELS, AND GRID
   // ═══════════════════════════════════════════════════════════════════
 
   // Render Horizontal IDE Tab Switcher
@@ -1013,398 +4959,305 @@
         m.title.toLowerCase().includes(q) ||
         m.summary.toLowerCase().includes(q) ||
         m.fileName.toLowerCase().includes(q) ||
-        (m.syllabus && m.syllabus.some((s) => s.chapter.toLowerCase().includes(q) || s.desc.toLowerCase().includes(q))) ||
-        (m.id === 'javascript' && JSE_MODULES.some((jm) => jm.title.toLowerCase().includes(q) || jm.sections.some((sec) => sec.title.toLowerCase().includes(q))))
+        m.modules.some((mod) => mod.title.toLowerCase().includes(q) || mod.sections.some((sec) => sec.title.toLowerCase().includes(q)))
       );
     });
 
-    let html = filtered
+    const tabsHtml = filtered
       .map((mod) => {
-        const isActive = currentViewMode === 'tabbed' && currentActiveTrackId === mod.id;
-        return `
-          <button 
-            type="button" 
-            class="os-ide-tab-btn ${isActive ? 'active' : ''}" 
-            data-track-id="${mod.id}"
-            title="Inspect ${mod.fileName} Curriculum">
-            <i class="${mod.icon}"></i>
-            <span>${mod.fileName}</span>
-          </button>
-        `;
+        const isActive = currentViewMode === 'tabbed' && mod.id === currentActiveTrackId;
+        return (
+          '<button type="button" class="os-ide-tab-btn ' + (isActive ? 'active' : '') + '" data-track-id="' + mod.id + '" title="' + mod.title + '">' +
+          '<i class="' + mod.icon + ' text-xs"></i>' +
+          '<span>' + mod.fileName + '</span>' +
+          '</button>'
+        );
       })
       .join('');
 
-    // Directory Grid Switcher Tab
-    const isGridActive = currentViewMode === 'grid';
-    html += `
-      <button 
-        type="button" 
-        class="os-ide-tab-btn ${isGridActive ? 'active' : ''}" 
-        data-view="grid"
-        title="View All Modules in Grid">
-        <i class="fa-solid fa-table-cells text-slate-400"></i>
-        <span>directory_grid.all</span>
-      </button>
-    `;
+    const gridBtnHtml = (
+      '<button type="button" class="os-ide-tab-btn ' + (currentViewMode === 'grid' ? 'active' : '') + '" id="osMatrixGridTabBtn" title="View All 7 Tracks in Grid">' +
+      '<i class="fa-solid fa-table-cells text-xs text-sky-400"></i>' +
+      '<span>matrix_grid.all</span>' +
+      '</button>'
+    );
 
-    tabsContainer.innerHTML = html;
+    tabsContainer.innerHTML = gridBtnHtml + tabsHtml;
 
-    // Attach click listeners
-    tabsContainer.querySelectorAll('.os-ide-tab-btn').forEach((btn) => {
+    // Attach Click Events to Tabs
+    tabsContainer.querySelectorAll('[data-track-id]').forEach((btn) => {
       btn.addEventListener('click', () => {
+        const trackId = btn.getAttribute('data-track-id');
+        currentActiveTrackId = trackId;
+        currentViewMode = 'tabbed';
         playOsClick(800, 0.03);
-        const view = btn.getAttribute('data-view');
-        if (view === 'grid') {
-          currentViewMode = 'grid';
-        } else {
-          currentViewMode = 'tabbed';
-          currentActiveTrackId = btn.getAttribute('data-track-id');
-        }
-        renderMainView();
         renderIdeTabs();
+        renderMainView();
       });
     });
+
+    const gridBtn = document.getElementById('osMatrixGridTabBtn');
+    if (gridBtn) {
+      gridBtn.addEventListener('click', () => {
+        currentViewMode = 'grid';
+        playOsClick(700, 0.03);
+        renderIdeTabs();
+        renderMainView();
+      });
+    }
   }
 
-  // Render JavaScript Custom 3-Block Outline View (01. 02 in middle to 03 on right)
-  function renderJsCurriculumPanel(container, mod) {
-    const activeModules = jseCurriculumPage === 0 ? JSE_MODULES.slice(0, 3) : JSE_MODULES.slice(3, 6);
+  // Render ANY Module in the Standardized 3-Block Outline View (Exact js_engine Structure)
+  function renderTrackCurriculumPanel(container, mod) {
+    const theme = TRACK_THEMES[mod.id] || TRACK_THEMES.javascript;
+    const modules = mod.modules || JSE_MODULES;
+    const totalPages = Math.ceil(modules.length / 3);
+    const currentPage = trackPages[mod.id] || 0;
+
+    const startIdx = currentPage * 3;
+    const activeModules = modules.slice(startIdx, startIdx + 3);
 
     const blocksHtml = activeModules
       .map((m, idx) => {
         const isMiddle = idx === 1; // "01. 02 in the middle to 03 on the right"
+        const globalModuleIndex = startIdx + idx; // 0-based index across all modules in track
+        const isLastInTrack = globalModuleIndex === modules.length - 1;
 
         const sectionsHtml = m.sections
-          .map((sec) => `
-            <div class="p-2 sm:p-2.5 rounded-lg bg-slate-50 border border-slate-200 hover:bg-amber-50/80 hover:border-amber-300 transition-all flex items-center justify-between gap-2.5 group/item">
-              <div class="flex items-center gap-2 min-w-0">
-                <span class="w-1.5 h-1.5 rounded-full bg-amber-500 shrink-0"></span>
-                <span class="font-mono text-xs font-semibold text-slate-800 leading-snug truncate" title="${sec.title}">
-                  ${sec.title}
-                </span>
-              </div>
-              <button 
-                type="button" 
-                onclick="window.startJseSection('${m.num}', '${sec.id}')"
-                class="shrink-0 px-2.5 py-1 rounded bg-slate-900 hover:bg-amber-500 text-white hover:text-slate-950 font-mono text-[11px] font-bold transition-all shadow-xs flex items-center gap-1 cursor-pointer">
-                <span>start</span>
-                <i class="fa-solid fa-play text-[8px]"></i>
-              </button>
-            </div>
-          `)
+          .map((sec) => (
+            '<div class="p-2 sm:p-2.5 rounded-lg bg-slate-50 border border-slate-200 ' + theme.hoverBg + ' ' + theme.hoverBorder + ' transition-all flex items-center justify-between gap-2.5 group/item">' +
+              '<div class="flex items-center gap-2 min-w-0">' +
+                '<span class="w-1.5 h-1.5 rounded-full ' + theme.accentBg + ' shrink-0"></span>' +
+                '<span class="font-mono text-xs font-semibold text-slate-800 leading-snug truncate" title="' + sec.title + '">' +
+                  sec.title +
+                '</span>' +
+              '</div>' +
+              '<button type="button" onclick="window.startCurriculumSection(\'' + m.num + '\', \'' + sec.id + '\', \'' + mod.id + '\')" class="shrink-0 px-2.5 py-1 rounded bg-slate-900 hover:' + theme.accentBg + ' text-white hover:' + theme.btnText + ' font-mono text-[11px] font-bold transition-all shadow-xs flex items-center gap-1 cursor-pointer">' +
+                '<span>start</span>' +
+                '<i class="fa-solid fa-play text-[8px]"></i>' +
+              '</button>' +
+            '</div>'
+          ))
           .join('');
 
         let blockNavHtml = '';
-        if (m.num === '01') {
-          blockNavHtml = `
-            <div class="text-[11px] text-slate-500 font-mono flex items-center justify-between">
-              <span>PREREQUISITES: NONE</span>
-              <span class="text-amber-600 font-bold">NEXT: MOD 02 &rarr;</span>
-            </div>
-          `;
-        } else if (m.num === '02') {
-          blockNavHtml = `
-            <div class="text-[11px] text-slate-500 font-mono flex items-center justify-between">
-              <span>CORE_TYPES: PRIMITIVES</span>
-              <span class="text-amber-600 font-bold">NEXT: MOD 03 &rarr;</span>
-            </div>
-          `;
-        } else if (m.num === '03') {
-          blockNavHtml = `
-            <div class="flex items-center justify-between">
-              <span class="text-[11px] text-slate-500 font-mono">STAGE 1 WRAP-UP</span>
-              <button type="button" onclick="window.switchJsePage(1)" class="px-2.5 py-1 rounded bg-amber-500 hover:bg-amber-400 text-slate-950 text-xs font-mono font-bold transition-colors cursor-pointer flex items-center gap-1 shadow-xs">
-                <span>Next: Modules 04–06</span>
-                <i class="fa-solid fa-arrow-right text-[10px]"></i>
-              </button>
-            </div>
-          `;
-        } else if (m.num === '04') {
-          blockNavHtml = `
-            <div class="flex items-center justify-between">
-              <button type="button" onclick="window.switchJsePage(0)" class="px-2 py-1 rounded bg-slate-200 hover:bg-slate-300 text-slate-800 text-xs font-mono font-bold transition-colors cursor-pointer flex items-center gap-1">
-                <i class="fa-solid fa-arrow-left text-[10px]"></i>
-                <span>Modules 01–03</span>
-              </button>
-              <span class="text-[11px] text-amber-600 font-mono font-bold">NEXT: MOD 05 &rarr;</span>
-            </div>
-          `;
-        } else if (m.num === '05') {
-          blockNavHtml = `
-            <div class="text-[11px] text-slate-500 font-mono flex items-center justify-between">
-              <span>CALL_STACK: FUNCTIONAL</span>
-              <span class="text-amber-600 font-bold">NEXT: MOD 06 &rarr;</span>
-            </div>
-          `;
-        } else if (m.num === '06') {
-          blockNavHtml = `
-            <div class="flex items-center justify-between">
-              <span class="text-[11px] text-emerald-600 font-mono font-bold flex items-center gap-1">
-                <i class="fa-solid fa-certificate"></i> JSE 1 FINAL EXAM
-              </span>
-              <button type="button" onclick="window.switchJsePage(0)" class="px-2.5 py-1 rounded bg-slate-200 hover:bg-slate-300 text-slate-800 text-xs font-mono font-bold transition-colors cursor-pointer flex items-center gap-1">
-                <span>&larr; Back to 01</span>
-              </button>
-            </div>
-          `;
+        if (globalModuleIndex === 0) {
+          const nextModNum = modules[1] ? modules[1].num : '02';
+          blockNavHtml = (
+            '<div class="text-[11px] text-slate-500 font-mono flex items-center justify-between">' +
+              '<span>PREREQUISITES: NONE</span>' +
+              '<span class="' + theme.accentTextDark + ' font-bold">NEXT: MOD ' + nextModNum + ' &rarr;</span>' +
+            '</div>'
+          );
+        } else if (isLastInTrack) {
+          blockNavHtml = (
+            '<div class="flex items-center justify-between">' +
+              '<span class="text-[11px] text-emerald-600 font-mono font-bold flex items-center gap-1">' +
+                '<i class="fa-solid fa-certificate"></i> ' + mod.trackBadge + ' FINAL EXAM' +
+              '</span>' +
+              '<button type="button" onclick="window.switchCurriculumPage(0, \'' + mod.id + '\')" class="px-2.5 py-1 rounded bg-slate-200 hover:bg-slate-300 text-slate-800 text-xs font-mono font-bold transition-colors cursor-pointer flex items-center gap-1">' +
+                '<span>&larr; Back to 01</span>' +
+              '</button>' +
+            '</div>'
+          );
+        } else if (idx === 2) {
+          // Last block on current 3-block row, button to jump to next page
+          const nextPage = (currentPage + 1) % totalPages;
+          const nextStart = (nextPage * 3 + 1).toString().padStart(2, '0');
+          const nextEnd = Math.min(modules.length, (nextPage + 1) * 3).toString().padStart(2, '0');
+          const nextPageLabel = 'Modules ' + nextStart + '–' + nextEnd;
+          blockNavHtml = (
+            '<div class="flex items-center justify-between">' +
+              '<span class="text-[11px] text-slate-500 font-mono">STAGE ' + (currentPage + 1) + ' COMPLETE</span>' +
+              '<button type="button" onclick="window.switchCurriculumPage(' + nextPage + ', \'' + mod.id + '\')" class="px-2.5 py-1 rounded ' + theme.btnBg + ' text-xs font-mono font-bold transition-colors cursor-pointer flex items-center gap-1 shadow-xs">' +
+                '<span>Next: ' + nextPageLabel + '</span>' +
+                '<i class="fa-solid fa-arrow-right text-[10px]"></i>' +
+              '</button>' +
+            '</div>'
+          );
+        } else if (idx === 0 && currentPage > 0) {
+          // First block on subsequent page, button to jump to prev page
+          const prevPage = currentPage - 1;
+          const prevStart = (prevPage * 3 + 1).toString().padStart(2, '0');
+          const prevEnd = ((prevPage + 1) * 3).toString().padStart(2, '0');
+          const prevPageLabel = 'Modules ' + prevStart + '–' + prevEnd;
+          const nextModNum = modules[globalModuleIndex + 1] ? modules[globalModuleIndex + 1].num : '';
+          blockNavHtml = (
+            '<div class="flex items-center justify-between">' +
+              '<button type="button" onclick="window.switchCurriculumPage(' + prevPage + ', \'' + mod.id + '\')" class="px-2 py-1 rounded bg-slate-200 hover:bg-slate-300 text-slate-800 text-xs font-mono font-bold transition-colors cursor-pointer flex items-center gap-1">' +
+                '<i class="fa-solid fa-arrow-left text-[10px]"></i>' +
+                '<span>' + prevPageLabel + '</span>' +
+              '</button>' +
+              '<span class="text-[11px] ' + theme.accentTextDark + ' font-mono font-bold">NEXT: MOD ' + nextModNum + ' &rarr;</span>' +
+            '</div>'
+          );
+        } else {
+          // Standard middle block or inner progression
+          const nextModNum = modules[globalModuleIndex + 1] ? modules[globalModuleIndex + 1].num : '';
+          blockNavHtml = (
+            '<div class="text-[11px] text-slate-500 font-mono flex items-center justify-between">' +
+              '<span>CORE_STAGE: ' + (m.shortTitle || 'FOUNDATIONS') + '</span>' +
+              '<span class="' + theme.accentTextDark + ' font-bold">NEXT: MOD ' + nextModNum + ' &rarr;</span>' +
+            '</div>'
+          );
         }
 
-        return `
-          <div class="p-5 sm:p-6 bg-white border-2 ${isMiddle ? 'border-amber-400 shadow-md ring-1 ring-amber-400/20' : 'border-slate-300'} rounded-xl flex flex-col justify-between hover:border-slate-500 transition-all group">
-            <div>
-              <!-- Top Header Strip with Outline Number -->
-              <div class="flex items-center justify-between pb-3 mb-3 border-b border-slate-200">
-                <div class="flex items-center gap-2.5">
-                  <span class="font-mono text-3xl sm:text-4xl font-black text-amber-500 tracking-tight leading-none">${m.num}.</span>
-                  <div class="flex flex-col">
-                    <span class="font-mono text-[10px] font-bold text-slate-400 uppercase tracking-widest">
-                      ${isMiddle ? 'MIDDLE_BLOCK' : (idx === 0 ? 'START_BLOCK' : 'RIGHT_BLOCK')}
-                    </span>
-                    <span class="font-mono text-xs font-semibold text-slate-700">${m.code}</span>
-                  </div>
-                </div>
-                <span class="px-2 py-0.5 rounded text-[10px] font-mono font-bold bg-amber-100 text-amber-900 border border-amber-300">
-                  STAGE § ${m.num}
-                </span>
-              </div>
+        const borderClass = isMiddle
+          ? (theme.middleBorder + ' shadow-md ring-1 ' + theme.middleRing)
+          : 'border-slate-300';
 
-              <!-- Module Title & Outline Scope -->
-              <h4 class="font-headline font-bold text-slate-900 text-base sm:text-lg mb-2 leading-snug group-hover:text-amber-600 transition-colors">
-                ${m.title}
-              </h4>
-              <p class="text-xs text-slate-600 leading-relaxed font-sans mb-4">
-                ${m.desc}
-              </p>
+        const positionLabel = isMiddle ? 'MIDDLE_BLOCK' : (idx === 0 ? 'START_BLOCK' : 'RIGHT_BLOCK');
 
-              <!-- Outline Checklist -->
-              <div class="space-y-2 pt-2 border-t border-slate-100">
-                <div class="flex items-center justify-between text-[11px] font-mono text-slate-400 font-bold uppercase tracking-wider pb-1">
-                  <span>Curriculum Outline</span>
-                  <span>Interactive</span>
-                </div>
-                ${sectionsHtml}
-              </div>
-            </div>
+        return (
+          '<div class="p-5 sm:p-6 bg-white border-2 ' + borderClass + ' rounded-xl flex flex-col justify-between hover:border-slate-500 transition-all group">' +
+            '<div>' +
+              '<!-- Top Header Strip with Outline Number -->' +
+              '<div class="flex items-center justify-between pb-3 mb-3 border-b border-slate-200">' +
+                '<div class="flex items-center gap-2.5">' +
+                  '<span class="font-mono text-3xl sm:text-4xl font-black ' + theme.accentText + ' tracking-tight leading-none">' + m.num + '.</span>' +
+                  '<div class="flex flex-col">' +
+                    '<span class="font-mono text-[10px] font-bold text-slate-400 uppercase tracking-widest">' +
+                      positionLabel +
+                    '</span>' +
+                    '<span class="font-mono text-xs font-semibold text-slate-700">' + m.code + '</span>' +
+                  '</div>' +
+                '</div>' +
+                '<span class="px-2 py-0.5 rounded text-[10px] font-mono font-bold ' + theme.accentBgLight + ' ' + theme.accentTextBadge + ' border ' + theme.accentBorderBadge + '">' +
+                  'STAGE § ' + m.num +
+                '</span>' +
+              '</div>' +
 
-            <!-- Block Navigation / Footer -->
-            <div class="pt-4 mt-5 border-t border-slate-200">
-              ${blockNavHtml}
-            </div>
-          </div>
-        `;
+              '<!-- Module Title & Outline Scope -->' +
+              '<h4 class="font-headline font-bold text-slate-900 text-base sm:text-lg mb-2 leading-snug group-hover:' + theme.accentTextDark + ' transition-colors">' +
+                m.title +
+              '</h4>' +
+              '<p class="text-xs text-slate-600 leading-relaxed font-sans mb-4">' +
+                m.desc +
+              '</p>' +
+
+              '<!-- Outline Checklist -->' +
+              '<div class="space-y-2 pt-2 border-t border-slate-100">' +
+                '<div class="flex items-center justify-between text-[11px] font-mono text-slate-400 font-bold uppercase tracking-wider pb-1">' +
+                  '<span>Curriculum Outline</span>' +
+                  '<span>Interactive</span>' +
+                '</div>' +
+                sectionsHtml +
+              '</div>' +
+            '</div>' +
+
+            '<!-- Block Navigation / Footer -->' +
+            '<div class="pt-4 mt-5 border-t border-slate-200">' +
+              blockNavHtml +
+            '</div>' +
+          '</div>'
+        );
       })
       .join('');
 
-    container.innerHTML = `
-      <div class="os-white-card w-full">
-        <!-- Scientific Specification Window Titlebar -->
-        <div class="os-window-header px-6 sm:px-10 lg:px-14 py-3" id="jseCurriculumOutlineAnchor">
-          <div class="flex items-center gap-2.5">
-            <div class="font-mono text-xs text-slate-700 flex items-center gap-2 font-semibold">
-              <i class="fa-solid fa-terminal text-amber-500 text-[11px]"></i>
-              <span>/usr/local/matrix/curriculum/js_engine.es6</span>
-            </div>
-          </div>
+    // Segmented page switcher buttons
+    const pageButtonsHtml = Array.from({ length: totalPages }).map((_, pIdx) => {
+      const isPageActive = currentPage === pIdx;
+      const startNum = (pIdx * 3 + 1).toString().padStart(2, '0');
+      const endNum = Math.min(modules.length, (pIdx + 1) * 3).toString().padStart(2, '0');
+      const midNum = (pIdx * 3 + 2).toString().padStart(2, '0');
+      const label = startNum + '. ' + midNum + '. ' + endNum + '. Modules ' + parseInt(startNum, 10) + '–' + parseInt(endNum, 10);
+      const activeClass = isPageActive ? (theme.btnBg + ' shadow-xs') : 'text-slate-600 hover:text-slate-950';
+      return (
+        '<button type="button" onclick="window.switchCurriculumPage(' + pIdx + ', \'' + mod.id + '\')" class="px-3.5 py-1.5 rounded-md text-xs font-bold transition-all cursor-pointer ' + activeClass + '">' +
+          label +
+        '</button>'
+      );
+    }).join('');
 
-          <div class="font-mono text-xs text-slate-600 font-bold flex items-center gap-2">
-            <span class="px-2 py-0.5 rounded bg-amber-100 text-amber-900 border border-amber-300">JSE 1</span>
-            <span>06 MODULES // 3-BLOCK OUTLINE</span>
-          </div>
-        </div>
+    const nextPageIndex = (currentPage + 1) % totalPages;
+    const nextStartNum = (nextPageIndex * 3 + 1).toString().padStart(2, '0');
+    const nextEndNum = Math.min(modules.length, (nextPageIndex + 1) * 3).toString().padStart(2, '0');
+    const nextButtonText = nextPageIndex === 0 
+      ? '← Back to Modules (01–03)' 
+      : 'Next Modules (' + nextStartNum + '–' + nextEndNum + ') →';
 
-        <!-- Main Card Body -->
-        <div class="py-6 sm:py-8 px-6 sm:px-10 lg:px-14 space-y-8">
+    container.innerHTML = (
+      '<div class="os-white-card w-full">' +
+        '<!-- Scientific Specification Window Titlebar -->' +
+        '<div class="os-window-header px-6 sm:px-10 lg:px-14 py-3" id="matrixCurriculumOutlineAnchor">' +
+          '<div class="flex items-center gap-2.5">' +
+            '<div class="font-mono text-xs text-slate-700 flex items-center gap-2 font-semibold">' +
+              '<i class="' + mod.icon + ' text-[12px]"></i>' +
+              '<span>/usr/local/matrix/curriculum/' + mod.fileName + '</span>' +
+            '</div>' +
+          '</div>' +
+
+          '<div class="font-mono text-xs text-slate-600 font-bold flex items-center gap-2">' +
+            '<span class="px-2 py-0.5 rounded ' + theme.accentBgLight + ' ' + theme.accentTextBadge + ' border ' + theme.accentBorderBadge + '">' + mod.trackBadge + '</span>' +
+            '<span>' + modules.length.toString().padStart(2, '0') + ' MODULES // 3-BLOCK OUTLINE</span>' +
+          '</div>' +
+        '</div>' +
+
+        '<!-- Main Card Body -->' +
+        '<div class="py-6 sm:py-8 px-6 sm:px-10 lg:px-14 space-y-8">' +
           
-          <!-- Scientific Header & Technical Parameters -->
-          <div class="pb-5 border-b border-slate-200">
-            <div class="font-mono text-xs text-slate-500 tracking-wider mb-2.5 flex items-center gap-2 flex-wrap">
-              <span class="font-bold text-slate-800">SPEC_ID: JSE_ESSENTIALS_1</span>
-              <span class="text-slate-300">/</span>
-              <span>TIER: CLIENT TIER</span>
-              <span class="text-slate-300">/</span>
-              <span>DOMAIN: JAVASCRIPT ESSENTIALS</span>
-              <span class="text-slate-300">/</span>
-              <span>DURATION: 48.0_HRS</span>
-              <span class="text-slate-300">/</span>
-              <span class="text-amber-600 font-bold">STRUCTURE: 3 BLOCKS IN A ROW</span>
-            </div>
-            <h2 class="font-headline font-bold text-2xl sm:text-3xl text-slate-900 tracking-tight leading-tight mb-2.5">
-              ${mod.title}
-            </h2>
-            <p class="font-sans text-xs sm:text-sm text-slate-600 leading-relaxed max-w-4xl">
-              ${mod.summary}
-            </p>
-          </div>
+          '<!-- Scientific Header & Technical Parameters -->' +
+          '<div class="pb-5 border-b border-slate-200">' +
+            '<div class="font-mono text-xs text-slate-500 tracking-wider mb-2.5 flex items-center gap-2 flex-wrap">' +
+              '<span class="font-bold text-slate-800">SPEC_ID: ' + mod.specId + '</span>' +
+              '<span class="text-slate-300">/</span>' +
+              '<span>TIER: ' + mod.tier.toUpperCase() + '</span>' +
+              '<span class="text-slate-300">/</span>' +
+              '<span>DOMAIN: ' + mod.category.toUpperCase() + '</span>' +
+              '<span class="text-slate-300">/</span>' +
+              '<span>DURATION: ' + mod.duration + '</span>' +
+              '<span class="text-slate-300">/</span>' +
+              '<span class="' + theme.accentTextDark + ' font-bold">STRUCTURE: 3 BLOCKS IN A ROW</span>' +
+            '</div>' +
+            '<h2 class="font-headline font-bold text-2xl sm:text-3xl text-slate-900 tracking-tight leading-tight mb-2.5">' +
+              mod.title +
+            '</h2>' +
+            '<p class="font-sans text-xs sm:text-sm text-slate-600 leading-relaxed max-w-4xl">' +
+              mod.summary +
+            '</p>' +
+          '</div>' +
 
-          <!-- 3-Block Outline Interactive Switcher / Pagination Toolbar -->
-          <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-3 p-3.5 bg-slate-100 border border-slate-300 rounded-xl font-mono text-xs">
-            <div class="flex items-center gap-2.5 flex-wrap">
-              <span class="font-bold text-slate-700 flex items-center gap-1.5">
-                <i class="fa-solid fa-layer-group text-amber-500"></i>
-                <span>OUTLINE_BLOCKS:</span>
-              </span>
-              <div class="inline-flex rounded-lg border border-slate-300 bg-white p-0.5 shadow-2xs">
-                <button 
-                  type="button" 
-                  onclick="window.switchJsePage(0)"
-                  class="px-3.5 py-1.5 rounded-md text-xs font-bold transition-all cursor-pointer ${jseCurriculumPage === 0 ? 'bg-amber-500 text-slate-950 shadow-xs' : 'text-slate-600 hover:text-slate-950'}">
-                  01. 02. 03. Modules 1–3
-                </button>
-                <button 
-                  type="button" 
-                  onclick="window.switchJsePage(1)"
-                  class="px-3.5 py-1.5 rounded-md text-xs font-bold transition-all cursor-pointer ${jseCurriculumPage === 1 ? 'bg-amber-500 text-slate-950 shadow-xs' : 'text-slate-600 hover:text-slate-950'}">
-                  04. 05. 06. Modules 4–6
-                </button>
-              </div>
-            </div>
+          '<!-- 3-Block Outline Interactive Switcher / Pagination Toolbar -->' +
+          '<div class="flex flex-col sm:flex-row sm:items-center justify-between gap-3 p-3.5 bg-slate-100 border border-slate-300 rounded-xl font-mono text-xs">' +
+            '<div class="flex items-center gap-2.5 flex-wrap">' +
+              '<span class="font-bold text-slate-700 flex items-center gap-1.5">' +
+                '<i class="fa-solid fa-layer-group ' + theme.accentText + '"></i>' +
+                '<span>OUTLINE_BLOCKS:</span>' +
+              '</span>' +
+              '<div class="inline-flex rounded-lg border border-slate-300 bg-white p-0.5 shadow-2xs">' +
+                pageButtonsHtml +
+              '</div>' +
+            '</div>' +
 
-            <div class="flex items-center gap-2">
-              <button 
-                type="button" 
-                onclick="window.switchJsePage()"
-                class="px-4 py-1.5 rounded-lg bg-slate-900 hover:bg-amber-500 text-white hover:text-slate-950 font-bold transition-all flex items-center gap-2 cursor-pointer shadow-xs">
-                <span>${jseCurriculumPage === 0 ? 'Next Modules (04–06) →' : '← Previous Modules (01–03)'}</span>
-              </button>
-            </div>
-          </div>
+            '<div class="flex items-center gap-2">' +
+              '<button type="button" onclick="window.switchCurriculumPage(null, \'' + mod.id + '\')" class="px-4 py-1.5 rounded-lg bg-slate-900 hover:' + theme.accentBg + ' text-white hover:' + theme.btnText + ' font-bold transition-all flex items-center gap-2 cursor-pointer shadow-xs">' +
+                '<span>' + nextButtonText + '</span>' +
+              '</button>' +
+            '</div>' +
+          '</div>' +
 
-          <!-- THE THREE BLOCKS IN A ROW (01., 02. IN THE MIDDLE, 03. ON THE RIGHT) -->
-          <div class="grid grid-cols-1 md:grid-cols-3 gap-5 lg:gap-6">
-            ${blocksHtml}
-          </div>
+          '<!-- THE THREE BLOCKS IN A ROW (01., 02. IN THE MIDDLE, 03. ON THE RIGHT) -->' +
+          '<div class="grid grid-cols-1 md:grid-cols-3 gap-5 lg:gap-6">' +
+            blocksHtml +
+          '</div>' +
 
-        </div>
-      </div>
-    `;
+        '</div>' +
+      '</div>'
+    );
   }
 
-  // Render the Active Track in a Crisp White Card (Directly Showing the 3x3 Curriculum Syllabus)
+  // Backward compatibility alias
+  function renderJsCurriculumPanel(container, mod) {
+    renderTrackCurriculumPanel(container, mod);
+  }
+
+  // Render the Active Track in a Crisp White Card (All 7 Tracks follow 3-Block Curriculum Outline)
   function renderActiveTabbedCard() {
     const container = document.getElementById('osMainContentArea');
     if (!container) return;
 
     const mod = MODULES_DATA.find((m) => m.id === currentActiveTrackId) || MODULES_DATA[0];
-
-    // If JavaScript track is selected, render custom 3-block outline design
-    if (mod.id === 'javascript') {
-      renderJsCurriculumPanel(container, mod);
-      return;
-    }
-
-    // Helper to render each 3-module progression tier with scientific formatting
-    function renderSyllabusTier(tierName, tierNumber, modules) {
-      const modulesHtml = modules
-        .map((m) => `
-          <div class="p-4 sm:p-5 bg-white border border-slate-200 hover:border-slate-400 transition-colors flex flex-col justify-between">
-            <div>
-              <div class="flex items-center justify-between font-mono text-[11px] text-slate-500 mb-2 pb-1.5 border-b border-slate-100">
-                <span class="font-bold text-slate-800 tracking-wider">MODULE § ${m.num}</span>
-                <span class="text-slate-400 tracking-wider">${m.tier.toUpperCase()} [STAGE ${m.num}/09]</span>
-              </div>
-              <h4 class="font-headline font-bold text-slate-900 text-sm sm:text-base mb-2 leading-snug">
-                ${m.chapter}
-              </h4>
-              <p class="text-xs text-slate-600 leading-relaxed font-sans mb-3">
-                ${m.desc}
-              </p>
-            </div>
-            <div class="pt-2.5 border-t border-slate-100 font-mono text-[11px] text-slate-600 mt-auto leading-relaxed">
-              <span class="text-slate-400 font-semibold">CORE_CONCEPTS:</span> ${m.keyConcepts.join('; ')}
-            </div>
-          </div>
-        `)
-        .join('');
-
-      return `
-        <div class="space-y-3.5">
-          <!-- Scientific Section Header Strip -->
-          <div class="flex items-baseline justify-between gap-3 pb-2 border-b-2 border-slate-300">
-            <h3 class="font-mono font-bold text-slate-900 text-sm sm:text-base tracking-wide uppercase">
-              ${tierName}
-            </h3>
-            <span class="font-mono text-xs text-slate-500 font-semibold tracking-wider">
-              [ ADVANCEMENT_TIER_${tierNumber} // 03_MODULES ]
-            </span>
-          </div>
-
-          <!-- 3 Modules Grid -->
-          <div class="grid grid-cols-1 md:grid-cols-3 gap-3.5 sm:gap-4">
-            ${modulesHtml}
-          </div>
-        </div>
-      `;
-    }
-
-    const beginnerTier = mod.syllabus.filter((s) => s.tier === 'Beginner');
-    const advancedTier = mod.syllabus.filter((s) => s.tier === 'Advanced');
-    const expertTier = mod.syllabus.filter((s) => s.tier === 'Expert');
-
-    container.innerHTML = `
-      <div class="os-white-card w-full">
-        
-        <!-- Scientific Specification Window Titlebar -->
-        <div class="os-window-header px-6 sm:px-10 lg:px-14 py-3">
-          <div class="flex items-center gap-2.5">
-            <div class="font-mono text-xs text-slate-700 flex items-center gap-2 font-semibold">
-              <i class="fa-solid fa-terminal text-slate-500 text-[11px]"></i>
-              <span>/usr/local/matrix/curriculum/${mod.fileName}</span>
-            </div>
-          </div>
-
-          <div class="font-mono text-xs text-slate-500 font-bold">
-            ${mod.duration} // 09 PROGRESSIVE MODULES (3x3)
-          </div>
-        </div>
-
-        <!-- Main Card Body -->
-        <div class="py-6 sm:py-8 px-6 sm:px-10 lg:px-14 space-y-8">
-          
-          <!-- Scientific Header & Technical Parameters -->
-          <div class="pb-5 border-b border-slate-200">
-            <div class="font-mono text-xs text-slate-500 tracking-wider mb-2.5 flex items-center gap-2 flex-wrap">
-              <span class="font-bold text-slate-800">SPEC_ID: ${mod.id.toUpperCase()}</span>
-              <span class="text-slate-300">/</span>
-              <span>TIER: ${mod.tier.toUpperCase()}</span>
-              <span class="text-slate-300">/</span>
-              <span>DOMAIN: ${mod.category.toUpperCase()}</span>
-              <span class="text-slate-300">/</span>
-              <span>EST_HOURS: ${mod.duration}</span>
-              <span class="text-slate-300">/</span>
-              <span>STRUCTURE: 3x3 PROGRESSIVE MATRIX</span>
-            </div>
-            <h2 class="font-headline font-bold text-2xl sm:text-3xl text-slate-900 tracking-tight leading-tight mb-2.5">
-              ${mod.title}
-            </h2>
-            <p class="font-sans text-xs sm:text-sm text-slate-600 leading-relaxed max-w-4xl">
-              ${mod.summary}
-            </p>
-          </div>
-
-          <!-- THE 3x3 CURRICULUM SYLLABUSES (3 Beginner, 3 Advanced, 3 Expert) -->
-          <div class="space-y-8">
-            ${renderSyllabusTier(
-              '01. Beginner Foundations (Core Mechanics & Execution Lifecycle)',
-              '01',
-              beginnerTier
-            )}
-
-            ${renderSyllabusTier(
-              '02. Advanced Architecture (System Design & Concurrency)',
-              '02',
-              advancedTier
-            )}
-
-            ${renderSyllabusTier(
-              '03. Expert Internals (Low-Level Mastery & Enterprise Scaling)',
-              '03',
-              expertTier
-            )}
-          </div>
-
-        </div>
-      </div>
-    `;
+    renderTrackCurriculumPanel(container, mod);
   }
 
   // Render Grid View of All 7 White Cards
@@ -1419,87 +5272,90 @@
         m.title.toLowerCase().includes(q) ||
         m.summary.toLowerCase().includes(q) ||
         m.fileName.toLowerCase().includes(q) ||
-        (m.syllabus && m.syllabus.some((s) => s.chapter.toLowerCase().includes(q) || s.desc.toLowerCase().includes(q))) ||
-        (m.id === 'javascript' && JSE_MODULES.some((jm) => jm.title.toLowerCase().includes(q) || jm.sections.some((sec) => sec.title.toLowerCase().includes(q))))
+        m.modules.some((mod) => mod.title.toLowerCase().includes(q) || mod.sections.some((sec) => sec.title.toLowerCase().includes(q)))
       );
     });
 
     if (filtered.length === 0) {
-      container.innerHTML = `
-        <div class="os-white-card p-12 text-center max-w-xl mx-auto border border-slate-200">
-          <div class="w-12 h-12 bg-slate-100 text-slate-500 rounded flex items-center justify-center text-xl mx-auto mb-3 border border-slate-300">
-            <i class="fa-solid fa-magnifying-glass"></i>
-          </div>
-          <h3 class="font-mono font-bold text-lg text-slate-900 mb-1">NO_MODULES_FOUND</h3>
-          <p class="font-sans text-xs text-slate-600 mb-4">No tracks match your current search query.</p>
-        </div>
-      `;
+      container.innerHTML = (
+        '<div class="os-white-card p-12 text-center max-w-xl mx-auto border border-slate-200">' +
+          '<div class="w-12 h-12 bg-slate-100 text-slate-500 rounded flex items-center justify-center text-xl mx-auto mb-3 border border-slate-300">' +
+            '<i class="fa-solid fa-magnifying-glass"></i>' +
+          '</div>' +
+          '<h3 class="font-mono font-bold text-lg text-slate-900 mb-1">NO_MODULES_FOUND</h3>' +
+          '<p class="font-sans text-xs text-slate-600 mb-4">No tracks match your current search query.</p>' +
+        '</div>'
+      );
       return;
     }
 
     const cardsHtml = filtered
       .map((mod) => {
-        const isJs = mod.id === 'javascript';
-        return `
-          <div class="os-white-card flex flex-col justify-between cursor-pointer group hover:shadow-xl transition-all border border-slate-200" data-card-track-id="${mod.id}">
-            <!-- Titlebar -->
-            <div class="os-window-header py-2 px-4">
-              <div class="font-mono text-xs text-slate-600 font-semibold flex items-center gap-1.5">
-                <i class="${mod.icon}"></i> ${mod.fileName}
-              </div>
-              <div class="font-mono text-xs text-slate-500 font-semibold">${mod.duration}</div>
-            </div>
+        const theme = TRACK_THEMES[mod.id] || TRACK_THEMES.javascript;
+        const totalMods = mod.modules ? mod.modules.length : 6;
+        const mod1 = mod.modules[0] ? mod.modules[0].shortTitle : 'Stage 1';
+        const mod2 = mod.modules[1] ? mod.modules[1].shortTitle : 'Stage 2';
 
-            <!-- Body -->
-            <div class="p-6 flex-1 flex flex-col justify-between">
-              <div>
-                <div class="font-mono text-xs text-slate-500 uppercase tracking-wider mb-2 font-bold">
-                  ${mod.tier} // ${mod.category.toUpperCase()}
-                </div>
+        return (
+          '<div class="os-white-card flex flex-col justify-between cursor-pointer group hover:shadow-xl transition-all border border-slate-200" data-card-track-id="' + mod.id + '">' +
+            '<!-- Titlebar -->' +
+            '<div class="os-window-header py-2 px-4">' +
+              '<div class="font-mono text-xs text-slate-600 font-semibold flex items-center gap-1.5">' +
+                '<i class="' + mod.icon + '"></i> ' + mod.fileName +
+              '</div>' +
+              '<div class="font-mono text-xs text-slate-500 font-semibold">' + mod.duration + '</div>' +
+            '</div>' +
 
-                <h3 class="font-headline font-bold text-xl sm:text-2xl text-slate-900 leading-tight group-hover:text-sky-600 transition-colors mb-3 tracking-tight">
-                  ${mod.title}
-                </h3>
+            '<!-- Body -->' +
+            '<div class="p-6 flex-1 flex flex-col justify-between">' +
+              '<div>' +
+                '<div class="font-mono text-xs text-slate-500 uppercase tracking-wider mb-2 font-bold">' +
+                  mod.tier + ' // ' + mod.category.toUpperCase() +
+                '</div>' +
 
-                <p class="font-sans text-xs sm:text-sm text-slate-600 leading-relaxed mb-4">
-                  ${mod.summary}
-                </p>
+                '<h3 class="font-headline font-bold text-xl sm:text-2xl text-slate-900 leading-tight group-hover:text-sky-600 transition-colors mb-3 tracking-tight">' +
+                  mod.title +
+                '</h3>' +
 
-                ${isJs ? `
-                  <!-- JSE 6-Module Breakdown -->
-                  <div class="py-2.5 px-3 bg-amber-50/80 border border-amber-200 font-mono text-xs text-slate-800 mb-4 space-y-1 rounded-lg">
-                    <div class="flex justify-between font-bold text-amber-900"><span>JSE 1: 6-Module Curriculum Outline</span><span class="text-amber-600">[01–06]</span></div>
-                    <div class="flex justify-between text-slate-600"><span>[01–03] Intro, Variables, Operators:</span><span class="font-bold text-slate-800">3 Blocks</span></div>
-                    <div class="flex justify-between text-slate-600"><span>[04–06] Control Flow, Functions, Errors:</span><span class="font-bold text-slate-800">3 Blocks</span></div>
-                  </div>
-                ` : `
-                  <!-- Scientific 3x3 Breakdown -->
-                  <div class="py-2.5 px-3 bg-slate-50 border border-slate-200 font-mono text-xs text-slate-700 mb-4 space-y-1">
-                    <div class="flex justify-between"><span>[01-03] Beginner Foundations:</span><span class="font-bold">3 Chapters</span></div>
-                    <div class="flex justify-between"><span>[04-06] Advanced Architecture:</span><span class="font-bold">3 Chapters</span></div>
-                    <div class="flex justify-between"><span>[07-09] Expert Internals:</span><span class="font-bold">3 Chapters</span></div>
-                  </div>
-                `}
-              </div>
+                '<p class="font-sans text-xs sm:text-sm text-slate-600 leading-relaxed mb-4">' +
+                  mod.summary +
+                '</p>' +
 
-              <!-- Action Bar -->
-              <div class="pt-4 border-t border-slate-200 flex items-center justify-between">
-                <span class="text-xs font-mono text-slate-500 font-semibold">${isJs ? '6 OUTLINE MODULES' : '9 PROGRESSIVE MODULES'}</span>
-                <button type="button" class="font-mono text-xs font-bold text-slate-900 hover:text-sky-600 flex items-center gap-1.5 transition-colors">
-                  <span>${isJs ? 'INSPECT_OUTLINE &rarr;' : 'INSPECT_SYLLABUS &rarr;'}</span>
-                </button>
-              </div>
-            </div>
-          </div>
-        `;
+                '<!-- Outline Breakdown -->' +
+                '<div class="py-2.5 px-3 ' + theme.accentBgLight + ' border ' + theme.accentBorderBadge + ' font-mono text-xs text-slate-800 mb-4 space-y-1 rounded-lg">' +
+                  '<div class="flex justify-between font-bold ' + theme.accentTextBadge + '">' +
+                    '<span>' + mod.trackBadge + ': ' + totalMods + '-Module Curriculum Outline</span>' +
+                    '<span class="' + theme.accentTextDark + '">[01–' + totalMods.toString().padStart(2, '0') + ']</span>' +
+                  '</div>' +
+                  '<div class="flex justify-between text-slate-600">' +
+                    '<span>[01–03] ' + mod1 + ', ' + mod2 + ':</span>' +
+                    '<span class="font-bold text-slate-800">3 Blocks</span>' +
+                  '</div>' +
+                  '<div class="flex justify-between text-slate-600">' +
+                    '<span>[04–' + totalMods.toString().padStart(2, '0') + '] Advanced &amp; Internals:</span>' +
+                    '<span class="font-bold text-slate-800">' + (totalMods - 3) + ' Blocks</span>' +
+                  '</div>' +
+                '</div>' +
+              '</div>' +
+
+              '<!-- Action Bar -->' +
+              '<div class="pt-4 border-t border-slate-200 flex items-center justify-between">' +
+                '<span class="text-xs font-mono text-slate-500 font-semibold">' + totalMods + ' OUTLINE MODULES</span>' +
+                '<button type="button" class="font-mono text-xs font-bold text-slate-900 hover:' + theme.accentTextDark + ' flex items-center gap-1.5 transition-colors">' +
+                  '<span>INSPECT_OUTLINE &rarr;</span>' +
+                '</button>' +
+              '</div>' +
+            '</div>' +
+          '</div>'
+        );
       })
       .join('');
 
-    container.innerHTML = `
-      <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-5">
-        ${cardsHtml}
-      </div>
-    `;
+    container.innerHTML = (
+      '<div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-5">' +
+        cardsHtml +
+      '</div>'
+    );
 
     // Click handler on cards to switch to tabbed view
     container.querySelectorAll('[data-card-track-id]').forEach((card) => {
@@ -1514,6 +5370,7 @@
     });
   }
 
+  // Switcher between Single Tab Card and 7-Track Grid
   function renderMainView() {
     if (currentViewMode === 'grid') {
       renderAllCardsGrid();
@@ -1523,99 +5380,87 @@
   }
 
   // ═══════════════════════════════════════════════════════════════════
-  // 5. OS CLOCK & SEARCH
+  // 8. OS CLOCK & AUDIO SYSTEM INITIALIZATION
   // ═══════════════════════════════════════════════════════════════════
   function initOsClock() {
-    const clockEls = document.querySelectorAll('.os-menu-clock, #osMenuClock');
+    const clockEls = document.querySelectorAll('.os-menu-clock');
     if (!clockEls.length) return;
+
     function tick() {
       const now = new Date();
-      const timeStr = now.toLocaleDateString('en-US', {
+      const options = {
         weekday: 'short',
         month: 'short',
         day: 'numeric',
         hour: 'numeric',
-        minute: '2-digit'
-      });
+        minute: '2-digit',
+        hour12: true
+      };
+      const formatted = now.toLocaleString('en-US', options);
       clockEls.forEach((el) => {
-        el.textContent = timeStr;
+        el.textContent = formatted;
       });
     }
+
     tick();
     setInterval(tick, 1000);
   }
 
-  // ═══════════════════════════════════════════════════════════════════
-  // 6. DOM INITIALIZATION
-  // ═══════════════════════════════════════════════════════════════════
+  // Global Audio Switcher
+  function updateAudioButtons() {
+    const btns = document.querySelectorAll('.os-audio-toggle-btn');
+    btns.forEach((btn) => {
+      btn.innerHTML = isAudioMuted
+        ? '<i class="fa-solid fa-volume-xmark text-slate-500"></i>'
+        : '<i class="fa-solid fa-volume-high text-sky-400"></i>';
+      btn.setAttribute('title', isAudioMuted ? 'OS Audio: Muted' : 'OS Audio: Active');
+    });
+  }
+
   document.addEventListener('DOMContentLoaded', () => {
     initOsClock();
-    renderIdeTabs();
-    renderMainView();
+    updateAudioButtons();
 
-    // Audio Mute Toggle (Synchronized across both header and footer menubars)
-    const audioBtns = document.querySelectorAll('.os-audio-toggle-btn, #osAudioToggleBtn');
-    function updateAudioButtons() {
-      audioBtns.forEach((btn) => {
-        btn.innerHTML = soundEnabled
-          ? `<i class="fa-solid fa-volume-high text-sky-400"></i>`
-          : `<i class="fa-solid fa-volume-xmark text-slate-500"></i>`;
-      });
-    }
-
-    audioBtns.forEach((btn) => {
+    document.querySelectorAll('.os-audio-toggle-btn').forEach((btn) => {
       btn.addEventListener('click', () => {
-        initAudio();
-        soundEnabled = !soundEnabled;
+        isAudioMuted = !isAudioMuted;
         updateAudioButtons();
-        if (soundEnabled) playOsClick(900, 0.04);
-      });
-    });
-
-    // In-App Home Icon Navigation (Resets curriculum view to first track smoothly)
-    document.querySelectorAll('a[href="./index.html"]').forEach((homeBtn) => {
-      homeBtn.addEventListener('click', (e) => {
-        const path = window.location.pathname;
-        if (path.endsWith('index.html') || path.endsWith('/learning-module/') || path.endsWith('/learning-module')) {
-          e.preventDefault();
-          currentActiveTrackId = 'javascript';
-          currentViewMode = 'tabbed';
-          renderIdeTabs();
-          renderMainView();
-          window.scrollTo({ top: 0, behavior: 'smooth' });
-          playOsClick(800, 0.04);
+        if (!isAudioMuted) {
+          playOsClick(880, 0.05);
         }
       });
     });
+
+    renderIdeTabs();
+    renderMainView();
   });
 
-  // Global API for Sitemap & In-Page Technical Navigation
+  // Global Navigation Shortcuts
   window.openMatrixTrack = function (trackId) {
-    if (MODULES_DATA.some((m) => m.id === trackId)) {
-      currentActiveTrackId = trackId;
-      currentViewMode = 'tabbed';
-      renderIdeTabs();
-      renderMainView();
-      const mainEl = document.getElementById('osMainContentArea');
-      if (mainEl) {
-        mainEl.scrollIntoView({ behavior: 'smooth', block: 'start' });
-      } else {
-        window.scrollTo({ top: 0, behavior: 'smooth' });
-      }
-      playOsClick(800, 0.04);
+    currentActiveTrackId = trackId;
+    currentViewMode = 'tabbed';
+    playOsClick(800, 0.03);
+    renderIdeTabs();
+    renderMainView();
+    const anchor = document.getElementById('osIdeTabsContainer');
+    if (anchor) {
+      anchor.scrollIntoView({ behavior: 'smooth', block: 'start' });
     }
   };
 
   window.openMatrixGrid = function () {
     currentViewMode = 'grid';
+    playOsClick(700, 0.03);
     renderIdeTabs();
     renderMainView();
-    const mainEl = document.getElementById('osMainContentArea');
-    if (mainEl) {
-      mainEl.scrollIntoView({ behavior: 'smooth', block: 'start' });
-    } else {
-      window.scrollTo({ top: 0, behavior: 'smooth' });
+    const anchor = document.getElementById('osIdeTabsContainer');
+    if (anchor) {
+      anchor.scrollIntoView({ behavior: 'smooth', block: 'start' });
     }
-    playOsClick(800, 0.04);
   };
+
+  // Expose globals for debugging and testing
+  window.MODULES_DATA = MODULES_DATA;
+  window.TRACK_THEMES = TRACK_THEMES;
+
 })();

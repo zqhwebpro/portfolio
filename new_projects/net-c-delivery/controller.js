@@ -2,6 +2,57 @@
 // DINERDASHBOARD // MODERN KITCHEN POS & MULTI-GATEWAY DISPATCH ENGINE
 // ═══════════════════════════════════════════════════════════════════
 
+// Automated Client-Side Cache Cleanup & Cache Storage Purge
+(function purgeClientCaches() {
+    try {
+        if ('caches' in window) {
+            caches.keys().then((cacheNames) => {
+                cacheNames.forEach((cacheName) => {
+                    caches.delete(cacheName);
+                });
+            }).catch(() => {});
+        }
+        if ('serviceWorker' in navigator) {
+            navigator.serviceWorker.getRegistrations().then((registrations) => {
+                for (const registration of registrations) {
+                    registration.unregister();
+                }
+            }).catch(() => {});
+        }
+    } catch (e) {}
+})();
+
+// Manual user cache clear & hard refresh
+function clearDinerAppCache() {
+    playToyClick(720, 0.05);
+    try {
+        localStorage.removeItem('dinerdashboard_delivery_api_state');
+        sessionStorage.clear();
+        if ('caches' in window) {
+            caches.keys().then((names) => {
+                for (const name of names) {
+                    caches.delete(name);
+                }
+            }).catch(() => {});
+        }
+        if ('serviceWorker' in navigator) {
+            navigator.serviceWorker.getRegistrations().then((registrations) => {
+                for (const registration of registrations) {
+                    registration.unregister();
+                }
+            }).catch(() => {});
+        }
+    } catch (e) {}
+
+    const base = window.location.origin + window.location.pathname;
+    const cacheBusterUrl = base + '?nocache=' + Date.now() + (window.location.hash || '#step1');
+    window.location.replace(cacheBusterUrl);
+}
+
+if (typeof window !== 'undefined') {
+    window.clearDinerAppCache = clearDinerAppCache;
+}
+
 // Audio synthesizer for discrete OS feedback & tactile diner physical buttons
 let audioCtx = null;
 let soundEnabled = true;
@@ -298,7 +349,7 @@ try {
 // ═══════════════════════════════════════════════════════════════════
 // STEPPER WIZARD ENGINE (SIDE PANEL & OS FOLDER TABS SYNC)
 // ═══════════════════════════════════════════════════════════════════
-function goToStep(stepNum) {
+function goToStep(stepNum, pushToHistory = true) {
     playToyClick(580, 0.04);
 
     const hasVerifiedGateway = Object.keys(DELIVERY_SERVICES).some(k => DELIVERY_SERVICES[k].verified);
@@ -387,8 +438,115 @@ function goToStep(stepNum) {
 
     updateProgressiveState();
 
+    // Push browser history state so browser Back button navigates back INSIDE this app
+    if (pushToHistory && window.history && window.history.pushState) {
+        const targetHash = '#step' + stepNum;
+        if (window.location.hash !== targetHash) {
+            window.history.pushState({ step: stepNum, modal: null }, '', window.location.pathname + targetHash);
+        }
+    } else if (!pushToHistory && window.history && window.history.replaceState) {
+        const targetHash = '#step' + stepNum;
+        if (window.location.hash !== targetHash && !window.location.hash.startsWith('#api-')) {
+            window.history.replaceState({ step: stepNum, modal: null }, '', window.location.pathname + targetHash);
+        }
+    }
+
+    // Update in-app top-right back button behavior and title
+    updateBackBtnState();
+
     // Smooth scroll to top of viewport
     window.scrollTo({ top: 0, behavior: 'smooth' });
+}
+
+// Update top-right back button label & tooltip based on current step
+function updateBackBtnState() {
+    const backBtn = document.getElementById('back-btn-np');
+    if (!backBtn) return;
+    if (currentStep === 3) {
+        backBtn.setAttribute('title', 'Back to Step 2: Menu Catalog');
+        backBtn.setAttribute('aria-label', 'Back to Step 2: Menu Catalog');
+    } else if (currentStep === 2) {
+        backBtn.setAttribute('title', 'Back to Step 1: Gateways Setup');
+        backBtn.setAttribute('aria-label', 'Back to Step 1: Gateways Setup');
+    } else {
+        backBtn.setAttribute('title', 'Back to Projects Hub');
+        backBtn.setAttribute('aria-label', 'Back to Projects Hub');
+    }
+}
+
+// In-App Back Navigation & Browser History Popstate Controller
+function initBackNavigation() {
+    const backBtn = document.getElementById('back-btn-np');
+    if (backBtn) {
+        backBtn.addEventListener('click', (e) => {
+            // 1. If any Bootstrap modal is currently open, close it instead of leaving the application
+            const openModalEl = document.querySelector('.modal.show');
+            if (openModalEl) {
+                e.preventDefault();
+                const modalInstance = bootstrap.Modal.getInstance(openModalEl);
+                if (modalInstance) {
+                    modalInstance.hide();
+                    return;
+                }
+            }
+
+            // 2. If on Step 3, go back to Step 2 inside the application
+            if (currentStep === 3) {
+                e.preventDefault();
+                goToStep(2);
+                return;
+            }
+
+            // 3. If on Step 2, go back to Step 1 inside the application
+            if (currentStep === 2) {
+                e.preventDefault();
+                goToStep(1);
+                return;
+            }
+
+            // 4. If on Step 1, normal navigation to href="../" (Projects Hub) proceeds
+        });
+    }
+
+    // Intercept browser back/forward buttons
+    window.addEventListener('popstate', (e) => {
+        // If a modal is open, close it
+        const openModalEl = document.querySelector('.modal.show');
+        if (openModalEl) {
+            const modalInstance = bootstrap.Modal.getInstance(openModalEl);
+            if (modalInstance) {
+                modalInstance.hide();
+                return;
+            }
+        }
+
+        let targetStep = 1;
+        if (e.state && e.state.step) {
+            targetStep = e.state.step;
+        } else if (window.location.hash === '#step3') {
+            targetStep = 3;
+        } else if (window.location.hash === '#step2') {
+            targetStep = 2;
+        } else {
+            targetStep = 1;
+        }
+
+        goToStep(targetStep, false);
+    });
+
+    // Cleanup URL hash when modals hide
+    ['apiConfigModal', 'apiVerifiedNextStepModal'].forEach((id) => {
+        const el = document.getElementById(id);
+        if (el && typeof el.addEventListener === 'function') {
+            el.addEventListener('hidden.bs.modal', () => {
+                if (window.location.hash.startsWith('#api-')) {
+                    if (window.history && window.history.replaceState) {
+                        window.history.replaceState({ step: currentStep, modal: null }, '', window.location.pathname + '#step' + currentStep);
+                    }
+                }
+            });
+        }
+    });
 }
 
 // Switch Workbook compatibility
@@ -1171,6 +1329,9 @@ function openApiConfigModal(serviceId) {
 
     const modalEl = document.getElementById('apiConfigModal');
     const modal = bootstrap.Modal.getOrCreateInstance(modalEl);
+    if (window.history && window.history.pushState) {
+        window.history.pushState({ step: currentStep, modal: 'apiConfigModal' }, '', window.location.pathname + '#api-config');
+    }
     modal.show();
 }
 
@@ -1247,6 +1408,9 @@ function handleApiVerification(event) {
         const nextModalEl = document.getElementById('apiVerifiedNextStepModal');
         if (nextModalEl) {
             const nextModal = bootstrap.Modal.getOrCreateInstance(nextModalEl);
+            if (window.history && window.history.pushState) {
+                window.history.pushState({ step: currentStep, modal: 'apiVerifiedNextStepModal' }, '', window.location.pathname + '#api-verified');
+            }
             nextModal.show();
         }
     }, 380);
@@ -1300,12 +1464,26 @@ function resetWalkthrough() {
 // ═══════════════════════════════════════════════════════════════════
 // INITIALIZATION
 // ═══════════════════════════════════════════════════════════════════
-document.addEventListener('DOMContentLoaded', () => {
-    initDinerClock();
-    renderGatewayCards();
-    updateProgressiveState();
+if (typeof document !== 'undefined') {
+    document.addEventListener('DOMContentLoaded', () => {
+        initDinerClock();
+        renderGatewayCards();
+        updateProgressiveState();
 
-    addTelemetryLogRow('DinerDashboard', 'KERNEL.BOOT_READY', '6 ms', '#KITCHEN_DISPATCH_ONLINE');
-    addTelemetryLogRow('System Gateway', 'GATEWAY.BOOT_SEQUENCE', '8 ms', '#SYSTEM_INITIALIZE');
-    addTelemetryLogRow('Cloud Router', 'DNS.ANYCAST_SYNC', '12 ms', '#GLOBAL_ROUTE_READY');
-});
+        // Initialize in-app back navigation & browser history
+        if (typeof window !== 'undefined' && window.history && window.history.replaceState) {
+            const hash = window.location.hash;
+            const initialStep = (hash === '#step3') ? 3 : ((hash === '#step2') ? 2 : 1);
+            window.history.replaceState({ step: initialStep, modal: null }, '', window.location.pathname + (hash.startsWith('#step') ? hash : '#step1'));
+            if (initialStep !== 1) {
+                goToStep(initialStep, false);
+            }
+        }
+        initBackNavigation();
+        updateBackBtnState();
+
+        addTelemetryLogRow('DinerDashboard', 'KERNEL.BOOT_READY', '6 ms', '#KITCHEN_DISPATCH_ONLINE');
+        addTelemetryLogRow('System Gateway', 'GATEWAY.BOOT_SEQUENCE', '8 ms', '#SYSTEM_INITIALIZE');
+        addTelemetryLogRow('Cloud Router', 'DNS.ANYCAST_SYNC', '12 ms', '#GLOBAL_ROUTE_READY');
+    });
+}
