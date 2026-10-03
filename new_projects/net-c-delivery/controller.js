@@ -474,7 +474,7 @@ function goToStep(stepNum, pushToHistory = true) {
         showDinerToast(
             'API Connection Required ⚠️',
             'No Delivery API is connected yet. Please install and verify Uber Direct or another gateway in Step 1 first.',
-            'fa-plug-circle-exclamation'
+            'fa-triangle-exclamation'
         );
         stepNum = 1;
     }
@@ -672,7 +672,7 @@ function selectAndProceedGateway(serviceKey) {
     showDinerToast(
         `${s.name} Active 🚀`,
         `Connected via ${s.protocol}. Moving to Step 2: Create Website...`,
-        'fa-circle-check'
+        'fa-square-check'
     );
 
     setTimeout(() => {
@@ -721,7 +721,7 @@ function renderGatewayCards() {
                             </div>
                         </div>
                         <span class="gw-status-badge ${isVerified ? 'ok' : 'pending'}">
-                            <i class="fa-solid ${isVerified ? 'fa-circle-check' : 'fa-plug'}"></i>
+                            <i class="fa-solid ${isVerified ? 'fa-square-check' : 'fa-plug'}"></i>
                             ${isVerified ? '200 OK' : 'NOT INSTALLED'}
                         </span>
                     </div>
@@ -905,7 +905,7 @@ function handleApiVerification(event) {
     showDinerToast(
         `${s.name} Connected! 🚀`,
         `API credentials validated for ${s.name} (Location: ${locationId || s.defaultLocationId}).`,
-        'fa-circle-check'
+        'fa-square-check'
     );
 
     addTelemetryLogRow(s.name, 'API.HANDSHAKE_VERIFIED', s.latency, `#KEY_${apiKey.substring(0, 8)}...`);
@@ -1086,8 +1086,8 @@ function renderMenuCatalog() {
     if (counterBadge) {
         counterBadge.innerText = `${selectedCount} of 7 SKUs Selected`;
         counterBadge.className = selectedCount > 0 
-            ? 'badge bg-success rounded-pill font-mono' 
-            : 'badge bg-warning text-dark rounded-pill font-mono';
+            ? 'badge bg-success rounded-1 font-mono' 
+            : 'badge bg-warning text-dark rounded-1 font-mono';
     }
 
     let html = '';
@@ -1154,7 +1154,7 @@ function toggleMenuItemSelection(index) {
     showDinerToast(
         item.selected ? `${item.sku} Added to Site 🛒` : `${item.sku} Removed from Site ↩️`,
         `"${item.name}" is ${item.selected ? 'now included on your customer site' : 'removed'}.`,
-        item.selected ? 'fa-circle-check' : 'fa-minus'
+        item.selected ? 'fa-square-check' : 'fa-minus'
     );
 }
 
@@ -1333,7 +1333,7 @@ function renderDeployedSiteBanner() {
     if (liveLink) liveLink.href = targetUrl;
 
     if (avatar && currentSiteConfig.photoUrl) {
-        avatar.innerHTML = `<img src="${currentSiteConfig.photoUrl}" alt="Store Photo" style="width: 100%; height: 100%; object-fit: cover; border-radius: 10px;" onerror="this.parentElement.innerHTML='<i class=\\'fa-solid fa-store fa-2x text-primary\\'></i>'">`;
+        avatar.innerHTML = `<img src="${currentSiteConfig.photoUrl}" alt="Store Photo" style="width: 100%; height: 100%; object-fit: cover; border-radius: 4px;" onerror="this.parentElement.innerHTML='<i class=\\'fa-solid fa-store fa-2x text-primary\\'></i>'">`;
     }
 
     // Update In-App Preview modal iframe src
@@ -1413,35 +1413,35 @@ function generateStandaloneStorefrontHtml(config) {
         .hero-bg { position: absolute; inset: 0; background-image: url('${config.photoUrl}'); background-size: cover; background-position: center; opacity: 0.28; filter: blur(2px); }
         .hero-inner { position: relative; max-width: 1100px; margin: 0 auto; display: flex; align-items: center; justify-content: space-between; gap: 32px; flex-wrap: wrap; }
         .hero-brand { display: flex; align-items: center; gap: 24px; }
-        .hero-avatar { width: 96px; height: 96px; border-radius: 20px; object-fit: cover; border: 3px solid rgba(255,255,255,0.4); box-shadow: 0 10px 25px rgba(0,0,0,0.3); }
+        .hero-avatar { width: 96px; height: 96px; border-radius: 4px; object-fit: cover; border: 2px solid rgba(255,255,255,0.4); box-shadow: 0 4px 12px rgba(0,0,0,0.2); }
         .hero-title { font-size: 2.2rem; font-weight: 800; letter-spacing: -0.02em; margin-bottom: 6px; }
         .hero-message { font-size: 1.05rem; opacity: 0.9; max-width: 600px; font-style: italic; }
-        .api-badge { display: inline-flex; align-items: center; gap: 8px; background: rgba(255,255,255,0.15); backdrop-filter: blur(10px); padding: 8px 16px; border-radius: 999px; font-size: 0.85rem; font-family: 'JetBrains Mono', monospace; border: 1px solid rgba(255,255,255,0.25); }
+        .api-badge { display: inline-flex; align-items: center; gap: 8px; background: rgba(255,255,255,0.15); backdrop-filter: blur(10px); padding: 6px 14px; border-radius: 4px; font-size: 0.85rem; font-family: 'JetBrains Mono', monospace; border: 1px solid rgba(255,255,255,0.25); }
         
         .address-bar { background: #fff; border-bottom: 1px solid var(--border); padding: 16px 24px; }
         .address-inner { max-width: 1100px; margin: 0 auto; display: flex; align-items: center; justify-content: space-between; flex-wrap: wrap; gap: 16px; font-size: 0.9rem; }
         .addr-chip { display: flex; align-items: center; gap: 8px; color: var(--text-dark); font-weight: 600; }
-        .addr-pill { background: #f1f5f9; padding: 4px 10px; border-radius: 6px; font-size: 0.8rem; font-family: 'JetBrains Mono', monospace; }
+        .addr-pill { background: #f1f5f9; padding: 4px 10px; border-radius: 4px; font-size: 0.8rem; font-family: 'JetBrains Mono', monospace; }
 
         .main-content { max-width: 1100px; margin: 36px auto; padding: 0 24px; display: grid; grid-template-columns: 1fr 340px; gap: 32px; }
         @media (max-width: 900px) { .main-content { grid-template-columns: 1fr; } }
         
         .menu-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(280px, 1fr)); gap: 20px; }
-        .menu-card { background: #fff; border: 1px solid var(--border); border-radius: 16px; padding: 20px; display: flex; flex-direction: column; justify-content: space-between; transition: transform 0.15s, box-shadow 0.15s; }
+        .menu-card { background: #fff; border: 1px solid var(--border); border-radius: 6px; padding: 20px; display: flex; flex-direction: column; justify-content: space-between; transition: transform 0.15s, box-shadow 0.15s; }
         .menu-card:hover { transform: translateY(-3px); box-shadow: 0 10px 20px -5px rgba(0,0,0,0.06); }
         .item-icon { font-size: 2rem; margin-bottom: 12px; }
         .item-name { font-size: 1.1rem; font-weight: 700; margin-bottom: 6px; }
         .item-desc { font-size: 0.85rem; color: var(--text-muted); margin-bottom: 16px; line-height: 1.4; }
         .item-bottom { display: flex; align-items: center; justify-content: space-between; margin-top: auto; }
         .item-price { font-size: 1.15rem; font-weight: 800; color: var(--text-dark); font-family: 'JetBrains Mono', monospace; }
-        .add-cart-btn { background: var(--primary); color: #fff; border: none; padding: 8px 16px; border-radius: 10px; font-weight: 700; font-size: 0.85rem; cursor: pointer; display: flex; align-items: center; gap: 6px; }
+        .add-cart-btn { background: var(--primary); color: #fff; border: none; padding: 8px 16px; border-radius: 4px; font-weight: 700; font-size: 0.85rem; cursor: pointer; display: flex; align-items: center; gap: 6px; }
         .add-cart-btn:hover { background: var(--primary-dark); }
 
-        .cart-card { background: #fff; border: 1px solid var(--border); border-radius: 16px; padding: 24px; position: sticky; top: 24px; height: fit-content; }
+        .cart-card { background: #fff; border: 1px solid var(--border); border-radius: 6px; padding: 24px; position: sticky; top: 24px; height: fit-content; }
         .cart-title { font-size: 1.2rem; font-weight: 800; margin-bottom: 16px; display: flex; align-items: center; justify-content: space-between; }
         .cart-list { list-style: none; margin-bottom: 20px; min-height: 80px; }
         .cart-item { display: flex; align-items: center; justify-content: space-between; padding: 8px 0; border-bottom: 1px dashed var(--border); font-size: 0.88rem; }
-        .checkout-btn { width: 100%; background: var(--success); color: #fff; border: none; padding: 14px; border-radius: 12px; font-size: 1rem; font-weight: 800; cursor: pointer; display: flex; align-items: center; justify-content: center; gap: 8px; box-shadow: 0 4px 12px rgba(16,185,129,0.3); }
+        .checkout-btn { width: 100%; background: var(--success); color: #fff; border: none; padding: 14px; border-radius: 4px; font-size: 1rem; font-weight: 800; cursor: pointer; display: flex; align-items: center; justify-content: center; gap: 8px; box-shadow: 0 4px 12px rgba(16,185,129,0.3); }
         .checkout-btn:hover { background: #059669; }
     </style>
 </head>
@@ -1504,7 +1504,7 @@ function generateStandaloneStorefrontHtml(config) {
             <div class="cart-card">
                 <div class="cart-title">
                     <span>Your Order</span>
-                    <span id="orderItemCount" style="font-size:0.85rem; background:#f1f5f9; padding:2px 8px; border-radius:10px;">0 Items</span>
+                    <span id="orderItemCount" style="font-size:0.85rem; background:#f1f5f9; padding:2px 8px; border-radius:3px;">0 Items</span>
                 </div>
                 <ul class="cart-list" id="orderList">
                     <li style="color:#94a3b8; font-size:0.85rem; text-align:center; padding:24px 0;">Cart is empty. Select items to order!</li>

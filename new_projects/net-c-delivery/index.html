@@ -243,7 +243,7 @@
                         <p>APIs are not pre-installed. The POS Gateway must be installed and verified before proceeding. Select any gateway below to add API keys and run the live handshake verification.</p>
                     </div>
                     <div class="step-guidance-pill" id="step1GuidancePill">
-                        <i class="fa-solid fa-plug-circle-exclamation text-amber"></i>
+                        <i class="fa-solid fa-triangle-exclamation text-amber"></i>
                         <span>API Verification Required: Click any gateway below to configure &amp; verify keys</span>
                     </div>
                 </div>
@@ -299,7 +299,7 @@
                         <p>Configure your restaurant brand, individual physical address fields, customer announcement message, business photo, and live menu catalog.</p>
                     </div>
                     <div class="step-guidance-pill success" id="step2GuidancePill">
-                        <i class="fa-solid fa-circle-check"></i>
+                        <i class="fa-solid fa-square-check"></i>
                         <span id="step2GuidanceText">Gateway Authenticated &bull; Ready to Build Website</span>
                     </div>
                 </div>
@@ -418,9 +418,9 @@
                         </div>
 
                         <!-- Menu Selection Counter Alert -->
-                        <div class="menu-selection-alert-banner alert alert-warning border-0 rounded-4 p-3 mb-3 d-flex align-items-center justify-content-between flex-wrap gap-3" id="menuSelectionBanner">
+                        <div class="menu-selection-alert-banner alert alert-warning border-0 rounded-2 p-3 mb-3 d-flex align-items-center justify-content-between flex-wrap gap-3" id="menuSelectionBanner">
                             <div class="d-flex align-items-center gap-3">
-                                <div class="p-2 rounded-circle bg-warning bg-opacity-25 text-warning-emphasis fs-4">
+                                <div class="p-2 rounded-2 bg-warning bg-opacity-25 text-warning-emphasis fs-4">
                                     <i class="fa-solid fa-clipboard-check"></i>
                                 </div>
                                 <div>
@@ -491,7 +491,7 @@
                             <div>
                                 <div class="d-flex align-items-center gap-2">
                                     <h3 class="mb-0 fw-bold fs-5 text-dark" id="deployedSiteName">Parma Sub &amp; Fry Co.</h3>
-                                    <span class="badge bg-success rounded-pill font-mono"><i class="fa-solid fa-circle-check me-1"></i>Site Online</span>
+                                    <span class="badge bg-success rounded-1 font-mono"><i class="fa-solid fa-square-check me-1"></i>Site Online</span>
                                 </div>
                                 <p class="text-xs text-muted mb-0 mt-1" id="deployedSiteMsg">"Artisanal cold cuts &amp; triple-cooked hand-cut fries since 1988."</p>
                             </div>
@@ -562,7 +562,7 @@
                     <div class="kds-panel">
                         <div class="panel-header">
                             <h3><i class="fa-solid fa-utensils text-primary"></i> Active Kitchen Prep Queue</h3>
-                            <span class="badge bg-primary rounded-pill font-mono">Grill Station Online</span>
+                            <span class="badge bg-primary rounded-1 font-mono">Grill Station Online</span>
                         </div>
                         <div class="kds-tickets-queue" id="kdsTicketsQueue">
                             <!-- Populated dynamically by controller.js -->
@@ -573,7 +573,7 @@
                     <div class="telemetry-panel">
                         <div class="panel-header">
                             <h3><i class="fa-solid fa-terminal text-primary"></i> Live Telemetry Event Stream</h3>
-                            <span class="badge bg-success rounded-pill font-mono">TLS 1.3 Active</span>
+                            <span class="badge bg-success rounded-1 font-mono">TLS 1.3 Active</span>
                         </div>
                         <div class="telemetry-stream-box">
                             <div class="telemetry-stream-header">
@@ -649,7 +649,7 @@
                     <input type="hidden" id="modalCurrentServiceId" value="">
 
                     <!-- Demographics banner -->
-                    <div class="p-3 mb-3 rounded-4 bg-light">
+                    <div class="p-3 mb-3 rounded-2 bg-light">
                         <div class="d-flex align-items-center justify-content-between mb-1">
                             <span class="text-xs fw-bold text-primary" id="modalDemoRank">Demographic Target</span>
                             <a href="#" target="_blank" rel="noopener" id="modalOutwardLink" class="text-xs text-decoration-none fw-semibold text-primary">
@@ -705,14 +705,14 @@
         <div class="modal-dialog modal-dialog-centered modal-md">
             <div class="modal-content apex-modal border-0 shadow-lg">
                 <div class="modal-body p-4 text-center">
-                    <div class="mx-auto mb-3 d-flex align-items-center justify-content-center rounded-circle bg-success bg-opacity-10 text-success" style="width: 72px; height: 72px; font-size: 32px;">
+                    <div class="mx-auto mb-3 d-flex align-items-center justify-content-center rounded-2 bg-success bg-opacity-10 text-success" style="width: 60px; height: 60px; font-size: 28px;">
                         <i class="fa-solid fa-shield-check"></i>
                     </div>
                     
                     <h4 class="fw-bold text-dark mb-1" id="verifiedModalTitle">API Gateway Authenticated!</h4>
                     <p class="text-secondary text-sm mb-3" id="verifiedModalSubtitle">Uber Direct Connected • 200 OK Live Handshake</p>
                     
-                    <div class="p-3 mb-4 rounded-4 bg-primary bg-opacity-10 border border-primary-subtle text-start">
+                    <div class="p-3 mb-4 rounded-2 bg-primary bg-opacity-10 border border-primary-subtle text-start">
                         <div class="d-flex gap-3 align-items-start">
                             <i class="fa-solid fa-store text-primary fs-4 mt-1"></i>
                             <div>
@@ -746,9 +746,9 @@
                 <div class="modal-header d-flex justify-content-between align-items-center py-2 px-3 border-bottom bg-light">
                     <div class="d-flex align-items-center gap-2">
                         <div class="traffic-light-dots d-flex gap-1 me-2">
-                            <span style="width: 10px; height: 10px; border-radius: 50%; background: #ff5f56; display: inline-block;"></span>
-                            <span style="width: 10px; height: 10px; border-radius: 50%; background: #ffbd2e; display: inline-block;"></span>
-                            <span style="width: 10px; height: 10px; border-radius: 50%; background: #27c93f; display: inline-block;"></span>
+                            <span style="width: 10px; height: 10px; border-radius: 2px; background: #ff5f56; display: inline-block;"></span>
+                            <span style="width: 10px; height: 10px; border-radius: 2px; background: #ffbd2e; display: inline-block;"></span>
+                            <span style="width: 10px; height: 10px; border-radius: 2px; background: #27c93f; display: inline-block;"></span>
                         </div>
                         <span class="text-xs font-mono text-muted">Preview: <span id="previewModalSlugDisplay" class="fw-bold text-dark">/net-c-delivery/parma-sub-fry-co/index.html</span></span>
                     </div>

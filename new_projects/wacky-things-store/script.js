@@ -3580,6 +3580,9 @@ document.addEventListener('DOMContentLoaded', () => {
     renderCategorySidebar();
     renderCatalog();
     updateCartUI();
+    if (typeof window.renderBlogPosts === 'function') {
+        window.renderBlogPosts('all');
+    }
 });
 
 if (document.readyState === 'complete' || document.readyState === 'interactive') {
@@ -3588,6 +3591,9 @@ if (document.readyState === 'complete' || document.readyState === 'interactive')
     renderCategorySidebar();
     renderCatalog();
     updateCartUI();
+    if (typeof window.renderBlogPosts === 'function') {
+        window.renderBlogPosts('all');
+    }
 }
 
 
@@ -4899,9 +4905,19 @@ window.filterCoursesByQuery = function (query) {
 window.activeNavPanel = null;
 window.isPanelTransitioning = false;
 
-window.toggleNavPanel = function (panelName) {
-    if (window.isPanelTransitioning) return;
+window.initNavPanelContent = function (panelName) {
+    if (panelName === 'blog') {
+        if (typeof window.renderBlogPosts === 'function') {
+            window.renderBlogPosts(window.activeBlogCategory || 'all');
+        }
+    } else if (panelName === 'academy') {
+        if (typeof window.renderCourses === 'function') {
+            window.renderCourses(window.activeCourseCategory || 'all');
+        }
+    }
+};
 
+window.toggleNavPanel = function (panelName) {
     // Shipping Estimator is dedicated popup modal (never slides down / pushes)
     if (panelName === 'shipping') {
         if (typeof window.openShippingModal === 'function') {
@@ -4921,26 +4937,23 @@ window.toggleNavPanel = function (panelName) {
     if (!targetPanel) return;
 
     // Case 1: Clicking the already active panel -> Slide up and close, returning catalog to top
-    if (window.activeNavPanel === panelName) {
+    if (window.activeNavPanel === panelName && targetPanel.classList.contains('is-open')) {
         window.closeActiveNavPanel();
         return;
     }
 
-    // Case 2: Another panel is open -> Slide up current panel, then slide down new panel
-    if (window.activeNavPanel && window.activeNavPanel !== panelName) {
-        window.isPanelTransitioning = true;
-        const currentPanel = panelMap[window.activeNavPanel];
+    // Force clear any stuck transitioning flag
+    window.isPanelTransitioning = true;
 
-        if (currentPanel) {
-            currentPanel.classList.remove('is-open');
-            currentPanel.classList.add('is-closing');
-        }
+    // Case 2: Another panel is open -> Slide up current panel, then slide down new panel
+    const currentlyOpenPanel = document.querySelector('.nav-push-panel.is-open');
+    if (currentlyOpenPanel && currentlyOpenPanel !== targetPanel) {
+        currentlyOpenPanel.classList.remove('is-open');
+        currentlyOpenPanel.classList.add('is-closing');
 
         setTimeout(() => {
-            if (currentPanel) {
-                currentPanel.classList.add('hidden');
-                currentPanel.classList.remove('is-closing');
-            }
+            currentlyOpenPanel.classList.add('hidden');
+            currentlyOpenPanel.classList.remove('is-closing');
 
             // Slide down the target panel, pushing the catalog store down
             targetPanel.classList.remove('hidden');
@@ -4952,12 +4965,14 @@ window.toggleNavPanel = function (panelName) {
 
             window.initNavPanelContent(panelName);
             window.updateNavButtonStyles(panelName);
+
+            // Scroll cleanly to the top of the exposed panel
+            window.scrollTo({ top: 0, behavior: 'smooth' });
         }, 320);
         return;
     }
 
     // Case 3: No panel is currently open -> Slide down target panel directly, pushing catalog store down
-    window.isPanelTransitioning = true;
     targetPanel.classList.remove('hidden');
     targetPanel.classList.remove('is-closing');
     void targetPanel.offsetHeight; // trigger reflow for smooth slide down
@@ -4970,35 +4985,34 @@ window.toggleNavPanel = function (panelName) {
 
     window.initNavPanelContent(panelName);
     window.updateNavButtonStyles(panelName);
+
+    // Scroll cleanly to top so full header, toolbar, and blog articles are immediately exposed
+    window.scrollTo({ top: 0, behavior: 'smooth' });
 };
 
 window.closeActiveNavPanel = function (callback) {
-    if (window.isPanelTransitioning) return;
-    if (!window.activeNavPanel) {
+    const openPanels = document.querySelectorAll('.nav-push-panel.is-open, .nav-push-panel:not(.hidden)');
+    
+    if (openPanels.length === 0 && !window.activeNavPanel) {
+        window.activeNavPanel = null;
+        window.isPanelTransitioning = false;
+        window.updateNavButtonStyles('catalog');
         if (typeof callback === 'function') callback();
         return;
     }
 
-    const panelBlog = document.getElementById('panel-blog');
-    const panelAcademy = document.getElementById('panel-academy');
-    const panelMap = {
-        'blog': panelBlog,
-        'academy': panelAcademy
-    };
-
-    const currentPanel = panelMap[window.activeNavPanel];
     window.isPanelTransitioning = true;
 
-    if (currentPanel) {
-        currentPanel.classList.remove('is-open');
-        currentPanel.classList.add('is-closing');
-    }
+    openPanels.forEach(panel => {
+        panel.classList.remove('is-open');
+        panel.classList.add('is-closing');
+    });
 
     setTimeout(() => {
-        if (currentPanel) {
-            currentPanel.classList.add('hidden');
-            currentPanel.classList.remove('is-closing');
-        }
+        openPanels.forEach(panel => {
+            panel.classList.add('hidden');
+            panel.classList.remove('is-closing');
+        });
         window.activeNavPanel = null;
         window.isPanelTransitioning = false;
         window.updateNavButtonStyles('catalog');
@@ -5008,11 +5022,32 @@ window.closeActiveNavPanel = function (callback) {
 };
 
 window.navigateToCatalog = function () {
+    // Unconditionally show the store catalog and close any open panels with slide up animation
     window.closeActiveNavPanel(() => {
+        // Ensure regular screen is visible if academy screen was active
+        const screenRegular = document.getElementById('screen-regular');
+        const screenAcademy = document.getElementById('screen-academy');
+        if (screenRegular && screenAcademy && !screenAcademy.classList.contains('hidden')) {
+            screenAcademy.classList.add('hidden');
+            screenRegular.classList.remove('hidden');
+        }
+
+        // Hide admin view if open
+        const adminMain = document.getElementById('admin-main-view');
+        if (adminMain && !adminMain.classList.contains('hidden')) {
+            adminMain.classList.add('hidden');
+            adminMain.classList.remove('flex');
+        }
+
+        // Show store main view
         const storeView = document.getElementById('store-main-view');
         if (storeView) {
             storeView.classList.remove('hidden');
+            storeView.classList.add('block');
         }
+
+        window.currentView = 'store';
+
         // Smoothly scroll to the catalog store
         const headerEl = document.querySelector('header');
         const headerOffset = headerEl ? headerEl.offsetHeight : 70;
@@ -5023,6 +5058,8 @@ window.navigateToCatalog = function () {
                 top: Math.max(0, elementPosition - headerOffset),
                 behavior: 'smooth'
             });
+        } else {
+            window.scrollTo({ top: 0, behavior: 'smooth' });
         }
     });
 };

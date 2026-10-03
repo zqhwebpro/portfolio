@@ -28,7 +28,21 @@
     "icon": "fa-brands fa-js text-amber-500",
     "runnerExt": "js",
     "specPrefix": "JSE.1",
-    "certName": "JavaScript Essentials Certification Track"
+    "certName": "JavaScript Essentials Certification Track",
+    "primaryHex": "#f59e0b",
+    "darkHex": "#d97706",
+    "lightBg": "#fffbeb",
+    "borderHex": "#fcd34d",
+    "darkTextHex": "#78350f",
+    "textHex": "#0f172a",
+    "pillContainerBg": "rgba(0, 0, 0, 0.12)",
+    "pillContainerBorder": "rgba(0, 0, 0, 0.2)",
+    "activeBtnBg": "#0f172a",
+    "activeBtnText": "#ffffff",
+    "inactiveBtnText": "rgba(15, 23, 42, 0.85)",
+    "actionBtnBg": "#0f172a",
+    "actionBtnText": "#ffffff",
+    "actionBtnBorder": "rgba(0, 0, 0, 0.3)"
   },
   "typescript": {
     "accentText": "text-blue-500",
@@ -47,7 +61,21 @@
     "icon": "fa-solid fa-code text-blue-600",
     "runnerExt": "ts",
     "specPrefix": "TS.5",
-    "certName": "TypeScript Advanced Type System Certification Track"
+    "certName": "TypeScript Advanced Type System Certification Track",
+    "primaryHex": "#2563eb",
+    "darkHex": "#1d4ed8",
+    "lightBg": "#eff6ff",
+    "borderHex": "#93c5fd",
+    "darkTextHex": "#1e3a8a",
+    "textHex": "#ffffff",
+    "pillContainerBg": "rgba(0, 0, 0, 0.22)",
+    "pillContainerBorder": "rgba(255, 255, 255, 0.25)",
+    "activeBtnBg": "#ffffff",
+    "activeBtnText": "#1e3a8a",
+    "inactiveBtnText": "rgba(255, 255, 255, 0.85)",
+    "actionBtnBg": "#0f172a",
+    "actionBtnText": "#ffffff",
+    "actionBtnBorder": "rgba(255, 255, 255, 0.3)"
   },
   "react": {
     "accentText": "text-sky-500",
@@ -66,7 +94,21 @@
     "icon": "fa-brands fa-react text-sky-500",
     "runnerExt": "tsx",
     "specPrefix": "REACT.19",
-    "certName": "React 19 & Concurrent Fiber Architecture Certification Track"
+    "certName": "React 19 & Concurrent Fiber Architecture Certification Track",
+    "primaryHex": "#0284c7",
+    "darkHex": "#0369a1",
+    "lightBg": "#f0f9ff",
+    "borderHex": "#7dd3fc",
+    "darkTextHex": "#075985",
+    "textHex": "#ffffff",
+    "pillContainerBg": "rgba(0, 0, 0, 0.22)",
+    "pillContainerBorder": "rgba(255, 255, 255, 0.25)",
+    "activeBtnBg": "#ffffff",
+    "activeBtnText": "#075985",
+    "inactiveBtnText": "rgba(255, 255, 255, 0.85)",
+    "actionBtnBg": "#0f172a",
+    "actionBtnText": "#ffffff",
+    "actionBtnBorder": "rgba(255, 255, 255, 0.3)"
   },
   "php": {
     "accentText": "text-indigo-500",
@@ -85,7 +127,21 @@
     "icon": "fa-brands fa-php text-indigo-600",
     "runnerExt": "php",
     "specPrefix": "PHP.8",
-    "certName": "PHP 8.x Enterprise Backend Architecture Certification Track"
+    "certName": "PHP 8.x Enterprise Backend Architecture Certification Track",
+    "primaryHex": "#4f46e5",
+    "darkHex": "#4338ca",
+    "lightBg": "#eef2ff",
+    "borderHex": "#a5b4fc",
+    "darkTextHex": "#312e81",
+    "textHex": "#ffffff",
+    "pillContainerBg": "rgba(0, 0, 0, 0.22)",
+    "pillContainerBorder": "rgba(255, 255, 255, 0.25)",
+    "activeBtnBg": "#ffffff",
+    "activeBtnText": "#312e81",
+    "inactiveBtnText": "rgba(255, 255, 255, 0.85)",
+    "actionBtnBg": "#0f172a",
+    "actionBtnText": "#ffffff",
+    "actionBtnBorder": "rgba(255, 255, 255, 0.3)"
   },
   "dotnet": {
     "accentText": "text-purple-600",
@@ -104,7 +160,21 @@
     "icon": "fa-brands fa-windows text-purple-500",
     "runnerExt": "cs",
     "specPrefix": "DOTNET.9",
-    "certName": ".NET 9 & C# Enterprise Systems Certification Track"
+    "certName": ".NET 9 & C# Enterprise Systems Certification Track",
+    "primaryHex": "#7c3aed",
+    "darkHex": "#6d28d9",
+    "lightBg": "#f5f3ff",
+    "borderHex": "#c4b5fd",
+    "darkTextHex": "#581c87",
+    "textHex": "#ffffff",
+    "pillContainerBg": "rgba(0, 0, 0, 0.22)",
+    "pillContainerBorder": "rgba(255, 255, 255, 0.25)",
+    "activeBtnBg": "#ffffff",
+    "activeBtnText": "#581c87",
+    "inactiveBtnText": "rgba(255, 255, 255, 0.85)",
+    "actionBtnBg": "#0f172a",
+    "actionBtnText": "#ffffff",
+    "actionBtnBorder": "rgba(255, 255, 255, 0.3)"
   },
   "dns": {
     "accentText": "text-emerald-500",
@@ -123,7 +193,21 @@
     "icon": "fa-solid fa-network-wired text-emerald-600",
     "runnerExt": "zone",
     "specPrefix": "DNS.RFC",
-    "certName": "Global DNS & Network Infrastructure Certification Track"
+    "certName": "Global DNS & Network Infrastructure Certification Track",
+    "primaryHex": "#059669",
+    "darkHex": "#047857",
+    "lightBg": "#ecfdf5",
+    "borderHex": "#6ee7b7",
+    "darkTextHex": "#064e3b",
+    "textHex": "#ffffff",
+    "pillContainerBg": "rgba(0, 0, 0, 0.22)",
+    "pillContainerBorder": "rgba(255, 255, 255, 0.25)",
+    "activeBtnBg": "#ffffff",
+    "activeBtnText": "#064e3b",
+    "inactiveBtnText": "rgba(255, 255, 255, 0.85)",
+    "actionBtnBg": "#0f172a",
+    "actionBtnText": "#ffffff",
+    "actionBtnBorder": "rgba(255, 255, 255, 0.3)"
   },
   "devops": {
     "accentText": "text-fuchsia-500",
@@ -142,7 +226,21 @@
     "icon": "fa-solid fa-server text-fuchsia-500",
     "runnerExt": "conf",
     "specPrefix": "DEVOPS.CI",
-    "certName": "DevOps, Cloud Containers & CI/CD Certification Track"
+    "certName": "DevOps, Cloud Containers & CI/CD Certification Track",
+    "primaryHex": "#c026d3",
+    "darkHex": "#a21caf",
+    "lightBg": "#fdf4ff",
+    "borderHex": "#f0abfc",
+    "darkTextHex": "#701a75",
+    "textHex": "#ffffff",
+    "pillContainerBg": "rgba(0, 0, 0, 0.22)",
+    "pillContainerBorder": "rgba(255, 255, 255, 0.25)",
+    "activeBtnBg": "#ffffff",
+    "activeBtnText": "#701a75",
+    "inactiveBtnText": "rgba(255, 255, 255, 0.85)",
+    "actionBtnBg": "#0f172a",
+    "actionBtnText": "#ffffff",
+    "actionBtnBorder": "rgba(255, 255, 255, 0.3)"
   }
 };
 
@@ -5115,13 +5213,16 @@ function getTrackConsoleOutput(trackId, moduleNum, sectionId) {
         }
 
         const borderClass = isMiddle
-          ? 'border-slate-800 shadow-md ring-1 ring-slate-400/30'
+          ? 'shadow-md'
           : 'border-slate-300';
+        const borderStyle = isMiddle
+          ? 'border-color: ' + theme.darkHex + '; box-shadow: 0 8px 24px -4px ' + theme.primaryHex + '35;'
+          : 'border-color: #cbd5e1;';
 
         const positionLabel = isMiddle ? 'MIDDLE_BLOCK' : (idx === 0 ? 'START_BLOCK' : 'RIGHT_BLOCK');
 
         return (
-          '<div class="p-5 sm:p-6 bg-white border-2 ' + borderClass + ' rounded-2xl flex flex-col justify-between hover:border-slate-600 transition-all group shadow-sm">' +
+          '<div class="p-5 sm:p-6 bg-white border-2 ' + borderClass + ' rounded-2xl flex flex-col justify-between hover:border-slate-600 transition-all group shadow-sm" style="' + borderStyle + '">' +
             '<div>' +
               '<!-- Top Header Strip with Outline Number -->' +
               '<div class="flex items-center justify-between pb-3.5 mb-3.5 border-b border-slate-200">' +
@@ -5134,7 +5235,7 @@ function getTrackConsoleOutput(trackId, moduleNum, sectionId) {
                     '<span class="font-mono text-xs font-extrabold text-slate-800">' + m.code + '</span>' +
                   '</div>' +
                 '</div>' +
-                '<span class="px-2.5 py-1 rounded text-xs font-mono font-bold bg-slate-100 text-slate-900 border border-slate-300">' +
+                '<span class="px-2.5 py-1 rounded text-xs font-mono font-bold border" style="background: ' + (isMiddle ? theme.lightBg : '#f1f5f9') + '; color: ' + (isMiddle ? theme.darkTextHex : '#0f172a') + '; border-color: ' + (isMiddle ? theme.borderHex : '#cbd5e1') + ';">' +
                   'STAGE § ' + m.num +
                 '</span>' +
               '</div>' +
@@ -5173,9 +5274,13 @@ function getTrackConsoleOutput(trackId, moduleNum, sectionId) {
       const endNum = Math.min(modules.length, (pIdx + 1) * 3).toString().padStart(2, '0');
       const midNum = (pIdx * 3 + 2).toString().padStart(2, '0');
       const label = startNum + '. ' + midNum + '. ' + endNum + '. Modules ' + parseInt(startNum, 10) + '–' + parseInt(endNum, 10);
-      const activeClass = isPageActive ? 'bg-slate-950 text-white shadow-xs font-black' : 'text-slate-700 hover:text-slate-950 font-bold';
+      
+      const btnStyle = isPageActive
+        ? 'background: ' + theme.activeBtnBg + '; color: ' + theme.activeBtnText + '; font-weight: 900; box-shadow: 0 1px 3px rgba(0,0,0,0.25);'
+        : 'color: ' + theme.inactiveBtnText + '; font-weight: 700;';
+
       return (
-        '<button type="button" onclick="window.switchCurriculumPage(' + pIdx + ', \'' + mod.id + '\')" class="px-4 py-2 rounded-lg text-xs transition-all cursor-pointer ' + activeClass + '">' +
+        '<button type="button" onclick="window.switchCurriculumPage(' + pIdx + ', \'' + mod.id + '\')" class="px-4 py-2 rounded-md text-xs transition-all cursor-pointer hover:bg-black/10" style="' + btnStyle + '">' +
           label +
         '</button>'
       );
@@ -5189,18 +5294,18 @@ function getTrackConsoleOutput(trackId, moduleNum, sectionId) {
       : 'Next Modules (' + nextStartNum + '–' + nextEndNum + ') →';
 
     container.innerHTML = (
-      '<div class="os-white-card w-full">' +
+      '<div class="os-white-card w-full border-2 overflow-hidden transition-all shadow-md" style="border-color: ' + theme.borderHex + '; border-top: 6px solid ' + theme.primaryHex + '; box-shadow: 0 8px 30px -4px ' + theme.primaryHex + '25;">' +
         '<!-- Scientific Specification Window Titlebar -->' +
-        '<div class="os-window-header px-6 sm:px-10 lg:px-14 py-3.5" id="matrixCurriculumOutlineAnchor">' +
+        '<div class="os-window-header px-6 sm:px-10 lg:px-14 py-3.5" id="matrixCurriculumOutlineAnchor" style="border-bottom: 2px solid ' + theme.borderHex + '; background: linear-gradient(180deg, #ffffff 0%, ' + theme.lightBg + ' 100%);">' +
           '<div class="flex items-center gap-2.5">' +
             '<div class="font-mono text-xs sm:text-sm text-slate-800 flex items-center gap-2 font-bold">' +
-              '<i class="' + mod.icon + ' text-[14px]"></i>' +
+              '<i class="' + mod.icon + ' text-[14px]" style="color: ' + theme.primaryHex + ';"></i>' +
               '<span>/usr/local/matrix/curriculum/' + mod.fileName + '</span>' +
             '</div>' +
           '</div>' +
 
           '<div class="font-mono text-xs sm:text-sm text-slate-800 font-extrabold flex items-center gap-2">' +
-            '<span class="px-2.5 py-1 rounded bg-slate-100 text-slate-900 border border-slate-300 font-bold">' + mod.trackBadge + '</span>' +
+            '<span class="px-2.5 py-1 rounded font-black border" style="background: ' + theme.primaryHex + '; color: ' + theme.textHex + '; border-color: ' + theme.darkHex + ';">' + mod.trackBadge + '</span>' +
             '<span>' + modules.length.toString().padStart(2, '0') + ' MODULES // 3-BLOCK OUTLINE</span>' +
           '</div>' +
         '</div>' +
@@ -5229,20 +5334,20 @@ function getTrackConsoleOutput(trackId, moduleNum, sectionId) {
             '</p>' +
           '</div>' +
 
-          '<!-- 3-Block Outline Interactive Switcher / Pagination Toolbar -->' +
-          '<div class="flex flex-col sm:flex-row sm:items-center justify-between gap-3 p-3.5 bg-slate-100 border border-slate-300 rounded-xl font-mono text-xs">' +
-            '<div class="flex items-center gap-2.5 flex-wrap">' +
-              '<span class="font-black text-slate-900 flex items-center gap-1.5 text-xs sm:text-sm">' +
-                '<i class="fa-solid fa-layer-group text-slate-900"></i>' +
+          '<!-- 3-Block Outline Interactive Switcher / Pagination Toolbar (The Whole Bar Highlights in Track Color) -->' +
+          '<div class="flex flex-col sm:flex-row sm:items-center justify-between gap-3 p-4 rounded-xl font-mono text-xs shadow-sm transition-all" style="background: ' + theme.primaryHex + '; border: 1.5px solid ' + theme.darkHex + '; color: ' + theme.textHex + ';">' +
+            '<div class="flex items-center gap-3 flex-wrap">' +
+              '<span class="font-black flex items-center gap-2 text-xs sm:text-sm tracking-wide" style="color: ' + theme.textHex + ';">' +
+                '<i class="fa-solid fa-layer-group text-sm" style="color: ' + theme.textHex + ';"></i>' +
                 '<span>OUTLINE_BLOCKS:</span>' +
               '</span>' +
-              '<div class="inline-flex rounded-lg border border-slate-300 bg-white p-1 shadow-2xs">' +
+              '<div class="inline-flex rounded-lg p-1 shadow-inner backdrop-blur-xs" style="background: ' + theme.pillContainerBg + '; border: 1px solid ' + theme.pillContainerBorder + ';">' +
                 pageButtonsHtml +
               '</div>' +
             '</div>' +
 
             '<div class="flex items-center gap-2">' +
-              '<button type="button" onclick="window.switchCurriculumPage(null, \'' + mod.id + '\')" class="px-5 py-2 rounded-lg bg-slate-950 hover:bg-slate-800 text-white font-black text-xs transition-all flex items-center gap-2 cursor-pointer shadow-sm">' +
+              '<button type="button" onclick="window.switchCurriculumPage(null, \'' + mod.id + '\')" class="px-5 py-2.5 rounded-lg font-black text-xs transition-all flex items-center gap-2 cursor-pointer shadow-sm hover:opacity-90" style="background: ' + theme.actionBtnBg + '; color: ' + theme.actionBtnText + '; border: 1px solid ' + theme.actionBtnBorder + ';">' +
                 '<span>' + nextButtonText + '</span>' +
               '</button>' +
             '</div>' +
@@ -5303,28 +5408,34 @@ function getTrackConsoleOutput(trackId, moduleNum, sectionId) {
 
     const cardsHtml = filtered
       .map((mod) => {
+        const theme = TRACK_THEMES[mod.id] || TRACK_THEMES.javascript;
         const totalMods = mod.modules ? mod.modules.length : 6;
         const mod1 = mod.modules[0] ? mod.modules[0].shortTitle : 'Stage 1';
         const mod2 = mod.modules[1] ? mod.modules[1].shortTitle : 'Stage 2';
 
         return (
-          '<div class="os-white-card flex flex-col justify-between cursor-pointer group hover:shadow-xl transition-all border border-slate-200" data-card-track-id="' + mod.id + '">' +
+          '<div class="os-white-card os-grid-track-card flex flex-col justify-between cursor-pointer group hover:shadow-2xl transition-all border-2 overflow-hidden" data-card-track-id="' + mod.id + '" style="--track-theme-color: ' + theme.primaryHex + '; --track-theme-border: ' + theme.borderHex + '; --track-theme-dark: ' + theme.darkHex + '; border-color: ' + theme.borderHex + '; border-top: 6px solid ' + theme.primaryHex + '; box-shadow: 0 4px 20px -2px ' + theme.primaryHex + '25;">' +
             '<!-- Titlebar -->' +
-            '<div class="os-window-header py-2.5 px-4">' +
-              '<div class="font-mono text-xs text-slate-700 font-bold flex items-center gap-1.5">' +
-                '<i class="' + mod.icon + '"></i> ' + mod.fileName +
+            '<div class="os-window-header py-3 px-4 flex items-center justify-between" style="border-bottom: 2px solid ' + theme.borderHex + '; background: linear-gradient(180deg, #ffffff 0%, ' + theme.lightBg + ' 100%);">' +
+              '<div class="font-mono text-xs font-bold flex items-center gap-2">' +
+                '<i class="' + mod.icon + ' text-sm" style="color: ' + theme.primaryHex + ';"></i>' +
+                '<span class="text-slate-900 font-extrabold">' + mod.fileName + '</span>' +
               '</div>' +
-              '<div class="font-mono text-xs text-slate-600 font-semibold">' + mod.duration + '</div>' +
+              '<div class="flex items-center gap-2">' +
+                '<span class="px-2 py-0.5 rounded text-[10px] font-mono font-black border shadow-2xs" style="background: ' + theme.primaryHex + '; color: ' + theme.textHex + '; border-color: ' + theme.darkHex + ';">' + mod.trackBadge + '</span>' +
+                '<span class="font-mono text-[11px] text-slate-700 font-bold">' + mod.duration + '</span>' +
+              '</div>' +
             '</div>' +
 
             '<!-- Body -->' +
-            '<div class="p-6 flex-1 flex flex-col justify-between">' +
+            '<div class="p-6 flex-1 flex flex-col justify-between space-y-4">' +
               '<div>' +
-                '<div class="font-mono text-xs text-slate-600 uppercase tracking-wider mb-2 font-black">' +
-                  mod.tier + ' // ' + mod.category.toUpperCase() +
+                '<div class="font-mono text-xs uppercase tracking-wider mb-2 font-black flex items-center gap-1.5" style="color: ' + theme.darkTextHex + ';">' +
+                  '<span class="w-2.5 h-2.5 rounded-xs" style="background: ' + theme.primaryHex + ';"></span>' +
+                  '<span>' + mod.tier + ' // ' + mod.category.toUpperCase() + '</span>' +
                 '</div>' +
 
-                '<h3 class="font-headline font-black text-xl sm:text-2xl text-slate-950 leading-tight group-hover:text-black transition-colors mb-3 tracking-tight">' +
+                '<h3 class="font-headline font-black text-xl sm:text-2xl text-slate-950 leading-tight group-hover:opacity-90 transition-colors mb-3 tracking-tight">' +
                   mod.title +
                 '</h3>' +
 
@@ -5332,27 +5443,31 @@ function getTrackConsoleOutput(trackId, moduleNum, sectionId) {
                   mod.summary +
                 '</p>' +
 
-                '<!-- Outline Breakdown -->' +
-                '<div class="py-3 px-3.5 bg-slate-100 border border-slate-300 font-mono text-xs text-slate-900 mb-4 space-y-1.5 rounded-xl">' +
-                  '<div class="flex justify-between font-black text-slate-950">' +
-                    '<span>' + mod.trackBadge + ': ' + totalMods + '-Module Curriculum Outline</span>' +
-                    '<span class="text-slate-950">[01–' + totalMods.toString().padStart(2, '0') + ']</span>' +
+                '<!-- OUTLINE_BLOCKS: (The Whole Bar Highlights in Track Representative Color) -->' +
+                '<div class="py-3 px-3.5 sm:px-4 rounded-xl font-mono text-xs mb-4 space-y-2.5 transition-all shadow-sm" style="background: ' + theme.primaryHex + '; border: 1.5px solid ' + theme.darkHex + '; color: ' + theme.textHex + ';">' +
+                  '<div class="flex items-center justify-between font-black">' +
+                    '<span class="flex items-center gap-2 text-xs sm:text-sm tracking-wide" style="color: ' + theme.textHex + ';">' +
+                      '<i class="fa-solid fa-layer-group text-sm"></i>' +
+                      '<span>OUTLINE_BLOCKS:</span>' +
+                      '<span class="font-extrabold opacity-95 text-[11px] sm:text-xs">(' + totalMods + ' Mods)</span>' +
+                    '</span>' +
+                    '<span class="px-2 py-0.5 rounded font-mono font-black text-[11px] shadow-2xs" style="background: ' + (theme.textHex === '#ffffff' ? 'rgba(0,0,0,0.22)' : 'rgba(0,0,0,0.12)') + '; color: ' + theme.textHex + '; border: 1px solid ' + (theme.textHex === '#ffffff' ? 'rgba(255,255,255,0.25)' : 'rgba(0,0,0,0.2)') + ';">[01–' + totalMods.toString().padStart(2, '0') + ']</span>' +
                   '</div>' +
-                  '<div class="flex justify-between text-slate-700">' +
+                  '<div class="flex justify-between text-xs font-bold pt-1.5 border-t" style="border-color: ' + (theme.textHex === '#ffffff' ? 'rgba(255,255,255,0.22)' : 'rgba(0,0,0,0.15)') + '; color: ' + theme.textHex + ';">' +
                     '<span>[01–03] ' + mod1 + ', ' + mod2 + ':</span>' +
-                    '<span class="font-black text-slate-900">3 Blocks</span>' +
+                    '<span class="font-black">3 Blocks</span>' +
                   '</div>' +
-                  '<div class="flex justify-between text-slate-700">' +
+                  '<div class="flex justify-between text-xs font-bold" style="color: ' + theme.textHex + ';">' +
                     '<span>[04–' + totalMods.toString().padStart(2, '0') + '] Advanced &amp; Internals:</span>' +
-                    '<span class="font-black text-slate-900">' + (totalMods - 3) + ' Blocks</span>' +
+                    '<span class="font-black">' + (totalMods - 3) + ' Blocks</span>' +
                   '</div>' +
                 '</div>' +
               '</div>' +
 
               '<!-- Action Bar -->' +
               '<div class="pt-4 border-t border-slate-200 flex items-center justify-between">' +
-                '<span class="text-xs font-mono text-slate-600 font-bold">' + totalMods + ' OUTLINE MODULES</span>' +
-                '<button type="button" class="font-mono text-xs font-black text-slate-950 hover:text-black flex items-center gap-1.5 transition-colors">' +
+                '<span class="text-xs font-mono font-bold" style="color: ' + theme.darkTextHex + ';">' + totalMods + ' OUTLINE MODULES</span>' +
+                '<button type="button" class="font-mono text-xs font-black px-4 py-2 rounded-lg flex items-center gap-1.5 transition-all shadow-xs group-hover:scale-105 cursor-pointer" style="background: ' + theme.primaryHex + '; color: ' + theme.textHex + '; border: 1px solid ' + theme.darkHex + ';">' +
                   '<span>INSPECT_OUTLINE &rarr;</span>' +
                 '</button>' +
               '</div>' +

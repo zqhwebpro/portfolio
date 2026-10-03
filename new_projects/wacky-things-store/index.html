@@ -745,9 +745,10 @@
 
         .nav-push-panel.is-open {
             display: block !important;
-            max-height: 4500px !important;
+            max-height: 25000px !important;
             opacity: 1 !important;
             transform: translateY(0) !important;
+            overflow: visible !important;
         }
 
         .nav-push-panel.is-closing {
@@ -755,9 +756,10 @@
             max-height: 0 !important;
             opacity: 0 !important;
             transform: translateY(-20px) !important;
-            transition: max-height 0.32s cubic-bezier(0.16, 1, 0.3, 1),
-                        opacity 0.25s ease,
-                        transform 0.28s cubic-bezier(0.16, 1, 0.3, 1) !important;
+            overflow: hidden !important;
+            transition: max-height 0.35s cubic-bezier(0.16, 1, 0.3, 1),
+                        opacity 0.28s ease,
+                        transform 0.3s cubic-bezier(0.16, 1, 0.3, 1) !important;
         }
 
         /* Modal popup ensures shipping estimator always pops up above everything */

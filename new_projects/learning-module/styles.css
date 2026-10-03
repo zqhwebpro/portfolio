@@ -308,6 +308,18 @@ body {
   color: #ffffff !important;
 }
 
+/* Matrix Grid All Track Cards Highlighting */
+.os-grid-track-card {
+  transition: transform 0.22s cubic-bezier(0.16, 1, 0.3, 1), box-shadow 0.22s cubic-bezier(0.16, 1, 0.3, 1), border-color 0.2s ease;
+  border-color: var(--track-theme-border, #cbd5e1) !important;
+  border-top-color: var(--track-theme-color, #0f172a) !important;
+}
+.os-grid-track-card:hover {
+  transform: translateY(-4px);
+  border-color: var(--track-theme-color, #0f172a) !important;
+  box-shadow: 0 20px 40px -10px rgba(0, 0, 0, 0.18), 0 0 0 2px var(--track-theme-color, #0f172a) !important;
+}
+
 /* High Readability Lesson Rows & Popups */
 .lesson-card-item {
   transition: all 0.18s cubic-bezier(0.16, 1, 0.3, 1);
