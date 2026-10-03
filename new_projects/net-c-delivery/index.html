@@ -7,15 +7,15 @@
     <meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate" />
     <meta http-equiv="Pragma" content="no-cache" />
     <meta http-equiv="Expires" content="0" />
-    <title>DinerDashboard // Modern Diner Kitchen POS & Fleet Dispatch</title>
+    <title>DinerDashboard // Modern Diner Kitchen POS & Fleet Dispatch Engine</title>
     <meta name="description"
-        content="DinerDashboard: Modern diner kitchen POS & delivery dispatch system inspired by clean, tactile Bevel health & telemetry UI architecture." />
+        content="DinerDashboard: Full-browser modern diner kitchen POS & delivery dispatch system. Multi-gateway selection, live menu catalog sync, and KDS fleet routing." />
     <meta name="keywords"
-        content="DinerDashboard, Diner POS, Delivery API Spider, Toast POS, DoorDash Drive, Uber Direct, Grubhub Direct, Square, Clover, .NET 9" />
+        content="DinerDashboard, Diner POS, Toast POS, DoorDash Drive, Uber Direct, Grubhub Direct, Square, Clover, .NET 9" />
     <meta name="author" content="Zach Heindel - DinerDashboard Kitchen & Delivery Dispatch" />
     <link rel="canonical" href="https://zqhwebpro.github.io/portfolio/new_projects/net-c-delivery/index.html" />
 
-    <!-- Sitewide Favicon -->
+    <!-- Favicon -->
     <link rel="icon" href="./favicon.png" type="image/png" />
     <link rel="shortcut icon" href="./favicon.png" type="image/png" />
     <link rel="alternate icon" href="../../favicon.png" type="image/png" />
@@ -26,13 +26,13 @@
     <!-- Google Fonts: Inter & JetBrains Mono -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&family=JetBrains+Mono:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&family=JetBrains+Mono:wght@400;500;600;700;800&display=swap" rel="stylesheet">
 
     <!-- Bootstrap 5.3.3 CSS for Modal Dialog Support -->
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet"
         integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
 
-    <!-- Bevel Aesthetic Stylesheet -->
+    <!-- 100% Width Browser Web App Stylesheet -->
     <link rel="stylesheet" href="./apex-theme.css">
 </head>
 
@@ -52,365 +52,314 @@
     </a>
 
     <!-- ═══════════════════════════════════════════════════════════════════
-         BEVEL MOBILE / TABLET APP SHELL
-         Exact Layout & Aesthetics from Inspiration:
-         https://i.pinimg.com/1200x/97/f0/dd/97f0dd71f99ce78413e3c2a2883df60d.jpg
+         100% WIDTH BROWSER WEB APP SHELL
          ═══════════════════════════════════════════════════════════════════ -->
-    <div class="bevel-app-shell">
+    <div class="diner-app-wrapper">
 
-        <!-- 1. iOS Top Status Bar (9:41, Cellular, WiFi, Battery) -->
-        <header class="bevel-status-bar" aria-label="Device Status Bar">
-            <span id="statusBarClock">9:41</span>
-            <div class="bevel-status-icons">
-                <i class="fa-solid fa-signal" title="5G Full Signal"></i>
-                <i class="fa-solid fa-wifi" title="Kitchen WiFi Connected"></i>
-                <div class="bevel-battery-icon" title="100% Battery Charged">
-                    <div class="bevel-battery-fill"></div>
+        <!-- 1. FULL-WIDTH TOP HEADER -->
+        <header class="diner-header">
+            <div class="diner-header-inner">
+                <!-- Brand Title -->
+                <div class="diner-brand">
+                    <div class="diner-brand-icon">
+                        <i class="fa-solid fa-bell-concierge"></i>
+                    </div>
+                    <div class="diner-brand-info">
+                        <h1>DinerDashboard</h1>
+                        <span class="tagline">POS &amp; Fleet Dispatch Engine</span>
+                    </div>
+                </div>
+
+                <!-- Center Multi-Step Stepper Bar -->
+                <nav class="diner-stepper" aria-label="Setup Pipeline Steps">
+                    <button type="button" class="step-tab-btn active" id="stepTab1" onclick="goToStep(1)">
+                        <span class="step-tab-num">1</span>
+                        <span>Gateways</span>
+                    </button>
+                    <i class="fa-solid fa-chevron-right stepper-arrow"></i>
+                    <button type="button" class="step-tab-btn" id="stepTab2" onclick="goToStep(2)">
+                        <span class="step-tab-num">2</span>
+                        <span>Menu Catalog</span>
+                    </button>
+                    <i class="fa-solid fa-chevron-right stepper-arrow"></i>
+                    <button type="button" class="step-tab-btn" id="stepTab3" onclick="goToStep(3)">
+                        <span class="step-tab-num">3</span>
+                        <span>Kitchen KDS &amp; Dispatch</span>
+                    </button>
+                </nav>
+
+                <!-- Header Actions -->
+                <div class="diner-header-actions">
+                    <button type="button" class="tactile-btn tactile-btn-bell tactile-btn-sm" onclick="ringDinerBell()" title="Ring Brass Diner Kitchen Bell">
+                        <i class="fa-solid fa-bell-concierge"></i>
+                        <span>Order Up!</span>
+                    </button>
+                    <button type="button" class="tactile-btn tactile-btn-cyan tactile-btn-sm" onclick="autoConnectAllGateways()" title="Fast-Sync All 6 Delivery Gateways">
+                        <i class="fa-solid fa-bolt"></i>
+                        <span>Fast-Sync 6/6</span>
+                    </button>
+                    <button type="button" class="tactile-btn tactile-btn-white tactile-btn-sm" id="osAudioToggleBtn" onclick="toggleAudio()" title="Sound Feedback">
+                        <i class="fa-solid fa-volume-high"></i>
+                        <span>Audio: ON</span>
+                    </button>
+                    <div class="diner-clock-badge" id="dinerLiveClock">--:--:--</div>
                 </div>
             </div>
         </header>
 
-        <!-- 2. CARD 1: "Today's food" & "876 kcal" (Dot-Matrix & Segmented Dial) -->
-        <section class="bevel-card" aria-label="Today's Food and Orders Breakdown">
-            <div class="bevel-card-header">
-                <span class="bevel-card-title">Today's food</span>
-                <span class="bevel-card-stat" id="cardTodayKcal">876 kcal</span>
-            </div>
-
-            <div class="food-card-body">
-                <!-- 3 Dot-Matrix Columns (Protein, Carbs, Fats / Dine-in, Delivery, Takeout) -->
-                <div class="dot-matrix-container">
-                    <!-- Column 1: Blue Dots -->
-                    <div class="dot-col">
-                        <div class="dot-grid">
-                            <span class="dot"></span><span class="dot"></span><span class="dot"></span><span class="dot"></span>
-                            <span class="dot"></span><span class="dot"></span><span class="dot"></span><span class="dot"></span>
-                            <span class="dot"></span><span class="dot"></span><span class="dot"></span><span class="dot"></span>
-                            <span class="dot"></span><span class="dot"></span><span class="dot"></span><span class="dot"></span>
-                            <span class="dot blue-active"></span><span class="dot blue-active"></span><span class="dot blue-active"></span><span class="dot"></span>
-                            <span class="dot blue-active"></span><span class="dot blue-active"></span><span class="dot blue-active"></span><span class="dot blue-active"></span>
-                        </div>
-                        <div class="dot-label blue">
-                            <span>🐟</span> <span>33g</span>
-                        </div>
-                    </div>
-
-                    <!-- Column 2: Orange Dots -->
-                    <div class="dot-col">
-                        <div class="dot-grid">
-                            <span class="dot"></span><span class="dot"></span><span class="dot"></span><span class="dot"></span>
-                            <span class="dot"></span><span class="dot"></span><span class="dot"></span><span class="dot"></span>
-                            <span class="dot orange-active"></span><span class="dot orange-active"></span><span class="dot orange-active"></span><span class="dot"></span>
-                            <span class="dot orange-active"></span><span class="dot orange-active"></span><span class="dot orange-active"></span><span class="dot orange-active"></span>
-                            <span class="dot orange-active"></span><span class="dot orange-active"></span><span class="dot orange-active"></span><span class="dot orange-active"></span>
-                            <span class="dot orange-active"></span><span class="dot orange-active"></span><span class="dot orange-active"></span><span class="dot orange-active"></span>
-                        </div>
-                        <div class="dot-label orange">
-                            <span>🌾</span> <span>101g</span>
-                        </div>
-                    </div>
-
-                    <!-- Column 3: Pink Dots -->
-                    <div class="dot-col">
-                        <div class="dot-grid">
-                            <span class="dot"></span><span class="dot"></span><span class="dot"></span><span class="dot"></span>
-                            <span class="dot"></span><span class="dot"></span><span class="dot"></span><span class="dot"></span>
-                            <span class="dot"></span><span class="dot"></span><span class="dot"></span><span class="dot"></span>
-                            <span class="dot"></span><span class="dot"></span><span class="dot"></span><span class="dot"></span>
-                            <span class="dot pink-active"></span><span class="dot pink-active"></span><span class="dot pink-active"></span><span class="dot pink-active"></span>
-                            <span class="dot pink-active"></span><span class="dot pink-active"></span><span class="dot pink-active"></span><span class="dot pink-active"></span>
-                        </div>
-                        <div class="dot-label pink">
-                            <span>🍗</span> <span>47g</span>
-                        </div>
+        <!-- 2. FULL-WIDTH METRICS SCORECARD STRIP -->
+        <section class="diner-scorecard-strip" aria-label="System Metrics">
+            <div class="scorecard-inner">
+                <div class="scorecard-item">
+                    <div class="scorecard-icon blue"><i class="fa-solid fa-network-wired"></i></div>
+                    <div class="scorecard-content">
+                        <span class="scorecard-label">Active Gateways</span>
+                        <span class="scorecard-val" id="metricActiveCount">0 / 6</span>
                     </div>
                 </div>
-
-                <!-- Circular Segmented Dial Gauge ("60 fair") -->
-                <div class="segmented-dial-box" title="Nutrition & Health Score: 60 Fair">
-                    <svg class="segmented-dial-svg" viewBox="0 0 100 100">
-                        <circle cx="50" cy="50" r="40" fill="none" stroke="#e5e7eb" stroke-width="6" stroke-dasharray="2.5 5.5" stroke-linecap="round"/>
-                        <circle cx="50" cy="50" r="40" fill="none" stroke="#5b82f6" stroke-width="6" stroke-dasharray="2.5 5.5" stroke-dashoffset="65" stroke-linecap="round"/>
-                    </svg>
-                    <div class="dial-center-text">
-                        <span class="dial-number" id="dialScoreVal">60</span>
-                        <span class="dial-subtext">fair</span>
+                <div class="scorecard-item">
+                    <div class="scorecard-icon green"><i class="fa-solid fa-bolt"></i></div>
+                    <div class="scorecard-content">
+                        <span class="scorecard-label">Round-Trip Latency</span>
+                        <span class="scorecard-val" id="metricAvgLatency">18.4 ms</span>
                     </div>
                 </div>
-            </div>
-
-            <!-- Card 1 Bottom Toolbar: 5 Icons -->
-            <div class="food-card-toolbar">
-                <button type="button" class="food-tool-btn" onclick="openMenuCatalogDrawer()" title="Menu Gallery">
-                    <i class="fa-regular fa-image"></i>
-                </button>
-                <button type="button" class="food-tool-btn" onclick="simulateTicketScan()" title="Receipt / Ticket Camera Scan">
-                    <i class="fa-solid fa-camera"></i>
-                </button>
-                <button type="button" class="food-tool-btn" onclick="simulateBarcodeScan()" title="Barcode Scanner">
-                    <i class="fa-solid fa-barcode"></i>
-                </button>
-                <button type="button" class="food-tool-btn ai-text" onclick="triggerAiOptimization()" title="AI Kitchen Prep Optimizer">
-                    AI
-                </button>
-                <button type="button" class="food-tool-btn" onclick="focusSearchInput()" title="Search Orders & Gateways">
-                    <i class="fa-solid fa-magnifying-glass"></i>
-                </button>
+                <div class="scorecard-item">
+                    <div class="scorecard-icon amber"><i class="fa-solid fa-fire-burner"></i></div>
+                    <div class="scorecard-content">
+                        <span class="scorecard-label">KDS Active Tickets</span>
+                        <span class="scorecard-val">3 Preparing</span>
+                    </div>
+                </div>
+                <div class="scorecard-item">
+                    <div class="scorecard-icon violet"><i class="fa-solid fa-motorcycle"></i></div>
+                    <div class="scorecard-content">
+                        <span class="scorecard-label">Courier Fleet ETA</span>
+                        <span class="scorecard-val">3.8 min avg</span>
+                    </div>
+                </div>
+                <div class="scorecard-item">
+                    <div class="scorecard-icon blue"><i class="fa-solid fa-signal"></i></div>
+                    <div class="scorecard-content">
+                        <span class="scorecard-label">Webhook Stream</span>
+                        <span class="scorecard-val text-success" id="realtimeStatusText">0/6 CONNECTED</span>
+                    </div>
+                </div>
             </div>
         </section>
 
-        <!-- 3. CARD 2: "67 kcal Net energy" & DUAL GLOWING GRADIENT SLIDER -->
-        <section class="bevel-card net-energy-card" aria-label="Net Energy and Fleet Balance">
-            <div class="net-energy-header">
-                <div>
-                    <div class="net-energy-big" id="netEnergyBigVal">67 kcal</div>
-                    <div class="net-energy-sub">Net energy</div>
+        <!-- 3. FULL-WIDTH RESPONSIVE MAIN VIEWPORT -->
+        <main class="diner-main-viewport">
+
+            <!-- ═══════════════════════════════════════════════════════════
+                 STEP 1 VIEW: DINER GATEWAYS GRID
+                 ═══════════════════════════════════════════════════════════ -->
+            <section class="step-view" id="step1View" aria-label="Step 1 Gateways Integration">
+                <!-- View Banner -->
+                <div class="view-header-banner">
+                    <div class="view-header-title-box">
+                        <h2>Step 1: Select a Diner Delivery or POS Gateway</h2>
+                        <p>Choose an ordering platform to connect. Selecting a gateway authenticates the API and automatically moves you to Step 2 for Menu Catalog Sync.</p>
+                    </div>
+                    <div class="step-guidance-pill">
+                        <i class="fa-solid fa-circle-info"></i>
+                        <span>Click any gateway below to select and proceed directly to Step 2</span>
+                    </div>
                 </div>
-                <div class="net-energy-tags">
-                    <span class="net-tag-orange"><i class="fa-solid fa-fire"></i> <span id="tagBurnVal">809</span></span>
-                    <span class="net-tag-blue"><i class="fa-solid fa-apple-whole"></i> <span id="tagInVal">876</span></span>
-                </div>
-            </div>
 
-            <!-- Glowing Dual-Gradient Range Slider -->
-            <div class="energy-slider-track" id="energySliderTrack" onclick="handleSliderClick(event)">
-                <div class="energy-slider-thumb" id="energySliderThumb" title="Drag to adjust net energy balance"></div>
-            </div>
-
-            <!-- Slider Scale Labels -->
-            <div class="energy-slider-scale">
-                <span>-500</span>
-                <span>-250</span>
-                <span>0</span>
-                <span>250</span>
-                <span>500</span>
-            </div>
-        </section>
-
-        <!-- 4. 2-COLUMN GRID (Cards 3, 4, 5, 6) -->
-        <div class="bevel-2col-grid">
-
-            <!-- CARD 3: DATE & MULTI-RING PROGRESS CARD -->
-            <section class="bevel-card multi-ring-card" aria-label="Daily Progress Rings">
-                <div class="multi-ring-layout">
-                    <!-- Top Row: Date & Hatched Ring -->
-                    <div class="multi-ring-top">
-                        <div class="multi-ring-date">
-                            <span class="date-day-name">Mon</span>
-                            <span class="date-month">Sep</span>
-                            <span class="date-day-num">15</span>
-                        </div>
-
-                        <!-- Top Right Hatched Striped Ring (0%) -->
-                        <div class="ring-unit ring-sm">
-                            <svg viewBox="0 0 60 60" width="58" height="58">
-                                <defs>
-                                    <pattern id="hatchPattern" width="6" height="6" patternTransform="rotate(45 0 0)" patternUnits="userSpaceOnUse">
-                                        <line x1="0" y1="0" x2="0" y2="6" stroke="#f59e0b" stroke-width="2" />
-                                    </pattern>
-                                </defs>
-                                <circle cx="30" cy="30" r="23" fill="none" stroke="#f3f4f6" stroke-width="7"/>
-                                <circle cx="30" cy="30" r="23" fill="none" stroke="url(#hatchPattern)" stroke-width="7" stroke-dasharray="144" stroke-dashoffset="40"/>
-                            </svg>
-                            <span class="ring-center-stat" style="font-size: 13px;">0%</span>
-                        </div>
+                <!-- Gateways Filter & Search Toolbar -->
+                <div class="gateways-toolbar">
+                    <div class="filter-pills-group">
+                        <button type="button" class="filter-pill active" onclick="filterGateways('all', this)">All Gateways (6)</button>
+                        <button type="button" class="filter-pill" onclick="filterGateways('connected', this)">Connected</button>
+                        <button type="button" class="filter-pill" onclick="filterGateways('pending', this)">Pending</button>
+                        <button type="button" class="filter-pill" onclick="filterGateways('pos', this)">In-House Direct POS</button>
+                        <button type="button" class="filter-pill" onclick="filterGateways('fleet', this)">Courier Delivery Fleets</button>
                     </div>
 
-                    <!-- Bottom Row: Lime Green Ring (86%) & Violet Ring (65%) -->
-                    <div class="multi-ring-bottom">
-                        <!-- Bottom Left: Lime Green Ring (86%) -->
-                        <div class="ring-unit ring-md">
-                            <svg viewBox="0 0 70 70" width="68" height="68" style="transform: rotate(-90deg);">
-                                <circle cx="35" cy="35" r="27" fill="none" stroke="#f3f4f6" stroke-width="8"/>
-                                <circle cx="35" cy="35" r="27" fill="none" stroke="#84cc16" stroke-width="8" stroke-linecap="round" stroke-dasharray="170" stroke-dashoffset="24"/>
-                            </svg>
-                            <span class="ring-center-stat" style="color: #111827;">86%</span>
-                        </div>
-
-                        <!-- Bottom Right: Indigo/Violet Ring (65%) -->
-                        <div class="ring-unit ring-md">
-                            <svg viewBox="0 0 70 70" width="68" height="68" style="transform: rotate(-90deg);">
-                                <circle cx="35" cy="35" r="27" fill="none" stroke="#f3f4f6" stroke-width="8"/>
-                                <circle cx="35" cy="35" r="27" fill="none" stroke="#6366f1" stroke-width="8" stroke-linecap="round" stroke-dasharray="170" stroke-dashoffset="60"/>
-                            </svg>
-                            <span class="ring-center-stat" style="color: #111827;">65%</span>
-                        </div>
+                    <div class="search-input-box">
+                        <i class="fa-solid fa-magnifying-glass"></i>
+                        <input type="text" id="gatewaySearchInput" placeholder="Filter by name, protocol..." oninput="handleGatewaySearch()">
                     </div>
+                </div>
+
+                <!-- Responsive Grid of 6 Gateways (Toast, DoorDash, Uber, Grubhub, Square, Clover) -->
+                <div class="gateways-grid" id="gatewaysGrid">
+                    <!-- Populated dynamically by controller.js -->
                 </div>
             </section>
 
-            <!-- CARD 4: ACTIVITY / TIMER CONCENTRIC GAUGE -->
-            <section class="bevel-card activity-card" aria-label="Activity Duration and Energy Gauge">
-                <!-- Concentric Dual Ring Gauge with Yellow Bead -->
-                <div class="activity-gauge-box">
-                    <svg viewBox="0 0 100 100" width="100" height="100">
-                        <circle cx="50" cy="50" r="42" fill="none" stroke="#f1f3f7" stroke-width="8"/>
-                        <circle cx="50" cy="50" r="32" fill="none" stroke="#f8fafc" stroke-width="4"/>
-                    </svg>
-                    <div class="activity-bead"></div>
-                    <span class="activity-big-stat">0%</span>
+            <!-- ═══════════════════════════════════════════════════════════
+                 STEP 2 VIEW: MENU CATALOG & PRICING SYNCHRONIZATION
+                 ═══════════════════════════════════════════════════════════ -->
+            <section class="step-view d-none" id="step2View" aria-label="Step 2 Menu Catalog Sync">
+                <!-- Active Gateway Banner -->
+                <div class="active-gateway-banner mb-3">
+                    <div class="active-gw-info">
+                        <div class="active-gw-icon" id="activeGwIcon">
+                            <i class="fa-solid fa-car"></i>
+                        </div>
+                        <div class="active-gw-text">
+                            <h3 id="activeGwTitle">Active Gateway: DoorDash Drive</h3>
+                            <p id="activeGwSubtitle">White-Label Fulfillment API • Store Location GUID: store_parma_dd_771 • REST / JWT Bearer</p>
+                        </div>
+                    </div>
+                    <div class="d-flex align-items-center gap-2">
+                        <button type="button" class="tactile-btn tactile-btn-white tactile-btn-sm" onclick="goToStep(1)">
+                            <i class="fa-solid fa-arrow-left"></i> Switch Gateway
+                        </button>
+                        <button type="button" class="tactile-btn tactile-btn-mint tactile-btn-sm" onclick="syncAllMenuItems()">
+                            <i class="fa-solid fa-arrows-rotate"></i> Sync All 7 SKUs
+                        </button>
+                    </div>
                 </div>
 
-                <!-- Footer Stats -->
-                <div class="activity-footer-stats">
-                    <div class="activity-foot-item">
-                        <span class="foot-label">Duration</span>
-                        <span class="foot-val">30m</span>
+                <!-- View Banner -->
+                <div class="view-header-banner">
+                    <div class="view-header-title-box">
+                        <h2>Step 2: Menu Catalog &amp; Pricing Synchronization</h2>
+                        <p>Configure live prices, mark 86'd out-of-stock ingredients, and broadcast updates directly to the connected delivery gateway.</p>
                     </div>
-                    <div class="activity-foot-item text-end">
-                        <span class="foot-label">Energy</span>
-                        <span class="foot-val">808 <span style="font-size: 11px; font-weight:600;">kCal</span></span>
+                    <div class="step-guidance-pill success">
+                        <i class="fa-solid fa-circle-check"></i>
+                        <span>Gateway Authenticated &bull; Ready for Kitchen Dispatch</span>
                     </div>
+                </div>
+
+                <!-- Menu Items Table Card -->
+                <div class="menu-items-table-card">
+                    <div class="table-responsive">
+                        <table class="menu-table">
+                            <thead>
+                                <tr>
+                                    <th style="width: 85px;">SKU</th>
+                                    <th>Menu Item &amp; Recipe Specs</th>
+                                    <th style="width: 110px;">Station</th>
+                                    <th style="width: 140px;">Live Price</th>
+                                    <th style="width: 140px;">Kitchen Stock</th>
+                                    <th style="width: 100px;" class="text-end">Action</th>
+                                </tr>
+                            </thead>
+                            <tbody id="menuTableBody">
+                                <!-- Populated dynamically by controller.js -->
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+
+                <!-- Step 2 Navigation Footer -->
+                <div class="step-nav-footer">
+                    <button type="button" class="tactile-btn tactile-btn-white tactile-btn-lg" onclick="goToStep(1)">
+                        <i class="fa-solid fa-arrow-left"></i>
+                        <span>Back to Step 1: Gateways</span>
+                    </button>
+                    <button type="button" class="tactile-btn tactile-btn-mint tactile-btn-lg" onclick="goToStep(3)">
+                        <span>Proceed to Step 3: Launch Kitchen KDS &amp; Dispatch</span>
+                        <i class="fa-solid fa-arrow-right"></i>
+                    </button>
                 </div>
             </section>
 
-            <!-- CARD 5: LUSH GREEN GRADIENT "ENERGY BANK" -->
-            <section class="bevel-card energy-bank-card" id="energyBankCard" onclick="autoConnectAllGateways()" title="Click to Fast-Sync All Gateways & Recharge Bank to 100%">
-                <div>
-                    <div class="energy-bank-top">
-                        <i class="fa-solid fa-bolt"></i>
-                        <span>Energy Bank</span>
+            <!-- ═══════════════════════════════════════════════════════════
+                 STEP 3 VIEW: LIVE KITCHEN KDS & COURIER FLEET DISPATCH
+                 ═══════════════════════════════════════════════════════════ -->
+            <section class="step-view d-none" id="step3View" aria-label="Step 3 Live Kitchen KDS and Dispatch">
+                <!-- View Banner -->
+                <div class="view-header-banner">
+                    <div class="view-header-title-box">
+                        <h2>Step 3: Live Kitchen KDS &amp; Fleet Dispatch Matrix</h2>
+                        <p>Real-time grill line tickets, automated courier route pooling, and streaming webhook telemetry.</p>
                     </div>
-                    <div class="energy-bank-val" id="energyBankPercent">93%</div>
-                    <div class="energy-bank-sub" id="energyBankSubtext">Last charged to 100%</div>
-                </div>
-
-                <!-- White Pill with Vertical Battery Bars -->
-                <div class="battery-pill-box" id="batteryBarsBox">
-                    <span class="battery-bar"></span>
-                    <span class="battery-bar"></span>
-                    <span class="battery-bar"></span>
-                    <span class="battery-bar"></span>
-                    <span class="battery-bar"></span>
-                    <span class="battery-bar"></span>
-                    <span class="battery-bar"></span>
-                    <span class="battery-bar"></span>
-                    <span class="battery-bar"></span>
-                    <span class="battery-bar"></span>
-                    <span class="battery-bar"></span>
-                    <span class="battery-bar"></span>
-                    <span class="battery-bar"></span>
-                    <span class="battery-bar"></span>
-                    <span class="battery-bar"></span>
-                    <span class="battery-bar"></span>
-                    <span class="battery-bar"></span>
-                    <span class="battery-bar empty"></span>
-                    <span class="battery-bar empty"></span>
-                </div>
-
-                <!-- Bottom Delta Badges (+40%, -7%) -->
-                <div class="energy-bank-deltas">
-                    <span class="delta-badge pos">+40%</span>
-                    <span class="delta-badge neg">-7%</span>
-                </div>
-            </section>
-
-            <!-- CARD 6: HYDRATION / DISPATCH ARC WITH CENTER "+" BUTTON -->
-            <section class="bevel-card hydration-card" aria-label="Hydration and Order Dispatch">
-                <div class="hydration-header">
-                    <div class="hydration-title-box">
-                        <span style="color: #3b82f6;">💧</span>
-                        <span>Hydration</span>
+                    <div class="step-guidance-pill success">
+                        <i class="fa-solid fa-satellite-dish"></i>
+                        <span>Live Telemetry Socket Connected &bull; HTTP/2 TLS 1.3</span>
                     </div>
-                    <button type="button" class="hydration-undo-btn" onclick="resetHydrationOrder()" title="Reset Counter">
+                </div>
+
+                <!-- Tactile Actions Push Buttons Strip -->
+                <div class="kds-action-strip mb-3">
+                    <button type="button" class="tactile-btn tactile-btn-bell" onclick="ringDinerBell()" title="Ring Brass Diner Kitchen Bell">
+                        <i class="fa-solid fa-bell-concierge fa-lg"></i>
+                        <span>Order Up! Bell</span>
+                    </button>
+                    <button type="button" class="tactile-btn tactile-btn-coral" onclick="spawnDinerTicket()" title="Push New Live Kitchen Order">
+                        <i class="fa-solid fa-fire-burner fa-lg"></i>
+                        <span>New Kitchen Ticket</span>
+                    </button>
+                    <button type="button" class="tactile-btn tactile-btn-mint" onclick="rushFleetDispatch()" title="Priority Dispatch Couriers">
+                        <i class="fa-solid fa-motorcycle fa-lg"></i>
+                        <span>Rush Courier Fleet</span>
+                    </button>
+                    <button type="button" class="tactile-btn tactile-btn-cyan" onclick="simulateFullApiHealthCheck()" title="Ping All POS and Delivery APIs">
+                        <i class="fa-solid fa-arrows-rotate fa-lg"></i>
+                        <span>Ping All Radar</span>
+                    </button>
+                    <button type="button" class="tactile-btn tactile-btn-white" onclick="resetWalkthrough()" title="Reset Setup to Step 1">
                         <i class="fa-solid fa-arrow-rotate-left"></i>
+                        <span>Reset Walkthrough</span>
                     </button>
                 </div>
 
-                <div class="hydration-stats">
-                    <div class="hydration-val" id="hydrationMlVal">2909.8 ml</div>
-                    <div class="hydration-percent" id="hydrationPercentVal">154% complete</div>
+                <!-- 2-Column Split: KDS Tickets Queue & Telemetry Stream -->
+                <div class="kds-dispatch-layout">
+                    <!-- Left: Kitchen KDS Tickets -->
+                    <div class="kds-panel">
+                        <div class="panel-header">
+                            <h3><i class="fa-solid fa-utensils text-primary"></i> Active Kitchen Prep Queue</h3>
+                            <span class="badge bg-primary rounded-pill font-mono">Grill Station Online</span>
+                        </div>
+                        <div class="kds-tickets-queue" id="kdsTicketsQueue">
+                            <!-- Populated dynamically by controller.js -->
+                        </div>
+                    </div>
+
+                    <!-- Right: Real-Time Telemetry Log Stream -->
+                    <div class="telemetry-panel">
+                        <div class="panel-header">
+                            <h3><i class="fa-solid fa-terminal text-primary"></i> Live Telemetry Event Stream</h3>
+                            <span class="badge bg-success rounded-pill font-mono">TLS 1.3 Active</span>
+                        </div>
+                        <div class="telemetry-stream-box">
+                            <div class="telemetry-stream-header">
+                                <span>UTC TIME</span>
+                                <span>PROVIDER</span>
+                                <span>EVENT TYPE</span>
+                                <span>LATENCY</span>
+                                <span>STATUS</span>
+                            </div>
+                            <div class="telemetry-stream-list" id="telemetryStreamList">
+                                <!-- Streamed dynamically -->
+                            </div>
+                        </div>
+                    </div>
                 </div>
 
-                <!-- Blue Horseshoe Arc with Center Round "+" Push Button -->
-                <div class="hydration-arc-container">
-                    <svg class="hydration-arc-svg" viewBox="0 0 110 75">
-                        <path d="M 15 65 A 40 40 0 1 1 95 65" fill="none" stroke="#e2e8f0" stroke-width="12" stroke-linecap="round"/>
-                        <path d="M 15 65 A 40 40 0 1 1 95 65" fill="none" stroke="#3b82f6" stroke-width="12" stroke-linecap="round" stroke-dasharray="190" stroke-dashoffset="30"/>
-                    </svg>
-                    <!-- Iconic Center Plus Touch Button -->
-                    <button type="button" class="hydration-plus-btn" id="hydrationPlusBtn" onclick="logHydrationOrder()" title="Log Ticket / Ring Order Up Bell">
-                        <i class="fa-solid fa-plus"></i>
+                <!-- Step 3 Navigation Footer -->
+                <div class="step-nav-footer mt-4">
+                    <button type="button" class="tactile-btn tactile-btn-white tactile-btn-lg" onclick="goToStep(2)">
+                        <i class="fa-solid fa-arrow-left"></i>
+                        <span>Back to Step 2: Menu Catalog</span>
+                    </button>
+                    <button type="button" class="tactile-btn tactile-btn-primary tactile-btn-lg" onclick="goToStep(1)">
+                        <i class="fa-solid fa-network-wired"></i>
+                        <span>Manage More Gateways (Step 1)</span>
                     </button>
                 </div>
             </section>
 
-        </div>
+        </main>
 
-        <!-- 5. DINER DELIVERY FLEETS & TACTILE ACTIONS SECTION -->
-        <section class="bevel-section-card" aria-label="Delivery Gateways & Fleet Controls">
-            <div class="bevel-section-header">
-                <div class="bevel-section-title">
-                    <i class="fa-solid fa-bell-concierge" style="color: #0284c7;"></i>
-                    <span>DinerDashboard Gateways</span>
-                </div>
-                <div class="gw-status-pill ok" id="realtimeStatusText">0/6 CONNECTED</div>
-            </div>
-
-            <!-- Tactile 3D Action Push Buttons Strip -->
-            <div class="tactile-actions-strip">
-                <button type="button" class="tactile-btn tactile-btn-bell" onclick="ringDinerBell()" title="Ring Brass Diner Kitchen Bell">
-                    <i class="fa-solid fa-bell-concierge fa-lg"></i>
-                    <span>Order Up!</span>
-                </button>
-                <button type="button" class="tactile-btn tactile-btn-cyan" onclick="autoConnectAllGateways()" title="Fast-Sync All 6 Delivery Gateways">
-                    <i class="fa-solid fa-bolt fa-lg"></i>
-                    <span>Fast-Sync 6/6</span>
-                </button>
-                <button type="button" class="tactile-btn tactile-btn-coral" onclick="spawnDinerTicket()" title="Push New Live Kitchen Order">
-                    <i class="fa-solid fa-fire-burner fa-lg"></i>
-                    <span>New Ticket</span>
-                </button>
-                <button type="button" class="tactile-btn tactile-btn-mint" onclick="rushFleetDispatch()" title="Priority Dispatch Couriers">
-                    <i class="fa-solid fa-motorcycle fa-lg"></i>
-                    <span>Rush Fleet</span>
-                </button>
-                <button type="button" class="tactile-btn tactile-btn-white" onclick="simulateFullApiHealthCheck()" title="Ping All POS and Delivery APIs">
-                    <i class="fa-solid fa-arrows-rotate fa-lg"></i>
-                    <span>Ping Radar</span>
-                </button>
-                <button type="button" class="tactile-btn tactile-btn-dark" id="osAudioToggleBtn" onclick="toggleAudio()" title="Toggle Sound Feedback">
-                    <i class="fa-solid fa-volume-high fa-lg"></i>
-                    <span>Audio Sound</span>
-                </button>
-            </div>
-
-            <!-- 6 Gateway Mini-Cards List (Rendered dynamically & connected to controller.js) -->
-            <div class="gateway-cards-grid" id="gatewayCardsList">
-                <!-- Rendered dynamically -->
-            </div>
-        </section>
-
-        <!-- Hidden / Compatibility elements required by controller.js -->
-        <div class="d-none">
-            <span id="metricActiveCount">0 / 6</span>
-            <span id="metricAvgLatency">18.4 ms</span>
-            <span id="metricEventCount">1,428</span>
-            <span id="metricCatalogSync">Pending API</span>
-            <span id="realtimeIndicatorPill"></span>
-            <span id="excelActiveCellLabel">B4</span>
-            <input type="text" id="excelFormulaInput" value="">
-            <input type="text" id="spiderSearchInput" value="">
-            <span id="apexLiveClock"></span>
-            <div id="drawerPaneContent"></div>
-            <div id="sheet-view-delivery"></div>
-            <div id="sheet-view-menu"></div>
-            <div id="sheet-view-telemetry"></div>
-            <button id="sheetTab1"></button>
-            <button id="sheetTab2"></button>
-            <button id="sheetTab3"></button>
-            <table><tbody id="spiderTableBody"></tbody></table>
-            <table><tbody id="telemetryTableBody"></tbody></table>
-        </div>
-
-        <!-- 6. Footer Mobbin & Bevel Signature -->
-        <footer class="bevel-footer-credit">
-            <div class="bevel-badge-pill">
-                <i class="fa-solid fa-cubes"></i>
-                <span>Bevel</span>
+        <!-- 4. FULL-WIDTH FOOTER -->
+        <footer class="diner-footer">
+            <div class="d-flex align-items-center gap-2">
+                <strong>DinerDashboard Engine</strong>
+                <span>&bull;</span>
+                <span>.NET 9 C# Clean Architecture Backend</span>
+                <span>&bull;</span>
+                <span>Multi-Gateway Delivery Bridge</span>
             </div>
             <div>
-                curated by <strong>Mobbin</strong>
+                &copy; 2026 Zach Heindel &bull; Engineering Knowledge Matrix
             </div>
         </footer>
 
@@ -452,12 +401,12 @@
                     <form id="apiVerificationForm" onsubmit="handleApiVerification(event)">
                         <div class="mb-3">
                             <label class="form-label text-xs text-secondary fw-bold">Client ID / Application API Key</label>
-                            <input type="text" id="apiClientIdInput" class="apex-form-control" placeholder="e.g. 6ImzVINJ53LfMWCPoh_gBblTL55hqUNfIBN-7TG2" required>
+                            <input type="text" id="apiClientIdInput" class="apex-form-control" placeholder="e.g. toast_app_parma_982" required>
                         </div>
 
                         <div class="mb-3">
                             <label class="form-label text-xs text-secondary fw-bold">Client Secret / Private Token</label>
-                            <input type="password" id="apiSecretInput" class="apex-form-control" placeholder="&bull;&bull;&bull;&bull;&bull;&bull;&bull;&bull;&bull;&bull;&bull;&bull;&bull;&bull;&bull;&bull;" required>
+                            <input type="password" id="apiSecretInput" class="apex-form-control" placeholder="••••••••••••••••" required>
                         </div>
 
                         <div class="mb-3">
@@ -470,27 +419,15 @@
                             <input type="text" id="apiWebhookUrlDisplay" class="apex-form-control" readonly>
                         </div>
 
-                        <!-- Live Diagnostic Handshake Console -->
-                        <div id="verificationConsole" class="p-3 rounded-4 font-mono text-xs d-none mb-3 bg-light border border-info">
-                            <div class="d-flex align-items-center justify-content-between text-secondary border-bottom pb-1 mb-2">
-                                <span class="fw-bold text-dark"><i class="fa-solid fa-terminal me-1"></i> DIAGNOSTIC STREAM</span>
-                                <span id="consoleTimer" class="text-primary fw-bold">0 ms</span>
-                            </div>
-                            <div id="step1" class="text-dark mb-1"><i class="fa-solid fa-spinner fa-spin me-1 text-primary"></i> [TLS 1.3] Handshake initialization...</div>
-                            <div id="step2" class="text-secondary mb-1 d-none">[OAuth 2.0] Authenticating bearer token...</div>
-                            <div id="step3" class="text-secondary mb-1 d-none">[Location GUID] Validating store geofence...</div>
-                            <div id="step4" class="fw-bold d-none text-success"><i class="fa-solid fa-circle-check me-1"></i> [200 OK] Handshake verified and online!</div>
-                        </div>
-
                         <div class="d-flex align-items-center justify-content-between pt-2">
-                            <button type="button" class="btn btn-sm btn-light rounded-pill px-3 fw-bold" onclick="fillDemoCredentials()">
-                                <i class="fa-solid fa-wand-magic-sparkles me-1 text-primary"></i> Demo Keys
+                            <button type="button" class="tactile-btn tactile-btn-white tactile-btn-sm" onclick="fillDemoCredentials()">
+                                <i class="fa-solid fa-wand-magic-sparkles me-1 text-primary"></i> Fill Demo Keys
                             </button>
 
                             <div class="d-flex gap-2">
-                                <button type="button" class="btn btn-sm btn-outline-secondary rounded-pill px-3 fw-bold" data-bs-dismiss="modal">Cancel</button>
-                                <button type="submit" id="btnSubmitVerify" class="btn btn-sm btn-dark rounded-pill px-3 fw-bold">
-                                    <i class="fa-solid fa-shield-check me-1"></i> Verify API
+                                <button type="button" class="tactile-btn tactile-btn-white tactile-btn-sm" data-bs-dismiss="modal">Cancel</button>
+                                <button type="submit" id="btnSubmitVerify" class="tactile-btn tactile-btn-mint tactile-btn-sm">
+                                    <i class="fa-solid fa-shield-check me-1"></i> Verify &amp; Next Step ➔
                                 </button>
                             </div>
                         </div>
@@ -508,161 +445,6 @@
     <!-- DinerDashboard Controller Engine -->
     <script src="./controller.js"></script>
 
-    <!-- Bevel Aesthetic Interactive Script Enhancements -->
-    <script>
-        // Synchronize Clock
-        function syncBevelClock() {
-            const now = new Date();
-            const clockEl = document.getElementById('statusBarClock');
-            if (clockEl) {
-                const hours = now.getHours();
-                const minutes = now.getMinutes().toString().padStart(2, '0');
-                clockEl.innerText = `${hours % 12 || 12}:${minutes}`;
-            }
-        }
-        setInterval(syncBevelClock, 1000);
-        syncBevelClock();
-
-        // Render Gateway Mini-Cards into #gatewayCardsList
-        function renderBevelGatewayCards() {
-            const container = document.getElementById('gatewayCardsList');
-            if (!container || typeof DELIVERY_SERVICES === 'undefined') return;
-
-            const serviceKeys = Object.keys(DELIVERY_SERVICES);
-            let html = '';
-
-            serviceKeys.forEach((key) => {
-                const s = DELIVERY_SERVICES[key];
-                const isVerified = s.verified;
-                html += `
-                    <div class="gateway-item-card ${isVerified ? 'connected' : ''}" onclick="openApiConfigModal('${key}')">
-                        <div class="gw-brand-box">
-                            <div class="gw-icon">
-                                <i class="${s.icon}"></i>
-                            </div>
-                            <div class="gw-info">
-                                <span class="gw-name">${s.name}</span>
-                                <span class="gw-category">${s.categoryTag} &bull; ${isVerified ? s.latency : 'Pending'}</span>
-                            </div>
-                        </div>
-                        <div class="gw-actions">
-                            <span class="gw-status-pill ${isVerified ? 'ok' : 'pending'}">
-                                ${isVerified ? '200 OK' : '401 PENDING'}
-                            </span>
-                            <button type="button" class="gw-connect-btn" onclick="event.stopPropagation(); ${isVerified ? `disconnectApi('${key}')` : `openApiConfigModal('${key}')`}">
-                                ${isVerified ? 'Disconnect' : 'Connect'}
-                            </button>
-                        </div>
-                    </div>
-                `;
-            });
-
-            container.innerHTML = html;
-
-            // Also update the Energy Bank percent based on connected count
-            const connectedCount = serviceKeys.filter(k => DELIVERY_SERVICES[k].verified).length;
-            const energyPercent = Math.min(100, Math.round((connectedCount / 6) * 100));
-            const energyEl = document.getElementById('energyBankPercent');
-            const subEl = document.getElementById('energyBankSubtext');
-            if (energyEl) energyEl.innerText = `${connectedCount === 0 ? '93%' : energyPercent + '%'}`;
-            if (subEl) subEl.innerText = connectedCount === 6 ? 'All 6 Gateways Connected' : `${connectedCount}/6 Gateways Verified`;
-
-            // Update realtime status pill
-            const statusPill = document.getElementById('realtimeStatusText');
-            if (statusPill) statusPill.innerText = `${connectedCount}/6 CONNECTED`;
-        }
-
-        // Listen for updates from controller.js
-        window.addEventListener('DOMContentLoaded', () => {
-            renderBevelGatewayCards();
-        });
-
-        // Patch renderSpiderTable in controller so it updates cards too
-        const origRender = window.renderSpiderTable;
-        window.renderSpiderTable = function() {
-            if (origRender) origRender();
-            renderBevelGatewayCards();
-        };
-
-        // Interactive Hydration / Order Logging
-        let currentMl = 2909.8;
-        let currentPercent = 154;
-        function logHydrationOrder() {
-            if (typeof playDinerBell === 'function') playDinerBell();
-            if (typeof playToyClick === 'function') playToyClick(520, 0.05);
-
-            currentMl = +(currentMl + 250).toFixed(1);
-            currentPercent += 12;
-
-            const mlEl = document.getElementById('hydrationMlVal');
-            const pctEl = document.getElementById('hydrationPercentVal');
-            if (mlEl) mlEl.innerText = `${currentMl} ml`;
-            if (pctEl) pctEl.innerText = `${currentPercent}% complete`;
-
-            // Also spawn a diner ticket if available
-            if (typeof spawnDinerTicket === 'function') {
-                spawnDinerTicket();
-            }
-        }
-
-        function resetHydrationOrder() {
-            if (typeof playToyClick === 'function') playToyClick(350, 0.04);
-            currentMl = 2909.8;
-            currentPercent = 154;
-            const mlEl = document.getElementById('hydrationMlVal');
-            const pctEl = document.getElementById('hydrationPercentVal');
-            if (mlEl) mlEl.innerText = `${currentMl} ml`;
-            if (pctEl) pctEl.innerText = `${currentPercent}% complete`;
-        }
-
-        // Interactive Slider Drag / Click
-        function handleSliderClick(e) {
-            const track = document.getElementById('energySliderTrack');
-            const thumb = document.getElementById('energySliderThumb');
-            if (!track || !thumb) return;
-            const rect = track.getBoundingClientRect();
-            const clickX = Math.max(0, Math.min(e.clientX - rect.left, rect.width));
-            const percent = (clickX / rect.width) * 100;
-            thumb.style.left = `${percent}%`;
-
-            if (typeof playToyClick === 'function') playToyClick(440 + percent * 2, 0.03);
-
-            // Calculate scaled net kcal value between -500 and 500
-            const netVal = Math.round(((percent - 50) / 50) * 500);
-            const bigValEl = document.getElementById('netEnergyBigVal');
-            if (bigValEl) {
-                bigValEl.innerText = `${netVal > 0 ? '+' : ''}${netVal === 0 ? '67' : netVal} kcal`;
-            }
-        }
-
-        function openMenuCatalogDrawer() {
-            if (typeof playToyClick === 'function') playToyClick(600, 0.04);
-            if (typeof switchSheet === 'function') switchSheet('menu');
-        }
-
-        function simulateTicketScan() {
-            if (typeof playToyClick === 'function') playToyClick(750, 0.04);
-            alert('Receipt Scanner: Camera active. Scanned 3 line tickets from Diner Grill station.');
-        }
-
-        function simulateBarcodeScan() {
-            if (typeof playToyClick === 'function') playToyClick(850, 0.04);
-            alert('Barcode Reader: POS SKU #SUB-03 (Classic Italian Deli Sub) verified in stock.');
-        }
-
-        function triggerAiOptimization() {
-            if (typeof playToyClick === 'function') playToyClick(950, 0.05);
-            alert('AI Kitchen Intelligence: Line prep optimized. Estimated ticket throughput +24% during rush hours.');
-        }
-
-        function focusSearchInput() {
-            if (typeof playToyClick === 'function') playToyClick(680, 0.03);
-            const term = prompt('Filter Gateways / Orders by keyword:');
-            if (term !== null && typeof handleSpiderSearch === 'function') {
-                handleSpiderSearch(term);
-            }
-        }
-    </script>
 </body>
 
 </html>
