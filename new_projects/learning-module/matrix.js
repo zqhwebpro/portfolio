@@ -850,252 +850,12 @@
     } catch (e) {}
   }
 
-  // Authentic Analog CRT TV Static & Channel Switch Sound Burst
-  function playTvStaticSound(duration = 0.35) {
-    if (!soundEnabled) return;
-    try {
-      initAudio();
-      if (!audioCtx) return;
-
-      const bufferSize = Math.floor(audioCtx.sampleRate * duration);
-      const noiseBuffer = audioCtx.createBuffer(1, bufferSize, audioCtx.sampleRate);
-      const output = noiseBuffer.getChannelData(0);
-      for (let i = 0; i < bufferSize; i++) {
-        output[i] = Math.random() * 2 - 1;
-      }
-
-      const whiteNoise = audioCtx.createBufferSource();
-      whiteNoise.buffer = noiseBuffer;
-
-      // Bandpass filter to sculpt analog television snow timbre
-      const filter = audioCtx.createBiquadFilter();
-      filter.type = 'bandpass';
-      filter.frequency.setValueAtTime(1750, audioCtx.currentTime);
-      filter.Q.setValueAtTime(0.9, audioCtx.currentTime);
-
-      // Volume envelope with rapid attack and smooth tail
-      const gain = audioCtx.createGain();
-      gain.gain.setValueAtTime(0.015, audioCtx.currentTime);
-      gain.gain.linearRampToValueAtTime(0.07, audioCtx.currentTime + 0.04);
-      gain.gain.exponentialRampToValueAtTime(0.0001, audioCtx.currentTime + duration);
-
-      whiteNoise.connect(filter);
-      filter.connect(gain);
-      gain.connect(audioCtx.destination);
-
-      whiteNoise.start();
-      whiteNoise.stop(audioCtx.currentTime + duration);
-    } catch (e) {}
-  }
-
   // ═══════════════════════════════════════════════════════════════════
   // 3. APPLICATION STATE
   // ═══════════════════════════════════════════════════════════════════
   let currentActiveTrackId = 'javascript';
   let currentViewMode = 'tabbed'; // 'tabbed' or 'grid'
   let activeSearchQuery = '';
-
-  // ═══════════════════════════════════════════════════════════════════
-  // 3.5 TV STATIC TRANSITION ENGINE (TEXT -> STATIC -> NEW TEXT)
-  // ═══════════════════════════════════════════════════════════════════
-  let isStaticTransitioning = false;
-  let staticCanvas = null;
-  let staticCtx = null;
-  let staticAnimId = null;
-  let staticAlpha = 1.0;
-
-  function ensureStaticCanvas(container) {
-    if (!staticCanvas || !container.contains(staticCanvas)) {
-      if (staticCanvas && staticCanvas.parentNode) {
-        staticCanvas.parentNode.removeChild(staticCanvas);
-      }
-      staticCanvas = document.createElement('canvas');
-      staticCanvas.className = 'tv-static-canvas';
-      staticCanvas.width = 320;
-      staticCanvas.height = 180;
-      container.appendChild(staticCanvas);
-    }
-    staticCtx = staticCanvas.getContext('2d');
-    return staticCanvas;
-  }
-
-  function renderTvStaticSnow() {
-    if (!staticCtx || !staticCanvas) return;
-    const w = staticCanvas.width;
-    const h = staticCanvas.height;
-    const imgData = staticCtx.createImageData(w, h);
-    const data = imgData.data;
-    const now = Date.now();
-    const rollBarY = (now / 3) % h;
-
-    for (let i = 0; i < data.length; i += 4) {
-      const y = Math.floor((i / 4) / w);
-      let noise = Math.floor(Math.random() * 255);
-      // Moving sync horizontal band
-      if (Math.abs(y - rollBarY) < 14) {
-        noise = Math.min(255, noise + 95);
-      }
-      data[i] = noise;
-      data[i + 1] = noise;
-      data[i + 2] = noise;
-      data[i + 3] = Math.floor(245 * staticAlpha);
-    }
-    staticCtx.putImageData(imgData, 0, 0);
-
-    // Occasional horizontal beam flare
-    if (Math.random() > 0.45) {
-      const lineY = Math.random() * h;
-      staticCtx.fillStyle = `rgba(255, 255, 255, ${0.45 * staticAlpha})`;
-      staticCtx.fillRect(0, lineY, w, Math.random() * 3 + 1);
-    }
-
-    if (isStaticTransitioning) {
-      staticAnimId = requestAnimationFrame(renderTvStaticSnow);
-    }
-  }
-
-  // Scramble existing text in place to television static noise characters
-  function scrambleTextElements(container) {
-    const textNodes = container.querySelectorAll(
-      'h2, h3, h4, p, span.font-bold, .tv-crt-headline, .tv-crt-desc, .tv-osd-title'
-    );
-    const chars = '█▓▒░#%*+=_<>/?!01アイウエオカキクケコ';
-    textNodes.forEach((el) => {
-      const orig = el.textContent.trim();
-      if (!orig) return;
-      el.dataset.originalText = orig;
-      const len = orig.length;
-      let scrambled = '';
-      for (let i = 0; i < Math.min(len, 65); i++) {
-        scrambled += chars[Math.floor(Math.random() * chars.length)];
-      }
-      el.textContent = scrambled;
-      el.classList.add('tv-scrambling-text');
-    });
-  }
-
-  // Decode the new tab text smoothly out of static noise characters
-  function decodeTextElements(container) {
-    const textNodes = container.querySelectorAll(
-      'h2, h3, h4, p, span.font-bold, .tv-crt-headline, .tv-crt-desc, .tv-osd-title'
-    );
-    const chars = '█▓▒░#%*+=_<>/?!01';
-    textNodes.forEach((el) => {
-      const targetText = el.dataset.originalText || el.textContent.trim();
-      if (!targetText) return;
-      el.classList.add('tv-scrambling-text');
-
-      let step = 0;
-      const totalSteps = 6;
-      const interval = setInterval(() => {
-        step++;
-        if (step >= totalSteps) {
-          clearInterval(interval);
-          el.textContent = targetText;
-          el.classList.remove('tv-scrambling-text');
-        } else {
-          let output = '';
-          const revealedCount = Math.floor((step / totalSteps) * targetText.length);
-          output += targetText.slice(0, revealedCount);
-          for (let i = revealedCount; i < Math.min(targetText.length, 55); i++) {
-            output += chars[Math.floor(Math.random() * chars.length)];
-          }
-          el.textContent = output;
-        }
-      }, 25);
-    });
-  }
-
-  // Core Transition Controller: Text -> Static -> New Text inside new tab
-  function switchTrackWithTvStatic(targetTrackId, targetViewMode = 'tabbed') {
-    if (isStaticTransitioning) return;
-    isStaticTransitioning = true;
-
-    const container = document.getElementById('osMainContentArea');
-    if (!container) {
-      if (targetTrackId) currentActiveTrackId = targetTrackId;
-      currentViewMode = targetViewMode;
-      renderIdeTabs();
-      renderMainView();
-      isStaticTransitioning = false;
-      return;
-    }
-
-    // 1. Play authentic TV static sound burst
-    playTvStaticSound(0.38);
-
-    // 2. Attach and fire rolling scan bar
-    let rollBar = container.querySelector('.tv-scan-roll-bar');
-    if (!rollBar) {
-      rollBar = document.createElement('div');
-      rollBar.className = 'tv-scan-roll-bar';
-      container.appendChild(rollBar);
-    }
-    rollBar.classList.remove('rolling');
-    void rollBar.offsetWidth;
-    rollBar.classList.add('rolling');
-
-    // 3. Attach and fire CRT horizontal beam wipe element
-    let beamWipe = container.querySelector('.tv-crt-beam-wipe');
-    if (!beamWipe) {
-      beamWipe = document.createElement('div');
-      beamWipe.className = 'tv-crt-beam-wipe';
-      container.appendChild(beamWipe);
-    }
-
-    // 4. Start dense canvas TV static snow
-    const canvas = ensureStaticCanvas(container);
-    staticAlpha = 1.0;
-    canvas.classList.add('active');
-    if (staticAnimId) cancelAnimationFrame(staticAnimId);
-    renderTvStaticSnow();
-
-    // 5. Scramble existing text in place into static glyphs
-    scrambleTextElements(container);
-
-    // 6. Midpoint: switch track data and render new content inside the new tab
-    setTimeout(() => {
-      if (targetTrackId) currentActiveTrackId = targetTrackId;
-      currentViewMode = targetViewMode;
-      renderIdeTabs();
-      renderMainView(); // renders the new tab content and the TV Stack!
-
-      const updatedContainer = document.getElementById('osMainContentArea');
-      if (updatedContainer) {
-        // Re-attach static elements to newly rendered DOM
-        updatedContainer.appendChild(canvas);
-        updatedContainer.appendChild(beamWipe);
-        updatedContainer.appendChild(rollBar);
-
-        // Fire CRT beam expand reveal
-        beamWipe.classList.remove('expanding');
-        void beamWipe.offsetWidth;
-        beamWipe.classList.add('expanding');
-
-        // Decode the new text from static noise into clear text
-        decodeTextElements(updatedContainer);
-      }
-
-      // 7. Smoothly fade TV static noise to reveal crisp new text
-      let fadeStep = 0;
-      const fadeInterval = setInterval(() => {
-        fadeStep++;
-        staticAlpha = Math.max(0, 1.0 - fadeStep * 0.22);
-        if (staticAlpha <= 0 || fadeStep >= 5) {
-          clearInterval(fadeInterval);
-          canvas.classList.remove('active');
-          if (staticAnimId) cancelAnimationFrame(staticAnimId);
-          staticAnimId = null;
-          isStaticTransitioning = false;
-        }
-      }, 30);
-    }, 170);
-  }
-
-  // Global trigger for manual static burst degauss
-  window.triggerTvStaticDegauss = function () {
-    switchTrackWithTvStatic(currentActiveTrackId, currentViewMode);
-  };
 
   // ═══════════════════════════════════════════════════════════════════
   // 4. RENDERERS
@@ -1148,122 +908,68 @@
 
     tabsContainer.innerHTML = html;
 
-    // Attach click listeners with TV Static Channel Switch Transition
+    // Attach click listeners
     tabsContainer.querySelectorAll('.os-ide-tab-btn').forEach((btn) => {
       btn.addEventListener('click', () => {
+        playOsClick(800, 0.03);
         const view = btn.getAttribute('data-view');
         if (view === 'grid') {
-          switchTrackWithTvStatic(null, 'grid');
+          currentViewMode = 'grid';
         } else {
-          const trackId = btn.getAttribute('data-track-id');
-          switchTrackWithTvStatic(trackId, 'tabbed');
+          currentViewMode = 'tabbed';
+          currentActiveTrackId = btn.getAttribute('data-track-id');
         }
+        renderMainView();
+        renderIdeTabs();
       });
     });
   }
 
-  // Render the Active Track with 09 PROGRESSIVE MODULES (3x3) on top of CRT TV Stack
+  // Render the Active Track in a Crisp White Card (Directly Showing the 3x3 Curriculum Syllabus)
   function renderActiveTabbedCard() {
     const container = document.getElementById('osMainContentArea');
     if (!container) return;
 
     const mod = MODULES_DATA.find((m) => m.id === currentActiveTrackId) || MODULES_DATA[0];
 
-    // Helper to render each 3-module progression tier as a shelf of 3 CRT television monitors
+    // Helper to render each 3-module progression tier with scientific formatting
     function renderSyllabusTier(tierName, tierNumber, modules) {
-      // Tier accent colors for authentic CRT phosphor look
-      let tierColor = 'emerald';
-      let ledClass = 'bg-emerald-400';
-      let osdColor = 'text-emerald-400 border-emerald-500/25';
-      let headlineColor = 'text-emerald-300';
-
-      if (tierNumber === '02') {
-        tierColor = 'cyan';
-        ledClass = 'bg-sky-400';
-        osdColor = 'text-sky-400 border-sky-500/25';
-        headlineColor = 'text-sky-300';
-      } else if (tierNumber === '03') {
-        tierColor = 'amber';
-        ledClass = 'bg-amber-400';
-        osdColor = 'text-amber-400 border-amber-500/25';
-        headlineColor = 'text-amber-300';
-      }
-
       const modulesHtml = modules
         .map((m) => `
-          <div class="tv-crt-unit">
-            <!-- Recessed Screen Bezel -->
-            <div class="tv-crt-bezel">
-              <!-- Curved CRT Glass Screen -->
-              <div class="tv-crt-screen">
-                <div class="tv-crt-scanlines"></div>
-                <div class="tv-crt-glare"></div>
-
-                <!-- Screen OSD -->
-                <div>
-                  <div class="tv-crt-osd ${osdColor}">
-                    <span class="flex items-center gap-1.5">
-                      <i class="fa-solid fa-satellite-dish text-[10px]"></i>
-                      <span class="tv-osd-title">CH-${m.num} // ${m.tier.toUpperCase()}</span>
-                    </span>
-                    <span class="tv-osd-rec">
-                      <span class="tv-osd-dot ${ledClass}"></span>
-                      <span>STAGE ${m.num}/09</span>
-                    </span>
-                  </div>
-
-                  <h4 class="tv-crt-headline ${headlineColor}">
-                    ${m.chapter}
-                  </h4>
-                  <p class="tv-crt-desc">
-                    ${m.desc}
-                  </p>
-                </div>
-
-                <!-- Core Concepts Retro Terminal Tags -->
-                <div class="tv-crt-tags">
-                  <span class="text-[10px] font-mono font-bold text-slate-400 tracking-wider">CONCEPTS:</span>
-                  ${m.keyConcepts.map((c) => `<span class="tv-crt-chip">[${c}]</span>`).join('')}
-                </div>
+          <div class="p-4 sm:p-5 bg-white border border-slate-200 hover:border-slate-400 transition-colors flex flex-col justify-between">
+            <div>
+              <div class="flex items-center justify-between font-mono text-[11px] text-slate-500 mb-2 pb-1.5 border-b border-slate-100">
+                <span class="font-bold text-slate-800 tracking-wider">MODULE § ${m.num}</span>
+                <span class="text-slate-400 tracking-wider">${m.tier.toUpperCase()} [STAGE ${m.num}/09]</span>
               </div>
+              <h4 class="font-headline font-bold text-slate-900 text-sm sm:text-base mb-2 leading-snug">
+                ${m.chapter}
+              </h4>
+              <p class="text-xs text-slate-600 leading-relaxed font-sans mb-3">
+                ${m.desc}
+              </p>
             </div>
-
-            <!-- Physical TV Hardware Control Strip -->
-            <div class="tv-crt-controls">
-              <div class="flex items-center gap-2">
-                <div class="tv-rotary-knob" title="Channel Dial CH-${m.num}"></div>
-                <span class="font-mono text-[9px] text-slate-400 tracking-wider font-semibold">TUNE.${m.num}</span>
-              </div>
-              <div class="tv-speaker-pinholes" title="Speaker Vent Array">
-                <span class="tv-speaker-dot"></span>
-                <span class="tv-speaker-dot"></span>
-                <span class="tv-speaker-dot"></span>
-                <span class="tv-speaker-dot"></span>
-              </div>
-              <div class="flex items-center gap-1.5">
-                <span class="font-mono text-[9px] text-slate-500 font-bold">CRT-9X</span>
-                <span class="w-2 h-2 rounded-full ${ledClass} shadow-[0_0_6px_currentColor]"></span>
-              </div>
+            <div class="pt-2.5 border-t border-slate-100 font-mono text-[11px] text-slate-600 mt-auto leading-relaxed">
+              <span class="text-slate-400 font-semibold">CORE_CONCEPTS:</span> ${m.keyConcepts.join('; ')}
             </div>
           </div>
         `)
         .join('');
 
       return `
-        <div class="tv-shelf-tier">
-          <!-- Shelf Steel Rail Header -->
-          <div class="tv-tier-rail">
-            <div class="flex items-center gap-2 font-mono text-xs font-bold text-slate-200 tracking-wide uppercase">
-              <i class="fa-solid fa-layer-group text-sky-400 text-[11px]"></i>
-              <span>${tierName}</span>
-            </div>
-            <span class="font-mono text-[11px] text-slate-400 font-semibold tracking-wider">
-              [ RACK_SHELF_${tierNumber} // 3x CRT MONITORS ]
+        <div class="space-y-3.5">
+          <!-- Scientific Section Header Strip -->
+          <div class="flex items-baseline justify-between gap-3 pb-2 border-b-2 border-slate-300">
+            <h3 class="font-mono font-bold text-slate-900 text-sm sm:text-base tracking-wide uppercase">
+              ${tierName}
+            </h3>
+            <span class="font-mono text-xs text-slate-500 font-semibold tracking-wider">
+              [ ADVANCEMENT_TIER_${tierNumber} // 03_MODULES ]
             </span>
           </div>
 
-          <!-- 3 Modules Grid (3 CRT Televisions) -->
-          <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
+          <!-- 3 Modules Grid -->
+          <div class="grid grid-cols-1 md:grid-cols-3 gap-3.5 sm:gap-4">
             ${modulesHtml}
           </div>
         </div>
@@ -1286,9 +992,8 @@
             </div>
           </div>
 
-          <div class="font-mono text-xs text-slate-600 font-bold flex items-center gap-2">
-            <i class="fa-solid fa-tv text-sky-600"></i>
-            <span>${mod.duration} // 09 PROGRESSIVE MODULES (3x3 TV STACK)</span>
+          <div class="font-mono text-xs text-slate-500 font-bold">
+            ${mod.duration} // 09 PROGRESSIVE MODULES (3x3)
           </div>
         </div>
 
@@ -1306,7 +1011,7 @@
               <span class="text-slate-300">/</span>
               <span>EST_HOURS: ${mod.duration}</span>
               <span class="text-slate-300">/</span>
-              <span class="text-sky-600 font-bold">STRUCTURE: 3x3 CRT TV STACK</span>
+              <span>STRUCTURE: 3x3 PROGRESSIVE MATRIX</span>
             </div>
             <h2 class="font-headline font-bold text-2xl sm:text-3xl text-slate-900 tracking-tight leading-tight mb-2.5">
               ${mod.title}
@@ -1316,87 +1021,25 @@
             </p>
           </div>
 
-          <!-- THE 09 PROGRESSIVE MODULES (3x3) ONTOP OF TV STACK -->
-          <div class="pt-2">
-            <!-- Top Telescoping Antennas -->
-            <div class="tv-antenna-wrapper">
-              <div class="tv-antenna-base">
-                <div class="tv-antenna-mast left"><div class="tv-antenna-tip"></div></div>
-                <div class="tv-antenna-mast right"><div class="tv-antenna-tip"></div></div>
-              </div>
-            </div>
+          <!-- THE 3x3 CURRICULUM SYLLABUSES (3 Beginner, 3 Advanced, 3 Expert) -->
+          <div class="space-y-8">
+            ${renderSyllabusTier(
+              '01. Beginner Foundations (Core Mechanics & Execution Lifecycle)',
+              '01',
+              beginnerTier
+            )}
 
-            <!-- TV Stack Rack Enclosure -->
-            <div class="tv-stack-rack">
-              <!-- Top Master Console Header -->
-              <div class="tv-stack-console-header">
-                <div class="flex items-center gap-3">
-                  <div class="tv-vent-slits" title="Rack Heat Dissipation Louvers">
-                    <div class="tv-vent-slit"></div>
-                    <div class="tv-vent-slit"></div>
-                    <div class="tv-vent-slit"></div>
-                    <div class="tv-vent-slit"></div>
-                    <div class="tv-vent-slit"></div>
-                  </div>
-                  <div>
-                    <div class="font-mono text-xs font-bold text-slate-200 tracking-wider flex items-center gap-2">
-                      <i class="fa-solid fa-tv text-sky-400"></i>
-                      <span>TRINITRON 3x3 MODULAR CRT ARRAY // 09 CHANNELS</span>
-                    </div>
-                    <div class="font-mono text-[10px] text-slate-400">
-                      VIDEO_WALL_SPEC: 9-MONITOR STACK // 3 TIERS x 3 CHANNELS
-                    </div>
-                  </div>
-                </div>
+            ${renderSyllabusTier(
+              '02. Advanced Architecture (System Design & Concurrency)',
+              '02',
+              advancedTier
+            )}
 
-                <div class="flex items-center gap-4">
-                  <!-- Status Meter -->
-                  <div class="tv-console-meter hidden sm:flex items-center gap-2">
-                    <span class="font-mono text-[10px] text-slate-400 font-semibold">SIGNAL:</span>
-                    <div class="tv-vu-meter-bar">
-                      <span class="tv-vu-pip active-green"></span>
-                      <span class="tv-vu-pip active-green"></span>
-                      <span class="tv-vu-pip active-green"></span>
-                      <span class="tv-vu-pip active-cyan"></span>
-                      <span class="tv-vu-pip active-cyan"></span>
-                      <span class="tv-vu-pip active-amber"></span>
-                    </div>
-                    <span class="font-mono text-[10px] text-emerald-400 font-bold">108.4 MHz</span>
-                  </div>
-
-                  <!-- Interactive Degauss / Static Burst Button -->
-                  <button 
-                    type="button" 
-                    onclick="window.triggerTvStaticDegauss()" 
-                    class="tv-degauss-btn"
-                    title="Trigger TV Static Degauss Sweep">
-                    <i class="fa-solid fa-bolt text-amber-400 text-[11px]"></i>
-                    <span>STATIC DEGAUSS</span>
-                  </button>
-                </div>
-              </div>
-
-              <!-- The 3 Stacked Shelf Tiers (3x3 = 9 Monitors) -->
-              <div class="space-y-6">
-                ${renderSyllabusTier(
-                  '01. Beginner Foundations (Core Mechanics & Execution Lifecycle)',
-                  '01',
-                  beginnerTier
-                )}
-
-                ${renderSyllabusTier(
-                  '02. Advanced Architecture (System Design & Concurrency)',
-                  '02',
-                  advancedTier
-                )}
-
-                ${renderSyllabusTier(
-                  '03. Expert Internals (Low-Level Mastery & Enterprise Scaling)',
-                  '03',
-                  expertTier
-                )}
-              </div>
-            </div>
+            ${renderSyllabusTier(
+              '03. Expert Internals (Low-Level Mastery & Enterprise Scaling)',
+              '03',
+              expertTier
+            )}
           </div>
 
         </div>
@@ -1470,10 +1113,7 @@
 
               <!-- Action Bar -->
               <div class="pt-4 border-t border-slate-200 flex items-center justify-between">
-                <span class="text-xs font-mono text-slate-500 font-semibold flex items-center gap-1.5">
-                  <i class="fa-solid fa-tv text-sky-500"></i>
-                  <span>9 PROGRESSIVE MODULES (3x3 TV STACK)</span>
-                </span>
+                <span class="text-xs font-mono text-slate-500 font-semibold">9 PROGRESSIVE MODULES</span>
                 <button type="button" class="font-mono text-xs font-bold text-slate-900 hover:text-sky-600 flex items-center gap-1.5 transition-colors">
                   <span>INSPECT_SYLLABUS &rarr;</span>
                 </button>
@@ -1490,11 +1130,15 @@
       </div>
     `;
 
-    // Click handler on cards to switch to tabbed view with TV Static Transition
+    // Click handler on cards to switch to tabbed view
     container.querySelectorAll('[data-card-track-id]').forEach((card) => {
       card.addEventListener('click', () => {
         const id = card.getAttribute('data-card-track-id');
-        switchTrackWithTvStatic(id, 'tabbed');
+        currentActiveTrackId = id;
+        currentViewMode = 'tabbed';
+        playOsClick(800, 0.03);
+        renderIdeTabs();
+        renderMainView();
       });
     });
   }
@@ -1557,39 +1201,50 @@
       });
     });
 
-    // In-App Home Icon Navigation (Resets curriculum view to first track with TV static)
+    // In-App Home Icon Navigation (Resets curriculum view to first track smoothly)
     document.querySelectorAll('a[href="./index.html"]').forEach((homeBtn) => {
       homeBtn.addEventListener('click', (e) => {
         const path = window.location.pathname;
         if (path.endsWith('index.html') || path.endsWith('/learning-module/') || path.endsWith('/learning-module')) {
           e.preventDefault();
-          switchTrackWithTvStatic('javascript', 'tabbed');
+          currentActiveTrackId = 'javascript';
+          currentViewMode = 'tabbed';
+          renderIdeTabs();
+          renderMainView();
           window.scrollTo({ top: 0, behavior: 'smooth' });
+          playOsClick(800, 0.04);
         }
       });
     });
   });
 
-  // Global API for Sitemap & In-Page Technical Navigation with TV Static
+  // Global API for Sitemap & In-Page Technical Navigation
   window.openMatrixTrack = function (trackId) {
     if (MODULES_DATA.some((m) => m.id === trackId)) {
-      switchTrackWithTvStatic(trackId, 'tabbed');
+      currentActiveTrackId = trackId;
+      currentViewMode = 'tabbed';
+      renderIdeTabs();
+      renderMainView();
       const mainEl = document.getElementById('osMainContentArea');
       if (mainEl) {
         mainEl.scrollIntoView({ behavior: 'smooth', block: 'start' });
       } else {
         window.scrollTo({ top: 0, behavior: 'smooth' });
       }
+      playOsClick(800, 0.04);
     }
   };
 
   window.openMatrixGrid = function () {
-    switchTrackWithTvStatic(null, 'grid');
+    currentViewMode = 'grid';
+    renderIdeTabs();
+    renderMainView();
     const mainEl = document.getElementById('osMainContentArea');
     if (mainEl) {
       mainEl.scrollIntoView({ behavior: 'smooth', block: 'start' });
     } else {
       window.scrollTo({ top: 0, behavior: 'smooth' });
     }
+    playOsClick(800, 0.04);
   };
 })();
