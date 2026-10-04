@@ -135,16 +135,19 @@ body {
   border-radius: 12px;
   box-shadow: 0 12px 36px rgba(0, 0, 0, 0.7);
   font-family: var(--font-mono);
+  max-width: 100%;
 }
 
 /* OS Window Titlebar Header (Titanium Grey) */
 .os-window-header {
   background: #f1f5f9;
   border-bottom: 1px solid #cbd5e1;
-  padding: 0.75rem 1.5rem;
+  padding: 0.65rem 1rem;
   display: flex;
   align-items: center;
   justify-content: space-between;
+  flex-wrap: wrap;
+  gap: 0.65rem;
   border-top-left-radius: 1rem;
   border-top-right-radius: 1rem;
   font-family: var(--font-mono);
@@ -154,13 +157,13 @@ body {
 
 @media (min-width: 640px) {
   .os-window-header {
-    padding: 0.85rem 2.25rem;
+    padding: 0.85rem 1.75rem;
   }
 }
 
 @media (min-width: 1024px) {
   .os-window-header {
-    padding: 0.95rem 3rem;
+    padding: 0.95rem 2.5rem;
   }
 }
 
@@ -197,17 +200,28 @@ body {
   border-bottom: none;
   border-top-left-radius: 10px;
   border-top-right-radius: 10px;
-  padding: 0.65rem 1.15rem;
+  padding: 0.5rem 0.85rem;
   font-family: var(--font-mono);
-  font-size: 0.82rem;
+  font-size: 0.78rem;
   font-weight: 700;
   display: inline-flex;
   align-items: center;
-  gap: 0.6rem;
+  gap: 0.5rem;
   transition: all 0.2s cubic-bezier(0.16, 1, 0.3, 1);
   cursor: pointer;
   white-space: nowrap;
   position: relative;
+  min-height: 38px;
+  flex-shrink: 0;
+  touch-action: manipulation;
+}
+
+@media (min-width: 768px) {
+  .os-ide-tab-btn {
+    padding: 0.65rem 1.15rem;
+    font-size: 0.82rem;
+    gap: 0.6rem;
+  }
 }
 
 /* Tab Number Circle: 01. 02. in colored circle */
@@ -355,14 +369,14 @@ body {
 
 /* Number in Colored Circle (01. 02. in colored circle for respective tab choice) */
 .outline-num-circle {
-  width: 52px;
-  height: 52px;
+  width: 44px;
+  height: 44px;
   border-radius: 9999px;
   display: flex;
   align-items: center;
   justify-content: center;
   font-family: var(--font-mono);
-  font-size: 1.45rem;
+  font-size: 1.25rem;
   font-weight: 900;
   letter-spacing: -0.03em;
   flex-shrink: 0;
@@ -371,9 +385,17 @@ body {
 
 @media (min-width: 640px) {
   .outline-num-circle {
-    width: 58px;
-    height: 58px;
-    font-size: 1.65rem;
+    width: 50px;
+    height: 50px;
+    font-size: 1.45rem;
+  }
+}
+
+@media (min-width: 1280px) {
+  .outline-num-circle {
+    width: 56px;
+    height: 56px;
+    font-size: 1.6rem;
   }
 }
 
@@ -575,5 +597,122 @@ body {
 @media (min-width: 1024px) {
   .os-arch-blueprint {
     padding: 2rem 3.5rem;
+  }
+}
+
+/* ═══════════════════════════════════════════════════════════════════
+   5. ADVANCED RESPONSIVE SYSTEM (TABLET & MOBILE BREAKPOINTS)
+   ═══════════════════════════════════════════════════════════════════ */
+
+/* Smooth touch scrolling for IDE tabs */
+#osIdeTabsContainer {
+  -webkit-overflow-scrolling: touch;
+  scroll-behavior: smooth;
+  scroll-padding: 0 0.5rem;
+}
+
+/* Outlines pagination pill container */
+.outline-pill-scroll {
+  max-width: 100%;
+  overflow-x: auto;
+  -webkit-overflow-scrolling: touch;
+  scrollbar-width: none;
+}
+.outline-pill-scroll::-webkit-scrollbar {
+  display: none;
+}
+
+/* Tablet-specific refinements (768px – 1023px) */
+@media (min-width: 768px) and (max-width: 1023px) {
+  .outline-block-card {
+    padding: 1.25rem !important;
+  }
+
+  .lesson-card-item {
+    padding: 0.65rem 0.85rem !important;
+  }
+
+  .os-white-card h2 {
+    font-size: 1.75rem !important;
+  }
+
+  .os-white-card h3 {
+    font-size: 1.35rem !important;
+  }
+
+  .os-white-card h4 {
+    font-size: 1.2rem !important;
+  }
+}
+
+/* Mobile-specific refinements (<768px) */
+@media (max-width: 767px) {
+  .os-system-menubar {
+    padding-left: 0.75rem !important;
+    padding-right: 0.75rem !important;
+  }
+
+  .os-menu-clock {
+    font-size: 0.68rem !important;
+    padding: 2px 6px !important;
+    max-width: 140px;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+  }
+
+  .outline-block-card {
+    padding: 1rem !important;
+    border-radius: 0.875rem !important;
+  }
+
+  .lesson-card-item {
+    padding: 0.6rem 0.7rem !important;
+    gap: 0.5rem !important;
+  }
+
+  .start-lesson-btn {
+    padding: 0.35rem 0.65rem !important;
+    font-size: 0.7rem !important;
+  }
+
+  .outline-page-btn {
+    padding: 0.35rem 0.75rem !important;
+    font-size: 0.68rem !important;
+  }
+
+  .outline-next-page-btn {
+    padding: 0.5rem 0.85rem !important;
+    font-size: 0.72rem !important;
+  }
+
+  .os-code-editor-box {
+    padding: 0.75rem !important;
+    font-size: 0.72rem !important;
+  }
+}
+
+/* Extra small mobile (<480px) */
+@media (max-width: 479px) {
+  .os-menu-clock {
+    display: none; /* Hide clock on tiny screens to avoid crowding home and audio controls */
+  }
+
+  .start-lesson-btn .btn-text-full {
+    display: none;
+  }
+
+  .start-lesson-btn .btn-text-short {
+    display: inline;
+  }
+}
+
+@media (min-width: 480px) {
+  .start-lesson-btn .btn-text-full {
+    display: inline;
+  }
+
+  .start-lesson-btn .btn-text-short {
+    display: none;
   }
 }

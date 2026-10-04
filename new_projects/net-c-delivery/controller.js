@@ -343,8 +343,92 @@ let currentSiteConfig = {
     zip: '',
     country: 'United States',
     logoUrl: '',
-    deployedDirectory: ''
+    deployedDirectory: '',
+    menuItems: []
 };
+
+// ═══════════════════════════════════════════════════════════════════
+// CATALOG OF RESTAURANT MENU ITEMS FOR STEP 4 GATEWAY SYNC
+// ═══════════════════════════════════════════════════════════════════
+const DINER_MENU_CATALOG = [
+    {
+        id: 'sku-01',
+        sku: 'SUB-01',
+        name: 'Ribeye Cheesesteak Sub',
+        category: 'Sub Sandwiches',
+        price: 15.95,
+        inStock: true,
+        selected: true,
+        description: 'Shaved ribeye, caramelized onions, sweet peppers, and melted provolone on freshly baked artisan roll.',
+        icon: 'fa-solid fa-bread-slice'
+    },
+    {
+        id: 'sku-02',
+        sku: 'BGR-02',
+        name: 'Double Smash Diner Burger',
+        category: 'Burgers',
+        price: 13.50,
+        inStock: true,
+        selected: true,
+        description: 'Two seared Angus patties, sharp American cheddar, dill pickles, and signature diner sauce on toasted brioche.',
+        icon: 'fa-solid fa-burger'
+    },
+    {
+        id: 'sku-03',
+        sku: 'WRP-03',
+        name: 'Crispy Buffalo Chicken Wrap',
+        category: 'Wraps',
+        price: 12.75,
+        inStock: true,
+        selected: true,
+        description: 'Golden fried chicken tenders tossed in house cayenne buffalo glaze, celery slaw, and buttermilk ranch in garlic wrap.',
+        icon: 'fa-solid fa-drumstick-bite'
+    },
+    {
+        id: 'sku-04',
+        sku: 'SUB-04',
+        name: 'Classic Italian Deli Grinder',
+        category: 'Sub Sandwiches',
+        price: 14.50,
+        inStock: true,
+        selected: true,
+        description: 'Prosciutto di Parma, Genoa salami, hot capicola, aged provolone, shredded lettuce, tomato, oregano vinaigrette.',
+        icon: 'fa-solid fa-pepper-hot'
+    },
+    {
+        id: 'sku-05',
+        sku: 'FRY-05',
+        name: 'Parmesan Truffle Loaded Fries',
+        category: 'Sides & Fries',
+        price: 7.95,
+        inStock: true,
+        selected: true,
+        description: 'Crispy russet fries tossed in white truffle oil, shaved pecorino parmesan, fresh rosemary, and garlic aioli dip.',
+        icon: 'fa-solid fa-utensils'
+    },
+    {
+        id: 'sku-06',
+        sku: 'SLD-06',
+        name: 'Diner Caesar Salad Bowl',
+        category: 'Salads',
+        price: 9.50,
+        inStock: true,
+        selected: true,
+        description: 'Crisp romaine hearts, toasted sourdough croutons, shaved parmesan reggiano, and house anchovy garlic Caesar dressing.',
+        icon: 'fa-solid fa-bowl-food'
+    },
+    {
+        id: 'sku-07',
+        sku: 'SHK-07',
+        name: 'Hand-Spun Madagascar Vanilla Shake',
+        category: 'Beverages',
+        price: 6.50,
+        inStock: true,
+        selected: true,
+        description: 'Hand-dipped churned vanilla bean ice cream, whole milk, whipped cream peak, and maraschino cherry.',
+        icon: 'fa-solid fa-ice-cream'
+    }
+];
 
 // Load saved site configuration if explicitly created previously
 try {
@@ -353,6 +437,18 @@ try {
         const parsed = JSON.parse(rawSite);
         if (parsed.restaurantName) {
             currentSiteConfig = { ...currentSiteConfig, ...parsed };
+            if (Array.isArray(parsed.menuItems) && parsed.menuItems.length > 0) {
+                DINER_MENU_CATALOG.forEach(catItem => {
+                    const saved = parsed.menuItems.find(m => m.id === catItem.id || m.sku === catItem.sku);
+                    if (saved) {
+                        catItem.selected = true;
+                        if (saved.price) catItem.price = saved.price;
+                        if (typeof saved.inStock === 'boolean') catItem.inStock = saved.inStock;
+                    } else {
+                        catItem.selected = false;
+                    }
+                });
+            }
         }
     }
 } catch (e) {}
@@ -386,8 +482,8 @@ function goToStep(stepNum, pushToHistory = true) {
         stepNum = 1;
     }
 
-    // Restaurant details must be set before Step 3
-    if (stepNum === 3 && !hasConfiguredSite) {
+    // Restaurant details must be set before Step 3 or Step 4
+    if (stepNum >= 3 && !hasConfiguredSite) {
         playToyClick(320, 0.08);
         showDinerToast(
             'Restaurant Details Required 📋',
@@ -403,15 +499,19 @@ function goToStep(stepNum, pushToHistory = true) {
     const s1 = document.getElementById('step1View');
     const s2 = document.getElementById('step2View');
     const s3 = document.getElementById('step3View');
+    const s4 = document.getElementById('step4View');
 
     if (s1) s1.classList.toggle('d-none', stepNum !== 1);
     if (s2) s2.classList.toggle('d-none', stepNum !== 2);
     if (s3) s3.classList.toggle('d-none', stepNum !== 3);
+    if (s4) s4.classList.toggle('d-none', stepNum !== 4);
 
     // Update side panel buttons
     const side1 = document.getElementById('sideStepTab1');
     const side2 = document.getElementById('sideStepTab2');
     const side3 = document.getElementById('sideStepTab3');
+    const side4 = document.getElementById('sideStepTab4');
+    const hasSyncedMenu = !!(currentSiteConfig && Array.isArray(currentSiteConfig.menuItems) && currentSiteConfig.menuItems.length > 0);
 
     if (side1) {
         side1.classList.toggle('active', stepNum === 1);
@@ -425,23 +525,31 @@ function goToStep(stepNum, pushToHistory = true) {
         side3.classList.toggle('active', stepNum === 3);
         side3.classList.toggle('verified', hasConfiguredSite);
     }
+    if (side4) {
+        side4.classList.toggle('active', stepNum === 4);
+        side4.classList.toggle('verified', hasSyncedMenu);
+    }
 
     // Update OS folder tabs
     const f1 = document.getElementById('folderTab1');
     const f2 = document.getElementById('folderTab2');
     const f3 = document.getElementById('folderTab3');
+    const f4 = document.getElementById('folderTab4');
 
     const icon1 = document.getElementById('folderIcon1');
     const icon2 = document.getElementById('folderIcon2');
     const icon3 = document.getElementById('folderIcon3');
+    const icon4 = document.getElementById('folderIcon4');
 
     if (f1) f1.classList.toggle('active', stepNum === 1);
     if (f2) f2.classList.toggle('active', stepNum === 2);
     if (f3) f3.classList.toggle('active', stepNum === 3);
+    if (f4) f4.classList.toggle('active', stepNum === 4);
 
     if (icon1) icon1.className = stepNum === 1 ? 'fa-solid fa-folder-open folder-icon' : 'fa-solid fa-folder folder-icon';
     if (icon2) icon2.className = stepNum === 2 ? 'fa-solid fa-folder-open folder-icon' : 'fa-solid fa-folder folder-icon';
     if (icon3) icon3.className = stepNum === 3 ? 'fa-solid fa-folder-open folder-icon' : 'fa-solid fa-folder folder-icon';
+    if (icon4) icon4.className = stepNum === 4 ? 'fa-solid fa-folder-open folder-icon' : 'fa-solid fa-folder folder-icon';
 
     // Update OS Breadcrumb ribbon
     const bc = document.getElementById('osActiveFolderBreadcrumb');
@@ -449,12 +557,15 @@ function goToStep(stepNum, pushToHistory = true) {
         if (stepNum === 1) bc.innerHTML = '<i class="fa-regular fa-folder-open me-1 text-primary"></i>01_gateways';
         else if (stepNum === 2) bc.innerHTML = '<i class="fa-regular fa-folder-open me-1 text-primary"></i>02_restaurant_setup';
         else if (stepNum === 3) bc.innerHTML = '<i class="fa-regular fa-folder-open me-1 text-primary"></i>03_directory_index';
+        else if (stepNum === 4) bc.innerHTML = '<i class="fa-regular fa-folder-open me-1 text-primary"></i>04_sync_menu';
     }
 
     if (stepNum === 2) {
         populateWebsiteBuilderForm();
     } else if (stepNum === 3) {
         renderDeployedSiteBanner();
+    } else if (stepNum === 4) {
+        renderStep4MenuTable();
     }
 
     updateProgressiveState();
@@ -478,7 +589,10 @@ function goToStep(stepNum, pushToHistory = true) {
 function updateBackBtnState() {
     const backBtn = document.getElementById('back-btn-np');
     if (!backBtn) return;
-    if (currentStep === 3) {
+    if (currentStep === 4) {
+        backBtn.setAttribute('title', 'Back to Step 3: Directory & index.html');
+        backBtn.setAttribute('aria-label', 'Back to Step 3: Directory & index.html');
+    } else if (currentStep === 3) {
         backBtn.setAttribute('title', 'Back to Step 2: Restaurant Setup');
         backBtn.setAttribute('aria-label', 'Back to Step 2: Restaurant Setup');
     } else if (currentStep === 2) {
@@ -503,6 +617,12 @@ function initBackNavigation() {
                     modalInstance.hide();
                     return;
                 }
+            }
+
+            if (currentStep === 4) {
+                e.preventDefault();
+                goToStep(3);
+                return;
             }
 
             if (currentStep === 3) {
@@ -532,6 +652,8 @@ function initBackNavigation() {
         let targetStep = 1;
         if (e.state && e.state.step) {
             targetStep = e.state.step;
+        } else if (window.location.hash === '#step4') {
+            targetStep = 4;
         } else if (window.location.hash === '#step3') {
             targetStep = 3;
         } else if (window.location.hash === '#step2') {
@@ -885,8 +1007,13 @@ function resetWalkthrough() {
             zip: '',
             country: 'United States',
             logoUrl: '',
-            deployedDirectory: ''
+            deployedDirectory: '',
+            menuItems: []
         };
+        DINER_MENU_CATALOG.forEach(item => {
+            item.selected = true;
+            item.inStock = true;
+        });
         currentSelectedGateway = null;
         updateProgressiveState();
         renderGatewayCards();
@@ -1058,6 +1185,7 @@ function generateAndDeployWebsite(event) {
         country: country,
         logoUrl: logoUrl,
         deployedDirectory: `/net-c-delivery/${slug}/index.html`,
+        menuItems: currentSiteConfig.menuItems || [],
         api: {
             id: activeGw.id,
             name: activeGw.name,
@@ -1088,7 +1216,8 @@ function generateAndDeployWebsite(event) {
             logoUrl: logoUrl,
             apiName: activeGw.name,
             apiEndpoint: activeGw.endpointUrl,
-            htmlContent: htmlContent
+            htmlContent: htmlContent,
+            menuItems: currentSiteConfig.menuItems || []
         })
     }).then(res => res.json()).then(data => {
         addTelemetryLogRow('Directory System', 'DISK.DIRECTORY_CREATED', '12 ms', data.directory || `/${slug}/`);
@@ -1160,6 +1289,14 @@ function renderDeployedSiteBanner() {
     } else {
         if (avatarImg) avatarImg.style.display = 'none';
         if (defaultIcon) defaultIcon.style.display = 'block';
+    }
+
+    if (!deployedBlobUrl && currentSiteConfig.restaurantName) {
+        try {
+            const html = generateStandaloneStorefrontHtml(currentSiteConfig);
+            const blob = new Blob([html], { type: 'text/html;charset=utf-8' });
+            deployedBlobUrl = URL.createObjectURL(blob);
+        } catch (e) {}
     }
 
     const previewUrl = deployedBlobUrl || `./your-site/index.html`;
@@ -1607,6 +1744,235 @@ function generateStandaloneStorefrontHtml(config) {
             color: var(--text-muted);
             margin-top: auto;
         }
+
+        /* Reserved Menu Section & Catalog Grid */
+        .menu-storefront-section {
+            background: #ffffff;
+            border-bottom: 1px solid var(--border);
+            padding: 40px 24px;
+        }
+
+        .menu-section-inner {
+            max-width: 1140px;
+            margin: 0 auto;
+        }
+
+        .menu-header-bar {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            gap: 16px;
+            margin-bottom: 24px;
+            flex-wrap: wrap;
+        }
+
+        .menu-section-title {
+            font-size: 1.4rem;
+            font-weight: 800;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            letter-spacing: -0.01em;
+            color: var(--text-dark);
+        }
+
+        .menu-section-sub {
+            color: var(--text-muted);
+            font-size: 0.92rem;
+            margin-top: 2px;
+        }
+
+        .menu-sync-badge {
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            padding: 6px 14px;
+            border-radius: 9999px;
+            font-size: 0.82rem;
+            font-weight: 700;
+            font-family: 'JetBrains Mono', monospace;
+            border: 1px solid var(--border);
+        }
+
+        .menu-sync-badge.pending {
+            background: #fef3c7;
+            color: #b45309;
+            border-color: #fde68a;
+        }
+
+        .menu-sync-badge.active {
+            background: #dcfce7;
+            color: #15803d;
+            border-color: #bbf7d0;
+        }
+
+        .menu-reserved-placeholder {
+            border: 2px dashed #cbd5e1;
+            border-radius: 12px;
+            padding: 36px 24px;
+            text-align: center;
+            background: #f8fafc;
+        }
+
+        .placeholder-icon-circle {
+            width: 56px;
+            height: 56px;
+            border-radius: 50%;
+            background: #e0f2fe;
+            color: var(--primary);
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 22px;
+            margin-bottom: 14px;
+        }
+
+        .placeholder-title {
+            font-size: 1.15rem;
+            font-weight: 800;
+            margin-bottom: 8px;
+            color: var(--text-dark);
+        }
+
+        .placeholder-desc {
+            max-width: 620px;
+            margin: 0 auto 20px auto;
+            color: var(--text-muted);
+            font-size: 0.9rem;
+            line-height: 1.55;
+        }
+
+        .placeholder-checklist {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 20px;
+            flex-wrap: wrap;
+            font-size: 0.85rem;
+            font-weight: 600;
+            color: var(--text-dark);
+        }
+
+        .chk-item {
+            display: flex;
+            align-items: center;
+            gap: 6px;
+        }
+
+        .menu-catalog-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
+            gap: 20px;
+        }
+
+        .menu-card {
+            background: #ffffff;
+            border: 1px solid var(--border);
+            border-radius: 10px;
+            padding: 18px;
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+            transition: all 0.2s ease;
+            box-shadow: 0 1px 3px rgba(0,0,0,0.02);
+        }
+
+        .menu-card:hover {
+            transform: translateY(-2px);
+            border-color: #cbd5e1;
+            box-shadow: 0 6px 16px rgba(0,0,0,0.06);
+        }
+
+        .menu-card-top {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            margin-bottom: 12px;
+        }
+
+        .menu-card-icon {
+            width: 38px;
+            height: 38px;
+            border-radius: 8px;
+            background: #f1f5f9;
+            color: var(--primary);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.1rem;
+        }
+
+        .menu-card-sku {
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 0.72rem;
+            background: #f8fafc;
+            border: 1px solid var(--border);
+            padding: 2px 6px;
+            border-radius: 4px;
+            color: var(--text-muted);
+            font-weight: 600;
+        }
+
+        .menu-card-category {
+            font-size: 0.75rem;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+            color: var(--primary);
+            margin-bottom: 4px;
+            display: block;
+        }
+
+        .menu-card-name {
+            font-size: 1.05rem;
+            font-weight: 800;
+            color: var(--text-dark);
+            margin-bottom: 6px;
+            line-height: 1.3;
+        }
+
+        .menu-card-desc {
+            font-size: 0.84rem;
+            color: var(--text-muted);
+            line-height: 1.45;
+            margin-bottom: 16px;
+        }
+
+        .menu-card-footer {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding-top: 12px;
+            border-top: 1px solid #f1f5f9;
+        }
+
+        .menu-card-price {
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 1.15rem;
+            font-weight: 800;
+            color: var(--text-dark);
+        }
+
+        .btn-add-item {
+            background: #f1f5f9;
+            color: var(--text-dark);
+            border: 1px solid var(--border);
+            padding: 6px 12px;
+            border-radius: 6px;
+            font-weight: 700;
+            font-size: 0.82rem;
+            cursor: pointer;
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
+            transition: all 0.15s ease;
+        }
+
+        .btn-add-item:hover {
+            background: var(--primary);
+            color: #ffffff;
+            border-color: var(--primary);
+        }
     </style>
 </head>
 <body>
@@ -1663,6 +2029,64 @@ function generateStandaloneStorefrontHtml(config) {
             </div>
         </div>
     </div>
+
+    <!-- Reserved Menu Section -->
+    <section class="menu-storefront-section" id="menuReservationArea">
+        <div class="menu-section-inner">
+            <div class="menu-header-bar">
+                <div>
+                    <h2 class="menu-section-title">
+                        <i class="fa-solid fa-utensils text-primary"></i>
+                        <span>Storefront Menu Catalog</span>
+                    </h2>
+                    <p class="menu-section-sub" id="menuSectionSubtitle">${(Array.isArray(config.menuItems) && config.menuItems.length > 0) ? `Direct from connected ${activeGw.name} catalog • Click "+ Add" to add any dish to your order.` : `Area reserved for menu items synced from your connected ${activeGw.name} API.`}</p>
+                </div>
+                <div class="menu-sync-badge ${(Array.isArray(config.menuItems) && config.menuItems.length > 0) ? 'active' : 'pending'}" id="menuSyncStatusBadge">
+                    <i class="${(Array.isArray(config.menuItems) && config.menuItems.length > 0) ? 'fa-solid fa-circle-check text-success' : 'fa-solid fa-hourglass-half'}"></i>
+                    <span id="menuSyncStatusText">${(Array.isArray(config.menuItems) && config.menuItems.length > 0) ? `${config.menuItems.length} Items Synced via ${activeGw.name}` : 'Area Reserved • Awaiting Step 4 Menu Sync'}</span>
+                </div>
+            </div>
+
+            <!-- Empty State: Reserved Placeholder (Visible before Step 4 Sync) -->
+            <div class="menu-reserved-placeholder" id="menuReservedPlaceholder" style="${(Array.isArray(config.menuItems) && config.menuItems.length > 0) ? 'display:none;' : 'display:block;'}">
+                <div class="placeholder-icon-circle">
+                    <i class="fa-solid fa-cloud-arrow-down"></i>
+                </div>
+                <h3 class="placeholder-title">Menu Catalog Area Reserved</h3>
+                <p class="placeholder-desc">
+                    This section of <code>index.html</code> is reserved for your restaurant's live menu items. In <strong>Step 4: Sync Menu to Store</strong>, connect to your POS or delivery gateway catalog to sync dishes, descriptions, and pricing directly here.
+                </p>
+                <div class="placeholder-checklist">
+                    <div class="chk-item"><i class="fa-solid fa-circle-check text-success"></i> Direct POS &amp; Delivery Catalog Integration</div>
+                    <div class="chk-item"><i class="fa-solid fa-circle-check text-success"></i> Instant 1-Click Customer Ordering</div>
+                    <div class="chk-item"><i class="fa-solid fa-circle-check text-success"></i> Real-time Automated Dispatch via Connected Fleet</div>
+                </div>
+            </div>
+
+            <!-- Active State: Synced Items Grid (Populated when menu items are synced) -->
+            <div class="menu-catalog-grid" id="menuCatalogGrid" style="${(Array.isArray(config.menuItems) && config.menuItems.length > 0) ? 'display:grid;' : 'display:none;'}">
+                ${(Array.isArray(config.menuItems) && config.menuItems.length > 0) ? config.menuItems.map(item => `
+                    <article class="menu-card">
+                        <div>
+                            <div class="menu-card-top">
+                                <div class="menu-card-icon"><i class="${item.icon || 'fa-solid fa-utensils'}"></i></div>
+                                <span class="menu-card-sku">${item.sku || 'SKU'}</span>
+                            </div>
+                            <span class="menu-card-category">${item.category || 'Specialty'}</span>
+                            <h3 class="menu-card-name">${item.name}</h3>
+                            <p class="menu-card-desc">${item.description || ''}</p>
+                        </div>
+                        <div class="menu-card-footer">
+                            <span class="menu-card-price">$${Number(item.price).toFixed(2)}</span>
+                            <button type="button" class="btn-add-item" onclick="addItemToOrder('${(item.name || '').replace(/'/g, "\\'")}', ${item.price})">
+                                <i class="fa-solid fa-plus text-primary"></i> Add
+                            </button>
+                        </div>
+                    </article>
+                `).join('') : ''}
+            </div>
+        </div>
+    </section>
 
     <main class="main-layout">
         <section class="card-box">
@@ -1758,6 +2182,20 @@ function generateStandaloneStorefrontHtml(config) {
             document.getElementById('orderConfirmModal').classList.add('active');
         }
 
+        function addItemToOrder(name, price) {
+            const notesEl = document.getElementById('orderCustNotes');
+            if (notesEl) {
+                const itemStr = '1x ' + name + ' ($' + Number(price).toFixed(2) + ')';
+                if (!notesEl.value.trim()) {
+                    notesEl.value = itemStr;
+                } else {
+                    notesEl.value = notesEl.value + ', ' + itemStr;
+                }
+                notesEl.focus();
+                notesEl.scrollIntoView({ behavior: 'smooth', block: 'center' });
+            }
+        }
+
         function closeOrderModal() {
             document.getElementById('orderConfirmModal').classList.remove('active');
             document.getElementById('orderCustName').value = '';
@@ -1767,6 +2205,199 @@ function generateStandaloneStorefrontHtml(config) {
     <\/script>
 </body>
 </html>`;
+}
+
+// ═══════════════════════════════════════════════════════════════════
+// STEP 4: SYNC MENU TO STORE (UPDATES INDEX.HTML RESERVED AREA)
+// ═══════════════════════════════════════════════════════════════════
+function renderStep4MenuTable() {
+    const activeGw = (currentSiteConfig.api && currentSiteConfig.api.name)
+        ? currentSiteConfig.api
+        : ((currentSelectedGateway && DELIVERY_SERVICES[currentSelectedGateway]) ? DELIVERY_SERVICES[currentSelectedGateway] : DELIVERY_SERVICES.uber);
+
+    const slug = currentSiteConfig.slug || 'your-site';
+
+    // Banner and titles
+    const gwTitle = document.getElementById('step4GwTitle');
+    const gwSub = document.getElementById('step4GwSubtitle');
+    const gwIcon = document.getElementById('step4GwIcon');
+    const dirBadge = document.getElementById('step4TargetDirBadge');
+
+    if (gwTitle) gwTitle.innerText = `Sync Source: ${activeGw.name} POS & Catalog API`;
+    if (gwSub) gwSub.innerText = `${activeGw.categoryTag || 'Direct Delivery'} • 200 OK Handshake • Updates Reserved Menu Area in index.html`;
+    if (gwIcon) gwIcon.innerHTML = `<i class="${activeGw.icon || 'fa-solid fa-bolt'}"></i>`;
+    if (dirBadge) dirBadge.innerText = `Target: /net-c-delivery/${slug}/index.html`;
+
+    const tableBody = document.getElementById('step4MenuTableBody');
+    if (!tableBody) return;
+
+    let selectedCount = 0;
+    tableBody.innerHTML = DINER_MENU_CATALOG.map((item, idx) => {
+        if (item.selected) selectedCount++;
+        return `
+            <tr class="${item.selected ? 'item-selected' : ''}">
+                <td>
+                    <span class="badge bg-light text-dark font-mono border">${item.sku}</span>
+                </td>
+                <td>
+                    <div class="menu-item-cell">
+                        <div class="item-thumb text-primary">
+                            <i class="${item.icon}"></i>
+                        </div>
+                        <div class="item-meta">
+                            <strong>${item.name}</strong>
+                            <span>${item.description}</span>
+                        </div>
+                    </div>
+                </td>
+                <td>
+                    <span class="badge bg-light text-secondary border">${item.category}</span>
+                </td>
+                <td>
+                    <div class="price-control-box">
+                        <span>$</span>
+                        <input type="number" step="0.25" min="1" max="99" value="${Number(item.price).toFixed(2)}"
+                            style="width: 60px; border:none; background:transparent; font-family:inherit; font-weight:700; outline:none;"
+                            onchange="updateCatalogItemPrice(${idx}, this.value)">
+                    </div>
+                </td>
+                <td>
+                    <button type="button" class="stock-toggle-btn ${item.inStock ? 'in-stock' : 'out-stock'}" onclick="toggleCatalogItemStock(${idx})">
+                        <i class="fa-solid ${item.inStock ? 'fa-check' : 'fa-ban'} me-1"></i>
+                        <span>${item.inStock ? 'In Stock' : 'Sold Out'}</span>
+                    </button>
+                </td>
+                <td class="text-end">
+                    <button type="button" class="item-select-btn ${item.selected ? 'selected' : ''}" onclick="toggleCatalogItemSync(${idx})">
+                        <i class="fa-solid ${item.selected ? 'fa-circle-check text-success' : 'fa-circle-plus'}"></i>
+                        <span>${item.selected ? 'Include in Sync' : 'Excluded'}</span>
+                    </button>
+                </td>
+            </tr>
+        `;
+    }).join('');
+
+    // Summary alert banner update
+    const headline = document.getElementById('menuSyncHeadline');
+    const sub = document.getElementById('menuSyncSub');
+    if (headline) headline.innerText = `${selectedCount} of ${DINER_MENU_CATALOG.length} Items Selected for Storefront`;
+    if (sub) sub.innerText = `Clicking "Sync Menu to Store" injects these ${selectedCount} items directly into the reserved menu section of /net-c-delivery/${slug}/index.html.`;
+
+    const guidance = document.getElementById('step4GuidanceText');
+    if (guidance) guidance.innerText = `${selectedCount} items ready • Click "Sync Menu to Store" to update index.html`;
+}
+
+function toggleCatalogItemSync(index) {
+    if (!DINER_MENU_CATALOG[index]) return;
+    playToyClick(620, 0.04);
+    DINER_MENU_CATALOG[index].selected = !DINER_MENU_CATALOG[index].selected;
+    renderStep4MenuTable();
+}
+
+function toggleCatalogItemStock(index) {
+    if (!DINER_MENU_CATALOG[index]) return;
+    playToyClick(540, 0.04);
+    DINER_MENU_CATALOG[index].inStock = !DINER_MENU_CATALOG[index].inStock;
+    renderStep4MenuTable();
+}
+
+function updateCatalogItemPrice(index, val) {
+    const p = parseFloat(val);
+    if (!isNaN(p) && p > 0 && DINER_MENU_CATALOG[index]) {
+        DINER_MENU_CATALOG[index].price = p;
+    }
+}
+
+function toggleSelectAllMenuItems(selectBool) {
+    playToyClick(680, 0.04);
+    DINER_MENU_CATALOG.forEach(i => i.selected = !!selectBool);
+    renderStep4MenuTable();
+}
+
+function syncMenuToStorefront() {
+    playToyClick(750, 0.05);
+
+    const selectedItems = DINER_MENU_CATALOG.filter(i => i.selected);
+    if (selectedItems.length === 0) {
+        alert('Please select at least 1 menu item to sync to your storefront.');
+        return;
+    }
+
+    const activeGw = (currentSiteConfig.api && currentSiteConfig.api.name)
+        ? currentSiteConfig.api
+        : ((currentSelectedGateway && DELIVERY_SERVICES[currentSelectedGateway]) ? DELIVERY_SERVICES[currentSelectedGateway] : DELIVERY_SERVICES.uber);
+
+    // Attach synced items to site configuration
+    currentSiteConfig.menuItems = selectedItems.map(item => ({
+        id: item.id,
+        sku: item.sku,
+        name: item.name,
+        category: item.category,
+        price: item.price,
+        inStock: item.inStock,
+        description: item.description,
+        icon: item.icon
+    }));
+    currentSiteConfig.lastMenuSync = new Date().toISOString();
+
+    // Re-generate standalone index.html with the populated reserved area
+    const htmlContent = generateStandaloneStorefrontHtml(currentSiteConfig);
+
+    // Save to localStorage for client persistence
+    try {
+        localStorage.setItem(STORAGE_KEY_SITE, JSON.stringify(currentSiteConfig));
+    } catch (e) {}
+
+    // Update blob URL for live iframe previews
+    if (deployedBlobUrl) URL.revokeObjectURL(deployedBlobUrl);
+    const blob = new Blob([htmlContent], { type: 'text/html;charset=utf-8' });
+    deployedBlobUrl = URL.createObjectURL(blob);
+    currentSiteConfig.deployedBlobUrl = deployedBlobUrl;
+
+    // Refresh iframes and preview elements
+    const inlineIframe = document.getElementById('step3InlinePreviewIframe');
+    if (inlineIframe) inlineIframe.src = deployedBlobUrl;
+    const modalIframe = document.getElementById('sitePreviewIframe');
+    if (modalIframe) modalIframe.src = deployedBlobUrl;
+
+    // Call backend endpoint if server is running
+    fetch('/api/restaurant/deploy', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+            businessName: currentSiteConfig.restaurantName,
+            street: currentSiteConfig.street,
+            unit: currentSiteConfig.unit,
+            city: currentSiteConfig.city,
+            state: currentSiteConfig.state,
+            zip: currentSiteConfig.zip,
+            country: currentSiteConfig.country,
+            logoUrl: currentSiteConfig.logoUrl,
+            apiName: activeGw.name,
+            apiEndpoint: activeGw.endpointUrl,
+            htmlContent: htmlContent,
+            menuItems: currentSiteConfig.menuItems
+        })
+    }).catch(() => {});
+
+    playDinerBell();
+    showDinerToast(
+        'Menu Synced to Storefront! 🍽️',
+        `Successfully updated index.html with ${selectedItems.length} live menu items in the reserved catalog area.`,
+        'fa-cloud-arrow-up'
+    );
+
+    addTelemetryLogRow(activeGw.name, 'CATALOG.MENU_SYNC_DEPLOYED', '14 ms', `${selectedItems.length} SKUs -> index.html`);
+
+    updateProgressiveState();
+    renderStep4MenuTable();
+
+    const slug = currentSiteConfig.slug || 'your-site';
+    showDinerToast(
+        'index.html Updated',
+        `Storefront at /net-c-delivery/${slug}/index.html is ready with live ordering!`,
+        'fa-circle-check'
+    );
 }
 
 function addTelemetryLogRow(provider, eventName, latency, ref) {
@@ -1816,6 +2447,12 @@ function updateProgressiveState() {
     const folderDirectoryBadge = document.getElementById('folderDirectoryBadge') || document.getElementById('folderKdsBadge');
     if (folderDirectoryBadge) folderDirectoryBadge.innerText = hasConfiguredSite ? 'Base HTML' : 'Pending';
 
+    const hasSyncedMenu = !!(currentSiteConfig && Array.isArray(currentSiteConfig.menuItems) && currentSiteConfig.menuItems.length > 0);
+    const folderMenuBadge = document.getElementById('folderMenuSyncBadge') || document.getElementById('folderMenuBadge');
+    if (folderMenuBadge) {
+        folderMenuBadge.innerText = hasSyncedMenu ? `${currentSiteConfig.menuItems.length} Synced` : 'Pending Sync';
+    }
+
     // 2. OS Bar Status Pill & Metrics
     const osApiStatusPill = document.getElementById('osApiStatusPill');
     const osApiStatusText = document.getElementById('osApiStatusText');
@@ -1852,6 +2489,12 @@ function updateProgressiveState() {
     if (side3Badge) {
         side3Badge.className = hasConfiguredSite ? 'side-step-badge verified' : 'side-step-badge neutral';
         side3Badge.innerText = hasConfiguredSite ? 'Base HTML Ready' : 'Base HTML';
+    }
+
+    const side4Badge = document.getElementById('sideStep4StatusBadge');
+    if (side4Badge) {
+        side4Badge.className = hasSyncedMenu ? 'side-step-badge verified' : 'side-step-badge neutral';
+        side4Badge.innerText = hasSyncedMenu ? `${currentSiteConfig.menuItems.length} Synced` : 'Pending Sync';
     }
 
     // 4. Side Panel Active Gateway Widget Card
@@ -1927,7 +2570,7 @@ if (typeof document !== 'undefined') {
 
         if (typeof window !== 'undefined' && window.history && window.history.replaceState) {
             const hash = window.location.hash;
-            const initialStep = (hash === '#step3') ? 3 : ((hash === '#step2') ? 2 : 1);
+            const initialStep = (hash === '#step4') ? 4 : ((hash === '#step3') ? 3 : ((hash === '#step2') ? 2 : 1));
             window.history.replaceState({ step: initialStep, modal: null }, '', window.location.pathname + (hash.startsWith('#step') ? hash : '#step1'));
             if (initialStep !== 1) {
                 goToStep(initialStep, false);
@@ -1968,4 +2611,10 @@ if (typeof window !== 'undefined') {
     window.toggleAudio = toggleAudio;
     window.proceedToSetupFromModal = proceedToSetupFromModal;
     window.proceedToMenuScreenFromModal = proceedToSetupFromModal;
+    window.renderStep4MenuTable = renderStep4MenuTable;
+    window.toggleCatalogItemSync = toggleCatalogItemSync;
+    window.toggleCatalogItemStock = toggleCatalogItemStock;
+    window.updateCatalogItemPrice = updateCatalogItemPrice;
+    window.toggleSelectAllMenuItems = toggleSelectAllMenuItems;
+    window.syncMenuToStorefront = syncMenuToStorefront;
 }

@@ -678,6 +678,14 @@ function updateCartUI() {
     if (acadHCount) acadHCount.innerText = totalItems;
     if (acadHTotal) acadHTotal.innerText = `${subtotal.toFixed(2)}`;
 
+    // Floating cart button badge
+    const fCount = document.getElementById('floating-cart-count');
+    if (fCount) {
+        fCount.innerText = totalItems;
+        fCount.classList.add('pop-anim');
+        setTimeout(() => fCount.classList.remove('pop-anim'), 250);
+    }
+
     // Free shipping progress tracker ($35 threshold)
     const threshold = 35.00;
     const bar = document.getElementById('shipping-progress-bar');
@@ -1149,12 +1157,31 @@ function renderProductModal() {
 }
 
 function openCartDrawer() {
-    document.getElementById('cart-drawer-backdrop').classList.remove('hidden');
+    const backdrop = document.getElementById('cart-drawer-backdrop');
+    if (!backdrop) return;
+    const drawer = backdrop.querySelector(':scope > div') || backdrop.firstElementChild;
+    if (drawer) {
+        drawer.style.animation = 'cartDrawerSlideIn 0.35s cubic-bezier(0.16, 1, 0.3, 1) forwards';
+    }
+    backdrop.classList.remove('hidden');
 }
 
 function closeCartDrawer() {
-    document.getElementById('cart-drawer-backdrop').classList.add('hidden');
+    const backdrop = document.getElementById('cart-drawer-backdrop');
+    if (!backdrop) return;
+    const drawer = backdrop.querySelector(':scope > div') || backdrop.firstElementChild;
+    if (drawer) {
+        drawer.style.animation = 'cartDrawerSlideOut 0.22s cubic-bezier(0.7, 0, 0.84, 0) forwards';
+        setTimeout(() => {
+            backdrop.classList.add('hidden');
+            drawer.style.animation = '';
+        }, 200);
+    } else {
+        backdrop.classList.add('hidden');
+    }
 }
+window.openCartDrawer = openCartDrawer;
+window.closeCartDrawer = closeCartDrawer;
 
 function openCheckoutModal() {
     if (cart.length === 0) {

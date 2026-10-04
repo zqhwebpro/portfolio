@@ -5238,15 +5238,16 @@ function getTrackConsoleOutput(trackId, moduleNum, sectionId) {
 
         const sectionsHtml = m.sections
           .map((sec, secIdx) => (
-            '<div class="lesson-card-item p-3 sm:p-3.5 rounded-xl bg-slate-50 border border-slate-200 transition-all flex items-center justify-between gap-3 group/item">' +
-              '<div class="flex items-center gap-3 min-w-0 flex-1">' +
-                '<span class="lesson-badge-num w-6 h-6 rounded-md bg-slate-200 text-slate-900 font-mono text-xs font-black flex items-center justify-center shrink-0 transition-colors">' + (secIdx + 1) + '</span>' +
-                '<span class="font-sans text-sm sm:text-base font-bold text-slate-900 leading-snug break-words" title="' + sec.title + '">' +
+            '<div class="lesson-card-item p-2.5 sm:p-3 rounded-xl bg-slate-50 border border-slate-200 transition-all flex items-center justify-between gap-2.5 group/item">' +
+              '<div class="flex items-center gap-2.5 sm:gap-3 min-w-0 flex-1">' +
+                '<span class="lesson-badge-num w-5 h-5 sm:w-6 sm:h-6 rounded-md bg-slate-200 text-slate-900 font-mono text-[11px] sm:text-xs font-black flex items-center justify-center shrink-0 transition-colors">' + (secIdx + 1) + '</span>' +
+                '<span class="font-sans text-xs sm:text-sm lg:text-base font-bold text-slate-900 leading-snug break-words" title="' + sec.title + '">' +
                   sec.title +
                 '</span>' +
               '</div>' +
-              '<button type="button" onclick="window.startCurriculumSection(\'' + m.num + '\', \'' + sec.id + '\', \'' + mod.id + '\')" class="start-lesson-btn shrink-0 px-3.5 py-1.5 rounded-lg bg-slate-950 text-white font-mono text-xs font-bold transition-all shadow-xs flex items-center gap-1.5 cursor-pointer">' +
-                '<span>Start Lesson</span>' +
+              '<button type="button" onclick="window.startCurriculumSection(\'' + m.num + '\', \'' + sec.id + '\', \'' + mod.id + '\')" class="start-lesson-btn shrink-0 px-2.5 sm:px-3.5 py-1.5 rounded-lg bg-slate-950 text-white font-mono text-xs font-bold transition-all shadow-xs flex items-center gap-1.5 cursor-pointer">' +
+                '<span class="btn-text-full">Start Lesson</span>' +
+                '<span class="btn-text-short">Start</span>' +
                 '<i class="fa-solid fa-play text-[8px]"></i>' +
               '</button>' +
             '</div>'
@@ -5257,14 +5258,14 @@ function getTrackConsoleOutput(trackId, moduleNum, sectionId) {
         if (globalModuleIndex === 0) {
           const nextModNum = modules[1] ? modules[1].num : '02';
           blockNavHtml = (
-            '<div class="text-xs text-slate-600 font-mono flex items-center justify-between">' +
+            '<div class="text-xs text-slate-600 font-mono flex items-center justify-between flex-wrap gap-2">' +
               '<span class="font-bold">PREREQUISITES: NONE</span>' +
               '<span class="text-slate-950 font-black">NEXT: MOD ' + nextModNum + ' &rarr;</span>' +
             '</div>'
           );
         } else if (isLastInTrack) {
           blockNavHtml = (
-            '<div class="flex items-center justify-between">' +
+            '<div class="flex items-center justify-between flex-wrap gap-2">' +
               '<span class="text-xs text-slate-900 font-mono font-black flex items-center gap-1">' +
                 '<i class="fa-solid fa-certificate text-emerald-600"></i> ' + mod.trackBadge + ' FINAL EXAM' +
               '</span>' +
@@ -5280,7 +5281,7 @@ function getTrackConsoleOutput(trackId, moduleNum, sectionId) {
           const nextEnd = Math.min(modules.length, (nextPage + 1) * 3).toString().padStart(2, '0');
           const nextPageLabel = 'Modules ' + nextStart + '–' + nextEnd;
           blockNavHtml = (
-            '<div class="flex items-center justify-between">' +
+            '<div class="flex items-center justify-between flex-wrap gap-2">' +
               '<span class="text-xs text-slate-600 font-mono font-bold">STAGE ' + (currentPage + 1) + ' COMPLETE</span>' +
               '<button type="button" onclick="window.switchCurriculumPage(' + nextPage + ', \'' + mod.id + '\')" class="outline-block-nav-btn px-3.5 py-1.5 rounded-lg bg-slate-950 text-white text-xs font-mono font-bold transition-all cursor-pointer flex items-center gap-1 shadow-xs">' +
                 '<span>Next: ' + nextPageLabel + '</span>' +
@@ -5296,7 +5297,7 @@ function getTrackConsoleOutput(trackId, moduleNum, sectionId) {
           const prevPageLabel = 'Modules ' + prevStart + '–' + prevEnd;
           const nextModNum = modules[globalModuleIndex + 1] ? modules[globalModuleIndex + 1].num : '';
           blockNavHtml = (
-            '<div class="flex items-center justify-between">' +
+            '<div class="flex items-center justify-between flex-wrap gap-2">' +
               '<button type="button" onclick="window.switchCurriculumPage(' + prevPage + ', \'' + mod.id + '\')" class="outline-block-nav-btn px-2.5 py-1 rounded-lg bg-slate-200 text-slate-900 text-xs font-mono font-bold transition-all cursor-pointer flex items-center gap-1">' +
                 '<i class="fa-solid fa-arrow-left text-[10px]"></i>' +
                 '<span>' + prevPageLabel + '</span>' +
@@ -5308,7 +5309,7 @@ function getTrackConsoleOutput(trackId, moduleNum, sectionId) {
           // Standard middle block or inner progression
           const nextModNum = modules[globalModuleIndex + 1] ? modules[globalModuleIndex + 1].num : '';
           blockNavHtml = (
-            '<div class="text-xs text-slate-600 font-mono flex items-center justify-between">' +
+            '<div class="text-xs text-slate-600 font-mono flex items-center justify-between flex-wrap gap-2">' +
               '<span class="font-bold">CORE_STAGE: ' + (m.shortTitle || 'FOUNDATIONS') + '</span>' +
               '<span class="text-slate-950 font-black">NEXT: MOD ' + nextModNum + ' &rarr;</span>' +
             '</div>'
@@ -5325,11 +5326,11 @@ function getTrackConsoleOutput(trackId, moduleNum, sectionId) {
         const positionLabel = isMiddle ? 'MIDDLE_BLOCK' : (idx === 0 ? 'START_BLOCK' : 'RIGHT_BLOCK');
 
         return (
-          '<div class="outline-block-card p-5 sm:p-6 bg-white border-2 ' + borderClass + ' rounded-2xl flex flex-col justify-between transition-all group shadow-sm" style="' + borderStyle + ' --block-theme-color: ' + theme.primaryHex + '; --block-theme-dark: ' + theme.darkHex + '; --block-theme-light: ' + theme.lightBg + '; --block-theme-border: ' + theme.borderHex + '; --block-theme-text: ' + theme.textHex + ';">' +
+          '<div class="outline-block-card p-4 sm:p-5 lg:p-6 bg-white border-2 ' + borderClass + ' rounded-2xl flex flex-col justify-between transition-all group shadow-sm" style="' + borderStyle + ' --block-theme-color: ' + theme.primaryHex + '; --block-theme-dark: ' + theme.darkHex + '; --block-theme-light: ' + theme.lightBg + '; --block-theme-border: ' + theme.borderHex + '; --block-theme-text: ' + theme.textHex + ';">' +
             '<div>' +
               '<!-- Top Header Strip with Outline Number in Colored Circle (01., 02., etc.) -->' +
-              '<div class="flex items-center justify-between pb-3.5 mb-3.5 border-b border-slate-200">' +
-                '<div class="flex items-center gap-3.5">' +
+              '<div class="flex items-center justify-between pb-3 mb-3 border-b border-slate-200 flex-wrap gap-2">' +
+                '<div class="flex items-center gap-2.5 sm:gap-3.5">' +
                   '<div class="outline-num-circle" style="background: ' + theme.primaryHex + '; color: ' + theme.textHex + '; border: 2.5px solid ' + theme.darkHex + '; box-shadow: 0 4px 14px ' + theme.primaryHex + '40;">' +
                     m.num + '.' +
                   '</div>' +
@@ -5340,21 +5341,19 @@ function getTrackConsoleOutput(trackId, moduleNum, sectionId) {
                     '<span class="font-mono text-xs font-extrabold text-slate-800">' + m.code + '</span>' +
                   '</div>' +
                 '</div>' +
-                '<span class="px-2.5 py-1 rounded text-xs font-mono font-bold border transition-colors" style="background: ' + (isMiddle ? theme.lightBg : '#f1f5f9') + '; color: ' + (isMiddle ? theme.darkTextHex : '#0f172a') + '; border-color: ' + (isMiddle ? theme.borderHex : '#cbd5e1') + ';">' +
+                '<span class="px-2.5 py-1 rounded text-xs font-mono font-bold border transition-colors whitespace-nowrap" style="background: ' + (isMiddle ? theme.lightBg : '#f1f5f9') + '; color: ' + (isMiddle ? theme.darkTextHex : '#0f172a') + '; border-color: ' + (isMiddle ? theme.borderHex : '#cbd5e1') + ';">' +
                   'STAGE § ' + m.num +
                 '</span>' +
               '</div>' +
-
               '<!-- Module Title & Outline Scope -->' +
-              '<h4 class="font-headline font-black text-slate-950 text-xl sm:text-2xl mb-2.5 leading-snug">' +
+              '<h4 class="font-headline font-black text-slate-950 text-lg sm:text-xl lg:text-2xl mb-2 leading-snug">' +
                 m.title +
               '</h4>' +
-              '<p class="text-sm text-slate-700 leading-relaxed font-sans mb-5 font-normal">' +
+              '<p class="text-xs sm:text-sm text-slate-700 leading-relaxed font-sans mb-4 sm:mb-5 font-normal">' +
                 m.desc +
               '</p>' +
-
               '<!-- Outline Checklist -->' +
-              '<div class="space-y-2.5 pt-3 border-t border-slate-100">' +
+              '<div class="space-y-2 sm:space-y-2.5 pt-3 border-t border-slate-100">' +
                 '<div class="flex items-center justify-between text-xs font-mono text-slate-600 font-extrabold uppercase tracking-wider pb-1">' +
                   '<span>Curriculum Outline</span>' +
                   '<span class="text-slate-900 font-bold">Interactive</span>' +
@@ -5362,9 +5361,8 @@ function getTrackConsoleOutput(trackId, moduleNum, sectionId) {
                 sectionsHtml +
               '</div>' +
             '</div>' +
-
             '<!-- Block Navigation / Footer -->' +
-            '<div class="pt-4 mt-6 border-t border-slate-200">' +
+            '<div class="pt-4 mt-5 sm:mt-6 border-t border-slate-200">' +
               blockNavHtml +
             '</div>' +
           '</div>'
@@ -5384,7 +5382,7 @@ function getTrackConsoleOutput(trackId, moduleNum, sectionId) {
         : 'color: ' + theme.inactiveBtnText + '; font-weight: 700;';
 
       return (
-        '<button type="button" onclick="window.switchCurriculumPage(' + pIdx + ', \'' + mod.id + '\')" class="outline-page-btn px-4 py-2 rounded-md text-xs transition-all cursor-pointer ' + (isPageActive ? 'active' : '') + '" style="' + btnStyle + '">' +
+        '<button type="button" onclick="window.switchCurriculumPage(' + pIdx + ', \'' + mod.id + '\')" class="outline-page-btn px-3 sm:px-4 py-1.5 sm:py-2 rounded-md text-[11px] sm:text-xs shrink-0 whitespace-nowrap transition-all cursor-pointer ' + (isPageActive ? 'active' : '') + '" style="' + btnStyle + '">' +
           label +
         '</button>'
       );
@@ -5400,65 +5398,65 @@ function getTrackConsoleOutput(trackId, moduleNum, sectionId) {
     container.innerHTML = (
       '<div class="os-white-card w-full border-2 overflow-hidden transition-all shadow-md" style="--block-theme-color: ' + theme.primaryHex + '; border-color: ' + theme.borderHex + '; border-top: 6px solid ' + theme.primaryHex + '; box-shadow: 0 8px 30px -4px ' + theme.primaryHex + '25;">' +
         '<!-- Scientific Specification Window Titlebar -->' +
-        '<div class="os-window-header px-6 sm:px-10 lg:px-14 py-3.5" id="matrixCurriculumOutlineAnchor" style="border-bottom: 2px solid ' + theme.borderHex + '; background: linear-gradient(180deg, #ffffff 0%, ' + theme.lightBg + ' 100%);">' +
-          '<div class="flex items-center gap-2.5">' +
-            '<div class="font-mono text-xs sm:text-sm text-slate-800 flex items-center gap-2 font-bold">' +
-              '<i class="' + mod.icon + ' text-[14px]" style="color: ' + theme.primaryHex + ';"></i>' +
-              '<span>/usr/local/matrix/curriculum/' + mod.fileName + '</span>' +
+        '<div class="os-window-header px-4 sm:px-6 md:px-8 lg:px-12 py-3 sm:py-3.5 flex items-center justify-between flex-wrap gap-2.5" id="matrixCurriculumOutlineAnchor" style="border-bottom: 2px solid ' + theme.borderHex + '; background: linear-gradient(180deg, #ffffff 0%, ' + theme.lightBg + ' 100%);">' +
+          '<div class="flex items-center gap-2 min-w-0 max-w-full">' +
+            '<div class="font-mono text-xs sm:text-sm text-slate-800 flex items-center gap-2 font-bold truncate">' +
+              '<i class="' + mod.icon + ' text-[14px] shrink-0" style="color: ' + theme.primaryHex + ';"></i>' +
+              '<span class="truncate">/usr/local/matrix/curriculum/' + mod.fileName + '</span>' +
             '</div>' +
           '</div>' +
 
-          '<div class="font-mono text-xs sm:text-sm text-slate-800 font-extrabold flex items-center gap-2">' +
-            '<span class="px-2.5 py-1 rounded font-black border" style="background: ' + theme.primaryHex + '; color: ' + theme.textHex + '; border-color: ' + theme.darkHex + ';">' + mod.trackBadge + '</span>' +
-            '<span>' + modules.length.toString().padStart(2, '0') + ' MODULES // 3-BLOCK OUTLINE</span>' +
+          '<div class="font-mono text-xs sm:text-sm text-slate-800 font-extrabold flex items-center gap-2 flex-wrap shrink-0">' +
+            '<span class="px-2.5 py-1 rounded font-black border text-xs whitespace-nowrap" style="background: ' + theme.primaryHex + '; color: ' + theme.textHex + '; border-color: ' + theme.darkHex + ';">' + mod.trackBadge + '</span>' +
+            '<span class="text-xs whitespace-nowrap">' + modules.length.toString().padStart(2, '0') + ' MODULES // 3-BLOCK OUTLINE</span>' +
           '</div>' +
         '</div>' +
 
         '<!-- Main Card Body -->' +
-        '<div class="py-6 sm:py-8 px-6 sm:px-10 lg:px-14 space-y-8">' +
+        '<div class="py-5 sm:py-7 md:py-8 px-4 sm:px-6 md:px-8 lg:px-12 space-y-6 sm:space-y-8">' +
           
           '<!-- Scientific Header & Technical Parameters -->' +
-          '<div class="pb-5 border-b border-slate-200">' +
-            '<div class="font-mono text-xs text-slate-600 tracking-wider mb-3 flex items-center gap-2 flex-wrap">' +
-              '<span class="font-black text-slate-900">SPEC_ID: ' + mod.specId + '</span>' +
-              '<span class="text-slate-300">/</span>' +
-              '<span class="font-bold text-slate-800">TIER: ' + mod.tier.toUpperCase() + '</span>' +
-              '<span class="text-slate-300">/</span>' +
-              '<span class="font-bold text-slate-800">DOMAIN: ' + mod.category.toUpperCase() + '</span>' +
-              '<span class="text-slate-300">/</span>' +
-              '<span class="font-bold text-slate-800">DURATION: ' + mod.duration + '</span>' +
-              '<span class="text-slate-300">/</span>' +
-              '<span class="text-slate-950 font-black">STRUCTURE: 3 BLOCKS IN A ROW</span>' +
+          '<div class="pb-4 sm:pb-5 border-b border-slate-200">' +
+            '<div class="font-mono text-[11px] sm:text-xs text-slate-600 tracking-wider mb-2.5 flex items-center gap-x-2 gap-y-1 flex-wrap">' +
+              '<span class="font-black text-slate-900 whitespace-nowrap">SPEC_ID: ' + mod.specId + '</span>' +
+              '<span class="text-slate-300 hidden sm:inline">/</span>' +
+              '<span class="font-bold text-slate-800 whitespace-nowrap">TIER: ' + mod.tier.toUpperCase() + '</span>' +
+              '<span class="text-slate-300 hidden sm:inline">/</span>' +
+              '<span class="font-bold text-slate-800 whitespace-nowrap">DOMAIN: ' + mod.category.toUpperCase() + '</span>' +
+              '<span class="text-slate-300 hidden sm:inline">/</span>' +
+              '<span class="font-bold text-slate-800 whitespace-nowrap">DURATION: ' + mod.duration + '</span>' +
+              '<span class="text-slate-300 hidden sm:inline">/</span>' +
+              '<span class="text-slate-950 font-black whitespace-nowrap">STRUCTURE: 3 BLOCKS</span>' +
             '</div>' +
-            '<h2 class="font-headline font-black text-3xl sm:text-4xl text-slate-950 tracking-tight leading-tight mb-3">' +
+            '<h2 class="font-headline font-black text-2xl sm:text-3xl lg:text-4xl text-slate-950 tracking-tight leading-tight mb-2.5">' +
               mod.title +
             '</h2>' +
-            '<p class="font-sans text-sm sm:text-base text-slate-800 leading-relaxed max-w-5xl font-medium">' +
+            '<p class="font-sans text-xs sm:text-sm sm:text-base text-slate-800 leading-relaxed max-w-5xl font-medium">' +
               mod.summary +
             '</p>' +
           '</div>' +
 
           '<!-- 3-Block Outline Interactive Switcher / Pagination Toolbar (The Whole Bar Highlights in Track Color) -->' +
-          '<div class="flex flex-col sm:flex-row sm:items-center justify-between gap-3 p-4 rounded-xl font-mono text-xs shadow-sm transition-all" style="background: ' + theme.primaryHex + '; border: 1.5px solid ' + theme.darkHex + '; color: ' + theme.textHex + ';">' +
-            '<div class="flex items-center gap-3 flex-wrap">' +
-              '<span class="font-black flex items-center gap-2 text-xs sm:text-sm tracking-wide" style="color: ' + theme.textHex + ';">' +
+          '<div class="flex flex-col sm:flex-row sm:items-center justify-between gap-3 p-3.5 sm:p-4 rounded-xl font-mono text-xs shadow-sm transition-all" style="background: ' + theme.primaryHex + '; border: 1.5px solid ' + theme.darkHex + '; color: ' + theme.textHex + ';">' +
+            '<div class="flex items-center gap-2.5 sm:gap-3 flex-wrap min-w-0 max-w-full">' +
+              '<span class="font-black flex items-center gap-1.5 text-xs sm:text-sm tracking-wide shrink-0" style="color: ' + theme.textHex + ';">' +
                 '<i class="fa-solid fa-layer-group text-sm" style="color: ' + theme.textHex + ';"></i>' +
                 '<span>OUTLINE_BLOCKS:</span>' +
               '</span>' +
-              '<div class="inline-flex rounded-lg p-1 shadow-inner backdrop-blur-xs" style="background: ' + theme.pillContainerBg + '; border: 1px solid ' + theme.pillContainerBorder + ';">' +
+              '<div class="outline-pill-scroll inline-flex rounded-lg p-1 shadow-inner backdrop-blur-xs max-w-full gap-1" style="background: ' + theme.pillContainerBg + '; border: 1px solid ' + theme.pillContainerBorder + ';">' +
                 pageButtonsHtml +
               '</div>' +
             '</div>' +
 
-            '<div class="flex items-center gap-2">' +
-              '<button type="button" onclick="window.switchCurriculumPage(null, \'' + mod.id + '\')" class="outline-next-page-btn px-5 py-2.5 rounded-lg font-black text-xs transition-all flex items-center gap-2 cursor-pointer shadow-sm hover:opacity-90" style="background: ' + theme.actionBtnBg + '; color: ' + theme.actionBtnText + '; border: 1px solid ' + theme.actionBtnBorder + ';">' +
+            '<div class="flex items-center gap-2 shrink-0 w-full sm:w-auto">' +
+              '<button type="button" onclick="window.switchCurriculumPage(null, \'' + mod.id + '\')" class="outline-next-page-btn w-full sm:w-auto px-4 sm:px-5 py-2 sm:py-2.5 rounded-lg font-black text-xs transition-all flex items-center justify-center gap-2 cursor-pointer shadow-sm hover:opacity-90" style="background: ' + theme.actionBtnBg + '; color: ' + theme.actionBtnText + '; border: 1px solid ' + theme.actionBtnBorder + ';">' +
                 '<span>' + nextButtonText + '</span>' +
               '</button>' +
             '</div>' +
           '</div>' +
 
-          '<!-- THE THREE BLOCKS IN A ROW (01., 02. IN THE MIDDLE, 03. ON THE RIGHT) -->' +
-          '<div class="grid grid-cols-1 md:grid-cols-3 gap-5 lg:gap-6">' +
+          '<!-- THE THREE BLOCKS IN A ROW (RESPONSIVE: 1 COL ON MOBILE & TABLET, 3 COLS ON DESKTOP) -->' +
+          '<div class="grid grid-cols-1 lg:grid-cols-3 gap-5 lg:gap-6">' +
             blocksHtml +
           '</div>' +
 
@@ -5618,14 +5616,17 @@ function getTrackConsoleOutput(trackId, moduleNum, sectionId) {
 
     function tick() {
       const now = new Date();
-      const options = {
-        weekday: 'short',
-        month: 'short',
-        day: 'numeric',
-        hour: 'numeric',
-        minute: '2-digit',
-        hour12: true
-      };
+      const isCompact = window.innerWidth < 640;
+      const options = isCompact
+        ? { month: 'numeric', day: 'numeric', hour: 'numeric', minute: '2-digit', hour12: true }
+        : {
+            weekday: 'short',
+            month: 'short',
+            day: 'numeric',
+            hour: 'numeric',
+            minute: '2-digit',
+            hour12: true
+          };
       const formatted = now.toLocaleString('en-US', options);
       clockEls.forEach((el) => {
         el.textContent = formatted;

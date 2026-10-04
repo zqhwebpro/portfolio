@@ -33,7 +33,7 @@
         integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
 
     <!-- 100% Width Browser Web App Stylesheet with Cache Buster -->
-    <link rel="stylesheet" href="./apex-theme.css?v=20261003_v7">
+    <link rel="stylesheet" href="./apex-theme.css?v=20261003_v8">
 </head>
 
 <body>
@@ -128,6 +128,11 @@
                         <span class="folder-title">03_directory_index</span>
                         <span class="folder-chip" id="folderDirectoryBadge">Base HTML</span>
                     </button>
+                    <button type="button" class="os-folder-tab" id="folderTab4" onclick="goToStep(4)" role="tab" aria-selected="false" title="Folder 04: Sync Menu to Store">
+                        <i class="fa-solid fa-folder folder-icon" id="folderIcon4"></i>
+                        <span class="folder-title">04_sync_menu</span>
+                        <span class="folder-chip" id="folderMenuSyncBadge">Pending Sync</span>
+                    </button>
                 </div>
 
                 <!-- OS Status & Telemetry Indicators -->
@@ -158,10 +163,10 @@
                         <i class="fa-solid fa-layer-group text-primary"></i>
                         <span>Workflow Pipeline</span>
                     </div>
-                    <span class="side-panel-badge">3 STEPS</span>
+                    <span class="side-panel-badge">4 STEPS</span>
                 </div>
 
-                <!-- Step 1, 2, 3 Navigation Buttons -->
+                <!-- Step 1, 2, 3, 4 Navigation Buttons -->
                 <nav class="side-steps-nav" aria-label="Side Pipeline Steps">
                     <!-- Step 1: Gateways -->
                     <button type="button" class="side-step-btn active" id="sideStepTab1" onclick="goToStep(1)">
@@ -191,6 +196,16 @@
                             <div class="side-step-sub">Directory Slug &amp; Base HTML</div>
                         </div>
                         <span class="side-step-badge neutral" id="sideStep3StatusBadge">Base HTML</span>
+                    </button>
+
+                    <!-- Step 4: Sync Menu to Store -->
+                    <button type="button" class="side-step-btn" id="sideStepTab4" onclick="goToStep(4)">
+                        <div class="side-step-num" id="sideStepNum4">4</div>
+                        <div class="side-step-content">
+                            <div class="side-step-name">Sync Menu</div>
+                            <div class="side-step-sub">POS Items to index.html</div>
+                        </div>
+                        <span class="side-step-badge neutral" id="sideStep4StatusBadge">Pending Sync</span>
                     </button>
                 </nav>
 
@@ -461,6 +476,10 @@
                                 <i class="fa-solid fa-window-maximize"></i>
                                 <span>Preview Modal</span>
                             </button>
+                            <button type="button" class="tactile-btn tactile-btn-mint" onclick="goToStep(4)">
+                                <i class="fa-solid fa-utensils me-1"></i>
+                                <span>Sync Menu (Step 4) ➔</span>
+                            </button>
                             <button type="button" class="tactile-btn tactile-btn-white" onclick="downloadSiteIndexHtml()">
                                 <i class="fa-solid fa-file-arrow-down"></i>
                                 <span>Download index.html</span>
@@ -546,10 +565,112 @@
                         <i class="fa-solid fa-arrow-left"></i>
                         <span>Back to Step 2: Restaurant Setup</span>
                     </button>
-                    <button type="button" class="tactile-btn tactile-btn-primary tactile-btn-lg" onclick="goToStep(1)">
-                        <i class="fa-solid fa-network-wired me-1"></i>
-                        <span>Manage Gateways (Step 1)</span>
+                    <div class="d-flex align-items-center gap-2">
+                        <button type="button" class="tactile-btn tactile-btn-white tactile-btn-lg" onclick="goToStep(1)">
+                            <i class="fa-solid fa-network-wired me-1"></i>
+                            <span>Manage Gateways</span>
+                        </button>
+                        <button type="button" class="tactile-btn tactile-btn-mint tactile-btn-lg" onclick="goToStep(4)">
+                            <i class="fa-solid fa-utensils me-1"></i>
+                            <span>Proceed to Step 4: Sync Menu to Store ➔</span>
+                        </button>
+                    </div>
+                </div>
+            </section>
+
+            <!-- ═══════════════════════════════════════════════════════════
+                 STEP 4 VIEW: SYNC MENU TO STORE (UPDATES INDEX.HTML)
+                 ═══════════════════════════════════════════════════════════ -->
+            <section class="step-view d-none" id="step4View" aria-label="Step 4 Sync Menu to Store">
+                <!-- Active Gateway Sync Banner -->
+                <div class="active-gateway-banner mb-3">
+                    <div class="active-gw-info">
+                        <div class="active-gw-icon" id="step4GwIcon">
+                            <i class="fa-solid fa-bolt"></i>
+                        </div>
+                        <div class="active-gw-text">
+                            <h3 id="step4GwTitle">Sync Source: Connected Gateway Catalog API</h3>
+                            <p id="step4GwSubtitle">POS Menu Bridge &bull; 200 OK Handshake &bull; Updates Reserved Menu Area in index.html</p>
+                        </div>
+                    </div>
+                    <div class="d-flex align-items-center gap-2 flex-wrap">
+                        <span class="badge bg-light text-secondary border font-mono" id="step4TargetDirBadge">Target: /net-c-delivery/your-site/index.html</span>
+                        <button type="button" class="tactile-btn tactile-btn-white tactile-btn-sm" onclick="goToStep(3)">
+                            <i class="fa-solid fa-arrow-left"></i> Back to Step 3
+                        </button>
+                    </div>
+                </div>
+
+                <!-- View Header Banner -->
+                <div class="view-header-banner mb-3">
+                    <div class="view-header-title-box">
+                        <h2>Step 4: Sync Menu to Your Storefront</h2>
+                        <p>Sync your live menu items from your connected POS / delivery gateway. Clicking <strong>"Sync Menu to Store"</strong> updates your <code>index.html</code> in the area reserved for menu items.</p>
+                    </div>
+                    <div class="step-guidance-pill" id="step4GuidancePill">
+                        <i class="fa-solid fa-arrows-rotate text-primary"></i>
+                        <span id="step4GuidanceText">Select items below &amp; click "Sync Menu to Store" to update index.html</span>
+                    </div>
+                </div>
+
+                <!-- Menu Sync Container -->
+                <div class="menu-sync-container">
+                    <!-- Sync Action Alert Banner -->
+                    <div class="menu-selection-alert-banner alert alert-primary border-0 rounded-2 p-3 d-flex align-items-center justify-content-between flex-wrap gap-3" id="menuSyncSummaryBanner">
+                        <div class="d-flex align-items-center gap-3">
+                            <div class="p-2 rounded-2 bg-primary bg-opacity-10 text-primary fs-4">
+                                <i class="fa-solid fa-clipboard-check"></i>
+                            </div>
+                            <div>
+                                <strong id="menuSyncHeadline" class="text-dark">Ready to Sync Menu Items</strong>
+                                <p class="text-xs text-secondary mb-0" id="menuSyncSub">Items marked with checkmarks will be injected into the reserved menu section of your index.html.</p>
+                            </div>
+                        </div>
+                        <div class="d-flex align-items-center gap-2 flex-wrap">
+                            <button type="button" class="tactile-btn tactile-btn-white tactile-btn-sm" onclick="toggleSelectAllMenuItems(true)">
+                                <i class="fa-solid fa-check-double text-success me-1"></i> Select All
+                            </button>
+                            <button type="button" class="tactile-btn tactile-btn-white tactile-btn-sm" onclick="toggleSelectAllMenuItems(false)">
+                                <i class="fa-solid fa-xmark text-danger me-1"></i> Deselect All
+                            </button>
+                            <button type="button" class="tactile-btn tactile-btn-mint tactile-btn-md fw-bold" onclick="syncMenuToStorefront()">
+                                <i class="fa-solid fa-cloud-arrow-up me-1"></i> Sync Menu to Store (Update index.html) ➔
+                            </button>
+                        </div>
+                    </div>
+
+                    <!-- Menu Table Card -->
+                    <div class="menu-items-table-card">
+                        <table class="menu-table">
+                            <thead>
+                                <tr>
+                                    <th style="width: 80px;">SKU</th>
+                                    <th>Item Details &amp; Recipe Specs</th>
+                                    <th style="width: 120px;">Category</th>
+                                    <th style="width: 140px;">Base Price</th>
+                                    <th style="width: 140px;">Stock Status</th>
+                                    <th style="width: 150px;" class="text-end">Sync Status</th>
+                                </tr>
+                            </thead>
+                            <tbody id="step4MenuTableBody">
+                                <!-- Populated dynamically by controller.js -->
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+
+                <!-- Step 4 Navigation Footer -->
+                <div class="step-nav-footer mt-4">
+                    <button type="button" class="tactile-btn tactile-btn-white tactile-btn-lg" onclick="goToStep(3)">
+                        <i class="fa-solid fa-arrow-left"></i>
+                        <span>Back to Step 3: Directory &amp; index.html</span>
                     </button>
+                    <div class="d-flex align-items-center gap-2">
+                        <button type="button" class="tactile-btn tactile-btn-mint tactile-btn-lg" onclick="syncMenuToStorefront()">
+                            <i class="fa-solid fa-arrows-rotate me-1"></i>
+                            <span>Sync Menu to Storefront (Update index.html) ➔</span>
+                        </button>
+                    </div>
                 </div>
             </section>
 
@@ -722,7 +843,7 @@
     </script>
 
     <!-- DinerDashboard Controller Engine with Cache Buster -->
-    <script src="./controller.js?v=20261003_v7"></script>
+    <script src="./controller.js?v=20261003_v8"></script>
 
 </body>
 

@@ -688,30 +688,35 @@
             font-size: 1.15rem !important;
         }
 
-        /* FLOATING CART CIRCULAR BUTTON (FIXED LOWER RIGHT - TEAL WITH ONLY AN ICON) */
+        /* FLOATING CART CIRCULAR BUTTON (FIXED LOWER RIGHT - TEAL WITH ICON, BADGE & LABEL) */
         #floating-cart-btn {
             position: fixed !important;
             bottom: 1.5rem !important;
             right: 1.5rem !important;
-            z-index: 9999 !important;
-            width: 3.75rem !important;
-            height: 3.75rem !important;
+            z-index: 9990 !important;
+            width: 3.9rem !important;
+            height: 3.9rem !important;
             border-radius: 9999px !important;
             background: #0D9488 !important;
             border: 2.5px solid #2DD4BF !important;
             color: #ffffff !important;
             display: flex !important;
+            flex-direction: column !important;
             align-items: center !important;
             justify-content: center !important;
+            gap: 1px !important;
             box-shadow: 0 12px 28px -4px rgba(13, 148, 136, 0.55), 0 4px 10px rgba(0, 0, 0, 0.2) !important;
             transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1) !important;
             cursor: pointer !important;
+            text-decoration: none !important;
+            user-select: none !important;
+            padding: 0 !important;
         }
 
         #floating-cart-btn:hover {
             background: #0F766E !important;
             border-color: #5EEAD4 !important;
-            transform: scale(1.1) translateY(-2px) !important;
+            transform: scale(1.08) translateY(-2px) !important;
             box-shadow: 0 16px 36px -4px rgba(13, 148, 136, 0.7), 0 6px 14px rgba(0, 0, 0, 0.25) !important;
         }
 
@@ -721,7 +726,79 @@
 
         #floating-cart-btn i {
             color: #ffffff !important;
-            font-size: 1.35rem !important;
+            font-size: 1.15rem !important;
+            line-height: 1 !important;
+            margin-top: 2px !important;
+            transition: transform 0.2s ease !important;
+        }
+
+        #floating-cart-btn:hover i {
+            transform: scale(1.1) !important;
+        }
+
+        .floating-cart-label {
+            font-size: 0.60rem !important;
+            font-weight: 800 !important;
+            letter-spacing: 0.04em !important;
+            text-transform: uppercase !important;
+            color: #ffffff !important;
+            line-height: 1 !important;
+            font-family: 'JetBrains Mono', 'Inter', monospace, sans-serif !important;
+        }
+
+        .floating-cart-badge {
+            position: absolute !important;
+            top: -3px !important;
+            right: -3px !important;
+            background: #f43f5e !important;
+            color: #ffffff !important;
+            font-size: 0.68rem !important;
+            font-weight: 900 !important;
+            font-family: 'JetBrains Mono', monospace !important;
+            min-width: 22px !important;
+            height: 22px !important;
+            padding: 0 5px !important;
+            border-radius: 9999px !important;
+            display: flex !important;
+            align-items: center !important;
+            justify-content: center !important;
+            border: 2px solid #ffffff !important;
+            box-shadow: 0 3px 8px rgba(0, 0, 0, 0.35) !important;
+            line-height: 1 !important;
+            transition: transform 0.25s cubic-bezier(0.16, 1, 0.3, 1) !important;
+            pointer-events: none !important;
+        }
+
+        .floating-cart-badge.pop-anim {
+            transform: scale(1.3) !important;
+        }
+
+        /* CART DRAWER SLIDE-IN OVER FLOATING CART */
+        #cart-drawer-backdrop {
+            z-index: 100000 !important;
+        }
+
+        #cart-drawer-backdrop:not(.hidden) > div {
+            animation: cartDrawerSlideIn 0.35s cubic-bezier(0.16, 1, 0.3, 1) forwards !important;
+            box-shadow: -12px 0 40px rgba(0, 0, 0, 0.4) !important;
+        }
+
+        @keyframes cartDrawerSlideIn {
+            0% {
+                transform: translateX(100%);
+            }
+            100% {
+                transform: translateX(0);
+            }
+        }
+
+        @keyframes cartDrawerSlideOut {
+            0% {
+                transform: translateX(0);
+            }
+            100% {
+                transform: translateX(100%);
+            }
         }
 
         /* NAV DROPDOWN PUSHDOWN PANELS: SMOOTH SLIDE DOWN & PUSH STORE DOWN */
@@ -3914,7 +3991,7 @@
     </div>
 
     <!-- 4. CART DRAWER COMPONENT (Off-White & Warm Espresso) -->
-    <div id="cart-drawer-backdrop" class="fixed inset-0 bg-black/60 backdrop-blur-xs z-50 hidden flex justify-end"
+    <div id="cart-drawer-backdrop" class="fixed inset-0 bg-black/60 backdrop-blur-xs z-[100000] hidden flex justify-end"
         onclick="if(event.target===this) window.closeCartDrawer()">
         <div class="bg-canvas-base border-l border-canvas-border w-full max-w-md h-full flex flex-col shadow-2xl p-6 space-y-4"
             data-blueprint-file="WackyStore.WebUI/Views/Cart/Index.cshtml"
@@ -5200,12 +5277,14 @@
 
     <!-- CLIENT APPLICATION SCRIPT -->
     
-    <!-- Floating Teal Cart Action Button (Fixed in Lower Right - Only an Icon, Above Everything) -->
+    <!-- Floating Teal Cart Action Button (Fixed in Lower Right with Count Badge and Label) -->
     <button id="floating-cart-btn" onclick="window.openCartDrawer()" title="Shopping Cart" aria-label="Shopping Cart">
-        <i class="fa-solid fa-cart-shopping text-xl text-white"></i>
+        <span id="floating-cart-count" class="floating-cart-badge">0</span>
+        <i class="fa-solid fa-cart-shopping"></i>
+        <span class="floating-cart-label">Cart</span>
     </button>
 
-    <script src="script.js?v=1790400000000"></script>
+    <script src="script.js?v=1790400000001"></script>
 
     <!-- BLOG POST READER MODAL -->
     <div id="blog-reader-modal" data-blueprint-file="WackyStore.WebUI/Views/Blog/ReaderModal.cshtml"
