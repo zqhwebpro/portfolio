@@ -667,7 +667,11 @@ function updateCartUI() {
     const dTotal = document.getElementById('drawer-total');
     const coTotal = document.getElementById('checkout-total-display');
 
-    if (hCount) hCount.innerText = totalItems;
+    if (hCount) {
+        hCount.innerText = totalItems;
+        hCount.classList.add('pop-anim');
+        setTimeout(() => hCount.classList.remove('pop-anim'), 250);
+    }
     if (hTotal) hTotal.innerText = `$${subtotal.toFixed(2)}`;
     if (dBadge) dBadge.innerText = `${totalItems} items`;
     if (dSubtotal) dSubtotal.innerText = `$${subtotal.toFixed(2)}`;
@@ -678,7 +682,7 @@ function updateCartUI() {
     if (acadHCount) acadHCount.innerText = totalItems;
     if (acadHTotal) acadHTotal.innerText = `${subtotal.toFixed(2)}`;
 
-    // Floating cart button badge
+    // Floating cart button badge (if present)
     const fCount = document.getElementById('floating-cart-count');
     if (fCount) {
         fCount.innerText = totalItems;
@@ -3261,20 +3265,20 @@ window.renderBlogPosts = function (categoryFilter = 'all') {
                         <!-- Product Circle: Takes up more than 1/3 of the card's upper left -->
                         <div onclick="window.buyNowFromBlog(${featuredProduct.id}, event);"
                              title="Click to add ${featuredProduct.name} to cart ($${featuredProduct.price.toFixed(2)})"
-                             class="w-24 h-24 sm:w-28 sm:h-28 md:w-30 md:h-30 rounded-full border-3 sm:border-4 border-white shadow-2xl bg-white overflow-hidden relative cursor-pointer transition-all duration-300 hover:scale-105 active:scale-95 ring-2 ring-black/20 flex items-center justify-center">
-                            <img src="${featuredProduct.image}" alt="${featuredProduct.name}" class="w-full h-full object-cover p-0.5 transition-transform duration-300 group-hover/badge:scale-110" />
+                             class="w-24 h-24 sm:w-28 sm:h-28 md:w-30 md:h-30 rounded-full border-3 sm:border-4 border-white shadow-2xl bg-white overflow-hidden relative cursor-pointer transition-all duration-300 hover:scale-105 active:scale-95 ring-2 ring-black/20 flex items-center justify-center p-2 sm:p-2.5">
+                            <img src="${featuredProduct.image}" alt="${featuredProduct.name}" class="w-full h-full object-contain transition-transform duration-300 group-hover/badge:scale-110 drop-shadow-sm" />
                             
                             <!-- Hover Quick-Add Overlay -->
-                            <div class="absolute inset-0 bg-teal-500/25 opacity-0 group-hover/badge:opacity-100 transition-opacity flex items-center justify-center">
+                            <div class="absolute inset-0 bg-teal-500/25 opacity-0 group-hover/badge:opacity-100 transition-opacity flex items-center justify-center pointer-events-none">
                                 <i class="fa-solid fa-cart-plus text-white text-base sm:text-lg drop-shadow-md"></i>
                             </div>
                         </div>
 
-                        <!-- Teal Peel under circle: Buy Now (Click to Add to Cart) -->
+                        <!-- Teal Peel under circle: Buy Now (Click to Add to Cart) - Nudged up on top of circle -->
                         <button type="button"
                                 onclick="window.buyNowFromBlog(${featuredProduct.id}, event);"
                                 title="Buy Now - Add ${featuredProduct.name} to cart ($${featuredProduct.price.toFixed(2)})"
-                                class="mt-1.5 px-3.5 py-1 sm:px-4 sm:py-1 rounded-full bg-teal-400 hover:bg-teal-300 active:bg-teal-500 text-earth-950 font-heading font-black text-[11px] sm:text-xs uppercase tracking-wider shadow-xl border-2 border-white hover:scale-105 active:scale-95 transition-all flex items-center justify-center gap-1 cursor-pointer">
+                                class="-mt-3.5 sm:-mt-4 relative z-30 px-3.5 py-1 sm:px-4 sm:py-1 rounded-full bg-teal-400 hover:bg-teal-300 active:bg-teal-500 text-earth-950 font-heading font-black text-[11px] sm:text-xs uppercase tracking-wider shadow-xl border-2 border-white hover:scale-105 active:scale-95 transition-all flex items-center justify-center gap-1 cursor-pointer">
                             <i class="fa-solid fa-cart-shopping text-[10px]"></i>
                             <span>Buy Now</span>
                         </button>
@@ -3365,7 +3369,7 @@ window.openBlogReaderModal = function (postId) {
     const productBanner = `
         <div class="my-4 p-3.5 sm:p-4 rounded-2xl bg-teal-50 border-2 border-teal-300/80 flex items-center justify-between gap-3 flex-wrap">
             <div class="flex items-center gap-3">
-                <img src="${featuredProduct.image}" alt="${featuredProduct.name}" class="w-14 h-14 sm:w-16 sm:h-16 rounded-full border-2 border-white shadow-md object-cover bg-white shrink-0" />
+                <img src="${featuredProduct.image}" alt="${featuredProduct.name}" class="w-14 h-14 sm:w-16 sm:h-16 rounded-full border-2 border-white shadow-md p-1 object-contain bg-white shrink-0" />
                 <div>
                     <div class="text-[10px] font-mono uppercase font-bold text-teal-800 tracking-wider">Featured Invention from /wacky-things-store/</div>
                     <div class="font-heading font-black text-sm sm:text-base text-earth-950">${featuredProduct.name}</div>
@@ -4652,7 +4656,11 @@ document.addEventListener('DOMContentLoaded', () => {
 
     // Auto-open modals and views if targeted via URL query or hash
     const params = new URLSearchParams(window.location.search);
-    if (params.get('open') === 'shipping' || window.location.hash === '#shipping') {
+    if (params.get('open') === 'cart' || window.location.hash === '#cart') {
+        setTimeout(() => {
+            if (typeof window.openCartDrawer === 'function') window.openCartDrawer();
+        }, 300);
+    } else if (params.get('open') === 'shipping' || window.location.hash === '#shipping') {
         setTimeout(() => {
             if (typeof window.openShippingModal === 'function') window.openShippingModal();
         }, 300);

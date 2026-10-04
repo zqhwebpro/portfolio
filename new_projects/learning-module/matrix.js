@@ -4912,24 +4912,10 @@ function getTrackConsoleOutput(trackId, moduleNum, sectionId) {
   // 6. GLOBAL WINDOW NAVIGATION & INTERACTIVE MODAL HANDLERS
   // ═══════════════════════════════════════════════════════════════════
 
-  // Switch between 3-block curriculum pages (01-03, 04-06, 07-09)
+  // Switch between curriculum pages (Smoothly scrolls to appropriate module)
   window.switchCurriculumPage = function (targetPage, trackId) {
-    const tid = trackId || currentActiveTrackId;
-    const mod = MODULES_DATA.find((m) => m.id === tid) || MODULES_DATA[0];
-    const totalPages = Math.ceil(mod.modules.length / 3);
-
-    if (typeof targetPage === 'number') {
-      trackPages[tid] = Math.max(0, Math.min(targetPage, totalPages - 1));
-    } else {
-      trackPages[tid] = (trackPages[tid] + 1) % totalPages;
-    }
-
-    playOsClick(840, 0.035);
-    renderActiveTabbedCard();
-    const anchor = document.getElementById('matrixCurriculumOutlineAnchor');
-    if (anchor) {
-      anchor.scrollIntoView({ behavior: 'smooth', block: 'start' });
-    }
+    const targetModuleNum = ((targetPage || 0) * 3 + 1).toString().padStart(2, '0');
+    window.scrollToModule(targetModuleNum);
   };
 
   // Backward compatibility alias for JSE page switcher
@@ -4937,8 +4923,7 @@ function getTrackConsoleOutput(trackId, moduleNum, sectionId) {
     window.switchCurriculumPage(targetPage, 'javascript');
   };
 
-  // Launch the Interactive Lesson Sandbox Modal
-  // Helper: Retrieve linear flat sequence of all lessons across modules for a track
+  // Retrieve linear flat sequence of all lessons across modules for a track
   function getTrackLessonSequence(trackId) {
     const tid = trackId || currentActiveTrackId;
     const mod = MODULES_DATA.find((m) => m.id === tid) || MODULES_DATA[0];
@@ -4958,32 +4943,58 @@ function getTrackConsoleOutput(trackId, moduleNum, sectionId) {
     return list;
   }
 
-  // Seamless in-modal lesson traversal without leaving pop-up mode
-  window.navigateModalLesson = function (direction) {
-    const tid = activeLessonContext.trackId || currentActiveTrackId;
-    const sequence = getTrackLessonSequence(tid);
-    if (!sequence || sequence.length === 0) return;
-
-    let currentIdx = sequence.findIndex(
-      (item) => String(item.moduleNum) === String(activeLessonContext.moduleNum) && String(item.sectionId) === String(activeLessonContext.sectionId)
-    );
-    if (currentIdx === -1) currentIdx = 0;
-
-    let nextIdx = currentIdx + direction;
-    // Circular navigation allows continuous browsing across all lessons & modules in the track without leaving the pop-up
-    if (nextIdx < 0) nextIdx = sequence.length - 1;
-    if (nextIdx >= sequence.length) nextIdx = 0;
-
-    const nextLesson = sequence[nextIdx];
-    window.startCurriculumSection(nextLesson.moduleNum, nextLesson.sectionId, nextLesson.trackId);
+  // Smooth scroll to a specific module white panel
+  window.scrollToModule = function (moduleNum) {
+    playOsClick(750, 0.025);
+    const target = document.getElementById('module-panel-' + moduleNum);
+    if (target) {
+      target.scrollIntoView({ behavior: 'smooth', block: 'start' });
+    }
+    updateActiveSidebarModule(moduleNum);
   };
 
-  // Launch the Interactive Lesson Sandbox Modal (Expansive Readability & Spacing)
-  window.startCurriculumSection = function (moduleNum, sectionId, trackId) {
-    playOsClick(840, 0.04);
-    const modal = document.getElementById('jseLessonModal');
-    if (!modal) return;
+  function updateActiveSidebarModule(moduleNum) {
+    const allLinks = document.querySelectorAll('.sidebar-module-link');
+    allLinks.forEach((link) => {
+      const num = link.getAttribute('data-sidebar-module');
+      if (num === String(moduleNum)) {
+        link.classList.add('active');
+      } else {
+        link.classList.remove('active');
+      }
+    });
 
+    const mobilePills = document.querySelectorAll('.mobile-module-pill');
+    mobilePills.forEach((pill) => {
+      const num = pill.getAttribute('data-mobile-module');
+      if (num === String(moduleNum)) {
+        pill.classList.add('active');
+      } else {
+        pill.classList.remove('active');
+      }
+    });
+  }
+
+  // Close / Collapse Inline Lesson Sandbox
+  window.closeInlineSandbox = function (moduleNum, sectionId) {
+    playOsClick(600, 0.02);
+    const container = document.getElementById('inline-sandbox-' + moduleNum + '-' + sectionId);
+    if (container) {
+      container.classList.add('hidden');
+      container.innerHTML = '';
+    }
+  };
+
+  window.closeAllInlineSandboxes = function () {
+    document.querySelectorAll('.inline-lesson-sandbox').forEach((el) => {
+      el.classList.add('hidden');
+      el.innerHTML = '';
+    });
+  };
+
+  // Launch Inline Interactive Lesson Sandbox (Replaces Pop-up Modal)
+  window.startCurriculumSection = function (moduleNum, sectionId, trackId) {
+    playOsClick(840, 0.035);
     const tid = trackId || currentActiveTrackId;
     const mod = MODULES_DATA.find((m) => m.id === tid);
     if (!mod) return;
@@ -4993,140 +5004,143 @@ function getTrackConsoleOutput(trackId, moduleNum, sectionId) {
     if (!sec) return;
 
     activeLessonContext = { trackId: tid, moduleNum: moduleNum, sectionId: sectionId };
-
     const theme = TRACK_THEMES[tid] || TRACK_THEMES.javascript;
 
-    // Elements in Modal
-    const headerIcon = document.getElementById('jseModalHeaderIcon') || document.getElementById('osModalHeaderIcon');
-    const headerTag = document.getElementById('jseModalHeaderTag');
-    const dot = document.getElementById('jseModalDot') || document.getElementById('osModalDot');
-    const moduleBadge = document.getElementById('jseModalModuleBadge');
-    const lessonTitle = document.getElementById('jseModalLessonTitle');
-    const lessonDesc = document.getElementById('jseModalLessonDesc');
-    const runnerFilename = document.getElementById('jseModalRunnerFilename') || document.getElementById('osModalRunnerFilename');
-    const codeSnippetEl = document.getElementById('jseModalCodeSnippet');
-    const consoleOutput = document.getElementById('jseModalConsoleOutput');
-    const footerIcon = document.getElementById('jseModalFooterIcon') || document.getElementById('osModalTrackFooterIcon');
-    const footerLabel = document.getElementById('jseModalFooterLabel') || document.getElementById('osModalTrackFooterLabel');
-    const executeBtn = document.getElementById('jseModalExecuteBtn') || document.getElementById('osModalExecuteBtn');
+    // Target container for inline sandbox
+    const targetSandbox = document.getElementById('inline-sandbox-' + moduleNum + '-' + sectionId);
+    if (!targetSandbox) return;
 
-    if (headerIcon) headerIcon.className = theme.icon + ' text-lg shrink-0';
-    if (headerTag) {
-      headerTag.textContent = theme.specPrefix + ' // MODULE_' + moduleNum + ' // SEC_' + sectionId;
-      headerTag.className = 'text-slate-900 font-black tracking-wide truncate';
-    }
-    if (dot) dot.remove();
-    if (moduleBadge) {
-      moduleBadge.textContent = currModule ? currModule.title : 'MODULE ' + moduleNum;
-      moduleBadge.className = 'px-3 py-1 rounded-md bg-slate-100 border border-slate-300 text-slate-900 font-bold';
-    }
-    if (lessonTitle) {
-      lessonTitle.textContent = sec.title;
-      lessonTitle.className = 'font-headline font-black text-2xl sm:text-3xl lg:text-4xl xl:text-5xl text-slate-950 leading-tight tracking-tight';
-    }
-    if (lessonDesc) {
-      lessonDesc.textContent = sec.summary || 'Interactive lesson runtime and syllabus objectives.';
-      lessonDesc.className = 'font-sans text-base sm:text-lg lg:text-xl text-slate-700 mt-4 leading-relaxed font-medium max-w-5xl';
-    }
-    if (runnerFilename) {
-      runnerFilename.innerHTML = '<i class="fa-solid fa-code text-sky-400"></i> RUNNER // live_interpreter.' + theme.runnerExt;
-    }
+    // Close any other open sandboxes
+    document.querySelectorAll('.inline-lesson-sandbox').forEach((el) => {
+      if (el !== targetSandbox) {
+        el.classList.add('hidden');
+        el.innerHTML = '';
+      }
+    });
 
-    if (footerIcon) footerIcon.className = 'fa-solid fa-graduation-cap text-slate-950 text-lg shrink-0';
-    if (footerLabel) {
-      footerLabel.textContent = theme.certName;
-      footerLabel.className = 'text-slate-800 text-xs sm:text-sm font-bold truncate';
-    }
-    if (executeBtn) {
-      executeBtn.className = 'px-5 sm:px-6 py-2.5 rounded-xl bg-slate-950 hover:bg-slate-800 text-white font-extrabold transition-all cursor-pointer flex items-center gap-2 shadow-md text-xs sm:text-sm hover:scale-[1.02] active:scale-[0.98]';
-    }
-
-    // Traversal progress & button states
     const sequence = getTrackLessonSequence(tid);
     const currentIdx = sequence.findIndex(
       (item) => String(item.moduleNum) === String(moduleNum) && String(item.sectionId) === String(sectionId)
     );
     const totalLessons = sequence.length;
     const lessonPos = currentIdx >= 0 ? currentIdx + 1 : 1;
-
-    const counterBadge = document.getElementById('jseModalCounterBadge');
-    if (counterBadge) {
-      counterBadge.textContent = 'Lesson ' + lessonPos + ' of ' + totalLessons;
-    }
-
-    if (sequence.length > 0 && currentIdx >= 0) {
-      const prevIdx = (currentIdx - 1 + totalLessons) % totalLessons;
-      const nextIdx = (currentIdx + 1) % totalLessons;
-      const prevItem = sequence[prevIdx];
-      const nextItem = sequence[nextIdx];
-
-      const prevBtns = [
-        document.getElementById('jseModalHeaderPrevBtn'),
-        document.getElementById('jseModalFooterPrevBtn'),
-        document.getElementById('jseModalSidePrevBtn')
-      ];
-      prevBtns.forEach((btn) => {
-        if (btn && prevItem) {
-          btn.setAttribute('title', 'Previous: ' + prevItem.sectionTitle + ' (←)');
-        }
-      });
-
-      const nextBtns = [
-        document.getElementById('jseModalHeaderNextBtn'),
-        document.getElementById('jseModalFooterNextBtn'),
-        document.getElementById('jseModalSideNextBtn')
-      ];
-      nextBtns.forEach((btn) => {
-        if (btn && nextItem) {
-          btn.setAttribute('title', 'Next: ' + nextItem.sectionTitle + ' (→)');
-        }
-      });
-    }
-
-    // Reset scroll position on container when traversing
-    const scrollContainer = document.getElementById('jseModalScrollContainer');
-    if (scrollContainer) {
-      scrollContainer.scrollTop = 0;
-    }
-
-    if (consoleOutput) {
-      consoleOutput.classList.add('hidden');
-      consoleOutput.innerHTML = '';
-    }
-
     const sampleCode = getTrackCodeSample(tid, moduleNum, sectionId, sec.title);
-    if (codeSnippetEl) codeSnippetEl.textContent = sampleCode;
 
-    modal.classList.remove('hidden');
-    modal.classList.add('flex');
+    targetSandbox.innerHTML = (
+      '<div class="rounded-2xl bg-slate-950 p-4 sm:p-6 lg:p-7 border-2 border-slate-800 text-slate-200 font-mono shadow-2xl space-y-4">' +
+        '<!-- Terminal Titlebar -->' +
+        '<div class="flex items-center justify-between pb-3 border-b border-slate-800 text-xs sm:text-sm font-bold flex-wrap gap-2">' +
+          '<div class="flex items-center gap-2 text-slate-200 truncate">' +
+            '<i class="fa-solid fa-terminal text-sky-400"></i>' +
+            '<span class="font-extrabold text-white">RUNNER // live_interpreter.' + theme.runnerExt + '</span>' +
+            '<span class="text-slate-400 text-xs hidden sm:inline">[' + theme.specPrefix + ' // SEC_' + sectionId + ']</span>' +
+          '</div>' +
+          '<div class="flex items-center gap-2 shrink-0">' +
+            '<span class="px-2.5 py-0.5 rounded text-[11px] font-mono font-bold bg-slate-900 border border-slate-700 text-slate-300">Lesson ' + lessonPos + ' of ' + totalLessons + '</span>' +
+            '<span class="text-emerald-400 font-mono flex items-center gap-1.5 text-xs font-bold">' +
+              '<i class="fa-solid fa-bolt text-[10px] animate-pulse"></i> RUNTIME_READY' +
+            '</span>' +
+          '</div>' +
+        '</div>' +
+
+        '<!-- Lesson Objective -->' +
+        '<div class="text-xs sm:text-sm text-slate-300 font-sans leading-relaxed">' +
+          '<span class="font-mono text-xs font-bold text-sky-400 uppercase tracking-wider block mb-1">OBJECTIVE &amp; SYLLABUS:</span>' +
+          (sec.summary || 'Interactive sandbox execution and syntax verification.') +
+        '</div>' +
+
+        '<!-- Interactive Code Snippet -->' +
+        '<div class="relative">' +
+          '<pre class="overflow-x-auto text-emerald-300 font-mono text-xs sm:text-sm py-3.5 px-4 bg-slate-900/90 rounded-xl leading-relaxed max-h-[340px] selection:bg-emerald-900 selection:text-white border border-slate-800">' +
+            sampleCode +
+          '</pre>' +
+        '</div>' +
+
+        '<!-- Console Output (Hidden by default, reveals on Execute) -->' +
+        '<div id="inline-console-output-' + moduleNum + '-' + sectionId + '" class="hidden p-4 rounded-xl bg-slate-900 border border-slate-700 font-mono text-xs sm:text-sm text-slate-100 leading-relaxed shadow-inner"></div>' +
+
+        '<!-- Sandbox Actions Bar -->' +
+        '<div class="pt-3 border-t border-slate-800 flex items-center justify-between flex-wrap gap-2 text-xs font-mono">' +
+          '<div class="flex items-center gap-2">' +
+            '<button type="button" onclick="window.navigateInlineLesson(\'' + moduleNum + '\', \'' + sectionId + '\', -1)" class="px-3 py-1.5 rounded-lg bg-slate-800 hover:bg-slate-700 text-slate-300 hover:text-white transition-all cursor-pointer flex items-center gap-1" title="Previous Lesson">' +
+              '<i class="fa-solid fa-arrow-left text-[10px]"></i>' +
+              '<span class="hidden sm:inline">Prev</span>' +
+            '</button>' +
+            '<button type="button" onclick="window.navigateInlineLesson(\'' + moduleNum + '\', \'' + sectionId + '\', 1)" class="px-3 py-1.5 rounded-lg bg-slate-800 hover:bg-slate-700 text-slate-300 hover:text-white transition-all cursor-pointer flex items-center gap-1" title="Next Lesson">' +
+              '<span class="hidden sm:inline">Next</span>' +
+              '<i class="fa-solid fa-arrow-right text-[10px]"></i>' +
+            '</button>' +
+          '</div>' +
+
+          '<div class="flex items-center gap-2">' +
+            '<button type="button" onclick="window.runInlineLessonDemo(\'' + moduleNum + '\', \'' + sectionId + '\', \'' + tid + '\')" class="px-4 sm:px-5 py-2 rounded-xl bg-emerald-500 hover:bg-emerald-400 text-slate-950 font-black transition-all cursor-pointer flex items-center gap-1.5 shadow-md hover:scale-[1.02] active:scale-[0.98]">' +
+              '<i class="fa-solid fa-play text-xs text-slate-950"></i>' +
+              '<span>EXECUTE_SANDBOX</span>' +
+            '</button>' +
+            '<button type="button" onclick="window.closeInlineSandbox(\'' + moduleNum + '\', \'' + sectionId + '\')" class="px-3 py-2 rounded-xl bg-slate-800 hover:bg-slate-700 text-slate-400 hover:text-white transition-colors cursor-pointer">' +
+              'Close' +
+            '</button>' +
+          '</div>' +
+        '</div>' +
+      '</div>'
+    );
+
+    targetSandbox.classList.remove('hidden');
+
+    // Scroll to the active lesson row
+    const rowEl = document.getElementById('lesson-row-' + moduleNum + '-' + sectionId);
+    if (rowEl) {
+      rowEl.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+    }
   };
 
-  // Backward compatibility alias for JSE start section
+  // Traversal across lessons using inline sandboxes
+  window.navigateInlineLesson = function (moduleNum, sectionId, direction) {
+    const tid = activeLessonContext.trackId || currentActiveTrackId;
+    const sequence = getTrackLessonSequence(tid);
+    if (!sequence || sequence.length === 0) return;
+
+    let currentIdx = sequence.findIndex(
+      (item) => String(item.moduleNum) === String(moduleNum) && String(item.sectionId) === String(sectionId)
+    );
+    if (currentIdx === -1) currentIdx = 0;
+
+    let nextIdx = currentIdx + direction;
+    if (nextIdx < 0) nextIdx = sequence.length - 1;
+    if (nextIdx >= sequence.length) nextIdx = 0;
+
+    const nextLesson = sequence[nextIdx];
+    window.startCurriculumSection(nextLesson.moduleNum, nextLesson.sectionId, nextLesson.trackId);
+  };
+
+  // Execute Code in the Inline Sandbox Console
+  window.runInlineLessonDemo = function (moduleNum, sectionId, trackId) {
+    playOsClick(980, 0.05);
+    const consoleOutput = document.getElementById('inline-console-output-' + moduleNum + '-' + sectionId);
+    if (!consoleOutput) return;
+
+    const tid = trackId || activeLessonContext.trackId;
+    consoleOutput.classList.remove('hidden');
+    consoleOutput.innerHTML = getTrackConsoleOutput(tid, moduleNum, sectionId);
+  };
+
+  // Backward compatibility aliases
   window.startJseSection = function (moduleNum, sectionId) {
     window.startCurriculumSection(moduleNum, sectionId, currentActiveTrackId);
   };
 
-  // Execute Code in the Live Sandbox Console
   window.runLessonDemo = function () {
-    playOsClick(980, 0.05);
-    const consoleOutput = document.getElementById('jseModalConsoleOutput');
-    if (!consoleOutput) return;
-
-    const trackId = activeLessonContext.trackId;
-    const moduleNum = activeLessonContext.moduleNum;
-    const sectionId = activeLessonContext.sectionId;
-    consoleOutput.classList.remove('hidden');
-    consoleOutput.innerHTML = getTrackConsoleOutput(trackId, moduleNum, sectionId);
+    if (activeLessonContext.moduleNum && activeLessonContext.sectionId) {
+      window.runInlineLessonDemo(activeLessonContext.moduleNum, activeLessonContext.sectionId, activeLessonContext.trackId);
+    }
   };
 
-  // Backward compatibility alias
   window.runJseDemo = function () {
     window.runLessonDemo();
   };
 
-  // Close Lesson Modal
   window.closeLessonModal = function () {
-    playOsClick(600, 0.03);
+    window.closeAllInlineSandboxes();
     const modal = document.getElementById('jseLessonModal');
     if (modal) {
       modal.classList.add('hidden');
@@ -5138,20 +5152,16 @@ function getTrackConsoleOutput(trackId, moduleNum, sectionId) {
     window.closeLessonModal();
   };
 
-  // Keyboard navigation: Escape to close, ArrowLeft / ArrowRight to traverse lessons without leaving pop-up mode
-  document.addEventListener('keydown', (e) => {
-    const modal = document.getElementById('jseLessonModal');
-    const isModalOpen = modal && !modal.classList.contains('hidden');
-    if (!isModalOpen) return;
+  window.navigateModalLesson = function (direction) {
+    if (activeLessonContext.moduleNum && activeLessonContext.sectionId) {
+      window.navigateInlineLesson(activeLessonContext.moduleNum, activeLessonContext.sectionId, direction);
+    }
+  };
 
+  // Keyboard navigation: Escape to close inline sandboxes
+  document.addEventListener('keydown', (e) => {
     if (e.key === 'Escape') {
-      window.closeLessonModal();
-    } else if (e.key === 'ArrowLeft') {
-      e.preventDefault();
-      window.navigateModalLesson(-1);
-    } else if (e.key === 'ArrowRight') {
-      e.preventDefault();
-      window.navigateModalLesson(1);
+      window.closeAllInlineSandboxes();
     }
   });
 
@@ -5220,249 +5230,221 @@ function getTrackConsoleOutput(trackId, moduleNum, sectionId) {
     }
   }
 
-  // Render ANY Module in the Standardized 3-Block Outline View (Exact js_engine Structure)
+  // Render the Learning Module as an ENTIRE PAGE in its background theme color
+  // with a sticky navigation sidebar and ALL 1–9 modules in crisp white panels
   function renderTrackCurriculumPanel(container, mod) {
     const theme = TRACK_THEMES[mod.id] || TRACK_THEMES.javascript;
     const modules = mod.modules || JSE_MODULES;
-    const totalPages = Math.ceil(modules.length / 3);
-    const currentPage = trackPages[mod.id] || 0;
 
-    const startIdx = currentPage * 3;
-    const activeModules = modules.slice(startIdx, startIdx + 3);
-
-    const blocksHtml = activeModules
-      .map((m, idx) => {
-        const isMiddle = idx === 1; // "01. 02 in the middle to 03 on the right"
-        const globalModuleIndex = startIdx + idx; // 0-based index across all modules in track
-        const isLastInTrack = globalModuleIndex === modules.length - 1;
-
-        const sectionsHtml = m.sections
-          .map((sec, secIdx) => (
-            '<div class="lesson-card-item p-2.5 sm:p-3 rounded-xl bg-slate-50 border border-slate-200 transition-all flex items-center justify-between gap-2.5 group/item">' +
-              '<div class="flex items-center gap-2.5 sm:gap-3 min-w-0 flex-1">' +
-                '<span class="lesson-badge-num w-5 h-5 sm:w-6 sm:h-6 rounded-md bg-slate-200 text-slate-900 font-mono text-[11px] sm:text-xs font-black flex items-center justify-center shrink-0 transition-colors">' + (secIdx + 1) + '</span>' +
-                '<span class="font-sans text-xs sm:text-sm lg:text-base font-bold text-slate-900 leading-snug break-words" title="' + sec.title + '">' +
-                  sec.title +
-                '</span>' +
-              '</div>' +
-              '<button type="button" onclick="window.startCurriculumSection(\'' + m.num + '\', \'' + sec.id + '\', \'' + mod.id + '\')" class="start-lesson-btn shrink-0 px-2.5 sm:px-3.5 py-1.5 rounded-lg bg-slate-950 text-white font-mono text-xs font-bold transition-all shadow-xs flex items-center gap-1.5 cursor-pointer">' +
-                '<span class="btn-text-full">Start Lesson</span>' +
-                '<span class="btn-text-short">Start</span>' +
-                '<i class="fa-solid fa-play text-[8px]"></i>' +
-              '</button>' +
-            '</div>'
-          ))
-          .join('');
-
-        let blockNavHtml = '';
-        if (globalModuleIndex === 0) {
-          const nextModNum = modules[1] ? modules[1].num : '02';
-          blockNavHtml = (
-            '<div class="text-xs text-slate-600 font-mono flex items-center justify-between flex-wrap gap-2">' +
-              '<span class="font-bold">PREREQUISITES: NONE</span>' +
-              '<span class="text-slate-950 font-black">NEXT: MOD ' + nextModNum + ' &rarr;</span>' +
-            '</div>'
-          );
-        } else if (isLastInTrack) {
-          blockNavHtml = (
-            '<div class="flex items-center justify-between flex-wrap gap-2">' +
-              '<span class="text-xs text-slate-900 font-mono font-black flex items-center gap-1">' +
-                '<i class="fa-solid fa-certificate text-emerald-600"></i> ' + mod.trackBadge + ' FINAL EXAM' +
-              '</span>' +
-              '<button type="button" onclick="window.switchCurriculumPage(0, \'' + mod.id + '\')" class="outline-block-nav-btn px-3 py-1.5 rounded-lg bg-slate-200 text-slate-900 text-xs font-mono font-bold transition-all cursor-pointer flex items-center gap-1">' +
-                '<span>&larr; Back to 01</span>' +
-              '</button>' +
-            '</div>'
-          );
-        } else if (idx === 2) {
-          // Last block on current 3-block row, button to jump to next page
-          const nextPage = (currentPage + 1) % totalPages;
-          const nextStart = (nextPage * 3 + 1).toString().padStart(2, '0');
-          const nextEnd = Math.min(modules.length, (nextPage + 1) * 3).toString().padStart(2, '0');
-          const nextPageLabel = 'Modules ' + nextStart + '–' + nextEnd;
-          blockNavHtml = (
-            '<div class="flex items-center justify-between flex-wrap gap-2">' +
-              '<span class="text-xs text-slate-600 font-mono font-bold">STAGE ' + (currentPage + 1) + ' COMPLETE</span>' +
-              '<button type="button" onclick="window.switchCurriculumPage(' + nextPage + ', \'' + mod.id + '\')" class="outline-block-nav-btn px-3.5 py-1.5 rounded-lg bg-slate-950 text-white text-xs font-mono font-bold transition-all cursor-pointer flex items-center gap-1 shadow-xs">' +
-                '<span>Next: ' + nextPageLabel + '</span>' +
-                '<i class="fa-solid fa-arrow-right text-[10px]"></i>' +
-              '</button>' +
-            '</div>'
-          );
-        } else if (idx === 0 && currentPage > 0) {
-          // First block on subsequent page, button to jump to prev page
-          const prevPage = currentPage - 1;
-          const prevStart = (prevPage * 3 + 1).toString().padStart(2, '0');
-          const prevEnd = ((prevPage + 1) * 3).toString().padStart(2, '0');
-          const prevPageLabel = 'Modules ' + prevStart + '–' + prevEnd;
-          const nextModNum = modules[globalModuleIndex + 1] ? modules[globalModuleIndex + 1].num : '';
-          blockNavHtml = (
-            '<div class="flex items-center justify-between flex-wrap gap-2">' +
-              '<button type="button" onclick="window.switchCurriculumPage(' + prevPage + ', \'' + mod.id + '\')" class="outline-block-nav-btn px-2.5 py-1 rounded-lg bg-slate-200 text-slate-900 text-xs font-mono font-bold transition-all cursor-pointer flex items-center gap-1">' +
-                '<i class="fa-solid fa-arrow-left text-[10px]"></i>' +
-                '<span>' + prevPageLabel + '</span>' +
-              '</button>' +
-              '<span class="text-xs text-slate-950 font-mono font-black">NEXT: MOD ' + nextModNum + ' &rarr;</span>' +
-            '</div>'
-          );
-        } else {
-          // Standard middle block or inner progression
-          const nextModNum = modules[globalModuleIndex + 1] ? modules[globalModuleIndex + 1].num : '';
-          blockNavHtml = (
-            '<div class="text-xs text-slate-600 font-mono flex items-center justify-between flex-wrap gap-2">' +
-              '<span class="font-bold">CORE_STAGE: ' + (m.shortTitle || 'FOUNDATIONS') + '</span>' +
-              '<span class="text-slate-950 font-black">NEXT: MOD ' + nextModNum + ' &rarr;</span>' +
-            '</div>'
-          );
-        }
-
-        const borderClass = isMiddle
-          ? 'shadow-md'
-          : 'border-slate-300';
-        const borderStyle = isMiddle
-          ? 'border-color: ' + theme.darkHex + '; box-shadow: 0 8px 24px -4px ' + theme.primaryHex + '35;'
-          : 'border-color: #cbd5e1;';
-
-        const positionLabel = isMiddle ? 'MIDDLE_BLOCK' : (idx === 0 ? 'START_BLOCK' : 'RIGHT_BLOCK');
-
-        return (
-          '<div class="outline-block-card p-4 sm:p-5 lg:p-6 bg-white border-2 ' + borderClass + ' rounded-2xl flex flex-col justify-between transition-all group shadow-sm" style="' + borderStyle + ' --block-theme-color: ' + theme.primaryHex + '; --block-theme-dark: ' + theme.darkHex + '; --block-theme-light: ' + theme.lightBg + '; --block-theme-border: ' + theme.borderHex + '; --block-theme-text: ' + theme.textHex + ';">' +
-            '<div>' +
-              '<!-- Top Header Strip with Outline Number in Colored Circle (01., 02., etc.) -->' +
-              '<div class="flex items-center justify-between pb-3 mb-3 border-b border-slate-200 flex-wrap gap-2">' +
-                '<div class="flex items-center gap-2.5 sm:gap-3.5">' +
-                  '<div class="outline-num-circle" style="background: ' + theme.primaryHex + '; color: ' + theme.textHex + '; border: 2.5px solid ' + theme.darkHex + '; box-shadow: 0 4px 14px ' + theme.primaryHex + '40;">' +
-                    m.num + '.' +
-                  '</div>' +
-                  '<div class="flex flex-col">' +
-                    '<span class="font-mono text-[10px] font-bold text-slate-500 uppercase tracking-widest">' +
-                      positionLabel +
-                    '</span>' +
-                    '<span class="font-mono text-xs font-extrabold text-slate-800">' + m.code + '</span>' +
-                  '</div>' +
-                '</div>' +
-                '<span class="px-2.5 py-1 rounded text-xs font-mono font-bold border transition-colors whitespace-nowrap" style="background: ' + (isMiddle ? theme.lightBg : '#f1f5f9') + '; color: ' + (isMiddle ? theme.darkTextHex : '#0f172a') + '; border-color: ' + (isMiddle ? theme.borderHex : '#cbd5e1') + ';">' +
-                  'STAGE § ' + m.num +
-                '</span>' +
-              '</div>' +
-              '<!-- Module Title & Outline Scope -->' +
-              '<h4 class="font-headline font-black text-slate-950 text-lg sm:text-xl lg:text-2xl mb-2 leading-snug">' +
-                m.title +
-              '</h4>' +
-              '<p class="text-xs sm:text-sm text-slate-700 leading-relaxed font-sans mb-4 sm:mb-5 font-normal">' +
-                m.desc +
-              '</p>' +
-              '<!-- Outline Checklist -->' +
-              '<div class="space-y-2 sm:space-y-2.5 pt-3 border-t border-slate-100">' +
-                '<div class="flex items-center justify-between text-xs font-mono text-slate-600 font-extrabold uppercase tracking-wider pb-1">' +
-                  '<span>Curriculum Outline</span>' +
-                  '<span class="text-slate-900 font-bold">Interactive</span>' +
-                '</div>' +
-                sectionsHtml +
-              '</div>' +
-            '</div>' +
-            '<!-- Block Navigation / Footer -->' +
-            '<div class="pt-4 mt-5 sm:mt-6 border-t border-slate-200">' +
-              blockNavHtml +
-            '</div>' +
-          '</div>'
-        );
-      })
-      .join('');
-
-    // Segmented page switcher buttons
-    const pageButtonsHtml = Array.from({ length: totalPages }).map((_, pIdx) => {
-      const isPageActive = currentPage === pIdx;
-      const startNum = (pIdx * 3 + 1).toString().padStart(2, '0');
-      const endNum = Math.min(modules.length, (pIdx + 1) * 3).toString().padStart(2, '0');
-      const label = 'Modules ' + parseInt(startNum, 10) + '–' + parseInt(endNum, 10);
-      
-      const btnStyle = isPageActive
-        ? 'background: ' + theme.activeBtnBg + '; color: ' + theme.activeBtnText + '; font-weight: 900; box-shadow: 0 1px 3px rgba(0,0,0,0.25);'
-        : 'color: ' + theme.inactiveBtnText + '; font-weight: 700;';
-
+    // Mobile quick-jump pill buttons
+    const mobilePillsHtml = modules.map((m, idx) => {
       return (
-        '<button type="button" onclick="window.switchCurriculumPage(' + pIdx + ', \'' + mod.id + '\')" class="outline-page-btn px-3 sm:px-4 py-1.5 sm:py-2 rounded-md text-[11px] sm:text-xs shrink-0 whitespace-nowrap transition-all cursor-pointer ' + (isPageActive ? 'active' : '') + '" style="' + btnStyle + '">' +
-          label +
+        '<button type="button" onclick="window.scrollToModule(\'' + m.num + '\')" data-mobile-module="' + m.num + '" class="mobile-module-pill px-3 py-1.5 rounded-lg text-xs font-mono font-bold whitespace-nowrap bg-white text-slate-800 shadow-xs border border-slate-200 shrink-0 cursor-pointer transition-all hover:bg-slate-900 hover:text-white ' + (idx === 0 ? 'active' : '') + '">' +
+          '<span>Mod ' + m.num + '</span>' +
         '</button>'
       );
     }).join('');
 
-    const nextPageIndex = (currentPage + 1) % totalPages;
-    const nextStartNum = (nextPageIndex * 3 + 1).toString().padStart(2, '0');
-    const nextEndNum = Math.min(modules.length, (nextPageIndex + 1) * 3).toString().padStart(2, '0');
-    const nextButtonText = nextPageIndex === 0 
-      ? '← Back to Modules (1–3)' 
-      : 'Next Modules (' + parseInt(nextStartNum, 10) + '–' + parseInt(nextEndNum, 10) + ') →';
-
-    container.innerHTML = (
-      '<div class="os-white-card w-full border-2 overflow-hidden transition-all shadow-md" style="--block-theme-color: ' + theme.primaryHex + '; border-color: ' + theme.borderHex + '; border-top: 6px solid ' + theme.primaryHex + '; box-shadow: 0 8px 30px -4px ' + theme.primaryHex + '25;">' +
-        '<!-- Scientific Specification Window Titlebar -->' +
-        '<div class="os-window-header px-4 sm:px-6 md:px-8 lg:px-12 py-3 sm:py-3.5 flex items-center justify-between flex-wrap gap-2.5" id="matrixCurriculumOutlineAnchor" style="border-bottom: 2px solid ' + theme.borderHex + '; background: linear-gradient(180deg, #ffffff 0%, ' + theme.lightBg + ' 100%);">' +
-          '<div class="flex items-center gap-2 min-w-0 max-w-full">' +
-            '<div class="font-mono text-xs sm:text-sm text-slate-800 flex items-center gap-2 font-bold truncate">' +
-              '<i class="' + mod.icon + ' text-[14px] shrink-0" style="color: ' + theme.primaryHex + ';"></i>' +
-              '<span class="truncate">/usr/local/matrix/curriculum/' + mod.fileName + '</span>' +
+    // Sidebar navigation links for all 1-9 modules
+    const sidebarLinksHtml = modules.map((m, idx) => {
+      return (
+        '<button type="button" onclick="window.scrollToModule(\'' + m.num + '\')" data-sidebar-module="' + m.num + '" id="sidebar-nav-btn-' + m.num + '" class="sidebar-module-link w-full text-left p-2.5 rounded-xl transition-all flex items-start gap-2.5 group cursor-pointer hover:bg-slate-100 ' + (idx === 0 ? 'active' : '') + '">' +
+          '<span class="sidebar-module-num w-6 h-6 rounded-md flex items-center justify-center font-mono text-xs font-black shrink-0 transition-colors bg-slate-100 text-slate-800 group-hover:bg-slate-200">' +
+            m.num +
+          '</span>' +
+          '<div class="min-w-0 flex-1">' +
+            '<div class="font-headline font-bold text-xs sm:text-sm text-slate-900 truncate group-hover:text-slate-950">' +
+              (m.shortTitle || m.title) +
+            '</div>' +
+            '<div class="text-[11px] font-mono text-slate-500">' +
+              (m.sections ? m.sections.length : 0) + ' Lessons • ' + (m.code || 'Stage ' + m.num) +
             '</div>' +
           '</div>' +
+        '</button>'
+      );
+    }).join('');
 
-          '<div class="font-mono text-xs sm:text-sm text-slate-800 font-extrabold flex items-center gap-2 flex-wrap shrink-0">' +
-            '<span class="px-2.5 py-1 rounded font-black border text-xs whitespace-nowrap" style="background: ' + theme.primaryHex + '; color: ' + theme.textHex + '; border-color: ' + theme.darkHex + ';">' + mod.trackBadge + '</span>' +
-            '<span class="text-xs whitespace-nowrap">' + modules.length.toString().padStart(2, '0') + ' MODULES // 3-BLOCK OUTLINE</span>' +
-          '</div>' +
-        '</div>' +
-
-        '<!-- Main Card Body -->' +
-        '<div class="py-5 sm:py-7 md:py-8 px-4 sm:px-6 md:px-8 lg:px-12 space-y-6 sm:space-y-8">' +
-          
-          '<!-- Scientific Header & Technical Parameters -->' +
-          '<div class="pb-4 sm:pb-5 border-b border-slate-200">' +
-            '<div class="font-mono text-[11px] sm:text-xs text-slate-600 tracking-wider mb-2.5 flex items-center gap-x-2 gap-y-1 flex-wrap">' +
-              '<span class="font-black text-slate-900 whitespace-nowrap">SPEC_ID: ' + mod.specId + '</span>' +
-              '<span class="text-slate-300 hidden sm:inline">/</span>' +
-              '<span class="font-bold text-slate-800 whitespace-nowrap">TIER: ' + mod.tier.toUpperCase() + '</span>' +
-              '<span class="text-slate-300 hidden sm:inline">/</span>' +
-              '<span class="font-bold text-slate-800 whitespace-nowrap">DOMAIN: ' + mod.category.toUpperCase() + '</span>' +
-              '<span class="text-slate-300 hidden sm:inline">/</span>' +
-              '<span class="font-bold text-slate-800 whitespace-nowrap">DURATION: ' + mod.duration + '</span>' +
-              '<span class="text-slate-300 hidden sm:inline">/</span>' +
-              '<span class="text-slate-950 font-black whitespace-nowrap">STRUCTURE: 3 BLOCKS</span>' +
-            '</div>' +
-            '<h2 class="font-headline font-black text-2xl sm:text-3xl lg:text-4xl text-slate-950 tracking-tight leading-tight mb-2.5">' +
-              mod.title +
-            '</h2>' +
-            '<p class="font-sans text-xs sm:text-sm sm:text-base text-slate-800 leading-relaxed max-w-5xl font-medium">' +
-              mod.summary +
-            '</p>' +
-          '</div>' +
-
-          '<!-- 3-Block Outline Interactive Switcher / Pagination Toolbar (The Whole Bar Highlights in Track Color) -->' +
-          '<div class="flex flex-col sm:flex-row sm:items-center justify-between gap-3 p-3.5 sm:p-4 rounded-xl font-mono text-xs shadow-sm transition-all" style="background: ' + theme.primaryHex + '; border: 1.5px solid ' + theme.darkHex + '; color: ' + theme.textHex + ';">' +
-            '<div class="flex items-center gap-2.5 sm:gap-3 flex-wrap min-w-0 max-w-full">' +
-              '<span class="font-black flex items-center gap-1.5 text-xs sm:text-sm tracking-wide shrink-0" style="color: ' + theme.textHex + ';">' +
-                '<i class="fa-solid fa-layer-group text-sm" style="color: ' + theme.textHex + ';"></i>' +
-                '<span>OUTLINE_BLOCKS:</span>' +
-              '</span>' +
-              '<div class="outline-pill-scroll inline-flex rounded-lg p-1 shadow-inner backdrop-blur-xs max-w-full gap-1" style="background: ' + theme.pillContainerBg + '; border: 1px solid ' + theme.pillContainerBorder + ';">' +
-                pageButtonsHtml +
+    // White Panels for ALL 1–9 Modules
+    const modulePanelsHtml = modules.map((m) => {
+      const sectionsHtml = (m.sections || []).map((sec, secIdx) => {
+        return (
+          '<div class="lesson-row-container mb-3" id="lesson-row-' + m.num + '-' + sec.id + '">' +
+            '<div class="lesson-card-item p-3 sm:p-4 rounded-xl bg-slate-50 border border-slate-200 transition-all flex items-center justify-between gap-3 group/item hover:bg-slate-100/80">' +
+              '<div class="flex items-center gap-3 min-w-0 flex-1">' +
+                '<span class="lesson-badge-num w-7 h-7 rounded-lg bg-slate-200 text-slate-900 font-mono text-xs font-black flex items-center justify-center shrink-0 transition-colors">' +
+                  (secIdx + 1) +
+                '</span>' +
+                '<div class="min-w-0 flex-1">' +
+                  '<div class="font-sans text-xs sm:text-sm lg:text-base font-bold text-slate-900 leading-snug break-words" title="' + sec.title + '">' +
+                    sec.title +
+                  '</div>' +
+                  (sec.summary ? '<div class="text-[11px] sm:text-xs text-slate-600 font-sans mt-0.5 line-clamp-2 leading-relaxed">' + sec.summary + '</div>' : '') +
+                '</div>' +
               '</div>' +
-            '</div>' +
-
-            '<div class="flex items-center gap-2 shrink-0 w-full sm:w-auto">' +
-              '<button type="button" onclick="window.switchCurriculumPage(null, \'' + mod.id + '\')" class="outline-next-page-btn w-full sm:w-auto px-4 sm:px-5 py-2 sm:py-2.5 rounded-lg font-black text-xs transition-all flex items-center justify-center gap-2 cursor-pointer shadow-sm hover:opacity-90" style="background: ' + theme.actionBtnBg + '; color: ' + theme.actionBtnText + '; border: 1px solid ' + theme.actionBtnBorder + ';">' +
-                '<span>' + nextButtonText + '</span>' +
+              '<button type="button" onclick="window.startCurriculumSection(\'' + m.num + '\', \'' + sec.id + '\', \'' + mod.id + '\')" class="start-lesson-btn shrink-0 px-3.5 sm:px-4 py-2 rounded-xl bg-slate-950 text-white font-mono text-xs font-bold transition-all shadow-xs flex items-center gap-1.5 cursor-pointer hover:bg-slate-800 hover:scale-[1.02] active:scale-[0.98]">' +
+                '<span class="btn-text-full">Start Lesson</span>' +
+                '<span class="btn-text-short hidden sm:inline">Start</span>' +
+                '<i class="fa-solid fa-play text-[8px] text-amber-400"></i>' +
               '</button>' +
             '</div>' +
+            '<!-- Inline Interactive Sandbox for this Section (NO POP-UP) -->' +
+            '<div id="inline-sandbox-' + m.num + '-' + sec.id + '" class="inline-lesson-sandbox hidden mt-3"></div>' +
+          '</div>'
+        );
+      }).join('');
+
+      return (
+        '<div id="module-panel-' + m.num + '" class="module-white-panel bg-white rounded-2xl sm:rounded-3xl p-6 sm:p-8 lg:p-10 shadow-xl border border-white/60 mb-6 sm:mb-8 text-slate-900 scroll-mt-20">' +
+          '<!-- Module Header Strip -->' +
+          '<div class="flex items-center justify-between pb-3 mb-4 border-b border-slate-200 flex-wrap gap-2">' +
+            '<div class="flex items-center gap-2.5">' +
+              '<span class="px-3 py-1 rounded-lg font-mono text-xs font-black" style="background: ' + theme.lightBg + '; color: ' + theme.darkTextHex + '; border: 1.5px solid ' + theme.borderHex + ';">MODULE ' + m.num + '</span>' +
+              (m.code ? '<span class="font-mono text-xs font-extrabold text-slate-600">' + m.code + '</span>' : '') +
+            '</div>' +
+            '<span class="px-2.5 py-1 rounded-md text-[11px] font-mono font-bold bg-slate-100 text-slate-700 border border-slate-200">' + (m.sections ? m.sections.length : 0) + ' Lessons Outline</span>' +
           '</div>' +
 
-          '<!-- THE THREE BLOCKS IN A ROW (RESPONSIVE: 1 COL ON MOBILE & TABLET, 3 COLS ON DESKTOP) -->' +
-          '<div class="grid grid-cols-1 lg:grid-cols-3 gap-5 lg:gap-6">' +
-            blocksHtml +
-          '</div>' +
+          '<!-- Module Title & Scope -->' +
+          '<h3 class="font-headline font-black text-xl sm:text-2xl lg:text-3xl text-slate-950 mb-2 leading-snug">' +
+            m.title +
+          '</h3>' +
+          '<p class="text-xs sm:text-sm text-slate-700 leading-relaxed font-sans mb-6 font-normal">' +
+            m.desc +
+          '</p>' +
 
+          '<!-- Curriculum Outline Checklist -->' +
+          '<div class="space-y-2 pt-3 border-t border-slate-100">' +
+            '<div class="flex items-center justify-between text-xs font-mono text-slate-600 font-extrabold uppercase tracking-wider pb-2">' +
+              '<span>Curriculum Outline (' + (m.sections ? m.sections.length : 0) + ' Lessons)</span>' +
+              '<span class="text-slate-900 font-bold flex items-center gap-1.5"><i class="fa-solid fa-code text-[11px] text-sky-600"></i> Interactive Sandbox</span>' +
+            '</div>' +
+            sectionsHtml +
+          '</div>' +
+        '</div>'
+      );
+    }).join('');
+
+    container.innerHTML = (
+      '<!-- Full Page Themed Learning Module Container in Module Theme Color -->' +
+      '<div class="track-page-container w-full rounded-2xl sm:rounded-3xl p-3 sm:p-6 lg:p-8 shadow-2xl transition-all border-4" style="background-color: ' + theme.primaryHex + '; background-image: linear-gradient(145deg, ' + theme.darkHex + ' 0%, ' + theme.primaryHex + ' 50%, ' + theme.darkHex + ' 100%); border-color: ' + theme.darkHex + '; --track-theme-color: ' + theme.primaryHex + '; --track-theme-text: ' + theme.textHex + '; --track-theme-dark: ' + theme.darkHex + ';">' +
+        
+        '<!-- Mobile Top Horizontal Pill Switcher -->' +
+        '<div class="lg:hidden sticky top-14 z-30 flex items-center gap-2 overflow-x-auto py-2.5 px-3 bg-white/95 backdrop-blur-md rounded-xl shadow-md border border-white/60 mb-5 scrollbar-none">' +
+          '<span class="text-xs font-mono font-black text-slate-600 uppercase shrink-0 flex items-center gap-1"><i class="fa-solid fa-compass text-sky-600"></i> Modules:</span>' +
+          mobilePillsHtml +
+        '</div>' +
+
+        '<!-- 2-Column Responsive Layout: Sidebar on Left & Modules on Right -->' +
+        '<div class="flex flex-col lg:flex-row gap-6 lg:gap-8 items-start">' +
+          
+          '<!-- Sticky Module Navigation Sidebar (Left Column) -->' +
+          '<aside class="hidden lg:block w-72 xl:w-80 shrink-0 sticky top-16 z-20 self-start">' +
+            '<div class="bg-white rounded-2xl sm:rounded-3xl shadow-xl p-5 border border-white/80 space-y-4">' +
+              '<!-- Sidebar Header -->' +
+              '<div class="pb-3 border-b border-slate-200">' +
+                '<div class="flex items-center justify-between mb-1.5">' +
+                  '<div class="flex items-center gap-2 font-mono text-xs font-bold text-slate-800">' +
+                    '<i class="' + mod.icon + ' text-base" style="color: ' + theme.primaryHex + ';"></i>' +
+                    '<span class="font-black text-slate-900 truncate">' + mod.fileName + '</span>' +
+                  '</div>' +
+                  '<span class="px-2 py-0.5 rounded text-[10px] font-mono font-black border shadow-2xs" style="background: ' + theme.primaryHex + '; color: ' + theme.textHex + '; border-color: ' + theme.darkHex + ';">' +
+                    mod.trackBadge +
+                  '</span>' +
+                '</div>' +
+                '<div class="text-[11px] font-mono text-slate-500 font-medium flex items-center justify-between">' +
+                  '<span>Curriculum Navigator</span>' +
+                  '<span class="font-bold text-slate-700">' + modules.length + ' Modules (01–' + modules.length.toString().padStart(2, '0') + ')</span>' +
+                '</div>' +
+              '</div>' +
+
+              '<!-- Sidebar Navigation Links for All Modules 1-9 -->' +
+              '<div class="space-y-1 max-h-[calc(100vh-17rem)] overflow-y-auto pr-1 scrollbar-none">' +
+                sidebarLinksHtml +
+              '</div>' +
+
+              '<!-- Sidebar Utility Actions -->' +
+              '<div class="pt-3 border-t border-slate-200 flex items-center justify-between gap-2 text-xs font-mono">' +
+                '<button type="button" onclick="window.scrollTo({ top: 0, behavior: \'smooth\' })" class="px-3 py-1.5 rounded-lg bg-slate-100 hover:bg-slate-200 text-slate-700 font-bold transition-colors cursor-pointer flex items-center gap-1">' +
+                  '<i class="fa-solid fa-arrow-up text-[10px]"></i> Top' +
+                '</button>' +
+                '<button type="button" onclick="window.openMatrixGrid()" class="px-3 py-1.5 rounded-lg bg-slate-950 text-white font-bold transition-colors cursor-pointer flex items-center gap-1">' +
+                  '<i class="fa-solid fa-table-cells text-[10px]"></i> All Tracks' +
+                '</button>' +
+              '</div>' +
+            '</div>' +
+          '</aside>' +
+
+          '<!-- Modules Feed in White Panels (Right Column) -->' +
+          '<div class="flex-1 min-w-0 w-full space-y-6 sm:space-y-8">' +
+            
+            '<!-- Track Hero White Panel (Specification & Overview) -->' +
+            '<div class="bg-white rounded-2xl sm:rounded-3xl p-6 sm:p-8 lg:p-10 shadow-xl border border-white/60 text-slate-900">' +
+              '<div class="font-mono text-[11px] sm:text-xs text-slate-600 tracking-wider mb-2.5 flex items-center gap-x-2 gap-y-1 flex-wrap">' +
+                '<span class="font-black text-slate-900 whitespace-nowrap">SPEC_ID: ' + mod.specId + '</span>' +
+                '<span class="text-slate-300 hidden sm:inline">/</span>' +
+                '<span class="font-bold text-slate-800 whitespace-nowrap">TIER: ' + mod.tier.toUpperCase() + '</span>' +
+                '<span class="text-slate-300 hidden sm:inline">/</span>' +
+                '<span class="font-bold text-slate-800 whitespace-nowrap">DOMAIN: ' + mod.category.toUpperCase() + '</span>' +
+                '<span class="text-slate-300 hidden sm:inline">/</span>' +
+                '<span class="font-bold text-slate-800 whitespace-nowrap">DURATION: ' + mod.duration + '</span>' +
+                '<span class="text-slate-300 hidden sm:inline">/</span>' +
+                '<span class="text-slate-950 font-black whitespace-nowrap">' + modules.length + ' MODULES (01–' + modules.length.toString().padStart(2, '0') + ')</span>' +
+              '</div>' +
+              '<h2 class="font-headline font-black text-2xl sm:text-3xl lg:text-4xl text-slate-950 tracking-tight leading-tight mb-3">' +
+                mod.title +
+              '</h2>' +
+              '<p class="font-sans text-xs sm:text-sm sm:text-base text-slate-800 leading-relaxed max-w-5xl font-medium">' +
+                mod.summary +
+              '</p>' +
+            '</div>' +
+
+            '<!-- All Modules 1-9 in Sequential White Panels -->' +
+            modulePanelsHtml +
+
+          '</div>' +
         '</div>' +
       '</div>'
     );
+
+    // Setup ScrollSpy to dynamically highlight the current module in the sidebar
+    initCurriculumScrollSpy(modules);
+  }
+
+  // ScrollSpy observer to highlight active module in sidebar as user scrolls
+  let curriculumObserver = null;
+  function initCurriculumScrollSpy(modules) {
+    if (curriculumObserver) {
+      curriculumObserver.disconnect();
+    }
+
+    if (!('IntersectionObserver' in window)) return;
+
+    curriculumObserver = new IntersectionObserver(
+      (entries) => {
+        entries.forEach((entry) => {
+          if (entry.isIntersecting) {
+            const id = entry.target.id;
+            const match = id.match(/module-panel-(\d+)/);
+            if (match) {
+              const moduleNum = match[1];
+              updateActiveSidebarModule(moduleNum);
+            }
+          }
+        });
+      },
+      {
+        root: null,
+        rootMargin: '-20% 0px -60% 0px',
+        threshold: 0.1
+      }
+    );
+
+    modules.forEach((m) => {
+      const panel = document.getElementById('module-panel-' + m.num);
+      if (panel) {
+        curriculumObserver.observe(panel);
+      }
+    });
   }
 
   // Backward compatibility alias

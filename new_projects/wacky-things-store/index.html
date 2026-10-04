@@ -568,13 +568,13 @@
         }
 
         /* 4. SECONDARY / GHOST / NEUTRAL BUTTONS */
-        #screen-regular header button:not(.bg-appetite-700):not(#header-learning-btn):not(#search-clear-btn):not(#header-blog-btn):not(#header-shipping-btn):not(#header-catalog-btn):not(#floating-cart-btn) {
+        #screen-regular header button:not(.bg-appetite-700):not(#header-learning-btn):not(#header-cart-btn):not(#search-clear-btn):not(#header-blog-btn):not(#header-shipping-btn):not(#header-catalog-btn):not(#floating-cart-btn) {
             background: #ffffff !important;
             border: 1px solid rgba(167, 139, 250, 0.55) !important;
             color: #2E1065 !important;
         }
 
-        #screen-regular header button:not(.bg-appetite-700):not(#header-learning-btn):not(#search-clear-btn):not(#header-blog-btn):not(#header-shipping-btn):not(#header-catalog-btn):not(#floating-cart-btn):hover {
+        #screen-regular header button:not(.bg-appetite-700):not(#header-learning-btn):not(#header-cart-btn):not(#search-clear-btn):not(#header-blog-btn):not(#header-shipping-btn):not(#header-catalog-btn):not(#floating-cart-btn):hover {
             background: #F4EFFF !important;
             border-color: #8B5CF6 !important;
             transform: translateY(-1.5px);
@@ -688,63 +688,39 @@
             font-size: 1.15rem !important;
         }
 
-        /* FLOATING CART CIRCULAR BUTTON (FIXED LOWER RIGHT - TEAL WITH ICON, BADGE & LABEL) */
-        #floating-cart-btn {
-            position: fixed !important;
-            bottom: 1.5rem !important;
-            right: 1.5rem !important;
-            z-index: 9990 !important;
-            width: 3.9rem !important;
-            height: 3.9rem !important;
-            border-radius: 9999px !important;
+        /* HEADER BUTTON 5: CART (TEAL - ICON ONLY WITH BADGE, MATCHING SHAPE) */
+        #header-cart-btn,
+        button#header-cart-btn,
+        header #header-cart-btn {
             background: #0D9488 !important;
-            border: 2.5px solid #2DD4BF !important;
+            border: 1px solid #0F766E !important;
             color: #ffffff !important;
-            display: flex !important;
-            flex-direction: column !important;
-            align-items: center !important;
-            justify-content: center !important;
-            gap: 1px !important;
-            box-shadow: 0 12px 28px -4px rgba(13, 148, 136, 0.55), 0 4px 10px rgba(0, 0, 0, 0.2) !important;
-            transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1) !important;
-            cursor: pointer !important;
-            text-decoration: none !important;
-            user-select: none !important;
-            padding: 0 !important;
+            font-weight: 700 !important;
+            box-shadow: 0 4px 14px -2px rgba(13, 148, 136, 0.45) !important;
         }
 
-        #floating-cart-btn:hover {
+        #header-cart-btn:hover,
+        button#header-cart-btn:hover,
+        header #header-cart-btn:hover {
             background: #0F766E !important;
-            border-color: #5EEAD4 !important;
-            transform: scale(1.08) translateY(-2px) !important;
-            box-shadow: 0 16px 36px -4px rgba(13, 148, 136, 0.7), 0 6px 14px rgba(0, 0, 0, 0.25) !important;
+            border-color: #115E59 !important;
+            color: #ffffff !important;
+            transform: translateY(-1.5px) !important;
+            box-shadow: 0 6px 18px -2px rgba(15, 118, 110, 0.55) !important;
         }
 
-        #floating-cart-btn:active {
-            transform: scale(0.94) !important;
+        #header-cart-btn:active,
+        button#header-cart-btn:active,
+        header #header-cart-btn:active {
+            transform: scale(0.95) !important;
         }
 
-        #floating-cart-btn i {
+        #header-cart-btn i {
             color: #ffffff !important;
             font-size: 1.15rem !important;
-            line-height: 1 !important;
-            margin-top: 2px !important;
-            transition: transform 0.2s ease !important;
         }
 
-        #floating-cart-btn:hover i {
-            transform: scale(1.1) !important;
-        }
-
-        .floating-cart-label {
-            font-size: 0.60rem !important;
-            font-weight: 800 !important;
-            letter-spacing: 0.04em !important;
-            text-transform: uppercase !important;
-            color: #ffffff !important;
-            line-height: 1 !important;
-            font-family: 'JetBrains Mono', 'Inter', monospace, sans-serif !important;
-        }
+        /* CART BADGE (ROUNDED NOTIFICATION BADGE ON HEADER CART BUTTON) */
 
         .floating-cart-badge {
             position: absolute !important;
@@ -2436,6 +2412,20 @@
                     class="h-10 px-3.5 rounded-xl bg-[#D946EF] hover:bg-[#C026D3] text-white text-xs font-bold flex items-center justify-center gap-1.5 transition-all shadow-md shadow-pink-900/20 active:scale-95 cursor-pointer border border-[#C026D3] shrink-0"
                     title="Funny Academy">
                     <i id="headerLearningIcon" class="fa-solid fa-graduation-cap text-base text-white"></i>
+                </button>
+
+                <!-- 5. Cart Drawer Trigger (TEAL - Icon-only with badge, shaped like Funny Academy button) -->
+                <button type="button" onclick="window.openCartDrawer()" id="header-cart-btn"
+                    data-blueprint-file="WackyStore.WebUI/Controllers/CartController.cs"
+                    data-blueprint-role="Cart Drawer Controller Trigger"
+                    data-blueprint-layer="WebUI / Navigation &amp; Cart"
+                    data-blueprint-dom="Solid bold teal action button opening the slide-out shopping cart drawer, icon-only matching the academy button."
+                    data-blueprint-desc="Opens slide-over cart drawer displaying line items, quantities, and checkout triggers."
+                    data-blueprint-code="public ActionResult Drawer() => PartialView(&quot;_CartDrawer&quot;, cart);"
+                    class="relative h-10 px-3.5 rounded-xl bg-teal-600 hover:bg-teal-700 text-white text-xs font-bold flex items-center justify-center gap-1.5 transition-all shadow-md shadow-teal-900/20 active:scale-95 cursor-pointer border border-teal-500 shrink-0"
+                    title="Shopping Cart" aria-label="Shopping Cart">
+                    <i class="fa-solid fa-cart-shopping text-base text-white"></i>
+                    <span id="header-cart-count" class="floating-cart-badge">0</span>
                 </button>
 
             </div>
@@ -5277,12 +5267,6 @@
 
     <!-- CLIENT APPLICATION SCRIPT -->
     
-    <!-- Floating Teal Cart Action Button (Fixed in Lower Right with Count Badge and Label) -->
-    <button id="floating-cart-btn" onclick="window.openCartDrawer()" title="Shopping Cart" aria-label="Shopping Cart">
-        <span id="floating-cart-count" class="floating-cart-badge">0</span>
-        <i class="fa-solid fa-cart-shopping"></i>
-        <span class="floating-cart-label">Cart</span>
-    </button>
 
     <script src="script.js?v=1790400000001"></script>
 

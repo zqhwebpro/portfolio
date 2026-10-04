@@ -716,3 +716,65 @@ body {
     display: none;
   }
 }
+
+/* ═══════════════════════════════════════════════════════════════════
+   9. FULL-PAGE MODULE WORKBENCH WITH THEMED BACKGROUND & SIDEBAR
+   ═══════════════════════════════════════════════════════════════════ */
+
+.track-page-container {
+  transition: background-color 0.35s ease, border-color 0.35s ease;
+  position: relative;
+}
+
+.module-white-panel {
+  transition: transform 0.22s cubic-bezier(0.16, 1, 0.3, 1), box-shadow 0.22s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.module-white-panel:hover {
+  box-shadow: 0 24px 50px -12px rgba(0, 0, 0, 0.25);
+}
+
+/* Sticky Module Navigation Sidebar */
+.sidebar-module-link {
+  transition: all 0.18s cubic-bezier(0.16, 1, 0.3, 1);
+  position: relative;
+}
+
+.sidebar-module-link.active {
+  background: #f8fafc !important;
+  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.08);
+}
+
+.sidebar-module-link.active .sidebar-module-num {
+  background: var(--track-theme-color, #0f172a) !important;
+  color: var(--track-theme-text, #ffffff) !important;
+  box-shadow: 0 2px 8px var(--track-theme-color, rgba(0,0,0,0.3));
+}
+
+.sidebar-module-link.active::before {
+  content: '';
+  position: absolute;
+  left: 0;
+  top: 15%;
+  bottom: 15%;
+  width: 4px;
+  border-radius: 0 4px 4px 0;
+  background: var(--track-theme-color, #0f172a);
+}
+
+/* Inline Lesson Sandbox (Smooth expansion instead of pop-up) */
+.inline-lesson-sandbox {
+  animation: inlineSandboxSlideDown 0.25s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+}
+
+@keyframes inlineSandboxSlideDown {
+  from {
+    opacity: 0;
+    transform: translateY(-8px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+

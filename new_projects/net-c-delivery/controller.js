@@ -6,6 +6,12 @@
 const STORAGE_KEY_API = 'dinerdashboard_delivery_api_state_v6';
 const STORAGE_KEY_SITE = 'dinerdashboard_site_config_v5';
 
+// Pristine snapshot of the dashboard markup (captured before any runtime DOM mutation).
+// Used by Step 5 to build the exported startup index.html with the connected DinerDashboard.
+const PRISTINE_DASHBOARD_HTML = (typeof document !== 'undefined' && document.documentElement)
+    ? '<!DOCTYPE html>\n' + document.documentElement.outerHTML
+    : '';
+
 // Automated Client-Side Cache Cleanup & Purge Legacy Data
 (function purgeClientCaches() {
     try {
@@ -430,11 +436,21 @@ const DINER_MENU_CATALOG = [
     }
 ];
 
-// Load saved site configuration if explicitly created previously
+// Load saved site configuration if explicitly created previously.
+// Falls back to window.PRELOADED_SITE_CONFIG, which is embedded in the exported startup index.html.
 try {
     const rawSite = localStorage.getItem(STORAGE_KEY_SITE);
-    if (rawSite) {
-        const parsed = JSON.parse(rawSite);
+    let parsed = rawSite ? JSON.parse(rawSite) : null;
+    if ((!parsed || !parsed.restaurantName) && typeof window !== 'undefined' && window.PRELOADED_SITE_CONFIG) {
+        parsed = window.PRELOADED_SITE_CONFIG;
+        // Re-verify the gateway that was active when the site was exported
+        const gwKey = parsed.gatewayKey || Object.keys(DELIVERY_SERVICES).find(k => parsed.api && DELIVERY_SERVICES[k].name === parsed.api.name);
+        if (gwKey && DELIVERY_SERVICES[gwKey]) {
+            DELIVERY_SERVICES[gwKey].verified = true;
+            if (!currentSelectedGateway) currentSelectedGateway = gwKey;
+        }
+    }
+    if (parsed) {
         if (parsed.restaurantName) {
             currentSiteConfig = { ...currentSiteConfig, ...parsed };
             if (Array.isArray(parsed.menuItems) && parsed.menuItems.length > 0) {
@@ -500,11 +516,13 @@ function goToStep(stepNum, pushToHistory = true) {
     const s2 = document.getElementById('step2View');
     const s3 = document.getElementById('step3View');
     const s4 = document.getElementById('step4View');
+    const s5 = document.getElementById('step5View');
 
     if (s1) s1.classList.toggle('d-none', stepNum !== 1);
     if (s2) s2.classList.toggle('d-none', stepNum !== 2);
     if (s3) s3.classList.toggle('d-none', stepNum !== 3);
     if (s4) s4.classList.toggle('d-none', stepNum !== 4);
+    if (s5) s5.classList.toggle('d-none', stepNum !== 5);
 
     // Update side panel buttons
     const side1 = document.getElementById('sideStepTab1');
@@ -529,6 +547,11 @@ function goToStep(stepNum, pushToHistory = true) {
         side4.classList.toggle('active', stepNum === 4);
         side4.classList.toggle('verified', hasSyncedMenu);
     }
+    const side5 = document.getElementById('sideStepTab5');
+    if (side5) {
+        side5.classList.toggle('active', stepNum === 5);
+        side5.classList.toggle('verified', hasConfiguredSite);
+    }
 
     // Update OS folder tabs
     const f1 = document.getElementById('folderTab1');
@@ -551,6 +574,14 @@ function goToStep(stepNum, pushToHistory = true) {
     if (icon3) icon3.className = stepNum === 3 ? 'fa-solid fa-folder-open folder-icon' : 'fa-solid fa-folder folder-icon';
     if (icon4) icon4.className = stepNum === 4 ? 'fa-solid fa-folder-open folder-icon' : 'fa-solid fa-folder folder-icon';
 
+    const f5 = document.getElementById('folderTab5');
+    const icon5 = document.getElementById('folderIcon5');
+    if (f5) {
+        f5.classList.toggle('active', stepNum === 5);
+        f5.setAttribute('aria-selected', stepNum === 5 ? 'true' : 'false');
+    }
+    if (icon5) icon5.className = stepNum === 5 ? 'fa-solid fa-folder-open folder-icon' : 'fa-solid fa-folder folder-icon';
+
     // Update OS Breadcrumb ribbon
     const bc = document.getElementById('osActiveFolderBreadcrumb');
     if (bc) {
@@ -558,6 +589,7 @@ function goToStep(stepNum, pushToHistory = true) {
         else if (stepNum === 2) bc.innerHTML = '<i class="fa-regular fa-folder-open me-1 text-primary"></i>02_restaurant_setup';
         else if (stepNum === 3) bc.innerHTML = '<i class="fa-regular fa-folder-open me-1 text-primary"></i>03_directory_index';
         else if (stepNum === 4) bc.innerHTML = '<i class="fa-regular fa-folder-open me-1 text-primary"></i>04_sync_menu';
+        else if (stepNum === 5) bc.innerHTML = '<i class="fa-regular fa-folder-open me-1 text-primary"></i>05_export_site';
     }
 
     if (stepNum === 2) {
@@ -566,6 +598,8 @@ function goToStep(stepNum, pushToHistory = true) {
         renderDeployedSiteBanner();
     } else if (stepNum === 4) {
         renderStep4MenuTable();
+    } else if (stepNum === 5) {
+        renderStep5ExportView();
     }
 
     updateProgressiveState();
@@ -589,7 +623,10 @@ function goToStep(stepNum, pushToHistory = true) {
 function updateBackBtnState() {
     const backBtn = document.getElementById('back-btn-np');
     if (!backBtn) return;
-    if (currentStep === 4) {
+    if (currentStep === 5) {
+        backBtn.setAttribute('title', 'Back to Step 4: Sync Menu to Store');
+        backBtn.setAttribute('aria-label', 'Back to Step 4: Sync Menu to Store');
+    } else if (currentStep === 4) {
         backBtn.setAttribute('title', 'Back to Step 3: Directory & index.html');
         backBtn.setAttribute('aria-label', 'Back to Step 3: Directory & index.html');
     } else if (currentStep === 3) {
@@ -617,6 +654,12 @@ function initBackNavigation() {
                     modalInstance.hide();
                     return;
                 }
+            }
+
+            if (currentStep === 5) {
+                e.preventDefault();
+                goToStep(4);
+                return;
             }
 
             if (currentStep === 4) {
@@ -652,14 +695,9 @@ function initBackNavigation() {
         let targetStep = 1;
         if (e.state && e.state.step) {
             targetStep = e.state.step;
-        } else if (window.location.hash === '#step4') {
-            targetStep = 4;
-        } else if (window.location.hash === '#step3') {
-            targetStep = 3;
-        } else if (window.location.hash === '#step2') {
-            targetStep = 2;
         } else {
-            targetStep = 1;
+            const m = /^#step([1-5])$/.exec(window.location.hash);
+            targetStep = m ? parseInt(m[1], 10) : 1;
         }
 
         goToStep(targetStep, false);
@@ -2497,6 +2535,15 @@ function updateProgressiveState() {
         side4Badge.innerText = hasSyncedMenu ? `${currentSiteConfig.menuItems.length} Synced` : 'Pending Sync';
     }
 
+    const side5Badge = document.getElementById('sideStep5StatusBadge');
+    if (side5Badge) {
+        side5Badge.className = hasConfiguredSite ? 'side-step-badge verified' : 'side-step-badge neutral';
+        side5Badge.innerText = hasConfiguredSite ? 'Ready to Export' : 'Export Package';
+    }
+
+    const folderExportBadge = document.getElementById('folderExportBadge');
+    if (folderExportBadge) folderExportBadge.innerText = hasConfiguredSite ? 'Ready' : 'Export Package';
+
     // 4. Side Panel Active Gateway Widget Card
     const sideGwIconBox = document.getElementById('sideGwIconBox');
     const sideGwIcon = document.getElementById('sideGwIcon');
@@ -2560,6 +2607,265 @@ function showDinerToast(title, message, iconClass = 'fa-bell-concierge') {
 }
 
 // ═══════════════════════════════════════════════════════════════════
+// STEP 5: EXPORT SITE (DIRECTORY + STARTUP INDEX W/ CONNECTED DASHBOARD)
+// ═══════════════════════════════════════════════════════════════════
+function getExportSlug() {
+    return currentSiteConfig.slug || makeDirectorySlug(currentSiteConfig.restaurantName) || 'your-site';
+}
+
+function getActiveExportGateway() {
+    if (currentSelectedGateway && DELIVERY_SERVICES[currentSelectedGateway]) {
+        return { key: currentSelectedGateway, gw: DELIVERY_SERVICES[currentSelectedGateway] };
+    }
+    const key = Object.keys(DELIVERY_SERVICES).find(k => DELIVERY_SERVICES[k].verified) || 'uber';
+    return { key, gw: DELIVERY_SERVICES[key] };
+}
+
+// Config embedded in the export (strips client secrets — never ship keys inside static files)
+function buildExportConfig() {
+    const slug = getExportSlug();
+    const { key, gw } = getActiveExportGateway();
+    const cfg = JSON.parse(JSON.stringify(currentSiteConfig || {}));
+    cfg.slug = slug;
+    cfg.deployedDirectory = `./${slug}/index.html`;
+    cfg.gatewayKey = key;
+    if (cfg.api) {
+        delete cfg.api.defaultSecret;
+        delete cfg.api.secret;
+    } else if (gw) {
+        cfg.api = { name: gw.name, protocol: gw.protocol, latency: gw.latency, defaultLocationId: gw.defaultLocationId };
+    }
+    cfg.exportedAt = new Date().toISOString();
+    return cfg;
+}
+
+// Storefront for /[slug]/index.html — adds a link back to the startup dashboard one level up
+function generateExportedStorefrontHtml(config) {
+    const html = generateStandaloneStorefrontHtml(config);
+    const hubLink = `
+    <a href="../index.html#step5" title="Open DinerDashboard" style="position:fixed;left:18px;bottom:18px;z-index:9999;display:inline-flex;align-items:center;gap:8px;padding:10px 16px;border-radius:999px;background:#0f172a;color:#fff;font:600 13px 'Plus Jakarta Sans',system-ui,sans-serif;text-decoration:none;box-shadow:0 8px 24px rgba(15,23,42,.25);">
+        <i class="fa-solid fa-gauge-high"></i> DinerDashboard Hub
+    </a>
+</body>`;
+    return html.replace(/<\/body>(?![\s\S]*<\/body>)/i, hubLink);
+}
+
+// Startup index.html: the DinerDashboard itself, preloaded with this site's config and connected to ./[slug]/index.html
+function generateStartupDashboardHtml(config) {
+    let html = PRISTINE_DASHBOARD_HTML;
+    if (!html) return '';
+    const safeJson = JSON.stringify(config).replace(/</g, '\\u003c');
+    const slug = config.slug || 'your-site';
+
+    // Strip cache busters so bundled assets resolve as plain relative files
+    html = html.replace(/(\.\/(?:controller\.js|apex-theme\.css))\?v=[^"']*/g, '$1');
+    // Point every storefront link/iframe at the exported restaurant directory
+    html = html.replace(/\.\/your-site\/index\.html/g, `./${slug}/index.html`);
+    // Personalize the title
+    html = html.replace(/<title>[\s\S]*?<\/title>/i, `<title>${(config.restaurantName || 'Restaurant')} • DinerDashboard</title>`);
+
+    const bridge = `<script>
+        // Connected DinerDashboard bridge — generated by Step 5 Export
+        window.PRELOADED_SITE_CONFIG = ${safeJson};
+        window.EXPORTED_SITE_DIRECTORY = './${slug}/index.html';
+    </script>
+    <script src="./controller.js`;
+    html = html.replace('<script src="./controller.js', bridge);
+    return html;
+}
+
+function generateExportReadme(config) {
+    const slug = config.slug || 'your-site';
+    const gwName = (config.api && config.api.name) || 'Delivery Gateway';
+    return `# ${config.restaurantName || 'Restaurant'} — DinerDashboard Export
+
+Exported ${new Date().toLocaleString()} from DinerDashboard Step 5.
+
+## Package contents
+
+\`\`\`
+${slug}-delivery-suite/
+├── ${slug}/
+│   └── index.html     # Customer storefront (directory with index inside)
+├── index.html         # Startup index — DinerDashboard connected to ./${slug}/
+├── controller.js      # Dashboard engine
+├── apex-theme.css     # Dashboard styles
+└── README.md
+\`\`\`
+
+## Quickstart
+
+1. Unzip the package.
+2. Open \`index.html\` (startup file). The DinerDashboard boots with "${config.restaurantName}" preloaded
+   and ${gwName} marked as the active gateway.
+3. Open \`${slug}/index.html\` (or use Launch Storefront in the dashboard) to view the live storefront.
+4. To publish, upload the whole folder to any static host (GitHub Pages, Netlify, S3). The storefront
+   will be served at \`/${slug}/\`.
+
+## Notes
+
+- API secrets are intentionally **not** embedded in the export. Re-enter production keys in Step 1.
+- Synced menu items: ${(config.menuItems || []).length}.
+`;
+}
+
+function triggerFileDownload(content, filename, mime) {
+    const blob = content instanceof Blob ? content : new Blob([content], { type: mime || 'text/plain;charset=utf-8' });
+    const url = URL.createObjectURL(blob);
+    const a = document.createElement('a');
+    a.href = url;
+    a.download = filename;
+    document.body.appendChild(a);
+    a.click();
+    document.body.removeChild(a);
+    setTimeout(() => URL.revokeObjectURL(url), 1500);
+}
+
+async function fetchBundledAsset(path) {
+    try {
+        const res = await fetch(path, { cache: 'no-store' });
+        if (res.ok) return await res.text();
+    } catch (e) {}
+    return null;
+}
+
+function addStep5TelemetryRow(source, action, latency, details) {
+    const list = document.getElementById('step5TelemetryList');
+    if (!list) return;
+    const row = document.createElement('div');
+    row.className = 'stream-row';
+    const time = new Date().toTimeString().split(' ')[0];
+    const classes = ['stream-time', 'stream-source', 'stream-event', 'stream-latency', 'stream-status'];
+    [time, source, action, latency, details].forEach((val, i) => {
+        const span = document.createElement('span');
+        span.textContent = val;
+        span.className = classes[i];
+        row.appendChild(span);
+    });
+    list.insertBefore(row, list.firstChild);
+    if (list.children.length > 25) list.lastChild.remove();
+}
+
+function renderStep5ExportView() {
+    const cfg = buildExportConfig();
+    const slug = cfg.slug;
+    const { gw } = getActiveExportGateway();
+    const menuCount = Array.isArray(cfg.menuItems) ? cfg.menuItems.length : 0;
+
+    const setText = (id, txt) => { const el = document.getElementById(id); if (el) el.innerText = txt; };
+    setText('step5SlugBadge', `/${slug}/`);
+    setText('treeZipName', `${slug}-delivery-suite.zip`);
+    setText('treeSlugDir', `${slug}/`);
+    setText('step5ManifestName', cfg.restaurantName || 'Restaurant Storefront');
+    setText('step5ManifestDir', `/${slug}/index.html`);
+    setText('step5ManifestGateway', gw ? `${gw.name} • ${gw.verified ? '200 OK' : 'Demo'}` : 'No Gateway');
+    setText('step5ManifestMenuCount', menuCount > 0 ? `${menuCount} Items Injected` : 'Base menu (not synced)');
+    setText('step5GwTitle', `Export Package: ${cfg.restaurantName || 'Connected Diner Suite'}`);
+    setText('step5GwSubtitle', `/${slug}/index.html + startup index.html connected to DinerDashboard`);
+    setText('step5PackageBadge', `Package: ${slug}-delivery-suite.zip`);
+
+    // Live preview uses the compiled blob so it reflects current config
+    if (!deployedBlobUrl && cfg.restaurantName) {
+        try {
+            deployedBlobUrl = URL.createObjectURL(new Blob([generateStandaloneStorefrontHtml(currentSiteConfig)], { type: 'text/html;charset=utf-8' }));
+        } catch (e) {}
+    }
+    const liveBtn = document.getElementById('step5LivePreviewBtn');
+    if (liveBtn) liveBtn.href = deployedBlobUrl || `./your-site/index.html`;
+
+    const list = document.getElementById('step5TelemetryList');
+    if (list && list.children.length === 0) {
+        addStep5TelemetryRow('Site Exporter', 'EXPORT.MANIFEST_READY', '3 ms', `/${slug}/index.html`);
+        addStep5TelemetryRow('DinerDashboard', 'EXPORT.STARTUP_INDEX_LINKED', '2 ms', 'index.html → ./' + slug + '/');
+    }
+}
+
+async function exportFullSiteZip() {
+    playToyClick(760, 0.06);
+    if (!currentSiteConfig || !currentSiteConfig.restaurantName) {
+        showDinerToast('Restaurant Details Required 📋', 'Complete Step 2 before exporting your site.', 'fa-store');
+        return;
+    }
+
+    const t0 = performance.now();
+    const cfg = buildExportConfig();
+    const slug = cfg.slug;
+    const storefrontHtml = generateExportedStorefrontHtml(cfg);
+    const startupHtml = generateStartupDashboardHtml(cfg);
+    const readme = generateExportReadme(cfg);
+
+    if (typeof JSZip === 'undefined') {
+        // Fallback: deliver the two key files individually
+        triggerFileDownload(storefrontHtml, `${slug}__index.html`, 'text/html;charset=utf-8');
+        setTimeout(() => triggerFileDownload(startupHtml, 'index.html', 'text/html;charset=utf-8'), 400);
+        showDinerToast('ZIP Library Unavailable', 'Downloaded storefront and startup index.html separately instead.', 'fa-triangle-exclamation');
+        addStep5TelemetryRow('Site Exporter', 'EXPORT.FALLBACK_FILES', `${Math.round(performance.now() - t0)} ms`, 'JSZip not loaded');
+        return;
+    }
+
+    addStep5TelemetryRow('Site Exporter', 'EXPORT.BUNDLE_START', '0 ms', `${slug}-delivery-suite.zip`);
+
+    const [controllerSrc, cssSrc] = await Promise.all([
+        fetchBundledAsset('./controller.js'),
+        fetchBundledAsset('./apex-theme.css')
+    ]);
+
+    const zip = new JSZip();
+    const root = zip.folder(`${slug}-delivery-suite`);
+    root.folder(slug).file('index.html', storefrontHtml);
+    root.file('index.html', startupHtml);
+    root.file('README.md', readme);
+    if (controllerSrc) root.file('controller.js', controllerSrc);
+    if (cssSrc) root.file('apex-theme.css', cssSrc);
+
+    try {
+        const blob = await zip.generateAsync({ type: 'blob', compression: 'DEFLATE' });
+        triggerFileDownload(blob, `${slug}-delivery-suite.zip`);
+        const ms = `${Math.round(performance.now() - t0)} ms`;
+        addStep5TelemetryRow('Site Exporter', 'EXPORT.ZIP_COMPLETE', ms, `${(blob.size / 1024).toFixed(1)} KB`);
+        if (!controllerSrc || !cssSrc) {
+            addStep5TelemetryRow('Site Exporter', 'EXPORT.ASSET_SKIPPED', '-', 'Serve over http(s) to bundle controller.js / apex-theme.css');
+            showDinerToast('Site Exported (partial) 📦', 'controller.js / apex-theme.css could not be read from file://. Run via a local server to include them.', 'fa-file-zipper');
+        } else {
+            showDinerToast('Site Exported! 📦', `${slug}/index.html + startup index.html with connected DinerDashboard.`, 'fa-file-zipper');
+        }
+        addTelemetryLogRow('Site Exporter', 'SITE.ZIP_EXPORT', ms, `${slug}-delivery-suite.zip`);
+    } catch (err) {
+        addStep5TelemetryRow('Site Exporter', 'EXPORT.ZIP_FAILED', '-', String(err && err.message || err));
+        showDinerToast('Export Failed', 'Could not generate the ZIP package.', 'fa-triangle-exclamation');
+    }
+}
+
+function downloadStartupIndexHtml() {
+    playToyClick(720, 0.05);
+    const cfg = buildExportConfig();
+    triggerFileDownload(generateStartupDashboardHtml(cfg), 'index.html', 'text/html;charset=utf-8');
+    showDinerToast('Startup index.html Downloaded! 📥', `DinerDashboard preloaded and connected to ./${cfg.slug}/index.html.`, 'fa-gauge-high');
+    addStep5TelemetryRow('Site Exporter', 'EXPORT.STARTUP_INDEX', '4 ms', 'index.html');
+}
+
+function copySiteManifestJson() {
+    playToyClick(680, 0.04);
+    const json = JSON.stringify(buildExportConfig(), null, 2);
+    const done = () => {
+        showDinerToast('Config Copied 📋', 'Embedded site config JSON copied to clipboard.', 'fa-clipboard-check');
+        addStep5TelemetryRow('Site Exporter', 'EXPORT.CONFIG_COPIED', '1 ms', `${json.length} bytes`);
+    };
+    if (navigator.clipboard && navigator.clipboard.writeText) {
+        navigator.clipboard.writeText(json).then(done).catch(() => triggerFileDownload(json, 'site-config.json', 'application/json'));
+    } else {
+        triggerFileDownload(json, 'site-config.json', 'application/json');
+    }
+}
+
+// Brass kitchen bell (referenced by header, side panel and Step 5 footer)
+function ringDinerBell() {
+    playToyClick(1320, 0.12);
+    setTimeout(() => playToyClick(1760, 0.18), 90);
+    showDinerToast('Order Up! 🔔', 'Kitchen bell rung — tickets are ready for pickup.', 'fa-bell-concierge');
+}
+
+// ═══════════════════════════════════════════════════════════════════
 // INITIALIZATION
 // ═══════════════════════════════════════════════════════════════════
 if (typeof document !== 'undefined') {
@@ -2570,7 +2876,8 @@ if (typeof document !== 'undefined') {
 
         if (typeof window !== 'undefined' && window.history && window.history.replaceState) {
             const hash = window.location.hash;
-            const initialStep = (hash === '#step4') ? 4 : ((hash === '#step3') ? 3 : ((hash === '#step2') ? 2 : 1));
+            const stepMatch = /^#step([1-5])$/.exec(hash);
+            const initialStep = stepMatch ? parseInt(stepMatch[1], 10) : 1;
             window.history.replaceState({ step: initialStep, modal: null }, '', window.location.pathname + (hash.startsWith('#step') ? hash : '#step1'));
             if (initialStep !== 1) {
                 goToStep(initialStep, false);
@@ -2617,4 +2924,9 @@ if (typeof window !== 'undefined') {
     window.updateCatalogItemPrice = updateCatalogItemPrice;
     window.toggleSelectAllMenuItems = toggleSelectAllMenuItems;
     window.syncMenuToStorefront = syncMenuToStorefront;
+    window.renderStep5ExportView = renderStep5ExportView;
+    window.exportFullSiteZip = exportFullSiteZip;
+    window.downloadStartupIndexHtml = downloadStartupIndexHtml;
+    window.copySiteManifestJson = copySiteManifestJson;
+    window.ringDinerBell = ringDinerBell;
 }

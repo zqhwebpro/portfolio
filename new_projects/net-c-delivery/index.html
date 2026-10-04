@@ -33,7 +33,7 @@
         integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
 
     <!-- 100% Width Browser Web App Stylesheet with Cache Buster -->
-    <link rel="stylesheet" href="./apex-theme.css?v=20261003_v8">
+    <link rel="stylesheet" href="./apex-theme.css?v=20261004_v9">
 </head>
 
 <body>
@@ -133,6 +133,11 @@
                         <span class="folder-title">04_sync_menu</span>
                         <span class="folder-chip" id="folderMenuSyncBadge">Pending Sync</span>
                     </button>
+                    <button type="button" class="os-folder-tab" id="folderTab5" onclick="goToStep(5)" role="tab" aria-selected="false" title="Folder 05: Export Site">
+                        <i class="fa-solid fa-folder folder-icon" id="folderIcon5"></i>
+                        <span class="folder-title">05_export_site</span>
+                        <span class="folder-chip" id="folderExportBadge">Export Package</span>
+                    </button>
                 </div>
 
                 <!-- OS Status & Telemetry Indicators -->
@@ -163,10 +168,10 @@
                         <i class="fa-solid fa-layer-group text-primary"></i>
                         <span>Workflow Pipeline</span>
                     </div>
-                    <span class="side-panel-badge">4 STEPS</span>
+                    <span class="side-panel-badge">5 STEPS</span>
                 </div>
 
-                <!-- Step 1, 2, 3, 4 Navigation Buttons -->
+                <!-- Step 1, 2, 3, 4, 5 Navigation Buttons -->
                 <nav class="side-steps-nav" aria-label="Side Pipeline Steps">
                     <!-- Step 1: Gateways -->
                     <button type="button" class="side-step-btn active" id="sideStepTab1" onclick="goToStep(1)">
@@ -206,6 +211,16 @@
                             <div class="side-step-sub">POS Items to index.html</div>
                         </div>
                         <span class="side-step-badge neutral" id="sideStep4StatusBadge">Pending Sync</span>
+                    </button>
+
+                    <!-- Step 5: Export Site -->
+                    <button type="button" class="side-step-btn" id="sideStepTab5" onclick="goToStep(5)">
+                        <div class="side-step-num" id="sideStepNum5">5</div>
+                        <div class="side-step-content">
+                            <div class="side-step-name">Export Site</div>
+                            <div class="side-step-sub">Directory &amp; Startup Index</div>
+                        </div>
+                        <span class="side-step-badge neutral" id="sideStep5StatusBadge">Export Package</span>
                     </button>
                 </nav>
 
@@ -665,10 +680,227 @@
                         <i class="fa-solid fa-arrow-left"></i>
                         <span>Back to Step 3: Directory &amp; index.html</span>
                     </button>
-                    <div class="d-flex align-items-center gap-2">
-                        <button type="button" class="tactile-btn tactile-btn-mint tactile-btn-lg" onclick="syncMenuToStorefront()">
+                    <div class="d-flex align-items-center gap-2 flex-wrap">
+                        <button type="button" class="tactile-btn tactile-btn-white tactile-btn-lg" onclick="syncMenuToStorefront()">
                             <i class="fa-solid fa-arrows-rotate me-1"></i>
-                            <span>Sync Menu to Storefront (Update index.html) ➔</span>
+                            <span>Re-Sync Menu</span>
+                        </button>
+                        <button type="button" class="tactile-btn tactile-btn-mint tactile-btn-lg fw-bold" onclick="goToStep(5)">
+                            <i class="fa-solid fa-box-archive me-1"></i>
+                            <span>Proceed to Step 5: Export Site ➔</span>
+                        </button>
+                    </div>
+                </div>
+            </section>
+
+            <!-- ═══════════════════════════════════════════════════════════
+                 STEP 5 VIEW: EXPORT SITE (DIRECTORY & CONNECTED DASHBOARD)
+                 ═══════════════════════════════════════════════════════════ -->
+            <section class="step-view d-none" id="step5View" aria-label="Step 5 Export Site">
+                <!-- Active Export Pipeline Banner -->
+                <div class="active-gateway-banner mb-3">
+                    <div class="active-gw-info">
+                        <div class="active-gw-icon" id="step5GwIcon" style="background: rgba(16, 185, 129, 0.15); color: #10b981; border-color: rgba(16, 185, 129, 0.4);">
+                            <i class="fa-solid fa-box-archive"></i>
+                        </div>
+                        <div class="active-gw-text">
+                            <h3 id="step5GwTitle">Export Package: Connected Diner Suite</h3>
+                            <p id="step5GwSubtitle">Ready to package restaurant directory with index.html inside it and startup dashboard index.</p>
+                        </div>
+                    </div>
+                    <div class="d-flex align-items-center gap-2 flex-wrap">
+                        <span class="badge bg-light text-secondary border font-mono" id="step5PackageBadge">Package: .zip / directory bundle</span>
+                        <button type="button" class="tactile-btn tactile-btn-white tactile-btn-sm" onclick="goToStep(4)">
+                            <i class="fa-solid fa-arrow-left"></i> Back to Step 4
+                        </button>
+                    </div>
+                </div>
+
+                <!-- View Header Banner -->
+                <div class="view-header-banner mb-3">
+                    <div class="view-header-title-box">
+                        <h2>Step 5: "Export" Site &amp; Connected Dashboard</h2>
+                        <p>Export your production site package. You'll receive the restaurant directory with <code>index.html</code> inside of it, packaged alongside the startup <code>index.html</code> file with the connected Diner Dashboard.</p>
+                    </div>
+                    <div class="step-guidance-pill" id="step5GuidancePill">
+                        <i class="fa-solid fa-circle-check text-success"></i>
+                        <span id="step5GuidanceText">Directory compiled &bull; Click "Export Full Site Package (.ZIP)" to download</span>
+                    </div>
+                </div>
+
+                <!-- Export Layout Grid (2 Columns: Manifest on Left, Action Center on Right) -->
+                <div class="row g-4 mb-4">
+                    <!-- Column 1: Package Structure & Manifest -->
+                    <div class="col-lg-6">
+                        <div class="site-builder-card h-100">
+                            <div class="d-flex align-items-center justify-content-between mb-3 pb-2 border-bottom">
+                                <div class="d-flex align-items-center gap-2">
+                                    <i class="fa-solid fa-folder-tree text-primary fs-5"></i>
+                                    <h3 class="fs-6 fw-bold mb-0">Export Package Architecture</h3>
+                                </div>
+                                <span class="badge bg-primary bg-opacity-10 text-primary font-mono text-xs border border-primary border-opacity-25" id="step5SlugBadge">/your-site/</span>
+                            </div>
+
+                            <p class="text-xs text-secondary mb-3">
+                                Your exported ZIP bundle contains your dedicated restaurant directory containing its custom <code>index.html</code>, as well as the root startup <code>index.html</code> linked to the live Diner Dashboard engine:
+                            </p>
+
+                            <!-- Interactive File Tree Visualizer -->
+                            <div class="p-3 rounded-2 bg-dark text-light font-mono text-xs mb-3 shadow-inner" style="line-height: 1.7; background: #0f172a !important;">
+                                <div class="text-muted"><i class="fa-regular fa-file-zipper text-warning me-1"></i> <span id="treeZipName" class="text-white fw-bold">restaurant-delivery-suite.zip</span></div>
+                                <div class="ps-3 text-secondary">├── <i class="fa-solid fa-folder text-warning me-1"></i> <span id="treeSlugDir" class="text-info fw-bold">your-site/</span> <span class="text-muted text-[10px]">(Restaurant Directory)</span></div>
+                                <div class="ps-4 ms-2 text-secondary">└── <i class="fa-brands fa-html5 text-danger me-1"></i> <span class="text-success fw-bold">index.html</span> <span class="text-muted text-[10px]">(Compiled Storefront &amp; Synced Menu)</span></div>
+                                <div class="ps-3 text-secondary">├── <i class="fa-brands fa-html5 text-danger me-1"></i> <span class="text-primary fw-bold">index.html</span> <span class="text-muted text-[10px]">(Startup Index w/ Connected Diner Dashboard)</span></div>
+                                <div class="ps-3 text-secondary">├── <i class="fa-brands fa-js text-warning me-1"></i> <span class="text-light">controller.js</span> <span class="text-muted text-[10px]">(POS Gateway &amp; Telemetry Engine)</span></div>
+                                <div class="ps-3 text-secondary">├── <i class="fa-brands fa-css3-alt text-info me-1"></i> <span class="text-light">apex-theme.css</span> <span class="text-muted text-[10px]">(Tactile UI Design System)</span></div>
+                                <div class="ps-3 text-secondary">└── <i class="fa-regular fa-file-lines text-muted me-1"></i> <span class="text-light">README.md</span> <span class="text-muted text-[10px]">(Quickstart &amp; Architecture Notes)</span></div>
+                            </div>
+
+                            <!-- Live Manifest Specs List -->
+                            <div class="site-details-grid">
+                                <div class="site-detail-item">
+                                    <span class="site-detail-label"><i class="fa-solid fa-utensils me-1 text-primary"></i>Restaurant Name</span>
+                                    <span class="site-detail-value fw-bold" id="step5ManifestName">Central City Diner</span>
+                                </div>
+                                <div class="site-detail-item">
+                                    <span class="site-detail-label"><i class="fa-solid fa-folder me-1 text-amber"></i>Directory with index inside</span>
+                                    <span class="site-detail-value font-mono text-primary" id="step5ManifestDir">/your-site/index.html</span>
+                                </div>
+                                <div class="site-detail-item">
+                                    <span class="site-detail-label"><i class="fa-solid fa-gauge-high me-1 text-success"></i>Connected Dashboard</span>
+                                    <span class="site-detail-value font-mono text-success">Startup index.html (Live Bridge)</span>
+                                </div>
+                                <div class="site-detail-item">
+                                    <span class="site-detail-label"><i class="fa-solid fa-plug me-1 text-primary"></i>Active POS Gateway</span>
+                                    <span class="site-detail-value font-mono" id="step5ManifestGateway">Uber Direct • 200 OK</span>
+                                </div>
+                                <div class="site-detail-item">
+                                    <span class="site-detail-label"><i class="fa-solid fa-list-check me-1 text-info"></i>Synced Menu Catalog</span>
+                                    <span class="site-detail-value" id="step5ManifestMenuCount">7 Items Injected</span>
+                                </div>
+                                <div class="site-detail-item">
+                                    <span class="site-detail-label"><i class="fa-solid fa-shield-halved me-1 text-success"></i>Integrity Handshake</span>
+                                    <span class="site-detail-value font-mono text-success">Verified SHA-256</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Column 2: Export Action Center & Downloads -->
+                    <div class="col-lg-6">
+                        <div class="site-builder-card h-100 d-flex flex-column justify-content-between">
+                            <div>
+                                <div class="d-flex align-items-center justify-content-between mb-3 pb-2 border-bottom">
+                                    <div class="d-flex align-items-center gap-2">
+                                        <i class="fa-solid fa-download text-success fs-5"></i>
+                                        <h3 class="fs-6 fw-bold mb-0">Export Center &amp; Package Downloads</h3>
+                                    </div>
+                                    <span class="badge bg-success bg-opacity-10 text-success font-mono text-xs border border-success border-opacity-25">1-Click Export</span>
+                                </div>
+
+                                <p class="text-xs text-secondary mb-3">
+                                    Click below to receive your complete ZIP bundle or download individual component files immediately:
+                                </p>
+
+                                <!-- Big Primary Export Button -->
+                                <div class="p-3 rounded-2 bg-light border mb-3 text-center">
+                                    <button type="button" class="tactile-btn tactile-btn-mint tactile-btn-xl w-100 justify-content-center py-3 fw-bold mb-2 shadow-sm" onclick="exportFullSiteZip()">
+                                        <i class="fa-solid fa-file-zipper me-2 fs-5"></i>
+                                        <span>Export Full Site Package (.ZIP)</span>
+                                    </button>
+                                    <div class="text-[11px] text-muted">
+                                        Downloads <code>/[slug]/index.html</code> directory + startup <code>index.html</code> with connected DinerDashboard.
+                                    </div>
+                                </div>
+
+                                <!-- Individual Targeted Downloads -->
+                                <div class="mb-3">
+                                    <label class="form-label text-xs fw-bold text-muted text-uppercase mb-2">Individual Component Downloads</label>
+                                    <div class="d-grid gap-2">
+                                        <button type="button" class="tactile-btn tactile-btn-white tactile-btn-md justify-content-between w-100" onclick="downloadSiteIndexHtml()">
+                                            <span class="d-flex align-items-center gap-2">
+                                                <i class="fa-solid fa-folder-open text-warning"></i>
+                                                <span>Download Restaurant Directory <code>/[slug]/index.html</code></span>
+                                            </span>
+                                            <i class="fa-solid fa-download text-muted"></i>
+                                        </button>
+                                        <button type="button" class="tactile-btn tactile-btn-white tactile-btn-md justify-content-between w-100" onclick="downloadStartupIndexHtml()">
+                                            <span class="d-flex align-items-center gap-2">
+                                                <i class="fa-solid fa-gauge-high text-primary"></i>
+                                                <span>Download Startup <code>index.html</code> (Connected Dashboard)</span>
+                                            </span>
+                                            <i class="fa-solid fa-download text-muted"></i>
+                                        </button>
+                                        <button type="button" class="tactile-btn tactile-btn-white tactile-btn-md justify-content-between w-100" onclick="copySiteManifestJson()">
+                                            <span class="d-flex align-items-center gap-2">
+                                                <i class="fa-solid fa-clipboard text-secondary"></i>
+                                                <span>Copy Embedded Site Config JSON</span>
+                                            </span>
+                                            <i class="fa-solid fa-copy text-muted"></i>
+                                        </button>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <!-- Live Launch & Test Card -->
+                            <div class="p-3 rounded-2 bg-light border mt-3">
+                                <div class="d-flex align-items-center justify-content-between flex-wrap gap-2">
+                                    <div>
+                                        <strong class="text-xs text-dark d-block">Test Exported Storefront Live</strong>
+                                        <span class="text-[11px] text-muted">Open the compiled directory index in a new browser tab.</span>
+                                    </div>
+                                    <div class="d-flex align-items-center gap-2">
+                                        <a href="./your-site/index.html" target="_blank" class="tactile-btn tactile-btn-cyan tactile-btn-sm" id="step5LivePreviewBtn">
+                                            <i class="fa-solid fa-arrow-up-right-from-square me-1"></i> Launch Storefront
+                                        </a>
+                                        <button type="button" class="tactile-btn tactile-btn-white tactile-btn-sm" onclick="openInAppSitePreview()">
+                                            <i class="fa-solid fa-expand me-1"></i> In-App Modal
+                                        </button>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Export Verification & Activity Telemetry Console -->
+                <div class="telemetry-panel mb-4">
+                    <div class="panel-header">
+                        <h3><i class="fa-solid fa-terminal text-primary"></i> Step 5 Export &amp; Package Telemetry</h3>
+                        <span class="badge bg-success rounded-1 font-mono">Package Verified</span>
+                    </div>
+                    <div class="telemetry-stream-box">
+                        <div class="telemetry-stream-header">
+                            <span>UTC TIME</span>
+                            <span>SOURCE</span>
+                            <span>ACTION / EVENT</span>
+                            <span>LATENCY</span>
+                            <span>DETAILS</span>
+                        </div>
+                        <div class="telemetry-stream-list" id="step5TelemetryList">
+                            <!-- Streamed dynamically -->
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Step 5 Navigation Footer -->
+                <div class="step-nav-footer mt-4">
+                    <button type="button" class="tactile-btn tactile-btn-white tactile-btn-lg" onclick="goToStep(4)">
+                        <i class="fa-solid fa-arrow-left"></i>
+                        <span>Back to Step 4: Sync Menu to Store</span>
+                    </button>
+                    <div class="d-flex align-items-center gap-2 flex-wrap">
+                        <button type="button" class="tactile-btn tactile-btn-white tactile-btn-lg" onclick="goToStep(1)">
+                            <i class="fa-solid fa-network-wired me-1"></i>
+                            <span>Return to Step 1: Gateways</span>
+                        </button>
+                        <button type="button" class="tactile-btn tactile-btn-bell tactile-btn-lg" onclick="ringDinerBell()">
+                            <i class="fa-solid fa-bell-concierge me-1"></i>
+                            <span>Order Up! Bell</span>
+                        </button>
+                        <button type="button" class="tactile-btn tactile-btn-mint tactile-btn-lg fw-bold" onclick="exportFullSiteZip()">
+                            <i class="fa-solid fa-box-archive me-1"></i>
+                            <span>Export Full Site Package (.ZIP) ➔</span>
                         </button>
                     </div>
                 </div>
@@ -842,8 +1074,11 @@
         integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz" crossorigin="anonymous">
     </script>
 
+    <!-- JSZip for Export Site Bundling -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jszip/3.10.1/jszip.min.js"></script>
+
     <!-- DinerDashboard Controller Engine with Cache Buster -->
-    <script src="./controller.js?v=20261003_v8"></script>
+    <script src="./controller.js?v=20261004_v9"></script>
 
 </body>
 
