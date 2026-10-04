@@ -34,9 +34,7 @@ const STORAGE_KEY_SITE = 'dinerdashboard_site_config_v2';
 function clearDinerAppCache() {
     playToyClick(720, 0.05);
     try {
-        localStorage.removeItem(STORAGE_KEY_API);
-        localStorage.removeItem(STORAGE_KEY_SITE);
-        localStorage.removeItem('dinerdashboard_delivery_api_state');
+        localStorage.clear();
         sessionStorage.clear();
         if ('caches' in window) {
             caches.keys().then((names) => {
@@ -45,7 +43,40 @@ function clearDinerAppCache() {
                 }
             }).catch(() => {});
         }
+        if ('serviceWorker' in navigator) {
+            navigator.serviceWorker.getRegistrations().then((registrations) => {
+                for (const reg of registrations) {
+                    reg.unregister();
+                }
+            }).catch(() => {});
+        }
     } catch (e) {}
+
+    // Reset runtime objects
+    savedApiState = {};
+    currentSelectedGateway = null;
+    currentSiteConfig = {
+        restaurantName: '',
+        slug: '',
+        street: '',
+        unit: '',
+        city: '',
+        state: '',
+        zip: '',
+        country: '',
+        message: '',
+        photoUrl: 'https://images.unsplash.com/photo-1555396273-367ea4eb4db5?auto=format&fit=crop&w=400&q=80',
+        deployedDirectory: '',
+        selectedSkus: []
+    };
+    if (Array.isArray(DINER_MENU_ITEMS)) {
+        DINER_MENU_ITEMS.forEach(i => i.selected = false);
+    }
+    if (typeof DELIVERY_SERVICES === 'object') {
+        Object.keys(DELIVERY_SERVICES).forEach(k => {
+            DELIVERY_SERVICES[k].verified = false;
+        });
+    }
 
     const base = window.location.origin + window.location.pathname;
     const cacheBusterUrl = base + '?nocache=' + Date.now() + '#step1';
@@ -417,19 +448,35 @@ try {
     currentSelectedGateway = null;
 }
 
-// Default Site Configuration
-let currentSiteConfig = {
-    restaurantName: 'Parma Sub & Fry Co.',
+// Demo Site Configuration (Loaded on demand when user clicks "Fill Demo Content")
+const DEMO_SITE_CONFIG = {
+    restaurantName: 'Parma Sub & Fry Co',
     slug: 'parma-sub-fry-co',
-    street: '5420 Ridge Rd',
-    unit: 'Suite B',
+    street: '5842 Ridge Rd',
+    unit: 'Suite 104',
     city: 'Parma',
     state: 'OH',
     zip: '44129',
-    country: 'US',
-    message: 'Artisanal cold cuts & triple-cooked hand-cut fries since 1988.',
-    photoUrl: 'https://images.unsplash.com/photo-1509722747041-616f39b57569?auto=format&fit=crop&w=800&q=80',
+    country: 'United States',
+    message: 'Welcome to Parma Sub & Fry Co! Best artisan subs and loaded fries in Ohio. Order online direct with live kitchen tracking via Uber Direct.',
+    photoUrl: 'https://images.unsplash.com/photo-1555396273-367ea4eb4db5?auto=format&fit=crop&w=400&q=80',
     deployedDirectory: '/net-c-delivery/parma-sub-fry-co/index.html',
+    selectedSkus: ['SUB-01', 'BUR-02', 'WRP-03', 'SUB-04', 'MEL-05', 'FRY-06', 'RNG-07']
+};
+
+// Initial Site Configuration (Starts clean & empty so user can practice the journey)
+let currentSiteConfig = {
+    restaurantName: '',
+    slug: '',
+    street: '',
+    unit: '',
+    city: '',
+    state: '',
+    zip: '',
+    country: '',
+    message: '',
+    photoUrl: 'https://images.unsplash.com/photo-1555396273-367ea4eb4db5?auto=format&fit=crop&w=400&q=80',
+    deployedDirectory: '',
     selectedSkus: []
 };
 
@@ -1019,27 +1066,70 @@ function populateWebsiteBuilderForm() {
     const msgEl = document.getElementById('siteMessage');
     const photoImg = document.getElementById('sitePhotoPreview');
 
-    if (nameEl && currentSiteConfig.restaurantName) nameEl.value = currentSiteConfig.restaurantName;
-    if (streetEl && currentSiteConfig.street) streetEl.value = currentSiteConfig.street;
-    if (unitEl && currentSiteConfig.unit) unitEl.value = currentSiteConfig.unit;
-    if (cityEl && currentSiteConfig.city) cityEl.value = currentSiteConfig.city;
-    if (stateEl && currentSiteConfig.state) stateEl.value = currentSiteConfig.state;
-    if (zipEl && currentSiteConfig.zip) zipEl.value = currentSiteConfig.zip;
-    if (countryEl && currentSiteConfig.country) countryEl.value = currentSiteConfig.country;
-    if (msgEl && currentSiteConfig.message) msgEl.value = currentSiteConfig.message;
+    if (nameEl) nameEl.value = currentSiteConfig.restaurantName || '';
+    if (streetEl) streetEl.value = currentSiteConfig.street || '';
+    if (unitEl) unitEl.value = currentSiteConfig.unit || '';
+    if (cityEl) cityEl.value = currentSiteConfig.city || '';
+    if (stateEl) stateEl.value = currentSiteConfig.state || '';
+    if (zipEl) zipEl.value = currentSiteConfig.zip || '';
+    if (countryEl) countryEl.value = currentSiteConfig.country || '';
+    if (msgEl) msgEl.value = currentSiteConfig.message || '';
     if (photoImg && currentSiteConfig.photoUrl) photoImg.src = currentSiteConfig.photoUrl;
 
     updateSlugPreview();
 }
 
 function updateSlugPreview() {
-    const name = document.getElementById('siteRestaurantName')?.value || 'Parma Sub & Fry Co';
-    const slug = makeDirectorySlug(name);
+    const rawName = document.getElementById('siteRestaurantName')?.value?.trim();
+    const slug = rawName ? makeDirectorySlug(rawName) : 'enter-restaurant-name';
     const liveSlug = document.getElementById('liveSlugDisplay');
     if (liveSlug) {
         liveSlug.innerText = slug;
     }
     return slug;
+}
+
+// User action: Fill demo content for practice walkthrough
+function fillDemoSiteContent() {
+    playToyClick(720, 0.05);
+
+    const nameEl = document.getElementById('siteRestaurantName');
+    const streetEl = document.getElementById('siteStreet');
+    const unitEl = document.getElementById('siteUnit');
+    const cityEl = document.getElementById('siteCity');
+    const stateEl = document.getElementById('siteState');
+    const zipEl = document.getElementById('siteZip');
+    const countryEl = document.getElementById('siteCountry');
+    const msgEl = document.getElementById('siteMessage');
+    const photoImg = document.getElementById('sitePhotoPreview');
+
+    if (nameEl) nameEl.value = DEMO_SITE_CONFIG.restaurantName;
+    if (streetEl) streetEl.value = DEMO_SITE_CONFIG.street;
+    if (unitEl) unitEl.value = DEMO_SITE_CONFIG.unit;
+    if (cityEl) cityEl.value = DEMO_SITE_CONFIG.city;
+    if (stateEl) stateEl.value = DEMO_SITE_CONFIG.state;
+    if (zipEl) zipEl.value = DEMO_SITE_CONFIG.zip;
+    if (countryEl) countryEl.value = DEMO_SITE_CONFIG.country;
+    if (msgEl) msgEl.value = DEMO_SITE_CONFIG.message;
+    if (photoImg) photoImg.src = DEMO_SITE_CONFIG.photoUrl;
+
+    currentSiteConfig = {
+        ...currentSiteConfig,
+        ...DEMO_SITE_CONFIG,
+        photoUrl: DEMO_SITE_CONFIG.photoUrl
+    };
+
+    // Auto-select all 7 menu items for demo catalog
+    DINER_MENU_ITEMS.forEach(i => i.selected = true);
+    renderMenuCatalog();
+    updateSlugPreview();
+    updateProgressiveState();
+
+    showDinerToast(
+        'Demo Content Placed! 🪄',
+        'Populated Parma Sub & Fry Co brand info, address, and selected all 7 menu items. You can now build & deploy!',
+        'fa-wand-magic-sparkles'
+    );
 }
 
 function setPresetPhoto(type) {
@@ -1088,6 +1178,25 @@ function renderMenuCatalog() {
         counterBadge.className = selectedCount > 0 
             ? 'badge bg-success rounded-1 font-mono' 
             : 'badge bg-warning text-dark rounded-1 font-mono';
+    }
+
+    const bannerHeadline = document.getElementById('menuBannerHeadline');
+    const bannerSub = document.getElementById('menuBannerSub');
+    const selectionBanner = document.getElementById('menuSelectionBanner');
+    if (bannerHeadline && bannerSub) {
+        if (selectedCount === 0) {
+            bannerHeadline.innerText = 'Notice: No Menu Items Preselected (Practice Mode)';
+            bannerSub.innerText = 'Select items below or click "Select All (7)" / "Fill Demo Content" to include them on your live website.';
+            if (selectionBanner) {
+                selectionBanner.className = 'menu-selection-alert-banner alert alert-warning border-0 rounded-2 p-3 mb-3 d-flex align-items-center justify-content-between flex-wrap gap-3';
+            }
+        } else {
+            bannerHeadline.innerText = `${selectedCount} of 7 Menu Items Staged for Live Site`;
+            bannerSub.innerText = 'These items will appear on your generated customer ordering website with live prices and stock status.';
+            if (selectionBanner) {
+                selectionBanner.className = 'menu-selection-alert-banner alert alert-success border-0 rounded-2 p-3 mb-3 d-flex align-items-center justify-content-between flex-wrap gap-3';
+            }
+        }
     }
 
     let html = '';
@@ -1212,34 +1321,39 @@ function generateAndDeployWebsite(event) {
     if (event) event.preventDefault();
     playToyClick(720, 0.06);
 
-    const restaurantName = (document.getElementById('siteRestaurantName')?.value || 'Parma Sub & Fry Co').trim();
-    const street = (document.getElementById('siteStreet')?.value || '5842 Ridge Rd').trim();
+    const restaurantName = (document.getElementById('siteRestaurantName')?.value || '').trim();
+    const street = (document.getElementById('siteStreet')?.value || '').trim();
     const unit = (document.getElementById('siteUnit')?.value || '').trim();
-    const city = (document.getElementById('siteCity')?.value || 'Parma').trim();
-    const state = (document.getElementById('siteState')?.value || 'OH').trim();
-    const zip = (document.getElementById('siteZip')?.value || '44129').trim();
+    const city = (document.getElementById('siteCity')?.value || '').trim();
+    const state = (document.getElementById('siteState')?.value || '').trim();
+    const zip = (document.getElementById('siteZip')?.value || '').trim();
     const country = (document.getElementById('siteCountry')?.value || 'United States').trim();
     const message = (document.getElementById('siteMessage')?.value || '').trim();
     const photoImg = document.getElementById('sitePhotoPreview');
     const photoUrl = photoImg?.src || currentSiteConfig.photoUrl || 'https://images.unsplash.com/photo-1555396273-367ea4eb4db5?auto=format&fit=crop&w=400&q=80';
 
     if (!restaurantName) {
-        alert('Please enter a Restaurant Name.');
+        playToyClick(320, 0.08);
+        alert('Please enter a Restaurant Name (or click "Fill Demo Content" above to practice the journey).');
         document.getElementById('siteRestaurantName')?.focus();
         return;
     }
 
     if (!street || !city || !state || !zip) {
-        alert('Please fill out all required separate address fields (Street, City, State, ZIP).');
+        playToyClick(320, 0.08);
+        alert('Please fill out all required separate address fields (Street, City, State, ZIP) or click "Fill Demo Content".');
+        if (!street) document.getElementById('siteStreet')?.focus();
+        else if (!city) document.getElementById('siteCity')?.focus();
+        else if (!state) document.getElementById('siteState')?.focus();
+        else if (!zip) document.getElementById('siteZip')?.focus();
         return;
     }
 
-    let selectedItems = DINER_MENU_ITEMS.filter(i => i.selected);
+    const selectedItems = DINER_MENU_ITEMS.filter(i => i.selected);
     if (selectedItems.length === 0) {
-        // Auto-select all 7 items if none selected so user is never blocked
-        DINER_MENU_ITEMS.forEach(i => i.selected = true);
-        selectedItems = DINER_MENU_ITEMS.filter(i => i.selected);
-        renderMenuCatalog();
+        playToyClick(320, 0.08);
+        alert('Please select at least one menu item below to include on your restaurant website (or click "Select All (7)").');
+        return;
     }
 
     const slug = makeDirectorySlug(restaurantName);
@@ -1893,6 +2007,7 @@ if (typeof document !== 'undefined') {
 // ═══════════════════════════════════════════════════════════════════
 if (typeof window !== 'undefined') {
     window.fillDemoCredentials = fillDemoCredentials;
+    window.fillDemoSiteContent = fillDemoSiteContent;
     window.handleApiVerification = handleApiVerification;
     window.handleApiGatewaySubmit = handleApiVerification;
     window.generateAndDeployWebsite = generateAndDeployWebsite;

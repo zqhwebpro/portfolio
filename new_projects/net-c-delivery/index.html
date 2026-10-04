@@ -222,9 +222,13 @@
                         <i class="fa-solid fa-arrows-rotate"></i>
                         <span>Ping Radar Telemetry</span>
                     </button>
-                    <button type="button" class="tactile-btn tactile-btn-white tactile-btn-sm w-100 justify-content-center" onclick="resetWalkthrough()">
+                    <button type="button" class="tactile-btn tactile-btn-white tactile-btn-sm w-100 justify-content-center" onclick="resetWalkthrough()" title="Reset Setup to Step 1">
                         <i class="fa-solid fa-arrow-rotate-left text-danger"></i>
                         <span>Reset / New Install</span>
+                    </button>
+                    <button type="button" class="tactile-btn tactile-btn-white tactile-btn-sm w-100 justify-content-center" onclick="clearDinerAppCache()" title="Purge local storage, clear cache & practice fresh journey">
+                        <i class="fa-solid fa-trash-can text-danger"></i>
+                        <span>Clear Cache / Fresh Start</span>
                     </button>
                 </div>
             </aside>
@@ -285,7 +289,10 @@
                             <p id="activeGwSubtitle">On-Demand Fleet Fulfillment • REST / Webhooks • 200 OK Handshake</p>
                         </div>
                     </div>
-                    <div class="d-flex align-items-center gap-2">
+                    <div class="d-flex align-items-center gap-2 flex-wrap">
+                        <button type="button" class="tactile-btn tactile-btn-mint tactile-btn-sm" onclick="fillDemoSiteContent()" id="btnFillDemoContent" title="Place demo restaurant brand info, address, and menu items">
+                            <i class="fa-solid fa-wand-magic-sparkles me-1"></i> Fill Demo Content
+                        </button>
                         <button type="button" class="tactile-btn tactile-btn-white tactile-btn-sm" onclick="goToStep(1)">
                             <i class="fa-solid fa-arrow-left"></i> Switch Gateway
                         </button>
@@ -308,19 +315,27 @@
                     <!-- Form Card 1: Restaurant Identity & Directory Name -->
                     <div class="site-builder-card">
                         <div class="site-builder-card-header">
-                            <h3><i class="fa-solid fa-store text-primary"></i> 1. Restaurant Brand &amp; Generated Directory</h3>
-                            <span class="badge bg-light text-dark border font-mono">Brand Identity</span>
+                            <div>
+                                <h3><i class="fa-solid fa-store text-primary"></i> 1. Restaurant Brand &amp; Generated Directory</h3>
+                                <p class="text-xs text-secondary mb-0">Type your restaurant brand or click "Fill Demo Content" to practice the user journey.</p>
+                            </div>
+                            <div class="d-flex align-items-center gap-2">
+                                <button type="button" class="tactile-btn tactile-btn-white tactile-btn-sm" onclick="fillDemoSiteContent()" title="Populate demo restaurant info">
+                                    <i class="fa-solid fa-wand-magic-sparkles text-primary me-1"></i> Fill Demo Content
+                                </button>
+                                <span class="badge bg-light text-dark border font-mono">Brand Identity</span>
+                            </div>
                         </div>
 
                         <div class="row g-3">
                             <!-- Restaurant Name -->
                             <div class="col-md-7">
                                 <label class="form-label text-xs fw-bold text-secondary text-uppercase tracking-wider">Restaurant Name</label>
-                                <input type="text" id="siteRestaurantName" class="apex-form-control" placeholder="e.g. Parma Sub &amp; Fry Co" value="Parma Sub &amp; Fry Co" oninput="updateSlugPreview()" required>
+                                <input type="text" id="siteRestaurantName" class="apex-form-control" placeholder="e.g. Parma Sub &amp; Fry Co" value="" oninput="updateSlugPreview()" required>
                                 <div class="mt-2">
                                     <span class="slug-preview-chip">
                                         <i class="fa-regular fa-folder-open text-primary"></i>
-                                        Directory: /net-c-delivery/<strong id="liveSlugDisplay" class="text-primary">parma-sub-fry-co</strong>/index.html
+                                        Directory: /net-c-delivery/<strong id="liveSlugDisplay" class="text-primary">enter-restaurant-name</strong>/index.html
                                     </span>
                                 </div>
                             </div>
@@ -349,7 +364,7 @@
                             <!-- Customer Welcome / Announcement Message -->
                             <div class="col-12">
                                 <label class="form-label text-xs fw-bold text-secondary text-uppercase tracking-wider">Welcome Message / Customer Announcement</label>
-                                <textarea id="siteMessage" class="apex-form-control" rows="2" placeholder="e.g. Authentic hearth-baked subs, loaded fries &amp; diner comfort food. Order direct via Uber Direct!">Welcome to Parma Sub &amp; Fry Co! Best artisan subs and loaded fries in Ohio. Order online direct with live kitchen tracking via Uber Direct.</textarea>
+                                <textarea id="siteMessage" class="apex-form-control" rows="2" placeholder="e.g. Welcome to Parma Sub &amp; Fry Co! Best artisan subs and loaded fries in Ohio. Order online direct with live kitchen tracking via Uber Direct."></textarea>
                             </div>
                         </div>
                     </div>
@@ -365,37 +380,37 @@
                             <!-- Street Address -->
                             <div class="address-col-8">
                                 <label class="form-label text-xs fw-bold text-secondary text-uppercase tracking-wider">Street Address</label>
-                                <input type="text" id="siteStreet" class="apex-form-control" placeholder="e.g. 5842 Ridge Rd" value="5842 Ridge Rd" required>
+                                <input type="text" id="siteStreet" class="apex-form-control" placeholder="e.g. 5842 Ridge Rd" value="" required>
                             </div>
 
                             <!-- Suite / Unit -->
                             <div class="address-col-4">
                                 <label class="form-label text-xs fw-bold text-secondary text-uppercase tracking-wider">Suite / Unit (Optional)</label>
-                                <input type="text" id="siteUnit" class="apex-form-control" placeholder="e.g. Suite 104" value="Suite 104">
+                                <input type="text" id="siteUnit" class="apex-form-control" placeholder="e.g. Suite 104" value="">
                             </div>
 
                             <!-- City -->
                             <div class="address-col-3">
                                 <label class="form-label text-xs fw-bold text-secondary text-uppercase tracking-wider">City</label>
-                                <input type="text" id="siteCity" class="apex-form-control" placeholder="e.g. Parma" value="Parma" required>
+                                <input type="text" id="siteCity" class="apex-form-control" placeholder="e.g. Parma" value="" required>
                             </div>
 
                             <!-- State / Region -->
                             <div class="address-col-3">
                                 <label class="form-label text-xs fw-bold text-secondary text-uppercase tracking-wider">State / Region</label>
-                                <input type="text" id="siteState" class="apex-form-control" placeholder="e.g. OH" value="OH" required>
+                                <input type="text" id="siteState" class="apex-form-control" placeholder="e.g. OH" value="" required>
                             </div>
 
                             <!-- ZIP / Postal Code -->
                             <div class="address-col-3">
                                 <label class="form-label text-xs fw-bold text-secondary text-uppercase tracking-wider">ZIP / Postal Code</label>
-                                <input type="text" id="siteZip" class="apex-form-control" placeholder="e.g. 44129" value="44129" required>
+                                <input type="text" id="siteZip" class="apex-form-control" placeholder="e.g. 44129" value="" required>
                             </div>
 
                             <!-- Country -->
                             <div class="address-col-3">
                                 <label class="form-label text-xs fw-bold text-secondary text-uppercase tracking-wider">Country</label>
-                                <input type="text" id="siteCountry" class="apex-form-control" placeholder="e.g. United States" value="United States" required>
+                                <input type="text" id="siteCountry" class="apex-form-control" placeholder="e.g. United States" value="" required>
                             </div>
                         </div>
                     </div>
@@ -458,10 +473,16 @@
                         <i class="fa-solid fa-arrow-left"></i>
                         <span>Back to Step 1: Gateways</span>
                     </button>
-                    <button type="button" class="tactile-btn tactile-btn-mint tactile-btn-lg" onclick="generateAndDeployWebsite()">
-                        <i class="fa-solid fa-wand-magic-sparkles"></i>
-                        <span>Create Website &amp; Generate Directory ➔</span>
-                    </button>
+                    <div class="d-flex align-items-center gap-2">
+                        <button type="button" class="tactile-btn tactile-btn-white tactile-btn-lg" onclick="fillDemoSiteContent()" title="Populate demo restaurant info &amp; select all menu items">
+                            <i class="fa-solid fa-wand-magic-sparkles text-primary me-1"></i>
+                            <span>Fill Demo Content</span>
+                        </button>
+                        <button type="button" class="tactile-btn tactile-btn-mint tactile-btn-lg" onclick="generateAndDeployWebsite()">
+                            <i class="fa-solid fa-wand-magic-sparkles"></i>
+                            <span>Create Website &amp; Generate Directory ➔</span>
+                        </button>
+                    </div>
                 </div>
             </section>
 

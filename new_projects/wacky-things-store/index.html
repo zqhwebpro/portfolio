@@ -823,7 +823,7 @@
         /* Floating Architectural Tooltip with Deep Pink & Magenta Accents */
         #blueprint-tooltip {
             position: fixed;
-            z-index: 99999;
+            z-index: 1000000 !important;
             pointer-events: none;
             opacity: 0;
             transform: translateY(6px);
@@ -1407,6 +1407,70 @@
             }
             100% {
                 transform: translate3d(18%, 0, 0);
+            }
+        }
+
+        /* ========================================================
+           FUNNY ACADEMY REVERSE GRADIENT BACKGROUND
+           (Exact reverse gradient of the newsletter/news section)
+           ======================================================== */
+        #panel-academy,
+        #screen-academy,
+        .academy-reverse-theme {
+            position: relative !important;
+            overflow: hidden !important;
+            background-color: #0f172a !important;
+        }
+
+        .academy-gradient-layer {
+            position: absolute !important;
+            top: 0 !important;
+            left: 0 !important;
+            width: 250% !important;
+            height: 100% !important;
+            background: linear-gradient(270deg, 
+                #0D9488 0%, 
+                #7C3AED 18%, 
+                #F59E0B 36%, 
+                #D946EF 54%, 
+                #0D9488 72%, 
+                #7C3AED 90%, 
+                #F59E0B 100%
+            ) !important;
+            animation: academyMoveReverse 6s ease-in-out infinite alternate !important;
+            will-change: transform !important;
+            pointer-events: none !important;
+            z-index: 1 !important;
+        }
+
+        @keyframes academyMoveReverse {
+            0% {
+                transform: translate3d(-55%, 0, 0);
+            }
+            100% {
+                transform: translate3d(0, 0, 0);
+            }
+        }
+
+        .academy-glow-layer {
+            position: absolute !important;
+            inset: -30% !important;
+            background: radial-gradient(circle at 85% 50%, rgba(245, 158, 11, 0.55), transparent 50%),
+                        radial-gradient(circle at 60% 50%, rgba(217, 70, 239, 0.6), transparent 50%),
+                        radial-gradient(circle at 30% 50%, rgba(13, 148, 136, 0.6), transparent 50%) !important;
+            animation: academyGlowReverse 8s ease-in-out infinite alternate !important;
+            pointer-events: none !important;
+            mix-blend-mode: screen !important;
+            z-index: 2 !important;
+            will-change: transform !important;
+        }
+
+        @keyframes academyGlowReverse {
+            0% {
+                transform: translate3d(18%, 0, 0);
+            }
+            100% {
+                transform: translate3d(-18%, 0, 0);
             }
         }
 
@@ -2398,15 +2462,18 @@
         </section>
 
         <!-- 3. Yellow Academy Dropdown Panel -->
-        <section id="panel-academy" class="nav-push-panel hidden w-full academy-reverse-theme bg-[#1e2430] text-white border-b-2 border-amber-500/30 shadow-xl py-6 sm:py-8">
-            <div class="academy-wide-container">
+        <section id="panel-academy" class="nav-push-panel hidden w-full academy-reverse-theme relative overflow-hidden text-white border-b-2 border-amber-500/30 shadow-xl py-6 sm:py-8" style="background-color: #0f172a !important;">
+            <!-- Reverse Animated Gradient Layers matching News Section except reversed -->
+            <div class="academy-gradient-layer" aria-hidden="true"></div>
+            <div class="academy-glow-layer" aria-hidden="true"></div>
+            <div class="academy-wide-container relative z-10">
                 <!-- 3.7 MAIN Funny Academy MODULE LAYOUT (WackyDash-Style Courses & Live Zoom Webinar) -->
     <div id="learning-main-view" data-blueprint-file="WackyStore.WebUI/Controllers/CourseController.cs"
         data-blueprint-role="LMS &amp; Academy View Controller" data-blueprint-layer="WebUI / Education Portal"
         data-blueprint-dom="Main container rendering WackyDash-style courses locked to purchase and live Zoom webinar registration."
         data-blueprint-desc="CourseController coordinates curriculum catalogs, locked enrollment authorization gates, and external Zoom REST API webinar registrations."
         data-blueprint-code="public ViewResult Learning(string track) => View(courseService.GetCurriculums(track));"
-        class="bg-[#1e2430] text-white flex-1 w-full pt-4 pb-16">
+        class="bg-transparent text-white flex-1 w-full pt-4 pb-16 relative z-10">
 
         <!-- COURSES CATALOG GRID (WackyDash Style Course Cards) -->
         <div class="academy-wide-container py-6 w-full">
@@ -4410,69 +4477,148 @@
         </div>
     </div>
 
-        <!-- REAL US MAP LOGISTICS & FREIGHT ESTIMATOR MODAL -->
+                <!-- REAL US MAP LOGISTICS & FREIGHT ESTIMATOR MODAL -->
     <div id="shipping-modal-backdrop"
-        class="fixed inset-0 bg-black/60 backdrop-blur-xs z-50 hidden flex items-center justify-center p-3 sm:p-4"
+        class="fixed inset-0 bg-black/60 backdrop-blur-xs z-50 hidden flex items-center justify-center p-2 sm:p-4"
         onclick="if(event.target===this) window.closeShippingModal()">
-        <div class="bg-canvas-base border border-canvas-border rounded-3xl max-w-7xl lg:max-w-[1440px] w-full max-h-[96vh] overflow-y-auto p-5 sm:p-8 shadow-2xl text-earth-950 flex flex-col gap-6"
+        <div class="bg-canvas-base border border-canvas-border rounded-3xl max-w-6xl xl:max-w-7xl w-full max-h-[92vh] overflow-y-auto p-4 sm:p-6 shadow-2xl text-earth-950 flex flex-col gap-4 sm:gap-5"
             data-blueprint-file="WackyStore.Domain/Services/GeodesicShippingService.cs"
             data-blueprint-role="Real US Map Logistics Studio Modal" data-blueprint-layer="Domain / Spatial Algorithm"
-            data-blueprint-dom="Full-scale interactive Leaflet US Map shipping modal with draggable Point A & Point B markers, Great-Circle geodesic arc, and live carrier rates."
+            data-blueprint-dom="Contained interactive Leaflet US Map shipping modal with draggable Point A &amp; Point B markers, Great-Circle geodesic arc, and live carrier rates."
             data-blueprint-desc="Calculates exact spherical Haversine distances across genuine US geographic coordinates using Leaflet.js and CartoDB Voyager tiles.">
             
             <!-- Modal Header -->
-            <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-4 border-b border-canvas-border pb-4">
+            <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-3 border-b border-canvas-border pb-3.5">
                 <div>
                     <div class="flex items-center gap-2 flex-wrap mb-1">
-                        <span class="px-2.5 py-0.5 rounded-full bg-gradient-to-r from-[#FF1493] to-[#D946EF] text-white text-[10.5px] font-mono font-bold uppercase tracking-wider shadow-sm">
+                        <span class="px-2.5 py-0.5 rounded-full bg-gradient-to-r from-[#FF1493] to-[#D946EF] text-white text-[10.5px] font-mono font-bold uppercase tracking-wider shadow-sm"
+                            data-blueprint-file="WackyStore.Domain/Services/GeodesicShippingService.cs"
+                            data-blueprint-role="GIS Cartography Engine Badge"
+                            data-blueprint-layer="Domain / Spatial Algorithm"
+                            data-blueprint-dom="Status indicator displaying active Leaflet GIS engine."
+                            data-blueprint-desc="Leverages CartoDB and OpenStreetMap tiles with geodesic projection calculations."
+                            data-blueprint-code="public class GeodesicShippingService : IShippingRateCalculator">
                             <i class="fa-solid fa-map-location-dot mr-1 text-pink-200"></i> Real US Map GIS Engine
                         </span>
-                        <span class="px-2 py-0.5 rounded-full bg-pink-100 text-[#BE123C] text-[10.5px] font-mono font-bold">
+                        <span class="px-2 py-0.5 rounded-full bg-pink-100 text-[#BE123C] text-[10.5px] font-mono font-bold"
+                            data-blueprint-file="WackyStore.Domain/Services/GeodesicShippingService.cs"
+                            data-blueprint-role="Haversine Formula Implementation"
+                            data-blueprint-layer="Domain / Mathematical Logic"
+                            data-blueprint-dom="Mathematical badge denoting spherical trigonometry algorithms."
+                            data-blueprint-desc="Uses double-precision Haversine trigonometry: a = sin²(Δφ/2) + cos φ1 ⋅ cos φ2 ⋅ sin²(Δλ/2)."
+                            data-blueprint-code="double c = 2 * Math.Atan2(Math.Sqrt(a), Math.Sqrt(1 - a));">
                             Haversine Spherical Trigonometry
                         </span>
                     </div>
-                    <h2 class="font-heading font-black text-2xl sm:text-3xl text-earth-950 tracking-tight">
+                    <h2 class="font-heading font-black text-xl sm:text-2xl text-earth-950 tracking-tight">
                         Wacky Shipping &amp; Geodesic Distance Estimator
                     </h2>
-                    <p class="text-xs sm:text-sm text-earth-600 mt-0.5">
+                    <p class="text-xs text-earth-600 mt-0.5">
                         Drag Point A and Point B anywhere across America, click to reposition, or select logistics hubs to estimate Great-Circle freight miles and live shipping rates.
                     </p>
                 </div>
 
-                <div class="flex items-center gap-2 shrink-0">
+                <div class="flex items-center gap-2 shrink-0 flex-wrap">
+                    <button type="button" onclick="window.toggleShippingCodeInspector()"
+                        data-blueprint-file="WackyStore.WebUI/Controllers/ShippingCalculatorController.cs"
+                        data-blueprint-role=".NET C# Source Code Drawer Trigger"
+                        data-blueprint-layer="WebUI / Developer Tools"
+                        data-blueprint-dom="Action button expanding embedded C# source code inspector."
+                        data-blueprint-desc="Toggles live syntax-highlighted ASP.NET MVC 5 controller and domain service implementations."
+                        data-blueprint-code="public async Task<JsonResult> EstimateShipping(GeoLocation origin, GeoLocation destination, ShippingTier tier)"
+                        class="px-3 py-1.5 rounded-xl bg-purple-950 hover:bg-purple-900 border border-purple-700/60 text-purple-200 text-xs font-bold font-mono flex items-center gap-1.5 transition-all cursor-pointer shadow-xs"
+                        title="Inspect .NET C# Source Code">
+                        <i class="fa-solid fa-code text-[#FF1493]"></i>
+                        <span class="hidden sm:inline">.NET C# Source</span>
+                    </button>
                     <button onclick="window.swapShippingPoints()" type="button"
-                        class="px-3 py-2 rounded-xl bg-white hover:bg-canvas-surface border border-canvas-border text-earth-800 text-xs font-bold flex items-center gap-1.5 transition-all cursor-pointer shadow-xs"
+                        data-blueprint-file="WackyStore.Domain/Entities/GeoLocation.cs"
+                        data-blueprint-role="Origin / Destination Swap Action"
+                        data-blueprint-layer="Domain / Value Object Mutation"
+                        data-blueprint-dom="Swaps Point A and Point B coordinates, reversing initial bearing and redrawing geodesic path."
+                        data-blueprint-desc="Performs in-memory swap of origin and destination GeoLocation value objects."
+                        data-blueprint-code="var temp = origin; origin = destination; destination = temp;"
+                        class="px-2.5 py-1.5 rounded-xl bg-white hover:bg-canvas-surface border border-canvas-border text-earth-800 text-xs font-bold flex items-center gap-1.5 transition-all cursor-pointer shadow-xs"
                         title="Swap Origin and Destination">
                         <i class="fa-solid fa-arrow-right-arrow-left text-[#FF1493]"></i>
                         <span class="hidden sm:inline">Swap A ⇄ B</span>
                     </button>
                     <button onclick="window.randomizeShippingRoute()" type="button"
-                        class="px-3 py-2 rounded-xl bg-white hover:bg-canvas-surface border border-canvas-border text-earth-800 text-xs font-bold flex items-center gap-1.5 transition-all cursor-pointer shadow-xs"
+                        data-blueprint-file="WackyStore.Domain/Entities/ShippingRoute.cs"
+                        data-blueprint-role="Random US Route Generator"
+                        data-blueprint-layer="Domain / Entity Factory"
+                        data-blueprint-dom="Selects a random fulfillment warehouse and cross-country US destination."
+                        data-blueprint-desc="Generates randomized test fixtures representing realistic cross-country freight logistics scenarios."
+                        data-blueprint-code="public static ShippingRoute GenerateRandomRoute(IEnumerable<Hub> hubs)"
+                        class="px-2.5 py-1.5 rounded-xl bg-white hover:bg-canvas-surface border border-canvas-border text-earth-800 text-xs font-bold flex items-center gap-1.5 transition-all cursor-pointer shadow-xs"
                         title="Randomize Route">
                         <i class="fa-solid fa-dice text-[#D946EF]"></i>
                         <span class="hidden sm:inline">Random Route</span>
                     </button>
                     <button onclick="window.closeShippingModal()" type="button"
-                        class="h-9 w-9 rounded-xl bg-white hover:bg-canvas-surface border border-canvas-border text-earth-500 hover:text-earth-950 flex items-center justify-center transition-all cursor-pointer shadow-xs">
-                        <i class="fa-solid fa-xmark text-lg"></i>
+                        class="h-8 w-8 rounded-xl bg-white hover:bg-canvas-surface border border-canvas-border text-earth-500 hover:text-earth-950 flex items-center justify-center transition-all cursor-pointer shadow-xs"
+                        title="Close Modal">
+                        <i class="fa-solid fa-xmark text-base"></i>
                     </button>
                 </div>
             </div>
 
-            <!-- Main Interactive Map + Controls Grid -->
-            <div class="grid grid-cols-1 lg:grid-cols-12 gap-6 items-start">
+            <!-- Collapsible C# Code Inspector Drawer -->
+            <div id="shipping-code-inspector" class="hidden bg-[#0F051D] border-2 border-purple-500/40 rounded-2xl p-4 text-xs font-mono text-purple-100 shadow-xl space-y-3"
+                data-blueprint-file="WackyStore.Domain/Services/GeodesicShippingService.cs"
+                data-blueprint-role="C# Architecture Code Inspector Studio"
+                data-blueprint-layer="Domain &amp; WebUI / Backend Code"
+                data-blueprint-dom="Collapsible code studio displaying verified ASP.NET MVC 5 C# source files."
+                data-blueprint-desc="Displays exact C# implementations of the Haversine distance calculator, ASP.NET MVC controller action, and domain route entities."
+                data-blueprint-code="public DistanceMatrix ComputeDistance(GeoLocation origin, GeoLocation destination)">
+                <div class="flex items-center justify-between flex-wrap gap-2 border-b border-purple-900/60 pb-2.5">
+                    <div class="flex items-center gap-2">
+                        <span class="h-2.5 w-2.5 rounded-full bg-emerald-400 animate-pulse"></span>
+                        <span class="font-bold text-white text-xs tracking-wide">.NET C# Shipping Architecture</span>
+                    </div>
+                    <div class="flex items-center gap-1.5 flex-wrap">
+                        <button type="button" id="codetab-haversine" onclick="window.showCodeTab('haversine')"
+                            class="px-2.5 py-1 rounded-lg bg-[#FF1493] text-white font-bold text-[11px] transition-all cursor-pointer">
+                            Haversine Equation
+                        </button>
+                        <button type="button" id="codetab-controller" onclick="window.showCodeTab('controller')"
+                            class="px-2.5 py-1 rounded-lg bg-black/40 hover:bg-purple-950 text-purple-300 font-bold text-[11px] transition-all cursor-pointer border border-purple-800/40">
+                            MVC Controller
+                        </button>
+                        <button type="button" id="codetab-entity" onclick="window.showCodeTab('entity')"
+                            class="px-2.5 py-1 rounded-lg bg-black/40 hover:bg-purple-950 text-purple-300 font-bold text-[11px] transition-all cursor-pointer border border-purple-800/40">
+                            Domain Entity &amp; Tiers
+                        </button>
+                    </div>
+                </div>
+                <pre id="shipping-code-pre" class="p-3 bg-black/60 rounded-xl overflow-x-auto text-[11px] font-mono leading-relaxed text-pink-200 border border-purple-900/40 max-h-48 overflow-y-auto"></pre>
+            </div>
 
-                
-<!-- Left Column: Leaflet Map of America & Hub Selectors (7 Cols) -->
-                <div class="lg:col-span-7 space-y-3">
+            <!-- Main Interactive Map + Controls Grid (Balanced 7 Cols & 5 Cols) -->
+            <div class="grid grid-cols-1 lg:grid-cols-12 gap-5 items-start">
+
+                <!-- Left Column: Leaflet Map of America & Hub Selectors (7 Cols) -->
+                <div class="lg:col-span-7 space-y-2.5">
                     
                     <!-- Map Top Toolbar -->
-                    <div class="flex items-center justify-between gap-2 flex-wrap bg-white p-2.5 rounded-2xl border border-canvas-border shadow-xs text-xs">
+                    <div class="flex items-center justify-between gap-2 flex-wrap bg-white p-2 rounded-2xl border border-canvas-border shadow-xs text-xs"
+                        data-blueprint-file="WackyStore.WebUI/Controllers/ShippingCalculatorController.cs"
+                        data-blueprint-role="Map Studio Interaction Toolbar"
+                        data-blueprint-layer="WebUI / View Controls"
+                        data-blueprint-dom="Toolbar controlling point placement mode, CartoDB/OSM tile switching, and city geocoding."
+                        data-blueprint-desc="Dispatches user map interactions to client-side GIS event bus."
+                        data-blueprint-code="public ActionResult MapToolbar() => PartialView(&quot;_MapToolbar&quot;);">
                         <div class="flex items-center gap-2">
                             <span class="text-[11px] font-mono font-bold text-earth-600 flex items-center gap-1">
                                 <i class="fa-solid fa-location-crosshairs text-[#FF1493]"></i> Click Mode:
                             </span>
-                            <div class="inline-flex rounded-xl bg-canvas-surface p-1 border border-canvas-border text-[11px] font-mono">
+                            <div class="inline-flex rounded-xl bg-canvas-surface p-1 border border-canvas-border text-[11px] font-mono"
+                                data-blueprint-file="WackyStore.Domain/Entities/GeoLocation.cs"
+                                data-blueprint-role="Point A / Point B Pin Selector"
+                                data-blueprint-layer="Domain / Entity Binding"
+                                data-blueprint-dom="Toggle switch defining whether subsequent map clicks mutate Origin or Destination coordinates."
+                                data-blueprint-desc="Binds user coordinate clicks to origin and destination GeoLocation value objects."
+                                data-blueprint-code="public class GeoLocation { public double Latitude { get; set; } public double Longitude { get; set; } }">
                                 <button type="button" id="map-mode-origin-btn" onclick="window.setMapClickMode('origin')"
                                     class="px-2.5 py-1 rounded-lg bg-[#FF1493] text-white font-bold transition-all flex items-center gap-1 cursor-pointer shadow-xs">
                                     <span class="h-2 w-2 rounded-full bg-white animate-pulse"></span>
@@ -4489,15 +4635,21 @@
                         <!-- Basemap Provider Selector -->
                         <div class="flex items-center gap-1.5 flex-wrap">
                             <span class="text-[10.5px] font-mono text-earth-500 font-bold hidden sm:inline">Tiles:</span>
-                            <div class="inline-flex rounded-xl bg-canvas-surface p-1 border border-canvas-border text-[10.5px] font-mono">
+                            <div class="inline-flex rounded-xl bg-canvas-surface p-1 border border-canvas-border text-[10.5px] font-mono"
+                                data-blueprint-file="WackyStore.Infrastructure/GIS/CartoTileService.cs"
+                                data-blueprint-role="Cartographic Basemap Tile Switcher"
+                                data-blueprint-layer="Infrastructure / Spatial Services"
+                                data-blueprint-dom="Pill switcher toggle between OpenStreetMap and authenticated CARTO Voyager tiles."
+                                data-blueprint-desc="Swaps raster tile layers dynamically based on active visual preference."
+                                data-blueprint-code="public string GetTileUrl(BasemapProvider provider, bool isDark) => ...;">
                                 <button type="button" id="basemap-btn-osm" onclick="window.switchBasemapLayer('osm')"
                                     class="px-2 py-0.5 rounded-md bg-[#FF1493] text-white font-bold text-[10.5px] shadow-xs cursor-pointer"
-                                    title="Clean OpenStreetMap Standard (100% Watermark-Free & High-Precision)">
+                                    title="OpenStreetMap Standard">
                                     OSM Clean
                                 </button>
                                 <button type="button" id="basemap-btn-voyager" onclick="window.switchBasemapLayer('carto-voyager')"
                                     class="px-2 py-0.5 rounded-md text-earth-700 hover:text-earth-950 text-[10.5px] cursor-pointer"
-                                    title="CARTO Voyager Basemap (Authenticated with CARTO Cloud Token)">
+                                    title="CARTO Voyager Basemap">
                                     CARTO Voyager
                                 </button>
                                 <button type="button" id="basemap-btn-dark" onclick="window.switchBasemapLayer('carto-dark')"
@@ -4509,7 +4661,7 @@
                         </div>
 
                         <!-- City / Zip Geocode Input -->
-                        <div class="flex items-center gap-1.5 flex-1 max-w-[220px] relative">
+                        <div class="flex items-center gap-1.5 flex-1 max-w-[210px] relative">
                             <input type="text" id="map-city-search-input" placeholder="Search US City / Zip..."
                                 onkeydown="if(event.key==='Enter') window.searchAndLocateCity()"
                                 class="w-full bg-canvas-surface border border-canvas-border rounded-xl px-2.5 py-1 text-xs text-earth-900 placeholder-earth-400 focus:outline-none focus:border-[#FF1493] font-sans" />
@@ -4521,7 +4673,13 @@
                     </div>
 
                     <!-- Real-Time Logistics Routing Status Bar -->
-                    <div class="bg-canvas-surface border border-canvas-border rounded-xl px-3 py-2 text-xs flex flex-col sm:flex-row sm:items-center justify-between gap-2 text-earth-800 shadow-xs">
+                    <div class="bg-canvas-surface border border-canvas-border rounded-xl px-3 py-1.5 text-xs flex flex-col sm:flex-row sm:items-center justify-between gap-1.5 text-earth-800 shadow-xs"
+                        data-blueprint-file="WackyStore.Domain/Services/GeodesicShippingService.cs"
+                        data-blueprint-role="Real-Time Dispatch Status Bar"
+                        data-blueprint-layer="Domain / Presentation Binding"
+                        data-blueprint-dom="Real-time status readout verifying GIS calculation loop and Haversine engine status."
+                        data-blueprint-desc="Confirms live connection between client GIS cartography and domain distance calculations."
+                        data-blueprint-code="public bool IsDispatchOnline => true;">
                         <div class="flex items-center gap-2">
                             <span class="inline-flex items-center gap-1.5 px-2 py-0.5 rounded-md bg-emerald-600 text-white font-mono text-[10px] font-bold shadow-xs">
                                 <i class="fa-solid fa-circle-check text-[9px]"></i> GIS DISPATCH ONLINE
@@ -4536,52 +4694,73 @@
                         </div>
                     </div>
 
-                    <!-- Genuine Leaflet Map Container -->
-                    <div class="relative w-full rounded-2xl overflow-hidden border-2 border-canvas-border shadow-md">
-                        <div id="shipping-leaflet-map" style="height: 580px; width: 100%; min-height: 480px;"></div>
+                    <!-- Genuine Leaflet Map Container (Properly Sized & Contained at 100%) -->
+                    <div class="relative w-full rounded-2xl overflow-hidden border-2 border-canvas-border shadow-md"
+                        data-blueprint-file="WackyStore.WebUI/Controllers/ShippingCalculatorController.cs"
+                        data-blueprint-role="Leaflet US Cartography Viewport"
+                        data-blueprint-layer="WebUI / GIS Canvas"
+                        data-blueprint-dom="Interactive Leaflet map container binding draggable Point A &amp; Point B pins to real-time SVG polyline arcs."
+                        data-blueprint-desc="Interactive canvas visualizing cross-country flight trajectories and computing route waypoints across the US."
+                        data-blueprint-code="[HttpPost] public async Task<JsonResult> EstimateShipping(GeoLocation origin, GeoLocation destination, ShippingTier tier)">
+                        <div id="shipping-leaflet-map" style="height: 410px; width: 100%; min-height: 350px;"></div>
                     </div>
 
                     <!-- Preset US Logistics Hubs -->
-                    <div class="bg-white p-3 rounded-2xl border border-canvas-border shadow-xs space-y-2">
+                    <div class="bg-white p-2.5 sm:p-3 rounded-2xl border border-canvas-border shadow-xs space-y-1.5"
+                        data-blueprint-file="WackyStore.Domain/Entities/ShippingRoute.cs"
+                        data-blueprint-role="US Fulfillment Logistics Hubs"
+                        data-blueprint-layer="Domain / Entity"
+                        data-blueprint-dom="Pill button grid binding origin coordinates to regional fulfillment centers."
+                        data-blueprint-desc="Represents geographic distribution node entities mapped to national regional warehouses."
+                        data-blueprint-code="public class ShippingRoute { public string OriginCode { get; set; } public GeoLocation OriginCoords { get; set; } }">
                         <div class="text-[10.5px] font-mono uppercase font-bold text-earth-600 flex items-center justify-between">
                             <span>US Fulfillment Hubs (Point A):</span>
                             <span class="text-earth-400 font-normal">Click any hub to relocate</span>
                         </div>
                         <div class="flex flex-wrap gap-1.5 text-xs font-mono">
-                            <button type="button" onclick="window.selectShippingHub('seattle')" class="px-2.5 py-1 rounded-lg bg-canvas-surface hover:bg-[#FF1493] text-earth-800 hover:text-white border border-canvas-border text-[11px] transition-all cursor-pointer">
+                            <button type="button" onclick="window.selectShippingHub('seattle')" class="px-2 py-1 rounded-lg bg-canvas-surface hover:bg-[#FF1493] text-earth-800 hover:text-white border border-canvas-border text-[11px] transition-all cursor-pointer">
                                 🌲 Seattle (WA)
                             </button>
-                            <button type="button" onclick="window.selectShippingHub('la')" class="px-2.5 py-1 rounded-lg bg-canvas-surface hover:bg-[#FF1493] text-earth-800 hover:text-white border border-canvas-border text-[11px] transition-all cursor-pointer">
+                            <button type="button" onclick="window.selectShippingHub('la')" class="px-2 py-1 rounded-lg bg-canvas-surface hover:bg-[#FF1493] text-earth-800 hover:text-white border border-canvas-border text-[11px] transition-all cursor-pointer">
                                 🌴 Los Angeles (CA)
                             </button>
-                            <button type="button" onclick="window.selectShippingHub('denver')" class="px-2.5 py-1 rounded-lg bg-canvas-surface hover:bg-[#FF1493] text-earth-800 hover:text-white border border-canvas-border text-[11px] transition-all cursor-pointer">
+                            <button type="button" onclick="window.selectShippingHub('denver')" class="px-2 py-1 rounded-lg bg-canvas-surface hover:bg-[#FF1493] text-earth-800 hover:text-white border border-canvas-border text-[11px] transition-all cursor-pointer">
                                 🏔️ Denver (CO)
                             </button>
-                            <button type="button" onclick="window.selectShippingHub('dallas')" class="px-2.5 py-1 rounded-lg bg-canvas-surface hover:bg-[#FF1493] text-earth-800 hover:text-white border border-canvas-border text-[11px] transition-all cursor-pointer">
+                            <button type="button" onclick="window.selectShippingHub('dallas')" class="px-2 py-1 rounded-lg bg-canvas-surface hover:bg-[#FF1493] text-earth-800 hover:text-white border border-canvas-border text-[11px] transition-all cursor-pointer">
                                 🤠 Dallas (TX)
                             </button>
-                            <button type="button" onclick="window.selectShippingHub('chicago')" class="px-2.5 py-1 rounded-lg bg-canvas-surface hover:bg-[#FF1493] text-earth-800 hover:text-white border border-canvas-border text-[11px] transition-all cursor-pointer">
+                            <button type="button" onclick="window.selectShippingHub('chicago')" class="px-2 py-1 rounded-lg bg-canvas-surface hover:bg-[#FF1493] text-earth-800 hover:text-white border border-canvas-border text-[11px] transition-all cursor-pointer">
                                 🏙️ Chicago (IL)
                             </button>
-                            <button type="button" onclick="window.selectShippingHub('atlanta')" class="px-2.5 py-1 rounded-lg bg-canvas-surface hover:bg-[#FF1493] text-earth-800 hover:text-white border border-canvas-border text-[11px] transition-all cursor-pointer">
+                            <button type="button" onclick="window.selectShippingHub('atlanta')" class="px-2 py-1 rounded-lg bg-canvas-surface hover:bg-[#FF1493] text-earth-800 hover:text-white border border-canvas-border text-[11px] transition-all cursor-pointer">
                                 🍑 Atlanta (GA)
                             </button>
-                            <button type="button" onclick="window.selectShippingHub('nyc')" class="px-2.5 py-1 rounded-lg bg-canvas-surface hover:bg-[#FF1493] text-earth-800 hover:text-white border border-canvas-border text-[11px] transition-all cursor-pointer">
+                            <button type="button" onclick="window.selectShippingHub('nyc')" class="px-2 py-1 rounded-lg bg-canvas-surface hover:bg-[#FF1493] text-earth-800 hover:text-white border border-canvas-border text-[11px] transition-all cursor-pointer">
                                 🗽 New York (NY)
                             </button>
-                            <button type="button" onclick="window.selectShippingHub('miami')" class="px-2.5 py-1 rounded-lg bg-canvas-surface hover:bg-[#FF1493] text-earth-800 hover:text-white border border-canvas-border text-[11px] transition-all cursor-pointer">
+                            <button type="button" onclick="window.selectShippingHub('miami')" class="px-2 py-1 rounded-lg bg-canvas-surface hover:bg-[#FF1493] text-earth-800 hover:text-white border border-canvas-border text-[11px] transition-all cursor-pointer">
                                 🏖️ Miami (FL)
                             </button>
                         </div>
+                    </div>
 
-<!-- Right Column: Telemetry & Shipping Rate Calculator (5 Cols) -->
-                <div class="lg:col-span-5 space-y-4">
+                </div>
+
+                <!-- Right Column: Telemetry & Shipping Rate Calculator (5 Cols) -->
+                <div class="lg:col-span-5 space-y-3.5">
 
                     <!-- Distance & Geodesic Telemetry Card -->
-                    <div class="bg-white p-4 sm:p-5 rounded-2xl border border-canvas-border shadow-xs space-y-3">
-                        <div class="flex items-center justify-between border-b border-canvas-border pb-2.5">
+                    <div class="bg-white p-3.5 sm:p-4 rounded-2xl border border-canvas-border shadow-xs space-y-2.5"
+                        data-blueprint-file="WackyStore.Domain/Services/GeodesicShippingService.cs"
+                        data-blueprint-role="Haversine Spherical Trigonometry Service"
+                        data-blueprint-layer="Domain / Spatial Algorithm"
+                        data-blueprint-dom="Real-time mathematical readout calculating Great-Circle arc and road circuity factor."
+                        data-blueprint-desc="Pure C# domain service implementing IShippingRateCalculator using the Haversine formula to compute great-circle distance."
+                        data-blueprint-code="double dLat = ToRadians(dest.Lat - orig.Lat); double a = Math.Sin(dLat/2) * Math.Sin(dLat/2) + ...;">
+                        <div class="flex items-center justify-between border-b border-canvas-border pb-2">
                             <div class="flex items-center gap-2">
-                                <div class="h-8 w-8 rounded-xl bg-gradient-to-br from-[#FF1493] to-[#D946EF] flex items-center justify-center text-white text-sm shadow-xs">
+                                <div class="h-7 w-7 rounded-xl bg-gradient-to-br from-[#FF1493] to-[#D946EF] flex items-center justify-center text-white text-xs shadow-xs">
                                     <i class="fa-solid fa-route"></i>
                                 </div>
                                 <div>
@@ -4595,13 +4774,19 @@
                         </div>
 
                         <!-- Readout Values -->
-                        <div class="grid grid-cols-2 gap-3">
-                            <div class="p-3 rounded-xl bg-canvas-surface border border-canvas-border space-y-1">
+                        <div class="grid grid-cols-2 gap-2.5">
+                            <div class="p-2.5 rounded-xl bg-canvas-surface border border-canvas-border space-y-0.5"
+                                data-blueprint-file="WackyStore.Domain/Models/DistanceMatrix.cs"
+                                data-blueprint-role="Great-Circle Geodesic Arc Metric"
+                                data-blueprint-layer="Domain / Data Transfer Model"
+                                data-blueprint-dom="Calculated spherical planetary flight distance in statutory miles and kilometers."
+                                data-blueprint-desc="Represents theoretical minimum flight distance along the Earth's curvature."
+                                data-blueprint-code="public double GreatCircleMiles { get; set; }">
                                 <div class="text-[10px] font-mono uppercase text-earth-600 font-bold flex items-center gap-1">
                                     <i class="fa-solid fa-plane-up text-[#FF1493]"></i>
                                     <span>Great-Circle Arc</span>
                                 </div>
-                                <div id="stat-great-circle-miles" class="font-heading font-black text-xl text-earth-950 font-mono tracking-tight">
+                                <div id="stat-great-circle-miles" class="font-heading font-black text-lg text-earth-950 font-mono tracking-tight">
                                     1,085 mi
                                 </div>
                                 <div id="stat-great-circle-km" class="text-[10px] text-earth-500 font-mono">
@@ -4609,12 +4794,18 @@
                                 </div>
                             </div>
 
-                            <div class="p-3 rounded-xl bg-canvas-surface border border-canvas-border space-y-1">
+                            <div class="p-2.5 rounded-xl bg-canvas-surface border border-canvas-border space-y-0.5"
+                                data-blueprint-file="WackyStore.Domain/Services/GeodesicShippingService.cs"
+                                data-blueprint-role="Overland Freight Highway Circuity Metric"
+                                data-blueprint-layer="Domain / Transportation Engineering"
+                                data-blueprint-dom="Calculates realistic highway surface miles by factoring national Interstate circuity curves."
+                                data-blueprint-desc="Applies empirical 1.18x highway detour factor to convert ideal great-circle arc to road freight mileage."
+                                data-blueprint-code="public double OverlandMiles => Math.Round(GreatCircleMiles * 1.18, 2);">
                                 <div class="text-[10px] font-mono uppercase text-earth-600 font-bold flex items-center gap-1">
                                     <i class="fa-solid fa-truck text-[#D946EF]"></i>
                                     <span>Overland Highway</span>
                                 </div>
-                                <div id="stat-overland-miles" class="font-heading font-black text-xl text-earth-950 font-mono tracking-tight">
+                                <div id="stat-overland-miles" class="font-heading font-black text-lg text-earth-950 font-mono tracking-tight">
                                     1,280 mi
                                 </div>
                                 <div id="stat-overland-km" class="text-[10px] text-earth-500 font-mono">
@@ -4624,7 +4815,13 @@
                         </div>
 
                         <!-- Coordinates & Azimuth Readout -->
-                        <div class="text-[11px] font-mono text-earth-600 space-y-1 bg-canvas-surface/60 p-2.5 rounded-xl border border-canvas-border">
+                        <div class="text-[11px] font-mono text-earth-600 space-y-1 bg-canvas-surface/60 p-2 rounded-xl border border-canvas-border"
+                            data-blueprint-file="WackyStore.Domain/Entities/GeoLocation.cs"
+                            data-blueprint-role="Origin / Destination Coordinate Readout"
+                            data-blueprint-layer="Domain / Coordinates Binding"
+                            data-blueprint-dom="Formatted GPS decimal coordinates and spherical azimuth compass bearing."
+                            data-blueprint-desc="Displays decimal coordinates and trigonometric heading angle for route trajectory."
+                            data-blueprint-code="public double BearingDegrees => CalculateInitialAzimuth(origin, destination);">
                             <div class="flex items-center justify-between">
                                 <span class="flex items-center gap-1.5"><span class="h-2 w-2 rounded-full bg-[#FF1493]"></span> Origin A:</span>
                                 <span id="coords-display-a" class="font-bold text-earth-900">47.60°N, 122.33°W (Seattle, WA)</span>
@@ -4641,8 +4838,14 @@
                     </div>
 
                     <!-- Carrier Velocity Tier Selector -->
-                    <div class="bg-white p-4 sm:p-5 rounded-2xl border border-canvas-border shadow-xs space-y-3">
-                        <div class="flex items-center justify-between border-b border-canvas-border pb-2.5">
+                    <div class="bg-white p-3.5 sm:p-4 rounded-2xl border border-canvas-border shadow-xs space-y-2.5"
+                        data-blueprint-file="WackyStore.Domain/Entities/ShippingTier.cs"
+                        data-blueprint-role="Carrier Velocity Enum &amp; Rate Matrix"
+                        data-blueprint-layer="Domain / Entity &amp; Value Object"
+                        data-blueprint-dom="Form input group binding selected carrier velocity tier to order dispatch manifest."
+                        data-blueprint-desc="Domain enum representing shipping tiers (StandardGround, JetstreamExpress, SupersonicDrone, QuantumTeleportation) with rate multipliers."
+                        data-blueprint-code="public enum ShippingTier { StandardGround = 1, JetstreamExpress = 2, SupersonicDrone = 3, QuantumTeleportation = 4 }">
+                        <div class="flex items-center justify-between border-b border-canvas-border pb-2">
                             <div class="text-[10.5px] font-mono uppercase text-earth-700 font-bold flex items-center gap-1.5">
                                 <i class="fa-solid fa-gauge-high text-[#FF1493]"></i>
                                 <span>Carrier Velocity:</span>
@@ -4653,66 +4856,96 @@
                         </div>
 
                         <!-- Carrier Radio Options -->
-                        <div class="space-y-2 text-xs">
-                            <label class="flex items-center justify-between p-2.5 rounded-xl bg-canvas-surface hover:bg-canvas-border border border-canvas-border transition-all cursor-pointer">
-                                <div class="flex items-center gap-2.5">
+                        <div class="space-y-1.5 text-xs">
+                            <label class="flex items-center justify-between p-2 rounded-xl bg-canvas-surface hover:bg-canvas-border border border-canvas-border transition-all cursor-pointer"
+                                data-blueprint-file="WackyStore.Domain/Entities/ShippingTier.cs"
+                                data-blueprint-role="Ground Courier Rate Tier"
+                                data-blueprint-layer="Domain / Rate Calculation"
+                                data-blueprint-dom="Standard ground carrier with base fee $4.99 and distance rate $0.005/mi."
+                                data-blueprint-desc="Ground freight calculation tier with free shipping threshold qualification."
+                                data-blueprint-code="decimal groundCost = 4.99m + (decimal)(miles * 0.005);">
+                                <div class="flex items-center gap-2">
                                     <input type="radio" name="shipping-tier" value="ground" checked onchange="window.setShippingTier('ground')" class="text-[#FF1493] focus:ring-pink-500">
                                     <div>
-                                        <div class="font-bold text-earth-950 flex items-center gap-1.5">
+                                        <div class="font-bold text-earth-950 flex items-center gap-1.5 text-xs">
                                             <i class="fa-solid fa-truck text-emerald-600"></i> Wacky Ground Express
                                         </div>
                                         <div class="text-[10px] text-earth-500 font-mono">3-5 Days &bull; $4.99 Base + $0.005/mi</div>
                                     </div>
                                 </div>
-                                <span id="rate-tier-ground" class="font-mono font-bold text-emerald-700">$8.45</span>
+                                <span id="rate-tier-ground" class="font-mono font-bold text-emerald-700 text-xs">$8.45</span>
                             </label>
 
-                            <label class="flex items-center justify-between p-2.5 rounded-xl bg-canvas-surface hover:bg-canvas-border border border-canvas-border transition-all cursor-pointer">
-                                <div class="flex items-center gap-2.5">
+                            <label class="flex items-center justify-between p-2 rounded-xl bg-canvas-surface hover:bg-canvas-border border border-canvas-border transition-all cursor-pointer"
+                                data-blueprint-file="WackyStore.Domain/Entities/ShippingTier.cs"
+                                data-blueprint-role="Air Freight Express Tier"
+                                data-blueprint-layer="Domain / Rate Calculation"
+                                data-blueprint-dom="Air freight courier with base fee $12.99 and distance rate $0.012/mi."
+                                data-blueprint-desc="High-priority air cargo velocity tier with accelerated transit."
+                                data-blueprint-code="decimal expressCost = 12.99m + (decimal)(miles * 0.012);">
+                                <div class="flex items-center gap-2">
                                     <input type="radio" name="shipping-tier" value="express" onchange="window.setShippingTier('express')" class="text-[#D946EF] focus:ring-fuchsia-500">
                                     <div>
-                                        <div class="font-bold text-earth-950 flex items-center gap-1.5">
+                                        <div class="font-bold text-earth-950 flex items-center gap-1.5 text-xs">
                                             <i class="fa-solid fa-jet-fighter text-teal-600"></i> Jetstream Air Cargo
                                         </div>
                                         <div class="text-[10px] text-earth-500 font-mono">1-2 Days &bull; $12.99 Base + $0.012/mi</div>
                                     </div>
                                 </div>
-                                <span id="rate-tier-express" class="font-mono font-bold text-teal-700">$26.01</span>
+                                <span id="rate-tier-express" class="font-mono font-bold text-teal-700 text-xs">$26.01</span>
                             </label>
 
-                            <label class="flex items-center justify-between p-2.5 rounded-xl bg-canvas-surface hover:bg-canvas-border border border-canvas-border transition-all cursor-pointer">
-                                <div class="flex items-center gap-2.5">
+                            <label class="flex items-center justify-between p-2 rounded-xl bg-canvas-surface hover:bg-canvas-border border border-canvas-border transition-all cursor-pointer"
+                                data-blueprint-file="WackyStore.Domain/Entities/ShippingTier.cs"
+                                data-blueprint-role="Drone Autonomous Dash Tier"
+                                data-blueprint-layer="Domain / Rate Calculation"
+                                data-blueprint-dom="Autonomous drone courier with base fee $24.99 and distance rate $0.025/mi."
+                                data-blueprint-desc="Autonomous quadcopter same-day velocity tier."
+                                data-blueprint-code="decimal droneCost = 24.99m + (decimal)(miles * 0.025);">
+                                <div class="flex items-center gap-2">
                                     <input type="radio" name="shipping-tier" value="drone" onchange="window.setShippingTier('drone')" class="text-[#FF1493] focus:ring-pink-500">
                                     <div>
-                                        <div class="font-bold text-earth-950 flex items-center gap-1.5">
+                                        <div class="font-bold text-earth-950 flex items-center gap-1.5 text-xs">
                                             <i class="fa-solid fa-helicopter text-amber-600"></i> Supersonic Drone Dash
                                         </div>
                                         <div class="text-[10px] text-earth-500 font-mono">Same-Day (4 hrs) &bull; $24.99 Base + $0.025/mi</div>
                                     </div>
                                 </div>
-                                <span id="rate-tier-drone" class="font-mono font-bold text-amber-700">$52.12</span>
+                                <span id="rate-tier-drone" class="font-mono font-bold text-amber-700 text-xs">$52.12</span>
                             </label>
 
-                            <label class="flex items-center justify-between p-2.5 rounded-xl bg-canvas-surface hover:bg-canvas-border border border-canvas-border transition-all cursor-pointer">
-                                <div class="flex items-center gap-2.5">
+                            <label class="flex items-center justify-between p-2 rounded-xl bg-canvas-surface hover:bg-canvas-border border border-canvas-border transition-all cursor-pointer"
+                                data-blueprint-file="WackyStore.Domain/Entities/ShippingTier.cs"
+                                data-blueprint-role="Quantum Teleportation Tier"
+                                data-blueprint-layer="Domain / Novelty Physics"
+                                data-blueprint-dom="Instant quantum entanglement courier with flat rate $49.99."
+                                data-blueprint-desc="Novelty quantum dispatch tier delivering zero-latency packet teleportation."
+                                data-blueprint-code="decimal quantumCost = 49.99m;">
+                                <div class="flex items-center gap-2">
                                     <input type="radio" name="shipping-tier" value="quantum" onchange="window.setShippingTier('quantum')" class="text-[#D946EF] focus:ring-fuchsia-500">
                                     <div>
-                                        <div class="font-bold text-earth-950 flex items-center gap-1.5">
+                                        <div class="font-bold text-earth-950 flex items-center gap-1.5 text-xs">
                                             <i class="fa-solid fa-atom text-purple-600"></i> Quantum Teleportation
                                         </div>
                                         <div class="text-[10px] text-earth-500 font-mono">Instant (0.001 sec) &bull; Flat Rate</div>
                                     </div>
                                 </div>
-                                <span id="rate-tier-quantum" class="font-mono font-bold text-purple-700">$49.99</span>
+                                <span id="rate-tier-quantum" class="font-mono font-bold text-purple-700 text-xs">$49.99</span>
                             </label>
                         </div>
 
                         <!-- Price Total & Apply to Cart -->
-                        <div class="pt-3 border-t border-canvas-border flex items-center justify-between">
+                        <div class="pt-2.5 border-t border-canvas-border flex items-center justify-between"
+                            data-blueprint-file="WackyStore.Domain/Services/GeodesicShippingService.cs"
+                            data-blueprint-role="Freight Quoted Total Readout"
+                            data-blueprint-layer="Domain / Pricing Engine"
+                            data-blueprint-dom="Dynamic rate container displaying live estimated freight quote and free shipping qualification."
+                            data-blueprint-desc="Outputs current calculated rate after cart qualification deductions."
+                            data-blueprint-code="public decimal ComputeFreightRate(double miles, ShippingTier tier)">
                             <div>
                                 <div class="text-[10.5px] font-mono uppercase text-earth-500 font-bold">Estimated Freight Quote:</div>
                                 <div class="flex items-center gap-2 mt-0.5">
-                                    <span id="calculated-shipping-fee" class="font-heading font-black text-2xl sm:text-3xl text-earth-950 font-mono">$8.45</span>
+                                    <span id="calculated-shipping-fee" class="font-heading font-black text-2xl text-earth-950 font-mono">$8.45</span>
                                     <span id="shipping-eligibility-badge" class="px-2 py-0.5 rounded-full bg-emerald-100 text-emerald-800 border border-emerald-300 text-[10px] font-mono font-bold">
                                         $35+ Free Eligible
                                     </span>
@@ -4723,12 +4956,24 @@
                         <!-- Action Buttons -->
                         <div class="pt-1 flex flex-col sm:flex-row gap-2">
                             <button type="button" onclick="window.applyShippingToCart()"
-                                class="flex-1 py-3 px-4 rounded-xl bg-[#BE185D] hover:bg-[#9D174D] text-white font-bold text-xs sm:text-sm flex items-center justify-center gap-2 shadow-md shadow-pink-900/25 active:scale-98 transition-all cursor-pointer border border-[#9D174D]">
+                                data-blueprint-file="WackyStore.Domain/Entities/Cart.cs"
+                                data-blueprint-role="Cart Freight Line Item Model Binder"
+                                data-blueprint-layer="Domain / Aggregate Root"
+                                data-blueprint-dom="Primary action committing calculated freight fee and carrier manifest to active cart state."
+                                data-blueprint-desc="Applies shipping rate to the Cart aggregate root and triggers recalculation of cart grand total."
+                                data-blueprint-code="cart.ShippingFee = activePrice; cart.ShippingRoute = manifest;"
+                                class="flex-1 py-2.5 px-4 rounded-xl bg-[#BE185D] hover:bg-[#9D174D] text-white font-bold text-xs sm:text-sm flex items-center justify-center gap-2 shadow-md shadow-pink-900/25 active:scale-98 transition-all cursor-pointer border border-[#9D174D]">
                                 <i class="fa-solid fa-cart-arrow-down text-pink-200"></i>
                                 <span>Apply Rate to Cart</span>
                             </button>
                             <button type="button" onclick="window.copyShippingManifest()"
-                                class="py-3 px-3.5 rounded-xl bg-canvas-surface hover:bg-canvas-border border border-canvas-border text-earth-800 font-bold text-xs flex items-center justify-center gap-1.5 transition-all cursor-pointer"
+                                data-blueprint-file="WackyStore.Domain/Models/ShippingManifestDto.cs"
+                                data-blueprint-role="Logistics Manifest JSON Serializer"
+                                data-blueprint-layer="Domain / DTO &amp; Serialization"
+                                data-blueprint-dom="Action serializing current origin, destination, distance, tier, and quote to clipboard JSON."
+                                data-blueprint-desc="Serializes complete route manifest DTO for API dispatch integration."
+                                data-blueprint-code="public string ToJson() => JsonConvert.SerializeObject(this, Formatting.Indented);"
+                                class="py-2.5 px-3 rounded-xl bg-canvas-surface hover:bg-canvas-border border border-canvas-border text-earth-800 font-bold text-xs flex items-center justify-center gap-1.5 transition-all cursor-pointer"
                                 title="Copy Logistics Manifest JSON">
                                 <i class="fa-solid fa-copy text-[#FF1493]"></i>
                                 <span>Copy JSON</span>

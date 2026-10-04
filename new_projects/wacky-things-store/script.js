@@ -4149,6 +4149,10 @@ window.initLeafletShippingMap = function () {
 
     // Initial Route Draw & Calculation
     window.updateShippingCalculation(true);
+    if (window.shippingMarkerA && window.shippingMarkerB && typeof L !== 'undefined') {
+        const group = new L.featureGroup([window.shippingMarkerA, window.shippingMarkerB]);
+        map.fitBounds(group.getBounds().pad(0.2));
+    }
 };
 
 // Set Active Click Placement Mode
@@ -4493,11 +4497,20 @@ window.openShippingModal = function () {
 
     modal.classList.remove('hidden');
     modal.style.display = 'flex';
-    modal.style.zIndex = '99999';
+    modal.style.zIndex = '99990';
 
     if (typeof window.updateNavButtonStyles === 'function') {
         window.updateNavButtonStyles('shipping');
     }
+
+    const fitMapRoute = () => {
+        if (!window.shippingLeafletMap) return;
+        window.shippingLeafletMap.invalidateSize();
+        if (window.shippingMarkerA && window.shippingMarkerB && typeof L !== 'undefined') {
+            const group = new L.featureGroup([window.shippingMarkerA, window.shippingMarkerB]);
+            window.shippingLeafletMap.fitBounds(group.getBounds().pad(0.2));
+        }
+    };
 
     setTimeout(() => {
         if (!window.shippingLeafletMap) {
@@ -4505,13 +4518,11 @@ window.openShippingModal = function () {
                 window.initLeafletShippingMap();
             }
         } else {
-            window.shippingLeafletMap.invalidateSize();
-            if (window.shippingMarkerA && window.shippingMarkerB && typeof L !== 'undefined') {
-                const group = new L.featureGroup([window.shippingMarkerA, window.shippingMarkerB]);
-                window.shippingLeafletMap.fitBounds(group.getBounds().pad(0.35));
-            }
+            fitMapRoute();
         }
-    }, 150);
+    }, 120);
+
+    setTimeout(fitMapRoute, 350);
 };
 
 window.closeShippingModal = function () {
@@ -4762,6 +4773,22 @@ namespace WackyStore.Domain.Entities
         QuantumTeleportation = 4
     }
 }`
+};
+
+
+// Toggle Dedicated C# Source Code Inspector Studio
+window.toggleShippingCodeInspector = function () {
+    const inspector = document.getElementById('shipping-code-inspector');
+    if (!inspector) return;
+    const isHidden = inspector.classList.contains('hidden');
+    if (isHidden) {
+        inspector.classList.remove('hidden');
+        if (typeof window.showCodeTab === 'function') {
+            window.showCodeTab('haversine');
+        }
+    } else {
+        inspector.classList.add('hidden');
+    }
 };
 
 window.showCodeTab = function (tab) {
