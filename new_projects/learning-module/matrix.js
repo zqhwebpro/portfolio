@@ -4938,6 +4938,47 @@ function getTrackConsoleOutput(trackId, moduleNum, sectionId) {
   };
 
   // Launch the Interactive Lesson Sandbox Modal
+  // Helper: Retrieve linear flat sequence of all lessons across modules for a track
+  function getTrackLessonSequence(trackId) {
+    const tid = trackId || currentActiveTrackId;
+    const mod = MODULES_DATA.find((m) => m.id === tid) || MODULES_DATA[0];
+    if (!mod || !mod.modules) return [];
+    const list = [];
+    mod.modules.forEach((moduleItem) => {
+      (moduleItem.sections || []).forEach((secItem) => {
+        list.push({
+          trackId: mod.id,
+          moduleNum: moduleItem.num,
+          moduleTitle: moduleItem.title,
+          sectionId: secItem.id,
+          sectionTitle: secItem.title
+        });
+      });
+    });
+    return list;
+  }
+
+  // Seamless in-modal lesson traversal without leaving pop-up mode
+  window.navigateModalLesson = function (direction) {
+    const tid = activeLessonContext.trackId || currentActiveTrackId;
+    const sequence = getTrackLessonSequence(tid);
+    if (!sequence || sequence.length === 0) return;
+
+    let currentIdx = sequence.findIndex(
+      (item) => String(item.moduleNum) === String(activeLessonContext.moduleNum) && String(item.sectionId) === String(activeLessonContext.sectionId)
+    );
+    if (currentIdx === -1) currentIdx = 0;
+
+    let nextIdx = currentIdx + direction;
+    // Circular navigation allows continuous browsing across all lessons & modules in the track without leaving the pop-up
+    if (nextIdx < 0) nextIdx = sequence.length - 1;
+    if (nextIdx >= sequence.length) nextIdx = 0;
+
+    const nextLesson = sequence[nextIdx];
+    window.startCurriculumSection(nextLesson.moduleNum, nextLesson.sectionId, nextLesson.trackId);
+  };
+
+  // Launch the Interactive Lesson Sandbox Modal (Expansive Readability & Spacing)
   window.startCurriculumSection = function (moduleNum, sectionId, trackId) {
     playOsClick(840, 0.04);
     const modal = document.getElementById('jseLessonModal');
@@ -4969,33 +5010,83 @@ function getTrackConsoleOutput(trackId, moduleNum, sectionId) {
     const footerLabel = document.getElementById('jseModalFooterLabel') || document.getElementById('osModalTrackFooterLabel');
     const executeBtn = document.getElementById('jseModalExecuteBtn') || document.getElementById('osModalExecuteBtn');
 
-    if (headerIcon) headerIcon.className = theme.icon + ' text-base';
+    if (headerIcon) headerIcon.className = theme.icon + ' text-lg shrink-0';
     if (headerTag) {
       headerTag.textContent = theme.specPrefix + ' // MODULE_' + moduleNum + ' // SEC_' + sectionId;
-      headerTag.className = 'text-slate-950 font-black tracking-wide';
+      headerTag.className = 'text-slate-900 font-black tracking-wide truncate';
     }
     if (dot) dot.remove();
     if (moduleBadge) {
       moduleBadge.textContent = currModule ? currModule.title : 'MODULE ' + moduleNum;
-      moduleBadge.className = 'font-mono text-xs sm:text-sm font-extrabold text-slate-950 mb-2 flex items-center gap-2 uppercase tracking-wider';
+      moduleBadge.className = 'px-3 py-1 rounded-md bg-slate-100 border border-slate-300 text-slate-900 font-bold';
     }
     if (lessonTitle) {
       lessonTitle.textContent = sec.title;
-      lessonTitle.className = 'font-headline font-black text-2xl sm:text-3xl lg:text-4xl text-slate-950 leading-tight';
+      lessonTitle.className = 'font-headline font-black text-2xl sm:text-3xl lg:text-4xl xl:text-5xl text-slate-950 leading-tight tracking-tight';
     }
     if (lessonDesc) {
       lessonDesc.textContent = sec.summary || 'Interactive lesson runtime and syllabus objectives.';
-      lessonDesc.className = 'font-sans text-sm sm:text-base lg:text-lg text-slate-800 mt-3 leading-relaxed font-medium';
+      lessonDesc.className = 'font-sans text-base sm:text-lg lg:text-xl text-slate-700 mt-4 leading-relaxed font-medium max-w-5xl';
     }
-    if (runnerFilename) runnerFilename.textContent = 'RUNNER // live_interpreter.' + theme.runnerExt;
+    if (runnerFilename) {
+      runnerFilename.innerHTML = '<i class="fa-solid fa-code text-sky-400"></i> RUNNER // live_interpreter.' + theme.runnerExt;
+    }
 
-    if (footerIcon) footerIcon.className = 'fa-solid fa-graduation-cap text-slate-950 text-base';
+    if (footerIcon) footerIcon.className = 'fa-solid fa-graduation-cap text-slate-950 text-lg shrink-0';
     if (footerLabel) {
       footerLabel.textContent = theme.certName;
-      footerLabel.className = 'text-slate-800 font-bold';
+      footerLabel.className = 'text-slate-800 text-xs sm:text-sm font-bold truncate';
     }
     if (executeBtn) {
-      executeBtn.className = 'px-5 py-2.5 rounded-xl bg-slate-950 hover:bg-slate-800 text-white font-bold transition-colors cursor-pointer flex items-center gap-2 shadow-xs text-xs sm:text-sm';
+      executeBtn.className = 'px-5 sm:px-6 py-2.5 rounded-xl bg-slate-950 hover:bg-slate-800 text-white font-extrabold transition-all cursor-pointer flex items-center gap-2 shadow-md text-xs sm:text-sm hover:scale-[1.02] active:scale-[0.98]';
+    }
+
+    // Traversal progress & button states
+    const sequence = getTrackLessonSequence(tid);
+    const currentIdx = sequence.findIndex(
+      (item) => String(item.moduleNum) === String(moduleNum) && String(item.sectionId) === String(sectionId)
+    );
+    const totalLessons = sequence.length;
+    const lessonPos = currentIdx >= 0 ? currentIdx + 1 : 1;
+
+    const counterBadge = document.getElementById('jseModalCounterBadge');
+    if (counterBadge) {
+      counterBadge.textContent = 'Lesson ' + lessonPos + ' of ' + totalLessons;
+    }
+
+    if (sequence.length > 0 && currentIdx >= 0) {
+      const prevIdx = (currentIdx - 1 + totalLessons) % totalLessons;
+      const nextIdx = (currentIdx + 1) % totalLessons;
+      const prevItem = sequence[prevIdx];
+      const nextItem = sequence[nextIdx];
+
+      const prevBtns = [
+        document.getElementById('jseModalHeaderPrevBtn'),
+        document.getElementById('jseModalFooterPrevBtn'),
+        document.getElementById('jseModalSidePrevBtn')
+      ];
+      prevBtns.forEach((btn) => {
+        if (btn && prevItem) {
+          btn.setAttribute('title', 'Previous: ' + prevItem.sectionTitle + ' (←)');
+        }
+      });
+
+      const nextBtns = [
+        document.getElementById('jseModalHeaderNextBtn'),
+        document.getElementById('jseModalFooterNextBtn'),
+        document.getElementById('jseModalSideNextBtn')
+      ];
+      nextBtns.forEach((btn) => {
+        if (btn && nextItem) {
+          btn.setAttribute('title', 'Next: ' + nextItem.sectionTitle + ' (→)');
+        }
+      });
+    }
+
+    // Reset scroll position on container when traversing
+    const scrollContainer = document.getElementById('jseModalScrollContainer');
+    if (scrollContainer) {
+      scrollContainer.scrollTop = 0;
     }
 
     if (consoleOutput) {
@@ -5047,9 +5138,20 @@ function getTrackConsoleOutput(trackId, moduleNum, sectionId) {
     window.closeLessonModal();
   };
 
+  // Keyboard navigation: Escape to close, ArrowLeft / ArrowRight to traverse lessons without leaving pop-up mode
   document.addEventListener('keydown', (e) => {
+    const modal = document.getElementById('jseLessonModal');
+    const isModalOpen = modal && !modal.classList.contains('hidden');
+    if (!isModalOpen) return;
+
     if (e.key === 'Escape') {
       window.closeLessonModal();
+    } else if (e.key === 'ArrowLeft') {
+      e.preventDefault();
+      window.navigateModalLesson(-1);
+    } else if (e.key === 'ArrowRight') {
+      e.preventDefault();
+      window.navigateModalLesson(1);
     }
   });
 
@@ -5057,7 +5159,7 @@ function getTrackConsoleOutput(trackId, moduleNum, sectionId) {
   // 7. RENDERERS: IDE TABS, 3-BLOCK OUTLINE PANELS, AND GRID
   // ═══════════════════════════════════════════════════════════════════
 
-  // Render Horizontal IDE Tab Switcher
+  // Render Horizontal IDE Tab Switcher (Without 01. numbers)
   function renderIdeTabs() {
     const tabsContainer = document.getElementById('osIdeTabsContainer');
     if (!tabsContainer) return;
@@ -5074,13 +5176,11 @@ function getTrackConsoleOutput(trackId, moduleNum, sectionId) {
     });
 
     const tabsHtml = filtered
-      .map((mod, modIdx) => {
+      .map((mod) => {
         const isActive = currentViewMode === 'tabbed' && mod.id === currentActiveTrackId;
         const theme = TRACK_THEMES[mod.id] || TRACK_THEMES.javascript;
-        const tabNumber = (modIdx + 1).toString().padStart(2, '0') + '.';
         return (
           '<button type="button" class="os-ide-tab-btn ' + (isActive ? 'active' : '') + '" data-track-id="' + mod.id + '" title="' + mod.title + '" style="--tab-theme-color: ' + theme.primaryHex + '; --tab-theme-dark: ' + theme.darkHex + '; --tab-theme-light: ' + theme.lightBg + '; --tab-theme-border: ' + theme.borderHex + ';">' +
-          '<span class="tab-num-circle" style="background: ' + (isActive ? theme.darkHex : theme.primaryHex) + '; color: ' + theme.textHex + '; border: 1.5px solid ' + (isActive ? theme.textHex : theme.darkHex) + ';">' + tabNumber + '</span>' +
           '<i class="' + mod.icon + ' text-xs"></i>' +
           '<span>' + mod.fileName + '</span>' +
           '</button>'
@@ -5090,7 +5190,6 @@ function getTrackConsoleOutput(trackId, moduleNum, sectionId) {
 
     const gridBtnHtml = (
       '<button type="button" class="os-ide-tab-btn ' + (currentViewMode === 'grid' ? 'active' : '') + '" id="osMatrixGridTabBtn" title="View All 7 Tracks in Grid" style="--tab-theme-color: #0ea5e9; --tab-theme-dark: #0284c7; --tab-theme-light: #f0f9ff; --tab-theme-border: #7dd3fc;">' +
-      '<span class="tab-num-circle" style="background: ' + (currentViewMode === 'grid' ? '#0284c7' : '#0ea5e9') + '; color: #ffffff; border: 1.5px solid ' + (currentViewMode === 'grid' ? '#ffffff' : '#0284c7') + ';">ALL</span>' +
       '<i class="fa-solid fa-table-cells text-xs text-sky-400"></i>' +
       '<span>matrix_grid.all</span>' +
       '</button>'
@@ -5278,8 +5377,7 @@ function getTrackConsoleOutput(trackId, moduleNum, sectionId) {
       const isPageActive = currentPage === pIdx;
       const startNum = (pIdx * 3 + 1).toString().padStart(2, '0');
       const endNum = Math.min(modules.length, (pIdx + 1) * 3).toString().padStart(2, '0');
-      const midNum = (pIdx * 3 + 2).toString().padStart(2, '0');
-      const label = startNum + '. ' + midNum + '. ' + endNum + '. Modules ' + parseInt(startNum, 10) + '–' + parseInt(endNum, 10);
+      const label = 'Modules ' + parseInt(startNum, 10) + '–' + parseInt(endNum, 10);
       
       const btnStyle = isPageActive
         ? 'background: ' + theme.activeBtnBg + '; color: ' + theme.activeBtnText + '; font-weight: 900; box-shadow: 0 1px 3px rgba(0,0,0,0.25);'
@@ -5296,8 +5394,8 @@ function getTrackConsoleOutput(trackId, moduleNum, sectionId) {
     const nextStartNum = (nextPageIndex * 3 + 1).toString().padStart(2, '0');
     const nextEndNum = Math.min(modules.length, (nextPageIndex + 1) * 3).toString().padStart(2, '0');
     const nextButtonText = nextPageIndex === 0 
-      ? '← Back to Modules (01–03)' 
-      : 'Next Modules (' + nextStartNum + '–' + nextEndNum + ') →';
+      ? '← Back to Modules (1–3)' 
+      : 'Next Modules (' + parseInt(nextStartNum, 10) + '–' + parseInt(nextEndNum, 10) + ') →';
 
     container.innerHTML = (
       '<div class="os-white-card w-full border-2 overflow-hidden transition-all shadow-md" style="--block-theme-color: ' + theme.primaryHex + '; border-color: ' + theme.borderHex + '; border-top: 6px solid ' + theme.primaryHex + '; box-shadow: 0 8px 30px -4px ' + theme.primaryHex + '25;">' +

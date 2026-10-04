@@ -383,61 +383,102 @@
   <!-- ═══════════════════════════════════════════════════════════════════
        INTERACTIVE LESSON STARTER MODAL (HIGH READABILITY & EXPANDED VIEW)
        ═══════════════════════════════════════════════════════════════════ -->
-  <div id="jseLessonModal" class="fixed inset-0 z-50 bg-black/85 backdrop-blur-md hidden items-center justify-center p-4 sm:p-6" aria-modal="true" role="dialog">
-    <div class="os-white-card w-full max-w-4xl lg:max-w-5xl max-h-[92vh] flex flex-col overflow-hidden border border-slate-300 shadow-2xl">
+  <!-- ═══════════════════════════════════════════════════════════════════
+       INTERACTIVE LESSON STARTER MODAL (HIGH READABILITY & EXPANDED VIEW)
+       ═══════════════════════════════════════════════════════════════════ -->
+  <div id="jseLessonModal" class="fixed inset-0 z-50 bg-black/85 backdrop-blur-md hidden items-center justify-center p-2 sm:p-5 lg:p-8" aria-modal="true" role="dialog">
+    <div class="relative os-white-card w-full max-w-6xl xl:max-w-7xl 2xl:max-w-[1500px] h-[92vh] max-h-[94vh] flex flex-col overflow-hidden border-2 border-slate-300 shadow-2xl rounded-2xl bg-white">
       
-      <!-- Modal Header -->
-      <div class="os-window-header px-6 sm:px-8 py-4 flex items-center justify-between border-b border-slate-300 bg-slate-100">
-        <div class="flex items-center gap-2.5 font-mono text-xs sm:text-sm text-slate-800 font-bold">
-          <i id="jseModalHeaderIcon" class="fa-brands fa-js text-amber-500 text-base"></i>
-          <span id="jseModalHeaderTag" class="text-slate-900 font-extrabold tracking-wide">JSE.1 // LESSON_RUNNER</span>
+      <!-- Floating Side Navigation Arrows for Instant Lesson Browsing without Leaving Pop-up Mode -->
+      <button id="jseModalSidePrevBtn" type="button" onclick="window.navigateModalLesson(-1)" class="hidden xl:flex absolute left-4 top-1/2 -translate-y-1/2 z-30 w-12 h-12 rounded-full bg-white/95 hover:bg-slate-950 text-slate-800 hover:text-white border-2 border-slate-300 hover:border-slate-950 shadow-2xl items-center justify-center text-lg transition-all duration-200 cursor-pointer group backdrop-blur-xs" title="Previous Lesson (Left Arrow)">
+        <i class="fa-solid fa-arrow-left group-hover:-translate-x-0.5 transition-transform"></i>
+      </button>
+      <button id="jseModalSideNextBtn" type="button" onclick="window.navigateModalLesson(1)" class="hidden xl:flex absolute right-4 top-1/2 -translate-y-1/2 z-30 w-12 h-12 rounded-full bg-white/95 hover:bg-slate-950 text-slate-800 hover:text-white border-2 border-slate-300 hover:border-slate-950 shadow-2xl items-center justify-center text-lg transition-all duration-200 cursor-pointer group backdrop-blur-xs" title="Next Lesson (Right Arrow)">
+        <i class="fa-solid fa-arrow-right group-hover:translate-x-0.5 transition-transform"></i>
+      </button>
+
+      <!-- Modal Header: Title, Track Tag, Traversing Arrows, Counter & Close -->
+      <div class="os-window-header px-6 sm:px-10 lg:px-12 py-4 sm:py-5 flex items-center justify-between border-b border-slate-300 bg-slate-100/95 shrink-0">
+        <div class="flex items-center gap-3 font-mono text-xs sm:text-sm text-slate-800 font-bold min-w-0 pr-2">
+          <i id="jseModalHeaderIcon" class="fa-brands fa-js text-amber-500 text-lg shrink-0"></i>
+          <span id="jseModalHeaderTag" class="text-slate-900 font-black tracking-wide truncate">JSE.1 // LESSON_RUNNER</span>
         </div>
-        <button type="button" onclick="window.closeJseModal()" class="w-8 h-8 rounded-lg bg-slate-200 hover:bg-slate-300 text-slate-700 hover:text-slate-950 flex items-center justify-center text-sm font-mono transition-colors cursor-pointer" title="Close Modal">
-          <i class="fa-solid fa-xmark"></i>
-        </button>
+
+        <!-- In-Modal Traversing Controls & Close Button -->
+        <div class="flex items-center gap-2 sm:gap-3 font-mono shrink-0">
+          <button id="jseModalHeaderPrevBtn" type="button" onclick="window.navigateModalLesson(-1)" class="px-3 sm:px-4 py-2 rounded-xl bg-white hover:bg-slate-950 text-slate-800 hover:text-white border border-slate-300 hover:border-slate-950 text-xs sm:text-sm font-bold flex items-center gap-1.5 transition-all cursor-pointer shadow-xs" title="Previous Lesson (Left Arrow)">
+            <i class="fa-solid fa-arrow-left text-xs"></i>
+            <span class="hidden sm:inline">Prev</span>
+          </button>
+          <span id="jseModalCounterBadge" class="px-3.5 py-2 rounded-xl bg-slate-200 text-slate-900 font-mono text-xs sm:text-sm font-black tracking-wide select-none shadow-inner">Lesson 1 of 18</span>
+          <button id="jseModalHeaderNextBtn" type="button" onclick="window.navigateModalLesson(1)" class="px-3 sm:px-4 py-2 rounded-xl bg-white hover:bg-slate-950 text-slate-800 hover:text-white border border-slate-300 hover:border-slate-950 text-xs sm:text-sm font-bold flex items-center gap-1.5 transition-all cursor-pointer shadow-xs" title="Next Lesson (Right Arrow)">
+            <span class="hidden sm:inline">Next</span>
+            <i class="fa-solid fa-arrow-right text-xs"></i>
+          </button>
+          <button type="button" onclick="window.closeJseModal()" class="w-9 h-9 sm:w-10 sm:h-10 ml-1.5 rounded-xl bg-slate-200 hover:bg-rose-600 text-slate-700 hover:text-white flex items-center justify-center text-sm font-mono transition-colors cursor-pointer shadow-xs" title="Close Modal (Esc)">
+            <i class="fa-solid fa-xmark text-base"></i>
+          </button>
+        </div>
       </div>
 
-      <!-- Modal Body (Spacious & Highly Readable) -->
-      <div class="p-6 sm:p-8 overflow-y-auto space-y-6">
-        <div class="border-b border-slate-200 pb-4">
-          <div class="font-mono text-xs sm:text-sm font-extrabold text-slate-800 mb-2 flex items-center gap-2 uppercase tracking-wider">
-            <span id="jseModalModuleBadge" class="text-slate-900">JSE: MODULE 1</span>
+      <!-- Modal Body (Expansive Spacing, High Breathing Room & Full Readability) -->
+      <div id="jseModalScrollContainer" class="p-6 sm:p-10 lg:p-14 overflow-y-auto space-y-8 sm:space-y-10 flex-1">
+        
+        <!-- Lesson Syllabus & Title Block with Generous Breathing Room -->
+        <div class="border-b border-slate-200 pb-6 sm:pb-8">
+          <div class="font-mono text-xs sm:text-sm font-extrabold text-slate-800 mb-3 flex items-center gap-2 uppercase tracking-wider">
+            <span id="jseModalModuleBadge" class="px-3 py-1 rounded-md bg-slate-100 border border-slate-300 text-slate-900 font-bold">JSE: MODULE 1</span>
           </div>
-          <h3 id="jseModalLessonTitle" class="font-headline font-black text-2xl sm:text-3xl lg:text-4xl text-slate-950 leading-tight">
+          <h3 id="jseModalLessonTitle" class="font-headline font-black text-2xl sm:text-3xl lg:text-4xl xl:text-5xl text-slate-950 leading-tight tracking-tight">
             1.0. Welcome to JavaScript Essentials 1
           </h3>
-          <p id="jseModalLessonDesc" class="font-sans text-sm sm:text-base lg:text-lg text-slate-800 mt-3 leading-relaxed font-medium">
+          <p id="jseModalLessonDesc" class="font-sans text-base sm:text-lg lg:text-xl text-slate-700 mt-4 leading-relaxed font-medium max-w-5xl">
             Module lesson syllabus overview and execution sandbox.
           </p>
         </div>
 
         <!-- Code Sandbox / Execution Terminal -->
-        <div class="rounded-xl bg-slate-950 p-5 sm:p-6 border border-slate-800 text-slate-200 font-mono space-y-3 shadow-inner">
-          <div class="flex items-center justify-between text-slate-300 pb-2.5 border-b border-slate-800 text-xs font-bold">
-            <span id="jseModalRunnerFilename" class="text-slate-200">RUNNER // live_interpreter.js</span>
-            <span class="text-emerald-400 font-mono flex items-center gap-1.5"><i class="fa-solid fa-bolt text-[10px]"></i> RUNTIME_ACTIVE</span>
+        <div class="rounded-2xl bg-slate-950 p-6 sm:p-8 lg:p-10 border border-slate-800 text-slate-200 font-mono space-y-4 shadow-xl">
+          <div class="flex items-center justify-between text-slate-300 pb-3 border-b border-slate-800 text-xs sm:text-sm font-bold">
+            <span id="jseModalRunnerFilename" class="text-slate-200 flex items-center gap-2">
+              <i class="fa-solid fa-code text-sky-400"></i>
+              RUNNER // live_interpreter.js
+            </span>
+            <span class="text-emerald-400 font-mono flex items-center gap-2">
+              <i class="fa-solid fa-bolt text-xs animate-pulse"></i>
+              RUNTIME_ACTIVE
+            </span>
           </div>
-          <pre id="jseModalCodeSnippet" class="overflow-x-auto text-emerald-300 font-mono text-sm sm:text-base py-3 leading-relaxed selection:bg-emerald-900 selection:text-white"></pre>
+          <pre id="jseModalCodeSnippet" class="overflow-x-auto text-emerald-300 font-mono text-sm sm:text-base lg:text-lg py-4 leading-relaxed max-h-[380px] lg:max-h-[440px] selection:bg-emerald-900 selection:text-white"></pre>
         </div>
 
         <!-- Interactive Output Console -->
-        <div id="jseModalConsoleOutput" class="p-4 sm:p-5 rounded-xl bg-slate-900 border border-slate-700 font-mono text-sm sm:text-base text-slate-100 hidden leading-relaxed"></div>
+        <div id="jseModalConsoleOutput" class="p-6 sm:p-8 rounded-2xl bg-slate-900 border border-slate-700 font-mono text-sm sm:text-base lg:text-lg text-slate-100 hidden leading-relaxed shadow-lg"></div>
 
-        <!-- Action Controls -->
-        <div class="pt-4 border-t border-slate-200 flex items-center justify-between flex-wrap gap-3 font-mono text-xs sm:text-sm">
-          <div class="flex items-center gap-2.5 text-slate-700 font-bold">
-            <i id="jseModalFooterIcon" class="fa-solid fa-graduation-cap text-slate-900 text-base"></i>
-            <span id="jseModalFooterLabel" class="text-slate-800">JavaScript Essentials Certification Track</span>
-          </div>
-          <div class="flex items-center gap-2.5">
-            <button id="jseModalExecuteBtn" type="button" onclick="window.runJseDemo()" class="px-5 py-2.5 rounded-xl bg-slate-950 hover:bg-slate-800 text-white font-bold transition-all cursor-pointer flex items-center gap-2 shadow-sm text-xs sm:text-sm">
-              <i class="fa-solid fa-play text-xs"></i>
-              <span>EXECUTE_SANDBOX</span>
-            </button>
-            <button type="button" onclick="window.closeJseModal()" class="px-4 py-2.5 rounded-xl bg-slate-200 hover:bg-slate-300 text-slate-800 font-bold transition-colors cursor-pointer text-xs sm:text-sm">
-              Close
-            </button>
-          </div>
+      </div>
+
+      <!-- Action Controls & Footer Traversing Bar -->
+      <div class="px-6 sm:px-10 lg:px-12 py-4 sm:py-5 border-t border-slate-300 bg-slate-50 flex items-center justify-between flex-wrap gap-4 font-mono text-xs sm:text-sm shrink-0">
+        <div class="flex items-center gap-3 text-slate-700 font-bold min-w-0">
+          <i id="jseModalFooterIcon" class="fa-solid fa-graduation-cap text-slate-950 text-lg shrink-0"></i>
+          <span id="jseModalFooterLabel" class="text-slate-800 text-xs sm:text-sm font-bold truncate">JavaScript Essentials Certification Track</span>
+        </div>
+        <div class="flex items-center flex-wrap gap-2.5 sm:gap-3">
+          <button id="jseModalFooterPrevBtn" type="button" onclick="window.navigateModalLesson(-1)" class="px-4 py-2.5 rounded-xl bg-white hover:bg-slate-950 text-slate-800 hover:text-white border border-slate-300 hover:border-slate-950 font-bold transition-all cursor-pointer flex items-center gap-2 shadow-xs text-xs sm:text-sm" title="Previous Lesson (Left Arrow)">
+            <i class="fa-solid fa-arrow-left"></i>
+            <span>Prev Lesson</span>
+          </button>
+          <button id="jseModalExecuteBtn" type="button" onclick="window.runJseDemo()" class="px-5 sm:px-6 py-2.5 rounded-xl bg-slate-950 hover:bg-slate-800 text-white font-extrabold transition-all cursor-pointer flex items-center gap-2 shadow-md text-xs sm:text-sm hover:scale-[1.02] active:scale-[0.98]">
+            <i class="fa-solid fa-play text-xs text-amber-400"></i>
+            <span>EXECUTE_SANDBOX</span>
+          </button>
+          <button id="jseModalFooterNextBtn" type="button" onclick="window.navigateModalLesson(1)" class="px-4 py-2.5 rounded-xl bg-white hover:bg-slate-950 text-slate-800 hover:text-white border border-slate-300 hover:border-slate-950 font-bold transition-all cursor-pointer flex items-center gap-2 shadow-xs text-xs sm:text-sm" title="Next Lesson (Right Arrow)">
+            <span>Next Lesson</span>
+            <i class="fa-solid fa-arrow-right"></i>
+          </button>
+          <button type="button" onclick="window.closeJseModal()" class="px-4 py-2.5 rounded-xl bg-slate-200 hover:bg-slate-300 text-slate-800 font-bold transition-colors cursor-pointer text-xs sm:text-sm">
+            Close
+          </button>
         </div>
       </div>
 

@@ -729,10 +729,10 @@
             overflow: hidden !important;
             max-height: 0;
             opacity: 0;
-            transform: translateY(-20px);
-            transition: max-height 0.45s cubic-bezier(0.16, 1, 0.3, 1),
-                        opacity 0.35s ease,
-                        transform 0.4s cubic-bezier(0.16, 1, 0.3, 1) !important;
+            transform: translateY(-24px);
+            transition: max-height 1.25s cubic-bezier(0.22, 1, 0.36, 1),
+                        opacity 0.95s cubic-bezier(0.22, 1, 0.36, 1),
+                        transform 1.2s cubic-bezier(0.22, 1, 0.36, 1) !important;
             will-change: max-height, opacity, transform;
             display: block;
         }
@@ -745,21 +745,19 @@
 
         .nav-push-panel.is-open {
             display: block !important;
-            max-height: 25000px !important;
             opacity: 1 !important;
             transform: translateY(0) !important;
-            overflow: visible !important;
         }
 
         .nav-push-panel.is-closing {
             display: block !important;
             max-height: 0 !important;
             opacity: 0 !important;
-            transform: translateY(-20px) !important;
+            transform: translateY(-24px) !important;
             overflow: hidden !important;
-            transition: max-height 0.35s cubic-bezier(0.16, 1, 0.3, 1),
-                        opacity 0.28s ease,
-                        transform 0.3s cubic-bezier(0.16, 1, 0.3, 1) !important;
+            transition: max-height 0.75s cubic-bezier(0.22, 1, 0.36, 1),
+                        opacity 0.6s ease,
+                        transform 0.7s cubic-bezier(0.22, 1, 0.36, 1) !important;
         }
 
         /* Modal popup ensures shipping estimator always pops up above everything */
@@ -2377,8 +2375,8 @@
     <div id="nav-dropdown-area" class="w-full">
 
         <!-- 1. The Wacky Blog Dropdown Panel -->
-        <section id="panel-blog" class="nav-push-panel hidden w-full bg-canvas-base border-b-2 border-purple-900/20 shadow-md py-6 sm:py-8">
-            <div class="store-fluid-container">
+        <section id="panel-blog" class="nav-push-panel hidden w-full bg-canvas-base border-b-2 border-purple-900/20 shadow-md">
+            <div class="store-fluid-container py-6 sm:py-8">
                 <!-- 3.5 MAIN BLOG LAYOUT (The Mischief Gazette & Wacky Chronicles) -->
     <div id="blog-main-view" data-blueprint-file="WackyStore.WebUI/Controllers/BlogController.cs"
         data-blueprint-role="Blog Index Controller &amp; ViewModel Engine" data-blueprint-layer="WebUI / Blog Portal"
@@ -2462,11 +2460,11 @@
         </section>
 
         <!-- 3. Yellow Academy Dropdown Panel -->
-        <section id="panel-academy" class="nav-push-panel hidden w-full academy-reverse-theme relative overflow-hidden text-white border-b-2 border-amber-500/30 shadow-xl py-6 sm:py-8" style="background-color: #0f172a !important;">
+        <section id="panel-academy" class="nav-push-panel hidden w-full academy-reverse-theme relative overflow-hidden text-white border-b-2 border-amber-500/30 shadow-xl" style="background-color: #0f172a !important;">
             <!-- Reverse Animated Gradient Layers matching News Section except reversed -->
             <div class="academy-gradient-layer" aria-hidden="true"></div>
             <div class="academy-glow-layer" aria-hidden="true"></div>
-            <div class="academy-wide-container relative z-10">
+            <div class="academy-wide-container relative z-10 py-6 sm:py-8">
                 <!-- 3.7 MAIN Funny Academy MODULE LAYOUT (WackyDash-Style Courses & Live Zoom Webinar) -->
     <div id="learning-main-view" data-blueprint-file="WackyStore.WebUI/Controllers/CourseController.cs"
         data-blueprint-role="LMS &amp; Academy View Controller" data-blueprint-layer="WebUI / Education Portal"

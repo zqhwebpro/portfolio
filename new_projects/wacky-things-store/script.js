@@ -2325,225 +2325,17 @@ window.selectedCourseForModal = null;
 window.isTransitioningView = false;
 
 window.switchView = function (targetView) {
-    if (window.isTransitioningView) return;
-    if (window.currentView === targetView) return;
-
-    const track = document.getElementById('site-horizontal-track');
-    const screenRegular = document.getElementById('screen-regular');
-    const screenAcademy = document.getElementById('screen-academy');
-
-    const storeMain = document.getElementById('store-main-view');
-    const blogMain = document.getElementById('blog-main-view');
-    const learningMain = document.getElementById('learning-main-view');
-    const luckMain = document.getElementById('luck-main-view');
-    const adminMain = document.getElementById('admin-main-view');
-
-    const hBlogText = document.getElementById('headerBlogText');
-    const hBlogIcon = document.getElementById('headerBlogIcon');
-
-    // Sync header cart badges
-    const regCartTotal = document.getElementById('header-cart-total');
-    const regCartCount = document.getElementById('header-cart-count');
-    const acadCartTotal = document.getElementById('academy-header-cart-total');
-    const acadCartCount = document.getElementById('academy-header-cart-count');
-    if (regCartTotal && acadCartTotal) acadCartTotal.innerText = regCartTotal.innerText;
-    if (regCartCount && acadCartCount) acadCartCount.innerText = regCartCount.innerText;
-
-    // SCENARIO 1: Entering Funny Academy (Blur out with color wash to reverse theme)
-    if (targetView === 'learning') {
-        window.isTransitioningView = true;
-
-        if (screenRegular) {
-            screenRegular.classList.remove('view-blur-in');
-            screenRegular.classList.add('view-blur-out');
-        }
-
-        // Color wash to new color: deep slate grey academy background
-        document.body.style.transition = 'background-color 0.38s ease-in-out';
-        document.body.style.backgroundColor = '#1e2430';
-        document.body.classList.add('academy-reverse-theme');
-
-        setTimeout(() => {
-            if (screenRegular) {
-                screenRegular.style.display = 'none';
-                screenRegular.classList.remove('view-blur-out');
-            }
-
-            if (screenAcademy) {
-                screenAcademy.style.display = 'flex';
-                screenAcademy.style.width = '100%';
-                screenAcademy.style.minWidth = '100%';
-                screenAcademy.classList.remove('view-blur-out');
-                screenAcademy.classList.add('view-blur-in');
-            }
-
-            if (learningMain) {
-                learningMain.classList.remove('hidden');
-            }
-            if (typeof window.renderCourses === 'function') {
-                window.renderCourses(window.activeCourseCategory || 'all');
-            }
-
-            window.scrollTo({ top: 0, behavior: 'instant' });
-            window.currentView = 'learning';
-
-            setTimeout(() => {
-                if (screenAcademy) {
-                    screenAcademy.classList.remove('view-blur-in');
-                }
-                window.isTransitioningView = false;
-            }, 400);
-        }, 360);
-
-        return;
+    if (targetView === 'blog') {
+        window.toggleNavPanel('blog');
+    } else if (targetView === 'learning' || targetView === 'academy') {
+        window.toggleNavPanel('academy');
+    } else if (targetView === 'store' || targetView === 'catalog') {
+        window.navigateToCatalog();
+    } else if (targetView === 'admin') {
+        if (typeof window.toggleAdminPanel === 'function') window.toggleAdminPanel();
+    } else {
+        window.navigateToCatalog();
     }
-
-    // SCENARIO 2: Leaving Funny Academy (Blur out with color wash back to store theme)
-    if (window.currentView === 'learning') {
-        window.isTransitioningView = true;
-
-        if (screenAcademy) {
-            screenAcademy.classList.remove('view-blur-in');
-            screenAcademy.classList.add('view-blur-out');
-        }
-
-        // Color wash to new color: light store canvas
-        document.body.style.transition = 'background-color 0.38s ease-in-out';
-        document.body.style.backgroundColor = '';
-        document.body.classList.remove('academy-reverse-theme');
-
-        setTimeout(() => {
-            if (screenAcademy) {
-                screenAcademy.style.display = 'none';
-                screenAcademy.classList.remove('view-blur-out');
-            }
-
-            // Set up the destination view inside regular screen
-            if (storeMain) storeMain.classList.add('hidden');
-            if (blogMain) blogMain.classList.add('hidden');
-            if (adminMain) adminMain.classList.add('hidden');
-            if (luckMain) luckMain.classList.add('hidden');
-
-            if (targetView === 'blog') {
-                if (blogMain) {
-                    blogMain.classList.remove('hidden');
-                    blogMain.classList.add('animate-blur-fade-in');
-                }
-                if (typeof window.renderBlogPosts === 'function') {
-                    window.renderBlogPosts(window.activeBlogCategory || 'all');
-                }
-                if (hBlogText) hBlogText.innerText = 'Blog';
-                if (hBlogIcon) hBlogIcon.className = 'fa-solid fa-newspaper text-white';
-            } else if (targetView === 'admin') {
-                if (adminMain) {
-                    adminMain.classList.remove('hidden');
-                    adminMain.classList.add('flex', 'animate-blur-fade-in');
-                }
-                if (typeof window.renderAdminProductsTable === 'function') {
-                    window.renderAdminProductsTable();
-                }
-            } else if (targetView === 'luck') {
-                if (luckMain) {
-                    luckMain.classList.remove('hidden');
-                    luckMain.classList.add('flex', 'animate-blur-fade-in');
-                }
-            } else {
-                if (storeMain) {
-                    storeMain.classList.remove('hidden');
-                    storeMain.classList.add('animate-blur-fade-in');
-                }
-                if (hBlogText) hBlogText.innerText = 'Blog';
-                if (hBlogIcon) hBlogIcon.className = 'fa-solid fa-newspaper text-earth-300';
-            }
-
-            if (screenRegular) {
-                screenRegular.style.display = 'flex';
-                screenRegular.style.width = '100%';
-                screenRegular.style.minWidth = '100%';
-                screenRegular.classList.remove('view-blur-out');
-                screenRegular.classList.add('view-blur-in');
-            }
-
-            window.scrollTo({ top: 0, behavior: 'instant' });
-            window.currentView = targetView;
-
-            setTimeout(() => {
-                if (screenRegular) {
-                    screenRegular.classList.remove('view-blur-in');
-                }
-                window.isTransitioningView = false;
-            }, 400);
-        }, 360);
-
-        return;
-    }
-
-    // SCENARIO 3: Normal In-Place Switching within Regular Website
-    let currentMain;
-    if (window.currentView === 'luck') currentMain = luckMain;
-    else if (window.currentView === 'admin') currentMain = adminMain;
-    else if (window.currentView === 'blog') currentMain = blogMain;
-    else currentMain = storeMain;
-
-    let nextMain;
-    if (targetView === 'blog') nextMain = blogMain;
-    else if (targetView === 'admin') nextMain = adminMain;
-    else nextMain = storeMain;
-
-    if (currentMain) {
-        currentMain.classList.remove('animate-blur-fade-in');
-        currentMain.classList.add('animate-blur-fade-out');
-    }
-
-    setTimeout(() => {
-        if (currentMain) {
-            currentMain.classList.remove('animate-blur-fade-out');
-            currentMain.classList.add('hidden');
-        }
-        if (storeMain && storeMain !== nextMain) storeMain.classList.add('hidden');
-        if (blogMain && blogMain !== nextMain) blogMain.classList.add('hidden');
-        if (learningMain && learningMain !== nextMain) learningMain.classList.add('hidden');
-        if (adminMain && adminMain !== nextMain) adminMain.classList.add('hidden');
-        if (luckMain && luckMain !== nextMain) luckMain.classList.add('hidden');
-
-        if (targetView === 'blog') {
-            if (blogMain) {
-                blogMain.classList.remove('hidden');
-                blogMain.classList.add('animate-blur-fade-in');
-            }
-            if (typeof window.renderBlogPosts === 'function') {
-                window.renderBlogPosts(window.activeBlogCategory || 'all');
-            }
-            window.currentView = 'blog';
-            if (hBlogText) hBlogText.innerText = 'Blog';
-            if (hBlogIcon) hBlogIcon.className = 'fa-solid fa-newspaper text-white';
-        } else if (targetView === 'admin') {
-            if (adminMain) {
-                adminMain.classList.remove('hidden');
-                adminMain.classList.add('flex', 'animate-blur-fade-in');
-            }
-            window.currentView = 'admin';
-            if (typeof window.renderAdminProductsTable === 'function') {
-                window.renderAdminProductsTable();
-            }
-            if (hBlogText) hBlogText.innerText = 'Blog';
-            if (hBlogIcon) hBlogIcon.className = 'fa-solid fa-newspaper text-earth-300';
-        } else {
-            if (storeMain) {
-                storeMain.classList.remove('hidden');
-                storeMain.classList.add('animate-blur-fade-in');
-            }
-            window.currentView = 'store';
-            if (hBlogText) hBlogText.innerText = 'Blog';
-            if (hBlogIcon) hBlogIcon.className = 'fa-solid fa-newspaper text-earth-300';
-        }
-
-        window.scrollTo({ top: 0, behavior: 'smooth' });
-
-        setTimeout(() => {
-            if (nextMain) nextMain.classList.remove('animate-blur-fade-in');
-        }, 600);
-    }, 550);
 };
 
 window.toggleViewStoreBlog = function (forceTarget) {
@@ -4969,52 +4761,75 @@ window.toggleNavPanel = function (panelName) {
         return;
     }
 
-    // Force clear any stuck transitioning flag
+    // Guard against rapid re-clicks while transitioning
     window.isPanelTransitioning = true;
 
-    // Case 2: Another panel is open -> Slide up current panel, then slide down new panel
     const currentlyOpenPanel = document.querySelector('.nav-push-panel.is-open');
+
+    const animatePanelOpen = (panel, name) => {
+        panel.classList.remove('hidden');
+        panel.classList.remove('is-closing');
+        panel.style.overflow = 'hidden';
+        panel.style.maxHeight = '0px';
+        panel.style.opacity = '0';
+        panel.style.transform = 'translateY(-24px)';
+
+        window.initNavPanelContent(name);
+        window.updateNavButtonStyles(name);
+
+        // Force browser layout reflow to register the 0px baseline
+        void panel.offsetHeight;
+
+        // Measure true expanded height so max-height interpolates across the exact pixel height
+        const targetHeight = panel.scrollHeight;
+
+        // Slide down slower so the animation can be fully seen watching the catalog being pushed
+        panel.style.maxHeight = targetHeight + 'px';
+        panel.style.opacity = '1';
+        panel.style.transform = 'translateY(0)';
+        panel.classList.add('is-open');
+        window.activeNavPanel = name;
+
+        // Smoothly bring header/top of newly unrolling panel into comfortable view
+        window.scrollTo({ top: 0, behavior: 'smooth' });
+
+        // Once slide-in animation completes (1250ms), release max-height to avoid clipping dynamic filters/resizes
+        setTimeout(() => {
+            if (panel.classList.contains('is-open') && !panel.classList.contains('is-closing')) {
+                panel.style.maxHeight = 'none';
+                panel.style.overflow = 'visible';
+            }
+            window.isPanelTransitioning = false;
+        }, 1300);
+    };
+
+    // Case 2: Another panel is open -> Slide up current panel first, then slide down new panel
     if (currentlyOpenPanel && currentlyOpenPanel !== targetPanel) {
+        currentlyOpenPanel.style.overflow = 'hidden';
+        currentlyOpenPanel.style.maxHeight = currentlyOpenPanel.scrollHeight + 'px';
+        void currentlyOpenPanel.offsetHeight;
+
         currentlyOpenPanel.classList.remove('is-open');
         currentlyOpenPanel.classList.add('is-closing');
+        currentlyOpenPanel.style.maxHeight = '0px';
+        currentlyOpenPanel.style.opacity = '0';
+        currentlyOpenPanel.style.transform = 'translateY(-24px)';
 
         setTimeout(() => {
             currentlyOpenPanel.classList.add('hidden');
             currentlyOpenPanel.classList.remove('is-closing');
+            currentlyOpenPanel.style.maxHeight = '';
+            currentlyOpenPanel.style.opacity = '';
+            currentlyOpenPanel.style.transform = '';
+            currentlyOpenPanel.style.overflow = '';
 
-            // Slide down the target panel, pushing the catalog store down
-            targetPanel.classList.remove('hidden');
-            targetPanel.classList.remove('is-closing');
-            void targetPanel.offsetHeight; // trigger reflow for smooth slide down
-            targetPanel.classList.add('is-open');
-            window.activeNavPanel = panelName;
-            window.isPanelTransitioning = false;
-
-            window.initNavPanelContent(panelName);
-            window.updateNavButtonStyles(panelName);
-
-            // Scroll cleanly to the top of the exposed panel
-            window.scrollTo({ top: 0, behavior: 'smooth' });
-        }, 320);
+            animatePanelOpen(targetPanel, panelName);
+        }, 750);
         return;
     }
 
     // Case 3: No panel is currently open -> Slide down target panel directly, pushing catalog store down
-    targetPanel.classList.remove('hidden');
-    targetPanel.classList.remove('is-closing');
-    void targetPanel.offsetHeight; // trigger reflow for smooth slide down
-    targetPanel.classList.add('is-open');
-    window.activeNavPanel = panelName;
-
-    setTimeout(() => {
-        window.isPanelTransitioning = false;
-    }, 450);
-
-    window.initNavPanelContent(panelName);
-    window.updateNavButtonStyles(panelName);
-
-    // Scroll cleanly to top so full header, toolbar, and blog articles are immediately exposed
-    window.scrollTo({ top: 0, behavior: 'smooth' });
+    animatePanelOpen(targetPanel, panelName);
 };
 
 window.closeActiveNavPanel = function (callback) {
@@ -5031,21 +4846,32 @@ window.closeActiveNavPanel = function (callback) {
     window.isPanelTransitioning = true;
 
     openPanels.forEach(panel => {
+        panel.style.overflow = 'hidden';
+        panel.style.maxHeight = panel.scrollHeight + 'px';
+        void panel.offsetHeight;
+
         panel.classList.remove('is-open');
         panel.classList.add('is-closing');
+        panel.style.maxHeight = '0px';
+        panel.style.opacity = '0';
+        panel.style.transform = 'translateY(-24px)';
     });
 
     setTimeout(() => {
         openPanels.forEach(panel => {
             panel.classList.add('hidden');
             panel.classList.remove('is-closing');
+            panel.style.maxHeight = '';
+            panel.style.opacity = '';
+            panel.style.transform = '';
+            panel.style.overflow = '';
         });
         window.activeNavPanel = null;
         window.isPanelTransitioning = false;
         window.updateNavButtonStyles('catalog');
 
         if (typeof callback === 'function') callback();
-    }, 320);
+    }, 750);
 };
 
 window.navigateToCatalog = function () {

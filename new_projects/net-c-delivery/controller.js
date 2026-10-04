@@ -1,36 +1,36 @@
 // ═══════════════════════════════════════════════════════════════════
-// DINERDASHBOARD // MODERN KITCHEN POS & MULTI-GATEWAY DISPATCH ENGINE
+// DINERDASHBOARD // RESTAURANT SETUP & MULTI-GATEWAY DIRECTORY ENGINE
 // ═══════════════════════════════════════════════════════════════════
 
-// Automated Client-Side Cache Cleanup & Purge Legacy LocalStorage
+// Versioned Cache & Storage Keys
+const STORAGE_KEY_API = 'dinerdashboard_delivery_api_state_v6';
+const STORAGE_KEY_SITE = 'dinerdashboard_site_config_v5';
+
+// Automated Client-Side Cache Cleanup & Purge Legacy Data
 (function purgeClientCaches() {
     try {
-        // Clear old un-versioned storage keys that caused auto-connected state in regular browsers
         localStorage.removeItem('dinerdashboard_delivery_api_state');
         localStorage.removeItem('dinerdashboard_delivery_api_state_v2');
+        localStorage.removeItem('dinerdashboard_delivery_api_state_v4');
+        localStorage.removeItem('dinerdashboard_delivery_api_state_v5');
+        localStorage.removeItem('dinerdashboard_site_config_v2');
+        localStorage.removeItem('dinerdashboard_site_config_v3');
+        localStorage.removeItem('dinerdashboard_site_config_v4');
 
         if ('caches' in window) {
-            caches.keys().then((cacheNames) => {
-                cacheNames.forEach((cacheName) => {
-                    caches.delete(cacheName);
-                });
+            caches.keys().then((names) => {
+                names.forEach((name) => caches.delete(name));
             }).catch(() => {});
         }
         if ('serviceWorker' in navigator) {
             navigator.serviceWorker.getRegistrations().then((registrations) => {
-                for (const registration of registrations) {
-                    registration.unregister();
-                }
+                for (const reg of registrations) reg.unregister();
             }).catch(() => {});
         }
     } catch (e) {}
 })();
 
-// Storage Keys
-const STORAGE_KEY_API = 'dinerdashboard_delivery_api_state_v4';
-const STORAGE_KEY_SITE = 'dinerdashboard_site_config_v2';
-
-// Manual user cache clear & hard refresh
+// Clear cache & hard refresh back to clean state
 function clearDinerAppCache() {
     playToyClick(720, 0.05);
     try {
@@ -38,21 +38,11 @@ function clearDinerAppCache() {
         sessionStorage.clear();
         if ('caches' in window) {
             caches.keys().then((names) => {
-                for (const name of names) {
-                    caches.delete(name);
-                }
-            }).catch(() => {});
-        }
-        if ('serviceWorker' in navigator) {
-            navigator.serviceWorker.getRegistrations().then((registrations) => {
-                for (const reg of registrations) {
-                    reg.unregister();
-                }
+                for (const name of names) caches.delete(name);
             }).catch(() => {});
         }
     } catch (e) {}
 
-    // Reset runtime objects
     savedApiState = {};
     currentSelectedGateway = null;
     currentSiteConfig = {
@@ -63,15 +53,11 @@ function clearDinerAppCache() {
         city: '',
         state: '',
         zip: '',
-        country: '',
-        message: '',
-        photoUrl: 'https://images.unsplash.com/photo-1555396273-367ea4eb4db5?auto=format&fit=crop&w=400&q=80',
-        deployedDirectory: '',
-        selectedSkus: []
+        country: 'United States',
+        logoUrl: '',
+        deployedDirectory: ''
     };
-    if (Array.isArray(DINER_MENU_ITEMS)) {
-        DINER_MENU_ITEMS.forEach(i => i.selected = false);
-    }
+
     if (typeof DELIVERY_SERVICES === 'object') {
         Object.keys(DELIVERY_SERVICES).forEach(k => {
             DELIVERY_SERVICES[k].verified = false;
@@ -79,12 +65,7 @@ function clearDinerAppCache() {
     }
 
     const base = window.location.origin + window.location.pathname;
-    const cacheBusterUrl = base + '?nocache=' + Date.now() + '#step1';
-    window.location.replace(cacheBusterUrl);
-}
-
-if (typeof window !== 'undefined') {
-    window.clearDinerAppCache = clearDinerAppCache;
+    window.location.replace(base + '?nocache=' + Date.now() + '#step1');
 }
 
 // ═══════════════════════════════════════════════════════════════════
@@ -141,18 +122,6 @@ function playToyClick(startFreq = 520, duration = 0.05) {
         gain.connect(audioCtx.destination);
         osc.start(t);
         osc.stop(t + duration);
-
-        const sub = audioCtx.createOscillator();
-        const subGain = audioCtx.createGain();
-        sub.type = 'sine';
-        sub.frequency.setValueAtTime(220, t);
-        sub.frequency.exponentialRampToValueAtTime(80, t + 0.025);
-        subGain.gain.setValueAtTime(0.06, t);
-        subGain.gain.exponentialRampToValueAtTime(0.001, t + 0.025);
-        sub.connect(subGain);
-        subGain.connect(audioCtx.destination);
-        sub.start(t);
-        sub.stop(t + 0.025);
     } catch (e) {}
 }
 
@@ -162,40 +131,30 @@ function playDinerBell() {
         initAudio();
         if (!audioCtx) return;
         const t = audioCtx.currentTime;
-        const strikeDuration = 1.4;
 
-        const osc1 = audioCtx.createOscillator();
-        const gain1 = audioCtx.createGain();
-        osc1.type = 'sine';
-        osc1.frequency.setValueAtTime(1760, t);
-        gain1.gain.setValueAtTime(0.16, t);
-        gain1.gain.exponentialRampToValueAtTime(0.0001, t + strikeDuration);
-        osc1.connect(gain1);
-        gain1.connect(audioCtx.destination);
-        osc1.start(t);
-        osc1.stop(t + strikeDuration);
+        const strike1 = audioCtx.createOscillator();
+        const strike2 = audioCtx.createOscillator();
+        const gain = audioCtx.createGain();
 
-        const osc2 = audioCtx.createOscillator();
-        const gain2 = audioCtx.createGain();
-        osc2.type = 'sine';
-        osc2.frequency.setValueAtTime(2640, t);
-        gain2.gain.setValueAtTime(0.09, t);
-        gain2.gain.exponentialRampToValueAtTime(0.0001, t + (strikeDuration * 0.75));
-        osc2.connect(gain2);
-        gain2.connect(audioCtx.destination);
-        osc2.start(t);
-        osc2.stop(t + (strikeDuration * 0.75));
+        strike1.type = 'sine';
+        strike1.frequency.setValueAtTime(1980, t);
+        strike1.frequency.exponentialRampToValueAtTime(1960, t + 0.9);
 
-        const strike = audioCtx.createOscillator();
-        const strikeGain = audioCtx.createGain();
-        strike.type = 'triangle';
-        strike.frequency.setValueAtTime(3520, t);
-        strikeGain.gain.setValueAtTime(0.1, t);
-        strikeGain.gain.exponentialRampToValueAtTime(0.0001, t + 0.08);
-        strike.connect(strikeGain);
-        strikeGain.connect(audioCtx.destination);
-        strike.start(t);
-        strike.stop(t + 0.08);
+        strike2.type = 'triangle';
+        strike2.frequency.setValueAtTime(3960, t);
+        strike2.frequency.exponentialRampToValueAtTime(3920, t + 0.6);
+
+        gain.gain.setValueAtTime(0.3, t);
+        gain.gain.exponentialRampToValueAtTime(0.0001, t + 0.9);
+
+        strike1.connect(gain);
+        strike2.connect(gain);
+        gain.connect(audioCtx.destination);
+
+        strike1.start(t);
+        strike2.start(t);
+        strike1.stop(t + 0.9);
+        strike2.stop(t + 0.9);
     } catch (e) {}
 }
 
@@ -242,7 +201,7 @@ const DELIVERY_SERVICES = {
         portalUrl: 'https://developer.uber.com/docs/deliveries/overview',
         defaultClientId: '6ImzVINJ53LfMWCPoh_gBblTL55hqUNfIBN-7TG2',
         defaultSecret: 'ubr_sec_99120aa8772bc',
-        defaultLocationId: 'uber_loc_parma_104',
+        defaultLocationId: 'uber_loc_direct_104',
         category: 'fleet',
         protocol: 'OAuth 2.0 / Webhooks',
         endpointUrl: 'https://api.dinerdashboard.io/webhooks/uber',
@@ -259,9 +218,9 @@ const DELIVERY_SERVICES = {
         demographicRank: '#1 Demographic Choice (67% US Market)',
         demographicDesc: 'Dominant nationwide suburban footprint; highest brand recognition and driver availability across family dining.',
         portalUrl: 'https://developer.doordash.com/',
-        defaultClientId: 'dd_drive_client_parma_441',
+        defaultClientId: 'dd_drive_client_main_441',
         defaultSecret: 'dd_jwt_secret_88192aacc7712',
-        defaultLocationId: 'store_parma_dd_771',
+        defaultLocationId: 'store_main_dd_771',
         category: 'fleet',
         protocol: 'REST / JWT Bearer',
         endpointUrl: 'https://api.dinerdashboard.io/webhooks/doordash',
@@ -278,9 +237,9 @@ const DELIVERY_SERVICES = {
         demographicRank: 'Top In-House Restaurant Direct POS',
         demographicDesc: 'Eliminates 30% third-party marketplace commissions via native in-house ordering with flat-rate DoorDash courier pass-through.',
         portalUrl: 'https://pos.toasttab.com/',
-        defaultClientId: 'toast_app_parma_982',
+        defaultClientId: 'toast_app_store_982',
         defaultSecret: 'tst_sec_89234bfa09e1889c201',
-        defaultLocationId: 'loc_parma_grill_01',
+        defaultLocationId: 'loc_store_grill_01',
         category: 'pos',
         protocol: 'REST / TDS Webhooks',
         endpointUrl: 'https://api.dinerdashboard.io/webhooks/toast',
@@ -297,9 +256,9 @@ const DELIVERY_SERVICES = {
         demographicRank: 'East Coast & Campus Stronghold',
         demographicDesc: 'Favored by Northeast corporate lunch programs, regional diners, and student meal account payment ecosystems.',
         portalUrl: 'https://get.grubhub.com/',
-        defaultClientId: 'gh_partner_parma_902',
+        defaultClientId: 'gh_partner_store_902',
         defaultSecret: 'gh_sec_token_55219bc001',
-        defaultLocationId: 'gh_merchant_parma_8829',
+        defaultLocationId: 'gh_merchant_store_8829',
         category: 'pos',
         protocol: 'REST / Mutual TLS',
         endpointUrl: 'https://api.dinerdashboard.io/webhooks/grubhub',
@@ -316,9 +275,9 @@ const DELIVERY_SERVICES = {
         demographicRank: 'Independent & Craft Deli Demographic',
         demographicDesc: 'Preferred choice for boutique sandwich counters seeking unified kitchen tickets and contactless counter pay.',
         portalUrl: 'https://developer.squareup.com/',
-        defaultClientId: 'sq0idp-parma_88291047192aa',
+        defaultClientId: 'sq0idp-store_88291047192aa',
         defaultSecret: 'sq0csp-99214710188bc',
-        defaultLocationId: 'L8829104PARMA',
+        defaultLocationId: 'L8829104STORE',
         category: 'pos',
         protocol: 'OAuth 2.0 / v2 Orders',
         endpointUrl: 'https://api.dinerdashboard.io/webhooks/square',
@@ -335,9 +294,9 @@ const DELIVERY_SERVICES = {
         demographicRank: 'Neighborhood Diner & Grill Demographic',
         demographicDesc: 'High market penetration in traditional family diners with kitchen impact thermal printers and dedicated station queues.',
         portalUrl: 'https://www.clover.com/developers',
-        defaultClientId: 'clover_app_parma_991823',
+        defaultClientId: 'clover_app_store_991823',
         defaultSecret: 'clv_token_8821901aa',
-        defaultLocationId: 'CLV_MERCH_PARMA_7718',
+        defaultLocationId: 'CLV_MERCH_STORE_7718',
         category: 'pos',
         protocol: 'REST / Clover Station',
         endpointUrl: 'https://api.dinerdashboard.io/webhooks/clover',
@@ -347,88 +306,13 @@ const DELIVERY_SERVICES = {
     }
 };
 
-// ═══════════════════════════════════════════════════════════════════
-// MENU ITEMS CATALOG (STARTS UNSELECTED PER SPEC)
-// ═══════════════════════════════════════════════════════════════════
-const DINER_MENU_ITEMS = [
-    {
-        sku: 'SUB-01',
-        name: 'Artisan Ribeye Cheesesteak Supreme',
-        desc: 'Thinly shaved prime ribeye, caramelized sweet onions, Cooper Sharp American on toasted hearth Amoroso roll.',
-        price: 14.95,
-        icon: '🥩',
-        category: 'Grill',
-        inStock: true,
-        selected: false
-    },
-    {
-        sku: 'BUR-02',
-        name: 'Double Bacon Smash Burger',
-        desc: 'Twin 4oz certified Angus patties, applewood thick-cut bacon, diner secret sauce, Martins potato bun.',
-        price: 12.50,
-        icon: '🍔',
-        category: 'Grill',
-        inStock: true,
-        selected: false
-    },
-    {
-        sku: 'WRP-03',
-        name: 'Charred Buffalo Chicken Wrap',
-        desc: 'Crispy buttermilk chicken tenders, fiery Frank’s RedHot glaze, buttermilk ranch, crisp iceberg in flour tortilla.',
-        price: 11.75,
-        icon: '🌯',
-        category: 'Deli',
-        inStock: true,
-        selected: false
-    },
-    {
-        sku: 'SUB-04',
-        name: 'Classic 12" Italian Deli Sub',
-        desc: 'Genoa salami, hot capicola, mortadella, aged provolone, shredded lettuce, tomato, oregano vinaigrette.',
-        price: 13.25,
-        icon: '🥖',
-        category: 'Deli',
-        inStock: true,
-        selected: false
-    },
-    {
-        sku: 'MEL-05',
-        name: 'Pastrami Melt on Hearth Rye',
-        desc: 'House-brined peppery beef brisket pastrami, melted Swiss cheese, spicy deli brown mustard, seeded rye.',
-        price: 13.95,
-        icon: '🥪',
-        category: 'Grill',
-        inStock: true,
-        selected: false
-    },
-    {
-        sku: 'FRY-06',
-        name: 'Garlic Truffle Parmesan Fries',
-        desc: 'Fresh hand-cut Idaho Russet fries tossed with white truffle oil, shaved parmesan, garlic and chopped parsley.',
-        price: 5.50,
-        icon: '🍟',
-        category: 'Fryer',
-        inStock: true,
-        selected: false
-    },
-    {
-        sku: 'RNG-07',
-        name: 'Crispy Beer-Battered Onion Rings',
-        desc: 'Colossal sweet Spanish onions dipped in craft IPA batter, served golden with smoky horseradish dipping sauce.',
-        price: 5.25,
-        icon: '🧅',
-        category: 'Fryer',
-        inStock: true,
-        selected: false
-    }
-];
-
 // Application State
 let currentStep = 1;
 let currentSelectedGateway = null;
 let currentFilter = 'all';
+let deployedBlobUrl = null;
 
-// Load saved API state from versioned key (uninstalled by default)
+// Saved API State
 let savedApiState = {};
 try {
     const rawSaved = localStorage.getItem(STORAGE_KEY_API);
@@ -448,23 +332,7 @@ try {
     currentSelectedGateway = null;
 }
 
-// Demo Site Configuration (Loaded on demand when user clicks "Fill Demo Content")
-const DEMO_SITE_CONFIG = {
-    restaurantName: 'Parma Sub & Fry Co',
-    slug: 'parma-sub-fry-co',
-    street: '5842 Ridge Rd',
-    unit: 'Suite 104',
-    city: 'Parma',
-    state: 'OH',
-    zip: '44129',
-    country: 'United States',
-    message: 'Welcome to Parma Sub & Fry Co! Best artisan subs and loaded fries in Ohio. Order online direct with live kitchen tracking via Uber Direct.',
-    photoUrl: 'https://images.unsplash.com/photo-1555396273-367ea4eb4db5?auto=format&fit=crop&w=400&q=80',
-    deployedDirectory: '/net-c-delivery/parma-sub-fry-co/index.html',
-    selectedSkus: ['SUB-01', 'BUR-02', 'WRP-03', 'SUB-04', 'MEL-05', 'FRY-06', 'RNG-07']
-};
-
-// Initial Site Configuration (Starts clean & empty so user can practice the journey)
+// Initial Site Configuration (Starts completely empty per specification)
 let currentSiteConfig = {
     restaurantName: '',
     slug: '',
@@ -473,37 +341,29 @@ let currentSiteConfig = {
     city: '',
     state: '',
     zip: '',
-    country: '',
-    message: '',
-    photoUrl: 'https://images.unsplash.com/photo-1555396273-367ea4eb4db5?auto=format&fit=crop&w=400&q=80',
-    deployedDirectory: '',
-    selectedSkus: []
+    country: 'United States',
+    logoUrl: '',
+    deployedDirectory: ''
 };
 
-// Load saved site configuration if present
+// Load saved site configuration if explicitly created previously
 try {
     const rawSite = localStorage.getItem(STORAGE_KEY_SITE);
     if (rawSite) {
         const parsed = JSON.parse(rawSite);
-        currentSiteConfig = { ...currentSiteConfig, ...parsed };
-        // Restore selected SKUs if saved
-        if (Array.isArray(currentSiteConfig.selectedSkus) && currentSiteConfig.selectedSkus.length > 0) {
-            DINER_MENU_ITEMS.forEach(item => {
-                if (currentSiteConfig.selectedSkus.includes(item.sku)) {
-                    item.selected = true;
-                }
-            });
+        if (parsed.restaurantName) {
+            currentSiteConfig = { ...currentSiteConfig, ...parsed };
         }
     }
 } catch (e) {}
 
-// Helper: convert restaurant name to safe directory slug
+// Helper: convert restaurant name to safe directory-friendly naming scheme
 function makeDirectorySlug(name) {
-    return (name || 'my-restaurant')
+    return (name || '')
         .toLowerCase()
         .replace(/['"’]/g, '')
         .replace(/[^a-z0-9]+/g, '-')
-        .replace(/^-+|-+$/g, '') || 'restaurant-site';
+        .replace(/^-+|-+$/g, '');
 }
 
 // ═══════════════════════════════════════════════════════════════════
@@ -513,17 +373,28 @@ function goToStep(stepNum, pushToHistory = true) {
     playToyClick(580, 0.04);
 
     const hasVerifiedGateway = Object.keys(DELIVERY_SERVICES).some(k => DELIVERY_SERVICES[k].verified);
-    const selectedSkuCount = DINER_MENU_ITEMS.filter(i => i.selected).length;
+    const hasConfiguredSite = !!(currentSiteConfig && currentSiteConfig.restaurantName && currentSiteConfig.street);
 
     // Gateways must be verified before moving to Step 2
     if (stepNum >= 2 && !hasVerifiedGateway) {
         playToyClick(320, 0.08);
         showDinerToast(
             'API Connection Required ⚠️',
-            'No Delivery API is connected yet. Please install and verify Uber Direct or another gateway in Step 1 first.',
+            'No Delivery API is connected yet. Please install and test demo keys for any gateway in Step 1 first.',
             'fa-triangle-exclamation'
         );
         stepNum = 1;
+    }
+
+    // Restaurant details must be set before Step 3
+    if (stepNum === 3 && !hasConfiguredSite) {
+        playToyClick(320, 0.08);
+        showDinerToast(
+            'Restaurant Details Required 📋',
+            'Please enter your business name and address in the Step 2 form first.',
+            'fa-store'
+        );
+        stepNum = 2;
     }
 
     currentStep = stepNum;
@@ -548,10 +419,11 @@ function goToStep(stepNum, pushToHistory = true) {
     }
     if (side2) {
         side2.classList.toggle('active', stepNum === 2);
-        side2.classList.toggle('verified', selectedSkuCount > 0);
+        side2.classList.toggle('verified', hasConfiguredSite);
     }
     if (side3) {
         side3.classList.toggle('active', stepNum === 3);
+        side3.classList.toggle('verified', hasConfiguredSite);
     }
 
     // Update OS folder tabs
@@ -575,21 +447,18 @@ function goToStep(stepNum, pushToHistory = true) {
     const bc = document.getElementById('osActiveFolderBreadcrumb');
     if (bc) {
         if (stepNum === 1) bc.innerHTML = '<i class="fa-regular fa-folder-open me-1 text-primary"></i>01_gateways';
-        else if (stepNum === 2) bc.innerHTML = '<i class="fa-regular fa-folder-open me-1 text-primary"></i>02_create_website';
-        else if (stepNum === 3) bc.innerHTML = '<i class="fa-regular fa-folder-open me-1 text-primary"></i>03_your_site';
+        else if (stepNum === 2) bc.innerHTML = '<i class="fa-regular fa-folder-open me-1 text-primary"></i>02_restaurant_setup';
+        else if (stepNum === 3) bc.innerHTML = '<i class="fa-regular fa-folder-open me-1 text-primary"></i>03_directory_index';
     }
 
     if (stepNum === 2) {
         populateWebsiteBuilderForm();
-        renderMenuCatalog();
     } else if (stepNum === 3) {
         renderDeployedSiteBanner();
-        renderKdsTickets();
     }
 
     updateProgressiveState();
 
-    // Push browser history state so browser Back button navigates back INSIDE this app
     if (pushToHistory && window.history && window.history.pushState) {
         const targetHash = '#step' + stepNum;
         if (window.location.hash !== targetHash) {
@@ -610,8 +479,8 @@ function updateBackBtnState() {
     const backBtn = document.getElementById('back-btn-np');
     if (!backBtn) return;
     if (currentStep === 3) {
-        backBtn.setAttribute('title', 'Back to Step 2: Create Website');
-        backBtn.setAttribute('aria-label', 'Back to Step 2: Create Website');
+        backBtn.setAttribute('title', 'Back to Step 2: Restaurant Setup');
+        backBtn.setAttribute('aria-label', 'Back to Step 2: Restaurant Setup');
     } else if (currentStep === 2) {
         backBtn.setAttribute('title', 'Back to Step 1: Gateways Setup');
         backBtn.setAttribute('aria-label', 'Back to Step 1: Gateways Setup');
@@ -688,12 +557,6 @@ function initBackNavigation() {
     });
 }
 
-function switchSheet(sheetKey) {
-    if (sheetKey === 'delivery') goToStep(1);
-    else if (sheetKey === 'menu') goToStep(2);
-    else if (sheetKey === 'telemetry') goToStep(3);
-}
-
 // ═══════════════════════════════════════════════════════════════════
 // STEP 1: GATEWAY CARDS & API CONNECTION
 // ═══════════════════════════════════════════════════════════════════
@@ -706,7 +569,7 @@ function selectAndProceedGateway(serviceKey) {
         openApiConfigModal(serviceKey);
         showDinerToast(
             'API Connection Required 🔑',
-            `Please configure credentials and connect the ${s.name} API before selecting it.`,
+            `Please configure credentials or click "Fill Demo Keys" to connect ${s.name}.`,
             'fa-key'
         );
         return;
@@ -718,7 +581,7 @@ function selectAndProceedGateway(serviceKey) {
 
     showDinerToast(
         `${s.name} Active 🚀`,
-        `Connected via ${s.protocol}. Moving to Step 2: Create Website...`,
+        `Connected via ${s.protocol}. Moving to Step 2: Restaurant Setup...`,
         'fa-square-check'
     );
 
@@ -789,7 +652,7 @@ function renderGatewayCards() {
                                 class="tactile-btn tactile-btn-mint gw-select-btn" 
                                 onclick="selectAndProceedGateway('${key}')">
                             <i class="fa-solid fa-arrow-right me-1"></i>
-                            <span>Select &amp; Proceed to Website Setup ➔</span>
+                            <span>Select &amp; Proceed to Setup Form ➔</span>
                         </button>
                         <button type="button" 
                                 class="tactile-btn tactile-btn-white tactile-btn-sm" 
@@ -861,7 +724,6 @@ function openApiConfigModal(serviceId) {
     const webhookDisplay = document.getElementById('apiWebhookUrlDisplay');
     if (webhookDisplay) webhookDisplay.value = s.endpointUrl || '';
 
-    // Populate inputs if already saved, or leave clean
     const keyInput = document.getElementById('apiClientIdInput');
     const secretInput = document.getElementById('apiSecretInput');
     const locInput = document.getElementById('apiLocationIdInput');
@@ -890,12 +752,12 @@ function fillDemoCredentials() {
 
     if (keyInput) keyInput.value = s.defaultClientId || `demo_client_${sId}_2026`;
     if (secretInput) secretInput.value = s.defaultSecret || `demo_sec_${sId}_982741`;
-    if (locInput) locInput.value = s.defaultLocationId || `loc_parma_${sId}_01`;
+    if (locInput) locInput.value = s.defaultLocationId || `loc_store_${sId}_01`;
     if (webhookInput) webhookInput.value = s.endpointUrl || `https://api.dinerdashboard.io/webhooks/${sId}`;
 
     showDinerToast(
         'Demo Keys Filled 🔑',
-        `Filled production demo credentials & location ID for ${s.name}.`,
+        `Filled demo credentials & store ID for ${s.name}.`,
         'fa-wand-magic-sparkles'
     );
 }
@@ -914,7 +776,7 @@ function handleApiVerification(event) {
     const webhookUrl = (document.getElementById('apiWebhookUrlDisplay')?.value || '').trim();
 
     if (!apiKey || !apiSecret) {
-        alert('Please enter both Client ID / Application API Key and Secret to connect the delivery API. (You can also click "Fill Demo Keys" to auto-populate test credentials.)');
+        alert('Please enter both Client ID / Application API Key and Secret, or click "Fill Demo Keys" to test.');
         return;
     }
 
@@ -938,7 +800,6 @@ function handleApiVerification(event) {
         localStorage.setItem(STORAGE_KEY_API, JSON.stringify(savedApiState));
     } catch (err) {}
 
-    // Close config modal
     const modalEl = document.getElementById('apiConfigModal');
     if (modalEl) {
         const modal = bootstrap.Modal.getInstance(modalEl);
@@ -951,18 +812,17 @@ function handleApiVerification(event) {
 
     showDinerToast(
         `${s.name} Connected! 🚀`,
-        `API credentials validated for ${s.name} (Location: ${locationId || s.defaultLocationId}).`,
+        `API credentials validated for ${s.name}. Proceeding to Restaurant Setup...`,
         'fa-square-check'
     );
 
     addTelemetryLogRow(s.name, 'API.HANDSHAKE_VERIFIED', s.latency, `#KEY_${apiKey.substring(0, 8)}...`);
 
-    // Prompt user with modal to proceed to Step 2: Create Website
     setTimeout(() => {
         const verifiedTitle = document.getElementById('verifiedModalTitle');
         const verifiedSubtitle = document.getElementById('verifiedModalSubtitle');
         if (verifiedTitle) verifiedTitle.innerText = `${s.name} Authenticated!`;
-        if (verifiedSubtitle) verifiedSubtitle.innerText = `Protocol: ${s.protocol} • Location: ${locationId || s.defaultLocationId} • 200 OK Handshake`;
+        if (verifiedSubtitle) verifiedSubtitle.innerText = `Protocol: ${s.protocol} • 200 OK Handshake`;
 
         const nextModalEl = document.getElementById('apiVerifiedNextStepModal');
         if (nextModalEl) {
@@ -975,9 +835,7 @@ function handleApiVerification(event) {
     }, 380);
 }
 
-const handleApiGatewaySubmit = handleApiVerification;
-
-function proceedToMenuScreenFromModal() {
+function proceedToSetupFromModal() {
     const nextModalEl = document.getElementById('apiVerifiedNextStepModal');
     if (nextModalEl) {
         const nextModal = bootstrap.Modal.getInstance(nextModalEl);
@@ -986,6 +844,7 @@ function proceedToMenuScreenFromModal() {
     playToyClick(680, 0.05);
     goToStep(2);
 }
+const proceedToMenuScreenFromModal = proceedToSetupFromModal;
 
 function disconnectApi(serviceId) {
     if (confirm(`Disconnect ${DELIVERY_SERVICES[serviceId]?.name} gateway?`)) {
@@ -1007,7 +866,7 @@ function disconnectApi(serviceId) {
 }
 
 function resetWalkthrough() {
-    if (confirm('Reset setup to Step 1? This will clear configured gateways and website settings.')) {
+    if (confirm('Reset setup to Step 1? This will clear configured gateways and restaurant form settings.')) {
         try {
             localStorage.removeItem(STORAGE_KEY_API);
             localStorage.removeItem(STORAGE_KEY_SITE);
@@ -1016,7 +875,18 @@ function resetWalkthrough() {
         Object.keys(DELIVERY_SERVICES).forEach(k => {
             DELIVERY_SERVICES[k].verified = false;
         });
-        DINER_MENU_ITEMS.forEach(i => i.selected = false);
+        currentSiteConfig = {
+            restaurantName: '',
+            slug: '',
+            street: '',
+            unit: '',
+            city: '',
+            state: '',
+            zip: '',
+            country: 'United States',
+            logoUrl: '',
+            deployedDirectory: ''
+        };
         currentSelectedGateway = null;
         updateProgressiveState();
         renderGatewayCards();
@@ -1026,10 +896,9 @@ function resetWalkthrough() {
 }
 
 // ═══════════════════════════════════════════════════════════════════
-// STEP 2: CREATE WEBSITE, SEPARATE ADDRESS FIELDS & MENU CATALOG
+// STEP 2: RESTAURANT DETAILS FORM & DIRECTORY SLUG
 // ═══════════════════════════════════════════════════════════════════
 function populateWebsiteBuilderForm() {
-    // Populate Connected Gateway Banner
     const activeGw = (currentSelectedGateway && DELIVERY_SERVICES[currentSelectedGateway])
         ? DELIVERY_SERVICES[currentSelectedGateway]
         : {
@@ -1040,22 +909,19 @@ function populateWebsiteBuilderForm() {
             icon: 'fa-brands fa-uber'
         };
 
-    const gwBadge = document.getElementById('step2GwStatusBadge');
-    if (gwBadge) {
-        gwBadge.innerHTML = `<i class="${activeGw.icon} me-1"></i> ${activeGw.name} Connected`;
-    }
+    const gwTitle = document.getElementById('activeGwTitle');
+    const gwSub = document.getElementById('activeGwSubtitle');
+    const gwIcon = document.getElementById('activeGwIcon');
 
-    const bannerDesc = document.getElementById('step2GwDescription');
-    if (bannerDesc) {
-        bannerDesc.innerText = `Your customer site will automatically route on-demand delivery dispatches through ${activeGw.name} (${activeGw.protocol}).`;
-    }
+    if (gwTitle) gwTitle.innerText = `Active Gateway: ${activeGw.name}`;
+    if (gwSub) gwSub.innerText = `${activeGw.categoryTag} • ${activeGw.protocol} • 200 OK`;
+    if (gwIcon) gwIcon.innerHTML = `<i class="${activeGw.icon}"></i>`;
 
     const guidanceText = document.getElementById('step2GuidanceText');
     if (guidanceText) {
-        guidanceText.innerText = `${activeGw.name} Authenticated • Ready to Build Website`;
+        guidanceText.innerText = `${activeGw.name} Authenticated • Ready to Setup Restaurant`;
     }
 
-    // Populate inputs from currentSiteConfig
     const nameEl = document.getElementById('siteRestaurantName');
     const streetEl = document.getElementById('siteStreet');
     const unitEl = document.getElementById('siteUnit');
@@ -1063,8 +929,6 @@ function populateWebsiteBuilderForm() {
     const stateEl = document.getElementById('siteState');
     const zipEl = document.getElementById('siteZip');
     const countryEl = document.getElementById('siteCountry');
-    const msgEl = document.getElementById('siteMessage');
-    const photoImg = document.getElementById('sitePhotoPreview');
 
     if (nameEl) nameEl.value = currentSiteConfig.restaurantName || '';
     if (streetEl) streetEl.value = currentSiteConfig.street || '';
@@ -1072,80 +936,20 @@ function populateWebsiteBuilderForm() {
     if (cityEl) cityEl.value = currentSiteConfig.city || '';
     if (stateEl) stateEl.value = currentSiteConfig.state || '';
     if (zipEl) zipEl.value = currentSiteConfig.zip || '';
-    if (countryEl) countryEl.value = currentSiteConfig.country || '';
-    if (msgEl) msgEl.value = currentSiteConfig.message || '';
-    if (photoImg && currentSiteConfig.photoUrl) photoImg.src = currentSiteConfig.photoUrl;
+    if (countryEl) countryEl.value = currentSiteConfig.country || 'United States';
 
+    renderLogoPreview();
     updateSlugPreview();
 }
 
 function updateSlugPreview() {
     const rawName = document.getElementById('siteRestaurantName')?.value?.trim();
-    const slug = rawName ? makeDirectorySlug(rawName) : 'enter-restaurant-name';
+    const slug = rawName ? makeDirectorySlug(rawName) : '';
     const liveSlug = document.getElementById('liveSlugDisplay');
     if (liveSlug) {
-        liveSlug.innerText = slug;
+        liveSlug.innerText = slug || 'enter-business-name';
     }
     return slug;
-}
-
-// User action: Fill demo content for practice walkthrough
-function fillDemoSiteContent() {
-    playToyClick(720, 0.05);
-
-    const nameEl = document.getElementById('siteRestaurantName');
-    const streetEl = document.getElementById('siteStreet');
-    const unitEl = document.getElementById('siteUnit');
-    const cityEl = document.getElementById('siteCity');
-    const stateEl = document.getElementById('siteState');
-    const zipEl = document.getElementById('siteZip');
-    const countryEl = document.getElementById('siteCountry');
-    const msgEl = document.getElementById('siteMessage');
-    const photoImg = document.getElementById('sitePhotoPreview');
-
-    if (nameEl) nameEl.value = DEMO_SITE_CONFIG.restaurantName;
-    if (streetEl) streetEl.value = DEMO_SITE_CONFIG.street;
-    if (unitEl) unitEl.value = DEMO_SITE_CONFIG.unit;
-    if (cityEl) cityEl.value = DEMO_SITE_CONFIG.city;
-    if (stateEl) stateEl.value = DEMO_SITE_CONFIG.state;
-    if (zipEl) zipEl.value = DEMO_SITE_CONFIG.zip;
-    if (countryEl) countryEl.value = DEMO_SITE_CONFIG.country;
-    if (msgEl) msgEl.value = DEMO_SITE_CONFIG.message;
-    if (photoImg) photoImg.src = DEMO_SITE_CONFIG.photoUrl;
-
-    currentSiteConfig = {
-        ...currentSiteConfig,
-        ...DEMO_SITE_CONFIG,
-        photoUrl: DEMO_SITE_CONFIG.photoUrl
-    };
-
-    // Auto-select all 7 menu items for demo catalog
-    DINER_MENU_ITEMS.forEach(i => i.selected = true);
-    renderMenuCatalog();
-    updateSlugPreview();
-    updateProgressiveState();
-
-    showDinerToast(
-        'Demo Content Placed! 🪄',
-        'Populated Parma Sub & Fry Co brand info, address, and selected all 7 menu items. You can now build & deploy!',
-        'fa-wand-magic-sparkles'
-    );
-}
-
-function setPresetPhoto(type) {
-    playToyClick(640, 0.03);
-    const presets = {
-        diner: 'https://images.unsplash.com/photo-1555396273-367ea4eb4db5?auto=format&fit=crop&w=400&q=80',
-        sub: 'https://images.unsplash.com/photo-1509722747041-616f39b57569?auto=format&fit=crop&w=400&q=80',
-        burger: 'https://images.unsplash.com/photo-1568901346375-23c9450c58cd?auto=format&fit=crop&w=400&q=80'
-    };
-    const chosen = presets[type] || presets.diner;
-    const photoImg = document.getElementById('sitePhotoPreview');
-    if (photoImg) {
-        photoImg.src = chosen;
-    }
-    currentSiteConfig.photoUrl = chosen;
-    showDinerToast('Photo Selected 📸', `Loaded ${type.toUpperCase()} business photo preset.`, 'fa-camera');
 }
 
 function handlePhotoUpload(event) {
@@ -1156,166 +960,57 @@ function handlePhotoUpload(event) {
     const reader = new FileReader();
     reader.onload = function(e) {
         const dataUrl = e.target.result;
-        const photoImg = document.getElementById('sitePhotoPreview');
-        if (photoImg) photoImg.src = dataUrl;
-        currentSiteConfig.photoUrl = dataUrl;
-        showDinerToast('Photo Uploaded 🖼️', `Selected custom business image (${(file.size / 1024).toFixed(0)} KB).`, 'fa-image');
+        currentSiteConfig.logoUrl = dataUrl;
+        renderLogoPreview();
+        showDinerToast('Logo Uploaded 🖼️', `Loaded custom logo (${(file.size / 1024).toFixed(0)} KB).`, 'fa-image');
     };
     reader.readAsDataURL(file);
 }
 
-// ═══════════════════════════════════════════════════════════════════
-// MENU CATALOG RENDERING & SKUS SELECTION
-// ═══════════════════════════════════════════════════════════════════
-function renderMenuCatalog() {
-    const tableBody = document.getElementById('menuTableBody');
-    if (!tableBody) return;
+function handleLogoUrlInput(url) {
+    currentSiteConfig.logoUrl = (url || '').trim();
+    renderLogoPreview();
+}
 
-    const selectedCount = DINER_MENU_ITEMS.filter(i => i.selected).length;
-    const counterBadge = document.getElementById('menuSelectionCounterBadge');
-    if (counterBadge) {
-        counterBadge.innerText = `${selectedCount} of 7 SKUs Selected`;
-        counterBadge.className = selectedCount > 0 
-            ? 'badge bg-success rounded-1 font-mono' 
-            : 'badge bg-warning text-dark rounded-1 font-mono';
-    }
+function clearLogo() {
+    playToyClick(480, 0.04);
+    currentSiteConfig.logoUrl = '';
+    const urlInput = document.getElementById('siteLogoUrlInput');
+    const fileInput = document.getElementById('sitePhotoUpload');
+    if (urlInput) urlInput.value = '';
+    if (fileInput) fileInput.value = '';
+    renderLogoPreview();
+    showDinerToast('Logo Cleared', 'Using default store storefront icon.', 'fa-xmark');
+}
 
-    const bannerHeadline = document.getElementById('menuBannerHeadline');
-    const bannerSub = document.getElementById('menuBannerSub');
-    const selectionBanner = document.getElementById('menuSelectionBanner');
-    if (bannerHeadline && bannerSub) {
-        if (selectedCount === 0) {
-            bannerHeadline.innerText = 'Notice: No Menu Items Preselected (Practice Mode)';
-            bannerSub.innerText = 'Select items below or click "Select All (7)" / "Fill Demo Content" to include them on your live website.';
-            if (selectionBanner) {
-                selectionBanner.className = 'menu-selection-alert-banner alert alert-warning border-0 rounded-2 p-3 mb-3 d-flex align-items-center justify-content-between flex-wrap gap-3';
-            }
-        } else {
-            bannerHeadline.innerText = `${selectedCount} of 7 Menu Items Staged for Live Site`;
-            bannerSub.innerText = 'These items will appear on your generated customer ordering website with live prices and stock status.';
-            if (selectionBanner) {
-                selectionBanner.className = 'menu-selection-alert-banner alert alert-success border-0 rounded-2 p-3 mb-3 d-flex align-items-center justify-content-between flex-wrap gap-3';
-            }
+function renderLogoPreview() {
+    const previewImg = document.getElementById('sitePhotoPreview');
+    const fallbackIcon = document.getElementById('siteLogoFallbackIcon');
+    const clearBtn = document.getElementById('btnClearLogo');
+    const urlInput = document.getElementById('siteLogoUrlInput');
+
+    if (currentSiteConfig.logoUrl) {
+        if (previewImg) {
+            previewImg.src = currentSiteConfig.logoUrl;
+            previewImg.style.display = 'block';
         }
+        if (fallbackIcon) fallbackIcon.style.display = 'none';
+        if (clearBtn) clearBtn.style.display = 'inline-block';
+        if (urlInput && !urlInput.value && !currentSiteConfig.logoUrl.startsWith('data:')) {
+            urlInput.value = currentSiteConfig.logoUrl;
+        }
+    } else {
+        if (previewImg) {
+            previewImg.src = '';
+            previewImg.style.display = 'none';
+        }
+        if (fallbackIcon) fallbackIcon.style.display = 'block';
+        if (clearBtn) clearBtn.style.display = 'none';
     }
-
-    let html = '';
-    DINER_MENU_ITEMS.forEach((item, index) => {
-        const isSel = !!item.selected;
-        html += `
-            <tr class="${isSel ? 'item-selected' : ''}">
-                <td>
-                    <button type="button" 
-                            class="item-select-btn ${isSel ? 'selected' : ''}" 
-                            onclick="toggleMenuItemSelection(${index})"
-                            title="${isSel ? 'Click to remove SKU from Site' : 'Click to add SKU to Site'}">
-                        <i class="fa-solid ${isSel ? 'fa-square-check' : 'fa-square'}"></i>
-                        <span>${isSel ? 'Selected' : '+ Add SKU'}</span>
-                    </button>
-                </td>
-                <td class="font-mono text-secondary" style="font-weight:700;">${item.sku}</td>
-                <td>
-                    <div class="menu-item-cell">
-                        <div class="item-thumb">${item.icon}</div>
-                        <div class="item-meta">
-                            <strong>${item.name}</strong>
-                            <span>${item.desc}</span>
-                        </div>
-                    </div>
-                </td>
-                <td>
-                    <span class="badge bg-light text-dark border font-mono">${item.category}</span>
-                </td>
-                <td>
-                    <div class="price-control-box">
-                        <button type="button" class="price-adj-btn" onclick="adjustItemPrice(${index}, -0.50)">-</button>
-                        <span>$${item.price.toFixed(2)}</span>
-                        <button type="button" class="price-adj-btn" onclick="adjustItemPrice(${index}, 0.50)">+</button>
-                    </div>
-                </td>
-                <td>
-                    <button type="button" 
-                            class="stock-toggle-btn ${item.inStock ? 'in-stock' : 'out-stock'}" 
-                            onclick="toggleItemStock(${index})">
-                        <i class="fa-solid ${item.inStock ? 'fa-check' : 'fa-ban'} me-1"></i>
-                        ${item.inStock ? 'In Stock' : '86\'d (Out)'}
-                    </button>
-                </td>
-                <td class="text-end">
-                    <button type="button" class="tactile-btn tactile-btn-white tactile-btn-sm" onclick="syncMenuItem('${item.sku}', '${item.name}')">
-                        <i class="fa-solid fa-arrows-rotate text-primary"></i> Sync
-                    </button>
-                </td>
-            </tr>
-        `;
-    });
-
-    tableBody.innerHTML = html;
-}
-
-function toggleMenuItemSelection(index) {
-    playToyClick(640, 0.03);
-    DINER_MENU_ITEMS[index].selected = !DINER_MENU_ITEMS[index].selected;
-    renderMenuCatalog();
-    updateProgressiveState();
-
-    const item = DINER_MENU_ITEMS[index];
-    showDinerToast(
-        item.selected ? `${item.sku} Added to Site 🛒` : `${item.sku} Removed from Site ↩️`,
-        `"${item.name}" is ${item.selected ? 'now included on your customer site' : 'removed'}.`,
-        item.selected ? 'fa-square-check' : 'fa-minus'
-    );
-}
-
-function selectAllMenuItems() {
-    playToyClick(720, 0.04);
-    DINER_MENU_ITEMS.forEach(i => i.selected = true);
-    renderMenuCatalog();
-    updateProgressiveState();
-    showDinerToast('All 7 SKUs Selected! ✅', 'All menu items are now active on your customer site.', 'fa-check-double');
-}
-
-function clearMenuItemSelections() {
-    playToyClick(480, 0.04);
-    DINER_MENU_ITEMS.forEach(i => i.selected = false);
-    renderMenuCatalog();
-    updateProgressiveState();
-    showDinerToast('Selection Cleared', 'No menu items are currently selected.', 'fa-xmark');
-}
-
-function adjustItemPrice(index, delta) {
-    playToyClick(720, 0.03);
-    DINER_MENU_ITEMS[index].price = Math.max(1.00, +(DINER_MENU_ITEMS[index].price + delta).toFixed(2));
-    renderMenuCatalog();
-}
-
-function toggleItemStock(index) {
-    playToyClick(480, 0.04);
-    DINER_MENU_ITEMS[index].inStock = !DINER_MENU_ITEMS[index].inStock;
-    renderMenuCatalog();
-    const item = DINER_MENU_ITEMS[index];
-    showDinerToast(
-        `${item.sku} ${item.inStock ? 'Available' : '86\'d'} 📋`,
-        `"${item.name}" stock updated.`,
-        item.inStock ? 'fa-check' : 'fa-ban'
-    );
-}
-
-function syncMenuItem(sku, name) {
-    playToyClick(640, 0.04);
-    const gwName = (currentSelectedGateway && DELIVERY_SERVICES[currentSelectedGateway]) 
-        ? DELIVERY_SERVICES[currentSelectedGateway].name 
-        : 'Uber Direct';
-    showDinerToast(
-        `Synced: ${sku} 🔄`,
-        `"${name}" price & stock broadcast to ${gwName}.`,
-        'fa-arrows-rotate'
-    );
-    addTelemetryLogRow('Catalog Sync', 'SKU.BROADCAST_OK', '14 ms', `${sku} (${name})`);
 }
 
 // ═══════════════════════════════════════════════════════════════════
-// GENERATE & DEPLOY WEBSITE WITH DIRECTORY SLUG
+// STEP 3: DIRECTORY CREATION & BASE INDEX.HTML COMPILATION
 // ═══════════════════════════════════════════════════════════════════
 function generateAndDeployWebsite(event) {
     if (event) event.preventDefault();
@@ -1328,20 +1023,18 @@ function generateAndDeployWebsite(event) {
     const state = (document.getElementById('siteState')?.value || '').trim();
     const zip = (document.getElementById('siteZip')?.value || '').trim();
     const country = (document.getElementById('siteCountry')?.value || 'United States').trim();
-    const message = (document.getElementById('siteMessage')?.value || '').trim();
-    const photoImg = document.getElementById('sitePhotoPreview');
-    const photoUrl = photoImg?.src || currentSiteConfig.photoUrl || 'https://images.unsplash.com/photo-1555396273-367ea4eb4db5?auto=format&fit=crop&w=400&q=80';
+    const logoUrl = currentSiteConfig.logoUrl || '';
 
     if (!restaurantName) {
         playToyClick(320, 0.08);
-        alert('Please enter a Restaurant Name (or click "Fill Demo Content" above to practice the journey).');
+        alert('Please enter a Business Name to set up the restaurant directory.');
         document.getElementById('siteRestaurantName')?.focus();
         return;
     }
 
     if (!street || !city || !state || !zip) {
         playToyClick(320, 0.08);
-        alert('Please fill out all required separate address fields (Street, City, State, ZIP) or click "Fill Demo Content".');
+        alert('Please fill out the physical address fields (Street, City, State, ZIP).');
         if (!street) document.getElementById('siteStreet')?.focus();
         else if (!city) document.getElementById('siteCity')?.focus();
         else if (!state) document.getElementById('siteState')?.focus();
@@ -1349,14 +1042,7 @@ function generateAndDeployWebsite(event) {
         return;
     }
 
-    const selectedItems = DINER_MENU_ITEMS.filter(i => i.selected);
-    if (selectedItems.length === 0) {
-        playToyClick(320, 0.08);
-        alert('Please select at least one menu item below to include on your restaurant website (or click "Select All (7)").');
-        return;
-    }
-
-    const slug = makeDirectorySlug(restaurantName);
+    const slug = makeDirectorySlug(restaurantName) || 'restaurant-site';
     const activeGw = (currentSelectedGateway && DELIVERY_SERVICES[currentSelectedGateway])
         ? DELIVERY_SERVICES[currentSelectedGateway]
         : DELIVERY_SERVICES.uber;
@@ -1370,56 +1056,80 @@ function generateAndDeployWebsite(event) {
         state: state,
         zip: zip,
         country: country,
-        message: message,
-        photoUrl: photoUrl,
+        logoUrl: logoUrl,
         deployedDirectory: `/net-c-delivery/${slug}/index.html`,
         api: {
             id: activeGw.id,
             name: activeGw.name,
+            icon: activeGw.icon,
             protocol: activeGw.protocol,
             endpoint: activeGw.endpointUrl,
-            locationId: activeGw.defaultLocationId,
+            locationId: activeGw.defaultLocationId || '',
             verified: true
         },
-        selectedSkus: selectedItems.map(i => i.sku),
-        menuItems: selectedItems,
         generatedAt: new Date().toISOString()
     };
 
+    // Generate standalone index.html content based on base template
+    const htmlContent = generateStandaloneStorefrontHtml(currentSiteConfig);
+
+    // Call backend API if running to create physical directory on disk
+    fetch('/api/restaurant/deploy', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+            businessName: restaurantName,
+            street: street,
+            unit: unit,
+            city: city,
+            state: state,
+            zip: zip,
+            country: country,
+            logoUrl: logoUrl,
+            apiName: activeGw.name,
+            apiEndpoint: activeGw.endpointUrl,
+            htmlContent: htmlContent
+        })
+    }).then(res => res.json()).then(data => {
+        addTelemetryLogRow('Directory System', 'DISK.DIRECTORY_CREATED', '12 ms', data.directory || `/${slug}/`);
+    }).catch(() => {
+        addTelemetryLogRow('Directory System', 'VIRTUAL.DIRECTORY_MOUNT', '3 ms', `/${slug}/index.html`);
+    });
+
+    // Save to localStorage for browser persistence
     try {
         localStorage.setItem(STORAGE_KEY_SITE, JSON.stringify(currentSiteConfig));
     } catch (e) {}
 
+    // Create Blob URL for instant iframe and new tab preview
+    if (deployedBlobUrl) URL.revokeObjectURL(deployedBlobUrl);
+    const blob = new Blob([htmlContent], { type: 'text/html;charset=utf-8' });
+    deployedBlobUrl = URL.createObjectURL(blob);
+
     playDinerBell();
     showDinerToast(
-        'Website Generated & Deployed! 🌐',
-        `Directory "/net-c-delivery/${slug}/index.html" created and live!`,
-        'fa-store'
+        'Directory & index.html Created! 📁',
+        `Created directory "/net-c-delivery/${slug}/" with base index.html.`,
+        'fa-folder-check'
     );
 
-    addTelemetryLogRow('Site Generator', 'SITE.DEPLOY_DIRECTORY_200', '19 ms', `/${slug}/index.html`);
+    addTelemetryLogRow('Site Compiler', 'BASE_INDEX.COMPILED', '9 ms', `/${slug}/index.html`);
 
     renderDeployedSiteBanner();
 
     setTimeout(() => {
         goToStep(3);
-    }, 400);
+    }, 350);
 }
 
-const handleWebsiteGeneratorSubmit = generateAndDeployWebsite;
-
-// ═══════════════════════════════════════════════════════════════════
-// STEP 3: DEPLOYED SITE BANNER & KITCHEN KDS
-// ═══════════════════════════════════════════════════════════════════
 function renderDeployedSiteBanner() {
     const nameEl = document.getElementById('deployedSiteName');
-    const msgEl = document.getElementById('deployedSiteMsg');
     const dirEl = document.getElementById('deployedSiteDirectory');
     const addrEl = document.getElementById('deployedSiteAddress');
     const apiEl = document.getElementById('deployedSiteApiStatus');
-    const skuEl = document.getElementById('deployedSiteSkuCount');
     const liveLink = document.getElementById('deployedSiteLiveLink');
-    const avatar = document.getElementById('deployedSiteAvatar');
+    const defaultIcon = document.getElementById('deployedAvatarDefaultIcon');
+    const avatarImg = document.getElementById('deployedAvatarImg');
 
     const fullAddress = [
         currentSiteConfig.street,
@@ -1429,36 +1139,60 @@ function renderDeployedSiteBanner() {
         currentSiteConfig.country
     ].filter(Boolean).join(', ');
 
-    const activeGw = (currentSelectedGateway && DELIVERY_SERVICES[currentSelectedGateway])
-        ? DELIVERY_SERVICES[currentSelectedGateway]
-        : DELIVERY_SERVICES.uber;
+    const activeGw = (currentSiteConfig.api && currentSiteConfig.api.name)
+        ? currentSiteConfig.api
+        : ((currentSelectedGateway && DELIVERY_SERVICES[currentSelectedGateway]) ? DELIVERY_SERVICES[currentSelectedGateway] : DELIVERY_SERVICES.uber);
 
-    const selectedCount = DINER_MENU_ITEMS.filter(i => i.selected).length;
-    const slug = currentSiteConfig.slug || 'parma-sub-fry-co';
+    const slug = currentSiteConfig.slug || 'your-site';
 
-    if (nameEl) nameEl.innerText = currentSiteConfig.restaurantName || 'Parma Sub & Fry Co.';
-    if (msgEl) msgEl.innerText = `"${currentSiteConfig.message || 'Artisanal cold cuts & triple-cooked hand-cut fries since 1988.'}"`;
+    if (nameEl) nameEl.innerText = currentSiteConfig.restaurantName || 'Restaurant Storefront';
     if (dirEl) dirEl.innerText = `/net-c-delivery/${slug}/index.html`;
-    if (addrEl) addrEl.innerText = fullAddress || '5842 Ridge Rd, Suite 104, Parma, OH 44129, United States';
-    if (apiEl) apiEl.innerText = `${activeGw.name} • Verified (${activeGw.protocol})`;
-    if (skuEl) skuEl.innerText = `${selectedCount} Menu Items Configured`;
+    if (addrEl) addrEl.innerText = fullAddress || 'Address will appear here after Step 2';
+    if (apiEl) apiEl.innerText = `${activeGw.name} • Verified (${activeGw.protocol || 'REST'})`;
 
-    const targetUrl = (slug === 'parma-sub-fry-co') ? `./parma-sub-fry-co/index.html` : `./your-site/index.html`;
-    if (liveLink) liveLink.href = targetUrl;
-
-    if (avatar && currentSiteConfig.photoUrl) {
-        avatar.innerHTML = `<img src="${currentSiteConfig.photoUrl}" alt="Store Photo" style="width: 100%; height: 100%; object-fit: cover; border-radius: 4px;" onerror="this.parentElement.innerHTML='<i class=\\'fa-solid fa-store fa-2x text-primary\\'></i>'">`;
+    // Handle avatar / logo in banner
+    if (currentSiteConfig.logoUrl) {
+        if (avatarImg) {
+            avatarImg.src = currentSiteConfig.logoUrl;
+            avatarImg.style.display = 'block';
+        }
+        if (defaultIcon) defaultIcon.style.display = 'none';
+    } else {
+        if (avatarImg) avatarImg.style.display = 'none';
+        if (defaultIcon) defaultIcon.style.display = 'block';
     }
 
-    // Update In-App Preview modal iframe src
-    const iframe = document.getElementById('sitePreviewIframe');
-    if (iframe) iframe.src = targetUrl;
+    const previewUrl = deployedBlobUrl || `./your-site/index.html`;
 
-    const previewSlug = document.getElementById('previewModalSlugDisplay');
-    if (previewSlug) previewSlug.innerText = `/net-c-delivery/${slug}/index.html`;
+    if (liveLink) liveLink.href = previewUrl;
 
-    const previewTabLink = document.getElementById('previewModalOpenNewTab');
-    if (previewTabLink) previewTabLink.href = targetUrl;
+    // Update in-app interactive preview iframe
+    const inlineIframe = document.getElementById('step3InlinePreviewIframe');
+    if (inlineIframe) inlineIframe.src = previewUrl;
+
+    const inlineUrlDisplay = document.getElementById('inlinePreviewUrlDisplay');
+    if (inlineUrlDisplay) inlineUrlDisplay.innerText = `/net-c-delivery/${slug}/index.html`;
+
+    const inlineOpenLink = document.getElementById('inlinePreviewOpenLink');
+    if (inlineOpenLink) inlineOpenLink.href = previewUrl;
+
+    // Update preview modal iframe
+    const modalIframe = document.getElementById('sitePreviewIframe');
+    if (modalIframe) modalIframe.src = previewUrl;
+
+    const modalSlugDisplay = document.getElementById('previewModalSlugDisplay');
+    if (modalSlugDisplay) modalSlugDisplay.innerText = `/net-c-delivery/${slug}/index.html`;
+
+    const modalOpenTab = document.getElementById('previewModalOpenNewTab');
+    if (modalOpenTab) modalOpenTab.href = previewUrl;
+}
+
+function reloadInlinePreview() {
+    playToyClick(640, 0.03);
+    const inlineIframe = document.getElementById('step3InlinePreviewIframe');
+    if (inlineIframe) {
+        inlineIframe.src = deployedBlobUrl || `./your-site/index.html`;
+    }
 }
 
 function openInAppSitePreview() {
@@ -1471,7 +1205,6 @@ function openInAppSitePreview() {
     }
 }
 
-// Generate and trigger download of standalone index.html file
 function downloadSiteIndexHtml() {
     playToyClick(720, 0.05);
     const htmlContent = generateStandaloneStorefrontHtml(currentSiteConfig);
@@ -1487,346 +1220,553 @@ function downloadSiteIndexHtml() {
 
     showDinerToast(
         'index.html Downloaded! 📥',
-        `Exported standalone website file for "${currentSiteConfig.restaurantName}".`,
+        `Downloaded base index.html configured for "${currentSiteConfig.restaurantName}".`,
         'fa-file-arrow-down'
     );
-    addTelemetryLogRow('Site Exporter', 'SITE.FILE_EXPORT_DOWNLOAD', '7 ms', `index.html`);
+    addTelemetryLogRow('Site Exporter', 'SITE.FILE_EXPORT_DOWNLOAD', '5 ms', `index.html`);
 }
 
-// Generate the standalone HTML markup for the customer site
+// Generate the standalone HTML markup based on base-index.html
 function generateStandaloneStorefrontHtml(config) {
-    const selected = DINER_MENU_ITEMS.filter(i => i.selected);
-    const items = selected.length > 0 ? selected : DINER_MENU_ITEMS;
-    const activeGw = (currentSelectedGateway && DELIVERY_SERVICES[currentSelectedGateway])
-        ? DELIVERY_SERVICES[currentSelectedGateway]
-        : DELIVERY_SERVICES.uber;
+    const activeGw = (config.api && config.api.name)
+        ? config.api
+        : ((currentSelectedGateway && DELIVERY_SERVICES[currentSelectedGateway]) ? DELIVERY_SERVICES[currentSelectedGateway] : DELIVERY_SERVICES.uber);
+
+    const safeConfigJson = JSON.stringify(config).replace(/</g, '\\u003c');
 
     return `<!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>${config.restaurantName} • Official Online Ordering</title>
+    <title id="pageTitle">${config.restaurantName || 'Restaurant Storefront'} • Online Ordering & Delivery</title>
+    <meta name="description" content="Official storefront and direct delivery dispatch for ${config.restaurantName || 'Restaurant'}.">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
-    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;600;700;800&family=JetBrains+Mono:wght@500;700&display=swap" rel="stylesheet">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=JetBrains+Mono:wght@500;700;800&display=swap" rel="stylesheet">
     <style>
         :root {
             --primary: #0284c7;
             --primary-dark: #0369a1;
             --accent: #f59e0b;
             --success: #10b981;
-            --bg: #f8fafc;
             --surface: #ffffff;
+            --bg: #f8fafc;
+            --border: #e2e8f0;
             --text-dark: #0f172a;
             --text-muted: #64748b;
-            --border: #e2e8f0;
         }
+
         * { box-sizing: border-box; margin: 0; padding: 0; }
-        body { font-family: 'Plus Jakarta Sans', sans-serif; background: var(--bg); color: var(--text-dark); line-height: 1.5; }
-        .hero { position: relative; background: #0f172a; color: #fff; overflow: hidden; padding: 60px 24px; }
-        .hero-bg { position: absolute; inset: 0; background-image: url('${config.photoUrl}'); background-size: cover; background-position: center; opacity: 0.28; filter: blur(2px); }
-        .hero-inner { position: relative; max-width: 1100px; margin: 0 auto; display: flex; align-items: center; justify-content: space-between; gap: 32px; flex-wrap: wrap; }
-        .hero-brand { display: flex; align-items: center; gap: 24px; }
-        .hero-avatar { width: 96px; height: 96px; border-radius: 4px; object-fit: cover; border: 2px solid rgba(255,255,255,0.4); box-shadow: 0 4px 12px rgba(0,0,0,0.2); }
-        .hero-title { font-size: 2.2rem; font-weight: 800; letter-spacing: -0.02em; margin-bottom: 6px; }
-        .hero-message { font-size: 1.05rem; opacity: 0.9; max-width: 600px; font-style: italic; }
-        .api-badge { display: inline-flex; align-items: center; gap: 8px; background: rgba(255,255,255,0.15); backdrop-filter: blur(10px); padding: 6px 14px; border-radius: 4px; font-size: 0.85rem; font-family: 'JetBrains Mono', monospace; border: 1px solid rgba(255,255,255,0.25); }
-        
-        .address-bar { background: #fff; border-bottom: 1px solid var(--border); padding: 16px 24px; }
-        .address-inner { max-width: 1100px; margin: 0 auto; display: flex; align-items: center; justify-content: space-between; flex-wrap: wrap; gap: 16px; font-size: 0.9rem; }
-        .addr-chip { display: flex; align-items: center; gap: 8px; color: var(--text-dark); font-weight: 600; }
-        .addr-pill { background: #f1f5f9; padding: 4px 10px; border-radius: 4px; font-size: 0.8rem; font-family: 'JetBrains Mono', monospace; }
 
-        .main-content { max-width: 1100px; margin: 36px auto; padding: 0 24px; display: grid; grid-template-columns: 1fr 340px; gap: 32px; }
-        @media (max-width: 900px) { .main-content { grid-template-columns: 1fr; } }
-        
-        .menu-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(280px, 1fr)); gap: 20px; }
-        .menu-card { background: #fff; border: 1px solid var(--border); border-radius: 6px; padding: 20px; display: flex; flex-direction: column; justify-content: space-between; transition: transform 0.15s, box-shadow 0.15s; }
-        .menu-card:hover { transform: translateY(-3px); box-shadow: 0 10px 20px -5px rgba(0,0,0,0.06); }
-        .item-icon { font-size: 2rem; margin-bottom: 12px; }
-        .item-name { font-size: 1.1rem; font-weight: 700; margin-bottom: 6px; }
-        .item-desc { font-size: 0.85rem; color: var(--text-muted); margin-bottom: 16px; line-height: 1.4; }
-        .item-bottom { display: flex; align-items: center; justify-content: space-between; margin-top: auto; }
-        .item-price { font-size: 1.15rem; font-weight: 800; color: var(--text-dark); font-family: 'JetBrains Mono', monospace; }
-        .add-cart-btn { background: var(--primary); color: #fff; border: none; padding: 8px 16px; border-radius: 4px; font-weight: 700; font-size: 0.85rem; cursor: pointer; display: flex; align-items: center; gap: 6px; }
-        .add-cart-btn:hover { background: var(--primary-dark); }
+        body {
+            font-family: 'Plus Jakarta Sans', sans-serif;
+            background: var(--bg);
+            color: var(--text-dark);
+            line-height: 1.5;
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            -webkit-font-smoothing: antialiased;
+        }
 
-        .cart-card { background: #fff; border: 1px solid var(--border); border-radius: 6px; padding: 24px; position: sticky; top: 24px; height: fit-content; }
-        .cart-title { font-size: 1.2rem; font-weight: 800; margin-bottom: 16px; display: flex; align-items: center; justify-content: space-between; }
-        .cart-list { list-style: none; margin-bottom: 20px; min-height: 80px; }
-        .cart-item { display: flex; align-items: center; justify-content: space-between; padding: 8px 0; border-bottom: 1px dashed var(--border); font-size: 0.88rem; }
-        .checkout-btn { width: 100%; background: var(--success); color: #fff; border: none; padding: 14px; border-radius: 4px; font-size: 1rem; font-weight: 800; cursor: pointer; display: flex; align-items: center; justify-content: center; gap: 8px; box-shadow: 0 4px 12px rgba(16,185,129,0.3); }
-        .checkout-btn:hover { background: #059669; }
+        .site-nav {
+            background: #ffffff;
+            border-bottom: 1px solid var(--border);
+            padding: 14px 24px;
+            position: sticky;
+            top: 0;
+            z-index: 100;
+            box-shadow: 0 1px 3px rgba(0,0,0,0.02);
+        }
+
+        .nav-inner {
+            max-width: 1140px;
+            margin: 0 auto;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            gap: 16px;
+        }
+
+        .nav-brand {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            text-decoration: none;
+            color: var(--text-dark);
+        }
+
+        .nav-logo-box {
+            width: 44px;
+            height: 44px;
+            border-radius: 8px;
+            overflow: hidden;
+            background: #f1f5f9;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border: 1px solid var(--border);
+            color: var(--primary);
+            font-size: 1.25rem;
+            flex-shrink: 0;
+        }
+
+        .nav-logo-box img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+
+        .nav-title {
+            font-size: 1.2rem;
+            font-weight: 800;
+            letter-spacing: -0.01em;
+        }
+
+        .hero-banner {
+            background: linear-gradient(135deg, #0f172a 0%, #1e293b 100%);
+            color: #ffffff;
+            padding: 48px 24px;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .hero-inner {
+            max-width: 1140px;
+            margin: 0 auto;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            gap: 32px;
+            flex-wrap: wrap;
+        }
+
+        .hero-store-identity {
+            display: flex;
+            align-items: center;
+            gap: 20px;
+        }
+
+        .hero-avatar {
+            width: 80px;
+            height: 80px;
+            border-radius: 12px;
+            background: rgba(255,255,255,0.1);
+            border: 2px solid rgba(255,255,255,0.25);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 2.2rem;
+            color: #38bdf8;
+            overflow: hidden;
+            flex-shrink: 0;
+        }
+
+        .hero-avatar img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+
+        .hero-title {
+            font-size: 2.1rem;
+            font-weight: 800;
+            letter-spacing: -0.02em;
+            margin-bottom: 6px;
+        }
+
+        .hero-meta {
+            display: flex;
+            align-items: center;
+            gap: 16px;
+            font-size: 0.95rem;
+            color: #cbd5e1;
+            flex-wrap: wrap;
+        }
+
+        .hero-api-badge {
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            background: rgba(255,255,255,0.12);
+            backdrop-filter: blur(8px);
+            padding: 8px 16px;
+            border-radius: 6px;
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 0.88rem;
+            border: 1px solid rgba(255,255,255,0.2);
+            color: #38bdf8;
+        }
+
+        .address-bar {
+            background: #ffffff;
+            border-bottom: 1px solid var(--border);
+            padding: 16px 24px;
+        }
+
+        .address-inner {
+            max-width: 1140px;
+            margin: 0 auto;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            gap: 20px;
+            flex-wrap: wrap;
+        }
+
+        .full-addr {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            font-weight: 600;
+            color: var(--text-dark);
+            font-size: 0.95rem;
+        }
+
+        .addr-chips {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            flex-wrap: wrap;
+        }
+
+        .chip {
+            background: #f1f5f9;
+            padding: 4px 10px;
+            border-radius: 4px;
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 0.8rem;
+            color: var(--text-muted);
+            border: 1px solid var(--border);
+        }
+
+        .chip strong {
+            color: var(--text-dark);
+        }
+
+        .main-layout {
+            max-width: 1140px;
+            margin: 36px auto;
+            padding: 0 24px;
+            display: grid;
+            grid-template-columns: 1fr 360px;
+            gap: 32px;
+            flex-grow: 1;
+            width: 100%;
+        }
+
+        @media (max-width: 860px) {
+            .main-layout {
+                grid-template-columns: 1fr;
+            }
+        }
+
+        .card-box {
+            background: #ffffff;
+            border: 1px solid var(--border);
+            border-radius: 12px;
+            padding: 28px;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.02);
+        }
+
+        .card-title {
+            font-size: 1.25rem;
+            font-weight: 800;
+            margin-bottom: 8px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .card-desc {
+            color: var(--text-muted);
+            font-size: 0.92rem;
+            margin-bottom: 24px;
+            line-height: 1.5;
+        }
+
+        .form-group {
+            margin-bottom: 18px;
+        }
+
+        .form-label {
+            display: block;
+            font-size: 0.8rem;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+            color: var(--text-muted);
+            margin-bottom: 6px;
+        }
+
+        .form-input {
+            width: 100%;
+            padding: 10px 14px;
+            border: 1px solid var(--border);
+            border-radius: 6px;
+            font-family: inherit;
+            font-size: 0.95rem;
+            background: #f8fafc;
+            color: var(--text-dark);
+            transition: all 0.15s ease;
+        }
+
+        .form-input:focus {
+            outline: none;
+            border-color: var(--primary);
+            background: #ffffff;
+            box-shadow: 0 0 0 3px rgba(2,132,199,0.15);
+        }
+
+        .btn-dispatch {
+            width: 100%;
+            background: var(--primary);
+            color: #ffffff;
+            border: none;
+            padding: 14px 20px;
+            border-radius: 8px;
+            font-size: 1rem;
+            font-weight: 700;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 10px;
+            transition: background 0.15s ease;
+        }
+
+        .btn-dispatch:hover {
+            background: var(--primary-dark);
+        }
+
+        .spec-list {
+            display: flex;
+            flex-direction: column;
+            gap: 12px;
+        }
+
+        .spec-item {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 10px 14px;
+            background: #f8fafc;
+            border: 1px solid var(--border);
+            border-radius: 6px;
+            font-size: 0.9rem;
+        }
+
+        .spec-label {
+            color: var(--text-muted);
+            font-size: 0.85rem;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .spec-value {
+            font-family: 'JetBrains Mono', monospace;
+            font-weight: 700;
+            font-size: 0.85rem;
+        }
+
+        .order-modal {
+            position: fixed;
+            inset: 0;
+            background: rgba(15,23,42,0.6);
+            backdrop-filter: blur(4px);
+            display: none;
+            align-items: center;
+            justify-content: center;
+            z-index: 1000;
+            padding: 20px;
+        }
+
+        .order-modal.active {
+            display: flex;
+        }
+
+        .modal-box {
+            background: #ffffff;
+            border-radius: 12px;
+            max-width: 480px;
+            width: 100%;
+            padding: 32px;
+            text-align: center;
+            box-shadow: 0 20px 25px -5px rgba(0,0,0,0.2);
+        }
+
+        .site-footer {
+            background: #ffffff;
+            border-top: 1px solid var(--border);
+            padding: 20px 24px;
+            text-align: center;
+            font-size: 0.85rem;
+            color: var(--text-muted);
+            margin-top: auto;
+        }
     </style>
 </head>
 <body>
-    <header class="hero">
-        <div class="hero-bg"></div>
-        <div class="hero-inner">
-            <div class="hero-brand">
-                <img src="${config.photoUrl}" alt="${config.restaurantName}" class="hero-avatar" onerror="this.src='https://images.unsplash.com/photo-1509722747041-616f39b57569?auto=format&fit=crop&w=800&q=80'">
-                <div>
-                    <h1 class="hero-title">${config.restaurantName}</h1>
-                    <p class="hero-message">"${config.message || 'Authentic dining & fresh orders.'}"</p>
+    <header class="site-nav">
+        <div class="nav-inner">
+            <a href="./index.html" class="nav-brand">
+                <div class="nav-logo-box">
+                    <img id="navLogoImg" src="${config.logoUrl || ''}" alt="Logo" style="${config.logoUrl ? 'display:block;' : 'display:none;'}">
+                    <i class="fa-solid fa-store" id="navLogoIcon" style="${config.logoUrl ? 'display:none;' : 'display:block;'}"></i>
                 </div>
-            </div>
-            <div class="api-badge">
-                <i class="${activeGw.icon}"></i>
-                <span>Powered by ${activeGw.name} API</span>
+                <span class="nav-title" id="navRestaurantName">${config.restaurantName || 'Restaurant Storefront'}</span>
+            </a>
+            <div class="api-badge" style="background:#f1f5f9; padding:6px 14px; border-radius:6px; font-family:'JetBrains Mono',monospace; font-size:0.85rem; border:1px solid var(--border);">
+                <i class="${activeGw.icon || 'fa-solid fa-plug'} text-primary me-1"></i>
+                <span>${activeGw.name || 'Uber Direct'} API</span>
             </div>
         </div>
     </header>
 
+    <section class="hero-banner">
+        <div class="hero-inner">
+            <div class="hero-store-identity">
+                <div class="hero-avatar">
+                    <img id="heroAvatarImg" src="${config.logoUrl || ''}" alt="Logo" style="${config.logoUrl ? 'display:block;' : 'display:none;'}">
+                    <i class="fa-solid fa-store" id="heroAvatarIcon" style="${config.logoUrl ? 'display:none;' : 'display:block;'}"></i>
+                </div>
+                <div>
+                    <h1 class="hero-title" id="heroStoreName">${config.restaurantName || 'Restaurant Storefront'}</h1>
+                    <div class="hero-meta">
+                        <span><i class="fa-solid fa-location-dot me-1 text-danger"></i>${(config.city && config.state) ? `${config.city}, ${config.state}` : (config.city || config.state || 'Storefront')}</span>
+                        <span>&bull;</span>
+                        <span><i class="fa-solid fa-clock me-1 text-warning"></i>Open for Online Orders</span>
+                    </div>
+                </div>
+            </div>
+            <div class="hero-api-badge">
+                <i class="${activeGw.icon || 'fa-solid fa-plug'}"></i>
+                <span id="heroApiBadgeText">Connected to ${activeGw.name || 'Uber Direct'} API</span>
+            </div>
+        </div>
+    </section>
+
     <div class="address-bar">
         <div class="address-inner">
-            <div class="addr-chip">
-                <i class="fa-solid fa-location-dot" style="color: #ef4444;"></i>
-                <span>${config.street}${config.unit ? ' ' + config.unit : ''}, ${config.city}, ${config.state} ${config.zip}, ${config.country}</span>
+            <div class="full-addr">
+                <i class="fa-solid fa-location-dot text-danger"></i>
+                <span id="fullAddressDisplay">${config.street || ''}${config.unit ? ' ' + config.unit : ''}, ${config.city || ''}, ${config.state || ''} ${config.zip || ''}, ${config.country || 'United States'}</span>
             </div>
-            <div style="display:flex; gap:8px;">
-                <span class="addr-pill">Street: ${config.street}</span>
-                <span class="addr-pill">City: ${config.city}</span>
-                <span class="addr-pill">State: ${config.state}</span>
-                <span class="addr-pill">ZIP: ${config.zip}</span>
+            <div class="addr-chips">
+                <span class="chip">Street: <strong>${config.street || '—'}</strong></span>
+                <span class="chip">City: <strong>${config.city || '—'}</strong></span>
+                <span class="chip">State: <strong>${config.state || '—'}</strong></span>
+                <span class="chip">ZIP: <strong>${config.zip || '—'}</strong></span>
             </div>
         </div>
     </div>
 
-    <main class="main-content">
-        <div>
-            <h2 style="font-size: 1.4rem; font-weight: 800; margin-bottom: 20px;">Featured Menu Items (${items.length})</h2>
-            <div class="menu-grid">
-                ${items.map(item => `
-                    <div class="menu-card">
-                        <div>
-                            <div class="item-icon">${item.icon}</div>
-                            <div class="item-name">${item.name}</div>
-                            <div class="item-desc">${item.desc}</div>
-                        </div>
-                        <div class="item-bottom">
-                            <span class="item-price">$${item.price.toFixed(2)}</span>
-                            <button type="button" class="add-cart-btn" onclick="addToOrder('${item.sku}', '${item.name}', ${item.price})">
-                                <i class="fa-solid fa-plus"></i> Add
-                            </button>
-                        </div>
-                    </div>
-                `).join('')}
-            </div>
-        </div>
+    <main class="main-layout">
+        <section class="card-box">
+            <h2 class="card-title">
+                <i class="fa-solid fa-motorcycle text-primary"></i>
+                <span>Direct Delivery Order</span>
+            </h2>
+            <p class="card-desc">Submit an online order. Requests are dispatched directly through the restaurant's connected delivery fleet API.</p>
 
-        <aside>
-            <div class="cart-card">
-                <div class="cart-title">
-                    <span>Your Order</span>
-                    <span id="orderItemCount" style="font-size:0.85rem; background:#f1f5f9; padding:2px 8px; border-radius:3px;">0 Items</span>
+            <form id="orderForm" onsubmit="submitStoreOrder(event)">
+                <div class="form-group">
+                    <label class="form-label">Customer Name</label>
+                    <input type="text" id="orderCustName" class="form-input" placeholder="e.g. Alex Morgan" required>
                 </div>
-                <ul class="cart-list" id="orderList">
-                    <li style="color:#94a3b8; font-size:0.85rem; text-align:center; padding:24px 0;">Cart is empty. Select items to order!</li>
-                </ul>
-                <div style="display:flex; justify-content:space-between; font-weight:800; font-size:1.1rem; margin-bottom:16px;">
-                    <span>Total:</span>
-                    <span id="orderTotal" style="font-family:'JetBrains Mono',monospace;">$0.00</span>
+                <div class="form-group">
+                    <label class="form-label">Customer Phone</label>
+                    <input type="tel" id="orderCustPhone" class="form-input" placeholder="e.g. (216) 555-0192" required>
                 </div>
-                <button type="button" class="checkout-btn" onclick="checkoutOrder()">
+                <div class="form-group">
+                    <label class="form-label">Delivery Destination Address</label>
+                    <input type="text" id="orderCustAddress" class="form-input" placeholder="e.g. 742 Evergreen Terrace, Apt 4" required>
+                </div>
+                <div class="form-group">
+                    <label class="form-label">Order Details / Items Specification</label>
+                    <input type="text" id="orderCustNotes" class="form-input" placeholder="e.g. 2 Specialty Entrees, 1 Side Salad" required>
+                </div>
+                <button type="submit" class="btn-dispatch" id="btnSubmitOrder">
                     <i class="fa-solid fa-motorcycle"></i>
-                    <span>Order via ${activeGw.name} ➔</span>
+                    <span id="dispatchButtonText">Dispatch Order via ${activeGw.name || 'Delivery'} API ➔</span>
                 </button>
+            </form>
+        </section>
+
+        <aside class="card-box">
+            <h2 class="card-title">
+                <i class="fa-solid fa-server text-primary"></i>
+                <span>Connected API Telemetry</span>
+            </h2>
+            <p class="card-desc">Live connection details verified for this restaurant directory.</p>
+
+            <div class="spec-list">
+                <div class="spec-item">
+                    <span class="spec-label"><i class="fa-solid fa-plug text-primary"></i> Gateway</span>
+                    <span class="spec-value" id="specApiName">${activeGw.name || 'Uber Direct'}</span>
+                </div>
+                <div class="spec-item">
+                    <span class="spec-label"><i class="fa-solid fa-shield-halved text-success"></i> Protocol</span>
+                    <span class="spec-value" id="specProtocol">${activeGw.protocol || 'REST / TLS 1.3'}</span>
+                </div>
+                <div class="spec-item">
+                    <span class="spec-label"><i class="fa-solid fa-signal text-success"></i> Status</span>
+                    <span class="spec-value text-success" id="specStatus">200 OK Handshake</span>
+                </div>
+                <div class="spec-item">
+                    <span class="spec-label"><i class="fa-solid fa-folder text-amber"></i> Directory</span>
+                    <span class="spec-value text-primary" id="specDirectory">/${config.slug || 'your-site'}/index.html</span>
+                </div>
             </div>
         </aside>
     </main>
 
+    <div class="order-modal" id="orderConfirmModal">
+        <div class="modal-box">
+            <div style="width: 64px; height: 64px; background: #ecfdf5; color: #10b981; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 28px; margin: 0 auto 16px;">
+                <i class="fa-solid fa-square-check"></i>
+            </div>
+            <h3 style="font-size: 1.35rem; font-weight: 800; margin-bottom: 6px;">Order Dispatched!</h3>
+            <p style="font-size: 0.9rem; color: #64748b; margin-bottom: 20px;">
+                Your delivery request was successfully transmitted to the connected gateway fleet.
+            </p>
+            <div style="background: #f8fafc; border: 1px solid var(--border); border-radius: 8px; padding: 14px; text-align: left; margin-bottom: 24px; font-size: 0.88rem;">
+                <div style="margin-bottom: 4px;"><strong>Order ID:</strong> <span id="confirmedOrderId" style="font-family:'JetBrains Mono',monospace; color:var(--primary);">#ORD-8819</span></div>
+                <div style="margin-bottom: 4px;"><strong>Delivery Fleet:</strong> <span id="confirmedApiProvider">${activeGw.name || 'Delivery'} API</span></div>
+                <div><strong>ETA to Address:</strong> <span>14 - 18 minutes</span></div>
+            </div>
+            <button type="button" class="btn-dispatch" onclick="closeOrderModal()">
+                Continue Browsing
+            </button>
+        </div>
+    </div>
+
+    <footer class="site-footer">
+        <p>&copy; 2026 <strong>${config.restaurantName || 'Restaurant Storefront'}</strong> &bull; ${config.street || ''}, ${config.city || ''}, ${config.state || ''} ${config.zip || ''} &bull; Powered by ${activeGw.name || 'Delivery'} API</p>
+    </footer>
+
     <script>
-        const cart = [];
-        function addToOrder(sku, name, price) {
-            cart.push({ sku, name, price });
-            renderCart();
+        window.EMBEDDED_SITE_CONFIG = ${safeConfigJson};
+
+        function submitStoreOrder(event) {
+            if (event) event.preventDefault();
+            const orderId = '#ORD-' + Math.floor(1000 + Math.random() * 9000);
+            document.getElementById('confirmedOrderId').innerText = orderId;
+            document.getElementById('orderConfirmModal').classList.add('active');
         }
-        function renderCart() {
-            const list = document.getElementById('orderList');
-            const totalEl = document.getElementById('orderTotal');
-            const countEl = document.getElementById('orderItemCount');
-            if (cart.length === 0) {
-                list.innerHTML = '<li style="color:#94a3b8; font-size:0.85rem; text-align:center; padding:24px 0;">Cart is empty.</li>';
-                totalEl.innerText = '$0.00';
-                countEl.innerText = '0 Items';
-                return;
-            }
-            let total = 0;
-            list.innerHTML = cart.map(item => {
-                total += item.price;
-                return '<li class="cart-item"><span>' + item.name + '</span><strong>$' + item.price.toFixed(2) + '</strong></li>';
-            }).join('');
-            totalEl.innerText = '$' + total.toFixed(2);
-            countEl.innerText = cart.length + ' Items';
-        }
-        function checkoutOrder() {
-            if (cart.length === 0) {
-                alert('Please add items to your cart first.');
-                return;
-            }
-            alert('Order submitted successfully! Dispatched to Kitchen Grill and routed via ${activeGw.name} courier fleet.');
-            cart.length = 0;
-            renderCart();
+
+        function closeOrderModal() {
+            document.getElementById('orderConfirmModal').classList.remove('active');
+            document.getElementById('orderCustName').value = '';
+            document.getElementById('orderCustAddress').value = '';
+            document.getElementById('orderCustNotes').value = '';
         }
     <\/script>
 </body>
 </html>`;
-}
-
-// ═══════════════════════════════════════════════════════════════════
-// KITCHEN KDS TICKETS QUEUE & TELEMETRY STREAM
-// ═══════════════════════════════════════════════════════════════════
-let LIVE_KDS_TICKETS = [
-    {
-        id: '#TKT-4829',
-        item: 'Artisan Ribeye Cheesesteak Supreme',
-        side: 'Garlic Truffle Fries',
-        gateway: 'Uber Direct',
-        courier: 'Uber Courier (Toyota Prius)',
-        eta: '2.4 mins',
-        status: 'PREPARING',
-        timeAgo: '3m 12s',
-        statusClass: 'ready'
-    },
-    {
-        id: '#TKT-4830',
-        item: 'Double Bacon Smash Burger',
-        side: 'Sea Salt Fries + Pickle',
-        gateway: 'Uber Direct',
-        courier: 'Uber Direct Courier #UB-41',
-        eta: '4.8 mins',
-        status: 'READY FOR COURIER',
-        timeAgo: '1m 45s',
-        statusClass: 'ready'
-    },
-    {
-        id: '#TKT-4831',
-        item: 'Charred Buffalo Chicken Wrap',
-        side: 'Crispy Onion Rings',
-        gateway: 'Uber Direct',
-        courier: 'Uber Courier (Honda Scooter)',
-        eta: '6.1 mins',
-        status: 'IN GRILL QUEUE',
-        timeAgo: '38s',
-        statusClass: ''
-    }
-];
-
-function renderKdsTickets() {
-    const container = document.getElementById('kdsTicketsQueue');
-    if (!container) return;
-
-    let html = '';
-    LIVE_KDS_TICKETS.forEach(tkt => {
-        html += `
-            <div class="kds-ticket-card ${tkt.statusClass}">
-                <div class="ticket-main">
-                    <div class="ticket-header-row">
-                        <span class="ticket-num">${tkt.id}</span>
-                        <span class="ticket-gateway-tag">${tkt.gateway}</span>
-                        <span class="ticket-status-pill ${tkt.statusClass}">${tkt.status}</span>
-                    </div>
-                    <div class="ticket-items-text">${tkt.item} + ${tkt.side}</div>
-                    <div class="ticket-courier-sub">
-                        <i class="fa-solid fa-motorcycle me-1 text-primary"></i> ${tkt.courier} &bull; ETA: <strong>${tkt.eta}</strong>
-                    </div>
-                </div>
-                <div class="ticket-time-box">
-                    <div class="ticket-timer">${tkt.timeAgo}</div>
-                    <button type="button" class="tactile-btn tactile-btn-white tactile-btn-sm mt-1" onclick="expediteTicket('${tkt.id}')" title="Bump Ticket">
-                        <i class="fa-solid fa-check text-success"></i> Bump
-                    </button>
-                </div>
-            </div>
-        `;
-    });
-
-    container.innerHTML = html;
-}
-
-function expediteTicket(ticketId) {
-    playToyClick(750, 0.04);
-    LIVE_KDS_TICKETS = LIVE_KDS_TICKETS.filter(t => t.id !== ticketId);
-    renderKdsTickets();
-    showDinerToast(
-        `${ticketId} Picked Up! 🛵`,
-        'Order handed off to courier for delivery route.',
-        'fa-box-check'
-    );
-    addTelemetryLogRow('Kitchen KDS', 'TICKET.BUMP_PICKUP', '4 ms', ticketId);
-}
-
-function ringDinerBell() {
-    playDinerBell();
-    showDinerToast(
-        'Order Up! 🔔',
-        'Kitchen service bell rang! All grill tickets expedited for courier pickup.',
-        'fa-bell-concierge'
-    );
-    addTelemetryLogRow('Kitchen Counter', 'COUNTER.ORDER_UP_BELL', '3 ms', '#EXPEDITE_ALL');
-}
-
-function spawnDinerTicket() {
-    playToyClick(540, 0.05);
-
-    const selectedPool = DINER_MENU_ITEMS.filter(i => i.selected);
-    const pool = selectedPool.length > 0 ? selectedPool : DINER_MENU_ITEMS;
-    const menu = pool[Math.floor(Math.random() * pool.length)];
-    const ticketNum = Math.floor(Math.random() * 8999) + 1000;
-    const ticketId = `#TKT-${ticketNum}`;
-    const activeGw = (currentSelectedGateway && DELIVERY_SERVICES[currentSelectedGateway]) 
-        ? DELIVERY_SERVICES[currentSelectedGateway] 
-        : DELIVERY_SERVICES.uber;
-
-    const newTicket = {
-        id: ticketId,
-        item: menu.name,
-        side: 'Garlic Fries',
-        gateway: activeGw.name,
-        courier: `${activeGw.name} Courier Dispatch`,
-        eta: `${(Math.random() * 4 + 2).toFixed(1)} mins`,
-        status: 'FRESH ON GRILL',
-        timeAgo: 'Just now',
-        statusClass: 'rush'
-    };
-
-    LIVE_KDS_TICKETS.unshift(newTicket);
-    renderKdsTickets();
-    updateProgressiveState();
-
-    showDinerToast(
-        `New Ticket: ${ticketId} 🍳`,
-        `${menu.name} ordered via ${activeGw.name}. Line prep started.`,
-        'fa-fire-burner'
-    );
-
-    addTelemetryLogRow(activeGw.name, 'KITCHEN.TICKET_SPAWN', '11 ms', `${ticketId}: ${menu.name}`);
-}
-
-function rushFleetDispatch() {
-    playToyClick(720, 0.06);
-    const activeGw = (currentSelectedGateway && DELIVERY_SERVICES[currentSelectedGateway]) 
-        ? DELIVERY_SERVICES[currentSelectedGateway] 
-        : DELIVERY_SERVICES.uber;
-
-    showDinerToast(
-        'Priority Courier Rushed! 🛵',
-        `${activeGw.name} expedited courier re-routed to Parma pickup window. ETA: 2.1 mins.`,
-        'fa-motorcycle'
-    );
-
-    addTelemetryLogRow(activeGw.name, 'COURIER.PRIORITY_RUSH', '8 ms', '#RUSH_PICKUP_ZONE_A');
-}
-
-function simulateFullApiHealthCheck() {
-    playOsClick(800, 0.03);
-    const activeCount = Object.keys(DELIVERY_SERVICES).filter(k => DELIVERY_SERVICES[k].verified).length;
-    showDinerToast(
-        'Ping Radar Broadcast 📡',
-        `Diagnostic scan completed. ${activeCount} active with avg 18.4ms latency.`,
-        'fa-arrows-rotate'
-    );
-    addTelemetryLogRow('Ping Radar', 'HEALTH_CHECK.PING_OK', '18 ms', `#${activeCount}_OF_6_VERIFIED`);
 }
 
 function addTelemetryLogRow(provider, eventName, latency, ref) {
@@ -1861,7 +1801,7 @@ function updateProgressiveState() {
         if (DELIVERY_SERVICES[k].verified) activeCount++;
     });
 
-    const selectedSkuCount = DINER_MENU_ITEMS.filter(i => i.selected).length;
+    const hasConfiguredSite = !!(currentSiteConfig && currentSiteConfig.restaurantName && currentSiteConfig.street);
     const activeGw = (currentSelectedGateway && DELIVERY_SERVICES[currentSelectedGateway] && DELIVERY_SERVICES[currentSelectedGateway].verified)
         ? DELIVERY_SERVICES[currentSelectedGateway]
         : null;
@@ -1870,11 +1810,11 @@ function updateProgressiveState() {
     const folderGwBadge = document.getElementById('folderGatewaysBadge');
     if (folderGwBadge) folderGwBadge.innerText = `${activeCount}/6 Active`;
 
-    const folderMenuBadge = document.getElementById('folderMenuBadge');
-    if (folderMenuBadge) folderMenuBadge.innerText = `${selectedSkuCount}/7 SKUs`;
+    const folderSetupBadge = document.getElementById('folderSetupBadge') || document.getElementById('folderMenuBadge');
+    if (folderSetupBadge) folderSetupBadge.innerText = hasConfiguredSite ? 'Configured' : 'Setup Form';
 
-    const folderKdsBadge = document.getElementById('folderKdsBadge');
-    if (folderKdsBadge) folderKdsBadge.innerText = `${LIVE_KDS_TICKETS.length} Prep Queue`;
+    const folderDirectoryBadge = document.getElementById('folderDirectoryBadge') || document.getElementById('folderKdsBadge');
+    if (folderDirectoryBadge) folderDirectoryBadge.innerText = hasConfiguredSite ? 'Base HTML' : 'Pending';
 
     // 2. OS Bar Status Pill & Metrics
     const osApiStatusPill = document.getElementById('osApiStatusPill');
@@ -1904,14 +1844,14 @@ function updateProgressiveState() {
 
     const side2Badge = document.getElementById('sideStep2StatusBadge');
     if (side2Badge) {
-        side2Badge.className = selectedSkuCount > 0 ? 'side-step-badge verified' : 'side-step-badge neutral';
-        side2Badge.innerText = `${selectedSkuCount}/7 SKUs`;
+        side2Badge.className = hasConfiguredSite ? 'side-step-badge verified' : 'side-step-badge neutral';
+        side2Badge.innerText = hasConfiguredSite ? 'Configured' : 'Setup Form';
     }
 
     const side3Badge = document.getElementById('sideStep3StatusBadge');
     if (side3Badge) {
-        side3Badge.className = 'side-step-badge neutral';
-        side3Badge.innerText = `${LIVE_KDS_TICKETS.length} Live Queue`;
+        side3Badge.className = hasConfiguredSite ? 'side-step-badge verified' : 'side-step-badge neutral';
+        side3Badge.innerText = hasConfiguredSite ? 'Base HTML Ready' : 'Base HTML';
     }
 
     // 4. Side Panel Active Gateway Widget Card
@@ -1926,7 +1866,7 @@ function updateProgressiveState() {
             if (sideGwIconBox) sideGwIconBox.className = 'side-gw-icon';
             if (sideGwIcon) sideGwIcon.className = activeGw.icon;
             sideGwName.innerText = activeGw.name;
-            sideGwSub.innerText = `${activeGw.defaultLocationId} • 200 OK`;
+            sideGwSub.innerText = `${activeGw.defaultLocationId || 'Merchant API'} • 200 OK`;
             if (sideGwTlsBadge) sideGwTlsBadge.innerText = 'ONLINE TLS 1.3';
         } else {
             if (sideGwIconBox) sideGwIconBox.className = 'side-gw-icon unverified';
@@ -1996,9 +1936,8 @@ if (typeof document !== 'undefined') {
         initBackNavigation();
         updateBackBtnState();
 
-        addTelemetryLogRow('DinerDashboard', 'KERNEL.BOOT_READY', '6 ms', '#KITCHEN_DISPATCH_ONLINE');
-        addTelemetryLogRow('System Gateway', 'GATEWAY.BOOT_SEQUENCE', '8 ms', '#SYSTEM_INITIALIZE');
-        addTelemetryLogRow('Cloud Router', 'DNS.ANYCAST_SYNC', '12 ms', '#GLOBAL_ROUTE_READY');
+        addTelemetryLogRow('DinerDashboard', 'KERNEL.BOOT_READY', '6 ms', '#SYSTEM_INITIALIZE');
+        addTelemetryLogRow('System Gateway', 'GATEWAY.BOOT_SEQUENCE', '8 ms', '#READY_FOR_KEYS');
     });
 }
 
@@ -2006,8 +1945,8 @@ if (typeof document !== 'undefined') {
 // GLOBAL WINDOW EVENT HANDLERS EXPORT
 // ═══════════════════════════════════════════════════════════════════
 if (typeof window !== 'undefined') {
+    window.clearDinerAppCache = clearDinerAppCache;
     window.fillDemoCredentials = fillDemoCredentials;
-    window.fillDemoSiteContent = fillDemoSiteContent;
     window.handleApiVerification = handleApiVerification;
     window.handleApiGatewaySubmit = handleApiVerification;
     window.generateAndDeployWebsite = generateAndDeployWebsite;
@@ -2018,23 +1957,15 @@ if (typeof window !== 'undefined') {
     window.disconnectApi = disconnectApi;
     window.filterGateways = filterGateways;
     window.handleGatewaySearch = handleGatewaySearch;
-    window.selectAllMenuItems = selectAllMenuItems;
-    window.clearMenuItemSelections = clearMenuItemSelections;
-    window.toggleMenuItemSelection = toggleMenuItemSelection;
-    window.adjustItemPrice = adjustItemPrice;
-    window.toggleItemStock = toggleItemStock;
-    window.syncMenuItem = syncMenuItem;
-    window.setPresetPhoto = setPresetPhoto;
     window.handlePhotoUpload = handlePhotoUpload;
+    window.handleLogoUrlInput = handleLogoUrlInput;
+    window.clearLogo = clearLogo;
     window.updateSlugPreview = updateSlugPreview;
     window.openInAppSitePreview = openInAppSitePreview;
     window.downloadSiteIndexHtml = downloadSiteIndexHtml;
-    window.ringDinerBell = ringDinerBell;
-    window.spawnDinerTicket = spawnDinerTicket;
-    window.rushFleetDispatch = rushFleetDispatch;
-    window.simulateFullApiHealthCheck = simulateFullApiHealthCheck;
+    window.reloadInlinePreview = reloadInlinePreview;
     window.resetWalkthrough = resetWalkthrough;
     window.toggleAudio = toggleAudio;
-    window.proceedToMenuScreenFromModal = proceedToMenuScreenFromModal;
-    window.expediteTicket = expediteTicket;
+    window.proceedToSetupFromModal = proceedToSetupFromModal;
+    window.proceedToMenuScreenFromModal = proceedToSetupFromModal;
 }

@@ -3,14 +3,14 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title id="pageTitle">Parma Sub &amp; Fry Co. • Online Storefront</title>
-    <meta name="description" content="Official customer storefront for on-demand online ordering and direct courier delivery dispatch.">
-    <!-- Font Awesome -->
+    <title id="pageTitle">Parma Sub & Fry Co. • Official Storefront</title>
+    <meta name="description" content="Official restaurant online ordering and direct delivery dispatch powered by verified POS and delivery gateway APIs.">
+    <!-- Font Awesome 6.5.1 -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
     <!-- Google Fonts -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=JetBrains+Mono:wght@500;700&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=JetBrains+Mono:wght@500;700;800&display=swap" rel="stylesheet">
     <style>
         :root {
             --primary: #0284c7;
@@ -38,21 +38,21 @@
             min-height: 100vh;
             display: flex;
             flex-direction: column;
+            -webkit-font-smoothing: antialiased;
         }
 
-        /* Top Brand Navigation Bar */
         .site-nav {
             background: #ffffff;
             border-bottom: 1px solid var(--border);
-            padding: 12px 24px;
+            padding: 14px 24px;
             position: sticky;
             top: 0;
             z-index: 100;
-            box-shadow: 0 1px 3px rgba(0,0,0,0.03);
+            box-shadow: 0 1px 3px rgba(0,0,0,0.02);
         }
 
         .nav-inner {
-            max-width: 1200px;
+            max-width: 1140px;
             margin: 0 auto;
             display: flex;
             align-items: center;
@@ -69,15 +69,18 @@
         }
 
         .nav-logo-box {
-            width: 40px;
-            height: 40px;
-            border-radius: 10px;
+            width: 44px;
+            height: 44px;
+            border-radius: 8px;
             overflow: hidden;
             background: #f1f5f9;
             display: flex;
             align-items: center;
             justify-content: center;
             border: 1px solid var(--border);
+            color: var(--primary);
+            font-size: 1.25rem;
+            flex-shrink: 0;
         }
 
         .nav-logo-box img {
@@ -87,23 +90,30 @@
         }
 
         .nav-title {
-            font-size: 1.15rem;
+            font-size: 1.2rem;
             font-weight: 800;
             letter-spacing: -0.01em;
+        }
+
+        .nav-actions {
+            display: flex;
+            align-items: center;
+            gap: 12px;
         }
 
         .nav-hub-link {
             display: inline-flex;
             align-items: center;
             gap: 6px;
-            padding: 6px 14px;
-            border-radius: 8px;
+            padding: 7px 14px;
+            border-radius: 6px;
             background: #f1f5f9;
             color: #334155;
-            font-size: 0.82rem;
+            font-size: 0.85rem;
             font-weight: 700;
             text-decoration: none;
-            transition: all 0.15s;
+            border: 1px solid var(--border);
+            transition: all 0.15s ease;
         }
 
         .nav-hub-link:hover {
@@ -111,34 +121,23 @@
             color: #0f172a;
         }
 
-        /* Hero Banner */
         .hero {
             position: relative;
             background: #0f172a;
             color: #ffffff;
-            padding: 60px 24px 70px;
+            padding: 56px 24px;
             overflow: hidden;
-        }
-
-        .hero-bg-layer {
-            position: absolute;
-            inset: 0;
-            background-size: cover;
-            background-position: center;
-            opacity: 0.22;
-            filter: blur(2px);
-            transform: scale(1.05);
         }
 
         .hero-inner {
             position: relative;
-            max-width: 1200px;
+            max-width: 1140px;
             margin: 0 auto;
             display: flex;
             align-items: center;
             justify-content: space-between;
-            flex-wrap: wrap;
             gap: 32px;
+            flex-wrap: wrap;
         }
 
         .hero-details {
@@ -149,68 +148,88 @@
         }
 
         .hero-avatar {
-            width: 110px;
-            height: 110px;
-            border-radius: 24px;
+            width: 100px;
+            height: 100px;
+            border-radius: 12px;
             object-fit: cover;
-            border: 4px solid rgba(255, 255, 255, 0.3);
-            box-shadow: 0 12px 30px rgba(0,0,0,0.4);
+            border: 2px solid rgba(255,255,255,0.3);
+            box-shadow: 0 8px 24px rgba(0,0,0,0.3);
             background: #1e293b;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: #94a3b8;
+            font-size: 2.5rem;
+            overflow: hidden;
+            flex-shrink: 0;
+        }
+
+        .hero-avatar img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
         }
 
         .hero-title {
-            font-size: 2.4rem;
+            font-size: 2.25rem;
             font-weight: 800;
             letter-spacing: -0.02em;
-            margin-bottom: 8px;
+            margin-bottom: 6px;
         }
 
-        .hero-message {
-            font-size: 1.05rem;
-            opacity: 0.9;
-            max-width: 650px;
-            font-style: italic;
-            line-height: 1.45;
+        .hero-meta {
+            display: flex;
+            align-items: center;
+            gap: 16px;
+            flex-wrap: wrap;
+            color: #94a3b8;
+            font-size: 0.95rem;
+        }
+
+        .hero-meta-item {
+            display: flex;
+            align-items: center;
+            gap: 6px;
         }
 
         .api-status-badge {
             display: inline-flex;
             align-items: center;
-            gap: 10px;
-            background: rgba(255, 255, 255, 0.12);
-            backdrop-filter: blur(12px);
-            padding: 10px 18px;
+            gap: 8px;
+            padding: 8px 16px;
             border-radius: 999px;
-            font-size: 0.85rem;
-            font-family: 'JetBrains Mono', monospace;
+            background: rgba(255, 255, 255, 0.1);
+            backdrop-filter: blur(10px);
             border: 1px solid rgba(255, 255, 255, 0.2);
-            box-shadow: 0 4px 15px rgba(0,0,0,0.2);
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 0.85rem;
+            font-weight: 700;
+            color: #ffffff;
         }
 
-        /* Separated Address Details Bar */
         .address-bar {
             background: #ffffff;
             border-bottom: 1px solid var(--border);
-            padding: 18px 24px;
-            box-shadow: 0 2px 4px rgba(0,0,0,0.02);
+            padding: 16px 24px;
         }
 
         .address-inner {
-            max-width: 1200px;
+            max-width: 1140px;
             margin: 0 auto;
             display: flex;
             align-items: center;
             justify-content: space-between;
+            gap: 20px;
             flex-wrap: wrap;
-            gap: 16px;
         }
 
         .address-primary {
             display: flex;
             align-items: center;
             gap: 10px;
+            font-size: 0.98rem;
             font-weight: 700;
-            font-size: 0.95rem;
+            color: var(--text-dark);
         }
 
         .address-fields-grid {
@@ -223,280 +242,154 @@
         .field-chip {
             background: #f1f5f9;
             border: 1px solid var(--border);
-            padding: 5px 12px;
-            border-radius: 8px;
-            font-size: 0.78rem;
-            color: #475569;
-        }
-
-        .field-chip strong {
+            padding: 4px 10px;
+            border-radius: 6px;
+            font-size: 0.82rem;
+            font-family: 'JetBrains Mono', monospace;
             color: var(--text-dark);
-            margin-right: 4px;
         }
 
-        /* Main Content Layout */
         .main-container {
-            max-width: 1200px;
-            margin: 36px auto;
+            max-width: 1140px;
+            margin: 40px auto;
             padding: 0 24px;
-            display: grid;
-            grid-template-columns: 1fr 360px;
-            gap: 36px;
             flex: 1;
             width: 100%;
+            display: grid;
+            grid-template-columns: 1.2fr 0.8fr;
+            gap: 32px;
         }
 
-        @media (max-width: 960px) {
+        @media (max-width: 860px) {
             .main-container {
                 grid-template-columns: 1fr;
             }
         }
 
-        /* Menu Catalog Grid */
-        .catalog-header {
+        .card-box {
+            background: #ffffff;
+            border: 1px solid var(--border);
+            border-radius: 10px;
+            padding: 28px;
+            box-shadow: 0 1px 3px rgba(0,0,0,0.03);
+        }
+
+        .card-title {
+            font-size: 1.3rem;
+            font-weight: 800;
+            margin-bottom: 6px;
             display: flex;
             align-items: center;
-            justify-content: space-between;
+            gap: 10px;
+        }
+
+        .card-desc {
+            font-size: 0.92rem;
+            color: var(--text-muted);
             margin-bottom: 24px;
         }
 
-        .catalog-title {
-            font-size: 1.5rem;
-            font-weight: 800;
-            letter-spacing: -0.01em;
+        .form-group {
+            margin-bottom: 16px;
         }
 
-        .menu-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
-            gap: 20px;
-        }
-
-        .menu-card {
-            background: #ffffff;
-            border: 1px solid var(--border);
-            border-radius: 18px;
-            padding: 22px;
-            display: flex;
-            flex-direction: column;
-            justify-content: space-between;
-            transition: all 0.2s cubic-bezier(0.16, 1, 0.3, 1);
-            position: relative;
-            box-shadow: 0 1px 3px rgba(0,0,0,0.02);
-        }
-
-        .menu-card:hover {
-            transform: translateY(-4px);
-            box-shadow: 0 12px 24px -6px rgba(0,0,0,0.08);
-            border-color: #cbd5e1;
-        }
-
-        .item-category-tag {
-            position: absolute;
-            top: 20px;
-            right: 20px;
-            font-size: 0.72rem;
-            font-family: 'JetBrains Mono', monospace;
-            background: #f1f5f9;
-            color: #475569;
-            padding: 3px 8px;
-            border-radius: 6px;
+        .form-label {
+            display: block;
+            font-size: 0.78rem;
             font-weight: 700;
-        }
-
-        .item-icon {
-            font-size: 2.2rem;
-            margin-bottom: 14px;
-        }
-
-        .item-name {
-            font-size: 1.15rem;
-            font-weight: 700;
+            color: var(--text-dark);
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
             margin-bottom: 6px;
+        }
+
+        .form-input {
+            width: 100%;
+            padding: 12px 14px;
+            border: 1px solid var(--border);
+            border-radius: 6px;
+            font-family: inherit;
+            font-size: 0.95rem;
             color: var(--text-dark);
-            line-height: 1.3;
+            background: #f8fafc;
+            transition: all 0.15s ease;
         }
 
-        .item-desc {
-            font-size: 0.85rem;
-            color: var(--text-muted);
-            margin-bottom: 20px;
-            line-height: 1.45;
+        .form-input:focus {
+            outline: none;
+            border-color: var(--primary);
+            background: #ffffff;
+            box-shadow: 0 0 0 3px rgba(2, 132, 199, 0.15);
         }
 
-        .item-bottom {
-            display: flex;
-            align-items: center;
-            justify-content: space-between;
-            margin-top: auto;
-            padding-top: 14px;
-            border-top: 1px dashed var(--border);
-        }
-
-        .item-price {
-            font-size: 1.25rem;
-            font-weight: 800;
-            color: var(--text-dark);
-            font-family: 'JetBrains Mono', monospace;
-        }
-
-        .add-cart-btn {
+        .btn-dispatch {
+            width: 100%;
             background: var(--primary);
             color: #ffffff;
             border: none;
-            padding: 8px 16px;
-            border-radius: 10px;
-            font-weight: 700;
-            font-size: 0.85rem;
-            cursor: pointer;
-            display: inline-flex;
-            align-items: center;
-            gap: 6px;
-            transition: all 0.15s;
-        }
-
-        .add-cart-btn:hover {
-            background: var(--primary-dark);
-            transform: scale(1.02);
-        }
-
-        /* Sticky Shopping Cart */
-        .cart-card {
-            background: #ffffff;
-            border: 1px solid var(--border);
-            border-radius: 20px;
-            padding: 24px;
-            position: sticky;
-            top: 84px;
-            box-shadow: 0 4px 12px rgba(0,0,0,0.03);
-        }
-
-        .cart-title-row {
-            display: flex;
-            align-items: center;
-            justify-content: space-between;
-            margin-bottom: 18px;
-            padding-bottom: 14px;
-            border-bottom: 1px solid var(--border);
-        }
-
-        .cart-title {
-            font-size: 1.25rem;
-            font-weight: 800;
-        }
-
-        .cart-badge {
-            font-size: 0.78rem;
-            font-family: 'JetBrains Mono', monospace;
-            background: #f1f5f9;
-            color: #334155;
-            padding: 3px 10px;
-            border-radius: 999px;
-            font-weight: 700;
-        }
-
-        .cart-items-list {
-            list-style: none;
-            margin-bottom: 20px;
-            max-height: 320px;
-            overflow-y: auto;
-        }
-
-        .cart-item-row {
-            display: flex;
-            align-items: center;
-            justify-content: space-between;
-            padding: 10px 0;
-            border-bottom: 1px dashed var(--border);
-            font-size: 0.88rem;
-        }
-
-        .cart-item-info strong {
-            display: block;
-            color: var(--text-dark);
-        }
-
-        .cart-item-info span {
-            font-size: 0.75rem;
-            color: var(--text-muted);
-            font-family: 'JetBrains Mono', monospace;
-        }
-
-        .cart-item-price {
-            font-weight: 700;
-            font-family: 'JetBrains Mono', monospace;
-        }
-
-        .cart-summary {
-            padding: 16px 0;
-            border-top: 1px solid var(--border);
-            margin-bottom: 20px;
-        }
-
-        .summary-line {
-            display: flex;
-            align-items: center;
-            justify-content: space-between;
-            margin-bottom: 8px;
-            font-size: 0.88rem;
-            color: var(--text-muted);
-        }
-
-        .summary-total {
-            display: flex;
-            align-items: center;
-            justify-content: space-between;
-            font-size: 1.3rem;
-            font-weight: 800;
-            color: var(--text-dark);
-            margin-top: 12px;
-            padding-top: 12px;
-            border-top: 1px solid var(--border);
-        }
-
-        .checkout-btn {
-            width: 100%;
-            background: var(--success);
-            color: #ffffff;
-            border: none;
-            padding: 15px;
-            border-radius: 12px;
+            padding: 14px 20px;
+            border-radius: 6px;
             font-size: 1rem;
             font-weight: 800;
             cursor: pointer;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            gap: 8px;
+            transition: background 0.15s ease;
+            box-shadow: 0 2px 4px rgba(2, 132, 199, 0.25);
+            margin-top: 8px;
+        }
+
+        .btn-dispatch:hover {
+            background: var(--primary-dark);
+        }
+
+        .spec-item {
             display: flex;
             align-items: center;
-            justify-content: center;
-            gap: 10px;
-            transition: all 0.15s;
-            box-shadow: 0 6px 16px rgba(16, 185, 129, 0.25);
+            justify-content: space-between;
+            padding: 12px 0;
+            border-bottom: 1px dashed var(--border);
+            font-size: 0.9rem;
         }
 
-        .checkout-btn:hover {
-            background: #059669;
-            transform: translateY(-2px);
+        .spec-item:last-child {
+            border-bottom: none;
         }
 
-        /* Order Confirmation Notice */
+        .spec-label {
+            color: var(--text-muted);
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .spec-value {
+            font-weight: 700;
+            font-family: 'JetBrains Mono', monospace;
+            color: var(--text-dark);
+        }
+
         .order-modal {
-            display: none;
             position: fixed;
             inset: 0;
-            background: rgba(15, 23, 42, 0.6);
+            background: rgba(15, 23, 42, 0.7);
             backdrop-filter: blur(4px);
-            z-index: 999;
+            z-index: 200;
+            display: none;
             align-items: center;
             justify-content: center;
-            padding: 24px;
+            padding: 20px;
         }
 
-        .order-modal.show {
+        .order-modal.active {
             display: flex;
         }
 
         .modal-box {
             background: #ffffff;
-            border-radius: 24px;
+            border-radius: 12px;
             max-width: 480px;
             width: 100%;
             padding: 32px;
@@ -504,13 +397,12 @@
             box-shadow: 0 20px 40px rgba(0,0,0,0.2);
         }
 
-        /* Footer */
         .site-footer {
             background: #ffffff;
             border-top: 1px solid var(--border);
             padding: 24px;
             text-align: center;
-            font-size: 0.85rem;
+            font-size: 0.88rem;
             color: var(--text-muted);
             margin-top: auto;
         }
@@ -522,328 +414,238 @@
     <nav class="site-nav">
         <div class="nav-inner">
             <a href="#" class="nav-brand">
-                <div class="nav-logo-box">
-                    <img id="navLogoImg" src="https://images.unsplash.com/photo-1509722747041-616f39b57569?auto=format&fit=crop&w=800&q=80" alt="Logo">
+                <div class="nav-logo-box" id="navLogoBox">
+                    <i class="fa-solid fa-store" id="navLogoIcon"></i>
+                    <img id="navLogoImg" src="" alt="Logo" style="display:none;">
                 </div>
                 <span class="nav-title" id="navRestaurantName">Parma Sub &amp; Fry Co.</span>
             </a>
-            <a href="../index.html#step3" class="nav-hub-link">
-                <i class="fa-solid fa-arrow-left"></i>
-                <span>Back to Kitchen KDS Dispatch</span>
-            </a>
+            <div class="nav-actions">
+                <a href="../index.html#step3" class="nav-hub-link">
+                    <i class="fa-solid fa-arrow-left"></i>
+                    <span>Back to Hub</span>
+                </a>
+            </div>
         </div>
     </nav>
 
     <!-- Hero Storefront Banner -->
     <header class="hero">
-        <div class="hero-bg-layer" id="heroBg"></div>
         <div class="hero-inner">
             <div class="hero-details">
-                <img id="heroAvatarImg" class="hero-avatar" src="https://images.unsplash.com/photo-1509722747041-616f39b57569?auto=format&fit=crop&w=800&q=80" alt="Store Photo">
+                <div class="hero-avatar" id="heroAvatarBox">
+                    <i class="fa-solid fa-store" id="heroAvatarIcon"></i>
+                    <img id="heroAvatarImg" src="" alt="Store Photo" style="display:none;">
+                </div>
                 <div>
                     <h1 class="hero-title" id="heroStoreName">Parma Sub &amp; Fry Co.</h1>
-                    <p class="hero-message" id="heroMessage">"Artisanal cold cuts &amp; triple-cooked hand-cut fries since 1988."</p>
+                    <div class="hero-meta">
+                        <span class="hero-meta-item">
+                            <i class="fa-solid fa-circle-check text-success"></i>
+                            <span>Direct Delivery &amp; Pickup Active</span>
+                        </span>
+                        <span class="hero-meta-item">
+                            <i class="fa-solid fa-clock text-amber"></i>
+                            <span>Typical Dispatch: 15–20 Mins</span>
+                        </span>
+                    </div>
                 </div>
             </div>
             <div class="api-status-badge">
-                <i class="fa-brands fa-uber text-success" id="heroApiIcon"></i>
-                <span id="heroApiBadgeText">Connected to Uber Direct API</span>
+                <i class="fa-solid fa-bolt text-success" id="heroApiIcon"></i>
+                <span id="heroApiBadgeText">Connected to Delivery API</span>
             </div>
         </div>
     </header>
 
-    <!-- Separated Address Demographic Bar -->
+    <!-- Address Bar -->
     <section class="address-bar">
         <div class="address-inner">
             <div class="address-primary">
-                <i class="fa-solid fa-location-dot" style="color: #ef4444; font-size: 1.1rem;"></i>
-                <span id="fullAddressDisplay">5420 Ridge Rd, Suite B, Parma, OH 44129, US</span>
+                <i class="fa-solid fa-location-dot text-danger"></i>
+                <span id="fullAddressDisplay">5842 Ridge Rd, Parma, OH 44129</span>
             </div>
             <div class="address-fields-grid" id="separatedAddressFields">
-                <span class="field-chip"><strong>Street:</strong> <span id="chipStreet">5420 Ridge Rd</span></span>
-                <span class="field-chip"><strong>Unit:</strong> <span id="chipUnit">Suite B</span></span>
+                <span class="field-chip"><strong>Street:</strong> <span id="chipStreet">5842 Ridge Rd</span></span>
                 <span class="field-chip"><strong>City:</strong> <span id="chipCity">Parma</span></span>
                 <span class="field-chip"><strong>State:</strong> <span id="chipState">OH</span></span>
                 <span class="field-chip"><strong>ZIP:</strong> <span id="chipZip">44129</span></span>
-                <span class="field-chip"><strong>Country:</strong> <span id="chipCountry">US</span></span>
             </div>
         </div>
     </section>
 
-    <!-- Main Storefront Catalog & Cart -->
+    <!-- Main Container -->
     <main class="main-container">
-        <!-- Catalog Column -->
-        <section>
-            <div class="catalog-header">
-                <div>
-                    <h2 class="catalog-title">Customer Menu Catalog</h2>
-                    <p style="font-size: 0.88rem; color: var(--text-muted);">Freshly prepared on the grill &amp; dispatched on-demand.</p>
-                </div>
-                <span class="badge" style="background: #e0f2fe; color: #0369a1; padding: 6px 14px; border-radius: 999px; font-weight: 700; font-family: 'JetBrains Mono', monospace;" id="catalogItemCountBadge">7 SKUs Available</span>
-            </div>
+        <!-- Direct Order Dispatch Card -->
+        <section class="card-box">
+            <h2 class="card-title">
+                <i class="fa-solid fa-paper-plane text-primary"></i>
+                <span>Direct Delivery Order Dispatch</span>
+            </h2>
+            <p class="card-desc">Orders placed below dispatch directly to courier fleets via the connected delivery gateway API.</p>
 
-            <div class="menu-grid" id="menuCatalogGrid">
-                <!-- Dynamically populated from site config & catalog state -->
-            </div>
+            <form onsubmit="submitStoreOrder(event)">
+                <div class="form-group">
+                    <label class="form-label">Customer Full Name</label>
+                    <input type="text" id="orderCustName" class="form-input" placeholder="e.g. Jordan Miller" required>
+                </div>
+                <div class="form-group">
+                    <label class="form-label">Delivery Destination Address</label>
+                    <input type="text" id="orderCustAddress" class="form-input" placeholder="e.g. 742 Evergreen Terrace, Apt 4" required>
+                </div>
+                <div class="form-group">
+                    <label class="form-label">Order Details / Items Specification</label>
+                    <input type="text" id="orderCustNotes" class="form-input" placeholder="e.g. 2 Specialty Entrees, 1 Side Salad" required>
+                </div>
+                <button type="submit" class="btn-dispatch" id="btnSubmitOrder">
+                    <i class="fa-solid fa-motorcycle"></i>
+                    <span id="dispatchButtonText">Dispatch Order via Delivery API ➔</span>
+                </button>
+            </form>
         </section>
 
-        <!-- Sticky Shopping Cart Column -->
-        <aside>
-            <div class="cart-card">
-                <div class="cart-title-row">
-                    <span class="cart-title">Your Order</span>
-                    <span class="cart-badge" id="cartItemCount">0 Items</span>
+        <!-- Restaurant & API Telemetry Card -->
+        <aside class="card-box">
+            <h2 class="card-title">
+                <i class="fa-solid fa-server text-primary"></i>
+                <span>Connected API Telemetry</span>
+            </h2>
+            <p class="card-desc">Live connection details verified for this restaurant directory.</p>
+
+            <div class="spec-list">
+                <div class="spec-item">
+                    <span class="spec-label"><i class="fa-solid fa-plug text-primary"></i> Gateway</span>
+                    <span class="spec-value" id="specApiName">Uber Direct</span>
                 </div>
-
-                <ul class="cart-items-list" id="cartItemsList">
-                    <li style="color: #94a3b8; font-size: 0.88rem; text-align: center; padding: 32px 0;">
-                        <i class="fa-solid fa-basket-shopping fa-2x mb-2" style="display:block; opacity:0.5;"></i>
-                        Your bag is currently empty.
-                    </li>
-                </ul>
-
-                <div class="cart-summary">
-                    <div class="summary-line">
-                        <span>Subtotal</span>
-                        <span id="cartSubtotal" style="font-family:'JetBrains Mono',monospace;">$0.00</span>
-                    </div>
-                    <div class="summary-line">
-                        <span>Courier Dispatch Fee</span>
-                        <span style="font-family:'JetBrains Mono',monospace;">$2.99</span>
-                    </div>
-                    <div class="summary-line">
-                        <span>Estimated Tax</span>
-                        <span id="cartTax" style="font-family:'JetBrains Mono',monospace;">$0.00</span>
-                    </div>
-                    <div class="summary-total">
-                        <span>Estimated Total:</span>
-                        <span id="cartGrandTotal" style="font-family:'JetBrains Mono',monospace; color:var(--primary);">$0.00</span>
-                    </div>
+                <div class="spec-item">
+                    <span class="spec-label"><i class="fa-solid fa-shield-halved text-success"></i> Protocol</span>
+                    <span class="spec-value" id="specProtocol">REST / TLS 1.3</span>
                 </div>
-
-                <button type="button" class="checkout-btn" onclick="submitStoreOrder()">
-                    <i class="fa-solid fa-bolt"></i>
-                    <span id="checkoutButtonText">Dispatch Order via Uber Direct ➔</span>
-                </button>
+                <div class="spec-item">
+                    <span class="spec-label"><i class="fa-solid fa-signal text-success"></i> Status</span>
+                    <span class="spec-value text-success" id="specStatus">200 OK Handshake</span>
+                </div>
+                <div class="spec-item">
+                    <span class="spec-label"><i class="fa-solid fa-folder text-amber"></i> Directory</span>
+                    <span class="spec-value text-primary" id="specDirectory">/parma-sub-fry-co/index.html</span>
+                </div>
             </div>
         </aside>
     </main>
 
-    <!-- Order Handshake Confirmation Modal -->
+    <!-- Order Confirmation Modal -->
     <div class="order-modal" id="orderConfirmModal">
         <div class="modal-box">
-            <div style="width: 72px; height: 72px; background: #ecfdf5; color: #10b981; border-radius: 6px; display: flex; align-items: center; justify-content: center; font-size: 32px; margin: 0 auto 16px;">
+            <div style="width: 64px; height: 64px; background: #ecfdf5; color: #10b981; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 28px; margin: 0 auto 16px;">
                 <i class="fa-solid fa-square-check"></i>
             </div>
-            <h3 style="font-size: 1.4rem; font-weight: 800; margin-bottom: 6px;">Order Dispatched to Kitchen!</h3>
-            <p style="font-size: 0.88rem; color: #64748b; margin-bottom: 20px;" id="orderConfirmDesc">
-                Your ticket has been sent directly to the DinerDashboard Grill Station and assigned to the courier fleet.
+            <h3 style="font-size: 1.35rem; font-weight: 800; margin-bottom: 6px;">Order Dispatched!</h3>
+            <p style="font-size: 0.9rem; color: #64748b; margin-bottom: 20px;">
+                Your delivery request was successfully transmitted to the connected gateway fleet.
             </p>
-            <div style="background: #f8fafc; border: 1px solid var(--border); border-radius: 12px; padding: 14px; text-align: left; margin-bottom: 24px; font-size: 0.85rem;">
-                <div style="margin-bottom: 4px;"><strong>Order ID:</strong> <span id="confirmedOrderId" style="font-family:'JetBrains Mono',monospace; color:var(--primary);">#TKT-9912</span></div>
+            <div style="background: #f8fafc; border: 1px solid var(--border); border-radius: 8px; padding: 14px; text-align: left; margin-bottom: 24px; font-size: 0.88rem;">
+                <div style="margin-bottom: 4px;"><strong>Order ID:</strong> <span id="confirmedOrderId" style="font-family:'JetBrains Mono',monospace; color:var(--primary);">#ORD-8819</span></div>
                 <div style="margin-bottom: 4px;"><strong>Delivery Fleet:</strong> <span id="confirmedApiProvider">Uber Direct API</span></div>
                 <div><strong>ETA to Address:</strong> <span>14 - 18 minutes</span></div>
             </div>
-            <button type="button" class="checkout-btn" onclick="closeOrderModal()" style="padding: 12px;">
-                Continue Browsing Storefront
+            <button type="button" class="btn-dispatch" onclick="closeOrderModal()">
+                Continue Browsing
             </button>
         </div>
     </div>
 
     <!-- Site Footer -->
     <footer class="site-footer">
-        <p>&copy; 2026 <strong id="footerStoreName">Parma Sub &amp; Fry Co.</strong> &bull; Powered by DinerDashboard Delivery Bridge &amp; Direct APIs</p>
+        <p>&copy; 2026 <strong id="footerStoreName">Parma Sub &amp; Fry Co.</strong> &bull; <span id="footerAddress">5842 Ridge Rd, Parma, OH 44129</span> &bull; Powered by <span id="footerApiName">Delivery API</span></p>
     </footer>
 
     <script>
-        // Default Catalog Data
-        const DEFAULT_ITEMS = [
-            { sku: 'SUB-01', name: 'Artisan Ribeye Cheesesteak Supreme', desc: 'Thinly shaved prime ribeye, caramelized sweet onions, Cooper Sharp American on toasted hearth Amoroso roll.', price: 14.95, icon: '🥩', category: 'Grill' },
-            { sku: 'BUR-02', name: 'Double Bacon Smash Burger', desc: 'Twin 4oz certified Angus patties, applewood thick-cut bacon, diner secret sauce, Martins potato bun.', price: 12.50, icon: '🍔', category: 'Grill' },
-            { sku: 'WRP-03', name: 'Charred Buffalo Chicken Wrap', desc: 'Crispy buttermilk chicken tenders, fiery Frank’s RedHot glaze, buttermilk ranch, crisp iceberg in flour tortilla.', price: 11.75, icon: '🌯', category: 'Deli' },
-            { sku: 'SUB-04', name: 'Classic 12" Italian Deli Sub', desc: 'Genoa salami, hot capicola, mortadella, aged provolone, shredded lettuce, tomato, oregano vinaigrette.', price: 13.25, icon: '🥖', category: 'Deli' },
-            { sku: 'MEL-05', name: 'Pastrami Melt on Hearth Rye', desc: 'House-brined peppery beef brisket pastrami, melted Swiss cheese, spicy deli brown mustard, seeded rye.', price: 13.95, icon: '🥪', category: 'Grill' },
-            { sku: 'FRY-06', name: 'Garlic Truffle Parmesan Fries', desc: 'Fresh hand-cut Idaho Russet fries tossed with white truffle oil, shaved parmesan, garlic and chopped parsley.', price: 5.50, icon: '🍟', category: 'Fryer' },
-            { sku: 'RNG-07', name: 'Crispy Beer-Battered Onion Rings', desc: 'Colossal sweet Spanish onions dipped in craft IPA batter, served golden with smoky horseradish dipping sauce.', price: 5.25, icon: '🧅', category: 'Fryer' }
-        ];
-
-        // Load configuration saved from DinerDashboard
         let siteConfig = {
             restaurantName: 'Parma Sub & Fry Co.',
-            street: '5420 Ridge Rd',
-            unit: 'Suite B',
+            street: '5842 Ridge Rd',
             city: 'Parma',
             state: 'OH',
             zip: '44129',
-            country: 'US',
-            message: 'Artisanal cold cuts & triple-cooked hand-cut fries since 1988.',
-            photoUrl: 'https://images.unsplash.com/photo-1509722747041-616f39b57569?auto=format&fit=crop&w=800&q=80',
+            logoUrl: '',
             api: { name: 'Uber Direct', icon: 'fa-brands fa-uber' }
         };
 
         try {
-            const raw = localStorage.getItem('dinerdashboard_site_config_v2');
-            if (raw) {
-                const parsed = JSON.parse(raw);
-                siteConfig = { ...siteConfig, ...parsed };
+            if (window.EMBEDDED_SITE_CONFIG) {
+                siteConfig = { ...siteConfig, ...window.EMBEDDED_SITE_CONFIG };
+            } else {
+                const raw = localStorage.getItem('dinerdashboard_site_config_v2');
+                if (raw) {
+                    const parsed = JSON.parse(raw);
+                    // Only override if the saved config matches this slug
+                    if (parsed.slug === 'parma-sub-fry-co') {
+                        siteConfig = { ...siteConfig, ...parsed };
+                    }
+                }
             }
         } catch (e) {}
 
-        // State
-        const cart = [];
-
-        function initSite() {
-            // Header / Hero updates
-            document.title = siteConfig.restaurantName + ' • Online Storefront';
-            document.getElementById('navRestaurantName').innerText = siteConfig.restaurantName;
-            document.getElementById('heroStoreName').innerText = siteConfig.restaurantName;
-            document.getElementById('footerStoreName').innerText = siteConfig.restaurantName;
-
-            if (siteConfig.message) {
-                document.getElementById('heroMessage').innerText = '"' + siteConfig.message + '"';
-            }
-
-            if (siteConfig.photoUrl) {
-                document.getElementById('navLogoImg').src = siteConfig.photoUrl;
-                document.getElementById('heroAvatarImg').src = siteConfig.photoUrl;
-                document.getElementById('heroBg').style.backgroundImage = 'url("' + siteConfig.photoUrl + '")';
-            }
-
-            // API badge
+        function initStorefront() {
+            const name = siteConfig.restaurantName || 'Parma Sub & Fry Co.';
+            const street = siteConfig.street || '5842 Ridge Rd';
+            const city = siteConfig.city || 'Parma';
+            const state = siteConfig.state || 'OH';
+            const zip = siteConfig.zip || '44129';
+            const fullAddr = [street, city, (state ? state + ' ' + zip : zip)].filter(Boolean).join(', ');
             const apiName = siteConfig.api?.name || 'Uber Direct';
-            document.getElementById('heroApiBadgeText').innerText = 'Connected to ' + apiName + ' API';
-            document.getElementById('checkoutButtonText').innerText = 'Dispatch Order via ' + apiName + ' ➔';
 
-            // Separate address fields
-            document.getElementById('chipStreet').innerText = siteConfig.street || '5420 Ridge Rd';
-            document.getElementById('chipUnit').innerText = siteConfig.unit || 'Suite B';
-            document.getElementById('chipCity').innerText = siteConfig.city || 'Parma';
-            document.getElementById('chipState').innerText = siteConfig.state || 'OH';
-            document.getElementById('chipZip').innerText = siteConfig.zip || '44129';
-            document.getElementById('chipCountry').innerText = siteConfig.country || 'US';
-
-            const fullAddr = [
-                siteConfig.street,
-                siteConfig.unit,
-                siteConfig.city,
-                (siteConfig.state ? siteConfig.state + ' ' + (siteConfig.zip || '') : ''),
-                siteConfig.country
-            ].filter(Boolean).join(', ');
+            document.title = name + ' • Official Storefront';
+            document.getElementById('pageTitle').innerText = name + ' • Official Storefront';
+            document.getElementById('navRestaurantName').innerText = name;
+            document.getElementById('heroStoreName').innerText = name;
+            document.getElementById('footerStoreName').innerText = name;
             document.getElementById('fullAddressDisplay').innerText = fullAddr;
+            document.getElementById('footerAddress').innerText = fullAddr;
+            document.getElementById('footerApiName').innerText = apiName + ' API';
 
-            // Items Catalog
-            renderCatalog();
-        }
+            document.getElementById('chipStreet').innerText = street;
+            document.getElementById('chipCity').innerText = city;
+            document.getElementById('chipState').innerText = state;
+            document.getElementById('chipZip').innerText = zip;
 
-        function renderCatalog() {
-            const grid = document.getElementById('menuCatalogGrid');
-            if (!grid) return;
+            document.getElementById('heroApiBadgeText').innerText = 'Connected to ' + apiName + ' API';
+            document.getElementById('dispatchButtonText').innerText = 'Dispatch Order via ' + apiName + ' ➔';
+            document.getElementById('specApiName').innerText = apiName;
+            document.getElementById('specDirectory').innerText = '/parma-sub-fry-co/index.html';
 
-            let itemsToRender = DEFAULT_ITEMS;
-            if (siteConfig.menuItems && siteConfig.menuItems.length > 0) {
-                itemsToRender = siteConfig.menuItems;
+            if (siteConfig.logoUrl) {
+                const navImg = document.getElementById('navLogoImg');
+                const navIcon = document.getElementById('navLogoIcon');
+                navImg.src = siteConfig.logoUrl;
+                navImg.style.display = 'block';
+                if (navIcon) navIcon.style.display = 'none';
+
+                const heroImg = document.getElementById('heroAvatarImg');
+                const heroIcon = document.getElementById('heroAvatarIcon');
+                heroImg.src = siteConfig.logoUrl;
+                heroImg.style.display = 'block';
+                if (heroIcon) heroIcon.style.display = 'none';
             }
-
-            document.getElementById('catalogItemCountBadge').innerText = itemsToRender.length + ' SKUs Available';
-
-            grid.innerHTML = itemsToRender.map(item => `
-                <div class="menu-card">
-                    <span class="item-category-tag">${item.category || 'Kitchen'}</span>
-                    <div>
-                        <div class="item-icon">${item.icon || '🍽️'}</div>
-                        <h3 class="item-name">${item.name}</h3>
-                        <p class="item-desc">${item.desc}</p>
-                    </div>
-                    <div class="item-bottom">
-                        <span class="item-price">$${Number(item.price).toFixed(2)}</span>
-                        <button type="button" class="add-cart-btn" onclick="addToCart('${item.sku}', '${item.name}', ${item.price})">
-                            <i class="fa-solid fa-plus"></i> Add to Order
-                        </button>
-                    </div>
-                </div>
-            `).join('');
         }
 
-        function addToCart(sku, name, price) {
-            cart.push({ sku, name, price });
-            renderCart();
-        }
-
-        function renderCart() {
-            const list = document.getElementById('cartItemsList');
-            const subtotalEl = document.getElementById('cartSubtotal');
-            const taxEl = document.getElementById('cartTax');
-            const grandTotalEl = document.getElementById('cartGrandTotal');
-            const countBadge = document.getElementById('cartItemCount');
-
-            if (cart.length === 0) {
-                list.innerHTML = `
-                    <li style="color: #94a3b8; font-size: 0.88rem; text-align: center; padding: 32px 0;">
-                        <i class="fa-solid fa-basket-shopping fa-2x mb-2" style="display:block; opacity:0.5;"></i>
-                        Your bag is currently empty.
-                    </li>
-                `;
-                subtotalEl.innerText = '$0.00';
-                taxEl.innerText = '$0.00';
-                grandTotalEl.innerText = '$0.00';
-                countBadge.innerText = '0 Items';
-                return;
-            }
-
-            let subtotal = 0;
-            list.innerHTML = cart.map((item, idx) => {
-                subtotal += item.price;
-                return `
-                    <li class="cart-item-row">
-                        <div class="cart-item-info">
-                            <strong>${item.name}</strong>
-                            <span>SKU: ${item.sku}</span>
-                        </div>
-                        <div style="display: flex; align-items: center; gap: 10px;">
-                            <span class="cart-item-price">$${item.price.toFixed(2)}</span>
-                            <button type="button" onclick="removeFromCart(${idx})" style="background:none; border:none; color:#ef4444; cursor:pointer;" title="Remove">
-                                <i class="fa-solid fa-trash-can text-xs"></i>
-                            </button>
-                        </div>
-                    </li>
-                `;
-            }).join('');
-
-            const tax = subtotal * 0.08;
-            const deliveryFee = 2.99;
-            const grandTotal = subtotal + tax + deliveryFee;
-
-            subtotalEl.innerText = '$' + subtotal.toFixed(2);
-            taxEl.innerText = '$' + tax.toFixed(2);
-            grandTotalEl.innerText = '$' + grandTotal.toFixed(2);
-            countBadge.innerText = cart.length + ' Items';
-        }
-
-        function removeFromCart(index) {
-            cart.splice(index, 1);
-            renderCart();
-        }
-
-        function submitStoreOrder() {
-            if (cart.length === 0) {
-                alert('Your bag is empty! Please add some delicious menu items first.');
-                return;
-            }
-
-            const randId = '#TKT-' + Math.floor(Math.random() * 8999 + 1000);
-            document.getElementById('confirmedOrderId').innerText = randId;
-            document.getElementById('confirmedApiProvider').innerText = (siteConfig.api?.name || 'Uber Direct') + ' REST Webhooks';
-            document.getElementById('orderConfirmModal').classList.add('show');
-
-            cart.length = 0;
-            renderCart();
+        function submitStoreOrder(event) {
+            if (event) event.preventDefault();
+            const orderId = '#ORD-' + Math.floor(1000 + Math.random() * 9000);
+            const apiName = siteConfig.api?.name || 'Uber Direct';
+            document.getElementById('confirmedOrderId').innerText = orderId;
+            document.getElementById('confirmedApiProvider').innerText = apiName + ' API';
+            document.getElementById('orderConfirmModal').classList.add('active');
         }
 
         function closeOrderModal() {
-            document.getElementById('orderConfirmModal').classList.remove('show');
+            document.getElementById('orderConfirmModal').classList.remove('active');
+            document.getElementById('orderCustName').value = '';
+            document.getElementById('orderCustAddress').value = '';
+            document.getElementById('orderCustNotes').value = '';
         }
 
-        document.addEventListener('DOMContentLoaded', initSite);
+        document.addEventListener('DOMContentLoaded', initStorefront);
+        window.addEventListener('load', initStorefront);
     </script>
 </body>
 </html>

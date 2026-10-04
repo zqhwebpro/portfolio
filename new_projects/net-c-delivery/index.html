@@ -9,7 +9,7 @@
     <meta http-equiv="Expires" content="0" />
     <title>DinerDashboard // Modern Diner Kitchen POS & Fleet Dispatch Engine</title>
     <meta name="description"
-        content="DinerDashboard: Full-browser modern diner kitchen POS & delivery dispatch system. Multi-gateway selection, live menu catalog sync, and KDS fleet routing." />
+        content="DinerDashboard: Modern restaurant POS & delivery gateway bridge. Setup your restaurant directory and base index.html with live gateway integration." />
     <meta name="keywords"
         content="DinerDashboard, Diner POS, Toast POS, DoorDash Drive, Uber Direct, Grubhub Direct, Square, Clover, .NET 9" />
     <meta name="author" content="Zach Heindel - DinerDashboard Kitchen & Delivery Dispatch" />
@@ -33,7 +33,7 @@
         integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
 
     <!-- 100% Width Browser Web App Stylesheet with Cache Buster -->
-    <link rel="stylesheet" href="./apex-theme.css?v=20261003_v4">
+    <link rel="stylesheet" href="./apex-theme.css?v=20261003_v7">
 </head>
 
 <body>
@@ -118,15 +118,15 @@
                         <span class="folder-title">01_gateways</span>
                         <span class="folder-chip" id="folderGatewaysBadge">0/6 Active</span>
                     </button>
-                    <button type="button" class="os-folder-tab" id="folderTab2" onclick="goToStep(2)" role="tab" aria-selected="false" title="Folder 02: Create Website">
+                    <button type="button" class="os-folder-tab" id="folderTab2" onclick="goToStep(2)" role="tab" aria-selected="false" title="Folder 02: Restaurant Setup">
                         <i class="fa-solid fa-folder folder-icon" id="folderIcon2"></i>
-                        <span class="folder-title">02_create_website</span>
-                        <span class="folder-chip" id="folderMenuBadge">Site Setup</span>
+                        <span class="folder-title">02_restaurant_setup</span>
+                        <span class="folder-chip" id="folderSetupBadge">Setup Form</span>
                     </button>
-                    <button type="button" class="os-folder-tab" id="folderTab3" onclick="goToStep(3)" role="tab" aria-selected="false" title="Folder 03: Your Site & KDS">
+                    <button type="button" class="os-folder-tab" id="folderTab3" onclick="goToStep(3)" role="tab" aria-selected="false" title="Folder 03: Directory & index.html">
                         <i class="fa-solid fa-folder folder-icon" id="folderIcon3"></i>
-                        <span class="folder-title">03_your_site</span>
-                        <span class="folder-chip" id="folderKdsBadge">Live Storefront</span>
+                        <span class="folder-title">03_directory_index</span>
+                        <span class="folder-chip" id="folderDirectoryBadge">Base HTML</span>
                     </button>
                 </div>
 
@@ -173,24 +173,24 @@
                         <span class="side-step-badge pending" id="sideStep1StatusBadge">Not Installed</span>
                     </button>
 
-                    <!-- Step 2: Create Website -->
+                    <!-- Step 2: Restaurant Setup -->
                     <button type="button" class="side-step-btn" id="sideStepTab2" onclick="goToStep(2)">
                         <div class="side-step-num" id="sideStepNum2">2</div>
                         <div class="side-step-content">
-                            <div class="side-step-name">Create Website</div>
-                            <div class="side-step-sub">Brand, Address, Menu</div>
+                            <div class="side-step-name">Restaurant Setup</div>
+                            <div class="side-step-sub">Name, Address, Logo</div>
                         </div>
-                        <span class="side-step-badge neutral" id="sideStep2StatusBadge">Site Setup</span>
+                        <span class="side-step-badge neutral" id="sideStep2StatusBadge">Setup Form</span>
                     </button>
 
-                    <!-- Step 3: Your Site & KDS -->
+                    <!-- Step 3: Directory & index.html -->
                     <button type="button" class="side-step-btn" id="sideStepTab3" onclick="goToStep(3)">
                         <div class="side-step-num" id="sideStepNum3">3</div>
                         <div class="side-step-content">
-                            <div class="side-step-name">Your Site &amp; KDS</div>
-                            <div class="side-step-sub">Live Storefront &amp; Fleet</div>
+                            <div class="side-step-name">Directory &amp; index.html</div>
+                            <div class="side-step-sub">Directory Slug &amp; Base HTML</div>
                         </div>
-                        <span class="side-step-badge neutral" id="sideStep3StatusBadge">Storefront</span>
+                        <span class="side-step-badge neutral" id="sideStep3StatusBadge">Base HTML</span>
                     </button>
                 </nav>
 
@@ -275,9 +275,9 @@
             </section>
 
             <!-- ═══════════════════════════════════════════════════════════
-                 STEP 2 VIEW: CREATE RESTAURANT WEBSITE & MENU CATALOG
+                 STEP 2 VIEW: RESTAURANT SETUP FORM
                  ═══════════════════════════════════════════════════════════ -->
-            <section class="step-view d-none" id="step2View" aria-label="Step 2 Create Website and Menu Setup">
+            <section class="step-view d-none" id="step2View" aria-label="Step 2 Restaurant Setup Form">
                 <!-- Active Gateway Banner -->
                 <div class="active-gateway-banner mb-3">
                     <div class="active-gw-info">
@@ -290,9 +290,6 @@
                         </div>
                     </div>
                     <div class="d-flex align-items-center gap-2 flex-wrap">
-                        <button type="button" class="tactile-btn tactile-btn-mint tactile-btn-sm" onclick="fillDemoSiteContent()" id="btnFillDemoContent" title="Place demo restaurant brand info, address, and menu items">
-                            <i class="fa-solid fa-wand-magic-sparkles me-1"></i> Fill Demo Content
-                        </button>
                         <button type="button" class="tactile-btn tactile-btn-white tactile-btn-sm" onclick="goToStep(1)">
                             <i class="fa-solid fa-arrow-left"></i> Switch Gateway
                         </button>
@@ -302,12 +299,12 @@
                 <!-- View Header Banner -->
                 <div class="view-header-banner mb-3">
                     <div class="view-header-title-box">
-                        <h2>Step 2: Create Restaurant Website &amp; Menu Catalog</h2>
-                        <p>Configure your restaurant brand, individual physical address fields, customer announcement message, business photo, and live menu catalog.</p>
+                        <h2>Step 2: Restaurant Details Form</h2>
+                        <p>Enter your business name, physical address, and optional logo. This creates your restaurant directory using a directory-friendly naming scheme and configures the base index.html with your details and connected API.</p>
                     </div>
                     <div class="step-guidance-pill success" id="step2GuidancePill">
                         <i class="fa-solid fa-square-check"></i>
-                        <span id="step2GuidanceText">Gateway Authenticated &bull; Ready to Build Website</span>
+                        <span id="step2GuidanceText">Gateway Authenticated &bull; Ready to Setup Restaurant</span>
                     </div>
                 </div>
 
@@ -316,55 +313,44 @@
                     <div class="site-builder-card">
                         <div class="site-builder-card-header">
                             <div>
-                                <h3><i class="fa-solid fa-store text-primary"></i> 1. Restaurant Brand &amp; Generated Directory</h3>
-                                <p class="text-xs text-secondary mb-0">Type your restaurant brand or click "Fill Demo Content" to practice the user journey.</p>
+                                <h3><i class="fa-solid fa-store text-primary"></i> 1. Business Identity &amp; Directory Slug</h3>
+                                <p class="text-xs text-secondary mb-0">Enter your official business name and optional logo. The directory slug is generated in real-time.</p>
                             </div>
-                            <div class="d-flex align-items-center gap-2">
-                                <button type="button" class="tactile-btn tactile-btn-white tactile-btn-sm" onclick="fillDemoSiteContent()" title="Populate demo restaurant info">
-                                    <i class="fa-solid fa-wand-magic-sparkles text-primary me-1"></i> Fill Demo Content
-                                </button>
-                                <span class="badge bg-light text-dark border font-mono">Brand Identity</span>
-                            </div>
+                            <span class="badge bg-light text-dark border font-mono">Brand &amp; Logo</span>
                         </div>
 
                         <div class="row g-3">
                             <!-- Restaurant Name -->
                             <div class="col-md-7">
-                                <label class="form-label text-xs fw-bold text-secondary text-uppercase tracking-wider">Restaurant Name</label>
-                                <input type="text" id="siteRestaurantName" class="apex-form-control" placeholder="e.g. Parma Sub &amp; Fry Co" value="" oninput="updateSlugPreview()" required>
+                                <label class="form-label text-xs fw-bold text-secondary text-uppercase tracking-wider">Business Name</label>
+                                <input type="text" id="siteRestaurantName" class="apex-form-control" placeholder="e.g. Central City Diner or Blue Harbor Grill" value="" oninput="updateSlugPreview()" required>
                                 <div class="mt-2">
                                     <span class="slug-preview-chip">
                                         <i class="fa-regular fa-folder-open text-primary"></i>
-                                        Directory: /net-c-delivery/<strong id="liveSlugDisplay" class="text-primary">enter-restaurant-name</strong>/index.html
+                                        Directory: /net-c-delivery/<strong id="liveSlugDisplay" class="text-primary">enter-business-name</strong>/index.html
                                     </span>
                                 </div>
                             </div>
 
-                            <!-- Business Photo / Logo (Optional) -->
+                            <!-- Business Logo (Optional) -->
                             <div class="col-md-5">
-                                <label class="form-label text-xs fw-bold text-secondary text-uppercase tracking-wider">Business Photo / Logo (Optional)</label>
+                                <label class="form-label text-xs fw-bold text-secondary text-uppercase tracking-wider">Business Logo (Optional)</label>
                                 <div class="photo-uploader-wrap">
-                                    <div class="photo-preview-box">
-                                        <img id="sitePhotoPreview" src="https://images.unsplash.com/photo-1555396273-367ea4eb4db5?auto=format&fit=crop&w=400&q=80" alt="Restaurant Preview">
+                                    <div class="photo-preview-box" id="siteLogoPreviewBox">
+                                        <i class="fa-solid fa-store fa-2x text-muted" id="siteLogoFallbackIcon"></i>
+                                        <img id="sitePhotoPreview" src="" alt="Logo Preview" style="display: none; width: 100%; height: 100%; object-fit: contain;">
                                     </div>
                                     <div class="d-flex flex-column gap-1.5 flex-grow-1">
                                         <input type="file" id="sitePhotoUpload" class="d-none" accept="image/*" onchange="handlePhotoUpload(event)">
                                         <button type="button" class="tactile-btn tactile-btn-white tactile-btn-sm" onclick="document.getElementById('sitePhotoUpload').click()">
-                                            <i class="fa-solid fa-cloud-arrow-up text-primary me-1"></i> Upload Photo
+                                            <i class="fa-solid fa-cloud-arrow-up text-primary me-1"></i> Upload Logo
                                         </button>
-                                        <div class="d-flex gap-1 flex-wrap">
-                                            <button type="button" class="tactile-btn tactile-btn-white tactile-btn-xs" onclick="setPresetPhoto('diner')">Diner</button>
-                                            <button type="button" class="tactile-btn tactile-btn-white tactile-btn-xs" onclick="setPresetPhoto('sub')">Sub</button>
-                                            <button type="button" class="tactile-btn tactile-btn-white tactile-btn-xs" onclick="setPresetPhoto('burger')">Burger</button>
-                                        </div>
+                                        <input type="url" id="siteLogoUrlInput" class="apex-form-control form-control-sm text-xs" placeholder="or paste logo image URL..." oninput="handleLogoUrlInput(this.value)">
+                                        <button type="button" class="tactile-btn tactile-btn-white tactile-btn-xs" onclick="clearLogo()" id="btnClearLogo" style="display: none;">
+                                            <i class="fa-solid fa-xmark text-danger me-1"></i> Remove Logo
+                                        </button>
                                     </div>
                                 </div>
-                            </div>
-
-                            <!-- Customer Welcome / Announcement Message -->
-                            <div class="col-12">
-                                <label class="form-label text-xs fw-bold text-secondary text-uppercase tracking-wider">Welcome Message / Customer Announcement</label>
-                                <textarea id="siteMessage" class="apex-form-control" rows="2" placeholder="e.g. Welcome to Parma Sub &amp; Fry Co! Best artisan subs and loaded fries in Ohio. Order online direct with live kitchen tracking via Uber Direct."></textarea>
                             </div>
                         </div>
                     </div>
@@ -372,7 +358,10 @@
                     <!-- Form Card 2: Restaurant Address (All Fields Separate) -->
                     <div class="site-builder-card">
                         <div class="site-builder-card-header">
-                            <h3><i class="fa-solid fa-location-dot text-danger"></i> 2. Restaurant Physical Address (All Fields Separate)</h3>
+                            <div>
+                                <h3><i class="fa-solid fa-location-dot text-danger"></i> 2. Restaurant Physical Address</h3>
+                                <p class="text-xs text-secondary mb-0">Enter the physical storefront address fields for customer navigation and courier dispatch.</p>
+                            </div>
                             <span class="badge bg-light text-dark border font-mono">Location Data</span>
                         </div>
 
@@ -380,7 +369,7 @@
                             <!-- Street Address -->
                             <div class="address-col-8">
                                 <label class="form-label text-xs fw-bold text-secondary text-uppercase tracking-wider">Street Address</label>
-                                <input type="text" id="siteStreet" class="apex-form-control" placeholder="e.g. 5842 Ridge Rd" value="" required>
+                                <input type="text" id="siteStreet" class="apex-form-control" placeholder="e.g. 100 Main St" value="" required>
                             </div>
 
                             <!-- Suite / Unit -->
@@ -392,7 +381,7 @@
                             <!-- City -->
                             <div class="address-col-3">
                                 <label class="form-label text-xs fw-bold text-secondary text-uppercase tracking-wider">City</label>
-                                <input type="text" id="siteCity" class="apex-form-control" placeholder="e.g. Parma" value="" required>
+                                <input type="text" id="siteCity" class="apex-form-control" placeholder="e.g. Cleveland" value="" required>
                             </div>
 
                             <!-- State / Region -->
@@ -404,65 +393,14 @@
                             <!-- ZIP / Postal Code -->
                             <div class="address-col-3">
                                 <label class="form-label text-xs fw-bold text-secondary text-uppercase tracking-wider">ZIP / Postal Code</label>
-                                <input type="text" id="siteZip" class="apex-form-control" placeholder="e.g. 44129" value="" required>
+                                <input type="text" id="siteZip" class="apex-form-control" placeholder="e.g. 44114" value="" required>
                             </div>
 
                             <!-- Country -->
                             <div class="address-col-3">
                                 <label class="form-label text-xs fw-bold text-secondary text-uppercase tracking-wider">Country</label>
-                                <input type="text" id="siteCountry" class="apex-form-control" placeholder="e.g. United States" value="" required>
+                                <input type="text" id="siteCountry" class="apex-form-control" placeholder="e.g. United States" value="United States" required>
                             </div>
-                        </div>
-                    </div>
-
-                    <!-- Form Card 3: Menu Catalog & Online Offerings -->
-                    <div class="site-builder-card">
-                        <div class="site-builder-card-header">
-                            <div>
-                                <h3><i class="fa-solid fa-utensils text-primary"></i> 3. Menu Catalog &amp; Live Offerings</h3>
-                                <p class="text-xs text-secondary mb-0">Select and stage the items that will appear on your generated website for customer ordering and dispatch.</p>
-                            </div>
-                            <div class="d-flex align-items-center gap-2">
-                                <button type="button" class="tactile-btn tactile-btn-white tactile-btn-sm" onclick="selectAllMenuItems()">
-                                    <i class="fa-solid fa-check-double text-primary me-1"></i> Select All (7)
-                                </button>
-                                <button type="button" class="tactile-btn tactile-btn-white tactile-btn-sm" onclick="clearMenuItemSelections()">
-                                    <i class="fa-solid fa-xmark text-danger me-1"></i> Clear
-                                </button>
-                            </div>
-                        </div>
-
-                        <!-- Menu Selection Counter Alert -->
-                        <div class="menu-selection-alert-banner alert alert-warning border-0 rounded-2 p-3 mb-3 d-flex align-items-center justify-content-between flex-wrap gap-3" id="menuSelectionBanner">
-                            <div class="d-flex align-items-center gap-3">
-                                <div class="p-2 rounded-2 bg-warning bg-opacity-25 text-warning-emphasis fs-4">
-                                    <i class="fa-solid fa-clipboard-check"></i>
-                                </div>
-                                <div>
-                                    <strong id="menuBannerHeadline">Notice: No Menu Items Preselected for Gateway</strong>
-                                    <p class="text-xs text-secondary mb-0" id="menuBannerSub">Select items below to publish them on your generated restaurant site and live KDS queue.</p>
-                                </div>
-                            </div>
-                        </div>
-
-                        <!-- Menu Table -->
-                        <div class="table-responsive">
-                            <table class="menu-table">
-                                <thead>
-                                    <tr>
-                                        <th style="width: 140px;">Publish to Site</th>
-                                        <th style="width: 85px;">SKU</th>
-                                        <th>Menu Item &amp; Recipe Specs</th>
-                                        <th style="width: 100px;">Station</th>
-                                        <th style="width: 140px;">Live Price</th>
-                                        <th style="width: 140px;">Kitchen Stock</th>
-                                        <th style="width: 90px;" class="text-end">Sync</th>
-                                    </tr>
-                                </thead>
-                                <tbody id="menuTableBody">
-                                    <!-- Populated dynamically by controller.js -->
-                                </tbody>
-                            </table>
                         </div>
                     </div>
                 </div>
@@ -474,31 +412,27 @@
                         <span>Back to Step 1: Gateways</span>
                     </button>
                     <div class="d-flex align-items-center gap-2">
-                        <button type="button" class="tactile-btn tactile-btn-white tactile-btn-lg" onclick="fillDemoSiteContent()" title="Populate demo restaurant info &amp; select all menu items">
-                            <i class="fa-solid fa-wand-magic-sparkles text-primary me-1"></i>
-                            <span>Fill Demo Content</span>
-                        </button>
                         <button type="button" class="tactile-btn tactile-btn-mint tactile-btn-lg" onclick="generateAndDeployWebsite()">
-                            <i class="fa-solid fa-wand-magic-sparkles"></i>
-                            <span>Create Website &amp; Generate Directory ➔</span>
+                            <i class="fa-solid fa-folder-plus me-1"></i>
+                            <span>Create Directory &amp; Generate index.html ➔</span>
                         </button>
                     </div>
                 </div>
             </section>
 
             <!-- ═══════════════════════════════════════════════════════════
-                 STEP 3 VIEW: LIVE KITCHEN KDS & COURIER FLEET DISPATCH
+                 STEP 3 VIEW: GENERATED DIRECTORY & BASE INDEX.HTML
                  ═══════════════════════════════════════════════════════════ -->
-            <section class="step-view d-none" id="step3View" aria-label="Step 3 Live Kitchen KDS and Dispatch">
+            <section class="step-view d-none" id="step3View" aria-label="Step 3 Generated Directory and Base index.html">
                 <!-- View Banner -->
                 <div class="view-header-banner">
                     <div class="view-header-title-box">
-                        <h2>Step 3: Live Kitchen KDS &amp; Fleet Dispatch Matrix</h2>
-                        <p>Real-time grill line tickets, automated courier route pooling, and streaming webhook telemetry.</p>
+                        <h2>Step 3: Restaurant Directory &amp; Base index.html</h2>
+                        <p>Your directory has been created using a directory-friendly naming scheme, and your restaurant details and connected API are added to the base index.html.</p>
                     </div>
                     <div class="step-guidance-pill success">
-                        <i class="fa-solid fa-satellite-dish"></i>
-                        <span>Live Telemetry Socket Connected &bull; HTTP/2 TLS 1.3</span>
+                        <i class="fa-solid fa-square-check"></i>
+                        <span>Directory Active &bull; Base index.html Compiled</span>
                     </div>
                 </div>
 
@@ -507,106 +441,101 @@
                     <div class="deployed-site-header">
                         <div class="d-flex align-items-center gap-3">
                             <div class="site-avatar-frame" id="deployedSiteAvatar">
-                                <i class="fa-solid fa-store fa-2x text-primary"></i>
+                                <i class="fa-solid fa-store fa-2x text-primary" id="deployedAvatarDefaultIcon"></i>
+                                <img id="deployedAvatarImg" src="" alt="Restaurant Logo" style="display: none; width: 100%; height: 100%; object-fit: contain;">
                             </div>
                             <div>
                                 <div class="d-flex align-items-center gap-2">
-                                    <h3 class="mb-0 fw-bold fs-5 text-dark" id="deployedSiteName">Parma Sub &amp; Fry Co.</h3>
-                                    <span class="badge bg-success rounded-1 font-mono"><i class="fa-solid fa-square-check me-1"></i>Site Online</span>
+                                    <h3 class="mb-0 fw-bold fs-5 text-dark" id="deployedSiteName">Restaurant Storefront</h3>
+                                    <span class="badge bg-success rounded-1 font-mono"><i class="fa-solid fa-square-check me-1"></i>Directory Created</span>
                                 </div>
-                                <p class="text-xs text-muted mb-0 mt-1" id="deployedSiteMsg">"Artisanal cold cuts &amp; triple-cooked hand-cut fries since 1988."</p>
+                                <p class="text-xs text-muted mb-0 mt-1" id="deployedSiteMsg">Official Restaurant Storefront &bull; Online Ordering Ready</p>
                             </div>
                         </div>
                         <div class="deployed-site-actions">
-                            <a href="./parma-sub-fry-co/index.html" target="_blank" class="tactile-btn tactile-btn-primary" id="deployedSiteLiveLink">
+                            <a href="./your-site/index.html" target="_blank" class="tactile-btn tactile-btn-primary" id="deployedSiteLiveLink">
                                 <i class="fa-solid fa-arrow-up-right-from-square"></i>
-                                <span>Launch Your Site ↗</span>
+                                <span>Launch Storefront ↗</span>
                             </a>
                             <button type="button" class="tactile-btn tactile-btn-cyan" onclick="openInAppSitePreview()">
                                 <i class="fa-solid fa-window-maximize"></i>
-                                <span>Preview Inside App</span>
+                                <span>Preview Modal</span>
                             </button>
                             <button type="button" class="tactile-btn tactile-btn-white" onclick="downloadSiteIndexHtml()">
                                 <i class="fa-solid fa-file-arrow-down"></i>
                                 <span>Download index.html</span>
+                            </button>
+                            <button type="button" class="tactile-btn tactile-btn-white" onclick="goToStep(2)">
+                                <i class="fa-solid fa-pen-to-square"></i>
+                                <span>Edit Details</span>
                             </button>
                         </div>
                     </div>
 
                     <div class="deployed-site-details-grid">
                         <div class="site-detail-item">
-                            <span class="site-detail-label"><i class="fa-solid fa-folder me-1 text-primary"></i>Directory &amp; Entry File</span>
-                            <span class="site-detail-value font-mono text-primary fw-bold" id="deployedSiteDirectory">/net-c-delivery/parma-sub-fry-co/index.html</span>
+                            <span class="site-detail-label"><i class="fa-solid fa-folder-open me-1 text-primary"></i>Created Directory</span>
+                            <span class="site-detail-value font-mono text-primary fw-bold" id="deployedSiteDirectory">/net-c-delivery/your-site/index.html</span>
                         </div>
                         <div class="site-detail-item">
-                            <span class="site-detail-label"><i class="fa-solid fa-location-dot me-1 text-danger"></i>Configured Address</span>
-                            <span class="site-detail-value" id="deployedSiteAddress">5420 Ridge Rd, Suite B, Parma, OH 44129, US</span>
+                            <span class="site-detail-label"><i class="fa-solid fa-location-dot me-1 text-danger"></i>Business Address</span>
+                            <span class="site-detail-value" id="deployedSiteAddress">—</span>
                         </div>
                         <div class="site-detail-item">
                             <span class="site-detail-label"><i class="fa-solid fa-plug me-1 text-success"></i>Connected Delivery API</span>
                             <span class="site-detail-value font-mono" id="deployedSiteApiStatus">Uber Direct &bull; Verified (REST Webhooks)</span>
                         </div>
                         <div class="site-detail-item">
-                            <span class="site-detail-label"><i class="fa-solid fa-utensils me-1 text-warning"></i>Active Storefront SKUs</span>
-                            <span class="site-detail-value" id="deployedSiteSkuCount">6 Menu Items Selected</span>
+                            <span class="site-detail-label"><i class="fa-solid fa-file-code me-1 text-warning"></i>Base File Template</span>
+                            <span class="site-detail-value font-mono" id="deployedSiteBaseTemplate">base-index.html compiled</span>
                         </div>
                     </div>
                 </div>
 
-                <!-- Tactile Actions Push Buttons Strip -->
-                <div class="kds-action-strip mb-3">
-                    <button type="button" class="tactile-btn tactile-btn-bell" onclick="ringDinerBell()" title="Ring Brass Diner Kitchen Bell">
-                        <i class="fa-solid fa-bell-concierge fa-lg"></i>
-                        <span>Order Up! Bell</span>
-                    </button>
-                    <button type="button" class="tactile-btn tactile-btn-coral" onclick="spawnDinerTicket()" title="Push New Live Kitchen Order">
-                        <i class="fa-solid fa-fire-burner fa-lg"></i>
-                        <span>New Kitchen Ticket</span>
-                    </button>
-                    <button type="button" class="tactile-btn tactile-btn-mint" onclick="rushFleetDispatch()" title="Priority Dispatch Couriers">
-                        <i class="fa-solid fa-motorcycle fa-lg"></i>
-                        <span>Rush Courier Fleet</span>
-                    </button>
-                    <button type="button" class="tactile-btn tactile-btn-cyan" onclick="simulateFullApiHealthCheck()" title="Ping All POS and Delivery APIs">
-                        <i class="fa-solid fa-arrows-rotate fa-lg"></i>
-                        <span>Ping All Radar</span>
-                    </button>
-                    <button type="button" class="tactile-btn tactile-btn-white" onclick="resetWalkthrough()" title="Reset Setup to Step 1">
-                        <i class="fa-solid fa-arrow-rotate-left"></i>
-                        <span>Reset Walkthrough</span>
-                    </button>
-                </div>
-
-                <!-- 2-Column Split: KDS Tickets Queue & Telemetry Stream -->
-                <div class="kds-dispatch-layout">
-                    <!-- Left: Kitchen KDS Tickets -->
-                    <div class="kds-panel">
-                        <div class="panel-header">
-                            <h3><i class="fa-solid fa-utensils text-primary"></i> Active Kitchen Prep Queue</h3>
-                            <span class="badge bg-primary rounded-1 font-mono">Grill Station Online</span>
+                <!-- In-App Interactive Preview Frame Container -->
+                <div class="site-builder-card mb-4 p-0 overflow-hidden">
+                    <div class="d-flex align-items-center justify-content-between p-3 border-bottom bg-light">
+                        <div class="d-flex align-items-center gap-2">
+                            <div class="d-flex gap-1">
+                                <span style="width: 10px; height: 10px; border-radius: 50%; background: #ff5f56; display: inline-block;"></span>
+                                <span style="width: 10px; height: 10px; border-radius: 50%; background: #ffbd2e; display: inline-block;"></span>
+                                <span style="width: 10px; height: 10px; border-radius: 50%; background: #27c93f; display: inline-block;"></span>
+                            </div>
+                            <span class="badge bg-white border text-secondary font-mono text-xs ms-2">
+                                <i class="fa-solid fa-globe text-primary me-1"></i>
+                                <span id="inlinePreviewUrlDisplay">/net-c-delivery/your-site/index.html</span>
+                            </span>
                         </div>
-                        <div class="kds-tickets-queue" id="kdsTicketsQueue">
-                            <!-- Populated dynamically by controller.js -->
+                        <div class="d-flex align-items-center gap-2">
+                            <button type="button" class="tactile-btn tactile-btn-white tactile-btn-xs" onclick="reloadInlinePreview()" title="Reload Preview">
+                                <i class="fa-solid fa-arrows-rotate"></i>
+                            </button>
+                            <a href="./your-site/index.html" target="_blank" class="tactile-btn tactile-btn-white tactile-btn-xs" id="inlinePreviewOpenLink">
+                                <i class="fa-solid fa-arrow-up-right-from-square me-1"></i> Open in Tab
+                            </a>
                         </div>
                     </div>
+                    <div style="height: 600px; width: 100%; background: #ffffff;">
+                        <iframe id="step3InlinePreviewIframe" src="./your-site/index.html" style="width: 100%; height: 100%; border: none;"></iframe>
+                    </div>
+                </div>
 
-                    <!-- Right: Real-Time Telemetry Log Stream -->
-                    <div class="telemetry-panel">
-                        <div class="panel-header">
-                            <h3><i class="fa-solid fa-terminal text-primary"></i> Live Telemetry Event Stream</h3>
-                            <span class="badge bg-success rounded-1 font-mono">TLS 1.3 Active</span>
+                <!-- Real-Time Activity & Telemetry Event Stream -->
+                <div class="telemetry-panel mb-4">
+                    <div class="panel-header">
+                        <h3><i class="fa-solid fa-terminal text-primary"></i> Directory Deployment &amp; Handshake Telemetry</h3>
+                        <span class="badge bg-success rounded-1 font-mono">Active</span>
+                    </div>
+                    <div class="telemetry-stream-box">
+                        <div class="telemetry-stream-header">
+                            <span>UTC TIME</span>
+                            <span>SOURCE</span>
+                            <span>ACTION / EVENT</span>
+                            <span>LATENCY</span>
+                            <span>DETAILS</span>
                         </div>
-                        <div class="telemetry-stream-box">
-                            <div class="telemetry-stream-header">
-                                <span>UTC TIME</span>
-                                <span>PROVIDER</span>
-                                <span>EVENT TYPE</span>
-                                <span>LATENCY</span>
-                                <span>STATUS</span>
-                            </div>
-                            <div class="telemetry-stream-list" id="telemetryStreamList">
-                                <!-- Streamed dynamically -->
-                            </div>
+                        <div class="telemetry-stream-list" id="telemetryStreamList">
+                            <!-- Streamed dynamically -->
                         </div>
                     </div>
                 </div>
@@ -615,11 +544,11 @@
                 <div class="step-nav-footer mt-4">
                     <button type="button" class="tactile-btn tactile-btn-white tactile-btn-lg" onclick="goToStep(2)">
                         <i class="fa-solid fa-arrow-left"></i>
-                        <span>Back to Step 2: Menu Catalog</span>
+                        <span>Back to Step 2: Restaurant Setup</span>
                     </button>
                     <button type="button" class="tactile-btn tactile-btn-primary tactile-btn-lg" onclick="goToStep(1)">
-                        <i class="fa-solid fa-network-wired"></i>
-                        <span>Manage More Gateways (Step 1)</span>
+                        <i class="fa-solid fa-network-wired me-1"></i>
+                        <span>Manage Gateways (Step 1)</span>
                     </button>
                 </div>
             </section>
@@ -737,17 +666,17 @@
                         <div class="d-flex gap-3 align-items-start">
                             <i class="fa-solid fa-store text-primary fs-4 mt-1"></i>
                             <div>
-                                <strong class="text-dark d-block mb-1">Step 2: Create Website &amp; Directory</strong>
+                                <strong class="text-dark d-block mb-1">Step 2: Restaurant Setup Form</strong>
                                 <span class="text-secondary text-xs" style="line-height: 1.4; display: block;">
-                                    Your delivery gateway credentials are saved! Now proceed to <strong>Step 2: Create Website</strong> to configure your restaurant name, separated address fields, customer announcement message, business photo, and select menu SKUs.
+                                    Your delivery gateway credentials are saved! Now proceed to <strong>Step 2: Restaurant Setup</strong> to enter your business name, address, and optional logo to generate your restaurant directory and base index.html.
                                 </span>
                             </div>
                         </div>
                     </div>
 
                     <div class="d-flex flex-column gap-2">
-                        <button type="button" class="tactile-btn tactile-btn-mint tactile-btn-lg w-100 justify-content-center" onclick="proceedToMenuScreenFromModal()">
-                            <span>Move to Create Website (Step 2) ➔</span>
+                        <button type="button" class="tactile-btn tactile-btn-mint tactile-btn-lg w-100 justify-content-center" onclick="proceedToSetupFromModal()">
+                            <span>Move to Restaurant Setup (Step 2) ➔</span>
                         </button>
                         <button type="button" class="tactile-btn tactile-btn-white tactile-btn-sm w-100 justify-content-center" data-bs-dismiss="modal">
                             Stay on Gateways Screen
@@ -771,17 +700,17 @@
                             <span style="width: 10px; height: 10px; border-radius: 2px; background: #ffbd2e; display: inline-block;"></span>
                             <span style="width: 10px; height: 10px; border-radius: 2px; background: #27c93f; display: inline-block;"></span>
                         </div>
-                        <span class="text-xs font-mono text-muted">Preview: <span id="previewModalSlugDisplay" class="fw-bold text-dark">/net-c-delivery/parma-sub-fry-co/index.html</span></span>
+                        <span class="text-xs font-mono text-muted">Preview: <span id="previewModalSlugDisplay" class="fw-bold text-dark">/net-c-delivery/your-site/index.html</span></span>
                     </div>
                     <div class="d-flex align-items-center gap-2">
-                        <a href="./parma-sub-fry-co/index.html" target="_blank" class="btn btn-sm btn-outline-primary py-1 px-2 text-xs" id="previewModalOpenNewTab">
+                        <a href="./your-site/index.html" target="_blank" class="btn btn-sm btn-outline-primary py-1 px-2 text-xs" id="previewModalOpenNewTab">
                             <i class="fa-solid fa-arrow-up-right-from-square me-1"></i>Open in New Tab
                         </a>
                         <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                     </div>
                 </div>
                 <div class="modal-body p-0" style="height: calc(100% - 50px); background: #f8fafc;">
-                    <iframe id="sitePreviewIframe" src="./parma-sub-fry-co/index.html" style="width: 100%; height: 100%; border: none;"></iframe>
+                    <iframe id="sitePreviewIframe" src="./your-site/index.html" style="width: 100%; height: 100%; border: none;"></iframe>
                 </div>
             </div>
         </div>
@@ -793,7 +722,7 @@
     </script>
 
     <!-- DinerDashboard Controller Engine with Cache Buster -->
-    <script src="./controller.js?v=20261003_v5"></script>
+    <script src="./controller.js?v=20261003_v7"></script>
 
 </body>
 
