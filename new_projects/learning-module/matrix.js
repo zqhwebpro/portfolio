@@ -5269,7 +5269,7 @@ function getTrackConsoleOutput(trackId, moduleNum, sectionId) {
       const sectionsHtml = (m.sections || []).map((sec, secIdx) => {
         return (
           '<div class="lesson-row-container mb-3" id="lesson-row-' + m.num + '-' + sec.id + '">' +
-            '<div class="lesson-card-item p-3 sm:p-4 rounded-xl bg-slate-50 border border-slate-200 transition-all flex items-center justify-between gap-3 group/item hover:bg-slate-100/80">' +
+            '<div class="lesson-card-item p-3 sm:p-4 rounded-xl bg-white border border-white/70 shadow-sm transition-all flex items-center justify-between gap-3 group/item hover:bg-slate-100/80">' +
               '<div class="flex items-center gap-3 min-w-0 flex-1">' +
                 '<span class="lesson-badge-num w-7 h-7 rounded-lg bg-slate-200 text-slate-900 font-mono text-xs font-black flex items-center justify-center shrink-0 transition-colors">' +
                   (secIdx + 1) +
@@ -5294,29 +5294,29 @@ function getTrackConsoleOutput(trackId, moduleNum, sectionId) {
       }).join('');
 
       return (
-        '<div id="module-panel-' + m.num + '" class="module-white-panel bg-white rounded-2xl sm:rounded-3xl p-6 sm:p-8 lg:p-10 shadow-xl border border-white/60 mb-6 sm:mb-8 text-slate-900 scroll-mt-20">' +
+        '<div id="module-panel-' + m.num + '" class="module-white-panel module-themed-panel rounded-2xl sm:rounded-3xl p-6 sm:p-8 lg:p-10 shadow-xl border mb-6 sm:mb-8 scroll-mt-20" style="background-color: ' + theme.primaryHex + '; background-image: linear-gradient(145deg, ' + theme.darkHex + ' 0%, ' + theme.primaryHex + ' 55%, ' + theme.darkHex + ' 100%); border-color: ' + theme.darkHex + '; color: ' + theme.textHex + ';">' +
           '<!-- Module Header Strip -->' +
-          '<div class="flex items-center justify-between pb-3 mb-4 border-b border-slate-200 flex-wrap gap-2">' +
+          '<div class="module-themed-divider flex items-center justify-between pb-3 mb-4 border-b flex-wrap gap-2">' +
             '<div class="flex items-center gap-2.5">' +
               '<span class="px-3 py-1 rounded-lg font-mono text-xs font-black" style="background: ' + theme.lightBg + '; color: ' + theme.darkTextHex + '; border: 1.5px solid ' + theme.borderHex + ';">MODULE ' + m.num + '</span>' +
-              (m.code ? '<span class="font-mono text-xs font-extrabold text-slate-600">' + m.code + '</span>' : '') +
+              (m.code ? '<span class="font-mono text-xs font-extrabold opacity-80">' + m.code + '</span>' : '') +
             '</div>' +
-            '<span class="px-2.5 py-1 rounded-md text-[11px] font-mono font-bold bg-slate-100 text-slate-700 border border-slate-200">' + (m.sections ? m.sections.length : 0) + ' Lessons Outline</span>' +
+            '<span class="px-2.5 py-1 rounded-md text-[11px] font-mono font-bold bg-white/90 text-slate-800 border border-white/70">' + (m.sections ? m.sections.length : 0) + ' Lessons Outline</span>' +
           '</div>' +
 
           '<!-- Module Title & Scope -->' +
-          '<h3 class="font-headline font-black text-xl sm:text-2xl lg:text-3xl text-slate-950 mb-2 leading-snug">' +
+          '<h3 class="font-headline font-black text-xl sm:text-2xl lg:text-3xl mb-2 leading-snug">' +
             m.title +
           '</h3>' +
-          '<p class="text-xs sm:text-sm text-slate-700 leading-relaxed font-sans mb-6 font-normal">' +
+          '<p class="text-xs sm:text-sm opacity-90 leading-relaxed font-sans mb-6 font-normal">' +
             m.desc +
           '</p>' +
 
           '<!-- Curriculum Outline Checklist -->' +
-          '<div class="space-y-2 pt-3 border-t border-slate-100">' +
-            '<div class="flex items-center justify-between text-xs font-mono text-slate-600 font-extrabold uppercase tracking-wider pb-2">' +
-              '<span>Curriculum Outline (' + (m.sections ? m.sections.length : 0) + ' Lessons)</span>' +
-              '<span class="text-slate-900 font-bold flex items-center gap-1.5"><i class="fa-solid fa-code text-[11px] text-sky-600"></i> Interactive Sandbox</span>' +
+          '<div class="module-themed-divider space-y-2 pt-3 border-t">' +
+            '<div class="flex items-center justify-between text-xs font-mono font-extrabold uppercase tracking-wider pb-2">' +
+              '<span class="opacity-85">Curriculum Outline (' + (m.sections ? m.sections.length : 0) + ' Lessons)</span>' +
+              '<span class="font-bold flex items-center gap-1.5"><i class="fa-solid fa-code text-[11px]"></i> Interactive Sandbox</span>' +
             '</div>' +
             sectionsHtml +
           '</div>' +
@@ -5326,7 +5326,7 @@ function getTrackConsoleOutput(trackId, moduleNum, sectionId) {
 
     container.innerHTML = (
       '<!-- Full Page Themed Learning Module Container in Module Theme Color -->' +
-      '<div class="track-page-container w-full rounded-2xl sm:rounded-3xl p-3 sm:p-6 lg:p-8 shadow-2xl transition-all border-4" style="background-color: ' + theme.primaryHex + '; background-image: linear-gradient(145deg, ' + theme.darkHex + ' 0%, ' + theme.primaryHex + ' 50%, ' + theme.darkHex + ' 100%); border-color: ' + theme.darkHex + '; --track-theme-color: ' + theme.primaryHex + '; --track-theme-text: ' + theme.textHex + '; --track-theme-dark: ' + theme.darkHex + ';">' +
+      '<div class="track-page-container w-full p-3 sm:p-6 lg:p-8 shadow-2xl transition-all" style="--track-theme-color: ' + theme.primaryHex + '; --track-theme-text: ' + theme.textHex + '; --track-theme-dark: ' + theme.darkHex + ';">' +
         
         '<!-- Mobile Top Horizontal Pill Switcher -->' +
         '<div class="lg:hidden sticky top-14 z-30 flex items-center gap-2 overflow-x-auto py-2.5 px-3 bg-white/95 backdrop-blur-md rounded-xl shadow-md border border-white/60 mb-5 scrollbar-none">' +

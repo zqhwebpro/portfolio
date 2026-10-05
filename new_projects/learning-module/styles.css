@@ -724,6 +724,18 @@ body {
 .track-page-container {
   transition: background-color 0.35s ease, border-color 0.35s ease;
   position: relative;
+  /* Matches unselected .os-ide-tab-btn surface */
+  background: rgba(15, 23, 42, 0.85);
+  backdrop-filter: blur(14px);
+  -webkit-backdrop-filter: blur(14px);
+  border: 1px solid rgba(255, 255, 255, 0.14);
+  border-top: none;
+  border-radius: 0;
+}
+
+/* Themed module (lesson) panels: dividers follow the panel's text color */
+.module-themed-divider {
+  border-color: color-mix(in srgb, currentColor 25%, transparent) !important;
 }
 
 .module-white-panel {
