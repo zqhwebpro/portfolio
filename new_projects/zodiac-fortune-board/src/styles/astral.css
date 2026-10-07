@@ -1824,7 +1824,7 @@ body, html {
     padding-top: 6px;
   }
 
-  /* Sleek horizontal altar tablet menu */
+  /* Sleek horizontal altar tablet menu with sufficient bottom margin to clear zenith pointer & node */
   .compass-gesture-nav {
     position: relative;
     left: auto;
@@ -1832,7 +1832,7 @@ body, html {
     transform: none;
     width: 94%;
     max-width: 660px;
-    margin: 4px auto 14px auto;
+    margin: 4px auto 56px auto;
     padding: 7px 10px 8px 10px;
     border-radius: 14px;
     display: flex;
@@ -1911,17 +1911,67 @@ body, html {
   }
 
   .astrolabe-wrapper {
-    width: 80vmin;
-    height: 80vmin;
-    max-width: 520px;
-    max-height: 520px;
+    width: 78vmin;
+    height: 78vmin;
+    max-width: 500px;
+    max-height: 500px;
   }
 
-  .crystal-ball-sphere, .crystal-ball-stand-base {
-    width: 65vmin;
-    height: 65vmin;
-    min-width: 290px;
-    min-height: 290px;
+  /* Proportional crystal ball sizing so nodes and symbols always frame the orb with clean clearance */
+  .crystal-ball-sphere {
+    width: 52vmin;
+    height: 52vmin;
+    max-width: 330px;
+    max-height: 330px;
+    min-width: unset;
+    min-height: unset;
+  }
+
+  .crystal-ball-stand-base {
+    width: 56vmin;
+    height: 56vmin;
+    max-width: 355px;
+    max-height: 355px;
+    min-width: unset;
+    min-height: unset;
+  }
+
+  .project-node {
+    width: 56px;
+    height: 56px;
+  }
+
+  .node-symbol {
+    font-size: 1.85rem;
+  }
+
+  .zenith-alignment-pointer {
+    top: -42px;
+  }
+
+  .constellation-star-map-container {
+    width: 135px;
+    height: 82px;
+  }
+
+  .crystal-glyph-large {
+    font-size: 2.1rem;
+  }
+
+  .center-sign-title {
+    font-size: 1.25rem;
+    margin-top: 2px;
+  }
+
+  .center-sign-meta {
+    font-size: 0.88rem;
+    padding: 2px 10px;
+    gap: 6px;
+  }
+
+  .physical-tarot-card {
+    transform: scale(0.84);
+    transform-origin: center center;
   }
 
   .scrying-mirror-container {
@@ -1936,13 +1986,31 @@ body, html {
 }
 
 /* 3. MOBILE VIEWPORTS (<= 600px)
-   Ultra-compact touch-friendly segmented controls */
+   Ultra-compact touch-friendly segmented controls with full zenith clearance */
 @media (max-width: 600px) {
+  .site-header {
+    padding: 8px 16px;
+  }
+
+  .site-header h1 {
+    font-size: 1.35rem;
+  }
+
+  .realm-tagline {
+    font-size: 0.78rem;
+  }
+
+  .board-container {
+    padding-top: 54px;
+    padding-bottom: 24px;
+  }
+
+  /* 50px bottom margin provides complete clearance so 12 o'clock zenith node is NEVER covered */
   .compass-gesture-nav {
     width: 96%;
     max-width: 440px;
     padding: 5px 6px;
-    margin: 4px auto 10px auto;
+    margin: 4px auto 50px auto;
     border-radius: 12px;
     gap: 4px;
   }
@@ -1976,8 +2044,77 @@ body, html {
   }
 
   .astrolabe-wrapper {
-    width: 86vmin;
-    height: 86vmin;
+    width: 84vmin;
+    height: 84vmin;
+    max-width: 375px;
+    max-height: 375px;
+  }
+
+  /* Balanced crystal ball dimensions with generous clearance to the outer node ring */
+  .crystal-ball-sphere {
+    width: 55vmin;
+    height: 55vmin;
+    max-width: 245px;
+    max-height: 245px;
+    min-width: unset;
+    min-height: unset;
+  }
+
+  .crystal-ball-stand-base {
+    width: 59vmin;
+    height: 59vmin;
+    max-width: 265px;
+    max-height: 265px;
+    min-width: unset;
+    min-height: unset;
+  }
+
+  .project-node {
+    width: 44px;
+    height: 44px;
+  }
+
+  .node-symbol {
+    font-size: 1.48rem;
+  }
+
+  .zenith-alignment-pointer {
+    top: -38px;
+  }
+
+  .zenith-pointer-glyph {
+    font-size: 0.95rem;
+  }
+
+  .zenith-pointer-line {
+    height: 8px;
+  }
+
+  .constellation-star-map-container {
+    width: 100px;
+    height: 60px;
+    margin: 1px 0;
+  }
+
+  .crystal-glyph-large {
+    font-size: 1.6rem;
+  }
+
+  .center-sign-title {
+    font-size: 0.92rem;
+    margin-top: 1px;
+  }
+
+  .center-sign-meta {
+    font-size: 0.68rem;
+    padding: 1px 6px;
+    gap: 3px;
+    border-radius: 8px;
+  }
+
+  .physical-tarot-card {
+    transform: scale(0.66);
+    transform-origin: center center;
   }
 
   .scrying-mirror-container {

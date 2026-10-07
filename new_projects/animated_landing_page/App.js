@@ -80,15 +80,15 @@ function CountUpStat({ item }) {
 }
 
 function HeroFlyingStars() {
-    // Reduced count from 120 to 45 for mobile/tablet GPU efficiency
+    // Optimized lightweight twinkling stars (16 points with GPU-accelerated opacity)
     const stars = React.useMemo(() => {
-        return Array.from({ length: 45 }, (_, i) => ({
+        return Array.from({ length: 16 }, (_, i) => ({
             id: i,
-            top: `${(Math.random() * 100).toFixed(1)}%`,
-            left: `${(Math.random() * 100).toFixed(1)}%`,
-            size: `${(Math.random() * 1.8 + 1).toFixed(1)}px`,
-            duration: `${(Math.random() * 2.5 + 2).toFixed(2)}s`,
-            delay: `${(Math.random() * 3).toFixed(2)}s`
+            top: `${(Math.random() * 95).toFixed(1)}%`,
+            left: `${(Math.random() * 95).toFixed(1)}%`,
+            size: `${(Math.random() * 1.6 + 1).toFixed(1)}px`,
+            duration: `${(Math.random() * 2 + 2).toFixed(2)}s`,
+            delay: `${(Math.random() * 2).toFixed(2)}s`
         }));
     }, []);
 
@@ -124,7 +124,6 @@ function App() {
 
     const mouseRef = React.useRef({ x: 0, y: 0 });
     const targetMouseRef = React.useRef({ x: 0, y: 0 });
-    const targetScrollRef = React.useRef(0);
     const currentScrollRef = React.useRef(0);
 
     const getDecodedEmail = () => {
@@ -132,103 +131,21 @@ function App() {
         return `${parts[0]}@${parts[1]}.${parts[2]}`;
     };
 
-    // Low-overhead physics loop: direct DOM transforms instead of state re-renders
-    React.useEffect(() => {
-        let animationFrameId;
-        let isLightActive = false;
-
-        const updatePhysics = () => {
-            // Smooth loose scroll tracking interpolation
-            currentScrollRef.current += (targetScrollRef.current - currentScrollRef.current) * 0.035;
-            const current = currentScrollRef.current;
-
-            // Smooth loose mouse tracking interpolation
-            mouseRef.current.x += (targetMouseRef.current.x - mouseRef.current.x) * 0.04;
-            mouseRef.current.y += (targetMouseRef.current.y - mouseRef.current.y) * 0.04;
-
-            const winH = window.innerHeight;
-            const docH = document.documentElement.scrollHeight;
-            const maxScroll = Math.max(1, docH - winH);
-            const progress = Math.min(Math.max(current / maxScroll, 0), 1);
-
-            // Mutate transforms directly for organic performance without React rendering thrashing
-            if (planetWrapperRef.current) {
-                const now = performance.now();
-                const moonFloatY = Math.sin(now * 0.0006) * 14;
-                const moonFloatX = Math.cos(now * 0.0004) * 12;
-                const moonRot = Math.sin(now * 0.0003) * 4;
-                planetWrapperRef.current.style.transform = `scale(${1 + progress * 0.4}) translate3d(${moonFloatX}px, ${current * 0.12 + moonFloatY}px, 0) rotate(${moonRot}deg)`;
-            }
-
-            if (giantSunRef.current) {
-                const sunOpacity = Math.min(1, Math.max(0, (progress - 0.25) / 0.65));
-                const sunRise = (1 - progress) * 280;
-                const sunScale = 0.3 + Math.pow(progress, 1.25) * 0.85;
-                giantSunRef.current.style.opacity = sunOpacity;
-                giantSunRef.current.style.transform = `translate3d(-50%, ${sunRise}px, 0) scale(${sunScale})`;
-            }
-
-            if (solarDescentGlowRef.current) {
-                solarDescentGlowRef.current.style.opacity = Math.pow(progress, 3);
-            }
-
-            if (heroCardRef.current) {
-                heroCardRef.current.style.transform = `rotateY(${mouseRef.current.x * 0.02}deg) rotateX(${-mouseRef.current.y * 0.02}deg)`;
-            }
-
-            const shouldBeLight = progress > 0.82;
-            if (shouldBeLight !== isLightActive) {
-                isLightActive = shouldBeLight;
-                if (shouldBeLight) {
-                    document.body.classList.add('solar-lit-active');
-                } else {
-                    document.body.classList.remove('solar-lit-active');
-                }
-            }
-
-            animationFrameId = requestAnimationFrame(updatePhysics);
-        };
-
-        const handleScroll = () => {
-            targetScrollRef.current = window.scrollY;
-        };
-
-        const handlePointerMove = (e) => {
-            const clientX = e.clientX ?? (e.touches && e.touches[0] ? e.touches[0].clientX : window.innerWidth / 2);
-            const clientY = e.clientY ?? (e.touches && e.touches[0] ? e.touches[0].clientY : window.innerHeight / 2);
-            targetMouseRef.current = {
-                x: (clientX / window.innerWidth - 0.5) * 25,
-                y: (clientY / window.innerHeight - 0.5) * 25
-            };
-        };
-
-        window.addEventListener('mousemove', handlePointerMove, { passive: true });
-        window.addEventListener('touchmove', handlePointerMove, { passive: true });
-        window.addEventListener('scroll', handleScroll, { passive: true });
-
-        updatePhysics();
-
-        return () => {
-            window.removeEventListener('mousemove', handlePointerMove);
-            window.removeEventListener('touchmove', handlePointerMove);
-            window.removeEventListener('scroll', handleScroll);
-            cancelAnimationFrame(animationFrameId);
-        };
-    }, []);
-
-    /* VIEWPORT-ONLY PARALLAX CANVAS */
+    // UNIFIED HIGH-PERFORMANCE ANIMATION ENGINE (Physics + Starfield Canvas in 1 RAF Loop)
     React.useEffect(() => {
         const canvas = canvasRef.current;
         if (!canvas) return;
-        const ctx = canvas.getContext('2d');
+        const ctx = canvas.getContext('2d', { alpha: true });
         let animationFrameId;
 
         let width = window.innerWidth;
         let height = window.innerHeight;
 
+        const isTouchDevice = ('ontouchstart' in window) || (navigator.maxTouchPoints > 0);
+
         const resizeCanvas = () => {
-            // Cap DPR at 1.5 to prevent iPad Retina from exhausting GPU RAM
-            const dpr = Math.min(window.devicePixelRatio || 1, 1.5);
+            // Keep DPR at 1.25 on iPad/touch to prevent GPU memory pressure, and 1.5 on Mac
+            const dpr = Math.min(window.devicePixelRatio || 1, isTouchDevice ? 1.25 : 1.5);
             width = window.innerWidth;
             height = window.innerHeight;
 
@@ -237,11 +154,11 @@ function App() {
             canvas.style.width = `${width}px`;
             canvas.style.height = `${height}px`;
 
-            ctx.scale(dpr, dpr);
+            ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
         };
 
         resizeCanvas();
-        window.addEventListener('resize', resizeCanvas);
+        window.addEventListener('resize', resizeCanvas, { passive: true });
 
         const createStarLayer = (count, minSize, maxSize) => {
             return Array.from({ length: count }, () => ({
@@ -249,67 +166,140 @@ function App() {
                 y: Math.random() * height,
                 size: Math.random() * (maxSize - minSize) + minSize,
                 pulseSpeed: Math.random() * 0.02 + 0.01,
-                phase: Math.random() * Math.PI * 2,
-                baseAlpha: Math.random() * 0.3 + 0.2
+                phase: Math.random() * Math.PI * 2
             }));
         };
 
-        // Scaled down counts for mobile/tablet efficiency
-        const starsDeep = createStarLayer(100, 1.0, 1.5);
-        const starsMid = createStarLayer(60, 1.5, 2.2);
-        const starsNear = createStarLayer(30, 2.2, 3.2);
+        // Perfectly balanced star field for 60/120fps on iPad & Mac
+        const starsDeep = createStarLayer(70, 0.9, 1.4);
+        const starsMid = createStarLayer(45, 1.4, 2.0);
+        const starsNear = createStarLayer(24, 2.0, 2.8);
 
         let time = 0;
+        let isLightActive = false;
+        let sunVisible = false;
 
-        const renderGalaxy = () => {
+        const loop = () => {
             time += 1;
-            ctx.clearRect(0, 0, width, height);
 
+            // 1. Responsive scroll physics (no sluggish lag on touch or Mac trackpad)
+            const targetScroll = window.scrollY;
+            const scrollDiff = targetScroll - currentScrollRef.current;
+            if (Math.abs(scrollDiff) < 0.25) {
+                currentScrollRef.current = targetScroll;
+            } else {
+                currentScrollRef.current += scrollDiff * 0.12;
+            }
+            const current = currentScrollRef.current;
+
+            // 2. Mouse parallax interpolation
+            const mouseDiffX = targetMouseRef.current.x - mouseRef.current.x;
+            const mouseDiffY = targetMouseRef.current.y - mouseRef.current.y;
+            mouseRef.current.x += mouseDiffX * 0.06;
+            mouseRef.current.y += mouseDiffY * 0.06;
             const mx = mouseRef.current.x;
             const my = mouseRef.current.y;
-            const sy = currentScrollRef.current;
 
-            const isLightActive = document.body.classList.contains('solar-lit-active');
+            const winH = window.innerHeight;
+            const docH = document.documentElement.scrollHeight;
+            const maxScroll = Math.max(1, docH - winH);
+            const progress = Math.min(Math.max(current / maxScroll, 0), 1);
+
+            // 3. VIEWPORT CULLING: Only update hero elements if within or near viewport
+            if (current < winH * 1.3) {
+                if (planetWrapperRef.current) {
+                    const now = performance.now();
+                    const moonFloatY = Math.sin(now * 0.0006) * 12;
+                    const moonFloatX = Math.cos(now * 0.0004) * 10;
+                    const moonRot = Math.sin(now * 0.0003) * 3;
+                    planetWrapperRef.current.style.transform = `scale(${1 + progress * 0.35}) translate3d(${moonFloatX}px, ${current * 0.12 + moonFloatY}px, 0) rotate(${moonRot}deg)`;
+                }
+
+                if (heroCardRef.current && !isTouchDevice) {
+                    heroCardRef.current.style.transform = `rotateY(${mx * 0.018}deg) rotateX(${-my * 0.018}deg)`;
+                }
+            }
+
+            // 4. VIEWPORT CULLING: Only update giant sun when scrolled down
+            if (giantSunRef.current) {
+                if (progress > 0.18) {
+                    if (!sunVisible) {
+                        giantSunRef.current.style.display = 'block';
+                        sunVisible = true;
+                    }
+                    const sunOpacity = Math.min(1, Math.max(0, (progress - 0.22) / 0.65));
+                    const sunRise = (1 - progress) * 260;
+                    const sunScale = 0.35 + Math.pow(progress, 1.2) * 0.8;
+                    giantSunRef.current.style.opacity = sunOpacity.toFixed(3);
+                    giantSunRef.current.style.transform = `translate3d(-50%, ${sunRise.toFixed(1)}px, 0) scale(${sunScale.toFixed(3)})`;
+                } else if (sunVisible) {
+                    giantSunRef.current.style.display = 'none';
+                    giantSunRef.current.style.opacity = '0';
+                    sunVisible = false;
+                }
+            }
+
+            // 5. Ambient solar glow fade
+            if (solarDescentGlowRef.current) {
+                if (progress > 0.1) {
+                    solarDescentGlowRef.current.style.opacity = Math.pow(progress, 2.5).toFixed(3);
+                } else {
+                    solarDescentGlowRef.current.style.opacity = '0';
+                }
+            }
+
+            // 6. Day / Night mode toggle
+            const shouldBeLight = progress > 0.82;
+            if (shouldBeLight !== isLightActive) {
+                isLightActive = shouldBeLight;
+                document.body.classList.toggle('solar-lit-active', shouldBeLight);
+            }
+
+            // 7. BATCHED CANVAS STARFIELD (Single-path draw calls for maximum 60/120fps efficiency)
+            ctx.clearRect(0, 0, width, height);
             const starFillColor = isLightActive ? '#3c2a1e' : '#ffffff';
 
-            const drawLayer = (stars, mxMult, myMult, syMult, maxOpacity) => {
+            const drawBatchLayer = (stars, mxMult, myMult, syMult, baseAlpha) => {
                 ctx.save();
                 ctx.translate(mx * mxMult, my * myMult);
-
-                stars.forEach((star) => {
-                    // Loop stars continuously within the visible viewport height
-                    const yPos = (star.y - sy * syMult) % height;
+                ctx.globalAlpha = baseAlpha;
+                ctx.fillStyle = starFillColor;
+                ctx.beginPath();
+                for (let i = 0; i < stars.length; i++) {
+                    const star = stars[i];
+                    const yPos = (star.y - current * syMult) % height;
                     const wrappedY = yPos < 0 ? yPos + height : yPos;
-
-                    const twinkle = (Math.sin(time * star.pulseSpeed + star.phase) + 1) * 0.5;
-                    const currentAlpha = (star.baseAlpha + twinkle * (1 - star.baseAlpha)) * maxOpacity;
-
-                    // Subtle organic star drift movement
-                    const starDriftX = Math.sin(time * 0.0012 + star.phase) * 6;
-                    const starDriftY = Math.cos(time * 0.0010 + star.phase) * 6;
-
-                    ctx.fillStyle = starFillColor;
-                    ctx.globalAlpha = Math.min(1, Math.max(0, currentAlpha));
-
-                    ctx.beginPath();
-                    ctx.arc(star.x + starDriftX, wrappedY + starDriftY, star.size / 2, 0, Math.PI * 2, false);
-                    ctx.fill();
-                });
-
+                    const r = star.size * (0.8 + 0.35 * Math.sin(time * star.pulseSpeed + star.phase));
+                    ctx.moveTo(star.x + r, wrappedY);
+                    ctx.arc(star.x, wrappedY, r, 0, Math.PI * 2);
+                }
+                ctx.fill();
                 ctx.restore();
             };
 
-            drawLayer(starsDeep, 0.02, 0.02, 0.1, isLightActive ? 0.35 : 0.6);
-            drawLayer(starsMid, 0.05, 0.05, 0.25, isLightActive ? 0.5 : 0.8);
-            drawLayer(starsNear, 0.1, 0.1, 0.45, isLightActive ? 0.65 : 0.95);
+            drawBatchLayer(starsDeep, 0.02, 0.02, 0.08, isLightActive ? 0.35 : 0.55);
+            drawBatchLayer(starsMid, 0.04, 0.04, 0.22, isLightActive ? 0.5 : 0.75);
+            drawBatchLayer(starsNear, 0.08, 0.08, 0.4, isLightActive ? 0.65 : 0.9);
 
-            animationFrameId = requestAnimationFrame(renderGalaxy);
+            animationFrameId = requestAnimationFrame(loop);
         };
 
-        renderGalaxy();
+        const handlePointerMove = (e) => {
+            if (e.touches) return; // Prevent touch scroll hitching on iPad
+            targetMouseRef.current = {
+                x: (e.clientX / window.innerWidth - 0.5) * 22,
+                y: (e.clientY / window.innerHeight - 0.5) * 22
+            };
+        };
+
+        window.addEventListener('mousemove', handlePointerMove, { passive: true });
+
+        // Start unified engine
+        loop();
 
         return () => {
             window.removeEventListener('resize', resizeCanvas);
+            window.removeEventListener('mousemove', handlePointerMove);
             cancelAnimationFrame(animationFrameId);
         };
     }, []);

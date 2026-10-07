@@ -79,13 +79,8 @@ export const WaveformVisualizer = React.memo(function WaveformVisualizer({
       ctx.fill();
 
       // Ribbon A: Cyan High-Glow
-      ctx.globalAlpha = playing ? 0.32 : 0.16;
-      ctx.strokeStyle = '#00F0FF';
-      ctx.lineWidth = 1.8;
-      ctx.shadowColor = '#00F0FF';
-      ctx.shadowBlur = 18;
       ctx.beginPath();
-      for (let x = 0; x <= width; x += 6) {
+      for (let x = 0; x <= width; x += 8) {
         const normX = x / width;
         const wave =
           Math.sin(normX * Math.PI * 4.2 + phase) * (baseAmp * 0.75) +
@@ -94,16 +89,16 @@ export const WaveformVisualizer = React.memo(function WaveformVisualizer({
         if (x === 0) ctx.moveTo(x, y);
         else ctx.lineTo(x, y);
       }
+      ctx.strokeStyle = 'rgba(0, 240, 255, 0.24)';
+      ctx.lineWidth = 4.2;
+      ctx.stroke();
+      ctx.strokeStyle = playing ? 'rgba(0, 240, 255, 0.75)' : 'rgba(0, 240, 255, 0.35)';
+      ctx.lineWidth = 1.6;
       ctx.stroke();
 
       // Ribbon B: Neon Magenta High-Glow
-      ctx.globalAlpha = playing ? 0.28 : 0.14;
-      ctx.strokeStyle = '#FF007F';
-      ctx.lineWidth = 1.6;
-      ctx.shadowColor = '#FF007F';
-      ctx.shadowBlur = 16;
       ctx.beginPath();
-      for (let x = 0; x <= width; x += 6) {
+      for (let x = 0; x <= width; x += 8) {
         const normX = x / width;
         const wave =
           Math.cos(normX * Math.PI * 5.2 - phase * 1.4) * (baseAmp * 0.65) +
@@ -112,25 +107,29 @@ export const WaveformVisualizer = React.memo(function WaveformVisualizer({
         if (x === 0) ctx.moveTo(x, y);
         else ctx.lineTo(x, y);
       }
+      ctx.strokeStyle = 'rgba(255, 0, 127, 0.20)';
+      ctx.lineWidth = 3.8;
+      ctx.stroke();
+      ctx.strokeStyle = playing ? 'rgba(255, 0, 127, 0.70)' : 'rgba(255, 0, 127, 0.30)';
+      ctx.lineWidth = 1.4;
       ctx.stroke();
 
       // Ribbon C: Electric Cyber Violet / Purple (NO YELLOW)
-      ctx.globalAlpha = playing ? 0.24 : 0.10;
-      ctx.strokeStyle = '#9D00FF';
-      ctx.lineWidth = 1.4;
-      ctx.shadowColor = '#9D00FF';
-      ctx.shadowBlur = 15;
       ctx.beginPath();
-      for (let x = 0; x <= width; x += 6) {
+      for (let x = 0; x <= width; x += 8) {
         const normX = x / width;
         const wave = Math.sin(normX * Math.PI * 6.5 + phase * 1.6) * (baseAmp * 0.45);
         const y = horizonY - 10 + wave;
         if (x === 0) ctx.moveTo(x, y);
         else ctx.lineTo(x, y);
       }
+      ctx.strokeStyle = 'rgba(157, 0, 255, 0.18)';
+      ctx.lineWidth = 3.2;
+      ctx.stroke();
+      ctx.strokeStyle = playing ? 'rgba(157, 0, 255, 0.60)' : 'rgba(157, 0, 255, 0.25)';
+      ctx.lineWidth = 1.2;
       ctx.stroke();
 
-      ctx.shadowBlur = 0;
       ctx.restore();
 
       // 3. Mountain silhouette to cleanly anchor waves behind terrain

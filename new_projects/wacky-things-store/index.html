@@ -1416,127 +1416,46 @@
         #newsletter-section {
             position: relative !important;
             overflow: hidden !important;
-            background-color: #0f172a !important;
+            background-color: #150324 !important;
+            background: radial-gradient(circle at 50% 30%, #280a48 0%, #150324 65%, #0c0217 100%) !important;
         }
 
-        /* 1. Main 4-Color Gradient Layer: Sweeps Left-and-Right Accross Section */
+        /* 1. Main 4-Color Gradient Layer: Hidden to ensure dark purple background */
         .newsletter-gradient-layer {
+            display: none !important;
+        }
+
+        /* 2. Secondary Radiant Glow: Soft Ambient Cosmic Purple Glow */
+        .newsletter-glow-layer {
             position: absolute !important;
-            top: 0 !important;
-            left: 0 !important;
-            width: 250% !important;
-            height: 100% !important;
-            background: linear-gradient(90deg,
-                    #0D9488 0%,
-                    #7C3AED 18%,
-                    #F59E0B 36%,
-                    #D946EF 54%,
-                    #0D9488 72%,
-                    #7C3AED 90%,
-                    #F59E0B 100%) !important;
-            animation: newsletterMoveLeftRight 6s ease-in-out infinite alternate !important;
-            will-change: transform !important;
+            inset: -30% !important;
+            background: radial-gradient(circle at 50% 40%, rgba(124, 58, 237, 0.22), transparent 60%) !important;
             pointer-events: none !important;
             z-index: 1 !important;
         }
 
-        @keyframes newsletterMoveLeftRight {
-            0% {
-                transform: translate3d(0, 0, 0);
-            }
-
-            100% {
-                transform: translate3d(-55%, 0, 0);
-            }
-        }
-
-        /* 2. Secondary Radiant Glow: Sweeps Horizontally to amplify left-right motion */
-        .newsletter-glow-layer {
-            position: absolute !important;
-            inset: -30% !important;
-            background: radial-gradient(circle at 30% 50%, rgba(13, 148, 136, 0.6), transparent 50%),
-                radial-gradient(circle at 60% 50%, rgba(217, 70, 239, 0.6), transparent 50%),
-                radial-gradient(circle at 85% 50%, rgba(245, 158, 11, 0.55), transparent 50%) !important;
-            animation: newsletterGlowLeftRight 8s ease-in-out infinite alternate !important;
-            pointer-events: none !important;
-            mix-blend-mode: screen !important;
-            z-index: 2 !important;
-            will-change: transform !important;
-        }
-
-        @keyframes newsletterGlowLeftRight {
-            0% {
-                transform: translate3d(-18%, 0, 0);
-            }
-
-            100% {
-                transform: translate3d(18%, 0, 0);
-            }
-        }
-
         /* ========================================================
-           FUNNY ACADEMY REVERSE GRADIENT BACKGROUND
-           (Exact reverse gradient of the newsletter/news section)
+           FUNNY ACADEMY COSMIC DARK PURPLE BACKGROUND
            ======================================================== */
         #panel-academy,
         #screen-academy,
         .academy-reverse-theme {
             position: relative !important;
             overflow: hidden !important;
-            background-color: #0f172a !important;
+            background-color: #150324 !important;
+            background: radial-gradient(circle at 50% 20%, #280a48 0%, #150324 65%, #0c0217 100%) !important;
         }
 
         .academy-gradient-layer {
-            position: absolute !important;
-            top: 0 !important;
-            left: 0 !important;
-            width: 250% !important;
-            height: 100% !important;
-            background: linear-gradient(270deg,
-                    #0D9488 0%,
-                    #7C3AED 18%,
-                    #F59E0B 36%,
-                    #D946EF 54%,
-                    #0D9488 72%,
-                    #7C3AED 90%,
-                    #F59E0B 100%) !important;
-            animation: academyMoveReverse 6s ease-in-out infinite alternate !important;
-            will-change: transform !important;
-            pointer-events: none !important;
-            z-index: 1 !important;
-        }
-
-        @keyframes academyMoveReverse {
-            0% {
-                transform: translate3d(-55%, 0, 0);
-            }
-
-            100% {
-                transform: translate3d(0, 0, 0);
-            }
+            display: none !important;
         }
 
         .academy-glow-layer {
             position: absolute !important;
             inset: -30% !important;
-            background: radial-gradient(circle at 85% 50%, rgba(245, 158, 11, 0.55), transparent 50%),
-                radial-gradient(circle at 60% 50%, rgba(217, 70, 239, 0.6), transparent 50%),
-                radial-gradient(circle at 30% 50%, rgba(13, 148, 136, 0.6), transparent 50%) !important;
-            animation: academyGlowReverse 8s ease-in-out infinite alternate !important;
+            background: radial-gradient(circle at 50% 40%, rgba(124, 58, 237, 0.22), transparent 60%) !important;
             pointer-events: none !important;
-            mix-blend-mode: screen !important;
-            z-index: 2 !important;
-            will-change: transform !important;
-        }
-
-        @keyframes academyGlowReverse {
-            0% {
-                transform: translate3d(18%, 0, 0);
-            }
-
-            100% {
-                transform: translate3d(-18%, 0, 0);
-            }
+            z-index: 1 !important;
         }
 
         #newsletter-card {
@@ -1661,7 +1580,7 @@
             display: none;
             flex-direction: column;
             min-height: 100vh;
-            background: #1e2430;
+            background: #150324 !important;
             color: #f1f5f9;
         }
 
@@ -1937,21 +1856,21 @@
 
         #screen-academy #learning-main-view,
         body.academy-reverse-theme #learning-main-view {
-            background-color: #1e2430 !important;
+            background-color: transparent !important;
             color: #f1f5f9 !important;
         }
 
         #screen-academy .course-cat-btn,
         #panel-academy .course-cat-btn:not(.bg-\[\#F59E0B\]) {
-            background-color: #273142 !important;
-            color: #e2e8f0 !important;
-            border: 1px solid #475569 !important;
+            background-color: #240b3b !important;
+            color: #e9d5ff !important;
+            border: 1px solid #4c1d95 !important;
         }
 
         #screen-academy .course-cat-btn,
         #panel-academy .course-cat-btn:not(.bg-\[\#F59E0B\]):hover {
-            background-color: #334155 !important;
-            border-color: #64748b !important;
+            background-color: #3b1664 !important;
+            border-color: #6d28d9 !important;
             color: #FFFFFF !important;
         }
 
@@ -2097,8 +2016,8 @@
         }
 
         body.academy-reverse-theme {
-            background: #1e2430 !important;
-            background-color: #1e2430 !important;
+            background: #150324 !important;
+            background-color: #150324 !important;
         }
 
         body.academy-reverse-theme #education-store-badge,
@@ -2596,8 +2515,8 @@
 
                     <!-- 3. Yellow Academy Dropdown Panel -->
                     <section id="panel-academy"
-                        class="nav-push-panel hidden w-full academy-reverse-theme relative overflow-hidden text-white border-b-2 border-amber-500/30 shadow-xl"
-                        style="background-color: #0f172a !important;">
+                        class="nav-push-panel hidden w-full academy-reverse-theme relative overflow-hidden text-white border-b-2 border-purple-900/50 shadow-xl"
+                        style="background-color: #150324 !important;">
                         <!-- Reverse Animated Gradient Layers matching News Section except reversed 
             <div class="academy-gradient-layer" aria-hidden="true"></div>
             <div class="academy-glow-layer" aria-hidden="true"></div>-->
@@ -3867,7 +3786,7 @@
 
                 <!-- NEWSLETTER SIGNUP -->
                 <section id="newsletter-section"
-                    class="py-20 border-t-2 border-b-2 border-pink-900/40 overflow-hidden relative"
+                    class="py-20 border-t-2 border-b-2 border-purple-900/50 overflow-hidden relative"
                     data-blueprint-file="WackyStore.WebUI/Views/Shared/_NewsletterSignup.cshtml"
                     data-blueprint-role="Newsletter Signup Partial View" data-blueprint-layer="WebUI / View Component"
                     data-blueprint-dom="Semantic &lt;section&gt; with 4-color gradient background matching the upper-right navigation buttons and an opaque white &amp; black card."

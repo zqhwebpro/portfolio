@@ -326,11 +326,21 @@ export function SynthwaveDrive() {
 
   // Driving & simulation state
   const [speedMph, setSpeedMph] = useState(0);
-  const [driveDistance, setDriveDistance] = useState(0);
   const [popups, setPopups] = useState([]);
   const [isAudioPlaying, setIsAudioPlaying] = useState(true);
   const [autoDrive, setAutoDrive] = useState(false);
-  const [playerX, setPlayerX] = useState(0);
+
+  // Card DOM refs for direct hardware-accelerated transforms without React re-renders
+  const cardMapRef = useRef(new Map());
+  const closestCardIdRef = useRef(null);
+
+  const registerCard = useCallback((id, elements) => {
+    if (elements) {
+      cardMapRef.current.set(id, elements);
+    } else {
+      cardMapRef.current.delete(id);
+    }
+  }, []);
 
   // API Quota & Fallback indicators
   const [isCuratedFallback, setIsCuratedFallback] = useState(false);
@@ -371,7 +381,6 @@ export function SynthwaveDrive() {
 
   // Performance throttling refs to prevent redundant React renders
   const lastSpeedMphRef = useRef(-1);
-  const lastPlayerXRef = useRef(0);
   const frameCountRef = useRef(0);
 
   // Refill live random pool
@@ -615,11 +624,63 @@ export function SynthwaveDrive() {
         setSpeedMph(roundedSpeed);
       }
 
-      setDriveDistance(currentDist);
+      // Direct DOM update of roadside cards without React reconciliation
+      let closestAheadId = null;
+      let maxAheadProg = -1;
 
-      if (Math.abs(playerXRef.current - lastPlayerXRef.current) > 0.008) {
-        lastPlayerXRef.current = playerXRef.current;
-        setPlayerX(playerXRef.current);
+      cardMapRef.current.forEach((entry, popupId) => {
+        const { rootEl, cardBoxEl, badgeTargetEl, badgeDefaultEl, popup } = entry;
+        if (!rootEl) return;
+
+        const rawProgress = (currentDist - popup.startDist) / 36;
+        if (rawProgress > 1.02 || rawProgress < 0) {
+          if (rootEl.style.display !== 'none') rootEl.style.display = 'none';
+          return;
+        }
+
+        if (rootEl.style.display !== 'flex') rootEl.style.display = 'flex';
+
+        const p = Math.max(0, Math.min(1, rawProgress));
+        const progressY = Math.pow(p, 2.5);
+
+        const topPct = 52 + progressY * 45;
+        const scale = Math.max(0.01, progressY * 3.0);
+        const opacity = p > 0.84 ? Math.max(0, 1 - (p - 0.84) * 6.0) : 1;
+
+        const isLeft = popup.number % 2 === 0;
+        const lineIndex = isLeft ? -2 : 2;
+        const startX_pct = 50 - playerXRef.current * 4 + (lineIndex / 26) * 5;
+        const endX_pct   = 50 - playerXRef.current * 40 + lineIndex * 8;
+        const currentX_pct = startX_pct + (endX_pct - startX_pct) * progressY;
+
+        rootEl.style.top = `${topPct}%`;
+        rootEl.style.left = `${currentX_pct}%`;
+        rootEl.style.transform = `translate3d(-50%, -100%, 0) scale(${scale})`;
+        rootEl.style.opacity = opacity;
+        rootEl.style.zIndex = Math.round(45 + p * 20);
+
+        if (rawProgress >= 0 && rawProgress <= 1.02 && rawProgress > maxAheadProg) {
+          maxAheadProg = rawProgress;
+          closestAheadId = popupId;
+        }
+      });
+
+      if (closestAheadId !== closestCardIdRef.current) {
+        closestCardIdRef.current = closestAheadId;
+        cardMapRef.current.forEach((entry, popupId) => {
+          const isClosest = popupId === closestAheadId;
+          if (entry.badgeTargetEl) {
+            entry.badgeTargetEl.style.display = isClosest ? 'inline-flex' : 'none';
+          }
+          if (entry.badgeDefaultEl) {
+            entry.badgeDefaultEl.style.display = isClosest ? 'none' : 'inline';
+          }
+          if (entry.cardBoxEl) {
+            const isLeft = entry.popup.number % 2 === 0;
+            const primaryColor = isLeft ? '#00F0FF' : '#FF007F';
+            entry.cardBoxEl.style.borderColor = isClosest ? '#00F0FF' : primaryColor;
+          }
+        });
       }
 
       // Periodic pruning of cards that have passed past the rearview mirror horizon (> 2.6)
@@ -708,22 +769,6 @@ export function SynthwaveDrive() {
   const handleAudioStateChange = useCallback((active) => {
     setIsAudioPlaying(active);
   }, []);
-
-  // Determine closest article ahead of the car for [F] indicator
-  const closestPopup = useMemo(() => {
-    return popups
-      .filter((p) => {
-        const prog = (driveDistance - p.startDist) / 36;
-        return prog >= 0 && prog <= 1.02;
-      })
-      .sort((a, b) => {
-        const progA = (driveDistance - a.startDist) / 36;
-        const progB = (driveDistance - b.startDist) / 36;
-        return progB - progA;
-      })[0];
-  }, [popups, driveDistance]);
-
-  const closestPopupId = closestPopup?.id;
 
   return (
     <div
@@ -902,9 +947,9 @@ export function SynthwaveDrive() {
       {/* Top Center Rearview Mirror */}
       <RearviewMirror
         speedMph={speedMph}
-        popups={popups}
-        driveDistance={driveDistance}
-        playerX={playerX}
+        popupsRef={popupsRef}
+        driveDistanceRef={driveDistanceRef}
+        playerXRef={playerXRef}
       />
 
       {/* Live Waveform Scope Along Horizon */}
@@ -925,9 +970,7 @@ export function SynthwaveDrive() {
           alignItems: 'center',
           flexWrap: 'wrap',
           gap: '8px',
-          background: 'rgba(10, 2, 22, 0.88)',
-          backdropFilter: 'blur(12px)',
-          WebkitBackdropFilter: 'blur(12px)',
+          background: 'rgba(10, 2, 22, 0.92)',
           border: '1px solid rgba(0, 240, 255, 0.35)',
           borderRadius: '8px',
           padding: '0.45rem 0.95rem',
@@ -982,7 +1025,7 @@ export function SynthwaveDrive() {
           top: '1.5rem',
           right: '1.5rem',
           zIndex: 40,
-          background: autoDrive ? 'rgba(0, 240, 255, 0.2)' : 'rgba(10, 2, 20, 0.75)',
+          background: autoDrive ? 'rgba(0, 240, 255, 0.25)' : 'rgba(10, 2, 20, 0.90)',
           border: `1px solid ${autoDrive ? '#00F0FF' : 'rgba(0, 240, 255, 0.3)'}`,
           color: autoDrive ? '#00F0FF' : 'rgba(255, 255, 255, 0.7)',
           padding: '0.75rem 1.25rem',
@@ -992,7 +1035,6 @@ export function SynthwaveDrive() {
           letterSpacing: '0.1em',
           textTransform: 'uppercase',
           cursor: 'pointer',
-          backdropFilter: 'blur(12px)',
           boxShadow: autoDrive ? '0 0 15px rgba(0, 240, 255, 0.4)' : 'none',
           transition: 'all 0.3s ease',
         }}
@@ -1005,9 +1047,7 @@ export function SynthwaveDrive() {
         <WikiCard
           key={popup.id}
           popup={popup}
-          driveDistance={driveDistance}
-          playerX={playerX}
-          isClosest={popup.id === closestPopupId}
+          registerCard={registerCard}
         />
       ))}
     </div>
@@ -1155,112 +1195,147 @@ function drawGridFloor(ctx, width, height, horizonY, sunCenterX, offset, playerX
   ctx.closePath();
   ctx.fill();
 
-  // 3. Horizon anchor neon line
-  ctx.lineWidth = 2.0;
-  ctx.strokeStyle = 'rgba(0, 240, 255, 0.75)';
-  ctx.shadowColor = '#00F0FF';
-  ctx.shadowBlur = 6;
+  // 3. Horizon anchor neon line (dual stroke, zero shadowBlur)
   ctx.beginPath();
   ctx.moveTo(0, horizonY);
   ctx.lineTo(width, horizonY);
+  ctx.strokeStyle = 'rgba(0, 240, 255, 0.25)';
+  ctx.lineWidth = 4.5;
+  ctx.stroke();
+  ctx.strokeStyle = 'rgba(0, 240, 255, 0.85)';
+  ctx.lineWidth = 1.8;
   ctx.stroke();
 
-  // 4. Horizontal perspective grid lines moving forward/backward
+  // 4. Horizontal perspective grid lines (batched into single path)
   const numH = 18;
+  ctx.beginPath();
   for (let i = 0; i < numH; i++) {
     const progress = (((i + offset / 40) % numH) + numH) % numH / numH;
     const py = horizonY + Math.pow(progress, 2.5) * (height - horizonY);
-
-    ctx.strokeStyle = `rgba(0, 240, 255, ${0.20 + progress * 0.70})`;
-    ctx.shadowColor = '#00F0FF';
-    ctx.shadowBlur = progress * 6;
-    ctx.lineWidth = Math.max(0.7, progress * 2.0);
-    ctx.beginPath();
     ctx.moveTo(0, py);
     ctx.lineTo(width, py);
-    ctx.stroke();
   }
+  ctx.strokeStyle = 'rgba(0, 240, 255, 0.42)';
+  ctx.lineWidth = 1.2;
+  ctx.stroke();
 
-  // 5. Vertical perspective lines fanning outward, shifting laterally with steering
-  // NO center yellow line! Skip i === 0. Left lanes = Cyan, Right lanes = Magenta, transparent and glowy.
-  for (let i = -fanning; i <= fanning; i++) {
-    if (i === 0) continue; // Yellow center line completely removed!
+  // Highlight closest 4 foreground grid lines
+  ctx.beginPath();
+  for (let i = 0; i < numH; i++) {
+    const progress = (((i + offset / 40) % numH) + numH) % numH / numH;
+    if (progress > 0.65) {
+      const py = horizonY + Math.pow(progress, 2.5) * (height - horizonY);
+      ctx.moveTo(0, py);
+      ctx.lineTo(width, py);
+    }
+  }
+  ctx.strokeStyle = 'rgba(0, 240, 255, 0.70)';
+  ctx.lineWidth = 2.0;
+  ctx.stroke();
 
+  // 5. Vertical perspective lines (batched paths, NO center yellow line)
+  // Left lanes: glowing transparent Cyan
+  ctx.beginPath();
+  for (let i = -fanning; i < 0; i++) {
     const startX = cx - playerX * (width * 0.04) + (i / fanning) * (width * 0.05);
     const endX   = cx - playerX * (width * 0.40) + i * (width * 0.08);
-
-    const isInnerLane = Math.abs(i) <= 5;
-    if (i < 0) {
-      // Left side: glowing transparent Cyan
-      ctx.strokeStyle = isInnerLane ? 'rgba(0, 240, 255, 0.42)' : 'rgba(0, 240, 255, 0.20)';
-      ctx.shadowColor = '#00F0FF';
-      ctx.shadowBlur = isInnerLane ? 8 : 3;
-      ctx.lineWidth = isInnerLane ? 1.2 : 0.85;
-    } else {
-      // Right side: glowing transparent Magenta
-      ctx.strokeStyle = isInnerLane ? 'rgba(255, 0, 127, 0.42)' : 'rgba(255, 0, 127, 0.20)';
-      ctx.shadowColor = '#FF007F';
-      ctx.shadowBlur = isInnerLane ? 8 : 3;
-      ctx.lineWidth = isInnerLane ? 1.2 : 0.85;
-    }
-
-    ctx.beginPath();
     ctx.moveTo(startX, horizonY);
     ctx.lineTo(endX, height);
-    ctx.stroke();
   }
+  ctx.strokeStyle = 'rgba(0, 240, 255, 0.32)';
+  ctx.lineWidth = 0.9;
+  ctx.stroke();
 
-  // 6. Highway Shoulder Laser Barrier Rails (lineIndex = -5 and +5)
-  // Transparent and glowy (user request: "the cyan and magent line around the yellow line should be more transparent and glowy")
-  ctx.lineWidth = 2.4;
+  // Left inner expressway lanes highlight (-5 to -1)
+  ctx.beginPath();
+  for (let i = -5; i < 0; i++) {
+    const startX = cx - playerX * (width * 0.04) + (i / fanning) * (width * 0.05);
+    const endX   = cx - playerX * (width * 0.40) + i * (width * 0.08);
+    ctx.moveTo(startX, horizonY);
+    ctx.lineTo(endX, height);
+  }
+  ctx.strokeStyle = 'rgba(0, 240, 255, 0.55)';
+  ctx.lineWidth = 1.3;
+  ctx.stroke();
 
+  // Right lanes: glowing transparent Magenta
+  ctx.beginPath();
+  for (let i = 1; i <= fanning; i++) {
+    const startX = cx - playerX * (width * 0.04) + (i / fanning) * (width * 0.05);
+    const endX   = cx - playerX * (width * 0.40) + i * (width * 0.08);
+    ctx.moveTo(startX, horizonY);
+    ctx.lineTo(endX, height);
+  }
+  ctx.strokeStyle = 'rgba(255, 0, 127, 0.32)';
+  ctx.lineWidth = 0.9;
+  ctx.stroke();
+
+  // Right inner expressway lanes highlight (1 to 5)
+  ctx.beginPath();
+  for (let i = 1; i <= 5; i++) {
+    const startX = cx - playerX * (width * 0.04) + (i / fanning) * (width * 0.05);
+    const endX   = cx - playerX * (width * 0.40) + i * (width * 0.08);
+    ctx.moveTo(startX, horizonY);
+    ctx.lineTo(endX, height);
+  }
+  ctx.strokeStyle = 'rgba(255, 0, 127, 0.55)';
+  ctx.lineWidth = 1.3;
+  ctx.stroke();
+
+  // 6. Highway Shoulder Laser Barrier Rails (dual stroke, zero shadowBlur)
   // Left shoulder laser rail (Cyan)
-  ctx.strokeStyle = 'rgba(0, 240, 255, 0.50)';
-  ctx.shadowColor = '#00F0FF';
-  ctx.shadowBlur = 18;
   ctx.beginPath();
   ctx.moveTo(startLeft, horizonY);
   ctx.lineTo(endLeft, height);
+  ctx.strokeStyle = 'rgba(0, 240, 255, 0.22)';
+  ctx.lineWidth = 4.8;
+  ctx.stroke();
+  ctx.strokeStyle = 'rgba(0, 240, 255, 0.85)';
+  ctx.lineWidth = 1.8;
   ctx.stroke();
 
   // Right shoulder laser rail (Hot Magenta)
-  ctx.strokeStyle = 'rgba(255, 0, 127, 0.50)';
-  ctx.shadowColor = '#FF007F';
-  ctx.shadowBlur = 18;
   ctx.beginPath();
   ctx.moveTo(startRight, horizonY);
   ctx.lineTo(endRight, height);
+  ctx.strokeStyle = 'rgba(255, 0, 127, 0.22)';
+  ctx.lineWidth = 4.8;
+  ctx.stroke();
+  ctx.strokeStyle = 'rgba(255, 0, 127, 0.85)';
+  ctx.lineWidth = 1.8;
   ctx.stroke();
 
-  // Shoulder Light Beacons along the highway edges
+  // Shoulder Light Beacons along highway edges (batched)
   const numBeacons = 7;
+  // Left beacons
+  ctx.beginPath();
   for (let b = 1; b <= numBeacons; b++) {
     const p = Math.pow(b / numBeacons, 2.5);
     const by = horizonY + p * (height - horizonY);
     const bxl = startLeft + (endLeft - startLeft) * p;
+    const beaconSize = Math.max(1.5, p * 4.5);
+    ctx.moveTo(bxl + beaconSize, by);
+    ctx.arc(bxl, by, beaconSize, 0, Math.PI * 2);
+  }
+  ctx.fillStyle = 'rgba(0, 240, 255, 0.85)';
+  ctx.fill();
+
+  // Right beacons
+  ctx.beginPath();
+  for (let b = 1; b <= numBeacons; b++) {
+    const p = Math.pow(b / numBeacons, 2.5);
+    const by = horizonY + p * (height - horizonY);
     const bxr = startRight + (endRight - startRight) * p;
     const beaconSize = Math.max(1.5, p * 4.5);
-
-    // Left beacon
-    ctx.fillStyle = 'rgba(0, 240, 255, 0.85)';
-    ctx.shadowColor = '#00F0FF';
-    ctx.shadowBlur = 8;
-    ctx.beginPath();
-    ctx.arc(bxl, by, beaconSize, 0, Math.PI * 2);
-    ctx.fill();
-
-    // Right beacon
-    ctx.fillStyle = 'rgba(255, 0, 127, 0.85)';
-    ctx.shadowColor = '#FF007F';
-    ctx.shadowBlur = 8;
-    ctx.beginPath();
+    ctx.moveTo(bxr + beaconSize, by);
     ctx.arc(bxr, by, beaconSize, 0, Math.PI * 2);
-    ctx.fill();
   }
+  ctx.fillStyle = 'rgba(255, 0, 127, 0.85)';
+  ctx.fill();
 
   // 7. Yellow center highway divider line: COMPLETELY REMOVED!
 
-  // 8. Digital Data Packets / Fiber Light Photons racing along highway lanes (no yellow)
+  // 8. Digital Data Packets / Fiber Light Photons (zero shadowBlur)
   const nowSec = Date.now() * 0.001;
   for (const photon of PHOTON_SEEDS) {
     const t = (nowSec * photon.speedMult + photon.phase) % 1;
@@ -1277,8 +1352,6 @@ function drawGridFloor(ctx, width, height, horizonY, sunCenterX, offset, playerX
     const prevPy = horizonY + pPrev * (height - horizonY);
 
     ctx.strokeStyle = photon.glow;
-    ctx.shadowColor = photon.color;
-    ctx.shadowBlur = 10;
     ctx.lineWidth = Math.max(1.0, p * 3.5);
     ctx.beginPath();
     ctx.moveTo(prevPx, prevPy);
@@ -1298,8 +1371,6 @@ function drawGridFloor(ctx, width, height, horizonY, sunCenterX, offset, playerX
     ctx.save();
     ctx.globalAlpha = warpIntensity * 0.30;
     ctx.strokeStyle = '#00F0FF';
-    ctx.shadowColor = '#00F0FF';
-    ctx.shadowBlur = 8;
     ctx.lineWidth = 1.5;
 
     const numWarps = 8;
@@ -1361,21 +1432,20 @@ function updateAndDrawBikes(ctx, width, height, horizonY, sunCenterX, bikes, pla
     bike.trail.push({ x, y });
     if (bike.trail.length > 20) bike.trail.shift();
 
-    // Draw speed trail
-    ctx.save();
-    ctx.strokeStyle = bike.exhaust;
-    ctx.shadowColor = bike.color;
-    ctx.shadowBlur = 6;
-    for (let i = 1; i < bike.trail.length; i++) {
-      const ratio = i / bike.trail.length;
-      ctx.globalAlpha = ratio * ratio * 0.85 * fadeIn;
-      ctx.lineWidth = Math.max(0.4, ratio * progressY * 3.8);
+    // Draw speed trail as a single continuous polyline (zero shadowBlur)
+    if (bike.trail.length > 1) {
+      ctx.save();
+      ctx.strokeStyle = bike.exhaust;
+      ctx.globalAlpha = 0.70 * fadeIn;
+      ctx.lineWidth = Math.max(0.8, progressY * 3.4);
       ctx.beginPath();
-      ctx.moveTo(bike.trail[i - 1].x, bike.trail[i - 1].y);
-      ctx.lineTo(bike.trail[i].x,     bike.trail[i].y);
+      ctx.moveTo(bike.trail[0].x, bike.trail[0].y);
+      for (let i = 1; i < bike.trail.length; i++) {
+        ctx.lineTo(bike.trail[i].x, bike.trail[i].y);
+      }
       ctx.stroke();
+      ctx.restore();
     }
-    ctx.restore();
 
     // Draw bike body
     if (scale > 0.03 && fadeIn > 0.08) {
@@ -1394,9 +1464,6 @@ function drawFZeroBike(ctx, x, y, scale, color, exhaustColor, angle) {
   ctx.rotate(angle);
   ctx.scale(scale, scale);
 
-  ctx.shadowColor = color;
-  ctx.shadowBlur  = 16;
-
   // Main hull
   ctx.fillStyle = color;
   ctx.beginPath();
@@ -1408,16 +1475,13 @@ function drawFZeroBike(ctx, x, y, scale, color, exhaustColor, angle) {
   // Hull edge highlight
   ctx.strokeStyle = 'rgba(255,255,255,0.28)';
   ctx.lineWidth   = 0.7;
-  ctx.shadowBlur  = 0;
   ctx.beginPath();
   ctx.moveTo(20, -2);
   ctx.bezierCurveTo(12, -5.5, -6, -5.5, -16, -1);
   ctx.stroke();
 
   // Cockpit canopy
-  ctx.shadowColor = 'rgba(160,240,255,0.7)';
-  ctx.shadowBlur  = 6;
-  ctx.fillStyle   = 'rgba(155, 235, 255, 0.90)';
+  ctx.fillStyle = 'rgba(155, 235, 255, 0.90)';
   ctx.beginPath();
   ctx.ellipse(6, 0, 7.5, 3.8, 0, 0, Math.PI * 2);
   ctx.fill();
@@ -1429,9 +1493,7 @@ function drawFZeroBike(ctx, x, y, scale, color, exhaustColor, angle) {
   ctx.fill();
 
   // Left stabiliser wing
-  ctx.shadowColor = color;
-  ctx.shadowBlur  = 8;
-  ctx.fillStyle   = color;
+  ctx.fillStyle = color;
   ctx.beginPath();
   ctx.moveTo( 2,  -5);
   ctx.lineTo(-10, -17);
@@ -1452,21 +1514,16 @@ function drawFZeroBike(ctx, x, y, scale, color, exhaustColor, angle) {
   // Wing accent striping
   ctx.strokeStyle = 'rgba(255,255,255,0.35)';
   ctx.lineWidth   = 0.9;
-  ctx.shadowBlur  = 0;
   ctx.beginPath(); ctx.moveTo(0, -5.5); ctx.lineTo(-13, -15); ctx.stroke();
   ctx.beginPath(); ctx.moveTo(0,  5.5); ctx.lineTo(-13,  15); ctx.stroke();
 
   // Nose bumper
-  ctx.shadowColor = 'rgba(255,255,255,0.9)';
-  ctx.shadowBlur  = 8;
-  ctx.fillStyle   = 'rgba(255,255,255,0.95)';
+  ctx.fillStyle = 'rgba(255,255,255,0.95)';
   ctx.beginPath();
   ctx.arc(22, 0, 3.0, 0, Math.PI * 2);
   ctx.fill();
 
   // Twin engine exhausts
-  ctx.shadowColor = exhaustColor;
-  ctx.shadowBlur  = 16;
   ctx.fillStyle = exhaustColor;
   ctx.beginPath();
   ctx.ellipse(-18, -2.6, 4.0, 2.1, 0.1, 0, Math.PI * 2);
@@ -1475,7 +1532,6 @@ function drawFZeroBike(ctx, x, y, scale, color, exhaustColor, angle) {
   ctx.ellipse(-18,  2.6, 4.0, 2.1, -0.1, 0, Math.PI * 2);
   ctx.fill();
 
-  ctx.shadowBlur = 0;
   ctx.restore();
 }
 
@@ -1485,44 +1541,37 @@ function drawFZeroBike(ctx, x, y, scale, color, exhaustColor, angle) {
 
 const WikiCard = React.memo(function WikiCard({
   popup,
-  driveDistance,
-  playerX = 0,
-  isClosest = false,
+  registerCard,
 }) {
-  const rawProgress = (driveDistance - popup.startDist) / 36;
+  const rootRef = useRef(null);
+  const cardBoxRef = useRef(null);
+  const badgeTargetRef = useRef(null);
+  const badgeDefaultRef = useRef(null);
 
-  // Once it passes the camera (rawProgress > 1.02), it is GONE into the rearview mirror!
-  if (rawProgress > 1.02) return null;
+  useEffect(() => {
+    if (rootRef.current && registerCard) {
+      registerCard(popup.id, {
+        rootEl: rootRef.current,
+        cardBoxEl: cardBoxRef.current,
+        badgeTargetEl: badgeTargetRef.current,
+        badgeDefaultEl: badgeDefaultRef.current,
+        popup,
+      });
+    }
+    return () => {
+      if (registerCard) registerCard(popup.id, null);
+    };
+  }, [popup, registerCard]);
 
   const title = popup.title || CURATED_WIKI_FALLBACKS[0].title;
   const extract = popup.extract || CURATED_WIKI_FALLBACKS[0].extract;
   const image = popup.image || CURATED_WIKI_FALLBACKS[0].image;
   const url = popup.url || CURATED_WIKI_FALLBACKS[0].url;
 
-  const p = Math.max(0, Math.min(1, rawProgress));
-  const progressY = Math.pow(p, 2.5);
-
-  const topPct = 52 + progressY * 45;
-  const scale = Math.max(0.01, progressY * 3.0);
-  const opacity = p > 0.84 ? Math.max(0, 1 - (p - 0.84) * 6.0) : 1;
-
   const isLeft = popup.number % 2 === 0;
-  const lineIndex = isLeft ? -2 : 2;
-  const startX_pct = 50 - playerX * 4 + (lineIndex / 26) * 5;
-  const endX_pct   = 50 - playerX * 40 + lineIndex * 8;
-  const currentX_pct = startX_pct + (endX_pct - startX_pct) * progressY;
-
   const primaryColor = isLeft ? '#00F0FF' : '#FF007F';
   const waveGlow = isLeft ? 'rgba(0, 240, 255, 0.6)' : 'rgba(255, 0, 127, 0.6)';
-  const secondaryGlow = isLeft ? 'rgba(255, 0, 127, 0.35)' : 'rgba(0, 240, 255, 0.35)';
   const innerGlow = isLeft ? 'rgba(0, 240, 255, 0.18)' : 'rgba(255, 0, 127, 0.18)';
-
-  const boxShadowBase = isClosest
-    ? `0 14px 40px rgba(0,0,0,0.85), 0 0 35px ${waveGlow}, 0 0 60px ${secondaryGlow}, 0 0 16px #00F0FF, inset 0 0 20px ${innerGlow}`
-    : `0 12px 35px rgba(0,0,0,0.8), 0 0 30px ${waveGlow}, 0 0 55px ${secondaryGlow}, inset 0 0 20px ${innerGlow}`;
-  const boxShadowHover = `0 16px 45px rgba(0,0,0,0.9), 0 0 45px ${waveGlow}, 0 0 75px ${secondaryGlow}, inset 0 0 25px ${innerGlow}`;
-
-  const isClickable = opacity > 0.3 && url;
 
   const handleClick = () => {
     if (url) window.open(url, '_blank', 'noopener,noreferrer');
@@ -1530,45 +1579,39 @@ const WikiCard = React.memo(function WikiCard({
 
   return (
     <div
+      ref={rootRef}
       style={{
         position: 'absolute',
-        top: `${topPct}%`,
-        left: `${currentX_pct}%`,
-        transform: `translate(-50%, -100%) scale(${scale})`,
+        top: '52%',
+        left: '50%',
+        transform: 'translate3d(-50%, -100%, 0) scale(0.01)',
         transformOrigin: '50% 100%',
-        opacity,
-        zIndex: Math.round(45 + p * 20),
-        display: 'flex',
+        opacity: 0,
+        zIndex: 45,
+        display: 'none',
         flexDirection: 'column',
         alignItems: 'center',
         willChange: 'transform, opacity',
-        pointerEvents: isClickable ? 'auto' : 'none',
-        cursor: isClickable ? 'pointer' : 'default',
+        cursor: url ? 'pointer' : 'default',
       }}
       onClick={handleClick}
       title={url ? `Open "${title}" on Wikipedia (Press F)` : undefined}
     >
       <div
+        ref={cardBoxRef}
         style={{
           background:
             'linear-gradient(135deg, rgba(8,2,28,0.96) 0%, rgba(22,4,42,0.96) 50%, rgba(3,14,36,0.98) 100%)',
-          backdropFilter: 'blur(16px)',
-          border: `2.5px solid ${isClosest ? '#00F0FF' : primaryColor}`,
+          border: `2.5px solid ${primaryColor}`,
           borderRadius: '14px',
           width: '340px',
           maxWidth: '88vw',
           overflow: 'hidden',
           display: 'flex',
           flexDirection: 'column',
-          boxShadow: boxShadowBase,
+          boxShadow: `0 8px 24px rgba(0,0,0,0.8), 0 0 16px ${waveGlow}`,
           position: 'relative',
-          transition: 'box-shadow 0.2s ease, border-color 0.2s ease',
-        }}
-        onMouseEnter={(e) => {
-          e.currentTarget.style.boxShadow = boxShadowHover;
-        }}
-        onMouseLeave={(e) => {
-          e.currentTarget.style.boxShadow = boxShadowBase;
+          transition: 'border-color 0.15s ease',
         }}
       >
         {/* Top accent line (Cyan to Purple to Magenta - NO YELLOW) */}
@@ -1649,38 +1692,38 @@ const WikiCard = React.memo(function WikiCard({
               )}
             </div>
 
-            {isClosest ? (
-              <span
-                style={{
-                  fontFamily: 'var(--font-mono, monospace)',
-                  fontSize: '0.62rem',
-                  fontWeight: 800,
-                  color: '#00F0FF',
-                  letterSpacing: '0.06em',
-                  background: 'rgba(0, 240, 255, 0.22)',
-                  border: '1px solid #00F0FF',
-                  padding: '2px 7px',
-                  borderRadius: '4px',
-                  boxShadow: '0 0 10px rgba(0, 240, 255, 0.5)',
-                  display: 'inline-flex',
-                  alignItems: 'center',
-                  gap: '4px',
-                }}
-              >
-                PRESS [F] ↗
-              </span>
-            ) : (
-              <span
-                style={{
-                  fontFamily: 'var(--font-mono, monospace)',
-                  fontSize: '0.58rem',
-                  color: 'rgba(255,255,255,0.45)',
-                  letterSpacing: '0.06em',
-                }}
-              >
-                click or press F ↗
-              </span>
-            )}
+            <span
+              ref={badgeTargetRef}
+              style={{
+                fontFamily: 'var(--font-mono, monospace)',
+                fontSize: '0.62rem',
+                fontWeight: 800,
+                color: '#00F0FF',
+                letterSpacing: '0.06em',
+                background: 'rgba(0, 240, 255, 0.22)',
+                border: '1px solid #00F0FF',
+                padding: '2px 7px',
+                borderRadius: '4px',
+                boxShadow: '0 0 10px rgba(0, 240, 255, 0.5)',
+                display: 'none',
+                alignItems: 'center',
+                gap: '4px',
+              }}
+            >
+              PRESS [F] ↗
+            </span>
+            <span
+              ref={badgeDefaultRef}
+              style={{
+                fontFamily: 'var(--font-mono, monospace)',
+                fontSize: '0.58rem',
+                color: 'rgba(255,255,255,0.45)',
+                letterSpacing: '0.06em',
+                display: 'inline',
+              }}
+            >
+              click or press F ↗
+            </span>
           </div>
 
           {/* Article image */}

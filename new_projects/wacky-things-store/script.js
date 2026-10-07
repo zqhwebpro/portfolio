@@ -293,6 +293,46 @@ function renderCategorySidebar() {
     const nav = document.getElementById('category-sidebar-nav');
     if (!nav) return;
 
+    // Color palettes matching the header buttons (Teal, Purple, Amber, Magenta)
+    const colorThemes = {
+        all: {
+            bg: 'bg-teal-600 hover:bg-teal-700',
+            border: 'border-teal-500',
+            activeRing: 'ring-2 ring-teal-900 ring-offset-1 bg-teal-700 shadow-md',
+            badgeBg: 'bg-teal-900/60 border-teal-400/30'
+        },
+        bunkums: {
+            bg: 'bg-[#7C3AED] hover:bg-[#6D28D9]',
+            border: 'border-[#6D28D9]',
+            activeRing: 'ring-2 ring-purple-950 ring-offset-1 bg-[#6D28D9] shadow-md',
+            badgeBg: 'bg-purple-950/60 border-purple-400/30'
+        },
+        skuttlebutts: {
+            bg: 'bg-[#F59E0B] hover:bg-[#D97706]',
+            border: 'border-amber-500',
+            activeRing: 'ring-2 ring-amber-950 ring-offset-1 bg-[#D97706] shadow-md',
+            badgeBg: 'bg-amber-950/60 border-amber-300/30'
+        },
+        balderdash: {
+            bg: 'bg-[#D946EF] hover:bg-[#C026D3]',
+            border: 'border-[#C026D3]',
+            activeRing: 'ring-2 ring-pink-950 ring-offset-1 bg-[#C026D3] shadow-md',
+            badgeBg: 'bg-pink-950/60 border-pink-300/30'
+        },
+        flummery: {
+            bg: 'bg-teal-600 hover:bg-teal-700',
+            border: 'border-teal-500',
+            activeRing: 'ring-2 ring-teal-900 ring-offset-1 bg-teal-700 shadow-md',
+            badgeBg: 'bg-teal-900/60 border-teal-400/30'
+        },
+        codswallop: {
+            bg: 'bg-[#7C3AED] hover:bg-[#6D28D9]',
+            border: 'border-[#6D28D9]',
+            activeRing: 'ring-2 ring-purple-950 ring-offset-1 bg-[#6D28D9] shadow-md',
+            badgeBg: 'bg-purple-950/60 border-purple-400/30'
+        }
+    };
+
     // Extract distinct categories with counts
     const categories = [
         { id: 'all', name: 'All Bizarre Gadgets & Novelties', icon: 'fa-layer-group', count: PRODUCTS.length },
@@ -305,18 +345,19 @@ function renderCategorySidebar() {
 
     nav.innerHTML = categories.map(c => {
         const isActive = activeCategory.toLowerCase() === c.id.toLowerCase();
+        const theme = colorThemes[c.id] || colorThemes.all;
         return `
-                    <button onclick="window.selectCategory('${c.id}')" 
-                            class="w-full flex items-center justify-between p-2.5 rounded-xl text-xs font-semibold transition-all ${isActive ? 'bg-teal-700 text-white border border-teal-600' : 'bg-transparent text-earth-800 hover:bg-canvas-surface hover:text-earth-950'}">
-                        <div class="flex items-center gap-2.5 truncate">
-                            <i class="fa-solid ${c.icon} ${isActive ? 'text-teal-300' : 'text-appetite-700'} text-xs"></i>
-                            <span class="truncate">${c.name}</span>
-                        </div>
-                        <span class="px-2 py-0.5 rounded-full text-[10.5px] font-mono font-bold ${isActive ? 'bg-teal-900 text-teal-200' : 'bg-canvas-surface text-earth-600'}">
-                            ${c.count}
-                        </span>
-                    </button>
-                `;
+            <button onclick="window.selectCategory('${c.id}')" 
+                    class="w-full flex items-center justify-between py-1.5 px-2.5 rounded-lg text-[11px] font-bold text-white border transition-all cursor-pointer shadow-xs active:scale-[0.98] ${theme.bg} ${theme.border} ${isActive ? theme.activeRing + ' brightness-110' : 'opacity-90 hover:opacity-100 hover:shadow-sm'}">
+                <div class="flex items-center gap-1.5 truncate">
+                    <i class="fa-solid ${c.icon} text-white text-[10px] shrink-0"></i>
+                    <span class="truncate tracking-tight">${c.name}</span>
+                </div>
+                <span class="px-1.5 py-0.5 rounded-full text-[9px] font-mono font-bold border text-white ${theme.badgeBg}">
+                    ${c.count}
+                </span>
+            </button>
+        `;
     }).join('');
 }
 
