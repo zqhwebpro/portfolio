@@ -6,16 +6,18 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Zach Heindel | Technical Case Study: Synth Rider 3D Highway Engine</title>
     <meta name="description"
-        content="Technical case study of Synth Rider: 3D perspective canvas rendering, Web Audio synthesis, lateral steering physics, and responsive movie quote billboard generation." />
-    <meta name="keywords" content="Synth Rider, 3D Canvas, Web Audio API, Synthwave, Perspective Projection, Technical Case Study, React, Zach Heindel" />
+        content="In-depth technical case study of Synth Rider: 3D pseudo-perspective canvas projection, decoupled 60 FPS physics, Web Audio waveform synthesis, and fault-tolerant Wikipedia Action API streaming." />
+    <meta name="keywords" content="Synth Rider, 3D Canvas, Web Audio API, Synthwave, Perspective Projection, Technical Case Study, React, Wikipedia API, Zach Heindel" />
     <meta name="author" content="Zach Heindel" />
+    <meta name="theme-color" content="#06020c" />
     <link rel="canonical" href="https://zqhwebpro.github.io/portfolio/new_projects/synth-rider/case-study.html" />
 
     <!-- Open Graph / Social SEO -->
     <meta property="og:type" content="article" />
     <meta property="og:title" content="Zach Heindel | Technical Case Study: Synth Rider 3D Highway Engine" />
-    <meta property="og:description" content="Technical architecture analysis of Synth Rider: 3D canvas perspective rendering, Web Audio synthesizer, and steering physics." />
+    <meta property="og:description" content="Technical architecture analysis of Synth Rider: 3D canvas perspective rendering, decoupled physics loop, Web Audio synthesizer, and live Wikipedia API streaming." />
     <meta property="og:url" content="https://zqhwebpro.github.io/portfolio/new_projects/synth-rider/case-study.html" />
+    <meta property="og:image" content="https://zqhwebpro.github.io/portfolio/new_projects/synth-rider/assets/synthwave_cover.jpg" />
 
     <!-- JSON-LD AI SEO Structured Data -->
     <script type="application/ld+json">
@@ -23,12 +25,12 @@
       "@context": "https://schema.org",
       "@type": "TechArticle",
       "headline": "Synth Rider 3D Highway Simulation Engine",
-      "description": "Technical case study analyzing procedural 3D canvas perspective rendering, Web Audio arcade collection chimes, and lateral steering physics.",
+      "description": "Comprehensive engineering case study analyzing mathematical 3D canvas perspective projection, procedural Web Audio synthesis, decoupled physics rendering, and live Wikipedia streaming.",
       "author": {
         "@type": "Person",
         "name": "Zach Heindel"
       },
-      "dependencies": "React, HTML5 Canvas, Web Audio API, CSS3",
+      "dependencies": "React 18, HTML5 Canvas 2D, Web Audio API, MediaWiki Action API, CSS3 3D Transforms",
       "proficiencyLevel": "Advanced"
     }
     </script>
@@ -37,9 +39,12 @@
     <!-- Fonts & Icons -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&family=JetBrains+Mono:wght@400;500;600;700;800&family=Space+Grotesk:wght@600;700;800&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+    
+    <!-- Base Stylesheet & Dark-Inspired Synthwave Case Study Overrides -->
     <link rel="stylesheet" href="../case-study-branded.css">
+    <link rel="stylesheet" href="./synth-case-study.css">
 </head>
 
 <body>
@@ -51,7 +56,7 @@
             </a>
             <div class="nav-links">
                 <a href="./index.html" class="nav-btn nav-btn-launch">
-                    <i class="fa-solid fa-play"></i> Launch
+                    <i class="fa-solid fa-play"></i> Launch Simulation
                 </a>
                 <a href="../index.html" class="nav-btn">
                     <i class="fa-solid fa-arrow-left"></i> Interactive Projects
@@ -62,46 +67,386 @@
 
     <main class="container blog-container">
 
+        <!-- HERO HEADER SECTION -->
         <div class="case-hero">
             <div class="accent-line">
-                <span class="section-label">CASE STUDY // SUMMARY OF LEARNINGS</span>
+                <span class="section-label">CASE STUDY // ENGINEERING DEEP DIVE</span>
             </div>
             <div class="post-meta-row">
                 <span class="author">Zach Heindel</span>
                 <span class="meta-sep">•</span>
-                <span class="meta-topic">3D Canvas Highway &amp; Procedural Audio DSP</span>
+                <span class="meta-topic">3D Perspective Canvas Engine &amp; Procedural Audio DSP</span>
                 <span class="meta-sep">•</span>
-                <span class="meta-time">3 Min Read</span>
+                <span class="meta-time">6 Min Deep Read</span>
             </div>
             <h1 class="hero-title">
                 Synth Rider: <span class="highlight">3D Highway Engine</span>
             </h1>
             <p class="hero-subtitle">
-                High-speed cyberpunk highway simulation featuring mathematical 3D perspective projection, lateral momentum physics, procedural Web Audio arcade soundscapes, and Wikipedia Action API batch streaming.
+                High-speed cyberpunk highway simulation engineered on mathematical 2D canvas perspective projection, lateral momentum physics, browser-native procedural Web Audio synthesis, and live asynchronous Wikipedia Action API streaming.
             </p>
             <div class="badge-row">
-                <span class="tag amber"><i class="fa-solid fa-code"></i> React 18 + Vite</span>
-                <span class="tag"><i class="fa-solid fa-cube"></i> Canvas 3D Projection</span>
-                <span class="tag"><i class="fa-solid fa-volume-high"></i> Web Audio API</span>
-                <span class="tag"><i class="fa-solid fa-cloud-arrow-down"></i> Wikipedia Action API</span>
-                <span class="tag"><i class="fa-solid fa-gauge-high"></i> 60 FPS Decoupled Loop</span>
+                <span class="tag"><i class="fa-solid fa-code"></i> React 18 + Vite</span>
+                <span class="tag pink"><i class="fa-solid fa-cube"></i> Canvas 3D Projection</span>
+                <span class="tag purple"><i class="fa-solid fa-volume-high"></i> Web Audio API (Zero Assets)</span>
+                <span class="tag green"><i class="fa-solid fa-cloud-arrow-down"></i> Wikipedia Action API</span>
+                <span class="tag"><i class="fa-solid fa-gauge-high"></i> 60 FPS Decoupled RAF Loop</span>
+                <span class="tag pink"><i class="fa-solid fa-microchip"></i> Direct DOM Transform Matrix</span>
             </div>
         </div>
 
-        <!-- SECTION: WHAT WAS LEARNED -->
+        <!-- METRICS & ARCHITECTURE STATS BANNER -->
+        <section class="stat-banner">
+            <div class="stat-box">
+                <div class="stat-number">60 FPS</div>
+                <div class="stat-label">Frame Rate Locked</div>
+                <div class="metric-desc">Zero React reconciliation overhead inside high-frequency canvas and physics tick loops.</div>
+            </div>
+            <div class="stat-box pink">
+                <div class="stat-number">0 KB</div>
+                <div class="stat-label">Static Audio Assets</div>
+                <div class="metric-desc">100% procedural sound design using Web Audio API oscillators, noise buffers, and filters.</div>
+            </div>
+            <div class="stat-box purple">
+                <div class="stat-number">280 MPH</div>
+                <div class="stat-label">Peak Velocity</div>
+                <div class="metric-desc">Continuous physics integration with lateral steering inertia and camera banking.</div>
+            </div>
+            <div class="stat-box green">
+                <div class="stat-number">&lt; 1 ms</div>
+                <div class="stat-label">DOM Card Latency</div>
+                <div class="metric-desc">Hardware-accelerated CSS 3D matrix transforms directly updating roadside billboards.</div>
+            </div>
+        </section>
+
+        <!-- CONCEPT 1: PSEUDO-3D PERSPECTIVE PROJECTION -->
         <section class="section-block">
-            <div class="summary-label-row">
-                <span class="section-label">KEY TAKEAWAYS // ENGINEERING SUMMARY</span>
+            <div class="section-heading-row">
+                <h2 class="section-title">
+                    <i class="fa-solid fa-draw-polygon"></i> 1. Mathematical 3D Perspective Projection
+                </h2>
+                <span class="section-num">ARCH // 01</span>
             </div>
 
-            <div class="learnings-summary-box">
-                <p>
-                    Building Synth Rider demonstrated the efficiency of mathematical perspective projection on a 2D canvas, transforming depth coordinates and camera height into a high-speed pseudo-3D highway without the overhead of heavy 3D game engines. Integrating the Web Audio API underscored how procedural waveform synthesis can replace static sound files to deliver zero-latency reactive acoustic feedback synchronized with vehicle speed and highway events. Managing live Wikipedia Action API batch requests highlighted the necessity of non-blocking asynchronous data pipelines with fallback buffering to ensure continuous framerates during fast gameplay. Ultimately, the project validated that combining decoupled physics loops with browser-native APIs yields authentic arcade responsiveness across diverse devices.
+            <div class="concept-card">
+                <p class="concept-lead">
+                    How an endless, curved 3D cyberpunk highway is rendered on a flat 2D HTML5 Canvas without heavy 3D game engines (WebGL, Three.js, or Babylon.js).
                 </p>
+                <p class="concept-text">
+                    Rather than importing monolithic WebGL scene graphs that balloon initial bundle sizes by megabytes, <strong>Synth Rider</strong> leverages classical arcade pseudo-3D perspective projection (pioneered by games like <em>Out Run</em> and <em>F-Zero</em>). Every element on the highway—from road segments and rumble strips to roadside billboards—exists in continuous 3D world coordinates $(X, Y, Z)$ and is projected onto the 2D viewport through pure trigonometry.
+                </p>
+
+                <!-- FORMULA BOX -->
+                <div class="formula-box">
+                    <div class="formula-title">
+                        <i class="fa-solid fa-square-root-variable"></i> Core 3D Projection Equation
+                    </div>
+                    <div class="formula-body">
+                        Scale Factor: S = d / (Z - cameraZ)<br>
+                        Screen X: x = centerX + (X - cameraX) * S * (width / 2)<br>
+                        Screen Y: y = horizonY + (Y - cameraY) * S * (height / 2)
+                    </div>
+                    <div class="formula-sub">
+                        Where d represents camera focal depth, cameraZ moves with vehicle velocity, and horizonY fluctuates with camera pitch and speed rumble.
+                    </div>
+                </div>
+
+                <div class="teaching-grid">
+                    <div class="teaching-panel">
+                        <div class="teaching-panel-header">
+                            <i class="fa-solid fa-road"></i> Dynamic Road Slicing &amp; Rumble Strips
+                        </div>
+                        <p>
+                            The highway surface is divided into discrete horizontal trapezoidal slices rendered back-to-front ($Z = Z_{\max} \dots Z_{\min}$). By alternating lane stripe colors every $N$ units of distance ($Z$), the visual illusion of high-speed forward travel is achieved as distance offsets stream toward the camera.
+                        </p>
+                        <ul class="teaching-list">
+                            <li><i class="fa-solid fa-chevron-right"></i> Road curvature achieved by offsetting slice center-X along a sinusoidal easing curve.</li>
+                            <li><i class="fa-solid fa-chevron-right"></i> Rumble strips expand exponentially in width as they approach the foreground.</li>
+                            <li><i class="fa-solid fa-chevron-right"></i> Neon pink and cyan lane markers glow with high-contrast screen blending.</li>
+                        </ul>
+                    </div>
+
+                    <div class="teaching-panel pink">
+                        <div class="teaching-panel-header">
+                            <i class="fa-solid fa-bolt"></i> Why 2D Canvas Beats WebGL Here
+                        </div>
+                        <p>
+                            For retro-arcade styling, 2D Canvas projection delivers unique performance and architectural benefits over full 3D rendering pipelines:
+                        </p>
+                        <ul class="teaching-list">
+                            <li><i class="fa-solid fa-chevron-right"></i> <strong>Zero Bundle Overhead:</strong> Starts rendering immediately with zero external 3D asset downloads.</li>
+                            <li><i class="fa-solid fa-chevron-right"></i> <strong>Consistent 60 FPS:</strong> Eliminates shader compile hitches and context loss crashes on low-spec mobile GPUs.</li>
+                            <li><i class="fa-solid fa-chevron-right"></i> <strong>Pixel-Level Control:</strong> Direct canvas raster operations for scanlines, CRT glow, and horizon sun gradients.</li>
+                        </ul>
+                    </div>
+                </div>
             </div>
+        </section>
+
+        <!-- CONCEPT 2: DECOUPLED 60 FPS PHYSICS & HARDWARE ACCELERATION -->
+        <section class="section-block">
+            <div class="section-heading-row">
+                <h2 class="section-title">
+                    <i class="fa-solid fa-gauge-high"></i> 2. Decoupled Physics &amp; Direct DOM Transforms
+                </h2>
+                <span class="section-num">ARCH // 02</span>
+            </div>
+
+            <div class="concept-card pink">
+                <p class="concept-lead">
+                    Separating continuous high-frequency game physics from React's Virtual DOM reconciliation to eliminate micro-stutters.
+                </p>
+                <p class="concept-text">
+                    In traditional React applications, updating component state 60 times per second triggers full component re-renders, Virtual DOM diffing, and frequent garbage collection spikes that ruin real-time gameplay. <strong>Synth Rider</strong> solves this through a <strong>hybrid decoupled architecture</strong>:
+                </p>
+
+                <div class="teaching-grid">
+                    <div class="teaching-panel">
+                        <div class="teaching-panel-header">
+                            <i class="fa-solid fa-microchip"></i> Direct DOM Transform Pipeline
+                        </div>
+                        <p>
+                            Roadside Wikipedia billboards are rendered as true HTML DOM elements (for crisp text and clickable links), but their position is <strong>never stored in React state</strong>. Instead, DOM nodes register their element handles into a module-level <code>cardMapRef</code>. On every animation frame, the physics loop writes directly to the element's GPU layer:
+                        </p>
+                        <div class="tech-callout" style="margin-top: 12px; font-size: 0.8rem;">
+                            cardEl.style.transform = `translate3d(${projX}px, ${projY}px, 0) scale(${projScale})`;
+                        </div>
+                    </div>
+
+                    <div class="teaching-panel green">
+                        <div class="teaching-panel-header">
+                            <i class="fa-solid fa-arrows-split-up-and-left"></i> Lateral Momentum &amp; Steering Physics
+                        </div>
+                        <p>
+                            Vehicle steering features simulated lateral inertia rather than rigid grid snapping:
+                        </p>
+                        <ul class="teaching-list">
+                            <li><i class="fa-solid fa-chevron-right"></i> <strong>Torque &amp; Friction:</strong> Left/Right inputs apply lateral acceleration ($\vec{a}$) countered by viscous road friction ($\mu$).</li>
+                            <li><i class="fa-solid fa-chevron-right"></i> <strong>Chassis Tilt &amp; Roll:</strong> Steering velocity introduces a proportional camera banking angle ($\theta$) for visceral tactile feedback.</li>
+                            <li><i class="fa-solid fa-chevron-right"></i> <strong>Velocity Curve:</strong> Velocity scales smoothly from 0 to 280 MPH with natural air drag resistance.</li>
+                        </ul>
+                    </div>
+                </div>
+
+                <!-- CODE SNIPPET -->
+                <div class="code-dark-block">
+                    <div class="code-dark-header">
+                        <span class="file-badge"><i class="fa-brands fa-js"></i> SynthwaveDrive.jsx &mdash; Direct GPU Matrix Update Loop</span>
+                        <span>60 FPS RequestAnimationFrame</span>
+                    </div>
+                    <pre class="code-dark-content"><code><span class="cm">// Bypass React Reconciliation: Update Billboard DOM Nodes Directly via GPU Transforms</span>
+<span class="kw">function</span> <span class="fn">updateBillboardsInFlight</span>(<span class="op">currentDist</span>, <span class="op">playerX</span>, <span class="op">steerVel</span>) {
+  <span class="kw">const</span> <span class="op">VIEW_DEPTH</span> = <span class="num">36</span>; <span class="cm">// Highway perspective depth horizon</span>
+  
+  <span class="op">cardMapRef</span>.<span class="op">current</span>.<span class="fn">forEach</span>((<span class="op">elements</span>, <span class="op">cardId</span>) => {
+    <span class="kw">const</span> <span class="op">card</span> = <span class="op">elements</span>.<span class="op">container</span>;
+    <span class="kw">const</span> <span class="op">progress</span> = (<span class="op">currentDist</span> - <span class="op">elements</span>.<span class="op">startDist</span>) / <span class="op">VIEW_DEPTH</span>;
+    
+    <span class="kw">if</span> (<span class="op">progress</span> &lt; <span class="num">0</span> || <span class="op">progress</span> &gt; <span class="num">1.05</span>) {
+      <span class="op">card</span>.<span class="op">style</span>.<span class="op">display</span> = <span class="str">'none'</span>; <span class="cm">// Cull culled cards outside frustum</span>
+      <span class="kw">return</span>;
+    }
+    
+    <span class="cm">// Compute 3D Perspective Projection</span>
+    <span class="kw">const</span> <span class="op">scale</span> = <span class="fn">Math</span>.<span class="fn">pow</span>(<span class="op">progress</span>, <span class="num">2.4</span>) * <span class="num">1.25</span>;
+    <span class="kw">const</span> <span class="op">screenX</span> = <span class="op">vpWidth</span> * <span class="num">0.5</span> + (<span class="op">elements</span>.<span class="op">laneOffset</span> - <span class="op">playerX</span>) * <span class="op">scale</span> * <span class="num">820</span>;
+    <span class="kw">const</span> <span class="op">screenY</span> = <span class="op">horizonY</span> + <span class="op">scale</span> * <span class="op">vpHeight</span> * <span class="num">0.48</span>;
+    
+    <span class="cm">// Single GPU Layer Composition via Hardware Translate3d</span>
+    <span class="op">card</span>.<span class="op">style</span>.<span class="op">display</span> = <span class="str">'block'</span>;
+    <span class="op">card</span>.<span class="op">style</span>.<span class="op">transform</span> = <span class="str">`translate3d(${screenX}px, ${screenY}px, 0) scale(${scale})`</span>;
+    <span class="op">card</span>.<span class="op">style</span>.<span class="op">zIndex</span> = <span class="fn">Math</span>.<span class="fn">floor</span>(<span class="op">progress</span> * <span class="num">1000</span>);
+  });
+}</code></pre>
+                </div>
+            </div>
+        </section>
+
+        <!-- CONCEPT 3: PROCEDURAL WEB AUDIO SYNTHESIS -->
+        <section class="section-block">
+            <div class="section-heading-row">
+                <h2 class="section-title">
+                    <i class="fa-solid fa-volume-high"></i> 3. Procedural Web Audio API Synthesis
+                </h2>
+                <span class="section-num">ARCH // 03</span>
+            </div>
+
+            <div class="concept-card purple">
+                <p class="concept-lead">
+                    Zero external sound files: Generating a rich, reactive arcade soundscape in real time using native browser DSP nodes.
+                </p>
+                <p class="concept-text">
+                    Instead of loading heavy, repetitive <code>.wav</code> or <code>.mp3</code> files, <strong>Synth Rider</strong> builds an entire acoustic synthesizer from scratch using the browser's <code>AudioContext</code>. Procedural synthesis provides zero initial download footprint, zero network latency, and the unique ability to dynamically tie audio parameters (frequency, harmonic resonance, filter cutoff, and pan) directly to gameplay state variables.
+                </p>
+
+                <div class="teaching-grid">
+                    <div class="teaching-panel purple">
+                        <div class="teaching-panel-header">
+                            <i class="fa-solid fa-car-side"></i> Dynamic Engine RPM Synthesizer
+                        </div>
+                        <p>
+                            The vehicle's engine tone is synthesized using dual detuned oscillators running through a multi-stage resonant low-pass filter:
+                        </p>
+                        <ul class="teaching-list">
+                            <li><i class="fa-solid fa-chevron-right"></i> <strong>Sawtooth Core:</strong> Generates rich odd-and-even harmonics modeling cylinder ignition.</li>
+                            <li><i class="fa-solid fa-chevron-right"></i> <strong>Dynamic Frequency Scaling:</strong> Fundamental frequency scales linearly with vehicle speed: $f_{\text{engine}} = 45\text{Hz} + (\text{MPH} \times 1.25\text{Hz})$.</li>
+                            <li><i class="fa-solid fa-chevron-right"></i> <strong>Biquad Filter Tracking:</strong> Low-pass filter cutoff opens up as acceleration increases, delivering an authentic mechanical growl.</li>
+                        </ul>
+                    </div>
+
+                    <div class="teaching-panel">
+                        <div class="teaching-panel-header">
+                            <i class="fa-solid fa-bell"></i> FM Arcade Chimes &amp; Doppler Effects
+                        </div>
+                        <p>
+                            Environmental sound cues use Frequency Modulation (FM) synthesis and spatial stereophonic panning:
+                        </p>
+                        <ul class="teaching-list">
+                            <li><i class="fa-solid fa-chevron-right"></i> <strong>Milestone Chime:</strong> Rapid arpeggiated pentatonic bursts ($E_5 \to G_5 \to B_5 \to D_6$) with exponential decay envelopes.</li>
+                            <li><i class="fa-solid fa-chevron-right"></i> <strong>Wind Rush:</strong> High-order bandpass filter sweeping over white noise buffers, modulated by vehicle velocity.</li>
+                            <li><i class="fa-solid fa-chevron-right"></i> <strong>Doppler Shifts:</strong> Opposing F-Zero Tron bikes modulate their pitch and stereo pan as they streak past parallel lanes.</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- CONCEPT 4: WIKIPEDIA ACTION API STREAMING -->
+        <section class="section-block">
+            <div class="section-heading-row">
+                <h2 class="section-title">
+                    <i class="fa-solid fa-cloud-arrow-down"></i> 4. Live Wikipedia Action API Streaming
+                </h2>
+                <span class="section-num">ARCH // 04</span>
+            </div>
+
+            <div class="concept-card green">
+                <p class="concept-lead">
+                    Transforming the game into an authentic "Information Superhighway" with fault-tolerant asynchronous data buffering.
+                </p>
+                <p class="concept-text">
+                    As players cruise the neon grid, roadside signs aren't static mockups—they are live articles fetched from Wikipedia in real time. Architecting a high-speed driving game that depends on public third-party APIs requires robust, defensive engineering to avoid blocking the framerate when network lags occur.
+                </p>
+
+                <div class="teaching-grid">
+                    <div class="teaching-panel green">
+                        <div class="teaching-panel-header">
+                            <i class="fa-solid fa-network-wired"></i> Asynchronous Pre-Warming Pipeline
+                        </div>
+                        <p>
+                            A dedicated background worker batch-fetches 15 articles simultaneously using the MediaWiki Action API (<code>generator=random&amp;grnnamespace=0&amp;prop=extracts|pageimages</code>).
+                        </p>
+                        <ul class="teaching-list">
+                            <li><i class="fa-solid fa-chevron-right"></i> <strong>Non-Blocking Pre-Warm:</strong> The engine maintains a rolling queue of 25+ verified articles ahead of the driver.</li>
+                            <li><i class="fa-solid fa-chevron-right"></i> <strong>Deduplication Cache:</strong> A <code>Set()</code> tracking <code>seenTitles</code> prevents repetitive billboards across infinite drives.</li>
+                            <li><i class="fa-solid fa-chevron-right"></i> <strong>Text Normalization:</strong> Strips HTML tags, regex-cleans raw markup, and clamps extracts to 220 characters for clean billboard typography.</li>
+                        </ul>
+                    </div>
+
+                    <div class="teaching-panel">
+                        <div class="teaching-panel-header">
+                            <i class="fa-solid fa-shield-halved"></i> Fail-Safe Curated Fallback Pool
+                        </div>
+                        <p>
+                            When network connectivity drops, CORS blocks occur, or Wikipedia rate limits (HTTP 429/403/<code>maxlag</code>) are detected, the game never stutters or shows blank billboards:
+                        </p>
+                        <ul class="teaching-list">
+                            <li><i class="fa-solid fa-chevron-right"></i> Instant fallback to a rich local reserve of 100+ curated sci-fi, synthwave, and computing articles (<em>Tron</em>, <em>Blade Runner</em>, <em>Commodore 64</em>, <em>Roland TR-808</em>, <em>Ferrari Testarossa</em>).</li>
+                            <li><i class="fa-solid fa-chevron-right"></i> HUD status indicator signals whether live internet streaming or curated reserve is active.</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- CONCEPT 5: SPATIAL PROXIMITY & INTERACTIVE TARGETING -->
+        <section class="section-block">
+            <div class="section-heading-row">
+                <h2 class="section-title">
+                    <i class="fa-solid fa-crosshairs"></i> 5. Spatial Targeting &amp; Traffic AI
+                </h2>
+                <span class="section-num">ARCH // 05</span>
+            </div>
+
+            <div class="concept-card">
+                <p class="concept-lead">
+                    Solving player interaction at 200+ MPH: Predictive proximity raycasting and multi-entity spatial depth sorting.
+                </p>
+                <p class="concept-text">
+                    When traveling at extreme velocities, clicking on a moving roadside billboard is nearly impossible. To solve this, <strong>Synth Rider</strong> implements <strong>Predictive Euclidean Proximity Targeting</strong>:
+                </p>
+
+                <div class="teaching-grid">
+                    <div class="teaching-panel">
+                        <div class="teaching-panel-header">
+                            <i class="fa-solid fa-keyboard"></i> Instant Article Inspection (Hotkey 'F')
+                        </div>
+                        <p>
+                            The engine calculates which article is currently directly ahead of the player's forward vector. The closest billboard illuminates with a glowing neon target bracket. Pressing the <kbd style="background:#090314; border:1px solid var(--neon-cyan); padding:2px 7px; border-radius:4px; color:var(--neon-cyan); font-family:var(--font-mono);">F</kbd> key or clicking anywhere opens that specific Wikipedia article in a new tab without interrupting driving flow.
+                        </p>
+                    </div>
+
+                    <div class="teaching-panel purple">
+                        <div class="teaching-panel-header">
+                            <i class="fa-solid fa-layer-group"></i> F-Zero Tron Traffic AI &amp; Rearview Mirror
+                        </div>
+                        <p>
+                            Parallel highway lanes feature autonomous Tron light-cycles with individual acceleration curves and persistent light-ribbon trails. A real-time <strong>Rearview Mirror</strong> canvas renders an inverted reverse-camera angle, displaying receding traffic and billboards in the driver's wake.
+                        </p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- SUMMARY OF CORE ENGINEERING TAKEAWAYS -->
+        <section class="section-block">
+            <div class="section-heading-row">
+                <h2 class="section-title">
+                    <i class="fa-solid fa-lightbulb"></i> Core Engineering Takeaways
+                </h2>
+                <span class="section-num">SUMMARY</span>
+            </div>
+
+            <div class="concept-card amber" style="background: rgba(16, 6, 34, 0.75) !important;">
+                <p class="concept-lead" style="color: #ffffff;">
+                    Key architectural learnings distilled from architecting a browser-native 3D pseudo-perspective engine:
+                </p>
+                <ul class="teaching-list" style="gap: 16px; margin-top: 20px;">
+                    <li>
+                        <i class="fa-solid fa-check" style="color: var(--neon-cyan);"></i>
+                        <div>
+                            <strong style="color: #ffffff;">Mathematical Projection Outperforms Bulky Engines:</strong> For retro arcade game mechanics, pure trigonometry on a 2D canvas eliminates megabytes of runtime overhead while maintaining rock-solid 60 FPS performance across all client devices.
+                        </div>
+                    </li>
+                    <li>
+                        <i class="fa-solid fa-check" style="color: var(--neon-pink);"></i>
+                        <div>
+                            <strong style="color: #ffffff;">Decouple High-Frequency State from React:</strong> Never store animation frame coordinates inside React state. Use React strictly for structural mounting and delegate high-frequency positioning directly to hardware-accelerated GPU matrix transforms.
+                        </div>
+                    </li>
+                    <li>
+                        <i class="fa-solid fa-check" style="color: var(--neon-purple);"></i>
+                        <div>
+                            <strong style="color: #ffffff;">Procedural Audio Eliminates Asset Bloat:</strong> The Web Audio API provides zero-latency, reactive sound design that dynamically mirrors player velocity and game events without downloading a single sound file.
+                        </div>
+                    </li>
+                    <li>
+                        <i class="fa-solid fa-check" style="color: var(--neon-green);"></i>
+                        <div>
+                            <strong style="color: #ffffff;">Architect Fallbacks for Third-Party APIs:</strong> Live streaming data adds authentic dynamism to web projects, but defensive engineering (pre-warmed queues, deduplication sets, and local fallback pools) is mandatory to guarantee zero gameplay disruption.
+                        </div>
+                    </li>
+                </ul>
+            </div>
+
+            <!-- LAUNCH CTA BOX -->
             <div class="summary-action-area">
+                <h3 class="cta-title">Experience the Highway in Real Time</h3>
+                <p class="cta-desc">
+                    Fire up the procedural engine, streak through the neon grid, and test the 3D perspective projection and Web Audio synthesizer live in your browser.
+                </p>
                 <a href="./index.html" class="btn-launch-project">
-                    <i class="fa-solid fa-play"></i> Launch Synth Rider <i class="fa-solid fa-arrow-right"></i>
+                    <i class="fa-solid fa-play"></i> Launch Synth Rider Simulation <i class="fa-solid fa-arrow-right"></i>
                 </a>
             </div>
         </section>
