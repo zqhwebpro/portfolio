@@ -125,10 +125,9 @@
       margin: 0;
     }
 
-    .btn-projects {
+    .btn-projects,
+    .btn-home {
       position: fixed;
-      bottom: 2rem;
-      right: 2rem;
       z-index: 9999;
       display: inline-flex;
       align-items: center;
@@ -148,7 +147,18 @@
       transition: all 0.2s ease-in-out;
     }
 
-    .btn-projects:hover {
+    .btn-projects {
+      bottom: 2rem;
+      right: 2rem;
+    }
+
+    .btn-home {
+      top: 2rem;
+      left: 2rem;
+    }
+
+    .btn-projects:hover,
+    .btn-home:hover {
       color: var(--amber);
       border-color: var(--amber);
       background: rgba(245, 166, 35, 0.1);
@@ -156,7 +166,8 @@
       transform: translateY(-2px);
     }
 
-    .btn-projects:active {
+    .btn-projects:active,
+    .btn-home:active {
       transform: translateY(0);
     }
 
@@ -1368,6 +1379,14 @@
       .hamburger-btn {
         right: 20px;
       }
+
+      .btn-projects {
+        right: 20px;
+      }
+
+      .btn-home {
+        left: 20px;
+      }
     }
 
     @media (max-width: 540px) {
@@ -1489,9 +1508,7 @@
   ══════════════════════════════ -->
   <section id="hero">
     <div class="hero-top">
-      <div class="hero-logo">
-        ZQH<span>.</span>WEBPRO
-      </div>
+      <a href="https://www.zheindel.com/" class="btn-home">zheindel.com</a>
     </div>
     <div class="hero-center">
       <div class="section-label">
