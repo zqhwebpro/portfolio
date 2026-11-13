@@ -125,9 +125,10 @@
       margin: 0;
     }
 
-    .btn-projects,
-    .btn-home {
+    .btn-projects {
       position: fixed;
+      bottom: 2rem;
+      right: 2rem;
       z-index: 9999;
       display: inline-flex;
       align-items: center;
@@ -145,30 +146,31 @@
       backdrop-filter: blur(4px);
       box-shadow: 0 4px 12px rgba(0, 0, 0, 0.5);
       transition: all 0.2s ease-in-out;
+      cursor: pointer;
     }
 
-    .btn-projects {
-      bottom: 2rem;
-      right: 2rem;
-    }
-
-    .btn-home {
-      top: 2rem;
-      left: 2rem;
+    .btn-projects:visited {
+      color: rgba(245, 166, 35, 0.6);
     }
 
     .btn-projects:hover,
-    .btn-home:hover {
-      color: var(--amber);
+    .btn-projects:visited:hover {
+      color: var(--amber) !important;
       border-color: var(--amber);
       background: rgba(245, 166, 35, 0.1);
       box-shadow: 0 0 16px rgba(245, 166, 35, 0.3);
       transform: translateY(-2px);
     }
 
-    .btn-projects:active,
-    .btn-home:active {
+    .btn-projects:active {
       transform: translateY(0);
+    }
+
+    .btn-home {
+      top: 2rem;
+      left: 2rem;
+      bottom: auto;
+      right: auto;
     }
 
     /* ─── VIDEO BACKGROUND ─── */
@@ -1386,6 +1388,7 @@
 
       .btn-home {
         left: 20px;
+        right: auto;
       }
     }
 
@@ -1461,7 +1464,10 @@
         <a class="dot" href="#contact" title="Contact"></a>
       </li>
     </ul>
-  </nav><!-- HAMBURGER BUTTON -->
+  </nav>
+  <!-- TOP LEFT FIXED LINK -->
+  <a href="https://www.zheindel.com/" target="_blank" rel="noopener noreferrer" class="btn-projects btn-home">zheindel.com</a>
+  <!-- HAMBURGER BUTTON -->
   <button aria-label="Open menu" class="hamburger-btn" id="hamburger"><span></span> <span></span> <span></span></button>
   <!-- NAV OVERLAY -->
   <div class="nav-overlay" id="nav-overlay">
@@ -1507,9 +1513,7 @@
        SECTION 1: HERO
   ══════════════════════════════ -->
   <section id="hero">
-    <div class="hero-top">
-      <a href="https://www.zheindel.com/" class="btn-home">zheindel.com</a>
-    </div>
+    <div class="hero-top"></div>
     <div class="hero-center">
       <div class="section-label">
         Web Developer &amp; UI/UX Designer
